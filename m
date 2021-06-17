@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399743AA931
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 04:55:33 +0200 (CEST)
-Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE203AA932
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 04:55:34 +0200 (CEST)
+Received: from localhost ([::1]:59662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltiBo-0005F6-0N
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 22:55:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37402)
+	id 1ltiBp-0005L3-GP
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 22:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAT-0003Mw-3H
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:09 -0400
-Received: from mga02.intel.com ([134.134.136.20]:12066)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAV-0003NB-8T
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:11 -0400
+Received: from mga02.intel.com ([134.134.136.20]:12080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAQ-0000Pu-Kv
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:08 -0400
-IronPort-SDR: KG5qJbKYitbd9GMKGWBEeLCrSyT58g1bvVG+KMNajdG2+aTlHQ4OzxuvW5OeeIo5oSv6BE7jLg
- rSqn/V+Q/g9w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193414069"
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="193414069"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAR-0000WF-4R
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:11 -0400
+IronPort-SDR: 65gGfd1kQEoC1I+Nw1ODBhLSnrO8cebNuHKWoHm6z41SKw6hZLkmJWRUIUUJUTz/MdRruSWgju
+ M5nKEUFEPzJg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193414073"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="193414073"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 19:53:55 -0700
-IronPort-SDR: MlBGwHwZqt+Yi+64vPdM+F+Kuq1Ac2Mu/Yp2g8stZEGGp1k3TYGbWL8A29GWua35n6xSxl4fOi
- J55ivE4EQi0Q==
+ 16 Jun 2021 19:53:59 -0700
+IronPort-SDR: HzGyDcsrEos6HP8Fkf24V/WvQeIVvu1YvENReHsUfYxpmNSkI/J+ZRfcELzACw9+nGILHNrni4
+ ipGkzwP1tx/Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="485121903"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="485121914"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.238.157.59])
- by orsmga001.jf.intel.com with ESMTP; 16 Jun 2021 19:53:52 -0700
+ by orsmga001.jf.intel.com with ESMTP; 16 Jun 2021 19:53:57 -0700
 From: Lei Rao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  zhang.zhanghailiang@huawei.com, quintela@redhat.com, dgilbert@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH 0/7] Fixed some bugs and optimized some codes for COLO
-Date: Thu, 17 Jun 2021 10:47:08 +0800
-Message-Id: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
+Subject: [PATCH 1/7] Some minor optimizations for COLO
+Date: Thu, 17 Jun 2021 10:47:09 +0800
+Message-Id: <1623898035-18533-2-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
+References: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
 Received-SPF: pass client-ip=134.134.136.20; envelope-from=lei.rao@intel.com;
  helo=mga02.intel.com
 X-Spam_score_int: -41
@@ -64,30 +66,40 @@ Cc: like.xu.linux@gmail.com, "Rao, Lei" <lei.rao@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rao, Lei <lei.rao@intel.com>
+From: "Rao, Lei" <lei.rao@intel.com>
 
-The series of patches include:
-        Fixed some bugs of qemu crash and segment fault.
-        Optimized the function of fill_connection_key.
-        Remove some unnecessary code to improve COLO.
+Signed-off-by: Lei Rao <lei.rao@intel.com>
+---
+ migration/colo.c   | 2 +-
+ net/colo-compare.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Rao, Lei (7):
-  Some minor optimizations for COLO
-  Fixed qemu crash when guest power off in COLO mode
-  Fixed SVM hang when do failover before PVM crash
-  colo: fixed 'Segmentation fault' when the simplex mode PVM poweroff
-  Removed the qemu_fclose() in colo_process_incoming_thread
-  Changed the last-mode to none of first start COLO
-  Optimized the function of fill_connection_key.
-
- migration/colo.c      | 20 +++++++-------------
- migration/migration.c |  6 +++++-
- net/colo-compare.c    |  4 ++--
- net/colo.c            | 31 ++++++++++++-------------------
- net/colo.h            |  6 +++---
- net/filter-rewriter.c | 10 +---------
- 6 files changed, 30 insertions(+), 47 deletions(-)
-
+diff --git a/migration/colo.c b/migration/colo.c
+index 79fa1f6..616dc00 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -152,7 +152,7 @@ static void primary_vm_do_failover(void)
+      * kick COLO thread which might wait at
+      * qemu_sem_wait(&s->colo_checkpoint_sem).
+      */
+-    colo_checkpoint_notify(migrate_get_current());
++    colo_checkpoint_notify(s);
+ 
+     /*
+      * Wake up COLO thread which may blocked in recv() or send(),
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index b100e7b..4a64a5d 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -170,7 +170,7 @@ static bool packet_matches_str(const char *str,
+         return false;
+     }
+ 
+-    return !memcmp(str, buf, strlen(str));
++    return !memcmp(str, buf, packet_len);
+ }
+ 
+ static void notify_remote_frame(CompareState *s)
 -- 
 1.8.3.1
 
