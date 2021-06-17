@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D693AB464
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:13:31 +0200 (CEST)
-Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306743AB475
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:17:59 +0200 (CEST)
+Received: from localhost ([::1]:41906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrpq-0000HB-H3
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42008)
+	id 1ltru9-0008Mm-R5
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ltran-0005DS-PY
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:57:57 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:48022
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ltrah-0005Km-1C
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:57:57 -0400
-HMM_SOURCE_IP: 172.18.0.218:49202.1515610665
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.39?logid-ac66d9f6950e4d63a4038c372b328dd9
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 8C0582800E8;
- Thu, 17 Jun 2021 20:57:49 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 02499d64db82423684a3812d9f783dfb for
- qemu-devel@nongnu.org; Thu Jun 17 20:57:49 2021
-X-Transaction-ID: 02499d64db82423684a3812d9f783dfb
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 6/6] migration/dirtyrate: implement dirty-ring dirtyrate
- calculation
-Date: Thu, 17 Jun 2021 21:01:21 +0800
-Message-Id: <b81c70cf762f2b65c8930801e2e27387408b60e6.1623934182.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1623934182.git.huangy81@chinatelecom.cn>
-References: <cover.1623934182.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1623934182.git.huangy81@chinatelecom.cn>
-References: <cover.1623934182.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ltrmi-0003Sh-MJ; Thu, 17 Jun 2021 09:10:16 -0400
+Resent-Date: Thu, 17 Jun 2021 09:10:16 -0400
+Resent-Message-Id: <E1ltrmi-0003Sh-MJ@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21325)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ltrmc-0000tI-7c; Thu, 17 Jun 2021 09:10:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1623935403; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=USiBuXTO6gug9lOMCTmIoAoYjxxD5dHNt9xmtIbhA19QIe1lDvZMQsGz7KJKPXCR+wyODTLL1iRcgPEnL7tF9pNZU0H43sapkrGZTwA7Zlsz9yGuqtNO25P+ByValFRZVjRS/W/UW3MI+gYABckumEPQt5Da0AjlExwCciuw9DA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1623935403;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=B6y3slZTE47nNqkp0oOcBsA7/1bNs1cO/nrtUBlPRK4=; 
+ b=NScKdmVzxjDsNynQMWUA7E0bagVkoiCAXhfMhf7M0w+VMhKV/91aF2lLG1NFu3in1zuORnh6+fD7Hn5eQB97gNpx2tmkUMJYrjWBlmPuET6w7aJdRJKalOTiR0W2MFLUMAzXECiXWFY2jBuV+k2lfs2zv2WzVyaBPpnzTYJ6cUc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1623935402249623.0891041038882;
+ Thu, 17 Jun 2021 06:10:02 -0700 (PDT)
+In-Reply-To: <20210617121628.20116-1-peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 00/44] target/arm: First slice of MVE implementation
+Message-ID: <162393540091.29201.14085804417902433220@7c66fb7bc3ab>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Thu, 17 Jun 2021 06:10:02 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,419 +64,304 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-
-use dirty ring feature to implement dirtyrate calculation.
-
-introduce mode option in qmp calc_dirty_rate to specify what
-method should be used when calculating dirtyrate, either
-page-sampling or dirty-ring should be passed.
-
-introduce "dirty_ring:-r" option in hmp calc_dirty_rate to
-indicate dirty ring method should be used for calculation.
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- hmp-commands.hx        |   7 +-
- migration/dirtyrate.c  | 192 +++++++++++++++++++++++++++++++++++++++++++++----
- migration/trace-events |   2 +
- qapi/migration.json    |  16 ++++-
- 4 files changed, 200 insertions(+), 17 deletions(-)
-
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 8e45bce..f7fc9d7 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1738,8 +1738,9 @@ ERST
- 
-     {
-         .name       = "calc_dirty_rate",
--        .args_type  = "second:l,sample_pages_per_GB:l?",
--        .params     = "second [sample_pages_per_GB]",
--        .help       = "start a round of guest dirty rate measurement",
-+        .args_type  = "dirty_ring:-r,second:l,sample_pages_per_GB:l?",
-+        .params     = "[-r] second [sample_pages_per_GB]",
-+        .help       = "start a round of guest dirty rate measurement (using -d to"
-+                      "\n\t\t\t specify dirty ring as the method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 8a9dcf7..a130b5d 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -16,6 +16,7 @@
- #include "cpu.h"
- #include "exec/ramblock.h"
- #include "qemu/rcu_queue.h"
-+#include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
- #include "ram.h"
- #include "trace.h"
-@@ -23,6 +24,14 @@
- #include "monitor/hmp.h"
- #include "monitor/monitor.h"
- #include "qapi/qmp/qdict.h"
-+#include "sysemu/kvm.h"
-+#include "sysemu/runstate.h"
-+#include "exec/memory.h"
-+
-+typedef struct DirtyPageRecord {
-+    uint64_t start_pages;
-+    uint64_t end_pages;
-+} DirtyPageRecord;
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
- static struct DirtyRateStat DirtyStat;
-@@ -71,19 +80,35 @@ static int dirtyrate_set_state(int *state, int old_state, int new_state)
- 
- static struct DirtyRateInfo *query_dirty_rate_info(void)
- {
-+    int i;
-     int64_t dirty_rate = DirtyStat.dirty_rate;
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
--
--    if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
--        info->has_dirty_rate = true;
--        info->dirty_rate = dirty_rate;
--    }
-+    DirtyRateVcpuList *head = NULL, **tail = &head;
- 
-     info->status = CalculatingState;
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
-     info->sample_pages = DirtyStat.sample_pages;
-+    info->mode = dirtyrate_mode;
-+ 
-+    if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-+        info->has_dirty_rate = true;
-+        info->dirty_rate = dirty_rate;
- 
-+        if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+            /* set sample_pages with 0 to indicate page sampling isn't enabled */
-+            info->sample_pages = 0;
-+            info->has_vcpu_dirty_rate = true;
-+            for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
-+                DirtyRateVcpu *rate = g_malloc0(sizeof(DirtyRateVcpu));
-+                rate->id = DirtyStat.dirty_ring.rates[i].id;
-+                rate->dirty_rate = DirtyStat.dirty_ring.rates[i].dirty_rate;
-+                QAPI_LIST_APPEND(tail, rate);
-+            }
-+            info->vcpu_dirty_rate = head;
-+        }
-+    }
-+   
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
- 
-     return info;
-@@ -114,7 +139,11 @@ static void init_dirtyrate_stat(int64_t start_time,
- 
- static void cleanup_dirtyrate_stat(struct DirtyRateConfig config)
- {
--    /* TODO */
-+    /* last calc-dirty-rate qmp use dirty ring mode */
-+    if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        free(DirtyStat.dirty_ring.rates);
-+        DirtyStat.dirty_ring.rates = NULL;
-+    }
- }
- 
- static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
-@@ -351,7 +380,96 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
-     return true;
- }
- 
--static void calculate_dirtyrate(struct DirtyRateConfig config)
-+static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
-+                                     CPUState *cpu, bool start)
-+{
-+    if (start) {
-+        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
-+    } else {
-+        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
-+    }
-+}
-+
-+static void dirtyrate_global_dirty_log_start(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static void dirtyrate_global_dirty_log_stop(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_stop(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
-+{
-+    uint64_t memory_size_MB;
-+    int64_t time_s;
-+    uint64_t increased_dirty_pages =
-+        dirty_pages.end_pages - dirty_pages.start_pages;
-+
-+    memory_size_MB = (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
-+    time_s = DirtyStat.calc_time;
-+
-+    return memory_size_MB / time_s;
-+}
-+
-+static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
-+{
-+    CPUState *cpu;
-+    int64_t msec = 0;
-+    int64_t start_time;
-+    uint64_t dirtyrate = 0;
-+    uint64_t dirtyrate_sum = 0;
-+    DirtyPageRecord *dirty_pages;
-+    int nvcpu = 0;
-+    int i = 0;
-+
-+    CPU_FOREACH(cpu) {
-+        nvcpu++;
-+    }
-+
-+    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
-+
-+    DirtyStat.dirty_ring.nvcpu = nvcpu;
-+    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
-+
-+    dirtyrate_global_dirty_log_start();
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, true);
-+    }
-+
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    DirtyStat.start_time = start_time / 1000;
-+
-+    msec = config.sample_period_seconds * 1000;
-+    msec = set_sample_page_period(msec, start_time);
-+    DirtyStat.calc_time = msec / 1000;
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, false);
-+    }
-+
-+    dirtyrate_global_dirty_log_stop();
-+
-+    for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
-+        dirtyrate = do_calculate_dirtyrate_vcpu(dirty_pages[i]);
-+        trace_dirtyrate_do_calculate_vcpu(i, dirtyrate);
-+
-+        DirtyStat.dirty_ring.rates[i].id = i;
-+        DirtyStat.dirty_ring.rates[i].dirty_rate = dirtyrate;
-+        dirtyrate_sum += dirtyrate;
-+    }
-+
-+    DirtyStat.dirty_rate = dirtyrate_sum;
-+    free(dirty_pages);
-+}
-+
-+static void calculate_dirtyrate_sample_vm(struct DirtyRateConfig config)
- {
-     struct RamblockDirtyInfo *block_dinfo = NULL;
-     int block_count = 0;
-@@ -382,6 +500,17 @@ out:
-     free_ramblock_dirty_info(block_dinfo, block_count);
- }
- 
-+static void calculate_dirtyrate(struct DirtyRateConfig config)
-+{
-+    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        calculate_dirtyrate_dirty_ring(config);
-+    } else {
-+        calculate_dirtyrate_sample_vm(config);
-+    }
-+
-+    trace_dirtyrate_calculate(DirtyStat.dirty_rate);
-+}
-+
- void *get_dirtyrate_thread(void *arg)
- {
-     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-@@ -407,8 +536,12 @@ void *get_dirtyrate_thread(void *arg)
-     return NULL;
- }
- 
--void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
--                         int64_t sample_pages, Error **errp)
-+void qmp_calc_dirty_rate(int64_t calc_time,
-+                         bool has_sample_pages,
-+                         int64_t sample_pages,
-+                         bool has_mode,
-+                         DirtyRateMeasureMode mode,
-+                         Error **errp)
- {
-     static struct DirtyRateConfig config;
-     QemuThread thread;
-@@ -430,6 +563,15 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-         return;
-     }
- 
-+    if (!has_mode) {
-+        mode =  DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-+    }
-+
-+    if (has_sample_pages && mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        error_setg(errp, "either sample-pages or dirty-ring can be specified.");
-+        return;
-+    }
-+
-     if (has_sample_pages) {
-         if (!is_sample_pages_valid(sample_pages)) {
-             error_setg(errp, "sample-pages is out of range[%d, %d].",
-@@ -442,6 +584,16 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-     }
- 
-     /*
-+     * dirty ring mode only works when kvm dirty ring is enabled.
-+     */
-+    if ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
-+        !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty ring is disabled, use sample-pages method "
-+                         "or remeasure later.");
-+        return;
-+    }
-+
-+    /*
-      * Init calculation state as unstarted.
-      */
-     ret = dirtyrate_set_state(&CalculatingState, CalculatingState,
-@@ -453,7 +605,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
- 
-     config.sample_period_seconds = calc_time;
-     config.sample_pages_per_gigabytes = sample_pages;
--    config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-+    config.mode = mode;
- 
-     cleanup_dirtyrate_stat(config);
- 
-@@ -461,7 +613,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-      * update dirty rate mode so that we can figure out what mode has
-      * been used in last calculation
-      **/
--    dirtyrate_mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-+    dirtyrate_mode = mode;
- 
-     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-     init_dirtyrate_stat(start_time, config);
-@@ -487,12 +639,23 @@ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
-                    info->sample_pages);
-     monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
-                    info->calc_time);
-+    monitor_printf(mon, "Mode: %s\n",
-+                   DirtyRateMeasureMode_str(info->mode));
-     monitor_printf(mon, "Dirty rate: ");
-     if (info->has_dirty_rate) {
-         monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
-+        if (info->has_vcpu_dirty_rate) {
-+            DirtyRateVcpuList *rate, *head = info->vcpu_dirty_rate;
-+            for (rate = head; rate != NULL; rate = rate->next) {
-+                monitor_printf(mon, "vcpu[%"PRIi64"], Dirty rate: %"PRIi64"\n",
-+                               rate->value->id, rate->value->dirty_rate);
-+            }
-+        }
-     } else {
-         monitor_printf(mon, "(not ready)\n");
-     }
-+
-+    qapi_free_DirtyRateVcpuList(info->vcpu_dirty_rate); 
-     g_free(info);
- }
- 
-@@ -501,6 +664,10 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-     int64_t sec = qdict_get_try_int(qdict, "second", 0);
-     int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
-     bool has_sample_pages = (sample_pages != -1);
-+    bool dirty_ring = qdict_get_try_bool(qdict, "dirty_ring", false);
-+    DirtyRateMeasureMode mode =
-+        (dirty_ring ? DIRTY_RATE_MEASURE_MODE_DIRTY_RING :
-+         DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING);
-     Error *err = NULL;
- 
-     if (!sec) {
-@@ -508,7 +675,8 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
--    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
-+    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, true,
-+                        mode, &err);
-     if (err) {
-         hmp_handle_error(mon, err);
-         return;
-diff --git a/migration/trace-events b/migration/trace-events
-index 860c4f4..3186929 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -330,6 +330,8 @@ get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock n
- calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
- skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
- find_page_matched(const char *idstr) "ramblock %s addr or size changed"
-+dirtyrate_calculate(int64_t dirtyrate) "dirty rate: %" PRIi64 " MB/s"
-+dirtyrate_do_calculate_vcpu(int idx, uint64_t rate) "vcpu[%d]: %"PRIu64 " MB/s"
- 
- # block.c
- migration_block_init_shared(const char *blk_device_name) "Start migration for %s with shared base image"
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 7395305..e3d21a8 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1773,6 +1773,12 @@
- # @sample-pages: page count per GB for sample dirty pages
- #                the default value is 512 (since 6.1)
- #
-+# @mode: mode containing method of calculate dirtyrate includes
-+#        'page-sampling' and 'dirty-ring' (Since 6.1)
-+#
-+# @vcpu-dirty-rate: dirtyrate for each vcpu if dirty-ring
-+#                   mode specified (Since 6.1)
-+#
- # Since: 5.2
- #
- ##
-@@ -1781,7 +1787,9 @@
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
-            'calc-time': 'int64',
--           'sample-pages': 'uint64'} }
-+           'sample-pages': 'uint64',
-+           'mode': 'DirtyRateMeasureMode',
-+           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ] } }
- 
- ##
- # @calc-dirty-rate:
-@@ -1793,6 +1801,9 @@
- # @sample-pages: page count per GB for sample dirty pages
- #                the default value is 512 (since 6.1)
- #
-+# @mode: mechanism of calculating dirtyrate includes
-+#        'page-sampling' and 'dirty-ring' (Since 6.1)
-+#
- # Since: 5.2
- #
- # Example:
-@@ -1801,7 +1812,8 @@
- #
- ##
- { 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64',
--                                         '*sample-pages': 'int'} }
-+                                         '*sample-pages': 'int',
-+                                         '*mode': 'DirtyRateMeasureMode'} }
- 
- ##
- # @query-dirty-rate:
--- 
-1.8.3.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxNzEyMTYyOC4yMDEx
+Ni0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjE3MTIxNjI4
+LjIwMTE2LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnClN1YmplY3Q6IFtQQVRDSCB2MyAwMC80
+NF0gdGFyZ2V0L2FybTogRmlyc3Qgc2xpY2Ugb2YgTVZFIGltcGxlbWVudGF0aW9uCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYv
+bnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQg
+Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+YWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJh
+c2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIx
+NjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXBy
+b2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjE3MTIxNjI4LjIw
+MTE2LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA2MTcxMjE2Mjgu
+MjAxMTYtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKICogW25ldyB0YWddICAgICAgICAgcGF0
+Y2hldy8yMDIxMDYxNzEyMTcwNy43NjQxMjYtMS1tYS5tYW5kb3VyckBnbWFpbC5jb20gLT4gcGF0
+Y2hldy8yMDIxMDYxNzEyMTcwNy43NjQxMjYtMS1tYS5tYW5kb3VyckBnbWFpbC5jb20KU3dpdGNo
+ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwowNWRmMWM4IHRhcmdldC9hcm06IE1ha2UgVk1PViBz
+Y2FsYXIgPC0+IGdwcmVnIGJlYXR3aXNlIGZvciBNVkUKNjU3NTJmYSB0YXJnZXQvYXJtOiBJbXBs
+ZW1lbnQgTVZFIFZBRERWCmJmODM0ZWMgdGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWSENBREQK
+OTNkYjYzMCB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZDQURECmFjOTZjOTYgdGFyZ2V0L2Fy
+bTogSW1wbGVtZW50IE1WRSBWQURDLCBWU0JDCjhhNGFiNmYgdGFyZ2V0L2FybTogSW1wbGVtZW50
+IE1WRSBWUkhBREQKODJhMTMxZCB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRRE1VTEwgKHZl
+Y3RvcikKYjMwNzdkOCB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRRE1MU0RIIGFuZCBWUVJE
+TUxTREgKNGI3ZDE4ZSB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRRE1MQURIIGFuZCBWUVJE
+TUxBREgKNzM2MmJhOCB0YXJnZXQvYXJtOiBJbXBsbWVtZW50IE1WRSBWUlNITAozNWNlYjNiIHRh
+cmdldC9hcm06IEltcGxlbWVudCBNVkUgVlNITCBpbnNuCjBiNjlkYjAgdGFyZ2V0L2FybTogSW1w
+bGVtZW50IE1WRSBWUVJTSEwKY2ExZjhmOCB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRU0hM
+ICh2ZWN0b3IpCjMxNDVkMjcgdGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWUUFERCwgVlFTVUIg
+KHZlY3RvcikKYzQxMGY1NiB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRRE1VTEgsIFZRUkRN
+VUxIICh2ZWN0b3IpCjllZDc1YWEgdGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWUURNVUxMIHNj
+YWxhcgpiOTc4YWI3IHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlFETVVMSCBhbmQgVlFSRE1V
+TEggKHNjYWxhcikKNjE1MmEyNyB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRQUREIGFuZCBW
+UVNVQgo5YjNjOTgwIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlBTVApjNDc0NTQzIHRhcmdl
+dC9hcm06IEltcGxlbWVudCBNVkUgVkJSU1IKZjdmMzc2NyB0YXJnZXQvYXJtOiBJbXBsZW1lbnQg
+TVZFIFZIQURELCBWSFNVQiAoc2NhbGFyKQpiMzQzN2JkIHRhcmdldC9hcm06IEltcGxlbWVudCBN
+VkUgVlNVQiwgVk1VTCAoc2NhbGFyKQpmYzk3OTNhIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUg
+VkFERCAoc2NhbGFyKQo4MGI5ZDg3IHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlJNTEFMREFW
+SCwgVlJNTFNMREFWSApmYWFmNjQwIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVk1MU0xEQVYK
+ODBmYWFhOSB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZNTEFMREFWCjNlOGFmOGMgdGFyZ2V0
+L2FybTogSW1wbGVtZW50IE1WRSBWTVVMTAphYmFlNjcxIHRhcmdldC9hcm06IEltcGxlbWVudCBN
+VkUgVkhBREQsIFZIU1VCCmFkYjdlMjBiIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVkFCRApi
+Yjc1YzFlIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVk1BWCwgVk1JTgpmZjQwZGVhIHRhcmdl
+dC9hcm06IEltcGxlbWVudCBNVkUgVlJNVUxICmRjMjlmNjcgdGFyZ2V0L2FybTogSW1wbGVtZW50
+IE1WRSBWTVVMSApmYTc3MThjIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVkFERCwgVlNVQiwg
+Vk1VTAo0ZGRkZjM5IHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVkFORCwgVkJJQywgVk9SUiwg
+Vk9STiwgVkVPUgo0MzhhNTkxIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVkRVUAo4ZDdiMzcw
+IHRjZzogTWFrZSBnZW5fZHVwX2kzMi9pNjQoKSBwdWJsaWMgYXMgdGNnX2dlbl9kdXBfaTMyL2k2
+NApkY2EyY2QzIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVk5FRwowNTJkMjgwIHRhcmdldC9h
+cm06IEltcGxlbWVudCBNVkUgVkFCUwo5OTFkZTUwIHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUg
+Vk1WTiAocmVnaXN0ZXIpCjBkMjFiODUgdGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWUkVWMTYs
+IFZSRVYzMiwgVlJFVjY0CmNkZmI4OWEgdGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWQ0xTCjI3
+NmY0YmMgdGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWQ0xaCjcyY2FhNzUgdGFyZ2V0L2FybTog
+SW1wbGVtZW50IHdpZGVuaW5nL25hcnJvd2luZyBNVkUgVkxEUi9WU1RSIGluc25zCmIwYjljYzYg
+dGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWTERSL1ZTVFIgKG5vbi13aWRlbmluZyBmb3JtcykK
+Cj09PSBPVVRQVVQgQkVHSU4gPT09CjEvNDQgQ2hlY2tpbmcgY29tbWl0IGIwYjljYzYwOTFlNyAo
+dGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWTERSL1ZTVFIgKG5vbi13aWRlbmluZyBmb3Jtcykp
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzI5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyNjk6IEZJ
+TEU6IHRhcmdldC9hcm0vbXZlX2hlbHBlci5jOjEzNDoKKyAgICAgICAgLyogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKCnRvdGFs
+OiAwIGVycm9ycywgMiB3YXJuaW5ncywgMzcwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNDQgaGFz
+IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
+cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
+Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi80NCBDaGVja2luZyBjb21taXQgNzJjYWE3NWY2NDIy
+ICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgd2lkZW5pbmcvbmFycm93aW5nIE1WRSBWTERSL1ZTVFIg
+aW5zbnMpCjMvNDQgQ2hlY2tpbmcgY29tbWl0IDI3NmY0YmNjZWFhMyAodGFyZ2V0L2FybTogSW1w
+bGVtZW50IE1WRSBWQ0xaKQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBz
+aG91bGQgYmUgYXZvaWRlZAojMTMyOiBGSUxFOiB0YXJnZXQvYXJtL212ZV9oZWxwZXIuYzoyNDE6
+CisjaWYgZGVmaW5lZChfX09QVElNSVpFX18pICYmICFkZWZpbmVkKF9fU0FOSVRJWkVfQUREUkVT
+U19fKQoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzEzMzog
+RklMRTogdGFyZ2V0L2FybS9tdmVfaGVscGVyLmM6MjQyOgordm9pZCB1bmtub3duX21lcmdlbWFz
+a190eXBlKHZvaWQgKmQsIHVpbnQ2NF90IHIsIHVpbnQxNl90IG1hc2spOwoKRVJST1I6IHNwYWNl
+cyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeFYpCiMxODk6IEZJTEU6IHRhcmdldC9h
+cm0vdHJhbnNsYXRlLW12ZS5jOjE2NToKK3N0YXRpYyBib29sIGRvXzFvcChEaXNhc0NvbnRleHQg
+KnMsIGFyZ18xb3AgKmEsIE1WRUdlbk9uZU9wRm4gZm4pCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
+YXQgJyonIChjdHg6V3hWKQojMjEzOiBGSUxFOiB0YXJnZXQvYXJtL3RyYW5zbGF0ZS1tdmUuYzox
+ODk6CisgICAgc3RhdGljIGJvb2wgdHJhbnNfIyNJTlNOKERpc2FzQ29udGV4dCAqcywgYXJnXzFv
+cCAqYSkgICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXgoKdG90YWw6IDMgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNzggbGluZXMgY2hl
+Y2tlZAoKUGF0Y2ggMy80NCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
+bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
+IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNC80NCBDaGVja2lu
+ZyBjb21taXQgY2RmYjg5YWI1OTVkICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZDTFMpCjUv
+NDQgQ2hlY2tpbmcgY29tbWl0IDBkMjFiODU2MjA4YyAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1W
+RSBWUkVWMTYsIFZSRVYzMiwgVlJFVjY0KQpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0
+aGF0ICcqJyAoY3R4Old4VikKIzcwOiBGSUxFOiB0YXJnZXQvYXJtL3RyYW5zbGF0ZS1tdmUuYzoy
+MDM6CitzdGF0aWMgYm9vbCB0cmFuc19WUkVWMTYoRGlzYXNDb250ZXh0ICpzLCBhcmdfMW9wICph
+KQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0
+b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDYzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvNDQg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjYvNDQgQ2hlY2tpbmcgY29tbWl0IDk5MWRlNTBh
+YWM5MCAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWTVZOIChyZWdpc3RlcikpCjcvNDQgQ2hl
+Y2tpbmcgY29tbWl0IDA1MmQyODA0YjA2ZCAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWQUJT
+KQo4LzQ0IENoZWNraW5nIGNvbW1pdCBkY2EyY2QzNGQ5N2MgKHRhcmdldC9hcm06IEltcGxlbWVu
+dCBNVkUgVk5FRykKOS80NCBDaGVja2luZyBjb21taXQgOGQ3YjM3MGVkMmUyICh0Y2c6IE1ha2Ug
+Z2VuX2R1cF9pMzIvaTY0KCkgcHVibGljIGFzIHRjZ19nZW5fZHVwX2kzMi9pNjQpCjEwLzQ0IENo
+ZWNraW5nIGNvbW1pdCA0MzhhNTkxMjA3OGQgKHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVkRV
+UCkKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeFYpCiM5NDog
+RklMRTogdGFyZ2V0L2FybS90cmFuc2xhdGUtbXZlLmM6MTY1Ogorc3RhdGljIGJvb2wgdHJhbnNf
+VkRVUChEaXNhc0NvbnRleHQgKnMsIGFyZ19WRFVQICphKQogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5n
+cywgODIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTAvNDQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KCjExLzQ0IENoZWNraW5nIGNvbW1pdCA0ZGRkZjM5OGFhMTcgKHRhcmdldC9hcm06IEltcGxl
+bWVudCBNVkUgVkFORCwgVkJJQywgVk9SUiwgVk9STiwgVkVPUikKMTIvNDQgQ2hlY2tpbmcgY29t
+bWl0IGZhNzcxOGNiN2NmOCAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWQURELCBWU1VCLCBW
+TVVMKQoxMy80NCBDaGVja2luZyBjb21taXQgZGMyOWY2NzNmZjY5ICh0YXJnZXQvYXJtOiBJbXBs
+ZW1lbnQgTVZFIFZNVUxIKQoxNC80NCBDaGVja2luZyBjb21taXQgZmY0MGRlYWRmOGFlICh0YXJn
+ZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZSTVVMSCkKMTUvNDQgQ2hlY2tpbmcgY29tbWl0IGJiNzVj
+MWUzZGJiNSAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWTUFYLCBWTUlOKQoxNi80NCBDaGVj
+a2luZyBjb21taXQgYWRiN2UyMGI1MjEyICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZBQkQp
+CjE3LzQ0IENoZWNraW5nIGNvbW1pdCBhYmFlNjcxYzY5OGYgKHRhcmdldC9hcm06IEltcGxlbWVu
+dCBNVkUgVkhBREQsIFZIU1VCKQoxOC80NCBDaGVja2luZyBjb21taXQgM2U4YWY4YzI0NGQwICh0
+YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZNVUxMKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
+cmFjdGVycwojNzI6IEZJTEU6IHRhcmdldC9hcm0vbXZlX2hlbHBlci5jOjM3MzoKKyAgICB2b2lk
+IEhFTFBFUihnbHVlKG12ZV8sIE9QKSkoQ1BVQVJNU3RhdGUgKmVudiwgdm9pZCAqdmQsIHZvaWQg
+KnZuLCB2b2lkICp2bSkgXAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA4MSBsaW5lcyBj
+aGVja2VkCgpQYXRjaCAxOC80NCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxOS80NCBDaGVj
+a2luZyBjb21taXQgODBmYWFhOTBjMWUwICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZNTEFM
+REFWKQpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrPScgKGN0eDpXeEIpCiM5
+NjogRklMRTogdGFyZ2V0L2FybS9tdmVfaGVscGVyLmM6NTMzOgorRE9fTERBVih2bWxhbGRhdnNo
+LCAyLCBpbnQxNl90LCBmYWxzZSwgKz0sICs9KQogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJys9
+JyAoY3R4Old4QikKIzk3OiBGSUxFOiB0YXJnZXQvYXJtL212ZV9oZWxwZXIuYzo1MzQ6CitET19M
+REFWKHZtbGFsZGF2eHNoLCAyLCBpbnQxNl90LCB0cnVlLCArPSwgKz0pCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
+cm91bmQgdGhhdCAnKz0nIChjdHg6V3hCKQojOTg6IEZJTEU6IHRhcmdldC9hcm0vbXZlX2hlbHBl
+ci5jOjUzNToKK0RPX0xEQVYodm1sYWxkYXZzdywgNCwgaW50MzJfdCwgZmFsc2UsICs9LCArPSkK
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
+Y2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrPScgKGN0eDpXeEIpCiM5OTogRklMRTogdGFyZ2V0
+L2FybS9tdmVfaGVscGVyLmM6NTM2OgorRE9fTERBVih2bWxhbGRhdnhzdywgNCwgaW50MzJfdCwg
+dHJ1ZSwgKz0sICs9KQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJys9JyAoY3R4Old4QikKIzEw
+MTogRklMRTogdGFyZ2V0L2FybS9tdmVfaGVscGVyLmM6NTM4OgorRE9fTERBVih2bWxhbGRhdnVo
+LCAyLCB1aW50MTZfdCwgZmFsc2UsICs9LCArPSkKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAn
+Kz0nIChjdHg6V3hCKQojMTAyOiBGSUxFOiB0YXJnZXQvYXJtL212ZV9oZWxwZXIuYzo1Mzk6CitE
+T19MREFWKHZtbGFsZGF2dXcsIDQsIHVpbnQzMl90LCBmYWxzZSwgKz0sICs9KQogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpXQVJOSU5HOiBsaW5lIG92ZXIg
+ODAgY2hhcmFjdGVycwojMTExOiBGSUxFOiB0YXJnZXQvYXJtL3RyYW5zbGF0ZS1tdmUuYzozNDoK
+K3R5cGVkZWYgdm9pZCBNVkVHZW5EdWFsQWNjT3BGbihUQ0d2X2k2NCwgVENHdl9wdHIsIFRDR3Zf
+cHRyLCBUQ0d2X3B0ciwgVENHdl9pNjQpOwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQg
+dGhhdCAnKicgKGN0eDpXeFYpCiMxNDM6IEZJTEU6IHRhcmdldC9hcm0vdHJhbnNsYXRlLW12ZS5j
+OjM4NjoKK3N0YXRpYyBib29sIGRvX2xvbmdfZHVhbF9hY2MoRGlzYXNDb250ZXh0ICpzLCBhcmdf
+dm1sYWxkYXYgKmEsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF4KCnRvdGFsOiA3IGVycm9ycywgMSB3YXJuaW5ncywgMTk5IGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDE5LzQ0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyMC80NCBD
+aGVja2luZyBjb21taXQgZmFhZjY0MGQzYmM5ICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZN
+TFNMREFWKQpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctPScgKGN0eDpXeEIp
+CiM1MzogRklMRTogdGFyZ2V0L2FybS9tdmVfaGVscGVyLmM6NTQxOgorRE9fTERBVih2bWxzbGRh
+dnNoLCAyLCBpbnQxNl90LCBmYWxzZSwgKz0sIC09KQogICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQg
+Jy09JyAoY3R4Old4QikKIzU0OiBGSUxFOiB0YXJnZXQvYXJtL212ZV9oZWxwZXIuYzo1NDI6CitE
+T19MREFWKHZtbHNsZGF2eHNoLCAyLCBpbnQxNl90LCB0cnVlLCArPSwgLT0pCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJl
+ZCBhcm91bmQgdGhhdCAnLT0nIChjdHg6V3hCKQojNTU6IEZJTEU6IHRhcmdldC9hcm0vbXZlX2hl
+bHBlci5jOjU0MzoKK0RPX0xEQVYodm1sc2xkYXZzdywgNCwgaW50MzJfdCwgZmFsc2UsICs9LCAt
+PSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjog
+c3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctPScgKGN0eDpXeEIpCiM1NjogRklMRTogdGFy
+Z2V0L2FybS9tdmVfaGVscGVyLmM6NTQ0OgorRE9fTERBVih2bWxzbGRhdnhzdywgNCwgaW50MzJf
+dCwgdHJ1ZSwgKz0sIC09KQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIF4KCnRvdGFsOiA0IGVycm9ycywgMCB3YXJuaW5ncywgMzUgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggMjAvNDQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIxLzQ0IENoZWNraW5nIGNvbW1p
+dCA4MGI5ZDg3NDZiYTQgKHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlJNTEFMREFWSCwgVlJN
+TFNMREFWSCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEwMjogRklMRTogdGFy
+Z2V0L2FybS9tdmVfaGVscGVyLmM6NTc1OgorRE9fTERBVkgodnJtbGFsZGF2aHN3LCA0LCBpbnQz
+Ml90LCBmYWxzZSwgaW50MTI4X2FkZCwgaW50MTI4X2FkZCwgaW50MTI4X21ha2VzNjQpCgpXQVJO
+SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTAzOiBGSUxFOiB0YXJnZXQvYXJtL212ZV9o
+ZWxwZXIuYzo1NzY6CitET19MREFWSCh2cm1sYWxkYXZoeHN3LCA0LCBpbnQzMl90LCB0cnVlLCBp
+bnQxMjhfYWRkLCBpbnQxMjhfYWRkLCBpbnQxMjhfbWFrZXM2NCkKCldBUk5JTkc6IGxpbmUgb3Zl
+ciA4MCBjaGFyYWN0ZXJzCiMxMDU6IEZJTEU6IHRhcmdldC9hcm0vbXZlX2hlbHBlci5jOjU3ODoK
+K0RPX0xEQVZIKHZybWxhbGRhdmh1dywgNCwgdWludDMyX3QsIGZhbHNlLCBpbnQxMjhfYWRkLCBp
+bnQxMjhfYWRkLCBpbnQxMjhfbWFrZTY0KQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
+cnMKIzEwNzogRklMRTogdGFyZ2V0L2FybS9tdmVfaGVscGVyLmM6NTgwOgorRE9fTERBVkgodnJt
+bHNsZGF2aHN3LCA0LCBpbnQzMl90LCBmYWxzZSwgaW50MTI4X2FkZCwgaW50MTI4X3N1YiwgaW50
+MTI4X21ha2VzNjQpCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTA4OiBGSUxF
+OiB0YXJnZXQvYXJtL212ZV9oZWxwZXIuYzo1ODE6CitET19MREFWSCh2cm1sc2xkYXZoeHN3LCA0
+LCBpbnQzMl90LCB0cnVlLCBpbnQxMjhfYWRkLCBpbnQxMjhfc3ViLCBpbnQxMjhfbWFrZXM2NCkK
+CnRvdGFsOiAwIGVycm9ycywgNSB3YXJuaW5ncywgOTggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjEv
+NDQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMjIvNDQgQ2hlY2tpbmcgY29tbWl0IGZjOTc5
+M2E1NzM4ZSAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWQUREIChzY2FsYXIpKQpFUlJPUjog
+c3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4VikKIzExMzogRklMRTogdGFy
+Z2V0L2FybS90cmFuc2xhdGUtbXZlLmM6Mzg3Ogorc3RhdGljIGJvb2wgZG9fMm9wX3NjYWxhcihE
+aXNhc0NvbnRleHQgKnMsIGFyZ18yc2NhbGFyICphLAogICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQg
+YXJvdW5kIHRoYXQgJyonIChjdHg6V3hWKQojMTQ0OiBGSUxFOiB0YXJnZXQvYXJtL3RyYW5zbGF0
+ZS1tdmUuYzo0MTg6CisgICAgc3RhdGljIGJvb2wgdHJhbnNfIyNJTlNOKERpc2FzQ29udGV4dCAq
+cywgYXJnXzJzY2FsYXIgKmEpICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywg
+MTE3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIyLzQ0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
+IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
+cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
+CgoyMy80NCBDaGVja2luZyBjb21taXQgYjM0MzdiZGYzYWJiICh0YXJnZXQvYXJtOiBJbXBsZW1l
+bnQgTVZFIFZTVUIsIFZNVUwgKHNjYWxhcikpCjI0LzQ0IENoZWNraW5nIGNvbW1pdCBmN2YzNzY3
+MzQ0N2QgKHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVkhBREQsIFZIU1VCIChzY2FsYXIpKQoy
+NS80NCBDaGVja2luZyBjb21taXQgYzQ3NDU0MzMwZjA4ICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQg
+TVZFIFZCUlNSKQoyNi80NCBDaGVja2luZyBjb21taXQgOWIzYzk4MGMzODMxICh0YXJnZXQvYXJt
+OiBJbXBsZW1lbnQgTVZFIFZQU1QpCjI3LzQ0IENoZWNraW5nIGNvbW1pdCA2MTUyYTI3ZmZkM2Eg
+KHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlFBREQgYW5kIFZRU1VCKQoyOC80NCBDaGVja2lu
+ZyBjb21taXQgYjk3OGFiNzRkMjU0ICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRRE1VTEgg
+YW5kIFZRUkRNVUxIIChzY2FsYXIpKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
+Mjk6IEZJTEU6IHRhcmdldC9hcm0vaGVscGVyLW12ZS5oOjE5MjoKK0RFRl9IRUxQRVJfRkxBR1Nf
+NChtdmVfdnFkbXVsaF9zY2FsYXJiLCBUQ0dfQ0FMTF9OT19XRywgdm9pZCwgZW52LCBwdHIsIHB0
+ciwgaTMyKQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMwOiBGSUxFOiB0YXJn
+ZXQvYXJtL2hlbHBlci1tdmUuaDoxOTM6CitERUZfSEVMUEVSX0ZMQUdTXzQobXZlX3ZxZG11bGhf
+c2NhbGFyaCwgVENHX0NBTExfTk9fV0csIHZvaWQsIGVudiwgcHRyLCBwdHIsIGkzMikKCldBUk5J
+Tkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMTogRklMRTogdGFyZ2V0L2FybS9oZWxwZXIt
+bXZlLmg6MTk0OgorREVGX0hFTFBFUl9GTEFHU180KG12ZV92cWRtdWxoX3NjYWxhcncsIFRDR19D
+QUxMX05PX1dHLCB2b2lkLCBlbnYsIHB0ciwgcHRyLCBpMzIpCgpXQVJOSU5HOiBsaW5lIG92ZXIg
+ODAgY2hhcmFjdGVycwojMzM6IEZJTEU6IHRhcmdldC9hcm0vaGVscGVyLW12ZS5oOjE5NjoKK0RF
+Rl9IRUxQRVJfRkxBR1NfNChtdmVfdnFyZG11bGhfc2NhbGFyYiwgVENHX0NBTExfTk9fV0csIHZv
+aWQsIGVudiwgcHRyLCBwdHIsIGkzMikKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJz
+CiMzNDogRklMRTogdGFyZ2V0L2FybS9oZWxwZXItbXZlLmg6MTk3OgorREVGX0hFTFBFUl9GTEFH
+U180KG12ZV92cXJkbXVsaF9zY2FsYXJoLCBUQ0dfQ0FMTF9OT19XRywgdm9pZCwgZW52LCBwdHIs
+IHB0ciwgaTMyKQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM1OiBGSUxFOiB0
+YXJnZXQvYXJtL2hlbHBlci1tdmUuaDoxOTg6CitERUZfSEVMUEVSX0ZMQUdTXzQobXZlX3ZxcmRt
+dWxoX3NjYWxhcncsIFRDR19DQUxMX05PX1dHLCB2b2lkLCBlbnYsIHB0ciwgcHRyLCBpMzIpCgp0
+b3RhbDogMCBlcnJvcnMsIDYgd2FybmluZ3MsIDY4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDI4LzQ0
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjI5LzQ0IENoZWNraW5nIGNvbW1pdCA5ZWQ3NWFh
+MWFmYWIgKHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlFETVVMTCBzY2FsYXIpCldBUk5JTkc6
+IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMjogRklMRTogdGFyZ2V0L2FybS9oZWxwZXItbXZl
+Lmg6MjA0OgorREVGX0hFTFBFUl9GTEFHU180KG12ZV92cWRtdWxsYl9zY2FsYXJoLCBUQ0dfQ0FM
+TF9OT19XRywgdm9pZCwgZW52LCBwdHIsIHB0ciwgaTMyKQoKV0FSTklORzogbGluZSBvdmVyIDgw
+IGNoYXJhY3RlcnMKIzMzOiBGSUxFOiB0YXJnZXQvYXJtL2hlbHBlci1tdmUuaDoyMDU6CitERUZf
+SEVMUEVSX0ZMQUdTXzQobXZlX3ZxZG11bGxiX3NjYWxhcncsIFRDR19DQUxMX05PX1dHLCB2b2lk
+LCBlbnYsIHB0ciwgcHRyLCBpMzIpCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
+MzQ6IEZJTEU6IHRhcmdldC9hcm0vaGVscGVyLW12ZS5oOjIwNjoKK0RFRl9IRUxQRVJfRkxBR1Nf
+NChtdmVfdnFkbXVsbHRfc2NhbGFyaCwgVENHX0NBTExfTk9fV0csIHZvaWQsIGVudiwgcHRyLCBw
+dHIsIGkzMikKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzNTogRklMRTogdGFy
+Z2V0L2FybS9oZWxwZXItbXZlLmg6MjA3OgorREVGX0hFTFBFUl9GTEFHU180KG12ZV92cWRtdWxs
+dF9zY2FsYXJ3LCBUQ0dfQ0FMTF9OT19XRywgdm9pZCwgZW52LCBwdHIsIHB0ciwgaTMyKQoKRVJS
+T1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeFYpCiMxNzc6IEZJTEU6
+IHRhcmdldC9hcm0vdHJhbnNsYXRlLW12ZS5jOjQ1NzoKK3N0YXRpYyBib29sIHRyYW5zX1ZRRE1V
+TExCX3NjYWxhcihEaXNhc0NvbnRleHQgKnMsIGFyZ18yc2NhbGFyICphKQogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90
+YWw6IDEgZXJyb3JzLCA0IHdhcm5pbmdzLCAxNjQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjkvNDQg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMwLzQ0IENoZWNraW5nIGNvbW1pdCBjNDEwZjU2
+YWQ4YzEgKHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlFETVVMSCwgVlFSRE1VTEggKHZlY3Rv
+cikpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM2MTogRklMRTogdGFyZ2V0L2Fy
+bS9tdmVfaGVscGVyLmM6Mzg5OgorICAgIHZvaWQgSEVMUEVSKGdsdWUobXZlXywgT1ApKShDUFVB
+Uk1TdGF0ZSAqZW52LCB2b2lkICp2ZCwgdm9pZCAqdm4sIHZvaWQgKnZtKSBcCgp0b3RhbDogMCBl
+cnJvcnMsIDEgd2FybmluZ3MsIDcwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDMwLzQ0IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCjMxLzQ0IENoZWNraW5nIGNvbW1pdCAzMTQ1ZDI3NDYwN2UgKHRh
+cmdldC9hcm06IEltcGxlbWVudCBNVkUgVlFBREQsIFZRU1VCICh2ZWN0b3IpKQozMi80NCBDaGVj
+a2luZyBjb21taXQgY2ExZjhmODVjZGMzICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZRU0hM
+ICh2ZWN0b3IpKQozMy80NCBDaGVja2luZyBjb21taXQgMGI2OWRiMDUzMDYyICh0YXJnZXQvYXJt
+OiBJbXBsZW1lbnQgTVZFIFZRUlNITCkKMzQvNDQgQ2hlY2tpbmcgY29tbWl0IDM1Y2ViM2JlOTgz
+MSAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWU0hMIGluc24pCjM1LzQ0IENoZWNraW5nIGNv
+bW1pdCA3MzYyYmE4N2JjMzAgKHRhcmdldC9hcm06IEltcGxtZW1lbnQgTVZFIFZSU0hMKQozNi80
+NCBDaGVja2luZyBjb21taXQgNGI3ZDE4ZTZmZDQ3ICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZF
+IFZRRE1MQURIIGFuZCBWUVJETUxBREgpCjM3LzQ0IENoZWNraW5nIGNvbW1pdCBiMzA3N2Q4MzU2
+NjMgKHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVlFETUxTREggYW5kIFZRUkRNTFNESCkKMzgv
+NDQgQ2hlY2tpbmcgY29tbWl0IDgyYTEzMWQxMmVkYyAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1W
+RSBWUURNVUxMICh2ZWN0b3IpKQozOS80NCBDaGVja2luZyBjb21taXQgOGE0YWI2ZmVhNzEzICh0
+YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZSSEFERCkKNDAvNDQgQ2hlY2tpbmcgY29tbWl0IGFj
+OTZjOTZiOWRhNSAodGFyZ2V0L2FybTogSW1wbGVtZW50IE1WRSBWQURDLCBWU0JDKQo0MS80NCBD
+aGVja2luZyBjb21taXQgOTNkYjYzMDQyMmZjICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZD
+QUREKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNzQ6IEZJTEU6IHRhcmdldC9h
+cm0vbXZlX2hlbHBlci5jOjYwODoKKyAgICB2b2lkIEhFTFBFUihnbHVlKG12ZV8sIE9QKSkoQ1BV
+QVJNU3RhdGUgKmVudiwgdm9pZCAqdmQsIHZvaWQgKnZuLCB2b2lkICp2bSkgXAoKV0FSTklORzog
+QmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzgwOiBG
+SUxFOiB0YXJnZXQvYXJtL212ZV9oZWxwZXIuYzo2MTQ6CisgICAgICAgIC8qIENhbGN1bGF0ZSBh
+bGwgcmVzdWx0cyBmaXJzdCB0byBhdm9pZCBvdmVyd3JpdGluZyBpbnB1dHMgKi8gICBcCgp0b3Rh
+bDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDc4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQxLzQ0IGhh
+cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
+YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
+RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQyLzQ0IENoZWNraW5nIGNvbW1pdCBiZjgzNGVjMmRi
+OWIgKHRhcmdldC9hcm06IEltcGxlbWVudCBNVkUgVkhDQUREKQo0My80NCBDaGVja2luZyBjb21t
+aXQgNjU3NTJmYWYyMDAwICh0YXJnZXQvYXJtOiBJbXBsZW1lbnQgTVZFIFZBRERWKQo0NC80NCBD
+aGVja2luZyBjb21taXQgMDVkZjFjODY0MGMwICh0YXJnZXQvYXJtOiBNYWtlIFZNT1Ygc2NhbGFy
+IDwtPiBncHJlZyBiZWF0d2lzZSBmb3IgTVZFKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
+bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
+dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDYxNzEyMTYyOC4yMDExNi0xLXBldGVyLm1heWRl
+bGxAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
+IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
+XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
