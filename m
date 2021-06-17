@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB6E3ABD34
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:57:39 +0200 (CEST)
-Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FBF3ABCCA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:32:16 +0200 (CEST)
+Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lty8w-0003yw-Nr
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56822)
+	id 1ltxkN-0006sK-Pq
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:32:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNZ-0004eD-Ac
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58191)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNW-0003qr-7B
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623956917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=coe4wXpm6vEZP4DMzEUTiQ2VMBIawHDhqoeFnL50v8M=;
- b=UytfVwaOJoA0Wu97hQ0yN684fSGZ9P+94+qdgMCHd6WLf1DOO9RahfDxv9b2SqChPDyf21
- md1dS2Rk1Xq1gUgqVb1gOCZButnU+Lq+KtwyF+xQxOzd0vsPEDgTG+gXw7pEAKf237ulmO
- pZlZeFNSQkbeOGNa44CYJhBE7msTmGs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-v55FjOP5MfqVF8trHHmNnw-1; Thu, 17 Jun 2021 15:08:36 -0400
-X-MC-Unique: v55FjOP5MfqVF8trHHmNnw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35F498C1703;
- Thu, 17 Jun 2021 19:08:35 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.43.2.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B92F75D6D7;
- Thu, 17 Jun 2021 19:08:33 +0000 (UTC)
-From: Julia Suvorova <jusual@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 7/7] bios-tables-test: Update golden binaries
-Date: Thu, 17 Jun 2021 21:07:39 +0200
-Message-Id: <20210617190739.3673064-8-jusual@redhat.com>
-In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
-References: <20210617190739.3673064-1-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ltxbT-0001Dp-G4
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:23:03 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37877)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ltxbP-0003TI-EG
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:23:03 -0400
+Received: by mail-ej1-x636.google.com with SMTP id ji1so5717107ejc.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 12:22:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zrG7L2FV1w06vgFqT2/2igabM5UFxRrsRY1/b1/itlw=;
+ b=Z02Li6Sj1Xfx6Rj76S1+fPAE2dtulmmZRlNko4G5rFdTffugDnHDBNERNrNj7ml4mN
+ fy8eRtN5XYpJXuzlN7qzLyBNyu6xtSW4KS5LrKJEc7/qVgbrpIAAHBA0pfzGuShkSopY
+ VzLdh1zWJA8eVY9p/jWsqTcbhOmqtpV4uTnvy9HqwMEZmLo97U1Xnay1sfpXhXjGVtLI
+ Bi+sX4mIVVSb7D7Fu1E5vPyGZLqgXfjJVjU2BbJPwNh+LU8CwCds9k/lWI3QxiJDyzXW
+ QNsaeWlONJNt0wwXgQfpCT2dBg1s8bc+X35+JK3RPVoYSMl9N05xNx3weX+9CPHePnn+
+ JHnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zrG7L2FV1w06vgFqT2/2igabM5UFxRrsRY1/b1/itlw=;
+ b=fo3nkK5+l2FOx9Ad36s5AwH44mxbY4iZWuDLurNiAdM+E907UJBkru0A45hx7MejDF
+ kbSUQpJay5LZO5SnsAxEGv/UH3pTg5GeEt+Rl3uJJP2inzD+Z2uarVmFkMMOqIOXd9Mc
+ D8Ko1H7nkaHVrnV2yqS9B3+4Fj7y5atmvBP22JHcidXOGEsKcEp0YprZwsWtEbsNB8o4
+ 2MSIDYBlnaa+27VKc2nbBsVFhEIbddkiSU79R8uCmXJjLwm4DtJctFFJEO39SWQmaRYT
+ KZ0DL3cGkCz1L6O2JHIdG1qZUZ2zq5bqNkPODTsA0K2V81PlsxfMvEdVHeh8XAbzbCDI
+ bvww==
+X-Gm-Message-State: AOAM533t6kF/uYRDhHojm3gEj4aAmAgwuFfB7Z7NocKz6sWtPO8m4lbq
+ 15p658RHR3mcx+UVo2tjG+QGDczHt1i3FR84ZxjP8Q==
+X-Google-Smtp-Source: ABdhPJxuN4fra0d/FWB8RmAe30NkrF/588AqN6xC4XJ5ryWBG4+CIcUsNZr/NhRx1Gz2QBPcBCcfgWshjvThaqX9K7M=
+X-Received: by 2002:a17:907:98eb:: with SMTP id
+ ke11mr5259049ejc.85.1623957776114; 
+ Thu, 17 Jun 2021 12:22:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jusual@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210615165800.23265-1-alex.bennee@linaro.org>
+ <20210615165800.23265-2-alex.bennee@linaro.org>
+In-Reply-To: <20210615165800.23265-2-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Jun 2021 20:22:20 +0100
+Message-ID: <CAFEAcA8t8q8pJNOOYK-zkDtME7hOWfXVUj3+HLVMRkFzY6Ei1g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] semihosting/arm-compat: replace heuristic for
+ softmmu SYS_HEAPINFO
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,392 +81,358 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Andrew Strauss <astrauss11@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add ACPI hot-plug registers to DSDT Q35 tables.
-Changes in the tables:
+On Tue, 15 Jun 2021 at 18:01, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The previous numbers were a guess at best and rather arbitrary without
+> taking into account anything that might be loaded. Instead of using
+> guesses based on the state of registers implement a new function that
+> scans MemoryRegions for the RAM of the current address space and then
+> looks for the lowest address above any ROM blobs (which include
+> -kernel loaded code).
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Andrew Strauss <astrauss11@gmail.com>
+> Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
+>
+> ---
+> v2
+>   - report some known information (limits)
+>   - reword the commit message
+> v3
+>   - rework to use the ROM blob scanning suggested by Peter
+>   - drop arch specific wrappers
+>   - dropped rb/tb tags as it's a rework
+> ---
+>  include/hw/loader.h           |  10 +++
+>  hw/core/loader.c              |  19 +++++
+>  semihosting/arm-compat-semi.c | 131 ++++++++++++++++++----------------
+>  3 files changed, 99 insertions(+), 61 deletions(-)
+>
+> diff --git a/include/hw/loader.h b/include/hw/loader.h
+> index cbfc184873..037828e94d 100644
+> --- a/include/hw/loader.h
+> +++ b/include/hw/loader.h
+> @@ -349,4 +349,14 @@ int rom_add_option(const char *file, int32_t bootind=
+ex);
+>   * overflow on real hardware too. */
+>  #define UBOOT_MAX_GUNZIP_BYTES (64 << 20)
+>
+> +/**
+> + * rom_find_highest_addr: return highest address of ROM in region
+> + *
+> + * This function is used to find the highest ROM address (or loaded
+> + * blob) so we can advise where true heap memory may be.
+> + *
+> + * Returns: highest found address in region
+> + */
+> +hwaddr rom_find_highest_addr(hwaddr base, size_t size);
+> +
+>  #endif
+> diff --git a/hw/core/loader.c b/hw/core/loader.c
+> index 5b34869a54..05003556ee 100644
+> --- a/hw/core/loader.c
+> +++ b/hw/core/loader.c
+> @@ -1310,6 +1310,25 @@ static Rom *find_rom(hwaddr addr, size_t size)
+>      return NULL;
+>  }
+>
+> +hwaddr rom_find_highest_addr(hwaddr base, size_t size)
+> +{
+> +    Rom *rom;
+> +    hwaddr lowest =3D base;
+> +
+> +    QTAILQ_FOREACH(rom, &roms, next) {
 
-+    Scope (_SB.PCI0)
-+    {
-+        OperationRegion (PCST, SystemIO, 0x0CC4, 0x08)
-+        Field (PCST, DWordAcc, NoLock, WriteAsZeros)
-+        {
-+            PCIU,   32,
-+            PCID,   32
-+        }
-+
-+        OperationRegion (SEJ, SystemIO, 0x0CCC, 0x04)
-+        Field (SEJ, DWordAcc, NoLock, WriteAsZeros)
-+        {
-+            B0EJ,   32
-+        }
-+
-+        OperationRegion (BNMR, SystemIO, 0x0CD4, 0x08)
-+        Field (BNMR, DWordAcc, NoLock, WriteAsZeros)
-+        {
-+            BNUM,   32,
-+            PIDX,   32
-+        }
-+
-+        Mutex (BLCK, 0x00)
-+        Method (PCEJ, 2, NotSerialized)
-+        {
-+            Acquire (BLCK, 0xFFFF)
-+            BNUM = Arg0
-+            B0EJ = (One << Arg1)
-+            Release (BLCK)
-+            Return (Zero)
-+        }
-+
-+        Method (AIDX, 2, NotSerialized)
-+        {
-+            Acquire (BLCK, 0xFFFF)
-+            BNUM = Arg0
-+            PIDX = (One << Arg1)
-+            Local0 = PIDX /* \_SB_.PCI0.PIDX */
-+            Release (BLCK)
-+            Return (Local0)
-+        }
-+
-+        Method (PDSM, 6, Serialized)
-+        {
-+            If ((Arg0 == ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
-+            {
-+                Local0 = AIDX (Arg4, Arg5)
-+                If ((Arg2 == Zero))
-+                {
-+                    If ((Arg1 == 0x02))
-+                    {
-+                        If (!((Local0 == Zero) | (Local0 == 0xFFFFFFFF)))
-+                        {
-+                            Return (Buffer (One)
-+                            {
-+                                 0x81                                             // .
-+                            })
-+                        }
-+                    }
-+
-+                    Return (Buffer (One)
-+                    {
-+                         0x00                                             // .
-+                    })
-+                }
-+                ElseIf ((Arg2 == 0x07))
-+                {
-+                    Local1 = Package (0x02)
-+                        {
-+                            Zero,
-+                            ""
-+                        }
-+                    Local1 [Zero] = Local0
-+                    Return (Local1)
-+                }
-+            }
-+        }
-+    }
-+
-...
+You should ignore roms with rom->mr non-NULL (which are rom blobs
+that have been set up to be loaded into a specific MR), and ones with
+fw_file non NULL (which are rom blobs that have been set up to be
+loaded into the fw_cfg device).
 
-     Scope (_GPE)
-     {
-         Name (_HID, "ACPI0006" /* GPE Block Device */)  // _HID: Hardware ID
-+        Method (_E01, 0, NotSerialized)  // _Exx: Edge-Triggered GPE, xx=0x00-0xFF
-+        {
-+            Acquire (\_SB.PCI0.BLCK, 0xFFFF)
-+            \_SB.PCI0.PCNT ()
-+            Release (\_SB.PCI0.BLCK)
-+        }
-...
+> +        if (rom->addr < base) {
+> +            continue;
+> +        }
+> +        if (rom->addr + rom->romsize > base + size) {
+> +            continue;
+> +        }
 
-+
-+        Device (PHPR)
-+        {
-+            Name (_HID, "PNP0A06" /* Generic Container Device */)  // _HID: Hardware ID
-+            Name (_UID, "PCI Hotplug resources")  // _UID: Unique ID
-+            Name (_STA, 0x0B)  // _STA: Status
-+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-+            {
-+                IO (Decode16,
-+                    0x0CC4,             // Range Minimum
-+                    0x0CC4,             // Range Maximum
-+                    0x01,               // Alignment
-+                    0x18,               // Length
-+                    )
-+            })
-+        }
-     }
-...
+This will incorrectly ignore ROM blobs that start below
+'base' but end partway through it, as well as blobs that
+start within the region but end after it.
 
-And if there is a port in configuration:
+> +        if (rom->addr + rom->romsize > lowest) {
+> +            lowest =3D rom->addr + rom->romsize;
+> +        }
+> +    }
 
-             Device (S10)
-             {
-                 Name (_ADR, 0x00020000)  // _ADR: Address
-+                Name (BSEL, Zero)
-+                Device (S00)
-+                {
-+                    Name (_SUN, Zero)  // _SUN: Slot User Number
-+                    Name (_ADR, Zero)  // _ADR: Address
-+                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
-+                    {
-+                        PCEJ (BSEL, _SUN)
-+                    }
-+
-+                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-+                    {
-+                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
-+                    }
-+                }
-+
-...
+There's a cute algorithm (suggested by a friend) which you could
+use to find the largest unoccupied chunk of (base, size) rather than
+merely looking for the unoccupied part at the top of it:
 
-+                Method (DVNT, 2, NotSerialized)
-+                {
-+                    If ((Arg0 & One))
-+                    {
-+                        Notify (S00, Arg1)
-+                    }
-...
+(1) iterate through the rom list, constructing a list of tuples
+(hwaddr addr, int count). For every relevant rom, add two entries
+to the tuple list: (rom->addr, 1) and (rom->addr + rom->romsize, -1)
+(2) Sort the tuple list by addr; break ties by sorting (x,1) before (x,-1)
+(3) Set gapstart to 0.
+(4) iterate through the sorted tuple list, keeping a running count
+(increment the count for each (x, 1) tuple, decrement for (x, -1) tuples).
+If the count goes from 0 to 1, you've just left an empty section of
+the range, and there was a gap from gapstart to x-1 (so if that's the
+largest gap you've seen so far, remember it). If the count goes from
+1 to 0, that's the beginning of a new gap, so set gapstart to x.
+(5) Return whatever is the largest gap we saw.
 
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h |  11 -----------
- tests/data/acpi/q35/DSDT                    | Bin 7859 -> 8289 bytes
- tests/data/acpi/q35/DSDT.acpihmat           | Bin 9184 -> 9614 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 7877 -> 11003 bytes
- tests/data/acpi/q35/DSDT.cphp               | Bin 8323 -> 8753 bytes
- tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9513 -> 9943 bytes
- tests/data/acpi/q35/DSDT.ipmibt             | Bin 7934 -> 8364 bytes
- tests/data/acpi/q35/DSDT.memhp              | Bin 9218 -> 9648 bytes
- tests/data/acpi/q35/DSDT.mmio64             | Bin 8990 -> 9419 bytes
- tests/data/acpi/q35/DSDT.nohpet             | Bin 7717 -> 8147 bytes
- tests/data/acpi/q35/DSDT.numamem            | Bin 7865 -> 8295 bytes
- tests/data/acpi/q35/DSDT.tis                | Bin 8465 -> 8894 bytes
- 12 files changed, 11 deletions(-)
+Exercises for the reader:
+ (a) locate any off-by-one errors in the above sketch
+ (b) account for the fact that gaps outside our (base,size)
+     are of no use to us and should be ignored, and gaps that
+     overlap with our range need to be clipped
+ (c) decide whether you think this is worth doing :-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index c5167f48af..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,12 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/DSDT.tis",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/DSDT.acpihmat",
--"tests/data/acpi/q35/DSDT.numamem",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.nohpet",
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index cccf92f0466fa4eaf2e9e06675b3b102c7a8eb86..842533f53e6db40935c3cdecd1d182edba6c17d4 100644
-GIT binary patch
-delta 466
-zcmdmN`_O^QCD<h-QGtPh@##jc-%Rxaeu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<G;GT)YD@@JX+P)68R#4_I1z>pzYIYyru7HSX=AqfOH`-McSBME?12>6O_{w~AM
-zs2<(q#S-8V5X2Gh;pxH~;1^)vXkf;`5g!WTIeRL2<d+oWl%`L9C@af$gy#qkqr_wu
-axlArUmKczQ0&Xmm%j9g?Mc6>LFaQ7^vWU|F
+> +    return lowest;
+> +}
+> +
+>  /*
+>   * Copies memory from registered ROMs to dest. Any memory that is contai=
+ned in
+>   * a ROM between addr and addr + size is copied. Note that this can invo=
+lve
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.=
+c
+> index 1c29146dcf..a276161181 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -44,6 +44,7 @@
+>  #else
+>  #include "exec/gdbstub.h"
+>  #include "qemu/cutils.h"
+> +#include "hw/loader.h"
+>  #ifdef TARGET_ARM
+>  #include "hw/arm/boot.h"
+>  #endif
+> @@ -144,33 +145,71 @@ typedef struct GuestFD {
+>  static GArray *guestfd_array;
+>
+>  #ifndef CONFIG_USER_ONLY
+> -#include "exec/address-spaces.h"
+> -/*
+> - * Find the base of a RAM region containing the specified address
+> +
+> +/**
+> + * common_semi_find_bases: find information about ram and heap base
+> + *
+> + * This function attempts to provide meaningful numbers for RAM and
+> + * HEAP base addresses. The rambase is simply the lowest addressable
+> + * RAM position. For the heapbase we scan though the address space and
+> + * return the first available address above any ROM regions created by
+> + * the loaders.
+> + *
+> + * Returns: a structure with the numbers we need.
+>   */
+> -static inline hwaddr
+> -common_semi_find_region_base(hwaddr addr)
+> +
+> +typedef struct LayoutInfo {
+> +    target_ulong rambase;
+> +    size_t ramsize;
+> +    target_ulong heapbase;
+> +    target_ulong heaplimit;
+> +    target_ulong stackbase;
+> +    target_ulong stacklimit;
 
-delta 57
-zcmaFpu-TT&CD<iovm65h<GYPqznM0xu-ukp6q(E@C(JD1D7ZOLj-PSz8u@fiH<p<A
-NV5fKiyUDT&wgCMJ5G4Qr
+You should work in 'hwaddr's at least while you're working with
+addresses from the memory subsystem; convert to target_ulong only
+at the end (and it would probably be a good idea to catch the
+improbable case of "turns out the RAM we found for the heap is
+beyond the range of a target_ulong"...)
 
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index b3c1dd6bc40210425ac37dba88a650b0ea60ce1c..8d00f2ea0dd78f962e136273d68cb0c568e43c27 100644
-GIT binary patch
-delta 465
-zcmaFh-sjEb66_Mvr^>*<xM(BSZ>D+yKS90tV5j&1XHSFZh5+Z_5Jv7JJX{>njRGK!
-zGf+HK0Z6zgL^lMxdc`wxpW)$RiEiWuah#nDT)lu2PJX^YjNDfs+CUs<C%;f%g#b^N
-z2!&`yCm&~T1`*W&XIC$#Xk`%Z|NnvvkcxuJdd5r!kRj3PAn_#(BHE5XO&H36sz8Pn
-zfQSUB+5{07wg8u4U%mxCtdlbYg}DSSn4f$aY+B_zQT&y!<Y8yu0+3lbxd{uDCucD%
-zker;!#k4?pQtjjfhRF#$|AByEiJ~AgW8)Ga!LU$#f#~EcF7^T;Rwf2shQxw|jzk8A
-zC5f9^nK|Tx{8{4N16(=cJv?1_9i0O_4Gav-7(^`NT@4HwqLpLxnPFiF@g9;ufU{pn
-zv^tUiNQHo}=w=lqenyVyCNGu%kAR@bfwCgpz+hJJ$S*0#DNUcur!32Mgy#qkqr_xG
-a<xDO=mKcx?0&Xmm7c1Mci?D%=WdHyz0)`?0
+> +} LayoutInfo;
+> +
+> +static bool find_ram_cb(Int128 start, Int128 len, const MemoryRegion *mr=
+,
+> +                        hwaddr offset_in_region, void *opaque)
+>  {
+> -    MemoryRegion *subregion;
+> +    LayoutInfo *info =3D (LayoutInfo *) opaque;
+> +
+> +    if (!mr->ram || mr->readonly) {
+> +        return false;
+> +    }
+> +
+> +    info->rambase =3D mr->addr;
+> +    info->ramsize =3D int128_get64(len);
+> +
+> +    return true;
 
-delta 71
-zcmeD4e&EjK66_N4K$(GoarH*7-%OiTSUBXxMdIB9Tsh)BJY9GlodY}#3=GT|1RMo7
-b*D3QePQIy<&gsSy6CdmpFJL#>OVt(t-l7wM
+This will pick the first MR it finds that happens to be RAM (which
+could be some tiny thing). You don't want that, you want specifically
+whatever the board decided was the system RAM, which is the MemoryRegion
+MachineState::ram.
 
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index eb5d27d95b2cdeda5f7e1f6b151cfea02e6bd907..55ad4bd7ab4759d68031b2f1d0307355a7332fe7 100644
-GIT binary patch
-delta 3198
-zcmb7{PjBNy7{<qr)4Gn+I*q$&cAGY+LX|*TvUJ;~5-Xb6L2YP^RW}I9E1aH4$|7<A
-zA*j%#J*>Ebzd(?3;ItCjk3cyfap1s>(;m2R;mDzf?)%1mvr$RXI0q}wJmcRyGxq%P
-zuaB<kis_igS8p&T{QI+VC34M5-S?cbXB!6vw__X5v5>e_71=%4P#92N&%?#cyB()e
-z^@POlsv^1P2^2=TP^p4ZwrWR0;?LkV6h_&q*Yfs(`BB~#%7@1LOn==rDpk>4M|FMO
-zZeor0*IZ~Zgt!}6-edZkCAjH-)u0x_+IVS%bsM@lW1CKGzIzz=o2j&-{ju}g-_F)I
-zweK_k)Uv-AwKlSzeAei$`=_j%^;?SAP5<z%-(Y@2y@ns_y_Sjz=RLTvA2Z!0|5TZ6
-zFUCcdWGC&$cPEVXPM*hOe`UoFB>%-q`jNitRSFN7yZ-pC7>!!cp`ilXu#Vl0p#rR-
-z)s~+Bx3VB?xEEE)-nWlrZ~wqd+Lm1?6}Fk|)lnG-`TftoXg~S#6aPgnH*=|8s=~4_
-zt)9+3dyMUAd(Zr@R^R2;PtJpaCwnFHNM%f9a@naIGWX&gr+~#y-2x(*OkeaW)q;Ry
-zk5$moGaihZ+QYGHwoX5#a`&PnIfY_yyFhGV6oQXul%*gUG^B_G5l2BLGr}B7j2N*Y
-z2A`rc5ajJ}EEI_#(hy`y1_g-|BhGXlWmF-^CIy)x$V}uQn-pYL_IU8zXCp%%QV^Mf
-z$k7=^kN00OWsV?oks(_YL?MO}fx#{J0)};qh9p6dL<C5{*rp&VG1S``e0bJCkZlT*
-zBuMgh$PLC01(_$t{8$DbIej6>4h2~t$ii62I7X3zXvENNGWg_m1cDSPNQxk-n~+->
-zyA))R7>gl;Pr0B$kX;IrCP+GRkP-#aLk4GhbO;4mq999=8RaktSMCtxPIL$b$q*wG
-zmBAf@hGdx_%TXbYK|!*_$WF=N{f(@@2ACA&E<x^22^nHgkbA_qH<`h2?ws(VRVc^`
-zK~^S1MlmQzju^R-3_f-Xham4!kX3@Lj)Y8PP>?lZtPL|bof*dM;kuPGKeUd;ZsM#d
-zu%~z`X?4}JrXr#!hC%`X$C$v8QIMm7fZaQA@+ipJ1F^};>Yzd^dDcuYYzcO_P+?OK
-z2OhQsn@;FqW3YRK3R{DHAXL~KEa;)a_F!oa6}AU!EN^ue&YE!Y5*QS~f=OEJYrHw|
-zCDgEvk(T@Vm9L?O<%RrwU%&GAP{XVzzth)6J}Bt-873oDfV1FJoLB>m{f0R*(AaZx
-z$j83Jt2^-XsE7PL(C|hL{0?dyR(%c6xvb6bAde3lzZ8V<kEz6T_<jKY<NNrC@$XB%
-CMohN=
+mr->addr is also not the address of the MR in the flatview, it's
+the address of the MR in its container, which might not start at the
+base of the address space.
 
-delta 73
-zcmewzdeoN7CD<k8s2l?WWBW#~-%OiTSZ+%)icDsd6J{206x<vr$Im!<jeG_tYfOBw
-dQ@nr!>ttC4dw%|4LxXsZct@8Y9tH*`1^^Ot5>o&G
+In this case what we want is the address within the flatrange
+of the first visible bit of that MR, which is just 'start'.
 
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index e55d12990c98d8eed760b858ce18a036b612da1c..ccde2add9f87db0c0eaf0cc155717d5744e4ef40 100644
-GIT binary patch
-delta 466
-zcmZp6+~~sP66_LUsKmg)=(&;WH&eZUpP*iRuv2`1v!_9HLx6K|2qX6q9xjgPMgb7V
-z87LmA03=)#q8ox;z2X_U&+u@uL^pDSIL=N6u3kV1CqLgHM(!&RZ6J=blV7N>LV%}B
-zghDi<laI4EgNSN?v#S?Vv@(eI|9?RSNJT+qJ!2*V$dG7tkoXb?5p74HCJbdjRUpF(
-zKtuvmZGwmkTYyWjFW&+m*2x)y!dwCu%uhZIHm&lVDE`V<^02dS0m!VJ+=K<nld~8W
-zNKVe=Vp<?PsdjP#!{h{>|3JX7L{X5Lv2h8IU|1-=Ky-2z7khyaD-#1RLt;TfM<N5m
-zlElrd%&VoD{8=V%loPfUv5a>$Fl2~Uj?rg^g&M>|NCE-Qej(B7NCF@g0=}Y~kIV5h
-zsz*0@u>^Po1aZWBc)IWg_yrg^8kjL~#D{`-&YlV$`6UH8rRkG5%FD7H;W@&?C^7kp
-Zd?uG4OAN?D0XLS(ZVI;SB5WXA7y#g;hnxTa
+> +}
+> +
+> +static LayoutInfo common_semi_find_bases(CPUState *cs)
+> +{
+> +    FlatView *fv;
+> +    LayoutInfo info =3D { 0, 0, 0, 0, 0, 0 };
+> +
+> +    RCU_READ_LOCK_GUARD();
+> +
+> +    fv =3D address_space_to_flatview(cs->as);
+> +    flatview_for_each_range(fv, find_ram_cb, &info);
+>
+>      /*
+> -     * Find the chunk of R/W memory containing the address.  This is
+> -     * used for the SYS_HEAPINFO semihosting call, which should
+> -     * probably be using information from the loaded application.
+> +     * If we have found the RAM lets iterate through the ROM blobs to
+> +     * workout the best place for the remainder of RAM and split it
+> +     * equally between stack and heap.
+>       */
+> -    QTAILQ_FOREACH(subregion, &get_system_memory()->subregions,
+> -                   subregions_link) {
+> -        if (subregion->ram && !subregion->readonly) {
+> -            Int128 top128 =3D int128_add(int128_make64(subregion->addr),
+> -                                       subregion->size);
+> -            Int128 addr128 =3D int128_make64(addr);
+> -            if (subregion->addr <=3D addr && int128_lt(addr128, top128))=
+ {
+> -                return subregion->addr;
+> -            }
+> -        }
+> +    if (info.rambase && info.ramsize) {
+> +        hwaddr limit =3D info.rambase + info.ramsize;
+> +        size_t space;
+> +        info.heapbase =3D rom_find_highest_addr(info.rambase, info.ramsi=
+ze);
+> +        space =3D QEMU_ALIGN_DOWN((limit - info.heapbase) / 2, TARGET_PA=
+GE_SIZE);
+> +        info.heaplimit =3D info.heapbase + space;
+> +        info.stackbase =3D info.rambase + info.ramsize;
+> +        info.stacklimit =3D info.stackbase - space;
 
-delta 57
-zcmdn!((K6P66_MvtiZs)7_^b=H`8VnmetaXB9kx53o{Ei3T{?Z;Afm%qnOU=#u5`B
-N>=Z9xH~FoiEdbPr5E}ph
+I don't think we need to divide the memory into separate stack
+and heap like this -- guests can probably handle the heaplimit
+being the same as the stackbase and the stacklimit being the
+same as the heapbase, which is what we've been giving them so far.
 
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index 95901f94c0d445919cb84dd1f6d98c646ae8176e..b062e30117f955c7a2ac9629a0512324bbd28bf2 100644
-GIT binary patch
-delta 500
-zcmZ4Kb={ZCCD<k8x*7umqwz+r-%Rxaeu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<G;GTSPoIkUyP2e@*?dw9C=Iywh<8W<RuF^E{kyBZiWL@USWGsD6V;yomR0B66D
-zXmun3kO~oDpiUEpwis~O`-Qm#aWx3|if+zT=4VuoZt`LY@CXQk*cRXyVBiR}j3Yi2
-zXg4q>6g=`v3UW%*Cx@%ZvK`?$!ow&rxk@FI%a0`n<Ol&bmdS5aY}rNFKsGY~09jj*
-AH2?qr
+>      }
+> -    return 0;
+> +
+> +    return info;
 
-delta 75
-zcmccayV8rxCD<iIQ<Z^%QFbHOZ>G&EEVc?F8u9J{t{m|mo-VwO&H<hV1_ovflQ*b{
-fGC2xvKCZ&gI9W+8ozsmaCO+6HUchehWHnm=`KA-;
+This will recalculate it for every call, but I don't suppose the
+guest is going to call it more than once so that's fine.
 
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index ce07e9f152def6a22ab29b3bde98b7d1f15a0522..1c5737692f56fc678e685a4ad0bb1df38d487a14 100644
-GIT binary patch
-delta 480
-zcmZWlF;Buk7`=lEq!cYuqYRQ7Vi+`92Q>~3^jZa^<w7AbIg*x1AQ(I7povkOT=o7y
-zO&DE_zre_1;^5%s?Bb6Q?}8>I-tdz5?tSm&`@XmD^P=GxwR;r+n0^p<!WXigTyY)U
-z#i*!}ON^Wvj1MF+MtU+Qi0O5efuWL1$1J%p{wj$A>BTugx@MNxhi+R{7=Is)ae{Qa
-zZmGCv?5hOoWwZyBMU2c+h-5h%4*eE)_@@`J4R{F2alH?er92z@XJalN=5z3Vy`Ex3
-zu;EyfL3x6<k||Ms+kE+S*3Yb)*)J>oj4YpLbq~EDOFJM))3z82Qn%;S1Jsj-?1BD5
-zG7Nit2H<Wsn4ujp>Q7IEKms&<@45*<zxjy6AL(jEaCfm8a|=Zykw>_wY1#%*wp>$N
-z10>s64gcM6wBDG2kzFIXF@ZZ|Yvxg(pMp7ZRT6LkS4YX%##){Q$J{#WVOLiRN5_8m
-i<bW<`<|6}XAi+6W$+SgVXz)ULN1#uc?WhvrE#L<Umx=`d
+>  }
+> +
+>  #endif
+>
+>  #ifdef TARGET_ARM
+> @@ -204,28 +243,6 @@ common_semi_sys_exit_extended(CPUState *cs, int nr)
+>      return (nr =3D=3D TARGET_SYS_EXIT_EXTENDED || is_a64(cs->env_ptr));
+>  }
+>
+> -#ifndef CONFIG_USER_ONLY
+> -#include "hw/arm/boot.h"
+> -static inline target_ulong
+> -common_semi_rambase(CPUState *cs)
+> -{
+> -    CPUArchState *env =3D cs->env_ptr;
+> -    const struct arm_boot_info *info =3D env->boot_info;
+> -    target_ulong sp;
+> -
+> -    if (info) {
+> -        return info->loader_start;
+> -    }
+> -
+> -    if (is_a64(env)) {
+> -        sp =3D env->xregs[31];
+> -    } else {
+> -        sp =3D env->regs[13];
+> -    }
+> -    return common_semi_find_region_base(sp);
+> -}
+> -#endif
+> -
+>  #endif /* TARGET_ARM */
+>
+>  #ifdef TARGET_RISCV
+> @@ -251,17 +268,6 @@ common_semi_sys_exit_extended(CPUState *cs, int nr)
+>      return (nr =3D=3D TARGET_SYS_EXIT_EXTENDED || sizeof(target_ulong) =
+=3D=3D 8);
+>  }
+>
+> -#ifndef CONFIG_USER_ONLY
+> -
+> -static inline target_ulong
+> -common_semi_rambase(CPUState *cs)
+> -{
+> -    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> -    CPURISCVState *env =3D &cpu->env;
+> -    return common_semi_find_region_base(env->gpr[xSP]);
+> -}
+> -#endif
+> -
+>  #endif
+>
+>  /*
+> @@ -1165,12 +1171,12 @@ target_ulong do_common_semihosting(CPUState *cs)
+>      case TARGET_SYS_HEAPINFO:
+>          {
+>              target_ulong retvals[4];
+> -            target_ulong limit;
+>              int i;
+>  #ifdef CONFIG_USER_ONLY
+>              TaskState *ts =3D cs->opaque;
+> +            target_ulong limit;
+>  #else
+> -            target_ulong rambase =3D common_semi_rambase(cs);
+> +            LayoutInfo info =3D common_semi_find_bases(cs);
+>  #endif
+>
+>              GET_ARG(0);
+> @@ -1201,12 +1207,15 @@ target_ulong do_common_semihosting(CPUState *cs)
+>              retvals[2] =3D ts->stack_base;
+>              retvals[3] =3D 0; /* Stack limit.  */
+>  #else
+> -            limit =3D current_machine->ram_size;
+> -            /* TODO: Make this use the limit of the loaded application. =
+ */
+> -            retvals[0] =3D rambase + limit / 2;
+> -            retvals[1] =3D rambase + limit;
+> -            retvals[2] =3D rambase + limit; /* Stack base */
+> -            retvals[3] =3D rambase; /* Stack limit.  */
+> +            /*
+> +             * Reporting 0 indicates we couldn't calculate the real
+> +             * values which should force most software to fall back to
+> +             * using information it has.
+> +             */
 
-delta 71
-zcmZ4E_|KNhCD<k8pBw`NqtZq$H|EXxEVm`aMdIB9Tsh)BJY9GlodY}#3=GT|1RMo7
-b&ynM2ocvurozsmaCO+6HUchd0hJq~s<(w1f
+AIUI this is true for the specific case of "zero heapbase" but
+probably not for zero anything else. (That bit of Arm compiler
+docs that had a note not in the semihosting spec is apparently
+accidentally over-optimistic about what the Arm compiler libc
+implementation can handle.) Still, if we have no idea I guess
+returning all-zeroes is the best we can do.
 
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 7acf6243f08cd906aa8a02d3acf1d720b36385ea..7b6f6487b229cac3424a5215c8f1755c0c85310c 100644
-GIT binary patch
-delta 480
-zcmZqj*x=3O66_MPL6w1l@%l!t-%Rxaeu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<G;GHb~P`Lo2k2e@*?dw9C=Iywh<8W<RuF^E{kyBZiWL@USWGsD6V;yomR0B66D
-zXmun3kO~1`(amm3{EX_+O<pVk9sxlRlLPz$3><+5bHs-N?E!|mf=7NyK~8D<WCLYc
-jwj(@8co-!n2P<cC`LV=+EEI5KnS4~)mR*DmWD5fTV<d`8
+> +            retvals[0] =3D info.heapbase; /* Heap Base */
+> +            retvals[1] =3D info.heaplimit; /* Heap Limit */
+> +            retvals[2] =3D info.stackbase; /* Stack base */
+> +            retvals[3] =3D info.stacklimit; /* Stack limit.  */
+>  #endif
 
-delta 71
-zcmdns-Q>aL66_Mfq{6_!cz+|;Z>G&EEL!s7BJu74t{m|mo-VwO&H<hV1_ovf0*->4
-b7bx>HPX4Wu&gsSy6CdmpFJL!0N7WVpu^|&B
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index 77d46369e48efca9a9e5024542c77cd26144beff..2e0a772a85275c9c3b4c9317d98cc7c3d27417f3 100644
-GIT binary patch
-delta 479
-zcmZWl%}T>S7~Ji@Y1C9x)PoXRr3XPH_=Db>O|+>dU78kztt36!iee6WP!L;BUUlyh
-zp)Vjlg1v}>9()BazJiCkOBDq7Ffg<8&G3D<8_%YoJ9_1L1^`I!g|E<sWT)m`M{_YU
-zRno%9sla4c6cVH@ae|m$RT$_BX*ovGg~=CDh>&)Y6Qrp|k$q^kRffs;{un1nv#XYZ
-zO?^ipP}@dZK%T|OD27OuvtG|{aEE_-0h@q_kQ~=LK%UF9p?@~!;$c1q@5k%OdJOB1
-zH56<|X(Kf%NN=l8AI|cbbv^cJO*|sY=UE4bUXZ2xAef*{Ary?>oKp`_PwcS=I@75z
-zY<C!dyRjfm_l3AW5)FYtQ1`v7Isl#eLo~cJRW3!`O>89Gf~gPY5jIs-T><i%Yp9EW
-zWNQoI-y8PV`y*gvS4i%Uz#Wp6e!$biFh?$n5nRCKeloVPnrFcYx5|3h)s@20v43!~
-hN7plxv98z^;W*vRGzUu28ZVSK>1(DGmt(vHd;|L@ije>S
-
-delta 71
-zcmX@@InRyDCD<iIPMLv$amq%n-%OiTSWM)^MdIB9Tsh)BJY9GlodY}#3=GT|1RMo7
-buTtV?oXo0{&gsD#6CdmpFW@k_RK*_vr*sly
-
-diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
-index 0b10128e42af0c7b65e010963085bbf690a64065..ceb61f4115c2ccf4bcbb0d529551236933ecee15 100644
-GIT binary patch
-delta 504
-zcmZ2#bJ?EDCD<k8vOEI=<NA$UxlHu}eu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<GiGu@U9@@I*64{+s(_waP#b#xB!G%zqQV-T^7cQr6%h*pl#XNH9##Cu2r0nUCQ
-z(dtM7AQb|>qMI{i_!+&To4i;8JOY9sCI|Qh7&rnA=7<jk+5-%A1&{oaf}GNHg`(8r
-z{L-T2)MB7qaEK!pH%Gj4P_Q5`7neKZ5uPJFj1rT}WHY(^SYkj95pZLf{6f~2U4#u}
-GI|BgciIJ56
-
-delta 71
-zcmca?zto1yCD<iIRgQsyar;KDT&B&_m~Tspi^RJJxN^jMc)IX9ItO?f7#Nr_2sjFE
-bJ}k@6I9X0UozsmaCO+6HUchd0zq~B~$tDvn
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index e4c4582e7f76b072ab1123c748b89ea33ea1db87..a3f846df541a70ce0730d0351954b78818bbcdd0 100644
-GIT binary patch
-delta 480
-zcmdmK``m%cCD<h-U4emtv411iZ>D+yKS90tV5j&1XHSFZh5+Z_5Jv7JJX{>njRGK!
-zGf+HK0Z6zgL^lMxdc`wxpW)$RiEiWuah#nDT)lu2PJX^YjNDfs+CUs<C%;f%g#b^N
-z2!&`yCm&~T1`*W&XIC$#Xk`%Z|NnvvkcxuJdd5r!kRj3PAn_#(BHE5XO&H36sz8Pn
-zfQSUB+5{07wg8u4U%mxCtdlbYg}DSSn4f$aY+B_zQT&y!<Y8yu0+3lbxd{uDCucD%
-zker;!#k4?pQtjjfhRF#$|AByEiJ~AgW8)Ga!LU$#f#~EcF7^T;Rwf2shQxw|jzk8A
-zC5f9^nIB39`Lo2k2e@*?dw9C=Iywh<8W<RuF^E{kyBZiWL@USWGsD6V;yomR0B66D
-zXmun3kO~1`(anEl_!-rso4i;8JOY9sCI|Qh7&rnA=7<jk+5-%A1&{oaf}GOy$<JkF
-j*^clW;bD}R%q5q}<;M~OvQWT{Wpa(2ExQOC$QA|wu$qg6
-
-delta 71
-zcmaFvu+x^yCD<ioryK(V<BW}5znM0xusoC$7m0TdaOH^i@O0sIbPn(|FfcG<5O5US
-b94^PtIC+zNI;R^;Onk6Yynx+gWd&OR`Gym&
-
-diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
-index 15a26a14e4be5280c0f1cc09f66428311100b7ab..d1433e3c14570bbd17b029a9aec6bc53134c3b7d 100644
-GIT binary patch
-delta 469
-zcmbQ}w9l2xCD<iopArKD<JpZ|znSU<`~>ylgPr07oIMSq8v>kzLm0V_@NjWNHwu6_
-z&Oq@{1t8&~5Zw^$>J`t(eTIjNCAyIt#Bp{qaP<O8IQjVoF>+slXajMao%}+56#_h6
-zA{3$-oqU|V8AMbAoL#+`qLo3s|NjdzKq?9<>lrf{K!!xCgT$9Gh-f<kHDM?Nssb5S
-z03s5gY7<0U*aBRFefbvnuujep6y_4RV1DvxuxXX=MDbU?l82pr3qWS&<R&aoo}9(7
-zKyq>>7t;daNwt#`7$zt1{09PtC5nQ~jEzfx1j9n{1)`I)xY!GXSeY1j84?Q;IuaQe
-zmLzUwWxg%R<j*qsp^UJth-JL1fgwY*a*RGREYu(#LJ|mY_6vztM-l+35bzY+{9Q(x
-zQ9ZiJizUD#Ac!O0!_$Q~z%RhS(ZGy>BR&+wbM{p5$S*0#DNUdJR#ukn2+t87Mv2J+
-da+#d|nlT^?1>7e$$=R`quz@Vuyk9Pe2>{`!ixL0;
-
-delta 62
-zcmdnzI?;*CCD<iIP?3RwasNiH-%OiTSZ+%)icDsd6J{3h72F&sC(Sr{hkQDxhh|KC
-Suv5H%!(<HwyUn=@flL4**AWN+
-
--- 
-2.30.2
-
+-- PMM
 
