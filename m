@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7063AB071
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:55:58 +0200 (CEST)
-Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42A33AB09F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:58:33 +0200 (CEST)
+Received: from localhost ([::1]:33920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltokf-00040n-QD
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:55:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55356)
+	id 1ltonA-0000ps-Mh
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNZ-00035S-7R
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:05 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46592)
+ id 1ltoNa-0003AL-Qf
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:07 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:37400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNX-0006M8-GR
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:04 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id he7so8673147ejc.13
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:03 -0700 (PDT)
+ id 1ltoNY-0006Nr-S7
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:06 -0400
+Received: by mail-ed1-x530.google.com with SMTP id b11so3068346edy.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1Ui8G8tZLwk/rGM64JxEVMBWydF4cB84aHXFqaciPiU=;
- b=oo1klPfoD7IxWrq8Ag8HxYqUWbCHOYJQt4R4cXGHo3fUYbuNW8CvHRr0RWOyBxtL+g
- 0Nd2kmesSIBiHMbPh5PkdiWYDd36GVj1wx4abfHgrv64B/mZBrHeux1iY6SNbi03ecP9
- 1+iz7kzG+60U5c3T+cSnf10OMWB4wsK9XMRyekFb/rw0QZ4igIVcktAs7tAcfI2MMTm0
- o8FWBfu3ETiOTQKO6YZn4/8CO7cUz50kejLaVNwe1dp/94uOGmmq974GbqRGQUj4YOCL
- PWYkHRuY3nroNaGn2DZqY8/4VzE5A6+owL4sQ6BZGWo5mQCzIJl19ZsDma3x14uco3I1
- hV1A==
+ bh=gjriBpMgI0q1a3xgarAd+lYGNkwH88TJaY1pIobYkWM=;
+ b=p+ZYzkJ8hnrgYk5Zx6Ki+jpROUbXdkEnteGU23Y3QTyjOc51nXwmKQFmUbqc5sSli6
+ c9kdJx6vsF6BQRe4JxJIGS0RP3uNjTH8KXMJYjYKib2jySgrjf8FEzzR9R9UuD2LYsxF
+ x1HXvrZb7TymzGDnbqkBbYils5R/nfSJ4W/zEa8lUXGydHdMIXFTjFpxdfxbW8IMnk1i
+ 4ufhS9zPGmaz5fCfOeh1BvJINV3Erxp9J2JMV/VbfoLwKNTx+eB4vMR32mDIkby9zKTc
+ HJRDLJYNskSImrRbMEu+JcQXf71dSIZqDJLIurKe6c11LqyvzuzHBE6t3Ls4g9lgGIaw
+ bMKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1Ui8G8tZLwk/rGM64JxEVMBWydF4cB84aHXFqaciPiU=;
- b=LCSvh9CcAqYfrLP/KwgcKxy8Izc+pHwRs2Dj36v8NwOYx2HQhkZ4yTKslqeSMyShcn
- yHgK43QaZzlBeWjq87Eu/L6EnRUxs61j58WbUxg56+KWwFHt1l2RvT/RUSV0gEjonQ6k
- DWPxu4UpYyTY+ddVUjpnxsYZ3TIhZLhiwgwp3BRZltPnsFT2qWLZForpvlmvSUqOMXdA
- 1LvuSJUK2TgwXbKYtL/CaVvcYrBQVxMfXjXZRcZ3iYAXbfSZKP7BHLdDqAcKyTxHdy0J
- O6zPkL42Ak+pdwh9A+VzeCPfje+yHGj8vTbsFvVzUvIiUFpx2DfQ66qCU9Gg7I2kGs+n
- RAow==
-X-Gm-Message-State: AOAM531hkW4reuek68X7+BWq5VkHpcmoGjf5pMZgc1DiaKJLvxUTTBMS
- IPkoX/ViE/xFV8BdgslVjC94otZfTqg=
-X-Google-Smtp-Source: ABdhPJzo6V3bxQqkaf8Dr8ESHuCwTT7Jbu0RUjW47rmXsuvW8kR0rZDbdOrRfY8a0j6UKAg/c77GhQ==
-X-Received: by 2002:a17:907:1b02:: with SMTP id
- mp2mr4205925ejc.196.1623922322244; 
- Thu, 17 Jun 2021 02:32:02 -0700 (PDT)
+ bh=gjriBpMgI0q1a3xgarAd+lYGNkwH88TJaY1pIobYkWM=;
+ b=F11EjkezlUjnqPWZUvazz5CyQIqDRyI61pScwiB6AGSAfAxq65S0+EQQYXLYNYTqlm
+ CNMTFbeAXkYZ4WLU2vdneeIqZa2rjr+BeZOsy950sddETybHbLWQLazJdu42fzF93bg6
+ 62M8tIvnL06U0ykhesMcbpYawhFjgtGEpqYsygVt15D+UzsSiHoiKqUE3+6ZoXdKs+mf
+ iML5SJ27OKtNZUJlU7vI2qHtR+jANx0DqJXJmzSjpi1m5TdSMgIWWJkLRzPrHLQBZFm9
+ U15zu3cvpMvAPHMH36dW9E5JWT3MZyo6Bq0mU5C/E6uNouQV+LIIBTX/21Tu2TOMIM4J
+ 5MlA==
+X-Gm-Message-State: AOAM532Wme00Xft8U3SubE082MY7zfY4Jo1eMUZ6kb78hrMaWQIUiWok
+ HbNTCDTD+BTOOrqsKOtNkgMlgNG7p/U=
+X-Google-Smtp-Source: ABdhPJzlDGzFadndfMQRN0GwYJrn3ZoGDbK0HLhLI8fqjSYRhFG1L0Kj8HKTYZdJ6bUpN+Qs7vP5iw==
+X-Received: by 2002:aa7:cc19:: with SMTP id q25mr5235184edt.56.1623922323547; 
+ Thu, 17 Jun 2021 02:32:03 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.01
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:32:01 -0700 (PDT)
+ Thu, 17 Jun 2021 02:32:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/45] target/i386: Added consistency checks for CR0
-Date: Thu, 17 Jun 2021 11:31:25 +0200
-Message-Id: <20210617093134.900014-37-pbonzini@redhat.com>
+Subject: [PULL 38/45] configure: Use -std=gnu11
+Date: Thu, 17 Jun 2021 11:31:27 +0200
+Message-Id: <20210617093134.900014-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,85 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lara Lazier <laramglazier@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lara Lazier <laramglazier@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The combination of unset CD and set NW bit in CR0 is illegal.
-CR0[63:32] are also reserved and need to be zero.
-(AMD64 Architecture Programmer's Manual, V2, 15.5)
+Now that the minimum gcc version is 7.5, we can use C11.
+This will allow lots of cleanups to the code, currently
+hidden behind macros in include/qemu/compiler.h.
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
-Message-Id: <20210616123907.17765-4-laramglazier@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210614233143.1221879-2-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h                   |  2 ++
- target/i386/svm.h                   |  2 ++
- target/i386/tcg/sysemu/svm_helper.c | 12 +++++++++---
- 3 files changed, 13 insertions(+), 3 deletions(-)
+ configure   | 4 ++--
+ meson.build | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 64b4e46731..1e11071d81 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -224,6 +224,8 @@ typedef enum X86Seg {
- #define CR0_NE_MASK  (1U << 5)
- #define CR0_WP_MASK  (1U << 16)
- #define CR0_AM_MASK  (1U << 18)
-+#define CR0_NW_MASK  (1U << 29)
-+#define CR0_CD_MASK  (1U << 30)
- #define CR0_PG_MASK  (1U << 31)
+diff --git a/configure b/configure
+index 4478f3889a..ebc016111a 100755
+--- a/configure
++++ b/configure
+@@ -159,7 +159,7 @@ update_cxxflags() {
+     # options which some versions of GCC's C++ compiler complain about
+     # because they only make sense for C programs.
+     QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
+-    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu99/-std=gnu++11/)
++    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
+     for arg in $QEMU_CFLAGS; do
+         case $arg in
+             -Wstrict-prototypes|-Wmissing-prototypes|-Wnested-externs|\
+@@ -538,7 +538,7 @@ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
  
- #define CR4_VME_MASK  (1U << 0)
-diff --git a/target/i386/svm.h b/target/i386/svm.h
-index 87965e5bc2..5098733053 100644
---- a/target/i386/svm.h
-+++ b/target/i386/svm.h
-@@ -135,6 +135,8 @@
- #define SVM_NPTEXIT_GPA     (1ULL << 32)
- #define SVM_NPTEXIT_GPT     (1ULL << 33)
+ # Flags that are needed during configure but later taken care of by Meson
+-CONFIGURE_CFLAGS="-std=gnu99 -Wall"
++CONFIGURE_CFLAGS="-std=gnu11 -Wall"
+ CONFIGURE_LDFLAGS=
  
-+#define SVM_CR0_RESERVED_MASK 0xffffffff00000000U
-+
- struct QEMU_PACKED vmcb_control_area {
- 	uint16_t intercept_cr_read;
- 	uint16_t intercept_cr_write;
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 902bf03fc3..1c2dbc1862 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -73,6 +73,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     uint32_t event_inj;
-     uint32_t int_ctl;
-     uint32_t asid;
-+    uint64_t new_cr0;
  
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMRUN, 0, GETPC());
+diff --git a/meson.build b/meson.build
+index a2311eda6e..d8a92666fb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('qemu', ['c'], meson_version: '>=0.55.0',
+-        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto'] +
++        default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto'] +
+                          (meson.version().version_compare('>=0.56.0') ? [ 'b_staticpic=false' ] : []),
+         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
  
-@@ -192,13 +193,18 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     env->idt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-                                                       save.idtr.limit));
- 
-+    new_cr0 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr0));
-+    if (new_cr0 & SVM_CR0_RESERVED_MASK) {
-+        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-+    }
-+    if ((new_cr0 & CR0_NW_MASK) && !(new_cr0 & CR0_CD_MASK)) {
-+        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-+    }
-     /* clear exit_info_2 so we behave like the real hardware */
-     x86_stq_phys(cs,
-              env->vm_vmcb + offsetof(struct vmcb, control.exit_info_2), 0);
- 
--    cpu_x86_update_cr0(env, x86_ldq_phys(cs,
--                                     env->vm_vmcb + offsetof(struct vmcb,
--                                                             save.cr0)));
-+    cpu_x86_update_cr0(env, new_cr0);
-     cpu_x86_update_cr4(env, x86_ldq_phys(cs,
-                                      env->vm_vmcb + offsetof(struct vmcb,
-                                                              save.cr4)));
 -- 
 2.31.1
 
