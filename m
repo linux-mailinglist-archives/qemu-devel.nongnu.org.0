@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74513AB4BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:27:40 +0200 (CEST)
-Received: from localhost ([::1]:49732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7267D3AB4C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:28:36 +0200 (CEST)
+Received: from localhost ([::1]:52822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lts3X-0007ee-PG
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46332)
+	id 1lts4R-0001GW-G8
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:28:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1ltrtE-0000v8-PW
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:17:01 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:43539)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1ltrx3-0002Do-Do; Thu, 17 Jun 2021 09:20:57 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:40884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1ltrtB-0003QG-Fe
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:16:59 -0400
-Received: by mail-oi1-x233.google.com with SMTP id x196so6467574oif.10
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 06:16:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=W4ZkfnqqgvhS0STzsmNLB87GQVr7XiFKXVFWaHU3DT0=;
- b=ds9i79r7QG3vfnvxs64KoFESC74c14IUdOqo9/ujnJ0lKvfZhbMqylWUCXoATFffMB
- KOoFPb3Ej6h9DbqOYKXksnAwVwKvYRM5NO2IXeEWtIO2mvzRS03uK/SdwutQnWW6zzXO
- Qun1w8R/0VrviRxwACdQhj1YuybQCFHuquVW+pZDiM5ex1vxuny7MnAvk1X0QI2wCcSk
- RfyMSv5Jc+E3+UoQJZ+ttMJjVZpoloUq15dUlIfepAIAXHb1tsDjyl3ebbjdLav2mJh+
- TNBHT1WkJptCrd+mYz5NMb0yePXxag+evrqBW1BVs+BkFdOVqFe+7qGwSJJe/rSUt+BT
- JgDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=W4ZkfnqqgvhS0STzsmNLB87GQVr7XiFKXVFWaHU3DT0=;
- b=GhbSf3xwSAwzCtMbuWwGk9hx/0GdrG5l1nuwmV1fTYGwMxCaWFJunMGVjhAY8Sbp/2
- DYe3/BMTkFaIdBtQzXYZMVM1fampB5c8IWR38nNaPdhUKkmK8Ua3Ve+B1hFHZuFB69Bb
- TnhAHC//NElQOk3eFoeKw3lsWzbZOYjJrq0Zjv4WSxWHnGaj0G/F6pBejFvkop2EO2rs
- bnDh4VloEfQsV2VZ8npflWx+r4+4GQ+ZMvpSOswwHCJ9VUUzFB2g/InUo1W16AQmKBB3
- SC5xuO1lO6uxuKgvn+45dNYJSMo8xYSG5etgkDvpucvwS+u49Ep9vqlD6ZJjfFLkZVhD
- HSsQ==
-X-Gm-Message-State: AOAM530RC3h77ttN/86wyjCHay22hoc5WZVl/C1Dh3exzAQ9RW/5YjiB
- pkl9yeGJnEhqPYZL/TJrpA==
-X-Google-Smtp-Source: ABdhPJzXREnwgq9z8yyzxCuNScb6oP2XYVXoXgEMvn+DL/QjKRBkeF2XNeHLNKd/T3Ped8MzHU+LoQ==
-X-Received: by 2002:a54:4503:: with SMTP id l3mr1818527oil.156.1623935815027; 
- Thu, 17 Jun 2021 06:16:55 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id r2sm1248021otd.54.2021.06.17.06.16.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 06:16:54 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:ede8:ade8:da1:e1cc])
- by serve.minyard.net (Postfix) with ESMTPSA id 47F8C180293;
- Thu, 17 Jun 2021 13:16:53 +0000 (UTC)
-Date: Thu, 17 Jun 2021 08:16:52 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 00/15] hw/i2c: Remove confusing i2c_send_recv() API
-Message-ID: <20210617131652.GH2921206@minyard.net>
-References: <20210617115334.2761573-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1ltrx1-00052z-EO; Thu, 17 Jun 2021 09:20:57 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CC0492199A;
+ Thu, 17 Jun 2021 13:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623936051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=swt/vOb8X1lEgIpDRd7npyQSYrM83IMTWLg9ngnHqQQ=;
+ b=UcdME7Xu4AjzfytxYbS1fOi/9HGShdaD7weGuUKYE/oLdhqqBGWri1g2MwsoQrGJ9mTfs1
+ rj2VKOhEGJEhggeEVYD2ElinvYCNPVWsMzgvxpJJaDsqWdOOELhOQkiwbj++hAxH6mU389
+ YSGzRUR1oITSR0iK8wqyJ2m4ddtpPTU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623936051;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=swt/vOb8X1lEgIpDRd7npyQSYrM83IMTWLg9ngnHqQQ=;
+ b=e4+NfbbLSXHy69UNzmfiNfYTuaefgCiCmMNPRgv7Re7KNgFV6yfBEplahOxg0Wwma2zX0U
+ wQ+ci+r4HfYIxuCw==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 9ACC3118DD;
+ Thu, 17 Jun 2021 13:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623936051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=swt/vOb8X1lEgIpDRd7npyQSYrM83IMTWLg9ngnHqQQ=;
+ b=UcdME7Xu4AjzfytxYbS1fOi/9HGShdaD7weGuUKYE/oLdhqqBGWri1g2MwsoQrGJ9mTfs1
+ rj2VKOhEGJEhggeEVYD2ElinvYCNPVWsMzgvxpJJaDsqWdOOELhOQkiwbj++hAxH6mU389
+ YSGzRUR1oITSR0iK8wqyJ2m4ddtpPTU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623936051;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=swt/vOb8X1lEgIpDRd7npyQSYrM83IMTWLg9ngnHqQQ=;
+ b=e4+NfbbLSXHy69UNzmfiNfYTuaefgCiCmMNPRgv7Re7KNgFV6yfBEplahOxg0Wwma2zX0U
+ wQ+ci+r4HfYIxuCw==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id i2E7JDNMy2DCQAAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Thu, 17 Jun 2021 13:20:51 +0000
+Subject: Re: [PATCH v3 35/44] target/arm: Implmement MVE VRSHL
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210617121628.20116-1-peter.maydell@linaro.org>
+ <20210617121628.20116-36-peter.maydell@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <54fdcf6b-2498-feaa-f977-f86c567c8dd1@suse.de>
+Date: Thu, 17 Jun 2021 15:20:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20210617121628.20116-36-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210617115334.2761573-1-f4bug@amsat.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=tcminyard@gmail.com; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.254,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,81 +100,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 01:53:19PM +0200, Philippe Mathieu-Daudé wrote:
-> Full series reviewed, all comments addressed.
-> 
-> Corey, could you take this via your tree?
+Hi, typo in the Subject: "Implmement MVE VRSHL"
 
-Ok.  I'll do some testing then request a pull.
+Claudio
 
--corey
+On 6/17/21 2:16 PM, Peter Maydell wrote:
+> Implement the MVE VRSHL insn (vector form).
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper-mve.h    | 8 ++++++++
+>  target/arm/mve.decode      | 3 +++
+>  target/arm/mve_helper.c    | 4 ++++
+>  target/arm/translate-mve.c | 2 ++
+>  4 files changed, 17 insertions(+)
+> 
+> diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
+> index 56b3e8591ad..b7e2243a19a 100644
+> --- a/target/arm/helper-mve.h
+> +++ b/target/arm/helper-mve.h
+> @@ -177,6 +177,14 @@ DEF_HELPER_FLAGS_4(mve_vshlub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+>  DEF_HELPER_FLAGS_4(mve_vshluh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+>  DEF_HELPER_FLAGS_4(mve_vshluw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+>  
+> +DEF_HELPER_FLAGS_4(mve_vrshlsb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+> +DEF_HELPER_FLAGS_4(mve_vrshlsh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+> +DEF_HELPER_FLAGS_4(mve_vrshlsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+> +
+> +DEF_HELPER_FLAGS_4(mve_vrshlub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+> +DEF_HELPER_FLAGS_4(mve_vrshluh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+> +DEF_HELPER_FLAGS_4(mve_vrshluw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+> +
+>  DEF_HELPER_FLAGS_4(mve_vqshlsb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+>  DEF_HELPER_FLAGS_4(mve_vqshlsh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+>  DEF_HELPER_FLAGS_4(mve_vqshlsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+> diff --git a/target/arm/mve.decode b/target/arm/mve.decode
+> index ebf156b46b5..c30fb2c1536 100644
+> --- a/target/arm/mve.decode
+> +++ b/target/arm/mve.decode
+> @@ -133,6 +133,9 @@ VQSUB_U          111 1 1111 0 . .. ... 0 ... 0 0010 . 1 . 1 ... 0 @2op
+>  VSHL_S           111 0 1111 0 . .. ... 0 ... 0 0100 . 1 . 0 ... 0 @2op_rev
+>  VSHL_U           111 1 1111 0 . .. ... 0 ... 0 0100 . 1 . 0 ... 0 @2op_rev
+>  
+> +VRSHL_S          111 0 1111 0 . .. ... 0 ... 0 0101 . 1 . 0 ... 0 @2op_rev
+> +VRSHL_U          111 1 1111 0 . .. ... 0 ... 0 0101 . 1 . 0 ... 0 @2op_rev
+> +
+>  VQSHL_S          111 0 1111 0 . .. ... 0 ... 0 0100 . 1 . 1 ... 0 @2op_rev
+>  VQSHL_U          111 1 1111 0 . .. ... 0 ... 0 0100 . 1 . 1 ... 0 @2op_rev
+>  
+> diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
+> index 5da1899f3d8..cd6b963849c 100644
+> --- a/target/arm/mve_helper.c
+> +++ b/target/arm/mve_helper.c
+> @@ -538,9 +538,13 @@ DO_2OP_U(vhsubu, do_vhsub_u)
+>  
+>  #define DO_VSHLS(N, M) do_sqrshl_bhs(N, (int8_t)(M), sizeof(N) * 8, false, NULL)
+>  #define DO_VSHLU(N, M) do_uqrshl_bhs(N, (int8_t)(M), sizeof(N) * 8, false, NULL)
+> +#define DO_VRSHLS(N, M) do_sqrshl_bhs(N, (int8_t)(M), sizeof(N) * 8, true, NULL)
+> +#define DO_VRSHLU(N, M) do_uqrshl_bhs(N, (int8_t)(M), sizeof(N) * 8, true, NULL)
+>  
+>  DO_2OP_S(vshls, DO_VSHLS)
+>  DO_2OP_U(vshlu, DO_VSHLU)
+> +DO_2OP_S(vrshls, DO_VRSHLS)
+> +DO_2OP_U(vrshlu, DO_VRSHLU)
+>  
+>  static inline int32_t do_sat_bhw(int64_t val, int64_t min, int64_t max, bool *s)
+>  {
+> diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
+> index 487ac3185c6..d75cc377fee 100644
+> --- a/target/arm/translate-mve.c
+> +++ b/target/arm/translate-mve.c
+> @@ -404,6 +404,8 @@ DO_2OP(VQSUB_S, vqsubs)
+>  DO_2OP(VQSUB_U, vqsubu)
+>  DO_2OP(VSHL_S, vshls)
+>  DO_2OP(VSHL_U, vshlu)
+> +DO_2OP(VRSHL_S, vrshls)
+> +DO_2OP(VRSHL_U, vrshlu)
+>  DO_2OP(VQSHL_S, vqshls)
+>  DO_2OP(VQSHL_U, vqshlu)
+>  DO_2OP(VQRSHL_S, vqrshls)
+> 
 
-> 
-> Regards,
-> 
-> Phil.
-> 
-> This is a respin of Zoltan's patch:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714711.html
-> 
-> Since v4:
-> - removed assertion in i2c_do_start_transfer (Richard)
-> - added Richard R-b tags
-> 
-> Since v3:
-> - addressed minor review comments from Richard/Corey
-> - added R-b/A-b tags
-> - implemented Richard suggestion (last 2 patches, 14 & 15)
-> 
-> Since v2, tried to address Corey's review comments resulting
-> in a i2c_send_recv() removal and code easier to review (to my
-> taste at least).
-> 
-> BALATON Zoltan (1):
->   hw/i2c: Make i2c_start_transfer() direction argument a boolean
-> 
-> Philippe Mathieu-Daudé (14):
->   hw/input/lm832x: Move lm832x_key_event() declaration to "lm832x.h"
->   hw/input/lm832x: Define TYPE_LM8323 in public header
->   hw/display/sm501: Simplify sm501_i2c_write() logic
->   hw/display/sm501: Replace i2c_send_recv() by i2c_recv() & i2c_send()
->   hw/i2c/ppc4xx_i2c: Add reference to datasheet
->   hw/i2c/ppc4xx_i2c: Replace i2c_send_recv() by i2c_recv() & i2c_send()
->   hw/misc/auxbus: Fix MOT/classic I2C mode
->   hw/misc/auxbus: Explode READ_I2C / WRITE_I2C_MOT cases
->   hw/misc/auxbus: Replace 'is_write' boolean by its value
->   hw/misc/auxbus: Replace i2c_send_recv() by i2c_recv() & i2c_send()
->   hw/i2c: Remove confusing i2c_send_recv()
->   hw/i2c: Rename i2c_set_slave_address() -> i2c_slave_set_address()
->   hw/i2c: Extract i2c_do_start_transfer() from i2c_start_transfer()
->   hw/i2c: Introduce i2c_start_recv() and i2c_start_send()
-> 
->  include/hw/i2c/i2c.h      | 46 +++++++++++++++++++++---
->  include/hw/input/lm832x.h | 28 +++++++++++++++
->  hw/arm/nseries.c          |  3 +-
->  hw/arm/pxa2xx.c           |  2 +-
->  hw/arm/spitz.c            |  4 +--
->  hw/display/ati.c          |  2 +-
->  hw/display/sm501.c        | 16 +++++----
->  hw/display/xlnx_dp.c      |  2 +-
->  hw/i2c/core.c             | 76 ++++++++++++++++++++++-----------------
->  hw/i2c/imx_i2c.c          |  2 +-
->  hw/i2c/pm_smbus.c         |  4 +--
->  hw/i2c/ppc4xx_i2c.c       | 15 +++++---
->  hw/i2c/smbus_master.c     | 22 ++++++------
->  hw/input/lm832x.c         |  2 +-
->  hw/misc/auxbus.c          | 70 ++++++++++++++++++++++++++----------
->  MAINTAINERS               |  1 +
->  16 files changed, 207 insertions(+), 88 deletions(-)
->  create mode 100644 include/hw/input/lm832x.h
-> 
-> -- 
-> 2.31.1
-> 
-> 
 
