@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5863B3AB4C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:30:50 +0200 (CEST)
-Received: from localhost ([::1]:58906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BD43AB487
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:20:44 +0200 (CEST)
+Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lts6b-0005JT-Bz
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:30:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
+	id 1ltrwq-0008Fe-0m
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:20:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ltroS-0007ug-Qn
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:05 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:42612
+ id 1ltroW-0007wo-P3
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:09 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:42633
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ltroJ-0001ZB-Ac
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:02 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ltroS-0001h9-KS
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:08 -0400
 HMM_SOURCE_IP: 172.18.0.218:48906.1413600847
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-202.80.192.39?logid-7be0abd77ce94142b7bfe1792c57913a
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id C2213280072;
- Thu, 17 Jun 2021 21:11:53 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 5225F280081;
+ Thu, 17 Jun 2021 21:12:02 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 77d4cc1decb346f580af6bafb10b7dc8 for
- qemu-devel@nongnu.org; Thu Jun 17 21:11:52 2021
-X-Transaction-ID: 77d4cc1decb346f580af6bafb10b7dc8
+ by app0025 with ESMTP id 098e2b77011842688389111c47251757 for
+ qemu-devel@nongnu.org; Thu Jun 17 21:12:02 2021
+X-Transaction-ID: 098e2b77011842688389111c47251757
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/7] migration/dirtyrate: introduce struct and adjust
- DirtyRateStat
-Date: Thu, 17 Jun 2021 21:15:41 +0800
-Message-Id: <d91f66916a28327105f62919092224a403a0067f.1623935540.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v6 6/7] migration/dirtyrate: move init step of calculation to
+ main thread
+Date: Thu, 17 Jun 2021 21:15:43 +0800
+Message-Id: <deba8e91c23a20254f86e7cc1c0f24d19d64f98c.1623935540.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1623935540.git.huangy81@chinatelecom.cn>
 References: <cover.1623935540.git.huangy81@chinatelecom.cn>
@@ -76,212 +76,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-introduce "DirtyRateMeasureMode" to specify what method should be
-used to calculate dirty rate, introduce "DirtyRateVcpu" to store
-dirty rate fore each vcpu.
-
-use union to store stat data of specific mode
+since main thread may "query dirty rate" at any time, it's better
+to move init step into main thead so that synchronization overhead
+between "main" and "get_dirtyrate" can be reduced.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- migration/dirtyrate.c | 48 ++++++++++++++++++++++++++++--------------------
- migration/dirtyrate.h | 19 ++++++++++++++++---
- qapi/migration.json   | 30 ++++++++++++++++++++++++++++++
- 3 files changed, 74 insertions(+), 23 deletions(-)
+ migration/dirtyrate.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 320c56b..e0a27a9 100644
+index a9bdd60..8a9dcf7 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -88,33 +88,44 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     return info;
- }
+@@ -26,6 +26,7 @@
  
--static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
--                                uint64_t sample_pages)
-+static void init_dirtyrate_stat(int64_t start_time,
-+                                struct DirtyRateConfig config)
+ static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+ static struct DirtyRateStat DirtyStat;
++static DirtyRateMeasureMode dirtyrate_mode = DIRTY_RATE_MEASURE_MODE_NONE;
+ 
+ static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
  {
--    DirtyStat.total_dirty_samples = 0;
--    DirtyStat.total_sample_count = 0;
--    DirtyStat.total_block_mem_MB = 0;
-     DirtyStat.dirty_rate = -1;
-     DirtyStat.start_time = start_time;
--    DirtyStat.calc_time = calc_time;
--    DirtyStat.sample_pages = sample_pages;
-+    DirtyStat.calc_time = config.sample_period_seconds;
-+    DirtyStat.sample_pages = config.sample_pages_per_gigabytes;
-+
-+    switch (config.mode) {
-+    case DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING:
-+        DirtyStat.page_sampling.total_dirty_samples = 0;
-+        DirtyStat.page_sampling.total_sample_count = 0;
-+        DirtyStat.page_sampling.total_block_mem_MB = 0;
-+        break;
-+    case DIRTY_RATE_MEASURE_MODE_DIRTY_RING:
-+        DirtyStat.dirty_ring.nvcpu = -1;
-+        DirtyStat.dirty_ring.rates = NULL;
-+        break;
-+    default:
-+        break;
-+    }
+@@ -111,6 +112,11 @@ static void init_dirtyrate_stat(int64_t start_time,
+     }
  }
  
++static void cleanup_dirtyrate_stat(struct DirtyRateConfig config)
++{
++    /* TODO */
++}
++
  static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
  {
--    DirtyStat.total_dirty_samples += info->sample_dirty_count;
--    DirtyStat.total_sample_count += info->sample_pages_count;
-+    DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
-+    DirtyStat.page_sampling.total_sample_count += info->sample_pages_count;
-     /* size of total pages in MB */
--    DirtyStat.total_block_mem_MB += (info->ramblock_pages *
--                                     TARGET_PAGE_SIZE) >> 20;
-+    DirtyStat.page_sampling.total_block_mem_MB += (info->ramblock_pages *
-+                                                   TARGET_PAGE_SIZE) >> 20;
- }
- 
- static void update_dirtyrate(uint64_t msec)
+     DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
+@@ -380,7 +386,6 @@ void *get_dirtyrate_thread(void *arg)
  {
-     uint64_t dirtyrate;
--    uint64_t total_dirty_samples = DirtyStat.total_dirty_samples;
--    uint64_t total_sample_count = DirtyStat.total_sample_count;
--    uint64_t total_block_mem_MB = DirtyStat.total_block_mem_MB;
-+    uint64_t total_dirty_samples = DirtyStat.page_sampling.total_dirty_samples;
-+    uint64_t total_sample_count = DirtyStat.page_sampling.total_sample_count;
-+    uint64_t total_block_mem_MB = DirtyStat.page_sampling.total_block_mem_MB;
- 
-     dirtyrate = total_dirty_samples * total_block_mem_MB *
-                 1000 / (total_sample_count * msec);
-@@ -327,7 +338,7 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
-         update_dirtyrate_stat(block_dinfo);
-     }
- 
--    if (DirtyStat.total_sample_count == 0) {
-+    if (DirtyStat.page_sampling.total_sample_count == 0) {
-         return false;
-     }
- 
-@@ -372,8 +383,6 @@ void *get_dirtyrate_thread(void *arg)
      struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
      int ret;
-     int64_t start_time;
--    int64_t calc_time;
--    uint64_t sample_pages;
+-    int64_t start_time;
+     rcu_register_thread();
  
      ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-                               DIRTY_RATE_STATUS_MEASURING);
-@@ -383,9 +392,7 @@ void *get_dirtyrate_thread(void *arg)
+@@ -390,9 +395,6 @@ void *get_dirtyrate_thread(void *arg)
+         return NULL;
      }
  
-     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
--    calc_time = config.sample_period_seconds;
--    sample_pages = config.sample_pages_per_gigabytes;
--    init_dirtyrate_stat(start_time, calc_time, sample_pages);
-+    init_dirtyrate_stat(start_time, config);
- 
+-    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+-    init_dirtyrate_stat(start_time, config);
+-
      calculate_dirtyrate(config);
  
-@@ -442,6 +449,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
+@@ -411,6 +413,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+     static struct DirtyRateConfig config;
+     QemuThread thread;
+     int ret;
++    int64_t start_time;
  
+     /*
+      * If the dirty rate is already being measured, don't attempt to start.
+@@ -451,6 +454,18 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
      config.sample_period_seconds = calc_time;
      config.sample_pages_per_gigabytes = sample_pages;
-+    config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
+     config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
++
++    cleanup_dirtyrate_stat(config);
++
++    /*
++     * update dirty rate mode so that we can figure out what mode has
++     * been used in last calculation
++     **/
++    dirtyrate_mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
++
++    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
++    init_dirtyrate_stat(start_time, config);
++
      qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
                         (void *)&config, QEMU_THREAD_DETACHED);
  }
-diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-index e1fd290..69d4c5b 100644
---- a/migration/dirtyrate.h
-+++ b/migration/dirtyrate.h
-@@ -43,6 +43,7 @@
- struct DirtyRateConfig {
-     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
-     int64_t sample_period_seconds; /* time duration between two sampling */
-+    DirtyRateMeasureMode mode; /* mode of dirtyrate measurement */
- };
- 
- /*
-@@ -58,17 +59,29 @@ struct RamblockDirtyInfo {
-     uint32_t *hash_result; /* array of hash result for sampled pages */
- };
- 
-+typedef struct SampleVMStat {
-+    uint64_t total_dirty_samples; /* total dirty sampled page */
-+    uint64_t total_sample_count; /* total sampled pages */
-+    uint64_t total_block_mem_MB; /* size of total sampled pages in MB */
-+} SampleVMStat;
-+
-+typedef struct VcpuStat {
-+    int nvcpu; /* number of vcpu */
-+    DirtyRateVcpu *rates; /* array of dirty rate for each vcpu */
-+} VcpuStat;
-+
- /*
-  * Store calculation statistics for each measure.
-  */
- struct DirtyRateStat {
--    uint64_t total_dirty_samples; /* total dirty sampled page */
--    uint64_t total_sample_count; /* total sampled pages */
--    uint64_t total_block_mem_MB; /* size of total sampled pages in MB */
-     int64_t dirty_rate; /* dirty rate in MB/s */
-     int64_t start_time; /* calculation start time in units of second */
-     int64_t calc_time; /* time duration of two sampling in units of second */
-     uint64_t sample_pages; /* sample pages per GB */
-+    union {
-+        SampleVMStat page_sampling;
-+        VcpuStat dirty_ring;
-+    };
- };
- 
- void *get_dirtyrate_thread(void *arg);
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 1124a2d..7395305 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1709,6 +1709,21 @@
-   'data': { 'device-id': 'str' } }
- 
- ##
-+# @DirtyRateVcpu:
-+#
-+# Dirty rate of vcpu.
-+#
-+# @id: vcpu index.
-+#
-+# @dirty-rate: dirty rate.
-+#
-+# Since: 6.1
-+#
-+##
-+{ 'struct': 'DirtyRateVcpu',
-+  'data': { 'id': 'int', 'dirty-rate': 'int64' } }
-+
-+##
- # @DirtyRateStatus:
- #
- # An enumeration of dirtyrate status.
-@@ -1726,6 +1741,21 @@
-   'data': [ 'unstarted', 'measuring', 'measured'] }
- 
- ##
-+# @DirtyRateMeasureMode:
-+#
-+# An enumeration of mode of measuring dirtyrate.
-+#
-+# @page-sampling: calculate dirtyrate by sampling pages.
-+#
-+# @dirty-ring: calculate dirtyrate by via dirty ring.
-+#
-+# Since: 6.1
-+#
-+##
-+{ 'enum': 'DirtyRateMeasureMode',
-+  'data': [ 'none', 'page-sampling', 'dirty-ring'] }
-+
-+##
- # @DirtyRateInfo:
- #
- # Information about current dirty page rate of vm.
 -- 
 1.8.3.1
 
