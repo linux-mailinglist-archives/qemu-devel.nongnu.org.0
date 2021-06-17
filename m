@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309283AB07C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:57:31 +0200 (CEST)
-Received: from localhost ([::1]:59658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7063AB071
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:55:58 +0200 (CEST)
+Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltomA-0007bM-7l
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55342)
+	id 1ltokf-00040n-QD
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNY-000339-MP
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:04 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:44932)
+ id 1ltoNZ-00035S-7R
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:05 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNW-0006LY-V2
+ id 1ltoNX-0006M8-GR
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:04 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id gt18so8689641ejc.11
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:02 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id he7so8673147ejc.13
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zu0RUwB1p19Fagtd8xyL4/0jgFufKWq1IEEH4S5GC2c=;
- b=ZVTrQj9EgxNG/+/9+oq9y8opSvQAdCTmJleSeiSDMvWXhSa98q+8t8/wSRgEVWrKAC
- nBW0nvjwC6UH8jgqLZJm3WPQlnp0vnYvj/0MvTjpdKBS3EQsctn7GIxYtxymtoEsh25P
- 7QDwoF4wHBaT1nepVgw0VrnsUtfYznK2QVqIgsQmLJ1yz0cR/PKAWMxcCZtA4/s3B+i+
- 4IrmhGA5j0bH8mMMkOcDkmeb8xFywyfx4+wvITUYyez0P49tZV4hNN/yxPJrX1iKPVBC
- Hb7fKW2PkrCZYXU6d5n6nhz7DeHBv1mcZI7B5fqoS5KjnWtjCbMlXu91FZ6M5fq91tCU
- xLIQ==
+ bh=1Ui8G8tZLwk/rGM64JxEVMBWydF4cB84aHXFqaciPiU=;
+ b=oo1klPfoD7IxWrq8Ag8HxYqUWbCHOYJQt4R4cXGHo3fUYbuNW8CvHRr0RWOyBxtL+g
+ 0Nd2kmesSIBiHMbPh5PkdiWYDd36GVj1wx4abfHgrv64B/mZBrHeux1iY6SNbi03ecP9
+ 1+iz7kzG+60U5c3T+cSnf10OMWB4wsK9XMRyekFb/rw0QZ4igIVcktAs7tAcfI2MMTm0
+ o8FWBfu3ETiOTQKO6YZn4/8CO7cUz50kejLaVNwe1dp/94uOGmmq974GbqRGQUj4YOCL
+ PWYkHRuY3nroNaGn2DZqY8/4VzE5A6+owL4sQ6BZGWo5mQCzIJl19ZsDma3x14uco3I1
+ hV1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zu0RUwB1p19Fagtd8xyL4/0jgFufKWq1IEEH4S5GC2c=;
- b=EdXLr3ku8dGc2hARRFwUBz9fiIACZAegWicFJDRP9XfBYj0WWgC3jFYWFttLu4fdbv
- QMpaMFnKYp2vnBvX1h7SMjRIW4rCh+O25/6ZJvyMeplcjU8iwfOVGP4lQ+OiN5uMVeT+
- gVspgxD9By9Y5FIqG2Iz9xnOpgV+tCTxAZlkmHdDd6g0njImyhNaR2Dx2/mVUctH89rH
- PzNFadZ/3nCYbhNrouPuKdM0jTgCh90OJUuX0TIa8M4YgGVBqllzuXq/YOGj8DhTrwFr
- dhuDaZkVInr5u8n+PrLJB2xrpjqF/88PKqQDLXPqtznav/djHTIKVmAawwJJI0oowLMr
- cxyA==
-X-Gm-Message-State: AOAM533b72YAZ+erGP1G8W9PYsSj0gxNzqwQQa/wKyw83sIaQvTdLVEn
- 2dJMfLgbkg4lO6P+5mvTOiT3NLTTMh4=
-X-Google-Smtp-Source: ABdhPJwHeQ9QE8QWeugkKfGIR07QYL3HZKi6YqdNL2eHQYpfr+KkJ+RxrvaOwFMTjwlEOfI5AddcpQ==
-X-Received: by 2002:a17:906:528b:: with SMTP id
- c11mr2984079ejm.156.1623922321540; 
- Thu, 17 Jun 2021 02:32:01 -0700 (PDT)
+ bh=1Ui8G8tZLwk/rGM64JxEVMBWydF4cB84aHXFqaciPiU=;
+ b=LCSvh9CcAqYfrLP/KwgcKxy8Izc+pHwRs2Dj36v8NwOYx2HQhkZ4yTKslqeSMyShcn
+ yHgK43QaZzlBeWjq87Eu/L6EnRUxs61j58WbUxg56+KWwFHt1l2RvT/RUSV0gEjonQ6k
+ DWPxu4UpYyTY+ddVUjpnxsYZ3TIhZLhiwgwp3BRZltPnsFT2qWLZForpvlmvSUqOMXdA
+ 1LvuSJUK2TgwXbKYtL/CaVvcYrBQVxMfXjXZRcZ3iYAXbfSZKP7BHLdDqAcKyTxHdy0J
+ O6zPkL42Ak+pdwh9A+VzeCPfje+yHGj8vTbsFvVzUvIiUFpx2DfQ66qCU9Gg7I2kGs+n
+ RAow==
+X-Gm-Message-State: AOAM531hkW4reuek68X7+BWq5VkHpcmoGjf5pMZgc1DiaKJLvxUTTBMS
+ IPkoX/ViE/xFV8BdgslVjC94otZfTqg=
+X-Google-Smtp-Source: ABdhPJzo6V3bxQqkaf8Dr8ESHuCwTT7Jbu0RUjW47rmXsuvW8kR0rZDbdOrRfY8a0j6UKAg/c77GhQ==
+X-Received: by 2002:a17:907:1b02:: with SMTP id
+ mp2mr4205925ejc.196.1623922322244; 
+ Thu, 17 Jun 2021 02:32:02 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.00
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Jun 2021 02:32:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/45] target/i386: Added consistency checks for VMRUN
- intercept and ASID
-Date: Thu, 17 Jun 2021 11:31:24 +0200
-Message-Id: <20210617093134.900014-36-pbonzini@redhat.com>
+Subject: [PULL 36/45] target/i386: Added consistency checks for CR0
+Date: Thu, 17 Jun 2021 11:31:25 +0200
+Message-Id: <20210617093134.900014-37-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,48 +90,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lara Lazier <laramglazier@gmail.com>
 
-Zero VMRUN intercept and ASID should cause an immediate VMEXIT
-during the consistency checks performed by VMRUN.
+The combination of unset CD and set NW bit in CR0 is illegal.
+CR0[63:32] are also reserved and need to be zero.
 (AMD64 Architecture Programmer's Manual, V2, 15.5)
 
 Signed-off-by: Lara Lazier <laramglazier@gmail.com>
-Message-Id: <20210616123907.17765-3-laramglazier@gmail.com>
+Message-Id: <20210616123907.17765-4-laramglazier@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/sysemu/svm_helper.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/i386/cpu.h                   |  2 ++
+ target/i386/svm.h                   |  2 ++
+ target/i386/tcg/sysemu/svm_helper.c | 12 +++++++++---
+ 3 files changed, 13 insertions(+), 3 deletions(-)
 
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 64b4e46731..1e11071d81 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -224,6 +224,8 @@ typedef enum X86Seg {
+ #define CR0_NE_MASK  (1U << 5)
+ #define CR0_WP_MASK  (1U << 16)
+ #define CR0_AM_MASK  (1U << 18)
++#define CR0_NW_MASK  (1U << 29)
++#define CR0_CD_MASK  (1U << 30)
+ #define CR0_PG_MASK  (1U << 31)
+ 
+ #define CR4_VME_MASK  (1U << 0)
+diff --git a/target/i386/svm.h b/target/i386/svm.h
+index 87965e5bc2..5098733053 100644
+--- a/target/i386/svm.h
++++ b/target/i386/svm.h
+@@ -135,6 +135,8 @@
+ #define SVM_NPTEXIT_GPA     (1ULL << 32)
+ #define SVM_NPTEXIT_GPT     (1ULL << 33)
+ 
++#define SVM_CR0_RESERVED_MASK 0xffffffff00000000U
++
+ struct QEMU_PACKED vmcb_control_area {
+ 	uint16_t intercept_cr_read;
+ 	uint16_t intercept_cr_write;
 diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 2f7606bebf..902bf03fc3 100644
+index 902bf03fc3..1c2dbc1862 100644
 --- a/target/i386/tcg/sysemu/svm_helper.c
 +++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -72,6 +72,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     uint64_t nested_ctl;
+@@ -73,6 +73,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
      uint32_t event_inj;
      uint32_t int_ctl;
-+    uint32_t asid;
+     uint32_t asid;
++    uint64_t new_cr0;
  
      cpu_svm_check_intercept_param(env, SVM_EXIT_VMRUN, 0, GETPC());
  
-@@ -154,9 +155,18 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+@@ -192,13 +193,18 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+     env->idt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+                                                       save.idtr.limit));
  
-     nested_ctl = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-                                                           control.nested_ctl));
-+    asid = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-+                                                          control.asid));
- 
-     env->nested_pg_mode = 0;
- 
-+    if (!cpu_svm_has_intercept(env, SVM_EXIT_VMRUN)) {
++    new_cr0 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr0));
++    if (new_cr0 & SVM_CR0_RESERVED_MASK) {
 +        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
 +    }
-+    if (asid == 0) {
++    if ((new_cr0 & CR0_NW_MASK) && !(new_cr0 & CR0_CD_MASK)) {
 +        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
 +    }
-+
-     if (nested_ctl & SVM_NPT_ENABLED) {
-         env->nested_cr3 = x86_ldq_phys(cs,
-                                 env->vm_vmcb + offsetof(struct vmcb,
+     /* clear exit_info_2 so we behave like the real hardware */
+     x86_stq_phys(cs,
+              env->vm_vmcb + offsetof(struct vmcb, control.exit_info_2), 0);
+ 
+-    cpu_x86_update_cr0(env, x86_ldq_phys(cs,
+-                                     env->vm_vmcb + offsetof(struct vmcb,
+-                                                             save.cr0)));
++    cpu_x86_update_cr0(env, new_cr0);
+     cpu_x86_update_cr4(env, x86_ldq_phys(cs,
+                                      env->vm_vmcb + offsetof(struct vmcb,
+                                                              save.cr4)));
 -- 
 2.31.1
 
