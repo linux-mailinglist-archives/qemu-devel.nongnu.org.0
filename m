@@ -2,84 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04A23AB156
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:28:36 +0200 (CEST)
-Received: from localhost ([::1]:41906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA563AB15C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:30:12 +0200 (CEST)
+Received: from localhost ([::1]:48460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltpGF-0002t7-MA
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34004)
+	id 1ltpHm-0007VX-C1
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:30:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltoxv-0007m4-Cw; Thu, 17 Jun 2021 06:09:42 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:52099)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ltpFy-0005WP-K6
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:28:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltoxt-0008CM-Ll; Thu, 17 Jun 2021 06:09:39 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 889B65C0196;
- Thu, 17 Jun 2021 06:09:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 17 Jun 2021 06:09:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=n2b9yGdnLJvyxNiFmX/Spt6EeyH
- XPYiZ4mOQaOSKcLw=; b=duwLnWoqQR5k0RSKtKHeUsOoWM0+qIbEP6psX7lDNTi
- l73wpqxIF6Dm1Uzar9SDcTqIgD9juD4f2Yr14im7GoXCI08+BRrqlfTycEPiqgz3
- Vl32Np5MCECgtSVtPZPkhc5vHVibI46oN+fEkmJSSeNHL1zrSRfdV7UiOx7V+yZh
- BWmWYarVlhbDnnFPCyErIQq14i20Iog4tqWfKrSKMI0giC0dOqhGYyL3pyco64JC
- sgf4XDwmsQ574DfMLIwHy6VFJaBaLltwypO0ifQvimjKn+HgL7q1loZ13x9TVM8u
- HKMGxaqvSkHg9S+3LEpGyZmeODa3/VdpK2deuOYJQ1g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=n2b9yG
- dnLJvyxNiFmX/Spt6EeyHXPYiZ4mOQaOSKcLw=; b=INaQ+W9Q7k7bmG9qXf3Sv+
- iJH+5a8vEbUu7Fkr6JYbm8OZjzi3BEiMCknYAnNbyMK8ejJLdDpqFK7ibGdoA7Rr
- xUEnce+wrU0rlQxFh6X8CkfK5XUqdEPHyUENgo7pUdV0/rpNjAniXy6trNwpBb3P
- trQxIci8dD8+/UbldFn4odSiLPjB7FK+Tt2zeBXcC9r7egxETNJki0PhWU5ZXMwx
- MlrgiOLtXDG7t9GgNUjxvp0RLszXMc1OMkB8RKRWhZCb6KcY7L5UE0DTkSLpVKvC
- +3Sw1a/LGRJg+JTDcAyMEuO93c4sNcdlInRgtDilNTvSsY+/3e1wCOv6YShDOBKg
- ==
-X-ME-Sender: <xms:Xx_LYAAOL3I6Z2cMEGh3Vo19OKDb1SDGEuKeNSV9i1Q07Orr1l3Dgw>
- <xme:Xx_LYCgSkxTtR5QsZlssbECINYvDmiDLVZZECV3PoUQ-X09IkmqaqmqwbolmHaXt0
- eRKV8s1AEOyFPzbQfc>
-X-ME-Received: <xmr:Xx_LYDkDL0mAbUXLcJkJ1dK42XIqVjRnqI6YXXlVt-YabMPZVVsMSt_K6LDz4wnwH4hbK5X0XYlw00dwnoV8g1DmgfjWcSDcZGDcuoKtnXjf_N2bpg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:Xx_LYGwBWRHsj8bvnVVSbxQKHVG8CcbHghtCNGnWfalINIpOJxq7vQ>
- <xmx:Xx_LYFRnAI61FxAzgFttB3wBquNjC0KLxlHWieMS1XBNe1SavwlVSQ>
- <xmx:Xx_LYBYTWG0Ucp2WVSTDV7gQjvI4BxRhluoll4f0Z5BOn1CHWSJr-A>
- <xmx:YB_LYDNdGDnMlzQy_kqU5NtisahPkoSNuuO-H94gRyGOvUYO4jUukg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Jun 2021 06:09:34 -0400 (EDT)
-Date: Thu, 17 Jun 2021 12:09:32 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/nvme: fix pin-based interrupt behavior (again)
-Message-ID: <YMsfXG+SeYuMvHlt@apples.localdomain>
-References: <20210617100820.75510-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ltpFq-0004ds-O4
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:28:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623925689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ayXpSyu321/sISiFHDTKG1tObHBGcRmVIDKeuGs/4eM=;
+ b=LX05OsxDvADJPooIPY4paT2uSZlF2g7/p5jgUufTqbgewrYxIZXPaBI0MlkGb1CGOAuWNS
+ uvzEuDowkcJ2D4TrWIwZMFEXB2Acz/ccFL1i594uayXKvvj9guhIdncb77E2G8u0K8ISRz
+ 81r+0GCibaz5Ft/YVrtF42M3kFBE52I=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-HiqNmMJMOQ-gJWsZnSeJ8A-1; Thu, 17 Jun 2021 06:28:08 -0400
+X-MC-Unique: HiqNmMJMOQ-gJWsZnSeJ8A-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ q7-20020aa7cc070000b029038f59dab1c5so1224353edt.23
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 03:28:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ayXpSyu321/sISiFHDTKG1tObHBGcRmVIDKeuGs/4eM=;
+ b=s/+AeKO19j5S+S1ylWuh8FVatcTPJz76HuBXdqlTgIc7uetrH4Q7B4+sblirMx+dQu
+ imO0T3SB5QxWPsCLX4Rw379QG2JuvyxbJ7gGTuRjF0Uw/Ma6RqcpN/8+WV8rMKLaCAFb
+ sDlVXqAtFYsykqzUpJYObmz/lNsKkgCjzWIfKhn818IfaPIxWUli6d9rrBUYOqYdRoXe
+ B84g/7kavoe0fZGHgF8WEZOY9OO9bggNXoihHvHrHlYfupXiz00SHvUfptEiF99JMakL
+ wzWy2ijzfx3yBhIhofNuwG+3l32JO3E4h8RTSrZMBOH/NuzuuqGbGQF/xf9zazG9OUcp
+ qwPA==
+X-Gm-Message-State: AOAM532oOXQZeOBSynZaUzNut/LQT249h2MlnR/SbRoPbVAyHCfbjL/U
+ A65NZxQPRks+UaCddrEvvDqBc/SxA3qikaihofPJjD5OCGZZEWTrC9iV2YhtkeRoNKZp0UBdPyX
+ gs80zORKnSfwmOnM=
+X-Received: by 2002:a17:906:cc9b:: with SMTP id
+ oq27mr4444048ejb.301.1623925687185; 
+ Thu, 17 Jun 2021 03:28:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGac2bOxaixYHRvSdlVZ+zZUOjbRr86tJnRGmsIbLsU2QmSvwlWCxjKw9KY5BI51fUDINd6Q==
+X-Received: by 2002:a17:906:cc9b:: with SMTP id
+ oq27mr4443949ejb.301.1623925685933; 
+ Thu, 17 Jun 2021 03:28:05 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n4sm3430965eja.121.2021.06.17.03.28.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Jun 2021 03:28:05 -0700 (PDT)
+Subject: Re: [PATCH 1/3] hw/acpi: Provide stub version of
+ acpi_ghes_record_errors()
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210603171259.27962-1-peter.maydell@linaro.org>
+ <20210603171259.27962-2-peter.maydell@linaro.org>
+ <794108a2-fbaf-dfbc-ed8f-2d3d87ba2c07@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3e6b9e75-a0b7-eb65-a357-43d0cb3a3027@redhat.com>
+Date: Thu, 17 Jun 2021 12:28:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cYNP9iS2xZ4YTY0Q"
-Content-Disposition: inline
-In-Reply-To: <20210617100820.75510-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <794108a2-fbaf-dfbc-ed8f-2d3d87ba2c07@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.17, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,135 +107,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Jakub =?utf-8?B?SmVybcOhxZk=?= <jakub.jermar@kernkonzept.com>,
- qemu-block@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Dongjiu Geng <gengdongjiu1@gmail.com>,
+ Swetha <swjoshi@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 03/06/21 20:52, Richard Henderson wrote:
+> On 6/3/21 10:12 AM, Peter Maydell wrote:
+>> +softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 
+>> 'aml-build-stub.c', 'ghes-stub.c'))
+>>   softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
+>>   softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 
+>> 'aml-build-stub.c',
+>> -                                                  'acpi-x86-stub.c', 
+>> 'ipmi-stub.c'))
+>> +                                                  'acpi-x86-stub.c', 
+>> 'ipmi-stub.c', 'ghes-stub.c'))
+> 
+> Gosh that last line is confusing.  I see it's documented in 
+> build-system.rst, but yeesh.
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
---cYNP9iS2xZ4YTY0Q
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yeah, it's vestigial of the makefiles and I should remove it.
 
-On Jun 17 12:08, Klaus Jensen wrote:
->From: Klaus Jensen <k.jensen@samsung.com>
->
->Jakub noticed[1] that, when using pin-based interrupts, the device will
->unconditionally deasssert when any CQEs are acknowledged. However, the
->pin should not be deasserted if other completion queues still holds
->unacknowledged CQEs.
->
->The bug is an artifact of commit ca247d35098d ("hw/block/nvme: fix
->pin-based interrupt behavior") which fixed one bug but introduced
->another. This is the third time someone tries to fix pin-based
->interrupts (see commit 5e9aa92eb1a5 ("hw/block: Fix pin-based interrupt
->behaviour of NVMe"))...
->
->Third time's the charm, so fix it, again, by keeping track of how many
->CQs have unacknowledged CQEs and only deassert when all are cleared.
->
->  [1]: <20210610114624.304681-1-jakub.jermar@kernkonzept.com>
->
->Fixes: ca247d35098d ("hw/block/nvme: fix pin-based interrupt behavior")
->Reported-by: Jakub Jerm=C3=A1=C5=99 <jakub.jermar@kernkonzept.com>
->Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->---
-> hw/nvme/nvme.h |  1 +
-> hw/nvme/ctrl.c | 15 ++++++++++++++-
-> 2 files changed, 15 insertions(+), 1 deletion(-)
->
->diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
->index 93a7e0e5380e..60250b579464 100644
->--- a/hw/nvme/nvme.h
->+++ b/hw/nvme/nvme.h
->@@ -405,6 +405,7 @@ typedef struct NvmeCtrl {
->     uint32_t    max_q_ents;
->     uint8_t     outstanding_aers;
->     uint32_t    irq_status;
->+    int         cq_pending;
->     uint64_t    host_timestamp;                 /* Timestamp sent by the =
-host */
->     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
->     uint64_t    starttime_ms;
->diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->index 7dea64b72e6a..9419f67c4e88 100644
->--- a/hw/nvme/ctrl.c
->+++ b/hw/nvme/ctrl.c
->@@ -473,7 +473,9 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue =
-*cq)
->             return;
->         } else {
->             assert(cq->vector < 32);
->-            n->irq_status &=3D ~(1 << cq->vector);
->+            if (!n->cq_pending) {
->+                n->irq_status &=3D ~(1 << cq->vector);
->+            }
->             nvme_irq_check(n);
->         }
->     }
->@@ -1258,6 +1260,7 @@ static void nvme_post_cqes(void *opaque)
->     NvmeCQueue *cq =3D opaque;
->     NvmeCtrl *n =3D cq->ctrl;
->     NvmeRequest *req, *next;
->+    bool pending =3D cq->head !=3D cq->tail;
->     int ret;
->
->     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
->@@ -1287,6 +1290,10 @@ static void nvme_post_cqes(void *opaque)
->         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
->     }
->     if (cq->tail !=3D cq->head) {
->+        if (!pending) {
->+            n->cq_pending++;
->+        }
->+
->         nvme_irq_assert(n, cq);
->     }
-> }
->@@ -4099,6 +4106,11 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeReques=
-t *req)
->         trace_pci_nvme_err_invalid_del_cq_notempty(qid);
->         return NVME_INVALID_QUEUE_DEL;
->     }
->+
->+    if (cq->tail !=3D cq->head) {
->+        n->cq_pending--;
->+    }
->+
->     nvme_irq_deassert(n, cq);
->     trace_pci_nvme_del_cq(qid);
->     nvme_free_cq(cq, n);
->@@ -5758,6 +5770,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr=
-, int val)
->         }
->
->         if (cq->tail =3D=3D cq->head) {
->+            n->cq_pending--;
->             nvme_irq_deassert(n, cq);
->         }
->     } else {
->--=20
->2.32.0
->
+That said, here:
 
-Jakub, can you test this in your environment?
+> +acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'), if_false:('ghes-stub.c'))
 
---cYNP9iS2xZ4YTY0Q
-Content-Type: application/pgp-signature; name="signature.asc"
+There's a missing "files" after if_false.
 
------BEGIN PGP SIGNATURE-----
+Paolo
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDLH1sACgkQTeGvMW1P
-DenCXgf/aB9XsZS+nJ285nye1Q+KgV5B2v0xqbrplkKp9MDuDPTzJXe2dS8j1bKb
-FIqSSl2TeaFtmbyQN8kiWrcmcc+l5bCRP2fxgV98+h2TOmcVuCI4DuxyR+yrxoi3
-trVuR+wJ1gfToE8SHp8HcuPDhQIp+ToKLJ09Jpy0vNZoX5imCmRZRtQMZV3KhGRm
-dFPg5nSIP/sl6PAOgByJQ8TeaGFBMQclgv6H5S+wqEMWPlmMaUaiq2dUidfMSZWi
-YFBK6zTrx8FhgSae/kju3+vPubKh9Y6AEftTA2U3bsPA1aXKUncacBZmjePM04gi
-YtV4gEJhBTtSHfdGhPA5Jo51ak/2Ng==
-=vdGO
------END PGP SIGNATURE-----
-
---cYNP9iS2xZ4YTY0Q--
 
