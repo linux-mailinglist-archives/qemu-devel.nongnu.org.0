@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEEE3ABD8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 22:36:55 +0200 (CEST)
-Received: from localhost ([::1]:56976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD413ABDA7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 22:42:15 +0200 (CEST)
+Received: from localhost ([::1]:33472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltykw-0000gr-NN
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 16:36:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
+	id 1ltyq6-0003x2-E0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 16:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ltyjq-0007Jc-5V
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:35:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58624)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyom-0003Ee-Ve
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:40:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ltyjj-0006Dv-M1
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:35:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyok-0000tk-FT
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:40:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623962137;
+ s=mimecast20190719; t=1623962449;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=58ESMm71n+LLCPSPJrivoljEEgowoqW0JMt5wEsO6fg=;
- b=Heeqopqz8XrvbpW3hrCvXNIiATNVNfweDYZNUwFV4W4TxR09nMJ66zzpkFlH2ywC7VKDt1
- xfxRDe9KSiREWLhz046RA4ZYGulP4reADo/bN7Jv4DpXJtjzhQ166RjW8b4rtAzp5estfw
- 2k7cf3Mpoqk9Aj9HfPGCsVpPwR2TWPY=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-VYSqTZaqPwCVuATB5WOWdA-1; Thu, 17 Jun 2021 16:35:36 -0400
-X-MC-Unique: VYSqTZaqPwCVuATB5WOWdA-1
-Received: by mail-lf1-f70.google.com with SMTP id
- bu14-20020a056512168eb029031226594940so3078226lfb.15
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 13:35:36 -0700 (PDT)
+ bh=py/TuJIvkr+EPQHm6jdymvcqD6p1C/EizhmVNLC/BZo=;
+ b=gxrz3HQamPUWqpKwkmKQi+/nGUHavdPgXufGXiPnkjcVN3tAO7JeFAypVjVDlSml6C2SaF
+ KYxyko53hH4I7eZu3NQcV7Mb1VCA0ezC04mtr4VCoccATCGe0MSuyL6O1VpvB6jbEG6SG5
+ uOJcMVKrjFB0Qx1AJe0+hYFjJ30C92A=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-WMv1Dtq9MYCrhglqBL06Aw-1; Thu, 17 Jun 2021 16:40:48 -0400
+X-MC-Unique: WMv1Dtq9MYCrhglqBL06Aw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h9-20020a05600c3509b02901b985251fdcso2674078wmq.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 13:40:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=58ESMm71n+LLCPSPJrivoljEEgowoqW0JMt5wEsO6fg=;
- b=jWmLISFl3B73tYAFPjUJ9tn61vXbp4Tbk2pmCJSzN7GbsyXgCDTqo3z6Ep3CnOConk
- i72Gcq9pt2/ulBemjfqM2SPgU4zx9lCKq3Sof0lrbyYi93hOEs4FPVO0tTdaYVyGe71/
- 0Oh9eI7P9CKJUp/7WTwvNB6v1g8gfcKRBm6mmknSd5vewR38LnThhsZa2KLZDLB/2IET
- do38snyEhcV9GB5Cvhqulg2eC0VBqTmyJbXWRVSPc88mp/WvScGJj73pSDqKuStf60uh
- ixsvM80FgRvpopH7YGKuo0ndOAp3cz5HtSGxWNuljt5s1XuAi2/7h6Umf5EOjFGZxhyi
- hOdg==
-X-Gm-Message-State: AOAM530WfT0Mm0nk5uveZZKeONmVFPNIko/jhdljgS9ACfG0DxwtPDFN
- HEqusBjSpD7GhVlW8mgwBjC+De9Q6+gR6vnLAZ0nQcNw9/2qYemIUwLNp/1cQS1i/RAZfleZk45
- pkhRJ+/SU9huDhEJ/avHX5dd54S+4Z84=
-X-Received: by 2002:a2e:b711:: with SMTP id j17mr6224549ljo.329.1623962135020; 
- Thu, 17 Jun 2021 13:35:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz1fotvXEab2mNuTc3Plxir+HmE7JbeJ9BHiOwSr+u4asRrY5ZZPLEFIgMIqrEUaZRkiAwjVHkcZQeNJMbne5I=
-X-Received: by 2002:a2e:b711:: with SMTP id j17mr6224507ljo.329.1623962134717; 
- Thu, 17 Jun 2021 13:35:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=py/TuJIvkr+EPQHm6jdymvcqD6p1C/EizhmVNLC/BZo=;
+ b=fjix8z6kRUoClK9SWB918BSlErTg8jLl6DErj2Er+4cbaaOhoJi6CUaWEDj+DeiR0X
+ bMuCxqedtFbm2JWB1DEmxTLAB9/gvGl4LgELHKh0V4KCBjxIXGyk3qz/QKNJdcKBF4b2
+ 65CKjGIVuFEWPN0NFayYA/xUrAWFUkWYnsLqt2EOMmYr78qLnPiWytKUMwLXKXKW1pVE
+ OHGM2PhOE5vJxoSW59dxVKiuRXlz3etR9AHon6FaH9G8O0uPlRryW0SQf/q/bGYsdQjt
+ 1Ha4RzrmQO1Dv8mbJdXBrOV/cgurWhhyp8TcE0xwjMDe/a8Yoh12zuLyFa/ss0LRCXuT
+ BARw==
+X-Gm-Message-State: AOAM530KCEc3IsbMqEfQhBEHKp3qrZwoKfhmz57w4P8zEq8IkXiyYUR0
+ XOawTxoQ1JlBIM2TQgryw8w8jf4qJd0Ftluqc55SC1BmHiTlzgEhJfY0sEZ0R1+mFN+zC5fqK7u
+ BI+tO287j9aZ3xwo=
+X-Received: by 2002:adf:fac6:: with SMTP id a6mr8245988wrs.251.1623962446403; 
+ Thu, 17 Jun 2021 13:40:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxPSCZMj8YBYPWFvzmg1gjWHokGDBu9hZSO8Zoh7zO5Qa6A+Di7koLoNau5L9ybmYpDDLSQIw==
+X-Received: by 2002:adf:fac6:: with SMTP id a6mr8245974wrs.251.1623962446214; 
+ Thu, 17 Jun 2021 13:40:46 -0700 (PDT)
+Received: from redhat.com ([77.126.22.11])
+ by smtp.gmail.com with ESMTPSA id y7sm2315427wma.22.2021.06.17.13.40.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Jun 2021 13:40:44 -0700 (PDT)
+Date: Thu, 17 Jun 2021 16:40:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 20/23] hw/acpi: Do not restrict ACPI core routines to
+ x86 architecture
+Message-ID: <20210617164026-mutt-send-email-mst@kernel.org>
+References: <20210616204328.2611406-1-philmd@redhat.com>
+ <20210616204328.2611406-21-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
- <20210615152033.czhsaz44yxtc5ext@habkost.net>
- <1cff8347-ee38-a0a8-f089-36b28a40b828@redhat.com>
- <06b28ac7-19ed-edd8-a555-2858e976d964@linux.ibm.com>
- <20210617172213.j2c3o7h76zrsw2yt@habkost.net>
- <918371b8-f8d0-30c2-c0bb-812027e4cafb@linux.ibm.com>
-In-Reply-To: <918371b8-f8d0-30c2-c0bb-812027e4cafb@linux.ibm.com>
-From: Eduardo Habkost <ehabkost@redhat.com>
-Date: Thu, 17 Jun 2021 16:35:18 -0400
-Message-ID: <CAOpTY_q2nQbbvXbShh-TqVCa_AVt4mJw5JhHJE2tZQKHJ8T6Fg@mail.gmail.com>
-Subject: Re: [PATCH] x86: add SEV hashing to fw_cfg for kernel/initrd/cmdline
-To: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <20210616204328.2611406-21-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -95,176 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- James Bottomley <jejb@linux.ibm.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Laszlo Ersek <lersek@redhat.com>, Hubertus Franke <frankeh@us.ibm.com>,
- Jim Cadden <jcadden@ibm.com>, Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 3:17 PM Dov Murik <dovmurik@linux.ibm.com> wrote:
->
->
->
-> On 17/06/2021 20:22, Eduardo Habkost wrote:
-> > On Thu, Jun 17, 2021 at 03:48:52PM +0300, Dov Murik wrote:
-> >>
-> >>
-> >> On 15/06/2021 22:53, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>> Hi Dov, James,
-> >>>
-> >>> +Connor who asked to be reviewer.
-> >>>
-> >>> On 6/15/21 5:20 PM, Eduardo Habkost wrote:
-> >>>> On Tue, May 25, 2021 at 06:59:31AM +0000, Dov Murik wrote:
-> >>>>> From: James Bottomley <jejb@linux.ibm.com>
-> >>>>>
-> >>>>> If the VM is using memory encryption and also specifies a kernel/in=
-itrd
-> >>>>> or appended command line, calculate the hashes and add them to the
-> >>>>> encrypted data.  For this to work, OVMF must support an encrypted a=
-rea
-> >>>>> to place the data which is advertised via a special GUID in the OVM=
-F
-> >>>>> reset table (if the GUID doesn't exist, the user isn't allowed to p=
-ass
-> >>>>> in the kernel/initrd/cmdline via the fw_cfg interface).
-> >>>>>
-> >>>>> The hashes of each of the files is calculated (or the string in the=
- case
-> >>>>> of the cmdline with trailing '\0' included).  Each entry in the has=
-hes
-> >>>>> table is GUID identified and since they're passed through the memcr=
-ypt
-> >>>>> interface, the hash of the encrypted data will be accumulated by th=
-e
-> >>>>> PSP.
-> >>>>>
-> >>>>> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-> >>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> >>>>> [dovmurik@linux.ibm.com: use machine->cgs, remove parsing of GUID
-> >>>>> strings, remove GCC pragma, fix checkpatch errors]
-> >>>>> ---
-> >>>>>
-> >>>>> OVMF support for handling the table of hashes (verifying that the
-> >>>>> kernel/initrd/cmdline passed via the fw_cfg interface indeed corres=
-pond
-> >>>>> to the measured hashes in the table) will be posted soon to edk2-de=
-vel.
-> >>>>>
-> >>>>> ---
-> >>>>>  hw/i386/x86.c | 120 ++++++++++++++++++++++++++++++++++++++++++++++=
-+++-
-> >>>>>  1 file changed, 119 insertions(+), 1 deletion(-)
-> >>>>>
-> >>>>
-> >>>> This is not an objection to the patch itself, but: can we do
-> >>>> something to move all sev-related code to sev.c?  It would make
-> >>>> the process of assigning a maintainer and reviewing/merging
-> >>>> future patches much simpler.
-> >>>>
-> >>>> I am not familiar with SEV internals, so my only question is
-> >>>> about configurations where SEV is disabled:
-> >>>>
-> >>>> [...]
-> >>>>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> >>>>> @@ -778,6 +818,11 @@ void x86_load_linux(X86MachineState *x86ms,
-> >>>>>      const char *initrd_filename =3D machine->initrd_filename;
-> >>>>>      const char *dtb_filename =3D machine->dtb;
-> >>>>>      const char *kernel_cmdline =3D machine->kernel_cmdline;
-> >>>>> +    uint8_t buf[HASH_SIZE];
-> >>>>> +    uint8_t *hash =3D buf;
-> >>>>> +    size_t hash_len =3D sizeof(buf);
-> >>>>> +    struct sev_hash_table *sev_ht =3D NULL;
-> >>>>> +    int sev_ht_index =3D 0;
-> >>>
-> >>> Can you move all these variable into a structure, and use it as a
-> >>> SEV loader context?
-> >>>
-> >>> Then each block of code you added can be moved to its own function,
-> >>> self-described, working with the previous context.
-> >>>
-> >>> The functions can be declared in sev_i386.h and defined in sev.c as
-> >>> Eduardo suggested.
-> >>>
-> >>
-> >> Thanks Philippe, I'll try this approach.
-> >>
-> >>
-> >> I assume you mean that an addition like this:
-> >>
-> >> +    if (sev_ht) {
-> >> +        struct sev_hash_table_entry *e =3D &sev_ht->entries[sev_ht_in=
-dex++];
-> >> +
-> >> +        qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA256, (char *)kernel_cm=
-dline,
-> >> +                           strlen(kernel_cmdline) + 1,
-> >> +                           &hash, &hash_len, &error_fatal);
-> >> +        memcpy(e->hash, hash, hash_len);
-> >> +        e->len =3D sizeof(*e);
-> >> +        memcpy(e->guid, sev_cmdline_entry_guid, sizeof(e->guid));
-> >> +    }
-> >>
-> >> will be extracted to a function, and here (in x86_load_linux()) replac=
-ed
-> >> with a single call:
-> >>
-> >>     sev_kernel_loader_calc_cmdline_hash(&sev_loader_context, kernel_cm=
-dline);
-> >>
-> >> and that function will have an empty stub in non-SEV builds, and a do-
-> >> nothing condition (at the beginning) if it's an SEV-disabled VM, and
-> >> will do the actual work in SEV VMs.
-> >>
-> >> Right?
-> >
-> > I would suggest a generic notification mechanism instead, where
-> > SEV code could register to be notified after the kernel/initrd is
-> > loaded.
-> >
-> > Maybe the existing qemu_add_machine_init_done_notifier()
-> > mechanism would be enough for this?  Is there a reason the hash
-> > calculation needs to be done inside x86_load_linux(),
-> > specifically?
-> >
->
-> SEV already registers that callback - sev_machine_done_notify, which
-> calls sev_launch_get_measure.  We want the hashes page filled and
-> encrypted *before* that measurement is taken by the PSP.  We can squeeze
-> in the hashes and page encryption before the measurement *if* we can
-> calculate the hashes at this point.
->
-> x86_load_linux already deals with kernel/initrd/cmdline, so that was the
-> easiest place to add the hash calculation.
->
-> It's also a bit weird (semantically) to modify the guest RAM after
-> pc_memory_init has finished.
+On Wed, Jun 16, 2021 at 10:43:25PM +0200, Philippe Mathieu-Daudé wrote:
+> ACPI core routines (in core.c) are not really x86-specific.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  hw/acpi/meson.build | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+> index dd69577212a..c23c67f4283 100644
+> --- a/hw/acpi/meson.build
+> +++ b/hw/acpi/meson.build
+> @@ -3,6 +3,7 @@
+>    'acpi_interface.c',
+>    'aml-build.c',
+>    'bios-linker-loader.c',
+> +  'core.c',
+>    'utils.c',
+>  ))
+>  acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
+> @@ -14,7 +15,7 @@
+>  acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
+> -acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('piix4.c', 'pcihp.c'))
 
-Understood.
 
->
->
-> We can add a new notifier towards the end of x86_load_linux, but can we
-> avoid passing all the different pointers+sizes of kernel/initrd/cmdline
-> to that notifier?  Do you envision other uses for registering on that eve=
-nt?
+So is acpi-stub.c still useful then?
 
-I expect other confidential guest technologies to do something very
-similar, but I don't want to make you overengineer this. The generic
-mechanism was just a suggestion.
-
-Extracting the code to a single SEV-specific function would already be
-an improvement. That would make the code easier to refactor if we
-decide we need a generic mechanism in the future.
-
---=20
-Eduardo
+>  acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
+>  acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+> -- 
+> 2.31.1
 
 
