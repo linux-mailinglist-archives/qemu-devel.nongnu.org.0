@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1873AB3F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:46:21 +0200 (CEST)
-Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E4B3AB40A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:51:13 +0200 (CEST)
+Received: from localhost ([::1]:47068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrPY-0001hz-Ua
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33158)
+	id 1ltrUG-0004mx-G0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltqxN-0002Wd-UC
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:17:13 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37612)
+ id 1ltqxO-0002bE-WF
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:17:15 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltqxB-0007Gk-Ru
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:17:13 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- f16-20020a05600c1550b02901b00c1be4abso6249087wmg.2
+ id 1ltqxC-0007I4-DF
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:17:14 -0400
+Received: by mail-wr1-x430.google.com with SMTP id y7so6505873wrh.7
  for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gXtKXcT35dV5WA49iFwUTffxPZHOQ0cnpW8MEYlDQGY=;
- b=NkWLfVAX7Vt2bF9SWGDhFt0Jd49dhalE8wmV4o30U6gjkWztp2LX7KuheHqvunCSkl
- 7syzkdJsshyiIqnQUYBr0GlycUcJFpvIxepp2DFrbPJ1Q6rIZtWL8mDUPVxXzJZRbAD9
- mWEPl5YWbNuTFjobI1GbDyKZn7YUrOi9yFOPgdrusHO1bsRmBxaon9Fq++FNhrXb/ayj
- /rTPYnm2OxWFCZsUE/r8hFmPVULoIi8XyLJM9aMvLN763nneZzg9F0g4HtvdPJXvgkm2
- 3E9uipwtuwZMQspIjfGOJHW6meNCqS95eNzq1jSIIAjFLH49RpnhGnK7d8Lx1CaCv1OO
- 2s6g==
+ bh=8RYIo5K368DSlxpyx3pNvK6Qv+epOoH2/vrkH96H++E=;
+ b=kOZ06FnfcGaYIcZ5h3AQ/vsEfwf3Wn+7nmNs1BWfYc7GIbI69+ioNGE+uEa5OqwENT
+ ImfCmGtBIZLU56WNTTBuyVl75AFLkYX3ol0ZFmhM9cYoH8TDsAtPUBQFG7ntf5xNxqAs
+ xEpH3rS9iVcLEJjp3ZkdM4ERta86ybFATKnvdXq9+xu8Q2kkC6QJzQQ1MCE93cGaRvp4
+ oAN1ps1VV1pMiJhu7bYRXsEwWKJxqZbgdDdmebPcL8EGYC7UClr1SXEeuqumBar7mcJx
+ T801z4OjkjIY/2TzoFK7ZZVELlLeac0SjZPnqIrTVfEQPARqu477+yGyBGFI2J3J3klJ
+ sUJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gXtKXcT35dV5WA49iFwUTffxPZHOQ0cnpW8MEYlDQGY=;
- b=RQT0FVNazljuidUTsyTf4bmvfTuMJ1oYqwyK+AtaaJcXk20wTp9ary3effTM7YyXjC
- 1pWtAMIOWxyM31vw0jGLh/qrGlI+qiVb2LeR9rs8rs/CbcKC6J+AVqqY+a6K8Qag4cDF
- msilO03c5h/lgXzASOR1QclHxF8ln3gUbK+redB33XBuKDrmPkggEq+DFUU3pByMsniR
- ynLrejzfgUil5UXiQeKmhw8Cv9BqrE5hgBjFLu7jxfKGZKZ1pFF89B1u25ByWeSrudkA
- IB3fW9yYxAwCniK/W8uJT1XXqU2NV1+RrG69o/dqsdL6Hf7SUways6wX/tVzbdVIEc7L
- ZXTw==
-X-Gm-Message-State: AOAM530Z98yblzD+t80Oh8+st64vkTphW7BmRCoAfi53+QwpTNGuvgoX
- 36i+VK0oK0r2VkDyfGP2BVXF5A==
-X-Google-Smtp-Source: ABdhPJzbDac+jNFhko/sQ0sqiduesgI6QpoVG1jEYaU5pbq1c1n72gStVgkoklezQCUbZFZmeLEAhw==
-X-Received: by 2002:a05:600c:3652:: with SMTP id
- y18mr4696974wmq.177.1623932220494; 
- Thu, 17 Jun 2021 05:17:00 -0700 (PDT)
+ bh=8RYIo5K368DSlxpyx3pNvK6Qv+epOoH2/vrkH96H++E=;
+ b=t6inbxYcVjq3XJIP0P+YglwfQaLHCq7U+1Bq7Ldr+Uu9k0L9MaDed0m5tuMXupk0el
+ 4eOLO3hwRxMmwHLjKzBTLyvRuuDorbIjQTb4QVWtZvtvWNQFr3ut2+HUh01Blk/869wG
+ N8Y2Udk4BOP3+P/BjOy7YMLHzronuHjxp0lqTQy9atyLrdo3dCsD+FhINK6Pn7PeDtFG
+ 2WDqvTr5DdydGA2cpm4Bp+/7mxskmsZxclxU69JFY92Z23qGXSskZ4DyQVhLDQR3LhrL
+ mZSnx7FpZblIB2kig0yKXCVryjrq1OIRETuliN5iuyFoma3UMuquM4kHfLCzjhamwpsv
+ kS9g==
+X-Gm-Message-State: AOAM5317wvhrkYHIhrq2FjYMzgoyM3rOxO5O9qmYhp2K5j2Ki3bAzJCg
+ o3INVdw90C7OniidNOD9VNxJZQ==
+X-Google-Smtp-Source: ABdhPJwWX6jV/Uxf//15n+7ak5LoY1tFQinoIj02GnKqDIOX6kxs8o+2tnjJiobvGLdR/Ru8ruc+mA==
+X-Received: by 2002:adf:d1e4:: with SMTP id g4mr5306051wrd.405.1623932221159; 
+ Thu, 17 Jun 2021 05:17:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a1sm6961970wra.63.2021.06.17.05.16.59
+ by smtp.gmail.com with ESMTPSA id a1sm6961970wra.63.2021.06.17.05.17.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Jun 2021 05:17:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 38/44] target/arm: Implement MVE VQDMULL (vector)
-Date: Thu, 17 Jun 2021 13:16:22 +0100
-Message-Id: <20210617121628.20116-39-peter.maydell@linaro.org>
+Subject: [PATCH v3 39/44] target/arm: Implement MVE VRHADD
+Date: Thu, 17 Jun 2021 13:16:23 +0100
+Message-Id: <20210617121628.20116-40-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210617121628.20116-1-peter.maydell@linaro.org>
 References: <20210617121628.20116-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,137 +87,80 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the vector form of the MVE VQDMULL insn.
+Implement the MVE VRHADD insn, which performs a rounded halving
+addition.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-mve.h    |  5 +++++
- target/arm/mve.decode      |  5 +++++
- target/arm/mve_helper.c    | 30 ++++++++++++++++++++++++++++++
- target/arm/translate-mve.c | 30 ++++++++++++++++++++++++++++++
- 4 files changed, 70 insertions(+)
+ target/arm/helper-mve.h    | 8 ++++++++
+ target/arm/mve.decode      | 3 +++
+ target/arm/mve_helper.c    | 6 ++++++
+ target/arm/translate-mve.c | 2 ++
+ 4 files changed, 19 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 61f8082e0e3..34a46ed38ee 100644
+index 34a46ed38ee..2f0cf99359a 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -233,6 +233,11 @@ DEF_HELPER_FLAGS_4(mve_vqrdmlsdhxb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vqrdmlsdhxh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vqrdmlsdhxw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+@@ -238,6 +238,14 @@ DEF_HELPER_FLAGS_4(mve_vqdmullbw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vqdmullth, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vqdmulltw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
  
-+DEF_HELPER_FLAGS_4(mve_vqdmullbh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vqdmullbw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vqdmullth, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vqdmulltw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vrhaddsb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vrhaddsh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vrhaddsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++
++DEF_HELPER_FLAGS_4(mve_vrhaddub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vrhadduh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vrhadduw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 +
  DEF_HELPER_FLAGS_4(mve_vadd_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vadd_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vadd_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index fa4fb1b2038..3a2a7e75a3a 100644
+index 3a2a7e75a3a..6b969902df0 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -39,6 +39,8 @@
- @1op_nosz .... .... .... .... .... .... .... .... &1op qd=%qd qm=%qm size=0
- @2op .... .... .. size:2 .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn
- @2op_nosz .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn size=0
-+@2op_sz28 .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn \
-+     size=%size_28
+@@ -157,6 +157,9 @@ VQRDMLSDHX       1111 1110 0 . .. ... 0 ... 1 1110 . 0 . 0 ... 1 @2op
+ VQDMULLB         111 . 1110 0 . 11 ... 0 ... 0 1111 . 0 . 0 ... 1 @2op_sz28
+ VQDMULLT         111 . 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 1 @2op_sz28
  
- # The _rev suffix indicates that Vn and Vm are reversed. This is
- # the case for shifts. In the Arm ARM these insns are documented
-@@ -152,6 +154,9 @@ VQDMLSDHX        1111 1110 0 . .. ... 0 ... 1 1110 . 0 . 0 ... 0 @2op
- VQRDMLSDH        1111 1110 0 . .. ... 0 ... 0 1110 . 0 . 0 ... 1 @2op
- VQRDMLSDHX       1111 1110 0 . .. ... 0 ... 1 1110 . 0 . 0 ... 1 @2op
- 
-+VQDMULLB         111 . 1110 0 . 11 ... 0 ... 0 1111 . 0 . 0 ... 1 @2op_sz28
-+VQDMULLT         111 . 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 1 @2op_sz28
++VRHADD_S         111 0 1111 0 . .. ... 0 ... 0 0001 . 1 . 0 ... 0 @2op
++VRHADD_U         111 1 1111 0 . .. ... 0 ... 0 0001 . 1 . 0 ... 0 @2op
 +
  # Vector miscellaneous
  
  VCLS             1111 1111 1 . 11 .. 00 ... 0 0100 01 . 0 ... 0 @1op
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 8db03003ce1..11eb99894bc 100644
+index 11eb99894bc..66002f4ca4a 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -914,6 +914,36 @@ DO_2OP_SAT_SCALAR_L(vqdmullt_scalarh, 1, 2, int16_t, 4, int32_t, \
- DO_2OP_SAT_SCALAR_L(vqdmullt_scalarw, 1, 4, int32_t, 8, int64_t, \
-                     do_qdmullw, SATMASK32)
+@@ -546,6 +546,12 @@ DO_2OP_U(vshlu, DO_VSHLU)
+ DO_2OP_S(vrshls, DO_VRSHLS)
+ DO_2OP_U(vrshlu, DO_VRSHLU)
  
-+/*
-+ * Long saturating ops
-+ */
-+#define DO_2OP_SAT_L(OP, TOP, ESIZE, TYPE, LESIZE, LTYPE, FN, SATMASK)  \
-+    void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd, void *vn,   \
-+                                void *vm)                               \
-+    {                                                                   \
-+        LTYPE *d = vd;                                                  \
-+        TYPE *n = vn, *m = vm;                                          \
-+        uint16_t mask = mve_element_mask(env);                          \
-+        unsigned le;                                                    \
-+        bool qc = false;                                                \
-+        for (le = 0; le < 16 / LESIZE; le++, mask >>= LESIZE) {         \
-+            bool sat = false;                                           \
-+            LTYPE op1 = n[H##ESIZE(le * 2 + TOP)];                      \
-+            LTYPE op2 = m[H##ESIZE(le * 2 + TOP)];                      \
-+            mergemask(&d[H##LESIZE(le)], FN(op1, op2, &sat), mask);     \
-+            qc |= sat && (mask & SATMASK);                              \
-+        }                                                               \
-+        if (qc) {                                                       \
-+            env->vfp.qc[0] = qc;                                        \
-+        }                                                               \
-+        mve_advance_vpt(env);                                           \
-+    }
++#define DO_RHADD_S(N, M) (((int64_t)(N) + (M) + 1) >> 1)
++#define DO_RHADD_U(N, M) (((uint64_t)(N) + (M) + 1) >> 1)
 +
-+DO_2OP_SAT_L(vqdmullbh, 0, 2, int16_t, 4, int32_t, do_qdmullh, SATMASK16B)
-+DO_2OP_SAT_L(vqdmullbw, 0, 4, int32_t, 8, int64_t, do_qdmullw, SATMASK32)
-+DO_2OP_SAT_L(vqdmullth, 1, 2, int16_t, 4, int32_t, do_qdmullh, SATMASK16T)
-+DO_2OP_SAT_L(vqdmulltw, 1, 4, int32_t, 8, int64_t, do_qdmullw, SATMASK32)
++DO_2OP_S(vrhadds, DO_RHADD_S)
++DO_2OP_U(vrhaddu, DO_RHADD_U)
 +
- static inline uint32_t do_vbrsrb(uint32_t n, uint32_t m)
+ static inline int32_t do_sat_bhw(int64_t val, int64_t min, int64_t max, bool *s)
  {
-     m &= 0xff;
+     if (val > max) {
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 27b3e378ac7..05789a19812 100644
+index 05789a19812..febf644079c 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -419,6 +419,36 @@ DO_2OP(VQDMLSDHX, vqdmlsdhx)
+@@ -418,6 +418,8 @@ DO_2OP(VQDMLSDH, vqdmlsdh)
+ DO_2OP(VQDMLSDHX, vqdmlsdhx)
  DO_2OP(VQRDMLSDH, vqrdmlsdh)
  DO_2OP(VQRDMLSDHX, vqrdmlsdhx)
++DO_2OP(VRHADD_S, vrhadds)
++DO_2OP(VRHADD_U, vrhaddu)
  
-+static bool trans_VQDMULLB(DisasContext *s, arg_2op *a)
-+{
-+    static MVEGenTwoOpFn * const fns[] = {
-+        NULL,
-+        gen_helper_mve_vqdmullbh,
-+        gen_helper_mve_vqdmullbw,
-+        NULL,
-+    };
-+    if (a->size == MO_32 && (a->qd == a->qm || a->qd == a->qn)) {
-+        /* UNPREDICTABLE; we choose to undef */
-+        return false;
-+    }
-+    return do_2op(s, a, fns[a->size]);
-+}
-+
-+static bool trans_VQDMULLT(DisasContext *s, arg_2op *a)
-+{
-+    static MVEGenTwoOpFn * const fns[] = {
-+        NULL,
-+        gen_helper_mve_vqdmullth,
-+        gen_helper_mve_vqdmulltw,
-+        NULL,
-+    };
-+    if (a->size == MO_32 && (a->qd == a->qm || a->qd == a->qn)) {
-+        /* UNPREDICTABLE; we choose to undef */
-+        return false;
-+    }
-+    return do_2op(s, a, fns[a->size]);
-+}
-+
- static bool do_2op_scalar(DisasContext *s, arg_2scalar *a,
-                           MVEGenTwoOpScalarFn fn)
+ static bool trans_VQDMULLB(DisasContext *s, arg_2op *a)
  {
 -- 
 2.20.1
