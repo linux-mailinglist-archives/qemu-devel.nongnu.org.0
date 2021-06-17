@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BD83ABCA1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:24:09 +0200 (CEST)
-Received: from localhost ([::1]:60634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F133ABC9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:22:54 +0200 (CEST)
+Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltxcW-0002CW-Ob
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
+	id 1ltxbJ-0008VJ-Hb
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxN1-0003gW-V5
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxN1-0003fr-Uk
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32633)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxMz-0003Uy-1a
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxMy-0003Us-V3
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1623956883;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ndUcLwkcIYLwBdw3taxzDnK43je9ZPBrHzoWvkwpljQ=;
- b=IILFGC3NX6kOU6+ViWUu5qIa4FFR73PEhtKdAEQ7JaWeQbuZpdIElcTlA5VUmDKdBFl07C
- 1N3LyFSWNhqCuDxejK3O1uhAGfyyuDTYmflfKv3yr3B8Fvvbqvt1QjotjO4bkR+wvVyfMF
- 6Q1L5q7yPPNLxZEcA3m7clkMT0/8lBU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HDPJrgUREb2X0ITZdZXnFVL1WhktThWwuO2NA+41g9s=;
+ b=YQ3M38jB97Gs0qbNnaDMPQDrmTrZBiDyMtwT2WChHGMrzgx3S+oNUfjVyUfDmFqpgjBMPL
+ GhJniDqoifnjmNITHXskNO0zCHQDlsdOx2XMI6Ffe/dCUPWDFE0atzVosUQiCN6AgDJkfn
+ awWk/24AFmELtrD+H+Y7yMXNjpNbCF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-EOq_l_SbMTuvPDkXR8XZ6Q-1; Thu, 17 Jun 2021 15:07:56 -0400
-X-MC-Unique: EOq_l_SbMTuvPDkXR8XZ6Q-1
+ us-mta-496-DkxP-VO6P226bz6ga2eC2A-1; Thu, 17 Jun 2021 15:08:01 -0400
+X-MC-Unique: DkxP-VO6P226bz6ga2eC2A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 818E9108AD26;
- Thu, 17 Jun 2021 19:07:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81E2291270;
+ Thu, 17 Jun 2021 19:08:00 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.43.2.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13C125D723;
- Thu, 17 Jun 2021 19:07:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B19A5D723;
+ Thu, 17 Jun 2021 19:07:59 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/7] Use ACPI PCI hot-plug for Q35
-Date: Thu, 17 Jun 2021 21:07:32 +0200
-Message-Id: <20210617190739.3673064-1-jusual@redhat.com>
+Subject: [PATCH v5 1/7] hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus()
+ to support Q35
+Date: Thu, 17 Jun 2021 21:07:33 +0200
+Message-Id: <20210617190739.3673064-2-jusual@redhat.com>
+In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
+References: <20210617190739.3673064-1-jusual@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -52,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jusual@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jusual@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,98 +82,36 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch set consists of two parts:
-patches 1-4: introduce new feature
-             'acpi-pci-hotplug-with-bridge-support' on Q35
-patches 5-7: make the feature default along with changes in ACPI tables
+PCI Express does not allow hot-plug on pcie.0. Check for Q35 in
+acpi_pcihp_disable_root_bus() to be able to forbid hot-plug using the
+'acpi-root-pci-hotplug' flag.
 
-With the feature disabled Q35 falls back to the native hot-plug.
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/acpi/pcihp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Pros
-    * no racy behavior during boot (see 110c477c2ed)
-    * eject is possible - according to PCIe spec, attention button
-      press should lead to power off, and then the adapter should be
-      removed manually. As there is no power down state exists in QEMU,
-      we cannot distinguish between an eject and a power down
-      request.
-    * no delay during deleting - after the actual power off software
-      must wait at least 1 second before indicating about it. This case
-      is quite important for users, it even has its own bug:
-          https://bugzilla.redhat.com/show_bug.cgi?id=1594168
-    * no timer-based behavior - in addition to the previous example,
-      the attention button has a 5-second waiting period, during which
-      the operation can be canceled with a second press. While this
-      looks fine for manual button control, automation will result in
-      the need to queue or drop events, and the software receiving
-      events in all sort of unspecified combinations of attention/power
-      indicator states, which is racy and uppredictable.
-    * fixes or reduces the likelihood of the bugs:
-        * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
-        * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
-        * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
-        * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
-
-Cons:
-    * no access to possible features presented in slot capabilities
-      (this is only surprise removal AFAIK)
-
-v5:
-    * make sugar property on TYPE_PCIE_SLOT
-      instead of old TYPE_MACHINE property [Igor]
-    * minor style changes
-v4:
-    * regain per-port control over hot-plug
-    * rebased over acpi-index changes
-    * set property on machine type to
-      make pci code more generic [Igor, Michael]
-
-v3:
-    * drop change of _OSC to allow SHPC on hotplugged bridges
-    * use 'acpi-root-pci-hotplug'
-    * add migration states [Igor]
-    * minor style changes
-
-v2:
-    * new ioport range for acpiphp [Gerd]
-    * drop find_pci_host() [Igor]
-    * explain magic numbers in _OSC [Igor]
-    * drop build_q35_pci_hotplug() wrapper [Igor]
-
-Julia Suvorova (7):
-  hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
-  hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
-  hw/acpi/ich9: Enable ACPI PCI hot-plug
-  hw/pci/pcie: Do not set HPC flag if acpihp is used
-  bios-tables-test: Allow changes in DSDT ACPI tables
-  hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
-  bios-tables-test: Update golden binaries
-
- hw/i386/acpi-build.h              |   5 +++
- include/hw/acpi/ich9.h            |   5 +++
- include/hw/acpi/pcihp.h           |   3 +-
- include/hw/pci/pcie_port.h        |   5 ++-
- hw/acpi/ich9.c                    |  67 ++++++++++++++++++++++++++++++
- hw/acpi/pcihp.c                   |  22 +++++++---
- hw/acpi/piix4.c                   |   4 +-
- hw/core/machine.c                 |   1 -
- hw/i386/acpi-build.c              |  32 ++++++++------
- hw/i386/pc.c                      |   1 +
- hw/i386/pc_q35.c                  |  11 +++++
- hw/pci/pcie.c                     |   8 +++-
- hw/pci/pcie_port.c                |   1 +
- tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
- tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
- tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
- tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
- tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
- tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
- tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
- tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
- tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
- tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
- tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
- 24 files changed, 143 insertions(+), 22 deletions(-)
-
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 4999277d57..09f531e941 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -122,13 +122,14 @@ static void acpi_set_pci_info(void)
+ static void acpi_pcihp_disable_root_bus(void)
+ {
+     static bool root_hp_disabled;
++    Object *host = acpi_get_i386_pci_host();
+     PCIBus *bus;
+ 
+     if (root_hp_disabled) {
+         return;
+     }
+ 
+-    bus = find_i440fx();
++    bus = PCI_HOST_BRIDGE(host)->bus;
+     if (bus) {
+         /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
+         qbus_set_hotplug_handler(BUS(bus), NULL);
 -- 
 2.30.2
 
