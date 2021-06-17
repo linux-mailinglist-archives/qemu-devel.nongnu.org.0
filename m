@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E283AB12F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:18:23 +0200 (CEST)
-Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6543AB0D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:03:30 +0200 (CEST)
+Received: from localhost ([::1]:48614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltp6M-0003O4-5M
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55442)
+	id 1ltorw-0002HC-K5
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNe-0003Fj-V5
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:10 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45601)
+ id 1ltoNb-0003CD-MX
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:07 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:42512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNY-0006My-AZ
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:09 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id r7so3016939edv.12
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:03 -0700 (PDT)
+ id 1ltoNa-0006P0-24
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:07 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id i13so3039290edb.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fB1DEpUXUs5bLKT6hBBiKcj8AC7+sYf8pppcVv3D4tA=;
- b=kpYp5u39PNQgotaElkbs2+5cTMuuOqP7FN4bFYSvgOWzlhBVK9kYosaFmtpFohZlAZ
- S63G8IQKU2D67OjQazV2zudlm9pecYpqNeHaUA0EbOyR4rINeeLAa3D/VTigxWNx9BQq
- SuBl2cMA2XPUGhpTKEdQVvxiA/NxfUTz+Oyk83w9rPuCy4P0NC5HEjU5qIu6fm3LdDlj
- Qb5YsAS38v7becJoJ5xjlkvJrG8hOr/ep/2VP3eChT6I/8gZMboaOaIEHVq59agE1/rN
- ufd2WDezapQrsDj9ZiOieRTaHSirN1KXXYOZRYwBaLjnO+k4WzUxy8cd3EnopCzVFruC
- cGlQ==
+ bh=JC6jDpOW9MIOT5eEE0twrZyJmHuq2x22gNqBjt+axpw=;
+ b=qLtioOA0pDI271G52lPzyTkwUH5MTzpzevMcTlWT2+KT2rfJ13gcHMI/9cWdJ5puau
+ 3QoHPuULjmHjQPR2JE1FAmK9Dj24kCHEiU8hrHuibfVxIFMKYO4WiJpgCsiMEdYE3V1F
+ QWXfGNWVCaaa4sQkjYtdSEk+l1aTqLAlyuXZyQwkmhlPJuenk0FGVtV8SJgYTQ1rYII1
+ +Av4cSZXH+b/zAHpUp/+gkmYmp3xH07tF8HYAeLrzzbg1YUZBSyFPflSph8XRx1YobRs
+ 70WHVcXTKgixrV/nkCyiSTg0BW5YZAs76BafC3j5MC8f/qAbvRQadqg1ecNkDlm5/cZT
+ bzmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fB1DEpUXUs5bLKT6hBBiKcj8AC7+sYf8pppcVv3D4tA=;
- b=VRFVJeUNkyxmgUGolZAaH4ZVxUn/8AqUbNH36RngaSenddxATqumt3psj1YDRPD/oC
- oFz1m1lXm6EWYl6fJIEFII5+0Qpbh51BIpy33mWbmp+gTdFo3Aoab6P6/Plvxqxhm2YT
- V20kro+DcNI84z486HUw1MEhBg6fc0OCe1z6J7dLw6rG0s41zrGPxmS/rzZAbjwY6oTN
- bEHpic/6MSSjZvxDy5Bf+jzCnLbo2UDRb8ertmJv4Poe3cx7IbgjGEhxofIwRvOx2ZMO
- zhRzwGrRoJhC565jwVIOZeyd0nxlSwGzxK2QLRUEh0OD+w2iq3QGSk2GfKXIIxFFOUpL
- 0s9A==
-X-Gm-Message-State: AOAM530U4tpXCZGQiKeMI1ydt3J7/LY4I9Y4UwacOATF8SuhuuO3pPQm
- vXJ7ugciYcdZf3jJ1wFAZu/aP7JlWBw=
-X-Google-Smtp-Source: ABdhPJy23m9sxOi91979Hyuguf/FVpesrQ+hWwwCnYo5/ByIHLzx4Mp7ZT1LSref5685KdDN92+U9A==
-X-Received: by 2002:a50:ccd8:: with SMTP id b24mr1943333edj.386.1623922322859; 
- Thu, 17 Jun 2021 02:32:02 -0700 (PDT)
+ bh=JC6jDpOW9MIOT5eEE0twrZyJmHuq2x22gNqBjt+axpw=;
+ b=B8ZIIFQbJS6hwzKK5JXeFTrSSU208CEYWn6x67xHCnemHwTVbK1Rn/0gt4cm3szl7E
+ b0tqFQeQjl8ETjGbiprsEBmdW/rd0YrpQVt7nQzPuAYsr79beoz3HQVXz9Gt2pNKTj/J
+ BB+hshKcV+E76XxExHBeHlejjSJr9MX7aCZUCWdV0AVgUljeIpBAkJ7nwX1gRLqRUpx/
+ ujx2p3aBU82P+fCIPhdn5LbUGqWy5r3FG2dfVKgGIQDQWua3tQvlKv1QZujEoEUDPU29
+ bht+hj1wr8O5OmrKplhrRpvHKG6z6Se+TJ+0Fap9laFVqZXDn1LJFer+E3GgBkvANAEP
+ ETng==
+X-Gm-Message-State: AOAM530sY8xt8fWUR5vbsfRbrqm8cF4x57h/PPx/SouaaIYLNCVZLTae
+ QpnwCt7sTf15mo3pTuHMDp4HnFwXjgA=
+X-Google-Smtp-Source: ABdhPJzf1TKbDSYAj+DvmqyloTIjnYWEqWL7YdfZ34G702XMbRhB/eGiADtzTP6Q9uBnj3JxLci7wA==
+X-Received: by 2002:a05:6402:2706:: with SMTP id
+ y6mr2205053edd.330.1623922324882; 
+ Thu, 17 Jun 2021 02:32:04 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.02
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:32:02 -0700 (PDT)
+ Thu, 17 Jun 2021 02:32:04 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/45] target/i386: Added Intercept CR0 writes check
-Date: Thu, 17 Jun 2021 11:31:26 +0200
-Message-Id: <20210617093134.900014-38-pbonzini@redhat.com>
+Subject: [PULL 40/45] util: Use real functions for thread-posix QemuRecMutex
+Date: Thu, 17 Jun 2021 11:31:29 +0200
+Message-Id: <20210617093134.900014-41-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,42 +85,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lara Lazier <laramglazier@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lara Lazier <laramglazier@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-When the selective CR0 write intercept is set, all writes to bits in
-CR0 other than CR0.TS or CR0.MP cause a VMEXIT.
+Move the declarations from thread-win32.h into thread.h
+and remove the macro redirection from thread-posix.h.
+This will be required by following cleanups.
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
-Message-Id: <20210616123907.17765-5-laramglazier@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210614233143.1221879-4-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/sysemu/misc_helper.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ include/qemu/thread-posix.h |  4 ----
+ include/qemu/thread-win32.h |  6 ------
+ include/qemu/thread.h       |  9 ++++++---
+ util/qemu-thread-posix.c    | 20 ++++++++++++++++++++
+ 4 files changed, 26 insertions(+), 13 deletions(-)
 
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index 0cef2f1a4c..db0d8a9d79 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -84,6 +84,15 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+diff --git a/include/qemu/thread-posix.h b/include/qemu/thread-posix.h
+index c903525062..cf8bc90468 100644
+--- a/include/qemu/thread-posix.h
++++ b/include/qemu/thread-posix.h
+@@ -5,10 +5,6 @@
+ #include <semaphore.h>
+ 
+ typedef QemuMutex QemuRecMutex;
+-#define qemu_rec_mutex_destroy qemu_mutex_destroy
+-#define qemu_rec_mutex_lock_impl    qemu_mutex_lock_impl
+-#define qemu_rec_mutex_trylock_impl qemu_mutex_trylock_impl
+-#define qemu_rec_mutex_unlock qemu_mutex_unlock
+ 
+ struct QemuMutex {
+     pthread_mutex_t lock;
+diff --git a/include/qemu/thread-win32.h b/include/qemu/thread-win32.h
+index d0a1a9597e..d95af4498f 100644
+--- a/include/qemu/thread-win32.h
++++ b/include/qemu/thread-win32.h
+@@ -18,12 +18,6 @@ struct QemuRecMutex {
+     bool initialized;
+ };
+ 
+-void qemu_rec_mutex_destroy(QemuRecMutex *mutex);
+-void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line);
+-int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file,
+-                                int line);
+-void qemu_rec_mutex_unlock(QemuRecMutex *mutex);
+-
+ struct QemuCond {
+     CONDITION_VARIABLE var;
+     bool initialized;
+diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+index 5435763184..2c0d85f3bc 100644
+--- a/include/qemu/thread.h
++++ b/include/qemu/thread.h
+@@ -28,6 +28,12 @@ int qemu_mutex_trylock_impl(QemuMutex *mutex, const char *file, const int line);
+ void qemu_mutex_lock_impl(QemuMutex *mutex, const char *file, const int line);
+ void qemu_mutex_unlock_impl(QemuMutex *mutex, const char *file, const int line);
+ 
++void qemu_rec_mutex_init(QemuRecMutex *mutex);
++void qemu_rec_mutex_destroy(QemuRecMutex *mutex);
++void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line);
++int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line);
++void qemu_rec_mutex_unlock(QemuRecMutex *mutex);
++
+ typedef void (*QemuMutexLockFunc)(QemuMutex *m, const char *f, int l);
+ typedef int (*QemuMutexTrylockFunc)(QemuMutex *m, const char *f, int l);
+ typedef void (*QemuRecMutexLockFunc)(QemuRecMutex *m, const char *f, int l);
+@@ -129,9 +135,6 @@ static inline int (qemu_rec_mutex_trylock)(QemuRecMutex *mutex)
+     return qemu_rec_mutex_trylock(mutex);
+ }
+ 
+-/* Prototypes for other functions are in thread-posix.h/thread-win32.h.  */
+-void qemu_rec_mutex_init(QemuRecMutex *mutex);
+-
+ void qemu_cond_init(QemuCond *cond);
+ void qemu_cond_destroy(QemuCond *cond);
+ 
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index dcff5e7c5d..8e2b6653f5 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -124,6 +124,26 @@ void qemu_rec_mutex_init(QemuRecMutex *mutex)
+     mutex->initialized = true;
+ }
+ 
++void qemu_rec_mutex_destroy(QemuRecMutex *mutex)
++{
++    qemu_mutex_destroy(mutex);
++}
++
++void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line)
++{
++    qemu_mutex_lock_impl(mutex, file, line);
++}
++
++int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line)
++{
++    return qemu_mutex_trylock_impl(mutex, file, line);
++}
++
++void qemu_rec_mutex_unlock(QemuRecMutex *mutex)
++{
++    qemu_mutex_unlock(mutex);
++}
++
+ void qemu_cond_init(QemuCond *cond)
  {
-     switch (reg) {
-     case 0:
-+        /*
-+        * If we reach this point, the CR0 write intercept is disabled.
-+        * But we could still exit if the hypervisor has requested the selective
-+        * intercept for bits other than TS and MP
-+        */
-+        if (cpu_svm_has_intercept(env, SVM_EXIT_CR0_SEL_WRITE) &&
-+            ((env->cr[0] ^ t0) & ~(CR0_TS_MASK | CR0_MP_MASK))) {
-+            cpu_vmexit(env, SVM_EXIT_CR0_SEL_WRITE, 0, GETPC());
-+        }
-         cpu_x86_update_cr0(env, t0);
-         break;
-     case 3:
+     int err;
 -- 
 2.31.1
 
