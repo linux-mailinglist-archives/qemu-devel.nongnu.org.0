@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B30C3AB445
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:06:07 +0200 (CEST)
-Received: from localhost ([::1]:34678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4A33AB46F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:16:04 +0200 (CEST)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrig-0000s1-Cj
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35168)
+	id 1ltrsJ-0004zv-8w
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltr6G-0003yL-B5
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:26:24 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltr6D-00031S-6v
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:26:23 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id nd37so9605622ejc.3
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pXLDh+yfw1z7IW9znBpg5l7mmmjf/oa4XnRzPYKl+Po=;
- b=Q9HTiKrO6PFspMiXNEHnIcxZlNBT8+gLSrp/o5qxjh8/U4v1rlYC3kOnivndQYBkTT
- jYVIyrFO4UnaMU9jWr6QoWoiuR0HkFWWI7Nh8Oe/apF4tbHocQ6KIKeX179/225/01UP
- hl3a4uz7txDONJrHSoHtyt5t3uUo5DswragOtcfPTYYurZNGN9+VrVLPVSGoS233m6SD
- gsitlSckrXrxN/gP15kfzHYeYFa1Nw5C8+PYFOwOwH1jM0j6nVYgeg5a8yK2teWNkla7
- /1mENTvKOWlNHSgwIvur35dXu5uo+7LeHvx+QZRaWTXbXRmClg2eUipmf1/6HmK+xJWU
- TnaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pXLDh+yfw1z7IW9znBpg5l7mmmjf/oa4XnRzPYKl+Po=;
- b=BmZH3XUGm9OZy3UMtQRb1IChuagKIGbo9R8V962Gs30eCpM5rY9iyk+a+uDO+VeZ3u
- X72ru/vN9pJNCKtJLTjtMcuz6cU/MBxe3MljOn7GqayzmNDqtCzjdWnuiEA0o3F2ADlc
- 1Qh3pNB5pqxoV7QQKpLDrLi0Ahj69mFJJc53LchUqdWPPEenJ4GgCyLc/mkT6nCLz+ZD
- 2XRmnsy+ml1ZCDNsVZiHQGsHzpoD36kGO1ymIYssmCccfp2B464UcgnGlyEoJDgAkknb
- DerhAfvvL8yYuJwQdKVk6OTK9vKEFEzcw7o3EAtbuA/hXoTBUU/pHYz8zZz0hR7MxoDT
- HJMg==
-X-Gm-Message-State: AOAM532or8kCb3+9uqKM9ofDfbPI/47SN7cIMipFYKoOryicLwIMHBDE
- BQ7bNwDDP0hCh9oY7zEULJSRPCL/zxGqz88nt0oeTw==
-X-Google-Smtp-Source: ABdhPJzBfn1J5C+/6ZX0cmkOK/MPxA4DXe9N9rmQiNF9Kxl0+qEjkyKsu+Cu/TTdAtwnS40i5d9usk7RI+DM//93tmE=
-X-Received: by 2002:a17:906:b294:: with SMTP id
- q20mr4854971ejz.382.1623932779290; 
- Thu, 17 Jun 2021 05:26:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1ltrKE-0006s9-1U
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:40:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46086)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1ltrK9-0007Yh-K2
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:40:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623933642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CbTatx65hPONsj4IEQhjxR0s1QfLbugh5hJa4V3aJcI=;
+ b=G2bCu71PccYXjdTVK00z2KVUMugUGw3XAoPVALzFR6rPCA5nBkngneD9aBq1muh0aiyuEF
+ XmXuYMCEh2qpieX0byCJhTK861sFc7Ccf4sCt0ToanZdaSjhFg+TAwP1p1RyVMetXv5+VC
+ r6Rh4KKbyztxaWGARx3uBr5Jj1Dy6X4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-ZGAh3nPHOaazd9u1zSTR_Q-1; Thu, 17 Jun 2021 08:40:39 -0400
+X-MC-Unique: ZGAh3nPHOaazd9u1zSTR_Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 287738042AC;
+ Thu, 17 Jun 2021 12:40:38 +0000 (UTC)
+Received: from starship (unknown [10.40.194.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B91AC60C05;
+ Thu, 17 Jun 2021 12:40:17 +0000 (UTC)
+Message-ID: <4b6b6f1b7a97d4b7fd2008fd31c6c2121ba053fb.camel@redhat.com>
+Subject: Re: [PATCH] block/nvme: Fix VFIO_MAP_DMA failed: No space left on
+ device
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>, Eric
+ Auger <eric.auger@redhat.com>
+Date: Thu, 17 Jun 2021 15:40:16 +0300
+In-Reply-To: <cb271128-faa2-c557-128f-4ec1133667b8@redhat.com>
+References: <20210611114606.320008-1-philmd@redhat.com>
+ <cb271128-faa2-c557-128f-4ec1133667b8@redhat.com>
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
 MIME-Version: 1.0
-References: <20210603171259.27962-1-peter.maydell@linaro.org>
- <20210603171259.27962-2-peter.maydell@linaro.org>
- <794108a2-fbaf-dfbc-ed8f-2d3d87ba2c07@linaro.org>
- <3e6b9e75-a0b7-eb65-a357-43d0cb3a3027@redhat.com>
-In-Reply-To: <3e6b9e75-a0b7-eb65-a357-43d0cb3a3027@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Jun 2021 13:25:44 +0100
-Message-ID: <CAFEAcA90c643JhudpB=g4Fpz8B+dQvd=9tYZVyss-kfa3DUbRw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] hw/acpi: Provide stub version of
- acpi_ghes_record_errors()
-To: Paolo Bonzini <pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,43 +83,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dongjiu Geng <gengdongjiu1@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Swetha <swjoshi@microsoft.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org,
+ Michal =?ISO-8859-1?Q?Pr=EDvozn=EDk?= <mprivozn@redhat.com>,
+ qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Jun 2021 at 11:28, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 03/06/21 20:52, Richard Henderson wrote:
-> > On 6/3/21 10:12 AM, Peter Maydell wrote:
-> >> +softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c',
-> >> 'aml-build-stub.c', 'ghes-stub.c'))
-> >>   softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
-> >>   softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c',
-> >> 'aml-build-stub.c',
-> >> -                                                  'acpi-x86-stub.c',
-> >> 'ipmi-stub.c'))
-> >> +                                                  'acpi-x86-stub.c',
-> >> 'ipmi-stub.c', 'ghes-stub.c'))
-> >
-> > Gosh that last line is confusing.  I see it's documented in
-> > build-system.rst, but yeesh.
-> >
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> Yeah, it's vestigial of the makefiles and I should remove it.
->
-> That said, here:
->
-> > +acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'), if_false:('ghes-stub.c'))
->
-> There's a missing "files" after if_false.
+On Mon, 2021-06-14 at 18:03 +0200, Philippe Mathieu-Daudé wrote:
+> On 6/11/21 1:46 PM, Philippe Mathieu-Daudé wrote:
+> > When the NVMe block driver was introduced (see commit bdd6a90a9e5,
+> > January 2018), Linux VFIO_IOMMU_MAP_DMA ioctl was only returning
+> > -ENOMEM in case of error. The driver was correctly handling the
+> > error path to recycle its volatile IOVA mappings.
+> > 
+> > To fix CVE-2019-3882, Linux commit 492855939bdb ("vfio/type1: Limit
+> > DMA mappings per container", April 2019) added the -ENOSPC error to
+> > signal the user exhausted the DMA mappings available for a container.
+> 
+> Hmm this commit has been added before v5.1-rc4.
+> 
+> So while this fixes the behavior of v5.1-rc4+ kernels,
+> older kernels using this fix will have the same problem...
 
-Thanks for finding this bug -- I have requeued the patches
-to target-arm.next with the "files" added.
 
--- PMM
+Hi!
+
+I wonder why not to check for both -ENOMEM and -ENOSPC
+and recycle the mappings in both cases?
+
+I think that would work on both old and new kernels.
+
+What do you think?
+
+Best regards,
+	Maxim Levitsky
+
+> 
+> Should I check uname(2)'s utsname.release[]? Is it reliable?
+> 
+> > The block driver started to mis-behave:
+> > 
+> >   qemu-system-x86_64: VFIO_MAP_DMA failed: No space left on device
+> >   (qemu)
+> >   (qemu) info status
+> >   VM status: paused (io-error)
+> >   (qemu) c
+> >   VFIO_MAP_DMA failed: No space left on device
+> >   qemu-system-x86_64: block/block-backend.c:1968: blk_get_aio_context: Assertion `ctx == blk->ctx' failed.
+> > 
+> > Fix by handling the -ENOSPC error when DMA mappings are exhausted;
+> > other errors (such -ENOMEM) are still handled later in the same
+> > function.
+> > 
+> > An easy way to reproduce this bug is to restrict the DMA mapping
+> > limit (65535 by default) when loading the VFIO IOMMU module:
+> > 
+> >   # modprobe vfio_iommu_type1 dma_entry_limit=666
+> > 
+> > Cc: qemu-stable@nongnu.org
+> > Reported-by: Michal Prívozník <mprivozn@redhat.com>
+> > Fixes: bdd6a90a9e5 ("block: Add VFIO based NVMe driver")
+> > Buglink: https://bugs.launchpad.net/qemu/+bug/1863333
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/65
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > ---
+> > Michal, is it still possible for you to test this (old bug)?
+> > 
+> > A functional test using viommu & nested VM is planned (suggested by
+> > Stefan and Maxim).
+> > ---
+> >  block/nvme.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/block/nvme.c b/block/nvme.c
+> > index 2b5421e7aa6..12f9dd5cce3 100644
+> > --- a/block/nvme.c
+> > +++ b/block/nvme.c
+> > @@ -1030,7 +1030,7 @@ try_map:
+> >          r = qemu_vfio_dma_map(s->vfio,
+> >                                qiov->iov[i].iov_base,
+> >                                len, true, &iova);
+> > -        if (r == -ENOMEM && retry) {
+> > +        if (r == -ENOSPC && retry) {
+> >              retry = false;
+> >              trace_nvme_dma_flush_queue_wait(s);
+> >              if (s->dma_map_count) {
+> > 
+
+
 
