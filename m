@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEE53AAB89
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 08:00:40 +0200 (CEST)
-Received: from localhost ([::1]:59326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6903AACD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 08:57:43 +0200 (CEST)
+Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltl4x-0000if-7G
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 02:00:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36222)
+	id 1ltlyA-0002d5-8W
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 02:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltl3f-0008DW-31
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:59:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31006)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltl3c-0001v4-GW
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:59:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623909555;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BFTGZn0ek/5Z6u6z6tgNx0xG3Cw2wj2C9CT0SfGC+fg=;
- b=gr2iYclMdEDI1P9aI9v3mr9K9I6Zyd/ZiSclmjH508FeeeXiv2gvqK8YnLvVCTgvu5rSR8
- +HAtKTZd1VgFdIp/zNsJuuzDTgazNodC7P8e59lYQlVMuYQ2RtlqYK6Ko8qCYaqSx0CL+U
- gklqfJUPkpaUoclUAotO2Sh+8Q5JT1c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-WiibgDVePQOQ4DGLbJekCw-1; Thu, 17 Jun 2021 01:59:11 -0400
-X-MC-Unique: WiibgDVePQOQ4DGLbJekCw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E519A801FCD;
- Thu, 17 Jun 2021 05:59:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D8245D9E2;
- Thu, 17 Jun 2021 05:59:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CD933113865F; Thu, 17 Jun 2021 07:59:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 1/2] qapi/machine.json: add DEVICE_UNPLUG_ERROR QAPI
- event
-References: <20210604200353.1206897-1-danielhb413@gmail.com>
- <20210604200353.1206897-2-danielhb413@gmail.com>
- <875yykr45c.fsf@dusky.pond.sub.org>
- <ef085ae4-be21-46aa-728b-9377fe48deee@gmail.com>
-Date: Thu, 17 Jun 2021 07:59:07 +0200
-In-Reply-To: <ef085ae4-be21-46aa-728b-9377fe48deee@gmail.com> (Daniel Henrique
- Barboza's message of "Wed, 16 Jun 2021 13:41:47 -0300")
-Message-ID: <8735th6nh0.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ltlwG-0001uF-9o
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 02:55:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35368)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ltlwD-0004BT-FE
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 02:55:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1ltlwA-00037v-1e
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 06:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 098252E802A
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 06:55:38 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 17 Jun 2021 06:47:04 -0000
+From: Thomas Huth <1907909@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr cwmyung th-huth
+X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160778696243.15318.2318965348341715879.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162391242427.17377.13173093679275940924.malone@gac.canonical.com>
+Subject: [Bug 1907909] Re: assertion failure in am53c974
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: ef8939445e689deec5016ca850c67828d7f960b9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,139 +71,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, groug@kaod.org,
- qemu-devel@nongnu.org
+Reply-To: Bug 1907909 <1907909@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+As Alexander already wrote, this triggered the same bug as #1919036
+which got fixed by commit 0ebb5fd80589835153a0c2baa1b8cc7a04e67a93.
+Since this is not reproducible anymore, I'm closing this bug now. If you
+still can reproduce it somehow, please open a new ticket in the new
+gitlab issue tracker.
 
-> On 6/11/21 9:12 AM, Markus Armbruster wrote:
->> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
->> 
->>> At this moment we only provide one event to report a hotunplug error,
->>> MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
->>> machine is now able to report unplug errors for other device types, such
->>> as CPUs.
->>>
->>> Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
->>> create a generic DEVICE_UNPLUG_ERROR event that can be used by all
->>> unplug errors in the future.
->>>
->>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> ---
->>>   qapi/machine.json | 23 +++++++++++++++++++++++
->>>   1 file changed, 23 insertions(+)
->>>
->>> diff --git a/qapi/machine.json b/qapi/machine.json
->>> index 58a9c86b36..f0c7e56be0 100644
->>> --- a/qapi/machine.json
->>> +++ b/qapi/machine.json
->>> @@ -1274,3 +1274,26 @@
->>>   ##
->>>   { 'event': 'MEM_UNPLUG_ERROR',
->>>     'data': { 'device': 'str', 'msg': 'str' } }
->>> +
->>> +##
->>> +# @DEVICE_UNPLUG_ERROR:
->>> +#
->>> +# Emitted when a device hot unplug error occurs.
->>> +#
->>> +# @device: device name
->>> +#
->>> +# @msg: Informative message
->>> +#
->>> +# Since: 6.1
->>> +#
->>> +# Example:
->>> +#
->>> +# <- { "event": "DEVICE_UNPLUG_ERROR"
->>> +#      "data": { "device": "dimm1",
->>> +#                "msg": "Memory hotunplug rejected by the guest for device dimm1"
->>> +#      },
->>> +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
->>> +#
->>> +##
->>> +{ 'event': 'DEVICE_UNPLUG_ERROR',
->>> +  'data': { 'device': 'str', 'msg': 'str' } }
->> 
->> Missing: update of device_add's doc comment in qdev.json:
->> 
->>      # Notes: When this command completes, the device may not be removed from the
->>      #        guest.  Hot removal is an operation that requires guest cooperation.
->>      #        This command merely requests that the guest begin the hot removal
->>      #        process.  Completion of the device removal process is signaled with a
->>      #        DEVICE_DELETED event. Guest reset will automatically complete removal
->>      #        for all devices.
->
-> Ok
->
->> 
->> This sure could use some polish.
->> 
->> If I understand things correctly, we're aiming for the following device
->> unplug protocol:
->
-> One thing to note is that DEVICE_UNPLUG_ERROR isn't guaranteed to be send for
-> every hotunplug error. The event depends on machine/architecture support to
-> detect a guest side error.
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
-Yes.  I tried to provide for that in my description of the protocol.
+-- =
 
->> 
->>     Unplug the device with device_del (or possibly equivalent)
->> 
->>     If we know we can't unplug the device, fail immediately.  Also emit
->>     DEVICE_UNPLUG_ERROR.
->
->
-> I haven't predicted to use this event in those cases as well, although it
-> seems reasonable to do so now that you mentioned it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907909
 
-I think this is a matter of taste.  For what it's worth, we do emit
-DEVICE_DELETED on immediate success (see next paragraph).
+Title:
+  assertion failure in am53c974
 
-Emitting DEVICE_DELETED always lets QMP clients track device deletion
-even when it's triggered by something else.  Feature.
+Status in QEMU:
+  Fix Released
 
-No such tracking is needed for unplug failure.
+Bug description:
+  Hello,
 
->>     If possible, unplug the device synchronously and succeed.  Also emit
->>     DEVICE_DELETED.
->> 
->>     Else, initiate unplug and succeed.
->> 
->>     When unplug finishes, emit either DEVICE_DELETED or
->>     DEVICE_UNPLUG_ERROR.
->
-> Since there's no 100% guarantee that DEVICE_UNPLUG_ERROR will be emitted for
-> guest side errors, the wording here would be
->
-> "When unplug finishes, emit DEVICE_DELETED. A DEVICE_UNPLUG_ERROR can be
-> emitted if a guest side error was detected"
+  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
+  am53c974 emulator.
 
-My assumption is that QEMU can detect asynchronous success reliably, but
-not asynchronous failure.
+  A malicious guest user/process could use this flaw to abort the QEMU
+  process on the host, resulting in a denial of service.
 
-From QEMU's point of view, "asynchronous unplug has not finished" is
-indistinguishable from "asynchronous unplug finished unsuccessfully, but
-we can't detect it".  So I lumped these two cases together in the next
-paragraph:
+  This was found in version 5.2.0 (master)
 
->>     For some machines and devices, unplug may never finish.
+  =
 
-My goal is a clear description of the state machine as it can be
-observed in QMP.
+  qemu-system-i386: ../hw/scsi/esp.c:402: void esp_do_dma(ESPState *): Asse=
+rtion `s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->=
+cmdlen' failed.
 
->> Correct?
->> 
->> Any particular reason for not putting event DEVICE_UNPLUG_ERROR next to
->> DEVICE_DELETED in qdev.json?
->
->
-> Not really. I looked where MEM_UNPLUG_ERROR was declared and put it right
-> after it. I can change it to qdev.json near DEVICE_DELETED.
+  #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
+e.c:51
+  51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+  [Current thread is 1 (Thread 0x7fdd25dc4700 (LWP 28983))]
+  gdb-peda$ bt
+  #0  0x00007fdd3f8b5f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
+s/unix/sysv/linux/raise.c:51
+  #1  0x00007fdd3f8b78b1 in __GI_abort () at abort.c:79
+  #2  0x00007fdd3f8a742a in __assert_fail_base (fmt=3D0x7fdd3fa2ea38 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\\n%n", assertion=3Dassertion@entry=3D0x55b=
+3e11a51c6 "s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) -=
+ s->cmdlen", file=3Dfile@entry=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3D=
+line@entry=3D0x192, function=3Dfunction@entry=3D0x55b3e11a520d "void esp_do=
+_dma(ESPState *)") at assert.c:92
+  #3  0x00007fdd3f8a74a2 in __GI___assert_fail (assertion=3D0x55b3e11a51c6 =
+"s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->cmdlen=
+", file=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3D0x192, function=3D0x55b=
+3e11a520d "void esp_do_dma(ESPState *)") at assert.c:101
+  #4  0x000055b3e0941441 in esp_do_dma (s=3D0x55b3e49d1c88) at ../hw/scsi/e=
+sp.c:401
+  #5  0x000055b3e0944261 in handle_ti (s=3D0x55b3e49d1c88) at ../hw/scsi/es=
+p.c:549
+  #6  0x000055b3e093fdf9 in esp_dma_enable (s=3D0x55b3e49d1c88, irq=3D<opti=
+mized out>, level=3D<optimized out>)
+      at ../hw/scsi/esp.c:79
+  #7  0x000055b3e0897930 in esp_pci_dma_write (pci=3D<optimized out>, saddr=
+=3D<optimized out>, val=3D<optimized
+  out>) at ../hw/scsi/esp-pci.c:83
+  #8  0x000055b3e0897930 in esp_pci_io_write (opaque=3D<optimized out>, add=
+r=3D<optimized out>, val=3D0xcf, size=3D0x4) at ../hw/scsi/esp-pci.c:209
+  #9  0x000055b3e0e8f798 in memory_region_write_accessor (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
+>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)
+      at ../softmmu/memory.c:491
+  #10 0x000055b3e0e8f58e in access_with_adjusted_size (addr=3D<optimized ou=
+t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
+imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
+, mr=3D<optimized out>, attrs=3D...) at ../softmmu/memory.c:552
+  #11 0x000055b3e0e8f58e in memory_region_dispatch_write (mr=3D0x55b3e49d1b=
+70, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, a=
+ttrs=3D...) at ../softmmu/memory.c:1501
+  #12 0x000055b3e0e21541 in address_space_stb (as=3D<optimized out>, addr=
+=3D<optimized out>, val=3D0xffffffcf, attrs=3D..., result=3D0x0) at ../memo=
+ry_ldst.c.inc:382
+  #13 0x00007fdcd84a4a7f in code_gen_buffer ()
+  #14 0x000055b3e0e57da0 in cpu_tb_exec (cpu=3D0x55b3e3c33650, itb=3D<optim=
+ized out>)
+      at ../accel/tcg/cpu-exec.c:178
+  #15 0x000055b3e0e589eb in cpu_loop_exec_tb (tb=3D<optimized out>, cpu=3D<=
+optimized out>, last_tb=3D<optimized
+  out>, tb_exit=3D<optimized out>) at ../accel/tcg/cpu-exec.c:658
+  #16 0x000055b3e0e589eb in cpu_exec (cpu=3D0x55b3e3c33650) at ../accel/tcg=
+/cpu-exec.c:771
+  #17 0x000055b3e0e87b9f in tcg_cpu_exec (cpu=3D<optimized out>) at ../acce=
+l/tcg/tcg-cpus.c:243
+  #18 0x000055b3e0e87b9f in tcg_cpu_thread_fn (arg=3D0x55b3e3c33650) at ../=
+accel/tcg/tcg-cpus.c:427
+  #19 0x000055b3e115f775 in qemu_thread_start (args=3D<optimized out>) at .=
+./util/qemu-thread-posix.c:521
+  #20 0x00007fdd3fc6f6db in start_thread (arg=3D0x7fdd25dc4700) at pthread_=
+create.c:463
+  #21 0x00007fdd3f998a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
 
-Yes, please.
+  To reproduce the assertion failure, please run the QEMU with the
+  following command line.
 
+  =
+
+  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
+disk,format=3Draw -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDis=
+k -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+
+  Please let me know if I can provide any further info.
+
+  Thank you.
+
+  - Cheolwoo, Myung (Seoul National University)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907909/+subscriptions
 
