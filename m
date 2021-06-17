@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA573ABDA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 22:43:35 +0200 (CEST)
-Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829323ABDC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 23:03:56 +0200 (CEST)
+Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltyrO-0005Rz-FQ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 16:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47614)
+	id 1ltzB5-0004YO-1X
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 17:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyqP-0004lv-Uq
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:42:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20461)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltz9n-0003sy-MU
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:02:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyqN-00025a-UN
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:42:33 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltz9j-0006d9-RV
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:02:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623962551;
+ s=mimecast20190719; t=1623963749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yd6n9QOtfu+3fv2eIocYlaLsOSw5WSqqnBztRGs5Mw4=;
- b=MmaRN0ibQx9tf1QjkJghNAP2/kfnd/SD1y9YpUTx2pkqkehRsml0kJLxmXKtA2IQFDYFLH
- s68BNr3uXNp7A2Ay3xwmYGZXKUos4Ru8SMMsKcuZByzQdPWdpHBaAvK97yh81Fn/kDD+V8
- rTB+p/uR1ux8V097Syg8UOkG+pS+Rb8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-4i-U7qd2PXusyjKDtzTBQA-1; Thu, 17 Jun 2021 16:42:29 -0400
-X-MC-Unique: 4i-U7qd2PXusyjKDtzTBQA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g14-20020a05600c4eceb02901b609849650so2677912wmq.6
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 13:42:29 -0700 (PDT)
+ bh=H/xLw6O9kzSkaE5sOdspKlNPwbv+Oe3sAk7LHZtmuQQ=;
+ b=BzmikO68XILeyKIMLotCidKjYmA3tg0QJLGwLsuxlJ7jJSa02HmglBBoazsaM2HTLL/yh2
+ ay8rdwOT86WUlS8JG7MW4Y/vrs/pmwNmT1HNwF3Hc9ZFgkVFKRl12+tn50YJKAS4j1p75U
+ b2f9RJ/eDqplhvUxHlvvsrcavqKZ1as=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-UhNwKA9MNSGCX-9hIPHZSw-1; Thu, 17 Jun 2021 17:02:28 -0400
+X-MC-Unique: UhNwKA9MNSGCX-9hIPHZSw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d5-20020a0560001865b0290119bba6e1c7so3434038wri.20
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 14:02:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=yd6n9QOtfu+3fv2eIocYlaLsOSw5WSqqnBztRGs5Mw4=;
- b=hqmqO2r43KfE9lOZaDleWienNLfuerA0cWZ4gBoEnUnChFDvKIIQQ8nQwOc1M9ZvUV
- avEkKcmdsNOt35MMzJI+yHgexRKthz7xboBJ7WuGZAwwW4NkfXU7jfjcTFr8cUYnY24S
- SC5oWfG8C+Os9iUPScN76FsDCdhAkNXpWm8pwy3j7rvbTiJGwShzz2tHduZyHs5CzdEV
- zU0+cjMRVdC9fDOQY6SOYYVBlieov05A3ctHOXp2LRcqcZiU7DjUasKQ2NjvSEb0ZCHF
- xtx/GwjQeYkxMpD7jcVBKYHhv8vTtmSSMPfNu798LdbsTizkDoheD1OjffzJX9QNxblF
- qQzQ==
-X-Gm-Message-State: AOAM533hY6EqWX5NC9xWDUmHNFXbfXFmPnIXDTwxUraV+Url2/StxhUo
- xPzZkd2npFKb3YnakKgd5JREyrEL+VEcoN2GZpqLgacPu3LYl3EZdmZKBX3Vs4z/GHTjSj4c/dd
- blzq46MavUpad6MU=
-X-Received: by 2002:a5d:4408:: with SMTP id z8mr8240525wrq.336.1623962548503; 
- Thu, 17 Jun 2021 13:42:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhv/fMOkZ+DQK+slh2qtoWjvKU1m+rR+BfDAbVJrSfdPfQ/Qqpfxfxw/QW13IrV54pABvH1g==
-X-Received: by 2002:a5d:4408:: with SMTP id z8mr8240505wrq.336.1623962548322; 
- Thu, 17 Jun 2021 13:42:28 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=H/xLw6O9kzSkaE5sOdspKlNPwbv+Oe3sAk7LHZtmuQQ=;
+ b=qXnbQnkzYKgBwPylAvL2s0XTL60ch33fulwCJWfwW97DMa8slPPD6LJMXWIQdGKl2Z
+ lFo07giQeYWuvqMp1BfaXnjWjS5EDFaY484a+rJ1x7orFJBDtOyAtFzhgRd+oOh8QUWw
+ 21Q/ULnoDrt7fqov27ZFAH9HYAxFb1J2C1pO+HAF1K9yCHXLzi7y8P/rB4Ya/p1lCreN
+ j7Q66TvLi6mZe+gZvHLJ2g1RETZDfsdTJ0RDIjcCREiTPR7eBKkL8t96v2sbSegV7VEP
+ 4+2time8z+d8DF8CE/oZZMRdGkoDE7TnqgBAqtdHQlb5+cU7FAFh338mJPV+gRK3+jgv
+ yveQ==
+X-Gm-Message-State: AOAM533hbTbrAWjgmbjozR+SCL6TEoRtS3VXEqRJrODEeZDaL6bkS3O4
+ LEqCWb/6DR78OyOjTWk+q1YlSTb5Sb+ER2CJCKAoKrIOoWkL6InjVCLzbSGx9hAzLIn9ZHQZlut
+ +srmY8hgaGtPrqPk=
+X-Received: by 2002:a5d:528d:: with SMTP id c13mr8244833wrv.343.1623963746616; 
+ Thu, 17 Jun 2021 14:02:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKeUbWBD6ndxzm3/NHMs+TR7Y8+qTqv/nXbw4k1ixEnf4y2vB6mPXfEHW7bqHLbrFOkPcRqg==
+X-Received: by 2002:a5d:528d:: with SMTP id c13mr8244815wrv.343.1623963746365; 
+ Thu, 17 Jun 2021 14:02:26 -0700 (PDT)
 Received: from redhat.com ([77.126.22.11])
- by smtp.gmail.com with ESMTPSA id o7sm6557018wro.76.2021.06.17.13.42.25
+ by smtp.gmail.com with ESMTPSA id a12sm6305431wmj.36.2021.06.17.14.02.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 13:42:27 -0700 (PDT)
-Date: Thu, 17 Jun 2021 16:42:24 -0400
+ Thu, 17 Jun 2021 14:02:25 -0700 (PDT)
+Date: Thu, 17 Jun 2021 17:02:22 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 00/23] target/i386/sev: Housekeeping (OVMF +
- SEV-disabled binaries)
-Message-ID: <20210617164114-mutt-send-email-mst@kernel.org>
-References: <20210616204328.2611406-1-philmd@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH v5 4/7] hw/pci/pcie: Do not set HPC flag if acpihp is used
+Message-ID: <20210617170207-mutt-send-email-mst@kernel.org>
+References: <20210617190739.3673064-1-jusual@redhat.com>
+ <20210617190739.3673064-5-jusual@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210616204328.2611406-1-philmd@redhat.com>
+In-Reply-To: <20210617190739.3673064-5-jusual@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -95,107 +92,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 10:43:05PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi,
+On Thu, Jun 17, 2021 at 09:07:36PM +0200, Julia Suvorova wrote:
+> Instead of changing the hot-plug type in _OSC register, do not
+> set the 'Hot-Plug Capable' flag. This way guest will choose ACPI
+> hot-plug if it is preferred and leave the option to use SHPC with
+> pcie-pci-bridge.
 > 
-> While testing James & Dov patch:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg810571.html
-> I wasted some time trying to figure out how OVMF was supposed to
-> behave until realizing the binary I was using was built without SEV
-> support... Then wrote this series to help other developers to not
-> hit the same problem.
+> The ability to control hot-plug for each downstream port is retained,
+> while 'hotplug=off' on the port means all hot-plug types are disabled.
 > 
-> Some SEV patches I was following have been queued on Eduardo's
-> 'x86-next' tree, so I used his tree as base, and included David and
-> Connor patches to reduce merge conflicts.
-> 
-> Patches 1-16 are SEV related,
-> patches 17-23 are OVMF related.
-> 
-> Special comment for Laszlo: Please don't review this version,
-> wait for the respin (hoping the SEV cleanup patch get accepted,
-> the respin will be focused on OVMF).
-> 
-> Based-on: https://gitlab.com/ehabkost/qemu/-/commits/x86-next/
-> Supersedes: <20210610064556.1421620-1-philmd@redhat.com>
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
 
+Marcel want to review this?
 
-acpi things
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-do you want to split acpi things out so I can merge?
-
-> Connor Kuehl (1):
->   MAINTAINERS: Add Connor Kuehl as reviewer for AMD SEV
+> ---
+>  include/hw/pci/pcie_port.h |  5 ++++-
+>  hw/acpi/pcihp.c            |  8 ++++++++
+>  hw/core/machine.c          |  1 -
+>  hw/i386/pc_q35.c           | 11 +++++++++++
+>  hw/pci/pcie.c              |  8 +++++++-
+>  hw/pci/pcie_port.c         |  1 +
+>  6 files changed, 31 insertions(+), 3 deletions(-)
 > 
-> Dr. David Alan Gilbert (1):
->   target/i386/sev: sev_get_attestation_report use g_autofree
-> 
-> Philippe Mathieu-Daudé (21):
->   qapi/misc-target: Wrap long 'SEV Attestation Report' long lines
->   qapi/misc-target: Group SEV QAPI definitions
->   target/i386/monitor: Return QMP error when SEV is disabled in build
->   target/i386/cpu: Add missing 'qapi/error.h' header
->   target/i386/sev_i386.h: Remove unused headers
->   target/i386/sev: Remove sev_get_me_mask()
->   target/i386/sev: Mark unreachable code with g_assert_not_reached()
->   target/i386/sev: Restrict SEV to system emulation
->   target/i386/sev: Move qmp_query_sev_attestation_report() to sev.c
->   target/i386/sev: Move qmp_sev_inject_launch_secret() to sev.c
->   target/i386/sev: Move qmp_query_sev_capabilities() to sev.c
->   target/i386/sev: Move qmp_query_sev_launch_measure() to sev.c
->   target/i386/sev: Move qmp_query_sev() & hmp_info_sev() to sev.c
->   monitor: Restrict 'info sev' to x86 targets
->   hw/i386/acpi-common: Remove unused includes
->   hw/i386: Rename acpi-build.c -> acpi-pc.c
->   hw/i386: Move pc_madt_cpu_entry() to acpi-pc.c
->   hw/acpi: Do not restrict ACPI core routines to x86 architecture
->   hw/i386: Introduce X86_FW_OVMF Kconfig symbol
->   hw/acpi/Kconfig: Add missing Kconfig dependencies (build error)
->   hw/i386/Kconfig: Add missing Kconfig dependency (runtime error)
-> 
->  qapi/misc-target.json               |  78 ++++++++--------
->  include/hw/i386/pc.h                |   1 +
->  include/monitor/hmp-target.h        |   1 +
->  include/monitor/hmp.h               |   1 -
->  target/i386/sev_i386.h              |  11 ---
->  hw/i386/acpi-common.c               |  45 ----------
->  hw/i386/{acpi-build.c => acpi-pc.c} |  39 ++++++++
->  hw/i386/pc_sysfw.c                  | 107 ----------------------
->  hw/i386/pc_sysfw_ovmf-stubs.c       |  26 ++++++
->  hw/i386/pc_sysfw_ovmf.c             | 135 ++++++++++++++++++++++++++++
->  target/i386/cpu.c                   |   1 +
->  target/i386/monitor.c               |  91 -------------------
->  target/i386/sev-stub.c              |  49 +---------
->  target/i386/sev-sysemu-stub.c       |  69 ++++++++++++++
->  target/i386/sev.c                   | 130 +++++++++++++++++++++------
->  MAINTAINERS                         |   8 ++
->  hw/acpi/Kconfig                     |   4 +
->  hw/acpi/meson.build                 |   3 +-
->  hw/i386/Kconfig                     |   5 ++
->  hw/i386/meson.build                 |   4 +-
->  target/i386/meson.build             |   4 +-
->  21 files changed, 443 insertions(+), 369 deletions(-)
->  rename hw/i386/{acpi-build.c => acpi-pc.c} (98%)
->  create mode 100644 hw/i386/pc_sysfw_ovmf-stubs.c
->  create mode 100644 hw/i386/pc_sysfw_ovmf.c
->  create mode 100644 target/i386/sev-sysemu-stub.c
-> 
+> diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+> index bea8ecad0f..e25b289ce8 100644
+> --- a/include/hw/pci/pcie_port.h
+> +++ b/include/hw/pci/pcie_port.h
+> @@ -57,8 +57,11 @@ struct PCIESlot {
+>      /* Disable ACS (really for a pcie_root_port) */
+>      bool        disable_acs;
+>  
+> -    /* Indicates whether hot-plug is enabled on the slot */
+> +    /* Indicates whether any type of hot-plug is allowed on the slot */
+>      bool        hotplug;
+> +
+> +    bool        native_hotplug;
+> +
+>      QLIST_ENTRY(PCIESlot) next;
+>  };
+>  
+> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> index 5355618608..7a6bc1b31e 100644
+> --- a/hw/acpi/pcihp.c
+> +++ b/hw/acpi/pcihp.c
+> @@ -31,6 +31,7 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_bridge.h"
+>  #include "hw/pci/pci_host.h"
+> +#include "hw/pci/pcie_port.h"
+>  #include "hw/i386/acpi-build.h"
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/pci/pci_bus.h"
+> @@ -332,6 +333,13 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+>              object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
+>              PCIBus *sec = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
+>  
+> +            /* Remove all hot-plug handlers if hot-plug is disabled on slot */
+> +            if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT) &&
+> +                !PCIE_SLOT(pdev)->hotplug) {
+> +                qbus_set_hotplug_handler(BUS(sec), NULL);
+> +                return;
+> +            }
+> +
+>              qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
+>              /* We don't have to overwrite any other hotplug handler yet */
+>              assert(QLIST_EMPTY(&sec->child));
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 55b9bc7817..6ed0575d81 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -582,7 +582,6 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
+>      ms->ram_memdev_id = g_strdup(value);
+>  }
+>  
+> -
+>  static void machine_init_notify(Notifier *notifier, void *data)
+>  {
+>      MachineState *machine = MACHINE(qdev_get_machine());
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 46a0f196f4..a0ec7964cc 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -37,6 +37,7 @@
+>  #include "sysemu/kvm.h"
+>  #include "hw/kvm/clock.h"
+>  #include "hw/pci-host/q35.h"
+> +#include "hw/pci/pcie_port.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/i386/x86.h"
+>  #include "hw/i386/pc.h"
+> @@ -136,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
+>      ram_addr_t lowmem;
+>      DriveInfo *hd[MAX_SATA_PORTS];
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+> +    bool acpi_pcihp;
+>  
+>      /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
+>       * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
+> @@ -236,6 +238,15 @@ static void pc_q35_init(MachineState *machine)
+>      object_property_set_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+>                               OBJECT(lpc), &error_abort);
+>  
+> +    acpi_pcihp = object_property_get_bool(OBJECT(lpc),
+> +                                          "acpi-pci-hotplug-with-bridge-support",
+> +                                          NULL);
+> +
+> +    if (acpi_pcihp) {
+> +        object_register_sugar_prop(TYPE_PCIE_SLOT, "enable-native-hotplug",
+> +                                  "false", true);
+> +    }
+> +
+>      /* irq lines */
+>      gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
+>  
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index fd0fa157e8..6e95d82903 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -529,7 +529,13 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+>                                 PCI_EXP_SLTCAP_PIP |
+>                                 PCI_EXP_SLTCAP_AIP |
+>                                 PCI_EXP_SLTCAP_ABP);
+> -    if (s->hotplug) {
+> +
+> +    /*
+> +     * Enable native hot-plug on all hot-plugged bridges unless
+> +     * hot-plug is disabled on the slot.
+> +     */
+> +    if (s->hotplug &&
+> +        (s->native_hotplug || DEVICE(dev)->hotplugged)) {
+>          pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
+>                                     PCI_EXP_SLTCAP_HPS |
+>                                     PCI_EXP_SLTCAP_HPC);
+> diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+> index eb563ad435..a410111825 100644
+> --- a/hw/pci/pcie_port.c
+> +++ b/hw/pci/pcie_port.c
+> @@ -148,6 +148,7 @@ static Property pcie_slot_props[] = {
+>      DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
+>      DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
+>      DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
+> +    DEFINE_PROP_BOOL("enable-native-hotplug", PCIESlot, native_hotplug, true),
+>      DEFINE_PROP_END_OF_LIST()
+>  };
+>  
 > -- 
-> 2.31.1
-> 
+> 2.30.2
 
 
