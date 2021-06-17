@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE203AA932
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 04:55:34 +0200 (CEST)
-Received: from localhost ([::1]:59662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850663AA938
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 04:56:54 +0200 (CEST)
+Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltiBp-0005L3-GP
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 22:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37418)
+	id 1ltiD7-0000yk-Jx
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 22:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAV-0003NB-8T
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:11 -0400
-Received: from mga02.intel.com ([134.134.136.20]:12080)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAX-0003Oa-5e
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:14 -0400
+Received: from mga02.intel.com ([134.134.136.20]:12085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAR-0000WF-4R
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:11 -0400
-IronPort-SDR: 65gGfd1kQEoC1I+Nw1ODBhLSnrO8cebNuHKWoHm6z41SKw6hZLkmJWRUIUUJUTz/MdRruSWgju
- M5nKEUFEPzJg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193414073"
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="193414073"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAT-0000Yo-45
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:12 -0400
+IronPort-SDR: olMT3FqYWu2/KVqyTmGfBSNMdazmTAsU20cMThmhcJgi4m6jMG3qz2ZolUPbMfGYkMFrtNUCZT
+ xxmGKUYaW7kw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193414076"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="193414076"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 19:53:59 -0700
-IronPort-SDR: HzGyDcsrEos6HP8Fkf24V/WvQeIVvu1YvENReHsUfYxpmNSkI/J+ZRfcELzACw9+nGILHNrni4
- ipGkzwP1tx/Q==
+ 16 Jun 2021 19:54:03 -0700
+IronPort-SDR: 3HgTLM7SF6E9fgxNSInw3sVFZtv2KLBhBYc24Q7TqJvdcRgcWfzMZWO9xw4GUX6LqPf2G1wOe/
+ dDY5stQ9twpA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="485121914"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="485121944"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.238.157.59])
- by orsmga001.jf.intel.com with ESMTP; 16 Jun 2021 19:53:57 -0700
+ by orsmga001.jf.intel.com with ESMTP; 16 Jun 2021 19:54:00 -0700
 From: Lei Rao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  zhang.zhanghailiang@huawei.com, quintela@redhat.com, dgilbert@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH 1/7] Some minor optimizations for COLO
-Date: Thu, 17 Jun 2021 10:47:09 +0800
-Message-Id: <1623898035-18533-2-git-send-email-lei.rao@intel.com>
+Subject: [PATCH 2/7] Fixed qemu crash when guest power off in COLO mode
+Date: Thu, 17 Jun 2021 10:47:10 +0800
+Message-Id: <1623898035-18533-3-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
 References: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
@@ -68,38 +68,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
+This patch fixes the following:
+qemu-system-x86_64: invalid runstate transition: 'shutdown' -> 'running'
+Aborted (core dumped)
+The gdb bt as following:
+0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+1  0x00007faa3d613859 in __GI_abort () at abort.c:79
+2  0x000055c5a21268fd in runstate_set (new_state=RUN_STATE_RUNNING) at vl.c:723
+3  0x000055c5a1f8cae4 in vm_prepare_start () at /home/workspace/colo-qemu/cpus.c:2206
+4  0x000055c5a1f8cb1b in vm_start () at /home/workspace/colo-qemu/cpus.c:2213
+5  0x000055c5a2332bba in migration_iteration_finish (s=0x55c5a4658810) at migration/migration.c:3376
+6  0x000055c5a2332f3b in migration_thread (opaque=0x55c5a4658810) at migration/migration.c:3527
+7  0x000055c5a251d68a in qemu_thread_start (args=0x55c5a5491a70) at util/qemu-thread-posix.c:519
+8  0x00007faa3d7e9609 in start_thread (arg=<optimized out>) at pthread_create.c:477
+9  0x00007faa3d710293 in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 ---
- migration/colo.c   | 2 +-
- net/colo-compare.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ migration/migration.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 79fa1f6..616dc00 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -152,7 +152,7 @@ static void primary_vm_do_failover(void)
-      * kick COLO thread which might wait at
-      * qemu_sem_wait(&s->colo_checkpoint_sem).
-      */
--    colo_checkpoint_notify(migrate_get_current());
-+    colo_checkpoint_notify(s);
- 
-     /*
-      * Wake up COLO thread which may blocked in recv() or send(),
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index b100e7b..4a64a5d 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -170,7 +170,7 @@ static bool packet_matches_str(const char *str,
-         return false;
-     }
- 
--    return !memcmp(str, buf, strlen(str));
-+    return !memcmp(str, buf, packet_len);
- }
- 
- static void notify_remote_frame(CompareState *s)
+diff --git a/migration/migration.c b/migration/migration.c
+index 4228635..c2c84c7 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3561,7 +3561,9 @@ static void migration_iteration_finish(MigrationState *s)
+     case MIGRATION_STATUS_CANCELLED:
+     case MIGRATION_STATUS_CANCELLING:
+         if (s->vm_was_running) {
+-            vm_start();
++            if (!runstate_check(RUN_STATE_SHUTDOWN)) {
++                vm_start();
++            }
+         } else {
+             if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+                 runstate_set(RUN_STATE_POSTMIGRATE);
 -- 
 1.8.3.1
 
