@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77AF3AA815
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 02:26:37 +0200 (CEST)
-Received: from localhost ([::1]:53324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE363AA874
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 03:13:50 +0200 (CEST)
+Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltfrg-0000Ca-P3
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 20:26:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35152)
+	id 1ltgbM-000713-VW
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 21:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1ltfq8-0007xF-Mm
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 20:25:00 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:38476)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltga7-0005iG-8O
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 21:12:31 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:46796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1ltfq4-0007Zx-6u
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 20:25:00 -0400
-Received: by mail-pf1-x433.google.com with SMTP id z26so3556591pfj.5
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 17:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uTQ6y8E7L4utog7CGQXZNPNfGDv/kBo+p+5uc3dT1TI=;
- b=G6Us0gqDuA0HxjyXDqcDuhAkUhHHj9ud/gu/BYu+6HG62I9WoAacwiz25xXGAiFZ1P
- GP5sS/dSko8STR3HbArlFH9ZZlfPaogXBSrjT+ZVhIINwQxFBd+axoG4Z2JbiKJmN+VB
- SdqND781FjrrgTU7HE+r54uicpA0IFZphYpWlVo2WbmcjRnTpq2D7eAZKW6T31Sar02f
- vd7ENXU4zbH5f3qE4TR+yWWBEv2U/P9kbjIr8iX0QjRj3NEp8txYskGMAtfheaqS0X2L
- SNNJ1Ql+to75vtOtKs4HA69MIXtSk/TN+uuOjzF+qIkLOHVK6Ps4XI8+rpYoAzQUw3+h
- 6uWQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltga3-0001bL-CL
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 21:12:31 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o10-20020a17090aac0ab029016e92770073so2852702pjq.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 18:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vDuDxOS0b43Z5EQvm49C4vqgLMC9XefMxHazpXvkYF8=;
+ b=bUyKXahbTW8B+zt+tL3N3EulBFYDEb4Gamo7++7mYUYOTjvmYBnVh9CjRjhJmkmcV4
+ A0kEXQAS4o+pWEqfoy3gmUIXjRg+hytlbZUwNgrAUGZ4GMUQkX6yj8g6zbSA0B4f3h9R
+ nZSJff1X2JDnfjgbrCBCVGkVUz9haYJwfo3rttuPFfvL0yPpSy4gdTDpSjlHMQC/wZK4
+ W5sFeUIufsgpiSlJmOohE8kuDvFXDTv+TC3UOFYI9tUgwu7xuOL8fUbaoQDbRUBFxjTx
+ YoHNcFyu1K3kTMz752JvC2ThlRtYRtbu8iHPBO2LPs42ShcIuaP0khHjb4++woRWSEZI
+ eRwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uTQ6y8E7L4utog7CGQXZNPNfGDv/kBo+p+5uc3dT1TI=;
- b=dBfKWANxcrnTBMGc0+4ti5wwXfypVJM2neahcrVzqxXN/zKn9oVPqy3q3ProrouzIc
- 9gh335V7q2rt1r7s0mjd/VT8iT5Nz8QMsfyqR+5uz4WC1nWr0N24TBgIxpvXoB9yqUjJ
- uG2gOkUKO05QXealyngCBtXiPjXPICoA69BzWhswkwVD03WX9itfkdMrjOJqYTGoMDaF
- MxUrk/lYdS5Por1ZPqqLtRBnJpkkQSrXUSFeCpFXa9913IgveCchW14A/mhvhhUmY3gZ
- 178WBVKYhG5sm6z8CCx97ANr6Uqcyp9KFHyyPJ6llE0iYXyMTN8Eg6onOWj1EsJuu4W7
- OFag==
-X-Gm-Message-State: AOAM5318YRpHggRx+4EKBEGgB//M2NtNLjO4UyVnArjxwfaZaPK2kCgE
- K4bPdY0MF4kjZp64RbDZtCk=
-X-Google-Smtp-Source: ABdhPJwM5yBAXLJms5oNLjW7vOscEpOXE6pRchBn/XKHRA+R167lKfpP0bAPz7F+8HvdgdlV6TBLLw==
-X-Received: by 2002:a63:5b0d:: with SMTP id p13mr2358949pgb.84.1623889493519; 
- Wed, 16 Jun 2021 17:24:53 -0700 (PDT)
-Received: from localhost (g151.115-65-219.ppp.wakwak.ne.jp. [115.65.219.151])
- by smtp.gmail.com with ESMTPSA id
- v9sm1106942pgq.54.2021.06.16.17.24.52
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vDuDxOS0b43Z5EQvm49C4vqgLMC9XefMxHazpXvkYF8=;
+ b=MkGa3qy57bZCAxJeRbSbtz2kSyhk0qs73IAOQI6PJGsmvjRiXJeIiFqkawrGjobQw+
+ x6fNTispGrT6ZWzMAIFh8T8Ibw7rIclecpgsnNA34bMqMCB4DFN0VJObtKqHvfk/BA/6
+ tMlP8s6yT/QyNOweSQgdux/bm9+hEElyxy/eN5TfEuZtwF/wSkS2twLYQJsfE1XiE3Dc
+ TORdgNYu5O0/Vp5hTQW2bM42SjRBOdI4RD3peGonjCOQm+CL9V8p5dwFJoGccOtuss2e
+ QyjlieIlO19eLdgwEF5/Xn3doYXKFcsyRpLJ5ypw+hwtDO5kMSbqhsBrgAv+7xBDydMZ
+ 7Tug==
+X-Gm-Message-State: AOAM530vZa9lyNR55txgqyudnT3njzVnhDMYtLj9+IWWCFFdEscJ4wQt
+ M04SCEkp6GLWxy7GY/Jj099pLONdXni/mQ==
+X-Google-Smtp-Source: ABdhPJwHjdirl7cr6b2YdVHaTud4UdAmpZGcyTjxqBIoBbNenRD4CdFfiOTb2YtKzQqsFpIzHXiP6A==
+X-Received: by 2002:a17:90b:f90:: with SMTP id
+ ft16mr13749411pjb.45.1623892345501; 
+ Wed, 16 Jun 2021 18:12:25 -0700 (PDT)
+Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
+ [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id j19sm3470829pgm.44.2021.06.16.18.12.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 17:24:52 -0700 (PDT)
-Date: Thu, 17 Jun 2021 09:24:51 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 14/21] linux-user/openrisc: Implement setup_sigtramp
-Message-ID: <YMqWU6IAgNUoXctT@antec>
-References: <20210616011209.1446045-1-richard.henderson@linaro.org>
- <20210616011209.1446045-15-richard.henderson@linaro.org>
+ Wed, 16 Jun 2021 18:12:25 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] accel/tcg: Fix #390 and other atomicity musings
+Date: Wed, 16 Jun 2021 18:12:23 -0700
+Message-Id: <20210617011224.1602932-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210616011209.1446045-15-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=shorne@gmail.com; helo=mail-pf1-x433.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,82 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: alex.bennee@linaro.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 06:12:02PM -0700, Richard Henderson wrote:
-> Create and record the rt signal trampoline.
-> 
-> Cc: Stafford Horne <shorne@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+This fixes some bugs reported against 128-bit atomic operations.
 
-Reviewed-by: Stafford Horne <shorne@gmail.com>
+Just a note that the ppc insns that uses this, LQ and STQ, do not require
+atomic operations if the address is unaligned, or if the address does not
+resolve to ram.  So for some things we are working harder than required.
 
-> ---
->  linux-user/openrisc/target_signal.h |  2 ++
->  linux-user/openrisc/signal.c        | 24 ++++++++++++++++--------
->  2 files changed, 18 insertions(+), 8 deletions(-)
-> 
-> diff --git a/linux-user/openrisc/target_signal.h b/linux-user/openrisc/target_signal.h
-> index 8283eaf544..077ec3d5e8 100644
-> --- a/linux-user/openrisc/target_signal.h
-> +++ b/linux-user/openrisc/target_signal.h
-> @@ -26,4 +26,6 @@ typedef struct target_sigaltstack {
->  
->  #include "../generic/signal.h"
->  
-> +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
-> +
->  #endif /* OPENRISC_TARGET_SIGNAL_H */
-> diff --git a/linux-user/openrisc/signal.c b/linux-user/openrisc/signal.c
-> index 5c5640a284..b411b01864 100644
-> --- a/linux-user/openrisc/signal.c
-> +++ b/linux-user/openrisc/signal.c
-> @@ -37,7 +37,6 @@ typedef struct target_ucontext {
->  typedef struct target_rt_sigframe {
->      struct target_siginfo info;
->      target_ucontext uc;
-> -    uint32_t retcode[4];  /* trampoline code */
->  } target_rt_sigframe;
->  
->  static void restore_sigcontext(CPUOpenRISCState *env, target_sigcontext *sc)
-> @@ -115,14 +114,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
->          __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
->      }
->  
-> -    /* This is l.ori r11,r0,__NR_sigreturn; l.sys 1; l.nop; l.nop */
-> -    __put_user(0xa9600000 | TARGET_NR_rt_sigreturn, frame->retcode + 0);
-> -    __put_user(0x20000001, frame->retcode + 1);
-> -    __put_user(0x15000000, frame->retcode + 2);
-> -    __put_user(0x15000000, frame->retcode + 3);
-> -
->      /* Set up registers for signal handler */
-> -    cpu_set_gpr(env, 9, frame_addr + offsetof(target_rt_sigframe, retcode));
-> +    cpu_set_gpr(env, 9, default_rt_sigreturn);
->      cpu_set_gpr(env, 3, sig);
->      cpu_set_gpr(env, 4, frame_addr + offsetof(target_rt_sigframe, info));
->      cpu_set_gpr(env, 5, frame_addr + offsetof(target_rt_sigframe, uc));
-> @@ -168,3 +161,18 @@ long do_rt_sigreturn(CPUOpenRISCState *env)
->      force_sig(TARGET_SIGSEGV);
->      return 0;
->  }
-> +
-> +void setup_sigtramp(abi_ulong sigtramp_page)
-> +{
-> +    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 4 * 4, 0);
-> +    assert(tramp != NULL);
-> +
-> +    /* This is l.ori r11,r0,__NR_sigreturn; l.sys 1; l.nop; l.nop */
-> +    __put_user(0xa9600000 | TARGET_NR_rt_sigreturn, tramp + 0);
-> +    __put_user(0x20000001, tramp + 1);
-> +    __put_user(0x15000000, tramp + 2);
-> +    __put_user(0x15000000, tramp + 3);
-> +
-> +    default_rt_sigreturn = sigtramp_page;
-> +    unlock_user(tramp, sigtramp_page, 4 * 4);
-> +}
-> -- 
-> 2.25.1
-> 
+I've also had a good read of Power's atomicity requirements, for all
+instructions.  It requires that the lsb of the address control the
+minimum atomicity.  E.g. for (addr % size) == 2, each 2-byte component
+must be atomic.
+
+Which is certainly not what we're doing at the bottom of our memory
+model at present.
+
+I've also been reading up on Arm's FEAT_LSE2, which is mandatory for v8.4.
+This vastly strengthens the single-copy atomicity requirements for the
+whole system.  Strikingly, any access that does not cross a 16-byte
+boundary -- aligned or unaligned -- is now single-copy atomic.
+
+In both cases, I would imagine that we should only allow the softmmu
+fast path for aligned accesses.  That's single-copy atomic on all hosts.
+But then we need different handling for each platform at the bottom
+of cputlb...
+
+Suggestions on ways to approach this that aren't overwhelmingly ugly?
+
+
+r~
+
+
+Richard Henderson (1):
+  accel/tcg: Probe the proper permissions for atomic ops
+
+ accel/tcg/atomic_template.h | 24 +++++-----
+ accel/tcg/cputlb.c          | 95 ++++++++++++++++++++++++++-----------
+ accel/tcg/user-exec.c       |  8 ++--
+ 3 files changed, 83 insertions(+), 44 deletions(-)
+
+-- 
+2.25.1
+
 
