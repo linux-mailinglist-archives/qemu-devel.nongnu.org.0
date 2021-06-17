@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027333AB344
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:07:30 +0200 (CEST)
-Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2553AB34E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:09:59 +0200 (CEST)
+Received: from localhost ([::1]:48366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltqnx-0007Du-2h
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56052)
+	id 1ltqqM-0003k4-Eh
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqin-0006yK-Fk
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:02:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29139)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqos-00024C-EG
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:08:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqil-0000Te-9E
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:02:08 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqop-0003Fp-9o
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:08:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623931326;
+ s=mimecast20190719; t=1623931702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PTqaklNYwNKhN+9t2nWB1cm3aJuqYDzuWpnszxFI8R8=;
- b=eHkDQJQLN7VHtT8O6SzV7GUig+P+Dq4v4qwZoW27drcNqN276mLn9aa5XZe7LOLng9Nw36
- 6jAQUAHz1u3pJW+XRa06rASlcybT6yOhJnoR+o5kSuTgbKgWsvCvPlRTrG5DnrpaG6LeSY
- hK35k7Nt1o7gB1BrBLN1B0MATMF3iDg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453--yZ6pHleOAm2mPnbiKXQCQ-1; Thu, 17 Jun 2021 08:02:05 -0400
-X-MC-Unique: -yZ6pHleOAm2mPnbiKXQCQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- l2-20020adfe5820000b029011a64161d6aso2851459wrm.6
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:02:05 -0700 (PDT)
+ bh=m5gjOcQ3Fu03OBDyJNQeLBgT7bOJgaZDmgVFK3M92HM=;
+ b=Ut03/lu7LVwVWxklnzkQyNiHSK7NlM2mnmvXiPEBm0/ePFtqcX6fj7fMRuqmoQtnuY9W3Y
+ /73oeJn8DUKXfcIdhQzPfXgKq4h/fx854MZUZo3Ey1txC9bMcYllS5L6GfJrwu7o4vRJR2
+ /8WXsciCOs66d1kbL4ypCjDf+jltvnw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-DYdU52TXND-ulBd3IJFJTw-1; Thu, 17 Jun 2021 08:08:20 -0400
+X-MC-Unique: DYdU52TXND-ulBd3IJFJTw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n21-20020a7bcbd50000b02901a2ee0826aeso2112396wmi.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:08:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PTqaklNYwNKhN+9t2nWB1cm3aJuqYDzuWpnszxFI8R8=;
- b=R4i9nprWaZa8giL4nxYM3mwEdU5s0nmFA3GIPFr195CUNp+6ZeQcbL5RUHLo35aDEY
- WSImjIEJ9w05SedK3tbqXGWjWtiIGdblNaf8sLSCNDJPv5iwrAdRdNVxkemWh+ApM2Ki
- hqeYoA6ea3X48g2DiezoFf7e1oNIoKs0cmi9A2tj9mUleletMWIBImWHcVaqR/t1LzEO
- N5UFaMhPaZBTusPIxP21snFDCJjcYhNRZWae4/3jfKELLKjUzbNWbJXNU6ACI6T4Xj/J
- Py9+WxKCNUVTuLvfxR4BT1jbRXELt+i9rLQB1ZpI4omExjgkYLraUddik/WS/ovIn6Rh
- K/ig==
-X-Gm-Message-State: AOAM5309VsXedKmYdRsRlbhsLzLg5+7JV076eJamiKXXwxu9Pf4SYhye
- 9qDFDISRM+Qf8ViW+hdJJMz4lhTjRIkhmNmUX12Lx9/XjlGAVQ1x2VDheJeyZwNoeOgKJ7HpivH
- ffWnm2hGrpiIZ4CC0eMb7jxD6GXk8dMAe4iKm2EPPiVt+hweV371bGGH/pX/XHqXv
-X-Received: by 2002:a5d:6b81:: with SMTP id n1mr5192657wrx.144.1623931323640; 
- Thu, 17 Jun 2021 05:02:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxV/xcDa/ZrJ1LS95VF12LjCVoM/LFiVI5sbyWpB9DsI2N4e/N4uzj4Nc9B6bGg4xTsJwgIBg==
-X-Received: by 2002:a5d:6b81:: with SMTP id n1mr5192620wrx.144.1623931323400; 
- Thu, 17 Jun 2021 05:02:03 -0700 (PDT)
+ bh=m5gjOcQ3Fu03OBDyJNQeLBgT7bOJgaZDmgVFK3M92HM=;
+ b=jepK7WtEDjICmTUYiqAYt8inTrNj9y31vDljlp5RoSaBhAJCNkwHn9QWIhazakUwnG
+ 13hz8CFa6UOeaAu1fB7BtjO6HHql3QeC3iCre87HT2AQ0FktPjsnMAhQW17XOFsqLJ0L
+ +PWZS9T7QqbZ0KzjLczdYGoksq26V0W9BM9hgdPVdIJ4geiGXIdG4Yqk8sebq4nzXaCz
+ OMF+2e+QFAo2lPNw+/fLty78Lc6h0fecLitCEE4YZ0h4Qmf/TTmFfjgrqb52uFSB24wN
+ lI6ybeSBoVLqmS6mzYGZ0P6EMQ8SkB6/gynvwW8nv7VCl8B21bPS1osKSO27EnXHQm+W
+ tZaw==
+X-Gm-Message-State: AOAM531P/EzC8MzYbwG9VdNO0o9Lwzi7ykgwEF0us3RmZp3rDAIwDLFN
+ syT/JBTzJJzuE20q9f93V2QvxHDvvhI9+bB4CEt2X+QrbiAjJ9Upk5tIU5oJzu4RbTmzmsJ8Thh
+ KvclS6NLnTvG1jWg=
+X-Received: by 2002:adf:df87:: with SMTP id z7mr5314252wrl.56.1623931699569;
+ Thu, 17 Jun 2021 05:08:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlb+9mInBZ0PuzJzns0Z6XmDOLYXDB6SX1OGyjopPMvld01bTTUVq99Af/2gKSuiP3IpKylw==
+X-Received: by 2002:adf:df87:: with SMTP id z7mr5314226wrl.56.1623931699333;
+ Thu, 17 Jun 2021 05:08:19 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id k11sm7707700wmj.1.2021.06.17.05.02.02
+ by smtp.gmail.com with ESMTPSA id j12sm5277634wrt.69.2021.06.17.05.08.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Jun 2021 05:02:02 -0700 (PDT)
-Subject: Re: [PATCH v4 5/7] crypto/tlssession: Introduce
- qcrypto_tls_creds_check_endpoint() helper
+ Thu, 17 Jun 2021 05:08:18 -0700 (PDT)
+Subject: Re: [PATCH v4 7/7] crypto: Make QCryptoTLSCreds* structures private
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20210616162225.2517463-1-philmd@redhat.com>
- <20210616162225.2517463-6-philmd@redhat.com>
- <55c03d12-3359-858e-8e71-7ba7a6fddad4@linaro.org>
- <bda6ced3-3299-f1ed-f5c4-b53ed61bde28@redhat.com>
- <YMsW+v4/7vuuAs7q@redhat.com>
+ <20210616162225.2517463-8-philmd@redhat.com> <YMsXfo+XQepqjXoQ@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0ed73b4e-88b8-743a-cb51-a6987d164165@redhat.com>
-Date: Thu, 17 Jun 2021 14:02:02 +0200
+Message-ID: <56903fa4-0382-b54c-f939-baf91d9969c3@redhat.com>
+Date: Thu, 17 Jun 2021 14:08:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YMsW+v4/7vuuAs7q@redhat.com>
+In-Reply-To: <YMsXfo+XQepqjXoQ@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +77,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -103,39 +99,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 11:33 AM, Daniel P. Berrangé wrote:
-> On Wed, Jun 16, 2021 at 09:21:45PM +0200, Philippe Mathieu-Daudé wrote:
->> On 6/16/21 9:12 PM, Richard Henderson wrote:
->>> On 6/16/21 9:22 AM, Philippe Mathieu-Daudé wrote:
->>>> Introduce the qcrypto_tls_creds_check_endpoint() helper
->>>> to avoid accessing QCryptoTLSCreds internal 'endpoint' field
->>>> directly.
->>>
->>> I don't understand this one.  Comment ...
->>>
->>>> +bool qcrypto_tls_session_check_role(QCryptoTLSCreds *creds,
->>>> +                                    QCryptoTLSCredsEndpoint endpoint,
->>>> +                                    Error **errp)
->>>> +{
->>>> +    return qcrypto_tls_creds_check_endpoint(creds, endpoint, errp);
->>>> +}
->>>
->>> ... doesn't match the function.
->>>
->>> The new function is a pure forwarder, and begs the question of why the
->>> caller isn't using qcrypto_tls_creds_check_endpoint directly.
+On 6/17/21 11:35 AM, Daniel P. Berrangé wrote:
+> On Wed, Jun 16, 2021 at 06:22:25PM +0200, Philippe Mathieu-Daudé wrote:
+>> Code consuming the "crypto/tlscreds*.h" APIs doesn't need
+>> to access its internals. Move the structure definitions to
+>> the "tlscredspriv.h" private header (only accessible by
+>> implementations). The public headers (in include/) still
+>> forward-declare the structures typedef.
 >>
->> I tried to follow the maintainer/subsystem style (I was also tempted to
->> use qcrypto_tls_creds_check_endpoint directly). ui/vnc uses the TLS
->> "session" API and not the "creds" one. Daniel, what is your preference?
-> 
-> I think we don't need this extra function - just use the function from
-> earlier directly.
+>> This solves a bug introduced by commit 7de2e856533 which made
+>> migration/qemu-file-channel.c include "io/channel-tls.h",
+>> itself sometime depends on GNUTLS, leading to build failure
+>> on OSX:
+>>
+>>   [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-channel.c.o
+>>   FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
+>>   cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
+>>   In file included from ../migration/qemu-file-channel.c:29:
+>>   In file included from include/io/channel-tls.h:26:
+>>   In file included from include/crypto/tlssession.h:24:
+>>   include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
+>>   #include <gnutls/gnutls.h>
+>>            ^~~~~~~~~~~~~~~~~
+>>   1 error generated.
+>>
+>> Reported-by: Stefan Weil <sw@weilnetz.de>
+>> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
+>> Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration")
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  crypto/tlscredspriv.h              | 45 ++++++++++++++++++++++++++++++
+>>  include/crypto/tls-cipher-suites.h |  6 ----
+>>  include/crypto/tlscreds.h          | 16 -----------
+>>  include/crypto/tlscredsanon.h      | 12 --------
+>>  include/crypto/tlscredspsk.h       | 12 --------
+>>  include/crypto/tlscredsx509.h      | 10 -------
+>>  crypto/tls-cipher-suites.c         |  7 +++++
+>>  crypto/tlscredsanon.c              |  2 ++
+>>  crypto/tlscredspsk.c               |  2 ++
+>>  crypto/tlscredsx509.c              |  1 +
+>>  crypto/tlssession.c                |  1 +
+>>  11 files changed, 58 insertions(+), 56 deletions(-)
 
-Great, simpler :)
+> I was expecting all these files, and tlscreds.c to include
+> tlscredspriv.h, otherwise how do they see the struct
+> definition they need ?
+
+They already include it:
+
+$ git grep tlscredspriv.h origin/master
+origin/master:crypto/tlscreds.c:24:#include "tlscredspriv.h"
+origin/master:crypto/tlscredsanon.c:23:#include "tlscredspriv.h"
+origin/master:crypto/tlscredspsk.c:23:#include "tlscredspriv.h"
+origin/master:crypto/tlscredsx509.c:23:#include "tlscredspriv.h"
+
+This is why in this patch I only added it to tls-cipher-suites.c
+and tlssession.c.
+
+I'll add a comment about it.
+
+Regards,
+
+Phil.
 
 
