@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54D73AB33A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:04:21 +0200 (CEST)
-Received: from localhost ([::1]:32810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D3E3AB349
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:09:05 +0200 (CEST)
+Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltqku-0001EG-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:04:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
+	id 1ltqpU-0001XG-P9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltqbO-0008Sk-TC
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:54:31 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40626)
+ id 1ltqbc-0000hi-PQ
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:54:44 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltqbN-0005VL-93
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:54:30 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id y7so6421061wrh.7
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 04:54:28 -0700 (PDT)
+ id 1ltqbb-0005bO-7x
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:54:44 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id c9so6465151wrt.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 04:54:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xaw3RJNkpGriYz8vt+BCpgugibw18q+MPp6XakrxTs4=;
- b=MIV75LH5f3NzD9QkwVgh2t2wUpIGQ9SnLzse2hAGKUb7Scd/uk9pJ4PP97zet6JrG5
- IU6ApWm7fZae/jHaiLTfCf4ke8LpiHr4YI3VM3yYgkZ/Vj7OI2t5W5mbP0591J2g2efm
- ibBfnYuDPG9qxSPNd3ni++t1fjOQ/kYZeSFa7aCJt9qpeFD7tZCtamoXJyX4lKgpsZr/
- LOc3FxIYZogzs6zBOYCCfNXoH3PfQkL0NtKY7HOMoDwoanbnFB6lYpSHDVPLkNLPhpSG
- XYZmLFs2av/00x5cZIHkiBLPlOgJdExl8NZfyLTCbKvjqMhD1jouJDg5P9lHVK/uKZmZ
- tixg==
+ bh=xZIk02rN/B58vn5urmzzUKpoCipYBcMsvK06nQVHHKc=;
+ b=Eod+vIGg0cefzbDAOmaG80IrmsQew7M/iFFJFdmySSzwXU1bWnVriMOQI3QCzHjzCp
+ sumFcLDTAYycWJgr2DMzEVusqSwefYJkhl1+Lsz8337tfy8Jazr2e2Rqv4pTq/Zrx1+H
+ kHmR8Cr+CPASulG7v1izv3dyYZUKrXqzEpUg820lpG+ONIDCY+27lsYueb31OelN9cSs
+ 0vHJJXeSVv6twpZLDXc2CzOLLqSxCeQl3xXoOZSQ2c+YwXEiWOP/p+S1cwpczedMJEVP
+ oPJCoi3zutESkYnN4zQvurI8lwiacEsH2aVzehVMT/tYVFIqBDF+Pu1CEDyGV/h5YNyS
+ ZeEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Xaw3RJNkpGriYz8vt+BCpgugibw18q+MPp6XakrxTs4=;
- b=lTU8BR2s57aKY0b6onzXP6OAnJoJCMfP+H1beMTLsWKuUmVKMCQZ4EfTL6The0eFVS
- DQhiHWI0pee/3afKqElqNJ/jlXYA1X5QsafGjGkLvSSOtiGK3LgYuO9NPSP15SRu1gxe
- sFH3pLqqfIEVAV3olYWgwGD5paYk/V+Ee/+u2EfHUFcXYMaLOmI5+p0SHMIhyZKBJy/F
- uy09P2DYRrGd8SGe0RCXvzfanVbPq3A+GCLCDfbhFcjcAKhu5VnXVVpHmT2spOw0WIBz
- WN3lDHfYF7Az5Uamq0XhFqtnhWE0FiTCUP8y8xRqkecux+X7WqEgqQRG7145xjNceQ8o
- BuPQ==
-X-Gm-Message-State: AOAM530AG3WEbgSi/UFFcY/2Qv7fMjV4fHRJi2FFsbhVLfHfD9FlicJs
- 6/IKlRSyV819y3Bl3rKA2IXNfNhWCVd/og==
-X-Google-Smtp-Source: ABdhPJw+wqDEWyK7GRV70ApBcSBu5RPp1cJsduLZNqq0b6wrsAcHfa1FEzh/4YWT2vp5EfV6X9QH0A==
-X-Received: by 2002:adf:bb54:: with SMTP id x20mr3997548wrg.19.1623930867781; 
- Thu, 17 Jun 2021 04:54:27 -0700 (PDT)
+ bh=xZIk02rN/B58vn5urmzzUKpoCipYBcMsvK06nQVHHKc=;
+ b=Lvcfc4cygdY3o66UHkYxQAWWjdvnlsHaZUtzNuvd+/RlJRX0G7GwGaBE2dxKKcP8Y9
+ ZwBghIhOiWpz2kxcyrsVNFXYlpNpSv0wzyFzLWTofXdMJxcqj5HXUHe/k6KVXYM6f0ap
+ YwGJTGaiFcpG2hk2DG6/mB9PsROQYrixQBGcJ2XwFdGp13BKy8RLYGfTYl9xxL4XIZSf
+ M9NYBMwNQWHFm/iZhD2iPNw6ngcmrvTQyEmkoN8ZJ0LMKVkKB8pc1PqyMtBIBuhOlDNn
+ gXbQAArLyoUa/q3QDtNE5HXodSPkhBbuci7T7n+msRD/bkVpcat/vw+Zn6aVuK52N7la
+ F/xg==
+X-Gm-Message-State: AOAM532T3B76bgiklLP864yW6JlWKzXVOXGmrT3v7wzxAvk/uOK8L+mZ
+ dxGrANNsg4gqxihQiUoe+gtsl58fWoP0/g==
+X-Google-Smtp-Source: ABdhPJzHz030wgO5q/NyLw7VsKK26ZNlHoQRcL27P0GVkSrHAzBdFThYw3FX6sMmf7awBhiqePwbiw==
+X-Received: by 2002:a5d:460e:: with SMTP id t14mr5287910wrq.149.1623930881572; 
+ Thu, 17 Jun 2021 04:54:41 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id k16sm4406285wmr.42.2021.06.17.04.54.26
+ by smtp.gmail.com with ESMTPSA id p11sm5131344wrx.85.2021.06.17.04.54.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 04:54:27 -0700 (PDT)
+ Thu, 17 Jun 2021 04:54:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/15] hw/i2c: Remove confusing i2c_send_recv()
-Date: Thu, 17 Jun 2021 13:53:30 +0200
-Message-Id: <20210617115334.2761573-12-f4bug@amsat.org>
+Subject: [PATCH v5 14/15] hw/i2c: Extract i2c_do_start_transfer() from
+ i2c_start_transfer()
+Date: Thu, 17 Jun 2021 13:53:33 +0200
+Message-Id: <20210617115334.2761573-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617115334.2761573-1-f4bug@amsat.org>
 References: <20210617115334.2761573-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,105 +91,56 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We replaced all the i2c_send_recv() calls by the clearer i2c_recv()
-and i2c_send(), so we can remove this confusing API.
+To allow further simplications, extract i2c_do_start_transfer()
+from i2c_start_transfer(). This is mostly the same function,
+but the former is static and takes an enum argument.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/i2c/i2c.h |  1 -
- hw/i2c/core.c        | 50 +++++++++++++++++++-------------------------
- 2 files changed, 21 insertions(+), 30 deletions(-)
+ hw/i2c/core.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index 850815e707c..99635b837a5 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -84,7 +84,6 @@ int i2c_bus_busy(I2CBus *bus);
- int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
- void i2c_end_transfer(I2CBus *bus);
- void i2c_nack(I2CBus *bus);
--int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
- int i2c_send(I2CBus *bus, uint8_t data);
- uint8_t i2c_recv(I2CBus *bus);
- bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
 diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index 3a7bae311df..27a66df7f34 100644
+index 6639ca8c2e0..5483bf95a3e 100644
 --- a/hw/i2c/core.c
 +++ b/hw/i2c/core.c
-@@ -188,50 +188,42 @@ void i2c_end_transfer(I2CBus *bus)
-     bus->broadcast = false;
- }
- 
--int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
-+int i2c_send(I2CBus *bus, uint8_t data)
+@@ -114,8 +114,11 @@ bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
+  * protocol uses a start transfer to switch from write to read mode
+  * without releasing the bus.  If that fails, the bus is still
+  * in a transaction.
++ *
++ * @event must be I2C_START_RECV or I2C_START_SEND.
+  */
+-int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
++static int i2c_do_start_transfer(I2CBus *bus, uint8_t address,
++                                 enum i2c_event event)
  {
      I2CSlaveClass *sc;
-     I2CSlave *s;
      I2CNode *node;
-     int ret = 0;
+@@ -157,7 +160,7 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
  
--    if (send) {
--        QLIST_FOREACH(node, &bus->current_devs, next) {
--            s = node->elt;
--            sc = I2C_SLAVE_GET_CLASS(s);
--            if (sc->send) {
--                trace_i2c_send(s->address, *data);
--                ret = ret || sc->send(s, *data);
--            } else {
--                ret = -1;
--            }
-+    QLIST_FOREACH(node, &bus->current_devs, next) {
-+        s = node->elt;
-+        sc = I2C_SLAVE_GET_CLASS(s);
-+        if (sc->send) {
-+            trace_i2c_send(s->address, data);
-+            ret = ret || sc->send(s, data);
-+        } else {
-+            ret = -1;
-         }
--        return ret ? -1 : 0;
--    } else {
--        ret = 0xff;
--        if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
--            sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
--            if (sc->recv) {
--                s = QLIST_FIRST(&bus->current_devs)->elt;
--                ret = sc->recv(s);
--                trace_i2c_recv(s->address, ret);
--            }
--        }
--        *data = ret;
--        return 0;
-     }
--}
- 
--int i2c_send(I2CBus *bus, uint8_t data)
--{
--    return i2c_send_recv(bus, &data, true);
-+    return ret ? -1 : 0;
+         if (sc->event) {
+             trace_i2c_event("start", s->address);
+-            rv = sc->event(s, is_recv ? I2C_START_RECV : I2C_START_SEND);
++            rv = sc->event(s, event);
+             if (rv && !bus->broadcast) {
+                 if (bus_scanned) {
+                     /* First call, terminate the transfer. */
+@@ -170,6 +173,13 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
+     return 0;
  }
  
- uint8_t i2c_recv(I2CBus *bus)
- {
-     uint8_t data = 0xff;
-+    I2CSlaveClass *sc;
-+    I2CSlave *s;
++int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
++{
++    return i2c_do_start_transfer(bus, address, is_recv
++                                               ? I2C_START_RECV
++                                               : I2C_START_SEND);
++}
 +
-+    if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
-+        sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
-+        if (sc->recv) {
-+            s = QLIST_FIRST(&bus->current_devs)->elt;
-+            data = sc->recv(s);
-+            trace_i2c_recv(s->address, data);
-+        }
-+    }
- 
--    i2c_send_recv(bus, &data, false);
-     return data;
- }
- 
+ void i2c_end_transfer(I2CBus *bus)
+ {
+     I2CSlaveClass *sc;
 -- 
 2.31.1
 
