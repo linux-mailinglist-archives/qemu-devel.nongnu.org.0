@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F185B3AB462
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:12:45 +0200 (CEST)
-Received: from localhost ([::1]:56472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B30C3AB445
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:06:07 +0200 (CEST)
+Received: from localhost ([::1]:34678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrp7-0007G9-1W
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34004)
+	id 1ltrig-0000s1-Cj
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ltr0p-0001Ri-5q; Thu, 17 Jun 2021 08:20:47 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:46623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ltr0h-0000gh-Ki; Thu, 17 Jun 2021 08:20:46 -0400
-Received: from [192.168.100.1] ([82.142.19.46]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MILnm-1m865u39LI-00ENIb; Thu, 17 Jun 2021 14:20:34 +0200
-Subject: Re: [PATCH v2] linux-user/trace-events: fix minor typo in format
- string
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210614144245.17660-1-alex.bennee@linaro.org>
- <17fb7318-14ba-bd77-aeaf-ad9ec33118f8@vivier.eu> <874kdwg1bl.fsf@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <104b4a05-fe6f-cb58-b803-70dc8c5e50d8@vivier.eu>
-Date: Thu, 17 Jun 2021 14:20:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ltr6G-0003yL-B5
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:26:24 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36485)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ltr6D-00031S-6v
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:26:23 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id nd37so9605622ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pXLDh+yfw1z7IW9znBpg5l7mmmjf/oa4XnRzPYKl+Po=;
+ b=Q9HTiKrO6PFspMiXNEHnIcxZlNBT8+gLSrp/o5qxjh8/U4v1rlYC3kOnivndQYBkTT
+ jYVIyrFO4UnaMU9jWr6QoWoiuR0HkFWWI7Nh8Oe/apF4tbHocQ6KIKeX179/225/01UP
+ hl3a4uz7txDONJrHSoHtyt5t3uUo5DswragOtcfPTYYurZNGN9+VrVLPVSGoS233m6SD
+ gsitlSckrXrxN/gP15kfzHYeYFa1Nw5C8+PYFOwOwH1jM0j6nVYgeg5a8yK2teWNkla7
+ /1mENTvKOWlNHSgwIvur35dXu5uo+7LeHvx+QZRaWTXbXRmClg2eUipmf1/6HmK+xJWU
+ TnaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pXLDh+yfw1z7IW9znBpg5l7mmmjf/oa4XnRzPYKl+Po=;
+ b=BmZH3XUGm9OZy3UMtQRb1IChuagKIGbo9R8V962Gs30eCpM5rY9iyk+a+uDO+VeZ3u
+ X72ru/vN9pJNCKtJLTjtMcuz6cU/MBxe3MljOn7GqayzmNDqtCzjdWnuiEA0o3F2ADlc
+ 1Qh3pNB5pqxoV7QQKpLDrLi0Ahj69mFJJc53LchUqdWPPEenJ4GgCyLc/mkT6nCLz+ZD
+ 2XRmnsy+ml1ZCDNsVZiHQGsHzpoD36kGO1ymIYssmCccfp2B464UcgnGlyEoJDgAkknb
+ DerhAfvvL8yYuJwQdKVk6OTK9vKEFEzcw7o3EAtbuA/hXoTBUU/pHYz8zZz0hR7MxoDT
+ HJMg==
+X-Gm-Message-State: AOAM532or8kCb3+9uqKM9ofDfbPI/47SN7cIMipFYKoOryicLwIMHBDE
+ BQ7bNwDDP0hCh9oY7zEULJSRPCL/zxGqz88nt0oeTw==
+X-Google-Smtp-Source: ABdhPJzBfn1J5C+/6ZX0cmkOK/MPxA4DXe9N9rmQiNF9Kxl0+qEjkyKsu+Cu/TTdAtwnS40i5d9usk7RI+DM//93tmE=
+X-Received: by 2002:a17:906:b294:: with SMTP id
+ q20mr4854971ejz.382.1623932779290; 
+ Thu, 17 Jun 2021 05:26:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <874kdwg1bl.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:axM9+n0f/e2zgnEAgUTrDztp5v/pbLRVtICUUMmJnoa+oVLWPlz
- EIrJH3mNSdqn9bzHiMntvljSgD2JSqYwznzHQVfk/BOy+luuNTXptBfoVpz4ZQm1TV6Jbur
- ztXpi/nX8Fawxbs1qkOZJy1FGRoMY4Sjd7E7KuERpfQ7I6W3+bMMoYGQxj9dj8z7GhfqVFe
- 4D68yIPKH0usB38Rl/ctA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MV6MPGq2JEk=:D1TSljZFMitG+VfLHPeCsH
- A8K+2AeuMpivbnyihgtEiQxrq+j9pu3K9b1iUnpU+Q0hnqYhByTmhDF295J9FKvz6pFeSb9fy
- 4kM44x34vJ1LM0fUtYFzDW3Ab8dhdsZKiwc34Nn1F00qrpFwXxhGAR+N54tQ4xM5dhniEewH4
- xyZHwQT3a1SZlRoUbYwd06RFSLBZdG53Id49JNpQwpulIQ+wcgCIW9yuBBq1TrOIVi5YH4Lz8
- gPeWCqfhYvYc2YExRjwVfFgBsdiZDex8IhNwfjVEIaZbbYo1N0JWoM8uEZj85PMzJ+BhpxnSa
- MkX0aR0KaECHwIH+T2aH7zS/86WjjYApWXsiPSiJgRyUNMuPWuUvPkOuxahW1HgNZrf1UE7Ss
- rQOFsHg4V1pEh30Smk/KJ3iOdmQ8C2y9hFV2UUq0p35vPT0hdFuPntKJvHRQVEZQ801eq+o8l
- kLUeDTlA0a39x3AGvFSqdjjfCf2gMqtRUDroO6xBYZt9D7YLvgGueeKMtUgJrJF1Pt3an9OLc
- 6Zvyq26+sWfuKdNfOO9bEg=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20210603171259.27962-1-peter.maydell@linaro.org>
+ <20210603171259.27962-2-peter.maydell@linaro.org>
+ <794108a2-fbaf-dfbc-ed8f-2d3d87ba2c07@linaro.org>
+ <3e6b9e75-a0b7-eb65-a357-43d0cb3a3027@redhat.com>
+In-Reply-To: <3e6b9e75-a0b7-eb65-a357-43d0cb3a3027@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Jun 2021 13:25:44 +0100
+Message-ID: <CAFEAcA90c643JhudpB=g4Fpz8B+dQvd=9tYZVyss-kfa3DUbRw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] hw/acpi: Provide stub version of
+ acpi_ghes_record_errors()
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.254,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,49 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: Dongjiu Geng <gengdongjiu1@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Swetha <swjoshi@microsoft.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/06/2021 à 13:47, Alex Bennée a écrit :
-> 
-> Laurent Vivier <laurent@vivier.eu> writes:
-> 
->> Le 14/06/2021 à 16:42, Alex Bennée a écrit :
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>>
->>> ---
->>> v2
->>>   - fix typo in summary :-O
->>> ---
->>>  linux-user/trace-events | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/linux-user/trace-events b/linux-user/trace-events
->>> index 1ec0d11ee3..e7d2f54e94 100644
->>> --- a/linux-user/trace-events
->>> +++ b/linux-user/trace-events
->>> @@ -11,7 +11,7 @@ user_do_rt_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx
->>>  user_do_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
->>>  user_force_sig(void *env, int target_sig, int host_sig) "env=%p signal %d (host %d)"
->>>  user_handle_signal(void *env, int target_sig) "env=%p signal %d"
->>> -user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d("
->>> +user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d)"
->>>  user_queue_signal(void *env, int target_sig) "env=%p signal %d"
->>>  user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_addr) "env=%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx64
->>>  
->>>
->>
->> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> 
-> Are you going to queue or shall I add it to my pile of "misc"?
-> 
-> 
+On Thu, 17 Jun 2021 at 11:28, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 03/06/21 20:52, Richard Henderson wrote:
+> > On 6/3/21 10:12 AM, Peter Maydell wrote:
+> >> +softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c',
+> >> 'aml-build-stub.c', 'ghes-stub.c'))
+> >>   softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
+> >>   softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c',
+> >> 'aml-build-stub.c',
+> >> -                                                  'acpi-x86-stub.c',
+> >> 'ipmi-stub.c'))
+> >> +                                                  'acpi-x86-stub.c',
+> >> 'ipmi-stub.c', 'ghes-stub.c'))
+> >
+> > Gosh that last line is confusing.  I see it's documented in
+> > build-system.rst, but yeesh.
+> >
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> Yeah, it's vestigial of the makefiles and I should remove it.
+>
+> That said, here:
+>
+> > +acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'), if_false:('ghes-stub.c'))
+>
+> There's a missing "files" after if_false.
 
-You can put it in your pile if you think you're going to do a pull request soon.
+Thanks for finding this bug -- I have requeued the patches
+to target-arm.next with the "files" added.
 
-I don't plan to do a trivial branch pull request before next week.
-
-Thanks,
-Laurent
+-- PMM
 
