@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C803AB812
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 17:59:27 +0200 (CEST)
-Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86DC3AB7FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 17:55:59 +0200 (CEST)
+Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltuQQ-0001do-Eu
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 11:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43802)
+	id 1ltuN4-0000rY-Oh
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 11:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltuKC-0005Zx-5t
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:53:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50503)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltuKH-0005yL-UQ
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:53:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltuKA-0001Gw-CM
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:52:59 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltuKG-0001M1-4z
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:53:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623945177;
+ s=mimecast20190719; t=1623945183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AYqtM2qJIAUaOJRMjffIELPUPqFhJKPW2pkh7BPmLGM=;
- b=QvJRON0ujA6BMGwJB55q6Czcd/9ZYYavTEIY4sh2xJ/9bm+hcMWMNipUFx9tNcDMqPAY1b
- aaa2FHyffRpGoRaeYOwo96YVAQZ9Le44c880fIQc8V33SDN4FecFlUfIL8egnPlo83D5Af
- eAN91w0GQXNrwC9IH7UgX61PLGEtJW4=
+ bh=hWwaZJneH1OAQhCJBdAKDwzqskgwMIs739Np03gZSyo=;
+ b=F5kTyqeMw4qeWF/IDGolOLcyAnIwaxv5x2Pc4T/qi7lAFSqnjBeg88z5tuT/W0ZjRjlfcJ
+ AMOKyLvYfxpenSszq6N3eLYjEamiG1EP5apC5D71OP1wCdxhdkwXxYtS56Z6u3dKhZhAdz
+ 632ucIfPvO+peEIoQMIHs3dx1jfqOpw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-QN2FDTjNOTypZYUHyuK7HQ-1; Thu, 17 Jun 2021 11:52:56 -0400
-X-MC-Unique: QN2FDTjNOTypZYUHyuK7HQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-495-tFH74EZvNbm8c8AtpudDAw-1; Thu, 17 Jun 2021 11:53:02 -0400
+X-MC-Unique: tFH74EZvNbm8c8AtpudDAw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CCD28042B7;
- Thu, 17 Jun 2021 15:52:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6552A192D787;
+ Thu, 17 Jun 2021 15:53:01 +0000 (UTC)
 Received: from localhost (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0827860875;
- Thu, 17 Jun 2021 15:52:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FE5219704;
+ Thu, 17 Jun 2021 15:53:00 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 3/6] block/file-posix: Do not force-cap *pnum
-Date: Thu, 17 Jun 2021 17:52:44 +0200
-Message-Id: <20210617155247.442150-4-mreitz@redhat.com>
+Subject: [PATCH 6/6] block/iscsi: Do not force-cap *pnum
+Date: Thu, 17 Jun 2021 17:52:47 +0200
+Message-Id: <20210617155247.442150-7-mreitz@redhat.com>
 In-Reply-To: <20210617155247.442150-1-mreitz@redhat.com>
 References: <20210617155247.442150-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,41 +88,23 @@ cache larger data regions than requested by its caller.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ block/iscsi.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b3fbb9bd63..aeb370d5bb 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2689,7 +2689,8 @@ static int find_allocation(BlockDriverState *bs, off_t start,
-  * the specified offset) that are known to be in the same
-  * allocated/unallocated state.
-  *
-- * 'bytes' is the max value 'pnum' should be set to.
-+ * 'bytes' is a soft cap for 'pnum'.  If the information is free, 'pnum' may
-+ * well exceed it.
-  */
- static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-                                             bool want_zero,
-@@ -2727,7 +2728,7 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-     } else if (data == offset) {
-         /* On a data extent, compute bytes to the end of the extent,
-          * possibly including a partial sector at EOF. */
--        *pnum = MIN(bytes, hole - offset);
-+        *pnum = hole - offset;
- 
-         /*
-          * We are not allowed to return partial sectors, though, so
-@@ -2746,7 +2747,7 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-     } else {
-         /* On a hole, compute bytes to the beginning of the next extent.  */
-         assert(hole == offset);
--        *pnum = MIN(bytes, data - offset);
-+        *pnum = data - offset;
-         ret = BDRV_BLOCK_ZERO;
+diff --git a/block/iscsi.c b/block/iscsi.c
+index 4d2a416ce7..852384086b 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -781,9 +781,6 @@ retry:
+         iscsi_allocmap_set_allocated(iscsilun, offset, *pnum);
      }
-     *map = offset;
+ 
+-    if (*pnum > bytes) {
+-        *pnum = bytes;
+-    }
+ out_unlock:
+     qemu_mutex_unlock(&iscsilun->mutex);
+     g_free(iTask.err_str);
 -- 
 2.31.1
 
