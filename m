@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84ED3AC96E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:05:28 +0200 (CEST)
-Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A763AC976
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:08:46 +0200 (CEST)
+Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luCJT-00083f-Ob
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39054)
+	id 1luCMf-0001fW-KA
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luCIX-0007HQ-2R
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:04:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60458)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1luCLI-0000vB-SL
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:07:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luCIT-0001UT-0M
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:04:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1luCLE-0003gg-W6
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:07:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624014263;
+ s=mimecast20190719; t=1624014436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cs0mqVClmoMUY6cCwI7AcKviYXDPwZgllE6l1xhZEoM=;
- b=hWpuwdaipD9Uh8aB2L5JDq66Ggme1jUjqVXU0PvCh3n0BsWxrPcDAK+AlA2+rpdX/vla1D
- 2a2Buy/YgFW/alMMlAXWh3UNuA0hJDlYjlZ8OS2JnlK6Uyh/DS0Y5muV+vc8ME/cJDaAXG
- s59ZYb+rmYXSRGyiK98WCtho/ugLYQY=
+ bh=cVy9mHxoLrRxqlzfZmidnnA7cIQs94BEmYo9oJWVVok=;
+ b=DjhX1iGT/3mZmd8RXILtaI5+UD5aR+gQQeo/9/fh0uA5ksrjtmMadii9lXEe65HQC+1ZN+
+ 25WxIq5k06zvj4Lkzh1wNOiuZykpUbXnT3lOnrAUAHQKEJsuKkYyQZFqOPMCaoaxZ19Uhh
+ 7XIYKHlajyjPv/xmZ2Q7115BvDXOstg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-_6YX2fNcPFqM6Q1DeCbc-w-1; Fri, 18 Jun 2021 07:04:21 -0400
-X-MC-Unique: _6YX2fNcPFqM6Q1DeCbc-w-1
+ us-mta-241-eXNyFkWYOhmtk6jZKP4ChQ-1; Fri, 18 Jun 2021 07:07:14 -0400
+X-MC-Unique: eXNyFkWYOhmtk6jZKP4ChQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89346C73A4;
- Fri, 18 Jun 2021 11:04:20 +0000 (UTC)
-Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB0C617D48;
- Fri, 18 Jun 2021 11:04:13 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH v4 1/4] s390x/css: Introduce an ESW struct
-In-Reply-To: <20210617232537.1337506-2-farman@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20210617232537.1337506-1-farman@linux.ibm.com>
- <20210617232537.1337506-2-farman@linux.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 18 Jun 2021 13:04:12 +0200
-Message-ID: <877dirph77.fsf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93DE4192FDB4;
+ Fri, 18 Jun 2021 11:07:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AEA517D53;
+ Fri, 18 Jun 2021 11:07:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 87AC7113865F; Fri, 18 Jun 2021 13:07:06 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: sweeaun <swee.aun.khor@intel.com>
+Subject: Re: [PATCH v2] ui/gtk: Allow user to select monitor number to
+ display qemu in full screen through new gtk display option
+References: <20210617020609.18089-1-swee.aun.khor@intel.com>
+Date: Fri, 18 Jun 2021 13:07:06 +0200
+In-Reply-To: <20210617020609.18089-1-swee.aun.khor@intel.com> (sweeaun's
+ message of "Thu, 17 Jun 2021 10:06:09 +0800")
+Message-ID: <8735tfsa79.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,110 +82,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: khairul.anuar.romli@intel.com, Gerd Hoffmann <kraxel@redhat.com>,
+ eblake@redhat.com, qemu-devel@nongnu.org, vivek.kasireddy@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 18 2021, Eric Farman <farman@linux.ibm.com> wrote:
+You neglected to cc: the Graphics maintainer.  I'm doing that for you
+now.
 
-> The Interrupt Response Block is comprised of several other
-> structures concatenated together, but only the 12-byte
-> Subchannel-Status Word (SCSW) is defined as a proper struct.
-> Everything else is a simple array of 32-bit words.
+sweeaun <swee.aun.khor@intel.com> writes:
+
+>  -display gtk,monitor=3D<value>
 >
-> Let's define a proper struct for the 20-byte Extended-Status
-> Word (ESW) so that we can make good decisions about the sense
-> data that would go into the ECW area for virtual vs
-> passthrough devices.
->
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> Signed-off-by: sweeaun <swee.aun.khor@intel.com>
+
+Your commit message is formatted badly.  What about this:
+
+    ui/gtk: New -display gtk parameter 'monitor'.
+
+    This lets the user select monitor number to display QEMU in full
+    screen with -display gtk,monitor=3D<value>.
+
+Furthermore, you're Signed-off-by line may be off.  It should be of the
+form
+
+    Signed-off-by: REAL NAME <EMAIL>
+
+Is "sweeaun" your real name?
+
 > ---
->  hw/s390x/css.c            | 19 +++++++++++++------
->  include/hw/s390x/ioinst.h | 12 +++++++++++-
->  2 files changed, 24 insertions(+), 7 deletions(-)
+>  qapi/ui.json    |  4 +++-
+>  qemu-options.hx |  2 +-
+>  ui/gtk.c        | 15 +++++++++++++++
+>  3 files changed, 19 insertions(+), 2 deletions(-)
 >
-> diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
-> index c6737a30d4..e7ab401781 100644
-> --- a/include/hw/s390x/ioinst.h
-> +++ b/include/hw/s390x/ioinst.h
-> @@ -123,10 +123,20 @@ typedef struct SCHIB {
->      uint8_t mda[4];
->  } QEMU_PACKED SCHIB;
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 1052ca9c38..1616f3ffbd 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1035,13 +1035,15 @@
+>  #               assuming the guest will resize the display to match
+>  #               the window size then.  Otherwise it defaults to "off".
+>  #               Since 3.1
+> +# @monitor: Monitor number to display qemu in full screen.
+
+We spell it QEMU.
+
+Should "full screen" be "full-screen" or even "fullscreen"?
+
+>  #
+>  # Since: 2.12
+>  #
+>  ##
+>  { 'struct'  : 'DisplayGTK',
+>    'data'    : { '*grab-on-hover' : 'bool',
+> -                '*zoom-to-fit'   : 'bool'  } }
+> +                '*zoom-to-fit'   : 'bool',
+> +                '*monitor' : 'int' } }
+
+Best to make your addition "blend in" like this
+
+   { 'struct'  : 'DisplayGTK',
+     'data'    : { '*grab-on-hover' : 'bool',
+                   '*zoom-to-fit'   : 'bool',
+                   '*monitor'       : 'int' } }
+
 > =20
-> +/* format-0 extended-status word */
-> +typedef struct ESW {
-> +   uint32_t word0;
-> +   uint32_t erw;
-> +   uint64_t f_addr;     /* Zeros for other ESW formats */
-> +   uint32_t s_addr;     /* Zeros for other ESW formats */
-> +} QEMU_PACKED ESW;
+>  ##
+>  # @DisplayEGLHeadless:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 14258784b3..e4b89b6a72 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1787,7 +1787,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+>      "            [,window_close=3Don|off][,gl=3Don|core|es|off]\n"
+>  #endif
+>  #if defined(CONFIG_GTK)
+> -    "-display gtk[,grab_on_hover=3Don|off][,gl=3Don|off]|\n"
+> +    "-display gtk[,grab_on_hover=3Don|off][,gl=3Don|off][,monitor=3D<val=
+ue>]\n"
+>  #endif
+>  #if defined(CONFIG_VNC)
+>      "-display vnc=3D<display>[,<optargs>]\n"
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 98046f577b..84da126611 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -2268,6 +2268,21 @@ static void gtk_display_init(DisplayState *ds, Dis=
+playOptions *opts)
+>          gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+>      }
+>      gd_clipboard_init(s);
+> +
+> +    if (opts->u.gtk.has_monitor) {
+> +        int n_monitor;
+> +        n_monitor =3D gdk_display_get_n_monitors(window_display);
 
-Eww, this fails with mingw:
-https://gitlab.com/cohuck/qemu/-/jobs/1358335494
+Terser:
 
-i686-w64-mingw32-gcc -Ilibcommon.fa.p -I../slirp -I../slirp/src -I../dtc/li=
-bfdt -I../capstone/include/capstone -I. -Iqapi -Itrace -Iui -Iui/shader -I/=
-usr/i686-w64-mingw32/sys-root/mingw/include -I/usr/i686-w64-mingw32/sys-roo=
-t/mingw/include/glib-2.0 -I/usr/i686-w64-mingw32/sys-root/mingw/lib/glib-2.=
-0/include -I/usr/i686-w64-mingw32/sys-root/mingw/include/gtk-3.0 -I/usr/i68=
-6-w64-mingw32/sys-root/mingw/include/cairo -I/usr/i686-w64-mingw32/sys-root=
-/mingw/include/pango-1.0 -I/usr/i686-w64-mingw32/sys-root/mingw/include/fri=
-bidi -I/usr/i686-w64-mingw32/sys-root/mingw/include/harfbuzz -I/usr/i686-w6=
-4-mingw32/sys-root/mingw/include/atk-1.0 -I/usr/i686-w64-mingw32/sys-root/m=
-ingw/include/pixman-1 -I/usr/i686-w64-mingw32/sys-root/mingw/include/freety=
-pe2 -I/usr/i686-w64-mingw32/sys-root/mingw/include/libpng16 -I/usr/i686-w64=
--mingw32/sys-root/mingw/include/gdk-pixbuf-2.0 -I/usr/i686-w64-mingw32/sys-=
-root/mingw/lib/libffi-3.1/include -I/usr/i686-w64-mingw32/sys-root/mingw/in=
-clude/p11-kit-1 -I/usr/i686-w64-mingw32/sys-root/mingw/include/SDL2 -fdiagn=
-ostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -std=3Dgnu99 -O2 -g -=
-iquote . -iquote /builds/cohuck/qemu -iquote /builds/cohuck/qemu/include -i=
-quote /builds/cohuck/qemu/disas/libvixl -iquote /builds/cohuck/qemu/tcg/i38=
-6 -mms-bitfields -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -m32 -D_GNU_SOURCE=
- -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredunda=
-nt-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing =
--fno-common -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-l=
-imits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wemp=
-ty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit-f=
-allthrough=3D2 -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psa=
-bi -fstack-protector-strong -Dmain=3DSDL_main -Wno-undef -mms-bitfields -mm=
-s-bitfields -mms-bitfields -MD -MQ libcommon.fa.p/hw_s390x_virtio-ccw-gpu.c=
-.obj -MF libcommon.fa.p/hw_s390x_virtio-ccw-gpu.c.obj.d -o libcommon.fa.p/h=
-w_s390x_virtio-ccw-gpu.c.obj -c ../hw/s390x/virtio-ccw-gpu.c
-In file included from /usr/i686-w64-mingw32/sys-root/mingw/include/winsock2=
-.h:54,
-                 from /builds/cohuck/qemu/include/sysemu/os-win32.h:29,
-                 from /builds/cohuck/qemu/include/qemu/osdep.h:135,
-                 from ../hw/s390x/virtio-ccw-gpu.c:11:
-/builds/cohuck/qemu/include/hw/s390x/ioinst.h:131:13: error: expected ':', =
-',', ';', '}' or '__attribute__' before '.' token
-  131 |    uint32_t s_addr;     /* Zeros for other ESW formats */
-      |             ^~~~~~
-In file included from /builds/cohuck/qemu/include/qemu/osdep.h:37,
-                 from ../hw/s390x/virtio-ccw-gpu.c:11:
-/builds/cohuck/qemu/include/qemu/compiler.h:80:36: error: static assertion =
-failed: "size of IRB is wrong"
-   80 | #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x), msg)
-      |                                    ^~~~~~~~~~~~~~
-/builds/cohuck/qemu/include/hw/s390x/ioinst.h:143:1: note: in expansion of =
-macro 'QEMU_BUILD_BUG_MSG'
-  143 | QEMU_BUILD_BUG_MSG(sizeof(IRB) !=3D 96, "size of IRB is wrong");
-      | ^~~~~~~~~~~~~~~~~~
+           int n_monitor =3D gdk_display_get_n_monitors(window_display);
 
 > +
-> +#define ESW_ERW_SENSE 0x01000000
-> +
->  /* interruption response block */
->  typedef struct IRB {
->      SCSW scsw;
-> -    uint32_t esw[5];
-> +    ESW esw;
->      uint32_t ecw[8];
->      uint32_t emw[8];
->  } IRB;
+> +        if ((opts->u.gtk.monitor <=3D n_monitor) &&
+> +            (opts->u.gtk.monitor > 0)) {
+
+Suggest to drop the superfluous parenthesis:
+
+           if (opts->u.gtk.monitor <=3D n_monitor &&
+               opts->u.gtk.monitor > 0) {
+
+> +            GdkScreen *gdk_screen;
+> +            gdk_screen =3D gdk_display_get_default_screen(window_display=
+);
+> +            gtk_window_fullscreen_on_monitor(GTK_WINDOW(s->window), gdk_=
+screen,
+> +                                             (opts->u.gtk.monitor - 1));
+
+Drop the superfluous parenthesis around the last argument.
+
+Your new option argument seems to count monitors from 1, while GTK
+counts them from zero.  Why the difference?
+
+Your documentation states that @monitor applies only "in full screen",
+but this code is not guarded by if (opts->full_screen).  Why is that
+okay?
+
+From gdk_display_get_n_monitors()'s documentation: "The returned number
+is valid until the next emission of the =E2=80=9Cmonitor-added=E2=80=9D or
+=E2=80=9Cmonitor-removed=E2=80=9D signal."  This suggests monitors can come=
+ and go at
+any time.  If they can, what happens when the monitor we're trying to
+use here has gone away since we called gdk_display_get_n_monitors()?
+
+> +        } else {
+> +            fprintf(stderr, "Invalid GTK monitor argument\n");
+> +        }
+> +    }
+>  }
+> =20
+>  static void early_gtk_display_init(DisplayOptions *opts)
 
 
