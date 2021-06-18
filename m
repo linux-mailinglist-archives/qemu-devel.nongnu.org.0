@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920A53AD341
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:58:50 +0200 (CEST)
-Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514C03AD334
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:57:07 +0200 (CEST)
+Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luKdd-0001vj-M4
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:58:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33852)
+	id 1luKby-0006YZ-BW
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1luKXt-0008JM-8O
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:52:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37779)
+ id 1luKY0-0008Oc-SZ
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:53:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1luKXq-0006ru-9w
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:52:52 -0400
+ id 1luKXx-0006vs-C8
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:53:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624045969;
+ s=mimecast20190719; t=1624045976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2rmhyog/QQZz84S1b45iwfmtgelyk0jjrn1OiDEqnj8=;
- b=RliOPhJfKWrwAS45ToSoERz2vBhFKgTIPoyP0oqdBkoNhTlvd0CHm0J3AMXx4g+xhqvr49
- B69jAVas90Jc7gYdvzkgMKEAj8sXNNEZGVj4StFOGcRUS/thXqGv0U102kCM3DX8TxCgkm
- /pykZQbpgkFnenl3sLRzO/D1CrPd1h0=
+ bh=RoG4RBjGo5AhYSgso7Vz2QiPVshCnf415lDf5gw+MaU=;
+ b=Y6wnztqJog2fQpsvYrHHxOaqj5/1t0SFikKomPMHDfVEsb3axABqf2s/dBa2aw6KBcPGTg
+ fw2j2Ere36Gcn8vdoZFan2MG8m4oTC0LcHaA1KCshGf0MmO8WSTg6zckMYV/GxoIiOH2sw
+ yA6uj1FvVo2POM1lmWBs9zJ70Cxe54c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-lq-ihUJyN5y3mQuaQ7HeeQ-1; Fri, 18 Jun 2021 15:52:47 -0400
-X-MC-Unique: lq-ihUJyN5y3mQuaQ7HeeQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-471-sKhx7mI-P5ekcKZ-hK_usw-1; Fri, 18 Jun 2021 15:52:48 -0400
+X-MC-Unique: sKhx7mI-P5ekcKZ-hK_usw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8359100C667;
- Fri, 18 Jun 2021 19:52:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0AB318D6A31;
+ Fri, 18 Jun 2021 19:52:47 +0000 (UTC)
 Received: from localhost (unknown [10.22.9.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 818FF60C17;
- Fri, 18 Jun 2021 19:52:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 626CF5DD68;
+ Fri, 18 Jun 2021 19:52:47 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 6/7] docs: add a table showing x86-64 ABI compatibility levels
-Date: Fri, 18 Jun 2021 15:52:36 -0400
-Message-Id: <20210618195237.442548-7-ehabkost@redhat.com>
+Subject: [PULL 7/7] scripts: helper to generate x86_64 CPU ABI compat info
+Date: Fri, 18 Jun 2021 15:52:37 -0400
+Message-Id: <20210618195237.442548-8-ehabkost@redhat.com>
 In-Reply-To: <20210618195237.442548-1-ehabkost@redhat.com>
 References: <20210618195237.442548-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,145 +88,222 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-It is useful to know which CPUs satisfy each x86-64 ABI
-compatibility level, when dealing with guest OS that require
-something newer than the baseline ABI.
+This script is what is used to generate the docs data table in:
 
-These ABI levels are defined in:
+  docs/system/cpu-models-x86-abi.csv
 
-  https://gitlab.com/x86-psABIs/x86-64-ABI/
-
-and supported by GCC, Clang, glibc and more.
+It can be useful to run if adding new CPU models / versions and
+the csv needs updating.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210607135843.196595-2-berrange@redhat.com>
+Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20210607135843.196595-4-berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- MAINTAINERS                        |  2 +-
- docs/system/cpu-models-x86-abi.csv | 67 ++++++++++++++++++++++++++++++
- docs/system/cpu-models-x86.rst.inc | 22 ++++++++++
- 3 files changed, 90 insertions(+), 1 deletion(-)
- create mode 100644 docs/system/cpu-models-x86-abi.csv
+ scripts/cpu-x86-uarch-abi.py | 194 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 194 insertions(+)
+ create mode 100644 scripts/cpu-x86-uarch-abi.py
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 636bf2f5365..ccdb81c9f62 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -328,7 +328,7 @@ F: tests/tcg/i386/
- F: tests/tcg/x86_64/
- F: hw/i386/
- F: disas/i386.c
--F: docs/system/cpu-models-x86.rst.inc
-+F: docs/system/cpu-models-x86*
- T: git https://gitlab.com/ehabkost/qemu.git x86-next
- 
- Xtensa TCG CPUs
-diff --git a/docs/system/cpu-models-x86-abi.csv b/docs/system/cpu-models-x86-abi.csv
+diff --git a/scripts/cpu-x86-uarch-abi.py b/scripts/cpu-x86-uarch-abi.py
 new file mode 100644
-index 00000000000..f3f3b60be10
+index 00000000000..08acc52a816
 --- /dev/null
-+++ b/docs/system/cpu-models-x86-abi.csv
-@@ -0,0 +1,67 @@
-+Model,baseline,v2,v3,v4
-+486-v1,,,,
-+Broadwell-v1,✅,✅,✅,
-+Broadwell-v2,✅,✅,✅,
-+Broadwell-v3,✅,✅,✅,
-+Broadwell-v4,✅,✅,✅,
-+Cascadelake-Server-v1,✅,✅,✅,✅
-+Cascadelake-Server-v2,✅,✅,✅,✅
-+Cascadelake-Server-v3,✅,✅,✅,✅
-+Cascadelake-Server-v4,✅,✅,✅,✅
-+Conroe-v1,✅,,,
-+Cooperlake-v1,✅,✅,✅,✅
-+Denverton-v1,✅,✅,,
-+Denverton-v2,✅,✅,,
-+Dhyana-v1,✅,✅,✅,
-+EPYC-Milan-v1,✅,✅,✅,
-+EPYC-Rome-v1,✅,✅,✅,
-+EPYC-Rome-v2,✅,✅,✅,
-+EPYC-v1,✅,✅,✅,
-+EPYC-v2,✅,✅,✅,
-+EPYC-v3,✅,✅,✅,
-+Haswell-v1,✅,✅,✅,
-+Haswell-v2,✅,✅,✅,
-+Haswell-v3,✅,✅,✅,
-+Haswell-v4,✅,✅,✅,
-+Icelake-Client-v1,✅,✅,✅,
-+Icelake-Client-v2,✅,✅,✅,
-+Icelake-Server-v1,✅,✅,✅,✅
-+Icelake-Server-v2,✅,✅,✅,✅
-+Icelake-Server-v3,✅,✅,✅,✅
-+Icelake-Server-v4,✅,✅,✅,✅
-+IvyBridge-v1,✅,✅,,
-+IvyBridge-v2,✅,✅,,
-+KnightsMill-v1,✅,✅,✅,
-+Nehalem-v1,✅,✅,,
-+Nehalem-v2,✅,✅,,
-+Opteron_G1-v1,✅,,,
-+Opteron_G2-v1,✅,,,
-+Opteron_G3-v1,✅,,,
-+Opteron_G4-v1,✅,✅,,
-+Opteron_G5-v1,✅,✅,,
-+Penryn-v1,✅,,,
-+SandyBridge-v1,✅,✅,,
-+SandyBridge-v2,✅,✅,,
-+Skylake-Client-v1,✅,✅,✅,
-+Skylake-Client-v2,✅,✅,✅,
-+Skylake-Client-v3,✅,✅,✅,
-+Skylake-Server-v1,✅,✅,✅,✅
-+Skylake-Server-v2,✅,✅,✅,✅
-+Skylake-Server-v3,✅,✅,✅,✅
-+Skylake-Server-v4,✅,✅,✅,✅
-+Snowridge-v1,✅,✅,,
-+Snowridge-v2,✅,✅,,
-+Westmere-v1,✅,✅,,
-+Westmere-v2,✅,✅,,
-+athlon-v1,,,,
-+core2duo-v1,✅,,,
-+coreduo-v1,,,,
-+kvm32-v1,,,,
-+kvm64-v1,✅,,,
-+n270-v1,,,,
-+pentium-v1,,,,
-+pentium2-v1,,,,
-+pentium3-v1,,,,
-+phenom-v1,✅,,,
-+qemu32-v1,,,,
-+qemu64-v1,✅,,,
-diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-index 867c8216b5a..f40ee03ecc0 100644
---- a/docs/system/cpu-models-x86.rst.inc
-+++ b/docs/system/cpu-models-x86.rst.inc
-@@ -39,6 +39,28 @@ CPU, as they would with "Host passthrough", but gives much of the
- benefit of passthrough, while making live migration safe.
- 
- 
-+ABI compatibility levels for CPU models
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++++ b/scripts/cpu-x86-uarch-abi.py
+@@ -0,0 +1,194 @@
++#!/usr/bin/python3
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# A script to generate a CSV file showing the x86_64 ABI
++# compatibility levels for each CPU model.
++#
 +
-+The x86_64 architecture has a number of `ABI compatibility levels`_
-+defined. Traditionally most operating systems and toolchains would
-+only target the original baseline ABI. It is expected that in
-+future OS and toolchains are likely to target newer ABIs. The
-+table that follows illustrates which ABI compatibility levels
-+can be satisfied by the QEMU CPU models. Note that the table only
-+lists the long term stable CPU model versions (eg Haswell-v4).
-+In addition to whats listed, there are also many CPU model
-+aliases which resolve to a different CPU model version,
-+depending on the machine type is in use.
++from qemu import qmp
++import sys
 +
-+.. _ABI compatibility levels: https://gitlab.com/x86-psABIs/x86-64-ABI/
++if len(sys.argv) != 1:
++    print("syntax: %s QMP-SOCK\n\n" % __file__ +
++          "Where QMP-SOCK points to a QEMU process such as\n\n" +
++          " # qemu-system-x86_64 -qmp unix:/tmp/qmp,server,nowait " +
++          "-display none -accel kvm", file=sys.stderr)
++    sys.exit(1)
 +
-+.. csv-table:: x86-64 ABI compatibility levels
-+   :file: cpu-models-x86-abi.csv
-+   :widths: 40,15,15,15,15
-+   :header-rows: 2
++# Mandatory CPUID features for each microarch ABI level
++levels = [
++    [ # x86-64 baseline
++        "cmov",
++        "cx8",
++        "fpu",
++        "fxsr",
++        "mmx",
++        "syscall",
++        "sse",
++        "sse2",
++    ],
++    [ # x86-64-v2
++        "cx16",
++        "lahf-lm",
++        "popcnt",
++        "pni",
++        "sse4.1",
++        "sse4.2",
++        "ssse3",
++    ],
++    [ # x86-64-v3
++        "avx",
++        "avx2",
++        "bmi1",
++        "bmi2",
++        "f16c",
++        "fma",
++        "abm",
++        "movbe",
++    ],
++    [ # x86-64-v4
++        "avx512f",
++        "avx512bw",
++        "avx512cd",
++        "avx512dq",
++        "avx512vl",
++    ],
++]
++
++# Assumes externally launched process such as
++#
++#   qemu-system-x86_64 -qmp unix:/tmp/qmp,server,nowait -display none -accel kvm
++#
++# Note different results will be obtained with TCG, as
++# TCG masks out certain features otherwise present in
++# the CPU model definitions, as does KVM.
 +
 +
- Preferred CPU models for Intel x86 hosts
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
++sock = sys.argv[1]
++cmd = sys.argv[2]
++shell = qmp.QEMUMonitorProtocol(sock)
++shell.connect()
++
++models = shell.cmd("query-cpu-definitions")
++
++# These QMP props don't correspond to CPUID fatures
++# so ignore them
++skip = [
++    "family",
++    "min-level",
++    "min-xlevel",
++    "vendor",
++    "model",
++    "model-id",
++    "stepping",
++]
++
++names = []
++
++for model in models["return"]:
++    if "alias-of" in model:
++        continue
++    names.append(model["name"])
++
++models = {}
++
++for name in sorted(names):
++    cpu = shell.cmd("query-cpu-model-expansion",
++                     { "type": "static",
++                       "model": { "name": name }})
++
++    got = {}
++    for (feature, present) in cpu["return"]["model"]["props"].items():
++        if present and feature not in skip:
++            got[feature] = True
++
++    if name in ["host", "max", "base"]:
++        continue
++
++    models[name] = {
++        # Dict of all present features in this CPU model
++        "features": got,
++
++        # Whether each x86-64 ABI level is satisfied
++        "levels": [False, False, False, False],
++
++        # Number of extra CPUID features compared to the x86-64 ABI level
++        "distance":[-1, -1, -1, -1],
++
++        # CPUID features present in model, but not in ABI level
++        "delta":[[], [], [], []],
++
++        # CPUID features in ABI level but not present in model
++        "missing": [[], [], [], []],
++    }
++
++
++# Calculate whether the CPU models satisfy each ABI level
++for name in models.keys():
++    for level in range(len(levels)):
++        got = set(models[name]["features"])
++        want = set(levels[level])
++        missing = want - got
++        match = True
++        if len(missing) > 0:
++            match = False
++        models[name]["levels"][level] = match
++        models[name]["missing"][level] = missing
++
++# Cache list of CPU models satisfying each ABI level
++abi_models = [
++    [],
++    [],
++    [],
++    [],
++]
++
++for name in models.keys():
++    for level in range(len(levels)):
++        if models[name]["levels"][level]:
++            abi_models[level].append(name)
++
++
++for level in range(len(abi_models)):
++    # Find the union of features in all CPU models satisfying this ABI
++    allfeatures = {}
++    for name in abi_models[level]:
++        for feat in models[name]["features"]:
++            allfeatures[feat] = True
++
++    # Find the intersection of features in all CPU models satisfying this ABI
++    commonfeatures = []
++    for feat in allfeatures:
++        present = True
++        for name in models.keys():
++            if not models[name]["levels"][level]:
++                continue
++            if feat not in models[name]["features"]:
++                present = False
++        if present:
++            commonfeatures.append(feat)
++
++    # Determine how many extra features are present compared to the lowest
++    # common denominator
++    for name in models.keys():
++        if not models[name]["levels"][level]:
++            continue
++
++        delta = set(models[name]["features"].keys()) - set(commonfeatures)
++        models[name]["distance"][level] = len(delta)
++        models[name]["delta"][level] = delta
++
++def print_uarch_abi_csv():
++    print("# Automatically generated from '%s'" % __file__)
++    print("Model,baseline,v2,v3,v4")
++    for name in models.keys():
++        print(name, end="")
++        for level in range(len(levels)):
++            if models[name]["levels"][level]:
++                print(",✅", end="")
++            else:
++                print(",", end="")
++        print()
++
++print_uarch_abi_csv()
 -- 
 2.31.1
 
