@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC173ACFD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:06:27 +0200 (CEST)
-Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6263AD00E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:09:05 +0200 (CEST)
+Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luH0k-0008B3-8I
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48958)
+	id 1luH3H-000514-UF
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1luGwz-00043Q-5T
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:02:33 -0400
-Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f]:45825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1luGww-00052B-2V
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:02:32 -0400
-Received: by mail-ua1-x92f.google.com with SMTP id v17so3540307uar.12
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 09:02:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gqyez8wd0LcYx2GgUpXYthsMzgYssd9EDnzuB8WiDlQ=;
- b=MfuNyvA3evcN1sEx+veeWi7T43zVCPkTRU+MIP3696DnVyRtNdylUXn5dFm8YvWC94
- X0hgkFEhCtzX777BvwlXHdsKBra2ukNQTJTE2vMEa4VNBr8MP2EQzEiFWqfux3HhyMhk
- 9EBCWNABSeV+8K8wdTx2gYwtCEf1W1ipTn0Lr0fXewQQUGx7uWO3VY5OHgmCJu8RcNS8
- sQ93C1pTNeK7WCBHw6HqWad2cvt0SHkrQDv8q1RJd5XOSFjPCY+BJL87THuTPqF4Ijqg
- pxydm0AnnfvME2xLmyR0IgoJSInSrs0E1y8Czw4SalYvY5Q2WXVzeBXzLtclseaJqiqE
- kFRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gqyez8wd0LcYx2GgUpXYthsMzgYssd9EDnzuB8WiDlQ=;
- b=DvBrUBupGeIHG6Ry2H+0EeG+kU3Cl7o+txF4V6/ywEnYQr9J7NWYHMg804AMt2dpwl
- eWP6AToh6ApQv+l/2F/fCU/Da4oHBGOMBxwbOEML5yo3KapWlU/THXc5EEhDlk/Q2rn3
- khsqmy6IXq74RFEelwzhG9nfHQamLmjfLTclbERRdyKEF6OnqMI3bsLiQ6SWesAQVgxU
- wOj6v+ehF6/Im1Q0dDhKZEkceP5bVx6bwPAEoVdxw8XtYY6XZTWWJHuKBYTlb2TeRDZL
- BsWRR1fgBpUOo9+YTpPBL1NbgJnwVmDh7/yDclacAtwgBM2AKiBeM/6xeEWMBkSOc2hH
- sAIg==
-X-Gm-Message-State: AOAM532vbo16osxznfw8+S2Fmfxf3nQq7ReVA3kN5xpNpA56PVpLteDw
- vY3f1sAnP+57hyFJzLYSgfznHyVh0k7m8WeRrzEFZw==
-X-Google-Smtp-Source: ABdhPJxcGqNoCDNKeQhBME3rd6vYqiSgXOapyhZ5cq6iFRHMVoVNeoJkrhccMbODQN8YcB0lecX1rBztT9655OW7wNw=
-X-Received: by 2002:a9f:374c:: with SMTP id a12mr13006416uae.91.1624032146889; 
- Fri, 18 Jun 2021 09:02:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1luGxc-0005QH-9D
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:03:12 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:45372
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1luGxW-0005Ou-PE
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:03:11 -0400
+HMM_SOURCE_IP: 172.18.0.48:52118.1617882902
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.42.195?logid-1b4ef319d8a04a5a9da35a5f206bfb4b
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 433D028009D;
+ Sat, 19 Jun 2021 00:02:58 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 1b4ef319d8a04a5a9da35a5f206bfb4b for
+ zhengchuan@huawei.com; Sat Jun 19 00:02:58 2021
+X-Transaction-ID: 1b4ef319d8a04a5a9da35a5f206bfb4b
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Subject: Re: [PATCH v8 2/6] memory: make global_dirty_tracking a bitmask
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1624028590.git.huangy81@chinatelecom.cn>
+ <0065e888fde8114be8a66406389cd75f014a0dd8.1624028590.git.huangy81@chinatelecom.cn>
+ <YMy/5togwdtCK3z8@t490s>
+From: Hyman <huangy81@chinatelecom.cn>
+Message-ID: <e92c9863-0c83-e8c9-5c32-41830759315a@chinatelecom.cn>
+Date: Sat, 19 Jun 2021 00:02:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210529185522.78816-1-marcandre.lureau@redhat.com>
- <20210529185522.78816-2-marcandre.lureau@redhat.com>
-In-Reply-To: <20210529185522.78816-2-marcandre.lureau@redhat.com>
-From: Doug Evans <dje@google.com>
-Date: Fri, 18 Jun 2021 09:01:50 -0700
-Message-ID: <CADPb22TTc5dQ8c3N80tHjBdF36h2zJ5OxkN1DzCPpgnNpANmmw@mail.gmail.com>
-Subject: Re: [PULL 1/2] Update libslirp to v4.5.0
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: multipart/alternative; boundary="000000000000389f7805c50c739a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=dje@google.com; helo=mail-ua1-x92f.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <YMy/5togwdtCK3z8@t490s>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.227;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.202,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,243 +67,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000389f7805c50c739a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi. Does anything more need to be done here?
-I just checked and I don't see this patch in the tree yet but it could have
-been due to pilot error.
 
-On Sat, May 29, 2021 at 11:55 AM <marcandre.lureau@redhat.com> wrote:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Switch from stable-4.2 branch to upstream v4.5.0 release.
->
-> ## [4.5.0] - 2021-05-18
->
-> ### Added
->
->  - IPv6 forwarding. !62 !75 !77
->  - slirp_neighbor_info() to dump the ARP/NDP tables. !71
->
-> ### Changed
->
->  - Lazy guest address resolution for IPv6. !81
->  - Improve signal handling when spawning a child. !61
->  - Set macOS deployment target to macOS 10.4. !72
->  - slirp_add_hostfwd: Ensure all error paths set errno. !80
->  - More API documentation.
->
-> ### Fixed
->
->  - Assertion failure on unspecified IPv6 address. !86
->  - Disable polling for PRI on MacOS, fixing some closing streams issues.
-> !73
->  - Various memory leak fixes on fastq/batchq. !68
->  - Memory leak on IPv6 fast-send. !67
->  - Slow socket response on Windows. !64
->  - Misc build and code cleanups. !60 !63 !76 !79 !84
->
-> ## [4.4.0] - 2020-12-02
->
-> ### Added
->
->  - udp, udp6, icmp: handle TTL value. !48
->  - Enable forwarding ICMP errors. !49
->  - Add DNS resolving for iOS. !54
->
-> ### Changed
->
->  - Improve meson subproject() support. !53
->  - Removed Makefile-based build system. !56
->
-> ### Fixed
->
->  - socket: consume empty packets. !55
->  - check pkt_len before reading protocol header (CVE-2020-29129). !57
->  - ip_stripoptions use memmove (fixes undefined behaviour). !47
->  - various Coverity-related changes/fixes.
->
-> ## [4.3.1] - 2020-07-08
->
-> ### Changed
->
->  - A silent truncation could occur in `slirp_fmt()`, which will now print=
- a
->    critical message. See also #22.
->
-> ### Fixed
->
->  - CVE-2020-10756 - Drop bogus IPv6 messages that could lead to data
-> leakage.
->    See !44 and !42.
->  - Fix win32 builds by using the SLIRP_PACKED definition.
->  - Various coverity scan errors fixed. !41
->  - Fix new GCC warnings. !43
->
-> ## [4.3.0] - 2020-04-22
->
-> ### Added
->
->  - `SLIRP_VERSION_STRING` macro, with the git sha suffix when building
-> from git
->  - `SlirpConfig.disable_dns`, to disable DNS redirection #16
->
-> ### Changed
->
->  - `slirp_version_string()` now has the git sha suffix when building form
-> git
->  - Limit DNS redirection to port 53 #16
->
-> ### Fixed
->
->  - Fix build regression with mingw & NetBSD
->  - Fix use-afte-free in `ip_reass()` (CVE-2020-1983)
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Doug Evans <dje@google.com>
-> ---
->  slirp | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/slirp b/slirp
-> index 8f43a99191..a62890e711 160000
-> --- a/slirp
-> +++ b/slirp
-> @@ -1 +1 @@
-> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-> +Subproject commit a62890e71126795ca593affa747f669bed88e89c
-> --
-> 2.29.0
->
->
->
-
---000000000000389f7805c50c739a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hi.=
- Does anything more need to be done here?</div><div class=3D"gmail_default"=
- style=3D"font-size:small">I just checked and I don&#39;t see this patch in=
- the tree yet but it could have been due to pilot error.</div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, May 2=
-9, 2021 at 11:55 AM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marc=
-andre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
-arcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</=
-a>&gt;<br>
-<br>
-Switch from stable-4.2 branch to upstream v4.5.0 release.<br>
-<br>
-## [4.5.0] - 2021-05-18<br>
-<br>
-### Added<br>
-<br>
-=C2=A0- IPv6 forwarding. !62 !75 !77<br>
-=C2=A0- slirp_neighbor_info() to dump the ARP/NDP tables. !71<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- Lazy guest address resolution for IPv6. !81<br>
-=C2=A0- Improve signal handling when spawning a child. !61<br>
-=C2=A0- Set macOS deployment target to macOS 10.4. !72<br>
-=C2=A0- slirp_add_hostfwd: Ensure all error paths set errno. !80<br>
-=C2=A0- More API documentation.<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- Assertion failure on unspecified IPv6 address. !86<br>
-=C2=A0- Disable polling for PRI on MacOS, fixing some closing streams issue=
-s. !73<br>
-=C2=A0- Various memory leak fixes on fastq/batchq. !68<br>
-=C2=A0- Memory leak on IPv6 fast-send. !67<br>
-=C2=A0- Slow socket response on Windows. !64<br>
-=C2=A0- Misc build and code cleanups. !60 !63 !76 !79 !84<br>
-<br>
-## [4.4.0] - 2020-12-02<br>
-<br>
-### Added<br>
-<br>
-=C2=A0- udp, udp6, icmp: handle TTL value. !48<br>
-=C2=A0- Enable forwarding ICMP errors. !49<br>
-=C2=A0- Add DNS resolving for iOS. !54<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- Improve meson subproject() support. !53<br>
-=C2=A0- Removed Makefile-based build system. !56<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- socket: consume empty packets. !55<br>
-=C2=A0- check pkt_len before reading protocol header (CVE-2020-29129). !57<=
-br>
-=C2=A0- ip_stripoptions use memmove (fixes undefined behaviour). !47<br>
-=C2=A0- various Coverity-related changes/fixes.<br>
-<br>
-## [4.3.1] - 2020-07-08<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- A silent truncation could occur in `slirp_fmt()`, which will now pr=
-int a<br>
-=C2=A0 =C2=A0critical message. See also #22.<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- CVE-2020-10756 - Drop bogus IPv6 messages that could lead to data l=
-eakage.<br>
-=C2=A0 =C2=A0See !44 and !42.<br>
-=C2=A0- Fix win32 builds by using the SLIRP_PACKED definition.<br>
-=C2=A0- Various coverity scan errors fixed. !41<br>
-=C2=A0- Fix new GCC warnings. !43<br>
-<br>
-## [4.3.0] - 2020-04-22<br>
-<br>
-### Added<br>
-<br>
-=C2=A0- `SLIRP_VERSION_STRING` macro, with the git sha suffix when building=
- from git<br>
-=C2=A0- `SlirpConfig.disable_dns`, to disable DNS redirection #16<br>
-<br>
-### Changed<br>
-<br>
-=C2=A0- `slirp_version_string()` now has the git sha suffix when building f=
-orm git<br>
-=C2=A0- Limit DNS redirection to port 53 #16<br>
-<br>
-### Fixed<br>
-<br>
-=C2=A0- Fix build regression with mingw &amp; NetBSD<br>
-=C2=A0- Fix use-afte-free in `ip_reass()` (CVE-2020-1983)<br>
-<br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-Reviewed-by: Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=3D"_bl=
-ank">dje@google.com</a>&gt;<br>
----<br>
-=C2=A0slirp | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/slirp b/slirp<br>
-index 8f43a99191..a62890e711 160000<br>
---- a/slirp<br>
-+++ b/slirp<br>
-@@ -1 +1 @@<br>
--Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece<br>
-+Subproject commit a62890e71126795ca593affa747f669bed88e89c<br>
--- <br>
-2.29.0<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000389f7805c50c739a--
+在 2021/6/18 23:46, Peter Xu 写道:
+> On Fri, Jun 18, 2021 at 11:32:03PM +0800, huangy81@chinatelecom.cn wrote:
+>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+>> index b114f54..dd2404f 100644
+>> --- a/include/exec/memory.h
+>> +++ b/include/exec/memory.h
+>> @@ -55,7 +55,17 @@ static inline void fuzz_dma_read_cb(size_t addr,
+>>   }
+>>   #endif
+>>   
+>> -extern bool global_dirty_log;
+>> +/* Possible bits for global_dirty_log */
+> 
+> s/log/tracking/
+> 
+> [...]
+> 
+>> -static void memory_global_dirty_log_do_stop(void)
+>> +static void memory_global_dirty_log_do_stop(unsigned int flags)
+>>   {
+>> -    global_dirty_log = false;
+>> +    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
+>> +    assert((global_dirty_tracking & flags) == flags);
+>> +    global_dirty_tracking &= ~flags;
+>> +
+>> +    trace_global_dirty_changed(global_dirty_tracking);
+>>   
+>>       /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
+>>       memory_region_transaction_begin();
+>> @@ -2691,8 +2699,9 @@ static void memory_global_dirty_log_do_stop(void)
+>>   static void memory_vm_change_state_handler(void *opaque, bool running,
+>>                                              RunState state)
+>>   {
+>> +    unsigned int *flags = (unsigned int *)opaque;
+> 
+> [1]
+> 
+>>       if (running) {
+>> -        memory_global_dirty_log_do_stop();
+>> +        memory_global_dirty_log_do_stop(*flags);
+>>   
+>>           if (vmstate_change) {
+>>               qemu_del_vm_change_state_handler(vmstate_change);
+>> @@ -2701,18 +2710,19 @@ static void memory_vm_change_state_handler(void *opaque, bool running,
+>>       }
+>>   }
+>>   
+>> -void memory_global_dirty_log_stop(void)
+>> +void memory_global_dirty_log_stop(unsigned int flags)
+>>   {
+>>       if (!runstate_is_running()) {
+>>           if (vmstate_change) {
+>>               return;
+>>           }
+>>           vmstate_change = qemu_add_vm_change_state_handler(
+>> -                                memory_vm_change_state_handler, NULL);
+>> +                                memory_vm_change_state_handler,
+>> +                                (void *)&flags);
+> 
+> If to drop malloc/free, we need to cast it with (void *)flags.  &flags is the
+> address of the local var, which will lost its meaning after the function
+> returns..
+get it, the callback may almost execute after 
+memory_global_dirty_log_stop returns, when it excutes, it cannot get the 
+right value of flags. my fault!
+> 
+> Then at [1] it should be "unsigned int flags = (unsigned int)opaque;".
+> 
 
