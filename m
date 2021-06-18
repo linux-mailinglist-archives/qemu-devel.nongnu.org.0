@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4653AC2AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 06:58:59 +0200 (CEST)
-Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FBE3AC2A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 06:57:16 +0200 (CEST)
+Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu6ao-0004rR-Kn
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 00:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
+	id 1lu6Z9-0007pO-0w
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 00:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6WS-0003bA-R8
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39528)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6Wp-00049t-Pm
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6WQ-0003cx-27
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:28 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6Wo-0003tP-2V
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623992065;
+ s=mimecast20190719; t=1623992089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XDqu+Mr4Kzkxd3V/po/u+EwcZ0cPcIem552ZNdNRcDI=;
- b=GgJd/ey9XAeOx2+R6b7h/thP9NfPxvTlnxLe6rPjdcpZjEMC8K7klkaVzH2Kq99RIhiUDo
- mAvTnFDJaM7YGX+8CIuNunv8j3ntU7UkIN0TFQZbwerut2UIjRaggPJte4xXq+XIrqTb2G
- h2I2TOHgnC7VXVVZ50Ve2O6p04XXCvA=
+ bh=rQZiTj29EkUI3JcZ8Wr4DuhMvRhsE3YMv7zgpWxKx8Q=;
+ b=A1WnV+k1u8seTW7DKRaUo78xQ70ViA1smUlez4QUruPns3wCleui84+iHCOmWxXFvUMF7a
+ uPOGfI0Wav2CaH2ckEZazltPhxzOfZoUL5+Rmny3CYaPxztS3VH7mNF3rlbZXCNE+5MUxa
+ 9hafCt93I714pe6H2JcQOeHOKoo8X0s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30--kFnDnszMxKDPkCXa5WERw-1; Fri, 18 Jun 2021 00:54:24 -0400
-X-MC-Unique: -kFnDnszMxKDPkCXa5WERw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-460-uILz5ItvOhKWfQJV5TcpWQ-1; Fri, 18 Jun 2021 00:54:48 -0400
+X-MC-Unique: uILz5ItvOhKWfQJV5TcpWQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07A08802B4F;
- Fri, 18 Jun 2021 04:54:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D083100CA88;
+ Fri, 18 Jun 2021 04:54:47 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A7F55D9CC;
- Fri, 18 Jun 2021 04:54:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 029D610023B5;
+ Fri, 18 Jun 2021 04:54:33 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 29ACF18017CB; Fri, 18 Jun 2021 06:53:54 +0200 (CEST)
+ id 5C8511803092; Fri, 18 Jun 2021 06:53:54 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/24] modules: add qxl module annotations
-Date: Fri, 18 Jun 2021 06:53:33 +0200
-Message-Id: <20210618045353.2510174-5-kraxel@redhat.com>
+Subject: [PATCH v3 07/24] modules: add audio module annotations
+Date: Fri, 18 Jun 2021 06:53:36 +0200
+Message-Id: <20210618045353.2510174-8-kraxel@redhat.com>
 In-Reply-To: <20210618045353.2510174-1-kraxel@redhat.com>
 References: <20210618045353.2510174-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,33 +96,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/qxl.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ audio/spiceaudio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 6e1f8ff1b2a7..84f99088e0a0 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -2522,6 +2522,7 @@ static const TypeInfo qxl_primary_info = {
-     .parent        = TYPE_PCI_QXL,
-     .class_init    = qxl_primary_class_init,
- };
-+module_obj("qxl-vga");
- 
- static void qxl_secondary_class_init(ObjectClass *klass, void *data)
- {
-@@ -2538,6 +2539,7 @@ static const TypeInfo qxl_secondary_info = {
-     .parent        = TYPE_PCI_QXL,
-     .class_init    = qxl_secondary_class_init,
- };
-+module_obj("qxl");
- 
- static void qxl_register_types(void)
- {
-@@ -2547,3 +2549,5 @@ static void qxl_register_types(void)
+diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
+index 999bfbde47c5..a8d370fe6f31 100644
+--- a/audio/spiceaudio.c
++++ b/audio/spiceaudio.c
+@@ -317,3 +317,5 @@ static void register_audio_spice(void)
+     audio_driver_register(&spice_audio_driver);
  }
- 
- type_init(qxl_register_types)
+ type_init(register_audio_spice);
 +
 +module_dep("ui-spice-core");
 -- 
