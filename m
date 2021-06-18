@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A3C3AD382
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 22:19:51 +0200 (CEST)
-Received: from localhost ([::1]:35970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABD53AD37D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 22:19:05 +0200 (CEST)
+Received: from localhost ([::1]:33552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luKxy-0000S7-AC
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 16:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38228)
+	id 1luKxE-0007Ga-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 16:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKvQ-0004sW-1p
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 16:17:16 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:41499)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKvL-0006gR-M5
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 16:17:11 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id e1so5262041plh.8
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 13:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=J1FG5p0z0eE1EGAASoJJNMea23q1WLVLA9oY1s349LA=;
- b=wU7LtIL6pm80TGyepisiNo6AmAkgK1XAWSkmvETHbEU7pC3N2ZtPZp5Z3iX6+Vo3ME
- +R1/vLh1VCn44oWOmzbknpgO5ixBh/fjp3aL1jiIwa0nVzWQQAe0Kz/3ESq2k1eExSWB
- xCVkljKnM2NHvSz7SRr5zGfiBz904cZU4S3dpThRqAJvt08o3JfcLT+zL30MZSsdB+VR
- Ovu51zIZDNm6o1XqqaqnIqfVo1RMARy5wEF4936RL7rwc/kN2xP0zO9sz5vGh1gajo94
- UxZKXiIgH4O1GhwehVDRNnARNcEeG4q2VwKw3xEKo5So0b+e57soVAFRIMfmgrVOnr7u
- Obig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J1FG5p0z0eE1EGAASoJJNMea23q1WLVLA9oY1s349LA=;
- b=SqnTAPk9YebrUMIDhDZ3pYInvlMJow4JLTIy1QyQYFWr7nPdNlame8IQYq/NHdJoTa
- 06tf2SX1owrOPF2guCulq5sEpzHW8jhBBo/EC71eJbrS+mUJI5n0xSSwoTi30Z8jjQAj
- xThIWC+TlEDToDpWnTyCCmjx0gJ4h4sWbxAeUIFXERjnC3102d9v+J53PY/E52ka8uIO
- +49+S9nfERaz0DMpSRZ+OxTyq0OOL8shrkf+gOaybo/mDcpoFxbipG5vGoYVb96LAfhJ
- ku71WLoHUCn6jfdTBSoCpiB5urVSdHp/fAonkPml2xLPmtdeK4BOnpjKX0I4Kpd/KlRz
- pa4w==
-X-Gm-Message-State: AOAM533wNHiqbT4HT0Afn8Jn3fh/3ZToA7k+aLeusgGcylM9k0s+NWTz
- eXb9+iFRqvdYIjwmn5lXLBxTlQ==
-X-Google-Smtp-Source: ABdhPJzM/OLQVGW0Sol5rrRPizZKhxjXQa6oL87Wlvg96Tas2bbUEEEalc6RPcwON3Ig+BGzQyJqDA==
-X-Received: by 2002:a17:902:da84:b029:11b:3110:a42b with SMTP id
- j4-20020a170902da84b029011b3110a42bmr6295029plx.44.1624047425821; 
- Fri, 18 Jun 2021 13:17:05 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id d131sm8996379pfd.176.2021.06.18.13.17.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 13:17:05 -0700 (PDT)
-Subject: Re: [PATCH 4/4] target/mips: Add declarations for generic DSP TCG
- helpers
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210617174907.2904067-1-f4bug@amsat.org>
- <20210617174907.2904067-5-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <23373555-ac23-1b9d-e48e-77318fee4937@linaro.org>
-Date: Fri, 18 Jun 2021 13:17:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1luKvy-0005Va-Ms
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 16:17:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32757)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1luKvx-00072K-4E
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 16:17:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624047464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PQLboHDrQUOn8w8fKzkNZ9h5UpkIW1SUAGUQJFCY+Hg=;
+ b=RXsyOMljhG0cGtIR/KmG4/3XARJyhnefcst9U4uSVgdPMctIkj6PQgiXomuOJgPQ7wYrNK
+ NX02z6IfqpIPtcNlHYIvyXO1WkPSnnyj3+ybsRcCkeKVMZkk8nn6SVPt55FUsH06jsuk5K
+ HiPy8/P8QDb0QUS1LTyCeKQ3EmEm+B4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-ey8YqeBmOsGOJ6rNSgKvfw-1; Fri, 18 Jun 2021 16:17:43 -0400
+X-MC-Unique: ey8YqeBmOsGOJ6rNSgKvfw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFC6D1084F4B;
+ Fri, 18 Jun 2021 20:17:41 +0000 (UTC)
+Received: from redhat.com (ovpn-112-75.phx2.redhat.com [10.3.112.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91D6013AC8;
+ Fri, 18 Jun 2021 20:17:41 +0000 (UTC)
+Date: Fri, 18 Jun 2021 15:17:39 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 4/6] block/gluster: Do not force-cap *pnum
+Message-ID: <20210618201739.xztqvuhenjctphis@redhat.com>
+References: <20210617155247.442150-1-mreitz@redhat.com>
+ <20210617155247.442150-5-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210617174907.2904067-5-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.202,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210617155247.442150-5-mreitz@redhat.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,23 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 10:49 AM, Philippe Mathieu-Daudé wrote:
-> To be able to extract the DSP ASE translation routines to
-> different source file, declare few TCG helpers, MASK_SPECIAL3
-> and a DSP register in "translate.h".
+On Thu, Jun 17, 2021 at 05:52:45PM +0200, Max Reitz wrote:
+> bdrv_co_block_status() does it for us, we do not need to do it here.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> The advantage of not capping *pnum is that bdrv_co_block_status() can
+> cache larger data regions than requested by its caller.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   target/mips/tcg/translate.h |  7 +++++++
->   target/mips/tcg/translate.c | 10 +++++-----
->   2 files changed, 12 insertions(+), 5 deletions(-)
+>  block/gluster.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-r~
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
