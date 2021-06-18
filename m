@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48AC3AD038
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:17:51 +0200 (CEST)
-Received: from localhost ([::1]:55698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D1C3AD039
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:18:37 +0200 (CEST)
+Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luHBm-0004ZG-NC
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
+	id 1luHCW-0006ee-8T
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luH9F-0008QZ-DL
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:15:13 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luH9C-0004oZ-KZ
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:15:13 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- x21-20020a17090aa395b029016e25313bfcso6148782pjp.2
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 09:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=FMGiC4HD493TGEmrvHR+GCf6XCEiDO9FK/MBWEWEWCs=;
- b=n8ayfb+2DPrWe09SefcoJ5uxPYp1Y8MQAySLqMrHSVV1uaqwMEUDNAYVQhfMZlEjlX
- 5QHV/UlcZh6rFh0pQ60k1J2l+dHHoWGplrnEBQjYEOIC57vEQ9uQihFXK9lEA7dkOZXu
- FZjO4qVrhxOoV7SlSbl7/fdCLI6nRTsVOjwEP8uo/YQn1KLPiqZ1msSFsDx29TfbY0ZR
- 92Nv/8Pu/H1iflBeQ4JQ20/JVCgzm+8ONM9nm6ukRNQFJR18f+yW4PESEYmvmv2j8mo5
- YFrxdD2ZfwgFwtuS0Ypu4Ii+uE29yfmxFJN1L3lv/XHfQMyyyYDXZBh2a+jk/Q0+crvM
- 26jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FMGiC4HD493TGEmrvHR+GCf6XCEiDO9FK/MBWEWEWCs=;
- b=dGOHzvD6XMv7/2dP+g0Wb1iY3Wt63S7WJndSZYspS3+3JSnUsQ2ZBixIvXvH9IsG/6
- hUjxIRDV/hQhkTIax7Sm9a+x6u6gPfmgYu104ql/kPh4pB81b+d9SXYpzOhSMMlfu6SN
- s+BEsTnpHboOvMNMlMDSwfWtG2Al0TW5D9GEGI4GPnJ5AViB0i5c+ij39RcycYnKAi4V
- VmMWzA7SIS2FYL/Z20v70DEQ06Xkr3433xwE6f7/w3pyZUY8kHZbX/ujqSrYbwL0M6Od
- VrTIJHAXk1csOFGyBVjn8h1PQcdNLvmtK8D+HfWO2gUFUNzvubnIcQ+PZb+2R9N1Oz7J
- DoQg==
-X-Gm-Message-State: AOAM5302EJmK/b4L7/hQJoWTz4wJWC2NihG3BGt9OQ9W152dXx56T81P
- ms/T54Q24KAzyAbFdK939pBJh5fSUnzZ9g==
-X-Google-Smtp-Source: ABdhPJwXhy7vq55WRPdtTuTURqVwd8QxU0biBWs2XGDyAA23tTeLUkYAN2YJr2rQFMLRo6B0YsnzPA==
-X-Received: by 2002:a17:90b:3144:: with SMTP id
- ip4mr22803238pjb.2.1624032906459; 
- Fri, 18 Jun 2021 09:15:06 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id t39sm8313439pfg.147.2021.06.18.09.15.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 09:15:06 -0700 (PDT)
-Subject: Re: [PATCH 4/7] target/arm: Handle writeback in VLDR/VSTR sysreg with
- no memory access
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210618141019.10671-1-peter.maydell@linaro.org>
- <20210618141019.10671-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <73b67dcb-6d84-03d8-cc37-f8b8b3f94905@linaro.org>
-Date: Fri, 18 Jun 2021 09:15:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1luHBH-0004YP-4j
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:17:19 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:39181
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1luHBE-0006Mj-AT
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:17:18 -0400
+HMM_SOURCE_IP: 172.18.0.48:52264.1752682116
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.42.195?logid-fed5689284b5420a9bd2bfd1a9c08097
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 7DCD928008C;
+ Sat, 19 Jun 2021 00:17:04 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id fed5689284b5420a9bd2bfd1a9c08097 for
+ zhengchuan@huawei.com; Sat Jun 19 00:17:05 2021
+X-Transaction-ID: fed5689284b5420a9bd2bfd1a9c08097
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Subject: Re: [PATCH v8 2/6] memory: make global_dirty_tracking a bitmask
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1624028590.git.huangy81@chinatelecom.cn>
+ <0065e888fde8114be8a66406389cd75f014a0dd8.1624028590.git.huangy81@chinatelecom.cn>
+ <YMy/5togwdtCK3z8@t490s>
+From: Hyman <huangy81@chinatelecom.cn>
+Message-ID: <2693c2a4-29f0-e196-c97c-985584c19419@chinatelecom.cn>
+Date: Sat, 19 Jun 2021 00:16:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210618141019.10671-5-peter.maydell@linaro.org>
+In-Reply-To: <YMy/5togwdtCK3z8@t490s>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.202,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.202,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,30 +67,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/21 7:10 AM, Peter Maydell wrote:
-> @@ -633,9 +665,11 @@ static void fp_sysreg_to_memory(DisasContext *s, void *opaque, TCGv_i32 value)
->           gen_helper_v8m_stackcheck(cpu_env, addr);
->       }
->   
-> -    gen_aa32_st_i32(s, value, addr, get_mem_index(s),
-> -                    MO_UL | MO_ALIGN | s->be_data);
-> -    tcg_temp_free_i32(value);
-> +    if (do_access) {
-> +        gen_aa32_st_i32(s, value, addr, get_mem_index(s),
-> +                        MO_UL | MO_ALIGN | s->be_data);
-> +        tcg_temp_free_i32(value);
-> +    }
-
-So, this bit looked funny at first glance -- are we missing the free of value?  But of 
-course value == NULL when !do_access.  Which made me wonder if it wouldn't be better to 
-just use value == NULL and not add the extra argument?
-
-Either way,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-r~
+在 2021/6/18 23:46, Peter Xu 写道:
+> On Fri, Jun 18, 2021 at 11:32:03PM +0800, huangy81@chinatelecom.cn wrote:
+>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+>> index b114f54..dd2404f 100644
+>> --- a/include/exec/memory.h
+>> +++ b/include/exec/memory.h
+>> @@ -55,7 +55,17 @@ static inline void fuzz_dma_read_cb(size_t addr,
+>>   }
+>>   #endif
+>>   
+>> -extern bool global_dirty_log;
+>> +/* Possible bits for global_dirty_log */
+> 
+> s/log/tracking/
+here, we just rename global_dirty_log to global_dirty_tracking, but the 
+function name remain the same? such as:
+memory_global_dirty_log_start/memory_global_dirty_log_stop
+> 
+> [...]
+> 
+>> -static void memory_global_dirty_log_do_stop(void)
+>> +static void memory_global_dirty_log_do_stop(unsigned int flags)
+>>   {
+>> -    global_dirty_log = false;
+>> +    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
+>> +    assert((global_dirty_tracking & flags) == flags);
+>> +    global_dirty_tracking &= ~flags;
+>> +
+>> +    trace_global_dirty_changed(global_dirty_tracking);
+>>   
+>>       /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
+>>       memory_region_transaction_begin();
+>> @@ -2691,8 +2699,9 @@ static void memory_global_dirty_log_do_stop(void)
+>>   static void memory_vm_change_state_handler(void *opaque, bool running,
+>>                                              RunState state)
+>>   {
+>> +    unsigned int *flags = (unsigned int *)opaque;
+> 
+> [1]
+> 
+>>       if (running) {
+>> -        memory_global_dirty_log_do_stop();
+>> +        memory_global_dirty_log_do_stop(*flags);
+>>   
+>>           if (vmstate_change) {
+>>               qemu_del_vm_change_state_handler(vmstate_change);
+>> @@ -2701,18 +2710,19 @@ static void memory_vm_change_state_handler(void *opaque, bool running,
+>>       }
+>>   }
+>>   
+>> -void memory_global_dirty_log_stop(void)
+>> +void memory_global_dirty_log_stop(unsigned int flags)
+>>   {
+>>       if (!runstate_is_running()) {
+>>           if (vmstate_change) {
+>>               return;
+>>           }
+>>           vmstate_change = qemu_add_vm_change_state_handler(
+>> -                                memory_vm_change_state_handler, NULL);
+>> +                                memory_vm_change_state_handler,
+>> +                                (void *)&flags);
+> 
+> If to drop malloc/free, we need to cast it with (void *)flags.  &flags is the
+> address of the local var, which will lost its meaning after the function
+> returns..
+> 
+> Then at [1] it should be "unsigned int flags = (unsigned int)opaque;".
+> 
 
