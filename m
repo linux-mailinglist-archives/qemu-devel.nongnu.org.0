@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA1A3AC9D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:27:34 +0200 (CEST)
-Received: from localhost ([::1]:42012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AA53AC9D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:28:28 +0200 (CEST)
+Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luCeq-0006Wt-Tl
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:27:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43610)
+	id 1luCfj-0007y0-Ip
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1luCe4-0005kP-GO; Fri, 18 Jun 2021 07:26:44 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:41766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1luCe2-000890-19; Fri, 18 Jun 2021 07:26:44 -0400
-Received: by mail-il1-x130.google.com with SMTP id p14so1530360ilg.8;
- Fri, 18 Jun 2021 04:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aa5XIUeGNE2DQ0+ymaVlEv09FVWNp2IgsYOp+kfYEPc=;
- b=X3eGBeeS4gSXa4mojYUYUxYbRkoi6jQaBBcFI+/jG7mfEyfgWlIP2S5Gv3wN4RNkbC
- nDeAiiw0CXHM8ErkzTm5HK30oFkNQI5BhxWD0MpSDt5e0wuPKrfI2ZQULYkbPIkOTV5M
- vAXSbRIyETDyIgW17niKehyJBAUsDoZ17hEHm0A2dVqZi5Nq4USvSIoyifW/R35Ia0is
- KsdvcpMxV6GIHMzsE5ZvufVTrpgLZzWPmPom3JMrxzUb51jYg08Ud4NB2GSiWV4KD/9Q
- Az8Po0319bbNL6BLTwYoscf8oHLG7DHyidA7p/Qog6vMN1QNEI2jEeJcd3O/zsfSCIkX
- 3Prw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aa5XIUeGNE2DQ0+ymaVlEv09FVWNp2IgsYOp+kfYEPc=;
- b=qu1wEnzJi7XQG/WeZHb3smi7LgT7VSlj7lQ0qvWXeyOQVpykkQd6qAw3qS0UyabJhe
- VC1Nvxl0wSRs2gQI/qtBbHS0urDvgDnVFgvYDUZZzKvQT7RCyNAw4Jkgr7DnKC8P9VEz
- aOpv/6ogMSyGAG+KC9MxqyZkRoZLWgh6EkTzTdwH/ksl8GEgDedz7sLGwKANP555RjaB
- vM7l/KnFwV3IwHpTticKFRgVv4oeiISECrv3UqSBsvF4eh297beOamIUvF3lYsB+j6Gt
- pVxrqDbUR9roDpt6JlXb6FSAsWQZ406q6YDR38hxHFNMAWCNBnW17Vz+Cf6XsgmWJpZ8
- kYUg==
-X-Gm-Message-State: AOAM530/LZu2FXw/CM78nQQ8R2ym+zvm5oL+nd8B5/gAxlQMXMUruw0n
- V7wmxXotX0VHJtu+XopmU58J+WIlvwJM1m53mow=
-X-Google-Smtp-Source: ABdhPJx4E3p855BYkMd3dgzduv+xS7iDAPyk6bNnepI5t3O1fcgvluTArpP2/zf7AWaGV2dKUzpEyAzCDnw7h6R0WDI=
-X-Received: by 2002:a92:cbd0:: with SMTP id s16mr6919757ilq.19.1624015600513; 
- Fri, 18 Jun 2021 04:26:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1luCeN-0006GY-JJ
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:27:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42175)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1luCeK-0008CF-3n
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:27:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624015617;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w7KswBK8F7+MJPnDfwRV2uIdlwGZfmVpT9JnJ7P8Gw4=;
+ b=Eja3isWCc2V5hIksRDfOYjJEJr58o/g5QR17OPYRZUhm1R1daNXzfEwc4HLDEolRQhzxiG
+ tUzyOQnIzEAAUTn++gKlrHUoBthplkOfm4MsJvnkhPRLxCn51+M5OFSN7xu4X7p+5h+rTZ
+ UzyD++8s/428aiH92Lh80Q4JeihYgnE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-ENp8UBllM0yxJUkUDPeXpA-1; Fri, 18 Jun 2021 07:26:55 -0400
+X-MC-Unique: ENp8UBllM0yxJUkUDPeXpA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C640010C1ADC;
+ Fri, 18 Jun 2021 11:26:53 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7185B19D61;
+ Fri, 18 Jun 2021 11:26:48 +0000 (UTC)
+Date: Fri, 18 Jun 2021 13:26:47 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
+Message-ID: <20210618132647.07cf2008@redhat.com>
+In-Reply-To: <d10ba45f-c71c-f472-fac7-9f8e5770c735@suse.de>
+References: <20210616152455.1270264-1-imammedo@redhat.com>
+ <d10ba45f-c71c-f472-fac7-9f8e5770c735@suse.de>
 MIME-Version: 1.0
-References: <20210519142359.23083-1-pl@kamp.de>
- <20210519142359.23083-5-pl@kamp.de>
- <CAOi1vP8jYNyrPxOKm1MaJZS99OY4EkU=Jtj=9xV=uUzW30gnGw@mail.gmail.com>
- <6878472c-2923-2bd8-c49b-e64c70867cbf@kamp.de>
-In-Reply-To: <6878472c-2923-2bd8-c49b-e64c70867cbf@kamp.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Fri, 18 Jun 2021 13:26:31 +0200
-Message-ID: <CAOi1vP_yvJfadAA1FCSgFzA5L9F6HE-O8mS-vwa6VC6sQrxBhg@mail.gmail.com>
-Subject: Re: [PATCH V3 4/6] block/rbd: migrate from aio to coroutines
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
- envelope-from=idryomov@gmail.com; helo=mail-il1-x130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,383 +79,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, ct@flyingcircus.io, Paolo Bonzini <pbonzini@redhat.com>,
- mreitz@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ mst@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 18, 2021 at 11:07 AM Peter Lieven <pl@kamp.de> wrote:
->
-> Am 17.06.21 um 16:43 schrieb Ilya Dryomov:
-> > On Wed, May 19, 2021 at 4:27 PM Peter Lieven <pl@kamp.de> wrote:
-> >> Signed-off-by: Peter Lieven <pl@kamp.de>
-> >> ---
-> >>  block/rbd.c | 255 ++++++++++++++++++----------------------------------
-> >>  1 file changed, 87 insertions(+), 168 deletions(-)
-> >>
-> >> diff --git a/block/rbd.c b/block/rbd.c
-> >> index 97a2ae4c84..0d8612a988 100644
-> >> --- a/block/rbd.c
-> >> +++ b/block/rbd.c
-> >> @@ -66,22 +66,6 @@ typedef enum {
-> >>      RBD_AIO_FLUSH
-> >>  } RBDAIOCmd;
-> >>
-> >> -typedef struct RBDAIOCB {
-> >> -    BlockAIOCB common;
-> >> -    int64_t ret;
-> >> -    QEMUIOVector *qiov;
-> >> -    RBDAIOCmd cmd;
-> >> -    int error;
-> >> -    struct BDRVRBDState *s;
-> >> -} RBDAIOCB;
-> >> -
-> >> -typedef struct RADOSCB {
-> >> -    RBDAIOCB *acb;
-> >> -    struct BDRVRBDState *s;
-> >> -    int64_t size;
-> >> -    int64_t ret;
-> >> -} RADOSCB;
-> >> -
-> >>  typedef struct BDRVRBDState {
-> >>      rados_t cluster;
-> >>      rados_ioctx_t io_ctx;
-> >> @@ -93,6 +77,13 @@ typedef struct BDRVRBDState {
-> >>      uint64_t object_size;
-> >>  } BDRVRBDState;
-> >>
-> >> +typedef struct RBDTask {
-> >> +    BlockDriverState *bs;
-> >> +    Coroutine *co;
-> >> +    bool complete;
-> >> +    int64_t ret;
-> >> +} RBDTask;
-> >> +
-> >>  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-> >>                              BlockdevOptionsRbd *opts, bool cache,
-> >>                              const char *keypairs, const char *secretid,
-> >> @@ -325,13 +316,6 @@ static int qemu_rbd_set_keypairs(rados_t cluster, const char *keypairs_json,
-> >>      return ret;
-> >>  }
-> >>
-> >> -static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
-> >> -{
-> >> -    RBDAIOCB *acb = rcb->acb;
-> >> -    iov_memset(acb->qiov->iov, acb->qiov->niov, offs, 0,
-> >> -               acb->qiov->size - offs);
-> >> -}
-> >> -
-> >>  /* FIXME Deprecate and remove keypairs or make it available in QMP. */
-> >>  static int qemu_rbd_do_create(BlockdevCreateOptions *options,
-> >>                                const char *keypairs, const char *password_secret,
-> >> @@ -450,46 +434,6 @@ exit:
-> >>      return ret;
-> >>  }
-> >>
-> >> -/*
-> >> - * This aio completion is being called from rbd_finish_bh() and runs in qemu
-> >> - * BH context.
-> >> - */
-> >> -static void qemu_rbd_complete_aio(RADOSCB *rcb)
-> >> -{
-> >> -    RBDAIOCB *acb = rcb->acb;
-> >> -    int64_t r;
-> >> -
-> >> -    r = rcb->ret;
-> >> -
-> >> -    if (acb->cmd != RBD_AIO_READ) {
-> >> -        if (r < 0) {
-> >> -            acb->ret = r;
-> >> -            acb->error = 1;
-> >> -        } else if (!acb->error) {
-> >> -            acb->ret = rcb->size;
-> >> -        }
-> >> -    } else {
-> >> -        if (r < 0) {
-> >> -            qemu_rbd_memset(rcb, 0);
-> >> -            acb->ret = r;
-> >> -            acb->error = 1;
-> >> -        } else if (r < rcb->size) {
-> >> -            qemu_rbd_memset(rcb, r);
-> >> -            if (!acb->error) {
-> >> -                acb->ret = rcb->size;
-> >> -            }
-> >> -        } else if (!acb->error) {
-> >> -            acb->ret = r;
-> >> -        }
-> >> -    }
-> >> -
-> >> -    g_free(rcb);
-> >> -
-> >> -    acb->common.cb(acb->common.opaque, (acb->ret > 0 ? 0 : acb->ret));
-> >> -
-> >> -    qemu_aio_unref(acb);
-> >> -}
-> >> -
-> >>  static char *qemu_rbd_mon_host(BlockdevOptionsRbd *opts, Error **errp)
-> >>  {
-> >>      const char **vals;
-> >> @@ -826,89 +770,50 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
-> >>      return 0;
-> >>  }
-> >>
-> >> -static const AIOCBInfo rbd_aiocb_info = {
-> >> -    .aiocb_size = sizeof(RBDAIOCB),
-> >> -};
-> >> -
-> >> -static void rbd_finish_bh(void *opaque)
-> >> +static void qemu_rbd_finish_bh(void *opaque)
-> >>  {
-> >> -    RADOSCB *rcb = opaque;
-> >> -    qemu_rbd_complete_aio(rcb);
-> >> +    RBDTask *task = opaque;
-> >> +    task->complete = 1;
-> >> +    aio_co_wake(task->co);
-> >>  }
-> >>
-> >> -/*
-> >> - * This is the callback function for rbd_aio_read and _write
-> >> - *
-> >> - * Note: this function is being called from a non qemu thread so
-> >> - * we need to be careful about what we do here. Generally we only
-> >> - * schedule a BH, and do the rest of the io completion handling
-> >> - * from rbd_finish_bh() which runs in a qemu context.
-> >> - */
-> > I would adapt this comment instead of removing it.  I mean, it is
-> > still true and the reason for going through aio_bh_schedule_oneshot()
-> > instead of calling aio_co_wake() directly, right?
->
->
-> Sure, its still right, but I think rbd is the only driver with this comment.
->
-> I can leave it in, no problem.
+On Thu, 17 Jun 2021 18:49:17 +0200
+Claudio Fontana <cfontana@suse.de> wrote:
 
-Yeah, just massage it a bit to reflect the reality (at least the
-function name).
+> On 6/16/21 5:24 PM, Igor Mammedov wrote:
+> > 
+> > Sometimes it's necessary to execute a test that depends on KVM,
+> > however qtest is not aware if tested QEMU binary supports KVM
+> > on the host it the test is executed.  
+> 
+> Hello,
+> 
+> It seems to me that we are constantly re-implementing the same feature with slight variations?
+> 
+> Didn't we have a generic series to introduce qtest_has_accel() from Philippe before?
+It's mentioned in cover letter (PS: part) and in [1/3] with rationale
+why this was posted.
 
->
->
-> >
-> >> -static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
-> >> +static void qemu_rbd_completion_cb(rbd_completion_t c, RBDTask *task)
-> >>  {
-> >> -    RBDAIOCB *acb = rcb->acb;
-> >> -
-> >> -    rcb->ret = rbd_aio_get_return_value(c);
-> >> +    task->ret = rbd_aio_get_return_value(c);
-> >>      rbd_aio_release(c);
-> >> -
-> >> -    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(acb->common.bs),
-> >> -                                     rbd_finish_bh, rcb);
-> >> +    aio_bh_schedule_oneshot(bdrv_get_aio_context(task->bs),
-> >> +                            qemu_rbd_finish_bh, task);
-> >>  }
-> >>
-> >> -static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
-> >> -                                 int64_t off,
-> >> -                                 QEMUIOVector *qiov,
-> >> -                                 int64_t size,
-> >> -                                 BlockCompletionFunc *cb,
-> >> -                                 void *opaque,
-> >> -                                 RBDAIOCmd cmd)
-> >> +static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
-> >> +                                          uint64_t offset,
-> >> +                                          uint64_t bytes,
-> >> +                                          QEMUIOVector *qiov,
-> >> +                                          int flags,
-> >> +                                          RBDAIOCmd cmd)
-> >>  {
-> >> -    RBDAIOCB *acb;
-> >> -    RADOSCB *rcb = NULL;
-> >> +    BDRVRBDState *s = bs->opaque;
-> >> +    RBDTask task = { .bs = bs, .co = qemu_coroutine_self() };
-> >>      rbd_completion_t c;
-> >>      int r;
-> >>
-> >> -    BDRVRBDState *s = bs->opaque;
-> >> +    assert(!qiov || qiov->size == bytes);
-> >>
-> >> -    acb = qemu_aio_get(&rbd_aiocb_info, bs, cb, opaque);
-> >> -    acb->cmd = cmd;
-> >> -    acb->qiov = qiov;
-> >> -    assert(!qiov || qiov->size == size);
-> >> -
-> >> -    rcb = g_new(RADOSCB, 1);
-> >> -
-> >> -    acb->ret = 0;
-> >> -    acb->error = 0;
-> >> -    acb->s = s;
-> >> -
-> >> -    rcb->acb = acb;
-> >> -    rcb->s = acb->s;
-> >> -    rcb->size = size;
-> >> -    r = rbd_aio_create_completion(rcb, (rbd_callback_t) rbd_finish_aiocb, &c);
-> >> +    r = rbd_aio_create_completion(&task,
-> >> +                                  (rbd_callback_t) qemu_rbd_completion_cb, &c);
-> >>      if (r < 0) {
-> >> -        goto failed;
-> >> +        return r;
-> >>      }
-> >>
-> >>      switch (cmd) {
-> >> -    case RBD_AIO_WRITE:
-> >> -        /*
-> >> -         * RBD APIs don't allow us to write more than actual size, so in order
-> >> -         * to support growing images, we resize the image before write
-> >> -         * operations that exceed the current size.
-> >> -         */
-> >> -        if (off + size > s->image_size) {
-> >> -            r = qemu_rbd_resize(bs, off + size);
-> >> -            if (r < 0) {
-> >> -                goto failed_completion;
-> >> -            }
-> >> -        }
-> >> -        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
-> >> -        break;
-> >>      case RBD_AIO_READ:
-> >> -        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
-> >> +        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, offset, c);
-> >> +        break;
-> >> +    case RBD_AIO_WRITE:
-> >> +        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, offset, c);
-> >>          break;
-> >>      case RBD_AIO_DISCARD:
-> >> -        r = rbd_aio_discard(s->image, off, size, c);
-> >> +        r = rbd_aio_discard(s->image, offset, bytes, c);
-> >>          break;
-> >>      case RBD_AIO_FLUSH:
-> >>          r = rbd_aio_flush(s->image, c);
-> >> @@ -918,44 +823,69 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
-> >>      }
-> >>
-> >>      if (r < 0) {
-> >> -        goto failed_completion;
-> >> +        error_report("rbd request failed early: cmd %d offset %" PRIu64
-> >> +                     " bytes %" PRIu64 " flags %d r %d (%s)", cmd, offset,
-> >> +                     bytes, flags, r, strerror(-r));
-> >> +        rbd_aio_release(c);
-> >> +        return r;
-> >>      }
-> >> -    return &acb->common;
-> >>
-> >> -failed_completion:
-> >> -    rbd_aio_release(c);
-> >> -failed:
-> >> -    g_free(rcb);
-> >> +    while (!task.complete) {
-> >> +        qemu_coroutine_yield();
-> >> +    }
-> >>
-> >> -    qemu_aio_unref(acb);
-> >> -    return NULL;
-> >> +    if (task.ret < 0) {
-> >> +        error_report("rbd request failed: cmd %d offset %" PRIu64 " bytes %"
-> >> +                     PRIu64 " flags %d task.ret %" PRIi64 " (%s)", cmd, offset,
-> >> +                     bytes, flags, task.ret, strerror(-task.ret));
-> >> +        return task.ret;
-> >> +    }
-> >> +
-> >> +    /* zero pad short reads */
-> >> +    if (cmd == RBD_AIO_READ && task.ret < qiov->size) {
-> >> +        qemu_iovec_memset(qiov, task.ret, 0, qiov->size - task.ret);
-> > I would use bytes instead of qiov->size here and on the previous
-> > line.  In many systems the iovec can be larger than the op and it
-> > took me a couple of minutes to spot the "qiov->size == bytes" assert.
->
->
-> qemu_iovec_memset is an operation on the qiov. If one missed
->
-> the assertion one could argue that we memset beyond the size of the qiov
->
-> if we pass bytes - task.ret as length.
+> Does this series work with --disable-kvm builds? (TCG-only builds?)
+I'll test. But on the first glance it should work without issues.
+(i.e. kvm only tests will be skipped).
 
-Sorry, disregard -- I missed that rbd_aio_readv/writev() are specified
-in terms of iovecs (i.e. iovec base + iovec count instead of iovec base +
-number of bytes).
+> 
+> Thanks,
+> 
+> CLaudio
+> 
+> 
+> > 
+> > For an example:
+> >  test q35 machine with intel_iommu
+> >  This test will run only is KVM is available and fail
+> >  to start QEMU if it fallsback to TCG, thus failing whole test.
+> >  So if test is executed in VM where nested KVM is not enabled
+> >  or on other than x86 host, it will break 'make check-qtest'
+> > 
+> > Series adds a lightweight qtest_has_kvm() check, which abuses
+> > build system and should help to avoid running KVM only tests
+> > on hosts that do not support it.
+> > 
+> > PS:
+> > there is an alternative 'query-accels' QMP command proposal
+> > https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
+> > which I think is more robust compared to qtest_has_kvm() and
+> > could be extended to take into account machine type.
+> > But it's more complex and what I dislike about it most,
+> > it requires execution of 'probing' QEMU instance to find
+> > execute 'query-accels' QMP command, which is rather resource
+> > consuming. So I'd use query-accels approach only when it's
+> > the only possible option to minimize load on CI systems.
+> > 
+> > Igor Mammedov (2):
+> >   tests: acpi: q35: test for x2APIC entries in SRAT
+> >   tests: acpi: update expected tables blobs
+> > 
+> > root (1):
+> >   tests: qtest: add qtest_has_kvm() to check if tested bynary supports
+> >     KVM
+> > 
+> >  tests/qtest/libqos/libqtest.h    |   7 +++++++
+> >  meson.build                      |   1 +
+> >  tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
+> >  tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
+> >  tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
+> >  tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
+> >  tests/qtest/bios-tables-test.c   |  10 +++++++---
+> >  tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
+> >  8 files changed, 35 insertions(+), 3 deletions(-)
+> >  create mode 100644 tests/data/acpi/q35/APIC.numamem
+> >  create mode 100644 tests/data/acpi/q35/FACP.numamem
+> >   
+> 
 
->
->
-> Is it true that there a systems which pass a bigger iovec than the actual op?
-
-Perhaps not in QEMU but it comes in many other places.  For example
-in the kernel when the block device driver gets a "bio" which it doesn't
-own and should act only on a small piece of it, etc.
-
->
-> In this case the assertion would trigger there.
->
->
-> >
-> > Also, previously we zeroed the entire op on read errors.  I don't think
-> > it matters but want to make sure this was dropped on purpose.
->
->
-> I dropped it because its not done in other drivers. If you feel that we could reveal sensitive information I can put the wiping back in.
-
-I don't think so and we don't do this in kernel rbd either.
-
->
->
-> >
-> >> +    }
-> >> +
-> >> +    return 0;
-> >> +}
-> >> +
-> >> +static int
-> >> +coroutine_fn qemu_rbd_co_preadv(BlockDriverState *bs, uint64_t offset,
-> >> +                               uint64_t bytes, QEMUIOVector *qiov,
-> >> +                               int flags)
-> >> +{
-> >> +    return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_READ);
-> >>  }
-> >>
-> >> -static BlockAIOCB *qemu_rbd_aio_preadv(BlockDriverState *bs,
-> >> -                                       uint64_t offset, uint64_t bytes,
-> >> -                                       QEMUIOVector *qiov, int flags,
-> >> -                                       BlockCompletionFunc *cb,
-> >> -                                       void *opaque)
-> >> +static int
-> >> +coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, uint64_t offset,
-> >> +                                 uint64_t bytes, QEMUIOVector *qiov,
-> >> +                                 int flags)
-> >>  {
-> >> -    return rbd_start_aio(bs, offset, qiov, bytes, cb, opaque,
-> >> -                         RBD_AIO_READ);
-> >> +    BDRVRBDState *s = bs->opaque;
-> >> +    /*
-> >> +     * RBD APIs don't allow us to write more than actual size, so in order
-> >> +     * to support growing images, we resize the image before write
-> >> +     * operations that exceed the current size.
-> >> +     */
-> >> +    if (offset + bytes > s->image_size) {
-> >> +        int r = qemu_rbd_resize(bs, offset + bytes);
-> >> +        if (r < 0) {
-> >> +            return r;
-> >> +        }
-> >> +    }
-> > How can this be triggered today?  qemu-io used to be able to, but that
-> > support was removed a long time ago:
-> >
-> >     https://mail.gnu.org/archive/html/qemu-devel/2014-12/msg01592.html
-> >
-> > Just checking that this piece of code is not vestigial at this point.
->
->
-> We had this discussion before. The way to hit this if you want to create e.g. a qcow2 image on rbd. It does not make that much sense, but it was supported in the past.
-
-Ah, so something like
-
-    qemu-img create -f qcow2 rbd:foo/bar 10G
-
->
-> I would vote for removing it, but it might break something somewhere.
-
-Yeah, it's weird but definitely not up for removal in a patch that
-migrates from one internal API to another.
-
-Thanks,
-
-                Ilya
 
