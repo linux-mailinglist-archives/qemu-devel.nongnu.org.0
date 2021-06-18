@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EF13AD554
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 00:42:25 +0200 (CEST)
-Received: from localhost ([::1]:57224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E123AD557
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 00:44:08 +0200 (CEST)
+Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNBw-0006NS-PA
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 18:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57702)
+	id 1luNDb-0002Ck-Bp
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 18:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luN9s-0004Ft-3U
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:40:16 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:33765)
+ id 1luNAb-0005b4-6r
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:41:01 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:35416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luN9o-0005cl-Up
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:40:15 -0400
-Received: by mail-pg1-x529.google.com with SMTP id e20so9071311pgg.0
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:40:12 -0700 (PDT)
+ id 1luNAZ-00069i-Lf
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:41:00 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ pf4-20020a17090b1d84b029016f6699c3f2so1691976pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=A/7vGyDtuIhOZqwk9YUG9c7OuQYEf92JV0wmwUA7Lsk=;
- b=yaH4d+78EPuSMKSIwL7NTTgQeFK7+5WVZc3TDFCORNRPetHjwEsOrYtNv+oy+LyMzi
- AxleaMXTCzV+xZHkHLwIeQdN4nMnVWCFqtStRwYDue9W0tseJruaN1JBsESDgHi0X+re
- cSwsmaGNZKI25orTLmKSJhxbYotqgRL5lzKuDOPAe5czwaOEnv0ga46OQWMjZRdcxf++
- wW6SKTRmnbRvFDp4ccsRi8aI/+jnGu+V2hMjTpGXV05h/0wC9t4i57U1whse0+dOFMd4
- dS0oy7fGstKs4R3x+34rq0Twudr3bKAmcFt5dQDcAoR0RG4g/yE9h4/ATwWE0v/bPOpy
- L10Q==
+ bh=JJoTUf0U3pJsRg6NZ7uqQeVRJxHKKo1I4fmow8CxV+8=;
+ b=UKSZ+7df+dfXkw6fwK0MGnPDQpufd8W0ixAbY7HWV8zqW/2Kkf4ujMbbHX5GWMbi+k
+ V90us5i0epFGIrjrYR7FOVCjoIokOOTbHO9bQkgtp9r6Dyf5uG9yKK4AbdlDDxCE15mv
+ lhXSGJQ83lVuXQ3dt+l3DOFGYXXq9o2J9VI4E+vV2ob2fKLHlRd4pelnmj9NmV1rLdlT
+ JX2hY+xjJd/Uo/33nNsf70E2JEr5I6cI6BjswlCH8mGpNfXodHW8jTvMBclUHsYsLlAe
+ 9HdExH5uH4R2ItepwYIt2FrlKkI10vBmJcrChj3UC0E33UiKKZVaCZsGRwH8PTpWkBS2
+ WYzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=A/7vGyDtuIhOZqwk9YUG9c7OuQYEf92JV0wmwUA7Lsk=;
- b=SJxUGwelJfNnc+emYb1DncOEwsXWd13P/DCjiRPY+ea3bl8xuqf4hgxJFlkYiZlfum
- 4XD5xlf4lboY8dGMUzxfH6tSZCt3UWpdxvzQH6j8y4Lg746jLiEwKCCgOpTpJGcebLFl
- PKZ78OQgeZ1kX9Ost07IfpDFIbdtISlwFY8CFbAK/NHbMiceqUQ8vyvgoKsjg2Mr8Kgd
- NbJAkfByYwPVWVqEz6QJCg4QbZ9ZNcraABR51wNJNwAqNh+NAtO3LeOXr7z375tRrupj
- BmnNb+xrCiuOiPY8qjlDImjNW1g7+FAh2W7Xq3fRikhv3axpYwWcctlX1rU/oDDmPh2d
- DTLg==
-X-Gm-Message-State: AOAM531ciovcUYsat9LCCdK1y4I6aa//pqAxVsnubmvwEqMMeK9ue8CE
- 7bx6JH/pQ9RuQaL+KhaaZxaaQAlgsYN0Dw==
-X-Google-Smtp-Source: ABdhPJw8B4rvRbb+Sc0f2HnGwkKtC04rBoNBhMaeHQcNDNQVibLkU5TiyOTc+WyvQzFs7TY6kUAzCg==
-X-Received: by 2002:a63:dc06:: with SMTP id s6mr5563888pgg.39.1624056011408;
- Fri, 18 Jun 2021 15:40:11 -0700 (PDT)
+ bh=JJoTUf0U3pJsRg6NZ7uqQeVRJxHKKo1I4fmow8CxV+8=;
+ b=rmuk7IBv22BFIyXetPXFm0kfjZWZhl9hO49HL6XqDQEvzzGmqG8ivEW2xOfKGkbcfZ
+ oT1mCjDgNYR0QWIlFsa9G6jGG0NZ5whLA57SqisiLNinPXu4NA+8ww+531PZxyxHuyNB
+ 1aPPObs6gR1HsK83wAsMEsJFYb4K+qUe9pDPegiaXPMTnSIS9Vqqateu9K3mu74RILzB
+ 5KrVevLgak45n8LHL82GR4hAPhlCgIetTEFOOTa3RzTb8xoaYmT0wmsqMkr5bS+tdAtg
+ 9JU4i/FlRoQdaMPUHPguZEaOG8lvTc0h/enVh1XKq+xJh9pMiyww2hjvx3CbVA6b3fnr
+ hkaA==
+X-Gm-Message-State: AOAM530G3WCKpmcCCynBog/B/htb/epHfJRkWG/jKPVuUaY1yRylzuYQ
+ tt666CkC/rLYS6Hc7V8witQLJ5se/fNpwg==
+X-Google-Smtp-Source: ABdhPJze411pxcZ93MmCcjK+zDDmn5iR7dL489MmGl5aSgMLMQb/1l/1jXQ7PTqQ9DEWIjHar5gtSw==
+X-Received: by 2002:a17:90a:640c:: with SMTP id
+ g12mr24989806pjj.52.1624056057249; 
+ Fri, 18 Jun 2021 15:40:57 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id y7sm3067993pja.8.2021.06.18.15.40.10
+ by smtp.gmail.com with ESMTPSA id fr20sm8621240pjb.29.2021.06.18.15.40.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 15:40:11 -0700 (PDT)
-Subject: Re: [PATCH 7/9] target/mips: Remove microMIPS BPOSGE32 / BPOSGE64
- unuseful cases
+ Fri, 18 Jun 2021 15:40:57 -0700 (PDT)
+Subject: Re: [PATCH 8/9] target/mips: Constify host_to_mips_errno[]
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210617174323.2900831-1-f4bug@amsat.org>
- <20210617174323.2900831-8-f4bug@amsat.org>
+ <20210617174323.2900831-9-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1c4a6651-0351-6cc7-8ccb-13b0c86ce34f@linaro.org>
-Date: Fri, 18 Jun 2021 15:40:09 -0700
+Message-ID: <f352008f-4308-5859-7929-a6f9f09d3f92@linaro.org>
+Date: Fri, 18 Jun 2021 15:40:55 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210617174323.2900831-8-f4bug@amsat.org>
+In-Reply-To: <20210617174323.2900831-9-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -95,16 +96,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/17/21 10:43 AM, Philippe Mathieu-Daudé wrote:
-> These switch cases for the microMIPS BPOSGE32 / BPOSGE64 opcodes have
-> been added commit 3c824109da0 ("target-mips: microMIPS ASE support").
-> More than 11 years later it is safe to assume there won't be added
-> soon. The cases fall back to the default which generates a RESERVED
-> INSTRUCTION, so it is safe to remove them.
+> Keep host_to_mips_errno[] in .rodata by marking the array const.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/mips/tcg/translate.c | 6 ------
->   1 file changed, 6 deletions(-)
+>   target/mips/tcg/sysemu/mips-semi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
