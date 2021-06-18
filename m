@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DD03AC6A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 10:57:34 +0200 (CEST)
-Received: from localhost ([::1]:46024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4289D3AC69F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 10:57:02 +0200 (CEST)
+Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luAJh-0008Ed-9l
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 04:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44290)
+	id 1luAJB-00077z-BP
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 04:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1luAHf-00062T-VN
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 04:55:28 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56241)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1luAH4-00054K-Qo; Fri, 18 Jun 2021 04:54:50 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1luAHb-0005wn-Kz
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 04:55:27 -0400
-Received: by mail-wm1-x331.google.com with SMTP id c84so5137817wme.5
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 01:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=yCs3NROrZCWzC+VF7Ed7Zg+CSfK98h/BzXS8h1Jj/QU=;
- b=SmWBOMEjqZKoh6T5o8G2QaiMAXqEs03dVEIFUTVciNqjmmZTWyKSMMBaECQ7NNimM6
- mjnHnJsDkmXytn8jGqH/EcSCA2D+fbbXQmeYE9chusEMnXAfGpBje6LZPQDBmdL/w375
- FdpzZ/GOEqX9nBwk9KDuu+e8VEwuJf6A0+8JJLpRnNO54idwLuhoTrHmPkKYP0mYqS/2
- Hjj02TZfxg2ubeT0TN5EKy+esAkZtPTL8Vwsytyvkg6tokzYhK5P6De/aasXxftQeeAA
- POIacCGLqQbivekmPOuaKnXsMIIMuF9O1XfBVy/bjf6keS7CMNd8ui7fUUgJIAvRwJlz
- l7pQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1luAH3-0005VT-ED; Fri, 18 Jun 2021 04:54:50 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id i94so9865675wri.4;
+ Fri, 18 Jun 2021 01:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UHul0/vhPHafot993zQC1qDG7KnvfosLyiUNT9RTcO8=;
+ b=Gk99wNsl6HiasRTnDTj8bVGvfDEMqQyI52dog0vEelsB+kVRVV7FH0GXcfC5QvDZxe
+ vFytZs8SMc7/EkapommjiNA0cXfILcFmg8Em4p1V5kPAm22Z2t37sF4AuMRoPcCSQ6Qv
+ 00C2YyIwKTdF4yuHd2AZPsRkD1BliT+lEuFQRjGmkNCZxnpeXk/zKF1BsPqOv0rRpUUl
+ 0pS8rK3HIPzvcWo3VegK4uvpkC8BtCn4Qq9iW6Ed3+j4cNn2Yrc5GfIPF0aR0e2vL9Kq
+ iXOQqZFHdtYilkyynnV+QhEhaXo7L8y67Fz+fnDRfd0A/moVwwEofkNgX1wtlZAppW8w
+ Bl8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=yCs3NROrZCWzC+VF7Ed7Zg+CSfK98h/BzXS8h1Jj/QU=;
- b=bnaOz9RPlevryVfkVg6rxVjzbinI69s8NE2d+UcEpFwNb3dVy+1yYSeHUebIuTphJb
- Vea4z83Ff1ClPZcY6dIOcdvtaXrAnrmKqUd9IFPTpFuGb8d9Dw3/WuYa0hBU/VieVZYp
- YymGtIjCeECTqPd0iPLp+ftpbW/+z/n9UpKI6mL02wjEFW30LbsY+qEkkRAbC+2/WZTX
- XPk37mllo7LvDICPmjVBTxBQLaTH0CJfuJdJUBDMgg1Gj98WdzPK4B92kyxtaFDiwxG5
- gVgoOHa5S7o2nfx2XT0CUd9OLjQhAn52jwfYsR7rdaODhY79g84N5eqTjdU9PmTiPAjD
- XZ5A==
-X-Gm-Message-State: AOAM530z0ypXE44bHVHffYu5L++3+KCQHPCrJJksyZuSmYEcovxi+ZGP
- sxQ6vnAswZGiLC30xv3yBrwlyA==
-X-Google-Smtp-Source: ABdhPJy1iaXxai6Hx51lIotwF5rZjJLBc7BtWiAI4hGPo3ic5xutU6PRA6Srkqgz+SwhbQy8b//Xog==
-X-Received: by 2002:a05:600c:3b23:: with SMTP id
- m35mr10450305wms.185.1624006522221; 
- Fri, 18 Jun 2021 01:55:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z10sm7026080wmp.39.2021.06.18.01.55.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 01:55:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 89DD81FF7E;
- Fri, 18 Jun 2021 09:55:20 +0100 (BST)
-References: <20210426034709.595432-1-marmarek@invisiblethingslab.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-Subject: Re: [PATCH] i386: load kernel on xen using DMA
-Date: Fri, 18 Jun 2021 09:54:14 +0100
-In-reply-to: <20210426034709.595432-1-marmarek@invisiblethingslab.com>
-Message-ID: <87sg1feemf.fsf@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UHul0/vhPHafot993zQC1qDG7KnvfosLyiUNT9RTcO8=;
+ b=NX9qPCVpL7ZeRRxae2L3Cn6rrpJ0cCS9Z7vE+lvc73uDjHW37N9f8br0L3PgTv+b3p
+ J4U/1fGcZlxR1Z29H5idUYULntYtS+By/pqVF9gbbBkXJdN48tF/t6mITkPyVAkL6HS/
+ HoghA0VDIB+Mo2YD05aU9ZTyawyP+73XGEOkHLVMf7TIIe8NRj73weIP1ulCut3KMDst
+ K+CY97K8W9OucfBWhU1tJQrHZel4mlfDJxw9MT7ZcD05n3zFrblkGYSrj1QpX5ZcWcQD
+ t8zobBG4urDxJTxYqlfNKRoNgvZVnuTAiWI4ZDkLyptkjbAeSJ9pO04B9G4rwqwXWUJ5
+ uiLQ==
+X-Gm-Message-State: AOAM533HZwOiHN1D56m8XRv4LxCX8z4n/kaqbFdzgSo5XjRd5fwmuOL+
+ s5kz3dzLrgvk2vWNMu6aeF7BSH2lpfpgJQ==
+X-Google-Smtp-Source: ABdhPJw7WDrGYIFl30z2SUKxzDYB3Lr6dVdLZ2ptXhPonp2daAZ3jqJqqqgljC1MXNzgCNJNRjJ8WA==
+X-Received: by 2002:a05:6000:154c:: with SMTP id
+ 12mr10997352wry.126.1624006487001; 
+ Fri, 18 Jun 2021 01:54:47 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id r1sm7370814wmh.32.2021.06.18.01.54.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Jun 2021 01:54:45 -0700 (PDT)
+Subject: Re: [PATCH v3 06/13] hw/i2c/ppc4xx_i2c: Replace i2c_send_recv() by
+ i2c_recv() & i2c_send()
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210616161418.2514095-1-f4bug@amsat.org>
+ <20210616161418.2514095-7-f4bug@amsat.org>
+ <20210616191637.GF11196@minyard.net>
+ <59fb23da-ddad-0436-6935-89712fbddf0f@amsat.org>
+ <7bf42f64-b6dd-1e1d-dec9-f710cc94cb2@eik.bme.hu>
+ <416b4c36-b838-a5f4-6575-74685627b9c3@amsat.org>
+ <675080b9-cb1-9ee4-c515-ebd0401b302b@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3b5f989e-ba68-d60f-aa10-e793bf572257@amsat.org>
+Date: Fri, 18 Jun 2021 10:54:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <675080b9-cb1-9ee4-c515-ebd0401b302b@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.254,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,50 +94,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xen-devel@lists.xenproject.org, qemu-devel@nongnu.org
+Cc: cminyard@mvista.com,
+ "Signed-off-by : Frederic Konrad" <frederic.konrad@adacore.com>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/18/21 1:49 AM, BALATON Zoltan wrote:
+> On Wed, 16 Jun 2021, Philippe Mathieu-Daudé wrote:
+>> On 6/16/21 10:01 PM, BALATON Zoltan wrote:
 
-Marek Marczykowski-G=C3=B3recki <marmarek@invisiblethingslab.com> writes:
+>>> Having a send_recv in one func
+>>> allowed to avoid if-else in some places like these but if you think it's
+>>> better without this function at all I can work with that too. I'll have
+>>> to check if these changes could break anything. At first sight I'm not
+>>> sure errors are handled as before if recv fails but it was years ago I
+>>> did the sm501 and ati parts and I forgot how they work so I need to
+>>> check again. I'll wait for the final version of the series then and test
+>>> that.
+>>
+>> Thanks, that would be great!
+> 
+> I've tried AmigaOS and MorphOS on sam460ex and mac99 with sm501 and
+> ati-vga and these still work so I think the patches are OK but I did not
+> test other changes to other machines so I did not give a tested-by for
+> the series just some reviewed-by to patches I've verified. (Found a
+> regression with AROS but that's not related to these changes.)
 
-> Kernel on Xen is loaded via fw_cfg. Previously it used non-DMA version,
-> which loaded the kernel (and initramfs) byte by byte. Change this
-> to DMA, to load in bigger chunks.
-> This change alone reduces load time of a (big) kernel+initramfs from
-> ~10s down to below 1s.
->
-> This change was suggested initially here:
-> https://lore.kernel.org/xen-devel/20180216204031.000052e9@gmail.com/
-> Apparently this alone is already enough to get massive speedup.
->
-> Signed-off-by: Marek Marczykowski-G=C3=B3recki <marmarek@invisiblethingsl=
-ab.com>
-> ---
->  hw/i386/pc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 8a84b25a03..14e43d4da4 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -839,7 +839,8 @@ void xen_load_linux(PCMachineState *pcms)
->=20=20
->      assert(MACHINE(pcms)->kernel_filename !=3D NULL);
->=20=20
-> -    fw_cfg =3D fw_cfg_init_io(FW_CFG_IO_BASE);
-> +    fw_cfg =3D fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
-> +                                &address_space_memory);
->      fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
->      rom_set_fw(fw_cfg);
+Thank you Zoltan for your testing!
 
-Gentle ping. The fix looks perfectly sane to me but I don't have any x86
-Xen HW to test this one. Are the x86 maintainers happy to take this on?
-
-FWIW:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+Phil.
 
