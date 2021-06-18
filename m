@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF30E3AD01F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:13:06 +0200 (CEST)
-Received: from localhost ([::1]:40286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9263F3AD040
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:19:30 +0200 (CEST)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luH7B-0002XA-Qc
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:13:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51840)
+	id 1luHDN-0008RJ-ME
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1luH53-00081W-8F
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:10:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38454)
+ id 1luH9h-0001Ic-Eo
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:15:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1luH51-0001xA-6A
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:10:52 -0400
+ id 1luH9f-0005IK-KS
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:15:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1luH4x-00036M-Tn
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:10:47 +0000
+ id 1luH9d-0003Zl-Be
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:15:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D7D642E8087
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:10:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1460E2E8167
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:15:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Jun 2021 16:02:45 -0000
-From: Thomas Huth <1880763@bugs.launchpad.net>
+Date: Fri, 18 Jun 2021 16:06:18 -0000
+From: Thomas Huth <1890208@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahmedkrmn th-huth
-X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Commenters: adrianomarto th-huth
+X-Launchpad-Bug-Reporter: Adriano Marto Reis (adrianomarto)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159052842235.20182.6565477896254015468.malonedeb@soybean.canonical.com>
-Message-Id: <162403216591.17937.5461131168036612731.launchpad@gac.canonical.com>
-Subject: [Bug 1880763] Re: Missing page crossing check in use_goto_tb() for rx
- target
+References: <159649385359.2765.12928081922733657659.malonedeb@gac.canonical.com>
+Message-Id: <162403237902.18079.13666067636996679118.malone@gac.canonical.com>
+Subject: [Bug 1890208] Re: Mouse pointer disappears when it is over console
+ window
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 5fba4e94da44fd7da435a53dbe174b8fc1bec212
+X-Launchpad-Hash: 472d362e461109c7d6af663d090c43ef33785b18
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,34 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880763 <1880763@bugs.launchpad.net>
+Reply-To: Bug 1890208 <1890208@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
+
+ https://gitlab.com/qemu-project/qemu/-/issues/434
+
+
 ** Changed in: qemu
-     Assignee: Ahmed Karaman (ahmedkrmn) =3D> (unassigned)
+       Status: Incomplete =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #434
+   https://gitlab.com/qemu-project/qemu/-/issues/434
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880763
+https://bugs.launchpad.net/bugs/1890208
 
 Title:
-  Missing page crossing check in use_goto_tb() for rx target
+  Mouse pointer disappears when it is over console window
 
 Status in QEMU:
-  Incomplete
+  Expired
 
 Bug description:
-  Currently the rx target doesn't have the page crossing check in its =
+  The host mouse pointer disappears when it is over a console window.
 
-  use_goto_tb() function. =
+  I am emulating quite simple hardware: just text console and no mouse.
+  I don't expect the mouse to have any effect on the emulated computers,
+  but I need to know where the mouse pointer is. That is  important
+  because I need to use the mouse to switch between applications and to
+  switch between virtual machines (QEMU grabs Alt+Tab events). Also, it
+  is quite tricky to work with multiple screens when we don't know where
+  the mouse pointer is.
 
-  This is a required feature for stable system mode emulations that all =
-
-  other targets implement.
+  I am using:
+  * Virtual Machine Manager 2.2.1
+  * QEMU 4.2.0
+  * Fedora 32
+  * KDE Plasma 5.18.5
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880763/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1890208/+subscriptions
 
