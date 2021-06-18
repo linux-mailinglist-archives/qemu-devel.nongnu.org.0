@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916F53AD5FD
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:34:02 +0200 (CEST)
-Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B30F3AD5FA
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:33:16 +0200 (CEST)
+Received: from localhost ([::1]:37546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNzt-0007YW-KF
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35210)
+	id 1luNz9-0005aI-Fg
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:33:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYb-0007Lm-7x
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42262)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYm-0007pX-C0
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYZ-0006NU-KH
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYf-0006Rw-K1
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057547;
+ s=mimecast20190719; t=1624057552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=th4AXwlyUx9JkacNwGmBjIu0bD/OHmfShn2kfsw2cm8=;
- b=WjyAPG9LSQtoHEQy7J7OcYFgeSN6dg4ifmGa8LZgAKS9UlectEApfoEVjuvirdcymEFz/K
- m9zX+HQpLwkpqGkcpITtQKeTAlRzLK5vLyJhUs53etBwI+rAlngx3k5paPTg6zLOofEdI+
- isGduqKWGl8r8DVutdom3X7dJ/YCzws=
+ bh=yjTFtvmoyzmsOG3/0XhfM9z/+LFz9GkwKnwuJUSgd1A=;
+ b=Gs0fZKDfkSRn5Yj0OemRv0MxP/wdNFMirD8/PL0fhprri5YhwWF/fFpYSA8up2fJIZyYhZ
+ VdlXDZcldRsccC2b3d3j8oRURr/3DN7OxcidaCiqniwcPTpLGKw+8ZC0hqENQXl/o5UWQ8
+ 1wFDpmJ7gQlrxQ1O2Rvz1tLvW0moRfs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-tzQ8YZ8XMqGHsWHK7-LcFA-1; Fri, 18 Jun 2021 19:05:43 -0400
-X-MC-Unique: tzQ8YZ8XMqGHsWHK7-LcFA-1
+ us-mta-556-WS-hxENDNx24HkFTtjfCIQ-1; Fri, 18 Jun 2021 19:05:44 -0400
+X-MC-Unique: WS-hxENDNx24HkFTtjfCIQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89C0C1084F4B;
- Fri, 18 Jun 2021 23:05:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 024908018A5;
+ Fri, 18 Jun 2021 23:05:44 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0CD91017CE5;
- Fri, 18 Jun 2021 23:05:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5C391017CE5;
+ Fri, 18 Jun 2021 23:05:42 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/72] scripts/qmp-shell: use triple-double-quote docstring
- style
-Date: Fri, 18 Jun 2021 19:04:23 -0400
-Message-Id: <20210618230455.2891199-41-jsnow@redhat.com>
+Subject: [PULL 41/72] scripts/qmp-shell: ignore visit_Name name
+Date: Fri, 18 Jun 2021 19:04:24 -0400
+Message-Id: <20210618230455.2891199-42-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,34 +82,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(2014 me had never written python before.)
+Not something I control, sorry, pylint.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210607200649.1840382-11-jsnow@redhat.com
+Message-id: 20210607200649.1840382-12-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ scripts/qmp/qmp-shell | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 4027454324..c46f4f516b 100755
+index c46f4f516b..ea6a87e0b3 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -94,9 +94,12 @@ class QMPShellError(Exception):
+@@ -101,7 +101,7 @@ class FuzzyJSON(ast.NodeTransformer):
+     """
  
- 
- class FuzzyJSON(ast.NodeTransformer):
--    '''This extension of ast.NodeTransformer filters literal "true/false/null"
-+    """
-+    This extension of ast.NodeTransformer filters literal "true/false/null"
-     values in an AST and replaces them by proper "True/False/None" values that
--    Python can properly evaluate.'''
-+    Python can properly evaluate.
-+    """
-+
      @classmethod
-     def visit_Name(cls, node):
+-    def visit_Name(cls, node):
++    def visit_Name(cls, node):  # pylint: disable=invalid-name
          if node.id == 'true':
+             node.id = 'True'
+         if node.id == 'false':
 -- 
 2.31.1
 
