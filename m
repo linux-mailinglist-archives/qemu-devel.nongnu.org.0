@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6419C3ACA66
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:49:26 +0200 (CEST)
-Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A775B3ACA7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:56:44 +0200 (CEST)
+Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luD01-0007Wj-FY
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
+	id 1luD75-0003Sb-7G
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1luCxe-0004nX-Tu
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:46:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43945)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1luD5L-00016R-5y
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:54:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1luCxc-000383-Ao
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:46:58 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1luD5I-00043U-7z
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:54:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624016815;
+ s=mimecast20190719; t=1624017290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ri+5GZ1EEHP0KoBqExCI899+5IekF6o26NkS5bZh/+0=;
- b=ixjf/orX8xnrTIM8sGtiwEARQfGbb7P3PR9aUjRbBVq6T4gSgFVL/kSrlabSLKDHGPsizU
- EMMATqBItd/cZ+nTudlttlNMv6NqlMPiQu3UgBOouYBjy1LpTtDaAJ/70W0ddHovXr168w
- gWeggYiB9okm3u7OYUbjzJgQgRS6L2Q=
+ bh=JnWbrqmzSiM4bH9s4asyXfJJwhhmU0SMJHMwxOG+1n4=;
+ b=E3v/eg7s9sLKlGAc/Q8nUPBWTV0QeCIzXPRb/mlBJT6R3jOuDhXxfIz7nKkp8UNzagrYTE
+ LqUX/vROrVfrRZpiRI7Sok3SdmmNi1wrgxJUk0wui+Yy4nXF0gRoR2xZp5PVcTrz6JlAnH
+ CbBPU8f50CXj4Faf1ntzfAVhzEDgJSU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-0Kfczt1IMe6dGKNcLNZq2Q-1; Fri, 18 Jun 2021 07:46:53 -0400
-X-MC-Unique: 0Kfczt1IMe6dGKNcLNZq2Q-1
+ us-mta-198-kBUL72zmOq-2mAh_HnVOkQ-1; Fri, 18 Jun 2021 07:54:49 -0400
+X-MC-Unique: kBUL72zmOq-2mAh_HnVOkQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 957B88030AF;
- Fri, 18 Jun 2021 11:46:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
- [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A75D5D9C0;
- Fri, 18 Jun 2021 11:46:52 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BB68518007AE; Fri, 18 Jun 2021 13:46:50 +0200 (CEST)
-Date: Fri, 18 Jun 2021 13:46:50 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: Too slow edk2 bios boot?
-Message-ID: <20210618114650.mge72lslmr7cakxw@sirius.home.kraxel.org>
-References: <CAEUhbmWMzo7ZhZLjk_ScBv=AskOY670L62ujqm76tgC5Zjbq4A@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3851193F562;
+ Fri, 18 Jun 2021 11:54:48 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 535415D9C0;
+ Fri, 18 Jun 2021 11:54:40 +0000 (UTC)
+Date: Fri, 18 Jun 2021 13:54:40 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH v5 4/7] hw/pci/pcie: Do not set HPC flag if acpihp is used
+Message-ID: <20210618135440.5fcaaeae@redhat.com>
+In-Reply-To: <20210617190739.3673064-5-jusual@redhat.com>
+References: <20210617190739.3673064-1-jusual@redhat.com>
+ <20210617190739.3673064-5-jusual@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmWMzo7ZhZLjk_ScBv=AskOY670L62ujqm76tgC5Zjbq4A@mail.gmail.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,49 +79,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 18, 2021 at 06:46:57PM +0800, Bin Meng wrote:
-> Hi Laszlo,
+On Thu, 17 Jun 2021 21:07:36 +0200
+Julia Suvorova <jusual@redhat.com> wrote:
+
+> Instead of changing the hot-plug type in _OSC register, do not
+> set the 'Hot-Plug Capable' flag. This way guest will choose ACPI
+> hot-plug if it is preferred and leave the option to use SHPC with
+> pcie-pci-bridge.
 > 
-> Using the QEMU shipped edk2 bios, for i386, it boots very quickly to
-> the EFI shell.
+> The ability to control hot-plug for each downstream port is retained,
+> while 'hotplug=off' on the port means all hot-plug types are disabled.
 > 
-> $ qemu-system-i386 -nographic -pflash edk2-i386-code.fd
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> ---
+>  include/hw/pci/pcie_port.h |  5 ++++-
+>  hw/acpi/pcihp.c            |  8 ++++++++
+>  hw/core/machine.c          |  1 -
+>  hw/i386/pc_q35.c           | 11 +++++++++++
+>  hw/pci/pcie.c              |  8 +++++++-
+>  hw/pci/pcie_port.c         |  1 +
+>  6 files changed, 31 insertions(+), 3 deletions(-)
 > 
-> However with x86_64, it takes a very long time to boot to the EFI
-> shell. It seems it got stuck in the PXE boot. Any ideas?
+> diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+> index bea8ecad0f..e25b289ce8 100644
+> --- a/include/hw/pci/pcie_port.h
+> +++ b/include/hw/pci/pcie_port.h
+> @@ -57,8 +57,11 @@ struct PCIESlot {
+>      /* Disable ACS (really for a pcie_root_port) */
+>      bool        disable_acs;
+>  
+> -    /* Indicates whether hot-plug is enabled on the slot */
+> +    /* Indicates whether any type of hot-plug is allowed on the slot */
+>      bool        hotplug;
+> +
+> +    bool        native_hotplug;
+> +
+>      QLIST_ENTRY(PCIESlot) next;
+>  };
+>  
+> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> index 5355618608..7a6bc1b31e 100644
+> --- a/hw/acpi/pcihp.c
+> +++ b/hw/acpi/pcihp.c
+> @@ -31,6 +31,7 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_bridge.h"
+>  #include "hw/pci/pci_host.h"
+> +#include "hw/pci/pcie_port.h"
+>  #include "hw/i386/acpi-build.h"
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/pci/pci_bus.h"
+> @@ -332,6 +333,13 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+>              object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
+>              PCIBus *sec = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
+>  
+> +            /* Remove all hot-plug handlers if hot-plug is disabled on slot */
+> +            if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT) &&
+> +                !PCIE_SLOT(pdev)->hotplug) {
+> +                qbus_set_hotplug_handler(BUS(sec), NULL);
+> +                return;
+> +            }
+> +
+>              qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
+>              /* We don't have to overwrite any other hotplug handler yet */
+>              assert(QLIST_EMPTY(&sec->child));
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 55b9bc7817..6ed0575d81 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -582,7 +582,6 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
+>      ms->ram_memdev_id = g_strdup(value);
+>  }
+>  
+> -
+>  static void machine_init_notify(Notifier *notifier, void *data)
+>  {
+>      MachineState *machine = MACHINE(qdev_get_machine());
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 46a0f196f4..a0ec7964cc 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -37,6 +37,7 @@
+>  #include "sysemu/kvm.h"
+>  #include "hw/kvm/clock.h"
+>  #include "hw/pci-host/q35.h"
+> +#include "hw/pci/pcie_port.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/i386/x86.h"
+>  #include "hw/i386/pc.h"
+> @@ -136,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
+>      ram_addr_t lowmem;
+>      DriveInfo *hd[MAX_SATA_PORTS];
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+> +    bool acpi_pcihp;
+>  
+>      /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
+>       * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
+> @@ -236,6 +238,15 @@ static void pc_q35_init(MachineState *machine)
+>      object_property_set_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+>                               OBJECT(lpc), &error_abort);
+>  
+> +    acpi_pcihp = object_property_get_bool(OBJECT(lpc),
+> +                                          "acpi-pci-hotplug-with-bridge-support",
+> +                                          NULL);
+> +
+> +    if (acpi_pcihp) {
+> +        object_register_sugar_prop(TYPE_PCIE_SLOT, "enable-native-hotplug",
+I'd s/enable-native-hotplug/native-hotplug/
+which is more concise and consistent with other similar properties.
+Perhaps Michael can fix it up on merge.
 
-One year ago ia32 efi netboot support was dropped (and you are the first
-who noticed 😎 ).
+[...]
 
-commit 9ed02fbb847277bef88dbe6a677cf3e5f39e5a38
-Author: Gerd Hoffmann <kraxel@redhat.com>
-Date:   Wed Jul 22 12:24:35 2020 +0200
+> +    DEFINE_PROP_BOOL("enable-native-hotplug", PCIESlot, native_hotplug, true),
+>      DEFINE_PROP_END_OF_LIST()
+>  };
+>  
 
-    ipxe: drop ia32 efi roms
-    
-    UEFI on ia32 never really took off.  Basically the BIOS -> UEFI shift
-    came too late, x64 was widespread already, so vendors went from BIOS
-    straight to UEFI on x64.
-    
-    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-
-> I checked the boot manager, and it seems only 64-bit edk2 bios has
-> built-in PXE boot while 32-bit does not.
-
-It isn't edk2 but the nic boot roms, but yes, lack of pxe support on
-ia32 is the root cause.
-
-> Any idea to speed up this whole PXE boot thing?
-
-qemu -nic none ?
-
-take care,
-  Gerd
+Otherwise looks good to me, so with this or without above nitpicking:
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 
