@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7543AD544
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 00:33:35 +0200 (CEST)
-Received: from localhost ([::1]:45432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51853AD545
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 00:34:15 +0200 (CEST)
+Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luN3O-0006XL-Lh
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 18:33:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56720)
+	id 1luN43-0007j5-0t
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 18:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luN2E-0005kD-QP
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:32:22 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33313)
+ id 1luN2f-0006KE-8v
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:32:49 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:45963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luN2D-0000ng-A7
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:32:22 -0400
-Received: by mail-pf1-x433.google.com with SMTP id p13so8897118pfw.0
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:32:20 -0700 (PDT)
+ id 1luN2d-00012e-LV
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:32:49 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ z3-20020a17090a3983b029016bc232e40bso6764011pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=69XXzDTNDu4xiyxUs3FLExppQsXsH2CC0rGdZ2StYdw=;
- b=ZU+N8chDOBQXI9hNUMfU3XGn71fvsyf3AOF1eFeanK/FYEFQ8fRcJGsgGw5g3Gl3di
- tdj+oW4xctBM39YRET34VWjKhqAQEtdK3pDMzi7M9D4U1e5a0ZJdpX1w5ebvsUbobWGp
- 52cZL2gXsteF4Ifb8ALjMC8Ukgy/r7GXnKVpCUuOTy0Pa34C01yJufb1k6OwcC9tjhDD
- Ni/yS1OEMJsxWqZl2cHdmsOZst5SxCCAMsv1UmgczioB2DshwhkLSZ3maPQGifZ1Zs5e
- I351txUiKF3Aiwed7h34FWMYTIQgHHR005FQyF/KG5iks24ywtuq7OtFBS2Nul5WaqLz
- U7hg==
+ bh=qQXiNKnH91BHFUYlNvLp6LZOnVrtvPsPAAmtEFlWL/g=;
+ b=tg01LfXzEmCI142sex81KtGFKFd7AhMIpn8GBRoAgmgJj0Pd0Ghuj9J4F3wlf47+5e
+ TH78kkgTjEMwwk3m+T9QckkDMvttnwZmlOLLfYXOEStz2lG89oJqaV0p1yfOK3z9gAOq
+ IluOt2VBV8lxWZaKITuy+lRuQVl7BGlydycBCFbGxJne+u018EAMI0Gc5OFgA7jhfTWP
+ DkQXjkNfJVFX4/kwbiJFmPZNgVapLjzngL3ZZ126voC0mFCTp4ZvrwQSEY81y3TLcsDv
+ s9D9TcIOq395iwGY4DjqSECp7x7giL7wcpDVGSaXabLRuh94Ckq129wrhZ9KJglOvCxA
+ Truw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=69XXzDTNDu4xiyxUs3FLExppQsXsH2CC0rGdZ2StYdw=;
- b=YYTEKO6xINK6+lHb0P7WPBzqn6Zy4H+IPWn/MpngXbbf/UOGpn3UGz4nmNq4Xyuo7r
- ccCdgZCoSrSdoFhe4vMji30PXnxs2Thz7kzS+3vNcfH83IXqoZSV38crZSu1iu4xts2C
- 50BUHqjTMftMAsNAkdc0F4KusxizjxwXb0iKsgs5vNlll+nEmT00GhLn3H1BYkt43Eb+
- M03iLXtyLLQrn/B+Ps25FzulKL0bERx/0M3BCPYEM/qt8AfBqgLKHY90XC2t18167sQi
- E1tNgTLUTrMVsJUB7p6WOvYujgq2/vjz/psfka79EKfdDkd+IjFZFywH8xFezYcd3qkJ
- SphQ==
-X-Gm-Message-State: AOAM5333fEbD+CIwz/VhtuIVWJN/VNu+sYcT/jXRKoXJkPbp200V+BbQ
- 38jenAw+mZifZz+CfmZForvAdg==
-X-Google-Smtp-Source: ABdhPJzWPoG7thGwCEMDyvqUoq7H+qsOBxzDVyJwHgfHGFj776GanS4A8rfpECykC187MetF5+jcWg==
-X-Received: by 2002:a63:5645:: with SMTP id g5mr12071300pgm.442.1624055539621; 
- Fri, 18 Jun 2021 15:32:19 -0700 (PDT)
+ bh=qQXiNKnH91BHFUYlNvLp6LZOnVrtvPsPAAmtEFlWL/g=;
+ b=fyOQf+Qpo28qEPeEbGPB/jdJr9HzrgxG7BIZGkySC1qsZR2aiKXN/wAAkr4FOL8Zzm
+ 5HLPucz0fU5KrzVw85GhxVAOn4y42zCpbhKzPl7MCB4F+PR6h5BSkl7oDzJpwA+QqSGO
+ hStyiuu5Kt0PgZCavD0ed7wUOfHr9F9iDpgFcZqgyAjrAou8zXvYFIK33fKODF6st76Q
+ TrRXD9SplXSNYqsHSBO7wQt3uylxwPBuP6kWWadZsZLtNYuuTGeHlDwr3hvLlVTnlNDg
+ p1+3sAsK9NF35oCUVZzWsxfvowQk7T011w/969DF2LcKULXq+j1OMjBoUT//gZ7LHyRb
+ Kpdg==
+X-Gm-Message-State: AOAM532ujK8dEUWhzU7omi+HJWwIPL/HiymBw4KAuDcEgBer7Pyphwpl
+ EQ6QXuzkN/M9cinAEaG/0fvoIw==
+X-Google-Smtp-Source: ABdhPJw2QpBOp+jIyAIrLUZK2eF+kZP+lIcrQMCU/eEs/kdYTm3idSYtZZ5cfp+nw+BvZHvSOnJDCA==
+X-Received: by 2002:a17:90a:780c:: with SMTP id
+ w12mr5049871pjk.42.1624055566360; 
+ Fri, 18 Jun 2021 15:32:46 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id q13sm8883179pff.13.2021.06.18.15.32.18
+ by smtp.gmail.com with ESMTPSA id p13sm9222346pfn.171.2021.06.18.15.32.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 15:32:19 -0700 (PDT)
-Subject: Re: [PATCH 2/9] target/mips: Fix more TCG temporary leaks in
- gen_pool32a5_nanomips_insn
+ Fri, 18 Jun 2021 15:32:46 -0700 (PDT)
+Subject: Re: [PATCH 3/9] target/mips: Move TCG trace events to tcg/ sub
+ directory
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210617174323.2900831-1-f4bug@amsat.org>
- <20210617174323.2900831-3-f4bug@amsat.org>
+ <20210617174323.2900831-4-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aaf46e64-f95e-f6b7-c2d0-b0859a61000f@linaro.org>
-Date: Fri, 18 Jun 2021 15:32:17 -0700
+Message-ID: <eee0d315-9f0a-9aa8-de86-ab9c13d5a4bf@linaro.org>
+Date: Fri, 18 Jun 2021 15:32:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210617174323.2900831-3-f4bug@amsat.org>
+In-Reply-To: <20210617174323.2900831-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -95,13 +97,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/17/21 10:43 AM, Philippe Mathieu-Daudé wrote:
-> Fix multiple TCG temporary leaks in gen_pool32a5_nanomips_insn().
+> Commit a2b0a27d33e ("target/mips: Move TCG source files under
+> tcg/ sub directory") forgot to move the trace-event file.
+> As it only contains TCG events, move it for consistency.
 > 
-> Fixes: 3285a3e4445 ("target/mips: Add emulation of DSP ASE for nanoMIPS - part 1")
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/mips/tcg/translate.c | 4 ++++
->   1 file changed, 4 insertions(+)
+>   meson.build                        | 2 +-
+>   target/mips/tcg/translate.c        | 1 +
+>   target/mips/{ => tcg}/trace-events | 0
+>   3 files changed, 2 insertions(+), 1 deletion(-)
+>   rename target/mips/{ => tcg}/trace-events (100%)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
