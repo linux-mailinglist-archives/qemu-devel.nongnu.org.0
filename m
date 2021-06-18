@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C21F3AC027
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 02:38:08 +0200 (CEST)
-Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD7A3AC04F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 02:51:46 +0200 (CEST)
+Received: from localhost ([::1]:41084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu2WN-00088W-JO
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 20:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
+	id 1lu2jY-000276-U3
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 20:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lu2VP-00071O-NV
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 20:37:07 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:44977
+ id 1lu2iV-0001My-VT
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 20:50:39 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:49418
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lu2VL-0002CD-Sc
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 20:37:06 -0400
-HMM_SOURCE_IP: 172.18.0.218:54740.42657040
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lu2iR-0002Y2-St
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 20:50:39 -0400
+HMM_SOURCE_IP: 172.18.0.218:40428.1264064299
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-10.133.8.242?logid-1accadc219d4495c8b5f6f82b023a1e0
+Received: from clientip-10.133.8.242?logid-d0c05871f0cd4ec5aff35743975fdb7c
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id C46DF2800F1;
- Fri, 18 Jun 2021 08:37:00 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id EDE5728008F;
+ Fri, 18 Jun 2021 08:50:30 +0800 (CST)
 X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 1accadc219d4495c8b5f6f82b023a1e0 for
- zhengchuan@huawei.com; Fri Jun 18 08:37:00 2021
-X-Transaction-ID: 1accadc219d4495c8b5f6f82b023a1e0
+ by app0025 with ESMTP id d0c05871f0cd4ec5aff35743975fdb7c for
+ zhengchuan@huawei.com; Fri Jun 18 08:50:31 2021
+X-Transaction-ID: d0c05871f0cd4ec5aff35743975fdb7c
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
@@ -40,15 +40,15 @@ References: <cover.1623938622.git.huangy81@chinatelecom.cn>
  <84315f2dc01b4a2b50e280686043b7649abb98bf.1623938622.git.huangy81@chinatelecom.cn>
  <YMtqQgQ/Od4VoQs4@t490s>
 From: Hyman Huang <huangy81@chinatelecom.cn>
-Message-ID: <167c1a3e-5c6f-6879-67b9-4b66e93c07ba@chinatelecom.cn>
-Date: Fri, 18 Jun 2021 08:36:55 +0800
+Message-ID: <e853a5f2-129b-3192-92c9-1181f38a7d8f@chinatelecom.cn>
+Date: Fri, 18 Jun 2021 08:50:21 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <YMtqQgQ/Od4VoQs4@t490s>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
+Received-SPF: pass client-ip=42.123.76.220;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -209,7 +209,6 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > I should raised this earlier... but I think better move this macro to the
 > defines of the bits.
 > 
-OK
 >> +    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
 >> +    assert(!(global_dirty_tracking & flags));
 >> +    global_dirty_tracking |= flags;
@@ -264,9 +263,9 @@ OK
 > Here the flags can be directly casted into a "void *" so we could avoid
 > malloc/free.  You call..
 > 
+yeah, get it! think it's kind of werid but havn't figured out.
 > I also still think it's easier to squash previous renaming patch into this one.
 > 
-OK
 > Thanks,
 > 
 >>           vmstate_change = qemu_add_vm_change_state_handler(
