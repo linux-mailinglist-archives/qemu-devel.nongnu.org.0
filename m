@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5A43AC2B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:01:36 +0200 (CEST)
-Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AB53AC2BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:03:30 +0200 (CEST)
+Received: from localhost ([::1]:36684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu6dL-00026u-5W
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:01:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35120)
+	id 1lu6fB-00005I-NO
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6WT-0003dW-Mb
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54745)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6Wd-0003q5-SS
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6WR-0003dS-IH
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:29 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6WY-0003jd-UZ
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:54:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623992066;
+ s=mimecast20190719; t=1623992074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JCUWrxNmAkjEjg0HSsp6x5R3nta4EBqXkD3CLyv0OkU=;
- b=AHG2xqVTTo0rUOg/vIm6AiR5+gXk0vayrRTw+seF73e2OofM+lt8JZVqqvQ/GHhMUFbKEx
- QuVh7LVO5GZX1sJcG33tPAkfhanPyR8o8uYzpHkiLnu3y7eFuCrmtqy8ROtOzKRFB5/yO2
- mT8ieGQBt6g1N2n0cR7vJTs9xkb9JHo=
+ bh=tCfphQnaNiqR1/QATqQu0QjJBywC8Yh+FbFnjQ/wVks=;
+ b=MlIzcWyEg56xNPWsJ++FMb0MsO8kGFH1HqcKa6jUIA0ECgzwxAOIxOYfBnfbCmT6h+tucc
+ 54aJBlcZLFxXlV/YipiUE83X8MKE0AgInarjG6kzU4ZFYYF4VVyy+fBQCTEeiw+lb8R0H0
+ arngmv6OevxxauCPco17i3h2bvHdXx4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-jlTQf4NeN1KRWyC8iJWqMg-1; Fri, 18 Jun 2021 00:54:25 -0400
-X-MC-Unique: jlTQf4NeN1KRWyC8iJWqMg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-581-mQ3JwwOTOnmmwx4TQnU8Yw-1; Fri, 18 Jun 2021 00:54:33 -0400
+X-MC-Unique: mQ3JwwOTOnmmwx4TQnU8Yw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15E6C100C61B;
- Fri, 18 Jun 2021 04:54:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7231210C1ADC;
+ Fri, 18 Jun 2021 04:54:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D97E60CC9;
- Fri, 18 Jun 2021 04:54:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93BDA5D9CD;
+ Fri, 18 Jun 2021 04:54:24 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1E98118017CA; Fri, 18 Jun 2021 06:53:54 +0200 (CEST)
+ id 4558F18017CC; Fri, 18 Jun 2021 06:53:54 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/24] modules: generate modinfo.c
-Date: Fri, 18 Jun 2021 06:53:32 +0200
-Message-Id: <20210618045353.2510174-4-kraxel@redhat.com>
+Subject: [PATCH v3 05/24] modules: add virtio-gpu module annotations
+Date: Fri, 18 Jun 2021 06:53:34 +0200
+Message-Id: <20210618045353.2510174-6-kraxel@redhat.com>
 In-Reply-To: <20210618045353.2510174-1-kraxel@redhat.com>
 References: <20210618045353.2510174-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,210 +94,174 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add script to generate C source with a small
-database containing the module meta-data.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- scripts/modinfo-generate.py | 84 +++++++++++++++++++++++++++++++++++++
- include/qemu/module.h       | 17 ++++++++
- softmmu/vl.c                |  4 ++
- util/module.c               | 11 +++++
- meson.build                 | 13 +++++-
- 5 files changed, 128 insertions(+), 1 deletion(-)
- create mode 100755 scripts/modinfo-generate.py
+ hw/display/vhost-user-gpu-pci.c | 1 +
+ hw/display/vhost-user-gpu.c     | 1 +
+ hw/display/vhost-user-vga.c     | 1 +
+ hw/display/virtio-gpu-base.c    | 1 +
+ hw/display/virtio-gpu-gl.c      | 3 +++
+ hw/display/virtio-gpu-pci-gl.c  | 3 +++
+ hw/display/virtio-gpu-pci.c     | 2 ++
+ hw/display/virtio-gpu.c         | 1 +
+ hw/display/virtio-vga-gl.c      | 3 +++
+ hw/display/virtio-vga.c         | 2 ++
+ 10 files changed, 18 insertions(+)
 
-diff --git a/scripts/modinfo-generate.py b/scripts/modinfo-generate.py
-new file mode 100755
-index 000000000000..2b925432655a
---- /dev/null
-+++ b/scripts/modinfo-generate.py
-@@ -0,0 +1,84 @@
-+#!/usr/bin/env python3
-+# -*- coding: utf-8 -*-
-+
-+import os
-+import sys
-+
-+def print_array(name, values):
-+    if len(values) == 0:
-+        return
-+    list = ", ".join(values)
-+    print("    .%s = ((const char*[]){ %s, NULL })," % (name, list))
-+
-+def parse_line(line):
-+    kind = ""
-+    data = ""
-+    get_kind = False
-+    get_data = False
-+    for item in line.split():
-+        if item == "MODINFO_START":
-+            get_kind = True
-+            continue
-+        if item.startswith("MODINFO_END"):
-+            get_data = False
-+            continue
-+        if get_kind:
-+            kind = item
-+            get_kind = False
-+            get_data = True
-+            continue
-+        if get_data:
-+            data += " " + item
-+            continue
-+    return (kind, data)
-+
-+def generate(name, lines):
-+    arch = ""
-+    objs = []
-+    deps = []
-+    opts = []
-+    for line in lines:
-+        if line.find("MODINFO_START") != -1:
-+            (kind, data) = parse_line(line)
-+            if kind == 'obj':
-+                objs.append(data)
-+            elif kind == 'dep':
-+                deps.append(data)
-+            elif kind == 'opts':
-+                opts.append(data)
-+            elif kind == 'arch':
-+                arch = data;
-+            else:
-+                print("unknown:", kind)
-+                exit(1)
-+
-+    print("    .name = \"%s\"," % name)
-+    if arch != "":
-+        print("    .arch = %s," % arch)
-+    print_array("objs", objs)
-+    print_array("deps", deps)
-+    print_array("opts", opts)
-+    print("},{");
-+
-+def print_pre():
-+    print("/* generated by scripts/modinfo.py */")
-+    print("#include \"qemu/osdep.h\"")
-+    print("#include \"qemu/module.h\"")
-+    print("const QemuModinfo qemu_modinfo[] = {{")
-+
-+def print_post():
-+    print("    /* end of list */")
-+    print("}};")
-+
-+def main(args):
-+    print_pre()
-+    for modinfo in args:
-+        with open(modinfo) as f:
-+            lines = f.readlines()
-+        print("    /* %s */" % modinfo)
-+        (basename, ext) = os.path.splitext(modinfo)
-+        generate(basename, lines)
-+    print_post()
-+
-+if __name__ == "__main__":
-+    main(sys.argv[1:])
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index 81ef086da023..a98748d501d3 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -98,4 +98,21 @@ void module_load_qom_all(void);
- /* module registers QemuOpts <name> */
- #define module_opts(name) modinfo(opts, name)
+diff --git a/hw/display/vhost-user-gpu-pci.c b/hw/display/vhost-user-gpu-pci.c
+index a02b23ecaf11..daefcf710159 100644
+--- a/hw/display/vhost-user-gpu-pci.c
++++ b/hw/display/vhost-user-gpu-pci.c
+@@ -43,6 +43,7 @@ static const VirtioPCIDeviceTypeInfo vhost_user_gpu_pci_info = {
+     .instance_size = sizeof(VhostUserGPUPCI),
+     .instance_init = vhost_user_gpu_pci_initfn,
+ };
++module_obj(TYPE_VHOST_USER_GPU_PCI);
  
-+/*
-+ * module info database
-+ *
-+ * scripts/modinfo-generate.c will build this using the data collected
-+ * by scripts/modinfo-collect.py
-+ */
-+typedef struct QemuModinfo QemuModinfo;
-+struct QemuModinfo {
-+    const char *name;
-+    const char *arch;
-+    const char **objs;
-+    const char **deps;
-+    const char **opts;
-+};
-+extern const QemuModinfo qemu_modinfo[];
-+void module_init_info(const QemuModinfo *info);
-+
- #endif
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 326c1e908008..a4857ec43ff3 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2740,6 +2740,10 @@ void qemu_init(int argc, char **argv, char **envp)
-     error_init(argv[0]);
-     qemu_init_exec_dir(argv[0]);
+ static void vhost_user_gpu_pci_register_types(void)
+ {
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index 6cdaa1c73b9b..32ef0061f924 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -596,6 +596,7 @@ static const TypeInfo vhost_user_gpu_info = {
+     .instance_finalize = vhost_user_gpu_instance_finalize,
+     .class_init = vhost_user_gpu_class_init,
+ };
++module_obj(TYPE_VHOST_USER_GPU);
  
-+#ifdef CONFIG_MODULES
-+    module_init_info(qemu_modinfo);
-+#endif
-+
-     qemu_init_subsystems();
+ static void vhost_user_gpu_register_types(void)
+ {
+diff --git a/hw/display/vhost-user-vga.c b/hw/display/vhost-user-vga.c
+index a34a99856d73..072c9c65bc75 100644
+--- a/hw/display/vhost-user-vga.c
++++ b/hw/display/vhost-user-vga.c
+@@ -44,6 +44,7 @@ static const VirtioPCIDeviceTypeInfo vhost_user_vga_info = {
+     .instance_size = sizeof(VhostUserVGA),
+     .instance_init = vhost_user_vga_inst_initfn,
+ };
++module_obj(TYPE_VHOST_USER_VGA);
  
-     /* first pass of option parsing */
-diff --git a/util/module.c b/util/module.c
-index eee8ff2de136..8d3e8275b9f7 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -110,6 +110,17 @@ void module_call_init(module_init_type type)
+ static void vhost_user_vga_register_types(void)
+ {
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index dd294276cb38..c8da4806e0bb 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -256,6 +256,7 @@ static const TypeInfo virtio_gpu_base_info = {
+     .class_init = virtio_gpu_base_class_init,
+     .abstract = true
+ };
++module_obj(TYPE_VIRTIO_GPU_BASE);
+ 
+ static void
+ virtio_register_types(void)
+diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
+index d971b480806a..7ab93bf8c829 100644
+--- a/hw/display/virtio-gpu-gl.c
++++ b/hw/display/virtio-gpu-gl.c
+@@ -154,6 +154,7 @@ static const TypeInfo virtio_gpu_gl_info = {
+     .instance_size = sizeof(VirtIOGPUGL),
+     .class_init = virtio_gpu_gl_class_init,
+ };
++module_obj(TYPE_VIRTIO_GPU_GL);
+ 
+ static void virtio_register_types(void)
+ {
+@@ -161,3 +162,5 @@ static void virtio_register_types(void)
  }
  
- #ifdef CONFIG_MODULES
+ type_init(virtio_register_types)
 +
-+static const QemuModinfo module_info_stub[] = { {
-+    /* end of list */
-+} };
-+static const QemuModinfo *module_info = module_info_stub;
-+
-+void module_init_info(const QemuModinfo *info)
-+{
-+    module_info = info;
-+}
-+
- static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
++module_dep("hw-display-virtio-gpu");
+diff --git a/hw/display/virtio-gpu-pci-gl.c b/hw/display/virtio-gpu-pci-gl.c
+index 902dda345275..99b14a07185e 100644
+--- a/hw/display/virtio-gpu-pci-gl.c
++++ b/hw/display/virtio-gpu-pci-gl.c
+@@ -46,6 +46,7 @@ static const VirtioPCIDeviceTypeInfo virtio_gpu_gl_pci_info = {
+     .instance_size = sizeof(VirtIOGPUGLPCI),
+     .instance_init = virtio_gpu_gl_initfn,
+ };
++module_obj(TYPE_VIRTIO_GPU_GL_PCI);
+ 
+ static void virtio_gpu_gl_pci_register_types(void)
  {
-     GModule *g_module;
-diff --git a/meson.build b/meson.build
-index bb99619257d5..9cf50a50d39a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2022,6 +2022,7 @@ subdir('tests/qtest/fuzz')
- ########################
+@@ -53,3 +54,5 @@ static void virtio_gpu_gl_pci_register_types(void)
+ }
  
- modinfo_collect = find_program('scripts/modinfo-collect.py')
-+modinfo_generate = find_program('scripts/modinfo-generate.py')
- modinfo_files = []
- 
- block_mods = []
-@@ -2042,7 +2043,6 @@ foreach d, list : modules
-                                        output: d + '-' + m + '.modinfo',
-                                        input: module_ss.sources(),
-                                        capture: true,
--                                       build_by_default: true, # to be removed when added to a target
-                                        command: [modinfo_collect, '@INPUT@'])
-       endif
-     else
-@@ -2055,6 +2055,17 @@ foreach d, list : modules
-   endforeach
- endforeach
- 
-+if enable_modules
-+  modinfo_src = custom_target('modinfo.c',
-+                              output: 'modinfo.c',
-+                              input: modinfo_files,
-+                              command: [modinfo_generate, '@INPUT@'],
-+                              capture: true)
-+  modinfo_lib = static_library('modinfo', modinfo_src)
-+  modinfo_dep = declare_dependency(link_whole: modinfo_lib)
-+  softmmu_ss.add(modinfo_dep)
-+endif
+ type_init(virtio_gpu_gl_pci_register_types)
 +
- nm = find_program('nm')
- undefsym = find_program('scripts/undefsym.py')
- block_syms = custom_target('block.syms', output: 'block.syms',
++module_dep("hw-display-virtio-gpu-pci");
+diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+index d742a30aecf7..e36eee0c409b 100644
+--- a/hw/display/virtio-gpu-pci.c
++++ b/hw/display/virtio-gpu-pci.c
+@@ -64,6 +64,7 @@ static const TypeInfo virtio_gpu_pci_base_info = {
+     .class_init = virtio_gpu_pci_base_class_init,
+     .abstract = true
+ };
++module_obj(TYPE_VIRTIO_GPU_PCI_BASE);
+ 
+ #define TYPE_VIRTIO_GPU_PCI "virtio-gpu-pci"
+ typedef struct VirtIOGPUPCI VirtIOGPUPCI;
+@@ -90,6 +91,7 @@ static const VirtioPCIDeviceTypeInfo virtio_gpu_pci_info = {
+     .instance_size = sizeof(VirtIOGPUPCI),
+     .instance_init = virtio_gpu_initfn,
+ };
++module_obj(TYPE_VIRTIO_GPU_PCI);
+ 
+ static void virtio_gpu_pci_register_types(void)
+ {
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index e183f4ecdaa5..6b7f643951fe 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1427,6 +1427,7 @@ static const TypeInfo virtio_gpu_info = {
+     .class_size = sizeof(VirtIOGPUClass),
+     .class_init = virtio_gpu_class_init,
+ };
++module_obj(TYPE_VIRTIO_GPU);
+ 
+ static void virtio_register_types(void)
+ {
+diff --git a/hw/display/virtio-vga-gl.c b/hw/display/virtio-vga-gl.c
+index c971340ebb1a..f22549097c5e 100644
+--- a/hw/display/virtio-vga-gl.c
++++ b/hw/display/virtio-vga-gl.c
+@@ -36,6 +36,7 @@ static VirtioPCIDeviceTypeInfo virtio_vga_gl_info = {
+     .instance_size = sizeof(VirtIOVGAGL),
+     .instance_init = virtio_vga_gl_inst_initfn,
+ };
++module_obj(TYPE_VIRTIO_VGA_GL);
+ 
+ static void virtio_vga_register_types(void)
+ {
+@@ -45,3 +46,5 @@ static void virtio_vga_register_types(void)
+ }
+ 
+ type_init(virtio_vga_register_types)
++
++module_dep("hw-display-virtio-vga");
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index d3c640406152..9e57f61e9edb 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -239,6 +239,7 @@ static TypeInfo virtio_vga_base_info = {
+     .class_init    = virtio_vga_base_class_init,
+     .abstract      = true,
+ };
++module_obj(TYPE_VIRTIO_VGA_BASE);
+ 
+ #define TYPE_VIRTIO_VGA "virtio-vga"
+ 
+@@ -268,6 +269,7 @@ static VirtioPCIDeviceTypeInfo virtio_vga_info = {
+     .instance_size = sizeof(VirtIOVGA),
+     .instance_init = virtio_vga_inst_initfn,
+ };
++module_obj(TYPE_VIRTIO_VGA);
+ 
+ static void virtio_vga_register_types(void)
+ {
 -- 
 2.31.1
 
