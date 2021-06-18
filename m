@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C603AD34E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 22:01:49 +0200 (CEST)
-Received: from localhost ([::1]:50462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C9B3AD353
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 22:04:42 +0200 (CEST)
+Received: from localhost ([::1]:52986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luKgW-00065g-7u
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 16:01:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33840)
+	id 1luKjJ-0008BB-3b
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 16:04:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1luKXs-0008HU-9h
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:52:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55129)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1luKXp-0006ri-Mt
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:52:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624045968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UgnhNLRla1fbf6uIxEwSl+pw9ZKjw537w0nBer4HyNk=;
- b=MTWTAFCqby/4G5+LN14qFLaRAZBSD6sgfmkvqUSBDhLIW6Qes7PjNLRCmPSoBFyaQixJGi
- /iESFGzgo9Dd9WJGmcQUDc2vfdRf/mvmposo18nMaYr1mt9F5KvbhpQwIhNKvTUwv87qm0
- XPd/aT1y18LMkGSiysN1XEvo6AJ9w78=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-JYmmaoDONtaqz7jPTYfu_w-1; Fri, 18 Jun 2021 15:52:45 -0400
-X-MC-Unique: JYmmaoDONtaqz7jPTYfu_w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E63FF804140;
- Fri, 18 Jun 2021 19:52:44 +0000 (UTC)
-Received: from localhost (unknown [10.22.9.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01F712C00F;
- Fri, 18 Jun 2021 19:52:41 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 4/7] docs: Add SEV-ES documentation to amd-memory-encryption.txt
-Date: Fri, 18 Jun 2021 15:52:34 -0400
-Message-Id: <20210618195237.442548-5-ehabkost@redhat.com>
-In-Reply-To: <20210618195237.442548-1-ehabkost@redhat.com>
-References: <20210618195237.442548-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1luKhz-0007Mb-Oz
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 16:03:19 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:43882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1luKhw-000521-4l
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 16:03:19 -0400
+Received: by mail-oi1-x232.google.com with SMTP id x196so11780452oif.10
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 13:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0XaXqYva/wHy/UtEltmeogV56guSl7cA7YcnQ/9TzXY=;
+ b=g7o8yBL1N2S3tsyur9iUWHeYnww8Yv3yto5IlVH0cr4AvZ5/r66kuius6b4SEkue7m
+ YzLXPWu2AZfio152yZLd4w1aPFSSxzrVQcEj4jm8yADdJ2u5t8lgnA71zfxYB9JBKyPY
+ MKHcgmXBF4etasLXLJyiMIGDN6zATCqmw8DdWaNQCs50Q6N4gbQlDOUi8Angq+hXAAp2
+ P1Eb6/lWvi+rZQSjxO/i+0qpZlKI/VY62U0WOgegL42lnXq00737aDov6HEPMhvn6S7f
+ Zw/HKtfObvGXk5JSKCUeTeW/+AeMr3GKSV/Al7piL8aX/0M2HIl8IfXoez1GGKsOIt7U
+ ZaDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0XaXqYva/wHy/UtEltmeogV56guSl7cA7YcnQ/9TzXY=;
+ b=DuRDvSoIGNEH4lHVOXShmYB+f/eR5wnILaVXRL0z6uqiHwI/tbkUaZAq88ttJNzkYt
+ lpida3ZiRKG8JPOOlVKJqhfOjdsd0bS/+C7tDwmx4vwM/5o2XzsGNJBchensSNNMCmcY
+ 4EE3VPbQHizFUAhU0zuVPpNDvtS0Pu4JSbQGMMkpUeRos+d1m8TPdLifg6vNIPS3CM6R
+ jQWOifgJ15O84TqmM2WiRMRj/2X1ytCHX+jVaSO1KRp0UoCfVRLSDze/YxPhZRf6PYS+
+ RhUTfma/FSqscvz76voCsoADNDIBYWv5feyJs7u+oSmoibKGCbxZug62vSP7lXAzEnTl
+ LSbQ==
+X-Gm-Message-State: AOAM530qJYKKX11k2qwMCQNxN6qU46KH/XYl+ULndVayd3mvRXKYupFC
+ 2nVKfGkF0EulhgpauZoJZj2QwORut1Jdv7h8Qcl9ZA==
+X-Google-Smtp-Source: ABdhPJzmXaZjJOH5a8buOe4/1seiRzErJ1wRG2vuX3a7Ul82yRQgL0BmmrLbn8YIqipX1W5GJH/uc2dPHOOhNfoIP6U=
+X-Received: by 2002:aca:2215:: with SMTP id b21mr8511490oic.94.1624046593705; 
+ Fri, 18 Jun 2021 13:03:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210609100457.142570-1-andrew@daynix.com>
+ <f81de211-57f9-9319-9735-c6b964bbdc77@redhat.com>
+ <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
+ <3da88930-439c-1892-29b4-4977ddbb0b0a@redhat.com>
+ <CABcq3pE7Rx4r_H7qtpXAwqyiWzXCT_u1zp4X1Hc-pgMrW=9haA@mail.gmail.com>
+ <d51a7c1f-0df8-342e-219d-c9b3b36a1371@redhat.com>
+ <CABcq3pEec6f+ohA6SCn7iFAbromrvWgyS8Tjz6+iHZ-fa2OQxw@mail.gmail.com>
+In-Reply-To: <CABcq3pEec6f+ohA6SCn7iFAbromrvWgyS8Tjz6+iHZ-fa2OQxw@mail.gmail.com>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Fri, 18 Jun 2021 23:03:02 +0300
+Message-ID: <CABcq3pEXZGoRPGQPB1b1Tb_rDEg5aMFCB+CELAyOjDCyTS1FTQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000511adb05c50fd05c"
+Received-SPF: none client-ip=2607:f8b0:4864:20::232;
+ envelope-from=andrew@daynix.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,132 +80,452 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Yan Vugenfirer <yan@daynix.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tom Lendacky <thomas.lendacky@amd.com>
+--000000000000511adb05c50fd05c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update the amd-memory-encryption.txt file with information about SEV-ES,
-including how to launch an SEV-ES guest and some of the differences
-between SEV and SEV-ES guests in regards to launching and measuring the
-guest.
+Hi Jason,
+I've checked "kernel.unprivileged_bpf_disabled=3D0" on Fedora,  Ubuntu, and
+Debian - no need permissions to update BPF maps.
 
-Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-Acked-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
-Message-Id: <fa1825a5eb0290eac4712cde75ba4c6829946eac.1619208498.git.thomas.lendacky@amd.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- docs/amd-memory-encryption.txt | 54 +++++++++++++++++++++++++++++-----
- 1 file changed, 47 insertions(+), 7 deletions(-)
+On Wed, Jun 16, 2021 at 1:18 AM Andrew Melnichenko <andrew@daynix.com>
+wrote:
 
-diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
-index ed85159ea7d..ffca382b5f5 100644
---- a/docs/amd-memory-encryption.txt
-+++ b/docs/amd-memory-encryption.txt
-@@ -15,6 +15,13 @@ includes commands for launching, snapshotting, migrating and debugging the
- encrypted guest. These SEV commands can be issued via KVM_MEMORY_ENCRYPT_OP
- ioctls.
- 
-+Secure Encrypted Virtualization - Encrypted State (SEV-ES) builds on the SEV
-+support to additionally protect the guest register state. In order to allow a
-+hypervisor to perform functions on behalf of a guest, there is architectural
-+support for notifying a guest's operating system when certain types of VMEXITs
-+are about to occur. This allows the guest to selectively share information with
-+the hypervisor to satisfy the requested function.
-+
- Launching
- ---------
- Boot images (such as bios) must be encrypted before a guest can be booted. The
-@@ -24,6 +31,9 @@ together generate a fresh memory encryption key for the VM, encrypt the boot
- images and provide a measurement than can be used as an attestation of a
- successful launch.
- 
-+For a SEV-ES guest, the LAUNCH_UPDATE_VMSA command is also used to encrypt the
-+guest register state, or VM save area (VMSA), for all of the guest vCPUs.
-+
- LAUNCH_START is called first to create a cryptographic launch context within
- the firmware. To create this context, guest owner must provide a guest policy,
- its public Diffie-Hellman key (PDH) and session parameters. These inputs
-@@ -40,6 +50,12 @@ The guest policy can be provided via the 'policy' property (see below)
- # ${QEMU} \
-    sev-guest,id=sev0,policy=0x1...\
- 
-+Setting the "SEV-ES required" policy bit (bit 2) will launch the guest as a
-+SEV-ES guest (see below)
-+
-+# ${QEMU} \
-+   sev-guest,id=sev0,policy=0x5...\
-+
- The guest owner provided DH certificate and session parameters will be used to
- establish a cryptographic session with the guest owner to negotiate keys used
- for the attestation.
-@@ -55,13 +71,19 @@ created via the LAUNCH_START command. If required, this command can be called
- multiple times to encrypt different memory regions. The command also calculates
- the measurement of the memory contents as it encrypts.
- 
--LAUNCH_MEASURE can be used to retrieve the measurement of encrypted memory.
--This measurement is a signature of the memory contents that can be sent to the
--guest owner as an attestation that the memory was encrypted correctly by the
--firmware. The guest owner may wait to provide the guest confidential information
--until it can verify the attestation measurement. Since the guest owner knows the
--initial contents of the guest at boot, the attestation measurement can be
--verified by comparing it to what the guest owner expects.
-+LAUNCH_UPDATE_VMSA encrypts all the vCPU VMSAs for a SEV-ES guest using the
-+cryptographic context created via the LAUNCH_START command. The command also
-+calculates the measurement of the VMSAs as it encrypts them.
-+
-+LAUNCH_MEASURE can be used to retrieve the measurement of encrypted memory and,
-+for a SEV-ES guest, encrypted VMSAs. This measurement is a signature of the
-+memory contents and, for a SEV-ES guest, the VMSA contents, that can be sent
-+to the guest owner as an attestation that the memory and VMSAs were encrypted
-+correctly by the firmware. The guest owner may wait to provide the guest
-+confidential information until it can verify the attestation measurement.
-+Since the guest owner knows the initial contents of the guest at boot, the
-+attestation measurement can be verified by comparing it to what the guest owner
-+expects.
- 
- LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
- context.
-@@ -75,6 +97,22 @@ To launch a SEV guest
-     -machine ...,confidential-guest-support=sev0 \
-     -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
- 
-+To launch a SEV-ES guest
-+
-+# ${QEMU} \
-+    -machine ...,confidential-guest-support=sev0 \
-+    -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x5
-+
-+An SEV-ES guest has some restrictions as compared to a SEV guest. Because the
-+guest register state is encrypted and cannot be updated by the VMM/hypervisor,
-+a SEV-ES guest:
-+ - Does not support SMM - SMM support requires updating the guest register
-+   state.
-+ - Does not support reboot - a system reset requires updating the guest register
-+   state.
-+ - Requires in-kernel irqchip - the burden is placed on the hypervisor to
-+   manage booting APs.
-+
- Debugging
- -----------
- Since the memory contents of a SEV guest are encrypted, hypervisor access to
-@@ -101,8 +139,10 @@ Secure Encrypted Virtualization Key Management:
- 
- KVM Forum slides:
- http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
-+https://www.linux-kvm.org/images/9/94/Extending-Secure-Encrypted-Virtualization-with-SEV-ES-Thomas-Lendacky-AMD.pdf
- 
- AMD64 Architecture Programmer's Manual:
-    http://support.amd.com/TechDocs/24593.pdf
-    SME is section 7.10
-    SEV is section 15.34
-+   SEV-ES is section 15.35
--- 
-2.31.1
+> Hi,
+>
+>> I may miss something.
+>>
+>> But RSS requires to update the map. This won't work if you don't grant
+>> any permission to qemu.
+>>
+>> Thanks
+>>
+>
+> Partly - with "kernel.unprivileged_bpf_disabled=3D0" capabilities is not
+> required to update maps.
+> With "kernel.unprivileged_bpf_disabled=3D1" - setting maps will fail(with=
+out
+> CAP_BPF) and "in-qemu" RSS will be used.
+>
+> On Tue, Jun 15, 2021 at 12:13 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>>
+>> =E5=9C=A8 2021/6/12 =E4=B8=8A=E5=8D=8812:49, Andrew Melnichenko =E5=86=
+=99=E9=81=93:
+>> > Hi,
+>> >
+>> >     So I think the series is for unprivileged_bpf disabled. If I'm not
+>> >     wrong, I guess the policy is to grant CAP_BPF but do fine grain
+>> >     checks
+>> >     via LSM.
+>> >
+>> >
+>> > The main idea is to run eBPF RSS with qemu without any permission.
+>> > Libvirt should handle everything and pass proper eBPF file descriptors=
+.
+>> > For current eBPF RSS, CAP_SYS_ADMIN(bypass some limitations)
+>> > also required, and in the future may be other permissions.
+>>
+>>
+>> I may miss something.
+>>
+>> But RSS requires to update the map. This won't work if you don't grant
+>> any permission to qemu.
+>>
+>> Thanks
+>>
+>>
+>> >
+>> >     I'm not sure this is the best. We have several examples that let
+>> >     libvirt
+>> >     to involve. Examples:
+>> >
+>> >     1) create TAP device (and the TUN_SETIFF)
+>> >
+>> >     2) open vhost devices
+>> >
+>> >
+>> > Technically TAP/vhost not related to a particular qemu emulator. So
+>> common
+>> > TAP creation should fit any modern qemu. eBPF fds(program and maps)
+>> should
+>> > suit the interface for current qemu, g.e. some qemu builds may have
+>> > different map
+>> > structures or their count. It's necessary that the qemu got fds
+>> > prepared by the helper
+>> > that was built with the qemu.
+>> >
+>> >     I think we need an example on the detail steps for how libvirt is
+>> >     expected to use this.
+>> >
+>> >
+>> > The simplified workflow looks like this:
+>> >
+>> >  1. Libvirt got "emulator" from domain document.
+>> >  2. Libvirt queries for qemu capabilities.
+>> >  3. One of the capabilities is "qemu-ebpf-rss-helper" path(if present)=
+.
+>> >  4. On NIC preparation Libvirt checks for virtio-net + rss
+>> configurations.
+>> >  5. If required, the "qemu-ebpf-rss-helper" called and fds are
+>> >     received through unix fd.
+>> >  6. Those fds are for eBPF RSS, which passed to child process - qemu.
+>> >  7. Qemu launched with virtio-net-pci property "rss" and "ebpf_rss_fds=
+".
+>> >
+>> >
+>> > On Fri, Jun 11, 2021 at 8:36 AM Jason Wang <jasowang@redhat.com
+>> > <mailto:jasowang@redhat.com>> wrote:
+>> >
+>> >
+>> >     =E5=9C=A8 2021/6/10 =E4=B8=8B=E5=8D=882:55, Yuri Benditovich =E5=
+=86=99=E9=81=93:
+>> >     > On Thu, Jun 10, 2021 at 9:41 AM Jason Wang<jasowang@redhat.com
+>> >     <mailto:jasowang@redhat.com>>  wrote:
+>> >     >> =E5=9C=A8 2021/6/9 =E4=B8=8B=E5=8D=886:04, Andrew Melnychenko =
+=E5=86=99=E9=81=93:
+>> >     >>> Libvirt usually launches qemu with strict permissions.
+>> >     >>> To enable eBPF RSS steering, qemu-ebpf-rss-helper was added.
+>> >     >> A silly question:
+>> >     >>
+>> >     >> Kernel had the following permission checks in bpf syscall:
+>> >     >>
+>> >     >>          if (sysctl_unprivileged_bpf_disabled && !bpf_capable()=
+)
+>> >     >>                   return -EPERM;
+>> >     >> ...
+>> >     >>
+>> >     >>           err =3D security_bpf(cmd, &attr, size);
+>> >     >>           if (err < 0)
+>> >     >>                   return err;
+>> >     >>
+>> >     >> So if I understand the code correctly, bpf syscall can only be
+>> >     done if:
+>> >     >>
+>> >     >> 1) unprivileged_bpf is enabled or
+>> >     >> 2) has the capability  and pass the LSM checks
+>> >     >>
+>> >     >> So I think the series is for unprivileged_bpf disabled. If I'm
+>> not
+>> >     >> wrong, I guess the policy is to grant CAP_BPF but do fine grain
+>> >     checks
+>> >     >> via LSM.
+>> >     >>
+>> >     >> If this is correct, need to describe it in the commit log.
+>> >     >>
+>> >     >>
+>> >     >>> Added property "ebpf_rss_fds" for "virtio-net" that allows to
+>> >     >>> initialize eBPF RSS context with passed program & maps fds.
+>> >     >>>
+>> >     >>> Added qemu-ebpf-rss-helper - simple helper that loads eBPF
+>> >     >>> context and passes fds through unix socket.
+>> >     >>> Libvirt should call the helper and pass fds to qemu through
+>> >     >>> "ebpf_rss_fds" property.
+>> >     >>>
+>> >     >>> Added explicit target OS check for libbpf dependency in meson.
+>> >     >>> eBPF RSS works only with Linux TAP, so there is no reason to
+>> >     >>> build eBPF loader/helper for non-Linux.
+>> >     >>>
+>> >     >>> Overall, libvirt process should not be aware of the "interface=
+"
+>> >     >>> of eBPF RSS, it will not be aware of eBPF maps/program "type"
+>> and
+>> >     >>> their quantity.
+>> >     >> I'm not sure this is the best. We have several examples that
+>> >     let libvirt
+>> >     >> to involve. Examples:
+>> >     >>
+>> >     >> 1) create TAP device (and the TUN_SETIFF)
+>> >     >>
+>> >     >> 2) open vhost devices
+>> >     >>
+>> >     >>
+>> >     >>>    That's why qemu and the helper should be from
+>> >     >>> the same build and be "synchronized". Technically each qemu ma=
+y
+>> >     >>> have its own helper. That's why "query-helper-paths" qmp comma=
+nd
+>> >     >>> was added. Qemu should return the path to the helper that suit=
+s
+>> >     >>> and libvirt should use "that" helper for "that" emulator.
+>> >     >>>
+>> >     >>> qmp sample:
+>> >     >>> C: { "execute": "query-helper-paths" }
+>> >     >>> S: { "return": [
+>> >     >>>        {
+>> >     >>>          "name": "qemu-ebpf-rss-helper",
+>> >     >>>          "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
+>> >     >>>        }
+>> >     >>>       ]
+>> >     >>>      }
+>> >     >> I think we need an example on the detail steps for how libvirt =
+is
+>> >     >> expected to use this.
+>> >     > The preliminary patches for libvirt are at
+>> >     > https://github.com/daynix/libvirt/tree/RSSv1
+>> >     <https://github.com/daynix/libvirt/tree/RSSv1>
+>> >
+>> >
+>> >     Will have a look but it would be better if the assumption of the
+>> >     management is detailed here to ease the reviewers.
+>> >
+>> >     Thanks
+>> >
+>> >
+>> >     >
+>> >
+>>
+>>
 
+--000000000000511adb05c50fd05c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Jason,</div><div> I&#39;ve checked &quot;kernel.un=
+privileged_bpf_disabled=3D0&quot; on Fedora,=C2=A0 Ubuntu, and Debian - no =
+need permissions to update BPF maps.</div></div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 16, 2021 at 1:18 AM A=
+ndrew Melnichenko &lt;<a href=3D"mailto:andrew@daynix.com" target=3D"_blank=
+">andrew@daynix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div dir=3D"ltr"><div>Hi, <br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">I may miss something.<br>
+<br>
+But RSS requires to update the map. This won&#39;t work if you don&#39;t gr=
+ant <br>
+any permission to qemu.<br>
+<br>
+Thanks<span><br></span></blockquote><div><br></div><div>Partly - with &quot=
+;kernel.unprivileged_bpf_disabled=3D0&quot; capabilities is not required to=
+ update maps.</div><div>With &quot;kernel.unprivileged_bpf_disabled=3D1&quo=
+t; - setting maps will fail(without CAP_BPF) and &quot;in-qemu&quot; RSS wi=
+ll be used.<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Jun 15, 2021 at 12:13 PM Jason Wang &lt;<a hre=
+f=3D"mailto:jasowang@redhat.com" target=3D"_blank">jasowang@redhat.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+=E5=9C=A8 2021/6/12 =E4=B8=8A=E5=8D=8812:49, Andrew Melnichenko =E5=86=99=
+=E9=81=93:<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0So I think the series is for unprivileged_bpf disab=
+led. If I&#39;m not<br>
+&gt;=C2=A0 =C2=A0 =C2=A0wrong, I guess the policy is to grant CAP_BPF but d=
+o fine grain<br>
+&gt;=C2=A0 =C2=A0 =C2=A0checks<br>
+&gt;=C2=A0 =C2=A0 =C2=A0via LSM.<br>
+&gt;<br>
+&gt;<br>
+&gt; The main idea is to run eBPF RSS with qemu without any permission.<br>
+&gt; Libvirt should handle everything and pass proper eBPF file descriptors=
+.<br>
+&gt; For current eBPF RSS, CAP_SYS_ADMIN(bypass some limitations)<br>
+&gt; also required, and in the future may be other permissions.<br>
+<br>
+<br>
+I may miss something.<br>
+<br>
+But RSS requires to update the map. This won&#39;t work if you don&#39;t gr=
+ant <br>
+any permission to qemu.<br>
+<br>
+Thanks<br>
+<br>
+<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0I&#39;m not sure this is the best. We have several =
+examples that let<br>
+&gt;=C2=A0 =C2=A0 =C2=A0libvirt<br>
+&gt;=C2=A0 =C2=A0 =C2=A0to involve. Examples:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A01) create TAP device (and the TUN_SETIFF)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A02) open vhost devices<br>
+&gt;<br>
+&gt;<br>
+&gt; Technically TAP/vhost not related to a particular qemu emulator. So co=
+mmon<br>
+&gt; TAP creation should fit any modern qemu. eBPF fds(program and maps) sh=
+ould<br>
+&gt; suit the interface for current qemu, g.e. some qemu builds may have <b=
+r>
+&gt; different map<br>
+&gt; structures or their count. It&#39;s necessary that the qemu got fds <b=
+r>
+&gt; prepared by the helper<br>
+&gt; that was built with the qemu.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0I think we need an example on the detail steps for =
+how libvirt is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0expected to use this.<br>
+&gt;<br>
+&gt;<br>
+&gt; The simplified workflow looks like this:<br>
+&gt;<br>
+&gt;=C2=A0 1. Libvirt got &quot;emulator&quot; from domain document.<br>
+&gt;=C2=A0 2. Libvirt queries for qemu capabilities.<br>
+&gt;=C2=A0 3. One of the capabilities is &quot;qemu-ebpf-rss-helper&quot; p=
+ath(if present).<br>
+&gt;=C2=A0 4. On NIC preparation Libvirt checks for virtio-net + rss config=
+urations.<br>
+&gt;=C2=A0 5. If required, the &quot;qemu-ebpf-rss-helper&quot; called and =
+fds are<br>
+&gt;=C2=A0 =C2=A0 =C2=A0received through unix fd.<br>
+&gt;=C2=A0 6. Those fds are for eBPF RSS, which passed to child process - q=
+emu.<br>
+&gt;=C2=A0 7. Qemu launched with virtio-net-pci property &quot;rss&quot; an=
+d &quot;ebpf_rss_fds&quot;.<br>
+&gt;<br>
+&gt;<br>
+&gt; On Fri, Jun 11, 2021 at 8:36 AM Jason Wang &lt;<a href=3D"mailto:jasow=
+ang@redhat.com" target=3D"_blank">jasowang@redhat.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">ja=
+sowang@redhat.com</a>&gt;&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=E5=9C=A8 2021/6/10 =E4=B8=8B=E5=8D=882:55, Yuri Be=
+nditovich =E5=86=99=E9=81=93:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; On Thu, Jun 10, 2021 at 9:41 AM Jason Wang&lt;=
+<a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">jasowang@redhat.co=
+m</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:jasowang@redhat.com" t=
+arget=3D"_blank">jasowang@redhat.com</a>&gt;&gt;=C2=A0 wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; =E5=9C=A8 2021/6/9 =E4=B8=8B=E5=8D=886:04,=
+ Andrew Melnychenko =E5=86=99=E9=81=93:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; Libvirt usually launches qemu with str=
+ict permissions.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; To enable eBPF RSS steering, qemu-ebpf=
+-rss-helper was added.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; A silly question:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Kernel had the following permission checks=
+ in bpf syscall:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sysc=
+tl_unprivileged_bpf_disabled &amp;&amp; !bpf_capable())<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return -EPERM;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; ...<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0er=
+r =3D security_bpf(cmd, &amp;attr, size);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if=
+ (err &lt; 0)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0return err;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; So if I understand the code correctly, bpf=
+ syscall can only be<br>
+&gt;=C2=A0 =C2=A0 =C2=A0done if:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; 1) unprivileged_bpf is enabled or<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; 2) has the capability=C2=A0 and pass the L=
+SM checks<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; So I think the series is for unprivileged_=
+bpf disabled. If I&#39;m not<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; wrong, I guess the policy is to grant CAP_=
+BPF but do fine grain<br>
+&gt;=C2=A0 =C2=A0 =C2=A0checks<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; via LSM.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; If this is correct, need to describe it in=
+ the commit log.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; Added property &quot;ebpf_rss_fds&quot=
+; for &quot;virtio-net&quot; that allows to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; initialize eBPF RSS context with passe=
+d program &amp; maps fds.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; Added qemu-ebpf-rss-helper - simple he=
+lper that loads eBPF<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; context and passes fds through unix so=
+cket.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; Libvirt should call the helper and pas=
+s fds to qemu through<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; &quot;ebpf_rss_fds&quot; property.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; Added explicit target OS check for lib=
+bpf dependency in meson.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; eBPF RSS works only with Linux TAP, so=
+ there is no reason to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; build eBPF loader/helper for non-Linux=
+.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; Overall, libvirt process should not be=
+ aware of the &quot;interface&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; of eBPF RSS, it will not be aware of e=
+BPF maps/program &quot;type&quot; and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; their quantity.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; I&#39;m not sure this is the best. We have=
+ several examples that<br>
+&gt;=C2=A0 =C2=A0 =C2=A0let libvirt<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; to involve. Examples:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; 1) create TAP device (and the TUN_SETIFF)<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; 2) open vhost devices<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;=C2=A0 =C2=A0 That&#39;s why qemu and t=
+he helper should be from<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; the same build and be &quot;synchroniz=
+ed&quot;. Technically each qemu may<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; have its own helper. That&#39;s why &q=
+uot;query-helper-paths&quot; qmp command<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; was added. Qemu should return the path=
+ to the helper that suits<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; and libvirt should use &quot;that&quot=
+; helper for &quot;that&quot; emulator.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; qmp sample:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; C: { &quot;execute&quot;: &quot;query-=
+helper-paths&quot; }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; S: { &quot;return&quot;: [<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quo=
+t;name&quot;: &quot;qemu-ebpf-rss-helper&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quo=
+t;path&quot;: &quot;/usr/local/libexec/qemu-ebpf-rss-helper&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; I think we need an example on the detail s=
+teps for how libvirt is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; expected to use this.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; The preliminary patches for libvirt are at<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; <a href=3D"https://github.com/daynix/libvirt/t=
+ree/RSSv1" rel=3D"noreferrer" target=3D"_blank">https://github.com/daynix/l=
+ibvirt/tree/RSSv1</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://github.com/daynix/libvirt/tr=
+ee/RSSv1" rel=3D"noreferrer" target=3D"_blank">https://github.com/daynix/li=
+bvirt/tree/RSSv1</a>&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Will have a look but it would be better if the assu=
+mption of the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0management is detailed here to ease the reviewers.<=
+br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Thanks<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000511adb05c50fd05c--
 
