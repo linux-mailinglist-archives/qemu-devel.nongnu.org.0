@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CE33AC7EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 11:44:56 +0200 (CEST)
-Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8B93AC80E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 11:53:27 +0200 (CEST)
+Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luB3X-0006Nl-9m
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 05:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
+	id 1luBBm-0000dd-CW
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 05:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luB2m-0005hZ-6N
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:44:08 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:41481)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luB2k-0001Oq-IS
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:44:07 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- y13-20020a1c4b0d0000b02901c20173e165so5418732wma.0
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 02:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UwH3qskGZa+I9zcwxn7f80kKVMYpm8ZJv0OL3WDjD5I=;
- b=fP2sUPGExFddBPR2obcNpmAc8W6IYVO8bIvzC5tTuUrCZJ+Uf+YbX/kBgqZhatzdr0
- m27eWbvO5GCXc+F6d8qHF/cWMK5QngPA6tF9IVXv05lcwrilkkKZKMhYTQV9Fj0z9B+i
- eKqWtgCfsvyI54jlLwc+jBqj65L/lVTcCqGJaArWbeBMOcN7LxDc7c7ENR+TWbAinsre
- WcbLeGgb2CyFfrMqeho22FSu8olp8MLPng2eTgNHhjzhSXqukFUT2PjYTWcp+vxAcGY6
- 8AFDqu2rM5Z2vMbH0U0qf2203GSsYcAxKj9+pJ6OnpxzfoX/uSgrm5l06fvVjUzFmD5f
- +kUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UwH3qskGZa+I9zcwxn7f80kKVMYpm8ZJv0OL3WDjD5I=;
- b=aB+J1JrQW1bSo2Ga334szeH1oBTpyltjzanXtuJkaJxaPXYXMkxAUczY0trevUULug
- PMjfPkHrzZ82JBqaZsZMHm/6TYRujqtovzpngtjz6ZBsQxBUmhqn7mixGdll/K+ZTMlS
- PmGjxOOkB9bRlRGdKEq4ByBmpRz/1f+vwTZc2LSOCPCp7e2iSzeqw+i16l/XUufLLGhj
- 6/Wz499RcxOPsGXNYO/NxBsPomr+Fr9QzJNKkJJ4vMsFaQsSFBNuifsAISjaDgQkhxxO
- 5/VfV31Ebz8lnFqYyPjxHOAylstrg94I9UaY4G6oMC0o/byAJA1+mTf5QtRqBwYYn/7k
- PSOg==
-X-Gm-Message-State: AOAM532UQdIUjPh9aRE2ECq6CNpsJJU7ituFO/0TU5uSX4BuJT11mtdj
- Tw2e00c0rlirui2iCXu8Y2Y=
-X-Google-Smtp-Source: ABdhPJxIEflH2wge6oVssTO4gIi+vromoe6HYmeAICm62EpSLvUc+tBp74E94r5Llftsi9N8+AD9Pw==
-X-Received: by 2002:a7b:ce0a:: with SMTP id m10mr2609735wmc.149.1624009444707; 
- Fri, 18 Jun 2021 02:44:04 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id a9sm7890100wrv.37.2021.06.18.02.44.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 02:44:04 -0700 (PDT)
-Subject: Re: [PATCH 7/9] target/mips: Remove microMIPS BPOSGE32 / BPOSGE64
- unuseful cases
-To: qemu-devel@nongnu.org
-References: <20210617174323.2900831-1-f4bug@amsat.org>
- <20210617174323.2900831-8-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <08ed8693-6332-bb6b-396e-1dd3f49c8235@amsat.org>
-Date: Fri, 18 Jun 2021 11:44:03 +0200
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1luBAT-0008G7-3e
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:52:05 -0400
+Received: from redisdead.crans.org ([185.230.79.39]:52110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1luBAP-0007X3-Jd
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:52:04 -0400
+Received: from [IPv6:2a02:8428:4db:b001:bfbb:bd12:fd7f:a169]
+ (2a02-8428-04db-b001-bfbb-bd12-fd7f-a169.rev.sfr.net
+ [IPv6:2a02:8428:4db:b001:bfbb:bd12:fd7f:a169])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id 0E24F22F;
+ Fri, 18 Jun 2021 11:51:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1624009919; bh=39VI25vFPeogmbVVBz82e2YadmQcXrefFNp6PIeNJGo=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=CGrVo3tstvQ6iW0c79LT8Gkem+s/OOr45/SeEPPrrOfO76cCh2mavphiPyjdiIgZr
+ 19G9JgserJJwPbBmaR8zqGosg+BGF/24hAJVWkRwpvoYYPny8x5OfFUNGXGWswJ6OU
+ b0+nK+u0S35AB5A7R881Jc6ZHaZhIIRn9v2ohL4vkstxRM2xR/Nbl5Q9LTaYw9Y9Dc
+ oDmGZEpe2hKUZFWSswnshYIl/FpK0r6QDQukf9FhQ9xk0jgUgE+RBV5Hedh3zlo9pB
+ jeRQDqfdNltlaAhuaxWnagxWAWu0xlCsUCD2rWtlgujYRYp3kCDLbyJyM93E8w04D5
+ yr0weN+2dtEPGl1VqFV1x6btE6inQWHW3jFFjoyGvKfFeXdHxtwOjKOe9nI1o/MlRP
+ 9gM+X80MXIFr+o66sQB9i3Tfdv5s/0htMje6UQY0InEvw7yP/8bRm8f9sW8hT0aNP+
+ aDsgebunySd7bjLXhbmzi6qGMcHPXSa1SofZqoESCZj9Y6Hy30NmUmzNwwQ8Fh7Nwo
+ /oLbtfhc34UE3SOVuW5pJgupblK9BS8fwULgI2h6pyMTtAUMiJn0BRIsYa+mlRxvPb
+ h1C2A0hO1147uxl0HJHoEfE6JPZuw84V/UY+22fZNfnPm970Q5+GUnNefZwWVAjF4z
+ DBqZSPeEJ6qxpKvziFHXUHR8=
+Subject: Re: [PATCH v2 0/2] execlog TCG plugin to log instructions
+To: "open list : All patches CC here" <qemu-devel@nongnu.org>
+References: <20210618091101.2802534-1-erdnaxe@crans.org>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Message-ID: <f1dbdf1f-e326-d1e2-b83e-61d57d181ab5@crans.org>
+Date: Fri, 18 Jun 2021 11:51:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210617174323.2900831-8-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.254,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210618091101.2802534-1-erdnaxe@crans.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="K97kVlFuxzFsWrJhinr3gYnEC4WX4FcVc"
+Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
+ helo=redisdead.crans.org
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.254,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,52 +73,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 7:43 PM, Philippe Mathieu-Daudé wrote:
-> These switch cases for the microMIPS BPOSGE32 / BPOSGE64 opcodes have
-> been added commit 3c824109da0 ("target-mips: microMIPS ASE support").
-> More than 11 years later it is safe to assume there won't be added
-> soon. The cases fall back to the default which generates a RESERVED
-> INSTRUCTION, so it is safe to remove them.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--K97kVlFuxzFsWrJhinr3gYnEC4WX4FcVc
+Content-Type: multipart/mixed; boundary="ofcJMou8eJAPds5D8cGpryNgdKYQGSaTl";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: "open list : All patches CC here" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Message-ID: <f1dbdf1f-e326-d1e2-b83e-61d57d181ab5@crans.org>
+Subject: Re: [PATCH v2 0/2] execlog TCG plugin to log instructions
+References: <20210618091101.2802534-1-erdnaxe@crans.org>
+In-Reply-To: <20210618091101.2802534-1-erdnaxe@crans.org>
 
-I'll amend for clarity:
+--ofcJMou8eJAPds5D8cGpryNgdKYQGSaTl
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-"Functionally speaking, the patch is a no-op."
+Supersedes: <20210614090116.816833-1-erdnaxe@crans.org>
 
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/mips/tcg/translate.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-> index 47c7705f051..5d571d83c54 100644
-> --- a/target/mips/tcg/translate.c
-> +++ b/target/mips/tcg/translate.c
-> @@ -14077,8 +14077,6 @@ enum {
->      BGEZALS = 0x13,
->      BC2F = 0x14,
->      BC2T = 0x15,
-> -    BPOSGE64 = 0x1a,
-> -    BPOSGE32 = 0x1b,
->      /* These overlap and are distinguished by bit16 of the instruction */
->      BC1F = 0x1c,
->      BC1T = 0x1d,
-> @@ -16122,10 +16120,6 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
->                  generate_exception_err(ctx, EXCP_CpU, 1);
->              }
->              break;
-> -        case BPOSGE64:
-> -        case BPOSGE32:
-> -            /* MIPS DSP: not implemented */
-> -            /* Fall through */
->          default:
->              MIPS_INVAL("pool32i");
->              gen_reserved_instruction(ctx);
-> 
+On 6/18/21 11:10 AM, Alexandre Iooss wrote:
+> execlog is a plugin that logs executed instructions with some useful
+> metadata including memory access.
+>=20
+> The output of the plugin is designed to be usable with other tools. For=
+
+> example it could be used with a side-channel leakage model to create
+> side-channel traces from QEMU for security evaluation.
+>=20
+> Changes since v1:
+>   - The output is now easier to parse.
+>   - Use QEMU logging API rather than FILE* to write output.
+>   - Don't reject memory information in user mode.
+>   - Merge memory information with instruction execution. Now one line
+>     means one instruction.
+>   - Add documentation.
+>=20
+> Alexandre Iooss (2):
+>    contrib/plugins: add execlog to log instruction execution and memory=
+
+>      access
+>    docs/devel: tvg-plugins: add execlog plugin description
+>=20
+>   MAINTAINERS                |   1 +
+>   contrib/plugins/Makefile   |   1 +
+>   contrib/plugins/execlog.c  | 123 ++++++++++++++++++++++++++++++++++++=
++
+>   docs/devel/tcg-plugins.rst |  22 +++++++
+>   4 files changed, 147 insertions(+)
+>   create mode 100644 contrib/plugins/execlog.c
+>=20
+
+--=20
+Alexandre
+
+
+--ofcJMou8eJAPds5D8cGpryNgdKYQGSaTl--
+
+--K97kVlFuxzFsWrJhinr3gYnEC4WX4FcVc
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmDMbL0FAwAAAAAACgkQbHknjz/NzAL+
+Cg/8DASZyFt0wK8C3E8gLAeQWeoPxDxxxGWGri5pgBQMF8nBgC/opgICuXB5RXhl4Y7Ptol3lYaw
+aA7I389xQZ/UfbA+Cfn2uQ0Ax5sNYvwz0gvsDz9q+rTWQHzL6k5IE2Zl9kzd/Q7URV3F58EAaJAY
+2CAlNLD4dOAmNKEEWTodixmo/vmsQVlRmkGYYxUORwUozEf+OSCxrb3lDVh9xQVeKjQNMgV2dxRw
+Ng5RCxumbC2oJtoSczwbXZlU3FDuiUeRo7455UAJaJC4AAyZIV4ed+/z2CRBfLcRBdymNsBxtt2q
+n5fUjDXO/1UUfdfwntT3AMc0YKMpWwvL1vrLCbZ/S60PmV4LVeVVGR1zB3dDZA9dDyaOyUETC492
+yE8BgklDRCqx9GBw7RvLSZig7rYgXedyidqEtYFkyTGPG/k+IcUzhAByVopNBdEV/us6P0Vwn2l/
+V8Mu/H8x8E7AjNku3X2DbY1IbPa+jsHTSSFGeVXstSVkGCnEFagvwcjYAcZeSXh/h70Mv3++3gBM
+btmjEeULkOKG2EYbzNBiRP7QZaTYCkUv90tKhp+cGAztiZtiUqTQPzK06zv6BMgCD6r3aTwC78/+
+CJ+6iV3fAJago8JoskbccNNqXyKN9bPdioKC7CRzbCY3B3YGkROteXEsZm/Y1uuBjibCphu8VjXM
+TUU=
+=jJbg
+-----END PGP SIGNATURE-----
+
+--K97kVlFuxzFsWrJhinr3gYnEC4WX4FcVc--
 
