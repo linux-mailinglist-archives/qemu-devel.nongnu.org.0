@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3F33ACEF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:29:50 +0200 (CEST)
-Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460103ACF1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:32:40 +0200 (CEST)
+Received: from localhost ([::1]:35092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luGRJ-0001XD-A7
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39248)
+	id 1luGU3-0007QB-8q
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:32:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1luGQ5-00079Y-7S
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:33 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:34144
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1luGQ1-0008Ls-RZ
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:32 -0400
-HMM_SOURCE_IP: 172.18.0.218:58570.1979376666
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.39?logid-c4a34c2761364744ac7f6e25c2e48997
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 6BC2728008E;
- Fri, 18 Jun 2021 23:28:29 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id ffe9699fcd9e418a92ba53cb1e9139c3 for
- qemu-devel@nongnu.org; Fri Jun 18 23:28:28 2021
-X-Transaction-ID: ffe9699fcd9e418a92ba53cb1e9139c3
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 6/6] migration/dirtyrate: implement dirty-ring dirtyrate
- calculation
-Date: Fri, 18 Jun 2021 23:32:07 +0800
-Message-Id: <98a2f333668f27cfd73e97e1f0e220b80dc18679.1624028590.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1624028590.git.huangy81@chinatelecom.cn>
-References: <cover.1624028590.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1624028590.git.huangy81@chinatelecom.cn>
-References: <cover.1624028590.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1luGR4-0002cn-IC
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:29:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1luGR1-0000Uk-GQ
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:29:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1luGQx-0003sA-0c
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:29:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EF0B32E8085
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:29:26 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 18 Jun 2021 15:19:10 -0000
+From: Thomas Huth <1581334@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=ceph; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=linux; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chenwqin jdillaman jdurgin serge-hallyn th-huth
+X-Launchpad-Bug-Reporter: chenwqin (chenwqin)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20160513064148.21523.39352.malonedeb@wampee.canonical.com>
+Message-Id: <162402955066.17261.1917997991877642620.malone@gac.canonical.com>
+Subject: [Bug 1581334] Re: qemu + librbd takes high %sy cpu under high random
+ io workload
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: 4fa30575bfa392827c141be3cf2a85555ce56fa1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,429 +73,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1581334 <1581334@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Since there wasn't a reply within the last two months, I'm assuming this
+doesn't affect QEMU anymore, thus I'm closing this ticket for QEMU now.
 
-use dirty ring feature to implement dirtyrate calculation.
+** Changed in: qemu
+       Status: Incomplete =3D> Won't Fix
 
-introduce mode option in qmp calc_dirty_rate to specify what
-method should be used when calculating dirtyrate, either
-page-sampling or dirty-ring should be passed.
+-- =
 
-introduce "dirty_ring:-r" option in hmp calc_dirty_rate to
-indicate dirty ring method should be used for calculation.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1581334
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- hmp-commands.hx        |   7 +-
- migration/dirtyrate.c  | 207 ++++++++++++++++++++++++++++++++++++++++++++++---
- migration/trace-events |   2 +
- qapi/migration.json    |  16 +++-
- 4 files changed, 217 insertions(+), 15 deletions(-)
+Title:
+  qemu + librbd takes high %sy cpu under high random io workload
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 8e45bce..f7fc9d7 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1738,8 +1738,9 @@ ERST
- 
-     {
-         .name       = "calc_dirty_rate",
--        .args_type  = "second:l,sample_pages_per_GB:l?",
--        .params     = "second [sample_pages_per_GB]",
--        .help       = "start a round of guest dirty rate measurement",
-+        .args_type  = "dirty_ring:-r,second:l,sample_pages_per_GB:l?",
-+        .params     = "[-r] second [sample_pages_per_GB]",
-+        .help       = "start a round of guest dirty rate measurement (using -d to"
-+                      "\n\t\t\t specify dirty ring as the method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index b8f61cc..3c8c5e2 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -16,6 +16,7 @@
- #include "cpu.h"
- #include "exec/ramblock.h"
- #include "qemu/rcu_queue.h"
-+#include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
- #include "ram.h"
- #include "trace.h"
-@@ -23,9 +24,19 @@
- #include "monitor/hmp.h"
- #include "monitor/monitor.h"
- #include "qapi/qmp/qdict.h"
-+#include "sysemu/kvm.h"
-+#include "sysemu/runstate.h"
-+#include "exec/memory.h"
-+
-+typedef struct DirtyPageRecord {
-+    uint64_t start_pages;
-+    uint64_t end_pages;
-+} DirtyPageRecord;
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
- static struct DirtyRateStat DirtyStat;
-+static DirtyRateMeasureMode dirtyrate_mode =
-+                DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
- 
- static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
- {
-@@ -70,18 +81,37 @@ static int dirtyrate_set_state(int *state, int old_state, int new_state)
- 
- static struct DirtyRateInfo *query_dirty_rate_info(void)
- {
-+    int i;
-     int64_t dirty_rate = DirtyStat.dirty_rate;
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
--
--    if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
--        info->has_dirty_rate = true;
--        info->dirty_rate = dirty_rate;
--    }
-+    DirtyRateVcpuList *head = NULL, **tail = &head;
- 
-     info->status = CalculatingState;
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
-     info->sample_pages = DirtyStat.sample_pages;
-+    info->mode = dirtyrate_mode;
-+
-+    if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-+        info->has_dirty_rate = true;
-+        info->dirty_rate = dirty_rate;
-+
-+        if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+            /*
-+             * set sample_pages with 0 to indicate page sampling
-+             * isn't enabled
-+             **/
-+            info->sample_pages = 0;
-+            info->has_vcpu_dirty_rate = true;
-+            for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
-+                DirtyRateVcpu *rate = g_malloc0(sizeof(DirtyRateVcpu));
-+                rate->id = DirtyStat.dirty_ring.rates[i].id;
-+                rate->dirty_rate = DirtyStat.dirty_ring.rates[i].dirty_rate;
-+                QAPI_LIST_APPEND(tail, rate);
-+            }
-+            info->vcpu_dirty_rate = head;
-+        }
-+    }
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
- 
-@@ -111,6 +141,15 @@ static void init_dirtyrate_stat(int64_t start_time,
-     }
- }
- 
-+static void cleanup_dirtyrate_stat(struct DirtyRateConfig config)
-+{
-+    /* last calc-dirty-rate qmp use dirty ring mode */
-+    if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        free(DirtyStat.dirty_ring.rates);
-+        DirtyStat.dirty_ring.rates = NULL;
-+    }
-+}
-+
- static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
- {
-     DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
-@@ -345,7 +384,96 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
-     return true;
- }
- 
--static void calculate_dirtyrate(struct DirtyRateConfig config)
-+static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
-+                                     CPUState *cpu, bool start)
-+{
-+    if (start) {
-+        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
-+    } else {
-+        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
-+    }
-+}
-+
-+static void dirtyrate_global_dirty_log_start(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static void dirtyrate_global_dirty_log_stop(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_stop(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
-+{
-+    uint64_t memory_size_MB;
-+    int64_t time_s;
-+    uint64_t increased_dirty_pages =
-+        dirty_pages.end_pages - dirty_pages.start_pages;
-+
-+    memory_size_MB = (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
-+    time_s = DirtyStat.calc_time;
-+
-+    return memory_size_MB / time_s;
-+}
-+
-+static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
-+{
-+    CPUState *cpu;
-+    int64_t msec = 0;
-+    int64_t start_time;
-+    uint64_t dirtyrate = 0;
-+    uint64_t dirtyrate_sum = 0;
-+    DirtyPageRecord *dirty_pages;
-+    int nvcpu = 0;
-+    int i = 0;
-+
-+    CPU_FOREACH(cpu) {
-+        nvcpu++;
-+    }
-+
-+    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
-+
-+    DirtyStat.dirty_ring.nvcpu = nvcpu;
-+    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
-+
-+    dirtyrate_global_dirty_log_start();
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, true);
-+    }
-+
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    DirtyStat.start_time = start_time / 1000;
-+
-+    msec = config.sample_period_seconds * 1000;
-+    msec = set_sample_page_period(msec, start_time);
-+    DirtyStat.calc_time = msec / 1000;
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, false);
-+    }
-+
-+    dirtyrate_global_dirty_log_stop();
-+
-+    for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
-+        dirtyrate = do_calculate_dirtyrate_vcpu(dirty_pages[i]);
-+        trace_dirtyrate_do_calculate_vcpu(i, dirtyrate);
-+
-+        DirtyStat.dirty_ring.rates[i].id = i;
-+        DirtyStat.dirty_ring.rates[i].dirty_rate = dirtyrate;
-+        dirtyrate_sum += dirtyrate;
-+    }
-+
-+    DirtyStat.dirty_rate = dirtyrate_sum;
-+    free(dirty_pages);
-+}
-+
-+static void calculate_dirtyrate_sample_vm(struct DirtyRateConfig config)
- {
-     struct RamblockDirtyInfo *block_dinfo = NULL;
-     int block_count = 0;
-@@ -376,6 +504,17 @@ out:
-     free_ramblock_dirty_info(block_dinfo, block_count);
- }
- 
-+static void calculate_dirtyrate(struct DirtyRateConfig config)
-+{
-+    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        calculate_dirtyrate_dirty_ring(config);
-+    } else {
-+        calculate_dirtyrate_sample_vm(config);
-+    }
-+
-+    trace_dirtyrate_calculate(DirtyStat.dirty_rate);
-+}
-+
- void *get_dirtyrate_thread(void *arg)
- {
-     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-@@ -401,8 +540,12 @@ void *get_dirtyrate_thread(void *arg)
-     return NULL;
- }
- 
--void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
--                         int64_t sample_pages, Error **errp)
-+void qmp_calc_dirty_rate(int64_t calc_time,
-+                         bool has_sample_pages,
-+                         int64_t sample_pages,
-+                         bool has_mode,
-+                         DirtyRateMeasureMode mode,
-+                         Error **errp)
- {
-     static struct DirtyRateConfig config;
-     QemuThread thread;
-@@ -424,6 +567,15 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-         return;
-     }
- 
-+    if (!has_mode) {
-+        mode =  DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-+    }
-+
-+    if (has_sample_pages && mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        error_setg(errp, "either sample-pages or dirty-ring can be specified.");
-+        return;
-+    }
-+
-     if (has_sample_pages) {
-         if (!is_sample_pages_valid(sample_pages)) {
-             error_setg(errp, "sample-pages is out of range[%d, %d].",
-@@ -436,6 +588,16 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-     }
- 
-     /*
-+     * dirty ring mode only works when kvm dirty ring is enabled.
-+     */
-+    if ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
-+        !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty ring is disabled, use sample-pages method "
-+                         "or remeasure later.");
-+        return;
-+    }
-+
-+    /*
-      * Init calculation state as unstarted.
-      */
-     ret = dirtyrate_set_state(&CalculatingState, CalculatingState,
-@@ -447,7 +609,15 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
- 
-     config.sample_period_seconds = calc_time;
-     config.sample_pages_per_gigabytes = sample_pages;
--    config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-+    config.mode = mode;
-+
-+    cleanup_dirtyrate_stat(config);
-+
-+    /*
-+     * update dirty rate mode so that we can figure out what mode has
-+     * been used in last calculation
-+     **/
-+    dirtyrate_mode = mode;
- 
-     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-     init_dirtyrate_stat(start_time, config);
-@@ -473,12 +643,24 @@ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
-                    info->sample_pages);
-     monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
-                    info->calc_time);
-+    monitor_printf(mon, "Mode: %s\n",
-+                   DirtyRateMeasureMode_str(info->mode));
-     monitor_printf(mon, "Dirty rate: ");
-     if (info->has_dirty_rate) {
-         monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
-+        if (info->has_vcpu_dirty_rate) {
-+            DirtyRateVcpuList *rate, *head = info->vcpu_dirty_rate;
-+            for (rate = head; rate != NULL; rate = rate->next) {
-+                monitor_printf(mon, "vcpu[%"PRIi64"], Dirty rate: %"PRIi64
-+                               " (MB/s)\n", rate->value->id,
-+                               rate->value->dirty_rate);
-+            }
-+        }
-     } else {
-         monitor_printf(mon, "(not ready)\n");
-     }
-+
-+    qapi_free_DirtyRateVcpuList(info->vcpu_dirty_rate);
-     g_free(info);
- }
- 
-@@ -487,6 +669,10 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-     int64_t sec = qdict_get_try_int(qdict, "second", 0);
-     int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
-     bool has_sample_pages = (sample_pages != -1);
-+    bool dirty_ring = qdict_get_try_bool(qdict, "dirty_ring", false);
-+    DirtyRateMeasureMode mode =
-+        (dirty_ring ? DIRTY_RATE_MEASURE_MODE_DIRTY_RING :
-+         DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING);
-     Error *err = NULL;
- 
-     if (!sec) {
-@@ -494,7 +680,8 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
--    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
-+    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, true,
-+                        mode, &err);
-     if (err) {
-         hmp_handle_error(mon, err);
-         return;
-diff --git a/migration/trace-events b/migration/trace-events
-index 860c4f4..3186929 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -330,6 +330,8 @@ get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock n
- calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
- skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
- find_page_matched(const char *idstr) "ramblock %s addr or size changed"
-+dirtyrate_calculate(int64_t dirtyrate) "dirty rate: %" PRIi64 " MB/s"
-+dirtyrate_do_calculate_vcpu(int idx, uint64_t rate) "vcpu[%d]: %"PRIu64 " MB/s"
- 
- # block.c
- migration_block_init_shared(const char *blk_device_name) "Start migration for %s with shared base image"
-diff --git a/qapi/migration.json b/qapi/migration.json
-index c464bef..de35528 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1773,6 +1773,12 @@
- # @sample-pages: page count per GB for sample dirty pages
- #                the default value is 512 (since 6.1)
- #
-+# @mode: mode containing method of calculate dirtyrate includes
-+#        'page-sampling' and 'dirty-ring' (Since 6.1)
-+#
-+# @vcpu-dirty-rate: dirtyrate for each vcpu if dirty-ring
-+#                   mode specified (Since 6.1)
-+#
- # Since: 5.2
- #
- ##
-@@ -1781,7 +1787,9 @@
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
-            'calc-time': 'int64',
--           'sample-pages': 'uint64'} }
-+           'sample-pages': 'uint64',
-+           'mode': 'DirtyRateMeasureMode',
-+           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ] } }
- 
- ##
- # @calc-dirty-rate:
-@@ -1793,6 +1801,9 @@
- # @sample-pages: page count per GB for sample dirty pages
- #                the default value is 512 (since 6.1)
- #
-+# @mode: mechanism of calculating dirtyrate includes
-+#        'page-sampling' and 'dirty-ring' (Since 6.1)
-+#
- # Since: 5.2
- #
- # Example:
-@@ -1801,7 +1812,8 @@
- #
- ##
- { 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64',
--                                         '*sample-pages': 'int'} }
-+                                         '*sample-pages': 'int',
-+                                         '*mode': 'DirtyRateMeasureMode'} }
- 
- ##
- # @query-dirty-rate:
--- 
-1.8.3.1
+Status in Ceph:
+  New
+Status in Linux:
+  New
+Status in QEMU:
+  Won't Fix
 
+Bug description:
+  I got an IO problem. When running Qemu + ceph(use librbd), and do a rando=
+m IO benchmark or some high load random IO test, it will exhaust all my hos=
+t cpu on %sy cpu.
+  It doesn=E2=80=99t happen all the time, but when it appear it will reprod=
+uce every time I start a random IO benchmark(test with Fio).
+  And the only way to fix the problem is shutdown my vm and start it, but t=
+he problem will happen again with high random IO load.
+
+  Some information:
+      Vendor      : HP
+      Product     : HP ProLiant BL460c Gen9
+      Kernel      : 3.16.0-4-amd64
+      Disto       : Debian
+      Version     : 8.4
+      Arch        : amd64
+      Qemu        : 2.1 ~ 2.6 (Yes, I already test the latest qemu2.6 versi=
+on, but still got the problem)
+      Ceph        : Hammer 0.94.5
+      Librbd      : 0.94.5 ~ 10.2 (I rebuild librbd with ceph 10.2 source c=
+ode, but the problem still here)
+      Qemu config : cache=3Dnone
+      Qemu cpu&mem: 4core, 8GB
+
+  How can i reproduce the problem?
+
+  while :; do bash randwrite.sh ; sleep 3600; done >test.log 2>&1 &
+  (Sleep 3600 is the key to reproduce my problem. I don=E2=80=99t known how=
+ long sleep suit for reproduce, but one hour sleep is enough. the problem w=
+ill easy reproduce after a long sleep, if i keep benchmark running without =
+sleep, i can't reproduce it)
+
+  My randwrite.sh script
+  ----------------------------------------------
+  #!/bin/sh
+  sync
+  echo 3 > /proc/sys/vm/drop_caches
+
+  FILENAME=3D/dev/vdc
+  RUNTIME=3D100
+  BLOCKSIZE=3D4K
+  IOENGINE=3Dlibaio
+  RESULTFILE=3Dfio-randwrite.log
+  IODEPTH=3D32
+  RAMP_TIME=3D5
+  SIZE=3D100G
+
+  fio --numjobs 10 --norandommap --randrepeat=3D0 --readwrite=3Drandwrite -=
+-ramp_time=3D$RAMP_TIME --bs=3D$BLOCKSIZE --runtime=3D$RUNTIME --iodepth=3D=
+$IODEPTH --filename=3D$FILENAME --ioengine=3D$IOENGINE --direct=3D1 --name=
+=3Diops_randwrite --group_reporting  | tee $RESULTFILE
+  ----------------------------------------------
+
+  What happened after the problem appear?
+  my vm will got huge IOPS drop. In my case, it will drop from 15000 IOPS t=
+o 3500 IOPS. And other thing, my host cpu will exhaust on %sy. Top output l=
+ike this.
+
+  Qemu Fio benchmark
+  ----------------------------------------------------
+  Tasks: 284 total,   2 running, 282 sleeping,   0 stopped,   0 zombie
+  %Cpu0  : 11.8 us, 66.7 sy,  0.0 ni, 21.5 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu1  : 12.7 us, 64.9 sy,  0.0 ni, 22.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu2  : 13.7 us, 64.5 sy,  0.0 ni, 21.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu3  : 13.2 us, 64.1 sy,  0.0 ni, 22.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu4  : 11.7 us, 65.4 sy,  0.0 ni, 22.8 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu5  : 13.2 us, 64.4 sy,  0.0 ni, 22.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu6  : 12.4 us, 65.1 sy,  0.0 ni, 22.5 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu7  : 13.6 us, 63.8 sy,  0.0 ni, 22.6 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu8  :  9.8 us, 73.0 sy,  0.0 ni, 17.2 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu9  :  7.8 us, 74.5 sy,  0.0 ni, 17.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu10 :  6.0 us, 81.4 sy,  0.0 ni,  6.6 id,  0.0 wa,  0.0 hi,  6.0 si,  =
+0.0 st
+  %Cpu11 :  8.4 us, 79.5 sy,  0.0 ni,  8.8 id,  0.0 wa,  0.0 hi,  3.4 si,  =
+0.0 st
+  %Cpu12 :  7.6 us, 80.7 sy,  0.0 ni,  7.0 id,  0.0 wa,  0.0 hi,  4.7 si,  =
+0.0 st
+  %Cpu13 :  7.4 us, 79.9 sy,  0.0 ni,  7.7 id,  0.0 wa,  0.0 hi,  5.0 si,  =
+0.0 st
+  %Cpu14 :  9.8 us, 75.4 sy,  0.0 ni, 11.4 id,  0.0 wa,  0.0 hi,  3.4 si,  =
+0.0 st
+  %Cpu15 :  6.7 us, 80.1 sy,  0.0 ni, 10.1 id,  0.0 wa,  0.0 hi,  3.0 si,  =
+0.0 st
+  %Cpu16 :  9.2 us, 69.2 sy,  0.0 ni, 17.5 id,  0.0 wa,  0.0 hi,  4.1 si,  =
+0.0 st
+  %Cpu17 :  9.9 us, 66.6 sy,  0.0 ni, 20.1 id,  0.0 wa,  0.0 hi,  3.4 si,  =
+0.0 st
+  %Cpu18 : 16.6 us, 49.0 sy,  0.0 ni, 34.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu19 : 16.7 us, 46.4 sy,  0.0 ni, 36.9 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu20 : 13.0 us, 50.8 sy,  0.0 ni, 36.1 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu21 : 18.9 us, 46.2 sy,  0.0 ni, 34.9 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu22 : 12.1 us, 52.9 sy,  0.0 ni, 35.0 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu23 : 15.9 us, 47.6 sy,  0.0 ni, 36.6 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu24 :  6.7 us, 62.0 sy,  0.0 ni, 31.3 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu25 :  7.6 us, 63.7 sy,  0.0 ni, 28.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu26 :  8.1 us, 75.8 sy,  0.0 ni, 16.1 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu27 :  6.7 us, 73.6 sy,  0.0 ni, 19.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu28 :  9.2 us, 74.3 sy,  0.0 ni, 16.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu29 :  8.2 us, 73.3 sy,  0.0 ni, 18.5 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu30 :  4.4 us, 73.1 sy,  0.0 ni, 22.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu31 :  7.5 us, 69.6 sy,  0.0 ni, 22.9 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  KiB Mem:  13217662+total,  3721572 used, 12845504+free,   283228 buffers
+  KiB Swap:  4194300 total,        0 used,  4194300 free.  2242976 cached M=
+em
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMA=
+ND
+  30349 root      20   0 25.381g 499892  20640 R  2495  0.4 119:11.98 qemu-=
+system-x86
+
+  Anything I do?
+  I use perf top, profile to debug the problem. It show me that something l=
+ike thread deadlock problem. Any I test QEMU with kernel RBD, it work fine.
+  Here are the perf top output on host.
+  ---------------------------------------------------------------
+     PerfTop:   12393 irqs/sec  kernel:87.3%  exact:  0.0% [4000Hz cycles],=
+  (all, 32 CPUs)
+  -------------------------------------------------------------------------=
+------
+
+      75.25%  [kernel]            [k] _raw_spin_lock
+       1.17%  [kernel]            [k] futex_wait_setup
+       0.86%  libc-2.19.so        [.] malloc
+       0.58%  [kernel]            [k] futex_wake
+       0.55%  libc-2.19.so        [.] 0x00000000000ea96f
+       0.41%  [kernel]            [k] native_write_msr_safe
+  ---------------------------------------------------------------
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ceph/+bug/1581334/+subscriptions
 
