@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667EC3ACF5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:44:07 +0200 (CEST)
-Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AA63ACF15
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:31:50 +0200 (CEST)
+Received: from localhost ([::1]:60962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luGf8-0003vi-F9
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
+	id 1luGTF-0005jl-Oj
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1luGc7-0000W9-ME
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:40:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:32888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1luGc5-000850-GO
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:40:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1luGc3-0006IR-1h
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:40:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DE94F2E8086
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:40:54 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Jun 2021 15:31:18 -0000
-From: Thomas Huth <1793904@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1luGPn-0006R0-6C
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:15 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:34102
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1luGPk-00086S-Nk
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:14 -0400
+HMM_SOURCE_IP: 172.18.0.218:58570.1979376666
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.39?logid-c4a34c2761364744ac7f6e25c2e48997
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id B7FA7280079;
+ Fri, 18 Jun 2021 23:27:59 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id c4a34c2761364744ac7f6e25c2e48997 for
+ qemu-devel@nongnu.org; Fri Jun 18 23:27:59 2021
+X-Transaction-ID: c4a34c2761364744ac7f6e25c2e48997
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: glusterfs
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow th-huth zem-g
-X-Launchpad-Bug-Reporter: Hans (zem-g)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153763821634.24720.16203204034487714411.malonedeb@gac.canonical.com>
-Message-Id: <162403027864.13428.4737072729524667513.launchpad@wampee.canonical.com>
-Subject: [Bug 1793904] Re: files are randomly overwritten by Zero Bytes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: a415438f39ab3c6b2c5e496d2087ef8c283e62ec
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v8 0/6] support dirtyrate at the granualrity of vcpu 
+Date: Fri, 18 Jun 2021 23:32:01 +0800
+Message-Id: <cover.1624028590.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,114 +62,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1793904 <1793904@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Bug watch removed: Red Hat Bugzilla #1701736
-   https://bugzilla.redhat.com/show_bug.cgi?id=3D1701736
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
--- =
+v8
+- drop the "none" type of DirtyRateMeasureMode
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1793904
+- make global_dirty_tracking a bitmask:
+  1. code clean: pass the casted "flags" as input parameter in
+     memory_global_dirty_log_stop, and then drop the free step.
+  2. squash commit "rename global_dirty_log to global_dirty_tracking"
+     into commit "make global_dirty_tracking a bitmask"
+  3. move "GLOBAL_DIRTY_MASK" macro to the bits's definations.
 
-Title:
-  files are randomly overwritten by Zero Bytes
+- drop the "cleanup_dirtyrate_stat" in commit
+  "move init step of calculation to main thread" so that each commit
+  keeps the old way working. 
 
-Status in QEMU:
-  Incomplete
+- add dirty rate unit "MB/s" in the output of hmp
 
-Bug description:
-  Hello together,
+please review, may be this is the last version of this patchset, :)
+thanks for Peter's patient instructions and reviews.
 
-  I am currently tracking down a "Hard to reproduce" bug on my systems
-  that I first discovered during gitlab installation:
+Hyman Huang(黄勇)
 
-  =
+v7
+- fix the code style problem, sorry about that
 
-  Here is the Text from the Gitlab Bug https://gitlab.com/gitlab-org/gitlab=
--ce/issues/51023
-  -------------------------------------------------------------------------=
----------------------
+v6:
+- pick up commit "KVM: introduce dirty_pages and kvm_dirty_ring_enabled"
+  which has been dropped in verison 5
 
-  Steps to reproduce
+v5:
+- rename global_dirty_log to global_dirty_tracking on Peter's advice
 
-  I still do not have all the steps together to reproduce, so far it is:
-  apt install gitlab-ce and
-  gitlab-rake backup:recovery
-  Then it works for some time before it fails.
+- make global_dirty_tracking a bitmask:
+  1. add assert statement to ensure starting dirty tracking repeatly
+     not allowed.
+  2. add assert statement to ensure dirty tracking cannot be stopped
+     without having been started.
 
-  What is the current bug behavior?
+- protecting dirty rate stat info:
+  1. drop the mutext for protecting dirty rate introduced in version 4
+  2. change the code block in query_dirty_rate_info so that requirements
+     of "safe racing" to the dirty rate stat can be meet
 
-  I have a 12 hour old Installation of gitlab ce 11.2.3-ce.0 for debian
-  stretch on a fresh debian stretch system together with our imported
-  data. However it turns out that some gitlab related files contain Zero
-  bytes instead of actual data.
+- make the helper function "record_dirtypages" inline and change
+  the global var dirty_pages  to local var
 
-  root@gitlab:~# xxd -l 16 /opt/gitlab/bin/gitlab-ctl
-  00000000: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+- free DirtyRateVcpuList in case of memory leak
 
-  This behaviour is somewhat strange because it was working for a few
-  minutes/hours. I did write a shell script to find out which files are
-  affected of this memory loss. It turns out that only files located
-  under /opt/gitlab are affected, if I rule out files like
-  /var/log/faillog and some postgresql table files.
+please review, thanks a lot.
 
-  What I find even stranger is that it does not seem to affect
-  Logfiles/databases/git_repositorys but application files, like .rb
-  scripts. and not all of them. No non gitlab package is affected.
+v4:
+- make global_dirty_log a bitmask:
+  1. add comments about dirty log bitmask
+  2. use assert statement to check validity of flags
+  3. add trace to log bitmask changes
 
-  What is the expected correct behavior?
-  Binarys and .rb files should stay as they are.
+- introduce mode option to show what method calculation should be used,
+  also, export mode option in the as last commmit
 
-  Possible fixes
+- split cleanup and init of dirty rate stat and move it in the main
+  thread
 
-  I am still investigating, I hope that it is not an infrastructure problem=
- (libvirt/qemu/glusterfs) it can still be one but the point that files of /=
-opt/gitlab are affected and not any logfile and that we to not have similar=
- problems with any other system leads me to the application for now.
-  If I would have used docker the same problem might have caused a reboot o=
-f the container.
-  But for the Debian package it is a bit of work to recover. That is all a =
-workaround, however.
-  -------------------------------------------------------------------------=
---------------------
+- change the fields of DirtyPageRecord to uint64_t type so that we
+  can calculation the increased dirty pages with the formula
+  as Peter's advice: dirty pages = end_pages - start_pages
 
-  I do have found 2 more systems having the same problem with different
-  software:
+- introduce mutex to protect dirty rate stat info
 
-  root@erp:~# xxd -l 16 /usr/share/perl/5.26.2/constant.pm
-  00000000: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+- adjust order of registering thread
 
-  The Filesize itself is, compared with another machine 00001660 Bytes
-  for both the corrupted and the intact file. It looks to me from the
-  outside that if some data in the qcow2 file is written too many bytes
-  get written so it sometimes overwites data of existing files located
-  right after the position in memory where the write goes to.
+- drop the memory free callback
 
-  I would like to rule out Linux+Ext4 filesystems because I find it
-  highly unlikely that such an error keeps undiscovered in that part of
-  the environment for long. I think the same might go for qemu.
+this version modify some code on Peter's advice, reference to:
+https://lore.kernel.org/qemu-devel/YL5nNYXmrqMlXF3v@t490s/
 
-  Which leaves qemu, gemu+gluster:// mount, qcow2 volumes, glusterfs,
-  network. So I am now going to check if I can find any system which
-  gets its volumes via fusermount instead of gluster:// path if the
-  error is gone there. This may take a while.
+thanks again.
 
-  =
+v3:
+- pick up "migration/dirtyrate: make sample page count configurable" to
+  make patchset apply master correctly
 
-  ----- some software versions---------------
+v2:
+- rebase to "migration/dirtyrate: make sample page count configurable"
 
-  QEMU emulator version 2.12.0 (Debian 1:2.12+dfsg-3)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+- rename "vcpu" to "per_vcpu" to show the per-vcpu method
 
-  libvirt-daemon-driver-storage-gluster/testing,unstable,now 4.6.0-2
-  amd64 [installed]
+- squash patch 5/6 into a single one, squash patch 1/2 also
 
-  ii  glusterfs-client   4.1.3-1        amd64
+- pick up "hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds"
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1793904/+subscriptions
+- make global_dirty_log a bitmask to make sure both migration and dirty
+  could not intefer with each other
+
+- add memory free callback to prevent memory leaking
+
+the most different of v2 fron v1 is that we make the global_dirty_log a
+bitmask. the reason is dirty rate measurement may start or stop dirty
+logging during calculation. this conflict with migration because stop
+dirty log make migration leave dirty pages out then that'll be a
+problem.
+
+make global_dirty_log a bitmask can let both migration and dirty
+rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION and
+GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty log aims
+for, migration or dirty rate.
+
+all references to global_dirty_log should be untouched because any bit
+set there should justify that global dirty logging is enabled.
+
+Please review, thanks !
+
+v1:
+
+Since the Dirty Ring on QEMU part has been merged recently, how to use
+this feature is under consideration.
+
+In the scene of migration, it is valuable to provide a more accurante
+interface to track dirty memory than existing one, so that the upper
+layer application can make a wise decision, or whatever. More
+importantly,
+dirtyrate info at the granualrity of vcpu could provide a possibility to
+make migration convergent by imposing restriction on vcpu. With Dirty
+Ring, we can calculate dirtyrate efficiently and cheaply.
+
+The old interface implemented by sampling pages, it consumes cpu
+resource, and the larger guest memory size become, the more cpu resource
+it consumes, namely, hard to scale. New interface has no such drawback.
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang(黄勇) (6):
+  KVM: introduce dirty_pages and kvm_dirty_ring_enabled
+  memory: make global_dirty_tracking a bitmask
+  migration/dirtyrate: introduce struct and adjust DirtyRateStat
+  migration/dirtyrate: adjust order of registering thread
+  migration/dirtyrate: move init step of calculation to main thread
+  migration/dirtyrate: implement dirty-ring dirtyrate calculation
+
+ accel/kvm/kvm-all.c     |   7 ++
+ hmp-commands.hx         |   7 +-
+ include/exec/memory.h   |  20 +++-
+ include/exec/ram_addr.h |   4 +-
+ include/hw/core/cpu.h   |   1 +
+ include/sysemu/kvm.h    |   1 +
+ migration/dirtyrate.c   | 265 +++++++++++++++++++++++++++++++++++++++++-------
+ migration/dirtyrate.h   |  19 +++-
+ migration/ram.c         |   8 +-
+ migration/trace-events  |   2 +
+ qapi/migration.json     |  46 ++++++++-
+ softmmu/memory.c        |  32 ++++--
+ softmmu/trace-events    |   1 +
+ 13 files changed, 351 insertions(+), 62 deletions(-)
+
+-- 
+1.8.3.1
+
 
