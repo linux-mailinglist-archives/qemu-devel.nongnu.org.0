@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7563AC50C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 09:32:37 +0200 (CEST)
-Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177DC3AC529
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 09:44:20 +0200 (CEST)
+Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu8zU-0000yG-Oe
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 03:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58264)
+	id 1lu9Ao-0005RM-Kn
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 03:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=79658353d=alistair.francis@wdc.com>)
- id 1lu8vF-0003cd-A5; Fri, 18 Jun 2021 03:28:13 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:17485)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lu99i-0004GC-9H
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 03:43:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=79658353d=alistair.francis@wdc.com>)
- id 1lu8vA-0005rR-1O; Fri, 18 Jun 2021 03:28:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1624001287; x=1655537287;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=y2Y6FkOU22r3V/yhzReTuiG5g3sBVRF35gXBdNdzRhA=;
- b=P9kKpVup7OhKrnp6giH/4YWe4AmTTOdY4iUaH6bTh58NwBYWZeLCo3Q4
- QRgzS6JpvkZ6Md8E0DR09XuQyw48mR2RsHkZkKBQbzaXdkdnWsPmapvet
- SXDlKd1rAzrNiuarhALbotW5hdQNThKUPaS3fsgLvq6SiAiQqR160O0Ot
- x9Tts5SvJcBfEq0sXX2meTcSwuF7sK5EJk7+ZXwplQh6Uz0FdaSvOa04p
- 3WcYfQO/15TJuAAs+y9yzNOIZil0wb+VFobORwsEymk9Cly1hCS+n5OCP
- zDLdKtN3c45HIjPBYoI5qsCytOgEgm46OHqEHt1jltVfCJWeTX7jS7Kv9 g==;
-IronPort-SDR: l6x3D51chQF6kd1p9UhjdR3Hmuk34BgAzPjrjFXp1y/jcTTVbI37fXcRlK0DMCfwRaftkC7J1E
- TF8BsD8AGHcRPTOGBJTCVvxD8uw6Ho3aMuo3WI1Yp+bNHgflLymvTx3yaAYxnRvFv7TWuiavtU
- HQZUuuIpB/htGyDbzt8JYP/N6/sGdyu2qNjYwmADhjMhIXyYjV1uuKYGkaA1PF6Miym8DGZysJ
- Owqw+1gE46BAr4ZY/K8Xut+q5AX5y3W63tGexacN+/eHGt8TW/7O9B3W7jpCkuDCM8F7bm0StQ
- xI8=
-X-IronPort-AV: E=Sophos;i="5.83,283,1616428800"; d="scan'208";a="172284382"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2021 15:28:04 +0800
-IronPort-SDR: FKf1vxai3spgoVNFH8Fh45c2TnTwdOJlhySyps/akNMiKqDpx1BCrFQ0t9fUHceg3VVd6Qp+SV
- fwWFJSo2n4EFF46rGgd3s9XlBPE2HL6FwhNv3clq3TXWGXuwcU/DcK69XOcxn3eMKDZSzKcUK+
- IAMeGQSLGJUG1iCvXkum52qzqW2dslvEdj4xyBhJsZfOgu0qOTZfj6Bq0Wlikgoa3ndYDIcpPo
- xOBAHhm/+AnQVU4HVocnMwQhMRpFDdKAzRmopkJz0ZO7rUCIGYH0pS1y4aD9Z8zTsR9IX3ch0O
- S3Gy+EqinKUZ+L2ne2vTgyTL
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2021 00:05:30 -0700
-IronPort-SDR: C6PftyYnw3pcuTEoHRWfe58ZeoEHEarLeNnxLvoFJSdkLcIGZloZpSdBwcrDGaC9/n4Omz5k98
- exJf1g2ECoo1F4tRP6H2j386eF41d2LWvZJTi4kENLG9aoZmGoEr6eXA05BZF54dO3mfofBGRf
- JYLwsAcZYijaF7h/yH7WEib1NM39OnMOR9lI3AGw3IGvw2OqVHxCfn4ZNIK94AKiOnACJy92Yd
- VnSE/CsQfK9kqjqex+jVFVnzgiCWjmU5d703n55dnM4SMzNsKMxm55lKeFdI85waWRxDZDgdLW
- BR4=
-WDCIronportException: Internal
-Received: from unknown (HELO toolbox.wdc.com) ([10.225.165.95])
- by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2021 00:28:02 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3 3/3] hw/riscv: OpenTitan: Connect the mtime and mtimecmp
- timer
-Date: Fri, 18 Jun 2021 17:28:01 +1000
-Message-Id: <5e7f4e9b4537f863bcb8db1264b840b56ef2a929.1624001156.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1624001156.git.alistair.francis@wdc.com>
-References: <cover.1624001156.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lu99e-0000jV-40
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 03:43:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624002184;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FE8/A0icQ3rvn7VbJOF6+jIS4D0rz1rOzxFlGa2b0HU=;
+ b=jMSj4r9LbdaK+t90RP1TytdE32NTHHpwC7dZA2IQtvxsnPE4TcL97+0httns5CDokfefjO
+ yK5KInS/4K1sP/hyzsffCZHRoZpqReMN0BVFhXzkGV9PVzE0+yLpCFYe1JKwFuZaouKtKi
+ hXYrQ09TVWn4JwTDirFIOLBxLplepWk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-fSASEEKAPneXJjkB8sRepg-1; Fri, 18 Jun 2021 03:43:01 -0400
+X-MC-Unique: fSASEEKAPneXJjkB8sRepg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BD6419200C1
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 07:43:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A2C360864;
+ Fri, 18 Jun 2021 07:43:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B0A4D113865F; Fri, 18 Jun 2021 09:42:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 02/11] keyval: introduce keyval_merge
+References: <20210617155308.928754-1-pbonzini@redhat.com>
+ <20210617155308.928754-3-pbonzini@redhat.com>
+Date: Fri, 18 Jun 2021 09:42:58 +0200
+In-Reply-To: <20210617155308.928754-3-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Thu, 17 Jun 2021 17:52:59 +0200")
+Message-ID: <87eeczwrct.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=79658353d=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,105 +80,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connect the Ibex timer to the OpenTitan machine. The timer can trigger
-the RISC-V MIE interrupt as well as a custom device interrupt.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
----
- include/hw/riscv/opentitan.h |  5 ++++-
- hw/riscv/opentitan.c         | 14 +++++++++++---
- 2 files changed, 15 insertions(+), 4 deletions(-)
+> This patch introduces a function that merges two keyval-produced
+> (or keyval-like) QDicts.  It can be used to emulate the behavior of
+> .merge_lists = true QemuOpts groups, merging -readconfig sections and
+> command-line options in a single QDict, and also to implement -set.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  include/qemu/option.h    |  1 +
+>  tests/unit/test-keyval.c | 58 ++++++++++++++++++++++++++++++++
+>  util/keyval.c            | 71 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 130 insertions(+)
+>
+> diff --git a/include/qemu/option.h b/include/qemu/option.h
+> index f73e0dc7d9..d89c66145a 100644
+> --- a/include/qemu/option.h
+> +++ b/include/qemu/option.h
+> @@ -149,5 +149,6 @@ QemuOptsList *qemu_opts_append(QemuOptsList *dst, QemuOptsList *list);
+>  
+>  QDict *keyval_parse(const char *params, const char *implied_key,
+>                      bool *help, Error **errp);
+> +void keyval_merge(QDict *old, const QDict *new, Error **errp);
+>  
+>  #endif
+> diff --git a/tests/unit/test-keyval.c b/tests/unit/test-keyval.c
+> index e20c07cf3e..af0581ae6c 100644
+> --- a/tests/unit/test-keyval.c
+> +++ b/tests/unit/test-keyval.c
+> @@ -747,6 +747,61 @@ static void test_keyval_visit_any(void)
+>      visit_free(v);
+>  }
+>  
+> +static void test_keyval_merge_dict(void)
+> +{
+> +    QDict *first = keyval_parse("opt1=abc,opt2.sub1=def,opt2.sub2=ghi,opt3=xyz",
+> +                                NULL, NULL, &error_abort);
+> +    QDict *second = keyval_parse("opt1=ABC,opt2.sub2=GHI,opt2.sub3=JKL",
+> +                                 NULL, NULL, &error_abort);
+> +    QDict *combined = keyval_parse("opt1=ABC,opt2.sub1=def,opt2.sub2=GHI,opt2.sub3=JKL,opt3=xyz",
+> +                                   NULL, NULL, &error_abort);
+> +    Error *err = NULL;
+> +
+> +    keyval_merge(first, second, &err);
+> +    g_assert(!err);
+> +    g_assert(qobject_is_equal(QOBJECT(combined), QOBJECT(first)));
+> +    qobject_unref(first);
+> +    qobject_unref(second);
+> +    qobject_unref(combined);
+> +}
+> +
+> +static void test_keyval_merge_list(void)
+> +{
+> +    QDict *first = keyval_parse("opt1.0=abc,opt2.0=xyz",
+> +                                NULL, NULL, &error_abort);
+> +    QDict *second = keyval_parse("opt1.0=def",
+> +                                 NULL, NULL, &error_abort);
+> +    QDict *combined = keyval_parse("opt1.0=abc,opt1.1=def,opt2.0=xyz",
+> +                                   NULL, NULL, &error_abort);
+> +    Error *err = NULL;
+> +
+> +    keyval_merge(first, second, &err);
+> +    g_assert(!err);
+> +    g_assert(qobject_is_equal(QOBJECT(combined), QOBJECT(first)));
+> +    qobject_unref(first);
+> +    qobject_unref(second);
+> +    qobject_unref(combined);
+> +}
+> +
+> +static void test_keyval_merge_conflict(void)
+> +{
+> +    QDict *first = keyval_parse("opt2=ABC",
+> +                                NULL, NULL, &error_abort);
+> +    QDict *second = keyval_parse("opt2.sub1=def,opt2.sub2=ghi",
+> +                                 NULL, NULL, &error_abort);
+> +    QDict *third = qdict_clone_shallow(first);
+> +    Error *err = NULL;
+> +
+> +    keyval_merge(first, second, &err);
+> +    error_free_or_abort(&err);
+> +    keyval_merge(second, third, &err);
+> +    error_free_or_abort(&err);
+> +
+> +    qobject_unref(first);
+> +    qobject_unref(second);
+> +    qobject_unref(third);
+> +}
+> +
+>  int main(int argc, char *argv[])
+>  {
+>      g_test_init(&argc, &argv, NULL);
+> @@ -760,6 +815,9 @@ int main(int argc, char *argv[])
+>      g_test_add_func("/keyval/visit/optional", test_keyval_visit_optional);
+>      g_test_add_func("/keyval/visit/alternate", test_keyval_visit_alternate);
+>      g_test_add_func("/keyval/visit/any", test_keyval_visit_any);
+> +    g_test_add_func("/keyval/merge/dict", test_keyval_merge_dict);
+> +    g_test_add_func("/keyval/merge/list", test_keyval_merge_list);
+> +    g_test_add_func("/keyval/merge/conflict", test_keyval_merge_conflict);
+>      g_test_run();
+>      return 0;
+>  }
+> diff --git a/util/keyval.c b/util/keyval.c
+> index be34928813..8006c5df20 100644
+> --- a/util/keyval.c
+> +++ b/util/keyval.c
+> @@ -310,6 +310,77 @@ static char *reassemble_key(GSList *key)
+>      return g_string_free(s, FALSE);
+>  }
+>  
+> +/*
+> + * Recursive worker for keyval_merge.  @str is the path that led to the
+> + * current dictionary, to be used for error messages.  It is modified
+> + * internally but restored before the function returns.
+> + */
 
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index aab9bc9245..86cceef698 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -22,6 +22,7 @@
- #include "hw/riscv/riscv_hart.h"
- #include "hw/intc/ibex_plic.h"
- #include "hw/char/ibex_uart.h"
-+#include "hw/timer/ibex_timer.h"
- #include "qom/object.h"
- 
- #define TYPE_RISCV_IBEX_SOC "riscv.lowrisc.ibex.soc"
-@@ -35,6 +36,7 @@ struct LowRISCIbexSoCState {
-     RISCVHartArrayState cpus;
-     IbexPlicState plic;
-     IbexUartState uart;
-+    IbexTimerState timer;
- 
-     MemoryRegion flash_mem;
-     MemoryRegion rom;
-@@ -57,7 +59,7 @@ enum {
-     IBEX_DEV_SPI,
-     IBEX_DEV_I2C,
-     IBEX_DEV_PATTGEN,
--    IBEX_DEV_RV_TIMER,
-+    IBEX_DEV_TIMER,
-     IBEX_DEV_SENSOR_CTRL,
-     IBEX_DEV_OTP_CTRL,
-     IBEX_DEV_PWRMGR,
-@@ -82,6 +84,7 @@ enum {
- };
- 
- enum {
-+    IBEX_TIMER_TIMEREXPIRED0_0 = 125,
-     IBEX_UART0_RX_PARITY_ERR_IRQ = 8,
-     IBEX_UART0_RX_TIMEOUT_IRQ = 7,
-     IBEX_UART0_RX_BREAK_ERR_IRQ = 6,
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 7545dcda9c..c5a7e3bacb 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -36,7 +36,7 @@ static const MemMapEntry ibex_memmap[] = {
-     [IBEX_DEV_SPI] =            {  0x40050000,  0x1000  },
-     [IBEX_DEV_I2C] =            {  0x40080000,  0x1000  },
-     [IBEX_DEV_PATTGEN] =        {  0x400e0000,  0x1000  },
--    [IBEX_DEV_RV_TIMER] =       {  0x40100000,  0x1000  },
-+    [IBEX_DEV_TIMER] =          {  0x40100000,  0x1000  },
-     [IBEX_DEV_SENSOR_CTRL] =    {  0x40110000,  0x1000  },
-     [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x4000  },
-     [IBEX_DEV_PWRMGR] =         {  0x40400000,  0x1000  },
-@@ -106,6 +106,8 @@ static void lowrisc_ibex_soc_init(Object *obj)
-     object_initialize_child(obj, "plic", &s->plic, TYPE_IBEX_PLIC);
- 
-     object_initialize_child(obj, "uart", &s->uart, TYPE_IBEX_UART);
-+
-+    object_initialize_child(obj, "timer", &s->timer, TYPE_IBEX_TIMER);
- }
- 
- static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-@@ -159,6 +161,14 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-                        3, qdev_get_gpio_in(DEVICE(&s->plic),
-                        IBEX_UART0_RX_OVERFLOW_IRQ));
- 
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->timer), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->timer), 0, memmap[IBEX_DEV_TIMER].base);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer),
-+                       0, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_TIMER_TIMEREXPIRED0_0));
-+
-     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.spi",
-@@ -167,8 +177,6 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-         memmap[IBEX_DEV_I2C].base, memmap[IBEX_DEV_I2C].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.pattgen",
-         memmap[IBEX_DEV_PATTGEN].base, memmap[IBEX_DEV_PATTGEN].size);
--    create_unimplemented_device("riscv.lowrisc.ibex.rv_timer",
--        memmap[IBEX_DEV_RV_TIMER].base, memmap[IBEX_DEV_RV_TIMER].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.sensor_ctrl",
-         memmap[IBEX_DEV_SENSOR_CTRL].base, memmap[IBEX_DEV_SENSOR_CTRL].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.otp_ctrl",
--- 
-2.31.1
+Slight reformatting to better blend in with other comments in this file:
+
+   /*
+    * Recursive worker for keyval_merge
+    * @str is the path that led to the current dictionary, to be used for
+    * error messages.  It is modified internally but restored before the
+    * function returns.
+    */
+
+> +static void keyval_do_merge(QDict *dest, const QDict *merged, GString *str, Error **errp)
+> +{
+> +    size_t save_len = str->len;
+> +    const QDictEntry *ent;
+> +    QObject *old_value;
+> +
+> +    for (ent = qdict_first(merged); ent; ent = qdict_next(merged, ent)) {
+> +        old_value = qdict_get(dest, ent->key);
+> +        if (old_value) {
+> +            if (qobject_type(old_value) != qobject_type(ent->value)) {
+> +                error_setg(errp, "Parameter '%s%s' used inconsistently", str->str, ent->key);
+
+Long line, break after the string literal.
+
+> +                return;
+> +            } else if (qobject_type(ent->value) == QTYPE_QDICT) {
+> +                /* Merge sub-dictionaries.  */
+> +                g_string_append(str, ent->key);
+> +                g_string_append_c(str, '.');
+> +                keyval_do_merge(qobject_to(QDict, old_value),
+> +                                qobject_to(QDict, ent->value),
+> +                                str, errp);
+> +                g_string_truncate(str, save_len);
+> +                continue;
+> +            } else if (qobject_type(ent->value) == QTYPE_QLIST) {
+> +                /* Append to old list.  */
+> +                QList *old = qobject_to(QList, old_value);
+> +                QList *new = qobject_to(QList, ent->value);
+> +                const QListEntry *item;
+> +                QLIST_FOREACH_ENTRY(new, item) {
+> +                    qobject_ref(item->value);
+> +                    qlist_append_obj(old, item->value);
+> +                }
+> +                continue;
+> +            } else {
+> +                assert(qobject_type(ent->value) == QTYPE_QSTRING);
+> +            }
+> +        }
+> +
+> +        qobject_ref(ent->value);
+> +        qdict_put_obj(dest, ent->key, ent->value);
+> +    }
+> +}
+> +
+> +/* Merge the @merged dictionary into @dest.  The dictionaries are expected to be
+> + * returned by the keyval parser, and therefore the only expected scalar type
+> + * is the * string.  In case the same path is present in both @dest and @merged,
+> + * the semantics are as follows:
+> + *
+> + * - lists are concatenated
+> + *
+> + * - dictionaries are merged recursively
+> + *
+> + * - for scalar values, @merged wins
+> + *
+> + * In case an error is reported, @dest may already have been modified.
+> + *
+> + * This function can be used to implement semantics analogous to QemuOpts's
+> + * .merge_lists = true case, or to implement -set for options backed by QDicts.
+> + */
+
+Contents is already lovely.  Now let's tidy up the formatting:
+
+   /*
+    * Merge the @merged dictionary into @dest.
+    *
+    * The dictionaries are expected to be returned by the keyval parser,
+    * and therefore the only expected scalar type is the * string.  In
+    * case the same path is present in both @dest and @merged, the
+    * semantics are as follows:
+    *
+    * - lists are concatenated
+    *
+    * - dictionaries are merged recursively
+    *
+    * - for scalar values, @merged wins
+    *
+    * In case an error is reported, @dest may already have been modified.
+    *
+    * This function can be used to implement semantics analogous to
+    * QemuOpts's .merge_lists = true case, or to implement -set for
+    * options backed by QDicts.
+    */
+
+Let's mention where this fails to be analogous.  Perhaps:
+
+    * Note: while QemuOpts is commonly used so that repeated keys
+    * overwrite ("last one wins"), it can also be used so that repeated
+    * keys build up a list.  keyval_merge() can be analogous to the
+    * former usage, but not the latter.
+
+> +void keyval_merge(QDict *dest, const QDict *merged, Error **errp)
+> +{
+> +    GString *str;
+> +
+> +    str = g_string_new("");
+> +    keyval_do_merge(dest, merged, str, errp);
+> +    g_string_free(str, TRUE);
+> +}
+> +
+>  /*
+>   * Listify @cur recursively.
+>   * Replace QDicts whose keys are all valid list indexes by QLists.
+
+Since I'm asking only for minor improvements:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
