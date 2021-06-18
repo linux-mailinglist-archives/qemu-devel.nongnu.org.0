@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2203F3AC7E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 11:43:49 +0200 (CEST)
-Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CE33AC7EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 11:44:56 +0200 (CEST)
+Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luB2S-0004v5-6y
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 05:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
+	id 1luB3X-0006Nl-9m
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 05:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luB1c-0004CN-53
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:42:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luB1Z-0000Tx-1e
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:42:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624009372;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6h/dkNKgDYwk7ALd2whuH1O3rHe3Oenh3iUgrGgbgNU=;
- b=bYvynYS49CJvP9cSHCEoFdsY8QkMOKY252yIyZTZRRa47jh/QSc/SOv1tEPMJFExnIAvND
- wG+kPDxqWSy5txUcOSAwpGqck1FQjHIad89xdec4CAGKiV2xDOeKmv4KvpgqmEQ6r5Lalc
- /6+D5IfrTbZokR3H+B+juCjh8gEWfVQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-4YpvZ9D4Pdq86BUeOI25Dg-1; Fri, 18 Jun 2021 05:42:51 -0400
-X-MC-Unique: 4YpvZ9D4Pdq86BUeOI25Dg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24287800685;
- Fri, 18 Jun 2021 09:42:50 +0000 (UTC)
-Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B560F1001281;
- Fri, 18 Jun 2021 09:42:49 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH v4 0/4] s390x: Fix IRB sense data
-In-Reply-To: <20210617232537.1337506-1-farman@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20210617232537.1337506-1-farman@linux.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 18 Jun 2021 11:42:42 +0200
-Message-ID: <87a6nnpkz1.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1luB2m-0005hZ-6N
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:44:08 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:41481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1luB2k-0001Oq-IS
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 05:44:07 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ y13-20020a1c4b0d0000b02901c20173e165so5418732wma.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 02:44:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UwH3qskGZa+I9zcwxn7f80kKVMYpm8ZJv0OL3WDjD5I=;
+ b=fP2sUPGExFddBPR2obcNpmAc8W6IYVO8bIvzC5tTuUrCZJ+Uf+YbX/kBgqZhatzdr0
+ m27eWbvO5GCXc+F6d8qHF/cWMK5QngPA6tF9IVXv05lcwrilkkKZKMhYTQV9Fj0z9B+i
+ eKqWtgCfsvyI54jlLwc+jBqj65L/lVTcCqGJaArWbeBMOcN7LxDc7c7ENR+TWbAinsre
+ WcbLeGgb2CyFfrMqeho22FSu8olp8MLPng2eTgNHhjzhSXqukFUT2PjYTWcp+vxAcGY6
+ 8AFDqu2rM5Z2vMbH0U0qf2203GSsYcAxKj9+pJ6OnpxzfoX/uSgrm5l06fvVjUzFmD5f
+ +kUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UwH3qskGZa+I9zcwxn7f80kKVMYpm8ZJv0OL3WDjD5I=;
+ b=aB+J1JrQW1bSo2Ga334szeH1oBTpyltjzanXtuJkaJxaPXYXMkxAUczY0trevUULug
+ PMjfPkHrzZ82JBqaZsZMHm/6TYRujqtovzpngtjz6ZBsQxBUmhqn7mixGdll/K+ZTMlS
+ PmGjxOOkB9bRlRGdKEq4ByBmpRz/1f+vwTZc2LSOCPCp7e2iSzeqw+i16l/XUufLLGhj
+ 6/Wz499RcxOPsGXNYO/NxBsPomr+Fr9QzJNKkJJ4vMsFaQsSFBNuifsAISjaDgQkhxxO
+ 5/VfV31Ebz8lnFqYyPjxHOAylstrg94I9UaY4G6oMC0o/byAJA1+mTf5QtRqBwYYn/7k
+ PSOg==
+X-Gm-Message-State: AOAM532UQdIUjPh9aRE2ECq6CNpsJJU7ituFO/0TU5uSX4BuJT11mtdj
+ Tw2e00c0rlirui2iCXu8Y2Y=
+X-Google-Smtp-Source: ABdhPJxIEflH2wge6oVssTO4gIi+vromoe6HYmeAICm62EpSLvUc+tBp74E94r5Llftsi9N8+AD9Pw==
+X-Received: by 2002:a7b:ce0a:: with SMTP id m10mr2609735wmc.149.1624009444707; 
+ Fri, 18 Jun 2021 02:44:04 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id a9sm7890100wrv.37.2021.06.18.02.44.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Jun 2021 02:44:04 -0700 (PDT)
+Subject: Re: [PATCH 7/9] target/mips: Remove microMIPS BPOSGE32 / BPOSGE64
+ unuseful cases
+To: qemu-devel@nongnu.org
+References: <20210617174323.2900831-1-f4bug@amsat.org>
+ <20210617174323.2900831-8-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <08ed8693-6332-bb6b-396e-1dd3f49c8235@amsat.org>
+Date: Fri, 18 Jun 2021 11:44:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210617174323.2900831-8-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.254,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,70 +91,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 18 2021, Eric Farman <farman@linux.ibm.com> wrote:
+On 6/17/21 7:43 PM, Philippe Mathieu-Daudé wrote:
+> These switch cases for the microMIPS BPOSGE32 / BPOSGE64 opcodes have
+> been added commit 3c824109da0 ("target-mips: microMIPS ASE support").
+> More than 11 years later it is safe to assume there won't be added
+> soon. The cases fall back to the default which generates a RESERVED
+> INSTRUCTION, so it is safe to remove them.
 
-> Conny, et al,
->
-> Here is a quick update to the series for fixing passthrough
-> sense data in the irb, using a subchannel-specific callback.
->
-> As before, the first three patches are code refactoring.
-> Since patch 3 doesn't implement the callback for vfio-ccw
-> subchannels, it fixes the problem encountered with
-> "dasdfmt -M quick" failing to run correctly in the guest.
-> Since the callback isn't invoked for passthrough subchannels
-> the SCSW and ERW bits don't get set indicating sense data
-> is present, even though the sense data itself is still zero.
->
-> Patch 4 implements that for vfio-ccw.
->
+I'll amend for clarity:
 
-LGTM. I'll take it for a spin and probably queue it.
+"Functionally speaking, the patch is a no-op."
 
-> v3->v4:
->  - [CH] Rename ESW.sublog to ESW.word0
->  - [CH] Add comment that ESW.f_addr and .s_addr are only Fmt0 ESW
->  - [CH] Always copy ECW data into IRB to include mysterious
->         "model-dependent information" that could exist there
->  - [TH] Added r-b to patch 2 (thank you!!)
->
-> v2->v3:
->  - [EF] Drop Fixes tag
->  - [CH] Implement a callback for the IRB sense data
->  - [CH] Copy IRB.ESW from passthrough hardware
->  - [CH] Only put sense in IRB.ECW if passthrough device did
->
-> v1->v2:
->  - [MR] Add Fixes: tags
->  - [CH] Reinstate the memcpy(sch->sense_data, irb.ecw) in vfio_ccw
->  - [CH] Look at IRB.SCSW.E before copying sense into guest IRB
->
-> v3: https://lore.kernel.org/qemu-devel/20210616014749.2460133-1-farman@linux.ibm.com/
-> v2: https://lore.kernel.org/qemu-devel/20210611202151.615410-1-farman@linux.ibm.com/
-> v1: https://lore.kernel.org/qemu-devel/20210610202011.391029-1-farman@linux.ibm.com/
->
-> Eric Farman (4):
->   s390x/css: Introduce an ESW struct
->   s390x/css: Split out the IRB sense data
->   s390x/css: Refactor IRB construction
->   s390x/css: Add passthrough IRB
->
->  hw/s390x/3270-ccw.c       |  1 +
->  hw/s390x/css.c            | 87 ++++++++++++++++++++++++++++-----------
->  hw/s390x/s390-ccw.c       |  1 +
->  hw/s390x/virtio-ccw.c     |  1 +
->  hw/vfio/ccw.c             |  4 ++
->  include/hw/s390x/css.h    |  5 +++
->  include/hw/s390x/ioinst.h | 12 +++++-
->  7 files changed, 86 insertions(+), 25 deletions(-)
-
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/tcg/translate.c | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+> index 47c7705f051..5d571d83c54 100644
+> --- a/target/mips/tcg/translate.c
+> +++ b/target/mips/tcg/translate.c
+> @@ -14077,8 +14077,6 @@ enum {
+>      BGEZALS = 0x13,
+>      BC2F = 0x14,
+>      BC2T = 0x15,
+> -    BPOSGE64 = 0x1a,
+> -    BPOSGE32 = 0x1b,
+>      /* These overlap and are distinguished by bit16 of the instruction */
+>      BC1F = 0x1c,
+>      BC1T = 0x1d,
+> @@ -16122,10 +16120,6 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
+>                  generate_exception_err(ctx, EXCP_CpU, 1);
+>              }
+>              break;
+> -        case BPOSGE64:
+> -        case BPOSGE32:
+> -            /* MIPS DSP: not implemented */
+> -            /* Fall through */
+>          default:
+>              MIPS_INVAL("pool32i");
+>              gen_reserved_instruction(ctx);
+> 
 
