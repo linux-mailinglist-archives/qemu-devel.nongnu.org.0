@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7763AD5F6
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:31:07 +0200 (CEST)
-Received: from localhost ([::1]:60380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916F53AD5FD
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:34:02 +0200 (CEST)
+Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNx4-0001nF-4E
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35198)
+	id 1luNzt-0007YW-KF
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:34:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYZ-0007I5-RW
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42867)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYb-0007Lm-7x
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYV-0006L2-4R
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:47 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYZ-0006NU-KH
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057542;
+ s=mimecast20190719; t=1624057547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NVJQCzTtpz5XJnm7HeurRCJ4OAyDCC2PE/H1ozBR/Eo=;
- b=PzKFtzdxE/O4CmpotsLVKusJWsiKfVk7QPXlpmns52GVBdALrEpwHp0hfZRjvZx2t3NM6x
- XWsu04P4roAF1MMm0BKG01huW7hQBfTDSql2bemdizyCAJ5giZ3cFeAh7Ma7Xh4q+pz5LG
- r4clYkhK/nEsmGLRy7bAZiKa+lpDyMI=
+ bh=th4AXwlyUx9JkacNwGmBjIu0bD/OHmfShn2kfsw2cm8=;
+ b=WjyAPG9LSQtoHEQy7J7OcYFgeSN6dg4ifmGa8LZgAKS9UlectEApfoEVjuvirdcymEFz/K
+ m9zX+HQpLwkpqGkcpITtQKeTAlRzLK5vLyJhUs53etBwI+rAlngx3k5paPTg6zLOofEdI+
+ isGduqKWGl8r8DVutdom3X7dJ/YCzws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-gnU2RhmENSaYqLdhIGLW_A-1; Fri, 18 Jun 2021 19:05:40 -0400
-X-MC-Unique: gnU2RhmENSaYqLdhIGLW_A-1
+ us-mta-154-tzQ8YZ8XMqGHsWHK7-LcFA-1; Fri, 18 Jun 2021 19:05:43 -0400
+X-MC-Unique: tzQ8YZ8XMqGHsWHK7-LcFA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC6FC100C661;
- Fri, 18 Jun 2021 23:05:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89C0C1084F4B;
+ Fri, 18 Jun 2021 23:05:42 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 043B310246F1;
- Fri, 18 Jun 2021 23:05:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0CD91017CE5;
+ Fri, 18 Jun 2021 23:05:41 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/72] scripts/qmp-shell: use @classmethod where appropriate
-Date: Fri, 18 Jun 2021 19:04:20 -0400
-Message-Id: <20210618230455.2891199-38-jsnow@redhat.com>
+Subject: [PULL 40/72] scripts/qmp-shell: use triple-double-quote docstring
+ style
+Date: Fri, 18 Jun 2021 19:04:23 -0400
+Message-Id: <20210618230455.2891199-41-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,39 +83,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Methods with no self-use should belong to the class.
+(2014 me had never written python before.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210607200649.1840382-8-jsnow@redhat.com
+Message-id: 20210607200649.1840382-11-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/qmp/qmp-shell | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index ae3f04534a..f354549bf2 100755
+index 4027454324..c46f4f516b 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -97,7 +97,8 @@ class FuzzyJSON(ast.NodeTransformer):
-     '''This extension of ast.NodeTransformer filters literal "true/false/null"
-     values in an AST and replaces them by proper "True/False/None" values that
-     Python can properly evaluate.'''
--    def visit_Name(self, node):
-+    @classmethod
-+    def visit_Name(cls, node):
-         if node.id == 'true':
-             node.id = 'True'
-         if node.id == 'false':
-@@ -152,7 +153,8 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         except Exception as e:
-             print("Failed to save history file '%s'; %s" % (self._histfile, e))
+@@ -94,9 +94,12 @@ class QMPShellError(Exception):
  
--    def __parse_value(self, val):
-+    @classmethod
-+    def __parse_value(cls, val):
-         try:
-             return int(val)
-         except ValueError:
+ 
+ class FuzzyJSON(ast.NodeTransformer):
+-    '''This extension of ast.NodeTransformer filters literal "true/false/null"
++    """
++    This extension of ast.NodeTransformer filters literal "true/false/null"
+     values in an AST and replaces them by proper "True/False/None" values that
+-    Python can properly evaluate.'''
++    Python can properly evaluate.
++    """
++
+     @classmethod
+     def visit_Name(cls, node):
+         if node.id == 'true':
 -- 
 2.31.1
 
