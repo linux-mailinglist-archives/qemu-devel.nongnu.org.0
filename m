@@ -2,96 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D86E3ACB7C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 14:56:29 +0200 (CEST)
-Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109AF3ACB83
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 14:58:03 +0200 (CEST)
+Received: from localhost ([::1]:54062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luE2u-0006hi-4l
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 08:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60200)
+	id 1luE4Q-0008LN-4k
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 08:58:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1luE20-0005sm-11; Fri, 18 Jun 2021 08:55:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28564
+ id 1luE3d-0007Wb-1k; Fri, 18 Jun 2021 08:57:13 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3978
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1luE1v-0006Fb-TP; Fri, 18 Jun 2021 08:55:31 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ id 1luE3b-0006fL-Dw; Fri, 18 Jun 2021 08:57:12 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15ICXSBd099254; Fri, 18 Jun 2021 08:55:25 -0400
+ 15ICX3XS075833; Fri, 18 Jun 2021 08:57:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : subject :
  from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Kf8NhAxCXBCbF3P39VemHfdJLKEbV8WcY4BlcLCvaQo=;
- b=T7Gw5LC9O2qxPLr8TvjDyBtcWCo8cKBIAvbx//VLVGp3Aj0a6WutgG24ox9SNKcocpgF
- h8pSkCzvm1fbo9szjKuyx1v/wT+b4iB0Hex+Nhyz3Ra30tWmqas7THZ1D28/3C01n7Zc
- Nor4SXHntF1I1lRKc+wEPofmj9DXrR5e04BGYla8r8Bcvo+7TGvufM21wSHTjz4VvUjc
- OEB99JMq6y//AYC/TvhQm31HLx/hn1KTmBd1LXAXSh1KSIV7SbZAoEfLlKzUu30YceTW
- DP4UmZybq2nWl9/8eH9o+ai35PnRuW9aDcXfqezjUK9y1fCNsXryNLUasXiGS1W8aBqd 4w== 
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=YDZ1O3dWENFIvT4Hxh3NiXGcFPsKvEvLU/zmkdYFuC8=;
+ b=CwhsXJ01D2H3e6sT/2Vby47INLkmtLEmxK8tnwV7daK6EellQh75BFVGByHQeUCC+Zse
+ p/z6rdnWLCkI3hEcFBA71HTexvWQwo93JqKmnfMLh3MBvjMdzBak+WRsOjCos/6ysSgv
+ HA3HqssM7G3PkXevT9FOGdERbz0AN1VOhm1W8ggZvCLSCSuUmM230kvYIRvZ8kGz0HSm
+ x14uTtKxlW1u3fqFd9Z6dIQpn6JXyWcQ0wiW7vZA18ZoZCvOGo7XD2vE7bzRkw5L9Syl
+ JxAzXnZW9mJ9EBdLFUGsCz7na303+BhT5IytMZZCfx2zN7zXUNpiv5UdnQkSLZMTvcUF 0Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 398t71bfc4-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 398ph7swhp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Jun 2021 08:55:24 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15ICXXkZ099607;
- Fri, 18 Jun 2021 08:55:24 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 398t71bfbt-1
+ Fri, 18 Jun 2021 08:57:09 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15ICkfRx140347;
+ Fri, 18 Jun 2021 08:57:08 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 398ph7swhf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Jun 2021 08:55:24 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15ICmQwd030739;
- Fri, 18 Jun 2021 12:55:23 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04dal.us.ibm.com with ESMTP id 3980b9nycg-1
+ Fri, 18 Jun 2021 08:57:08 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15ICmAYp024815;
+ Fri, 18 Jun 2021 12:57:08 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma03wdc.us.ibm.com with ESMTP id 394mja991y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Jun 2021 12:55:23 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15ICtMYC32440742
+ Fri, 18 Jun 2021 12:57:08 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15ICv6s529163812
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Jun 2021 12:55:22 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28B35C6059;
- Fri, 18 Jun 2021 12:55:22 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B030C6055;
- Fri, 18 Jun 2021 12:55:21 +0000 (GMT)
+ Fri, 18 Jun 2021 12:57:07 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1175BE04F;
+ Fri, 18 Jun 2021 12:57:06 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E3403BE051;
+ Fri, 18 Jun 2021 12:57:05 +0000 (GMT)
 Received: from farman-thinkpad-t470p (unknown [9.163.1.119])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 18 Jun 2021 12:55:20 +0000 (GMT)
-Message-ID: <adca6d5e3c3037da7923489fa28fcd34be099e75.camel@linux.ibm.com>
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 18 Jun 2021 12:57:05 +0000 (GMT)
+Message-ID: <2f4b46440d693a1e52d12ef7d95c30261c2dcdbc.camel@linux.ibm.com>
 Subject: Re: [PATCH v4 1/4] s390x/css: Introduce an ESW struct
 From: Eric Farman <farman@linux.ibm.com>
 To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
  qemu-s390x@nongnu.org
-Date: Fri, 18 Jun 2021 08:55:18 -0400
-In-Reply-To: <874kdvpchd.fsf@redhat.com>
+Date: Fri, 18 Jun 2021 08:57:04 -0400
+In-Reply-To: <87czsjpl5i.fsf@redhat.com>
 References: <20210617232537.1337506-1-farman@linux.ibm.com>
- <20210617232537.1337506-2-farman@linux.ibm.com> <877dirph77.fsf@redhat.com>
- <874kdvpchd.fsf@redhat.com>
+ <20210617232537.1337506-2-farman@linux.ibm.com> <87czsjpl5i.fsf@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: huRchTRpclyfM3LNqN5OWH04cQ6eEO43
-X-Proofpoint-GUID: OnC4Tsu3rvbHhpSbktaIs7HbcEq1yeun
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: PLa3NPZ7b7wKnUGbmX3Q_bW3oF-_UsdR
+X-Proofpoint-GUID: m0k0PQW8SNt37CAD_bhwSDAPx_Dd2kkW
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-18_07:2021-06-18,
  2021-06-18 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0
- suspectscore=0 clxscore=1015 mlxscore=0 spamscore=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ malwarescore=0
+ impostorscore=0 mlxscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 phishscore=0 suspectscore=0 spamscore=0
+ mlxlogscore=963 bulkscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2104190000 definitions=main-2106180073
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -122,151 +120,61 @@ Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-06-18 at 14:46 +0200, Cornelia Huck wrote:
-> On Fri, Jun 18 2021, Cornelia Huck <cohuck@redhat.com> wrote:
+On Fri, 2021-06-18 at 11:38 +0200, Cornelia Huck wrote:
+> On Fri, Jun 18 2021, Eric Farman <farman@linux.ibm.com> wrote:
 > 
-> > On Fri, Jun 18 2021, Eric Farman <farman@linux.ibm.com> wrote:
+> > The Interrupt Response Block is comprised of several other
+> > structures concatenated together, but only the 12-byte
+> > Subchannel-Status Word (SCSW) is defined as a proper struct.
+> > Everything else is a simple array of 32-bit words.
 > > 
-> > > The Interrupt Response Block is comprised of several other
-> > > structures concatenated together, but only the 12-byte
-> > > Subchannel-Status Word (SCSW) is defined as a proper struct.
-> > > Everything else is a simple array of 32-bit words.
-> > > 
-> > > Let's define a proper struct for the 20-byte Extended-Status
-> > > Word (ESW) so that we can make good decisions about the sense
-> > > data that would go into the ECW area for virtual vs
-> > > passthrough devices.
-> > > 
-> > > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> > > ---
-> > >  hw/s390x/css.c            | 19 +++++++++++++------
-> > >  include/hw/s390x/ioinst.h | 12 +++++++++++-
-> > >  2 files changed, 24 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/include/hw/s390x/ioinst.h
-> > > b/include/hw/s390x/ioinst.h
-> > > index c6737a30d4..e7ab401781 100644
-> > > --- a/include/hw/s390x/ioinst.h
-> > > +++ b/include/hw/s390x/ioinst.h
-> > > @@ -123,10 +123,20 @@ typedef struct SCHIB {
-> > >      uint8_t mda[4];
-> > >  } QEMU_PACKED SCHIB;
-> > >  
-> > > +/* format-0 extended-status word */
-> > > +typedef struct ESW {
-> > > +   uint32_t word0;
-> > > +   uint32_t erw;
-> > > +   uint64_t f_addr;     /* Zeros for other ESW formats */
-> > > +   uint32_t s_addr;     /* Zeros for other ESW formats */
-> > > +} QEMU_PACKED ESW;
+> > Let's define a proper struct for the 20-byte Extended-Status
+> > Word (ESW) so that we can make good decisions about the sense
+> > data that would go into the ECW area for virtual vs
+> > passthrough devices.
 > > 
-> > Eww, this fails with mingw:
-> > https://gitlab.com/cohuck/qemu/-/jobs/1358335494
-> > 
-> > i686-w64-mingw32-gcc -Ilibcommon.fa.p -I../slirp -I../slirp/src
-> > -I../dtc/libfdt -I../capstone/include/capstone -I. -Iqapi -Itrace
-> > -Iui -Iui/shader -I/usr/i686-w64-mingw32/sys-root/mingw/include
-> > -I/usr/i686-w64-mingw32/sys-root/mingw/include/glib-2.0
-> > -I/usr/i686-w64-mingw32/sys-root/mingw/lib/glib-2.0/include
-> > -I/usr/i686-w64-mingw32/sys-root/mingw/include/gtk-3.0 -I/usr/i686-
-> > w64-mingw32/sys-root/mingw/include/cairo -I/usr/i686-w64-
-> > mingw32/sys-root/mingw/include/pango-1.0 -I/usr/i686-w64-
-> > mingw32/sys-root/mingw/include/fribidi -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/harfbuzz -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/atk-1.0 -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/pixman-1 -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/freetype2 -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/libpng16 -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/gdk-pixbuf-2.0 -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/lib/libffi-3.1/include -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/p11-kit-1 -I/usr/i686-w64-mingw32/sys-
-> > root/mingw/include/SDL2 -fdiagnostics-color=auto -pipe -Wall
-> > -Winvalid-pch -Werror -std=gnu99 -O2 -g -iquote . -iquote
-> > /builds/cohuck/qemu -iquote /builds/cohuck/qemu/include -iquote
-> > /builds/cohuck/qemu/disas/libvixl -iquote
-> > /builds/cohuck/qemu/tcg/i386 -mms-bitfields -U_FORTIFY_SOURCE
-> > -D_FORTIFY_SOURCE=2 -m32 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
-> > -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
-> > -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-
-> > common -fwrapv -Wold-style-declaration -Wold-style-definition
-> > -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-
-> > qualifiers -Wempty-body -Wnested-externs -Wendif-labels
-> > -Wexpansion-to-defined -Wimplicit-fallthrough=2 -Wno-missing-
-> > include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-
-> > protector-strong -Dmain=SDL_main -Wno-undef -mms-bitfields -mms-
-> > bitfields -mms-bitfields -MD -MQ libcommon.fa.p/hw_s390x_virtio-
-> > ccw-gpu.c.obj -MF libcommon.fa.p/hw_s390x_virtio-ccw-gpu.c.obj.d -o
-> > libcommon.fa.p/hw_s390x_virtio-ccw-gpu.c.obj -c ../hw/s390x/virtio-
-> > ccw-gpu.c
-> > In file included from /usr/i686-w64-mingw32/sys-
-> > root/mingw/include/winsock2.h:54,
-> >                  from /builds/cohuck/qemu/include/sysemu/os-
-> > win32.h:29,
-> >                  from /builds/cohuck/qemu/include/qemu/osdep.h:135,
-> >                  from ../hw/s390x/virtio-ccw-gpu.c:11:
-> > /builds/cohuck/qemu/include/hw/s390x/ioinst.h:131:13: error:
-> > expected ':', ',', ';', '}' or '__attribute__' before '.' token
-> >   131 |    uint32_t s_addr;     /* Zeros for other ESW formats */
-> >       |             ^~~~~~
+> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> > ---
+> >  hw/s390x/css.c            | 19 +++++++++++++------
+> >  include/hw/s390x/ioinst.h | 12 +++++++++++-
+> >  2 files changed, 24 insertions(+), 7 deletions(-)
 > 
-> It seems to be the name that is tripping it; if I rename it to
-> sec_addr
-> and the preceding field to fail_addr, the build passes.
-
-I was just wondering if it might have been the underscore directly, not
-that it was a single letter before the underscore. Weird.
-
+> (...)
 > 
-> Anyone know why that is? And if renaming is unavoidable, are
-> fail_addr
-> and sec_addr ok, or can we find better names?
-
-Since they're zero for Format-!0 ESWs, and regardless we don't fill
-them in anyway, could we just make them wordN and change the comment to
-give the descriptive name?
-
- /* format-0 extended-status word */
- typedef struct ESW {
--   uint32_t
-word0;
-+   uint32_t word0;      /* subchannel logout for format 0 */
-    
-uint32_t erw;
--   uint64_t f_addr;     /* Zeros for other ESW formats */
--   uint32_t s_addr;     /* Zeros for other ESW formats */
-+   uint64_t
-word2;      /* failing-storage address for format 0 */
-+   uint32_t
-word4;      /* scondary-CCW address for format 0 */
- } QEMU_PACKED ESW;
-
+> > diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
+> > index c6737a30d4..e7ab401781 100644
+> > --- a/include/hw/s390x/ioinst.h
+> > +++ b/include/hw/s390x/ioinst.h
+> > @@ -123,10 +123,20 @@ typedef struct SCHIB {
+> >      uint8_t mda[4];
+> >  } QEMU_PACKED SCHIB;
+> >  
+> > +/* format-0 extended-status word */
+> > +typedef struct ESW {
+> > +   uint32_t word0;
 > 
-> > In file included from /builds/cohuck/qemu/include/qemu/osdep.h:37,
-> >                  from ../hw/s390x/virtio-ccw-gpu.c:11:
-> > /builds/cohuck/qemu/include/qemu/compiler.h:80:36: error: static
-> > assertion failed: "size of IRB is wrong"
-> >    80 | #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x),
-> > msg)
-> >       |                                    ^~~~~~~~~~~~~~
-> > /builds/cohuck/qemu/include/hw/s390x/ioinst.h:143:1: note: in
-> > expansion of macro 'QEMU_BUILD_BUG_MSG'
-> >   143 | QEMU_BUILD_BUG_MSG(sizeof(IRB) != 96, "size of IRB is
-> > wrong");
-> >       | ^~~~~~~~~~~~~~~~~~
-> > 
+> Maybe append /* subchannel logout for format 0 */? Can do when
+> applying.
 > 
-> These were just follow-on errors.
-> 
-> > > +
-> > > +#define ESW_ERW_SENSE 0x01000000
-> > > +
-> > >  /* interruption response block */
-> > >  typedef struct IRB {
-> > >      SCSW scsw;
-> > > -    uint32_t esw[5];
-> > > +    ESW esw;
-> > >      uint32_t ecw[8];
-> > >      uint32_t emw[8];
-> > >  } IRB;
+
+That's a good idea.
+
+Eric
+
+> > +   uint32_t erw;
+> > +   uint64_t f_addr;     /* Zeros for other ESW formats */
+> > +   uint32_t s_addr;     /* Zeros for other ESW formats */
+> > +} QEMU_PACKED ESW;
+> > +
+> > +#define ESW_ERW_SENSE 0x01000000
+> > +
+> >  /* interruption response block */
+> >  typedef struct IRB {
+> >      SCSW scsw;
+> > -    uint32_t esw[5];
+> > +    ESW esw;
+> >      uint32_t ecw[8];
+> >      uint32_t emw[8];
+> >  } IRB;
 
 
