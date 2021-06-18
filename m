@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B919A3AC078
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 03:17:55 +0200 (CEST)
-Received: from localhost ([::1]:46408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6DB3AC08A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 03:29:59 +0200 (CEST)
+Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu38s-0006w6-Ec
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 21:17:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36090)
+	id 1lu3KY-0002wZ-9s
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 21:29:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lu37T-0005v1-Va
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 21:16:27 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:50461
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lu37O-0002L6-MF
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 21:16:27 -0400
-HMM_SOURCE_IP: 172.18.0.218:40330.768341828
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-10.133.8.242?logid-ff3bf385883e424e822d9f0092d3cb1f
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id A34E32800FB;
- Fri, 18 Jun 2021 09:16:12 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id ff3bf385883e424e822d9f0092d3cb1f for
- zhengchuan@huawei.com; Fri Jun 18 09:16:13 2021
-X-Transaction-ID: ff3bf385883e424e822d9f0092d3cb1f
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH v7 6/7] migration/dirtyrate: move init step of calculation
- to main thread
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1623938622.git.huangy81@chinatelecom.cn>
- <deba8e91c23a20254f86e7cc1c0f24d19d64f98c.1623938622.git.huangy81@chinatelecom.cn>
- <YMtroF40NYypccdg@t490s>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-Message-ID: <e23be263-b340-17c4-3978-2cc6e33950d1@chinatelecom.cn>
-Date: Fri, 18 Jun 2021 09:16:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lu3Iz-0002CT-VY; Thu, 17 Jun 2021 21:28:21 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:46807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lu3Ix-00016l-FX; Thu, 17 Jun 2021 21:28:21 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id b14so5240152iow.13;
+ Thu, 17 Jun 2021 18:28:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QoeQ+B+HIgdCtQqE/FFYT5buNvPboGVxTrbUOdzy5es=;
+ b=kTxGILpmauLcn6yVLC6D+JA3Fzi+aDwc8rpBmMXH5yTPP0dLS48GXZeGwICNSUg8Ri
+ vE/uOKKuUz21fr1ffha6XXiP8AOaQ0g/IHyL8iqiXAcK7u0gJmfYuP8tnoYIcp76yRb1
+ SEPQblUVdVi919cHzYw4sJ/NG1dYSWZTRlIytSIa5QDLT5c6cWbtpiOPv4+tbs4aLQLQ
+ EdDpuqVgkvCLYxVru8obhuvYuT5Gf/ZGkvlXOl6ewQqG4dQzTGPagQygsme3PGLK43nJ
+ PZMmWzVDCb9+Vt6HDGe1L4t2MN1cLlJJ/1lvBQWlOMvbewXDjVvehMaKfEb59pEaqhjs
+ 5zjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QoeQ+B+HIgdCtQqE/FFYT5buNvPboGVxTrbUOdzy5es=;
+ b=UnhpmJSONPTHyHlKbVPTH9KdVeIRJ1lKtuY82GRnhioLGvgRxTG3678EQLRbf3W+Bm
+ tAGeNs5fw1wtnp5u/KrDFnLIVgMYTuNaebh4xr1ownkzzoipR8E838Rlc/nVaVqkBIVu
+ nLEPsZepSok7nkRQ5fVPo2sNMPJ5BUFTDbkK/xmFYmGLtgM3FxeHDWT/0uIwWSG92fYY
+ KXQMaVnC4MFdTqtlaYyathy/eDn1EUfSKowTXFjnmD6PMXgsKTAPDTGH6S5vfIkZH+39
+ pLihHjryFLAp1cLxqUdSvvCmkHb0oJryhabaBQAEuLPvgwLP74lCl/LvDKwZ2Nio6fjo
+ vHBw==
+X-Gm-Message-State: AOAM532FJbIfaqf2hLPdXJV34M2gK8f9xmN5P/79KkK2D2ZxEhHFWLt2
+ BhP21G8VQCT0Pv8qOV7nzi91DN9McZGVWnC5OHQ=
+X-Google-Smtp-Source: ABdhPJzKyrOlFssLFVVJAqvEPitx064ApZb3cTOgSYxmzzHeTRhGwRuX/uln+ie00UnpcDxD/W0zgzQiAFQXjT53OLk=
+X-Received: by 2002:a05:6638:3048:: with SMTP id
+ u8mr925995jak.91.1623979697284; 
+ Thu, 17 Jun 2021 18:28:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YMtroF40NYypccdg@t490s>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.254,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210617165647.2575955-1-erdnaxe@crans.org>
+ <20210617165647.2575955-2-erdnaxe@crans.org>
+In-Reply-To: <20210617165647.2575955-2-erdnaxe@crans.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 18 Jun 2021 11:27:50 +1000
+Message-ID: <CAKmqyKOrBEYQS2qzhzvsX7ESUtk-VmT1fvnZFjjm54W2x7KUHA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] stm32f100: Add the stm32f100 SoC
+To: Alexandre Iooss <erdnaxe@crans.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,113 +77,335 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list : STM32VLDISCOVERY" <qemu-arm@nongnu.org>,
+ "open list : All patches CC here" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jun 18, 2021 at 2:56 AM Alexandre Iooss <erdnaxe@crans.org> wrote:
+>
+> This SoC is similar to stm32f205 SoC.
+> This will be used by the STM32VLDISCOVERY to create a machine.
+>
+> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
 
+Please keep any Reviewed by tags for a patch between versions if you
+don't make large changes.
 
-在 2021/6/17 23:34, Peter Xu 写道:
-> On Thu, Jun 17, 2021 at 10:12:07PM +0800, huangy81@chinatelecom.cn wrote:
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> since main thread may "query dirty rate" at any time, it's better
->> to move init step into main thead so that synchronization overhead
->> between "main" and "get_dirtyrate" can be reduced.
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> ---
->>   migration/dirtyrate.c | 23 +++++++++++++++++++----
->>   1 file changed, 19 insertions(+), 4 deletions(-)
->>
->> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
->> index a9bdd60..8a9dcf7 100644
->> --- a/migration/dirtyrate.c
->> +++ b/migration/dirtyrate.c
->> @@ -26,6 +26,7 @@
->>   
->>   static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
->>   static struct DirtyRateStat DirtyStat;
->> +static DirtyRateMeasureMode dirtyrate_mode = DIRTY_RATE_MEASURE_MODE_NONE;
->>   
->>   static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
->>   {
->> @@ -111,6 +112,11 @@ static void init_dirtyrate_stat(int64_t start_time,
->>       }
->>   }
->>   
->> +static void cleanup_dirtyrate_stat(struct DirtyRateConfig config)
->> +{
->> +    /* TODO */
->> +}
->> +
->>   static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
->>   {
->>       DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
->> @@ -380,7 +386,6 @@ void *get_dirtyrate_thread(void *arg)
->>   {
->>       struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
->>       int ret;
->> -    int64_t start_time;
->>       rcu_register_thread();
->>   
->>       ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
->> @@ -390,9 +395,6 @@ void *get_dirtyrate_thread(void *arg)
->>           return NULL;
->>       }
->>   
->> -    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
->> -    init_dirtyrate_stat(start_time, config);
->> -
->>       calculate_dirtyrate(config);
->>   
->>       ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
->> @@ -411,6 +413,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
->>       static struct DirtyRateConfig config;
->>       QemuThread thread;
->>       int ret;
->> +    int64_t start_time;
->>   
->>       /*
->>        * If the dirty rate is already being measured, don't attempt to start.
->> @@ -451,6 +454,18 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
->>       config.sample_period_seconds = calc_time;
->>       config.sample_pages_per_gigabytes = sample_pages;
->>       config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
->> +
->> +    cleanup_dirtyrate_stat(config);
-> 
-> This line should ideally be moved into the next patch, as sampling itself
-> doesn't need it. >
->> +
->> +    /*
->> +     * update dirty rate mode so that we can figure out what mode has
->> +     * been used in last calculation
->> +     **/
->> +    dirtyrate_mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-> 
-> This line is odd. Would page sampling broken if without this line?  We need to
-> make sure each commit keeps the old way working..
-> 
-yes, i'll drop this to make sure each commit keeps the old way working
-> Thanks,
-> 
->> +
->> +    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
->> +    init_dirtyrate_stat(start_time, config);
->> +
->>       qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
->>                          (void *)&config, QEMU_THREAD_DETACHED);
->>   }
->> -- 
->> 1.8.3.1
->>
-> 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
--- 
-Best regard
+Alistair
 
-Hyman Huang(黄勇)
+> ---
+>  MAINTAINERS                    |   6 ++
+>  hw/arm/Kconfig                 |   6 ++
+>  hw/arm/meson.build             |   1 +
+>  hw/arm/stm32f100_soc.c         | 182 +++++++++++++++++++++++++++++++++
+>  include/hw/arm/stm32f100_soc.h |  57 +++++++++++
+>  5 files changed, 252 insertions(+)
+>  create mode 100644 hw/arm/stm32f100_soc.c
+>  create mode 100644 include/hw/arm/stm32f100_soc.h
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7d9cd29042..62dfa31800 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -946,6 +946,12 @@ L: qemu-arm@nongnu.org
+>  S: Maintained
+>  F: hw/arm/virt-acpi-build.c
+>
+> +STM32F100
+> +M: Alexandre Iooss <erdnaxe@crans.org>
+> +L: qemu-arm@nongnu.org
+> +S: Maintained
+> +F: hw/arm/stm32f100_soc.c
+> +
+>  STM32F205
+>  M: Alistair Francis <alistair@alistair23.me>
+>  M: Peter Maydell <peter.maydell@linaro.org>
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 67723d9ea6..0bc3ee3e91 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -326,6 +326,12 @@ config RASPI
+>      select SDHCI
+>      select USB_DWC2
+>
+> +config STM32F100_SOC
+> +    bool
+> +    select ARM_V7M
+> +    select STM32F2XX_USART
+> +    select STM32F2XX_SPI
+> +
+>  config STM32F205_SOC
+>      bool
+>      select ARM_V7M
+> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+> index be39117b9b..0e637e6a9e 100644
+> --- a/hw/arm/meson.build
+> +++ b/hw/arm/meson.build
+> @@ -39,6 +39,7 @@ arm_ss.add(when: 'CONFIG_STRONGARM', if_true: files('strongarm.c'))
+>  arm_ss.add(when: 'CONFIG_ALLWINNER_A10', if_true: files('allwinner-a10.c', 'cubieboard.c'))
+>  arm_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-h3.c', 'orangepi.c'))
+>  arm_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_peripherals.c', 'bcm2836.c', 'raspi.c'))
+> +arm_ss.add(when: 'CONFIG_STM32F100_SOC', if_true: files('stm32f100_soc.c'))
+>  arm_ss.add(when: 'CONFIG_STM32F205_SOC', if_true: files('stm32f205_soc.c'))
+>  arm_ss.add(when: 'CONFIG_STM32F405_SOC', if_true: files('stm32f405_soc.c'))
+>  arm_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp.c', 'xlnx-zcu102.c'))
+> diff --git a/hw/arm/stm32f100_soc.c b/hw/arm/stm32f100_soc.c
+> new file mode 100644
+> index 0000000000..0c4a5c6645
+> --- /dev/null
+> +++ b/hw/arm/stm32f100_soc.c
+> @@ -0,0 +1,182 @@
+> +/*
+> + * STM32F100 SoC
+> + *
+> + * Copyright (c) 2021 Alexandre Iooss <erdnaxe@crans.org>
+> + * Copyright (c) 2014 Alistair Francis <alistair@alistair23.me>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/module.h"
+> +#include "hw/arm/boot.h"
+> +#include "exec/address-spaces.h"
+> +#include "hw/arm/stm32f100_soc.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/misc/unimp.h"
+> +#include "sysemu/sysemu.h"
+> +
+> +/* stm32f100_soc implementation is derived from stm32f205_soc */
+> +
+> +static const uint32_t usart_addr[STM_NUM_USARTS] = { 0x40013800, 0x40004400,
+> +    0x40004800 };
+> +static const uint32_t spi_addr[STM_NUM_SPIS] = { 0x40013000, 0x40003800 };
+> +
+> +static const int usart_irq[STM_NUM_USARTS] = {37, 38, 39};
+> +static const int spi_irq[STM_NUM_SPIS] = {35, 36};
+> +
+> +static void stm32f100_soc_initfn(Object *obj)
+> +{
+> +    STM32F100State *s = STM32F100_SOC(obj);
+> +    int i;
+> +
+> +    object_initialize_child(obj, "armv7m", &s->armv7m, TYPE_ARMV7M);
+> +
+> +    for (i = 0; i < STM_NUM_USARTS; i++) {
+> +        object_initialize_child(obj, "usart[*]", &s->usart[i],
+> +                                TYPE_STM32F2XX_USART);
+> +    }
+> +
+> +    for (i = 0; i < STM_NUM_SPIS; i++) {
+> +        object_initialize_child(obj, "spi[*]", &s->spi[i], TYPE_STM32F2XX_SPI);
+> +    }
+> +}
+> +
+> +static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
+> +{
+> +    STM32F100State *s = STM32F100_SOC(dev_soc);
+> +    DeviceState *dev, *armv7m;
+> +    SysBusDevice *busdev;
+> +    int i;
+> +
+> +    MemoryRegion *system_memory = get_system_memory();
+> +    MemoryRegion *sram = g_new(MemoryRegion, 1);
+> +    MemoryRegion *flash = g_new(MemoryRegion, 1);
+> +    MemoryRegion *flash_alias = g_new(MemoryRegion, 1);
+> +
+> +    /*
+> +     * Init flash region
+> +     * Flash starts at 0x08000000 and then is aliased to boot memory at 0x0
+> +     */
+> +    memory_region_init_rom(flash, OBJECT(dev_soc), "STM32F100.flash",
+> +                           FLASH_SIZE, &error_fatal);
+> +    memory_region_init_alias(flash_alias, OBJECT(dev_soc),
+> +                             "STM32F100.flash.alias", flash, 0, FLASH_SIZE);
+> +    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
+> +    memory_region_add_subregion(system_memory, 0, flash_alias);
+> +
+> +    /* Init SRAM region */
+> +    memory_region_init_ram(sram, NULL, "STM32F100.sram", SRAM_SIZE,
+> +                           &error_fatal);
+> +    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
+> +
+> +    /* Init ARMv7m */
+> +    armv7m = DEVICE(&s->armv7m);
+> +    qdev_prop_set_uint32(armv7m, "num-irq", 61);
+> +    qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
+> +    qdev_prop_set_bit(armv7m, "enable-bitband", true);
+> +    object_property_set_link(OBJECT(&s->armv7m), "memory",
+> +                             OBJECT(get_system_memory()), &error_abort);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), errp)) {
+> +        return;
+> +    }
+> +
+> +    /* Attach UART (uses USART registers) and USART controllers */
+> +    for (i = 0; i < STM_NUM_USARTS; i++) {
+> +        dev = DEVICE(&(s->usart[i]));
+> +        qdev_prop_set_chr(dev, "chardev", serial_hd(i));
+> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->usart[i]), errp)) {
+> +            return;
+> +        }
+> +        busdev = SYS_BUS_DEVICE(dev);
+> +        sysbus_mmio_map(busdev, 0, usart_addr[i]);
+> +        sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, usart_irq[i]));
+> +    }
+> +
+> +    /* SPI 1 and 2 */
+> +    for (i = 0; i < STM_NUM_SPIS; i++) {
+> +        dev = DEVICE(&(s->spi[i]));
+> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), errp)) {
+> +            return;
+> +        }
+> +        busdev = SYS_BUS_DEVICE(dev);
+> +        sysbus_mmio_map(busdev, 0, spi_addr[i]);
+> +        sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, spi_irq[i]));
+> +    }
+> +
+> +    create_unimplemented_device("timer[2]",  0x40000000, 0x400);
+> +    create_unimplemented_device("timer[3]",  0x40000400, 0x400);
+> +    create_unimplemented_device("timer[4]",  0x40000800, 0x400);
+> +    create_unimplemented_device("timer[6]",  0x40001000, 0x400);
+> +    create_unimplemented_device("timer[7]",  0x40001400, 0x400);
+> +    create_unimplemented_device("RTC",       0x40002800, 0x400);
+> +    create_unimplemented_device("WWDG",      0x40002C00, 0x400);
+> +    create_unimplemented_device("IWDG",      0x40003000, 0x400);
+> +    create_unimplemented_device("I2C1",      0x40005400, 0x400);
+> +    create_unimplemented_device("I2C2",      0x40005800, 0x400);
+> +    create_unimplemented_device("BKP",       0x40006C00, 0x400);
+> +    create_unimplemented_device("PWR",       0x40007000, 0x400);
+> +    create_unimplemented_device("DAC",       0x40007400, 0x400);
+> +    create_unimplemented_device("CEC",       0x40007800, 0x400);
+> +    create_unimplemented_device("AFIO",      0x40010000, 0x400);
+> +    create_unimplemented_device("EXTI",      0x40010400, 0x400);
+> +    create_unimplemented_device("GPIOA",     0x40010800, 0x400);
+> +    create_unimplemented_device("GPIOB",     0x40010C00, 0x400);
+> +    create_unimplemented_device("GPIOC",     0x40011000, 0x400);
+> +    create_unimplemented_device("GPIOD",     0x40011400, 0x400);
+> +    create_unimplemented_device("GPIOE",     0x40011800, 0x400);
+> +    create_unimplemented_device("ADC1",      0x40012400, 0x400);
+> +    create_unimplemented_device("timer[1]",  0x40012C00, 0x400);
+> +    create_unimplemented_device("timer[15]", 0x40014000, 0x400);
+> +    create_unimplemented_device("timer[16]", 0x40014400, 0x400);
+> +    create_unimplemented_device("timer[17]", 0x40014800, 0x400);
+> +    create_unimplemented_device("DMA",       0x40020000, 0x400);
+> +    create_unimplemented_device("RCC",       0x40021000, 0x400);
+> +    create_unimplemented_device("Flash Int", 0x40022000, 0x400);
+> +    create_unimplemented_device("CRC",       0x40023000, 0x400);
+> +}
+> +
+> +static Property stm32f100_soc_properties[] = {
+> +    DEFINE_PROP_STRING("cpu-type", STM32F100State, cpu_type),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void stm32f100_soc_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->realize = stm32f100_soc_realize;
+> +    device_class_set_props(dc, stm32f100_soc_properties);
+> +}
+> +
+> +static const TypeInfo stm32f100_soc_info = {
+> +    .name          = TYPE_STM32F100_SOC,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(STM32F100State),
+> +    .instance_init = stm32f100_soc_initfn,
+> +    .class_init    = stm32f100_soc_class_init,
+> +};
+> +
+> +static void stm32f100_soc_types(void)
+> +{
+> +    type_register_static(&stm32f100_soc_info);
+> +}
+> +
+> +type_init(stm32f100_soc_types)
+> diff --git a/include/hw/arm/stm32f100_soc.h b/include/hw/arm/stm32f100_soc.h
+> new file mode 100644
+> index 0000000000..71bffcf4fd
+> --- /dev/null
+> +++ b/include/hw/arm/stm32f100_soc.h
+> @@ -0,0 +1,57 @@
+> +/*
+> + * STM32F100 SoC
+> + *
+> + * Copyright (c) 2021 Alexandre Iooss <erdnaxe@crans.org>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#ifndef HW_ARM_STM32F100_SOC_H
+> +#define HW_ARM_STM32F100_SOC_H
+> +
+> +#include "hw/char/stm32f2xx_usart.h"
+> +#include "hw/ssi/stm32f2xx_spi.h"
+> +#include "hw/arm/armv7m.h"
+> +#include "qom/object.h"
+> +
+> +#define TYPE_STM32F100_SOC "stm32f100-soc"
+> +OBJECT_DECLARE_SIMPLE_TYPE(STM32F100State, STM32F100_SOC)
+> +
+> +#define STM_NUM_USARTS 3
+> +#define STM_NUM_SPIS 2
+> +
+> +#define FLASH_BASE_ADDRESS 0x08000000
+> +#define FLASH_SIZE (128 * 1024)
+> +#define SRAM_BASE_ADDRESS 0x20000000
+> +#define SRAM_SIZE (8 * 1024)
+> +
+> +struct STM32F100State {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+> +    char *cpu_type;
+> +
+> +    ARMv7MState armv7m;
+> +
+> +    STM32F2XXUsartState usart[STM_NUM_USARTS];
+> +    STM32F2XXSPIState spi[STM_NUM_SPIS];
+> +};
+> +
+> +#endif
+> --
+> 2.25.1
+>
 
