@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A533AD022
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:13:17 +0200 (CEST)
-Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651373AD032
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:16:04 +0200 (CEST)
+Received: from localhost ([::1]:49344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luH7M-0002bI-9w
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48410)
+	id 1luHA3-0000Da-EC
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1luGvU-0001a8-9p
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:01:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37042)
+ id 1luH08-0001Nz-Ec
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:05:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1luGvP-00045g-Ht
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:00:59 -0400
+ id 1luH05-00079b-Oi
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:05:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1luGvL-0001sc-L3
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:00:51 +0000
+ id 1luH03-0002i6-6a
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:05:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D3F62E8087
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:00:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2FDED2E8075
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:05:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Jun 2021 15:53:34 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1858814@bugs.launchpad.net>
+Date: Fri, 18 Jun 2021 15:58:43 -0000
+From: Thomas Huth <1871842@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: edk2
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <157849903743.2804.3996411796742068143.malonedeb@soybean.canonical.com>
-Message-Id: <162403161547.11705.7985024734748931188.launchpad@soybean.canonical.com>
-Subject: [Bug 1858814] Re: 'make -C roms efi' does not update edk2 submodules
+X-Launchpad-Bug-Commenters: babumoger e-philipp ehabkost imammedo th-huth
+X-Launchpad-Bug-Reporter: Philipp Eppelt (e-philipp)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158643709116.17430.15995069125716778943.malonedeb@wampee.canonical.com>
+Message-Id: <162403192341.17154.8129384244201606893.malone@gac.canonical.com>
+Subject: [Bug 1871842] Re: AMD CPUID leaf 0x8000'0008 reported number of cores
+ inconsistent with ACPI.MADT
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 7a9327abf1ce0f9308d911c2be75dc9466ff382c
+X-Launchpad-Hash: eb69833b16645c61812e86119c525f33020baeae
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,40 +71,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858814 <1858814@bugs.launchpad.net>
+Reply-To: Bug 1871842 <1871842@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The patch mentioned earlier has been included here:
+https://gitlab.com/qemu-project/qemu/-/commit/cac9edfc4dad2a7d2ad7e
+So I assume this has been fixed. If you still have problems, please open a =
+new ticket in the new bug tracker at gitlab.
+
 ** Changed in: qemu
-     Assignee: Philippe Mathieu-Daud=C3=A9 (philmd) =3D> (unassigned)
+       Status: Incomplete =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858814
+https://bugs.launchpad.net/bugs/1871842
 
 Title:
-  'make -C roms efi' does not update edk2 submodules
+  AMD CPUID leaf 0x8000'0008 reported number of cores  inconsistent with
+  ACPI.MADT
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  On a fresh clone, 'make -C roms efi' fails because submodule is not
-  initialized [1]:
+  Setup:
+  CPU: AMD EPYC-v2 or host's EPYC cpu
+  Linux 64-bit fedora host; Kernel version 5.5.15-200.fc31
+  qemu version: self build
+  git-head: f3bac27cc1e303e1860cc55b9b6889ba39dee587
+  config: Configured with: '../configure' '--target-list=3Dx86_64-softmmu,m=
+ips64el-softmmu,mips64-softmmu,mipsel-softmmu,mips-softmmu,i386-softmmu,aar=
+ch64-softmmu,arm-softmmu' '--prefix=3D/opt/qemu-master'
 
-  /builds/philmd/qemu/roms/edk2/CryptoPkg/Library/OpensslLib/OpensslLibCryp=
-to.inf(-1): error 000E: File/directory not found in workspace
-  /builds/philmd/qemu/roms/edk2/CryptoPkg/Library/OpensslLib/openssl/e_os.h
-  - Failed -
+  Cmdline: =
 
-  Laszlo suggested [2] it is possibly a regression from commit f3e330e3c319:
-  "roms/Makefile.edk2: don't pull in submodules when building from tarball"
+  qemu-system-x86_64 -kernel /home/peppelt/code/l4/internal/.build-x86_64/b=
+in/amd64_gen/bootstrap -append "" -initrd "./fiasco/.build-x86_64/fiasco , =
+... " -serial stdio -nographic -monitor none -nographic -monitor none -cpu =
+EPYC-v2 -m 4G -smp 4 =
 
-  [1] https://gitlab.com/philmd/qemu/-/jobs/395644357#L436
-  [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg668929.html
+
+  Issue:
+  We are developing an microkernel operating system called L4Re. We recentl=
+y got an AMD EPYC server for testing and we couldn't execute SMP tests of o=
+ur system when running Linux + qemu + VM w/ L4Re.
+  In fact, the kernel did not recognize any APs at all. On AMD CPUs the ker=
+nel checks for the number of cores reported in CPUID leaf 0x8000_0008.ECX[N=
+C] or [ApicIdSize].  [0][1]
+
+  The physical machine reports for leaf 0x8000_0008:  EAX: 0x3030 EBX: 0x18=
+cf757 ECX: 0x703f EDX: 0x1000
+  The lower four bits of ECX are the [NC] field and all set.
+
+  When querying inside qemu with -enable-kvm -cpu host -smp 4 (basically as=
+ replacement and addition to the above cmdline) the CPUID leaf shows: EAX: =
+0x3024, EBX: 0x1001000, ECX: 0x0, EDX: 0x0
+  Note, ECX is zero. Indicating that this is no SMP capabale CPU.
+
+  I'm debugging it using my local machine and the QEMU provided EPYC-v2
+  CPU model and it is reproducible there as well and reports:  EAX:
+  0x3028, EBX: 0x0, ECX: 0x0, EDX: 0x0
+
+  I checked other AMD based CPU models (phenom, opteron_g3/g5) and they beh=
+ave the same. [2] shows the CPUID 0x8000'0008 handling in the QEMU source.
+  I believe that behavior here is wrong as ECX[NC] should report the number=
+ of cores per processor, as stated in the AMD manual [2] p.584. In my under=
+standing -smp 4 should then lead to ECX[NC] =3D 0x3.
+
+  The following table shows my findings with the -smp option:
+  Option | Qemu guest observed ECX value
+  -smp 4 | 0x0
+  -smp 4,cores=3D4  | 0x3
+  -smp 4,cores=3D2,thread=3D2 | 0x3
+  -smp 4,cores=3D4,threads=3D2 | QEMU boot error: topology false.
+
+  Now, I'm asking myself how the terminology of the AMD manual maps to QEMU=
+'s -smp option.
+  Obviously, nr_cores and nr_threads correspond to the cores and threads op=
+tions on the cmdline and cores * threads <=3D 4 (in this example), but what=
+ corresponds the X in -smp X to?
+
+  Querying 0x8000'0008 on the physical processor results in different
+  reports than quering QEMU's model as does it with -enable-kvm -cpu
+  host.
+
+  Furthermore, the ACPI.MADT shows 4 local APICs to be present while the
+  CPU leave reports a single core processor.
+
+  This leads me to the conclusion that CPUID 0x8000'0008.ECX reports the
+  wrong number.
+
+  =
+
+  Please let me know, if you need more information from my side.
+
+  =
+
+  [0] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
+28e2b879cbbd19/src/kern/ia32/kernel_thread-ia32.cpp#L109
+  [1] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
+28e2b879cbbd19/src/kern/ia32/cpu-ia32.cpp#L1120
+  [2] https://github.com/qemu/qemu/blob/f2a8261110c32c4dccd84e774d8dd7a0524=
+e00fb/target/i386/cpu.c#L5835
+  [3] https://www.amd.com/system/files/TechDocs/24594.pdf
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858814/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1871842/+subscriptions
 
