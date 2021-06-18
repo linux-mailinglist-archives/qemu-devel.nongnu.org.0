@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB42E3AD5C9
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:23:38 +0200 (CEST)
-Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CFB3AD5AF
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:13:45 +0200 (CEST)
+Received: from localhost ([::1]:54806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNpp-0007tz-Qt
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34978)
+	id 1luNgG-0001eO-Km
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYI-00074v-Dl
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21581)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYF-0006y6-JF
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYE-0006E1-Ot
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYA-0006DC-G0
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057523;
+ s=mimecast20190719; t=1624057521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MMNzTgFozOjLQnCd9IXOX8nzG827xp6iqdKEqpuiIUk=;
- b=Sbw1rsCjqALX7U12+D/vtYkA9RPxkcZpF+eegRTIQs8wCgyp0skEnc+z9810q/Z6EJhIk2
- PoGsZO7rhhRmkyN9EMtivI4XF5rPSD6GXx+IaCKtAwWlJ1VIMMsrjUxEyxoGdAXbdgrd21
- CzRYKmG0APxhGAVOkvLTwyOKxPbcnHo=
+ bh=nd4p4FHHX2SvWERflNrsadBufG2vTTNRyvPSgT2Dh8w=;
+ b=IgURuTThQUj/fwd11gBb/ZWJ5L6TC5n0Vd03fvIGEe+h+W+XBQWCr7ffuFhCd8LlsIPEIc
+ HKWhGg8jXRTKgVTIV6qBkxfq8967VQFnIEhqeToRzV+JJS+sBg4cnOSdCcXxcUHyWYWuUg
+ XlgP6fAxEVMaeC1uvxguULGeYfA0Ks4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-B7oAL89BOCGsHNLXBZUysg-1; Fri, 18 Jun 2021 19:05:19 -0400
-X-MC-Unique: B7oAL89BOCGsHNLXBZUysg-1
+ us-mta-78-dKVz9vxyMrKakv4XZYukzw-1; Fri, 18 Jun 2021 19:05:20 -0400
+X-MC-Unique: dKVz9vxyMrKakv4XZYukzw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 625AF100C662;
- Fri, 18 Jun 2021 23:05:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CA251084F53;
+ Fri, 18 Jun 2021 23:05:19 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEE1010246F1;
- Fri, 18 Jun 2021 23:05:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 880811017CE5;
+ Fri, 18 Jun 2021 23:05:18 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/72] python: add optional FUSE dependencies
-Date: Fri, 18 Jun 2021 19:03:59 -0400
-Message-Id: <20210618230455.2891199-17-jsnow@redhat.com>
+Subject: [PULL 17/72] scripts/qom-fuse: move to python/qemu/qmp/qom_fuse.py
+Date: Fri, 18 Jun 2021 19:04:00 -0400
+Message-Id: <20210618230455.2891199-18-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,79 +82,62 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation for moving qom-fuse over to the python package, we need
-some new dependencies to support it.
-
-Add an optional 'fusepy' dependency that users of the package can opt
-into with e.g. "pip install qemu[fuse]" which installs the requirements
-necessary to obtain the additional functionality.
-
-Add the same fusepy dependency to the 'devel' extras group --
-unfortunately I do not see a way for optional groups to imply other
-optional groups at present, so the dependency is repeated. The
-development group needs to include the full set of dependencies for the
-purpose of static analysis of all features offered by this library.
-
-Lastly, add the [fuse] extras group to tox's configuration as a
-workaround so that if a stale tox environment is found when running
-`make check-tox`, tox will know to rebuild its environments.
+Move qom-fuse over to the python package now that it passes the
+linter. Update the import paradigms so that it continues to pass in the
+context of the Python package.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210603003719.1321369-17-jsnow@redhat.com
+Message-id: 20210603003719.1321369-18-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/Pipfile.lock | 6 ++++++
- python/setup.cfg    | 9 ++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ scripts/qmp/qom-fuse => python/qemu/qmp/qom_fuse.py | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
+ rename scripts/qmp/qom-fuse => python/qemu/qmp/qom_fuse.py (95%)
+ mode change 100755 => 100644
 
-diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-index f2a3f91d0f..5bb3f1b635 100644
---- a/python/Pipfile.lock
-+++ b/python/Pipfile.lock
-@@ -67,6 +67,12 @@
-             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
-             "version": "==3.9.2"
-         },
-+        "fusepy": {
-+            "hashes": [
-+                "sha256:72ff783ec2f43de3ab394e3f7457605bf04c8cf288a2f4068b4cde141d4ee6bd"
-+            ],
-+            "version": "==3.0.1"
-+        },
-         "importlib-metadata": {
-             "hashes": [
-                 "sha256:8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581",
-diff --git a/python/setup.cfg b/python/setup.cfg
-index ba8d29fd62..aca6f31185 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -32,11 +32,16 @@ packages =
- devel =
-     avocado-framework >= 87.0
-     flake8 >= 3.6.0
-+    fusepy >= 2.0.4
-     isort >= 5.1.2
-     mypy >= 0.770
-     pylint >= 2.8.0
-     tox >= 3.18.0
+diff --git a/scripts/qmp/qom-fuse b/python/qemu/qmp/qom_fuse.py
+old mode 100755
+new mode 100644
+similarity index 95%
+rename from scripts/qmp/qom-fuse
+rename to python/qemu/qmp/qom_fuse.py
+index a5a7a304a3..43f4671fdb
+--- a/scripts/qmp/qom-fuse
++++ b/python/qemu/qmp/qom_fuse.py
+@@ -1,4 +1,3 @@
+-#!/usr/bin/env python3
+ """
+ QEMU Object Model FUSE filesystem tool
  
-+# Provides qom-fuse functionality
-+fuse =
-+    fusepy >= 2.0.4
-+
- [options.entry_points]
- console_scripts =
-     qom = qemu.qmp.qom:main
-@@ -114,6 +119,8 @@ envlist = py36, py37, py38, py39, py310
+@@ -35,7 +34,6 @@
  
- [testenv]
- allowlist_externals = make
--deps = .[devel]
-+deps =
-+    .[devel]
-+    .[fuse]  # Workaround to trigger tox venv rebuild
- commands =
-     make check
+ import argparse
+ from errno import ENOENT, EPERM
+-import os
+ import stat
+ import sys
+ from typing import (
+@@ -50,10 +48,8 @@
+ import fuse
+ from fuse import FUSE, FuseOSError, Operations
+ 
+-
+-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu.qmp import QMPResponseError
+-from qemu.qmp.qom_common import QOMCommand
++from . import QMPResponseError
++from .qom_common import QOMCommand
+ 
+ 
+ fuse.fuse_python_api = (0, 2)
+@@ -208,7 +204,3 @@ def readdir(self, path: str, fh: IO[bytes]) -> Iterator[str]:
+         yield '..'
+         for item in self.qom_list(path):
+             yield item.name
+-
+-
+-if __name__ == '__main__':
+-    sys.exit(QOMFuse.entry_point())
 -- 
 2.31.1
 
