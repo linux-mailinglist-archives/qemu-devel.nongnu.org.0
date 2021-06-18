@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2B53AD616
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:43:00 +0200 (CEST)
-Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0663AD630
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:56:24 +0200 (CEST)
+Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luO8Y-0003IG-Tv
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
+	id 1luOLX-0001KD-N0
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:56:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNZN-0000VA-5D
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32768)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNZO-0000bE-Na
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNZK-0006tk-VW
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNZL-0006tt-Mg
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057594;
+ s=mimecast20190719; t=1624057595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h4o1N9WZeRqx/pLPX9wgGLckrdayNGvcjSLAa5GQsw0=;
- b=LeGoVgeVf5gqphocM6JALOp2jsu+yvROHN3/z5ccaxZjHNvhEyPUuda7pOmXSUOLjwXyNb
- n8xPeK1udRlB5fzfbyQD483GYhPfdNXCXcrYtSL86aKhpyzeKsw1IvD0u+Gc748po1iCfO
- K94wWfP76Soq4Ce66+4+CwKACBVbGG0=
+ bh=G+2Gc+wwIfHYNTsWVnCeg3cf5vURJwgIW5GoS+B+eC4=;
+ b=IFnQFrxMnxno/xEYmg8p0+fcKVIwCGQR9mPFkQCcWS8hH5pAX7R+ulYHjmkr3QJ2ZdysXm
+ paO/h/9feQdHN3w7ohy8F5OqNVPos4fU9fLRoYLOWT2mgqQoCX8Ys2Tde+K5HNILYs6emg
+ Qx5bE/6TKUlr77gK1drwL6flWEMIWl0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-sfSUmelnPS6MamxS7jP4uA-1; Fri, 18 Jun 2021 19:06:32 -0400
-X-MC-Unique: sfSUmelnPS6MamxS7jP4uA-1
+ us-mta-230-oIn_C4kDNmmknvsVSK8v3w-1; Fri, 18 Jun 2021 19:06:33 -0400
+X-MC-Unique: oIn_C4kDNmmknvsVSK8v3w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FFA1343D2;
- Fri, 18 Jun 2021 23:06:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DA07800C78;
+ Fri, 18 Jun 2021 23:06:32 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1B3E1000358;
- Fri, 18 Jun 2021 23:06:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C28251000358;
+ Fri, 18 Jun 2021 23:06:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 70/72] scripts/qmp-shell: move to python/qemu/qmp/qmp_shell.py
-Date: Fri, 18 Jun 2021 19:04:53 -0400
-Message-Id: <20210618230455.2891199-71-jsnow@redhat.com>
+Subject: [PULL 71/72] python: add qmp-shell entry point
+Date: Fri, 18 Jun 2021 19:04:54 -0400
+Message-Id: <20210618230455.2891199-72-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,46 +82,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The script will be unavailable for a commit or two, which will help
-preserve development history attached to the new file. A forwarder will
-be added shortly afterwards.
-
-With qmp_shell in the python qemu.qmp package, now it is fully type
-checked, linted, etc. via the Python CI. It will be quite a bit harder
-to accidentally break it again in the future.
+now 'qmp-shell' should be available from the command line when
+installing the python package.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210607200649.1840382-41-jsnow@redhat.com
+Message-id: 20210607200649.1840382-42-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell => python/qemu/qmp/qmp_shell.py | 3 ---
- 1 file changed, 3 deletions(-)
- rename scripts/qmp/qmp-shell => python/qemu/qmp/qmp_shell.py (99%)
- mode change 100755 => 100644
+ python/setup.cfg | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/qmp/qmp-shell b/python/qemu/qmp/qmp_shell.py
-old mode 100755
-new mode 100644
-similarity index 99%
-rename from scripts/qmp/qmp-shell
-rename to python/qemu/qmp/qmp_shell.py
-index 15aedb80c2..337acfce2d
---- a/scripts/qmp/qmp-shell
-+++ b/python/qemu/qmp/qmp_shell.py
-@@ -1,4 +1,3 @@
--#!/usr/bin/env python3
- #
- # Copyright (C) 2009, 2010 Red Hat Inc.
- #
-@@ -96,8 +95,6 @@
-     Sequence,
- )
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 7f3c59d74e..85cecbb41b 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -51,6 +51,7 @@ console_scripts =
+     qom-tree = qemu.qmp.qom:QOMTree.entry_point
+     qom-fuse = qemu.qmp.qom_fuse:QOMFuse.entry_point [fuse]
+     qemu-ga-client = qemu.qmp.qemu_ga_client:main
++    qmp-shell = qemu.qmp.qmp_shell:main
  
--
--sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qmp
- from qemu.qmp import QMPMessage
- 
+ [flake8]
+ extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
 -- 
 2.31.1
 
