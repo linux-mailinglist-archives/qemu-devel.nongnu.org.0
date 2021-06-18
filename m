@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E123AD557
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 00:44:08 +0200 (CEST)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372443AD558
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 00:44:22 +0200 (CEST)
+Received: from localhost ([::1]:36098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNDb-0002Ck-Bp
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 18:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57902)
+	id 1luNDp-0002o2-58
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 18:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luNAb-0005b4-6r
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:41:01 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:35416)
+ id 1luNBs-00080t-Os
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:42:20 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luNAZ-00069i-Lf
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:41:00 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- pf4-20020a17090b1d84b029016f6699c3f2so1691976pjb.0
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:40:58 -0700 (PDT)
+ id 1luNBr-0007Dl-7J
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:42:20 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id bb20so2404156pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 15:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JJoTUf0U3pJsRg6NZ7uqQeVRJxHKKo1I4fmow8CxV+8=;
- b=UKSZ+7df+dfXkw6fwK0MGnPDQpufd8W0ixAbY7HWV8zqW/2Kkf4ujMbbHX5GWMbi+k
- V90us5i0epFGIrjrYR7FOVCjoIokOOTbHO9bQkgtp9r6Dyf5uG9yKK4AbdlDDxCE15mv
- lhXSGJQ83lVuXQ3dt+l3DOFGYXXq9o2J9VI4E+vV2ob2fKLHlRd4pelnmj9NmV1rLdlT
- JX2hY+xjJd/Uo/33nNsf70E2JEr5I6cI6BjswlCH8mGpNfXodHW8jTvMBclUHsYsLlAe
- 9HdExH5uH4R2ItepwYIt2FrlKkI10vBmJcrChj3UC0E33UiKKZVaCZsGRwH8PTpWkBS2
- WYzA==
+ bh=J4XRE4LWAGlaWSTM4T/9lD15bv92cqF+bgQ04d9+Nz8=;
+ b=Wc6t+OoMQ0v2/dZtrP+dOhujfz2/VGPKC6dYjm0dvYSuAel7NDEPKktMrEcDca+4KH
+ EP/L4+8ubPURPsLurqrvVAFBb4CCyaZtw2HN+h4NbL10E+e4itl6k0PiHNA5YM+w9tsR
+ OmuNGgBq8MzYaCIX+PEA2gG1BFNkitFDQZ8ysnFMIUkf2VFnYl/7jAjpYi85vvFC+sMu
+ 6YXbDH2RJDE+RnLhvgF0fB57StgwAX1/CewBfAYMmol3OZRptnmPLGFFkduwNnNYdY2y
+ mZ/JIXPSICeigG0Zrcgf3pOaXcvPVgJE7WATANRg8BSkbTyaLI8boKsdrRYXXLvWEW8j
+ reXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JJoTUf0U3pJsRg6NZ7uqQeVRJxHKKo1I4fmow8CxV+8=;
- b=rmuk7IBv22BFIyXetPXFm0kfjZWZhl9hO49HL6XqDQEvzzGmqG8ivEW2xOfKGkbcfZ
- oT1mCjDgNYR0QWIlFsa9G6jGG0NZ5whLA57SqisiLNinPXu4NA+8ww+531PZxyxHuyNB
- 1aPPObs6gR1HsK83wAsMEsJFYb4K+qUe9pDPegiaXPMTnSIS9Vqqateu9K3mu74RILzB
- 5KrVevLgak45n8LHL82GR4hAPhlCgIetTEFOOTa3RzTb8xoaYmT0wmsqMkr5bS+tdAtg
- 9JU4i/FlRoQdaMPUHPguZEaOG8lvTc0h/enVh1XKq+xJh9pMiyww2hjvx3CbVA6b3fnr
- hkaA==
-X-Gm-Message-State: AOAM530G3WCKpmcCCynBog/B/htb/epHfJRkWG/jKPVuUaY1yRylzuYQ
- tt666CkC/rLYS6Hc7V8witQLJ5se/fNpwg==
-X-Google-Smtp-Source: ABdhPJze411pxcZ93MmCcjK+zDDmn5iR7dL489MmGl5aSgMLMQb/1l/1jXQ7PTqQ9DEWIjHar5gtSw==
-X-Received: by 2002:a17:90a:640c:: with SMTP id
- g12mr24989806pjj.52.1624056057249; 
- Fri, 18 Jun 2021 15:40:57 -0700 (PDT)
+ bh=J4XRE4LWAGlaWSTM4T/9lD15bv92cqF+bgQ04d9+Nz8=;
+ b=TxPrYC9yEMVt4Z5c9KFlwpIGYszZI6P+QQcZdkVCn6IQZq2elKV7I0w7ZylvMvdshE
+ Q+gv/sW9CfCxhx56hfiRrM55lIt3l6jcact/vkM4iMmppj/cV1xzHy92/4Omff5hiBE+
+ oXra6mPdgiNs3SkmTbVcFL5DlUT5BNcxYrq3hItBrvu3GBfg5l6TcNzK4+dj1GS7bdED
+ a/kE1L8uBDb8uvulvgiLH7hVl9KSsw7RtNNU/kDW/c3xWKFBDP35MvYcyorbYerYkgBF
+ 4Le2j/Xl2jEZM4h6cs00SiWwRfb/ijJSBbA3h0ooPRkYhB3mtzQHPH1sDaBUre0y+cbM
+ qisw==
+X-Gm-Message-State: AOAM531qQ9sj9s2oNzZV9TrwK8/axhXTCUKqEbkIUyiNz0CWotflAD6I
+ rDgUEo6UUWqlqOx8YucV0S6VgQ==
+X-Google-Smtp-Source: ABdhPJx1qew8bpwqvpNxZ9AMaxbMiUs5dWJniSUAhdIf3QfkAJ4jkWqWuNIiGXoCk2mVmaL53iEkbA==
+X-Received: by 2002:a17:90a:8804:: with SMTP id
+ s4mr13408023pjn.200.1624056137952; 
+ Fri, 18 Jun 2021 15:42:17 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id fr20sm8621240pjb.29.2021.06.18.15.40.56
+ by smtp.gmail.com with ESMTPSA id o16sm8312690pfu.75.2021.06.18.15.42.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 15:40:57 -0700 (PDT)
-Subject: Re: [PATCH 8/9] target/mips: Constify host_to_mips_errno[]
+ Fri, 18 Jun 2021 15:42:17 -0700 (PDT)
+Subject: Re: [PATCH 9/9] target/mips: Optimize regnames[] arrays
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210617174323.2900831-1-f4bug@amsat.org>
- <20210617174323.2900831-9-f4bug@amsat.org>
+ <20210617174323.2900831-10-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f352008f-4308-5859-7929-a6f9f09d3f92@linaro.org>
-Date: Fri, 18 Jun 2021 15:40:55 -0700
+Message-ID: <6b23cb9e-90b9-6396-6213-ffc57792c226@linaro.org>
+Date: Fri, 18 Jun 2021 15:42:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210617174323.2900831-9-f4bug@amsat.org>
+In-Reply-To: <20210617174323.2900831-10-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -96,12 +95,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/17/21 10:43 AM, Philippe Mathieu-Daudé wrote:
-> Keep host_to_mips_errno[] in .rodata by marking the array const.
+> Since all entries are no more than 3/4/6 bytes (including nul
+> terminator), can save space and pie runtime relocations by
+> declaring regnames[] as array of 3/4/6 const char.
 > 
+> Inspired-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/mips/tcg/sysemu/mips-semi.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   target/mips/internal.h          | 2 +-
+>   target/mips/cpu.c               | 2 +-
+>   target/mips/tcg/msa_translate.c | 2 +-
+>   target/mips/tcg/mxu_translate.c | 4 ++--
+>   target/mips/tcg/translate.c     | 4 ++--
+>   5 files changed, 7 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
