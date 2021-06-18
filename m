@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C80A3ACC3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 15:31:14 +0200 (CEST)
-Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8C93ACC44
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 15:33:32 +0200 (CEST)
+Received: from localhost ([::1]:53466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luEaT-0008Mc-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 09:31:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41022)
+	id 1luEcl-0004Z9-D9
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 09:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1luEYM-0005cY-DM
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 09:28:58 -0400
-Received: from foss.arm.com ([217.140.110.172]:33734)
+ id 1luEYE-0005BZ-4h
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 09:28:50 -0400
+Received: from foss.arm.com ([217.140.110.172]:33658)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1luEYJ-0001mV-Vv
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 09:28:58 -0400
+ (envelope-from <steven.price@arm.com>) id 1luEYB-0001i3-Hn
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 09:28:49 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37C6E1478;
- Fri, 18 Jun 2021 06:28:55 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 84C27147A;
+ Fri, 18 Jun 2021 06:28:46 -0700 (PDT)
 Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D5C93F719;
- Fri, 18 Jun 2021 06:28:52 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D999E3F719;
+ Fri, 18 Jun 2021 06:28:43 -0700 (PDT)
 From: Steven Price <steven.price@arm.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
  Will Deacon <will@kernel.org>
-Subject: [PATCH v16 6/7] KVM: arm64: ioctl to fetch/store tags in a guest
-Date: Fri, 18 Jun 2021 14:28:25 +0100
-Message-Id: <20210618132826.54670-7-steven.price@arm.com>
+Subject: [PATCH v16 3/7] KVM: arm64: Introduce MTE VM feature
+Date: Fri, 18 Jun 2021 14:28:22 +0100
+Message-Id: <20210618132826.54670-4-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210618132826.54670-1-steven.price@arm.com>
 References: <20210618132826.54670-1-steven.price@arm.com>
@@ -68,195 +68,205 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VMM may not wish to have it's own mapping of guest memory mapped
-with PROT_MTE because this causes problems if the VMM has tag checking
-enabled (the guest controls the tags in physical RAM and it's unlikely
-the tags are correct for the VMM).
+Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+for a VM. This will expose the feature to the guest and automatically
+tag memory pages touched by the VM as PG_mte_tagged (and clear the tag
+storage) to ensure that the guest cannot see stale tags, and so that
+the tags are correctly saved/restored across swap.
 
-Instead add a new ioctl which allows the VMM to easily read/write the
-tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
-while the VMM can still read/write the tags for the purpose of
-migration.
+Actually exposing the new capability to user space happens in a later
+patch.
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 Signed-off-by: Steven Price <steven.price@arm.com>
 ---
- arch/arm64/include/asm/kvm_host.h |  3 ++
- arch/arm64/include/asm/mte-def.h  |  1 +
- arch/arm64/include/uapi/asm/kvm.h | 11 +++++
- arch/arm64/kvm/arm.c              |  7 +++
- arch/arm64/kvm/guest.c            | 82 +++++++++++++++++++++++++++++++
- include/uapi/linux/kvm.h          |  1 +
- 6 files changed, 105 insertions(+)
+ arch/arm64/include/asm/kvm_emulate.h |  3 ++
+ arch/arm64/include/asm/kvm_host.h    |  3 ++
+ arch/arm64/kvm/hyp/exception.c       |  3 +-
+ arch/arm64/kvm/mmu.c                 | 62 +++++++++++++++++++++++++++-
+ arch/arm64/kvm/sys_regs.c            |  7 ++++
+ include/uapi/linux/kvm.h             |  1 +
+ 6 files changed, 77 insertions(+), 2 deletions(-)
 
+diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+index f612c090f2e4..6bf776c2399c 100644
+--- a/arch/arm64/include/asm/kvm_emulate.h
++++ b/arch/arm64/include/asm/kvm_emulate.h
+@@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+ 	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+ 	    vcpu_el1_is_32bit(vcpu))
+ 		vcpu->arch.hcr_el2 |= HCR_TID2;
++
++	if (kvm_has_mte(vcpu->kvm))
++		vcpu->arch.hcr_el2 |= HCR_ATA;
+ }
+ 
+ static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
 diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-index 309e36cc1b42..6a2ac4636d42 100644
+index 7cd7d5c8c4bc..afaa5333f0e4 100644
 --- a/arch/arm64/include/asm/kvm_host.h
 +++ b/arch/arm64/include/asm/kvm_host.h
-@@ -729,6 +729,9 @@ int kvm_arm_vcpu_arch_get_attr(struct kvm_vcpu *vcpu,
- int kvm_arm_vcpu_arch_has_attr(struct kvm_vcpu *vcpu,
- 			       struct kvm_device_attr *attr);
+@@ -132,6 +132,8 @@ struct kvm_arch {
  
-+long kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
-+				struct kvm_arm_copy_mte_tags *copy_tags);
-+
- /* Guest/host FPSIMD coordination helpers */
- int kvm_arch_vcpu_run_map_fp(struct kvm_vcpu *vcpu);
- void kvm_arch_vcpu_load_fp(struct kvm_vcpu *vcpu);
-diff --git a/arch/arm64/include/asm/mte-def.h b/arch/arm64/include/asm/mte-def.h
-index cf241b0f0a42..626d359b396e 100644
---- a/arch/arm64/include/asm/mte-def.h
-+++ b/arch/arm64/include/asm/mte-def.h
-@@ -7,6 +7,7 @@
- 
- #define MTE_GRANULE_SIZE	UL(16)
- #define MTE_GRANULE_MASK	(~(MTE_GRANULE_SIZE - 1))
-+#define MTE_GRANULES_PER_PAGE	(PAGE_SIZE / MTE_GRANULE_SIZE)
- #define MTE_TAG_SHIFT		56
- #define MTE_TAG_SIZE		4
- #define MTE_TAG_MASK		GENMASK((MTE_TAG_SHIFT + (MTE_TAG_SIZE - 1)), MTE_TAG_SHIFT)
-diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-index 24223adae150..b3edde68bc3e 100644
---- a/arch/arm64/include/uapi/asm/kvm.h
-+++ b/arch/arm64/include/uapi/asm/kvm.h
-@@ -184,6 +184,17 @@ struct kvm_vcpu_events {
- 	__u32 reserved[12];
+ 	u8 pfr0_csv2;
+ 	u8 pfr0_csv3;
++	/* Memory Tagging Extension enabled for the guest */
++	bool mte_enabled;
  };
  
-+struct kvm_arm_copy_mte_tags {
-+	__u64 guest_ipa;
-+	__u64 length;
-+	void __user *addr;
-+	__u64 flags;
-+	__u64 reserved[2];
-+};
-+
-+#define KVM_ARM_TAGS_TO_GUEST		0
-+#define KVM_ARM_TAGS_FROM_GUEST		1
-+
- /* If you need to interpret the index values, here is the key: */
- #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
- #define KVM_REG_ARM_COPROC_SHIFT	16
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index e89a5e275e25..baa33359e477 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -1345,6 +1345,13 @@ long kvm_arch_vm_ioctl(struct file *filp,
+ struct kvm_vcpu_fault_info {
+@@ -769,6 +771,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
+ #define kvm_arm_vcpu_sve_finalized(vcpu) \
+ 	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
  
- 		return 0;
- 	}
-+	case KVM_ARM_MTE_COPY_TAGS: {
-+		struct kvm_arm_copy_mte_tags copy_tags;
-+
-+		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
-+			return -EFAULT;
-+		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
-+	}
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
-index 5cb4a1cd5603..4ddb20017b2f 100644
---- a/arch/arm64/kvm/guest.c
-+++ b/arch/arm64/kvm/guest.c
-@@ -995,3 +995,85 @@ int kvm_arm_vcpu_arch_has_attr(struct kvm_vcpu *vcpu,
++#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
+ #define kvm_vcpu_has_pmu(vcpu)					\
+ 	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
  
- 	return ret;
+diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+index 73629094f903..56426565600c 100644
+--- a/arch/arm64/kvm/hyp/exception.c
++++ b/arch/arm64/kvm/hyp/exception.c
+@@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+ 	new |= (old & PSR_C_BIT);
+ 	new |= (old & PSR_V_BIT);
+ 
+-	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
++	if (kvm_has_mte(vcpu->kvm))
++		new |= PSR_TCO_BIT;
+ 
+ 	new |= (old & PSR_DIT_BIT);
+ 
+diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+index c5d1f3c87dbd..f5305b7561ad 100644
+--- a/arch/arm64/kvm/mmu.c
++++ b/arch/arm64/kvm/mmu.c
+@@ -822,6 +822,45 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+ 	return PAGE_SIZE;
  }
-+
-+long kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
-+				struct kvm_arm_copy_mte_tags *copy_tags)
+ 
++/*
++ * The page will be mapped in stage 2 as Normal Cacheable, so the VM will be
++ * able to see the page's tags and therefore they must be initialised first. If
++ * PG_mte_tagged is set, tags have already been initialised.
++ *
++ * The race in the test/set of the PG_mte_tagged flag is handled by:
++ * - preventing VM_SHARED mappings in a memslot with MTE preventing two VMs
++ *   racing to santise the same page
++ * - mmap_lock protects between a VM faulting a page in and the VMM performing
++ *   an mprotect() to add VM_MTE
++ */
++static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
++			     unsigned long size)
 +{
-+	gpa_t guest_ipa = copy_tags->guest_ipa;
-+	size_t length = copy_tags->length;
-+	void __user *tags = copy_tags->addr;
-+	gpa_t gfn;
-+	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
-+	int ret = 0;
++	unsigned long i, nr_pages = size >> PAGE_SHIFT;
++	struct page *page;
 +
 +	if (!kvm_has_mte(kvm))
-+		return -EINVAL;
++		return 0;
 +
-+	if (copy_tags->reserved[0] || copy_tags->reserved[1])
-+		return -EINVAL;
++	/*
++	 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
++	 * that may not support tags.
++	 */
++	page = pfn_to_online_page(pfn);
 +
-+	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
-+		return -EINVAL;
++	if (!page)
++		return -EFAULT;
 +
-+	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
-+		return -EINVAL;
-+
-+	gfn = gpa_to_gfn(guest_ipa);
-+
-+	mutex_lock(&kvm->slots_lock);
-+
-+	while (length > 0) {
-+		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
-+		void *maddr;
-+		unsigned long num_tags;
-+		struct page *page;
-+
-+		if (is_error_noslot_pfn(pfn)) {
-+			ret = -EFAULT;
-+			goto out;
-+		}
-+
-+		page = pfn_to_online_page(pfn);
-+		if (!page) {
-+			/* Reject ZONE_DEVICE memory */
-+			ret = -EFAULT;
-+			goto out;
-+		}
-+		maddr = page_address(page);
-+
-+		if (!write) {
-+			if (test_bit(PG_mte_tagged, &page->flags))
-+				num_tags = mte_copy_tags_to_user(tags, maddr,
-+							MTE_GRANULES_PER_PAGE);
-+			else
-+				/* No tags in memory, so write zeros */
-+				num_tags = MTE_GRANULES_PER_PAGE -
-+					clear_user(tags, MTE_GRANULES_PER_PAGE);
-+			kvm_release_pfn_clean(pfn);
-+		} else {
-+			num_tags = mte_copy_tags_from_user(maddr, tags,
-+							MTE_GRANULES_PER_PAGE);
-+			kvm_release_pfn_dirty(pfn);
-+		}
-+
-+		if (num_tags != MTE_GRANULES_PER_PAGE) {
-+			ret = -EFAULT;
-+			goto out;
-+		}
-+
-+		/* Set the flag after checking the write completed fully */
-+		if (write)
++	for (i = 0; i < nr_pages; i++, page++) {
++		if (!test_bit(PG_mte_tagged, &page->flags)) {
++			mte_clear_page_tags(page_address(page));
 +			set_bit(PG_mte_tagged, &page->flags);
-+
-+		gfn++;
-+		tags += num_tags;
-+		length -= PAGE_SIZE;
++		}
 +	}
 +
-+out:
-+	mutex_unlock(&kvm->slots_lock);
-+	/* If some data has been copied report the number of bytes copied */
-+	if (length != copy_tags->length)
-+		return copy_tags->length - length;
-+	return ret;
++	return 0;
 +}
++
+ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+ 			  struct kvm_memory_slot *memslot, unsigned long hva,
+ 			  unsigned long fault_status)
+@@ -971,8 +1010,16 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+ 	if (writable)
+ 		prot |= KVM_PGTABLE_PROT_W;
+ 
+-	if (fault_status != FSC_PERM && !device)
++	if (fault_status != FSC_PERM && !device) {
++		/* Check the VMM hasn't introduced a new VM_SHARED VMA */
++		if (kvm_has_mte(kvm) && vma->vm_flags & VM_SHARED)
++			return -EINVAL;
++		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
++		if (ret)
++			goto out_unlock;
++
+ 		clean_dcache_guest_page(pfn, vma_pagesize);
++	}
+ 
+ 	if (exec_fault) {
+ 		prot |= KVM_PGTABLE_PROT_X;
+@@ -1168,12 +1215,17 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+ bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+ 	kvm_pfn_t pfn = pte_pfn(range->pte);
++	int ret;
+ 
+ 	if (!kvm->arch.mmu.pgt)
+ 		return 0;
+ 
+ 	WARN_ON(range->end - range->start != 1);
+ 
++	ret = sanitise_mte_tags(kvm, pfn, PAGE_SIZE);
++	if (ret)
++		return false;
++
+ 	/*
+ 	 * We've moved a page around, probably through CoW, so let's treat it
+ 	 * just like a translation fault and clean the cache to the PoC.
+@@ -1381,6 +1433,14 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
+ 		if (!vma)
+ 			break;
+ 
++		/*
++		 * VM_SHARED mappings are not allowed with MTE to avoid races
++		 * when updating the PG_mte_tagged page flag, see
++		 * sanitise_mte_tags for more details.
++		 */
++		if (kvm_has_mte(kvm) && vma->vm_flags & VM_SHARED)
++			return -EINVAL;
++
+ 		/*
+ 		 * Take the intersection of this VMA with the memory region
+ 		 */
+diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+index 76ea2800c33e..4a98902eaf1a 100644
+--- a/arch/arm64/kvm/sys_regs.c
++++ b/arch/arm64/kvm/sys_regs.c
+@@ -1047,6 +1047,13 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+ 		break;
+ 	case SYS_ID_AA64PFR1_EL1:
+ 		val &= ~FEATURE(ID_AA64PFR1_MTE);
++		if (kvm_has_mte(vcpu->kvm)) {
++			u64 pfr, mte;
++
++			pfr = read_sanitised_ftr_reg(SYS_ID_AA64PFR1_EL1);
++			mte = cpuid_feature_extract_unsigned_field(pfr, ID_AA64PFR1_MTE_SHIFT);
++			val |= FIELD_PREP(FEATURE(ID_AA64PFR1_MTE), mte);
++		}
+ 		break;
+ 	case SYS_ID_AA64ISAR1_EL1:
+ 		if (!vcpu_has_ptrauth(vcpu))
 diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 8c95ba0fadda..4c011c60d468 100644
+index 3fd9a7e9d90c..8c95ba0fadda 100644
 --- a/include/uapi/linux/kvm.h
 +++ b/include/uapi/linux/kvm.h
-@@ -1428,6 +1428,7 @@ struct kvm_s390_ucas_mapping {
- /* Available with KVM_CAP_PMU_EVENT_FILTER */
- #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
- #define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
-+#define KVM_ARM_MTE_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
+@@ -1082,6 +1082,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_SGX_ATTRIBUTE 196
+ #define KVM_CAP_VM_COPY_ENC_CONTEXT_FROM 197
+ #define KVM_CAP_PTP_KVM 198
++#define KVM_CAP_ARM_MTE 199
  
- /* ioctl for vm fd */
- #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
 2.20.1
 
