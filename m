@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E50C3AC2BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:05:05 +0200 (CEST)
-Received: from localhost ([::1]:41866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0F63AC2F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:54:04 +0200 (CEST)
+Received: from localhost ([::1]:40080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu6gi-0003Xr-AA
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36092)
+	id 1lu7S5-0006bU-Js
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6YW-0007VK-Ln
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:56:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41947)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lu7RD-0005vn-4V
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 01:53:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6YT-0005Dc-QT
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:56:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lu7R7-0007Ce-Vj
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 01:53:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623992193;
+ s=mimecast20190719; t=1623995579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ob/rQNCzIY1cTCAOGsXMnSfmkxoxXN8wteC7GUj8UFA=;
- b=aFwBj6osxUP8N3blDkU1P3r9DJVKy0FNcADfaabULic5A/AxWxvOsg62MO3wAo/5bxRHtc
- E3QB+DX1uOid6IBNbNnBVKoFuwlmS1HiTSNX3o5F/owtdAX5nCvmQFZlPEv3z2+fnMquiX
- W+xrNo+NhwKLrwTeuvPyMMN8xqibGeU=
+ bh=Pt7s6thOZ7bruleZlMytZjolyQHwvGo+oh9LKoATJaQ=;
+ b=cOrohjj0/RAwQLpf5IOTnrGgTkxDr8vCFVNDJ2w5V5OPR6Lu1MlNtKHETKbzWdNSKEJG2m
+ NMwK912twI4b1kda1apQTG0WyDJAwI+wpbcRZy3mnwdfOL3pKE2FPl3RgiR03FvPVI5EwM
+ YQq6wz9OUeFN5jliZROjFR1QK+7fu6c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-kLkNhtN7McqIySZUofvxVw-1; Fri, 18 Jun 2021 00:56:31 -0400
-X-MC-Unique: kLkNhtN7McqIySZUofvxVw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-387-z2giWGiJPCaVzEnRt1VuKQ-1; Fri, 18 Jun 2021 01:52:58 -0400
+X-MC-Unique: z2giWGiJPCaVzEnRt1VuKQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FBB8015C6;
- Fri, 18 Jun 2021 04:56:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
- [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 919D61001B2C;
- Fri, 18 Jun 2021 04:56:16 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3EF5A1803552; Fri, 18 Jun 2021 06:53:55 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 24/24] accel: build tcg modular
-Date: Fri, 18 Jun 2021 06:53:53 +0200
-Message-Id: <20210618045353.2510174-25-kraxel@redhat.com>
-In-Reply-To: <20210618045353.2510174-1-kraxel@redhat.com>
-References: <20210618045353.2510174-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 784128015DB;
+ Fri, 18 Jun 2021 05:52:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A448116E4D;
+ Fri, 18 Jun 2021 05:52:48 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3AC80113865F; Fri, 18 Jun 2021 07:52:47 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
+ <87im2d6p5v.fsf@dusky.pond.sub.org>
+ <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
+ <87a6no3fzf.fsf@dusky.pond.sub.org>
+ <790d22e1-5de9-ba20-6c03-415b62223d7d@suse.de>
+ <877dis1sue.fsf@dusky.pond.sub.org>
+ <20210617153949.GA357@dhcp-172-16-24-191.sw.ru>
+ <e69ea2b4-21cc-8203-ad2d-10a0f4ffe34a@suse.de>
+ <20210617165111.eu3x2pvinpoedsqj@habkost.net>
+Date: Fri, 18 Jun 2021 07:52:47 +0200
+In-Reply-To: <20210617165111.eu3x2pvinpoedsqj@habkost.net> (Eduardo Habkost's
+ message of "Thu, 17 Jun 2021 12:51:11 -0400")
+Message-ID: <87sg1fwwgg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -66,7 +70,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,95 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Peter Lieven <pl@kamp.de>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Max Reitz <mreitz@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Denis Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build tcg accel ops as module.
-Which is only a small fraction of tcg.
-Also only x86 for now.
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- accel/tcg/meson.build |  5 ++++-
- meson.build           | 14 +++++++++++++-
- 2 files changed, 17 insertions(+), 2 deletions(-)
+> On Thu, Jun 17, 2021 at 05:53:11PM +0200, Claudio Fontana wrote:
+>> On 6/17/21 5:39 PM, Valeriy Vdovin wrote:
+>> > On Thu, Jun 17, 2021 at 04:14:17PM +0200, Markus Armbruster wrote:
+>> >> Claudio Fontana <cfontana@suse.de> writes:
+>> >>
+>> >>> On 6/17/21 1:09 PM, Markus Armbruster wrote:
 
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-index 1236ac7b910b..0ae9180282e3 100644
---- a/accel/tcg/meson.build
-+++ b/accel/tcg/meson.build
-@@ -15,8 +15,11 @@ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
- 
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
-   'cputlb.c',
-+))
-+
-+tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
-   'tcg-accel-ops.c',
-   'tcg-accel-ops-mttcg.c',
-   'tcg-accel-ops-icount.c',
--  'tcg-accel-ops-rr.c'
-+  'tcg-accel-ops-rr.c',
- ))
-diff --git a/meson.build b/meson.build
-index 8f55f563eefe..03bacca7cddb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -92,6 +92,8 @@ if cpu in ['x86', 'x86_64']
-   }
- endif
- 
-+modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
-+
- edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
- install_edk2_blobs = false
- if get_option('install_blobs')
-@@ -1311,6 +1313,11 @@ foreach target : target_dirs
-       elif sym == 'CONFIG_XEN' and have_xen_pci_passthrough
-         config_target += { 'CONFIG_XEN_PCI_PASSTHROUGH': 'y' }
-       endif
-+      if target in modular_tcg
-+        config_target += { 'CONFIG_TCG_MODULAR': 'y' }
-+      else
-+        config_target += { 'CONFIG_TCG_BUILTIN': 'y' }
-+      endif
-       accel_kconfig += [ sym + '=y' ]
-     endif
-   endforeach
-@@ -1782,6 +1789,7 @@ util_ss = ss.source_set()
- 
- # accel modules
- qtest_module_ss = ss.source_set()
-+tcg_module_ss = ss.source_set()
- 
- modules = {}
- target_modules = {}
-@@ -2022,7 +2030,11 @@ subdir('tests/qtest/libqos')
- subdir('tests/qtest/fuzz')
- 
- # accel modules
--target_modules += { 'accel' : { 'qtest': qtest_module_ss }}
-+tcg_real_module_ss = ss.source_set()
-+tcg_real_module_ss.add_all(when: 'CONFIG_TCG_MODULAR', if_true: tcg_module_ss)
-+specific_ss.add_all(when: 'CONFIG_TCG_BUILTIN', if_true: tcg_module_ss)
-+target_modules += { 'accel' : { 'qtest': qtest_module_ss,
-+                                'tcg': tcg_real_module_ss }}
- 
- ########################
- # Library dependencies #
--- 
-2.31.1
+[...]
+
+>> >>>> If it just isn't implemented for anything but KVM, then putting "kvm"
+>> >>>> into the command name is a bad idea.  Also, the commit message should
+>> >>>> briefly note the restriction to KVM.
+>> >>
+>> >> Perhaps this one is closer to reality.
+>> >>
+>> > I agree.
+>> > What command name do you suggest?
+>> 
+>> query-exposed-cpuid?
+>
+> Pasting the reply I sent at [1]:
+>
+>   I don't really mind how the command is called, but I would prefer
+>   to add a more complex abstraction only if maintainers of other
+>   accelerators are interested and volunteer to provide similar
+>   functionality.  I don't want to introduce complexity for use
+>   cases that may not even exist.
+>
+> I'm expecting this to be just a debugging mechanism, not a stable
+> API to be maintained and supported for decades.  (Maybe a "x-"
+> prefix should be added to indicate that?)
+>
+> [1] https://lore.kernel.org/qemu-devel/20210602204604.crsxvqixkkll4ef4@habkost.net
+
+x-query-x86_64-cpuid?
 
 
