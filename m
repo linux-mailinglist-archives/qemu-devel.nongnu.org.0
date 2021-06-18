@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3723AD5A2
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:07:53 +0200 (CEST)
-Received: from localhost ([::1]:57474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043963AD5AB
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:11:49 +0200 (CEST)
+Received: from localhost ([::1]:46366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNaa-0001XO-PV
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34704)
+	id 1luNeN-0004UB-VV
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:11:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNXu-0006oB-Pn
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49666)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNY3-0006pa-Kx
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNXq-000622-Rj
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNXq-00062O-Rd
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057500;
+ s=mimecast20190719; t=1624057501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7Pd8A5xrZGFuElsv3BpaIVmOAmIdDniysSBtPoEgO44=;
- b=XfX2Iq4FubBrpsrKKpaJ4gp02TXEm+fIvtDk0S7rnhHu+3HWV10twj9unRUsxtVwHezqMj
- kj9wWSQtiQzG7OSo/kDz5Dg+w6lAcv4+JQ6iJio68MVuGMK1h/bucGtBIVBgeOwiOP43XZ
- MSM7DkSY6sNr5uARy5P9P500JgA0/dY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=45fQJP3i6be4o152VKgkVbmHSXSFI4oOAdBDmKZUkUI=;
+ b=EEDvFzyiLeTJetxVhBCCemUlFrRHpJbzmoChsqakOGjLD9hE3ElAjdbh8WXzgrDgLKuhee
+ Budilmtx9TH9y9Dyv+nrAU9X0Vn6ubMLHldmxc4fLTersQdQsmV53WUtj47mkxQI4nKpAk
+ 9GV8/6bgu7l2+hgjrRdic8Jhq7tQ/EA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-jaiDqHB0OHKwfKsUvVE6KA-1; Fri, 18 Jun 2021 19:04:58 -0400
-X-MC-Unique: jaiDqHB0OHKwfKsUvVE6KA-1
+ us-mta-487-hPgeUECHOiummCZAXPjFHg-1; Fri, 18 Jun 2021 19:04:59 -0400
+X-MC-Unique: hPgeUECHOiummCZAXPjFHg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D65E6801B0A;
- Fri, 18 Jun 2021 23:04:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4EEC5074B;
+ Fri, 18 Jun 2021 23:04:58 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A6241017CE5;
- Fri, 18 Jun 2021 23:04:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04F1D1017CE5;
+ Fri, 18 Jun 2021 23:04:57 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/72] Python patches
-Date: Fri, 18 Jun 2021 19:03:43 -0400
-Message-Id: <20210618230455.2891199-1-jsnow@redhat.com>
+Subject: [PULL 01/72] python/pipenv: Update Pipfile.lock
+Date: Fri, 18 Jun 2021 19:03:44 -0400
+Message-Id: <20210618230455.2891199-2-jsnow@redhat.com>
+In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
+References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -60,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,129 +82,191 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3ccf6cd0e3e1dfd663814640b3b18b55715d7a75=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210617-pull-req=
-uest' into staging (2021-06-18 09:54:42 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
-=0D
-for you to fetch changes up to d08caefe6648fc0713af5361e2b88bee53b67ebb:=0D
-=0D
-  scripts/qmp-shell: add redirection shim (2021-06-18 16:10:07 -0400)=0D
-=0D
-----------------------------------------------------------------=0D
-Python Pull request=0D
-=0D
-Moves QMP-related tools not used for build or automatic testing from=0D
-scripts/ to python/qemu/qmp/ where they will be protected from bitrot by=0D
-the check-python-* CI jobs.=0D
-=0D
-stub forwarders are left in the old locations for now.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-John Snow (72):=0D
-  python/pipenv: Update Pipfile.lock=0D
-  python/qmp: Fix type of SocketAddrT=0D
-  python/qmp: add parse_address classmethod=0D
-  python/qmp: Add qom script rewrites=0D
-  python/qmp: add qom script entry points=0D
-  scripts/qmp: redirect qom-xxx scripts to python/qemu/qmp/=0D
-  scripts/qom-fuse: apply isort rules=0D
-  scripts/qom-fuse: apply flake8 rules=0D
-  python: Add 'fh' to known-good variable names=0D
-  scripts/qom-fuse: Apply pylint rules=0D
-  scripts/qom-fuse: Add docstrings=0D
-  scripts/qom-fuse: Convert to QOMCommand=0D
-  scripts/qom-fuse: use QOMCommand.qom_list()=0D
-  scripts/qom-fuse: ensure QOMFuse.read always returns bytes=0D
-  scripts/qom-fuse: add static type hints=0D
-  python: add optional FUSE dependencies=0D
-  scripts/qom-fuse: move to python/qemu/qmp/qom_fuse.py=0D
-  scripts/qom-fuse: add redirection shim to python/qemu/qmp/qom-fuse.py=0D
-  python/qmp: add fuse command to 'qom' tools=0D
-  scripts/qemu-ga-client: apply isort rules=0D
-  scripts/qemu-ga-client: apply (most) flake8 rules=0D
-  scripts/qemu-ga-client: Fix exception handling=0D
-  scripts/qemu-ga-client: replace deprecated optparse with argparse=0D
-  scripts/qemu-ga-client: add module docstring=0D
-  scripts/qemu-ga-client: apply (most) pylint rules=0D
-  python/qmp: Correct type of QMPReturnValue=0D
-  scripts/qemu-ga-client: add mypy type hints=0D
-  scripts/qemu-ga-client: move to python/qemu/qmp/qemu_ga_client.py=0D
-  python/qemu-ga-client: add entry point=0D
-  scripts/qemu-ga-client: Add forwarder shim=0D
-  scripts/qmp-shell: apply isort rules=0D
-  scripts/qmp-shell: Apply flake8 rules=0D
-  scripts/qmp-shell: fix show_banner signature=0D
-  scripts/qmp-shell: fix exception handling=0D
-  scripts/qmp-shell: fix connect method signature=0D
-  scripts/qmp-shell: remove shadowed variable from _print()=0D
-  scripts/qmp-shell: use @classmethod where appropriate=0D
-  scripts/qmp-shell: Use python3-style super()=0D
-  scripts/qmp-shell: declare verbose in __init__=0D
-  scripts/qmp-shell: use triple-double-quote docstring style=0D
-  scripts/qmp-shell: ignore visit_Name name=0D
-  scripts/qmp-shell: make QMPCompleter returns explicit=0D
-  scripts/qmp-shell: rename one and two-letter variables=0D
-  scripts/qmp-shell: fix shell history exception handling=0D
-  scripts/qmp-shell: remove if-raise-else patterns=0D
-  scripts/qmp-shell: use isinstance() instead of type()=0D
-  scripts/qmp-shell: use argparse=0D
-  scripts/qmp-shell: Add pretty attribute to HMP shell=0D
-  scripts/qmp-shell: Make verbose a public attribute=0D
-  scripts/qmp-shell: move get_prompt() to prompt property=0D
-  scripts/qmp-shell: remove prompt argument from read_exec_command=0D
-  scripts/qmp-shell: move the REPL functionality into QMPShell=0D
-  scripts/qmp-shell: Fix "FuzzyJSON" parser=0D
-  scripts/qmp-shell: refactor QMPCompleter=0D
-  scripts/qmp-shell: initialize completer early=0D
-  python/qmp: add QMPObject type alias=0D
-  scripts/qmp-shell: add mypy types=0D
-  scripts/qmp-shell: Accept SocketAddrT instead of string=0D
-  scripts/qmp-shell: unprivatize 'pretty' property=0D
-  python/qmp: return generic type from context manager=0D
-  scripts/qmp-shell: Use context manager instead of atexit=0D
-  scripts/qmp-shell: use logging to show warnings=0D
-  scripts/qmp-shell: remove TODO=0D
-  scripts/qmp-shell: Fix empty-transaction invocation=0D
-  scripts/qmp-shell: Remove too-broad-exception=0D
-  scripts/qmp-shell: convert usage comment to docstring=0D
-  scripts/qmp-shell: remove double-underscores=0D
-  scripts/qmp-shell: make QMPShellError inherit QMPError=0D
-  scripts/qmp-shell: add docstrings=0D
-  scripts/qmp-shell: move to python/qemu/qmp/qmp_shell.py=0D
-  python: add qmp-shell entry point=0D
-  scripts/qmp-shell: add redirection shim=0D
-=0D
- python/Pipfile.lock               |  97 +++++-=0D
- python/qemu/qmp/__init__.py       |  61 +++-=0D
- python/qemu/qmp/qemu_ga_client.py | 323 ++++++++++++++++++=0D
- python/qemu/qmp/qmp_shell.py      | 535 ++++++++++++++++++++++++++++++=0D
- python/qemu/qmp/qom.py            | 272 +++++++++++++++=0D
- python/qemu/qmp/qom_common.py     | 178 ++++++++++=0D
- python/qemu/qmp/qom_fuse.py       | 206 ++++++++++++=0D
- python/setup.cfg                  |  35 +-=0D
- scripts/qmp/qemu-ga-client        | 297 +----------------=0D
- scripts/qmp/qmp-shell             | 454 +------------------------=0D
- scripts/qmp/qom-fuse              | 144 +-------=0D
- scripts/qmp/qom-get               |  66 +---=0D
- scripts/qmp/qom-list              |  63 +---=0D
- scripts/qmp/qom-set               |  63 +---=0D
- scripts/qmp/qom-tree              |  74 +----=0D
- 15 files changed, 1713 insertions(+), 1155 deletions(-)=0D
- create mode 100644 python/qemu/qmp/qemu_ga_client.py=0D
- create mode 100644 python/qemu/qmp/qmp_shell.py=0D
- create mode 100644 python/qemu/qmp/qom.py=0D
- create mode 100644 python/qemu/qmp/qom_common.py=0D
- create mode 100644 python/qemu/qmp/qom_fuse.py=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+In a previous commit, I added tox to the development requirements of the
+Python library. I never bothered to add them to the Pipfile, because
+they aren't needed there. Here, I sync it anyway in its own commit so
+that when we add new packages later that the diffstats will not
+confusingly appear to pull in lots of extra packages.
+
+Ideally I could tell Pipenv simply not to install these, but it doesn't
+seem to support that, exactly. The alternative is removing Tox from the
+development requires, which I'd rather not do.
+
+The other alternative is re-specifying all of the dependencies of
+setup.cfg in the Pipfile, which I'd also rather not do.
+
+Picking what feels least-worst here.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20210603003719.1321369-2-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/Pipfile.lock | 91 +++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 88 insertions(+), 3 deletions(-)
+
+diff --git a/python/Pipfile.lock b/python/Pipfile.lock
+index 6e344f5fad..f2a3f91d0f 100644
+--- a/python/Pipfile.lock
++++ b/python/Pipfile.lock
+@@ -22,6 +22,13 @@
+         }
+     },
+     "develop": {
++        "appdirs": {
++            "hashes": [
++                "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41",
++                "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"
++            ],
++            "version": "==1.4.4"
++        },
+         "astroid": {
+             "hashes": [
+                 "sha256:4db03ab5fc3340cf619dbc25e42c2cc3755154ce6009469766d7143d1fc2ee4e",
+@@ -38,6 +45,20 @@
+             "markers": "python_version >= '3.6'",
+             "version": "==88.1"
+         },
++        "distlib": {
++            "hashes": [
++                "sha256:106fef6dc37dd8c0e2c0a60d3fca3e77460a48907f335fa28420463a6f799736",
++                "sha256:23e223426b28491b1ced97dc3bbe183027419dfc7982b4fa2f05d5f3ff10711c"
++            ],
++            "version": "==0.3.2"
++        },
++        "filelock": {
++            "hashes": [
++                "sha256:18d82244ee114f543149c66a6e0c14e9c4f8a1044b5cdaadd0f82159d6a6ff59",
++                "sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836"
++            ],
++            "version": "==3.0.12"
++        },
+         "flake8": {
+             "hashes": [
+                 "sha256:07528381786f2a6237b061f6e96610a4167b226cb926e2aa2b6b1d78057c576b",
+@@ -54,6 +75,14 @@
+             "markers": "python_version < '3.8'",
+             "version": "==4.0.1"
+         },
++        "importlib-resources": {
++            "hashes": [
++                "sha256:54161657e8ffc76596c4ede7080ca68cb02962a2e074a2586b695a93a925d36e",
++                "sha256:e962bff7440364183203d179d7ae9ad90cb1f2b74dcb84300e88ecc42dca3351"
++            ],
++            "markers": "python_version < '3.7'",
++            "version": "==5.1.4"
++        },
+         "isort": {
+             "hashes": [
+                 "sha256:0a943902919f65c5684ac4e0154b1ad4fac6dcaa5d9f3426b732f1c8b5419be6",
+@@ -132,6 +161,30 @@
+             ],
+             "version": "==0.4.3"
+         },
++        "packaging": {
++            "hashes": [
++                "sha256:5b327ac1320dc863dca72f4514ecc086f31186744b84a230374cc1fd776feae5",
++                "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==20.9"
++        },
++        "pluggy": {
++            "hashes": [
++                "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0",
++                "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==0.13.1"
++        },
++        "py": {
++            "hashes": [
++                "sha256:21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3",
++                "sha256:3b80836aa6d1feeaa108e046da6423ab8f6ceda6468545ae8d02d9d58d18818a"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==1.10.0"
++        },
+         "pycodestyle": {
+             "hashes": [
+                 "sha256:514f76d918fcc0b55c6680472f0a37970994e07bbb80725808c17089be302068",
+@@ -156,18 +209,42 @@
+             "markers": "python_version ~= '3.6'",
+             "version": "==2.8.2"
+         },
++        "pyparsing": {
++            "hashes": [
++                "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
++                "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"
++            ],
++            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==2.4.7"
++        },
+         "qemu": {
+             "editable": true,
+             "path": "."
+         },
++        "six": {
++            "hashes": [
++                "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
++                "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==1.16.0"
++        },
+         "toml": {
+             "hashes": [
+                 "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
+                 "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"
+             ],
+-            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
++            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+             "version": "==0.10.2"
+         },
++        "tox": {
++            "hashes": [
++                "sha256:307a81ddb82bd463971a273f33e9533a24ed22185f27db8ce3386bff27d324e3",
++                "sha256:b0b5818049a1c1997599d42012a637a33f24c62ab8187223fdd318fa8522637b"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
++            "version": "==3.23.1"
++        },
+         "typed-ast": {
+             "hashes": [
+                 "sha256:01ae5f73431d21eead5015997ab41afa53aa1fbe252f9da060be5dad2c730ace",
+@@ -201,7 +278,7 @@
+                 "sha256:f8afcf15cc511ada719a88e013cec87c11aff7b91f019295eb4530f96fe5ef2f",
+                 "sha256:fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65"
+             ],
+-            "markers": "implementation_name == 'cpython' and python_version < '3.8'",
++            "markers": "python_version < '3.8' and implementation_name == 'cpython'",
+             "version": "==1.4.3"
+         },
+         "typing-extensions": {
+@@ -213,6 +290,14 @@
+             "markers": "python_version < '3.8'",
+             "version": "==3.10.0.0"
+         },
++        "virtualenv": {
++            "hashes": [
++                "sha256:14fdf849f80dbb29a4eb6caa9875d476ee2a5cf76a5f5415fa2f1606010ab467",
++                "sha256:2b0126166ea7c9c3661f5b8e06773d28f83322de7a3ff7d06f0aed18c9de6a76"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==20.4.7"
++        },
+         "wrapt": {
+             "hashes": [
+                 "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"
+@@ -224,7 +309,7 @@
+                 "sha256:3607921face881ba3e026887d8150cca609d517579abe052ac81fc5aeffdbd76",
+                 "sha256:51cb66cc54621609dd593d1787f286ee42a5c0adbb4b29abea5a63edc3e03098"
+             ],
+-            "markers": "python_version >= '3.6'",
++            "markers": "python_version < '3.10'",
+             "version": "==3.4.1"
+         }
+     }
+-- 
+2.31.1
 
 
