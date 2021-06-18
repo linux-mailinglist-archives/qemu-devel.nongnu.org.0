@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00A93AD5B6
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:16:53 +0200 (CEST)
-Received: from localhost ([::1]:35304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6295C3AD5AA
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:11:48 +0200 (CEST)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNjI-0007WG-Pb
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:16:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
+	id 1luNeN-0004Ta-Bb
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNY7-0006rD-MM
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNY7-0006rJ-Uz
  for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50191)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNY3-00068z-RA
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:18 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNY2-00068I-JF
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057515;
+ s=mimecast20190719; t=1624057514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3BoUUzO4xspwg/kfAruJUVmAO/uk8Osc/g8OYqF9jK8=;
- b=dCJehif57eJMdkvDt9wUD9EaVtt6OoSnQcJ8q52LtqtxYUgpotfw6hP4jjW6HRGe+gjzMi
- /qK3Q4Fun9UTDSIdKrkfC2SJdt5OkrIk7g2UNKT4slu7Ue9U54Fuf4RENDBwsiZ+a4+NMA
- ezBvElWWMSqgnEt37SJTIEQS3KoC9/E=
+ bh=3Fd02lWW+xoCElybk9WGOMwGulh6FtsHQa7g39lmxjA=;
+ b=Jlv/INAMRPoWEkisi1GW/1npqgl9zNFecwrQlmLtFozbLuvY2hkXmEnAKv7GFJFh4DLBHN
+ ikkOH0GaYlYKSJyEv1Lv7FEV61gu+6qBcrSLiXxyEAiJvZpw4QACMo+jsOT04dzR5g1MHY
+ vck8z7uO4wgVWEX0VYsnz7NZkG5NzUU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-uLRZLHALN0eFrHBFk0u7PQ-1; Fri, 18 Jun 2021 19:05:11 -0400
-X-MC-Unique: uLRZLHALN0eFrHBFk0u7PQ-1
+ us-mta-583-HXMhuMgAPkGWzJtKFRf_5w-1; Fri, 18 Jun 2021 19:05:12 -0400
+X-MC-Unique: HXMhuMgAPkGWzJtKFRf_5w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C102801B1C;
- Fri, 18 Jun 2021 23:05:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C012100C664;
+ Fri, 18 Jun 2021 23:05:11 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 929971017CE5;
- Fri, 18 Jun 2021 23:05:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A28F2101E249;
+ Fri, 18 Jun 2021 23:05:10 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/72] scripts/qom-fuse: Apply pylint rules
-Date: Fri, 18 Jun 2021 19:03:53 -0400
-Message-Id: <20210618230455.2891199-11-jsnow@redhat.com>
+Subject: [PULL 11/72] scripts/qom-fuse: Add docstrings
+Date: Fri, 18 Jun 2021 19:03:54 -0400
+Message-Id: <20210618230455.2891199-12-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -77,85 +77,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Catch specific exceptions from QMP
-- Reraise errors with explicit context
-- method parameters should match parent's names
+The methods inherited from fuse don't need docstrings; that's up to
+fusepy to handle.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20210603003719.1321369-11-jsnow@redhat.com
+Message-id: 20210603003719.1321369-12-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qom-fuse | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ scripts/qmp/qom-fuse | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-index ca30e92867..805e99c8ec 100755
+index 805e99c8ec..1fb3008a16 100755
 --- a/scripts/qmp/qom-fuse
 +++ b/scripts/qmp/qom-fuse
-@@ -23,7 +23,7 @@ from fuse import FUSE, FuseOSError, Operations
+@@ -1,7 +1,19 @@
+ #!/usr/bin/env python3
++"""
++QEMU Object Model FUSE filesystem tool
++
++This script offers a simple FUSE filesystem within which the QOM tree
++may be browsed, queried and edited using traditional shell tooling.
++
++This script requires the 'fusepy' python package.
++
++ENV:
++    QMP_SOCKET: Path to the QMP server socket
++
++Usage:
++    qom-fuse /mount/to/here
++"""
+ ##
+-# QEMU Object Model test tools
+-#
+ # Copyright IBM, Corp. 2012
+ # Copyright (C) 2020 Red Hat, Inc.
+ #
+@@ -30,6 +42,7 @@ fuse.fuse_python_api = (0, 2)
  
  
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
--from qemu.qmp import QEMUMonitorProtocol
-+from qemu.qmp import QEMUMonitorProtocol, QMPResponseError
+ class QOMFS(Operations):
++    """QOMFS implements fuse.Operations to provide a QOM filesystem."""
+     def __init__(self, qmp):
+         self.qmp = qmp
+         self.qmp.connect()
+@@ -37,6 +50,7 @@ class QOMFS(Operations):
+         self.ino_count = 1
  
+     def get_ino(self, path):
++        """Get an inode number for a given QOM path."""
+         if path in self.ino_map:
+             return self.ino_map[path]
+         self.ino_map[path] = self.ino_count
+@@ -44,6 +58,7 @@ class QOMFS(Operations):
+         return self.ino_map[path]
  
- fuse.fuse_python_api = (0, 2)
-@@ -47,7 +47,7 @@ class QOMFS(Operations):
+     def is_object(self, path):
++        """Is the given QOM path an object?"""
          try:
              self.qmp.command('qom-list', path=path)
              return True
--        except:
-+        except QMPResponseError:
+@@ -51,6 +66,7 @@ class QOMFS(Operations):
              return False
  
      def is_property(self, path):
-@@ -59,7 +59,7 @@ class QOMFS(Operations):
-                 if item['name'] == prop:
-                     return True
-             return False
--        except:
-+        except QMPResponseError:
++        """Is the given QOM path a property?"""
+         path, prop = path.rsplit('/', 1)
+         if path == '':
+             path = '/'
+@@ -63,6 +79,7 @@ class QOMFS(Operations):
              return False
  
      def is_link(self, path):
-@@ -73,10 +73,10 @@ class QOMFS(Operations):
-                         return True
-                     return False
-             return False
--        except:
-+        except QMPResponseError:
-             return False
- 
--    def read(self, path, length, offset, fh):
-+    def read(self, path, size, offset, fh):
-         if not self.is_property(path):
-             return -ENOENT
- 
-@@ -86,13 +86,13 @@ class QOMFS(Operations):
-         try:
-             data = self.qmp.command('qom-get', path=path, property=prop)
-             data += '\n'  # make values shell friendly
--        except:
--            raise FuseOSError(EPERM)
-+        except QMPResponseError as err:
-+            raise FuseOSError(EPERM) from err
- 
-         if offset > len(data):
-             return ''
- 
--        return bytes(data[offset:][:length], encoding='utf-8')
-+        return bytes(data[offset:][:size], encoding='utf-8')
- 
-     def readlink(self, path):
-         if not self.is_link(path):
++        """Is the given QOM path a link?"""
+         path, prop = path.rsplit('/', 1)
+         if path == '':
+             path = '/'
 -- 
 2.31.1
 
