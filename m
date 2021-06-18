@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D45C3AC2C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:10:54 +0200 (CEST)
-Received: from localhost ([::1]:58016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C9A3AC2C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:12:56 +0200 (CEST)
+Received: from localhost ([::1]:33936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu6mL-0005y1-ER
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35892)
+	id 1lu6oJ-0000Vh-7m
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6Y2-0005zx-1Y
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:56:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37784)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6YF-0006jv-2D
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:56:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6Xx-0004lQ-Gq
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:56:05 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6YB-0004xT-VL
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:56:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623992160;
+ s=mimecast20190719; t=1623992175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MOj1tDTsNrMLeU1D5eiY7ntP624q1LCrH82mgp0Qpto=;
- b=ACEyqNWG5juurDPNVEtkStSlwAVo7Fasw5gaOL8ZWWPEMTN1r72k2g0YIOW4kenMR4Er3C
- 2N+KzMFDsQyj1tYHQzsWfGmih/LLVbqhjjORAL9D3gspSf53Uu3g5T0+lUdrEijUDzcDh/
- MtIiRIywKXg/lL3tozaa5x5mHNawwc0=
+ bh=x2Na7nuQwlpXv3laK5ONyMsKbyRncyxXdx8y9K78YrM=;
+ b=cZ3d80ud044RLkRfo8XQlslAluuqBCcEu15ww6s4wGqWGsQpOoAqDaaXGf0FNemkMPUcb5
+ se4G+fzAilJl05haSF4yTtsFOt34vN99qfLLDHCHvpHvLdNQ3rBKxVTn2wUcTyJ1LdnWgE
+ 3kLZqSBP1x8I8Bgnhpje41iRONh3FHc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-Qr8_0sPMNfWose8LDAo8pg-1; Fri, 18 Jun 2021 00:55:59 -0400
-X-MC-Unique: Qr8_0sPMNfWose8LDAo8pg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-524-SVADxBykPxOftQFGTEM8KA-1; Fri, 18 Jun 2021 00:56:14 -0400
+X-MC-Unique: SVADxBykPxOftQFGTEM8KA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25D0F3625B;
- Fri, 18 Jun 2021 04:55:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C471010C1ADC;
+ Fri, 18 Jun 2021 04:56:12 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D838560E3A;
- Fri, 18 Jun 2021 04:55:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 864195D6AC;
+ Fri, 18 Jun 2021 04:55:59 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0DE3C180354E; Fri, 18 Jun 2021 06:53:55 +0200 (CEST)
+ id 187CD180354F; Fri, 18 Jun 2021 06:53:55 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/24] accel: autoload modules
-Date: Fri, 18 Jun 2021 06:53:49 +0200
-Message-Id: <20210618045353.2510174-21-kraxel@redhat.com>
+Subject: [PATCH v3 21/24] accel: add qtest module annotations
+Date: Fri, 18 Jun 2021 06:53:50 +0200
+Message-Id: <20210618045353.2510174-22-kraxel@redhat.com>
 In-Reply-To: <20210618045353.2510174-1-kraxel@redhat.com>
 References: <20210618045353.2510174-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,41 +94,33 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call module_object_class_by_name() instead of object_class_by_name()
-for objects possibly implemented as module
+Add module annotations for qtest so autoloading works.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- accel/accel-common.c  | 2 +-
- accel/accel-softmmu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ accel/qtest/qtest.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index cf07f78421d6..7b8ec7e0f72a 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -44,7 +44,7 @@ static const TypeInfo accel_type = {
- AccelClass *accel_find(const char *opt_name)
+diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
+index edb29f6fa4c0..7e6b8110d52b 100644
+--- a/accel/qtest/qtest.c
++++ b/accel/qtest/qtest.c
+@@ -45,6 +45,7 @@ static const TypeInfo qtest_accel_type = {
+     .parent = TYPE_ACCEL,
+     .class_init = qtest_accel_class_init,
+ };
++module_obj(TYPE_QTEST_ACCEL);
+ 
+ static void qtest_accel_ops_class_init(ObjectClass *oc, void *data)
  {
-     char *class_name = g_strdup_printf(ACCEL_CLASS_NAME("%s"), opt_name);
--    AccelClass *ac = ACCEL_CLASS(object_class_by_name(class_name));
-+    AccelClass *ac = ACCEL_CLASS(module_object_class_by_name(class_name));
-     g_free(class_name);
-     return ac;
- }
-diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-index 50fa5acaa401..67276e4f5222 100644
---- a/accel/accel-softmmu.c
-+++ b/accel/accel-softmmu.c
-@@ -72,7 +72,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
-     g_assert(ac_name != NULL);
+@@ -61,6 +62,7 @@ static const TypeInfo qtest_accel_ops_type = {
+     .class_init = qtest_accel_ops_class_init,
+     .abstract = true,
+ };
++module_obj(ACCEL_OPS_NAME("qtest"));
  
-     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
--    ops = ACCEL_OPS_CLASS(object_class_by_name(ops_name));
-+    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-     g_free(ops_name);
- 
-     /*
+ static void qtest_type_init(void)
+ {
 -- 
 2.31.1
 
