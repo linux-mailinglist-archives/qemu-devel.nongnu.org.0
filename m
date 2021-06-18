@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22AB3ACFC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:04:15 +0200 (CEST)
-Received: from localhost ([::1]:47768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6784F3AD021
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 18:13:16 +0200 (CEST)
+Received: from localhost ([::1]:40394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luGyc-0004jc-DK
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
+	id 1luH7J-0002bk-Rl
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 12:13:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1luGuk-00016J-PY
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:00:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1luGuf-0003fh-0v
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:00:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624032008;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ST6OlA7udOYqMEd6UPgqsDs114jqHzobLTHi8cMB2WE=;
- b=NjTyAGiN9cIiMADOEU573jPDgVj0efW3XMkrmBjWYNrGlcttnIpTrMvyHzXmnQGdhCeeWX
- kVrr35ybd3758dGVMc4K5Bd2IfUpT+t7iaMs6leAtF0Hbyec7QEy0vGD7JQkYhTsz8rlnp
- pFISsRLoGOZEUBQ7QRQtt67seRH1hJI=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-MDnB4F-OOjCt55qyHidftA-1; Fri, 18 Jun 2021 12:00:04 -0400
-X-MC-Unique: MDnB4F-OOjCt55qyHidftA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- 61-20020aed21430000b029024e7e455d67so7709005qtc.16
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 09:00:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ST6OlA7udOYqMEd6UPgqsDs114jqHzobLTHi8cMB2WE=;
- b=D4Apg8e3Fx5rVtzqNVtIf1WYxcYciP4kC9ICjxs8ecfJWnNvyFr4lSiremd8IRaCMF
- 17ikyksS7eyfXMJ02g4Avpy8iCAltaswsp0kEk2CinLYAdKKV71EN4xNeHWT8VtmUZ3a
- 6IbbWnPYYTwPMXLgaexITWgUQlZvRwMc8M3zazFWzAJZVxFGQkhYzvtZkfqsaQpODnho
- u73q3w8r+lBRx1KXBbsoOqoFZvnYXNMPzM8xe5C/F0W2KizwFI5W2voKbdNxCJvXBxwk
- EOzZIS0VngkKGdTO86tQeIjwIzsCA8o+MuOpaYzpXsoye09C7UnADboQvXrdBHsHoN5S
- DrlQ==
-X-Gm-Message-State: AOAM5318HU6a0hjhaS+jVazPTBDOg8yepkKOwm5DcpDqjQ5IcTBN+t27
- oXBQFyt+OxMgLlR6HWqPajcQH3+351+rxv+1I8xUxlMBgG/+ivNJMAkqNhRmPaKxtb3wC9VzI16
- +vp0kBkEWThVmi78=
-X-Received: by 2002:a37:5c87:: with SMTP id q129mr9922826qkb.137.1624032004440; 
- Fri, 18 Jun 2021 09:00:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAdiTl5assHuFpMrCQREfVqTIUHCtVXJf/SLNmloGmEAyhSdUg10RL9Gt0yWwaek5CFeGqsw==
-X-Received: by 2002:a37:5c87:: with SMTP id q129mr9922811qkb.137.1624032004199; 
- Fri, 18 Jun 2021 09:00:04 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id r6sm1028554qtx.89.2021.06.18.09.00.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 09:00:03 -0700 (PDT)
-Date: Fri, 18 Jun 2021 12:00:02 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v8 0/6] support dirtyrate at the granualrity of vcpu
-Message-ID: <YMzDAjeyK3at9DUu@t490s>
-References: <cover.1624028590.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1luH53-00082D-FM
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:10:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1luH50-0001xD-Tk
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 12:10:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1luH4y-000375-Kn
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:10:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9BEC52E8073
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 16:10:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <cover.1624028590.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 18 Jun 2021 16:01:41 -0000
+From: Thomas Huth <1878054@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158921780313.11557.11335648957795976711.malonedeb@wampee.canonical.com>
+Message-Id: <162403210137.17937.9075239461024923396.launchpad@gac.canonical.com>
+Subject: [Bug 1878054] Re: Hang with high CPU usage in sdhci_data_transfer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: ae69e159fa73858d787c4d2892b885beb5ab65a5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,32 +70,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1878054 <1878054@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 18, 2021 at 11:32:01PM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> v8
+** Bug watch removed: gitlab.com/qemu-project/qemu/-/issues #387
+   https://gitlab.com/qemu-project/qemu/-/issues/387
 
-I have one last comment in patch 2, the rest looks good to me, thanks.
+-- =
 
-I think the next step can be that we add another command to configure dirty
-rate limit for each of the vcpu.  It can be the 3rd bit in the
-global_dirty_tracking and it should require dirty ring too to be there, but I
-haven't thought deeper..  Then after that, we may teach migration code some
-algorithm to auto-setup these per-vcpu throttling, it'll grow into some kind of
-per-vcpu auto-converge.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878054
 
-Do you think above would be something worth trying out?  And.. Dave/Paolo/Juan?
+Title:
+  Hang with high CPU usage in sdhci_data_transfer
 
-Btw, this series cannot apply cleanly to master here.  Maybe you need to pull
-and rebase?
+Status in QEMU:
+  Incomplete
 
--- 
-Peter Xu
+Bug description:
+  Hello,
+  While fuzzing, I found an input that causes QEMU to hang with 100% CPU us=
+age.
+  I have waited several minutes, and QEMU is still unresponsive. Using gdb,=
+ It
+  appears that it is stuck in an sdhci_data_transfer:
 
+  #0   memory_region_access_valid (mr=3D<optimized out>, addr=3D0x10284920,=
+ size=3D<optimized out>, is_write=3D0xff, attrs=3D...) at /home/alxndr/Deve=
+lopment/qemu/memory.c:1378
+  #1   memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D<optimized out>, op=3DMO_32, attrs=3D...) at /home/alxndr/De=
+velopment/qemu/memory.c:1463
+  #2   flatview_write_continue (fv=3D<optimized out>, addr=3D0x10284920, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xb7, addr1=3D0x5555582798e0, l=3D<=
+optimized out>, mr=3D0x5555582798e0 <io_mem_unassigned>) at /home/alxndr/De=
+velopment/qemu/exec.c:3137
+  #3   flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #4   address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Development/qem=
+u/exec.c:3268
+  #5   address_space_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, attrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, len=
+=3D0x4, is_write=3D0xb8, is_write@entry=3D0x1) at
+  /home/alxndr/Development/qemu/exec.c:3278
+  #6   dma_memory_rw_relaxed (as=3D0x5555572509ac <unassigned_mem_ops+44>, =
+addr=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_=
+FROM_DEVICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:87
+  #7   dma_memory_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=3D0=
+x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_FROM_DEV=
+ICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:110
+  #8   dma_memory_write (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Developm=
+ent/qemu/include/sysemu/dma.h:122
+  #9   sdhci_sdma_transfer_multi_blocks (s=3D<optimized out>) at /home/alxn=
+dr/Development/qemu/hw/sd/sdhci.c:618
+  #10  sdhci_data_transfer (opaque=3D0x61e000021080) at /home/alxndr/Develo=
+pment/qemu/hw/sd/sdhci.c:891
+  #11  sdhci_send_command (s=3D0x61e000021080) at /home/alxndr/Development/=
+qemu/hw/sd/sdhci.c:364
+  #12  sdhci_write (opaque=3D<optimized out>, offset=3D0xc, val=3D<optimize=
+d out>, size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/sd/sdhc=
+i.c:1158
+  #13  memory_region_write_accessor (mr=3D<optimized out>, addr=3D<optimize=
+d out>, value=3D<optimized out>, size=3D<optimized out>, shift=3D<optimized=
+ out>, mask=3D<optimized out>, attrs=3D...) at
+  /home/alxndr/Development/qemu/memory.c:483
+  #14  access_with_adjusted_size (addr=3D<optimized out>, value=3D<optimize=
+d out>, size=3D<optimized out>, access_size_min=3D<optimized out>, access_s=
+ize_max=3D<optimized out>, access_fn=3D<optimized out>, mr=3D0x61e0000219f0=
+, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #15  memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D0x1ffe0ff, op=3D<optimized out>, attrs=3D...) at /home/alxnd=
+r/Development/qemu/memory.c:1476
+  #16  flatview_write_continue (fv=3D<optimized out>, addr=3D0xe106800c, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xff3, addr1=3D0x5555582798e0, l=3D=
+<optimized out>, mr=3D0x61e0000219f0) at /home/alxndr/Development/qemu/exec=
+.c:3137
+  #17  flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #18  address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, buf@entry=3D0x62100008a=
+d00, len=3D0x4) at /home/alxndr/Development/qemu/exec.c:3268
+  #19  qtest_process_command (chr=3D<optimized out>, chr@entry=3D0x55555827=
+c040 <qtest_chr>, words=3D<optimized out>) at /home/alxndr/Development/qemu=
+/qtest.c:567
+  #20  qtest_process_inbuf (chr=3D0x55555827c040 <qtest_chr>, inbuf=3D0x619=
+00000f640) at /home/alxndr/Development/qemu/qtest.c:710
+
+  =
+
+  I am attaching the qtest commands for reproducing it.
+  I can reproduce it in a qemu 5.0 build using:
+
+  qemu-system-i386 -M pc-q35-5.0 -qtest stdio -device sdhci-pci,sd-spec-
+  version=3D3 -device sd-card,drive=3Dmydrive -drive if=3Dsd,index=3D0,file
+  =3Dnull-co://,format=3Draw,id=3Dmydrive -nographic -nographic -serial none
+  -monitor none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878054/+subscriptions
 
