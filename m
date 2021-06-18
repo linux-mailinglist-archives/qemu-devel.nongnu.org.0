@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4E33AD2E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:32:26 +0200 (CEST)
-Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9B03AD2E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:32:28 +0200 (CEST)
+Received: from localhost ([::1]:59844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luKE5-0004Ms-St
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
+	id 1luKE7-0004RG-4h
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKBj-0001QI-Uk
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:29:59 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36808)
+ id 1luKBm-0001WY-Ik
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:30:02 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKBf-0001Q9-Gj
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:29:59 -0400
-Received: by mail-pl1-x636.google.com with SMTP id x10so5207468plg.3
+ id 1luKBf-0001Qa-Sc
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:30:02 -0400
+Received: by mail-pl1-x632.google.com with SMTP id v12so5196280plo.10
  for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 12:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vF/Dv3hdb1vnrzJPeq46hpO+A1VIsu9mSs+eyoe3lIs=;
- b=RbVyyHno/O+Shg0lvjANiqAKI+ptVlioZ0YFEbbi6mV7m4f0Jpo9nY9DVu83OFdkCz
- 0EFEW2+PQBZDeNYfDlJNQOamB403QuqpSQ3bsIhhd5cBYDhtSES6kl0oiGab/FfhPWKr
- /xvEJYareZ/5DRQ9N4Y6OlBbTYwKle45983NV0EOpXeK4XBvhMYZeI4UQgfcV1YuSQG3
- N7WWr/EXtmpcBsBtsNhySRSqCmkFMnhoMKfdueAZttGeu5IJiUGr9eqQnoMIhNLNA+YC
- q4TYvUd9rNmtte3A26Y82v6CDhJ15H61p28phbNolHaHIXB2HFJMT7F/e9MNqMX3wHT3
- Of4A==
+ bh=xc89iOQ6Z9A7jmI+2EVW1gXxkL96LTZi3hKVzfLFP0A=;
+ b=PmixQGL27Pxfz3A6w5dAYzho9T5gEWLniESYkDMaxFolfWLUDVGboa5mn0NuCZBSk7
+ yYhM+Cf08JMP+4SqQdyLIoqERrYSENEZYmpPZDAMcAeFp6Ca2WJPpe6GT+xtlIjXGBx5
+ bIeAKiQPIiEFSjfLpilGpc7SrBe7lz/Wn9stiQrdVXHaC1J5uXrtlVLzmdWf6fQ3MPov
+ y40gKs2IZovY93iqFEzxLJk4fnY17Fr5AfPK6tVkjeE2Ns7QET4MlZjFjSPnWYGQ4H+T
+ f7Vopma8RPtaFxuuDMJuwWHTQDlW6sczI2UJ0A5jOobZ90r+fMdfF8A/rWC59IQ9y/iB
+ kt7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vF/Dv3hdb1vnrzJPeq46hpO+A1VIsu9mSs+eyoe3lIs=;
- b=acX/PszOdwuo4ucuNvAy0tgG+NlMR8ZGEe1QwU40CGsXz53pRetQJQzcRUQP+uS3CI
- EDTALydU7CU968aRjg7s3zNfS8YdkGWHcIEkJxltUp/EACtDP3T0oQvsU5OHtXSkjkkh
- p+wmTBgYmsoyf4BCSYn4VfXeHIeZis//R0G9tpotg3j2MjU4JWgaG160axg0T3TAQzw6
- tJXjgG/Sf0yFmxWhvQEmL2hoLv7kXe/Th7TncIuo/Fk3IcqiFzK8HzWRYCvgoE0fBsSC
- afvXLU17myaNf6FdTSGavfMicQJXtSLYCcdJOBRjmpjoVa/TjbWRpKKqG5SA0eWJvyHa
- qyXw==
-X-Gm-Message-State: AOAM5309OQQ/BOSD47y2mezJP7onq8fHlebPNNUlDnHHqKDdZQtV78W2
- rLMlqRpGu2+eWXwYFSx3cb5ivuTDgyhbMA==
-X-Google-Smtp-Source: ABdhPJzM7TbizGuojneKZmJl+RlBw/cUTJ9UxKZi1IIQ5Q9GshINiIYI5QGfKuVdJOTVQM5wH0hlIw==
-X-Received: by 2002:a17:902:9a01:b029:11a:d4e:8f4 with SMTP id
- v1-20020a1709029a01b029011a0d4e08f4mr6140345plp.52.1624044594110; 
+ bh=xc89iOQ6Z9A7jmI+2EVW1gXxkL96LTZi3hKVzfLFP0A=;
+ b=qti8bhiEaTaUOGCBSfMgkHV0VvvGeDc4widOPY1ybo5ss6huSJ7XSO/pbKyYW/CuI/
+ +6LFXg9ysot/JG+2c00dB6g4yAGyMc98JtRdzUCqDKkyrGveABQey3KsbytQI8vpva/y
+ WHwPBG7uby0Gx6cRCxs2YV3jNDwZuxn287e66BEb5qc7C+yl7POt5OnPYVsch8VHFmZm
+ dkT6W9CDQvuE9dPOg0KFqjQ9n6UCCJnTCqZe14y+o734Tm/r8nGvczeF2bWpko3qjIRX
+ AA5VhLam7y1uDkdbwADQX8TyngLaVga5kPFhlxzNMKFRb/xNvEoLJQ1iQpPB1WJkuuDN
+ qfqg==
+X-Gm-Message-State: AOAM533deGsPZVGbFmS3Zc9o8n2O78Z1IFroFLcIi2I51A79mhiOElrn
+ bGqrXMOBGVu4JZmHu7L554VkIqXvAhT0Yw==
+X-Google-Smtp-Source: ABdhPJwzgCU0eb6qiL8x/wJBYfMVU6g/VQDpTlJlJ5hGV576UARtXC55f079tApajlq1uPHU0h99FA==
+X-Received: by 2002:a17:90b:1bc6:: with SMTP id
+ oa6mr6085300pjb.36.1624044594623; 
  Fri, 18 Jun 2021 12:29:54 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 92sm11938234pjv.29.2021.06.18.12.29.53
+ by smtp.gmail.com with ESMTPSA id 92sm11938234pjv.29.2021.06.18.12.29.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 12:29:53 -0700 (PDT)
+ Fri, 18 Jun 2021 12:29:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/23] linux-user/arm: Split out v2_frame
-Date: Fri, 18 Jun 2021 12:29:31 -0700
-Message-Id: <20210618192951.125651-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 04/23] linux-user/arm: Force v2 frames for fdpic
+Date: Fri, 18 Jun 2021 12:29:32 -0700
+Message-Id: <20210618192951.125651-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210618192951.125651-1-richard.henderson@linaro.org>
 References: <20210618192951.125651-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,66 +87,36 @@ Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out a helper function to test for a v2 signal frame.
+The value of get_os_release may be controlled by a command
+line option.  Since fdpic was added in v4.14, and v2 frame
+were added in v2.6.12, this makes no change under normal conditions.
 
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/arm/signal.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ linux-user/arm/signal.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index 32b68ee302..cb65623965 100644
+index cb65623965..2d30345fc2 100644
 --- a/linux-user/arm/signal.c
 +++ b/linux-user/arm/signal.c
-@@ -165,6 +165,11 @@ static inline int valid_user_regs(CPUARMState *regs)
-     return 1;
+@@ -167,7 +167,14 @@ static inline int valid_user_regs(CPUARMState *regs)
+ 
+ static bool v2_frame(void)
+ {
+-    return get_osversion() >= 0x020612;
++    /*
++     * We do not create fdpic trampolines for v1 frames.
++     * Thus we force v2 frames, regardless of what uname says.
++     * Support for fdpic dates from Linux 4.14, so this is not
++     * really a behaviour change.
++     */
++    int is_fdpic = info_is_fdpic(((TaskState *)thread_cpu->opaque)->info);
++    return is_fdpic || get_osversion() >= 0x020612;
  }
  
-+static bool v2_frame(void)
-+{
-+    return get_osversion() >= 0x020612;
-+}
-+
  static void
- setup_sigcontext(struct target_sigcontext *sc, /*struct _fpstate *fpstate,*/
-                  CPUARMState *env, abi_ulong mask)
-@@ -422,7 +427,7 @@ sigsegv:
- void setup_frame(int usig, struct target_sigaction *ka,
-                  target_sigset_t *set, CPUARMState *regs)
- {
--    if (get_osversion() >= 0x020612) {
-+    if (v2_frame()) {
-         setup_frame_v2(usig, ka, set, regs);
-     } else {
-         setup_frame_v1(usig, ka, set, regs);
-@@ -516,7 +521,7 @@ void setup_rt_frame(int usig, struct target_sigaction *ka,
-                     target_siginfo_t *info,
-                     target_sigset_t *set, CPUARMState *env)
- {
--    if (get_osversion() >= 0x020612) {
-+    if (v2_frame()) {
-         setup_rt_frame_v2(usig, ka, info, set, env);
-     } else {
-         setup_rt_frame_v1(usig, ka, info, set, env);
-@@ -734,7 +739,7 @@ badframe:
- 
- long do_sigreturn(CPUARMState *env)
- {
--    if (get_osversion() >= 0x020612) {
-+    if (v2_frame()) {
-         return do_sigreturn_v2(env);
-     } else {
-         return do_sigreturn_v1(env);
-@@ -823,7 +828,7 @@ badframe:
- 
- long do_rt_sigreturn(CPUARMState *env)
- {
--    if (get_osversion() >= 0x020612) {
-+    if (v2_frame()) {
-         return do_rt_sigreturn_v2(env);
-     } else {
-         return do_rt_sigreturn_v1(env);
 -- 
 2.25.1
 
