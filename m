@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109AF3ACB83
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 14:58:03 +0200 (CEST)
-Received: from localhost ([::1]:54062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12593ACBAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 15:03:09 +0200 (CEST)
+Received: from localhost ([::1]:58222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luE4Q-0008LN-4k
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 08:58:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60456)
+	id 1luE9M-0002xe-9g
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 09:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1luE3d-0007Wb-1k; Fri, 18 Jun 2021 08:57:13 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3978
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1luE3b-0006fL-Dw; Fri, 18 Jun 2021 08:57:12 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15ICX3XS075833; Fri, 18 Jun 2021 08:57:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=YDZ1O3dWENFIvT4Hxh3NiXGcFPsKvEvLU/zmkdYFuC8=;
- b=CwhsXJ01D2H3e6sT/2Vby47INLkmtLEmxK8tnwV7daK6EellQh75BFVGByHQeUCC+Zse
- p/z6rdnWLCkI3hEcFBA71HTexvWQwo93JqKmnfMLh3MBvjMdzBak+WRsOjCos/6ysSgv
- HA3HqssM7G3PkXevT9FOGdERbz0AN1VOhm1W8ggZvCLSCSuUmM230kvYIRvZ8kGz0HSm
- x14uTtKxlW1u3fqFd9Z6dIQpn6JXyWcQ0wiW7vZA18ZoZCvOGo7XD2vE7bzRkw5L9Syl
- JxAzXnZW9mJ9EBdLFUGsCz7na303+BhT5IytMZZCfx2zN7zXUNpiv5UdnQkSLZMTvcUF 0Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 398ph7swhp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Jun 2021 08:57:09 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15ICkfRx140347;
- Fri, 18 Jun 2021 08:57:08 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 398ph7swhf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Jun 2021 08:57:08 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15ICmAYp024815;
- Fri, 18 Jun 2021 12:57:08 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma03wdc.us.ibm.com with ESMTP id 394mja991y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Jun 2021 12:57:08 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15ICv6s529163812
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Jun 2021 12:57:07 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1175BE04F;
- Fri, 18 Jun 2021 12:57:06 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E3403BE051;
- Fri, 18 Jun 2021 12:57:05 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.163.1.119])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 18 Jun 2021 12:57:05 +0000 (GMT)
-Message-ID: <2f4b46440d693a1e52d12ef7d95c30261c2dcdbc.camel@linux.ibm.com>
-Subject: Re: [PATCH v4 1/4] s390x/css: Introduce an ESW struct
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Date: Fri, 18 Jun 2021 08:57:04 -0400
-In-Reply-To: <87czsjpl5i.fsf@redhat.com>
-References: <20210617232537.1337506-1-farman@linux.ibm.com>
- <20210617232537.1337506-2-farman@linux.ibm.com> <87czsjpl5i.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1luE7c-0001fz-UV
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 09:01:22 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:46984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1luE7a-0007R7-M3
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 09:01:20 -0400
+Received: by mail-ed1-x534.google.com with SMTP id s15so8489577edt.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 06:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=g2hck1l/5XWH701+rXdUy3Mpx5wrEbQcVwL4iuR0B9E=;
+ b=c3XPTShogdVP+iA3ea7FIu4CW7LE743JPwdyY4S/rIMCkPWxZ00aDtg3aL1gWLsOuo
+ I+BVuFXAYF3HkpSG7r04W8sjjwTsz6+m4621wH1P5B03u3xfFRrwT58Vto9g3cJCtDBc
+ 65rIuGNug6IZ4Pdmu1z7VuzoQFZqBgSlS7B0Pq9uK90UwkdmJRD658Q5XlIZ9XeCQFne
+ WE368lGSuWhiqLUisk1JHK0PkR3TlpgpfPLRVeF+0IkYPFst+dZ1FCLtyhyzdnUxm+Jj
+ V0gcWSM1zr9SC1gVyfml9t+Kk+IVI/wlCW0kHbjAb4AG5JTnhmUHxqTHOoxblWC3lMCT
+ UUHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=g2hck1l/5XWH701+rXdUy3Mpx5wrEbQcVwL4iuR0B9E=;
+ b=ghDigtFqjxcY06jDjMUSftGPelsYf1f0Nh4cOW9i3rmn61AkI/FvAnJIIZ1TU61xNM
+ /5waQt35naf2VMNeXRcgZLIIo8nTJo4tVFsptBtLT43vVq5Be2bTTow5iOPQ33G3T/HT
+ pBlc63Dn9ru7Q5xWXf6X50vg1yrs6sbhuo6iS+09WV80ATLkDJHdzaio72Vhom9DHSwD
+ WrS70HTILBsQDcU05x6nTxUmMZnlLfuRP0ijBui2XaYIPe6ZwmLRQWi+OZgntIvQOwto
+ 88EGz/wGCjP6RWtLLmcKzrmVEN58qhIqN/Tn0D8FY3hpOBmacCLRkn5rS95PU8HbN8lT
+ iBsA==
+X-Gm-Message-State: AOAM532cpCF2wzyXbl96iOQdoLKqXt1DB521jR7oMn0UgCAvkz9P9C7a
+ 2VjBUad/UjJHSrQLY0erpirzVBxkh5dHeTgTdkz6/g==
+X-Google-Smtp-Source: ABdhPJxB8SufbKNDZBLOWx7Er/1lMD8yYYpD3wU8u/Bgz4q5WeFU7EDgv4KLK20vi6xo3/JCYA+WU/u4vehL6ehRgKY=
+X-Received: by 2002:a05:6402:748:: with SMTP id
+ p8mr2456472edy.251.1624021276771; 
+ Fri, 18 Jun 2021 06:01:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210617124107.2386073-1-kraxel@redhat.com>
+In-Reply-To: <20210617124107.2386073-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Jun 2021 14:00:41 +0100
+Message-ID: <CAFEAcA_06h2QwNC=_8AZQfdvMO_nAuP7pABoFqGXUMSTi5HcEA@mail.gmail.com>
+Subject: Re: [PULL 0/7] Audio 20210617 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PLa3NPZ7b7wKnUGbmX3Q_bW3oF-_UsdR
-X-Proofpoint-GUID: m0k0PQW8SNt37CAD_bhwSDAPx_Dd2kkW
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-18_07:2021-06-18,
- 2021-06-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1015 phishscore=0 suspectscore=0 spamscore=0
- mlxlogscore=963 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2106180073
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,70 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-06-18 at 11:38 +0200, Cornelia Huck wrote:
-> On Fri, Jun 18 2021, Eric Farman <farman@linux.ibm.com> wrote:
-> 
-> > The Interrupt Response Block is comprised of several other
-> > structures concatenated together, but only the 12-byte
-> > Subchannel-Status Word (SCSW) is defined as a proper struct.
-> > Everything else is a simple array of 32-bit words.
-> > 
-> > Let's define a proper struct for the 20-byte Extended-Status
-> > Word (ESW) so that we can make good decisions about the sense
-> > data that would go into the ECW area for virtual vs
-> > passthrough devices.
-> > 
-> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> > ---
-> >  hw/s390x/css.c            | 19 +++++++++++++------
-> >  include/hw/s390x/ioinst.h | 12 +++++++++++-
-> >  2 files changed, 24 insertions(+), 7 deletions(-)
-> 
-> (...)
-> 
-> > diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
-> > index c6737a30d4..e7ab401781 100644
-> > --- a/include/hw/s390x/ioinst.h
-> > +++ b/include/hw/s390x/ioinst.h
-> > @@ -123,10 +123,20 @@ typedef struct SCHIB {
-> >      uint8_t mda[4];
-> >  } QEMU_PACKED SCHIB;
-> >  
-> > +/* format-0 extended-status word */
-> > +typedef struct ESW {
-> > +   uint32_t word0;
-> 
-> Maybe append /* subchannel logout for format 0 */? Can do when
-> applying.
-> 
+On Thu, 17 Jun 2021 at 13:55, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 38848ce565849e5b867a5e08022b3c755039c1=
+1a:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
+10616' into staging (2021-06-16 17:02:30 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/audio-20210617-pull-request
+>
+> for you to fetch changes up to 986bdbc6a29c4d7ef125299c5013783e30dc2cae:
+>
+>   coreaudio: Fix output stream format settings (2021-06-17 12:00:26 +0200=
+)
+>
+> ----------------------------------------------------------------
+> audio: bugfix collection.
+>
+> ----------------------------------------------------------------
+>
+> Akihiko Odaki (2):
+>   audio: Fix format specifications of debug logs
+>   coreaudio: Fix output stream format settings
+>
+> Philippe Mathieu-Daud=C3=A9 (1):
+>   hw/audio/sb16: Avoid assertion by restricting I/O sampling rate range
+>
+> Volker R=C3=BCmelin (4):
+>   alsaaudio: remove #ifdef DEBUG to avoid bit rot
+>   paaudio: remove unused stream flags
+>   audio: move code to audio/audio.c
+>   jackaudio: avoid that the client name contains the word (NULL)
+>
 
-That's a good idea.
 
-Eric
+Applied, thanks.
 
-> > +   uint32_t erw;
-> > +   uint64_t f_addr;     /* Zeros for other ESW formats */
-> > +   uint32_t s_addr;     /* Zeros for other ESW formats */
-> > +} QEMU_PACKED ESW;
-> > +
-> > +#define ESW_ERW_SENSE 0x01000000
-> > +
-> >  /* interruption response block */
-> >  typedef struct IRB {
-> >      SCSW scsw;
-> > -    uint32_t esw[5];
-> > +    ESW esw;
-> >      uint32_t ecw[8];
-> >      uint32_t emw[8];
-> >  } IRB;
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
+-- PMM
 
