@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6F03AD602
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:36:11 +0200 (CEST)
-Received: from localhost ([::1]:48852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4953AD5FB
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:33:21 +0200 (CEST)
+Received: from localhost ([::1]:37746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luO1y-0004m2-Bq
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35242)
+	id 1luNzE-0005j8-WE
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYh-0007ZA-B8
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51799)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYn-0007rq-4C
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYf-0006QZ-IA
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:55 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYg-0006TS-L6
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057551;
+ s=mimecast20190719; t=1624057554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SFPgt4s+k02hJBzIBvIAcBuapmVlUNqv2ZIp5belWwo=;
- b=EgQsjjHPs9eG9HlvBMA6uXHYrPQrDEE98fr8h1SEej4xNLCiiqmqKSe7bX9Y8zGOkXRaH4
- D/J5MDpd7izAnXuTyHqWeMkep/hhrEbOJAXyz8RxHPkdseC5rcdKHOHKCPXl4NejqeE6/B
- 0b/N4TXYMLsWnFK4CSU2Fmx2jMmHrTo=
+ bh=oJhrmtOsVP1cXL+pQZYhmag7Tb+UIa5SGWTdXPC+UIc=;
+ b=BvoC2+X5U6QhLFUhJKvR2ofWkYZqi9rRR0yHLQKuUYp063QDVmNm9UgT6p8YHtMBMfWuxJ
+ SnPkOzj34hXuHJZS4AF0nnxUldZhT2uPfKlJlU68/3ui05ns7yMX1VI0/c/TQtjGKExOw5
+ cUCBIqw1GxdDmfasR0cFR96+6J6Vugs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-aN5apXiVPnunzd7fg6TK5Q-1; Fri, 18 Jun 2021 19:05:49 -0400
-X-MC-Unique: aN5apXiVPnunzd7fg6TK5Q-1
+ us-mta-452-vgrI62fwP7CSESYzeaE_yw-1; Fri, 18 Jun 2021 19:05:50 -0400
+X-MC-Unique: vgrI62fwP7CSESYzeaE_yw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50D4A5074B;
- Fri, 18 Jun 2021 23:05:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D092801596;
+ Fri, 18 Jun 2021 23:05:49 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3C5A1000358;
- Fri, 18 Jun 2021 23:05:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73C721000358;
+ Fri, 18 Jun 2021 23:05:48 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/72] scripts/qmp-shell: fix shell history exception handling
-Date: Fri, 18 Jun 2021 19:04:27 -0400
-Message-Id: <20210618230455.2891199-45-jsnow@redhat.com>
+Subject: [PULL 45/72] scripts/qmp-shell: remove if-raise-else patterns
+Date: Fri, 18 Jun 2021 19:04:28 -0400
+Message-Id: <20210618230455.2891199-46-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,54 +82,48 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to remove exceptions that are too broad here; we only want to
-catch IOErrors that get raised as a direct result of the open call.
+Shushes pylint. I don't always mind these patterns personally, but I'm
+not as sure that I want to remove the warning from pylint's repertoire
+entirely. Oh well.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210607200649.1840382-15-jsnow@redhat.com
+Message-id: 20210607200649.1840382-16-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ scripts/qmp/qmp-shell | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index afb4b0c544..80cd432607 100755
+index 80cd432607..bf7a49dfc1 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -67,7 +67,6 @@
+@@ -204,8 +204,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                 if type(parent[optpath[-1]]) is dict:
+                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
+                     raise QMPShellError(msg.format('.'.join(curpath)))
+-                else:
+-                    raise QMPShellError(f'Cannot set "{key}" multiple times')
++                raise QMPShellError(f'Cannot set "{key}" multiple times')
+             parent[optpath[-1]] = value
  
- import ast
- import atexit
--import errno
- import json
- import os
- import re
-@@ -143,19 +142,17 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         readline.set_completer_delims('')
-         try:
-             readline.read_history_file(self._histfile)
--        except Exception as e:
--            if isinstance(e, IOError) and e.errno == errno.ENOENT:
--                # File not found. No problem.
--                pass
--            else:
--                print("Failed to read history '%s'; %s" % (self._histfile, e))
-+        except FileNotFoundError:
-+            pass
-+        except IOError as err:
-+            print(f"Failed to read history '{self._histfile}': {err!s}")
-         atexit.register(self.__save_history)
+     def __build_cmd(self, cmdline):
+@@ -309,13 +308,14 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         except EOFError:
+             print()
+             return False
++
+         if cmdline == '':
+             for event in self.get_events():
+                 print(event)
+             self.clear_events()
+             return True
+-        else:
+-            return self._execute_cmd(cmdline)
++
++        return self._execute_cmd(cmdline)
  
-     def __save_history(self):
-         try:
-             readline.write_history_file(self._histfile)
--        except Exception as e:
--            print("Failed to save history file '%s'; %s" % (self._histfile, e))
-+        except IOError as err:
-+            print(f"Failed to save history file '{self._histfile}': {err!s}")
- 
-     @classmethod
-     def __parse_value(cls, val):
+     def set_verbosity(self, verbose):
+         self._verbose = verbose
 -- 
 2.31.1
 
