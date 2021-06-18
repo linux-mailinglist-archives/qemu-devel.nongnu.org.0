@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7254C3AD5FF
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:35:25 +0200 (CEST)
-Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF61C3AD612
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:40:58 +0200 (CEST)
+Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luO1E-0002wO-Ey
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:35:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35342)
+	id 1luO6b-000683-Su
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYp-00080R-IT
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52329)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYz-0008La-EW
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYn-0006bT-Sb
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYx-0006gu-IW
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057561;
+ s=mimecast20190719; t=1624057571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s5VVEdZ3WuSxiQV1b7ua3d5AdcUlLMqHri+blmVZuGU=;
- b=ii8D7T07U4t322w3KLCXPllEWWLIXyVMvHBn33TXyFYeogOcOdYxQ2F0fmwYNsfFCNbzrz
- YFyZxb+PhaE8KjHYal+qr5ZCFSruA9tlKp9CiQI154T7Ugc2Xx5q8N76JZzdpsNkCVsMys
- iwRZ2a55W9e27V2IAiT3MPhdZ973VrU=
+ bh=Hq/0T6TUyuYAeoBVMUyJ1Kfdg7TRLoIJlJtIJzNvUl0=;
+ b=h4ukTcOZakF9Iry0peFMTkmqcI81CwjidNG4ILpiHMwQ3MEUGupdv/lMkYZ1n3co1o2wgu
+ Ta7Dwxu8qjTNZDGKG1mgLql/7E0sTbZNDxmQW4UO60MCK/XorNh8TsnLusQKGf6Owq7IGb
+ remxubynXeGBND6CrFDjgJoPGTXI7ZM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-3eWUH_ELMPq68CfKBF0hlA-1; Fri, 18 Jun 2021 19:05:59 -0400
-X-MC-Unique: 3eWUH_ELMPq68CfKBF0hlA-1
+ us-mta-549-yws7JFo-O9K70TpxZvpvFg-1; Fri, 18 Jun 2021 19:06:07 -0400
+X-MC-Unique: yws7JFo-O9K70TpxZvpvFg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C98801B0A;
- Fri, 18 Jun 2021 23:05:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34BBB100C661;
+ Fri, 18 Jun 2021 23:06:06 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 973CD1000358;
- Fri, 18 Jun 2021 23:05:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 015E51000358;
+ Fri, 18 Jun 2021 23:05:58 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 51/72] scripts/qmp-shell: remove prompt argument from
- read_exec_command
-Date: Fri, 18 Jun 2021 19:04:34 -0400
-Message-Id: <20210618230455.2891199-52-jsnow@redhat.com>
+Subject: [PULL 52/72] scripts/qmp-shell: move the REPL functionality into
+ QMPShell
+Date: Fri, 18 Jun 2021 19:04:35 -0400
+Message-Id: <20210618230455.2891199-53-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,45 +83,46 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's only ever used by one caller, we can just absorb that logic.
+Instead of doing this in main, move it into the class itself. (This
+makes it easier to put into the qemu.qmp package later by removing as
+much as we can from the main() function.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210607200649.1840382-22-jsnow@redhat.com
+Message-id: 20210607200649.1840382-23-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/qmp/qmp-shell | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 3b86ef7d88..31269859c4 100755
+index 31269859c4..aa148517a8 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -298,14 +298,14 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-             return 'TRANS> '
-         return '(QEMU) '
+@@ -318,6 +318,12 @@ class QMPShell(qmp.QEMUMonitorProtocol):
  
--    def read_exec_command(self, prompt):
-+    def read_exec_command(self):
-         """
-         Read and execute a command.
+         return self._execute_cmd(cmdline)
  
-         @return True if execution was ok, return False if disconnected.
-         """
-         try:
--            cmdline = input(prompt)
-+            cmdline = input(self.prompt)
-         except EOFError:
-             print()
-             return False
-@@ -436,7 +436,7 @@ def main():
++    def repl(self):
++        self.show_banner()
++        while self.read_exec_command():
++            yield
++        self.close()
++
+ 
+ class HMPShell(QMPShell):
+     def __init__(self, address, pretty=False, verbose=False):
+@@ -435,10 +441,8 @@ def main():
+     except OSError as err:
          die(f"Couldn't connect to {args.qmp_server}: {err!s}")
  
-     qemu.show_banner()
--    while qemu.read_exec_command(qemu.prompt):
-+    while qemu.read_exec_command():
+-    qemu.show_banner()
+-    while qemu.read_exec_command():
++    for _ in qemu.repl():
          pass
-     qemu.close()
+-    qemu.close()
  
+ 
+ if __name__ == '__main__':
 -- 
 2.31.1
 
