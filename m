@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07283ACE17
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 16:57:42 +0200 (CEST)
-Received: from localhost ([::1]:49310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE983ACE3A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:04:27 +0200 (CEST)
+Received: from localhost ([::1]:55284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luFwD-00031H-Pf
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 10:57:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59628)
+	id 1luG2k-0007Fw-5p
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:04:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luFuv-0001eb-Rb
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 10:56:21 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:41742)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1luG0l-0005Wn-4g
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:02:23 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:41578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luFus-0004Mj-60
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 10:56:21 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- m15-20020a17090a5a4fb029016f385ffad0so3184747pji.0
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 07:56:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1luG0b-0008JM-EZ
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:02:22 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id n20so9064421edv.8
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 08:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pCMUqT3ZUOORWAKW5fX/AI8+X2BWJYhSpbRSCRRTlUg=;
- b=MQJYbg/ceUPwd/vtuHt58XWEIuQLGWVQp4HQSndvNHKyLZtd5pChqf87MAVKjOQmwB
- 5UVwwnkzTf6M8MCGHEuSrxegMpRThywJVy9oCcEK7OLuQndyP6DTUaUDZL5C6ToHJ4gv
- 2XwJMZvpGLXBKeWioySfN6EoY+Vt64QIjSX4DJMr1hh+70T2u+pDVeStx3dWbe64N1YE
- Mvk5dfiCRfTqpp3aXkvDPHbfr9BKwxwYpKV0IlHw1MccnMETSQiBqo7PSLJboxmf0tl4
- h1yApzWVjQT3KglVhwDPO//gohbOVq4k+1f94mBkDmBvqLQleY48y86pfvUL8WgX0Ty7
- D3GA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bxMjk+2+cPzGxh72Db4vUGtuWMXV+M2dXsGgEwXfBAM=;
+ b=rrYsh2XhGDdwMY2TXuPSIA/a05AQAmeWDDYoU5rQhf45reRw4+ukMboFn837xkvyHQ
+ uS8zgFbfHvCifHOnlxHpHz9gU9SO2fbe5rVHhzLjkOTIaQJweXzQeUCdKEN278JHil7L
+ haO7UoOmROzO46vD0sQ3QepgXxUWYjmwJuz4NbLHsOyy0lKzzCFNpd3CYbQR5/cA3KD1
+ 3Sv1wO/fE+Ig/jCnVJk11pXYHSBAaqrY3GdAgwHs2SWa1V5LT2teL/eJDEVMISqU7iUb
+ kEi2yXyt6FOHcAB4kINke4Q9DPl24FYmmj2A9uI6g0hi4S82DL0xmLzo3T65belP14jw
+ qX8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pCMUqT3ZUOORWAKW5fX/AI8+X2BWJYhSpbRSCRRTlUg=;
- b=KaJptjAExCKoEDp9jQ5k7WnJFKKw9Y8NFjBZXYgQxGMbOYZnqWT6vEOV+qHIZ/uAuX
- iEaNvm1trPP1eGkuGycm2vEiUzR/hH1J8y73xuwhaoSNOuARhqpXF6LgH0H0B0z88cbb
- 8A7nAEVFwLUmKeDsbae6Qd3pJ6zWtQIc+jzCYOrNczBgoUxuvrB0AWMpYhbUAQ09ntzL
- N6ZPvCQhn9syGG7+ycZ9RqfIsaIZxZw7GL7oR3uw1fliTwACxTQNE173UbdMVZme+YRT
- Eoj+bP+qD5rOhMTmv0JNEuqE16H5x0M4Ao4hPNdcCkyMrasnRLrcBwpwiKzy39s6FyLO
- rmnA==
-X-Gm-Message-State: AOAM531TxAkN8CSJiWULshNA+/gm42mWQzvOAMghXr7ty83tKPBJOB9H
- 8oz4eqaO60ipWqv/9E986+VCMwnMeEa6YQ==
-X-Google-Smtp-Source: ABdhPJzM7s8rOmDuptuAByodaOHMj9p1kWY4CHaPAlvfXn/AWrXXz8pRLWUzZWbgdRctkEtkr5S9lg==
-X-Received: by 2002:a17:90a:ba8e:: with SMTP id
- t14mr11760901pjr.211.1624028176820; 
- Fri, 18 Jun 2021 07:56:16 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id u7sm9389706pgl.39.2021.06.18.07.56.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 07:56:16 -0700 (PDT)
-Subject: Re: [PATCH 1/2] target/mips: Remove pointless gen_msa()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210617174636.2902654-1-f4bug@amsat.org>
- <20210617174636.2902654-2-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <196c98ea-40cf-717a-ae72-a88435a5e512@linaro.org>
-Date: Fri, 18 Jun 2021 07:56:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bxMjk+2+cPzGxh72Db4vUGtuWMXV+M2dXsGgEwXfBAM=;
+ b=oSIl0ZAADQkU7txjeSBVEp4QnR9NbfFJnYVWt+3lLpukFxmec/IBeOIrU81bDV7wTX
+ F7hup2tQOjM14sESRk8pWYCzGRSnk1yUPeg6tCHJAGvA1M7ng7jlcecsZUbaEfAGXp5X
+ /O94t189VclBNMv0O1MNnf6RGNZnYAoeiP3N/u6CDIrYETLHb9/Cbx4FikdaKAzUTzUV
+ Ebk8+LLkjyJrvHxOUzGxGLjH2qks3UKYR+LO0sjSbONPCpswkBRQhHnDfICzxdBi+rAU
+ hkGUEfUVgCMCh/u+Ep52OZ/HdfxNAivJjhLCBgfwm9gw25ESCYCm/qNwrbueSFIzOH62
+ Eu/A==
+X-Gm-Message-State: AOAM5322lMeDvYnnDGk8nZB7WizDJRyGDg914VwF+sDmrd1962XEauZi
+ EjPGA+8itwxOcV4t7OrywbyidYWVXGd2x6WyhD5NaQ==
+X-Google-Smtp-Source: ABdhPJxB3dX9S//I2PkxMJPIOPzHDkLvRZEUPzeEkYfrkBb+y81RzxRvBsiR4BLYooK4U79SlHQqmxe0FX1/Vm4I9Lc=
+X-Received: by 2002:a05:6402:220d:: with SMTP id
+ cq13mr5510073edb.52.1624028531492; 
+ Fri, 18 Jun 2021 08:02:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210617174636.2902654-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20210615165800.23265-1-alex.bennee@linaro.org>
+ <20210615165800.23265-2-alex.bennee@linaro.org>
+ <CAFEAcA8t8q8pJNOOYK-zkDtME7hOWfXVUj3+HLVMRkFzY6Ei1g@mail.gmail.com>
+ <CAFEAcA-OtgCRHPayXBsVZ64mqP7-aJj8+TV4rrLTE6Jh8JcgXA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-OtgCRHPayXBsVZ64mqP7-aJj8+TV4rrLTE6Jh8JcgXA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Jun 2021 16:01:35 +0100
+Message-ID: <CAFEAcA_AShKbP4dD2S+15way4JVB_+oiV+nCOHPqLNu0mot3Ew@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] semihosting/arm-compat: replace heuristic for
+ softmmu SYS_HEAPINFO
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.202,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,20 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Andrew Strauss <astrauss11@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 10:46 AM, Philippe Mathieu-Daudé wrote:
-> Only trans_MSA() calls gen_msa(), inline it to simplify.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/tcg/msa_translate.c | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
+On Fri, 18 Jun 2021 at 11:09, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 17 Jun 2021 at 20:22, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > This will pick the first MR it finds that happens to be RAM (which
+> > could be some tiny thing). You don't want that, you want specifically
+> > whatever the board decided was the system RAM, which is the MemoryRegion
+> > MachineState::ram.
+>
+> As a concrete example, on the mps3-an547 machine this code finds
+> the 512KB ITCM at 0x0 rather than the much more useful 2GB DRAM
+> at 0x6000_0000...
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Turns out that "look for MachineState::ram" won't find you the
+2GB DRAM, though, because it's lurking behind a Memory Protection
+Controller so it doesn't appear directly in the flatview.
+Not sure what to do about that -- maybe we should forget about
+MachineState::ram and just go for "largest RAM we can see" ?
+Trying to get this code to be able to 'look through' IOMMUs sounds
+like it would be massively painful.
 
-r~
+-- PMM
 
