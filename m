@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26F7A3AD60E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:39:41 +0200 (CEST)
-Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E163AD600
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:35:31 +0200 (CEST)
+Received: from localhost ([::1]:46534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luO5M-00045l-4g
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
+	id 1luO1K-0003Cp-6o
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYn-0007sr-CL
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYn-0007uG-TK
  for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44179)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYl-0006Zi-Kh
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYm-0006Zv-9o
  for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:06:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1624057559;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FCdSAuwmmwCzCvojQiVVROnxNgdAvSwKpzZeLcIR8wU=;
- b=IAuu+CpBzDoq+6p1n6HfKOD13KIDV0PvQTvD4scCbpJDIpduVBJDT2qoKno6jd37iizaMf
- gup20qbExxiC4gk36X0OJv7jwhf5gKtb12K8SqSdjuQQuZfaWv59AReRSFsmT6Jcri3dCq
- cA5BiIhsw7KiOZ8Bo7w5pLsp+Q0hcGU=
+ bh=HUlLLxQH2O6U5BfUkbH20wJi3M4aC/+C9t5Hp4ubsk4=;
+ b=h2gZ3DtqbZFi7ZotseKjgbkA1KQP4fF3yHmLD4dhZc2F44Scb5DU2CnKt3oE0MTDVJIfrH
+ m38mXB/0nEOd2GbOmmz3X5KMfERBgtRhigj59iXspt42k3Ihh0H+KMJoTgzb5zPtAziJ7w
+ Mqe7kESPMZeoYq9pXXGFmFsJZaqd/ZY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-Fmy6xl-DOPy-WEqeCrZfNQ-1; Fri, 18 Jun 2021 19:05:57 -0400
-X-MC-Unique: Fmy6xl-DOPy-WEqeCrZfNQ-1
+ us-mta-466-MR3iWQ9QO8-ypZ_7HKgVrQ-1; Fri, 18 Jun 2021 19:05:58 -0400
+X-MC-Unique: MR3iWQ9QO8-ypZ_7HKgVrQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7779818D6A2A;
- Fri, 18 Jun 2021 23:05:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33E6F5074B;
+ Fri, 18 Jun 2021 23:05:57 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9DF0101E249;
- Fri, 18 Jun 2021 23:05:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 793801017CE5;
+ Fri, 18 Jun 2021 23:05:56 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 49/72] scripts/qmp-shell: Make verbose a public attribute
-Date: Fri, 18 Jun 2021 19:04:32 -0400
-Message-Id: <20210618230455.2891199-50-jsnow@redhat.com>
+Subject: [PULL 50/72] scripts/qmp-shell: move get_prompt() to prompt property
+Date: Fri, 18 Jun 2021 19:04:33 -0400
+Message-Id: <20210618230455.2891199-51-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,79 +82,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No real reason to hide this behind an underscore; make it part of the
-initializer and make it a regular RW attribute.
+Small tidying; treat "prompt" like an immutable property instead of
+function/method/routine.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210607200649.1840382-20-jsnow@redhat.com
+Message-id: 20210607200649.1840382-21-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ scripts/qmp/qmp-shell | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index de5fa189f0..cfcefb95f9 100755
+index cfcefb95f9..3b86ef7d88 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -113,7 +113,7 @@ class FuzzyJSON(ast.NodeTransformer):
- # TODO: QMPShell's interface is a bit ugly (eg. _fill_completion() and
- #       _execute_cmd()). Let's design a better one.
- class QMPShell(qmp.QEMUMonitorProtocol):
--    def __init__(self, address, pretty=False):
-+    def __init__(self, address, pretty=False, verbose=False):
-         super().__init__(self.parse_address(address))
-         self._greeting = None
-         self._completer = None
-@@ -122,7 +122,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         self._actions = list()
-         self._histfile = os.path.join(os.path.expanduser('~'),
-                                       '.qmp-shell_history')
--        self._verbose = False
-+        self.verbose = verbose
+@@ -292,10 +292,11 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         version = self._greeting['QMP']['version']['qemu']
+         print("Connected to QEMU {major}.{minor}.{micro}\n".format(**version))
  
-     def _fill_completion(self):
-         cmds = self.cmd('query-commands')
-@@ -271,7 +271,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         # For transaction mode, we may have just cached the action:
-         if qmpcmd is None:
-             return True
--        if self._verbose:
-+        if self.verbose:
-             self._print(qmpcmd)
-         resp = self.cmd_obj(qmpcmd)
-         if resp is None:
-@@ -317,13 +317,10 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+-    def get_prompt(self):
++    @property
++    def prompt(self):
+         if self._transmode:
+-            return "TRANS> "
+-        return "(QEMU) "
++            return 'TRANS> '
++        return '(QEMU) '
  
-         return self._execute_cmd(cmdline)
- 
--    def set_verbosity(self, verbose):
--        self._verbose = verbose
--
- 
- class HMPShell(QMPShell):
--    def __init__(self, address, pretty=False):
--        super().__init__(address, pretty)
-+    def __init__(self, address, pretty=False, verbose=False):
-+        super().__init__(address, pretty, verbose)
-         self.__cpu_index = 0
- 
-     def __cmd_completion(self):
-@@ -423,7 +420,7 @@ def main():
- 
-     shell_class = HMPShell if args.hmp else QMPShell
-     try:
--        qemu = shell_class(args.qmp_server, args.pretty)
-+        qemu = shell_class(args.qmp_server, args.pretty, args.verbose)
-     except qmp.QMPBadPortError:
-         parser.error(f"Bad port number: {args.qmp_server}")
-         return  # pycharm doesn't know error() is noreturn
-@@ -438,7 +435,6 @@ def main():
+     def read_exec_command(self, prompt):
+         """
+@@ -435,7 +436,7 @@ def main():
          die(f"Couldn't connect to {args.qmp_server}: {err!s}")
  
      qemu.show_banner()
--    qemu.set_verbosity(args.verbose)
-     while qemu.read_exec_command(qemu.get_prompt()):
+-    while qemu.read_exec_command(qemu.get_prompt()):
++    while qemu.read_exec_command(qemu.prompt):
          pass
      qemu.close()
+ 
 -- 
 2.31.1
 
