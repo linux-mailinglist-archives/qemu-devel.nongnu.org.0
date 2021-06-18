@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8623ACEF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:29:27 +0200 (CEST)
-Received: from localhost ([::1]:52420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C287D3ACEF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:29:45 +0200 (CEST)
+Received: from localhost ([::1]:54212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luGQw-00005f-MU
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39130)
+	id 1luGRE-0001HT-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1luGPm-0006QP-Qn
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:14 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:34108
+ id 1luGPu-0006fq-7t
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:22 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:34128
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1luGPk-00088I-FF
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:14 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1luGPs-0008GU-D8
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:28:22 -0400
 HMM_SOURCE_IP: 172.18.0.218:58570.1979376666
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-202.80.192.39?logid-c4a34c2761364744ac7f6e25c2e48997
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id D45C228008C;
- Fri, 18 Jun 2021 23:28:05 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 02CB9280079;
+ Fri, 18 Jun 2021 23:28:19 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 134d69161a5242b49eeeceef21c6ad8d for
- qemu-devel@nongnu.org; Fri Jun 18 23:28:04 2021
-X-Transaction-ID: 134d69161a5242b49eeeceef21c6ad8d
+ by app0025 with ESMTP id a112cb8b32cf4d20b1d39c3b3cafb5f8 for
+ qemu-devel@nongnu.org; Fri Jun 18 23:28:19 2021
+X-Transaction-ID: a112cb8b32cf4d20b1d39c3b3cafb5f8
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 1/6] KVM: introduce dirty_pages and kvm_dirty_ring_enabled
-Date: Fri, 18 Jun 2021 23:32:02 +0800
-Message-Id: <32c3266ebfd75aaf3f2caaf6b5fad0fb6dd8a96a.1624028590.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v8 4/6] migration/dirtyrate: adjust order of registering thread
+Date: Fri, 18 Jun 2021 23:32:05 +0800
+Message-Id: <18d75b9dcaba5b566d7576572a9090768acb9251.1624028590.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1624028590.git.huangy81@chinatelecom.cn>
 References: <cover.1624028590.git.huangy81@chinatelecom.cn>
@@ -75,75 +75,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-dirty_pages is used to calculate dirtyrate via dirty ring, when
-enabled, kvm-reaper will increase the dirty pages after gfns
-being dirtied.
-
-kvm_dirty_ring_enabled shows if kvm-reaper is working. dirtyrate
-thread could use it to check if measurement can base on dirty
-ring feature.
+registering get_dirtyrate thread in advance so that both
+page-sampling and dirty-ring mode can be covered.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- accel/kvm/kvm-all.c   | 7 +++++++
- include/hw/core/cpu.h | 1 +
- include/sysemu/kvm.h  | 1 +
- 3 files changed, 9 insertions(+)
+ migration/dirtyrate.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index e5b10dd..e0e88a2 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -469,6 +469,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
-     cpu->kvm_fd = ret;
-     cpu->kvm_state = s;
-     cpu->vcpu_dirty = true;
-+    cpu->dirty_pages = 0;
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index e0a27a9..a9bdd60 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -352,7 +352,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+     int64_t msec = 0;
+     int64_t initial_time;
  
-     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
-     if (mmap_size < 0) {
-@@ -743,6 +744,7 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
-         count++;
+-    rcu_register_thread();
+     rcu_read_lock();
+     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
+@@ -375,7 +374,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ out:
+     rcu_read_unlock();
+     free_ramblock_dirty_info(block_dinfo, block_count);
+-    rcu_unregister_thread();
+ }
+ 
+ void *get_dirtyrate_thread(void *arg)
+@@ -383,6 +381,7 @@ void *get_dirtyrate_thread(void *arg)
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
+     int ret;
+     int64_t start_time;
++    rcu_register_thread();
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -401,6 +400,8 @@ void *get_dirtyrate_thread(void *arg)
+     if (ret == -1) {
+         error_report("change dirtyrate state failed.");
      }
-     cpu->kvm_fetch_index = fetch;
-+    cpu->dirty_pages += count;
- 
-     return count;
- }
-@@ -2293,6 +2295,11 @@ bool kvm_vcpu_id_is_valid(int vcpu_id)
-     return vcpu_id >= 0 && vcpu_id < kvm_max_vcpu_id(s);
- }
- 
-+bool kvm_dirty_ring_enabled(void)
-+{
-+    return kvm_state->kvm_dirty_ring_size ? true : false;
-+}
 +
- static int kvm_init(MachineState *ms)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 4e0ea68..80fcb1d 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -374,6 +374,7 @@ struct CPUState {
-     struct kvm_run *kvm_run;
-     struct kvm_dirty_gfn *kvm_dirty_gfns;
-     uint32_t kvm_fetch_index;
-+    uint64_t dirty_pages;
++    rcu_unregister_thread();
+     return NULL;
+ }
  
-     /* Used for events with 'vcpu' and *without* the 'disabled' properties */
-     DECLARE_BITMAP(trace_dstate_delayed, CPU_TRACE_DSTATE_MAX_EVENTS);
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a1ab1ee..7b22aeb 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -547,4 +547,5 @@ bool kvm_cpu_check_are_resettable(void);
- 
- bool kvm_arch_cpu_check_are_resettable(void);
- 
-+bool kvm_dirty_ring_enabled(void);
- #endif
 -- 
 1.8.3.1
 
