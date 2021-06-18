@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E285D3ACB46
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 14:44:52 +0200 (CEST)
-Received: from localhost ([::1]:39048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C353ACB51
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 14:47:59 +0200 (CEST)
+Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luDrf-0005xj-NO
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 08:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57930)
+	id 1luDug-0008KS-8l
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 08:47:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1luDqh-0005Ie-Ms
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 08:43:51 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:47564)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1luDqf-0004a0-Ep
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 08:43:51 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luDtE-0006zZ-IZ
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 08:46:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luDtB-000576-Ey
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 08:46:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624020385;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hsp5ebULPj+oCuf8d2RfejiCwFwCZw4uUoxxAelVEX8=;
+ b=PRs5CodMGXraSczaS0aHVOrBQrVMeGEkmTgN8PCGJSaowDpmc4mj2jQtWyMC+iJOfj3uk1
+ CbGyUn7lpzzjokg2WtwhB+5C8T8QCJQk6OxetPD8GeWXwLdpVRbW/8FIR3lc2czkbJc64Z
+ jmBmjR+oGQIIkiYK5U/wJHw2+AyDAJM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-btTeJoPKMZy3Cbo29HLDTg-1; Fri, 18 Jun 2021 08:46:21 -0400
+X-MC-Unique: btTeJoPKMZy3Cbo29HLDTg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AC4EE1FDAE;
- Fri, 18 Jun 2021 12:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624020227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NDTyHmX/98ZO3jVmF9kNgyJ0QTonCLfq+ml6AnTWslA=;
- b=keOMuR0Mwap0u/ulDtAAws7cCt4LHvpOd0S9RAbzPHwkasFndiEjJTddm6aJrpgM/LfEVJ
- 1eRSyyC4Kvo13TPGQ/Ew0W20hCeIHBxAWMVLC55pcnelzN59leJMHOE2k78a1HwnY5kBbw
- W2iOeSPvD+MnSN3od/S0ALRsApkgkX8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624020227;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NDTyHmX/98ZO3jVmF9kNgyJ0QTonCLfq+ml6AnTWslA=;
- b=SAmppzUB735ULLJMd9/IGant6a86BWFXpSCukrdHkvnMGBfsyr8EmUtFmFzWxwu8ElFvYh
- Bv3/DG0wG1uPX6DA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 4E609118DD;
- Fri, 18 Jun 2021 12:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624020227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NDTyHmX/98ZO3jVmF9kNgyJ0QTonCLfq+ml6AnTWslA=;
- b=keOMuR0Mwap0u/ulDtAAws7cCt4LHvpOd0S9RAbzPHwkasFndiEjJTddm6aJrpgM/LfEVJ
- 1eRSyyC4Kvo13TPGQ/Ew0W20hCeIHBxAWMVLC55pcnelzN59leJMHOE2k78a1HwnY5kBbw
- W2iOeSPvD+MnSN3od/S0ALRsApkgkX8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624020227;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NDTyHmX/98ZO3jVmF9kNgyJ0QTonCLfq+ml6AnTWslA=;
- b=SAmppzUB735ULLJMd9/IGant6a86BWFXpSCukrdHkvnMGBfsyr8EmUtFmFzWxwu8ElFvYh
- Bv3/DG0wG1uPX6DA==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id QrbCEAOVzGBZHgAALh3uQQ
- (envelope-from <cfontana@suse.de>); Fri, 18 Jun 2021 12:43:47 +0000
-Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20210616152455.1270264-1-imammedo@redhat.com>
- <d10ba45f-c71c-f472-fac7-9f8e5770c735@suse.de>
- <20210618132647.07cf2008@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <2f7ae379-92e0-3274-6944-84a5bce6e82e@suse.de>
-Date: Fri, 18 Jun 2021 14:43:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 621778015F5;
+ Fri, 18 Jun 2021 12:46:20 +0000 (UTC)
+Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EADB19D61;
+ Fri, 18 Jun 2021 12:46:13 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [PATCH v4 1/4] s390x/css: Introduce an ESW struct
+In-Reply-To: <877dirph77.fsf@redhat.com>
+Organization: Red Hat GmbH
+References: <20210617232537.1337506-1-farman@linux.ibm.com>
+ <20210617232537.1337506-2-farman@linux.ibm.com>
+ <877dirph77.fsf@redhat.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Fri, 18 Jun 2021 14:46:06 +0200
+Message-ID: <874kdvpchd.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210618132647.07cf2008@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.202,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,93 +81,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- mst@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/21 1:26 PM, Igor Mammedov wrote:
-> On Thu, 17 Jun 2021 18:49:17 +0200
-> Claudio Fontana <cfontana@suse.de> wrote:
-> 
->> On 6/16/21 5:24 PM, Igor Mammedov wrote:
->>>
->>> Sometimes it's necessary to execute a test that depends on KVM,
->>> however qtest is not aware if tested QEMU binary supports KVM
->>> on the host it the test is executed.  
->>
->> Hello,
->>
->> It seems to me that we are constantly re-implementing the same feature with slight variations?
->>
->> Didn't we have a generic series to introduce qtest_has_accel() from Philippe before?
-> It's mentioned in cover letter (PS: part) and in [1/3] with rationale
-> why this was posted.
+On Fri, Jun 18 2021, Cornelia Huck <cohuck@redhat.com> wrote:
 
-Thought it was separate, but now I see that it uses query-accel underneath.
+> On Fri, Jun 18 2021, Eric Farman <farman@linux.ibm.com> wrote:
+>
+>> The Interrupt Response Block is comprised of several other
+>> structures concatenated together, but only the 12-byte
+>> Subchannel-Status Word (SCSW) is defined as a proper struct.
+>> Everything else is a simple array of 32-bit words.
+>>
+>> Let's define a proper struct for the 20-byte Extended-Status
+>> Word (ESW) so that we can make good decisions about the sense
+>> data that would go into the ECW area for virtual vs
+>> passthrough devices.
+>>
+>> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+>> ---
+>>  hw/s390x/css.c            | 19 +++++++++++++------
+>>  include/hw/s390x/ioinst.h | 12 +++++++++++-
+>>  2 files changed, 24 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
+>> index c6737a30d4..e7ab401781 100644
+>> --- a/include/hw/s390x/ioinst.h
+>> +++ b/include/hw/s390x/ioinst.h
+>> @@ -123,10 +123,20 @@ typedef struct SCHIB {
+>>      uint8_t mda[4];
+>>  } QEMU_PACKED SCHIB;
+>> =20
+>> +/* format-0 extended-status word */
+>> +typedef struct ESW {
+>> +   uint32_t word0;
+>> +   uint32_t erw;
+>> +   uint64_t f_addr;     /* Zeros for other ESW formats */
+>> +   uint32_t s_addr;     /* Zeros for other ESW formats */
+>> +} QEMU_PACKED ESW;
+>
+> Eww, this fails with mingw:
+> https://gitlab.com/cohuck/qemu/-/jobs/1358335494
+>
+> i686-w64-mingw32-gcc -Ilibcommon.fa.p -I../slirp -I../slirp/src -I../dtc/=
+libfdt -I../capstone/include/capstone -I. -Iqapi -Itrace -Iui -Iui/shader -=
+I/usr/i686-w64-mingw32/sys-root/mingw/include -I/usr/i686-w64-mingw32/sys-r=
+oot/mingw/include/glib-2.0 -I/usr/i686-w64-mingw32/sys-root/mingw/lib/glib-=
+2.0/include -I/usr/i686-w64-mingw32/sys-root/mingw/include/gtk-3.0 -I/usr/i=
+686-w64-mingw32/sys-root/mingw/include/cairo -I/usr/i686-w64-mingw32/sys-ro=
+ot/mingw/include/pango-1.0 -I/usr/i686-w64-mingw32/sys-root/mingw/include/f=
+ribidi -I/usr/i686-w64-mingw32/sys-root/mingw/include/harfbuzz -I/usr/i686-=
+w64-mingw32/sys-root/mingw/include/atk-1.0 -I/usr/i686-w64-mingw32/sys-root=
+/mingw/include/pixman-1 -I/usr/i686-w64-mingw32/sys-root/mingw/include/free=
+type2 -I/usr/i686-w64-mingw32/sys-root/mingw/include/libpng16 -I/usr/i686-w=
+64-mingw32/sys-root/mingw/include/gdk-pixbuf-2.0 -I/usr/i686-w64-mingw32/sy=
+s-root/mingw/lib/libffi-3.1/include -I/usr/i686-w64-mingw32/sys-root/mingw/=
+include/p11-kit-1 -I/usr/i686-w64-mingw32/sys-root/mingw/include/SDL2 -fdia=
+gnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -std=3Dgnu99 -O2 -g=
+ -iquote . -iquote /builds/cohuck/qemu -iquote /builds/cohuck/qemu/include =
+-iquote /builds/cohuck/qemu/disas/libvixl -iquote /builds/cohuck/qemu/tcg/i=
+386 -mms-bitfields -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -m32 -D_GNU_SOUR=
+CE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredun=
+dant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasin=
+g -fno-common -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype=
+-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -We=
+mpty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wimplicit=
+-fallthrough=3D2 -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-p=
+sabi -fstack-protector-strong -Dmain=3DSDL_main -Wno-undef -mms-bitfields -=
+mms-bitfields -mms-bitfields -MD -MQ libcommon.fa.p/hw_s390x_virtio-ccw-gpu=
+.c.obj -MF libcommon.fa.p/hw_s390x_virtio-ccw-gpu.c.obj.d -o libcommon.fa.p=
+/hw_s390x_virtio-ccw-gpu.c.obj -c ../hw/s390x/virtio-ccw-gpu.c
+> In file included from /usr/i686-w64-mingw32/sys-root/mingw/include/winsoc=
+k2.h:54,
+>                  from /builds/cohuck/qemu/include/sysemu/os-win32.h:29,
+>                  from /builds/cohuck/qemu/include/qemu/osdep.h:135,
+>                  from ../hw/s390x/virtio-ccw-gpu.c:11:
+> /builds/cohuck/qemu/include/hw/s390x/ioinst.h:131:13: error: expected ':'=
+, ',', ';', '}' or '__attribute__' before '.' token
+>   131 |    uint32_t s_addr;     /* Zeros for other ESW formats */
+>       |             ^~~~~~
 
-Seems strange to add another check to do the same thing, it may point to qtest_has_accel() needing some update?
-You mention it is time consuming to use qtest_has_accel(), have you measured an important overhead?
-With qtest_has_accel() not even being committed yet, is it already necessary to work around it because it's too slow? 
- 
-> 
->> Does this series work with --disable-kvm builds? (TCG-only builds?)
-> I'll test. But on the first glance it should work without issues.
-> (i.e. kvm only tests will be skipped).
-> 
->>
->> Thanks,
->>
->> CLaudio
->>
->>
->>>
->>> For an example:
->>>  test q35 machine with intel_iommu
->>>  This test will run only is KVM is available and fail
->>>  to start QEMU if it fallsback to TCG, thus failing whole test.
->>>  So if test is executed in VM where nested KVM is not enabled
->>>  or on other than x86 host, it will break 'make check-qtest'
->>>
->>> Series adds a lightweight qtest_has_kvm() check, which abuses
->>> build system and should help to avoid running KVM only tests
->>> on hosts that do not support it.
->>>
->>> PS:
->>> there is an alternative 'query-accels' QMP command proposal
->>> https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
->>> which I think is more robust compared to qtest_has_kvm() and
->>> could be extended to take into account machine type.
->>> But it's more complex and what I dislike about it most,
->>> it requires execution of 'probing' QEMU instance to find
->>> execute 'query-accels' QMP command, which is rather resource
->>> consuming. So I'd use query-accels approach only when it's
->>> the only possible option to minimize load on CI systems.
->>>
->>> Igor Mammedov (2):
->>>   tests: acpi: q35: test for x2APIC entries in SRAT
->>>   tests: acpi: update expected tables blobs
->>>
->>> root (1):
->>>   tests: qtest: add qtest_has_kvm() to check if tested bynary supports
->>>     KVM
->>>
->>>  tests/qtest/libqos/libqtest.h    |   7 +++++++
->>>  meson.build                      |   1 +
->>>  tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
->>>  tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
->>>  tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
->>>  tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
->>>  tests/qtest/bios-tables-test.c   |  10 +++++++---
->>>  tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
->>>  8 files changed, 35 insertions(+), 3 deletions(-)
->>>  create mode 100644 tests/data/acpi/q35/APIC.numamem
->>>  create mode 100644 tests/data/acpi/q35/FACP.numamem
->>>   
->>
-> 
+It seems to be the name that is tripping it; if I rename it to sec_addr
+and the preceding field to fail_addr, the build passes.
+
+Anyone know why that is? And if renaming is unavoidable, are fail_addr
+and sec_addr ok, or can we find better names?
+
+> In file included from /builds/cohuck/qemu/include/qemu/osdep.h:37,
+>                  from ../hw/s390x/virtio-ccw-gpu.c:11:
+> /builds/cohuck/qemu/include/qemu/compiler.h:80:36: error: static assertio=
+n failed: "size of IRB is wrong"
+>    80 | #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x), msg)
+>       |                                    ^~~~~~~~~~~~~~
+> /builds/cohuck/qemu/include/hw/s390x/ioinst.h:143:1: note: in expansion o=
+f macro 'QEMU_BUILD_BUG_MSG'
+>   143 | QEMU_BUILD_BUG_MSG(sizeof(IRB) !=3D 96, "size of IRB is wrong");
+>       | ^~~~~~~~~~~~~~~~~~
+>
+
+These were just follow-on errors.
+
+>> +
+>> +#define ESW_ERW_SENSE 0x01000000
+>> +
+>>  /* interruption response block */
+>>  typedef struct IRB {
+>>      SCSW scsw;
+>> -    uint32_t esw[5];
+>> +    ESW esw;
+>>      uint32_t ecw[8];
+>>      uint32_t emw[8];
+>>  } IRB;
 
 
