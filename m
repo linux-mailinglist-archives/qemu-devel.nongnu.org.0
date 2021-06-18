@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEF43AD311
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:45:08 +0200 (CEST)
-Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB893AD32F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:54:25 +0200 (CEST)
+Received: from localhost ([::1]:33664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luKQN-0006nt-Cc
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
+	id 1luKZM-00025i-D5
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKDm-0005WR-VL
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:32:06 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:36373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKDl-0002tK-Bh
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:32:06 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- s17-20020a17090a8811b029016e89654f93so8700819pjn.1
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 12:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zCdtJ8ocq7zP/PLx9Fr1XmIUCNvN6uNn4GfM8XCJ2Bc=;
- b=UrpqI44qPBNn5pa+rS0hv2cnj3OS1q8hM30aEYhwyfAUaadiaFkSNkukmARtuBXHaB
- WT7FQ6xfJqdIhKdAOXBY/fR1omR9enYDKMPY/KWL9Vw6UrIx0NWmLxw5Ujm9Snd366Wu
- dGmhGEHCbnDYeqJI1Q/3j/xgVukqoclsqLV+yNa6oMoJMmoPLj83bP7lEqD/5FmCaoo2
- EMdKdD4Wumdob+HkM30fuush796OIFc4EvyaJdHAHad6SguH0YHfncH6aLqnfXrnv3j4
- kNgyxxWaLJqxY1AyarcMP5OVzy3JgYrKUG5fI0JtWvqIXHtlcAX8npsTMxRfnZI24Lce
- NeYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zCdtJ8ocq7zP/PLx9Fr1XmIUCNvN6uNn4GfM8XCJ2Bc=;
- b=UB162ywg3JQ6VHISvx3YH639BHp77PfiqndWTmVbaEksuWRt4lYc7xI5CDn4ER8luT
- y5fzgGB35y1/YyuHNnLGdgkS6Bs4V6ZT+kvePvZDuTNpjoy64IFCj7BcayVlGxcZmPzf
- WFUV7Kg1Lp6d0TedNbthnTU7+RTLR8g3+rI1C++lmNOrNXv/JzZgAE4/r2JUUXSh9ij6
- GJEOCRsbOkMdtl656jWU8wjVs6MWcr8jtmnmEWJSo21fmJ5wMPIozsMPMNDZbG5OKHvR
- nrqByMeLo/VmBf0KnaGzZ6ndzI7g3gpo6uERxOBuU9sekzRm2tAbq9d0TH66qVp/WEm0
- UYeg==
-X-Gm-Message-State: AOAM5332OY13Kxq6FwrEEKirrezky7Z07GDWSF4wyzC/CG3R3yjV4/iv
- hbCxQJ767z0KbgfEP2c3RWi5Vg==
-X-Google-Smtp-Source: ABdhPJwj3O23wW0Slcj3l4mPUmIJMv14md+2FqvIDbFvtMm4fBBjJSgjINTpAzFwmqfAFg7KfjfzEg==
-X-Received: by 2002:a17:903:304e:b029:11d:75ff:c304 with SMTP id
- u14-20020a170903304eb029011d75ffc304mr6058438pla.33.1624044724100; 
- Fri, 18 Jun 2021 12:32:04 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id s21sm9504359pgo.42.2021.06.18.12.32.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 12:32:03 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] accel/tcg: Probe the proper permissions for atomic
- ops
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org
-References: <20210617011224.1602932-1-richard.henderson@linaro.org>
- <20210617011224.1602932-2-richard.henderson@linaro.org>
- <4180796b-ff24-545c-0be8-0ff389d64ec4@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e55c34aa-b5c6-9f88-2961-7abd8c1f9668@linaro.org>
-Date: Fri, 18 Jun 2021 12:32:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1luKXl-00086N-Or
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:52:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1luKXi-0006ky-UD
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:52:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624045960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fqLtpCKpqVfkxofa4CIFnNCLx4XGjsM3t8t3PZ1OPuk=;
+ b=cCsKkAHvJRT1SPBtiRS7ADwybPGfaZcsfyKGUPucNY0XSpMKNbQcqAQSYbjMHJ1IzGUqjX
+ 7bbdDZ9/1qix4HArK/BuFqGSOICyFqMK4kGh195pE2IDZ1zU2+Bnk0PfvrEexUHiTzOrgp
+ SblcA5XzOo+GmrBO6Tu2C4pMLJ+8D2Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-eocrm-WTMBWG1DXj_zDcwQ-1; Fri, 18 Jun 2021 15:52:39 -0400
+X-MC-Unique: eocrm-WTMBWG1DXj_zDcwQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CA1418D6A30;
+ Fri, 18 Jun 2021 19:52:38 +0000 (UTC)
+Received: from localhost (unknown [10.22.9.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C8FA5D6CF;
+ Fri, 18 Jun 2021 19:52:37 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/7] x86 queue, 2021-06-18
+Date: Fri, 18 Jun 2021 15:52:30 -0400
+Message-Id: <20210618195237.442548-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <4180796b-ff24-545c-0be8-0ff389d64ec4@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.202,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,19 +76,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/21 11:57 AM, Matheus K. Ferst wrote:
-> I can confirm that this fixes #390, and all the other test cases that I have for lq.
+There's still a lot to review/queue on the list, but I'm flush my=0D
+current queue so it doesn't get stale.=0D
+=0D
+The following changes since commit 18e53dff939898c6dd00d206a3c2f5cd3d6669db=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-c11-20210615' =
+into staging (2021-06-17 10:42:57 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/ehabkost/qemu.git tags/x86-next-pull-request=0D
+=0D
+for you to fetch changes up to 4e2f5f3a9db06e87a73eb60a7cc9754fc13596ee:=0D
+=0D
+  scripts: helper to generate x86_64 CPU ABI compat info (2021-06-17 14:11:=
+06 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+x86 queue, 2021-06-18=0D
+=0D
+Features:=0D
+* Add ratelimit for bus locks acquired in guest (Chenyi Qiang)=0D
+=0D
+Documentation:=0D
+* SEV documentation updates (Tom Lendacky)=0D
+* Add a table showing x86-64 ABI compatibility levels (Daniel P. Berrang=C3=
+=A9)=0D
+=0D
+Automated changes:=0D
+* Update Linux headers to 5.13-rc4 (Eduardo Habkost)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Chenyi Qiang (1):=0D
+  i386: Add ratelimit for bus locks acquired in guest=0D
+=0D
+Daniel P. Berrang=C3=A9 (2):=0D
+  docs: add a table showing x86-64 ABI compatibility levels=0D
+  scripts: helper to generate x86_64 CPU ABI compat info=0D
+=0D
+Eduardo Habkost (1):=0D
+  Update Linux headers to 5.13-rc4=0D
+=0D
+Tom Lendacky (3):=0D
+  doc: Fix some mistakes in the SEV documentation=0D
+  docs: Add SEV-ES documentation to amd-memory-encryption.txt=0D
+  docs/interop/firmware.json: Add SEV-ES support=0D
+=0D
+ include/hw/i386/x86.h                         |   8 +=0D
+ .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h   |  35 -=0D
+ include/standard-headers/drm/drm_fourcc.h     |  23 +-=0D
+ include/standard-headers/linux/ethtool.h      | 109 ++-=0D
+ include/standard-headers/linux/fuse.h         |  17 +-=0D
+ include/standard-headers/linux/input.h        |   2 +-=0D
+ include/standard-headers/linux/virtio_bt.h    |  31 +=0D
+ include/standard-headers/linux/virtio_ids.h   |   2 +=0D
+ include/standard-headers/linux/virtio_snd.h   | 334 +++++++=0D
+ .../standard-headers/rdma/vmw_pvrdma-abi.h    |   7 +=0D
+ linux-headers/asm-generic/unistd.h            |  13 +-=0D
+ linux-headers/asm-mips/unistd_n32.h           | 751 +++++++--------=0D
+ linux-headers/asm-mips/unistd_n64.h           | 703 +++++++-------=0D
+ linux-headers/asm-mips/unistd_o32.h           | 843 ++++++++---------=0D
+ linux-headers/asm-powerpc/kvm.h               |   2 +=0D
+ linux-headers/asm-powerpc/unistd_32.h         | 856 +++++++++---------=0D
+ linux-headers/asm-powerpc/unistd_64.h         | 800 ++++++++--------=0D
+ linux-headers/asm-s390/unistd_32.h            |   4 +=0D
+ linux-headers/asm-s390/unistd_64.h            |   4 +=0D
+ linux-headers/asm-x86/kvm.h                   |   3 +=0D
+ linux-headers/asm-x86/unistd_32.h             |   4 +=0D
+ linux-headers/asm-x86/unistd_64.h             |   4 +=0D
+ linux-headers/asm-x86/unistd_x32.h            |   4 +=0D
+ linux-headers/linux/kvm.h                     | 131 ++-=0D
+ linux-headers/linux/userfaultfd.h             |  36 +-=0D
+ linux-headers/linux/vfio.h                    |  35 +=0D
+ MAINTAINERS                                   |   2 +-=0D
+ docs/amd-memory-encryption.txt                |  89 +-=0D
+ docs/interop/firmware.json                    |  47 +-=0D
+ docs/system/cpu-models-x86-abi.csv            |  67 ++=0D
+ docs/system/cpu-models-x86.rst.inc            |  22 +=0D
+ hw/i386/x86.c                                 |  24 +=0D
+ scripts/cpu-x86-uarch-abi.py                  | 194 ++++=0D
+ target/i386/kvm/kvm.c                         |  41 +=0D
+ 34 files changed, 3174 insertions(+), 2073 deletions(-)=0D
+ create mode 100644 include/standard-headers/linux/virtio_bt.h=0D
+ create mode 100644 include/standard-headers/linux/virtio_snd.h=0D
+ create mode 100644 docs/system/cpu-models-x86-abi.csv=0D
+ create mode 100644 scripts/cpu-x86-uarch-abi.py=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Yay!  Can I get a Tested-by then?
-
-> Does "Resolves:" automatically closes the issue on GitLab...
-
-Yes.
-
-
-r~
 
