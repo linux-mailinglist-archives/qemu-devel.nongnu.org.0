@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CFB3AD5AF
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:13:45 +0200 (CEST)
-Received: from localhost ([::1]:54806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CF33AD5B5
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:16:50 +0200 (CEST)
+Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNgG-0001eO-Km
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
+	id 1luNjE-0007MD-SL
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYF-0006y6-JF
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22855)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYG-00070D-9p
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYA-0006DC-G0
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:27 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYE-0006Dx-JR
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057521;
+ s=mimecast20190719; t=1624057522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nd4p4FHHX2SvWERflNrsadBufG2vTTNRyvPSgT2Dh8w=;
- b=IgURuTThQUj/fwd11gBb/ZWJ5L6TC5n0Vd03fvIGEe+h+W+XBQWCr7ffuFhCd8LlsIPEIc
- HKWhGg8jXRTKgVTIV6qBkxfq8967VQFnIEhqeToRzV+JJS+sBg4cnOSdCcXxcUHyWYWuUg
- XlgP6fAxEVMaeC1uvxguULGeYfA0Ks4=
+ bh=70rypdJmX4hJXlU1eokQc26GLpIsNjPMaL2xWQ34aT8=;
+ b=HNKOX6Gnip61w3S2s+O3ZSlM301z9pjR6YiJ0mVRMkqCpkLGZ2DWuzOBEosAUgh41Tczwr
+ aYlCoeSvbpKFQCG55poqhpWrBT9v8+C9CkbQ5A6TIawHlEw+xaT6s7GrcvVKDSmKADN2xc
+ xMafHXeH/7e50SXHZWXdghAAd/H2d6k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-dKVz9vxyMrKakv4XZYukzw-1; Fri, 18 Jun 2021 19:05:20 -0400
-X-MC-Unique: dKVz9vxyMrKakv4XZYukzw-1
+ us-mta-479--hnNI6ZpOSGS6I5DatlWhw-1; Fri, 18 Jun 2021 19:05:21 -0400
+X-MC-Unique: -hnNI6ZpOSGS6I5DatlWhw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CA251084F53;
- Fri, 18 Jun 2021 23:05:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C1525074E;
+ Fri, 18 Jun 2021 23:05:20 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 880811017CE5;
- Fri, 18 Jun 2021 23:05:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 616691017CE5;
+ Fri, 18 Jun 2021 23:05:19 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/72] scripts/qom-fuse: move to python/qemu/qmp/qom_fuse.py
-Date: Fri, 18 Jun 2021 19:04:00 -0400
-Message-Id: <20210618230455.2891199-18-jsnow@redhat.com>
+Subject: [PULL 18/72] scripts/qom-fuse: add redirection shim to
+ python/qemu/qmp/qom-fuse.py
+Date: Fri, 18 Jun 2021 19:04:01 -0400
+Message-Id: <20210618230455.2891199-19-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -77,67 +78,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move qom-fuse over to the python package now that it passes the
-linter. Update the import paradigms so that it continues to pass in the
-context of the Python package.
+By leaving the script absent for a commit, git-blame travels to the new
+file instead of staying on the shim.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210603003719.1321369-18-jsnow@redhat.com
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20210603003719.1321369-19-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qom-fuse => python/qemu/qmp/qom_fuse.py | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
- rename scripts/qmp/qom-fuse => python/qemu/qmp/qom_fuse.py (95%)
- mode change 100755 => 100644
+ scripts/qmp/qom-fuse | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100755 scripts/qmp/qom-fuse
 
-diff --git a/scripts/qmp/qom-fuse b/python/qemu/qmp/qom_fuse.py
-old mode 100755
-new mode 100644
-similarity index 95%
-rename from scripts/qmp/qom-fuse
-rename to python/qemu/qmp/qom_fuse.py
-index a5a7a304a3..43f4671fdb
---- a/scripts/qmp/qom-fuse
-+++ b/python/qemu/qmp/qom_fuse.py
-@@ -1,4 +1,3 @@
--#!/usr/bin/env python3
- """
- QEMU Object Model FUSE filesystem tool
- 
-@@ -35,7 +34,6 @@
- 
- import argparse
- from errno import ENOENT, EPERM
--import os
- import stat
- import sys
- from typing import (
-@@ -50,10 +48,8 @@
- import fuse
- from fuse import FUSE, FuseOSError, Operations
- 
--
--sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
--from qemu.qmp import QMPResponseError
--from qemu.qmp.qom_common import QOMCommand
-+from . import QMPResponseError
-+from .qom_common import QOMCommand
- 
- 
- fuse.fuse_python_api = (0, 2)
-@@ -208,7 +204,3 @@ def readdir(self, path: str, fh: IO[bytes]) -> Iterator[str]:
-         yield '..'
-         for item in self.qom_list(path):
-             yield item.name
--
--
--if __name__ == '__main__':
--    sys.exit(QOMFuse.entry_point())
+diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
+new file mode 100755
+index 0000000000..a58c8ef979
+--- /dev/null
++++ b/scripts/qmp/qom-fuse
+@@ -0,0 +1,11 @@
++#!/usr/bin/env python3
++
++import os
++import sys
++
++sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
++from qemu.qmp.qom_fuse import QOMFuse
++
++
++if __name__ == '__main__':
++    sys.exit(QOMFuse.entry_point())
 -- 
 2.31.1
 
