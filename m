@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A763AC976
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:08:46 +0200 (CEST)
-Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA1A3AC9D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 13:27:34 +0200 (CEST)
+Received: from localhost ([::1]:42012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luCMf-0001fW-KA
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
+	id 1luCeq-0006Wt-Tl
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 07:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1luCLI-0000vB-SL
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:07:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1luCLE-0003gg-W6
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 07:07:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624014436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cVy9mHxoLrRxqlzfZmidnnA7cIQs94BEmYo9oJWVVok=;
- b=DjhX1iGT/3mZmd8RXILtaI5+UD5aR+gQQeo/9/fh0uA5ksrjtmMadii9lXEe65HQC+1ZN+
- 25WxIq5k06zvj4Lkzh1wNOiuZykpUbXnT3lOnrAUAHQKEJsuKkYyQZFqOPMCaoaxZ19Uhh
- 7XIYKHlajyjPv/xmZ2Q7115BvDXOstg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-eXNyFkWYOhmtk6jZKP4ChQ-1; Fri, 18 Jun 2021 07:07:14 -0400
-X-MC-Unique: eXNyFkWYOhmtk6jZKP4ChQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93DE4192FDB4;
- Fri, 18 Jun 2021 11:07:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AEA517D53;
- Fri, 18 Jun 2021 11:07:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 87AC7113865F; Fri, 18 Jun 2021 13:07:06 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: sweeaun <swee.aun.khor@intel.com>
-Subject: Re: [PATCH v2] ui/gtk: Allow user to select monitor number to
- display qemu in full screen through new gtk display option
-References: <20210617020609.18089-1-swee.aun.khor@intel.com>
-Date: Fri, 18 Jun 2021 13:07:06 +0200
-In-Reply-To: <20210617020609.18089-1-swee.aun.khor@intel.com> (sweeaun's
- message of "Thu, 17 Jun 2021 10:06:09 +0800")
-Message-ID: <8735tfsa79.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1luCe4-0005kP-GO; Fri, 18 Jun 2021 07:26:44 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:41766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1luCe2-000890-19; Fri, 18 Jun 2021 07:26:44 -0400
+Received: by mail-il1-x130.google.com with SMTP id p14so1530360ilg.8;
+ Fri, 18 Jun 2021 04:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aa5XIUeGNE2DQ0+ymaVlEv09FVWNp2IgsYOp+kfYEPc=;
+ b=X3eGBeeS4gSXa4mojYUYUxYbRkoi6jQaBBcFI+/jG7mfEyfgWlIP2S5Gv3wN4RNkbC
+ nDeAiiw0CXHM8ErkzTm5HK30oFkNQI5BhxWD0MpSDt5e0wuPKrfI2ZQULYkbPIkOTV5M
+ vAXSbRIyETDyIgW17niKehyJBAUsDoZ17hEHm0A2dVqZi5Nq4USvSIoyifW/R35Ia0is
+ KsdvcpMxV6GIHMzsE5ZvufVTrpgLZzWPmPom3JMrxzUb51jYg08Ud4NB2GSiWV4KD/9Q
+ Az8Po0319bbNL6BLTwYoscf8oHLG7DHyidA7p/Qog6vMN1QNEI2jEeJcd3O/zsfSCIkX
+ 3Prw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aa5XIUeGNE2DQ0+ymaVlEv09FVWNp2IgsYOp+kfYEPc=;
+ b=qu1wEnzJi7XQG/WeZHb3smi7LgT7VSlj7lQ0qvWXeyOQVpykkQd6qAw3qS0UyabJhe
+ VC1Nvxl0wSRs2gQI/qtBbHS0urDvgDnVFgvYDUZZzKvQT7RCyNAw4Jkgr7DnKC8P9VEz
+ aOpv/6ogMSyGAG+KC9MxqyZkRoZLWgh6EkTzTdwH/ksl8GEgDedz7sLGwKANP555RjaB
+ vM7l/KnFwV3IwHpTticKFRgVv4oeiISECrv3UqSBsvF4eh297beOamIUvF3lYsB+j6Gt
+ pVxrqDbUR9roDpt6JlXb6FSAsWQZ406q6YDR38hxHFNMAWCNBnW17Vz+Cf6XsgmWJpZ8
+ kYUg==
+X-Gm-Message-State: AOAM530/LZu2FXw/CM78nQQ8R2ym+zvm5oL+nd8B5/gAxlQMXMUruw0n
+ V7wmxXotX0VHJtu+XopmU58J+WIlvwJM1m53mow=
+X-Google-Smtp-Source: ABdhPJx4E3p855BYkMd3dgzduv+xS7iDAPyk6bNnepI5t3O1fcgvluTArpP2/zf7AWaGV2dKUzpEyAzCDnw7h6R0WDI=
+X-Received: by 2002:a92:cbd0:: with SMTP id s16mr6919757ilq.19.1624015600513; 
+ Fri, 18 Jun 2021 04:26:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210519142359.23083-1-pl@kamp.de>
+ <20210519142359.23083-5-pl@kamp.de>
+ <CAOi1vP8jYNyrPxOKm1MaJZS99OY4EkU=Jtj=9xV=uUzW30gnGw@mail.gmail.com>
+ <6878472c-2923-2bd8-c49b-e64c70867cbf@kamp.de>
+In-Reply-To: <6878472c-2923-2bd8-c49b-e64c70867cbf@kamp.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Fri, 18 Jun 2021 13:26:31 +0200
+Message-ID: <CAOi1vP_yvJfadAA1FCSgFzA5L9F6HE-O8mS-vwa6VC6sQrxBhg@mail.gmail.com>
+Subject: Re: [PATCH V3 4/6] block/rbd: migrate from aio to coroutines
+To: Peter Lieven <pl@kamp.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=idryomov@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,144 +77,383 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: khairul.anuar.romli@intel.com, Gerd Hoffmann <kraxel@redhat.com>,
- eblake@redhat.com, qemu-devel@nongnu.org, vivek.kasireddy@intel.com
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, ct@flyingcircus.io, Paolo Bonzini <pbonzini@redhat.com>,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You neglected to cc: the Graphics maintainer.  I'm doing that for you
-now.
-
-sweeaun <swee.aun.khor@intel.com> writes:
-
->  -display gtk,monitor=3D<value>
+On Fri, Jun 18, 2021 at 11:07 AM Peter Lieven <pl@kamp.de> wrote:
 >
-> Signed-off-by: sweeaun <swee.aun.khor@intel.com>
-
-Your commit message is formatted badly.  What about this:
-
-    ui/gtk: New -display gtk parameter 'monitor'.
-
-    This lets the user select monitor number to display QEMU in full
-    screen with -display gtk,monitor=3D<value>.
-
-Furthermore, you're Signed-off-by line may be off.  It should be of the
-form
-
-    Signed-off-by: REAL NAME <EMAIL>
-
-Is "sweeaun" your real name?
-
-> ---
->  qapi/ui.json    |  4 +++-
->  qemu-options.hx |  2 +-
->  ui/gtk.c        | 15 +++++++++++++++
->  3 files changed, 19 insertions(+), 2 deletions(-)
+> Am 17.06.21 um 16:43 schrieb Ilya Dryomov:
+> > On Wed, May 19, 2021 at 4:27 PM Peter Lieven <pl@kamp.de> wrote:
+> >> Signed-off-by: Peter Lieven <pl@kamp.de>
+> >> ---
+> >>  block/rbd.c | 255 ++++++++++++++++++----------------------------------
+> >>  1 file changed, 87 insertions(+), 168 deletions(-)
+> >>
+> >> diff --git a/block/rbd.c b/block/rbd.c
+> >> index 97a2ae4c84..0d8612a988 100644
+> >> --- a/block/rbd.c
+> >> +++ b/block/rbd.c
+> >> @@ -66,22 +66,6 @@ typedef enum {
+> >>      RBD_AIO_FLUSH
+> >>  } RBDAIOCmd;
+> >>
+> >> -typedef struct RBDAIOCB {
+> >> -    BlockAIOCB common;
+> >> -    int64_t ret;
+> >> -    QEMUIOVector *qiov;
+> >> -    RBDAIOCmd cmd;
+> >> -    int error;
+> >> -    struct BDRVRBDState *s;
+> >> -} RBDAIOCB;
+> >> -
+> >> -typedef struct RADOSCB {
+> >> -    RBDAIOCB *acb;
+> >> -    struct BDRVRBDState *s;
+> >> -    int64_t size;
+> >> -    int64_t ret;
+> >> -} RADOSCB;
+> >> -
+> >>  typedef struct BDRVRBDState {
+> >>      rados_t cluster;
+> >>      rados_ioctx_t io_ctx;
+> >> @@ -93,6 +77,13 @@ typedef struct BDRVRBDState {
+> >>      uint64_t object_size;
+> >>  } BDRVRBDState;
+> >>
+> >> +typedef struct RBDTask {
+> >> +    BlockDriverState *bs;
+> >> +    Coroutine *co;
+> >> +    bool complete;
+> >> +    int64_t ret;
+> >> +} RBDTask;
+> >> +
+> >>  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+> >>                              BlockdevOptionsRbd *opts, bool cache,
+> >>                              const char *keypairs, const char *secretid,
+> >> @@ -325,13 +316,6 @@ static int qemu_rbd_set_keypairs(rados_t cluster, const char *keypairs_json,
+> >>      return ret;
+> >>  }
+> >>
+> >> -static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
+> >> -{
+> >> -    RBDAIOCB *acb = rcb->acb;
+> >> -    iov_memset(acb->qiov->iov, acb->qiov->niov, offs, 0,
+> >> -               acb->qiov->size - offs);
+> >> -}
+> >> -
+> >>  /* FIXME Deprecate and remove keypairs or make it available in QMP. */
+> >>  static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+> >>                                const char *keypairs, const char *password_secret,
+> >> @@ -450,46 +434,6 @@ exit:
+> >>      return ret;
+> >>  }
+> >>
+> >> -/*
+> >> - * This aio completion is being called from rbd_finish_bh() and runs in qemu
+> >> - * BH context.
+> >> - */
+> >> -static void qemu_rbd_complete_aio(RADOSCB *rcb)
+> >> -{
+> >> -    RBDAIOCB *acb = rcb->acb;
+> >> -    int64_t r;
+> >> -
+> >> -    r = rcb->ret;
+> >> -
+> >> -    if (acb->cmd != RBD_AIO_READ) {
+> >> -        if (r < 0) {
+> >> -            acb->ret = r;
+> >> -            acb->error = 1;
+> >> -        } else if (!acb->error) {
+> >> -            acb->ret = rcb->size;
+> >> -        }
+> >> -    } else {
+> >> -        if (r < 0) {
+> >> -            qemu_rbd_memset(rcb, 0);
+> >> -            acb->ret = r;
+> >> -            acb->error = 1;
+> >> -        } else if (r < rcb->size) {
+> >> -            qemu_rbd_memset(rcb, r);
+> >> -            if (!acb->error) {
+> >> -                acb->ret = rcb->size;
+> >> -            }
+> >> -        } else if (!acb->error) {
+> >> -            acb->ret = r;
+> >> -        }
+> >> -    }
+> >> -
+> >> -    g_free(rcb);
+> >> -
+> >> -    acb->common.cb(acb->common.opaque, (acb->ret > 0 ? 0 : acb->ret));
+> >> -
+> >> -    qemu_aio_unref(acb);
+> >> -}
+> >> -
+> >>  static char *qemu_rbd_mon_host(BlockdevOptionsRbd *opts, Error **errp)
+> >>  {
+> >>      const char **vals;
+> >> @@ -826,89 +770,50 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
+> >>      return 0;
+> >>  }
+> >>
+> >> -static const AIOCBInfo rbd_aiocb_info = {
+> >> -    .aiocb_size = sizeof(RBDAIOCB),
+> >> -};
+> >> -
+> >> -static void rbd_finish_bh(void *opaque)
+> >> +static void qemu_rbd_finish_bh(void *opaque)
+> >>  {
+> >> -    RADOSCB *rcb = opaque;
+> >> -    qemu_rbd_complete_aio(rcb);
+> >> +    RBDTask *task = opaque;
+> >> +    task->complete = 1;
+> >> +    aio_co_wake(task->co);
+> >>  }
+> >>
+> >> -/*
+> >> - * This is the callback function for rbd_aio_read and _write
+> >> - *
+> >> - * Note: this function is being called from a non qemu thread so
+> >> - * we need to be careful about what we do here. Generally we only
+> >> - * schedule a BH, and do the rest of the io completion handling
+> >> - * from rbd_finish_bh() which runs in a qemu context.
+> >> - */
+> > I would adapt this comment instead of removing it.  I mean, it is
+> > still true and the reason for going through aio_bh_schedule_oneshot()
+> > instead of calling aio_co_wake() directly, right?
 >
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 1052ca9c38..1616f3ffbd 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1035,13 +1035,15 @@
->  #               assuming the guest will resize the display to match
->  #               the window size then.  Otherwise it defaults to "off".
->  #               Since 3.1
-> +# @monitor: Monitor number to display qemu in full screen.
+>
+> Sure, its still right, but I think rbd is the only driver with this comment.
+>
+> I can leave it in, no problem.
 
-We spell it QEMU.
+Yeah, just massage it a bit to reflect the reality (at least the
+function name).
 
-Should "full screen" be "full-screen" or even "fullscreen"?
+>
+>
+> >
+> >> -static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
+> >> +static void qemu_rbd_completion_cb(rbd_completion_t c, RBDTask *task)
+> >>  {
+> >> -    RBDAIOCB *acb = rcb->acb;
+> >> -
+> >> -    rcb->ret = rbd_aio_get_return_value(c);
+> >> +    task->ret = rbd_aio_get_return_value(c);
+> >>      rbd_aio_release(c);
+> >> -
+> >> -    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(acb->common.bs),
+> >> -                                     rbd_finish_bh, rcb);
+> >> +    aio_bh_schedule_oneshot(bdrv_get_aio_context(task->bs),
+> >> +                            qemu_rbd_finish_bh, task);
+> >>  }
+> >>
+> >> -static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+> >> -                                 int64_t off,
+> >> -                                 QEMUIOVector *qiov,
+> >> -                                 int64_t size,
+> >> -                                 BlockCompletionFunc *cb,
+> >> -                                 void *opaque,
+> >> -                                 RBDAIOCmd cmd)
+> >> +static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+> >> +                                          uint64_t offset,
+> >> +                                          uint64_t bytes,
+> >> +                                          QEMUIOVector *qiov,
+> >> +                                          int flags,
+> >> +                                          RBDAIOCmd cmd)
+> >>  {
+> >> -    RBDAIOCB *acb;
+> >> -    RADOSCB *rcb = NULL;
+> >> +    BDRVRBDState *s = bs->opaque;
+> >> +    RBDTask task = { .bs = bs, .co = qemu_coroutine_self() };
+> >>      rbd_completion_t c;
+> >>      int r;
+> >>
+> >> -    BDRVRBDState *s = bs->opaque;
+> >> +    assert(!qiov || qiov->size == bytes);
+> >>
+> >> -    acb = qemu_aio_get(&rbd_aiocb_info, bs, cb, opaque);
+> >> -    acb->cmd = cmd;
+> >> -    acb->qiov = qiov;
+> >> -    assert(!qiov || qiov->size == size);
+> >> -
+> >> -    rcb = g_new(RADOSCB, 1);
+> >> -
+> >> -    acb->ret = 0;
+> >> -    acb->error = 0;
+> >> -    acb->s = s;
+> >> -
+> >> -    rcb->acb = acb;
+> >> -    rcb->s = acb->s;
+> >> -    rcb->size = size;
+> >> -    r = rbd_aio_create_completion(rcb, (rbd_callback_t) rbd_finish_aiocb, &c);
+> >> +    r = rbd_aio_create_completion(&task,
+> >> +                                  (rbd_callback_t) qemu_rbd_completion_cb, &c);
+> >>      if (r < 0) {
+> >> -        goto failed;
+> >> +        return r;
+> >>      }
+> >>
+> >>      switch (cmd) {
+> >> -    case RBD_AIO_WRITE:
+> >> -        /*
+> >> -         * RBD APIs don't allow us to write more than actual size, so in order
+> >> -         * to support growing images, we resize the image before write
+> >> -         * operations that exceed the current size.
+> >> -         */
+> >> -        if (off + size > s->image_size) {
+> >> -            r = qemu_rbd_resize(bs, off + size);
+> >> -            if (r < 0) {
+> >> -                goto failed_completion;
+> >> -            }
+> >> -        }
+> >> -        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
+> >> -        break;
+> >>      case RBD_AIO_READ:
+> >> -        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
+> >> +        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, offset, c);
+> >> +        break;
+> >> +    case RBD_AIO_WRITE:
+> >> +        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, offset, c);
+> >>          break;
+> >>      case RBD_AIO_DISCARD:
+> >> -        r = rbd_aio_discard(s->image, off, size, c);
+> >> +        r = rbd_aio_discard(s->image, offset, bytes, c);
+> >>          break;
+> >>      case RBD_AIO_FLUSH:
+> >>          r = rbd_aio_flush(s->image, c);
+> >> @@ -918,44 +823,69 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+> >>      }
+> >>
+> >>      if (r < 0) {
+> >> -        goto failed_completion;
+> >> +        error_report("rbd request failed early: cmd %d offset %" PRIu64
+> >> +                     " bytes %" PRIu64 " flags %d r %d (%s)", cmd, offset,
+> >> +                     bytes, flags, r, strerror(-r));
+> >> +        rbd_aio_release(c);
+> >> +        return r;
+> >>      }
+> >> -    return &acb->common;
+> >>
+> >> -failed_completion:
+> >> -    rbd_aio_release(c);
+> >> -failed:
+> >> -    g_free(rcb);
+> >> +    while (!task.complete) {
+> >> +        qemu_coroutine_yield();
+> >> +    }
+> >>
+> >> -    qemu_aio_unref(acb);
+> >> -    return NULL;
+> >> +    if (task.ret < 0) {
+> >> +        error_report("rbd request failed: cmd %d offset %" PRIu64 " bytes %"
+> >> +                     PRIu64 " flags %d task.ret %" PRIi64 " (%s)", cmd, offset,
+> >> +                     bytes, flags, task.ret, strerror(-task.ret));
+> >> +        return task.ret;
+> >> +    }
+> >> +
+> >> +    /* zero pad short reads */
+> >> +    if (cmd == RBD_AIO_READ && task.ret < qiov->size) {
+> >> +        qemu_iovec_memset(qiov, task.ret, 0, qiov->size - task.ret);
+> > I would use bytes instead of qiov->size here and on the previous
+> > line.  In many systems the iovec can be larger than the op and it
+> > took me a couple of minutes to spot the "qiov->size == bytes" assert.
+>
+>
+> qemu_iovec_memset is an operation on the qiov. If one missed
+>
+> the assertion one could argue that we memset beyond the size of the qiov
+>
+> if we pass bytes - task.ret as length.
 
->  #
->  # Since: 2.12
->  #
->  ##
->  { 'struct'  : 'DisplayGTK',
->    'data'    : { '*grab-on-hover' : 'bool',
-> -                '*zoom-to-fit'   : 'bool'  } }
-> +                '*zoom-to-fit'   : 'bool',
-> +                '*monitor' : 'int' } }
+Sorry, disregard -- I missed that rbd_aio_readv/writev() are specified
+in terms of iovecs (i.e. iovec base + iovec count instead of iovec base +
+number of bytes).
 
-Best to make your addition "blend in" like this
+>
+>
+> Is it true that there a systems which pass a bigger iovec than the actual op?
 
-   { 'struct'  : 'DisplayGTK',
-     'data'    : { '*grab-on-hover' : 'bool',
-                   '*zoom-to-fit'   : 'bool',
-                   '*monitor'       : 'int' } }
+Perhaps not in QEMU but it comes in many other places.  For example
+in the kernel when the block device driver gets a "bio" which it doesn't
+own and should act only on a small piece of it, etc.
 
-> =20
->  ##
->  # @DisplayEGLHeadless:
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 14258784b3..e4b89b6a72 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1787,7 +1787,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
->      "            [,window_close=3Don|off][,gl=3Don|core|es|off]\n"
->  #endif
->  #if defined(CONFIG_GTK)
-> -    "-display gtk[,grab_on_hover=3Don|off][,gl=3Don|off]|\n"
-> +    "-display gtk[,grab_on_hover=3Don|off][,gl=3Don|off][,monitor=3D<val=
-ue>]\n"
->  #endif
->  #if defined(CONFIG_VNC)
->      "-display vnc=3D<display>[,<optargs>]\n"
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 98046f577b..84da126611 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -2268,6 +2268,21 @@ static void gtk_display_init(DisplayState *ds, Dis=
-playOptions *opts)
->          gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
->      }
->      gd_clipboard_init(s);
-> +
-> +    if (opts->u.gtk.has_monitor) {
-> +        int n_monitor;
-> +        n_monitor =3D gdk_display_get_n_monitors(window_display);
+>
+> In this case the assertion would trigger there.
+>
+>
+> >
+> > Also, previously we zeroed the entire op on read errors.  I don't think
+> > it matters but want to make sure this was dropped on purpose.
+>
+>
+> I dropped it because its not done in other drivers. If you feel that we could reveal sensitive information I can put the wiping back in.
 
-Terser:
+I don't think so and we don't do this in kernel rbd either.
 
-           int n_monitor =3D gdk_display_get_n_monitors(window_display);
+>
+>
+> >
+> >> +    }
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int
+> >> +coroutine_fn qemu_rbd_co_preadv(BlockDriverState *bs, uint64_t offset,
+> >> +                               uint64_t bytes, QEMUIOVector *qiov,
+> >> +                               int flags)
+> >> +{
+> >> +    return qemu_rbd_start_co(bs, offset, bytes, qiov, flags, RBD_AIO_READ);
+> >>  }
+> >>
+> >> -static BlockAIOCB *qemu_rbd_aio_preadv(BlockDriverState *bs,
+> >> -                                       uint64_t offset, uint64_t bytes,
+> >> -                                       QEMUIOVector *qiov, int flags,
+> >> -                                       BlockCompletionFunc *cb,
+> >> -                                       void *opaque)
+> >> +static int
+> >> +coroutine_fn qemu_rbd_co_pwritev(BlockDriverState *bs, uint64_t offset,
+> >> +                                 uint64_t bytes, QEMUIOVector *qiov,
+> >> +                                 int flags)
+> >>  {
+> >> -    return rbd_start_aio(bs, offset, qiov, bytes, cb, opaque,
+> >> -                         RBD_AIO_READ);
+> >> +    BDRVRBDState *s = bs->opaque;
+> >> +    /*
+> >> +     * RBD APIs don't allow us to write more than actual size, so in order
+> >> +     * to support growing images, we resize the image before write
+> >> +     * operations that exceed the current size.
+> >> +     */
+> >> +    if (offset + bytes > s->image_size) {
+> >> +        int r = qemu_rbd_resize(bs, offset + bytes);
+> >> +        if (r < 0) {
+> >> +            return r;
+> >> +        }
+> >> +    }
+> > How can this be triggered today?  qemu-io used to be able to, but that
+> > support was removed a long time ago:
+> >
+> >     https://mail.gnu.org/archive/html/qemu-devel/2014-12/msg01592.html
+> >
+> > Just checking that this piece of code is not vestigial at this point.
+>
+>
+> We had this discussion before. The way to hit this if you want to create e.g. a qcow2 image on rbd. It does not make that much sense, but it was supported in the past.
 
-> +
-> +        if ((opts->u.gtk.monitor <=3D n_monitor) &&
-> +            (opts->u.gtk.monitor > 0)) {
+Ah, so something like
 
-Suggest to drop the superfluous parenthesis:
+    qemu-img create -f qcow2 rbd:foo/bar 10G
 
-           if (opts->u.gtk.monitor <=3D n_monitor &&
-               opts->u.gtk.monitor > 0) {
+>
+> I would vote for removing it, but it might break something somewhere.
 
-> +            GdkScreen *gdk_screen;
-> +            gdk_screen =3D gdk_display_get_default_screen(window_display=
-);
-> +            gtk_window_fullscreen_on_monitor(GTK_WINDOW(s->window), gdk_=
-screen,
-> +                                             (opts->u.gtk.monitor - 1));
+Yeah, it's weird but definitely not up for removal in a patch that
+migrates from one internal API to another.
 
-Drop the superfluous parenthesis around the last argument.
+Thanks,
 
-Your new option argument seems to count monitors from 1, while GTK
-counts them from zero.  Why the difference?
-
-Your documentation states that @monitor applies only "in full screen",
-but this code is not guarded by if (opts->full_screen).  Why is that
-okay?
-
-From gdk_display_get_n_monitors()'s documentation: "The returned number
-is valid until the next emission of the =E2=80=9Cmonitor-added=E2=80=9D or
-=E2=80=9Cmonitor-removed=E2=80=9D signal."  This suggests monitors can come=
- and go at
-any time.  If they can, what happens when the monitor we're trying to
-use here has gone away since we called gdk_display_get_n_monitors()?
-
-> +        } else {
-> +            fprintf(stderr, "Invalid GTK monitor argument\n");
-> +        }
-> +    }
->  }
-> =20
->  static void early_gtk_display_init(DisplayOptions *opts)
-
+                Ilya
 
