@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3AD03ACEE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:26:59 +0200 (CEST)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489133ACEEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 17:28:20 +0200 (CEST)
+Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luGOY-0004M6-Gz
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:26:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
+	id 1luGPr-0005yz-99
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 11:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1luGNT-0003Up-2H
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:25:51 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55106)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1luGNI-0006e2-Hw
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:25:46 -0400
-Received: by mail-wm1-x332.google.com with SMTP id m3so5904720wms.4
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 08:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=AP0S5TO4oKHKtaA5AuX7fjLnOHuolA8M/8pqAxcfdZc=;
- b=DnUuZBE+yIf30WKdKcC+jT/h9RKhaE4rsEq0quGiGDfaxEQvzKGyDAkn9A1vaJhAR6
- EX7CuLpAS7ezUnkfEAGUvqUmgn7NcjXw45zKCKSR00s5Onx0qmlkIRyMYZHq+0xJDkWb
- Xfty30KK3Q1/FF8DqbU0Ae/hfqJ1cpPXO+5G0QzxuAn0TP1CZ4OqNkNHyqr+J5ZMTSGu
- BKne58/RElKxtL+/80i/chH3dmYNP6XchuIHzaq6x3U4c+m9RlNm/KfpbO56YXGsJhSU
- z4TeI3aYoTvl7tD4ZafpgiINzBs1uJcaeZZHrSmXTf/lAxJQ9/hTGai8UuWGM2RkMdZi
- 669A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=AP0S5TO4oKHKtaA5AuX7fjLnOHuolA8M/8pqAxcfdZc=;
- b=iKXCuk2UK+7kOGSZq0KJidv38R5WPeLxzt9caRhsX+JG8cTwbF48Bo4HN3KvxeZFma
- fq4wrMuiPowkwGpItJf3mkNYifcbrieHp7Jd9SrZOnNKWv3eC1dDsHm1wjkawC0TTNYP
- aibBmfBt+HgZm7eriXbSM80DIT6qm/IbeJhM3G4/hKHyiVCosWighKZEl+Rot4olXkrY
- NfiB/KfRImrftLan48oogViA2M7B1b3FznrM7vi6Mz9JGcgT7/4pS8vxPRTKvybmM51c
- bX7VQRVqhVxBeuxpMIwWtwxw5cHiTjSPhVGzxrGhQi2fgbL9omZr+vtoXOIt0o7Tosqt
- 5Vmw==
-X-Gm-Message-State: AOAM530zN363oDuDDu5lUP2GcK0lF7TGEBiy7A7H0/kh+qq0/hGpZYkg
- RAyk8QB4A0mfPxnUA/mBs5y4Lg==
-X-Google-Smtp-Source: ABdhPJxWMYtEjf/hQ4ESucILaF6l8jr2PrdTFJmyGw1aTQ8owhgu3G96q7zHecXYAQbsqwh3IwbPEg==
-X-Received: by 2002:a1c:2604:: with SMTP id m4mr8920703wmm.131.1624029937076; 
- Fri, 18 Jun 2021 08:25:37 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r6sm8877577wrt.21.2021.06.18.08.25.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 08:25:36 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BC13D1FF7E;
- Fri, 18 Jun 2021 16:25:35 +0100 (BST)
-References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-64-alex.bennee@linaro.org>
- <24538cd3-0e17-7c32-4b71-8ca994f5cdc9@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v16 63/99] tests/qtest: skip bios-tables-test
- test_acpi_oem_fields_virt for KVM
-Date: Fri, 18 Jun 2021 16:25:00 +0100
-In-reply-to: <24538cd3-0e17-7c32-4b71-8ca994f5cdc9@linaro.org>
-Message-ID: <87bl83dwk0.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luGOs-0005EM-GA
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:27:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35841)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1luGOp-0007Zf-Du
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 11:27:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624030034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9BEGAfk1HFimoh2uLT6tS1TknO2OZbA4PX/3ihbPL9M=;
+ b=dxE1vfZqe7OeUReVWdOTz00SDocX+Zacpfs+Sy1Q+fALwkcyi7Fh6EZoEEUv3NkJ/lpgNj
+ lmfL0bDOUkPzd84xKe+cOVYnuJ2h4NBpXlk1m4Pw4QrQBPtC1GKS7ijaAM9sAKCxqqqFi3
+ HsTrE928zhsOR14dH7o+UG3R804YbKU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-4GxjhFJ7PEiZE6UBK9IJew-1; Fri, 18 Jun 2021 11:27:13 -0400
+X-MC-Unique: 4GxjhFJ7PEiZE6UBK9IJew-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0143581C86A;
+ Fri, 18 Jun 2021 15:27:12 +0000 (UTC)
+Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91801604CD;
+ Fri, 18 Jun 2021 15:27:04 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [PATCH v4 0/4] s390x: Fix IRB sense data
+In-Reply-To: <20210617232537.1337506-1-farman@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20210617232537.1337506-1-farman@linux.ibm.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Fri, 18 Jun 2021 17:27:02 +0200
+Message-ID: <87y2b7nqgp.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,39 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jun 18 2021, Eric Farman <farman@linux.ibm.com> wrote:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> On 6/4/21 8:52 AM, Alex Benn=C3=A9e wrote:
->> From: Claudio Fontana<cfontana@suse.de>
->> test is TCG-only.
->> Signed-off-by: Claudio Fontana<cfontana@suse.de>
->> Cc: Philippe Mathieu-Daud=C3=A9<f4bug@amsat.org>
->> Signed-off-by: Alex Benn=C3=A9e<alex.bennee@linaro.org>
->> ---
->>   tests/qtest/bios-tables-test.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
+> Conny, et al,
 >
-> The new qtest_has_accel should be used instead of an ifdef.
+> Here is a quick update to the series for fixing passthrough
+> sense data in the irb, using a subchannel-specific callback.
+>
+> As before, the first three patches are code refactoring.
+> Since patch 3 doesn't implement the callback for vfio-ccw
+> subchannels, it fixes the problem encountered with
+> "dasdfmt -M quick" failing to run correctly in the guest.
+> Since the callback isn't invoked for passthrough subchannels
+> the SCSW and ERW bits don't get set indicating sense data
+> is present, even though the sense data itself is still zero.
+>
+> Patch 4 implements that for vfio-ccw.
 
-I think I can drop the whole patch as nothing is added unless:
+Thanks, applied (with the discussed modifications in patch 1).
 
-    } else if (strcmp(arch, "aarch64") =3D=3D 0 && tcg_accel_available) {
-
-further down.
+[s390-next is getting full; I plan to send a pull req on Monday, as it
+is a bit late in the day for me already.]
 
 >
+> v3->v4:
+>  - [CH] Rename ESW.sublog to ESW.word0
+>  - [CH] Add comment that ESW.f_addr and .s_addr are only Fmt0 ESW
+>  - [CH] Always copy ECW data into IRB to include mysterious
+>         "model-dependent information" that could exist there
+>  - [TH] Added r-b to patch 2 (thank you!!)
 >
-> r~
+> v2->v3:
+>  - [EF] Drop Fixes tag
+>  - [CH] Implement a callback for the IRB sense data
+>  - [CH] Copy IRB.ESW from passthrough hardware
+>  - [CH] Only put sense in IRB.ECW if passthrough device did
+>
+> v1->v2:
+>  - [MR] Add Fixes: tags
+>  - [CH] Reinstate the memcpy(sch->sense_data, irb.ecw) in vfio_ccw
+>  - [CH] Look at IRB.SCSW.E before copying sense into guest IRB
+>
+> v3: https://lore.kernel.org/qemu-devel/20210616014749.2460133-1-farman@linux.ibm.com/
+> v2: https://lore.kernel.org/qemu-devel/20210611202151.615410-1-farman@linux.ibm.com/
+> v1: https://lore.kernel.org/qemu-devel/20210610202011.391029-1-farman@linux.ibm.com/
+>
+> Eric Farman (4):
+>   s390x/css: Introduce an ESW struct
+>   s390x/css: Split out the IRB sense data
+>   s390x/css: Refactor IRB construction
+>   s390x/css: Add passthrough IRB
+>
+>  hw/s390x/3270-ccw.c       |  1 +
+>  hw/s390x/css.c            | 87 ++++++++++++++++++++++++++++-----------
+>  hw/s390x/s390-ccw.c       |  1 +
+>  hw/s390x/virtio-ccw.c     |  1 +
+>  hw/vfio/ccw.c             |  4 ++
+>  include/hw/s390x/css.h    |  5 +++
+>  include/hw/s390x/ioinst.h | 12 +++++-
+>  7 files changed, 86 insertions(+), 25 deletions(-)
 
-
---=20
-Alex Benn=C3=A9e
 
