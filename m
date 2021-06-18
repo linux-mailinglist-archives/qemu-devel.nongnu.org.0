@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2403AD262
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 20:52:39 +0200 (CEST)
-Received: from localhost ([::1]:54606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F71D3AD27C
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:01:52 +0200 (CEST)
+Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luJba-0005Fq-1w
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 14:52:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52972)
+	id 1luJkU-0007Wi-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:01:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1luJaY-0004Gh-UC
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 14:51:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1luJaV-0003HD-QE
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 14:51:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624042290;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DM7SMeKT3omer1Pyh8s6Qqiqz4zcMNnscpa7VlHFzGA=;
- b=SsaP5PkMNiIYSM2nGuDMPt1jUYqgoX33Ed7aoTFjbk3rgjS4nLdkVN7+gtTyFM5T87KQGU
- 8cvKafq07rz9RjxbCDvJtzWuWqgeK3iU+NJfUz3Ib3u0b4weoYXP+h4VsFVWMwuf2BsQxn
- duY5NdKWoGZl2aOWiFgTab1Olnfmq58=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-WfV6Lj8FMwecYjCCytCigQ-1; Fri, 18 Jun 2021 14:51:09 -0400
-X-MC-Unique: WfV6Lj8FMwecYjCCytCigQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55D2B1054F92;
- Fri, 18 Jun 2021 18:51:08 +0000 (UTC)
-Received: from redhat.com (ovpn-112-75.phx2.redhat.com [10.3.112.75])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AFD165DD68;
- Fri, 18 Jun 2021 18:51:07 +0000 (UTC)
-Date: Fri, 18 Jun 2021 13:51:05 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 2/6] block: block-status cache for data regions
-Message-ID: <20210618185105.ibhk4rwtsp7os7he@redhat.com>
-References: <20210617155247.442150-1-mreitz@redhat.com>
- <20210617155247.442150-3-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1luJhA-0006hW-L7
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 14:58:24 -0400
+Received: from [201.28.113.2] (port=55792 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>) id 1luJh7-0007dH-Tg
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 14:58:24 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 18 Jun 2021 15:57:11 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 89F5B80149D;
+ Fri, 18 Jun 2021 15:57:11 -0300 (-03)
+Subject: Re: [PATCH v2 1/1] accel/tcg: Probe the proper permissions for atomic
+ ops
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210617011224.1602932-1-richard.henderson@linaro.org>
+ <20210617011224.1602932-2-richard.henderson@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <4180796b-ff24-545c-0be8-0ff389d64ec4@eldorado.org.br>
+Date: Fri, 18 Jun 2021 15:57:11 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210617155247.442150-3-mreitz@redhat.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210617011224.1602932-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 18 Jun 2021 18:57:11.0789 (UTC)
+ FILETIME=[BEEC41D0:01D76473]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.202,
+ PDS_HP_HELO_NORDNS=0.438, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,228 +61,330 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 05:52:43PM +0200, Max Reitz wrote:
+On 16/06/2021 22:12, Richard Henderson wrote:
+> We had a single ATOMIC_MMU_LOOKUP macro that probed for
+> read+write on all atomic ops.  This is incorrect for
+> plain atomic load and atomic store.
 > 
-> To address this, we want to cache data regions.  Most of the time, when
-> bad performance is reported, it is in places where the image is iterated
-> over from start to end (qemu-img convert or the mirror job), so a simple
-> yet effective solution is to cache only the current data region.
-
-Here's hoping third time's the charm!
-
+> For user-only, we rely on the host page permissions.
 > 
-> (Note that only caching data regions but not zero regions means that
-> returning false information from the cache is not catastrophic: Treating
-> zeroes as data is fine.  While we try to invalidate the cache on zero
-> writes and discards, such incongruences may still occur when there are
-> other processes writing to the image.)
-> 
-> We only use the cache for nodes without children (i.e. protocol nodes),
-> because that is where the problem is: Drivers that rely on block-status
-> implementations outside of qemu (e.g. SEEK_DATA/HOLE).
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/307
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/390
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/block/block_int.h | 19 ++++++++++
->  block.c                   |  2 +
->  block/io.c                | 80 +++++++++++++++++++++++++++++++++++++--
->  3 files changed, 98 insertions(+), 3 deletions(-)
+>   accel/tcg/atomic_template.h | 24 +++++-----
+>   accel/tcg/cputlb.c          | 95 ++++++++++++++++++++++++++-----------
+>   accel/tcg/user-exec.c       |  8 ++--
+>   3 files changed, 83 insertions(+), 44 deletions(-)
 > 
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index a8f9598102..c09512556a 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -832,6 +832,23 @@ struct BdrvChild {
->      QLIST_ENTRY(BdrvChild) next_parent;
->  };
->  
+> diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
+> index 0ff7f913e1..afa8a9daf3 100644
+> --- a/accel/tcg/atomic_template.h
+> +++ b/accel/tcg/atomic_template.h
+> @@ -74,7 +74,7 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+>                                 ABI_TYPE cmpv, ABI_TYPE newv EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+>       DATA_TYPE ret;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,
+>                                            ATOMIC_MMU_IDX);
+> @@ -95,7 +95,7 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+>   ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP_R;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,
+>                                            ATOMIC_MMU_IDX);
+>   
+> @@ -110,7 +110,7 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+>                        ABI_TYPE val EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_W;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, 0, true,
+>                                            ATOMIC_MMU_IDX);
+>   
+> @@ -125,7 +125,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+>                              ABI_TYPE val EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+>       DATA_TYPE ret;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,
+>                                            ATOMIC_MMU_IDX);
+> @@ -142,7 +142,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+>                           ABI_TYPE val EXTRA_ARGS)                    \
+>   {                                                                   \
+>       ATOMIC_MMU_DECLS;                                               \
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                           \
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                        \
+>       DATA_TYPE ret;                                                  \
+>       uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,    \
+>                                            ATOMIC_MMU_IDX);           \
+> @@ -176,7 +176,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+>                           ABI_TYPE xval EXTRA_ARGS)                   \
+>   {                                                                   \
+>       ATOMIC_MMU_DECLS;                                               \
+> -    XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                          \
+> +    XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                       \
+>       XDATA_TYPE cmp, old, new, val = xval;                           \
+>       uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,    \
+>                                            ATOMIC_MMU_IDX);           \
+> @@ -221,7 +221,7 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+>                                 ABI_TYPE cmpv, ABI_TYPE newv EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+>       DATA_TYPE ret;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, false,
+>                                            ATOMIC_MMU_IDX);
+> @@ -242,7 +242,7 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+>   ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP_R;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, false,
+>                                            ATOMIC_MMU_IDX);
+>   
+> @@ -257,7 +257,7 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+>                        ABI_TYPE val EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_W;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, true,
+>                                            ATOMIC_MMU_IDX);
+>   
+> @@ -274,7 +274,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+>                              ABI_TYPE val EXTRA_ARGS)
+>   {
+>       ATOMIC_MMU_DECLS;
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;
+>       ABI_TYPE ret;
+>       uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, false,
+>                                            ATOMIC_MMU_IDX);
+> @@ -291,7 +291,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+>                           ABI_TYPE val EXTRA_ARGS)                    \
+>   {                                                                   \
+>       ATOMIC_MMU_DECLS;                                               \
+> -    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                           \
+> +    DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                        \
+>       DATA_TYPE ret;                                                  \
+>       uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP,    \
+>                                            false, ATOMIC_MMU_IDX);    \
+> @@ -323,7 +323,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+>                           ABI_TYPE xval EXTRA_ARGS)                   \
+>   {                                                                   \
+>       ATOMIC_MMU_DECLS;                                               \
+> -    XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                          \
+> +    XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP_RW;                       \
+>       XDATA_TYPE ldo, ldn, old, new, val = xval;                      \
+>       uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP,    \
+>                                            false, ATOMIC_MMU_IDX);    \
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index f24348e979..b6d5fc6326 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1742,18 +1742,22 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
+>   
+>   #endif
+>   
+> -/* Probe for a read-modify-write atomic operation.  Do not allow unaligned
+> - * operations, or io operations to proceed.  Return the host address.  */
 > +/*
-> + * Allows bdrv_co_block_status() to cache one data region for a
-> + * protocol node.
+> + * Probe for an atomic operation.  Do not allow unaligned operations,
+> + * or io operations to proceed.  Return the host address.
 > + *
-> + * @lock: Lock for accessing this object's fields
-> + * @valid: Whether the cache is valid
-> + * @data_start: Offset where we know (or strongly assume) is data
-> + * @data_end: Offset where the data region ends (which is not necessarily
-> + *            the start of a zeroed region)
+> + * @prot may be PAGE_READ, PAGE_WRITE, or PAGE_READ|PAGE_WRITE.
 > + */
-> +typedef struct BdrvBlockStatusCache {
-> +    CoMutex lock;
-> +    bool valid;
-> +    int64_t data_start;
-> +    int64_t data_end;
-> +} BdrvBlockStatusCache;
-
-Looks like the right bits of information, and I'm glad you documented
-the need to be prepared for protocols that report split data sections
-rather than consolidated.
-
-> +++ b/block/io.c
-> @@ -35,6 +35,7 @@
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
-> +#include "qemu/range.h"
->  #include "sysemu/replay.h"
->  
->  /* Maximum bounce buffer for copy-on-read and write zeroes, in bytes */
-> @@ -1862,6 +1863,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
->      bool need_flush = false;
->      int head = 0;
->      int tail = 0;
-> +    BdrvBlockStatusCache *bsc = &bs->block_status_cache;
->  
->      int max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes, INT_MAX);
->      int alignment = MAX(bs->bl.pwrite_zeroes_alignment,
-> @@ -1878,6 +1880,16 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
->          return -ENOTSUP;
->      }
->  
-> +    /* Invalidate the cached block-status data range if this write overlaps */
-> +    qemu_co_mutex_lock(&bsc->lock);
-
-Are we going to be suffering from a lot of lock contention performance
-degradation?  Is there a way to take advantage of RCU access patterns
-for any more performance without sacrificing correctness?
-
-> +    if (bsc->valid &&
-> +        ranges_overlap(offset, bytes, bsc->data_start,
-> +                       bsc->data_end - bsc->data_start))
-> +    {
-> +        bsc->valid = false;
-> +    }
-
-Do we want to invalidate the entire bsc, or can we be smart and leave
-the prefix intact (if offset > bsc->data_start, then set bsc->data_end
-to offset)?
-
-> +    qemu_co_mutex_unlock(&bsc->lock);
-
-Worth using WITH_QEMU_LOCK_GUARD?
-
+>   static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+> -                               TCGMemOpIdx oi, uintptr_t retaddr)
+> +                               TCGMemOpIdx oi, int size, int prot,
+> +                               uintptr_t retaddr)
+>   {
+>       size_t mmu_idx = get_mmuidx(oi);
+> -    uintptr_t index = tlb_index(env, mmu_idx, addr);
+> -    CPUTLBEntry *tlbe = tlb_entry(env, mmu_idx, addr);
+> -    target_ulong tlb_addr = tlb_addr_write(tlbe);
+>       MemOp mop = get_memop(oi);
+>       int a_bits = get_alignment_bits(mop);
+> -    int s_bits = mop & MO_SIZE;
+> +    uintptr_t index;
+> +    CPUTLBEntry *tlbe;
+> +    target_ulong tlb_addr;
+>       void *hostaddr;
+>   
+>       /* Adjust the given return address.  */
+> @@ -1767,7 +1771,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+>       }
+>   
+>       /* Enforce qemu required alignment.  */
+> -    if (unlikely(addr & ((1 << s_bits) - 1))) {
+> +    if (unlikely(addr & (size - 1))) {
+>           /* We get here if guest alignment was not requested,
+>              or was not enforced by cpu_unaligned_access above.
+>              We might widen the access and emulate, but for now
+> @@ -1775,15 +1779,45 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+>           goto stop_the_world;
+>       }
+>   
+> +    index = tlb_index(env, mmu_idx, addr);
+> +    tlbe = tlb_entry(env, mmu_idx, addr);
 > +
->      assert(alignment % bs->bl.request_alignment == 0);
->      head = offset % alignment;
->      tail = (offset + bytes) % alignment;
-> @@ -2394,6 +2406,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
->      int64_t aligned_offset, aligned_bytes;
->      uint32_t align;
->      bool has_filtered_child;
-> +    BdrvBlockStatusCache *bsc = &bs->block_status_cache;
->  
->      assert(pnum);
->      *pnum = 0;
-> @@ -2442,9 +2455,59 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
->      aligned_bytes = ROUND_UP(offset + bytes, align) - aligned_offset;
->  
->      if (bs->drv->bdrv_co_block_status) {
-> -        ret = bs->drv->bdrv_co_block_status(bs, want_zero, aligned_offset,
-> -                                            aligned_bytes, pnum, &local_map,
-> -                                            &local_file);
-> +        bool from_cache = false;
-> +
-> +        /*
-> +         * Use the block-status cache only for protocol nodes: Format
-> +         * drivers are generally quick to inquire the status, but protocol
-> +         * drivers often need to get information from outside of qemu, so
-> +         * we do not have control over the actual implementation.  There
-> +         * have been cases where inquiring the status took an unreasonably
-> +         * long time, and we can do nothing in qemu to fix it.
-> +         * This is especially problematic for images with large data areas,
-> +         * because finding the few holes in them and giving them special
-> +         * treatment does not gain much performance.  Therefore, we try to
-> +         * cache the last-identified data region.
-> +         *
-> +         * Second, limiting ourselves to protocol nodes allows us to assume
-> +         * the block status for data regions to be DATA | OFFSET_VALID, and
-> +         * that the host offset is the same as the guest offset.
-> +         *
-> +         * Note that it is possible that external writers zero parts of
-> +         * the cached regions without the cache being invalidated, and so
-> +         * we may report zeroes as data.  This is not catastrophic,
-> +         * however, because reporting zeroes as data is fine.
-> +         */
-
-Useful comment.
-
-> +        if (QLIST_EMPTY(&bs->children)) {
-> +            qemu_co_mutex_lock(&bsc->lock);
-> +            if (bsc->valid &&
-> +                aligned_offset >= bsc->data_start &&
-> +                aligned_offset < bsc->data_end)
-> +            {
-> +                ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
-> +                local_file = bs;
-> +                local_map = aligned_offset;
-> +
-> +                *pnum = bsc->data_end - aligned_offset;
-> +
-> +                from_cache = true;
+>       /* Check TLB entry and enforce page permissions.  */
+> -    if (!tlb_hit(tlb_addr, addr)) {
+> -        if (!VICTIM_TLB_HIT(addr_write, addr)) {
+> -            tlb_fill(env_cpu(env), addr, 1 << s_bits, MMU_DATA_STORE,
+> -                     mmu_idx, retaddr);
+> -            index = tlb_index(env, mmu_idx, addr);
+> -            tlbe = tlb_entry(env, mmu_idx, addr);
+> +    if (prot & PAGE_WRITE) {
+> +        tlb_addr = tlb_addr_write(tlbe);
+> +        if (!tlb_hit(tlb_addr, addr)) {
+> +            if (!VICTIM_TLB_HIT(addr_write, addr)) {
+> +                tlb_fill(env_cpu(env), addr, size,
+> +                         MMU_DATA_STORE, mmu_idx, retaddr);
+> +                index = tlb_index(env, mmu_idx, addr);
+> +                tlbe = tlb_entry(env, mmu_idx, addr);
 > +            }
-> +            qemu_co_mutex_unlock(&bsc->lock);
+> +            tlb_addr = tlb_addr_write(tlbe) & ~TLB_INVALID_MASK;
 > +        }
 > +
-> +        if (!from_cache) {
-> +            ret = bs->drv->bdrv_co_block_status(bs, want_zero, aligned_offset,
-> +                                                aligned_bytes, pnum, &local_map,
-> +                                                &local_file);
-> +
-> +            if (ret == (BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID)) {
-> +                qemu_co_mutex_lock(&bsc->lock);
-> +                bsc->data_start = aligned_offset;
-> +                bsc->data_end = aligned_offset + *pnum;
-> +                bsc->valid = true;
-> +                qemu_co_mutex_unlock(&bsc->lock);
-> +            }
+> +        /* Let the guest notice RMW on a write-only page.  */
+> +        if ((prot & PAGE_READ) &&
+> +            unlikely(tlbe->addr_read != (tlb_addr & ~TLB_NOTDIRTY))) {
+> +            tlb_fill(env_cpu(env), addr, size,
+> +                     MMU_DATA_LOAD, mmu_idx, retaddr);
+> +            /*
+> +             * Since we don't support reads and writes to different addresses,
+> +             * and we do have the proper page loaded for write, this shouldn't
+> +             * ever return.  But just in case, handle via stop-the-world.
+> +             */
+> +            goto stop_the_world;
 > +        }
-
-Looks correct.
-
->      } else {
->          /* Default code for filters */
->  
-> @@ -2974,6 +3037,7 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
->      int max_pdiscard, ret;
->      int head, tail, align;
->      BlockDriverState *bs = child->bs;
-> +    BdrvBlockStatusCache *bsc = &bs->block_status_cache;
->  
->      if (!bs || !bs->drv || !bdrv_is_inserted(bs)) {
->          return -ENOMEDIUM;
-> @@ -2997,6 +3061,16 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
->          return 0;
->      }
->  
-> +    /* Invalidate the cached block-status data range if this discard overlaps */
-> +    qemu_co_mutex_lock(&bsc->lock);
-> +    if (bsc->valid &&
-> +        ranges_overlap(offset, bytes, bsc->data_start,
-> +                       bsc->data_end - bsc->data_start))
-> +    {
-> +        bsc->valid = false;
-> +    }
-
-Same question as above about possibly shortening the cached range
-in-place rather than discarding it altogether.
-
-> +    qemu_co_mutex_unlock(&bsc->lock);
+> +    } else /* if (prot & PAGE_READ) */ {
+> +        tlb_addr = tlbe->addr_read;
+> +        if (!tlb_hit(tlb_addr, addr)) {
+> +            if (!VICTIM_TLB_HIT(addr_write, addr)) {
+> +                tlb_fill(env_cpu(env), addr, size,
+> +                         MMU_DATA_LOAD, mmu_idx, retaddr);
+> +                index = tlb_index(env, mmu_idx, addr);
+> +                tlbe = tlb_entry(env, mmu_idx, addr);
+> +            }
+> +            tlb_addr = tlbe->addr_read & ~TLB_INVALID_MASK;
+>           }
+> -        tlb_addr = tlb_addr_write(tlbe) & ~TLB_INVALID_MASK;
+>       }
+>   
+>       /* Notice an IO access or a needs-MMU-lookup access */
+> @@ -1793,20 +1827,10 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+>           goto stop_the_world;
+>       }
+>   
+> -    /* Let the guest notice RMW on a write-only page.  */
+> -    if (unlikely(tlbe->addr_read != (tlb_addr & ~TLB_NOTDIRTY))) {
+> -        tlb_fill(env_cpu(env), addr, 1 << s_bits, MMU_DATA_LOAD,
+> -                 mmu_idx, retaddr);
+> -        /* Since we don't support reads and writes to different addresses,
+> -           and we do have the proper page loaded for write, this shouldn't
+> -           ever return.  But just in case, handle via stop-the-world.  */
+> -        goto stop_the_world;
+> -    }
+> -
+>       hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
+>   
+>       if (unlikely(tlb_addr & TLB_NOTDIRTY)) {
+> -        notdirty_write(env_cpu(env), addr, 1 << s_bits,
+> +        notdirty_write(env_cpu(env), addr, size,
+>                          &env_tlb(env)->d[mmu_idx].iotlb[index], retaddr);
+>       }
+>   
+> @@ -2669,7 +2693,12 @@ void cpu_stq_le_data(CPUArchState *env, target_ulong ptr, uint64_t val)
+>   #define ATOMIC_NAME(X) \
+>       HELPER(glue(glue(glue(atomic_ ## X, SUFFIX), END), _mmu))
+>   #define ATOMIC_MMU_DECLS
+> -#define ATOMIC_MMU_LOOKUP atomic_mmu_lookup(env, addr, oi, retaddr)
+> +#define ATOMIC_MMU_LOOKUP_RW \
+> +    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_READ | PAGE_WRITE, retaddr)
+> +#define ATOMIC_MMU_LOOKUP_R \
+> +    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_READ, retaddr)
+> +#define ATOMIC_MMU_LOOKUP_W \
+> +    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_WRITE, retaddr)
+>   #define ATOMIC_MMU_CLEANUP
+>   #define ATOMIC_MMU_IDX   get_mmuidx(oi)
+>   
+> @@ -2698,10 +2727,18 @@ void cpu_stq_le_data(CPUArchState *env, target_ulong ptr, uint64_t val)
+>   
+>   #undef EXTRA_ARGS
+>   #undef ATOMIC_NAME
+> -#undef ATOMIC_MMU_LOOKUP
+> +#undef ATOMIC_MMU_LOOKUP_RW
+> +#undef ATOMIC_MMU_LOOKUP_R
+> +#undef ATOMIC_MMU_LOOKUP_W
 > +
->      /* Discard is advisory, but some devices track and coalesce
->       * unaligned requests, so we must pass everything down rather than
->       * round here.  Still, most devices will just silently ignore
-> -- 
-> 2.31.1
+>   #define EXTRA_ARGS         , TCGMemOpIdx oi
+>   #define ATOMIC_NAME(X)     HELPER(glue(glue(atomic_ ## X, SUFFIX), END))
+> -#define ATOMIC_MMU_LOOKUP  atomic_mmu_lookup(env, addr, oi, GETPC())
+> +#define ATOMIC_MMU_LOOKUP_RW \
+> +    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_READ | PAGE_WRITE, GETPC())
+> +#define ATOMIC_MMU_LOOKUP_R \
+> +    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_READ, GETPC())
+> +#define ATOMIC_MMU_LOOKUP_W \
+> +    atomic_mmu_lookup(env, addr, oi, DATA_SIZE, PAGE_WRITE, GETPC())
+>   
+>   #define DATA_SIZE 1
+>   #include "atomic_template.h"
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index fb2d43e6a9..e67b1617b5 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -1220,7 +1220,9 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+>   
+>   /* Macro to call the above, with local variables from the use context.  */
+>   #define ATOMIC_MMU_DECLS do {} while (0)
+> -#define ATOMIC_MMU_LOOKUP  atomic_mmu_lookup(env, addr, DATA_SIZE, GETPC())
+> +#define ATOMIC_MMU_LOOKUP_RW  atomic_mmu_lookup(env, addr, DATA_SIZE, GETPC())
+> +#define ATOMIC_MMU_LOOKUP_R   ATOMIC_MMU_LOOKUP_RW
+> +#define ATOMIC_MMU_LOOKUP_W   ATOMIC_MMU_LOOKUP_RW
+>   #define ATOMIC_MMU_CLEANUP do { clear_helper_retaddr(); } while (0)
+>   #define ATOMIC_MMU_IDX MMU_USER_IDX
+>   
+> @@ -1250,12 +1252,12 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+>   
+>   #undef EXTRA_ARGS
+>   #undef ATOMIC_NAME
+> -#undef ATOMIC_MMU_LOOKUP
+> +#undef ATOMIC_MMU_LOOKUP_RW
+>   
+>   #define EXTRA_ARGS     , TCGMemOpIdx oi, uintptr_t retaddr
+>   #define ATOMIC_NAME(X) \
+>       HELPER(glue(glue(glue(atomic_ ## X, SUFFIX), END), _mmu))
+> -#define ATOMIC_MMU_LOOKUP  atomic_mmu_lookup(env, addr, DATA_SIZE, retaddr)
+> +#define ATOMIC_MMU_LOOKUP_RW  atomic_mmu_lookup(env, addr, DATA_SIZE, retaddr)
+>   
+>   #define DATA_SIZE 16
+>   #include "atomic_template.h"
 > 
-> 
+
+I can confirm that this fixes #390, and all the other test cases that I 
+have for lq. Does "Resolves:" automatically closes the issue on GitLab 
+or do I need to close it manually?
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
