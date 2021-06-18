@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE763AD5B8
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:16:56 +0200 (CEST)
-Received: from localhost ([::1]:35484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A0B3AD5D1
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:25:55 +0200 (CEST)
+Received: from localhost ([::1]:40974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNjL-0007dK-A8
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35038)
+	id 1luNs2-00059R-95
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYP-0007Av-9b
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39841)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYU-0007CL-Ta
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYK-0006Hs-7o
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:37 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYK-0006IZ-Io
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057530;
+ s=mimecast20190719; t=1624057531;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nSCfgq5JMtJ1EGKlclLyYmvAGp5R4RROADxGKkNTFvc=;
- b=TlP3kxa08RFRfzIygXlCRWwMgSnuO4lMnGVxM0HG+kuLYueprxlEW96KZzF98boJMB4/rh
- 2wXFgnEff9TyJNYS+Ycth3xlf03jGWoViEhzheLikdblnVIYIxy4pSq6LCUKoqB0TiIs/t
- faygXm+lTyqhxijvQm40XYpElJu9ngw=
+ bh=Yb3aWZJZXaQJF41iuUg4ZftcCXsFeNVWDepobLoVsZo=;
+ b=ehKwHCN1lx1uUqggHaF4XWH7gOkUx8XdlBqbVs4Bq0zXj2JBr6lmeX8Pye2lodC0fBPi4b
+ GptRtn/QCFbLp8eHEVd2lCLrpQ1upg8/1g3A1venW5ePBDWyDX4y/CUUd5MnYSBUCg0EWa
+ o0kjxfBX0Xi6dHx3LKD5WC3S0lPWD1c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-u92ShO3RPoiuSUCiw_o4eA-1; Fri, 18 Jun 2021 19:05:28 -0400
-X-MC-Unique: u92ShO3RPoiuSUCiw_o4eA-1
+ us-mta-292-yFvSx_mwOR636_5mMFXiSA-1; Fri, 18 Jun 2021 19:05:30 -0400
+X-MC-Unique: yFvSx_mwOR636_5mMFXiSA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10B29801596;
- Fri, 18 Jun 2021 23:05:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86B64100C663;
+ Fri, 18 Jun 2021 23:05:29 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DC031036D03;
- Fri, 18 Jun 2021 23:05:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33F2B1017CE5;
+ Fri, 18 Jun 2021 23:05:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/72] scripts/qemu-ga-client: add mypy type hints
-Date: Fri, 18 Jun 2021 19:04:10 -0400
-Message-Id: <20210618230455.2891199-28-jsnow@redhat.com>
+Subject: [PULL 28/72] scripts/qemu-ga-client: move to
+ python/qemu/qmp/qemu_ga_client.py
+Date: Fri, 18 Jun 2021 19:04:11 -0400
+Message-Id: <20210618230455.2891199-29-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,277 +83,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This script is in slightly rough shape, but it still works. A lot of
-care went into its initial development. In good faith, I'm updating it
-to the latest Python coding standards. If there is in interest in this
-script, though, I'll be asking for a contributor to take care of it
-further.
+The script itself will be unavailable for a few commits before being
+restored, with no way to run it right after this commit. This helps move
+git history into the new file. To prevent linter regressions, though, we
+do need to immediately touch up the filename to remove dashes (to make
+the module importable), and remove the executable bit.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210604155532.1499282-9-jsnow@redhat.com
+Message-id: 20210604155532.1499282-10-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qemu-ga-client | 89 +++++++++++++++++++++-----------------
- 1 file changed, 49 insertions(+), 40 deletions(-)
+ scripts/qmp/qemu-ga-client => python/qemu/qmp/qemu_ga_client.py | 2 --
+ 1 file changed, 2 deletions(-)
+ rename scripts/qmp/qemu-ga-client => python/qemu/qmp/qemu_ga_client.py (99%)
 
-diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
-index ece9f74fa8..a7d0ef8347 100755
+diff --git a/scripts/qmp/qemu-ga-client b/python/qemu/qmp/qemu_ga_client.py
+similarity index 99%
+rename from scripts/qmp/qemu-ga-client
+rename to python/qemu/qmp/qemu_ga_client.py
+index a7d0ef8347..d2938ad47c 100755
 --- a/scripts/qmp/qemu-ga-client
-+++ b/scripts/qmp/qemu-ga-client
-@@ -44,10 +44,18 @@ import errno
- import os
- import random
- import sys
-+from typing import (
-+    Any,
-+    Callable,
-+    Dict,
-+    Optional,
-+    Sequence,
-+)
++++ b/python/qemu/qmp/qemu_ga_client.py
+@@ -52,8 +52,6 @@
+     Sequence,
+ )
  
- 
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qmp
-+from qemu.qmp import SocketAddrT
- 
- 
- # This script has not seen many patches or careful attention in quite
-@@ -58,18 +66,18 @@ from qemu import qmp
- 
- 
- class QemuGuestAgent(qmp.QEMUMonitorProtocol):
--    def __getattr__(self, name):
--        def wrapper(**kwds):
-+    def __getattr__(self, name: str) -> Callable[..., Any]:
-+        def wrapper(**kwds: object) -> object:
-             return self.command('guest-' + name.replace('_', '-'), **kwds)
-         return wrapper
- 
- 
- class QemuGuestAgentClient:
--    def __init__(self, address):
-+    def __init__(self, address: SocketAddrT):
-         self.qga = QemuGuestAgent(address)
-         self.qga.connect(negotiate=False)
- 
--    def sync(self, timeout=3):
-+    def sync(self, timeout: Optional[float] = 3) -> None:
-         # Avoid being blocked forever
-         if not self.ping(timeout):
-             raise EnvironmentError('Agent seems not alive')
-@@ -79,9 +87,9 @@ class QemuGuestAgentClient:
-             if isinstance(ret, int) and int(ret) == uid:
-                 break
- 
--    def __file_read_all(self, handle):
-+    def __file_read_all(self, handle: int) -> bytes:
-         eof = False
--        data = ''
-+        data = b''
-         while not eof:
-             ret = self.qga.file_read(handle=handle, count=1024)
-             _data = base64.b64decode(ret['buf-b64'])
-@@ -89,7 +97,7 @@ class QemuGuestAgentClient:
-             eof = ret['eof']
-         return data
- 
--    def read(self, path):
-+    def read(self, path: str) -> bytes:
-         handle = self.qga.file_open(path=path)
-         try:
-             data = self.__file_read_all(handle)
-@@ -97,7 +105,7 @@ class QemuGuestAgentClient:
-             self.qga.file_close(handle=handle)
-         return data
- 
--    def info(self):
-+    def info(self) -> str:
-         info = self.qga.info()
- 
-         msgs = []
-@@ -113,14 +121,14 @@ class QemuGuestAgentClient:
-         return '\n'.join(msgs)
- 
-     @classmethod
--    def __gen_ipv4_netmask(cls, prefixlen):
-+    def __gen_ipv4_netmask(cls, prefixlen: int) -> str:
-         mask = int('1' * prefixlen + '0' * (32 - prefixlen), 2)
-         return '.'.join([str(mask >> 24),
-                          str((mask >> 16) & 0xff),
-                          str((mask >> 8) & 0xff),
-                          str(mask & 0xff)])
- 
--    def ifconfig(self):
-+    def ifconfig(self) -> str:
-         nifs = self.qga.network_get_interfaces()
- 
-         msgs = []
-@@ -141,7 +149,7 @@ class QemuGuestAgentClient:
- 
-         return '\n'.join(msgs)
- 
--    def ping(self, timeout):
-+    def ping(self, timeout: Optional[float]) -> bool:
-         self.qga.settimeout(timeout)
-         try:
-             self.qga.ping()
-@@ -149,37 +157,40 @@ class QemuGuestAgentClient:
-             return False
-         return True
- 
--    def fsfreeze(self, cmd):
-+    def fsfreeze(self, cmd: str) -> object:
-         if cmd not in ['status', 'freeze', 'thaw']:
-             raise Exception('Invalid command: ' + cmd)
 -
-+        # Can be int (freeze, thaw) or GuestFsfreezeStatus (status)
-         return getattr(self.qga, 'fsfreeze' + '_' + cmd)()
+-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu import qmp
+ from qemu.qmp import SocketAddrT
  
--    def fstrim(self, minimum=0):
--        return getattr(self.qga, 'fstrim')(minimum=minimum)
-+    def fstrim(self, minimum: int) -> Dict[str, object]:
-+        # returns GuestFilesystemTrimResponse
-+        ret = getattr(self.qga, 'fstrim')(minimum=minimum)
-+        assert isinstance(ret, dict)
-+        return ret
- 
--    def suspend(self, mode):
-+    def suspend(self, mode: str) -> None:
-         if mode not in ['disk', 'ram', 'hybrid']:
-             raise Exception('Invalid mode: ' + mode)
- 
-         try:
-             getattr(self.qga, 'suspend' + '_' + mode)()
-             # On error exception will raise
--        except self.qga.timeout:
-+        except TimeoutError:
-             # On success command will timed out
-             return
- 
--    def shutdown(self, mode='powerdown'):
-+    def shutdown(self, mode: str = 'powerdown') -> None:
-         if mode not in ['powerdown', 'halt', 'reboot']:
-             raise Exception('Invalid mode: ' + mode)
- 
-         try:
-             self.qga.shutdown(mode=mode)
--        except self.qga.timeout:
--            return
-+        except TimeoutError:
-+            pass
- 
- 
--def _cmd_cat(client, args):
-+def _cmd_cat(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     if len(args) != 1:
-         print('Invalid argument')
-         print('Usage: cat <file>')
-@@ -187,7 +198,7 @@ def _cmd_cat(client, args):
-     print(client.read(args[0]))
- 
- 
--def _cmd_fsfreeze(client, args):
-+def _cmd_fsfreeze(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     usage = 'Usage: fsfreeze status|freeze|thaw'
-     if len(args) != 1:
-         print('Invalid argument')
-@@ -201,13 +212,14 @@ def _cmd_fsfreeze(client, args):
-     ret = client.fsfreeze(cmd)
-     if cmd == 'status':
-         print(ret)
--    elif cmd == 'freeze':
--        print("%d filesystems frozen" % ret)
--    else:
--        print("%d filesystems thawed" % ret)
-+        return
- 
-+    assert isinstance(ret, int)
-+    verb = 'frozen' if cmd == 'freeze' else 'thawed'
-+    print(f"{ret:d} filesystems {verb}")
- 
--def _cmd_fstrim(client, args):
-+
-+def _cmd_fstrim(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     if len(args) == 0:
-         minimum = 0
-     else:
-@@ -215,28 +227,25 @@ def _cmd_fstrim(client, args):
-     print(client.fstrim(minimum))
- 
- 
--def _cmd_ifconfig(client, args):
-+def _cmd_ifconfig(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     assert not args
-     print(client.ifconfig())
- 
- 
--def _cmd_info(client, args):
-+def _cmd_info(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     assert not args
-     print(client.info())
- 
- 
--def _cmd_ping(client, args):
--    if len(args) == 0:
--        timeout = 3
--    else:
--        timeout = float(args[0])
-+def _cmd_ping(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-+    timeout = 3.0 if len(args) == 0 else float(args[0])
-     alive = client.ping(timeout)
-     if not alive:
-         print("Not responded in %s sec" % args[0])
-         sys.exit(1)
- 
- 
--def _cmd_suspend(client, args):
-+def _cmd_suspend(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     usage = 'Usage: suspend disk|ram|hybrid'
-     if len(args) != 1:
-         print('Less argument')
-@@ -249,7 +258,7 @@ def _cmd_suspend(client, args):
-     client.suspend(args[0])
- 
- 
--def _cmd_shutdown(client, args):
-+def _cmd_shutdown(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     assert not args
-     client.shutdown()
- 
-@@ -257,12 +266,12 @@ def _cmd_shutdown(client, args):
- _cmd_powerdown = _cmd_shutdown
- 
- 
--def _cmd_halt(client, args):
-+def _cmd_halt(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     assert not args
-     client.shutdown('halt')
- 
- 
--def _cmd_reboot(client, args):
-+def _cmd_reboot(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
-     assert not args
-     client.shutdown('reboot')
- 
-@@ -270,7 +279,7 @@ def _cmd_reboot(client, args):
- commands = [m.replace('_cmd_', '') for m in dir() if '_cmd_' in m]
- 
- 
--def send_command(address, cmd, args):
-+def send_command(address: str, cmd: str, args: Sequence[str]) -> None:
-     if not os.path.exists(address):
-         print('%s not found' % address)
-         sys.exit(1)
-@@ -296,7 +305,7 @@ def send_command(address, cmd, args):
-     globals()['_cmd_' + cmd](client, args)
- 
- 
--def main():
-+def main() -> None:
-     address = os.environ.get('QGA_CLIENT_ADDRESS')
- 
-     parser = argparse.ArgumentParser()
 -- 
 2.31.1
 
