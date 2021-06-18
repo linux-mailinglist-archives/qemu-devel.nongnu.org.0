@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DCC3AD5C6
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:21:23 +0200 (CEST)
-Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67833AD5C7
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:22:21 +0200 (CEST)
+Received: from localhost ([::1]:55372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNne-0002BU-4K
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34954)
+	id 1luNoa-00046q-V6
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:22:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYH-000726-Fr
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45647)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYI-00073Z-1E
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYE-0006EM-Mg
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:28 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYE-0006EW-Ty
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057525;
+ s=mimecast20190719; t=1624057526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rTrk2G3p4S1jTQT/Fd9oZfEJCKEwdjqliLkfKDJL8dM=;
- b=i8Woypni3phsYLPNgrQek2k4ESFDuaWP8SZQJg1LlNZHOGMxDZVptBvhXDZycOSASeVr1n
- F7RjOpVZjeLdqejY1hjRXTbD41kDcJeD7vdzxm7vdJ5Wku4t/OZboQ5GdoA9ATqjh50tiG
- rkC5bFNWl5lBo1UhLB51nWym5lI/E2Y=
+ bh=CnFjqPWHHgmngJWuze4KbaNnkBWjXqRZyAbad5QumOg=;
+ b=RCMGcrtgVXR40zURAzrsYrzo0g9ylawll1L9+kwSqzHU/3ADcncgY6iRN1y8Y4vSdYJatG
+ N7HZIhl1mjPHWRRQV2iUTnidb4SZfHzSrwXTV/CsH0BiOUGLc7VIsS4RT94aiN2s8GKXKW
+ g4OMuy+vMtcHFJAOQhUh0h6HyBjGYpI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-0rGtRoAXPP6dzSvn9DCJUw-1; Fri, 18 Jun 2021 19:05:23 -0400
-X-MC-Unique: 0rGtRoAXPP6dzSvn9DCJUw-1
+ us-mta-51-OBEUveEcO0eZGPSN_D7RlA-1; Fri, 18 Jun 2021 19:05:24 -0400
+X-MC-Unique: OBEUveEcO0eZGPSN_D7RlA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C472A1084F53;
- Fri, 18 Jun 2021 23:05:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96E96801596;
+ Fri, 18 Jun 2021 23:05:23 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21C281017CE5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E72151017CE5;
  Fri, 18 Jun 2021 23:05:22 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/72] scripts/qemu-ga-client: apply (most) flake8 rules
-Date: Fri, 18 Jun 2021 19:04:04 -0400
-Message-Id: <20210618230455.2891199-22-jsnow@redhat.com>
+Subject: [PULL 22/72] scripts/qemu-ga-client: Fix exception handling
+Date: Fri, 18 Jun 2021 19:04:05 -0400
+Message-Id: <20210618230455.2891199-23-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,101 +82,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Line length should be < 80
-- You shouldn't perform unscoped imports except at the top of the module
+Fixes: 50d189c
 
-Notably, the sys.path hack creates problems with the import rule. This
-will be fixed later.
+These error classes aren't available anymore. Fix the bitrot.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210604155532.1499282-3-jsnow@redhat.com
+Message-id: 20210604155532.1499282-4-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qemu-ga-client | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ scripts/qmp/qemu-ga-client | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
-index 97f4047a62..566bddc89d 100755
+index 566bddc89d..7aba09f0fe 100755
 --- a/scripts/qmp/qemu-ga-client
 +++ b/scripts/qmp/qemu-ga-client
-@@ -12,7 +12,8 @@
- # Start QEMU with:
- #
- # # qemu [...] -chardev socket,path=/tmp/qga.sock,server=on,wait=off,id=qga0 \
--#   -device virtio-serial -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
-+#   -device virtio-serial \
-+#   -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
- #
- # Run the script:
- #
-@@ -37,6 +38,7 @@
- #
- 
- import base64
-+import optparse
- import os
- import random
- import sys
-@@ -94,9 +96,11 @@ class QemuGuestAgentClient:
-         msgs = []
-         msgs.append('version: ' + info['version'])
-         msgs.append('supported_commands:')
--        enabled = [c['name'] for c in info['supported_commands'] if c['enabled']]
-+        enabled = [c['name'] for c in info['supported_commands']
-+                   if c['enabled']]
-         msgs.append('\tenabled: ' + ', '.join(enabled))
--        disabled = [c['name'] for c in info['supported_commands'] if not c['enabled']]
-+        disabled = [c['name'] for c in info['supported_commands']
-+                    if not c['enabled']]
-         msgs.append('\tdisabled: ' + ', '.join(disabled))
- 
-         return '\n'.join(msgs)
-@@ -119,11 +123,11 @@ class QemuGuestAgentClient:
-                     if ipaddr['ip-address-type'] == 'ipv4':
-                         addr = ipaddr['ip-address']
-                         mask = self.__gen_ipv4_netmask(int(ipaddr['prefix']))
--                        msgs.append("\tinet %s  netmask %s" % (addr, mask))
-+                        msgs.append(f"\tinet {addr}  netmask {mask}")
-                     elif ipaddr['ip-address-type'] == 'ipv6':
-                         addr = ipaddr['ip-address']
-                         prefix = ipaddr['prefix']
--                        msgs.append("\tinet6 %s  prefixlen %s" % (addr, prefix))
-+                        msgs.append(f"\tinet6 {addr}  prefixlen {prefix}")
-             if nif['hardware-address'] != '00:00:00:00:00:00':
-                 msgs.append("\tether " + nif['hardware-address'])
- 
-@@ -237,6 +241,8 @@ def _cmd_suspend(client, args):
- 
- def _cmd_shutdown(client, args):
-     client.shutdown()
-+
-+
- _cmd_powerdown = _cmd_shutdown
+@@ -56,8 +56,6 @@ class QemuGuestAgent(qmp.QEMUMonitorProtocol):
  
  
-@@ -280,17 +286,15 @@ def main(address, cmd, args):
- 
- 
- if __name__ == '__main__':
--    import optparse
--    import os
--    import sys
-+    address = os.environ.get('QGA_CLIENT_ADDRESS')
- 
--    address = os.environ['QGA_CLIENT_ADDRESS'] if 'QGA_CLIENT_ADDRESS' in os.environ else None
+ class QemuGuestAgentClient:
+-    error = QemuGuestAgent.error
 -
--    usage = "%prog [--address=<unix_path>|<ipv4_address>] <command> [args...]\n"
-+    usage = ("%prog [--address=<unix_path>|<ipv4_address>]"
-+             " <command> [args...]\n")
-     usage += '<command>: ' + ', '.join(commands)
-     parser = optparse.OptionParser(usage=usage)
-     parser.add_option('--address', action='store', type='string',
--                      default=address, help='Specify a ip:port pair or a unix socket path')
-+                      default=address,
-+                      help='Specify a ip:port pair or a unix socket path')
-     options, args = parser.parse_args()
+     def __init__(self, address):
+         self.qga = QemuGuestAgent(address)
+         self.qga.connect(negotiate=False)
+@@ -137,7 +135,7 @@ class QemuGuestAgentClient:
+         self.qga.settimeout(timeout)
+         try:
+             self.qga.ping()
+-        except self.qga.timeout:
++        except TimeoutError:
+             return False
+         return True
  
-     address = options.address
+@@ -269,11 +267,11 @@ def main(address, cmd, args):
+ 
+     try:
+         client = QemuGuestAgentClient(address)
+-    except QemuGuestAgent.error as e:
++    except OSError as err:
+         import errno
+ 
+-        print(e)
+-        if e.errno == errno.ECONNREFUSED:
++        print(err)
++        if err.errno == errno.ECONNREFUSED:
+             print('Hint: qemu is not running?')
+         sys.exit(1)
+ 
 -- 
 2.31.1
 
