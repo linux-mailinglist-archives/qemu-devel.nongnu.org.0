@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC3C3AD294
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:10:54 +0200 (CEST)
-Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5499F3AD2E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:32:22 +0200 (CEST)
+Received: from localhost ([::1]:59306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luJtF-0001Il-C5
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55224)
+	id 1luKE0-00045U-S7
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1luJpf-00049i-My
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:07:11 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:32139)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1luJpd-0004GO-4Z
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:07:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1624043229; x=1655579229;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DFnCtTUibg8dBNkZq748TNIkNTafhqay4UuGEThSOaA=;
- b=bmIiQqQUVS/IPbxrOzoolENLMeXUx46lsxiR8k4IsEKQ4b2qAu+OIhaQ
- D1B08/rubs0DajW5jrhi/v21eF9yZQ6w0rRAyetxhAvob+IYr4M3wp5A8
- 67duACHFHisA+cDQ32YK94L4jfJXAAjW6vvaC8j+aUoqA2IUsTUUNfERK E=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 18 Jun 2021 12:07:03 -0700
-X-QCInternal: smtphost
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg03-sd.qualcomm.com with ESMTP; 18 Jun 2021 12:07:02 -0700
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 0D5661748; Fri, 18 Jun 2021 14:07:02 -0500 (CDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1luKBg-0001M6-9v
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:29:56 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:44770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1luKBe-0001Oo-9R
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:29:55 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ p4-20020a17090a9304b029016f3020d867so4393635pjo.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 12:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Wv3mpzlnfIAV57P1hJ2KU7zBQ0rbv6sTsg7IkpZV+ig=;
+ b=eohdhx1Le9dx+kBF603qyjYyLeZMaFsfSjtGUL0HjEgXFMgBg6GWoghxr5EWH6nURM
+ ge94K+Dr77XWpZ2yLBsaVPjf8xUxhDPRJ3dI8mPNsUD/i53CfCGyNkCl6adhZclMupnC
+ j368vxseNLl7FqrrvJyIX6Yq8Czct8mhFgW4gxHx9tKHpo7CapP/vygY2MpqZvOAjmdN
+ 2aPcq1/284vwURTrkqRplMyPhEbFFUmQoGsXRRI2k9D6uQUDtu3XyZoryjbPl9uDv6Kx
+ huP7ADMJqoEkqzehMmjATAwkG6S2oAeciGtaQAy3/xwR/gw8AO4VG+fmU560htfrCNTF
+ gC/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Wv3mpzlnfIAV57P1hJ2KU7zBQ0rbv6sTsg7IkpZV+ig=;
+ b=RHMThiuwOnUEMOuu/Xosc/qgY13mI28vJVLsVmUk/gH7d3sP36HCkG2R0Bb3mQvP8s
+ BK9mI0uaGFxkSQ7a5i2UC5gQxz1d92O4SsW0BbCzvCjFnOZRYGVGlVg2b+l7wt0ZtPji
+ kNn2EY7P5qx/xhUcL1UlshOHNSx6/lbBnios8wyZJMlsSKs2CyrBcd+YMF+cJ4dvCIos
+ mIfVFFm3RcRyJTVDZ84+dKF405aOWd/iGam5ukGOiDDc9AhRfa2ydwKCBB30CysDo2bv
+ Q7Hn+JXnIs+JEt0tmfpj5ostMFfHo4XS9gmjMoiQ6t6cOSyLRC1ExdkOAN5D2XcTW/JZ
+ BdDw==
+X-Gm-Message-State: AOAM532yIfnILEFFfdsAa46mFoVyEbW5jCqDVNkqODBQel1PWeAVakgw
+ b34XOyQGaajnpNeEraEZng4MuFreFK1Zfg==
+X-Google-Smtp-Source: ABdhPJzP5RgehM9Ys6+aDj7YcBAGKPL1A8iXFTiTHlC0CeZWdK4X0V+PESpzKj5gdP84EsT4BBhlLQ==
+X-Received: by 2002:a17:90a:d18f:: with SMTP id
+ fu15mr3577991pjb.107.1624044592562; 
+ Fri, 18 Jun 2021 12:29:52 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id 92sm11938234pjv.29.2021.06.18.12.29.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Jun 2021 12:29:52 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] Hexagon (target/hexagon) remove unused TCG variables
-Date: Fri, 18 Jun 2021 14:06:42 -0500
-Message-Id: <1624043202-20124-5-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1624043202-20124-1-git-send-email-tsimpson@quicinc.com>
-References: <1624043202-20124-1-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v2 00/23] linux-user: Move signal trampolines to new page
+Date: Fri, 18 Jun 2021 12:29:28 -0700
+Message-Id: <20210618192951.125651-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,59 +83,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
- richard.henderson@linaro.org, bcain@quicinc.com
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29tPgpSZXZp
-ZXdlZC1ieTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+
-Ck1lc3NhZ2UtSWQ6IDwxNjIyNTg5NTg0LTIyNTcxLTUtZ2l0LXNlbmQtZW1haWwtdHNpbXBzb25A
-cXVpY2luYy5jb20+Ci0tLQogdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgICAgfCAgNiAtLS0tLS0K
-IHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jIHwgMTEgKystLS0tLS0tLS0KIDIgZmlsZXMgY2hh
-bmdlZCwgMiBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS90YXJn
-ZXQvaGV4YWdvbi9nZW5wdHIuYyBiL3RhcmdldC9oZXhhZ29uL2dlbnB0ci5jCmluZGV4IGJkMThj
-YjEuLjVkYmFiZTAgMTAwNjQ0Ci0tLSBhL3RhcmdldC9oZXhhZ29uL2dlbnB0ci5jCisrKyBiL3Rh
-cmdldC9oZXhhZ29uL2dlbnB0ci5jCkBAIC0xMjEsMTAgKzEyMSw3IEBAIHN0YXRpYyB2b2lkIGdl
-bl9sb2dfcmVnX3dyaXRlX3BhaXIoaW50IHJudW0sIFRDR3ZfaTY0IHZhbCkKIAogc3RhdGljIGlu
-bGluZSB2b2lkIGdlbl9sb2dfcHJlZF93cml0ZShEaXNhc0NvbnRleHQgKmN0eCwgaW50IHBudW0s
-IFRDR3YgdmFsKQogewotICAgIFRDR3YgemVybyA9IHRjZ19jb25zdF90bCgwKTsKICAgICBUQ0d2
-IGJhc2VfdmFsID0gdGNnX3RlbXBfbmV3KCk7Ci0gICAgVENHdiBhbmRfdmFsID0gdGNnX3RlbXBf
-bmV3KCk7Ci0gICAgVENHdiBwcmVkX3dyaXR0ZW4gPSB0Y2dfdGVtcF9uZXcoKTsKIAogICAgIHRj
-Z19nZW5fYW5kaV90bChiYXNlX3ZhbCwgdmFsLCAweGZmKTsKIApAQCAtMTQzLDEwICsxNDAsNyBA
-QCBzdGF0aWMgaW5saW5lIHZvaWQgZ2VuX2xvZ19wcmVkX3dyaXRlKERpc2FzQ29udGV4dCAqY3R4
-LCBpbnQgcG51bSwgVENHdiB2YWwpCiAgICAgfQogICAgIHRjZ19nZW5fb3JpX3RsKGhleF9wcmVk
-X3dyaXR0ZW4sIGhleF9wcmVkX3dyaXR0ZW4sIDEgPDwgcG51bSk7CiAKLSAgICB0Y2dfdGVtcF9m
-cmVlKHplcm8pOwogICAgIHRjZ190ZW1wX2ZyZWUoYmFzZV92YWwpOwotICAgIHRjZ190ZW1wX2Zy
-ZWUoYW5kX3ZhbCk7Ci0gICAgdGNnX3RlbXBfZnJlZShwcmVkX3dyaXR0ZW4pOwogfQogCiBzdGF0
-aWMgaW5saW5lIHZvaWQgZ2VuX3JlYWRfcDNfMChUQ0d2IGNvbnRyb2xfcmVnKQpkaWZmIC0tZ2l0
-IGEvdGFyZ2V0L2hleGFnb24vdHJhbnNsYXRlLmMgYi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUu
-YwppbmRleCA5YTM3NjQ0Li5iMjNkMzZhIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi90cmFu
-c2xhdGUuYworKysgYi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYwpAQCAtMjczLDcgKzI3Myw2
-IEBAIHN0YXRpYyB2b2lkIGdlbl9yZWdfd3JpdGVzKERpc2FzQ29udGV4dCAqY3R4KQogCiBzdGF0
-aWMgdm9pZCBnZW5fcHJlZF93cml0ZXMoRGlzYXNDb250ZXh0ICpjdHgsIFBhY2tldCAqcGt0KQog
-ewotICAgIFRDR3YgemVybywgY29udHJvbF9yZWcsIHB2YWw7CiAgICAgaW50IGk7CiAKICAgICAv
-KiBFYXJseSBleGl0IGlmIHRoZSBsb2cgaXMgZW1wdHkgKi8KQEAgLTI4MSwxMCArMjgwLDYgQEAg
-c3RhdGljIHZvaWQgZ2VuX3ByZWRfd3JpdGVzKERpc2FzQ29udGV4dCAqY3R4LCBQYWNrZXQgKnBr
-dCkKICAgICAgICAgcmV0dXJuOwogICAgIH0KIAotICAgIHplcm8gPSB0Y2dfY29uc3RfdGwoMCk7
-Ci0gICAgY29udHJvbF9yZWcgPSB0Y2dfdGVtcF9uZXcoKTsKLSAgICBwdmFsID0gdGNnX3RlbXBf
-bmV3KCk7Ci0KICAgICAvKgogICAgICAqIE9ubHkgZW5kbG9vcCBpbnN0cnVjdGlvbnMgd2lsbCBj
-b25kaXRpb25hbGx5CiAgICAgICogd3JpdGUgYSBwcmVkaWNhdGUuICBJZiB0aGVyZSBhcmUgbm8g
-ZW5kbG9vcApAQCAtMjkyLDYgKzI4Nyw3IEBAIHN0YXRpYyB2b2lkIGdlbl9wcmVkX3dyaXRlcyhE
-aXNhc0NvbnRleHQgKmN0eCwgUGFja2V0ICpwa3QpCiAgICAgICogd3JpdGUgb2YgdGhlIHByZWRp
-Y2F0ZXMuCiAgICAgICovCiAgICAgaWYgKHBrdC0+cGt0X2hhc19lbmRsb29wKSB7CisgICAgICAg
-IFRDR3YgemVybyA9IHRjZ19jb25zdF90bCgwKTsKICAgICAgICAgVENHdiBwcmVkX3dyaXR0ZW4g
-PSB0Y2dfdGVtcF9uZXcoKTsKICAgICAgICAgZm9yIChpID0gMDsgaSA8IGN0eC0+cHJlZ19sb2df
-aWR4OyBpKyspIHsKICAgICAgICAgICAgIGludCBwcmVkX251bSA9IGN0eC0+cHJlZ19sb2dbaV07
-CkBAIC0zMDIsNiArMjk4LDcgQEAgc3RhdGljIHZvaWQgZ2VuX3ByZWRfd3JpdGVzKERpc2FzQ29u
-dGV4dCAqY3R4LCBQYWNrZXQgKnBrdCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBo
-ZXhfbmV3X3ByZWRfdmFsdWVbcHJlZF9udW1dLAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGhleF9wcmVkW3ByZWRfbnVtXSk7CiAgICAgICAgIH0KKyAgICAgICAgdGNnX3RlbXBfZnJl
-ZSh6ZXJvKTsKICAgICAgICAgdGNnX3RlbXBfZnJlZShwcmVkX3dyaXR0ZW4pOwogICAgIH0gZWxz
-ZSB7CiAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBjdHgtPnByZWdfbG9nX2lkeDsgaSsrKSB7CkBA
-IC0zMTQsMTAgKzMxMSw2IEBAIHN0YXRpYyB2b2lkIGdlbl9wcmVkX3dyaXRlcyhEaXNhc0NvbnRl
-eHQgKmN0eCwgUGFja2V0ICpwa3QpCiAgICAgICAgICAgICB9CiAgICAgICAgIH0KICAgICB9Ci0K
-LSAgICB0Y2dfdGVtcF9mcmVlKHplcm8pOwotICAgIHRjZ190ZW1wX2ZyZWUoY29udHJvbF9yZWcp
-OwotICAgIHRjZ190ZW1wX2ZyZWUocHZhbCk7CiB9CiAKIHN0YXRpYyB2b2lkIGdlbl9jaGVja19z
-dG9yZV93aWR0aChEaXNhc0NvbnRleHQgKmN0eCwgaW50IHNsb3RfbnVtKQotLSAKMi43LjQKCg==
+It is my guess that the majority of the flakiness with the
+linux-user signals.c test is due to a race condition between
+translation and page writes.  I vaguely recall a bug report
+about this, but I cannot find it now.
+
+Since the vast majority of "self-modifying code" is due to
+signal delivery, work around this by allocating a new page,
+into which we write the signal handlers.
+
+A better workaround would be to implement the vdso that is
+required by many guests.  However, that is a much larger
+problem, and some guests do not define a vdso in upstream
+linux.  This serves as a decent fallback.
+
+Neither bit of work, I will note, solves the posited race
+condition described above.
+
+Changes for v2:
+  * Add r-b tags
+  * Split arm v2_frame patch (phil)
+  * Split mips install_sigtramp patch (phil)
+  * Fix some arithmetic in a couple of setup_sigtramp (phil)
+
+
+r~
+
+
+Richard Henderson (23):
+  linux-user: Add infrastructure for a signal trampoline page
+  linux-user/aarch64: Implement setup_sigtramp
+  linux-user/arm: Split out v2_frame
+  linux-user/arm: Force v2 frames for fdpic
+  linux-user/arm: Implement setup_sigtramp
+  linux-user/alpha: Implement setup_sigtramp
+  linux-user/cris: Implement setup_sigtramp
+  linux-user/hexagon: Implement setup_sigtramp
+  linux-user/hppa: Document non-use of setup_sigtramp
+  linux-user/i386: Implement setup_sigtramp
+  linux-user/m68k: Implement setup_sigtramp
+  linux-user/microblaze: Implement setup_sigtramp
+  linux-user/mips: Tidy install_sigtramp
+  linux-user/mips: Implement setup_sigtramp
+  linux-user/nios2: Document non-use of setup_sigtramp
+  linux-user/openrisc: Implement setup_sigtramp
+  linux-user/ppc: Implement setup_sigtramp
+  linux-user/riscv: Implement setup_sigtramp
+  linux-user/s390x: Implement setup_sigtramp
+  linux-user/sh4: Implement setup_sigtramp
+  linux-user/sparc: Implement setup_sigtramp
+  linux-user/xtensa: Implement setup_sigtramp
+  linux-user: Remove default for TARGET_ARCH_HAS_SIGTRAMP_PAGE
+
+ linux-user/aarch64/target_signal.h    |   2 +
+ linux-user/alpha/target_signal.h      |   1 +
+ linux-user/arm/target_signal.h        |   2 +
+ linux-user/cris/target_signal.h       |   2 +
+ linux-user/hexagon/target_signal.h    |   2 +
+ linux-user/hppa/target_signal.h       |  14 ++
+ linux-user/i386/target_signal.h       |   2 +
+ linux-user/m68k/target_signal.h       |   2 +
+ linux-user/microblaze/target_signal.h |   2 +
+ linux-user/mips/target_signal.h       |   1 +
+ linux-user/mips64/target_signal.h     |   2 +
+ linux-user/nios2/target_signal.h      |   3 +
+ linux-user/openrisc/target_signal.h   |   2 +
+ linux-user/ppc/target_signal.h        |   2 +
+ linux-user/qemu.h                     |   7 +
+ linux-user/riscv/target_signal.h      |   2 +
+ linux-user/s390x/target_signal.h      |   2 +
+ linux-user/sh4/target_signal.h        |   2 +
+ linux-user/sparc/target_signal.h      |   4 +
+ linux-user/x86_64/target_signal.h     |   3 +
+ linux-user/xtensa/target_signal.h     |   2 +
+ linux-user/aarch64/signal.c           |  28 ++--
+ linux-user/alpha/signal.c             |  34 +++--
+ linux-user/arm/signal.c               | 190 +++++++++++++++-----------
+ linux-user/cris/signal.c              |  29 ++--
+ linux-user/elfload.c                  |  13 ++
+ linux-user/hexagon/signal.c           |  19 ++-
+ linux-user/i386/signal.c              |  42 +++---
+ linux-user/m68k/signal.c              |  47 +++----
+ linux-user/microblaze/signal.c        |  24 +++-
+ linux-user/mips/signal.c              |  39 ++++--
+ linux-user/openrisc/signal.c          |  24 ++--
+ linux-user/ppc/signal.c               |  34 ++---
+ linux-user/riscv/signal.c             |  22 +--
+ linux-user/s390x/signal.c             |  24 ++--
+ linux-user/sh4/signal.c               |  40 +++---
+ linux-user/signal.c                   |   3 +
+ linux-user/sparc/signal.c             |  32 +++--
+ linux-user/xtensa/signal.c            |  50 ++++---
+ 39 files changed, 488 insertions(+), 267 deletions(-)
+
+-- 
+2.25.1
+
 
