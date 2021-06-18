@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449A33AC2C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:08:53 +0200 (CEST)
-Received: from localhost ([::1]:53290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3130B3AC2C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 07:09:03 +0200 (CEST)
+Received: from localhost ([::1]:53830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu6kO-0002mc-8S
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35624)
+	id 1lu6kY-00038P-8M
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 01:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6XV-0005Se-7u
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:55:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45164)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6Xh-0005Zs-3d
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:55:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6XR-0004OU-PQ
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:55:33 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lu6Xf-0004Yo-If
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 00:55:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623992129;
+ s=mimecast20190719; t=1623992143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O2xcXu7/WxZd+2SLYEP4NHfXOgGjpI8y92uLWdyo4TM=;
- b=Z4YT7BmA2ykroaMaW6X2hiyKEUx1KI3Szn6O3pRor/jnUfHeCkz2JesKo4M1WSXiNXm8UU
- jJvveqQRM+o5DApXPVQeToZ3M9KuQIHmuKfe/bLLIBzANqf/QSxgOd/ZZupdrAQ2SgNgkg
- zgC8zZ7rW4jcNOtlMt18pcvCGDc/HZU=
+ bh=XLx3/j/xE0p8BLnxDaBxHeaYVuYg+U7FzwuVjHhHLY8=;
+ b=Gas6Ja2BdWwDKHfsCs6UQtgz/0y6v4nyjo4iCNau61WEiUPfbnXEzmbvaMOFortShWvdEE
+ ZArxSTTgg+1Lb7P9H4y3DzH+ioCfxbNRR5lGQMeWmoO3NBLuOfAg33Zl/aULE40KRwvfrx
+ s0XhApA/TESiH9ywBIW2fE1g3n5bm2s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-GndOKKGuNMyFpmEluhiMJw-1; Fri, 18 Jun 2021 00:55:27 -0400
-X-MC-Unique: GndOKKGuNMyFpmEluhiMJw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-518-jw52EjvOOUaZV-wKPT3D9A-1; Fri, 18 Jun 2021 00:55:39 -0400
+X-MC-Unique: jw52EjvOOUaZV-wKPT3D9A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A81818412;
- Fri, 18 Jun 2021 04:55:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ECA5802575;
+ Fri, 18 Jun 2021 04:55:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C4795D6AC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C65985D9CC;
  Fri, 18 Jun 2021 04:55:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B67CA1803548; Fri, 18 Jun 2021 06:53:54 +0200 (CEST)
+ id C55461803549; Fri, 18 Jun 2021 06:53:54 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/24] modules: use modinfo for qom load
-Date: Fri, 18 Jun 2021 06:53:43 +0200
-Message-Id: <20210618045353.2510174-15-kraxel@redhat.com>
+Subject: [PATCH v3 15/24] modules: use modinfo for qemu opts load
+Date: Fri, 18 Jun 2021 06:53:44 +0200
+Message-Id: <20210618045353.2510174-16-kraxel@redhat.com>
 In-Reply-To: <20210618045353.2510174-1-kraxel@redhat.com>
 References: <20210618045353.2510174-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -94,123 +94,93 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use module database to figure which module implements a given QOM type.
-Drop hard-coded object list.
+Use module database to figure which module adds given QemuOpts group.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- util/module.c | 77 ++++++++++++++++-----------------------------------
- 1 file changed, 24 insertions(+), 53 deletions(-)
+ softmmu/vl.c        | 17 -----------------
+ stubs/module-opts.c |  4 ----
+ util/module.c       | 19 +++++++++++++++++++
+ 3 files changed, 19 insertions(+), 21 deletions(-)
 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index a4857ec43ff3..c91d63e3cc02 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2675,23 +2675,6 @@ void qmp_x_exit_preconfig(Error **errp)
+     }
+ }
+ 
+-#ifdef CONFIG_MODULES
+-void qemu_load_module_for_opts(const char *group)
+-{
+-    static bool spice_tried;
+-    if (g_str_equal(group, "spice") && !spice_tried) {
+-        ui_module_load_one("spice-core");
+-        spice_tried = true;
+-    }
+-
+-    static bool iscsi_tried;
+-    if (g_str_equal(group, "iscsi") && !iscsi_tried) {
+-        block_module_load_one("iscsi");
+-        iscsi_tried = true;
+-    }
+-}
+-#endif
+-
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+     QemuOpts *opts;
+diff --git a/stubs/module-opts.c b/stubs/module-opts.c
+index a7d0e4ad6ead..5412429ea869 100644
+--- a/stubs/module-opts.c
++++ b/stubs/module-opts.c
+@@ -1,6 +1,2 @@
+ #include "qemu/osdep.h"
+ #include "qemu/config-file.h"
+-
+-void qemu_load_module_for_opts(const char *group)
+-{
+-}
 diff --git a/util/module.c b/util/module.c
-index 7d7b69cbdaca..745ae0fb20ed 100644
+index 745ae0fb20ed..a9ec2da9972e 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -280,80 +280,51 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-     return success;
- }
- 
--/*
-- * Building devices and other qom objects modular is mostly useful in
-- * case they have dependencies to external shared libraries, so we can
-- * cut down the core qemu library dependencies.  Which is the case for
-- * only a very few devices & objects.
-- *
-- * So with the expectation that this will be rather the exception than
-- * the rule and the list will not gain that many entries, go with a
-- * simple manually maintained list for now.
-- *
-- * The list must be sorted by module (module_load_qom_all() needs this).
-- */
--static struct {
--    const char *type;
--    const char *prefix;
--    const char *module;
--} const qom_modules[] = {
--    { "ccid-card-passthru",    "hw-", "usb-smartcard"         },
--    { "ccid-card-emulated",    "hw-", "usb-smartcard"         },
--    { "usb-redir",             "hw-", "usb-redirect"          },
--    { "qxl-vga",               "hw-", "display-qxl"           },
--    { "qxl",                   "hw-", "display-qxl"           },
--    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
--    { "virtio-gpu-gl-device",  "hw-", "display-virtio-gpu-gl" },
--    { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
--    { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
--    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
--    { "virtio-gpu-gl-pci",     "hw-", "display-virtio-gpu-pci-gl" },
--    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
--    { "virtio-gpu-ccw",        "hw-", "s390x-virtio-gpu-ccw"   },
--    { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
--    { "virtio-vga",            "hw-", "display-virtio-vga"    },
--    { "virtio-vga-gl",         "hw-", "display-virtio-vga-gl" },
--    { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
--    { "chardev-braille",       "chardev-", "baum"             },
--    { "chardev-spicevmc",      "chardev-", "spice"            },
--    { "chardev-spiceport",     "chardev-", "spice"            },
--};
-+#ifdef CONFIG_MODULES
- 
- static bool module_loaded_qom_all;
- 
- void module_load_qom_one(const char *type)
- {
--    int i;
-+    const QemuModinfo *modinfo;
-+    const char **sl;
- 
-     if (!type) {
-         return;
-     }
--    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
--        if (strcmp(qom_modules[i].type, type) == 0) {
--            module_load_one(qom_modules[i].prefix,
--                            qom_modules[i].module,
--                            false);
--            return;
-+
-+    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
-+        if (!modinfo->objs) {
-+            continue;
-+        }
-+        for (sl = modinfo->objs; *sl != NULL; sl++) {
-+            if (strcmp(type, *sl) == 0) {
-+                module_load_one("", modinfo->name, false);
-+            }
-         }
-     }
- }
- 
- void module_load_qom_all(void)
- {
--    int i;
-+    const QemuModinfo *modinfo;
- 
-     if (module_loaded_qom_all) {
-         return;
-     }
--    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
--        if (i > 0 && (strcmp(qom_modules[i - 1].module,
--                             qom_modules[i].module) == 0 &&
--                      strcmp(qom_modules[i - 1].prefix,
--                             qom_modules[i].prefix) == 0)) {
--            /* one module implementing multiple types -> load only once */
-+
-+    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
-+        if (!modinfo->objs) {
-             continue;
-         }
--        module_load_one(qom_modules[i].prefix, qom_modules[i].module, true);
-+        module_load_one("", modinfo->name, false);
-     }
+@@ -20,6 +20,7 @@
+ #include "qemu/queue.h"
+ #include "qemu/module.h"
+ #include "qemu/cutils.h"
++#include "qemu/config-file.h"
+ #ifdef CONFIG_MODULE_UPGRADES
+ #include "qemu-version.h"
+ #endif
+@@ -322,8 +323,26 @@ void module_load_qom_all(void)
      module_loaded_qom_all = true;
  }
+ 
++void qemu_load_module_for_opts(const char *group)
++{
++    const QemuModinfo *modinfo;
++    const char **sl;
 +
-+#else
++    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
++        if (!modinfo->opts) {
++            continue;
++        }
++        for (sl = modinfo->opts; *sl != NULL; sl++) {
++            if (strcmp(group, *sl) == 0) {
++                module_load_one("", modinfo->name, false);
++            }
++        }
++    }
++}
 +
-+void module_load_qom_one(const char *type) {}
-+void module_load_qom_all(void) {}
-+
-+#endif
+ #else
+ 
++void qemu_load_module_for_opts(const char *group) {}
+ void module_load_qom_one(const char *type) {}
+ void module_load_qom_all(void) {}
+ 
 -- 
 2.31.1
 
