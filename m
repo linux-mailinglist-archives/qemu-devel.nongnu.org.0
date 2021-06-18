@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F7A3AD31B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:49:26 +0200 (CEST)
-Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABCDB3AD308
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 21:41:24 +0200 (CEST)
+Received: from localhost ([::1]:33180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luKUX-0004Cf-R4
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58468)
+	id 1luKMl-0007Wx-NF
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 15:41:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKC1-0001jb-Cz
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:30:19 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:33679)
+ id 1luKBu-0001iz-4x
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:30:14 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luKBo-0001Z0-9s
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:30:16 -0400
-Received: by mail-pl1-x636.google.com with SMTP id f10so3071784plg.0
- for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 12:30:03 -0700 (PDT)
+ id 1luKBo-0001ZW-PG
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 15:30:09 -0400
+Received: by mail-pl1-x632.google.com with SMTP id o21so5193506pll.6
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 12:30:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MOtcx8UXoEPFGOBT2e/rKGCkRm/dpzMLp9SnX27LvpM=;
- b=mcv4VK8fN8UZJ7lFtjj5B8HbT/akpiVAya9R9vyr5G1Xw0Md17FvMBF8mFcUox2lwc
- jPgun0nlsWZ7FUWhjrvPYrfxkNJ9pUG+1QJUawjHBA9PaGKdV3jfuFgQ1OD2w3w+rDD7
- kSWxi2NgzF+K+ruUv8sItoBBE6KtA8FahQe9uEGEifLNnn9WVf5wRb/u61F8gCy5/gbq
- QhCyGEvXOflGGQ9rvPrcqinhEyrSLtE0+wrkm5AKLeYZNLhUE3EBMuli2ywiVrggZ+xv
- yJrxrl8UqgW5o3yQh+co+DezTeVacWQhwxPRgwE/pk1qxyvYApGrMeRvS0Rd9jbOQ/uK
- s46g==
+ bh=NC4wjKEI8ei8zXE+8oh5v+0BndNCvCJb6FftDxcNOnE=;
+ b=T4b3zjm0jvUgmrtHPiEx74l1HZZC6n7bYilccyY3ECmRzfdVL+oGYlndRJCa5P5jeB
+ uJS/6R519bzMeuU+ALMMGUecghY8xsopn83C8EEOUJBHYHucbWgT2RXZIQT8sbW5Az+u
+ FECcffJnwW+3f89wJRjujB/UKIceweW7xxTO8KA6vGNMb2zUIybWGI4kBTUb2qLvCF8w
+ H1BcBO/mj/r1MXvI/Ktovo0A3482XGm0/GMZAo4YlFYvNnnY1lUI0qUPWYUiRHsuNgNj
+ FAlUHU3HXZLAeVaeIA4qn15ipn55Oc/YviLnDXEcfgfYYBoL5ymwvVknd5ejxMhQUqYB
+ y6Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MOtcx8UXoEPFGOBT2e/rKGCkRm/dpzMLp9SnX27LvpM=;
- b=TgQPXiQfWHZuUpr84HoBqpJ76P2qRkIDm/W/R/YsptTBB4NPIqLRe3F9m6MVLQp2gY
- oOm7vJghbEIEbhLwpTdu368JvCFEpBSG7IayyAvPWjG/p9WVmlsSK0HTcTT2C7nRj3wH
- a+FBhqlHoHMdDS8YegQHHdGs6btaPTv1HmjMGfeVE37CqaJRMwk46yOeTmifbbB7be+B
- Xogh+lAH3V2xvc8bOAvkvamJLu7BOPVFQrHELaBuPCmkXnpXehCv080jMTOrBluSSFye
- BARjieQ29jp1gCmjWBnjw7MmruAKCW5DVRooiDn8zKh3R10iPhmggEcBEkFn3EZmBiao
- F+Kg==
-X-Gm-Message-State: AOAM5317N6kzAU3GTCTScj++lNwluVmrq/4SnrhpUngz2nsxO1/5chj2
- nVxbfylAkE+6QVs2QLs/OQSjVd3g/aBQQQ==
-X-Google-Smtp-Source: ABdhPJyEY9DlckdGVjSvpF5ErF9bbGgK+4kwn3d0fUxivLHVptmY5HWIxXEX8AYLhe164nGZ6mZD1Q==
-X-Received: by 2002:a17:902:d4c8:b029:102:715b:e3a5 with SMTP id
- o8-20020a170902d4c8b0290102715be3a5mr6103064plg.83.1624044603042; 
+ bh=NC4wjKEI8ei8zXE+8oh5v+0BndNCvCJb6FftDxcNOnE=;
+ b=ayuFdT0KIyU+1QoRCyDvSNqGIkZsIhLjLZt0nbNjbAZjFx7AZtVHNd0F0BsGFn7eHa
+ 72oT7wPFTcqHYiIYvQb9Nyzs06DPsYvAG1F5hprq0nejB2Q3RIw2D3M+nF5baMv4Z1zp
+ mYiJwRecFgefv78vh4YIrdpIxfEO9SLCGqP8HEwYQl8Y4Xn5MH7ydeUXaj4PD5AUkxKv
+ HspJpEdbb9ZMNbcI1coi/uCTmOX1nHE1Pvatlu6ek/HIxSScyufGX99tdAqbzpXXloSi
+ RUDFX5XGbNmIG5QNmonOjI5Eu7NWdskQdiu/ki0LbsGStemQaSjj1soh3AM/r8KyDHzO
+ ijyg==
+X-Gm-Message-State: AOAM532VqKUOC7MxLw+aDY1Tf2LaHqvuPNvC8B9TPQ/dpyXtOauOtAC5
+ uaQUmkWebz1JjrdTkJcJzUJFBKbqfTpjQA==
+X-Google-Smtp-Source: ABdhPJwn+IAI2hY1PjFvy8oMMSUEJgP4X7nIWI8sav7It6g/wak85VVNBUEUkusHp9xH4Vn3ltUnWw==
+X-Received: by 2002:a17:90a:ce8b:: with SMTP id
+ g11mr11728706pju.170.1624044603556; 
  Fri, 18 Jun 2021 12:30:03 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 92sm11938234pjv.29.2021.06.18.12.30.02
+ by smtp.gmail.com with ESMTPSA id 92sm11938234pjv.29.2021.06.18.12.30.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 12:30:02 -0700 (PDT)
+ Fri, 18 Jun 2021 12:30:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/23] linux-user/riscv: Implement setup_sigtramp
-Date: Fri, 18 Jun 2021 12:29:46 -0700
-Message-Id: <20210618192951.125651-19-richard.henderson@linaro.org>
+Subject: [PATCH v2 19/23] linux-user/s390x: Implement setup_sigtramp
+Date: Fri, 18 Jun 2021 12:29:47 -0700
+Message-Id: <20210618192951.125651-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210618192951.125651-1-richard.henderson@linaro.org>
 References: <20210618192951.125651-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,94 +84,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, alex.bennee@linaro.org,
- laurent@vivier.eu, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-s390x@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create and record the rt signal trampoline.
+Create and record the two signal trampolines.
+Use them when the guest does not use SA_RESTORER.
 
-This fixes a bug wrt libgcc fallback unwinding.  It expects
-the stack pointer to point to the siginfo_t, whereas we had
-inexplicably placed our private signal trampoline at the start
-of the signal frame instead of the end.  Now moot because we
-have removed it from the stack frame entirely.
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-s390x@nongnu.org
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/riscv/target_signal.h |  2 ++
- linux-user/riscv/signal.c        | 22 +++++++++++++---------
- 2 files changed, 15 insertions(+), 9 deletions(-)
+ linux-user/s390x/target_signal.h |  2 ++
+ linux-user/s390x/signal.c        | 24 ++++++++++++++++--------
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/riscv/target_signal.h b/linux-user/riscv/target_signal.h
-index f113ba9a55..3e36fddc9d 100644
---- a/linux-user/riscv/target_signal.h
-+++ b/linux-user/riscv/target_signal.h
-@@ -15,4 +15,6 @@ typedef struct target_sigaltstack {
- 
+diff --git a/linux-user/s390x/target_signal.h b/linux-user/s390x/target_signal.h
+index bbfc464d44..64f5f42201 100644
+--- a/linux-user/s390x/target_signal.h
++++ b/linux-user/s390x/target_signal.h
+@@ -19,4 +19,6 @@ typedef struct target_sigaltstack {
  #include "../generic/signal.h"
  
+ #define TARGET_ARCH_HAS_SETUP_FRAME
 +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
 +
- #endif /* RISCV_TARGET_SIGNAL_H */
-diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
-index 9405c7fd9a..4086dfa5d5 100644
---- a/linux-user/riscv/signal.c
-+++ b/linux-user/riscv/signal.c
-@@ -46,7 +46,6 @@ struct target_ucontext {
- };
+ #endif /* S390X_TARGET_SIGNAL_H */
+diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+index ef136dae33..372861d6d8 100644
+--- a/linux-user/s390x/signal.c
++++ b/linux-user/s390x/signal.c
+@@ -67,7 +67,6 @@ typedef struct {
+     target_sigregs sregs;
+     int signo;
+     target_sigregs_ext sregs_ext;
+-    uint16_t retcode;
+ } sigframe;
  
- struct target_rt_sigframe {
--    uint32_t tramp[2]; /* not in kernel, which uses VDSO instead */
+ #define TARGET_UC_VXRS 2
+@@ -84,7 +83,6 @@ struct target_ucontext {
+ 
+ typedef struct {
+     uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
+-    uint16_t retcode;
      struct target_siginfo info;
      struct target_ucontext uc;
- };
-@@ -104,12 +103,6 @@ static void setup_ucontext(struct target_ucontext *uc,
-     setup_sigcontext(&uc->uc_mcontext, env);
- }
+ } rt_sigframe;
+@@ -200,9 +198,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+         restorer = ka->sa_restorer;
+     } else {
+-        restorer = frame_addr + offsetof(sigframe, retcode);
+-        __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn,
+-                   &frame->retcode);
++        restorer = default_sigreturn;
+     }
  
--static inline void install_sigtramp(uint32_t *tramp)
--{
--    __put_user(0x08b00893, tramp + 0);  /* li a7, 139 = __NR_rt_sigreturn */
--    __put_user(0x00000073, tramp + 1);  /* ecall */
--}
--
- void setup_rt_frame(int sig, struct target_sigaction *ka,
-                     target_siginfo_t *info,
-                     target_sigset_t *set, CPURISCVState *env)
-@@ -126,14 +119,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     /* Set up registers for signal handler */
+@@ -253,9 +249,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+         restorer = ka->sa_restorer;
+     } else {
+-        restorer = frame_addr + offsetof(typeof(*frame), retcode);
+-        __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
+-                   &frame->retcode);
++        restorer = default_rt_sigreturn;
+     }
  
-     setup_ucontext(&frame->uc, env, set);
-     tswap_siginfo(&frame->info, info);
--    install_sigtramp(frame->tramp);
- 
-     env->pc = ka->_sa_handler;
-     env->gpr[xSP] = frame_addr;
-     env->gpr[xA0] = sig;
-     env->gpr[xA1] = frame_addr + offsetof(struct target_rt_sigframe, info);
-     env->gpr[xA2] = frame_addr + offsetof(struct target_rt_sigframe, uc);
--    env->gpr[xRA] = frame_addr + offsetof(struct target_rt_sigframe, tramp);
-+    env->gpr[xRA] = default_rt_sigreturn;
- 
-     return;
- 
-@@ -202,3 +194,15 @@ badframe:
-     force_sig(TARGET_SIGSEGV);
-     return 0;
+     /* Create siginfo on the signal stack. */
+@@ -377,3 +371,17 @@ long do_rt_sigreturn(CPUS390XState *env)
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
  }
 +
 +void setup_sigtramp(abi_ulong sigtramp_page)
 +{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 8, 0);
++    uint16_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 + 2, 0);
 +    assert(tramp != NULL);
 +
-+    __put_user(0x08b00893, tramp + 0);  /* li a7, 139 = __NR_rt_sigreturn */
-+    __put_user(0x00000073, tramp + 1);  /* ecall */
++    default_sigreturn = sigtramp_page;
++    __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn, &tramp[0]);
 +
-+    default_rt_sigreturn = sigtramp_page;
-+    unlock_user(tramp, sigtramp_page, 8);
++    default_rt_sigreturn = sigtramp_page + 2;
++    __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn, &tramp[1]);
++
++    unlock_user(tramp, sigtramp_page, 2 + 2);
 +}
 -- 
 2.25.1
