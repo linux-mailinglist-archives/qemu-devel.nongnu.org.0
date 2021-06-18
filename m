@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879FF3AD5DD
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:27:57 +0200 (CEST)
-Received: from localhost ([::1]:49424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2838A3AD5E0
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 01:30:01 +0200 (CEST)
+Received: from localhost ([::1]:57732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luNu0-0002aN-GI
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
+	id 1luNw0-0008Pl-5X
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 19:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYi-0007ew-Jg
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57309)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYl-0007lt-CE
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYf-0006SC-Cb
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:56 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1luNYi-0006Wv-GO
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 19:05:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624057552;
+ s=mimecast20190719; t=1624057555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5bOsND7FOC6+IqrDxXYZouvTnlfno8Ypzuo2ntlFyDk=;
- b=Bv7Hlm9Er6UVWW9UBDxhcVhE9aSZKizGc0qIFBo3WnmFkqke1jSTDnL1btqO3AbyOGluUQ
- LKHfAWMMZh5nh0x5ilW9OgS/+3HjPWvlX9sCpV8LbkCvVMIx+piOpEQK/lJrnJnuUoa/73
- dUoeKLO1+9zo+llaiDzXohsMRNKLnnc=
+ bh=IfFX9EmQwVzqYru6jM1I8EAEugbbmE3RUp7sP9/1HS4=;
+ b=PlvnVjba8q6U0W7v474ok9j8WWXBm5D0aiEzxMhmQ8LfHihUJITP4iKoTCxM7AsQzxygV1
+ GbMVgOoVT8M0Sfs5U0quvVBI+t6eSFt+oWryVSGFmpGxKcZNWfJ+plZp8PUaY2HbvEblVT
+ rb5+dN58x76Vf0J37oW/vclY3aEXg/8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-9PNoAsMQOmGknCEXaPgrFw-1; Fri, 18 Jun 2021 19:05:51 -0400
-X-MC-Unique: 9PNoAsMQOmGknCEXaPgrFw-1
+ us-mta-200-Md_LdmlVN2KTEI0LxZSN0w-1; Fri, 18 Jun 2021 19:05:52 -0400
+X-MC-Unique: Md_LdmlVN2KTEI0LxZSN0w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F00D801B0A;
- Fri, 18 Jun 2021 23:05:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8170B1084F4B;
+ Fri, 18 Jun 2021 23:05:51 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 729911000358;
- Fri, 18 Jun 2021 23:05:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 678F91000358;
+ Fri, 18 Jun 2021 23:05:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 46/72] scripts/qmp-shell: use isinstance() instead of type()
-Date: Fri, 18 Jun 2021 19:04:29 -0400
-Message-Id: <20210618230455.2891199-47-jsnow@redhat.com>
+Subject: [PULL 47/72] scripts/qmp-shell: use argparse
+Date: Fri, 18 Jun 2021 19:04:30 -0400
+Message-Id: <20210618230455.2891199-48-jsnow@redhat.com>
 In-Reply-To: <20210618230455.2891199-1-jsnow@redhat.com>
 References: <20210618230455.2891199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,35 +82,126 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A bit more idiomatic, and quiets some linter warnings.
+Use argparse instead of an open-coded CLI parser, for consistency with
+everything else.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210607200649.1840382-17-jsnow@redhat.com
+Message-id: 20210607200649.1840382-18-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qmp/qmp-shell | 82 +++++++++++++++++--------------------------
+ 1 file changed, 32 insertions(+), 50 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index bf7a49dfc1..970f43dd00 100755
+index 970f43dd00..5317dcd516 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -195,13 +195,13 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-             for path in optpath[:-1]:
-                 curpath.append(path)
-                 obj = parent.get(path, {})
--                if type(obj) is not dict:
-+                if not isinstance(obj, dict):
-                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
-                     raise QMPShellError(msg.format('.'.join(curpath)))
-                 parent[path] = obj
-                 parent = obj
-             if optpath[-1] in parent:
--                if type(parent[optpath[-1]]) is dict:
-+                if isinstance(parent[optpath[-1]], dict):
-                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
-                     raise QMPShellError(msg.format('.'.join(curpath)))
-                 raise QMPShellError(f'Cannot set "{key}" multiple times')
+@@ -64,7 +64,7 @@
+ # Use the -v and -p options to activate the verbose and pretty-print options,
+ # which will echo back the properly formatted JSON-compliant QMP that is being
+ # sent to QEMU, which is useful for debugging and documentation generation.
+-
++import argparse
+ import ast
+ import atexit
+ import json
+@@ -401,65 +401,47 @@ def die(msg):
+     sys.exit(1)
+ 
+ 
+-def fail_cmdline(option=None):
+-    if option:
+-        sys.stderr.write('ERROR: bad command-line option \'%s\'\n' % option)
+-    sys.stderr.write(
+-        'qmp-shell [ -v ] [ -p ] [ -H ] [ -N ] '
+-        '< UNIX socket path> | < TCP address:port >\n'
+-    )
+-    sys.stderr.write('    -v     Verbose (echo command sent and received)\n')
+-    sys.stderr.write('    -p     Pretty-print JSON\n')
+-    sys.stderr.write('    -H     Use HMP interface\n')
+-    sys.stderr.write('    -N     Skip negotiate (for qemu-ga)\n')
+-    sys.exit(1)
+-
+-
+ def main():
+-    addr = ''
+-    qemu = None
+-    hmp = False
+-    pretty = False
+-    verbose = False
+-    negotiate = True
++    parser = argparse.ArgumentParser()
++    parser.add_argument('-H', '--hmp', action='store_true',
++                        help='Use HMP interface')
++    parser.add_argument('-N', '--skip-negotiation', action='store_true',
++                        help='Skip negotiate (for qemu-ga)')
++    parser.add_argument('-v', '--verbose', action='store_true',
++                        help='Verbose (echo commands sent and received)')
++    parser.add_argument('-p', '--pretty', action='store_true',
++                        help='Pretty-print JSON')
+ 
++    default_server = os.environ.get('QMP_SOCKET')
++    parser.add_argument('qmp_server', action='store',
++                        default=default_server,
++                        help='< UNIX socket path | TCP address:port >')
++
++    args = parser.parse_args()
++    if args.qmp_server is None:
++        parser.error("QMP socket or TCP address must be specified")
++
++    qemu: QMPShell
+     try:
+-        for arg in sys.argv[1:]:
+-            if arg == "-H":
+-                if qemu is not None:
+-                    fail_cmdline(arg)
+-                hmp = True
+-            elif arg == "-p":
+-                pretty = True
+-            elif arg == "-N":
+-                negotiate = False
+-            elif arg == "-v":
+-                verbose = True
+-            else:
+-                if qemu is not None:
+-                    fail_cmdline(arg)
+-                if hmp:
+-                    qemu = HMPShell(arg)
+-                else:
+-                    qemu = QMPShell(arg, pretty)
+-                addr = arg
+-
+-        if qemu is None:
+-            fail_cmdline()
++        if args.hmp:
++            qemu = HMPShell(args.qmp_server)
++        else:
++            qemu = QMPShell(args.qmp_server, args.pretty)
+     except qmp.QMPBadPortError:
+-        die('bad port number in command-line')
++        parser.error(f"Bad port number: {args.qmp_server}")
++        return  # pycharm doesn't know error() is noreturn
+ 
+     try:
+-        qemu.connect(negotiate)
++        qemu.connect(negotiate=not args.skip_negotiation)
+     except qmp.QMPConnectError:
+-        die('Didn\'t get QMP greeting message')
++        die("Didn't get QMP greeting message")
+     except qmp.QMPCapabilitiesError:
+-        die('Could not negotiate capabilities')
+-    except OSError:
+-        die('Could not connect to %s' % addr)
++        die("Couldn't negotiate capabilities")
++    except OSError as err:
++        die(f"Couldn't connect to {args.qmp_server}: {err!s}")
+ 
+     qemu.show_banner()
+-    qemu.set_verbosity(verbose)
++    qemu.set_verbosity(args.verbose)
+     while qemu.read_exec_command(qemu.get_prompt()):
+         pass
+     qemu.close()
 -- 
 2.31.1
 
