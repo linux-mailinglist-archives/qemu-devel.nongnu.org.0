@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A3B3AD642
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1703AD643
 	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 02:28:50 +0200 (CEST)
-Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luOqu-00030N-Td
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 20:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33146)
+	id 1luOqv-0002zx-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 20:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <adam.s@Safe-mail.net>)
- id 1luNNa-00023r-PD
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:54:26 -0400
-Received: from mango.safe-mail.net ([212.29.227.83]:45928)
+ id 1luNP4-0002Dz-Bk
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:55:58 -0400
+Received: from mango.safe-mail.net ([212.29.227.83]:47306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <adam.s@Safe-mail.net>)
- id 1luNNW-0007XG-Ec
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:54:25 -0400
+ id 1luNP2-0000Fi-Sb
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:55:58 -0400
 Received: by mango.safe-mail.net with Safe-mail (Exim 4.84)
- (envelope-from <adam.s@Safe-mail.net>) id 1luNNG-0008C8-Pv
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:54:06 -0400
+ (envelope-from <adam.s@Safe-mail.net>) id 1luNP0-0008Hk-4E
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 18:55:54 -0400
 DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=N1-0105; d=Safe-mail.net;
- b=Wrey7MlZRpLXAafdcSj45LPly1X6XCQr1U3cfYdpBVENy5v2YSB8FEt9Pwd4ok/b
- 3uGAOgQUphE9gBPxXi4LT8Tm1tigcAMjmrn7/GcZOjRxG3HGU0dst+vaPkkwPEBJ
- 8hATbGbk4RUdWBkk9kAs5MkZxkGDdmu26do/KmXnTus=;
-Received: from pc ([179.43.160.237]) by Safe-mail.net with https
-Subject: [qemu-web PATCH] (typo)
-Date: Fri, 18 Jun 2021 18:54:06 -0400
+ b=E2zI5i7BehBPRIapH+DOXo/kCVTjEr7iNkzbtvSs76L02bAZo4/TiK5ytqNV4vxt
+ HQnCYuPJKYBWRUl8wSm1KqzPDaKmRnesGmOFatRSqlGNk+J46GnPhItzC2w76MU4
+ 1gM/DIUDow7RxVs0GqQrcTDxcT1pEkdwWLc1M/zjESM=;
+Received: from pc ([185.12.45.115]) by Safe-mail.net with https
+Subject: Shortcoming (oversight) in Windows installer
+Date: Fri, 18 Jun 2021 18:55:53 -0400
 From: adam.s@Safe-mail.net
 To: qemu-devel@nongnu.org
 X-SMType: Regular
-X-SMRef: N1M-F0ZZCF3yks
-Message-Id: <N1M-F0ZZCF3yks@Safe-mail.net>
+X-SMRef: N1M-_seQmbowoO
+Message-Id: <N1M-_seQmbowoO@Safe-mail.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-SMSignature: jQttqX/8qmlsdiSPuHSSFr4Dz2R/YyAdJI5/ud2gAA7zPCiS1ibHZz0nsKniFN8t
- 9XCjSPmiJy6RBzxfmdNqlBjfehCeDPFLBBzTv1tDCNg5x6jeTC9kpOd0ozDaLZuR
- +oUeWwUmKgUWEBkMgUb6e4uNAKoAkO+E8CRwy01DnAk=
+X-SMSignature: PlwDyq1LgRNL6/5Y8eyvqwTOZ2tHe4A9SayUIGfNltuJo8rj/7bi6kjzgSOvjJ1j
+ cWpcIwxX2I3PmpPwSFWfsVwfUachMsvSCdVy8x2AhKnT8AHbu4Pk/GAKrPjm3pAi
+ Rd+OU5taAz5CNZ+D6bjjpgXH8AqYmglMEv+Oe+Z3M9g=
 Received-SPF: pass client-ip=212.29.227.83; envelope-from=adam.s@Safe-mail.net;
  helo=mango.safe-mail.net
 X-Spam_score_int: -23
@@ -66,12 +66,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hello,
 
-Sorry I cannot use github/gitlab.
+I'm new and can't use GitHub/GitLab, but I noticed this about the Windows installer:
 
-I'm new to QEMU but I found this typo (mismatched braces) in the *installed* HTML manual:
+Does not add (nor offer to add) "C:\Program Files\qemu" to path.
 
-In: "file:///C:/Program%20Files/qemu/share/doc/tools/qemu-img.html"
-This should *not* have ending ']':
+It should maybe be an optional choice in the installer.
 
-measure [--output=OFMT] [-O OUTPUT_FMT] [-o OPTIONS] [--size N | [--object OBJECTDEF] [--image-opts] [-f FMT] [-l SNAPSHOT_PARAM] FILENAME]
+Have a wonderful day!
 
