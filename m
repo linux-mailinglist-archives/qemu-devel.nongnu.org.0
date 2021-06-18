@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F78E3AC64C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 10:37:47 +0200 (CEST)
-Received: from localhost ([::1]:35174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385793AC69E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 10:56:42 +0200 (CEST)
+Received: from localhost ([::1]:43112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luA0Y-000078-B4
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 04:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40666)
+	id 1luAIq-0006Fk-Py
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 04:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lu9yk-0006tR-Gs
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 04:35:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lu9yi-0007mI-Ij
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 04:35:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624005351;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MFFwk8HQ1axWyRfWp2b0UqodavmWtlLgFu9bozFNVkw=;
- b=c93EoSQtCoDZRAgPxLP8T2e+QXohDweqUJ5FFZW5e0Y8U89pCH8u8bOPrw3YYaET5OUm9F
- u1vgDaBZG7M/oTquet4Hrpj2b7f0+XPvawOwozag6ThyaUcFwtMpzmXGGCGKtKHQAvh8IN
- XxJdwzeXu6tjPlR+3xkzj45b8+23mo8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-w-g4CeACOTiTPTdrU_DaiA-1; Fri, 18 Jun 2021 04:35:49 -0400
-X-MC-Unique: w-g4CeACOTiTPTdrU_DaiA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E19518414A0;
- Fri, 18 Jun 2021 08:35:48 +0000 (UTC)
-Received: from redhat.com (ovpn-114-221.ams2.redhat.com [10.36.114.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4537D19D61;
- Fri, 18 Jun 2021 08:35:47 +0000 (UTC)
-Date: Fri, 18 Jun 2021 09:35:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 6/6] crypto: Make QCryptoTLSCreds* structures private
-Message-ID: <YMxa4JDTDvU6WWjr@redhat.com>
-References: <20210617121830.2776182-1-philmd@redhat.com>
- <20210617121830.2776182-7-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1luAGr-0004pV-4G
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 04:54:37 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:46677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1luAGl-0005M9-1i
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 04:54:36 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id he7so14625950ejc.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 01:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7gOp/KG5bjBXORqbZnNTsiaDAfBgd2+pjFkcPcCVNNE=;
+ b=Zytyaaohz+aifKQVlkQrK8M+Mn8VYc+pVM18H7x0YFeO5xIdwUYhJxAOgXJXlGb3Li
+ lrA1zErfd0MbhTFLFamKT2utDgBwOOnS0ydf6KZW734dLGVFuYttuI2AzNSso2OeciYD
+ xeQRXdrJwrkJSYD3MZXE3LyTI/DrKzZ+pLeQ0NfSe+t+Sk9aJ20H87KuqikYDTANS/kH
+ yqLHM1aq/TPRUJU2br+UibTw5ZGiyP9NZf5mg01Tbpc4phia2Bupiw+zFh3xC+jbUUar
+ RaSPA5FkpXPdLE4Zx0BWnzRtvTI6PyXgLVn3cKtWXyJBClvmFDDOIgb6+jxPeqs/lyVo
+ /74A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7gOp/KG5bjBXORqbZnNTsiaDAfBgd2+pjFkcPcCVNNE=;
+ b=gCX4jRch7ZEnEgcuqSaNy1XFxbBftODkcrKqO8VEzqK6OpqtWqG5+Y002OvLkfCi0f
+ hHsQKMqgoHcIZ9RmVJWVx77ft3rA3l832f6JTielbRjspZi0E/yfPqzpHOklIiCCkeoH
+ RjcZW2vMehatSiArQZM3pcKv8rmeNfDAmdpYBQh8wPYr8EzjHMIPY37GLcD9aTjyYsHH
+ tGrRDAtZ7+BeqEU7TtQrN/AwOdV7EPAY7TJ+qOwVPhwi3tsAgm5rA+CC4UODI3EqSHvk
+ TMmQFVSaj2XbjOodAPB5NVLGztGCgJX3N09GOvJKboGepUf/fkLi89G5s14GEZeK5yT5
+ +W6g==
+X-Gm-Message-State: AOAM532vcW5pbAeoYTqdp/VrmiY9yluS5v7OcbAt0w/Ks8cPU7/uRWrJ
+ ck2RFZAcMNhC++kWxc92RCkX40iMxOpy6lMejc4VoQ==
+X-Google-Smtp-Source: ABdhPJwP4Ez+D7urSex1iSy3I/ZCiDhDyWespCq91V6uA2icG0VHvzJPapjQ7FR1hXJTU1Ecx96v7H/lrDSxor2Sct4=
+X-Received: by 2002:a17:906:4759:: with SMTP id
+ j25mr2037098ejs.4.1624006469388; 
+ Fri, 18 Jun 2021 01:54:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210617121830.2776182-7-philmd@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210617093134.900014-1-pbonzini@redhat.com>
+In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Jun 2021 09:53:54 +0100
+Message-ID: <CAFEAcA-ApakXmhJbh4pRdqbOK4hYQ9gJV+oTad1C_PPotC3bmA@mail.gmail.com>
+Subject: Re: [PULL 00/45] Memory, i386, compilation,
+ bugfix changes for 2021-06-17
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,66 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 02:18:30PM +0200, Philippe Mathieu-Daudé wrote:
-> Code consuming the "crypto/tlscreds*.h" APIs doesn't need
-> to access its internals. Move the structure definitions to
-> the "tlscredspriv.h" private header (only accessible by
-> implementations). The public headers (in include/) still
-> forward-declare the structures typedef.
-> 
-> Note, tlscreds.c and 3 of the 5 modified source files already
-> include "tlscredspriv.h", so only add it to tls-cipher-suites.c
-> and tlssession.c.
-> 
-> Removing the internals from the public header solves a bug
-> introduced by commit 7de2e856533 ("yank: Unregister function
-> when using TLS migration") which made migration/qemu-file-channel.c
-> include "io/channel-tls.h", itself sometime depends on GNUTLS,
-> leading to a build failure on OSX:
-> 
->   [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-channel.c.o
->   FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
->   cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
->   In file included from ../migration/qemu-file-channel.c:29:
->   In file included from include/io/channel-tls.h:26:
->   In file included from include/crypto/tlssession.h:24:
->   include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
->   #include <gnutls/gnutls.h>
->            ^~~~~~~~~~~~~~~~~
->   1 error generated.
-> 
-> Reported-by: Stefan Weil <sw@weilnetz.de>
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
-> Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  crypto/tlscredspriv.h              | 45 ++++++++++++++++++++++++++++++
->  include/crypto/tls-cipher-suites.h |  6 ----
->  include/crypto/tlscreds.h          | 16 -----------
->  include/crypto/tlscredsanon.h      | 12 --------
->  include/crypto/tlscredspsk.h       | 12 --------
->  include/crypto/tlscredsx509.h      | 10 -------
->  crypto/tls-cipher-suites.c         |  7 +++++
->  crypto/tlscredsanon.c              |  2 ++
->  crypto/tlscredspsk.c               |  2 ++
->  crypto/tlscredsx509.c              |  1 +
->  crypto/tlssession.c                |  1 +
->  11 files changed, 58 insertions(+), 56 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+On Thu, 17 Jun 2021 at 10:36, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2:
+>
+>   Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pull-request' into staging (2021-06-14 15:59:13 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to f51f8e3591393f7f274e1435ac22188e2dafdfe8:
+>
+>   configure: Remove probe for _Static_assert (2021-06-16 15:03:26 +0200)
+>
+> ----------------------------------------------------------------
+> * avoid deprecation warnings for SASL on macOS 10.11 or newer
+> * fix -readconfig when config blocks have an id (like [chardev "qmp"])
+> * Error* initialization fixes
+> * Improvements to ESP emulation (Mark)
+> * Allow creating noreserve memory backends (David)
+> * Improvements to query-memdev (David)
+> * Bump compiler to C11 (Richard)
+> * First round of SVM fixes from GSoC project (Lara)
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Applied, thanks. (Richard sent his C11 set as a separate pull,
+but git seems to have coped with the merge.)
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
