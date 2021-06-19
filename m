@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E903ADB1C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 19:31:48 +0200 (CEST)
-Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182343ADB1F
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 19:31:52 +0200 (CEST)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lueot-0003LN-Rq
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 13:31:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
+	id 1lueox-0003a7-1r
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 13:31:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luejs-0003UA-2v
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:36 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38606)
+ id 1luejr-0003Sm-Nq
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:35 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:38597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luejp-0003aJ-F1
+ id 1luejq-0003aU-6G
  for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:35 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- t19-20020a17090ae513b029016f66a73701so2663570pjy.3
+Received: by mail-pg1-x534.google.com with SMTP id t17so10538602pga.5
  for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 10:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Yss0fdcq2xuDYayxCjybFaIy9QYHnfPZU6LWnmiOPAM=;
- b=xG137mObUWZEgmXMM9MtIBFF2Ugri3uCeIz8VcSm/zxeq7kDSejYp2OCzvIbAxrdDj
- ax4o7gmZqmEnef2P7svkeULztX/71iZ37iG7xnINDCI9o1Pqa5BUtKEmUqSYW4NYKFr9
- gMVs9Yt6OYf0lypQLknltXs2T7snMP9364F3zo48DvKKFRkF3CRfEt/t0vXQyY8EvJLM
- xmmyz09YTJvr4mMYsOsqfuUC1zD1Ee+5redOYndtnt03+xy0Ulas0tPMp37gtIQDIzZ+
- n9kuw50ARn1QNRL6/NP8DL54kARx0wE/uzKHr0TY0jUBw1Z769aoJdWkzNNUoKcoz+EA
- P80Q==
+ bh=4DqfBYyC7ObKfbG1l0o4eNafS1Tj4TIv+YV4IdJQSPo=;
+ b=l2vev/wsBIu24+tueVFV7HZGAuMEDul93jt+Q89bB7LcdutySDUupFnMAcmgcAXjWc
+ vVZwx0N08XkJikZOp+4z2m8ayhXJQoKlhSklb8l406FthQKEOJYMJp4SXiRB2xL2tNK3
+ yT8SLpwzrTVdxPa+fMrr/SnmkF5SlgFSP9mH3YuKLFCFnu3wwrdkBleqrIQzfKFyVUkZ
+ 2j6vYjFQoYviLZFqBc4AO6HSZ83JHr5Zwb1pKx9WOJoPAbL6WzPPLawBcO6EtUBkxvEM
+ XP62I9HVSCKJyUmZAsVh/1Ez9G3t3a5JBoQgw0kQ6s7HM8941xHimi1bgkG/toF+FbqB
+ QBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yss0fdcq2xuDYayxCjybFaIy9QYHnfPZU6LWnmiOPAM=;
- b=BgcLSzNaAw560FTYGW7zGOkwj8q7pBd/ii+LmqkbKWsMwIeiVhBvAxz9+4CsxAcaam
- +aYso1bOQmZiIG8VHWu34ZUgpBdkTIbibq9TjBGqbiQePYxtINmc2k2lvspUVFpvvVKj
- tmevu/AqIu3xlCaBcD7tUqNKOBsD9IAajs1oYssgTJbYjMiDUq9ExQNNg+HZLte83PVy
- owuKtProgNNsfF9eTc01LvKAnc1b5/jsQfThjfQHhldVEsT+0RvhkPWg7U5wJEem7bQI
- YNhnG6JWuVDfZrbpy5aBazav6uiNpNXNFH+9DeaHE1AKzYBF86FImfPvpaguEdDJSljA
- KXow==
-X-Gm-Message-State: AOAM530f8eJmeURadQ7zd+Z8FohOzi0I4GqXZIZKNEvbdHkMDqdyj5bK
- ItKb73UXJE19JOTM/Vh/mNFLjJXjcXmc0w==
-X-Google-Smtp-Source: ABdhPJy6xtGJjefxu2APV+ABmJ6jhRb4fzRxTw/9FUHMloKYvS1RDpDZ+AS+ooD2OgvCZ8fPvOVMWA==
-X-Received: by 2002:a17:90b:1d02:: with SMTP id
- on2mr28573691pjb.128.1624123592286; 
+ bh=4DqfBYyC7ObKfbG1l0o4eNafS1Tj4TIv+YV4IdJQSPo=;
+ b=l/BkdX6lyZ1LOvby88SUhjN3DPMEej86uEhA8lWU/ABptblO0w/gcN1ijWMn8LZ0Oe
+ EZo5q7M1szhWcRplA67QdtT5JhkKDCkhqavJ1pb9YcowYV+f+UQ43A0XFF+iLupwSgUW
+ LaTH/Sv+Wbc5yyMw1lPds4hVJ/M3IpqJc/EjoNwyAf62DNj05kxd5NjjuM5UdpGJvpuG
+ ZKJmOeWC3Lzkokknk6ePKnZjnfyOoi+hu7agDcxIhEq7gK8d0CXNMXLtzZ7AXf3RIYrN
+ DPbYjp/ZHNB4FMIESTFsD5qo9rU4hCaRsoGni8ravk3CFAmy0W5BwOKGSfPe66zpamhm
+ oxBA==
+X-Gm-Message-State: AOAM533Ts3UaXk7C1eqMNxvg1PM7IKI5e9u2WA5jseUqiF/xE0y8Oapy
+ b2GDZyAsBBv45hbqWGYEU7NjSeIj7ZyTxw==
+X-Google-Smtp-Source: ABdhPJyP3K0xi71F9Rb5N36s9acDKRzrA4jpCFRf0CtkHaySxkbIHSpEbnnocUnKbMXk6UM7HL2ciA==
+X-Received: by 2002:aa7:96e3:0:b029:2ec:e8a1:3d66 with SMTP id
+ i3-20020aa796e30000b02902ece8a13d66mr10926914pfq.79.1624123592978; 
  Sat, 19 Jun 2021 10:26:32 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id co18sm2084241pjb.37.2021.06.19.10.26.31
+ by smtp.gmail.com with ESMTPSA id co18sm2084241pjb.37.2021.06.19.10.26.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 19 Jun 2021 10:26:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/15] softmmu/memory: Simplify access_with_adjusted_size
- interface
-Date: Sat, 19 Jun 2021 10:26:18 -0700
-Message-Id: <20210619172626.875885-8-richard.henderson@linaro.org>
+Subject: [PATCH 08/15] hw/net/e1000e: Fix size of io operations
+Date: Sat, 19 Jun 2021 10:26:19 -0700
+Message-Id: <20210619172626.875885-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210619172626.875885-1-richard.henderson@linaro.org>
 References: <20210619172626.875885-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,122 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, pbonzini@redhat.com, mark.cave-ayland@ilande.co.uk,
- f4bug@amsat.org
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, mark.cave-ayland@ilande.co.uk,
+ f4bug@amsat.org, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a typedef for the access_fn callback.  Remove the
-access_size_{min,max} and access_fn arguments, and instead
-derive these from the MemoryRegion argument.  Add a write
-boolean argument.  Mark the function inline.
+The size of the operation is an argument to the respective
+functions, and has nothing to do with sizeof(val).
 
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- softmmu/memory.c | 67 +++++++++++++++++++-----------------------------
- 1 file changed, 26 insertions(+), 41 deletions(-)
+ hw/net/e1000e.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 744c5a80bd..7373d89600 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -509,22 +509,24 @@ static MemTxResult memory_region_write_with_attrs_accessor(MemoryRegion *mr,
-     return mr->ops->write_with_attrs(mr->opaque, addr, tmp, size, attrs);
- }
- 
-+typedef MemTxResult MemoryRegionAccessFn(MemoryRegion *mr,
-+                                         hwaddr addr,
-+                                         uint64_t *value,
-+                                         unsigned size,
-+                                         signed shift,
-+                                         uint64_t mask,
-+                                         MemTxAttrs attrs);
-+
- static MemTxResult access_with_adjusted_size(hwaddr addr,
--                                      uint64_t *value,
--                                      unsigned size,
--                                      unsigned access_size_min,
--                                      unsigned access_size_max,
--                                      MemTxResult (*access_fn)
--                                                  (MemoryRegion *mr,
--                                                   hwaddr addr,
--                                                   uint64_t *value,
--                                                   unsigned size,
--                                                   signed shift,
--                                                   uint64_t mask,
--                                                   MemTxAttrs attrs),
--                                      MemoryRegion *mr,
--                                      MemTxAttrs attrs)
-+                                             uint64_t *value,
-+                                             unsigned size,
-+                                             MemoryRegion *mr,
-+                                             MemTxAttrs attrs,
-+                                             bool write)
- {
-+    unsigned access_size_min = mr->ops->impl.min_access_size;
-+    unsigned access_size_max = mr->ops->impl.max_access_size;
-+    MemoryRegionAccessFn *access_fn;
-     uint64_t access_mask;
-     unsigned access_size;
-     unsigned i;
-@@ -537,6 +539,14 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-         access_size_max = 4;
-     }
- 
-+    if (write) {
-+        access_fn = (mr->ops->write ? memory_region_write_accessor
-+                     : memory_region_write_with_attrs_accessor);
-+    } else {
-+        access_fn = (mr->ops->read ? memory_region_read_accessor
-+                     : memory_region_read_with_attrs_accessor);
-+    }
-+
-     /* FIXME: support unaligned access? */
-     access_size = MAX(MIN(size, access_size_max), access_size_min);
-     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-@@ -1423,19 +1433,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-     }
- 
-     *pval = 0;
--    if (mr->ops->read) {
--        r = access_with_adjusted_size(addr, pval, size,
--                                      mr->ops->impl.min_access_size,
--                                      mr->ops->impl.max_access_size,
--                                      memory_region_read_accessor,
--                                      mr, attrs);
--    } else {
--        r = access_with_adjusted_size(addr, pval, size,
--                                      mr->ops->impl.min_access_size,
--                                      mr->ops->impl.max_access_size,
--                                      memory_region_read_with_attrs_accessor,
--                                      mr, attrs);
--    }
-+    r = access_with_adjusted_size(addr, pval, size, mr, attrs, false);
-     adjust_endianness(mr, pval, op);
-     return r;
- }
-@@ -1486,20 +1484,7 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-         return MEMTX_OK;
-     }
- 
--    if (mr->ops->write) {
--        return access_with_adjusted_size(addr, &data, size,
--                                         mr->ops->impl.min_access_size,
--                                         mr->ops->impl.max_access_size,
--                                         memory_region_write_accessor, mr,
--                                         attrs);
--    } else {
--        return
--            access_with_adjusted_size(addr, &data, size,
--                                      mr->ops->impl.min_access_size,
--                                      mr->ops->impl.max_access_size,
--                                      memory_region_write_with_attrs_accessor,
--                                      mr, attrs);
--    }
-+    return access_with_adjusted_size(addr, &data, size, mr, attrs, true);
- }
- 
- void memory_region_init_io(MemoryRegion *mr,
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index a8a77eca95..ea3347fbb4 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -145,7 +145,7 @@ e1000e_io_read(void *opaque, hwaddr addr, unsigned size)
+         return s->ioaddr;
+     case E1000_IODATA:
+         if (e1000e_io_get_reg_index(s, &idx)) {
+-            val = e1000e_core_read(&s->core, idx, sizeof(val));
++            val = e1000e_core_read(&s->core, idx, size);
+             trace_e1000e_io_read_data(idx, val);
+             return val;
+         }
+@@ -171,7 +171,7 @@ e1000e_io_write(void *opaque, hwaddr addr,
+     case E1000_IODATA:
+         if (e1000e_io_get_reg_index(s, &idx)) {
+             trace_e1000e_io_write_data(idx, val);
+-            e1000e_core_write(&s->core, idx, val, sizeof(val));
++            e1000e_core_write(&s->core, idx, val, size);
+         }
+         return;
+     default:
 -- 
 2.25.1
 
