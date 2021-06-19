@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1950B3ADAC2
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 17:54:51 +0200 (CEST)
-Received: from localhost ([::1]:49132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505BD3ADAC6
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 17:57:29 +0200 (CEST)
+Received: from localhost ([::1]:52272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ludJ4-0005jG-4x
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 11:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43052)
+	id 1ludLc-0007wr-5Z
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 11:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ludHi-0004VH-RY; Sat, 19 Jun 2021 11:53:28 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33295)
+ id 1ludKd-0007HZ-Pc
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 11:56:27 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ludHg-0005Z9-6t; Sat, 19 Jun 2021 11:53:25 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d11so11945819wrm.0;
- Sat, 19 Jun 2021 08:53:23 -0700 (PDT)
+ id 1ludKc-0008DB-5u
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 11:56:27 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id k42so5635207wms.0
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 08:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Sbh9+srkt2pARn/szBI/0NG+C8m94ttyGwLkbeCw6D4=;
- b=mqQxJumzsN3rk7/S+GlizYs2i7Qsx0hAGV9pr+GRCvhqelrcPJuwCc2YgzX8Ku5LCB
- zmSDuW/CYQ8aKDT1wrjarNA7dhkDZFXmdSy5uVBAhck8bhKBa58whXEQnMwli7znOkcf
- dHMeTxsVa3hHIdHcjFRps2WGegreF2glgPayHAE9loVK1rTDEDh0BqA7aUGICMbubxwu
- IUBYUQhwivLvXXY198iaXjgEIZ0ie3knxwN7E5UatTxfK9TCJjChGgLFBBbHVeGj8Pum
- l0tgnO+TGRuhS7pZ/nDuERbLgff31qnTnqMpKr/yFrSYbnxtdwxH+FaOceiaqqFVQk1g
- Tk5Q==
+ bh=qA7lAq/6YVwC5dUcWP2EqZwZPM+SKfrEIWjHsddT17M=;
+ b=Hemye2ePJ/j9cvuwNVh2atfT9/JC/Uxc7ZNT/+PGffL3VMKY9cj3doxXdX+Iyq8nux
+ BSME6t9p7ElLU971eT5IkCezIF20hwQXClpdSggcAHJy5HfpHwSue+vAcc44bWt5vNvH
+ x3f6Eax4CFni/3k8K7xTpf03o9HDrcGYE3BqICDaEDJ04VxcuAIZ9EuTFokB/59/tOXe
+ kxHnuSkdGEkeiw4tMv/xVmsOgCbwp1c+ljsEaAmI+xxVE9AAqqpSHChIMRILvwKDYneg
+ 6UQO1UEYvXd+F44ZRLgboOOZLyLfwtN2ly5+G2eQ0DKGsgMO4ZI3OXzYTW8fufj4KVoD
+ sswQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Sbh9+srkt2pARn/szBI/0NG+C8m94ttyGwLkbeCw6D4=;
- b=BL6YTcshh2pkh7mFvDiFeGEbsR+fRqHizWYonA9Vv7wuDZNmfdXiu7pglN8YmHQ1SF
- +MJpePTgD6DDpVS7ZN2QxjsdRlqraZYBo+TUx/jWfzNyWfkSvHnIC6kKfpigz1CDJoyq
- WI0wIrCQEaFPec0l0IeEcrImhoJF2Sh6kn0L/4iLvXXrUCU3fBR6LTmAw8j2zF1Ge+Im
- or3J5pWfsqM2G3NDIu1+/1fTUKwIfwRFNYlZQFfmVg7Bs43re0agIk6hkWkLGVqao+1Z
- ZJ5bd1chuBzb/XMSY2KoX2c3wlr+siGSfhMrrV6KHc9zMS5oi+RRFhoKuslv0hXo1h1o
- T/Bw==
-X-Gm-Message-State: AOAM530VibZFYAFuRfWigMqJ4FI9xhojWYhd2iCkIIbcblFK2smNUr2T
- 9NaFBfU/SCLMv7T+1vSJACgfIVvGrhj+Mg==
-X-Google-Smtp-Source: ABdhPJw/WdQ5jb/ce1sVRcIFzbuD+JsqlGg6ZKsmIFkA26LOucgPAbf/FR96wIvBEZbmzagoYeiKcw==
-X-Received: by 2002:a5d:64ee:: with SMTP id g14mr19098705wri.66.1624118002380; 
- Sat, 19 Jun 2021 08:53:22 -0700 (PDT)
+ bh=qA7lAq/6YVwC5dUcWP2EqZwZPM+SKfrEIWjHsddT17M=;
+ b=ew5WUgpZ71JTVPiX+W3mEbEjcDKy4cbD1Jh7iGVkbc0kDB/TUSSutk10SWXFfZjzZ9
+ FO6RyG6Rnti+sd2EqpJCpS+1vkEpffCNFKzap0/HLq5TY8Wb32YqmMJbKyTNA8nTbgUD
+ QFcLDcZIIFhSIvJJtJ0K6dCYauCO1zG043I1dZzzTdndWfGuI1y6VHj9obvw41YAxqFn
+ Uouhh1A9VVSxldwRn40W1rnS3sYY86T6c7kKy0+CRwYGZD36Ze9Qlo8bbl9SmsbCNSyM
+ TY9UanL5ZTQzH91BlhsTkHiicPNqjdFYsbLxAql6d77C4a8j/hLV86p21BTK90wsGW9J
+ J2Gg==
+X-Gm-Message-State: AOAM5327uh9siwvyR3Kd+PUiYFwZ4lmAw61vLL98jfzh2i12qrSPzBqU
+ MJ+0Y3sDT4E7X84B1iaVKKI=
+X-Google-Smtp-Source: ABdhPJyQu99P40MDZmKPUrKCCHGQIRzxOnNp8CHEQdzoM7V6je71Fqr2LYuHRSYLfVLdxhCpvYtfAA==
+X-Received: by 2002:a1c:e90d:: with SMTP id q13mr16847205wmc.163.1624118184665; 
+ Sat, 19 Jun 2021 08:56:24 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id w13sm10486340wmi.48.2021.06.19.08.53.21
+ by smtp.gmail.com with ESMTPSA id r6sm12042771wrt.21.2021.06.19.08.56.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Jun 2021 08:53:21 -0700 (PDT)
-Subject: Re: [PATCH v3 0/4] STM32VLDISCOVERY Machine Model
-To: Alexandre Iooss <erdnaxe@crans.org>,
- "open list : All patches CC here" <qemu-devel@nongnu.org>
-References: <20210617165647.2575955-1-erdnaxe@crans.org>
+ Sat, 19 Jun 2021 08:56:24 -0700 (PDT)
+Subject: Re: [PATCH 1/4] mc146818rtc: Make PF independent of PIE
+To: Jason Thorpe <thorpej@me.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210613211549.18094-1-thorpej@me.com>
+ <20210613211549.18094-2-thorpej@me.com>
+ <5c2ae675-f734-174d-6640-baebc817f3ba@linaro.org>
+ <39CACE5E-7CCD-400C-A983-689474D42EC5@me.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1227b1c6-2379-6130-450c-6bb440b6fa24@amsat.org>
-Date: Sat, 19 Jun 2021 17:53:20 +0200
+Message-ID: <72b9ed14-3af0-8284-9baf-f1a552e61b5f@amsat.org>
+Date: Sat, 19 Jun 2021 17:56:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210617165647.2575955-1-erdnaxe@crans.org>
+In-Reply-To: <39CACE5E-7CCD-400C-A983-689474D42EC5@me.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -87,49 +92,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- "open list : STM32VLDISCOVERY" <qemu-arm@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Joaquín
+Hi Jason,
 
-On 6/17/21 6:56 PM, Alexandre Iooss wrote:
-> This patch series adds the STM32VLDISCOVERY Machine to QEMU
+On 6/16/21 7:34 PM, Jason Thorpe wrote:
 > 
-> Information on the board is available at:
-> https://www.st.com/en/evaluation-tools/stm32vldiscovery.html
+>> On Jun 14, 2021, at 9:17 PM, Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> Cc: paolo and mst
+>>
+>> On 6/13/21 2:15 PM, Jason Thorpe wrote:
+>>> Make the PF flag behave like real hardware by always running the
+>>> periodic timer without regard to the setting of the PIE bit, so
+>>> that the PF will be set when the period expires even if an interrupt
+>>> will not be raised.  This behavior is documented on page 16 of the
+>>> MC146818A advance information datasheet.
+>>> Signed-off-by: Jason Thorpe <thorpej@me.com>
+>>> ---
+>>>  hw/rtc/mc146818rtc.c | 4 ----
+>>>  1 file changed, 4 deletions(-)
+>>> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+>>> index 4fbafddb22..366b8f13de 100644
+>>> --- a/hw/rtc/mc146818rtc.c
+>>> +++ b/hw/rtc/mc146818rtc.c
+>>> @@ -155,10 +155,6 @@ static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+>>>  {
+>>>      int period_code;
+>>>  -    if (!(s->cmos_data[RTC_REG_B] & REG_B_PIE)) {
+>>> -        return 0;
+>>> -     }
+>>
+>> This looks correct, but I don't know enough about this device.
 > 
-> v3:
->  - Add test for STM32VLDISCOVERY USART1
+> Quoting the data sheet here, for context:
 > 
-> v2:
->  - Add documentation of STM32 boards
->  - Fixed number of interrupts
->  - Fixed Cortex-M3 name
+> <quote>
+> PF - The periodic interrupt flag (PF) is a read-only bit which is set to a "1" when a particular edge is detected on the selected tap of the divider chain.  The RS3 to RS0 bits establish the periodic rate.  PF is set to "1" independent of the state of the PIE bit.  PF initiates an ~IRQ signal and sets the IRQF bit when PIE is also a "1".  The PF bit is cleared by a ~RESET or a software read of Register C.
+> </quote>
 > 
-> Alexandre Iooss (4):
->   stm32f100: Add the stm32f100 SoC
->   stm32vldiscovery: Add the STM32VLDISCOVERY Machine
->   docs/system: arm: Add stm32 boards description
->   tests/boot-serial-test: Add STM32VLDISCOVERY board testcase
-> 
->  MAINTAINERS                             |  13 ++
->  default-configs/devices/arm-softmmu.mak |   1 +
->  docs/system/arm/stm32.rst               |  66 +++++++++
->  docs/system/target-arm.rst              |   1 +
->  hw/arm/Kconfig                          |  10 ++
->  hw/arm/meson.build                      |   2 +
->  hw/arm/stm32f100_soc.c                  | 182 ++++++++++++++++++++++++
->  hw/arm/stm32vldiscovery.c               |  66 +++++++++
->  include/hw/arm/stm32f100_soc.h          |  57 ++++++++
->  tests/qtest/boot-serial-test.c          |  37 +++++
->  10 files changed, 435 insertions(+)
->  create mode 100644 docs/system/arm/stm32.rst
->  create mode 100644 hw/arm/stm32f100_soc.c
->  create mode 100644 hw/arm/stm32vldiscovery.c
->  create mode 100644 include/hw/arm/stm32f100_soc.h
-> 
+> This is why my patch always runs the timer, and does not suppress it if PF is already set; real hardware will always latch PF at regular intervals irrespective of when software reads Register C.
+
+Do you mind reposting this single patch including the DS quote
+in the description?
+
+Regards,
+
+Phil.
 
