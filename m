@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C1B3AD92C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 11:53:18 +0200 (CEST)
-Received: from localhost ([::1]:53752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18773AD92A
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 11:52:22 +0200 (CEST)
+Received: from localhost ([::1]:52160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luXfB-00088p-Tu
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 05:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
+	id 1luXeH-00072g-L6
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 05:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luXZH-0006Lb-Eq
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:47:11 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:44848)
+ id 1luXcv-0004wy-0s
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:50:57 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luXZF-0002wR-Rv
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:47:11 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- h21-20020a1ccc150000b02901d4d33c5ca0so5148557wmb.3
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 02:47:09 -0700 (PDT)
+ id 1luXct-0005jL-LQ
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:50:56 -0400
+Received: by mail-wr1-x429.google.com with SMTP id m18so13603323wrv.2
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 02:50:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oGnbQ5hoPww93NmO21xAvav2jKFUgnEyK92VKV5Fvuw=;
- b=bYDw2rsszg4Ui6Cx+fyfpYzdFTx0N4m4n9MBF/dcuL7Ikc8i1rjDt3fuXYS61eRLyY
- 6iQP20BasmFnay4PSoHQ8jjdxLEECkOIXsu//eHGz5uHAnBiPEDT98UsDSAZAPxIqvRP
- NqtT8FnbSo2Y9U47wE3MG9R3WdkE3wig3wCQAOZs8RaehDvaubVdVPgk5rphqLkl3iuo
- LpQXCXM8/VugCAXQ6Q10TY5J6hD6+W94yPB4i5kvo1ymh2pRtlYc02fF/p0AVu4RY5ha
- aZsYKDhmoawrCvkTah4NecazyqMj3SkmbhKVkiuQVf75HhZxwwRIhjBiab7xbxLvcNTM
- vPRA==
+ bh=ppu4TvCl1FnyMJStr0LhtSsIC8+tQ6Rf+4pUDgK9M9k=;
+ b=QWROF9KHPSEE2oQ6/47trxcxq6FKRLuJIxDaPSYAV+e0K8WywvUP7mpI0mfrA7wBdH
+ BMekDTRlDy2viLsYrRohDM6kBumrG8JunFlOdlkncXyd/wWSUc7wsTGXjBWCTjaQZfHN
+ VAbf545WjyawujVN3azOx9KBDhHD1xbkLEdXPnmbfumw/gbITt+7+2vW86Ruv816S/8p
+ VMe0xuQmUyjmonLuC7SYu1H7FNBTSkyF6nyLaZv6vJ2w23W50FMoRyMSGDIvkL+A0W1B
+ TcCuLLtkVMFPtxVVim1zJiki5mgm/ynnT+1XV/73LpAFwUZoyB8KqZpUDEI3fGdamYNP
+ 6xNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oGnbQ5hoPww93NmO21xAvav2jKFUgnEyK92VKV5Fvuw=;
- b=Jo4nkQ7s4BTmsClLpC6FsCg40wsl62MXtN+P9CrIFjXUoaBNxO5CSQ5cdrz7jJHExi
- UwKlYrJAkx2wd170fCI8jUE0QXfOni+mxcBxnMYWtQwpUOEYkNuZEqyKP22B/3WSIywq
- TN43iEgvef0cOpfiKKtAK4NjDDBLq8rwdMs1GUpGdYguob7u66PtpOcr1ar+0UGDwkjY
- ESuzADuGutlYDfdu49A2SPuFhN7JFS6H6RKuR1KG9WyOQffY0klGwRqh/8uoymbW5D3L
- DW6qO+FfUiTnEk90DZdDWnD+NyAZejm2dOBOF7hj8BtsYRUdblqFiy+XWEzLpTJjmW18
- Zl4Q==
-X-Gm-Message-State: AOAM531ceJBJbMr/em+/Xxr05sefeyYwobXAzVFqGxcxshO+TQpwYOVn
- PYlu/m9AF74mHGX68Zfmg4k=
-X-Google-Smtp-Source: ABdhPJw99bg6tjbGajDkBJOr/8kbuc0GJnbgOwzipb4eBL5pqZIShy0+gXvbDuze6zl5cDdwGi74Jg==
-X-Received: by 2002:a1c:7907:: with SMTP id l7mr15804817wme.147.1624096028244; 
- Sat, 19 Jun 2021 02:47:08 -0700 (PDT)
+ bh=ppu4TvCl1FnyMJStr0LhtSsIC8+tQ6Rf+4pUDgK9M9k=;
+ b=nFjX785hIgvy2snR6hgUHl2C9O/oYOhvXwlSKrBlBqLrRnKtOmvJJzRXFYmgT5BcNJ
+ fQszIyDJC3sdEQDclCEvXRCVknPKxtqFc6GgprtcpGkTaZ20gRVGrOPP4t9I+Ormv5C8
+ ba1FQqMWuM2ALnCGoNWCDEr9/RP8Ceep6VQdP85AHILo81ZHJc4K7cdpBqtc+v+OXAdI
+ cLSoWzXmNXkyrD8vIPg1RMJmKJDN8g6d0cs5Vs50PH6xo1iPDiJ8K5JkGnSwVk8ZlfUN
+ rBUmM2GXKMFpR/8abmnTPd4EdIrG2/np16uFQIpddoWgelDdrnyxkwn25HwD2GYab72M
+ 7cDQ==
+X-Gm-Message-State: AOAM531kamuXPGEcCN/AmxzcBD5xMC62Lvcr06Sc5iacR1j0L+wTekhC
+ b85EqcfOu6AZfPJcIuYONFA=
+X-Google-Smtp-Source: ABdhPJxsr4ACRO8dpWZcbZ5Fs1COiNWgBIS+Ee8zyS8FOffpwXiET97HTABrWGhtMzVYToXj+3ri+A==
+X-Received: by 2002:a5d:6452:: with SMTP id d18mr11029571wrw.80.1624096254313; 
+ Sat, 19 Jun 2021 02:50:54 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id k42sm13908546wms.0.2021.06.19.02.47.07
+ by smtp.gmail.com with ESMTPSA id c18sm645542wrt.83.2021.06.19.02.50.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Jun 2021 02:47:07 -0700 (PDT)
-Subject: Re: [PATCH 01/12] linux-user: Fix style problems in linuxload.c
+ Sat, 19 Jun 2021 02:50:53 -0700 (PDT)
+Subject: Re: [PATCH 04/12] linux-user: Do not clobber bprm_buf swapping ehdr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210619034329.532318-1-richard.henderson@linaro.org>
- <20210619034329.532318-2-richard.henderson@linaro.org>
+ <20210619034329.532318-5-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9bb41549-5001-9249-6c6a-12c4a6228042@amsat.org>
-Date: Sat, 19 Jun 2021 11:47:06 +0200
+Message-ID: <2cc00575-776e-c298-6cb8-482315e496df@amsat.org>
+Date: Sat, 19 Jun 2021 11:50:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210619034329.532318-2-richard.henderson@linaro.org>
+In-Reply-To: <20210619034329.532318-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -95,10 +94,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/19/21 5:43 AM, Richard Henderson wrote:
+> Rearrange the allocation of storage for ehdr between load_elf_image
+> and load_elf_binary.  The same set of copies are done, but we don't
+> modify bprm_buf, which will be important later.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/linuxload.c | 42 ++++++++++++++++++++----------------------
->  1 file changed, 20 insertions(+), 22 deletions(-)
+>  linux-user/elfload.c | 25 ++++++++++++++-----------
+>  1 file changed, 14 insertions(+), 11 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
