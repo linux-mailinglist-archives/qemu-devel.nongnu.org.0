@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623653ADB3E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 20:17:41 +0200 (CEST)
-Received: from localhost ([::1]:33676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B723ADB44
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 20:22:35 +0200 (CEST)
+Received: from localhost ([::1]:50538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lufXI-0003fl-Eq
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 14:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35762)
+	id 1lufc2-0006ns-JB
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 14:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lufUi-0000fP-Bm
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:15:00 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:37795)
+ id 1lufUj-0000hS-D3
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:15:01 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:38654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lufUg-0002Eb-N6
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:15:00 -0400
-Received: by mail-pf1-x430.google.com with SMTP id w71so334886pfd.4
+ id 1lufUh-0002Eq-9q
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:15:01 -0400
+Received: by mail-pl1-x635.google.com with SMTP id 69so6334630plc.5
  for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 11:14:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M6WR/q/XMRsg+9/4YpwLpIga2lF+a4ZN740h5QwBqxQ=;
- b=aMXVnWd56iSrYam62Ts1D8MZVDqvi51XYiGcbsMMZja+05Q6/MPHkPC08/kYQIrCRh
- LOn17q9UTq5KTCykPty9lH0bZjqcbLSDvKX7W1zw0G4hXeOB5IUBBeEy1avdXIVxNCvp
- c4JXWtQVcR87NOioYr7qVIxSu9BuCzB1ieclHuGGPWX/zETqlynuNNP0s09Hw+FHoKBm
- JTxNqCv0HT0H1xFQHAv1Rcm7Yup8ovN3A7G+sN+WstDT9hmesb7jHi/hdwSIwQzlGT8Z
- JK0gEHA+edFn1mYCfqlr5AF1VPT5VMP5iFb55jQDrN3UcXLhiz19Z8NhkmW8suM+XB/q
- jc3w==
+ bh=GYoI4UBf5tUFjOCHxxgodMxhDrVCT55EmnBgp0S5rzE=;
+ b=K2VlTU99K+nnNxnkfDuZ2Qz9BDLiIzztYqCJVeOkh4Q3+0v3n4dZhXNKnafYJczg/M
+ UKk2zbOA3sX0UjQz2FxZtocKgFmzSjJgmuuS5UjwZHM6P/0o8c28CwSa+ZvmzORQ/Lvw
+ rOXqFQlcDP2sj7wYVFby7BAWR13/pNBrG/ze8iPk/ijeE5nNRo27e7x71+cRwnP7vSp/
+ Wc5Q6h+5UBIV85lhdoTo0xFtn1Vdx9nfHr1DNjPmtufOF+sbCRbn67dpAUA1ULQw2aBp
+ fJrhLfGOmnmK+Xe1AAk6ZBlSC0aOVMrvrHeAvc31GPq24LJ8B1BOllYWpDcgj+74RXTX
+ 0bKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M6WR/q/XMRsg+9/4YpwLpIga2lF+a4ZN740h5QwBqxQ=;
- b=a6Exac0j7kc+Q11/6ZNqNL2/dOYhmHEfzwgCV5k3HQ3TR8ynbTxZk+WGrqrs5WbPWf
- tGoGMEd0yb1wTnms8XExnPdAkR0gkeYxH/9O1F8BCA+aTimo9WSY51YpPFFq8tbnHAD0
- yAOUMG7sZQ6qmK/COeXPAvEEnB8cxPkPgiCmfwiqxsZaTkTUylTiWaMjHtArmuy2KLQv
- RCybMi85RPtWIfNfUCNPKerPYHJnNHWgGq4Qbu0iw+X2KmJzzKgqYSr3nCJ0aAZzES8D
- b5vmXMHLatQf2tzrDYTsYPUn0HKQL25ECAF2a9OOLuRXj6+jpAe6H9D+B/nYFYMXw4lH
- y0fA==
-X-Gm-Message-State: AOAM531BpThFOGPCEcscdZRzVeG8+DtfRnaqOvduxO2IMu82rER+s+XK
- jS8tC2CXD1Np1Ww9d/RcgOTzMgd69mEbaQ==
-X-Google-Smtp-Source: ABdhPJxJQLWrbMa502LGv1t/jJI9C4g0IuUVJWZFO2vrN0IDBHEoU5KMpITyqWmTcF+ysBOWPG5wXw==
-X-Received: by 2002:a63:d409:: with SMTP id a9mr16044437pgh.304.1624126497342; 
+ bh=GYoI4UBf5tUFjOCHxxgodMxhDrVCT55EmnBgp0S5rzE=;
+ b=KOKlbM23cJOqjE6POHuBqZ4MS3bXrOvKj8C+Y122yMlgIM/m+rwZD5dQk9aeisLKM8
+ pBC70KlJ//IixBHP9uH/CACNxEd2uumEI2jqzUgScgst/fOQ6lAiMfwPPk0VRu6q8Klk
+ WIsMFaN5XpubIMBpbQ5Ltpr5+ZxqJQAhf8mXsqStpBZrrC2nwClluVaRHWcQLZUtrZi5
+ CxZ/oIqRUAZN/45Jk3rz55gy32LASLO+QBRH60gvEolQN3rxIp85RdoleptntRoM1gev
+ vmtATQ5lbBEd94DHYCAqO/fR7c+4aQKbmq3M95WHeqsO75rIevNlT+O/3ZzSA36A/RVg
+ znMA==
+X-Gm-Message-State: AOAM530xNp92I/L922jXRMq0uwqDxVLiGgoFGMNhnsB3U+TZantfZmme
+ 594wVcyy86rG+zz2uT85VI3owI25AdqJWQ==
+X-Google-Smtp-Source: ABdhPJxgDKcuzQP0c47Ccqgv1FcKt0rQd4ji7sYE08LHNeLBAjqycqUCLHn8j/hbFcXVubyZQSuicg==
+X-Received: by 2002:a17:90a:f094:: with SMTP id
+ cn20mr17779008pjb.157.1624126497869; 
  Sat, 19 Jun 2021 11:14:57 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id k35sm12059113pgi.21.2021.06.19.11.14.57
@@ -53,17 +54,17 @@ Received: from localhost.localdomain ([71.212.149.176])
  Sat, 19 Jun 2021 11:14:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/33] tcg: Add tcg_call_func
-Date: Sat, 19 Jun 2021 11:14:26 -0700
-Message-Id: <20210619181452.877683-8-richard.henderson@linaro.org>
+Subject: [PULL 08/33] tcg: Build ffi data structures for helpers
+Date: Sat, 19 Jun 2021 11:14:27 -0700
+Message-Id: <20210619181452.877683-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210619181452.877683-1-richard.henderson@linaro.org>
 References: <20210619181452.877683-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,60 +89,252 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Add libffi as a build requirement for TCI.
+Add libffi to the dockerfiles to satisfy that requirement.
+
+Construct an ffi_cif structure for each unique typemask.
+Record the result in a separate hash table for later lookup;
+this allows helper_table to stay const.
+
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-internal.h | 5 +++++
- tcg/tcg.c          | 5 ++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ tcg/tcg.c                                     | 58 +++++++++++++++++++
+ tcg/meson.build                               |  8 ++-
+ tests/docker/dockerfiles/alpine.docker        |  1 +
+ tests/docker/dockerfiles/centos8.docker       |  1 +
+ tests/docker/dockerfiles/debian10.docker      |  1 +
+ .../dockerfiles/fedora-i386-cross.docker      |  1 +
+ .../dockerfiles/fedora-win32-cross.docker     |  1 +
+ .../dockerfiles/fedora-win64-cross.docker     |  1 +
+ tests/docker/dockerfiles/fedora.docker        |  1 +
+ tests/docker/dockerfiles/ubuntu.docker        |  1 +
+ tests/docker/dockerfiles/ubuntu1804.docker    |  1 +
+ tests/docker/dockerfiles/ubuntu2004.docker    |  1 +
+ 12 files changed, 75 insertions(+), 1 deletion(-)
 
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 6ab8910210..92c91dcde9 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -44,6 +44,11 @@ bool tcg_region_alloc(TCGContext *s);
- void tcg_region_initial_alloc(TCGContext *s);
- void tcg_region_prologue_set(TCGContext *s);
- 
-+static inline void *tcg_call_func(TCGOp *op)
-+{
-+    return (void *)(uintptr_t)op->args[TCGOP_CALLO(op) + TCGOP_CALLI(op)];
-+}
-+
- static inline const TCGHelperInfo *tcg_call_info(TCGOp *op)
- {
-     return (void *)(uintptr_t)op->args[TCGOP_CALLO(op) + TCGOP_CALLI(op) + 1];
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 0dc99cc65b..8f4f1711cd 100644
+index 8f4f1711cd..de1a593ce7 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -1740,7 +1740,7 @@ static void tcg_dump_ops(TCGContext *s, bool have_prefs)
-             }
-         } else if (c == INDEX_op_call) {
-             const TCGHelperInfo *info = tcg_call_info(op);
--            void *func;
-+            void *func = tcg_call_func(op);
+@@ -60,6 +60,10 @@
+ #include "exec/log.h"
+ #include "tcg-internal.h"
  
-             /* variable number of arguments */
-             nb_oargs = TCGOP_CALLO(op);
-@@ -1754,7 +1754,6 @@ static void tcg_dump_ops(TCGContext *s, bool have_prefs)
-              * Note that plugins have a template function for the info,
-              * but the actual function pointer comes from the plugin.
-              */
--            func = (void *)(uintptr_t)op->args[nb_oargs + nb_iargs];
-             if (func == info->func) {
-                 col += qemu_log("%s", info->name);
-             } else {
-@@ -3789,7 +3788,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-     int allocate_args;
-     TCGRegSet allocated_regs;
++#ifdef CONFIG_TCG_INTERPRETER
++#include <ffi.h>
++#endif
++
+ /* Forward declarations for functions declared in tcg-target.c.inc and
+    used here. */
+ static void tcg_target_init(TCGContext *s);
+@@ -539,6 +543,19 @@ static const TCGHelperInfo all_helpers[] = {
+ };
+ static GHashTable *helper_table;
  
--    func_addr = (tcg_insn_unit *)(intptr_t)op->args[nb_oargs + nb_iargs];
-+    func_addr = tcg_call_func(op);
-     flags = tcg_call_flags(op);
++#ifdef CONFIG_TCG_INTERPRETER
++static GHashTable *ffi_table;
++
++static ffi_type * const typecode_to_ffi[8] = {
++    [dh_typecode_void] = &ffi_type_void,
++    [dh_typecode_i32]  = &ffi_type_uint32,
++    [dh_typecode_s32]  = &ffi_type_sint32,
++    [dh_typecode_i64]  = &ffi_type_uint64,
++    [dh_typecode_s64]  = &ffi_type_sint64,
++    [dh_typecode_ptr]  = &ffi_type_pointer,
++};
++#endif
++
+ static int indirect_reg_alloc_order[ARRAY_SIZE(tcg_target_reg_alloc_order)];
+ static void process_op_defs(TCGContext *s);
+ static TCGTemp *tcg_global_reg_new_internal(TCGContext *s, TCGType type,
+@@ -582,6 +599,47 @@ static void tcg_context_init(unsigned max_cpus)
+                             (gpointer)&all_helpers[i]);
+     }
  
-     nb_regs = ARRAY_SIZE(tcg_target_call_iarg_regs);
++#ifdef CONFIG_TCG_INTERPRETER
++    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
++    ffi_table = g_hash_table_new(NULL, NULL);
++    for (i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
++        struct {
++            ffi_cif cif;
++            ffi_type *args[];
++        } *ca;
++        uint32_t typemask = all_helpers[i].typemask;
++        gpointer hash = (gpointer)(uintptr_t)typemask;
++        ffi_status status;
++        int nargs;
++
++        if (g_hash_table_lookup(ffi_table, hash)) {
++            continue;
++        }
++
++        /* Ignoring the return type, find the last non-zero field. */
++        nargs = 32 - clz32(typemask >> 3);
++        nargs = DIV_ROUND_UP(nargs, 3);
++
++        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
++        ca->cif.rtype = typecode_to_ffi[typemask & 7];
++        ca->cif.nargs = nargs;
++
++        if (nargs != 0) {
++            ca->cif.arg_types = ca->args;
++            for (i = 0; i < nargs; ++i) {
++                int typecode = extract32(typemask, (i + 1) * 3, 3);
++                ca->args[i] = typecode_to_ffi[typecode];
++            }
++        }
++
++        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
++                              ca->cif.rtype, ca->cif.arg_types);
++        assert(status == FFI_OK);
++
++        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
++    }
++#endif
++
+     tcg_target_init(s);
+     process_op_defs(s);
+ 
+diff --git a/tcg/meson.build b/tcg/meson.build
+index 5be3915529..c4c63b19d4 100644
+--- a/tcg/meson.build
++++ b/tcg/meson.build
+@@ -9,6 +9,12 @@ tcg_ss.add(files(
+   'tcg-op-gvec.c',
+   'tcg-op-vec.c',
+ ))
+-tcg_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tci.c'))
++
++if get_option('tcg_interpreter')
++  libffi = dependency('libffi', version: '>=3.0', required: true,
++                      method: 'pkg-config', kwargs: static_kwargs)
++  specific_ss.add(libffi)
++  specific_ss.add(files('tci.c'))
++endif
+ 
+ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index 7eeecacc46..7e6997e301 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -22,6 +22,7 @@ ENV PACKAGES \
+ 	libaio-dev \
+ 	libbpf-dev \
+ 	libcap-ng-dev \
++	libffi-dev \
+ 	libjpeg-turbo-dev \
+ 	libnfs-dev \
+ 	libpng-dev \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index efc1349cc8..03e0440e03 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -17,6 +17,7 @@ ENV PACKAGES \
+     libbpf-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libffi-devel \
+     libgcrypt-devel \
+     lzo-devel \
+     make \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 63cf835ec5..4ffe47671e 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -26,6 +26,7 @@ RUN apt update && \
+         gdb-multiarch \
+         gettext \
+         git \
++        libffi-dev \
+         libncurses5-dev \
+         ninja-build \
+         pkg-config \
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index 66cdb06c19..8004fd8ee5 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -6,6 +6,7 @@ ENV PACKAGES \
+     findutils \
+     gcc \
+     git \
++    libffi-devel.i686 \
+     libtasn1-devel.i686 \
+     libzstd-devel.i686 \
+     make \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 3733df63e9..a638afb525 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -19,6 +19,7 @@ ENV PACKAGES \
+     mingw32-gmp \
+     mingw32-gnutls \
+     mingw32-gtk3 \
++    mingw32-libffi \
+     mingw32-libjpeg-turbo \
+     mingw32-libpng \
+     mingw32-libtasn1 \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 2564ce4979..f53007ac86 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -18,6 +18,7 @@ ENV PACKAGES \
+     mingw64-glib2 \
+     mingw64-gmp \
+     mingw64-gtk3 \
++    mingw64-libffi \
+     mingw64-libjpeg-turbo \
+     mingw64-libpng \
+     mingw64-libtasn1 \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 0979c0e1f4..00cac5d61c 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -33,6 +33,7 @@ ENV PACKAGES \
+     libepoxy-devel \
+     libfdt-devel \
+     libbpf-devel \
++    libffi-devel \
+     libiscsi-devel \
+     libjpeg-devel \
+     libpmem-devel \
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index 98a527361c..24d1647a65 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -28,6 +28,7 @@ ENV PACKAGES \
+     libdrm-dev \
+     libepoxy-dev \
+     libfdt-dev \
++    libffi-dev \
+     libgbm-dev \
+     libgnutls28-dev \
+     libgtk-3-dev \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index c0d3642507..2f1ec7c42b 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -16,6 +16,7 @@ ENV PACKAGES \
+     libdrm-dev \
+     libepoxy-dev \
+     libfdt-dev \
++    libffi-dev \
+     libgbm-dev \
+     libgtk-3-dev \
+     libibverbs-dev \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index f1e0ebad49..fe993fe2a3 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -19,6 +19,7 @@ ENV PACKAGES flex bison \
+     libdrm-dev \
+     libepoxy-dev \
+     libfdt-dev \
++    libffi-dev \
+     libgbm-dev \
+     libgtk-3-dev \
+     libibverbs-dev \
 -- 
 2.25.1
 
