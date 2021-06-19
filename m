@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6293AD901
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 11:35:08 +0200 (CEST)
-Received: from localhost ([::1]:34002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72F43AD914
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 11:40:13 +0200 (CEST)
+Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luXNb-0000oy-3h
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 05:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39320)
+	id 1luXSW-000858-Ps
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 05:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luXLo-0006tg-W8
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:33:18 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:47066)
+ id 1luXMQ-0007JV-Or
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:33:54 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luXLm-0000c3-QU
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:33:15 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- h22-20020a05600c3516b02901a826f84095so7164598wmq.5
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 02:33:14 -0700 (PDT)
+ id 1luXMP-00010T-EE
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:33:54 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id y7so13506404wrh.7
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 02:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=06KjZaVcLcdbIuoTRJPwxBrqyg2f6j3mbsVlG5ZvgiI=;
- b=ZpW1wl0ZbLV0nlCgfy2NrUUSE0H26urTAy/dD4HD9h27kFFsBjC/oEgBH8ypPk8FY1
- KRE9W4kDXZnuL+GcCjmdUJ1Vgo4lNoWC+N86QTD04DgzvIA/8rhFbzC0oBrlGUPQ+PLr
- U1FJlYvU3MIhiRG/twldcUcv/9RRqeXjmDvHqa6ZbwudejgdBpKFsSOc6A1w1pGWf1WK
- TfsLYOzRjCOcEZYAfTAlpQWnvZer5UjlWGHL1qYmfUCqc3k5VmEc//8uZFwU88Zafkyz
- qXV3h6tSix03HWsBWUVAT2MuhTFDX6TaVoQtXFm9pm+jh6WCvxL0+PGFfOcjKJxazR9n
- s89A==
+ bh=M/TVWr2ImCKwGqs+AYaaXlJVJa7F0Jz9vnH9cX2shs4=;
+ b=oiIo6tUHkywGrI73DfQYoepXTBpNZKN8ne11FO280N/LMUoEarpJD9fUP3XLrRyeW7
+ Fv4x5SZmHlLCwkw9JuO6kda2ikIJvlsI+Xt8Vr1i+4yVE8yiF/YssCtFV2oAe8z/tvZv
+ gvDee7Uo6QY2GniK1rlzkPLOe4CyHe+bepG03xsUWPnAQ2caet6ehe/4y0Lme/4xDfg2
+ ZsopkvZEhpGyE6c6Owjd8slt4E2jp5RiMvgSdYjYHRUvFBMs98tnyixPBeGaBqsP3nWE
+ SD+Ntldd5RzRkNGVHndtE37vfZsdlJuUm+QE9Ccl69D7bg7YyuCR7kvKLgnIqI3xUbKV
+ GVsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=06KjZaVcLcdbIuoTRJPwxBrqyg2f6j3mbsVlG5ZvgiI=;
- b=suQQCckowwqji4y61s4wiqPqzPQAHZAs01xKe6vbEvzE14R9KqWFPeyAoDc158+pBH
- B/AzIo84VjCZfKbIngVCevZbGQfH9E4EJIpPoMw2JdvHWx5zbIyp9IJIeQUBKxmFKXeL
- 2PO1hjBedr/HKLAuzHntF3OjiFgiuZT/1uNSWAtQCnPo4W9JZFnyY9gaz3S8NdyXA8nn
- EDDjV7LXK9S4/V6wjtaP8f7CJuOWL4nUzA5dKk82+dhDaS5Trbv/pGjpDFmqtILt6u1p
- T3xfks3dsG6+kOBZ/OFBgV7a69TR+3wVGE6Y9uK3qqDArigxslNDtHF6vUeCYggMkW51
- pAOg==
-X-Gm-Message-State: AOAM532e7A5qeG6kbNdL5fR7ar0c+y4q+aKhmQBGysKubrvtrK4v2vo8
- kaxuJgLIkmn9/WYE1VJza8s=
-X-Google-Smtp-Source: ABdhPJzpN4dVn/y2wbgNDVKrPtHAVW7zDXNdm0pfl+KqGzQpXA7LgR8EfMXpGgI35+B93bbTHSGXWQ==
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr15221985wmh.127.1624095192986; 
- Sat, 19 Jun 2021 02:33:12 -0700 (PDT)
+ bh=M/TVWr2ImCKwGqs+AYaaXlJVJa7F0Jz9vnH9cX2shs4=;
+ b=RtO6f9OPM6jcCw4MWFbHGHEkd1074FRk8cmUPxOWZm06PQ/tP1rwoj0L1ncwTdt67o
+ 01JPZPLpcdFSfEx3j4YaLXQlg9ZCLJCSyVD/RMP0pBAHHvtxININ9jUT6jNytkVC+YQk
+ FFvzjfeWP+uX7CB86397f+o65wWYpYby/XZVruOxZbGGDsRQfWI9Ywyw6M4qGguxMd1A
+ OHcW1wdpTAehbMflwEwx6FwkFZc0PS7EqpzHz2g+HcfUZngCfDbfqFe22/j+30+3r2r7
+ TLfihR7rnEa620wv86UjqUyqQ8+auR3SKlfZkG7cWCHzZeeWGG+3hMgKZkiI2CzKCJEs
+ +Rdg==
+X-Gm-Message-State: AOAM531JmUs4klDDyiCs3/5skqMgHJ3ir3DbBd0NW5sPIS0X/BRrEdAh
+ ez+E4YQbV7Ayvm44Il0pPmc=
+X-Google-Smtp-Source: ABdhPJwcfdaTs5c05XjDP48sFh7x2FQfoGhGvb5XKEGZHizt5QfTCi9aCDV++RhT+R2j1d/SATyakw==
+X-Received: by 2002:a05:6000:1089:: with SMTP id
+ y9mr16789526wrw.412.1624095232073; 
+ Sat, 19 Jun 2021 02:33:52 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id l10sm11225013wrv.82.2021.06.19.02.33.11
+ by smtp.gmail.com with ESMTPSA id z10sm10330298wmb.26.2021.06.19.02.33.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Jun 2021 02:33:12 -0700 (PDT)
-Subject: Re: [PATCH v2 07/23] linux-user/cris: Implement setup_sigtramp
+ Sat, 19 Jun 2021 02:33:51 -0700 (PDT)
+Subject: Re: [PATCH v2 01/23] linux-user: Add infrastructure for a signal
+ trampoline page
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210618192951.125651-1-richard.henderson@linaro.org>
- <20210618192951.125651-8-richard.henderson@linaro.org>
+ <20210618192951.125651-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5e279c7c-35d6-038c-78d5-19d84489a314@amsat.org>
-Date: Sat, 19 Jun 2021 11:33:11 +0200
+Message-ID: <4b8d2565-59e4-4474-673c-9c7e0e548743@amsat.org>
+Date: Sat, 19 Jun 2021 11:33:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210618192951.125651-8-richard.henderson@linaro.org>
+In-Reply-To: <20210618192951.125651-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,24 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, alex.bennee@linaro.org,
+Cc: Max Filippov <jcmvbkbc@gmail.com>, alex.bennee@linaro.org,
  laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/18/21 9:29 PM, Richard Henderson wrote:
-> Split out setup_sigreturn so that we can continue to
-> initialize the words on the stack, as documented.
-> However, use the off-stack trampoline.
+> Allocate a page to hold the signal trampoline(s).
+> Invoke a guest-specific hook to fill in the contents
+> of the page before marking it read-execute again.
 > 
-> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/cris/target_signal.h |  2 ++
->  linux-user/cris/signal.c        | 29 +++++++++++++++++++++--------
->  2 files changed, 23 insertions(+), 8 deletions(-)
-
-Nitpicking, 6 -> 3 * 2? :)
+>  linux-user/qemu.h    |  7 +++++++
+>  linux-user/elfload.c | 17 +++++++++++++++++
+>  linux-user/signal.c  |  3 +++
+>  3 files changed, 27 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
