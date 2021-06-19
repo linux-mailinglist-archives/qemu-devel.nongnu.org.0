@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8C33ADBCB
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 23:33:39 +0200 (CEST)
-Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270133ADBD3
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 23:51:15 +0200 (CEST)
+Received: from localhost ([::1]:50244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luiav-00077h-Sv
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 17:33:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
+	id 1luirx-0004Qe-O7
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 17:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1luia6-0006R9-3g
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 17:32:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29247)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1luia3-00036G-3h
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 17:32:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624138361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fwu9y3DFhCuCr3DhlYR1rnFXvVtRMUyJ3rb81c/RiiY=;
- b=iW3XI7H9wYJBtglqIkHKioy9ymEcAImtEEELZGWx/Qvq441dP+jpcdg+pzAJL9coZDEp0A
- UDK1pCOx+Q5A2tvRnd1p3nE6e4pieQZlbRAw7CDs3HiX9SJJYKdD13hl7iOPyRLzMGO3k/
- v2VZ/73UphQmsavyKH3TrhAyTkf4SKg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-YvMIclb3NvO1gT-hL0R3cg-1; Sat, 19 Jun 2021 17:32:39 -0400
-X-MC-Unique: YvMIclb3NvO1gT-hL0R3cg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v2-20020a7bcb420000b0290146b609814dso5308520wmj.0
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 14:32:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1luiqt-0003eo-S2
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 17:50:07 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:36803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1luiqs-0005tz-7y
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 17:50:07 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id e33so10862295pgm.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 14:50:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iNwYkfKnNueeRdZLGLmf6LzFNO1L9uHpHzYBGfs9Igs=;
+ b=C3+CGUAOhEKaEf+Sw5AxxSmNZbEKL9p3GkhrWVtW4+sh4/0UH3s1cLEyNVzs1rHhUT
+ 171FLjPoJBHdHqqqjGhTYT1vaIQgAcsn2whVqqBhkVtrziwB8ZQm6LUa5GdSx/zPyp4g
+ /XbJhH0G8UzuiZKS3kTmBXlTjhe+pg1AjhYhUU/7VZf+sZ9vkIsA2p/lTBT8rvVNr8oj
+ pS9lpK2eVSuS71vh4yQTf8DDN6/v/L/z2zrJZIpjcvFe8izklGKTtC/m3C3rXpDUkBDV
+ AWEb7XdKxGyMJvqver7m6dxOMMlkUo8TbYZPsfmDelSSMr/AS9T3PkL77dOy42pLsAhb
+ fnuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Fwu9y3DFhCuCr3DhlYR1rnFXvVtRMUyJ3rb81c/RiiY=;
- b=hb2RgEzdHGc8kJCPOSvUJNBoQTqlftpelO/SSXii49lCLrvQAYKdpabJ4gQik48Eir
- oA/xh+lTceOMN7Qr1/Sz2gyE0IYwPff1vBWib8aljhS2u/w5/crlAGJYpkzIazCFCcrf
- CNRm0oY/3BspJNTmSy+w4881gU7Pf4NGbvtlvoWbZiZkifbRblfdrJyh8SBUpktkfIaX
- tlmTRNW0HANnW0dKiI62oMv9p4F11iF+uyknAdYld/FsX/c2KeIo9VKwZMGxBAMhSeRX
- Y+MakvC6wwxR5DiFHnTh8oGh1OePkKs48OgLUc+XixxxrDqmI/8hjnNmCy/7NL/kg6HH
- lKMg==
-X-Gm-Message-State: AOAM531WxLf5Dtu9bM1vHFV1hakoogmlqSPdlSrz98YnzMXflle3snQ1
- xaQEaJbMON6rVt+6k66Dy7PSjktgGEN6ZwfSkKyB1/7TpCdkyfYfFXmmJ50KTS2JvdyTR1CrHAn
- DbjCPvRYsMkUBgXY=
-X-Received: by 2002:a1c:4954:: with SMTP id w81mr18393635wma.182.1624138358840; 
- Sat, 19 Jun 2021 14:32:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzjt28s7RG4vw2vkz0gmwVf1KhFMtvkgoVZcQn0rDstIwyJJKae3pCbwQZbWqQMWkVI3y1wQ==
-X-Received: by 2002:a1c:4954:: with SMTP id w81mr18393608wma.182.1624138358656; 
- Sat, 19 Jun 2021 14:32:38 -0700 (PDT)
-Received: from redhat.com ([77.126.22.11])
- by smtp.gmail.com with ESMTPSA id w2sm9987885wrp.14.2021.06.19.14.32.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jun 2021 14:32:38 -0700 (PDT)
-Date: Sat, 19 Jun 2021 17:32:33 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 19/23] hw/i386: Move pc_madt_cpu_entry() to acpi-pc.c
-Message-ID: <20210619172924-mutt-send-email-mst@kernel.org>
-References: <20210616204328.2611406-1-philmd@redhat.com>
- <20210616204328.2611406-20-philmd@redhat.com>
- <20210618133720.459491bd@redhat.com>
- <a9e25c7f-2cff-229f-49ab-3f18b9cb1e1f@redhat.com>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iNwYkfKnNueeRdZLGLmf6LzFNO1L9uHpHzYBGfs9Igs=;
+ b=cI+SILPIl/XTo07aLNn7gkALV5U/ddGD87MIqIUfCb1nyB9Nif+wzMSgCvgO/ToSfy
+ QYMDTJ7uL6euGz1vq7KZcWAFZ6onZ/cfy4AaEuTLc7YWnzed1Mt9W2DrQMTBfizkCf9M
+ 1oOdluzA0a9AbNOaQcTDY+9Kgu5Z7il/1AQcsNyVs1b8w2DaCClc4y9CeXkner/dr3Yz
+ MdjV75ZPiTYmWLqbqsIhljktsbl9T69OMS8TdbxJb2NzEx8pWC2nF7h38yOp1IaUM9ne
+ WyCKojHiSUOjUVQBkdmqnb1IbnygLFwHKrU5N+++E+wr3TE0WxgEvcxx1blx3+rE7FUR
+ Av3g==
+X-Gm-Message-State: AOAM532nziEBkIfrPWC3uzU2XD0Mr60eT9c5tpfrRRTYOvCHQv1CCKdM
+ OPbBxqiLFI9We9J6BoIq9Iqmmw==
+X-Google-Smtp-Source: ABdhPJwLZYUXmEs33owF7i8vPl3t/22l92QV3WAPAYYQ8OY2JZTI04zunBsRZRdE+qsxa6mNLOxiTg==
+X-Received: by 2002:a63:e0e:: with SMTP id d14mr16387553pgl.426.1624139404327; 
+ Sat, 19 Jun 2021 14:50:04 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id 125sm2179923pfx.175.2021.06.19.14.50.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Jun 2021 14:50:04 -0700 (PDT)
+Subject: Re: [PULL 00/33] tcg patch queue
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20210619181452.877683-1-richard.henderson@linaro.org>
+Message-ID: <46f9690d-178f-a0a5-2cbd-5646401cf77a@linaro.org>
+Date: Sat, 19 Jun 2021 14:50:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <a9e25c7f-2cff-229f-49ab-3f18b9cb1e1f@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.194,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210619181452.877683-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.202,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,50 +86,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jun 19, 2021 at 10:45:17AM +0200, Philippe Mathieu-Daudé wrote:
-> On 6/18/21 1:37 PM, Igor Mammedov wrote:
-> > On Wed, 16 Jun 2021 22:43:24 +0200
-> > Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> > 
-> >> pc_madt_cpu_entry() is specific to QEMU 'PC' machines,
-> >> move it to acpi-pc.c.
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> >> ---
-> >>  hw/i386/acpi-common.c | 40 ----------------------------------------
-> >>  hw/i386/acpi-pc.c     | 39 +++++++++++++++++++++++++++++++++++++++
-> > 
-> > it's used not only by PC machines but also microvm,
-> > which didn't use acpi-build.c (aka acpi-pc.c)
-> > it only links fine by virtue that PC machines
-> > are object files are also included.
-> 
-> Is that something new? I can't see this in mainstream,
-> the microvm machine builds fine without this code.
+Bah.  Somehow I overwrote a minor fix for
 
-I think Igor means this:
+>        tcg: Allocate sufficient storage in temp_allocate_frame
+Will update and repost.
 
-hw/i386/generic_event_device_x86.c:    adevc->madt_cpu = pc_madt_cpu_entry;
 
-and
-
-hw/i386/microvm.c:        DeviceState *dev = qdev_new(TYPE_ACPI_GED_X86);
-
-Admittedly given it's not limited to pc the function name is wrong ...
-
--- 
-MST
-
+r~
 
