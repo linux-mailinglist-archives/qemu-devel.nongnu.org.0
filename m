@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05DA3AD781
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 05:49:06 +0200 (CEST)
-Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09803AD77D
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 05:47:32 +0200 (CEST)
+Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luRyj-0003ia-Q2
-	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 23:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
+	id 1luRxE-0007wm-0m
+	for lists+qemu-devel@lfdr.de; Fri, 18 Jun 2021 23:47:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luRtX-00008y-4T
- for qemu-devel@nongnu.org; Fri, 18 Jun 2021 23:43:44 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:35551)
+ id 1luRtW-00008S-J8
+ for qemu-devel@nongnu.org; Fri, 18 Jun 2021 23:43:42 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:44608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luRtN-00081H-FJ
+ id 1luRtN-00081L-QD
  for qemu-devel@nongnu.org; Fri, 18 Jun 2021 23:43:42 -0400
-Received: by mail-pg1-x536.google.com with SMTP id v7so9460941pgl.2
+Received: by mail-pl1-x62c.google.com with SMTP id x22so4133218pll.11
  for <qemu-devel@nongnu.org>; Fri, 18 Jun 2021 20:43:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+OXX5KjIYz/ZS9gLgWEfQeUt72TgJXhxPXE04khIgeU=;
- b=S/GO4BjOsoDKWuxkTN3vkKjQvtSHxdJU+cp65gGSYdH8lpEeAV5c7cnIL1WjBP4wdx
- 5nsJCXf8LFwN+xhblY2eeqDKUp0awxxIUOL3Nl8QFq0E5kUC7CUbWdbOmx3+r6zTjnmq
- xE7WG1Meb/uLClwRX5aQElP/TXMLeq3L/KtcyF+aMNcIZmRcGjmkFah5ybjrS5bzKgSn
- pLzUvvrbF7XszymWpihKOsGvH3tPeTqgrffuvJc8xP+qi5/QqYqicUk+CxRj8QVX8IbD
- dEG1dng/6O9bp/MSh5ML4bL8mFOoQsuZyojezQdT2PfHdQK2QUVTVTgzQgci0Q3PBfuC
- k2Sw==
+ bh=6XhZDg9Govvz9gc3VGnWdnVC8clvh9XH69vOvHyBLl0=;
+ b=B7DgDyNsPlzK/y/kHNSUjiAzoQ+BvbREj7iI3LOJH8DD5nkMFIa3ehRtPeedKUMFjH
+ Iigd7J7UxHGzekuObvChgosi/3s7KeLKnPYmpP+F1+SlnIbIe+USHiKhGvN2nh4qTnHH
+ 0fa8kNUf5r3Ib3QjcYj8w3FPmLsuL1zRZhwQLXibnXRDkvc8p1DUfZGKiq0xhqTZ7BDV
+ UjlXAlBTF657xmCpupqVrnzuW1Gl/Ai4aM+coDhwuIY0aT60S9eRtbyQ/DcDc/aUIoD5
+ nBWe0NJ7G5onuyx36v6v57MVme+2dRzbQilWaLHpggWxhRzmJGvvgAB6I+KAP3Wq+02U
+ US1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+OXX5KjIYz/ZS9gLgWEfQeUt72TgJXhxPXE04khIgeU=;
- b=rHEJYOJDSM4QN514MkYLlvI49VA5XK6KDVvb7ig8PcQSGN1txmfKM02HigRkbohuUJ
- FNmPnyh5xqIRZ5JWjNOpvjbI1mMZUWl+INIavBuoxVePfztLr7gpJMFiVYSfVdapTxy3
- hMUjc22fg2ZTnmxL/hDydNoUmxCYrNTesesuWN9irGwjiiCAfuEwwRqRwG3cs9FNO3dM
- FGiipcZph4HfbSNfMsuzHLHVIaJJMjQnob4CacX8iP+jfnsV45NFgjtLbbe3HIjFeO4r
- iHl+1VbvTTy+fnFb9MbUpzNNFWVtBkCp7d7HiufiMCxOvh6a5sbWz+liHL84wTph+h/Q
- NR3g==
-X-Gm-Message-State: AOAM531IJoxFI50f8jJma79HQN0+Rx7XYz3wqTBQZhAXaQVPO+6NEMI/
- Tu26PuYSPHQ5L/Wy8m2ee3LrHqXWSuF+6A==
-X-Google-Smtp-Source: ABdhPJx3sXRu4H/APChTtefwLlKrHhJShhefIU2mAB8InZ9n/n9kSidrdXMQARjBg12zvtQdEP3pGQ==
-X-Received: by 2002:aa7:962f:0:b029:2ed:cf:1f90 with SMTP id
- r15-20020aa7962f0000b02902ed00cf1f90mr8006496pfg.76.1624074211934; 
- Fri, 18 Jun 2021 20:43:31 -0700 (PDT)
+ bh=6XhZDg9Govvz9gc3VGnWdnVC8clvh9XH69vOvHyBLl0=;
+ b=enxD4EweCsRrlzL4U/nzG/vB63CaBoY0n10C2rT6Rq8unowXNvl3uuW+u9kTCl+bGC
+ Y51YE9BiXnhczCrdfJkfyfdo1AbLMDQOOdABdmdBP9SdVG1NklBvNsi7fXJ26m0EkEAX
+ kelKT7Am4FK1KXIbmR0ANmfsIAv3kOCet8N0OKyb0DO1QB1XueoygMp/Ot4KQjsDKMdp
+ pqlxtvGmNkJn6k8YhqZwuVEODMS5A684Yg1fxAiPX5YHAs5AVaWGx09VIoke8UH8Igvr
+ AXMJAJ8802JFIZzd2sMklEySuKHM3u5AnZIXRTopsPBjYCov3LkxdpXwESgU2jAOqPrZ
+ tvBQ==
+X-Gm-Message-State: AOAM530pex/2BnZM5w+h44VgW9YMLAjgugzJBmM1R2qv3SH/u8tcmXRt
+ kCNbXu8/EWLSIUyBH+u9HrevpwA8SmhHcA==
+X-Google-Smtp-Source: ABdhPJw5gDlKAm5dULQ843UV5fA6SudcFsr7BiNXQMlasLu/RgSXJrc+7jfMYV7sh2qh9tbSt99eVQ==
+X-Received: by 2002:a17:90a:31c4:: with SMTP id
+ j4mr25823220pjf.105.1624074212535; 
+ Fri, 18 Jun 2021 20:43:32 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id z6sm10045154pgs.24.2021.06.18.20.43.31
+ by smtp.gmail.com with ESMTPSA id z6sm10045154pgs.24.2021.06.18.20.43.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 20:43:31 -0700 (PDT)
+ Fri, 18 Jun 2021 20:43:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/12] linux-user: Introduce imgsrc_read, imgsrc_read_alloc
-Date: Fri, 18 Jun 2021 20:43:19 -0700
-Message-Id: <20210619034329.532318-3-richard.henderson@linaro.org>
+Subject: [PATCH 03/12] linux-user: Tidy loader_exec
+Date: Fri, 18 Jun 2021 20:43:20 -0700
+Message-Id: <20210619034329.532318-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210619034329.532318-1-richard.henderson@linaro.org>
 References: <20210619034329.532318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,158 +87,71 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduced and initialized, but not yet really used.
-These will tidy the current tests vs BPRM_BUF_SIZE.
+Reorg the if cases to reduce indentation.
+Test for 4 bytes in the file before checking the signatures.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/qemu.h      | 50 ++++++++++++++++++++++++++++++++++--------
- linux-user/linuxload.c | 46 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+), 9 deletions(-)
+ linux-user/linuxload.c | 42 +++++++++++++++++++++---------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 9e5e2aa499..f4cdfb16b3 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -168,6 +168,37 @@ extern unsigned long mmap_min_addr;
- 
- /* ??? See if we can avoid exposing so much of the loader internals.  */
- 
-+typedef struct {
-+    const void *cache;
-+    unsigned int cache_size;
-+    int fd;
-+} ImageSource;
-+
-+/**
-+ * imgsrc_read: Read from ImageSource
-+ * @dst: destination for read
-+ * @offset: offset within file for read
-+ * @len: size of the read
-+ * @img: ImageSource to read from
-+ * @errp: Error details.
-+ *
-+ * Read into @dst, using the cache when possible.
-+ */
-+bool imgsrc_read(void *dst, off_t offset, size_t len,
-+                 const ImageSource *img, Error **errp);
-+
-+/**
-+ * imgsrc_read_alloc: Read from ImageSource
-+ * @offset: offset within file for read
-+ * @size: size of the read
-+ * @img: ImageSource to read from
-+ * @errp: Error details.
-+ *
-+ * Read into newly allocated memory, using the cache when possible.
-+ */
-+void *imgsrc_read_alloc(off_t offset, size_t len,
-+                        const ImageSource *img, Error **errp);
-+
- /* Read a good amount of data initially, to hopefully get all the
-    program headers loaded.  */
- #define BPRM_BUF_SIZE  1024
-@@ -177,15 +208,16 @@ extern unsigned long mmap_min_addr;
-  * used when loading binaries.
-  */
- struct linux_binprm {
--        char buf[BPRM_BUF_SIZE] __attribute__((aligned));
--        abi_ulong p;
--        int fd;
--        int e_uid, e_gid;
--        int argc, envc;
--        char **argv;
--        char **envp;
--        char * filename;        /* Name of binary */
--        int (*core_dump)(int, const CPUArchState *); /* coredump routine */
-+    char buf[BPRM_BUF_SIZE] __attribute__((aligned));
-+    ImageSource src;
-+    abi_ulong p;
-+    int fd;
-+    int e_uid, e_gid;
-+    int argc, envc;
-+    char **argv;
-+    char **envp;
-+    char *filename;  /* Name of binary */
-+    int (*core_dump)(int, const CPUArchState *); /* coredump routine */
- };
- 
- typedef struct IOCTLEntry IOCTLEntry;
 diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
-index 9d4eb5e94b..3b0bafc490 100644
+index 3b0bafc490..8b93b9704c 100644
 --- a/linux-user/linuxload.c
 +++ b/linux-user/linuxload.c
-@@ -2,6 +2,7 @@
+@@ -143,31 +143,31 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
  
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "qapi/error.h"
+     retval = prepare_binprm(bprm);
  
- #define NGROUPS 32
- 
-@@ -74,6 +75,10 @@ static int prepare_binprm(struct linux_binprm *bprm)
-         /* Make sure the rest of the loader won't read garbage.  */
-         memset(bprm->buf + retval, 0, BPRM_BUF_SIZE - retval);
+-    if (retval >= 0) {
+-        if (bprm->buf[0] == 0x7f
+-                && bprm->buf[1] == 'E'
+-                && bprm->buf[2] == 'L'
+-                && bprm->buf[3] == 'F') {
+-            retval = load_elf_binary(bprm, infop);
+-#if defined(TARGET_HAS_BFLT)
+-        } else if (bprm->buf[0] == 'b'
+-                && bprm->buf[1] == 'F'
+-                && bprm->buf[2] == 'L'
+-                && bprm->buf[3] == 'T') {
+-            retval = load_flt_binary(bprm, infop);
+-#endif
+-        } else {
+-            return -ENOEXEC;
+-        }
++    if (retval < 4) {
++        return -ENOEXEC;
      }
-+
-+    bprm->src.cache = bprm->buf;
-+    bprm->src.cache_size = retval;
-+
-     return retval;
- }
- 
-@@ -129,6 +134,7 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
-     int retval;
- 
-     bprm->fd = fdexec;
-+    bprm->src.fd = fdexec;
-     bprm->filename = (char *)filename;
-     bprm->argc = count(argv);
-     bprm->argv = argv;
-@@ -163,3 +169,43 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
- 
-     return retval;
- }
-+
-+bool imgsrc_read(void *dst, off_t offset, size_t len,
-+                 const ImageSource *img, Error **errp)
-+{
-+    ssize_t ret;
-+
-+    if (offset + len <= img->cache_size) {
-+        memcpy(dst, img->cache + offset, len);
-+        return true;
-+    }
-+
-+    if (img->fd < 0) {
-+        error_setg(errp, "read past end of buffer");
-+        return false;
-+    }
-+
-+    ret = pread(img->fd, dst, len, offset);
-+    if (ret == len) {
-+        return true;
-+    }
-+    if (ret < 0) {
-+        error_setg_errno(errp, errno, "Error reading file header");
+-
+-    if (retval >= 0) {
+-        /* success.  Initialize important registers */
+-        do_init_thread(regs, infop);
++    if (bprm->buf[0] == 0x7f
++        && bprm->buf[1] == 'E'
++        && bprm->buf[2] == 'L'
++        && bprm->buf[3] == 'F') {
++        retval = load_elf_binary(bprm, infop);
++#if defined(TARGET_HAS_BFLT)
++    } else if (bprm->buf[0] == 'b'
++               && bprm->buf[1] == 'F'
++               && bprm->buf[2] == 'L'
++               && bprm->buf[3] == 'T') {
++        retval = load_flt_binary(bprm, infop);
++#endif
 +    } else {
-+        error_setg(errp, "Incomplete read of file header");
++        return -ENOEXEC;
 +    }
-+    return false;
-+}
-+
-+void *imgsrc_read_alloc(off_t offset, size_t len,
-+                        const ImageSource *img, Error **errp)
-+{
-+    void *alloc = g_malloc(len);
-+    bool ok = imgsrc_read(alloc, offset, len, img, errp);
-+
-+    if (!ok) {
-+        g_free(alloc);
-+        alloc = NULL;
-+    }
-+    return alloc;
-+}
++    if (retval < 0) {
+         return retval;
+     }
+ 
+-    return retval;
++    /* Success.  Initialize important registers. */
++    do_init_thread(regs, infop);
++    return 0;
+ }
+ 
+ bool imgsrc_read(void *dst, off_t offset, size_t len,
 -- 
 2.25.1
 
