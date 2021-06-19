@@ -2,80 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADBD3AD962
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 12:29:16 +0200 (CEST)
-Received: from localhost ([::1]:53724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF563AD968
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 12:34:17 +0200 (CEST)
+Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luYDz-0003XJ-6b
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 06:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
+	id 1luYIq-0006rk-Qq
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 06:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luYC8-0002cT-1H; Sat, 19 Jun 2021 06:27:23 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luYC6-0000GP-1h; Sat, 19 Jun 2021 06:27:19 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- n35-20020a05600c3ba3b02901cdecb6bda8so10258959wms.5; 
- Sat, 19 Jun 2021 03:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nc5VNATnJB1OuvV3i6163i6nDpvBOrIOQIN1kwM7sUk=;
- b=uTDSbMgpwDroudoL4KDQNyXm2Rv94fGz+beB9zCpYWHw6kYYp0zDeAbMYU6KsTVJGD
- mibur8IQUZ/BWJ066pAZ/wsu+59OY3SPtWKifaLo4rO1bBctEkYYr4B1hssipZiPvgFS
- gKGngPm6KmD3h0gfG/Ipij6eWMUPb2GbJCQgpMM0B7TRN6nYWqV8OTg4BDaiIN6zOBIS
- TZaMqV1qdlmYgVAllOmfeQv6Qrq27M4U12IyoaHO28W3mgyWHIqZqIKdWVI+xV6faAQR
- G8qx0E81quoDuWUfo0ry3/qkXHdeiSTKozS2+zCmReeE7CPzx54r5gH/S2IOgl9IkNFx
- dYfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nc5VNATnJB1OuvV3i6163i6nDpvBOrIOQIN1kwM7sUk=;
- b=Vq2HJ2ipvnmaf6J0X7tlB7TV646h/ZFZS23Yfdozkhzz+HiQvxF/ajsnHlXuYkPD5x
- P8oUctH82EL7jvF/iJB8s1EWg/DRm7VP6M6+riZp9f+iua5nwBEf6H++rULPLI3qyFZH
- Zg2v1Gl9flbRCiIzIFl3D9RfQkTdgwjkQ7+bBtejjsJLC8oSocguwqLxaEMJH21W6Uhz
- YQP1z4qNkaK2SH/J6MLcPPm+4Ki2b10JPJ+g4WerBfStDC1YPZ0F2n/Ekm+XYe6p2Qwn
- 8WIsZCUAk/wCqxYVCmFdH7UI4lh3Om58iY75HId51AJigz5IvCl86CjSgec/S0BOwtve
- RyIg==
-X-Gm-Message-State: AOAM530lgCa6Pfdtd+GIpbsAYc5lp/68vUF1acdaedhozivrcDw/W4Mv
- OZQcg9kTrjObcVz3+DEpJMk=
-X-Google-Smtp-Source: ABdhPJyvkMj1WSWnZ6KzhjeJD+x6Mbh82i4OmADINXB4VlxRhnLEY/+kg0QYpSL1daidt5iS5gFY9g==
-X-Received: by 2002:a1c:2604:: with SMTP id m4mr12380626wmm.131.1624098435589; 
- Sat, 19 Jun 2021 03:27:15 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id p8sm3677639wmi.46.2021.06.19.03.27.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Jun 2021 03:27:14 -0700 (PDT)
-Subject: Re: [PATCH] docs/system: arm: Add nRF boards description
-To: Alexandre Iooss <erdnaxe@crans.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20210619095750.3216150-1-erdnaxe@crans.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ce559a20-4abc-7810-f76c-1572feaa7e9e@amsat.org>
-Date: Sat, 19 Jun 2021 12:27:13 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1luYH8-0005IE-23; Sat, 19 Jun 2021 06:32:30 -0400
+Received: from mail-db8eur05on2137.outbound.protection.outlook.com
+ ([40.107.20.137]:7073 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1luYH3-00048O-VT; Sat, 19 Jun 2021 06:32:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hpf9UR8dsz2hEqxYfTwnjMOiIdU0qOGsFRF7Di3nZdxCaXAXVoNIG5A5xD7cQ1LxiOC5gC5SDzyOFabpIWBsFyx7Hn9A5lkBvN95lPljc9TFbtKjZas7bjvk05n6ukgznhzMwG6Hsk6Sz5pNk/cO4a/F4BQZN2i1EQzMUaoD7Kx4/bzku8ZNOFqvD4rptTd/On0ZJNbmdUA5cmLNlNLKg2xPmkZNHpKdGZTTVfGaceG2ebO+J/cxSak5GnB1aXwjxjZeibqrt328t3sVuUm1nSGwlHgkNjG8WX5AZwelti5n4ooDHcZTVZIc6pc7gXetcpG9OZd1k07zwkTxbZpq2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mu9Bo7AziBO4nm7tVc6d8qJg6ZuOkDBks7I+EUMSBKw=;
+ b=WxJTYF94zYsulz1ZnBzAO6ykG7sSsz8eGJi/sPgd1xAnEg0r7Z7ubJeoTi+NAoXozpIG4PcKnS4yZdscQ3dyOU5IIUoc3n1XPImtxjmelyhYKd8uFEA3f6mQeMSGdPnOQBskVJiUHT4XuWzaxfl6gIKYC9FbQmB9u1hM0zM+KuHOQ1PuiCBnv8G2vS5bGyZdHXEGMPld+tOolukWRNLqBcyaNn6a04oEAxHPWKAXlTESglfoV8EiYOxeGb7Iyz6iYGgstybuARMcxjm3vorTjHvypbwWyHs9U+/Pv/l8SeT0T/o3mSZNmL80gMgFeSnSU5YcUlxQFaNTJSVUB/zY2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mu9Bo7AziBO4nm7tVc6d8qJg6ZuOkDBks7I+EUMSBKw=;
+ b=aTgDST+LlYc0nowa1N3GyFaxWAP8TMglTZjJwwQv/tD9bobLokpd8DcMZTQ2B3CKKo9bk6Irq5Ejc4jo+u9tRYPJkk/qwz300GodGnCABXqq319LN9P5bVwSjk7BOCIkGspxEn77FvDoBi9EUAUm9DbAE2o5BaHqEdlN4ESoee0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1908.eurprd08.prod.outlook.com (2603:10a6:203:4b::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16; Sat, 19 Jun
+ 2021 10:32:21 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4242.022; Sat, 19 Jun 2021
+ 10:32:21 +0000
+Subject: Re: [PATCH 3/6] block/file-posix: Do not force-cap *pnum
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+References: <20210617155247.442150-1-mreitz@redhat.com>
+ <20210617155247.442150-4-mreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <8a97f367-fea2-5642-b8fb-66c7b858a6ad@virtuozzo.com>
+Date: Sat, 19 Jun 2021 13:32:18 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20210619095750.3216150-1-erdnaxe@crans.org>
-Content-Type: text/plain; charset=utf-8
+ Thunderbird/78.11.0
+In-Reply-To: <20210617155247.442150-4-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.202,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.221]
+X-ClientProxiedBy: HE1PR07CA0004.eurprd07.prod.outlook.com
+ (2603:10a6:7:67::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.221) by
+ HE1PR07CA0004.eurprd07.prod.outlook.com (2603:10a6:7:67::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.7 via Frontend Transport; Sat, 19 Jun 2021 10:32:20 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e0cafed2-2dba-4520-6669-08d9330d8508
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1908:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB190822B846768C5B7F6045C5C10C9@AM5PR0801MB1908.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HrNMLkyMG4tplr53OANKHzgfrQldPJ5cmuG1PoxzM7aTRs9gqDzDlQJlt71P0aUR2lAWUO5ecsOMDRoAFm8SGHKef/7fVHbvzcjNw4Mpo/E1fFTlQBu41BwdFZKmgHpbEqEuA8AfvT0yDjFQy36lanJ2ciBaMNPi9ITY3k4VUyAD/tFHhyOmh1CP1PytO7sF/W6O7ycbOKqNP7z1054E5yf9CPjoONpiwyHJGxdYCWrkylcQgf0KFRxNoXJyTkxk+6WANHPNs37B+wp7rkj5EFUQs2DHNIW2ieyC6r8eWVOtyt6jvLg2AsQGbI3PDz9G38cuWlJeNovh8K90b+sKnCcKETOMyscRkbyRQoXtGwn8p7ZTtzIDS2QXKMhwhRisIddbPWp8RBGO5JixHW57TY9A2tLzUtCkHAzGhw6YovGlnVEan7uOzj4ywBdl48dY9F1MaJnm7hpCVXgcd+ZKRSSPwMxifJ5wDeldJ8s8Z58zWHfeTGLe/oXuzgtPs0vGld9/Brt7A/tyu6dhEHtmXJTv9Nm8KpGGwKVkPW0ErW0EVMtoz9fY0zg7lDsW4PS18j+lV8f9m8qLvY/KAZ9gLNy+V5etnZDTctwLijRHsVTJOV2gDmt/ArXYKMy9j9Wt3vhsHfOJNJ42MFKJVQ5Td1K5pIVFqKjAmV6+HaT6TcqQCQrKHgjYy2YQzmxziRWMHkTP8Ea5Pnhelj+2FeS2tQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(376002)(366004)(346002)(39830400003)(16526019)(8936002)(38100700002)(38350700002)(83380400001)(8676002)(31686004)(186003)(36756003)(26005)(4744005)(2906002)(52116002)(478600001)(16576012)(5660300002)(4326008)(316002)(6486002)(2616005)(956004)(66946007)(86362001)(31696002)(66556008)(66476007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WkdvdjFWajFVaGtyREIrZm4xNDg4MkFSUlJQOVp4ZjN2cDI4N2pPb2hBemFQ?=
+ =?utf-8?B?RkFlTFY2VnFSY3ViNXpFRG16bWNaUXp2VGdFWVlVdjlNRkYxM09iaTNEOGxG?=
+ =?utf-8?B?Yk4zWXA1UXorZ1VtYXdMNDczYTROZlhNVm5jdjgxb2pyTUVpM29od3VtWUty?=
+ =?utf-8?B?K3JMakxXSDZkUjUxOHhuOTZWQ0cySVlxVTZtdU1TSVFrRk0zZnkwTGpJN1or?=
+ =?utf-8?B?MWw2R3VZTVRRSHlsaUtPSHlSN1IzVzBhTWZzQ1I4U3N1N2NFYmQydURIaU0x?=
+ =?utf-8?B?ejEyMmFyaGN3SWNqNUNNYTc2K2pzeWtoVHRCbjRPSjZ3eFdvUlV1VlBZNTBX?=
+ =?utf-8?B?U3JnelkrTXZiWWxTUWtVRmhNdUlKR2EwVC9hbFY5NkoyUUh2dEs1cVI4akM4?=
+ =?utf-8?B?NFllSG1tZGdhdm5iTXBZOXBMNmRwc0lKMkFGWHptZGxyUXJSdFN6NXhTdmlv?=
+ =?utf-8?B?MXJJQ3dDZzRIM1I5STFpcFRacXJtVkJReFVGSkZqMjk4T0xJZjVYWWE4Njl4?=
+ =?utf-8?B?V1prMFF3a0EySmFvblFXSlhCWFQvUDcxczdRSDRSOWZMMitmL2RVclNlZ0hB?=
+ =?utf-8?B?QStzVEpycUszL096czBvdmljSGF5S2g5QjdOTFdRMVFRdzhzRkhFNG1yayti?=
+ =?utf-8?B?aDZ4cVRuYStxMlF5cllXbG1pOWZwVUlJT3YwcUhBcmtJb1VHYllrSFNFT3ZZ?=
+ =?utf-8?B?OVhYM1duV1lkOEI1cWh5dzExT3g3ME03Vk9QT251cTBFMlIwaytxNHFmYVhJ?=
+ =?utf-8?B?WnlJbW5sQXExTEVWa2pQdHdjMzFHZVRLaW5XUksyNDh0Nlg0ZUF0SGtxaHp4?=
+ =?utf-8?B?VUFXSlFiQjdCWkFKVVpRdXRvcU94bDVJZFR5UVpXRStrVDNkWHlqSlg3MWVJ?=
+ =?utf-8?B?YkUrcHJzcncrQjAvV29YMEs5Mkx4aTVyNU5ISDRLbWUrdEZBNk41VFhkNElL?=
+ =?utf-8?B?T3d3dDZJL09RamJMTTV6d3ZIM0pWNjY5MUNTaTZ2Wm1rdU9DNFdXbjIzQitq?=
+ =?utf-8?B?N25yR2U0K3VpMFRLTWZyTVdDS05XMmNIbWNoaUpPTU9KTU9uYXRLRmltNEQ4?=
+ =?utf-8?B?dTgwdUNFbVJZOXJyczVOallUN0JZV2Y2M1A0bU5QcWcxMFExbDlabkNuTDM5?=
+ =?utf-8?B?OWtmbkNYK3RvaHNlZkErZk9pZUlTK2pSZnYrcm5xa2FnT24xNFUxTFM0QTUx?=
+ =?utf-8?B?b1ZTd1NPdzRJSVZ3bFZKLzRUK0RlWmUxdWJHVFdZSDFuTWlmdThDYzlFemZ0?=
+ =?utf-8?B?TStJRjRNSTQvNGFka1c1L3VmVU5iT0U1Nm9DdCtKSEV4QVZZRHZpR25jbTdH?=
+ =?utf-8?B?bDEvVHg5bzh2MWRuVXZ5V3FtODcyQkhVZ054b0lCelU3cnk2WFNxNVU4REFl?=
+ =?utf-8?B?amlCSkp1N0kwZkp6SU1yQ0xFeTJ4eVFBUmErUlJJVkZVWkl6UDNlQXdvM094?=
+ =?utf-8?B?L3A4SldrVlBNUnFnVlk1dDRZRE9hbCtHbk9DRHkrVkhYcFA3Zi94ZVVjb3lx?=
+ =?utf-8?B?S3NUUWloSE8vckZuUHhXUFBQMytNOVI2M1B0M3FTTEo1eE1Gd3prSUdBU2lN?=
+ =?utf-8?B?NyswdzM4bzA4ZmNyNksyUVRqdGNESkc2M3ovWkNrbXYzV09TRTlkTVZPQmpa?=
+ =?utf-8?B?c3YxVFZIZm5EYldFLzNmUlBtTUNBQXRrTnpjMitpWnpJZTh1NEhJdlkzdmVx?=
+ =?utf-8?B?anhCV3NwZndadndySS9TTjlCSURNU0ZaSTFmUjBiRDlwcjhhazR2eGtrK2JS?=
+ =?utf-8?Q?eyvoqeiSQJQWHRA+CQYq1DBcGP10hpL4SFs1KJq?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0cafed2-2dba-4520-6669-08d9330d8508
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2021 10:32:21.0939 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3he0PBfoCh88cvzwBueCjH7M93O8eIZmvEYcXzzoSNgdBWt6uEodcycdFggxRA3nfkYF86+QPxEmFUPj8BrXH+WZfFKNOat54PRj6GcVM38=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1908
+Received-SPF: pass client-ip=40.107.20.137;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.202, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,135 +144,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Su Hang <suhang16@mails.ucas.ac.cn>,
- =?UTF-8?Q?Steffen_G=c3=b6rtz?= <contrib@steffen-goertz.de>,
- "open list:NRF51" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Julia / Su / Steffen
-
-On 6/19/21 11:57 AM, Alexandre Iooss wrote:
-> This adds the target guide for BBC Micro:bit.
+17.06.2021 18:52, Max Reitz wrote:
+> bdrv_co_block_status() does it for us, we do not need to do it here.
 > 
-> Information is taken from https://wiki.qemu.org/Features/MicroBit
-> and from hw/arm/nrf51_soc.c.
-
-Great idea :)
-
+> The advantage of not capping *pnum is that bdrv_co_block_status() can
+> cache larger data regions than requested by its caller.
 > 
-> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
-> ---
->  MAINTAINERS                |  1 +
->  docs/system/arm/nrf.rst    | 49 ++++++++++++++++++++++++++++++++++++++
->  docs/system/target-arm.rst |  1 +
->  3 files changed, 51 insertions(+)
->  create mode 100644 docs/system/arm/nrf.rst
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 636bf2f536..7c54611cc2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1031,6 +1031,7 @@ F: hw/*/microbit*.c
->  F: include/hw/*/nrf51*.h
->  F: include/hw/*/microbit*.h
->  F: tests/qtest/microbit-test.c
-> +F: docs/system/arm/nrf.rst
->  
->  AVR Machines
->  -------------
-> diff --git a/docs/system/arm/nrf.rst b/docs/system/arm/nrf.rst
-> new file mode 100644
-> index 0000000000..e30aba8b06
-> --- /dev/null
-> +++ b/docs/system/arm/nrf.rst
-> @@ -0,0 +1,49 @@
-> +Nordic nRF boards (``microbit``)
-> +================================
-> +
-> +The `Nordic nRF`_ chips are a family of ARM-based System-on-Chip that
-> +are designed to be used for low-power and short-range wireless solutions.
-> +
-> +.. _Nordic nRF: https://www.nordicsemi.com/Products
-> +
-> +The nRF51 series is the first series for short range wireless applications.
-> +It is superseded by the nRF51 series.
-> +The following machines are based on this chip :
-> +
-> +- ``microbit``       BBC micro:bit board with nRF51822 SoC
-> +
-> +There are other series such as nRF52, nRF53 and nRF91 which are currently not
-> +supported by QEMU.
-> +
-> +Supported devices
-> +-----------------
-> +
-> + * ARM Cortex-M0 (ARMv6-M)
-> + * Serial ports (UART)
-> + * Clock controller
-> + * Timers
-> + * Random Number Generator (RNG)
-> + * GPIO controller
-> + * NVMC
-> + * SWI
-> +
-> +Missing devices
-> +---------------
-> +
-> + * Watchdog
-> + * Real-Time Clock (RTC) controller
-> + * TWI (i2c)
-> + * SPI controller
-> + * Analog to Digital Converter (ADC)
-> + * Quadrature decoder
-> + * Radio
-> +
-> +Boot options
-> +------------
-> +
-> +The Micro:bit machine can be started using the ``-device`` option to load a
-> +firmware in hexadecimal format. Example:
+> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-I'd use "ihex format" instead of "hexadecimal format", see
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-https://en.wikipedia.org/wiki/Intel_HEX
-
-and also commit e4a25ed91947af1ec87f23725de4ac86a3353b48:
-
-    loader: Implement .hex file loader
-
-    This patch adds Intel Hexadecimal Object File format support to the
-    generic loader device.  The file format specification is available
-    here: http://www.piclist.com/techref/fileext/hex/intel.htm
-
-    This file format is often used with microcontrollers such as the
-    micro:bit, Arduino, STM32, etc.  Users expect to be able to run .hex
-    files directly with without first converting them to ELF.  Most
-    micro:bit code is developed in web-based IDEs without direct user
-    access to binutils so it is important for QEMU to handle this file
-    format natively.
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-arm -M microbit -device loader,file=test.hex
-> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-> index edd013c7bb..5277ac0242 100644
-> --- a/docs/system/target-arm.rst
-> +++ b/docs/system/target-arm.rst
-> @@ -87,6 +87,7 @@ undocumented; you can get a complete list by running
->     arm/digic
->     arm/musicpal
->     arm/gumstix
-> +   arm/nrf
->     arm/nseries
->     arm/nuvoton
->     arm/orangepi
-> 
-
+-- 
+Best regards,
+Vladimir
 
