@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28343ADB1E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 19:31:50 +0200 (CEST)
-Received: from localhost ([::1]:45816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E903ADB1C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 19:31:48 +0200 (CEST)
+Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lueov-0003Tk-Pz
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 13:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55338)
+	id 1lueot-0003LN-Rq
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 13:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luejq-0003PT-7k
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:34 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:43781)
+ id 1luejs-0003UA-2v
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:36 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luejo-0003ZO-FV
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:33 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id e22so4354820pgv.10
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 10:26:32 -0700 (PDT)
+ id 1luejp-0003aJ-F1
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:35 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ t19-20020a17090ae513b029016f66a73701so2663570pjy.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 10:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T5vMXhrM5rWdv6nO0g8iwcSHNdJ0kMFYBGi03uVNbn8=;
- b=ZzaFGVcwPVIC9L3O42c7ivq47EO5nEGDThF2Pt5WyzAdm/zaEgbw61cHFJWvyqXJIA
- XzqkyH2hGLyXtQZCzgF/UwAlyZK3CekDJRWL7oLeN7BYV98LEDOv/OOLEkjpVfwOj7KI
- XTBXohtfUxS7rO7SgeBgyOUH5ECxhpLnmGaiLyeaHEzfe687sc+a8N1Yt+P/ZP1fnLhS
- BCOQ27Zea4od4g1rW2YA4FR2j6Aw34cXjOOQ2/oSmPszy7kARmMk7hPLr1Xx6v0oDgEL
- v5hYn6rg+ZibxVnaq1TSLWT47MD+GC2HkBvSZ+FJHjvzub3izaSLR+LgW5qqJ4Ku68td
- r2iw==
+ bh=Yss0fdcq2xuDYayxCjybFaIy9QYHnfPZU6LWnmiOPAM=;
+ b=xG137mObUWZEgmXMM9MtIBFF2Ugri3uCeIz8VcSm/zxeq7kDSejYp2OCzvIbAxrdDj
+ ax4o7gmZqmEnef2P7svkeULztX/71iZ37iG7xnINDCI9o1Pqa5BUtKEmUqSYW4NYKFr9
+ gMVs9Yt6OYf0lypQLknltXs2T7snMP9364F3zo48DvKKFRkF3CRfEt/t0vXQyY8EvJLM
+ xmmyz09YTJvr4mMYsOsqfuUC1zD1Ee+5redOYndtnt03+xy0Ulas0tPMp37gtIQDIzZ+
+ n9kuw50ARn1QNRL6/NP8DL54kARx0wE/uzKHr0TY0jUBw1Z769aoJdWkzNNUoKcoz+EA
+ P80Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T5vMXhrM5rWdv6nO0g8iwcSHNdJ0kMFYBGi03uVNbn8=;
- b=cy4dy/KeqEe+61w8BGNOktSNBdHXbOpIRI+gF8TNPm+XrRniYtmBh+p7RfChhKNoGi
- 4QQUACqxYH44fn/Z7HxteOFp7VPajSjtkqfYp2JD3RSjamHx69bL1BouwwMN4JDB/d4h
- zO5IaXD3ZGikrGgFDIWYj45r9O+5uDEI1Lc3NP4fHU6ezTc67KgRWM1GtqRxDQtHUPRj
- yHl+RcI+5xPzueFl17Q+CgllhbluUXC4aVbNaSug/7hyuVDkvCFxPBHoz+cUTg9Ph4kc
- H8Vrnayx7pm61dW8zE7mA1FAFnY69TlKOFqMfnybMFjKyywnnUB2/sW5shawjSgr1WIX
- syag==
-X-Gm-Message-State: AOAM5300LDiU4LV4F09Kiqol13tkv84Ue5k1qLhZSNyXnqttaD3RgLt8
- ZixIaoZGYKHw/RIZ+kX5av/I9qqLFNClMA==
-X-Google-Smtp-Source: ABdhPJz4I0MZgZrEnpQjQJzcg1k0rCLLvYwPpliwZ4RJNkSsKUfQv9k0PWcxRq/3L90kyboYcPEUDw==
-X-Received: by 2002:aa7:8543:0:b029:2e9:e077:21f6 with SMTP id
- y3-20020aa785430000b02902e9e07721f6mr11126244pfn.69.1624123591189; 
- Sat, 19 Jun 2021 10:26:31 -0700 (PDT)
+ bh=Yss0fdcq2xuDYayxCjybFaIy9QYHnfPZU6LWnmiOPAM=;
+ b=BgcLSzNaAw560FTYGW7zGOkwj8q7pBd/ii+LmqkbKWsMwIeiVhBvAxz9+4CsxAcaam
+ +aYso1bOQmZiIG8VHWu34ZUgpBdkTIbibq9TjBGqbiQePYxtINmc2k2lvspUVFpvvVKj
+ tmevu/AqIu3xlCaBcD7tUqNKOBsD9IAajs1oYssgTJbYjMiDUq9ExQNNg+HZLte83PVy
+ owuKtProgNNsfF9eTc01LvKAnc1b5/jsQfThjfQHhldVEsT+0RvhkPWg7U5wJEem7bQI
+ YNhnG6JWuVDfZrbpy5aBazav6uiNpNXNFH+9DeaHE1AKzYBF86FImfPvpaguEdDJSljA
+ KXow==
+X-Gm-Message-State: AOAM530f8eJmeURadQ7zd+Z8FohOzi0I4GqXZIZKNEvbdHkMDqdyj5bK
+ ItKb73UXJE19JOTM/Vh/mNFLjJXjcXmc0w==
+X-Google-Smtp-Source: ABdhPJy6xtGJjefxu2APV+ABmJ6jhRb4fzRxTw/9FUHMloKYvS1RDpDZ+AS+ooD2OgvCZ8fPvOVMWA==
+X-Received: by 2002:a17:90b:1d02:: with SMTP id
+ on2mr28573691pjb.128.1624123592286; 
+ Sat, 19 Jun 2021 10:26:32 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id co18sm2084241pjb.37.2021.06.19.10.26.30
+ by smtp.gmail.com with ESMTPSA id co18sm2084241pjb.37.2021.06.19.10.26.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jun 2021 10:26:30 -0700 (PDT)
+ Sat, 19 Jun 2021 10:26:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/15] accel/tcg: Handle page span access before i/o access
-Date: Sat, 19 Jun 2021 10:26:16 -0700
-Message-Id: <20210619172626.875885-6-richard.henderson@linaro.org>
+Subject: [PATCH 07/15] softmmu/memory: Simplify access_with_adjusted_size
+ interface
+Date: Sat, 19 Jun 2021 10:26:18 -0700
+Message-Id: <20210619172626.875885-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210619172626.875885-1-richard.henderson@linaro.org>
 References: <20210619172626.875885-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,82 +90,117 @@ Cc: alex.bennee@linaro.org, pbonzini@redhat.com, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At present this is a distinction without much effect.
-But this will enable further improvements.
+Create a typedef for the access_fn callback.  Remove the
+access_size_{min,max} and access_fn arguments, and instead
+derive these from the MemoryRegion argument.  Add a write
+boolean argument.  Mark the function inline.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ softmmu/memory.c | 67 +++++++++++++++++++-----------------------------
+ 1 file changed, 26 insertions(+), 41 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 23a97849be..6209e00c9b 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1916,6 +1916,14 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-         tlb_addr &= ~TLB_INVALID_MASK;
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 744c5a80bd..7373d89600 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -509,22 +509,24 @@ static MemTxResult memory_region_write_with_attrs_accessor(MemoryRegion *mr,
+     return mr->ops->write_with_attrs(mr->opaque, addr, tmp, size, attrs);
+ }
+ 
++typedef MemTxResult MemoryRegionAccessFn(MemoryRegion *mr,
++                                         hwaddr addr,
++                                         uint64_t *value,
++                                         unsigned size,
++                                         signed shift,
++                                         uint64_t mask,
++                                         MemTxAttrs attrs);
++
+ static MemTxResult access_with_adjusted_size(hwaddr addr,
+-                                      uint64_t *value,
+-                                      unsigned size,
+-                                      unsigned access_size_min,
+-                                      unsigned access_size_max,
+-                                      MemTxResult (*access_fn)
+-                                                  (MemoryRegion *mr,
+-                                                   hwaddr addr,
+-                                                   uint64_t *value,
+-                                                   unsigned size,
+-                                                   signed shift,
+-                                                   uint64_t mask,
+-                                                   MemTxAttrs attrs),
+-                                      MemoryRegion *mr,
+-                                      MemTxAttrs attrs)
++                                             uint64_t *value,
++                                             unsigned size,
++                                             MemoryRegion *mr,
++                                             MemTxAttrs attrs,
++                                             bool write)
+ {
++    unsigned access_size_min = mr->ops->impl.min_access_size;
++    unsigned access_size_max = mr->ops->impl.max_access_size;
++    MemoryRegionAccessFn *access_fn;
+     uint64_t access_mask;
+     unsigned access_size;
+     unsigned i;
+@@ -537,6 +539,14 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+         access_size_max = 4;
      }
  
-+    /* Handle access that spans two pages. */
-+    if (size > 1
-+        && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
-+                    >= TARGET_PAGE_SIZE)) {
-+        return load_helper_unaligned(env, addr, oi, retaddr, op,
-+                                     code_read, byte_load);
++    if (write) {
++        access_fn = (mr->ops->write ? memory_region_write_accessor
++                     : memory_region_write_with_attrs_accessor);
++    } else {
++        access_fn = (mr->ops->read ? memory_region_read_accessor
++                     : memory_region_read_with_attrs_accessor);
 +    }
 +
-     /* Handle anything that isn't just a straight memory access.  */
-     if (unlikely(tlb_addr & ~TARGET_PAGE_MASK)) {
-         CPUIOTLBEntry *iotlbentry;
-@@ -1957,14 +1965,6 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-         return load_memop(haddr, op);
+     /* FIXME: support unaligned access? */
+     access_size = MAX(MIN(size, access_size_max), access_size_min);
+     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
+@@ -1423,19 +1433,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
      }
  
--    /* Handle slow unaligned access (it spans two pages or IO).  */
--    if (size > 1
--        && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
--                    >= TARGET_PAGE_SIZE)) {
--        return load_helper_unaligned(env, addr, oi, retaddr, op,
--                                     code_read, byte_load);
+     *pval = 0;
+-    if (mr->ops->read) {
+-        r = access_with_adjusted_size(addr, pval, size,
+-                                      mr->ops->impl.min_access_size,
+-                                      mr->ops->impl.max_access_size,
+-                                      memory_region_read_accessor,
+-                                      mr, attrs);
+-    } else {
+-        r = access_with_adjusted_size(addr, pval, size,
+-                                      mr->ops->impl.min_access_size,
+-                                      mr->ops->impl.max_access_size,
+-                                      memory_region_read_with_attrs_accessor,
+-                                      mr, attrs);
 -    }
--
-     haddr = (void *)((uintptr_t)addr + entry->addend);
-     return load_memop(haddr, op);
++    r = access_with_adjusted_size(addr, pval, size, mr, attrs, false);
+     adjust_endianness(mr, pval, op);
+     return r;
  }
-@@ -2421,6 +2421,16 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-         tlb_addr = tlb_addr_write(entry) & ~TLB_INVALID_MASK;
+@@ -1486,20 +1484,7 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+         return MEMTX_OK;
      }
  
-+    /* Handle access that spans two pages. */
-+    if (size > 1
-+        && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
-+                     >= TARGET_PAGE_SIZE)) {
-+    do_unaligned_access:
-+        store_helper_unaligned(env, addr, val, retaddr, size,
-+                               mmu_idx, memop_big_endian(op));
-+        return;
-+    }
-+
-     /* Handle anything that isn't just a straight memory access.  */
-     if (unlikely(tlb_addr & ~TARGET_PAGE_MASK)) {
-         CPUIOTLBEntry *iotlbentry;
-@@ -2474,16 +2484,6 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-         return;
-     }
- 
--    /* Handle slow unaligned access (it spans two pages or IO).  */
--    if (size > 1
--        && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
--                     >= TARGET_PAGE_SIZE)) {
--    do_unaligned_access:
--        store_helper_unaligned(env, addr, val, retaddr, size,
--                               mmu_idx, memop_big_endian(op));
--        return;
+-    if (mr->ops->write) {
+-        return access_with_adjusted_size(addr, &data, size,
+-                                         mr->ops->impl.min_access_size,
+-                                         mr->ops->impl.max_access_size,
+-                                         memory_region_write_accessor, mr,
+-                                         attrs);
+-    } else {
+-        return
+-            access_with_adjusted_size(addr, &data, size,
+-                                      mr->ops->impl.min_access_size,
+-                                      mr->ops->impl.max_access_size,
+-                                      memory_region_write_with_attrs_accessor,
+-                                      mr, attrs);
 -    }
--
-     haddr = (void *)((uintptr_t)addr + entry->addend);
-     store_memop(haddr, val, op);
++    return access_with_adjusted_size(addr, &data, size, mr, attrs, true);
  }
+ 
+ void memory_region_init_io(MemoryRegion *mr,
 -- 
 2.25.1
 
