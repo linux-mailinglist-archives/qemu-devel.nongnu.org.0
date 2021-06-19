@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8743ADB2A
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 19:42:55 +0200 (CEST)
-Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6117B3ADB26
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 19:40:13 +0200 (CEST)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lueze-0004yP-1K
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 13:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55508)
+	id 1luex2-0001nY-Em
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 13:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luejz-0003vj-KJ
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:43 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41579)
+ id 1luejy-0003pe-42
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:42 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:41580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lueju-0003dL-KZ
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:43 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id x73so10280293pfc.8
+ id 1luejv-0003dx-4V
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 13:26:41 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id x73so10280306pfc.8
  for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 10:26:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HZXg/FINwhlCDx9vLoMBvEcrQqzi0upM0DdxrVdyXzE=;
- b=FvPMg0qLTnaTN/dhXUgrZXO+9vOqrW3MsjIx6uPT7l1pUS0OgAmvFD8rxGfZc2KkpZ
- /MdI2SvHqVNZzDFXohViPnEUmbGErXId5osyY52J5IyRWTLeKbI3CLD1p2d0kQXLthie
- UgRmodlUGu9A+W5k2jEuk1UTtSCXQWLtt5N6Z7zFHHQZmnmoHBag7dUpbqeyrgE1aQlo
- 36w0WxwTBwY3HsBoteWEkFh0I+E1yUxIV0tw3CHFYiZI0HFJsjjYrBlzwBD3rZDrJUs+
- 2ncZmLAbfSKKtoA/WdTZo1ImSAPHTp2rPirdWbp+L4XV63gSQlBvZbNEYYWmxZaYECUC
- 66kg==
+ bh=CGmZkzk4V2WoIYclr+JhIOxHAFi329cCw8zNPXEAFb4=;
+ b=NkCrZIpOV1wk+xCetUIKP4ShbHbaafKPhsltVOTu+rH/yahV3U+ZzanyQXNc6jUbDk
+ OePbZLeD0GkmPvPOAE9JJclRAaGXWX84R8nza9DECmRp3JSUREUUi2nKiqoIybl/AxoE
+ 5a+RPYE+Ff6nMlFJZee0bhDtdrJuqxEtviAiEiozNK5INYNiP2Mwm33ZSETDuw455ucb
+ JSk7Y2UgPB0bnvEoeNRETU0NwTclWgf3KE+7sS1LmRX8MuyBYFIjGcLstTDT7WIYUngN
+ h5R/qOm2ScMlgx23pY84gOn4D/W9BWWoWR6G+NLSnDvwRTc3k5hieVYVFCaEvdQhY1r8
+ o8TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HZXg/FINwhlCDx9vLoMBvEcrQqzi0upM0DdxrVdyXzE=;
- b=t6EwkIphzSaw907sS2XRgp4JqMTw9Y2GC620eTmdHtQI6TYEr8RvbAY3PYq/CU6So3
- amxTzTyEvii0Q3Uqo4AsEGXZhMnYrI1D6ixQtHXI2iIg4Dukw/pHNA49y8J6lXRy/OJX
- ZjyRlj6lq2Bh8NpBTU38+WnOmdd5hgVtMZ5dfRWx2gk3RB1zOQ+7fJvAF8a6AvnvQwns
- BByqin9aQLFok62MQFLfAXNNztCW7KdGZC0BNbNTj4fkOL1XVlLDd2yE8DCjTwjSX4Ys
- KZQ2ayFfzHUERtM6gzj8TEbMrokPScz2ljdySa5WqLVjhfw9d5E+OHBJVEM30AJCo/5b
- ROWw==
-X-Gm-Message-State: AOAM533qJ0SmQ/fG3RxJuhOE6fQX+9Cq5/DkXvtBkXobI6wEM1L6oZO2
- XA23kBg8zxK+hce/U0ncdNNrSBG1DiRxZA==
-X-Google-Smtp-Source: ABdhPJyRultKX4OHvKyS0VXAbr5mYYFdZNNH3E6LgwfbsPMQKRuQDD2Gh8FXBiwiuxLURbzU74kH2g==
-X-Received: by 2002:a63:f944:: with SMTP id q4mr816513pgk.264.1624123597318;
+ bh=CGmZkzk4V2WoIYclr+JhIOxHAFi329cCw8zNPXEAFb4=;
+ b=lSnF1MFw3fm8qIoXisyMPQG3X8b6kY8knaBro+4mCrVInucW8OqMt96CkMHVX+864L
+ T5znyV4LUqUkxh2gy7W9hR9DR0K57qS9jFczRw3I/JQ4AiG6lLUYylmsieEe4vL0892O
+ P8APbULpAexYFUrIz2XWZC9PZgoSittSsYG+zrY/v+uMLNKwlTkGolLhCZhGFztZmLTZ
+ HV+8kkGk9dr24NyOn3dWRvOc/3Dlc4ZHsyS7fukcYMOJNoBBZLcv9qefWm47EDouxpax
+ 8y4dp3qIy84dASUs6QNJLg4mI2rWctFMGMGCDZyeOMHVkCdDr0aVIHhzk+pPmvPULd/M
+ O1UA==
+X-Gm-Message-State: AOAM531PxpQVjoOz7xXchEPQmHvUQxMr44r4bylFX7UFJQxfUXivDFh+
+ hvd4OKWyZvmigf/kcr1R+r0mecDTpByxSg==
+X-Google-Smtp-Source: ABdhPJzFqMMvPjZAReUR2ltNRI3eCYPqMfGSSV+1xQM/JWGuWvfVbBJ1CXibjgKGTb3T4XRLoUyvkA==
+X-Received: by 2002:a62:b50b:0:b029:2fc:db53:a56a with SMTP id
+ y11-20020a62b50b0000b02902fcdb53a56amr11417932pfe.30.1624123597835; 
  Sat, 19 Jun 2021 10:26:37 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id co18sm2084241pjb.37.2021.06.19.10.26.36
+ by smtp.gmail.com with ESMTPSA id co18sm2084241pjb.37.2021.06.19.10.26.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 19 Jun 2021 10:26:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/15] softmmu/memory: Support some unaligned access
-Date: Sat, 19 Jun 2021 10:26:25 -0700
-Message-Id: <20210619172626.875885-15-richard.henderson@linaro.org>
+Subject: [PATCH 15/15] RFC accel/tcg: Defer some unaligned accesses to memory
+ subsystem
+Date: Sat, 19 Jun 2021 10:26:26 -0700
+Message-Id: <20210619172626.875885-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210619172626.875885-1-richard.henderson@linaro.org>
 References: <20210619172626.875885-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,193 +89,62 @@ Cc: alex.bennee@linaro.org, pbonzini@redhat.com, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Decline to support writes that cannot be covered by access_size_min.
-Decline to support unaligned reads that require extraction from more
-than two reads.
+For unaligned i/o accesses that do not cross pages, do not handle
+the misalignment in cputlb, but let the memory system deal with it.
 
-Do support exact size match when the model supports unaligned.
-Do support reducing the operation size to match the alignment.
-Do support loads that extract from 1 or 2 larger loads.
+RFC because this, for the first time, exposes many guests to the
+existing mr->ops->valid.unaligned checks in the memory subsystem.
+Previously this code was only reachable when guest code explicitly
+calls memory_region_dispatch_*.
 
-Diagnose anything that we do not handle via LOG_GUEST_ERROR,
-as any of these cases are probably model or guest errors.
+This does in fact trip up the original m68k q800 testcase, #360.
+
+Since this hasn't really been reachable, I'm willing to bet that
+every device is wrong wrt mr->ops->valid.unaligned, and possibly
+that we shouldn't even have it.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- softmmu/memory.c | 127 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 121 insertions(+), 6 deletions(-)
+ accel/tcg/cputlb.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 2fe237327d..baf8573f1b 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -529,7 +529,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-     MemoryRegionAccessFn *access_fn;
-     uint64_t access_mask;
-     unsigned access_size;
--    unsigned i;
-+    signed access_sh;
-     MemTxResult r = MEMTX_OK;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 6209e00c9b..905edab19b 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1929,12 +1929,6 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         CPUIOTLBEntry *iotlbentry;
+         bool need_swap;
  
-     if (!access_size_min) {
-@@ -547,7 +547,6 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-                      : memory_region_read_with_attrs_accessor);
-     }
+-        /* For anything that is unaligned, recurse through byte_load.  */
+-        if ((addr & (size - 1)) != 0) {
+-            return load_helper_unaligned(env, addr, oi, retaddr, op,
+-                                         code_read, byte_load);
+-        }
+-
+         iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
  
--    /* FIXME: support unaligned access? */
-     /*
-      * Check for a small access.
-      */
-@@ -557,6 +556,10 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-          * cycle, and many mmio registers have side-effects on read.
-          * In practice, this appears to be either (1) model error,
-          * or (2) guest error via the fuzzer.
-+         *
-+         * TODO: Are all short reads also guest or model errors, because
-+         * of said side effects?  Or is this valid read-for-effect then
-+         * discard the (complete) result via narrow destination register?
-          */
-         if (write) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid short write: %s "
-@@ -566,22 +569,134 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-                           access_size_min, access_size_max);
-             return MEMTX_ERROR;
-         }
-+
-+        /*
-+         * If the original access is aligned, we can always extract
-+         * from a single larger load.
-+         */
-+        access_size = access_size_min;
-+        if (likely((addr & (size - 1)) == 0)) {
-+            goto extract;
-+        }
-+
-+        /*
-+         * TODO: We could search for a larger load that happens to
-+         * cover the unaligned load, but at some point we will always
-+         * require two operations.  Extract from two loads.
-+         */
-+        goto extract2;
-     }
+         /* Handle watchpoints.  */
+@@ -2425,7 +2419,6 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+     if (size > 1
+         && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
+                      >= TARGET_PAGE_SIZE)) {
+-    do_unaligned_access:
+         store_helper_unaligned(env, addr, val, retaddr, size,
+                                mmu_idx, memop_big_endian(op));
+         return;
+@@ -2436,11 +2429,6 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         CPUIOTLBEntry *iotlbentry;
+         bool need_swap;
  
-+    /*
-+     * Check for size in range.
-+     */
-+    if (likely(size <= access_size_max)) {
-+        /*
-+         * If the access is aligned or if the model supports
-+         * unaligned accesses, use one operation directly.
-+         */
-+        if (likely((addr & (size - 1)) == 0) || mr->ops->impl.unaligned) {
-+            access_size = size;
-+            access_sh = 0;
-+            goto direct;
-+        }
-+    }
-+
-+    /*
-+     * It is certain that we require multiple operations.
-+     * If the access is aligned (or the model supports unaligned),
-+     * then we will perform N accesses which exactly cover the
-+     * operation requested.
-+     */
-     access_size = MAX(MIN(size, access_size_max), access_size_min);
-+    if (unlikely(addr & (access_size - 1))) {
-+        unsigned lsb = addr & -addr;
-+        if (lsb >= access_size_min) {
-+            /*
-+             * The model supports small enough loads that we can
-+             * exactly match the operation requested.  For reads,
-+             * this is preferable to touching more than requested.
-+             * For writes, this is mandatory.
-+             */
-+            access_size = lsb;
-+        } else if (write) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid unaligned write: %s "
-+                          "hwaddr: 0x%" HWADDR_PRIx " size: %u "
-+                          "min: %u max: %u\n", __func__,
-+                          memory_region_name(mr), addr, size,
-+                          access_size_min, access_size_max);
-+            return MEMTX_ERROR;
-+        } else if (size <= access_size_max) {
-+            /* As per above, we can use two loads to implement. */
-+            access_size = size;
-+            goto extract2;
-+        } else {
-+            /*
-+             * TODO: becaseu access_size_max is small, this case requires
-+             * more than 2 loads to assemble and extract.  Bail out.
-+             */
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Unhandled unaligned read: %s "
-+                          "hwaddr: 0x%" HWADDR_PRIx " size: %u "
-+                          "min: %u max: %u\n", __func__,
-+                          memory_region_name(mr), addr, size,
-+                          access_size_min, access_size_max);
-+            return MEMTX_ERROR;
-+        }
-+    }
-+
-     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-     if (memory_region_big_endian(mr)) {
--        for (i = 0; i < size; i += access_size) {
-+        for (unsigned i = 0; i < size; i += access_size) {
-             r |= access_fn(mr, addr + i, value, access_size,
--                        (size - access_size - i) * 8, access_mask, attrs);
-+                           (size - access_size - i) * 8, access_mask, attrs);
-         }
-     } else {
--        for (i = 0; i < size; i += access_size) {
-+        for (unsigned i = 0; i < size; i += access_size) {
-             r |= access_fn(mr, addr + i, value, access_size, i * 8,
--                        access_mask, attrs);
-+                           access_mask, attrs);
-         }
-     }
-     return r;
-+
-+ extract2:
-+    /*
-+     * Extract from one or two loads to produce the result.
-+     * Validate that we need two loads before performing them.
-+     */
-+    access_sh = addr & (access_size - 1);
-+    if (access_sh + size > access_size) {
-+        addr &= ~(access_size - 1);
-+        if (memory_region_big_endian(mr)) {
-+            access_sh = (access_size - access_sh) * 8;
-+            r |= access_fn(mr, addr, value, access_size, access_sh, -1, attrs);
-+            access_sh -= access_size * 8;
-+            r |= access_fn(mr, addr, value, access_size, access_sh, -1, attrs);
-+        } else {
-+            access_sh = (access_sh - access_size) * 8;
-+            r |= access_fn(mr, addr, value, access_size, access_sh, -1, attrs);
-+            access_sh += access_size * 8;
-+            r |= access_fn(mr, addr, value, access_size, access_sh, -1, attrs);
-+        }
-+        *value &= MAKE_64BIT_MASK(0, size * 8);
-+        return r;
-+    }
-+
-+ extract:
-+    /*
-+     * Extract from one larger load to produce the result.
-+     */
-+    access_sh = addr & (access_size - 1);
-+    addr &= ~(access_size - 1);
-+    if (memory_region_big_endian(mr)) {
-+        access_sh = access_size - size - access_sh;
-+    }
-+    /* Note that with this interface, right shift is negative. */
-+    access_sh *= -8;
-+
-+ direct:
-+    access_mask = MAKE_64BIT_MASK(0, size * 8);
-+    return access_fn(mr, addr, value, access_size, access_sh,
-+                     access_mask, attrs);
- }
+-        /* For anything that is unaligned, recurse through byte stores.  */
+-        if ((addr & (size - 1)) != 0) {
+-            goto do_unaligned_access;
+-        }
+-
+         iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
  
- static AddressSpace *memory_region_to_address_space(MemoryRegion *mr)
+         /* Handle watchpoints.  */
 -- 
 2.25.1
 
