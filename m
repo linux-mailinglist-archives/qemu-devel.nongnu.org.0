@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17893ADA5F
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 16:22:55 +0200 (CEST)
-Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE09B3ADA60
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 16:23:51 +0200 (CEST)
+Received: from localhost ([::1]:52716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lubs6-0003A1-PV
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 10:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49870)
+	id 1lubt0-0004hP-Td
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 10:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lubqx-00023b-Cp; Sat, 19 Jun 2021 10:21:43 -0400
+ id 1lubqz-000256-4M; Sat, 19 Jun 2021 10:21:45 -0400
 Received: from mail-db8eur05on2121.outbound.protection.outlook.com
  ([40.107.20.121]:8480 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lubqt-0005FQ-Ti; Sat, 19 Jun 2021 10:21:42 -0400
+ id 1lubqx-0005FQ-EP; Sat, 19 Jun 2021 10:21:44 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nK0UqmnqxOS52ZzFeFwxtOS3if+NX6e96I7GNWi3+MVO6OoznY3knIWAV0BPC2YgUjTX3w5opv4Es3M4sOESpbxXS43embWSJEyE+C4bVGwOwZHoc9JIO1z8yPMJuv5EKH1PV9BSqzd6wCcEulGXHCexJhaO02xbhHQ3aeJhXHiK7WqKUrXG5fGAEJEXB3mTpggXewJn8pQkqso8z/+wtMWO79U8RwcIoXrj54FB4FgR8YOugPA59bJbbeel+XTydt57qW7QCM1imexx0wFEHJj59cIMlUqbNLdFaZEE5muhSyH2+1dzT8xLOH69ROwtElR2lZuilJFWKfT5mbPNdg==
+ b=THLEM/Df6dRJWxZu495qWUBCJ7/w8q+GFYXat8T4yhevIju5ZqBoREUp8d8ETKymK2kUFA9uuL3Np0BfjoBbYEZGnAkGk2nVXl+5HyKaVyV0MCujcVnfG9760dNaHjQuiq19fIBtSLWLYTAbRt5Aj1pNmbz8B5LpKLFEx0Jieo4vsdUCk23GpPOjptKI1xaxnqUxerIXT6gYA6Jw6vQrAJqepVZQEty3YMPCC7BeI63IgM7NxMMXb+2SsygEedRauYUPj2++R+lO8naooLF2aQwz2+aXUYijR9nHfLYokduIw960g3E1ovvlLdqr5VUh7kvXhoqDkZJQb3O/Y7dzJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n2sk7ppvsePeoFJmKhGF4aC0EXWorDfGSY99eFEgC74=;
- b=FKVQQafJTNZ752IV2G3Q/ym6kgvWXhZ74bXYQr+QCgNWd1o/dF6wr8faGkCJnqigcwpd0D1TKDwzgjY8MEgAzAEnTuXI9MI/2DRUqaeN6Vha4Ip6TJDrn20gc3ET5j3rEUrr/uRpJtzlBKExkc+rq5VBE3zzbAGa0tE/biZeVP7K0v3GZBYyXFfw3hca9JjgV/VxI+2DiOkdo+V/6JcW95zFonJxf1MxQeAFnz0HHnpa84acxZht3857mutC7ISV28aiRlRgxONmciGG0ws+7jCUL8QlAhNiH+gvYMPiCx7sm/j9dg/PIoyAbzJ3tp5cztCSh0TFOakSL+ennFDbzg==
+ bh=s90z256Fz2CePIbhV3KxnzB8TYondVkOTrC8PgQzYco=;
+ b=MNGtAkn2KTZwiVF7Kt5xopJX0iuvt4EWsOSgvbCgl3Kx2R1n6EU0XdgDhpwPRpW7x++aNt3WCj6T8WXpGbEk2CVwtpq19YH8F82i9rQREVJWSoT0RE3dyoxUVn72WtFUZIo73YnKOBcIVRd23q/RZ6vC5SGV8QBXrUqxiZKbUHGRFDdTp0dL7LglPLKj81TiGlL5tTgeWBYSalVBBd66WjpmLqKSfDblL2nMC8Ucyhw4HpW0Lq8k1H41HbOtErrJyKghF4FQVakRHve4bYctXNspoBterSKgYLLXg86tLRrKXG8C4kwirRdXQhsbwaxccZgyXRSkSNqk9qBEXy++DQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n2sk7ppvsePeoFJmKhGF4aC0EXWorDfGSY99eFEgC74=;
- b=U/W0zOIzJDPysCVmAuhcjKQ6UoXhgjMoxAIKm6GuQNPkR6e1RYX2ZgRj+WiCEOiNx+zEb+X9iRLGR8+h89u67rgGM7a/IKgYstlZ/v2Zypxc3YmZQFrJsx6bpv3Ixbfndwu4UiBzxeMCVov9DL/vQoLEHNr/vO16151zzT6RYrQ=
+ bh=s90z256Fz2CePIbhV3KxnzB8TYondVkOTrC8PgQzYco=;
+ b=Z/R5yLg1IQhL/Jov7GqStLTWMxNEHKaq4/GZvUjBSoTfVeeRLoxAlQdNax9TdtzY7aoNOJnA513WNyZ8jH+UiQMIplfJbAkH/ncdVj98Wer8V1lRJzcqBVR/ZjR1vmu6oRFFCn+4aM0YI7QO1ixc/5/+BIpBn6x0fcg2Ogvddx0=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6069.eurprd08.prod.outlook.com (2603:10a6:20b:29c::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Sat, 19 Jun
- 2021 14:21:37 +0000
+ 2021 14:21:38 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4242.023; Sat, 19 Jun 2021
- 14:21:37 +0000
+ 14:21:38 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com, eesposit@redhat.com,
  pbonzini@redhat.com, eblake@redhat.com, stefanha@redhat.com
-Subject: [PATCH 0/2] introduce QEMU_AUTO_VFREE
-Date: Sat, 19 Jun 2021 17:21:18 +0300
-Message-Id: <20210619142120.48211-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/2] introduce QEMU_AUTO_VFREE
+Date: Sat, 19 Jun 2021 17:21:19 +0300
+Message-Id: <20210619142120.48211-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210619142120.48211-1-vsementsov@virtuozzo.com>
+References: <20210619142120.48211-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.221]
@@ -64,53 +66,53 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.221) by
  HE1PR0902CA0059.eurprd09.prod.outlook.com (2603:10a6:7:15::48) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4242.15 via Frontend Transport; Sat, 19 Jun 2021 14:21:36 +0000
+ 15.20.4242.15 via Frontend Transport; Sat, 19 Jun 2021 14:21:37 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34d6e464-574f-43d7-a0ae-08d9332d8c58
+X-MS-Office365-Filtering-Correlation-Id: 911b170a-c05d-4748-8765-08d9332d8d16
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6069:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB606914061A490A4FF377FA14C10C9@AS8PR08MB6069.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:363;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6069F08C682B33F81AAADFA8C10C9@AS8PR08MB6069.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MB821U1AdcuYeOsED+rrQ36L9eRgw8eOHEYZ1Ln4hBnJhvY/YCRmkq9JPjbNsD/2c2hnEr1umtOmRgmPb7TsNhChbQg4MGtpQTTLsQOIP8LJ6W09geoidbqqLnBM7dkoteNkv7Q8YAVK4wRV47au1Wfh4CPhF17wv+87gABawsyFiy8NCVrodZgyUiPa1GTJRPLuM9P82Kj0ca8Pa+61zE9SWGBNUXB6fuE7JdQn9ZVnEvb8XtyE9msUwD9gZwEFS1tumKObDiDvWVrjzfWeR8PqmSoWF52TWcrHyTUgQbp3DuofcWjK1t+xJCsiqKeaEyLLmhDm9p9cAEkc/DOrHO2WgMBaiojHppaOPn6NKdOBCDkjTjlr6S3U6hb4LyTKQOlu+O1usf1ehGpF4DW871jUvFgo3dYJefyJxlk0QQofZjTYPnRHeH+pMbaC+mJUimYNIAOj8FYa4x8y8E30uipvd9850JsM5e94kg7hmLViz26Xvoc6OotoSj7544W2dAXD4A9Ddy0KkmJrspHN/Wuh1zdDOoM/T+NqNVhbvLzvhrmzOgJ3uWcn9UARKZyb/Ys4r10iIniPe5pp91Z6K1w1l20DMvDQO3kzWvUjHb1aPvfZXB67O7f5hzU6mj1V+bEoh+0YY5cGD+ZnEjDcoU4DPaDlFnAeSq0SKbqRJyoyHkAz3FFDC83ugURAgHhlBhrXEQ8oJVGMngfk25u8YA==
+X-Microsoft-Antispam-Message-Info: LKlN46y718QoT3PZ0Fph4zFL3CnqE5k1kzI/N4ZH8Dh4slW/QpsCXZaPqb62xnVrmOCO1De5ny1CBzaNRbusriVdvQiM6LLM5bW03x3PmmcusDPvEiJBQfCMwK5yMFDT6fmhO978ztqQp+/qQNLdv6V7ZZXG7inPhIXZ6f77bcILkp70eltQBGmu9rwa4nyReGqd7RA3Euh4TaeYqX4VCu5RjfE+e2lqKtT4r0ckPw++bRsmgMDIt6iVTYHzZ4VpDO62v9E/nTqIaEdR+vGUFORF7vZ/U5AED6zj1Kjnpv+2hW/mPWLr0dOJwSoE7mS44O5rcNHWDmGacyZG+uJtsWBZMENirtWq7A65x1xhoNpYdtEuzuiY0svl3kcf1TjS/8n+rbIMdJFJscwuZPorfe1gPZu2r1fdqNtCB+34/l+zi0aci5wXrT5Xkxog6UAA7L56/vn8knzIh47nmavPFimYMkLLcUgmCUc6qaZisd6hwjQlFR+Hd5MONLuZbSRf9tXM780u3xXCLpPmfYFGqDZrUX8ececBjaYArIXlqdQH9Rq1Ykm5vbllFSKXBRPiiay0e6yKAHe3qu7JuP9mcXPZNFtHZm6TgWHXuifnLt+Yf9HMl+vvZGIxdYs5XJBbwhUuXGA3W6UWY/QmhzhgQAOBAY9UxA2D266l9RDfByB1gz9kyTacS5VVqhnhtKKs6Aqbr3EN+wJDQJBzl66bsQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39840400004)(376002)(136003)(366004)(346002)(6486002)(38350700002)(2616005)(956004)(38100700002)(66476007)(2906002)(66556008)(6512007)(66946007)(6916009)(5660300002)(6506007)(1076003)(4744005)(4326008)(8936002)(36756003)(86362001)(83380400001)(26005)(8676002)(186003)(52116002)(16526019)(316002)(6666004)(478600001)(69590400013)(84603001);
+ SFS:(4636009)(396003)(39840400004)(376002)(136003)(366004)(346002)(6486002)(38350700002)(2616005)(956004)(38100700002)(66476007)(2906002)(66556008)(6512007)(66946007)(6916009)(5660300002)(6506007)(1076003)(4744005)(4326008)(8936002)(36756003)(86362001)(26005)(8676002)(186003)(52116002)(16526019)(316002)(6666004)(478600001)(69590400013)(84603001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?w5aAbfjf89PBbkQmTLc5a+eK+2o6uPmOwwqMK7XFAt8t7MAhtp6LBdWQNrnf?=
- =?us-ascii?Q?UVgAG4cxVe+/xBsZcO7S558P/95YpHxr2e3cywCfn00ePDpWxucbLLAKYMS5?=
- =?us-ascii?Q?+2ApCEEyKQ5KExXqfzh3Vhc7KXeG8syovauQ51QTjsLEA80IOF3GhIz7zlcW?=
- =?us-ascii?Q?JJO4QQNs4+Cpbu3l+H5bs0U7Gb6a1CsARRUuDwr13kiRw2j5quq0eq692wX1?=
- =?us-ascii?Q?/PTff8bGQHmpi7stzRn3r2frtUQNKGg5uGXME3XvFNAZRNbikwc7IlX7Dv5B?=
- =?us-ascii?Q?OS5+MDBYlAnCoZLFNeVXSDcOPTr8o5eCf6pyDGT0avwk3Zr5D+1EWVtzRdFb?=
- =?us-ascii?Q?+7++IZnLHQJ3n1ZANqel7rW0NOZtonCwRh/UBoktwDptvzJlDemtjwMaGBxZ?=
- =?us-ascii?Q?+NEMrsekzdO9zupGzrq5nklNIG/zXY/mR2WgZylGUyhSZgdFJrnreQ8Atm29?=
- =?us-ascii?Q?0lscD0ZPj50mtNoHEdWPfh3x+TM7wfrLobszfEzasJ6PQm2sCfJoy14M4Zli?=
- =?us-ascii?Q?Jh3mg/9PbxQt2zpx2G9UitFz98PEtdK3EjagDDn1Jc2KoOKgttWQpV2/TMdH?=
- =?us-ascii?Q?KDqtWIkjrR21lZYAYsZE2QhWLQS2XAMquQUHysMcyKfN803Wg0I3zed3XIDV?=
- =?us-ascii?Q?3ovzBlGwPCbZCGUw8DXY6douL6fMjRsLPKe4gtBjZx0SDn822JYdf46q+3xL?=
- =?us-ascii?Q?m7zXrTf5zZmePBg09jXiTebWxIJMv+1M0GsiMVJ326SUutJSy4aA91RhKfgC?=
- =?us-ascii?Q?JdMMTIdkMNXg78+aBsoomCrWADkKJThsxu2o08w7cWiNweBt2ikBVZoOmE0r?=
- =?us-ascii?Q?/pPHlwyJ6YauYcTLKqA01fmyemV0erCB3jc/cdkOdypcJqRH5mUukoXDOoUc?=
- =?us-ascii?Q?/6yF8oI33zcVwF3NM/39mdhZ8jZDqmtKBNRnrAHfc/MN0j6nwa5X78ETJ3ll?=
- =?us-ascii?Q?58SXWV9/gVnrI0Hl5ZdOXJx+zhgz4CjPKtXwIk5Un3i3OyAHuAB3nZY+al24?=
- =?us-ascii?Q?HS7zc2vs9aT3z2y9TBJzTdKCjtXwV2Ws+dD4clukqCPc+cJx8YQHp2hTflzp?=
- =?us-ascii?Q?1ZAZsfI6jnkU76eSkQJ/r+eaKWq8nBiczYCbV+3jnrdXsR8z1U4CFX3SA/cU?=
- =?us-ascii?Q?DGgvF54JNnllifCL1OyRxdHAe4CcjIa39Hg68wAvu9YiPpbqJ3Q2wCEaTnqV?=
- =?us-ascii?Q?ZI9fNOz5W6dEitceR8xT+suG1hJHSWqJb02ILXNAnIbAHuXDRQ9MOhtrFRKh?=
- =?us-ascii?Q?KtVXL0fBgxrGcvrawlTyHgCj6YJ2Ld2w8puql4bxasaIHJ62rWqI8uhnFmqR?=
- =?us-ascii?Q?KX8v/YSR4C7aP0ovt9v5CgzJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TKGRruspNHj678D2LVos4px/48cJBVIcnRMm6QznF5+/vlOKL3vCCIykPLDh?=
+ =?us-ascii?Q?/UiHlclBcFulIP838IqeE/fa1Wubjx5Kb1KmYw5L6zlyl/BqWHDb6x+Mjwmo?=
+ =?us-ascii?Q?0jiWWVs3dzyeaSK+PNMVdiL9UZOfrunXHusBNdjHwFj89v1OehyBWbOPLU7b?=
+ =?us-ascii?Q?U3QzM5qAEhrA6YVN2wX0zP28qWW9pzb85NG9Kz/hseuUlJuzWaybEJS+tNFv?=
+ =?us-ascii?Q?vlVWd4Lam+JpyzyTN2QdWKsPmE4gLox8AHUQzQZyGwmjileTzHkf2+AdtUG7?=
+ =?us-ascii?Q?Ioe2fXIdaxvG1M9rYx2UvAwq3N8NAsSF6HMWJ0V1G8uWD965ZLrswCgwp0NJ?=
+ =?us-ascii?Q?dLUbf8VrYeN1gM9wZ4bJPr6yHt6pGiP1e3BFZnaxh59H1TPDAPI4/H8dR8qq?=
+ =?us-ascii?Q?925TlbybO1gyCbC+00rH+KWEao/5SIU1vxLliMOb876dEXDfWCx3l2u1shlt?=
+ =?us-ascii?Q?qG5ENe6OntCK+16D48kvMku0Oi2RLf6fWoc1vimaIlwH9PTdODh1HiYckYDZ?=
+ =?us-ascii?Q?ejkzST98/bsklomlNJAaVw9/+qjg7PPmWOY5cZ0iaeCrb016uI58A6EPSBNd?=
+ =?us-ascii?Q?4G/NCu9zv83qevhZcOMQQZeSybYIG0TsNIgXy2Ezq6C0TSyI6vOsNnU720mT?=
+ =?us-ascii?Q?d5QX/3HCgAQPY3pxsUxAuBh/99/Y8QSTRnFgkXYVsyGZUO81VF1Wyd3NelIs?=
+ =?us-ascii?Q?slZx3VbnuA1SXfpqD7jwV/850QO6K75UOBgpJFc6rDGCYUAuluPouWQ0YMrv?=
+ =?us-ascii?Q?wxaRlYvbXB9+mxyuhhMvsJXyljZyUX8WbuSwDWPLMH+BG13LYvslLVo191Ki?=
+ =?us-ascii?Q?GxQnYuw1PDVar13cS2Q+qMryGEAa/nVrbyY2EOE52uwKhe8W+ET8dLMGyNxu?=
+ =?us-ascii?Q?ZMhiIgqdUkh5sOkAuUonynMK6Nv170lZheoK9Icx9yBxU9SmzG9u/GwogUct?=
+ =?us-ascii?Q?RWWttuosrITCeWq7zltcpJVl/G/ArzN40KFYF8W6ceY0y0yqOx5iqnKS8qrg?=
+ =?us-ascii?Q?cWrMORm/2wSXLOhlyxGGh8rjUsuDPMTUJvNkca5DoVw2rgcxteiTBpPl6Gif?=
+ =?us-ascii?Q?NQpn0rzYFwB/yhW1LhgcS+L0Ya2YN9HLxppT55si9luw+aazgB5oub7pUMYg?=
+ =?us-ascii?Q?fING9ve+ZZYHZhvANNli93QZU6d0WqcldLBC+Ad+orjH2LgQGz/Ju7oYyFBK?=
+ =?us-ascii?Q?lRKoJJ0c/YpKYTpU68IhPajCKasVs9rtdGajhAjgq2O4c/A3nSWVB1udzp1F?=
+ =?us-ascii?Q?3qmQ0KbywHXcAR55KG3ut/QPgn9cv7pFFCGie1fl9XHSOLr2fpIJsvKcBUVl?=
+ =?us-ascii?Q?/s9JFjKOM8cAsKb4D3bcUqWx?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34d6e464-574f-43d7-a0ae-08d9332d8c58
+X-MS-Exchange-CrossTenant-Network-Message-Id: 911b170a-c05d-4748-8765-08d9332d8d16
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2021 14:21:37.2372 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2021 14:21:38.4857 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ERh0ZkXqCYJoLObYOaNXgwz3+ceaXzynBUCqDWVKv8PcRWXggAbj667xNrrFBqusGAh8dnwomU9MdtOFN1Dh0JfKTIES0MRZhNnkpvRXh2A=
+X-MS-Exchange-CrossTenant-UserPrincipalName: YR8ZvjgsVD2hbTXuBXrJnQG590tHwsnuh0GjgaA1xMf5pfq5Ume+f6Nd/Axf0YHMRSuCbL2B1LDh4dAXCXsYryUk4sNlOvW0CV6ToA0t/Hg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6069
 Received-SPF: pass client-ip=40.107.20.121;
  envelope-from=vsementsov@virtuozzo.com;
@@ -138,24 +140,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Introduce a convenient macro, that works for qemu_memalign() like
+g_autofree works with g_malloc.
 
-There is a good movement to use g_autofree macro, that helps to
-automatically call g_free on exit from code block.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ include/qemu/osdep.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-We lack similar possibility for qemu_memalign() functions family. Let's
-add, it seems rather simple with help of "cleanup" attribute.
-
-I'll update more places with a follow-up if this is accepted.
-
-Vladimir Sementsov-Ogievskiy (2):
-  introduce QEMU_AUTO_VFREE
-  block/commit: use QEMU_AUTO_VFREE
-
- include/qemu/osdep.h |  2 ++
- block/commit.c       | 25 +++++++++----------------
- 2 files changed, 11 insertions(+), 16 deletions(-)
-
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 236a045671..844658a764 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -366,6 +366,8 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared);
+ void qemu_vfree(void *ptr);
+ void qemu_anon_ram_free(void *ptr, size_t size);
+ 
++#define QEMU_AUTO_VFREE __attribute__((cleanup(qemu_vfree)))
++
+ #define QEMU_MADV_INVALID -1
+ 
+ #if defined(CONFIG_MADVISE)
 -- 
 2.29.2
 
