@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EBE3ADA85
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 17:13:01 +0200 (CEST)
-Received: from localhost ([::1]:35346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751BA3ADA88
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 17:14:39 +0200 (CEST)
+Received: from localhost ([::1]:39506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luceW-0000WD-Oz
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 11:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
+	id 1lucgA-0003N8-HU
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 11:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lucaX-0004SU-0r
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 11:08:49 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33528)
+ id 1lucbv-0006jM-Fe
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 11:10:15 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lucaV-0001qm-FV
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 11:08:48 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d11so11860198wrm.0
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 08:08:47 -0700 (PDT)
+ id 1lucbu-00032v-1E
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 11:10:15 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id w13so847317wmc.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 08:10:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+7h7d+Dyjb1m/PtGZ9OI7r0pihBNnIYyJnWSligtCa8=;
- b=rMP8k7M1QWs+vV80UoTmHzz41WI626gXooZy4CfPTK78dLk4YDu3mWzk/P3jp+Xqzt
- feRMztZvIuEUicZ2Fbs870OJKLVjd+5/fDz0/LkLFIzR8JsgZvJQ1sKN6EEvJk+uCa5p
- 2nl/WMovEfYUeagmMIenl7tUpjFFxN4XQuVrPrC439dNPGysQ4zFVqOsu24r8Ucx5GeF
- bbXIfJsOHISBVWam5xwJufMtFxdqj5JiP4EDHi4+GSIbNwIezz1nh0WKN45JjdqO0U4a
- 3bcrSE+GcO89EDuXu4d8nfTy/nO0TTSxevZtF3k+pUlKxSdWU59t03iQKJqZcA25natB
- ZPQA==
+ bh=QFxNa9OYnhjtwZBaF5r6wCx0q90S54vIzS0xFmavjUU=;
+ b=UWqbAqe/tIwTMNnl1dAbl1gqdO+U5bjHO1lhXFT8taEPU3yfOpu5JfSlP6OFbqgiHG
+ dG4LLzMoSbnfolYlDurVMKm+KH2W/U4TxpJmfXgPscWB/2IGS0o+jOAT8pjV0oElgTJL
+ 8eWksDNALLKY681Z+41gjPfJf3BOdFCFx2XgVlY+3ZqOVJD4U2BWHuiUq0OXM+eVuZwo
+ MSPkEwwvMaUFMf8zJFL05IVbjyBpfb0A034lVmrNPYsUXQsOyt4MqVIgavnM92Yafwbo
+ yrNgeae0VsvLaCgkyOfyyMaGhUPzssYjn9wFQGGugKoYQnUG4kV9qapaPHXf6isqHi74
+ H71A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+7h7d+Dyjb1m/PtGZ9OI7r0pihBNnIYyJnWSligtCa8=;
- b=hdB8yB8A3NKctGltRDuK19mOMN9G5o5SelJ0Ipdfn6phlIAuGUs8PtLv3A8Yf6qc22
- 3HiBwnGHqUsx3UWOOFQ9SzMxY3ZcQ5n5EE3T6wCJsuX0/YW24emKgPWP5B3xndRHrIr5
- yrq1TitR0RSpiLMbbncdFmXC1a8KixMGcY9iHrUV+UQxSGOa0zIxYOoyb5wARa83YQh8
- mUz4BUsi3lNZ8kdAusKtakzsj91yQEMUK82BTInBSqDdcy9nAHQ/t0XiIi4iyosF6SJE
- 0Osx33u8GSwNAsqSxm1qEyDPCToJzx9RJQJRTINqgEss3RUoeLp0nirgIFIOf4YZ0FpM
- i7Wg==
-X-Gm-Message-State: AOAM530uRQss0JxtCN8Q+D6DKqJG/or2cFeNQ2rj1f4/53dczmI9Scu9
- 9kKzFERi2TfaycyK+NWwnH0=
-X-Google-Smtp-Source: ABdhPJyss+pqwIgL7KvmbW8DygDndJgRLGoCwCrcPe/N2jR1Zt2cwftXHYb47Ox5tC6pqOXpSW4Ezg==
-X-Received: by 2002:adf:e850:: with SMTP id d16mr8028815wrn.254.1624115325924; 
- Sat, 19 Jun 2021 08:08:45 -0700 (PDT)
+ bh=QFxNa9OYnhjtwZBaF5r6wCx0q90S54vIzS0xFmavjUU=;
+ b=UuSBxrvuocjyXxgXr2lNzoWOaB6MRPKPRq/47NPyx16aNxbHlUcPRz+xlpCqTII+lg
+ AZc2nQ0GWKhTO/JQQ2bexwzURaBjEm8ZV5bo+yNVhEk4WKl5GnTI1NOP2UYwB7s35i/U
+ l5VXCU3ar/BcI3c6UV1/EeKkiGRpvLvyz7xjCi+lPgKrbGSTS9csFZK5kBTNVIiBWBN/
+ kkqrQ9c5QSn0vXndU7R9osy9g9c3fDdECs7GEnqw2VfWsrIiwS1KiNw8lUrzhpaY8lN5
+ 6wA5lusv4eFNEUuAOSYFGeWHa+HDaVDDB15HdVp/TduZdGYhpwgvuqrnZiQH8M8rsU4N
+ aoRQ==
+X-Gm-Message-State: AOAM533IPPWDH9o83SsOY3d73nSPcpXhsOm+lxNSHA7C0xhI5O5ReyMg
+ 9vePNCJq0BwZKky3vDq/MsM=
+X-Google-Smtp-Source: ABdhPJy1v12WLCFZf/4NU5e1Fe3gmvccmB54dOcT31hrxuVLmqFxPQjafBP/Z2hWGPoMyM5AoZ9sXw==
+X-Received: by 2002:a1c:4682:: with SMTP id t124mr12951553wma.94.1624115412310; 
+ Sat, 19 Jun 2021 08:10:12 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id u18sm10432656wmj.15.2021.06.19.08.08.44
+ by smtp.gmail.com with ESMTPSA id m184sm1074778wmm.17.2021.06.19.08.10.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Jun 2021 08:08:45 -0700 (PDT)
-Subject: Re: [PATCH 02/11] softfloat: Rename float_flag_output_denormal to
- float_flag_oflush_denormal
+ Sat, 19 Jun 2021 08:10:11 -0700 (PDT)
+Subject: Re: [PATCH 04/11] softfloat: Introduce float_flag_result_denormal
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210527041405.391567-1-richard.henderson@linaro.org>
- <20210527041405.391567-3-richard.henderson@linaro.org>
+ <20210527041405.391567-5-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <bbc518af-17ec-e02c-a5d4-949ce345c1ac@amsat.org>
-Date: Sat, 19 Jun 2021 17:08:44 +0200
+Message-ID: <abfe3208-af62-4eed-20e1-ba962e3e59e6@amsat.org>
+Date: Sat, 19 Jun 2021 17:10:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210527041405.391567-3-richard.henderson@linaro.org>
+In-Reply-To: <20210527041405.391567-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -95,23 +94,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/27/21 6:13 AM, Richard Henderson wrote:
-> The new name emphasizes that the output denormal has been flushed to zero.
-> 
-> Patch created mechanically using:
->   sed -i s,float_flag_output_denormal,float_flag_oflush_denormal,g \
->     $(git grep -l float_flag_output_denormal)
+> Create a new exception flag for reporting output denormals
+> that are not flushed to zero.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/fpu/softfloat-types.h | 2 +-
->  fpu/softfloat.c               | 2 +-
->  target/arm/vfp_helper.c       | 2 +-
->  target/i386/tcg/fpu_helper.c  | 2 +-
->  target/mips/tcg/msa_helper.c  | 2 +-
->  target/rx/op_helper.c         | 2 +-
->  target/tricore/fpu_helper.c   | 6 +++---
->  fpu/softfloat-parts.c.inc     | 2 +-
->  8 files changed, 10 insertions(+), 10 deletions(-)
+>  include/fpu/softfloat-types.h | 3 ++-
+>  fpu/softfloat-parts.c.inc     | 8 ++++++--
+>  2 files changed, 8 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
