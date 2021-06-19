@@ -2,82 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C976E3AD919
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 11:43:29 +0200 (CEST)
-Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278813AD916
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 11:42:23 +0200 (CEST)
+Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luXVg-0005NI-Px
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 05:43:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
+	id 1luXUc-0003G6-57
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 05:42:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luXOR-0002Vu-U0
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:35:59 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1luXOQ-0002en-Gg
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:35:59 -0400
-Received: by mail-wr1-x431.google.com with SMTP id y7so13510906wrh.7
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 02:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+Zsw46uIqXtiwK2FeoYblFYVmtwRS1Bq3tqJ6V9nua4=;
- b=PORZxGc1QwryeoA+tMfWfMMCtx1fnIPQHt0CtFC/qo6eIMXtP+MT3sSVqpLXU5tpXq
- DQ+ATezfS07qCWjAxYXyrB9By2wuqTRaxE2Zm13e6ZjufeVP21qV5+DnJgVyB0YK+t85
- +3N6fjDFwzFteKI/dLSs1uiOSAMBPPEDH0m7tJAYV9ykaSdMeUNGevMo3Y/Dk9gi225R
- Ii7Io13I0zvrct7Qx0/CxVtIr0suH819LcRAqBumYlem2Qqxuop68fgheZa0KnuvJxTn
- sOxAa4lkzhjzDuPk1iO5Mt3EnJnyqgk9h1nJ++ycCPHPrBll7x/4O+w/36r5/K3LuRqy
- hLag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+Zsw46uIqXtiwK2FeoYblFYVmtwRS1Bq3tqJ6V9nua4=;
- b=Xg6mq1AMZ8yghnYbp3t92BCO+YtQKS+1h56xDPRfeeqZrHa78z/NIRtZZSXirTyqSC
- F+13Dk37RuJu3Dgm/gF4PrHNNoH3Rj6o3mVWX072wzRXIuklx3etnCrMiWT75ORdSHfR
- knHm/RmST3DNX0V9swkShL9JKjoggqvnjwqr2k/BK0n8juPWrb0BDELdRABQquKLQePq
- pTTpIDlPk1zdH8BZ3z2H2j8Po8LDh/Bw59jy/Xh15IRtvGfY8+JbPSnUVdlDgwvxbHP2
- 3FwBAJ2fNkmHLh2421srKDuViAEZwUB32/MjDyD6zPh+RrOQw+CDhO8bND9MJlOiC/xc
- /a5A==
-X-Gm-Message-State: AOAM531p5gn6sUq0o8iei95J8ZZ29Jji5+jAtA7HVVqq7bSGcISgI1JF
- pCrixnfO85NnOvbOIA/MzaA=
-X-Google-Smtp-Source: ABdhPJz7572fnAT0aVzMY/anz32bsGs3dAZqyCRLfb0ESTQk9V6IEhocLcw3OvHDx7vsP5zhXKnpjw==
-X-Received: by 2002:adf:e7cf:: with SMTP id e15mr1281018wrn.247.1624095357129; 
- Sat, 19 Jun 2021 02:35:57 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n18sm10156096wmq.41.2021.06.19.02.35.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Jun 2021 02:35:56 -0700 (PDT)
-Subject: Re: [PATCH v2 15/23] linux-user/nios2: Document non-use of
- setup_sigtramp
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210618192951.125651-1-richard.henderson@linaro.org>
- <20210618192951.125651-16-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <bd50920d-46f2-00b8-6f0c-9a3a4cba4c8c@amsat.org>
-Date: Sat, 19 Jun 2021 11:35:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1luXPz-0003fS-Jr
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:37:35 -0400
+Received: from rev.ng ([5.9.113.41]:33575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1luXPx-0003qR-5r
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 05:37:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date
+ :Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=CPRrPQqbeLsMcEeJku8x9hDk5MIs2R+KyM+UEjHqLnQ=; b=VN4Zp2iAITXC15yoMhkjB4yj08
+ tV2IG93K8nzXq486ginu0MxgSg/RgM5ycF5xNm+IXmcK7+FBE/E0zXDCQRlmNqPWx3iDkq8pelYtd
+ 5pMLL/vkHgl1H4E06SiMQpsun1ZrMQWaZJZ9jt0zTHKBNYgm/QoN622MPqWxRHUMB794=;
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
+ philmd@redhat.com, richard.henderson@linaro.org,
+ Alessandro Di Federico <ale@rev.ng>
+Subject: [PATCH v5 00/14] target/hexagon: introduce idef-parser
+Date: Sat, 19 Jun 2021 11:36:59 +0200
+Message-Id: <20210619093713.1845446-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
-In-Reply-To: <20210618192951.125651-16-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.202,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,18 +55,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
+From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On 6/18/21 9:29 PM, Richard Henderson wrote:
-> Cc: Chris Wulff <crwulff@gmail.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/nios2/target_signal.h | 3 +++
->  1 file changed, 3 insertions(+)
+From: Alessandro Di Federico <ale@rev.ng>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This patchset introduces the idef-parser for target/hexagon.
+
+It's the fifth iteration of the patchset and includes fixes suggested in
+previous iterations.
+
+This patchset also drops some macro overrides that are no longer
+necessary, since the instructions they were handling are now implemented
+in `idef-parser`.
+
+`idef-parser` is a build-time tool built using flex and bison. Its aim
+is to generate a large part of the tiny code generator frontend for
+Hexagon. The prototype of idef-parser has been presented at KVM Forum
+2019 ("QEMU-Hexagon: Automatic Translation of the ISA Manual Pseudcode
+to Tiny Code Instructions"):
+
+    https://www.youtube.com/watch?v=3EpnTYBOXCI
+
+`target/hexagon/idef-parser/README.rst` provides an overview of the
+parser and its inner working.
+
+A couple of notes:
+
+* `idef-parser` also supports certain things that are not used in the
+  most recently submitted version of the "Hexagon patch
+  series". However, they will be needed and stripping them out of the
+  parser is quite a bit of work.
+* The build on the CI fails for the cross-i386-* jobs. This seems to be
+  due to the fact that, despite we specified glib as a native
+  dependency, meson still chooses the i386 bit version of the library,
+  as opposed to the x86-64.
+  Help on this matter is appreciated.
+  We also introduced a commit to make sure containers produced by the
+  developer Docker registry (as opposed to the official one) is
+  used. Otherwise, the changes we made to the containers would not
+  take effect.
+  Building debian-hexagon-cross still fails since it's not built by
+  the CI by default.
+
+Alessandro Di Federico (6):
+  tcg: expose TCGCond manipulation routines
+  target/hexagon: update MAINTAINERS for idef-parser
+  target/hexagon: import README for idef-parser
+  target/hexagon: prepare input for the idef-parser
+  target/hexagon: call idef-parser functions
+  gitlab-ci: do not use qemu-project Docker registry
+
+Niccolò Izzo (2):
+  target/hexagon: introduce new helper functions
+  target/hexagon: import additional tests
+
+Paolo Montesel (6):
+  target/hexagon: make slot number an unsigned
+  target/hexagon: make helper functions non-static
+  target/hexagon: expose next PC in DisasContext
+  target/hexagon: import lexer for idef-parser
+  target/hexagon: import parser for idef-parser
+  target/hexagon: remove unused macros and functions
+
+ .gitlab-ci.d/container-cross.yml              |    2 +-
+ .gitlab-ci.d/container-template.yml           |    4 +-
+ MAINTAINERS                                   |    8 +
+ include/tcg/tcg-cond.h                        |  101 +
+ include/tcg/tcg.h                             |   70 +-
+ target/hexagon/README                         |    5 +
+ target/hexagon/gen_helper_funcs.py            |    5 +-
+ target/hexagon/gen_helper_protos.py           |    5 +-
+ target/hexagon/gen_idef_parser_funcs.py       |  114 +
+ target/hexagon/gen_tcg.h                      |  528 ----
+ target/hexagon/gen_tcg_funcs.py               |   28 +-
+ target/hexagon/genptr.c                       |  250 +-
+ target/hexagon/genptr.h                       |   29 +
+ target/hexagon/hex_common.py                  |   10 +
+ target/hexagon/idef-parser/README.rst         |  447 +++
+ target/hexagon/idef-parser/idef-parser.h      |  262 ++
+ target/hexagon/idef-parser/idef-parser.lex    |  597 ++++
+ target/hexagon/idef-parser/idef-parser.y      |  961 +++++++
+ target/hexagon/idef-parser/macros.inc         |  153 ++
+ target/hexagon/idef-parser/parser-helpers.c   | 2396 +++++++++++++++++
+ target/hexagon/idef-parser/parser-helpers.h   |  347 +++
+ target/hexagon/idef-parser/prepare            |   24 +
+ target/hexagon/macros.h                       |  209 +-
+ target/hexagon/meson.build                    |  113 +-
+ target/hexagon/op_helper.c                    |  119 -
+ target/hexagon/translate.c                    |    3 +-
+ target/hexagon/translate.h                    |    1 +
+ tests/docker/dockerfiles/alpine.docker        |    2 +
+ tests/docker/dockerfiles/centos8.docker       |    2 +
+ tests/docker/dockerfiles/debian-amd64.docker  |    2 +
+ tests/docker/dockerfiles/debian10.docker      |    3 +
+ .../dockerfiles/fedora-i386-cross.docker      |    3 +
+ .../dockerfiles/fedora-win32-cross.docker     |    3 +
+ .../dockerfiles/fedora-win64-cross.docker     |    3 +
+ tests/docker/dockerfiles/fedora.docker        |    2 +
+ tests/docker/dockerfiles/opensuse-leap.docker |    2 +
+ tests/docker/dockerfiles/ubuntu.docker        |    3 +
+ tests/docker/dockerfiles/ubuntu1804.docker    |    3 +
+ tests/docker/dockerfiles/ubuntu2004.docker    |    5 +-
+ tests/tcg/hexagon/Makefile.target             |   36 +-
+ tests/tcg/hexagon/crt.S                       |   28 +
+ tests/tcg/hexagon/test_abs.S                  |   20 +
+ tests/tcg/hexagon/test_add.S                  |   20 +
+ tests/tcg/hexagon/test_andp.S                 |   23 +
+ tests/tcg/hexagon/test_bitcnt.S               |   42 +
+ tests/tcg/hexagon/test_bitsplit.S             |   25 +
+ tests/tcg/hexagon/test_call.S                 |   63 +
+ tests/tcg/hexagon/test_clobber.S              |   35 +
+ tests/tcg/hexagon/test_cmp.S                  |   34 +
+ tests/tcg/hexagon/test_cmpy.S                 |   31 +
+ tests/tcg/hexagon/test_djump.S                |   24 +
+ tests/tcg/hexagon/test_dotnew.S               |   39 +
+ tests/tcg/hexagon/test_dstore.S               |   29 +
+ tests/tcg/hexagon/test_ext.S                  |   18 +
+ tests/tcg/hexagon/test_fibonacci.S            |   33 +
+ tests/tcg/hexagon/test_hello.S                |   21 +
+ tests/tcg/hexagon/test_hl.S                   |   19 +
+ tests/tcg/hexagon/test_hwloops.S              |   25 +
+ tests/tcg/hexagon/test_jmp.S                  |   25 +
+ tests/tcg/hexagon/test_lsr.S                  |   39 +
+ tests/tcg/hexagon/test_mpyi.S                 |   20 +
+ tests/tcg/hexagon/test_overflow.S             |   63 +
+ tests/tcg/hexagon/test_packet.S               |   26 +
+ tests/tcg/hexagon/test_reorder.S              |   31 +
+ tests/tcg/hexagon/test_round.S                |   31 +
+ tests/tcg/hexagon/test_vavgw.S                |   33 +
+ tests/tcg/hexagon/test_vcmpb.S                |   32 +
+ tests/tcg/hexagon/test_vcmpw.S                |   29 +
+ tests/tcg/hexagon/test_vcmpy.S                |   50 +
+ tests/tcg/hexagon/test_vlsrw.S                |   23 +
+ tests/tcg/hexagon/test_vmaxh.S                |   37 +
+ tests/tcg/hexagon/test_vminh.S                |   37 +
+ tests/tcg/hexagon/test_vpmpyh.S               |   30 +
+ tests/tcg/hexagon/test_vspliceb.S             |   33 +
+ 74 files changed, 6875 insertions(+), 1053 deletions(-)
+ create mode 100644 include/tcg/tcg-cond.h
+ create mode 100644 target/hexagon/gen_idef_parser_funcs.py
+ create mode 100644 target/hexagon/idef-parser/README.rst
+ create mode 100644 target/hexagon/idef-parser/idef-parser.h
+ create mode 100644 target/hexagon/idef-parser/idef-parser.lex
+ create mode 100644 target/hexagon/idef-parser/idef-parser.y
+ create mode 100644 target/hexagon/idef-parser/macros.inc
+ create mode 100644 target/hexagon/idef-parser/parser-helpers.c
+ create mode 100644 target/hexagon/idef-parser/parser-helpers.h
+ create mode 100755 target/hexagon/idef-parser/prepare
+ create mode 100644 tests/tcg/hexagon/crt.S
+ create mode 100644 tests/tcg/hexagon/test_abs.S
+ create mode 100644 tests/tcg/hexagon/test_add.S
+ create mode 100644 tests/tcg/hexagon/test_andp.S
+ create mode 100644 tests/tcg/hexagon/test_bitcnt.S
+ create mode 100644 tests/tcg/hexagon/test_bitsplit.S
+ create mode 100644 tests/tcg/hexagon/test_call.S
+ create mode 100644 tests/tcg/hexagon/test_clobber.S
+ create mode 100644 tests/tcg/hexagon/test_cmp.S
+ create mode 100644 tests/tcg/hexagon/test_cmpy.S
+ create mode 100644 tests/tcg/hexagon/test_djump.S
+ create mode 100644 tests/tcg/hexagon/test_dotnew.S
+ create mode 100644 tests/tcg/hexagon/test_dstore.S
+ create mode 100644 tests/tcg/hexagon/test_ext.S
+ create mode 100644 tests/tcg/hexagon/test_fibonacci.S
+ create mode 100644 tests/tcg/hexagon/test_hello.S
+ create mode 100644 tests/tcg/hexagon/test_hl.S
+ create mode 100644 tests/tcg/hexagon/test_hwloops.S
+ create mode 100644 tests/tcg/hexagon/test_jmp.S
+ create mode 100644 tests/tcg/hexagon/test_lsr.S
+ create mode 100644 tests/tcg/hexagon/test_mpyi.S
+ create mode 100644 tests/tcg/hexagon/test_overflow.S
+ create mode 100644 tests/tcg/hexagon/test_packet.S
+ create mode 100644 tests/tcg/hexagon/test_reorder.S
+ create mode 100644 tests/tcg/hexagon/test_round.S
+ create mode 100644 tests/tcg/hexagon/test_vavgw.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpb.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpw.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpy.S
+ create mode 100644 tests/tcg/hexagon/test_vlsrw.S
+ create mode 100644 tests/tcg/hexagon/test_vmaxh.S
+ create mode 100644 tests/tcg/hexagon/test_vminh.S
+ create mode 100644 tests/tcg/hexagon/test_vpmpyh.S
+ create mode 100644 tests/tcg/hexagon/test_vspliceb.S
+
+-- 
+2.31.1
+
 
