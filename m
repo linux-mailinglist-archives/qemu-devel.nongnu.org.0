@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AEE3ADB46
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 20:23:24 +0200 (CEST)
-Received: from localhost ([::1]:53290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1123ADB3D
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Jun 2021 20:17:34 +0200 (CEST)
+Received: from localhost ([::1]:33602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lufcp-0000EM-9h
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 14:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35782)
+	id 1lufXB-0003dJ-Ep
+	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 14:17:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lufUj-0000gk-33
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:15:01 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:44693)
+ id 1lufUg-0000dA-Vz
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:14:59 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:43613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lufUd-0002Cz-UD
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:15:00 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id u18so4989552pfk.11
+ id 1lufUe-0002D4-AD
+ for qemu-devel@nongnu.org; Sat, 19 Jun 2021 14:14:58 -0400
+Received: by mail-pl1-x631.google.com with SMTP id v12so6328953plo.10
  for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 11:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EdhOR4bbdTkQJ8JwWauxjmsHhxrFc7wx39xQEmIIlNk=;
- b=aTw6s8p5DLyQl0qMrZeY4HFjOKnbBdgC6t6qLQ2eQP79GW+SbbdfL67rTjHHYfj8Fa
- wSVWKt0H/5Fo9iuuqsuOMRzKS0j5YaPw7QNmy4n4C/G4W0fT66SBz2mqPuedpyjbrnna
- geF0V8GDwCQn6lcn9ThU4BtgXUF2ohH4MBQylVQo5EXUIbNCL06L86v0K3A+cR79evXa
- N2UcevSMDru128REHTGF1o0aT797rLoRfhqH3PSL7l5HoTwN4gqbBrW/eIqRjWIlgVBu
- IEz73LxFJtR5YOBAVkj3TnryAQOuNFfn23/coHQeB5QBg1r9QhlgUYQgTneIhuTVjC2V
- LoZA==
+ bh=+jwIdOBO2HuauixyPD0ovcZT3pv5ECKgnsaAtql7n/I=;
+ b=amfjWPW9I9KgJtRnMC3EcVGWoxLVItHMgGzHgTvjVV3rlAy0tfDM1Z2+qfMYhya6IU
+ 6VosD7T/K/rjT6zQ3aiWrjO0peRmIu56dGwBJWl+Bq4opnTKaqjibrTzeMkSts8/4Er/
+ Sdp5L2nQUzpNd1NQFBx+M+0rRi7ME8PyxI116R3TuMae8S7pWc0MwlrN8wpH1IpRPYvH
+ nXls+EQQW/vjxf89bcMTf1c4nlke4DZbhH+DTBXxeFJGfDLRT9dvaz1e4KedZMto4URH
+ 9OI99OsHsVXEgCJKf2Es1t24q3uVaUitHDHtWi4iHwUAIPVaov5NhcrcS9njrPCvvqUR
+ UTgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EdhOR4bbdTkQJ8JwWauxjmsHhxrFc7wx39xQEmIIlNk=;
- b=kO6+DGIyL+/tBq4loQiVBOnG6I68jlozK0bqbJDRtrgyKDrDS3I6RA9em5y1dtZsnY
- jmVQgTcUXIO4xkfDU+8K+SCWsR9LSJgM73uGv3EgYRgKLDd3Fe9VtCrQsOE+V/S/ndbH
- dwPOs3mO/KeNSSiwe3w4YbsBeNRgv71mEZ5DEbySONvrDnTMz30fbPdSP9MuqVjE+lpt
- 8WOxSsuG43Qu7qShnQ6gj05+vHRC+ojToArwUNoThOjOD4aP0UkBWin9ouSyEUrE97l0
- DjxEk+MciKrLfpWqiWp4M+lK0Y8jz6Q8T7J6tFZn/DhK9TvFtztK5EmaHsIGGJuytLVu
- BYvw==
-X-Gm-Message-State: AOAM532hMb3JsNDirgEoJ7ZqNVprll7t9ffxFAanqpiZJXIF95Q1JC34
- m7y+FkjyL9nclndoU67u9Os1CiXWx0wuzQ==
-X-Google-Smtp-Source: ABdhPJzAKy2PGIizXi3G1LXP4kn3HgChgE1vJf7ycWLu0Hvd+4V45m0QJ49FmfzA2HBCLRZdihu9lA==
-X-Received: by 2002:a63:bf0d:: with SMTP id v13mr15762243pgf.303.1624126494561; 
- Sat, 19 Jun 2021 11:14:54 -0700 (PDT)
+ bh=+jwIdOBO2HuauixyPD0ovcZT3pv5ECKgnsaAtql7n/I=;
+ b=r0gZxjo+3cFyHoCOZxQbo0eg9doYkc1asxfbNcF2Zki4e3g70Lgy3/aGilYVjMgHMg
+ 5MIdlVhnblPw9EjYzRNHwcPRN9KMf9nlAt1fb3tl9eK/FQZo+zvIeC3kIPgY6GAtgE0k
+ dDutAvrAILhMwUnLgZ7Ug/595HY7dKmh4feOABF5SwrK/l3m5Q5+5pEL3q9hlvXXbtoJ
+ 3v++QheXfpptXrLaNRKsLue42zqBIszGjUM2dPD1brpGI1oydFxZXnabxFyiME61dNrD
+ LUVfMxsVQ7eNzSsLQ8h7TqZawsXFRrUGGoWlFgh5PBplG20V4EJendE4JeMHYqsfPkgk
+ KStg==
+X-Gm-Message-State: AOAM532JKt+diw4EF7A/GlWczU81DpcihOGDbTmETLjuapjvycjOLahi
+ hdROL4+8m+jhVaAiVPPH6c0K1eB/8XP0Vw==
+X-Google-Smtp-Source: ABdhPJxE6opr3bb5hwtQvZrLlE2rApSAz7JiKwXFSWw3u+kY2LmXW7Sop1vB5BsmyC9/IGyKuUcsDQ==
+X-Received: by 2002:a17:90a:4217:: with SMTP id
+ o23mr28795487pjg.110.1624126495087; 
+ Sat, 19 Jun 2021 11:14:55 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id k35sm12059113pgi.21.2021.06.19.11.14.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 19 Jun 2021 11:14:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/33] tcg: Add tcg_call_flags
-Date: Sat, 19 Jun 2021 11:14:21 -0700
-Message-Id: <20210619181452.877683-3-richard.henderson@linaro.org>
+Subject: [PULL 03/33] accel/tcg/plugin-gen: Drop inline markers
+Date: Sat, 19 Jun 2021 11:14:22 -0700
+Message-Id: <20210619181452.877683-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210619181452.877683-1-richard.henderson@linaro.org>
 References: <20210619181452.877683-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,114 +89,52 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're going to change how to look up the call flags from a TCGop,
-so extract it as a helper.
+Let the compiler decide on inlining.
 
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-internal.h |  5 +++++
- tcg/optimize.c     |  3 ++-
- tcg/tcg.c          | 14 ++++++--------
- 3 files changed, 13 insertions(+), 9 deletions(-)
+ accel/tcg/plugin-gen.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 181f86507a..0796407c13 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -37,4 +37,9 @@ bool tcg_region_alloc(TCGContext *s);
- void tcg_region_initial_alloc(TCGContext *s);
- void tcg_region_prologue_set(TCGContext *s);
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 7627225aef..48bd2f36f0 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -160,9 +160,8 @@ static void gen_empty_mem_helper(void)
+     tcg_temp_free_ptr(ptr);
+ }
  
-+static inline unsigned tcg_call_flags(TCGOp *op)
-+{
-+    return op->args[TCGOP_CALLO(op) + TCGOP_CALLI(op) + 1];
-+}
-+
- #endif /* TCG_INTERNAL_H */
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 37c902283e..211a4209a0 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -25,6 +25,7 @@
+-static inline
+-void gen_plugin_cb_start(enum plugin_gen_from from,
+-                         enum plugin_gen_cb type, unsigned wr)
++static void gen_plugin_cb_start(enum plugin_gen_from from,
++                                enum plugin_gen_cb type, unsigned wr)
+ {
+     TCGOp *op;
  
- #include "qemu/osdep.h"
- #include "tcg/tcg-op.h"
-+#include "tcg-internal.h"
+@@ -179,7 +178,7 @@ static void gen_wrapped(enum plugin_gen_from from,
+     tcg_gen_plugin_cb_end();
+ }
  
- #define CASE_OP_32_64(x)                        \
-         glue(glue(case INDEX_op_, x), _i32):    \
-@@ -1481,7 +1482,7 @@ void tcg_optimize(TCGContext *s)
-             break;
+-static inline void plugin_gen_empty_callback(enum plugin_gen_from from)
++static void plugin_gen_empty_callback(enum plugin_gen_from from)
+ {
+     switch (from) {
+     case PLUGIN_GEN_AFTER_INSN:
+@@ -513,9 +512,8 @@ static bool op_rw(const TCGOp *op, const struct qemu_plugin_dyn_cb *cb)
+     return !!(cb->rw & (w + 1));
+ }
  
-         case INDEX_op_call:
--            if (!(op->args[nb_oargs + nb_iargs + 1]
-+            if (!(tcg_call_flags(op)
-                   & (TCG_CALL_NO_READ_GLOBALS | TCG_CALL_NO_WRITE_GLOBALS))) {
-                 for (i = 0; i < nb_globals; i++) {
-                     if (test_bit(i, temps_used.l)) {
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 3d6e6b260c..51c1f61828 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1766,9 +1766,9 @@ static void tcg_dump_ops(TCGContext *s, bool have_prefs)
-             nb_cargs = def->nb_cargs;
- 
-             /* function name, flags, out args */
--            col += qemu_log(" %s %s,$0x%" TCG_PRIlx ",$%d", def->name,
-+            col += qemu_log(" %s %s,$0x%x,$%d", def->name,
-                             tcg_find_helper(s, op->args[nb_oargs + nb_iargs]),
--                            op->args[nb_oargs + nb_iargs + 1], nb_oargs);
-+                            tcg_call_flags(op), nb_oargs);
-             for (i = 0; i < nb_oargs; i++) {
-                 col += qemu_log(",%s", tcg_get_arg_str(s, buf, sizeof(buf),
-                                                        op->args[i]));
-@@ -2155,7 +2155,6 @@ static void reachable_code_pass(TCGContext *s)
-     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
-         bool remove = dead;
-         TCGLabel *label;
--        int call_flags;
- 
-         switch (op->opc) {
-         case INDEX_op_set_label:
-@@ -2200,8 +2199,7 @@ static void reachable_code_pass(TCGContext *s)
- 
-         case INDEX_op_call:
-             /* Notice noreturn helper calls, raising exceptions.  */
--            call_flags = op->args[TCGOP_CALLO(op) + TCGOP_CALLI(op) + 1];
--            if (call_flags & TCG_CALL_NO_RETURN) {
-+            if (tcg_call_flags(op) & TCG_CALL_NO_RETURN) {
-                 dead = true;
-             }
-             break;
-@@ -2402,7 +2400,7 @@ static void liveness_pass_1(TCGContext *s)
- 
-                 nb_oargs = TCGOP_CALLO(op);
-                 nb_iargs = TCGOP_CALLI(op);
--                call_flags = op->args[nb_oargs + nb_iargs + 1];
-+                call_flags = tcg_call_flags(op);
- 
-                 /* pure functions can be removed if their result is unused */
-                 if (call_flags & TCG_CALL_NO_SIDE_EFFECTS) {
-@@ -2717,7 +2715,7 @@ static bool liveness_pass_2(TCGContext *s)
-         if (opc == INDEX_op_call) {
-             nb_oargs = TCGOP_CALLO(op);
-             nb_iargs = TCGOP_CALLI(op);
--            call_flags = op->args[nb_oargs + nb_iargs + 1];
-+            call_flags = tcg_call_flags(op);
-         } else {
-             nb_iargs = def->nb_iargs;
-             nb_oargs = def->nb_oargs;
-@@ -3799,7 +3797,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-     TCGRegSet allocated_regs;
- 
-     func_addr = (tcg_insn_unit *)(intptr_t)op->args[nb_oargs + nb_iargs];
--    flags = op->args[nb_oargs + nb_iargs + 1];
-+    flags = tcg_call_flags(op);
- 
-     nb_regs = ARRAY_SIZE(tcg_target_call_iarg_regs);
-     if (nb_regs > nb_iargs) {
+-static inline
+-void inject_cb_type(const GArray *cbs, TCGOp *begin_op, inject_fn inject,
+-                    op_ok_fn ok)
++static void inject_cb_type(const GArray *cbs, TCGOp *begin_op,
++                           inject_fn inject, op_ok_fn ok)
+ {
+     TCGOp *end_op;
+     TCGOp *op;
 -- 
 2.25.1
 
