@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844913ADC58
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 04:29:03 +0200 (CEST)
-Received: from localhost ([::1]:42190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFB03ADCCB
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:29:30 +0200 (CEST)
+Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lunCo-0000rU-K0
-	for lists+qemu-devel@lfdr.de; Sat, 19 Jun 2021 22:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60400)
+	id 1lup5N-0008KM-Iu
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1lunBw-0007th-Q7
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 22:28:08 -0400
-Received: from mga09.intel.com ([134.134.136.24]:35999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1lunBt-0000Gx-4k
- for qemu-devel@nongnu.org; Sat, 19 Jun 2021 22:28:08 -0400
-IronPort-SDR: s55271JF5Ou8mvnoFt+Qo3Dgwcvk9jmOtxQmN46RiW1UKuYMEeJ7kTaDr3N/EuBGrOG4JtUdI5
- PX7Kq92ffARA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10020"; a="206645991"
-X-IronPort-AV: E=Sophos;i="5.83,286,1616482800"; d="scan'208";a="206645991"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2021 19:27:56 -0700
-IronPort-SDR: oPHjK4C4bNdCQdHRjnZJQ0nysGJAxicuoflawwpi3X13whl1KILJYZ8YWWRlgp6rJG9UG+hqBp
- ihYG1q8rpwXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,286,1616482800"; d="scan'208";a="486095355"
-Received: from michael-optiplex-9020.sh.intel.com ([10.239.159.182])
- by orsmga001.jf.intel.com with ESMTP; 19 Jun 2021 19:27:55 -0700
-From: Yang Weijiang <weijiang.yang@intel.com>
-To: pbonzini@redhat.com, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- richard.henderson@linaro.org, armbru@redhat.com, wei.w.wang@intel.com
-Subject: [PATCH v4 2/2] target/i386: Add lbr-fmt vPMU option to support guest
- LBR
-Date: Sun, 20 Jun 2021 10:42:37 +0800
-Message-Id: <1624156957-7223-2-git-send-email-weijiang.yang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1624156957-7223-1-git-send-email-weijiang.yang@intel.com>
-References: <1624156957-7223-1-git-send-email-weijiang.yang@intel.com>
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=weijiang.yang@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lup28-0008P4-6p
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lup26-0002qD-0b
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lup22-0003YF-GB
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D3AE72E8247
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:56 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 20 Jun 2021 04:17:22 -0000
+From: Launchpad Bug Tracker <1811244@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: core i386 mttcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jakub janitor th-huth
+X-Launchpad-Bug-Reporter: Jakub Jermar (jakub)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <154712887375.19548.13853640095079074628.malonedeb@soybean.canonical.com>
+Message-Id: <162416264295.7948.14312020366035066747.malone@loganberry.canonical.com>
+Subject: [Bug 1811244] Re: qemu 3.1/i386 crashes/guest hangs when MTTCG is
+ enabled
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: 97c50f838778cb9b94e95043333a7ac486b82f80
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,133 +72,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Weijiang <weijiang.yang@intel.com>
+Reply-To: Bug 1811244 <1811244@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Last Branch Recording (LBR) is a performance monitor unit (PMU)
-feature on Intel processors which records a running trace of the most
-recent branches taken by the processor in the LBR stack. This option
-indicates the LBR format to enable for guest perf.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-The LBR feature is enabled if below conditions are met:
-1) KVM is enabled and the PMU is enabled.
-2) msr-based-feature IA32_PERF_CAPABILITIES is supporterd on KVM.
-3) Supported returned value for lbr_fmt from above msr is non-zero.
-4) Guest vcpu model does support FEAT_1_ECX.CPUID_EXT_PDCM.
-5) User-provided lbr-fmt value doesn't violate its bitmask (0x3f).
-6) Target guest LBR format matches that of host.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-Co-developed-by: Like Xu <like.xu@linux.intel.com>
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
-Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
----
- target/i386/cpu.c | 41 +++++++++++++++++++++++++++++++++++++++++
- target/i386/cpu.h | 10 ++++++++++
- 2 files changed, 51 insertions(+)
+-- =
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ad99cad0e7..c80b8b7fe2 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6701,6 +6701,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     CPUX86State *env = &cpu->env;
-     Error *local_err = NULL;
-     static bool ht_warned;
-+    uint64_t requested_lbr_fmt;
- 
-     if (xcc->host_cpuid_required) {
-         if (!accel_uses_host_cpuid()) {
-@@ -6748,6 +6749,42 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         goto out;
-     }
- 
-+    /*
-+     * Override env->features[FEAT_PERF_CAPABILITIES].LBR_FMT
-+     * with user-provided setting.
-+     */
-+    if (cpu->lbr_fmt != ~PERF_CAP_LBR_FMT) {
-+        if ((cpu->lbr_fmt & PERF_CAP_LBR_FMT) != cpu->lbr_fmt) {
-+            error_setg(errp, "invalid lbr-fmt");
-+            return;
-+        }
-+        env->features[FEAT_PERF_CAPABILITIES] &= ~PERF_CAP_LBR_FMT;
-+        env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
-+    }
-+
-+    /*
-+     * vPMU LBR is supported when 1) KVM is enabled 2) Option pmu=on and
-+     * 3)vPMU LBR format matches that of host setting.
-+     */
-+    requested_lbr_fmt =
-+        env->features[FEAT_PERF_CAPABILITIES] & PERF_CAP_LBR_FMT;
-+    if (requested_lbr_fmt && kvm_enabled()) {
-+        uint64_t host_perf_cap =
-+            x86_cpu_get_supported_feature_word(FEAT_PERF_CAPABILITIES, false);
-+        uint64_t host_lbr_fmt = host_perf_cap & PERF_CAP_LBR_FMT;
-+
-+        if (!cpu->enable_pmu) {
-+            error_setg(errp, "vPMU: LBR is unsupported without pmu=on");
-+            return;
-+        }
-+        if (requested_lbr_fmt != host_lbr_fmt) {
-+            error_setg(errp, "vPMU: the lbr-fmt value (0x%lx) mismatches "
-+                        "the host supported value (0x%lx).",
-+                        requested_lbr_fmt, host_lbr_fmt);
-+            return;
-+        }
-+    }
-+
-     x86_cpu_filter_features(cpu, cpu->check_cpuid || cpu->enforce_cpuid);
- 
-     if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
-@@ -7150,6 +7187,9 @@ static void x86_cpu_initfn(Object *obj)
-     object_property_add_alias(obj, "sse4_1", obj, "sse4.1");
-     object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
- 
-+    cpu->lbr_fmt = ~PERF_CAP_LBR_FMT;
-+    object_property_add_alias(obj, "lbr_fmt", obj, "lbr-fmt");
-+
-     if (xcc->model) {
-         x86_cpu_load_model(cpu, xcc->model);
-     }
-@@ -7300,6 +7340,7 @@ static Property x86_cpu_properties[] = {
- #endif
-     DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
-     DEFINE_PROP_BOOL("pmu", X86CPU, enable_pmu, false),
-+    DEFINE_PROP_UINT64_CHECKMASK("lbr-fmt", X86CPU, lbr_fmt, PERF_CAP_LBR_FMT),
- 
-     DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
-                        HYPERV_SPINLOCK_NEVER_NOTIFY),
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 1bc300ce85..50e6d66791 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -354,6 +354,7 @@ typedef enum X86Seg {
- #define ARCH_CAP_TSX_CTRL_MSR		(1<<7)
- 
- #define MSR_IA32_PERF_CAPABILITIES      0x345
-+#define PERF_CAP_LBR_FMT                0x3f
- 
- #define MSR_IA32_TSX_CTRL		0x122
- #define MSR_IA32_TSCDEADLINE            0x6e0
-@@ -1726,6 +1727,15 @@ struct X86CPU {
-      */
-     bool enable_pmu;
- 
-+    /*
-+     * Enable LBR_FMT bits of IA32_PERF_CAPABILITIES MSR.
-+     * This can't be initialized with a default because it doesn't have
-+     * stable ABI support yet. It is only allowed to pass all LBR_FMT bits
-+     * returned by kvm_arch_get_supported_msr_feature()(which depends on both
-+     * host CPU and kernel capabilities) to the guest.
-+     */
-+    uint64_t lbr_fmt;
-+
-     /* LMCE support can be enabled/disabled via cpu option 'lmce=on/off'. It is
-      * disabled by default to avoid breaking migration between QEMU with
-      * different LMCE configurations.
--- 
-2.21.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1811244
 
+Title:
+  qemu 3.1/i386 crashes/guest hangs when MTTCG is enabled
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  When MTTCG is enabled, QEMU 3.1.0 sometimes crashes when running the
+  following command line:
+
+  qemu-system-i386 -kernel
+  /home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen/bootstrap
+  -append bootstrap -initrd
+  "/home/jermar/work/software/l4/fiasco/.build-i386/fiasco
+  -serial_esc,/home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen/=
+l4f/sigma0
+  ,/home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen/l4f/moe
+  rom/ahci.cfg,/home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen=
+/l4f/ned
+  ,test_env.lua ,/home/jermar/Kernkonzept/software/l4/pkg/ahci-
+  driver/examples/md5sum/ahci.cfg
+  ,/home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen/l4f/l4re
+  ,/home/jermar/Kernkonzept/software/l4/pkg/ahci-
+  driver/examples/md5sum/ahci.io
+  ,/home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen/l4f/io
+  ,/home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen/l4f
+  /ahci-drv
+  ,/home/jermar/Kernkonzept/software/l4/.build-i386/bin/x86_gen/l4f
+  /ahci-md5-sync" -smp 4 -accel tcg,thread=3Dmulti -device ahci,id=3Dahci0
+  -drive
+  if=3Dnone,file=3D/home/jermar/Kernkonzept/software/l4/.build-i386/pkg
+  /ahci-driver/test/examples/test_ahci.img,format=3Draw,id=3Ddrive-sata0-0-0
+  -device ide-drive,bus=3Dahci0.0,drive=3Ddrive-sata0-0-0,id=3Dsata0-0-0
+  -serial stdio -nographic -monitor none
+
+  The host is x86_64.
+
+  The stack at the time of the crash (core dump and debug binary
+  attached to the bug):
+
+  Core was generated by `qemu-system-i386 -kernel /home/jermar/Kernkonzept/=
+software/l4/.build-i386/bin/x'.
+  Program terminated with signal SIGSEGV, Segmentation fault.
+  #0  io_writex (env=3Denv@entry=3D0x565355ca0140, iotlbentry=3Diotlbentry@=
+entry=3D0x565355ca9120, mmu_idx=3D2, val=3Dval@entry=3D0, addr=3Daddr@entry=
+=3D3938451632, retaddr=3Dretaddr@entry=3D140487132809203, recheck=3Dfalse, =
+size=3D4)
+  =C2=A0=C2=A0=C2=A0=C2=A0at /home/jermar/software/HelenOS/helenos.git/cont=
+rib/qemu/qemu-3.1.0/accel/tcg/cputlb.c:791
+  791	    if (mr->global_locking && !qemu_mutex_iothread_locked()) {
+  [Current thread is 1 (Thread 0x7fc5af7fe700 (LWP 3625719))]
+  Missing separate debuginfos, use: dnf debuginfo-install SDL2-2.0.9-1.fc29=
+.x86_64 at-spi2-atk-2.30.0-1.fc29.x86_64 at-spi2-core-2.30.0-2.fc29.x86_64 =
+atk-2.30.0-1.fc29.x86_64 bzip2-libs-1.0.6-28.fc29.x86_64 cairo4
+  (gdb) bt
+  #0  0x0000565354f5f365 in io_writex
+  =C2=A0=C2=A0=C2=A0=C2=A0(env=3Denv@entry=3D0x565355ca0140, iotlbentry=3Di=
+otlbentry@entry=3D0x565355ca9120, mmu_idx=3D2, val=3Dval@entry=3D0, addr=3D=
+addr@entry=3D3938451632, retaddr=3Dretaddr@entry=3D140487132809203, recheck=
+=3Dfalse, size=3D4)
+  =C2=A0=C2=A0=C2=A0=C2=A0at /home/jermar/software/HelenOS/helenos.git/cont=
+rib/qemu/qemu-3.1.0/accel/tcg/cputlb.c:791
+  #1  0x0000565354f621b2 in io_writel (recheck=3D<optimized out>, retaddr=
+=3D140487132809203, addr=3D3938451632, val=3D0, index=3D0, mmu_idx=3D2, env=
+=3D0x565355ca0140)
+  =C2=A0=C2=A0=C2=A0=C2=A0at /home/jermar/software/HelenOS/helenos.git/cont=
+rib/qemu/qemu-3.1.0/accel/tcg/softmmu_template.h:310
+  #2  0x0000565354f621b2 in helper_le_stl_mmu (env=3D0x565355ca0140, addr=
+=3D<optimized out>, val=3D0, oi=3D34, retaddr=3D140487132809203)
+  =C2=A0=C2=A0=C2=A0=C2=A0at /home/jermar/software/HelenOS/helenos.git/cont=
+rib/qemu/qemu-3.1.0/accel/tcg/softmmu_template.h:310
+  #3  0x00007fc5b5a587f3 in code_gen_buffer ()
+  #4  0x0000565354f75fd0 in cpu_tb_exec (itb=3D<optimized out>, cpu=3D0x7fc=
+5b5a5aa40 <code_gen_buffer+12266006>) at /home/jermar/software/HelenOS/hele=
+nos.git/contrib/qemu/qemu-3.1.0/accel/tcg/cpu-exec.c:171
+  #5  0x0000565354f75fd0 in cpu_loop_exec_tb (tb_exit=3D<synthetic pointer>=
+, last_tb=3D<synthetic pointer>, tb=3D<optimized out>, cpu=3D0x7fc5b5a5aa40=
+ <code_gen_buffer+12266006>)
+  =C2=A0=C2=A0=C2=A0=C2=A0at /home/jermar/software/HelenOS/helenos.git/cont=
+rib/qemu/qemu-3.1.0/accel/tcg/cpu-exec.c:615
+  #6  0x0000565354f75fd0 in cpu_exec (cpu=3Dcpu@entry=3D0x565355c97e90) at =
+/home/jermar/software/HelenOS/helenos.git/contrib/qemu/qemu-3.1.0/accel/tcg=
+/cpu-exec.c:725
+  #7  0x0000565354f33b1f in tcg_cpu_exec (cpu=3D0x565355c97e90) at /home/je=
+rmar/software/HelenOS/helenos.git/contrib/qemu/qemu-3.1.0/cpus.c:1429
+  #8  0x0000565354f35e83 in qemu_tcg_cpu_thread_fn (arg=3D0x565355c97e90) a=
+t /home/jermar/software/HelenOS/helenos.git/contrib/qemu/qemu-3.1.0/cpus.c:=
+1733
+  #9  0x0000565354f35e83 in qemu_tcg_cpu_thread_fn (arg=3Darg@entry=3D0x565=
+355c97e90) at /home/jermar/software/HelenOS/helenos.git/contrib/qemu/qemu-3=
+.1.0/cpus.c:1707
+  #10 0x00005653552ec5da in qemu_thread_start (args=3D<optimized out>) at u=
+til/qemu-thread-posix.c:498
+  #11 0x00007fc5b858a58e in start_thread () at /lib64/libpthread.so.0
+  #12 0x00007fc5b84b96a3 in clone () at /lib64/libc.so.6
+
+  Another symptom that occurs more often than this crash is that the
+  guest hangs while waiting for another CPU to complete a cross-CPU
+  call. Disabling MTTCG makes both symptoms go away.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1811244/+subscriptions
 
