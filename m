@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717963ADCE0
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:40:25 +0200 (CEST)
-Received: from localhost ([::1]:59900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BABC3ADCDB
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:37:06 +0200 (CEST)
+Received: from localhost ([::1]:51556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lupFw-0006k4-Fu
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42076)
+	id 1lupCj-00018l-9q
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup2P-000107-BM
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:25 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46218)
+ id 1lup26-0008JR-BN
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup2M-0002wN-OZ
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:25 -0400
+ id 1lup23-0002nn-Oz
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:06 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lup29-0003ls-Fy
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:09 +0000
+ id 1lup1z-0003bA-NX
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8AC6D2E8234
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:04 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5BB942E8226
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Jun 2021 04:17:27 -0000
-From: Launchpad Bug Tracker <1806040@bugs.launchpad.net>
+Date: Sun, 20 Jun 2021 04:17:28 -0000
+From: Launchpad Bug Tracker <1814343@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: riscv
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bondey bonzini janitor th-huth
-X-Launchpad-Bug-Reporter: Bondey (bondey)
+X-Launchpad-Bug-Commenters: fintelia janitor th-huth
+X-Launchpad-Bug-Reporter: Jonathan Behrens (fintelia)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <154358384987.15321.7664021717575522872.malonedeb@soybean.canonical.com>
-Message-Id: <162416264794.7948.4791799965334316408.malone@loganberry.canonical.com>
-Subject: [Bug 1806040] Re: Nested VMX virtualization error on last Qemu
- versions
+References: <154905879413.25667.2843143192142684785.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162416264876.7948.3498129146237637175.malone@loganberry.canonical.com>
+Subject: [Bug 1814343] Re: Initrd not loaded on riscv32
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: fb2e2ddcfe6d1ea12acec357bf09f593a1f563d7
+X-Launchpad-Hash: a6ab93c7118c769d95c96ba20c41e67568805ecb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1806040 <1806040@bugs.launchpad.net>
+Reply-To: Bug 1814343 <1814343@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,41 +84,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1806040
+https://bugs.launchpad.net/bugs/1814343
 
 Title:
-  Nested VMX virtualization error on last Qemu versions
+  Initrd not loaded on riscv32
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Recently updated Qemu on a Sony VAIO sve14ag18m with Ubuntu Bionic
-  4.15.0-38 from Git
+  I attempted to run qemu with a ram disk. However, when reading the
+  contents of the disk from within the VM I only get back zeros.
 
-  After launching a few VMs, noticed that i could not create Snapshot due t=
-o this error:
-  "Nested VMX virtualization does not support live migration yet"
+  I was able to trace the issue to a mismatch of expectations on line 93
+  of hw/riscv/virt.c. Specifically, when running in 32-bit mode the
+  value of kernel_entry is sign extended to 64-bits, but
+  load_image_targphys expects the start address to not be sign extended.
 
-  I've created a new Windows 7 X64 machine with this compilation of Qemu
-  and the problem persisted, so it's not because of the old machines.
+  Straw man patch (works for 32-bit but would probably break 64-bit
+  VMs?):
 
-  I launch Qemu with this params (I use them for malware analisys adn re...=
-):
-  qemu-system-x86_64 -monitor stdio -display none -m 4096 -smp cpus=3D4 -us=
-bdevice tablet -drive file=3DVM.img,index=3D0,media=3Ddisk,format=3Dqcow2,c=
-ache=3Dunsafe -net nic,macaddr=3D"...." -net bridge,br=3Dbr0 -cpu host,-hyp=
-ervisor,kvm=3Doff -vnc 127.0.0.1:0 -enable-kvm =
+  diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+  index e7f0716fb6..32216f993c 100644
+  --- a/hw/riscv/virt.c
+  +++ b/hw/riscv/virt.c
+  @@ -90,7 +90,7 @@ static hwaddr load_initrd(const char *filename, uint64_=
+t mem_size,
+        * halfway into RAM, and for boards with 256MB of RAM or more we put
+        * the initrd at 128MB.
+        */
+  -    *start =3D kernel_entry + MIN(mem_size / 2, 128 * MiB);
+  +    *start =3D (kernel_entry & 0xffffffff) + MIN(mem_size / 2, 128 * MiB=
+);
+   =
 
+       size =3D load_ramdisk(filename, *start, mem_size - *start);
+       if (size =3D=3D -1) {
 
   =
 
-  Deleting the changes made on this commit solved the problem, but I dont h=
-ave idea what is this for, so... xDD =
+  Run command:
 
-  https://github.com/qemu/qemu/commit/d98f26073bebddcd3da0ba1b86c3a34e840c0=
-fb8
+  $ qemu/build/riscv32-softmmu/qemu-system-riscv32 -machine virt -kernel
+  mykernel.elf -nographic -initrd payload
+
+  Commit hash:
+
+  3a183e330dbd7dbcac3841737ac874979552cca2
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1806040/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1814343/+subscriptions
 
