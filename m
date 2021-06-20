@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3159D3AE0B8
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 23:36:14 +0200 (CEST)
-Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3998A3AE0BF
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 23:39:20 +0200 (CEST)
+Received: from localhost ([::1]:56820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv56z-00027q-4r
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 17:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39344)
+	id 1lv59z-0001OS-66
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 17:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv53s-0002Kn-I1
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:33:00 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43728)
+ id 1lv53r-0002J6-Si
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:32:59 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:36437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv53l-0008SY-Gn
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:33:00 -0400
-Received: by mail-pf1-x432.google.com with SMTP id a127so1577832pfa.10
+ id 1lv53m-0008TB-Dl
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:32:59 -0400
+Received: by mail-pg1-x529.google.com with SMTP id e33so12528487pgm.3
  for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 14:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h38+yrqYLEF8Qg/+ccdM2Tcru/YIUG4nfpAARgqgxf4=;
- b=HsavbWgh9WewKIU833VjpOBjbyIX8eTZj66A2oo++LE7Hym8C5kDAkEU5ce+eVpxED
- nOUtxUIVIUEAkJbWIl6WJdKX8cfdEw0/XQrsN/1uEHtaA0tsOF4U++MQWFIKf3DZ1o7e
- LsZKhb7eHaSjOhDt4/Uy3z7m3eUHrDEnUhi/HdzRYuGb2sYtFdsXq+C8Oi3+X5v+i2Fw
- NwoRo02QHunCsuKTQVdaIrvy/xu+UinAMJnNFfxIPunzDuLyKc6mVMxbg2p9J1iaxkvi
- jE16rDnaBt8dx8sXZPGyxMQ/LP418VgOGEmWCFui34cPs0Qit3iZf64WMsCrH6PS+jTX
- L45A==
+ bh=7dML7HVO3SIUvu7+ZiyMAW2r1aYzDyVht2iysbBCWL0=;
+ b=DTrvdicQDUOCoFBJXoZqja3HB1XdWqMYYHnE34/QkQQ0bX/tshffG8x/kv/KCSn6oP
+ hSbmJ8GEknmLoQ8gFF8kzdS5r9vb03dWCZK0wWQL69JhcezLWHoakf8bvcCnOHjhYdA6
+ /J6liarVUZrX/N5NucsjkdPvLDa7sbCzEv3uPlHBhbAjGNZyoE+jghY1NOZpWqsT9NfG
+ LpaRwA2t+Aw/v2Qcmr/DULtCQSj113JQDp5YcSo/iMfIL73a/Apx6v1dIRCsq31iPimG
+ jnx0fbh6TKslacR5m9zrXCX5kk+X+0ppKtDsjJqaV1AHX94jtNmWZ7z9SktnJ4e0rzNj
+ 4fZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h38+yrqYLEF8Qg/+ccdM2Tcru/YIUG4nfpAARgqgxf4=;
- b=gR3opwFS/TVvNSD5uDu09PgxwXmUQcIYDakqQCHGflI5+dW6io1sSMHZPKTTRwxajp
- NKlIjBy4cwxqReGh4faFsOHuPf8vOJen5SrXK7bsV3o7wIRg1Zym1FqqfpIFdXKZPtUO
- cz8FN5iJPQYwiukZEI/oxMZfVcBH3u8mPwQyskgQwZrz3KVjdw8gc5Sl10evIV4+zepP
- FtMUaewLl4JNvQctNbvmJ5Zvqb5D+OMgEJolEB0erxzOTbKG6Rm3l9bli0YIPvg+Ujaw
- 6cO7r4LeyrFDBRWTNZhQCdhEmTlM9SZaHvFZdttO58qXQBIELligP195em+Is43RE3nt
- rK8Q==
-X-Gm-Message-State: AOAM530ImMfCnGN4fcV5QiNrQS76rzB7AYjqF8RtlKmlb7fmxVHJ6OQA
- DUaKV3CgKVo2BUwLmMi/P5s+ITpYXHnNiQ==
-X-Google-Smtp-Source: ABdhPJxkGjVNPZ8YxKsTOmsF7nnAA7jBduRYFGe5QrP7zzDugm/gaPfSmWnVHbI059Ewv4YGJ3zIPQ==
-X-Received: by 2002:a62:f20a:0:b029:300:43ed:198d with SMTP id
- m10-20020a62f20a0000b029030043ed198dmr13394188pfh.55.1624224772317; 
+ bh=7dML7HVO3SIUvu7+ZiyMAW2r1aYzDyVht2iysbBCWL0=;
+ b=CCPTgjwx4OBUIkSCevCe0Pqpm3jqZMGbqaEUxqMRpT8cNppTSSPeyK6z98NhCL3wGA
+ DWhp86G3fejGkj1iuE+VzBXfdkUrWTjJATsNFSn8Jiyw2dxepr5tkNzDO7r5Og7D4T5S
+ nZzhApEqCGconWvJJmxgzxTsy8rTHEBizqu56MCGABwg02eZUhKYq7+w7JAM5upj2sD0
+ 2rPViypU9+SmFt4hjWSAmhSjP61viPGXl2vpR7wrDWj5QUwUzrsorFpTl0H06TM3YcGJ
+ b0TErE7bY+e+dkQK/2g6PT/t94A3/lY+DQ4JuXALwp7KitAJ1h+C8RDUA/s4EJkmL2g8
+ I3jQ==
+X-Gm-Message-State: AOAM533tPw0Emwu+1XDkVIR0k0aFV2K3sQNUF/lrZzWmiqLrxX6GeCQg
+ FR7ILod/2U/Jkp0lgV4k5f/eYcyn3qQIKQ==
+X-Google-Smtp-Source: ABdhPJwjI8YtgqETXdkh+1s+K54pjYv4zfwGo9XWgEh4hkyakXzLzoldXM9m+IsjGQg6ogGZ0NfWPw==
+X-Received: by 2002:a62:1657:0:b029:301:af69:5ae3 with SMTP id
+ 84-20020a6216570000b0290301af695ae3mr6472800pfw.57.1624224772793; 
  Sun, 20 Jun 2021 14:32:52 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id w21sm13608329pfq.143.2021.06.20.14.32.51
+ by smtp.gmail.com with ESMTPSA id w21sm13608329pfq.143.2021.06.20.14.32.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 20 Jun 2021 14:32:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/11] target/cris: Remove DISAS_SWI
-Date: Sun, 20 Jun 2021 14:32:42 -0700
-Message-Id: <20210620213249.1494274-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 05/11] target/cris: Fix use_goto_tb
+Date: Sun, 20 Jun 2021 14:32:43 -0700
+Message-Id: <20210620213249.1494274-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210620213249.1494274-1-richard.henderson@linaro.org>
 References: <20210620213249.1494274-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,33 +87,36 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This value is unused.
+Do not skip the page check for user-only -- mmap/mprotect can
+still change page mappings.  Only check dc->base.pc_first, not
+dc->ppc -- the start page is the only one that's relevant.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/cris/translate.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index f8b574b0b6..24dbae6d58 100644
+index 24dbae6d58..9e1f2f9239 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -55,7 +55,6 @@
- /* is_jmp field values */
- #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
- #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
--#define DISAS_SWI     DISAS_TARGET_3
+@@ -524,14 +524,9 @@ static void t_gen_cc_jmp(TCGv pc_true, TCGv pc_false)
+     gen_set_label(l1);
+ }
  
- /* Used by the decoder.  */
- #define EXTRACT_FIELD(src, start, end) \
-@@ -3310,7 +3309,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-                    to find the next TB */
-             tcg_gen_exit_tb(NULL, 0);
-             break;
--        case DISAS_SWI:
-         case DISAS_NORETURN:
-             /* nothing more to generate */
-             break;
+-static inline bool use_goto_tb(DisasContext *dc, target_ulong dest)
++static bool use_goto_tb(DisasContext *dc, target_ulong dest)
+ {
+-#ifndef CONFIG_USER_ONLY
+-    return (dc->base.pc_first & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK) ||
+-           (dc->ppc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
+-#else
+-    return true;
+-#endif
++    return ((dest ^ dc->base.pc_first) & TARGET_PAGE_MASK) == 0;
+ }
+ 
+ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
 -- 
 2.25.1
 
