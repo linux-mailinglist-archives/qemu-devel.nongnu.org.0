@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E123ADD59
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 08:24:08 +0200 (CEST)
-Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C00D3ADDFA
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 12:37:19 +0200 (CEST)
+Received: from localhost ([::1]:37836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luqsJ-0007or-Ls
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 02:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50736)
+	id 1luupK-0001Xf-0o
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 06:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luqrZ-00076v-1I
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 02:23:21 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42664)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1luuo2-0000Kq-PS; Sun, 20 Jun 2021 06:36:00 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:33741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luqrX-0004r0-Ia
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 02:23:20 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- 13-20020a17090a08cdb029016eed209ca4so8314265pjn.1
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 23:23:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BiRmqcZNF2hJVvi+mtvT/dUtK5fKY7sdVO7TwBKWEiU=;
- b=XjIogWdxlN6IrObJ3JwUxA1EIFrPIGXC4Lo5sAdrBAQj8DqcqmfXZ2sZU4uCbpgzaC
- 18wVHwI77OSn0UrBYWqg35nWw6P6TxpnFg6c+SalWPHGsMvzBiNWT0LmOMR4kG7+dLJV
- sRKMQDMyftFuYF7agYjC1Tp4xPcc9VjyQGtyZR4rMLnUvwwcX1Y6HiF95+IRpoKY/b03
- mnBKFH90Tu9s93Fo58/6v/G+sfvJESnJVHlwZMElK23nfrROT9wnpUsRlZizKRHx4nyF
- 19IRnTmzF8nN31rCmxnv6ongU7q/kFlPHP1nJLpX9pg33fO2OUSPe27HNY3qt3bquanT
- /K9w==
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1luuny-0004s0-Qf; Sun, 20 Jun 2021 06:35:58 -0400
+Received: by mail-io1-xd36.google.com with SMTP id a6so3654741ioe.0;
+ Sun, 20 Jun 2021 03:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PbxU95BLnXOIyQyP+dYJpVMQDfZrixmX5X0Da61721I=;
+ b=IwT9Lsu8cEx5ErJl4s9H02GXygtsu3FYqehG8QBXo6EkPuCwfqSJBdrzxQzS4ecg+R
+ WSyXhbnUM72kxJ+0tM8aNypLkvakDd4dApqHFZJaiOFFAnLIXuf8h+PkF1zhX4sWdaGc
+ IPaoVGMxyCD8DbChKduJwZp5+fQHXITVh8YjQunf2V/5cETV7UGI6ShAKGrDivjrzKxJ
+ 5pTlm4Zl2wdJLNzN0su2YpGuawvQ6oM76/3RGX3l9zyniOnYQoSetmtqjVM9oZFCcQSj
+ 43zAc8D3LlEXBYQLVcBbHUIXAuiVMUp3TWpYgbAu0ZkKEdIaPHVraWLC4myCIUlGewj6
+ Je7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BiRmqcZNF2hJVvi+mtvT/dUtK5fKY7sdVO7TwBKWEiU=;
- b=rAPqiahwIpipMz5qmIvQkbEtCkjs4ykVEYCOQp4ZeMx/Hp2IETkZCoavWwV7B/yTC9
- wCw6R3ISJ8KypdjyzTAFPLd8uboq4Q36gAYj1UHvohf2yeGQsdL+bw9CRhLGwmAFyH8N
- +8E199ZRjcxAGNJURcEGwMW/C5vspfXMyOIN2dp+MSyBFoDH4RbM8GjxAj+iheEeECoa
- YTRl5RFNd3G6oSyhKfzfMLalk8vdM/k7kn7j2Opb4K0VtAz7BTubdKjIm29HxfX5k59B
- HEDdMfqysdSDZHDNQqwNWo3j/R0csEQzRFq7PoK/XgBYu4AwhgATiGmZsq31heDKy0S0
- k17Q==
-X-Gm-Message-State: AOAM530UjA59bw8Le9lGYlGScisjKK6TsDdxa+eRfERCCSmYcaVoyg86
- 7j9yQX2FeZcBfQKd9Fx/3RSm3DQDBeW+tg==
-X-Google-Smtp-Source: ABdhPJy7PjWACwfIOLrv0oOo97HxaftU180KVrb9hlzTcWDxeTRByW5mlDayvhDsPXNegRBnrk7cNA==
-X-Received: by 2002:a17:902:ce86:b029:121:e5b8:dfef with SMTP id
- f6-20020a170902ce86b0290121e5b8dfefmr3690654plg.66.1624170198408; 
- Sat, 19 Jun 2021 23:23:18 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id h1sm14953305pji.14.2021.06.19.23.23.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jun 2021 23:23:18 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: Use cpu_breakpoint_test in breakpoint_handler
-Date: Sat, 19 Jun 2021 23:23:17 -0700
-Message-Id: <20210620062317.1399034-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PbxU95BLnXOIyQyP+dYJpVMQDfZrixmX5X0Da61721I=;
+ b=SAFZXuoqXTHwDBpqrFh0akcaysN9lIZIEErH3ZN3r03c1L8dBo8FkQQDI4AcFwE7Ap
+ DeN3JaggdO89bMJEPByeRkTno1qrQG2QKi0LaMdBpK9oB2EGxYSBqhEe1tZwjX8gBceb
+ nTxyJI/MVtfZQ9n4RBAKOw8TA69JQ+dPr/i4w/vkN7xkg7lzJPtHmEssuw1gHNyyJTBc
+ Lkyv3WvS1H+4iZF+O3CT0jSfkY2+qk4Nnjcn23pfE8W5p/JfiiQ1Y55Q1gAdHyMFX8YW
+ 2O0Lb0ruzIdOy+z/ZpnxJQGQkaoK6vl6PiwXjDfq8JsGTuAdkxn5SlfSSqDgiV1q7Hv6
+ aN/A==
+X-Gm-Message-State: AOAM531td7bGTKGTUGhAQcLm7gFvQAZKPx9IarTwrj9iCxGOrhFfjE+2
+ fzvObEfQ+QyRjHpZ7OeOhLJUEkkQToQK20EcVa0=
+X-Google-Smtp-Source: ABdhPJwPH5FF+YEYCC9LEIgNiw/9chodeZbZiDbnwaw1N5zm+BUA6hDGUj960PpqJV40eEQCIPCJbw7MJNW2bYHQNgM=
+X-Received: by 2002:a6b:8f83:: with SMTP id
+ r125mr15238628iod.123.1624185352963; 
+ Sun, 20 Jun 2021 03:35:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+References: <20210617160520.3694358-1-oro@il.ibm.com>
+ <CAOi1vP8JJiupdBCQsfN=KK8j1Q2Bnu059vXS0a1M53QsgY+OFQ@mail.gmail.com>
+In-Reply-To: <CAOi1vP8JJiupdBCQsfN=KK8j1Q2Bnu059vXS0a1M53QsgY+OFQ@mail.gmail.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Sun, 20 Jun 2021 12:35:41 +0200
+Message-ID: <CAOi1vP992wN_V=gCSp5n4tobWA1m==kXDxMh3u=O7hzv+MzhWg@mail.gmail.com>
+Subject: Re: [PATCH] block/rbd: Add support for rbd image encryption
+To: Or Ozeri <oro@il.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=idryomov@gmail.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,52 +76,700 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Mykola Golub <to.my.trociny@gmail.com>,
+ Danny Harnik <dannyh@il.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The loop is performing a simple boolean test for the existence
-of a BP_CPU breakpoint at EIP.  Plus it gets the iteration wrong,
-if we happen to have a BP_GDB breakpoint at the same address.
+On Sat, Jun 19, 2021 at 9:44 PM Ilya Dryomov <idryomov@gmail.com> wrote:
+>
+> On Thu, Jun 17, 2021 at 6:05 PM Or Ozeri <oro@il.ibm.com> wrote:
+> >
+> > Starting from ceph Pacific, RBD has built-in support for image-level encryption.
+> > Currently supported formats are LUKS version 1 and 2.
+> >
+> > There are 2 new relevant librbd APIs for controlling encryption, both expect an
+> > open image context:
+> >
+> > rbd_encryption_format: formats an image (i.e. writes the LUKS header)
+> > rbd_encryption_load: loads encryptor/decryptor to the image IO stack
+> >
+> > This commit extends the qemu rbd driver API to support the above.
+> >
+> > Signed-off-by: Or Ozeri <oro@il.ibm.com>
+> > ---
+> >  block/raw-format.c   |   7 +
+> >  block/rbd.c          | 371 ++++++++++++++++++++++++++++++++++++++++++-
+> >  qapi/block-core.json | 110 ++++++++++++-
+> >  3 files changed, 482 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/block/raw-format.c b/block/raw-format.c
+> > index 7717578ed6..f6e70e2356 100644
+> > --- a/block/raw-format.c
+> > +++ b/block/raw-format.c
+> > @@ -369,6 +369,12 @@ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+> >      return bdrv_get_info(bs->file->bs, bdi);
+> >  }
+> >
+> > +static ImageInfoSpecific *raw_get_specific_info(BlockDriverState *bs,
+> > +                                                Error **errp)
+> > +{
+> > +    return bdrv_get_specific_info(bs->file->bs, errp);
+> > +}
+> > +
+> >  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+> >  {
+> >      if (bs->probed) {
+> > @@ -603,6 +609,7 @@ BlockDriver bdrv_raw = {
+> >      .has_variable_length  = true,
+> >      .bdrv_measure         = &raw_measure,
+> >      .bdrv_get_info        = &raw_get_info,
+> > +    .bdrv_get_specific_info = &raw_get_specific_info,
+>
+> Hi Or,
+>
+> This feels a bit contentious to me.
+>
+> AFAIU ImageInfoSpecific is for format-specfic information.  "raw"
+> is a format and passing the request down the stack this way results
+> in a somewhat confusing output such as
+>
+>     $ qemu-img info rbd:foo/bar
+>     image: json:{"driver": "raw", "file": {"pool": "foo", "image":
+> "bar", "driver": "rbd", "namespace": ""}}
+>     file format: raw
+>     ...
+>     Format specific information:
+>        <information for rbd format>
+>
+> I think this should be broken out into its own patch and get separate
+> acks.
+>
+> >      .bdrv_refresh_limits  = &raw_refresh_limits,
+> >      .bdrv_probe_blocksizes = &raw_probe_blocksizes,
+> >      .bdrv_probe_geometry  = &raw_probe_geometry,
+> > diff --git a/block/rbd.c b/block/rbd.c
+> > index f098a89c7b..183b17cd84 100644
+> > --- a/block/rbd.c
+> > +++ b/block/rbd.c
+> > @@ -73,6 +73,18 @@
+> >  #define LIBRBD_USE_IOVEC 0
+> >  #endif
+> >
+> > +#define RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN 8
+> > +
+> > +static const char rbd_luks_header_verification[
+> > +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> > +    'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 1
+> > +};
+> > +
+> > +static const char rbd_luks2_header_verification[
+> > +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> > +    'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 2
+> > +};
+> > +
+> >  typedef enum {
+> >      RBD_AIO_READ,
+> >      RBD_AIO_WRITE,
+> > @@ -341,6 +353,206 @@ static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
+> >      }
+> >  }
+> >
+> > +#ifdef LIBRBD_SUPPORTS_ENCRYPTION
+> > +static int qemu_rbd_convert_luks_options(
+> > +        RbdEncryptionOptionsLUKSBase *luks_opts,
+> > +        char **passphrase,
+> > +        Error **errp)
+> > +{
+> > +    int r = 0;
+> > +
+> > +    if (!luks_opts->has_key_secret) {
+> > +        r = -EINVAL;
+> > +        error_setg_errno(errp, -r, "missing encrypt.key-secret");
+> > +        return r;
+> > +    }
+>
+> Why is key-secret optional?
+>
+> > +
+> > +    *passphrase = qcrypto_secret_lookup_as_utf8(luks_opts->key_secret, errp);
+> > +    if (!*passphrase) {
+> > +        return -EIO;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static int qemu_rbd_convert_luks_create_options(
+> > +        RbdEncryptionCreateOptionsLUKSBase *luks_opts,
+> > +        rbd_encryption_algorithm_t *alg,
+> > +        char **passphrase,
+> > +        Error **errp)
+> > +{
+> > +    int r = 0;
+> > +
+> > +    r = qemu_rbd_convert_luks_options(
+> > +            qapi_RbdEncryptionCreateOptionsLUKSBase_base(luks_opts),
+> > +            passphrase, errp);
+> > +    if (r < 0) {
+> > +        return r;
+> > +    }
+> > +
+> > +    if (luks_opts->has_cipher_alg) {
+> > +        switch (luks_opts->cipher_alg) {
+> > +            case QCRYPTO_CIPHER_ALG_AES_128: {
+> > +                *alg = RBD_ENCRYPTION_ALGORITHM_AES128;
+> > +                break;
+> > +            }
+> > +            case QCRYPTO_CIPHER_ALG_AES_256: {
+> > +                *alg = RBD_ENCRYPTION_ALGORITHM_AES256;
+> > +                break;
+> > +            }
+> > +            default: {
+> > +                r = -ENOTSUP;
+> > +                error_setg_errno(errp, -r, "unknown encryption algorithm: %u",
+> > +                                 luks_opts->cipher_alg);
+> > +                return r;
+> > +            }
+> > +        }
+> > +    } else {
+> > +        /* default alg */
+> > +        *alg = RBD_ENCRYPTION_ALGORITHM_AES256;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static int qemu_rbd_encryption_format(rbd_image_t image,
+> > +                                      RbdEncryptionCreateOptions *encrypt,
+> > +                                      Error **errp)
+> > +{
+> > +    int r = 0;
+> > +    g_autofree char *passphrase = NULL;
+> > +    g_autofree rbd_encryption_options_t opts = NULL;
+> > +    rbd_encryption_format_t format;
+> > +    rbd_image_info_t info;
+> > +    size_t opts_size;
+> > +    uint64_t raw_size;
+> > +
+> > +    r = rbd_stat(image, &info, sizeof(info));
+> > +    if (r < 0) {
+> > +        error_setg_errno(errp, -r, "cannot get raw image size");
+> > +        return r;
+> > +    }
+> > +    raw_size = info.size;
+>
+> Using rbd_get_size() to put size directly into raw_size would be
+> neater and avoid rbd_image_info_t.
+>
+> > +
+> > +    switch (encrypt->format) {
+> > +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS: {
+> > +            rbd_encryption_luks1_format_options_t *luks_opts =
+> > +                    g_new0(rbd_encryption_luks1_format_options_t, 1);
+>
+> Why is this dynamically allocated?  It doesn't matter that much, but
+> would rbd_encryption_luks1_format_options_t on the stack not work?
+>
+> > +            format = RBD_ENCRYPTION_FORMAT_LUKS1;
+> > +            opts = luks_opts;
+> > +            opts_size = sizeof(rbd_encryption_luks1_format_options_t);
+> > +            r = qemu_rbd_convert_luks_create_options(
+> > +                    qapi_RbdEncryptionCreateOptionsLUKS_base(&encrypt->u.luks),
+> > +                    &luks_opts->alg, &passphrase, errp);
+> > +            luks_opts->passphrase = passphrase;
+> > +            luks_opts->passphrase_size = strlen(passphrase);
+>
+> r needs to be checked before strlen() is called, as passphrase
+> would be NULL on error.
+>
+> More importantly, what about randomly-generated (i.e. binary)
+> passphrases?  I think qemu_rbd_convert_luks_options() should be
+> switched to qcrypto_secret_lookup() to cover this case.  Then
+> this strlen() would go away entirely.
+>
+> > +            break;
+> > +        }
+> > +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
+> > +            rbd_encryption_luks2_format_options_t *luks2_opts =
+> > +                    g_new0(rbd_encryption_luks2_format_options_t, 1);
+>
+> Same here.
+>
+> > +            format = RBD_ENCRYPTION_FORMAT_LUKS2;
+> > +            opts = luks2_opts;
+> > +            opts_size = sizeof(rbd_encryption_luks2_format_options_t);
+> > +            r = qemu_rbd_convert_luks_create_options(
+> > +                    qapi_RbdEncryptionCreateOptionsLUKS2_base(
+> > +                            &encrypt->u.luks2),
+> > +                    &luks2_opts->alg, &passphrase, errp);
+> > +            luks2_opts->passphrase = passphrase;
+> > +            luks2_opts->passphrase_size = strlen(passphrase);
+>
+> And here.
+>
+> > +            break;
+> > +        }
+> > +        default: {
+> > +            r = -ENOTSUP;
+> > +            error_setg_errno(
+> > +                    errp, -r, "unknown image encryption format: %u",
+> > +                    encrypt->format);
+> > +        }
+> > +    }
+> > +
+> > +    if (r < 0) {
+> > +        return r;
+> > +    }
+> > +
+> > +    r = rbd_encryption_format(image, format, opts, opts_size);
+> > +    if (r < 0) {
+> > +        error_setg_errno(errp, -r, "encryption format fail");
+> > +        return r;
+> > +    }
+> > +
+> > +    r = rbd_stat(image, &info, sizeof(info));
+> > +    if (r < 0) {
+> > +        error_setg_errno(errp, -r, "cannot get effective image size");
+> > +        return r;
+> > +    }
+> > +
+> > +    r = rbd_resize(image, raw_size + (raw_size - info.size));
+> > +    if (r < 0) {
+> > +        error_setg_errno(errp, -r, "cannot resize image after format");
+> > +        return r;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static int qemu_rbd_encryption_load(rbd_image_t image,
+> > +                                      RbdEncryptionOptions *encrypt,
+> > +                                      Error **errp)
+> > +{
+> > +    int r = 0;
+> > +    g_autofree char *passphrase = NULL;
+> > +    g_autofree rbd_encryption_options_t opts = NULL;
+> > +    rbd_encryption_format_t format;
+> > +    size_t opts_size;
+> > +
+> > +    switch (encrypt->format) {
+> > +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS: {
+> > +            rbd_encryption_luks1_format_options_t *luks_opts =
+> > +                    g_new0(rbd_encryption_luks1_format_options_t, 1);
+> > +            format = RBD_ENCRYPTION_FORMAT_LUKS1;
+> > +            opts = luks_opts;
+> > +            opts_size = sizeof(rbd_encryption_luks1_format_options_t);
+> > +            r = qemu_rbd_convert_luks_options(
+> > +                    qapi_RbdEncryptionOptionsLUKS_base(&encrypt->u.luks),
+> > +                    &passphrase, errp);
+> > +            luks_opts->passphrase = passphrase;
+> > +            luks_opts->passphrase_size = strlen(passphrase);
+> > +            break;
+> > +        }
+> > +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
+> > +            rbd_encryption_luks2_format_options_t *luks2_opts =
+> > +                    g_new0(rbd_encryption_luks2_format_options_t, 1);
+> > +            format = RBD_ENCRYPTION_FORMAT_LUKS2;
+> > +            opts = luks2_opts;
+> > +            opts_size = sizeof(rbd_encryption_luks2_format_options_t);
+> > +            r = qemu_rbd_convert_luks_options(
+> > +                    qapi_RbdEncryptionOptionsLUKS2_base(&encrypt->u.luks2),
+> > +                    &passphrase, errp);
+> > +            luks2_opts->passphrase = passphrase;
+> > +            luks2_opts->passphrase_size = strlen(passphrase);
+>
+> Same as in qemu_rbd_encryption_format().
+>
+> > +            break;
+> > +        }
+> > +        default: {
+> > +            r = -ENOTSUP;
+> > +            error_setg_errno(
+> > +                    errp, -r, "unknown image encryption format: %u",
+> > +                    encrypt->format);
+> > +        }
+> > +    }
+> > +
+> > +    if (r < 0) {
+> > +        return r;
+> > +    }
+> > +
+> > +    r = rbd_encryption_load(image, format, opts, opts_size);
+> > +    if (r < 0) {
+> > +        error_setg_errno(errp, -r, "encryption load fail");
+> > +    }
+> > +
+> > +    return r;
+> > +}
+> > +#endif
+> > +
+> >  /* FIXME Deprecate and remove keypairs or make it available in QMP. */
+> >  static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+> >                                const char *keypairs, const char *password_secret,
+> > @@ -358,6 +570,13 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+> >          return -EINVAL;
+> >      }
+> >
+> > +#ifndef LIBRBD_SUPPORTS_ENCRYPTION
+> > +    if (opts->location->has_encrypt) {
+>
+> Here opts->location->encrypt is being checked
+>
+> > +        error_setg(errp, "RBD library does not support image encryption");
+> > +        return -ENOTSUP;
+> > +    }
+> > +#endif
+> > +
+> >      if (opts->has_cluster_size) {
+> >          int64_t objsize = opts->cluster_size;
+> >          if ((objsize - 1) & objsize) {    /* not a power of 2? */
+> > @@ -383,6 +602,27 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+> >          goto out;
+> >      }
+> >
+> > +#ifdef LIBRBD_SUPPORTS_ENCRYPTION
+> > +    if (opts->has_encrypt) {
+>
+> ... but opts->encrypt is being acted on.  A request to create an
+> encrypted image with an old librbd would not be failed.
+>
+> > +        rbd_image_t image;
+> > +
+> > +        ret = rbd_open(io_ctx, opts->location->image, &image, NULL);
+> > +        if (ret < 0) {
+> > +            error_setg_errno(errp, -ret, "error reading header from %s",
+> > +                             opts->location->image);
+> > +            goto out;
+> > +        }
+> > +
+> > +        ret = qemu_rbd_encryption_format(image, opts->encrypt, errp);
+> > +        rbd_close(image);
+> > +        if (ret < 0) {
+> > +            /* encryption format fail, try removing the image */
+> > +            rbd_remove(io_ctx, opts->location->image);
+> > +            goto out;
+> > +        }
+> > +    }
+> > +#endif
+> > +
+> >      ret = 0;
+> >  out:
+> >      rados_ioctx_destroy(io_ctx);
+> > @@ -395,6 +635,43 @@ static int qemu_rbd_co_create(BlockdevCreateOptions *options, Error **errp)
+> >      return qemu_rbd_do_create(options, NULL, NULL, errp);
+> >  }
+> >
+> > +static int qemu_rbd_extract_encryption_create_options(
+> > +        QemuOpts *opts,
+> > +        RbdEncryptionCreateOptions **spec,
+> > +        Error **errp)
+> > +{
+> > +    QDict *opts_qdict;
+> > +    QDict *encrypt_qdict;
+> > +    Visitor *v;
+> > +    int ret = 0;
+> > +
+> > +    opts_qdict = qemu_opts_to_qdict(opts, NULL);
+> > +    qdict_extract_subqdict(opts_qdict, &encrypt_qdict, "encrypt.");
+> > +    qobject_unref(opts_qdict);
+> > +    if (!qdict_size(encrypt_qdict)) {
+> > +        *spec = NULL;
+> > +        goto exit;
+> > +    }
+> > +
+> > +    /* Convert options into a QAPI object */
+> > +    v = qobject_input_visitor_new_flat_confused(encrypt_qdict, errp);
+> > +    if (!v) {
+> > +        ret = -EINVAL;
+> > +        goto exit;
+> > +    }
+> > +
+> > +    visit_type_RbdEncryptionCreateOptions(v, NULL, spec, errp);
+> > +    visit_free(v);
+> > +    if (!*spec) {
+> > +        ret = -EINVAL;
+> > +        goto exit;
+> > +    }
+> > +
+> > +exit:
+> > +    qobject_unref(encrypt_qdict);
+> > +    return ret;
+> > +}
+> > +
+> >  static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
+> >                                                  const char *filename,
+> >                                                  QemuOpts *opts,
+> > @@ -403,6 +680,7 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
+> >      BlockdevCreateOptions *create_options;
+> >      BlockdevCreateOptionsRbd *rbd_opts;
+> >      BlockdevOptionsRbd *loc;
+> > +    RbdEncryptionCreateOptions *encrypt = NULL;
+> >      Error *local_err = NULL;
+> >      const char *keypairs, *password_secret;
+> >      QDict *options = NULL;
+> > @@ -431,6 +709,13 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
+> >          goto exit;
+> >      }
+> >
+> > +    ret = qemu_rbd_extract_encryption_create_options(opts, &encrypt, errp);
+> > +    if (ret < 0) {
+> > +        goto exit;
+> > +    }
+> > +    rbd_opts->encrypt     = encrypt;
+> > +    rbd_opts->has_encrypt = !!encrypt;
+> > +
+> >      /*
+> >       * Caution: while qdict_get_try_str() is fine, getting non-string
+> >       * types would require more care.  When @options come from -blockdev
+> > @@ -756,12 +1041,25 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+> >          goto failed_open;
+> >      }
+> >
+> > +    if (opts->has_encrypt) {
+> > +#ifdef LIBRBD_SUPPORTS_ENCRYPTION
+> > +        r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
+> > +        if (r < 0) {
+> > +            goto failed_post_open;
+> > +        }
+> > +#else
+> > +        r = -ENOTSUP;
+> > +        error_setg_errno(errp, -r,
+> > +                         "RBD library does not support image encryption");
+> > +        goto failed_post_open;
+> > +#endif
+> > +    }
+> > +
+> >      r = rbd_get_size(s->image, &s->image_size);
+> >      if (r < 0) {
+> >          error_setg_errno(errp, -r, "error getting image size from %s",
+> >                           s->image_name);
+> > -        rbd_close(s->image);
+> > -        goto failed_open;
+> > +        goto failed_post_open;
+> >      }
+> >
+> >      /* If we are using an rbd snapshot, we must be r/o, otherwise
+> > @@ -769,8 +1067,7 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+> >      if (s->snap != NULL) {
+> >          r = bdrv_apply_auto_read_only(bs, "rbd snapshots are read-only", errp);
+> >          if (r < 0) {
+> > -            rbd_close(s->image);
+> > -            goto failed_open;
+> > +            goto failed_post_open;
+> >          }
+> >      }
+> >
+> > @@ -780,6 +1077,8 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+> >      r = 0;
+> >      goto out;
+> >
+> > +failed_post_open:
+> > +    rbd_close(s->image);
+> >  failed_open:
+> >      rados_ioctx_destroy(s->io_ctx);
+> >      g_free(s->snap);
+> > @@ -1050,6 +1349,53 @@ static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
+> >      return 0;
+> >  }
+> >
+> > +static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+> > +                                                     Error **errp)
+> > +{
+> > +    BDRVRBDState *s = bs->opaque;
+> > +    ImageInfoSpecific *spec_info;
+> > +    rbd_image_info_t info;
+> > +    char buf[RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {0};
+> > +    int r;
+> > +
+> > +    r = rbd_stat(s->image, &info, sizeof(info));
+>
+> Ditto -- rbd_get_size().
+>
+> > +    if (r < 0) {
+> > +        error_setg_errno(errp, -r, "cannot get image size");
+> > +        return NULL;
+> > +    }
+> > +
+> > +    if (info.size >= RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) {
+> > +        r = rbd_read(s->image, 0,
+> > +                     RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN, buf) ;
+>
+> Stray space before semicolon.
+>
+> > +        if (r < 0) {
+> > +            error_setg_errno(errp, -r, "cannot read image start for probe");
+> > +            return NULL;
+> > +        }
+> > +    }
+> > +
+> > +    spec_info = g_new(ImageInfoSpecific, 1);
+> > +    *spec_info = (ImageInfoSpecific){
+> > +        .type  = IMAGE_INFO_SPECIFIC_KIND_RBD,
+> > +        .u.rbd.data = g_new0(ImageInfoSpecificRbd, 1),
+> > +    };
+> > +
+> > +    if (memcmp(buf, rbd_luks_header_verification,
+> > +               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
+> > +        spec_info->u.rbd.data->encryption_format =
+> > +                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS;
+> > +        spec_info->u.rbd.data->has_encryption_format = true;
+> > +    } else if (memcmp(buf, rbd_luks2_header_verification,
+> > +               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
+> > +        spec_info->u.rbd.data->encryption_format =
+> > +                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2;
+> > +        spec_info->u.rbd.data->has_encryption_format = true;
+> > +    } else {
+> > +        spec_info->u.rbd.data->has_encryption_format = false;
+> > +    }
+> > +
+> > +    return spec_info;
+> > +}
+> > +
+> >  static int64_t qemu_rbd_getlength(BlockDriverState *bs)
+> >  {
+> >      BDRVRBDState *s = bs->opaque;
+> > @@ -1243,6 +1589,22 @@ static QemuOptsList qemu_rbd_create_opts = {
+> >              .type = QEMU_OPT_STRING,
+> >              .help = "ID of secret providing the password",
+> >          },
+> > +        {
+> > +            .name = "encrypt.format",
+> > +            .type = QEMU_OPT_STRING,
+> > +            .help = "Encrypt the image, format choices: 'luks', 'luks2'",
+>
+> I think it should be "luks1" and "luks2" to match rbd/librbd.h and
+> "rbd encryption format" command.
+>
+> > +        },
+> > +        {
+> > +            .name = "encrypt.cipher-alg",
+> > +            .type = QEMU_OPT_STRING,
+> > +            .help = "Name of encryption cipher algorithm"
+> > +                    " (allowed values: aes-128, aes-256)",
+> > +        },
+> > +        {
+> > +            .name = "encrypt.key-secret",
+> > +            .type = QEMU_OPT_STRING,
+> > +            .help = "ID of secret providing LUKS passphrase",
+> > +        },
+>
+> A question probably better suited for QEMU maintainers but just in
+> case you have already asked and clarified this matter...
+>
+> There seem to be two image creation APIs: the old option-based thing
+> and the new QAPI-based x-blockdev-create command.  This patch extends
+> both and implements the old -> new translation.  Is this the right way
+> to do it?  Is the option-based interface supposed to be extended when
+> adding new functionality?
+>
+> >          { /* end of list */ }
+> >      }
+> >  };
+> > @@ -1272,6 +1634,7 @@ static BlockDriver bdrv_rbd = {
+> >      .bdrv_co_create_opts    = qemu_rbd_co_create_opts,
+> >      .bdrv_has_zero_init     = bdrv_has_zero_init_1,
+> >      .bdrv_get_info          = qemu_rbd_getinfo,
+> > +    .bdrv_get_specific_info = qemu_rbd_get_specific_info,
+> >      .create_opts            = &qemu_rbd_create_opts,
+> >      .bdrv_getlength         = qemu_rbd_getlength,
+> >      .bdrv_co_truncate       = qemu_rbd_co_truncate,
+> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > index 6d227924d0..60d2ff0d1a 100644
+> > --- a/qapi/block-core.json
+> > +++ b/qapi/block-core.json
+> > @@ -127,6 +127,18 @@
+> >        'extents': ['ImageInfo']
+> >    } }
+> >
+> > +##
+> > +# @ImageInfoSpecificRbd:
+> > +#
+> > +# @encryption-format: Image encryption format
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'ImageInfoSpecificRbd',
+> > +  'data': {
+> > +      '*encryption-format': 'RbdImageEncryptionFormat'
+> > +  } }
+> > +
+> >  ##
+> >  # @ImageInfoSpecific:
+> >  #
+> > @@ -141,7 +153,8 @@
+> >        # If we need to add block driver specific parameters for
+> >        # LUKS in future, then we'll subclass QCryptoBlockInfoLUKS
+> >        # to define a ImageInfoSpecificLUKS
+> > -      'luks': 'QCryptoBlockInfoLUKS'
+> > +      'luks': 'QCryptoBlockInfoLUKS',
+> > +      'rbd': 'ImageInfoSpecificRbd'
+> >    } }
+> >
+> >  ##
+> > @@ -3609,6 +3622,94 @@
+> >  { 'enum': 'RbdAuthMode',
+> >    'data': [ 'cephx', 'none' ] }
+> >
+> > +##
+> > +# @RbdImageEncryptionFormat:
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'enum': 'RbdImageEncryptionFormat',
+> > +  'data': [ 'luks', 'luks2' ] }
+>
+> Ditto -- "luks1" and "luks2".
 
-We have a function for this: cpu_breakpoint_test.
+Or pointed out that it used to be "luks1" and was changed to "luks"
+after Daniel's review.  I would like to stand by my suggestion to go
+back to "luks1".  Not only it would be consistent with librbd and rbd
+CLI but "luks" is actually ambiguous in the LUKS world.  If you look at
+cryptsetup tool, there "luks" can mean either "luks1" or "luks2"
+depending on cryptsetup version (and possibly how it was compiled).
+Being explicit is always better IMO.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/tcg/sysemu/bpt_helper.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+>
+> > +
+> > +##
+> > +# @RbdEncryptionOptionsLUKSBase:
+> > +#
+> > +# @key-secret: ID of a QCryptoSecret object providing a passphrase
+> > +#              for unlocking the encryption
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'RbdEncryptionOptionsLUKSBase',
+> > +  'data': { '*key-secret': 'str' }}
+>
+> When would we not need a passphrase?  I think it should be required.
+>
+> > +
+> > +##
+> > +# @RbdEncryptionCreateOptionsLUKSBase:
+> > +#
+> > +# @cipher-alg: The encryption algorithm
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'RbdEncryptionCreateOptionsLUKSBase',
+> > +  'base': 'RbdEncryptionOptionsLUKSBase',
+> > +  'data': { '*cipher-alg': 'QCryptoCipherAlgorithm'}}
+>
+> Why QCryptoCipherAlgorithm instead of just enumerating the two
+> algorithms that librbd supports?  An early failure when parsing
+> seems better than failing in qemu_rbd_convert_luks_create_options()
+> and having to clean up the newly created image.
 
-diff --git a/target/i386/tcg/sysemu/bpt_helper.c b/target/i386/tcg/sysemu/bpt_helper.c
-index 9bdf7e170b..f1fb479ad9 100644
---- a/target/i386/tcg/sysemu/bpt_helper.c
-+++ b/target/i386/tcg/sysemu/bpt_helper.c
-@@ -210,7 +210,6 @@ void breakpoint_handler(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
--    CPUBreakpoint *bp;
- 
-     if (cs->watchpoint_hit) {
-         if (cs->watchpoint_hit->flags & BP_CPU) {
-@@ -222,14 +221,9 @@ void breakpoint_handler(CPUState *cs)
-             }
-         }
-     } else {
--        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
--            if (bp->pc == env->eip) {
--                if (bp->flags & BP_CPU) {
--                    check_hw_breakpoints(env, true);
--                    raise_exception(env, EXCP01_DB);
--                }
--                break;
--            }
-+        if (cpu_breakpoint_test(cs, env->eip, BP_CPU)) {
-+            check_hw_breakpoints(env, true);
-+            raise_exception(env, EXCP01_DB);
-         }
-     }
- }
--- 
-2.25.1
+Same here, it appears that using QCryptoCipherAlgorithm was Daniel's
+suggestion.  But QCryptoCipherAlgorithm is a set of 12 algorithms of
+which librbd supports only two.  On top of that, e.g. "aes-256" for
+librbd really means "aes-256" + "xts" + "plain64" -- it bundles
+QCryptoCipherAlgorithm, QCryptoCipherMode and QCryptoIVGenAlgorithm
+with the latter two being hard-coded.
 
+Thanks,
+
+                Ilya
 
