@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D8D3ADE71
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 15:09:40 +0200 (CEST)
-Received: from localhost ([::1]:51130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682273ADEF5
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 16:03:26 +0200 (CEST)
+Received: from localhost ([::1]:35490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luxCk-0007fV-Kg
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 09:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35186)
+	id 1luy2m-0001uj-WB
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 10:03:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1luxC1-0006nr-2M
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 09:08:53 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51998
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1luy1c-00012h-NM
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 10:02:12 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:47725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1luxBy-00048L-Vm
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 09:08:52 -0400
-Received: from host86-132-109-72.range86-132.btcentralplus.com
- ([86.132.109.72] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1luxBg-000Bk7-Rk; Sun, 20 Jun 2021 14:08:33 +0100
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210619172626.875885-1-richard.henderson@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <081114a8-799a-764e-d393-9e136ae24f4c@ilande.co.uk>
-Date: Sun, 20 Jun 2021 14:08:43 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1luy1a-0006SX-RH
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 10:02:12 -0400
+Received: from [192.168.100.1] ([82.142.1.74]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M7bJ5-1lvo1r2Mij-0083C8; Sun, 20 Jun 2021 16:02:06 +0200
+Subject: Re: [PATCH v2 05/11] linux-user: Implement pivot_root
+To: YAMAMOTO Takashi <yamamoto@midokura.com>, qemu-devel@nongnu.org
+References: <20210531055019.10149-1-yamamoto@midokura.com>
+ <20210531055019.10149-6-yamamoto@midokura.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <94ed3cf3-f73f-951b-d64a-d8d2a693d6ea@vivier.eu>
+Date: Sun, 20 Jun 2021 16:02:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210619172626.875885-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <20210531055019.10149-6-yamamoto@midokura.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.109.72
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 00/15] accel/tcg: Fix for #360 and other i/o alignment
- issues
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
+X-Provags-ID: V03:K1:/7YuJKiEIpjyiHKiFMpWVk+TsY9bhI88aBJfQkaq+EjH0vOsbyU
+ 0AcyZYOk6VzgBe5b7mG1jp+4qvYSCpwrZnDt6NQNKzBSPB8mAGxQGA9hw/qIKFHB7R2psu6
+ c2iKnUAzyxFOpjPHyNxcONG0cb715zBW3TiejHaG/ghCqu20aF09+f8vCJy1heGWPINQFcz
+ FMX9X2ctRDKkXoP7Yv0ow==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KX5thkK/OOY=:GiAFaM2PSGl+pWKP9J/dnh
+ ZbWIuQbT9Mnjt4TWdgrXOzrA0IZ9mghrrSAyNBgOpw0M8khbvLhRanaWnYFM3Jch8QRDjoGfc
+ oQtewrPEtMFdem1ADpzIH0vwowIByD08F6sQF0599pDMcBGQ/fAiMsiATJOFkNbCBm8d185Tb
+ amUiS4ldV0GL7piVz7H6GoWvJ48rK2vD1U7q89aBb/ZIoV0FLvgCdse4ILMHj3JcdiZgQc1dK
+ 1hn5D6/wQvsDprs6WZNk7PgdQsl4AwnvLoq97yc+fRr7LE2nMNxYlear5rM6NZMQhlEcKXuvI
+ AzOgI3+d94YDCEFyV6dj63ccCGiBq+2WDPqb3LiHsSckQ6/+nQtLjtrMHVzEe7N6tI2JesrXS
+ MmOJARsTeBPkKz1JUHLWmhsgaiTs5FzolKBWjN8dTgJCnd1787qhtwtFHFJaR1amTBIXae6jp
+ A92aoKcJYP7moBDCdaworcqaaeNMc2G7jMPozOBiEKFRuQ0LNB/eXQ3TKcSeWyV+RWEYN/mDA
+ nkB56kc88GgCMcER1qIakE=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,85 +67,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/06/2021 18:26, Richard Henderson wrote:
+Le 31/05/2021 à 07:50, YAMAMOTO Takashi a écrit :
+> Used by runc.
+> 
+> Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
+> ---
+>  linux-user/syscall.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 2947e79dc0..51144c6d29 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8254,6 +8254,10 @@ static int host_to_target_cpu_mask(const unsigned long *host_mask,
+>      return 0;
+>  }
+>  
+> +#if defined(TARGET_NR_pivot_root) && defined(__NR_pivot_root)
+> +_syscall2(int, pivot_root, const char *, new_root, const char *, put_old)
+> +#endif
+> +
+>  /* This is an internal helper for do_syscall so that it is easier
+>   * to have a single return point, so that actions, such as logging
+>   * of syscall results, can be performed.
+> @@ -13222,6 +13226,23 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>          return ret;
+>  #endif
+>  
+> +#if defined(TARGET_NR_pivot_root)
+> +    case TARGET_NR_pivot_root:
+> +        {
+> +            void *p2;
+> +            p = lock_user_string(arg1); /* new_root */
+> +            p2 = lock_user_string(arg2); /* put_old */
+> +            if (!p || !p2) {
+> +                ret = -TARGET_EFAULT;
+> +            } else {
+> +                ret = get_errno(pivot_root(p, p2));
+> +            }
+> +            unlock_user(p2, arg2, 0);
+> +            unlock_user(p, arg1, 0);
+> +        }
+> +        return ret;
+> +#endif
+> +
+>      default:
+>          qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+>          return -TARGET_ENOSYS;
+> 
 
-> Short story is that the first two patches resolve the observed
-> problem, by completely bypassing quite a lot of code in memory.c.
-> 
-> Longer story is that we should either use that code in memory.c,
-> or we should bypass it to an even lower level, so that we don't
-> have multiple locations doing the partial-read assembly thing.
-> 
-> Patch 13 exposes a number of obvious device bugs via make check.
-> I'm sure there are more in devices that are less well tested.
-> 
-> Patch 15 has an obvious drawback: it breaks the original #360.
-> But it starts the conversation as to whether the check in memory.c
-> is in fact broken.
-> 
-> 
-> r~
-> 
-> 
-> Mark Cave-Ayland (2):
->    NOTFORMERGE q800: test case for do_unaligned_access issue
->    accel/tcg: Use byte ops for unaligned loads
-> 
-> Philippe Mathieu-Daudé (1):
->    accel/tcg: Extract load_helper_unaligned from load_helper
-> 
-> Richard Henderson (12):
->    accel/tcg: Don't test for watchpoints for code read
->    accel/tcg: Handle page span access before i/o access
->    softmmu/memory: Inline memory_region_dispatch_read1
->    softmmu/memory: Simplify access_with_adjusted_size interface
->    hw/net/e1000e: Fix size of io operations
->    hw/net/e1000e: Fix impl.min_access_size
->    hw/pci-host/q35: Improve blackhole_ops
->    hw/scsi/megasas: Fix megasas_mmio_ops sizes
->    hw/scsi/megasas: Improve megasas_queue_ops min_access_size
->    softmmu/memory: Disallow short writes
->    softmmu/memory: Support some unaligned access
->    RFC accel/tcg: Defer some unaligned accesses to memory subsystem
-> 
->   accel/tcg/cputlb.c | 147 +++++++++++++----------------
->   hw/m68k/q800.c     | 131 ++------------------------
->   hw/net/e1000e.c    |   8 +-
->   hw/pci-host/q35.c  |   9 +-
->   hw/scsi/megasas.c  |   6 +-
->   softmmu/memory.c   | 226 +++++++++++++++++++++++++++++++++------------
->   6 files changed, 251 insertions(+), 276 deletions(-)
-
-Hi Richard,
-
-I've had a look over this patchset, and based upon my work leading up to #360 this 
-does feel like an improvement: in particular separating out page spanning accesses, 
-and removing the duplicate cputlb code for splitting/combining unaligned accesses 
-seem like wins to me.
-
-As mentioned in the report itself, cputlb has effectively been bypassing 
-.min_access_size but I'm not sure about the consequences of this - does it mean that 
-the access size check should also be bypassed for the head/tail of unaligned 
-accesses? I'm also not completely sure how this behaviour can change based upon the 
-target CPU.
-
-The comment in patch 15 re: mr->ops->valid.unaligned is interesting: if the memory 
-subsystem can split the accesses beforehand so that they are accepted by the device, 
-does this check then become obsolete?
-
-My general feeling is that there are still some discussions to be had around defining 
-how unaligned accesses should work, and including a qtest to cover the various 
-unaligned/page span cases would help here. Other than that I do feel the patch is 
-worthwhile, and it may be there is a situation similar to the 
-memory_region_access_valid() changes in 5d971f9e67 whereby we accept the change in 
-behaviour will have some fallout but allow plenty of time for regressions to be fixed.
-
-
-ATB,
-
-Mark.
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
