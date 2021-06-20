@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BABC3ADCDB
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:37:06 +0200 (CEST)
-Received: from localhost ([::1]:51556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209153ADCD5
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:34:18 +0200 (CEST)
+Received: from localhost ([::1]:43114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lupCj-00018l-9q
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
+	id 1lupA1-0003io-6Q
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup26-0008JR-BN
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45582)
+ id 1lup23-0008D0-Lv
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup23-0002nn-Oz
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:06 -0400
+ id 1lup20-0002kZ-GF
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lup1z-0003bA-NX
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:00 +0000
+ id 1lup1v-0003fU-RH
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5BB942E8226
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1AE1A2E820A
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Jun 2021 04:17:28 -0000
-From: Launchpad Bug Tracker <1814343@bugs.launchpad.net>
+Date: Sun, 20 Jun 2021 04:17:32 -0000
+From: Launchpad Bug Tracker <1817239@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: riscv
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fintelia janitor th-huth
-X-Launchpad-Bug-Reporter: Jonathan Behrens (fintelia)
+X-Launchpad-Bug-Commenters: janitor jnsnow laurent-vivier th-huth umarcor
+X-Launchpad-Bug-Reporter: umarcor (umarcor)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <154905879413.25667.2843143192142684785.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162416264876.7948.3498129146237637175.malone@loganberry.canonical.com>
-Subject: [Bug 1814343] Re: Initrd not loaded on riscv32
+References: <155080581544.22842.8774442486795126526.malonedeb@wampee.canonical.com>
+Message-Id: <162416265251.7948.3341587162552611617.malone@loganberry.canonical.com>
+Subject: [Bug 1817239] Re: add '--targets' option to qemu-binfmt-conf.sh
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: a6ab93c7118c769d95c96ba20c41e67568805ecb
+X-Launchpad-Hash: b2f1ecc4316d77d83dea35e1d076f46db048a882
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1814343 <1814343@bugs.launchpad.net>
+Reply-To: Bug 1817239 <1817239@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,54 +83,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1814343
+https://bugs.launchpad.net/bugs/1817239
 
 Title:
-  Initrd not loaded on riscv32
+  add '--targets' option to qemu-binfmt-conf.sh
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I attempted to run qemu with a ram disk. However, when reading the
-  contents of the disk from within the VM I only get back zeros.
+  I'd like to ask for the addition of option '--targets' to scripts
+  /qemu-binfmt-conf.sh, in order to allow registering the interpreters
+  for the given list of architectures only, instead of using all of the
+  ones defined in qemu_target_list. The following is a possible patch
+  that implements it:
 
-  I was able to trace the issue to a mismatch of expectations on line 93
-  of hw/riscv/virt.c. Specifically, when running in 32-bit mode the
-  value of kernel_entry is sign extended to 64-bits, but
-  load_image_targphys expects the start address to not be sign extended.
+   qemu-binfmt-conf.sh | 9 ++++++++-
+   1 file changed, 8 insertions(+), 1 deletion(-)
 
-  Straw man patch (works for 32-bit but would probably break 64-bit
-  VMs?):
+  diff --git a/qemu-binfmt-conf.sh b/qemu-binfmt-conf.sh
+  index b5a1674..be4a19b 100644
+  --- a/qemu-binfmt-conf.sh
+  +++ b/qemu-binfmt-conf.sh
+  @@ -170,6 +170,7 @@ usage() {
+   Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
+                              [--help][--credential yes|no][--exportdir PAT=
+H]
+                              [--persistent yes|no][--qemu-suffix SUFFIX]
+  +                           [--targets TARGETS]
 
-  diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-  index e7f0716fb6..32216f993c 100644
-  --- a/hw/riscv/virt.c
-  +++ b/hw/riscv/virt.c
-  @@ -90,7 +90,7 @@ static hwaddr load_initrd(const char *filename, uint64_=
-t mem_size,
-        * halfway into RAM, and for boards with 256MB of RAM or more we put
-        * the initrd at 128MB.
-        */
-  -    *start =3D kernel_entry + MIN(mem_size / 2, 128 * MiB);
-  +    *start =3D (kernel_entry & 0xffffffff) + MIN(mem_size / 2, 128 * MiB=
-);
-   =
+          Configure binfmt_misc to use qemu interpreter
 
-       size =3D load_ramdisk(filename, *start, mem_size - *start);
-       if (size =3D=3D -1) {
+  @@ -189,6 +190,8 @@ Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debia=
+n][--systemd CPU]
+          --persistent:  if yes, the interpreter is loaded when binfmt is
+                         configured and remains in memory. All future uses
+                         are cloned from the open file.
+  +       --targets:     comma-separated list of targets. If provided, only
+  +                      the targets in the list are registered.
 
-  =
+       To import templates with update-binfmts, use :
 
-  Run command:
+  @@ -324,7 +327,7 @@ CREDENTIAL=3Dno
+   PERSISTENT=3Dno
+   QEMU_SUFFIX=3D""
 
-  $ qemu/build/riscv32-softmmu/qemu-system-riscv32 -machine virt -kernel
-  mykernel.elf -nographic -initrd payload
+  -options=3D$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-=
+suffix:,exportdir:,help,credential:,persistent: -- "$@")
+  +options=3D$(getopt -o ds:Q:S:e:hc:p:t: -l debian,systemd:,qemu-path:,qem=
+u-suffix:,exportdir:,help,credential:,persistent:,targets: -- "$@")
+   eval set -- "$options"
 
-  Commit hash:
-
-  3a183e330dbd7dbcac3841737ac874979552cca2
+   while true ; do
+  @@ -380,6 +383,10 @@ while true ; do
+           shift
+           PERSISTENT=3D"$1"
+           ;;
+  +    -t|--targets)
+  +        shift
+  +        qemu_target_list=3D"$(echo "$1" | tr ',' ' ')"
+  +        ;;
+       *)
+           break
+           ;;
+  --
+  2.20.1
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1814343/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1817239/+subscriptions
 
