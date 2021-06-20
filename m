@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069163ADCC6
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:26:56 +0200 (CEST)
-Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6C23ADCC5
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:26:54 +0200 (CEST)
+Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lup2t-0000oa-2C
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
+	id 1lup2r-0000g1-4f
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luoy3-0005Km-Hn
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:21:55 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:39443)
+ id 1luoy1-0005Jp-L6
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:21:54 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luoxx-0007zJ-Nz
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:21:55 -0400
-Received: by mail-pg1-x536.google.com with SMTP id w31so11273061pga.6
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 21:21:48 -0700 (PDT)
+ id 1luoxx-0007zy-OA
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:21:52 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ s17-20020a17090a8811b029016e89654f93so10493960pjn.1
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 21:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xehCQ9vTLilSPHreJ5z6HAmdw9vSAgo0a8TpFRTr4mo=;
- b=uf1LXOjQlLi95vPdgt/zeewXab2w5VyDPzjECeToS0mC48/Fxv+TBn9QNS4+3Z/6QN
- tRBp0tD3seNFEaERPKMSkcos6OhLMh2q3FSxu4la6IXXRceWy7lsVUuHxuHTiFJ5ozbw
- kg7e0mjysDxzsxUDeGLkGFl6p4GzF5ZxT1iCtLSF7/ojJhwBxSKf1mDHdBhC/IeQ2ZUn
- L8myaDTIgFWwnJtmYPIR5OVP14DsS9DYxxFLwnNov0YWNgO3RNWmQXX+y2n4/601lZSe
- d1nWWnR0N407+LSZHYZrfgdor/Ws6138i/3y0LnN0xDyWRAoYYMtURd4Xqv5WqI6Wn0k
- Zu1A==
+ bh=mmktZg4SZs/Mbi17grMf/E2VN5NS9/M2R6nJtdGiSV4=;
+ b=ym7QMcKC+GV5NZXg0I2JSlbF3SmV7V/VbtTKR/Rd/PfyBV8W40dBM9qJaoYixATZzZ
+ eile7f4ZGVC6L9HA0rq2BKW+teV1+RQeqKpI5/kHMcL59wIA8q5Ae+vRjSS8a9v+FRsm
+ w/Vx99UUwzPddja5gBsQgbWaDMg8NsCb3jKPHG85cjH2bCOPurWicVj22ilWhLXM14HQ
+ beSKTXIlP5C+3JNpidrQZTfqItgC+/DWFbZiEpf1vyYdiHNUsEDE/ORL31wrjcSqhwGB
+ 5ajf3IBPNx6PJo0O/EU32k/eDNfTr3yjbsBx7N9emQfGRY8BOWnNNIgnKDCQtZeKzlKU
+ YSLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xehCQ9vTLilSPHreJ5z6HAmdw9vSAgo0a8TpFRTr4mo=;
- b=EZ8tHQLqRmuhgRAk12FFFijES7SwkF2O6Ti84mq/Xo989FcsRfjFHniBZiU1at3HAL
- 01dsqa27aNu/6ONDV4UmYUkPO7ONfhe9lfAmQiVlNvzHNanICBzLs9DzodPEmQCRUX9h
- Ubn+KCr+9C9vnodrgnSdxMajGyvNvl9NFzEp4cc85nEOpnokQua25zz0bg7jjC64mk8I
- 6xoh2iK2E6KAfhTfwbgCdMKYWlAETworcHIVE97JSawVZMWFZrcTgQGGjJbg0Ap0sZY3
- SE4ykg7NOtDmFMHn1yXUYg5BFoGyP91bfUmR3U2Z4xmwDuQhtwfmPl/1HuRa0bu8wWRQ
- iy6A==
-X-Gm-Message-State: AOAM531Ra8VifS9IrNXXngVoNPHaPjCSMjXgpYKtkBsRYs9CUJyn8qkB
- ++mkwMuJGYjvHzpk5nxupHe0ITcrD1rTzw==
-X-Google-Smtp-Source: ABdhPJxjt23Cppk464+j24+FrmD5p01NjSLBEX838O7s2m7vrs7dHelddSkrfOo/d7e4ifcvItLojA==
-X-Received: by 2002:a63:e245:: with SMTP id y5mr17462746pgj.171.1624162907668; 
- Sat, 19 Jun 2021 21:21:47 -0700 (PDT)
+ bh=mmktZg4SZs/Mbi17grMf/E2VN5NS9/M2R6nJtdGiSV4=;
+ b=bYhgsjUwdq72+UPLlYRzeWztBhvRnKwGBxSIBsGbR0KM7YDYujFAV/c52I6Aq1oRye
+ aCVPkrgzXbqRXjaXQ2xYHzPFI74sQqQMc5xpbw+QnDi0ldYeB8AGwQyvpeAaOLnM6Ca3
+ OlTItwRxgiGl6PAKnkw6FlqFZErOXB7ZYLTJ3HSEDd3vRdZiRZlnON6KOdC9mqFsRNPY
+ pkEHZExwi2uzomOFSczyMJW4xqHD0+Yd1K/6GjAcMtIIcHodLDC2Rn0gngRKUqD3T6Z6
+ KoCOVuevMmyw4X/2gonMyD0Er70bQ0sm67L9ybjRtrsRVnH8OeDxXqGixhpOiH0IMSwR
+ lk5g==
+X-Gm-Message-State: AOAM530f8MUmzpDZOrxiJVCVIoILUthFb2t9lKvPzIKn+Xa40PuI5IlX
+ tsjLtGh4ABStphM5YhyaoKqtqOwfpaeftA==
+X-Google-Smtp-Source: ABdhPJz1nptRnDqh6tvJqOnQrFo65NdXex1JaUmsj64nSLJFSDpCqtA+Wbs7ZCsY5XnzwShv5UcUig==
+X-Received: by 2002:a17:90a:d598:: with SMTP id
+ v24mr18803360pju.185.1624162908257; 
+ Sat, 19 Jun 2021 21:21:48 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id b6sm11923156pfv.16.2021.06.19.21.21.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jun 2021 21:21:47 -0700 (PDT)
+ Sat, 19 Jun 2021 21:21:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/9] target/cris: Mark static arrays const
-Date: Sat, 19 Jun 2021 21:21:39 -0700
-Message-Id: <20210620042141.1235541-8-richard.henderson@linaro.org>
+Subject: [PATCH 8/9] target/cris: Use movcond for t_gen_cc_jmp
+Date: Sat, 19 Jun 2021 21:21:40 -0700
+Message-Id: <20210620042141.1235541-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210620042141.1235541-1-richard.henderson@linaro.org>
 References: <20210620042141.1235541-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,115 +88,33 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is better than branch around assignment.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c         | 19 ++++++++++---------
- target/cris/translate_v10.c.inc |  6 +++---
- 2 files changed, 13 insertions(+), 12 deletions(-)
+ target/cris/translate.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 8c24053f5e..3515c21b7b 100644
+index 3515c21b7b..e4cbc35ebd 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -137,14 +137,15 @@ static void gen_BUG(DisasContext *dc, const char *file, int line)
-     cpu_abort(CPU(dc->cpu), "%s:%d pc=%x\n", file, line, dc->pc);
+@@ -516,13 +516,9 @@ static void t_gen_swapr(TCGv d, TCGv s)
+ 
+ static void t_gen_cc_jmp(TCGv pc_true, TCGv pc_false)
+ {
+-    TCGLabel *l1 = gen_new_label();
+-
+     /* Conditional jmp.  */
+-    tcg_gen_mov_tl(env_pc, pc_false);
+-    tcg_gen_brcondi_tl(TCG_COND_EQ, env_btaken, 0, l1);
+-    tcg_gen_mov_tl(env_pc, pc_true);
+-    gen_set_label(l1);
++    tcg_gen_movcond_tl(TCG_COND_NE, env_pc, env_btaken, tcg_constant_tl(0),
++                       pc_true, pc_false);
  }
  
--static const char *regnames_v32[] =
-+static const char * const regnames_v32[] =
- {
-     "$r0", "$r1", "$r2", "$r3",
-     "$r4", "$r5", "$r6", "$r7",
-     "$r8", "$r9", "$r10", "$r11",
-     "$r12", "$r13", "$sp", "$acr",
- };
--static const char *pregnames_v32[] =
-+
-+static const char * const pregnames_v32[] =
- {
-     "$bz", "$vr", "$pid", "$srs",
-     "$wz", "$exs", "$eda", "$mof",
-@@ -153,7 +154,7 @@ static const char *pregnames_v32[] =
- };
- 
- /* We need this table to handle preg-moves with implicit width.  */
--static int preg_sizes[] = {
-+static const int preg_sizes[] = {
-     1, /* bz.  */
-     1, /* vr.  */
-     4, /* pid.  */
-@@ -475,9 +476,9 @@ static inline void t_gen_swapw(TCGv d, TCGv s)
-    ((T0 >> 5) & 0x02020202) |
-    ((T0 >> 7) & 0x01010101));
-  */
--static inline void t_gen_swapr(TCGv d, TCGv s)
-+static void t_gen_swapr(TCGv d, TCGv s)
- {
--    struct {
-+    static const struct {
-         int shift; /* LSL when positive, LSR when negative.  */
-         uint32_t mask;
-     } bitrev[] = {
-@@ -1284,7 +1285,7 @@ static int dec_prep_alu_m(CPUCRISState *env, DisasContext *dc,
- #if DISAS_CRIS
- static const char *cc_name(int cc)
- {
--    static const char *cc_names[16] = {
-+    static const char * const cc_names[16] = {
-         "cc", "cs", "ne", "eq", "vc", "vs", "pl", "mi",
-         "ls", "hi", "ge", "lt", "gt", "le", "a", "p"
-     };
-@@ -2931,7 +2932,7 @@ static int dec_null(CPUCRISState *env, DisasContext *dc)
-     return 2;
- }
- 
--static struct decoder_info {
-+static const struct decoder_info {
-     struct {
-         uint32_t bits;
-         uint32_t mask;
-@@ -3371,8 +3372,8 @@ void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-     CRISCPU *cpu = CRIS_CPU(cs);
-     CPUCRISState *env = &cpu->env;
--    const char **regnames;
--    const char **pregnames;
-+    const char * const *regnames;
-+    const char * const *pregnames;
-     int i;
- 
-     if (!env) {
-diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
-index 0ba2aca96f..4ab43dc404 100644
---- a/target/cris/translate_v10.c.inc
-+++ b/target/cris/translate_v10.c.inc
-@@ -21,7 +21,7 @@
- #include "qemu/osdep.h"
- #include "crisv10-decode.h"
- 
--static const char *regnames_v10[] =
-+static const char * const regnames_v10[] =
- {
-     "$r0", "$r1", "$r2", "$r3",
-     "$r4", "$r5", "$r6", "$r7",
-@@ -29,7 +29,7 @@ static const char *regnames_v10[] =
-     "$r12", "$r13", "$sp", "$pc",
- };
- 
--static const char *pregnames_v10[] =
-+static const char * const pregnames_v10[] =
- {
-     "$bz", "$vr", "$p2", "$p3",
-     "$wz", "$ccr", "$p6-prefix", "$mof",
-@@ -38,7 +38,7 @@ static const char *pregnames_v10[] =
- };
- 
- /* We need this table to handle preg-moves with implicit width.  */
--static int preg_sizes_v10[] = {
-+static const int preg_sizes_v10[] = {
-     1, /* bz.  */
-     1, /* vr.  */
-     1, /* pid. */
+ static inline bool use_goto_tb(DisasContext *dc, target_ulong dest)
 -- 
 2.25.1
 
