@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8D73AE0C5
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 23:52:46 +0200 (CEST)
-Received: from localhost ([::1]:36322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C4B3AE0C6
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 23:52:49 +0200 (CEST)
+Received: from localhost ([::1]:36508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv5My-00074S-MR
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 17:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
+	id 1lv5N2-0007Bw-C8
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 17:52:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv5Kk-0005Ed-Sn
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:50:26 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:46030)
+ id 1lv5Kl-0005F7-MJ
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:50:27 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv5Kj-0002FI-9m
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:50:26 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id y14so1118142pgs.12
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 14:50:24 -0700 (PDT)
+ id 1lv5Kj-0002FK-Jl
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:50:27 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ m15-20020a17090a5a4fb029016f385ffad0so6242832pji.0
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 14:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xvehaxmptG7eECcujxt+ovd111puoZ9sQXJAFj3AgEY=;
- b=WDddC0Goi0ryMVmsKWleHGrahR6nfUi7W3JP7GebDE8uJxohjQDD+zjCrpg4qAGa+D
- Vg3WTlTCUTMxeMozZP7bA9DP9JPwuo5Rzqf29VBys5PuxxCGYqNtk5nBda8Xntd8JJUD
- 8t7C/pRarBekwkISSQ18k+oOLkKbQkkbsu+lGAjDznY/C0E5/fiBVEFP+RdRR2OVnO2F
- Ka+Xyqh0OiB+HbaERJrd1AbvzkvLopaNy5rHa4uAQvGG4IsFdeM2BMimmAoNIExcWC9U
- PFn/wLjB04ftlAH94CpM9+JgXb+9y9lPOAvVwBA/DuWR0plHOe7aIV2FVZb9macaB444
- 9g2Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WC4ZZt46aoWhKlwhfKzGhMWDEJXJ1wMQw+caZWV+JNY=;
+ b=CD9t5ptzAD6V/i9xIPGnPp0OkPTtsuxasafHmATOpgmWxNJOLgZSqk1lMdQkhgToe3
+ i4Kokznhrc5MuuusqxuOOlop4G42uSqZnOsCKWmIxXtvDBx01EY9y64pa/DhwkeyLTWr
+ 6W1nWyTw+IKpaqZZ1tKANMSll5+EGztDVSBgM0Wl6yfSEZKew0cqDYw0Oo1By74c9nvl
+ KLsBMeT7N7OW+XEbOKtvAD3Q6FRbH7MDP9J0lC0MqRnkXpy3aipn1M/dbxgNkUnAtVYj
+ Y7FGKCwTqeALayFY94Egbn0w+01PSDVbd/EwAtCqDvhR5sC+bW5sd6n0D4fqPTxqumWO
+ zmCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xvehaxmptG7eECcujxt+ovd111puoZ9sQXJAFj3AgEY=;
- b=mDGnNWc6r/1kOIBkWZPRGqBbBjPtwI/nIQwRdRxBchFDlv7rDETdDSxWAtqjSEYwOE
- oXZ+veWuZ0jXbLjGPzYMw2XLC2se0vWOkd19tcG/YUFnBWQ2S/ARXEtHFkkuvT0Z9vLe
- r0KLTdcnzn9pVv2hd1ygPSyn8ayvtCcq61hIb/BVTXehVyHVZDD/LU+nzRpujbYtAV+B
- aJnsls4N4vtmgl9SDuYBD8ALp0vxXfHWOk1Z4vYnUCEpI6ALA41C8TCY/GllWlHgvhnS
- 7N90xh0FDxdi5jpBaSJoFMbyKn1ydIbAaaClQdPbrIz48vKtGlJw9CjgBcan9teLw8wP
- iHTQ==
-X-Gm-Message-State: AOAM533zmGN7itMVAjS9lz882u5MUxvEjd9qodwVIKpdZLtGBheQeKXC
- Wo1TBvrCbFEumA0ecrckEZGEBZKgTOaCuw==
-X-Google-Smtp-Source: ABdhPJwqaNftPdxnfDNQXEGVH5yiSlyE+F6uJilqiBlA28LJ4BwmgE5BBzVdFXfHjgcFKGXoSRoeYA==
-X-Received: by 2002:aa7:8a5a:0:b029:2ec:7134:7540 with SMTP id
- n26-20020aa78a5a0000b02902ec71347540mr15781940pfa.66.1624225823603; 
- Sun, 20 Jun 2021 14:50:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=WC4ZZt46aoWhKlwhfKzGhMWDEJXJ1wMQw+caZWV+JNY=;
+ b=ewqHz4TF3L1RB59SFsSpEkxkdy77RXskXoehjqGQq6z/UmHFFGQseS2MPVm/mu9lez
+ pFOZsT+4LtEVokmSRoceFNXnjBYrhJrDzteLKFQb9KqI5zLYMLfs7bCbh3sN/1opowlV
+ 1QKPxbQf4I2p8kDXhBJuTEHsvKiMj0yN9RhSUYFx9dcQ5O/HVsXEomASpHQ/Ds4cQys0
+ CKB/ZimSFxP1dKaGGxwhGDzYI5y5cXVbC+P7z4IawjCIgKp5hRblUbe2icQXoYNMgtev
+ cZQiT+EHejYgqH9aHy2iYY68zyNLbgAIVdMb9p8Zbq6XS/Qf6pyHgz5BAjr4poghsZPr
+ S47A==
+X-Gm-Message-State: AOAM531knpxnMGQ4oXgbcibGh4v8MfY8Vp2MOd2QX4ZbH2FO4Uyv4jyR
+ Mku/noXVXcyrXAdzRP4Pbhe6nxTWbwni3Q==
+X-Google-Smtp-Source: ABdhPJz3ORKLTFL41DHqAJNM1I3tPzueCI6d9016L0B6SD3vJHhmAHoz1bdr9DDsDvy3Q9+HUj9SrQ==
+X-Received: by 2002:a17:90a:6b01:: with SMTP id
+ v1mr23760170pjj.10.1624225824236; 
+ Sun, 20 Jun 2021 14:50:24 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id 76sm13212625pfy.82.2021.06.20.14.50.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Jun 2021 14:50:23 -0700 (PDT)
+ Sun, 20 Jun 2021 14:50:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] target/avr: Convert to TranslatorOps
-Date: Sun, 20 Jun 2021 14:50:19 -0700
-Message-Id: <20210620215022.1510617-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 1/3] target/avr: Add DisasContextBase to DisasContext
+Date: Sun, 20 Jun 2021 14:50:20 -0700
+Message-Id: <20210620215022.1510617-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210620215022.1510617-1-richard.henderson@linaro.org>
+References: <20210620215022.1510617-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,29 +88,240 @@ Cc: mrolnik@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've reached a point where *all* targets must use the translator loop.  
+Migrate the bstate, tb and singlestep_enabled fields
+from DisasContext into the base.
 
-Changes for v2:
-  * Fix (drop) singlestep check for max_insns.
-    We already do that generically.
-  * Fully initialize DisasContext.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/avr/translate.c | 58 +++++++++++++++++++++---------------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
-It was that last that caused the check-acceptance regression for v1.
-I simply got lucky the first time (with optimization) and the
-uninitialized struct members happened to have some zeros.
-
-
-r~
-
-
-Richard Henderson (3):
-  target/avr: Add DisasContextBase to DisasContext
-  target/avr: Change ctx to DisasContext* in gen_intermediate_code
-  target/avr: Convert to TranslatorOps
-
- target/avr/translate.c | 284 ++++++++++++++++++++++-------------------
- 1 file changed, 154 insertions(+), 130 deletions(-)
-
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index 850c5941d9..20c5062730 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -80,7 +80,7 @@ typedef struct DisasContext DisasContext;
+ 
+ /* This is the state at translation time. */
+ struct DisasContext {
+-    TranslationBlock *tb;
++    DisasContextBase base;
+ 
+     CPUAVRState *env;
+     CPUState *cs;
+@@ -90,8 +90,6 @@ struct DisasContext {
+ 
+     /* Routine used to access memory */
+     int memidx;
+-    int bstate;
+-    int singlestep;
+ 
+     /*
+      * some AVR instructions can make the following instruction to be skipped
+@@ -191,7 +189,7 @@ static bool avr_have_feature(DisasContext *ctx, int feature)
+ {
+     if (!avr_feature(ctx->env, feature)) {
+         gen_helper_unsupported(cpu_env);
+-        ctx->bstate = DISAS_NORETURN;
++        ctx->base.is_jmp = DISAS_NORETURN;
+         return false;
+     }
+     return true;
+@@ -1011,13 +1009,13 @@ static void gen_jmp_ez(DisasContext *ctx)
+ {
+     tcg_gen_deposit_tl(cpu_pc, cpu_r[30], cpu_r[31], 8, 8);
+     tcg_gen_or_tl(cpu_pc, cpu_pc, cpu_eind);
+-    ctx->bstate = DISAS_LOOKUP;
++    ctx->base.is_jmp = DISAS_LOOKUP;
+ }
+ 
+ static void gen_jmp_z(DisasContext *ctx)
+ {
+     tcg_gen_deposit_tl(cpu_pc, cpu_r[30], cpu_r[31], 8, 8);
+-    ctx->bstate = DISAS_LOOKUP;
++    ctx->base.is_jmp = DISAS_LOOKUP;
+ }
+ 
+ static void gen_push_ret(DisasContext *ctx, int ret)
+@@ -1083,9 +1081,9 @@ static void gen_pop_ret(DisasContext *ctx, TCGv ret)
+ 
+ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+ {
+-    TranslationBlock *tb = ctx->tb;
++    const TranslationBlock *tb = ctx->base.tb;
+ 
+-    if (ctx->singlestep == 0) {
++    if (!ctx->base.singlestep_enabled) {
+         tcg_gen_goto_tb(n);
+         tcg_gen_movi_i32(cpu_pc, dest);
+         tcg_gen_exit_tb(tb, n);
+@@ -1094,7 +1092,7 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+         gen_helper_debug(cpu_env);
+         tcg_gen_exit_tb(NULL, 0);
+     }
+-    ctx->bstate = DISAS_NORETURN;
++    ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ /*
+@@ -1254,7 +1252,7 @@ static bool trans_RET(DisasContext *ctx, arg_RET *a)
+ {
+     gen_pop_ret(ctx, cpu_pc);
+ 
+-    ctx->bstate = DISAS_LOOKUP;
++    ctx->base.is_jmp = DISAS_LOOKUP;
+     return true;
+ }
+ 
+@@ -1272,7 +1270,7 @@ static bool trans_RETI(DisasContext *ctx, arg_RETI *a)
+     tcg_gen_movi_tl(cpu_If, 1);
+ 
+     /* Need to return to main loop to re-evaluate interrupts.  */
+-    ctx->bstate = DISAS_EXIT;
++    ctx->base.is_jmp = DISAS_EXIT;
+     return true;
+ }
+ 
+@@ -1484,7 +1482,7 @@ static bool trans_BRBC(DisasContext *ctx, arg_BRBC *a)
+     gen_goto_tb(ctx, 0, ctx->npc + a->imm);
+     gen_set_label(not_taken);
+ 
+-    ctx->bstate = DISAS_CHAIN;
++    ctx->base.is_jmp = DISAS_CHAIN;
+     return true;
+ }
+ 
+@@ -1533,7 +1531,7 @@ static bool trans_BRBS(DisasContext *ctx, arg_BRBS *a)
+     gen_goto_tb(ctx, 0, ctx->npc + a->imm);
+     gen_set_label(not_taken);
+ 
+-    ctx->bstate = DISAS_CHAIN;
++    ctx->base.is_jmp = DISAS_CHAIN;
+     return true;
+ }
+ 
+@@ -1610,7 +1608,7 @@ static TCGv gen_get_zaddr(void)
+  */
+ static void gen_data_store(DisasContext *ctx, TCGv data, TCGv addr)
+ {
+-    if (ctx->tb->flags & TB_FLAGS_FULL_ACCESS) {
++    if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
+         gen_helper_fullwr(cpu_env, data, addr);
+     } else {
+         tcg_gen_qemu_st8(data, addr, MMU_DATA_IDX); /* mem[addr] = data */
+@@ -1619,7 +1617,7 @@ static void gen_data_store(DisasContext *ctx, TCGv data, TCGv addr)
+ 
+ static void gen_data_load(DisasContext *ctx, TCGv data, TCGv addr)
+ {
+-    if (ctx->tb->flags & TB_FLAGS_FULL_ACCESS) {
++    if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
+         gen_helper_fullrd(data, cpu_env, addr);
+     } else {
+         tcg_gen_qemu_ld8u(data, addr, MMU_DATA_IDX); /* data = mem[addr] */
+@@ -2793,7 +2791,7 @@ static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
+ #ifdef BREAKPOINT_ON_BREAK
+     tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
+     gen_helper_debug(cpu_env);
+-    ctx->bstate = DISAS_EXIT;
++    ctx->base.is_jmp = DISAS_EXIT;
+ #else
+     /* NOP */
+ #endif
+@@ -2819,7 +2817,7 @@ static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
+ static bool trans_SLEEP(DisasContext *ctx, arg_SLEEP *a)
+ {
+     gen_helper_sleep(cpu_env);
+-    ctx->bstate = DISAS_NORETURN;
++    ctx->base.is_jmp = DISAS_NORETURN;
+     return true;
+ }
+ 
+@@ -2850,7 +2848,7 @@ static void translate(DisasContext *ctx)
+ 
+     if (!decode_insn(ctx, opcode)) {
+         gen_helper_unsupported(cpu_env);
+-        ctx->bstate = DISAS_NORETURN;
++        ctx->base.is_jmp = DISAS_NORETURN;
+     }
+ }
+ 
+@@ -2903,13 +2901,15 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+ {
+     CPUAVRState *env = cs->env_ptr;
+     DisasContext ctx = {
+-        .tb = tb,
++        .base.tb = tb,
++        .base.is_jmp = DISAS_NEXT,
++        .base.pc_first = tb->pc,
++        .base.pc_next = tb->pc,
++        .base.singlestep_enabled = cs->singlestep_enabled,
+         .cs = cs,
+         .env = env,
+         .memidx = 0,
+-        .bstate = DISAS_NEXT,
+         .skip_cond = TCG_COND_NEVER,
+-        .singlestep = cs->singlestep_enabled,
+     };
+     target_ulong pc_start = tb->pc / 2;
+     int num_insns = 0;
+@@ -2921,7 +2921,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+          */
+         max_insns = 1;
+     }
+-    if (ctx.singlestep) {
++    if (ctx.base.singlestep_enabled) {
+         max_insns = 1;
+     }
+ 
+@@ -2946,7 +2946,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+          * b main   - sets breakpoint at address 0x00000100 (code)
+          * b *0x100 - sets breakpoint at address 0x00800100 (data)
+          */
+-        if (unlikely(!ctx.singlestep &&
++        if (unlikely(!ctx.base.singlestep_enabled &&
+                 (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_ANY) ||
+                  cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_ANY)))) {
+             canonicalize_skip(&ctx);
+@@ -2989,11 +2989,11 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+         if (skip_label) {
+             canonicalize_skip(&ctx);
+             gen_set_label(skip_label);
+-            if (ctx.bstate == DISAS_NORETURN) {
+-                ctx.bstate = DISAS_CHAIN;
++            if (ctx.base.is_jmp == DISAS_NORETURN) {
++                ctx.base.is_jmp = DISAS_CHAIN;
+             }
+         }
+-    } while (ctx.bstate == DISAS_NEXT
++    } while (ctx.base.is_jmp == DISAS_NEXT
+              && num_insns < max_insns
+              && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
+              && !tcg_op_buf_full());
+@@ -3004,7 +3004,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+ 
+     bool nonconst_skip = canonicalize_skip(&ctx);
+ 
+-    switch (ctx.bstate) {
++    switch (ctx.base.is_jmp) {
+     case DISAS_NORETURN:
+         assert(!nonconst_skip);
+         break;
+@@ -3019,13 +3019,13 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+         tcg_gen_movi_tl(cpu_pc, ctx.npc);
+         /* fall through */
+     case DISAS_LOOKUP:
+-        if (!ctx.singlestep) {
++        if (!ctx.base.singlestep_enabled) {
+             tcg_gen_lookup_and_goto_ptr();
+             break;
+         }
+         /* fall through */
+     case DISAS_EXIT:
+-        if (ctx.singlestep) {
++        if (ctx.base.singlestep_enabled) {
+             gen_helper_debug(cpu_env);
+         } else {
+             tcg_gen_exit_tb(NULL, 0);
 -- 
 2.25.1
 
