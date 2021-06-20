@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3223ADD58
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 08:23:05 +0200 (CEST)
-Received: from localhost ([::1]:45200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2831B3ADD56
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 08:21:39 +0200 (CEST)
+Received: from localhost ([::1]:39980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luqrI-0006Ih-G3
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 02:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
+	id 1luqpu-0002qA-1w
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 02:21:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luqoc-0000lr-3j
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 02:20:18 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39608)
+ id 1luqoY-0000ch-4n
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 02:20:14 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1luqoZ-0002Lc-TT
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 02:20:17 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- o88-20020a17090a0a61b029016eeb2adf66so10385077pjo.4
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 23:20:15 -0700 (PDT)
+ id 1luqoV-0002I5-N4
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 02:20:13 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id l11so3717812pji.5
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 23:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rdx+vNgmwrn+uNEt8j9Ac8DXUSdgEvkCxbSAocLdAWU=;
- b=hYK6U2wVoTSoOb6dPClu9T8+3kSofVXmIjZLX/MJdo1J1po0UWaFeCpKYkdA/WpTkC
- Zy7xnZELphYSMwYg3SSOR+4G4aI682SzR3o/4sQesq4rfFM8RLlCIPoczE6l6ZXOThwM
- gyebRgW7ChwnmH7FFrHsLlQcN5OFv4KuES7aQxpyD2oqR/DsThbsf+Ct9KiVjIhsHBsG
- VG6ACOQkFNL9icD564sxivoTzOQAjNiuqssTfgnqu/oxRCVBDU1YG1qQEJm0FsRnga0g
- klqSrr1Mtgl8Y9R11MFMsMPZQ2EE0DRNr1IgakEJIXP9LU+kld1eZYl6lCujJIdvIUfW
- FPtw==
+ bh=qg7nLGJXefPL6b3exZ/dB+1f0DJPVJvddBDXPcdDQaY=;
+ b=ht86huEz0p2QfLqvdbZdZ4gIS3eXRUK/NDCKAlLYkn6JoyMOytlON3pq9mr5+zUWpY
+ 9GobA171AtvbsNOHLqeuQGV3m815uojVzE4harjdHdwn8NPe2MCQl6uWQnBE2swxiyTd
+ jXyy0l8VhKCanqfAPMgJSC0beJi7YtEsSE3tGBrQkCOrYR64dBgog4AqVxZI9RNuV+XX
+ u8LPkDEyOrURx2b0mTmBJF9LvsBMYcJ+C6VB2I5PurrKN/E0zbYeVg4EHYlAtv4KcQBv
+ H+U/XPAjKWhyYV0bnARkE6Hk8PM9nW5VaYa8POoiK5b/oCttibZrrgRYPF5j+//IbupR
+ /Ehg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rdx+vNgmwrn+uNEt8j9Ac8DXUSdgEvkCxbSAocLdAWU=;
- b=GWACnF3uaFtX8vF9LmECWMo9EijsModx2aWq05nxId2CholeRnD1BfPiKA4GH0CIHc
- i+/575iVyiyrt27ooUSfZzv2c8XmLjkZXDdSx3GF+Yu5lLD5YXx8pxR2M/Ks4yQVBLCi
- 3VGBJEy9uh+qi+u5NkJ8fveawXsGGMTUK6P0H3oKuirGVi1vnxo44OILYJtkEd13/PcB
- pCCwxEfQPe4CExZpXL2aVdNb++7R/IXXc4EanefAy/zkjcZsA6aMPnunDJnOrMiK3DJB
- HcTD/wYiEVXlV3maa9vGeXy7t791u7kH46zXu71uLv6g+NfK0ye3VK0uvWjHOmp9HXVA
- eZ/A==
-X-Gm-Message-State: AOAM531W9/J3mMviNNep+7DQnNu8ZcFn/l5WB6CkJ13dISGqITa3cqVQ
- faG+neuLiMF64EhPuyyYokBWf9y2nnIuIg==
-X-Google-Smtp-Source: ABdhPJzBjbeQGvu9Qm43DsH6e4yTmmJJOKHMO6jmcGc6UD3HdMmVMLMOFLwUZFZEAMGTGUrfWrGVvA==
-X-Received: by 2002:a17:90a:3801:: with SMTP id
- w1mr31090574pjb.138.1624170009784; 
- Sat, 19 Jun 2021 23:20:09 -0700 (PDT)
+ bh=qg7nLGJXefPL6b3exZ/dB+1f0DJPVJvddBDXPcdDQaY=;
+ b=ptgHcPW9DxZKJtzI2U0FnD0EKBL0JJIob8zPgMu6jCyJdIe8V9ck5BWj0jfs8sI7I2
+ f/xuH3hUdTaB/8EcY8mbgapCg9V52irt0dSwSDEFwglMjzbh6Eu2lCuKorkbUyGd7f0A
+ UEPoNF3gTzBvJi3jAokgaDv30tCd1Mrg+Sp7FwgkUH4IjsjeWw1IyBehoec5x1YvR3Rv
+ a7xCy/jnz1lXD0BkjTM0XZ246bMLRDrUT47THqwEUrlf9HAI+YCE83eefot05IjbCgbb
+ HNvWMRBRQ4fu5WGGzgrr58JzZpf1Cx1LWPI43Frcw3Ul0HJXAc7YxuvLK3D1TQrRzS2G
+ EeTQ==
+X-Gm-Message-State: AOAM533xMy/un/E+jBsdfuLQ9WlJcS8deuXBHEGQN/6ehwvOVtp8530O
+ NlPBuMPKpAHdNU8isQXh3vjqodmOrubrIw==
+X-Google-Smtp-Source: ABdhPJxHsthc+ONFQ1q+sWS/c2NNIKAtzlEyVY9zGk/JQ8Q0rb2e6/hXVXzJ9VgcdlkvyUaZuypC8Q==
+X-Received: by 2002:a17:90a:fb95:: with SMTP id
+ cp21mr1325159pjb.28.1624170010257; 
+ Sat, 19 Jun 2021 23:20:10 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id s123sm11607661pfb.78.2021.06.19.23.20.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jun 2021 23:20:09 -0700 (PDT)
+ Sat, 19 Jun 2021 23:20:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/avr: Change ctx to DisasContext* in
- gen_intermediate_code
-Date: Sat, 19 Jun 2021 23:20:06 -0700
-Message-Id: <20210620062007.1398574-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/3] target/avr: Convert to TranslatorOps
+Date: Sat, 19 Jun 2021 23:20:07 -0700
+Message-Id: <20210620062007.1398574-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210620062007.1398574-1-richard.henderson@linaro.org>
 References: <20210620062007.1398574-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,209 +87,286 @@ Cc: mrolnik@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prepare for receiving it as a pointer input.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/translate.c | 84 +++++++++++++++++++++---------------------
- 1 file changed, 43 insertions(+), 41 deletions(-)
+ target/avr/translate.c | 238 +++++++++++++++++++++++------------------
+ 1 file changed, 132 insertions(+), 106 deletions(-)
 
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 20c5062730..66e9882422 100644
+index 66e9882422..72117bf3b9 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -104,7 +104,7 @@ struct DisasContext {
-      * used in the following manner (sketch)
-      *
-      * TCGLabel *skip_label = NULL;
--     * if (ctx.skip_cond != TCG_COND_NEVER) {
-+     * if (ctx->skip_cond != TCG_COND_NEVER) {
-      *     skip_label = gen_new_label();
-      *     tcg_gen_brcond_tl(skip_cond, skip_var0, skip_var1, skip_label);
-      * }
-@@ -114,7 +114,7 @@ struct DisasContext {
-      *     free_skip_var0 = false;
-      * }
-      *
--     * translate(&ctx);
-+     * translate(ctx);
-      *
-      * if (skip_label) {
-      *     gen_set_label(skip_label);
-@@ -2900,7 +2900,7 @@ static bool canonicalize_skip(DisasContext *ctx)
- void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+@@ -2897,113 +2897,135 @@ static bool canonicalize_skip(DisasContext *ctx)
+     return true;
+ }
+ 
+-void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
++static void gen_breakpoint(DisasContext *ctx)
  {
++    canonicalize_skip(ctx);
++    tcg_gen_movi_tl(cpu_pc, ctx->npc);
++    gen_helper_debug(cpu_env);
++    ctx->base.is_jmp = DISAS_NORETURN;
++}
++
++static void avr_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
++{
++    DisasContext *ctx = container_of(dcbase, DisasContext, base);
      CPUAVRState *env = cs->env_ptr;
--    DisasContext ctx = {
-+    DisasContext ctx1 = {
-         .base.tb = tb,
-         .base.is_jmp = DISAS_NEXT,
-         .base.pc_first = tb->pc,
-@@ -2911,6 +2911,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-         .memidx = 0,
-         .skip_cond = TCG_COND_NEVER,
-     };
-+    DisasContext *ctx = &ctx1;
-     target_ulong pc_start = tb->pc / 2;
-     int num_insns = 0;
+-    DisasContext ctx1 = {
+-        .base.tb = tb,
+-        .base.is_jmp = DISAS_NEXT,
+-        .base.pc_first = tb->pc,
+-        .base.pc_next = tb->pc,
+-        .base.singlestep_enabled = cs->singlestep_enabled,
+-        .cs = cs,
+-        .env = env,
+-        .memidx = 0,
+-        .skip_cond = TCG_COND_NEVER,
+-    };
+-    DisasContext *ctx = &ctx1;
+-    target_ulong pc_start = tb->pc / 2;
+-    int num_insns = 0;
++    uint32_t tb_flags = ctx->base.tb->flags;
  
-@@ -2921,23 +2922,23 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-          */
-         max_insns = 1;
+-    if (tb->flags & TB_FLAGS_FULL_ACCESS) {
+-        /*
+-         * This flag is set by ST/LD instruction we will regenerate it ONLY
+-         * with mem/cpu memory access instead of mem access
+-         */
+-        max_insns = 1;
+-    }
+-    if (ctx->base.singlestep_enabled) {
+-        max_insns = 1;
+-    }
++    ctx->cs = cs,
++    ctx->env = env,
++    ctx->memidx = 0,
++    ctx->npc = ctx->base.pc_first / 2;
+ 
+-    gen_tb_start(tb);
+-
+-    ctx->npc = pc_start;
+-    if (tb->flags & TB_FLAGS_SKIP) {
++    ctx->skip_cond = TCG_COND_NEVER;
++    if (tb_flags & TB_FLAGS_SKIP) {
+         ctx->skip_cond = TCG_COND_ALWAYS;
+         ctx->skip_var0 = cpu_skip;
      }
--    if (ctx.base.singlestep_enabled) {
-+    if (ctx->base.singlestep_enabled) {
-         max_insns = 1;
-     }
  
-     gen_tb_start(tb);
- 
--    ctx.npc = pc_start;
-+    ctx->npc = pc_start;
-     if (tb->flags & TB_FLAGS_SKIP) {
--        ctx.skip_cond = TCG_COND_ALWAYS;
--        ctx.skip_var0 = cpu_skip;
-+        ctx->skip_cond = TCG_COND_ALWAYS;
-+        ctx->skip_var0 = cpu_skip;
-     }
- 
-     do {
-         TCGLabel *skip_label = NULL;
- 
-         /* translate current instruction */
--        tcg_gen_insn_start(ctx.npc);
-+        tcg_gen_insn_start(ctx->npc);
-         num_insns++;
- 
+-    do {
+-        TCGLabel *skip_label = NULL;
+-
+-        /* translate current instruction */
+-        tcg_gen_insn_start(ctx->npc);
+-        num_insns++;
+-
++    if (tb_flags & TB_FLAGS_FULL_ACCESS) {
          /*
-@@ -2946,65 +2947,66 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-          * b main   - sets breakpoint at address 0x00000100 (code)
-          * b *0x100 - sets breakpoint at address 0x00800100 (data)
+-         * this is due to some strange GDB behavior
+-         * let's assume main has address 0x100
+-         * b main   - sets breakpoint at address 0x00000100 (code)
+-         * b *0x100 - sets breakpoint at address 0x00800100 (data)
++         * This flag is set by ST/LD instruction we will regenerate it ONLY
++         * with mem/cpu memory access instead of mem access
           */
--        if (unlikely(!ctx.base.singlestep_enabled &&
--                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_ANY) ||
--                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_ANY)))) {
--            canonicalize_skip(&ctx);
--            tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+        if (unlikely(!ctx->base.singlestep_enabled &&
-+            (cpu_breakpoint_test(cs, OFFSET_CODE + ctx->npc * 2, BP_ANY) ||
-+             cpu_breakpoint_test(cs, OFFSET_DATA + ctx->npc * 2, BP_ANY)))) {
-+            canonicalize_skip(ctx);
-+            tcg_gen_movi_tl(cpu_pc, ctx->npc);
-             gen_helper_debug(cpu_env);
-             goto done_generating;
-         }
+-        if (unlikely(!ctx->base.singlestep_enabled &&
+-            (cpu_breakpoint_test(cs, OFFSET_CODE + ctx->npc * 2, BP_ANY) ||
+-             cpu_breakpoint_test(cs, OFFSET_DATA + ctx->npc * 2, BP_ANY)))) {
+-            canonicalize_skip(ctx);
+-            tcg_gen_movi_tl(cpu_pc, ctx->npc);
+-            gen_helper_debug(cpu_env);
+-            goto done_generating;
+-        }
++        ctx->base.max_insns = 1;
++    }
++    if (ctx->base.singlestep_enabled) {
++        ctx->base.max_insns = 1;
++    }
++}
  
-         /* Conditionally skip the next instruction, if indicated.  */
--        if (ctx.skip_cond != TCG_COND_NEVER) {
-+        if (ctx->skip_cond != TCG_COND_NEVER) {
-             skip_label = gen_new_label();
--            if (ctx.skip_var0 == cpu_skip) {
-+            if (ctx->skip_var0 == cpu_skip) {
-                 /*
-                  * Copy cpu_skip so that we may zero it before the branch.
-                  * This ensures that cpu_skip is non-zero after the label
-                  * if and only if the skipped insn itself sets a skip.
-                  */
--                ctx.free_skip_var0 = true;
--                ctx.skip_var0 = tcg_temp_new();
--                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
-+                ctx->free_skip_var0 = true;
-+                ctx->skip_var0 = tcg_temp_new();
-+                tcg_gen_mov_tl(ctx->skip_var0, cpu_skip);
-                 tcg_gen_movi_tl(cpu_skip, 0);
-             }
--            if (ctx.skip_var1 == NULL) {
--                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip_label);
-+            if (ctx->skip_var1 == NULL) {
-+                tcg_gen_brcondi_tl(ctx->skip_cond, ctx->skip_var0,
-+                                   0, skip_label);
-             } else {
--                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
--                                  ctx.skip_var1, skip_label);
--                ctx.skip_var1 = NULL;
-+                tcg_gen_brcond_tl(ctx->skip_cond, ctx->skip_var0,
-+                                  ctx->skip_var1, skip_label);
-+                ctx->skip_var1 = NULL;
-             }
--            if (ctx.free_skip_var0) {
--                tcg_temp_free(ctx.skip_var0);
--                ctx.free_skip_var0 = false;
-+            if (ctx->free_skip_var0) {
-+                tcg_temp_free(ctx->skip_var0);
-+                ctx->free_skip_var0 = false;
-             }
--            ctx.skip_cond = TCG_COND_NEVER;
--            ctx.skip_var0 = NULL;
-+            ctx->skip_cond = TCG_COND_NEVER;
-+            ctx->skip_var0 = NULL;
-         }
+-        /* Conditionally skip the next instruction, if indicated.  */
+-        if (ctx->skip_cond != TCG_COND_NEVER) {
+-            skip_label = gen_new_label();
+-            if (ctx->skip_var0 == cpu_skip) {
+-                /*
+-                 * Copy cpu_skip so that we may zero it before the branch.
+-                 * This ensures that cpu_skip is non-zero after the label
+-                 * if and only if the skipped insn itself sets a skip.
+-                 */
+-                ctx->free_skip_var0 = true;
+-                ctx->skip_var0 = tcg_temp_new();
+-                tcg_gen_mov_tl(ctx->skip_var0, cpu_skip);
+-                tcg_gen_movi_tl(cpu_skip, 0);
+-            }
+-            if (ctx->skip_var1 == NULL) {
+-                tcg_gen_brcondi_tl(ctx->skip_cond, ctx->skip_var0,
+-                                   0, skip_label);
+-            } else {
+-                tcg_gen_brcond_tl(ctx->skip_cond, ctx->skip_var0,
+-                                  ctx->skip_var1, skip_label);
+-                ctx->skip_var1 = NULL;
+-            }
+-            if (ctx->free_skip_var0) {
+-                tcg_temp_free(ctx->skip_var0);
+-                ctx->free_skip_var0 = false;
+-            }
+-            ctx->skip_cond = TCG_COND_NEVER;
+-            ctx->skip_var0 = NULL;
+-        }
++static void avr_tr_tb_start(DisasContextBase *db, CPUState *cs)
++{
++}
  
--        translate(&ctx);
-+        translate(ctx);
+-        translate(ctx);
++static void avr_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
++{
++    DisasContext *ctx = container_of(dcbase, DisasContext, base);
  
-         if (skip_label) {
--            canonicalize_skip(&ctx);
-+            canonicalize_skip(ctx);
-             gen_set_label(skip_label);
--            if (ctx.base.is_jmp == DISAS_NORETURN) {
--                ctx.base.is_jmp = DISAS_CHAIN;
-+            if (ctx->base.is_jmp == DISAS_NORETURN) {
-+                ctx->base.is_jmp = DISAS_CHAIN;
-             }
-         }
--    } while (ctx.base.is_jmp == DISAS_NEXT
-+    } while (ctx->base.is_jmp == DISAS_NEXT
-              && num_insns < max_insns
--             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
-+             && (ctx->npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
-              && !tcg_op_buf_full());
+-        if (skip_label) {
+-            canonicalize_skip(ctx);
+-            gen_set_label(skip_label);
+-            if (ctx->base.is_jmp == DISAS_NORETURN) {
+-                ctx->base.is_jmp = DISAS_CHAIN;
+-            }
+-        }
+-    } while (ctx->base.is_jmp == DISAS_NEXT
+-             && num_insns < max_insns
+-             && (ctx->npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
+-             && !tcg_op_buf_full());
++    tcg_gen_insn_start(ctx->npc);
++}
  
-     if (tb->cflags & CF_LAST_IO) {
-         gen_io_end();
+-    if (tb->cflags & CF_LAST_IO) {
+-        gen_io_end();
++static bool avr_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
++                                    const CPUBreakpoint *bp)
++{
++    DisasContext *ctx = container_of(dcbase, DisasContext, base);
++
++    gen_breakpoint(ctx);
++    return true;
++}
++
++static void avr_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
++{
++    DisasContext *ctx = container_of(dcbase, DisasContext, base);
++    TCGLabel *skip_label = NULL;
++
++    /*
++     * This is due to some strange GDB behavior
++     * Let's assume main has address 0x100:
++     * b main   - sets breakpoint at address 0x00000100 (code)
++     * b *0x100 - sets breakpoint at address 0x00800100 (data)
++     *
++     * The translator driver has already taken care of the code pointer.
++     */
++    if (!ctx->base.singlestep_enabled &&
++        cpu_breakpoint_test(cs, OFFSET_DATA + ctx->base.pc_next, BP_ANY)) {
++        gen_breakpoint(ctx);
++        return;
      }
  
--    bool nonconst_skip = canonicalize_skip(&ctx);
-+    bool nonconst_skip = canonicalize_skip(ctx);
++    /* Conditionally skip the next instruction, if indicated.  */
++    if (ctx->skip_cond != TCG_COND_NEVER) {
++        skip_label = gen_new_label();
++        if (ctx->skip_var0 == cpu_skip) {
++            /*
++             * Copy cpu_skip so that we may zero it before the branch.
++             * This ensures that cpu_skip is non-zero after the label
++             * if and only if the skipped insn itself sets a skip.
++             */
++            ctx->free_skip_var0 = true;
++            ctx->skip_var0 = tcg_temp_new();
++            tcg_gen_mov_tl(ctx->skip_var0, cpu_skip);
++            tcg_gen_movi_tl(cpu_skip, 0);
++        }
++        if (ctx->skip_var1 == NULL) {
++            tcg_gen_brcondi_tl(ctx->skip_cond, ctx->skip_var0, 0, skip_label);
++        } else {
++            tcg_gen_brcond_tl(ctx->skip_cond, ctx->skip_var0,
++                              ctx->skip_var1, skip_label);
++            ctx->skip_var1 = NULL;
++        }
++        if (ctx->free_skip_var0) {
++            tcg_temp_free(ctx->skip_var0);
++            ctx->free_skip_var0 = false;
++        }
++        ctx->skip_cond = TCG_COND_NEVER;
++        ctx->skip_var0 = NULL;
++    }
++
++    translate(ctx);
++
++    ctx->base.pc_next = ctx->npc * 2;
++
++    if (skip_label) {
++        canonicalize_skip(ctx);
++        gen_set_label(skip_label);
++        if (ctx->base.is_jmp == DISAS_NORETURN) {
++            ctx->base.is_jmp = DISAS_CHAIN;
++        }
++    }
++
++    if (ctx->base.is_jmp == DISAS_NEXT) {
++        target_ulong page_first = ctx->base.pc_first & TARGET_PAGE_MASK;
++
++        if ((ctx->base.pc_next - page_first) >= TARGET_PAGE_SIZE - 4) {
++            ctx->base.is_jmp = DISAS_TOO_MANY;
++        }
++    }
++}
++
++static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
++{
++    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     bool nonconst_skip = canonicalize_skip(ctx);
  
--    switch (ctx.base.is_jmp) {
-+    switch (ctx->base.is_jmp) {
-     case DISAS_NORETURN:
-         assert(!nonconst_skip);
-         break;
-@@ -3013,19 +3015,19 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     case DISAS_CHAIN:
-         if (!nonconst_skip) {
-             /* Note gen_goto_tb checks singlestep.  */
--            gen_goto_tb(&ctx, 1, ctx.npc);
-+            gen_goto_tb(ctx, 1, ctx->npc);
-             break;
-         }
--        tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+        tcg_gen_movi_tl(cpu_pc, ctx->npc);
-         /* fall through */
-     case DISAS_LOOKUP:
--        if (!ctx.base.singlestep_enabled) {
-+        if (!ctx->base.singlestep_enabled) {
-             tcg_gen_lookup_and_goto_ptr();
-             break;
-         }
-         /* fall through */
-     case DISAS_EXIT:
--        if (ctx.base.singlestep_enabled) {
-+        if (ctx->base.singlestep_enabled) {
-             gen_helper_debug(cpu_env);
-         } else {
-             tcg_gen_exit_tb(NULL, 0);
-@@ -3038,7 +3040,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
- done_generating:
-     gen_tb_end(tb, num_insns);
+     switch (ctx->base.is_jmp) {
+@@ -3036,24 +3058,28 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     default:
+         g_assert_not_reached();
+     }
++}
  
--    tb->size = (ctx.npc - pc_start) * 2;
-+    tb->size = (ctx->npc - pc_start) * 2;
-     tb->icount = num_insns;
+-done_generating:
+-    gen_tb_end(tb, num_insns);
++static void avr_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
++{
++    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
++    log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
++}
  
- #ifdef DEBUG_DISAS
+-    tb->size = (ctx->npc - pc_start) * 2;
+-    tb->icount = num_insns;
++static const TranslatorOps avr_tr_ops = {
++    .init_disas_context = avr_tr_init_disas_context,
++    .tb_start           = avr_tr_tb_start,
++    .insn_start         = avr_tr_insn_start,
++    .breakpoint_check   = avr_tr_breakpoint_check,
++    .translate_insn     = avr_tr_translate_insn,
++    .tb_stop            = avr_tr_tb_stop,
++    .disas_log          = avr_tr_disas_log,
++};
+ 
+-#ifdef DEBUG_DISAS
+-    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+-        && qemu_log_in_addr_range(tb->pc)) {
+-        FILE *fd;
+-        fd = qemu_log_lock();
+-        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
+-        log_target_disas(cs, tb->pc, tb->size);
+-        qemu_log("\n");
+-        qemu_log_unlock(fd);
+-    }
+-#endif
++void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
++{
++    DisasContext dc;
++    translator_loop(&avr_tr_ops, &dc.base, cs, tb, max_insns);
+ }
+ 
+ void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
 -- 
 2.25.1
 
