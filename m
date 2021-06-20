@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4FE3ADEFF
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 16:17:36 +0200 (CEST)
-Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796D03ADF01
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 16:21:09 +0200 (CEST)
+Received: from localhost ([::1]:47560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1luyGV-0007wF-4J
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 10:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42726)
+	id 1luyJw-0002Ix-IB
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 10:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1luyFA-0007FP-Pf
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 10:16:12 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:54573)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1luyIu-0000vH-7h
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 10:20:04 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:50919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1luyF8-0003Ol-DK
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 10:16:12 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1luyIs-0005k6-GD
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 10:20:03 -0400
 Received: from [192.168.100.1] ([82.142.1.74]) by mrelayeu.kundenserver.de
  (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MGi6m-1m7foj2P7i-00Dq4V; Sun, 20 Jun 2021 16:16:07 +0200
-Subject: Re: [PATCH v2 02/11] linux-user: Fix the execfd case of
- /proc/self/exe open
-To: YAMAMOTO Takashi <yamamoto@midokura.com>, qemu-devel@nongnu.org
-References: <20210531055019.10149-1-yamamoto@midokura.com>
- <20210531055019.10149-3-yamamoto@midokura.com>
+ 1MBUuP-1lzfP707Gp-00D0II; Sun, 20 Jun 2021 16:19:58 +0200
+Subject: Re: [PATCH 1/2] linux-user: Let sigaction query SIGKILL/SIGSTOP
+To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210601145600.3131040-1-iii@linux.ibm.com>
+ <20210601145600.3131040-2-iii@linux.ibm.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <465df811-e6d8-2bfd-5ebe-1ebf85fa5c99@vivier.eu>
-Date: Sun, 20 Jun 2021 16:16:06 +0200
+Message-ID: <a165ac58-bbdb-28cf-8c85-7ac2d996fded@vivier.eu>
+Date: Sun, 20 Jun 2021 16:19:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210531055019.10149-3-yamamoto@midokura.com>
+In-Reply-To: <20210601145600.3131040-2-iii@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sKL6VI4roqgeP0KC3KTU0BP2wrml1PrmjRgKkuxO0x7BR3G0TCv
- +anQh2ulbr5q+uxv/hEraqbiu5Nh2UhwfvL7lv8XVd6aVO6fBKx26LlHbGZVPJ5u5oCMuk8
- slzrSoWvJecl7dGb/+vvjGE0DtK2PPFFfQ6o8bfjmuBjBL95K+WvNIcEWX6pUJ8zACRVJA6
- 763ZX+fFjRAUDt36eDI6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:A82QDiAU5gE=:ewraNObEsxsCgh1xXMFe+p
- EdYQQtAJori7CXNHE7vciNbNCZoUACERuEopHakKBX0F+1shvMvcAevt+N0PLHhASafjdqP6c
- hDgUjYEeYeohxK3V8fZ4XIzw2QMg3WMJrWvbRChSfY6NCaLePZjXtzwb2SssxiD9TTg+P0lI/
- EqyTjxFeyQxxKhql50Yd5iFj3NQh5Tvy7CN4Hh14LsGKq8jB56/U21D51cMJHGy9Hur/u7vg7
- 23pSWMZrZBAnSi1P+Fj8EwoDJXd/VmNeOfbR8/VrKfmRTJG9NW5F8RdqDfc7PacouESO2Qdco
- MuARIzxCjtmOOoR8ErBQpTgsTqhByGJo46uKyLTYwCoNVrbvwXSjUMja+wJgT+Ak3iWw1NP7t
- MbhOkLqmlF0caLRZwT860HsrBxO2RtnNW6rXupLb7ivTQbxXNliWJs/wOI/30NTqAXpW8hnnh
- crEzZQQFS3J5xOvYX5roA406MHrgJmZXpI70jAiqhtPqcXl19hwfSe0/SUWseptlU0ocdxWCK
- rjAAVxtNDoXrRnnSC5xJik=
+X-Provags-ID: V03:K1:uiONvq9AxA4RJs1M7WMDktM1ZFx8y4wVJJ6rrJDUzt4mnzeymmM
+ iGJhwc4bFAHy4uwUwl1m8mHFtLBU0raoH/cNVNPA93JyEnmpNVfYWCaM1Y1mwhJnM9NIst+
+ 4Uj4nuRxcrRXGnr7JAGjNo6Fn9trLz5TmY+5fTgSiSS4ZIE68hRM3sYTIoYVW4TUBwjX1nX
+ hyZfSh4x6RIgef/KQlL3Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GYbxnkJLA4Q=:9WAyVyjJv+1bZwqS1Giw3y
+ 6fjkGkmMIkgnnU9isLhAabOh7j4dhPJX+uGT7D5tpdWd1R77ZDq72iMJhCx4OTsysCR9VP876
+ vjQ3sYIsI1rWXbh6s8cyMWIypZFZiS4uSIrCuubZbING1NK2EnvXa7XFOtHXZdLXfMoAHbAD7
+ 701BGEsLIWxFoWh9IXArA8qK65PAU/c94YgJvLfBtcHG64DeE9ibvFtNE786jB+dm2CpbeW9U
+ VU4BzFXPSy+s6PQJJrlhb0FzEBwrwfwtTWIGiAiRXJfJkJnkU6uekGMlGzN4zYwj+wt75HE7f
+ XSEa1n7qIM35ScaiKJv+H9JMCnL0cpSVAQb+NaC7FkocKrU3kZ1zg1ZRxKtjQ16aNw3ajl8rc
+ w9iDNftSP9l4MYb0Wd+Cy8py3MPhRL1W9s5qHQZMG1D7esccHsvuYEKzempuWPR92WXfMl+DZ
+ uRVZepkC1XHHO7A5vv3vqlDntpoLMIhPVvmJ8k2SN/hyUUMcWEt3y+Q16wVZ/s3xl1P/ZmQQm
+ 5dmddMx/iMr7eEmdIFw9QQ=
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -67,46 +67,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 31/05/2021 à 07:50, YAMAMOTO Takashi a écrit :
-> It's problematic to return AT_EXECFD as it is because the user app
-> would close it.
-> This patch opens it via /proc/self/fd instead.
+Le 01/06/2021 à 16:55, Ilya Leoshkevich a écrit :
+> The kernel allows doing this, so let's allow this in qemu as well.
+> Valgrind relies on this.
 > 
-> Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 > ---
->  linux-user/syscall.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
+>  linux-user/signal.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index a2b03ecb8b..14a63518e2 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8118,7 +8118,17 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index 9016896dcd..bc3431708f 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -851,7 +851,11 @@ int do_sigaction(int sig, const struct target_sigaction *act,
 >  
->      if (is_proc_myself(pathname, "exe")) {
->          int execfd = qemu_getauxval(AT_EXECFD);
-> -        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
-> +        if (execfd) {
-> +            char filename[PATH_MAX];
-> +            int ret;
+>      trace_signal_do_sigaction_guest(sig, TARGET_NSIG);
+>  
+> -    if (sig < 1 || sig > TARGET_NSIG || sig == TARGET_SIGKILL || sig == TARGET_SIGSTOP) {
+> +    if (sig < 1 || sig > TARGET_NSIG) {
+> +        return -TARGET_EINVAL;
+> +    }
 > +
-> +            snprintf(filename, sizeof(filename), "/proc/self/fd/%d", execfd);
-> +            ret = safe_openat(dirfd, filename, flags, mode);
-> +            if (ret != -1) {
-> +                return ret;
-> +            }
-> +        }
-> +        return safe_openat(dirfd, exec_path, flags, mode);
+> +    if (act && (sig == TARGET_SIGKILL || sig == TARGET_SIGSTOP)) {
+>          return -TARGET_EINVAL;
 >      }
 >  
->      for (fake_open = fakes; fake_open->filename; fake_open++) {
 > 
 
-I think a dup() would be more appropriate, or explain why not.
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
