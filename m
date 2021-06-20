@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985863ADCD6
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:34:44 +0200 (CEST)
-Received: from localhost ([::1]:44838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398B83ADCD3
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:33:32 +0200 (CEST)
+Received: from localhost ([::1]:38980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lupAR-0004tA-Lr
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42024)
+	id 1lup9H-0000vF-Am
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup2M-0000pZ-Iq
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:22 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46060)
+ id 1lup2K-0000gy-Cb
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:20 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup2K-0002tx-Nu
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:22 -0400
+ id 1lup2I-0002rm-ID
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lup26-0003bK-Td
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:07 +0000
+ id 1lup24-0003tv-Sr
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:05 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DECA72E8225
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:00 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 78D872E8215
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Jun 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1807073@bugs.launchpad.net>
+Date: Sun, 20 Jun 2021 04:17:20 -0000
+From: Launchpad Bug Tracker <1808824@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dokbua janitor slesru th-huth zhuhq
-X-Launchpad-Bug-Reporter: Hongquan Zhu (zhuhq)
+X-Launchpad-Bug-Commenters: bjraz janitor th-huth
+X-Launchpad-Bug-Reporter: William Razgunas (bjraz)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <154406426264.32667.2616897072259419283.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162416263952.7948.7211728579992972491.malone@loganberry.canonical.com>
-Subject: [Bug 1807073] Re: qemu-guest-agent stop work when fsfreeze
+References: <154505934144.23344.12423865582266502170.malonedeb@soybean.canonical.com>
+Message-Id: <162416264032.7948.17902640928650185761.malone@loganberry.canonical.com>
+Subject: [Bug 1808824] Re: Mouse leaves VM window when Grab on Hover isn't
+ selected Windows 10 and Intel HAX
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: c8cd8c33b283f4b222ba793cc1b35faacff19e28
+X-Launchpad-Hash: cb522b2a982eae4632049596ce250e5b9b98da47
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1807073 <1807073@bugs.launchpad.net>
+Reply-To: Bug 1808824 <1808824@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,44 +84,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1807073
+https://bugs.launchpad.net/bugs/1808824
 
 Title:
-  qemu-guest-agent stop work when fsfreeze
+  Mouse leaves VM window when Grab on Hover isn't selected Windows 10
+  and Intel HAX
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Create a live snapshot, we should first to fsfreeze the file system. We d=
-o have only one disk mounted to /:
-  Filesystem      Size  Used Avail Use% Mounted on
-  udev             48G     0   48G   0% /dev
-  tmpfs           9.5G  8.7M  9.5G   1% /run
-  /dev/vda1       485G  1.5G  484G   1% /
-  tmpfs            48G     0   48G   0% /dev/shm
-  tmpfs           5.0M     0  5.0M   0% /run/lock
-  tmpfs            48G     0   48G   0% /sys/fs/cgroup
-  tmpfs           9.5G     0  9.5G   0% /run/user/0
+  On Windows 10.0.17134 I have been having the problem that the mouse
+  will leave the VM window after a short time when grab on hover isn't
+  selected.  The VM will then try to grab on Hover and the mouse will
+  grab in weird places and it will become very unwieldy to control the
+  mouse in the VM window.
 
-  snapshot action is OK, when we restore the snapshot, the file system beca=
-me read-only, and syslog seems stop writing until we fsck /dev/vda1 and mou=
-nt -o rw,remount /:
-  Dec  5 00:39:16 systemd[1]: Started Session 180 of user root.
-  Dec  5 00:45:05 qemu-ga: info: guest-fsfreeze called
-  Dec  5 07:00:45 kernel: [  114.623823] EXT4-fs (vda1): re-mounted. Opts: =
-(null)
+  This is exasperated by super slow response making it nearly unusable
+  if the Intel=C2=AE Hardware Accelerated Execution Manager (Intel=C2=AE HA=
+XM) is
+  not currently installed on my machine.
 
-  So after snapshoting, wo do fsthaw the file system,  maybe the qga
-  dose not respond or stop work, this action dose not execute
-  successfully and there is no log to show the status of qemu-guest-
-  agent.
-
-  Version:
-  libvirt 1.2.17
-  qemu 2.3.0
-  qemu-guest-agent 2.5
+  I know they are different things but they compounded on each other
+  when you have a mouse that is not staying in the VM window and the
+  VM's visualized cpu is acting VERY slow the system is unusable.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1807073/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1808824/+subscriptions
 
