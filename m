@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863A83ADCCE
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:30:47 +0200 (CEST)
-Received: from localhost ([::1]:59038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9BD3ADCC7
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:27:32 +0200 (CEST)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lup6c-0003fK-H8
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41824)
+	id 1lup3T-0002SE-85
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:27:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup21-000874-Mg
+ id 1lup21-00087t-T6
  for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45152)
+Received: from indium.canonical.com ([91.189.90.7]:45232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup1x-0002hw-UA
+ id 1lup1y-0002j8-Ck
  for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:01 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lup1s-0003g9-4z
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:52 +0000
+ id 1lup1t-0003bA-Gw
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7C1B12E8196
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 795EE2E81BE
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Jun 2021 04:17:33 -0000
-From: Launchpad Bug Tracker <1821595@bugs.launchpad.net>
+Date: Sun, 20 Jun 2021 04:17:34 -0000
+From: Launchpad Bug Tracker <1821131@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: upstream-bug whpx
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus fernandobluiz janitor
- th-huth
-X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
+X-Launchpad-Bug-Commenters: iiordanov janitor th-huth
+X-Launchpad-Bug-Reporter: Iordan Iordanov (iiordanov)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
-Message-Id: <162416265335.7948.18231900145031005411.malone@loganberry.canonical.com>
-Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
- EmulatorReturnStatus: 2
+References: <155314518422.9752.10319580179667444419.malonedeb@wampee.canonical.com>
+Message-Id: <162416265445.7948.10660061949368629610.malone@loganberry.canonical.com>
+Subject: [Bug 1821131] Re: VM running under latest Qemu receives 2, 3, 8,
+ and = when sent the keysyms for @, #, *, and + respectively
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 4a6d26aa7201a89affe564a6a2cb51a5fccd038d
+X-Launchpad-Hash: df01a73c1bd38d7f994b42540101dfb89035d63f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
+Reply-To: Bug 1821131 <1821131@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,39 +84,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1821595
+https://bugs.launchpad.net/bugs/1821131
 
 Title:
-  Failed to emulate MMIO access with EmulatorReturnStatus: 2
+  VM running under latest Qemu receives 2, 3, 8, and =3D when sent the
+  keysyms for @, #, *, and + respectively
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
-in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
-th the following problem: =
+  Git commit hash where bug was reproduced:
+  62a172e6a77d9072bb1a18f295ce0fcf4b90a4f2
 
-  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
-ReturnStatus: 2
-  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
+  A user of my application bVNC reported that when he connects to his
+  VMs running under Qemu, he cannot send @, #, and *. Instead, 2, 3, and
+  8 appear in the VM respectively. I built the latest Qemu from source,
+  and reproduced the issue.
 
-  =
+  bVNC converts keycodes or unicode characters that the Android keyboard
+  sends it to corresponding keysyms. For example, it sends keysym 64 for
+  @ rather than sending SHIFT+2.
 
-  configuration directives:
+  A debug log of the application sending the keysyms shows metaState =3D=3D
+  0, indicating lack of modifier keys.
 
-  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
-   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
-   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
-   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
+  When 2 appears in place of @:
 
-  =
+  03-21 00:11:21.761  8864  8864 I RemoteKeyboard: Sending key. Down: true,=
+ key: 64. keysym:64, metaState: 0
+  03-21 00:11:21.763  8864  8864 I RemoteKeyboard: Sending key. Down: false=
+, key: 64. keysym:64, metaState: 0
 
-  Qemu command line:
-  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
-_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
-ccel whpx
+  When 3 appears in place of #:
+
+  03-21 00:11:08.947  8864  8864 I RemoteKeyboard: Sending key. Down: true,=
+ key: 35. keysym:35, metaState: 0
+  03-21 00:11:08.950  8864  8864 I RemoteKeyboard: Sending key. Down: false=
+, key: 35. keysym:35, metaState: 0
+
+  When 0 appears instead of *:
+
+  03-21 00:11:28.586  8864  8864 I RemoteKeyboard: Sending key. Down: true,=
+ key: 42. keysym:42, metaState: 0
+  03-21 00:11:28.588  8864  8864 I RemoteKeyboard: Sending key. Down: false=
+, key: 42. keysym:42, metaState: 0
+
+  When =3D appears instead of +:
+  03-21 01:05:40.021 10061 10061 I RemoteKeyboard: Sending key. Down: true,=
+ key: 43. keysym:43, metaState: 0
+  03-21 01:05:40.022 10061 10061 I RemoteKeyboard: Sending key. Down: false=
+, key: 43. keysym:43, metaState: 0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1821131/+subscriptions
 
