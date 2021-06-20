@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7807D3AE0D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 00:15:20 +0200 (CEST)
-Received: from localhost ([::1]:35572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D58F3AE0DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 00:16:47 +0200 (CEST)
+Received: from localhost ([::1]:39050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv5ip-0000r0-Gv
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 18:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
+	id 1lv5kD-0003Ft-Tw
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 18:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv5eW-0001WK-5s
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 18:10:52 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:46638)
+ id 1lv5eX-0001Z3-Nk
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 18:10:53 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:40667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv5eT-0007qt-EM
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 18:10:51 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- o10-20020a17090aac0ab029016e92770073so9075837pjq.5
+ id 1lv5eT-0007qx-SL
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 18:10:53 -0400
+Received: by mail-pl1-x635.google.com with SMTP id m17so4303711plx.7
  for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 15:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pGPuQ96khA6BN7ttYpkCEpnz8SyOo+2mAqDfZ6XIx6k=;
- b=pcLYdX/eEh+q/wLgYfmqmbah0sM0kSiMTXDGMKjG6OOFylRxpmPPukMNs9A36LoLJ0
- 5U28Y1U6/UUhp7wn02dRTPTFILdW0g58MLsZwiucwk8yS7As75Wssw+Pwrtpu18k5G9F
- WxkuzPEeEQXf+eZSxZy1HuLBNcvu9TGNy1AcHE07RaWHRCeyb7PloSOsScZWS5lCiN6V
- nsSHA943bNdz4qW7ibZZIvXONYI6LjjCmTAxIftfIvMcKi9Hy7RBaShMZWGxyFCpCsCm
- MXvTz0gWrXcw3Pead5JQWR7w9e4bJIBBpWNmyUxZ1wS7iOagiamHF1m1tJbA1o5dGmWK
- r96A==
+ bh=vOSYcR5bhsrCjJ6PbKl43sOwPlBS+THlM2yD0LGuQ1A=;
+ b=ksDyy6L1svmn0A53RK+Vj788pHYOCKIAP5A6a+J9eMrtH8wIy+5dDi0RNT1+J2JEbM
+ ncpxXkoObVCw6TbiQsHrBuQvjdMuyETJpHliG8o11WAkzIRFBoH97iLgworclCvqVqBO
+ nA+BdZsKYkEzg7GaWMSN++5uQw8wF4azuMj8OKbRiOFtrd5n5Deg5iMtKEOdNkOUHVJc
+ bsOUX8FOxprCFi0leOT2itgURl1oDrRDSN9MVWJvnhUvMFLhQYjK7wLvg6CdxnodK3vT
+ YEZlFHgGl5uyHA8skf6Ev/Z1+ztuIwPokTqHzYtmbG2BV+yT86Sc11yCqLB7YqaAAXcC
+ 4vtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pGPuQ96khA6BN7ttYpkCEpnz8SyOo+2mAqDfZ6XIx6k=;
- b=FLz1q3HsWQQEpGLy914C+S5u6xHWBGTf6ursOLlVKk5dzcf9o1GViwxWtExGAfT8M2
- CdDlof4qaYZ7QcDVJA2gRduEPCDv6Nq0SiUB29ELb+NDLh8ZxbgHr0RZo23r7OvrTe/7
- ZVuzXlw+lU0CweYS8UndF1K43FjC0e/Ar64d8bcibHaaPdwatElFw6i+bO4488iWTycJ
- QbAEflMxOx5ELIMe2/+SEmLnosyvSCZTEsNAqc6UE8NdE5bWT/P0lRe+0VkoOG953C0O
- 22ZCuEQE19NFE9WFAgDst2+u9s8R5EkO0f9LG0XblKPrMslBErCXn/VwlmyNqvG8DJer
- 1hOA==
-X-Gm-Message-State: AOAM533HUtFsgHcCq+Cx7cxJvhTaSGJDtdRTCY/cLQ0kgIuWofOkmcnv
- IIcxxMfZa7nI2UJ0NVl6B6ZQ5WvNRc2CQA==
-X-Google-Smtp-Source: ABdhPJxD0/55fcLm5Ox8WRlZoishPavODfRhzu/SU5JJrWoxDf8wqrL4637L++LcapbghPT7ENx5iw==
-X-Received: by 2002:a17:90b:3b92:: with SMTP id
- pc18mr23188832pjb.100.1624227048142; 
+ bh=vOSYcR5bhsrCjJ6PbKl43sOwPlBS+THlM2yD0LGuQ1A=;
+ b=SSFs28pXAnN110Wn+X1yeG0nRbvIe1VP6GfribFy18RZoB9lyt6YCbjgl3FoC02NQo
+ SyG/yZTonXmAf7Rw8DE1SM/1yu3Ck3UlAEcM9QsqoyYCjSCMKsbE5eF4rqrYbTBIS/h/
+ RKL/21tQ3LZb+iN5ddtACE+24WqOUVGDc+iMb5bQEebs8Ey2NgJcUdUzAe6ddp1tylJg
+ CuQ8okvQehm+KBBzC0XJDehlh+ZGD9Vl348xwvvl/k6FaFISjhMYzfY8TwvVKXyRVbaI
+ dRSkPvglhhhmXS2AVogbtq+/ipK8+CGgJsHddkLSmZwt4ufIqTdNo4Et7LxyIefZmzPK
+ GuTA==
+X-Gm-Message-State: AOAM531XlmMDzoeUGXCAwpSiRqk3ALP+VkhiKUrdLmGVocuUIEs55hPZ
+ 26Mkb1nG0ip/e0Bwge7vLVuIjXMbFvdOgw==
+X-Google-Smtp-Source: ABdhPJwpcwa5JgMbUGiNrrpDuAN543tN0eCcaIVFGkDqptm9lec3+2QTodWvjecEIGhKLuTS1YdOXQ==
+X-Received: by 2002:a17:90b:4b91:: with SMTP id
+ lr17mr9570714pjb.69.1624227048632; 
  Sun, 20 Jun 2021 15:10:48 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 135sm11122961pgf.20.2021.06.20.15.10.47
+ by smtp.gmail.com with ESMTPSA id 135sm11122961pgf.20.2021.06.20.15.10.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Jun 2021 15:10:47 -0700 (PDT)
+ Sun, 20 Jun 2021 15:10:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] target/nios2: Replace DISAS_TB_JUMP with DISAS_NORETURN
-Date: Sun, 20 Jun 2021 15:10:40 -0700
-Message-Id: <20210620221046.1526418-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 2/7] target/nios2: Use global cpu_env
+Date: Sun, 20 Jun 2021 15:10:41 -0700
+Message-Id: <20210620221046.1526418-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210620221046.1526418-1-richard.henderson@linaro.org>
 References: <20210620221046.1526418-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,61 +87,69 @@ Cc: marex@denx.de, crwulff@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only semantic of DISAS_TB_JUMP is that we've done goto_tb,
-which is the same as DISAS_NORETURN -- we've exited the tb.
+We do not need to copy this into DisasContext.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ target/nios2/translate.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 399f22d938..388fae93a2 100644
+index 388fae93a2..39538e1870 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -37,7 +37,6 @@
- /* is_jmp field values */
- #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
- #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
--#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
- 
- #define INSTRUCTION_FLG(func, flags) { (func), (flags) }
- #define INSTRUCTION(func)                  \
-@@ -209,7 +208,7 @@ static void jmpi(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     J_TYPE(instr, code);
-     gen_goto_tb(dc, 0, (dc->pc & 0xF0000000) | (instr.imm26 << 2));
--    dc->is_jmp = DISAS_TB_JUMP;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- static void call(DisasContext *dc, uint32_t code, uint32_t flags)
-@@ -269,7 +268,7 @@ static void br(DisasContext *dc, uint32_t code, uint32_t flags)
-     I_TYPE(instr, code);
- 
-     gen_goto_tb(dc, 0, dc->pc + 4 + (instr.imm16.s & -4));
--    dc->is_jmp = DISAS_TB_JUMP;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
-@@ -281,7 +280,7 @@ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
-     gen_goto_tb(dc, 0, dc->pc + 4);
-     gen_set_label(l1);
-     gen_goto_tb(dc, 1, dc->pc + 4 + (instr.imm16.s & -4));
--    dc->is_jmp = DISAS_TB_JUMP;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- /* Comparison instructions */
-@@ -883,7 +882,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-         break;
- 
-     case DISAS_NORETURN:
--    case DISAS_TB_JUMP:
-         /* nothing more to generate */
-         break;
+@@ -97,7 +97,6 @@
      }
+ 
+ typedef struct DisasContext {
+-    TCGv_ptr          cpu_env;
+     TCGv             *cpu_R;
+     TCGv_i32          zero;
+     int               is_jmp;
+@@ -147,7 +146,7 @@ static void t_gen_helper_raise_exception(DisasContext *dc,
+     TCGv_i32 tmp = tcg_const_i32(index);
+ 
+     tcg_gen_movi_tl(dc->cpu_R[R_PC], dc->pc);
+-    gen_helper_raise_exception(dc->cpu_env, tmp);
++    gen_helper_raise_exception(cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
+     dc->is_jmp = DISAS_NORETURN;
+ }
+@@ -474,7 +473,7 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+             tcg_gen_mov_tl(dc->cpu_R[instr.c], dc->cpu_R[instr.imm5 + CR_BASE]);
+ #ifdef DEBUG_MMU
+             TCGv_i32 tmp = tcg_const_i32(instr.imm5 + CR_BASE);
+-            gen_helper_mmu_read_debug(dc->cpu_R[instr.c], dc->cpu_env, tmp);
++            gen_helper_mmu_read_debug(dc->cpu_R[instr.c], cpu_env, tmp);
+             tcg_temp_free_i32(tmp);
+ #endif
+         }
+@@ -504,7 +503,7 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+     {
+ #if !defined(CONFIG_USER_ONLY)
+         TCGv_i32 tmp = tcg_const_i32(instr.imm5 + CR_BASE);
+-        gen_helper_mmu_write(dc->cpu_env, tmp, load_gpr(dc, instr.a));
++        gen_helper_mmu_write(cpu_env, tmp, load_gpr(dc, instr.a));
+         tcg_temp_free_i32(tmp);
+ #endif
+         break;
+@@ -521,7 +520,7 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+         if (tb_cflags(dc->tb) & CF_USE_ICOUNT) {
+             gen_io_start();
+         }
+-        gen_helper_check_interrupts(dc->cpu_env);
++        gen_helper_check_interrupts(cpu_env);
+         dc->is_jmp = DISAS_UPDATE;
+     }
+ #endif
+@@ -817,7 +816,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     int num_insns;
+ 
+     /* Initialize DC */
+-    dc->cpu_env = cpu_env;
+     dc->cpu_R   = cpu_R;
+     dc->is_jmp  = DISAS_NEXT;
+     dc->pc      = tb->pc;
 -- 
 2.25.1
 
