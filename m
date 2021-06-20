@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C026B3ADFD1
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 21:02:50 +0200 (CEST)
-Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBAE3ADFD7
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 21:06:46 +0200 (CEST)
+Received: from localhost ([::1]:42608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv2iW-0002na-S2
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 15:02:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48950)
+	id 1lv2mM-0005P9-2B
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 15:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
- id 1lv2XR-00012l-EC
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 14:51:21 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:34590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
- id 1lv2XM-0006QN-El
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 14:51:21 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id a21so16981769ljj.1
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 11:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=aabouzied-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5DbjWJch1UxigbHrZOoN/F9CAPL1ng0fS41z5peBaT8=;
- b=VP1OWzF8QtGj5AtgLrLqY4syItns+yRFtXBL6aLAj9kRDox6IhgoOKKfQpqLHYkN7K
- m/IJKLfgakNQ0h0pd86IjnbNHcbMFIeeNGPvBLbbWmk7KDe5GZhRqBnQquTM9pntzbFz
- Bd4M0KTtFCvj4Hcf4oxroDdNIyzy21iDKu3B2kaWlceKUcpTWkPrz7ofS0MOdqGfaXQu
- J7AgUX7oTqv3s3MJpsn+SweYAlryVZsb61+wGgrmuBLxafzkKVTPhKxYKCiKNW9NNhWX
- HKO0cAXrLmGM0MSFYpyQP40WANNwctwvrF8I0IM+H2/FIbzNIriQOKFdxKe40tjjNAm8
- L+3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5DbjWJch1UxigbHrZOoN/F9CAPL1ng0fS41z5peBaT8=;
- b=qRa64EAG0OPQTnlp2Y9Lf1ATjGSISXBj/3K04ibOz81J4B7yWlpiFVT3r8XU/zcjjv
- lUcGcwbLOlf9d3JNd3ZZFfrE07kG0h8GP3TluY7OdBBLgWYsAXcIs275pZ+p5iGz+akB
- d9UNJ7hXY7oVB35XysIdh9HPKH6QyEujQMI5ZDddHEKMhqaA6UpXrErp8Xdy/rquChF/
- NZh5BowtT275HDwRQ1m63Jp93oc2V121hnGT8kvLDv4R5B9kMyNxWHPQAkmxeOQbhKv8
- iNzkcr9fcJdPZnUxsqdoGR7u7D85aJlNnMGsdmaKyiGLYTCtyUqB0xTP5sVgTJf7yuJP
- FNWA==
-X-Gm-Message-State: AOAM530YeLno2RQPq+HD4iOB90c5miUtZZ9TnxloyR50c/kmGdO1oqXY
- d5vtU6p0oYYBvx1Dn6vs98c3uYXmkaTUrFRI7Z8cCQ==
-X-Google-Smtp-Source: ABdhPJyHTQUV45r/CsJYimGQ+2qOQGqK3oHaHVi5us/nKNli5r17JkbgWtRD8YlzR+eAIZ/2bSHK8g==
-X-Received: by 2002:a5d:5986:: with SMTP id n6mr23877766wri.60.1624211698268; 
- Sun, 20 Jun 2021 10:54:58 -0700 (PDT)
-Received: from pythagoras.localdomain ([154.190.215.81])
- by smtp.gmail.com with ESMTPSA id f12sm18137220wru.81.2021.06.20.10.54.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Jun 2021 10:54:57 -0700 (PDT)
-From: Ahmed Abouzied <email@aabouzied.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] sh4: Replace TAB indentations with spaces
-Date: Sun, 20 Jun 2021 19:54:52 +0200
-Message-Id: <20210620175452.10076-1-email@aabouzied.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lv2kL-0004MY-6B; Sun, 20 Jun 2021 15:04:41 -0400
+Resent-Date: Sun, 20 Jun 2021 15:04:41 -0400
+Resent-Message-Id: <E1lv2kL-0004MY-6B@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21350)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lv2kC-0006YM-Js; Sun, 20 Jun 2021 15:04:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624215865; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=cm/mG2jQKj4RyiUxzHKM87a//oaBZdFPIlrgwp7+7+GDmLpULbv9H9bI2nG/wJT5iZCzs/bn9zPv+2SaQ/mskKIzCUmL9u5OPYijShcvGsc9/JPFZBH8WyCuciw7Ad98QGOz/pmeap324SZDn/Q0kbISaEL7G2rN1AbZknfN9E8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1624215865;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=iILTYIAHraHC+ux3zXIcFkw6Z+ARrs9xnGzhF83G8V4=; 
+ b=keMFWFwn4aJxF9Pc/qARO3HggMBnZhlz0Tzw4tQ3wmWxmFRJ5CWhYJqIl4Ctnf49xzTd2EW46Epv+gxq7K4b3DHVrQJ07V7rYi+2bBLIc0DVQT+K3vTzKg7yod2B3rWlbhMnP/FC8NE7M+CWZ3/0v1+tMEJT5zY82JHEbQDPb/I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1624215862826269.02086380196795;
+ Sun, 20 Jun 2021 12:04:22 -0700 (PDT)
+In-Reply-To: <20210620175452.10076-1-email@aabouzied.com>
+Subject: Re: [PATCH] sh4: Replace TAB indentations with spaces
+Message-ID: <162421586126.25106.11438836046741085436@7c66fb7bc3ab>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::22e;
- envelope-from=email@aabouzied.com; helo=mail-lj1-x22e.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: email@aabouzied.com
+Date: Sun, 20 Jun 2021 12:04:22 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NO_DNS_FOR_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,6449 +64,1540 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Ahmed Abouzied <email@aabouzied.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, email@aabouzied.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replaces TABs with spaces, making sure to have a consistent coding style
-of 4 space indentations in the SH4 subsystem.
-
-Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/376
----
- hw/intc/sh_intc.c         |  208 ++---
- hw/sh4/r2d.c              |   36 +-
- hw/sh4/sh7750.c           |  516 ++++++------
- hw/sh4/sh7750_regnames.c  |  144 ++--
- hw/sh4/sh7750_regs.h      | 1592 ++++++++++++++++++-------------------
- linux-user/sh4/termbits.h |  204 ++---
- target/sh4/cpu.h          |   80 +-
- target/sh4/helper.c       |  236 +++---
- target/sh4/op_helper.c    |   68 +-
- target/sh4/translate.c    | 1588 ++++++++++++++++++------------------
- 10 files changed, 2336 insertions(+), 2336 deletions(-)
-
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 72a55e32dd..63efec6ea1 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -20,7 +20,7 @@
- #define INTC_A7(x) ((x) & 0x1fffffff)
- 
- void sh_intc_toggle_source(struct intc_source *source,
--			   int enable_adj, int assert_adj)
-+               int enable_adj, int assert_adj)
- {
-     int enable_changed = 0;
-     int pending_changed = 0;
-@@ -54,22 +54,22 @@ void sh_intc_toggle_source(struct intc_source *source,
-             if (source->parent->pending == 0) {
-                 cpu_reset_interrupt(first_cpu, CPU_INTERRUPT_HARD);
-             }
--	}
-+    }
-     }
- 
-   if (enable_changed || assert_adj || pending_changed) {
- #ifdef DEBUG_INTC_SOURCES
-             printf("sh_intc: (%d/%d/%d/%d) interrupt source 0x%x %s%s%s\n",
--		   source->parent->pending,
--		   source->asserted,
--		   source->enable_count,
--		   source->enable_max,
--		   source->vect,
--		   source->asserted ? "asserted " :
--		   assert_adj ? "deasserted" : "",
--		   enable_changed == 1 ? "enabled " :
--		   enable_changed == -1 ? "disabled " : "",
--		   source->pending ? "pending" : "");
-+           source->parent->pending,
-+           source->asserted,
-+           source->enable_count,
-+           source->enable_max,
-+           source->vect,
-+           source->asserted ? "asserted " :
-+           assert_adj ? "deasserted" : "",
-+           enable_changed == 1 ? "enabled " :
-+           enable_changed == -1 ? "disabled " : "",
-+           source->pending ? "pending" : "");
- #endif
-   }
- }
-@@ -99,13 +99,13 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
-     for (i = 0; i < desc->nr_sources; i++) {
-         struct intc_source *source = desc->sources + i;
- 
--	if (source->pending) {
-+    if (source->pending) {
- #ifdef DEBUG_INTC_SOURCES
-             printf("sh_intc: (%d) returning interrupt source 0x%x\n",
--		   desc->pending, source->vect);
-+           desc->pending, source->vect);
- #endif
-             return source->vect;
--	}
-+    }
-     }
- 
-     abort();
-@@ -119,16 +119,16 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
- #define INTC_MODE_IS_PRIO    8
- 
- static unsigned int sh_intc_mode(unsigned long address,
--				 unsigned long set_reg, unsigned long clr_reg)
-+                 unsigned long set_reg, unsigned long clr_reg)
- {
-     if ((address != INTC_A7(set_reg)) &&
--	(address != INTC_A7(clr_reg)))
-+    (address != INTC_A7(clr_reg)))
-         return INTC_MODE_NONE;
- 
-     if (set_reg && clr_reg) {
-         if (address == INTC_A7(set_reg))
-             return INTC_MODE_DUAL_SET;
--	else
-+    else
-             return INTC_MODE_DUAL_CLR;
-     }
- 
-@@ -139,12 +139,12 @@ static unsigned int sh_intc_mode(unsigned long address,
- }
- 
- static void sh_intc_locate(struct intc_desc *desc,
--			   unsigned long address,
--			   unsigned long **datap,
--			   intc_enum **enums,
--			   unsigned int *first,
--			   unsigned int *width,
--			   unsigned int *modep)
-+               unsigned long address,
-+               unsigned long **datap,
-+               intc_enum **enums,
-+               unsigned int *first,
-+               unsigned int *width,
-+               unsigned int *modep)
- {
-     unsigned int i, mode;
- 
-@@ -152,54 +152,54 @@ static void sh_intc_locate(struct intc_desc *desc,
- 
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
--	    struct intc_mask_reg *mr = desc->mask_regs + i;
-+        struct intc_mask_reg *mr = desc->mask_regs + i;
- 
--	    mode = sh_intc_mode(address, mr->set_reg, mr->clr_reg);
--	    if (mode == INTC_MODE_NONE)
-+        mode = sh_intc_mode(address, mr->set_reg, mr->clr_reg);
-+        if (mode == INTC_MODE_NONE)
-                 continue;
- 
--	    *modep = mode;
--	    *datap = &mr->value;
--	    *enums = mr->enum_ids;
--	    *first = mr->reg_width - 1;
--	    *width = 1;
--	    return;
--	}
-+        *modep = mode;
-+        *datap = &mr->value;
-+        *enums = mr->enum_ids;
-+        *first = mr->reg_width - 1;
-+        *width = 1;
-+        return;
-+    }
-     }
- 
-     if (desc->prio_regs) {
-         for (i = 0; i < desc->nr_prio_regs; i++) {
--	    struct intc_prio_reg *pr = desc->prio_regs + i;
-+        struct intc_prio_reg *pr = desc->prio_regs + i;
- 
--	    mode = sh_intc_mode(address, pr->set_reg, pr->clr_reg);
--	    if (mode == INTC_MODE_NONE)
-+        mode = sh_intc_mode(address, pr->set_reg, pr->clr_reg);
-+        if (mode == INTC_MODE_NONE)
-                 continue;
- 
--	    *modep = mode | INTC_MODE_IS_PRIO;
--	    *datap = &pr->value;
--	    *enums = pr->enum_ids;
--	    *first = (pr->reg_width / pr->field_width) - 1;
--	    *width = pr->field_width;
--	    return;
--	}
-+        *modep = mode | INTC_MODE_IS_PRIO;
-+        *datap = &pr->value;
-+        *enums = pr->enum_ids;
-+        *first = (pr->reg_width / pr->field_width) - 1;
-+        *width = pr->field_width;
-+        return;
-+    }
-     }
- 
-     abort();
- }
- 
- static void sh_intc_toggle_mask(struct intc_desc *desc, intc_enum id,
--				int enable, int is_group)
-+                int enable, int is_group)
- {
-     struct intc_source *source = desc->sources + id;
- 
-     if (!id)
--	return;
-+    return;
- 
-     if (!source->next_enum_id && (!source->enable_max || !source->vect)) {
- #ifdef DEBUG_INTC_SOURCES
-         printf("sh_intc: reserved interrupt source %d modified\n", id);
- #endif
--	return;
-+    return;
-     }
- 
-     if (source->vect)
-@@ -237,7 +237,7 @@ static uint64_t sh_intc_read(void *opaque, hwaddr offset,
- #endif
- 
-     sh_intc_locate(desc, (unsigned long)offset, &valuep, 
--		   &enum_ids, &first, &width, &mode);
-+           &enum_ids, &first, &width, &mode);
-     return *valuep;
- }
- 
-@@ -258,7 +258,7 @@ static void sh_intc_write(void *opaque, hwaddr offset,
- #endif
- 
-     sh_intc_locate(desc, (unsigned long)offset, &valuep, 
--		   &enum_ids, &first, &width, &mode);
-+           &enum_ids, &first, &width, &mode);
- 
-     switch (mode) {
-     case INTC_MODE_ENABLE_REG | INTC_MODE_IS_PRIO: break;
-@@ -270,11 +270,11 @@ static void sh_intc_write(void *opaque, hwaddr offset,
-     for (k = 0; k <= first; k++) {
-         mask = ((1 << width) - 1) << ((first - k) * width);
- 
--	if ((*valuep & mask) == (value & mask))
-+    if ((*valuep & mask) == (value & mask))
-             continue;
- #if 0
--	printf("k = %d, first = %d, enum = %d, mask = 0x%08x\n", 
--	       k, first, enum_ids[k], (unsigned int)mask);
-+    printf("k = %d, first = %d, enum = %d, mask = 0x%08x\n", 
-+           k, first, enum_ids[k], (unsigned int)mask);
- #endif
-         sh_intc_toggle_mask(desc, enum_ids[k], value & mask, 0);
-     }
-@@ -333,74 +333,74 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
- }
- 
- static void sh_intc_register_source(struct intc_desc *desc,
--				    intc_enum source,
--				    struct intc_group *groups,
--				    int nr_groups)
-+                    intc_enum source,
-+                    struct intc_group *groups,
-+                    int nr_groups)
- {
-     unsigned int i, k;
-     struct intc_source *s;
- 
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
--	    struct intc_mask_reg *mr = desc->mask_regs + i;
-+        struct intc_mask_reg *mr = desc->mask_regs + i;
- 
--	    for (k = 0; k < ARRAY_SIZE(mr->enum_ids); k++) {
-+        for (k = 0; k < ARRAY_SIZE(mr->enum_ids); k++) {
-                 if (mr->enum_ids[k] != source)
-                     continue;
- 
--		s = sh_intc_source(desc, mr->enum_ids[k]);
--		if (s)
-+        s = sh_intc_source(desc, mr->enum_ids[k]);
-+        if (s)
-                     s->enable_max++;
--	    }
--	}
-+        }
-+    }
-     }
- 
-     if (desc->prio_regs) {
-         for (i = 0; i < desc->nr_prio_regs; i++) {
--	    struct intc_prio_reg *pr = desc->prio_regs + i;
-+        struct intc_prio_reg *pr = desc->prio_regs + i;
- 
--	    for (k = 0; k < ARRAY_SIZE(pr->enum_ids); k++) {
-+        for (k = 0; k < ARRAY_SIZE(pr->enum_ids); k++) {
-                 if (pr->enum_ids[k] != source)
-                     continue;
- 
--		s = sh_intc_source(desc, pr->enum_ids[k]);
--		if (s)
-+        s = sh_intc_source(desc, pr->enum_ids[k]);
-+        if (s)
-                     s->enable_max++;
--	    }
--	}
-+        }
-+    }
-     }
- 
-     if (groups) {
-         for (i = 0; i < nr_groups; i++) {
--	    struct intc_group *gr = groups + i;
-+        struct intc_group *gr = groups + i;
- 
--	    for (k = 0; k < ARRAY_SIZE(gr->enum_ids); k++) {
-+        for (k = 0; k < ARRAY_SIZE(gr->enum_ids); k++) {
-                 if (gr->enum_ids[k] != source)
-                     continue;
- 
--		s = sh_intc_source(desc, gr->enum_ids[k]);
--		if (s)
-+        s = sh_intc_source(desc, gr->enum_ids[k]);
-+        if (s)
-                     s->enable_max++;
--	    }
--	}
-+        }
-+    }
-     }
- 
- }
- 
- void sh_intc_register_sources(struct intc_desc *desc,
--			      struct intc_vect *vectors,
--			      int nr_vectors,
--			      struct intc_group *groups,
--			      int nr_groups)
-+                  struct intc_vect *vectors,
-+                  int nr_vectors,
-+                  struct intc_group *groups,
-+                  int nr_groups)
- {
-     unsigned int i, k;
-     struct intc_source *s;
- 
-     for (i = 0; i < nr_vectors; i++) {
--	struct intc_vect *vect = vectors + i;
-+    struct intc_vect *vect = vectors + i;
- 
--	sh_intc_register_source(desc, vect->enum_id, groups, nr_groups);
--	s = sh_intc_source(desc, vect->enum_id);
-+    sh_intc_register_source(desc, vect->enum_id, groups, nr_groups);
-+    s = sh_intc_source(desc, vect->enum_id);
-         if (s) {
-             s->vect = vect->vect;
- 
-@@ -413,34 +413,34 @@ void sh_intc_register_sources(struct intc_desc *desc,
- 
-     if (groups) {
-         for (i = 0; i < nr_groups; i++) {
--	    struct intc_group *gr = groups + i;
-+        struct intc_group *gr = groups + i;
- 
--	    s = sh_intc_source(desc, gr->enum_id);
--	    s->next_enum_id = gr->enum_ids[0];
-+        s = sh_intc_source(desc, gr->enum_id);
-+        s->next_enum_id = gr->enum_ids[0];
- 
--	    for (k = 1; k < ARRAY_SIZE(gr->enum_ids); k++) {
-+        for (k = 1; k < ARRAY_SIZE(gr->enum_ids); k++) {
-                 if (!gr->enum_ids[k])
-                     continue;
- 
--		s = sh_intc_source(desc, gr->enum_ids[k - 1]);
--		s->next_enum_id = gr->enum_ids[k];
--	    }
-+        s = sh_intc_source(desc, gr->enum_ids[k - 1]);
-+        s->next_enum_id = gr->enum_ids[k];
-+        }
- 
- #ifdef DEBUG_INTC_SOURCES
--	    printf("sh_intc: registered group %d (%d/%d)\n",
--		   gr->enum_id, s->enable_count, s->enable_max);
-+        printf("sh_intc: registered group %d (%d/%d)\n",
-+           gr->enum_id, s->enable_count, s->enable_max);
- #endif
--	}
-+    }
-     }
- }
- 
- int sh_intc_init(MemoryRegion *sysmem,
-          struct intc_desc *desc,
--		 int nr_sources,
--		 struct intc_mask_reg *mask_regs,
--		 int nr_mask_regs,
--		 struct intc_prio_reg *prio_regs,
--		 int nr_prio_regs)
-+         int nr_sources,
-+         struct intc_mask_reg *mask_regs,
-+         int nr_mask_regs,
-+         struct intc_prio_reg *prio_regs,
-+         int nr_prio_regs)
- {
-     unsigned int i, j;
- 
-@@ -474,24 +474,24 @@ int sh_intc_init(MemoryRegion *sysmem,
-         reg_struct->action##_reg, #type, #action, j
-     if (desc->mask_regs) {
-         for (i = 0; i < desc->nr_mask_regs; i++) {
--	    struct intc_mask_reg *mr = desc->mask_regs + i;
-+        struct intc_mask_reg *mr = desc->mask_regs + i;
- 
-             j += sh_intc_register(sysmem, desc,
-                                   INT_REG_PARAMS(mr, mask, set, j));
-             j += sh_intc_register(sysmem, desc,
-                                   INT_REG_PARAMS(mr, mask, clr, j));
--	}
-+    }
-     }
- 
-     if (desc->prio_regs) {
-         for (i = 0; i < desc->nr_prio_regs; i++) {
--	    struct intc_prio_reg *pr = desc->prio_regs + i;
-+        struct intc_prio_reg *pr = desc->prio_regs + i;
- 
-             j += sh_intc_register(sysmem, desc,
-                                   INT_REG_PARAMS(pr, prio, set, j));
-             j += sh_intc_register(sysmem, desc,
-                                   INT_REG_PARAMS(pr, prio, clr, j));
--	}
-+    }
-     }
- #undef INT_REG_PARAMS
- 
-@@ -505,10 +505,10 @@ void sh_intc_set_irl(void *opaque, int n, int level)
-     struct intc_source *s = opaque;
-     int i, irl = level ^ 15;
-     for (i = 0; (s = sh_intc_source(s->parent, s->next_enum_id)); i++) {
--	if (i == irl)
--	    sh_intc_toggle_source(s, s->enable_count?0:1, s->asserted?0:1);
--	else
--	    if (s->asserted)
--	        sh_intc_toggle_source(s, 0, -1);
-+    if (i == irl)
-+        sh_intc_toggle_source(s, s->enable_count?0:1, s->asserted?0:1);
-+    else
-+        if (s->asserted)
-+            sh_intc_toggle_source(s, 0, -1);
-     }
- }
-diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-index 006010f30a..dadbe16390 100644
---- a/hw/sh4/r2d.c
-+++ b/hw/sh4/r2d.c
-@@ -1,4 +1,4 @@
--/*
-+:wq/*
-  * Renesas SH7751R R2D-PLUS emulation
-  *
-  * Copyright (c) 2007 Magnus Damm
-@@ -56,10 +56,10 @@
- #define LINUX_LOAD_OFFSET  0x0800000
- #define INITRD_LOAD_OFFSET 0x1800000
- 
--#define PA_IRLMSK	0x00
--#define PA_POWOFF	0x30
--#define PA_VERREG	0x32
--#define PA_OUTPORT	0x36
-+#define PA_IRLMSK    0x00
-+#define PA_POWOFF    0x30
-+#define PA_VERREG    0x32
-+#define PA_OUTPORT    0x36
- 
- typedef struct {
-     uint16_t bcr;
-@@ -96,19 +96,19 @@ enum r2d_fpga_irq {
- };
- 
- static const struct { short irl; uint16_t msk; } irqtab[NR_IRQS] = {
--    [CF_IDE]	= {  1, 1<<9 },
--    [CF_CD]	= {  2, 1<<8 },
--    [PCI_INTA]	= {  9, 1<<14 },
--    [PCI_INTB]	= { 10, 1<<13 },
--    [PCI_INTC]	= {  3, 1<<12 },
--    [PCI_INTD]	= {  0, 1<<11 },
--    [SM501]	= {  4, 1<<10 },
--    [KEY]	= {  5, 1<<6 },
--    [RTC_A]	= {  6, 1<<5 },
--    [RTC_T]	= {  7, 1<<4 },
--    [SDCARD]	= {  8, 1<<7 },
--    [EXT]	= { 11, 1<<0 },
--    [TP]	= { 12, 1<<15 },
-+    [CF_IDE]    = {  1, 1<<9 },
-+    [CF_CD]    = {  2, 1<<8 },
-+    [PCI_INTA]    = {  9, 1<<14 },
-+    [PCI_INTB]    = { 10, 1<<13 },
-+    [PCI_INTC]    = {  3, 1<<12 },
-+    [PCI_INTD]    = {  0, 1<<11 },
-+    [SM501]    = {  4, 1<<10 },
-+    [KEY]    = {  5, 1<<6 },
-+    [RTC_A]    = {  6, 1<<5 },
-+    [RTC_T]    = {  7, 1<<4 },
-+    [SDCARD]    = {  8, 1<<7 },
-+    [EXT]    = { 11, 1<<0 },
-+    [TP]    = { 12, 1<<15 },
- };
- 
- static void update_irl(r2d_fpga_t *fpga)
-diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
-index d53a436d8c..dd8be12756 100644
---- a/hw/sh4/sh7750.c
-+++ b/hw/sh4/sh7750.c
-@@ -60,17 +60,17 @@ typedef struct SH7750State {
-     uint16_t gpioic;
-     uint32_t pctra;
-     uint32_t pctrb;
--    uint16_t portdira;		/* Cached */
--    uint16_t portpullupa;	/* Cached */
--    uint16_t portdirb;		/* Cached */
--    uint16_t portpullupb;	/* Cached */
-+    uint16_t portdira;        /* Cached */
-+    uint16_t portpullupa;    /* Cached */
-+    uint16_t portdirb;        /* Cached */
-+    uint16_t portpullupb;    /* Cached */
-     uint16_t pdtra;
-     uint16_t pdtrb;
--    uint16_t periph_pdtra;	/* Imposed by the peripherals */
--    uint16_t periph_portdira;	/* Direction seen from the peripherals */
--    uint16_t periph_pdtrb;	/* Imposed by the peripherals */
--    uint16_t periph_portdirb;	/* Direction seen from the peripherals */
--    sh7750_io_device *devices[NB_DEVICES];	/* External peripherals */
-+    uint16_t periph_pdtra;    /* Imposed by the peripherals */
-+    uint16_t periph_portdira;    /* Direction seen from the peripherals */
-+    uint16_t periph_pdtrb;    /* Imposed by the peripherals */
-+    uint16_t periph_portdirb;    /* Direction seen from the peripherals */
-+    sh7750_io_device *devices[NB_DEVICES];    /* External peripherals */
- 
-     /* Cache */
-     uint32_t ccr;
-@@ -91,10 +91,10 @@ int sh7750_register_io_device(SH7750State * s, sh7750_io_device * device)
-     int i;
- 
-     for (i = 0; i < NB_DEVICES; i++) {
--	if (s->devices[i] == NULL) {
--	    s->devices[i] = device;
--	    return 0;
--	}
-+    if (s->devices[i] == NULL) {
-+        s->devices[i] = device;
-+        return 0;
-+    }
-     }
-     return -1;
- }
-@@ -103,37 +103,37 @@ static uint16_t portdir(uint32_t v)
- {
- #define EVENPORTMASK(n) ((v & (1<<((n)<<1))) >> (n))
-     return
--	EVENPORTMASK(15) | EVENPORTMASK(14) | EVENPORTMASK(13) |
--	EVENPORTMASK(12) | EVENPORTMASK(11) | EVENPORTMASK(10) |
--	EVENPORTMASK(9) | EVENPORTMASK(8) | EVENPORTMASK(7) |
--	EVENPORTMASK(6) | EVENPORTMASK(5) | EVENPORTMASK(4) |
--	EVENPORTMASK(3) | EVENPORTMASK(2) | EVENPORTMASK(1) |
--	EVENPORTMASK(0);
-+    EVENPORTMASK(15) | EVENPORTMASK(14) | EVENPORTMASK(13) |
-+    EVENPORTMASK(12) | EVENPORTMASK(11) | EVENPORTMASK(10) |
-+    EVENPORTMASK(9) | EVENPORTMASK(8) | EVENPORTMASK(7) |
-+    EVENPORTMASK(6) | EVENPORTMASK(5) | EVENPORTMASK(4) |
-+    EVENPORTMASK(3) | EVENPORTMASK(2) | EVENPORTMASK(1) |
-+    EVENPORTMASK(0);
- }
- 
- static uint16_t portpullup(uint32_t v)
- {
- #define ODDPORTMASK(n) ((v & (1<<(((n)<<1)+1))) >> (n))
-     return
--	ODDPORTMASK(15) | ODDPORTMASK(14) | ODDPORTMASK(13) |
--	ODDPORTMASK(12) | ODDPORTMASK(11) | ODDPORTMASK(10) |
--	ODDPORTMASK(9) | ODDPORTMASK(8) | ODDPORTMASK(7) | ODDPORTMASK(6) |
--	ODDPORTMASK(5) | ODDPORTMASK(4) | ODDPORTMASK(3) | ODDPORTMASK(2) |
--	ODDPORTMASK(1) | ODDPORTMASK(0);
-+    ODDPORTMASK(15) | ODDPORTMASK(14) | ODDPORTMASK(13) |
-+    ODDPORTMASK(12) | ODDPORTMASK(11) | ODDPORTMASK(10) |
-+    ODDPORTMASK(9) | ODDPORTMASK(8) | ODDPORTMASK(7) | ODDPORTMASK(6) |
-+    ODDPORTMASK(5) | ODDPORTMASK(4) | ODDPORTMASK(3) | ODDPORTMASK(2) |
-+    ODDPORTMASK(1) | ODDPORTMASK(0);
- }
- 
- static uint16_t porta_lines(SH7750State * s)
- {
--    return (s->portdira & s->pdtra) |	/* CPU */
--	(s->periph_portdira & s->periph_pdtra) |	/* Peripherals */
--	(~(s->portdira | s->periph_portdira) & s->portpullupa);	/* Pullups */
-+    return (s->portdira & s->pdtra) |    /* CPU */
-+    (s->periph_portdira & s->periph_pdtra) |    /* Peripherals */
-+    (~(s->portdira | s->periph_portdira) & s->portpullupa);    /* Pullups */
- }
- 
- static uint16_t portb_lines(SH7750State * s)
- {
--    return (s->portdirb & s->pdtrb) |	/* CPU */
--	(s->periph_portdirb & s->periph_pdtrb) |	/* Peripherals */
--	(~(s->portdirb | s->periph_portdirb) & s->portpullupb);	/* Pullups */
-+    return (s->portdirb & s->pdtrb) |    /* CPU */
-+    (s->periph_portdirb & s->periph_pdtrb) |    /* Peripherals */
-+    (~(s->portdirb | s->periph_portdirb) & s->portpullupb);    /* Pullups */
- }
- 
- static void gen_port_interrupts(SH7750State * s)
-@@ -148,26 +148,26 @@ static void porta_changed(SH7750State * s, uint16_t prev)
- 
- #if 0
-     fprintf(stderr, "porta changed from 0x%04x to 0x%04x\n",
--	    prev, porta_lines(s));
-+        prev, porta_lines(s));
-     fprintf(stderr, "pdtra=0x%04x, pctra=0x%08x\n", s->pdtra, s->pctra);
- #endif
-     currenta = porta_lines(s);
-     if (currenta == prev)
--	return;
-+    return;
-     changes = currenta ^ prev;
- 
-     for (i = 0; i < NB_DEVICES; i++) {
--	if (s->devices[i] && (s->devices[i]->portamask_trigger & changes)) {
--	    r |= s->devices[i]->port_change_cb(currenta, portb_lines(s),
--					       &s->periph_pdtra,
--					       &s->periph_portdira,
--					       &s->periph_pdtrb,
--					       &s->periph_portdirb);
--	}
-+    if (s->devices[i] && (s->devices[i]->portamask_trigger & changes)) {
-+        r |= s->devices[i]->port_change_cb(currenta, portb_lines(s),
-+                           &s->periph_pdtra,
-+                           &s->periph_portdira,
-+                           &s->periph_pdtrb,
-+                           &s->periph_portdirb);
-+    }
-     }
- 
-     if (r)
--	gen_port_interrupts(s);
-+    gen_port_interrupts(s);
- }
- 
- static void portb_changed(SH7750State * s, uint16_t prev)
-@@ -177,21 +177,21 @@ static void portb_changed(SH7750State * s, uint16_t prev)
- 
-     currentb = portb_lines(s);
-     if (currentb == prev)
--	return;
-+    return;
-     changes = currentb ^ prev;
- 
-     for (i = 0; i < NB_DEVICES; i++) {
--	if (s->devices[i] && (s->devices[i]->portbmask_trigger & changes)) {
--	    r |= s->devices[i]->port_change_cb(portb_lines(s), currentb,
--					       &s->periph_pdtra,
--					       &s->periph_portdira,
--					       &s->periph_pdtrb,
--					       &s->periph_portdirb);
--	}
-+    if (s->devices[i] && (s->devices[i]->portbmask_trigger & changes)) {
-+        r |= s->devices[i]->port_change_cb(portb_lines(s), currentb,
-+                           &s->periph_pdtra,
-+                           &s->periph_portdira,
-+                           &s->periph_pdtrb,
-+                           &s->periph_portdirb);
-+    }
-     }
- 
-     if (r)
--	gen_port_interrupts(s);
-+    gen_port_interrupts(s);
- }
- 
- /**********************************************************************
-@@ -201,20 +201,20 @@ static void portb_changed(SH7750State * s, uint16_t prev)
- static void error_access(const char *kind, hwaddr addr)
- {
-     fprintf(stderr, "%s to %s (0x" TARGET_FMT_plx ") not supported\n",
--	    kind, regname(addr), addr);
-+        kind, regname(addr), addr);
- }
- 
- static void ignore_access(const char *kind, hwaddr addr)
- {
-     fprintf(stderr, "%s to %s (0x" TARGET_FMT_plx ") ignored\n",
--	    kind, regname(addr), addr);
-+        kind, regname(addr), addr);
- }
- 
- static uint32_t sh7750_mem_readb(void *opaque, hwaddr addr)
- {
-     switch (addr) {
-     default:
--	error_access("byte read", addr);
-+    error_access("byte read", addr);
-         abort();
-     }
- }
-@@ -225,30 +225,30 @@ static uint32_t sh7750_mem_readw(void *opaque, hwaddr addr)
- 
-     switch (addr) {
-     case SH7750_BCR2_A7:
--	return s->bcr2;
-+    return s->bcr2;
-     case SH7750_BCR3_A7:
--	if(!has_bcr3_and_bcr4(s))
--	    error_access("word read", addr);
--	return s->bcr3;
-+    if(!has_bcr3_and_bcr4(s))
-+        error_access("word read", addr);
-+    return s->bcr3;
-     case SH7750_FRQCR_A7:
--	return 0;
-+    return 0;
-     case SH7750_PCR_A7:
--	return s->pcr;
-+    return s->pcr;
-     case SH7750_RFCR_A7:
--	fprintf(stderr,
--		"Read access to refresh count register, incrementing\n");
--	return s->rfcr++;
-+    fprintf(stderr,
-+        "Read access to refresh count register, incrementing\n");
-+    return s->rfcr++;
-     case SH7750_PDTRA_A7:
--	return porta_lines(s);
-+    return porta_lines(s);
-     case SH7750_PDTRB_A7:
--	return portb_lines(s);
-+    return portb_lines(s);
-     case SH7750_RTCOR_A7:
-     case SH7750_RTCNT_A7:
-     case SH7750_RTCSR_A7:
--	ignore_access("word read", addr);
--	return 0;
-+    ignore_access("word read", addr);
-+    return 0;
-     default:
--	error_access("word read", addr);
-+    error_access("word read", addr);
-         abort();
-     }
- }
-@@ -260,11 +260,11 @@ static uint32_t sh7750_mem_readl(void *opaque, hwaddr addr)
- 
-     switch (addr) {
-     case SH7750_BCR1_A7:
--	return s->bcr1;
-+    return s->bcr1;
-     case SH7750_BCR4_A7:
--	if(!has_bcr3_and_bcr4(s))
--	    error_access("long read", addr);
--	return s->bcr4;
-+    if(!has_bcr3_and_bcr4(s))
-+        error_access("long read", addr);
-+    return s->bcr4;
-     case SH7750_WCR1_A7:
-     case SH7750_WCR2_A7:
-     case SH7750_WCR3_A7:
-@@ -288,31 +288,31 @@ static uint32_t sh7750_mem_readl(void *opaque, hwaddr addr)
-     case SH7750_INTEVT_A7:
-         return s->cpu->env.intevt;
-     case SH7750_CCR_A7:
--	return s->ccr;
--    case 0x1f000030:		/* Processor version */
-+    return s->ccr;
-+    case 0x1f000030:        /* Processor version */
-         scc = SUPERH_CPU_GET_CLASS(s->cpu);
-         return scc->pvr;
--    case 0x1f000040:		/* Cache version */
-+    case 0x1f000040:        /* Cache version */
-         scc = SUPERH_CPU_GET_CLASS(s->cpu);
-         return scc->cvr;
--    case 0x1f000044:		/* Processor revision */
-+    case 0x1f000044:        /* Processor revision */
-         scc = SUPERH_CPU_GET_CLASS(s->cpu);
-         return scc->prr;
-     default:
--	error_access("long read", addr);
-+    error_access("long read", addr);
-         abort();
-     }
- }
- 
- #define is_in_sdrmx(a, x) (a >= SH7750_SDMR ## x ## _A7 \
--			&& a <= (SH7750_SDMR ## x ## _A7 + SH7750_SDMR ## x ## _REGNB))
-+            && a <= (SH7750_SDMR ## x ## _A7 + SH7750_SDMR ## x ## _REGNB))
- static void sh7750_mem_writeb(void *opaque, hwaddr addr,
--			      uint32_t mem_value)
-+                  uint32_t mem_value)
- {
- 
-     if (is_in_sdrmx(addr, 2) || is_in_sdrmx(addr, 3)) {
--	ignore_access("byte write", addr);
--	return;
-+    ignore_access("byte write", addr);
-+    return;
-     }
- 
-     error_access("byte write", addr);
-@@ -320,94 +320,94 @@ static void sh7750_mem_writeb(void *opaque, hwaddr addr,
- }
- 
- static void sh7750_mem_writew(void *opaque, hwaddr addr,
--			      uint32_t mem_value)
-+                  uint32_t mem_value)
- {
-     SH7750State *s = opaque;
-     uint16_t temp;
- 
-     switch (addr) {
--	/* SDRAM controller */
-+    /* SDRAM controller */
-     case SH7750_BCR2_A7:
-         s->bcr2 = mem_value;
-         return;
-     case SH7750_BCR3_A7:
--	if(!has_bcr3_and_bcr4(s))
--	    error_access("word write", addr);
--	s->bcr3 = mem_value;
--	return;
-+    if(!has_bcr3_and_bcr4(s))
-+        error_access("word write", addr);
-+    s->bcr3 = mem_value;
-+    return;
-     case SH7750_PCR_A7:
--	s->pcr = mem_value;
--	return;
-+    s->pcr = mem_value;
-+    return;
-     case SH7750_RTCNT_A7:
-     case SH7750_RTCOR_A7:
-     case SH7750_RTCSR_A7:
--	ignore_access("word write", addr);
--	return;
--	/* IO ports */
-+    ignore_access("word write", addr);
-+    return;
-+    /* IO ports */
-     case SH7750_PDTRA_A7:
--	temp = porta_lines(s);
--	s->pdtra = mem_value;
--	porta_changed(s, temp);
--	return;
-+    temp = porta_lines(s);
-+    s->pdtra = mem_value;
-+    porta_changed(s, temp);
-+    return;
-     case SH7750_PDTRB_A7:
--	temp = portb_lines(s);
--	s->pdtrb = mem_value;
--	portb_changed(s, temp);
--	return;
-+    temp = portb_lines(s);
-+    s->pdtrb = mem_value;
-+    portb_changed(s, temp);
-+    return;
-     case SH7750_RFCR_A7:
--	fprintf(stderr, "Write access to refresh count register\n");
--	s->rfcr = mem_value;
--	return;
-+    fprintf(stderr, "Write access to refresh count register\n");
-+    s->rfcr = mem_value;
-+    return;
-     case SH7750_GPIOIC_A7:
--	s->gpioic = mem_value;
--	if (mem_value != 0) {
--	    fprintf(stderr, "I/O interrupts not implemented\n");
-+    s->gpioic = mem_value;
-+    if (mem_value != 0) {
-+        fprintf(stderr, "I/O interrupts not implemented\n");
-             abort();
--	}
--	return;
-+    }
-+    return;
-     default:
--	error_access("word write", addr);
-+    error_access("word write", addr);
-         abort();
-     }
- }
- 
- static void sh7750_mem_writel(void *opaque, hwaddr addr,
--			      uint32_t mem_value)
-+                  uint32_t mem_value)
- {
-     SH7750State *s = opaque;
-     uint16_t temp;
- 
-     switch (addr) {
--	/* SDRAM controller */
-+    /* SDRAM controller */
-     case SH7750_BCR1_A7:
-         s->bcr1 = mem_value;
-         return;
-     case SH7750_BCR4_A7:
--	if(!has_bcr3_and_bcr4(s))
--	    error_access("long write", addr);
--	s->bcr4 = mem_value;
--	return;
-+    if(!has_bcr3_and_bcr4(s))
-+        error_access("long write", addr);
-+    s->bcr4 = mem_value;
-+    return;
-     case SH7750_WCR1_A7:
-     case SH7750_WCR2_A7:
-     case SH7750_WCR3_A7:
-     case SH7750_MCR_A7:
--	ignore_access("long write", addr);
--	return;
--	/* IO ports */
-+    ignore_access("long write", addr);
-+    return;
-+    /* IO ports */
-     case SH7750_PCTRA_A7:
--	temp = porta_lines(s);
--	s->pctra = mem_value;
--	s->portdira = portdir(mem_value);
--	s->portpullupa = portpullup(mem_value);
--	porta_changed(s, temp);
--	return;
-+    temp = porta_lines(s);
-+    s->pctra = mem_value;
-+    s->portdira = portdir(mem_value);
-+    s->portpullupa = portpullup(mem_value);
-+    porta_changed(s, temp);
-+    return;
-     case SH7750_PCTRB_A7:
--	temp = portb_lines(s);
--	s->pctrb = mem_value;
--	s->portdirb = portdir(mem_value);
--	s->portpullupb = portpullup(mem_value);
--	portb_changed(s, temp);
--	return;
-+    temp = portb_lines(s);
-+    s->pctrb = mem_value;
-+    s->portdirb = portdir(mem_value);
-+    s->portpullupb = portpullup(mem_value);
-+    portb_changed(s, temp);
-+    return;
-     case SH7750_MMUCR_A7:
-         if (mem_value & MMUCR_TI) {
-             cpu_sh4_invalidate_tlb(&s->cpu->env);
-@@ -443,10 +443,10 @@ static void sh7750_mem_writel(void *opaque, hwaddr addr,
-         s->cpu->env.intevt = mem_value & 0x000007ff;
-         return;
-     case SH7750_CCR_A7:
--	s->ccr = mem_value;
--	return;
-+    s->ccr = mem_value;
-+    return;
-     default:
--	error_access("long write", addr);
-+    error_access("long write", addr);
-         abort();
-     }
- }
-@@ -496,151 +496,151 @@ static const MemoryRegionOps sh7750_mem_ops = {
-  */
- 
- enum {
--	UNUSED = 0,
--
--	/* interrupt sources */
--	IRL_0, IRL_1, IRL_2, IRL_3, IRL_4, IRL_5, IRL_6, IRL_7,
--	IRL_8, IRL_9, IRL_A, IRL_B, IRL_C, IRL_D, IRL_E,
--	IRL0, IRL1, IRL2, IRL3,
--	HUDI, GPIOI,
--	DMAC_DMTE0, DMAC_DMTE1, DMAC_DMTE2, DMAC_DMTE3,
--	DMAC_DMTE4, DMAC_DMTE5, DMAC_DMTE6, DMAC_DMTE7,
--	DMAC_DMAE,
--	PCIC0_PCISERR, PCIC1_PCIERR, PCIC1_PCIPWDWN, PCIC1_PCIPWON,
--	PCIC1_PCIDMA0, PCIC1_PCIDMA1, PCIC1_PCIDMA2, PCIC1_PCIDMA3,
--	TMU3, TMU4, TMU0, TMU1, TMU2_TUNI, TMU2_TICPI,
--	RTC_ATI, RTC_PRI, RTC_CUI,
--	SCI1_ERI, SCI1_RXI, SCI1_TXI, SCI1_TEI,
--	SCIF_ERI, SCIF_RXI, SCIF_BRI, SCIF_TXI,
--	WDT,
--	REF_RCMI, REF_ROVI,
--
--	/* interrupt groups */
--	DMAC, PCIC1, TMU2, RTC, SCI1, SCIF, REF,
--	/* irl bundle */
--	IRL,
--
--	NR_SOURCES,
-+    UNUSED = 0,
-+
-+    /* interrupt sources */
-+    IRL_0, IRL_1, IRL_2, IRL_3, IRL_4, IRL_5, IRL_6, IRL_7,
-+    IRL_8, IRL_9, IRL_A, IRL_B, IRL_C, IRL_D, IRL_E,
-+    IRL0, IRL1, IRL2, IRL3,
-+    HUDI, GPIOI,
-+    DMAC_DMTE0, DMAC_DMTE1, DMAC_DMTE2, DMAC_DMTE3,
-+    DMAC_DMTE4, DMAC_DMTE5, DMAC_DMTE6, DMAC_DMTE7,
-+    DMAC_DMAE,
-+    PCIC0_PCISERR, PCIC1_PCIERR, PCIC1_PCIPWDWN, PCIC1_PCIPWON,
-+    PCIC1_PCIDMA0, PCIC1_PCIDMA1, PCIC1_PCIDMA2, PCIC1_PCIDMA3,
-+    TMU3, TMU4, TMU0, TMU1, TMU2_TUNI, TMU2_TICPI,
-+    RTC_ATI, RTC_PRI, RTC_CUI,
-+    SCI1_ERI, SCI1_RXI, SCI1_TXI, SCI1_TEI,
-+    SCIF_ERI, SCIF_RXI, SCIF_BRI, SCIF_TXI,
-+    WDT,
-+    REF_RCMI, REF_ROVI,
-+
-+    /* interrupt groups */
-+    DMAC, PCIC1, TMU2, RTC, SCI1, SCIF, REF,
-+    /* irl bundle */
-+    IRL,
-+
-+    NR_SOURCES,
- };
- 
- static struct intc_vect vectors[] = {
--	INTC_VECT(HUDI, 0x600), INTC_VECT(GPIOI, 0x620),
--	INTC_VECT(TMU0, 0x400), INTC_VECT(TMU1, 0x420),
--	INTC_VECT(TMU2_TUNI, 0x440), INTC_VECT(TMU2_TICPI, 0x460),
--	INTC_VECT(RTC_ATI, 0x480), INTC_VECT(RTC_PRI, 0x4a0),
--	INTC_VECT(RTC_CUI, 0x4c0),
--	INTC_VECT(SCI1_ERI, 0x4e0), INTC_VECT(SCI1_RXI, 0x500),
--	INTC_VECT(SCI1_TXI, 0x520), INTC_VECT(SCI1_TEI, 0x540),
--	INTC_VECT(SCIF_ERI, 0x700), INTC_VECT(SCIF_RXI, 0x720),
--	INTC_VECT(SCIF_BRI, 0x740), INTC_VECT(SCIF_TXI, 0x760),
--	INTC_VECT(WDT, 0x560),
--	INTC_VECT(REF_RCMI, 0x580), INTC_VECT(REF_ROVI, 0x5a0),
-+    INTC_VECT(HUDI, 0x600), INTC_VECT(GPIOI, 0x620),
-+    INTC_VECT(TMU0, 0x400), INTC_VECT(TMU1, 0x420),
-+    INTC_VECT(TMU2_TUNI, 0x440), INTC_VECT(TMU2_TICPI, 0x460),
-+    INTC_VECT(RTC_ATI, 0x480), INTC_VECT(RTC_PRI, 0x4a0),
-+    INTC_VECT(RTC_CUI, 0x4c0),
-+    INTC_VECT(SCI1_ERI, 0x4e0), INTC_VECT(SCI1_RXI, 0x500),
-+    INTC_VECT(SCI1_TXI, 0x520), INTC_VECT(SCI1_TEI, 0x540),
-+    INTC_VECT(SCIF_ERI, 0x700), INTC_VECT(SCIF_RXI, 0x720),
-+    INTC_VECT(SCIF_BRI, 0x740), INTC_VECT(SCIF_TXI, 0x760),
-+    INTC_VECT(WDT, 0x560),
-+    INTC_VECT(REF_RCMI, 0x580), INTC_VECT(REF_ROVI, 0x5a0),
- };
- 
- static struct intc_group groups[] = {
--	INTC_GROUP(TMU2, TMU2_TUNI, TMU2_TICPI),
--	INTC_GROUP(RTC, RTC_ATI, RTC_PRI, RTC_CUI),
--	INTC_GROUP(SCI1, SCI1_ERI, SCI1_RXI, SCI1_TXI, SCI1_TEI),
--	INTC_GROUP(SCIF, SCIF_ERI, SCIF_RXI, SCIF_BRI, SCIF_TXI),
--	INTC_GROUP(REF, REF_RCMI, REF_ROVI),
-+    INTC_GROUP(TMU2, TMU2_TUNI, TMU2_TICPI),
-+    INTC_GROUP(RTC, RTC_ATI, RTC_PRI, RTC_CUI),
-+    INTC_GROUP(SCI1, SCI1_ERI, SCI1_RXI, SCI1_TXI, SCI1_TEI),
-+    INTC_GROUP(SCIF, SCIF_ERI, SCIF_RXI, SCIF_BRI, SCIF_TXI),
-+    INTC_GROUP(REF, REF_RCMI, REF_ROVI),
- };
- 
- static struct intc_prio_reg prio_registers[] = {
--	{ 0xffd00004, 0, 16, 4, /* IPRA */ { TMU0, TMU1, TMU2, RTC } },
--	{ 0xffd00008, 0, 16, 4, /* IPRB */ { WDT, REF, SCI1, 0 } },
--	{ 0xffd0000c, 0, 16, 4, /* IPRC */ { GPIOI, DMAC, SCIF, HUDI } },
--	{ 0xffd00010, 0, 16, 4, /* IPRD */ { IRL0, IRL1, IRL2, IRL3 } },
--	{ 0xfe080000, 0, 32, 4, /* INTPRI00 */ { 0, 0, 0, 0,
--						 TMU4, TMU3,
--						 PCIC1, PCIC0_PCISERR } },
-+    { 0xffd00004, 0, 16, 4, /* IPRA */ { TMU0, TMU1, TMU2, RTC } },
-+    { 0xffd00008, 0, 16, 4, /* IPRB */ { WDT, REF, SCI1, 0 } },
-+    { 0xffd0000c, 0, 16, 4, /* IPRC */ { GPIOI, DMAC, SCIF, HUDI } },
-+    { 0xffd00010, 0, 16, 4, /* IPRD */ { IRL0, IRL1, IRL2, IRL3 } },
-+    { 0xfe080000, 0, 32, 4, /* INTPRI00 */ { 0, 0, 0, 0,
-+                         TMU4, TMU3,
-+                         PCIC1, PCIC0_PCISERR } },
- };
- 
- /* SH7750, SH7750S, SH7751 and SH7091 all have 4-channel DMA controllers */
- 
- static struct intc_vect vectors_dma4[] = {
--	INTC_VECT(DMAC_DMTE0, 0x640), INTC_VECT(DMAC_DMTE1, 0x660),
--	INTC_VECT(DMAC_DMTE2, 0x680), INTC_VECT(DMAC_DMTE3, 0x6a0),
--	INTC_VECT(DMAC_DMAE, 0x6c0),
-+    INTC_VECT(DMAC_DMTE0, 0x640), INTC_VECT(DMAC_DMTE1, 0x660),
-+    INTC_VECT(DMAC_DMTE2, 0x680), INTC_VECT(DMAC_DMTE3, 0x6a0),
-+    INTC_VECT(DMAC_DMAE, 0x6c0),
- };
- 
- static struct intc_group groups_dma4[] = {
--	INTC_GROUP(DMAC, DMAC_DMTE0, DMAC_DMTE1, DMAC_DMTE2,
--		   DMAC_DMTE3, DMAC_DMAE),
-+    INTC_GROUP(DMAC, DMAC_DMTE0, DMAC_DMTE1, DMAC_DMTE2,
-+           DMAC_DMTE3, DMAC_DMAE),
- };
- 
- /* SH7750R and SH7751R both have 8-channel DMA controllers */
- 
- static struct intc_vect vectors_dma8[] = {
--	INTC_VECT(DMAC_DMTE0, 0x640), INTC_VECT(DMAC_DMTE1, 0x660),
--	INTC_VECT(DMAC_DMTE2, 0x680), INTC_VECT(DMAC_DMTE3, 0x6a0),
--	INTC_VECT(DMAC_DMTE4, 0x780), INTC_VECT(DMAC_DMTE5, 0x7a0),
--	INTC_VECT(DMAC_DMTE6, 0x7c0), INTC_VECT(DMAC_DMTE7, 0x7e0),
--	INTC_VECT(DMAC_DMAE, 0x6c0),
-+    INTC_VECT(DMAC_DMTE0, 0x640), INTC_VECT(DMAC_DMTE1, 0x660),
-+    INTC_VECT(DMAC_DMTE2, 0x680), INTC_VECT(DMAC_DMTE3, 0x6a0),
-+    INTC_VECT(DMAC_DMTE4, 0x780), INTC_VECT(DMAC_DMTE5, 0x7a0),
-+    INTC_VECT(DMAC_DMTE6, 0x7c0), INTC_VECT(DMAC_DMTE7, 0x7e0),
-+    INTC_VECT(DMAC_DMAE, 0x6c0),
- };
- 
- static struct intc_group groups_dma8[] = {
--	INTC_GROUP(DMAC, DMAC_DMTE0, DMAC_DMTE1, DMAC_DMTE2,
--		   DMAC_DMTE3, DMAC_DMTE4, DMAC_DMTE5,
--		   DMAC_DMTE6, DMAC_DMTE7, DMAC_DMAE),
-+    INTC_GROUP(DMAC, DMAC_DMTE0, DMAC_DMTE1, DMAC_DMTE2,
-+           DMAC_DMTE3, DMAC_DMTE4, DMAC_DMTE5,
-+           DMAC_DMTE6, DMAC_DMTE7, DMAC_DMAE),
- };
- 
- /* SH7750R, SH7751 and SH7751R all have two extra timer channels */
- 
- static struct intc_vect vectors_tmu34[] = {
--	INTC_VECT(TMU3, 0xb00), INTC_VECT(TMU4, 0xb80),
-+    INTC_VECT(TMU3, 0xb00), INTC_VECT(TMU4, 0xb80),
- };
- 
- static struct intc_mask_reg mask_registers[] = {
--	{ 0xfe080040, 0xfe080060, 32, /* INTMSK00 / INTMSKCLR00 */
--	  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
--	    0, 0, 0, 0, 0, 0, TMU4, TMU3,
--	    PCIC1_PCIERR, PCIC1_PCIPWDWN, PCIC1_PCIPWON,
--	    PCIC1_PCIDMA0, PCIC1_PCIDMA1, PCIC1_PCIDMA2,
--	    PCIC1_PCIDMA3, PCIC0_PCISERR } },
-+    { 0xfe080040, 0xfe080060, 32, /* INTMSK00 / INTMSKCLR00 */
-+      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+        0, 0, 0, 0, 0, 0, TMU4, TMU3,
-+        PCIC1_PCIERR, PCIC1_PCIPWDWN, PCIC1_PCIPWON,
-+        PCIC1_PCIDMA0, PCIC1_PCIDMA1, PCIC1_PCIDMA2,
-+        PCIC1_PCIDMA3, PCIC0_PCISERR } },
- };
- 
- /* SH7750S, SH7750R, SH7751 and SH7751R all have IRLM priority registers */
- 
- static struct intc_vect vectors_irlm[] = {
--	INTC_VECT(IRL0, 0x240), INTC_VECT(IRL1, 0x2a0),
--	INTC_VECT(IRL2, 0x300), INTC_VECT(IRL3, 0x360),
-+    INTC_VECT(IRL0, 0x240), INTC_VECT(IRL1, 0x2a0),
-+    INTC_VECT(IRL2, 0x300), INTC_VECT(IRL3, 0x360),
- };
- 
- /* SH7751 and SH7751R both have PCI */
- 
- static struct intc_vect vectors_pci[] = {
--	INTC_VECT(PCIC0_PCISERR, 0xa00), INTC_VECT(PCIC1_PCIERR, 0xae0),
--	INTC_VECT(PCIC1_PCIPWDWN, 0xac0), INTC_VECT(PCIC1_PCIPWON, 0xaa0),
--	INTC_VECT(PCIC1_PCIDMA0, 0xa80), INTC_VECT(PCIC1_PCIDMA1, 0xa60),
--	INTC_VECT(PCIC1_PCIDMA2, 0xa40), INTC_VECT(PCIC1_PCIDMA3, 0xa20),
-+    INTC_VECT(PCIC0_PCISERR, 0xa00), INTC_VECT(PCIC1_PCIERR, 0xae0),
-+    INTC_VECT(PCIC1_PCIPWDWN, 0xac0), INTC_VECT(PCIC1_PCIPWON, 0xaa0),
-+    INTC_VECT(PCIC1_PCIDMA0, 0xa80), INTC_VECT(PCIC1_PCIDMA1, 0xa60),
-+    INTC_VECT(PCIC1_PCIDMA2, 0xa40), INTC_VECT(PCIC1_PCIDMA3, 0xa20),
- };
- 
- static struct intc_group groups_pci[] = {
--	INTC_GROUP(PCIC1, PCIC1_PCIERR, PCIC1_PCIPWDWN, PCIC1_PCIPWON,
--		   PCIC1_PCIDMA0, PCIC1_PCIDMA1, PCIC1_PCIDMA2, PCIC1_PCIDMA3),
-+    INTC_GROUP(PCIC1, PCIC1_PCIERR, PCIC1_PCIPWDWN, PCIC1_PCIPWON,
-+           PCIC1_PCIDMA0, PCIC1_PCIDMA1, PCIC1_PCIDMA2, PCIC1_PCIDMA3),
- };
- 
- static struct intc_vect vectors_irl[] = {
--	INTC_VECT(IRL_0, 0x200),
--	INTC_VECT(IRL_1, 0x220),
--	INTC_VECT(IRL_2, 0x240),
--	INTC_VECT(IRL_3, 0x260),
--	INTC_VECT(IRL_4, 0x280),
--	INTC_VECT(IRL_5, 0x2a0),
--	INTC_VECT(IRL_6, 0x2c0),
--	INTC_VECT(IRL_7, 0x2e0),
--	INTC_VECT(IRL_8, 0x300),
--	INTC_VECT(IRL_9, 0x320),
--	INTC_VECT(IRL_A, 0x340),
--	INTC_VECT(IRL_B, 0x360),
--	INTC_VECT(IRL_C, 0x380),
--	INTC_VECT(IRL_D, 0x3a0),
--	INTC_VECT(IRL_E, 0x3c0),
-+    INTC_VECT(IRL_0, 0x200),
-+    INTC_VECT(IRL_1, 0x220),
-+    INTC_VECT(IRL_2, 0x240),
-+    INTC_VECT(IRL_3, 0x260),
-+    INTC_VECT(IRL_4, 0x280),
-+    INTC_VECT(IRL_5, 0x2a0),
-+    INTC_VECT(IRL_6, 0x2c0),
-+    INTC_VECT(IRL_7, 0x2e0),
-+    INTC_VECT(IRL_8, 0x300),
-+    INTC_VECT(IRL_9, 0x320),
-+    INTC_VECT(IRL_A, 0x340),
-+    INTC_VECT(IRL_B, 0x360),
-+    INTC_VECT(IRL_C, 0x380),
-+    INTC_VECT(IRL_D, 0x3a0),
-+    INTC_VECT(IRL_E, 0x3c0),
- };
- 
- static struct intc_group groups_irl[] = {
--	INTC_GROUP(IRL, IRL_0, IRL_1, IRL_2, IRL_3, IRL_4, IRL_5, IRL_6,
--		IRL_7, IRL_8, IRL_9, IRL_A, IRL_B, IRL_C, IRL_D, IRL_E),
-+    INTC_GROUP(IRL, IRL_0, IRL_1, IRL_2, IRL_3, IRL_4, IRL_5, IRL_6,
-+        IRL_7, IRL_8, IRL_9, IRL_A, IRL_B, IRL_C, IRL_D, IRL_E),
- };
- 
- /**********************************************************************
-@@ -679,7 +679,7 @@ static uint64_t sh7750_mmct_read(void *opaque, hwaddr addr,
-     case MM_ICACHE_ADDR:
-     case MM_ICACHE_DATA:
-         /* do nothing */
--	break;
-+    break;
-     case MM_ITLB_ADDR:
-         ret = cpu_sh4_read_mmaped_itlb_addr(&s->cpu->env, addr);
-         break;
-@@ -689,7 +689,7 @@ static uint64_t sh7750_mmct_read(void *opaque, hwaddr addr,
-     case MM_OCACHE_ADDR:
-     case MM_OCACHE_DATA:
-         /* do nothing */
--	break;
-+    break;
-     case MM_UTLB_ADDR:
-         ret = cpu_sh4_read_mmaped_utlb_addr(&s->cpu->env, addr);
-         break;
-@@ -722,27 +722,27 @@ static void sh7750_mmct_write(void *opaque, hwaddr addr,
-     case MM_ICACHE_ADDR:
-     case MM_ICACHE_DATA:
-         /* do nothing */
--	break;
-+    break;
-     case MM_ITLB_ADDR:
-         cpu_sh4_write_mmaped_itlb_addr(&s->cpu->env, addr, mem_value);
-         break;
-     case MM_ITLB_DATA:
-         cpu_sh4_write_mmaped_itlb_data(&s->cpu->env, addr, mem_value);
-         abort();
--	break;
-+    break;
-     case MM_OCACHE_ADDR:
-     case MM_OCACHE_DATA:
-         /* do nothing */
--	break;
-+    break;
-     case MM_UTLB_ADDR:
-         cpu_sh4_write_mmaped_utlb_addr(&s->cpu->env, addr, mem_value);
--	break;
-+    break;
-     case MM_UTLB_DATA:
-         cpu_sh4_write_mmaped_utlb_data(&s->cpu->env, addr, mem_value);
--	break;
-+    break;
-     default:
-         abort();
--	break;
-+    break;
-     }
- }
- 
-@@ -758,7 +758,7 @@ SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
- 
-     s = g_malloc0(sizeof(SH7750State));
-     s->cpu = cpu;
--    s->periph_freq = 60000000;	/* 60MHz */
-+    s->periph_freq = 60000000;    /* 60MHz */
-     memory_region_init_io(&s->iomem, NULL, &sh7750_mem_ops, s,
-                           "memory", 0x1fc01000);
- 
-@@ -791,12 +791,12 @@ SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
-     memory_region_add_subregion(sysmem, 0xf0000000, &s->mmct_iomem);
- 
-     sh_intc_init(sysmem, &s->intc, NR_SOURCES,
--		 _INTC_ARRAY(mask_registers),
--		 _INTC_ARRAY(prio_registers));
-+         _INTC_ARRAY(mask_registers),
-+         _INTC_ARRAY(prio_registers));
- 
-     sh_intc_register_sources(&s->intc,
--			     _INTC_ARRAY(vectors),
--			     _INTC_ARRAY(groups));
-+                 _INTC_ARRAY(vectors),
-+                 _INTC_ARRAY(groups));
- 
-     cpu->env.intc_handle = &s->intc;
- 
-@@ -817,50 +817,50 @@ SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
-                    s->intc.irqs[SCIF_BRI]);
- 
-     tmu012_init(sysmem, 0x1fd80000,
--		TMU012_FEAT_TOCR | TMU012_FEAT_3CHAN | TMU012_FEAT_EXTCLK,
--		s->periph_freq,
--		s->intc.irqs[TMU0],
--		s->intc.irqs[TMU1],
--		s->intc.irqs[TMU2_TUNI],
--		s->intc.irqs[TMU2_TICPI]);
-+        TMU012_FEAT_TOCR | TMU012_FEAT_3CHAN | TMU012_FEAT_EXTCLK,
-+        s->periph_freq,
-+        s->intc.irqs[TMU0],
-+        s->intc.irqs[TMU1],
-+        s->intc.irqs[TMU2_TUNI],
-+        s->intc.irqs[TMU2_TICPI]);
- 
-     if (cpu->env.id & (SH_CPU_SH7750 | SH_CPU_SH7750S | SH_CPU_SH7751)) {
-         sh_intc_register_sources(&s->intc,
--				 _INTC_ARRAY(vectors_dma4),
--				 _INTC_ARRAY(groups_dma4));
-+                 _INTC_ARRAY(vectors_dma4),
-+                 _INTC_ARRAY(groups_dma4));
-     }
- 
-     if (cpu->env.id & (SH_CPU_SH7750R | SH_CPU_SH7751R)) {
-         sh_intc_register_sources(&s->intc,
--				 _INTC_ARRAY(vectors_dma8),
--				 _INTC_ARRAY(groups_dma8));
-+                 _INTC_ARRAY(vectors_dma8),
-+                 _INTC_ARRAY(groups_dma8));
-     }
- 
-     if (cpu->env.id & (SH_CPU_SH7750R | SH_CPU_SH7751 | SH_CPU_SH7751R)) {
-         sh_intc_register_sources(&s->intc,
--				 _INTC_ARRAY(vectors_tmu34),
--				 NULL, 0);
-+                 _INTC_ARRAY(vectors_tmu34),
-+                 NULL, 0);
-         tmu012_init(sysmem, 0x1e100000, 0, s->periph_freq,
--		    s->intc.irqs[TMU3],
--		    s->intc.irqs[TMU4],
--		    NULL, NULL);
-+            s->intc.irqs[TMU3],
-+            s->intc.irqs[TMU4],
-+            NULL, NULL);
-     }
- 
-     if (cpu->env.id & (SH_CPU_SH7751_ALL)) {
-         sh_intc_register_sources(&s->intc,
--				 _INTC_ARRAY(vectors_pci),
--				 _INTC_ARRAY(groups_pci));
-+                 _INTC_ARRAY(vectors_pci),
-+                 _INTC_ARRAY(groups_pci));
-     }
- 
-     if (cpu->env.id & (SH_CPU_SH7750S | SH_CPU_SH7750R | SH_CPU_SH7751_ALL)) {
-         sh_intc_register_sources(&s->intc,
--				 _INTC_ARRAY(vectors_irlm),
--				 NULL, 0);
-+                 _INTC_ARRAY(vectors_irlm),
-+                 NULL, 0);
-     }
- 
-     sh_intc_register_sources(&s->intc,
--				_INTC_ARRAY(vectors_irl),
--				_INTC_ARRAY(groups_irl));
-+                _INTC_ARRAY(vectors_irl),
-+                _INTC_ARRAY(groups_irl));
-     return s;
- }
- 
-diff --git a/hw/sh4/sh7750_regnames.c b/hw/sh4/sh7750_regnames.c
-index 0630fe3cf4..1aa9d016e7 100644
---- a/hw/sh4/sh7750_regnames.c
-+++ b/hw/sh4/sh7750_regnames.c
-@@ -12,76 +12,76 @@ typedef struct {
- 
- static regname_t regnames[] = {
-     REGNAME(SH7750_PTEH_A7)
--	REGNAME(SH7750_PTEL_A7)
--	REGNAME(SH7750_PTEA_A7)
--	REGNAME(SH7750_TTB_A7)
--	REGNAME(SH7750_TEA_A7)
--	REGNAME(SH7750_MMUCR_A7)
--	REGNAME(SH7750_CCR_A7)
--	REGNAME(SH7750_QACR0_A7)
--	REGNAME(SH7750_QACR1_A7)
--	REGNAME(SH7750_TRA_A7)
--	REGNAME(SH7750_EXPEVT_A7)
--	REGNAME(SH7750_INTEVT_A7)
--	REGNAME(SH7750_STBCR_A7)
--	REGNAME(SH7750_STBCR2_A7)
--	REGNAME(SH7750_FRQCR_A7)
--	REGNAME(SH7750_WTCNT_A7)
--	REGNAME(SH7750_WTCSR_A7)
--	REGNAME(SH7750_R64CNT_A7)
--	REGNAME(SH7750_RSECCNT_A7)
--	REGNAME(SH7750_RMINCNT_A7)
--	REGNAME(SH7750_RHRCNT_A7)
--	REGNAME(SH7750_RWKCNT_A7)
--	REGNAME(SH7750_RDAYCNT_A7)
--	REGNAME(SH7750_RMONCNT_A7)
--	REGNAME(SH7750_RYRCNT_A7)
--	REGNAME(SH7750_RSECAR_A7)
--	REGNAME(SH7750_RMINAR_A7)
--	REGNAME(SH7750_RHRAR_A7)
--	REGNAME(SH7750_RWKAR_A7)
--	REGNAME(SH7750_RDAYAR_A7)
--	REGNAME(SH7750_RMONAR_A7)
--	REGNAME(SH7750_RCR1_A7)
--	REGNAME(SH7750_RCR2_A7)
--	REGNAME(SH7750_BCR1_A7)
--	REGNAME(SH7750_BCR2_A7)
--	REGNAME(SH7750_WCR1_A7)
--	REGNAME(SH7750_WCR2_A7)
--	REGNAME(SH7750_WCR3_A7)
--	REGNAME(SH7750_MCR_A7)
--	REGNAME(SH7750_PCR_A7)
--	REGNAME(SH7750_RTCSR_A7)
--	REGNAME(SH7750_RTCNT_A7)
--	REGNAME(SH7750_RTCOR_A7)
--	REGNAME(SH7750_RFCR_A7)
--	REGNAME(SH7750_SAR0_A7)
--	REGNAME(SH7750_SAR1_A7)
--	REGNAME(SH7750_SAR2_A7)
--	REGNAME(SH7750_SAR3_A7)
--	REGNAME(SH7750_DAR0_A7)
--	REGNAME(SH7750_DAR1_A7)
--	REGNAME(SH7750_DAR2_A7)
--	REGNAME(SH7750_DAR3_A7)
--	REGNAME(SH7750_DMATCR0_A7)
--	REGNAME(SH7750_DMATCR1_A7)
--	REGNAME(SH7750_DMATCR2_A7)
--	REGNAME(SH7750_DMATCR3_A7)
--	REGNAME(SH7750_CHCR0_A7)
--	REGNAME(SH7750_CHCR1_A7)
--	REGNAME(SH7750_CHCR2_A7)
--	REGNAME(SH7750_CHCR3_A7)
--	REGNAME(SH7750_DMAOR_A7)
--	REGNAME(SH7750_PCTRA_A7)
--	REGNAME(SH7750_PDTRA_A7)
--	REGNAME(SH7750_PCTRB_A7)
--	REGNAME(SH7750_PDTRB_A7)
--	REGNAME(SH7750_GPIOIC_A7)
--	REGNAME(SH7750_ICR_A7)
--	REGNAME(SH7750_BCR3_A7)
--	REGNAME(SH7750_BCR4_A7)
--	REGNAME(SH7750_SDMR2_A7)
--	REGNAME(SH7750_SDMR3_A7) {(uint32_t) - 1, NULL}
-+    REGNAME(SH7750_PTEL_A7)
-+    REGNAME(SH7750_PTEA_A7)
-+    REGNAME(SH7750_TTB_A7)
-+    REGNAME(SH7750_TEA_A7)
-+    REGNAME(SH7750_MMUCR_A7)
-+    REGNAME(SH7750_CCR_A7)
-+    REGNAME(SH7750_QACR0_A7)
-+    REGNAME(SH7750_QACR1_A7)
-+    REGNAME(SH7750_TRA_A7)
-+    REGNAME(SH7750_EXPEVT_A7)
-+    REGNAME(SH7750_INTEVT_A7)
-+    REGNAME(SH7750_STBCR_A7)
-+    REGNAME(SH7750_STBCR2_A7)
-+    REGNAME(SH7750_FRQCR_A7)
-+    REGNAME(SH7750_WTCNT_A7)
-+    REGNAME(SH7750_WTCSR_A7)
-+    REGNAME(SH7750_R64CNT_A7)
-+    REGNAME(SH7750_RSECCNT_A7)
-+    REGNAME(SH7750_RMINCNT_A7)
-+    REGNAME(SH7750_RHRCNT_A7)
-+    REGNAME(SH7750_RWKCNT_A7)
-+    REGNAME(SH7750_RDAYCNT_A7)
-+    REGNAME(SH7750_RMONCNT_A7)
-+    REGNAME(SH7750_RYRCNT_A7)
-+    REGNAME(SH7750_RSECAR_A7)
-+    REGNAME(SH7750_RMINAR_A7)
-+    REGNAME(SH7750_RHRAR_A7)
-+    REGNAME(SH7750_RWKAR_A7)
-+    REGNAME(SH7750_RDAYAR_A7)
-+    REGNAME(SH7750_RMONAR_A7)
-+    REGNAME(SH7750_RCR1_A7)
-+    REGNAME(SH7750_RCR2_A7)
-+    REGNAME(SH7750_BCR1_A7)
-+    REGNAME(SH7750_BCR2_A7)
-+    REGNAME(SH7750_WCR1_A7)
-+    REGNAME(SH7750_WCR2_A7)
-+    REGNAME(SH7750_WCR3_A7)
-+    REGNAME(SH7750_MCR_A7)
-+    REGNAME(SH7750_PCR_A7)
-+    REGNAME(SH7750_RTCSR_A7)
-+    REGNAME(SH7750_RTCNT_A7)
-+    REGNAME(SH7750_RTCOR_A7)
-+    REGNAME(SH7750_RFCR_A7)
-+    REGNAME(SH7750_SAR0_A7)
-+    REGNAME(SH7750_SAR1_A7)
-+    REGNAME(SH7750_SAR2_A7)
-+    REGNAME(SH7750_SAR3_A7)
-+    REGNAME(SH7750_DAR0_A7)
-+    REGNAME(SH7750_DAR1_A7)
-+    REGNAME(SH7750_DAR2_A7)
-+    REGNAME(SH7750_DAR3_A7)
-+    REGNAME(SH7750_DMATCR0_A7)
-+    REGNAME(SH7750_DMATCR1_A7)
-+    REGNAME(SH7750_DMATCR2_A7)
-+    REGNAME(SH7750_DMATCR3_A7)
-+    REGNAME(SH7750_CHCR0_A7)
-+    REGNAME(SH7750_CHCR1_A7)
-+    REGNAME(SH7750_CHCR2_A7)
-+    REGNAME(SH7750_CHCR3_A7)
-+    REGNAME(SH7750_DMAOR_A7)
-+    REGNAME(SH7750_PCTRA_A7)
-+    REGNAME(SH7750_PDTRA_A7)
-+    REGNAME(SH7750_PCTRB_A7)
-+    REGNAME(SH7750_PDTRB_A7)
-+    REGNAME(SH7750_GPIOIC_A7)
-+    REGNAME(SH7750_ICR_A7)
-+    REGNAME(SH7750_BCR3_A7)
-+    REGNAME(SH7750_BCR4_A7)
-+    REGNAME(SH7750_SDMR2_A7)
-+    REGNAME(SH7750_SDMR3_A7) {(uint32_t) - 1, NULL}
- };
- 
- const char *regname(uint32_t addr)
-@@ -89,8 +89,8 @@ const char *regname(uint32_t addr)
-     unsigned int i;
- 
-     for (i = 0; regnames[i].regaddr != (uint32_t) - 1; i++) {
--	if (regnames[i].regaddr == addr)
--	    return regnames[i].regname;
-+    if (regnames[i].regaddr == addr)
-+        return regnames[i].regname;
-     }
- 
-     return "<unknown reg>";
-diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
-index ab073dadc7..a71f96b09e 100644
---- a/hw/sh4/sh7750_regs.h
-+++ b/hw/sh4/sh7750_regs.h
-@@ -43,9 +43,9 @@
-  * All register has 2 addresses: in 0xff000000 - 0xffffffff (P4 address)  and
-  * in 0x1f000000 - 0x1fffffff (area 7 address)
-  */
--#define SH7750_P4_BASE       0xff000000	/* Accessible only in
--					   privileged mode */
--#define SH7750_A7_BASE       0x1f000000	/* Accessible only using TLB */
-+#define SH7750_P4_BASE       0xff000000    /* Accessible only in
-+                       privileged mode */
-+#define SH7750_A7_BASE       0x1f000000    /* Accessible only using TLB */
- 
- #define SH7750_P4_REG32(ofs) (SH7750_P4_BASE + (ofs))
- #define SH7750_A7_REG32(ofs) (SH7750_A7_BASE + (ofs))
-@@ -55,84 +55,84 @@
-  */
- 
- /* Page Table Entry High register - PTEH */
--#define SH7750_PTEH_REGOFS    0x000000	/* offset */
-+#define SH7750_PTEH_REGOFS    0x000000    /* offset */
- #define SH7750_PTEH           SH7750_P4_REG32(SH7750_PTEH_REGOFS)
- #define SH7750_PTEH_A7        SH7750_A7_REG32(SH7750_PTEH_REGOFS)
--#define SH7750_PTEH_VPN       0xfffffd00	/* Virtual page number */
-+#define SH7750_PTEH_VPN       0xfffffd00    /* Virtual page number */
- #define SH7750_PTEH_VPN_S     10
--#define SH7750_PTEH_ASID      0x000000ff	/* Address space identifier */
-+#define SH7750_PTEH_ASID      0x000000ff    /* Address space identifier */
- #define SH7750_PTEH_ASID_S    0
- 
- /* Page Table Entry Low register - PTEL */
--#define SH7750_PTEL_REGOFS    0x000004	/* offset */
-+#define SH7750_PTEL_REGOFS    0x000004    /* offset */
- #define SH7750_PTEL           SH7750_P4_REG32(SH7750_PTEL_REGOFS)
- #define SH7750_PTEL_A7        SH7750_A7_REG32(SH7750_PTEL_REGOFS)
--#define SH7750_PTEL_PPN       0x1ffffc00	/* Physical page number */
-+#define SH7750_PTEL_PPN       0x1ffffc00    /* Physical page number */
- #define SH7750_PTEL_PPN_S     10
--#define SH7750_PTEL_V         0x00000100	/* Validity (0-entry is invalid) */
--#define SH7750_PTEL_SZ1       0x00000080	/* Page size bit 1 */
--#define SH7750_PTEL_SZ0       0x00000010	/* Page size bit 0 */
--#define SH7750_PTEL_SZ_1KB    0x00000000	/*   1-kbyte page */
--#define SH7750_PTEL_SZ_4KB    0x00000010	/*   4-kbyte page */
--#define SH7750_PTEL_SZ_64KB   0x00000080	/*   64-kbyte page */
--#define SH7750_PTEL_SZ_1MB    0x00000090	/*   1-Mbyte page */
--#define SH7750_PTEL_PR        0x00000060	/* Protection Key Data */
--#define SH7750_PTEL_PR_ROPO   0x00000000	/*   read-only in priv mode */
--#define SH7750_PTEL_PR_RWPO   0x00000020	/*   read-write in priv mode */
--#define SH7750_PTEL_PR_ROPU   0x00000040	/*   read-only in priv or user mode */
--#define SH7750_PTEL_PR_RWPU   0x00000060	/*   read-write in priv or user mode */
--#define SH7750_PTEL_C         0x00000008	/* Cacheability
--						   (0 - page not cacheable) */
--#define SH7750_PTEL_D         0x00000004	/* Dirty bit (1 - write has been
--						   performed to a page) */
--#define SH7750_PTEL_SH        0x00000002	/* Share Status bit (1 - page are
--						   shared by processes) */
--#define SH7750_PTEL_WT        0x00000001	/* Write-through bit, specifies the
--						   cache write mode:
--						   0 - Copy-back mode
--						   1 - Write-through mode */
-+#define SH7750_PTEL_V         0x00000100    /* Validity (0-entry is invalid) */
-+#define SH7750_PTEL_SZ1       0x00000080    /* Page size bit 1 */
-+#define SH7750_PTEL_SZ0       0x00000010    /* Page size bit 0 */
-+#define SH7750_PTEL_SZ_1KB    0x00000000    /*   1-kbyte page */
-+#define SH7750_PTEL_SZ_4KB    0x00000010    /*   4-kbyte page */
-+#define SH7750_PTEL_SZ_64KB   0x00000080    /*   64-kbyte page */
-+#define SH7750_PTEL_SZ_1MB    0x00000090    /*   1-Mbyte page */
-+#define SH7750_PTEL_PR        0x00000060    /* Protection Key Data */
-+#define SH7750_PTEL_PR_ROPO   0x00000000    /*   read-only in priv mode */
-+#define SH7750_PTEL_PR_RWPO   0x00000020    /*   read-write in priv mode */
-+#define SH7750_PTEL_PR_ROPU   0x00000040    /*   read-only in priv or user mode */
-+#define SH7750_PTEL_PR_RWPU   0x00000060    /*   read-write in priv or user mode */
-+#define SH7750_PTEL_C         0x00000008    /* Cacheability
-+                           (0 - page not cacheable) */
-+#define SH7750_PTEL_D         0x00000004    /* Dirty bit (1 - write has been
-+                           performed to a page) */
-+#define SH7750_PTEL_SH        0x00000002    /* Share Status bit (1 - page are
-+                           shared by processes) */
-+#define SH7750_PTEL_WT        0x00000001    /* Write-through bit, specifies the
-+                           cache write mode:
-+                           0 - Copy-back mode
-+                           1 - Write-through mode */
- 
- /* Page Table Entry Assistance register - PTEA */
--#define SH7750_PTEA_REGOFS    0x000034	/* offset */
-+#define SH7750_PTEA_REGOFS    0x000034    /* offset */
- #define SH7750_PTEA           SH7750_P4_REG32(SH7750_PTEA_REGOFS)
- #define SH7750_PTEA_A7        SH7750_A7_REG32(SH7750_PTEA_REGOFS)
--#define SH7750_PTEA_TC        0x00000008	/* Timing Control bit
--						   0 - use area 5 wait states
--						   1 - use area 6 wait states */
--#define SH7750_PTEA_SA        0x00000007	/* Space Attribute bits: */
--#define SH7750_PTEA_SA_UNDEF  0x00000000	/*    0 - undefined */
--#define SH7750_PTEA_SA_IOVAR  0x00000001	/*    1 - variable-size I/O space */
--#define SH7750_PTEA_SA_IO8    0x00000002	/*    2 - 8-bit I/O space */
--#define SH7750_PTEA_SA_IO16   0x00000003	/*    3 - 16-bit I/O space */
--#define SH7750_PTEA_SA_CMEM8  0x00000004	/*    4 - 8-bit common memory space */
--#define SH7750_PTEA_SA_CMEM16 0x00000005	/*    5 - 16-bit common memory space */
--#define SH7750_PTEA_SA_AMEM8  0x00000006	/*    6 - 8-bit attr memory space */
--#define SH7750_PTEA_SA_AMEM16 0x00000007	/*    7 - 16-bit attr memory space */
-+#define SH7750_PTEA_TC        0x00000008    /* Timing Control bit
-+                           0 - use area 5 wait states
-+                           1 - use area 6 wait states */
-+#define SH7750_PTEA_SA        0x00000007    /* Space Attribute bits: */
-+#define SH7750_PTEA_SA_UNDEF  0x00000000    /*    0 - undefined */
-+#define SH7750_PTEA_SA_IOVAR  0x00000001    /*    1 - variable-size I/O space */
-+#define SH7750_PTEA_SA_IO8    0x00000002    /*    2 - 8-bit I/O space */
-+#define SH7750_PTEA_SA_IO16   0x00000003    /*    3 - 16-bit I/O space */
-+#define SH7750_PTEA_SA_CMEM8  0x00000004    /*    4 - 8-bit common memory space */
-+#define SH7750_PTEA_SA_CMEM16 0x00000005    /*    5 - 16-bit common memory space */
-+#define SH7750_PTEA_SA_AMEM8  0x00000006    /*    6 - 8-bit attr memory space */
-+#define SH7750_PTEA_SA_AMEM16 0x00000007    /*    7 - 16-bit attr memory space */
- 
- 
- /* Translation table base register */
--#define SH7750_TTB_REGOFS     0x000008	/* offset */
-+#define SH7750_TTB_REGOFS     0x000008    /* offset */
- #define SH7750_TTB            SH7750_P4_REG32(SH7750_TTB_REGOFS)
- #define SH7750_TTB_A7         SH7750_A7_REG32(SH7750_TTB_REGOFS)
- 
- /* TLB exeption address register - TEA */
--#define SH7750_TEA_REGOFS     0x00000c	/* offset */
-+#define SH7750_TEA_REGOFS     0x00000c    /* offset */
- #define SH7750_TEA            SH7750_P4_REG32(SH7750_TEA_REGOFS)
- #define SH7750_TEA_A7         SH7750_A7_REG32(SH7750_TEA_REGOFS)
- 
- /* MMU control register - MMUCR */
--#define SH7750_MMUCR_REGOFS   0x000010	/* offset */
-+#define SH7750_MMUCR_REGOFS   0x000010    /* offset */
- #define SH7750_MMUCR          SH7750_P4_REG32(SH7750_MMUCR_REGOFS)
- #define SH7750_MMUCR_A7       SH7750_A7_REG32(SH7750_MMUCR_REGOFS)
--#define SH7750_MMUCR_AT       0x00000001	/* Address translation bit */
--#define SH7750_MMUCR_TI       0x00000004	/* TLB invalidate */
--#define SH7750_MMUCR_SV       0x00000100	/* Single Virtual Mode bit */
--#define SH7750_MMUCR_SQMD     0x00000200	/* Store Queue Mode bit */
--#define SH7750_MMUCR_URC      0x0000FC00	/* UTLB Replace Counter */
-+#define SH7750_MMUCR_AT       0x00000001    /* Address translation bit */
-+#define SH7750_MMUCR_TI       0x00000004    /* TLB invalidate */
-+#define SH7750_MMUCR_SV       0x00000100    /* Single Virtual Mode bit */
-+#define SH7750_MMUCR_SQMD     0x00000200    /* Store Queue Mode bit */
-+#define SH7750_MMUCR_URC      0x0000FC00    /* UTLB Replace Counter */
- #define SH7750_MMUCR_URC_S    10
--#define SH7750_MMUCR_URB      0x00FC0000	/* UTLB Replace Boundary */
-+#define SH7750_MMUCR_URB      0x00FC0000    /* UTLB Replace Boundary */
- #define SH7750_MMUCR_URB_S    18
--#define SH7750_MMUCR_LRUI     0xFC000000	/* Least Recently Used ITLB */
-+#define SH7750_MMUCR_LRUI     0xFC000000    /* Least Recently Used ITLB */
- #define SH7750_MMUCR_LRUI_S   26
- 
- 
-@@ -145,30 +145,30 @@
-  */
- 
- /* Cache Control Register - CCR */
--#define SH7750_CCR_REGOFS     0x00001c	/* offset */
-+#define SH7750_CCR_REGOFS     0x00001c    /* offset */
- #define SH7750_CCR            SH7750_P4_REG32(SH7750_CCR_REGOFS)
- #define SH7750_CCR_A7         SH7750_A7_REG32(SH7750_CCR_REGOFS)
- 
--#define SH7750_CCR_IIX      0x00008000	/* IC index enable bit */
--#define SH7750_CCR_ICI      0x00000800	/* IC invalidation bit:
--					   set it to clear IC */
--#define SH7750_CCR_ICE      0x00000100	/* IC enable bit */
--#define SH7750_CCR_OIX      0x00000080	/* OC index enable bit */
--#define SH7750_CCR_ORA      0x00000020	/* OC RAM enable bit
--					   if you set OCE = 0,
--					   you should set ORA = 0 */
--#define SH7750_CCR_OCI      0x00000008	/* OC invalidation bit */
--#define SH7750_CCR_CB       0x00000004	/* Copy-back bit for P1 area */
--#define SH7750_CCR_WT       0x00000002	/* Write-through bit for P0,U0,P3 area */
--#define SH7750_CCR_OCE      0x00000001	/* OC enable bit */
-+#define SH7750_CCR_IIX      0x00008000    /* IC index enable bit */
-+#define SH7750_CCR_ICI      0x00000800    /* IC invalidation bit:
-+                       set it to clear IC */
-+#define SH7750_CCR_ICE      0x00000100    /* IC enable bit */
-+#define SH7750_CCR_OIX      0x00000080    /* OC index enable bit */
-+#define SH7750_CCR_ORA      0x00000020    /* OC RAM enable bit
-+                       if you set OCE = 0,
-+                       you should set ORA = 0 */
-+#define SH7750_CCR_OCI      0x00000008    /* OC invalidation bit */
-+#define SH7750_CCR_CB       0x00000004    /* Copy-back bit for P1 area */
-+#define SH7750_CCR_WT       0x00000002    /* Write-through bit for P0,U0,P3 area */
-+#define SH7750_CCR_OCE      0x00000001    /* OC enable bit */
- 
- /* Queue address control register 0 - QACR0 */
--#define SH7750_QACR0_REGOFS   0x000038	/* offset */
-+#define SH7750_QACR0_REGOFS   0x000038    /* offset */
- #define SH7750_QACR0          SH7750_P4_REG32(SH7750_QACR0_REGOFS)
- #define SH7750_QACR0_A7       SH7750_A7_REG32(SH7750_QACR0_REGOFS)
- 
- /* Queue address control register 1 - QACR1 */
--#define SH7750_QACR1_REGOFS   0x00003c	/* offset */
-+#define SH7750_QACR1_REGOFS   0x00003c    /* offset */
- #define SH7750_QACR1          SH7750_P4_REG32(SH7750_QACR1_REGOFS)
- #define SH7750_QACR1_A7       SH7750_A7_REG32(SH7750_QACR1_REGOFS)
- 
-@@ -178,11 +178,11 @@
-  */
- 
- /* Immediate data for TRAPA instruction - TRA */
--#define SH7750_TRA_REGOFS     0x000020	/* offset */
-+#define SH7750_TRA_REGOFS     0x000020    /* offset */
- #define SH7750_TRA            SH7750_P4_REG32(SH7750_TRA_REGOFS)
- #define SH7750_TRA_A7         SH7750_A7_REG32(SH7750_TRA_REGOFS)
- 
--#define SH7750_TRA_IMM      0x000003fd	/* Immediate data operand */
-+#define SH7750_TRA_IMM      0x000003fd    /* Immediate data operand */
- #define SH7750_TRA_IMM_S    2
- 
- /* Exeption event register - EXPEVT */
-@@ -190,14 +190,14 @@
- #define SH7750_EXPEVT         SH7750_P4_REG32(SH7750_EXPEVT_REGOFS)
- #define SH7750_EXPEVT_A7      SH7750_A7_REG32(SH7750_EXPEVT_REGOFS)
- 
--#define SH7750_EXPEVT_EX      0x00000fff	/* Exeption code */
-+#define SH7750_EXPEVT_EX      0x00000fff    /* Exeption code */
- #define SH7750_EXPEVT_EX_S    0
- 
- /* Interrupt event register */
- #define SH7750_INTEVT_REGOFS  0x000028
- #define SH7750_INTEVT         SH7750_P4_REG32(SH7750_INTEVT_REGOFS)
- #define SH7750_INTEVT_A7      SH7750_A7_REG32(SH7750_INTEVT_REGOFS)
--#define SH7750_INTEVT_EX    0x00000fff	/* Exeption code */
-+#define SH7750_INTEVT_EX    0x00000fff    /* Exeption code */
- #define SH7750_INTEVT_EX_S  0
- 
- /*
-@@ -206,683 +206,683 @@
- #define SH7750_EVT_TO_NUM(evt)  ((evt) >> 5)
- 
- /* Reset exception category */
--#define SH7750_EVT_POWER_ON_RST        0x000	/* Power-on reset */
--#define SH7750_EVT_MANUAL_RST          0x020	/* Manual reset */
--#define SH7750_EVT_TLB_MULT_HIT        0x140	/* TLB multiple-hit exception */
-+#define SH7750_EVT_POWER_ON_RST        0x000    /* Power-on reset */
-+#define SH7750_EVT_MANUAL_RST          0x020    /* Manual reset */
-+#define SH7750_EVT_TLB_MULT_HIT        0x140    /* TLB multiple-hit exception */
- 
- /* General exception category */
--#define SH7750_EVT_USER_BREAK          0x1E0	/* User break */
--#define SH7750_EVT_IADDR_ERR           0x0E0	/* Instruction address error */
--#define SH7750_EVT_TLB_READ_MISS       0x040	/* ITLB miss exception /
--						   DTLB miss exception (read) */
--#define SH7750_EVT_TLB_READ_PROTV      0x0A0	/* ITLB protection violation /
--						   DTLB protection violation (read) */
--#define SH7750_EVT_ILLEGAL_INSTR       0x180	/* General Illegal Instruction
--						   exception */
--#define SH7750_EVT_SLOT_ILLEGAL_INSTR  0x1A0	/* Slot Illegal Instruction
--						   exception */
--#define SH7750_EVT_FPU_DISABLE         0x800	/* General FPU disable exception */
--#define SH7750_EVT_SLOT_FPU_DISABLE    0x820	/* Slot FPU disable exception */
--#define SH7750_EVT_DATA_READ_ERR       0x0E0	/* Data address error (read) */
--#define SH7750_EVT_DATA_WRITE_ERR      0x100	/* Data address error (write) */
--#define SH7750_EVT_DTLB_WRITE_MISS     0x060	/* DTLB miss exception (write) */
--#define SH7750_EVT_DTLB_WRITE_PROTV    0x0C0	/* DTLB protection violation
--						   exception (write) */
--#define SH7750_EVT_FPU_EXCEPTION       0x120	/* FPU exception */
--#define SH7750_EVT_INITIAL_PGWRITE     0x080	/* Initial Page Write exception */
--#define SH7750_EVT_TRAPA               0x160	/* Unconditional trap (TRAPA) */
-+#define SH7750_EVT_USER_BREAK          0x1E0    /* User break */
-+#define SH7750_EVT_IADDR_ERR           0x0E0    /* Instruction address error */
-+#define SH7750_EVT_TLB_READ_MISS       0x040    /* ITLB miss exception /
-+                           DTLB miss exception (read) */
-+#define SH7750_EVT_TLB_READ_PROTV      0x0A0    /* ITLB protection violation /
-+                           DTLB protection violation (read) */
-+#define SH7750_EVT_ILLEGAL_INSTR       0x180    /* General Illegal Instruction
-+                           exception */
-+#define SH7750_EVT_SLOT_ILLEGAL_INSTR  0x1A0    /* Slot Illegal Instruction
-+                           exception */
-+#define SH7750_EVT_FPU_DISABLE         0x800    /* General FPU disable exception */
-+#define SH7750_EVT_SLOT_FPU_DISABLE    0x820    /* Slot FPU disable exception */
-+#define SH7750_EVT_DATA_READ_ERR       0x0E0    /* Data address error (read) */
-+#define SH7750_EVT_DATA_WRITE_ERR      0x100    /* Data address error (write) */
-+#define SH7750_EVT_DTLB_WRITE_MISS     0x060    /* DTLB miss exception (write) */
-+#define SH7750_EVT_DTLB_WRITE_PROTV    0x0C0    /* DTLB protection violation
-+                           exception (write) */
-+#define SH7750_EVT_FPU_EXCEPTION       0x120    /* FPU exception */
-+#define SH7750_EVT_INITIAL_PGWRITE     0x080    /* Initial Page Write exception */
-+#define SH7750_EVT_TRAPA               0x160    /* Unconditional trap (TRAPA) */
- 
- /* Interrupt exception category */
--#define SH7750_EVT_NMI                 0x1C0	/* Non-maskable interrupt */
--#define SH7750_EVT_IRQ0                0x200	/* External Interrupt 0 */
--#define SH7750_EVT_IRQ1                0x220	/* External Interrupt 1 */
--#define SH7750_EVT_IRQ2                0x240	/* External Interrupt 2 */
--#define SH7750_EVT_IRQ3                0x260	/* External Interrupt 3 */
--#define SH7750_EVT_IRQ4                0x280	/* External Interrupt 4 */
--#define SH7750_EVT_IRQ5                0x2A0	/* External Interrupt 5 */
--#define SH7750_EVT_IRQ6                0x2C0	/* External Interrupt 6 */
--#define SH7750_EVT_IRQ7                0x2E0	/* External Interrupt 7 */
--#define SH7750_EVT_IRQ8                0x300	/* External Interrupt 8 */
--#define SH7750_EVT_IRQ9                0x320	/* External Interrupt 9 */
--#define SH7750_EVT_IRQA                0x340	/* External Interrupt A */
--#define SH7750_EVT_IRQB                0x360	/* External Interrupt B */
--#define SH7750_EVT_IRQC                0x380	/* External Interrupt C */
--#define SH7750_EVT_IRQD                0x3A0	/* External Interrupt D */
--#define SH7750_EVT_IRQE                0x3C0	/* External Interrupt E */
-+#define SH7750_EVT_NMI                 0x1C0    /* Non-maskable interrupt */
-+#define SH7750_EVT_IRQ0                0x200    /* External Interrupt 0 */
-+#define SH7750_EVT_IRQ1                0x220    /* External Interrupt 1 */
-+#define SH7750_EVT_IRQ2                0x240    /* External Interrupt 2 */
-+#define SH7750_EVT_IRQ3                0x260    /* External Interrupt 3 */
-+#define SH7750_EVT_IRQ4                0x280    /* External Interrupt 4 */
-+#define SH7750_EVT_IRQ5                0x2A0    /* External Interrupt 5 */
-+#define SH7750_EVT_IRQ6                0x2C0    /* External Interrupt 6 */
-+#define SH7750_EVT_IRQ7                0x2E0    /* External Interrupt 7 */
-+#define SH7750_EVT_IRQ8                0x300    /* External Interrupt 8 */
-+#define SH7750_EVT_IRQ9                0x320    /* External Interrupt 9 */
-+#define SH7750_EVT_IRQA                0x340    /* External Interrupt A */
-+#define SH7750_EVT_IRQB                0x360    /* External Interrupt B */
-+#define SH7750_EVT_IRQC                0x380    /* External Interrupt C */
-+#define SH7750_EVT_IRQD                0x3A0    /* External Interrupt D */
-+#define SH7750_EVT_IRQE                0x3C0    /* External Interrupt E */
- 
- /* Peripheral Module Interrupts - Timer Unit (TMU) */
--#define SH7750_EVT_TUNI0               0x400	/* TMU Underflow Interrupt 0 */
--#define SH7750_EVT_TUNI1               0x420	/* TMU Underflow Interrupt 1 */
--#define SH7750_EVT_TUNI2               0x440	/* TMU Underflow Interrupt 2 */
--#define SH7750_EVT_TICPI2              0x460	/* TMU Input Capture Interrupt 2 */
-+#define SH7750_EVT_TUNI0               0x400    /* TMU Underflow Interrupt 0 */
-+#define SH7750_EVT_TUNI1               0x420    /* TMU Underflow Interrupt 1 */
-+#define SH7750_EVT_TUNI2               0x440    /* TMU Underflow Interrupt 2 */
-+#define SH7750_EVT_TICPI2              0x460    /* TMU Input Capture Interrupt 2 */
- 
- /* Peripheral Module Interrupts - Real-Time Clock (RTC) */
--#define SH7750_EVT_RTC_ATI             0x480	/* Alarm Interrupt Request */
--#define SH7750_EVT_RTC_PRI             0x4A0	/* Periodic Interrupt Request */
--#define SH7750_EVT_RTC_CUI             0x4C0	/* Carry Interrupt Request */
-+#define SH7750_EVT_RTC_ATI             0x480    /* Alarm Interrupt Request */
-+#define SH7750_EVT_RTC_PRI             0x4A0    /* Periodic Interrupt Request */
-+#define SH7750_EVT_RTC_CUI             0x4C0    /* Carry Interrupt Request */
- 
- /* Peripheral Module Interrupts - Serial Communication Interface (SCI) */
--#define SH7750_EVT_SCI_ERI             0x4E0	/* Receive Error */
--#define SH7750_EVT_SCI_RXI             0x500	/* Receive Data Register Full */
--#define SH7750_EVT_SCI_TXI             0x520	/* Transmit Data Register Empty */
--#define SH7750_EVT_SCI_TEI             0x540	/* Transmit End */
-+#define SH7750_EVT_SCI_ERI             0x4E0    /* Receive Error */
-+#define SH7750_EVT_SCI_RXI             0x500    /* Receive Data Register Full */
-+#define SH7750_EVT_SCI_TXI             0x520    /* Transmit Data Register Empty */
-+#define SH7750_EVT_SCI_TEI             0x540    /* Transmit End */
- 
- /* Peripheral Module Interrupts - Watchdog Timer (WDT) */
--#define SH7750_EVT_WDT_ITI             0x560	/* Interval Timer Interrupt
--						   (used when WDT operates in
--						   interval timer mode) */
-+#define SH7750_EVT_WDT_ITI             0x560    /* Interval Timer Interrupt
-+                           (used when WDT operates in
-+                           interval timer mode) */
- 
- /* Peripheral Module Interrupts - Memory Refresh Unit (REF) */
--#define SH7750_EVT_REF_RCMI            0x580	/* Compare-match Interrupt */
--#define SH7750_EVT_REF_ROVI            0x5A0	/* Refresh Counter Overflow
--						   interrupt */
-+#define SH7750_EVT_REF_RCMI            0x580    /* Compare-match Interrupt */
-+#define SH7750_EVT_REF_ROVI            0x5A0    /* Refresh Counter Overflow
-+                           interrupt */
- 
- /* Peripheral Module Interrupts - Hitachi User Debug Interface (H-UDI) */
--#define SH7750_EVT_HUDI                0x600	/* UDI interrupt */
-+#define SH7750_EVT_HUDI                0x600    /* UDI interrupt */
- 
- /* Peripheral Module Interrupts - General-Purpose I/O (GPIO) */
--#define SH7750_EVT_GPIO                0x620	/* GPIO Interrupt */
-+#define SH7750_EVT_GPIO                0x620    /* GPIO Interrupt */
- 
- /* Peripheral Module Interrupts - DMA Controller (DMAC) */
--#define SH7750_EVT_DMAC_DMTE0          0x640	/* DMAC 0 Transfer End Interrupt */
--#define SH7750_EVT_DMAC_DMTE1          0x660	/* DMAC 1 Transfer End Interrupt */
--#define SH7750_EVT_DMAC_DMTE2          0x680	/* DMAC 2 Transfer End Interrupt */
--#define SH7750_EVT_DMAC_DMTE3          0x6A0	/* DMAC 3 Transfer End Interrupt */
--#define SH7750_EVT_DMAC_DMAE           0x6C0	/* DMAC Address Error Interrupt */
-+#define SH7750_EVT_DMAC_DMTE0          0x640    /* DMAC 0 Transfer End Interrupt */
-+#define SH7750_EVT_DMAC_DMTE1          0x660    /* DMAC 1 Transfer End Interrupt */
-+#define SH7750_EVT_DMAC_DMTE2          0x680    /* DMAC 2 Transfer End Interrupt */
-+#define SH7750_EVT_DMAC_DMTE3          0x6A0    /* DMAC 3 Transfer End Interrupt */
-+#define SH7750_EVT_DMAC_DMAE           0x6C0    /* DMAC Address Error Interrupt */
- 
- /* Peripheral Module Interrupts - Serial Communication Interface with FIFO */
- /*                                                                  (SCIF) */
--#define SH7750_EVT_SCIF_ERI            0x700	/* Receive Error */
--#define SH7750_EVT_SCIF_RXI            0x720	/* Receive FIFO Data Full or
--						   Receive Data ready interrupt */
--#define SH7750_EVT_SCIF_BRI            0x740	/* Break or overrun error */
--#define SH7750_EVT_SCIF_TXI            0x760	/* Transmit FIFO Data Empty */
-+#define SH7750_EVT_SCIF_ERI            0x700    /* Receive Error */
-+#define SH7750_EVT_SCIF_RXI            0x720    /* Receive FIFO Data Full or
-+                           Receive Data ready interrupt */
-+#define SH7750_EVT_SCIF_BRI            0x740    /* Break or overrun error */
-+#define SH7750_EVT_SCIF_TXI            0x760    /* Transmit FIFO Data Empty */
- 
- /*
-  * Power Management
-  */
--#define SH7750_STBCR_REGOFS   0xC00004	/* offset */
-+#define SH7750_STBCR_REGOFS   0xC00004    /* offset */
- #define SH7750_STBCR          SH7750_P4_REG32(SH7750_STBCR_REGOFS)
- #define SH7750_STBCR_A7       SH7750_A7_REG32(SH7750_STBCR_REGOFS)
- 
--#define SH7750_STBCR_STBY     0x80	/* Specifies a transition to standby mode:
--					   0 - Transition to SLEEP mode on SLEEP
--					   1 - Transition to STANDBY mode on SLEEP */
--#define SH7750_STBCR_PHZ      0x40	/* State of peripheral module pins in
--					   standby mode:
--					   0 - normal state
--					   1 - high-impendance state */
-+#define SH7750_STBCR_STBY     0x80    /* Specifies a transition to standby mode:
-+                       0 - Transition to SLEEP mode on SLEEP
-+                       1 - Transition to STANDBY mode on SLEEP */
-+#define SH7750_STBCR_PHZ      0x40    /* State of peripheral module pins in
-+                       standby mode:
-+                       0 - normal state
-+                       1 - high-impendance state */
- 
--#define SH7750_STBCR_PPU      0x20	/* Peripheral module pins pull-up controls */
--#define SH7750_STBCR_MSTP4    0x10	/* Stopping the clock supply to DMAC */
-+#define SH7750_STBCR_PPU      0x20    /* Peripheral module pins pull-up controls */
-+#define SH7750_STBCR_MSTP4    0x10    /* Stopping the clock supply to DMAC */
- #define SH7750_STBCR_DMAC_STP SH7750_STBCR_MSTP4
--#define SH7750_STBCR_MSTP3    0x08	/* Stopping the clock supply to SCIF */
-+#define SH7750_STBCR_MSTP3    0x08    /* Stopping the clock supply to SCIF */
- #define SH7750_STBCR_SCIF_STP SH7750_STBCR_MSTP3
--#define SH7750_STBCR_MSTP2    0x04	/* Stopping the clock supply to TMU */
-+#define SH7750_STBCR_MSTP2    0x04    /* Stopping the clock supply to TMU */
- #define SH7750_STBCR_TMU_STP  SH7750_STBCR_MSTP2
--#define SH7750_STBCR_MSTP1    0x02	/* Stopping the clock supply to RTC */
-+#define SH7750_STBCR_MSTP1    0x02    /* Stopping the clock supply to RTC */
- #define SH7750_STBCR_RTC_STP  SH7750_STBCR_MSTP1
--#define SH7750_STBCR_MSPT0    0x01	/* Stopping the clock supply to SCI */
-+#define SH7750_STBCR_MSPT0    0x01    /* Stopping the clock supply to SCI */
- #define SH7750_STBCR_SCI_STP  SH7750_STBCR_MSTP0
- 
- #define SH7750_STBCR_STBY     0x80
- 
- 
--#define SH7750_STBCR2_REGOFS  0xC00010	/* offset */
-+#define SH7750_STBCR2_REGOFS  0xC00010    /* offset */
- #define SH7750_STBCR2         SH7750_P4_REG32(SH7750_STBCR2_REGOFS)
- #define SH7750_STBCR2_A7      SH7750_A7_REG32(SH7750_STBCR2_REGOFS)
- 
--#define SH7750_STBCR2_DSLP    0x80	/* Specifies transition to deep sleep mode:
--					   0 - transition to sleep or standby mode
--					   as it is specified in STBY bit
--					   1 - transition to deep sleep mode on
--					   execution of SLEEP instruction */
--#define SH7750_STBCR2_MSTP6   0x02	/* Stopping the clock supply to Store Queue
--					   in the cache controller */
-+#define SH7750_STBCR2_DSLP    0x80    /* Specifies transition to deep sleep mode:
-+                       0 - transition to sleep or standby mode
-+                       as it is specified in STBY bit
-+                       1 - transition to deep sleep mode on
-+                       execution of SLEEP instruction */
-+#define SH7750_STBCR2_MSTP6   0x02    /* Stopping the clock supply to Store Queue
-+                       in the cache controller */
- #define SH7750_STBCR2_SQ_STP  SH7750_STBCR2_MSTP6
--#define SH7750_STBCR2_MSTP5   0x01	/* Stopping the clock supply to the User
--					   Break Controller (UBC) */
-+#define SH7750_STBCR2_MSTP5   0x01    /* Stopping the clock supply to the User
-+                       Break Controller (UBC) */
- #define SH7750_STBCR2_UBC_STP SH7750_STBCR2_MSTP5
- 
- /*
-  * Clock Pulse Generator (CPG)
-  */
--#define SH7750_FRQCR_REGOFS   0xC00000	/* offset */
-+#define SH7750_FRQCR_REGOFS   0xC00000    /* offset */
- #define SH7750_FRQCR          SH7750_P4_REG32(SH7750_FRQCR_REGOFS)
- #define SH7750_FRQCR_A7       SH7750_A7_REG32(SH7750_FRQCR_REGOFS)
- 
--#define SH7750_FRQCR_CKOEN    0x0800	/* Clock Output Enable
--					   0 - CKIO pin goes to HiZ/pullup
--					   1 - Clock is output from CKIO */
--#define SH7750_FRQCR_PLL1EN   0x0400	/* PLL circuit 1 enable */
--#define SH7750_FRQCR_PLL2EN   0x0200	/* PLL circuit 2 enable */
--
--#define SH7750_FRQCR_IFC      0x01C0	/* CPU clock frequency division ratio: */
--#define SH7750_FRQCR_IFCDIV1  0x0000	/*    0 - * 1 */
--#define SH7750_FRQCR_IFCDIV2  0x0040	/*    1 - * 1/2 */
--#define SH7750_FRQCR_IFCDIV3  0x0080	/*    2 - * 1/3 */
--#define SH7750_FRQCR_IFCDIV4  0x00C0	/*    3 - * 1/4 */
--#define SH7750_FRQCR_IFCDIV6  0x0100	/*    4 - * 1/6 */
--#define SH7750_FRQCR_IFCDIV8  0x0140	/*    5 - * 1/8 */
--
--#define SH7750_FRQCR_BFC      0x0038	/* Bus clock frequency division ratio: */
--#define SH7750_FRQCR_BFCDIV1  0x0000	/*    0 - * 1 */
--#define SH7750_FRQCR_BFCDIV2  0x0008	/*    1 - * 1/2 */
--#define SH7750_FRQCR_BFCDIV3  0x0010	/*    2 - * 1/3 */
--#define SH7750_FRQCR_BFCDIV4  0x0018	/*    3 - * 1/4 */
--#define SH7750_FRQCR_BFCDIV6  0x0020	/*    4 - * 1/6 */
--#define SH7750_FRQCR_BFCDIV8  0x0028	/*    5 - * 1/8 */
--
--#define SH7750_FRQCR_PFC      0x0007	/* Peripheral module clock frequency
--					   division ratio: */
--#define SH7750_FRQCR_PFCDIV2  0x0000	/*    0 - * 1/2 */
--#define SH7750_FRQCR_PFCDIV3  0x0001	/*    1 - * 1/3 */
--#define SH7750_FRQCR_PFCDIV4  0x0002	/*    2 - * 1/4 */
--#define SH7750_FRQCR_PFCDIV6  0x0003	/*    3 - * 1/6 */
--#define SH7750_FRQCR_PFCDIV8  0x0004	/*    4 - * 1/8 */
-+#define SH7750_FRQCR_CKOEN    0x0800    /* Clock Output Enable
-+                       0 - CKIO pin goes to HiZ/pullup
-+                       1 - Clock is output from CKIO */
-+#define SH7750_FRQCR_PLL1EN   0x0400    /* PLL circuit 1 enable */
-+#define SH7750_FRQCR_PLL2EN   0x0200    /* PLL circuit 2 enable */
-+
-+#define SH7750_FRQCR_IFC      0x01C0    /* CPU clock frequency division ratio: */
-+#define SH7750_FRQCR_IFCDIV1  0x0000    /*    0 - * 1 */
-+#define SH7750_FRQCR_IFCDIV2  0x0040    /*    1 - * 1/2 */
-+#define SH7750_FRQCR_IFCDIV3  0x0080    /*    2 - * 1/3 */
-+#define SH7750_FRQCR_IFCDIV4  0x00C0    /*    3 - * 1/4 */
-+#define SH7750_FRQCR_IFCDIV6  0x0100    /*    4 - * 1/6 */
-+#define SH7750_FRQCR_IFCDIV8  0x0140    /*    5 - * 1/8 */
-+
-+#define SH7750_FRQCR_BFC      0x0038    /* Bus clock frequency division ratio: */
-+#define SH7750_FRQCR_BFCDIV1  0x0000    /*    0 - * 1 */
-+#define SH7750_FRQCR_BFCDIV2  0x0008    /*    1 - * 1/2 */
-+#define SH7750_FRQCR_BFCDIV3  0x0010    /*    2 - * 1/3 */
-+#define SH7750_FRQCR_BFCDIV4  0x0018    /*    3 - * 1/4 */
-+#define SH7750_FRQCR_BFCDIV6  0x0020    /*    4 - * 1/6 */
-+#define SH7750_FRQCR_BFCDIV8  0x0028    /*    5 - * 1/8 */
-+
-+#define SH7750_FRQCR_PFC      0x0007    /* Peripheral module clock frequency
-+                       division ratio: */
-+#define SH7750_FRQCR_PFCDIV2  0x0000    /*    0 - * 1/2 */
-+#define SH7750_FRQCR_PFCDIV3  0x0001    /*    1 - * 1/3 */
-+#define SH7750_FRQCR_PFCDIV4  0x0002    /*    2 - * 1/4 */
-+#define SH7750_FRQCR_PFCDIV6  0x0003    /*    3 - * 1/6 */
-+#define SH7750_FRQCR_PFCDIV8  0x0004    /*    4 - * 1/8 */
- 
- /*
-  * Watchdog Timer (WDT)
-  */
- 
- /* Watchdog Timer Counter register - WTCNT */
--#define SH7750_WTCNT_REGOFS   0xC00008	/* offset */
-+#define SH7750_WTCNT_REGOFS   0xC00008    /* offset */
- #define SH7750_WTCNT          SH7750_P4_REG32(SH7750_WTCNT_REGOFS)
- #define SH7750_WTCNT_A7       SH7750_A7_REG32(SH7750_WTCNT_REGOFS)
--#define SH7750_WTCNT_KEY      0x5A00	/* When WTCNT byte register written,
--					   you have to set the upper byte to
--					   0x5A */
-+#define SH7750_WTCNT_KEY      0x5A00    /* When WTCNT byte register written,
-+                       you have to set the upper byte to
-+                       0x5A */
- 
- /* Watchdog Timer Control/Status register - WTCSR */
--#define SH7750_WTCSR_REGOFS   0xC0000C	/* offset */
-+#define SH7750_WTCSR_REGOFS   0xC0000C    /* offset */
- #define SH7750_WTCSR          SH7750_P4_REG32(SH7750_WTCSR_REGOFS)
- #define SH7750_WTCSR_A7       SH7750_A7_REG32(SH7750_WTCSR_REGOFS)
--#define SH7750_WTCSR_KEY      0xA500	/* When WTCSR byte register written,
--					   you have to set the upper byte to
--					   0xA5 */
--#define SH7750_WTCSR_TME      0x80	/* Timer enable (1-upcount start) */
--#define SH7750_WTCSR_MODE     0x40	/* Timer Mode Select: */
--#define SH7750_WTCSR_MODE_WT  0x40	/*    Watchdog Timer Mode */
--#define SH7750_WTCSR_MODE_IT  0x00	/*    Interval Timer Mode */
--#define SH7750_WTCSR_RSTS     0x20	/* Reset Select: */
--#define SH7750_WTCSR_RST_MAN  0x20	/*    Manual Reset */
--#define SH7750_WTCSR_RST_PWR  0x00	/*    Power-on Reset */
--#define SH7750_WTCSR_WOVF     0x10	/* Watchdog Timer Overflow Flag */
--#define SH7750_WTCSR_IOVF     0x08	/* Interval Timer Overflow Flag */
--#define SH7750_WTCSR_CKS      0x07	/* Clock Select: */
--#define SH7750_WTCSR_CKS_DIV32   0x00	/*   1/32 of frequency divider 2 input */
--#define SH7750_WTCSR_CKS_DIV64   0x01	/*   1/64 */
--#define SH7750_WTCSR_CKS_DIV128  0x02	/*   1/128 */
--#define SH7750_WTCSR_CKS_DIV256  0x03	/*   1/256 */
--#define SH7750_WTCSR_CKS_DIV512  0x04	/*   1/512 */
--#define SH7750_WTCSR_CKS_DIV1024 0x05	/*   1/1024 */
--#define SH7750_WTCSR_CKS_DIV2048 0x06	/*   1/2048 */
--#define SH7750_WTCSR_CKS_DIV4096 0x07	/*   1/4096 */
-+#define SH7750_WTCSR_KEY      0xA500    /* When WTCSR byte register written,
-+                       you have to set the upper byte to
-+                       0xA5 */
-+#define SH7750_WTCSR_TME      0x80    /* Timer enable (1-upcount start) */
-+#define SH7750_WTCSR_MODE     0x40    /* Timer Mode Select: */
-+#define SH7750_WTCSR_MODE_WT  0x40    /*    Watchdog Timer Mode */
-+#define SH7750_WTCSR_MODE_IT  0x00    /*    Interval Timer Mode */
-+#define SH7750_WTCSR_RSTS     0x20    /* Reset Select: */
-+#define SH7750_WTCSR_RST_MAN  0x20    /*    Manual Reset */
-+#define SH7750_WTCSR_RST_PWR  0x00    /*    Power-on Reset */
-+#define SH7750_WTCSR_WOVF     0x10    /* Watchdog Timer Overflow Flag */
-+#define SH7750_WTCSR_IOVF     0x08    /* Interval Timer Overflow Flag */
-+#define SH7750_WTCSR_CKS      0x07    /* Clock Select: */
-+#define SH7750_WTCSR_CKS_DIV32   0x00    /*   1/32 of frequency divider 2 input */
-+#define SH7750_WTCSR_CKS_DIV64   0x01    /*   1/64 */
-+#define SH7750_WTCSR_CKS_DIV128  0x02    /*   1/128 */
-+#define SH7750_WTCSR_CKS_DIV256  0x03    /*   1/256 */
-+#define SH7750_WTCSR_CKS_DIV512  0x04    /*   1/512 */
-+#define SH7750_WTCSR_CKS_DIV1024 0x05    /*   1/1024 */
-+#define SH7750_WTCSR_CKS_DIV2048 0x06    /*   1/2048 */
-+#define SH7750_WTCSR_CKS_DIV4096 0x07    /*   1/4096 */
- 
- /*
-  * Real-Time Clock (RTC)
-  */
- /* 64-Hz Counter Register (byte, read-only) - R64CNT */
--#define SH7750_R64CNT_REGOFS  0xC80000	/* offset */
-+#define SH7750_R64CNT_REGOFS  0xC80000    /* offset */
- #define SH7750_R64CNT         SH7750_P4_REG32(SH7750_R64CNT_REGOFS)
- #define SH7750_R64CNT_A7      SH7750_A7_REG32(SH7750_R64CNT_REGOFS)
- 
- /* Second Counter Register (byte, BCD-coded) - RSECCNT */
--#define SH7750_RSECCNT_REGOFS 0xC80004	/* offset */
-+#define SH7750_RSECCNT_REGOFS 0xC80004    /* offset */
- #define SH7750_RSECCNT        SH7750_P4_REG32(SH7750_RSECCNT_REGOFS)
- #define SH7750_RSECCNT_A7     SH7750_A7_REG32(SH7750_RSECCNT_REGOFS)
- 
- /* Minute Counter Register (byte, BCD-coded) - RMINCNT */
--#define SH7750_RMINCNT_REGOFS 0xC80008	/* offset */
-+#define SH7750_RMINCNT_REGOFS 0xC80008    /* offset */
- #define SH7750_RMINCNT        SH7750_P4_REG32(SH7750_RMINCNT_REGOFS)
- #define SH7750_RMINCNT_A7     SH7750_A7_REG32(SH7750_RMINCNT_REGOFS)
- 
- /* Hour Counter Register (byte, BCD-coded) - RHRCNT */
--#define SH7750_RHRCNT_REGOFS  0xC8000C	/* offset */
-+#define SH7750_RHRCNT_REGOFS  0xC8000C    /* offset */
- #define SH7750_RHRCNT         SH7750_P4_REG32(SH7750_RHRCNT_REGOFS)
- #define SH7750_RHRCNT_A7      SH7750_A7_REG32(SH7750_RHRCNT_REGOFS)
- 
- /* Day-of-Week Counter Register (byte) - RWKCNT */
--#define SH7750_RWKCNT_REGOFS  0xC80010	/* offset */
-+#define SH7750_RWKCNT_REGOFS  0xC80010    /* offset */
- #define SH7750_RWKCNT         SH7750_P4_REG32(SH7750_RWKCNT_REGOFS)
- #define SH7750_RWKCNT_A7      SH7750_A7_REG32(SH7750_RWKCNT_REGOFS)
- 
--#define SH7750_RWKCNT_SUN     0	/* Sunday */
--#define SH7750_RWKCNT_MON     1	/* Monday */
--#define SH7750_RWKCNT_TUE     2	/* Tuesday */
--#define SH7750_RWKCNT_WED     3	/* Wednesday */
--#define SH7750_RWKCNT_THU     4	/* Thursday */
--#define SH7750_RWKCNT_FRI     5	/* Friday */
--#define SH7750_RWKCNT_SAT     6	/* Saturday */
-+#define SH7750_RWKCNT_SUN     0    /* Sunday */
-+#define SH7750_RWKCNT_MON     1    /* Monday */
-+#define SH7750_RWKCNT_TUE     2    /* Tuesday */
-+#define SH7750_RWKCNT_WED     3    /* Wednesday */
-+#define SH7750_RWKCNT_THU     4    /* Thursday */
-+#define SH7750_RWKCNT_FRI     5    /* Friday */
-+#define SH7750_RWKCNT_SAT     6    /* Saturday */
- 
- /* Day Counter Register (byte, BCD-coded) - RDAYCNT */
--#define SH7750_RDAYCNT_REGOFS 0xC80014	/* offset */
-+#define SH7750_RDAYCNT_REGOFS 0xC80014    /* offset */
- #define SH7750_RDAYCNT        SH7750_P4_REG32(SH7750_RDAYCNT_REGOFS)
- #define SH7750_RDAYCNT_A7     SH7750_A7_REG32(SH7750_RDAYCNT_REGOFS)
- 
- /* Month Counter Register (byte, BCD-coded) - RMONCNT */
--#define SH7750_RMONCNT_REGOFS 0xC80018	/* offset */
-+#define SH7750_RMONCNT_REGOFS 0xC80018    /* offset */
- #define SH7750_RMONCNT        SH7750_P4_REG32(SH7750_RMONCNT_REGOFS)
- #define SH7750_RMONCNT_A7     SH7750_A7_REG32(SH7750_RMONCNT_REGOFS)
- 
- /* Year Counter Register (half, BCD-coded) - RYRCNT */
--#define SH7750_RYRCNT_REGOFS  0xC8001C	/* offset */
-+#define SH7750_RYRCNT_REGOFS  0xC8001C    /* offset */
- #define SH7750_RYRCNT         SH7750_P4_REG32(SH7750_RYRCNT_REGOFS)
- #define SH7750_RYRCNT_A7      SH7750_A7_REG32(SH7750_RYRCNT_REGOFS)
- 
- /* Second Alarm Register (byte, BCD-coded) - RSECAR */
--#define SH7750_RSECAR_REGOFS  0xC80020	/* offset */
-+#define SH7750_RSECAR_REGOFS  0xC80020    /* offset */
- #define SH7750_RSECAR         SH7750_P4_REG32(SH7750_RSECAR_REGOFS)
- #define SH7750_RSECAR_A7      SH7750_A7_REG32(SH7750_RSECAR_REGOFS)
--#define SH7750_RSECAR_ENB     0x80	/* Second Alarm Enable */
-+#define SH7750_RSECAR_ENB     0x80    /* Second Alarm Enable */
- 
- /* Minute Alarm Register (byte, BCD-coded) - RMINAR */
--#define SH7750_RMINAR_REGOFS  0xC80024	/* offset */
-+#define SH7750_RMINAR_REGOFS  0xC80024    /* offset */
- #define SH7750_RMINAR         SH7750_P4_REG32(SH7750_RMINAR_REGOFS)
- #define SH7750_RMINAR_A7      SH7750_A7_REG32(SH7750_RMINAR_REGOFS)
--#define SH7750_RMINAR_ENB     0x80	/* Minute Alarm Enable */
-+#define SH7750_RMINAR_ENB     0x80    /* Minute Alarm Enable */
- 
- /* Hour Alarm Register (byte, BCD-coded) - RHRAR */
--#define SH7750_RHRAR_REGOFS   0xC80028	/* offset */
-+#define SH7750_RHRAR_REGOFS   0xC80028    /* offset */
- #define SH7750_RHRAR          SH7750_P4_REG32(SH7750_RHRAR_REGOFS)
- #define SH7750_RHRAR_A7       SH7750_A7_REG32(SH7750_RHRAR_REGOFS)
--#define SH7750_RHRAR_ENB      0x80	/* Hour Alarm Enable */
-+#define SH7750_RHRAR_ENB      0x80    /* Hour Alarm Enable */
- 
- /* Day-of-Week Alarm Register (byte) - RWKAR */
--#define SH7750_RWKAR_REGOFS   0xC8002C	/* offset */
-+#define SH7750_RWKAR_REGOFS   0xC8002C    /* offset */
- #define SH7750_RWKAR          SH7750_P4_REG32(SH7750_RWKAR_REGOFS)
- #define SH7750_RWKAR_A7       SH7750_A7_REG32(SH7750_RWKAR_REGOFS)
--#define SH7750_RWKAR_ENB      0x80	/* Day-of-week Alarm Enable */
-+#define SH7750_RWKAR_ENB      0x80    /* Day-of-week Alarm Enable */
- 
--#define SH7750_RWKAR_SUN      0	/* Sunday */
--#define SH7750_RWKAR_MON      1	/* Monday */
--#define SH7750_RWKAR_TUE      2	/* Tuesday */
--#define SH7750_RWKAR_WED      3	/* Wednesday */
--#define SH7750_RWKAR_THU      4	/* Thursday */
--#define SH7750_RWKAR_FRI      5	/* Friday */
--#define SH7750_RWKAR_SAT      6	/* Saturday */
-+#define SH7750_RWKAR_SUN      0    /* Sunday */
-+#define SH7750_RWKAR_MON      1    /* Monday */
-+#define SH7750_RWKAR_TUE      2    /* Tuesday */
-+#define SH7750_RWKAR_WED      3    /* Wednesday */
-+#define SH7750_RWKAR_THU      4    /* Thursday */
-+#define SH7750_RWKAR_FRI      5    /* Friday */
-+#define SH7750_RWKAR_SAT      6    /* Saturday */
- 
- /* Day Alarm Register (byte, BCD-coded) - RDAYAR */
--#define SH7750_RDAYAR_REGOFS  0xC80030	/* offset */
-+#define SH7750_RDAYAR_REGOFS  0xC80030    /* offset */
- #define SH7750_RDAYAR         SH7750_P4_REG32(SH7750_RDAYAR_REGOFS)
- #define SH7750_RDAYAR_A7      SH7750_A7_REG32(SH7750_RDAYAR_REGOFS)
--#define SH7750_RDAYAR_ENB     0x80	/* Day Alarm Enable */
-+#define SH7750_RDAYAR_ENB     0x80    /* Day Alarm Enable */
- 
- /* Month Counter Register (byte, BCD-coded) - RMONAR */
--#define SH7750_RMONAR_REGOFS  0xC80034	/* offset */
-+#define SH7750_RMONAR_REGOFS  0xC80034    /* offset */
- #define SH7750_RMONAR         SH7750_P4_REG32(SH7750_RMONAR_REGOFS)
- #define SH7750_RMONAR_A7      SH7750_A7_REG32(SH7750_RMONAR_REGOFS)
--#define SH7750_RMONAR_ENB     0x80	/* Month Alarm Enable */
-+#define SH7750_RMONAR_ENB     0x80    /* Month Alarm Enable */
- 
- /* RTC Control Register 1 (byte) - RCR1 */
--#define SH7750_RCR1_REGOFS    0xC80038	/* offset */
-+#define SH7750_RCR1_REGOFS    0xC80038    /* offset */
- #define SH7750_RCR1           SH7750_P4_REG32(SH7750_RCR1_REGOFS)
- #define SH7750_RCR1_A7        SH7750_A7_REG32(SH7750_RCR1_REGOFS)
--#define SH7750_RCR1_CF        0x80	/* Carry Flag */
--#define SH7750_RCR1_CIE       0x10	/* Carry Interrupt Enable */
--#define SH7750_RCR1_AIE       0x08	/* Alarm Interrupt Enable */
--#define SH7750_RCR1_AF        0x01	/* Alarm Flag */
-+#define SH7750_RCR1_CF        0x80    /* Carry Flag */
-+#define SH7750_RCR1_CIE       0x10    /* Carry Interrupt Enable */
-+#define SH7750_RCR1_AIE       0x08    /* Alarm Interrupt Enable */
-+#define SH7750_RCR1_AF        0x01    /* Alarm Flag */
- 
- /* RTC Control Register 2 (byte) - RCR2 */
--#define SH7750_RCR2_REGOFS    0xC8003C	/* offset */
-+#define SH7750_RCR2_REGOFS    0xC8003C    /* offset */
- #define SH7750_RCR2           SH7750_P4_REG32(SH7750_RCR2_REGOFS)
- #define SH7750_RCR2_A7        SH7750_A7_REG32(SH7750_RCR2_REGOFS)
--#define SH7750_RCR2_PEF        0x80	/* Periodic Interrupt Flag */
--#define SH7750_RCR2_PES        0x70	/* Periodic Interrupt Enable: */
--#define SH7750_RCR2_PES_DIS    0x00	/*   Periodic Interrupt Disabled */
--#define SH7750_RCR2_PES_DIV256 0x10	/*   Generated at 1/256 sec interval */
--#define SH7750_RCR2_PES_DIV64  0x20	/*   Generated at 1/64 sec interval */
--#define SH7750_RCR2_PES_DIV16  0x30	/*   Generated at 1/16 sec interval */
--#define SH7750_RCR2_PES_DIV4   0x40	/*   Generated at 1/4 sec interval */
--#define SH7750_RCR2_PES_DIV2   0x50	/*   Generated at 1/2 sec interval */
--#define SH7750_RCR2_PES_x1     0x60	/*   Generated at 1 sec interval */
--#define SH7750_RCR2_PES_x2     0x70	/*   Generated at 2 sec interval */
--#define SH7750_RCR2_RTCEN      0x08	/* RTC Crystal Oscillator is Operated */
--#define SH7750_RCR2_ADJ        0x04	/* 30-Second Adjastment */
--#define SH7750_RCR2_RESET      0x02	/* Frequency divider circuits are reset */
--#define SH7750_RCR2_START      0x01	/* 0 - sec, min, hr, day-of-week, month,
--					   year counters are stopped
--					   1 - sec, min, hr, day-of-week, month,
--					   year counters operate normally */
-+#define SH7750_RCR2_PEF        0x80    /* Periodic Interrupt Flag */
-+#define SH7750_RCR2_PES        0x70    /* Periodic Interrupt Enable: */
-+#define SH7750_RCR2_PES_DIS    0x00    /*   Periodic Interrupt Disabled */
-+#define SH7750_RCR2_PES_DIV256 0x10    /*   Generated at 1/256 sec interval */
-+#define SH7750_RCR2_PES_DIV64  0x20    /*   Generated at 1/64 sec interval */
-+#define SH7750_RCR2_PES_DIV16  0x30    /*   Generated at 1/16 sec interval */
-+#define SH7750_RCR2_PES_DIV4   0x40    /*   Generated at 1/4 sec interval */
-+#define SH7750_RCR2_PES_DIV2   0x50    /*   Generated at 1/2 sec interval */
-+#define SH7750_RCR2_PES_x1     0x60    /*   Generated at 1 sec interval */
-+#define SH7750_RCR2_PES_x2     0x70    /*   Generated at 2 sec interval */
-+#define SH7750_RCR2_RTCEN      0x08    /* RTC Crystal Oscillator is Operated */
-+#define SH7750_RCR2_ADJ        0x04    /* 30-Second Adjastment */
-+#define SH7750_RCR2_RESET      0x02    /* Frequency divider circuits are reset */
-+#define SH7750_RCR2_START      0x01    /* 0 - sec, min, hr, day-of-week, month,
-+                       year counters are stopped
-+                       1 - sec, min, hr, day-of-week, month,
-+                       year counters operate normally */
- /*
-  * Bus State Controller - BSC
-  */
- /* Bus Control Register 1 - BCR1 */
--#define SH7750_BCR1_REGOFS    0x800000	/* offset */
-+#define SH7750_BCR1_REGOFS    0x800000    /* offset */
- #define SH7750_BCR1           SH7750_P4_REG32(SH7750_BCR1_REGOFS)
- #define SH7750_BCR1_A7        SH7750_A7_REG32(SH7750_BCR1_REGOFS)
--#define SH7750_BCR1_ENDIAN    0x80000000	/* Endianness (1 - little endian) */
--#define SH7750_BCR1_MASTER    0x40000000	/* Master/Slave mode (1-master) */
--#define SH7750_BCR1_A0MPX     0x20000000	/* Area 0 Memory Type (0-SRAM,1-MPX) */
--#define SH7750_BCR1_IPUP      0x02000000	/* Input Pin Pull-up Control:
--						   0 - pull-up resistor is on for
--						   control input pins
--						   1 - pull-up resistor is off */
--#define SH7750_BCR1_OPUP      0x01000000	/* Output Pin Pull-up Control:
--						   0 - pull-up resistor is on for
--						   control output pins
--						   1 - pull-up resistor is off */
--#define SH7750_BCR1_A1MBC     0x00200000	/* Area 1 SRAM Byte Control Mode:
--						   0 - Area 1 SRAM is set to
--						   normal mode
--						   1 - Area 1 SRAM is set to byte
--						   control mode */
--#define SH7750_BCR1_A4MBC     0x00100000	/* Area 4 SRAM Byte Control Mode:
--						   0 - Area 4 SRAM is set to
--						   normal mode
--						   1 - Area 4 SRAM is set to byte
--						   control mode */
--#define SH7750_BCR1_BREQEN    0x00080000	/* BREQ Enable:
--						   0 - External requests are  not
--						   accepted
--						   1 - External requests are
--						   accepted */
--#define SH7750_BCR1_PSHR      0x00040000	/* Partial Sharing Bit:
--						   0 - Master Mode
--						   1 - Partial-sharing Mode */
--#define SH7750_BCR1_MEMMPX    0x00020000	/* Area 1 to 6 MPX Interface:
--						   0 - SRAM/burst ROM interface
--						   1 - MPX interface */
--#define SH7750_BCR1_HIZMEM    0x00008000	/* High Impendance Control. Specifies
--						   the state of A[25:0], BS\, CSn\,
--						   RD/WR\, CE2A\, CE2B\ in standby
--						   mode and when bus is released:
--						   0 - signals go to High-Z mode
--						   1 - signals driven */
--#define SH7750_BCR1_HIZCNT    0x00004000	/* High Impendance Control. Specifies
--						   the state of the RAS\, RAS2\, WEn\,
--						   CASn\, DQMn, RD\, CASS\, FRAME\,
--						   RD2\ signals in standby mode and
--						   when bus is released:
--						   0 - signals go to High-Z mode
--						   1 - signals driven */
--#define SH7750_BCR1_A0BST     0x00003800	/* Area 0 Burst ROM Control */
--#define SH7750_BCR1_A0BST_SRAM    0x0000	/*   Area 0 accessed as SRAM i/f */
--#define SH7750_BCR1_A0BST_ROM4    0x0800	/*   Area 0 accessed as burst ROM
--						   interface, 4 cosequtive access */
--#define SH7750_BCR1_A0BST_ROM8    0x1000	/*   Area 0 accessed as burst ROM
--						   interface, 8 cosequtive access */
--#define SH7750_BCR1_A0BST_ROM16   0x1800	/*   Area 0 accessed as burst ROM
--						   interface, 16 cosequtive access */
--#define SH7750_BCR1_A0BST_ROM32   0x2000	/*   Area 0 accessed as burst ROM
--						   interface, 32 cosequtive access */
--
--#define SH7750_BCR1_A5BST     0x00000700	/* Area 5 Burst ROM Control */
--#define SH7750_BCR1_A5BST_SRAM    0x0000	/*   Area 5 accessed as SRAM i/f */
--#define SH7750_BCR1_A5BST_ROM4    0x0100	/*   Area 5 accessed as burst ROM
--						   interface, 4 cosequtive access */
--#define SH7750_BCR1_A5BST_ROM8    0x0200	/*   Area 5 accessed as burst ROM
--						   interface, 8 cosequtive access */
--#define SH7750_BCR1_A5BST_ROM16   0x0300	/*   Area 5 accessed as burst ROM
--						   interface, 16 cosequtive access */
--#define SH7750_BCR1_A5BST_ROM32   0x0400	/*   Area 5 accessed as burst ROM
--						   interface, 32 cosequtive access */
--
--#define SH7750_BCR1_A6BST     0x000000E0	/* Area 6 Burst ROM Control */
--#define SH7750_BCR1_A6BST_SRAM    0x0000	/*   Area 6 accessed as SRAM i/f */
--#define SH7750_BCR1_A6BST_ROM4    0x0020	/*   Area 6 accessed as burst ROM
--						   interface, 4 cosequtive access */
--#define SH7750_BCR1_A6BST_ROM8    0x0040	/*   Area 6 accessed as burst ROM
--						   interface, 8 cosequtive access */
--#define SH7750_BCR1_A6BST_ROM16   0x0060	/*   Area 6 accessed as burst ROM
--						   interface, 16 cosequtive access */
--#define SH7750_BCR1_A6BST_ROM32   0x0080	/*   Area 6 accessed as burst ROM
--						   interface, 32 cosequtive access */
--
--#define SH7750_BCR1_DRAMTP        0x001C	/* Area 2 and 3 Memory Type */
--#define SH7750_BCR1_DRAMTP_2SRAM_3SRAM   0x0000	/* Area 2 and 3 are SRAM or MPX
--						   interface. */
--#define SH7750_BCR1_DRAMTP_2SRAM_3SDRAM  0x0008	/* Area 2 - SRAM/MPX, Area 3 -
--						   synchronous DRAM */
--#define SH7750_BCR1_DRAMTP_2SDRAM_3SDRAM 0x000C	/* Area 2 and 3 are synchronous
--						   DRAM interface */
--#define SH7750_BCR1_DRAMTP_2SRAM_3DRAM   0x0010	/* Area 2 - SRAM/MPX, Area 3 -
--						   DRAM interface */
--#define SH7750_BCR1_DRAMTP_2DRAM_3DRAM   0x0014	/* Area 2 and 3 are DRAM
--						   interface */
--
--#define SH7750_BCR1_A56PCM    0x00000001	/* Area 5 and 6 Bus Type:
--						   0 - SRAM interface
--						   1 - PCMCIA interface */
-+#define SH7750_BCR1_ENDIAN    0x80000000    /* Endianness (1 - little endian) */
-+#define SH7750_BCR1_MASTER    0x40000000    /* Master/Slave mode (1-master) */
-+#define SH7750_BCR1_A0MPX     0x20000000    /* Area 0 Memory Type (0-SRAM,1-MPX) */
-+#define SH7750_BCR1_IPUP      0x02000000    /* Input Pin Pull-up Control:
-+                           0 - pull-up resistor is on for
-+                           control input pins
-+                           1 - pull-up resistor is off */
-+#define SH7750_BCR1_OPUP      0x01000000    /* Output Pin Pull-up Control:
-+                           0 - pull-up resistor is on for
-+                           control output pins
-+                           1 - pull-up resistor is off */
-+#define SH7750_BCR1_A1MBC     0x00200000    /* Area 1 SRAM Byte Control Mode:
-+                           0 - Area 1 SRAM is set to
-+                           normal mode
-+                           1 - Area 1 SRAM is set to byte
-+                           control mode */
-+#define SH7750_BCR1_A4MBC     0x00100000    /* Area 4 SRAM Byte Control Mode:
-+                           0 - Area 4 SRAM is set to
-+                           normal mode
-+                           1 - Area 4 SRAM is set to byte
-+                           control mode */
-+#define SH7750_BCR1_BREQEN    0x00080000    /* BREQ Enable:
-+                           0 - External requests are  not
-+                           accepted
-+                           1 - External requests are
-+                           accepted */
-+#define SH7750_BCR1_PSHR      0x00040000    /* Partial Sharing Bit:
-+                           0 - Master Mode
-+                           1 - Partial-sharing Mode */
-+#define SH7750_BCR1_MEMMPX    0x00020000    /* Area 1 to 6 MPX Interface:
-+                           0 - SRAM/burst ROM interface
-+                           1 - MPX interface */
-+#define SH7750_BCR1_HIZMEM    0x00008000    /* High Impendance Control. Specifies
-+                           the state of A[25:0], BS\, CSn\,
-+                           RD/WR\, CE2A\, CE2B\ in standby
-+                           mode and when bus is released:
-+                           0 - signals go to High-Z mode
-+                           1 - signals driven */
-+#define SH7750_BCR1_HIZCNT    0x00004000    /* High Impendance Control. Specifies
-+                           the state of the RAS\, RAS2\, WEn\,
-+                           CASn\, DQMn, RD\, CASS\, FRAME\,
-+                           RD2\ signals in standby mode and
-+                           when bus is released:
-+                           0 - signals go to High-Z mode
-+                           1 - signals driven */
-+#define SH7750_BCR1_A0BST     0x00003800    /* Area 0 Burst ROM Control */
-+#define SH7750_BCR1_A0BST_SRAM    0x0000    /*   Area 0 accessed as SRAM i/f */
-+#define SH7750_BCR1_A0BST_ROM4    0x0800    /*   Area 0 accessed as burst ROM
-+                           interface, 4 cosequtive access */
-+#define SH7750_BCR1_A0BST_ROM8    0x1000    /*   Area 0 accessed as burst ROM
-+                           interface, 8 cosequtive access */
-+#define SH7750_BCR1_A0BST_ROM16   0x1800    /*   Area 0 accessed as burst ROM
-+                           interface, 16 cosequtive access */
-+#define SH7750_BCR1_A0BST_ROM32   0x2000    /*   Area 0 accessed as burst ROM
-+                           interface, 32 cosequtive access */
-+
-+#define SH7750_BCR1_A5BST     0x00000700    /* Area 5 Burst ROM Control */
-+#define SH7750_BCR1_A5BST_SRAM    0x0000    /*   Area 5 accessed as SRAM i/f */
-+#define SH7750_BCR1_A5BST_ROM4    0x0100    /*   Area 5 accessed as burst ROM
-+                           interface, 4 cosequtive access */
-+#define SH7750_BCR1_A5BST_ROM8    0x0200    /*   Area 5 accessed as burst ROM
-+                           interface, 8 cosequtive access */
-+#define SH7750_BCR1_A5BST_ROM16   0x0300    /*   Area 5 accessed as burst ROM
-+                           interface, 16 cosequtive access */
-+#define SH7750_BCR1_A5BST_ROM32   0x0400    /*   Area 5 accessed as burst ROM
-+                           interface, 32 cosequtive access */
-+
-+#define SH7750_BCR1_A6BST     0x000000E0    /* Area 6 Burst ROM Control */
-+#define SH7750_BCR1_A6BST_SRAM    0x0000    /*   Area 6 accessed as SRAM i/f */
-+#define SH7750_BCR1_A6BST_ROM4    0x0020    /*   Area 6 accessed as burst ROM
-+                           interface, 4 cosequtive access */
-+#define SH7750_BCR1_A6BST_ROM8    0x0040    /*   Area 6 accessed as burst ROM
-+                           interface, 8 cosequtive access */
-+#define SH7750_BCR1_A6BST_ROM16   0x0060    /*   Area 6 accessed as burst ROM
-+                           interface, 16 cosequtive access */
-+#define SH7750_BCR1_A6BST_ROM32   0x0080    /*   Area 6 accessed as burst ROM
-+                           interface, 32 cosequtive access */
-+
-+#define SH7750_BCR1_DRAMTP        0x001C    /* Area 2 and 3 Memory Type */
-+#define SH7750_BCR1_DRAMTP_2SRAM_3SRAM   0x0000    /* Area 2 and 3 are SRAM or MPX
-+                           interface. */
-+#define SH7750_BCR1_DRAMTP_2SRAM_3SDRAM  0x0008    /* Area 2 - SRAM/MPX, Area 3 -
-+                           synchronous DRAM */
-+#define SH7750_BCR1_DRAMTP_2SDRAM_3SDRAM 0x000C    /* Area 2 and 3 are synchronous
-+                           DRAM interface */
-+#define SH7750_BCR1_DRAMTP_2SRAM_3DRAM   0x0010    /* Area 2 - SRAM/MPX, Area 3 -
-+                           DRAM interface */
-+#define SH7750_BCR1_DRAMTP_2DRAM_3DRAM   0x0014    /* Area 2 and 3 are DRAM
-+                           interface */
-+
-+#define SH7750_BCR1_A56PCM    0x00000001    /* Area 5 and 6 Bus Type:
-+                           0 - SRAM interface
-+                           1 - PCMCIA interface */
- 
- /* Bus Control Register 2 (half) - BCR2 */
--#define SH7750_BCR2_REGOFS    0x800004	/* offset */
-+#define SH7750_BCR2_REGOFS    0x800004    /* offset */
- #define SH7750_BCR2           SH7750_P4_REG32(SH7750_BCR2_REGOFS)
- #define SH7750_BCR2_A7        SH7750_A7_REG32(SH7750_BCR2_REGOFS)
- 
--#define SH7750_BCR2_A0SZ      0xC000	/* Area 0 Bus Width */
-+#define SH7750_BCR2_A0SZ      0xC000    /* Area 0 Bus Width */
- #define SH7750_BCR2_A0SZ_S    14
--#define SH7750_BCR2_A6SZ      0x3000	/* Area 6 Bus Width */
-+#define SH7750_BCR2_A6SZ      0x3000    /* Area 6 Bus Width */
- #define SH7750_BCR2_A6SZ_S    12
--#define SH7750_BCR2_A5SZ      0x0C00	/* Area 5 Bus Width */
-+#define SH7750_BCR2_A5SZ      0x0C00    /* Area 5 Bus Width */
- #define SH7750_BCR2_A5SZ_S    10
--#define SH7750_BCR2_A4SZ      0x0300	/* Area 4 Bus Width */
-+#define SH7750_BCR2_A4SZ      0x0300    /* Area 4 Bus Width */
- #define SH7750_BCR2_A4SZ_S    8
--#define SH7750_BCR2_A3SZ      0x00C0	/* Area 3 Bus Width */
-+#define SH7750_BCR2_A3SZ      0x00C0    /* Area 3 Bus Width */
- #define SH7750_BCR2_A3SZ_S    6
--#define SH7750_BCR2_A2SZ      0x0030	/* Area 2 Bus Width */
-+#define SH7750_BCR2_A2SZ      0x0030    /* Area 2 Bus Width */
- #define SH7750_BCR2_A2SZ_S    4
--#define SH7750_BCR2_A1SZ      0x000C	/* Area 1 Bus Width */
-+#define SH7750_BCR2_A1SZ      0x000C    /* Area 1 Bus Width */
- #define SH7750_BCR2_A1SZ_S    2
--#define SH7750_BCR2_SZ_64     0	/* 64 bits */
--#define SH7750_BCR2_SZ_8      1	/* 8 bits */
--#define SH7750_BCR2_SZ_16     2	/* 16 bits */
--#define SH7750_BCR2_SZ_32     3	/* 32 bits */
--#define SH7750_BCR2_PORTEN    0x0001	/* Port Function Enable :
--					   0 - D51-D32 are not used as a port
--					   1 - D51-D32 are used as a port */
-+#define SH7750_BCR2_SZ_64     0    /* 64 bits */
-+#define SH7750_BCR2_SZ_8      1    /* 8 bits */
-+#define SH7750_BCR2_SZ_16     2    /* 16 bits */
-+#define SH7750_BCR2_SZ_32     3    /* 32 bits */
-+#define SH7750_BCR2_PORTEN    0x0001    /* Port Function Enable :
-+                       0 - D51-D32 are not used as a port
-+                       1 - D51-D32 are used as a port */
- 
- /* Wait Control Register 1 - WCR1 */
--#define SH7750_WCR1_REGOFS    0x800008	/* offset */
-+#define SH7750_WCR1_REGOFS    0x800008    /* offset */
- #define SH7750_WCR1           SH7750_P4_REG32(SH7750_WCR1_REGOFS)
- #define SH7750_WCR1_A7        SH7750_A7_REG32(SH7750_WCR1_REGOFS)
--#define SH7750_WCR1_DMAIW     0x70000000	/* DACK Device Inter-Cycle Idle
--						   specification */
-+#define SH7750_WCR1_DMAIW     0x70000000    /* DACK Device Inter-Cycle Idle
-+                           specification */
- #define SH7750_WCR1_DMAIW_S   28
--#define SH7750_WCR1_A6IW      0x07000000	/* Area 6 Inter-Cycle Idle spec. */
-+#define SH7750_WCR1_A6IW      0x07000000    /* Area 6 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A6IW_S    24
--#define SH7750_WCR1_A5IW      0x00700000	/* Area 5 Inter-Cycle Idle spec. */
-+#define SH7750_WCR1_A5IW      0x00700000    /* Area 5 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A5IW_S    20
--#define SH7750_WCR1_A4IW      0x00070000	/* Area 4 Inter-Cycle Idle spec. */
-+#define SH7750_WCR1_A4IW      0x00070000    /* Area 4 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A4IW_S    16
--#define SH7750_WCR1_A3IW      0x00007000	/* Area 3 Inter-Cycle Idle spec. */
-+#define SH7750_WCR1_A3IW      0x00007000    /* Area 3 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A3IW_S    12
--#define SH7750_WCR1_A2IW      0x00000700	/* Area 2 Inter-Cycle Idle spec. */
-+#define SH7750_WCR1_A2IW      0x00000700    /* Area 2 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A2IW_S    8
--#define SH7750_WCR1_A1IW      0x00000070	/* Area 1 Inter-Cycle Idle spec. */
-+#define SH7750_WCR1_A1IW      0x00000070    /* Area 1 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A1IW_S    4
--#define SH7750_WCR1_A0IW      0x00000007	/* Area 0 Inter-Cycle Idle spec. */
-+#define SH7750_WCR1_A0IW      0x00000007    /* Area 0 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A0IW_S    0
- 
- /* Wait Control Register 2 - WCR2 */
--#define SH7750_WCR2_REGOFS    0x80000C	/* offset */
-+#define SH7750_WCR2_REGOFS    0x80000C    /* offset */
- #define SH7750_WCR2           SH7750_P4_REG32(SH7750_WCR2_REGOFS)
- #define SH7750_WCR2_A7        SH7750_A7_REG32(SH7750_WCR2_REGOFS)
- 
--#define SH7750_WCR2_A6W       0xE0000000	/* Area 6 Wait Control */
-+#define SH7750_WCR2_A6W       0xE0000000    /* Area 6 Wait Control */
- #define SH7750_WCR2_A6W_S     29
--#define SH7750_WCR2_A6B       0x1C000000	/* Area 6 Burst Pitch */
-+#define SH7750_WCR2_A6B       0x1C000000    /* Area 6 Burst Pitch */
- #define SH7750_WCR2_A6B_S     26
--#define SH7750_WCR2_A5W       0x03800000	/* Area 5 Wait Control */
-+#define SH7750_WCR2_A5W       0x03800000    /* Area 5 Wait Control */
- #define SH7750_WCR2_A5W_S     23
--#define SH7750_WCR2_A5B       0x00700000	/* Area 5 Burst Pitch */
-+#define SH7750_WCR2_A5B       0x00700000    /* Area 5 Burst Pitch */
- #define SH7750_WCR2_A5B_S     20
--#define SH7750_WCR2_A4W       0x000E0000	/* Area 4 Wait Control */
-+#define SH7750_WCR2_A4W       0x000E0000    /* Area 4 Wait Control */
- #define SH7750_WCR2_A4W_S     17
--#define SH7750_WCR2_A3W       0x0000E000	/* Area 3 Wait Control */
-+#define SH7750_WCR2_A3W       0x0000E000    /* Area 3 Wait Control */
- #define SH7750_WCR2_A3W_S     13
--#define SH7750_WCR2_A2W       0x00000E00	/* Area 2 Wait Control */
-+#define SH7750_WCR2_A2W       0x00000E00    /* Area 2 Wait Control */
- #define SH7750_WCR2_A2W_S     9
--#define SH7750_WCR2_A1W       0x000001C0	/* Area 1 Wait Control */
-+#define SH7750_WCR2_A1W       0x000001C0    /* Area 1 Wait Control */
- #define SH7750_WCR2_A1W_S     6
--#define SH7750_WCR2_A0W       0x00000038	/* Area 0 Wait Control */
-+#define SH7750_WCR2_A0W       0x00000038    /* Area 0 Wait Control */
- #define SH7750_WCR2_A0W_S     3
--#define SH7750_WCR2_A0B       0x00000007	/* Area 0 Burst Pitch */
-+#define SH7750_WCR2_A0B       0x00000007    /* Area 0 Burst Pitch */
- #define SH7750_WCR2_A0B_S     0
- 
--#define SH7750_WCR2_WS0       0	/* 0 wait states inserted */
--#define SH7750_WCR2_WS1       1	/* 1 wait states inserted */
--#define SH7750_WCR2_WS2       2	/* 2 wait states inserted */
--#define SH7750_WCR2_WS3       3	/* 3 wait states inserted */
--#define SH7750_WCR2_WS6       4	/* 6 wait states inserted */
--#define SH7750_WCR2_WS9       5	/* 9 wait states inserted */
--#define SH7750_WCR2_WS12      6	/* 12 wait states inserted */
--#define SH7750_WCR2_WS15      7	/* 15 wait states inserted */
--
--#define SH7750_WCR2_BPWS0     0	/* 0 wait states inserted from 2nd access */
--#define SH7750_WCR2_BPWS1     1	/* 1 wait states inserted from 2nd access */
--#define SH7750_WCR2_BPWS2     2	/* 2 wait states inserted from 2nd access */
--#define SH7750_WCR2_BPWS3     3	/* 3 wait states inserted from 2nd access */
--#define SH7750_WCR2_BPWS4     4	/* 4 wait states inserted from 2nd access */
--#define SH7750_WCR2_BPWS5     5	/* 5 wait states inserted from 2nd access */
--#define SH7750_WCR2_BPWS6     6	/* 6 wait states inserted from 2nd access */
--#define SH7750_WCR2_BPWS7     7	/* 7 wait states inserted from 2nd access */
-+#define SH7750_WCR2_WS0       0    /* 0 wait states inserted */
-+#define SH7750_WCR2_WS1       1    /* 1 wait states inserted */
-+#define SH7750_WCR2_WS2       2    /* 2 wait states inserted */
-+#define SH7750_WCR2_WS3       3    /* 3 wait states inserted */
-+#define SH7750_WCR2_WS6       4    /* 6 wait states inserted */
-+#define SH7750_WCR2_WS9       5    /* 9 wait states inserted */
-+#define SH7750_WCR2_WS12      6    /* 12 wait states inserted */
-+#define SH7750_WCR2_WS15      7    /* 15 wait states inserted */
-+
-+#define SH7750_WCR2_BPWS0     0    /* 0 wait states inserted from 2nd access */
-+#define SH7750_WCR2_BPWS1     1    /* 1 wait states inserted from 2nd access */
-+#define SH7750_WCR2_BPWS2     2    /* 2 wait states inserted from 2nd access */
-+#define SH7750_WCR2_BPWS3     3    /* 3 wait states inserted from 2nd access */
-+#define SH7750_WCR2_BPWS4     4    /* 4 wait states inserted from 2nd access */
-+#define SH7750_WCR2_BPWS5     5    /* 5 wait states inserted from 2nd access */
-+#define SH7750_WCR2_BPWS6     6    /* 6 wait states inserted from 2nd access */
-+#define SH7750_WCR2_BPWS7     7    /* 7 wait states inserted from 2nd access */
- 
- /* DRAM CAS\ Assertion Delay (area 3,2) */
--#define SH7750_WCR2_DRAM_CAS_ASW1   0	/* 1 cycle */
--#define SH7750_WCR2_DRAM_CAS_ASW2   1	/* 2 cycles */
--#define SH7750_WCR2_DRAM_CAS_ASW3   2	/* 3 cycles */
--#define SH7750_WCR2_DRAM_CAS_ASW4   3	/* 4 cycles */
--#define SH7750_WCR2_DRAM_CAS_ASW7   4	/* 7 cycles */
--#define SH7750_WCR2_DRAM_CAS_ASW10  5	/* 10 cycles */
--#define SH7750_WCR2_DRAM_CAS_ASW13  6	/* 13 cycles */
--#define SH7750_WCR2_DRAM_CAS_ASW16  7	/* 16 cycles */
-+#define SH7750_WCR2_DRAM_CAS_ASW1   0    /* 1 cycle */
-+#define SH7750_WCR2_DRAM_CAS_ASW2   1    /* 2 cycles */
-+#define SH7750_WCR2_DRAM_CAS_ASW3   2    /* 3 cycles */
-+#define SH7750_WCR2_DRAM_CAS_ASW4   3    /* 4 cycles */
-+#define SH7750_WCR2_DRAM_CAS_ASW7   4    /* 7 cycles */
-+#define SH7750_WCR2_DRAM_CAS_ASW10  5    /* 10 cycles */
-+#define SH7750_WCR2_DRAM_CAS_ASW13  6    /* 13 cycles */
-+#define SH7750_WCR2_DRAM_CAS_ASW16  7    /* 16 cycles */
- 
- /* SDRAM CAS\ Latency Cycles */
--#define SH7750_WCR2_SDRAM_CAS_LAT1  1	/* 1 cycle */
--#define SH7750_WCR2_SDRAM_CAS_LAT2  2	/* 2 cycles */
--#define SH7750_WCR2_SDRAM_CAS_LAT3  3	/* 3 cycles */
--#define SH7750_WCR2_SDRAM_CAS_LAT4  4	/* 4 cycles */
--#define SH7750_WCR2_SDRAM_CAS_LAT5  5	/* 5 cycles */
-+#define SH7750_WCR2_SDRAM_CAS_LAT1  1    /* 1 cycle */
-+#define SH7750_WCR2_SDRAM_CAS_LAT2  2    /* 2 cycles */
-+#define SH7750_WCR2_SDRAM_CAS_LAT3  3    /* 3 cycles */
-+#define SH7750_WCR2_SDRAM_CAS_LAT4  4    /* 4 cycles */
-+#define SH7750_WCR2_SDRAM_CAS_LAT5  5    /* 5 cycles */
- 
- /* Wait Control Register 3 - WCR3 */
--#define SH7750_WCR3_REGOFS    0x800010	/* offset */
-+#define SH7750_WCR3_REGOFS    0x800010    /* offset */
- #define SH7750_WCR3           SH7750_P4_REG32(SH7750_WCR3_REGOFS)
- #define SH7750_WCR3_A7        SH7750_A7_REG32(SH7750_WCR3_REGOFS)
- 
--#define SH7750_WCR3_A6S       0x04000000	/* Area 6 Write Strobe Setup time */
--#define SH7750_WCR3_A6H       0x03000000	/* Area 6 Data Hold Time */
-+#define SH7750_WCR3_A6S       0x04000000    /* Area 6 Write Strobe Setup time */
-+#define SH7750_WCR3_A6H       0x03000000    /* Area 6 Data Hold Time */
- #define SH7750_WCR3_A6H_S     24
--#define SH7750_WCR3_A5S       0x00400000	/* Area 5 Write Strobe Setup time */
--#define SH7750_WCR3_A5H       0x00300000	/* Area 5 Data Hold Time */
-+#define SH7750_WCR3_A5S       0x00400000    /* Area 5 Write Strobe Setup time */
-+#define SH7750_WCR3_A5H       0x00300000    /* Area 5 Data Hold Time */
- #define SH7750_WCR3_A5H_S     20
--#define SH7750_WCR3_A4S       0x00040000	/* Area 4 Write Strobe Setup time */
--#define SH7750_WCR3_A4H       0x00030000	/* Area 4 Data Hold Time */
-+#define SH7750_WCR3_A4S       0x00040000    /* Area 4 Write Strobe Setup time */
-+#define SH7750_WCR3_A4H       0x00030000    /* Area 4 Data Hold Time */
- #define SH7750_WCR3_A4H_S     16
--#define SH7750_WCR3_A3S       0x00004000	/* Area 3 Write Strobe Setup time */
--#define SH7750_WCR3_A3H       0x00003000	/* Area 3 Data Hold Time */
-+#define SH7750_WCR3_A3S       0x00004000    /* Area 3 Write Strobe Setup time */
-+#define SH7750_WCR3_A3H       0x00003000    /* Area 3 Data Hold Time */
- #define SH7750_WCR3_A3H_S     12
--#define SH7750_WCR3_A2S       0x00000400	/* Area 2 Write Strobe Setup time */
--#define SH7750_WCR3_A2H       0x00000300	/* Area 2 Data Hold Time */
-+#define SH7750_WCR3_A2S       0x00000400    /* Area 2 Write Strobe Setup time */
-+#define SH7750_WCR3_A2H       0x00000300    /* Area 2 Data Hold Time */
- #define SH7750_WCR3_A2H_S     8
--#define SH7750_WCR3_A1S       0x00000040	/* Area 1 Write Strobe Setup time */
--#define SH7750_WCR3_A1H       0x00000030	/* Area 1 Data Hold Time */
-+#define SH7750_WCR3_A1S       0x00000040    /* Area 1 Write Strobe Setup time */
-+#define SH7750_WCR3_A1H       0x00000030    /* Area 1 Data Hold Time */
- #define SH7750_WCR3_A1H_S     4
--#define SH7750_WCR3_A0S       0x00000004	/* Area 0 Write Strobe Setup time */
--#define SH7750_WCR3_A0H       0x00000003	/* Area 0 Data Hold Time */
-+#define SH7750_WCR3_A0S       0x00000004    /* Area 0 Write Strobe Setup time */
-+#define SH7750_WCR3_A0H       0x00000003    /* Area 0 Data Hold Time */
- #define SH7750_WCR3_A0H_S     0
- 
--#define SH7750_WCR3_DHWS_0    0	/* 0 wait states data hold time */
--#define SH7750_WCR3_DHWS_1    1	/* 1 wait states data hold time */
--#define SH7750_WCR3_DHWS_2    2	/* 2 wait states data hold time */
--#define SH7750_WCR3_DHWS_3    3	/* 3 wait states data hold time */
-+#define SH7750_WCR3_DHWS_0    0    /* 0 wait states data hold time */
-+#define SH7750_WCR3_DHWS_1    1    /* 1 wait states data hold time */
-+#define SH7750_WCR3_DHWS_2    2    /* 2 wait states data hold time */
-+#define SH7750_WCR3_DHWS_3    3    /* 3 wait states data hold time */
- 
--#define SH7750_MCR_REGOFS     0x800014	/* offset */
-+#define SH7750_MCR_REGOFS     0x800014    /* offset */
- #define SH7750_MCR            SH7750_P4_REG32(SH7750_MCR_REGOFS)
- #define SH7750_MCR_A7         SH7750_A7_REG32(SH7750_MCR_REGOFS)
- 
--#define SH7750_MCR_RASD       0x80000000	/* RAS Down mode */
--#define SH7750_MCR_MRSET      0x40000000	/* SDRAM Mode Register Set */
--#define SH7750_MCR_PALL       0x00000000	/* SDRAM Precharge All cmd. Mode */
--#define SH7750_MCR_TRC        0x38000000	/* RAS Precharge Time at End of
--						   Refresh: */
--#define SH7750_MCR_TRC_0      0x00000000	/*    0 */
--#define SH7750_MCR_TRC_3      0x08000000	/*    3 */
--#define SH7750_MCR_TRC_6      0x10000000	/*    6 */
--#define SH7750_MCR_TRC_9      0x18000000	/*    9 */
--#define SH7750_MCR_TRC_12     0x20000000	/*    12 */
--#define SH7750_MCR_TRC_15     0x28000000	/*    15 */
--#define SH7750_MCR_TRC_18     0x30000000	/*    18 */
--#define SH7750_MCR_TRC_21     0x38000000	/*    21 */
--
--#define SH7750_MCR_TCAS       0x00800000	/* CAS Negation Period */
--#define SH7750_MCR_TCAS_1     0x00000000	/*    1 */
--#define SH7750_MCR_TCAS_2     0x00800000	/*    2 */
--
--#define SH7750_MCR_TPC        0x00380000	/* DRAM: RAS Precharge Period
--						   SDRAM: minimum number of cycles
--						   until the next bank active cmd
--						   is output after precharging */
-+#define SH7750_MCR_RASD       0x80000000    /* RAS Down mode */
-+#define SH7750_MCR_MRSET      0x40000000    /* SDRAM Mode Register Set */
-+#define SH7750_MCR_PALL       0x00000000    /* SDRAM Precharge All cmd. Mode */
-+#define SH7750_MCR_TRC        0x38000000    /* RAS Precharge Time at End of
-+                           Refresh: */
-+#define SH7750_MCR_TRC_0      0x00000000    /*    0 */
-+#define SH7750_MCR_TRC_3      0x08000000    /*    3 */
-+#define SH7750_MCR_TRC_6      0x10000000    /*    6 */
-+#define SH7750_MCR_TRC_9      0x18000000    /*    9 */
-+#define SH7750_MCR_TRC_12     0x20000000    /*    12 */
-+#define SH7750_MCR_TRC_15     0x28000000    /*    15 */
-+#define SH7750_MCR_TRC_18     0x30000000    /*    18 */
-+#define SH7750_MCR_TRC_21     0x38000000    /*    21 */
-+
-+#define SH7750_MCR_TCAS       0x00800000    /* CAS Negation Period */
-+#define SH7750_MCR_TCAS_1     0x00000000    /*    1 */
-+#define SH7750_MCR_TCAS_2     0x00800000    /*    2 */
-+
-+#define SH7750_MCR_TPC        0x00380000    /* DRAM: RAS Precharge Period
-+                           SDRAM: minimum number of cycles
-+                           until the next bank active cmd
-+                           is output after precharging */
- #define SH7750_MCR_TPC_S      19
--#define SH7750_MCR_TPC_SDRAM_1 0x00000000	/* 1 cycle */
--#define SH7750_MCR_TPC_SDRAM_2 0x00080000	/* 2 cycles */
--#define SH7750_MCR_TPC_SDRAM_3 0x00100000	/* 3 cycles */
--#define SH7750_MCR_TPC_SDRAM_4 0x00180000	/* 4 cycles */
--#define SH7750_MCR_TPC_SDRAM_5 0x00200000	/* 5 cycles */
--#define SH7750_MCR_TPC_SDRAM_6 0x00280000	/* 6 cycles */
--#define SH7750_MCR_TPC_SDRAM_7 0x00300000	/* 7 cycles */
--#define SH7750_MCR_TPC_SDRAM_8 0x00380000	/* 8 cycles */
--
--#define SH7750_MCR_RCD        0x00030000	/* DRAM: RAS-CAS Assertion Delay time
--						   SDRAM: bank active-read/write cmd
--						   delay time */
--#define SH7750_MCR_RCD_DRAM_2  0x00000000	/* DRAM delay 2 clocks */
--#define SH7750_MCR_RCD_DRAM_3  0x00010000	/* DRAM delay 3 clocks */
--#define SH7750_MCR_RCD_DRAM_4  0x00020000	/* DRAM delay 4 clocks */
--#define SH7750_MCR_RCD_DRAM_5  0x00030000	/* DRAM delay 5 clocks */
--#define SH7750_MCR_RCD_SDRAM_2 0x00010000	/* DRAM delay 2 clocks */
--#define SH7750_MCR_RCD_SDRAM_3 0x00020000	/* DRAM delay 3 clocks */
--#define SH7750_MCR_RCD_SDRAM_4 0x00030000	/* DRAM delay 4 clocks */
--
--#define SH7750_MCR_TRWL       0x0000E000	/* SDRAM Write Precharge Delay */
--#define SH7750_MCR_TRWL_1     0x00000000	/*    1 */
--#define SH7750_MCR_TRWL_2     0x00002000	/*    2 */
--#define SH7750_MCR_TRWL_3     0x00004000	/*    3 */
--#define SH7750_MCR_TRWL_4     0x00006000	/*    4 */
--#define SH7750_MCR_TRWL_5     0x00008000	/*    5 */
--
--#define SH7750_MCR_TRAS       0x00001C00	/* DRAM: CAS-Before-RAS Refresh RAS
--						   asserting period
--						   SDRAM: Command interval after
--						   synchronous DRAM refresh */
--#define SH7750_MCR_TRAS_DRAM_2         0x00000000	/* 2 */
--#define SH7750_MCR_TRAS_DRAM_3         0x00000400	/* 3 */
--#define SH7750_MCR_TRAS_DRAM_4         0x00000800	/* 4 */
--#define SH7750_MCR_TRAS_DRAM_5         0x00000C00	/* 5 */
--#define SH7750_MCR_TRAS_DRAM_6         0x00001000	/* 6 */
--#define SH7750_MCR_TRAS_DRAM_7         0x00001400	/* 7 */
--#define SH7750_MCR_TRAS_DRAM_8         0x00001800	/* 8 */
--#define SH7750_MCR_TRAS_DRAM_9         0x00001C00	/* 9 */
--
--#define SH7750_MCR_TRAS_SDRAM_TRC_4    0x00000000	/* 4 + TRC */
--#define SH7750_MCR_TRAS_SDRAM_TRC_5    0x00000400	/* 5 + TRC */
--#define SH7750_MCR_TRAS_SDRAM_TRC_6    0x00000800	/* 6 + TRC */
--#define SH7750_MCR_TRAS_SDRAM_TRC_7    0x00000C00	/* 7 + TRC */
--#define SH7750_MCR_TRAS_SDRAM_TRC_8    0x00001000	/* 8 + TRC */
--#define SH7750_MCR_TRAS_SDRAM_TRC_9    0x00001400	/* 9 + TRC */
--#define SH7750_MCR_TRAS_SDRAM_TRC_10   0x00001800	/* 10 + TRC */
--#define SH7750_MCR_TRAS_SDRAM_TRC_11   0x00001C00	/* 11 + TRC */
--
--#define SH7750_MCR_BE         0x00000200	/* Burst Enable */
--#define SH7750_MCR_SZ         0x00000180	/* Memory Data Size */
--#define SH7750_MCR_SZ_64      0x00000000	/*    64 bits */
--#define SH7750_MCR_SZ_16      0x00000100	/*    16 bits */
--#define SH7750_MCR_SZ_32      0x00000180	/*    32 bits */
--
--#define SH7750_MCR_AMX        0x00000078	/* Address Multiplexing */
-+#define SH7750_MCR_TPC_SDRAM_1 0x00000000    /* 1 cycle */
-+#define SH7750_MCR_TPC_SDRAM_2 0x00080000    /* 2 cycles */
-+#define SH7750_MCR_TPC_SDRAM_3 0x00100000    /* 3 cycles */
-+#define SH7750_MCR_TPC_SDRAM_4 0x00180000    /* 4 cycles */
-+#define SH7750_MCR_TPC_SDRAM_5 0x00200000    /* 5 cycles */
-+#define SH7750_MCR_TPC_SDRAM_6 0x00280000    /* 6 cycles */
-+#define SH7750_MCR_TPC_SDRAM_7 0x00300000    /* 7 cycles */
-+#define SH7750_MCR_TPC_SDRAM_8 0x00380000    /* 8 cycles */
-+
-+#define SH7750_MCR_RCD        0x00030000    /* DRAM: RAS-CAS Assertion Delay time
-+                           SDRAM: bank active-read/write cmd
-+                           delay time */
-+#define SH7750_MCR_RCD_DRAM_2  0x00000000    /* DRAM delay 2 clocks */
-+#define SH7750_MCR_RCD_DRAM_3  0x00010000    /* DRAM delay 3 clocks */
-+#define SH7750_MCR_RCD_DRAM_4  0x00020000    /* DRAM delay 4 clocks */
-+#define SH7750_MCR_RCD_DRAM_5  0x00030000    /* DRAM delay 5 clocks */
-+#define SH7750_MCR_RCD_SDRAM_2 0x00010000    /* DRAM delay 2 clocks */
-+#define SH7750_MCR_RCD_SDRAM_3 0x00020000    /* DRAM delay 3 clocks */
-+#define SH7750_MCR_RCD_SDRAM_4 0x00030000    /* DRAM delay 4 clocks */
-+
-+#define SH7750_MCR_TRWL       0x0000E000    /* SDRAM Write Precharge Delay */
-+#define SH7750_MCR_TRWL_1     0x00000000    /*    1 */
-+#define SH7750_MCR_TRWL_2     0x00002000    /*    2 */
-+#define SH7750_MCR_TRWL_3     0x00004000    /*    3 */
-+#define SH7750_MCR_TRWL_4     0x00006000    /*    4 */
-+#define SH7750_MCR_TRWL_5     0x00008000    /*    5 */
-+
-+#define SH7750_MCR_TRAS       0x00001C00    /* DRAM: CAS-Before-RAS Refresh RAS
-+                           asserting period
-+                           SDRAM: Command interval after
-+                           synchronous DRAM refresh */
-+#define SH7750_MCR_TRAS_DRAM_2         0x00000000    /* 2 */
-+#define SH7750_MCR_TRAS_DRAM_3         0x00000400    /* 3 */
-+#define SH7750_MCR_TRAS_DRAM_4         0x00000800    /* 4 */
-+#define SH7750_MCR_TRAS_DRAM_5         0x00000C00    /* 5 */
-+#define SH7750_MCR_TRAS_DRAM_6         0x00001000    /* 6 */
-+#define SH7750_MCR_TRAS_DRAM_7         0x00001400    /* 7 */
-+#define SH7750_MCR_TRAS_DRAM_8         0x00001800    /* 8 */
-+#define SH7750_MCR_TRAS_DRAM_9         0x00001C00    /* 9 */
-+
-+#define SH7750_MCR_TRAS_SDRAM_TRC_4    0x00000000    /* 4 + TRC */
-+#define SH7750_MCR_TRAS_SDRAM_TRC_5    0x00000400    /* 5 + TRC */
-+#define SH7750_MCR_TRAS_SDRAM_TRC_6    0x00000800    /* 6 + TRC */
-+#define SH7750_MCR_TRAS_SDRAM_TRC_7    0x00000C00    /* 7 + TRC */
-+#define SH7750_MCR_TRAS_SDRAM_TRC_8    0x00001000    /* 8 + TRC */
-+#define SH7750_MCR_TRAS_SDRAM_TRC_9    0x00001400    /* 9 + TRC */
-+#define SH7750_MCR_TRAS_SDRAM_TRC_10   0x00001800    /* 10 + TRC */
-+#define SH7750_MCR_TRAS_SDRAM_TRC_11   0x00001C00    /* 11 + TRC */
-+
-+#define SH7750_MCR_BE         0x00000200    /* Burst Enable */
-+#define SH7750_MCR_SZ         0x00000180    /* Memory Data Size */
-+#define SH7750_MCR_SZ_64      0x00000000    /*    64 bits */
-+#define SH7750_MCR_SZ_16      0x00000100    /*    16 bits */
-+#define SH7750_MCR_SZ_32      0x00000180    /*    32 bits */
-+
-+#define SH7750_MCR_AMX        0x00000078    /* Address Multiplexing */
- #define SH7750_MCR_AMX_S      3
--#define SH7750_MCR_AMX_DRAM_8BIT_COL    0x00000000	/* 8-bit column addr */
--#define SH7750_MCR_AMX_DRAM_9BIT_COL    0x00000008	/* 9-bit column addr */
--#define SH7750_MCR_AMX_DRAM_10BIT_COL   0x00000010	/* 10-bit column addr */
--#define SH7750_MCR_AMX_DRAM_11BIT_COL   0x00000018	/* 11-bit column addr */
--#define SH7750_MCR_AMX_DRAM_12BIT_COL   0x00000020	/* 12-bit column addr */
-+#define SH7750_MCR_AMX_DRAM_8BIT_COL    0x00000000    /* 8-bit column addr */
-+#define SH7750_MCR_AMX_DRAM_9BIT_COL    0x00000008    /* 9-bit column addr */
-+#define SH7750_MCR_AMX_DRAM_10BIT_COL   0x00000010    /* 10-bit column addr */
-+#define SH7750_MCR_AMX_DRAM_11BIT_COL   0x00000018    /* 11-bit column addr */
-+#define SH7750_MCR_AMX_DRAM_12BIT_COL   0x00000020    /* 12-bit column addr */
- /* See SH7750 Hardware Manual for SDRAM address multiplexor selection */
- 
--#define SH7750_MCR_RFSH       0x00000004	/* Refresh Control */
--#define SH7750_MCR_RMODE      0x00000002	/* Refresh Mode: */
--#define SH7750_MCR_RMODE_NORMAL 0x00000000	/* Normal Refresh Mode */
--#define SH7750_MCR_RMODE_SELF   0x00000002	/* Self-Refresh Mode */
--#define SH7750_MCR_RMODE_EDO    0x00000001	/* EDO Mode */
-+#define SH7750_MCR_RFSH       0x00000004    /* Refresh Control */
-+#define SH7750_MCR_RMODE      0x00000002    /* Refresh Mode: */
-+#define SH7750_MCR_RMODE_NORMAL 0x00000000    /* Normal Refresh Mode */
-+#define SH7750_MCR_RMODE_SELF   0x00000002    /* Self-Refresh Mode */
-+#define SH7750_MCR_RMODE_EDO    0x00000001    /* EDO Mode */
- 
- /* SDRAM Mode Set address */
- #define SH7750_SDRAM_MODE_A2_BASE  0xFF900000
-@@ -894,119 +894,119 @@
- 
- 
- /* PCMCIA Control Register (half) - PCR */
--#define SH7750_PCR_REGOFS     0x800018	/* offset */
-+#define SH7750_PCR_REGOFS     0x800018    /* offset */
- #define SH7750_PCR            SH7750_P4_REG32(SH7750_PCR_REGOFS)
- #define SH7750_PCR_A7         SH7750_A7_REG32(SH7750_PCR_REGOFS)
- 
--#define SH7750_PCR_A5PCW      0xC000	/* Area 5 PCMCIA Wait - Number of wait
--					   states to be added to the number of
--					   waits specified by WCR2 in a low-speed
--					   PCMCIA wait cycle */
--#define SH7750_PCR_A5PCW_0    0x0000	/*    0 waits inserted */
--#define SH7750_PCR_A5PCW_15   0x4000	/*    15 waits inserted */
--#define SH7750_PCR_A5PCW_30   0x8000	/*    30 waits inserted */
--#define SH7750_PCR_A5PCW_50   0xC000	/*    50 waits inserted */
--
--#define SH7750_PCR_A6PCW      0x3000	/* Area 6 PCMCIA Wait - Number of wait
--					   states to be added to the number of
--					   waits specified by WCR2 in a low-speed
--					   PCMCIA wait cycle */
--#define SH7750_PCR_A6PCW_0    0x0000	/*    0 waits inserted */
--#define SH7750_PCR_A6PCW_15   0x1000	/*    15 waits inserted */
--#define SH7750_PCR_A6PCW_30   0x2000	/*    30 waits inserted */
--#define SH7750_PCR_A6PCW_50   0x3000	/*    50 waits inserted */
--
--#define SH7750_PCR_A5TED      0x0E00	/* Area 5 Address-OE\/WE\ Assertion Delay,
--					   delay time from address output to
--					   OE\/WE\ assertion on the connected
--					   PCMCIA interface */
-+#define SH7750_PCR_A5PCW      0xC000    /* Area 5 PCMCIA Wait - Number of wait
-+                       states to be added to the number of
-+                       waits specified by WCR2 in a low-speed
-+                       PCMCIA wait cycle */
-+#define SH7750_PCR_A5PCW_0    0x0000    /*    0 waits inserted */
-+#define SH7750_PCR_A5PCW_15   0x4000    /*    15 waits inserted */
-+#define SH7750_PCR_A5PCW_30   0x8000    /*    30 waits inserted */
-+#define SH7750_PCR_A5PCW_50   0xC000    /*    50 waits inserted */
-+
-+#define SH7750_PCR_A6PCW      0x3000    /* Area 6 PCMCIA Wait - Number of wait
-+                       states to be added to the number of
-+                       waits specified by WCR2 in a low-speed
-+                       PCMCIA wait cycle */
-+#define SH7750_PCR_A6PCW_0    0x0000    /*    0 waits inserted */
-+#define SH7750_PCR_A6PCW_15   0x1000    /*    15 waits inserted */
-+#define SH7750_PCR_A6PCW_30   0x2000    /*    30 waits inserted */
-+#define SH7750_PCR_A6PCW_50   0x3000    /*    50 waits inserted */
-+
-+#define SH7750_PCR_A5TED      0x0E00    /* Area 5 Address-OE\/WE\ Assertion Delay,
-+                       delay time from address output to
-+                       OE\/WE\ assertion on the connected
-+                       PCMCIA interface */
- #define SH7750_PCR_A5TED_S    9
--#define SH7750_PCR_A6TED      0x01C0	/* Area 6 Address-OE\/WE\ Assertion Delay */
-+#define SH7750_PCR_A6TED      0x01C0    /* Area 6 Address-OE\/WE\ Assertion Delay */
- #define SH7750_PCR_A6TED_S    6
- 
--#define SH7750_PCR_TED_0WS    0	/* 0 Waits inserted */
--#define SH7750_PCR_TED_1WS    1	/* 1 Waits inserted */
--#define SH7750_PCR_TED_2WS    2	/* 2 Waits inserted */
--#define SH7750_PCR_TED_3WS    3	/* 3 Waits inserted */
--#define SH7750_PCR_TED_6WS    4	/* 6 Waits inserted */
--#define SH7750_PCR_TED_9WS    5	/* 9 Waits inserted */
--#define SH7750_PCR_TED_12WS   6	/* 12 Waits inserted */
--#define SH7750_PCR_TED_15WS   7	/* 15 Waits inserted */
--
--#define SH7750_PCR_A5TEH      0x0038	/* Area 5 OE\/WE\ Negation Address delay,
--					   address hold delay time from OE\/WE\
--					   negation in a write on the connected
--					   PCMCIA interface */
-+#define SH7750_PCR_TED_0WS    0    /* 0 Waits inserted */
-+#define SH7750_PCR_TED_1WS    1    /* 1 Waits inserted */
-+#define SH7750_PCR_TED_2WS    2    /* 2 Waits inserted */
-+#define SH7750_PCR_TED_3WS    3    /* 3 Waits inserted */
-+#define SH7750_PCR_TED_6WS    4    /* 6 Waits inserted */
-+#define SH7750_PCR_TED_9WS    5    /* 9 Waits inserted */
-+#define SH7750_PCR_TED_12WS   6    /* 12 Waits inserted */
-+#define SH7750_PCR_TED_15WS   7    /* 15 Waits inserted */
-+
-+#define SH7750_PCR_A5TEH      0x0038    /* Area 5 OE\/WE\ Negation Address delay,
-+                       address hold delay time from OE\/WE\
-+                       negation in a write on the connected
-+                       PCMCIA interface */
- #define SH7750_PCR_A5TEH_S    3
- 
--#define SH7750_PCR_A6TEH      0x0007	/* Area 6 OE\/WE\ Negation Address delay */
-+#define SH7750_PCR_A6TEH      0x0007    /* Area 6 OE\/WE\ Negation Address delay */
- #define SH7750_PCR_A6TEH_S    0
- 
--#define SH7750_PCR_TEH_0WS    0	/* 0 Waits inserted */
--#define SH7750_PCR_TEH_1WS    1	/* 1 Waits inserted */
--#define SH7750_PCR_TEH_2WS    2	/* 2 Waits inserted */
--#define SH7750_PCR_TEH_3WS    3	/* 3 Waits inserted */
--#define SH7750_PCR_TEH_6WS    4	/* 6 Waits inserted */
--#define SH7750_PCR_TEH_9WS    5	/* 9 Waits inserted */
--#define SH7750_PCR_TEH_12WS   6	/* 12 Waits inserted */
--#define SH7750_PCR_TEH_15WS   7	/* 15 Waits inserted */
-+#define SH7750_PCR_TEH_0WS    0    /* 0 Waits inserted */
-+#define SH7750_PCR_TEH_1WS    1    /* 1 Waits inserted */
-+#define SH7750_PCR_TEH_2WS    2    /* 2 Waits inserted */
-+#define SH7750_PCR_TEH_3WS    3    /* 3 Waits inserted */
-+#define SH7750_PCR_TEH_6WS    4    /* 6 Waits inserted */
-+#define SH7750_PCR_TEH_9WS    5    /* 9 Waits inserted */
-+#define SH7750_PCR_TEH_12WS   6    /* 12 Waits inserted */
-+#define SH7750_PCR_TEH_15WS   7    /* 15 Waits inserted */
- 
- /* Refresh Timer Control/Status Register (half) - RTSCR */
--#define SH7750_RTCSR_REGOFS   0x80001C	/* offset */
-+#define SH7750_RTCSR_REGOFS   0x80001C    /* offset */
- #define SH7750_RTCSR          SH7750_P4_REG32(SH7750_RTCSR_REGOFS)
- #define SH7750_RTCSR_A7       SH7750_A7_REG32(SH7750_RTCSR_REGOFS)
- 
--#define SH7750_RTCSR_KEY      0xA500	/* RTCSR write key */
--#define SH7750_RTCSR_CMF      0x0080	/* Compare-Match Flag (indicates a
--					   match between the refresh timer
--					   counter and refresh time constant) */
--#define SH7750_RTCSR_CMIE     0x0040	/* Compare-Match Interrupt Enable */
--#define SH7750_RTCSR_CKS      0x0038	/* Refresh Counter Clock Selects */
--#define SH7750_RTCSR_CKS_DIS          0x0000	/* Clock Input Disabled */
--#define SH7750_RTCSR_CKS_CKIO_DIV4    0x0008	/* Bus Clock / 4 */
--#define SH7750_RTCSR_CKS_CKIO_DIV16   0x0010	/* Bus Clock / 16 */
--#define SH7750_RTCSR_CKS_CKIO_DIV64   0x0018	/* Bus Clock / 64 */
--#define SH7750_RTCSR_CKS_CKIO_DIV256  0x0020	/* Bus Clock / 256 */
--#define SH7750_RTCSR_CKS_CKIO_DIV1024 0x0028	/* Bus Clock / 1024 */
--#define SH7750_RTCSR_CKS_CKIO_DIV2048 0x0030	/* Bus Clock / 2048 */
--#define SH7750_RTCSR_CKS_CKIO_DIV4096 0x0038	/* Bus Clock / 4096 */
--
--#define SH7750_RTCSR_OVF      0x0004	/* Refresh Count Overflow Flag */
--#define SH7750_RTCSR_OVIE     0x0002	/* Refresh Count Overflow Interrupt
--					   Enable */
--#define SH7750_RTCSR_LMTS     0x0001	/* Refresh Count Overflow Limit Select */
--#define SH7750_RTCSR_LMTS_1024 0x0000	/* Count Limit is 1024 */
--#define SH7750_RTCSR_LMTS_512  0x0001	/* Count Limit is 512 */
-+#define SH7750_RTCSR_KEY      0xA500    /* RTCSR write key */
-+#define SH7750_RTCSR_CMF      0x0080    /* Compare-Match Flag (indicates a
-+                       match between the refresh timer
-+                       counter and refresh time constant) */
-+#define SH7750_RTCSR_CMIE     0x0040    /* Compare-Match Interrupt Enable */
-+#define SH7750_RTCSR_CKS      0x0038    /* Refresh Counter Clock Selects */
-+#define SH7750_RTCSR_CKS_DIS          0x0000    /* Clock Input Disabled */
-+#define SH7750_RTCSR_CKS_CKIO_DIV4    0x0008    /* Bus Clock / 4 */
-+#define SH7750_RTCSR_CKS_CKIO_DIV16   0x0010    /* Bus Clock / 16 */
-+#define SH7750_RTCSR_CKS_CKIO_DIV64   0x0018    /* Bus Clock / 64 */
-+#define SH7750_RTCSR_CKS_CKIO_DIV256  0x0020    /* Bus Clock / 256 */
-+#define SH7750_RTCSR_CKS_CKIO_DIV1024 0x0028    /* Bus Clock / 1024 */
-+#define SH7750_RTCSR_CKS_CKIO_DIV2048 0x0030    /* Bus Clock / 2048 */
-+#define SH7750_RTCSR_CKS_CKIO_DIV4096 0x0038    /* Bus Clock / 4096 */
-+
-+#define SH7750_RTCSR_OVF      0x0004    /* Refresh Count Overflow Flag */
-+#define SH7750_RTCSR_OVIE     0x0002    /* Refresh Count Overflow Interrupt
-+                       Enable */
-+#define SH7750_RTCSR_LMTS     0x0001    /* Refresh Count Overflow Limit Select */
-+#define SH7750_RTCSR_LMTS_1024 0x0000    /* Count Limit is 1024 */
-+#define SH7750_RTCSR_LMTS_512  0x0001    /* Count Limit is 512 */
- 
- /* Refresh Timer Counter (half) - RTCNT */
--#define SH7750_RTCNT_REGOFS   0x800020	/* offset */
-+#define SH7750_RTCNT_REGOFS   0x800020    /* offset */
- #define SH7750_RTCNT          SH7750_P4_REG32(SH7750_RTCNT_REGOFS)
- #define SH7750_RTCNT_A7       SH7750_A7_REG32(SH7750_RTCNT_REGOFS)
- 
--#define SH7750_RTCNT_KEY      0xA500	/* RTCNT write key */
-+#define SH7750_RTCNT_KEY      0xA500    /* RTCNT write key */
- 
- /* Refresh Time Constant Register (half) - RTCOR */
--#define SH7750_RTCOR_REGOFS   0x800024	/* offset */
-+#define SH7750_RTCOR_REGOFS   0x800024    /* offset */
- #define SH7750_RTCOR          SH7750_P4_REG32(SH7750_RTCOR_REGOFS)
- #define SH7750_RTCOR_A7       SH7750_A7_REG32(SH7750_RTCOR_REGOFS)
- 
--#define SH7750_RTCOR_KEY      0xA500	/* RTCOR write key */
-+#define SH7750_RTCOR_KEY      0xA500    /* RTCOR write key */
- 
- /* Refresh Count Register (half) - RFCR */
--#define SH7750_RFCR_REGOFS    0x800028	/* offset */
-+#define SH7750_RFCR_REGOFS    0x800028    /* offset */
- #define SH7750_RFCR           SH7750_P4_REG32(SH7750_RFCR_REGOFS)
- #define SH7750_RFCR_A7        SH7750_A7_REG32(SH7750_RFCR_REGOFS)
- 
--#define SH7750_RFCR_KEY       0xA400	/* RFCR write key */
-+#define SH7750_RFCR_KEY       0xA400    /* RFCR write key */
- 
- /* Synchronous DRAM mode registers - SDMR */
--#define SH7750_SDMR2_REGOFS   0x900000	/* base offset */
--#define SH7750_SDMR2_REGNB    0x0FFC	/* nb of register */
-+#define SH7750_SDMR2_REGOFS   0x900000    /* base offset */
-+#define SH7750_SDMR2_REGNB    0x0FFC    /* nb of register */
- #define SH7750_SDMR2          SH7750_P4_REG32(SH7750_SDMR2_REGOFS)
- #define SH7750_SDMR2_A7       SH7750_A7_REG32(SH7750_SDMR2_REGOFS)
- 
--#define SH7750_SDMR3_REGOFS   0x940000	/* offset */
--#define SH7750_SDMR3_REGNB    0x0FFC	/* nb of register */
-+#define SH7750_SDMR3_REGOFS   0x940000    /* offset */
-+#define SH7750_SDMR3_REGNB    0x0FFC    /* nb of register */
- #define SH7750_SDMR3          SH7750_P4_REG32(SH7750_SDMR3_REGOFS)
- #define SH7750_SDMR3_A7       SH7750_A7_REG32(SH7750_SDMR3_REGOFS)
- 
-@@ -1015,7 +1015,7 @@
-  */
- 
- /* DMA Source Address Register - SAR0, SAR1, SAR2, SAR3 */
--#define SH7750_SAR_REGOFS(n)  (0xA00000 + ((n)*16))	/* offset */
-+#define SH7750_SAR_REGOFS(n)  (0xA00000 + ((n)*16))    /* offset */
- #define SH7750_SAR(n)         SH7750_P4_REG32(SH7750_SAR_REGOFS(n))
- #define SH7750_SAR_A7(n)      SH7750_A7_REG32(SH7750_SAR_REGOFS(n))
- #define SH7750_SAR0           SH7750_SAR(0)
-@@ -1028,7 +1028,7 @@
- #define SH7750_SAR3_A7        SH7750_SAR_A7(3)
- 
- /* DMA Destination Address Register - DAR0, DAR1, DAR2, DAR3 */
--#define SH7750_DAR_REGOFS(n)  (0xA00004 + ((n)*16))	/* offset */
-+#define SH7750_DAR_REGOFS(n)  (0xA00004 + ((n)*16))    /* offset */
- #define SH7750_DAR(n)         SH7750_P4_REG32(SH7750_DAR_REGOFS(n))
- #define SH7750_DAR_A7(n)      SH7750_A7_REG32(SH7750_DAR_REGOFS(n))
- #define SH7750_DAR0           SH7750_DAR(0)
-@@ -1041,7 +1041,7 @@
- #define SH7750_DAR3_A7        SH7750_DAR_A7(3)
- 
- /* DMA Transfer Count Register - DMATCR0, DMATCR1, DMATCR2, DMATCR3 */
--#define SH7750_DMATCR_REGOFS(n)  (0xA00008 + ((n)*16))	/* offset */
-+#define SH7750_DMATCR_REGOFS(n)  (0xA00008 + ((n)*16))    /* offset */
- #define SH7750_DMATCR(n)      SH7750_P4_REG32(SH7750_DMATCR_REGOFS(n))
- #define SH7750_DMATCR_A7(n)   SH7750_A7_REG32(SH7750_DMATCR_REGOFS(n))
- #define SH7750_DMATCR0_P4     SH7750_DMATCR(0)
-@@ -1054,7 +1054,7 @@
- #define SH7750_DMATCR3_A7     SH7750_DMATCR_A7(3)
- 
- /* DMA Channel Control Register - CHCR0, CHCR1, CHCR2, CHCR3 */
--#define SH7750_CHCR_REGOFS(n)  (0xA0000C + ((n)*16))	/* offset */
-+#define SH7750_CHCR_REGOFS(n)  (0xA0000C + ((n)*16))    /* offset */
- #define SH7750_CHCR(n)        SH7750_P4_REG32(SH7750_CHCR_REGOFS(n))
- #define SH7750_CHCR_A7(n)     SH7750_A7_REG32(SH7750_CHCR_REGOFS(n))
- #define SH7750_CHCR0          SH7750_CHCR(0)
-@@ -1066,227 +1066,227 @@
- #define SH7750_CHCR2_A7       SH7750_CHCR_A7(2)
- #define SH7750_CHCR3_A7       SH7750_CHCR_A7(3)
- 
--#define SH7750_CHCR_SSA       0xE0000000	/* Source Address Space Attribute */
--#define SH7750_CHCR_SSA_PCMCIA  0x00000000	/* Reserved in PCMCIA access */
--#define SH7750_CHCR_SSA_DYNBSZ  0x20000000	/* Dynamic Bus Sizing I/O space */
--#define SH7750_CHCR_SSA_IO8     0x40000000	/* 8-bit I/O space */
--#define SH7750_CHCR_SSA_IO16    0x60000000	/* 16-bit I/O space */
--#define SH7750_CHCR_SSA_CMEM8   0x80000000	/* 8-bit common memory space */
--#define SH7750_CHCR_SSA_CMEM16  0xA0000000	/* 16-bit common memory space */
--#define SH7750_CHCR_SSA_AMEM8   0xC0000000	/* 8-bit attribute memory space */
--#define SH7750_CHCR_SSA_AMEM16  0xE0000000	/* 16-bit attribute memory space */
--
--#define SH7750_CHCR_STC       0x10000000	/* Source Address Wait Control Select,
--						   specifies CS5 or CS6 space wait
--						   control for PCMCIA access */
--
--#define SH7750_CHCR_DSA       0x0E000000	/* Source Address Space Attribute */
--#define SH7750_CHCR_DSA_PCMCIA  0x00000000	/* Reserved in PCMCIA access */
--#define SH7750_CHCR_DSA_DYNBSZ  0x02000000	/* Dynamic Bus Sizing I/O space */
--#define SH7750_CHCR_DSA_IO8     0x04000000	/* 8-bit I/O space */
--#define SH7750_CHCR_DSA_IO16    0x06000000	/* 16-bit I/O space */
--#define SH7750_CHCR_DSA_CMEM8   0x08000000	/* 8-bit common memory space */
--#define SH7750_CHCR_DSA_CMEM16  0x0A000000	/* 16-bit common memory space */
--#define SH7750_CHCR_DSA_AMEM8   0x0C000000	/* 8-bit attribute memory space */
--#define SH7750_CHCR_DSA_AMEM16  0x0E000000	/* 16-bit attribute memory space */
--
--#define SH7750_CHCR_DTC       0x01000000	/* Destination Address Wait Control
--						   Select, specifies CS5 or CS6
--						   space wait control for PCMCIA
--						   access */
--
--#define SH7750_CHCR_DS        0x00080000	/* DREQ\ Select : */
--#define SH7750_CHCR_DS_LOWLVL 0x00000000	/*     Low Level Detection */
--#define SH7750_CHCR_DS_FALL   0x00080000	/*     Falling Edge Detection */
--
--#define SH7750_CHCR_RL        0x00040000	/* Request Check Level: */
--#define SH7750_CHCR_RL_ACTH   0x00000000	/*     DRAK is an active high out */
--#define SH7750_CHCR_RL_ACTL   0x00040000	/*     DRAK is an active low out */
--
--#define SH7750_CHCR_AM        0x00020000	/* Acknowledge Mode: */
--#define SH7750_CHCR_AM_RD     0x00000000	/*     DACK is output in read cycle */
--#define SH7750_CHCR_AM_WR     0x00020000	/*     DACK is output in write cycle */
--
--#define SH7750_CHCR_AL        0x00010000	/* Acknowledge Level: */
--#define SH7750_CHCR_AL_ACTH   0x00000000	/*     DACK is an active high out */
--#define SH7750_CHCR_AL_ACTL   0x00010000	/*     DACK is an active low out */
--
--#define SH7750_CHCR_DM        0x0000C000	/* Destination Address Mode: */
--#define SH7750_CHCR_DM_FIX    0x00000000	/*     Destination Addr Fixed */
--#define SH7750_CHCR_DM_INC    0x00004000	/*     Destination Addr Incremented */
--#define SH7750_CHCR_DM_DEC    0x00008000	/*     Destination Addr Decremented */
--
--#define SH7750_CHCR_SM        0x00003000	/* Source Address Mode: */
--#define SH7750_CHCR_SM_FIX    0x00000000	/*     Source Addr Fixed */
--#define SH7750_CHCR_SM_INC    0x00001000	/*     Source Addr Incremented */
--#define SH7750_CHCR_SM_DEC    0x00002000	/*     Source Addr Decremented */
--
--#define SH7750_CHCR_RS        0x00000F00	/* Request Source Select: */
--#define SH7750_CHCR_RS_ER_DA_EA_TO_EA   0x000	/* External Request, Dual Address
--						   Mode (External Addr Space->
--						   External Addr Space) */
--#define SH7750_CHCR_RS_ER_SA_EA_TO_ED   0x200	/* External Request, Single
--						   Address Mode (External Addr
--						   Space -> External Device) */
--#define SH7750_CHCR_RS_ER_SA_ED_TO_EA   0x300	/* External Request, Single
--						   Address Mode, (External
--						   Device -> External Addr
--						   Space) */
--#define SH7750_CHCR_RS_AR_EA_TO_EA      0x400	/* Auto-Request (External Addr
--						   Space -> External Addr Space) */
--
--#define SH7750_CHCR_RS_AR_EA_TO_OCP     0x500	/* Auto-Request (External Addr
--						   Space -> On-chip Peripheral
--						   Module) */
--#define SH7750_CHCR_RS_AR_OCP_TO_EA     0x600	/* Auto-Request (On-chip
--						   Peripheral Module ->
--						   External Addr Space */
--#define SH7750_CHCR_RS_SCITX_EA_TO_SC   0x800	/* SCI Transmit-Data-Empty intr
--						   transfer request (external
--						   address space -> SCTDR1) */
--#define SH7750_CHCR_RS_SCIRX_SC_TO_EA   0x900	/* SCI Receive-Data-Full intr
--						   transfer request (SCRDR1 ->
--						   External Addr Space) */
--#define SH7750_CHCR_RS_SCIFTX_EA_TO_SC  0xA00	/* SCIF Transmit-Data-Empty intr
--						   transfer request (external
--						   address space -> SCFTDR1) */
--#define SH7750_CHCR_RS_SCIFRX_SC_TO_EA  0xB00	/* SCIF Receive-Data-Full intr
--						   transfer request (SCFRDR2 ->
--						   External Addr Space) */
--#define SH7750_CHCR_RS_TMU2_EA_TO_EA    0xC00	/* TMU Channel 2 (input capture
--						   interrupt), (external address
--						   space -> external address
--						   space) */
--#define SH7750_CHCR_RS_TMU2_EA_TO_OCP   0xD00	/* TMU Channel 2 (input capture
--						   interrupt), (external address
--						   space -> on-chip peripheral
--						   module) */
--#define SH7750_CHCR_RS_TMU2_OCP_TO_EA   0xE00	/* TMU Channel 2 (input capture
--						   interrupt), (on-chip
--						   peripheral module -> external
--						   address space) */
--
--#define SH7750_CHCR_TM        0x00000080	/* Transmit mode: */
--#define SH7750_CHCR_TM_CSTEAL 0x00000000	/*     Cycle Steal Mode */
--#define SH7750_CHCR_TM_BURST  0x00000080	/*     Burst Mode */
--
--#define SH7750_CHCR_TS        0x00000070	/* Transmit Size: */
--#define SH7750_CHCR_TS_QUAD   0x00000000	/*     Quadword Size (64 bits) */
--#define SH7750_CHCR_TS_BYTE   0x00000010	/*     Byte Size (8 bit) */
--#define SH7750_CHCR_TS_WORD   0x00000020	/*     Word Size (16 bit) */
--#define SH7750_CHCR_TS_LONG   0x00000030	/*     Longword Size (32 bit) */
--#define SH7750_CHCR_TS_BLOCK  0x00000040	/*     32-byte block transfer */
--
--#define SH7750_CHCR_IE        0x00000004	/* Interrupt Enable */
--#define SH7750_CHCR_TE        0x00000002	/* Transfer End */
--#define SH7750_CHCR_DE        0x00000001	/* DMAC Enable */
-+#define SH7750_CHCR_SSA       0xE0000000    /* Source Address Space Attribute */
-+#define SH7750_CHCR_SSA_PCMCIA  0x00000000    /* Reserved in PCMCIA access */
-+#define SH7750_CHCR_SSA_DYNBSZ  0x20000000    /* Dynamic Bus Sizing I/O space */
-+#define SH7750_CHCR_SSA_IO8     0x40000000    /* 8-bit I/O space */
-+#define SH7750_CHCR_SSA_IO16    0x60000000    /* 16-bit I/O space */
-+#define SH7750_CHCR_SSA_CMEM8   0x80000000    /* 8-bit common memory space */
-+#define SH7750_CHCR_SSA_CMEM16  0xA0000000    /* 16-bit common memory space */
-+#define SH7750_CHCR_SSA_AMEM8   0xC0000000    /* 8-bit attribute memory space */
-+#define SH7750_CHCR_SSA_AMEM16  0xE0000000    /* 16-bit attribute memory space */
-+
-+#define SH7750_CHCR_STC       0x10000000    /* Source Address Wait Control Select,
-+                           specifies CS5 or CS6 space wait
-+                           control for PCMCIA access */
-+
-+#define SH7750_CHCR_DSA       0x0E000000    /* Source Address Space Attribute */
-+#define SH7750_CHCR_DSA_PCMCIA  0x00000000    /* Reserved in PCMCIA access */
-+#define SH7750_CHCR_DSA_DYNBSZ  0x02000000    /* Dynamic Bus Sizing I/O space */
-+#define SH7750_CHCR_DSA_IO8     0x04000000    /* 8-bit I/O space */
-+#define SH7750_CHCR_DSA_IO16    0x06000000    /* 16-bit I/O space */
-+#define SH7750_CHCR_DSA_CMEM8   0x08000000    /* 8-bit common memory space */
-+#define SH7750_CHCR_DSA_CMEM16  0x0A000000    /* 16-bit common memory space */
-+#define SH7750_CHCR_DSA_AMEM8   0x0C000000    /* 8-bit attribute memory space */
-+#define SH7750_CHCR_DSA_AMEM16  0x0E000000    /* 16-bit attribute memory space */
-+
-+#define SH7750_CHCR_DTC       0x01000000    /* Destination Address Wait Control
-+                           Select, specifies CS5 or CS6
-+                           space wait control for PCMCIA
-+                           access */
-+
-+#define SH7750_CHCR_DS        0x00080000    /* DREQ\ Select : */
-+#define SH7750_CHCR_DS_LOWLVL 0x00000000    /*     Low Level Detection */
-+#define SH7750_CHCR_DS_FALL   0x00080000    /*     Falling Edge Detection */
-+
-+#define SH7750_CHCR_RL        0x00040000    /* Request Check Level: */
-+#define SH7750_CHCR_RL_ACTH   0x00000000    /*     DRAK is an active high out */
-+#define SH7750_CHCR_RL_ACTL   0x00040000    /*     DRAK is an active low out */
-+
-+#define SH7750_CHCR_AM        0x00020000    /* Acknowledge Mode: */
-+#define SH7750_CHCR_AM_RD     0x00000000    /*     DACK is output in read cycle */
-+#define SH7750_CHCR_AM_WR     0x00020000    /*     DACK is output in write cycle */
-+
-+#define SH7750_CHCR_AL        0x00010000    /* Acknowledge Level: */
-+#define SH7750_CHCR_AL_ACTH   0x00000000    /*     DACK is an active high out */
-+#define SH7750_CHCR_AL_ACTL   0x00010000    /*     DACK is an active low out */
-+
-+#define SH7750_CHCR_DM        0x0000C000    /* Destination Address Mode: */
-+#define SH7750_CHCR_DM_FIX    0x00000000    /*     Destination Addr Fixed */
-+#define SH7750_CHCR_DM_INC    0x00004000    /*     Destination Addr Incremented */
-+#define SH7750_CHCR_DM_DEC    0x00008000    /*     Destination Addr Decremented */
-+
-+#define SH7750_CHCR_SM        0x00003000    /* Source Address Mode: */
-+#define SH7750_CHCR_SM_FIX    0x00000000    /*     Source Addr Fixed */
-+#define SH7750_CHCR_SM_INC    0x00001000    /*     Source Addr Incremented */
-+#define SH7750_CHCR_SM_DEC    0x00002000    /*     Source Addr Decremented */
-+
-+#define SH7750_CHCR_RS        0x00000F00    /* Request Source Select: */
-+#define SH7750_CHCR_RS_ER_DA_EA_TO_EA   0x000    /* External Request, Dual Address
-+                           Mode (External Addr Space->
-+                           External Addr Space) */
-+#define SH7750_CHCR_RS_ER_SA_EA_TO_ED   0x200    /* External Request, Single
-+                           Address Mode (External Addr
-+                           Space -> External Device) */
-+#define SH7750_CHCR_RS_ER_SA_ED_TO_EA   0x300    /* External Request, Single
-+                           Address Mode, (External
-+                           Device -> External Addr
-+                           Space) */
-+#define SH7750_CHCR_RS_AR_EA_TO_EA      0x400    /* Auto-Request (External Addr
-+                           Space -> External Addr Space) */
-+
-+#define SH7750_CHCR_RS_AR_EA_TO_OCP     0x500    /* Auto-Request (External Addr
-+                           Space -> On-chip Peripheral
-+                           Module) */
-+#define SH7750_CHCR_RS_AR_OCP_TO_EA     0x600    /* Auto-Request (On-chip
-+                           Peripheral Module ->
-+                           External Addr Space */
-+#define SH7750_CHCR_RS_SCITX_EA_TO_SC   0x800    /* SCI Transmit-Data-Empty intr
-+                           transfer request (external
-+                           address space -> SCTDR1) */
-+#define SH7750_CHCR_RS_SCIRX_SC_TO_EA   0x900    /* SCI Receive-Data-Full intr
-+                           transfer request (SCRDR1 ->
-+                           External Addr Space) */
-+#define SH7750_CHCR_RS_SCIFTX_EA_TO_SC  0xA00    /* SCIF Transmit-Data-Empty intr
-+                           transfer request (external
-+                           address space -> SCFTDR1) */
-+#define SH7750_CHCR_RS_SCIFRX_SC_TO_EA  0xB00    /* SCIF Receive-Data-Full intr
-+                           transfer request (SCFRDR2 ->
-+                           External Addr Space) */
-+#define SH7750_CHCR_RS_TMU2_EA_TO_EA    0xC00    /* TMU Channel 2 (input capture
-+                           interrupt), (external address
-+                           space -> external address
-+                           space) */
-+#define SH7750_CHCR_RS_TMU2_EA_TO_OCP   0xD00    /* TMU Channel 2 (input capture
-+                           interrupt), (external address
-+                           space -> on-chip peripheral
-+                           module) */
-+#define SH7750_CHCR_RS_TMU2_OCP_TO_EA   0xE00    /* TMU Channel 2 (input capture
-+                           interrupt), (on-chip
-+                           peripheral module -> external
-+                           address space) */
-+
-+#define SH7750_CHCR_TM        0x00000080    /* Transmit mode: */
-+#define SH7750_CHCR_TM_CSTEAL 0x00000000    /*     Cycle Steal Mode */
-+#define SH7750_CHCR_TM_BURST  0x00000080    /*     Burst Mode */
-+
-+#define SH7750_CHCR_TS        0x00000070    /* Transmit Size: */
-+#define SH7750_CHCR_TS_QUAD   0x00000000    /*     Quadword Size (64 bits) */
-+#define SH7750_CHCR_TS_BYTE   0x00000010    /*     Byte Size (8 bit) */
-+#define SH7750_CHCR_TS_WORD   0x00000020    /*     Word Size (16 bit) */
-+#define SH7750_CHCR_TS_LONG   0x00000030    /*     Longword Size (32 bit) */
-+#define SH7750_CHCR_TS_BLOCK  0x00000040    /*     32-byte block transfer */
-+
-+#define SH7750_CHCR_IE        0x00000004    /* Interrupt Enable */
-+#define SH7750_CHCR_TE        0x00000002    /* Transfer End */
-+#define SH7750_CHCR_DE        0x00000001    /* DMAC Enable */
- 
- /* DMA Operation Register - DMAOR */
--#define SH7750_DMAOR_REGOFS   0xA00040	/* offset */
-+#define SH7750_DMAOR_REGOFS   0xA00040    /* offset */
- #define SH7750_DMAOR          SH7750_P4_REG32(SH7750_DMAOR_REGOFS)
- #define SH7750_DMAOR_A7       SH7750_A7_REG32(SH7750_DMAOR_REGOFS)
- 
--#define SH7750_DMAOR_DDT      0x00008000	/* On-Demand Data Transfer Mode */
-+#define SH7750_DMAOR_DDT      0x00008000    /* On-Demand Data Transfer Mode */
- 
--#define SH7750_DMAOR_PR       0x00000300	/* Priority Mode: */
--#define SH7750_DMAOR_PR_0123  0x00000000	/*     CH0 > CH1 > CH2 > CH3 */
--#define SH7750_DMAOR_PR_0231  0x00000100	/*     CH0 > CH2 > CH3 > CH1 */
--#define SH7750_DMAOR_PR_2013  0x00000200	/*     CH2 > CH0 > CH1 > CH3 */
--#define SH7750_DMAOR_PR_RR    0x00000300	/*     Round-robin mode */
-+#define SH7750_DMAOR_PR       0x00000300    /* Priority Mode: */
-+#define SH7750_DMAOR_PR_0123  0x00000000    /*     CH0 > CH1 > CH2 > CH3 */
-+#define SH7750_DMAOR_PR_0231  0x00000100    /*     CH0 > CH2 > CH3 > CH1 */
-+#define SH7750_DMAOR_PR_2013  0x00000200    /*     CH2 > CH0 > CH1 > CH3 */
-+#define SH7750_DMAOR_PR_RR    0x00000300    /*     Round-robin mode */
- 
--#define SH7750_DMAOR_COD      0x00000010	/* Check Overrun for DREQ\ */
--#define SH7750_DMAOR_AE       0x00000004	/* Address Error flag */
--#define SH7750_DMAOR_NMIF     0x00000002	/* NMI Flag */
--#define SH7750_DMAOR_DME      0x00000001	/* DMAC Master Enable */
-+#define SH7750_DMAOR_COD      0x00000010    /* Check Overrun for DREQ\ */
-+#define SH7750_DMAOR_AE       0x00000004    /* Address Error flag */
-+#define SH7750_DMAOR_NMIF     0x00000002    /* NMI Flag */
-+#define SH7750_DMAOR_DME      0x00000001    /* DMAC Master Enable */
- 
- /*
-  * I/O Ports
-  */
- /* Port Control Register A - PCTRA */
--#define SH7750_PCTRA_REGOFS   0x80002C	/* offset */
-+#define SH7750_PCTRA_REGOFS   0x80002C    /* offset */
- #define SH7750_PCTRA          SH7750_P4_REG32(SH7750_PCTRA_REGOFS)
- #define SH7750_PCTRA_A7       SH7750_A7_REG32(SH7750_PCTRA_REGOFS)
- 
--#define SH7750_PCTRA_PBPUP(n) 0	/* Bit n is pulled up */
--#define SH7750_PCTRA_PBNPUP(n) (1 << ((n)*2+1))	/* Bit n is not pulled up */
--#define SH7750_PCTRA_PBINP(n) 0	/* Bit n is an input */
--#define SH7750_PCTRA_PBOUT(n) (1 << ((n)*2))	/* Bit n is an output */
-+#define SH7750_PCTRA_PBPUP(n) 0    /* Bit n is pulled up */
-+#define SH7750_PCTRA_PBNPUP(n) (1 << ((n)*2+1))    /* Bit n is not pulled up */
-+#define SH7750_PCTRA_PBINP(n) 0    /* Bit n is an input */
-+#define SH7750_PCTRA_PBOUT(n) (1 << ((n)*2))    /* Bit n is an output */
- 
- /* Port Data Register A - PDTRA(half) */
--#define SH7750_PDTRA_REGOFS   0x800030	/* offset */
-+#define SH7750_PDTRA_REGOFS   0x800030    /* offset */
- #define SH7750_PDTRA          SH7750_P4_REG32(SH7750_PDTRA_REGOFS)
- #define SH7750_PDTRA_A7       SH7750_A7_REG32(SH7750_PDTRA_REGOFS)
- 
- #define SH7750_PDTRA_BIT(n) (1 << (n))
- 
- /* Port Control Register B - PCTRB */
--#define SH7750_PCTRB_REGOFS   0x800040	/* offset */
-+#define SH7750_PCTRB_REGOFS   0x800040    /* offset */
- #define SH7750_PCTRB          SH7750_P4_REG32(SH7750_PCTRB_REGOFS)
- #define SH7750_PCTRB_A7       SH7750_A7_REG32(SH7750_PCTRB_REGOFS)
- 
--#define SH7750_PCTRB_PBPUP(n) 0	/* Bit n is pulled up */
--#define SH7750_PCTRB_PBNPUP(n) (1 << ((n-16)*2+1))	/* Bit n is not pulled up */
--#define SH7750_PCTRB_PBINP(n) 0	/* Bit n is an input */
--#define SH7750_PCTRB_PBOUT(n) (1 << ((n-16)*2))	/* Bit n is an output */
-+#define SH7750_PCTRB_PBPUP(n) 0    /* Bit n is pulled up */
-+#define SH7750_PCTRB_PBNPUP(n) (1 << ((n-16)*2+1))    /* Bit n is not pulled up */
-+#define SH7750_PCTRB_PBINP(n) 0    /* Bit n is an input */
-+#define SH7750_PCTRB_PBOUT(n) (1 << ((n-16)*2))    /* Bit n is an output */
- 
- /* Port Data Register B - PDTRB(half) */
--#define SH7750_PDTRB_REGOFS   0x800044	/* offset */
-+#define SH7750_PDTRB_REGOFS   0x800044    /* offset */
- #define SH7750_PDTRB          SH7750_P4_REG32(SH7750_PDTRB_REGOFS)
- #define SH7750_PDTRB_A7       SH7750_A7_REG32(SH7750_PDTRB_REGOFS)
- 
- #define SH7750_PDTRB_BIT(n) (1 << ((n)-16))
- 
- /* GPIO Interrupt Control Register - GPIOIC(half) */
--#define SH7750_GPIOIC_REGOFS  0x800048	/* offset */
-+#define SH7750_GPIOIC_REGOFS  0x800048    /* offset */
- #define SH7750_GPIOIC         SH7750_P4_REG32(SH7750_GPIOIC_REGOFS)
- #define SH7750_GPIOIC_A7      SH7750_A7_REG32(SH7750_GPIOIC_REGOFS)
- 
--#define SH7750_GPIOIC_PTIREN(n) (1 << (n))	/* Port n is used as a GPIO int */
-+#define SH7750_GPIOIC_PTIREN(n) (1 << (n))    /* Port n is used as a GPIO int */
- 
- /*
-  * Interrupt Controller - INTC
-  */
- /* Interrupt Control Register - ICR (half) */
--#define SH7750_ICR_REGOFS     0xD00000	/* offset */
-+#define SH7750_ICR_REGOFS     0xD00000    /* offset */
- #define SH7750_ICR            SH7750_P4_REG32(SH7750_ICR_REGOFS)
- #define SH7750_ICR_A7         SH7750_A7_REG32(SH7750_ICR_REGOFS)
- 
--#define SH7750_ICR_NMIL       0x8000	/* NMI Input Level */
--#define SH7750_ICR_MAI        0x4000	/* NMI Interrupt Mask */
-+#define SH7750_ICR_NMIL       0x8000    /* NMI Input Level */
-+#define SH7750_ICR_MAI        0x4000    /* NMI Interrupt Mask */
- 
--#define SH7750_ICR_NMIB       0x0200	/* NMI Block Mode: */
--#define SH7750_ICR_NMIB_BLK   0x0000	/*   NMI requests held pending while
--					   SR.BL bit is set to 1 */
--#define SH7750_ICR_NMIB_NBLK  0x0200	/*   NMI requests detected when SR.BL bit
--					   set to 1 */
-+#define SH7750_ICR_NMIB       0x0200    /* NMI Block Mode: */
-+#define SH7750_ICR_NMIB_BLK   0x0000    /*   NMI requests held pending while
-+                       SR.BL bit is set to 1 */
-+#define SH7750_ICR_NMIB_NBLK  0x0200    /*   NMI requests detected when SR.BL bit
-+                       set to 1 */
- 
--#define SH7750_ICR_NMIE       0x0100	/* NMI Edge Select: */
--#define SH7750_ICR_NMIE_FALL  0x0000	/*   Interrupt request detected on falling
--					   edge of NMI input */
--#define SH7750_ICR_NMIE_RISE  0x0100	/*   Interrupt request detected on rising
--					   edge of NMI input */
-+#define SH7750_ICR_NMIE       0x0100    /* NMI Edge Select: */
-+#define SH7750_ICR_NMIE_FALL  0x0000    /*   Interrupt request detected on falling
-+                       edge of NMI input */
-+#define SH7750_ICR_NMIE_RISE  0x0100    /*   Interrupt request detected on rising
-+                       edge of NMI input */
- 
--#define SH7750_ICR_IRLM       0x0080	/* IRL Pin Mode: */
--#define SH7750_ICR_IRLM_ENC   0x0000	/*   IRL\ pins used as a level-encoded
--					   interrupt requests */
--#define SH7750_ICR_IRLM_RAW   0x0080	/*   IRL\ pins used as a four independent
--					   interrupt requests */
-+#define SH7750_ICR_IRLM       0x0080    /* IRL Pin Mode: */
-+#define SH7750_ICR_IRLM_ENC   0x0000    /*   IRL\ pins used as a level-encoded
-+                       interrupt requests */
-+#define SH7750_ICR_IRLM_RAW   0x0080    /*   IRL\ pins used as a four independent
-+                       interrupt requests */
- 
- /*
-  * User Break Controller registers
-  */
--#define SH7750_BARA           0x200000	/* Break address regiser A */
--#define SH7750_BAMRA          0x200004	/* Break address mask regiser A */
--#define SH7750_BBRA           0x200008	/* Break bus cycle regiser A */
--#define SH7750_BARB           0x20000c	/* Break address regiser B */
--#define SH7750_BAMRB          0x200010	/* Break address mask regiser B */
--#define SH7750_BBRB           0x200014	/* Break bus cycle regiser B */
--#define SH7750_BASRB          0x000018	/* Break ASID regiser B */
--#define SH7750_BDRB           0x200018	/* Break data regiser B */
--#define SH7750_BDMRB          0x20001c	/* Break data mask regiser B */
--#define SH7750_BRCR           0x200020	/* Break control register */
--
--#define SH7750_BRCR_UDBE        0x0001	/* User break debug enable bit */
-+#define SH7750_BARA           0x200000    /* Break address regiser A */
-+#define SH7750_BAMRA          0x200004    /* Break address mask regiser A */
-+#define SH7750_BBRA           0x200008    /* Break bus cycle regiser A */
-+#define SH7750_BARB           0x20000c    /* Break address regiser B */
-+#define SH7750_BAMRB          0x200010    /* Break address mask regiser B */
-+#define SH7750_BBRB           0x200014    /* Break bus cycle regiser B */
-+#define SH7750_BASRB          0x000018    /* Break ASID regiser B */
-+#define SH7750_BDRB           0x200018    /* Break data regiser B */
-+#define SH7750_BDMRB          0x20001c    /* Break data mask regiser B */
-+#define SH7750_BRCR           0x200020    /* Break control register */
-+
-+#define SH7750_BRCR_UDBE        0x0001    /* User break debug enable bit */
- 
- /*
-  * Missing in RTEMS, added for QEMU
-diff --git a/linux-user/sh4/termbits.h b/linux-user/sh4/termbits.h
-index f91b5c51cf..e0e577d106 100644
---- a/linux-user/sh4/termbits.h
-+++ b/linux-user/sh4/termbits.h
-@@ -39,86 +39,86 @@ struct target_termios {
- #define TARGET_VEOL2 16
- 
- /* c_iflag bits */
--#define TARGET_IGNBRK	0000001
--#define TARGET_BRKINT	0000002
--#define TARGET_IGNPAR	0000004
--#define TARGET_PARMRK	0000010
--#define TARGET_INPCK	0000020
--#define TARGET_ISTRIP	0000040
--#define TARGET_INLCR	0000100
--#define TARGET_IGNCR	0000200
--#define TARGET_ICRNL	0000400
--#define TARGET_IUCLC	0001000
--#define TARGET_IXON	0002000
--#define TARGET_IXANY	0004000
--#define TARGET_IXOFF	0010000
--#define TARGET_IMAXBEL	0020000
--#define TARGET_IUTF8	0040000
-+#define TARGET_IGNBRK    0000001
-+#define TARGET_BRKINT    0000002
-+#define TARGET_IGNPAR    0000004
-+#define TARGET_PARMRK    0000010
-+#define TARGET_INPCK    0000020
-+#define TARGET_ISTRIP    0000040
-+#define TARGET_INLCR    0000100
-+#define TARGET_IGNCR    0000200
-+#define TARGET_ICRNL    0000400
-+#define TARGET_IUCLC    0001000
-+#define TARGET_IXON    0002000
-+#define TARGET_IXANY    0004000
-+#define TARGET_IXOFF    0010000
-+#define TARGET_IMAXBEL    0020000
-+#define TARGET_IUTF8    0040000
- 
- /* c_oflag bits */
--#define TARGET_OPOST	0000001
--#define TARGET_OLCUC	0000002
--#define TARGET_ONLCR	0000004
--#define TARGET_OCRNL	0000010
--#define TARGET_ONOCR	0000020
--#define TARGET_ONLRET	0000040
--#define TARGET_OFILL	0000100
--#define TARGET_OFDEL	0000200
--#define TARGET_NLDLY	0000400
--#define TARGET_NL0	0000000
--#define TARGET_NL1	0000400
--#define TARGET_CRDLY	0003000
--#define TARGET_CR0	0000000
--#define TARGET_CR1	0001000
--#define TARGET_CR2	0002000
--#define TARGET_CR3	0003000
--#define TARGET_TABDLY	0014000
--#define TARGET_TAB0	0000000
--#define TARGET_TAB1	0004000
--#define TARGET_TAB2	0010000
--#define TARGET_TAB3	0014000
--#define TARGET_XTABS	0014000
--#define TARGET_BSDLY	0020000
--#define TARGET_BS0	0000000
--#define TARGET_BS1	0020000
--#define TARGET_VTDLY	0040000
--#define TARGET_VT0	0000000
--#define TARGET_VT1	0040000
--#define TARGET_FFDLY	0100000
--#define TARGET_FF0	0000000
--#define TARGET_FF1	0100000
-+#define TARGET_OPOST    0000001
-+#define TARGET_OLCUC    0000002
-+#define TARGET_ONLCR    0000004
-+#define TARGET_OCRNL    0000010
-+#define TARGET_ONOCR    0000020
-+#define TARGET_ONLRET    0000040
-+#define TARGET_OFILL    0000100
-+#define TARGET_OFDEL    0000200
-+#define TARGET_NLDLY    0000400
-+#define TARGET_NL0    0000000
-+#define TARGET_NL1    0000400
-+#define TARGET_CRDLY    0003000
-+#define TARGET_CR0    0000000
-+#define TARGET_CR1    0001000
-+#define TARGET_CR2    0002000
-+#define TARGET_CR3    0003000
-+#define TARGET_TABDLY    0014000
-+#define TARGET_TAB0    0000000
-+#define TARGET_TAB1    0004000
-+#define TARGET_TAB2    0010000
-+#define TARGET_TAB3    0014000
-+#define TARGET_XTABS    0014000
-+#define TARGET_BSDLY    0020000
-+#define TARGET_BS0    0000000
-+#define TARGET_BS1    0020000
-+#define TARGET_VTDLY    0040000
-+#define TARGET_VT0    0000000
-+#define TARGET_VT1    0040000
-+#define TARGET_FFDLY    0100000
-+#define TARGET_FF0    0000000
-+#define TARGET_FF1    0100000
- 
- /* c_cflag bit meaning */
--#define TARGET_CBAUD	0010017
--#define TARGET_B0	0000000		/* hang up */
--#define TARGET_B50	0000001
--#define TARGET_B75	0000002
--#define TARGET_B110	0000003
--#define TARGET_B134	0000004
--#define TARGET_B150	0000005
--#define TARGET_B200	0000006
--#define TARGET_B300	0000007
--#define TARGET_B600	0000010
--#define TARGET_B1200	0000011
--#define TARGET_B1800	0000012
--#define TARGET_B2400	0000013
--#define TARGET_B4800	0000014
--#define TARGET_B9600	0000015
--#define TARGET_B19200	0000016
--#define TARGET_B38400	0000017
-+#define TARGET_CBAUD    0010017
-+#define TARGET_B0    0000000        /* hang up */
-+#define TARGET_B50    0000001
-+#define TARGET_B75    0000002
-+#define TARGET_B110    0000003
-+#define TARGET_B134    0000004
-+#define TARGET_B150    0000005
-+#define TARGET_B200    0000006
-+#define TARGET_B300    0000007
-+#define TARGET_B600    0000010
-+#define TARGET_B1200    0000011
-+#define TARGET_B1800    0000012
-+#define TARGET_B2400    0000013
-+#define TARGET_B4800    0000014
-+#define TARGET_B9600    0000015
-+#define TARGET_B19200    0000016
-+#define TARGET_B38400    0000017
- #define TARGET_EXTA B19200
- #define TARGET_EXTB B38400
--#define TARGET_CSIZE	0000060
--#define TARGET_CS5	0000000
--#define TARGET_CS6	0000020
--#define TARGET_CS7	0000040
--#define TARGET_CS8	0000060
--#define TARGET_CSTOPB	0000100
--#define TARGET_CREAD	0000200
--#define TARGET_PARENB	0000400
--#define TARGET_PARODD	0001000
--#define TARGET_HUPCL	0002000
--#define TARGET_CLOCAL	0004000
-+#define TARGET_CSIZE    0000060
-+#define TARGET_CS5    0000000
-+#define TARGET_CS6    0000020
-+#define TARGET_CS7    0000040
-+#define TARGET_CS8    0000060
-+#define TARGET_CSTOPB    0000100
-+#define TARGET_CREAD    0000200
-+#define TARGET_PARENB    0000400
-+#define TARGET_PARODD    0001000
-+#define TARGET_HUPCL    0002000
-+#define TARGET_CLOCAL    0004000
- #define TARGET_CBAUDEX 0010000
- #define TARGET_B57600 0010001
- #define TARGET_B115200 0010002
-@@ -135,44 +135,44 @@ struct target_termios {
- #define TARGET_B3000000 0010015
- #define TARGET_B3500000 0010016
- #define TARGET_B4000000 0010017
--#define TARGET_CIBAUD	  002003600000	/* input baud rate (not used) */
--#define TARGET_CMSPAR	  010000000000		/* mark or space (stick) parity */
--#define TARGET_CRTSCTS	  020000000000		/* flow control */
-+#define TARGET_CIBAUD      002003600000    /* input baud rate (not used) */
-+#define TARGET_CMSPAR      010000000000        /* mark or space (stick) parity */
-+#define TARGET_CRTSCTS      020000000000        /* flow control */
- 
- /* c_lflag bits */
--#define TARGET_ISIG	0000001
--#define TARGET_ICANON	0000002
--#define TARGET_XCASE	0000004
--#define TARGET_ECHO	0000010
--#define TARGET_ECHOE	0000020
--#define TARGET_ECHOK	0000040
--#define TARGET_ECHONL	0000100
--#define TARGET_NOFLSH	0000200
--#define TARGET_TOSTOP	0000400
--#define TARGET_ECHOCTL	0001000
--#define TARGET_ECHOPRT	0002000
--#define TARGET_ECHOKE	0004000
--#define TARGET_FLUSHO	0010000
--#define TARGET_PENDIN	0040000
--#define TARGET_IEXTEN	0100000
-+#define TARGET_ISIG    0000001
-+#define TARGET_ICANON    0000002
-+#define TARGET_XCASE    0000004
-+#define TARGET_ECHO    0000010
-+#define TARGET_ECHOE    0000020
-+#define TARGET_ECHOK    0000040
-+#define TARGET_ECHONL    0000100
-+#define TARGET_NOFLSH    0000200
-+#define TARGET_TOSTOP    0000400
-+#define TARGET_ECHOCTL    0001000
-+#define TARGET_ECHOPRT    0002000
-+#define TARGET_ECHOKE    0004000
-+#define TARGET_FLUSHO    0010000
-+#define TARGET_PENDIN    0040000
-+#define TARGET_IEXTEN    0100000
- #define TARGET_EXTPROC  0200000
- 
- 
- /* tcflow() and TCXONC use these */
--#define TARGET_TCOOFF		0
--#define TARGET_TCOON		1
--#define TARGET_TCIOFF		2
--#define TARGET_TCION		3
-+#define TARGET_TCOOFF        0
-+#define TARGET_TCOON        1
-+#define TARGET_TCIOFF        2
-+#define TARGET_TCION        3
- 
- /* tcflush() and TCFLSH use these */
--#define TARGET_TCIFLUSH	0
--#define TARGET_TCOFLUSH	1
--#define TARGET_TCIOFLUSH	2
-+#define TARGET_TCIFLUSH    0
-+#define TARGET_TCOFLUSH    1
-+#define TARGET_TCIOFLUSH    2
- 
- /* tcsetattr uses these */
--#define TARGET_TCSANOW		0
--#define TARGET_TCSADRAIN	1
--#define TARGET_TARGET_TCSAFLUSH	2
-+#define TARGET_TCSANOW        0
-+#define TARGET_TCSADRAIN    1
-+#define TARGET_TARGET_TCSAFLUSH    2
- 
- /* ioctl */
- #define TARGET_FIOCLEX         TARGET_IO('f', 1)
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index 01c4344082..fd453208c1 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -98,19 +98,19 @@
- #define TB_FLAG_ENVFLAGS_MASK  (DELAY_SLOT_MASK | GUSA_MASK)
- 
- typedef struct tlb_t {
--    uint32_t vpn;		/* virtual page number */
--    uint32_t ppn;		/* physical page number */
--    uint32_t size;		/* mapped page size in bytes */
--    uint8_t asid;		/* address space identifier */
--    uint8_t v:1;		/* validity */
--    uint8_t sz:2;		/* page size */
--    uint8_t sh:1;		/* share status */
--    uint8_t c:1;		/* cacheability */
--    uint8_t pr:2;		/* protection key */
--    uint8_t d:1;		/* dirty */
--    uint8_t wt:1;		/* write through */
--    uint8_t sa:3;		/* space attribute (PCMCIA) */
--    uint8_t tc:1;		/* timing control */
-+    uint32_t vpn;        /* virtual page number */
-+    uint32_t ppn;        /* physical page number */
-+    uint32_t size;        /* mapped page size in bytes */
-+    uint8_t asid;        /* address space identifier */
-+    uint8_t v:1;        /* validity */
-+    uint8_t sz:2;        /* page size */
-+    uint8_t sh:1;        /* share status */
-+    uint8_t c:1;        /* cacheability */
-+    uint8_t pr:2;        /* protection key */
-+    uint8_t d:1;        /* dirty */
-+    uint8_t wt:1;        /* write through */
-+    uint8_t sa:3;        /* space attribute (PCMCIA) */
-+    uint8_t tc:1;        /* timing control */
- } tlb_t;
- 
- #define UTLB_SIZE 64
-@@ -130,44 +130,44 @@ typedef struct memory_content {
- } memory_content;
- 
- typedef struct CPUSH4State {
--    uint32_t flags;		/* general execution flags */
--    uint32_t gregs[24];		/* general registers */
--    float32 fregs[32];		/* floating point registers */
-+    uint32_t flags;        /* general execution flags */
-+    uint32_t gregs[24];        /* general registers */
-+    float32 fregs[32];        /* floating point registers */
-     uint32_t sr;                /* status register (with T split out) */
-     uint32_t sr_m;              /* M bit of status register */
-     uint32_t sr_q;              /* Q bit of status register */
-     uint32_t sr_t;              /* T bit of status register */
--    uint32_t ssr;		/* saved status register */
--    uint32_t spc;		/* saved program counter */
--    uint32_t gbr;		/* global base register */
--    uint32_t vbr;		/* vector base register */
--    uint32_t sgr;		/* saved global register 15 */
--    uint32_t dbr;		/* debug base register */
--    uint32_t pc;		/* program counter */
-+    uint32_t ssr;        /* saved status register */
-+    uint32_t spc;        /* saved program counter */
-+    uint32_t gbr;        /* global base register */
-+    uint32_t vbr;        /* vector base register */
-+    uint32_t sgr;        /* saved global register 15 */
-+    uint32_t dbr;        /* debug base register */
-+    uint32_t pc;        /* program counter */
-     uint32_t delayed_pc;        /* target of delayed branch */
-     uint32_t delayed_cond;      /* condition of delayed branch */
--    uint32_t mach;		/* multiply and accumulate high */
--    uint32_t macl;		/* multiply and accumulate low */
--    uint32_t pr;		/* procedure register */
--    uint32_t fpscr;		/* floating point status/control register */
--    uint32_t fpul;		/* floating point communication register */
-+    uint32_t mach;        /* multiply and accumulate high */
-+    uint32_t macl;        /* multiply and accumulate low */
-+    uint32_t pr;        /* procedure register */
-+    uint32_t fpscr;        /* floating point status/control register */
-+    uint32_t fpul;        /* floating point communication register */
- 
-     /* float point status register */
-     float_status fp_status;
- 
-     /* Those belong to the specific unit (SH7750) but are handled here */
--    uint32_t mmucr;		/* MMU control register */
--    uint32_t pteh;		/* page table entry high register */
--    uint32_t ptel;		/* page table entry low register */
--    uint32_t ptea;		/* page table entry assistance register */
-+    uint32_t mmucr;        /* MMU control register */
-+    uint32_t pteh;        /* page table entry high register */
-+    uint32_t ptel;        /* page table entry low register */
-+    uint32_t ptea;        /* page table entry assistance register */
-     uint32_t ttb;               /* translation table base register */
--    uint32_t tea;		/* TLB exception address register */
--    uint32_t tra;		/* TRAPA exception register */
--    uint32_t expevt;		/* exception event register */
--    uint32_t intevt;		/* interrupt event register */
-+    uint32_t tea;        /* TLB exception address register */
-+    uint32_t tra;        /* TRAPA exception register */
-+    uint32_t expevt;        /* exception event register */
-+    uint32_t intevt;        /* interrupt event register */
- 
--    tlb_t itlb[ITLB_SIZE];	/* instruction translation table */
--    tlb_t utlb[UTLB_SIZE];	/* unified translation table */
-+    tlb_t itlb[ITLB_SIZE];    /* instruction translation table */
-+    tlb_t utlb[UTLB_SIZE];    /* unified translation table */
- 
-     /* LDST = LOCK_ADDR != -1.  */
-     uint32_t lock_addr;
-@@ -177,13 +177,13 @@ typedef struct CPUSH4State {
-     struct {} end_reset_fields;
- 
-     /* Fields from here on are preserved over CPU reset. */
--    int id;			/* CPU model */
-+    int id;            /* CPU model */
- 
-     /* The features that we should emulate. See sh_features above.  */
-     uint32_t features;
- 
-     void *intc_handle;
--    int in_sleep;		/* SR_BL ignored during sleep */
-+    int in_sleep;        /* SR_BL ignored during sleep */
-     memory_content *movcal_backup;
-     memory_content **movcal_backup_tail;
- } CPUSH4State;
-diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index 2d622081e8..f177fc59fc 100644
---- a/target/sh4/helper.c
-+++ b/target/sh4/helper.c
-@@ -89,60 +89,60 @@ void superh_cpu_do_interrupt(CPUState *cs)
- 
-     if (do_irq) {
-         irq_vector = sh_intc_get_pending_vector(env->intc_handle,
--						(env->sr >> 4) & 0xf);
-+                        (env->sr >> 4) & 0xf);
-         if (irq_vector == -1) {
-             return; /* masked */
--	}
-+    }
-     }
- 
-     if (qemu_loglevel_mask(CPU_LOG_INT)) {
--	const char *expname;
-+    const char *expname;
-         switch (cs->exception_index) {
--	case 0x0e0:
--	    expname = "addr_error";
--	    break;
--	case 0x040:
--	    expname = "tlb_miss";
--	    break;
--	case 0x0a0:
--	    expname = "tlb_violation";
--	    break;
--	case 0x180:
--	    expname = "illegal_instruction";
--	    break;
--	case 0x1a0:
--	    expname = "slot_illegal_instruction";
--	    break;
--	case 0x800:
--	    expname = "fpu_disable";
--	    break;
--	case 0x820:
--	    expname = "slot_fpu";
--	    break;
--	case 0x100:
--	    expname = "data_write";
--	    break;
--	case 0x060:
--	    expname = "dtlb_miss_write";
--	    break;
--	case 0x0c0:
--	    expname = "dtlb_violation_write";
--	    break;
--	case 0x120:
--	    expname = "fpu_exception";
--	    break;
--	case 0x080:
--	    expname = "initial_page_write";
--	    break;
--	case 0x160:
--	    expname = "trapa";
--	    break;
--	default:
-+    case 0x0e0:
-+        expname = "addr_error";
-+        break;
-+    case 0x040:
-+        expname = "tlb_miss";
-+        break;
-+    case 0x0a0:
-+        expname = "tlb_violation";
-+        break;
-+    case 0x180:
-+        expname = "illegal_instruction";
-+        break;
-+    case 0x1a0:
-+        expname = "slot_illegal_instruction";
-+        break;
-+    case 0x800:
-+        expname = "fpu_disable";
-+        break;
-+    case 0x820:
-+        expname = "slot_fpu";
-+        break;
-+    case 0x100:
-+        expname = "data_write";
-+        break;
-+    case 0x060:
-+        expname = "dtlb_miss_write";
-+        break;
-+    case 0x0c0:
-+        expname = "dtlb_violation_write";
-+        break;
-+    case 0x120:
-+        expname = "fpu_exception";
-+        break;
-+    case 0x080:
-+        expname = "initial_page_write";
-+        break;
-+    case 0x160:
-+        expname = "trapa";
-+        break;
-+    default:
-             expname = do_irq ? "interrupt" : "???";
-             break;
--	}
--	qemu_log("exception 0x%03x [%s] raised\n",
--		  irq_vector, expname);
-+    }
-+    qemu_log("exception 0x%03x [%s] raised\n",
-+          irq_vector, expname);
-         log_cpu_state(cs, 0);
-     }
- 
-@@ -154,8 +154,8 @@ void superh_cpu_do_interrupt(CPUState *cs)
- 
-     if (env->flags & DELAY_SLOT_MASK) {
-         /* Branch instruction should be executed again before delay slot. */
--	env->spc -= 2;
--	/* Clear flags for exception/interrupt routine. */
-+    env->spc -= 2;
-+    /* Clear flags for exception/interrupt routine. */
-         env->flags &= ~DELAY_SLOT_MASK;
-     }
- 
-@@ -196,19 +196,19 @@ static void update_itlb_use(CPUSH4State * env, int itlbnb)
- 
-     switch (itlbnb) {
-     case 0:
--	and_mask = 0x1f;
--	break;
-+    and_mask = 0x1f;
-+    break;
-     case 1:
--	and_mask = 0xe7;
--	or_mask = 0x80;
--	break;
-+    and_mask = 0xe7;
-+    or_mask = 0x80;
-+    break;
-     case 2:
--	and_mask = 0xfb;
--	or_mask = 0x50;
--	break;
-+    and_mask = 0xfb;
-+    or_mask = 0x50;
-+    break;
-     case 3:
--	or_mask = 0x2c;
--	break;
-+    or_mask = 0x2c;
-+    break;
-     }
- 
-     env->mmucr &= (and_mask << 24) | 0x00ffffff;
-@@ -218,16 +218,16 @@ static void update_itlb_use(CPUSH4State * env, int itlbnb)
- static int itlb_replacement(CPUSH4State * env)
- {
-     if ((env->mmucr & 0xe0000000) == 0xe0000000) {
--	return 0;
-+    return 0;
-     }
-     if ((env->mmucr & 0x98000000) == 0x18000000) {
--	return 1;
-+    return 1;
-     }
-     if ((env->mmucr & 0x54000000) == 0x04000000) {
--	return 2;
-+    return 2;
-     }
-     if ((env->mmucr & 0x2c000000) == 0x00000000) {
--	return 3;
-+    return 3;
-     }
-     cpu_abort(env_cpu(env), "Unhandled itlb_replacement");
- }
-@@ -236,7 +236,7 @@ static int itlb_replacement(CPUSH4State * env)
-    Return entry, MMU_DTLB_MISS or MMU_DTLB_MULTIPLE
- */
- static int find_tlb_entry(CPUSH4State * env, target_ulong address,
--			  tlb_t * entries, uint8_t nbtlb, int use_asid)
-+              tlb_t * entries, uint8_t nbtlb, int use_asid)
- {
-     int match = MMU_DTLB_MISS;
-     uint32_t start, end;
-@@ -246,17 +246,17 @@ static int find_tlb_entry(CPUSH4State * env, target_ulong address,
-     asid = env->pteh & 0xff;
- 
-     for (i = 0; i < nbtlb; i++) {
--	if (!entries[i].v)
--	    continue;		/* Invalid entry */
--	if (!entries[i].sh && use_asid && entries[i].asid != asid)
--	    continue;		/* Bad ASID */
--	start = (entries[i].vpn << 10) & ~(entries[i].size - 1);
--	end = start + entries[i].size - 1;
--	if (address >= start && address <= end) {	/* Match */
--	    if (match != MMU_DTLB_MISS)
--		return MMU_DTLB_MULTIPLE;	/* Multiple match */
--	    match = i;
--	}
-+    if (!entries[i].v)
-+        continue;        /* Invalid entry */
-+    if (!entries[i].sh && use_asid && entries[i].asid != asid)
-+        continue;        /* Bad ASID */
-+    start = (entries[i].vpn << 10) & ~(entries[i].size - 1);
-+    end = start + entries[i].size - 1;
-+    if (address >= start && address <= end) {    /* Match */
-+        if (match != MMU_DTLB_MISS)
-+        return MMU_DTLB_MULTIPLE;    /* Multiple match */
-+        match = i;
-+    }
-     }
-     return match;
- }
-@@ -270,7 +270,7 @@ static void increment_urc(CPUSH4State * env)
-     urc = ((env->mmucr) >> 10) & 0x3f;
-     urc++;
-     if ((urb > 0 && urc > urb) || urc > (UTLB_SIZE - 1))
--	urc = 0;
-+    urc = 0;
-     env->mmucr = (env->mmucr & 0xffff03ff) | (urc << 10);
- }
- 
-@@ -302,11 +302,11 @@ static int find_itlb_entry(CPUSH4State * env, target_ulong address,
- 
-     e = find_tlb_entry(env, address, env->itlb, ITLB_SIZE, use_asid);
-     if (e == MMU_DTLB_MULTIPLE) {
--	e = MMU_ITLB_MULTIPLE;
-+    e = MMU_ITLB_MULTIPLE;
-     } else if (e == MMU_DTLB_MISS) {
--	e = MMU_ITLB_MISS;
-+    e = MMU_ITLB_MISS;
-     } else if (e >= 0) {
--	update_itlb_use(env, e);
-+    update_itlb_use(env, e);
-     }
-     return e;
- }
-@@ -523,7 +523,7 @@ uint32_t cpu_sh4_read_mmaped_itlb_addr(CPUSH4State *s,
- }
- 
- void cpu_sh4_write_mmaped_itlb_addr(CPUSH4State *s, hwaddr addr,
--				    uint32_t mem_value)
-+                    uint32_t mem_value)
- {
-     uint32_t vpn = (mem_value & 0xfffffc00) >> 10;
-     uint8_t v = (uint8_t)((mem_value & 0x00000100) >> 8);
-@@ -606,7 +606,7 @@ uint32_t cpu_sh4_read_mmaped_utlb_addr(CPUSH4State *s,
- }
- 
- void cpu_sh4_write_mmaped_utlb_addr(CPUSH4State *s, hwaddr addr,
--				    uint32_t mem_value)
-+                    uint32_t mem_value)
- {
-     int associate = addr & 0x0000080;
-     uint32_t vpn = (mem_value & 0xfffffc00) >> 10;
-@@ -617,48 +617,48 @@ void cpu_sh4_write_mmaped_utlb_addr(CPUSH4State *s, hwaddr addr,
- 
-     if (associate) {
-         int i;
--	tlb_t * utlb_match_entry = NULL;
--	int needs_tlb_flush = 0;
-+    tlb_t * utlb_match_entry = NULL;
-+    int needs_tlb_flush = 0;
- 
--	/* search UTLB */
--	for (i = 0; i < UTLB_SIZE; i++) {
-+    /* search UTLB */
-+    for (i = 0; i < UTLB_SIZE; i++) {
-             tlb_t * entry = &s->utlb[i];
-             if (!entry->v)
--	        continue;
-+            continue;
- 
-             if (entry->vpn == vpn
-                 && (!use_asid || entry->asid == asid || entry->sh)) {
--	        if (utlb_match_entry) {
-+            if (utlb_match_entry) {
-                     CPUState *cs = env_cpu(s);
- 
--		    /* Multiple TLB Exception */
-+            /* Multiple TLB Exception */
-                     cs->exception_index = 0x140;
--		    s->tea = addr;
--		    break;
--	        }
--		if (entry->v && !v)
--		    needs_tlb_flush = 1;
--		entry->v = v;
--		entry->d = d;
--	        utlb_match_entry = entry;
--	    }
--	    increment_urc(s); /* per utlb access */
--	}
--
--	/* search ITLB */
--	for (i = 0; i < ITLB_SIZE; i++) {
-+            s->tea = addr;
-+            break;
-+            }
-+        if (entry->v && !v)
-+            needs_tlb_flush = 1;
-+        entry->v = v;
-+        entry->d = d;
-+            utlb_match_entry = entry;
-+        }
-+        increment_urc(s); /* per utlb access */
-+    }
-+
-+    /* search ITLB */
-+    for (i = 0; i < ITLB_SIZE; i++) {
-             tlb_t * entry = &s->itlb[i];
-             if (entry->vpn == vpn
-                 && (!use_asid || entry->asid == asid || entry->sh)) {
--	        if (entry->v && !v)
--		    needs_tlb_flush = 1;
--	        if (utlb_match_entry)
--		    *entry = *utlb_match_entry;
--	        else
--		    entry->v = v;
--		break;
--	    }
--	}
-+            if (entry->v && !v)
-+            needs_tlb_flush = 1;
-+            if (utlb_match_entry)
-+            *entry = *utlb_match_entry;
-+            else
-+            entry->v = v;
-+        break;
-+        }
-+    }
- 
-         if (needs_tlb_flush) {
-             tlb_flush_page(env_cpu(s), vpn << 10);
-@@ -666,18 +666,18 @@ void cpu_sh4_write_mmaped_utlb_addr(CPUSH4State *s, hwaddr addr,
-     } else {
-         int index = (addr & 0x00003f00) >> 8;
-         tlb_t * entry = &s->utlb[index];
--	if (entry->v) {
-+    if (entry->v) {
-             CPUState *cs = env_cpu(s);
- 
--	    /* Overwriting valid entry in utlb. */
-+        /* Overwriting valid entry in utlb. */
-             target_ulong address = entry->vpn << 10;
-             tlb_flush_page(cs, address);
--	}
--	entry->asid = asid;
--	entry->vpn = vpn;
--	entry->d = d;
--	entry->v = v;
--	increment_urc(s);
-+    }
-+    entry->asid = asid;
-+    entry->vpn = vpn;
-+    entry->d = d;
-+    entry->v = v;
-+    increment_urc(s);
-     }
- }
- 
-diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
-index c0cbb95382..b910724dd3 100644
---- a/target/sh4/op_helper.c
-+++ b/target/sh4/op_helper.c
-@@ -113,12 +113,12 @@ void helper_movcal(CPUSH4State *env, uint32_t address, uint32_t value)
-     {
-         memory_content *r = g_new(memory_content, 1);
- 
--	r->address = address;
--	r->value = value;
--	r->next = NULL;
-+    r->address = address;
-+    r->value = value;
-+    r->next = NULL;
- 
--	*(env->movcal_backup_tail) = r;
--	env->movcal_backup_tail = &(r->next);
-+    *(env->movcal_backup_tail) = r;
-+    env->movcal_backup_tail = &(r->next);
-     }
- }
- 
-@@ -128,11 +128,11 @@ void helper_discard_movcal_backup(CPUSH4State *env)
- 
-     while(current)
-     {
--	memory_content *next = current->next;
-+    memory_content *next = current->next;
-         g_free(current);
--	env->movcal_backup = current = next;
--	if (current == NULL)
--	    env->movcal_backup_tail = &(env->movcal_backup);
-+    env->movcal_backup = current = next;
-+    if (current == NULL)
-+        env->movcal_backup_tail = &(env->movcal_backup);
-     } 
- }
- 
-@@ -141,21 +141,21 @@ void helper_ocbi(CPUSH4State *env, uint32_t address)
-     memory_content **current = &(env->movcal_backup);
-     while (*current)
-     {
--	uint32_t a = (*current)->address;
--	if ((a & ~0x1F) == (address & ~0x1F))
--	{
--	    memory_content *next = (*current)->next;
-+    uint32_t a = (*current)->address;
-+    if ((a & ~0x1F) == (address & ~0x1F))
-+    {
-+        memory_content *next = (*current)->next;
-             cpu_stl_data(env, a, (*current)->value);
--	    
--	    if (next == NULL)
--	    {
--		env->movcal_backup_tail = current;
--	    }
-+        
-+        if (next == NULL)
-+        {
-+        env->movcal_backup_tail = current;
-+        }
- 
-             g_free(*current);
--	    *current = next;
--	    break;
--	}
-+        *current = next;
-+        break;
-+    }
-     }
- }
- 
-@@ -168,10 +168,10 @@ void helper_macl(CPUSH4State *env, uint32_t arg0, uint32_t arg1)
-     env->mach = (res >> 32) & 0xffffffff;
-     env->macl = res & 0xffffffff;
-     if (env->sr & (1u << SR_S)) {
--	if (res < 0)
--	    env->mach |= 0xffff0000;
--	else
--	    env->mach &= 0x00007fff;
-+    if (res < 0)
-+        env->mach |= 0xffff0000;
-+    else
-+        env->mach &= 0x00007fff;
-     }
- }
- 
-@@ -184,13 +184,13 @@ void helper_macw(CPUSH4State *env, uint32_t arg0, uint32_t arg1)
-     env->mach = (res >> 32) & 0xffffffff;
-     env->macl = res & 0xffffffff;
-     if (env->sr & (1u << SR_S)) {
--	if (res < -0x80000000) {
--	    env->mach = 1;
--	    env->macl = 0x80000000;
--	} else if (res > 0x000000007fffffff) {
--	    env->mach = 1;
--	    env->macl = 0x7fffffff;
--	}
-+    if (res < -0x80000000) {
-+        env->mach = 1;
-+        env->macl = 0x80000000;
-+    } else if (res > 0x000000007fffffff) {
-+        env->mach = 1;
-+        env->macl = 0x7fffffff;
-+    }
-     }
- }
- 
-@@ -198,9 +198,9 @@ void helper_ld_fpscr(CPUSH4State *env, uint32_t val)
- {
-     env->fpscr = val & FPSCR_MASK;
-     if ((val & FPSCR_RM_MASK) == FPSCR_RM_ZERO) {
--	set_float_rounding_mode(float_round_to_zero, &env->fp_status);
-+    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
-     } else {
--	set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
-+    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
-     }
-     set_flush_to_zero((val & FPSCR_DN) != 0, &env->fp_status);
- }
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 9312790623..28a768c6fa 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -136,10 +136,10 @@ void sh4_translate_init(void)
-                                       offsetof(CPUSH4State, fpul), "FPUL");
- 
-     cpu_flags = tcg_global_mem_new_i32(cpu_env,
--				       offsetof(CPUSH4State, flags), "_flags_");
-+                       offsetof(CPUSH4State, flags), "_flags_");
-     cpu_delayed_pc = tcg_global_mem_new_i32(cpu_env,
--					    offsetof(CPUSH4State, delayed_pc),
--					    "_delayed_pc_");
-+                        offsetof(CPUSH4State, delayed_pc),
-+                        "_delayed_pc_");
-     cpu_delayed_cond = tcg_global_mem_new_i32(cpu_env,
-                                               offsetof(CPUSH4State,
-                                                        delayed_cond),
-@@ -171,15 +171,15 @@ void superh_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  env->sgr, env->dbr, env->delayed_pc, env->fpul);
-     for (i = 0; i < 24; i += 4) {
-         qemu_printf("r%d=0x%08x r%d=0x%08x r%d=0x%08x r%d=0x%08x\n",
--		    i, env->gregs[i], i + 1, env->gregs[i + 1],
--		    i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
-+            i, env->gregs[i], i + 1, env->gregs[i + 1],
-+            i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
-     }
-     if (env->flags & DELAY_SLOT) {
-         qemu_printf("in delay slot (delayed_pc=0x%08x)\n",
--		    env->delayed_pc);
-+            env->delayed_pc);
-     } else if (env->flags & DELAY_SLOT_CONDITIONAL) {
-         qemu_printf("in conditional delay slot (delayed_pc=0x%08x)\n",
--		    env->delayed_pc);
-+            env->delayed_pc);
-     } else if (env->flags & DELAY_SLOT_RTE) {
-         qemu_fprintf(f, "in rte delay slot (delayed_pc=0x%08x)\n",
-                      env->delayed_pc);
-@@ -260,9 +260,9 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
- static void gen_jump(DisasContext * ctx)
- {
-     if (ctx->delayed_pc == -1) {
--	/* Target is not statically known, it comes necessarily from a
--	   delayed jump as immediate jump are conditinal jumps */
--	tcg_gen_mov_i32(cpu_pc, cpu_delayed_pc);
-+    /* Target is not statically known, it comes necessarily from a
-+       delayed jump as immediate jump are conditinal jumps */
-+    tcg_gen_mov_i32(cpu_pc, cpu_delayed_pc);
-         tcg_gen_discard_i32(cpu_delayed_pc);
-         if (ctx->base.singlestep_enabled) {
-             gen_helper_debug(cpu_env);
-@@ -273,7 +273,7 @@ static void gen_jump(DisasContext * ctx)
-         }
-         ctx->base.is_jmp = DISAS_NORETURN;
-     } else {
--	gen_goto_tb(ctx, 0, ctx->delayed_pc);
-+    gen_goto_tb(ctx, 0, ctx->delayed_pc);
-     }
- }
- 
-@@ -421,103 +421,103 @@ static void _decode_opc(DisasContext * ctx)
-        TB, or if we already saw movca.l in this TB and did not flush stores
-        yet.  */
-     if (ctx->has_movcal)
--	{
--	  int opcode = ctx->opcode & 0xf0ff;
--	  if (opcode != 0x0093 /* ocbi */
--	      && opcode != 0x00c3 /* movca.l */)
--	      {
-+    {
-+      int opcode = ctx->opcode & 0xf0ff;
-+      if (opcode != 0x0093 /* ocbi */
-+          && opcode != 0x00c3 /* movca.l */)
-+          {
-                   gen_helper_discard_movcal_backup(cpu_env);
--		  ctx->has_movcal = 0;
--	      }
--	}
-+          ctx->has_movcal = 0;
-+          }
-+    }
- 
- #if 0
-     fprintf(stderr, "Translating opcode 0x%04x\n", ctx->opcode);
- #endif
- 
-     switch (ctx->opcode) {
--    case 0x0019:		/* div0u */
-+    case 0x0019:        /* div0u */
-         tcg_gen_movi_i32(cpu_sr_m, 0);
-         tcg_gen_movi_i32(cpu_sr_q, 0);
-         tcg_gen_movi_i32(cpu_sr_t, 0);
--	return;
--    case 0x000b:		/* rts */
--	CHECK_NOT_DELAY_SLOT
--	tcg_gen_mov_i32(cpu_delayed_pc, cpu_pr);
-+    return;
-+    case 0x000b:        /* rts */
-+    CHECK_NOT_DELAY_SLOT
-+    tcg_gen_mov_i32(cpu_delayed_pc, cpu_pr);
-         ctx->envflags |= DELAY_SLOT;
--	ctx->delayed_pc = (uint32_t) - 1;
--	return;
--    case 0x0028:		/* clrmac */
--	tcg_gen_movi_i32(cpu_mach, 0);
--	tcg_gen_movi_i32(cpu_macl, 0);
--	return;
--    case 0x0048:		/* clrs */
-+    ctx->delayed_pc = (uint32_t) - 1;
-+    return;
-+    case 0x0028:        /* clrmac */
-+    tcg_gen_movi_i32(cpu_mach, 0);
-+    tcg_gen_movi_i32(cpu_macl, 0);
-+    return;
-+    case 0x0048:        /* clrs */
-         tcg_gen_andi_i32(cpu_sr, cpu_sr, ~(1u << SR_S));
--	return;
--    case 0x0008:		/* clrt */
-+    return;
-+    case 0x0008:        /* clrt */
-         tcg_gen_movi_i32(cpu_sr_t, 0);
--	return;
--    case 0x0038:		/* ldtlb */
--	CHECK_PRIVILEGED
-+    return;
-+    case 0x0038:        /* ldtlb */
-+    CHECK_PRIVILEGED
-         gen_helper_ldtlb(cpu_env);
--	return;
--    case 0x002b:		/* rte */
--	CHECK_PRIVILEGED
--	CHECK_NOT_DELAY_SLOT
-+    return;
-+    case 0x002b:        /* rte */
-+    CHECK_PRIVILEGED
-+    CHECK_NOT_DELAY_SLOT
-         gen_write_sr(cpu_ssr);
--	tcg_gen_mov_i32(cpu_delayed_pc, cpu_spc);
-+    tcg_gen_mov_i32(cpu_delayed_pc, cpu_spc);
-         ctx->envflags |= DELAY_SLOT_RTE;
--	ctx->delayed_pc = (uint32_t) - 1;
-+    ctx->delayed_pc = (uint32_t) - 1;
-         ctx->base.is_jmp = DISAS_STOP;
--	return;
--    case 0x0058:		/* sets */
-+    return;
-+    case 0x0058:        /* sets */
-         tcg_gen_ori_i32(cpu_sr, cpu_sr, (1u << SR_S));
--	return;
--    case 0x0018:		/* sett */
-+    return;
-+    case 0x0018:        /* sett */
-         tcg_gen_movi_i32(cpu_sr_t, 1);
--	return;
--    case 0xfbfd:		/* frchg */
-+    return;
-+    case 0xfbfd:        /* frchg */
-         CHECK_FPSCR_PR_0
--	tcg_gen_xori_i32(cpu_fpscr, cpu_fpscr, FPSCR_FR);
-+    tcg_gen_xori_i32(cpu_fpscr, cpu_fpscr, FPSCR_FR);
-         ctx->base.is_jmp = DISAS_STOP;
--	return;
--    case 0xf3fd:		/* fschg */
-+    return;
-+    case 0xf3fd:        /* fschg */
-         CHECK_FPSCR_PR_0
-         tcg_gen_xori_i32(cpu_fpscr, cpu_fpscr, FPSCR_SZ);
-         ctx->base.is_jmp = DISAS_STOP;
--	return;
-+    return;
-     case 0xf7fd:                /* fpchg */
-         CHECK_SH4A
-         tcg_gen_xori_i32(cpu_fpscr, cpu_fpscr, FPSCR_PR);
-         ctx->base.is_jmp = DISAS_STOP;
-         return;
--    case 0x0009:		/* nop */
--	return;
--    case 0x001b:		/* sleep */
--	CHECK_PRIVILEGED
-+    case 0x0009:        /* nop */
-+    return;
-+    case 0x001b:        /* sleep */
-+    CHECK_PRIVILEGED
-         tcg_gen_movi_i32(cpu_pc, ctx->base.pc_next + 2);
-         gen_helper_sleep(cpu_env);
--	return;
-+    return;
-     }
- 
-     switch (ctx->opcode & 0xf000) {
--    case 0x1000:		/* mov.l Rm,@(disp,Rn) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, REG(B11_8), B3_0 * 4);
-+    case 0x1000:        /* mov.l Rm,@(disp,Rn) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, REG(B11_8), B3_0 * 4);
-             tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x5000:		/* mov.l @(disp,Rm),Rn */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 4);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x5000:        /* mov.l @(disp,Rm),Rn */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 4);
-             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xe000:		/* mov #imm,Rn */
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xe000:        /* mov #imm,Rn */
- #ifdef CONFIG_USER_ONLY
-         /* Detect the start of a gUSA region.  If so, update envflags
-            and end the TB.  This will allow us to see the end of the
-@@ -528,179 +528,179 @@ static void _decode_opc(DisasContext * ctx)
-             ctx->base.is_jmp = DISAS_STOP;
-         }
- #endif
--	tcg_gen_movi_i32(REG(B11_8), B7_0s);
--	return;
--    case 0x9000:		/* mov.w @(disp,PC),Rn */
--	{
-+    tcg_gen_movi_i32(REG(B11_8), B7_0s);
-+    return;
-+    case 0x9000:        /* mov.w @(disp,PC),Rn */
-+    {
-             TCGv addr = tcg_const_i32(ctx->base.pc_next + 4 + B7_0 * 2);
-             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESW);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xd000:		/* mov.l @(disp,PC),Rn */
--	{
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xd000:        /* mov.l @(disp,PC),Rn */
-+    {
-             TCGv addr = tcg_const_i32((ctx->base.pc_next + 4 + B7_0 * 4) & ~3);
-             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x7000:		/* add #imm,Rn */
--	tcg_gen_addi_i32(REG(B11_8), REG(B11_8), B7_0s);
--	return;
--    case 0xa000:		/* bra disp */
--	CHECK_NOT_DELAY_SLOT
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x7000:        /* add #imm,Rn */
-+    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), B7_0s);
-+    return;
-+    case 0xa000:        /* bra disp */
-+    CHECK_NOT_DELAY_SLOT
-         ctx->delayed_pc = ctx->base.pc_next + 4 + B11_0s * 2;
-         ctx->envflags |= DELAY_SLOT;
--	return;
--    case 0xb000:		/* bsr disp */
--	CHECK_NOT_DELAY_SLOT
-+    return;
-+    case 0xb000:        /* bsr disp */
-+    CHECK_NOT_DELAY_SLOT
-         tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
-         ctx->delayed_pc = ctx->base.pc_next + 4 + B11_0s * 2;
-         ctx->envflags |= DELAY_SLOT;
--	return;
-+    return;
-     }
- 
-     switch (ctx->opcode & 0xf00f) {
--    case 0x6003:		/* mov Rm,Rn */
--	tcg_gen_mov_i32(REG(B11_8), REG(B7_4));
--	return;
--    case 0x2000:		/* mov.b Rm,@Rn */
-+    case 0x6003:        /* mov Rm,Rn */
-+    tcg_gen_mov_i32(REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x2000:        /* mov.b Rm,@Rn */
-         tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_UB);
--	return;
--    case 0x2001:		/* mov.w Rm,@Rn */
-+    return;
-+    case 0x2001:        /* mov.w Rm,@Rn */
-         tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_TEUW);
--	return;
--    case 0x2002:		/* mov.l Rm,@Rn */
-+    return;
-+    case 0x2002:        /* mov.l Rm,@Rn */
-         tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_TEUL);
--	return;
--    case 0x6000:		/* mov.b @Rm,Rn */
-+    return;
-+    case 0x6000:        /* mov.b @Rm,Rn */
-         tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_SB);
--	return;
--    case 0x6001:		/* mov.w @Rm,Rn */
-+    return;
-+    case 0x6001:        /* mov.w @Rm,Rn */
-         tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESW);
--	return;
--    case 0x6002:		/* mov.l @Rm,Rn */
-+    return;
-+    case 0x6002:        /* mov.l @Rm,Rn */
-         tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESL);
--	return;
--    case 0x2004:		/* mov.b Rm,@-Rn */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_subi_i32(addr, REG(B11_8), 1);
-+    return;
-+    case 0x2004:        /* mov.b Rm,@-Rn */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_subi_i32(addr, REG(B11_8), 1);
-             /* might cause re-execution */
-             tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_UB);
--	    tcg_gen_mov_i32(REG(B11_8), addr);			/* modify register status */
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x2005:		/* mov.w Rm,@-Rn */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_subi_i32(addr, REG(B11_8), 2);
-+        tcg_gen_mov_i32(REG(B11_8), addr);            /* modify register status */
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x2005:        /* mov.w Rm,@-Rn */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_subi_i32(addr, REG(B11_8), 2);
-             tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUW);
--	    tcg_gen_mov_i32(REG(B11_8), addr);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x2006:		/* mov.l Rm,@-Rn */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_subi_i32(addr, REG(B11_8), 4);
-+        tcg_gen_mov_i32(REG(B11_8), addr);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x2006:        /* mov.l Rm,@-Rn */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_subi_i32(addr, REG(B11_8), 4);
-             tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
--	    tcg_gen_mov_i32(REG(B11_8), addr);
-+        tcg_gen_mov_i32(REG(B11_8), addr);
-         tcg_temp_free(addr);
--	}
--	return;
--    case 0x6004:		/* mov.b @Rm+,Rn */
-+    }
-+    return;
-+    case 0x6004:        /* mov.b @Rm+,Rn */
-         tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_SB);
--	if ( B11_8 != B7_4 )
--		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 1);
--	return;
--    case 0x6005:		/* mov.w @Rm+,Rn */
-+    if ( B11_8 != B7_4 )
-+        tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 1);
-+    return;
-+    case 0x6005:        /* mov.w @Rm+,Rn */
-         tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESW);
--	if ( B11_8 != B7_4 )
--		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 2);
--	return;
--    case 0x6006:		/* mov.l @Rm+,Rn */
-+    if ( B11_8 != B7_4 )
-+        tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 2);
-+    return;
-+    case 0x6006:        /* mov.l @Rm+,Rn */
-         tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESL);
--	if ( B11_8 != B7_4 )
--		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
--	return;
--    case 0x0004:		/* mov.b Rm,@(R0,Rn) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-+    if ( B11_8 != B7_4 )
-+        tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
-+    return;
-+    case 0x0004:        /* mov.b Rm,@(R0,Rn) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-             tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_UB);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x0005:		/* mov.w Rm,@(R0,Rn) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x0005:        /* mov.w Rm,@(R0,Rn) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-             tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUW);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x0006:		/* mov.l Rm,@(R0,Rn) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x0006:        /* mov.l Rm,@(R0,Rn) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-             tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x000c:		/* mov.b @(R0,Rm),Rn */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x000c:        /* mov.b @(R0,Rm),Rn */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_SB);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x000d:		/* mov.w @(R0,Rm),Rn */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x000d:        /* mov.w @(R0,Rm),Rn */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESW);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x000e:		/* mov.l @(R0,Rm),Rn */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x000e:        /* mov.l @(R0,Rm),Rn */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-             tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x6008:		/* swap.b Rm,Rn */
--	{
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x6008:        /* swap.b Rm,Rn */
-+    {
-             TCGv low = tcg_temp_new();
--	    tcg_gen_ext16u_i32(low, REG(B7_4));
--	    tcg_gen_bswap16_i32(low, low);
-+        tcg_gen_ext16u_i32(low, REG(B7_4));
-+        tcg_gen_bswap16_i32(low, low);
-             tcg_gen_deposit_i32(REG(B11_8), REG(B7_4), low, 0, 16);
--	    tcg_temp_free(low);
--	}
--	return;
--    case 0x6009:		/* swap.w Rm,Rn */
-+        tcg_temp_free(low);
-+    }
-+    return;
-+    case 0x6009:        /* swap.w Rm,Rn */
-         tcg_gen_rotli_i32(REG(B11_8), REG(B7_4), 16);
--	return;
--    case 0x200d:		/* xtrct Rm,Rn */
--	{
--	    TCGv high, low;
--	    high = tcg_temp_new();
--	    tcg_gen_shli_i32(high, REG(B7_4), 16);
--	    low = tcg_temp_new();
--	    tcg_gen_shri_i32(low, REG(B11_8), 16);
--	    tcg_gen_or_i32(REG(B11_8), high, low);
--	    tcg_temp_free(low);
--	    tcg_temp_free(high);
--	}
--	return;
--    case 0x300c:		/* add Rm,Rn */
--	tcg_gen_add_i32(REG(B11_8), REG(B11_8), REG(B7_4));
--	return;
--    case 0x300e:		/* addc Rm,Rn */
-+    return;
-+    case 0x200d:        /* xtrct Rm,Rn */
-+    {
-+        TCGv high, low;
-+        high = tcg_temp_new();
-+        tcg_gen_shli_i32(high, REG(B7_4), 16);
-+        low = tcg_temp_new();
-+        tcg_gen_shri_i32(low, REG(B11_8), 16);
-+        tcg_gen_or_i32(REG(B11_8), high, low);
-+        tcg_temp_free(low);
-+        tcg_temp_free(high);
-+    }
-+    return;
-+    case 0x300c:        /* add Rm,Rn */
-+    tcg_gen_add_i32(REG(B11_8), REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x300e:        /* addc Rm,Rn */
-         {
-             TCGv t0, t1;
-             t0 = tcg_const_tl(0);
-@@ -711,8 +711,8 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_temp_free(t0);
-             tcg_temp_free(t1);
-         }
--	return;
--    case 0x300f:		/* addv Rm,Rn */
-+    return;
-+    case 0x300f:        /* addv Rm,Rn */
-         {
-             TCGv t0, t1, t2;
-             t0 = tcg_temp_new();
-@@ -728,44 +728,44 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_gen_mov_i32(REG(B7_4), t0);
-             tcg_temp_free(t0);
-         }
--	return;
--    case 0x2009:		/* and Rm,Rn */
--	tcg_gen_and_i32(REG(B11_8), REG(B11_8), REG(B7_4));
--	return;
--    case 0x3000:		/* cmp/eq Rm,Rn */
-+    return;
-+    case 0x2009:        /* and Rm,Rn */
-+    tcg_gen_and_i32(REG(B11_8), REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x3000:        /* cmp/eq Rm,Rn */
-         tcg_gen_setcond_i32(TCG_COND_EQ, cpu_sr_t, REG(B11_8), REG(B7_4));
--	return;
--    case 0x3003:		/* cmp/ge Rm,Rn */
-+    return;
-+    case 0x3003:        /* cmp/ge Rm,Rn */
-         tcg_gen_setcond_i32(TCG_COND_GE, cpu_sr_t, REG(B11_8), REG(B7_4));
--	return;
--    case 0x3007:		/* cmp/gt Rm,Rn */
-+    return;
-+    case 0x3007:        /* cmp/gt Rm,Rn */
-         tcg_gen_setcond_i32(TCG_COND_GT, cpu_sr_t, REG(B11_8), REG(B7_4));
--	return;
--    case 0x3006:		/* cmp/hi Rm,Rn */
-+    return;
-+    case 0x3006:        /* cmp/hi Rm,Rn */
-         tcg_gen_setcond_i32(TCG_COND_GTU, cpu_sr_t, REG(B11_8), REG(B7_4));
--	return;
--    case 0x3002:		/* cmp/hs Rm,Rn */
-+    return;
-+    case 0x3002:        /* cmp/hs Rm,Rn */
-         tcg_gen_setcond_i32(TCG_COND_GEU, cpu_sr_t, REG(B11_8), REG(B7_4));
--	return;
--    case 0x200c:		/* cmp/str Rm,Rn */
--	{
--	    TCGv cmp1 = tcg_temp_new();
--	    TCGv cmp2 = tcg_temp_new();
-+    return;
-+    case 0x200c:        /* cmp/str Rm,Rn */
-+    {
-+        TCGv cmp1 = tcg_temp_new();
-+        TCGv cmp2 = tcg_temp_new();
-             tcg_gen_xor_i32(cmp2, REG(B7_4), REG(B11_8));
-             tcg_gen_subi_i32(cmp1, cmp2, 0x01010101);
-             tcg_gen_andc_i32(cmp1, cmp1, cmp2);
-             tcg_gen_andi_i32(cmp1, cmp1, 0x80808080);
-             tcg_gen_setcondi_i32(TCG_COND_NE, cpu_sr_t, cmp1, 0);
--	    tcg_temp_free(cmp2);
--	    tcg_temp_free(cmp1);
--	}
--	return;
--    case 0x2007:		/* div0s Rm,Rn */
-+        tcg_temp_free(cmp2);
-+        tcg_temp_free(cmp1);
-+    }
-+    return;
-+    case 0x2007:        /* div0s Rm,Rn */
-         tcg_gen_shri_i32(cpu_sr_q, REG(B11_8), 31);         /* SR_Q */
-         tcg_gen_shri_i32(cpu_sr_m, REG(B7_4), 31);          /* SR_M */
-         tcg_gen_xor_i32(cpu_sr_t, cpu_sr_q, cpu_sr_m);      /* SR_T */
--	return;
--    case 0x3004:		/* div1 Rm,Rn */
-+    return;
-+    case 0x3004:        /* div1 Rm,Rn */
-         {
-             TCGv t0 = tcg_temp_new();
-             TCGv t1 = tcg_temp_new();
-@@ -799,84 +799,84 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_temp_free(t1);
-             tcg_temp_free(t0);
-         }
--	return;
--    case 0x300d:		/* dmuls.l Rm,Rn */
-+    return;
-+    case 0x300d:        /* dmuls.l Rm,Rn */
-         tcg_gen_muls2_i32(cpu_macl, cpu_mach, REG(B7_4), REG(B11_8));
--	return;
--    case 0x3005:		/* dmulu.l Rm,Rn */
-+    return;
-+    case 0x3005:        /* dmulu.l Rm,Rn */
-         tcg_gen_mulu2_i32(cpu_macl, cpu_mach, REG(B7_4), REG(B11_8));
--	return;
--    case 0x600e:		/* exts.b Rm,Rn */
--	tcg_gen_ext8s_i32(REG(B11_8), REG(B7_4));
--	return;
--    case 0x600f:		/* exts.w Rm,Rn */
--	tcg_gen_ext16s_i32(REG(B11_8), REG(B7_4));
--	return;
--    case 0x600c:		/* extu.b Rm,Rn */
--	tcg_gen_ext8u_i32(REG(B11_8), REG(B7_4));
--	return;
--    case 0x600d:		/* extu.w Rm,Rn */
--	tcg_gen_ext16u_i32(REG(B11_8), REG(B7_4));
--	return;
--    case 0x000f:		/* mac.l @Rm+,@Rn+ */
--	{
--	    TCGv arg0, arg1;
--	    arg0 = tcg_temp_new();
-+    return;
-+    case 0x600e:        /* exts.b Rm,Rn */
-+    tcg_gen_ext8s_i32(REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x600f:        /* exts.w Rm,Rn */
-+    tcg_gen_ext16s_i32(REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x600c:        /* extu.b Rm,Rn */
-+    tcg_gen_ext8u_i32(REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x600d:        /* extu.w Rm,Rn */
-+    tcg_gen_ext16u_i32(REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x000f:        /* mac.l @Rm+,@Rn+ */
-+    {
-+        TCGv arg0, arg1;
-+        arg0 = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(arg0, REG(B7_4), ctx->memidx, MO_TESL);
--	    arg1 = tcg_temp_new();
-+        arg1 = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(arg1, REG(B11_8), ctx->memidx, MO_TESL);
-             gen_helper_macl(cpu_env, arg0, arg1);
--	    tcg_temp_free(arg1);
--	    tcg_temp_free(arg0);
--	    tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
--	    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
--	}
--	return;
--    case 0x400f:		/* mac.w @Rm+,@Rn+ */
--	{
--	    TCGv arg0, arg1;
--	    arg0 = tcg_temp_new();
-+        tcg_temp_free(arg1);
-+        tcg_temp_free(arg0);
-+        tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
-+        tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-+    }
-+    return;
-+    case 0x400f:        /* mac.w @Rm+,@Rn+ */
-+    {
-+        TCGv arg0, arg1;
-+        arg0 = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(arg0, REG(B7_4), ctx->memidx, MO_TESL);
--	    arg1 = tcg_temp_new();
-+        arg1 = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(arg1, REG(B11_8), ctx->memidx, MO_TESL);
-             gen_helper_macw(cpu_env, arg0, arg1);
--	    tcg_temp_free(arg1);
--	    tcg_temp_free(arg0);
--	    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 2);
--	    tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 2);
--	}
--	return;
--    case 0x0007:		/* mul.l Rm,Rn */
--	tcg_gen_mul_i32(cpu_macl, REG(B7_4), REG(B11_8));
--	return;
--    case 0x200f:		/* muls.w Rm,Rn */
--	{
--	    TCGv arg0, arg1;
--	    arg0 = tcg_temp_new();
--	    tcg_gen_ext16s_i32(arg0, REG(B7_4));
--	    arg1 = tcg_temp_new();
--	    tcg_gen_ext16s_i32(arg1, REG(B11_8));
--	    tcg_gen_mul_i32(cpu_macl, arg0, arg1);
--	    tcg_temp_free(arg1);
--	    tcg_temp_free(arg0);
--	}
--	return;
--    case 0x200e:		/* mulu.w Rm,Rn */
--	{
--	    TCGv arg0, arg1;
--	    arg0 = tcg_temp_new();
--	    tcg_gen_ext16u_i32(arg0, REG(B7_4));
--	    arg1 = tcg_temp_new();
--	    tcg_gen_ext16u_i32(arg1, REG(B11_8));
--	    tcg_gen_mul_i32(cpu_macl, arg0, arg1);
--	    tcg_temp_free(arg1);
--	    tcg_temp_free(arg0);
--	}
--	return;
--    case 0x600b:		/* neg Rm,Rn */
--	tcg_gen_neg_i32(REG(B11_8), REG(B7_4));
--	return;
--    case 0x600a:		/* negc Rm,Rn */
-+        tcg_temp_free(arg1);
-+        tcg_temp_free(arg0);
-+        tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 2);
-+        tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 2);
-+    }
-+    return;
-+    case 0x0007:        /* mul.l Rm,Rn */
-+    tcg_gen_mul_i32(cpu_macl, REG(B7_4), REG(B11_8));
-+    return;
-+    case 0x200f:        /* muls.w Rm,Rn */
-+    {
-+        TCGv arg0, arg1;
-+        arg0 = tcg_temp_new();
-+        tcg_gen_ext16s_i32(arg0, REG(B7_4));
-+        arg1 = tcg_temp_new();
-+        tcg_gen_ext16s_i32(arg1, REG(B11_8));
-+        tcg_gen_mul_i32(cpu_macl, arg0, arg1);
-+        tcg_temp_free(arg1);
-+        tcg_temp_free(arg0);
-+    }
-+    return;
-+    case 0x200e:        /* mulu.w Rm,Rn */
-+    {
-+        TCGv arg0, arg1;
-+        arg0 = tcg_temp_new();
-+        tcg_gen_ext16u_i32(arg0, REG(B7_4));
-+        arg1 = tcg_temp_new();
-+        tcg_gen_ext16u_i32(arg1, REG(B11_8));
-+        tcg_gen_mul_i32(cpu_macl, arg0, arg1);
-+        tcg_temp_free(arg1);
-+        tcg_temp_free(arg0);
-+    }
-+    return;
-+    case 0x600b:        /* neg Rm,Rn */
-+    tcg_gen_neg_i32(REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x600a:        /* negc Rm,Rn */
-         {
-             TCGv t0 = tcg_const_i32(0);
-             tcg_gen_add2_i32(REG(B11_8), cpu_sr_t,
-@@ -886,15 +886,15 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_gen_andi_i32(cpu_sr_t, cpu_sr_t, 1);
-             tcg_temp_free(t0);
-         }
--	return;
--    case 0x6007:		/* not Rm,Rn */
--	tcg_gen_not_i32(REG(B11_8), REG(B7_4));
--	return;
--    case 0x200b:		/* or Rm,Rn */
--	tcg_gen_or_i32(REG(B11_8), REG(B11_8), REG(B7_4));
--	return;
--    case 0x400c:		/* shad Rm,Rn */
--	{
-+    return;
-+    case 0x6007:        /* not Rm,Rn */
-+    tcg_gen_not_i32(REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x200b:        /* or Rm,Rn */
-+    tcg_gen_or_i32(REG(B11_8), REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x400c:        /* shad Rm,Rn */
-+    {
-             TCGv t0 = tcg_temp_new();
-             TCGv t1 = tcg_temp_new();
-             TCGv t2 = tcg_temp_new();
-@@ -917,10 +917,10 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_temp_free(t0);
-             tcg_temp_free(t1);
-             tcg_temp_free(t2);
--	}
--	return;
--    case 0x400d:		/* shld Rm,Rn */
--	{
-+    }
-+    return;
-+    case 0x400d:        /* shld Rm,Rn */
-+    {
-             TCGv t0 = tcg_temp_new();
-             TCGv t1 = tcg_temp_new();
-             TCGv t2 = tcg_temp_new();
-@@ -943,12 +943,12 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_temp_free(t0);
-             tcg_temp_free(t1);
-             tcg_temp_free(t2);
--	}
--	return;
--    case 0x3008:		/* sub Rm,Rn */
--	tcg_gen_sub_i32(REG(B11_8), REG(B11_8), REG(B7_4));
--	return;
--    case 0x300a:		/* subc Rm,Rn */
-+    }
-+    return;
-+    case 0x3008:        /* sub Rm,Rn */
-+    tcg_gen_sub_i32(REG(B11_8), REG(B11_8), REG(B7_4));
-+    return;
-+    case 0x300a:        /* subc Rm,Rn */
-         {
-             TCGv t0, t1;
-             t0 = tcg_const_tl(0);
-@@ -960,8 +960,8 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_temp_free(t0);
-             tcg_temp_free(t1);
-         }
--	return;
--    case 0x300b:		/* subv Rm,Rn */
-+    return;
-+    case 0x300b:        /* subv Rm,Rn */
-         {
-             TCGv t0, t1, t2;
-             t0 = tcg_temp_new();
-@@ -977,66 +977,66 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_gen_mov_i32(REG(B11_8), t0);
-             tcg_temp_free(t0);
-         }
--	return;
--    case 0x2008:		/* tst Rm,Rn */
--	{
--	    TCGv val = tcg_temp_new();
--	    tcg_gen_and_i32(val, REG(B7_4), REG(B11_8));
-+    return;
-+    case 0x2008:        /* tst Rm,Rn */
-+    {
-+        TCGv val = tcg_temp_new();
-+        tcg_gen_and_i32(val, REG(B7_4), REG(B11_8));
-             tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, val, 0);
--	    tcg_temp_free(val);
--	}
--	return;
--    case 0x200a:		/* xor Rm,Rn */
--	tcg_gen_xor_i32(REG(B11_8), REG(B11_8), REG(B7_4));
--	return;
-+        tcg_temp_free(val);
-+    }
-+    return;
-+    case 0x200a:        /* xor Rm,Rn */
-+    tcg_gen_xor_i32(REG(B11_8), REG(B11_8), REG(B7_4));
-+    return;
-     case 0xf00c: /* fmov {F,D,X}Rm,{F,D,X}Rn - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         if (ctx->tbflags & FPSCR_SZ) {
-             int xsrc = XHACK(B7_4);
-             int xdst = XHACK(B11_8);
-             tcg_gen_mov_i32(FREG(xdst), FREG(xsrc));
-             tcg_gen_mov_i32(FREG(xdst + 1), FREG(xsrc + 1));
--	} else {
-+    } else {
-             tcg_gen_mov_i32(FREG(B11_8), FREG(B7_4));
--	}
--	return;
-+    }
-+    return;
-     case 0xf00a: /* fmov {F,D,X}Rm,@Rn - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         if (ctx->tbflags & FPSCR_SZ) {
-             TCGv_i64 fp = tcg_temp_new_i64();
-             gen_load_fpr64(ctx, fp, XHACK(B7_4));
-             tcg_gen_qemu_st_i64(fp, REG(B11_8), ctx->memidx, MO_TEQ);
-             tcg_temp_free_i64(fp);
--	} else {
-+    } else {
-             tcg_gen_qemu_st_i32(FREG(B7_4), REG(B11_8), ctx->memidx, MO_TEUL);
--	}
--	return;
-+    }
-+    return;
-     case 0xf008: /* fmov @Rm,{F,D,X}Rn - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         if (ctx->tbflags & FPSCR_SZ) {
-             TCGv_i64 fp = tcg_temp_new_i64();
-             tcg_gen_qemu_ld_i64(fp, REG(B7_4), ctx->memidx, MO_TEQ);
-             gen_store_fpr64(ctx, fp, XHACK(B11_8));
-             tcg_temp_free_i64(fp);
--	} else {
-+    } else {
-             tcg_gen_qemu_ld_i32(FREG(B11_8), REG(B7_4), ctx->memidx, MO_TEUL);
--	}
--	return;
-+    }
-+    return;
-     case 0xf009: /* fmov @Rm+,{F,D,X}Rn - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         if (ctx->tbflags & FPSCR_SZ) {
-             TCGv_i64 fp = tcg_temp_new_i64();
-             tcg_gen_qemu_ld_i64(fp, REG(B7_4), ctx->memidx, MO_TEQ);
-             gen_store_fpr64(ctx, fp, XHACK(B11_8));
-             tcg_temp_free_i64(fp);
-             tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 8);
--	} else {
-+    } else {
-             tcg_gen_qemu_ld_i32(FREG(B11_8), REG(B7_4), ctx->memidx, MO_TEUL);
--	    tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
--	}
--	return;
-+        tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
-+    }
-+    return;
-     case 0xf00b: /* fmov {F,D,X}Rm,@-Rn - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         {
-             TCGv addr = tcg_temp_new_i32();
-             if (ctx->tbflags & FPSCR_SZ) {
-@@ -1052,110 +1052,110 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_gen_mov_i32(REG(B11_8), addr);
-             tcg_temp_free(addr);
-         }
--	return;
-+    return;
-     case 0xf006: /* fmov @(R0,Rm),{F,D,X}Rm - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
--	{
--	    TCGv addr = tcg_temp_new_i32();
--	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-+    CHECK_FPU_ENABLED
-+    {
-+        TCGv addr = tcg_temp_new_i32();
-+        tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-             if (ctx->tbflags & FPSCR_SZ) {
-                 TCGv_i64 fp = tcg_temp_new_i64();
-                 tcg_gen_qemu_ld_i64(fp, addr, ctx->memidx, MO_TEQ);
-                 gen_store_fpr64(ctx, fp, XHACK(B11_8));
-                 tcg_temp_free_i64(fp);
--	    } else {
-+        } else {
-                 tcg_gen_qemu_ld_i32(FREG(B11_8), addr, ctx->memidx, MO_TEUL);
--	    }
--	    tcg_temp_free(addr);
--	}
--	return;
-+        }
-+        tcg_temp_free(addr);
-+    }
-+    return;
-     case 0xf007: /* fmov {F,D,X}Rn,@(R0,Rn) - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-+    CHECK_FPU_ENABLED
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-             if (ctx->tbflags & FPSCR_SZ) {
-                 TCGv_i64 fp = tcg_temp_new_i64();
-                 gen_load_fpr64(ctx, fp, XHACK(B7_4));
-                 tcg_gen_qemu_st_i64(fp, addr, ctx->memidx, MO_TEQ);
-                 tcg_temp_free_i64(fp);
--	    } else {
-+        } else {
-                 tcg_gen_qemu_st_i32(FREG(B7_4), addr, ctx->memidx, MO_TEUL);
--	    }
--	    tcg_temp_free(addr);
--	}
--	return;
-+        }
-+        tcg_temp_free(addr);
-+    }
-+    return;
-     case 0xf000: /* fadd Rm,Rn - FPSCR: R[PR,Enable.O/U/I]/W[Cause,Flag] */
-     case 0xf001: /* fsub Rm,Rn - FPSCR: R[PR,Enable.O/U/I]/W[Cause,Flag] */
-     case 0xf002: /* fmul Rm,Rn - FPSCR: R[PR,Enable.O/U/I]/W[Cause,Flag] */
-     case 0xf003: /* fdiv Rm,Rn - FPSCR: R[PR,Enable.O/U/I]/W[Cause,Flag] */
-     case 0xf004: /* fcmp/eq Rm,Rn - FPSCR: R[PR,Enable.V]/W[Cause,Flag] */
-     case 0xf005: /* fcmp/gt Rm,Rn - FPSCR: R[PR,Enable.V]/W[Cause,Flag] */
--	{
--	    CHECK_FPU_ENABLED
-+    {
-+        CHECK_FPU_ENABLED
-             if (ctx->tbflags & FPSCR_PR) {
-                 TCGv_i64 fp0, fp1;
- 
-                 if (ctx->opcode & 0x0110) {
-                     goto do_illegal;
-                 }
--		fp0 = tcg_temp_new_i64();
--		fp1 = tcg_temp_new_i64();
-+        fp0 = tcg_temp_new_i64();
-+        fp1 = tcg_temp_new_i64();
-                 gen_load_fpr64(ctx, fp0, B11_8);
-                 gen_load_fpr64(ctx, fp1, B7_4);
-                 switch (ctx->opcode & 0xf00f) {
--                case 0xf000:		/* fadd Rm,Rn */
-+                case 0xf000:        /* fadd Rm,Rn */
-                     gen_helper_fadd_DT(fp0, cpu_env, fp0, fp1);
-                     break;
--                case 0xf001:		/* fsub Rm,Rn */
-+                case 0xf001:        /* fsub Rm,Rn */
-                     gen_helper_fsub_DT(fp0, cpu_env, fp0, fp1);
-                     break;
--                case 0xf002:		/* fmul Rm,Rn */
-+                case 0xf002:        /* fmul Rm,Rn */
-                     gen_helper_fmul_DT(fp0, cpu_env, fp0, fp1);
-                     break;
--                case 0xf003:		/* fdiv Rm,Rn */
-+                case 0xf003:        /* fdiv Rm,Rn */
-                     gen_helper_fdiv_DT(fp0, cpu_env, fp0, fp1);
-                     break;
--                case 0xf004:		/* fcmp/eq Rm,Rn */
-+                case 0xf004:        /* fcmp/eq Rm,Rn */
-                     gen_helper_fcmp_eq_DT(cpu_sr_t, cpu_env, fp0, fp1);
-                     return;
--                case 0xf005:		/* fcmp/gt Rm,Rn */
-+                case 0xf005:        /* fcmp/gt Rm,Rn */
-                     gen_helper_fcmp_gt_DT(cpu_sr_t, cpu_env, fp0, fp1);
-                     return;
-                 }
-                 gen_store_fpr64(ctx, fp0, B11_8);
-                 tcg_temp_free_i64(fp0);
-                 tcg_temp_free_i64(fp1);
--	    } else {
-+        } else {
-                 switch (ctx->opcode & 0xf00f) {
--                case 0xf000:		/* fadd Rm,Rn */
-+                case 0xf000:        /* fadd Rm,Rn */
-                     gen_helper_fadd_FT(FREG(B11_8), cpu_env,
-                                        FREG(B11_8), FREG(B7_4));
-                     break;
--                case 0xf001:		/* fsub Rm,Rn */
-+                case 0xf001:        /* fsub Rm,Rn */
-                     gen_helper_fsub_FT(FREG(B11_8), cpu_env,
-                                        FREG(B11_8), FREG(B7_4));
-                     break;
--                case 0xf002:		/* fmul Rm,Rn */
-+                case 0xf002:        /* fmul Rm,Rn */
-                     gen_helper_fmul_FT(FREG(B11_8), cpu_env,
-                                        FREG(B11_8), FREG(B7_4));
-                     break;
--                case 0xf003:		/* fdiv Rm,Rn */
-+                case 0xf003:        /* fdiv Rm,Rn */
-                     gen_helper_fdiv_FT(FREG(B11_8), cpu_env,
-                                        FREG(B11_8), FREG(B7_4));
-                     break;
--                case 0xf004:		/* fcmp/eq Rm,Rn */
-+                case 0xf004:        /* fcmp/eq Rm,Rn */
-                     gen_helper_fcmp_eq_FT(cpu_sr_t, cpu_env,
-                                           FREG(B11_8), FREG(B7_4));
-                     return;
--                case 0xf005:		/* fcmp/gt Rm,Rn */
-+                case 0xf005:        /* fcmp/gt Rm,Rn */
-                     gen_helper_fcmp_gt_FT(cpu_sr_t, cpu_env,
-                                           FREG(B11_8), FREG(B7_4));
-                     return;
-                 }
--	    }
--	}
--	return;
-+        }
-+    }
-+    return;
-     case 0xf00e: /* fmac FR0,RM,Rn */
-         CHECK_FPU_ENABLED
-         CHECK_FPSCR_PR_0
-@@ -1165,257 +1165,257 @@ static void _decode_opc(DisasContext * ctx)
-     }
- 
-     switch (ctx->opcode & 0xff00) {
--    case 0xc900:		/* and #imm,R0 */
--	tcg_gen_andi_i32(REG(0), REG(0), B7_0);
--	return;
--    case 0xcd00:		/* and.b #imm,@(R0,GBR) */
--	{
--	    TCGv addr, val;
--	    addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(0), cpu_gbr);
--	    val = tcg_temp_new();
-+    case 0xc900:        /* and #imm,R0 */
-+    tcg_gen_andi_i32(REG(0), REG(0), B7_0);
-+    return;
-+    case 0xcd00:        /* and.b #imm,@(R0,GBR) */
-+    {
-+        TCGv addr, val;
-+        addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(0), cpu_gbr);
-+        val = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(val, addr, ctx->memidx, MO_UB);
--	    tcg_gen_andi_i32(val, val, B7_0);
-+        tcg_gen_andi_i32(val, val, B7_0);
-             tcg_gen_qemu_st_i32(val, addr, ctx->memidx, MO_UB);
--	    tcg_temp_free(val);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x8b00:		/* bf label */
--	CHECK_NOT_DELAY_SLOT
-+        tcg_temp_free(val);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x8b00:        /* bf label */
-+    CHECK_NOT_DELAY_SLOT
-         gen_conditional_jump(ctx, ctx->base.pc_next + 4 + B7_0s * 2, false);
--	return;
--    case 0x8f00:		/* bf/s label */
--	CHECK_NOT_DELAY_SLOT
-+    return;
-+    case 0x8f00:        /* bf/s label */
-+    CHECK_NOT_DELAY_SLOT
-         tcg_gen_xori_i32(cpu_delayed_cond, cpu_sr_t, 1);
-         ctx->delayed_pc = ctx->base.pc_next + 4 + B7_0s * 2;
-         ctx->envflags |= DELAY_SLOT_CONDITIONAL;
--	return;
--    case 0x8900:		/* bt label */
--	CHECK_NOT_DELAY_SLOT
-+    return;
-+    case 0x8900:        /* bt label */
-+    CHECK_NOT_DELAY_SLOT
-         gen_conditional_jump(ctx, ctx->base.pc_next + 4 + B7_0s * 2, true);
--	return;
--    case 0x8d00:		/* bt/s label */
--	CHECK_NOT_DELAY_SLOT
-+    return;
-+    case 0x8d00:        /* bt/s label */
-+    CHECK_NOT_DELAY_SLOT
-         tcg_gen_mov_i32(cpu_delayed_cond, cpu_sr_t);
-         ctx->delayed_pc = ctx->base.pc_next + 4 + B7_0s * 2;
-         ctx->envflags |= DELAY_SLOT_CONDITIONAL;
--	return;
--    case 0x8800:		/* cmp/eq #imm,R0 */
-+    return;
-+    case 0x8800:        /* cmp/eq #imm,R0 */
-         tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, REG(0), B7_0s);
--	return;
--    case 0xc400:		/* mov.b @(disp,GBR),R0 */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, cpu_gbr, B7_0);
-+    return;
-+    case 0xc400:        /* mov.b @(disp,GBR),R0 */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, cpu_gbr, B7_0);
-             tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx, MO_SB);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xc500:		/* mov.w @(disp,GBR),R0 */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 2);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xc500:        /* mov.w @(disp,GBR),R0 */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 2);
-             tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx, MO_TESW);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xc600:		/* mov.l @(disp,GBR),R0 */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 4);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xc600:        /* mov.l @(disp,GBR),R0 */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 4);
-             tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx, MO_TESL);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xc000:		/* mov.b R0,@(disp,GBR) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, cpu_gbr, B7_0);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xc000:        /* mov.b R0,@(disp,GBR) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, cpu_gbr, B7_0);
-             tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx, MO_UB);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xc100:		/* mov.w R0,@(disp,GBR) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 2);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xc100:        /* mov.w R0,@(disp,GBR) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 2);
-             tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx, MO_TEUW);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xc200:		/* mov.l R0,@(disp,GBR) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 4);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xc200:        /* mov.l R0,@(disp,GBR) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, cpu_gbr, B7_0 * 4);
-             tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx, MO_TEUL);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x8000:		/* mov.b R0,@(disp,Rn) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x8000:        /* mov.b R0,@(disp,Rn) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, REG(B7_4), B3_0);
-             tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx, MO_UB);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x8100:		/* mov.w R0,@(disp,Rn) */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x8100:        /* mov.w R0,@(disp,Rn) */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
-             tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx, MO_TEUW);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x8400:		/* mov.b @(disp,Rn),R0 */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x8400:        /* mov.b @(disp,Rn),R0 */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, REG(B7_4), B3_0);
-             tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx, MO_SB);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0x8500:		/* mov.w @(disp,Rn),R0 */
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0x8500:        /* mov.w @(disp,Rn),R0 */
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
-             tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx, MO_TESW);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xc700:		/* mova @(disp,PC),R0 */
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xc700:        /* mova @(disp,PC),R0 */
-         tcg_gen_movi_i32(REG(0), ((ctx->base.pc_next & 0xfffffffc) +
-                                   4 + B7_0 * 4) & ~3);
--	return;
--    case 0xcb00:		/* or #imm,R0 */
--	tcg_gen_ori_i32(REG(0), REG(0), B7_0);
--	return;
--    case 0xcf00:		/* or.b #imm,@(R0,GBR) */
--	{
--	    TCGv addr, val;
--	    addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(0), cpu_gbr);
--	    val = tcg_temp_new();
-+    return;
-+    case 0xcb00:        /* or #imm,R0 */
-+    tcg_gen_ori_i32(REG(0), REG(0), B7_0);
-+    return;
-+    case 0xcf00:        /* or.b #imm,@(R0,GBR) */
-+    {
-+        TCGv addr, val;
-+        addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(0), cpu_gbr);
-+        val = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(val, addr, ctx->memidx, MO_UB);
--	    tcg_gen_ori_i32(val, val, B7_0);
-+        tcg_gen_ori_i32(val, val, B7_0);
-             tcg_gen_qemu_st_i32(val, addr, ctx->memidx, MO_UB);
--	    tcg_temp_free(val);
--	    tcg_temp_free(addr);
--	}
--	return;
--    case 0xc300:		/* trapa #imm */
--	{
--	    TCGv imm;
--	    CHECK_NOT_DELAY_SLOT
-+        tcg_temp_free(val);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+    case 0xc300:        /* trapa #imm */
-+    {
-+        TCGv imm;
-+        CHECK_NOT_DELAY_SLOT
-             gen_save_cpu_state(ctx, true);
--	    imm = tcg_const_i32(B7_0);
-+        imm = tcg_const_i32(B7_0);
-             gen_helper_trapa(cpu_env, imm);
--	    tcg_temp_free(imm);
-+        tcg_temp_free(imm);
-             ctx->base.is_jmp = DISAS_NORETURN;
--	}
--	return;
--    case 0xc800:		/* tst #imm,R0 */
--	{
--	    TCGv val = tcg_temp_new();
--	    tcg_gen_andi_i32(val, REG(0), B7_0);
-+    }
-+    return;
-+    case 0xc800:        /* tst #imm,R0 */
-+    {
-+        TCGv val = tcg_temp_new();
-+        tcg_gen_andi_i32(val, REG(0), B7_0);
-             tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, val, 0);
--	    tcg_temp_free(val);
--	}
--	return;
--    case 0xcc00:		/* tst.b #imm,@(R0,GBR) */
--	{
--	    TCGv val = tcg_temp_new();
--	    tcg_gen_add_i32(val, REG(0), cpu_gbr);
-+        tcg_temp_free(val);
-+    }
-+    return;
-+    case 0xcc00:        /* tst.b #imm,@(R0,GBR) */
-+    {
-+        TCGv val = tcg_temp_new();
-+        tcg_gen_add_i32(val, REG(0), cpu_gbr);
-             tcg_gen_qemu_ld_i32(val, val, ctx->memidx, MO_UB);
--	    tcg_gen_andi_i32(val, val, B7_0);
-+        tcg_gen_andi_i32(val, val, B7_0);
-             tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, val, 0);
--	    tcg_temp_free(val);
--	}
--	return;
--    case 0xca00:		/* xor #imm,R0 */
--	tcg_gen_xori_i32(REG(0), REG(0), B7_0);
--	return;
--    case 0xce00:		/* xor.b #imm,@(R0,GBR) */
--	{
--	    TCGv addr, val;
--	    addr = tcg_temp_new();
--	    tcg_gen_add_i32(addr, REG(0), cpu_gbr);
--	    val = tcg_temp_new();
-+        tcg_temp_free(val);
-+    }
-+    return;
-+    case 0xca00:        /* xor #imm,R0 */
-+    tcg_gen_xori_i32(REG(0), REG(0), B7_0);
-+    return;
-+    case 0xce00:        /* xor.b #imm,@(R0,GBR) */
-+    {
-+        TCGv addr, val;
-+        addr = tcg_temp_new();
-+        tcg_gen_add_i32(addr, REG(0), cpu_gbr);
-+        val = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(val, addr, ctx->memidx, MO_UB);
--	    tcg_gen_xori_i32(val, val, B7_0);
-+        tcg_gen_xori_i32(val, val, B7_0);
-             tcg_gen_qemu_st_i32(val, addr, ctx->memidx, MO_UB);
--	    tcg_temp_free(val);
--	    tcg_temp_free(addr);
--	}
--	return;
-+        tcg_temp_free(val);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-     }
- 
-     switch (ctx->opcode & 0xf08f) {
--    case 0x408e:		/* ldc Rm,Rn_BANK */
--	CHECK_PRIVILEGED
--	tcg_gen_mov_i32(ALTREG(B6_4), REG(B11_8));
--	return;
--    case 0x4087:		/* ldc.l @Rm+,Rn_BANK */
--	CHECK_PRIVILEGED
-+    case 0x408e:        /* ldc Rm,Rn_BANK */
-+    CHECK_PRIVILEGED
-+    tcg_gen_mov_i32(ALTREG(B6_4), REG(B11_8));
-+    return;
-+    case 0x4087:        /* ldc.l @Rm+,Rn_BANK */
-+    CHECK_PRIVILEGED
-         tcg_gen_qemu_ld_i32(ALTREG(B6_4), REG(B11_8), ctx->memidx, MO_TESL);
--	tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
--	return;
--    case 0x0082:		/* stc Rm_BANK,Rn */
--	CHECK_PRIVILEGED
--	tcg_gen_mov_i32(REG(B11_8), ALTREG(B6_4));
--	return;
--    case 0x4083:		/* stc.l Rm_BANK,@-Rn */
--	CHECK_PRIVILEGED
--	{
--	    TCGv addr = tcg_temp_new();
--	    tcg_gen_subi_i32(addr, REG(B11_8), 4);
-+    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-+    return;
-+    case 0x0082:        /* stc Rm_BANK,Rn */
-+    CHECK_PRIVILEGED
-+    tcg_gen_mov_i32(REG(B11_8), ALTREG(B6_4));
-+    return;
-+    case 0x4083:        /* stc.l Rm_BANK,@-Rn */
-+    CHECK_PRIVILEGED
-+    {
-+        TCGv addr = tcg_temp_new();
-+        tcg_gen_subi_i32(addr, REG(B11_8), 4);
-             tcg_gen_qemu_st_i32(ALTREG(B6_4), addr, ctx->memidx, MO_TEUL);
--	    tcg_gen_mov_i32(REG(B11_8), addr);
--	    tcg_temp_free(addr);
--	}
--	return;
-+        tcg_gen_mov_i32(REG(B11_8), addr);
-+        tcg_temp_free(addr);
-+    }
-+    return;
-     }
- 
-     switch (ctx->opcode & 0xf0ff) {
--    case 0x0023:		/* braf Rn */
--	CHECK_NOT_DELAY_SLOT
-+    case 0x0023:        /* braf Rn */
-+    CHECK_NOT_DELAY_SLOT
-         tcg_gen_addi_i32(cpu_delayed_pc, REG(B11_8), ctx->base.pc_next + 4);
-         ctx->envflags |= DELAY_SLOT;
--	ctx->delayed_pc = (uint32_t) - 1;
--	return;
--    case 0x0003:		/* bsrf Rn */
--	CHECK_NOT_DELAY_SLOT
-+    ctx->delayed_pc = (uint32_t) - 1;
-+    return;
-+    case 0x0003:        /* bsrf Rn */
-+    CHECK_NOT_DELAY_SLOT
-         tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
--	tcg_gen_add_i32(cpu_delayed_pc, REG(B11_8), cpu_pr);
-+    tcg_gen_add_i32(cpu_delayed_pc, REG(B11_8), cpu_pr);
-         ctx->envflags |= DELAY_SLOT;
--	ctx->delayed_pc = (uint32_t) - 1;
--	return;
--    case 0x4015:		/* cmp/pl Rn */
-+    ctx->delayed_pc = (uint32_t) - 1;
-+    return;
-+    case 0x4015:        /* cmp/pl Rn */
-         tcg_gen_setcondi_i32(TCG_COND_GT, cpu_sr_t, REG(B11_8), 0);
--	return;
--    case 0x4011:		/* cmp/pz Rn */
-+    return;
-+    case 0x4011:        /* cmp/pz Rn */
-         tcg_gen_setcondi_i32(TCG_COND_GE, cpu_sr_t, REG(B11_8), 0);
--	return;
--    case 0x4010:		/* dt Rn */
--	tcg_gen_subi_i32(REG(B11_8), REG(B11_8), 1);
-+    return;
-+    case 0x4010:        /* dt Rn */
-+    tcg_gen_subi_i32(REG(B11_8), REG(B11_8), 1);
-         tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, REG(B11_8), 0);
--	return;
--    case 0x402b:		/* jmp @Rn */
--	CHECK_NOT_DELAY_SLOT
--	tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
-+    return;
-+    case 0x402b:        /* jmp @Rn */
-+    CHECK_NOT_DELAY_SLOT
-+    tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
-         ctx->envflags |= DELAY_SLOT;
--	ctx->delayed_pc = (uint32_t) - 1;
--	return;
--    case 0x400b:		/* jsr @Rn */
--	CHECK_NOT_DELAY_SLOT
-+    ctx->delayed_pc = (uint32_t) - 1;
-+    return;
-+    case 0x400b:        /* jsr @Rn */
-+    CHECK_NOT_DELAY_SLOT
-         tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
--	tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
-+    tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
-         ctx->envflags |= DELAY_SLOT;
--	ctx->delayed_pc = (uint32_t) - 1;
--	return;
--    case 0x400e:		/* ldc Rm,SR */
--	CHECK_PRIVILEGED
-+    ctx->delayed_pc = (uint32_t) - 1;
-+    return;
-+    case 0x400e:        /* ldc Rm,SR */
-+    CHECK_PRIVILEGED
-         {
-             TCGv val = tcg_temp_new();
-             tcg_gen_andi_i32(val, REG(B11_8), 0x700083f3);
-@@ -1423,110 +1423,110 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_temp_free(val);
-             ctx->base.is_jmp = DISAS_STOP;
-         }
--	return;
--    case 0x4007:		/* ldc.l @Rm+,SR */
--	CHECK_PRIVILEGED
--	{
--	    TCGv val = tcg_temp_new();
-+    return;
-+    case 0x4007:        /* ldc.l @Rm+,SR */
-+    CHECK_PRIVILEGED
-+    {
-+        TCGv val = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(val, REG(B11_8), ctx->memidx, MO_TESL);
-             tcg_gen_andi_i32(val, val, 0x700083f3);
-             gen_write_sr(val);
--	    tcg_temp_free(val);
--	    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-+        tcg_temp_free(val);
-+        tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-             ctx->base.is_jmp = DISAS_STOP;
--	}
--	return;
--    case 0x0002:		/* stc SR,Rn */
--	CHECK_PRIVILEGED
-+    }
-+    return;
-+    case 0x0002:        /* stc SR,Rn */
-+    CHECK_PRIVILEGED
-         gen_read_sr(REG(B11_8));
--	return;
--    case 0x4003:		/* stc SR,@-Rn */
--	CHECK_PRIVILEGED
--	{
--	    TCGv addr = tcg_temp_new();
-+    return;
-+    case 0x4003:        /* stc SR,@-Rn */
-+    CHECK_PRIVILEGED
-+    {
-+        TCGv addr = tcg_temp_new();
-             TCGv val = tcg_temp_new();
--	    tcg_gen_subi_i32(addr, REG(B11_8), 4);
-+        tcg_gen_subi_i32(addr, REG(B11_8), 4);
-             gen_read_sr(val);
-             tcg_gen_qemu_st_i32(val, addr, ctx->memidx, MO_TEUL);
--	    tcg_gen_mov_i32(REG(B11_8), addr);
-+        tcg_gen_mov_i32(REG(B11_8), addr);
-             tcg_temp_free(val);
--	    tcg_temp_free(addr);
--	}
--	return;
--#define LD(reg,ldnum,ldpnum,prechk)		\
--  case ldnum:							\
--    prechk    							\
--    tcg_gen_mov_i32 (cpu_##reg, REG(B11_8));			\
--    return;							\
--  case ldpnum:							\
--    prechk    							\
-+        tcg_temp_free(addr);
-+    }
-+    return;
-+#define LD(reg,ldnum,ldpnum,prechk)        \
-+  case ldnum:                            \
-+    prechk                                \
-+    tcg_gen_mov_i32 (cpu_##reg, REG(B11_8));            \
-+    return;                            \
-+  case ldpnum:                            \
-+    prechk                                \
-     tcg_gen_qemu_ld_i32(cpu_##reg, REG(B11_8), ctx->memidx, MO_TESL); \
--    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);		\
--    return;
--#define ST(reg,stnum,stpnum,prechk)		\
--  case stnum:							\
--    prechk    							\
--    tcg_gen_mov_i32 (REG(B11_8), cpu_##reg);			\
--    return;							\
--  case stpnum:							\
--    prechk    							\
--    {								\
--	TCGv addr = tcg_temp_new();				\
--	tcg_gen_subi_i32(addr, REG(B11_8), 4);			\
-+    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);        \
-+    return;
-+#define ST(reg,stnum,stpnum,prechk)        \
-+  case stnum:                            \
-+    prechk                                \
-+    tcg_gen_mov_i32 (REG(B11_8), cpu_##reg);            \
-+    return;                            \
-+  case stpnum:                            \
-+    prechk                                \
-+    {                                \
-+    TCGv addr = tcg_temp_new();                \
-+    tcg_gen_subi_i32(addr, REG(B11_8), 4);            \
-         tcg_gen_qemu_st_i32(cpu_##reg, addr, ctx->memidx, MO_TEUL); \
--	tcg_gen_mov_i32(REG(B11_8), addr);			\
--	tcg_temp_free(addr);					\
--    }								\
--    return;
--#define LDST(reg,ldnum,ldpnum,stnum,stpnum,prechk)		\
--	LD(reg,ldnum,ldpnum,prechk)				\
--	ST(reg,stnum,stpnum,prechk)
--	LDST(gbr,  0x401e, 0x4017, 0x0012, 0x4013, {})
--	LDST(vbr,  0x402e, 0x4027, 0x0022, 0x4023, CHECK_PRIVILEGED)
--	LDST(ssr,  0x403e, 0x4037, 0x0032, 0x4033, CHECK_PRIVILEGED)
--	LDST(spc,  0x404e, 0x4047, 0x0042, 0x4043, CHECK_PRIVILEGED)
--	ST(sgr,  0x003a, 0x4032, CHECK_PRIVILEGED)
-+    tcg_gen_mov_i32(REG(B11_8), addr);            \
-+    tcg_temp_free(addr);                    \
-+    }                                \
-+    return;
-+#define LDST(reg,ldnum,ldpnum,stnum,stpnum,prechk)        \
-+    LD(reg,ldnum,ldpnum,prechk)                \
-+    ST(reg,stnum,stpnum,prechk)
-+    LDST(gbr,  0x401e, 0x4017, 0x0012, 0x4013, {})
-+    LDST(vbr,  0x402e, 0x4027, 0x0022, 0x4023, CHECK_PRIVILEGED)
-+    LDST(ssr,  0x403e, 0x4037, 0x0032, 0x4033, CHECK_PRIVILEGED)
-+    LDST(spc,  0x404e, 0x4047, 0x0042, 0x4043, CHECK_PRIVILEGED)
-+    ST(sgr,  0x003a, 0x4032, CHECK_PRIVILEGED)
-         LD(sgr,  0x403a, 0x4036, CHECK_PRIVILEGED CHECK_SH4A)
--	LDST(dbr,  0x40fa, 0x40f6, 0x00fa, 0x40f2, CHECK_PRIVILEGED)
--	LDST(mach, 0x400a, 0x4006, 0x000a, 0x4002, {})
--	LDST(macl, 0x401a, 0x4016, 0x001a, 0x4012, {})
--	LDST(pr,   0x402a, 0x4026, 0x002a, 0x4022, {})
--	LDST(fpul, 0x405a, 0x4056, 0x005a, 0x4052, {CHECK_FPU_ENABLED})
--    case 0x406a:		/* lds Rm,FPSCR */
--	CHECK_FPU_ENABLED
-+    LDST(dbr,  0x40fa, 0x40f6, 0x00fa, 0x40f2, CHECK_PRIVILEGED)
-+    LDST(mach, 0x400a, 0x4006, 0x000a, 0x4002, {})
-+    LDST(macl, 0x401a, 0x4016, 0x001a, 0x4012, {})
-+    LDST(pr,   0x402a, 0x4026, 0x002a, 0x4022, {})
-+    LDST(fpul, 0x405a, 0x4056, 0x005a, 0x4052, {CHECK_FPU_ENABLED})
-+    case 0x406a:        /* lds Rm,FPSCR */
-+    CHECK_FPU_ENABLED
-         gen_helper_ld_fpscr(cpu_env, REG(B11_8));
-         ctx->base.is_jmp = DISAS_STOP;
--	return;
--    case 0x4066:		/* lds.l @Rm+,FPSCR */
--	CHECK_FPU_ENABLED
--	{
--	    TCGv addr = tcg_temp_new();
-+    return;
-+    case 0x4066:        /* lds.l @Rm+,FPSCR */
-+    CHECK_FPU_ENABLED
-+    {
-+        TCGv addr = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(addr, REG(B11_8), ctx->memidx, MO_TESL);
--	    tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-+        tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-             gen_helper_ld_fpscr(cpu_env, addr);
--	    tcg_temp_free(addr);
-+        tcg_temp_free(addr);
-             ctx->base.is_jmp = DISAS_STOP;
--	}
--	return;
--    case 0x006a:		/* sts FPSCR,Rn */
--	CHECK_FPU_ENABLED
--	tcg_gen_andi_i32(REG(B11_8), cpu_fpscr, 0x003fffff);
--	return;
--    case 0x4062:		/* sts FPSCR,@-Rn */
--	CHECK_FPU_ENABLED
--	{
--	    TCGv addr, val;
--	    val = tcg_temp_new();
--	    tcg_gen_andi_i32(val, cpu_fpscr, 0x003fffff);
--	    addr = tcg_temp_new();
--	    tcg_gen_subi_i32(addr, REG(B11_8), 4);
-+    }
-+    return;
-+    case 0x006a:        /* sts FPSCR,Rn */
-+    CHECK_FPU_ENABLED
-+    tcg_gen_andi_i32(REG(B11_8), cpu_fpscr, 0x003fffff);
-+    return;
-+    case 0x4062:        /* sts FPSCR,@-Rn */
-+    CHECK_FPU_ENABLED
-+    {
-+        TCGv addr, val;
-+        val = tcg_temp_new();
-+        tcg_gen_andi_i32(val, cpu_fpscr, 0x003fffff);
-+        addr = tcg_temp_new();
-+        tcg_gen_subi_i32(addr, REG(B11_8), 4);
-             tcg_gen_qemu_st_i32(val, addr, ctx->memidx, MO_TEUL);
--	    tcg_gen_mov_i32(REG(B11_8), addr);
--	    tcg_temp_free(addr);
--	    tcg_temp_free(val);
--	}
--	return;
--    case 0x00c3:		/* movca.l R0,@Rm */
-+        tcg_gen_mov_i32(REG(B11_8), addr);
-+        tcg_temp_free(addr);
-+        tcg_temp_free(val);
-+    }
-+    return;
-+    case 0x00c3:        /* movca.l R0,@Rm */
-         {
-             TCGv val = tcg_temp_new();
-             tcg_gen_qemu_ld_i32(val, REG(B11_8), ctx->memidx, MO_TEUL);
-@@ -1535,7 +1535,7 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_temp_free(val);
-         }
-         ctx->has_movcal = 1;
--	return;
-+    return;
-     case 0x40a9:                /* movua.l @Rm,R0 */
-         CHECK_SH4A
-         /* Load non-boundary-aligned data */
-@@ -1549,9 +1549,9 @@ static void _decode_opc(DisasContext * ctx)
-                             MO_TEUL | MO_UNALN);
-         tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-         return;
--    case 0x0029:		/* movt Rn */
-+    case 0x0029:        /* movt Rn */
-         tcg_gen_mov_i32(REG(B11_8), cpu_sr_t);
--	return;
-+    return;
-     case 0x0073:
-         /* MOVCO.L
-          *     LDST -> T
-@@ -1613,89 +1613,89 @@ static void _decode_opc(DisasContext * ctx)
-             tcg_gen_movi_i32(cpu_lock_addr, 0);
-         }
-         return;
--    case 0x0093:		/* ocbi @Rn */
--	{
-+    case 0x0093:        /* ocbi @Rn */
-+    {
-             gen_helper_ocbi(cpu_env, REG(B11_8));
--	}
--	return;
--    case 0x00a3:		/* ocbp @Rn */
--    case 0x00b3:		/* ocbwb @Rn */
-+    }
-+    return;
-+    case 0x00a3:        /* ocbp @Rn */
-+    case 0x00b3:        /* ocbwb @Rn */
-         /* These instructions are supposed to do nothing in case of
-            a cache miss. Given that we only partially emulate caches
-            it is safe to simply ignore them. */
--	return;
--    case 0x0083:		/* pref @Rn */
--	return;
--    case 0x00d3:		/* prefi @Rn */
-+    return;
-+    case 0x0083:        /* pref @Rn */
-+    return;
-+    case 0x00d3:        /* prefi @Rn */
-         CHECK_SH4A
-         return;
--    case 0x00e3:		/* icbi @Rn */
-+    case 0x00e3:        /* icbi @Rn */
-         CHECK_SH4A
-         return;
--    case 0x00ab:		/* synco */
-+    case 0x00ab:        /* synco */
-         CHECK_SH4A
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
-         return;
--    case 0x4024:		/* rotcl Rn */
--	{
--	    TCGv tmp = tcg_temp_new();
-+    case 0x4024:        /* rotcl Rn */
-+    {
-+        TCGv tmp = tcg_temp_new();
-             tcg_gen_mov_i32(tmp, cpu_sr_t);
-             tcg_gen_shri_i32(cpu_sr_t, REG(B11_8), 31);
--	    tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 1);
-+        tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 1);
-             tcg_gen_or_i32(REG(B11_8), REG(B11_8), tmp);
--	    tcg_temp_free(tmp);
--	}
--	return;
--    case 0x4025:		/* rotcr Rn */
--	{
--	    TCGv tmp = tcg_temp_new();
-+        tcg_temp_free(tmp);
-+    }
-+    return;
-+    case 0x4025:        /* rotcr Rn */
-+    {
-+        TCGv tmp = tcg_temp_new();
-             tcg_gen_shli_i32(tmp, cpu_sr_t, 31);
-             tcg_gen_andi_i32(cpu_sr_t, REG(B11_8), 1);
--	    tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 1);
-+        tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 1);
-             tcg_gen_or_i32(REG(B11_8), REG(B11_8), tmp);
--	    tcg_temp_free(tmp);
--	}
--	return;
--    case 0x4004:		/* rotl Rn */
--	tcg_gen_rotli_i32(REG(B11_8), REG(B11_8), 1);
-+        tcg_temp_free(tmp);
-+    }
-+    return;
-+    case 0x4004:        /* rotl Rn */
-+    tcg_gen_rotli_i32(REG(B11_8), REG(B11_8), 1);
-         tcg_gen_andi_i32(cpu_sr_t, REG(B11_8), 0);
--	return;
--    case 0x4005:		/* rotr Rn */
-+    return;
-+    case 0x4005:        /* rotr Rn */
-         tcg_gen_andi_i32(cpu_sr_t, REG(B11_8), 0);
--	tcg_gen_rotri_i32(REG(B11_8), REG(B11_8), 1);
--	return;
--    case 0x4000:		/* shll Rn */
--    case 0x4020:		/* shal Rn */
-+    tcg_gen_rotri_i32(REG(B11_8), REG(B11_8), 1);
-+    return;
-+    case 0x4000:        /* shll Rn */
-+    case 0x4020:        /* shal Rn */
-         tcg_gen_shri_i32(cpu_sr_t, REG(B11_8), 31);
--	tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 1);
--	return;
--    case 0x4021:		/* shar Rn */
-+    tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 1);
-+    return;
-+    case 0x4021:        /* shar Rn */
-         tcg_gen_andi_i32(cpu_sr_t, REG(B11_8), 1);
--	tcg_gen_sari_i32(REG(B11_8), REG(B11_8), 1);
--	return;
--    case 0x4001:		/* shlr Rn */
-+    tcg_gen_sari_i32(REG(B11_8), REG(B11_8), 1);
-+    return;
-+    case 0x4001:        /* shlr Rn */
-         tcg_gen_andi_i32(cpu_sr_t, REG(B11_8), 1);
--	tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 1);
--	return;
--    case 0x4008:		/* shll2 Rn */
--	tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 2);
--	return;
--    case 0x4018:		/* shll8 Rn */
--	tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 8);
--	return;
--    case 0x4028:		/* shll16 Rn */
--	tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 16);
--	return;
--    case 0x4009:		/* shlr2 Rn */
--	tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 2);
--	return;
--    case 0x4019:		/* shlr8 Rn */
--	tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 8);
--	return;
--    case 0x4029:		/* shlr16 Rn */
--	tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 16);
--	return;
--    case 0x401b:		/* tas.b @Rn */
-+    tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 1);
-+    return;
-+    case 0x4008:        /* shll2 Rn */
-+    tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 2);
-+    return;
-+    case 0x4018:        /* shll8 Rn */
-+    tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 8);
-+    return;
-+    case 0x4028:        /* shll16 Rn */
-+    tcg_gen_shli_i32(REG(B11_8), REG(B11_8), 16);
-+    return;
-+    case 0x4009:        /* shlr2 Rn */
-+    tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 2);
-+    return;
-+    case 0x4019:        /* shlr8 Rn */
-+    tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 8);
-+    return;
-+    case 0x4029:        /* shlr16 Rn */
-+    tcg_gen_shri_i32(REG(B11_8), REG(B11_8), 16);
-+    return;
-+    case 0x401b:        /* tas.b @Rn */
-         {
-             TCGv val = tcg_const_i32(0x80);
-             tcg_gen_atomic_fetch_or_i32(val, REG(B11_8), val,
-@@ -1705,101 +1705,101 @@ static void _decode_opc(DisasContext * ctx)
-         }
-         return;
-     case 0xf00d: /* fsts FPUL,FRn - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         tcg_gen_mov_i32(FREG(B11_8), cpu_fpul);
--	return;
-+    return;
-     case 0xf01d: /* flds FRm,FPUL - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         tcg_gen_mov_i32(cpu_fpul, FREG(B11_8));
--	return;
-+    return;
-     case 0xf02d: /* float FPUL,FRn/DRn - FPSCR: R[PR,Enable.I]/W[Cause,Flag] */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         if (ctx->tbflags & FPSCR_PR) {
--	    TCGv_i64 fp;
-+        TCGv_i64 fp;
-             if (ctx->opcode & 0x0100) {
-                 goto do_illegal;
-             }
--	    fp = tcg_temp_new_i64();
-+        fp = tcg_temp_new_i64();
-             gen_helper_float_DT(fp, cpu_env, cpu_fpul);
-             gen_store_fpr64(ctx, fp, B11_8);
--	    tcg_temp_free_i64(fp);
--	}
--	else {
-+        tcg_temp_free_i64(fp);
-+    }
-+    else {
-             gen_helper_float_FT(FREG(B11_8), cpu_env, cpu_fpul);
--	}
--	return;
-+    }
-+    return;
-     case 0xf03d: /* ftrc FRm/DRm,FPUL - FPSCR: R[PR,Enable.V]/W[Cause,Flag] */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         if (ctx->tbflags & FPSCR_PR) {
--	    TCGv_i64 fp;
-+        TCGv_i64 fp;
-             if (ctx->opcode & 0x0100) {
-                 goto do_illegal;
-             }
--	    fp = tcg_temp_new_i64();
-+        fp = tcg_temp_new_i64();
-             gen_load_fpr64(ctx, fp, B11_8);
-             gen_helper_ftrc_DT(cpu_fpul, cpu_env, fp);
--	    tcg_temp_free_i64(fp);
--	}
--	else {
-+        tcg_temp_free_i64(fp);
-+    }
-+    else {
-             gen_helper_ftrc_FT(cpu_fpul, cpu_env, FREG(B11_8));
--	}
--	return;
-+    }
-+    return;
-     case 0xf04d: /* fneg FRn/DRn - FPSCR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         tcg_gen_xori_i32(FREG(B11_8), FREG(B11_8), 0x80000000);
--	return;
-+    return;
-     case 0xf05d: /* fabs FRn/DRn - FPCSR: Nothing */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         tcg_gen_andi_i32(FREG(B11_8), FREG(B11_8), 0x7fffffff);
--	return;
-+    return;
-     case 0xf06d: /* fsqrt FRn */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         if (ctx->tbflags & FPSCR_PR) {
-             if (ctx->opcode & 0x0100) {
-                 goto do_illegal;
-             }
--	    TCGv_i64 fp = tcg_temp_new_i64();
-+        TCGv_i64 fp = tcg_temp_new_i64();
-             gen_load_fpr64(ctx, fp, B11_8);
-             gen_helper_fsqrt_DT(fp, cpu_env, fp);
-             gen_store_fpr64(ctx, fp, B11_8);
--	    tcg_temp_free_i64(fp);
--	} else {
-+        tcg_temp_free_i64(fp);
-+    } else {
-             gen_helper_fsqrt_FT(FREG(B11_8), cpu_env, FREG(B11_8));
--	}
--	return;
-+    }
-+    return;
-     case 0xf07d: /* fsrra FRn */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         CHECK_FPSCR_PR_0
-         gen_helper_fsrra_FT(FREG(B11_8), cpu_env, FREG(B11_8));
--	break;
-+    break;
-     case 0xf08d: /* fldi0 FRn - FPSCR: R[PR] */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         CHECK_FPSCR_PR_0
-         tcg_gen_movi_i32(FREG(B11_8), 0);
-         return;
-     case 0xf09d: /* fldi1 FRn - FPSCR: R[PR] */
--	CHECK_FPU_ENABLED
-+    CHECK_FPU_ENABLED
-         CHECK_FPSCR_PR_0
-         tcg_gen_movi_i32(FREG(B11_8), 0x3f800000);
-         return;
-     case 0xf0ad: /* fcnvsd FPUL,DRn */
--	CHECK_FPU_ENABLED
--	{
--	    TCGv_i64 fp = tcg_temp_new_i64();
-+    CHECK_FPU_ENABLED
-+    {
-+        TCGv_i64 fp = tcg_temp_new_i64();
-             gen_helper_fcnvsd_FT_DT(fp, cpu_env, cpu_fpul);
-             gen_store_fpr64(ctx, fp, B11_8);
--	    tcg_temp_free_i64(fp);
--	}
--	return;
-+        tcg_temp_free_i64(fp);
-+    }
-+    return;
-     case 0xf0bd: /* fcnvds DRn,FPUL */
--	CHECK_FPU_ENABLED
--	{
--	    TCGv_i64 fp = tcg_temp_new_i64();
-+    CHECK_FPU_ENABLED
-+    {
-+        TCGv_i64 fp = tcg_temp_new_i64();
-             gen_load_fpr64(ctx, fp, B11_8);
-             gen_helper_fcnvds_DT_FT(cpu_fpul, cpu_env, fp);
--	    tcg_temp_free_i64(fp);
--	}
--	return;
-+        tcg_temp_free_i64(fp);
-+    }
-+    return;
-     case 0xf0ed: /* fipr FVm,FVn */
-         CHECK_FPU_ENABLED
-         CHECK_FPSCR_PR_1
-@@ -1877,10 +1877,10 @@ static void decode_opc(DisasContext * ctx)
- 
-         tcg_gen_movi_i32(cpu_flags, ctx->envflags);
-         if (old_flags & DELAY_SLOT_CONDITIONAL) {
--	    gen_delayed_conditional_jump(ctx);
-+        gen_delayed_conditional_jump(ctx);
-         } else {
-             gen_jump(ctx);
--	}
-+    }
-     }
- }
- 
--- 
-2.25.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyMDE3NTQ1Mi4xMDA3
+Ni0xLWVtYWlsQGFhYm91emllZC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYyMDE3NTQ1Mi4xMDA3
+Ni0xLWVtYWlsQGFhYm91emllZC5jb20KU3ViamVjdDogW1BBVENIXSBzaDQ6IFJlcGxhY2UgVEFC
+IGluZGVudGF0aW9ucyB3aXRoIHNwYWNlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
+aW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
+YW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9z
+Y3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVO
+RCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQK
+RnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRh
+dGVdICAgICAgcGF0Y2hldy8yMDIxMDUzMTA1NTAxOS4xMDE0OS0xLXlhbWFtb3RvQG1pZG9rdXJh
+LmNvbSAtPiBwYXRjaGV3LzIwMjEwNTMxMDU1MDE5LjEwMTQ5LTEteWFtYW1vdG9AbWlkb2t1cmEu
+Y29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA2MDExNDU2MDAuMzEzMTA0MC0x
+LWlpaUBsaW51eC5pYm0uY29tIC0+IHBhdGNoZXcvMjAyMTA2MDExNDU2MDAuMzEzMTA0MC0xLWlp
+aUBsaW51eC5pYm0uY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA2MTQxOTE3
+MjkuMjk4MTQ4OC0xLXJhai5raGVtQGdtYWlsLmNvbSAtPiBwYXRjaGV3LzIwMjEwNjE0MTkxNzI5
+LjI5ODE0ODgtMS1yYWoua2hlbUBnbWFpbC5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hl
+dy8yMDIxMDYxOTE1NDI1My41NTM0NDYtMS1zd0B3ZWlsbmV0ei5kZSAtPiBwYXRjaGV3LzIwMjEw
+NjE5MTU0MjUzLjU1MzQ0Ni0xLXN3QHdlaWxuZXR6LmRlCiAqIFtuZXcgdGFnXSAgICAgICAgIHBh
+dGNoZXcvMjAyMTA2MjAxNzU0NTIuMTAwNzYtMS1lbWFpbEBhYWJvdXppZWQuY29tIC0+IHBhdGNo
+ZXcvMjAyMTA2MjAxNzU0NTIuMTAwNzYtMS1lbWFpbEBhYWJvdXppZWQuY29tClN3aXRjaGVkIHRv
+IGEgbmV3IGJyYW5jaCAndGVzdCcKNjBiMDQyNSBzaDQ6IFJlcGxhY2UgVEFCIGluZGVudGF0aW9u
+cyB3aXRoIHNwYWNlcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IGJyYWNlcyB7fSBhcmUg
+bmVjZXNzYXJ5IGV2ZW4gZm9yIHNpbmdsZSBzdGF0ZW1lbnQgYmxvY2tzCiMxMDY6IEZJTEU6IGh3
+L2ludGMvc2hfaW50Yy5jOjEzMToKKyAgICBlbHNlCiAgICAgICAgICAgICByZXR1cm4gSU5UQ19N
+T0RFX0RVQUxfQ0xSOwoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFs
+IHN0YXRlbWVudHMgKDgsIDgpCiMxMzI6IEZJTEU6IGh3L2ludGMvc2hfaW50Yy5jOjE1NDoKICAg
+ICAgICAgZm9yIChpID0gMDsgaSA8IGRlc2MtPm5yX21hc2tfcmVnczsgaSsrKSB7CisgICAgICAg
+IHN0cnVjdCBpbnRjX21hc2tfcmVnICptciA9IGRlc2MtPm1hc2tfcmVncyArIGk7CgpFUlJPUjog
+YnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMx
+Mzk6IEZJTEU6IGh3L2ludGMvc2hfaW50Yy5jOjE1ODoKKyAgICAgICAgaWYgKG1vZGUgPT0gSU5U
+Q19NT0RFX05PTkUpClsuLi5dCgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0
+aW9uYWwgc3RhdGVtZW50cyAoOCwgOCkKIzE1OTogRklMRTogaHcvaW50Yy9zaF9pbnRjLmM6MTcx
+OgogICAgICAgICBmb3IgKGkgPSAwOyBpIDwgZGVzYy0+bnJfcHJpb19yZWdzOyBpKyspIHsKKyAg
+ICAgICAgc3RydWN0IGludGNfcHJpb19yZWcgKnByID0gZGVzYy0+cHJpb19yZWdzICsgaTsKCkVS
+Uk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1l
+bnQKIzE2NjogRklMRTogaHcvaW50Yy9zaF9pbnRjLmM6MTc1OgorICAgICAgICBpZiAobW9kZSA9
+PSBJTlRDX01PREVfTk9ORSkKWy4uLl0KCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBj
+b25kaXRpb25hbCBzdGF0ZW1lbnRzICg0LCA0KQojMTk0OiBGSUxFOiBody9pbnRjL3NoX2ludGMu
+YzoxOTU6CiAgICAgaWYgKCFpZCkKKyAgICByZXR1cm47CgpFUlJPUjogYnJhY2VzIHt9IGFyZSBu
+ZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMyMzA6IEZJTEU6IGh3L2lu
+dGMvc2hfaW50Yy5jOjI3MzoKKyAgICBpZiAoKCp2YWx1ZXAgJiBtYXNrKSA9PSAodmFsdWUgJiBt
+YXNrKSkKWy4uLl0KCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMyMzU6IEZJTEU6IGh3L2lu
+dGMvc2hfaW50Yy5jOjI3NjoKKyAgICBwcmludGYoImsgPSAlZCwgZmlyc3QgPSAlZCwgZW51bSA9
+ICVkLCBtYXNrID0gMHglMDh4XG4iLCAkCgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3Ig
+Y29uZGl0aW9uYWwgc3RhdGVtZW50cyAoOCwgOCkKIzI1NTogRklMRTogaHcvaW50Yy9zaF9pbnRj
+LmM6MzQ0OgogICAgICAgICBmb3IgKGkgPSAwOyBpIDwgZGVzYy0+bnJfbWFza19yZWdzOyBpKysp
+IHsKKyAgICAgICAgc3RydWN0IGludGNfbWFza19yZWcgKm1yID0gZGVzYy0+bWFza19yZWdzICsg
+aTsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBz
+dGF0ZW1lbnQKIzI2NzogRklMRTogaHcvaW50Yy9zaF9pbnRjLmM6MzUyOgorICAgICAgICBpZiAo
+cykKWy4uLl0KCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0
+ZW1lbnRzICg4LCA4KQojMjc2OiBGSUxFOiBody9pbnRjL3NoX2ludGMuYzozNTk6CiAgICAgICAg
+IGZvciAoaSA9IDA7IGkgPCBkZXNjLT5ucl9wcmlvX3JlZ3M7IGkrKykgeworICAgICAgICBzdHJ1
+Y3QgaW50Y19wcmlvX3JlZyAqcHIgPSBkZXNjLT5wcmlvX3JlZ3MgKyBpOwoKRVJST1I6IGJyYWNl
+cyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMjg4OiBG
+SUxFOiBody9pbnRjL3NoX2ludGMuYzozNjc6CisgICAgICAgIGlmIChzKQpbLi4uXQoKRVJST1I6
+IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDgsIDgpCiMy
+OTc6IEZJTEU6IGh3L2ludGMvc2hfaW50Yy5jOjM3NDoKICAgICAgICAgZm9yIChpID0gMDsgaSA8
+IG5yX2dyb3VwczsgaSsrKSB7CisgICAgICAgIHN0cnVjdCBpbnRjX2dyb3VwICpnciA9IGdyb3Vw
+cyArIGk7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVt
+ZW50cyAoNCwgNCkKIzMzMjogRklMRTogaHcvaW50Yy9zaF9pbnRjLmM6Mzk5OgogICAgIGZvciAo
+aSA9IDA7IGkgPCBucl92ZWN0b3JzOyBpKyspIHsKKyAgICBzdHJ1Y3QgaW50Y192ZWN0ICp2ZWN0
+ID0gdmVjdG9ycyArIGk7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9u
+YWwgc3RhdGVtZW50cyAoOCwgOCkKIzM0NjogRklMRTogaHcvaW50Yy9zaF9pbnRjLmM6NDE1Ogog
+ICAgICAgICBmb3IgKGkgPSAwOyBpIDwgbnJfZ3JvdXBzOyBpKyspIHsKKyAgICAgICAgc3RydWN0
+IGludGNfZ3JvdXAgKmdyID0gZ3JvdXBzICsgaTsKCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50
+IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg4LCA4KQojMzk2OiBGSUxFOiBody9pbnRjL3No
+X2ludGMuYzo0NzY6CiAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBkZXNjLT5ucl9tYXNrX3JlZ3M7
+IGkrKykgeworICAgICAgICBzdHJ1Y3QgaW50Y19tYXNrX3JlZyAqbXIgPSBkZXNjLT5tYXNrX3Jl
+Z3MgKyBpOwoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRl
+bWVudHMgKDgsIDgpCiM0MDk6IEZJTEU6IGh3L2ludGMvc2hfaW50Yy5jOjQ4NzoKICAgICAgICAg
+Zm9yIChpID0gMDsgaSA8IGRlc2MtPm5yX3ByaW9fcmVnczsgaSsrKSB7CisgICAgICAgIHN0cnVj
+dCBpbnRjX3ByaW9fcmVnICpwciA9IGRlc2MtPnByaW9fcmVncyArIGk7CgpFUlJPUjogc3VzcGVj
+dCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNCkKIzQyNTogRklM
+RTogaHcvaW50Yy9zaF9pbnRjLmM6NTA3OgogICAgIGZvciAoaSA9IDA7IChzID0gc2hfaW50Y19z
+b3VyY2Uocy0+cGFyZW50LCBzLT5uZXh0X2VudW1faWQpKTsgaSsrKSB7CisgICAgaWYgKGkgPT0g
+aXJsKQoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnPycgKGN0eDpWeFYpCiM0
+MzI6IEZJTEU6IGh3L2ludGMvc2hfaW50Yy5jOjUwOToKKyAgICAgICAgc2hfaW50Y190b2dnbGVf
+c291cmNlKHMsIHMtPmVuYWJsZV9jb3VudD8wOjEsIHMtPmFzc2VydGVkPzA6MSk7CiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
+IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4OlZ4VikKIzQzMjogRklMRTogaHcvaW50Yy9z
+aF9pbnRjLmM6NTA5OgorICAgICAgICBzaF9pbnRjX3RvZ2dsZV9zb3VyY2Uocywgcy0+ZW5hYmxl
+X2NvdW50PzA6MSwgcy0+YXNzZXJ0ZWQ/MDoxKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQg
+dGhhdCAnPycgKGN0eDpWeFYpCiM0MzI6IEZJTEU6IGh3L2ludGMvc2hfaW50Yy5jOjUwOToKKyAg
+ICAgICAgc2hfaW50Y190b2dnbGVfc291cmNlKHMsIHMtPmVuYWJsZV9jb3VudD8wOjEsIHMtPmFz
+c2VydGVkPzA6MSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
+YXQgJzonIChjdHg6VnhWKQojNDMyOiBGSUxFOiBody9pbnRjL3NoX2ludGMuYzo1MDk6CisgICAg
+ICAgIHNoX2ludGNfdG9nZ2xlX3NvdXJjZShzLCBzLT5lbmFibGVfY291bnQ/MDoxLCBzLT5hc3Nl
+cnRlZD8wOjEpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBm
+b3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQzNDogRklMRTogaHcvaW50Yy9zaF9pbnRj
+LmM6NTExOgorICAgICAgICBpZiAocy0+YXNzZXJ0ZWQpClsuLi5dCgpFUlJPUjogc3BhY2VzIHJl
+cXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4OkV4VikKIzQ0NDogRklMRTogaHcvc2g0L3IyZC5j
+OjE6Cis6d3EvKgogXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnPDwnIChj
+dHg6VnhWKQojNDgwOiBGSUxFOiBody9zaDQvcjJkLmM6OTk6CisgICAgW0NGX0lERV0gICAgPSB7
+ICAxLCAxPDw5IH0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyBy
+ZXF1aXJlZCBhcm91bmQgdGhhdCAnPDwnIChjdHg6VnhWKQojNDgxOiBGSUxFOiBody9zaDQvcjJk
+LmM6MTAwOgorICAgIFtDRl9DRF0gICAgPSB7ICAyLCAxPDw4IH0sCiAgICAgICAgICAgICAgICAg
+ICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8PCcgKGN0eDpW
+eFYpCiM0ODI6IEZJTEU6IGh3L3NoNC9yMmQuYzoxMDE6CisgICAgW1BDSV9JTlRBXSAgICA9IHsg
+IDksIDE8PDE0IH0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
+IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8PCcgKGN0eDpWeFYpCiM0ODM6IEZJTEU6IGh3L3NoNC9y
+MmQuYzoxMDI6CisgICAgW1BDSV9JTlRCXSAgICA9IHsgMTAsIDE8PDEzIH0sCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8
+PCcgKGN0eDpWeFYpCiM0ODQ6IEZJTEU6IGh3L3NoNC9yMmQuYzoxMDM6CisgICAgW1BDSV9JTlRD
+XSAgICA9IHsgIDMsIDE8PDEyIH0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJP
+Ujogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8PCcgKGN0eDpWeFYpCiM0ODU6IEZJTEU6
+IGh3L3NoNC9yMmQuYzoxMDQ6CisgICAgW1BDSV9JTlREXSAgICA9IHsgIDAsIDE8PDExIH0sCiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3Vu
+ZCB0aGF0ICc8PCcgKGN0eDpWeFYpCiM0ODY6IEZJTEU6IGh3L3NoNC9yMmQuYzoxMDU6CisgICAg
+W1NNNTAxXSAgICA9IHsgIDQsIDE8PDEwIH0sCiAgICAgICAgICAgICAgICAgICAgICAgICBeCgpF
+UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8PCcgKGN0eDpWeFYpCiM0ODc6IEZJ
+TEU6IGh3L3NoNC9yMmQuYzoxMDY6CisgICAgW0tFWV0gICAgPSB7ICA1LCAxPDw2IH0sCiAgICAg
+ICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAn
+PDwnIChjdHg6VnhWKQojNDg4OiBGSUxFOiBody9zaDQvcjJkLmM6MTA3OgorICAgIFtSVENfQV0g
+ICAgPSB7ICA2LCAxPDw1IH0sCiAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
+Y2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8PCcgKGN0eDpWeFYpCiM0ODk6IEZJTEU6IGh3L3No
+NC9yMmQuYzoxMDg6CisgICAgW1JUQ19UXSAgICA9IHsgIDcsIDE8PDQgfSwKICAgICAgICAgICAg
+ICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzw8JyAo
+Y3R4OlZ4VikKIzQ5MDogRklMRTogaHcvc2g0L3IyZC5jOjEwOToKKyAgICBbU0RDQVJEXSAgICA9
+IHsgIDgsIDE8PDcgfSwKICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
+IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8PCcgKGN0eDpWeFYpCiM0OTE6IEZJTEU6IGh3L3NoNC9y
+MmQuYzoxMTA6CisgICAgW0VYVF0gICAgPSB7IDExLCAxPDwwIH0sCiAgICAgICAgICAgICAgICAg
+ICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnPDwnIChjdHg6VnhW
+KQojNDkyOiBGSUxFOiBody9zaDQvcjJkLmM6MTExOgorICAgIFtUUF0gICAgPSB7IDEyLCAxPDwx
+NSB9LAogICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91
+bmQgdGhhdCAnKicgKGN0eDpXeFYpCiM1MjM6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzo3MzoKKyAg
+ICBzaDc3NTBfaW9fZGV2aWNlICpkZXZpY2VzW05CX0RFVklDRVNdOyAgICAvKiBFeHRlcm5hbCBw
+ZXJpcGhlcmFscyAqLwogICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHN1c3BlY3QgY29k
+ZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDQsIDQpCiM1MzA6IEZJTEU6IGh3
+L3NoNC9zaDc3NTAuYzo5MzoKICAgICBmb3IgKGkgPSAwOyBpIDwgTkJfREVWSUNFUzsgaSsrKSB7
+CisgICAgaWYgKHMtPmRldmljZXNbaV0gPT0gTlVMTCkgewoKRVJST1I6IHN1c3BlY3QgY29kZSBp
+bmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDQsIDQpCiM2MDY6IEZJTEU6IGh3L3No
+NC9zaDc3NTAuYzoxNTU6CiAgICAgaWYgKGN1cnJlbnRhID09IHByZXYpCisgICAgcmV0dXJuOwoK
+RVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDQs
+IDQpCiM2MTE6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzoxNTk6CiAgICAgZm9yIChpID0gMDsgaSA8
+IE5CX0RFVklDRVM7IGkrKykgeworICAgIGlmIChzLT5kZXZpY2VzW2ldICYmIChzLT5kZXZpY2Vz
+W2ldLT5wb3J0YW1hc2tfdHJpZ2dlciAmIGNoYW5nZXMpKSB7CgpFUlJPUjogc3VzcGVjdCBjb2Rl
+IGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNCkKIzYyODogRklMRTogaHcv
+c2g0L3NoNzc1MC5jOjE2OToKICAgICBpZiAocikKKyAgICBnZW5fcG9ydF9pbnRlcnJ1cHRzKHMp
+OwoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMg
+KDQsIDQpCiM2Mzc6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzoxNzk6CiAgICAgaWYgKGN1cnJlbnRi
+ID09IHByZXYpCisgICAgcmV0dXJuOwoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNv
+bmRpdGlvbmFsIHN0YXRlbWVudHMgKDQsIDQpCiM2NDI6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzox
+ODM6CiAgICAgZm9yIChpID0gMDsgaSA8IE5CX0RFVklDRVM7IGkrKykgeworICAgIGlmIChzLT5k
+ZXZpY2VzW2ldICYmIChzLT5kZXZpY2VzW2ldLT5wb3J0Ym1hc2tfdHJpZ2dlciAmIGNoYW5nZXMp
+KSB7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50
+cyAoNCwgNCkKIzY1OTogRklMRTogaHcvc2g0L3NoNzc1MC5jOjE5MzoKICAgICBpZiAocikKKyAg
+ICBnZW5fcG9ydF9pbnRlcnJ1cHRzKHMpOwoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0
+aGUgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzY5OTogRklMRTogaHcvc2g0L3NoNzc1MC5jOjIzMDoK
+KyAgICBpZighaGFzX2JjcjNfYW5kX2JjcjQocykpCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNl
+c3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM2OTk6IEZJTEU6IGh3L3NoNC9z
+aDc3NTAuYzoyMzA6CisgICAgaWYoIWhhc19iY3IzX2FuZF9iY3I0KHMpKQpbLi4uXQoKRVJST1I6
+IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGUgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzc0NDogRklM
+RTogaHcvc2g0L3NoNzc1MC5jOjI2NToKKyAgICBpZighaGFzX2JjcjNfYW5kX2JjcjQocykpCgpF
+UlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVt
+ZW50CiM3NDQ6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzoyNjU6CisgICAgaWYoIWhhc19iY3IzX2Fu
+ZF9iY3I0KHMpKQpbLi4uXQoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlv
+bmFsIHN0YXRlbWVudHMgKDQsIDQpCiM3ODM6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzozMTM6CiAg
+ICAgaWYgKGlzX2luX3Nkcm14KGFkZHIsIDIpIHx8IGlzX2luX3Nkcm14KGFkZHIsIDMpKSB7Cisg
+ICAgaWdub3JlX2FjY2VzcygiYnl0ZSB3cml0ZSIsIGFkZHIpOwoKRVJST1I6IHNwYWNlIHJlcXVp
+cmVkIGJlZm9yZSB0aGUgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzgxMjogRklMRTogaHcvc2g0L3No
+Nzc1MC5jOjMzNDoKKyAgICBpZighaGFzX2JjcjNfYW5kX2JjcjQocykpCgpFUlJPUjogYnJhY2Vz
+IHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM4MTI6IEZJ
+TEU6IGh3L3NoNC9zaDc3NTAuYzozMzQ6CisgICAgaWYoIWhhc19iY3IzX2FuZF9iY3I0KHMpKQpb
+Li4uXQoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0aGUgb3BlbiBwYXJlbnRoZXNpcyAn
+KCcKIzg5MjogRklMRTogaHcvc2g0L3NoNzc1MC5jOjM4NjoKKyAgICBpZighaGFzX2JjcjNfYW5k
+X2JjcjQocykpCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9m
+IHRoaXMgc3RhdGVtZW50CiM4OTI6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzozODY6CisgICAgaWYo
+IWhhc19iY3IzX2FuZF9iY3I0KHMpKQpbLi4uXQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
+IGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEwNDg6IEZJTEU6IGh3L3NoNC9zaDc3
+NTAuYzo1NDk6CisgICAgeyAweGZmZDAwMDA0LCAwLCAxNiwgNCwgLyogSVBSQSAqLyB7IFRNVTAs
+IFRNVTEsIFRNVTIsIFJUQyB9IH0sCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFk
+aW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTA0OTogRklMRTogaHcvc2g0L3NoNzc1MC5jOjU1
+MDoKKyAgICB7IDB4ZmZkMDAwMDgsIDAsIDE2LCA0LCAvKiBJUFJCICovIHsgV0RULCBSRUYsIFND
+STEsIDAgfSB9LAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzEwNTA6IEZJTEU6IGh3L3NoNC9zaDc3NTAuYzo1NTE6CisgICAgeyAw
+eGZmZDAwMDBjLCAwLCAxNiwgNCwgLyogSVBSQyAqLyB7IEdQSU9JLCBETUFDLCBTQ0lGLCBIVURJ
+IH0gfSwKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBh
+cmF0ZSBsaW5lCiMxMDUxOiBGSUxFOiBody9zaDQvc2g3NzUwLmM6NTUyOgorICAgIHsgMHhmZmQw
+MDAxMCwgMCwgMTYsIDQsIC8qIElQUkQgKi8geyBJUkwwLCBJUkwxLCBJUkwyLCBJUkwzIH0gfSwK
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBs
+aW5lCiMxMDUyOiBGSUxFOiBody9zaDQvc2g3NzUwLmM6NTUzOgorICAgIHsgMHhmZTA4MDAwMCwg
+MCwgMzIsIDQsIC8qIElOVFBSSTAwICovIHsgMCwgMCwgMCwgMCwKCkVSUk9SOiBzcGFjZSBwcm9o
+aWJpdGVkIGFmdGVyIHRoYXQgJy0nIChjdHg6V3hXKQojMTQ4ODogRklMRTogaHcvc2g0L3NoNzc1
+MF9yZWduYW1lcy5jOjg0OgorICAgIFJFR05BTUUoU0g3NzUwX1NETVIzX0E3KSB7KHVpbnQzMl90
+KSAtIDEsIE5VTEx9CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4K
+CkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg0
+LCA0KQojMTQ5NTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWduYW1lcy5jOjkxOgogICAgIGZvciAo
+aSA9IDA7IHJlZ25hbWVzW2ldLnJlZ2FkZHIgIT0gKHVpbnQzMl90KSAtIDE7IGkrKykgeworICAg
+IGlmIChyZWduYW1lc1tpXS5yZWdhZGRyID09IGFkZHIpCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBu
+ZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxNDk4OiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ25hbWVzLmM6OTI6CisgICAgaWYgKHJlZ25hbWVzW2ldLnJlZ2FkZHIgPT0g
+YWRkcikKWy4uLl0KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24g
+YSBzZXBhcmF0ZSBsaW5lCiMxNTE0OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo0NjoKKyNk
+ZWZpbmUgU0g3NzUwX1A0X0JBU0UgICAgICAgMHhmZjAwMDAwMCAgICAvKiBBY2Nlc3NpYmxlIG9u
+bHkgaW4KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMK
+IzE1MTU6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjQ3OgorI2RlZmluZSBTSDc3NTBfUDRf
+QkFTRSAgICAgICAweGZmMDAwMDAwICAgIC8qIEFjY2Vzc2libGUgb25seSBpbgorICAgICAgICAg
+ICAgICAgICAgICAgICBwcml2aWxlZ2VkIG1vZGUgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMTUxNTogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6NDc6CisgICAgICAgICAgICAgICAgICAgICAgIHByaXZpbGVnZWQgbW9k
+ZSAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE1NzU6IEZJTEU6IGh3L3No
+NC9zaDc3NTBfcmVncy5oOjgyOgorI2RlZmluZSBTSDc3NTBfUFRFTF9QUl9ST1BVICAgMHgwMDAw
+MDA0MCAgICAvKiAgIHJlYWQtb25seSBpbiBwcml2IG9yIHVzZXIgbW9kZSAqLwoKV0FSTklORzog
+bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE1NzY6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+OjgzOgorI2RlZmluZSBTSDc3NTBfUFRFTF9QUl9SV1BVICAgMHgwMDAwMDA2MCAgICAvKiAgIHJl
+YWQtd3JpdGUgaW4gcHJpdiBvciB1c2VyIG1vZGUgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxNTc3OiBGSUxFOiBody9zaDQv
+c2g3NzUwX3JlZ3MuaDo4NDoKKyNkZWZpbmUgU0g3NzUwX1BURUxfQyAgICAgICAgIDB4MDAwMDAw
+MDggICAgLyogQ2FjaGVhYmlsaXR5CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBz
+dWJzZXF1ZW50IGxpbmVzCiMxNTc4OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo4NToKKyNk
+ZWZpbmUgU0g3NzUwX1BURUxfQyAgICAgICAgIDB4MDAwMDAwMDggICAgLyogQ2FjaGVhYmlsaXR5
+CisgICAgICAgICAgICAgICAgICAgICAgICAgICAoMCAtIHBhZ2Ugbm90IGNhY2hlYWJsZSkgKi8K
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUg
+bGluZQojMTU3ODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6ODU6CisgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAoMCAtIHBhZ2Ugbm90IGNhY2hlYWJsZSkgKi8KCldBUk5JTkc6IEJsb2Nr
+IGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxNTc5OiBGSUxF
+OiBody9zaDQvc2g3NzUwX3JlZ3MuaDo4NjoKKyNkZWZpbmUgU0g3NzUwX1BURUxfRCAgICAgICAg
+IDB4MDAwMDAwMDQgICAgLyogRGlydHkgYml0ICgxIC0gd3JpdGUgaGFzIGJlZW4KCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzE1ODA6IEZJTEU6IGh3
+L3NoNC9zaDc3NTBfcmVncy5oOjg3OgorI2RlZmluZSBTSDc3NTBfUFRFTF9EICAgICAgICAgMHgw
+MDAwMDAwNCAgICAvKiBEaXJ0eSBiaXQgKDEgLSB3cml0ZSBoYXMgYmVlbgorICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgcGVyZm9ybWVkIHRvIGEgcGFnZSkgKi8KCldBUk5JTkc6IEJsb2NrIGNv
+bW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMTU4MDogRklMRTog
+aHcvc2g0L3NoNzc1MF9yZWdzLmg6ODc6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBwZXJm
+b3JtZWQgdG8gYSBwYWdlKSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGlu
+ZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzE1ODE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+Ojg4OgorI2RlZmluZSBTSDc3NTBfUFRFTF9TSCAgICAgICAgMHgwMDAwMDAwMiAgICAvKiBTaGFy
+ZSBTdGF0dXMgYml0ICgxIC0gcGFnZSBhcmUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAq
+IG9uIHN1YnNlcXVlbnQgbGluZXMKIzE1ODI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjg5
+OgorI2RlZmluZSBTSDc3NTBfUFRFTF9TSCAgICAgICAgMHgwMDAwMDAwMiAgICAvKiBTaGFyZSBT
+dGF0dXMgYml0ICgxIC0gcGFnZSBhcmUKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHNoYXJl
+ZCBieSBwcm9jZXNzZXMpICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGlu
+ZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzE1ODI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+Ojg5OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgc2hhcmVkIGJ5IHByb2Nlc3NlcykgKi8K
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBs
+aW5lCiMxNTgzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5MDoKKyNkZWZpbmUgU0g3NzUw
+X1BURUxfV1QgICAgICAgIDB4MDAwMDAwMDEgICAgLyogV3JpdGUtdGhyb3VnaCBiaXQsIHNwZWNp
+ZmllcyB0aGUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGlu
+ZXMKIzE1ODQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjkxOgorI2RlZmluZSBTSDc3NTBf
+UFRFTF9XVCAgICAgICAgMHgwMDAwMDAwMSAgICAvKiBXcml0ZS10aHJvdWdoIGJpdCwgc3BlY2lm
+aWVzIHRoZQorICAgICAgICAgICAgICAgICAgICAgICAgICAgY2FjaGUgd3JpdGUgbW9kZToKCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojMTU4NjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6OTM6CisgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAxIC0gV3JpdGUtdGhyb3VnaCBtb2RlICovCgpXQVJOSU5HOiBCbG9jayBjb21t
+ZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTYwNTogRklMRTogaHcv
+c2g0L3NoNzc1MF9yZWdzLmg6OTk6CisjZGVmaW5lIFNINzc1MF9QVEVBX1RDICAgICAgICAweDAw
+MDAwMDA4ICAgIC8qIFRpbWluZyBDb250cm9sIGJpdAoKV0FSTklORzogQmxvY2sgY29tbWVudHMg
+dXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMTYwNjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdz
+Lmg6MTAwOgorI2RlZmluZSBTSDc3NTBfUFRFQV9UQyAgICAgICAgMHgwMDAwMDAwOCAgICAvKiBU
+aW1pbmcgQ29udHJvbCBiaXQKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIDAgLSB1c2UgYXJl
+YSA1IHdhaXQgc3RhdGVzCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAq
+LyBvbiBhIHNlcGFyYXRlIGxpbmUKIzE2MDc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEw
+MToKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIDEgLSB1c2UgYXJlYSA2IHdhaXQgc3RhdGVz
+ICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTYxMzogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6MTA3OgorI2RlZmluZSBTSDc3NTBfUFRFQV9TQV9DTUVNOCAgMHgwMDAw
+MDAwNCAgICAvKiAgICA0IC0gOC1iaXQgY29tbW9uIG1lbW9yeSBzcGFjZSAqLwoKV0FSTklORzog
+bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE2MTQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+OjEwODoKKyNkZWZpbmUgU0g3NzUwX1BURUFfU0FfQ01FTTE2IDB4MDAwMDAwMDUgICAgLyogICAg
+NSAtIDE2LWJpdCBjb21tb24gbWVtb3J5IHNwYWNlICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
+Y2hhcmFjdGVycwojMTYxNjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTEwOgorI2RlZmlu
+ZSBTSDc3NTBfUFRFQV9TQV9BTUVNMTYgMHgwMDAwMDAwNyAgICAvKiAgICA3IC0gMTYtYml0IGF0
+dHIgbWVtb3J5IHNwYWNlICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5n
+IC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTY3NzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6
+MTUzOgorI2RlZmluZSBTSDc3NTBfQ0NSX0lDSSAgICAgIDB4MDAwMDA4MDAgICAgLyogSUMgaW52
+YWxpZGF0aW9uIGJpdDoKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVl
+bnQgbGluZXMKIzE2Nzg6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjE1NDoKKyNkZWZpbmUg
+U0g3NzUwX0NDUl9JQ0kgICAgICAweDAwMDAwODAwICAgIC8qIElDIGludmFsaWRhdGlvbiBiaXQ6
+CisgICAgICAgICAgICAgICAgICAgICAgIHNldCBpdCB0byBjbGVhciBJQyAqLwoKV0FSTklORzog
+QmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMxNjc4
+OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxNTQ6CisgICAgICAgICAgICAgICAgICAgICAg
+IHNldCBpdCB0byBjbGVhciBJQyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVh
+ZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzE2ODE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVn
+cy5oOjE1NzoKKyNkZWZpbmUgU0g3NzUwX0NDUl9PUkEgICAgICAweDAwMDAwMDIwICAgIC8qIE9D
+IFJBTSBlbmFibGUgYml0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1
+ZW50IGxpbmVzCiMxNjgyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxNTg6CisjZGVmaW5l
+IFNINzc1MF9DQ1JfT1JBICAgICAgMHgwMDAwMDAyMCAgICAvKiBPQyBSQU0gZW5hYmxlIGJpdAor
+ICAgICAgICAgICAgICAgICAgICAgICBpZiB5b3Ugc2V0IE9DRSA9IDAsCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzE2ODM6IEZJ
+TEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjE1OToKKyAgICAgICAgICAgICAgICAgICAgICAgeW91
+IHNob3VsZCBzZXQgT1JBID0gMCAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMK
+IzE2ODY6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjE2MjoKKyNkZWZpbmUgU0g3NzUwX0ND
+Ul9XVCAgICAgICAweDAwMDAwMDAyICAgIC8qIFdyaXRlLXRocm91Z2ggYml0IGZvciBQMCxVMCxQ
+MyBhcmVhICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEg
+c2VwYXJhdGUgbGluZQojMTc2NjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjE2OgorI2Rl
+ZmluZSBTSDc3NTBfRVZUX1RMQl9SRUFEX01JU1MgICAgICAgMHgwNDAgICAgLyogSVRMQiBtaXNz
+IGV4Y2VwdGlvbiAvCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50
+IGxpbmVzCiMxNzY3OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyMTc6CisjZGVmaW5lIFNI
+Nzc1MF9FVlRfVExCX1JFQURfTUlTUyAgICAgICAweDA0MCAgICAvKiBJVExCIG1pc3MgZXhjZXB0
+aW9uIC8KKyAgICAgICAgICAgICAgICAgICAgICAgICAgIERUTEIgbWlzcyBleGNlcHRpb24gKHJl
+YWQpICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNl
+cGFyYXRlIGxpbmUKIzE3Njc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjIxNzoKKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIERUTEIgbWlzcyBleGNlcHRpb24gKHJlYWQpICovCgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQoj
+MTc2ODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjE4OgorI2RlZmluZSBTSDc3NTBfRVZU
+X1RMQl9SRUFEX1BST1RWICAgICAgMHgwQTAgICAgLyogSVRMQiBwcm90ZWN0aW9uIHZpb2xhdGlv
+biAvCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMx
+NzY5OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyMTk6CisjZGVmaW5lIFNINzc1MF9FVlRf
+VExCX1JFQURfUFJPVFYgICAgICAweDBBMCAgICAvKiBJVExCIHByb3RlY3Rpb24gdmlvbGF0aW9u
+IC8KKyAgICAgICAgICAgICAgICAgICAgICAgICAgIERUTEIgcHJvdGVjdGlvbiB2aW9sYXRpb24g
+KHJlYWQpICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzE3Njk6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjIxOToKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIERUTEIgcHJvdGVjdGlvbiB2aW9sYXRpb24gKHJlYWQp
+ICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJh
+dGUgbGluZQojMTc3MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjIwOgorI2RlZmluZSBT
+SDc3NTBfRVZUX0lMTEVHQUxfSU5TVFIgICAgICAgMHgxODAgICAgLyogR2VuZXJhbCBJbGxlZ2Fs
+IEluc3RydWN0aW9uCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50
+IGxpbmVzCiMxNzcxOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyMjE6CisjZGVmaW5lIFNI
+Nzc1MF9FVlRfSUxMRUdBTF9JTlNUUiAgICAgICAweDE4MCAgICAvKiBHZW5lcmFsIElsbGVnYWwg
+SW5zdHJ1Y3Rpb24KKyAgICAgICAgICAgICAgICAgICAgICAgICAgIGV4Y2VwdGlvbiAqLwoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMxNzcxOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyMjE6CisgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBleGNlcHRpb24gKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxl
+YWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxNzcyOiBGSUxFOiBody9zaDQvc2g3NzUwX3Jl
+Z3MuaDoyMjI6CisjZGVmaW5lIFNINzc1MF9FVlRfU0xPVF9JTExFR0FMX0lOU1RSICAweDFBMCAg
+ICAvKiBTbG90IElsbGVnYWwgSW5zdHJ1Y3Rpb24KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
+ZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzE3NzM6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+OjIyMzoKKyNkZWZpbmUgU0g3NzUwX0VWVF9TTE9UX0lMTEVHQUxfSU5TVFIgIDB4MUEwICAgIC8q
+IFNsb3QgSWxsZWdhbCBJbnN0cnVjdGlvbgorICAgICAgICAgICAgICAgICAgICAgICAgICAgZXhj
+ZXB0aW9uICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzE3NzM6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjIyMzoKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGV4Y2VwdGlvbiAqLwoKV0FSTklORzogbGluZSBvdmVy
+IDgwIGNoYXJhY3RlcnMKIzE3NzQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjIyNDoKKyNk
+ZWZpbmUgU0g3NzUwX0VWVF9GUFVfRElTQUJMRSAgICAgICAgIDB4ODAwICAgIC8qIEdlbmVyYWwg
+RlBVIGRpc2FibGUgZXhjZXB0aW9uICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojMTc3ODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjI4OgorI2RlZmluZSBTSDc3NTBf
+RVZUX0RUTEJfV1JJVEVfTUlTUyAgICAgMHgwNjAgICAgLyogRFRMQiBtaXNzIGV4Y2VwdGlvbiAo
+d3JpdGUpICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEg
+c2VwYXJhdGUgbGluZQojMTc3OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjI5OgorI2Rl
+ZmluZSBTSDc3NTBfRVZUX0RUTEJfV1JJVEVfUFJPVFYgICAgMHgwQzAgICAgLyogRFRMQiBwcm90
+ZWN0aW9uIHZpb2xhdGlvbgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2Vx
+dWVudCBsaW5lcwojMTc4MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjMwOgorI2RlZmlu
+ZSBTSDc3NTBfRVZUX0RUTEJfV1JJVEVfUFJPVFYgICAgMHgwQzAgICAgLyogRFRMQiBwcm90ZWN0
+aW9uIHZpb2xhdGlvbgorICAgICAgICAgICAgICAgICAgICAgICAgICAgZXhjZXB0aW9uICh3cml0
+ZSkgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2Vw
+YXJhdGUgbGluZQojMTc4MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjMwOgorICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgZXhjZXB0aW9uICh3cml0ZSkgKi8KCldBUk5JTkc6IGxpbmUg
+b3ZlciA4MCBjaGFyYWN0ZXJzCiMxNzgyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyMzI6
+CisjZGVmaW5lIFNINzc1MF9FVlRfSU5JVElBTF9QR1dSSVRFICAgICAweDA4MCAgICAvKiBJbml0
+aWFsIFBhZ2UgV3JpdGUgZXhjZXB0aW9uICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
+dGVycwojMTgyNzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjU3OgorI2RlZmluZSBTSDc3
+NTBfRVZUX1RJQ1BJMiAgICAgICAgICAgICAgMHg0NjAgICAgLyogVE1VIElucHV0IENhcHR1cmUg
+SW50ZXJydXB0IDIgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxODQ0OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyNjc6CisjZGVmaW5lIFNINzc1MF9FVlRfU0NJX1RY
+SSAgICAgICAgICAgICAweDUyMCAgICAvKiBUcmFuc21pdCBEYXRhIFJlZ2lzdGVyIEVtcHR5ICov
+CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUg
+bGluZQojMTg1MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MjcxOgorI2RlZmluZSBTSDc3
+NTBfRVZUX1dEVF9JVEkgICAgICAgICAgICAgMHg1NjAgICAgLyogSW50ZXJ2YWwgVGltZXIgSW50
+ZXJydXB0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVz
+CiMxODUyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyNzI6CisjZGVmaW5lIFNINzc1MF9F
+VlRfV0RUX0lUSSAgICAgICAgICAgICAweDU2MCAgICAvKiBJbnRlcnZhbCBUaW1lciBJbnRlcnJ1
+cHQKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICh1c2VkIHdoZW4gV0RUIG9wZXJhdGVzIGlu
+CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzE4NTM6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjI3MzoKKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGludGVydmFsIHRpbWVyIG1vZGUpICovCgpXQVJOSU5HOiBCbG9jayBj
+b21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTg2MDogRklMRTog
+aHcvc2g0L3NoNzc1MF9yZWdzLmg6Mjc3OgorI2RlZmluZSBTSDc3NTBfRVZUX1JFRl9ST1ZJICAg
+ICAgICAgICAgMHg1QTAgICAgLyogUmVmcmVzaCBDb3VudGVyIE92ZXJmbG93CgpXQVJOSU5HOiBC
+bG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMxODYxOiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ3MuaDoyNzg6CisjZGVmaW5lIFNINzc1MF9FVlRfUkVGX1JPVkkgICAgICAg
+ICAgICAweDVBMCAgICAvKiBSZWZyZXNoIENvdW50ZXIgT3ZlcmZsb3cKKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGludGVycnVwdCAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+dHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMxODYxOiBGSUxFOiBody9zaDQvc2g3NzUw
+X3JlZ3MuaDoyNzg6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnRlcnJ1cHQgKi8KCldB
+Uk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxODc3OiBGSUxFOiBody9zaDQvc2g3NzUw
+X3JlZ3MuaDoyODc6CisjZGVmaW5lIFNINzc1MF9FVlRfRE1BQ19ETVRFMCAgICAgICAgICAweDY0
+MCAgICAvKiBETUFDIDAgVHJhbnNmZXIgRW5kIEludGVycnVwdCAqLwoKV0FSTklORzogbGluZSBv
+dmVyIDgwIGNoYXJhY3RlcnMKIzE4Nzg6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjI4ODoK
+KyNkZWZpbmUgU0g3NzUwX0VWVF9ETUFDX0RNVEUxICAgICAgICAgIDB4NjYwICAgIC8qIERNQUMg
+MSBUcmFuc2ZlciBFbmQgSW50ZXJydXB0ICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
+dGVycwojMTg3OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6Mjg5OgorI2RlZmluZSBTSDc3
+NTBfRVZUX0RNQUNfRE1URTIgICAgICAgICAgMHg2ODAgICAgLyogRE1BQyAyIFRyYW5zZmVyIEVu
+ZCBJbnRlcnJ1cHQgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxODgwOiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyOTA6CisjZGVmaW5lIFNINzc1MF9FVlRfRE1BQ19E
+TVRFMyAgICAgICAgICAweDZBMCAgICAvKiBETUFDIDMgVHJhbnNmZXIgRW5kIEludGVycnVwdCAq
+LwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE4ODE6IEZJTEU6IGh3L3NoNC9z
+aDc3NTBfcmVncy5oOjI5MToKKyNkZWZpbmUgU0g3NzUwX0VWVF9ETUFDX0RNQUUgICAgICAgICAg
+IDB4NkMwICAgIC8qIERNQUMgQWRkcmVzcyBFcnJvciBJbnRlcnJ1cHQgKi8KCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxODkxOiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyOTY6CisjZGVmaW5lIFNINzc1MF9FVlRfU0NJRl9S
+WEkgICAgICAgICAgICAweDcyMCAgICAvKiBSZWNlaXZlIEZJRk8gRGF0YSBGdWxsIG9yCgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMxODkyOiBGSUxF
+OiBody9zaDQvc2g3NzUwX3JlZ3MuaDoyOTc6CisjZGVmaW5lIFNINzc1MF9FVlRfU0NJRl9SWEkg
+ICAgICAgICAgICAweDcyMCAgICAvKiBSZWNlaXZlIEZJRk8gRGF0YSBGdWxsIG9yCisgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBSZWNlaXZlIERhdGEgcmVhZHkgaW50ZXJydXB0ICovCgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUK
+IzE4OTI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjI5NzoKKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIFJlY2VpdmUgRGF0YSByZWFkeSBpbnRlcnJ1cHQgKi8KCldBUk5JTkc6IEJsb2Nr
+IGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxOTExOiBGSUxF
+OiBody9zaDQvc2g3NzUwX3JlZ3MuaDozMDg6CisjZGVmaW5lIFNINzc1MF9TVEJDUl9TVEJZICAg
+ICAweDgwICAgIC8qIFNwZWNpZmllcyBhIHRyYW5zaXRpb24gdG8gc3RhbmRieSBtb2RlOgoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMTkxMjogRklM
+RTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MzA5OgorI2RlZmluZSBTSDc3NTBfU1RCQ1JfU1RCWSAg
+ICAgMHg4MCAgICAvKiBTcGVjaWZpZXMgYSB0cmFuc2l0aW9uIHRvIHN0YW5kYnkgbW9kZToKKyAg
+ICAgICAgICAgICAgICAgICAgICAgMCAtIFRyYW5zaXRpb24gdG8gU0xFRVAgbW9kZSBvbiBTTEVF
+UAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0
+ZSBsaW5lCiMxOTEzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDozMTA6CisgICAgICAgICAg
+ICAgICAgICAgICAgIDEgLSBUcmFuc2l0aW9uIHRvIFNUQU5EQlkgbW9kZSBvbiBTTEVFUCAqLwoK
+V0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxp
+bmUKIzE5MTQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjMxMToKKyNkZWZpbmUgU0g3NzUw
+X1NUQkNSX1BIWiAgICAgIDB4NDAgICAgLyogU3RhdGUgb2YgcGVyaXBoZXJhbCBtb2R1bGUgcGlu
+cyBpbgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwoj
+MTkxNTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MzEyOgorI2RlZmluZSBTSDc3NTBfU1RC
+Q1JfUEhaICAgICAgMHg0MCAgICAvKiBTdGF0ZSBvZiBwZXJpcGhlcmFsIG1vZHVsZSBwaW5zIGlu
+CisgICAgICAgICAgICAgICAgICAgICAgIHN0YW5kYnkgbW9kZToKCldBUk5JTkc6IEJsb2NrIGNv
+bW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMTkxNzogRklMRTog
+aHcvc2g0L3NoNzc1MF9yZWdzLmg6MzE0OgorICAgICAgICAgICAgICAgICAgICAgICAxIC0gaGln
+aC1pbXBlbmRhbmNlIHN0YXRlICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
+MTkyMTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MzE2OgorI2RlZmluZSBTSDc3NTBfU1RC
+Q1JfUFBVICAgICAgMHgyMCAgICAvKiBQZXJpcGhlcmFsIG1vZHVsZSBwaW5zIHB1bGwtdXAgY29u
+dHJvbHMgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxOTUyOiBGSUxFOiBo
+dy9zaDQvc2g3NzUwX3JlZ3MuaDozMzU6CisjZGVmaW5lIFNINzc1MF9TVEJDUjJfRFNMUCAgICAw
+eDgwICAgIC8qIFNwZWNpZmllcyB0cmFuc2l0aW9uIHRvIGRlZXAgc2xlZXAgbW9kZToKCldBUk5J
+Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMx
+OTUyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDozMzU6CisjZGVmaW5lIFNINzc1MF9TVEJD
+UjJfRFNMUCAgICAweDgwICAgIC8qIFNwZWNpZmllcyB0cmFuc2l0aW9uIHRvIGRlZXAgc2xlZXAg
+bW9kZToKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMK
+IzE5NTM6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjMzNjoKKyNkZWZpbmUgU0g3NzUwX1NU
+QkNSMl9EU0xQICAgIDB4ODAgICAgLyogU3BlY2lmaWVzIHRyYW5zaXRpb24gdG8gZGVlcCBzbGVl
+cCBtb2RlOgorICAgICAgICAgICAgICAgICAgICAgICAwIC0gdHJhbnNpdGlvbiB0byBzbGVlcCBv
+ciBzdGFuZGJ5IG1vZGUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICov
+IG9uIGEgc2VwYXJhdGUgbGluZQojMTk1NjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MzM5
+OgorICAgICAgICAgICAgICAgICAgICAgICBleGVjdXRpb24gb2YgU0xFRVAgaW5zdHJ1Y3Rpb24g
+Ki8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxOTU3OiBGSUxFOiBody9zaDQv
+c2g3NzUwX3JlZ3MuaDozNDA6CisjZGVmaW5lIFNINzc1MF9TVEJDUjJfTVNUUDYgICAweDAyICAg
+IC8qIFN0b3BwaW5nIHRoZSBjbG9jayBzdXBwbHkgdG8gU3RvcmUgUXVldWUKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxOTU3OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDozNDA6CisjZGVmaW5lIFNINzc1MF9TVEJDUjJfTVNU
+UDYgICAweDAyICAgIC8qIFN0b3BwaW5nIHRoZSBjbG9jayBzdXBwbHkgdG8gU3RvcmUgUXVldWUK
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzE5NTg6
+IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjM0MToKKyNkZWZpbmUgU0g3NzUwX1NUQkNSMl9N
+U1RQNiAgIDB4MDIgICAgLyogU3RvcHBpbmcgdGhlIGNsb2NrIHN1cHBseSB0byBTdG9yZSBRdWV1
+ZQorICAgICAgICAgICAgICAgICAgICAgICBpbiB0aGUgY2FjaGUgY29udHJvbGxlciAqLwoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMxOTU4OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDozNDE6CisgICAgICAgICAgICAgICAg
+ICAgICAgIGluIHRoZSBjYWNoZSBjb250cm9sbGVyICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTk2MjogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6MzQzOgorI2RlZmluZSBTSDc3NTBfU1RCQ1IyX01TVFA1ICAgMHgwMSAg
+ICAvKiBTdG9wcGluZyB0aGUgY2xvY2sgc3VwcGx5IHRvIHRoZSBVc2VyCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMxOTYzOiBGSUxFOiBody9zaDQv
+c2g3NzUwX3JlZ3MuaDozNDQ6CisjZGVmaW5lIFNINzc1MF9TVEJDUjJfTVNUUDUgICAweDAxICAg
+IC8qIFN0b3BwaW5nIHRoZSBjbG9jayBzdXBwbHkgdG8gdGhlIFVzZXIKKyAgICAgICAgICAgICAg
+ICAgICAgICAgQnJlYWsgQ29udHJvbGxlciAoVUJDKSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVu
+dHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMxOTYzOiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ3MuaDozNDQ6CisgICAgICAgICAgICAgICAgICAgICAgIEJyZWFrIENvbnRy
+b2xsZXIgKFVCQykgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyog
+b24gYSBzZXBhcmF0ZSBsaW5lCiMxOTc5OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDozNTQ6
+CisjZGVmaW5lIFNINzc1MF9GUlFDUl9DS09FTiAgICAweDA4MDAgICAgLyogQ2xvY2sgT3V0cHV0
+IEVuYWJsZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5l
+cwojMTk4MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MzU1OgorI2RlZmluZSBTSDc3NTBf
+RlJRQ1JfQ0tPRU4gICAgMHgwODAwICAgIC8qIENsb2NrIE91dHB1dCBFbmFibGUKKyAgICAgICAg
+ICAgICAgICAgICAgICAgMCAtIENLSU8gcGluIGdvZXMgdG8gSGlaL3B1bGx1cAoKV0FSTklORzog
+QmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMxOTgx
+OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDozNTY6CisgICAgICAgICAgICAgICAgICAgICAg
+IDEgLSBDbG9jayBpcyBvdXRwdXQgZnJvbSBDS0lPICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
+Y2hhcmFjdGVycwojMTk5MjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MzYwOgorI2RlZmlu
+ZSBTSDc3NTBfRlJRQ1JfSUZDICAgICAgMHgwMUMwICAgIC8qIENQVSBjbG9jayBmcmVxdWVuY3kg
+ZGl2aXNpb24gcmF0aW86ICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjAw
+NzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MzY4OgorI2RlZmluZSBTSDc3NTBfRlJRQ1Jf
+QkZDICAgICAgMHgwMDM4ICAgIC8qIEJ1cyBjbG9jayBmcmVxdWVuY3kgZGl2aXNpb24gcmF0aW86
+ICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJh
+dGUgbGluZQojMjAyMjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6Mzc2OgorI2RlZmluZSBT
+SDc3NTBfRlJRQ1JfUEZDICAgICAgMHgwMDA3ICAgIC8qIFBlcmlwaGVyYWwgbW9kdWxlIGNsb2Nr
+IGZyZXF1ZW5jeQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBs
+aW5lcwojMjAyMzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6Mzc3OgorI2RlZmluZSBTSDc3
+NTBfRlJRQ1JfUEZDICAgICAgMHgwMDA3ICAgIC8qIFBlcmlwaGVyYWwgbW9kdWxlIGNsb2NrIGZy
+ZXF1ZW5jeQorICAgICAgICAgICAgICAgICAgICAgICBkaXZpc2lvbiByYXRpbzogKi8KCldBUk5J
+Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQoj
+MjAyMzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6Mzc3OgorICAgICAgICAgICAgICAgICAg
+ICAgICBkaXZpc2lvbiByYXRpbzogKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxl
+YWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMDQyOiBGSUxFOiBody9zaDQvc2g3NzUwX3Jl
+Z3MuaDozOTI6CisjZGVmaW5lIFNINzc1MF9XVENOVF9LRVkgICAgICAweDVBMDAgICAgLyogV2hl
+biBXVENOVCBieXRlIHJlZ2lzdGVyIHdyaXR0ZW4sCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyMDQzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3Mu
+aDozOTM6CisjZGVmaW5lIFNINzc1MF9XVENOVF9LRVkgICAgICAweDVBMDAgICAgLyogV2hlbiBX
+VENOVCBieXRlIHJlZ2lzdGVyIHdyaXR0ZW4sCisgICAgICAgICAgICAgICAgICAgICAgIHlvdSBo
+YXZlIHRvIHNldCB0aGUgdXBwZXIgYnl0ZSB0bwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
+IGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyMDQ0OiBGSUxFOiBody9zaDQvc2g3
+NzUwX3JlZ3MuaDozOTQ6CisgICAgICAgICAgICAgICAgICAgICAgIDB4NUEgKi8KCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMDcy
+OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo0MDA6CisjZGVmaW5lIFNINzc1MF9XVENTUl9L
+RVkgICAgICAweEE1MDAgICAgLyogV2hlbiBXVENTUiBieXRlIHJlZ2lzdGVyIHdyaXR0ZW4sCgpX
+QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyMDczOiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo0MDE6CisjZGVmaW5lIFNINzc1MF9XVENTUl9LRVkg
+ICAgICAweEE1MDAgICAgLyogV2hlbiBXVENTUiBieXRlIHJlZ2lzdGVyIHdyaXR0ZW4sCisgICAg
+ICAgICAgICAgICAgICAgICAgIHlvdSBoYXZlIHRvIHNldCB0aGUgdXBwZXIgYnl0ZSB0bwoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMyMDc0OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo0MDI6CisgICAgICAgICAgICAgICAg
+ICAgICAgIDB4QTUgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMDg1OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo0MTM6CisjZGVmaW5lIFNINzc1MF9XVENTUl9DS1Nf
+RElWMzIgICAweDAwICAgIC8qICAgMS8zMiBvZiBmcmVxdWVuY3kgZGl2aWRlciAyIGlucHV0ICov
+CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjI3MTogRklMRTogaHcvc2g0L3No
+Nzc1MF9yZWdzLmg6NTQyOgorI2RlZmluZSBTSDc3NTBfUkNSMl9SRVNFVCAgICAgIDB4MDIgICAg
+LyogRnJlcXVlbmN5IGRpdmlkZXIgY2lyY3VpdHMgYXJlIHJlc2V0ICovCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjI3MjogRklM
+RTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTQzOgorI2RlZmluZSBTSDc3NTBfUkNSMl9TVEFSVCAg
+ICAgIDB4MDEgICAgLyogMCAtIHNlYywgbWluLCBociwgZGF5LW9mLXdlZWssIG1vbnRoLAoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjI3MzogRklM
+RTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTQ0OgorI2RlZmluZSBTSDc3NTBfUkNSMl9TVEFSVCAg
+ICAgIDB4MDEgICAgLyogMCAtIHNlYywgbWluLCBociwgZGF5LW9mLXdlZWssIG1vbnRoLAorICAg
+ICAgICAgICAgICAgICAgICAgICB5ZWFyIGNvdW50ZXJzIGFyZSBzdG9wcGVkCgpXQVJOSU5HOiBC
+bG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzIyNzU6
+IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU0NjoKKyAgICAgICAgICAgICAgICAgICAgICAg
+eWVhciBjb3VudGVycyBvcGVyYXRlIG5vcm1hbGx5ICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
+Y2hhcmFjdGVycwojMjM0MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTU2OgorI2RlZmlu
+ZSBTSDc3NTBfQkNSMV9BME1QWCAgICAgMHgyMDAwMDAwMCAgICAvKiBBcmVhIDAgTWVtb3J5IFR5
+cGUgKDAtU1JBTSwxLU1QWCkgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRp
+bmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzQyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3Mu
+aDo1NTc6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0lQVVAgICAgICAweDAyMDAwMDAwICAgIC8qIElu
+cHV0IFBpbiBQdWxsLXVwIENvbnRyb2w6CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBv
+biBzdWJzZXF1ZW50IGxpbmVzCiMyMzQzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo1NTg6
+CisjZGVmaW5lIFNINzc1MF9CQ1IxX0lQVVAgICAgICAweDAyMDAwMDAwICAgIC8qIElucHV0IFBp
+biBQdWxsLXVwIENvbnRyb2w6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAwIC0gcHVsbC11
+cCByZXNpc3RvciBpcyBvbiBmb3IKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWls
+aW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjM0NTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdz
+Lmg6NTYwOgorICAgICAgICAgICAgICAgICAgICAgICAgICAgMSAtIHB1bGwtdXAgcmVzaXN0b3Ig
+aXMgb2ZmICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEg
+c2VwYXJhdGUgbGluZQojMjM0NjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTYxOgorI2Rl
+ZmluZSBTSDc3NTBfQkNSMV9PUFVQICAgICAgMHgwMTAwMDAwMCAgICAvKiBPdXRwdXQgUGluIFB1
+bGwtdXAgQ29udHJvbDoKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVl
+bnQgbGluZXMKIzIzNDc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU2MjoKKyNkZWZpbmUg
+U0g3NzUwX0JDUjFfT1BVUCAgICAgIDB4MDEwMDAwMDAgICAgLyogT3V0cHV0IFBpbiBQdWxsLXVw
+IENvbnRyb2w6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAwIC0gcHVsbC11cCByZXNpc3Rv
+ciBpcyBvbiBmb3IKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9u
+IGEgc2VwYXJhdGUgbGluZQojMjM0OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTY0Ogor
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgMSAtIHB1bGwtdXAgcmVzaXN0b3IgaXMgb2ZmICov
+CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUg
+bGluZQojMjM1MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTY1OgorI2RlZmluZSBTSDc3
+NTBfQkNSMV9BMU1CQyAgICAgMHgwMDIwMDAwMCAgICAvKiBBcmVhIDEgU1JBTSBCeXRlIENvbnRy
+b2wgTW9kZToKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGlu
+ZXMKIzIzNTE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU2NjoKKyNkZWZpbmUgU0g3NzUw
+X0JDUjFfQTFNQkMgICAgIDB4MDAyMDAwMDAgICAgLyogQXJlYSAxIFNSQU0gQnl0ZSBDb250cm9s
+IE1vZGU6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAwIC0gQXJlYSAxIFNSQU0gaXMgc2V0
+IHRvCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFy
+YXRlIGxpbmUKIzIzNTQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU2OToKKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGNvbnRyb2wgbW9kZSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVu
+dHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIzNTU6IEZJTEU6IGh3L3No
+NC9zaDc3NTBfcmVncy5oOjU3MDoKKyNkZWZpbmUgU0g3NzUwX0JDUjFfQTRNQkMgICAgIDB4MDAx
+MDAwMDAgICAgLyogQXJlYSA0IFNSQU0gQnl0ZSBDb250cm9sIE1vZGU6CgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyMzU2OiBGSUxFOiBody9zaDQv
+c2g3NzUwX3JlZ3MuaDo1NzE6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0E0TUJDICAgICAweDAwMTAw
+MDAwICAgIC8qIEFyZWEgNCBTUkFNIEJ5dGUgQ29udHJvbCBNb2RlOgorICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgMCAtIEFyZWEgNCBTUkFNIGlzIHNldCB0bwoKV0FSTklORzogQmxvY2sgY29t
+bWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzU5OiBGSUxFOiBo
+dy9zaDQvc2g3NzUwX3JlZ3MuaDo1NzQ6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBjb250
+cm9sIG1vZGUgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24g
+YSBzZXBhcmF0ZSBsaW5lCiMyMzYwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo1NzU6Cisj
+ZGVmaW5lIFNINzc1MF9CQ1IxX0JSRVFFTiAgICAweDAwMDgwMDAwICAgIC8qIEJSRVEgRW5hYmxl
+OgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjM2
+MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTc2OgorI2RlZmluZSBTSDc3NTBfQkNSMV9C
+UkVRRU4gICAgMHgwMDA4MDAwMCAgICAvKiBCUkVRIEVuYWJsZToKKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIDAgLSBFeHRlcm5hbCByZXF1ZXN0cyBhcmUgIG5vdAoKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzY0OiBGSUxF
+OiBody9zaDQvc2g3NzUwX3JlZ3MuaDo1Nzk6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBh
+Y2NlcHRlZCAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzIzNjU6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU4MDoKKyNk
+ZWZpbmUgU0g3NzUwX0JDUjFfUFNIUiAgICAgIDB4MDAwNDAwMDAgICAgLyogUGFydGlhbCBTaGFy
+aW5nIEJpdDoKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGlu
+ZXMKIzIzNjY6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU4MToKKyNkZWZpbmUgU0g3NzUw
+X0JDUjFfUFNIUiAgICAgIDB4MDAwNDAwMDAgICAgLyogUGFydGlhbCBTaGFyaW5nIEJpdDoKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIDAgLSBNYXN0ZXIgTW9kZQoKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzY3OiBGSUxF
+OiBody9zaDQvc2g3NzUwX3JlZ3MuaDo1ODI6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAx
+IC0gUGFydGlhbC1zaGFyaW5nIE1vZGUgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBh
+IGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzY4OiBGSUxFOiBody9zaDQvc2g3NzUw
+X3JlZ3MuaDo1ODM6CisjZGVmaW5lIFNINzc1MF9CQ1IxX01FTU1QWCAgICAweDAwMDIwMDAwICAg
+IC8qIEFyZWEgMSB0byA2IE1QWCBJbnRlcmZhY2U6CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyMzY5OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3Mu
+aDo1ODQ6CisjZGVmaW5lIFNINzc1MF9CQ1IxX01FTU1QWCAgICAweDAwMDIwMDAwICAgIC8qIEFy
+ZWEgMSB0byA2IE1QWCBJbnRlcmZhY2U6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAwIC0g
+U1JBTS9idXJzdCBST00gaW50ZXJmYWNlCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0
+cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzIzNzA6IEZJTEU6IGh3L3NoNC9zaDc3NTBf
+cmVncy5oOjU4NToKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIDEgLSBNUFggaW50ZXJmYWNl
+ICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjM3MTogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6NTg2OgorI2RlZmluZSBTSDc3NTBfQkNSMV9ISVpNRU0gICAgMHgwMDAw
+ODAwMCAgICAvKiBIaWdoIEltcGVuZGFuY2UgQ29udHJvbC4gU3BlY2lmaWVzCgpXQVJOSU5HOiBC
+bG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjM3MTog
+RklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NTg2OgorI2RlZmluZSBTSDc3NTBfQkNSMV9ISVpN
+RU0gICAgMHgwMDAwODAwMCAgICAvKiBIaWdoIEltcGVuZGFuY2UgQ29udHJvbC4gU3BlY2lmaWVz
+CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyMzcy
+OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo1ODc6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0hJ
+Wk1FTSAgICAweDAwMDA4MDAwICAgIC8qIEhpZ2ggSW1wZW5kYW5jZSBDb250cm9sLiBTcGVjaWZp
+ZXMKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHRoZSBzdGF0ZSBvZiBBWzI1OjBdLCBCU1ws
+IENTblwsCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNl
+cGFyYXRlIGxpbmUKIzIzNzY6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU5MToKKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIDEgLSBzaWduYWxzIGRyaXZlbiAqLwoKV0FSTklORzogbGlu
+ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIzNzc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjU5
+MjoKKyNkZWZpbmUgU0g3NzUwX0JDUjFfSElaQ05UICAgIDB4MDAwMDQwMDAgICAgLyogSGlnaCBJ
+bXBlbmRhbmNlIENvbnRyb2wuIFNwZWNpZmllcwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
+IGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIzNzc6IEZJTEU6IGh3L3NoNC9zaDc3
+NTBfcmVncy5oOjU5MjoKKyNkZWZpbmUgU0g3NzUwX0JDUjFfSElaQ05UICAgIDB4MDAwMDQwMDAg
+ICAgLyogSGlnaCBJbXBlbmRhbmNlIENvbnRyb2wuIFNwZWNpZmllcwoKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjM3ODogRklMRTogaHcvc2g0L3No
+Nzc1MF9yZWdzLmg6NTkzOgorI2RlZmluZSBTSDc3NTBfQkNSMV9ISVpDTlQgICAgMHgwMDAwNDAw
+MCAgICAvKiBIaWdoIEltcGVuZGFuY2UgQ29udHJvbC4gU3BlY2lmaWVzCisgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB0aGUgc3RhdGUgb2YgdGhlIFJBU1wsIFJBUzJcLCBXRW5cLAoKV0FSTklO
+RzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMy
+MzgzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo1OTg6CisgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAxIC0gc2lnbmFscyBkcml2ZW4gKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
+ZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzg2OiBGSUxFOiBody9zaDQvc2g3
+NzUwX3JlZ3MuaDo2MDE6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0EwQlNUX1JPTTQgICAgMHgwODAw
+ICAgIC8qICAgQXJlYSAwIGFjY2Vzc2VkIGFzIGJ1cnN0IFJPTQoKV0FSTklORzogQmxvY2sgY29t
+bWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjM4NzogRklMRTogaHcvc2g0L3NoNzc1
+MF9yZWdzLmg6NjAyOgorI2RlZmluZSBTSDc3NTBfQkNSMV9BMEJTVF9ST000ICAgIDB4MDgwMCAg
+ICAvKiAgIEFyZWEgMCBhY2Nlc3NlZCBhcyBidXJzdCBST00KKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGludGVyZmFjZSwgNCBjb3NlcXV0aXZlIGFjY2VzcyAqLwoKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzg3OiBGSUxF
+OiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MDI6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBp
+bnRlcmZhY2UsIDQgY29zZXF1dGl2ZSBhY2Nlc3MgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzg4OiBGSUxFOiBody9zaDQv
+c2g3NzUwX3JlZ3MuaDo2MDM6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0EwQlNUX1JPTTggICAgMHgx
+MDAwICAgIC8qICAgQXJlYSAwIGFjY2Vzc2VkIGFzIGJ1cnN0IFJPTQoKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjM4OTogRklMRTogaHcvc2g0L3No
+Nzc1MF9yZWdzLmg6NjA0OgorI2RlZmluZSBTSDc3NTBfQkNSMV9BMEJTVF9ST004ICAgIDB4MTAw
+MCAgICAvKiAgIEFyZWEgMCBhY2Nlc3NlZCBhcyBidXJzdCBST00KKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGludGVyZmFjZSwgOCBjb3NlcXV0aXZlIGFjY2VzcyAqLwoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzg5OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MDQ6CisgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBpbnRlcmZhY2UsIDggY29zZXF1dGl2ZSBhY2Nlc3MgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMzkwOiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ3MuaDo2MDU6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0EwQlNUX1JPTTE2ICAg
+MHgxODAwICAgIC8qICAgQXJlYSAwIGFjY2Vzc2VkIGFzIGJ1cnN0IFJPTQoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjM5MTogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6NjA2OgorI2RlZmluZSBTSDc3NTBfQkNSMV9BMEJTVF9ST00xNiAgIDB4
+MTgwMCAgICAvKiAgIEFyZWEgMCBhY2Nlc3NlZCBhcyBidXJzdCBST00KKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGludGVyZmFjZSwgMTYgY29zZXF1dGl2ZSBhY2Nlc3MgKi8KCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjM5
+MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjA2OgorICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgaW50ZXJmYWNlLCAxNiBjb3NlcXV0aXZlIGFjY2VzcyAqLwoKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIzOTI6IEZJTEU6
+IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYwNzoKKyNkZWZpbmUgU0g3NzUwX0JDUjFfQTBCU1RfUk9N
+MzIgICAweDIwMDAgICAgLyogICBBcmVhIDAgYWNjZXNzZWQgYXMgYnVyc3QgUk9NCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyMzkzOiBGSUxFOiBo
+dy9zaDQvc2g3NzUwX3JlZ3MuaDo2MDg6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0EwQlNUX1JPTTMy
+ICAgMHgyMDAwICAgIC8qICAgQXJlYSAwIGFjY2Vzc2VkIGFzIGJ1cnN0IFJPTQorICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlLCAzMiBjb3NlcXV0aXZlIGFjY2VzcyAqLwoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMyMzkzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MDg6CisgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBpbnRlcmZhY2UsIDMyIGNvc2VxdXRpdmUgYWNjZXNzICovCgpXQVJOSU5HOiBC
+bG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjQwNzog
+RklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjEyOgorI2RlZmluZSBTSDc3NTBfQkNSMV9BNUJT
+VF9ST000ICAgIDB4MDEwMCAgICAvKiAgIEFyZWEgNSBhY2Nlc3NlZCBhcyBidXJzdCBST00KCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzI0MDg6IEZJ
+TEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYxMzoKKyNkZWZpbmUgU0g3NzUwX0JDUjFfQTVCU1Rf
+Uk9NNCAgICAweDAxMDAgICAgLyogICBBcmVhIDUgYWNjZXNzZWQgYXMgYnVyc3QgUk9NCisgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBpbnRlcmZhY2UsIDQgY29zZXF1dGl2ZSBhY2Nlc3MgKi8K
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUg
+bGluZQojMjQwODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjEzOgorICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgaW50ZXJmYWNlLCA0IGNvc2VxdXRpdmUgYWNjZXNzICovCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjQw
+OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjE0OgorI2RlZmluZSBTSDc3NTBfQkNSMV9B
+NUJTVF9ST004ICAgIDB4MDIwMCAgICAvKiAgIEFyZWEgNSBhY2Nlc3NlZCBhcyBidXJzdCBST00K
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzI0MTA6
+IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYxNToKKyNkZWZpbmUgU0g3NzUwX0JDUjFfQTVC
+U1RfUk9NOCAgICAweDAyMDAgICAgLyogICBBcmVhIDUgYWNjZXNzZWQgYXMgYnVyc3QgUk9NCisg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBpbnRlcmZhY2UsIDggY29zZXF1dGl2ZSBhY2Nlc3Mg
+Ki8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJh
+dGUgbGluZQojMjQxMDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjE1OgorICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlLCA4IGNvc2VxdXRpdmUgYWNjZXNzICovCgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQoj
+MjQxMTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjE2OgorI2RlZmluZSBTSDc3NTBfQkNS
+MV9BNUJTVF9ST00xNiAgIDB4MDMwMCAgICAvKiAgIEFyZWEgNSBhY2Nlc3NlZCBhcyBidXJzdCBS
+T00KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzI0
+MTI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYxNzoKKyNkZWZpbmUgU0g3NzUwX0JDUjFf
+QTVCU1RfUk9NMTYgICAweDAzMDAgICAgLyogICBBcmVhIDUgYWNjZXNzZWQgYXMgYnVyc3QgUk9N
+CisgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnRlcmZhY2UsIDE2IGNvc2VxdXRpdmUgYWNj
+ZXNzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNl
+cGFyYXRlIGxpbmUKIzI0MTI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYxNzoKKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIGludGVyZmFjZSwgMTYgY29zZXF1dGl2ZSBhY2Nlc3MgKi8K
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBs
+aW5lCiMyNDEzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MTg6CisjZGVmaW5lIFNINzc1
+MF9CQ1IxX0E1QlNUX1JPTTMyICAgMHgwNDAwICAgIC8qICAgQXJlYSA1IGFjY2Vzc2VkIGFzIGJ1
+cnN0IFJPTQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5l
+cwojMjQxNDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjE5OgorI2RlZmluZSBTSDc3NTBf
+QkNSMV9BNUJTVF9ST00zMiAgIDB4MDQwMCAgICAvKiAgIEFyZWEgNSBhY2Nlc3NlZCBhcyBidXJz
+dCBST00KKyAgICAgICAgICAgICAgICAgICAgICAgICAgIGludGVyZmFjZSwgMzIgY29zZXF1dGl2
+ZSBhY2Nlc3MgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9u
+IGEgc2VwYXJhdGUgbGluZQojMjQxNDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjE5Ogor
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlLCAzMiBjb3NlcXV0aXZlIGFjY2Vz
+cyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFy
+YXRlIGxpbmUKIzI0Mjg6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYyMzoKKyNkZWZpbmUg
+U0g3NzUwX0JDUjFfQTZCU1RfUk9NNCAgICAweDAwMjAgICAgLyogICBBcmVhIDYgYWNjZXNzZWQg
+YXMgYnVyc3QgUk9NCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50
+IGxpbmVzCiMyNDI5OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MjQ6CisjZGVmaW5lIFNI
+Nzc1MF9CQ1IxX0E2QlNUX1JPTTQgICAgMHgwMDIwICAgIC8qICAgQXJlYSA2IGFjY2Vzc2VkIGFz
+IGJ1cnN0IFJPTQorICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlLCA0IGNvc2Vx
+dXRpdmUgYWNjZXNzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAq
+LyBvbiBhIHNlcGFyYXRlIGxpbmUKIzI0Mjk6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYy
+NDoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIGludGVyZmFjZSwgNCBjb3NlcXV0aXZlIGFj
+Y2VzcyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNl
+cGFyYXRlIGxpbmUKIzI0MzA6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYyNToKKyNkZWZp
+bmUgU0g3NzUwX0JDUjFfQTZCU1RfUk9NOCAgICAweDAwNDAgICAgLyogICBBcmVhIDYgYWNjZXNz
+ZWQgYXMgYnVyc3QgUk9NCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1
+ZW50IGxpbmVzCiMyNDMxOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MjY6CisjZGVmaW5l
+IFNINzc1MF9CQ1IxX0E2QlNUX1JPTTggICAgMHgwMDQwICAgIC8qICAgQXJlYSA2IGFjY2Vzc2Vk
+IGFzIGJ1cnN0IFJPTQorICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlLCA4IGNv
+c2VxdXRpdmUgYWNjZXNzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGlu
+ZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzI0MzE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+OjYyNjoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIGludGVyZmFjZSwgOCBjb3NlcXV0aXZl
+IGFjY2VzcyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzI0MzI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYyNzoKKyNk
+ZWZpbmUgU0g3NzUwX0JDUjFfQTZCU1RfUk9NMTYgICAweDAwNjAgICAgLyogICBBcmVhIDYgYWNj
+ZXNzZWQgYXMgYnVyc3QgUk9NCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJz
+ZXF1ZW50IGxpbmVzCiMyNDMzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2Mjg6CisjZGVm
+aW5lIFNINzc1MF9CQ1IxX0E2QlNUX1JPTTE2ICAgMHgwMDYwICAgIC8qICAgQXJlYSA2IGFjY2Vz
+c2VkIGFzIGJ1cnN0IFJPTQorICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlLCAx
+NiBjb3NlcXV0aXZlIGFjY2VzcyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJh
+aWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyNDMzOiBGSUxFOiBody9zaDQvc2g3NzUwX3Jl
+Z3MuaDo2Mjg6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnRlcmZhY2UsIDE2IGNvc2Vx
+dXRpdmUgYWNjZXNzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8q
+IG9uIGEgc2VwYXJhdGUgbGluZQojMjQzNDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjI5
+OgorI2RlZmluZSBTSDc3NTBfQkNSMV9BNkJTVF9ST00zMiAgIDB4MDA4MCAgICAvKiAgIEFyZWEg
+NiBhY2Nlc3NlZCBhcyBidXJzdCBST00KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9u
+IHN1YnNlcXVlbnQgbGluZXMKIzI0MzU6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYzMDoK
+KyNkZWZpbmUgU0g3NzUwX0JDUjFfQTZCU1RfUk9NMzIgICAweDAwODAgICAgLyogICBBcmVhIDYg
+YWNjZXNzZWQgYXMgYnVyc3QgUk9NCisgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnRlcmZh
+Y2UsIDMyIGNvc2VxdXRpdmUgYWNjZXNzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2Ug
+YSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzI0MzU6IEZJTEU6IGh3L3NoNC9zaDc3
+NTBfcmVncy5oOjYzMDoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIGludGVyZmFjZSwgMzIg
+Y29zZXF1dGl2ZSBhY2Nlc3MgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMy
+NDQ5OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MzM6CisjZGVmaW5lIFNINzc1MF9CQ1Ix
+X0RSQU1UUF8yU1JBTV8zU1JBTSAgIDB4MDAwMCAgICAvKiBBcmVhIDIgYW5kIDMgYXJlIFNSQU0g
+b3IgTVBYCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2Vw
+YXJhdGUgbGluZQojMjQ0OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjMzOgorI2RlZmlu
+ZSBTSDc3NTBfQkNSMV9EUkFNVFBfMlNSQU1fM1NSQU0gICAweDAwMDAgICAgLyogQXJlYSAyIGFu
+ZCAzIGFyZSBTUkFNIG9yIE1QWAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vi
+c2VxdWVudCBsaW5lcwojMjQ1MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjM0OgorI2Rl
+ZmluZSBTSDc3NTBfQkNSMV9EUkFNVFBfMlNSQU1fM1NSQU0gICAweDAwMDAgICAgLyogQXJlYSAy
+IGFuZCAzIGFyZSBTUkFNIG9yIE1QWAorICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJm
+YWNlLiAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBz
+ZXBhcmF0ZSBsaW5lCiMyNDUwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2MzQ6CisgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBpbnRlcmZhY2UuICovCgpXQVJOSU5HOiBsaW5lIG92ZXIg
+ODAgY2hhcmFjdGVycwojMjQ1MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjM1OgorI2Rl
+ZmluZSBTSDc3NTBfQkNSMV9EUkFNVFBfMlNSQU1fM1NEUkFNICAweDAwMDggICAgLyogQXJlYSAy
+IC0gU1JBTS9NUFgsIEFyZWEgMyAtCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFk
+aW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjQ1MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdz
+Lmg6NjM1OgorI2RlZmluZSBTSDc3NTBfQkNSMV9EUkFNVFBfMlNSQU1fM1NEUkFNICAweDAwMDgg
+ICAgLyogQXJlYSAyIC0gU1JBTS9NUFgsIEFyZWEgMyAtCgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyNDUyOiBGSUxFOiBody9zaDQvc2g3NzUwX3Jl
+Z3MuaDo2MzY6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0RSQU1UUF8yU1JBTV8zU0RSQU0gIDB4MDAw
+OCAgICAvKiBBcmVhIDIgLSBTUkFNL01QWCwgQXJlYSAzIC0KKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHN5bmNocm9ub3VzIERSQU0gKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBh
+IHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjQ1MjogRklMRTogaHcvc2g0L3NoNzc1
+MF9yZWdzLmg6NjM2OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgc3luY2hyb25vdXMgRFJB
+TSAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI0NTM6IEZJTEU6IGh3L3No
+NC9zaDc3NTBfcmVncy5oOjYzNzoKKyNkZWZpbmUgU0g3NzUwX0JDUjFfRFJBTVRQXzJTRFJBTV8z
+U0RSQU0gMHgwMDBDICAgIC8qIEFyZWEgMiBhbmQgMyBhcmUgc3luY2hyb25vdXMKCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyNDUz
+OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2Mzc6CisjZGVmaW5lIFNINzc1MF9CQ1IxX0RS
+QU1UUF8yU0RSQU1fM1NEUkFNIDB4MDAwQyAgICAvKiBBcmVhIDIgYW5kIDMgYXJlIHN5bmNocm9u
+b3VzCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMy
+NDU0OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2Mzg6CisjZGVmaW5lIFNINzc1MF9CQ1Ix
+X0RSQU1UUF8yU0RSQU1fM1NEUkFNIDB4MDAwQyAgICAvKiBBcmVhIDIgYW5kIDMgYXJlIHN5bmNo
+cm9ub3VzCisgICAgICAgICAgICAgICAgICAgICAgICAgICBEUkFNIGludGVyZmFjZSAqLwoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMyNDU0OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2Mzg6CisgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBEUkFNIGludGVyZmFjZSAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJh
+Y3RlcnMKIzI0NTU6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYzOToKKyNkZWZpbmUgU0g3
+NzUwX0JDUjFfRFJBTVRQXzJTUkFNXzNEUkFNICAgMHgwMDEwICAgIC8qIEFyZWEgMiAtIFNSQU0v
+TVBYLCBBcmVhIDMgLQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBv
+biBhIHNlcGFyYXRlIGxpbmUKIzI0NTU6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjYzOToK
+KyNkZWZpbmUgU0g3NzUwX0JDUjFfRFJBTVRQXzJTUkFNXzNEUkFNICAgMHgwMDEwICAgIC8qIEFy
+ZWEgMiAtIFNSQU0vTVBYLCBBcmVhIDMgLQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICog
+b24gc3Vic2VxdWVudCBsaW5lcwojMjQ1NjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjQw
+OgorI2RlZmluZSBTSDc3NTBfQkNSMV9EUkFNVFBfMlNSQU1fM0RSQU0gICAweDAwMTAgICAgLyog
+QXJlYSAyIC0gU1JBTS9NUFgsIEFyZWEgMyAtCisgICAgICAgICAgICAgICAgICAgICAgICAgICBE
+UkFNIGludGVyZmFjZSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcg
+Ki8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyNDU2OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2
+NDA6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBEUkFNIGludGVyZmFjZSAqLwoKV0FSTklO
+RzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI0
+NTc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjY0MToKKyNkZWZpbmUgU0g3NzUwX0JDUjFf
+RFJBTVRQXzJEUkFNXzNEUkFNICAgMHgwMDE0ICAgIC8qIEFyZWEgMiBhbmQgMyBhcmUgRFJBTQoK
+V0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjQ1ODog
+RklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjQyOgorI2RlZmluZSBTSDc3NTBfQkNSMV9EUkFN
+VFBfMkRSQU1fM0RSQU0gICAweDAwMTQgICAgLyogQXJlYSAyIGFuZCAzIGFyZSBEUkFNCisgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBpbnRlcmZhY2UgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjQ1ODogRklMRTogaHcv
+c2g0L3NoNzc1MF9yZWdzLmg6NjQyOgorICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJm
+YWNlICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2Vw
+YXJhdGUgbGluZQojMjQ2MzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjQ0OgorI2RlZmlu
+ZSBTSDc3NTBfQkNSMV9BNTZQQ00gICAgMHgwMDAwMDAwMSAgICAvKiBBcmVhIDUgYW5kIDYgQnVz
+IFR5cGU6CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVz
+CiMyNDY0OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2NDU6CisjZGVmaW5lIFNINzc1MF9C
+Q1IxX0E1NlBDTSAgICAweDAwMDAwMDAxICAgIC8qIEFyZWEgNSBhbmQgNiBCdXMgVHlwZToKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIDAgLSBTUkFNIGludGVyZmFjZQoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyNDY1OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2NDY6CisgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAxIC0gUENNQ0lBIGludGVyZmFjZSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+bGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI1MDU6IEZJTEU6IGh3L3NoNC9zaDc3NTBf
+cmVncy5oOjY3MToKKyNkZWZpbmUgU0g3NzUwX0JDUjJfUE9SVEVOICAgIDB4MDAwMSAgICAvKiBQ
+b3J0IEZ1bmN0aW9uIEVuYWJsZSA6CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBz
+dWJzZXF1ZW50IGxpbmVzCiMyNTA2OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2NzI6Cisj
+ZGVmaW5lIFNINzc1MF9CQ1IyX1BPUlRFTiAgICAweDAwMDEgICAgLyogUG9ydCBGdW5jdGlvbiBF
+bmFibGUgOgorICAgICAgICAgICAgICAgICAgICAgICAwIC0gRDUxLUQzMiBhcmUgbm90IHVzZWQg
+YXMgYSBwb3J0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzI1MDc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjY3MzoKKyAg
+ICAgICAgICAgICAgICAgICAgICAgMSAtIEQ1MS1EMzIgYXJlIHVzZWQgYXMgYSBwb3J0ICovCgpX
+QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojMjUxNjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6Njc5OgorI2RlZmluZSBTSDc3NTBf
+V0NSMV9ETUFJVyAgICAgMHg3MDAwMDAwMCAgICAvKiBEQUNLIERldmljZSBJbnRlci1DeWNsZSBJ
+ZGxlCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMy
+NTE3OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo2ODA6CisjZGVmaW5lIFNINzc1MF9XQ1Ix
+X0RNQUlXICAgICAweDcwMDAwMDAwICAgIC8qIERBQ0sgRGV2aWNlIEludGVyLUN5Y2xlIElkbGUK
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgIHNwZWNpZmljYXRpb24gKi8KCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjUxNzog
+RklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6NjgwOgorICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgc3BlY2lmaWNhdGlvbiAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGlu
+ZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI3MTQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+Ojc5NzoKKyNkZWZpbmUgU0g3NzUwX01DUl9UUkMgICAgICAgIDB4MzgwMDAwMDAgICAgLyogUkFT
+IFByZWNoYXJnZSBUaW1lIGF0IEVuZCBvZgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICog
+b24gc3Vic2VxdWVudCBsaW5lcwojMjcxNTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6Nzk4
+OgorI2RlZmluZSBTSDc3NTBfTUNSX1RSQyAgICAgICAgMHgzODAwMDAwMCAgICAvKiBSQVMgUHJl
+Y2hhcmdlIFRpbWUgYXQgRW5kIG9mCisgICAgICAgICAgICAgICAgICAgICAgICAgICBSZWZyZXNo
+OiAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBh
+cmF0ZSBsaW5lCiMyNzE1OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo3OTg6CisgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBSZWZyZXNoOiAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMg
+dXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI3MzY6IEZJTEU6IGh3L3NoNC9z
+aDc3NTBfcmVncy5oOjgxMjoKKyNkZWZpbmUgU0g3NzUwX01DUl9UUEMgICAgICAgIDB4MDAzODAw
+MDAgICAgLyogRFJBTTogUkFTIFByZWNoYXJnZSBQZXJpb2QKCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzI3Mzc6IEZJTEU6IGh3L3NoNC9zaDc3NTBf
+cmVncy5oOjgxMzoKKyNkZWZpbmUgU0g3NzUwX01DUl9UUEMgICAgICAgIDB4MDAzODAwMDAgICAg
+LyogRFJBTTogUkFTIFByZWNoYXJnZSBQZXJpb2QKKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFNEUkFNOiBtaW5pbXVtIG51bWJlciBvZiBjeWNsZXMKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjczOTogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6ODE1OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgaXMgb3V0cHV0
+IGFmdGVyIHByZWNoYXJnaW5nICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
+Mjc2ODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6ODI2OgorI2RlZmluZSBTSDc3NTBfTUNS
+X1JDRCAgICAgICAgMHgwMDAzMDAwMCAgICAvKiBEUkFNOiBSQVMtQ0FTIEFzc2VydGlvbiBEZWxh
+eSB0aW1lCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2Vw
+YXJhdGUgbGluZQojMjc2ODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6ODI2OgorI2RlZmlu
+ZSBTSDc3NTBfTUNSX1JDRCAgICAgICAgMHgwMDAzMDAwMCAgICAvKiBEUkFNOiBSQVMtQ0FTIEFz
+c2VydGlvbiBEZWxheSB0aW1lCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJz
+ZXF1ZW50IGxpbmVzCiMyNzY5OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo4Mjc6CisjZGVm
+aW5lIFNINzc1MF9NQ1JfUkNEICAgICAgICAweDAwMDMwMDAwICAgIC8qIERSQU06IFJBUy1DQVMg
+QXNzZXJ0aW9uIERlbGF5IHRpbWUKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIFNEUkFNOiBi
+YW5rIGFjdGl2ZS1yZWFkL3dyaXRlIGNtZAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+dHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyNzcwOiBGSUxFOiBody9zaDQvc2g3NzUw
+X3JlZ3MuaDo4Mjg6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBkZWxheSB0aW1lICovCgpX
+QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojMjgwNDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6ODQ0OgorI2RlZmluZSBTSDc3NTBf
+TUNSX1RSQVMgICAgICAgMHgwMDAwMUMwMCAgICAvKiBEUkFNOiBDQVMtQmVmb3JlLVJBUyBSZWZy
+ZXNoIFJBUwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5l
+cwojMjgwNTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6ODQ1OgorI2RlZmluZSBTSDc3NTBf
+TUNSX1RSQVMgICAgICAgMHgwMDAwMUMwMCAgICAvKiBEUkFNOiBDQVMtQmVmb3JlLVJBUyBSZWZy
+ZXNoIFJBUworICAgICAgICAgICAgICAgICAgICAgICAgICAgYXNzZXJ0aW5nIHBlcmlvZAoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMyODA3OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo4NDc6CisgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBzeW5jaHJvbm91cyBEUkFNIHJlZnJlc2ggKi8KCldBUk5JTkc6IEJsb2NrIGNv
+bW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyODkwOiBGSUxFOiBo
+dy9zaDQvc2g3NzUwX3JlZ3MuaDo5MDE6CisjZGVmaW5lIFNINzc1MF9QQ1JfQTVQQ1cgICAgICAw
+eEMwMDAgICAgLyogQXJlYSA1IFBDTUNJQSBXYWl0IC0gTnVtYmVyIG9mIHdhaXQKCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzI4OTE6IEZJTEU6IGh3
+L3NoNC9zaDc3NTBfcmVncy5oOjkwMjoKKyNkZWZpbmUgU0g3NzUwX1BDUl9BNVBDVyAgICAgIDB4
+QzAwMCAgICAvKiBBcmVhIDUgUENNQ0lBIFdhaXQgLSBOdW1iZXIgb2Ygd2FpdAorICAgICAgICAg
+ICAgICAgICAgICAgICBzdGF0ZXMgdG8gYmUgYWRkZWQgdG8gdGhlIG51bWJlciBvZgoKV0FSTklO
+RzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMy
+ODkzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5MDQ6CisgICAgICAgICAgICAgICAgICAg
+ICAgIFBDTUNJQSB3YWl0IGN5Y2xlICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBs
+ZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjkwNzogRklMRTogaHcvc2g0L3NoNzc1MF9y
+ZWdzLmg6OTEwOgorI2RlZmluZSBTSDc3NTBfUENSX0E2UENXICAgICAgMHgzMDAwICAgIC8qIEFy
+ZWEgNiBQQ01DSUEgV2FpdCAtIE51bWJlciBvZiB3YWl0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMyOTA4OiBGSUxFOiBody9zaDQvc2g3NzUwX3Jl
+Z3MuaDo5MTE6CisjZGVmaW5lIFNINzc1MF9QQ1JfQTZQQ1cgICAgICAweDMwMDAgICAgLyogQXJl
+YSA2IFBDTUNJQSBXYWl0IC0gTnVtYmVyIG9mIHdhaXQKKyAgICAgICAgICAgICAgICAgICAgICAg
+c3RhdGVzIHRvIGJlIGFkZGVkIHRvIHRoZSBudW1iZXIgb2YKCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjkxMDogRklMRTogaHcv
+c2g0L3NoNzc1MF9yZWdzLmg6OTEzOgorICAgICAgICAgICAgICAgICAgICAgICBQQ01DSUEgd2Fp
+dCBjeWNsZSAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI5MjA6IEZJTEU6
+IGh3L3NoNC9zaDc3NTBfcmVncy5oOjkxOToKKyNkZWZpbmUgU0g3NzUwX1BDUl9BNVRFRCAgICAg
+IDB4MEUwMCAgICAvKiBBcmVhIDUgQWRkcmVzcy1PRVwvV0VcIEFzc2VydGlvbiBEZWxheSwKCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5l
+CiMyOTIwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5MTk6CisjZGVmaW5lIFNINzc1MF9Q
+Q1JfQTVURUQgICAgICAweDBFMDAgICAgLyogQXJlYSA1IEFkZHJlc3MtT0VcL1dFXCBBc3NlcnRp
+b24gRGVsYXksCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxp
+bmVzCiMyOTIxOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5MjA6CisjZGVmaW5lIFNINzc1
+MF9QQ1JfQTVURUQgICAgICAweDBFMDAgICAgLyogQXJlYSA1IEFkZHJlc3MtT0VcL1dFXCBBc3Nl
+cnRpb24gRGVsYXksCisgICAgICAgICAgICAgICAgICAgICAgIGRlbGF5IHRpbWUgZnJvbSBhZGRy
+ZXNzIG91dHB1dCB0bwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8g
+b24gYSBzZXBhcmF0ZSBsaW5lCiMyOTIzOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5MjI6
+CisgICAgICAgICAgICAgICAgICAgICAgIFBDTUNJQSBpbnRlcmZhY2UgKi8KCldBUk5JTkc6IGxp
+bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyOTI2OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5
+MjQ6CisjZGVmaW5lIFNINzc1MF9QQ1JfQTZURUQgICAgICAweDAxQzAgICAgLyogQXJlYSA2IEFk
+ZHJlc3MtT0VcL1dFXCBBc3NlcnRpb24gRGVsYXkgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
+aGFyYWN0ZXJzCiMyOTUwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5MzY6CisjZGVmaW5l
+IFNINzc1MF9QQ1JfQTVURUggICAgICAweDAwMzggICAgLyogQXJlYSA1IE9FXC9XRVwgTmVnYXRp
+b24gQWRkcmVzcyBkZWxheSwKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcg
+Lyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyOTUwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5
+MzY6CisjZGVmaW5lIFNINzc1MF9QQ1JfQTVURUggICAgICAweDAwMzggICAgLyogQXJlYSA1IE9F
+XC9XRVwgTmVnYXRpb24gQWRkcmVzcyBkZWxheSwKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
+ZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzI5NTE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+OjkzNzoKKyNkZWZpbmUgU0g3NzUwX1BDUl9BNVRFSCAgICAgIDB4MDAzOCAgICAvKiBBcmVhIDUg
+T0VcL1dFXCBOZWdhdGlvbiBBZGRyZXNzIGRlbGF5LAorICAgICAgICAgICAgICAgICAgICAgICBh
+ZGRyZXNzIGhvbGQgZGVsYXkgdGltZSBmcm9tIE9FXC9XRVwKCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjk1MzogRklMRTogaHcv
+c2g0L3NoNzc1MF9yZWdzLmg6OTM5OgorICAgICAgICAgICAgICAgICAgICAgICBQQ01DSUEgaW50
+ZXJmYWNlICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjk1NzogRklMRTog
+aHcvc2g0L3NoNzc1MF9yZWdzLmg6OTQyOgorI2RlZmluZSBTSDc3NTBfUENSX0E2VEVIICAgICAg
+MHgwMDA3ICAgIC8qIEFyZWEgNiBPRVwvV0VcIE5lZ2F0aW9uIEFkZHJlc3MgZGVsYXkgKi8KCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5l
+CiMyOTk4OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5NjA6CisjZGVmaW5lIFNINzc1MF9S
+VENTUl9DTUYgICAgICAweDAwODAgICAgLyogQ29tcGFyZS1NYXRjaCBGbGFnIChpbmRpY2F0ZXMg
+YQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjk5
+OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6OTYxOgorI2RlZmluZSBTSDc3NTBfUlRDU1Jf
+Q01GICAgICAgMHgwMDgwICAgIC8qIENvbXBhcmUtTWF0Y2ggRmxhZyAoaW5kaWNhdGVzIGEKKyAg
+ICAgICAgICAgICAgICAgICAgICAgbWF0Y2ggYmV0d2VlbiB0aGUgcmVmcmVzaCB0aW1lcgoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMzMDAwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5NjI6CisgICAgICAgICAgICAgICAg
+ICAgICAgIGNvdW50ZXIgYW5kIHJlZnJlc2ggdGltZSBjb25zdGFudCkgKi8KCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzMDE5OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5NzU6CisjZGVmaW5lIFNINzc1MF9SVENTUl9PVklF
+ICAgICAweDAwMDIgICAgLyogUmVmcmVzaCBDb3VudCBPdmVyZmxvdyBJbnRlcnJ1cHQKCldBUk5J
+Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzMwMjA6IEZJTEU6
+IGh3L3NoNC9zaDc3NTBfcmVncy5oOjk3NjoKKyNkZWZpbmUgU0g3NzUwX1JUQ1NSX09WSUUgICAg
+IDB4MDAwMiAgICAvKiBSZWZyZXNoIENvdW50IE92ZXJmbG93IEludGVycnVwdAorICAgICAgICAg
+ICAgICAgICAgICAgICBFbmFibGUgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRy
+YWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMzAyMDogRklMRTogaHcvc2g0L3NoNzc1MF9y
+ZWdzLmg6OTc2OgorICAgICAgICAgICAgICAgICAgICAgICBFbmFibGUgKi8KCldBUk5JTkc6IGxp
+bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMDIxOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDo5
+Nzc6CisjZGVmaW5lIFNINzc1MF9SVENTUl9MTVRTICAgICAweDAwMDEgICAgLyogUmVmcmVzaCBD
+b3VudCBPdmVyZmxvdyBMaW1pdCBTZWxlY3QgKi8KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJv
+dW5kIHRoYXQgJyonIChjdHg6VnhWKQojMzA3MjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6
+MTAxODoKKyNkZWZpbmUgU0g3NzUwX1NBUl9SRUdPRlMobikgICgweEEwMDAwMCArICgobikqMTYp
+KSAgICAvKiBvZmZzZXQgKi8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4
+VikKIzMwODE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEwMzE6CisjZGVmaW5lIFNINzc1
+MF9EQVJfUkVHT0ZTKG4pICAoMHhBMDAwMDQgKyAoKG4pKjE2KSkgICAgLyogb2Zmc2V0ICovCiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNw
+YWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpWeFYpCiMzMDkwOiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ3MuaDoxMDQ0OgorI2RlZmluZSBTSDc3NTBfRE1BVENSX1JFR09GUyhuKSAg
+KDB4QTAwMDA4ICsgKChuKSoxNikpICAgIC8qIG9mZnNldCAqLwogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQg
+YXJvdW5kIHRoYXQgJyonIChjdHg6VnhWKQojMzA5OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdz
+Lmg6MTA1NzoKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfUkVHT0ZTKG4pICAoMHhBMDAwMEMgKyAoKG4p
+KjE2KSkgICAgLyogb2Zmc2V0ICovCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIF4KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMTI0OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMDc3OgorI2RlZmluZSBTSDc3NTBfQ0hDUl9TU0Ff
+QU1FTTE2ICAweEUwMDAwMDAwICAgIC8qIDE2LWJpdCBhdHRyaWJ1dGUgbWVtb3J5IHNwYWNlICov
+CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzEyOTogRklMRTogaHcvc2g0L3No
+Nzc1MF9yZWdzLmg6MTA3OToKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfU1RDICAgICAgIDB4MTAwMDAw
+MDAgICAgLyogU291cmNlIEFkZHJlc3MgV2FpdCBDb250cm9sIFNlbGVjdCwKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzMTI5OiBG
+SUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMDc5OgorI2RlZmluZSBTSDc3NTBfQ0hDUl9TVEMg
+ICAgICAgMHgxMDAwMDAwMCAgICAvKiBTb3VyY2UgQWRkcmVzcyBXYWl0IENvbnRyb2wgU2VsZWN0
+LAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMzEz
+MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTA4MDoKKyNkZWZpbmUgU0g3NzUwX0NIQ1Jf
+U1RDICAgICAgIDB4MTAwMDAwMDAgICAgLyogU291cmNlIEFkZHJlc3MgV2FpdCBDb250cm9sIFNl
+bGVjdCwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHNwZWNpZmllcyBDUzUgb3IgQ1M2IHNw
+YWNlIHdhaXQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEg
+c2VwYXJhdGUgbGluZQojMzEzMTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTA4MToKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnRyb2wgZm9yIFBDTUNJQSBhY2Nlc3MgKi8KCldB
+Uk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMTUwOiBGSUxFOiBody9zaDQvc2g3NzUw
+X3JlZ3MuaDoxMDkxOgorI2RlZmluZSBTSDc3NTBfQ0hDUl9EU0FfQU1FTTE2ICAweDBFMDAwMDAw
+ICAgIC8qIDE2LWJpdCBhdHRyaWJ1dGUgbWVtb3J5IHNwYWNlICovCgpXQVJOSU5HOiBCbG9jayBj
+b21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzE1NjogRklMRTog
+aHcvc2g0L3NoNzc1MF9yZWdzLmg6MTA5MzoKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfRFRDICAgICAg
+IDB4MDEwMDAwMDAgICAgLyogRGVzdGluYXRpb24gQWRkcmVzcyBXYWl0IENvbnRyb2wKCldBUk5J
+Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzMxNTc6IEZJTEU6
+IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEwOTQ6CisjZGVmaW5lIFNINzc1MF9DSENSX0RUQyAgICAg
+ICAweDAxMDAwMDAwICAgIC8qIERlc3RpbmF0aW9uIEFkZHJlc3MgV2FpdCBDb250cm9sCisgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBTZWxlY3QsIHNwZWNpZmllcyBDUzUgb3IgQ1M2CgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUK
+IzMxNTk6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEwOTY6CisgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBhY2Nlc3MgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMz
+MTc5OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTA3OgorI2RlZmluZSBTSDc3NTBfQ0hD
+Ul9BTV9SRCAgICAgMHgwMDAwMDAwMCAgICAvKiAgICAgREFDSyBpcyBvdXRwdXQgaW4gcmVhZCBj
+eWNsZSAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMxODA6IEZJTEU6IGh3
+L3NoNC9zaDc3NTBfcmVncy5oOjExMDg6CisjZGVmaW5lIFNINzc1MF9DSENSX0FNX1dSICAgICAw
+eDAwMDIwMDAwICAgIC8qICAgICBEQUNLIGlzIG91dHB1dCBpbiB3cml0ZSBjeWNsZSAqLwoKV0FS
+TklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMxOTU6IEZJTEU6IGh3L3NoNC9zaDc3NTBf
+cmVncy5oOjExMTY6CisjZGVmaW5lIFNINzc1MF9DSENSX0RNX0lOQyAgICAweDAwMDA0MDAwICAg
+IC8qICAgICBEZXN0aW5hdGlvbiBBZGRyIEluY3JlbWVudGVkICovCgpXQVJOSU5HOiBsaW5lIG92
+ZXIgODAgY2hhcmFjdGVycwojMzE5NjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTExNzoK
+KyNkZWZpbmUgU0g3NzUwX0NIQ1JfRE1fREVDICAgIDB4MDAwMDgwMDAgICAgLyogICAgIERlc3Rp
+bmF0aW9uIEFkZHIgRGVjcmVtZW50ZWQgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0
+ZXJzCiMzMjIxOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTI1OgorI2RlZmluZSBTSDc3
+NTBfQ0hDUl9SU19FUl9EQV9FQV9UT19FQSAgIDB4MDAwICAgIC8qIEV4dGVybmFsIFJlcXVlc3Qs
+IER1YWwgQWRkcmVzcwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBv
+biBhIHNlcGFyYXRlIGxpbmUKIzMyMjE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExMjU6
+CisjZGVmaW5lIFNINzc1MF9DSENSX1JTX0VSX0RBX0VBX1RPX0VBICAgMHgwMDAgICAgLyogRXh0
+ZXJuYWwgUmVxdWVzdCwgRHVhbCBBZGRyZXNzCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2Ug
+KiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMzMjIyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDox
+MTI2OgorI2RlZmluZSBTSDc3NTBfQ0hDUl9SU19FUl9EQV9FQV9UT19FQSAgIDB4MDAwICAgIC8q
+IEV4dGVybmFsIFJlcXVlc3QsIER1YWwgQWRkcmVzcworICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgTW9kZSAoRXh0ZXJuYWwgQWRkciBTcGFjZS0+CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzMyMjM6IEZJTEU6IGh3L3NoNC9z
+aDc3NTBfcmVncy5oOjExMjc6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBFeHRlcm5hbCBB
+ZGRyIFNwYWNlKSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBv
+biBhIHNlcGFyYXRlIGxpbmUKIzMyMjQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExMjg6
+CisjZGVmaW5lIFNINzc1MF9DSENSX1JTX0VSX1NBX0VBX1RPX0VEICAgMHgyMDAgICAgLyogRXh0
+ZXJuYWwgUmVxdWVzdCwgU2luZ2xlCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBz
+dWJzZXF1ZW50IGxpbmVzCiMzMjI1OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTI5Ogor
+I2RlZmluZSBTSDc3NTBfQ0hDUl9SU19FUl9TQV9FQV9UT19FRCAgIDB4MjAwICAgIC8qIEV4dGVy
+bmFsIFJlcXVlc3QsIFNpbmdsZQorICAgICAgICAgICAgICAgICAgICAgICAgICAgQWRkcmVzcyBN
+b2RlIChFeHRlcm5hbCBBZGRyCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGlu
+ZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzMyMjY6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5o
+OjExMzA6CisgICAgICAgICAgICAgICAgICAgICAgICAgICBTcGFjZSAtPiBFeHRlcm5hbCBEZXZp
+Y2UpICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2Vw
+YXJhdGUgbGluZQojMzIyNzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTEzMToKKyNkZWZp
+bmUgU0g3NzUwX0NIQ1JfUlNfRVJfU0FfRURfVE9fRUEgICAweDMwMCAgICAvKiBFeHRlcm5hbCBS
+ZXF1ZXN0LCBTaW5nbGUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVl
+bnQgbGluZXMKIzMyMjg6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExMzI6CisjZGVmaW5l
+IFNINzc1MF9DSENSX1JTX0VSX1NBX0VEX1RPX0VBICAgMHgzMDAgICAgLyogRXh0ZXJuYWwgUmVx
+dWVzdCwgU2luZ2xlCisgICAgICAgICAgICAgICAgICAgICAgICAgICBBZGRyZXNzIE1vZGUsIChF
+eHRlcm5hbAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBz
+ZXBhcmF0ZSBsaW5lCiMzMjMwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTM0OgorICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgU3BhY2UpICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzIzMTogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6MTEzNToKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfUlNfQVJfRUFfVE9fRUEg
+ICAgICAweDQwMCAgICAvKiBBdXRvLVJlcXVlc3QgKEV4dGVybmFsIEFkZHIKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzMyMzI6IEZJTEU6IGh3L3No
+NC9zaDc3NTBfcmVncy5oOjExMzY6CisjZGVmaW5lIFNINzc1MF9DSENSX1JTX0FSX0VBX1RPX0VB
+ICAgICAgMHg0MDAgICAgLyogQXV0by1SZXF1ZXN0IChFeHRlcm5hbCBBZGRyCisgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBTcGFjZSAtPiBFeHRlcm5hbCBBZGRyIFNwYWNlKSAqLwoKV0FSTklO
+RzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMz
+MjMyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTM2OgorICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgU3BhY2UgLT4gRXh0ZXJuYWwgQWRkciBTcGFjZSkgKi8KCldBUk5JTkc6IEJsb2Nr
+IGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzMjY0OiBGSUxF
+OiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTM4OgorI2RlZmluZSBTSDc3NTBfQ0hDUl9SU19BUl9F
+QV9UT19PQ1AgICAgIDB4NTAwICAgIC8qIEF1dG8tUmVxdWVzdCAoRXh0ZXJuYWwgQWRkcgoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMzI2NTogRklM
+RTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTEzOToKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfUlNfQVJf
+RUFfVE9fT0NQICAgICAweDUwMCAgICAvKiBBdXRvLVJlcXVlc3QgKEV4dGVybmFsIEFkZHIKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIFNwYWNlIC0+IE9uLWNoaXAgUGVyaXBoZXJhbAoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5l
+CiMzMjY2OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTQwOgorICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgTW9kdWxlKSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVh
+ZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzMyNjc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVn
+cy5oOjExNDE6CisjZGVmaW5lIFNINzc1MF9DSENSX1JTX0FSX09DUF9UT19FQSAgICAgMHg2MDAg
+ICAgLyogQXV0by1SZXF1ZXN0IChPbi1jaGlwCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2Ug
+KiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMzMjY4OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDox
+MTQyOgorI2RlZmluZSBTSDc3NTBfQ0hDUl9SU19BUl9PQ1BfVE9fRUEgICAgIDB4NjAwICAgIC8q
+IEF1dG8tUmVxdWVzdCAoT24tY2hpcAorICAgICAgICAgICAgICAgICAgICAgICAgICAgUGVyaXBo
+ZXJhbCBNb2R1bGUgLT4KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICov
+IG9uIGEgc2VwYXJhdGUgbGluZQojMzI2OTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTE0
+MzoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIEV4dGVybmFsIEFkZHIgU3BhY2UgKi8KCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5l
+CiMzMjcwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTQ0OgorI2RlZmluZSBTSDc3NTBf
+Q0hDUl9SU19TQ0lUWF9FQV9UT19TQyAgIDB4ODAwICAgIC8qIFNDSSBUcmFuc21pdC1EYXRhLUVt
+cHR5IGludHIKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGlu
+ZXMKIzMyNzE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExNDU6CisjZGVmaW5lIFNINzc1
+MF9DSENSX1JTX1NDSVRYX0VBX1RPX1NDICAgMHg4MDAgICAgLyogU0NJIFRyYW5zbWl0LURhdGEt
+RW1wdHkgaW50cgorICAgICAgICAgICAgICAgICAgICAgICAgICAgdHJhbnNmZXIgcmVxdWVzdCAo
+ZXh0ZXJuYWwKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEg
+c2VwYXJhdGUgbGluZQojMzI3MjogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTE0NjoKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGFkZHJlc3Mgc3BhY2UgLT4gU0NURFIxKSAqLwoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUK
+IzMyNzM6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExNDc6CisjZGVmaW5lIFNINzc1MF9D
+SENSX1JTX1NDSVJYX1NDX1RPX0VBICAgMHg5MDAgICAgLyogU0NJIFJlY2VpdmUtRGF0YS1GdWxs
+IGludHIKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMK
+IzMyNzQ6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExNDg6CisjZGVmaW5lIFNINzc1MF9D
+SENSX1JTX1NDSVJYX1NDX1RPX0VBICAgMHg5MDAgICAgLyogU0NJIFJlY2VpdmUtRGF0YS1GdWxs
+IGludHIKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHRyYW5zZmVyIHJlcXVlc3QgKFNDUkRS
+MSAtPgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBh
+cmF0ZSBsaW5lCiMzMjc1OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTQ5OgorICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgRXh0ZXJuYWwgQWRkciBTcGFjZSkgKi8KCldBUk5JTkc6IGxp
+bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMjc2OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDox
+MTUwOgorI2RlZmluZSBTSDc3NTBfQ0hDUl9SU19TQ0lGVFhfRUFfVE9fU0MgIDB4QTAwICAgIC8q
+IFNDSUYgVHJhbnNtaXQtRGF0YS1FbXB0eSBpbnRyCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzI3NjogRklMRTogaHcvc2g0L3No
+Nzc1MF9yZWdzLmg6MTE1MDoKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfUlNfU0NJRlRYX0VBX1RPX1ND
+ICAweEEwMCAgICAvKiBTQ0lGIFRyYW5zbWl0LURhdGEtRW1wdHkgaW50cgoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMzI3NzogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6MTE1MToKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfUlNfU0NJRlRYX0VBX1RP
+X1NDICAweEEwMCAgICAvKiBTQ0lGIFRyYW5zbWl0LURhdGEtRW1wdHkgaW50cgorICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgdHJhbnNmZXIgcmVxdWVzdCAoZXh0ZXJuYWwKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMzI3ODog
+RklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTE1MjoKKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGFkZHJlc3Mgc3BhY2UgLT4gU0NGVERSMSkgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzMjc5OiBGSUxFOiBody9zaDQv
+c2g3NzUwX3JlZ3MuaDoxMTUzOgorI2RlZmluZSBTSDc3NTBfQ0hDUl9SU19TQ0lGUlhfU0NfVE9f
+RUEgIDB4QjAwICAgIC8qIFNDSUYgUmVjZWl2ZS1EYXRhLUZ1bGwgaW50cgoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMzI4MDogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6MTE1NDoKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfUlNfU0NJRlJYX1NDX1RP
+X0VBICAweEIwMCAgICAvKiBTQ0lGIFJlY2VpdmUtRGF0YS1GdWxsIGludHIKKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHRyYW5zZmVyIHJlcXVlc3QgKFNDRlJEUjIgLT4KCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMzI4MTog
+RklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTE1NToKKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIEV4dGVybmFsIEFkZHIgU3BhY2UpICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2Ug
+YSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzI4MjogRklMRTogaHcvc2g0L3NoNzc1
+MF9yZWdzLmg6MTE1NjoKKyNkZWZpbmUgU0g3NzUwX0NIQ1JfUlNfVE1VMl9FQV9UT19FQSAgICAw
+eEMwMCAgICAvKiBUTVUgQ2hhbm5lbCAyIChpbnB1dCBjYXB0dXJlCgpXQVJOSU5HOiBCbG9jayBj
+b21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMzMjgzOiBGSUxFOiBody9zaDQvc2g3
+NzUwX3JlZ3MuaDoxMTU3OgorI2RlZmluZSBTSDc3NTBfQ0hDUl9SU19UTVUyX0VBX1RPX0VBICAg
+IDB4QzAwICAgIC8qIFRNVSBDaGFubmVsIDIgKGlucHV0IGNhcHR1cmUKKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGludGVycnVwdCksIChleHRlcm5hbCBhZGRyZXNzCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzMyODU6IEZJ
+TEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExNTk6CisgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBzcGFjZSkgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24g
+YSBzZXBhcmF0ZSBsaW5lCiMzMjg2OiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTYwOgor
+I2RlZmluZSBTSDc3NTBfQ0hDUl9SU19UTVUyX0VBX1RPX09DUCAgIDB4RDAwICAgIC8qIFRNVSBD
+aGFubmVsIDIgKGlucHV0IGNhcHR1cmUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9u
+IHN1YnNlcXVlbnQgbGluZXMKIzMyODc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExNjE6
+CisjZGVmaW5lIFNINzc1MF9DSENSX1JTX1RNVTJfRUFfVE9fT0NQICAgMHhEMDAgICAgLyogVE1V
+IENoYW5uZWwgMiAoaW5wdXQgY2FwdHVyZQorICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50
+ZXJydXB0KSwgKGV4dGVybmFsIGFkZHJlc3MKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBh
+IHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMzI4OTogRklMRTogaHcvc2g0L3NoNzc1
+MF9yZWdzLmg6MTE2MzoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIG1vZHVsZSkgKi8KCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5l
+CiMzMjkwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMTY0OgorI2RlZmluZSBTSDc3NTBf
+Q0hDUl9SU19UTVUyX09DUF9UT19FQSAgIDB4RTAwICAgIC8qIFRNVSBDaGFubmVsIDIgKGlucHV0
+IGNhcHR1cmUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGlu
+ZXMKIzMyOTE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjExNjU6CisjZGVmaW5lIFNINzc1
+MF9DSENSX1JTX1RNVTJfT0NQX1RPX0VBICAgMHhFMDAgICAgLyogVE1VIENoYW5uZWwgMiAoaW5w
+dXQgY2FwdHVyZQorICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJydXB0KSwgKG9uLWNo
+aXAKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJh
+dGUgbGluZQojMzI5MzogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTE2NzoKKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGFkZHJlc3Mgc3BhY2UpICovCgpFUlJPUjogc3BhY2VzIHJlcXVp
+cmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzMzNjU6IEZJTEU6IGh3L3NoNC9zaDc3NTBf
+cmVncy5oOjEyMTE6CisjZGVmaW5lIFNINzc1MF9QQ1RSQV9QQk5QVVAobikgKDEgPDwgKChuKSoy
+KzEpKSAgICAvKiBCaXQgbiBpcyBub3QgcHVsbGVkIHVwICovCiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
+YXQgJysnIChjdHg6VnhWKQojMzM2NTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTIxMToK
+KyNkZWZpbmUgU0g3NzUwX1BDVFJBX1BCTlBVUChuKSAoMSA8PCAoKG4pKjIrMSkpICAgIC8qIEJp
+dCBuIGlzIG5vdCBwdWxsZWQgdXAgKi8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4
+OlZ4VikKIzMzNjc6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyMTM6CisjZGVmaW5lIFNI
+Nzc1MF9QQ1RSQV9QQk9VVChuKSAoMSA8PCAoKG4pKjIpKSAgICAvKiBCaXQgbiBpcyBhbiBvdXRw
+dXQgKi8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpXQVJOSU5H
+OiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzM4ODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdz
+Lmg6MTIyODoKKyNkZWZpbmUgU0g3NzUwX1BDVFJCX1BCTlBVUChuKSAoMSA8PCAoKG4tMTYpKjIr
+MSkpICAgIC8qIEJpdCBuIGlzIG5vdCBwdWxsZWQgdXAgKi8KCkVSUk9SOiBzcGFjZXMgcmVxdWly
+ZWQgYXJvdW5kIHRoYXQgJy0nIChjdHg6VnhWKQojMzM4ODogRklMRTogaHcvc2g0L3NoNzc1MF9y
+ZWdzLmg6MTIyODoKKyNkZWZpbmUgU0g3NzUwX1BDVFJCX1BCTlBVUChuKSAoMSA8PCAoKG4tMTYp
+KjIrMSkpICAgIC8qIEJpdCBuIGlzIG5vdCBwdWxsZWQgdXAgKi8KICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0
+aGF0ICcqJyAoY3R4OlZ4VikKIzMzODg6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyMjg6
+CisjZGVmaW5lIFNINzc1MF9QQ1RSQl9QQk5QVVAobikgKDEgPDwgKChuLTE2KSoyKzEpKSAgICAv
+KiBCaXQgbiBpcyBub3QgcHVsbGVkIHVwICovCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysn
+IChjdHg6VnhWKQojMzM4ODogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTIyODoKKyNkZWZp
+bmUgU0g3NzUwX1BDVFJCX1BCTlBVUChuKSAoMSA8PCAoKG4tMTYpKjIrMSkpICAgIC8qIEJpdCBu
+IGlzIG5vdCBwdWxsZWQgdXAgKi8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4
+OlZ4VikKIzMzOTA6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyMzA6CisjZGVmaW5lIFNI
+Nzc1MF9QQ1RSQl9QQk9VVChuKSAoMSA8PCAoKG4tMTYpKjIpKSAgICAvKiBCaXQgbiBpcyBhbiBv
+dXRwdXQgKi8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9S
+OiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6VnhWKQojMzM5MDogRklMRTog
+aHcvc2g0L3NoNzc1MF9yZWdzLmg6MTIzMDoKKyNkZWZpbmUgU0g3NzUwX1BDVFJCX1BCT1VUKG4p
+ICgxIDw8ICgobi0xNikqMikpICAgIC8qIEJpdCBuIGlzIGFuIG91dHB1dCAqLwogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzNDI5OiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ3MuaDoxMjU4OgorI2RlZmluZSBTSDc3NTBfSUNSX05NSUJfQkxLICAgMHgw
+MDAwICAgIC8qICAgTk1JIHJlcXVlc3RzIGhlbGQgcGVuZGluZyB3aGlsZQoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMzQzMDogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6MTI1OToKKyNkZWZpbmUgU0g3NzUwX0lDUl9OTUlCX0JMSyAgIDB4MDAw
+MCAgICAvKiAgIE5NSSByZXF1ZXN0cyBoZWxkIHBlbmRpbmcgd2hpbGUKKyAgICAgICAgICAgICAg
+ICAgICAgICAgU1IuQkwgYml0IGlzIHNldCB0byAxICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzM0MzA6IEZJTEU6IGh3L3No
+NC9zaDc3NTBfcmVncy5oOjEyNTk6CisgICAgICAgICAgICAgICAgICAgICAgIFNSLkJMIGJpdCBp
+cyBzZXQgdG8gMSAqLwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM0MzE6IEZJ
+TEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyNjA6CisjZGVmaW5lIFNINzc1MF9JQ1JfTk1JQl9O
+QkxLICAweDAyMDAgICAgLyogICBOTUkgcmVxdWVzdHMgZGV0ZWN0ZWQgd2hlbiBTUi5CTCBiaXQK
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBs
+aW5lCiMzNDMxOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMjYwOgorI2RlZmluZSBTSDc3
+NTBfSUNSX05NSUJfTkJMSyAgMHgwMjAwICAgIC8qICAgTk1JIHJlcXVlc3RzIGRldGVjdGVkIHdo
+ZW4gU1IuQkwgYml0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50
+IGxpbmVzCiMzNDMyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMjYxOgorI2RlZmluZSBT
+SDc3NTBfSUNSX05NSUJfTkJMSyAgMHgwMjAwICAgIC8qICAgTk1JIHJlcXVlc3RzIGRldGVjdGVk
+IHdoZW4gU1IuQkwgYml0CisgICAgICAgICAgICAgICAgICAgICAgIHNldCB0byAxICovCgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUK
+IzM0MzI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyNjE6CisgICAgICAgICAgICAgICAg
+ICAgICAgIHNldCB0byAxICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzQ0
+MDogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTI2NDoKKyNkZWZpbmUgU0g3NzUwX0lDUl9O
+TUlFX0ZBTEwgIDB4MDAwMCAgICAvKiAgIEludGVycnVwdCByZXF1ZXN0IGRldGVjdGVkIG9uIGZh
+bGxpbmcKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBh
+cmF0ZSBsaW5lCiMzNDQwOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDoxMjY0OgorI2RlZmlu
+ZSBTSDc3NTBfSUNSX05NSUVfRkFMTCAgMHgwMDAwICAgIC8qICAgSW50ZXJydXB0IHJlcXVlc3Qg
+ZGV0ZWN0ZWQgb24gZmFsbGluZwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vi
+c2VxdWVudCBsaW5lcwojMzQ0MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTI2NToKKyNk
+ZWZpbmUgU0g3NzUwX0lDUl9OTUlFX0ZBTEwgIDB4MDAwMCAgICAvKiAgIEludGVycnVwdCByZXF1
+ZXN0IGRldGVjdGVkIG9uIGZhbGxpbmcKKyAgICAgICAgICAgICAgICAgICAgICAgZWRnZSBvZiBO
+TUkgaW5wdXQgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9u
+IGEgc2VwYXJhdGUgbGluZQojMzQ0MTogRklMRTogaHcvc2g0L3NoNzc1MF9yZWdzLmg6MTI2NToK
+KyAgICAgICAgICAgICAgICAgICAgICAgZWRnZSBvZiBOTUkgaW5wdXQgKi8KCldBUk5JTkc6IGxp
+bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzNDQyOiBGSUxFOiBody9zaDQvc2g3NzUwX3JlZ3MuaDox
+MjY2OgorI2RlZmluZSBTSDc3NTBfSUNSX05NSUVfUklTRSAgMHgwMTAwICAgIC8qICAgSW50ZXJy
+dXB0IHJlcXVlc3QgZGV0ZWN0ZWQgb24gcmlzaW5nCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzQ0MjogRklMRTogaHcvc2g0L3No
+Nzc1MF9yZWdzLmg6MTI2NjoKKyNkZWZpbmUgU0g3NzUwX0lDUl9OTUlFX1JJU0UgIDB4MDEwMCAg
+ICAvKiAgIEludGVycnVwdCByZXF1ZXN0IGRldGVjdGVkIG9uIHJpc2luZwoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMzQ0MzogRklMRTogaHcvc2g0
+L3NoNzc1MF9yZWdzLmg6MTI2NzoKKyNkZWZpbmUgU0g3NzUwX0lDUl9OTUlFX1JJU0UgIDB4MDEw
+MCAgICAvKiAgIEludGVycnVwdCByZXF1ZXN0IGRldGVjdGVkIG9uIHJpc2luZworICAgICAgICAg
+ICAgICAgICAgICAgICBlZGdlIG9mIE5NSSBpbnB1dCAqLwoKV0FSTklORzogQmxvY2sgY29tbWVu
+dHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMzNDQzOiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ3MuaDoxMjY3OgorICAgICAgICAgICAgICAgICAgICAgICBlZGdlIG9mIE5N
+SSBpbnB1dCAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzM0NTE6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyNzA6Cisj
+ZGVmaW5lIFNINzc1MF9JQ1JfSVJMTV9FTkMgICAweDAwMDAgICAgLyogICBJUkxcIHBpbnMgdXNl
+ZCBhcyBhIGxldmVsLWVuY29kZWQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1
+YnNlcXVlbnQgbGluZXMKIzM0NTI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyNzE6Cisj
+ZGVmaW5lIFNINzc1MF9JQ1JfSVJMTV9FTkMgICAweDAwMDAgICAgLyogICBJUkxcIHBpbnMgdXNl
+ZCBhcyBhIGxldmVsLWVuY29kZWQKKyAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJydXB0IHJl
+cXVlc3RzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzM0NTI6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEyNzE6Cisg
+ICAgICAgICAgICAgICAgICAgICAgIGludGVycnVwdCByZXF1ZXN0cyAqLwoKV0FSTklORzogbGlu
+ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM0NTM6IEZJTEU6IGh3L3NoNC9zaDc3NTBfcmVncy5oOjEy
+NzI6CisjZGVmaW5lIFNINzc1MF9JQ1JfSVJMTV9SQVcgICAweDAwODAgICAgLyogICBJUkxcIHBp
+bnMgdXNlZCBhcyBhIGZvdXIgaW5kZXBlbmRlbnQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
+ZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzNDUzOiBGSUxFOiBody9zaDQvc2g3
+NzUwX3JlZ3MuaDoxMjcyOgorI2RlZmluZSBTSDc3NTBfSUNSX0lSTE1fUkFXICAgMHgwMDgwICAg
+IC8qICAgSVJMXCBwaW5zIHVzZWQgYXMgYSBmb3VyIGluZGVwZW5kZW50CgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMzNDU0OiBGSUxFOiBody9zaDQv
+c2g3NzUwX3JlZ3MuaDoxMjczOgorI2RlZmluZSBTSDc3NTBfSUNSX0lSTE1fUkFXICAgMHgwMDgw
+ICAgIC8qICAgSVJMXCBwaW5zIHVzZWQgYXMgYSBmb3VyIGluZGVwZW5kZW50CisgICAgICAgICAg
+ICAgICAgICAgICAgIGludGVycnVwdCByZXF1ZXN0cyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVu
+dHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMzNDU0OiBGSUxFOiBody9z
+aDQvc2g3NzUwX3JlZ3MuaDoxMjczOgorICAgICAgICAgICAgICAgICAgICAgICBpbnRlcnJ1cHQg
+cmVxdWVzdHMgKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzNjU4OiBGSUxF
+OiBsaW51eC11c2VyL3NoNC90ZXJtYml0cy5oOjEzOToKKyNkZWZpbmUgVEFSR0VUX0NNU1BBUiAg
+ICAgIDAxMDAwMDAwMDAwMCAgICAgICAgLyogbWFyayBvciBzcGFjZSAoc3RpY2spIHBhcml0eSAq
+LwoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMg
+KDQsIDQpCiMzODYyOiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjk4OgogICAgIGlmIChxZW11
+X2xvZ2xldmVsX21hc2soQ1BVX0xPR19JTlQpKSB7CisgICAgY29uc3QgY2hhciAqZXhwbmFtZTsK
+CkVSUk9SOiBzd2l0Y2ggYW5kIGNhc2Ugc2hvdWxkIGJlIGF0IHRoZSBzYW1lIGluZGVudAojMzg2
+NTogRklMRTogdGFyZ2V0L3NoNC9oZWxwZXIuYzoxMDA6CiAgICAgICAgIHN3aXRjaCAoY3MtPmV4
+Y2VwdGlvbl9pbmRleCkgeworICAgIGNhc2UgMHgwZTA6ClsuLi5dCisgICAgY2FzZSAweDA0MDoK
+Wy4uLl0KKyAgICBjYXNlIDB4MGEwOgpbLi4uXQorICAgIGNhc2UgMHgxODA6ClsuLi5dCisgICAg
+Y2FzZSAweDFhMDoKWy4uLl0KKyAgICBjYXNlIDB4ODAwOgpbLi4uXQorICAgIGNhc2UgMHg4MjA6
+ClsuLi5dCisgICAgY2FzZSAweDEwMDoKWy4uLl0KKyAgICBjYXNlIDB4MDYwOgpbLi4uXQorICAg
+IGNhc2UgMHgwYzA6ClsuLi5dCisgICAgY2FzZSAweDEyMDoKWy4uLl0KKyAgICBjYXNlIDB4MDgw
+OgpbLi4uXQorICAgIGNhc2UgMHgxNjA6ClsuLi5dCisgICAgZGVmYXVsdDoKCkVSUk9SOiBzdXNw
+ZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg0LCA0KQojNDAwMTog
+RklMRTogdGFyZ2V0L3NoNC9oZWxwZXIuYzoyMjA6CiAgICAgaWYgKChlbnYtPm1tdWNyICYgMHhl
+MDAwMDAwMCkgPT0gMHhlMDAwMDAwMCkgeworICAgIHJldHVybiAwOwoKRVJST1I6IHN1c3BlY3Qg
+Y29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDQsIDQpCiM0MDA1OiBGSUxF
+OiB0YXJnZXQvc2g0L2hlbHBlci5jOjIyMzoKICAgICBpZiAoKGVudi0+bW11Y3IgJiAweDk4MDAw
+MDAwKSA9PSAweDE4MDAwMDAwKSB7CisgICAgcmV0dXJuIDE7CgpFUlJPUjogc3VzcGVjdCBjb2Rl
+IGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNCkKIzQwMDk6IEZJTEU6IHRh
+cmdldC9zaDQvaGVscGVyLmM6MjI2OgogICAgIGlmICgoZW52LT5tbXVjciAmIDB4NTQwMDAwMDAp
+ID09IDB4MDQwMDAwMDApIHsKKyAgICByZXR1cm4gMjsKCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5k
+ZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg0LCA0KQojNDAxMzogRklMRTogdGFyZ2V0
+L3NoNC9oZWxwZXIuYzoyMjk6CiAgICAgaWYgKChlbnYtPm1tdWNyICYgMHgyYzAwMDAwMCkgPT0g
+MHgwMDAwMDAwMCkgeworICAgIHJldHVybiAzOwoKRVJST1I6ICJmb28gKiBiYXIiIHNob3VsZCBi
+ZSAiZm9vICpiYXIiCiM0MDI0OiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjIzOToKKyAgICAg
+ICAgICAgICAgdGxiX3QgKiBlbnRyaWVzLCB1aW50OF90IG5idGxiLCBpbnQgdXNlX2FzaWQpCgpF
+UlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwg
+NCkKIzQwMzE6IEZJTEU6IHRhcmdldC9zaDQvaGVscGVyLmM6MjQ4OgogICAgIGZvciAoaSA9IDA7
+IGkgPCBuYnRsYjsgaSsrKSB7CisgICAgaWYgKCFlbnRyaWVzW2ldLnYpCgpFUlJPUjogYnJhY2Vz
+IHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0MDQzOiBG
+SUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjI0OToKKyAgICBpZiAoIWVudHJpZXNbaV0udikKWy4u
+Ll0KCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBz
+dGF0ZW1lbnQKIzQwNDU6IEZJTEU6IHRhcmdldC9zaDQvaGVscGVyLmM6MjUxOgorICAgIGlmICgh
+ZW50cmllc1tpXS5zaCAmJiB1c2VfYXNpZCAmJiBlbnRyaWVzW2ldLmFzaWQgIT0gYXNpZCkKWy4u
+Ll0KCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRz
+ICg4LCA4KQojNDA1MDogRklMRTogdGFyZ2V0L3NoNC9oZWxwZXIuYzoyNTY6CisgICAgICAgIGlm
+IChtYXRjaCAhPSBNTVVfRFRMQl9NSVNTKQorICAgICAgICByZXR1cm4gTU1VX0RUTEJfTVVMVElQ
+TEU7ICAgIC8qIE11bHRpcGxlIG1hdGNoICovCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3Nh
+cnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0MDUwOiBGSUxFOiB0YXJnZXQvc2g0
+L2hlbHBlci5jOjI1NjoKKyAgICAgICAgaWYgKG1hdGNoICE9IE1NVV9EVExCX01JU1MpClsuLi5d
+CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAo
+NCwgNCkKIzQwNjA6IEZJTEU6IHRhcmdldC9zaDQvaGVscGVyLmM6MjcyOgogICAgIGlmICgodXJi
+ID4gMCAmJiB1cmMgPiB1cmIpIHx8IHVyYyA+IChVVExCX1NJWkUgLSAxKSkKKyAgICB1cmMgPSAw
+OwoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMg
+KDQsIDQpCiM0MDY5OiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjMwNDoKICAgICBpZiAoZSA9
+PSBNTVVfRFRMQl9NVUxUSVBMRSkgeworICAgIGUgPSBNTVVfSVRMQl9NVUxUSVBMRTsKCkVSUk9S
+OiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg0LCA0KQoj
+NDA3MjogRklMRTogdGFyZ2V0L3NoNC9oZWxwZXIuYzozMDY6CiAgICAgfSBlbHNlIGlmIChlID09
+IE1NVV9EVExCX01JU1MpIHsKKyAgICBlID0gTU1VX0lUTEJfTUlTUzsKCkVSUk9SOiBzdXNwZWN0
+IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg0LCA0KQojNDA3NTogRklM
+RTogdGFyZ2V0L3NoNC9oZWxwZXIuYzozMDg6CiAgICAgfSBlbHNlIGlmIChlID49IDApIHsKKyAg
+ICB1cGRhdGVfaXRsYl91c2UoZW52LCBlKTsKCkVSUk9SOiAiZm9vICogYmFyIiBzaG91bGQgYmUg
+ImZvbyAqYmFyIgojNDEwNTogRklMRTogdGFyZ2V0L3NoNC9oZWxwZXIuYzo2MjA6CisgICAgdGxi
+X3QgKiB1dGxiX21hdGNoX2VudHJ5ID0gTlVMTDsKCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50
+IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICgxMiwgMTIpCiM0MTEzOiBGSUxFOiB0YXJnZXQv
+c2g0L2hlbHBlci5jOjYyNjoKICAgICAgICAgICAgIGlmICghZW50cnktPnYpCisgICAgICAgICAg
+ICBjb250aW51ZTsKCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBz
+dGF0ZW1lbnRzICgxMiwgMTIpCiM0MTE3OiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjYyOToK
+ICAgICAgICAgICAgIGlmIChlbnRyeS0+dnBuID09IHZwbgpbLi4uXQorICAgICAgICAgICAgaWYg
+KHV0bGJfbWF0Y2hfZW50cnkpIHsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3Ig
+YWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQxNDA6IEZJTEU6IHRhcmdldC9zaDQvaGVscGVy
+LmM6NjM5OgorICAgICAgICBpZiAoZW50cnktPnYgJiYgIXYpClsuLi5dCgpFUlJPUjogc3VzcGVj
+dCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoMTIsIDEyKQojNDE1NDog
+RklMRTogdGFyZ2V0L3NoNC9oZWxwZXIuYzo2NTE6CiAgICAgICAgICAgICBpZiAoZW50cnktPnZw
+biA9PSB2cG4KWy4uLl0KKyAgICAgICAgICAgIGlmIChlbnRyeS0+diAmJiAhdikKCkVSUk9SOiBz
+dXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICgxMiwgMTIpCiM0
+MTY1OiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjY1MzoKKyAgICAgICAgICAgIGlmIChlbnRy
+eS0+diAmJiAhdikKKyAgICAgICAgICAgIG5lZWRzX3RsYl9mbHVzaCA9IDE7CgpFUlJPUjogYnJh
+Y2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0MTY1
+OiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjY1MzoKKyAgICAgICAgICAgIGlmIChlbnRyeS0+
+diAmJiAhdikKWy4uLl0KCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25h
+bCBzdGF0ZW1lbnRzICgxMiwgMTIpCiM0MTY3OiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBlci5jOjY1
+NToKKyAgICAgICAgICAgIGlmICh1dGxiX21hdGNoX2VudHJ5KQorICAgICAgICAgICAgKmVudHJ5
+ID0gKnV0bGJfbWF0Y2hfZW50cnk7CgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9y
+IGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0MTY3OiBGSUxFOiB0YXJnZXQvc2g0L2hlbHBl
+ci5jOjY1NToKKyAgICAgICAgICAgIGlmICh1dGxiX21hdGNoX2VudHJ5KQpbLi4uXQorICAgICAg
+ICAgICAgZWxzZQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwg
+YXJtcyBvZiB0aGlzIHN0YXRlbWVudAojNDIzNzogRklMRTogdGFyZ2V0L3NoNC9vcF9oZWxwZXIu
+YzoxMzQ6CisgICAgaWYgKGN1cnJlbnQgPT0gTlVMTCkKWy4uLl0KCkVSUk9SOiB0aGF0IG9wZW4g
+YnJhY2UgeyBzaG91bGQgYmUgb24gdGhlIHByZXZpb3VzIGxpbmUKIzQyNTE6IEZJTEU6IHRhcmdl
+dC9zaDQvb3BfaGVscGVyLmM6MTQ1OgorICAgIGlmICgoYSAmIH4weDFGKSA9PSAoYWRkcmVzcyAm
+IH4weDFGKSkKKyAgICB7CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojNDI2MDogRklMRTog
+dGFyZ2V0L3NoNC9vcF9oZWxwZXIuYzoxNDk6CisgICAgICAgICQKCkVSUk9SOiB0aGF0IG9wZW4g
+YnJhY2UgeyBzaG91bGQgYmUgb24gdGhlIHByZXZpb3VzIGxpbmUKIzQyNjE6IEZJTEU6IHRhcmdl
+dC9zaDQvb3BfaGVscGVyLmM6MTUwOgorICAgICAgICBpZiAobmV4dCA9PSBOVUxMKQorICAgICAg
+ICB7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50
+cyAoOCwgOCkKIzQyNjE6IEZJTEU6IHRhcmdldC9zaDQvb3BfaGVscGVyLmM6MTUwOgorICAgICAg
+ICBpZiAobmV4dCA9PSBOVUxMKQorICAgICAgICB7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVu
+dCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNCkKIzQyNzk6IEZJTEU6IHRhcmdldC9z
+aDQvb3BfaGVscGVyLmM6MTcwOgogICAgIGlmIChlbnYtPnNyICYgKDF1IDw8IFNSX1MpKSB7Cisg
+ICAgaWYgKHJlcyA8IDApCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBh
+cm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0Mjg0OiBGSUxFOiB0YXJnZXQvc2g0L29wX2hlbHBlci5j
+OjE3MToKKyAgICBpZiAocmVzIDwgMCkKWy4uLl0KKyAgICBlbHNlClsuLi5dCgpFUlJPUjogc3Vz
+cGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNCkKIzQyOTQ6
+IEZJTEU6IHRhcmdldC9zaDQvb3BfaGVscGVyLmM6MTg2OgogICAgIGlmIChlbnYtPnNyICYgKDF1
+IDw8IFNSX1MpKSB7CisgICAgaWYgKHJlcyA8IC0weDgwMDAwMDAwKSB7CgpFUlJPUjogc3VzcGVj
+dCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNCkKIzQzMTU6IEZJ
+TEU6IHRhcmdldC9zaDQvb3BfaGVscGVyLmM6MjAwOgogICAgIGlmICgodmFsICYgRlBTQ1JfUk1f
+TUFTSykgPT0gRlBTQ1JfUk1fWkVSTykgeworICAgIHNldF9mbG9hdF9yb3VuZGluZ19tb2RlKGZs
+b2F0X3JvdW5kX3RvX3plcm8sICZlbnYtPmZwX3N0YXR1cyk7CgpFUlJPUjogc3VzcGVjdCBjb2Rl
+IGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNCkKIzQzNjU6IEZJTEU6IHRh
+cmdldC9zaDQvdHJhbnNsYXRlLmM6MjYyOgogICAgIGlmIChjdHgtPmRlbGF5ZWRfcGMgPT0gLTEp
+IHsKKyAgICAvKiBUYXJnZXQgaXMgbm90IHN0YXRpY2FsbHkga25vd24sIGl0IGNvbWVzIG5lY2Vz
+c2FyaWx5IGZyb20gYQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBv
+biBhIHNlcGFyYXRlIGxpbmUKIzQzNjk6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MjYz
+OgorICAgIC8qIFRhcmdldCBpcyBub3Qgc3RhdGljYWxseSBrbm93biwgaXQgY29tZXMgbmVjZXNz
+YXJpbHkgZnJvbSBhCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50
+IGxpbmVzCiM0MzcwOiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjI2NDoKKyAgICAvKiBU
+YXJnZXQgaXMgbm90IHN0YXRpY2FsbHkga25vd24sIGl0IGNvbWVzIG5lY2Vzc2FyaWx5IGZyb20g
+YQorICAgICAgIGRlbGF5ZWQganVtcCBhcyBpbW1lZGlhdGUganVtcCBhcmUgY29uZGl0aW5hbCBq
+dW1wcyAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBz
+ZXBhcmF0ZSBsaW5lCiM0MzcwOiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjI2NDoKKyAg
+ICAgICBkZWxheWVkIGp1bXAgYXMgaW1tZWRpYXRlIGp1bXAgYXJlIGNvbmRpdGluYWwganVtcHMg
+Ki8KCkVSUk9SOiB0aGF0IG9wZW4gYnJhY2UgeyBzaG91bGQgYmUgb24gdGhlIHByZXZpb3VzIGxp
+bmUKIzQzODc6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6NDIzOgogICAgIGlmIChjdHgt
+Pmhhc19tb3ZjYWwpCisgICAgewoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRp
+dGlvbmFsIHN0YXRlbWVudHMgKDQsIDYpCiM0Mzg3OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0
+ZS5jOjQyMzoKICAgICBpZiAoY3R4LT5oYXNfbW92Y2FsKQorICAgIHsKCkVSUk9SOiBzdXNwZWN0
+IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg2LCAxOCkKIzQzOTU6IEZJ
+TEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6NDI2OgorICAgICAgaWYgKG9wY29kZSAhPSAweDAw
+OTMgLyogb2NiaSAqLwpbLi4uXQorICAgICAgICAgIHsKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBi
+ZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM0NDIyOiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5j
+OjQ0NToKKyAgICBDSEVDS19OT1RfREVMQVlfU0xPVAoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQg
+YWZ0ZXIgdGhhdCAnLScgKGN0eDpXeFcpCiM0NDMyOiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0
+ZS5jOjQ0ODoKKyAgICBjdHgtPmRlbGF5ZWRfcGMgPSAodWludDMyX3QpIC0gMTsKICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9p
+ZGVkIGluIC5jIGZpbGVzCiM0NDUwOiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjQ2MToK
+KyAgICBDSEVDS19QUklWSUxFR0VECgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBp
+biAuYyBmaWxlcwojNDQ1OTogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzo0NjY6CisgICAg
+Q0hFQ0tfTk9UX0RFTEFZX1NMT1QKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQg
+Jy0nIChjdHg6V3hXKQojNDQ2NTogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzo0NzA6Cisg
+ICAgY3R4LT5kZWxheWVkX3BjID0gKHVpbnQzMl90KSAtIDE7CiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBeCgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBm
+aWxlcwojNDUwNjogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzo0OTc6CisgICAgQ0hFQ0tf
+UFJJVklMRUdFRAoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMK
+IzQ1OTg6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6NTU2OgorICAgIENIRUNLX05PVF9E
+RUxBWV9TTE9UCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNDY3MjogRklMRTog
+dGFyZ2V0L3NoNC90cmFuc2xhdGUuYzo1OTE6CisgICAgICAgIHRjZ19nZW5fbW92X2kzMihSRUco
+QjExXzgpLCBhZGRyKTsgICAgICAgICAgICAvKiBtb2RpZnkgcmVnaXN0ZXIgc3RhdHVzICovCgpF
+UlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiM0
+NzM5OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjYxNToKKyAgICBpZiAoIEIxMV84ICE9
+IEI3XzQgKQoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50
+aGVzaXMgJyknCiM0NzM5OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjYxNToKKyAgICBp
+ZiAoIEIxMV84ICE9IEI3XzQgKQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBh
+bGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojNDczOTogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xh
+dGUuYzo2MTU6CisgICAgaWYgKCBCMTFfOCAhPSBCN180ICkKWy4uLl0KCkVSUk9SOiBzcGFjZSBw
+cm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzQ3NDQ6IEZJTEU6IHRh
+cmdldC9zaDQvdHJhbnNsYXRlLmM6NjIwOgorICAgIGlmICggQjExXzggIT0gQjdfNCApCgpFUlJP
+Ujogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzQ3
+NDQ6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6NjIwOgorICAgIGlmICggQjExXzggIT0g
+QjdfNCApCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRo
+aXMgc3RhdGVtZW50CiM0NzQ0OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjYyMDoKKyAg
+ICBpZiAoIEIxMV84ICE9IEI3XzQgKQpbLi4uXQoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0
+ZXIgdGhhdCBvcGVuIHBhcmVudGhlc2lzICcoJwojNDc0OTogRklMRTogdGFyZ2V0L3NoNC90cmFu
+c2xhdGUuYzo2MjU6CisgICAgaWYgKCBCMTFfOCAhPSBCN180ICkKCkVSUk9SOiBzcGFjZSBwcm9o
+aWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojNDc0OTogRklMRTogdGFy
+Z2V0L3NoNC90cmFuc2xhdGUuYzo2MjU6CisgICAgaWYgKCBCMTFfOCAhPSBCN180ICkKCkVSUk9S
+OiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQK
+IzQ3NDk6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6NjI1OgorICAgIGlmICggQjExXzgg
+IT0gQjdfNCApClsuLi5dCgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBm
+aWxlcwojNTQ2MjogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxMTg1OgorICAgIENIRUNL
+X05PVF9ERUxBWV9TTE9UCgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBm
+aWxlcwojNTQ2OTogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxMTg5OgorICAgIENIRUNL
+X05PVF9ERUxBWV9TTE9UCgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBm
+aWxlcwojNTQ3ODogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxMTk1OgorICAgIENIRUNL
+X05PVF9ERUxBWV9TTE9UCgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBm
+aWxlcwojNTQ4NTogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxMTk5OgorICAgIENIRUNL
+X05PVF9ERUxBWV9TTE9UCgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBm
+aWxlcwojNTY4OTogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxMzEwOgorICAgICAgICBD
+SEVDS19OT1RfREVMQVlfU0xPVAoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4g
+LmMgZmlsZXMKIzU3NzQ6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTM1NjoKKyAgICBD
+SEVDS19QUklWSUxFR0VECgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBm
+aWxlcwojNTc3ODogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxMzYwOgorICAgIENIRUNL
+X1BSSVZJTEVHRUQKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVz
+CiM1Nzk0OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjEzNjU6CisgICAgQ0hFQ0tfUFJJ
+VklMRUdFRAoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzU4
+MTc6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTM4MjoKKyAgICBDSEVDS19OT1RfREVM
+QVlfU0xPVAoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCAnLScgKGN0eDpXeFcp
+CiM1ODI0OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjEzODU6CisgICAgY3R4LT5kZWxh
+eWVkX3BjID0gKHVpbnQzMl90KSAtIDE7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBeCgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojNTgyNzog
+RklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxMzg4OgorICAgIENIRUNLX05PVF9ERUxBWV9T
+TE9UCgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0ICctJyAoY3R4Old4VykKIzU4
+MzU6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTM5MjoKKyAgICBjdHgtPmRlbGF5ZWRf
+cGMgPSAodWludDMyX3QpIC0gMTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4K
+CkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM1ODU3OiBGSUxF
+OiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE0MDU6CisgICAgQ0hFQ0tfTk9UX0RFTEFZX1NMT1QK
+CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgJy0nIChjdHg6V3hXKQojNTg2NDog
+RklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxNDA4OgorICAgIGN0eC0+ZGVsYXllZF9wYyA9
+ICh1aW50MzJfdCkgLSAxOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJS
+T1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzU4Njc6IEZJTEU6IHRh
+cmdldC9zaDQvdHJhbnNsYXRlLmM6MTQxMToKKyAgICBDSEVDS19OT1RfREVMQVlfU0xPVAoKRVJS
+T1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCAnLScgKGN0eDpXeFcpCiM1ODc2OiBGSUxF
+OiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE0MTU6CisgICAgY3R4LT5kZWxheWVkX3BjID0gKHVp
+bnQzMl90KSAtIDE7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjog
+ZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojNTkxMjogRklMRTogdGFyZ2V0
+L3NoNC90cmFuc2xhdGUuYzoxNDQwOgorICAgIENIRUNLX1BSSVZJTEVHRUQKCkVSUk9SOiBzcGFj
+ZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4VikKIzU5NDU6IEZJTEU6IHRhcmdldC9z
+aDQvdHJhbnNsYXRlLmM6MTQ1NjoKKyNkZWZpbmUgTEQocmVnLGxkbnVtLGxkcG51bSxwcmVjaGsp
+ICAgICAgICBcCiAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBhZnRlciB0
+aGF0ICcsJyAoY3R4OlZ4VikKIzU5NDU6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTQ1
+NjoKKyNkZWZpbmUgTEQocmVnLGxkbnVtLGxkcG51bSxwcmVjaGspICAgICAgICBcCiAgICAgICAg
+ICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4
+OlZ4VikKIzU5NDU6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTQ1NjoKKyNkZWZpbmUg
+TEQocmVnLGxkbnVtLGxkcG51bSxwcmVjaGspICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBeCgpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQg
+YmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzU5NDU6IEZJTEU6IHRhcmdldC9zaDQv
+dHJhbnNsYXRlLmM6MTQ1NjoKKyNkZWZpbmUgTEQocmVnLGxkbnVtLGxkcG51bSxwcmVjaGspICAg
+ICAgICBcCisgIGNhc2UgbGRudW06ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICBw
+cmVjaGsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICB0Y2dfZ2VuX21vdl9p
+MzIgKGNwdV8jI3JlZywgUkVHKEIxMV84KSk7ICAgICAgICAgICAgXAorICAgIHJldHVybjsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgXAorICBjYXNlIGxkcG51bTogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXAorICAgIHByZWNoayAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+XAogICAgIHRjZ19nZW5fcWVtdV9sZF9pMzIoY3B1XyMjcmVnLCBSRUcoQjExXzgpLCBjdHgtPm1l
+bWlkeCwgTU9fVEVTTCk7IFwKLSAgICB0Y2dfZ2VuX2FkZGlfaTMyKFJFRyhCMTFfOCksIFJFRyhC
+MTFfOCksIDQpOyAgICAgICAgICAgICAgIFwKKyAgICB0Y2dfZ2VuX2FkZGlfaTMyKFJFRyhCMTFf
+OCksIFJFRyhCMTFfOCksIDQpOyAgICAgICAgXAogICAgIHJldHVybjsKCkVSUk9SOiBzcGFjZSBw
+cm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcK
+IzU5NDg6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTQ1OToKKyAgICB0Y2dfZ2VuX21v
+dl9pMzIgKGNwdV8jI3JlZywgUkVHKEIxMV84KSk7ICAgICAgICAgICAgXAoKRVJST1I6IHNwYWNl
+IHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojNTk2NjogRklMRTogdGFyZ2V0L3No
+NC90cmFuc2xhdGUuYzoxNDY2OgorI2RlZmluZSBTVChyZWcsc3RudW0sc3RwbnVtLHByZWNoaykg
+ICAgICAgIFwKICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRo
+YXQgJywnIChjdHg6VnhWKQojNTk2NjogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxNDY2
+OgorI2RlZmluZSBTVChyZWcsc3RudW0sc3RwbnVtLHByZWNoaykgICAgICAgIFwKICAgICAgICAg
+ICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6
+VnhWKQojNTk2NjogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxNDY2OgorI2RlZmluZSBT
+VChyZWcsc3RudW0sc3RwbnVtLHByZWNoaykgICAgICAgIFwKICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIF4KCkVSUk9SOiBNYWNyb3Mgd2l0aCBtdWx0aXBsZSBzdGF0ZW1lbnRzIHNob3VsZCBi
+ZSBlbmNsb3NlZCBpbiBhIGRvIC0gd2hpbGUgbG9vcAojNTk2NjogRklMRTogdGFyZ2V0L3NoNC90
+cmFuc2xhdGUuYzoxNDY2OgorI2RlZmluZSBTVChyZWcsc3RudW0sc3RwbnVtLHByZWNoaykgICAg
+ICAgIFwKKyAgY2FzZSBzdG51bTogICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIHBy
+ZWNoayAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIHRjZ19nZW5fbW92X2kz
+MiAoUkVHKEIxMV84KSwgY3B1XyMjcmVnKTsgICAgICAgICAgICBcCisgICAgcmV0dXJuOyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBcCisgIGNhc2Ugc3RwbnVtOiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBcCisgICAgcHJlY2hrICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBc
+CisgICAgeyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIFRDR3YgYWRkciA9
+IHRjZ190ZW1wX25ldygpOyAgICAgICAgICAgICAgICBcCisgICAgdGNnX2dlbl9zdWJpX2kzMihh
+ZGRyLCBSRUcoQjExXzgpLCA0KTsgICAgICAgICAgICBcCiAgICAgICAgIHRjZ19nZW5fcWVtdV9z
+dF9pMzIoY3B1XyMjcmVnLCBhZGRyLCBjdHgtPm1lbWlkeCwgTU9fVEVVTCk7IFwKLSAgICAgICB0
+Y2dfZ2VuX21vdl9pMzIoUkVHKEIxMV84KSwgYWRkcik7ICAgICAgICAgICAgICAgICAgICAgIFwK
+LSAgICAgICB0Y2dfdGVtcF9mcmVlKGFkZHIpOyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIFwKLSAgICB9ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIFwKKyAgICB0Y2dfZ2VuX21vdl9pMzIoUkVHKEIxMV84KSwgYWRkcik7
+ICAgICAgICAgICAgXAorICAgIHRjZ190ZW1wX2ZyZWUoYWRkcik7ICAgICAgICAgICAgICAgICAg
+ICBcCisgICAgfSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAogICAgIHJldHVybjsK
+CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBw
+YXJlbnRoZXNpcyAnKCcKIzU5Njk6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTQ2OToK
+KyAgICB0Y2dfZ2VuX21vdl9pMzIgKFJFRyhCMTFfOCksIGNwdV8jI3JlZyk7ICAgICAgICAgICAg
+XAoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojNTk5Mjog
+RklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxNDgxOgorI2RlZmluZSBMRFNUKHJlZyxsZG51
+bSxsZHBudW0sc3RudW0sc3RwbnVtLHByZWNoaykgICAgICAgIFwKICAgICAgICAgICAgICAgICBe
+CgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiM1OTkyOiBG
+SUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE0ODE6CisjZGVmaW5lIExEU1QocmVnLGxkbnVt
+LGxkcG51bSxzdG51bSxzdHBudW0scHJlY2hrKSAgICAgICAgXAogICAgICAgICAgICAgICAgICAg
+ICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4VikKIzU5
+OTI6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTQ4MToKKyNkZWZpbmUgTERTVChyZWcs
+bGRudW0sbGRwbnVtLHN0bnVtLHN0cG51bSxwcmVjaGspICAgICAgICBcCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAo
+Y3R4OlZ4VikKIzU5OTI6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNsYXRlLmM6MTQ4MToKKyNkZWZp
+bmUgTERTVChyZWcsbGRudW0sbGRwbnVtLHN0bnVtLHN0cG51bSxwcmVjaGspICAgICAgICBcCiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJl
+ZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4VikKIzU5OTI6IEZJTEU6IHRhcmdldC9zaDQvdHJhbnNs
+YXRlLmM6MTQ4MToKKyNkZWZpbmUgTERTVChyZWcsbGRudW0sbGRwbnVtLHN0bnVtLHN0cG51bSxw
+cmVjaGspICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiM1OTkz
+OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE0ODI6CisgICAgTEQocmVnLGxkbnVtLGxk
+cG51bSxwcmVjaGspICAgICAgICAgICAgICAgIFwKICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Ug
+cmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiM1OTkzOiBGSUxFOiB0YXJnZXQvc2g0
+L3RyYW5zbGF0ZS5jOjE0ODI6CisgICAgTEQocmVnLGxkbnVtLGxkcG51bSxwcmVjaGspICAgICAg
+ICAgICAgICAgIFwKICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0
+ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiM1OTkzOiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5j
+OjE0ODI6CisgICAgTEQocmVnLGxkbnVtLGxkcG51bSxwcmVjaGspICAgICAgICAgICAgICAgIFwK
+ICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRo
+YXQgJywnIChjdHg6VnhWKQojNTk5NDogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxNDgz
+OgorICAgIFNUKHJlZyxzdG51bSxzdHBudW0scHJlY2hrKQogICAgICAgICAgIF4KCkVSUk9SOiBz
+cGFjZSByZXF1aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4VikKIzU5OTQ6IEZJTEU6IHRhcmdl
+dC9zaDQvdHJhbnNsYXRlLmM6MTQ4MzoKKyAgICBTVChyZWcsc3RudW0sc3RwbnVtLHByZWNoaykK
+ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcg
+KGN0eDpWeFYpCiM1OTk0OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE0ODM6CisgICAg
+U1QocmVnLHN0bnVtLHN0cG51bSxwcmVjaGspCiAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVS
+Uk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM2MDE0OiBGSUxFOiB0
+YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE0OTY6CisgICAgQ0hFQ0tfRlBVX0VOQUJMRUQKCkVSUk9S
+OiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM2MDUxOiBGSUxFOiB0YXJn
+ZXQvc2g0L3RyYW5zbGF0ZS5jOjE1MTI6CisgICAgQ0hFQ0tfRlBVX0VOQUJMRUQKCkVSUk9SOiBl
+eHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM2MjU1OiBGSUxFOiB0YXJnZXQv
+c2g0L3RyYW5zbGF0ZS5jOjE3MDg6CisgICAgQ0hFQ0tfRlBVX0VOQUJMRUQKCkVSUk9SOiBleHRl
+cm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM2MjYxOiBGSUxFOiB0YXJnZXQvc2g0
+L3RyYW5zbGF0ZS5jOjE3MTI6CisgICAgQ0hFQ0tfRlBVX0VOQUJMRUQKCkVSUk9SOiBzdXNwZWN0
+IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg4LCA4KQojNjI2ODogRklM
+RTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxNzE3OgogICAgICAgICBpZiAoY3R4LT50YmZsYWdz
+ICYgRlBTQ1JfUFIpIHsKKyAgICAgICAgVENHdl9pNjQgZnA7CgpFUlJPUjogZWxzZSBzaG91bGQg
+Zm9sbG93IGNsb3NlIGJyYWNlICd9JwojNjI4MzogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUu
+YzoxNzI3OgorICAgIH0KKyAgICBlbHNlIHsKCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZv
+ciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg4LCA4KQojNjI5MjogRklMRTogdGFyZ2V0L3NoNC90
+cmFuc2xhdGUuYzoxNzMzOgogICAgICAgICBpZiAoY3R4LT50YmZsYWdzICYgRlBTQ1JfUFIpIHsK
+KyAgICAgICAgVENHdl9pNjQgZnA7CgpFUlJPUjogZWxzZSBzaG91bGQgZm9sbG93IGNsb3NlIGJy
+YWNlICd9JwojNjMwNzogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxNzQzOgorICAgIH0K
+KyAgICBlbHNlIHsKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVz
+CiM2MzE1OiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE3NDg6CisgICAgQ0hFQ0tfRlBV
+X0VOQUJMRUQKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM2
+MzIxOiBGSUxFOiB0YXJnZXQvc2g0L3RyYW5zbGF0ZS5jOjE3NTI6CisgICAgQ0hFQ0tfRlBVX0VO
+QUJMRUQKCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1l
+bnRzICg4LCA4KQojNjQwMTogRklMRTogdGFyZ2V0L3NoNC90cmFuc2xhdGUuYzoxODc5OgogICAg
+ICAgICBpZiAob2xkX2ZsYWdzICYgREVMQVlfU0xPVF9DT05ESVRJT05BTCkgeworICAgICAgICBn
+ZW5fZGVsYXllZF9jb25kaXRpb25hbF9qdW1wKGN0eCk7Cgp0b3RhbDogMTcyIGVycm9ycywgMzE4
+IHdhcm5pbmdzLCA2MjUyIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA2MGIwNDI1NDZhYmQgKHNoNDog
+UmVwbGFjZSBUQUIgaW5kZW50YXRpb25zIHdpdGggc3BhY2VzKSBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2Rl
+OiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9n
+cy8yMDIxMDYyMDE3NTQ1Mi4xMDA3Ni0xLWVtYWlsQGFhYm91emllZC5jb20vdGVzdGluZy5jaGVj
+a3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
+eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
+Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
