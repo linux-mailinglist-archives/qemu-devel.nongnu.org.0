@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209153ADCD5
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:34:18 +0200 (CEST)
-Received: from localhost ([::1]:43114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6EF3ADCD1
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:32:49 +0200 (CEST)
+Received: from localhost ([::1]:37012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lupA1-0003io-6Q
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41880)
+	id 1lup8a-0007zk-GK
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup23-0008D0-Lv
+ id 1lup23-0008Bx-8m
  for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45376)
+Received: from indium.canonical.com ([91.189.90.7]:45292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup20-0002kZ-GF
+ id 1lup1z-0002jE-Vz
  for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lup1v-0003fU-RH
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:56 +0000
+ id 1lup1u-0003YF-IT
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1AE1A2E820A
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3F98A2E81FB
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:25:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Jun 2021 04:17:32 -0000
-From: Launchpad Bug Tracker <1817239@bugs.launchpad.net>
+Date: Sun, 20 Jun 2021 04:17:41 -0000
+From: Launchpad Bug Tracker <1819908@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jnsnow laurent-vivier th-huth umarcor
-X-Launchpad-Bug-Reporter: umarcor (umarcor)
+X-Launchpad-Bug-Commenters: ahasenack janitor th-huth
+X-Launchpad-Bug-Reporter: Andreas Hasenack (ahasenack)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <155080581544.22842.8774442486795126526.malonedeb@wampee.canonical.com>
-Message-Id: <162416265251.7948.3341587162552611617.malone@loganberry.canonical.com>
-Subject: [Bug 1817239] Re: add '--targets' option to qemu-binfmt-conf.sh
+References: <155248066265.30093.16981724484173262651.malonedeb@gac.canonical.com>
+Message-Id: <162416266159.7948.13537695610391919257.malone@loganberry.canonical.com>
+Subject: [Bug 1819908] Re: slight screen corruption when maximizing window
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: b2f1ecc4316d77d83dea35e1d076f46db048a882
+X-Launchpad-Hash: a10d168b48317ed68c2f462177ca30463dc20430
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1817239 <1817239@bugs.launchpad.net>
+Reply-To: Bug 1819908 <1819908@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,72 +83,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1817239
+https://bugs.launchpad.net/bugs/1819908
 
 Title:
-  add '--targets' option to qemu-binfmt-conf.sh
+  slight screen corruption when maximizing window
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I'd like to ask for the addition of option '--targets' to scripts
-  /qemu-binfmt-conf.sh, in order to allow registering the interpreters
-  for the given list of architectures only, instead of using all of the
-  ones defined in qemu_target_list. The following is a possible patch
-  that implements it:
+  Host: Ubuntu disco
+  qemu-kvm: 1:3.1+dfsg-2ubuntu2
+  libvirt: 5.0.0-1ubuntu2
 
-   qemu-binfmt-conf.sh | 9 ++++++++-
-   1 file changed, 8 insertions(+), 1 deletion(-)
+  Guest: ubuntu bionic
+  guest is using cirrus video, with the extra modules kernel package instal=
+led and the cirrus kernel module loaded. I also tried QXL, but got the same=
+ problem.
 
-  diff --git a/qemu-binfmt-conf.sh b/qemu-binfmt-conf.sh
-  index b5a1674..be4a19b 100644
-  --- a/qemu-binfmt-conf.sh
-  +++ b/qemu-binfmt-conf.sh
-  @@ -170,6 +170,7 @@ usage() {
-   Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
-                              [--help][--credential yes|no][--exportdir PAT=
-H]
-                              [--persistent yes|no][--qemu-suffix SUFFIX]
-  +                           [--targets TARGETS]
+  A non-maximized terminal window works just fine. As an example, I run
+  "lsmod". It fills the screen, which then scrolls a bit.
 
-          Configure binfmt_misc to use qemu interpreter
-
-  @@ -189,6 +190,8 @@ Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debia=
-n][--systemd CPU]
-          --persistent:  if yes, the interpreter is loaded when binfmt is
-                         configured and remains in memory. All future uses
-                         are cloned from the open file.
-  +       --targets:     comma-separated list of targets. If provided, only
-  +                      the targets in the list are registered.
-
-       To import templates with update-binfmts, use :
-
-  @@ -324,7 +327,7 @@ CREDENTIAL=3Dno
-   PERSISTENT=3Dno
-   QEMU_SUFFIX=3D""
-
-  -options=3D$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-=
-suffix:,exportdir:,help,credential:,persistent: -- "$@")
-  +options=3D$(getopt -o ds:Q:S:e:hc:p:t: -l debian,systemd:,qemu-path:,qem=
-u-suffix:,exportdir:,help,credential:,persistent:,targets: -- "$@")
-   eval set -- "$options"
-
-   while true ; do
-  @@ -380,6 +383,10 @@ while true ; do
-           shift
-           PERSISTENT=3D"$1"
-           ;;
-  +    -t|--targets)
-  +        shift
-  +        qemu_target_list=3D"$(echo "$1" | tr ',' ' ')"
-  +        ;;
-       *)
-           break
-           ;;
-  --
-  2.20.1
+  The moment I maximize that window, though, the rendering breaks. I can
+  see the commands I type, but not their output. See attached video.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1817239/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1819908/+subscriptions
 
