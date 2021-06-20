@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E773ADCE1
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:41:20 +0200 (CEST)
-Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 717963ADCE0
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 06:40:25 +0200 (CEST)
+Received: from localhost ([::1]:59900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lupGp-0000Ez-95
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
+	id 1lupFw-0006k4-Fu
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 00:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup2Q-000128-01
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46270)
+ id 1lup2P-000107-BM
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:25 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lup2N-0002wP-AO
+ id 1lup2M-0002wN-OZ
  for qemu-devel@nongnu.org; Sun, 20 Jun 2021 00:26:25 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lup2A-0003tv-CW
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:10 +0000
+ id 1lup29-0003ls-Fy
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 189552E81AE
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:06 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8AC6D2E8234
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 04:26:04 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Jun 2021 04:17:26 -0000
-From: Launchpad Bug Tracker <1799766@bugs.launchpad.net>
+Date: Sun, 20 Jun 2021 04:17:27 -0000
+From: Launchpad Bug Tracker <1806040@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor th-huth xanclic yannick-duchene
-X-Launchpad-Bug-Reporter: =?utf-8?b?SGlib3U1N8KgKFlhbm5pY2vCoER1Y2jDqm5l?=
- =?utf-8?q?=29_=28yannick-duchene=29?=
+X-Launchpad-Bug-Commenters: bondey bonzini janitor th-huth
+X-Launchpad-Bug-Reporter: Bondey (bondey)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <154040720342.20108.15765705817940864119.malonedeb@gac.canonical.com>
-Message-Id: <162416264691.7948.5132803928776909031.malone@loganberry.canonical.com>
-Subject: [Bug 1799766] Re: -device does not work as -drive do
+References: <154358384987.15321.7664021717575522872.malonedeb@soybean.canonical.com>
+Message-Id: <162416264794.7948.4791799965334316408.malone@loganberry.canonical.com>
+Subject: [Bug 1806040] Re: Nested VMX virtualization error on last Qemu
+ versions
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: e22e01027e65ddb214dd2441a36fe5cd6baaa592
+X-Launchpad-Hash: fb2e2ddcfe6d1ea12acec357bf09f593a1f563d7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1799766 <1799766@bugs.launchpad.net>
+Reply-To: Bug 1806040 <1806040@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,237 +84,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1799766
+https://bugs.launchpad.net/bugs/1806040
 
 Title:
-  -device does not work as -drive do
+  Nested VMX virtualization error on last Qemu versions
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Copy/paste of https://stackoverflow.com/questions/52929723/qemu-eject-
-  complains-device-is-not-found-while-it-is-there , since I found this
-  bug trying to find an answer to an own question on Stack Overflow.
+  Recently updated Qemu on a Sony VAIO sve14ag18m with Ubuntu Bionic
+  4.15.0-38 from Git
 
-  Below, what was my question the answer I wrote, all exposes the bug.
+  After launching a few VMs, noticed that i could not create Snapshot due t=
+o this error:
+  "Nested VMX virtualization does not support live migration yet"
 
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  I've created a new Windows 7 X64 machine with this compilation of Qemu
+  and the problem persisted, so it's not because of the old machines.
+
+  I launch Qemu with this params (I use them for malware analisys adn re...=
+):
+  qemu-system-x86_64 -monitor stdio -display none -m 4096 -smp cpus=3D4 -us=
+bdevice tablet -drive file=3DVM.img,index=3D0,media=3Ddisk,format=3Dqcow2,c=
+ache=3Dunsafe -net nic,macaddr=3D"...." -net bridge,br=3Dbr0 -cpu host,-hyp=
+ervisor,kvm=3Doff -vnc 127.0.0.1:0 -enable-kvm =
+
 
   =
 
-  I need to eject a floppy from QEmu=E2=80=AF3.0 monitor, but the command s=
-urprisingly fails complaining the device is not found, while it is really t=
-here.
+  Deleting the changes made on this commit solved the problem, but I dont h=
+ave idea what is this for, so... xDD =
 
-  Listing of devices:
-
-      (qemu) info block
-      fda: dos-6-22/Dos622-1.img (raw)
-          Attached to:      /machine/unattached/device[11]
-          Removable device: not locked, tray closed
-          Cache mode:       writeback
-
-      hda: hda.img (raw)
-          Attached to:      /machine/peripheral-anon/device[1]
-          Cache mode:       writeback
-
-  Eject command result:
-
-      (qemu) eject fda
-      Device 'fda' not found
-
-  This is so although this documentation says this is how I have to do:
-  https://www.linux-kvm.org/page/Change_cdrom (just that I want to eject
-  the floppy instead of the CD=E2=80=91ROM).
-
-  The `change` command complains the same:
-
-      (qemu) change fda dos-6-22/Dos622-2.img raw
-      Device 'fda' not found
-
-  Is this a bug or me doing something wrong?
-
-  I tried using different node names, with always the same result.
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  I=E2=80=99m posting as an answer, but I=E2=80=99m not strictly sure. I ca=
-n just say,
-  if I understand correctly, this is a bug.
-
-  The answer comes in two parts.
-
-  First part, is a stripped down failing invocation:
-
-      qemu-system-i386 \
-         -monitor stdio \
-         -machine type=3Disapc,vmport=3Doff \
-         -blockdev driver=3Dfile,node-name=3Dfda-img,filename=3Dfda.img \
-         -blockdev driver=3Draw,node-name=3Dfda,file=3Dfda-img \
-         -global isa-fdc.driveA=3Dfda
-
-      (qemu) info block
-      ide1-cd0: [not inserted]
-          Attached to:      /machine/unattached/device[19]
-          Removable device: not locked, tray closed
-
-      sd0: [not inserted]
-          Removable device: not locked, tray closed
-
-      fda: fda.img (raw)
-          Attached to:      /machine/unattached/device[13]
-          Removable device: not locked, tray closed
-          Cache mode:       writeback
-      (qemu) eject fda
-      Device 'fda' not found
-
-  Second part, is the same without the last argument `-global isa-
-  fdc.driveA=3Dfda`:
-
-      qemu-system-i386 \
-         -monitor stdio \
-         -machine type=3Disapc,vmport=3Doff \
-         -blockdev driver=3Dfile,node-name=3Dfda-img,filename=3Dfda.img \
-         -blockdev driver=3Draw,node-name=3Dfda,file=3Dfda-img
-
-      (qemu) info block
-      ide1-cd0: [not inserted]
-          Attached to:      /machine/unattached/device[19]
-          Removable device: not locked, tray closed
-
-      floppy0: [not inserted]
-          Attached to:      /machine/unattached/device[13]
-          Removable device: not locked, tray closed
-
-      sd0: [not inserted]
-          Removable device: not locked, tray closed
-      (qemu) eject floppy0
-
-  There is more error when `-global isa-fdc.driveA=3Dfda` is removed.
-  However, the documentation says:
-
-  > -global driver=3Ddriver,property=3Dproperty,value=3Dvalue
-  > Set default value of driver=E2=80=99s property prop to value, e.g.:
-
-  > qemu-system-i386 -global ide-hd.physical_block_size=3D4096 disk-image.i=
-mg
-  > In particular, you can **use this to set driver properties for devices =
-which are created automatically by the machine model**. To create a device =
-which is not created automatically and set properties on it, use -device.
-
-  > -global driver.prop=3Dvalue is shorthand for -global
-  driver=3Ddriver,property=3Dprop,value=3Dvalue. The longhand syntax works
-  even when driver contains a dot.
-
-  What I put a stress on in the quote, suggest I=E2=80=99m not misusing
-  `-global` and that=E2=80=99s most probably a bug.
-
-  **Update for more details:**
-
-  It seems using `-drive` instead of `-device` and `driveA` assignment,
-  the result is not the same, although RedHat documentation recommands
-  using `-device` instead of `-drive` and QEmu=E2=80=AF3.0 documentation sa=
-ys
-  `-drive` is essentially a shortcut for `-device` (=E2=80=9Cessentially=E2=
-=80=9D, not
-  telling about the difference).
-
-  Below, two cases, with an except of `info block` and an excerpt of
-  `info qtree`.
-
-  With this one, `eject floppy0` works:
-
-      qemu-system-i386 \
-         -monitor stdio \
-         -machine type=3Disapc,vmport=3Doff \
-         -drive format=3Draw,if=3Dfloppy,media=3Ddisk,file=3Dfda.img \
-         -device isa-vga,vgamem_mb=3D1 \
-         -serial msmouse
-
-      [=E2=80=A6]
-
-      floppy0 (#block156): fda.img (raw)
-          Attached to:      /machine/unattached/device[12]
-          Removable device: not locked, tray closed
-          Cache mode:       writeback
-
-      [=E2=80=A6]
-
-        dev: isa-fdc, id ""
-          iobase =3D 1008 (0x3f0)
-          irq =3D 6 (0x6)
-          dma =3D 2 (0x2)
-          driveA =3D ""
-          driveB =3D ""
-          check_media_rate =3D true
-          fdtypeA =3D "auto"
-          fdtypeB =3D "auto"
-          fallback =3D "288"
-          isa irq 6
-          bus: floppy-bus.0
-            type floppy-bus
-            dev: floppy, id ""
-              unit =3D 0 (0x0)
-              drive =3D "floppy0"
-              logical_block_size =3D 512 (0x200)
-              physical_block_size =3D 512 (0x200)
-              min_io_size =3D 0 (0x0)
-              opt_io_size =3D 0 (0x0)
-              discard_granularity =3D 4294967295 (0xffffffff)
-              write-cache =3D "auto"
-              share-rw =3D false
-              drive-type =3D "144"
-
-  With this one, `eject fda` does not work:
-
-      qemu-system-i386 \
-         -monitor stdio \
-         -machine type=3Disapc,vmport=3Doff \
-         -blockdev driver=3Dfile,node-name=3Dfda-img,filename=3Dfda.img \
-         -blockdev driver=3Draw,node-name=3Dfda,file=3Dfda-img \
-         -global isa-fdc.driveA=3Dfda \
-         -device isa-vga,vgamem_mb=3D1 \
-         -serial msmouse
-
-      [=E2=80=A6]
-
-      fda: fda.img (raw)
-          Attached to:      /machine/unattached/device[12]
-          Removable device: not locked, tray closed
-          Cache mode:       writeback
-
-      [=E2=80=A6]
-
-        dev: isa-fdc, id ""
-          iobase =3D 1008 (0x3f0)
-          irq =3D 6 (0x6)
-          dma =3D 2 (0x2)
-          driveA =3D ""
-          driveB =3D ""
-          check_media_rate =3D true
-          fdtypeA =3D "auto"
-          fdtypeB =3D "auto"
-          fallback =3D "288"
-          isa irq 6
-          bus: floppy-bus.0
-            type floppy-bus
-            dev: floppy, id ""
-              unit =3D 0 (0x0)
-              drive =3D "fda"
-              logical_block_size =3D 512 (0x200)
-              physical_block_size =3D 512 (0x200)
-              min_io_size =3D 0 (0x0)
-              opt_io_size =3D 0 (0x0)
-              discard_granularity =3D 4294967295 (0xffffffff)
-              write-cache =3D "auto"
-              share-rw =3D false
-              drive-type =3D "144"
+  https://github.com/qemu/qemu/commit/d98f26073bebddcd3da0ba1b86c3a34e840c0=
+fb8
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1799766/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1806040/+subscriptions
 
