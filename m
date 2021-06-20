@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7F93ADD38
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 07:27:21 +0200 (CEST)
-Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E113ADD3D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 07:29:56 +0200 (CEST)
+Received: from localhost ([::1]:52814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lupzM-0000jw-KN
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 01:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
+	id 1luq1r-0006VZ-9t
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 01:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lupxv-0006zr-Tb
+ id 1lupxv-0006zq-AV
  for qemu-devel@nongnu.org; Sun, 20 Jun 2021 01:25:52 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:55847)
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:55848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lupxs-00086P-1i
+ id 1lupxt-00087g-1o
  for qemu-devel@nongnu.org; Sun, 20 Jun 2021 01:25:51 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id l11so3677350pji.5
- for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 22:25:47 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id l11so3677364pji.5
+ for <qemu-devel@nongnu.org>; Sat, 19 Jun 2021 22:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iHT9l/kJSWfvrH1GZXwE0W4sJmdZTH+C0ob8jvO252s=;
- b=LFkNFgWOBfI7vpE5SyaCT7lX3lhhWqg7IjqOJNEtweTgMDUDX8j1f98sPxHc+7mHyN
- EMZSnaHayxP+2FORegkO296CF2LXjc5ypr4M3rwbJ1Az6REpjQ5PWWa6we2tU5ndAUsq
- Ls7OMxbcul/qa/AiwFqk6BQiL7Slvijpw1KqrPcNaGRIU6i3X4w8h9K1nW0BlUzGCd1+
- lMh3f9tlA2iLS6BVs2ZxxK0yHeYvsin03DPKip43s77RZe7CUtU0kF1H2pVAs/y1XpFH
- pRPX2gdZlnJQ1He7kI6doLBJHeA/toLCTf18jLCrhJIzd3f6JZ/G5D4N2VpZjmpNRPc9
- Wwgw==
+ bh=PZMDiz1uJRUfkvRYthCZ9wMCmBUdbqiifzXnkr5GMDc=;
+ b=FDgFhguq6DQpgquIE9tA+cTz3fKjG3DVx0ZHKhXZmpW/FxCrnBKmcFhCD0obDDJ9pG
+ RbH5lBdf/kyj9bvWIqCPgU1b8X0KEoUkocq0o+9/ZTpPCplJy7v3tUv3pMYYI7h55mIR
+ b2gwC4uuILHz+LMQ6KBHwf/mt3xkOtG/DDruLQ5Km7oyH9Z/0ESxmRmDVAEe+QZsjH9T
+ vDR+Z3KsC3qVVK3e41xax4LbpQdJPc9MPFhPbHoZ8vhxAagLMTx7Q8HNleRT87KYLgKR
+ bDIdM13YV8mbon5nv313gJ2UAzrVikzidWNpig1OeDqDg3KKfYnknb+jVrzjObuMyLcx
+ Dm5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iHT9l/kJSWfvrH1GZXwE0W4sJmdZTH+C0ob8jvO252s=;
- b=byG2rFfTvXL/zQc6Jb94WJHOrpZ/XwbvQlgBgLPCt44aJHYwFC5i/MTlwAeEkeNL+S
- aQzrgh3rcVHjwhDGGUdWEq5Dxo0AyAy+u4VyBLZFhle0iHnrtWZFRXgP1l6cq1FC5GRO
- euwYwDJCfzFhotuAmRUep/iqSMHPiznDDtag/vQOy7TATegoXdOmscGGb2ywm6djQ3D5
- zz3wj2Ga/fbMlk7w7l3d0cZ6FKDx/GR7AUSFaN2Y9C8Jivn6IzmuNTNvhAgWbmVo1VoC
- 3/RCjPvQmiIY9H6a7WrOhaCxnl65aenKdJ5myZYG7XHygGvitwstEdTzW+RQdZ9m/Iw0
- rzTg==
-X-Gm-Message-State: AOAM532WSHVOd94aywW0WRq7zOHQ9OlUf1XQuh2N5nW5Lukv2QAO2ESS
- rQmQfsahj5cuq3Mk6S7yHcpme+YxxTtgsw==
-X-Google-Smtp-Source: ABdhPJy6jgfUSRT+ixv+w/rynbS4Rlpb9CirSOJjdXjAArcHSxcINU0ENTjIqO6pORt9DhqBANGVqw==
-X-Received: by 2002:a17:902:9004:b029:f0:b40d:38d with SMTP id
- a4-20020a1709029004b02900f0b40d038dmr12174997plp.85.1624166746687; 
- Sat, 19 Jun 2021 22:25:46 -0700 (PDT)
+ bh=PZMDiz1uJRUfkvRYthCZ9wMCmBUdbqiifzXnkr5GMDc=;
+ b=FTeNIhH5EiugIjYITyZFuktEWrf0x7lEUoqA1oC5L9L7AfU/Bmq2bY54SfDzF3zrpJ
+ 0uNophZ3Si1I+1HN5jG3lxqb4Htb5QdR/fG3H9DEBtqoykYpbxJyXgzK1FEh1cZNvM5z
+ 5n9410oivQIioPe/T9gfiSrrKgufDtfJlHvTQ/USguuGYiUWiMfkD3yp0T4EoQF6zJvJ
+ MoeA2OrfmcaHv9jf2moOpjb7tp4BufnbXgRwYzoRkCxGmkY5MZ+I1RoRxmcLP9G3tsxf
+ fb00PtD5ordBgtkodSdWLEDhuxFAidg6T5ztg+9ojRCh2dsN9QD/8Sl2rLaw5flcTjqg
+ jmKg==
+X-Gm-Message-State: AOAM5309X9vuwdzD3CDu/IsooVn9DytGlaxEfXdU/04kXXCuY4eB1EZt
+ 0aGsm6T1bq2JXeAI9xJa5FDR8E5TF0Fx7A==
+X-Google-Smtp-Source: ABdhPJxn6ir/t43NF/HODdgo/mfITd/8VhB/MK6MVVBXPmKQRSYF4vrKhy+Le1ZZsZVTEIMR6TAGew==
+X-Received: by 2002:a17:902:9a4c:b029:119:d507:dccd with SMTP id
+ x12-20020a1709029a4cb0290119d507dccdmr11961667plv.55.1624166747694; 
+ Sat, 19 Jun 2021 22:25:47 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 21sm11409741pfh.103.2021.06.19.22.25.46
+ by smtp.gmail.com with ESMTPSA id 21sm11409741pfh.103.2021.06.19.22.25.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jun 2021 22:25:46 -0700 (PDT)
+ Sat, 19 Jun 2021 22:25:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] target/nios2: Use global cpu_R
-Date: Sat, 19 Jun 2021 22:25:39 -0700
-Message-Id: <20210620052543.1315091-4-richard.henderson@linaro.org>
+Subject: [PATCH 5/7] target/nios2: Convert to TranslatorOps
+Date: Sat, 19 Jun 2021 22:25:41 -0700
+Message-Id: <20210620052543.1315091-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210620052543.1315091-1-richard.henderson@linaro.org>
 References: <20210620052543.1315091-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,284 +87,185 @@ Cc: marex@denx.de, crwulff@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do not need to copy this into DisasContext.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 73 +++++++++++++++++++---------------------
- 1 file changed, 34 insertions(+), 39 deletions(-)
+ target/nios2/translate.c | 129 +++++++++++++++++++++------------------
+ 1 file changed, 68 insertions(+), 61 deletions(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 39538e1870..6bdd388bd8 100644
+index 31653b7912..e2c8151193 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -97,7 +97,6 @@
-     }
+@@ -803,75 +803,75 @@ static void gen_exception(DisasContext *dc, uint32_t excp)
+ }
  
- typedef struct DisasContext {
--    TCGv             *cpu_R;
-     TCGv_i32          zero;
-     int               is_jmp;
-     target_ulong      pc;
-@@ -106,6 +105,8 @@ typedef struct DisasContext {
-     bool              singlestep_enabled;
- } DisasContext;
- 
-+static TCGv cpu_R[NUM_CORE_REGS];
-+
- typedef struct Nios2Instruction {
-     void     (*handler)(DisasContext *dc, uint32_t code, uint32_t flags);
-     uint32_t  flags;
-@@ -134,7 +135,7 @@ static TCGv load_zero(DisasContext *dc)
- static TCGv load_gpr(DisasContext *dc, uint8_t reg)
+ /* generate intermediate code for basic block 'tb'.  */
+-void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
++static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
  {
-     if (likely(reg != R_ZERO)) {
--        return dc->cpu_R[reg];
-+        return cpu_R[reg];
-     } else {
-         return load_zero(dc);
-     }
-@@ -145,7 +146,7 @@ static void t_gen_helper_raise_exception(DisasContext *dc,
- {
-     TCGv_i32 tmp = tcg_const_i32(index);
- 
--    tcg_gen_movi_tl(dc->cpu_R[R_PC], dc->pc);
-+    tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
-     gen_helper_raise_exception(cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
-     dc->is_jmp = DISAS_NORETURN;
-@@ -170,10 +171,10 @@ static void gen_goto_tb(DisasContext *dc, int n, uint32_t dest)
- 
-     if (use_goto_tb(dc, dest)) {
-         tcg_gen_goto_tb(n);
--        tcg_gen_movi_tl(dc->cpu_R[R_PC], dest);
-+        tcg_gen_movi_tl(cpu_R[R_PC], dest);
-         tcg_gen_exit_tb(tb, n);
-     } else {
--        tcg_gen_movi_tl(dc->cpu_R[R_PC], dest);
-+        tcg_gen_movi_tl(cpu_R[R_PC], dest);
-         tcg_gen_exit_tb(NULL, 0);
-     }
- }
-@@ -212,7 +213,7 @@ static void jmpi(DisasContext *dc, uint32_t code, uint32_t flags)
- 
- static void call(DisasContext *dc, uint32_t code, uint32_t flags)
- {
--    tcg_gen_movi_tl(dc->cpu_R[R_RA], dc->pc + 4);
-+    tcg_gen_movi_tl(cpu_R[R_RA], dc->pc + 4);
-     jmpi(dc, code, flags);
- }
- 
-@@ -234,7 +235,7 @@ static void gen_ldx(DisasContext *dc, uint32_t code, uint32_t flags)
-      *          the Nios2 CPU.
-      */
-     if (likely(instr.b != R_ZERO)) {
--        data = dc->cpu_R[instr.b];
-+        data = cpu_R[instr.b];
-     } else {
-         data = tcg_temp_new();
-     }
-@@ -275,7 +276,7 @@ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
-     I_TYPE(instr, code);
- 
-     TCGLabel *l1 = gen_new_label();
--    tcg_gen_brcond_tl(flags, dc->cpu_R[instr.a], dc->cpu_R[instr.b], l1);
-+    tcg_gen_brcond_tl(flags, cpu_R[instr.a], cpu_R[instr.b], l1);
-     gen_goto_tb(dc, 0, dc->pc + 4);
-     gen_set_label(l1);
-     gen_goto_tb(dc, 1, dc->pc + 4 + (instr.imm16.s & -4));
-@@ -287,8 +288,7 @@ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
- static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)         \
- {                                                                            \
-     I_TYPE(instr, (code));                                                   \
--    tcg_gen_setcondi_tl(flags, (dc)->cpu_R[instr.b], (dc)->cpu_R[instr.a],   \
--                        (op3));                                              \
-+    tcg_gen_setcondi_tl(flags, cpu_R[instr.b], cpu_R[instr.a], (op3));       \
- }
- 
- gen_i_cmpxx(gen_cmpxxsi, instr.imm16.s)
-@@ -302,10 +302,9 @@ static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)        \
-     if (unlikely(instr.b == R_ZERO)) { /* Store to R_ZERO is ignored */     \
-         return;                                                             \
-     } else if (instr.a == R_ZERO) { /* MOVxI optimizations */               \
--        tcg_gen_movi_tl(dc->cpu_R[instr.b], (resimm) ? (op3) : 0);          \
-+        tcg_gen_movi_tl(cpu_R[instr.b], (resimm) ? (op3) : 0);              \
-     } else {                                                                \
--        tcg_gen_##insn##_tl((dc)->cpu_R[instr.b], (dc)->cpu_R[instr.a],     \
--                            (op3));                                         \
-+        tcg_gen_##insn##_tl(cpu_R[instr.b], cpu_R[instr.a], (op3));         \
-     }                                                                       \
- }
- 
-@@ -400,8 +399,8 @@ static const Nios2Instruction i_type_instructions[] = {
-  */
- static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
- {
--    tcg_gen_mov_tl(dc->cpu_R[CR_STATUS], dc->cpu_R[CR_ESTATUS]);
--    tcg_gen_mov_tl(dc->cpu_R[R_PC], dc->cpu_R[R_EA]);
-+    tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
-+    tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_EA]);
- 
-     dc->is_jmp = DISAS_JUMP;
- }
-@@ -409,7 +408,7 @@ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
- /* PC <- ra */
- static void ret(DisasContext *dc, uint32_t code, uint32_t flags)
- {
--    tcg_gen_mov_tl(dc->cpu_R[R_PC], dc->cpu_R[R_RA]);
-+    tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_RA]);
- 
-     dc->is_jmp = DISAS_JUMP;
- }
-@@ -417,7 +416,7 @@ static void ret(DisasContext *dc, uint32_t code, uint32_t flags)
- /* PC <- ba */
- static void bret(DisasContext *dc, uint32_t code, uint32_t flags)
- {
--    tcg_gen_mov_tl(dc->cpu_R[R_PC], dc->cpu_R[R_BA]);
-+    tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_BA]);
- 
-     dc->is_jmp = DISAS_JUMP;
- }
-@@ -427,7 +426,7 @@ static void jmp(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, code);
- 
--    tcg_gen_mov_tl(dc->cpu_R[R_PC], load_gpr(dc, instr.a));
-+    tcg_gen_mov_tl(cpu_R[R_PC], load_gpr(dc, instr.a));
- 
-     dc->is_jmp = DISAS_JUMP;
- }
-@@ -438,7 +437,7 @@ static void nextpc(DisasContext *dc, uint32_t code, uint32_t flags)
-     R_TYPE(instr, code);
- 
-     if (likely(instr.c != R_ZERO)) {
--        tcg_gen_movi_tl(dc->cpu_R[instr.c], dc->pc + 4);
-+        tcg_gen_movi_tl(cpu_R[instr.c], dc->pc + 4);
-     }
- }
- 
-@@ -450,8 +449,8 @@ static void callr(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, code);
- 
--    tcg_gen_mov_tl(dc->cpu_R[R_PC], load_gpr(dc, instr.a));
--    tcg_gen_movi_tl(dc->cpu_R[R_RA], dc->pc + 4);
-+    tcg_gen_mov_tl(cpu_R[R_PC], load_gpr(dc, instr.a));
-+    tcg_gen_movi_tl(cpu_R[R_RA], dc->pc + 4);
- 
-     dc->is_jmp = DISAS_JUMP;
- }
-@@ -470,10 +469,10 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
-     {
- #if !defined(CONFIG_USER_ONLY)
-         if (likely(instr.c != R_ZERO)) {
--            tcg_gen_mov_tl(dc->cpu_R[instr.c], dc->cpu_R[instr.imm5 + CR_BASE]);
-+            tcg_gen_mov_tl(cpu_R[instr.c], cpu_R[instr.imm5 + CR_BASE]);
- #ifdef DEBUG_MMU
-             TCGv_i32 tmp = tcg_const_i32(instr.imm5 + CR_BASE);
--            gen_helper_mmu_read_debug(dc->cpu_R[instr.c], cpu_env, tmp);
-+            gen_helper_mmu_read_debug(cpu_R[instr.c], cpu_env, tmp);
-             tcg_temp_free_i32(tmp);
- #endif
-         }
-@@ -483,7 +482,7 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
- 
-     default:
-         if (likely(instr.c != R_ZERO)) {
--            tcg_gen_mov_tl(dc->cpu_R[instr.c], dc->cpu_R[instr.imm5 + CR_BASE]);
-+            tcg_gen_mov_tl(cpu_R[instr.c], cpu_R[instr.imm5 + CR_BASE]);
-         }
-         break;
-     }
-@@ -510,7 +509,7 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
-     }
- 
-     default:
--        tcg_gen_mov_tl(dc->cpu_R[instr.imm5 + CR_BASE], load_gpr(dc, instr.a));
-+        tcg_gen_mov_tl(cpu_R[instr.imm5 + CR_BASE], load_gpr(dc, instr.a));
-         break;
-     }
- 
-@@ -531,8 +530,8 @@ static void gen_cmpxx(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, code);
-     if (likely(instr.c != R_ZERO)) {
--        tcg_gen_setcond_tl(flags, dc->cpu_R[instr.c], dc->cpu_R[instr.a],
--                           dc->cpu_R[instr.b]);
-+        tcg_gen_setcond_tl(flags, cpu_R[instr.c], cpu_R[instr.a],
-+                           cpu_R[instr.b]);
-     }
- }
- 
-@@ -542,8 +541,7 @@ static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)       \
- {                                                                          \
-     R_TYPE(instr, (code));                                                 \
-     if (likely(instr.c != R_ZERO)) {                                       \
--        tcg_gen_##insn((dc)->cpu_R[instr.c], load_gpr((dc), instr.a),      \
--                       (op3));                                             \
-+        tcg_gen_##insn(cpu_R[instr.c], load_gpr((dc), instr.a), (op3));    \
-     }                                                                      \
- }
- 
-@@ -567,8 +565,8 @@ static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)   \
-     R_TYPE(instr, (code));                                             \
-     if (likely(instr.c != R_ZERO)) {                                   \
-         TCGv t0 = tcg_temp_new();                                      \
--        tcg_gen_##insn(t0, dc->cpu_R[instr.c],                         \
--                       load_gpr(dc, instr.a), load_gpr(dc, instr.b)); \
-+        tcg_gen_##insn(t0, cpu_R[instr.c],                             \
-+                       load_gpr(dc, instr.a), load_gpr(dc, instr.b));  \
-         tcg_temp_free(t0);                                             \
-     }                                                                  \
- }
-@@ -584,7 +582,7 @@ static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)       \
-     if (likely(instr.c != R_ZERO)) {                                       \
-         TCGv t0 = tcg_temp_new();                                          \
-         tcg_gen_andi_tl(t0, load_gpr((dc), instr.b), 31);                  \
--        tcg_gen_##insn((dc)->cpu_R[instr.c], load_gpr((dc), instr.a), t0); \
-+        tcg_gen_##insn(cpu_R[instr.c], load_gpr((dc), instr.a), t0);       \
-         tcg_temp_free(t0);                                                 \
-     }                                                                      \
- }
-@@ -618,8 +616,8 @@ static void divs(DisasContext *dc, uint32_t code, uint32_t flags)
-     tcg_gen_or_tl(t2, t2, t3);
-     tcg_gen_movi_tl(t3, 0);
-     tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
--    tcg_gen_div_tl(dc->cpu_R[instr.c], t0, t1);
--    tcg_gen_ext32s_tl(dc->cpu_R[instr.c], dc->cpu_R[instr.c]);
-+    tcg_gen_div_tl(cpu_R[instr.c], t0, t1);
-+    tcg_gen_ext32s_tl(cpu_R[instr.c], cpu_R[instr.c]);
- 
-     tcg_temp_free(t3);
-     tcg_temp_free(t2);
-@@ -644,8 +642,8 @@ static void divu(DisasContext *dc, uint32_t code, uint32_t flags)
-     tcg_gen_ext32u_tl(t0, load_gpr(dc, instr.a));
-     tcg_gen_ext32u_tl(t1, load_gpr(dc, instr.b));
-     tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
--    tcg_gen_divu_tl(dc->cpu_R[instr.c], t0, t1);
--    tcg_gen_ext32s_tl(dc->cpu_R[instr.c], dc->cpu_R[instr.c]);
-+    tcg_gen_divu_tl(cpu_R[instr.c], t0, t1);
-+    tcg_gen_ext32s_tl(cpu_R[instr.c], cpu_R[instr.c]);
- 
-     tcg_temp_free(t3);
-     tcg_temp_free(t2);
-@@ -794,8 +792,6 @@ static const char * const regnames[] = {
-     "rpc"
- };
- 
--static TCGv cpu_R[NUM_CORE_REGS];
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
+     CPUNios2State *env = cs->env_ptr;
+-    DisasContext dc1, *dc = &dc1;
+-    int num_insns;
 -
- #include "exec/gen-icount.h"
+-    /* Initialize DC */
+-
+-    dc->base.tb = tb;
+-    dc->base.singlestep_enabled = cs->singlestep_enabled;
+-    dc->base.is_jmp = DISAS_NEXT;
+-    dc->base.pc_first = tb->pc;
+-    dc->base.pc_next = tb->pc;
++    target_ulong pc = dc->base.pc_first;
  
- static void gen_exception(DisasContext *dc, uint32_t excp)
-@@ -816,7 +812,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     int num_insns;
+     dc->zero    = NULL;
+-    dc->pc      = tb->pc;
++    dc->pc      = pc;
+     dc->mem_idx = cpu_mmu_index(env, false);
  
-     /* Initialize DC */
--    dc->cpu_R   = cpu_R;
-     dc->is_jmp  = DISAS_NEXT;
-     dc->pc      = tb->pc;
-     dc->tb      = tb;
+     /* Set up instruction counts */
+-    num_insns = 0;
+-    if (max_insns > 1) {
+-        int page_insns = (TARGET_PAGE_SIZE - (tb->pc & ~TARGET_PAGE_MASK)) / 4;
+-        if (max_insns > page_insns) {
+-            max_insns = page_insns;
+-        }
++    if (singlestep || dc->base.singlestep_enabled) {
++        dc->base.max_insns = 1;
++    } else {
++        int page_insns = (TARGET_PAGE_SIZE - (pc & ~TARGET_PAGE_MASK)) / 4;
++        dc->base.max_insns = MIN(page_insns, dc->base.max_insns);
+     }
++}
+ 
+-    gen_tb_start(tb);
+-    do {
+-        tcg_gen_insn_start(dc->pc);
+-        num_insns++;
++static void nios2_tr_tb_start(DisasContextBase *db, CPUState *cs)
++{
++}
+ 
+-        if (unlikely(cpu_breakpoint_test(cs, dc->pc, BP_ANY))) {
+-            gen_exception(dc, EXCP_DEBUG);
+-            /* The address covered by the breakpoint must be included in
+-               [tb->pc, tb->pc + tb->size) in order to for it to be
+-               properly cleared -- thus we increment the PC here so that
+-               the logic setting tb->size below does the right thing.  */
+-            dc->pc += 4;
+-            break;
+-        }
++static void nios2_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
++{
++    tcg_gen_insn_start(dcbase->pc_next);
++}
+ 
+-        if (num_insns == max_insns && (tb_cflags(tb) & CF_LAST_IO)) {
+-            gen_io_start();
+-        }
++static bool nios2_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
++                                      const CPUBreakpoint *bp)
++{
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
+ 
+-        /* Decode an instruction */
+-        handle_instruction(dc, env);
++    gen_exception(dc, EXCP_DEBUG);
++    /*
++     * The address covered by the breakpoint must be included in
++     * [tb->pc, tb->pc + tb->size) in order to for it to be
++     * properly cleared -- thus we increment the PC here so that
++     * the logic setting tb->size below does the right thing.
++     */
++    dc->pc += 4;
++    return true;
++}
+ 
+-        dc->pc += 4;
++static void nios2_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
++{
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
++    CPUNios2State *env = cs->env_ptr;
+ 
+-        /* Translation stops when a conditional branch is encountered.
+-         * Otherwise the subsequent code could get translated several times.
+-         * Also stop translation when a page boundary is reached.  This
+-         * ensures prefetch aborts occur at the right place.  */
+-    } while (!dc->base.is_jmp &&
+-             !tcg_op_buf_full() &&
+-             num_insns < max_insns);
++    /* Decode an instruction */
++    handle_instruction(dc, env);
++
++    dc->base.pc_next += 4;
++    dc->pc += 4;
++}
++
++static void nios2_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
++{
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
+ 
+     /* Indicate where the next block should start */
+     switch (dc->base.is_jmp) {
+-    case DISAS_NEXT:
++    case DISAS_TOO_MANY:
+     case DISAS_UPDATE:
+         /* Save the current PC back into the CPU register */
+         tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
+         tcg_gen_exit_tb(NULL, 0);
+         break;
+ 
+-    default:
+     case DISAS_JUMP:
+         /* The jump will already have updated the PC register */
+         tcg_gen_exit_tb(NULL, 0);
+@@ -880,25 +880,32 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     case DISAS_NORETURN:
+         /* nothing more to generate */
+         break;
++
++    default:
++        g_assert_not_reached();
+     }
++}
+ 
+-    /* End off the block */
+-    gen_tb_end(tb, num_insns);
++static void nios2_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
++{
++    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
++    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
++}
+ 
+-    /* Mark instruction starts for the final generated instruction */
+-    tb->size = dc->pc - tb->pc;
+-    tb->icount = num_insns;
++static const TranslatorOps nios2_tr_ops = {
++    .init_disas_context = nios2_tr_init_disas_context,
++    .tb_start           = nios2_tr_tb_start,
++    .insn_start         = nios2_tr_insn_start,
++    .breakpoint_check   = nios2_tr_breakpoint_check,
++    .translate_insn     = nios2_tr_translate_insn,
++    .tb_stop            = nios2_tr_tb_stop,
++    .disas_log          = nios2_tr_disas_log,
++};
+ 
+-#ifdef DEBUG_DISAS
+-    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+-        && qemu_log_in_addr_range(tb->pc)) {
+-        FILE *logfile = qemu_log_lock();
+-        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
+-        log_target_disas(cs, tb->pc, dc->pc - tb->pc);
+-        qemu_log("\n");
+-        qemu_log_unlock(logfile);
+-    }
+-#endif
++void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
++{
++    DisasContext dc;
++    translator_loop(&nios2_tr_ops, &dc.base, cs, tb, max_insns);
+ }
+ 
+ void nios2_cpu_dump_state(CPUState *cs, FILE *f, int flags)
 -- 
 2.25.1
 
