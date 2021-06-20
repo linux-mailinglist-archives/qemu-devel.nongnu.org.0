@@ -2,97 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACA23ADF91
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 19:14:00 +0200 (CEST)
-Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C70C3ADF99
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 19:32:22 +0200 (CEST)
+Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv11D-0004D9-Gr
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 13:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37604)
+	id 1lv1Iy-0000k5-SA
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 13:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lv10Q-0003XC-Rl
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 13:13:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lv10O-0001eF-2D
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 13:13:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624209186;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gx9qhNtRmYbQR8wArgqOF6QnaRAMmsl7jLt/TM1xhQk=;
- b=K4uC18RaWX6u9rM/uu8f+XAXLTr3FZDMSmSXTLEQ0biSdPS0IpIApyEv64qEfx6mUeYTTx
- GrO2gd6a9jXRULvJstTpuVYCltvzbrrip3rWoxIns5oM8pZ8LOTj7iNc85ib5yQ7GJ+dyz
- RvKV+KIKQVRmcOJY9P0isJzaEGF/Ezw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-OMck_nHVP7CAp3GBa2Hncw-1; Sun, 20 Jun 2021 13:12:53 -0400
-X-MC-Unique: OMck_nHVP7CAp3GBa2Hncw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d5-20020a0560001865b0290119bba6e1c7so7419079wri.20
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 10:12:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gx9qhNtRmYbQR8wArgqOF6QnaRAMmsl7jLt/TM1xhQk=;
- b=ZReYlF3/XsHhw5aOVX9nhLGwgyK5jccf+VRNkoLO2hfCwahSvyOUegYcDWgRyzLWzO
- JZodgw57XoPDKZkN+jF1YjjpopgoPPMMMxYSWDcAvns5RQCQY9gBHuxXSISEzM1bTxG1
- K/Ckv9pM/d4WV4bvHNyQfXE0T3UI+Rj73U3IgCg6OCls9p9D71zuoSgJPM/PXzzIpvUO
- AixgOvEeYPGdf4sMr5mEZPXKwmLqQScadJ7IdzepYbBZFyzH8z6urOad9IpG06bvzdGi
- LIUp1mOr3yGv3+M6MI+nqOynXUWTJSKmRur07giGeqBA3tf7Lgrhbmuj1dmc85L+EpBA
- a4cA==
-X-Gm-Message-State: AOAM533tnzD6DjWgBaD0XpSRLvH6aftOpBq5tOFtjS33fswVQxpVdaKl
- /dGUaA0zl4Abl469GnD5QlGW8pRoaDhrpkMZq9k0UYbUcYUHKktSojgeU0ZDqzXj1yZlGdpF9yG
- j57iVG8kVzs9Aztc=
-X-Received: by 2002:a05:6000:1251:: with SMTP id
- j17mr6495980wrx.122.1624209172022; 
- Sun, 20 Jun 2021 10:12:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxO7bBDpjV672tIWHlIY5RyQnOD1UPySnYr7ycPdaYAqK+xdL2ZB7Q9pdxWyCzhj5Ka0quNtg==
-X-Received: by 2002:a05:6000:1251:: with SMTP id
- j17mr6495967wrx.122.1624209171798; 
- Sun, 20 Jun 2021 10:12:51 -0700 (PDT)
-Received: from thuth.remote.csb (pd957575f.dip0.t-ipconnect.de. [217.87.87.95])
- by smtp.gmail.com with ESMTPSA id v18sm5993950wrv.24.2021.06.20.10.12.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Jun 2021 10:12:49 -0700 (PDT)
-Subject: Re: [PATCH] Update documentation to refer to new location for issues
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210619154253.553446-1-sw@weilnetz.de>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <f2f377c2-08ee-7a48-85dc-14968b7b624a@redhat.com>
-Date: Sun, 20 Jun 2021 19:12:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lv1HS-0007xp-16
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 13:30:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59662)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lv1HP-0004La-NF
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 13:30:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lv1HJ-0007p6-Qe
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 17:30:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C5E192E8087
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 17:30:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210619154253.553446-1-sw@weilnetz.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.299,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 20 Jun 2021 17:22:28 -0000
+From: Thomas Huth <1910603@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: audio fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161005830186.3494.9820259593524409716.malonedeb@wampee.canonical.com>
+Message-Id: <162420974849.18032.7817059583147447576.malone@gac.canonical.com>
+Subject: [Bug 1910603] Re: [OSS-Fuzz] Issue 29174 sb16: Abrt in audio_bug
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: 05b4afa9f2f0385cc53a1e7a9abc25880567a459
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,60 +71,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1910603 <1910603@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/06/2021 17.42, Stefan Weil wrote:
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
-> 
-> Another update is needed for scripts/show-fixed-bugs.sh.
+Fixed by:
+https://gitlab.com/qemu-project/qemu/-/commit/a2cd86a94a881b38a7d8bb67c619
 
-Don't worry about that script, I'll remove it after the next release (v6.1) 
-has been done. The script is then hopefully not necessary anymore thanks to 
-the possibility to close bugs automatically on commit in GitLab.
+-- =
 
-> diff --git a/.github/lockdown.yml b/.github/lockdown.yml
-> index 07fc2f31ee..d3546bd2bc 100644
-> --- a/.github/lockdown.yml
-> +++ b/.github/lockdown.yml
-> @@ -14,11 +14,11 @@ issues:
->       at https://gitlab.com/qemu-project/qemu.git.
->       The project does not process issues filed on GitHub.
->   
-> -    The project issues are tracked on Launchpad:
-> -    https://bugs.launchpad.net/qemu
-> +    The project issues are tracked on GitLab:
-> +    https://gitlab.com/qemu-project/qemu/-/issues
->   
->       QEMU welcomes bug report contributions. You can file new ones on:
-> -    https://bugs.launchpad.net/qemu/+filebug
-> +    https://gitlab.com/qemu-project/qemu/-/issues/new
->   
->   pulls:
->     comment: |
-> diff --git a/README.rst b/README.rst
-> index a92c7394b7..79b19f1481 100644
-> --- a/README.rst
-> +++ b/README.rst
-> @@ -131,16 +131,16 @@ will be tagged as my-feature-v2.
->   Bug reporting
->   =============
->   
-> -The QEMU project uses Launchpad as its primary upstream bug tracker. Bugs
-> +The QEMU project uses GitLab issues to track bugs. Bugs
->   found when running code built from QEMU git or upstream released sources
->   should be reported via:
->   
-> -* `<https://bugs.launchpad.net/qemu/>`_
-> +* `<https://gitlab.com/qemu-project/qemu/-/issues>`_
->   
->   If using QEMU via an operating system vendor pre-built binary package, it
->   is preferable to report bugs to the vendor's own bug tracker first. If
->   the bug is also known to affect latest upstream code, it can also be
-> -reported via launchpad.
-> +reported via GitLab.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910603
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Title:
+  [OSS-Fuzz] Issue 29174 sb16: Abrt in audio_bug
 
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ../build-system/qemu-system-i386 \
+  -machine q35 -device sb16,audiodev=3Dsnd0 \
+  -audiodev none,id=3Dsnd0 -nographic -nodefaults \
+  -qtest stdio
+  outw 0x22c 0x41
+  outb 0x22c 0x0
+  outw 0x22c 0x1004
+  outw 0x22c 0x1c
+  EOF
+
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  A bug was just triggered in audio_calloc
+  Save all your work and restart without audio
+  I am sorry
+  Context:
+  Aborted
+
+  #0 raise
+  #1 abort
+  #2 audio_bug /src/qemu/audio/audio.c:119:9
+  #3 audio_calloc /src/qemu/audio/audio.c:154:9
+  #4 audio_pcm_sw_alloc_resources_out /src/qemu/audio/audio_template.h:116:=
+15
+  #5 audio_pcm_sw_init_out /src/qemu/audio/audio_template.h:175:11
+  #6 audio_pcm_create_voice_pair_out /src/qemu/audio/audio_template.h:410:9
+  #7 AUD_open_out /src/qemu/audio/audio_template.h:503:14
+  #8 continue_dma8 /src/qemu/hw/audio/sb16.c:216:20
+  #9 dma_cmd8 /src/qemu/hw/audio/sb16.c:276:5
+  #10 command /src/qemu/hw/audio/sb16.c:0
+  #11 dsp_write /src/qemu/hw/audio/sb16.c:949:13
+  #12 portio_write /src/qemu/softmmu/ioport.c:205:13
+  #13 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #14 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #15 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #16 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #17 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #18 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #19 cpu_outw /src/qemu/softmmu/ioport.c:70:5
+
+  =
+
+  OSS-Fuzz Report:
+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D29174
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910603/+subscriptions
 
