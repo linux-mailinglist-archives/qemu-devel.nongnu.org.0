@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6733AE072
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 22:51:35 +0200 (CEST)
-Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13523AE0AA
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 23:23:32 +0200 (CEST)
+Received: from localhost ([::1]:59428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv4Pj-0002Q0-9v
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 16:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33624)
+	id 1lv4uh-0000mP-BW
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 17:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lv4Om-0001i7-Nb
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 16:50:32 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:58089)
+ (Exim 4.90_1) (envelope-from <unai.martinezcorral@ehu.eus>)
+ id 1lv4tZ-0008Vt-BT
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:22:21 -0400
+Received: from smtp.lg.ehu.es ([158.227.0.66]:25009 helo=smtp.ehu.eus)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lv4Ok-0005sw-M6
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 16:50:32 -0400
-Received: from [192.168.100.1] ([82.142.1.74]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MkpnF-1lQN190mKN-00mJY3; Sun, 20 Jun 2021 22:50:20 +0200
-To: umarcor <unai.martinezcorral@ehu.eus>
-References: <20210620201509.GA9@c22643ce596e>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: qemu-binfmt-conf.sh: enforce style consistency
-Message-ID: <13e577e3-c85a-578e-e33f-dd7affaf00ca@vivier.eu>
-Date: Sun, 20 Jun 2021 22:50:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <unai.martinezcorral@ehu.eus>)
+ id 1lv4tW-0001Nw-6y
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:22:20 -0400
+Received: from imsva2.lgp.ehu.es (imsva2.lgp.ehu.es [10.0.3.246])
+ by postfix.smtp1.imsva1 (Postfix) with ESMTPS id 5F9D8183FFB
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 23:22:15 +0200 (CEST)
+Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1028A5A054
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 23:22:15 +0200 (CEST)
+Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 044E55A053
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 23:22:15 +0200 (CEST)
+Received: from smtp.ehu.eus (unknown [10.0.100.79])
+ by imsva2.lgp.ehu.es (Postfix) with ESMTPS
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 23:22:14 +0200 (CEST)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
+ [209.85.166.169]) by smtp-2 (Postfix) with ESMTPSA id B8AC3183FC8
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 23:22:14 +0200 (CEST)
+Received: by mail-il1-f169.google.com with SMTP id x12so13478879ill.4
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 14:22:14 -0700 (PDT)
+X-Gm-Message-State: AOAM5320zwJaey2HThacrfgd3hRzOyXntg47R/0FPxfuBFYuP3Jjpgvn
+ qGR/+AQHFzytjYSPXVQQB8pG1aPbp22GkHhx5Q==
+X-Google-Smtp-Source: ABdhPJzav13nvuq5dG0+i2SuGXpnFUTtDw+gBGPw+SZ6RfVWI4YncTJi71zodvE/r+onbcHmghEued0doyJBYs/Vr7M=
+X-Received: by 2002:a92:8e03:: with SMTP id c3mr16318748ild.167.1624224132847; 
+ Sun, 20 Jun 2021 14:22:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210620201509.GA9@c22643ce596e>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nnzJ0JcICPdKdK8QLJe8gBAWYCQgvd0Q6OY3tfGAZykk5hPm+Av
- RwdtZqHAcY3GBu5WLeMejfzAeGs2ZJpABNe5PYM+icszXlw2Mtsm77N75+NqJnydVl1J+Wx
- 3xoKGgnBUPb06K5IwksW8RLnDgUcH4zge0NYTmreYNZsEjVR2D/pvGx3LHlKX506TThvX3X
- KJfT/De8LbLj/+wZGdJyw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MdadMAZQdcA=:jmURK4hVQj4syaPdaQDzUM
- gyx7VHkNxXVtkRpNOzsKJm/pZDE6jdA2Uusf/HgMof2djKV3S4pPB9xyRitjoztACok9Qi9fR
- IPdIbqOkahPOtOYPHUOnnJu0pNIH3WFuhPr9sq+kNMDIV+y6rKy19oxr53BctlsfqWvTlfftM
- pJ3j7h6LRlNsZ44AIHujWEYJWK5/ExniMZk4iifHWn67QKhPdPNRl623Dj5OHD8i8zngIKb82
- T/s7MZAx3xlU1IgLtHfzj3gr0G+lXfVAwGfNu73eLDYSmpO0TClcxNKTFl+rWSldrpJIXgpzO
- r3reGeB+DUVBlxBusNZifwLOGGqVxCR2cPwbFFkKP1EhaITVRt7cKa7h23m4VXmeQKrmq2E4S
- tLa+SKUfRVR9VwTyuesgNRl3VYX3alz64WAJkfwU6DBJBGVc3eCo9DYDU5hCj01SNui0w+h+6
- nIQDjBXtHPWY1511wQZTYsNyk9yAViw+VmlJYv8sKcEiubgfbOzqIjroGpeTfqj0h3zFTBjod
- EK+CrmUNffMESryRwYZzYk=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210620201509.GA9@c22643ce596e>
+ <13e577e3-c85a-578e-e33f-dd7affaf00ca@vivier.eu>
+In-Reply-To: <13e577e3-c85a-578e-e33f-dd7affaf00ca@vivier.eu>
+From: Unai Martinez Corral <unai.martinezcorral@ehu.eus>
+Date: Sun, 20 Jun 2021 23:22:02 +0200
+X-Gmail-Original-Message-ID: <CAGZZdDEetfWS55-crF8mgEEtoo3eWS6dmSV5Xcv7QS+4MOnxcA@mail.gmail.com>
+Message-ID: <CAGZZdDEetfWS55-crF8mgEEtoo3eWS6dmSV5Xcv7QS+4MOnxcA@mail.gmail.com>
+Subject: Re: qemu-binfmt-conf.sh: enforce style consistency
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: multipart/alternative; boundary="00000000000079603505c5392653"
+X-Greylist: ACL 200 matched, not delayed by milter-greylist-4.6.2 (smtp-2
+ [10.0.100.79]); Sun, 20 Jun 2021 23:22:14 +0200 (CEST)
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.1631-8.6.0.1013-26232.003
+X-TM-AS-Result: No--3.782-7.0-31-10
+X-imss-scan-details: No--3.782-7.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.1631-8.6.1013-26232.003
+X-TMASE-Result: 10--3.782300-10.000000
+X-TMASE-MatchedRID: Dy1l3ZSJ5PGgBUTSh64wSUKGB4JJ2ELXWyQijpt1UQlcybOKQAEmSMlB
+ Lll1g/6SzjqJngvc26iVSb9bh6Zf6wV6K461K3zKz1H9Spactbgh/JA0dHadpmjliw+xvItd5Gq
+ XKGHXOXNBr+HZ53J2jmnAMISGh8gyRCaWYV6Qw3y628cXbnOhT22cGRBBb/0+DpnuR5eZKJbTqA
+ oW2PGHdK0lnfUsoSBdT5TVrzzFxZBhaj10i6TXQGY0Io4Kxb86fS0Ip2eEHnyvXSmSdlcYmuo86
+ dL2DqU+zhVd8sjYP1BYF3qW3Je6+yEhlioOhBqbmV1FwnHkHdVD1M3VfqQZjJkOdw7THWHdKWfB
+ JvPEXqIezGz2llhk+IjsD3B4S6rNcVSFvUdAGTkd4yF+FRKvn0yjwIKdtHjj5Gm1NPUV5WF6Nw5
+ pMPz9bxpXp9DzpIDfCG8TfIlwX7Az1TBYQEBeOBczEz2LDF+7Sqf/T3DdPSTShH/RuJUUcA==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
+X-Greylist: Sender IP whitelisted, Sender succeeded SMTP AUTH, not delayed by
+ milter-greylist-4.6.2 (postfix.smtp1.imsva1 [10.0.100.79]);
+ Sun, 20 Jun 2021 23:22:15 +0200 (CEST)
+Received-SPF: pass client-ip=158.227.0.66;
+ envelope-from=unai.martinezcorral@ehu.eus; helo=smtp.ehu.eus
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,155 +91,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, eblake@redhat.com,
+Reply-To: unai.martinezcorral@ehu.eus
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ umarcor <unai.martinezcorral@ehu.eus>, Eric Blake <eblake@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 20/06/2021 à 22:15, umarcor a écrit :
-> Spaces are removed before '; then', for consistency with other scripts
-> in the project.
+--00000000000079603505c5392653
+Content-Type: text/plain; charset="UTF-8"
 
-Well, I'm not sure there is a real consistency with this in the other scripts...
+Hi Laurent,
 
-> Signed-off-by: umarcor <unai.martinezcorral@ehu.eus>
+Well, I'm not sure there is a real consistency with this in the other
+> scripts...
+>
 
-Please use your real name, not a nickname.
+Changes look good, but can someone confirm this is the style we want to use
+> everywhere?
+>
+> Peter?
+>
 
-Changes look good, but can someone confirm this is the style we want to use everywhere?
+Please, see
+https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg02267.html
 
-Peter?
 
-Thanks,
-Laurent
+> Please use your real name, not a nickname.
+>
 
-> ---
->  scripts/qemu-binfmt-conf.sh | 36 ++++++++++++++++++------------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
-> 
-> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-> index 7de996d536..13bff41b47 100755
-> --- a/scripts/qemu-binfmt-conf.sh
-> +++ b/scripts/qemu-binfmt-conf.sh
-> @@ -221,7 +221,7 @@ EOF
->  }
-> 
->  qemu_check_access() {
-> -    if [ ! -w "$1" ] ; then
-> +    if [ ! -w "$1" ]; then
->          echo "ERROR: cannot write to $1" 1>&2
->          exit 1
->      fi
-> @@ -230,12 +230,12 @@ qemu_check_access() {
->  qemu_check_bintfmt_misc() {
->      # load the binfmt_misc module
->      if [ ! -d /proc/sys/fs/binfmt_misc ]; then
-> -      if ! /sbin/modprobe binfmt_misc ; then
-> +      if ! /sbin/modprobe binfmt_misc; then
->            exit 1
->        fi
->      fi
->      if [ ! -f /proc/sys/fs/binfmt_misc/register ]; then
-> -      if ! mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc ; then
-> +      if ! mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc; then
->            exit 1
->        fi
->      fi
-> @@ -248,16 +248,16 @@ installed_dpkg() {
->  }
-> 
->  qemu_check_debian() {
-> -    if [ ! -e /etc/debian_version ] ; then
-> +    if [ ! -e /etc/debian_version ]; then
->          echo "WARNING: your system is not a Debian based distro" 1>&2
-> -    elif ! installed_dpkg binfmt-support ; then
-> +    elif ! installed_dpkg binfmt-support; then
->          echo "WARNING: package binfmt-support is needed" 1>&2
->      fi
->      qemu_check_access "$EXPORTDIR"
->  }
-> 
->  qemu_check_systemd() {
-> -    if ! systemctl -q is-enabled systemd-binfmt.service ; then
-> +    if ! systemctl -q is-enabled systemd-binfmt.service; then
->          echo "WARNING: systemd-binfmt.service is missing or disabled" 1>&2
->      fi
->      qemu_check_access "$EXPORTDIR"
-> @@ -265,13 +265,13 @@ qemu_check_systemd() {
-> 
->  qemu_generate_register() {
->      flags=""
-> -    if [ "$CREDENTIAL" = "yes" ] ; then
-> +    if [ "$CREDENTIAL" = "yes" ]; then
->          flags="OC"
->      fi
-> -    if [ "$PERSISTENT" = "yes" ] ; then
-> +    if [ "$PERSISTENT" = "yes" ]; then
->          flags="${flags}F"
->      fi
-> -    if [ "$PRESERVE_ARG0" = "yes" ] ; then
-> +    if [ "$PRESERVE_ARG0" = "yes" ]; then
->          flags="${flags}P"
->      fi
-> 
-> @@ -306,23 +306,23 @@ qemu_set_binfmts() {
-> 
->      # register the interpreter for each cpu except for the native one
-> 
-> -    for cpu in ${qemu_target_list} ; do
-> +    for cpu in ${qemu_target_list}; do
->          magic=$(eval echo \$${cpu}_magic)
->          mask=$(eval echo \$${cpu}_mask)
->          family=$(eval echo \$${cpu}_family)
-> 
-> -        if [ "$magic" = "" ] || [ "$mask" = "" ] || [ "$family" = "" ] ; then
-> +        if [ "$magic" = "" ] || [ "$mask" = "" ] || [ "$family" = "" ]; then
->              echo "INTERNAL ERROR: unknown cpu $cpu" 1>&2
->              continue
->          fi
-> 
->          qemu="$QEMU_PATH/qemu-$cpu"
-> -        if [ "$cpu" = "i486" ] ; then
-> +        if [ "$cpu" = "i486" ]; then
->              qemu="$QEMU_PATH/qemu-i386"
->          fi
-> 
->          qemu="$qemu$QEMU_SUFFIX"
-> -        if [ "$host_family" != "$family" ] ; then
-> +        if [ "$host_family" != "$family" ]; then
->              $BINFMT_SET
->          fi
->      done
-> @@ -343,7 +343,7 @@ QEMU_SUFFIX=""
->  options=$(getopt -o ds:Q:S:e:hc:p:g: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-argv0: -- "$@")
->  eval set -- "$options"
-> 
-> -while true ; do
-> +while true; do
->      case "$1" in
->      -d|--debian)
->          CHECK=qemu_check_debian
-> @@ -356,14 +356,14 @@ while true ; do
->          EXPORTDIR=${EXPORTDIR:-$SYSTEMDDIR}
->          shift
->          # check given cpu is in the supported CPU list
-> -        if [ "$1" != "ALL" ] ; then
-> -            for cpu in ${qemu_target_list} ; do
-> -                if [ "$cpu" = "$1" ] ; then
-> +        if [ "$1" != "ALL" ]; then
-> +            for cpu in ${qemu_target_list}; do
-> +                if [ "$cpu" = "$1" ]; then
->                      break
->                  fi
->              done
-> 
-> -            if [ "$cpu" = "$1" ] ; then
-> +            if [ "$cpu" = "$1" ]; then
->                  qemu_target_list="$1"
->              else
->                  echo "ERROR: unknown CPU \"$1\"" 1>&2
-> --
-> 2.32.0
-> 
+Sorry about that. It's 'Unai Martinez-Corral'.
+Shall I resend the patch?
+
+Cheers
+
+Unai
+
+--00000000000079603505c5392653
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Laurent,<br></div><div><br></div><div class=3D"gma=
+il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Well, I&#39;m not sure there is a real consistency with this in the other s=
+cripts...<br></blockquote><div><br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex"><div>
+
+Changes look good, but can someone confirm this is the style we want to use=
+ everywhere?<br>
+<br>
+Peter?=C2=A0 <br></div></blockquote><div><br></div><div>Please, see <a href=
+=3D"https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg02267.html">ht=
+tps://lists.gnu.org/archive/html/qemu-devel/2020-03/msg02267.html</a></div>=
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+Please use your real name, not a nickname.<br>
+</blockquote><div><br></div><div>Sorry about that. It&#39;s &#39;Unai Marti=
+nez-Corral&#39;.<br>Shall I resend the patch?<br></div><div>=C2=A0</div><di=
+v>Cheers<br><br></div><div>Unai<br></div><br></div></div>
+
+--00000000000079603505c5392653--
 
 
