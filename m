@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55AD3AE0BC
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 23:37:43 +0200 (CEST)
-Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684E53AE0B7
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Jun 2021 23:36:09 +0200 (CEST)
+Received: from localhost ([::1]:44862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv58Q-00075j-P8
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 17:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39318)
+	id 1lv56u-0001rS-4V
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 17:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv53r-0002ID-FU
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:32:59 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:39620)
+ id 1lv53q-0002HP-TQ
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:32:58 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:34544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv53k-0008SO-JQ
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:32:59 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- c7-20020a17090ad907b029016faeeab0ccso471601pjv.4
+ id 1lv53l-0008SS-GJ
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 17:32:58 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id g22so12529290pgk.1
  for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 14:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ktgo4xWUwEPLcu/uB4HSWazqzoEfJMOHsnknfFL5vLg=;
- b=jEiRs9rlN2OoWgNESPPR0gyrScgHNkyV3YQt0PWFcY2CLMY1UTsPKPdV7rpw0h2ATa
- dY4K5tuNclkXzcgAQLAtzEdTNGHSeAZAExNiSH0rMPTrsPU6AhYZExm1YFGUbauRu49h
- enFA2F08hzXuGPaxhliTwZBj9BRE7EemabX5ia0fK0zD6L8oYIlPY+gPob1xUo2BGmSL
- LdPsNfMXiAasDUDDLUNBDk8O9r7tvSYHGAhMGmkAsqSRMy9spfMmvMafUTgVu8nCY5mr
- pcjlBFHZTSfLk+BKl8iDN/Cs8Yg+WQU32+uWqTgBy8uJt87MWDMqlLUEQM3Tg7JRATNQ
- rmIQ==
+ bh=4qZYFgo5owfVk6zq1cDCv8vj7PKVInUCjUJb6z1w1uE=;
+ b=F23Wtev8aAJoEJXyCZxEg5HbH1+AdOJheSKIb/ket6m8qtP0/jdC7P7zgexn3WzYMa
+ 89y9x+jwwFB/oVIThxG2deqz9xgzo5pJbz3Vrs8LaVShXBzCNzv9Iip//tCQ5j4qdKqH
+ AuLz7hOecy55hsmx9P3URjsYo6eQzjEYETh7HqsfGcXZrValklWhhRxhqWgB1XVUEB5t
+ b21g+fCBDP5Ny2OMsLtrPyovSdKRlarebIQIrykHsCEeQHkOzRuoKNZKlvlF/2xe6DkA
+ usQmwn4DmJ0qxIG+ZsAsFt12/kB6DcmiKuWHGkxkL/i3LpMOx0jlIsaMgyEtSIuJr7hn
+ opuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ktgo4xWUwEPLcu/uB4HSWazqzoEfJMOHsnknfFL5vLg=;
- b=B7MxxA38HcIocEQD+Sn6Qg6FgYvdhTlKN80PkWwrKLKtCu4rix2khGpkYOCLmwyvMX
- coU557DosXRWsLwpZwW/UvW6Z3fZOflSfWB55VegagF47HJwjLlwnZCJIKAub2tu3g4k
- YScyaFiRG0lHrBal8BCsSMyafm7tA1E6QCzHV4tsvh/tJH1WKd+XayN4BuCOxCYpavcs
- gRrCixWqwFYjRI5/Zcwxy1w2idULMxptD/IqpQIX5VN6Qnim1RDaaESwk1ZAjM89uDoy
- 3MZJQCNsz4a+QFu34I4mmLZ6eF3brbADuyPSJNrcKyV+eT9lWrWA6dJ1lYUK94d+aUAA
- wXBg==
-X-Gm-Message-State: AOAM531jfVTM9mFz7Eys27Tan8Sse97p0+bkAmF4ybFcn42yZayjpw27
- sJO1ej8cYIyjF8AQ5AWCsy7EbYgw/fXSzg==
-X-Google-Smtp-Source: ABdhPJx9iXbnFBsuN/oybKQIjWWLci3OFIrUG572iCeBGENfJimJS2TgBM+JeEwD9/uRrcwm+1glaQ==
-X-Received: by 2002:a17:90b:300c:: with SMTP id
- hg12mr26176275pjb.46.1624224771330; 
+ bh=4qZYFgo5owfVk6zq1cDCv8vj7PKVInUCjUJb6z1w1uE=;
+ b=JhfiEYvcdZxO1ADSfpsPExWHzAJDLz+oq2R/iOJFoKurPVzTQdHuxzq+KwWcjpMCvI
+ /TA8OsSphBC9lsIwGtRR78aZQ8tgfHyY7KOLu72vih2ErWvSvs8Zhsnh9T9YeGavrwxZ
+ IlmprNyJELfy7J2ReJPFEwbFJFxNxNWIeYegfT8WziC4hYu6vNutIQ4q53EoP8RD1A1B
+ G9Lj939wY/NhKZRBASQmnyJGHpBJwdFQlIUjLOs0bZeHhwdn6lbbM5Wi1/FXkj2ojOuc
+ Z2LdSytJYxma9G2st288FNA3l8uu/NTf5A70P1TYfQDqelVna3b5cGzo42O4+Y0d0I7r
+ OYYA==
+X-Gm-Message-State: AOAM530xXp3RrUrvz1k9baoF9g39cgK6p4PBm9xlT9g6PdekUgQp8mvr
+ 607FtIEToegyNVkAlv/GlcJz3jkp+CbzHg==
+X-Google-Smtp-Source: ABdhPJxdWE4FtlvtgTBoNqbdJH434zuEiY8i7wntzExivfghkhpp+lZTrLDJWtvrItlyoZocodnJhw==
+X-Received: by 2002:aa7:9118:0:b029:2eb:2ef3:f197 with SMTP id
+ 24-20020aa791180000b02902eb2ef3f197mr16058299pfh.27.1624224771834; 
  Sun, 20 Jun 2021 14:32:51 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id w21sm13608329pfq.143.2021.06.20.14.32.51
@@ -55,17 +54,16 @@ Received: from localhost.localdomain ([71.212.149.176])
  Sun, 20 Jun 2021 14:32:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/11] target/cris: Replace DISAS_TB_JUMP with
- DISAS_NORETURN
-Date: Sun, 20 Jun 2021 14:32:40 -0700
-Message-Id: <20210620213249.1494274-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 03/11] target/cris: Mark exceptions as DISAS_NORETURN
+Date: Sun, 20 Jun 2021 14:32:41 -0700
+Message-Id: <20210620213249.1494274-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210620213249.1494274-1-richard.henderson@linaro.org>
 References: <20210620213249.1494274-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,50 +87,65 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only semantic of DISAS_TB_JUMP is that we've done goto_tb,
-which is the same as DISAS_NORETURN -- we've exited the tb.
+After we've raised the exception, we have left the TB.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ target/cris/translate.c         | 5 +++--
+ target/cris/translate_v10.c.inc | 3 ++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index bed7a7ed10..2ff4319dd1 100644
+index 2ff4319dd1..f8b574b0b6 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -55,7 +55,6 @@
- /* is_jmp field values */
- #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
- #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
--#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
- #define DISAS_SWI     DISAS_TARGET_3
+@@ -2874,6 +2874,7 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
+                        -offsetof(CRISCPU, env) + offsetof(CPUState, halted));
+         tcg_gen_movi_tl(env_pc, dc->pc + 2);
+         t_gen_raise_exception(EXCP_HLT);
++        dc->base.is_jmp = DISAS_NORETURN;
+         return 2;
+     }
  
- /* Used by the decoder.  */
-@@ -3243,12 +3242,12 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-                     gen_goto_tb(dc, 1, dc->jmp_pc);
-                     gen_set_label(l1);
-                     gen_goto_tb(dc, 0, dc->pc);
--                    dc->base.is_jmp = DISAS_TB_JUMP;
+@@ -2901,7 +2902,7 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
+         /* Breaks start at 16 in the exception vector.  */
+         t_gen_movi_env_TN(trap_vector, dc->op1 + 16);
+         t_gen_raise_exception(EXCP_BREAK);
+-        dc->base.is_jmp = DISAS_UPDATE;
++        dc->base.is_jmp = DISAS_NORETURN;
+         break;
+     default:
+         printf("op2=%x\n", dc->op2);
+@@ -3189,7 +3190,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+             cris_evaluate_flags(dc);
+             tcg_gen_movi_tl(env_pc, dc->pc);
+             t_gen_raise_exception(EXCP_DEBUG);
+-            dc->base.is_jmp = DISAS_UPDATE;
++            dc->base.is_jmp = DISAS_NORETURN;
+             /* The address covered by the breakpoint must be included in
+                [tb->pc, tb->pc + tb->size) in order to for it to be
+                properly cleared -- thus we increment the PC here so that
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
+index dd44a7eb97..0ba2aca96f 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -61,6 +61,7 @@ static inline void cris_illegal_insn(DisasContext *dc)
+ {
+     qemu_log_mask(LOG_GUEST_ERROR, "illegal insn at pc=%x\n", dc->pc);
+     t_gen_raise_exception(EXCP_BREAK);
++    dc->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ static void gen_store_v10_conditional(DisasContext *dc, TCGv addr, TCGv val,
+@@ -1169,7 +1170,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+                     t_gen_mov_env_TN(trap_vector, c);
+                     tcg_temp_free(c);
+                     t_gen_raise_exception(EXCP_BREAK);
+-                    dc->base.is_jmp = DISAS_UPDATE;
 +                    dc->base.is_jmp = DISAS_NORETURN;
-                     dc->jmp = JMP_NOJMP;
-                 } else if (dc->jmp == JMP_DIRECT) {
-                     cris_evaluate_flags(dc);
-                     gen_goto_tb(dc, 0, dc->jmp_pc);
--                    dc->base.is_jmp = DISAS_TB_JUMP;
-+                    dc->base.is_jmp = DISAS_NORETURN;
-                     dc->jmp = JMP_NOJMP;
-                 } else {
-                     TCGv c = tcg_const_tl(dc->pc);
-@@ -3311,7 +3310,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-             tcg_gen_exit_tb(NULL, 0);
-             break;
-         case DISAS_SWI:
--        case DISAS_TB_JUMP:
-+        case DISAS_NORETURN:
-             /* nothing more to generate */
-             break;
-         }
+                     return insn_len;
+                 }
+                 LOG_DIS("%d: jump.%d %d r%d r%d\n", __LINE__, size,
 -- 
 2.25.1
 
