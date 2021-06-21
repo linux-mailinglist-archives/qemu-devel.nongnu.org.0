@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130703AE7F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 13:14:12 +0200 (CEST)
-Received: from localhost ([::1]:38560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B4A3AE7E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 13:08:28 +0200 (CEST)
+Received: from localhost ([::1]:47368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvHsZ-0005To-6G
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 07:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48752)
+	id 1lvHn1-0000IZ-BU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 07:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvHoR-0007fg-EC
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:09:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:47379)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvHjb-0002tp-Ko
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:04:55 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:47679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvHoP-000744-ER
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:09:55 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvHjZ-0003xf-Ir
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:04:55 -0400
 Received: from quad ([82.142.1.74]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1M9nhF-1lsFSW1Bav-005qgK; Mon, 21
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MsqMq-1l6lY13DNQ-00t9uv; Mon, 21
  Jun 2021 13:04:49 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] tests/tcg/linux-test: Check that sigaction can query
- SIGKILL/SIGSTOP
-Date: Mon, 21 Jun 2021 13:04:42 +0200
-Message-Id: <20210621110445.231771-7-laurent@vivier.eu>
+Subject: [PULL 7/9] linux-user: Check for ieee128 fpbits in PPC64 HWCAP2
+ feature list
+Date: Mon, 21 Jun 2021 13:04:43 +0200
+Message-Id: <20210621110445.231771-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210621110445.231771-1-laurent@vivier.eu>
 References: <20210621110445.231771-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5lI0GCLZ5dVEZwktP+sjPrNyWICp6tdXiK5ty/e2h7SG887t0zX
- J8IEnLZHDkI4QBvomXLRlnclVcF3WXOmeKsh21xnaSMzBoQViWkUxgSDPIREv+WG7oyIOYh
- gBqCeybSBwKaKuzNz9NrtptJKd7nkjFcLkgmn0bePFCto2xiW0RP225bjFjShnooZoaMxo6
- NokRhQFS+5+sJI0UpyvdQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+rln/cO3u+0=:T4fuVEp74cGWKIOKvpptYQ
- H5PPw0phea2oXBvVIBY5FCIww6xNyjs0rVWjYY4cfsMhOqziuAmrifvOXnGMpv8unBVZu+1uE
- elH41qAI3MKMoqakM8nDDKUfNezKXrzYjgNheHxquxcUBqf4mEvNeJ7sWwoZfYIfizR6FBolO
- g+R2yo28OZNeXw4JN/GFFch7SP3dL5g+j9I3jKaAb+MICc2GS+B8ngUXbJwiCQN4Z7LPP0u0/
- hybpetPjhrqEMbSmHeWwHBBVWEhl0R7TxhrSJpuuCG4Ig2wdfdd8t1ViG4z4PjeYquF3IHDQh
- B5g2bp3H8eOw5oNwWQOCXTPKDMTB0omVlSyopJra5UF3NNK3hIFgiFHO3uLkeED0xkcgA4nkG
- kmvFhPoWLLW9KVPkRl9wGF5OBzvxLCMt/4t5ZahxDdPi4vbQgIrfPT4lKLINKfy8MZ/tFc62T
- jCDCtjoSi7ud47Q3vwDau2KltR8mdO6xlGuVR0De89zyez/Q87HciFP53zrQLbDT4z42uAq+F
- Ufi2rvJ1sMHPpBuM/o4Phg=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:PIwb6DNOfopOaQrbAnvm93XkwkVVkcGckwDMH0vcWJdJkm2Tnbq
+ KuGwqD/CrQR8TYyxcFdKdWxlRgqvdTPR3B3MgDlKF4sWUPAxfQKKzyzkedaHjz2N3kQauKk
+ 07m52XWAP/XJSJUbdsMvtiWJsektEQGSjYknq21iuST+uGokHgJGIYTs9Cg50QbWjyQImGw
+ fk4xu5HyKuL8/Q+14P9nQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:38uxI1WHtSw=:dXl0vNMatlCPs/7fs4v/jk
+ oeYWYqzHcn//08K1NtAvLbpUFxCKilkUXjNaN6TDbdapjzMkX/OGPPcQA8c/y5+YRNtgBCBki
+ euDmED4ucBVCUOXRKK73LOI6hN2lkW5MhOGX7WbletrfjHkBPe2s1xYuXnnTlQRW2OWOui7Qb
+ BEZEInYG3HdEN5zRGf7JhBC1dMEpll7C5gozsZRxfBHjI+tteJpJEbtzLa34/rcQfH4p7VwzM
+ +zPBiGYEuBGVqsFNFTMTxrfhm2dJ9XRkCOuEUPD9TtJjcfnJrj3gTnaMmqZ/YV1JqYu8xLYGy
+ bgp6+dNSExw7mb/vqIQNL1kdtUu/QHqqzjnrChQ1kSBragScyhXNjY5L0FNoKnwZH0K8l2DIG
+ I2dJsSJARvu7IF/zc5LxKRRAnMFZ5t1ifPSg4VZwqXaa1a+tsyK3KL/KBbrtJhAUr9qLxrXrj
+ LQAjYMR9n92dWVLdpEooBPrGF+ac/kEp4psYEssm4E3r8UkZ7fOIA3CxpLveWDl3M0FoTIl4K
+ xVIX26fzX3D07oEnpVofvc=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -63,42 +63,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Florian Weimer <fweimer@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Khem Raj <raj.khem@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Verify that querying is allowed, but making changes isn't.
+glibc 2.34 is now checking for this in hwcaps at
+runtime [1] and failing to run the binary if machine
+does not support 128bit IEEE fp
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Fixes
+Fatal glibc error: CPU lacks float128 support (POWER 9 or later required)
+
+[1] https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=d337345ce145e23c5f3a956f349d924fdf54ce2d;hp=eb24865637a271ab7dad13190330105eab0d478d
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Florian Weimer <fweimer@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210601145600.3131040-3-iii@linux.ibm.com>
+Message-Id: <20210614191729.2981488-1-raj.khem@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/tcg/multiarch/linux-test.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ linux-user/elfload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
-index 96bbad582318..c8c6aeddeb36 100644
---- a/tests/tcg/multiarch/linux-test.c
-+++ b/tests/tcg/multiarch/linux-test.c
-@@ -496,6 +496,15 @@ static void test_signal(void)
-     sigemptyset(&act.sa_mask);
-     act.sa_flags = 0;
-     chk_error(sigaction(SIGSEGV, &act, NULL));
-+
-+    if (sigaction(SIGKILL, &act, NULL) == 0) {
-+        error("sigaction(SIGKILL, &act, NULL) must not succeed");
-+    }
-+    if (sigaction(SIGSTOP, &act, NULL) == 0) {
-+        error("sigaction(SIGSTOP, &act, NULL) must not succeed");
-+    }
-+    chk_error(sigaction(SIGKILL, NULL, &act));
-+    chk_error(sigaction(SIGSTOP, NULL, &act));
- }
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 17ab06f612dd..e7dd18fd40bf 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -830,7 +830,7 @@ static uint32_t get_elf_hwcap2(void)
+                   PPC2_ISA207S), QEMU_PPC_FEATURE2_ARCH_2_07 |
+                   QEMU_PPC_FEATURE2_VEC_CRYPTO);
+     GET_FEATURE2(PPC2_ISA300, QEMU_PPC_FEATURE2_ARCH_3_00 |
+-                 QEMU_PPC_FEATURE2_DARN);
++                 QEMU_PPC_FEATURE2_DARN | QEMU_PPC_FEATURE2_HAS_IEEE128);
  
- #define SHM_SIZE 32768
+ #undef GET_FEATURE
+ #undef GET_FEATURE2
 -- 
 2.31.1
 
