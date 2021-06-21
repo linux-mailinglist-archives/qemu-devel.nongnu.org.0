@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0EF3AEA38
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 15:39:57 +0200 (CEST)
-Received: from localhost ([::1]:59232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26673AEA24
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 15:37:46 +0200 (CEST)
+Received: from localhost ([::1]:55542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvK9c-0007kk-Ek
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 09:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58812)
+	id 1lvK7W-0005Dd-09
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 09:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lvIbK-0007mh-VY
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:00:28 -0400
-Received: from mail-mw2nam12on2046.outbound.protection.outlook.com
- ([40.107.244.46]:43864 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lvIO2-00023o-Sb
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:46:43 -0400
+Received: from mail-bn8nam12on2080.outbound.protection.outlook.com
+ ([40.107.237.80]:20385 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lvIbE-0000Wq-39
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:00:26 -0400
+ (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lvINz-0003RP-Ml
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:46:42 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UamtqBZFxSIAP0O96a3R33RanCFQDCK7hwkA83cL/0H9Qai+8BzP4Ffyowc/jsgabxr0SkcYwbI5fX1SwyHe8AnfY7iDOFkLrpslHpNsnx+xFpvdpyG20j5wPs1BRvBkHOzVPsw8zO7LoCN3L/ZnG/tqlmEVJxB8J07UxL5lpLIVic+tn1AI53AE2uCKEWvGzL8vykiWh5wnulQ8rj8uR2PgVUGbTNjYqcGtdupdyxOB4Cf1pJjSsS/hL4vSuG0cWbLj8P3WlUp2EUplW3basTOCd9iMJyWeKUb3NWrlARgUejnZkBnP9WL7G6QtJ+JgKxNF2HUcZS3UllkqFeWcmg==
+ b=i+pFC7LYzwo8aX5tA1zVLQ8FdRKQgLcaMQSfXCVIP7Tn/xi+MBMao6i0zxHhzIwpnCZQRejg5eOlxa+N89vPVsQoRHCjEFHhmnNwgKk/368E7PBNmjPQMtEWemh3bAjqPTMQhWekc+hWrzN0Jnhw+5OuqOho8Kx0D3IyR84AJFdjTQD8gKY+xhSO1GyA7+E41+2OuhGQXjP1wfYJLjrt02mwI/HvR+gjAi+qPtXmbuxnAlEnhk3ZpM/DQiN5ws3Qff7JziP8fxtN/UOvDZukHyRxA8UgBu4yf9/dO7xmvPFH06sz7UjgrseVfeswjfSI6x5IjJSbra5wCTlPqu6EoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cycjTYasQeoo1+jrhQm75YcxcTZPiIG+4GepVHPZUUU=;
- b=Fj+BHh5KAlCvjQL8l/7bB4VCY7yhzZ2FErmFRjF0iEQTwGmZNvKEO748tOHcx1SPsviTiKEqWLXrvlRIOi6vaRQX9U0SacOxq7lCE0Dv280ZWE2COPLJAFbbN52lk1Io7KGix279VjnD9WQFdnhEZzTjoBAxiuOdTK5iipNSoKQusc1JZHpftQ1xG9Srrd4xcm8J/Mu2aTMTmBdqCeCLzJKeRFMLrM4e1XLIK0owRk6Ns0YzGuDC7wL5v+nGcx/8H7LlvCHeFhbFPCLJkp8kZ/b1/nshorKEOpRZLAPoDQoORE0KpOlLzRHL6rS/y4Je+UkghSrPemRJCJuooI0uYg==
+ bh=ouFc7axxOfrfN/eZpPWLNEARE1xllEYStvTB/x+ABPM=;
+ b=InLLBprZC7S0f7uPVkOG4GdXY+g4IqRlU0VuYsLZqyLXdJkHg9T/SFMLHgiUMSwgVHDSwEJBh262E+VB7nmoppiAgigbr36UAaAFmiO5sZd1undr4k+6PS12XOSG6doDoHzTT4WzkajBK2Qbp4qUbsXj+YyjE1KT+pRwsQgyBEHVniixqTqi0JFLt83DNELn2JKX+Rtd9cMH9f3zv0B07bdv8qaJYGnFBne6HdQd1NP4H6nlRso7eJoO01xOLHtyd05TAonJcfdxhLVm/NWvJixWHA9wvBQonJ6gbWS3nFf0kNPPoIYcP2DdI1e8frFhn1MZB2G7cOWTqPTvi83jEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.34) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cycjTYasQeoo1+jrhQm75YcxcTZPiIG+4GepVHPZUUU=;
- b=IBN8GbqrwhM1ByVO0A1t0LfCKReullIV5erDi7r9gl6l/adtwpoLXS7PiEGrwhqTYHMNcf3VGSCjxTkir+jUl17+w+Ligyh/zIyvJ7Zr2ZqGIDpCvd/J/TAr2I5AC/aoeCXu2IlQSFZK/867py+U0l9UqJAafTlMjgzSlLwl0GKB6Wp6xw5U1kwVQbMiXRVw2WChEddpN4E+4mNo6PwjWHDAHbhjWQX59eIvWVPQcid40rkwVRTmxy5e14Bf2w0oWVV9u3hAclKz1Fe0Pe3m/ByU05vTwJsjZuVJgi+0pRNwz+eTE2ktrHYSbe6vKvbPyeS2QzgfGe9an5lWYhGkhg==
-Received: from DM6PR08CA0059.namprd08.prod.outlook.com (2603:10b6:5:1e0::33)
- by CH2PR12MB3767.namprd12.prod.outlook.com (2603:10b6:610:26::21) with
+ bh=ouFc7axxOfrfN/eZpPWLNEARE1xllEYStvTB/x+ABPM=;
+ b=WVLmDqGkAR3cqp/YzP/29G26bGD1UN5iBZK3sXR7yhW1zXGQ3pCzO207F4Ly1ms6VoSasXs9a9e/h7qekJPDgEgO9rFvo33wrdNLA/7In4H2v6tbCpUUcPrMIlKSZnz0B5we43Xq0dWuVGO6i+aWKLWoYLKr8T9wyOI4nb8s5GN5+M3MCIwI3zDaTO5IVSQ8zZweLQ4s+RyC79KAm4ZDq1X5NMj0MsQXzMjn+Mx8Q5nFNBY+StETnfuQC8vSO/XShNijC/gzPX5CbjjWYevga8i6xmryhQa5btOx7DOTKaYJOQRRWH9lOK9pMJirU+Y7KBS7K+azF0Kgl2RRsPGWwQ==
+Received: from DM6PR12CA0027.namprd12.prod.outlook.com (2603:10b6:5:1c0::40)
+ by BL0PR12MB4898.namprd12.prod.outlook.com (2603:10b6:208:1c7::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Mon, 21 Jun
- 2021 11:45:13 +0000
-Received: from DM6NAM11FT031.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:1e0:cafe::1d) by DM6PR08CA0059.outlook.office365.com
- (2603:10b6:5:1e0::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.15 via Frontend
- Transport; Mon, 21 Jun 2021 11:45:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16; Mon, 21 Jun
+ 2021 11:46:36 +0000
+Received: from DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1c0:cafe::cd) by DM6PR12CA0027.outlook.office365.com
+ (2603:10b6:5:1c0::40) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend
+ Transport; Mon, 21 Jun 2021 11:46:36 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
  smtp.mailfrom=nvidia.com; intel.com; dkim=none (message not signed)
  header.d=none;intel.com; dmarc=pass action=none header.from=nvidia.com;
@@ -51,54 +51,53 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.112.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.112.34; helo=mail.nvidia.com;
 Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT031.mail.protection.outlook.com (10.13.172.203) with Microsoft SMTP
+ DM6NAM11FT064.mail.protection.outlook.com (10.13.172.234) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4242.16 via Frontend Transport; Mon, 21 Jun 2021 11:45:13 +0000
+ 15.20.4242.16 via Frontend Transport; Mon, 21 Jun 2021 11:46:35 +0000
 Received: from mtl-vdi-166.wap.labs.mlnx (172.20.187.6) by
  HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 21 Jun 2021 11:45:10 +0000
-Date: Mon, 21 Jun 2021 14:45:06 +0300
+ 15.0.1497.2; Mon, 21 Jun 2021 11:46:33 +0000
+Date: Mon, 21 Jun 2021 14:46:30 +0300
 From: Eli Cohen <elic@nvidia.com>
 To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 01/18] vhost_net: remove the meaningless assignment in
- vhost_net_start_one()
-Message-ID: <20210621114506.GA143139@mtl-vdi-166.wap.labs.mlnx>
+Subject: Re: [PATCH 02/18] vhost: use unsigned int for nvqs
+Message-ID: <20210621114630.GB143139@mtl-vdi-166.wap.labs.mlnx>
 References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-2-jasowang@redhat.com>
+ <20210621041650.5826-3-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20210621041650.5826-2-jasowang@redhat.com>
+In-Reply-To: <20210621041650.5826-3-jasowang@redhat.com>
 User-Agent: Mutt/1.9.5 (bf161cf53efb) (2018-04-13)
 X-Originating-IP: [172.20.187.6]
 X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: de526ebf-54ea-4ac4-fadb-08d934aa07fd
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3767:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB376775957F8DBB66976478B0AB0A9@CH2PR12MB3767.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 34ad8096-1bb8-4e5f-0a62-08d934aa393a
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4898:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB48983B9DAEF03D5B5803CCFBAB0A9@BL0PR12MB4898.namprd12.prod.outlook.com>
 X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0PT9PaFb2yaB+AU2Oraw4WCze/mVSSf20xl54Ykib8Iwa5BCMf1XgHINKKkeHnu+0EioYaEIE6+vORiSaEELeTO3JyQcVUgNB24eRUMs4chUKQnsZNf0WtLnocVaUNRvOlTidqd9cPRfNljdgu8x/xWGba71Vu86avfDzcshf3AlDnX/MCfi9q76xxYTA/gcN2xFnvQozD5+45t2sAAiKpRks5QRNObV2/fgB9Kx0qsuADyhRRG1TPCHVLj/H07a2svJto75m17HgxM2j2qlzhSJQsfgnHT5jPgs5gd4MElDTQOzDmctNJXHF1kzDKuMIeRVjxFPJtYSENwD3fAZ48LT7MiYPSrxa0DMfu1tYm2QHB9w1CUvGXE0RYNYieB+q699jKRfWOoZZE7gpA7a3pEcVoELJ/bMlIDnm65SFDrWRwzEI3ScYJSqx2+hFZDtZN3WBaIxstcZLFDgCfq/sHQUYFGbiH9gYUU/i82ldLYPqaP7c1rSfxmt5nf9Dsa6rFIrD80ifKMW6YnCtvDJNXFXdCm+NkOsNUC5gPPWFjlYu1AMc7ifcvWzPP0lN1/iiW8NtHFaHzBmf7D1/jYXyv8gRMLXdT2zeJg+cztNnERFGfWBRz1nMnvcLUHGr3XvNa1tY7UgnsMihxfQPkXfEsaQbFwHooPTt99Hv2k92TU=
+X-Microsoft-Antispam-Message-Info: 59NLJz1f8Gc1d17HyOU5fHsaHVv4sZcpD0MIu+qNQqhIWAy7izzuqqWQeGF1l3N+VABai4/G45w4AcsDPNhDhYe1nKXsMXdg7NlSQlJppNQBRNwU52db+i/7Vyg7BaJz0Ap4eOO4NANfUFIHmfWknRHQML5YCBGA9RMTfcljWQK0P4ZtJZwLaOTZJlpxpFf90IDiov37iVnk7KlKFPESBNqwsG5HWN6TSqZMjFYsAd4lWmf6h2L2mi/YTVZM3qUZ/G86SFQyZoC8PRIO5ZOgyZsHfMtRUXROzHujeA7vYsjhgrCWNQhP4pjDY8cPWMrLFciIE8dhUzyujKmP9V0Ugp72pCanupouoh55kc3LlyyHEfkrNRN2hwXxRjFrSRMJo/GOuAggJF3Wl9Hm6+qaQjwXGskSvfz5Noh7S1Ogcc/UB4OVBRVsumUWr9ebNDCTlqyWGzDXIJt/dAZyyqRJDzc/iUniunXtJfkplAurxBYrBZYww4V9VXtMXsFnQ/rDvBkk4MoMoMiukmmCtGVsYxK4HP9Wzx21P7DlmWWE7t+J/epU4bSjDLvQ13dZvWzjZ71QJ/iW+x6IKk2pb85nQAEP/WnFGj9NfLD3VJdrSL9GameL4aJbqaxBw5S2dRhBT9A4kciKnZuBgQ8FrtYnKvX9SSh2Acr0/znfvQX5pa0=
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(396003)(136003)(39860400002)(376002)(346002)(36840700001)(46966006)(6666004)(2906002)(26005)(83380400001)(70206006)(7696005)(70586007)(47076005)(86362001)(186003)(82310400003)(4326008)(478600001)(16526019)(54906003)(9686003)(55016002)(356005)(82740400003)(426003)(316002)(5660300002)(7636003)(336012)(8676002)(33656002)(1076003)(36906005)(36860700001)(6916009)(4744005)(8936002);
+ SFS:(4636009)(346002)(136003)(39860400002)(376002)(396003)(36840700001)(46966006)(16526019)(8936002)(47076005)(1076003)(8676002)(4744005)(26005)(186003)(83380400001)(2906002)(54906003)(6916009)(336012)(86362001)(55016002)(7696005)(356005)(36906005)(5660300002)(36860700001)(4326008)(7636003)(316002)(82310400003)(33656002)(70206006)(478600001)(82740400003)(9686003)(426003)(70586007);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2021 11:45:13.1806 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: de526ebf-54ea-4ac4-fadb-08d934aa07fd
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2021 11:46:35.7786 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34ad8096-1bb8-4e5f-0a62-08d934aa393a
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT031.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3767
-Received-SPF: softfail client-ip=40.107.244.46; envelope-from=elic@nvidia.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4898
+Received-SPF: softfail client-ip=40.107.237.80; envelope-from=elic@nvidia.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -124,36 +123,31 @@ Cc: eperezma@redhat.com, lingshan.zhu@intel.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 12:16:33PM +0800, Jason Wang wrote:
-> The nvqs and vqs has been initialized during vhost_net_init() and is
-
-I suggest "nvqs and vqs have been initialized during vhost_net_init() and
-are not..."
-Other than that
-Reviewed-by: Eli Cohen <elic@nvidia.com>
-
-> not expected to change during the life cycle of vhost_net
-> structure. So this patch removes the meaningless assignment.
+On Mon, Jun 21, 2021 at 12:16:34PM +0800, Jason Wang wrote:
+> Switch to use unsigned int for nvqs since it's not expected to be
+> negative.
 > 
 > Signed-off-by: Jason Wang <jasowang@redhat.com>
+
+Reviewed-by: Eli Cohen <elic@nvidia.com>
+
 > ---
->  hw/net/vhost_net.c | 3 ---
->  1 file changed, 3 deletions(-)
+>  include/hw/virtio/vhost.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index 44c1ed92dc..6bd4184f96 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -238,9 +238,6 @@ static int vhost_net_start_one(struct vhost_net *net,
->      struct vhost_vring_file file = { };
->      int r;
->  
-> -    net->dev.nvqs = 2;
-> -    net->dev.vqs = net->vqs;
-> -
->      r = vhost_dev_enable_notifiers(&net->dev, dev);
->      if (r < 0) {
->          goto fail_notifiers;
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 21a9a52088..ddd7d3d594 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -71,7 +71,7 @@ struct vhost_dev {
+>      int n_tmp_sections;
+>      MemoryRegionSection *tmp_sections;
+>      struct vhost_virtqueue *vqs;
+> -    int nvqs;
+> +    unsigned int nvqs;
+>      /* the first virtqueue which would be used by this vhost dev */
+>      int vq_index;
+>      /* if non-zero, minimum required value for max_queues */
 > -- 
 > 2.25.1
 > 
