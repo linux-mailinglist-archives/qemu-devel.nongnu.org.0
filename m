@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00763AEBF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 17:05:38 +0200 (CEST)
-Received: from localhost ([::1]:32844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E0F3AEBFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 17:06:16 +0200 (CEST)
+Received: from localhost ([::1]:35126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvLUX-0003o3-NL
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 11:05:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44476)
+	id 1lvLV9-0005MG-8h
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 11:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvLT5-0002bf-LD
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:04:07 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35543)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvLTv-0003l4-9l
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:04:59 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvLSz-0006fE-Rb
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:04:06 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- o39-20020a05600c5127b02901d23584fd9bso11334253wms.0
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 08:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XU1ccI0xJvrI1JAi17lGq8BvnZVyzaC6HL6vOKntFNU=;
- b=sPmk836I3sMW1lC+8/zLPHf5Dwb+LzzuWSHrwLCIXakjF1/3GBlU/Zw994HSnfSTDo
- TlqyemGCrPxZMrtwBroLICdirR6fSwGebn4JmDcemkNS9CA4KuGuzhIBF0UJeDwQ4YR5
- e6WyoqshdC6mnyM5Ae0TydRnh/gN7ZzZsnRK2qJOPQAGHJzOffNxDC36urC3Xgo2/jR3
- ZF6aBh7g06nizQrMs07NDGKEBPsD+WRFb5701WieM/6ip0Zyakh69kB29oFl5+fj15pk
- hEGVtXXfjKcIl2EUmcPBJYymtDcWXGb8GVaBKVg6RP+9D5WM0lRmRkMq9o0sHnWesPpd
- yGJA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvLTt-0007Ar-Qy
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:04:59 -0400
+Received: by mail-ed1-x533.google.com with SMTP id i5so1969114eds.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 08:04:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZPWHAVAGXPo4/SbAeLtNcLcHW5dMb9gQ3diizrZPTcg=;
+ b=x0KjqFArnLChC8thhNHSjyX9Qrg+LE7VAoCOave7iHg7fkElnolYouJzyplo7IBMeJ
+ pZEnneSdSFrXo5nftrNVmJ2kgF5iT9sDwYuWMylq6RjwaliQSjxD3RPB8fTEaN5ZseA+
+ q2Va4g543ccLXMQv1Vk7heyYkJGxx6ktYsuaqrwD/Q8qOKiKkDVzp3cv5hWsMv0/4qAD
+ areSurD0RSGaLSSoVQgcGL72sqZu1SZncDWIpaEh0xAVlj5PRGflwwArRfEjTRsJOrt5
+ htnutc6I3Lb+kZENsz0n4uEherqpPif5ExhHyr3ZG7G4PKQFalRlWukhTUOPqd6Yde5k
+ rkKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XU1ccI0xJvrI1JAi17lGq8BvnZVyzaC6HL6vOKntFNU=;
- b=MKBIJnSe3EvMKO3Hmsnqg/wtJ0U6WdMW/pPcQ88YFsjfym3SpTaxwj7BcVSOxfZgvZ
- dmI8ii6m5bU1XSfrGc9VDnZI62Gi/fmdqQ4xhxZ3WiYHiEy39yQvpU0HCDd7qKwOLNBw
- 4RtzibLE9befxkQnGaQsPXwNQW27NnqUd0f3tq6deoHOI1dbNn66gEj/DB+QvQXyO1wP
- Cunc6IoPHaILKSNNAxhYAcJlWhTGBA6ZcTJkIiwMvv64IwpWrqw4lE2gh9W9XEKVbKlV
- F8+RZRC2Nw48Hbgc8xO9p/t/8aZytnZ21Kd2xqTOy4/fRRhm0gqPntwGXawWozHLdQ2I
- GDjA==
-X-Gm-Message-State: AOAM5306Zk7Vfbfz41DO36nnayrxKzY9QiPqxzou6MnANN5maIUlQrFM
- u1gBSPvMl4I5GO+MqJD9OMI=
-X-Google-Smtp-Source: ABdhPJyRCjxRYZifr3WDFjCXcgj7k52xTt0+lY2cNl6H2reXowAY3g072zRxTczk0YCHUz+Buo94Fw==
-X-Received: by 2002:a1c:f30a:: with SMTP id q10mr27922159wmq.138.1624287839879; 
- Mon, 21 Jun 2021 08:03:59 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id o18sm17811118wrx.59.2021.06.21.08.03.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 08:03:59 -0700 (PDT)
-Subject: Re: [PATCH 01/26] accel/tcg: Introduce translator_use_goto_tb
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210621013439.1791385-1-richard.henderson@linaro.org>
- <20210621013439.1791385-2-richard.henderson@linaro.org>
- <d0f44918-da3f-60a2-d07c-1fde60b445d5@amsat.org>
- <7b8a349b-35ec-ee63-175f-6182ae8d58d1@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <eaad10ac-399c-5cdf-0ac5-d581aa105c1b@amsat.org>
-Date: Mon, 21 Jun 2021 17:03:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZPWHAVAGXPo4/SbAeLtNcLcHW5dMb9gQ3diizrZPTcg=;
+ b=m+W2PYPhzgXgvnsAkid8LndRyWXZecJbqwy1+BG+1xHlBQAOw2HDFxU+PM2TuPIIoH
+ cdNqMtlRClVcLIraqqag9vdeIqv1J3eeIEF6WRcNxqBm50N95bBT1z51/rOm5yBS+Ry/
+ pW4qP8uY5rL/9Qq11eQ/x6GjP/Eup7J6id4v3LlzBhMOo+eEZjfIBxmfUH/k/g/OLTkW
+ n2aKGqq5cVPInJpodDJ4Vr0mA4bMYAPmp4obEF9nopjMGWP4K2ESbWUgbbXdr2nhK60C
+ N+sgQ89NyA1cLERRHqVIQGZz36JClOMCZwPWTdj/KMzy30oWvavwntQLLk7g5yd7e1g8
+ UnzQ==
+X-Gm-Message-State: AOAM533tgZt7cl51lSSj3HjpB/zpJSg6AeFtqkfc2ZLD9yTgu/eoz1N/
+ ek0zXps+45oUa1ufLuGPk9k9JswB1L8uwLfFUat8BA==
+X-Google-Smtp-Source: ABdhPJya2VFQRnQHI+YV/ARn7W3mLBo8M/NZX+/qyBN5OhY1X6ZQc0iGnwy8TAfC9rMqYfH8NNQ5irddta40jdWs0e0=
+X-Received: by 2002:aa7:da14:: with SMTP id r20mr20925337eds.36.1624287896246; 
+ Mon, 21 Jun 2021 08:04:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7b8a349b-35ec-ee63-175f-6182ae8d58d1@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ <20210614083800.1166166-19-richard.henderson@linaro.org>
+In-Reply-To: <20210614083800.1166166-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Jun 2021 16:04:20 +0100
+Message-ID: <CAFEAcA-xVq=RWRGKE-Am2Riw-yh7degqCG4SM++R=DpHfTiW4g@mail.gmail.com>
+Subject: Re: [PATCH 18/28] tcg: Make use of bswap flags in tcg_gen_qemu_ld_*
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,31 +77,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/21 3:47 PM, Richard Henderson wrote:
-> On 6/21/21 5:50 AM, Philippe Mathieu-Daudé wrote:
->> I notice various targets do:
->>
->> #ifdef CONFIG_USER_ONLY
->>         return true;
->> #else
->>
->>> +    /* Check for the dest on the same page as the start of the TB.  */
->>> +    return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) == 0;
->> #endif
->>
->>> +}
->> Is that OK to remove this case? If so, it might be worth a comment
->> somewhere.
-> 
-> I mentioned it in the cover letter.
+On Mon, 14 Jun 2021 at 10:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We can perform any required sign-extension via TCG_BSWAP_OS.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-But the commit letter will vanish, so preferably mentioning
-the change in the commit description (copying the cover letter
-comment could work too):
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+thanks
+-- PMM
 
