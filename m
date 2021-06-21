@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50ED3AF542
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 20:41:53 +0200 (CEST)
-Received: from localhost ([::1]:56552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156233AF5B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 20:55:50 +0200 (CEST)
+Received: from localhost ([::1]:41246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvOro-0007F2-To
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 14:41:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56966)
+	id 1lvP5I-0007xg-MS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 14:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvOpW-0006LG-MH
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:39:31 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:45908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvOpQ-0004iK-JF
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:39:29 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- j21-20020a05600c1c15b02901dde2accccbso648384wms.4
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 11:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=S+WBbz66V/eLgmYvRXEUyUIsztzJvfswNCsSC2LooIg=;
- b=tFuINHAkIJ9CnCU8TwYIwVTvLPL9tWQZy2/zyxT4qIromZdGjV7LUBLVne/bO0ytBr
- ubGU6CsaTHyFL0YJSDOcEq7+8hA6hiRn7tR429ulZ2iiflk/7u7V4bFN8PbeKkUF2ERD
- xPEQ3aoS4fP+ymF1mXj45HghCOTUcb1Y7xabp3QF5l963HYmafrxUhNxenuKfM06syyn
- V0wAYvT3emuB18c+N2u1A2AoHQNAWZBMuDJQkMIwn+JAX2epEiOGjU1DM3VRUPehq2hA
- +ftWzMGjgZO2of+9MHlSIiWUfnAqcwutt5aBVkM8LNYsVdH95Yzuh3NFKg9IlOPec0jw
- C/eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=S+WBbz66V/eLgmYvRXEUyUIsztzJvfswNCsSC2LooIg=;
- b=LhRKHxC1UcS0jmdKfdF2J4DYv1sZcupYC/BLyALDLNmeQZC8b9FGKN6rTKRaV6+xHq
- t0PtgRoeISKEFUT/575jq/FXgNYhIusU534fx9GFio8ZJxsfyiYZliKCwXlu/oZA9x7i
- /nXRNElWu1WNa1s9GnKedNoxcm69pBGl13zIMnInVC4TF4Y+8doMnkbgZ99BZmWlXuAY
- pGrJpC1HeD6zqj4tbA/Spv9hJe3CMAxMuykNQrITqDduzafcQY5Aa5bolyNZKq3/x82y
- s5T6ajTGY+luJeXre6J/mwNmCMzfG+6x4460RHTO+fgYSSdczfgjZr0H791/dk2YbQLN
- exIg==
-X-Gm-Message-State: AOAM5324RLlYlnRtTj5iNSqxlQ1/gjXesN3mAYO/0xv3dapdN/ZB8H3y
- h1uPf0QHwcrpfeyLKL/gWm20ww==
-X-Google-Smtp-Source: ABdhPJxudXVSsQ+M4TYgabtPsXMiM5+VqUSiRU8ARitKpgl602Gh+a3E78I2i5nBKT2ZHoIvwJ8BVQ==
-X-Received: by 2002:a05:600c:2306:: with SMTP id
- 6mr27828618wmo.32.1624300762474; 
- Mon, 21 Jun 2021 11:39:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v8sm19675407wrc.29.2021.06.21.11.39.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 11:39:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D7D861FF7E;
- Mon, 21 Jun 2021 19:39:20 +0100 (BST)
-References: <20210621152120.4465-1-alex.bennee@linaro.org>
- <20210621152120.4465-5-alex.bennee@linaro.org>
- <8d588c37-0cd1-4a23-b7cb-8b7afd603696@amsat.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v1 4/5] configs: rename default-configs to configs and
- reorganise
-Date: Mon, 21 Jun 2021 19:38:52 +0100
-In-reply-to: <8d588c37-0cd1-4a23-b7cb-8b7afd603696@amsat.org>
-Message-ID: <877dint63r.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lvP3K-000608-Q2
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:53:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lvP3I-0005SP-0B
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:53:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624301622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0MeUpBjDh4GmrBVEFUq0CS7IjIDQK6bmO7fVVQTdNZ8=;
+ b=Kx+niDUmzQG7pN01Y8P6cXrG4VfobNLsQI4bRcG4SZz52yAe+sjcjOWkp3wjinL/Zw6Btu
+ gilDtiZpPXCWPhmDeIcZNFWFaRIB+DwOdSAnm2lMeTJbsvoorG3Gl2sioHrfKSi/uw/6dW
+ V16BwL6t93eiTJKOWdxvoOOy3rVey2I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-kekMAA0bOHWd69WgPvKntw-1; Mon, 21 Jun 2021 14:53:39 -0400
+X-MC-Unique: kekMAA0bOHWd69WgPvKntw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC806420E1;
+ Mon, 21 Jun 2021 18:53:38 +0000 (UTC)
+Received: from redhat.com (ovpn-113-63.phx2.redhat.com [10.3.113.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F6795DEFB;
+ Mon, 21 Jun 2021 18:53:38 +0000 (UTC)
+Date: Mon, 21 Jun 2021 13:53:36 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 5/6] block/nbd: Do not force-cap *pnum
+Message-ID: <20210621185336.zslqpqusqng4ub2u@redhat.com>
+References: <20210617155247.442150-1-mreitz@redhat.com>
+ <20210617155247.442150-6-mreitz@redhat.com>
+ <5b106499-94fb-2af7-3766-bc337d3f21ae@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5b106499-94fb-2af7-3766-bc337d3f21ae@virtuozzo.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,51 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- qemu-devel@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>, pbonzini@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, Jun 19, 2021 at 01:53:24PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> > +++ b/block/nbd.c
+> > @@ -1702,7 +1702,7 @@ static int coroutine_fn nbd_client_co_block_status(
+> >           .type = NBD_CMD_BLOCK_STATUS,
+> >           .from = offset,
+> >           .len = MIN(QEMU_ALIGN_DOWN(INT_MAX, bs->bl.request_alignment),
+> > -                   MIN(bytes, s->info.size - offset)),
+> > +                   s->info.size - offset),
+> >           .flags = NBD_CMD_FLAG_REQ_ONE,
+> >       };
+> > 
+> 
+> Hmm..
+> 
+> I don't that this change is correct. In contrast with file-posix you don't get extra information for free, you just make a larger request. This means that server will have to do more work.
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Not necessarily.  The fact that we have passed NBD_CMD_FLAG_REQ_ONE
+means that the server is still only allowed to give us one extent in
+its answer, and that it may not give us information beyond the length
+we requested.  You are right that if we lose the REQ_ONE flag we may
+result in the server doing more work to provide us additional extents
+that we will then be ignoring because we aren't yet set up for
+avoiding REQ_ONE.  Fixing that is a longer-term goal.  But in the
+short term, I see no harm in giving a larger length to the server with
+REQ_ONE.
 
-> On 6/21/21 5:21 PM, Alex Benn=C3=A9e wrote:
->> In preparation for offering variation to our build configurations lets
->> move everything and rename it to default. Common included base configs
->> are also renamed.
->>=20
->> During the cleanup the stale usb.mak and pci.mak references were
->> removed from MAINTAINERS.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  configure                                     |  6 ++---
->
->  ---
->>  meson.build                                   |  4 ++--
->>  MAINTAINERS                                   | 22 +++++++++----------
->>  tests/Makefile.include                        |  2 +-
->>  103 files changed, 28 insertions(+), 30 deletions(-)
->
->> --- a/tests/Makefile.include
->> +++ b/tests/Makefile.include
->> @@ -36,7 +36,7 @@ export SRC_PATH
->>=20=20
->>  # Get the list of all supported sysemu targets
->>  SYSEMU_TARGET_LIST :=3D $(subst -softmmu.mak,,$(notdir \
->> -   $(wildcard $(SRC_PATH)/default-configs/*-softmmu.mak)))
->> +   $(wildcard $(SRC_PATH)/configs/*-softmmu.mak)))
->
-> This one seems to have bitrotten.
+> 
+> (look at blockstatus_to_extents, it calls bdrv_block_status_above in a loop).
+> 
+> For example, assume that nbd export is a qcow2 image with all clusters allocated. With this change, nbd server will loop through the whole qcow2 image, load all L2 tables to return big allocated extent.
 
-Hmm it didn't break the build, looking at it I think this stanza needs
-to be dropped anyway...
+No, the server is allowed to reply with less length than our request,
+and that is particularly true if the server does NOT have free access
+to the full length of our request.  In the case of qcow2, since
+bdrv_block_status is (by current design) clamped at cluster
+boundaries, requesting a 4G length will NOT increase the amount of the
+server response any further than the first cluster boundary (that is,
+the point where the server no longer has free access to status without
+loading another cluster of L2 entries).
 
-Will fix thanks.
+> 
+> So, only server can decide, could it add some extra free information to request or not. But unfortunately NBD_CMD_FLAG_REQ_ONE doesn't allow it.
 
+What the flag prohibits is the server giving us more information than
+the length we requested.  But this patch is increasing our request
+length for the case where the server CAN give us more information than
+we need locally, on the hopes that even though the server can only
+reply with one extent, we aren't wasting as many network
+back-and-forth trips when a larger request would have worked.
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
---=20
-Alex Benn=C3=A9e
 
