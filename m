@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6428F3AE97C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:57:15 +0200 (CEST)
-Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF2C3AE97F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:58:02 +0200 (CEST)
+Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvJUI-0002fn-DJ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:57:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41864)
+	id 1lvJV3-0003yb-94
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:58:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lvJQ6-0007Yc-1e; Mon, 21 Jun 2021 08:52:54 -0400
+ id 1lvJQ8-0007gG-VW; Mon, 21 Jun 2021 08:52:56 -0400
 Received: from [201.28.113.2] (port=47857 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lvJQ4-0004nA-6X; Mon, 21 Jun 2021 08:52:53 -0400
+ id 1lvJQ7-0004nA-3A; Mon, 21 Jun 2021 08:52:56 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Mon, 21 Jun 2021 09:51:39 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 6EF48800055;
+ by power9a (Postfix) with ESMTP id 97D9980005E;
  Mon, 21 Jun 2021 09:51:39 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/10] target/ppc: Use MMUAccessType with *_handle_mmu_fault
-Date: Mon, 21 Jun 2021 09:51:07 -0300
-Message-Id: <20210621125115.67717-3-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v2 03/10] target/ppc: Push real-mode handling into
+ ppc_radix64_xlate
+Date: Mon, 21 Jun 2021 09:51:08 -0300
+Message-Id: <20210621125115.67717-4-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
 References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 21 Jun 2021 12:51:39.0586 (UTC)
- FILETIME=[2D8CEA20:01D7669C]
+X-OriginalArrivalTime: 21 Jun 2021 12:51:39.0742 (UTC)
+ FILETIME=[2DA4B7E0:01D7669C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,144 +63,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-These changes were waiting until we didn't need to match
-the function type of PowerPCCPUClass.handle_mmu_fault.
+This removes some incomplete duplication between
+ppc_radix64_handle_mmu_fault and ppc_radix64_get_phys_page_debug.
+The former was correct wrt SPR_HRMOR and the latter was not.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/mmu-hash32.c  | 7 ++-----
- target/ppc/mmu-hash32.h  | 4 ++--
- target/ppc/mmu-hash64.c  | 6 +-----
- target/ppc/mmu-hash64.h  | 4 ++--
- target/ppc/mmu-radix64.c | 7 ++-----
- target/ppc/mmu-radix64.h | 4 ++--
- 6 files changed, 11 insertions(+), 21 deletions(-)
+ target/ppc/mmu-radix64.c | 77 ++++++++++++++++++----------------------
+ 1 file changed, 34 insertions(+), 43 deletions(-)
 
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index 9f0a497657..8f19b43e47 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -415,8 +415,8 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
-     return (rpn & ~mask) | (eaddr & mask);
- }
- 
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                                int mmu_idx)
-+int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                MMUAccessType access_type, int mmu_idx)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -425,11 +425,8 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
-     ppc_hash_pte32_t pte;
-     int prot;
-     int need_prot;
--    MMUAccessType access_type;
-     hwaddr raddr;
- 
--    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
--    access_type = rwx;
-     need_prot = prot_for_access_type(access_type);
- 
-     /* 1. Handle real mode accesses */
-diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
-index 898021f0d8..30e35718a7 100644
---- a/target/ppc/mmu-hash32.h
-+++ b/target/ppc/mmu-hash32.h
-@@ -5,8 +5,8 @@
- 
- hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash);
- hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
--                                int mmu_idx);
-+int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
-+                                MMUAccessType access_type, int mmu_idx);
- 
- /*
-  * Segment register definitions
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 708dffc31b..2febd369b1 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -874,7 +874,7 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
- }
- 
- int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                int rwx, int mmu_idx)
-+                                MMUAccessType access_type, int mmu_idx)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -884,13 +884,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     hwaddr ptex;
-     ppc_hash_pte64_t pte;
-     int exec_prot, pp_prot, amr_prot, prot;
--    MMUAccessType access_type;
-     int need_prot;
-     hwaddr raddr;
- 
--    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
--    access_type = rwx;
--
-     /*
-      * Note on LPCR usage: 970 uses HID4, but our special variant of
-      * store_spr copies relevant fields into env->spr[SPR_LPCR].
-diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-index 4b8b8e7950..3e8a8eec1f 100644
---- a/target/ppc/mmu-hash64.h
-+++ b/target/ppc/mmu-hash64.h
-@@ -8,8 +8,8 @@ void dump_slb(PowerPCCPU *cpu);
- int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
-                   target_ulong esid, target_ulong vsid);
- hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
--int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
--                                int mmu_idx);
-+int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
-+                                MMUAccessType access_type, int mmu_idx);
- void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
-                                target_ulong pte_index,
-                                target_ulong pte0, target_ulong pte1);
 diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index b6d191c1d8..1c707d387d 100644
+index 1c707d387d..dd5ae69052 100644
 --- a/target/ppc/mmu-radix64.c
 +++ b/target/ppc/mmu-radix64.c
-@@ -555,19 +555,16 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-     return 0;
- }
+@@ -465,7 +465,6 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+  */
+ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+                              MMUAccessType access_type,
+-                             bool relocation,
+                              hwaddr *raddr, int *psizep, int *protp,
+                              bool guest_visible)
+ {
+@@ -474,6 +473,37 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
+     ppc_v3_pate_t pate;
+     int psize, prot;
+     hwaddr g_raddr;
++    bool relocation;
++
++    assert(!(msr_hv && cpu->vhyp));
++
++    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
++
++    /* HV or virtual hypervisor Real Mode Access */
++    if (!relocation && (msr_hv || cpu->vhyp)) {
++        /* In real mode top 4 effective addr bits (mostly) ignored */
++        *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
++
++        /* In HV mode, add HRMOR if top EA bit is clear */
++        if (msr_hv || !env->has_hv_mode) {
++            if (!(eaddr >> 63)) {
++                *raddr |= env->spr[SPR_HRMOR];
++           }
++        }
++        *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
++        *psizep = TARGET_PAGE_BITS;
++        return 0;
++    }
++
++    /*
++     * Check UPRT (we avoid the check in real mode to deal with
++     * transitional states during kexec.
++     */
++    if (guest_visible && !ppc64_use_proc_tbl(cpu)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "LPCR:UPRT not set in radix mode ! LPCR="
++                      TARGET_FMT_lx "\n", env->spr[SPR_LPCR]);
++    }
  
--int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                                 int mmu_idx)
-+int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                 MMUAccessType access_type, int mmu_idx)
+     /* Virtual Mode Access - get the fully qualified address */
+     if (!ppc_radix64_get_fully_qualified_addr(&cpu->env, eaddr, &lpid, &pid)) {
+@@ -559,43 +589,11 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+                                  MMUAccessType access_type, int mmu_idx)
  {
      CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
+-    CPUPPCState *env = &cpu->env;
      int page_size, prot;
-     bool relocation;
--    MMUAccessType access_type;
+-    bool relocation;
      hwaddr raddr;
  
-     assert(!(msr_hv && cpu->vhyp));
--    assert((rwx == 0) || (rwx == 1) || (rwx == 2));
--    access_type = rwx;
+-    assert(!(msr_hv && cpu->vhyp));
+-
+-    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
+-    /* HV or virtual hypervisor Real Mode Access */
+-    if (!relocation && (msr_hv || cpu->vhyp)) {
+-        /* In real mode top 4 effective addr bits (mostly) ignored */
+-        raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
+-
+-        /* In HV mode, add HRMOR if top EA bit is clear */
+-        if (msr_hv || !env->has_hv_mode) {
+-            if (!(eaddr >> 63)) {
+-                raddr |= env->spr[SPR_HRMOR];
+-           }
+-        }
+-        tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
+-                     PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
+-                     TARGET_PAGE_SIZE);
+-        return 0;
+-    }
+-
+-    /*
+-     * Check UPRT (we avoid the check in real mode to deal with
+-     * transitional states during kexec.
+-     */
+-    if (!ppc64_use_proc_tbl(cpu)) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "LPCR:UPRT not set in radix mode ! LPCR="
+-                      TARGET_FMT_lx "\n", env->spr[SPR_LPCR]);
+-    }
+-
+     /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
+-    if (ppc_radix64_xlate(cpu, eaddr, access_type, relocation, &raddr,
++    if (ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
+                           &page_size, &prot, true)) {
+         return 1;
+     }
+@@ -607,18 +605,11 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
  
-     relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
-     /* HV or virtual hypervisor Real Mode Access */
-diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-index f28c5794d0..94bd72cb38 100644
---- a/target/ppc/mmu-radix64.h
-+++ b/target/ppc/mmu-radix64.h
-@@ -44,8 +44,8 @@
+ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
+ {
+-    CPUPPCState *env = &cpu->env;
+     int psize, prot;
+     hwaddr raddr;
  
- #ifdef TARGET_PPC64
+-    /* Handle Real Mode */
+-    if ((msr_dr == 0) && (msr_hv || cpu->vhyp)) {
+-        /* In real mode top 4 effective addr bits (mostly) ignored */
+-        return eaddr & 0x0FFFFFFFFFFFFFFFULL;
+-    }
+-
+-    if (ppc_radix64_xlate(cpu, eaddr, 0, msr_dr, &raddr, &psize,
+-                          &prot, false)) {
++    if (ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
++                          &psize, &prot, false)) {
+         return -1;
+     }
  
--int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                                 int mmu_idx);
-+int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                 MMUAccessType access_type, int mmu_idx);
- hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
- 
- static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
 -- 
 2.17.1
 
