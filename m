@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DC33AF68D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 22:02:54 +0200 (CEST)
-Received: from localhost ([::1]:56228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FA03AF6A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 22:06:33 +0200 (CEST)
+Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvQ8D-00007R-94
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 16:02:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43200)
+	id 1lvQBk-00034J-6N
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 16:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvQ6q-0007b4-KM
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 16:01:28 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33537)
+ id 1lvQA4-0001eq-75
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 16:04:48 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvQ6p-0005uV-3n
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 16:01:28 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d11so18630592wrm.0
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 13:01:26 -0700 (PDT)
+ id 1lvQA2-00087Q-Hr
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 16:04:47 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id j2so10469609wrs.12
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 13:04:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zMv4HpV47AEt2wGl+8xUTp29cn5MG7c+PIC5Tn9a84Q=;
- b=fTuMLzZ7HkuTpy0CLHrGJkyWEPlZhz2gBSJZWdXZE5AzbIarCGDbWm/rNiZLmL9Kcq
- JHJ2XIfTIalC5F4zkm+pgeXLlhTHABPzuX/XeQSl5pdR3Dgx75BBaNR7wUNVdrakgQjw
- IWENT5l2LwYWW4uhKA9grnYT1RjXm2d3LIEoMkDDw2R8B/TU2RYzB1jZoUAbvFg74EHb
- i8Mc/m9wKo3UlNr5TRl3Dc2+Gli+R8kMvV1UBsqKWmOofMa1lk7QZgWuL1BKd9+rdtU/
- MPwy9LhFVPaIOy24fMBLQCSzIHGe5ir5PlSWhzOA0gzaMV+TfShYbN8pTwFr6uPGqNdV
- 7ulQ==
+ bh=UnvbL98CEHfBo1vNrFlWYLH8FrRj/kftOvBXV7A9Tek=;
+ b=EALqSqImNlPuOXoXGS9gzT2Q2O1lirvlFie6AfPaqHO13v/2oRXWU6m1cIDmLfMzbe
+ R3kRNdimhYisYujP5a65gQuAeYNVRuvDobz55xfzezH8E7JR40BGeIwTzOZ+U+zvUxGG
+ 6fuDaX2EvlV+0Qd1bpnr+hY7pP+vtl/MPM2Mr6WabCZ4CU42DVraA+pk7EaP51GMoeql
+ JS/4kJ1rYs3P4auLSoJAMs2J1VQedz13dohpGyuS/Svc/EcmeH6yteuxw8igAmnZAYo+
+ qtil0wGbLXHA0EYA/+52f4R00CIqCYZNxY6tBiMA9nURmqsjSMR6ayNAx4mKzTlVPYsj
+ MScg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zMv4HpV47AEt2wGl+8xUTp29cn5MG7c+PIC5Tn9a84Q=;
- b=qcD0xDCNYGbXfOuaVPRCpP+Gp5FLxR33sj0XCFTNO+wwz4kUbFIte9P3QlkMjcpdjw
- Vg1jEdKzQ29A2MbW4Hm8sJVArBKrpxriGzuUVbGML1Eq9ZS+VVGGs/KjpDoPZvUSGiOr
- hhM+BFRa2p4xYR6rAoiaAfRPUV9uXtYuGm4CalN8Tqv5vlrXeefji6//B4rluZG+4u7b
- 0Mde8le8oyhx2gVUj5K7ozUmu2ebbkDLj5/zzS99sgSh/g3OzY3Pb9opPgsyfcMFR+TJ
- K/PMIyuGyiLgG1rJBvOuAwVZDWXyGb5071f8KyHv5mKFiDfxZAua0+WmQ271SQcgW7Ex
- Fs2Q==
-X-Gm-Message-State: AOAM531btbhgAts7MDvc6xCy+sLRHNInoAzmS8w6wiyUwg+ngbS+hcJa
- bcCqRlmnaPi44ekqmTZs64c=
-X-Google-Smtp-Source: ABdhPJzwJztWPro9VNpNkKa77BvcL6sPJyC15XXnucRgWrY/VLQV/Qt7HkPoUPpV5zbSTKZiC/rGig==
-X-Received: by 2002:adf:f68a:: with SMTP id v10mr145265wrp.366.1624305685748; 
- Mon, 21 Jun 2021 13:01:25 -0700 (PDT)
+ bh=UnvbL98CEHfBo1vNrFlWYLH8FrRj/kftOvBXV7A9Tek=;
+ b=aMMwXjwPsyZwRewvaBMIYdTkUrTEnCsYEpQ5yvuSzqL/fS1vm6+3mSJMURaa5lB4/c
+ k4u3MyXhgIlVWJHAjxCyYfMS5uBPm395hiJyGNGk7AvkzuLbZoWJLTm3R//f8CJIOeBM
+ VQY7WcOyweqb2lHMbJZPA4hFHtjn+89AK1r4dgU8wMQ20cVxlQmLFbUtZfXzJq+dJ+Cc
+ aGqYqY1kLnBEWMCpKsC+CXZdy3RLgESkvhgV29u/BzM0mSEGBl+GSXEwP6ECt+HPdqV9
+ O/GhvLxR1kxB9SkViJjdOU9AQPjI9ld6ru+PeVq0DqxbnamddwvEWxXYyivPIvqqpcUe
+ HfhQ==
+X-Gm-Message-State: AOAM5327IC0jPcUmXGtOcx5Xb8keoOaBXy2j60tODrSNLTfOa2K8EJ8p
+ MRW4Injuw6AJl9MehgF+spkTpVxMIUFQZA==
+X-Google-Smtp-Source: ABdhPJzcjSG8b5vZPC1A7ERdX79GKX19mlav/KsqcKqkmgOTw2hZzTbgA3rFeYcnGuiv8YX7ycoj/Q==
+X-Received: by 2002:a5d:4b8d:: with SMTP id b13mr141496wrt.147.1624305884746; 
+ Mon, 21 Jun 2021 13:04:44 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id r1sm88446wmn.10.2021.06.21.13.01.23
+ by smtp.gmail.com with ESMTPSA id x14sm18621042wrq.78.2021.06.21.13.04.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 13:01:24 -0700 (PDT)
-Subject: Re: [PATCH v2 02/11] target/cris: Replace DISAS_TB_JUMP with
- DISAS_NORETURN
+ Mon, 21 Jun 2021 13:04:44 -0700 (PDT)
+Subject: Re: [PATCH v2 08/11] target/cris: Mark static arrays const
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210620213249.1494274-1-richard.henderson@linaro.org>
- <20210620213249.1494274-3-richard.henderson@linaro.org>
+ <20210620213249.1494274-9-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <42a219d5-8ca3-b15b-7b79-2d57fd23cdf5@amsat.org>
-Date: Mon, 21 Jun 2021 22:01:17 +0200
+Message-ID: <f731e84f-b84a-52e5-8c5e-ad4b17951ac0@amsat.org>
+Date: Mon, 21 Jun 2021 22:04:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210620213249.1494274-3-richard.henderson@linaro.org>
+In-Reply-To: <20210620213249.1494274-9-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,24 +94,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/20/21 11:32 PM, Richard Henderson wrote:
-> The only semantic of DISAS_TB_JUMP is that we've done goto_tb,
-> which is the same as DISAS_NORETURN -- we've exited the tb.
-> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/cris/translate.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/cris/translate.c b/target/cris/translate.c
-> index bed7a7ed10..2ff4319dd1 100644
-> --- a/target/cris/translate.c
-> +++ b/target/cris/translate.c
-> @@ -55,7 +55,6 @@
->  /* is_jmp field values */
->  #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
->  #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
-> -#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
->  #define DISAS_SWI     DISAS_TARGET_3
+>  target/cris/translate.c         | 19 ++++++++++---------
+>  target/cris/translate_v10.c.inc |  6 +++---
+>  2 files changed, 13 insertions(+), 12 deletions(-)
 
-Can we #define DISAS_SWI DISAS_TARGET_2 in the same commit?
+>  #if DISAS_CRIS
+>  static const char *cc_name(int cc)
+>  {
+> -    static const char *cc_names[16] = {
+> +    static const char * const cc_names[16] = {
+
+char [2]?
+
+>          "cc", "cs", "ne", "eq", "vc", "vs", "pl", "mi",
+>          "ls", "hi", "ge", "lt", "gt", "le", "a", "p"
+>      };
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
