@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EEF63AE786
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:47:08 +0200 (CEST)
-Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A233AE7AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:52:44 +0200 (CEST)
+Received: from localhost ([::1]:37926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvHSN-0004Tt-Hl
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:47:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41982)
+	id 1lvHXn-0007tq-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lvHFo-0000Ed-Dj
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:34:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34444)
+ id 1lvHFr-0000GZ-Hl
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:34:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lvHFl-0002MH-BP
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:34:08 -0400
+ id 1lvHFp-0002OJ-7Z
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:34:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624271644;
+ s=mimecast20190719; t=1624271648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eICVYxVdUNHac6FE/G5w5tjvWZqnPdGaISiBkEw+bP4=;
- b=f7ClQ1hfdVkRcuRgCsHsd7d9fj5iozeLiuLIyNeUr51nO7vFY0HwjRD5bB++Pr8G4jboK9
- 3gev7juqtJyk31Z2Oi+s0H9JSfSxjyJ32GF5jD+Hx3MCiaHTm8+2vOhzln9pzjGku06g0G
- 8bLO1jFIVTc7gd6RIQQJ81gSWbGulWg=
+ bh=JZa6gM+SaDJz+ys+mZpYhLdwH7LECvKMl4dRLpmvgD4=;
+ b=cCiT7gkT2Sx1MQ/TAoT4LCxbSbiHUkSonHj5GSfJNC4vgCooFg017P+h2pONdDCUvrdQ41
+ 5E5o3vnDRVeQRfI/UQ1UegHrx2SAr91Djaws7o1VIeok0fiKLOtNAQA9v3t03TJ8lmNVup
+ 9lSmE53y2EnAR6YmvrnSpHodmLxX1UM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-SXZvdduxN6GQbFXHThfwEg-1; Mon, 21 Jun 2021 06:34:01 -0400
-X-MC-Unique: SXZvdduxN6GQbFXHThfwEg-1
+ us-mta-63-QnBZW9aOPWSCatAT512cgQ-1; Mon, 21 Jun 2021 06:34:07 -0400
+X-MC-Unique: QnBZW9aOPWSCatAT512cgQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56AC5804141;
- Mon, 21 Jun 2021 10:34:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 383FB804144;
+ Mon, 21 Jun 2021 10:34:06 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-100.ams2.redhat.com
  [10.36.113.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA7C35444E;
- Mon, 21 Jun 2021 10:33:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2B4D5444E;
+ Mon, 21 Jun 2021 10:34:00 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 07/16] qemu_iotests: insert gdbserver command line as
- wrapper for qemu binary
-Date: Mon, 21 Jun 2021 12:33:28 +0200
-Message-Id: <20210621103337.36637-8-eesposit@redhat.com>
+Subject: [PATCH v6 08/16] qemu-iotests: add gdbserver option to script tests
+ too
+Date: Mon, 21 Jun 2021 12:33:29 +0200
+Message-Id: <20210621103337.36637-9-eesposit@redhat.com>
 In-Reply-To: <20210621103337.36637-1-eesposit@redhat.com>
 References: <20210621103337.36637-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -89,26 +89,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The only limitation here is that running a script with gdbserver
+will make the test output mismatch with the expected
+results, making the test fail.
+
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/iotests.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/common.rc | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index e176a84620..e7e3d92d3e 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -580,7 +580,8 @@ class VM(qtest.QEMUQtestMachine):
-     def __init__(self, path_suffix=''):
-         name = "qemu%s-%d" % (path_suffix, os.getpid())
-         timer = 15.0 if not qemu_gdb else None
--        super().__init__(qemu_prog, qemu_opts, name=name,
-+        super().__init__(qemu_prog, qemu_opts, wrapper=qemu_gdb,
-+                         name=name,
-                          base_temp_dir=test_dir,
-                          socket_scm_helper=socket_scm_helper,
-                          sock_dir=sock_dir, qmp_timer=timer)
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index cbbf6d7c7f..a1ef2b5c2f 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -166,8 +166,14 @@ _qemu_wrapper()
+         if [ -n "${QEMU_NEED_PID}" ]; then
+             echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid"
+         fi
++
++        GDB=""
++        if [ ! -z ${GDB_OPTIONS} ]; then
++            GDB="gdbserver ${GDB_OPTIONS}"
++        fi
++
+         VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGFILE}" \
+-            "$QEMU_PROG" $QEMU_OPTIONS "$@"
++            $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@"
+     )
+     RETVAL=$?
+     _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
 -- 
 2.31.1
 
