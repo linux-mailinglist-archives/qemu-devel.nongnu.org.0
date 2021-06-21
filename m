@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BB33AEB3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:27:16 +0200 (CEST)
-Received: from localhost ([::1]:51262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7514C3AEB33
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:26:41 +0200 (CEST)
+Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvKtP-00027l-Ny
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34048)
+	id 1lvKsq-0000cN-Hx
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lvKpx-00036L-KU
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:23:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29326)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lvKrN-0006sh-Ud; Mon, 21 Jun 2021 10:25:09 -0400
+Resent-Date: Mon, 21 Jun 2021 10:25:09 -0400
+Resent-Message-Id: <E1lvKrN-0006sh-Ud@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lvKps-0007tT-QM
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:23:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624285414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YNu5Bg5Blog31a4R2un4VWYXZOCNOgVuIDk7FGHXa5U=;
- b=NR/FvaKa0bWpUiAPiGWSLc3AN1jQf6I5Wfsz4WAvfv1Zn52Csw5Cl+TfbJMp+iSGjejF6v
- UcPU7GW0rP+FRiNcWPA+QisVt5JTZPq8FTWg4hDN5qeEsUsfUhebhzrfadpmF3x/kkO2vF
- /tebJtY4aX8ZR2hzX7izTcmqM9lEXp0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-GkXdPMaXOt6XXh4wig7E0Q-1; Mon, 21 Jun 2021 10:23:32 -0400
-X-MC-Unique: GkXdPMaXOt6XXh4wig7E0Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 121A2A0CAC;
- Mon, 21 Jun 2021 14:23:31 +0000 (UTC)
-Received: from localhost (unknown [10.22.8.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 98C2560938;
- Mon, 21 Jun 2021 14:23:30 +0000 (UTC)
-Date: Mon, 21 Jun 2021 10:23:29 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
-Message-ID: <20210621142329.atlhrovqkblbjwgh@habkost.net>
-References: <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
- <87a6no3fzf.fsf@dusky.pond.sub.org>
- <790d22e1-5de9-ba20-6c03-415b62223d7d@suse.de>
- <877dis1sue.fsf@dusky.pond.sub.org>
- <20210617153949.GA357@dhcp-172-16-24-191.sw.ru>
- <e69ea2b4-21cc-8203-ad2d-10a0f4ffe34a@suse.de>
- <20210617165111.eu3x2pvinpoedsqj@habkost.net>
- <87sg1fwwgg.fsf@dusky.pond.sub.org>
- <20210618204006.k6krwuz2lpxvb6uh@habkost.net>
- <6f644bbb-52ff-4d79-36bb-208c6b6c4eef@suse.de>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lvKrL-0008UV-BX; Mon, 21 Jun 2021 10:25:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624285493; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Fg8fdbPj2TyuzZfZfgqStqDMCGUc7rUZicM0CXgt2enpI+ca15mfeUyGzlc00aDPsRE/fEoLwMzBHUNfGo+LBRWxKsRq0IJJbe6X2lPquDnshczL0wzQc6muyu6aIwKsePyfcBoBGJtUuEGRgyb/UY/VbwJyPA3wuhnVdtwUPW4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1624285493;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=vQ/T7tXw+5AsEB8k9XzGp9nqkQZyb9qCjc8/F8A/mWM=; 
+ b=c6GwXgbCNgeum9ged8f89TK/auhHf5CQ2Jp3cyEMbN3gxFAZHTaRgwksmZqFW8pGKOPS2QyAOV/B4+xu7hoqAbHMGjZ5gsxPodsoj7CFZHu1MjULmf+pS66jDuPqtZNmhfZdKsXYEBhPG9BmDsCGDl+lMbPXbe+wAiXgl36MuaE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 162428549193288.59323331390158;
+ Mon, 21 Jun 2021 07:24:51 -0700 (PDT)
+In-Reply-To: <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] linux-user/s390x: signal with SIGFPE on
+ compare-and-trap
+Message-ID: <162428549032.6049.5201517690369890765@7c66fb7bc3ab>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6f644bbb-52ff-4d79-36bb-208c6b6c4eef@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: jonathan.albrecht@linux.vnet.ibm.com
+Date: Mon, 21 Jun 2021 07:24:51 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,78 +65,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: jonathan.albrecht@linux.vnet.ibm.com, iii@linux.ibm.com, david@redhat.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ krebbel@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 10:07:44AM +0200, Claudio Fontana wrote:
-> On 6/18/21 10:40 PM, Eduardo Habkost wrote:
-> > On Fri, Jun 18, 2021 at 07:52:47AM +0200, Markus Armbruster wrote:
-> >> Eduardo Habkost <ehabkost@redhat.com> writes:
-> >>
-> >>> On Thu, Jun 17, 2021 at 05:53:11PM +0200, Claudio Fontana wrote:
-> >>>> On 6/17/21 5:39 PM, Valeriy Vdovin wrote:
-> >>>>> On Thu, Jun 17, 2021 at 04:14:17PM +0200, Markus Armbruster wrote:
-> >>>>>> Claudio Fontana <cfontana@suse.de> writes:
-> >>>>>>
-> >>>>>>> On 6/17/21 1:09 PM, Markus Armbruster wrote:
-> >>
-> >> [...]
-> >>
-> >>>>>>>> If it just isn't implemented for anything but KVM, then putting "kvm"
-> >>>>>>>> into the command name is a bad idea.  Also, the commit message should
-> >>>>>>>> briefly note the restriction to KVM.
-> >>>>>>
-> >>>>>> Perhaps this one is closer to reality.
-> >>>>>>
-> >>>>> I agree.
-> >>>>> What command name do you suggest?
-> >>>>
-> >>>> query-exposed-cpuid?
-> >>>
-> >>> Pasting the reply I sent at [1]:
-> >>>
-> >>>   I don't really mind how the command is called, but I would prefer
-> >>>   to add a more complex abstraction only if maintainers of other
-> >>>   accelerators are interested and volunteer to provide similar
-> >>>   functionality.  I don't want to introduce complexity for use
-> >>>   cases that may not even exist.
-> >>>
-> >>> I'm expecting this to be just a debugging mechanism, not a stable
-> >>> API to be maintained and supported for decades.  (Maybe a "x-"
-> >>> prefix should be added to indicate that?)
-> >>>
-> >>> [1] https://lore.kernel.org/qemu-devel/20210602204604.crsxvqixkkll4ef4@habkost.net
-> >>
-> >> x-query-x86_64-cpuid?
-> >>
-> > 
-> > Unless somebody wants to spend time designing a generic
-> > abstraction around this (and justify the extra complexity), this
-> > is a KVM-specific command.  Is there a reason to avoid "kvm" in
-> > the command name?
-> > 
-> 
-> If the point of all of this is "please get me the cpuid, as seen by the guest", then I fail to see how this should be kvm-only.
-> We can still return "not implemented" of some kind for HVF, TCG etc.
-> 
-> But maybe I misread the use case?
-
-A generic interface would require additional glue to connect the
-generic code to the accel-specific implementation.  I'm trying to
-avoid wasting everybody's time with the extra complexity unless
-necessary.
-
-But if you all believe the extra complexity is worth it, I won't
-object.
-
--- 
-Eduardo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyMTE0MTQ1Mi4yMDQ1
+LTEtam9uYXRoYW4uYWxicmVjaHRAbGludXgudm5ldC5pYm0uY29tLwoKCgpIaSwKClRoaXMgc2Vy
+aWVzIHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQg
+YmVsb3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAy
+MTA2MjExNDE0NTIuMjA0NS0xLWpvbmF0aGFuLmFsYnJlY2h0QGxpbnV4LnZuZXQuaWJtLmNvbQpT
+dWJqZWN0OiBbUEFUQ0ggMC8yXSBsaW51eC11c2VyL3MzOTB4OiBzaWduYWwgd2l0aCBTSUdGUEUg
+b24gY29tcGFyZS1hbmQtdHJhcAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFz
+aApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBU
+cnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRz
+L2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
+ClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBo
+dHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAg
+ICAgcGF0Y2hldy8yMDIxMDUyNjE0MjQzOC4yODE0NzctMS1mNGJ1Z0BhbXNhdC5vcmcgLT4gcGF0
+Y2hldy8yMDIxMDUyNjE0MjQzOC4yODE0NzctMS1mNGJ1Z0BhbXNhdC5vcmcKIC0gW3RhZyB1cGRh
+dGVdICAgICAgcGF0Y2hldy8yMDIxMDYxNDA4MzgwMC4xMTY2MTY2LTEtcmljaGFyZC5oZW5kZXJz
+b25AbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwNjE0MDgzODAwLjExNjYxNjYtMS1yaWNoYXJk
+LmhlbmRlcnNvbkBsaW5hcm8ub3JnCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA2
+MjExNDE0NTIuMjA0NS0xLWpvbmF0aGFuLmFsYnJlY2h0QGxpbnV4LnZuZXQuaWJtLmNvbSAtPiBw
+YXRjaGV3LzIwMjEwNjIxMTQxNDUyLjIwNDUtMS1qb25hdGhhbi5hbGJyZWNodEBsaW51eC52bmV0
+LmlibS5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpjNmIzYmE2IHRlc3RzL3Rj
+ZzogVGVzdCB0aGF0IGNvbXBhcmUtYW5kLXRyYXAgcmFpc2VzIFNJR0ZQRQo3YmFiNDQyIGxpbnV4
+LXVzZXIvczM5MHg6IHNpZ25hbCB3aXRoIFNJR0ZQRSBvbiBjb21wYXJlLWFuZC10cmFwCgo9PT0g
+T1VUUFVUIEJFR0lOID09PQoxLzIgQ2hlY2tpbmcgY29tbWl0IDdiYWI0NDI3YTVlOSAobGludXgt
+dXNlci9zMzkweDogc2lnbmFsIHdpdGggU0lHRlBFIG9uIGNvbXBhcmUtYW5kLXRyYXApCjIvMiBD
+aGVja2luZyBjb21taXQgYzZiM2JhNjI1ODA1ICh0ZXN0cy90Y2c6IFRlc3QgdGhhdCBjb21wYXJl
+LWFuZC10cmFwIHJhaXNlcyBTSUdGUEUpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
+IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI1OiAKbmV3IGZpbGUg
+bW9kZSAxMDA2NDQKCkVSUk9SOiBkbyBub3QgaW5pdGlhbGlzZSBnbG9iYWxzIHRvIDAgb3IgTlVM
+TAojNzE6IEZJTEU6IHRlc3RzL3RjZy9zMzkweC90cmFwLmM6NDI6CitpbnQgc2lnZnBlX2NvdW50
+ID0gMDsKCkVSUk9SOiBkbyBub3QgaW5pdGlhbGlzZSBnbG9iYWxzIHRvIDAgb3IgTlVMTAojNzI6
+IEZJTEU6IHRlc3RzL3RjZy9zMzkweC90cmFwLmM6NDM6CitpbnQgc2lnaWxsX2NvdW50ID0gMDsK
+CkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM4MzogRklMRTogdGVzdHMvdGNnL3MzOTB4L3Ry
+YXAuYzo1NDoKKyAgICAkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMTE2OiBGSUxFOiB0
+ZXN0cy90Y2cvczM5MHgvdHJhcC5jOjg3OgorICAgICAgICA6ICQKCnRvdGFsOiA0IGVycm9ycywg
+MSB3YXJuaW5ncywgMTA0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMiBoYXMgc3R5bGUgcHJvYmxl
+bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
+dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
+SU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGgg
+Y29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3Jn
+L2xvZ3MvMjAyMTA2MjExNDE0NTIuMjA0NS0xLWpvbmF0aGFuLmFsYnJlY2h0QGxpbnV4LnZuZXQu
+aWJtLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
+YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
+YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
