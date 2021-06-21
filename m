@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FB73AE270
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:33:07 +0200 (CEST)
-Received: from localhost ([::1]:51268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163AB3AE273
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:34:18 +0200 (CEST)
+Received: from localhost ([::1]:58406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvBcQ-0006L9-78
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:33:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60258)
+	id 1lvBdZ-0002oK-45
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVa-0006qh-IZ
+ id 1lvBVa-0006pw-D9
  for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37188)
+Received: from indium.canonical.com ([91.189.90.7]:37114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVY-0007IP-8l
+ id 1lvBVX-0007HT-EA
  for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvBVT-0002BR-MA
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:56 +0000
+ id 1lvBVS-0002BY-95
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B76F92E81A4
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E86F72E81D9
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Jun 2021 04:17:16 -0000
-From: Launchpad Bug Tracker <1749016@bugs.launchpad.net>
+Date: Mon, 21 Jun 2021 04:17:18 -0000
+From: Launchpad Bug Tracker <1751264@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: qemu-img vhdx
+X-Launchpad-Bug-Tags: qemu-img
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor msfrucht stefanha th-huth
-X-Launchpad-Bug-Reporter: Michael Fruchtman (msfrucht)
+X-Launchpad-Bug-Commenters: janitor kyominii th-huth xanclic
+X-Launchpad-Bug-Reporter: Teddy VALETTE (kyominii)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151847184922.10299.8486156753106334227.malonedeb@wampee.canonical.com>
-Message-Id: <162424903752.11837.18164542055033550595.malone@loganberry.canonical.com>
-Subject: [Bug 1749016] Re: VHDX BAT and Metadata Region Header Required Bit
- Not Set
+References: <151939024836.30479.4933664010119224710.malonedeb@gac.canonical.com>
+Message-Id: <162424903870.11837.2074864818330726620.malone@loganberry.canonical.com>
+Subject: [Bug 1751264] Re: qemu-img convert issue in a tmpfs partition
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: ad1733039a9e2905fe4b7841aefda15d1a6d5064
+X-Launchpad-Hash: d108f78465f0f3b93ecd7b4bbca929e138c2652d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1749016 <1749016@bugs.launchpad.net>
+Reply-To: Bug 1751264 <1751264@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,58 +84,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1749016
+https://bugs.launchpad.net/bugs/1751264
 
 Title:
-  VHDX BAT and Metadata Region Header Required Bit Not Set
+  qemu-img convert issue in a tmpfs partition
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When converting a VMDK to VHDX the resulting VHDX's Region table has a
-  small error. According to the VHDX specification the BAT and Metadata
-  entries for the region header required bit should be set to 1.  In a
-  VHDX created by qemu-img, this bit is not set.
+  qemu-img convert command is slow when the file to convert is located
+  in a tmpfs formatted partition.
 
-  See Table 4: Known Region Properties of the VHDX specification.
+  v2.1.0 on debian/jessie x64, ext4: 10m14s
+  v2.1.0 on debian/jessie x64, tmpfs: 10m15s
 
-  The structure format is as following from Structure 4: Region Table
-  Entry:
+  v2.1.0 on debian/stretch x64, ext4: 11m9s
+  v2.1.0 on debian/stretch x64, tmpfs: 10m21.362s
 
-  struct VHDX_REGION_TABLE_ENTRY {
-  GUID Guid;
-  UINT64 FileOffset;
-  UINT32 Length;
-  UINT32 Required:1;
-  UINT32 Reserved:31;
-  }
+  v2.8.0 on debian/jessie x64, ext4: 10m21s
+  v2.8.0 on debian/jessie x64, tmpfs: Too long (50min+)
 
-  The Required bit for VHDX specified BAT and Metadata Regions Required
-  bit in the entry is not set as required in the current specification.
+  v2.8.0 on debian/stretch x64, ext4: 10m42s
+  v2.8.0 on debian/stretch x64, tmpfs: Too long (50min+)
 
-  VHDX Region Table in a valid VHDX
+  It seems that the issue is caused by this commit :
+  https://github.com/qemu/qemu/commit/690c7301600162421b928c7f26fd488fd8fa4=
+64e
 
-  Offset(h)    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-  0x00030000   72 65 67 69 AE 8C 6B C6 02 00 00 00 00 00 00 00
-  0x00030010   66 77 C2 2D 23 F6 00 42 9D 64 11 5E 9B FD 4A 08
-  0x00030020   00 00 30 00 00 00 00 00 00 00 10 00 01 00 00 00  =
+  In order to reproduce this bug :
 
-  0x00030030   06 A2 7C 8B 90 47 9A 4B B8 FE 57 5F 05 0F 88 6E
-  0x00030040   00 00 20 00 00 00 00 00 00 00 10 00 01 00 00 00
+  1/ mount a tmpfs partition : mount -t tmpfs tmpfs /tmp
+  2/ get a vmdk file (we used a 15GB image) and put it on /tmp
+  3/ run the 'qemu-img convert -O qcow2 /tmp/file.vmdk /path/to/destination=
+' command
 
-  VHDX Region Table in a VHDX converted by qemu-img from VMDK
-
-  Offset(h)    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-  0x00030000   72 65 67 69 AE 8C 6B C6 02 00 00 00 00 00 00 00
-  0x00030010   66 77 C2 2D 23 F6 00 42 9D 64 11 5E 9B FD 4A 08
-  0x00030020   00 00 30 00 00 00 00 00 00 00 10 00 00 00 00 00  =
-
-  0x00030030   06 A2 7C 8B 90 47 9A 4B B8 FE 57 5F 05 0F 88 6E
-  0x00030040   00 00 20 00 00 00 00 00 00 00 10 00 00 00 00 00
-
-  The fist bit at 0x0003002A and 0x0003004A should be set to 1.
+  When we trace the process, we can see that there's a lseek loop which
+  is very slow (compare to outside a tmpfs partition).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1749016/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1751264/+subscriptions
 
