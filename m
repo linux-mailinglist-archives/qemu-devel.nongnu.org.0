@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FECE3AF172
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:08:37 +0200 (CEST)
-Received: from localhost ([::1]:60422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28323AF134
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:01:35 +0200 (CEST)
+Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvNPY-000650-Mm
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33620)
+	id 1lvNIk-0002jY-K5
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:01:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnW-0007k1-RY
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:18 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50804)
+ id 1lvMnY-0007qT-Pu
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:20 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:41689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnT-0007kJ-LJ
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:18 -0400
-Received: by mail-wm1-x331.google.com with SMTP id k42so9060407wms.0
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:29:15 -0700 (PDT)
+ id 1lvMnW-0007lm-Gk
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:20 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ y13-20020a1c4b0d0000b02901c20173e165so435988wma.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=oo7c07DMiv9B+5x4UFvOKnpV7Ib/XCnbbC9gGn7BgbA=;
- b=R0opQ4UiNt3OYSQpkS/YgZI/DKKtUbZdu91mrXOsNXeotxGdYGO1mP/brh4vQ0DRVM
- 1+9SnLdubjCVgolDRdQ7QMbjqodYxt90tWadFB1U+ro6vVg7zcJvOXr82VyWz7KVM0mb
- wawcQHrzl81pR1sNvvND1FqEd+NlxTIBh5masIe1g+8h62xmtxJz+HV+iWeZT0W9pVwo
- MeLqXCcPaWKWBeNre6aMJQ6Xf16RGcAQ8qbPTYKJGKTdQ1x93gDcr+iAdDldtxP0w4eQ
- tyNx7R8WkxA6JakRxMW4/44t8BspkTbTwKjHazaJaqrzrlwxP3DqKt1JphSbZkJmX8Ct
- 6MSA==
+ bh=r3fM2jmt1sBYL82ILyWVf7hzlWtLI+J9aPNHNSsCL+I=;
+ b=vAOP5xjn1IRK/qP+Mnx24LmDZ3r9oL+pSLAYlOMnGmmGHTbBm7qaWXlFumBwxtgjJA
+ gq4fiEPbl+lPfelpd/W1dM0LN55sUu5QFnVDd0QOm/TD2k7McBlgmgqApRg8wh64K6rc
+ ijFO0ZoQl2e+RZIMlAHmK5Y9ZbdgMPTpt9j0FApkuMmtxwjky0qAj/BNq5f7163AUZ92
+ Z+hQzvcWk3706Vq6fywQYJuBuLwHVRIQNb78HfwMeCNKEH2s3O08F1Yl/F0p7TgyP9Hg
+ GtA1l2tUgehdrLZM5GDkbRSUW3rM46Ur49JQqIP3IrAhjyn2Edim7ziMUhICrBcuqe9b
+ yqAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oo7c07DMiv9B+5x4UFvOKnpV7Ib/XCnbbC9gGn7BgbA=;
- b=DBDAURhvD8fH84bFViWsD/0nUnNz+S/EWLkbkBtMl5q8bhL7YzkB++FEuvV2nxJv5l
- hd9Xz62kjLzSY2vedWYuuPxaQ3gsmQ+F+3wBoC6Lm/U91zoi702Sqg8OalbZXySzBnMC
- 9d6lFt/HgFZxal87MNcaQQ9v36TfVj4ONWt7FkdhbUo51Uui3Y8BcDYnGpQSExktEssj
- 4N/tWlY6OOVCt8a7YQgoHnxJqnseJ5QFHHbdqYxlXRD2RuMxcNO9lQnClC2SXMw2VIsJ
- GGd9O2ywkXPcMm2wpI+2jCJ7xTeN9e1iBFH/F5y7BU2GUY18o6YHcdG2ykRPOMcOKQ35
- oZPw==
-X-Gm-Message-State: AOAM532ps1Zicr+XJ6xSzg7toGjdPKm5aKrvs62qoBHCYZ9mp6jLgls7
- UwPCrNNZmJgU871Ki5ywqYsA/T2zxNz7Xzhc
-X-Google-Smtp-Source: ABdhPJynOrXsTtDiH4eb5AoK4QfpB07xoLkzueP+1Qz44cRzDpBuupR3EYh+A3G229+CQ5Qg40MA4g==
-X-Received: by 2002:a7b:c4c9:: with SMTP id g9mr20616025wmk.47.1624292954404; 
- Mon, 21 Jun 2021 09:29:14 -0700 (PDT)
+ bh=r3fM2jmt1sBYL82ILyWVf7hzlWtLI+J9aPNHNSsCL+I=;
+ b=pAGNZ2cyXjIvfM81K75N5MHf2Ns6zLHMtjcaQa1nYK5vZiq2Z21NwJzphqHjXtTHjs
+ MokO/t0mKriERyzXHTwbhaDCzopuz5CP6lrmMCGQ8mewsZOYn9DNTeiErHpT1avWdruA
+ TiSWfOmILPsVZzu3Rdp0aLtkuG3FK6ddAmgUuWoq5YV6cY5+aDeMN8U8lyjKYhC6NRAz
+ lS8+PE9l9caZtuw6mdD9h78XkIwvrvWBuVuvFEO4OMfGJqzyjgrKPCtiL/g8/oFNNwDK
+ hd9ucjsNi7Io2xitrHnDWMYwCjEuFCIzlgIdkZMwxwPhawRh4ZHfvirUo1k59HVChMox
+ KKVg==
+X-Gm-Message-State: AOAM531xSGQzzDUQu1zUnls1FQ77/gE4X6VO10nBI5HiPqFkzOZiLuad
+ vunhupUK+YAMBHvqsjSV3xgPzSKJWsjBjPTE
+X-Google-Smtp-Source: ABdhPJyKKAYt8lg2/aOSNfgo+avyu4ZaK1w+I8MAinVrzbtcOcUMDRnv5Zrna8BnE9ohA57qa2xQgg==
+X-Received: by 2002:a1c:f014:: with SMTP id a20mr27807797wmb.67.1624292957330; 
+ Mon, 21 Jun 2021 09:29:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.29.13
+ by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.29.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 09:29:14 -0700 (PDT)
+ Mon, 21 Jun 2021 09:29:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/57] target/arm: Implement MVE VQSHL (vector)
-Date: Mon, 21 Jun 2021 17:28:19 +0100
-Message-Id: <20210621162833.32535-44-peter.maydell@linaro.org>
+Subject: [PULL 47/57] target/arm: Implement MVE VQDMLADH and VQRDMLADH
+Date: Mon, 21 Jun 2021 17:28:23 +0100
+Message-Id: <20210621162833.32535-48-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210621162833.32535-1-peter.maydell@linaro.org>
 References: <20210621162833.32535-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,133 +87,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VQSHL insn (encoding T4, which is the
-vector-shift-by-vector version).
-
-The DO_SQSHL_OP and DO_UQSHL_OP macros here are derived from
-the neon_helper.c code for qshl_u{8,16,32} and qshl_s{8,16,32}.
+Implement the MVE VQDMLADH and VQRDMLADH insns.  These multiply
+elements, and then add pairs of products, double, possibly round,
+saturate and return the high half of the result.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210617121628.20116-33-peter.maydell@linaro.org
+Message-id: 20210617121628.20116-37-peter.maydell@linaro.org
 ---
- target/arm/helper-mve.h    |  8 ++++++++
- target/arm/mve.decode      | 12 ++++++++++++
- target/arm/mve_helper.c    | 34 ++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c |  2 ++
- 4 files changed, 56 insertions(+)
+ target/arm/helper-mve.h    | 16 +++++++
+ target/arm/mve.decode      |  5 +++
+ target/arm/mve_helper.c    | 89 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-mve.c |  4 ++
+ 4 files changed, 114 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 93847fc04ad..1c5626bb726 100644
+index b7e2243a19a..c3cc6a08476 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -169,6 +169,14 @@ DEF_HELPER_FLAGS_4(mve_vqsubub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vqsubuh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vqsubuw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+@@ -201,6 +201,22 @@ DEF_HELPER_FLAGS_4(mve_vqrshlub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vqrshluh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vqrshluw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
  
-+DEF_HELPER_FLAGS_4(mve_vqshlsb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vqshlsh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vqshlsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqdmladhb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqdmladhh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqdmladhw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 +
-+DEF_HELPER_FLAGS_4(mve_vqshlub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vqshluh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vqshluw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqdmladhxb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqdmladhxh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqdmladhxw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++
++DEF_HELPER_FLAGS_4(mve_vqrdmladhb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqrdmladhh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqrdmladhw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++
++DEF_HELPER_FLAGS_4(mve_vqrdmladhxb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqrdmladhxh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vqrdmladhxw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 +
  DEF_HELPER_FLAGS_4(mve_vadd_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vadd_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vadd_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 80fa647c08f..2c37e265765 100644
+index c30fb2c1536..d267c8838eb 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -40,6 +40,15 @@
- @2op .... .... .. size:2 .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn
- @2op_nosz .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn size=0
+@@ -142,6 +142,11 @@ VQSHL_U          111 1 1111 0 . .. ... 0 ... 0 0100 . 1 . 1 ... 0 @2op_rev
+ VQRSHL_S         111 0 1111 0 . .. ... 0 ... 0 0101 . 1 . 1 ... 0 @2op_rev
+ VQRSHL_U         111 1 1111 0 . .. ... 0 ... 0 0101 . 1 . 1 ... 0 @2op_rev
  
-+# The _rev suffix indicates that Vn and Vm are reversed. This is
-+# the case for shifts. In the Arm ARM these insns are documented
-+# with the Vm and Vn fields in their usual places, but in the
-+# assembly the operands are listed "backwards", ie in the order
-+# Qd, Qm, Qn where other insns use Qd, Qn, Qm. For QEMU we choose
-+# to consider Vm and Vn as being in different fields in the insn.
-+# This gives us consistency with A64 and Neon.
-+@2op_rev .... .... .. size:2 .... .... .... .... .... &2op qd=%qd qm=%qn qn=%qm
-+
- @2scalar .... .... .. size:2 .... .... .... .... rm:4 &2scalar qd=%qd qn=%qn
- @2scalar_nosz .... .... .... .... .... .... .... rm:4 &2scalar qd=%qd qn=%qn
- 
-@@ -121,6 +130,9 @@ VQADD_U          111 1 1111 0 . .. ... 0 ... 0 0000 . 1 . 1 ... 0 @2op
- VQSUB_S          111 0 1111 0 . .. ... 0 ... 0 0010 . 1 . 1 ... 0 @2op
- VQSUB_U          111 1 1111 0 . .. ... 0 ... 0 0010 . 1 . 1 ... 0 @2op
- 
-+VQSHL_S          111 0 1111 0 . .. ... 0 ... 0 0100 . 1 . 1 ... 0 @2op_rev
-+VQSHL_U          111 1 1111 0 . .. ... 0 ... 0 0100 . 1 . 1 ... 0 @2op_rev
++VQDMLADH         1110 1110 0 . .. ... 0 ... 0 1110 . 0 . 0 ... 0 @2op
++VQDMLADHX        1110 1110 0 . .. ... 0 ... 1 1110 . 0 . 0 ... 0 @2op
++VQRDMLADH        1110 1110 0 . .. ... 0 ... 0 1110 . 0 . 0 ... 1 @2op
++VQRDMLADHX       1110 1110 0 . .. ... 0 ... 1 1110 . 0 . 0 ... 1 @2op
 +
  # Vector miscellaneous
  
  VCLS             1111 1111 1 . 11 .. 00 ... 0 0100 01 . 0 ... 0 @1op
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 1349a58b010..5ffc0720d89 100644
+index 07da231fe64..76796b0f920 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -389,6 +389,18 @@ DO_1OP(vfnegs, 8, uint64_t, DO_FNEGS)
-         mve_advance_vpt(env);                                           \
-     }
- 
-+/* provide unsigned 2-op helpers for all sizes */
-+#define DO_2OP_SAT_U(OP, FN)                    \
-+    DO_2OP_SAT(OP##b, 1, uint8_t, FN)           \
-+    DO_2OP_SAT(OP##h, 2, uint16_t, FN)          \
-+    DO_2OP_SAT(OP##w, 4, uint32_t, FN)
-+
-+/* provide signed 2-op helpers for all sizes */
-+#define DO_2OP_SAT_S(OP, FN)                    \
-+    DO_2OP_SAT(OP##b, 1, int8_t, FN)            \
-+    DO_2OP_SAT(OP##h, 2, int16_t, FN)           \
-+    DO_2OP_SAT(OP##w, 4, int32_t, FN)
-+
- #define DO_AND(N, M)  ((N) & (M))
- #define DO_BIC(N, M)  ((N) & ~(M))
- #define DO_ORR(N, M)  ((N) | (M))
-@@ -577,6 +589,28 @@ DO_2OP_SAT(vqsubsb, 1, int8_t, DO_SQSUB_B)
- DO_2OP_SAT(vqsubsh, 2, int16_t, DO_SQSUB_H)
- DO_2OP_SAT(vqsubsw, 4, int32_t, DO_SQSUB_W)
+@@ -627,6 +627,95 @@ DO_2OP_SAT_U(vqshlu, DO_UQSHL_OP)
+ DO_2OP_SAT_S(vqrshls, DO_SQRSHL_OP)
+ DO_2OP_SAT_U(vqrshlu, DO_UQRSHL_OP)
  
 +/*
-+ * This wrapper fixes up the impedance mismatch between do_sqrshl_bhs()
-+ * and friends wanting a uint32_t* sat and our needing a bool*.
++ * Multiply add dual returning high half
++ * The 'FN' here takes four inputs A, B, C, D, a 0/1 indicator of
++ * whether to add the rounding constant, and the pointer to the
++ * saturation flag, and should do "(A * B + C * D) * 2 + rounding constant",
++ * saturate to twice the input size and return the high half; or
++ * (A * B - C * D) etc for VQDMLSDH.
 + */
-+#define WRAP_QRSHL_HELPER(FN, N, M, ROUND, satp)                        \
-+    ({                                                                  \
-+        uint32_t su32 = 0;                                              \
-+        typeof(N) r = FN(N, (int8_t)(M), sizeof(N) * 8, ROUND, &su32);  \
-+        if (su32) {                                                     \
-+            *satp = true;                                               \
++#define DO_VQDMLADH_OP(OP, ESIZE, TYPE, XCHG, ROUND, FN)                \
++    void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd, void *vn,   \
++                                void *vm)                               \
++    {                                                                   \
++        TYPE *d = vd, *n = vn, *m = vm;                                 \
++        uint16_t mask = mve_element_mask(env);                          \
++        unsigned e;                                                     \
++        bool qc = false;                                                \
++        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
++            bool sat = false;                                           \
++            if ((e & 1) == XCHG) {                                      \
++                TYPE r = FN(n[H##ESIZE(e)],                             \
++                            m[H##ESIZE(e - XCHG)],                      \
++                            n[H##ESIZE(e + (1 - 2 * XCHG))],            \
++                            m[H##ESIZE(e + (1 - XCHG))],                \
++                            ROUND, &sat);                               \
++                mergemask(&d[H##ESIZE(e)], r, mask);                    \
++                qc |= sat & mask & 1;                                   \
++            }                                                           \
 +        }                                                               \
-+        r;                                                              \
-+    })
++        if (qc) {                                                       \
++            env->vfp.qc[0] = qc;                                        \
++        }                                                               \
++        mve_advance_vpt(env);                                           \
++    }
 +
-+#define DO_SQSHL_OP(N, M, satp) \
-+    WRAP_QRSHL_HELPER(do_sqrshl_bhs, N, M, false, satp)
-+#define DO_UQSHL_OP(N, M, satp) \
-+    WRAP_QRSHL_HELPER(do_uqrshl_bhs, N, M, false, satp)
++static int8_t do_vqdmladh_b(int8_t a, int8_t b, int8_t c, int8_t d,
++                            int round, bool *sat)
++{
++    int64_t r = ((int64_t)a * b + (int64_t)c * d) * 2 + (round << 7);
++    return do_sat_bhw(r, INT16_MIN, INT16_MAX, sat) >> 8;
++}
 +
-+DO_2OP_SAT_S(vqshls, DO_SQSHL_OP)
-+DO_2OP_SAT_U(vqshlu, DO_UQSHL_OP)
++static int16_t do_vqdmladh_h(int16_t a, int16_t b, int16_t c, int16_t d,
++                             int round, bool *sat)
++{
++    int64_t r = ((int64_t)a * b + (int64_t)c * d) * 2 + (round << 15);
++    return do_sat_bhw(r, INT32_MIN, INT32_MAX, sat) >> 16;
++}
++
++static int32_t do_vqdmladh_w(int32_t a, int32_t b, int32_t c, int32_t d,
++                             int round, bool *sat)
++{
++    int64_t m1 = (int64_t)a * b;
++    int64_t m2 = (int64_t)c * d;
++    int64_t r;
++    /*
++     * Architecturally we should do the entire add, double, round
++     * and then check for saturation. We do three saturating adds,
++     * but we need to be careful about the order. If the first
++     * m1 + m2 saturates then it's impossible for the *2+rc to
++     * bring it back into the non-saturated range. However, if
++     * m1 + m2 is negative then it's possible that doing the doubling
++     * would take the intermediate result below INT64_MAX and the
++     * addition of the rounding constant then brings it back in range.
++     * So we add half the rounding constant before doubling rather
++     * than adding the rounding constant after the doubling.
++     */
++    if (sadd64_overflow(m1, m2, &r) ||
++        sadd64_overflow(r, (round << 30), &r) ||
++        sadd64_overflow(r, r, &r)) {
++        *sat = true;
++        return r < 0 ? INT32_MAX : INT32_MIN;
++    }
++    return r >> 32;
++}
++
++DO_VQDMLADH_OP(vqdmladhb, 1, int8_t, 0, 0, do_vqdmladh_b)
++DO_VQDMLADH_OP(vqdmladhh, 2, int16_t, 0, 0, do_vqdmladh_h)
++DO_VQDMLADH_OP(vqdmladhw, 4, int32_t, 0, 0, do_vqdmladh_w)
++DO_VQDMLADH_OP(vqdmladhxb, 1, int8_t, 1, 0, do_vqdmladh_b)
++DO_VQDMLADH_OP(vqdmladhxh, 2, int16_t, 1, 0, do_vqdmladh_h)
++DO_VQDMLADH_OP(vqdmladhxw, 4, int32_t, 1, 0, do_vqdmladh_w)
++
++DO_VQDMLADH_OP(vqrdmladhb, 1, int8_t, 0, 1, do_vqdmladh_b)
++DO_VQDMLADH_OP(vqrdmladhh, 2, int16_t, 0, 1, do_vqdmladh_h)
++DO_VQDMLADH_OP(vqrdmladhw, 4, int32_t, 0, 1, do_vqdmladh_w)
++DO_VQDMLADH_OP(vqrdmladhxb, 1, int8_t, 1, 1, do_vqdmladh_b)
++DO_VQDMLADH_OP(vqrdmladhxh, 2, int16_t, 1, 1, do_vqdmladh_h)
++DO_VQDMLADH_OP(vqrdmladhxw, 4, int32_t, 1, 1, do_vqdmladh_w)
 +
  #define DO_2OP_SCALAR(OP, ESIZE, TYPE, FN)                              \
      void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd, void *vn,   \
                                  uint32_t rm)                            \
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 9f59ed591bc..52fef6cd892 100644
+index d75cc377fee..d830b42d5ce 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -402,6 +402,8 @@ DO_2OP(VQADD_S, vqadds)
- DO_2OP(VQADD_U, vqaddu)
- DO_2OP(VQSUB_S, vqsubs)
- DO_2OP(VQSUB_U, vqsubu)
-+DO_2OP(VQSHL_S, vqshls)
-+DO_2OP(VQSHL_U, vqshlu)
+@@ -410,6 +410,10 @@ DO_2OP(VQSHL_S, vqshls)
+ DO_2OP(VQSHL_U, vqshlu)
+ DO_2OP(VQRSHL_S, vqrshls)
+ DO_2OP(VQRSHL_U, vqrshlu)
++DO_2OP(VQDMLADH, vqdmladh)
++DO_2OP(VQDMLADHX, vqdmladhx)
++DO_2OP(VQRDMLADH, vqrdmladh)
++DO_2OP(VQRDMLADHX, vqrdmladhx)
  
  static bool do_2op_scalar(DisasContext *s, arg_2scalar *a,
                            MVEGenTwoOpScalarFn fn)
