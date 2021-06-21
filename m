@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251183AE6DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:17:24 +0200 (CEST)
-Received: from localhost ([::1]:59322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501193AE6C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:08:16 +0200 (CEST)
+Received: from localhost ([::1]:33674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvGzb-0004SA-4k
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:17:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35042)
+	id 1lvGql-0003sU-7A
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGi5-0006Nl-Ev
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53447)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGi8-0006aV-MD
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGi2-0006he-IM
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:17 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGi5-0006lQ-QG
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624269553;
+ s=mimecast20190719; t=1624269557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l+5Pqbpra3gNZM9X5C1Obmh15GT4qpZBZB8O/SVvBtg=;
- b=ZqIAs6laFE+AMztNPpc0gA1/R8djaM8omsUxHC0Q2ansRinzdoNxcSlN/+Z9y9h3EJjHUn
- DP12ZTBFugSskR2SzrJcfIK0b2BqwaV8vsyskZbaSAefYwnhPfqLhDQgLBiNEohdf0p9E3
- zK23KBM3jTka9zZ0iuhQzS9SW2uWg1k=
+ bh=brGx5wrdsuC5kg8p40617SOyJZcFVpYH2M2GXvlrl3E=;
+ b=O0iESEwwyJjzkX8T8dAP9bmMry5UoEZ/eKfR7mH+WDSEGuyGyTfqK5uWlW+dQ+JS7v+o7q
+ JIXQCg77n0LsSo9NhduqAaCQwC310sMiA0HhFbQtOFpVAVB9hjEjVc91UlVLBhincVQLMj
+ d83YyuVaD7yVxgZQq1KPi4OH96ySggw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-pLSLxbySMnCL_dimjNhKiw-1; Mon, 21 Jun 2021 05:59:10 -0400
-X-MC-Unique: pLSLxbySMnCL_dimjNhKiw-1
+ us-mta-219-MtdGK69xNUeyCJa9KZOtdw-1; Mon, 21 Jun 2021 05:59:15 -0400
+X-MC-Unique: MtdGK69xNUeyCJa9KZOtdw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05EC056B29;
- Mon, 21 Jun 2021 09:59:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D25831940922;
+ Mon, 21 Jun 2021 09:59:13 +0000 (UTC)
 Received: from gondolin.fritz.box (ovpn-113-141.ams2.redhat.com
  [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0B443AC1;
- Mon, 21 Jun 2021 09:59:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 508D43AC1;
+ Mon, 21 Jun 2021 09:59:09 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 11/37] s390x/tcg: Simplify wfc64() handling
-Date: Mon, 21 Jun 2021 11:58:16 +0200
-Message-Id: <20210621095842.335162-12-cohuck@redhat.com>
+Subject: [PULL 12/37] s390x/tcg: Implement VECTOR BIT PERMUTE
+Date: Mon, 21 Jun 2021 11:58:17 +0200
+Message-Id: <20210621095842.335162-13-cohuck@redhat.com>
 In-Reply-To: <20210621095842.335162-1-cohuck@redhat.com>
 References: <20210621095842.335162-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -85,59 +85,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-... and prepare for 32/128 bit support.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210608092337.12221-11-david@redhat.com>
+Message-Id: <20210608092337.12221-12-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/vec_fpu_helper.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ target/s390x/helper.h           |  1 +
+ target/s390x/insn-data.def      |  2 ++
+ target/s390x/translate_vx.c.inc |  8 ++++++++
+ target/s390x/vec_helper.c       | 22 ++++++++++++++++++++++
+ 4 files changed, 33 insertions(+)
 
-diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
-index 7ca9c892f7e7..4af59ea66c7b 100644
---- a/target/s390x/vec_fpu_helper.c
-+++ b/target/s390x/vec_fpu_helper.c
-@@ -201,8 +201,8 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
-                  CPUS390XState *env, bool signal, uintptr_t retaddr)
- {
-     /* only the zero-indexed elements are compared */
--    const float64 a = s390_vec_read_element64(v1, 0);
--    const float64 b = s390_vec_read_element64(v2, 0);
-+    const float64 a = s390_vec_read_float64(v1, 0);
-+    const float64 b = s390_vec_read_float64(v2, 0);
-     uint8_t vxc, vec_exc = 0;
-     int cmp;
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 0cfb82ee8ae4..e99c9643eb79 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -126,6 +126,7 @@ DEF_HELPER_FLAGS_1(stck, TCG_CALL_NO_RWG_SE, i64, env)
+ DEF_HELPER_FLAGS_3(probe_write_access, TCG_CALL_NO_WG, void, env, i64, i64)
  
-@@ -217,17 +217,18 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
-     return float_comp_to_cc(env, cmp);
+ /* === Vector Support Instructions === */
++DEF_HELPER_FLAGS_4(gvec_vbperm, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(vll, TCG_CALL_NO_WG, void, env, ptr, i64, i64)
+ DEF_HELPER_FLAGS_4(gvec_vpk16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vpk32, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index 35a0086a85dd..1634a6bc5aec 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -989,6 +989,8 @@
+ 
+ /* === Vector Support Instructions === */
+ 
++/* VECTOR BIT PERMUTE */
++    E(0xe785, VBPERM,  VRR_c, VE,  0, 0, 0, 0, vbperm, 0, 0, IF_VEC)
+ /* VECTOR GATHER ELEMENT */
+     E(0xe713, VGEF,    VRV,   V,   la2, 0, 0, 0, vge, 0, ES_32, IF_VEC)
+     E(0xe712, VGEG,    VRV,   V,   la2, 0, 0, 0, vge, 0, ES_64, IF_VEC)
+diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
+index 91e2967c495b..96283d4ddb9a 100644
+--- a/target/s390x/translate_vx.c.inc
++++ b/target/s390x/translate_vx.c.inc
+@@ -327,6 +327,14 @@ static void gen_addi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
+     tcg_temp_free_i64(bh);
  }
  
--void HELPER(gvec_wfc64)(const void *v1, const void *v2, CPUS390XState *env,
--                        uint32_t desc)
--{
--    env->cc_op = wfc64(v1, v2, env, false, GETPC());
-+#define DEF_GVEC_WFC_B(NAME, SIGNAL, BITS)                                     \
-+void HELPER(gvec_##NAME##BITS)(const void *v1, const void *v2,                 \
-+                               CPUS390XState *env, uint32_t desc)              \
-+{                                                                              \
-+    env->cc_op = wfc##BITS(v1, v2, env, SIGNAL, GETPC());                      \
- }
- 
--void HELPER(gvec_wfk64)(const void *v1, const void *v2, CPUS390XState *env,
--                        uint32_t desc)
--{
--    env->cc_op = wfc64(v1, v2, env, true, GETPC());
--}
-+#define DEF_GVEC_WFC(NAME, SIGNAL)                                             \
-+     DEF_GVEC_WFC_B(NAME, SIGNAL, 64)
++static DisasJumpType op_vbperm(DisasContext *s, DisasOps *o)
++{
++    gen_gvec_3_ool(get_field(s, v1), get_field(s, v2), get_field(s, v3), 0,
++                   gen_helper_gvec_vbperm);
 +
-+DEF_GVEC_WFC(wfc, false)
-+DEF_GVEC_WFC(wfk, true)
++    return DISAS_NEXT;
++}
++
+ static DisasJumpType op_vge(DisasContext *s, DisasOps *o)
+ {
+     const uint8_t es = s->insn->data;
+diff --git a/target/s390x/vec_helper.c b/target/s390x/vec_helper.c
+index 986e7cc82550..599bab06bd74 100644
+--- a/target/s390x/vec_helper.c
++++ b/target/s390x/vec_helper.c
+@@ -19,6 +19,28 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/exec-all.h"
  
- typedef bool (*vfc64_fn)(float64 a, float64 b, float_status *status);
- static int vfc64(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
++void HELPER(gvec_vbperm)(void *v1, const void *v2, const void *v3,
++                         uint32_t desc)
++{
++    S390Vector tmp = {};
++    uint16_t result = 0;
++    int i;
++
++    for (i = 0; i < 16; i++) {
++        const uint8_t bit_nr = s390_vec_read_element8(v3, i);
++        uint16_t bit;
++
++        if (bit_nr >= 128) {
++            continue;
++        }
++        bit = (s390_vec_read_element8(v2, bit_nr / 8)
++               >> (7 - (bit_nr % 8))) & 1;
++        result |= (bit << (15 - i));
++    }
++    s390_vec_write_element16(&tmp, 3, result);
++    *(S390Vector *)v1 = tmp;
++}
++
+ void HELPER(vll)(CPUS390XState *env, void *v1, uint64_t addr, uint64_t bytes)
+ {
+     if (likely(bytes >= 16)) {
 -- 
 2.31.1
 
