@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D0F3AF0E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:52:06 +0200 (CEST)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F103AF10F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:55:12 +0200 (CEST)
+Received: from localhost ([::1]:54530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvN9Z-00009h-3R
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33496)
+	id 1lvNCZ-0007sF-VG
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnR-0007TN-6m
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:13 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53786)
+ id 1lvMnV-0007ed-AH
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:17 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnN-0007g2-Pk
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:12 -0400
-Received: by mail-wm1-x332.google.com with SMTP id w13so4317521wmc.3
+ id 1lvMnO-0007gP-8V
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:16 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id m3so10938871wms.4
  for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4cOBzM0JMvxA9laWtZby8J2j2taQBU/xgd6dJqObAN4=;
- b=zMgrXlMBVIVfA2Fo22syE4CiPawv33NdbUzk7V3P5NemCPOoV6mewqmWsbN9XiwvxH
- mVMC0DjQygGkTTFH5rM+or5JeUdekEg2HdWW3NNiR4ua2Iw+wWFud1y9G1Uc1Bsjay0k
- fD3Eucgm+i1BcqTbQeSQsLtUnZnkcsI6LG87h3zqKtYz9u/OhGOoIiKoCbOAg6Qw3MbU
- nNqduolKzYN7PMaS0qYB424n+Nay6iEOxpwHyhieY245YN9mjtX5avI5oQbsAPh8OTn4
- I4Drs0sXQ9RGnc6mwO4MN4rGyPMZXqPCNE2ZTDHxx7a5of+nLXIqzoY5KZqOQFRC0g3o
- XsQQ==
+ bh=cWk3VqX05M0c8BcaRr16KKSG6LU8hBlcOqOvyPTuaWQ=;
+ b=pVbHfibaUWCkSIX2BT6pKd5h72q5ydSyfcEc4bI98OBjprK7gjcNxOoM88Vh9TLjzW
+ LIV6liVcKLCwZ+K00qAkU+3cXYP6D75r9nRQ27m/D0YPssmUvkCKbxxCIy6l11cwO/6Q
+ /g8ruscDBQ0iNk0pddYJsVa1kUuup97GHi2YLoCui4DNUJDzt9RxooJMug/zMWXuQyb2
+ 4atnz8VqhdVMl2V2yhaB9hpavDSbRGCIbgSXnQ3TZ+aBfyGfYyOhP3oz6Q8CraY1cvxe
+ kEoczXcPMPYgmxDUU1YcgrB+IYZ+SBQpzjstLqvo7GQm6BFUjHwfaHJ9DsMW1dl7Ha/8
+ /GMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4cOBzM0JMvxA9laWtZby8J2j2taQBU/xgd6dJqObAN4=;
- b=WFquZYdQUu8qZGuCIC3H4kZ6N9F9vgMlINJqXnmzZKeMuNtWrYlMWZxfC3cSpNmzhj
- 6gCIhcH3BvESvx97zXLU8pQTAuYBLuCplJgQG25KXB9Zp/Tc7yewr//lyQLRmobO03zf
- Y0AF35gXfLFdKqya+VBdHMIMRqsqWJvDg96AVkaelblqpOE48hWFD42nK+GJjQw+acjp
- 5sJkNzqRmGYmAMuvYpH6RfOQDy5iqzVEUq4b3dru6xIUEI8dU5uanBcYkBSW9OpY+rtQ
- uWXP+ueSFutdBdRfiBg4cAwQSBUjhWiCO3oZVweNM3DrQZYQR+VeCZP1ITSachx+Ardf
- 8ZDA==
-X-Gm-Message-State: AOAM531DhyGww7V1Xxw0QnDPXvgI/ajChjB5Eq/M3T7vwhBpDUP38GTa
- Cea+3WWP4U1BdEIICO/WTrDEerDys0GYKeE2
-X-Google-Smtp-Source: ABdhPJz9n5xGBmpCuI2IMQ9L/LVwsN4FEwFm3OLM34jaN3eHb3GpuFrZcRW0F9n2pwKpjOd1cmxwFQ==
-X-Received: by 2002:a05:600c:35c1:: with SMTP id
- r1mr27679025wmq.13.1624292948494; 
- Mon, 21 Jun 2021 09:29:08 -0700 (PDT)
+ bh=cWk3VqX05M0c8BcaRr16KKSG6LU8hBlcOqOvyPTuaWQ=;
+ b=bQ8BolwMY1qH106wONpvlhByVsnMsE5iA7/V8dKStN/Wm2aesIErBFVPzfbsvZtnpA
+ Pecp1hLmJ9fE4HJBI3+Zp3qNfGIvHONEMyRS7P5nrkMSH5MCzywPyNy0KrXxc4GGkcEZ
+ ew5CFv463ySuV/uYjYYRZfImIIIzq8SfnUz4hwpw4CtzSx2k8ztCtWdq5iJS5NH5TCVS
+ 1zvDRXrFchUnNl7ih9AyHgcEc+lBIVCcUwLwG5nD5TKDB7dpviA3/74QVgNVITtZGaQN
+ F1xOue4aDNsr6D6k6sl0WHhIlCAa9mc143nKO8BSebmERaBU2ZW8cazXKu9d2acwXAd6
+ rdGA==
+X-Gm-Message-State: AOAM531w7C/3Eeu/7p8TsFCQJkqbkp/GCd83GjxL6IBehsPALeH/qrqx
+ aZ3m5NL/+nFsZJFhDg+OYc/UzK/r2vzMLyPo
+X-Google-Smtp-Source: ABdhPJyE/XiTg/HrVpEdHFbKYCJV3p64sA4NjJIq8mNow5B7GbWXTSCPVLkq6fISXlOEw3fjggdZsQ==
+X-Received: by 2002:a7b:c099:: with SMTP id r25mr28444085wmh.144.1624292949073; 
+ Mon, 21 Jun 2021 09:29:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.29.07
+ by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.29.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Jun 2021 09:29:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/57] target/arm: Implement MVE VHADD, VHSUB (scalar)
-Date: Mon, 21 Jun 2021 17:28:11 +0100
-Message-Id: <20210621162833.32535-36-peter.maydell@linaro.org>
+Subject: [PULL 36/57] target/arm: Implement MVE VBRSR
+Date: Mon, 21 Jun 2021 17:28:12 +0100
+Message-Id: <20210621162833.32535-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210621162833.32535-1-peter.maydell@linaro.org>
 References: <20210621162833.32535-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,92 +86,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the scalar variants of the MVE VHADD and VHSUB insns.
+Implement the MVE VBRSR insn, which reverses a specified
+number of bits in each element, setting the rest to zero.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210617121628.20116-25-peter.maydell@linaro.org
+Message-id: 20210617121628.20116-26-peter.maydell@linaro.org
 ---
- target/arm/helper-mve.h    | 16 ++++++++++++++++
- target/arm/mve.decode      |  4 ++++
- target/arm/mve_helper.c    |  8 ++++++++
- target/arm/translate-mve.c |  4 ++++
- 4 files changed, 32 insertions(+)
+ target/arm/helper-mve.h    |  4 ++++
+ target/arm/mve.decode      |  1 +
+ target/arm/mve_helper.c    | 43 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-mve.c |  1 +
+ 4 files changed, 49 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 912505d0152..52086d769f4 100644
+index 52086d769f4..1b807e1cf5f 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -157,6 +157,22 @@ DEF_HELPER_FLAGS_4(mve_vmul_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vmul_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vmul_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+@@ -173,6 +173,10 @@ DEF_HELPER_FLAGS_4(mve_vhsubu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vhsubu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vhsubu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  
-+DEF_HELPER_FLAGS_4(mve_vhadds_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhadds_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhadds_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(mve_vhaddu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhaddu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhaddu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(mve_vhsubs_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhsubs_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhsubs_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(mve_vhsubu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhsubu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vhsubu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vbrsrb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vbrsrh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vbrsrw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 +
  DEF_HELPER_FLAGS_4(mve_vmlaldavsh, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
  DEF_HELPER_FLAGS_4(mve_vmlaldavsw, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
  DEF_HELPER_FLAGS_4(mve_vmlaldavxsh, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index af5fba78ce2..5c332b04a7c 100644
+index 5c332b04a7c..a3dbdb72a5c 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -163,3 +163,7 @@ VRMLSLDAVH       1111 1110 1 ... ... 0 ... x:1 1110 . 0 a:1 0 ... 1 @vmlaldav_no
- VADD_scalar      1110 1110 0 . .. ... 1 ... 0 1111 . 100 .... @2scalar
- VSUB_scalar      1110 1110 0 . .. ... 1 ... 1 1111 . 100 .... @2scalar
- VMUL_scalar      1110 1110 0 . .. ... 1 ... 1 1110 . 110 .... @2scalar
-+VHADD_S_scalar   1110 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
-+VHADD_U_scalar   1111 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
-+VHSUB_S_scalar   1110 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
-+VHSUB_U_scalar   1111 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
+@@ -167,3 +167,4 @@ VHADD_S_scalar   1110 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
+ VHADD_U_scalar   1111 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
+ VHSUB_S_scalar   1110 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
+ VHSUB_U_scalar   1111 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
++VBRSR            1111 1110 0 . .. ... 1 ... 1 1110 . 110 .... @2scalar
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 3c62627f2c7..096f7a39dac 100644
+index 096f7a39dac..558c6f5aa34 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -510,10 +510,18 @@ DO_2OP_U(vhsubu, do_vhsub_u)
-     DO_2OP_SCALAR(OP##b, 1, uint8_t, FN)        \
-     DO_2OP_SCALAR(OP##h, 2, uint16_t, FN)       \
-     DO_2OP_SCALAR(OP##w, 4, uint32_t, FN)
-+#define DO_2OP_SCALAR_S(OP, FN)                 \
-+    DO_2OP_SCALAR(OP##b, 1, int8_t, FN)         \
-+    DO_2OP_SCALAR(OP##h, 2, int16_t, FN)        \
-+    DO_2OP_SCALAR(OP##w, 4, int32_t, FN)
+@@ -523,6 +523,49 @@ DO_2OP_SCALAR_U(vhaddu_scalar, do_vhadd_u)
+ DO_2OP_SCALAR_S(vhsubs_scalar, do_vhsub_s)
+ DO_2OP_SCALAR_U(vhsubu_scalar, do_vhsub_u)
  
- DO_2OP_SCALAR_U(vadd_scalar, DO_ADD)
- DO_2OP_SCALAR_U(vsub_scalar, DO_SUB)
- DO_2OP_SCALAR_U(vmul_scalar, DO_MUL)
-+DO_2OP_SCALAR_S(vhadds_scalar, do_vhadd_s)
-+DO_2OP_SCALAR_U(vhaddu_scalar, do_vhadd_u)
-+DO_2OP_SCALAR_S(vhsubs_scalar, do_vhsub_s)
-+DO_2OP_SCALAR_U(vhsubu_scalar, do_vhsub_u)
- 
++static inline uint32_t do_vbrsrb(uint32_t n, uint32_t m)
++{
++    m &= 0xff;
++    if (m == 0) {
++        return 0;
++    }
++    n = revbit8(n);
++    if (m < 8) {
++        n >>= 8 - m;
++    }
++    return n;
++}
++
++static inline uint32_t do_vbrsrh(uint32_t n, uint32_t m)
++{
++    m &= 0xff;
++    if (m == 0) {
++        return 0;
++    }
++    n = revbit16(n);
++    if (m < 16) {
++        n >>= 16 - m;
++    }
++    return n;
++}
++
++static inline uint32_t do_vbrsrw(uint32_t n, uint32_t m)
++{
++    m &= 0xff;
++    if (m == 0) {
++        return 0;
++    }
++    n = revbit32(n);
++    if (m < 32) {
++        n >>= 32 - m;
++    }
++    return n;
++}
++
++DO_2OP_SCALAR(vbrsrb, 1, uint8_t, do_vbrsrb)
++DO_2OP_SCALAR(vbrsrh, 2, uint16_t, do_vbrsrh)
++DO_2OP_SCALAR(vbrsrw, 4, uint32_t, do_vbrsrw)
++
  /*
   * Multiply add long dual accumulate ops.
+  */
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 3c059ad91cd..4b379bfe6e4 100644
+index 4b379bfe6e4..6320064a08d 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -429,6 +429,10 @@ static bool do_2op_scalar(DisasContext *s, arg_2scalar *a,
- DO_2OP_SCALAR(VADD_scalar, vadd_scalar)
- DO_2OP_SCALAR(VSUB_scalar, vsub_scalar)
- DO_2OP_SCALAR(VMUL_scalar, vmul_scalar)
-+DO_2OP_SCALAR(VHADD_S_scalar, vhadds_scalar)
-+DO_2OP_SCALAR(VHADD_U_scalar, vhaddu_scalar)
-+DO_2OP_SCALAR(VHSUB_S_scalar, vhsubs_scalar)
-+DO_2OP_SCALAR(VHSUB_U_scalar, vhsubu_scalar)
+@@ -433,6 +433,7 @@ DO_2OP_SCALAR(VHADD_S_scalar, vhadds_scalar)
+ DO_2OP_SCALAR(VHADD_U_scalar, vhaddu_scalar)
+ DO_2OP_SCALAR(VHSUB_S_scalar, vhsubs_scalar)
+ DO_2OP_SCALAR(VHSUB_U_scalar, vhsubu_scalar)
++DO_2OP_SCALAR(VBRSR, vbrsr)
  
  static bool do_long_dual_acc(DisasContext *s, arg_vmlaldav *a,
                               MVEGenDualAccOpFn *fn)
