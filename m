@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CBB3AEBE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:59:38 +0200 (CEST)
-Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC42E3AEBEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 17:03:21 +0200 (CEST)
+Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvLOj-0008Sm-8x
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43432)
+	id 1lvLSK-0001mD-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 11:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvLNb-0007mZ-12
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:58:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvLNY-0003Jm-Ii
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:58:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624287502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Evv4xtapzONpGPlSm4KAOWA1w8Mnl+5b9rJEW9g+v48=;
- b=RRkpTruaw0wBPX+tsn3Ynt3K2F/TPKGSs72vQnYhTIeJylJ6Fu4zsIqkozzlP1IZoRgTI+
- 3iupz3FmZyenoddjhX8CtXPvPEw+bhtFLLFjJQ4V9w3YifF2Mn5MRhL31Sbayeiam2Lr29
- Jb1gCfRBUo3/wIJBgA4tXOz9lOstdpk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-bB2g-e0iNqKp8Y1kI5Duaw-1; Mon, 21 Jun 2021 10:58:20 -0400
-X-MC-Unique: bB2g-e0iNqKp8Y1kI5Duaw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d9-20020adffbc90000b029011a3b249b10so8473865wrs.3
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:58:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvLRL-000166-3J
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:02:19 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvLRJ-0005c9-7e
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:02:18 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id my49so29246008ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 08:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UVfMLPlQ9hy2FdA1OvvvmBoovNiM1NMbpUOAZ6syESY=;
+ b=cOT4t4CSlvfunf/pvJsTPPi2BV17CotilEeYky2sS036gbWgSLpqmclOM6OhX98MNu
+ UP+eZuICZgRyisN1gYeMjd/ejbcfvt3+s33mKIpBWihPCA7ded4tCzlB8P4el//rLoHN
+ wFmgElXFjUAazr4DG3WZuUje1P5/z1ylH56hDsSFn+riU76rxIEdjGRR4Kr9e2OJd3et
+ SQubX3T5wglqJbJ5VTC+ubpXxqTxzmqNtQ6lWrxGtQA0anCa1Fc8hcyXAqnzB5HdCE6G
+ fO91tV2n107DQyV5cvVK92NCDnrioyyn/m/B1zs17qYr3caa3mvGB9CCcJbr77qMCQ+b
+ RMvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Evv4xtapzONpGPlSm4KAOWA1w8Mnl+5b9rJEW9g+v48=;
- b=svNA6lPtgDRG0GDhZSKQ3L+x344hMvWQrwTIU5Pq9rI5paX9oOX7CE7sqyPqfrODlM
- gZFF4wIprXK4AdpspGOF1aqaRrY9yT7Qk2p3DH/f0OTXj3cxeTPyftCNZmsoORZpSAxx
- xAtO1K1hQQ9fj999VpuawJsEXJtGNYgGkGq6OU3WE3PgsiF1X6qqRpPHz1Ah2rPN0uoq
- t+rYugV1hcpK7zVrGF7ozjiV2KkfPrfkyqwP9fShfAdHT/zh2QduzSekeAXmjFqT0Xsk
- +FWUhb97CpVXQnVKajanF+F20GPKYaP0nnS/4QdrDaO1KMDFch8i9ALi3mw95qsG830v
- fLiQ==
-X-Gm-Message-State: AOAM531ZqzEHfiWBIhTmoZJy6ZLtjOocHRyHLicQjPJC2vicPSQ0KK7O
- SOJpbWeXgGQV8V41POTFkt47yp0YD54reDd7ilR3skRruxfzY2dyBD5qYOpEZscf+/rq0/E5M8u
- 5oRsehOGmXK7lB94=
-X-Received: by 2002:a05:600c:414e:: with SMTP id
- h14mr19818083wmm.6.1624287498974; 
- Mon, 21 Jun 2021 07:58:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzH2zkiBpu8NVBloyHrga5BQjiSQBGwlOi0hzgTnR0YvWBxOpD4IoAUKcvH0JizUKHrUJYVNg==
-X-Received: by 2002:a05:600c:414e:: with SMTP id
- h14mr19818060wmm.6.1624287498771; 
- Mon, 21 Jun 2021 07:58:18 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id h206sm7719073wmh.33.2021.06.21.07.58.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 07:58:18 -0700 (PDT)
-Subject: Re: RFC: Implementation of QMP documentation retrieval command
-To: "Niteesh G. S." <niteesh.gs@gmail.com>, John Snow <jsnow@redhat.com>
-References: <CAN6ztm8D4VMf7p-trHNHoOA+1kAXXufTTaHpbyNXZ5qO2_uuPg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6fb6d9d7-3af2-c487-a1d4-aa1140c5a54d@redhat.com>
-Date: Mon, 21 Jun 2021 16:58:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UVfMLPlQ9hy2FdA1OvvvmBoovNiM1NMbpUOAZ6syESY=;
+ b=Tc1aQxV4qcgFZAQxkmCjCtIUwS8rkI1P1y9MJ12eZtu9SFqhxzKEECdxOsQzy52S1z
+ uh9lJp7P9Uz0Z5zJxYM8w/S3WvsyG/vygWeTKkA8Wkpasor7QkodPKIMQW3K4HbwOB58
+ rQORldVlncQqMQsNKfHzsI7q0FenVEhxJmnTOqjkkiY425oH2yRHc37xyeD9TTvpXAEj
+ oP0hN7nOqaWeBMp6ZArwwbAuIJs47eb5ymx1TEoZcKA5UDVFXcG+lvKCOFjJIYNaQJmB
+ /l/gO2s0woqJykmGY891867uXu9MeOmY+QRf84aBKYFisatlnXM7hu1QP8BvqvSVURz6
+ +Mpw==
+X-Gm-Message-State: AOAM533cCnJprEe5BgW85tn7Bc5fPJPMQKrtLG0QuZNXoXN1SnmWlIuS
+ 0NyBZCrNMXQ2CLiMR7jqmDBK9eq4/EJ0LajZoG896mDGgtTk5A==
+X-Google-Smtp-Source: ABdhPJwVykJWCw6TChmRajNYmYEVYxDXenW8Olm4x/Wvi8NijDHd0ZUOEnr/eiw9IQYoJbvDX19HOYu6Nt9BMYul2j8=
+X-Received: by 2002:a17:906:ce29:: with SMTP id
+ sd9mr5387617ejb.56.1624287735141; 
+ Mon, 21 Jun 2021 08:02:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAN6ztm8D4VMf7p-trHNHoOA+1kAXXufTTaHpbyNXZ5qO2_uuPg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ <20210614083800.1166166-18-richard.henderson@linaro.org>
+In-Reply-To: <20210614083800.1166166-18-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Jun 2021 16:01:39 +0100
+Message-ID: <CAFEAcA9O6qPDsGsHg=sMkZcfSp5vOdibxHeyhr_OD1PueG7hsw@mail.gmail.com>
+Subject: Re: [PATCH 17/28] tcg: Add flags argument to tcg_gen_bswap16_*,
+ tcg_gen_bswap32_i64
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,60 +79,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
- qemu-devel@nongnu.org, wainersm@redhat.com, armbru@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Niteesh,
+On Mon, 14 Jun 2021 at 09:52, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Implement the new semantics in the fallback expansion.
+> Change all callers to supply the flags that keep the
+> semantics unchanged locally.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-On 6/16/21 5:48 PM, Niteesh G. S. wrote:
-> Hello,
-> 
-> We now have a reasonably working prototype that is capable of
-> sending/receiving
-> commands/responses, syntax highlighting, and a simple notification
-> system. The
-> prototype can be found here
-> https://gitlab.com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype
-> <https://gitlab.com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype>
-> Working on this prototype gives us a lot of hints on things to worry
-> about and other
-> ideas that were worth implementing. Our next goal is to start working on
-> the real TUI
-> based on this prototype.
-> 
-> One requested feature of the TUI was to show documentation for the
-> commands typed.
-> To achieve this, a QMP command that lets us query the documentation from
-> QEMU has
-> to be implemented and some discussion has already been done on it in a
-> previous thread.
-> I request all continue that discussion here and suggest ideas regarding
-> implementation.
-> The goal is to come up with something small and simple which can also be
-> improved upon
-> after the summer.
-> 
-> I have a simple implementation of the command that returns dummy
-> documentation here
-> https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb2840b9f3484c6fd5672e6fceb73acaef
-> <https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb2840b9f3484c6fd5672e6fceb73acaef>
+> diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+> index dc65577e2f..3763285bb0 100644
+> --- a/tcg/tcg-op.c
+> +++ b/tcg/tcg-op.c
+> @@ -1001,20 +1001,35 @@ void tcg_gen_ext16u_i32(TCGv_i32 ret, TCGv_i32 arg)
+>      }
+>  }
+>
+> -/* Note: we assume the two high bytes are set to zero */
+> -void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg)
+> +void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg, int flags)
+>  {
+> +    /* Only one extension flag may be present. */
+> +    tcg_debug_assert(!(flags & TCG_BSWAP_OS) || !(flags & TCG_BSWAP_OZ));
+> +
+>      if (TCG_TARGET_HAS_bswap16_i32) {
+> -        tcg_gen_op3i_i32(INDEX_op_bswap16_i32, ret, arg,
+> -                         TCG_BSWAP_IZ | TCG_BSWAP_OZ);
+> +        tcg_gen_op3i_i32(INDEX_op_bswap16_i32, ret, arg, flags);
+>      } else {
+>          TCGv_i32 t0 = tcg_temp_new_i32();
+> +        TCGv_i32 t1 = tcg_temp_new_i32();
+>
+> -        tcg_gen_ext8u_i32(t0, arg);
+> -        tcg_gen_shli_i32(t0, t0, 8);
+> -        tcg_gen_shri_i32(ret, arg, 8);
+> -        tcg_gen_or_i32(ret, ret, t0);
+> +        tcg_gen_shri_i32(t0, arg, 8);
+> +        if (!(flags & TCG_BSWAP_IZ)) {
+> +            tcg_gen_ext8u_i32(t0, t0);
+> +        }
+> +
+> +        if (flags & TCG_BSWAP_OS) {
+> +            tcg_gen_shli_i32(t1, t1, 24);
 
-I noticed your mail got no comment, and realized you asked us to
-review your patches apart from the mailing list. I am not sure
-if this is an experiment or a misunderstanding, but so far it is
-unlikely you get review external to the mailing list, because it
-is not very practical to reviewers.
+t1 hasn't been initialized yet. Should this be "tcg_gen_shli_i32(t1, arg, 24)" ?
 
-Maybe some reviewers are willing to look at your tree, but if you
-are looking for a wider audience, I recommend you to follow this
-process (which you already used!):
-https://wiki.qemu.org/Contribute/SubmitAPatch#Submitting_your_Patches
+> +            tcg_gen_sari_i32(t1, t1, 16);
+> +        } else if (flags & TCG_BSWAP_OZ) {
+> +            tcg_gen_ext8u_i32(t1, arg);
+> +            tcg_gen_shli_i32(t1, t1, 8);
+> +        } else {
+> +            tcg_gen_shli_i32(t1, arg, 8);
+> +        }
+> +
+> +        tcg_gen_or_i32(ret, t0, t1);
+>          tcg_temp_free_i32(t0);
+> +        tcg_temp_free_i32(t1);
+>      }
 
-Regards,
+>      } else {
+>          TCGv_i64 t0 = tcg_temp_new_i64();
+> +        TCGv_i64 t1 = tcg_temp_new_i64();
+>
+> -        tcg_gen_ext8u_i64(t0, arg);
+> -        tcg_gen_shli_i64(t0, t0, 8);
+> -        tcg_gen_shri_i64(ret, arg, 8);
+> -        tcg_gen_or_i64(ret, ret, t0);
+> +        tcg_gen_shri_i64(t0, arg, 8);
+> +        if (!(flags & TCG_BSWAP_IZ)) {
+> +            tcg_gen_ext8u_i64(t0, t0);
+> +        }
+> +
+> +        if (flags & TCG_BSWAP_OS) {
+> +            tcg_gen_shli_i64(t1, t1, 56);
 
-Phil.
+Similarly here.
 
+> +            tcg_gen_sari_i64(t1, t1, 48);
+> +        } else if (flags & TCG_BSWAP_OZ) {
+> +            tcg_gen_ext8u_i64(t1, arg);
+> +            tcg_gen_shli_i64(t1, t1, 8);
+> +        } else {
+> +            tcg_gen_shli_i64(t1, arg, 8);
+> +        }
+> +
+> +        tcg_gen_or_i64(ret, t0, t1);
+>          tcg_temp_free_i64(t0);
+> +        tcg_temp_free_i64(t1);
+>      }
+>  }
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
