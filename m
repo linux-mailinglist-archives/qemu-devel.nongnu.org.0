@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A426E3AE6D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:13:54 +0200 (CEST)
-Received: from localhost ([::1]:51536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E343AE6ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:21:20 +0200 (CEST)
+Received: from localhost ([::1]:40420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvGwD-0007eD-L0
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35460)
+	id 1lvH3P-0002LT-Oh
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGig-0007nV-CZ
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30120)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGik-0007w8-5l
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGic-00076P-9x
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:54 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGid-00077Q-4h
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624269588;
+ s=mimecast20190719; t=1624269590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fygHjwvHtRb2tKPf5A+pqEVvHlYibsKXFFZ+TQWCjxY=;
- b=QiwSTPcj5VR+NQjVMM7O2KBjSnPUo6G/0ltTRxYNUCsWQnddt2mQ/n6/jzDYFB+NaJ/Mq7
- k4dr+5il28KlnMqFmJPqir5wZpMgltXO7BO4jsHvV2KZdzShxfjfic2EwEYnFSnSf7vUJ2
- ic+45XllbysmBVRkiwHoHRnUTMe7rTU=
+ bh=f9JCZBUT9xSTfSunPhcjpaeN/FNjLvDuBjmm3uXD5Rc=;
+ b=KiPP+Yv6kehUYQK156HlNZs6v7X8oqGD/zBRfQTpKOlOCXtmPeT5hkFYcWPMXDzgxG9rcZ
+ szSy/VJIkE+0Z6rV6NqIqV39GFjFs36EV9xEVFEi6mB2LJ99qu9HVrRIpds6055JKkv8xd
+ VYMDlcaQLR5uqT4A4Z93MThogSsFF6M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-G98IDyP7MgW9_McAgR1iKA-1; Mon, 21 Jun 2021 05:59:46 -0400
-X-MC-Unique: G98IDyP7MgW9_McAgR1iKA-1
+ us-mta-276-6-F3WGN3O4K7CwWEWm1Eew-1; Mon, 21 Jun 2021 05:59:48 -0400
+X-MC-Unique: 6-F3WGN3O4K7CwWEWm1Eew-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CCEC100CEC3;
- Mon, 21 Jun 2021 09:59:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DD0C5721E;
+ Mon, 21 Jun 2021 09:59:47 +0000 (UTC)
 Received: from gondolin.fritz.box (ovpn-113-141.ams2.redhat.com
  [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC4035D740;
- Mon, 21 Jun 2021 09:59:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A437D3A47;
+ Mon, 21 Jun 2021 09:59:45 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 25/37] linux-user: elf: s390x: Prepare for Vector enhancements
- facility
-Date: Mon, 21 Jun 2021 11:58:30 +0200
-Message-Id: <20210621095842.335162-26-cohuck@redhat.com>
+Subject: [PULL 26/37] s390x/tcg: We support Vector enhancements facility
+Date: Mon, 21 Jun 2021 11:58:31 +0200
+Message-Id: <20210621095842.335162-27-cohuck@redhat.com>
 In-Reply-To: <20210621095842.335162-1-cohuck@redhat.com>
 References: <20210621095842.335162-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.299,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,57 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's check for S390_FEAT_VECTOR_ENH and set HWCAP_S390_VXRS_EXT
-accordingly. Add all missing HWCAP defined in upstream Linux.
+Everything is wired up and all new instructions are implemented.
 
-Cc: Laurent Vivier <laurent@vivier.eu>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210608092337.12221-25-david@redhat.com>
+Message-Id: <20210608092337.12221-26-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- include/elf.h        | 7 +++++++
- linux-user/elfload.c | 1 +
- 2 files changed, 8 insertions(+)
+ target/s390x/gen-features.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/elf.h b/include/elf.h
-index 033bcc957671..811bf4a1cb5c 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -605,6 +605,13 @@ typedef struct {
- #define HWCAP_S390_HIGH_GPRS    512
- #define HWCAP_S390_TE           1024
- #define HWCAP_S390_VXRS         2048
-+#define HWCAP_S390_VXRS_BCD     4096
-+#define HWCAP_S390_VXRS_EXT     8192
-+#define HWCAP_S390_GS           16384
-+#define HWCAP_S390_VXRS_EXT2    32768
-+#define HWCAP_S390_VXRS_PDE     65536
-+#define HWCAP_S390_SORT         131072
-+#define HWCAP_S390_DFLT         262144
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index a6ec918e901e..219b1f942073 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -720,6 +720,7 @@ static uint16_t qemu_MAX[] = {
+     S390_FEAT_INSTRUCTION_EXEC_PROT,
+     S390_FEAT_MISC_INSTRUCTION_EXT2,
+     S390_FEAT_MSA_EXT_8,
++    S390_FEAT_VECTOR_ENH,
+ };
  
- /* M68K specific definitions. */
- /* We use the top 24 bits to encode information about the
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 17ab06f612dd..4b0172339eff 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1376,6 +1376,7 @@ static uint32_t get_elf_hwcap(void)
-         hwcap |= HWCAP_S390_ETF3EH;
-     }
-     GET_FEATURE(S390_FEAT_VECTOR, HWCAP_S390_VXRS);
-+    GET_FEATURE(S390_FEAT_VECTOR_ENH, HWCAP_S390_VXRS_EXT);
- 
-     return hwcap;
- }
+ /****** END FEATURE DEFS ******/
 -- 
 2.31.1
 
