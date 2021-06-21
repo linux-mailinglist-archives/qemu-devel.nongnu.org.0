@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3D43AEB10
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:20:45 +0200 (CEST)
-Received: from localhost ([::1]:57392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C283AEB04
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:18:02 +0200 (CEST)
+Received: from localhost ([::1]:51254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvKn6-00044K-8M
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:20:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60570)
+	id 1lvKkT-0008Pm-Aj
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1lvKhl-0006ir-BZ; Mon, 21 Jun 2021 10:15:13 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47304
+ id 1lvKho-0006pl-SV; Mon, 21 Jun 2021 10:15:16 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16704
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1lvKhj-00040Z-99; Mon, 21 Jun 2021 10:15:13 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ id 1lvKhn-00042K-23; Mon, 21 Jun 2021 10:15:16 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15LE3E9G100913; Mon, 21 Jun 2021 10:15:09 -0400
+ 15LE40Nj190445; Mon, 21 Jun 2021 10:15:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-transfer-encoding
- : mime-version; s=pp1; bh=rFs04Pn/YReTGg3WTivx9G/avIjX6Mqrdm3F9G///pU=;
- b=RJlUru2Jw/lhofOQJVWMIAr2BOPyGVbxii/sZN7wJY7QRKrDG0qEVEnUlJWqPGDBkPpr
- +6+ihq47jf7YTk28nrdiKO6psCy7KcSbQ/hKX9HS0Srox2jsS9NNQ3gXv7d+QKZYnTKc
- q5MDG39EOgeZOmTLte30R6Ozgd6BLdHSWNiDtr+d+f7zmJEY8MPiAMp6dZWiQfc26Ypo
- PM85wYxNYQ0OTTWQqjDR6m6i+se5ylK2achgktIOYhX4RaXW0hNV8MAMdVmPzGIfDT1h
- 5fIjYuEFBTD9+g3e+0vixKG1Eeyl44/JzJNuB5HlVTtdZ0l6XN7WR81LbA5TQO1RK1RH JQ== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=+ZhHdzY7aQoHLCPgjHwFhubtkwO2Wg/yV25QfbxhsUM=;
+ b=sPpOgNs6B8mhpxzbKpzY1xV++YmHqdpEZvYwuq/N9Md9ZVkjfM+c+VZ+kpxs6w29Yi4m
+ 6Gd9xTG/CD2ONCByIFS7iMTHvGp1vY0NDmlMK0326UUi7O68QdxBC/ViJYJ31Ahtn6R7
+ KdZoJ1iA+4V+p3hu9oY7C10KOLP0dRTl77iReewWDLbY1wuZi63tus7hyMBgbZcfq6Mz
+ ASm+UdWEJ5bpGSL9itKlcOZQff/Lo5V3oKZV/L0S3mWXJVsuGz9CY1QzkM/2a9vIUd6E
+ +j15L8gDorDPQTZou34OaF9x0ovSB4geqxqIWa0ktC3817xIBfIrcOWLcB3qMHC6mdtj Yw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39av0urvgt-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39atkqkvv2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 10:15:09 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LE3Cbb100535;
- Mon, 21 Jun 2021 10:15:09 -0400
+ Mon, 21 Jun 2021 10:15:13 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LE4HrS192643;
+ Mon, 21 Jun 2021 10:15:13 -0400
 Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
  [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39av0urvgd-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39atkqkvuj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 10:15:09 -0400
+ Mon, 21 Jun 2021 10:15:12 -0400
 Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LEBqHZ001120;
- Mon, 21 Jun 2021 14:15:08 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma01wdc.us.ibm.com with ESMTP id 399878fr05-1
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LEBpLG001020;
+ Mon, 21 Jun 2021 14:15:12 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma01wdc.us.ibm.com with ESMTP id 399878fr0u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 14:15:08 +0000
+ Mon, 21 Jun 2021 14:15:12 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15LEF8Ca15401234
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15LEFB7i29753808
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 21 Jun 2021 14:15:08 GMT
+ Mon, 21 Jun 2021 14:15:11 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0D773112066;
- Mon, 21 Jun 2021 14:15:08 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C4A4F112064;
+ Mon, 21 Jun 2021 14:15:11 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 673FC112069;
- Mon, 21 Jun 2021 14:15:07 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2B66C112069;
+ Mon, 21 Jun 2021 14:15:11 +0000 (GMT)
 Received: from LAPTOP-K4LLPL5U.localdomain (unknown [9.65.229.155])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 21 Jun 2021 14:15:07 +0000 (GMT)
+ Mon, 21 Jun 2021 14:15:11 +0000 (GMT)
 From: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] linux-user/s390x: signal with SIGFPE on compare-and-trap
-Date: Mon, 21 Jun 2021 10:14:51 -0400
-Message-Id: <20210621141452.2045-2-jonathan.albrecht@linux.vnet.ibm.com>
+Subject: [PATCH 2/2] tests/tcg: Test that compare-and-trap raises SIGFPE
+Date: Mon, 21 Jun 2021 10:14:52 -0400
+Message-Id: <20210621141452.2045-3-jonathan.albrecht@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>
 References: <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: EYg3BEaC3GfCGbrDVDhroomOUy6W0_Kz
-X-Proofpoint-ORIG-GUID: fzxWc5BnyoYtbfLeUZMvAWRA4-xe3sY5
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _VXEGOIQ8XQllcOgRk5AzQ_b68hs8KFj
+X-Proofpoint-ORIG-GUID: WLK0Zz6Zc18hXx06lnyPg8PSIYNUw9iI
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-21_06:2021-06-21,
  2021-06-21 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxscore=0
- impostorscore=0 clxscore=1015 adultscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106210084
+ clxscore=1015 spamscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106210084
 Received-SPF: none client-ip=148.163.158.5;
  envelope-from=jonathan.albrecht@linux.vnet.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -115,65 +115,128 @@ Cc: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>, iii@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently when a compare-and-trap instruction is executed, qemu will
-always raise a SIGILL signal. On real hardware, a SIGFPE is raised.
-
-Change the PGM_DATA case in cpu_loop to follow the behavior in
-linux kernel /arch/s390/kernel/traps.c.
- * Only raise SIGILL if DXC == 0
- * If DXC matches an IEEE exception, raise SIGFPE with correct si_code
- * Raise SIGFPE with si_code == 0 for everything else
-
-When applied on 20210602002210.3144559-2-iii@linux.ibm.com, this fixes
-crashes in the java jdk such as the linked bug.
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1920913
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/319
 Signed-off-by: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
 ---
- linux-user/s390x/cpu_loop.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ tests/tcg/s390x/Makefile.target |   1 +
+ tests/tcg/s390x/trap.c          | 100 ++++++++++++++++++++++++++++++++
+ 2 files changed, 101 insertions(+)
+ create mode 100644 tests/tcg/s390x/trap.c
 
-diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
-index 72ba9170ed..def5c046f7 100644
---- a/linux-user/s390x/cpu_loop.c
-+++ b/linux-user/s390x/cpu_loop.c
-@@ -117,11 +117,13 @@ void cpu_loop(CPUS390XState *env)
- 
-             case PGM_DATA:
-                 n = (env->fpc >> 8) & 0xff;
--                if (n == 0xff) {
--                    /* compare-and-trap */
-+                if (n == 0) {
-                     goto do_sigill_opn;
--                } else {
--                    /* An IEEE exception, simulated or otherwise.  */
-+                }
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index cdb7d85316..4bd6db6679 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -9,3 +9,4 @@ TESTS+=pack
+ TESTS+=mvo
+ TESTS+=mvc
+ TESTS+=signal
++TESTS+=trap
+diff --git a/tests/tcg/s390x/trap.c b/tests/tcg/s390x/trap.c
+new file mode 100644
+index 0000000000..d48ad070d4
+--- /dev/null
++++ b/tests/tcg/s390x/trap.c
+@@ -0,0 +1,100 @@
++/*
++ * Copyright 2021 IBM Corp.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or (at
++ * your option) any later version. See the COPYING file in the top-level
++ * directory.
++ */
 +
-+                sig = TARGET_SIGFPE;
-+                if ((n & 0x03) == 0) {
-+                    /* An IEEE exception, simulated or otherwise. */
-                     if (n & 0x80) {
-                         n = TARGET_FPE_FLTINV;
-                     } else if (n & 0x40) {
-@@ -132,13 +134,12 @@ void cpu_loop(CPUS390XState *env)
-                         n = TARGET_FPE_FLTUND;
-                     } else if (n & 0x08) {
-                         n = TARGET_FPE_FLTRES;
--                    } else {
--                        /* ??? Quantum exception; BFP, DFP error.  */
--                        goto do_sigill_opn;
-                     }
--                    sig = TARGET_SIGFPE;
--                    goto do_signal_pc;
-+                } else {
-+                    /* compare-and-trap */
-+                    n = 0;
-                 }
-+                goto do_signal_pc;
- 
-             default:
-                 fprintf(stderr, "Unhandled program exception: %#x\n", n);
++#include <stdarg.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <errno.h>
++#include <string.h>
++#include <signal.h>
++
++static void error1(const char *filename, int line, const char *fmt, ...)
++{
++    va_list ap;
++    va_start(ap, fmt);
++    fprintf(stderr, "%s:%d: ", filename, line);
++    vfprintf(stderr, fmt, ap);
++    fprintf(stderr, "\n");
++    va_end(ap);
++    exit(1);
++}
++
++static int __chk_error(const char *filename, int line, int ret)
++{
++    if (ret < 0) {
++        error1(filename, line, "%m (ret=%d, errno=%d/%s)",
++               ret, errno, strerror(errno));
++    }
++    return ret;
++}
++
++#define error(fmt, ...) error1(__FILE__, __LINE__, fmt, ## __VA_ARGS__)
++
++#define chk_error(ret) __chk_error(__FILE__, __LINE__, (ret))
++
++int sigfpe_count = 0;
++int sigill_count = 0;
++
++static void sig_handler(int sig, siginfo_t *si, void *puc)
++{
++    if (sig == SIGFPE) {
++        if (si->si_code != 0) {
++            error("unexpected si_code: 0x%x != 0", si->si_code);
++        }
++        ++sigfpe_count;
++        return;
++    }
++    
++    if (sig == SIGILL) {
++        ++sigill_count;
++        return;
++    }
++
++    error("unexpected signal 0x%x\n", sig);
++}
++
++int main(int argc, char **argv)
++{
++    struct sigaction act;
++
++    /* Set up SIG handler */
++    act.sa_sigaction = sig_handler;
++    sigemptyset(&act.sa_mask);
++    act.sa_flags = SA_SIGINFO;
++    chk_error(sigaction(SIGFPE, &act, NULL));
++    chk_error(sigaction(SIGILL, &act, NULL));
++
++    uint64_t z = 0x0ull;
++    uint64_t lz = 0xffffffffffffffffull;
++    asm volatile (
++        "lg %%r13,%[lz]\n"
++        "cgitne %%r13,0\n" /* SIGFPE */
++        "lg %%r13,%[z]\n"
++        "cgitne %%r13,0\n" /* no trap */
++        "nopr\n"
++        "lg %%r13,%[lz]\n"
++        "citne %%r13,0\n" /* SIGFPE */
++        "lg %%r13,%[z]\n"
++        "citne %%r13,0\n" /* no trap */
++        "nopr\n"
++        : 
++        : [z] "m" (z), [lz] "m" (lz)
++        : "memory", "r13");
++
++    if (sigfpe_count != 2) {
++        error("unexpected SIGFPE count: %d != 2", sigfpe_count);
++    }
++    if (sigill_count != 0) {
++        error("unexpected SIGILL count: %d != 0", sigill_count);
++    }
++
++    printf("PASS\n");
++    return 0;
++}
 -- 
 2.31.1
 
