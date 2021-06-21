@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8303AEFCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:40:05 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F204E3AF069
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:48:40 +0200 (CEST)
+Received: from localhost ([::1]:34526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvMxw-0002J4-5w
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
+	id 1lvN6F-0002eS-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:48:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnH-0007EC-9j
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:03 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:42983)
+ id 1lvMnI-0007Es-6I
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:06 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMn9-0007Zy-46
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:02 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- l7-20020a05600c1d07b02901b0e2ebd6deso407081wms.1
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:28:53 -0700 (PDT)
+ id 1lvMnB-0007aC-7K
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:03 -0400
+Received: by mail-wr1-x429.google.com with SMTP id i94so20364274wri.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:28:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Pw1LoX5aEGi8/1gaQ+fA9/sHVVZFYrW4J8ovX5aE9LA=;
- b=EXno+1ZOGeyQCHochh6AsuHlhmjzPBlfm9iBNtLx0uzVpLSSCVFYmHRcXy2x99NfVp
- kfhkMhVkpCMPtD06QndGiBkRLsQ49TeNtnyTFsWmngXw1Fn53v1OOqoY5ah7T016jAUS
- 7nHQAUpCIjr6YwWySPCfHnFEIyQA056F4Id3LaDkR/YB1KqAaIvGnLKDTpPInkwCoiU1
- W8aEhfJwriHgqY0eSn+ROciffn1oiZizeZoY00bfKXIwccGzwvNqkszJs1st74KCJjLF
- rXcswrfpk4WoqojWkVAGKCvsvbFoS2QrWndN9xmNiLoIIQjz82Y41ostNIA2yekFOHYX
- 4D0A==
+ bh=8pJ4CbzRB/UCrIgBK+buwyMvo5VtwAGnO5gnHeePN4o=;
+ b=tQew4f+JeaSin9iGA2AIMJAcQ7fih1myIp5usV5zyh2iFreTJxEt/78UAq81p8yumq
+ v1S4GKP5HD8p9K1h9QGazEDr5ucMZ3/x1j1bV4/1BaYgl83QwmqfC4yaUnLemLTJ+9Tn
+ joIMI1W7yEzPhCc6V4U8geuVlNEvPpZADpu3xVZFchKXx8ww67MWL8NclawdmbqonTwG
+ Y1ZUM70rjiYGiDN1D61B1rOjQzQVA3mZmg5wxWssMC5nxzXCOhkd/iaKX2pjcIT1H9fZ
+ QGp8hvih/pfEHsAfe40lXXDpi1aFs7vq7VxmacT8RN5sKB7Twlp5FcQS0y1B9CmTej4g
+ HvBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pw1LoX5aEGi8/1gaQ+fA9/sHVVZFYrW4J8ovX5aE9LA=;
- b=OqjDMJ/9qxpgpmjA9rhNRfttlLQVr45E6f2lczk4XgWUDCn24rzcBqTl6F8L9kh/vy
- JX1quQfwbXed3YPaG2BPg9VhQTMxtMt1v4atsnoMp/YGUhcF1SLViDK9rjH/gTSAUwc8
- c1PCnVhCqi3NCYi170BN3XcktlDtW1VEXDmWcUFCmHnLpV1xA6PcuSrFJjplVBp1YADe
- yWwrdyXr55cYamslbkbicavNeqyHadZQwRrBTkBdRS7o1YU2759FD8jDOdkA4/LvvIi0
- tVEKuig3nfeRA0Axr7g73ursXb1tnJAHvH1v9sIRlMlAVKPS87HhXtY6Hm0yz4xYbWMj
- 0/QA==
-X-Gm-Message-State: AOAM531repkmFrgYjlf1SiTpk0hTS5iRZMDJs11wlVdNZT6ktT3Uv9Mh
- 8vz+yImybYFnGwqATCNoecpREyADeDVBeU5d
-X-Google-Smtp-Source: ABdhPJxQKY0zg0QYTG7eYRusGAv8/aigMs+aiiDjZdHFGveA7tYGWOuZfeDCzLHNbszV1+evZWtR+Q==
-X-Received: by 2002:a7b:c30f:: with SMTP id k15mr28572611wmj.128.1624292933076; 
- Mon, 21 Jun 2021 09:28:53 -0700 (PDT)
+ bh=8pJ4CbzRB/UCrIgBK+buwyMvo5VtwAGnO5gnHeePN4o=;
+ b=fFc1jf4v0jst0h2VWnI4dnwMseEQxJwUYKAsNVQnTto+Fz1pSp569sFr5xyKIheGjG
+ +XIszyX5cORlAIfzZ6fmIawOqktVybQMKL/hjLP5HJjTTL7y63v+a5gRwFNXB+uXa1my
+ 8fruxNQ4A3jDHRAQqm3Iu/kVXJWNqehqaa+NQXXeYhuENuyvx/mu4VEIyweM2LAHypTf
+ YfjfRMcvl7+JbUfyBXlae30j3G7ifAh1TpACcMJ3ZX4w8U2vQhidEI1xwF/LfYmXSnrV
+ I/6O9/A6H+X9sZmM20qfwTei4IqrM8c60YDQe52W/VbRY+xOHm1ngpDB3F1D18Qk4Ilo
+ chGQ==
+X-Gm-Message-State: AOAM533s14xutlYLp/IhXxVvciiUF6aINT2cSoyA6T9/0vY/RFTY+oLG
+ 4MhuOIdCGmGfu9qj2XDNPrz8w6hK2Tx2IGXC
+X-Google-Smtp-Source: ABdhPJyXCUGCPFarw1vn7emd1GB5mFlqRwGx8cK45dU9jNeBDzgkZqKqy6ZGbdZis1VGVcz7C7ErnQ==
+X-Received: by 2002:adf:e112:: with SMTP id t18mr29308505wrz.46.1624292934706; 
+ Mon, 21 Jun 2021 09:28:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.28.51
+ by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.28.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 09:28:52 -0700 (PDT)
+ Mon, 21 Jun 2021 09:28:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/57] tcg: Make gen_dup_i32/i64() public as tcg_gen_dup_i32/i64
-Date: Mon, 21 Jun 2021 17:27:56 +0100
-Message-Id: <20210621162833.32535-21-peter.maydell@linaro.org>
+Subject: [PULL 21/57] target/arm: Implement MVE VDUP
+Date: Mon, 21 Jun 2021 17:27:57 +0100
+Message-Id: <20210621162833.32535-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210621162833.32535-1-peter.maydell@linaro.org>
 References: <20210621162833.32535-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,163 +86,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Arm MVE VDUP implementation would like to be able to emit code to
-duplicate a byte or halfword value into an i32.  We have code to do
-this already in tcg-op-gvec.c, so all we need to do is make the
-functions global.
+Implement the MVE VDUP insn, which duplicates a value from
+a general-purpose register into every lane of a vector
+register (subject to predication).
 
-For consistency with other functions made available to the frontends:
- * we rename to tcg_gen_dup_*
- * we expose both the _i32 and _i64 forms
- * we provide the #define for a _tl form
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20210617121628.20116-10-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210617121628.20116-11-peter.maydell@linaro.org
 ---
- include/tcg/tcg-op.h |  8 ++++++++
- include/tcg/tcg.h    |  1 -
- tcg/tcg-op-gvec.c    | 20 ++++++++++----------
- 3 files changed, 18 insertions(+), 11 deletions(-)
+ target/arm/helper-mve.h    |  2 ++
+ target/arm/mve.decode      | 10 ++++++++++
+ target/arm/mve_helper.c    | 16 ++++++++++++++++
+ target/arm/translate-mve.c | 27 +++++++++++++++++++++++++++
+ 4 files changed, 55 insertions(+)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index ef8a008ea74..1a2ae937583 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -338,6 +338,9 @@ void tcg_gen_umin_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
- void tcg_gen_umax_i32(TCGv_i32, TCGv_i32 arg1, TCGv_i32 arg2);
- void tcg_gen_abs_i32(TCGv_i32, TCGv_i32);
+diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
+index 733a54d2e3c..64c3f9e049e 100644
+--- a/target/arm/helper-mve.h
++++ b/target/arm/helper-mve.h
+@@ -33,6 +33,8 @@ DEF_HELPER_FLAGS_3(mve_vstrb_h, TCG_CALL_NO_WG, void, env, ptr, i32)
+ DEF_HELPER_FLAGS_3(mve_vstrb_w, TCG_CALL_NO_WG, void, env, ptr, i32)
+ DEF_HELPER_FLAGS_3(mve_vstrh_w, TCG_CALL_NO_WG, void, env, ptr, i32)
  
-+/* Replicate a value of size @vece from @in to all the lanes in @out */
-+void tcg_gen_dup_i32(unsigned vece, TCGv_i32 out, TCGv_i32 in);
++DEF_HELPER_FLAGS_3(mve_vdup, TCG_CALL_NO_WG, void, env, ptr, i32)
 +
- static inline void tcg_gen_discard_i32(TCGv_i32 arg)
- {
-     tcg_gen_op1_i32(INDEX_op_discard, arg);
-@@ -534,6 +537,9 @@ void tcg_gen_umin_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
- void tcg_gen_umax_i64(TCGv_i64, TCGv_i64 arg1, TCGv_i64 arg2);
- void tcg_gen_abs_i64(TCGv_i64, TCGv_i64);
+ DEF_HELPER_FLAGS_3(mve_vclsb, TCG_CALL_NO_WG, void, env, ptr, ptr)
+ DEF_HELPER_FLAGS_3(mve_vclsh, TCG_CALL_NO_WG, void, env, ptr, ptr)
+ DEF_HELPER_FLAGS_3(mve_vclsw, TCG_CALL_NO_WG, void, env, ptr, ptr)
+diff --git a/target/arm/mve.decode b/target/arm/mve.decode
+index 82cc0abcb82..09849917f5a 100644
+--- a/target/arm/mve.decode
++++ b/target/arm/mve.decode
+@@ -21,6 +21,7 @@
  
-+/* Replicate a value of size @vece from @in to all the lanes in @out */
-+void tcg_gen_dup_i64(unsigned vece, TCGv_i64 out, TCGv_i64 in);
+ %qd 22:1 13:3
+ %qm 5:1 1:3
++%qn 7:1 17:3
+ 
+ &vldr_vstr rn qd imm p a w size l u
+ &1op qd qm size
+@@ -82,3 +83,12 @@ VABS             1111 1111 1 . 11 .. 01 ... 0 0011 01 . 0 ... 0 @1op
+ VABS_fp          1111 1111 1 . 11 .. 01 ... 0 0111 01 . 0 ... 0 @1op
+ VNEG             1111 1111 1 . 11 .. 01 ... 0 0011 11 . 0 ... 0 @1op
+ VNEG_fp          1111 1111 1 . 11 .. 01 ... 0 0111 11 . 0 ... 0 @1op
 +
- #if TCG_TARGET_REG_BITS == 64
- static inline void tcg_gen_discard_i64(TCGv_i64 arg)
- {
-@@ -1127,6 +1133,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_atomic_smax_fetch_tl tcg_gen_atomic_smax_fetch_i64
- #define tcg_gen_atomic_umax_fetch_tl tcg_gen_atomic_umax_fetch_i64
- #define tcg_gen_dup_tl_vec  tcg_gen_dup_i64_vec
-+#define tcg_gen_dup_tl tcg_gen_dup_i64
- #else
- #define tcg_gen_movi_tl tcg_gen_movi_i32
- #define tcg_gen_mov_tl tcg_gen_mov_i32
-@@ -1241,6 +1248,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_atomic_smax_fetch_tl tcg_gen_atomic_smax_fetch_i32
- #define tcg_gen_atomic_umax_fetch_tl tcg_gen_atomic_umax_fetch_i32
- #define tcg_gen_dup_tl_vec  tcg_gen_dup_i32_vec
-+#define tcg_gen_dup_tl tcg_gen_dup_i32
- #endif
++&vdup qd rt size
++# Qd is in the fields usually named Qn
++@vdup            .... .... . . .. ... . rt:4 .... . . . . .... qd=%qn &vdup
++
++# B and E bits encode size, which we decode here to the usual size values
++VDUP             1110 1110 1 1 10 ... 0 .... 1011 . 0 0 1 0000 @vdup size=0
++VDUP             1110 1110 1 0 10 ... 0 .... 1011 . 0 1 1 0000 @vdup size=1
++VDUP             1110 1110 1 0 10 ... 0 .... 1011 . 0 0 1 0000 @vdup size=2
+diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
+index 7b662f9e03a..e17ffdccac5 100644
+--- a/target/arm/mve_helper.c
++++ b/target/arm/mve_helper.c
+@@ -246,6 +246,22 @@ static void mergemask_sq(int64_t *d, int64_t r, uint16_t mask)
+              uint64_t *: mergemask_uq,          \
+              int64_t *:  mergemask_sq)(D, R, M)
  
- #if UINTPTR_MAX == UINT32_MAX
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 064dab383bc..483e1e1f24e 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1331,7 +1331,6 @@ uint64_t dup_const(unsigned vece, uint64_t c);
-         : (qemu_build_not_reached_always(), 0))                    \
-      : dup_const(VECE, C))
++void HELPER(mve_vdup)(CPUARMState *env, void *vd, uint32_t val)
++{
++    /*
++     * The generated code already replicated an 8 or 16 bit constant
++     * into the 32-bit value, so we only need to write the 32-bit
++     * value to all elements of the Qreg, allowing for predication.
++     */
++    uint32_t *d = vd;
++    uint16_t mask = mve_element_mask(env);
++    unsigned e;
++    for (e = 0; e < 16 / 4; e++, mask >>= 4) {
++        mergemask(&d[H4(e)], val, mask);
++    }
++    mve_advance_vpt(env);
++}
++
+ #define DO_1OP(OP, ESIZE, TYPE, FN)                                     \
+     void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
+     {                                                                   \
+diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
+index ad2e4af2844..3714be7f8d1 100644
+--- a/target/arm/translate-mve.c
++++ b/target/arm/translate-mve.c
+@@ -162,6 +162,33 @@ DO_VLDST_WIDE_NARROW(VLDSTB_H, vldrb_sh, vldrb_uh, vstrb_h)
+ DO_VLDST_WIDE_NARROW(VLDSTB_W, vldrb_sw, vldrb_uw, vstrb_w)
+ DO_VLDST_WIDE_NARROW(VLDSTH_W, vldrh_sw, vldrh_uw, vstrh_w)
  
--
- /*
-  * Memory helpers that will be used by TCG generated code.
-  */
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 498a959839f..515db120cc6 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -386,7 +386,7 @@ uint64_t (dup_const)(unsigned vece, uint64_t c)
- }
- 
- /* Duplicate IN into OUT as per VECE.  */
--static void gen_dup_i32(unsigned vece, TCGv_i32 out, TCGv_i32 in)
-+void tcg_gen_dup_i32(unsigned vece, TCGv_i32 out, TCGv_i32 in)
++static bool trans_VDUP(DisasContext *s, arg_VDUP *a)
++{
++    TCGv_ptr qd;
++    TCGv_i32 rt;
++
++    if (!dc_isar_feature(aa32_mve, s) ||
++        !mve_check_qreg_bank(s, a->qd)) {
++        return false;
++    }
++    if (a->rt == 13 || a->rt == 15) {
++        /* UNPREDICTABLE; we choose to UNDEF */
++        return false;
++    }
++    if (!mve_eci_check(s) || !vfp_access_check(s)) {
++        return true;
++    }
++
++    qd = mve_qreg_ptr(a->qd);
++    rt = load_reg(s, a->rt);
++    tcg_gen_dup_i32(a->size, rt, rt);
++    gen_helper_mve_vdup(cpu_env, qd, rt);
++    tcg_temp_free_ptr(qd);
++    tcg_temp_free_i32(rt);
++    mve_update_eci(s);
++    return true;
++}
++
+ static bool do_1op(DisasContext *s, arg_1op *a, MVEGenOneOpFn fn)
  {
-     switch (vece) {
-     case MO_8:
-@@ -404,7 +404,7 @@ static void gen_dup_i32(unsigned vece, TCGv_i32 out, TCGv_i32 in)
-     }
- }
- 
--static void gen_dup_i64(unsigned vece, TCGv_i64 out, TCGv_i64 in)
-+void tcg_gen_dup_i64(unsigned vece, TCGv_i64 out, TCGv_i64 in)
- {
-     switch (vece) {
-     case MO_8:
-@@ -578,15 +578,15 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
-                 && (vece != MO_32 || !check_size_impl(oprsz, 4))) {
-                 t_64 = tcg_temp_new_i64();
-                 tcg_gen_extu_i32_i64(t_64, in_32);
--                gen_dup_i64(vece, t_64, t_64);
-+                tcg_gen_dup_i64(vece, t_64, t_64);
-             } else {
-                 t_32 = tcg_temp_new_i32();
--                gen_dup_i32(vece, t_32, in_32);
-+                tcg_gen_dup_i32(vece, t_32, in_32);
-             }
-         } else if (in_64) {
-             /* We are given a 64-bit variable input.  */
-             t_64 = tcg_temp_new_i64();
--            gen_dup_i64(vece, t_64, in_64);
-+            tcg_gen_dup_i64(vece, t_64, in_64);
-         } else {
-             /* We are given a constant input.  */
-             /* For 64-bit hosts, use 64-bit constants for "simple" constants
-@@ -1311,14 +1311,14 @@ void tcg_gen_gvec_2s(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
-     } else if (g->fni8 && check_size_impl(oprsz, 8)) {
-         TCGv_i64 t64 = tcg_temp_new_i64();
- 
--        gen_dup_i64(g->vece, t64, c);
-+        tcg_gen_dup_i64(g->vece, t64, c);
-         expand_2s_i64(dofs, aofs, oprsz, t64, g->scalar_first, g->fni8);
-         tcg_temp_free_i64(t64);
-     } else if (g->fni4 && check_size_impl(oprsz, 4)) {
-         TCGv_i32 t32 = tcg_temp_new_i32();
- 
-         tcg_gen_extrl_i64_i32(t32, c);
--        gen_dup_i32(g->vece, t32, t32);
-+        tcg_gen_dup_i32(g->vece, t32, t32);
-         expand_2s_i32(dofs, aofs, oprsz, t32, g->scalar_first, g->fni4);
-         tcg_temp_free_i32(t32);
-     } else {
-@@ -2538,7 +2538,7 @@ void tcg_gen_gvec_ands(unsigned vece, uint32_t dofs, uint32_t aofs,
-                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
- {
-     TCGv_i64 tmp = tcg_temp_new_i64();
--    gen_dup_i64(vece, tmp, c);
-+    tcg_gen_dup_i64(vece, tmp, c);
-     tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, tmp, &gop_ands);
-     tcg_temp_free_i64(tmp);
- }
-@@ -2562,7 +2562,7 @@ void tcg_gen_gvec_xors(unsigned vece, uint32_t dofs, uint32_t aofs,
-                        TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
- {
-     TCGv_i64 tmp = tcg_temp_new_i64();
--    gen_dup_i64(vece, tmp, c);
-+    tcg_gen_dup_i64(vece, tmp, c);
-     tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, tmp, &gop_xors);
-     tcg_temp_free_i64(tmp);
- }
-@@ -2586,7 +2586,7 @@ void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
-                       TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
- {
-     TCGv_i64 tmp = tcg_temp_new_i64();
--    gen_dup_i64(vece, tmp, c);
-+    tcg_gen_dup_i64(vece, tmp, c);
-     tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, tmp, &gop_ors);
-     tcg_temp_free_i64(tmp);
- }
+     TCGv_ptr qd, qm;
 -- 
 2.20.1
 
