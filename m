@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DEA3AEB12
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:20:50 +0200 (CEST)
-Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D813AEB1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:21:55 +0200 (CEST)
+Received: from localhost ([::1]:33198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvKnB-0004P3-1g
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60718)
+	id 1lvKoE-0006qi-HS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvKiM-0007Q4-TC
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:15:53 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:41732)
+ id 1lvKm1-0003hi-Fa
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:19:37 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvKiK-0004M7-RT
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:15:50 -0400
-Received: by mail-ed1-x529.google.com with SMTP id n20so19175995edv.8
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:15:48 -0700 (PDT)
+ id 1lvKlz-0005y2-J3
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:19:36 -0400
+Received: by mail-ed1-x531.google.com with SMTP id t3so19184300edc.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AN40/MW6qzKAKIXTUYqjSTZvf3mW7m6B2xNBLT3K+2A=;
- b=e2jmDQbH3uDhTrYfhxPR5M8/4CMmj8XfSYlxPLjMSlNn5snXuloi31+u8Z8RJplMSi
- 1izvSCPbWrkeEMmBqr9j1vqAX/Ke6MX0c2lJerQfyin/t66H5tK/40GouDnbAfSM8Fli
- GV/m+yIIkKlm+tPD5N95GkJZ/DXY6jlzbOcij9UuJvXi1JMuYFrmdK+XamgWGoeOKGJQ
- QtUjmFiRrp23x4r4p6VFWGn7QL9qH2ptN4ay06UkZO4lvfPaBL/7MxcLlETciebIEOOU
- A1IYk0/Oa7KqW9m/SP+YcVPjmHyr4A9Bt6YcI2FaGJdiPV5Bz88VMN7lzDQjLpAyS2fi
- 4+3Q==
+ :cc; bh=YL3Wk5xcvsUp/LE7vuYl+xgysxNIaFkB8uKnMwv37BY=;
+ b=eNOJCc5V6l2Yp6fBbZxs1C14KCTdbt610efsi6+FroAyyFwkgD/WiRoqjUobiyqlMk
+ 7ekLteHZ1SHVDCISyVyQpPJngpMhNMCrtfdO3WP/uVyFW0A2F8BcoziTlosXay8/1zb1
+ mGJG/Vk5uyYT5CqnOTHQJ4Y3RV9SXMmra/SIpzSkZ5FnGdRiGu/IBvrGQspfrJ1+G0K/
+ QIIkxzya1WnLx1JNnwVpirEEp0ODiNlXWdFLmvLHCYmX8v+biYVhhuPjPoVRS0th+rmc
+ OEFFJCbPikomHynQzXeqPO3zhTSlUftIRtqIUlEo4/UXv+BQY84BqWr58VM3KbDIi5yh
+ Pfrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=AN40/MW6qzKAKIXTUYqjSTZvf3mW7m6B2xNBLT3K+2A=;
- b=Kb5tNmWoSSyuKiHvWbpI9miVGB2l5cmJ/K2G+PW2CWcJ3TEA035XxPoEKG8K7tkwB3
- 23O7O3vPDf6PWRSsBWkjQJm1ZToTMgg/sYxh3knLkZWMJ8kisI/b4GQw5qWa6VoJhplY
- pRGnid9KHEBgWf8ybhsJUCpDgMxHwzR/rwmB7hLbdwYRitjqPcc7whx95mB4GGntieTm
- W83DGryq34aP+rr8ToOFi9PvBIIYc4ExDp3tpUVTu68De14PyJ+Qyz7jwPw6cvx9A12r
- ZPQxc+Z4wsAHtGKoes5H5lAsLqSoCWCXXCK48a6McFa6dQANU6N9yzZQzXHmbs/YP3aG
- nBVg==
-X-Gm-Message-State: AOAM531xZBVuqaoGoiJ8JplYpMXp2vY2fCOsSvhP8HpZyUS8AgzgO0h+
- UEpDMGhgN3GXov/V/zSu3+WEH8UIV+CVyYOAGGCPug==
-X-Google-Smtp-Source: ABdhPJzsACuKSJc7YrSEEP/4Ys8oSL9OI/MPDazEB9FoC+86+H1aXbOB9IV/oc9sn6gewhHx419IXsNsnGM+VxKX7V4=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr21456945edt.100.1624284947011; 
- Mon, 21 Jun 2021 07:15:47 -0700 (PDT)
+ bh=YL3Wk5xcvsUp/LE7vuYl+xgysxNIaFkB8uKnMwv37BY=;
+ b=ed6d8n51iXGEcZ3TSlCPYJWlM+fCeqOQGJguDAskw9wnqkvJpMdbBSIQkIFmFTUfru
+ VJxIK9E9uBoRUpcjWnCL6VBj1/4F6TJ5FYEqAbd3L6o6rcUB+g2VzhiDvzRT32IPbXz+
+ fNUpJ/SGD9ojfUWeGQ/caxCBa2OoECHoviv/nuzcQS+q9D7uLNvbfgenunbjqTfsWCa3
+ Q5of6is1YWaXw6czAnOwTlqqluFHPnQ8j8RB133WQZw0aJmQpkZxmw/4n+3pkJtBuBv2
+ nRH4auX3tnUdl8NYgc9DaY4jF+QDvf0NKcJmBlV/uoPo2lM0BZexq3e9WYal4TaVcpM+
+ rXFw==
+X-Gm-Message-State: AOAM533IknijYWd2t/MBOT2sOqpdmO2byHbOkfrCItCGriiJzkkAeK+L
+ YITLNULfPOJbEaXHcOiRfJr5sRv/lQRDDaVeZ6S+nw==
+X-Google-Smtp-Source: ABdhPJyxHEYzcvyWjFK/jzM3DxfUcpL2DTEEtOLafqB3CQULDR080O5sPsVjy/gDNIUvS9G6TuU8B9dxujavElt+y+s=
+X-Received: by 2002:a50:fe84:: with SMTP id d4mr19655063edt.204.1624285174157; 
+ Mon, 21 Jun 2021 07:19:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210614083800.1166166-1-richard.henderson@linaro.org>
- <20210614083800.1166166-2-richard.henderson@linaro.org>
- <CAFEAcA9ktX0famPUabJ3J_nhBp7CHOzd7S_auHEML7kPi9Yysw@mail.gmail.com>
- <CAFEAcA9Rg9O7n24Jpee3BxyE35e5z+a7m8CiQqJqeJ9hNffYjQ@mail.gmail.com>
- <d7906e8d-2db4-88fd-0755-af433fae808a@linaro.org>
-In-Reply-To: <d7906e8d-2db4-88fd-0755-af433fae808a@linaro.org>
+ <20210614083800.1166166-6-richard.henderson@linaro.org>
+In-Reply-To: <20210614083800.1166166-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Jun 2021 15:15:11 +0100
-Message-ID: <CAFEAcA_8T8U8NG0mTRvzic_cnG5O+Yd6t9Nmc0TkNv2G_QKPTg@mail.gmail.com>
-Subject: Re: [PATCH 01/28] tcg: Add flags argument to bswap opcodes
+Date: Mon, 21 Jun 2021 15:18:58 +0100
+Message-ID: <CAFEAcA8pwOgtRDW8c7dRTMPu2bOxL3osEdeJn3kKsyThcPgmqQ@mail.gmail.com>
+Subject: Re: [PATCH 05/28] tcg/ppc: Split out tcg_out_ext{8,16,32}s
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,57 +81,20 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Jun 2021 at 15:02, Richard Henderson
+On Mon, 14 Jun 2021 at 09:52, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> On 6/21/21 6:51 AM, Peter Maydell wrote:
-> > On Mon, 21 Jun 2021 at 14:41, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >>
-> >> On Mon, 14 Jun 2021 at 09:43, Richard Henderson
-> >> <richard.henderson@linaro.org> wrote:
-> >>>
-> >>> This will eventually simplify front-end usage, and will allow
-> >>> backends to unset TCG_TARGET_HAS_MEMORY_BSWAP without loss of
-> >>> optimization.
-> >>>
-> >>> The argument is added during expansion, not currently exposed
-> >>> to the front end translators.  Non-zero values are not yet
-> >>> supported by any backends.
-> >>
-> >> Here we say non-zero values are not yet supported by the backend...
-> >
-> > Looking at the tcg/README docs, I think what you mean is that
-> > at the moment all the backends assume/require that the caller passes
-> > one of TCG_BSWAP_IZ or (TCG_BSWAP_IZ | TCG_BSWAP_OZ), since the
-> > pre-flags implementation requires the top bytes to be zero and leaves
-> > them that way.
+> We will shortly require these in other context;
+> make the expansion as clear as possible.
 >
-> Correct.
->
-> > But then the parts of your patch that pass in a zero
-> > flags word would be wrong...
->
-> The parts that pass in a zero flags word are covered by, from the README:
->
-> > The flags are ignored -- the argument is present
-> > for consistency with the smaller bswaps.
-
-Ah, I see. If you fix up the commit message, maybe something like
-
-# The argument is added during expansion, not currently exposed
-# to the front end translators. The backends currently only support
-# a flags value of either TCG_BSWAP_IZ, or (TCG_BSWAP_IZ | TCG_BSWAP_OZ),
-# since they all require zero top bytes and leave them that way.
-# At the existing callsites we pass in (TCG_BSWAP_IZ | TCG_BSWAP_OZ),
-# except for the flags-ignored cases of a 32-bit swap of a 32-bit
-# value and or a 64-bit swap of a 64-bit value, where we pass 0.
-
-then
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/ppc/tcg-target.c.inc | 31 +++++++++++++++++++++----------
+>  1 file changed, 21 insertions(+), 10 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-It would be nice to document the actual flag values/names in
-the user-facing documentation, too.
+Much nicer than those gotos...
 
 thanks
 -- PMM
