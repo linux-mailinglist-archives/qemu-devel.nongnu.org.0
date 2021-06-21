@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F073AF676
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 21:50:48 +0200 (CEST)
-Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DCE3AF678
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 21:51:48 +0200 (CEST)
+Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvPwV-00012R-8n
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 15:50:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41506)
+	id 1lvPxT-0002ZF-7M
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 15:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lvPuz-0008H8-Vz
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:49:14 -0400
-Resent-Date: Mon, 21 Jun 2021 15:49:13 -0400
-Resent-Message-Id: <E1lvPuz-0008H8-Vz@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lvPuw-0006pa-79
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:49:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624304930; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VfCUgOM6wxXiyYfoJFU3t7MvV5Hl7JpWqzZfhn75gAX+ai3KXXYSSTM4YAfHFJwBjUoJ0/niirYWp9IcKv4wirucQdvAex2W3O+Fg793s8eiISeCGUhnhCTiDh4YIUMd0CRW1GBa9vhwl9kRqhRwtfdgJGLTxu87d4X+rV3rnrM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1624304930;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=LUIukb4TNVaJVL5F1reydFhHNQLC/qnaMENPi8qU8Ao=; 
- b=Q6d75gDoKsbwfmXT8O88nCfNSfzLJdOBnzBz8AZZSPLoLWhNdGUvrIsJE3/3/r9vAGkYqyO9IHk05XrboNA9oZc/f8cgHeDs33Tb1pwhwOWVknRg9zXHy0sfAisFtUr0DHaUHUp3+nVP2FUonjQYcEzUmO1nN/zNVMrnj9mTTfY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1624304928170773.2833817147193;
- Mon, 21 Jun 2021 12:48:48 -0700 (PDT)
-In-Reply-To: <20210621192425.1188442-1-vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v3 0/5] virtio-gpu: Add a default synchronization
- mechanism for blobs
-Message-ID: <162430492699.9906.5200735106125585154@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lvPwc-0001kT-Ky
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:50:54 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lvPw4-0007Uq-RS
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:50:54 -0400
+Received: by mail-pf1-x434.google.com with SMTP id t8so4240642pfe.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 12:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OJhciaH5QFUXAM2r67HOFKTOycZ8xlmYFwtF8L+ghcw=;
+ b=FYFBLWMmKE1tls0l4m4rvNY60ooeh5G70sIlRAq7dAaTbftNHNT6+6BBXW1cEHqAUQ
+ 5w0v0d/dA/nD+qAdULIAITn4BbzGHmN5QVdtu/PFJrv0o1twFTMS6AuiCadVizE8aB2Z
+ wlHRgjIN/arXutRG2JLt6Xff7BhMOztA7OCtnqKtq17LUFkeWquptPQKgnJJOgA7+ZFR
+ xB0wzDWDG4Qh09Mte7zQ6JUDGab5grnxzqahJKF/TjqGxs7+cmXg30r6QRx3YlpZRWYL
+ WTz3KAtC1e0gEIwyd7F78yaojUOb9jt5yEN1K+4Ak20diP1Hk2zEWmtOHLtNGxJk5ILG
+ rd5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OJhciaH5QFUXAM2r67HOFKTOycZ8xlmYFwtF8L+ghcw=;
+ b=Jc5C0uRfmxPcTZ3eGYJhxu+pTu8R+5vXBvid3YIPHoMS4gx8OnaF8RyyzdWSDqJyQS
+ nqh0MHtdypqAPbsFt75AhgznuzN3RSINVs1u23VJaOiEe3nf96mxJcI3pbfsbnswV/Po
+ Pxg7WxQM47Pe/Mjket30/zaqHOFtcnz/VpuZ734wlJ5pwQ/G1xHH8fhVGrthF5onpabH
+ WpB1VqUP1FNSk9vI5H1Sy/ntoB0lG/I8XCeEIqdGmIgW5UGfjQ0vcx7e5KIqm+vuj/TF
+ st/P9HG3aLcukhBQxW90DLGnI9T3o9AnaPzJJpmhoDVKgZuLai1jgbXDPimq7+EU6FqV
+ 97dA==
+X-Gm-Message-State: AOAM530e7FiPTkea+r58rFYI6W3GogKA9MW81X2Nn8GLa+bsKO+0ndgO
+ TzrmVc+YGaJJABit909kOlA6Dw5DvcSJjg==
+X-Google-Smtp-Source: ABdhPJwq9l8Zb2/vzT+mHzLDSUDNR4xzEVZJ9ek3REvKNa7gHAAMHq23LbaTi1w7InJcMu4vfjWZvQ==
+X-Received: by 2002:a63:5c04:: with SMTP id q4mr162802pgb.127.1624305019060;
+ Mon, 21 Jun 2021 12:50:19 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id x7sm26853pjf.56.2021.06.21.12.50.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 12:50:18 -0700 (PDT)
+Subject: Re: [PATCH 03/28] tcg/aarch64: Support bswap flags
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ <20210614083800.1166166-4-richard.henderson@linaro.org>
+ <CAFEAcA-VMwff+-qzzwR_VLpZCSxJqga9ssHSDiLq9LyHKhPPSw@mail.gmail.com>
+ <5a03a209-567a-df86-1b47-9cc39d82eb7b@linaro.org>
+ <CAFEAcA--+n5aJVM9nv53v5cUCGxjPB7GPCNxxGCy02Dm6a77yA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <48f4da88-7b3e-5ebb-7e10-c8d6528ac880@linaro.org>
+Date: Mon, 21 Jun 2021 12:50:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vivek.kasireddy@intel.com
-Date: Mon, 21 Jun 2021 12:48:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA--+n5aJVM9nv53v5cUCGxjPB7GPCNxxGCy02Dm6a77yA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,53 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, tina.zhang@intel.com, vivek.kasireddy@intel.com,
- qemu-devel@nongnu.org, dongwon.kim@intel.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyMTE5MjQyNS4xMTg4
-NDQyLTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjIxMTky
-NDI1LjExODg0NDItMS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tClN1YmplY3Q6IFtQQVRDSCB2
-MyAwLzVdIHZpcnRpby1ncHU6IEFkZCBhIGRlZmF1bHQgc3luY2hyb25pemF0aW9uIG1lY2hhbmlz
-bSBmb3IgYmxvYnMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJl
-di1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3Bh
-dGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGlu
-ZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9n
-aXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAgIDUzZjMwNmYuLjBhZGQ5OWUgIG1hc3Rl
-ciAgICAgLT4gbWFzdGVyCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA2MjExNzEw
-MjEuMTgxOTg4MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIx
-MDYyMTE3MTAyMS4xODE5ODgxLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwogKiBbbmV3
-IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjIxMTkyNDI1LjExODg0NDItMS12aXZlay5rYXNp
-cmVkZHlAaW50ZWwuY29tIC0+IHBhdGNoZXcvMjAyMTA2MjExOTI0MjUuMTE4ODQ0Mi0xLXZpdmVr
-Lmthc2lyZWRkeUBpbnRlbC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwozMzEw
-NWRlIHZpcnRpby1ncHU6IEFkZCBnbF9mbHVzaGVkIGNhbGxiYWNrCmMyNTNmOWYgdWkvZ3RrLWVn
-bDogV2FpdCBmb3IgdGhlIGRyYXcgc2lnbmFsIGZvciBkbWFidWYgYmxvYnMKNTkwOWRmNCB1aTog
-Q3JlYXRlIHN5bmMgb2JqZWN0cyBhbmQgZmVuY2VzIG9ubHkgZm9yIGJsb2JzCjRmN2Q0YjYgdWkv
-ZWdsOiBBZGQgZWdsIGhlbHBlcnMgdG8gaGVscCB3aXRoIHN5bmNocm9uaXphdGlvbgphMTUzZmVk
-IHVpL2d0azogQ3JlYXRlIGEgY29tbW9uIHJlbGVhc2VfZG1hYnVmIGhlbHBlcgoKPT09IE9VVFBV
-VCBCRUdJTiA9PT0KMS81IENoZWNraW5nIGNvbW1pdCBhMTUzZmVkMmM0ZTIgKHVpL2d0azogQ3Jl
-YXRlIGEgY29tbW9uIHJlbGVhc2VfZG1hYnVmIGhlbHBlcikKMi81IENoZWNraW5nIGNvbW1pdCA0
-ZjdkNGI2NTk2YWUgKHVpL2VnbDogQWRkIGVnbCBoZWxwZXJzIHRvIGhlbHAgd2l0aCBzeW5jaHJv
-bml6YXRpb24pCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzYyOiBG
-SUxFOiB1aS9lZ2wtaGVscGVycy5jOjg4OgorXkleSV5JXklFR0xfU1lOQ19OQVRJVkVfRkVOQ0Vf
-QU5EUk9JRCwgTlVMTCk7JAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA0OCBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAyLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvNSBDaGVja2lu
-ZyBjb21taXQgNTkwOWRmNDBmYmM4ICh1aTogQ3JlYXRlIHN5bmMgb2JqZWN0cyBhbmQgZmVuY2Vz
-IG9ubHkgZm9yIGJsb2JzKQo0LzUgQ2hlY2tpbmcgY29tbWl0IGMyNTNmOWYyODFhZSAodWkvZ3Rr
-LWVnbDogV2FpdCBmb3IgdGhlIGRyYXcgc2lnbmFsIGZvciBkbWFidWYgYmxvYnMpCjUvNSBDaGVj
-a2luZyBjb21taXQgMzMxMDVkZTI4YTUyICh2aXJ0aW8tZ3B1OiBBZGQgZ2xfZmx1c2hlZCBjYWxs
-YmFjaykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
-MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MjAyMTA2MjExOTI0MjUuMTE4ODQ0Mi0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20vdGVzdGlu
-Zy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
-YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
-ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 6/21/21 12:40 PM, Peter Maydell wrote:
+> On Mon, 21 Jun 2021 at 19:12, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 6/21/21 7:01 AM, Peter Maydell wrote:
+>>> Side note: it's rather confusing that tcg_out_rev32() doesn't
+>>> emit a REV32 insn (it emits REV with sf==0).
+>>
+>> Which is REV with SF=0 also has OPC=10, which is REV32.
+> 
+> No, REV32 has SF=1. The two operations are different:
+> 
+>   REV <Wd>, <Wn> -- swaps byte order of the bottom 32 bits
+>                     (zeroes the top half of Xd, as usual for Wn ops)
+>   REV32 <Xd>, <Xn> -- swaps byte order of bottom 32 bits and
+>                       also swaps byte order of top 32 bits
+>                       (ie it is a 64-bit to 64-bit operation
+>                        which does does two bswap32()s)
+
+Ignore the assembler mnemonic and look at the opcode:
+
+REV   Wd,Wn   = SF=0, OPC=10
+REV32 Xd,Xn   = SF=1, OPC=10
+REV   Xd,Xn   = SF=1, OPC=11
+
+REV(Wd,Wd) = (uint32_t)REV32(Xd,Xd)
+i.e. the usual interpretation of sf=0.
+
+
+r~
 
