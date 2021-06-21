@@ -2,55 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2F03AE7F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 13:11:24 +0200 (CEST)
-Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AF63AE7F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 13:12:44 +0200 (CEST)
+Received: from localhost ([::1]:34302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvHpr-000076-4T
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 07:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47602)
+	id 1lvHr9-0002Ws-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 07:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvHjc-0002xy-Oo
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:04:56 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:42353)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvHlz-0000Qv-H1
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:07:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvHjZ-0003xk-J2
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:04:56 -0400
-Received: from quad ([82.142.1.74]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MnaTt-1lWN3H2ULd-00jdPM; Mon, 21
- Jun 2021 13:04:50 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 9/9] linux-user: Use public sigev_notify_thread_id member if
- available
-Date: Mon, 21 Jun 2021 13:04:45 +0200
-Message-Id: <20210621110445.231771-10-laurent@vivier.eu>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210621110445.231771-1-laurent@vivier.eu>
-References: <20210621110445.231771-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvHlu-0005n5-OB
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 07:07:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624273637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cvGT0/pr8f5vrzJJUACsqfqjDcXrqZcs4xbNZ8GKRig=;
+ b=Pginn5Hi9Lo6fZQ7VNjIW0PJXoHg+OpfRWf2pvDyyTeSN40REJcaEKUK+UtKzKLCm8n+X3
+ 5AZxDpDbfk36y2z0jQ5PZf0yZGWkzBV/k4dVFpm1KlYrU9F7Yx2v2P0hru3LtARDk/87oQ
+ SlqZsJwYdT9xx/s9SEMqEqMli/axlHo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-QRJfzAA2MSisSaEDsN1tGQ-1; Mon, 21 Jun 2021 07:07:14 -0400
+X-MC-Unique: QRJfzAA2MSisSaEDsN1tGQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55931800C60;
+ Mon, 21 Jun 2021 11:07:13 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A06A5D9CA;
+ Mon, 21 Jun 2021 11:07:12 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id EB17718000B4; Mon, 21 Jun 2021 13:07:10 +0200 (CEST)
+Date: Mon, 21 Jun 2021 13:07:10 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2] ui/gtk: Allow user to select monitor number to
+ display qemu in full screen through new gtk display option
+Message-ID: <20210621110710.u7stl5la2cp5mlqw@sirius.home.kraxel.org>
+References: <20210617020609.18089-1-swee.aun.khor@intel.com>
+ <8735tfsa79.fsf@dusky.pond.sub.org>
+ <DM8PR11MB571712EDA6522BB50D192A63AF0A9@DM8PR11MB5717.namprd11.prod.outlook.com>
+ <20210621065148.o7yggutrxgvdnpc7@sirius.home.kraxel.org>
+ <875yy739hv.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OSHs+dmDvEn0uZhXqdH2sKalijNwm9KPwS72P9Dh0esovpuDgP+
- +2E55s5DBda97yjDRSuffBKaZh1A2ZBxCtYBFGwK85sVGndJN9hblTwIrNFuVOcefTXrmMc
- CGEyzdaVVo9R0o/vv9wWQU0mL5yEu/RJhtUDVJ+OkXMUy6EP6t5q0jQ4MZFs2fFvZSZx0uh
- df7JTDC5Ne5XsoI1UGdUw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rmNylIgJ/1E=:GDCgYbkT7iUMcpRivFHIEO
- xAdVPqrPmvr3wG6/Xv8eQu5OJPVteYF4B47jIRJp1oYXx8ntT7T73Fle5mGbtgQADj25VCDFO
- L0InN4WIA3lStPz8KylsT4ndF72K29DZEIIS/FcCPMN6sIqT1Pczz0dZIDLOsH9HkIp7r6zE+
- QgG0yRyTFwpvS/R96N1H8bqka9IpvHu9bcQjYhxugSAQqzQ7fnDu7oKR0Zn0P0ClA6OZ0F1Yu
- rgBLADPteS+QFZFpOQqnGomDeKV7RWVd7iOpo3apGjcK9DVlAm91HfbiDUAi8rB+Wa5Nw0JXv
- GlwzfEg6/HZi8zKn81KJlI2YpdGev+tMeH58ejI+15IRcwwXlRkbXR+92B1XN6RaWfhA+XV6X
- Tg2Vu3e9ncXtfaeiQaZmi9IxVaPrxgB21jhf/gtgjpISWhCgjbtFnPZs21WdC9/imuHJK6RYd
- 6Uf2UYwrD2h6aRD5V4eTkSAWclYl1cADzqU3xReRZCN9Klhygm5015jHxyCVeMkzPPDycYlql
- Z1sce5rD6WlLFJHl30akq0=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <875yy739hv.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,94 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Michael Forney <mforney@mforney.org>
+Cc: "Khor, Swee Aun" <swee.aun.khor@intel.com>, "Romli,
+ Khairul Anuar" <khairul.anuar.romli@intel.com>,
+ "eblake@redhat.com" <eblake@redhat.com>, "Kasireddy,
+ Vivek" <vivek.kasireddy@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Forney <mforney@mforney.org>
+> > I don't think qemu has to worry much here, and trying to automatically
+> > adapt to hot-plugged monitors might even have bad interactions with
+> > whatever the display server is going to do.
+> 
+> I'm concerned there is a TOCTTOU issue:
+> 
+>     if (opts->u.gtk.has_monitor) {
+>         int n_monitor;
+> 1.      n_monitor = gdk_display_get_n_monitors(window_display);
+> 
+> 2.      if ((opts->u.gtk.monitor <= n_monitor) &&
+>             (opts->u.gtk.monitor > 0)) {
+>             GdkScreen *gdk_screen;
+>             gdk_screen = gdk_display_get_default_screen(window_display);
+> 3.          gtk_window_fullscreen_on_monitor(GTK_WINDOW(s->window), gdk_screen,
+>                                              (opts->u.gtk.monitor - 1));
+>         } else {
+>             fprintf(stderr, "Invalid GTK monitor argument\n");
+>         }
+>     }
+> 
+> If monitors can go at any time, then the check 2. cannot ensure we pass
+> a valid monitor number at 3.
+> 
+> I asked what happens when we pass an invalid monitor number.  I'm not
+> sure I understand sweeaun's answer.
+> 
+> If what happens is sane, then why have check 2.?
 
-_sigev_un._tid is an internal glibc field and is not available on
-musl libc. The sigevent(7) man page and Linux UAPI headers both use
-sigev_notify_thread_id as a public way to access this field.
+gtk_window_fullscreen_on_monitor() seems to be a "best effort" offer and
+it doesn't return error codes.  So catching possible user errors looks
+useful to me.  The code should use error_report instead though (or maybe
+warn_report given this is not fatal).  Reporting the valid range is
+probably a good idea too.
 
-musl libc supports this field since 1.2.2[0], and glibc plans to
-add support as well[1][2].
-
-If sigev_notify_thread_id is not available, fall back to _sigev_un._tid
-as before.
-
-[0] http://git.musl-libc.org/cgit/musl/commit/?id=7c71792e87691451f2a6b76348e83ad1889f1dcb
-[1] https://www.openwall.com/lists/musl/2019/08/01/5
-[2] https://sourceware.org/bugzilla/show_bug.cgi?id=27417
-
-Signed-off-by: Michael Forney <mforney@mforney.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210526035556.7931-1-mforney@mforney.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- configure            | 16 ++++++++++++++++
- linux-user/syscall.c |  6 +++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/configure b/configure
-index 8dcb9965b24e..942c531cce63 100755
---- a/configure
-+++ b/configure
-@@ -4440,6 +4440,19 @@ if compile_prog "" "" ; then
-     st_atim=yes
- fi
- 
-+##########################################
-+# check if we have sigev_notify_thread_id
-+
-+sigev_notify_thread_id=no
-+cat > $TMPC << EOF
-+#include <stddef.h>
-+#include <signal.h>
-+int main(void) { return offsetof(struct sigevent, sigev_notify_thread_id); }
-+EOF
-+if compile_prog "" "" ; then
-+    sigev_notify_thread_id=yes
-+fi
-+
- ##########################################
- # check if trace backend exists
- 
-@@ -5692,6 +5705,9 @@ fi
- if test "$st_atim" = "yes" ; then
-   echo "HAVE_STRUCT_STAT_ST_ATIM=y" >> $config_host_mak
- fi
-+if test "$sigev_notify_thread_id" = "yes" ; then
-+  echo "HAVE_SIGEV_NOTIFY_THREAD_ID=y" >> $config_host_mak
-+fi
- if test "$byteswap_h" = "yes" ; then
-   echo "CONFIG_BYTESWAP_H=y" >> $config_host_mak
- fi
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 70ae8884ee54..64bbf331b282 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -7405,6 +7405,10 @@ static inline abi_long host_to_target_timex64(abi_long target_addr,
- }
- #endif
- 
-+#ifndef HAVE_SIGEV_NOTIFY_THREAD_ID
-+#define sigev_notify_thread_id _sigev_un._tid
-+#endif
-+
- static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
-                                                abi_ulong target_addr)
- {
-@@ -7425,7 +7429,7 @@ static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
-     host_sevp->sigev_signo =
-         target_to_host_signal(tswap32(target_sevp->sigev_signo));
-     host_sevp->sigev_notify = tswap32(target_sevp->sigev_notify);
--    host_sevp->_sigev_un._tid = tswap32(target_sevp->_sigev_un._tid);
-+    host_sevp->sigev_notify_thread_id = tswap32(target_sevp->_sigev_un._tid);
- 
-     unlock_user_struct(target_sevp, target_addr, 1);
-     return 0;
--- 
-2.31.1
+take care,
+  Gerd
 
 
