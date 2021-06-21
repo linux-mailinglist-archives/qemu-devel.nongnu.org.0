@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401FB3AE2FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 08:07:50 +0200 (CEST)
-Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AEB33AE311
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 08:20:18 +0200 (CEST)
+Received: from localhost ([::1]:41546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvD64-0006IN-QZ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 02:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47148)
+	id 1lvDI8-0001td-NP
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 02:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvD4w-0005NK-5Q
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:06:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvD4t-000595-E8
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:06:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvD4p-00046v-OG
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 06:06:31 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B47DD2E808B
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 06:06:31 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lvDHH-0001Du-1P
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:19:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lvDHD-0006N9-V1
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:19:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624256357;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dux2cUFImLRKn85ybuSPa/zW6LP/oKBWsPIgHV1K8bU=;
+ b=Rud4fGuSMPeJMtrjYdPIozec4noWwm5Asp6pDLLA3gtaMXZ88Musi9Z9ZwyXWUiXBFv1do
+ xe4sTP+HRYx6orHWIStC62LJtDFrSnTNPAB4I5QVY+/Z1gN3m/zxzdrP7iY/7JnFLzAwnc
+ ompO6p42Prk0Mz7J+weMeucOVDHR4M0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-sgUYmBzuPcKDNihrjFxmDQ-1; Mon, 21 Jun 2021 02:19:15 -0400
+X-MC-Unique: sgUYmBzuPcKDNihrjFxmDQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 877C2C740D;
+ Mon, 21 Jun 2021 06:19:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-99.ams2.redhat.com
+ [10.36.112.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10FCF60BD9;
+ Mon, 21 Jun 2021 06:19:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 93888112D587; Mon, 21 Jun 2021 08:19:11 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
+ <87im2d6p5v.fsf@dusky.pond.sub.org>
+ <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
+ <87a6no3fzf.fsf@dusky.pond.sub.org>
+ <790d22e1-5de9-ba20-6c03-415b62223d7d@suse.de>
+ <877dis1sue.fsf@dusky.pond.sub.org>
+ <20210617153949.GA357@dhcp-172-16-24-191.sw.ru>
+ <e69ea2b4-21cc-8203-ad2d-10a0f4ffe34a@suse.de>
+ <20210617165111.eu3x2pvinpoedsqj@habkost.net>
+ <87sg1fwwgg.fsf@dusky.pond.sub.org>
+ <20210618204006.k6krwuz2lpxvb6uh@habkost.net>
+Date: Mon, 21 Jun 2021 08:19:11 +0200
+In-Reply-To: <20210618204006.k6krwuz2lpxvb6uh@habkost.net> (Eduardo Habkost's
+ message of "Fri, 18 Jun 2021 16:40:06 -0400")
+Message-ID: <8735tb68ps.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Jun 2021 05:57:11 -0000
-From: Gianluca Gabruelli <1907497@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr crazy8yte
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Gianluca Gabruelli (crazy8yte)
-References: <20201209203024.mvdoyhe3qqg6frgg@mozz.bu.edu>
-Message-Id: <162425503177.32759.9028835715460926734.malone@gac.canonical.com>
-Subject: [Bug 1907497] Re: [OSS-Fuzz] Issue 28435
- qemu:qemu-fuzz-i386-target-generic-fuzz-intel-hda: Stack-overflow in
- ldl_le_dma
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 6a38ed5d3282cb8f0016b15a3366040b42d24084
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.299,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,92 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907497 <1907497@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Denis Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think this [0] commit actually fixes this bug, can someone please
-confirm it?
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-[0]
-https://github.com/qemu/qemu/commit/1bf8b88f144bee747e386c88d45d772e066bbb36
+> On Fri, Jun 18, 2021 at 07:52:47AM +0200, Markus Armbruster wrote:
+>> Eduardo Habkost <ehabkost@redhat.com> writes:
+>> 
+>> > On Thu, Jun 17, 2021 at 05:53:11PM +0200, Claudio Fontana wrote:
+>> >> On 6/17/21 5:39 PM, Valeriy Vdovin wrote:
+>> >> > On Thu, Jun 17, 2021 at 04:14:17PM +0200, Markus Armbruster wrote:
+>> >> >> Claudio Fontana <cfontana@suse.de> writes:
+>> >> >>
+>> >> >>> On 6/17/21 1:09 PM, Markus Armbruster wrote:
+>> 
+>> [...]
+>> 
+>> >> >>>> If it just isn't implemented for anything but KVM, then putting "kvm"
+>> >> >>>> into the command name is a bad idea.  Also, the commit message should
+>> >> >>>> briefly note the restriction to KVM.
+>> >> >>
+>> >> >> Perhaps this one is closer to reality.
+>> >> >>
+>> >> > I agree.
+>> >> > What command name do you suggest?
+>> >> 
+>> >> query-exposed-cpuid?
+>> >
+>> > Pasting the reply I sent at [1]:
+>> >
+>> >   I don't really mind how the command is called, but I would prefer
+>> >   to add a more complex abstraction only if maintainers of other
+>> >   accelerators are interested and volunteer to provide similar
+>> >   functionality.  I don't want to introduce complexity for use
+>> >   cases that may not even exist.
+>> >
+>> > I'm expecting this to be just a debugging mechanism, not a stable
+>> > API to be maintained and supported for decades.  (Maybe a "x-"
+>> > prefix should be added to indicate that?)
+>> >
+>> > [1] https://lore.kernel.org/qemu-devel/20210602204604.crsxvqixkkll4ef4@habkost.net
+>> 
+>> x-query-x86_64-cpuid?
+>> 
+>
+> Unless somebody wants to spend time designing a generic
+> abstraction around this (and justify the extra complexity), this
+> is a KVM-specific command.  Is there a reason to avoid "kvm" in
+> the command name?
 
--- =
+I can't see what's specific to KVM in the interface (it's implemented
+only for KVM, but that's just a restriction).  The doc comment looks
+like the command returns whatever the guest's cpuid instruction will
+write to registers.  Can you help me understand the interface's KVM
+dependence?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907497
-
-Title:
-  [OSS-Fuzz] Issue 28435 qemu:qemu-fuzz-i386-target-generic-fuzz-intel-
-  hda: Stack-overflow in ldl_le_dma
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-   affects qemu
-
-  =3D=3D=3D Reproducer (build with --enable-sanitizers) =3D=3D=3D
-
-  cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
-  -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 \
-  -device hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 \
-  -qtest stdio
-  outl 0xcf8 0x80000804
-  outw 0xcfc 0xffff
-  write 0x0 0x1 0x12
-  write 0x2 0x1 0x2f
-  outl 0xcf8 0x80000811
-  outl 0xcfc 0x5a6a4406
-  write 0x6a44005a 0x1 0x11
-  write 0x6a44005c 0x1 0x3f
-  write 0x6a442050 0x4 0x0000446a
-  write 0x6a44204a 0x1 0xf3
-  write 0x6a44204c 0x1 0xff
-  writeq 0x6a44005a 0x17b3f0011
-  write 0x6a442050 0x4 0x0000446a
-  write 0x6a44204a 0x1 0xf3
-  write 0x6a44204c 0x1 0xff
-  EOF
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D411958=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
-fcaeb8bc88 (pc 0x55c7c9dc1159 bp 0x7ffcaeb8c4d0 sp 0x7ffcaeb8bc90 T0)
-      #0 0x55c7c9dc1159 in __asan_memcpy (u-system-i386+0x2a13159)
-      #1 0x55c7cb2a457e in flatview_do_translate softmmu/physmem.c:513:12
-      #2 0x55c7cb2bdab0 in flatview_translate softmmu/physmem.c:563:15
-      #3 0x55c7cb2bdab0 in flatview_read softmmu/physmem.c:2861:10
-      #4 0x55c7cb2bdab0 in address_space_read_full softmmu/physmem.c:2875:18
-      #5 0x55c7caaec937 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
-      #6 0x55c7caaec937 in dma_memory_rw include/sysemu/dma.h:110:12
-      #7 0x55c7caaec937 in dma_memory_read include/sysemu/dma.h:116:12
-      #8 0x55c7caaec937 in ldl_le_dma include/sysemu/dma.h:179:1
-      #9 0x55c7caaec937 in ldl_le_pci_dma include/hw/pci/pci.h:816:1
-      #10 0x55c7caaec937 in intel_hda_corb_run hw/audio/intel-hda.c:338:16
-      #11 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
-91:5
-      #12 0x55c7cb2e6bd3 in access_with_adjusted_size softmmu/memory.c:552:=
-18
-      #13 0x55c7cb2e646c in memory_region_dispatch_write softmmu/memory.c
-      #14 0x55c7cb2c8445 in flatview_write_continue softmmu/physmem.c:2759:=
-23
-      #15 0x55c7cb2bdfb8 in flatview_write softmmu/physmem.c:2799:14
-      #16 0x55c7cb2bdfb8 in address_space_write softmmu/physmem.c:2891:18
-      #17 0x55c7caae2c54 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
-      #18 0x55c7caae2c54 in dma_memory_rw include/sysemu/dma.h:110:12
-      #19 0x55c7caae2c54 in dma_memory_write include/sysemu/dma.h:122:12
-      #20 0x55c7caae2c54 in stl_le_dma include/sysemu/dma.h:179:1
-      #21 0x55c7caae2c54 in stl_le_pci_dma include/hw/pci/pci.h:816:1
-      #22 0x55c7caae2c54 in intel_hda_response hw/audio/intel-hda.c:370:5
-      #23 0x55c7caaeca00 in intel_hda_corb_run hw/audio/intel-hda.c:342:9
-      #24 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
-91:5
-  ...
-
-  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D28435
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907497/+subscriptions
 
