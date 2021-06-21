@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200293AF64B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 21:41:38 +0200 (CEST)
-Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2459C3AF64C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 21:41:54 +0200 (CEST)
+Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvPnd-0005qN-3r
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 15:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39770)
+	id 1lvPnt-0006fw-46
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 15:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lvPjc-0006uS-QV
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:37:28 -0400
-Received: from mga02.intel.com ([134.134.136.20]:17368)
+ id 1lvPji-0006zL-Im
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:37:34 -0400
+Received: from mga02.intel.com ([134.134.136.20]:17374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lvPjZ-00081y-RV
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:37:28 -0400
-IronPort-SDR: t1U+Z9iGn1C/F1kvXX9IEza/x+BKqbzBpUjOdFmEckB8VLbUZwOcXPJtySN8Xd34wRzyWY1kgN
- h5eLvzboXZiw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="194056716"
-X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="194056716"
+ id 1lvPje-00089y-KD
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:37:34 -0400
+IronPort-SDR: y0aDKRp7BFlZvwBJ8ZoS9yb0cyvrh8yahSV7aIIyzbww2jGWCLfK4VsqjfiNLUCeRjBbW68ugf
+ /uikWrQKVpsA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="194056718"
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="194056718"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Jun 2021 12:37:16 -0700
-IronPort-SDR: Yfbq00ccE3RpoJ0kOhv52W4yUYgZg7MMirGznntBEOgpF+HzqCQ4ArRYsGrX1uQYSWaOhwa/Yu
- i29PS9do91sg==
-X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="473524018"
+IronPort-SDR: KRK5I0YCYm9Hmva8XY2MAuHD8cQ3k+LQDZkXArstNeb27VMCC7wzsk2KQVi7dUdvmpBI+iQRaM
+ oyCYmlB28cCw==
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="473524020"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Jun 2021 12:37:15 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/5] ui/gtk-egl: Wait for the draw signal for dmabuf blobs
-Date: Mon, 21 Jun 2021 12:24:24 -0700
-Message-Id: <20210621192425.1188442-5-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 5/5] virtio-gpu: Add gl_flushed callback
+Date: Mon, 21 Jun 2021 12:24:25 -0700
+Message-Id: <20210621192425.1188442-6-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210621192425.1188442-1-vivek.kasireddy@intel.com>
 References: <20210621192425.1188442-1-vivek.kasireddy@intel.com>
@@ -67,69 +67,77 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of immediately drawing and submitting, queue and wait
-for the draw signal if the dmabuf submitted is a blob.
+Adding this callback provides a way to resume the processing of
+cmds in fenceq and cmdq that were not processed because the UI
+was waiting on a fence and blocked cmd processing.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/gtk.h |  2 ++
- ui/gtk-egl.c     | 15 +++++++++++++++
- ui/gtk.c         |  2 +-
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ hw/display/virtio-gpu.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 3e6a48b978..a25f5bfecc 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -179,6 +179,8 @@ void gd_egl_cursor_dmabuf(DisplayChangeListener *dcl,
-                           uint32_t hot_x, uint32_t hot_y);
- void gd_egl_cursor_position(DisplayChangeListener *dcl,
-                             uint32_t pos_x, uint32_t pos_y);
-+void gd_egl_flush(DisplayChangeListener *dcl,
-+                  uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- void gd_egl_scanout_flush(DisplayChangeListener *dcl,
-                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- void gtk_egl_init(DisplayGLMode mode);
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index f530bcd940..3c7eb244b4 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -304,6 +304,21 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
-     eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 4d549377cb..ec9d621e64 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -983,8 +983,10 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+         break;
+     }
+     if (!cmd->finished) {
+-        virtio_gpu_ctrl_response_nodata(g, cmd, cmd->error ? cmd->error :
+-                                        VIRTIO_GPU_RESP_OK_NODATA);
++        if (!g->parent_obj.renderer_blocked) {
++            virtio_gpu_ctrl_response_nodata(g, cmd, cmd->error ? cmd->error :
++                                            VIRTIO_GPU_RESP_OK_NODATA);
++        }
+     }
  }
  
-+void gd_egl_flush(DisplayChangeListener *dcl,
-+                  uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+@@ -1040,6 +1042,30 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
+     g->processing_cmdq = false;
+ }
+ 
++static void virtio_gpu_process_fenceq(VirtIOGPU *g)
 +{
-+    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
-+    GtkWidget *area = vc->gfx.drawing_area;
++    struct virtio_gpu_ctrl_command *cmd, *tmp;
 +
-+    if (vc->gfx.guest_fb.dmabuf) {
-+        graphic_hw_gl_block(vc->gfx.dcl.con, true);
-+        gtk_widget_queue_draw_area(area, x, y, w, h);
-+        return;
++    QTAILQ_FOREACH_SAFE(cmd, &g->fenceq, next, tmp) {
++        trace_virtio_gpu_fence_resp(cmd->cmd_hdr.fence_id);
++        virtio_gpu_ctrl_response_nodata(g, cmd, VIRTIO_GPU_RESP_OK_NODATA);
++        QTAILQ_REMOVE(&g->fenceq, cmd, next);
++        g_free(cmd);
++        g->inflight--;
++        if (virtio_gpu_stats_enabled(g->parent_obj.conf)) {
++            fprintf(stderr, "inflight: %3d (-)\r", g->inflight);
++        }
 +    }
-+
-+    gd_egl_scanout_flush(&vc->gfx.dcl, x, y, w, h);
 +}
 +
- void gtk_egl_init(DisplayGLMode mode)
++static void virtio_gpu_handle_gl_flushed(VirtIOGPUBase *b)
++{
++    VirtIOGPU *g = container_of(b, VirtIOGPU, parent_obj);
++
++    virtio_gpu_process_fenceq(g);
++    virtio_gpu_process_cmdq(g);
++}
++
+ static void virtio_gpu_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
  {
-     GdkDisplay *gdk_display = gdk_display_get_default();
-diff --git a/ui/gtk.c b/ui/gtk.c
-index ee3a084c21..ce885d2ca3 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -637,7 +637,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
-     .dpy_gl_scanout_dmabuf   = gd_egl_scanout_dmabuf,
-     .dpy_gl_cursor_dmabuf    = gd_egl_cursor_dmabuf,
-     .dpy_gl_cursor_position  = gd_egl_cursor_position,
--    .dpy_gl_update           = gd_egl_scanout_flush,
-+    .dpy_gl_update           = gd_egl_flush,
-     .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
-     .dpy_has_dmabuf          = gd_has_dmabuf,
- };
+     VirtIOGPU *g = VIRTIO_GPU(vdev);
+@@ -1398,10 +1424,12 @@ static void virtio_gpu_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
+     VirtIOGPUClass *vgc = VIRTIO_GPU_CLASS(klass);
++    VirtIOGPUBaseClass *vgbc = &vgc->parent;
+ 
+     vgc->handle_ctrl = virtio_gpu_handle_ctrl;
+     vgc->process_cmd = virtio_gpu_simple_process_cmd;
+     vgc->update_cursor_data = virtio_gpu_update_cursor_data;
++    vgbc->gl_flushed = virtio_gpu_handle_gl_flushed;
+ 
+     vdc->realize = virtio_gpu_device_realize;
+     vdc->reset = virtio_gpu_reset;
 -- 
 2.30.2
 
