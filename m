@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA9F3AE4AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 10:21:46 +0200 (CEST)
-Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBA03AE4B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 10:22:30 +0200 (CEST)
+Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvFBf-0002gY-AL
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 04:21:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
+	id 1lvFCP-0003xt-Cc
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 04:22:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvFAY-0001sD-NQ
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 04:20:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51096)
+ id 1lvFAy-0002ZE-Vb
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 04:21:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvFAW-000247-Uo
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 04:20:34 -0400
+ id 1lvFAx-0002V3-7X
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 04:21:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624263631;
+ s=mimecast20190719; t=1624263658;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=juvxDUmJ1/b5xSFnPTCEfqyxkT9al9BWhWMi3cAI+vo=;
- b=Jlw9DVLSFP2qYg8sv7ZG9Dkw8tjK5VhHffIswcU4yh5K8uIdizW1Dw3he91/JYmuJIDhFw
- xU9VeHglHzthzRDVPxkoiJ8+ePZnfAt2wKgDU9o+2IDl618P/PUpy4QEHrWhwY+hIWGzzn
- NSDikckcVskvG4UqJXob7qaI/371Wss=
+ bh=IiHBKzegaNaQoCuDChwHkVJ3xc5qxMmol+PhKy2WO2c=;
+ b=UQ4ywptOj4XUAnrGWiCOJxAHWHAwdHF0qPFHYrTifnqf/0W5pcubyHs+IKUEU5ctKsYz+j
+ 3No1uwvmzmjghIVvNmfeBzFeE0sFwK/Szuz+X6RGsuWVKqMMwZv5uXRIsKMCrFlrottjj/
+ zP2SlZwRhhDeetngWjVtiIwolGDxdKY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-sAhwxjHeOF2ABEI_eRZQUQ-1; Mon, 21 Jun 2021 04:20:25 -0400
-X-MC-Unique: sAhwxjHeOF2ABEI_eRZQUQ-1
+ us-mta-496-qNdsVynGNUyYoV7LizDSmg-1; Mon, 21 Jun 2021 04:20:56 -0400
+X-MC-Unique: qNdsVynGNUyYoV7LizDSmg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 630A01084F57;
- Mon, 21 Jun 2021 08:20:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A54FE9126D;
+ Mon, 21 Jun 2021 08:20:55 +0000 (UTC)
 Received: from redhat.com (ovpn-114-109.ams2.redhat.com [10.36.114.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BBF85D703;
- Mon, 21 Jun 2021 08:20:23 +0000 (UTC)
-Date: Mon, 21 Jun 2021 09:20:20 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0371C1ACD3;
+ Mon, 21 Jun 2021 08:20:51 +0000 (UTC)
+Date: Mon, 21 Jun 2021 09:20:49 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH 2/2] tests/migration: fix "downtime_limit" type when
- "migrate-set-parameters"
-Message-ID: <YNBLxGpQ/V8OeT5n@redhat.com>
+Subject: Re: [PATCH 1/2] tests/migration: parse the thread-id key of
+ CpuInfoFast
+Message-ID: <YNBL4cWqPmNfU4S1@redhat.com>
 References: <584578c0a0dd781cee45f72ddf517f6e6a41c504.1622729934.git.huangy81@chinatelecom.cn>
- <31d82df24cc0c468dbe4d2d86730158ebf248071.1622729934.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <31d82df24cc0c468dbe4d2d86730158ebf248071.1622729934.git.huangy81@chinatelecom.cn>
+In-Reply-To: <584578c0a0dd781cee45f72ddf517f6e6a41c504.1622729934.git.huangy81@chinatelecom.cn>
 User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -89,13 +88,12 @@ Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 03, 2021 at 10:20:37PM +0800, huangy81@chinatelecom.cn wrote:
+On Thu, Jun 03, 2021 at 10:19:53PM +0800, huangy81@chinatelecom.cn wrote:
 > From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> migrate-set-parameters parse "downtime_limit" as integer type when
-> execute "migrate-set-parameters" before migration, and, the unit
-> dowtime_limit is milliseconds, fix this two so that test can go
-> smoothly.
+> thread_id in CpuInfoFast is deprecated, parse thread-id instead
+> after execute qmp query-cpus-fast. fix this so that test can
+> go smoothly.
 > 
 > Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > ---
