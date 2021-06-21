@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D973AF869
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 00:24:06 +0200 (CEST)
-Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149693AF895
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 00:33:51 +0200 (CEST)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvSKq-0006q7-LR
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 18:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34664)
+	id 1lvSUH-0001nD-SD
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 18:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lvSJn-00063g-1v; Mon, 21 Jun 2021 18:22:59 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:46056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lvSJl-0004eM-4m; Mon, 21 Jun 2021 18:22:58 -0400
-Received: by mail-il1-x135.google.com with SMTP id b5so4763874ilc.12;
- Mon, 21 Jun 2021 15:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IiE1VKGqWYXwFp1RDBwFB2Fjdyg+oNCDkKyRqq51QsA=;
- b=UGP0WLksAyXec5N+FZPTZLCW0ojyUbXpGYi4VAWKNyDZDtspRk8As5Q6rFPiZ0UjSH
- igbsMlJFIKwQbC0Wyc/ROnin4hEyPmmV9jQ6aDzekoGGKlTmrIcoaj+llRmERUmQ4OKV
- bso4Ip9xPWQ18vK7u0k8+CVheZK3iSPnaqGNbfCs20QoiRlIEyu1NX7DRZie3MO0/mRL
- lql9u26pz/S79yj7j1nHTYbzp4nwChpJ3kjnLSxnnMTswecP/+m1mJuKpUpMuw6SkFWj
- w0ayJFi2T6fIgeoguCqh7t8FWchMdQnUac2Sd0Y4fV4q1RYYm7kHTZ62n2r8vKAwFcmo
- UIfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IiE1VKGqWYXwFp1RDBwFB2Fjdyg+oNCDkKyRqq51QsA=;
- b=gZmhUXaPCT9rlNLPkLxyYueqlGQ0LCq08oAoW2QhH/2lBuliNy5L0vDC0b6QHz5fFT
- 21V+18vDY+UaCyZUBRDcnbZWS8k/NgqGWEI2kd6pSX1M8GmmB2sSpMbOdpws2wsqSme1
- AahY6VxjOHiP7BpYi7GkZTon1OWqVGcv5tjAyNLR+DkKzIBdpsWvoJuI1rzX7GBzuf9Y
- llIXEJxp0GgXs539bLKo0IJAGRnt9ilSPk5seEm/AepljW1ztoyxCrC2aRs8QVhIj5mk
- yXk6AbE8Tbp4nwm1pjkN068y385j2IqTf7tT/+TKnL0PFDkPPW8ZpdXsYyN4JQHKWwG4
- fPPg==
-X-Gm-Message-State: AOAM530TmCblSlx717NZjdNEQuJMZkmPMAQR7tUJGfj0xmtQPi7dN2Xy
- pgueU843EKjyucLFL2cajX8E7DfeE3Ptnr3XKqY=
-X-Google-Smtp-Source: ABdhPJzf6avQX+i07+iU4fhjkLJrQnyFJdRcMDOgb9mTacl0jI26LqUndVhCEMCtdySPbaujZseEmA7gcuHsoE8nqNg=
-X-Received: by 2002:a05:6e02:20c3:: with SMTP id
- 3mr324673ilq.131.1624314175004; 
- Mon, 21 Jun 2021 15:22:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lvST0-0008Bc-OM; Mon, 21 Jun 2021 18:32:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59246)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lvSSy-0002FC-77; Mon, 21 Jun 2021 18:32:30 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15LM3EWF166450; Mon, 21 Jun 2021 18:32:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=W/sOTqX+kmqWwltETLTs0Cu+EBwv2oyR3MuKgG9Dy0U=;
+ b=YRKaZjvxMdLIqNQwe8qsdoLbiLOrCs7FRTbPGcV16VWg8laxno5zLjtjCtB8TK01PNJx
+ K1uMuist2U7mmkd4TWB4J2jbbdg5E4sPIi9siQWd2Lh2sIhOMY1gIW9wLruxukmm0O6H
+ 42JiFYy9fxvzuv4Dm+MdX7XASyenPAWicfOvO4a/2mbIFk16NXflRxdxSdwl76k6HGhw
+ F/MqWgQ8EC/PJiGSOs2EjfZFZkzNpliAmlrFNIJXQinA26t+LUXYPY+kYeM8UoqHtwsm
+ ILHRAZarQhLXuJ5Rg3TdBBeVf+yg9VDsua6wKsJHaMdiAGpeqUplCaptWq5BqcSyS1e8 xQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39b2p51asp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 18:32:24 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LMRNMC061677;
+ Mon, 21 Jun 2021 18:32:24 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39b2p51as9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 18:32:24 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LMQFik010013;
+ Mon, 21 Jun 2021 22:32:22 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3997uh93sv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 22:32:21 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 15LMUxVY34079040
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Jun 2021 22:30:59 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BD9AF4217A;
+ Mon, 21 Jun 2021 22:32:18 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4B2DA42175;
+ Mon, 21 Jun 2021 22:32:18 +0000 (GMT)
+Received: from vm.lan (unknown [9.145.39.144])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 21 Jun 2021 22:32:18 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v4 0/2] target/s390x: Fix SIGILL psw.addr reporting
+Date: Tue, 22 Jun 2021 00:32:15 +0200
+Message-Id: <20210621223217.3642303-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: AdPmCm5UIgIZHzezAes9APSWkY-6bu0p
+X-Proofpoint-GUID: RCK6Q1FTpnrqeH2XLDP3MR_4X8PODXVJ
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20210621013439.1791385-1-richard.henderson@linaro.org>
- <20210621013439.1791385-19-richard.henderson@linaro.org>
-In-Reply-To: <20210621013439.1791385-19-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 22 Jun 2021 08:22:29 +1000
-Message-ID: <CAKmqyKMAKGtyidZ4n3AO3WEHRsDxKCiHMVrm+Q5yQqvyfeabmA@mail.gmail.com>
-Subject: Re: [PATCH 18/26] target/riscv: Use translator_use_goto_tb
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x135.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-21_13:2021-06-21,
+ 2021-06-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=895 phishscore=0
+ spamscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106210130
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,65 +107,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 11:47 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Just use translator_use_goto_tb directly at the one call site,
-> rather than maintaining a local wrapper.
->
-> Cc: qemu-riscv@nongnu.org
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
+should be a pointer to the instruction following the illegal
+instruction, but at the moment it is a pointer to the illegal
+instruction itself. This breaks OpenJDK, which relies on this value.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Patch 1 fixes the issue, patch 2 adds a test.
 
-Alistair
+v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.html
+v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
+          magic in the test and add an explanation (David).
 
-> ---
->  target/riscv/translate.c | 20 +-------------------
->  1 file changed, 1 insertion(+), 19 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index c6e8739614..ecd3764338 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -168,29 +168,11 @@ static void gen_exception_inst_addr_mis(DisasContext *ctx)
->      generate_exception_mtval(ctx, RISCV_EXCP_INST_ADDR_MIS);
->  }
->
-> -static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
-> -{
-> -    if (unlikely(ctx->base.singlestep_enabled)) {
-> -        return false;
-> -    }
-> -
-> -#ifndef CONFIG_USER_ONLY
-> -    return (ctx->base.tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
-> -#else
-> -    return true;
-> -#endif
-> -}
-> -
->  static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
->  {
-> -    if (use_goto_tb(ctx, dest)) {
-> -        /* chaining is only allowed when the jump is to the same page */
-> +    if (translator_use_goto_tb(&ctx->base, dest)) {
->          tcg_gen_goto_tb(n);
->          tcg_gen_movi_tl(cpu_pc, dest);
-> -
-> -        /* No need to check for single stepping here as use_goto_tb() will
-> -         * return false in case of single stepping.
-> -         */
->          tcg_gen_exit_tb(ctx->base.tb, n);
->      } else {
->          tcg_gen_movi_tl(cpu_pc, dest);
-> --
-> 2.25.1
->
->
+v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06649.html
+v2 -> v3: Fix SIGSEGV handling (found when trying to run valgrind under
+          qemu-user).
+
+v3: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg00299.html
+v3 -> v4: Fix compiling the test on Ubuntu 20.04 (Jonathan).
+
+Note: the SIGFPE issue is being fixed separately.
+https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05690.html 
+
+Ilya Leoshkevich (2):
+  target/s390x: Fix SIGILL psw.addr reporting
+  tests/tcg/s390x: Test SIGILL and SIGSEGV handling
+
+ linux-user/s390x/cpu_loop.c     |  23 ++++-
+ target/s390x/excp_helper.c      |  71 +++++++-------
+ target/s390x/internal.h         |   1 +
+ target/s390x/mem_helper.c       |   2 +-
+ tests/tcg/s390x/Makefile.target |   1 +
+ tests/tcg/s390x/signal.c        | 165 ++++++++++++++++++++++++++++++++
+ 6 files changed, 226 insertions(+), 37 deletions(-)
+ create mode 100644 tests/tcg/s390x/signal.c
+
+-- 
+2.31.1
+
 
