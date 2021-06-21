@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5593AF104
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:54:05 +0200 (CEST)
-Received: from localhost ([::1]:50902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD263AEFF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:43:46 +0200 (CEST)
+Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvNBU-0005Ns-CX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33444)
+	id 1lvN1V-0001Pd-HZ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnP-0007O5-EN
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:11 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39841)
+ id 1lvMnK-0007FT-Kl
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:07 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnE-0007by-AL
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:11 -0400
-Received: by mail-wr1-x429.google.com with SMTP id b3so10116925wrm.6
+ id 1lvMnE-0007cA-CG
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:06 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id h11so2898578wrx.5
  for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3H2wy3z9PQ7vdsoSViUkGpo0SE05tB64Kpv7Ju5GYdg=;
- b=tWPwoZEpwuzLi5ZVSi9Vct9jj6r3yfGl6zqoIUd/quHRt2CDs7ZAbV0//n96VlTTHw
- A03FXD56t3YxGCydanEtCbb8zxgXVmqe6BQW26Q9b9SOPINn5ocAhGbBBS/jzRx/adqW
- uPQCP5Lo8uuyv+SZQuHk5Cjhur+4wlaP6AX/ktNSfqyHr6gLBA0mqPBz0MytEu9d1cl5
- Hx8RKGJQ2okc2HuM4BPkdqTHjJR3mrUvCyayydibBDNqzbq4FxTTg/osuRoKjx93wcOZ
- vCRt7WK0tvaz61XqiVfxg1T1XmMkbfpR+HqrVxlScOWb3SqEjdPLdJhndJAZ4W2J1tDS
- 6vEg==
+ bh=cAZVplwe6taLRXmDPd9fkYRiTPpe0hUloUGCcm6bWbQ=;
+ b=BV8kfGl7Y87JyGDoHFW6HT9G6M+2jCkr1iGKa/rYPutvXg25tC8AtVtNStPWF2JXeq
+ Q6SDxmhZmcuK//PWYfHqMbLTUK+RQwyoOVXfJVLrvI/RgyuXOB8Fao8QG+J/7vjHLie5
+ dEx/1KJOPFAZuZ6HmJwXLzQgB77wka0hPnub09Jp2npzGClNyHpfooidT+2afupwVX3Z
+ wTRID8OTzKVZwlognJE1RzxSjzcVLLgOynBscTtA3c15LLtyyK8nD7JzNextx77aGa6X
+ tBLDTloadnIl/ZiU11yhBvCiH/I81qznL+GndtFMTS1AXXVShlh7h8MtjpgnLdm9iwEG
+ ijvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3H2wy3z9PQ7vdsoSViUkGpo0SE05tB64Kpv7Ju5GYdg=;
- b=ms/u2yf7ACMNX7zfLiqfh6jmpP7DwgsIZ7n37cKdPCUwOgfOcgsWwUfwJc3gsW/nfN
- RBdIxo7dm4y6QwUEOMLFWxLyi4Hph3D+qz8mR8bEAhPNAHpptCGbVwnwduZg5BUDTfVZ
- Vv9t8s1oXKrjGVFTUxklNwEKEMhGxNrOfb3uQyazhiki9NlQqxXMHsShSVCILpzWuN3h
- 55BTxbbDVy2gUXSC9u9bg7l8FAByYtgtC6LSXvBYvmZWZWFZEgbxeM5YViSOlw1+4XXC
- vkBAYpDSH8e5o5VOaNJ0O4nT3BNge4v4TOKXlZ0Y0nuc0D2ROqKXfyD/7OXm7wlPK/sl
- 13Ng==
-X-Gm-Message-State: AOAM533ygbcpWSw+foG5kiDiJy7fmoFKuyCNleomfxZicAt26+wIzJiF
- 4McQVDqledn2lwGUka2W6EAiHQQlvTS80WeH
-X-Google-Smtp-Source: ABdhPJxrFeYvDUI2mYZFEYCseP1NgpOspIFpQLmboF+I9Ez9MHfcMDfQ++OTMHl/gA/FzglPc2+I0A==
-X-Received: by 2002:a05:6000:188:: with SMTP id
- p8mr29666968wrx.296.1624292938418; 
- Mon, 21 Jun 2021 09:28:58 -0700 (PDT)
+ bh=cAZVplwe6taLRXmDPd9fkYRiTPpe0hUloUGCcm6bWbQ=;
+ b=pzoTO/LzArPRAAM/cAePG1OLX6TTCOr52h/1aXpeyJP7EJYMouguc98FfFsjFW+T4a
+ lhDOC3S+M4FLD8lGBdfrG3fhJnrjbyPaGoXNScnMcjFs/sRM0kD7LsYQ6NKXhp/PocnD
+ HiLnKg1m4u/h+ple9L8OEqQBz6MBGXa4M/BZseN1BfVhYO7qSeVwDAOcdVQqwS7tfZfQ
+ lbNJ9L0vpT4MqdO5iv4w9DIWD+DMKC4zbW49oIEMexCH70WQlV1h8KTGhpgJ4+gh0z1v
+ lhg9rp/YNIxRBm4hGBjUmBk3gsHlcVzeuHgGhF8ajMzD5TwJlrnZUGK87SQwXgmybX3N
+ sxrw==
+X-Gm-Message-State: AOAM530lO1Y0AfxLNzi6aMNlv1e8bN+iCjzl8Nk0kyrsq73J8Oyqjb/b
+ kAIShZX0ew3zEyPTz/0MjA5qgEYmMbx/Qs0Q
+X-Google-Smtp-Source: ABdhPJxG8KLq6je1ZV/5N4qbWGkYO17EzrJ+GvtTofSQq2JijXERsVpq185zhKBd3tGc727fytTHJg==
+X-Received: by 2002:a5d:6382:: with SMTP id p2mr30468156wru.338.1624292939155; 
+ Mon, 21 Jun 2021 09:28:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.28.57
+ by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.28.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Jun 2021 09:28:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/57] target/arm: Implement MVE VRMULH
-Date: Mon, 21 Jun 2021 17:28:01 +0100
-Message-Id: <20210621162833.32535-26-peter.maydell@linaro.org>
+Subject: [PULL 26/57] target/arm: Implement MVE VMAX, VMIN
+Date: Mon, 21 Jun 2021 17:28:02 +0100
+Message-Id: <20210621162833.32535-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210621162833.32535-1-peter.maydell@linaro.org>
 References: <20210621162833.32535-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,94 +86,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VRMULH insn, which performs a rounding multiply
-and then returns the high half.
+Implement the MVE VMAX and VMIN insns.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210617121628.20116-15-peter.maydell@linaro.org
+Message-id: 20210617121628.20116-16-peter.maydell@linaro.org
 ---
- target/arm/helper-mve.h    |  7 +++++++
- target/arm/mve.decode      |  3 +++
- target/arm/mve_helper.c    | 22 ++++++++++++++++++++++
- target/arm/translate-mve.c |  2 ++
- 4 files changed, 34 insertions(+)
+ target/arm/helper-mve.h    | 14 ++++++++++++++
+ target/arm/mve.decode      |  5 +++++
+ target/arm/mve_helper.c    | 14 ++++++++++++++
+ target/arm/translate-mve.c |  4 ++++
+ 4 files changed, 37 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 5c80b185ccc..0e496971f02 100644
+index 0e496971f02..5181d3b9413 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -88,3 +88,10 @@ DEF_HELPER_FLAGS_4(mve_vmulhsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vmulhub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vmulhuh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vmulhuw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+@@ -95,3 +95,17 @@ DEF_HELPER_FLAGS_4(mve_vrmulhsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vrmulhub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vrmulhuh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vrmulhuw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 +
-+DEF_HELPER_FLAGS_4(mve_vrmulhsb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vrmulhsh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vrmulhsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vrmulhub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vrmulhuh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vrmulhuw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vmaxsb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vmaxsh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vmaxsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vmaxub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vmaxuh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vmaxuw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++
++DEF_HELPER_FLAGS_4(mve_vminsb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vminsh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vminsw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vminub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vminuh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vminuw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index ca4c27209da..4ab6c9dba90 100644
+index 4ab6c9dba90..42d5504500c 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -85,6 +85,9 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
- VMULH_S          111 0 1110 0 . .. ...1 ... 0 1110 . 0 . 0 ... 1 @2op
- VMULH_U          111 1 1110 0 . .. ...1 ... 0 1110 . 0 . 0 ... 1 @2op
+@@ -88,6 +88,11 @@ VMULH_U          111 1 1110 0 . .. ...1 ... 0 1110 . 0 . 0 ... 1 @2op
+ VRMULH_S         111 0 1110 0 . .. ...1 ... 1 1110 . 0 . 0 ... 1 @2op
+ VRMULH_U         111 1 1110 0 . .. ...1 ... 1 1110 . 0 . 0 ... 1 @2op
  
-+VRMULH_S         111 0 1110 0 . .. ...1 ... 1 1110 . 0 . 0 ... 1 @2op
-+VRMULH_U         111 1 1110 0 . .. ...1 ... 1 1110 . 0 . 0 ... 1 @2op
++VMAX_S           111 0 1111 0 . .. ... 0 ... 0 0110 . 1 . 0 ... 0 @2op
++VMAX_U           111 1 1111 0 . .. ... 0 ... 0 0110 . 1 . 0 ... 0 @2op
++VMIN_S           111 0 1111 0 . .. ... 0 ... 0 0110 . 1 . 1 ... 0 @2op
++VMIN_U           111 1 1111 0 . .. ... 0 ... 0 0110 . 1 . 1 ... 0 @2op
 +
  # Vector miscellaneous
  
  VCLS             1111 1111 1 . 11 .. 00 ... 0 0100 01 . 0 ... 0 @1op
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index f1dd688f78f..6cd47d3458c 100644
+index 6cd47d3458c..c040e42bda2 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -382,9 +382,31 @@ static inline uint32_t do_mulh_w(int64_t n, int64_t m)
-     return (n * m) >> 32;
- }
+@@ -343,6 +343,12 @@ DO_1OP(vfnegs, 8, uint64_t, DO_FNEGS)
+     DO_2OP(OP##h, 2, uint16_t, FN)              \
+     DO_2OP(OP##w, 4, uint32_t, FN)
  
-+static inline uint8_t do_rmulh_b(int32_t n, int32_t m)
-+{
-+    return (n * m + (1U << 7)) >> 8;
-+}
++/* provide signed 2-op helpers for all sizes */
++#define DO_2OP_S(OP, FN)                        \
++    DO_2OP(OP##b, 1, int8_t, FN)                \
++    DO_2OP(OP##h, 2, int16_t, FN)               \
++    DO_2OP(OP##w, 4, int32_t, FN)
 +
-+static inline uint16_t do_rmulh_h(int32_t n, int32_t m)
-+{
-+    return (n * m + (1U << 15)) >> 16;
-+}
+ #define DO_AND(N, M)  ((N) & (M))
+ #define DO_BIC(N, M)  ((N) & ~(M))
+ #define DO_ORR(N, M)  ((N) | (M))
+@@ -410,3 +416,11 @@ DO_2OP(vrmulhsw, 4, int32_t, do_rmulh_w)
+ DO_2OP(vrmulhub, 1, uint8_t, do_rmulh_b)
+ DO_2OP(vrmulhuh, 2, uint16_t, do_rmulh_h)
+ DO_2OP(vrmulhuw, 4, uint32_t, do_rmulh_w)
 +
-+static inline uint32_t do_rmulh_w(int64_t n, int64_t m)
-+{
-+    return (n * m + (1U << 31)) >> 32;
-+}
++#define DO_MAX(N, M)  ((N) >= (M) ? (N) : (M))
++#define DO_MIN(N, M)  ((N) >= (M) ? (M) : (N))
 +
- DO_2OP(vmulhsb, 1, int8_t, do_mulh_b)
- DO_2OP(vmulhsh, 2, int16_t, do_mulh_h)
- DO_2OP(vmulhsw, 4, int32_t, do_mulh_w)
- DO_2OP(vmulhub, 1, uint8_t, do_mulh_b)
- DO_2OP(vmulhuh, 2, uint16_t, do_mulh_h)
- DO_2OP(vmulhuw, 4, uint32_t, do_mulh_w)
-+
-+DO_2OP(vrmulhsb, 1, int8_t, do_rmulh_b)
-+DO_2OP(vrmulhsh, 2, int16_t, do_rmulh_h)
-+DO_2OP(vrmulhsw, 4, int32_t, do_rmulh_w)
-+DO_2OP(vrmulhub, 1, uint8_t, do_rmulh_b)
-+DO_2OP(vrmulhuh, 2, uint16_t, do_rmulh_h)
-+DO_2OP(vrmulhuw, 4, uint32_t, do_rmulh_w)
++DO_2OP_S(vmaxs, DO_MAX)
++DO_2OP_U(vmaxu, DO_MAX)
++DO_2OP_S(vmins, DO_MIN)
++DO_2OP_U(vminu, DO_MIN)
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index de7d8b6c753..bc66058fd38 100644
+index bc66058fd38..107c393a997 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -349,3 +349,5 @@ DO_2OP(VSUB, vsub)
- DO_2OP(VMUL, vmul)
- DO_2OP(VMULH_S, vmulhs)
+@@ -351,3 +351,7 @@ DO_2OP(VMULH_S, vmulhs)
  DO_2OP(VMULH_U, vmulhu)
-+DO_2OP(VRMULH_S, vrmulhs)
-+DO_2OP(VRMULH_U, vrmulhu)
+ DO_2OP(VRMULH_S, vrmulhs)
+ DO_2OP(VRMULH_U, vrmulhu)
++DO_2OP(VMAX_S, vmaxs)
++DO_2OP(VMAX_U, vmaxu)
++DO_2OP(VMIN_S, vmins)
++DO_2OP(VMIN_U, vminu)
 -- 
 2.20.1
 
