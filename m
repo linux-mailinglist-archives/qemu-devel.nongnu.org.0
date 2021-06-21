@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A578A3AEF37
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:34:56 +0200 (CEST)
-Received: from localhost ([::1]:47776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58C43AEFC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:39:44 +0200 (CEST)
+Received: from localhost ([::1]:36582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvMsx-0007S8-MW
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33088)
+	id 1lvMxb-0001wK-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMn1-00073d-2P
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:28:47 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:50796)
+ id 1lvMn0-00072k-G4
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:28:46 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:45718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMmx-0007Vm-NE
+ id 1lvMmy-0007Vy-Di
  for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:28:46 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id k42so9059140wms.0
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:28:43 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id
+ j21-20020a05600c1c15b02901dde2accccbso399725wms.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=MgLjZC69VI/ckX1IDBh/fnvJmjLjBOurOUWCg9xqgmY=;
- b=cduYtt63VGB7sF0AHWXOSsN9m0keMYcZDevZbjt/tzdDK+0M/yVkUIKIsltMxTV85t
- +ZreJ4SY2OiF8odMGthZbM1jC6Tu3b5NRnmrt4qAEO+8sKBgGP+qDvUcnr2oFm6k0xYP
- +zh/5iTTOxxf4ESa414ABlwYqxP1pEpgV8V6QW0d7Bd6cxNN8WEbtHJLu95p+6lnNd7l
- WaBkLibQOgALC/pS2bUwyisyl2D+KQcTPBFP3GPu3QG8JeyNG7+pGscELhCMcFsL51hS
- zZbejeLOseNWHKyfOqUrb9CspFEFfUJHvicZOE9T/5JbZiZ3t71ZHh1hSR8TYTttQheW
- oQiQ==
+ bh=IPvyj3nuEwWon9lsaUm/iDVltXo00UpQXhVAA71IjNQ=;
+ b=T3IkF0ZGzqdyZlf/1i+6RG3GUP1hb6NV976iY+bC2UyqaK7sQzcyW2+iGE23AW5qvf
+ h3o7Ic2N1cU9bIHjD9z21976lTarbRLnKh9/n8HPeN3N72thd8VlrAhHTWXzPUSX96SJ
+ 1jC19FqnDSJ8CZoAsKThLfXBZPU11iv8AXvEASb7UVot7La4TplNlQGagVtITKoPH/vT
+ b9JVz24RSYGhRexTay3rzkmyu5Sl9I8q1zIEPfnEX7qRkKGrAv/PK5Yef1kyPqbARauP
+ WVJYNOiLzTI5Wxi+Yb/8US3EHP375Jn8cKhvOdp0O4DTlLc6XurXjdwmSi+L0TyhK2CM
+ uDrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MgLjZC69VI/ckX1IDBh/fnvJmjLjBOurOUWCg9xqgmY=;
- b=GZNQy85nEPmevT0Nv+4stgwQjv8eE7imyuiOOLQ8HivrLA9E3I9i5Rgf69L3ACoUlJ
- jdWkSIn7Sfpw/qetutJUo6Aqx5Uk7t+qBRCAO2uK3lOvCWmfHBsEcraxFkBw8XpaLsr8
- 5Bjudmvstd1jaEkaxOHrrY7qNaL+s3oV19NZLJA3nJxCCIFWW0NNWgabYuxb6a6yqwEZ
- YQIryg3rAA8NHj+BvY0ziyh6HOPYGCKagrnqZJM7Cp5l/l9oAXQk/J8BOt/50lDunV9o
- nC4rJexrRyjteIpHqUboeQT6kAuq98XhNHZCHakUQtdkpak9QxNJDTEYdT1tC5+UMqWJ
- yc6Q==
-X-Gm-Message-State: AOAM530eYDOaVBidlg9LAITihwUUvyvg0n0nERLsguCrV2jMSbCcJn5U
- KDWVMNEwJibk/1uYF0s+JMXC5DCScTMXHOk9
-X-Google-Smtp-Source: ABdhPJy/+UPfjfa7LkCGuN9qvkaj8dJJ9/YOS0ljFNwfxmXI0QT5LVvp2pd1hh8GJjBLyWj9SIU2HA==
-X-Received: by 2002:a1c:6503:: with SMTP id z3mr28225704wmb.72.1624292922392; 
- Mon, 21 Jun 2021 09:28:42 -0700 (PDT)
+ bh=IPvyj3nuEwWon9lsaUm/iDVltXo00UpQXhVAA71IjNQ=;
+ b=EcVk7NZnj0dqQVpxoAcxAkVT2yQIuZutW+TPyw8MesqufjMv8h8x1eJ4+fyRRAJRiK
+ CG0ipuHWrbtlDrVzMq6P/4vsHE1vitrtq+nd5HWWBk7DSch/S7skQC0D63CMjjBddWQm
+ C5wWYxOyz84FaPTngUO20gUijopZ3zyNpdHLqxnL76yQYJiliTySwJTeVioVEbSANcUG
+ uB/AVvtSn9nEd7g/bFUTo/SQwuGxOLwdAvPjr5+jHtm6ASA6Fn/s5HBQ1JxiaIfc1mL4
+ NNoFQfBJgzFQ7+PksS+lztvwplpGsoLgClVfR4JLmKCqC26m4/2rDNzdbS0mIxXMsScg
+ 1cZQ==
+X-Gm-Message-State: AOAM530BR7zIDn2txZeomP4TOQsCDmhaY3NjgRNf+PSkFofXJD9zegtG
+ tIJrK2FgZ5mxMMnyms0zzj37/z3S3z9JAijE
+X-Google-Smtp-Source: ABdhPJwr+tdcgOwLk8J+UpYN0rC3Lhh5q1RY8R4KffqjfgmIPXD/35EnPLwt9xUUeIaygwEu7h7j5A==
+X-Received: by 2002:a1c:1f49:: with SMTP id f70mr19852272wmf.57.1624292923165; 
+ Mon, 21 Jun 2021 09:28:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.28.41
+ by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.28.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Jun 2021 09:28:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/57] target/arm: Factor FP context update code out into
- helper function
-Date: Mon, 21 Jun 2021 17:27:45 +0100
-Message-Id: <20210621162833.32535-10-peter.maydell@linaro.org>
+Subject: [PULL 10/57] target/arm: Split vfp_access_check() into A and M
+ versions
+Date: Mon, 21 Jun 2021 17:27:46 +0100
+Message-Id: <20210621162833.32535-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210621162833.32535-1-peter.maydell@linaro.org>
 References: <20210621162833.32535-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,139 +88,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor the code in full_vfp_access_check() which updates the
-ownership of the FP context and creates a new FP context
-out into its own function.
+vfp_access_check and its helper routine full_vfp_access_check() has
+gradually grown and is now an awkward mix of A-profile only and
+M-profile only pieces.  Refactor it into an A-profile only and an
+M-profile only version, taking advantage of the fact that now the
+only direct call to full_vfp_access_check() is in A-profile-only
+code.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210618141019.10671-6-peter.maydell@linaro.org
+Message-id: 20210618141019.10671-7-peter.maydell@linaro.org
 ---
- target/arm/translate-vfp.c | 104 +++++++++++++++++++++----------------
- 1 file changed, 58 insertions(+), 46 deletions(-)
+ target/arm/translate-vfp.c | 79 +++++++++++++++++++++++---------------
+ 1 file changed, 48 insertions(+), 31 deletions(-)
 
 diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 8987ef2e5b9..85418dee2e4 100644
+index 85418dee2e4..d89c7834faa 100644
 --- a/target/arm/translate-vfp.c
 +++ b/target/arm/translate-vfp.c
-@@ -131,6 +131,62 @@ void gen_preserve_fp_state(DisasContext *s)
-     }
+@@ -188,32 +188,19 @@ static void gen_update_fp_context(DisasContext *s)
  }
  
-+/*
-+ * Generate code for M-profile FP context handling: update the
-+ * ownership of the FP context, and create a new context if
-+ * necessary. This corresponds to the parts of the pseudocode
-+ * ExecuteFPCheck() after the inital PreserveFPState() call.
-+ */
-+static void gen_update_fp_context(DisasContext *s)
-+{
-+    /* Update ownership of FP context: set FPCCR.S to match current state */
-+    if (s->v8m_fpccr_s_wrong) {
-+        TCGv_i32 tmp;
-+
-+        tmp = load_cpu_field(v7m.fpccr[M_REG_S]);
-+        if (s->v8m_secure) {
-+            tcg_gen_ori_i32(tmp, tmp, R_V7M_FPCCR_S_MASK);
-+        } else {
-+            tcg_gen_andi_i32(tmp, tmp, ~R_V7M_FPCCR_S_MASK);
-+        }
-+        store_cpu_field(tmp, v7m.fpccr[M_REG_S]);
-+        /* Don't need to do this for any further FP insns in this TB */
-+        s->v8m_fpccr_s_wrong = false;
-+    }
-+
-+    if (s->v7m_new_fp_ctxt_needed) {
-+        /*
-+         * Create new FP context by updating CONTROL.FPCA, CONTROL.SFPA,
-+         * the FPSCR, and VPR.
-+         */
-+        TCGv_i32 control, fpscr;
-+        uint32_t bits = R_V7M_CONTROL_FPCA_MASK;
-+
-+        fpscr = load_cpu_field(v7m.fpdscr[s->v8m_secure]);
-+        gen_helper_vfp_set_fpscr(cpu_env, fpscr);
-+        tcg_temp_free_i32(fpscr);
-+        if (dc_isar_feature(aa32_mve, s)) {
-+            TCGv_i32 z32 = tcg_const_i32(0);
-+            store_cpu_field(z32, v7m.vpr);
-+        }
-+
-+        /*
-+         * We don't need to arrange to end the TB, because the only
-+         * parts of FPSCR which we cache in the TB flags are the VECLEN
-+         * and VECSTRIDE, and those don't exist for M-profile.
-+         */
-+
-+        if (s->v8m_secure) {
-+            bits |= R_V7M_CONTROL_SFPA_MASK;
-+        }
-+        control = load_cpu_field(v7m.control[M_REG_S]);
-+        tcg_gen_ori_i32(control, control, bits);
-+        store_cpu_field(control, v7m.control[M_REG_S]);
-+        /* Don't need to do this for any further FP insns in this TB */
-+        s->v7m_new_fp_ctxt_needed = false;
-+    }
-+}
-+
  /*
-  * Check that VFP access is enabled. If it is, do the necessary
-  * M-profile lazy-FP handling and then return true.
-@@ -173,52 +229,8 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
-         /* Trigger lazy-state preservation if necessary */
-         gen_preserve_fp_state(s);
- 
--        /* Update ownership of FP context: set FPCCR.S to match current state */
--        if (s->v8m_fpccr_s_wrong) {
--            TCGv_i32 tmp;
--
--            tmp = load_cpu_field(v7m.fpccr[M_REG_S]);
--            if (s->v8m_secure) {
--                tcg_gen_ori_i32(tmp, tmp, R_V7M_FPCCR_S_MASK);
--            } else {
--                tcg_gen_andi_i32(tmp, tmp, ~R_V7M_FPCCR_S_MASK);
--            }
--            store_cpu_field(tmp, v7m.fpccr[M_REG_S]);
--            /* Don't need to do this for any further FP insns in this TB */
--            s->v8m_fpccr_s_wrong = false;
--        }
--
--        if (s->v7m_new_fp_ctxt_needed) {
+- * Check that VFP access is enabled. If it is, do the necessary
+- * M-profile lazy-FP handling and then return true.
+- * If not, emit code to generate an appropriate exception and
+- * return false.
++ * Check that VFP access is enabled, A-profile specific version.
++ *
++ * If VFP is enabled, return true. If not, emit code to generate an
++ * appropriate exception and return false.
+  * The ignore_vfp_enabled argument specifies that we should ignore
+- * whether VFP is enabled via FPEXC[EN]: this should be true for FMXR/FMRX
++ * whether VFP is enabled via FPEXC.EN: this should be true for FMXR/FMRX
+  * accesses to FPSID, FPEXC, MVFR0, MVFR1, MVFR2, and false for all other insns.
+  */
+-static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
++static bool vfp_access_check_a(DisasContext *s, bool ignore_vfp_enabled)
+ {
+     if (s->fp_excp_el) {
+-        if (arm_dc_feature(s, ARM_FEATURE_M)) {
 -            /*
--             * Create new FP context by updating CONTROL.FPCA, CONTROL.SFPA,
--             * the FPSCR, and VPR.
+-             * M-profile mostly catches the "FPU disabled" case early, in
+-             * disas_m_nocp(), but a few insns (eg LCTP, WLSTP, DLSTP)
+-             * which do coprocessor-checks are outside the large ranges of
+-             * the encoding space handled by the patterns in m-nocp.decode,
+-             * and for them we may need to raise NOCP here.
 -             */
--            TCGv_i32 control, fpscr;
--            uint32_t bits = R_V7M_CONTROL_FPCA_MASK;
--
--            fpscr = load_cpu_field(v7m.fpdscr[s->v8m_secure]);
--            gen_helper_vfp_set_fpscr(cpu_env, fpscr);
--            tcg_temp_free_i32(fpscr);
--            if (dc_isar_feature(aa32_mve, s)) {
--                TCGv_i32 z32 = tcg_const_i32(0);
--                store_cpu_field(z32, v7m.vpr);
--            }
--
--            /*
--             * We don't need to arrange to end the TB, because the only
--             * parts of FPSCR which we cache in the TB flags are the VECLEN
--             * and VECSTRIDE, and those don't exist for M-profile.
--             */
--
--            if (s->v8m_secure) {
--                bits |= R_V7M_CONTROL_SFPA_MASK;
--            }
--            control = load_cpu_field(v7m.control[M_REG_S]);
--            tcg_gen_ori_i32(control, control, bits);
--            store_cpu_field(control, v7m.control[M_REG_S]);
--            /* Don't need to do this for any further FP insns in this TB */
--            s->v7m_new_fp_ctxt_needed = false;
+-            gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
+-                               syn_uncategorized(), s->fp_excp_el);
+-        } else {
+-            gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+-                               syn_fp_access_trap(1, 0xe, false),
+-                               s->fp_excp_el);
 -        }
-+        /* Update ownership of FP context and create new FP context if needed */
-+        gen_update_fp_context(s);
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
+         return false;
      }
  
+@@ -222,17 +209,39 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
+         unallocated_encoding(s);
+         return false;
+     }
++    return true;
++}
+ 
+-    if (arm_dc_feature(s, ARM_FEATURE_M)) {
+-        /* Handle M-profile lazy FP state mechanics */
+-
+-        /* Trigger lazy-state preservation if necessary */
+-        gen_preserve_fp_state(s);
+-
+-        /* Update ownership of FP context and create new FP context if needed */
+-        gen_update_fp_context(s);
++/*
++ * Check that VFP access is enabled, M-profile specific version.
++ *
++ * If VFP is enabled, do the necessary M-profile lazy-FP handling and then
++ * return true. If not, emit code to generate an appropriate exception and
++ * return false.
++ */
++static bool vfp_access_check_m(DisasContext *s)
++{
++    if (s->fp_excp_el) {
++        /*
++         * M-profile mostly catches the "FPU disabled" case early, in
++         * disas_m_nocp(), but a few insns (eg LCTP, WLSTP, DLSTP)
++         * which do coprocessor-checks are outside the large ranges of
++         * the encoding space handled by the patterns in m-nocp.decode,
++         * and for them we may need to raise NOCP here.
++         */
++        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
++                           syn_uncategorized(), s->fp_excp_el);
++        return false;
+     }
+ 
++    /* Handle M-profile lazy FP state mechanics */
++
++    /* Trigger lazy-state preservation if necessary */
++    gen_preserve_fp_state(s);
++
++    /* Update ownership of FP context and create new FP context if needed */
++    gen_update_fp_context(s);
++
      return true;
+ }
+ 
+@@ -242,7 +251,11 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
+  */
+ bool vfp_access_check(DisasContext *s)
+ {
+-    return full_vfp_access_check(s, false);
++    if (arm_dc_feature(s, ARM_FEATURE_M)) {
++        return vfp_access_check_m(s);
++    } else {
++        return vfp_access_check_a(s, false);
++    }
+ }
+ 
+ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
+@@ -732,7 +745,11 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
+         return false;
+     }
+ 
+-    if (!full_vfp_access_check(s, ignore_vfp_enabled)) {
++    /*
++     * Call vfp_access_check_a() directly, because we need to tell
++     * it to ignore FPEXC.EN for some register accesses.
++     */
++    if (!vfp_access_check_a(s, ignore_vfp_enabled)) {
+         return true;
+     }
+ 
 -- 
 2.20.1
 
