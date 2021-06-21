@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B18A3AE153
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 03:36:40 +0200 (CEST)
-Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284F53AE185
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 03:45:36 +0200 (CEST)
+Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv8rf-0006bd-2D
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 21:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39904)
+	id 1lv90J-0008Pa-6y
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 21:45:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv8px-0003n4-24
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 21:34:53 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39638)
+ id 1lv8pu-0003ii-O8
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 21:34:50 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv8pp-0005Ak-Pg
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 21:34:52 -0400
-Received: by mail-pg1-x533.google.com with SMTP id w31so12830945pga.6
+ id 1lv8pq-0005As-Ba
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 21:34:50 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id h1so7663215plt.1
  for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 18:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8W3E8oUQSB677QQyABV7B4p2F0hPm4epmS7TTIJ96Bk=;
- b=M4I3DRen5KFnW0x+9OukwYD1Je20YCMqH2ORkp0fb+Iv733BWZSOx4gvsYGQyTxIOl
- YCx+pzgDbunXrsoAe6eY9cvLj6QFIkKguZh+7PYLgQLUAOEqukAMZQBC2V+iALATaD0B
- ETdMJly+BLzOAQsO0FHxHcZLdkLcUxcCXnRBLuahKWhYQzwnH4X080/JjOOGnw0O6Am9
- t7o2tgJiPl8/lAkQYNCvhc9SZBDyYmEGDiVzCjKPHE+MOK/cExXbQYpYtzmRJapQ8+4n
- eMCkNaV9B7xaOUnCMdCtaARPxu/3FYDtRHWo8fYsXIMb8VoAArV6o5LX5pijWCJMrEtQ
- rBLw==
+ bh=jRMrTx4NopqOKJx2Uk7lglqxDnltwjXqtnzEu6kn91s=;
+ b=lmzWe61B2HYcthxnMJUxKtS2qgp07znoEMfMaNOpIIbbliJ77Ln21Vh7fajq1DzPfB
+ e4v3lcSrqRWEDnboFxYspTG/QaP4d+WaR9zbYq6pb+blkaOCLMfxt0E5JRnDSohoxfu9
+ xtEnVO8ndDwiOYwZsRET+PvyHzwio8S3fmJgbbGevrrkn22xmvkuTPJOTlHshx8eGZBi
+ yba+KykPsYPe6ARSOONc9sey7ZfJUt6vKw14Wt4OJpRkQXTrQbSyDPVcEZ546mlC1VWZ
+ HfmjDWIJKxP/HjJJnggwSN6NUBILSbx+c/+gTQiqQsIzJ6wGq++Iw899nST8knX/cAkh
+ wfUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8W3E8oUQSB677QQyABV7B4p2F0hPm4epmS7TTIJ96Bk=;
- b=rPcXR1KTRMy0xl3wSw0b8RJYWY2zV4fRPsqsQ9L95H9va+YL9kxAeAvdiodlYl5ttb
- 4d7DwXpQy/xeB3M0P3ixg7q+cjCaPjtoRMk9eBZ8Ydtv10st/yO/+fo7TFkEeLf3V7Mk
- cydtPdEPrkWer0zPc34YwCZXfiIYbRuorgs7PRn0C0xB3ufzU2kgas/2pGJZgZOPvbQn
- DIMSVtx13FHHP1AJoB3IFtKDHd548uYPoZUBhvanco2/Z7XbLjJ09LSo0H1hNMevm+TO
- 8rDCvvhAx3e87/Qxe5S/Ui4Jzz5Jars+VNcJf7G8dRu7TJcCFCrRKVWzAZTfFGBhl5yA
- m4Ww==
-X-Gm-Message-State: AOAM532r2iBQJIhuDkm6qEfIa/64ZHbp3i9dsDqISmUjRqmKcKxR+MKr
- L+89RZ5fZNdW90XGmFEauKUTevn8eSw4NA==
-X-Google-Smtp-Source: ABdhPJyaLHO5MCLNhnWIyCn36Thx+tXk51c0E4uHH7r/+P029An1hH2+q1OTM+aUvcy+xJWCNOzByA==
-X-Received: by 2002:a63:da0a:: with SMTP id c10mr21433072pgh.255.1624239284611; 
- Sun, 20 Jun 2021 18:34:44 -0700 (PDT)
+ bh=jRMrTx4NopqOKJx2Uk7lglqxDnltwjXqtnzEu6kn91s=;
+ b=QgkGEXYlNYfSoSo5iFVtClQ3kjB2h4csKANs2oUsLdJjSkhCrprPFmTeiHdBpdfMf5
+ wmeOwjqvodzGDboxtgZAkuGlv6gDEUVhHcaPT0Zy4qdZXPUH1Q1SaamkxLtMKVALGGK6
+ T71oDVVhvTDVoYO5vkAaed8RitD6YjtbGLTCoZ/uqpndGcwPrey9+bqw8f4rfvZZf1Rw
+ RCmtv/kD0sspWQeGc1Cd1l7MFdv+ZE3fYiR2REaf0X/GOB6s3nXgtaPzjjhxOGdenHmh
+ xDRE0XfRhybq49C/jcZaWxyEm07vU6yGLROwemUNSUkEpQFSCwbo26mF9staRdve1Fla
+ 1TUw==
+X-Gm-Message-State: AOAM530wXIiZxliyUXIpLmzwJksqMd8wwUMr5A4lUeB95O21vH+0chsI
+ Emu1sj4RvlBT3Nl/jrkydi/Yxtp7OV9Low==
+X-Google-Smtp-Source: ABdhPJyFLDQM+I9q6LC3YSL7ig2j8thaebvsGftuZViBN5ukhaX11/p/+/qLsbKSYwNlu/a+9nkvwA==
+X-Received: by 2002:a17:902:a981:b029:116:a139:6054 with SMTP id
+ bh1-20020a170902a981b0290116a1396054mr15453997plb.60.1624239285064; 
+ Sun, 20 Jun 2021 18:34:45 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id s27sm1495628pfg.169.2021.06.20.18.34.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 20 Jun 2021 18:34:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/26] target/avr: Use translator_use_goto_tb
-Date: Sun, 20 Jun 2021 18:34:19 -0700
-Message-Id: <20210621013439.1791385-7-richard.henderson@linaro.org>
+Subject: [PATCH 07/26] target/avr: Mark some helpers noreturn
+Date: Sun, 20 Jun 2021 18:34:20 -0700
+Message-Id: <20210621013439.1791385-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210621013439.1791385-1-richard.henderson@linaro.org>
 References: <20210621013439.1791385-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,41 +87,33 @@ Cc: Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Single stepping is not the only reason not to use goto_tb.
-If goto_tb is disallowed, and single-stepping is not enabled,
-then use tcg_gen_lookup_and_goto_tb to indirectly chain.
+All of these helpers end with cpu_loop_exit.
 
 Cc: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/translate.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/avr/helper.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index c06ce45bc7..8237a03c23 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -1083,14 +1083,17 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
- {
-     const TranslationBlock *tb = ctx->base.tb;
+diff --git a/target/avr/helper.h b/target/avr/helper.h
+index 8e1ae7fda0..4d02e648fa 100644
+--- a/target/avr/helper.h
++++ b/target/avr/helper.h
+@@ -19,10 +19,10 @@
+  */
  
--    if (!ctx->base.singlestep_enabled) {
-+    if (translator_use_goto_tb(&ctx->base, dest)) {
-         tcg_gen_goto_tb(n);
-         tcg_gen_movi_i32(cpu_pc, dest);
-         tcg_gen_exit_tb(tb, n);
-     } else {
-         tcg_gen_movi_i32(cpu_pc, dest);
--        gen_helper_debug(cpu_env);
--        tcg_gen_exit_tb(NULL, 0);
-+        if (ctx->base.singlestep_enabled) {
-+            gen_helper_debug(cpu_env);
-+        } else {
-+            tcg_gen_lookup_and_goto_ptr();
-+        }
-     }
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
+ DEF_HELPER_1(wdr, void, env)
+-DEF_HELPER_1(debug, void, env)
+-DEF_HELPER_1(break, void, env)
+-DEF_HELPER_1(sleep, void, env)
+-DEF_HELPER_1(unsupported, void, env)
++DEF_HELPER_1(debug, noreturn, env)
++DEF_HELPER_1(break, noreturn, env)
++DEF_HELPER_1(sleep, noreturn, env)
++DEF_HELPER_1(unsupported, noreturn, env)
+ DEF_HELPER_3(outb, void, env, i32, i32)
+ DEF_HELPER_2(inb, tl, env, i32)
+ DEF_HELPER_3(fullwr, void, env, i32, i32)
 -- 
 2.25.1
 
