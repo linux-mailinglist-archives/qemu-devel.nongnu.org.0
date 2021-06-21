@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315863AE6A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:01:10 +0200 (CEST)
-Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889F03AE6A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:01:18 +0200 (CEST)
+Received: from localhost ([::1]:44448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvGjt-0008NJ-2c
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:01:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
+	id 1lvGk1-0000MX-JH
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGhi-0005Qg-VW
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:58:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27484)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGho-0005dQ-Ga
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGhg-0006Rp-4z
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:58:54 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lvGhl-0006Vw-Ql
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:59:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624269531;
+ s=mimecast20190719; t=1624269537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=THJdwP/U1s5xgs07/CYAUCWAQm3PqSUxPKITucwNmnA=;
- b=H+znSEr9/gSSleEB2uxjDlzu85ZyToag9DiRcvSzCO6pvaLvhbnOqckOwAX9fVgzVXtqsI
- ersy6sQ+CdCqSgH540ifi7JCeRV0sJ4Aa0KN/4STRgWqEI+mvhzdI+ex2THM6d6S2VC0vZ
- Mi5VL7fubncuK5HklDe2QBW2shV+n18=
+ bh=+FojEP8+38cR3uqLE+OWEvTyAKwh7923C02+Ki0FdR8=;
+ b=FQf0gDhgakFExVGDxealEQiWGiHMzEXWTESx9LsAMNKpYH1e8rq3zUVP/zoFIojpMkDhTS
+ 0inAV6yTK5s9w61WdSUxriYqqE22cIEwfD0Wak/S6VmNWvPDoJU+3RF6zqCKv1OUN5bFPi
+ YSyggxK/I/qlzch8iMX1c+HUx8C8fmk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-ZxD-CD8-PM68Uhx1X7BbFw-1; Mon, 21 Jun 2021 05:58:49 -0400
-X-MC-Unique: ZxD-CD8-PM68Uhx1X7BbFw-1
+ us-mta-22-SPU6iDDPO5SnCtBppn3iyA-1; Mon, 21 Jun 2021 05:58:54 -0400
+X-MC-Unique: SPU6iDDPO5SnCtBppn3iyA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76309100CECE;
- Mon, 21 Jun 2021 09:58:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD34B56AA1;
+ Mon, 21 Jun 2021 09:58:53 +0000 (UTC)
 Received: from gondolin.fritz.box (ovpn-113-141.ams2.redhat.com
  [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED2571ABD4;
- Mon, 21 Jun 2021 09:58:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2A323AC1;
+ Mon, 21 Jun 2021 09:58:48 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/37] s390x/kvm: remove unused gs handling
-Date: Mon, 21 Jun 2021 11:58:06 +0200
-Message-Id: <20210621095842.335162-2-cohuck@redhat.com>
+Subject: [PULL 02/37] s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN handling
+Date: Mon, 21 Jun 2021 11:58:07 +0200
+Message-Id: <20210621095842.335162-3-cohuck@redhat.com>
 In-Reply-To: <20210621095842.335162-1-cohuck@redhat.com>
 References: <20210621095842.335162-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -77,94 +77,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With commit 0280b3eb7c05 ("s390x/kvm: use cpu model for gscb on
-compat machines"), we removed any calls to kvm_s390_get_gs()
-in favour of a different mechanism.
+From: David Hildenbrand <david@redhat.com>
 
-Let's remove the unused kvm_s390_get_gs(), and with it the now
-unneeded cap_gs as well.
+In case we encounter a NaN, we have to return the smallest possible
+number, corresponding to either 0 or the maximum negative number. This
+seems to differ from IEEE handling as implemented in softfloat, whereby
+we return the biggest possible number.
 
+While at it, use float32_to_uint64() in the CLGEB handler.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20210608092337.12221-2-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210602125050.492500-1-cohuck@redhat.com>
 ---
- target/s390x/kvm-stub.c  |  5 -----
- target/s390x/kvm.c       | 10 +---------
- target/s390x/kvm_s390x.h |  1 -
- 3 files changed, 1 insertion(+), 15 deletions(-)
+ target/s390x/fpu_helper.c     | 41 +++++++++++++++++++++++++++++++----
+ target/s390x/vec_fpu_helper.c |  8 +++++--
+ 2 files changed, 43 insertions(+), 6 deletions(-)
 
-diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
-index 9970b5a8c705..8a308cfebb68 100644
---- a/target/s390x/kvm-stub.c
-+++ b/target/s390x/kvm-stub.c
-@@ -49,11 +49,6 @@ int kvm_s390_get_ri(void)
-     return 0;
+diff --git a/target/s390x/fpu_helper.c b/target/s390x/fpu_helper.c
+index f155bc048c13..13af158748a9 100644
+--- a/target/s390x/fpu_helper.c
++++ b/target/s390x/fpu_helper.c
+@@ -509,6 +509,9 @@ uint64_t HELPER(cgeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float32_is_any_nan(v2)) {
++        return INT64_MIN;
++    }
+     return ret;
  }
  
--int kvm_s390_get_gs(void)
--{
--    return 0;
--}
--
- int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_low)
- {
-     return -ENOSYS;
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 4fb3bbfef506..23889245877a 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -154,7 +154,6 @@ static int cap_async_pf;
- static int cap_mem_op;
- static int cap_s390_irq;
- static int cap_ri;
--static int cap_gs;
- static int cap_hpage_1m;
- static int cap_vcpu_resets;
- static int cap_protected;
-@@ -369,9 +368,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         }
-     }
-     if (cpu_model_allowed()) {
--        if (kvm_vm_enable_cap(s, KVM_CAP_S390_GS, 0) == 0) {
--            cap_gs = 1;
--        }
-+        kvm_vm_enable_cap(s, KVM_CAP_S390_GS, 0);
-     }
+@@ -520,6 +523,9 @@ uint64_t HELPER(cgdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
  
-     /*
-@@ -2039,11 +2036,6 @@ int kvm_s390_get_ri(void)
-     return cap_ri;
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float64_is_any_nan(v2)) {
++        return INT64_MIN;
++    }
+     return ret;
  }
  
--int kvm_s390_get_gs(void)
--{
--    return cap_gs;
--}
--
- int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state)
+@@ -532,6 +538,9 @@ uint64_t HELPER(cgxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float128_is_any_nan(v2)) {
++        return INT64_MIN;
++    }
+     return ret;
+ }
+ 
+@@ -543,6 +552,9 @@ uint64_t HELPER(cfeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float32_is_any_nan(v2)) {
++        return INT32_MIN;
++    }
+     return ret;
+ }
+ 
+@@ -554,6 +566,9 @@ uint64_t HELPER(cfdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float64_is_any_nan(v2)) {
++        return INT32_MIN;
++    }
+     return ret;
+ }
+ 
+@@ -566,6 +581,9 @@ uint64_t HELPER(cfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float128_is_any_nan(v2)) {
++        return INT32_MIN;
++    }
+     return ret;
+ }
+ 
+@@ -573,12 +591,12 @@ uint64_t HELPER(cfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
+ uint64_t HELPER(clgeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
  {
-     struct kvm_mp_state mp_state = {};
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
-index 25bbe98b2514..05a5e1e6f46d 100644
---- a/target/s390x/kvm_s390x.h
-+++ b/target/s390x/kvm_s390x.h
-@@ -27,7 +27,6 @@ void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
- int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu);
- int kvm_s390_get_hpage_1m(void);
- int kvm_s390_get_ri(void);
--int kvm_s390_get_gs(void);
- int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
- int kvm_s390_get_clock_ext(uint8_t *tod_high, uint64_t *tod_clock);
- int kvm_s390_set_clock(uint8_t tod_high, uint64_t tod_clock);
+     int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
+-    uint64_t ret;
+-
+-    v2 = float32_to_float64(v2, &env->fpu_status);
+-    ret = float64_to_uint64(v2, &env->fpu_status);
++    uint64_t ret = float32_to_uint64(v2, &env->fpu_status);
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float32_is_any_nan(v2)) {
++        return 0;
++    }
+     return ret;
+ }
+ 
+@@ -590,6 +608,9 @@ uint64_t HELPER(clgdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float64_is_any_nan(v2)) {
++        return 0;
++    }
+     return ret;
+ }
+ 
+@@ -601,6 +622,9 @@ uint64_t HELPER(clgxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float128_is_any_nan(make_float128(h, l))) {
++        return 0;
++    }
+     return ret;
+ }
+ 
+@@ -612,6 +636,9 @@ uint64_t HELPER(clfeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float32_is_any_nan(v2)) {
++        return 0;
++    }
+     return ret;
+ }
+ 
+@@ -623,6 +650,9 @@ uint64_t HELPER(clfdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float64_is_any_nan(v2)) {
++        return 0;
++    }
+     return ret;
+ }
+ 
+@@ -634,6 +664,9 @@ uint64_t HELPER(clfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
+ 
+     s390_restore_bfp_rounding_mode(env, old_mode);
+     handle_exceptions(env, xxc_from_m34(m34), GETPC());
++    if (float128_is_any_nan(make_float128(h, l))) {
++        return 0;
++    }
+     return ret;
+ }
+ 
+diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
+index c1564e819b19..56765918d204 100644
+--- a/target/s390x/vec_fpu_helper.c
++++ b/target/s390x/vec_fpu_helper.c
+@@ -326,7 +326,9 @@ void HELPER(gvec_vcdlg64s)(void *v1, const void *v2, CPUS390XState *env,
+ 
+ static uint64_t vcgd64(uint64_t a, float_status *s)
+ {
+-    return float64_to_int64(a, s);
++    const uint64_t tmp = float64_to_int64(a, s);
++
++    return float64_is_any_nan(a) ? INT64_MIN : tmp;
+ }
+ 
+ void HELPER(gvec_vcgd64)(void *v1, const void *v2, CPUS390XState *env,
+@@ -349,7 +351,9 @@ void HELPER(gvec_vcgd64s)(void *v1, const void *v2, CPUS390XState *env,
+ 
+ static uint64_t vclgd64(uint64_t a, float_status *s)
+ {
+-    return float64_to_uint64(a, s);
++    const uint64_t tmp = float64_to_uint64(a, s);
++
++    return float64_is_any_nan(a) ? 0 : tmp;
+ }
+ 
+ void HELPER(gvec_vclgd64)(void *v1, const void *v2, CPUS390XState *env,
 -- 
 2.31.1
 
