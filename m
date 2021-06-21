@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A68A3AF1BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:17:11 +0200 (CEST)
-Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A2C3AF17B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:11:19 +0200 (CEST)
+Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvNXq-0004cz-Je
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33782)
+	id 1lvNSA-0001t2-3F
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnf-0008Ed-RU
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:27 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35600)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lvMrg-0005rD-9v
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:33:37 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnd-0007qo-Qd
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:27 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- o39-20020a05600c5127b02901d23584fd9bso11539700wms.0
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lvMrd-0001wo-Gl
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:33:36 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ m41-20020a05600c3b29b02901dcd3733f24so3865759wms.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=MGyEzqniHlP5XPmzM1wM9A7R5C1K6idS678NNQDpiHQ=;
- b=HTFc6vsq4nja0Xzg4fUFOHcapWgNGK3frwYRNpOFqB9T9ARAY4glim/ARNEm97b1lT
- dTnDO5tHMd3Bzg+W1TQjti/B0vxvoYRtarwq3I5U7w6awUCvKe86xVAKmeo5byOJEvcc
- 4TnLQ2MLMzEGor8C8i42yT6ERKVoQ++/PleM/tD0HDpkG17YGK2g1SS7ignFDjhCPwYf
- Lw0Qyn0tt7U9wS6sldV3BvpMOj/htTPM+rQSTmPmYHrS/vADjybZKN7mE0ksph3w1ohy
- edCcWc0F7kFih/SrgM+Url1JobrB3dBO2kkMvmRpoNNgjFodQ+QdCsOIo8iN8QMcD6a5
- wvUg==
+ bh=zV/KPY9bZ3pal6xpYD4CK8dy8f77ddc3RvulggFn6OY=;
+ b=gXaFwTQGkbFzcIx5MPwp+kVvvFRGKrHC1/+WSVvI9IebitXxROMHGMFFn/bFFreVj8
+ FusjP3WVUIU5k50IUwbpziWDprV0dJsJ0BAkZi+rHzSB/eAvXftvQ7n8hA+9v3Vex4sh
+ FcbBhQGsYMlHiI1/TfKyjRuKLKRv2jg0RGmDlaQ0Bf1klYyIz3LsW05+H1KbBqPUwybh
+ pCOeKqMwva/n+M6PxvSg0hJCfN/r2rqzAR/fR2h+drZEP3VTt3dTVhCE11Nhw+5BilY/
+ 2itKoRYJMUQa0AJbHjjEA1Wzq3qNPEThHnfDgy5yUnMME8Mp09CxquKf3DCADHfghGcO
+ ujsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MGyEzqniHlP5XPmzM1wM9A7R5C1K6idS678NNQDpiHQ=;
- b=TFq4G1AZpEuNSvdp+eF7Po8/WQScfH4hoFaXrROSxiz4+5jH1wPN3149GOvOvnaDzw
- uTx29g9fLCjb0XpPEKRlPYgZnFIo1vqvfql5xIbIMSL3hxcS5180hnmkLkHisfsqH4W5
- kTOn1iIjd6AsrbKlp5YNkBzj9mtc4q1M+UCDqK2TkAFfuPdKCsza+++hkERZQH4BNEuR
- 1ZS4RVKtdbJ7gnSeg/KF7taIjIOGmGELzzMJhFjIPSGd0WsYYYRceLdEj/gG67yfMSCP
- ntmfbGZ58hKyGb1B9cVx829SOFL/VZ7jQVku6OPUSEgyYBPukKeOiB0JsnwA5mw8Y7W2
- kfJQ==
-X-Gm-Message-State: AOAM531HF72MC+ZcjQyxaosvsE8rt0vI4xs7xhigK4133p9GQA+cgjxr
- 9ABZctUx0C6Z+d3uLg7NmfohcJx7OLgY7o8l
-X-Google-Smtp-Source: ABdhPJzp2Y+2W1j6ddfZhwxFa44AV7r4XRDhthsfAH4PwU+iCZbh5smboLPA6Qhy5LgqKIpB+K8Dcw==
-X-Received: by 2002:a05:600c:4145:: with SMTP id
- h5mr7939279wmm.108.1624292964607; 
- Mon, 21 Jun 2021 09:29:24 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.29.24
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=zV/KPY9bZ3pal6xpYD4CK8dy8f77ddc3RvulggFn6OY=;
+ b=Ff2TBxN246VhlVaQmpKxm7a825Z44z/guDqHzpWMyxZg0rUPLFXfBQz3u4l4bsFunW
+ RRkkZXRqLZ40UGEjxRbrGnML7Kfo0maMkq6usq1Ifxg/IjBkkuEwleXoHC0V1ZUbv04U
+ Egere61CDOSHN0nhUpsNNEJJnySMTnBrItGSEqUxj4HsN3dRpflriECFqnQPapwPAycL
+ 4HmDDur6BLH6sH6T/sMBlHjocQsjDS5M6MArduNH05vPTpEjlzfc3z1PQAxacICptuI7
+ FXj66JJrVfdgVYwtlOPuSj2m9QMBYsuqlz+FKJaI/jvF0rPMN5YmIW2yl81so5j8rEF5
+ 1+Sg==
+X-Gm-Message-State: AOAM531kCH/rjCKsb/oMUDuBuQb0YclA1WIziL6JHeMP7/7jubODN9ZI
+ n0kddoVX4HZNi3BjkwGTg8A2lqFEYEg=
+X-Google-Smtp-Source: ABdhPJwQTcJY5IpkVomwzpZqVwXxMUiJhu7uIgoBnXHCJwZHFHNVyiOlT+i7Z+Hg+81u2J2INECp7Q==
+X-Received: by 2002:a05:600c:218c:: with SMTP id
+ e12mr28469240wme.92.1624293208819; 
+ Mon, 21 Jun 2021 09:33:28 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ p5sm19722570wrd.25.2021.06.21.09.33.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 09:29:24 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ Mon, 21 Jun 2021 09:33:28 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 57/57] docs/system: arm: Add nRF boards description
-Date: Mon, 21 Jun 2021 17:28:33 +0100
-Message-Id: <20210621162833.32535-58-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210621162833.32535-1-peter.maydell@linaro.org>
-References: <20210621162833.32535-1-peter.maydell@linaro.org>
+Subject: [PATCH] target/i386: kvm: add support for TSC scaling
+Date: Mon, 21 Jun 2021 18:33:27 +0200
+Message-Id: <20210621163327.1141734-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,110 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexandre Iooss <erdnaxe@crans.org>
+Linux 5.14 will add support for nested TSC scaling.  Add the
+corresponding feature in QEMU; to keep support for existing kernels,
+do not add it to any processor yet.
 
-This adds the target guide for BBC Micro:bit.
+The handling of the VMCS enumeration MSR is ugly; once we have more than
+one case, we may want to add a table to check VMX features against.
 
-Information is taken from https://wiki.qemu.org/Features/MicroBit
-and from hw/arm/nrf51_soc.c.
-
-Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20210621075625.540471-1-erdnaxe@crans.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/system/arm/nrf.rst    | 51 ++++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst |  1 +
- MAINTAINERS                |  1 +
- 3 files changed, 53 insertions(+)
- create mode 100644 docs/system/arm/nrf.rst
+ target/i386/cpu.c     |  2 +-
+ target/i386/cpu.h     |  1 +
+ target/i386/kvm/kvm.c | 12 ++++++++----
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/docs/system/arm/nrf.rst b/docs/system/arm/nrf.rst
-new file mode 100644
-index 00000000000..eda87bd7602
---- /dev/null
-+++ b/docs/system/arm/nrf.rst
-@@ -0,0 +1,51 @@
-+Nordic nRF boards (``microbit``)
-+================================
-+
-+The `Nordic nRF`_ chips are a family of ARM-based System-on-Chip that
-+are designed to be used for low-power and short-range wireless solutions.
-+
-+.. _Nordic nRF: https://www.nordicsemi.com/Products
-+
-+The nRF51 series is the first series for short range wireless applications.
-+It is superseded by the nRF52 series.
-+The following machines are based on this chip :
-+
-+- ``microbit``       BBC micro:bit board with nRF51822 SoC
-+
-+There are other series such as nRF52, nRF53 and nRF91 which are currently not
-+supported by QEMU.
-+
-+Supported devices
-+-----------------
-+
-+ * ARM Cortex-M0 (ARMv6-M)
-+ * Serial ports (UART)
-+ * Clock controller
-+ * Timers
-+ * Random Number Generator (RNG)
-+ * GPIO controller
-+ * NVMC
-+ * SWI
-+
-+Missing devices
-+---------------
-+
-+ * Watchdog
-+ * Real-Time Clock (RTC) controller
-+ * TWI (i2c)
-+ * SPI controller
-+ * Analog to Digital Converter (ADC)
-+ * Quadrature decoder
-+ * Radio
-+
-+Boot options
-+------------
-+
-+The Micro:bit machine can be started using the ``-device`` option to load a
-+firmware in `ihex format`_. Example:
-+
-+.. _ihex format: https://en.wikipedia.org/wiki/Intel_HEX
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M microbit -device loader,file=test.hex
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index 8b8547f9a9e..13b3eeaf076 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -87,6 +87,7 @@ undocumented; you can get a complete list by running
-    arm/digic
-    arm/musicpal
-    arm/gumstix
-+   arm/nrf
-    arm/nseries
-    arm/nuvoton
-    arm/orangepi
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0ca6b7de94a..e8ba494c3f7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1031,6 +1031,7 @@ F: hw/*/microbit*.c
- F: include/hw/*/nrf51*.h
- F: include/hw/*/microbit*.h
- F: tests/qtest/microbit-test.c
-+F: docs/system/arm/nrf.rst
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a9fe1662d3..d8f3ab3192 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1031,7 +1031,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "vmx-invpcid-exit", "vmx-vmfunc", "vmx-shadow-vmcs", "vmx-encls-exit",
+             "vmx-rdseed-exit", "vmx-pml", NULL, NULL,
+             "vmx-xsaves", NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, "vmx-tsc-scaling", NULL, NULL,
+             NULL, NULL, NULL, NULL,
+         },
+         .msr = {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 1e11071d81..f7fa5870b1 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -972,6 +972,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define VMX_SECONDARY_EXEC_RDSEED_EXITING           0x00010000
+ #define VMX_SECONDARY_EXEC_ENABLE_PML               0x00020000
+ #define VMX_SECONDARY_EXEC_XSAVES                   0x00100000
++#define VMX_SECONDARY_EXEC_TSC_SCALING              0x02000000
  
- AVR Machines
- -------------
+ #define VMX_PIN_BASED_EXT_INTR_MASK                 0x00000001
+ #define VMX_PIN_BASED_NMI_EXITING                   0x00000008
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index c676ee8b38..a136171df6 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -2675,8 +2675,6 @@ static uint64_t make_vmx_msr_value(uint32_t index, uint32_t features)
+     return must_be_one | (((uint64_t)can_be_one) << 32);
+ }
+ 
+-#define VMCS12_MAX_FIELD_INDEX (0x17)
+-
+ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+ {
+     uint64_t kvm_vmx_basic =
+@@ -2766,8 +2764,14 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+                       CR0_PE_MASK | CR0_PG_MASK | CR0_NE_MASK);
+     kvm_msr_entry_add(cpu, MSR_IA32_VMX_CR4_FIXED0,
+                       CR4_VMXE_MASK);
+-    kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM,
+-                      VMCS12_MAX_FIELD_INDEX << 1);
++
++    if (f[FEAT_VMX_SECONDARY_CTLS] & VMX_SECONDARY_TSC_SCALING) {
++        /* TSC multiplier (0x2032).  */
++        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x32);
++    } else {
++        /* Preemption timer (0x482E).  */
++        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x2E);
++    }
+ }
+ 
+ static void kvm_msr_entry_add_perf(X86CPU *cpu, FeatureWordArray f)
 -- 
-2.20.1
+2.31.1
 
 
