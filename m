@@ -2,90 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4310A3AE899
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:01:24 +0200 (CEST)
-Received: from localhost ([::1]:45640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B83A3AE8BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:05:53 +0200 (CEST)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvIcB-0007EW-7K
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
+	id 1lvIga-0003vU-59
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:05:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lvIa7-00067g-1p; Mon, 21 Jun 2021 07:59:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12542)
+ id 1lvIc6-00086y-MO; Mon, 21 Jun 2021 08:01:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lvIa4-0008O0-6t; Mon, 21 Jun 2021 07:59:10 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ id 1lvIc4-00012y-JY; Mon, 21 Jun 2021 08:01:14 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15LBY7Tc030914; Mon, 21 Jun 2021 07:59:02 -0400
+ 15LBXqB2096502; Mon, 21 Jun 2021 08:01:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : subject :
  from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=gHIvQH34q4meY9J/e0C3C4qjNS8SMeJtYqlqDEbqDU4=;
- b=YatqUkbOzzGq+he5ddPIoa6T1tl483X6OO+wC1lARu0vSYfvn+kwSsOX9DVqtmu3mLBd
- wrPqxtqyM3rY0lhMiLnWbVIasuiRGgaMZASqQ/gRd/OoHNNsVvgh17O05oS2D00WjkZc
- Z54lh4xIdGLz/3h72IWcX3qRM/lgdyFJJOvgEAtRyc89JYxN2GNQsO6A5YwH/OotmXS4
- 0Ynq2Fk/3S73FUw5WzdJabpxcgMk5eHxdI6dTk2Zc33NbTf+WQIqZDKsFIBkM6nSk19k
- GwBFUYWw1yNw+LqM9hDSgr5eZYVpq5MXw7xAnmieyX1QRsVr3xkf/r9s30H8qOzNcwn2 og== 
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=aLUZY47o1qqfk/DWOWLqEra5yg3XJ1m2IdfXs9bwg9c=;
+ b=WZEjPxruT9t2XI+n8mwvw4Ibpk1dJ4gCUfkIqqNIjHwAVUrU6v9v4bX5CPUfUpfJVKAE
+ FG6KQENl/6E574Yzxz/lnlaEBLKxgWVkHtnHT9DZb4amyuCipac//0b+8Kiox75ddkBR
+ waGpm7M8dEMEpQTFsD/zycNmsWve8AynjWQu8UPiyQFjO529a0K+Lp9uULUjoMQKeJh3
+ yJctsoOvhXzYKrprWX97rFOMTQMA3nlmVIC0eFnKkhgY759fxZkNKGQodkgLIiJw0cmO
+ Sdr/RsitWaO5RH3z0QoD4cIZvAT6zFSa5uv07AbN5mGVHORTlpZbxa9GQaYNzISstVcR Xg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39as26tnce-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39asqj1ejv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 07:59:02 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LBYq7F037864;
- Mon, 21 Jun 2021 07:59:01 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39as26tnb7-1
+ Mon, 21 Jun 2021 08:01:08 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LBYLeh099126;
+ Mon, 21 Jun 2021 08:01:08 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39asqj1ef5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 07:59:01 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LBwxrn014799;
- Mon, 21 Jun 2021 11:58:59 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03fra.de.ibm.com with ESMTP id 3998788fgr-1
+ Mon, 21 Jun 2021 08:01:08 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LBvbQN003860;
+ Mon, 21 Jun 2021 12:01:03 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma02fra.de.ibm.com with ESMTP id 3998788ftj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 11:58:59 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 15LBvb9I32178604
+ Mon, 21 Jun 2021 12:01:02 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15LC0x1H33882532
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 21 Jun 2021 11:57:37 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C169752059;
- Mon, 21 Jun 2021 11:58:55 +0000 (GMT)
+ Mon, 21 Jun 2021 12:01:00 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E11BBA4062;
+ Mon, 21 Jun 2021 12:00:59 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 799CFA405C;
+ Mon, 21 Jun 2021 12:00:59 +0000 (GMT)
 Received: from sig-9-145-39-144.uk.ibm.com (unknown [9.145.39.144])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 5516552052;
- Mon, 21 Jun 2021 11:58:55 +0000 (GMT)
-Message-ID: <8ad1dd217e5894176403e1e5a3a1b2df0920adc2.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 2/2] tests/tcg/s390x: Test SIGILL and SIGSEGV handling
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 21 Jun 2021 12:00:59 +0000 (GMT)
+Message-ID: <095e6342f7f93b6d157f5a3cb99980a96990c290.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 0/2] target/s390x: Fix SIGILL psw.addr reporting
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: "jonathan.albrecht" <jonathan.albrecht@linux.vnet.ibm.com>
-Date: Mon, 21 Jun 2021 13:58:55 +0200
-In-Reply-To: <4fe4d6f25ec6c13d70645acd01284cc9@imap.linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
+Date: Mon, 21 Jun 2021 14:00:59 +0200
+In-Reply-To: <972102fd-ac1e-f13c-7aa7-ad6c7a9be67e@redhat.com>
 References: <20210602002210.3144559-1-iii@linux.ibm.com>
- <20210602002210.3144559-3-iii@linux.ibm.com>
- <4fe4d6f25ec6c13d70645acd01284cc9@imap.linux.ibm.com>
+ <972102fd-ac1e-f13c-7aa7-ad6c7a9be67e@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: F4Yqzkc3qILOU2gNJR95HlZ52AbtFQlp
-X-Proofpoint-GUID: uoTJQSan_mrKLOWSlNtHAWpm7CsnLCNm
+X-Proofpoint-ORIG-GUID: 3oYGcnzXp4QfzoUoBwbYZO9TDb8tJ7Jf
+X-Proofpoint-GUID: pJ5I4Sj9sC72vrQ_CTdL8fGyhMkTmnDB
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-21_05:2021-06-21,
  2021-06-21 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxscore=0
- malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- bulkscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 phishscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
+ mlxscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2106210068
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -107,68 +112,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Qemu-devel <qemu-devel-bounces+qemu-devel=archiver.kernel.org@nongnu.org>,
- Andreas Krebbel <krebbel@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ "jonathan.albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-06-18 at 09:47 -0400, jonathan.albrecht wrote:
-> On 2021-06-01 8:22 pm, Ilya Leoshkevich wrote:
-> > Verify that s390x-specific uc_mcontext.psw.addr is reported
-> > correctly.
+On Thu, 2021-06-10 at 11:49 +0200, David Hildenbrand wrote:
+> On 02.06.21 02:22, Ilya Leoshkevich wrote:
+> > qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr:
+> > it
+> > should be a pointer to the instruction following the illegal
+> > instruction, but at the moment it is a pointer to the illegal
+> > instruction itself. This breaks OpenJDK, which relies on this
+> > value.
 > > 
-> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> > ---
-> >  tests/tcg/s390x/Makefile.target |   1 +
-> >  tests/tcg/s390x/signal.c        | 163
-> > ++++++++++++++++++++++++++++++++
-> >  2 files changed, 164 insertions(+)
-> >  create mode 100644 tests/tcg/s390x/signal.c
+> > Patch 1 fixes the issue, patch 2 adds a test.
 > > 
-
-[...]
-
-> > +static void handle_signal(int sig, siginfo_t *info, void
-> > *ucontext)
-> > +{
-> > +    void *page;
-> > +    int err;
-> > +
-> > +    if (sig != expected.sig) {
-> > +        safe_puts("[  FAILED  ] wrong signal");
-> > +        _exit(1);
-> > +    }
-> > +
-> > +    if (info->si_addr != expected.addr) {
-> > +        safe_puts("[  FAILED  ] wrong si_addr");
-> > +        _exit(1);
-> > +    }
-> > +
-> > +    if (((ucontext_t *)ucontext)->uc_mcontext.psw.addr != 
-> > expected.psw_addr) {
-> > +        safe_puts("[  FAILED  ] wrong psw.addr");
-> > +        _exit(1);
-> > +    }
-> > +
-> > +    switch (expected.exception) {
+> > v1:
+> > https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.html
+> > v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
+> >            magic in the test and add an explanation (David).
+> > 
+> > v2:
+> > https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06649.html
+> > v2 -> v3: Fix SIGSEGV handling (found when trying to run valgrind
+> > under
+> >            qemu-user).
+> > 
 > 
-> When I try to run 'make test-tcg' gcc 9.3.0 is complaining about a 
-> missing case:
-> /home/jalbrecht/src/qemu/tests/tcg/s390x/signal.c: In function 
-> 'handle_signal':
-> /home/jalbrecht/src/qemu/tests/tcg/s390x/signal.c:70:5: error: 
-> enumeration value 'exception_operation' not handled in switch 
-> [-Werror=switch]
->     70 |     switch (expected.exception) {
->        |     ^~~~~~
-> cc1: all warnings being treated as errors
+> There might still be something wrong:
+> 
+> https://gitlab.com/qemu-project/qemu/-/issues/319
+> 
+> At least it smells like some more signal (mis)handling.
+> 
+> 
 
-I wonder how I didn't catch this, since I'm testing on Ubuntu 20.04
-as well. Thank you, I will fix this.
+I've taken another look, and it must be compare-and-trap SIGFPE/SIGILL
+mixup. I think I will just fix it here in v4.
 
 Best regards,
 Ilya
