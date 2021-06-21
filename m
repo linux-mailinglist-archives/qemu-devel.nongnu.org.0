@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFEBE3AF1B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:14:01 +0200 (CEST)
-Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFE93AF1C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:19:44 +0200 (CEST)
+Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvNUm-00084G-Ov
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33754)
+	id 1lvNaJ-0008J7-Tk
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnd-00087g-Qq
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:25 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51858)
+ id 1lvMnh-0008KW-J0
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:29 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:35727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMnb-0007p7-Qo
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:25 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id j10so4148786wms.1
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:29:23 -0700 (PDT)
+ id 1lvMnc-0007pG-Fu
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:29:29 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id m18so20388056wrv.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8X2WoxaE4dD1xxcswTY7qTOf6HRiaTkdV1Ow/slXsxc=;
- b=PYXByIFCnYdD51wDQJsLJ/CHDNo5Kr/N/GZJB1sPbC/C74LM/CH0/JMh7T0p9q9OkT
- rt7s6c4eIRiTjOUl6B0Ulm9ZO8iXKprlIqZ9MZteyhwtE49vz4QW7kj4WMESwAp+nbvu
- ejNE9+mSAI+6qB4Q8Iq6J3H+OQO/AZ1xkMheEQRI2pm+dd+pZqfkbYTY9v+Ui6p2ez5Q
- qs2FRbaO6U9ISSPBS7I2qpCS+CIDmc3pbbOVquf2IL8BJ+rhhp9rqRxV+yHVeqPbhYpD
- 7MoagHHERN1Rsh4oN8/ROvh+11p0FyNBv2EpSvooTbKmTMuBo5kS2nu72b5pI/Nmdccn
- R1EA==
+ bh=7aGajrBzXELbWBHFm+0iHnjamqVXc32gyW/y/78R7c0=;
+ b=piuuYQ1c8kb7b3n7hrvZsRAmZmwciEaz9EnngF+lAnwP8mqJHxUIXVxuFOGn5uknCF
+ d4uBsu5og01D0d17dK3AfOxXbaKnbfVhzWJNB2ICbsWIUFlUGJ3vb+PWcM6JFu9WMjfw
+ YUz39iwt+d5L95eB5TBwDljmwwZsfH2O2mYGW4xwPUffs6XK8Uq5LHAvMFx8czHKm3k3
+ oyhwt3rFVTdsLl2sqSCxaspUwK7yiWg11Klq30XU+MG/yJwZlCJA8QamL3nIHlaJ5miG
+ +hg6P+eBLYZrnN8yava07pNXzd4+nLMlEoRI7g2QbFJoAv5oSkioeXdP4BWMacSia3OU
+ YZng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8X2WoxaE4dD1xxcswTY7qTOf6HRiaTkdV1Ow/slXsxc=;
- b=awd4v5WNhjcoJ+lMqKZXrw9hO/IBOG+CfLIMpJzOZPFGkP4CnhjKg8Oyd4xU07VY6s
- Do5spU5A1JQNXA7k233Jkkl2Q3ZkBL/AqdY/f0QvAFWFimeQsUTWIjaHz5y871EjYk5K
- 42pwKCbQAlWy/WsR+4SlhNqA4XQ++LM7Csgbzozm33iSjlELSS8ep/YQKMgqGo1RaQCP
- sO/AMhV5OJvuTMp9sS7vEf0/r7c7mQMF9DJ0MfL1aee68U95dyhnGLfBGTwJMdEwQ+wu
- XoxGgfUzyuswFmQqRXHnSVF4aKiqR2rIQwSQm4ng1rzAH3geoIqFIGiU7TT4nzz5r3EY
- kA4Q==
-X-Gm-Message-State: AOAM533Vw/6ZkSdtyP1VgaFCkJmKRQ/CY9SbnCX4+MurZObLx/ySEQan
- DA+o+sLRerJMFkmOkHmGdrB1ZswDbieXDNym
-X-Google-Smtp-Source: ABdhPJzoMAbEJd+TZJVyNXHmyz0w1l3zemQUHJ8EKgMUwZ+QCu24rVOnpREzSTNCwNMIZZCH6RrPqw==
-X-Received: by 2002:a1c:1f54:: with SMTP id f81mr27766418wmf.121.1624292962481; 
- Mon, 21 Jun 2021 09:29:22 -0700 (PDT)
+ bh=7aGajrBzXELbWBHFm+0iHnjamqVXc32gyW/y/78R7c0=;
+ b=ijUmwVmz2+EgkIo2omDC4CcJqE7Qx4qx0eJpgkH9OAM9f4A8TpLmtTPWHsCmiPwCZd
+ bJlJFRNbGhuNXuv0isv+OMhQfDFafeRx5khT9Pd4Rb0PxwIfbPnMsuCqnoqRf+IEmFuZ
+ FYDpvXAbgtH66IIz0uZgcfVXaruSRmmBC+05AJ1jZbT1/7JAEaUC4hrD+g2K+tbmVsNl
+ DZYRx0fjHHoraGj/H8gnhPmKPh2Mk7dpvB4E7AqHMgXhuoGn6piaiWBLv1nHZU3eLbsi
+ jAiMc+Tp4TowQDzwmW9GxjR/41+JF8OQIONOBTLJrDOYMkgMjJUTIVuICNr0t/xNh/nZ
+ O1ow==
+X-Gm-Message-State: AOAM533KutU9ka0Vn5S+bCJ3g1gk8Krka5JGMnSNlj0Re5I1mvc7xqm3
+ u3oEJTEY7bHN8vq3ef9EQs6jPfyHSq8ObCvL
+X-Google-Smtp-Source: ABdhPJxjghYx/EzCtTzTedcCCfv7xTbzTge4XPsejhS7vaR3H7yjHjcBfHsYcZOXsXQ375zX901G/A==
+X-Received: by 2002:a5d:69cb:: with SMTP id s11mr8605295wrw.240.1624292963288; 
+ Mon, 21 Jun 2021 09:29:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.29.21
+ by smtp.gmail.com with ESMTPSA id n65sm11615496wme.21.2021.06.21.09.29.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Jun 2021 09:29:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 54/57] target/arm: Implement MVE VADDV
-Date: Mon, 21 Jun 2021 17:28:30 +0100
-Message-Id: <20210621162833.32535-55-peter.maydell@linaro.org>
+Subject: [PULL 55/57] target/arm: Make VMOV scalar <-> gpreg beatwise for MVE
+Date: Mon, 21 Jun 2021 17:28:31 +0100
+Message-Id: <20210621162833.32535-56-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210621162833.32535-1-peter.maydell@linaro.org>
 References: <20210621162833.32535-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,137 +86,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VADDV insn, which performs an addition
-across vector lanes.
+In a CPU with MVE, the VMOV (vector lane to general-purpose register)
+and VMOV (general-purpose register to vector lane) insns are not
+predicated, but they are subject to beatwise execution if they
+are not in an IT block.
+
+Since our implementation always executes all 4 beats in one tick,
+this means only that we need to handle PSR.ECI:
+ * we must do the usual check for bad ECI state
+ * we must advance ECI state if the insn succeeds
+ * if ECI says we should not be executing the beat corresponding
+   to the lane of the vector register being accessed then we
+   should skip performing the move
+
+Note that if PSR.ECI is non-zero then we cannot be in an IT block.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210617121628.20116-44-peter.maydell@linaro.org
+Message-id: 20210617121628.20116-45-peter.maydell@linaro.org
 ---
- target/arm/helper-mve.h    |  7 +++++++
- target/arm/mve.decode      |  2 ++
- target/arm/mve_helper.c    | 24 +++++++++++++++++++++
- target/arm/translate-mve.c | 43 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 76 insertions(+)
+ target/arm/translate-a32.h |  2 +
+ target/arm/translate-mve.c |  4 +-
+ target/arm/translate-vfp.c | 77 +++++++++++++++++++++++++++++++++++---
+ 3 files changed, 75 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 161308b67e6..4bbb9b3ae2c 100644
---- a/target/arm/helper-mve.h
-+++ b/target/arm/helper-mve.h
-@@ -348,3 +348,10 @@ DEF_HELPER_FLAGS_4(mve_vrmlaldavhuw, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index 23264053006..6dfcafe1796 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -47,6 +47,8 @@ long neon_full_reg_offset(unsigned reg);
+ long neon_element_offset(int reg, int element, MemOp memop);
+ void gen_rev16(TCGv_i32 dest, TCGv_i32 var);
+ void clear_eci_state(DisasContext *s);
++bool mve_eci_check(DisasContext *s);
++void mve_update_and_store_eci(DisasContext *s);
  
- DEF_HELPER_FLAGS_4(mve_vrmlsldavhsw, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
- DEF_HELPER_FLAGS_4(mve_vrmlsldavhxsw, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
-+
-+DEF_HELPER_FLAGS_3(mve_vaddvsb, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vaddvub, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vaddvsh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vaddvuh, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vaddvsw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-+DEF_HELPER_FLAGS_3(mve_vaddvuw, TCG_CALL_NO_WG, i32, env, ptr, i32)
-diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 695097dcca4..d9ece7be5da 100644
---- a/target/arm/mve.decode
-+++ b/target/arm/mve.decode
-@@ -252,6 +252,8 @@ VBRSR            1111 1110 0 . .. ... 1 ... 1 1110 . 110 .... @2scalar
- VQDMULH_scalar   1110 1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
- VQRDMULH_scalar  1111 1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
- 
-+# Vector add across vector
-+VADDV            111 u:1 1110 1111 size:2 01 ... 0 1111 0 0 a:1 0 qm:3 0 rda=%rdalo
- 
- # Predicate operations
- %mask_22_13      22:1 13:3
-diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 9839d3e64a3..81534f6166b 100644
---- a/target/arm/mve_helper.c
-+++ b/target/arm/mve_helper.c
-@@ -1134,3 +1134,27 @@ DO_LDAVH(vrmlaldavhuw, 4, uint32_t, false, int128_add, int128_add, int128_make64
- 
- DO_LDAVH(vrmlsldavhsw, 4, int32_t, false, int128_add, int128_sub, int128_makes64)
- DO_LDAVH(vrmlsldavhxsw, 4, int32_t, true, int128_add, int128_sub, int128_makes64)
-+
-+/* Vector add across vector */
-+#define DO_VADDV(OP, ESIZE, TYPE)                               \
-+    uint32_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vm, \
-+                                    uint32_t ra)                \
-+    {                                                           \
-+        uint16_t mask = mve_element_mask(env);                  \
-+        unsigned e;                                             \
-+        TYPE *m = vm;                                           \
-+        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {      \
-+            if (mask & 1) {                                     \
-+                ra += m[H##ESIZE(e)];                           \
-+            }                                                   \
-+        }                                                       \
-+        mve_advance_vpt(env);                                   \
-+        return ra;                                              \
-+    }                                                           \
-+
-+DO_VADDV(vaddvsb, 1, uint8_t)
-+DO_VADDV(vaddvsh, 2, uint16_t)
-+DO_VADDV(vaddvsw, 4, uint32_t)
-+DO_VADDV(vaddvub, 1, uint8_t)
-+DO_VADDV(vaddvuh, 2, uint16_t)
-+DO_VADDV(vaddvuw, 4, uint32_t)
+ static inline TCGv_i32 load_cpu_offset(int offset)
+ {
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 73c15f41333..04d84e88461 100644
+index 04d84e88461..67462bdf27d 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -33,6 +33,7 @@ typedef void MVEGenOneOpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr);
- typedef void MVEGenTwoOpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr);
- typedef void MVEGenTwoOpScalarFn(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
- typedef void MVEGenDualAccOpFn(TCGv_i64, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i64);
-+typedef void MVEGenVADDVFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32);
+@@ -57,7 +57,7 @@ static bool mve_check_qreg_bank(DisasContext *s, int qmask)
+     return qmask < 8;
+ }
  
- /* Return the offset of a Qn register (same semantics as aa32_vfp_qreg()) */
- static inline long mve_qreg_offset(unsigned reg)
-@@ -743,3 +744,45 @@ static bool trans_VPST(DisasContext *s, arg_VPST *a)
-     mve_update_and_store_eci(s);
+-static bool mve_eci_check(DisasContext *s)
++bool mve_eci_check(DisasContext *s)
+ {
+     /*
+      * This is a beatwise insn: check that ECI is valid (not a
+@@ -91,7 +91,7 @@ static void mve_update_eci(DisasContext *s)
+     }
+ }
+ 
+-static void mve_update_and_store_eci(DisasContext *s)
++void mve_update_and_store_eci(DisasContext *s)
+ {
+     /*
+      * For insns which don't call a helper function that will call
+diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+index 86e43c02dcd..b2991e21ec7 100644
+--- a/target/arm/translate-vfp.c
++++ b/target/arm/translate-vfp.c
+@@ -581,6 +581,48 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
      return true;
  }
-+
-+static bool trans_VADDV(DisasContext *s, arg_VADDV *a)
+ 
++static bool mve_skip_vmov(DisasContext *s, int vn, int index, int size)
 +{
-+    /* VADDV: vector add across vector */
-+    static MVEGenVADDVFn * const fns[4][2] = {
-+        { gen_helper_mve_vaddvsb, gen_helper_mve_vaddvub },
-+        { gen_helper_mve_vaddvsh, gen_helper_mve_vaddvuh },
-+        { gen_helper_mve_vaddvsw, gen_helper_mve_vaddvuw },
-+        { NULL, NULL }
-+    };
-+    TCGv_ptr qm;
-+    TCGv_i32 rda;
++    /*
++     * In a CPU with MVE, the VMOV (vector lane to general-purpose register)
++     * and VMOV (general-purpose register to vector lane) insns are not
++     * predicated, but they are subject to beatwise execution if they are
++     * not in an IT block.
++     *
++     * Since our implementation always executes all 4 beats in one tick,
++     * this means only that if PSR.ECI says we should not be executing
++     * the beat corresponding to the lane of the vector register being
++     * accessed then we should skip performing the move, and that we need
++     * to do the usual check for bad ECI state and advance of ECI state.
++     *
++     * Note that if PSR.ECI is non-zero then we cannot be in an IT block.
++     *
++     * Return true if this VMOV scalar <-> gpreg should be skipped because
++     * the MVE PSR.ECI state says we skip the beat where the store happens.
++     */
 +
-+    if (!dc_isar_feature(aa32_mve, s) ||
-+        a->size == 3) {
++    /* Calculate the byte offset into Qn which we're going to access */
++    int ofs = (index << size) + ((vn & 1) * 8);
++
++    if (!dc_isar_feature(aa32_mve, s)) {
 +        return false;
 +    }
-+    if (!mve_eci_check(s) || !vfp_access_check(s)) {
-+        return true;
++
++    switch (s->eci) {
++    case ECI_NONE:
++        return false;
++    case ECI_A0:
++        return ofs < 4;
++    case ECI_A0A1:
++        return ofs < 8;
++    case ECI_A0A1A2:
++    case ECI_A0A1A2B0:
++        return ofs < 12;
++    default:
++        g_assert_not_reached();
 +    }
-+
-+    /*
-+     * This insn is subject to beat-wise execution. Partial execution
-+     * of an A=0 (no-accumulate) insn which does not execute the first
-+     * beat must start with the current value of Rda, not zero.
-+     */
-+    if (a->a || mve_skip_first_beat(s)) {
-+        /* Accumulate input from Rda */
-+        rda = load_reg(s, a->rda);
-+    } else {
-+        /* Accumulate starting at zero */
-+        rda = tcg_const_i32(0);
-+    }
-+
-+    qm = mve_qreg_ptr(a->qm);
-+    fns[a->size][a->u](rda, cpu_env, qm, rda);
-+    store_reg(s, a->rda, rda);
-+    tcg_temp_free_ptr(qm);
-+
-+    mve_update_eci(s);
-+    return true;
 +}
++
+ static bool trans_VMOV_to_gp(DisasContext *s, arg_VMOV_to_gp *a)
+ {
+     /* VMOV scalar to general purpose register */
+@@ -603,14 +645,26 @@ static bool trans_VMOV_to_gp(DisasContext *s, arg_VMOV_to_gp *a)
+         return false;
+     }
+ 
++    if (dc_isar_feature(aa32_mve, s)) {
++        if (!mve_eci_check(s)) {
++            return true;
++        }
++    }
++
+     if (!vfp_access_check(s)) {
+         return true;
+     }
+ 
+-    tmp = tcg_temp_new_i32();
+-    read_neon_element32(tmp, a->vn, a->index, a->size | (a->u ? 0 : MO_SIGN));
+-    store_reg(s, a->rt, tmp);
++    if (!mve_skip_vmov(s, a->vn, a->index, a->size)) {
++        tmp = tcg_temp_new_i32();
++        read_neon_element32(tmp, a->vn, a->index,
++                            a->size | (a->u ? 0 : MO_SIGN));
++        store_reg(s, a->rt, tmp);
++    }
+ 
++    if (dc_isar_feature(aa32_mve, s)) {
++        mve_update_and_store_eci(s);
++    }
+     return true;
+ }
+ 
+@@ -636,14 +690,25 @@ static bool trans_VMOV_from_gp(DisasContext *s, arg_VMOV_from_gp *a)
+         return false;
+     }
+ 
++    if (dc_isar_feature(aa32_mve, s)) {
++        if (!mve_eci_check(s)) {
++            return true;
++        }
++    }
++
+     if (!vfp_access_check(s)) {
+         return true;
+     }
+ 
+-    tmp = load_reg(s, a->rt);
+-    write_neon_element32(tmp, a->vn, a->index, a->size);
+-    tcg_temp_free_i32(tmp);
++    if (!mve_skip_vmov(s, a->vn, a->index, a->size)) {
++        tmp = load_reg(s, a->rt);
++        write_neon_element32(tmp, a->vn, a->index, a->size);
++        tcg_temp_free_i32(tmp);
++    }
+ 
++    if (dc_isar_feature(aa32_mve, s)) {
++        mve_update_and_store_eci(s);
++    }
+     return true;
+ }
+ 
 -- 
 2.20.1
 
