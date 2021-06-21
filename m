@@ -2,44 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821463AE990
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 15:00:49 +0200 (CEST)
-Received: from localhost ([::1]:57500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2393AE987
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:58:44 +0200 (CEST)
+Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvJXk-0008KE-Ev
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 09:00:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41972)
+	id 1lvJVj-00069u-TZ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lvJQE-0007x1-J1; Mon, 21 Jun 2021 08:53:02 -0400
-Received: from [201.28.113.2] (port=47857 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lvJQC-0004nA-Oe; Mon, 21 Jun 2021 08:53:02 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 21 Jun 2021 09:51:40 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id E94A580005E;
- Mon, 21 Jun 2021 09:51:39 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/10] target/ppc: Split out ppc_hash64_xlate
-Date: Mon, 21 Jun 2021 09:51:10 -0300
-Message-Id: <20210621125115.67717-6-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
-References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 21 Jun 2021 12:51:40.0211 (UTC)
- FILETIME=[2DEC4830:01D7669C]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvJQ8-0007em-HK
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:52:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvJQ4-0004nL-SQ
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:52:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624279971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cvId34HO/+QevfT9tSw4wcLZctWwMI+KHmiUpbDY+h4=;
+ b=fxZ6UAHnS+6hJ/cWnLegEDxsSE895tBlwVH87tCjosvr2aDgN89hZB5dvoQGXDjDFab9CQ
+ 7NQei2DYwjaq01ORBHbGYXgCwH1AX/ThKJ4PzK3d3q29SemCRehH8QeaRhoH2vsqKUP2BI
+ AXapwW596AvQhlnnVRVeTwdGC3T6WZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-G_H4sLn9PrOEOavdR_5nsg-1; Mon, 21 Jun 2021 08:52:49 -0400
+X-MC-Unique: G_H4sLn9PrOEOavdR_5nsg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F2361922025;
+ Mon, 21 Jun 2021 12:52:46 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3ABD0179B3;
+ Mon, 21 Jun 2021 12:52:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 29C5618000B4; Mon, 21 Jun 2021 14:52:34 +0200 (CEST)
+Date: Mon, 21 Jun 2021 14:52:34 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 02/24] modules: collect module meta-data
+Message-ID: <20210621125234.v5a2g3o2fft5nkcg@sirius.home.kraxel.org>
+References: <20210618045353.2510174-1-kraxel@redhat.com>
+ <20210618045353.2510174-3-kraxel@redhat.com>
+ <919b1ff3-914b-a9a2-781f-d8ae244d71cf@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <919b1ff3-914b-a9a2-781f-d8ae244d71cf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,248 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
- luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Lieven <pl@kamp.de>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Fri, Jun 18, 2021 at 06:09:55PM +0200, Paolo Bonzini wrote:
+> On 18/06/21 06:53, Gerd Hoffmann wrote:
+> > +def find_command(src, target, compile_commands):
+> > +    for command in compile_commands:
+> > +        if command['file'] != src:
+> > +            continue
+> > +        if target != '' and command['command'].find(target) == -1:
+> > +            continue
+> 
+> 
+> Did you look into using extract_objects for this instead of looking for the
+> target (which works, but yuck :))?
 
-Mirror the interface of ppc_radix64_xlate, putting all of
-the logic for hash64 translation into a single function.
+ninja: error: 'libui-curses.a.p/meson-generated_.._config-host.h.o', needed by 'ui-curses.modinfo.test', missing and no known rule to make it
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Hmm, not sure where this comes from.  meson doesn't try to link
+config-host.h.o into libui-curses.a, so why does extract_all_objects()
+return it?
+
+Test patch (incremental to this series) below.
+
+take care,
+  Gerd
+
+From 5453683429d7b08b959e2cd63ee00fdccfb0c7b7 Mon Sep 17 00:00:00 2001
+From: Gerd Hoffmann <kraxel@redhat.com>
+Date: Mon, 21 Jun 2021 14:45:14 +0200
+Subject: [PATCH] [wip] extract_all_objects experiments
+
 ---
- target/ppc/mmu-hash64.c | 125 +++++++++++++++++++---------------------
- 1 file changed, 59 insertions(+), 66 deletions(-)
+ meson.build             | 7 +++++++
+ scripts/modinfo-test.sh | 8 ++++++++
+ 2 files changed, 15 insertions(+)
+ create mode 100755 scripts/modinfo-test.sh
 
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 2febd369b1..c6b167b4dc 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -873,8 +873,10 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
-     return -1;
- }
+diff --git a/meson.build b/meson.build
+index 03bacca7cddb..8e7ccccf176c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2042,6 +2042,7 @@ target_modules += { 'accel' : { 'qtest': qtest_module_ss,
  
--int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                MMUAccessType access_type, int mmu_idx)
-+static bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-+                             MMUAccessType access_type,
-+                             hwaddr *raddrp, int *psizep, int *protp,
-+                             bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -918,9 +920,11 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-             slb = &vrma_slbe;
-             if (build_vrma_slbe(cpu, slb) != 0) {
-                 /* Invalid VRMA setup, machine check */
--                cs->exception_index = POWERPC_EXCP_MCHECK;
--                env->error_code = 0;
--                return 1;
-+                if (guest_visible) {
-+                    cs->exception_index = POWERPC_EXCP_MCHECK;
-+                    env->error_code = 0;
-+                }
-+                return false;
-             }
+ modinfo_collect = find_program('scripts/modinfo-collect.py')
+ modinfo_generate = find_program('scripts/modinfo-generate.py')
++modinfo_test = find_program('scripts/modinfo-test.sh')
+ modinfo_files = []
  
-             goto skip_slb_search;
-@@ -929,6 +933,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
- 
-             /* Emulated old-style RMO mode, bounds check against RMLS */
-             if (raddr >= limit) {
-+                if (!guest_visible) {
-+                    return false;
-+                }
-                 switch (access_type) {
-                 case MMU_INST_FETCH:
-                     ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
-@@ -943,15 +950,16 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-                 default:
-                     g_assert_not_reached();
-                 }
--                return 1;
-+                return false;
-             }
- 
-             raddr |= env->spr[SPR_RMOR];
-         }
--        tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                     PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
--                     TARGET_PAGE_SIZE);
--        return 0;
-+
-+        *raddrp = raddr;
-+        *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+        *psizep = TARGET_PAGE_BITS;
-+        return true;
-     }
- 
-     /* 2. Translation is on, so look up the SLB */
-@@ -964,6 +972,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-             exit(1);
-         }
-         /* Segment still not found, generate the appropriate interrupt */
-+        if (!guest_visible) {
-+            return false;
-+        }
-         switch (access_type) {
-         case MMU_INST_FETCH:
-             cs->exception_index = POWERPC_EXCP_ISEG;
-@@ -978,20 +989,25 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-         default:
-             g_assert_not_reached();
-         }
--        return 1;
-+        return false;
-     }
- 
--skip_slb_search:
-+ skip_slb_search:
- 
-     /* 3. Check for segment level no-execute violation */
-     if (access_type == MMU_INST_FETCH && (slb->vsid & SLB_VSID_N)) {
--        ppc_hash64_set_isi(cs, SRR1_NOEXEC_GUARD);
--        return 1;
-+        if (guest_visible) {
-+            ppc_hash64_set_isi(cs, SRR1_NOEXEC_GUARD);
-+        }
-+        return false;
-     }
- 
-     /* 4. Locate the PTE in the hash table */
-     ptex = ppc_hash64_htab_lookup(cpu, slb, eaddr, &pte, &apshift);
-     if (ptex == -1) {
-+        if (!guest_visible) {
-+            return false;
-+        }
-         switch (access_type) {
-         case MMU_INST_FETCH:
-             ppc_hash64_set_isi(cs, SRR1_NOPTE);
-@@ -1005,7 +1021,7 @@ skip_slb_search:
-         default:
-             g_assert_not_reached();
-         }
--        return 1;
-+        return false;
-     }
-     qemu_log_mask(CPU_LOG_MMU,
-                   "found PTE at index %08" HWADDR_PRIx "\n", ptex);
-@@ -1021,6 +1037,9 @@ skip_slb_search:
-     if (need_prot & ~prot) {
-         /* Access right violation */
-         qemu_log_mask(CPU_LOG_MMU, "PTE access rejected\n");
-+        if (!guest_visible) {
-+            return false;
-+        }
-         if (access_type == MMU_INST_FETCH) {
-             int srr1 = 0;
-             if (PAGE_EXEC & ~exec_prot) {
-@@ -1045,7 +1064,7 @@ skip_slb_search:
-             }
-             ppc_hash64_set_dsi(cs, eaddr, dsisr);
-         }
--        return 1;
-+        return false;
-     }
- 
-     qemu_log_mask(CPU_LOG_MMU, "PTE access granted !\n");
-@@ -1069,66 +1088,40 @@ skip_slb_search:
- 
-     /* 7. Determine the real address from the PTE */
- 
--    raddr = deposit64(pte.pte1 & HPTE64_R_RPN, 0, apshift, eaddr);
--
--    tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                 prot, mmu_idx, 1ULL << apshift);
--
--    return 0;
-+    *raddrp = deposit64(pte.pte1 & HPTE64_R_RPN, 0, apshift, eaddr);
-+    *protp = prot;
-+    *psizep = apshift;
-+    return true;
- }
- 
--hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr)
-+int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-+                                MMUAccessType access_type, int mmu_idx)
- {
--    CPUPPCState *env = &cpu->env;
--    ppc_slb_t vrma_slbe;
--    ppc_slb_t *slb;
--    hwaddr ptex, raddr;
--    ppc_hash_pte64_t pte;
--    unsigned apshift;
-+    CPUState *cs = CPU(cpu);
-+    int page_size, prot;
-+    hwaddr raddr;
- 
--    /* Handle real mode */
--    if (msr_dr == 0) {
--        /* In real mode the top 4 effective address bits are ignored */
--        raddr = addr & 0x0FFFFFFFFFFFFFFFULL;
-+    if (!ppc_hash64_xlate(cpu, eaddr, access_type, &raddr,
-+                          &page_size, &prot, true)) {
-+        return 1;
-+    }
- 
--        if (cpu->vhyp) {
--            /*
--             * In virtual hypervisor mode, there's nothing to do:
--             *   EA == GPA == qemu guest address
--             */
--            return raddr;
--        } else if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
--            /* In HV mode, add HRMOR if top EA bit is clear */
--            return raddr | env->spr[SPR_HRMOR];
--        } else if (ppc_hash64_use_vrma(env)) {
--            /* Emulated VRMA mode */
--            slb = &vrma_slbe;
--            if (build_vrma_slbe(cpu, slb) != 0) {
--                return -1;
--            }
--        } else {
--            target_ulong limit = rmls_limit(cpu);
-+    tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
-+                 prot, mmu_idx, 1UL << page_size);
-+    return 0;
-+}
- 
--            /* Emulated old-style RMO mode, bounds check against RMLS */
--            if (raddr >= limit) {
--                return -1;
--            }
--            return raddr | env->spr[SPR_RMOR];
--        }
--    } else {
--        slb = slb_lookup(cpu, addr);
--        if (!slb) {
--            return -1;
--        }
--    }
-+hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
-+{
-+    int psize, prot;
-+    hwaddr raddr;
- 
--    ptex = ppc_hash64_htab_lookup(cpu, slb, addr, &pte, &apshift);
--    if (ptex == -1) {
-+    if (!ppc_hash64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-+                          &psize, &prot, false)) {
-         return -1;
-     }
- 
--    return deposit64(pte.pte1 & HPTE64_R_RPN, 0, apshift, addr)
--        & TARGET_PAGE_MASK;
-+    return raddr & TARGET_PAGE_MASK;
- }
- 
- void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, target_ulong ptex,
+ block_mods = []
+@@ -2063,6 +2064,12 @@ foreach d, list : modules
+                                        input: module_ss.sources(),
+                                        capture: true,
+                                        command: [modinfo_collect, '@INPUT@'])
++        custom_target(d + '-' + m + '.modinfo.test',
++                      output: d + '-' + m + '.modinfo.test',
++                      input: sl.extract_all_objects(recursive: true),
++                      capture: true,
++                      build_by_default: true, # to be removed when added to a target
++                      command: [modinfo_test, '@INPUT@'])
+       endif
+     else
+       if d == 'block'
+diff --git a/scripts/modinfo-test.sh b/scripts/modinfo-test.sh
+new file mode 100755
+index 000000000000..979c9cc9aeef
+--- /dev/null
++++ b/scripts/modinfo-test.sh
+@@ -0,0 +1,8 @@
++#!/bin/sh
++if test "$1" = "--target"; then
++    echo "# target $2"
++    shift;shift
++fi
++for item in "$@"; do
++    echo "# input $item"
++done
 -- 
-2.17.1
+2.31.1
 
 
