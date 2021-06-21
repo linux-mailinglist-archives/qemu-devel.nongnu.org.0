@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916C83AF4BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 20:15:53 +0200 (CEST)
-Received: from localhost ([::1]:57110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42DD3AF4CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 20:18:26 +0200 (CEST)
+Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvOSe-0004LY-LL
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 14:15:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52702)
+	id 1lvOV7-00063x-Tg
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 14:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvORd-0003Vh-Ij
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:14:49 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38861)
+ id 1lvOUF-0005Nj-CQ
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:17:31 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvORb-0005nm-RT
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:14:49 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id h11so3233067wrx.5
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 11:14:47 -0700 (PDT)
+ id 1lvOUE-0007tn-2C
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:17:31 -0400
+Received: by mail-wm1-x333.google.com with SMTP id j10so4356446wms.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 11:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ACAOQsTJy/WZV+9Rcsqjp1YMXqiXhSeDg+ZxCwMPOm8=;
- b=ApkxVGA93XdhABivgh8FTJ++0iFhf3k6V3LADySbmYMW4sXvxTth9qMe8kGv4xqBrw
- hcfK8H9QW9KeuU8kihAB2/mopZlheGa26zmLxnTX+uDixN2yenjuqpj45VmB90ShsLmu
- peYEzdNfL5K/dFebtpolP85FG8WluOdZMNVD+VDi1kx+EaB9S9bBUQKbtETHxyZH0P4y
- pByOQOBRFW4emnGs7lPe5i4RCaIqjmdc28EQuYOLCoFrwOaejPCc4/daBQ7Vdhe+FahJ
- d93EcfK9eiF55BlpmIJLmRLybazRE0KMPNZK76T7R5a74+sQcE3JLODTQGFDrDXo71cm
- L/NA==
+ bh=SrjtMGY3WsJ8jgb6Jztf+DEiVyKeVDk6MC4VxyZsbAM=;
+ b=Wn5oGpH+Rq6LJMgYDb/qnk5gN742MD6SrFB0D4q5c8Sg6W1dSbMH0vqvsBLoCpsZj0
+ xpuL6pmbKOGMWrGID4yLTTEy4qeEaFirgzjnZpZMOriZGECb1FREjMrfJb0yxAELS95Q
+ nAIthWfg2VHCx7Xi7pf/pgEhIP9k0RRHfIGaaTS+udPzYuqs5X3JHrhxkCqb4LFO9AmC
+ axlwYkNttx7jLqnGK1auW1FAssrH2nP/gtawmNmHeyKLerHc4LjPVGwmHnjPMfpkknPV
+ rmFu2VyFp/QnT6qTf2LZHhiN/cU1Qx3zZpGQ5ENiVB8dEBcx1iGoIipNGgGtoF8Q9oDo
+ lbXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ACAOQsTJy/WZV+9Rcsqjp1YMXqiXhSeDg+ZxCwMPOm8=;
- b=XmeVmav4ZwZeUbuiMPnROG+u1hpGkfH8QnnpAQGEm01sxmHeje8KisBgwdQrFJruiJ
- ri8l7yKPQFbqzMVokqYeKpw26snKUm99LhSxHio29Uy4qhOEoKiSCBP27r28jbCfBGn2
- nVJ8UaATv0g6R1ov+/V8ZTbrP2EON0YXxqknzFk7EbZbkVG/uub/niuCvt+NbStRJPfY
- fALdAMn9SCl+dDKVU3zGEKU+Z6keo0dsu6xlHEAZQfGihLY+i3ZzoyxPv3pB1EtxhLfZ
- EWYEQPz59ltOwO090dw3M0ywhQ5CMdrOsdehdG4EF10jJDWBrpqbVQxfZ8/VAXM0hC6H
- 1a+Q==
-X-Gm-Message-State: AOAM5304DZJfcqjHkWUu6Y59cCX4Lg044fHiGTbWyEMr57UoWxEg4Gek
- ciy17HemW/a/5+eH0ioCOHc=
-X-Google-Smtp-Source: ABdhPJzoIHZH4G+CW75q4niCTt3AvxG00cL5IBMktrPE0frE9n9n8r4dpZPeRWu1H+jTsoC1yBYQkw==
-X-Received: by 2002:adf:f68a:: with SMTP id v10mr6131700wrp.366.1624299286103; 
- Mon, 21 Jun 2021 11:14:46 -0700 (PDT)
+ bh=SrjtMGY3WsJ8jgb6Jztf+DEiVyKeVDk6MC4VxyZsbAM=;
+ b=TLiDTJ7q/gDbCyfxVXZj3Xp6Nnib/fgBU6aIq+2mpINEk+h0V0CMQZ2z/lHqSanqd2
+ rvSJuU9aXY1EylVlmuJ6/SM4D2nweWmeGKLwqtMbDDfiGMLcB0erGbs5j0hGRvRR+YCw
+ zDxWw0gMIrMwkf+3zgcUFzQ1F4PiNv5IkLXR7P41hT7wXS+zVJSJ1Me9ap3raN8yI3Pv
+ gfmKoKcHdBBhgijfOmTWJJVFSGIFt9qz6dZjuBV7MsxmOVybzQow2P0njr1Grx15yD2B
+ LTTs6o5BgGwUQaWkftl3QOy/H5ipJpxBCYbRjVy1FxnaPYgNtVQG/ZfEVynL8f34FBCL
+ dnSg==
+X-Gm-Message-State: AOAM530Ft2zmRDQkylvEZGXenqp8KfGkjl5zZ67jSjNDsIDc8FXmet/y
+ pqj+PqCFnnrLF1JCsU55Xjs=
+X-Google-Smtp-Source: ABdhPJzSRpAuXXGTx6GBfAppwPdG8AQheNl4yUQ+9YlkHxQ4FT54xskCycQdVevDLvZ+cpWgJfmb1w==
+X-Received: by 2002:a05:600c:4417:: with SMTP id
+ u23mr14703744wmn.26.1624299448316; 
+ Mon, 21 Jun 2021 11:17:28 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id f12sm22243236wru.81.2021.06.21.11.14.44
+ by smtp.gmail.com with ESMTPSA id t64sm10439227wma.44.2021.06.21.11.17.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 11:14:45 -0700 (PDT)
-Subject: Re: [PATCH v1 4/5] configs: rename default-configs to configs and
- reorganise
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, thuth@redhat.com,
- qemu-devel@nongnu.org
-References: <20210621152120.4465-1-alex.bennee@linaro.org>
- <20210621152120.4465-5-alex.bennee@linaro.org>
+ Mon, 21 Jun 2021 11:17:27 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] target/avr: Add DisasContextBase to DisasContext
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210620215022.1510617-1-richard.henderson@linaro.org>
+ <20210620215022.1510617-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8d588c37-0cd1-4a23-b7cb-8b7afd603696@amsat.org>
-Date: Mon, 21 Jun 2021 20:14:43 +0200
+Message-ID: <567b4cb5-0ef9-da2a-4661-1188b827aaf8@amsat.org>
+Date: Mon, 21 Jun 2021 20:17:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210621152120.4465-5-alex.bennee@linaro.org>
+In-Reply-To: <20210620215022.1510617-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,38 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, pbonzini@redhat.com
+Cc: mrolnik@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/21 5:21 PM, Alex Bennée wrote:
-> In preparation for offering variation to our build configurations lets
-> move everything and rename it to default. Common included base configs
-> are also renamed.
+On 6/20/21 11:50 PM, Richard Henderson wrote:
+> Migrate the bstate, tb and singlestep_enabled fields
+> from DisasContext into the base.
 > 
-> During the cleanup the stale usb.mak and pci.mak references were
-> removed from MAINTAINERS.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  configure                                     |  6 ++---
+>  target/avr/translate.c | 58 +++++++++++++++++++++---------------------
+>  1 file changed, 29 insertions(+), 29 deletions(-)
 
- ---
->  meson.build                                   |  4 ++--
->  MAINTAINERS                                   | 22 +++++++++----------
->  tests/Makefile.include                        |  2 +-
->  103 files changed, 28 insertions(+), 30 deletions(-)
-
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -36,7 +36,7 @@ export SRC_PATH
->  
->  # Get the list of all supported sysemu targets
->  SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
-> -   $(wildcard $(SRC_PATH)/default-configs/*-softmmu.mak)))
-> +   $(wildcard $(SRC_PATH)/configs/*-softmmu.mak)))
-
-This one seems to have bitrotten.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
