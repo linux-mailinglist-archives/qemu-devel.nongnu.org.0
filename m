@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8000D3AE8B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:05:15 +0200 (CEST)
-Received: from localhost ([::1]:51418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C182D3AE8CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:12:21 +0200 (CEST)
+Received: from localhost ([::1]:38294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvIfy-00038T-II
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:05:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59358)
+	id 1lvImq-0005wt-R0
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:12:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcZ-00008e-7v
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53577)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcj-0000GM-Gg
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcV-0001L7-Qm
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcY-0001NE-Ry
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624276899;
+ s=mimecast20190719; t=1624276902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IK8bIQ+SZaIvILAPUoChvvPjtRjyWSDUkZF/qxkO3ls=;
- b=OM43EdHANnoQspfNSVF1eETy2AM8hNFUWG/ZIGifrbT0UWKGeGHiPdEbRKmwpdkCEeqnFL
- OCUhtGZjg51k88vFvGCmvw86MRf6USCfhqyE1/m/euU9cR0PDs6Yj6I+xgI1nY8ciNY4Wm
- XQOcFq3j5Wc1d1bEaNqOv73sgJO8tB0=
+ bh=c8ZxVEDn0eQKukUONRkgn/GD+d8ake3x1LSGP9bkpZc=;
+ b=Dl3WtiiDKTWQZjhWBJylh1lVR4adn9X0zCY0X+bxwobIjTSJ0aUuFiwpdEJq5wm3CZGmp7
+ HCT3Buv5awHaAeF/GuSpXTEVjb1nLhFO1PPhq7JKEBLZDddi2CLTXm8LPOQnh5JxHO6b0x
+ 1qCYXBSdvOknJ/guM46DBPWSKnGBsJY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-R0jeTYV5N6-n-57LX47lkw-1; Mon, 21 Jun 2021 08:01:36 -0400
-X-MC-Unique: R0jeTYV5N6-n-57LX47lkw-1
+ us-mta-20-frH7BdXZOY-4I1SIdfkILQ-1; Mon, 21 Jun 2021 08:01:38 -0400
+X-MC-Unique: frH7BdXZOY-4I1SIdfkILQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC4ED1018728;
- Mon, 21 Jun 2021 12:01:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57BAC1018721;
+ Mon, 21 Jun 2021 12:01:37 +0000 (UTC)
 Received: from thuth.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 162E819C46;
- Mon, 21 Jun 2021 12:01:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48AEB19D7C;
+ Mon, 21 Jun 2021 12:01:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 5/7] Remove leading underscores from QEMU defines
-Date: Mon, 21 Jun 2021 14:01:23 +0200
-Message-Id: <20210621120125.116377-6-thuth@redhat.com>
+Subject: [PULL 6/7] fuzz: Display hexadecimal value with '0x' prefix
+Date: Mon, 21 Jun 2021 14:01:24 +0200
+Message-Id: <20210621120125.116377-7-thuth@redhat.com>
 In-Reply-To: <20210621120125.116377-1-thuth@redhat.com>
 References: <20210621120125.116377-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -80,179 +80,38 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ahmed Abouzied <email@aabouzied.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Leading underscores followed by a capital letter or underscore are
-reserved by the C standard.
+Use memory_region_size() to get the MemoryRegion size,
+and display it with the '0x' prefix.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/369
-
-Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
-Message-Id: <20210605174938.13782-1-email@aabouzied.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210612195842.1595999-1-f4bug@amsat.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/fpu/softfloat-helpers.h             | 4 ++--
- include/hw/usb/dwc2-regs.h                  | 4 ++--
- include/hw/usb/xlnx-usb-subsystem.h         | 4 ++--
- include/hw/usb/xlnx-versal-usb2-ctrl-regs.h | 4 ++--
- include/qemu/plugin-memory.h                | 4 ++--
- include/qemu/selfmap.h                      | 4 ++--
- include/user/syscall-trace.h                | 4 ++--
- plugins/plugin.h                            | 4 ++--
- tests/qtest/fuzz/qos_fuzz.h                 | 4 ++--
- tests/tcg/minilib/minilib.h                 | 4 ++--
- 10 files changed, 20 insertions(+), 20 deletions(-)
+ tests/qtest/fuzz/generic_fuzz.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
-index 34f4cf92ae..a98d759cd3 100644
---- a/include/fpu/softfloat-helpers.h
-+++ b/include/fpu/softfloat-helpers.h
-@@ -48,8 +48,8 @@ this code that are retained.
- ===============================================================================
- */
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index cea7d4058e..6c67522717 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -841,9 +841,9 @@ static void generic_pre_fuzz(QTestState *s)
  
--#ifndef _SOFTFLOAT_HELPERS_H_
--#define _SOFTFLOAT_HELPERS_H_
-+#ifndef SOFTFLOAT_HELPERS_H
-+#define SOFTFLOAT_HELPERS_H
+     g_hash_table_iter_init(&iter, fuzzable_memoryregions);
+     while (g_hash_table_iter_next(&iter, (gpointer)&mr, NULL)) {
+-        printf("  * %s (size %lx)\n",
++        printf("  * %s (size 0x%" PRIx64 ")\n",
+                object_get_canonical_path_component(&(mr->parent_obj)),
+-               (uint64_t)mr->size);
++               memory_region_size(mr));
+     }
  
- #include "fpu/softfloat-types.h"
- 
-diff --git a/include/hw/usb/dwc2-regs.h b/include/hw/usb/dwc2-regs.h
-index 40af23a0ba..a7eb531485 100644
---- a/include/hw/usb/dwc2-regs.h
-+++ b/include/hw/usb/dwc2-regs.h
-@@ -39,8 +39,8 @@
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  */
- 
--#ifndef __DWC2_HW_H__
--#define __DWC2_HW_H__
-+#ifndef DWC2_HW_H
-+#define DWC2_HW_H
- 
- #define HSOTG_REG(x)	(x)
- 
-diff --git a/include/hw/usb/xlnx-usb-subsystem.h b/include/hw/usb/xlnx-usb-subsystem.h
-index 739bef7f45..999e423951 100644
---- a/include/hw/usb/xlnx-usb-subsystem.h
-+++ b/include/hw/usb/xlnx-usb-subsystem.h
-@@ -22,8 +22,8 @@
-  * THE SOFTWARE.
-  */
- 
--#ifndef _XLNX_VERSAL_USB_SUBSYSTEM_H_
--#define _XLNX_VERSAL_USB_SUBSYSTEM_H_
-+#ifndef XLNX_VERSAL_USB_SUBSYSTEM_H
-+#define XLNX_VERSAL_USB_SUBSYSTEM_H
- 
- #include "hw/usb/xlnx-versal-usb2-ctrl-regs.h"
- #include "hw/usb/hcd-dwc3.h"
-diff --git a/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h b/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
-index 975a717627..b76dce0419 100644
---- a/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
-+++ b/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
-@@ -23,8 +23,8 @@
-  * THE SOFTWARE.
-  */
- 
--#ifndef _XLNX_USB2_REGS_H_
--#define _XLNX_USB2_REGS_H_
-+#ifndef XLNX_USB2_REGS_H
-+#define XLNX_USB2_REGS_H
- 
- #define TYPE_XILINX_VERSAL_USB2_CTRL_REGS "xlnx.versal-usb2-ctrl-regs"
- 
-diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
-index fbbe99474b..b36def27d7 100644
---- a/include/qemu/plugin-memory.h
-+++ b/include/qemu/plugin-memory.h
-@@ -6,8 +6,8 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
- 
--#ifndef _PLUGIN_MEMORY_H_
--#define _PLUGIN_MEMORY_H_
-+#ifndef PLUGIN_MEMORY_H
-+#define PLUGIN_MEMORY_H
- 
- struct qemu_plugin_hwaddr {
-     bool is_io;
-diff --git a/include/qemu/selfmap.h b/include/qemu/selfmap.h
-index 8382c4c779..80cf920fba 100644
---- a/include/qemu/selfmap.h
-+++ b/include/qemu/selfmap.h
-@@ -6,8 +6,8 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
- 
--#ifndef _SELFMAP_H_
--#define _SELFMAP_H_
-+#ifndef SELFMAP_H
-+#define SELFMAP_H
- 
- typedef struct {
-     unsigned long start;
-diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
-index 42e3b48b03..614cfacfa5 100644
---- a/include/user/syscall-trace.h
-+++ b/include/user/syscall-trace.h
-@@ -7,8 +7,8 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
- 
--#ifndef _SYSCALL_TRACE_H_
--#define _SYSCALL_TRACE_H_
-+#ifndef SYSCALL_TRACE_H
-+#define SYSCALL_TRACE_H
- 
- #include "trace/trace-root.h"
- 
-diff --git a/plugins/plugin.h b/plugins/plugin.h
-index 55017e3581..b13677d0dc 100644
---- a/plugins/plugin.h
-+++ b/plugins/plugin.h
-@@ -9,8 +9,8 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
- 
--#ifndef _PLUGIN_INTERNAL_H_
--#define _PLUGIN_INTERNAL_H_
-+#ifndef PLUGIN_INTERNAL_H
-+#define PLUGIN_INTERNAL_H
- 
- #include <gmodule.h>
- #include "qemu/qht.h"
-diff --git a/tests/qtest/fuzz/qos_fuzz.h b/tests/qtest/fuzz/qos_fuzz.h
-index 477f11b02b..63d8459b71 100644
---- a/tests/qtest/fuzz/qos_fuzz.h
-+++ b/tests/qtest/fuzz/qos_fuzz.h
-@@ -10,8 +10,8 @@
-  * See the COPYING file in the top-level directory.
-  */
- 
--#ifndef _QOS_FUZZ_H_
--#define _QOS_FUZZ_H_
-+#ifndef QOS_FUZZ_H
-+#define QOS_FUZZ_H
- 
- #include "tests/qtest/fuzz/fuzz.h"
- #include "tests/qtest/libqos/qgraph.h"
-diff --git a/tests/tcg/minilib/minilib.h b/tests/tcg/minilib/minilib.h
-index e23361380a..17d0f2f314 100644
---- a/tests/tcg/minilib/minilib.h
-+++ b/tests/tcg/minilib/minilib.h
-@@ -9,8 +9,8 @@
-  * SPDX-License-Identifier: GPL-2.0-only
-  */
- 
--#ifndef _MINILIB_H_
--#define _MINILIB_H_
-+#ifndef MINILIB_H
-+#define MINILIB_H
- 
- /*
-  * Provided by the individual arch
+     if (!g_hash_table_size(fuzzable_memoryregions)) {
 -- 
 2.27.0
 
