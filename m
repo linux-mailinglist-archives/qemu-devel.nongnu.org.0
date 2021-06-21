@@ -2,89 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9D73AE54A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 10:52:00 +0200 (CEST)
-Received: from localhost ([::1]:49496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B763AE57F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 11:02:54 +0200 (CEST)
+Received: from localhost ([::1]:52850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvFex-0004We-IC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 04:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48806)
+	id 1lvFpV-0007Kv-Be
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 05:02:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvFdj-0003oi-04
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 04:50:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31294)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lvFnn-0006dU-PX
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:01:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvFdh-0004lP-77
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 04:50:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624265440;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=35cVI1MWh1Csbl3Zzmx3ebFqnff/g/R/Ir7RJzovRjo=;
- b=OaGEJSF+TqF4jFk1fWzo+BefWp0hmYqXdk7hF+3nM7cd3X/hgmTPOFxscNcH2VmWzTKDJc
- TuQKj/uyN8JONskWH/CowKgUMEcN5cINsXjtaLNMLKX0KPXGEmkRANSxuVzGowv/57D+KU
- 0/oLNG+aNfRcWX2h7nec5MT20F0SFP0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-9uMtUtM7OSKNOgyhJUv4Nw-1; Mon, 21 Jun 2021 04:50:37 -0400
-X-MC-Unique: 9uMtUtM7OSKNOgyhJUv4Nw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so6732362wmh.9
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 01:50:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=35cVI1MWh1Csbl3Zzmx3ebFqnff/g/R/Ir7RJzovRjo=;
- b=h8NKyy6f9gc9oi2bjymoVHZELVzIyZqAK3ZLxXDVHHfaH48BuqrcIux47ew0EIPHkN
- q5PVxFxtSGHPJp4B3ktAMPlOEUpfjqJ/TO1+MhdlUJbXfDLsGOqXAzUMgOgJYDNDHgUv
- DLm0AXX3Atz0HTP+M3repZMYAIau1WavPGtsw2kHNCfjwyp5wHzn+QqG1l9MVv+KfK6t
- Tp7KAxjyW1P0SVH3CfS4r2EtFg+hHW73RhkiOLtoGWx5Km2MitaDFomYv7KEBvRBt2uS
- O3Crr/5dd1Qpg8P0h7egZnUWYMi+5oHpKPAN+FrjkrpWlzpVJOhJ5FhO4/v8mhUdO+li
- Ls4A==
-X-Gm-Message-State: AOAM531byEPVeNHaiAaaEM4t2ee48B4ucXb14OFTLoPOwLsuaZis3RCR
- mWevv8ZORtBAGKCU9d3b1nJ1KCxILXHUR6JwprF1osJqsXastTIb3ywHod5cxYuv6X1hIINWWVm
- cRtlpJUxAsuu2mxM=
-X-Received: by 2002:a1c:98d5:: with SMTP id a204mr25215879wme.43.1624265436707; 
- Mon, 21 Jun 2021 01:50:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvqPntkgadh5kRnegslUAvqxfYUoOCOszT63ARl+E/fekKul3jQlaEFDlc2xN15G/jelGH8w==
-X-Received: by 2002:a1c:98d5:: with SMTP id a204mr25215862wme.43.1624265436522; 
- Mon, 21 Jun 2021 01:50:36 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id 4sm16251676wry.74.2021.06.21.01.50.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 01:50:36 -0700 (PDT)
-Subject: Re: [PATCH v3 0/3] avocado-qemu: New SMMUv3 and intel IOMMU tests
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com
-References: <20210621080824.789274-1-eric.auger@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7b05cff7-c110-f756-f9e4-e2c6b520e9de@redhat.com>
-Date: Mon, 21 Jun 2021 10:50:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20210621080824.789274-1-eric.auger@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.299,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lvFnl-0003Ar-5O
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 05:01:07 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8069161002;
+ Mon, 21 Jun 2021 09:01:02 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1lvFng-008omp-Gs; Mon, 21 Jun 2021 10:01:00 +0100
+Date: Mon, 21 Jun 2021 10:01:00 +0100
+Message-ID: <87a6njd22b.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v16 3/7] KVM: arm64: Introduce MTE VM feature
+In-Reply-To: <20210618132826.54670-4-steven.price@arm.com>
+References: <20210618132826.54670-1-steven.price@arm.com>
+ <20210618132826.54670-4-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,49 +72,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>, wainersm@redhat.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ qemu-devel@nongnu.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Willian
+On Fri, 18 Jun 2021 14:28:22 +0100,
+Steven Price <steven.price@arm.com> wrote:
+> 
+> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+> for a VM. This will expose the feature to the guest and automatically
+> tag memory pages touched by the VM as PG_mte_tagged (and clear the tag
+> storage) to ensure that the guest cannot see stale tags, and so that
+> the tags are correctly saved/restored across swap.
+> 
+> Actually exposing the new capability to user space happens in a later
+> patch.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/asm/kvm_emulate.h |  3 ++
+>  arch/arm64/include/asm/kvm_host.h    |  3 ++
+>  arch/arm64/kvm/hyp/exception.c       |  3 +-
+>  arch/arm64/kvm/mmu.c                 | 62 +++++++++++++++++++++++++++-
+>  arch/arm64/kvm/sys_regs.c            |  7 ++++
+>  include/uapi/linux/kvm.h             |  1 +
+>  6 files changed, 77 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+> index f612c090f2e4..6bf776c2399c 100644
+> --- a/arch/arm64/include/asm/kvm_emulate.h
+> +++ b/arch/arm64/include/asm/kvm_emulate.h
+> @@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+>  	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+>  	    vcpu_el1_is_32bit(vcpu))
+>  		vcpu->arch.hcr_el2 |= HCR_TID2;
+> +
+> +	if (kvm_has_mte(vcpu->kvm))
+> +		vcpu->arch.hcr_el2 |= HCR_ATA;
+>  }
+>  
+>  static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 7cd7d5c8c4bc..afaa5333f0e4 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -132,6 +132,8 @@ struct kvm_arch {
+>  
+>  	u8 pfr0_csv2;
+>  	u8 pfr0_csv3;
+> +	/* Memory Tagging Extension enabled for the guest */
+> +	bool mte_enabled;
+>  };
+>  
+>  struct kvm_vcpu_fault_info {
+> @@ -769,6 +771,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
+>  #define kvm_arm_vcpu_sve_finalized(vcpu) \
+>  	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
+>  
+> +#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
+>  #define kvm_vcpu_has_pmu(vcpu)					\
+>  	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
+>  
+> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+> index 73629094f903..56426565600c 100644
+> --- a/arch/arm64/kvm/hyp/exception.c
+> +++ b/arch/arm64/kvm/hyp/exception.c
+> @@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+>  	new |= (old & PSR_C_BIT);
+>  	new |= (old & PSR_V_BIT);
+>  
+> -	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
+> +	if (kvm_has_mte(vcpu->kvm))
+> +		new |= PSR_TCO_BIT;
+>  
+>  	new |= (old & PSR_DIT_BIT);
+>  
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index c5d1f3c87dbd..f5305b7561ad 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -822,6 +822,45 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+>  	return PAGE_SIZE;
+>  }
+>  
+> +/*
+> + * The page will be mapped in stage 2 as Normal Cacheable, so the VM will be
+> + * able to see the page's tags and therefore they must be initialised first. If
+> + * PG_mte_tagged is set, tags have already been initialised.
+> + *
+> + * The race in the test/set of the PG_mte_tagged flag is handled by:
+> + * - preventing VM_SHARED mappings in a memslot with MTE preventing two VMs
+> + *   racing to santise the same page
+> + * - mmap_lock protects between a VM faulting a page in and the VMM performing
+> + *   an mprotect() to add VM_MTE
+> + */
+> +static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
+> +			     unsigned long size)
+> +{
+> +	unsigned long i, nr_pages = size >> PAGE_SHIFT;
+> +	struct page *page;
+> +
+> +	if (!kvm_has_mte(kvm))
+> +		return 0;
+> +
+> +	/*
+> +	 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
+> +	 * that may not support tags.
+> +	 */
+> +	page = pfn_to_online_page(pfn);
+> +
+> +	if (!page)
+> +		return -EFAULT;
+> +
+> +	for (i = 0; i < nr_pages; i++, page++) {
+> +		if (!test_bit(PG_mte_tagged, &page->flags)) {
+> +			mte_clear_page_tags(page_address(page));
+> +			set_bit(PG_mte_tagged, &page->flags);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  			  struct kvm_memory_slot *memslot, unsigned long hva,
+>  			  unsigned long fault_status)
+> @@ -971,8 +1010,16 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  	if (writable)
+>  		prot |= KVM_PGTABLE_PROT_W;
+>  
+> -	if (fault_status != FSC_PERM && !device)
+> +	if (fault_status != FSC_PERM && !device) {
+> +		/* Check the VMM hasn't introduced a new VM_SHARED VMA */
+> +		if (kvm_has_mte(kvm) && vma->vm_flags & VM_SHARED)
+> +			return -EINVAL;
 
-On 6/21/21 10:08 AM, Eric Auger wrote:
-> This series adds ARM SMMU and Intel IOMMU functional
-> tests using Fedora cloud-init images.
-> 
-> ARM SMMU tests feature guests with and without RIL
-> (range invalidation support) using respectively fedora 33
-> and 31.  For each, we test the protection of virtio-net-pci
-> and virtio-block-pci devices. Also strict=no and passthrough
-> modes are tested. So there is a total of 6 tests.
-> 
-> Compared to v2, Intel IOMMU tests were added. Different
-> operating modes are tested such as strict, caching mode, pt.
-> 
-> The series applies on top of Cleber's series:
-> - [PATCH 0/3] Acceptance Tests: support choosing specific
-> 
-> Best Regards
-> 
-> Eric
-> 
-> The series and its dependencies can be found at:
-> https://github.com/eauger/qemu/tree/avocado-qemu-v3
-> 
-> 
-> Eric Auger (3):
->   Acceptance Tests: Add default kernel params and pxeboot url to the
->     KNOWN_DISTROS collection
->   avocado_qemu: Add SMMUv3 tests
->   avocado_qemu: Add Intel iommu tests
-> 
->  tests/acceptance/avocado_qemu/__init__.py |  52 ++++++++-
->  tests/acceptance/intel_iommu.py           | 115 +++++++++++++++++++
->  tests/acceptance/smmu.py                  | 133 ++++++++++++++++++++++
->  3 files changed, 298 insertions(+), 2 deletions(-)
->  create mode 100644 tests/acceptance/intel_iommu.py
->  create mode 100644 tests/acceptance/smmu.py
-> 
+nit: I'd rather we return -EFAULT here. That's consistent with other
+cases where we can't satisfy the mapping.
 
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
