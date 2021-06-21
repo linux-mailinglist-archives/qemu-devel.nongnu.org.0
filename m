@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F413AF933
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 01:20:40 +0200 (CEST)
-Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C0F3AF932
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 01:20:39 +0200 (CEST)
+Received: from localhost ([::1]:58950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvTDb-0003HC-D6
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 19:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41614)
+	id 1lvTDa-0003Bl-7s
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 19:20:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvTBw-0000U6-MF
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:18:56 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:33351)
+ id 1lvTBv-0000To-3h
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:18:55 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvTBt-0005s1-4O
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:18:56 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id e20so15434614pgg.0
+ id 1lvTBt-0005sP-1p
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:18:54 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id y14so3972154pgs.12
  for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 16:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CbAutOTrbaMDukD44XCZIi0ihXjwdyULXrBaIAUe184=;
- b=WGs4rL5cTl+E2fsic3HohebW3YTJPh/AARqDuRc+UNO5cauOjueER8aOGKg66yD5HG
- 4Kow5nEqk6nRK+UCzy1zKAskSRk48q4DVe86PgUfdP6QuMT1zHdAG8zKyh74rdYQfIuO
- acLqg3xpGGPz7RyB2AxhdhqjfpCfrulMz40J4UgjiNIAbeTFt941H6K4kUi99KkZOmwC
- RBLbcvkALvVNlSaw7/BSZwX4axygtft5ohk9DEhpj6JEeCuJv6Dtgw25UiUySivC05Pt
- XG6lFikBt/0UDJSJE7utEPTrrZLNSkuUUNO28Nz26usCKd/l9lQPQsfmbU03gqKOeWPG
- Yi1w==
+ bh=CHsyqcYhDcvH4VyWNUvcKr7ulIJabCuia+q5kv3FL14=;
+ b=ESLGfeBc9qteQD54IAeGwWLLlWvZw1WQQDkymFDVwBsu4ORoQ4hZERoyAoX/mN0eCD
+ 0zfax6mpGXwh/iXH7i0LYWVl5vfn1WDNiPy4KLOdE7Zs7Bx5L+SNCGpy0A4FaucXgrNp
+ GiLHm/LgrrpBKNHQEQwgPo64kb1ciAAf+B0Bo8DN3dOp5UH4RR4tDUahcQu5WZaAJBZs
+ 8osU0QQDSQOPSteqfxZqeuvfk8hVtZn9xx6GZlKjJflEou/suRDtUanOzdiTCFpKaQoE
+ i8n+H+2z3EPsRcTNzf3N2Ky333ATCGKz6fMNUkqbCXhwD4TS+p+LKg3SwwsCuFmvwAw0
+ R44w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CbAutOTrbaMDukD44XCZIi0ihXjwdyULXrBaIAUe184=;
- b=pH0TcCTHPJnYgMJkp2Sf213UGCgmHMFiSDIKvJwckQRMyCDRnOnWvBTc9IEOlMS3uw
- PdGXXCAKYKZv765nkiM8yBeo1IYmW/vN9xGtJX5VkK83yoEcoqU7hLsS5XMJifuiopMW
- ahQUnW0ICJZQZkKxpngeLCm4f6raYKYScU8h58Fd1jxEzTG0XvxKl2tbIQ6Mixh1OymS
- LgzkRAN8NKBjsUIULpcis/6xmoX1AEprtuhW3/pxVCVwoj6KmYyA2qk0W1dEv7wseLDV
- /SKpvKPlIKcX+aJO5Iv0ZQ3gtaN1AUx9n/nNgs6vsqYCvmJ4YPIaIXQAThfsCDZQKzKI
- q3PA==
-X-Gm-Message-State: AOAM533RjOed6QgCS15lROe26zNRwTVpyWVjsBFZfPE9JG+E1jgmR723
- eTG6zVGSE+L75p99ByNze/x7Vs8yzoAhZA==
-X-Google-Smtp-Source: ABdhPJx0iZ7mU3PGdzjqmG9sNrjfLXHi+/8Z5d99e13Tl7+OV8nFwlvPDbRWGKcqyaxWn2OhkTj2IQ==
-X-Received: by 2002:a63:609:: with SMTP id 9mr147558pgg.44.1624317531306;
+ bh=CHsyqcYhDcvH4VyWNUvcKr7ulIJabCuia+q5kv3FL14=;
+ b=bXcgPUPDW9ZwJ0uSiNhhp4fWdoJyWEovD/o5G+fTeBBD5tqWBsQqDOeRhDEY5/6mFu
+ 7wFH55pPV6LyoADEMqeNTyTnFfkSozBQGJWDfDpKfxAIXX6GJ5xDdFSOlOkz+yfcSR18
+ Y89DjEuRu60hH4zMnlHF7sawbt3rpX1Y2y8OSW8A0jYsgvTK22wscauBZHlilLzXD0ZQ
+ ctQrGi586gpQsVm/FOKyRndroxG7vyv9Jh9UFkHsD5pQS/11Hm/VoWRHm907AUugDgez
+ fVkF2Pk9+B31VyUxO5Ig6OHYasLvfznNatBuV54QlJFnWqTJb0sMoSKtjXkkSCB28CLc
+ uCsA==
+X-Gm-Message-State: AOAM530ds48yhBKkgd9S3Bo9KMImiBcTWx56lWrFoHWL1yglDgpAixkf
+ KyAxl2PailFDE8WXm++B63oWN5KQIbPQHQ==
+X-Google-Smtp-Source: ABdhPJzzUwrnrJBHY3ClRsfWd+6kfwik8gd8RZrFnYkAV4IT3Dj7Jo23+G9MnMg7POpFG6F973SEdA==
+X-Received: by 2002:a63:2208:: with SMTP id i8mr824350pgi.71.1624317531842;
  Mon, 21 Jun 2021 16:18:51 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 135sm14429952pgf.20.2021.06.21.16.18.50
+ by smtp.gmail.com with ESMTPSA id 135sm14429952pgf.20.2021.06.21.16.18.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Jun 2021 16:18:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/29] tcg: Add flags argument to bswap opcodes
-Date: Mon, 21 Jun 2021 16:18:21 -0700
-Message-Id: <20210621231849.1871164-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/29] tcg/i386: Support bswap flags
+Date: Mon, 21 Jun 2021 16:18:22 -0700
+Message-Id: <20210621231849.1871164-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210621231849.1871164-1-richard.henderson@linaro.org>
 References: <20210621231849.1871164-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,215 +86,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will eventually simplify front-end usage, and will allow
-backends to unset TCG_TARGET_HAS_MEMORY_BSWAP without loss of
-optimization.
-
-The argument is added during expansion, not currently exposed
-to the front end translators. The backends currently only support
-a flags value of either TCG_BSWAP_IZ, or (TCG_BSWAP_IZ | TCG_BSWAP_OZ),
-since they all require zero top bytes and leave them that way.
-At the existing callsites we pass in (TCG_BSWAP_IZ | TCG_BSWAP_OZ),
-except for the flags-ignored cases of a 32-bit swap of a 32-bit
-value and or a 64-bit swap of a 64-bit value, where we pass 0.
+Retain the current rorw bswap16 expansion for the zero-in/zero-out case.
+Otherwise, perform a wider bswap plus a right-shift or extend.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-opc.h | 10 +++++-----
- include/tcg/tcg.h     | 12 ++++++++++++
- tcg/tcg-op.c          | 13 ++++++++-----
- tcg/tcg.c             | 28 ++++++++++++++++++++++++++++
- tcg/README            | 22 ++++++++++++++--------
- 5 files changed, 67 insertions(+), 18 deletions(-)
+ tcg/i386/tcg-target.c.inc | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/include/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
-index bbb0884af8..fddcc42cbd 100644
---- a/include/tcg/tcg-opc.h
-+++ b/include/tcg/tcg-opc.h
-@@ -96,8 +96,8 @@ DEF(ext8s_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext8s_i32))
- DEF(ext16s_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext16s_i32))
- DEF(ext8u_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext8u_i32))
- DEF(ext16u_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext16u_i32))
--DEF(bswap16_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_bswap16_i32))
--DEF(bswap32_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_bswap32_i32))
-+DEF(bswap16_i32, 1, 1, 1, IMPL(TCG_TARGET_HAS_bswap16_i32))
-+DEF(bswap32_i32, 1, 1, 1, IMPL(TCG_TARGET_HAS_bswap32_i32))
- DEF(not_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_not_i32))
- DEF(neg_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_neg_i32))
- DEF(andc_i32, 1, 2, 0, IMPL(TCG_TARGET_HAS_andc_i32))
-@@ -165,9 +165,9 @@ DEF(ext32s_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext32s_i64))
- DEF(ext8u_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext8u_i64))
- DEF(ext16u_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext16u_i64))
- DEF(ext32u_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext32u_i64))
--DEF(bswap16_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_bswap16_i64))
--DEF(bswap32_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_bswap32_i64))
--DEF(bswap64_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_bswap64_i64))
-+DEF(bswap16_i64, 1, 1, 1, IMPL64 | IMPL(TCG_TARGET_HAS_bswap16_i64))
-+DEF(bswap32_i64, 1, 1, 1, IMPL64 | IMPL(TCG_TARGET_HAS_bswap32_i64))
-+DEF(bswap64_i64, 1, 1, 1, IMPL64 | IMPL(TCG_TARGET_HAS_bswap64_i64))
- DEF(not_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_not_i64))
- DEF(neg_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_neg_i64))
- DEF(andc_i64, 1, 2, 0, IMPL64 | IMPL(TCG_TARGET_HAS_andc_i64))
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 064dab383b..7a060e532d 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -430,6 +430,18 @@ typedef enum {
-     TCG_COND_GTU    = 8 | 4 | 0 | 1,
- } TCGCond;
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 34113388ef..98d924b91a 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -2421,10 +2421,28 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         break;
  
-+/*
-+ * Flags for the bswap opcodes.
-+ * If IZ, the input is zero-extended, otherwise unknown.
-+ * If OZ or OS, the output is zero- or sign-extended respectively,
-+ * otherwise the high bits are undefined.
-+ */
-+enum {
-+    TCG_BSWAP_IZ = 1,
-+    TCG_BSWAP_OZ = 2,
-+    TCG_BSWAP_OS = 4,
-+};
-+
- /* Invert the sense of the comparison.  */
- static inline TCGCond tcg_invert_cond(TCGCond c)
- {
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index dcc2ed0bbc..dc65577e2f 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -1005,7 +1005,8 @@ void tcg_gen_ext16u_i32(TCGv_i32 ret, TCGv_i32 arg)
- void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg)
- {
-     if (TCG_TARGET_HAS_bswap16_i32) {
--        tcg_gen_op2_i32(INDEX_op_bswap16_i32, ret, arg);
-+        tcg_gen_op3i_i32(INDEX_op_bswap16_i32, ret, arg,
-+                         TCG_BSWAP_IZ | TCG_BSWAP_OZ);
-     } else {
-         TCGv_i32 t0 = tcg_temp_new_i32();
+     OP_32_64(bswap16):
+-        tcg_out_rolw_8(s, a0);
++        if (a2 & TCG_BSWAP_OS) {
++            /* Output must be sign-extended. */
++            if (rexw) {
++                tcg_out_bswap64(s, a0);
++                tcg_out_shifti(s, SHIFT_SAR + rexw, a0, 48);
++            } else {
++                tcg_out_bswap32(s, a0);
++                tcg_out_shifti(s, SHIFT_SAR, a0, 16);
++            }
++        } else if ((a2 & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
++            /* Output must be zero-extended, but input isn't. */
++            tcg_out_bswap32(s, a0);
++            tcg_out_shifti(s, SHIFT_SHR, a0, 16);
++        } else {
++            tcg_out_rolw_8(s, a0);
++        }
+         break;
+     OP_32_64(bswap32):
+         tcg_out_bswap32(s, a0);
++        if (rexw && (a2 & TCG_BSWAP_OS)) {
++            tcg_out_ext32s(s, a0, a0);
++        }
+         break;
  
-@@ -1020,7 +1021,7 @@ void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg)
- void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg)
- {
-     if (TCG_TARGET_HAS_bswap32_i32) {
--        tcg_gen_op2_i32(INDEX_op_bswap32_i32, ret, arg);
-+        tcg_gen_op3i_i32(INDEX_op_bswap32_i32, ret, arg, 0);
-     } else {
-         TCGv_i32 t0 = tcg_temp_new_i32();
-         TCGv_i32 t1 = tcg_temp_new_i32();
-@@ -1661,7 +1662,8 @@ void tcg_gen_bswap16_i64(TCGv_i64 ret, TCGv_i64 arg)
-         tcg_gen_bswap16_i32(TCGV_LOW(ret), TCGV_LOW(arg));
-         tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
-     } else if (TCG_TARGET_HAS_bswap16_i64) {
--        tcg_gen_op2_i64(INDEX_op_bswap16_i64, ret, arg);
-+        tcg_gen_op3i_i64(INDEX_op_bswap16_i64, ret, arg,
-+                         TCG_BSWAP_IZ | TCG_BSWAP_OZ);
-     } else {
-         TCGv_i64 t0 = tcg_temp_new_i64();
- 
-@@ -1680,7 +1682,8 @@ void tcg_gen_bswap32_i64(TCGv_i64 ret, TCGv_i64 arg)
-         tcg_gen_bswap32_i32(TCGV_LOW(ret), TCGV_LOW(arg));
-         tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
-     } else if (TCG_TARGET_HAS_bswap32_i64) {
--        tcg_gen_op2_i64(INDEX_op_bswap32_i64, ret, arg);
-+        tcg_gen_op3i_i64(INDEX_op_bswap32_i64, ret, arg,
-+                         TCG_BSWAP_IZ | TCG_BSWAP_OZ);
-     } else {
-         TCGv_i64 t0 = tcg_temp_new_i64();
-         TCGv_i64 t1 = tcg_temp_new_i64();
-@@ -1717,7 +1720,7 @@ void tcg_gen_bswap64_i64(TCGv_i64 ret, TCGv_i64 arg)
-         tcg_temp_free_i32(t0);
-         tcg_temp_free_i32(t1);
-     } else if (TCG_TARGET_HAS_bswap64_i64) {
--        tcg_gen_op2_i64(INDEX_op_bswap64_i64, ret, arg);
-+        tcg_gen_op3i_i64(INDEX_op_bswap64_i64, ret, arg, 0);
-     } else {
-         TCGv_i64 t0 = tcg_temp_new_i64();
-         TCGv_i64 t1 = tcg_temp_new_i64();
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index ca482c2301..c2415fa724 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1707,6 +1707,14 @@ static const char * const alignment_name[(MO_AMASK >> MO_ASHIFT) + 1] = {
-     [MO_ALIGN_64 >> MO_ASHIFT] = "al64+",
- };
- 
-+static const char bswap_flag_name[][6] = {
-+    [TCG_BSWAP_IZ] = "iz",
-+    [TCG_BSWAP_OZ] = "oz",
-+    [TCG_BSWAP_OS] = "os",
-+    [TCG_BSWAP_IZ | TCG_BSWAP_OZ] = "iz,oz",
-+    [TCG_BSWAP_IZ | TCG_BSWAP_OS] = "iz,os",
-+};
-+
- static inline bool tcg_regset_single(TCGRegSet d)
- {
-     return (d & (d - 1)) == 0;
-@@ -1837,6 +1845,26 @@ static void tcg_dump_ops(TCGContext *s, bool have_prefs)
-                     i = 1;
-                 }
-                 break;
-+            case INDEX_op_bswap16_i32:
-+            case INDEX_op_bswap16_i64:
-+            case INDEX_op_bswap32_i32:
-+            case INDEX_op_bswap32_i64:
-+            case INDEX_op_bswap64_i64:
-+                {
-+                    TCGArg flags = op->args[k];
-+                    const char *name = NULL;
-+
-+                    if (flags < ARRAY_SIZE(bswap_flag_name)) {
-+                        name = bswap_flag_name[flags];
-+                    }
-+                    if (name) {
-+                        col += qemu_log(",%s", name);
-+                    } else {
-+                        col += qemu_log(",$0x%" TCG_PRIlx, flags);
-+                    }
-+                    i = k = 1;
-+                }
-+                break;
-             default:
-                 i = 0;
-                 break;
-diff --git a/tcg/README b/tcg/README
-index 8510d823e3..c2e7762a37 100644
---- a/tcg/README
-+++ b/tcg/README
-@@ -295,19 +295,25 @@ ext32u_i64 t0, t1
- 
- 8, 16 or 32 bit sign/zero extension (both operands must have the same type)
- 
--* bswap16_i32/i64 t0, t1
-+* bswap16_i32/i64 t0, t1, flags
- 
--16 bit byte swap on a 32/64 bit value. It assumes that the two/six high order
--bytes are set to zero.
-+16 bit byte swap on the low bits of a 32/64 bit input.
-+If flags & TCG_BSWAP_IZ, then t1 is known to be zero-extended from bit 15.
-+If flags & TCG_BSWAP_OZ, then t0 will be zero-extended from bit 15.
-+If flags & TCG_BSWAP_OS, then t0 will be sign-extended from bit 15.
-+If neither TCG_BSWAP_OZ nor TCG_BSWAP_OS are set, then the bits of
-+t0 above bit 15 may contain any value.
- 
--* bswap32_i32/i64 t0, t1
-+* bswap32_i64 t0, t1, flags
- 
--32 bit byte swap on a 32/64 bit value. With a 64 bit value, it assumes that
--the four high order bytes are set to zero.
-+32 bit byte swap on a 64-bit value.  The flags are the same as for bswap16,
-+except they apply from bit 31 instead of bit 15.
- 
--* bswap64_i64 t0, t1
-+* bswap32_i32 t0, t1, flags
-+* bswap64_i64 t0, t1, flags
- 
--64 bit byte swap
-+32/64 bit byte swap.  The flags are ignored, but still present
-+for consistency with the other bswap opcodes.
- 
- * discard_i32/i64 t0
- 
+     OP_32_64(neg):
 -- 
 2.25.1
 
