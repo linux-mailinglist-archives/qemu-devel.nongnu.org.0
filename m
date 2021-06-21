@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08663AE223
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:19:10 +0200 (CEST)
-Received: from localhost ([::1]:56094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61523AE230
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:24:24 +0200 (CEST)
+Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvBOv-0004fz-Q7
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59252)
+	id 1lvBTz-0002Cl-R8
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lvBNF-0001sQ-Qe
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:17:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24985)
+ id 1lvBNJ-00023Z-NY
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:17:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lvBNE-000127-9z
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:17:25 -0400
+ id 1lvBNI-00015Q-02
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:17:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624249043;
+ s=mimecast20190719; t=1624249047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aQRSVAVN6lrT7KKq7wwUYk/SH3fxRzqEBIxyV2YR+h8=;
- b=UAH8hZxjz1CHEL6IjStnxH/xrnvcQnvAusWeqohx9tmyeN8mNwkmihy+hVQdSFIT0iaZOD
- tre3aQpyiQ8THzewlbJ78mu8gkArMGzumT/WFV8ji1xZ0NMSgJzBm57bD383Bdn1vJfeSh
- q1ZfU5gclkS339eT52RiFqqoQVQQkqE=
+ bh=vHHcPpl9D02xWNusNPR+J6jEeGdfuSuBQZqOzMXGjUc=;
+ b=imbxPAZ7TKqzgAp/0fzl6dO1vIHdcZM4XkrW+6MM02IlT5F5RPGJ31n/oi+jpkeqrz2mxr
+ 3ex/OA3gy/r0Pvjik7cspJbjhMoxKxeJkeDqkv6A4uIPV9JtF0IG5x6Ff3xjQQ4yL+6/4m
+ gNaKRAoQk2AQJf0TxXSZXD9nZJHdP+Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-2acnHMwVO86-FUECnptBBQ-1; Mon, 21 Jun 2021 00:17:21 -0400
-X-MC-Unique: 2acnHMwVO86-FUECnptBBQ-1
+ us-mta-242-yOZmPT4oPH2y1wv6zAjjSA-1; Mon, 21 Jun 2021 00:17:23 -0400
+X-MC-Unique: yOZmPT4oPH2y1wv6zAjjSA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D827A1084F4C;
- Mon, 21 Jun 2021 04:17:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D28708030D6;
+ Mon, 21 Jun 2021 04:17:22 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-217.pek2.redhat.com
  [10.72.12.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64A7B60918;
- Mon, 21 Jun 2021 04:17:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 648D460877;
+ Mon, 21 Jun 2021 04:17:20 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com,
 	jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 06/18] vhost-vdpa: fix leaking of vhost_net in vhost_vdpa_add()
-Date: Mon, 21 Jun 2021 12:16:38 +0800
-Message-Id: <20210621041650.5826-7-jasowang@redhat.com>
+Subject: [PATCH 07/18] vhost-vdpa: tweak the error label in vhost_vdpa_add()
+Date: Mon, 21 Jun 2021 12:16:39 +0800
+Message-Id: <20210621041650.5826-8-jasowang@redhat.com>
 In-Reply-To: <20210621041650.5826-1-jasowang@redhat.com>
 References: <20210621041650.5826-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,24 +86,45 @@ Cc: eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Introduce new error label to avoid the unnecessary checking of net
+pointer.
+
 Fixes: 1e0a84ea49b68 ("vhost-vdpa: introduce vhost-vdpa net client")
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/vhost-vdpa.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/vhost-vdpa.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index f5689a7c32..21f09c546f 100644
+index 21f09c546f..0da7bc347a 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -111,6 +111,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
- err:
-     if (net) {
-         vhost_net_cleanup(net);
-+        g_free(net);
+@@ -100,19 +100,18 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
+     net = vhost_net_init(&options);
+     if (!net) {
+         error_report("failed to init vhost_net for queue");
+-        goto err;
++        goto err_init;
      }
+     s->vhost_net = net;
+     ret = vhost_vdpa_net_check_device_id(net);
+     if (ret) {
+-        goto err;
++        goto err_check;
+     }
+     return 0;
+-err:
+-    if (net) {
+-        vhost_net_cleanup(net);
+-        g_free(net);
+-    }
++err_check:
++    vhost_net_cleanup(net);
++    g_free(net);
++err_init:
      return -1;
  }
+ 
 -- 
 2.25.1
 
