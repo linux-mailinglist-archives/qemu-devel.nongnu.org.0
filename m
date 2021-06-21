@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D2E3AEC99
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 17:38:32 +0200 (CEST)
-Received: from localhost ([::1]:54962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E833AECD4
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 17:53:03 +0200 (CEST)
+Received: from localhost ([::1]:60248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvM0N-0005AT-69
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 11:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51296)
+	id 1lvMEQ-00017O-64
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 11:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1lvLz0-00049b-S9; Mon, 21 Jun 2021 11:37:06 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17607)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lvMCd-0008DL-Tu
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:51:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1lvLyx-00011B-LC; Mon, 21 Jun 2021 11:37:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624289802; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=VbJmXiQ7ih9ccAzovJEiynzLzAA+Le9gGHdwDyZDKPiRAfYoq+EWwVH4Vb0+A1XHkh3lx1Mgbfp5VRACXUWIlcmigNA4CWlNz0E7cjCi3Orig2N6Tisaz+8/vkuzKe1fvsZjEdFmZqGOU2wSBt8QNgIEYTrL4lXUWkEqgR20EDM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1624289802;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=4o5nt6apoIPEjKK9yTVxd06N4x4SJz2hKTNFrJsZcYc=; 
- b=WLvUHDZRzMnnmU/iBU+v1n/+YBvpT07jWlG5k1RGUemDBLdHAoKEGGCrHPcC6N8+vn86b4JgTfnlp0Qc9M8w2sZocka+9k+sDynFRXG4pDc+i5KdHdEySe1b+8uTbWELnThPT9ISIIDffoSGu5oSKu4IbzgOnWzRPKANINLxlpo=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1624289802; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:To;
- bh=4o5nt6apoIPEjKK9yTVxd06N4x4SJz2hKTNFrJsZcYc=;
- b=T5dS9+8emC1nUxjf3y40yP4d9X4s+JZeaYQNkmwUyvYLpVQ/MlwJkY1Lb7fiq/S+
- 85BGFCBqZJTo1GjChP1/A+mPBZIVAKgRpGCzablMKM9ltVJhvc5FZY7piHBpbQLgom4
- 7P2nEuQmLD81Uv+H3jPqoDbR3PMAIfP65wih0ybs=
-Received: from n200-111-076.byted.org
- (ec2-3-67-219-253.eu-central-1.compute.amazonaws.com [3.67.219.253]) by
- mx.zoho.com.cn with SMTPS id 162428980074517.74789841558129;
- Mon, 21 Jun 2021 23:36:40 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
-Subject: Re: [PATCH v2] block/nvme: Fix VFIO_MAP_DMA failed: No space left on
- device
-From: Fam Zheng <fam@euphon.net>
-In-Reply-To: <6b77db0c-8625-992e-8546-15b9a24ae928@redhat.com>
-Date: Mon, 21 Jun 2021 16:36:31 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0EF3A65E-39CB-4114-8572-001C2DF05863@euphon.net>
-References: <20210621093240.4170701-1-philmd@redhat.com>
- <9A674DF3-041E-4E7C-BB49-481AA77B1F7B@euphon.net>
- <6b77db0c-8625-992e-8546-15b9a24ae928@redhat.com>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.7)
-X-ZohoCNMailClient: External
-Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
- helo=sender2-op-o12.zoho.com.cn
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lvMCW-00013F-SD
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 11:51:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624290662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+3fpGGBW89ECTriAWpeGj89OnKVQUE/HNB3VmaOd6TQ=;
+ b=TjC5+DT9eqHNvJ3onf7oA0nKBa3+pNLmAd1XtiSCt6pEUs4qlcDXULGGzi0/i1qbAj6oxy
+ zzxfx+GXI1J6EUVceql74qP8hQJ2F2ycH+70zSy0HCl44WC4yO9d5RZvM6jvbqXI9+zRYg
+ PG5ERo8ep1wav571b6Q8/ZZzgO6fFsg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-4yYly-hLMBmxrw0iNxqHcw-1; Mon, 21 Jun 2021 11:50:59 -0400
+X-MC-Unique: 4yYly-hLMBmxrw0iNxqHcw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96865653;
+ Mon, 21 Jun 2021 15:50:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-99.ams2.redhat.com
+ [10.36.112.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E85DB60C9D;
+ Mon, 21 Jun 2021 15:50:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7EEDB112D587; Mon, 21 Jun 2021 17:50:55 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+References: <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
+ <87a6no3fzf.fsf@dusky.pond.sub.org>
+ <790d22e1-5de9-ba20-6c03-415b62223d7d@suse.de>
+ <877dis1sue.fsf@dusky.pond.sub.org>
+ <20210617153949.GA357@dhcp-172-16-24-191.sw.ru>
+ <e69ea2b4-21cc-8203-ad2d-10a0f4ffe34a@suse.de>
+ <20210617165111.eu3x2pvinpoedsqj@habkost.net>
+ <87sg1fwwgg.fsf@dusky.pond.sub.org>
+ <20210618204006.k6krwuz2lpxvb6uh@habkost.net>
+ <6f644bbb-52ff-4d79-36bb-208c6b6c4eef@suse.de>
+ <20210621142329.atlhrovqkblbjwgh@habkost.net>
+Date: Mon, 21 Jun 2021 17:50:55 +0200
+In-Reply-To: <20210621142329.atlhrovqkblbjwgh@habkost.net> (Eduardo Habkost's
+ message of "Mon, 21 Jun 2021 10:23:29 -0400")
+Message-ID: <874kdrkyhs.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,67 +85,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- =?utf-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- qemu-stable@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Denis Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
+> On Mon, Jun 21, 2021 at 10:07:44AM +0200, Claudio Fontana wrote:
+>> On 6/18/21 10:40 PM, Eduardo Habkost wrote:
+>> > On Fri, Jun 18, 2021 at 07:52:47AM +0200, Markus Armbruster wrote:
+>> >> Eduardo Habkost <ehabkost@redhat.com> writes:
+>> >>
+>> >>> On Thu, Jun 17, 2021 at 05:53:11PM +0200, Claudio Fontana wrote:
+>> >>>> On 6/17/21 5:39 PM, Valeriy Vdovin wrote:
+>> >>>>> On Thu, Jun 17, 2021 at 04:14:17PM +0200, Markus Armbruster wrote:
+>> >>>>>> Claudio Fontana <cfontana@suse.de> writes:
+>> >>>>>>
+>> >>>>>>> On 6/17/21 1:09 PM, Markus Armbruster wrote:
+>> >>
+>> >> [...]
+>> >>
+>> >>>>>>>> If it just isn't implemented for anything but KVM, then putting "kvm"
+>> >>>>>>>> into the command name is a bad idea.  Also, the commit message should
+>> >>>>>>>> briefly note the restriction to KVM.
+>> >>>>>>
+>> >>>>>> Perhaps this one is closer to reality.
+>> >>>>>>
+>> >>>>> I agree.
+>> >>>>> What command name do you suggest?
+>> >>>>
+>> >>>> query-exposed-cpuid?
+>> >>>
+>> >>> Pasting the reply I sent at [1]:
+>> >>>
+>> >>>   I don't really mind how the command is called, but I would prefer
+>> >>>   to add a more complex abstraction only if maintainers of other
+>> >>>   accelerators are interested and volunteer to provide similar
+>> >>>   functionality.  I don't want to introduce complexity for use
+>> >>>   cases that may not even exist.
+>> >>>
+>> >>> I'm expecting this to be just a debugging mechanism, not a stable
+>> >>> API to be maintained and supported for decades.  (Maybe a "x-"
+>> >>> prefix should be added to indicate that?)
+>> >>>
+>> >>> [1] https://lore.kernel.org/qemu-devel/20210602204604.crsxvqixkkll4ef4@habkost.net
+>> >>
+>> >> x-query-x86_64-cpuid?
+>> >>
+>> > 
+>> > Unless somebody wants to spend time designing a generic
+>> > abstraction around this (and justify the extra complexity), this
+>> > is a KVM-specific command.  Is there a reason to avoid "kvm" in
+>> > the command name?
+>> > 
+>> 
+>> If the point of all of this is "please get me the cpuid, as seen by the guest", then I fail to see how this should be kvm-only.
+>> We can still return "not implemented" of some kind for HVF, TCG etc.
+>> 
+>> But maybe I misread the use case?
+>
+> A generic interface would require additional glue to connect the
+> generic code to the accel-specific implementation.  I'm trying to
+> avoid wasting everybody's time with the extra complexity unless
+> necessary.
 
-> On 21 Jun 2021, at 16:13, Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com> wrote:
->=20
-> On 6/21/21 3:18 PM, Fam Zheng wrote:
->>=20
->>=20
->>> On 21 Jun 2021, at 10:32, Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com> wrote:
->>>=20
->>> When the NVMe block driver was introduced (see commit bdd6a90a9e5,
->>> January 2018), Linux VFIO_IOMMU_MAP_DMA ioctl was only returning
->>> -ENOMEM in case of error. The driver was correctly handling the
->>> error path to recycle its volatile IOVA mappings.
->>>=20
->>> To fix CVE-2019-3882, Linux commit 492855939bdb ("vfio/type1: Limit
->>> DMA mappings per container", April 2019) added the -ENOSPC error to
->>> signal the user exhausted the DMA mappings available for a =
-container.
->>>=20
->>> The block driver started to mis-behave:
->>>=20
->>> qemu-system-x86_64: VFIO_MAP_DMA failed: No space left on device
->>> (qemu)
->>> (qemu) info status
->>> VM status: paused (io-error)
->>> (qemu) c
->>> VFIO_MAP_DMA failed: No space left on device
->>> qemu-system-x86_64: block/block-backend.c:1968: blk_get_aio_context: =
-Assertion `ctx =3D=3D blk->ctx' failed.
->>=20
->> Hi Phil,
->>=20
->>=20
->> The diff looks good to me, but I=E2=80=99m not sure what exactly =
-caused the assertion failure. There is `if (r) { goto fail; }` that =
-handles -ENOSPC before, so it should be treated as a general case. What =
-am I missing?
->=20
-> Good catch, ENOSPC ends setting BLOCK_DEVICE_IO_STATUS_NOSPACE
-> -> BLOCK_ERROR_ACTION_STOP, so the VM is paused with DMA mapping
-> exhausted. I don't understand the full "VM resume" path, but this
-> is not what we want (IO_NOSPACE is to warn the operator to add
-> more storage and resume, which is pointless in our case, resuming
-> won't help until we flush the mappings).
->=20
-> IIUC what we want is return ENOMEM to set =
-BLOCK_DEVICE_IO_STATUS_FAILED.
+If I read the patch correctly, the *interface* is specific to x86_64,
+but not to any accelerator.  It's *implemented* only for KVM, though.
+Is that correct?
 
-I agree with that. It just makes me feel there=E2=80=99s another bug in =
-the resuming code path. Can you get a backtrace?
+> But if you all believe the extra complexity is worth it, I won't
+> object.
 
-Fam=
+I'm not arguing for a complete implementation now.
+
+I think the command name is a matter of taste.
+
+The command exists only if defined(TARGET_I386).  Putting -x86_64- or
+similar in the name isn't strictly required, but why not.  Maybe just
+-x86-.
+
+Putting -kvm- in the name signals (1) the command works only with KVM,
+and (2) we don't intend to make it work with other accelerators.  If we
+later decide to make it work with other accelerators, we get to rename
+the command.
+
+Not putting -kvm- in the name doesn't commit us to anything.
+
+Either way, the command exists and fails when defined(CONFIG_KVM) and
+accel!=kvm.
+
+Aside: I think having the command depend on defined(CONFIG_KVM)
+accomplishes nothing but enlarging the test matrix:
+
+    defined(CONFIG_KVM) and accel=kvm   command exists and works
+    defined(CONFIG_KVM) and accel!=kvm  command exists and fails
+    !defined(CONFIG_KVM)                command does not exist
+
+Simpler:
+
+    accel=kvm                           command exists and works
+    accel!=kvm                          command exists and fails
+
 
