@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163AB3AE273
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:34:18 +0200 (CEST)
-Received: from localhost ([::1]:58406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0FF3AE27E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:40:32 +0200 (CEST)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvBdZ-0002oK-45
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60252)
+	id 1lvBjb-0003U4-FV
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVa-0006pw-D9
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37114)
+ id 1lvBZO-0008Mr-5H
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:29:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVX-0007HT-EA
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:02 -0400
+ id 1lvBZM-0001fb-9H
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:29:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvBVS-0002BY-95
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:54 +0000
+ id 1lvBZK-0003Yj-8F
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:29:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E86F72E81D9
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3863B2E80AD
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:29:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Jun 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1751264@bugs.launchpad.net>
+Date: Mon, 21 Jun 2021 04:17:32 -0000
+From: Launchpad Bug Tracker <717929@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
  assignee=None; 
-X-Launchpad-Bug-Tags: qemu-img
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor kyominii th-huth xanclic
-X-Launchpad-Bug-Reporter: Teddy VALETTE (kyominii)
+X-Launchpad-Bug-Commenters: janitor jiribb th-huth
+X-Launchpad-Bug-Reporter: jiribb (jiribb)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151939024836.30479.4933664010119224710.malonedeb@gac.canonical.com>
-Message-Id: <162424903870.11837.2074864818330726620.malone@loganberry.canonical.com>
-Subject: [Bug 1751264] Re: qemu-img convert issue in a tmpfs partition
+References: <20110212234034.2762.77476.malonedeb@wampee.canonical.com>
+Message-Id: <162424905240.11837.12752395415846285033.malone@loganberry.canonical.com>
+Subject: [Bug 717929] Re: Serial communication between VMs problematic
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: d108f78465f0f3b93ecd7b4bbca929e138c2652d
+X-Launchpad-Hash: 2889533ed5e21738067cf401891a3bd82c4de0a9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1751264 <1751264@bugs.launchpad.net>
+Reply-To: Bug 717929 <717929@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,44 +83,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1751264
+https://bugs.launchpad.net/bugs/717929
 
 Title:
-  qemu-img convert issue in a tmpfs partition
+  Serial communication between VMs problematic
 
 Status in QEMU:
   Expired
 
 Bug description:
-  qemu-img convert command is slow when the file to convert is located
-  in a tmpfs formatted partition.
+  Hello,
 
-  v2.1.0 on debian/jessie x64, ext4: 10m14s
-  v2.1.0 on debian/jessie x64, tmpfs: 10m15s
+  I want to setup serial communication between VM hosts but I have found
+  it quite difficult...:
 
-  v2.1.0 on debian/stretch x64, ext4: 11m9s
-  v2.1.0 on debian/stretch x64, tmpfs: 10m21.362s
+  ...because when trying unix sockets:
 
-  v2.8.0 on debian/jessie x64, ext4: 10m21s
-  v2.8.0 on debian/jessie x64, tmpfs: Too long (50min+)
+  - host A has serial device as unix socket (bind)
+  - host B has serial device as client of unix socket
+  - host A is down thus not unix socket does exist
+  - host B can't be started because cannot read the socket:
 
-  v2.8.0 on debian/stretch x64, ext4: 10m42s
-  v2.8.0 on debian/stretch x64, tmpfs: Too long (50min+)
+  error: Failed to start domain opd1s02
+  error: internal error Process exited while reading console log output: ch=
+ar device redirected to /dev/pts/0
+  connect(unix:/tmp/test.sock): Connection refused
+  chardev: opening backend "socket" failed
 
-  It seems that the issue is caused by this commit :
-  https://github.com/qemu/qemu/commit/690c7301600162421b928c7f26fd488fd8fa4=
-64e
+  Can that work like the cable is not plugged in? So host B can start
+  and when the socket would exist it would connect to it?
 
-  In order to reproduce this bug :
+  ...and when using pty and host device combination one cannot predict
+  pty device under /dev/pts, it would be nice if would be possible to
+  define exact device name.
 
-  1/ mount a tmpfs partition : mount -t tmpfs tmpfs /tmp
-  2/ get a vmdk file (we used a 15GB image) and put it on /tmp
-  3/ run the 'qemu-img convert -O qcow2 /tmp/file.vmdk /path/to/destination=
-' command
-
-  When we trace the process, we can see that there's a lseek loop which
-  is very slow (compare to outside a tmpfs partition).
+  Tested on Fedora 14.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1751264/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/717929/+subscriptions
 
