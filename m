@@ -2,81 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B733AF5C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 21:03:46 +0200 (CEST)
-Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669F83AF5D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 21:07:06 +0200 (CEST)
+Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvPCy-00087F-L1
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 15:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
+	id 1lvPGD-0001Y8-GU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 15:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvP9p-0005Ea-5G; Mon, 21 Jun 2021 15:00:29 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvP9n-00010y-6t; Mon, 21 Jun 2021 15:00:28 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- f16-20020a05600c1550b02901b00c1be4abso140788wmg.2; 
- Mon, 21 Jun 2021 12:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mp/7C6gJIlopFlSsUOSBSkCJRTI2SFidp+JXyaaIBpg=;
- b=BHDr5SvsnP2u5I06nhbe0xclw2OOR45sxetBq0z0Kj9OYcjYMykBrzp6LJjufRb90I
- M8N/xXZWcbghRgQyNENvHg/W11ekR8kGVJG/chnlXy7Ng60YLo8aZoRI9jRmToKjXEIq
- VkBqIGx7uqt79HHWmBKpVk22vfWzeFhU5yj3+/Q4VsD0JArflWwfRUaWorH5Onq9Uz/S
- muL38LNmXPIkgzESligbUDauUSlcM7YboQFdEBcW+ooU6ZYXPKlET5ra+wEB/GxacOFS
- mXyEDjaOquQX8TMTDk1oZ+Qmla1qox2TaIZo41UUJe01vYzJo4vpktNXoxbpsSUNt3EI
- UkXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mp/7C6gJIlopFlSsUOSBSkCJRTI2SFidp+JXyaaIBpg=;
- b=JssF/JB3Mwfxb/O3zScuDurWNitQLFJQnnqzeuyS9sPVrEIX9M7jMIXrFAogwy5Tr0
- 616i8iispb0F6NaPmgm0dZWKsRt2xVcI/vdZgP4XaPj4WfcQtEKVA+Sui+Xrbs82Lr3F
- 34C6t0Io9jnisHyC/Lzm84R3xWOFNaIFmdbKxxtew52FD7/KrjR9YQv0DghM9uS9mMuW
- N5MnXaPWXHeOUxonsFl1qh2+QDXrzySv7juCWZyy0YAKGuNf0mCIUU670S1419ImM4p9
- zbuQemf3FKUDoukOF708jIo9o7ZmxyeGz9IYGrnfkbOEK+9fFf4KSe5fcuHEw2LQLSHl
- ZRrg==
-X-Gm-Message-State: AOAM530bwHvSygUYd/y4vR3/Z+LfDqQ65RseKWfJiMik9L3lsG8CQ0dK
- Pg+34ZaHXeIwuBaUr8/eSWY=
-X-Google-Smtp-Source: ABdhPJwdNPsGg3SKZXcHdV7lbAykCfDR7E0ZxVzxFGzeAZkvXtdDJIDZEbvGGRQS2TIcmFA/aYDmhA==
-X-Received: by 2002:a1c:c90f:: with SMTP id f15mr29069758wmb.142.1624302025642; 
- Mon, 21 Jun 2021 12:00:25 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id b9sm2358223wrt.55.2021.06.21.12.00.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 12:00:24 -0700 (PDT)
-Subject: Re: [PATCH v1 2/5] hw/arm: add dependency on OR_IRQ for XLNX_VERSAL
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210621152120.4465-1-alex.bennee@linaro.org>
- <20210621152120.4465-3-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d6012d09-a9c9-d7f2-9640-80f368a48ec0@amsat.org>
-Date: Mon, 21 Jun 2021 21:00:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20210621152120.4465-3-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lvPFM-0000ma-Qc
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:06:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lvPFK-0004k1-Jg
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 15:06:12 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15LJ3ZLK059087; Mon, 21 Jun 2021 15:06:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=1mTybbyXM/E3sv1J1Dgb9Gj+dRh5NhMUSqocsAMTwJc=;
+ b=sxdalGilyBgtbFXB7AooGkULp31jMuiRUCuGbdRiKCgHA/Fmuc40osEKmrFEMEAykjN5
+ diYPXaJ+u0CeKtiYMeqiI1mFgZSYxHPPmGrWowVZ8A8hA9eqdFJWwjGG5cBVhC+51zMy
+ U4jbGb9mvWQQFp6lQybMNpuu0prLiESaKjVSFb5nxS1SOPqLmfPvT3o6Mbn90Uqnoq3G
+ nL+HfLPb+3Yqk6QrsIXbp1AyXu5xxDJbflSdhS4I+Y1s3tTdXa5+ugqTxiOXXb9RrkJo
+ r2srkUdPv6AMFTKmrMj4C7kdtRoIOGfG7sHUptEDX3PSpuxFkrG29Sklq1lZJJVroR/q JA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39b0a78jvt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 15:06:04 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LJ629T067298;
+ Mon, 21 Jun 2021 15:06:04 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39b0a78jus-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 15:06:04 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LJ3gha007934;
+ Mon, 21 Jun 2021 19:06:03 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma05wdc.us.ibm.com with ESMTP id 3998791m6h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 19:06:03 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15LJ61p926214818
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Jun 2021 19:06:01 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BDF666A04F;
+ Mon, 21 Jun 2021 19:06:01 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 636AA6A051;
+ Mon, 21 Jun 2021 19:06:00 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.2.130.16])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 21 Jun 2021 19:06:00 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] x86/sev: Measured Linux SEV guest with
+ kernel/initrd/cmdline
+Date: Mon, 21 Jun 2021 19:05:51 +0000
+Message-Id: <20210621190553.1763020-1-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: sWDGEUG3SVPuhZBXKZ5S1DoSg-qxIQ1x
+X-Proofpoint-ORIG-GUID: 19bbY7Puz_q18KuSdUB0GooPAG9x3vgS
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-21_11:2021-06-21,
+ 2021-06-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015
+ phishscore=0 bulkscore=0 mlxscore=0 adultscore=0 mlxlogscore=726
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106210112
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,28 +108,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, pbonzini@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/21 5:21 PM, Alex Bennée wrote:
-> We need this functionality due to:
-> 
->     /* XRAM IRQs get ORed into a single line.  */
->     object_initialize_child(OBJECT(s), "xram-irq-orgate",
->                             &s->lpd.xram.irq_orgate, TYPE_OR_IRQ);
-> 
+Currently booting with -kernel/-initrd/-append is not supported in SEV
+confidential guests, because the content of these blobs is not measured
+and therefore not trusted by the SEV guest.
 
-Fixes: a55b441b2ca ("hw/arm: versal: Add support for the XRAMs")
+However, in some cases the kernel, initrd, and cmdline are not secret
+but should not be modified by the host.  In such a case, we want to
+verify inside the trusted VM that the kernel, initrd, and cmdline are
+indeed the ones expected by the Guest Owner, and only if that is the
+case go on and boot them up (removing the need for grub inside OVMF in
+that mode).
 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+To support that, OVMF adds a special area for hashes of
+kernel/initrd/cmdline; that area is expected to be filled by QEMU and
+encrypted as part of the initial SEV guest launch.  This in turn makes
+the hashes part of the PSP measured content, and OVMF can trust these
+inputs if they match the hashes.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This series adds an SEV function to generate the table of hashes for
+OVMF and encrypt it (patch 1/2), and calls this function if SEV is
+enabled when the kernel/initrd/cmdline are prepared (patch 2/2).
 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  hw/arm/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+Corresponding OVMF support was submitted to edk2-devel [1] (patch series
+"Measured SEV boot with kernel/initrd/cmdline"); it's still under
+review.
+
+[1] https://edk2.groups.io/g/devel/topic/patch_v1_0_8_measured_sev/83074450
+
+---
+
+v1: https://lore.kernel.org/qemu-devel/20210525065931.1628554-1-dovmurik@linux.ibm.com/
+
+v2:
+ - Extract main functionality to sev.c (with empty stub in sev-stub.c)
+ - Use sev_enabled() instead of machine->cgs->ready to detect SEV guest
+ - Coding style changes
+
+
+Dov Murik (2):
+  sev/i386: Introduce sev_add_kernel_loader_hashes for measured linux
+    boot
+  x86/sev: generate SEV kernel loader hashes in x86_load_linux
+
+ hw/i386/x86.c          |  25 ++++++++-
+ target/i386/sev-stub.c |   5 ++
+ target/i386/sev.c      | 121 +++++++++++++++++++++++++++++++++++++++++
+ target/i386/sev_i386.h |  12 ++++
+ 4 files changed, 162 insertions(+), 1 deletion(-)
+
+
+base-commit: e4bfa6cd68e0b19f42c0c4ef26c024d39ebab044
+-- 
+2.25.1
+
 
