@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23743AE318
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 08:26:08 +0200 (CEST)
-Received: from localhost ([::1]:44382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318213AE319
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 08:26:24 +0200 (CEST)
+Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvDNn-00042M-MC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 02:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49568)
+	id 1lvDO3-0004n6-8U
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 02:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1lvDMW-000317-9C
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:24:48 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45817)
+ id 1lvDMj-0003KE-Iz
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:25:01 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1lvDMU-0002N3-MX
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:24:47 -0400
-Received: by mail-ed1-x534.google.com with SMTP id r7so17270751edv.12
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 23:24:45 -0700 (PDT)
+ id 1lvDMi-0002ZA-9V
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:25:01 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id my49so26725206ejc.7
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 23:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CSn6TAQFJIuqJmpiCSsLUTH6CV6wBHNoLhaUfdpa+5g=;
- b=aDukXlnDpWChSodd/V21tFt/vry47QoVVcAMv3e1cGyXsM7QakUhEcgoy/4J2lSdpK
- bVQAgYOQ5eaXrFz2akvK3N8pTiyUJGJMkjM2jgWjyJYdmyuMnCSiL+fcIUugmRt0LAaS
- W3+vBv2eNoGycQmewuq2P1Tax/nk2ZOnysFh8MJLwTkboSn7I0zcR4nA7PeKSzxdwjvB
- mJ4dgO8sAsRyWuu0ZVpRmFPFEP99qmYXsXPWGYOlPRS8FUquXYAOWaNM+ZdiTBD+7vbP
- YH6Tcyma6wpRSCxkG/uypb0Ab58sGTCNqGScNwY5V65XTtSQyAmugZVTwsXMDurYgPza
- 3z9Q==
+ :cc; bh=t8OigtRyMYOt5Z85lDLqf5G2nVz1j05+1S5pKgBvX8g=;
+ b=hIKl1OObtknBgsSrfW5i3hoJxxTk27Q4FaU8InZpoOKs0ryNji1mkIGCCB+V0Q8QHo
+ 9x+YzXfvZqwtQ13ISp8muSgTHB473bRLWdBd2VpDAxyLGLYq504VvKlYqDXPI3qGk6y+
+ H01d4X1dBsS9Hfilm8dShtPlo1suUAL56epL6RLBZf+kBpJ4zMfRpFT3kuHhm7k+WppA
+ PGJzr369mqFs+qrLspUepLo47HGsPGp1uzaOGYHEKtJ9zlGnkJMPFPB3NWjIkmWmP+W7
+ bRzsngvE8tGTbkvie/vOJ9+l2vvjDfPPtnMnqM+NH+OgVieGNK0hyr6+zmn8bigO8Kw2
+ 9+PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=CSn6TAQFJIuqJmpiCSsLUTH6CV6wBHNoLhaUfdpa+5g=;
- b=V52GVcrcScHz9coVj+mjxEGQZB4HeXL8+T2BY+qXjz2IQWbV3jC4y5NkIE2JV//WHq
- BfprOmeevQQ+8T2nQkz/cAfj6mOSjc39jTJx0Tko+RwsqTuZo+N4iBWb3E7vw7I+Fwpj
- DTLWBEQlNdhKWSAJSK7nikXkIq+ktYA7iefe/cMs2z+plaTNpfnwH1//GqwZKMOaOdGb
- CWXZg6dWdfvgJ/YYC2aFl8LsxduCAdssVQN4POZ5k1ydAsw9wUwrobofXq5ozeIpj2Fj
- hGeL9uR8oadwRfoam34RsV6TfJ8STm4NGUNNMQiOUmXlq6Z0rqt1OC6sEavmd1nbJsJw
- 8Dog==
-X-Gm-Message-State: AOAM532me855mnPgi7COKjuNXRSDfz7exmTTg06I8CvH8lXDYilz0K09
- VsHFZHZ7Mh7887CT2NwinQHXinxfrm1C3UoYwBI=
-X-Google-Smtp-Source: ABdhPJzMl5QerQ508xYx2zd8otAOjzZoUokbOMyOhbJh9tMwkRTXxpGGlKFjhgmp0u6V6gKPviQJFlqwteghlCtSaGU=
-X-Received: by 2002:a05:6402:1716:: with SMTP id
- y22mr17099298edu.237.1624256684491; 
- Sun, 20 Jun 2021 23:24:44 -0700 (PDT)
+ bh=t8OigtRyMYOt5Z85lDLqf5G2nVz1j05+1S5pKgBvX8g=;
+ b=C0fpnFZasAp5soBZuou9iT4fdB9UXWnVMoNO1b4fY6GidPh3H1LK9hNElP8mh4lmnh
+ GpZ5PQKuRRjwDqq43zoOnVBj9LnFkHbJB+1DGWjRBNlpiM6Ys7k1F00pYQmQ2wt7L5SG
+ QYyDS/8C4OM04zvJFIYMTS+4V9+9Uu8kXGj9XrWJQph+UpPu4OOuU7Sl0X4YW4YQqCPn
+ HmTdHYnh4TXvjM97Dotot7e1A3bgaP2Vhj3V0qqa1GIew64VB+2szU1qaKrKPcKq66nZ
+ PItw2XF/V24MUySg77wHGGPbudDshDyN8Bx0onWMyQXT+ZSGhYX8Nq5XdI7qt5tnZMtA
+ C2+w==
+X-Gm-Message-State: AOAM532w08yXfY+qOg85WCeYBlX20xSnHWsij9VwmfHygORlPG4MpRhl
+ yMQn/WKz3n1kCCIyBaAllsYLWgtUUJz1WnWy3yA=
+X-Google-Smtp-Source: ABdhPJyPLP2GNuZlrXn8KiRnj3IaB4TyJz7OghvsofgRYe8tU/yA7orrpTVWvhCoUlB0vtT4bTjbPTkyILob2kmz7Ag=
+X-Received: by 2002:a17:906:2f91:: with SMTP id
+ w17mr23320479eji.443.1624256699061; 
+ Sun, 20 Jun 2021 23:24:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210621013439.1791385-1-richard.henderson@linaro.org>
- <20210621013439.1791385-2-richard.henderson@linaro.org>
-In-Reply-To: <20210621013439.1791385-2-richard.henderson@linaro.org>
+ <20210621013439.1791385-27-richard.henderson@linaro.org>
+In-Reply-To: <20210621013439.1791385-27-richard.henderson@linaro.org>
 From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Sun, 20 Jun 2021 23:24:33 -0700
-Message-ID: <CAMo8BfLx5ATa9kq1BEDhs6dx+zchxKwwpswF9rU9NMXQ+f0ZOA@mail.gmail.com>
-Subject: Re: [PATCH 01/26] accel/tcg: Introduce translator_use_goto_tb
+Date: Sun, 20 Jun 2021 23:24:47 -0700
+Message-ID: <CAMo8BfLAYJAHEpb3jP78b9E4H-V4tyWB7GRCVrEF7o54=220cQ@mail.gmail.com>
+Subject: Re: [PATCH 26/26] target/xtensa: Use translator_use_goto_tb
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -5
 X-Spam_score: -0.6
 X-Spam_bar: /
@@ -83,20 +83,19 @@ Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 20, 2021 at 6:36 PM Richard Henderson
+On Sun, Jun 20, 2021 at 6:34 PM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Add a generic version of the common use_goto_tb test.
->
+> Cc: Max Filippov <jcmvbkbc@gmail.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/exec/translator.h | 10 ++++++++++
->  accel/tcg/translator.c    | 11 +++++++++++
->  2 files changed, 21 insertions(+)
+>  target/xtensa/translate.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 
 Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
 
--- 
+
+--
 Thanks.
 -- Max
 
