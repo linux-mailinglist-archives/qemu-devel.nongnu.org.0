@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E963AE269
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:30:16 +0200 (CEST)
-Received: from localhost ([::1]:39796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0693AE26A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:30:17 +0200 (CEST)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvBZf-0006mR-G0
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60294)
+	id 1lvBZg-0006sb-B9
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVd-0006z1-Hs
+ id 1lvBVc-0006wq-Vz
  for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37394)
+Received: from indium.canonical.com ([91.189.90.7]:37378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVb-0007LA-8g
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:05 -0400
+ id 1lvBVb-0007Kp-5F
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:04 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvBVX-0002BY-MT
+ id 1lvBVW-0002Aw-SS
  for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B42382E821A
+ by loganberry.canonical.com (Postfix) with ESMTP id 098AA2E8210
  for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Jun 2021 04:17:42 -0000
-From: Launchpad Bug Tracker <1659267@bugs.launchpad.net>
+Date: Mon, 21 Jun 2021 04:17:43 -0000
+From: Launchpad Bug Tracker <1719689@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
  assignee=None; 
+X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange janitor th-huth tim-tree-of-life uqbar
-X-Launchpad-Bug-Reporter: Uqbar (uqbar)
+X-Launchpad-Bug-Commenters: erichspaker janitor th-huth
+X-Launchpad-Bug-Reporter: Erich Spaker (erichspaker)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20170125113730.12494.46970.malonedeb@gac.canonical.com>
-Message-Id: <162424906273.11837.1182116712939638632.malone@loganberry.canonical.com>
-Subject: [Bug 1659267] Re: It's not possible to start a VM with a network
- cable unplugged
+References: <150644549574.30872.12487281678930398558.malonedeb@wampee.canonical.com>
+Message-Id: <162424906360.11837.18236662983199168308.malone@loganberry.canonical.com>
+Subject: [Bug 1719689] Re: [feature request] add flag to treat warnings as
+ errors
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 228066cba5fe6c7c02737e48eccc0aa906669d55
+X-Launchpad-Hash: c7477163f7e06da2996f42e139366fc339073de0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1659267 <1659267@bugs.launchpad.net>
+Reply-To: Bug 1719689 <1719689@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,24 +85,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1659267
+https://bugs.launchpad.net/bugs/1719689
 
 Title:
-  It's not possible to start a VM with a network cable unplugged
+  [feature request] add flag to treat warnings as errors
 
 Status in QEMU:
   Expired
 
 Bug description:
-  There should be a command line (sub)option to unplug a network cable.
-  While from the monitor interface I can issue:
+  Since booting could potentially take a lot of time and warnings are
+  likely to indicate that something is wrong, it would be useful to have
+  a command line flag which would abort the boot if there are any
+  warnings.
 
-  set_link virtio-net-pci.0 off
+  An example might be network configuration. The following output most
+  likely indicates that there is something the user has to fix before
+  starting and being able to use the guest os.
 
-  There's no way to fire a VM from command line with that cable already unp=
-lugged.
-  As an example, virtualbox can do it.
+  Warning: hub port hub0port0 has no peer
+  Warning: vlan 0 with no nics
+  Warning: netdev hub0port0 has no peer
+  Warning: requested NIC (anonymous, model vitrio-net-device) was not creat=
+ed (not supported by this machine?)
+
+  Ideally, there would be an option the user could pass which would
+  cause qemu to print these warnings then exit, rather than boot the
+  kernel.
+
+  Alternatively, or additionally, a dry run option would be helpful for
+  the same purpose: making sure qemu get to the booting the kernel stage
+  with everything in working order so that you do not have to wait for
+  the kernel to boot and then shut down while debugging things like
+  networking (things which can be debugged (at least partially) without
+  booting, or trying to boot, the guest os).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1659267/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1719689/+subscriptions
 
