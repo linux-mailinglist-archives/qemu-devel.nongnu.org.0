@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FC33AE342
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 08:31:27 +0200 (CEST)
-Received: from localhost ([::1]:48438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72873AE38A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 08:52:58 +0200 (CEST)
+Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvDSw-0006wi-2m
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 02:31:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
+	id 1lvDnl-00042V-IA
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 02:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lvDRO-0006F6-1Q
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:29:50 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:48008
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lvDRL-0006Vc-HA
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:29:49 -0400
-HMM_SOURCE_IP: 172.18.0.48:36068.468873165
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-110.184.67.156?logid-7a481917d9f548a399e78b66cf9d8fe7
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id F0684280103;
- Mon, 21 Jun 2021 14:29:36 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 7a481917d9f548a399e78b66cf9d8fe7 for
- berrange@redhat.com; Mon Jun 21 14:29:36 2021
-X-Transaction-ID: 7a481917d9f548a399e78b66cf9d8fe7
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH 1/2] tests/migration: parse the thread-id key of
- CpuInfoFast
-From: Hyman Huang <huangy81@chinatelecom.cn>
-To: qemu-devel@nongnu.org
-References: <584578c0a0dd781cee45f72ddf517f6e6a41c504.1622729934.git.huangy81@chinatelecom.cn>
- <7ca552b7-4011-0d3e-6e0f-332794bb0db7@chinatelecom.cn>
-Message-ID: <663c9dde-ce0c-5db1-9bd5-7468042efcff@chinatelecom.cn>
-Date: Mon, 21 Jun 2021 14:29:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvDmr-0003M0-Rk
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:52:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45291)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvDmp-0007Xd-Gm
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 02:52:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624258316;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ldG/gtqmbOBVxB9WER+y1/b1HmdfeI9EgiX2I5FJSf4=;
+ b=fkzmMv9EPmR+9EZI3x58zi9qGp7UfxfJQtrobUpA//c1Qv6WLARJuLyhHuwaT24gikjLD5
+ 9OxC+OZYUAAWiIxNIATXU3OU/+9Si2VpkzoS0GxWbMrgUfq7zZmzxZw2uxGjAXk6Jprqk8
+ mG+KC4I+TUnrQ03T7NHRoN3MGC9IuhQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-MCG73xiaPKyNjipypa_MZw-1; Mon, 21 Jun 2021 02:51:52 -0400
+X-MC-Unique: MCG73xiaPKyNjipypa_MZw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99DFD100B3B2;
+ Mon, 21 Jun 2021 06:51:50 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 408CA1A875;
+ Mon, 21 Jun 2021 06:51:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 981C718000B4; Mon, 21 Jun 2021 08:51:48 +0200 (CEST)
+Date: Mon, 21 Jun 2021 08:51:48 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Khor, Swee Aun" <swee.aun.khor@intel.com>
+Subject: Re: [PATCH v2] ui/gtk: Allow user to select monitor number to
+ display qemu in full screen through new gtk display option
+Message-ID: <20210621065148.o7yggutrxgvdnpc7@sirius.home.kraxel.org>
+References: <20210617020609.18089-1-swee.aun.khor@intel.com>
+ <8735tfsa79.fsf@dusky.pond.sub.org>
+ <DM8PR11MB571712EDA6522BB50D192A63AF0A9@DM8PR11MB5717.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <7ca552b7-4011-0d3e-6e0f-332794bb0db7@chinatelecom.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <DM8PR11MB571712EDA6522BB50D192A63AF0A9@DM8PR11MB5717.namprd11.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.299,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,55 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: "Romli, Khairul Anuar" <khairul.anuar.romli@intel.com>, "Kasireddy,
+ Vivek" <vivek.kasireddy@intel.com>, "eblake@redhat.com" <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cc original author Daniel P. Berrangé <berrange@redhat.com> :)
+  Hi,
 
-may be this two fixes can be squashed into a single patch.
+> " Your new option argument seems to count monitors from 1, while GTK counts them from zero.  Why the difference?"
+> sweeaun: It is due to gtk_window_fullscreen_on_monitor monitor index is started from zero. I am not using zero as starting index of new option argument to make easier for user. Example, if there is 2 monitors, then argument option can be monitor 1 or 2. Last number will matched with total monitors which can avoid confusion for user. That is my thought.   
 
-在 2021/6/16 14:26, Hyman Huang 写道:
-> 
-> 
-> 在 2021/6/3 22:19, huangy81@chinatelecom.cn 写道:
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> thread_id in CpuInfoFast is deprecated, parse thread-id instead
->> after execute qmp query-cpus-fast. fix this so that test can
->> go smoothly.
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> ---
->>   tests/migration/guestperf/engine.py | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/tests/migration/guestperf/engine.py 
->> b/tests/migration/guestperf/engine.py
->> index 208e095794..9e16fa92d2 100644
->> --- a/tests/migration/guestperf/engine.py
->> +++ b/tests/migration/guestperf/engine.py
->> @@ -113,7 +113,7 @@ def _migrate(self, hardware, scenario, src, dst, 
->> connect_uri):
->>           vcpus = src.command("query-cpus-fast")
->>           src_threads = []
->>           for vcpu in vcpus:
->> -            src_threads.append(vcpu["thread_id"])
->> +            src_threads.append(vcpu["thread-id"])
->>           # XXX how to get dst timings on remote host ?
->>
-> 
-> - ping
-> 
-> this patch fix thread_id so that guestperf can run successfully
-> 
-> please review, thanks : ) !
-> 
+Start counting from zero makes sense too.  Matter of tasts.  We have
+examples for both in the qemu source tree.  So, whatever you pick, this
+clearly needs documentation (in ui.json option description).
 
--- 
-Best regard
+> "Your documentation states that @monitor applies only "in full screen", but this code is not guarded by if (opts->full_screen).  Why is that okay?"
+> sweeaun: It doesn’t need to be guarded by if (opts->full_screen), as gtk_window_fullscreen_on_monitor will enable the full screen by itself.  
 
-Hyman Huang(黄勇)
+Well, wouldn't it make sense to have monitor=<nr> work for both
+full-screen=on and full-screen=off cases?
+
+> sweeaun: Based on my observation, when specific monitor device disconnected after QEMU launched on it, QEMU application will not be visible but QEMU application still running and screen framebuffer size is not being changed at all. QEMU application will be visible once you connect back the monitor. 
+
+Well, that probably depends on the display server and might even be
+configurable.  I've seen different ways to handle that, most common ones
+being (a) do nothing or (b) trying move all windows to the monitor which
+is still connected.
+
+I don't think qemu has to worry much here, and trying to automatically
+adapt to hot-plugged monitors might even have bad interactions with
+whatever the display server is going to do.
+
+take care,
+  Gerd
+
 
