@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070473AE8C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:07:52 +0200 (CEST)
-Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A573AE8C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:07:38 +0200 (CEST)
+Received: from localhost ([::1]:57946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvIiV-0000Ln-0O
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
+	id 1lvIiH-0007zs-QU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcW-00006T-P1
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44444)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcl-0000K7-UO
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcP-0001I7-Nw
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:39 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcV-0001KW-SR
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624276892;
+ s=mimecast20190719; t=1624276896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=aunLxPN6wSmOkOXDl96FjBOXqhMiCQ/c8iRroBrcwHU=;
- b=VGcsQKhU+4VHA317f6aXwAVOYuT2935IoeWaCqLp4sWpMELFHbWHsNu4lgA6rFMBJrKsPu
- Y8b2QrpvwFwZLC2ErGR2NDkILWVNZyA27db6ALs5Ax7nbaEehFPraa6fROdcD0xnI0F5Bt
- k+sRueSydGWel5bC3cp61mdnmeCh+LM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N0UR57afEG741Cz43JlnCxqXJ98mI7JDP3ryzbOlFhs=;
+ b=ejdTkzeOCWQSuWZtR5ekYxUIMNtgJx9oBHspoqrR5udg5AhZmL3vPclIx4qDfNaFOimQFy
+ Q09atT06EEzgzALw7gYL4WWkBg5QzAAFlLCYqHwYUr98y+YRpuMO0jznB9Aq4V7umPLM3g
+ ONieejUFGE3EIB+Pob1lFiSG24jfDds=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-cvYrJNJON2iv9d2_IlIeaw-1; Mon, 21 Jun 2021 08:01:31 -0400
-X-MC-Unique: cvYrJNJON2iv9d2_IlIeaw-1
+ us-mta-222-8zUuNj_wNnS5Yw06OCDvZg-1; Mon, 21 Jun 2021 08:01:32 -0400
+X-MC-Unique: 8zUuNj_wNnS5Yw06OCDvZg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13A9683DD08;
- Mon, 21 Jun 2021 12:01:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BB6F83DD06;
+ Mon, 21 Jun 2021 12:01:31 +0000 (UTC)
 Received: from thuth.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4492C19C46;
- Mon, 21 Jun 2021 12:01:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70F5019C46;
+ Mon, 21 Jun 2021 12:01:30 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/7] Documentation, qtest and misc patches
-Date: Mon, 21 Jun 2021 14:01:18 +0200
-Message-Id: <20210621120125.116377-1-thuth@redhat.com>
+Subject: [PULL 1/7] docs/interop/live-block-operations: Do not hard-code the
+ QEMU binary name
+Date: Mon, 21 Jun 2021 14:01:19 +0200
+Message-Id: <20210621120125.116377-2-thuth@redhat.com>
+In-Reply-To: <20210621120125.116377-1-thuth@redhat.com>
+References: <20210621120125.116377-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -77,62 +81,70 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter!
+In downstream, we want to use a different name for the QEMU binary,
+and some people might also use the docs for non-x86 binaries, that's
+why we already created the |qemu_system| placeholder in the past.
+Use it now in the live-block-operations doc, too.
 
-The following changes since commit 8f521741e1280f0957ac1b873292c19219e1fb9a:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210607172311.915385-1-thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/interop/live-block-operations.rst | 32 +++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
-  Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20210618.0' into staging (2021-06-18 16:42:25 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2021-06-21
-
-for you to fetch changes up to c32c3d68ed0629910d5a1cd72bfb57d7f89b553b:
-
-  MAINTAINERS: Add qtest/arm-cpu-features.c to ARM TCG CPUs section (2021-06-21 11:45:23 +0200)
-
-----------------------------------------------------------------
-* Documentation updates
-* Remove leading underscores from header guards
-* Display hexadecimal value with '0x' prefix
-----------------------------------------------------------------
-
-Gitlab-CI: https://gitlab.com/thuth/qemu/-/pipelines/324423809
-
-Ahmed Abouzied (1):
-  Remove leading underscores from QEMU defines
-
-Philippe Mathieu-Daudé (2):
-  fuzz: Display hexadecimal value with '0x' prefix
-  MAINTAINERS: Add qtest/arm-cpu-features.c to ARM TCG CPUs section
-
-Stefan Weil (1):
-  Update documentation to refer to new location for issues
-
-Thomas Huth (3):
-  docs/interop/live-block-operations: Do not hard-code the QEMU binary
-    name
-  docs/tools/virtiofsd.rst: Do not hard-code the QEMU binary name
-  docs/tools/virtiofsd: Fix bad rst syntax
-
- .github/lockdown.yml                        |  6 ++--
- MAINTAINERS                                 |  1 +
- README.rst                                  |  6 ++--
- docs/interop/live-block-operations.rst      | 32 ++++++++++++---------
- docs/tools/virtiofsd.rst                    | 22 +++++++-------
- include/fpu/softfloat-helpers.h             |  4 +--
- include/hw/usb/dwc2-regs.h                  |  4 +--
- include/hw/usb/xlnx-usb-subsystem.h         |  4 +--
- include/hw/usb/xlnx-versal-usb2-ctrl-regs.h |  4 +--
- include/qemu/plugin-memory.h                |  4 +--
- include/qemu/selfmap.h                      |  4 +--
- include/user/syscall-trace.h                |  4 +--
- plugins/plugin.h                            |  4 +--
- tests/qtest/fuzz/generic_fuzz.c             |  4 +--
- tests/qtest/fuzz/qos_fuzz.h                 |  4 +--
- tests/tcg/minilib/minilib.h                 |  4 +--
- 16 files changed, 59 insertions(+), 52 deletions(-)
-
+diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+index 1073b930dc..477d085f54 100644
+--- a/docs/interop/live-block-operations.rst
++++ b/docs/interop/live-block-operations.rst
+@@ -127,13 +127,15 @@ Interacting with a QEMU instance
+ 
+ To show some example invocations of command-line, we will use the
+ following invocation of QEMU, with a QMP server running over UNIX
+-socket::
++socket:
+ 
+-    $ ./qemu-system-x86_64 -display none -no-user-config \
+-        -M q35 -nodefaults -m 512 \
+-        -blockdev node-name=node-A,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./a.qcow2 \
+-        -device virtio-blk,drive=node-A,id=virtio0 \
+-        -monitor stdio -qmp unix:/tmp/qmp-sock,server=on,wait=off
++.. parsed-literal::
++
++  $ |qemu_system| -display none -no-user-config -nodefaults \\
++    -m 512 -blockdev \\
++    node-name=node-A,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./a.qcow2 \\
++    -device virtio-blk,drive=node-A,id=virtio0 \\
++    -monitor stdio -qmp unix:/tmp/qmp-sock,server=on,wait=off
+ 
+ The ``-blockdev`` command-line option, used above, is available from
+ QEMU 2.9 onwards.  In the above invocation, notice the ``node-name``
+@@ -692,14 +694,16 @@ And start the destination QEMU (we already have the source QEMU running
+ -- discussed in the section: `Interacting with a QEMU instance`_)
+ instance, with the following invocation.  (As noted earlier, for
+ simplicity's sake, the destination QEMU is started on the same host, but
+-it could be located elsewhere)::
+-
+-    $ ./qemu-system-x86_64 -display none -no-user-config \
+-        -M q35 -nodefaults -m 512 \
+-        -blockdev node-name=node-TargetDisk,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./target-disk.qcow2 \
+-        -device virtio-blk,drive=node-TargetDisk,id=virtio0 \
+-        -S -monitor stdio -qmp unix:./qmp-sock2,server=on,wait=off \
+-        -incoming tcp:localhost:6666
++it could be located elsewhere):
++
++.. parsed-literal::
++
++  $ |qemu_system| -display none -no-user-config -nodefaults \\
++    -m 512 -blockdev \\
++    node-name=node-TargetDisk,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./target-disk.qcow2 \\
++    -device virtio-blk,drive=node-TargetDisk,id=virtio0 \\
++    -S -monitor stdio -qmp unix:./qmp-sock2,server=on,wait=off \\
++    -incoming tcp:localhost:6666
+ 
+ Given the disk image chain on source QEMU::
+ 
 -- 
 2.27.0
 
