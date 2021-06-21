@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4239C3AED37
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:14:46 +0200 (CEST)
-Received: from localhost ([::1]:53338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 954163AED33
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 18:14:14 +0200 (CEST)
+Received: from localhost ([::1]:52432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvMZR-00083n-AY
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58192)
+	id 1lvMYv-0007Rs-20
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 12:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMXd-0006gd-9n
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:12:53 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:34776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvMXZ-0005m5-Hu
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:12:52 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id i5so2289320eds.1
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 09:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0V89FAcdiNZnsrsuQVHiqzxPDdpNn/7FrKSSoOLeJ9U=;
- b=VCsIvLEo9x1LHO4Xwrh4svPGAvlTKbihfr4UZ6PysFnk5HGBmHrSjsVYvOueeiZxPH
- CB/c2qf4ND9m5Qk3av6qu4p4Pb3xe0I3BXaa12FjFf0Ugtj5q8sYHUlc4O+8HEnRFu3w
- SLmhZ5la7nYcu+Ley+WtwZahIh/dDSFGBAZOOzZ40m7BfXOD8ZDix36PZaS6ageL/PKp
- sDVogxh1sfvAkrhYgV80reQdgn7V3X5AJHQZ1xmYTc2dvyMWeHKNDNw9qfblzBpG+AOR
- xAgqa/cnvRLhaIieixNc5BNwq/EgEHcqF8MLQIAehIOjrMIA7o39IIqPxCfZ8wZVzB3h
- NQeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0V89FAcdiNZnsrsuQVHiqzxPDdpNn/7FrKSSoOLeJ9U=;
- b=WDbFEGkZY5DnYKJrUBUpaj1PatYzSJjnPW5ztnJsc2xbjkcHuoZc7y1CYaHZ+eR8zm
- FYUQ61jp72MP5eIrVgir5d/jrRyBlamKyGdOexjXjipLGPG5dzvDAcxPnX/DPCQIb9A2
- DC3ZAdAnsCbDVton/LAvdzM0Ii4iU6KKzyCSzDoWjN9vUHwxPJQOeYYfIpbachzV3Ojp
- 7YXNsdTpwGHlU63FE3G6iDaLD59OXAKWLBc42govDG6wppvp7evfRlg48TRKJ5j6dK0g
- 0SMcmZUCEojhVqQMBpXRrl6fHokNBChiT0xmYe+sclivb/2haxwyqP5zno2pPyrLBO7V
- 2nfA==
-X-Gm-Message-State: AOAM530kXbY0oXloKITc9i1UXqkLdyFrK/u3fq9taTqsbtJ2CqBI9NSD
- L0OWg2PQpKDWTGPSuDUTh9CHu71MolmeZv19PAIuAQ==
-X-Google-Smtp-Source: ABdhPJz/JfmR7I473jpb3JKk4vWq1OGLAyIsGMHW+mFCmdwHqBq8CVEZBuAv/kP1iNfuhZIkHNxd2189A3k7tRwXH/I=
-X-Received: by 2002:a05:6402:848:: with SMTP id
- b8mr2018265edz.44.1624291967727; 
- Mon, 21 Jun 2021 09:12:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvMX9-0006Bc-NS
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:12:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58330)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvMX6-0005Tu-Bk
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 12:12:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624291939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AczVMFAJXNYKscNPjkqctat2H1Qf9fbQ8S72gbiSvtY=;
+ b=bVPIOv0314TDXYHE4yohW1OM3L9l7JBCX+XqAvdPk3S2yMwWYCW6dMMl7SF1Hwrcwit8RT
+ Adjt9HbPJQQF1i0f827ulZj7kDXEeX+qFi1Ica/bgCkq2gsgLeL7fcwqgycJJjxJnIbu8q
+ khGTpr7JZY7y/+GLqaTm1NBZK+05xpI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-kPaxsZ9wMhSH9k_7ohtyew-1; Mon, 21 Jun 2021 12:12:17 -0400
+X-MC-Unique: kPaxsZ9wMhSH9k_7ohtyew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06F611842158;
+ Mon, 21 Jun 2021 16:12:17 +0000 (UTC)
+Received: from redhat.com (ovpn-114-105.ams2.redhat.com [10.36.114.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DDD095D9F0;
+ Mon, 21 Jun 2021 16:12:15 +0000 (UTC)
+Date: Mon, 21 Jun 2021 18:12:14 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 0/4] export/fuse: Allow other users access to the export
+Message-ID: <YNC6Xvcc9lKc50Sk@redhat.com>
+References: <20210614144407.134243-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20210617121628.20116-1-peter.maydell@linaro.org>
- <20210617121628.20116-4-peter.maydell@linaro.org>
-In-Reply-To: <20210617121628.20116-4-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Jun 2021 17:12:11 +0100
-Message-ID: <CAFEAcA8QLDqzHOUQXaCx4hTqyus-xOcvjH1NTbVn4GUvjDkpag@mail.gmail.com>
-Subject: Re: [PATCH v3 03/44] target/arm: Implement MVE VCLZ
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210614144407.134243-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,81 +75,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Jun 2021 at 13:16, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Implement the MVE VCLZ insn (and the necessary machinery
-> for MVE 1-input vector ops).
->
-> Note that for non-load instructions predication is always performed
-> at a byte level granularity regardless of element size (R_ZLSJ),
-> and so the masking logic here differs from that used in the VLDR
-> and VSTR helpers.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Am 14.06.2021 um 16:44 hat Max Reitz geschrieben:
+> Hi,
+> 
+> With the default mount options, FUSE mounts are not accessible to any
+> users but the one who did the mount, not even to root.  To allow such
+> accesses, allow_other must be passed.
+> 
+> This is probably useful to some people (it certainly is to me, e.g. when
+> exporting some image as my normal user, and then trying to loop mount it
+> as root), so this series adds a QAPI allow-other bool that will make the
+> FUSE export code pass allow_other,default_permissions to FUSE.
+> 
+> (default_permissions will make the kernel do the usual UNIX permission
+> checks, which is something that makes a lot of sense when allowing other
+> users access to the export.)
+> 
+> This also requires our SETATTR code to be able to handle permission
+> changes, though, so the user can then run chmod/chown/chgrp on the
+> export to adjust its permissions to their need.
+> 
+> The final patch adds a test.
 
-This is the necessary fixup to deal with QEMU_GENERIC having
-gone away in current master:
+If there is even a use case for leaving the option off (not trusting
+root?), it must certainly be the less common case? So I'm not sure if
+allow-other should be an option at all, but if it is, enabling it by
+default would make more sense to me.
 
-diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 91a9366e281..f2fae523e24 100644
---- a/target/arm/mve_helper.c
-+++ b/target/arm/mve_helper.c
-@@ -185,7 +185,7 @@ DO_VSTR(vstrh_w, 2, stw, 4, int32_t)
- /*
-  * The mergemask(D, R, M) macro performs the operation "*D = R" but
-  * storing only the bytes which correspond to 1 bits in M,
-- * leaving other bytes in *D unchanged. We use QEMU_GENERIC
-+ * leaving other bytes in *D unchanged. We use _Generic
-  * to select the correct implementation based on the type of D.
-  */
+Is there a reason why you picked false as the default, except that it is
+the old behaviour?
 
-@@ -234,30 +234,16 @@ static void mergemask_sq(int64_t *d, int64_t r,
-uint16_t mask)
-     mergemask_uq((uint64_t *)d, r, mask);
- }
+Kevin
 
--/*
-- * mergemask() should never be passed an unknown type; catch this bug
-- * at compile time with a link error if we can, otherwise at runtime.
-- */
--#if defined(__OPTIMIZE__) && !defined(__SANITIZE_ADDRESS__)
--void unknown_mergemask_type(void *d, uint64_t r, uint16_t mask);
--#else
--static inline void unknown_mergemask_type(void *d, uint64_t r, uint16_t mask)
--{
--    abort();
--}
--#endif
--
- #define mergemask(D, R, M)                      \
--    QEMU_GENERIC(D,                             \
--                 (uint8_t *, mergemask_ub),     \
--                 (int8_t *,  mergemask_sb),     \
--                 (uint16_t *, mergemask_uh),    \
--                 (int16_t *,  mergemask_sh),    \
--                 (uint32_t *, mergemask_uw),    \
--                 (int32_t *,  mergemask_sw),    \
--                 (uint64_t *, mergemask_uq),    \
--                 (int64_t *,  mergemask_sq),    \
--                 unknown_mergemask_type)(D, R, M)
-+    _Generic(D,                                 \
-+             uint8_t *: mergemask_ub,           \
-+             int8_t *:  mergemask_sb,           \
-+             uint16_t *: mergemask_uh,          \
-+             int16_t *:  mergemask_sh,          \
-+             uint32_t *: mergemask_uw,          \
-+             int32_t *:  mergemask_sw,          \
-+             uint64_t *: mergemask_uq,          \
-+             int64_t *:  mergemask_sq)(D, R, M)
-
- #define DO_1OP(OP, ESIZE, TYPE, FN)                                     \
-     void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
-
-thanks
--- PMM
 
