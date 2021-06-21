@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1863AF973
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 01:34:38 +0200 (CEST)
-Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B526C3AF981
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 01:36:39 +0200 (CEST)
+Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvTR7-0002My-IG
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 19:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41944)
+	id 1lvTT4-0006DV-Pd
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 19:36:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvTC9-00018x-V2
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:09 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40630)
+ id 1lvTCB-0001Dx-3Z
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:11 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:34355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvTC7-00062T-Em
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:09 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- bb10-20020a17090b008ab029016eef083425so472513pjb.5
+ id 1lvTC8-00062f-3c
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:10 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso736222pjx.1
  for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 16:19:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uxQeR//xqY+LsX6pm6SBoWME/fdGKFQJm9ucGcJi4j0=;
- b=O8S6lHvnRio7OIyE3Bc0jy4yKxcZv+B+jczpN85+BHP8JzO0LuubOKsUERIfo91m0x
- CRv+zdehapRUwTIfS5p0n0AqIFtuKnyhn/WWoUebO+zg9VzVqx3IDTxGhtzHJuVSJpHs
- mTUVR8ZebJuH4PFNl6fhKkqyWmpxB9cEcWeJyBZUusVyKbSKnyAKHM06d9m4LfI6H8Lj
- Xo/Vea83d19eX2E3ZSd7crEckPnD+HqpyrfSJ5LSzvthJTo3Jp++6X8tgJRcZZ8LR1iG
- U8uNZkSrgiY1pl+w3VXfxRFvp+JPceTqz40bykpka6MkGn7WBL7MLHfRVoWs57DugDx9
- 2iwQ==
+ bh=EzJ1xh0bwnQkkpHhQH0S/Akj7K6Bvw2BctkCRqh+aEM=;
+ b=qL6sVl+MIvj9Top58LYsb6SMS0EK9uaUjfbu3KZfiHahlYRCNbpenfR8HazhgVkR6n
+ vG6Bjoei3kkeINbDmoQPbxc7UjlH74liOpQLxFO4wzXe3RGfPIQ6fEWGhTgDmIm/x3cm
+ B15Zj0OlHYhYXa2UdRSGUqyvsFZIhGyyqij6+WOEv3zmesLvU90mz7igJ1tI6apHOL9r
+ qsRPo0pLyNuP19J1dvXNw3bwDzcDxsM8oFMCiYPPJRZsPHYHYEaQXxSAmSU6JvMxlZ4Z
+ Rv+TX/HQdp3uCKm0vKMuMr6lN7TMnaoicmS49RCc4Cv09hY8t7oHoKMtXdwP7hBQGcot
+ SUgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uxQeR//xqY+LsX6pm6SBoWME/fdGKFQJm9ucGcJi4j0=;
- b=qkHo4bi5JDgiky3dFMns/B2nxkXISSbtevdcZZ036LvP8Kh8jwnlycSdZdf4pg4OXU
- a65hPex8KzsX4oKD0304uMmSSCPLK5PFhPNmFfTKzIZ2m4UOdggJX4Emayju572TMgc/
- wksxjwY0zvHNMV8EHsTFinB7XjB0QKP3Wwck+YxaVXmI/yQz8wVYEYoBQzU0Ay4OrKLd
- M4I1tmMCkbRu+4DtDhuvOZZNvXf97FNa7pNUHUZ0gpltkvg7ecIDygUiCsnCYslGhuxN
- pHH9htfWsNElAwBgumJ1iBTifnqLQJLpGi5d0MDzBzn4Yx8MBJmJpPAkMseP1YdP8jj+
- Mw1g==
-X-Gm-Message-State: AOAM532iNIuIRzByHlBW77cYaajEvPdUhCw0/cB1y6s9Q72ajzKAAQC8
- NNw8njDVS0w8TQdOC43XyIOXZpoC9orAjg==
-X-Google-Smtp-Source: ABdhPJy2lFF2tTCenOHErBgKy8OMOg7djp/v0Makt+nJUb7I7b0EHzuRDK1FPOOL7KvV6v+xwW0znQ==
-X-Received: by 2002:a17:90b:4b04:: with SMTP id
- lx4mr684260pjb.54.1624317546186; 
+ bh=EzJ1xh0bwnQkkpHhQH0S/Akj7K6Bvw2BctkCRqh+aEM=;
+ b=R8YXMSLDf60HjYcaWMr+3yuVZvNFbbgqO84nCUndqtf0yOsgCMnpj3oMwDYoBjXV78
+ fKT9Y7hltQsAO19yhsxQGO9rTvLLkbK2Ra6VVAfV4qTngfvsH1e0KR1kFDgEiIRtDkxE
+ qwnuuA9KZ3LQJWAPUl+dVdNzkLr8UrdiqEeUett9TrdWDJyxa3AFHvVT8NL52wJGnykp
+ h6kpj1hbssWkN2+D8f+lkgUJd+LIh1eYzzw2BGlGYP+MGRd8N57ep5dvsXjknwO9nD8+
+ 53P+qIjI/uSDGN4aKn/qcZHDDGie3OEvnlROvFg5rY7r1wqy4h+u1Lm2sjox1LF6QWJZ
+ +ZEw==
+X-Gm-Message-State: AOAM532ezkAoGvuYrD47YR+FSvJiXiPFRMxIWLO9LrOAAz6ac9EnrS6d
+ mp4LUy1V7gz7GMXPxtVE0hnci4vwIvnstw==
+X-Google-Smtp-Source: ABdhPJwHfFPptaEN/7hWD2iu3AD4WkhYH8MmrE5ZsKrcdRGOrMk/7JXMlOzJuMkDa88KUQHsU+nyug==
+X-Received: by 2002:a17:902:ed44:b029:11e:c5f6:9d45 with SMTP id
+ y4-20020a170902ed44b029011ec5f69d45mr19800231plb.55.1624317546736; 
  Mon, 21 Jun 2021 16:19:06 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 135sm14429952pgf.20.2021.06.21.16.19.05
+ by smtp.gmail.com with ESMTPSA id 135sm14429952pgf.20.2021.06.21.16.19.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 16:19:05 -0700 (PDT)
+ Mon, 21 Jun 2021 16:19:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 24/29] target/i386: Improve bswap translation
-Date: Mon, 21 Jun 2021 16:18:44 -0700
-Message-Id: <20210621231849.1871164-25-richard.henderson@linaro.org>
+Subject: [PATCH v2 25/29] target/sh4: Improve swap.b translation
+Date: Mon, 21 Jun 2021 16:18:45 -0700
+Message-Id: <20210621231849.1871164-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210621231849.1871164-1-richard.henderson@linaro.org>
 References: <20210621231849.1871164-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,42 +88,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a break instead of an ifdefed else.
-There's no need to move the values through s->T0.
 Remove TCG_BSWAP_IZ and the preceding zero-extension.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ target/sh4/translate.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index e8a9dcd21a..b21873ed23 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -7195,17 +7195,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         reg = (b & 7) | REX_B(s);
- #ifdef TARGET_X86_64
-         if (dflag == MO_64) {
--            gen_op_mov_v_reg(s, MO_64, s->T0, reg);
--            tcg_gen_bswap64_i64(s->T0, s->T0);
--            gen_op_mov_reg_v(s, MO_64, reg, s->T0);
--        } else
--#endif
--        {
--            gen_op_mov_v_reg(s, MO_32, s->T0, reg);
--            tcg_gen_ext32u_tl(s->T0, s->T0);
--            tcg_gen_bswap32_tl(s->T0, s->T0, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
--            gen_op_mov_reg_v(s, MO_32, reg, s->T0);
-+            tcg_gen_bswap64_i64(cpu_regs[reg], cpu_regs[reg]);
-+            break;
-         }
-+#endif
-+        tcg_gen_bswap32_tl(cpu_regs[reg], cpu_regs[reg], TCG_BSWAP_OZ);
-         break;
-     case 0xd6: /* salc */
-         if (CODE64(s))
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 147219759b..f45515952f 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -676,8 +676,7 @@ static void _decode_opc(DisasContext * ctx)
+     case 0x6008:		/* swap.b Rm,Rn */
+ 	{
+             TCGv low = tcg_temp_new();
+-	    tcg_gen_ext16u_i32(low, REG(B7_4));
+-	    tcg_gen_bswap16_i32(low, low, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
++	    tcg_gen_bswap16_i32(low, REG(B7_4), 0);
+             tcg_gen_deposit_i32(REG(B11_8), REG(B7_4), low, 0, 16);
+ 	    tcg_temp_free(low);
+ 	}
 -- 
 2.25.1
 
