@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAC83AE787
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:47:37 +0200 (CEST)
-Received: from localhost ([::1]:50484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5C83AE739
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:36:50 +0200 (CEST)
+Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvHSq-0005k5-HA
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
+	id 1lvHIP-0002zT-NF
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvH7b-0004AO-Dc
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:25:42 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46070)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvH7V-0005hj-NA
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:25:38 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id r7so18143950edv.12
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 03:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8mAsWxzn17mn1SsbEYLlrm05rIirHOJ+0SjUUjzZLHk=;
- b=pKrj5bKn87kgQdg2LYWTcKHFiVo52fcgNAumwB9VjSq+NatNfsmrOajNoRNmCsDvbA
- jk+mlLPDI8h9qxWWm82UTHEbonGVnek0rhvp1iHpc9FM9QvS6c/JTSY8+PHxTf6jQAYm
- hjPt8dmr/coBu3y/t30GFChsMzARfU2cbc2zhbzX5lUEwx/xWNh87Kf7NmeUtanWPkMV
- V9NdUELqG+pxm800joOdOe+irG1mBz502uuiCxGbDFij0hqUztn7xgYrzcifGb5DYMeM
- Y1dmInRqFg82Fx1CNAPvSK8vbR2nyVS85JqttMlw0o+Zqtm7fmqDkyF3ipaTVHnXABWo
- l1iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8mAsWxzn17mn1SsbEYLlrm05rIirHOJ+0SjUUjzZLHk=;
- b=a36pW7ySjyllR1GfU/eg0wyGK5h8sHLGu+J1iA8dd6rTilFNdpKpfzOIMpH6nwsf3h
- NMOA6K9WzFcuV2bfyX2dQqFfoE/as2FPRKUfL5cGFmXuzbWtRjNP2g5ExOcyssfaBWBp
- 7VZIOqiaAa40ziOegfPgL7rfKpo9ffc0s+vxWG6EA9naHoj2BzRC1VQz97wlCeQMMIiR
- ROgyCwxtq0YcWxxadb54GthZy/43P4Mu8MBEVsqccmrWxSFOVmbspojFeO5qGP/RxuyT
- k2VIIps6t4DdIYvZJ8blazqMetgig1DddL7sOAEXOGBDD1FMtr2zGGbATRGgB83+vXj0
- egqg==
-X-Gm-Message-State: AOAM532P5hegpSHIi5+wKNJkYV3VYaj+0aRkOE18Xa5br/F3A768gLJv
- 9Fxyqi2kN3F/jLguCvhpix3vkYSeq0Y6g0HQeaO6conUA+7UMQ==
-X-Google-Smtp-Source: ABdhPJyOaY71GVnNsdPIoyvHJaOc3JGsLjqUIteIReourc5U61AxMDMxIVs04JBep/iVrf/svPSD6XyjEPZByhAnPHg=
-X-Received: by 2002:aa7:da14:: with SMTP id r20mr19251252eds.36.1624271130039; 
- Mon, 21 Jun 2021 03:25:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lvHFW-0008N2-1g
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:33:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lvHFQ-00029b-RL
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:33:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624271623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AAJ356+EIegqR2qDbF7GNuswLK3rj+4rAMF6qF8CgYA=;
+ b=NB2zWbUWPakF8t5xKNdGofsJXxRRL4K21T0JpUFLQIo87IqT+/lcZrpYZsRSNnqpM0oNuo
+ JWtL4+v10aVzSsAveTUJMr0khFlocfFidrwi/QIARMewU8wRClwabjGsdgXoXR2Ahvryst
+ ZQx1f3KjG0ePsLFDmSBeZoYqKUbLf1I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-ocq51FAUMbWdT-yKWBRQKg-1; Mon, 21 Jun 2021 06:33:41 -0400
+X-MC-Unique: ocq51FAUMbWdT-yKWBRQKg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9629193F566;
+ Mon, 21 Jun 2021 10:33:40 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-113-100.ams2.redhat.com
+ [10.36.113.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 310365D703;
+ Mon, 21 Jun 2021 10:33:37 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v6 00/16] qemu_iotests: improve debugging options
+Date: Mon, 21 Jun 2021 12:33:21 +0200
+Message-Id: <20210621103337.36637-1-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20210618173200.596368-1-eblake@redhat.com>
-In-Reply-To: <20210618173200.596368-1-eblake@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Jun 2021 11:24:54 +0100
-Message-ID: <CAFEAcA_YykkVaPeeRo-=3yzCUUqtR7OtwNJZBkQ7JfZjbCsEOg@mail.gmail.com>
-Subject: Re: [PULL v2 00/34] NBD patches through 2021-06-15
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.299,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,39 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Jun 2021 at 18:34, Eric Blake <eblake@redhat.com> wrote:
->
-> The following changes since commit 3ccf6cd0e3e1dfd663814640b3b18b55715d7a75:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210617-pull-request' into staging (2021-06-18 09:54:42 +0100)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-06-15-v2
->
-> for you to fetch changes up to bbfb7c2f350262f893642433dea66352fc168295:
->
->   block/nbd: safer transition to receiving request (2021-06-18 12:21:22 -0500)
->
-> v2: silence uninit variable warning [clang, Vladimir]
-> only re-sending the affected patch
->
-> ----------------------------------------------------------------
-> nbd patches for 2021-06-15
->
-> - bug fixes in coroutine aio context handling
-> - rework NBD client connection logic to perform more work in coroutine
->
+This series adds the option to attach gdbserver and valgrind
+to the QEMU binary running in qemu_iotests.
+It also allows to redirect QEMU binaries output of the python tests
+to the stdout, instead of a log file.
 
+Patches 1-9 introduce the -gdb option to both python and bash tests, 
+10-14 extend the already existing -valgrind flag to work also on 
+python tests, and patch 15-16 introduces -p to enable logging to stdout.
 
-Applied, thanks.
+In particular, patches 1,6,11 focus on extending the QMP socket timers
+when using gdb/valgrind, otherwise the python tests will fail due to
+delays in the QMP responses.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+v6:
+* undo the previous series change "base this serie on the double dash options,
+  so define --gdb instead of -gdb"
+* undo Vladimir's suggestion on patch 5 to use @contextmanager, because it
+  produces a pylint warning.
 
--- PMM
+Emanuele Giuseppe Esposito (15):
+  python: qemu: add timer parameter for qmp.accept socket
+  python: qemu: pass the wrapper field from QEMUQtestmachine to
+    QEMUMachine
+  docs/devel/testing: add debug section to the QEMU iotests chapter
+  qemu-iotests: add option to attach gdbserver
+  qemu-iotests: delay QMP socket timers
+  qemu_iotests: insert gdbserver command line as wrapper for qemu binary
+  qemu-iotests: add gdbserver option to script tests too
+  docs/devel/testing: add -gdb option to the debugging section of QEMU
+    iotests
+  qemu-iotests: extend the check script to prepare supporting valgrind
+    for python tests
+  qemu-iotests: extend QMP socket timeout when using valgrind
+  qemu-iotests: allow valgrind to read/delete the generated log file
+  qemu-iotests: insert valgrind command line as wrapper for qemu binary
+  docs/devel/testing: add -valgrind option to the debug section of QEMU
+    iotests
+  qemu-iotests: add option to show qemu binary logs on stdout
+  docs/devel/testing: add -p option to the debug section of QEMU iotests
+
+John Snow (1):
+  python: Reduce strictness of pylint's duplicate-code check
+
+ docs/devel/testing.rst         | 30 +++++++++++++++++++++
+ python/qemu/machine/machine.py | 16 +++++++----
+ python/qemu/machine/qtest.py   |  9 ++++---
+ python/setup.cfg               |  5 ++++
+ tests/qemu-iotests/check       | 15 ++++++++---
+ tests/qemu-iotests/common.rc   |  8 +++++-
+ tests/qemu-iotests/iotests.py  | 49 ++++++++++++++++++++++++++++++++--
+ tests/qemu-iotests/testenv.py  | 23 ++++++++++++++--
+ 8 files changed, 138 insertions(+), 17 deletions(-)
+
+-- 
+2.31.1
+
 
