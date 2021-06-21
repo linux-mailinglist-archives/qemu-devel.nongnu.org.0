@@ -2,45 +2,161 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5763AE9B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 15:05:55 +0200 (CEST)
-Received: from localhost ([::1]:38348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4C93AE9CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 15:12:09 +0200 (CEST)
+Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvJcg-0006Fp-8h
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 09:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42142)
+	id 1lvJig-0000Lo-Di
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 09:12:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lvJQV-0008R6-Ah; Mon, 21 Jun 2021 08:53:23 -0400
-Received: from [201.28.113.2] (port=47857 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lvJQT-0004nA-Ei; Mon, 21 Jun 2021 08:53:19 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 21 Jun 2021 09:51:41 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 1222B800055;
- Mon, 21 Jun 2021 09:51:41 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/10] target/ppc: fix address translation bug for radix
- mmus
-Date: Mon, 21 Jun 2021 09:51:15 -0300
-Message-Id: <20210621125115.67717-11-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
-References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 21 Jun 2021 12:51:41.0242 (UTC)
- FILETIME=[2E8999A0:01D7669C]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <swee.aun.khor@intel.com>)
+ id 1lvJhZ-0007kj-Md
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 09:10:57 -0400
+Received: from mga04.intel.com ([192.55.52.120]:8858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <swee.aun.khor@intel.com>)
+ id 1lvJhW-0008MG-LR
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 09:10:57 -0400
+IronPort-SDR: sXut2EgpadA0gDYZQoGrdeI6ZPLFNCPvy/VbBmHix3UFsn+ElaWunc2caOzvHwCdGiYchUbilQ
+ 2WSSnDSM0QIw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10021"; a="205014717"
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="205014717"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2021 06:10:16 -0700
+IronPort-SDR: 7/bXkcxUVhwoAI33gtuDP1yT0gmsTNDaqyURxFf1GrOwi8m5ManAlrwqKrbGesQlZGwiGgA0gp
+ jvT21WbfXz8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="453876269"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by fmsmga008.fm.intel.com with ESMTP; 21 Jun 2021 06:10:16 -0700
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Mon, 21 Jun 2021 06:10:15 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Mon, 21 Jun 2021 06:10:15 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
+ via Frontend Transport; Mon, 21 Jun 2021 06:10:15 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.103)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.4; Mon, 21 Jun 2021 06:10:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dr+DniqXZKNTLdPOjzDM/8YI7H/ljeU+KFe7dtbdk8EzYKXaRv7WQawtYfFdrJhXUhW5F/99RQdzokCQn16Ydn/OEqVgEf5vCuqaaJU1iFxHm76dMvE0I8Pf1E5XzhwNzvsEHZzqGk96MA6d2QSifxHrcwFuhrwMW8xdV8xWD+J3i/zhi09LFtiRb2Y2oG+xXQGJiGBObXanHXeGeCDwjICARsOhlD+cYlkhUPtK3dfNac2As6HZiqdDvTHygNKmPnQ04PXIWZhjKwGUhPU6oPWvREB9WkN+pwOJr30t86AR/TxMhapk/qhb4I2GVRqE67++/d+zl23/Xtjvp8TiyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q8MBx66TGtKEDkY62rPavLXgrv8vSNbqqOa0IfgFwcI=;
+ b=PCF3YEXW7Yssz2/y2YuQKMQXtAbxSRZqEb1Iv3wi0KrCQmNfOFac2Px8GQIPNB/Q3eYqYpTf95L2dY38WfWs9XoAcr7yKTyiZIeb624uOobiiD7A1dya4450xPU8GitfnW5EYy9OMRzWnEocvOgWXlXs+1mcpXInirfaKGsSG/pTa3wnNK/8RvKF3LIqukcy1sLh+vSmJUOYv/ZSPSaFBMUZK+sZJcIYWtpYck9x9k58XYJj6FqCmGJRERSNe9YwVvsrntZGfRPUMm70AdrkEdTTbz5ycAs9o5Nno7tZLR34BwU9uBLtV7D+8lkfsfcHHNVywWI14D/vzLux+kY+XA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q8MBx66TGtKEDkY62rPavLXgrv8vSNbqqOa0IfgFwcI=;
+ b=bBeJNTbKYpoJk0mYDHvOXIBsfE7tQcAhl719vVxPOnG5OKjotu6vqAYWxXc0/FupDfkhTbV+3txU2smYUvVNB1mWIIZtsa9ky0eYgH9JKveueZrRkFX9b4wAtgYFmCe5OX6DLevUOgM9BX2VPpTT6uPMLxq2A7xSyPG/5hJ3hKs=
+Received: from DM8PR11MB5717.namprd11.prod.outlook.com (2603:10b6:8:30::9) by
+ DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.19; Mon, 21 Jun 2021 13:10:12 +0000
+Received: from DM8PR11MB5717.namprd11.prod.outlook.com
+ ([fe80::ed6d:88e5:949b:62f1]) by DM8PR11MB5717.namprd11.prod.outlook.com
+ ([fe80::ed6d:88e5:949b:62f1%8]) with mapi id 15.20.4242.023; Mon, 21 Jun 2021
+ 13:10:12 +0000
+From: "Khor, Swee Aun" <swee.aun.khor@intel.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: RE: [PATCH v2] ui/gtk: Allow user to select monitor number to display
+ qemu in full screen through new gtk display option
+Thread-Topic: [PATCH v2] ui/gtk: Allow user to select monitor number to
+ display qemu in full screen through new gtk display option
+Thread-Index: AQHXZDIfHJcen+WIR0WYeKfsyBDVzasZtNJAgARWmQCAAAPZEIAARZQAgAAekPA=
+Date: Mon, 21 Jun 2021 13:10:11 +0000
+Message-ID: <DM8PR11MB5717708D9E5793F1EB13380EAF0A9@DM8PR11MB5717.namprd11.prod.outlook.com>
+References: <20210617020609.18089-1-swee.aun.khor@intel.com>
+ <8735tfsa79.fsf@dusky.pond.sub.org>
+ <DM8PR11MB571712EDA6522BB50D192A63AF0A9@DM8PR11MB5717.namprd11.prod.outlook.com>
+ <20210621065148.o7yggutrxgvdnpc7@sirius.home.kraxel.org>
+ <DM8PR11MB57176186A481ACE8F5924AB8AF0A9@DM8PR11MB5717.namprd11.prod.outlook.com>
+ <20210621111436.l64mvuqpob7lc7dc@sirius.home.kraxel.org>
+In-Reply-To: <20210621111436.l64mvuqpob7lc7dc@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [14.192.212.248]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c244ee0c-f531-4d64-d454-08d934b5e714
+x-ms-traffictypediagnostic: DM6PR11MB4657:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB46571BA402639990600CB98FAF0A9@DM6PR11MB4657.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DJKsL1Pm55eaMl2i3PkH/jA1VwgkqnOz/InLhD+R4u5nxrEhgYOOTtxbP9P4aSPBhMSbPnnSFJNU5mn3nfi3jUZ8V2cvBo87OoO7RLF/80aDU5GMNc8x18okZDIXbiMpxoTA5EShYirFEidPfGPQxSXKhZqjBPqfZWS7qUssOEtwFYF+b8b1DbSfoJYShXD0V/j4Tk/1uyAewNNRHBvgE4S1HH1vWvoA2s/HQk+X+tgUY94le4sdZVPHi3gm3xJGTJ6ZVpPDyK2xsC0dr2RR6ESyB7TVKWfuQlxnIg8P5KLjzOy8Djrt8sq/2/T4eBpJI4Kp67zSXJ0c8dlIyvP5VrxbjHbZ1XJjO1C2uTv4BUZUnIYs/luyc8m6Hq7PdaJefHcsdEXFl/qCB8WAuTadYIZ4wxS7IIpwi0VRoLBtjixvcGnJ7jmjxU/t4HaE/OvA511WPAXis9xv2ooZCOHp6l3MpubihPvf+4ClNNUa80aWvDmqjkfdv3Nz7E4opdiYgdZfnlVn0c387Lids/7ewq2r0sKk0Ta1zmjStCZrXSQAt1SoDxLcDwStP4h8qiPwkDRsE62A5J+RzXIlEO+QPDYm5cfYM4E4k9KoQQfx4fBwSFTdyXtj5npgzMt4WiKCqrXTCw7vzkm217rhaT0r7VpsMVNG9J/TMMPntwFMLGu6xnvOCm0W4O7IkdHI29RpghB6MIS79haJ0kQuhXffQ6obMyj3PJKMcTKxW1oz4lQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5717.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(66476007)(76116006)(122000001)(6916009)(66946007)(33656002)(38100700002)(966005)(86362001)(66446008)(9686003)(64756008)(7696005)(66556008)(55016002)(26005)(2906002)(8936002)(4326008)(83380400001)(71200400001)(53546011)(186003)(498600001)(6506007)(52536014)(54906003)(8676002)(5660300002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?iFd3Lluga0Yx7EoFQfSZ5P1+Ihgmfp01nqM9/728ohY+SD3J5hestiPUlm3u?=
+ =?us-ascii?Q?w5o9WmQhDMiRk1R7I5+Vbxz4SmfYEiPDycQBsa8IrmDEssaiYJZU02uZQ5GI?=
+ =?us-ascii?Q?5oKHq6HlbAAYruyM2Z3cEIMm81Qs8bXUv3ZsDdHBGc9Cr0u93JkklsGpTihp?=
+ =?us-ascii?Q?wwaZpSY4Zx0esOf/Xz3ePzF8ROK2qefhgav0K0Zd9ugoU9buAEUodWlVizYU?=
+ =?us-ascii?Q?ZAPHjVyRDtzRxNBQUsEhVIXn883o0YXR+hnGOyfQGOlUFUuOR8ww+HBIiVRp?=
+ =?us-ascii?Q?p1/T8QcZV83vH93x7el77rg/Pkr+p9WQyV5ehwzldpm0dplumChBJ6gUA0zs?=
+ =?us-ascii?Q?uGQs0yhm0zmcpU7O5QLy+qNVrUvn8gVkdnHcjaK0gwg/Oyz7qA19XaCTvo4e?=
+ =?us-ascii?Q?5q72kiEZ8KxlvJrqW4ftn+PottgIADgDiZj0vQ9ep+N27P3uA/EtrLwaSAx3?=
+ =?us-ascii?Q?5xBj6U+tWtGUakm/cwFvycwqhL8SPXF2p9r6t3FAWO/dJ0p0vgKBJaqV8Pl3?=
+ =?us-ascii?Q?e0ArUwM+J05YjZFVTsWhZKOwHmxV4Rr5agQx3iPB6xJn+S4JdwwfS4hJkQqz?=
+ =?us-ascii?Q?t5wTPKcYzoYX5HncOGyPRwuTrRyL5ybSrH2uUwCGEBFREukq4uPV00OG1TQ0?=
+ =?us-ascii?Q?wawnzfGLcMDNEvog0Tu9Io7kuvSNYavPAE5mC89tpHt9PZWk2dxqcrv39Fz0?=
+ =?us-ascii?Q?ijBdMJoWMIccMH+H/N2VlTemh2CayYjYL4Fd7nJwtxm+QUpAPA+t3pfSBo95?=
+ =?us-ascii?Q?NifxCtdyQ+zG/b+ZmSzQ7BMpx5B36JvnnYgenMuXf/iOCgGQ/LjRMzSJxLhb?=
+ =?us-ascii?Q?2yJ5YBaMD2bDXlLqpYlM/eXzNUzVezmEJoMNvSaMRw4sO6m+wBbvv1xSmIxI?=
+ =?us-ascii?Q?XPtuwZ/Zw+bdm2gEmQYVIinL0xUdfOrRjcPvFnnX1tZbDoCN8jNPGs9fZwdj?=
+ =?us-ascii?Q?cn4pTLbkOiopZzEdZNgWqkFpV5nlETkGBTv/J76jEYnDA36ElNc2wbjcaoSU?=
+ =?us-ascii?Q?aTZ/3y6QCSCLhxVQSqN+DKy3s8aG8tz3aymPzpY2nLYVasoUYyl0IqKKCx7s?=
+ =?us-ascii?Q?e08OQv9kyaaKqnhCVZ+aB6woJW3puvLOlj5Nes7p2zwhJdXoErtfaQessHL3?=
+ =?us-ascii?Q?lr24RiLVmjOhEalvQ95sGK0neN6QtF1FVt0nCum4cDlguosKnfs9tD5pKWj6?=
+ =?us-ascii?Q?GhSM8UcjXX/OjgWtQ/MPqRTG/PhGP32wZP4Xvc/MB3AzE0Qs7t6DDWECu0gO?=
+ =?us-ascii?Q?ELcaZyw89ErQseYX9wUPc7brgAaBDlAG3i0dkMc6RHCKTVyolP/Vvz/u30T5?=
+ =?us-ascii?Q?S2ve//ysRgqnJ/83w0l81jfk?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5717.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c244ee0c-f531-4d64-d454-08d934b5e714
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2021 13:10:11.9033 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: C7vlnbCm8vvveB1/HYax1lofIPkwIpB8c9DVFS35+sp7NtITFhdB/Nj7ps/YCZlDe2c6fDxeRTeczm7o0w0K4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4657
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.120;
+ envelope-from=swee.aun.khor@intel.com; helo=mga04.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,246 +169,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: "Romli, Khairul Anuar" <khairul.anuar.romli@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eblake@redhat.com" <eblake@redhat.com>, "Kasireddy,
+ Vivek" <vivek.kasireddy@intel.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit attempts to fix the first bug mentioned by Richard Henderson in
-https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06247.html
+Hi Gerg and Markus,
 
-To sumarize the bug here, when radix-style mmus are translating an
-address, they might need to call a second level of translation, with
-hypervisor privileges. However, the way it was being done up until
-this point meant that the second level translation had the same
-privileges as the first level. 
+Hmm, right, nothing obvious at https://developer.gnome.org/gtk3/stable/GtkW=
+indow.html for the non-full-screen case.
 
-This patch attempts to correct that by making radix64_*_xlate functions
-receive the mmu_idx, and passing one with the correct permission for the
-second level translation.
+Nevertheless the options should have sane semantics.  We could:
 
-The mmuidx macros added by this patch are only correct for non-bookE
-mmus, because BookE style set the IS and DS bits inverted and there
-might be other subtle differences. However, there doesn't seem to be
-BookE cpus that have radix-style mmus, so we left a comment there to
-document the issue, in case a machine does have that and was missed.
+  (1) Require full-screen=3Don in addition to monitor=3D<nr>.
+      That would leave the door open to implement the full-screen=3Doff
+      case later if we figure some way to do that.
+  (2) Rename the option to full-screen-on-monitor, to make clear this
+      automatically enables fullscreen too.
 
-As part of this cleanup, we now need to send the correct mmmu_idx
-when calling get_phys_page_debug, otherwise we might not be able to see the
-memory that the CPU could
+sweeaun:  Alright, I would opt for option 2 in this case. Thanks for the fe=
+edback from you and Markus , I shall rework all the feedbacks for the v3.  =
+=20
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/internal.h    | 13 +++++++++++++
- target/ppc/mmu-radix64.c | 37 +++++++++++++++++++++----------------
- target/ppc/mmu-radix64.h |  2 +-
- target/ppc/mmu_helper.c  |  8 +++++---
- 4 files changed, 40 insertions(+), 20 deletions(-)
+Regards,
+SweeAun
 
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index f1fd3c8d04..11a0e22cc9 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -245,4 +245,17 @@ static inline int prot_for_access_type(MMUAccessType access_type)
-     g_assert_not_reached();
- }
- 
-+/*
-+ * These correspond to the mmu_idx values computed in
-+ * hreg_compute_hflags_value. See the tables therein
-+ */
-+static inline bool mmuidx_pr(int idx) { return !(idx & 1); }
-+/*
-+ * This macro is only correct for non Book-E MMUs. We can add an if clause
-+ * to check for mmu model, but since those don't have the bug, we decided to
-+ * keep the code clean.
-+ */
-+static inline bool mmuidx_real(int idx) { return idx & 2; }
-+static inline bool mmuidx_hv(int idx) { return idx & 4; }
-+
- #endif /* PPC_INTERNAL_H */
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index cbd404bfa4..5b0e62e676 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -155,7 +155,7 @@ static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, MMUAccessType access_type,
- 
- static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
-                                    uint64_t pte, int *fault_cause, int *prot,
--                                   bool partition_scoped)
-+                                   int mmu_idx, bool partition_scoped)
- {
-     CPUPPCState *env = &cpu->env;
-     int need_prot;
-@@ -173,7 +173,8 @@ static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
-     /* Determine permissions allowed by Encoded Access Authority */
-     if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
-         *prot = 0;
--    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) {
-+    } else if (mmuidx_pr(mmu_idx) || (pte & R_PTE_EAA_PRIV) ||
-+               partition_scoped) {
-         *prot = ppc_radix64_get_prot_eaa(pte);
-     } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scoped */
-         *prot = ppc_radix64_get_prot_eaa(pte);
-@@ -299,7 +300,7 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
-                                               ppc_v3_pate_t pate,
-                                               hwaddr *h_raddr, int *h_prot,
-                                               int *h_page_size, bool pde_addr,
--                                              bool guest_visible)
-+                                              int mmu_idx, bool guest_visible)
- {
-     int fault_cause = 0;
-     hwaddr pte_addr;
-@@ -310,7 +311,8 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
-     if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_RPDB,
-                               pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_size,
-                               &pte, &fault_cause, &pte_addr) ||
--        ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, h_prot, true)) {
-+        ppc_radix64_check_prot(cpu, access_type, pte,
-+                               &fault_cause, h_prot, mmu_idx, true)) {
-         if (pde_addr) { /* address being translated was that of a guest pde */
-             fault_cause |= DSISR_PRTABLE_FAULT;
-         }
-@@ -332,7 +334,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-                                             vaddr eaddr, uint64_t pid,
-                                             ppc_v3_pate_t pate, hwaddr *g_raddr,
-                                             int *g_prot, int *g_page_size,
--                                            bool guest_visible)
-+                                            int mmu_idx, bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -367,7 +369,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-         ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_addr,
-                                                  pate, &h_raddr, &h_prot,
-                                                  &h_page_size, true,
--                                                 guest_visible);
-+            /* mmu_idx is 5 because we're translating from hypervisor scope */
-+                                                 5, guest_visible);
-         if (ret) {
-             return ret;
-         }
-@@ -407,7 +410,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-             ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pte_addr,
-                                                      pate, &h_raddr, &h_prot,
-                                                      &h_page_size, true,
--                                                     guest_visible);
-+            /* mmu_idx is 5 because we're translating from hypervisor scope */
-+                                                     5, guest_visible);
-             if (ret) {
-                 return ret;
-             }
-@@ -431,7 +435,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-         *g_raddr = (rpn & ~mask) | (eaddr & mask);
-     }
- 
--    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, g_prot, false)) {
-+    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause,
-+                               g_prot, mmu_idx, false)) {
-         /* Access denied due to protection */
-         if (guest_visible) {
-             ppc_radix64_raise_si(cpu, access_type, eaddr, fault_cause);
-@@ -464,7 +469,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-  *              +-------------+----------------+---------------+
-  */
- bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
--                       hwaddr *raddr, int *psizep, int *protp,
-+                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
-                        bool guest_visible)
- {
-     CPUPPCState *env = &cpu->env;
-@@ -474,17 +479,17 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     hwaddr g_raddr;
-     bool relocation;
- 
--    assert(!(msr_hv && cpu->vhyp));
-+    assert(!(mmuidx_hv(mmu_idx) && cpu->vhyp));
- 
--    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
-+    relocation = !mmuidx_real(mmu_idx);
- 
-     /* HV or virtual hypervisor Real Mode Access */
--    if (!relocation && (msr_hv || cpu->vhyp)) {
-+    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
-         /* In real mode top 4 effective addr bits (mostly) ignored */
-         *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
- 
-         /* In HV mode, add HRMOR if top EA bit is clear */
--        if (msr_hv || !env->has_hv_mode) {
-+        if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
-             if (!(eaddr >> 63)) {
-                 *raddr |= env->spr[SPR_HRMOR];
-            }
-@@ -546,7 +551,7 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     if (relocation) {
-         int ret = ppc_radix64_process_scoped_xlate(cpu, access_type, eaddr, pid,
-                                                    pate, &g_raddr, &prot,
--                                                   &psize, guest_visible);
-+                                                   &psize, mmu_idx, guest_visible);
-         if (ret) {
-             return false;
-         }
-@@ -564,13 +569,13 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-          * quadrants 1 or 2. Translates a guest real address to a host
-          * real address.
-          */
--        if (lpid || !msr_hv) {
-+        if (lpid || !mmuidx_hv(mmu_idx)) {
-             int ret;
- 
-             ret = ppc_radix64_partition_scoped_xlate(cpu, access_type, eaddr,
-                                                      g_raddr, pate, raddr,
-                                                      &prot, &psize, false,
--                                                     guest_visible);
-+                                                     mmu_idx, guest_visible);
-             if (ret) {
-                 return false;
-             }
-diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-index 6b13b89b64..b70357cf34 100644
---- a/target/ppc/mmu-radix64.h
-+++ b/target/ppc/mmu-radix64.h
-@@ -45,7 +45,7 @@
- #ifdef TARGET_PPC64
- 
- bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
--                       hwaddr *raddr, int *psizep, int *protp,
-+                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
-                        bool guest_visible);
- 
- static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index ba1952c77d..9dcdf88597 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -2908,7 +2908,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     case POWERPC_MMU_3_00:
-         if (ppc64_v3_radix(cpu)) {
-             return ppc_radix64_xlate(cpu, eaddr, access_type,
--                                     raddrp, psizep, protp, guest_visible);
-+                                     raddrp, psizep, protp, mmu_idx, guest_visible);
-         }
-         /* fall through */
-     case POWERPC_MMU_64B:
-@@ -2941,8 +2941,10 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-      * try an MMU_DATA_LOAD, we may not be able to read instructions
-      * mapped by code TLBs, so we also try a MMU_INST_FETCH.
-      */
--    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
--        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
-+    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p,
-+                  cpu_mmu_index(&cpu->env, false), false) ||
-+        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p,
-+                  cpu_mmu_index(&cpu->env, true), false)) {
-         return raddr & TARGET_PAGE_MASK;
-     }
-     return -1;
--- 
-2.17.1
+-----Original Message-----
+From: Gerd Hoffmann <kraxel@redhat.com>=20
+Sent: Monday, June 21, 2021 7:15 PM
+To: Khor, Swee Aun <swee.aun.khor@intel.com>
+Cc: Romli, Khairul Anuar <khairul.anuar.romli@intel.com>; Kasireddy, Vivek =
+<vivek.kasireddy@intel.com>; eblake@redhat.com; Markus Armbruster <armbru@r=
+edhat.com>; qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] ui/gtk: Allow user to select monitor number to disp=
+lay qemu in full screen through new gtk display option
+
+  Hi,
+
+> Well, wouldn't it make sense to have monitor=3D<nr> work for both full-sc=
+reen=3Don and full-screen=3Doff cases?
+> sweeaun:  Yes. That will be better option for user. However, I not manage=
+d to find other GTK window API that can set window into monitor rather than=
+ gtk_window_fullscreen_on_monitor so far.   =20
+
+Hmm, right, nothing obvious at https://developer.gnome.org/gtk3/stable/GtkW=
+indow.html for the non-full-screen case.
+
+Nevertheless the options should have sane semantics.  We could:
+
+  (1) Require full-screen=3Don in addition to monitor=3D<nr>.
+      That would leave the door open to implement the full-screen=3Doff
+      case later if we figure some way to do that.
+  (2) Rename the option to full-screen-on-monitor, to make clear this
+      automatically enables fullscreen too.
+
+take care,
+  Gerd
 
 
