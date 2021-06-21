@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650713AE0D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 00:13:45 +0200 (CEST)
-Received: from localhost ([::1]:56724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D423AE143
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 03:20:28 +0200 (CEST)
+Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lv5hI-0004ZJ-CP
-	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 18:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46254)
+	id 1lv8bz-0000TV-63
+	for lists+qemu-devel@lfdr.de; Sun, 20 Jun 2021 21:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv5eY-0001aR-HK
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 18:10:54 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:33553)
+ (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
+ id 1lv8as-0008E3-B1
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 21:19:18 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:41805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lv5eW-0007tK-TN
- for qemu-devel@nongnu.org; Sun, 20 Jun 2021 18:10:54 -0400
-Received: by mail-pf1-x434.google.com with SMTP id p13so12221904pfw.0
- for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 15:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FotWsbbqFz4VjRP/kt0GkMjsWufTyPRcDViebjol4/4=;
- b=laxXVToE5b9UknWrrXrBBckbw67MXuUnYI7XqDCGZyNO9FENqEhPI0k9XAc2uzDGOB
- AmcrE8yHRbZ6+7/4uUOjA8BA7UEiR9+1SxNkyvfTf8uL1KMo3uCtu0hTOZ8sI0BNu3MH
- nWh9+/x+3Djek6Igv++l6xAWBhYwiFvmL8StJ6U4SNAqjijY749mlxCRJHHYCXulYIGY
- uwMISvkjmTF+mQdF4jp1dbcUKTE4NuuCAhjWgD7zdyUvGJpvmsbKoA7SRNdBQQUDjcuk
- 1e/lM2sO9uFB+ZZlEHkgIQRLIGdisJB9ItHVQR7Kl+XT8Jctz/t4HkCrOAx1v3CKmOxs
- Py8Q==
+ (Exim 4.90_1) (envelope-from <yamamoto@midokura.com>)
+ id 1lv8aq-0003mW-Ie
+ for qemu-devel@nongnu.org; Sun, 20 Jun 2021 21:19:17 -0400
+Received: by mail-pl1-x636.google.com with SMTP id y13so1522044plc.8
+ for <qemu-devel@nongnu.org>; Sun, 20 Jun 2021 18:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midokura.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=u77Jha0dVZq+rLuyu1dDw5QBGAUVlJtR1T4KmRO6KHo=;
+ b=RYP2ZUqgVfgtJX4M3SQWvO7mXp2D73kp0+uVbpoesVy7aBGZfL7TVL9rf8/lROp2AC
+ CnB1llBW08Sle+fXZ5s90Gkr2rR+KFYeseLCvClt5Z2x/4jWQ7+gRMdmdljqtacOTwY8
+ HDffetUlVoawYWCISC3pWdvRCfDczO+uKuyOU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FotWsbbqFz4VjRP/kt0GkMjsWufTyPRcDViebjol4/4=;
- b=ZVuRGfYFjR9Md4vsw/Lo0Qyxnwhcvda8Ax5o9DJw3mWv8XBNBWcuiG7rxJzfMpRnqP
- bSzsbVbQXU8DSrHulhhVPVy8+I+00JBfqWBnEFRn35EGjK/2OI5DQMIXRHQayitHc9rf
- v35npGLidrpbvCvcZpoPuGaLVZEeXb2U9QNjDKdogpdoeU96LrhlXmal1GdIBRrODLQG
- nuf8WbMyo4RGaNvNXkotreItkqJcFvIUYlEATxnvWYN9yVBGHwXal0mEBxzk3eou3nev
- fDVMeHbveKnYdd+5astF3aZ3wXfk8t7u9JoJVfgaxFqSiqYj8qR1C0653DZM0aYabhu7
- nlJA==
-X-Gm-Message-State: AOAM5309GIAGpfBrVRxRUOsGfYeRx/ZSQwCxFaXIZRn7ZDSjaUwFMPDa
- tppcaINzCxrCIydO0ghhERDUiERM9rX8Yw==
-X-Google-Smtp-Source: ABdhPJxr8YflXHQvF81GIX8dLT7caJvy2EyfCpot4KU+DnUG9mj9Ya3sy+IHRqLhfJuLvtkdO2B5Qw==
-X-Received: by 2002:aa7:8e18:0:b029:2ec:a754:570e with SMTP id
- c24-20020aa78e180000b02902eca754570emr16092727pfr.38.1624227051635; 
- Sun, 20 Jun 2021 15:10:51 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 135sm11122961pgf.20.2021.06.20.15.10.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Jun 2021 15:10:51 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] target/nios2: Clean up goto in handle_instruction
-Date: Sun, 20 Jun 2021 15:10:46 -0700
-Message-Id: <20210620221046.1526418-8-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210620221046.1526418-1-richard.henderson@linaro.org>
-References: <20210620221046.1526418-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u77Jha0dVZq+rLuyu1dDw5QBGAUVlJtR1T4KmRO6KHo=;
+ b=TQe00XRIfEVj9fZoF7xzpV9DkqYCmho0xnRS6ysvVmdaCYcVa1VyUf5sCgWZX3vhw5
+ ZI8Z5NTqEmLKZSE0IIuXjeETU5MD8YceMu+OUBh/kSF+PL5CHPRkTjQ+r10uZ7KfAhur
+ WlA277LjU5uWdBQkiM3AHrbETnguN4TL7Fw5Z1HMHMEhxsk+RuH2gPdziSo848skuHTF
+ CBPtN+ayBItMhZOctays0in8aT59hBFHDSvA6Jro4Wj4HnZwyopQWSmxhDMiK72akgrT
+ cgr8KtMSh8n7kSz8BG/HTI4xoBr4HYguFtK/RhFCZdHNzU9ozljqh/GqtWJnb0TD0AuH
+ Br6A==
+X-Gm-Message-State: AOAM532QVDCPBCqVgmaRRB0MMmWNdk3o7yCm62vWNaL7XiBGe6sKo9uV
+ 3yqn7qO2G/9G8WScHjT2jr6Oy198u8UzmDhO1heetg==
+X-Google-Smtp-Source: ABdhPJz6ytl99Hthj3a1ayb/nMKOdhMphtGc4SqRyWepm6y6DNUXmw16MfSkvXkUHZZYHt4cBDCt4m/QcRJ2WHYQq0Q=
+X-Received: by 2002:a17:90b:38cd:: with SMTP id
+ nn13mr35161276pjb.48.1624238354703; 
+ Sun, 20 Jun 2021 18:19:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+References: <20210531055019.10149-1-yamamoto@midokura.com>
+ <20210531055019.10149-3-yamamoto@midokura.com>
+ <465df811-e6d8-2bfd-5ebe-1ebf85fa5c99@vivier.eu>
+In-Reply-To: <465df811-e6d8-2bfd-5ebe-1ebf85fa5c99@vivier.eu>
+From: Takashi Yamamoto <yamamoto@midokura.com>
+Date: Mon, 21 Jun 2021 10:19:03 +0900
+Message-ID: <CAH=wFzQhjyK_M_WtFn9w34yvOVmvQV_Ftv_wEzdDCMQtqhgUvA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] linux-user: Fix the execfd case of
+ /proc/self/exe open
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=yamamoto@midokura.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,42 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, crwulff@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/nios2/translate.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+On Sun, Jun 20, 2021 at 11:16 PM Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 31/05/2021 =C3=A0 07:50, YAMAMOTO Takashi a =C3=A9crit :
+> > It's problematic to return AT_EXECFD as it is because the user app
+> > would close it.
+> > This patch opens it via /proc/self/fd instead.
+> >
+> > Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
+> > ---
+> >  linux-user/syscall.c | 12 +++++++++++-
+> >  1 file changed, 11 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> > index a2b03ecb8b..14a63518e2 100644
+> > --- a/linux-user/syscall.c
+> > +++ b/linux-user/syscall.c
+> > @@ -8118,7 +8118,17 @@ static int do_openat(void *cpu_env, int dirfd, c=
+onst char *pathname, int flags,
+> >
+> >      if (is_proc_myself(pathname, "exe")) {
+> >          int execfd =3D qemu_getauxval(AT_EXECFD);
+> > -        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, =
+mode);
+> > +        if (execfd) {
+> > +            char filename[PATH_MAX];
+> > +            int ret;
+> > +
+> > +            snprintf(filename, sizeof(filename), "/proc/self/fd/%d", e=
+xecfd);
+> > +            ret =3D safe_openat(dirfd, filename, flags, mode);
+> > +            if (ret !=3D -1) {
+> > +                return ret;
+> > +            }
+> > +        }
+> > +        return safe_openat(dirfd, exec_path, flags, mode);
+> >      }
+> >
+> >      for (fake_open =3D fakes; fake_open->filename; fake_open++) {
+> >
+>
+> I think a dup() would be more appropriate, or explain why not.
 
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 31f63d9faa..276643cee0 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -753,7 +753,8 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
-     op = get_opcode(code);
- 
-     if (unlikely(op >= ARRAY_SIZE(i_type_instructions))) {
--        goto illegal_op;
-+        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
-+        return;
-     }
- 
-     dc->zero = NULL;
-@@ -764,11 +765,6 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
-     if (dc->zero) {
-         tcg_temp_free(dc->zero);
-     }
--
--    return;
--
--illegal_op:
--    t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
- }
- 
- static const char * const regnames[] = {
--- 
-2.25.1
+i did this way because dup() doesn't deal with open flags.
 
+>
+> Thanks,
+> Laurent
 
