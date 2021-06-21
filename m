@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6BA3AE26F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:32:54 +0200 (CEST)
-Received: from localhost ([::1]:50148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B733AE281
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:41:44 +0200 (CEST)
+Received: from localhost ([::1]:45426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvBcD-0005aF-LX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:32:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
+	id 1lvBkk-00053i-7M
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVa-0006p1-6W
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVX-0007FU-7n
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvBVQ-0002Bq-51
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7021C2E81BE
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lvBdT-0004PP-Jy
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:34:11 -0400
+Resent-Date: Mon, 21 Jun 2021 00:34:11 -0400
+Resent-Message-Id: <E1lvBdT-0004PP-Jy@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21309)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lvBdQ-0004pY-A0
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:34:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624250034; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=M4pb5Y8T6ruJp4gF8QWstqHro0QgDTV91hhri3ULXnYZN7EpVB3oEXXhtR2GNeVHWRvjHXVZ4NH9p6pYtg15Ulu3pCw58npei/ND09MixkOljq0qO3jr6yJj1ZWgEbiWn3k3qDLOX3g1Ov18Lc5o7S35DP6SHHTDU8syMlxrxu0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1624250034;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=B/Hlm3UESAW/7nkd6zGykFKrVx3fvn3/IbsX/ZCt9EI=; 
+ b=NlDRVVcxC/zPDVOEZWqkh7XTw+NdfY3Xwn/EDD6EVOhSLOxNaDRdxH0dHgl5P/4EfpUJw1NZ4SUFS1DKF1ME863dsIOkW7vgPnFcJtMplLmdUJfuSq0fVf0NQWOsLZstVniMH20oz7XFKR1dccRm7YchN8H4/2oiDDpCFDqgUpM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1624250033333667.9530145827407;
+ Sun, 20 Jun 2021 21:33:53 -0700 (PDT)
+In-Reply-To: <20210621041650.5826-1-jasowang@redhat.com>
+Subject: Re: [PATCH 00/18] vhost-vDPA multiqueue
+Message-ID: <162425003187.31910.11369243848314168933@7c66fb7bc3ab>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Jun 2021 04:17:48 -0000
-From: Launchpad Bug Tracker <1815009@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: evdev
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fisfis janitor th-huth
-X-Launchpad-Bug-Reporter: Frantisek Novak (fisfis)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <154952392807.22205.13838145528944162860.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162424906902.11837.1429667813957948281.malone@loganberry.canonical.com>
-Subject: [Bug 1815009] Re: Qemu evdev multiple guests/host switch
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 90ba3235e0a3ed842817c47af5826e98d2a4a599
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: jasowang@redhat.com
+Date: Sun, 20 Jun 2021 21:33:53 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,37 +66,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1815009 <1815009@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
-
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1815009
-
-Title:
-  Qemu evdev multiple guests/host switch
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  Hello,
-
-  Qemu up to version 3.1
-
-  it would be nice if passed through evdev can be switched (using lctrl
-  + rctrl) through all running guests configured for evdev passthrough
-  and the host. Currently, only the last started guest and host can be
-  switched only so the previously started guests can't be controlled.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1815009/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyMTA0MTY1MC41ODI2
+LTEtamFzb3dhbmdAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
+IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
+Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjIxMDQxNjUwLjU4MjYt
+MS1qYXNvd2FuZ0ByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCAwMC8xOF0gdmhvc3QtdkRQQSBt
+dWx0aXF1ZXVlCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
+cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
+aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
+M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
+LzIwMjEwNjIxMDQxNjUwLjU4MjYtMS1qYXNvd2FuZ0ByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAy
+MTA2MjEwNDE2NTAuNTgyNi0xLWphc293YW5nQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcg
+YnJhbmNoICd0ZXN0JwpmOGZhOWEzIHZob3N0LXZkcGE6IG11bHRpcXVldWUgc3VwcG9ydAo4ZjU5
+YTQzIHZpcnRpby1uZXQ6IHZob3N0IGNvbnRyb2wgdmlydHF1ZXVlIHN1cHBvcnQKZWM3NWJhMCB2
+aXJpdG8tbmV0OiB1c2UgInFwcyIgaW5zdGVhZCBvZiAicXVldWVzIiB3aGVuIHBvc3NpYmxlCjJi
+ZDM0Njcgdmhvc3QtbmV0OiBjb250cm9sIHZpcnRxdWV1ZSBzdXBwb3J0CjgyNzY2MDEgbmV0OiBp
+bnRyb2R1Y2UgY29udHJvbCBjbGllbnQKODE2ZTBhNiB2aG9zdC12ZHBhOiBsZXQgbmV0X3Zob3N0
+X3ZkcGFfaW5pdCgpIHJldHVybnMgTmV0Q2xpZW50U3RhdGUgKgozMDMzZGRkIHZob3N0LXZkcGE6
+IHByZXBhcmUgZm9yIHRoZSBtdWx0aXF1ZXVlIHN1cHBvcnQKZDM0NjBmMiB2aG9zdC12ZHBhOiBj
+bGFzc2lmeSBvbmUgdGltZSByZXF1ZXN0CjNmNmRiNzkgdmhvc3QtdmRwYTogb3BlbiBkZXZpY2Ug
+ZmQgaW4gbmV0X2luaXRfdmhvc3RfdmRwYSgpCjc1OTZmZWIgdmhvc3QtdmRwYTogcmVtb3ZlIHRo
+ZSB1bm5jZXNzYXJ5IHF1ZXVlX2luZGV4IGFzc2lnbm1lbnQKY2U3ZDhkZSB2aG9zdC12ZHBhOiBm
+aXggdGhlIHdyb25nIGFzc2VydGlvbiBpbiB2aG9zdF92ZHBhX2luaXQoKQphOGJjNzBhIHZob3N0
+LXZkcGE6IHR3ZWFrIHRoZSBlcnJvciBsYWJlbCBpbiB2aG9zdF92ZHBhX2FkZCgpCjI2M2M4NjUg
+dmhvc3QtdmRwYTogZml4IGxlYWtpbmcgb2Ygdmhvc3RfbmV0IGluIHZob3N0X3ZkcGFfYWRkKCkK
+MzJiNGMwZSB2aG9zdC12ZHBhOiBkb24ndCBjbGVhbnVwIHR3aWNlIGluIHZob3N0X3ZkcGFfYWRk
+KCkKZmJjNDA1YyB2aG9zdC12ZHBhOiByZW1vdmUgdGhlIHVubmVjZXNzYXJ5IGNoZWNrIGluIHZo
+b3N0X3ZkcGFfYWRkKCkKN2ExMjEwNiB2aG9zdF9uZXQ6IGRvIG5vdCBhc3N1bWUgbnZxcyBpcyBh
+bHdheXMgMgoxYTlmNzM4IHZob3N0OiB1c2UgdW5zaWduZWQgaW50IGZvciBudnFzCjVkZmYwNzQg
+dmhvc3RfbmV0OiByZW1vdmUgdGhlIG1lYW5pbmdsZXNzIGFzc2lnbm1lbnQgaW4gdmhvc3RfbmV0
+X3N0YXJ0X29uZSgpCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE4IENoZWNraW5nIGNvbW1pdCA1
+ZGZmMDc0YTgwOTUgKHZob3N0X25ldDogcmVtb3ZlIHRoZSBtZWFuaW5nbGVzcyBhc3NpZ25tZW50
+IGluIHZob3N0X25ldF9zdGFydF9vbmUoKSkKMi8xOCBDaGVja2luZyBjb21taXQgMWE5ZjczODBl
+OGYwICh2aG9zdDogdXNlIHVuc2lnbmVkIGludCBmb3IgbnZxcykKMy8xOCBDaGVja2luZyBjb21t
+aXQgN2ExMjEwNmRiMTUyICh2aG9zdF9uZXQ6IGRvIG5vdCBhc3N1bWUgbnZxcyBpcyBhbHdheXMg
+MikKNC8xOCBDaGVja2luZyBjb21taXQgZmJjNDA1YzJjY2VjICh2aG9zdC12ZHBhOiByZW1vdmUg
+dGhlIHVubmVjZXNzYXJ5IGNoZWNrIGluIHZob3N0X3ZkcGFfYWRkKCkpCjUvMTggQ2hlY2tpbmcg
+Y29tbWl0IDMyYjRjMGUxZjk1YyAodmhvc3QtdmRwYTogZG9uJ3QgY2xlYW51cCB0d2ljZSBpbiB2
+aG9zdF92ZHBhX2FkZCgpKQo2LzE4IENoZWNraW5nIGNvbW1pdCAyNjNjODY1MmU3MDYgKHZob3N0
+LXZkcGE6IGZpeCBsZWFraW5nIG9mIHZob3N0X25ldCBpbiB2aG9zdF92ZHBhX2FkZCgpKQo3LzE4
+IENoZWNraW5nIGNvbW1pdCBhOGJjNzBhNzJjNDEgKHZob3N0LXZkcGE6IHR3ZWFrIHRoZSBlcnJv
+ciBsYWJlbCBpbiB2aG9zdF92ZHBhX2FkZCgpKQo4LzE4IENoZWNraW5nIGNvbW1pdCBjZTdkOGRl
+MzY1MjAgKHZob3N0LXZkcGE6IGZpeCB0aGUgd3JvbmcgYXNzZXJ0aW9uIGluIHZob3N0X3ZkcGFf
+aW5pdCgpKQo5LzE4IENoZWNraW5nIGNvbW1pdCA3NTk2ZmViNzRlMjMgKHZob3N0LXZkcGE6IHJl
+bW92ZSB0aGUgdW5uY2Vzc2FyeSBxdWV1ZV9pbmRleCBhc3NpZ25tZW50KQoxMC8xOCBDaGVja2lu
+ZyBjb21taXQgM2Y2ZGI3OWJiYjU0ICh2aG9zdC12ZHBhOiBvcGVuIGRldmljZSBmZCBpbiBuZXRf
+aW5pdF92aG9zdF92ZHBhKCkpCjExLzE4IENoZWNraW5nIGNvbW1pdCBkMzQ2MGYyYjg4ODYgKHZo
+b3N0LXZkcGE6IGNsYXNzaWZ5IG9uZSB0aW1lIHJlcXVlc3QpCjEyLzE4IENoZWNraW5nIGNvbW1p
+dCAzMDMzZGRkM2RmOWUgKHZob3N0LXZkcGE6IHByZXBhcmUgZm9yIHRoZSBtdWx0aXF1ZXVlIHN1
+cHBvcnQpCjEzLzE4IENoZWNraW5nIGNvbW1pdCA4MTZlMGE2MmVkM2IgKHZob3N0LXZkcGE6IGxl
+dCBuZXRfdmhvc3RfdmRwYV9pbml0KCkgcmV0dXJucyBOZXRDbGllbnRTdGF0ZSAqKQoxNC8xOCBD
+aGVja2luZyBjb21taXQgODI3NjYwMWFkODBkIChuZXQ6IGludHJvZHVjZSBjb250cm9sIGNsaWVu
+dCkKMTUvMTggQ2hlY2tpbmcgY29tbWl0IDJiZDM0NjdjNzE4MyAodmhvc3QtbmV0OiBjb250cm9s
+IHZpcnRxdWV1ZSBzdXBwb3J0KQoxNi8xOCBDaGVja2luZyBjb21taXQgZWM3NWJhMGM1NzU4ICh2
+aXJpdG8tbmV0OiB1c2UgInFwcyIgaW5zdGVhZCBvZiAicXVldWVzIiB3aGVuIHBvc3NpYmxlKQpX
+QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojMjk0OiBGSUxFOiBody9uZXQvdmlydGlvLW5ldC5jOjE0MjA6CisgICAgLyogc3RvcCB0aGUg
+YmFja2VuZCBiZWZvcmUgY2hhbmdpbmcgdGhlIG51bWJlciBvZiBxcHMgdG8gYXZvaWQgaGFuZGxp
+bmcgYQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0NTcgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggMTYvMTggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTcvMTggQ2hlY2tpbmcgY29tbWl0
+IDhmNTlhNDM5Y2NmMiAodmlydGlvLW5ldDogdmhvc3QgY29udHJvbCB2aXJ0cXVldWUgc3VwcG9y
+dCkKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzU1OiBGSUxFOiBody9uZXQvdmlydGlvLW5ldC5jOjMzNzM6CisgICAgLyogRmlndXJl
+IG91dCB0aGUgZGF0YXBhdGggcXVldWUgcGFpcnMgc2luY2UgdGhlIGJha2NlbmQgY291bGQKCnRv
+dGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTcvMTgg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTgvMTggQ2hlY2tpbmcgY29tbWl0IGY4ZmE5YTNl
+MmM1NiAodmhvc3QtdmRwYTogbXVsdGlxdWV1ZSBzdXBwb3J0KQpFUlJPUjogYnJhY2VzIHt9IGFy
+ZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxNzY6IEZJTEU6IG5l
+dC92aG9zdC12ZHBhLmM6Mjg0OgorICAgICAgICBpZiAoIW5jc1tpXSkKWy4uLl0KCkVSUk9SOiBi
+cmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzE4
+MzogRklMRTogbmV0L3Zob3N0LXZkcGEuYzoyOTE6CisgICAgICAgIGlmICghbmMpClsuLi5dCgp0
+b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDE2NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxOC8x
+OCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
+b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
+ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNv
+bW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQK
+aHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA2MjEwNDE2NTAuNTgyNi0xLWphc293YW5nQHJl
+ZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
+cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
+ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
