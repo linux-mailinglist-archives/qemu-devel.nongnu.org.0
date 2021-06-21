@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D249D3AF5B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 20:56:46 +0200 (CEST)
-Received: from localhost ([::1]:43122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B733AF5C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 21:03:46 +0200 (CEST)
+Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvP6D-0000mS-Uw
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 14:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59886)
+	id 1lvPCy-00087F-L1
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 15:03:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lvP3w-00070x-TT
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:54:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lvP3v-0005s6-BT
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 14:54:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624301662;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Eie+weUkW1ESUf7Y95kweu4Dz5jMrJwOL8UIns2BAIU=;
- b=i1pvzlshmlw7NIQuo8PIKvxuBr97VdI3vTBxErQR3p8O4acRi/doCY4JbEHXvfCualOMiD
- Vk8awGMut+Ifav4CfRXnmDkv4UBpeY7qP85yZ3gnMl6PHZjtV1xw47/b+sEX9qMwJhXdyN
- lu2BZM+EX1TLy7N2grGy8YPKj+wiPbg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-so-_ecjSM2q-K3k8IcYU9g-1; Mon, 21 Jun 2021 14:54:21 -0400
-X-MC-Unique: so-_ecjSM2q-K3k8IcYU9g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6331580430A;
- Mon, 21 Jun 2021 18:54:20 +0000 (UTC)
-Received: from redhat.com (ovpn-113-63.phx2.redhat.com [10.3.113.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC40460CA1;
- Mon, 21 Jun 2021 18:54:19 +0000 (UTC)
-Date: Mon, 21 Jun 2021 13:54:18 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 5/6] block/nbd: Do not force-cap *pnum
-Message-ID: <20210621185418.wv5yxce4tb37vb4d@redhat.com>
-References: <20210617155247.442150-1-mreitz@redhat.com>
- <20210617155247.442150-6-mreitz@redhat.com>
- <5b106499-94fb-2af7-3766-bc337d3f21ae@virtuozzo.com>
- <4440bf3e-cf11-67eb-59de-887cb451a2e3@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lvP9p-0005Ea-5G; Mon, 21 Jun 2021 15:00:29 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lvP9n-00010y-6t; Mon, 21 Jun 2021 15:00:28 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ f16-20020a05600c1550b02901b00c1be4abso140788wmg.2; 
+ Mon, 21 Jun 2021 12:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mp/7C6gJIlopFlSsUOSBSkCJRTI2SFidp+JXyaaIBpg=;
+ b=BHDr5SvsnP2u5I06nhbe0xclw2OOR45sxetBq0z0Kj9OYcjYMykBrzp6LJjufRb90I
+ M8N/xXZWcbghRgQyNENvHg/W11ekR8kGVJG/chnlXy7Ng60YLo8aZoRI9jRmToKjXEIq
+ VkBqIGx7uqt79HHWmBKpVk22vfWzeFhU5yj3+/Q4VsD0JArflWwfRUaWorH5Onq9Uz/S
+ muL38LNmXPIkgzESligbUDauUSlcM7YboQFdEBcW+ooU6ZYXPKlET5ra+wEB/GxacOFS
+ mXyEDjaOquQX8TMTDk1oZ+Qmla1qox2TaIZo41UUJe01vYzJo4vpktNXoxbpsSUNt3EI
+ UkXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mp/7C6gJIlopFlSsUOSBSkCJRTI2SFidp+JXyaaIBpg=;
+ b=JssF/JB3Mwfxb/O3zScuDurWNitQLFJQnnqzeuyS9sPVrEIX9M7jMIXrFAogwy5Tr0
+ 616i8iispb0F6NaPmgm0dZWKsRt2xVcI/vdZgP4XaPj4WfcQtEKVA+Sui+Xrbs82Lr3F
+ 34C6t0Io9jnisHyC/Lzm84R3xWOFNaIFmdbKxxtew52FD7/KrjR9YQv0DghM9uS9mMuW
+ N5MnXaPWXHeOUxonsFl1qh2+QDXrzySv7juCWZyy0YAKGuNf0mCIUU670S1419ImM4p9
+ zbuQemf3FKUDoukOF708jIo9o7ZmxyeGz9IYGrnfkbOEK+9fFf4KSe5fcuHEw2LQLSHl
+ ZRrg==
+X-Gm-Message-State: AOAM530bwHvSygUYd/y4vR3/Z+LfDqQ65RseKWfJiMik9L3lsG8CQ0dK
+ Pg+34ZaHXeIwuBaUr8/eSWY=
+X-Google-Smtp-Source: ABdhPJwdNPsGg3SKZXcHdV7lbAykCfDR7E0ZxVzxFGzeAZkvXtdDJIDZEbvGGRQS2TIcmFA/aYDmhA==
+X-Received: by 2002:a1c:c90f:: with SMTP id f15mr29069758wmb.142.1624302025642; 
+ Mon, 21 Jun 2021 12:00:25 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id b9sm2358223wrt.55.2021.06.21.12.00.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 12:00:24 -0700 (PDT)
+Subject: Re: [PATCH v1 2/5] hw/arm: add dependency on OR_IRQ for XLNX_VERSAL
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210621152120.4465-1-alex.bennee@linaro.org>
+ <20210621152120.4465-3-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d6012d09-a9c9-d7f2-9640-80f368a48ec0@amsat.org>
+Date: Mon, 21 Jun 2021 21:00:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <4440bf3e-cf11-67eb-59de-887cb451a2e3@redhat.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210621152120.4465-3-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,27 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 11:50:02AM +0200, Max Reitz wrote:
-> > I don't that this change is correct. In contrast with file-posix you
-> > don't get extra information for free, you just make a larger request.
-> > This means that server will have to do more work.
+On 6/21/21 5:21 PM, Alex Bennée wrote:
+> We need this functionality due to:
 > 
-> Oh, oops.  Seems I was blind in my rage to replace this MIN() pattern.
+>     /* XRAM IRQs get ORed into a single line.  */
+>     object_initialize_child(OBJECT(s), "xram-irq-orgate",
+>                             &s->lpd.xram.irq_orgate, TYPE_OR_IRQ);
 > 
-> You’re absolutely right.  So this patch should be dropped.
 
-I disagree - I think ths patch is still correct, as written, _because_
-we use the REQ_ONE flag.
+Fixes: a55b441b2ca ("hw/arm: versal: Add support for the XRAMs")
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  hw/arm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 
