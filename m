@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0693AE26A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:30:17 +0200 (CEST)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAF33AE263
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 06:28:05 +0200 (CEST)
+Received: from localhost ([::1]:59984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvBZg-0006sb-B9
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60290)
+	id 1lvBXY-0001HJ-74
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 00:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVc-0006wq-Vz
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37378)
+ id 1lvBVb-0006uI-Qj
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvBVb-0007Kp-5F
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:04 -0400
+ id 1lvBVa-0007JZ-3R
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 00:26:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvBVW-0002Aw-SS
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:59 +0000
+ id 1lvBVU-0002C7-NM
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 098AA2E8210
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 78CC82E81F3
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 04:25:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Jun 2021 04:17:43 -0000
-From: Launchpad Bug Tracker <1719689@bugs.launchpad.net>
+Date: Mon, 21 Jun 2021 04:17:45 -0000
+From: Launchpad Bug Tracker <1731277@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
  assignee=None; 
-X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: erichspaker janitor th-huth
-X-Launchpad-Bug-Reporter: Erich Spaker (erichspaker)
+X-Launchpad-Bug-Commenters: davidhildenbrand janitor pmaydell th-huth
+X-Launchpad-Bug-Reporter: David Hildenbrand (davidhildenbrand)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <150644549574.30872.12487281678930398558.malonedeb@wampee.canonical.com>
-Message-Id: <162424906360.11837.18236662983199168308.malone@loganberry.canonical.com>
-Subject: [Bug 1719689] Re: [feature request] add flag to treat warnings as
- errors
+References: <151023792928.3447.3728561425384648409.malonedeb@gac.canonical.com>
+Message-Id: <162424906578.11837.11285476701920881321.malone@loganberry.canonical.com>
+Subject: [Bug 1731277] Re: Provide target specific qemu man pages
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: c7477163f7e06da2996f42e139366fc339073de0
+X-Launchpad-Hash: 7179ff1ac15fc4e5ad33ca60146aefbef731d442
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1719689 <1719689@bugs.launchpad.net>
+Reply-To: Bug 1731277 <1731277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,41 +83,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1719689
+https://bugs.launchpad.net/bugs/1731277
 
 Title:
-  [feature request] add flag to treat warnings as errors
+  Provide target specific qemu man pages
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Since booting could potentially take a lot of time and warnings are
-  likely to indicate that something is wrong, it would be useful to have
-  a command line flag which would abort the boot if there are any
-  warnings.
+  Right now, all qemu target binaries (qemu-system-...) share the same
+  man page.
 
-  An example might be network configuration. The following output most
-  likely indicates that there is something the user has to fix before
-  starting and being able to use the guest os.
+  The current man page is primarily focused on x86, and therefore the
+  information given is entirely wrong for e.g. arm, powerpc or s390x.
 
-  Warning: hub port hub0port0 has no peer
-  Warning: vlan 0 with no nics
-  Warning: netdev hub0port0 has no peer
-  Warning: requested NIC (anonymous, model vitrio-net-device) was not creat=
-ed (not supported by this machine?)
+  NAME
+         qemu-doc - QEMU Emulator User Documentation
 
-  Ideally, there would be an option the user could pass which would
-  cause qemu to print these warnings then exit, rather than boot the
-  kernel.
+  SYNOPSIS
+         qemu-system-i386 [options] [disk_image]
 
-  Alternatively, or additionally, a dry run option would be helpful for
-  the same purpose: making sure qemu get to the booting the kernel stage
-  with everything in working order so that you do not have to wait for
-  the kernel to boot and then shut down while debugging things like
-  networking (things which can be debugged (at least partially) without
-  booting, or trying to boot, the guest os).
+  DESCRIPTION
+         The QEMU PC System emulator simulates the following peripherals:
+
+         -   i440FX host PCI bridge and PIIX3 PCI to ISA bridge
+
+         -   Cirrus CLGD 5446 PCI VGA card or dummy VGA card with Bochs VES=
+A extensions (hardware level, including all non
+             standard modes).
+
+         -   PS/2 mouse and keyboard
+
+         -   2 PCI IDE interfaces with hard disk and CD-ROM support
+
+         -   Floppy disk
+
+  ...
+
+  We should have target specific man pages, with the common
+  options/settings factored out, so they are included in all target
+  specific man pages.
+
+  "man qemu-system-s390x" should give s390x specific (+common)
+  information and "man qemu-system-x86_64" should contain x86 specific
+  (+common) information.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1719689/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1731277/+subscriptions
 
