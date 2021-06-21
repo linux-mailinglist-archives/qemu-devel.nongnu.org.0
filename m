@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF28A3AEB2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:24:35 +0200 (CEST)
-Received: from localhost ([::1]:40784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5C73AEB2E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:25:14 +0200 (CEST)
+Received: from localhost ([::1]:43064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvKqo-0003W1-Tw
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33850)
+	id 1lvKrR-00050Z-6W
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvKpH-0001Pq-1r
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:22:59 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:43991)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lvKpo-0002gh-Bp
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:23:32 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:42604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvKpD-0007aZ-3q
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:22:58 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id s6so19167928edu.10
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:22:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lvKpm-0007qn-MP
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:23:32 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id y4so6777619pfi.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XMTdlmXKGoKoaGP6w9CtjmIbz+7NkS+NiyAwnG+7HO4=;
- b=S9ctPdlVk079P/LIFWuzmX1kHcnk/Ez6IxhrNDI7VLFF9DjOmi7mcXaitQyU1/tJIJ
- K3yvMnEfsF06Gjakj9ve91jfgkIa4Dljy9HHQw62hRtumwQJ4vt4nu20jbPzvNjlRs5p
- yXosBCZz1OUPjFjti56RX9yEaiDxX5Zryx4lmwQhoReOh0BUKylDzGHGilMjH1TrMs5U
- jxso323Uoy0Luvk670ZTcn5RsEK4dQ2SNeTVKKYDbchzGfag8+e+D4j5g2uQr8pngBNs
- 7djfhrFsKsEFusbKi2Q1EXCU5FMMOtv4DAXahOX0FuP+ZYy/8SAV4mIpw/zx6PMuHK0C
- CZTw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wUHrV81Pl1e69J09vEKhkpgOijSvvIdpwWg2kkSjXuA=;
+ b=vsFLXNZqYsSCES8Qpzzb+73xT/yNUKJgse+PxVh7E9AJCuVYhEVjU/TTgAxw22unll
+ W2dy0YuOnHer2J+S6Orfs1Jn/aOPvUjzv1C87/vLQCWtz/eLNCBPRqcHCu4zf0LZw2AD
+ LYVz5hGtuytuD4p8KPVy1lwGimPcO0P8WSN1FVB4pGQGUycxwdK3SrX93NAVBSw0J4tO
+ zX/YA4oDLFHDbh8Dcs96qBJtG0bafq/kcTlocwYCHGpNh/a+RyrxxZfgyNTOowW2EMSl
+ wD8AlVz3Ds//SAvVOJFRlwjVIXjwpeFBrsCZATkaJ5oOkTw8VqiUxSqLFYh0SQQmUikt
+ V3Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XMTdlmXKGoKoaGP6w9CtjmIbz+7NkS+NiyAwnG+7HO4=;
- b=hmfqrjGSCdJxeX4RlleJ0qz0kdAFQWZrMxk0e5cEAG/3m09j/GVXUgVVC2+nzmGHXP
- B9ebO11Cgeho9biM56SYYngTx8nVNhMpQqalrjTpn9Dg5HUsGK+RXMTOlAew/TcisDVd
- N6evZHGlkWzMGZyS9px2LbxH2TScju5LUt89DJUx2m6AqtCivrSeI79p72h94xIGWGH3
- Lkiuelg0Q3E+2o9eMiQTjjMhP1O4rG9EyYr366XXBL5P+Viryi6VZFrN/6VBLmd/pRnj
- WH1ksr4hvKJ7Z94JUNIs8UgKfKIn2aHbfJge/POaAsGBZXZUCdY9jnfgtK66TbjKoZBl
- qzTw==
-X-Gm-Message-State: AOAM530OMlEWKk15a78ggMZ4oHgW6HSm+BYzV9N8L+f8TDYEdBw1Z9eH
- gtpa8fFktM75VaDLB23mgtvxQrI+rNnMdmtvIpE6tQ==
-X-Google-Smtp-Source: ABdhPJyGqZ8wGlJzJ3IrsakqB+iUp/0MAtnjiixeH819ZZj6lZmgu228pJduC0LC84jbwy+fT9va7OImybDPVLd6Eko=
-X-Received: by 2002:a05:6402:759:: with SMTP id
- p25mr22192925edy.146.1624285373296; 
- Mon, 21 Jun 2021 07:22:53 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wUHrV81Pl1e69J09vEKhkpgOijSvvIdpwWg2kkSjXuA=;
+ b=HJ+yMpYlW0xNAZ3gVu7NFnOTKdVk7DxkqUA8PcA4IdeTtUu89w1ZiIqdw7ZrLt9dnx
+ FviKQKhXCo+eUDHjW7xizyn6xUe1zRflyldD4ABJqb6lk+jQl4Kw1Cp1WP2P4fwVBsNJ
+ xLNxjBCx77gQFaKdrRMqMFkmmUpH7LMz/VP0u0fQt3UpnMXhxg0C6sB6Ufrr4eQiqu3D
+ qu8RS3m9UxTJtzAG25t03u3c9LWj7jaVFQq2yzjZjAz5V8hcmdZWjrI23obCIai8UB+1
+ 8IWPPLebdJE+8PboEHOoTo4vqRQoCLoKq/Vq+1dGO3ILzC0wwKExZPdGfAFqTdnclJvh
+ wW1A==
+X-Gm-Message-State: AOAM530ucFK9pXL1dj4gNtxJKBfqnvS2wPYttooDLWVjq5qVQDN7Ar6U
+ GDZt88Ckho3O3ns7Hwt2AXgQUmXA8A9chg==
+X-Google-Smtp-Source: ABdhPJwDmD9+EPDB45xi32LJ/Q0QIHuzpa2R0hnc417oYBFze4x68yD0iyLutPfcKS6maSf5YKULig==
+X-Received: by 2002:a63:2011:: with SMTP id g17mr24203481pgg.195.1624285409021; 
+ Mon, 21 Jun 2021 07:23:29 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id k88sm10524566pjk.15.2021.06.21.07.23.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 07:23:28 -0700 (PDT)
+Subject: Re: [PATCH 06/28] tcg/ppc: Split out tcg_out_sari{32,64}
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210614083800.1166166-1-richard.henderson@linaro.org>
  <20210614083800.1166166-7-richard.henderson@linaro.org>
-In-Reply-To: <20210614083800.1166166-7-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Jun 2021 15:22:17 +0100
-Message-ID: <CAFEAcA-5WCpC=ZZOL5Sj8vwkac6auUF7VxRYzD3N0aRJbaYq3g@mail.gmail.com>
-Subject: Re: [PATCH 06/28] tcg/ppc: Split out tcg_out_sari{32,64}
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+ <CAFEAcA-5WCpC=ZZOL5Sj8vwkac6auUF7VxRYzD3N0aRJbaYq3g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <86c59999-a49f-5713-30f5-847a439e9352@linaro.org>
+Date: Mon, 21 Jun 2021 07:23:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-5WCpC=ZZOL5Sj8vwkac6auUF7VxRYzD3N0aRJbaYq3g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,29 +92,31 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Jun 2021 at 09:43, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We will shortly require sari in other context;
-> split out both for cleanliness sake.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/ppc/tcg-target.c.inc | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
+On 6/21/21 7:22 AM, Peter Maydell wrote:
+> On Mon, 14 Jun 2021 at 09:43, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> We will shortly require sari in other context;
+>> split out both for cleanliness sake.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/ppc/tcg-target.c.inc | 15 ++++++++++++---
+>>   1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+>>               /* Limit immediate shift count lest we create an illegal insn.  */
+>> -            tcg_out32(s, SRAWI | RS(args[1]) | RA(args[0]) | SH(args[2] & 31));
+>> +            tcg_out_sari32(s, args[0], args[1], args[2] & 31);
+> 
+> Maybe the "& 31" would be better inside tcg_out_sari32()
+> rather than outside it? The sari64() implementation already
+> implicitly ignores high bits of an overlarge shift count, so
+> having sari32() do the same would be more consistent.
+> 
+> Either way
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
->              /* Limit immediate shift count lest we create an illegal insn.  */
-> -            tcg_out32(s, SRAWI | RS(args[1]) | RA(args[0]) | SH(args[2] & 31));
-> +            tcg_out_sari32(s, args[0], args[1], args[2] & 31);
+Good idea.
 
-Maybe the "& 31" would be better inside tcg_out_sari32()
-rather than outside it? The sari64() implementation already
-implicitly ignores high bits of an overlarge shift count, so
-having sari32() do the same would be more consistent.
-
-Either way
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+r~
 
