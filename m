@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F113AEAB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:04:55 +0200 (CEST)
-Received: from localhost ([::1]:57280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C430D3AEAC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:07:34 +0200 (CEST)
+Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvKXm-0001Vb-Ej
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
+	id 1lvKaL-0005ED-7F
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvKVF-0007nI-J2
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:02:17 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:42804)
+ id 1lvKXa-0002YQ-PN
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:04:42 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:43873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvKVC-0006BJ-77
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:02:17 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- 13-20020a17090a08cdb029016eed209ca4so45524pjn.1
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:02:13 -0700 (PDT)
+ id 1lvKXY-0007D1-Jm
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:04:42 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ x21-20020a17090aa395b029016e25313bfcso48508pjp.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8gsTyYenGeDacRrclbuaONK5s0xdR9KUfflfn14bIi4=;
- b=B5lZgmy9+O01S1xzRhOE8h+70K5XcfUBzjnRpsQGz1mm/9Un4TaovwZg9w6IxS3rzi
- bjQuTJ/6Zm3bq18pydNU9yLAYbA8yvxK57gxhCDxRYrekUqbtanWH+3ibmJehTM2VVvT
- PdfSxHtDHHGSHg93dFZ+tzVO/DFepw0+XX/zg2yb7ZNtqr95nenDlh2Aq5KgMguPpedD
- j18v4uTKhlsXzgqleYC0AZFM4MmKIpX1OeZN/VMgHg3ooHFPIL8cfwdjycKnEu8AZP9A
- fptyiKuRqGzrrAMJmFqGKkFDl9Nb8BqZ7wpiXJIdOkxr+bHnEheT/7feB27t+iSw4R2b
- kKZw==
+ bh=oBXRjnUv39Mvu8ln5DIDYCaprefyZdfdfQ2Lb+NsNEc=;
+ b=apRhGRJh3Cji728GMNyCen7ql2y9wFr6SNxc1bGvBP/h4UogryvFWCaY00xTK6DDda
+ mLIBLEczm0opjXuHFh0g2MdZhJPTh4oevB0LoBxjQfOa6i7JFBhUEnkXYMUnSL+I+tTU
+ i9jYcsWir4nOFCiXaEfUsJcLAw/R9VyqNpiL2f5ToDwLhqHIBHvTCFsRh1n6qV26jII6
+ SrmCbPYjg7HTfc11T0wpBI0Dkf3pCKa+6/k8n79qCz4z5qZ7IRSncSQ4DBwFEyEU5zyC
+ fz6U0QPVBRrr/FxK9NnQW5VTeprcj7fKtlLettmDaPnbKjsECJo3UnWx0QCtsQ0XzJ0l
+ UcEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8gsTyYenGeDacRrclbuaONK5s0xdR9KUfflfn14bIi4=;
- b=pitYA9zc5ybWwuJ/T3Rkwh7sk8QCZQ9+FEhcI/aYdWmPN4S2OZZysPtGxeaR9iX6oq
- k/SFqZCVdZbjiy0cmtKDwiHyZJ8Cx7g3k4tWqpn/8JKK7EAA9hWRoYZms6UII0GSR4m8
- RJWyoA23/yH6VJT9ZJbDo+cXtIkBTL9Bb118EGrPaxlxSnB8C+22/vo4aXOZV8lRrzPa
- hGLQpjPYJPolNAv+75W1PCsu8v18lhxIYP4Zjyh1cumQo/Fj2wsbyJDRlTqK0k8bto5G
- KuXfgYZ9cu/1uoWQGUKvGdIJiILXozfkhJ91IkuFVq+bbI+fL6kC83tasWwm6qc+1hYh
- iz1Q==
-X-Gm-Message-State: AOAM53393F+YWnhpqubJp0mxmcrUSxu01ttxPtc4ibpvEzJ81bcFbgtM
- UsyMrwl0tmd2O10lfexPJKK6IhEQWaSDeQ==
-X-Google-Smtp-Source: ABdhPJyuVciqX98h0SFEKLEoQQoF1woABhSgO0jct/o0deLWaIY6ihPTUfOtoQF5kQfI1OeAy9Q9Xg==
-X-Received: by 2002:a17:90a:4746:: with SMTP id
- y6mr20962690pjg.107.1624284132651; 
- Mon, 21 Jun 2021 07:02:12 -0700 (PDT)
+ bh=oBXRjnUv39Mvu8ln5DIDYCaprefyZdfdfQ2Lb+NsNEc=;
+ b=BFIv285/vEkjP4eAuMFaXWajZpYsHqpL8wD1lNKMuLLpK4aivd4XUgp4ty/GhU2O10
+ 4TYgF1ZgBRTgCPgn5KhPW0ZNTuteiVfBy7am+1xtGoSWnSt66zTHn39p3TTwvL5Ycr6V
+ 0WpVqHxq7iai94wSH7lHFb8+Iy+D73wwxXf1K/8Ea7la6eXZp0KOFGMdKqL3FlHz3/Ec
+ 7AP0GZ4PtW46wErifMTQeJ/WEIH4xz5CTw/KwTUoT7K++XUenaUxSSBbm4EwzRO1k5HM
+ W1mbw4byQS8kVj53lq5/hReSQviMF8QJTxSqnEnlekgNm6Mkv8WZCMvUHDgSHR6apLfG
+ gCkA==
+X-Gm-Message-State: AOAM531SnmcNK3MOE7KC2V2/ASSfdwKwirszKa1qCuK8dU2iY7We7ZsQ
+ 3cw1roAyXBs/tmkOXjzRwc/cDxdc+ChHhg==
+X-Google-Smtp-Source: ABdhPJzmNK6eIaiE8YDFC2FvFEHckNEnTo30keTTzbpEjTIYaO9Pql/nb8V+KlrBrJY+RdVoW0tViQ==
+X-Received: by 2002:a17:903:31d1:b029:120:2863:cba2 with SMTP id
+ v17-20020a17090331d1b02901202863cba2mr18321402ple.28.1624284279095; 
+ Mon, 21 Jun 2021 07:04:39 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id y66sm5812437pgb.4.2021.06.21.07.02.12
+ by smtp.gmail.com with ESMTPSA id s24sm19035927pju.9.2021.06.21.07.04.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 07:02:12 -0700 (PDT)
-Subject: Re: [PATCH 01/28] tcg: Add flags argument to bswap opcodes
+ Mon, 21 Jun 2021 07:04:38 -0700 (PDT)
+Subject: Re: [PATCH 03/28] tcg/aarch64: Support bswap flags
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210614083800.1166166-1-richard.henderson@linaro.org>
- <20210614083800.1166166-2-richard.henderson@linaro.org>
- <CAFEAcA9ktX0famPUabJ3J_nhBp7CHOzd7S_auHEML7kPi9Yysw@mail.gmail.com>
- <CAFEAcA9Rg9O7n24Jpee3BxyE35e5z+a7m8CiQqJqeJ9hNffYjQ@mail.gmail.com>
+ <20210614083800.1166166-4-richard.henderson@linaro.org>
+ <CAFEAcA-VMwff+-qzzwR_VLpZCSxJqga9ssHSDiLq9LyHKhPPSw@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d7906e8d-2db4-88fd-0755-af433fae808a@linaro.org>
-Date: Mon, 21 Jun 2021 07:02:11 -0700
+Message-ID: <f57a5f35-b263-20d9-b122-4a7083d5ac20@linaro.org>
+Date: Mon, 21 Jun 2021 07:04:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9Rg9O7n24Jpee3BxyE35e5z+a7m8CiQqJqeJ9hNffYjQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-VMwff+-qzzwR_VLpZCSxJqga9ssHSDiLq9LyHKhPPSw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,37 +94,32 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/21 6:51 AM, Peter Maydell wrote:
-> On Mon, 21 Jun 2021 at 14:41, Peter Maydell <peter.maydell@linaro.org> wrote:
+On 6/21/21 7:01 AM, Peter Maydell wrote:
+> On Mon, 14 Jun 2021 at 09:41, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
 >>
->> On Mon, 14 Jun 2021 at 09:43, Richard Henderson
->> <richard.henderson@linaro.org> wrote:
->>>
->>> This will eventually simplify front-end usage, and will allow
->>> backends to unset TCG_TARGET_HAS_MEMORY_BSWAP without loss of
->>> optimization.
->>>
->>> The argument is added during expansion, not currently exposed
->>> to the front end translators.  Non-zero values are not yet
->>> supported by any backends.
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/aarch64/tcg-target.c.inc | 12 ++++++++++++
+>>   1 file changed, 12 insertions(+)
 >>
->> Here we say non-zero values are not yet supported by the backend...
+>> diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+>> index 27cde314a9..f72218b036 100644
+>> --- a/tcg/aarch64/tcg-target.c.inc
+>> +++ b/tcg/aarch64/tcg-target.c.inc
+>> @@ -2187,12 +2187,24 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+>>           tcg_out_rev64(s, a0, a1);
+>>           break;
+>>       case INDEX_op_bswap32_i64:
+>> +        tcg_out_rev32(s, a0, a1);
+>> +        if (a2 & TCG_BSWAP_OS) {
+>> +            tcg_out_sxt(s, TCG_TYPE_I64, MO_32, a0, a0);
+>> +        }
 > 
-> Looking at the tcg/README docs, I think what you mean is that
-> at the moment all the backends assume/require that the caller passes
-> one of TCG_BSWAP_IZ or (TCG_BSWAP_IZ | TCG_BSWAP_OZ), since the
-> pre-flags implementation requires the top bytes to be zero and leaves
-> them that way.
+> Side note: it's rather confusing that tcg_out_rev32() doesn't
+> emit a REV32 insn (it emits REV with sf==0).
 
-Correct.
-
-> But then the parts of your patch that pass in a zero
-> flags word would be wrong...
-
-The parts that pass in a zero flags word are covered by, from the README:
-
-> The flags are ignored -- the argument is present
-> for consistency with the smaller bswaps.
+Mm, yes.  I'll tidy that up in a separate patch.
 
 
 r~
