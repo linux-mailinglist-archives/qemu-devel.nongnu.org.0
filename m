@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8533AF1FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:28:14 +0200 (CEST)
-Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA813AF1CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:20:47 +0200 (CEST)
+Received: from localhost ([::1]:35098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvNiX-0005Os-8E
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41574)
+	id 1lvNbK-0001gJ-7M
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lvNWc-0004kp-Id
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:15:55 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:44752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lvNWa-0001gm-6T
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:15:54 -0400
-Received: by mail-lj1-x235.google.com with SMTP id d2so26311493ljj.11
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 10:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AQNrBoAThoZM5BHoY5DFhXdF64bofvYH1dmLVvfiElw=;
- b=K2IpzpCueIVAvjQowP2eb+9N2pwp6fuujzZ6DVxs4nu4vC+WDvcAjz+/+HNVs1Nuz4
- sLZGrlt1dfijQ29GPONliGIb5p+M4dzIa6EIEtZeoQZ/xygEQv79KREj/bgnz0Iz+nkf
- da21GMS+kzkVtNQp/LJdXLZF1uj64ceWicDEjjh50IlDsz0lmXJ+T4j3WNOS5hFg+pfW
- AMSL5fnw4cf5Ss0Wa1109IJAUQEoWk9OqxAUGGN1yPtK2aAcdLrOdXGBcnSSaFiuPU+V
- z0BRN7kbDCaf/MfhD+/Y7grvpP/RaSME8j3EivBifCcTWtOdPvVXx66rTNlE2pg7bW+7
- ciLA==
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lvNZ2-00082T-Uv
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:18:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58844)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lvNYz-0003GY-8V
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:18:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624295900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AS7GRM/j/ZFauJ+gPTNrPYYAYPJYTR4tclIbivXTk8c=;
+ b=ALburwNA7CsZgQP4g/32Y5kKY+/kx/px1go1rfRcoDWb+wiZoe8Yayb/uskQLPFWpLRoQ9
+ o3oijhkehkq/xrgX/fAXEK+a/101RR+hpd9auiwDeoJEmmQVtdWQqpAP6q64OJBXLeflnZ
+ KxqsjC8ojALxc3vtIjdU9llcSCFFzcU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-mLNcYgUGMLWFUJSivkUxHg-1; Mon, 21 Jun 2021 13:18:19 -0400
+X-MC-Unique: mLNcYgUGMLWFUJSivkUxHg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ cb4-20020a0564020b64b02903947455afa5so6309698edb.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 10:18:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AQNrBoAThoZM5BHoY5DFhXdF64bofvYH1dmLVvfiElw=;
- b=FP0S2iZqIpU9V9de6FosXUmMYsIwjp9+DgbgZQR+y35YZdufKTk0zPUi8qzJOM6OFI
- CYtDR0eyXUD/hgYRQQ38s2fR+VTMTZrsHhxGBtnoWH8VKI8sL+6k+oMTQUcBbYcbzE7Z
- /kMhiUQMakIr0mL77wPlK/Eok2PESTqnaGA9lElJnT7tu8K8vVuWRYDiqAP4NfxUsdeZ
- 3rikYlU7YlNbrkU9JtPzqC7fdcF5A4/wRalxLM1eZn0n7IbAIW8ZFsE+32IdIk4FXLts
- XCqgCafaMnUKhd76rvy553MbPv5Y3TnMV5RxFuZbHYvkJN3vb9qcQS08dcj9xZ5yseDl
- 504w==
-X-Gm-Message-State: AOAM533Gjx9AYYEAOM5uOnvvbcnNOX/LrNFEnUmxQfOVL2k5P8cOMljJ
- nbRMXmbFxumglq1Yv+H3KQ8=
-X-Google-Smtp-Source: ABdhPJwSJVJzFNoQkSIZ5hwYJS3MTNRc1RHjr3JSiHiYKLGiBYKywjSVRlhcGLzZu/1tDwc4vXpd1w==
-X-Received: by 2002:a2e:891a:: with SMTP id d26mr22503033lji.392.1624295748561; 
- Mon, 21 Jun 2021 10:15:48 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id h20sm638098lfu.212.2021.06.21.10.15.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 10:15:47 -0700 (PDT)
-Date: Mon, 21 Jun 2021 19:15:47 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 09/11] target/cris: Move delayed branch handling to
- tb_stop
-Message-ID: <20210621171547.GN477672@toto>
-References: <20210620213249.1494274-1-richard.henderson@linaro.org>
- <20210620213249.1494274-10-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=AS7GRM/j/ZFauJ+gPTNrPYYAYPJYTR4tclIbivXTk8c=;
+ b=FEjGcZyzNOTf+g4kYJpNjf0Za/TLOayu5eVcRTNfGWH/t14B8YYFII9KC1katHUrsE
+ ZlB4NX0zCogWncbTQQv/gjX3vdHB4rLIgfQRiUmcPzX3EkYRo0IOiDqgMZIGthEJ9oin
+ ftQByXHWKH5paKw3tgG+Jl7zNu+Lua7t1Nb9TNAnj250qn/c4TP4N1gRnwTAQAWPwsnv
+ US3dyL/S7MeuwbTMZkmX7A3pqc41hqatPo8W/oAXhrYGrykQBqk9yWXTCqtIwu8z5reg
+ 72efTB02i86fACmYoHV4pwv/e7oOIWQoa1thn//RaPTMv957KVIOou0m6JFw1qJDxall
+ sMdQ==
+X-Gm-Message-State: AOAM533ThRyFXOQzVLx9FY07/BE+VUWr86veI/w5m1qIxH2If/nKb+a9
+ UuZcCgvYAevsg4JDXfQBBWoCb3Z9vphD9VxMwb3jN2nXtxDJOwKREfCLRaNgBMTtTYx3lZ4Z3UA
+ ZT0T0j25GpDEJWA6MDV1tDqNFcPPuap0FSrVyl8Un85pnHgTaK//961Fna5QTc0S3
+X-Received: by 2002:a17:907:9c9:: with SMTP id
+ bx9mr24190290ejc.144.1624295897991; 
+ Mon, 21 Jun 2021 10:18:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/sUuD6XPLG3Pl6wRJdJzMuOibTbDtqa7qI3X+oV8L6H6tma0CRBIN+EQ5j+sGN2zqtN39aw==
+X-Received: by 2002:a17:907:9c9:: with SMTP id
+ bx9mr24190261ejc.144.1624295897756; 
+ Mon, 21 Jun 2021 10:18:17 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ x9sm5212586ejc.37.2021.06.21.10.18.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 10:18:17 -0700 (PDT)
+Subject: Re: [PATCH 0/4] export/fuse: Allow other users access to the export
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210614144407.134243-1-mreitz@redhat.com>
+ <YNC6Xvcc9lKc50Sk@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <9af03389-8c6d-6610-9326-61c65e8eac30@redhat.com>
+Date: Mon, 21 Jun 2021 19:18:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210620213249.1494274-10-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x235.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YNC6Xvcc9lKc50Sk@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,139 +101,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 20, 2021 at 02:32:47PM -0700, Richard Henderson wrote:
-> By moving the code here, we can re-use other end-of-tb code,
-> e.g. the evaluation of flags.  Honor single stepping.
+On 21.06.21 18:12, Kevin Wolf wrote:
+> Am 14.06.2021 um 16:44 hat Max Reitz geschrieben:
+>> Hi,
+>>
+>> With the default mount options, FUSE mounts are not accessible to any
+>> users but the one who did the mount, not even to root.  To allow such
+>> accesses, allow_other must be passed.
+>>
+>> This is probably useful to some people (it certainly is to me, e.g. when
+>> exporting some image as my normal user, and then trying to loop mount it
+>> as root), so this series adds a QAPI allow-other bool that will make the
+>> FUSE export code pass allow_other,default_permissions to FUSE.
+>>
+>> (default_permissions will make the kernel do the usual UNIX permission
+>> checks, which is something that makes a lot of sense when allowing other
+>> users access to the export.)
+>>
+>> This also requires our SETATTR code to be able to handle permission
+>> changes, though, so the user can then run chmod/chown/chgrp on the
+>> export to adjust its permissions to their need.
+>>
+>> The final patch adds a test.
+> If there is even a use case for leaving the option off (not trusting
+> root?), it must certainly be the less common case? So I'm not sure if
+> allow-other should be an option at all, but if it is, enabling it by
+> default would make more sense to me.
+>
+> Is there a reason why you picked false as the default, except that it is
+> the old behaviour?
 
-Hi Richard,
+No. :)
 
-Unfortunately this patch seems to break one of the CRIS tests.
-tests/tcg/cris/bare/check_xarith.s
+Well, mostly.  I also thought, if FUSE thinks allow_other shouldn’t be 
+the default, who am I to decide otherwise.
 
-I have an old image with the test-case built in the rootfs...
+Now that I tried to find out why FUSE has it as the default (I only 
+remember vague “security reasons”), I still couldn’t find out why, but I 
+did find that using this option as non-root user requires /etc/fuse.conf 
+to have user_allow_other in it, which I don’t think we can require.
 
-Best regards,
-Edgar
+So I think it must be an option.  As for which value should be the 
+default, that probably depends on how common having user_allow_other in 
+/etc/fuse.conf is.  I know I never put it there, and it’s both on my 
+Fedora and my Arch system.  So I guess it seems rather common?
 
+Max
 
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/cris/translate.c | 82 ++++++++++++++++++++++-------------------
->  1 file changed, 45 insertions(+), 37 deletions(-)
-> 
-> diff --git a/target/cris/translate.c b/target/cris/translate.c
-> index 83b20162f1..0e925320b3 100644
-> --- a/target/cris/translate.c
-> +++ b/target/cris/translate.c
-> @@ -55,6 +55,7 @@
->  /* is_jmp field values */
->  #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
->  #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
-> +#define DISAS_DBRANCH DISAS_TARGET_2 /* pc update for delayed branch */
->  
->  /* Used by the decoder.  */
->  #define EXTRACT_FIELD(src, start, end) \
-> @@ -3219,43 +3220,8 @@ static void cris_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
->       * loop doing nothing for on this program location.
->       */
->      if (dc->delayed_branch && --dc->delayed_branch == 0) {
-> -        if (dc->base.tb->flags & 7) {
-> -            t_gen_movi_env_TN(dslot, 0);
-> -        }
-> -
-> -        if (dc->cpustate_changed
-> -            || !dc->flagx_known
-> -            || (dc->flags_x != (dc->base.tb->flags & X_FLAG))) {
-> -            cris_store_direct_jmp(dc);
-> -        }
-> -
-> -        if (dc->clear_locked_irq) {
-> -            dc->clear_locked_irq = 0;
-> -            t_gen_movi_env_TN(locked_irq, 0);
-> -        }
-> -
-> -        if (dc->jmp == JMP_DIRECT_CC) {
-> -            TCGLabel *l1 = gen_new_label();
-> -            cris_evaluate_flags(dc);
-> -
-> -            /* Conditional jmp.  */
-> -            tcg_gen_brcondi_tl(TCG_COND_EQ, env_btaken, 0, l1);
-> -            gen_goto_tb(dc, 1, dc->jmp_pc);
-> -            gen_set_label(l1);
-> -            gen_goto_tb(dc, 0, dc->pc);
-> -            dc->base.is_jmp = DISAS_NORETURN;
-> -            dc->jmp = JMP_NOJMP;
-> -        } else if (dc->jmp == JMP_DIRECT) {
-> -            cris_evaluate_flags(dc);
-> -            gen_goto_tb(dc, 0, dc->jmp_pc);
-> -            dc->base.is_jmp = DISAS_NORETURN;
-> -            dc->jmp = JMP_NOJMP;
-> -        } else {
-> -            TCGv c = tcg_const_tl(dc->pc);
-> -            t_gen_cc_jmp(env_btarget, c);
-> -            tcg_temp_free(c);
-> -            dc->base.is_jmp = DISAS_JUMP;
-> -        }
-> +        dc->base.is_jmp = DISAS_DBRANCH;
-> +        return;
->      }
->  
->      /* Force an update if the per-tb cpu state has changed.  */
-> @@ -3303,6 +3269,48 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
->  
->      cris_evaluate_flags(dc);
->  
-> +    /* Evaluate delayed branch destination and fold to another is_jmp case. */
-> +    if (is_jmp == DISAS_DBRANCH) {
-> +        if (dc->base.tb->flags & 7) {
-> +            t_gen_movi_env_TN(dslot, 0);
-> +        }
-> +
-> +        switch (dc->jmp) {
-> +        case JMP_DIRECT:
-> +            npc = dc->jmp_pc;
-> +            is_jmp = DISAS_TOO_MANY;
-> +            break;
-> +
-> +        case JMP_DIRECT_CC:
-> +            /*
-> +             * Use a conditional branch if either taken or not-taken path
-> +             * can use goto_tb.  If neither can, then treat it as indirect.
-> +             */
-> +            if (likely(!dc->base.singlestep_enabled)
-> +                && (use_goto_tb(dc, dc->jmp_pc) || use_goto_tb(dc, npc))) {
-> +                TCGLabel *not_taken = gen_new_label();
-> +
-> +                tcg_gen_brcondi_tl(TCG_COND_EQ, env_btaken, 0, not_taken);
-> +                gen_goto_tb(dc, 1, dc->jmp_pc);
-> +                gen_set_label(not_taken);
-> +
-> +                /* not-taken case handled below. */
-> +                is_jmp = DISAS_TOO_MANY;
-> +                break;
-> +            }
-> +            tcg_gen_movi_tl(env_btarget, dc->jmp_pc);
-> +            /* fall through */
-> +
-> +        case JMP_INDIRECT:
-> +            t_gen_cc_jmp(env_btarget, tcg_constant_tl(npc));
-> +            is_jmp = DISAS_JUMP;
-> +            break;
-> +
-> +        default:
-> +            g_assert_not_reached();
-> +        }
-> +    }
-> +
->      if (unlikely(dc->base.singlestep_enabled)) {
->          switch (is_jmp) {
->          case DISAS_TOO_MANY:
-> -- 
-> 2.25.1
-> 
 
