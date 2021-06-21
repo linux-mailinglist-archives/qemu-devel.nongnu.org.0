@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C383AF1EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:26:50 +0200 (CEST)
-Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9803AF199
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 19:13:01 +0200 (CEST)
+Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvNhB-0002v3-5o
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40206)
+	id 1lvNTo-0005cR-Eq
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 13:13:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lvNOR-0005OS-6k
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:07:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lvNON-00056o-O0
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:07:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624295243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4gTPZVZsrWtbknk02kSNjidLnM1IimPYsoIS8XGekM8=;
- b=G0Z6aoyW5Fm1Uupa5jad7561dIUusSF4ZzhsHsGuTsfP0or4Gp4Jmcw49re17SGMZdNXoW
- 1QGsLxynVP3vYvWUYPWyuhr8kWGlD9+2gUHRvJeS2BXjr1rSDI5pT+trrBG0gAD6baH39F
- 8sgboYPFsahRj5kAIRTpCXF/1q7KfAk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-a25V4dksOu2sML-jkyy_eA-1; Mon, 21 Jun 2021 13:07:21 -0400
-X-MC-Unique: a25V4dksOu2sML-jkyy_eA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- de48-20020a1709069bf0b029048ae3ebecabso3020237ejc.16
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 10:07:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lvNRN-0002fO-B2
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:10:29 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:41639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lvNRI-0006v8-Ua
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 13:10:28 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id u190so10855961pgd.8
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 10:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O6UDS/h0EdjPQ8Lu46siJtRgmRWaeR+iI26m93HAz8s=;
+ b=Z2d/PaL2SCrE+aLjxvRQTw36xU7CdgJ1IxG1WboL8dtJa0cXWfGseNUDEYWGQGdUuH
+ wxoJT6X3nZ/GIGwkzqiKaApijPAAXqLhA7dCLEhFZ8jZSdTS9Cki5FWauF4svs9Rz18M
+ 3H92XHzKbcEisKFhBbI0HoYEwT9uzNH1RgagvRFxZPidJXCkSI4UInXO5NzwqwJf44J/
+ w4D3/itfSus7v4jFq+Sk/ioXoyydjavMQy1FOqEoGSL+W2YT9M8ryayui0Kysk7F7xBD
+ 0HjxtNRMt+x8WASvfDR1eSKRijXi7HBR2zAvtcIECoy8iLAo89bK4MiRYnrNnsS4odGY
+ ZrTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=4gTPZVZsrWtbknk02kSNjidLnM1IimPYsoIS8XGekM8=;
- b=fEK0P3Aitjx4sC7p7xpD7I5QAcce3jMVHULY7R/a99OQS5OCrn296kFqF7ALQlDcE6
- Qf4VWHejg7rTNO336d3TKqtRj728/qzlORywu63V0PPR9iOC2jYoJvFO9U4s5pGgvFmd
- su02It3F26xUqPN86/k4fz2ib/brymTOMJYZGU/4wvgukoXe+tNmzaj0XOiV7M7Uk3Qc
- ICRJz4SOzCwbMNMTB651dpORbibELqwqqLWtT5JO7SyrvS77fDKXqfTVXKhN8YT5Dxy5
- 15XuyZMbBqaSuMCQPy0agtJ4JflfEKpGfSjZIUsb0fu7uOhPpNmvUjJjBLPh2k/HQI9O
- OUng==
-X-Gm-Message-State: AOAM533P0kuul7q2DjUgg2cqG/IeVVpwFPY8CrgXl7Ufzf44i4VAtRge
- u6rVstneosQTsMNzgHz0cojV0HHy8GbZ9+lnXC0i6xKlst18Q3xPjDDdk91XDQQPTTb6ijDrkTh
- HYFemmSwilNJaRoo=
-X-Received: by 2002:a17:906:4b59:: with SMTP id
- j25mr2486920ejv.511.1624295240592; 
- Mon, 21 Jun 2021 10:07:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwS87LLLxo3rEASL9H+E8RGMT0KC78yEPmsPaUzqQcYZ6UQ9Z18BV5RoE7XOOzMyem+jhi2tA==
-X-Received: by 2002:a17:906:4b59:: with SMTP id
- j25mr2486892ejv.511.1624295240282; 
- Mon, 21 Jun 2021 10:07:20 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- cd4sm4981770ejb.104.2021.06.21.10.07.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 10:07:20 -0700 (PDT)
-Subject: Re: [Virtio-fs] [PATCH v2 7/9] virtiofsd: Add inodes_by_handle hash
- table
-To: Vivek Goyal <vgoyal@redhat.com>
-References: <20210609155551.44437-1-mreitz@redhat.com>
- <20210609155551.44437-8-mreitz@redhat.com>
- <20210611200459.GB767764@redhat.com>
- <9cea5642-e5ea-961f-d816-0998e52aad9f@redhat.com>
- <20210617212143.GD1142820@redhat.com>
- <1e5dafd2-34e0-1a25-2cb5-6822eaf2502c@redhat.com>
- <20210618182901.GB1252241@redhat.com>
- <eec1bcd6-957d-8e9f-457c-fb717b71336b@redhat.com>
- <20210621155130.GB1394463@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <263469d1-7347-dcc1-3cc9-eb873c0c1d48@redhat.com>
-Date: Mon, 21 Jun 2021 19:07:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O6UDS/h0EdjPQ8Lu46siJtRgmRWaeR+iI26m93HAz8s=;
+ b=p+1w9eZ8zcK7lF7ZGcO/zmbXZCcHFpmZUJAinCWcgs4wCQa8Mp87gWwJGEBl6g9A9f
+ UQTChdUNgvZW+VUSsKwrLmxe1j5X2FeEV4qbZDMeUdokOR0b1NYZtEYd2GSmhjTt2iRE
+ GwFWi4oeJkzW6i72Pq66rety/lodsUXcYvXqKgqnfx5a5ND6C0y7tUw2ZUyr77tXo2Yq
+ Q2z+SsKMFewPKTq956RMiFBomqbl2hUUHAkngUX8iunPQRxnFuccNZTNeT4DMH4gZDMh
+ 0dRf5SLsRqT+wLjY0TqK00O1CSKeKa5s+11uxhSYkgRTL0jof6qGo1QDx+kFHh1jI8Uk
+ qyjQ==
+X-Gm-Message-State: AOAM531HIQrZPReTEEtMtMe6/A5MtrKJ6/+hgZtA40Lh+Lyh12aOwMuA
+ Vsy6AAbB0M81gHdilg9/N0siNUHr4IjWQA==
+X-Google-Smtp-Source: ABdhPJyx8y4mfEa5YWgGtR+nEXQdpi6fK1ZNlMDQ+ObodruwQtbA9IJ1yXhr7SKOrJE8pymrJNlrKg==
+X-Received: by 2002:a05:6a00:2d7:b029:304:5af1:65f6 with SMTP id
+ b23-20020a056a0002d7b02903045af165f6mr2845124pft.80.1624295423054; 
+ Mon, 21 Jun 2021 10:10:23 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id j4sm19458054pjv.7.2021.06.21.10.10.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Jun 2021 10:10:22 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/alpha: Honor the FEN bit
+Date: Mon, 21 Jun 2021 10:10:21 -0700
+Message-Id: <20210621171021.1819881-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210621155130.GB1394463@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,174 +81,434 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: Jason Thorpe <thorpej@me.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.06.21 17:51, Vivek Goyal wrote:
-> On Mon, Jun 21, 2021 at 11:02:16AM +0200, Max Reitz wrote:
->> On 18.06.21 20:29, Vivek Goyal wrote:
+This bit is used by NetBSD for lazy fpu migration.
 
-[snip]
+Reported-by: Jason Thorpe <thorpej@me.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/438
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/alpha/translate.c | 75 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
 
->>> What am I not able to understand is that why we can't return error if
->>> we run into a temporary issue and can't generate file handle. What's
->>> that requirement that we need to hide the error and try to cover it
->>> up by some other means.
->> There is no requirement, it’s just that we need to hide ENOTSUPP errors
->> anyway (because e.g. some submounted filesystem may not support file
->> handles), so I considered hiding temporary errors
-> ENOTSUPP is not a temporary error I guess. But this is a good point that
-> if host filesystem does not support file handles, should we return
-> error so that user is forced to remove "-o inode_file_handles" option.
->
-> I can see multiple modes and they all seem to be useful in different
-> scenarios.
->
-> A. Do not use file handles at all.
->
-> B. Use file handles if filesystem supports it. Also this could do some
->     kind of mix and matching so that some inodes use file handles while
->     others use fd. We could think of implementing some threshold and
->     if open fds go above this threshold, switch to file handle stuff.
->
-> C. Strictly use file handles otherwise return error to caller.
->
-> One possibility is that we implement two options inode_file_handles
-> and no_inode_file_handles.
->
-> - User specified -o no_inode_file_handles, implement A.
-> - User specified -o inode_file_handles, implement C.
-> - User did not specify anything, then use file handles opportunistically
->    as seen fit by daemon. This provides us the maximum flexibility and
->    this practically implements option B.
->
-> IOW, if user did not specify anything, then we can think of implementing
-> file handles by default and fallback to using O_PATH fds if filesystem
-> does not support file handles (ENOTSUPP). But if user did specify
-> "-o no_inode_file_handles" or "-o inode_file_handles", this kind
-> of points to strictly implementing respective policy, IMHO. That's how
-> I have implemented some other options.
->
-> Alternatively, we could think of adding one more option say
-> "inode_file_handles_only.
->
-> - "-o no_inode_files_handles" implements A.
-> - "-o inode_files_handles" implements B.
-> - "-o inode_files_handles_only" implements C.
-> - If user did not specify anything on command line, then its up to the
->    daemon whatever default policy it wants and default can change
->    over time.
-
-I think it makes sense not to punish the user for wanting to use file 
-handles as much as possible and still gracefully handling submounts that 
-don’t support them.  So I’d want to implement B first, and have that be 
--o inode_files_handles.  I think A as -o no_inode_file_handles is also 
-there, automatically...?
-
-I don’t think there’s much of a problem with implementing C, except we 
-probably want to log ENOTSUPP errors then, so the user can figure out 
-what’s going on.  I feel like we can still wait with such an option 
-until there’s a demand for it.
-
-(Except that perhaps the demand would come in the form of “please help I 
-use -o inode_file_handles but virtiofsd’s FD count is still too high I 
-don’t know what to do”, and that probably wouldn’t be so great.  But 
-then again, inodes_files_handles_only wouldn’t help a user in that case 
-either, because it changes “works badly” to “doesn’t work at all”.  Now 
-I’m wondering what the actual use case of inodes_files_handles_only 
-would be.)
-
->> not to really add
->> complexity.  (Which is true, as can be seen from the diff stat I posted
->> below: Dropping the second hash table and making the handle part of lo_key,
->> so that temporary errors are now fatal, generates a diff of +37/-66, where
->> -20 are just two comments (which realistically I’d need to replace by
->> different comments), so in terms of code, it’s +37/-46.)
->>
->> I’d just rather handle errors gracefully when I find it doesn’t really cost
->> complexity.
->>
->>
->> However, you made a good point in that we must require name_to_handle_at()
->> to work if it worked before for some inode, not because it would be simpler,
->> but because it would be wrong otherwise.
->>
->> As for the other way around...  Well, now I don’t have a strong opinion on
->> it.  Handling temporary name_to_handle_at() failure after it worked the
->> first time should not add extra complexity, but it wouldn’t be symmetric.
->> Like, allowing temporary failure sometimes but not at other times.
-> Right. If we decided that we need to generate file handle for an inode
-> and underlying filesystem supports file handles, then handling temporary
-> failures only sometimes will make it assymetric. At this point of time
-> I am more inclined to return error to caller on temporary failures. But
-> if this does not work well in practice, I am open to change the policy.
->
->> The next question is, how do we detect temporary failure, because if we look
->> up some new inode, name_to_handle_at() fails, we ignore it, and then it
->> starts to work and we fail all further lookups, that’s not good.  We should
->> have the first lookup fail.  I suppose ENOTSUPP means “OK to ignore”, and
->> for everything else we should let lookup fail?
-> ENOTSUPP will be a permanent failure right? And not a temporary one.
-
-I sure hope so.  The man page says “The filesystem does not support 
-decoding of a pathname to a file handle.”, which sounds pretty 
-permanent, unless perhaps the filesystem driver is updated in-place.
-
-> It seems reasonable that we gracefully fall back to O_PATH fd in case
-> of ENOTSUPP (Assuming -o inode_file_handles means try to use file
-> handles and fallback to O_PATH fds if host filesystem does not
-> support it).
->
-> But for temporary failures we probably will have to return errors to callers.
-> Do you have a specific temporary failure in mind which you are concerned
-> about.
-
-Oh, no.  It’s just, there can be errors other than EOPNOTSUPP (now that 
-I looked into the man page I know that’s what it actually is), and we 
-have to decide what to do then.  Nothing more.
-
->> (And that pretty much
->> answers my "what if name_to_handle_at() works the first time, but then
->> fails" question.  If we let anything but ENOTSUPP let the lookup fail, then
->> we should do so every time.)
-> Agreed. ENOTSUPP seems to be the only error when falling back to O_PATH
-> fd makes most sense to me. Rest of them probably should be propagated
-> to caller.
-
-Perhaps also EOVERFLOW, which indicates that our file handle storage is 
-too small.  This shouldn’t happen, given that we use MAX_HANDLE_SZ to 
-size it, but I imagine it’s possible that MAX_HANDLE_SZ is increased in 
-the future, and when you then compile virtiofsd on one system and run it 
-on another, it’s possible that some filesystem driver wants to store 
-larger handles.  Given that we expect a file handle to always be the 
-same for a given inode, such an EOVERFLOW error should be permanent, too 
-(for a given inode).
-
-> And given ENOTSUPP is a permanent failure, you probably will be able
-> to add fhandle to lo_key and not require a separate mapping which
-> looks up inode by fhandle.
-
-Sure, but again, this doesn’t make anything simpler.
-
-What I particularly don’t like about this is that for doing so, we have 
-a choice between (A) adding fhandle to lo_key inline (i.e. of type 
-lo_fhandle), or (B) adding it as a pointer (i.e. of type lo_fhandle *).
-
-(A) seems the more obvious solution, but then lo_inode.fhandle would 
-either not exist (one would have to go through lo_inode.key.fhandle, 
-which I don’t really like), or be a pointer to &lo_inode.key.fhandle, 
-which is also kind of weird.  Also, if there is no file handle, it would 
-need to be explicitly 0, which wastes memory when not using -o 
-inode_file_handles (and cycles, because hashing and comparing will take 
-longer).
-
-So (B) would do it the other way around, lo_inode.key.fhandle would be a 
-copy of lo_inode.fhandle.  But having a pointer be part of a key is, 
-while perfectly feasible, again strange.
-
-I find two hash maps to just be cleaner.
-
-Max
+diff --git a/target/alpha/translate.c b/target/alpha/translate.c
+index f454adea5e..f2922f5f8c 100644
+--- a/target/alpha/translate.c
++++ b/target/alpha/translate.c
+@@ -1471,6 +1471,13 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
+         }                                       \
+     } while (0)
+ 
++#define REQUIRE_FEN                             \
++    do {                                        \
++        if (!(ctx->tbflags & ENV_FLAG_FEN)) {   \
++            goto raise_fen;                     \
++        }                                       \
++    } while (0)
++
+ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+ {
+     int32_t disp21, disp16, disp12 __attribute__((unused));
+@@ -2066,6 +2073,7 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         case 0x04:
+             /* ITOFS */
+             REQUIRE_REG_31(rb);
++            REQUIRE_FEN;
+             t32 = tcg_temp_new_i32();
+             va = load_gpr(ctx, ra);
+             tcg_gen_extrl_i64_i32(t32, va);
+@@ -2075,17 +2083,20 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         case 0x0A:
+             /* SQRTF */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             vb = load_fpr(ctx, rb);
+             gen_helper_sqrtf(vc, cpu_env, vb);
+             break;
+         case 0x0B:
+             /* SQRTS */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_sqrts(ctx, rb, rc, fn11);
+             break;
+         case 0x14:
+             /* ITOFF */
+             REQUIRE_REG_31(rb);
++            REQUIRE_FEN;
+             t32 = tcg_temp_new_i32();
+             va = load_gpr(ctx, ra);
+             tcg_gen_extrl_i64_i32(t32, va);
+@@ -2095,18 +2106,21 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         case 0x24:
+             /* ITOFT */
+             REQUIRE_REG_31(rb);
++            REQUIRE_FEN;
+             va = load_gpr(ctx, ra);
+             tcg_gen_mov_i64(vc, va);
+             break;
+         case 0x2A:
+             /* SQRTG */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             vb = load_fpr(ctx, rb);
+             gen_helper_sqrtg(vc, cpu_env, vb);
+             break;
+         case 0x02B:
+             /* SQRTT */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_sqrtt(ctx, rb, rc, fn11);
+             break;
+         default:
+@@ -2123,18 +2137,22 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         switch (fpfn) { /* fn11 & 0x3F */
+         case 0x00:
+             /* ADDF */
++            REQUIRE_FEN;
+             gen_helper_addf(vc, cpu_env, va, vb);
+             break;
+         case 0x01:
+             /* SUBF */
++            REQUIRE_FEN;
+             gen_helper_subf(vc, cpu_env, va, vb);
+             break;
+         case 0x02:
+             /* MULF */
++            REQUIRE_FEN;
+             gen_helper_mulf(vc, cpu_env, va, vb);
+             break;
+         case 0x03:
+             /* DIVF */
++            REQUIRE_FEN;
+             gen_helper_divf(vc, cpu_env, va, vb);
+             break;
+         case 0x1E:
+@@ -2143,35 +2161,43 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+             goto invalid_opc;
+         case 0x20:
+             /* ADDG */
++            REQUIRE_FEN;
+             gen_helper_addg(vc, cpu_env, va, vb);
+             break;
+         case 0x21:
+             /* SUBG */
++            REQUIRE_FEN;
+             gen_helper_subg(vc, cpu_env, va, vb);
+             break;
+         case 0x22:
+             /* MULG */
++            REQUIRE_FEN;
+             gen_helper_mulg(vc, cpu_env, va, vb);
+             break;
+         case 0x23:
+             /* DIVG */
++            REQUIRE_FEN;
+             gen_helper_divg(vc, cpu_env, va, vb);
+             break;
+         case 0x25:
+             /* CMPGEQ */
++            REQUIRE_FEN;
+             gen_helper_cmpgeq(vc, cpu_env, va, vb);
+             break;
+         case 0x26:
+             /* CMPGLT */
++            REQUIRE_FEN;
+             gen_helper_cmpglt(vc, cpu_env, va, vb);
+             break;
+         case 0x27:
+             /* CMPGLE */
++            REQUIRE_FEN;
+             gen_helper_cmpgle(vc, cpu_env, va, vb);
+             break;
+         case 0x2C:
+             /* CVTGF */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_helper_cvtgf(vc, cpu_env, vb);
+             break;
+         case 0x2D:
+@@ -2181,16 +2207,19 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         case 0x2F:
+             /* CVTGQ */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_helper_cvtgq(vc, cpu_env, vb);
+             break;
+         case 0x3C:
+             /* CVTQF */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_helper_cvtqf(vc, cpu_env, vb);
+             break;
+         case 0x3E:
+             /* CVTQG */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_helper_cvtqg(vc, cpu_env, vb);
+             break;
+         default:
+@@ -2203,54 +2232,67 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         switch (fpfn) { /* fn11 & 0x3F */
+         case 0x00:
+             /* ADDS */
++            REQUIRE_FEN;
+             gen_adds(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x01:
+             /* SUBS */
++            REQUIRE_FEN;
+             gen_subs(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x02:
+             /* MULS */
++            REQUIRE_FEN;
+             gen_muls(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x03:
+             /* DIVS */
++            REQUIRE_FEN;
+             gen_divs(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x20:
+             /* ADDT */
++            REQUIRE_FEN;
+             gen_addt(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x21:
+             /* SUBT */
++            REQUIRE_FEN;
+             gen_subt(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x22:
+             /* MULT */
++            REQUIRE_FEN;
+             gen_mult(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x23:
+             /* DIVT */
++            REQUIRE_FEN;
+             gen_divt(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x24:
+             /* CMPTUN */
++            REQUIRE_FEN;
+             gen_cmptun(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x25:
+             /* CMPTEQ */
++            REQUIRE_FEN;
+             gen_cmpteq(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x26:
+             /* CMPTLT */
++            REQUIRE_FEN;
+             gen_cmptlt(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x27:
+             /* CMPTLE */
++            REQUIRE_FEN;
+             gen_cmptle(ctx, ra, rb, rc, fn11);
+             break;
+         case 0x2C:
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             if (fn11 == 0x2AC || fn11 == 0x6AC) {
+                 /* CVTST */
+                 gen_cvtst(ctx, rb, rc, fn11);
+@@ -2262,16 +2304,19 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         case 0x2F:
+             /* CVTTQ */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_cvttq(ctx, rb, rc, fn11);
+             break;
+         case 0x3C:
+             /* CVTQS */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_cvtqs(ctx, rb, rc, fn11);
+             break;
+         case 0x3E:
+             /* CVTQT */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             gen_cvtqt(ctx, rb, rc, fn11);
+             break;
+         default:
+@@ -2284,12 +2329,14 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         case 0x010:
+             /* CVTLQ */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             vc = dest_fpr(ctx, rc);
+             vb = load_fpr(ctx, rb);
+             gen_cvtlq(vc, vb);
+             break;
+         case 0x020:
+             /* CPYS */
++            REQUIRE_FEN;
+             if (rc == 31) {
+                 /* Special case CPYS as FNOP.  */
+             } else {
+@@ -2306,6 +2353,7 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+             break;
+         case 0x021:
+             /* CPYSN */
++            REQUIRE_FEN;
+             vc = dest_fpr(ctx, rc);
+             vb = load_fpr(ctx, rb);
+             va = load_fpr(ctx, ra);
+@@ -2313,6 +2361,7 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+             break;
+         case 0x022:
+             /* CPYSE */
++            REQUIRE_FEN;
+             vc = dest_fpr(ctx, rc);
+             vb = load_fpr(ctx, rb);
+             va = load_fpr(ctx, ra);
+@@ -2320,6 +2369,7 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+             break;
+         case 0x024:
+             /* MT_FPCR */
++            REQUIRE_FEN;
+             va = load_fpr(ctx, ra);
+             gen_helper_store_fpcr(cpu_env, va);
+             if (ctx->tb_rm == QUAL_RM_D) {
+@@ -2330,37 +2380,45 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+             break;
+         case 0x025:
+             /* MF_FPCR */
++            REQUIRE_FEN;
+             va = dest_fpr(ctx, ra);
+             gen_helper_load_fpcr(va, cpu_env);
+             break;
+         case 0x02A:
+             /* FCMOVEQ */
++            REQUIRE_FEN;
+             gen_fcmov(ctx, TCG_COND_EQ, ra, rb, rc);
+             break;
+         case 0x02B:
+             /* FCMOVNE */
++            REQUIRE_FEN;
+             gen_fcmov(ctx, TCG_COND_NE, ra, rb, rc);
+             break;
+         case 0x02C:
+             /* FCMOVLT */
++            REQUIRE_FEN;
+             gen_fcmov(ctx, TCG_COND_LT, ra, rb, rc);
+             break;
+         case 0x02D:
+             /* FCMOVGE */
++            REQUIRE_FEN;
+             gen_fcmov(ctx, TCG_COND_GE, ra, rb, rc);
+             break;
+         case 0x02E:
+             /* FCMOVLE */
++            REQUIRE_FEN;
+             gen_fcmov(ctx, TCG_COND_LE, ra, rb, rc);
+             break;
+         case 0x02F:
+             /* FCMOVGT */
++            REQUIRE_FEN;
+             gen_fcmov(ctx, TCG_COND_GT, ra, rb, rc);
+             break;
+         case 0x030: /* CVTQL */
+         case 0x130: /* CVTQL/V */
+         case 0x530: /* CVTQL/SV */
+             REQUIRE_REG_31(ra);
++            REQUIRE_FEN;
+             vc = dest_fpr(ctx, rc);
+             vb = load_fpr(ctx, rb);
+             gen_helper_cvtql(vc, cpu_env, vb);
+@@ -2793,34 +2851,42 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+ #endif
+     case 0x20:
+         /* LDF */
++        REQUIRE_FEN;
+         gen_load_mem(ctx, &gen_qemu_ldf, ra, rb, disp16, 1, 0);
+         break;
+     case 0x21:
+         /* LDG */
++        REQUIRE_FEN;
+         gen_load_mem(ctx, &gen_qemu_ldg, ra, rb, disp16, 1, 0);
+         break;
+     case 0x22:
+         /* LDS */
++        REQUIRE_FEN;
+         gen_load_mem(ctx, &gen_qemu_lds, ra, rb, disp16, 1, 0);
+         break;
+     case 0x23:
+         /* LDT */
++        REQUIRE_FEN;
+         gen_load_mem(ctx, &tcg_gen_qemu_ld64, ra, rb, disp16, 1, 0);
+         break;
+     case 0x24:
+         /* STF */
++        REQUIRE_FEN;
+         gen_store_mem(ctx, &gen_qemu_stf, ra, rb, disp16, 1, 0);
+         break;
+     case 0x25:
+         /* STG */
++        REQUIRE_FEN;
+         gen_store_mem(ctx, &gen_qemu_stg, ra, rb, disp16, 1, 0);
+         break;
+     case 0x26:
+         /* STS */
++        REQUIRE_FEN;
+         gen_store_mem(ctx, &gen_qemu_sts, ra, rb, disp16, 1, 0);
+         break;
+     case 0x27:
+         /* STT */
++        REQUIRE_FEN;
+         gen_store_mem(ctx, &tcg_gen_qemu_st64, ra, rb, disp16, 1, 0);
+         break;
+     case 0x28:
+@@ -2862,12 +2928,15 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         ret = gen_bdirect(ctx, ra, disp21);
+         break;
+     case 0x31: /* FBEQ */
++        REQUIRE_FEN;
+         ret = gen_fbcond(ctx, TCG_COND_EQ, ra, disp21);
+         break;
+     case 0x32: /* FBLT */
++        REQUIRE_FEN;
+         ret = gen_fbcond(ctx, TCG_COND_LT, ra, disp21);
+         break;
+     case 0x33: /* FBLE */
++        REQUIRE_FEN;
+         ret = gen_fbcond(ctx, TCG_COND_LE, ra, disp21);
+         break;
+     case 0x34:
+@@ -2875,12 +2944,15 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+         ret = gen_bdirect(ctx, ra, disp21);
+         break;
+     case 0x35: /* FBNE */
++        REQUIRE_FEN;
+         ret = gen_fbcond(ctx, TCG_COND_NE, ra, disp21);
+         break;
+     case 0x36: /* FBGE */
++        REQUIRE_FEN;
+         ret = gen_fbcond(ctx, TCG_COND_GE, ra, disp21);
+         break;
+     case 0x37: /* FBGT */
++        REQUIRE_FEN;
+         ret = gen_fbcond(ctx, TCG_COND_GT, ra, disp21);
+         break;
+     case 0x38:
+@@ -2918,6 +2990,9 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+     invalid_opc:
+         ret = gen_invalid(ctx);
+         break;
++    raise_fen:
++        ret = gen_excp(ctx, EXCP_FEN, 0);
++        break;
+     }
+ 
+     return ret;
+-- 
+2.25.1
 
 
