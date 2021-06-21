@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6693AE8CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:10:18 +0200 (CEST)
-Received: from localhost ([::1]:36172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909EA3AE8BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 14:07:37 +0200 (CEST)
+Received: from localhost ([::1]:57900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvIkr-0004Bt-TO
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59354)
+	id 1lvIiG-0007xx-GI
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 08:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcY-00008Y-P3
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcZ-00009T-GS
  for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60933)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcV-0001JC-IW
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvIcV-0001KL-R8
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 08:01:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624276895;
+ s=mimecast20190719; t=1624276896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sq/HOf5JeM++yPpoAuW9iDbVyUCOqpnC/SE0OJmi7vg=;
- b=LwRBMGnYcPbtQqs1sQCZwsa9Tgc4HqnRaG1mSWLKpPk/OAI5firFRDnHlXrLwEjTM46tE+
- XyXGPVqZzb9v80fucEN1P3ybiLrbGToLc5fu9vpRKP/774ZtUrHe0S6VFlu3pNjxoMdmL6
- zscKV1TIo0/mhUyw3DDGqLAKQuzmV/c=
+ bh=awGEg7b28Zd4GHvRzt2YHqfD5vRAhFLohXiqTOYnhdU=;
+ b=gkdMJXDx4GW+GFPBSurECWSUQROu0rAspJ2tFuoXTF0E6xyVe04FL1fWHoezqVpIu+O3c+
+ fLKvn37d2vN4HNJ5rJIhN/PQjvOr1LCiuTgZWBgsrrXXQxm5egATt8S0Rtsku82yfu2YXP
+ aKQvJluedt6RwRqIhwlYWF2btYOmQTs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-W-435PgmNTOc-61ELCq_gw-1; Mon, 21 Jun 2021 08:01:33 -0400
-X-MC-Unique: W-435PgmNTOc-61ELCq_gw-1
+ us-mta-351-YbLaIMcSN7i1U6soDLjg0w-1; Mon, 21 Jun 2021 08:01:34 -0400
+X-MC-Unique: YbLaIMcSN7i1U6soDLjg0w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ED061018722;
- Mon, 21 Jun 2021 12:01:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756B11835AC4;
+ Mon, 21 Jun 2021 12:01:33 +0000 (UTC)
 Received: from thuth.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DC3A19C46;
- Mon, 21 Jun 2021 12:01:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A541C19C46;
+ Mon, 21 Jun 2021 12:01:32 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/7] docs/tools/virtiofsd.rst: Do not hard-code the QEMU binary
- name
-Date: Mon, 21 Jun 2021 14:01:20 +0200
-Message-Id: <20210621120125.116377-3-thuth@redhat.com>
+Subject: [PULL 3/7] docs/tools/virtiofsd: Fix bad rst syntax
+Date: Mon, 21 Jun 2021 14:01:21 +0200
+Message-Id: <20210621120125.116377-4-thuth@redhat.com>
 In-Reply-To: <20210621120125.116377-1-thuth@redhat.com>
 References: <20210621120125.116377-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -81,46 +80,51 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In downstream, we want to use a different name for the QEMU binary,
-and some people might also use the docs for non-x86 binaries, that's
-why we already created the |qemu_system| placeholder in the past.
-Use it now in the virtiofsd doc, too.
+For literal blocks, there has to be an empty line after the two colons,
+and the block itself should be indented.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210607174250.920226-1-thuth@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20210607180015.924571-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/tools/virtiofsd.rst | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ docs/tools/virtiofsd.rst | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 00554c75bd..265a39b0cf 100644
+index 265a39b0cf..4911e797cb 100644
 --- a/docs/tools/virtiofsd.rst
 +++ b/docs/tools/virtiofsd.rst
-@@ -298,13 +298,13 @@ Examples
- Export ``/var/lib/fs/vm001/`` on vhost-user UNIX domain socket
- ``/var/run/vm001-vhost-fs.sock``:
+@@ -239,7 +239,7 @@ xattr-mapping Examples
  
--::
-+.. parsed-literal::
+ ::
  
-   host# virtiofsd --socket-path=/var/run/vm001-vhost-fs.sock -o source=/var/lib/fs/vm001
--  host# qemu-system-x86_64 \
--      -chardev socket,id=char0,path=/var/run/vm001-vhost-fs.sock \
--      -device vhost-user-fs-pci,chardev=char0,tag=myfs \
--      -object memory-backend-memfd,id=mem,size=4G,share=on \
--      -numa node,memdev=mem \
--      ...
-+  host# |qemu_system| \\
-+        -chardev socket,id=char0,path=/var/run/vm001-vhost-fs.sock \\
-+        -device vhost-user-fs-pci,chardev=char0,tag=myfs \\
-+        -object memory-backend-memfd,id=mem,size=4G,share=on \\
-+        -numa node,memdev=mem \\
-+        ...
-   guest# mount -t virtiofs myfs /mnt
+--o xattrmap=":prefix:all::user.virtiofs.::bad:all:::"
++ -o xattrmap=":prefix:all::user.virtiofs.::bad:all:::"
+ 
+ 
+ This uses two rules, using : as the field separator;
+@@ -250,7 +250,8 @@ the host set.
+ This is equivalent to the 'map' rule:
+ 
+ ::
+--o xattrmap=":map::user.virtiofs.:"
++
++ -o xattrmap=":map::user.virtiofs.:"
+ 
+ 2) Prefix 'trusted.' attributes, allow others through
+ 
+@@ -277,7 +278,8 @@ through.
+ This is equivalent to the 'map' rule:
+ 
+ ::
+--o xattrmap="/map/trusted./user.virtiofs./"
++
++ -o xattrmap="/map/trusted./user.virtiofs./"
+ 
+ 3) Hide 'security.' attributes, and allow everything else
+ 
 -- 
 2.27.0
 
