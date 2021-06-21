@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5C83AE739
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:36:50 +0200 (CEST)
-Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D603AE7AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:52:31 +0200 (CEST)
+Received: from localhost ([::1]:37558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvHIP-0002zT-NF
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:36:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41776)
+	id 1lvHXa-0007en-G9
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lvHFW-0008N2-1g
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:33:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47863)
+ id 1lvHFX-0008OJ-0K
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:33:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lvHFQ-00029b-RL
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:33:49 -0400
+ id 1lvHFT-0002BZ-7r
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:33:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624271623;
+ s=mimecast20190719; t=1624271626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AAJ356+EIegqR2qDbF7GNuswLK3rj+4rAMF6qF8CgYA=;
- b=NB2zWbUWPakF8t5xKNdGofsJXxRRL4K21T0JpUFLQIo87IqT+/lcZrpYZsRSNnqpM0oNuo
- JWtL4+v10aVzSsAveTUJMr0khFlocfFidrwi/QIARMewU8wRClwabjGsdgXoXR2Ahvryst
- ZQx1f3KjG0ePsLFDmSBeZoYqKUbLf1I=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uvrrr3s/WfGM5+rFWj9NIfTCdsvF7TkAzknbbDPBSi4=;
+ b=IEmljwt3FDhrIWcKXUnWcvBvaxUg7XQdeh6DYtU1bZG/6ysKLVeBOqPYLuQlkDdw31EIyO
+ gzzEpfZ0F9Gd+lUMJBmjjy65VxnssyTdV2rQt5sesXTG7QxXN022Cs/quPcB2XdyxieZVb
+ MKAIacFvwi4ai5qLofewo5/xdnl+wGc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-ocq51FAUMbWdT-yKWBRQKg-1; Mon, 21 Jun 2021 06:33:41 -0400
-X-MC-Unique: ocq51FAUMbWdT-yKWBRQKg-1
+ us-mta-496-20_5vunEPluhxfBxnU_owQ-1; Mon, 21 Jun 2021 06:33:44 -0400
+X-MC-Unique: 20_5vunEPluhxfBxnU_owQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9629193F566;
- Mon, 21 Jun 2021 10:33:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF399101F006;
+ Mon, 21 Jun 2021 10:33:43 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-100.ams2.redhat.com
  [10.36.113.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 310365D703;
- Mon, 21 Jun 2021 10:33:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3EF6F5D703;
+ Mon, 21 Jun 2021 10:33:41 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 00/16] qemu_iotests: improve debugging options
-Date: Mon, 21 Jun 2021 12:33:21 +0200
-Message-Id: <20210621103337.36637-1-eesposit@redhat.com>
+Subject: [PATCH v6 01/16] python: qemu: add timer parameter for qmp.accept
+ socket
+Date: Mon, 21 Jun 2021 12:33:22 +0200
+Message-Id: <20210621103337.36637-2-eesposit@redhat.com>
+In-Reply-To: <20210621103337.36637-1-eesposit@redhat.com>
+References: <20210621103337.36637-1-eesposit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -85,61 +89,101 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds the option to attach gdbserver and valgrind
-to the QEMU binary running in qemu_iotests.
-It also allows to redirect QEMU binaries output of the python tests
-to the stdout, instead of a log file.
+Also add a new _qmp_timer field to the QEMUMachine class.
 
-Patches 1-9 introduce the -gdb option to both python and bash tests, 
-10-14 extend the already existing -valgrind flag to work also on 
-python tests, and patch 15-16 introduces -p to enable logging to stdout.
+Let's change the default socket timeout to None, so that if
+a subclass needs to add a timer, it can be done by modifying
+this private field.
 
-In particular, patches 1,6,11 focus on extending the QMP socket timers
-when using gdb/valgrind, otherwise the python tests will fail due to
-delays in the QMP responses.
+At the same time, restore the timer to be 15 seconds in iotests.py, to
+give an upper bound to the QMP monitor test command execution.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
-v6:
-* undo the previous series change "base this serie on the double dash options,
-  so define --gdb instead of -gdb"
-* undo Vladimir's suggestion on patch 5 to use @contextmanager, because it
-  produces a pylint warning.
+ python/qemu/machine/machine.py | 7 +++++--
+ python/qemu/machine/qtest.py   | 5 +++--
+ tests/qemu-iotests/iotests.py  | 3 ++-
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-Emanuele Giuseppe Esposito (15):
-  python: qemu: add timer parameter for qmp.accept socket
-  python: qemu: pass the wrapper field from QEMUQtestmachine to
-    QEMUMachine
-  docs/devel/testing: add debug section to the QEMU iotests chapter
-  qemu-iotests: add option to attach gdbserver
-  qemu-iotests: delay QMP socket timers
-  qemu_iotests: insert gdbserver command line as wrapper for qemu binary
-  qemu-iotests: add gdbserver option to script tests too
-  docs/devel/testing: add -gdb option to the debugging section of QEMU
-    iotests
-  qemu-iotests: extend the check script to prepare supporting valgrind
-    for python tests
-  qemu-iotests: extend QMP socket timeout when using valgrind
-  qemu-iotests: allow valgrind to read/delete the generated log file
-  qemu-iotests: insert valgrind command line as wrapper for qemu binary
-  docs/devel/testing: add -valgrind option to the debug section of QEMU
-    iotests
-  qemu-iotests: add option to show qemu binary logs on stdout
-  docs/devel/testing: add -p option to the debug section of QEMU iotests
-
-John Snow (1):
-  python: Reduce strictness of pylint's duplicate-code check
-
- docs/devel/testing.rst         | 30 +++++++++++++++++++++
- python/qemu/machine/machine.py | 16 +++++++----
- python/qemu/machine/qtest.py   |  9 ++++---
- python/setup.cfg               |  5 ++++
- tests/qemu-iotests/check       | 15 ++++++++---
- tests/qemu-iotests/common.rc   |  8 +++++-
- tests/qemu-iotests/iotests.py  | 49 ++++++++++++++++++++++++++++++++--
- tests/qemu-iotests/testenv.py  | 23 ++++++++++++++--
- 8 files changed, 138 insertions(+), 17 deletions(-)
-
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index b62435528e..fdf2fc0e9c 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -95,7 +95,8 @@ def __init__(self,
+                  socket_scm_helper: Optional[str] = None,
+                  sock_dir: Optional[str] = None,
+                  drain_console: bool = False,
+-                 console_log: Optional[str] = None):
++                 console_log: Optional[str] = None,
++                 qmp_timer: Optional[float] = None):
+         '''
+         Initialize a QEMUMachine
+ 
+@@ -109,6 +110,7 @@ def __init__(self,
+         @param sock_dir: where to create socket (defaults to base_temp_dir)
+         @param drain_console: (optional) True to drain console socket to buffer
+         @param console_log: (optional) path to console log file
++        @param qmp_timer: (optional) default QMP socket timeout
+         @note: Qemu process is not started until launch() is used.
+         '''
+         # Direct user configuration
+@@ -116,6 +118,7 @@ def __init__(self,
+         self._binary = binary
+         self._args = list(args)
+         self._wrapper = wrapper
++        self._qmp_timer = qmp_timer
+ 
+         self._name = name or "qemu-%d" % os.getpid()
+         self._base_temp_dir = base_temp_dir
+@@ -333,7 +336,7 @@ def _pre_launch(self) -> None:
+ 
+     def _post_launch(self) -> None:
+         if self._qmp_connection:
+-            self._qmp.accept()
++            self._qmp.accept(self._qmp_timer)
+ 
+     def _post_shutdown(self) -> None:
+         """
+diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
+index 93700684d1..33a86a9d69 100644
+--- a/python/qemu/machine/qtest.py
++++ b/python/qemu/machine/qtest.py
+@@ -115,14 +115,15 @@ def __init__(self,
+                  name: Optional[str] = None,
+                  base_temp_dir: str = "/var/tmp",
+                  socket_scm_helper: Optional[str] = None,
+-                 sock_dir: Optional[str] = None):
++                 sock_dir: Optional[str] = None,
++                 qmp_timer: Optional[float] = None):
+         if name is None:
+             name = "qemu-%d" % os.getpid()
+         if sock_dir is None:
+             sock_dir = base_temp_dir
+         super().__init__(binary, args, name=name, base_temp_dir=base_temp_dir,
+                          socket_scm_helper=socket_scm_helper,
+-                         sock_dir=sock_dir)
++                         sock_dir=sock_dir, qmp_timer=qmp_timer)
+         self._qtest: Optional[QEMUQtestProtocol] = None
+         self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
+ 
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 89663dac06..6b0db4ce54 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -570,10 +570,11 @@ class VM(qtest.QEMUQtestMachine):
+ 
+     def __init__(self, path_suffix=''):
+         name = "qemu%s-%d" % (path_suffix, os.getpid())
++        timer = 15.0
+         super().__init__(qemu_prog, qemu_opts, name=name,
+                          base_temp_dir=test_dir,
+                          socket_scm_helper=socket_scm_helper,
+-                         sock_dir=sock_dir)
++                         sock_dir=sock_dir, qmp_timer=timer)
+         self._num_drives = 0
+ 
+     def add_object(self, opts):
 -- 
 2.31.1
 
