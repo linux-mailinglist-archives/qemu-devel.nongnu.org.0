@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C283AEB04
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:18:02 +0200 (CEST)
-Received: from localhost ([::1]:51254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DEA3AEB12
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 16:20:50 +0200 (CEST)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvKkT-0008Pm-Aj
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60598)
+	id 1lvKnB-0004P3-1g
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 10:20:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1lvKho-0006pl-SV; Mon, 21 Jun 2021 10:15:16 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16704
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1lvKhn-00042K-23; Mon, 21 Jun 2021 10:15:16 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15LE40Nj190445; Mon, 21 Jun 2021 10:15:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=+ZhHdzY7aQoHLCPgjHwFhubtkwO2Wg/yV25QfbxhsUM=;
- b=sPpOgNs6B8mhpxzbKpzY1xV++YmHqdpEZvYwuq/N9Md9ZVkjfM+c+VZ+kpxs6w29Yi4m
- 6Gd9xTG/CD2ONCByIFS7iMTHvGp1vY0NDmlMK0326UUi7O68QdxBC/ViJYJ31Ahtn6R7
- KdZoJ1iA+4V+p3hu9oY7C10KOLP0dRTl77iReewWDLbY1wuZi63tus7hyMBgbZcfq6Mz
- ASm+UdWEJ5bpGSL9itKlcOZQff/Lo5V3oKZV/L0S3mWXJVsuGz9CY1QzkM/2a9vIUd6E
- +j15L8gDorDPQTZou34OaF9x0ovSB4geqxqIWa0ktC3817xIBfIrcOWLcB3qMHC6mdtj Yw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39atkqkvv2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 10:15:13 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LE4HrS192643;
- Mon, 21 Jun 2021 10:15:13 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39atkqkvuj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 10:15:12 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LEBpLG001020;
- Mon, 21 Jun 2021 14:15:12 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma01wdc.us.ibm.com with ESMTP id 399878fr0u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Jun 2021 14:15:12 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15LEFB7i29753808
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 21 Jun 2021 14:15:11 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C4A4F112064;
- Mon, 21 Jun 2021 14:15:11 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B66C112069;
- Mon, 21 Jun 2021 14:15:11 +0000 (GMT)
-Received: from LAPTOP-K4LLPL5U.localdomain (unknown [9.65.229.155])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 21 Jun 2021 14:15:11 +0000 (GMT)
-From: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tests/tcg: Test that compare-and-trap raises SIGFPE
-Date: Mon, 21 Jun 2021 10:14:52 -0400
-Message-Id: <20210621141452.2045-3-jonathan.albrecht@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>
-References: <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvKiM-0007Q4-TC
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:15:53 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:41732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvKiK-0004M7-RT
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 10:15:50 -0400
+Received: by mail-ed1-x529.google.com with SMTP id n20so19175995edv.8
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 07:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AN40/MW6qzKAKIXTUYqjSTZvf3mW7m6B2xNBLT3K+2A=;
+ b=e2jmDQbH3uDhTrYfhxPR5M8/4CMmj8XfSYlxPLjMSlNn5snXuloi31+u8Z8RJplMSi
+ 1izvSCPbWrkeEMmBqr9j1vqAX/Ke6MX0c2lJerQfyin/t66H5tK/40GouDnbAfSM8Fli
+ GV/m+yIIkKlm+tPD5N95GkJZ/DXY6jlzbOcij9UuJvXi1JMuYFrmdK+XamgWGoeOKGJQ
+ QtUjmFiRrp23x4r4p6VFWGn7QL9qH2ptN4ay06UkZO4lvfPaBL/7MxcLlETciebIEOOU
+ A1IYk0/Oa7KqW9m/SP+YcVPjmHyr4A9Bt6YcI2FaGJdiPV5Bz88VMN7lzDQjLpAyS2fi
+ 4+3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AN40/MW6qzKAKIXTUYqjSTZvf3mW7m6B2xNBLT3K+2A=;
+ b=Kb5tNmWoSSyuKiHvWbpI9miVGB2l5cmJ/K2G+PW2CWcJ3TEA035XxPoEKG8K7tkwB3
+ 23O7O3vPDf6PWRSsBWkjQJm1ZToTMgg/sYxh3knLkZWMJ8kisI/b4GQw5qWa6VoJhplY
+ pRGnid9KHEBgWf8ybhsJUCpDgMxHwzR/rwmB7hLbdwYRitjqPcc7whx95mB4GGntieTm
+ W83DGryq34aP+rr8ToOFi9PvBIIYc4ExDp3tpUVTu68De14PyJ+Qyz7jwPw6cvx9A12r
+ ZPQxc+Z4wsAHtGKoes5H5lAsLqSoCWCXXCK48a6McFa6dQANU6N9yzZQzXHmbs/YP3aG
+ nBVg==
+X-Gm-Message-State: AOAM531xZBVuqaoGoiJ8JplYpMXp2vY2fCOsSvhP8HpZyUS8AgzgO0h+
+ UEpDMGhgN3GXov/V/zSu3+WEH8UIV+CVyYOAGGCPug==
+X-Google-Smtp-Source: ABdhPJzsACuKSJc7YrSEEP/4Ys8oSL9OI/MPDazEB9FoC+86+H1aXbOB9IV/oc9sn6gewhHx419IXsNsnGM+VxKX7V4=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr21456945edt.100.1624284947011; 
+ Mon, 21 Jun 2021 07:15:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _VXEGOIQ8XQllcOgRk5AzQ_b68hs8KFj
-X-Proofpoint-ORIG-GUID: WLK0Zz6Zc18hXx06lnyPg8PSIYNUw9iI
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-21_06:2021-06-21,
- 2021-06-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 phishscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 mlxlogscore=999 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106210084
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=jonathan.albrecht@linux.vnet.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ <20210614083800.1166166-2-richard.henderson@linaro.org>
+ <CAFEAcA9ktX0famPUabJ3J_nhBp7CHOzd7S_auHEML7kPi9Yysw@mail.gmail.com>
+ <CAFEAcA9Rg9O7n24Jpee3BxyE35e5z+a7m8CiQqJqeJ9hNffYjQ@mail.gmail.com>
+ <d7906e8d-2db4-88fd-0755-af433fae808a@linaro.org>
+In-Reply-To: <d7906e8d-2db4-88fd-0755-af433fae808a@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Jun 2021 15:15:11 +0100
+Message-ID: <CAFEAcA_8T8U8NG0mTRvzic_cnG5O+Yd6t9Nmc0TkNv2G_QKPTg@mail.gmail.com>
+Subject: Re: [PATCH 01/28] tcg: Add flags argument to bswap opcodes
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,136 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>, iii@linux.ibm.com,
- david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- krebbel@linux.ibm.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
----
- tests/tcg/s390x/Makefile.target |   1 +
- tests/tcg/s390x/trap.c          | 100 ++++++++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 tests/tcg/s390x/trap.c
+On Mon, 21 Jun 2021 at 15:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/21/21 6:51 AM, Peter Maydell wrote:
+> > On Mon, 21 Jun 2021 at 14:41, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >>
+> >> On Mon, 14 Jun 2021 at 09:43, Richard Henderson
+> >> <richard.henderson@linaro.org> wrote:
+> >>>
+> >>> This will eventually simplify front-end usage, and will allow
+> >>> backends to unset TCG_TARGET_HAS_MEMORY_BSWAP without loss of
+> >>> optimization.
+> >>>
+> >>> The argument is added during expansion, not currently exposed
+> >>> to the front end translators.  Non-zero values are not yet
+> >>> supported by any backends.
+> >>
+> >> Here we say non-zero values are not yet supported by the backend...
+> >
+> > Looking at the tcg/README docs, I think what you mean is that
+> > at the moment all the backends assume/require that the caller passes
+> > one of TCG_BSWAP_IZ or (TCG_BSWAP_IZ | TCG_BSWAP_OZ), since the
+> > pre-flags implementation requires the top bytes to be zero and leaves
+> > them that way.
+>
+> Correct.
+>
+> > But then the parts of your patch that pass in a zero
+> > flags word would be wrong...
+>
+> The parts that pass in a zero flags word are covered by, from the README:
+>
+> > The flags are ignored -- the argument is present
+> > for consistency with the smaller bswaps.
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index cdb7d85316..4bd6db6679 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -9,3 +9,4 @@ TESTS+=pack
- TESTS+=mvo
- TESTS+=mvc
- TESTS+=signal
-+TESTS+=trap
-diff --git a/tests/tcg/s390x/trap.c b/tests/tcg/s390x/trap.c
-new file mode 100644
-index 0000000000..d48ad070d4
---- /dev/null
-+++ b/tests/tcg/s390x/trap.c
-@@ -0,0 +1,100 @@
-+/*
-+ * Copyright 2021 IBM Corp.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#include <stdarg.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <string.h>
-+#include <signal.h>
-+
-+static void error1(const char *filename, int line, const char *fmt, ...)
-+{
-+    va_list ap;
-+    va_start(ap, fmt);
-+    fprintf(stderr, "%s:%d: ", filename, line);
-+    vfprintf(stderr, fmt, ap);
-+    fprintf(stderr, "\n");
-+    va_end(ap);
-+    exit(1);
-+}
-+
-+static int __chk_error(const char *filename, int line, int ret)
-+{
-+    if (ret < 0) {
-+        error1(filename, line, "%m (ret=%d, errno=%d/%s)",
-+               ret, errno, strerror(errno));
-+    }
-+    return ret;
-+}
-+
-+#define error(fmt, ...) error1(__FILE__, __LINE__, fmt, ## __VA_ARGS__)
-+
-+#define chk_error(ret) __chk_error(__FILE__, __LINE__, (ret))
-+
-+int sigfpe_count = 0;
-+int sigill_count = 0;
-+
-+static void sig_handler(int sig, siginfo_t *si, void *puc)
-+{
-+    if (sig == SIGFPE) {
-+        if (si->si_code != 0) {
-+            error("unexpected si_code: 0x%x != 0", si->si_code);
-+        }
-+        ++sigfpe_count;
-+        return;
-+    }
-+    
-+    if (sig == SIGILL) {
-+        ++sigill_count;
-+        return;
-+    }
-+
-+    error("unexpected signal 0x%x\n", sig);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    struct sigaction act;
-+
-+    /* Set up SIG handler */
-+    act.sa_sigaction = sig_handler;
-+    sigemptyset(&act.sa_mask);
-+    act.sa_flags = SA_SIGINFO;
-+    chk_error(sigaction(SIGFPE, &act, NULL));
-+    chk_error(sigaction(SIGILL, &act, NULL));
-+
-+    uint64_t z = 0x0ull;
-+    uint64_t lz = 0xffffffffffffffffull;
-+    asm volatile (
-+        "lg %%r13,%[lz]\n"
-+        "cgitne %%r13,0\n" /* SIGFPE */
-+        "lg %%r13,%[z]\n"
-+        "cgitne %%r13,0\n" /* no trap */
-+        "nopr\n"
-+        "lg %%r13,%[lz]\n"
-+        "citne %%r13,0\n" /* SIGFPE */
-+        "lg %%r13,%[z]\n"
-+        "citne %%r13,0\n" /* no trap */
-+        "nopr\n"
-+        : 
-+        : [z] "m" (z), [lz] "m" (lz)
-+        : "memory", "r13");
-+
-+    if (sigfpe_count != 2) {
-+        error("unexpected SIGFPE count: %d != 2", sigfpe_count);
-+    }
-+    if (sigill_count != 0) {
-+        error("unexpected SIGILL count: %d != 0", sigill_count);
-+    }
-+
-+    printf("PASS\n");
-+    return 0;
-+}
--- 
-2.31.1
+Ah, I see. If you fix up the commit message, maybe something like
 
+# The argument is added during expansion, not currently exposed
+# to the front end translators. The backends currently only support
+# a flags value of either TCG_BSWAP_IZ, or (TCG_BSWAP_IZ | TCG_BSWAP_OZ),
+# since they all require zero top bytes and leave them that way.
+# At the existing callsites we pass in (TCG_BSWAP_IZ | TCG_BSWAP_OZ),
+# except for the flags-ignored cases of a 32-bit swap of a 32-bit
+# value and or a 64-bit swap of a 64-bit value, where we pass 0.
+
+then
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+It would be nice to document the actual flag values/names in
+the user-facing documentation, too.
+
+thanks
+-- PMM
 
