@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F633AE77B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:45:26 +0200 (CEST)
-Received: from localhost ([::1]:44824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAC83AE787
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Jun 2021 12:47:37 +0200 (CEST)
+Received: from localhost ([::1]:50484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvHQj-0001em-Fx
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
+	id 1lvHSq-0005k5-HA
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 06:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvH3J-0004ME-43
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:21:17 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:42905)
+ id 1lvH7b-0004AO-Dc
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:25:42 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvH3G-0003C4-N5
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:21:12 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id m14so1463118edp.9
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 03:21:09 -0700 (PDT)
+ id 1lvH7V-0005hj-NA
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 06:25:38 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id r7so18143950edv.12
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 03:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=euDIMfdif4hfuxSIEYdj+9uKBob9bmEhRYjfTESE64E=;
- b=zfM7y/FUFrg9hYPDNJQ5epCK6asud0HhR37cZu5af9jA3HGwdqcVI7gIkV8Ju11Nd2
- /t//6tm2mjiEUdAH6BuUH/dfu9y0MCXoprCb2Dvz2JJhadaVystVgOq3mOUkGOdnjgZN
- d3uFGznwFcUeaMC/eyxvYUq0BOJ6g6nKl0fQaltLy/0Yq0BsR3aaT98+MT7z3DP6ouGR
- PUwzpyBp8TadIPp/ysVp5pP8+vcR85IjTlSb0OgMF+JTGQFU/Eb+FsYgSuW8Nlpvs/zo
- y5xfD1wCWSbPiKlNr7ZnGeavTA7D6pFzllNJLjmZVXxeRwnAkEr/WVvcC6ZAtN1IqULS
- JpSw==
+ :cc; bh=8mAsWxzn17mn1SsbEYLlrm05rIirHOJ+0SjUUjzZLHk=;
+ b=pKrj5bKn87kgQdg2LYWTcKHFiVo52fcgNAumwB9VjSq+NatNfsmrOajNoRNmCsDvbA
+ jk+mlLPDI8h9qxWWm82UTHEbonGVnek0rhvp1iHpc9FM9QvS6c/JTSY8+PHxTf6jQAYm
+ hjPt8dmr/coBu3y/t30GFChsMzARfU2cbc2zhbzX5lUEwx/xWNh87Kf7NmeUtanWPkMV
+ V9NdUELqG+pxm800joOdOe+irG1mBz502uuiCxGbDFij0hqUztn7xgYrzcifGb5DYMeM
+ Y1dmInRqFg82Fx1CNAPvSK8vbR2nyVS85JqttMlw0o+Zqtm7fmqDkyF3ipaTVHnXABWo
+ l1iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=euDIMfdif4hfuxSIEYdj+9uKBob9bmEhRYjfTESE64E=;
- b=awtml1zH/ELDMZxWugGSGXMvQc/Lcjwsadw0I1vEECPDaZ9TZL8yjpx859mrwvx7xI
- YzM0BbpXH9TPtDKJavD7oGFxMZbr4K1AYE0N5aOgKeXuV+fTACU11C32M3O1/3JMeFTA
- 2QaklK/ZVIwZEgLXdk/v8ix7AWFiBrgLo0R4XWucv5/fX/scVnwH6UIzhOj6Lhe6cLKb
- fKIbFDoFbx8zZAspA22xoNhNYEa+b6JGGWB9OafuPu9oNJAhCQW3IubFAd9sgmyqRDEn
- p0p9TF39O8pFAJVYo8GShsP5D/kzqYYObvGHKhxVyPvYLJfSXzN2rTHIwMhmZvrO3NWh
- 1NPw==
-X-Gm-Message-State: AOAM531tTNgFZtIAvlHc+s3etKomCEgjq999pBY3951Fg54R6WHWDYlg
- QLk+oYY7vEtT+/rRTPTMLU+aUiUkif8XDtZNd/keGQ==
-X-Google-Smtp-Source: ABdhPJxuKhOoDhOEkoEltVOprPKSokU8604dyyDXYx5d/V6MzHi5EqKGvhkvfoSVoDN7JnO6J4YFMZ6nLpPplPY/3hg=
-X-Received: by 2002:a05:6402:3553:: with SMTP id
- f19mr8383125edd.52.1624270868587; 
- Mon, 21 Jun 2021 03:21:08 -0700 (PDT)
+ bh=8mAsWxzn17mn1SsbEYLlrm05rIirHOJ+0SjUUjzZLHk=;
+ b=a36pW7ySjyllR1GfU/eg0wyGK5h8sHLGu+J1iA8dd6rTilFNdpKpfzOIMpH6nwsf3h
+ NMOA6K9WzFcuV2bfyX2dQqFfoE/as2FPRKUfL5cGFmXuzbWtRjNP2g5ExOcyssfaBWBp
+ 7VZIOqiaAa40ziOegfPgL7rfKpo9ffc0s+vxWG6EA9naHoj2BzRC1VQz97wlCeQMMIiR
+ ROgyCwxtq0YcWxxadb54GthZy/43P4Mu8MBEVsqccmrWxSFOVmbspojFeO5qGP/RxuyT
+ k2VIIps6t4DdIYvZJ8blazqMetgig1DddL7sOAEXOGBDD1FMtr2zGGbATRGgB83+vXj0
+ egqg==
+X-Gm-Message-State: AOAM532P5hegpSHIi5+wKNJkYV3VYaj+0aRkOE18Xa5br/F3A768gLJv
+ 9Fxyqi2kN3F/jLguCvhpix3vkYSeq0Y6g0HQeaO6conUA+7UMQ==
+X-Google-Smtp-Source: ABdhPJyOaY71GVnNsdPIoyvHJaOc3JGsLjqUIteIReourc5U61AxMDMxIVs04JBep/iVrf/svPSD6XyjEPZByhAnPHg=
+X-Received: by 2002:aa7:da14:: with SMTP id r20mr19251252eds.36.1624271130039; 
+ Mon, 21 Jun 2021 03:25:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210621013439.1791385-1-richard.henderson@linaro.org>
- <20210621013439.1791385-6-richard.henderson@linaro.org>
-In-Reply-To: <20210621013439.1791385-6-richard.henderson@linaro.org>
+References: <20210618173200.596368-1-eblake@redhat.com>
+In-Reply-To: <20210618173200.596368-1-eblake@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Jun 2021 11:20:32 +0100
-Message-ID: <CAFEAcA_nSzp4VYrqDV_AQYAnvRnHGc-XFR+O=3AdWM0r+OOrdA@mail.gmail.com>
-Subject: Re: [PATCH 05/26] target/arm: Use translator_use_goto_tb
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Mon, 21 Jun 2021 11:24:54 +0100
+Message-ID: <CAFEAcA_YykkVaPeeRo-=3yzCUUqtR7OtwNJZBkQ7JfZjbCsEOg@mail.gmail.com>
+Subject: Re: [PULL v2 00/34] NBD patches through 2021-06-15
+To: Eric Blake <eblake@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,22 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Jun 2021 at 02:42, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, 18 Jun 2021 at 18:34, Eric Blake <eblake@redhat.com> wrote:
 >
-> Put a wrapper in translate.h, which also checks for ss_active.
-> The ss_active test was incorrectly missing from the a32 version.
+> The following changes since commit 3ccf6cd0e3e1dfd663814640b3b18b55715d7a75:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210617-pull-request' into staging (2021-06-18 09:54:42 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-06-15-v2
+>
+> for you to fetch changes up to bbfb7c2f350262f893642433dea66352fc168295:
+>
+>   block/nbd: safer transition to receiving request (2021-06-18 12:21:22 -0500)
+>
+> v2: silence uninit variable warning [clang, Vladimir]
+> only re-sending the affected patch
+>
+> ----------------------------------------------------------------
+> nbd patches for 2021-06-15
+>
+> - bug fixes in coroutine aio context handling
+> - rework NBD client connection logic to perform more work in coroutine
+>
 
-True, but we almost never call gen_goto_tb() when ss_active
-(which makes sense because we generate code to raise a singlestep
-exception instead). The only cases I think where we do call
-gen_goto_tb() are ISB and SB; everything else calls gen_jmp_tb()
-or otherwise handles the is_singlestepping() case.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
 -- PMM
 
