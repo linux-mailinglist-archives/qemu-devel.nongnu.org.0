@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8850C3AF948
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 01:26:25 +0200 (CEST)
-Received: from localhost ([::1]:51210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79603AF93F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 01:23:46 +0200 (CEST)
+Received: from localhost ([::1]:39962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvTJA-0008Vx-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 19:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41830)
+	id 1lvTGb-0000ys-MY
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 19:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvTC4-0000qH-Tu
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:04 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53141)
+ id 1lvTC6-0000wd-M5
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:06 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:50718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvTC2-0005zG-KZ
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:04 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id h16so10886229pjv.2
+ id 1lvTC3-0005zW-5i
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 19:19:06 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id g4so10910949pjk.0
  for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 16:19:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7EQJoFBdjdiE+zNRxauFeYkPJcHdyjHqE5CsIUBDDL8=;
- b=F3h0AtidcwQ89LR63MGIkvMPkhobY4HWIHC065KMqq6YAVUZnXQc7seWCuUZZTIhBJ
- CwdTIjq2jE6bR0QonKxkNO4LdPgK5iMEm7ntt9neQLiwuSV/hW+8OGrutBWY1duuzJFa
- eSsdmKWQy9cVTDiLc76Twjh5Jib2LEJ1s8MQvbtcNFx1HjxgKL0gVx4rdU658OiY+2Rm
- GACsUh7QF8IIFEpyepf8bXhiGT1KUQcdQgEh8xRQ5qnL/MlrvdvKDVBG4zCJehoHxORk
- dgrbNolMwO32RPgUnZooEEj5w4oJn5LTzIYEXsJ9LJEB+MKOEG48fPJm+7kkJ9GZ1U5t
- DUHA==
+ bh=DgN2RVC9T7a74NE01POCZUsNKgpvvfqPoLVvw7rnjlE=;
+ b=Ye2+IaCh4rLM6YJmP+3C8eR/l30VtUAvi5Jw8Fh87J8vPNgpSZkUNMIO4GnuqraX5x
+ ITcGm5AQWRA9cPz6hx7j26yIbkCYqahOd795z5u7MclWcqMVFuFzzEry8UE0HNPOwcy0
+ ectSrKDAsdP3GrMKPINiZeTYFe6hXj8FvWeoUwBr3/Oggq5Y1TyLsBK+mHeYdRoraUg0
+ 2LqAHL/qMtvgnWswlo7Zg8c3INZKs24jg4xSQyxcyZSHk5JnJRZjk2zDlsaFZfrGUwOF
+ uYHQf7MFlZxY75/9C+yJStn1C3+oQKqV+29z5BcnnNEEd0emBEOifNEHvIv3d0V8WoDE
+ EndA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7EQJoFBdjdiE+zNRxauFeYkPJcHdyjHqE5CsIUBDDL8=;
- b=OzsiYAba/a1MmEmIBU+fjJFc8jcdnqWPUSrnOoX93s71lcRO1/kRcVIf14//s1DBQS
- TuX2cY2ankxIWAuU/yBfpkZvaqgEcb+3umSOlAouj7WvPrI6cjL/5u+9ahq5KBJ1BSvQ
- hDPn0Lxj31qakooGJpUx84IgoUsEY8+qL9VUjYR9q7bVUe5BrCFg3S0VA/5FNs5ge6DL
- CcgMrEGO5EUvVXC7ot0Divv/MbR5P/NeFKpbZyoPUbAo3l6khxyOeTmtb5dz7UX/7GLt
- FiiV3JG/pB0Hglnk+o7cS7hc8XCnjmhgiYe+4Y9fsVKTJzyBp7gSVSY78sHn1JMr1s2S
- /mWg==
-X-Gm-Message-State: AOAM531YwNVx5ycACsszkfPV12Rb2LAEIdkA46qqgx++pKmLoLkiSx4v
- f17mGOdabJN1+63t6n8ZUVsZE3uiIVTCRw==
-X-Google-Smtp-Source: ABdhPJyYdnU3G8Qlc6YQY+Bd3iPzdC96NlJ8wHGewHAdKGtjo8YiR5uAgMXyAAx2Olutni99AzJ3dQ==
-X-Received: by 2002:a17:90a:5401:: with SMTP id z1mr471491pjh.7.1624317541220; 
+ bh=DgN2RVC9T7a74NE01POCZUsNKgpvvfqPoLVvw7rnjlE=;
+ b=ASvtjwPUDSx7oYlRuoJb0Da2bG96pAyPWarL/yLVliWHeKfFa+1kX/rZPde9GfjJ5M
+ v2VfKtR8i0/rppX4GY+VvAr7SRqQOjGpUkNgHZpYM7UWrHKh7rJEhxPr8Umg2+Wuqua0
+ PUa8QSKOyDIEmWBudSp3LslBB/5I/pcuBNrykM7ZiejXMAD8suGcCpYHJIoc8hRP4R2t
+ vjGS2BIa0tOX0JtYhKCAhh/frLOetsgar7iR4YJfXzkCrHhiG0Su0FVt/x0xrLjoOeEF
+ KH/MXPBXNIfBQodpongjMngf6gWYwVFSodke52Y5/reZM3p7kIYMhglxSbzRHHGht6SP
+ ERFw==
+X-Gm-Message-State: AOAM532sydZbjt8uOieA0+/jjqEymk1qCHrb+QSJsHMvNuIJPqIPQ9cX
+ xmQI7poPYp9VrSi4DoOm+WmJ3zUcMaB17A==
+X-Google-Smtp-Source: ABdhPJwaeSKzssb6IaXJJy5wSbC2qgVy8vN/0g7h/y1SOBlcXOFwiKYpKxUpj+CX7cVhoAyHMg0Y1Q==
+X-Received: by 2002:a17:90b:33c4:: with SMTP id
+ lk4mr642983pjb.191.1624317541901; 
  Mon, 21 Jun 2021 16:19:01 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id 135sm14429952pgf.20.2021.06.21.16.19.00
+ by smtp.gmail.com with ESMTPSA id 135sm14429952pgf.20.2021.06.21.16.19.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Jun 2021 16:19:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/29] tcg/tci: Support bswap flags
-Date: Mon, 21 Jun 2021 16:18:36 -0700
-Message-Id: <20210621231849.1871164-17-richard.henderson@linaro.org>
+Subject: [PATCH v2 17/29] tcg: Handle new bswap flags during optimize
+Date: Mon, 21 Jun 2021 16:18:37 -0700
+Message-Id: <20210621231849.1871164-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210621231849.1871164-1-richard.henderson@linaro.org>
 References: <20210621231849.1871164-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,79 +83,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing interpreter zero-extends, ignoring high bits.
-Simply add a separate sign-extension opcode if required.
-Ensure that the interpreter supports ext16s when bswap16 is enabled.
+Notice when the input is known to be zero-extended and force
+the TCG_BSWAP_IZ flag on.  Honor the TCG_BSWAP_OS bit during
+constant folding.  Propagate the input to the output mask.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c                |  3 ++-
- tcg/tci/tcg-target.c.inc | 23 ++++++++++++++++++++---
- 2 files changed, 22 insertions(+), 4 deletions(-)
+ tcg/optimize.c | 56 +++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 51 insertions(+), 5 deletions(-)
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index d68c5a4e55..109522a865 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -733,7 +733,8 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             regs[r0] = (int8_t)regs[r1];
-             break;
- #endif
--#if TCG_TARGET_HAS_ext16s_i32 || TCG_TARGET_HAS_ext16s_i64
-+#if TCG_TARGET_HAS_ext16s_i32 || TCG_TARGET_HAS_ext16s_i64 || \
-+    TCG_TARGET_HAS_bswap16_i32 || TCG_TARGET_HAS_bswap16_i64
-         CASE_32_64(ext16s)
-             tci_args_rr(&tb_ptr, &r0, &r1);
-             regs[r0] = (int16_t)regs[r1];
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 823ecd5d35..1e92688dca 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -617,6 +617,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg args[TCG_MAX_OP_ARGS],
-                        const int const_args[TCG_MAX_OP_ARGS])
- {
-+    TCGOpcode exts;
-+
-     switch (opc) {
-     case INDEX_op_exit_tb:
-         tcg_out_op_p(s, opc, (void *)args[0]);
-@@ -710,12 +712,27 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     CASE_64(ext32u)      /* Optional (TCG_TARGET_HAS_ext32u_i64). */
-     CASE_64(ext_i32)
-     CASE_64(extu_i32)
--    CASE_32_64(bswap16)  /* Optional (TCG_TARGET_HAS_bswap16_*). */
--    CASE_32_64(bswap32)  /* Optional (TCG_TARGET_HAS_bswap32_*). */
--    CASE_64(bswap64)     /* Optional (TCG_TARGET_HAS_bswap64_i64). */
-+    case INDEX_op_bswap32_i32: /* Optional (TCG_TARGET_HAS_bswap32_i32). */
-+    case INDEX_op_bswap64_i64: /* Optional (TCG_TARGET_HAS_bswap64_i64). */
-         tcg_out_op_rr(s, opc, args[0], args[1]);
-         break;
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 37c902283e..3b6983fbef 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -354,10 +354,12 @@ static uint64_t do_constant_folding_2(TCGOpcode op, uint64_t x, uint64_t y)
+         return (uint16_t)x;
  
-+    case INDEX_op_bswap16_i32: /* Optional (TCG_TARGET_HAS_bswap16_i32). */
-+        exts = INDEX_op_ext16s_i32;
-+        goto do_bswap;
-+    case INDEX_op_bswap16_i64: /* Optional (TCG_TARGET_HAS_bswap16_i64). */
-+        exts = INDEX_op_ext16s_i64;
-+        goto do_bswap;
-+    case INDEX_op_bswap32_i64: /* Optional (TCG_TARGET_HAS_bswap32_i64). */
-+        exts = INDEX_op_ext32s_i64;
-+    do_bswap:
-+        /* The base tci bswaps zero-extend, and ignore high bits. */
-+        tcg_out_op_rr(s, opc, args[0], args[1]);
-+        if (args[2] & TCG_BSWAP_OS) {
-+            tcg_out_op_rr(s, exts, args[0], args[0]);
-+        }
-+        break;
+     CASE_OP_32_64(bswap16):
+-        return bswap16(x);
++        x = bswap16(x);
++        return y & TCG_BSWAP_OS ? (int16_t)x : x;
+ 
+     CASE_OP_32_64(bswap32):
+-        return bswap32(x);
++        x = bswap32(x);
++        return y & TCG_BSWAP_OS ? (int32_t)x : x;
+ 
+     case INDEX_op_bswap64_i64:
+         return bswap64(x);
+@@ -1028,6 +1030,42 @@ void tcg_optimize(TCGContext *s)
+             }
+             break;
+ 
++        CASE_OP_32_64(bswap16):
++            mask = arg_info(op->args[1])->mask;
++            if (mask <= 0xffff) {
++                op->args[2] |= TCG_BSWAP_IZ;
++            }
++            mask = bswap16(mask);
++            switch (op->args[2] & (TCG_BSWAP_OZ | TCG_BSWAP_OS)) {
++            case TCG_BSWAP_OZ:
++                break;
++            case TCG_BSWAP_OS:
++                mask = (int16_t)mask;
++                break;
++            default: /* undefined high bits */
++                mask |= MAKE_64BIT_MASK(16, 48);
++                break;
++            }
++            break;
 +
- #if TCG_TARGET_REG_BITS == 32
-     case INDEX_op_add2_i32:
-     case INDEX_op_sub2_i32:
++        case INDEX_op_bswap32_i64:
++            mask = arg_info(op->args[1])->mask;
++            if (mask <= 0xffffffffu) {
++                op->args[2] |= TCG_BSWAP_IZ;
++            }
++            mask = bswap32(mask);
++            switch (op->args[2] & (TCG_BSWAP_OZ | TCG_BSWAP_OS)) {
++            case TCG_BSWAP_OZ:
++                break;
++            case TCG_BSWAP_OS:
++                mask = (int32_t)mask;
++                break;
++            default: /* undefined high bits */
++                mask |= MAKE_64BIT_MASK(32, 32);
++                break;
++            }
++            break;
++
+         default:
+             break;
+         }
+@@ -1134,9 +1172,6 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(ext16s):
+         CASE_OP_32_64(ext16u):
+         CASE_OP_32_64(ctpop):
+-        CASE_OP_32_64(bswap16):
+-        CASE_OP_32_64(bswap32):
+-        case INDEX_op_bswap64_i64:
+         case INDEX_op_ext32s_i64:
+         case INDEX_op_ext32u_i64:
+         case INDEX_op_ext_i32_i64:
+@@ -1150,6 +1185,17 @@ void tcg_optimize(TCGContext *s)
+             }
+             goto do_default;
+ 
++        CASE_OP_32_64(bswap16):
++        CASE_OP_32_64(bswap32):
++        case INDEX_op_bswap64_i64:
++            if (arg_is_const(op->args[1])) {
++                tmp = do_constant_folding(opc, arg_info(op->args[1])->val,
++                                          op->args[2]);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                break;
++            }
++            goto do_default;
++
+         CASE_OP_32_64(add):
+         CASE_OP_32_64(sub):
+         CASE_OP_32_64(mul):
 -- 
 2.25.1
 
