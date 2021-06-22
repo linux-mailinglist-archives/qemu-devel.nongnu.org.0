@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BED03AFC11
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:37:32 +0200 (CEST)
-Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3463AFC25
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:44:01 +0200 (CEST)
+Received: from localhost ([::1]:42462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYAF-0006lt-A3
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
+	id 1lvYGW-0007AL-Fo
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXze-00079c-Vf
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56476)
+ id 1lvXzd-00073B-2u
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzb-00052i-1u
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:34 -0400
+ id 1lvXza-000520-2d
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:32 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzM-00014I-Ho
+ id 1lvXzL-00014F-K0
  for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:16 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0162F2E81BF
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:13 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 306D42E81A8
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:12 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:31 -0000
-From: Launchpad Bug Tracker <1843852@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:32 -0000
+From: Launchpad Bug Tracker <1844053@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee janitor jnsnow th-huth
-X-Launchpad-Bug-Reporter: John Snow (jnsnow)
+X-Launchpad-Bug-Commenters: jamespharvey20 janitor slesru th-huth
+X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <156833045171.17307.14707838609727225916.malonedeb@gac.canonical.com>
-Message-Id: <162433551180.20423.15688798921305934008.malone@loganberry.canonical.com>
-Subject: [Bug 1843852] Re: QEMU does not express a dependency on
- perl-Test-Harness
+References: <156855280668.581.6516749257263798071.malonedeb@wampee.canonical.com>
+Message-Id: <162433551286.20423.5541063759299672636.malone@loganberry.canonical.com>
+Subject: [Bug 1844053] Re: task blocked for more than X seconds - events
+ drm_fb_helper_dirty_work
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 10a48cb5b4e25721d8b610f3e3841f6127581012
+X-Launchpad-Hash: 200decaf1bc240111fbc9e10fadc9d7f5cbb8f17
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843852 <1843852@bugs.launchpad.net>
+Reply-To: Bug 1844053 <1844053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,42 +84,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843852
+https://bugs.launchpad.net/bugs/1844053
 
 Title:
-  QEMU does not express a dependency on perl-Test-Harness
+  task blocked for more than X seconds - events drm_fb_helper_dirty_work
 
 Status in QEMU:
   Expired
 
 Bug description:
-  This is a minor thing; in Fedora you can install most of the developer
-  dependencies by issuing something like `dnf builddep qemu-kvm` and
-  this takes care of just about everything such that you can run
-  ./configure and make.
+  I've had bunches of these errors on 9 different boots, between
+  2019-08-21 and now, with Arch host and guest, from linux 5.1.16 to
+  5.2.14 on host and guest, with QEMU 4.0.0 and 4.1.0.  spice 0.14.2,
+  spice-gtk 0.37, spice-protocol 0.14.0, virt-viewer 8.0.
 
-  For "make check" though, configure doesn't catch that you'll need
-  perl-Test-Harness; so it fails halfway through the check routine, and
-  you'll see this:
+  I've been fighting with some other issues related to a 5.2 btrfs
+  regression, a QEMU qxl regression (see bug 1843151) which I ran into
+  when trying to temporarily abandon virtio-vga, and I haven't paid
+  enough attention to what impact specifically this virtio_gpu issue has
+  on the system In journalctl, I can see I often rebooted minutes after
+  they occurred, but sometimes much later.  That must mean whenever I
+  saw it happen that I rebooted the VM, or potentially it impacted
+  functionality of the system.
 
-  ```
-  Can't locate TAP/Parser.pm in @INC (you may need to install the TAP::Pars=
-er module) (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /u=
-sr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /u=
-sr/share/perl5) at ./scripts/tap-driver.pl line 30.
-  BEGIN failed--compilation aborted at ./scripts/tap-driver.pl line 30.
-  make: *** [/home/jhuston/src/qemu/tests/Makefile.include:905: check-unit]=
- Error 2
-  ```
+  Please let me know if and how I can get more information for you if
+  needed.
 
-  I'm not sure how we should express this dependency; it shouldn't be a
-  requirement for building, but it IS a dependency for testing. We
-  probably ought not let users skip the qapi tests just because they
-  don't have the perl requirement met.
+  I've replicated this on both a system with integrated ASPEED video,
+  and on an AMD Vega 64 running amdgpu.
 
-  (And, separately, the Fedora package should list this as a builddep,
-  but that's not an issue for here.)
+  As an example, I have one boot which reported at 122 seconds, 245,
+  368, 491, 614, 737, 860, 983, 1105, 1228, then I rebooted.
+
+  I have another that reported 122/245/368/491/614/737, went away for 10
+  minutes, then started reporting again 122/245/368/491, and went away.
+  Then, I rebooted about 20 hours later.
+
+  Host system has no graphical impact when this happens, and logs
+  nothing in its journalctl.
+
+  Guest is tty mode only, with kernel argument "video=3D1280x1024".  No x
+  server.
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  INFO: task kworker/0:1:15 blocked for more than 122 seconds.
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Not tainted 5.2.14-1 #1
+  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+  kworker/0:1     D    0    15      2 0x800004000
+  Workqueue: events drm_fb_helper_dirty_work [drm_kms_helper]
+  Call Trace:
+  =C2=A0? __schedule+0x27f/0x6d0
+  =C2=A0schedule+0x3d/0xc0
+  =C2=A0virtio_gpu_queue_fenced_ctrl_buffer+0xa1/0x130 [virtio_gpu]
+  =C2=A0? wait_woken+0x80/0x80
+  =C2=A0virtio_gpu_surface_dirty+0x2a5/0x300 [virtio_gpu]
+  =C2=A0drm_fb_helper_dirty_work+0x156/0x160 [drm_kms_helper]
+  =C2=A0process_one_work+0x19a/0x3b0
+  =C2=A0worker_tread+0x50/0x3a0
+  =C2=A0kthread+0xfd/0x130
+  =C2=A0? process_one_work+0x3b0/0x3b0
+  =C2=A0? kthread_park+0x80/0x80
+  =C2=A0ret_from_fork+0x35/0x40
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  /usr/bin/qemu-system-x86_64 \
+  =C2=A0=C2=A0=C2=A0-name vm,process=3Dqemu:vm \
+  =C2=A0=C2=A0=C2=A0-no-user-config \
+  =C2=A0=C2=A0=C2=A0-nodefaults \
+  =C2=A0=C2=A0=C2=A0-nographic \
+  =C2=A0=C2=A0=C2=A0-uuid <uuid> \
+  =C2=A0=C2=A0=C2=A0-pidfile <pidfile> \
+  =C2=A0=C2=A0=C2=A0-machine q35,accel=3Dkvm,vmport=3Doff,dump-guest-core=
+=3Doff \
+  =C2=A0=C2=A0=C2=A0-cpu SandyBridge-IBRS \
+  =C2=A0=C2=A0=C2=A0-smp cpus=3D4,cores=3D2,threads=3D1,sockets=3D2 \
+  =C2=A0=C2=A0=C2=A0-m 4G \
+  =C2=A0=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/sh=
+are/ovmf/x64/OVMF_CODE.fd \
+  =C2=A0=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,file=3D/var/qemu/efivar=
+s/vm.fd \
+  =C2=A0=C2=A0=C2=A0-monitor telnet:localhost:8000,server,nowait,nodelay \
+  =C2=A0=C2=A0=C2=A0-spice unix,addr=3D/tmp/spice.vm.sock,disable-ticketing=
+ \
+  =C2=A0=C2=A0=C2=A0-device ioh3420,id=3Dpcie.1,bus=3Dpcie.0,slot=3D0 \
+  =C2=A0=C2=A0=C2=A0-device virtio-vga,bus=3Dpcie.1,addr=3D0 \
+  =C2=A0=C2=A0=C2=A0-usbdevice tablet \
+  =C2=A0=C2=A0=C2=A0-netdev bridge,id=3Dnetwork0,br=3Dbr0 \
+  =C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dnetwork0,mac=3DF4:F6:34=
+:F6:34:2d,bus=3Dpcie.0,addr=3D3 \
+  =C2=A0=C2=A0=C2=A0-device virtio-scsi-pci,id=3Dscsi1 \
+  =C2=A0=C2=A0=C2=A0-drive driver=3Draw,node-name=3Dhd0,file=3D/dev/lvm/vm,=
+if=3Dnone,discard=3Dunmap,cache=3Dnone,aio=3Dthreads
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843852/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1844053/+subscriptions
 
