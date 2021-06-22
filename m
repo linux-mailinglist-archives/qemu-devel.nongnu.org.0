@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C193B00C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:49:08 +0200 (CEST)
-Received: from localhost ([::1]:56234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5843B00C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:51:01 +0200 (CEST)
+Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvd1n-0004SY-CR
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:49:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38594)
+	id 1lvd3c-00061C-2z
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1lvczf-0001Aj-FV
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 05:46:55 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:43770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1lvczd-0002gN-4f
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 05:46:55 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- i12-20020a05683033ecb02903346fa0f74dso20613220otu.10
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 02:46:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d1UfC4H1ralRKZkEo08JAlC57I2hJMgtts4Z/YHiLVE=;
- b=IpAgVOz9yIT+DkcxS5rerGZVtoHeldBqGk2MUylaBF9eN0Nujq5+45xPaci0QvPlCi
- SwlENnorPSrZkGIi7nWTxcQYcUjUNbcrMAcZeDsyjDGj3jXJh65mQlj0stkRacLmK0LO
- 398DqiZA1SF01Wv5z/a8O7+MhOoYM04LpMnsNcCxXkCFGQ3h9dCihcTg+nz5GrUGEBCs
- GX+yAZyS6OS17/vtkG/YFplgH/bAsNYjCdGuEVlWyIyWwTgps1z9jOiHE6GSl437s/ET
- tv9RcJAHGlfYi5GFdWBCLz2ON1hgMFqcDZOCLw02y9cJxtR8tR3PGQpgiypIGQWVho82
- m13g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvd1t-00057p-3o
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 05:49:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28401)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvd1q-00047T-Gk
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 05:49:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624355348;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fJhhPgcPxLiNin2SC3knrmNpZG8Os+cxjW4930fy8F4=;
+ b=AUCWFZggd8J2mVdltc71Bp9SnYodh+YT6vJpaHV6dThpoW/RANL6nZIdjpPrGyy0jzWZ/w
+ hXZBNoQtWkCJN1+0D2x0+sNUvCZTj0h9LUFm6Tdy2HrYjRudYWPZXCbcYNQ/dUySp9W4oC
+ v0yQZZmC3kZq0kjFDaTUD6jt/feYn50=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-dqVto-0zNQmkkkZa61kiEQ-1; Tue, 22 Jun 2021 05:49:07 -0400
+X-MC-Unique: dqVto-0zNQmkkkZa61kiEQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ s15-20020a7bc38f0000b02901dbb76fabe9so1075355wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 02:49:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d1UfC4H1ralRKZkEo08JAlC57I2hJMgtts4Z/YHiLVE=;
- b=JhXdLitq4htvtxUAQPxdI3fvEfFYfQ/25EgqB6u2q/6Biu9bGDU4fC8/lCGy080u0j
- sSznhewL81UfRght8azeQZy66Qq5rWzCdo20ynZiQlZ9k8IIPZwq1CYLXP7qVOS/p0LE
- DihrR5Lv8SPXKidWOrTHu9zDLvkxNQDqM9V80ZH2uaVMdKU+0PvZdPf5vKTfUgtF23xx
- gZI8MShL2GyXN6ukyssooMZ6YAtgetrD/Hh/HT7KpXdxFm5CGsjgpPVQsQUsUjaDPC3h
- bB//q6QrT+/w7f2QsIYj68n9iMuWbO6NBJGjZ5rpaKrk3fy+sON6hX5NDMgkDCBi5VjK
- p6HQ==
-X-Gm-Message-State: AOAM533gQpXred8pAiwwIqoFCTWoV3NEsqTiBFOTWuzt3y65tpzN4/N8
- 1g2r3zSAC3OVAN7vIvdNAoKzsvoFNgu0QALcx8pmOw==
-X-Google-Smtp-Source: ABdhPJyMnWJ/gEe46ieCeEy/6Avin0t5ldg5f3moyL/01IXlHdTQP8jtukid0+EKqPjLSSIr725dvAv6OwiBnnLDwHY=
-X-Received: by 2002:a05:6830:1598:: with SMTP id
- i24mr2396544otr.52.1624355211738; 
- Tue, 22 Jun 2021 02:46:51 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fJhhPgcPxLiNin2SC3knrmNpZG8Os+cxjW4930fy8F4=;
+ b=t/htf898BABrrVxqcoG+CzyZAgwLY/iewL7BQZ1QybyN4HqmixEwMPfoBZPDyisGFQ
+ TvBT4nwl0zuuofVsXRVU377z19ZqwtHATo/t9N4zcTy0684usPxb+uGCaxQRVwqAPvvW
+ oNO8gPqc0Kf1Mt48Gchg1ql0x97rTDe9qCA0QfA04COxgttuEQ7a/vH9gqtG0O46rq4R
+ 6HSeUu2+H0RdH6xRp0BY4Cezy+RDFfFT73kjNDB8XFDq+ZkIQXHHp8DYhn26/23WijBO
+ GbS+nDhPBHB4ULEu7L78jvXdpQ4tSCNYOoxScchy3zsbfriVem2Znx5Lh9YEAUFCBkmd
+ ZrMg==
+X-Gm-Message-State: AOAM532sQK9XK4hsBp6+00vmpXDj9Ya7gApS7BlYtX5z8agJGmLJxQ3D
+ OTOolaUNZWn6lzlayYAFD1xWY5i2RSwRRTZn5vnZBnnKZCu6om1cgK3csMYMbGQv6L6A8WSZz0b
+ YOo12HNz+4IlF2Zo=
+X-Received: by 2002:adf:ebc6:: with SMTP id v6mr3632788wrn.398.1624355346258; 
+ Tue, 22 Jun 2021 02:49:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUhHI6Ttzxy6uFocxX78q9L8qh4qDeA7oUyBR2g3Uufkg5XbJJ5SlNQrVypXzSCz6o90qqNA==
+X-Received: by 2002:adf:ebc6:: with SMTP id v6mr3632760wrn.398.1624355346012; 
+ Tue, 22 Jun 2021 02:49:06 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id r6sm20330574wrz.91.2021.06.22.02.49.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 02:49:05 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] sev/i386: Introduce sev_add_kernel_loader_hashes
+ for measured linux boot
+To: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20210621190553.1763020-1-dovmurik@linux.ibm.com>
+ <20210621190553.1763020-2-dovmurik@linux.ibm.com>
+ <89258a7b-fe24-4930-5af7-278b68d1f07c@redhat.com>
+ <25b381ad-cdca-60dc-6fb1-1d97ea626843@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d983dbc4-1d6b-c51e-aa1f-3d736ac0d154@redhat.com>
+Date: Tue, 22 Jun 2021 11:49:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210621111716.37157-1-steven.price@arm.com>
- <20210621111716.37157-4-steven.price@arm.com>
-In-Reply-To: <20210621111716.37157-4-steven.price@arm.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Tue, 22 Jun 2021 10:46:15 +0100
-Message-ID: <CA+EHjTzhJ5rkQ+GW643f_R7XP9L5SH0EGD78Ux=MGqfHGq2BbA@mail.gmail.com>
-Subject: Re: [PATCH v17 3/6] KVM: arm64: Save/restore MTE registers
-To: Steven Price <steven.price@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>, 
- Will Deacon <will@kernel.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org, 
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu, 
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=tabba@google.com; helo=mail-ot1-x332.google.com
-X-Spam_score_int: -155
-X-Spam_score: -15.6
-X-Spam_bar: ---------------
-X-Spam_report: (-15.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <25b381ad-cdca-60dc-6fb1-1d97ea626843@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URI_DOTEDU=1.999, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,254 +102,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 6/22/21 11:44 AM, Dov Murik wrote:
+> On 21/06/2021 23:32, Philippe Mathieu-Daudé wrote:
 
-> diff --git a/arch/arm64/include/asm/kvm_mte.h b/arch/arm64/include/asm/kvm_mte.h
-> new file mode 100644
-> index 000000000000..88dd1199670b
-> --- /dev/null
-> +++ b/arch/arm64/include/asm/kvm_mte.h
-> @@ -0,0 +1,66 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2020-2021 ARM Ltd.
-> + */
-> +#ifndef __ASM_KVM_MTE_H
-> +#define __ASM_KVM_MTE_H
-> +
-> +#ifdef __ASSEMBLY__
-> +
-> +#include <asm/sysreg.h>
-> +
-> +#ifdef CONFIG_ARM64_MTE
-> +
-> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
-> +alternative_if_not ARM64_MTE
-> +       b       .L__skip_switch\@
-> +alternative_else_nop_endif
-> +       mrs     \reg1, hcr_el2
-> +       tbz     \reg1, #(HCR_ATA_SHIFT), .L__skip_switch\@
-> +
-> +       mrs_s   \reg1, SYS_RGSR_EL1
-> +       str     \reg1, [\h_ctxt, #CPU_RGSR_EL1]
-> +       mrs_s   \reg1, SYS_GCR_EL1
-> +       str     \reg1, [\h_ctxt, #CPU_GCR_EL1]
-> +
-> +       ldr     \reg1, [\g_ctxt, #CPU_RGSR_EL1]
-> +       msr_s   SYS_RGSR_EL1, \reg1
-> +       ldr     \reg1, [\g_ctxt, #CPU_GCR_EL1]
-> +       msr_s   SYS_GCR_EL1, \reg1
-> +
-> +.L__skip_switch\@:
-> +.endm
-> +
-> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
-> +alternative_if_not ARM64_MTE
-> +       b       .L__skip_switch\@
-> +alternative_else_nop_endif
-> +       mrs     \reg1, hcr_el2
-> +       tbz     \reg1, #(HCR_ATA_SHIFT), .L__skip_switch\@
-> +
-> +       mrs_s   \reg1, SYS_RGSR_EL1
-> +       str     \reg1, [\g_ctxt, #CPU_RGSR_EL1]
-> +       mrs_s   \reg1, SYS_GCR_EL1
-> +       str     \reg1, [\g_ctxt, #CPU_GCR_EL1]
-> +
-> +       ldr     \reg1, [\h_ctxt, #CPU_RGSR_EL1]
-> +       msr_s   SYS_RGSR_EL1, \reg1
-> +       ldr     \reg1, [\h_ctxt, #CPU_GCR_EL1]
-> +       msr_s   SYS_GCR_EL1, \reg1
-> +
-> +       isb
-> +
-> +.L__skip_switch\@:
-> +.endm
-> +
-> +#else /* CONFIG_ARM64_MTE */
+>> and added qemu_uuid_copy() to complete the API, but that's fine.
+> 
+> I think simple C assignment works for structs (and hence QemuUUID),
+> something like:
+> 
+>     SevHashTable *ht = ...;
+>     ht->guid = sev_hash_table_header_guid;
+> 
+> (where both ht->guid and sev_hash_table_header_guid are QemuUUID.)
 
-nit: !CONFIG_ARM64_MTE (clearer and matches the style in kvm_ptrauth.h)
+OK.
 
-Cheers,
-/fuad
+>>> +    if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+>>
+>> If we never use the data_len argument, can we simplify the prototype?
+> 
+> The current uses for the OVMF reset vector GUIDed table is for simple
+> structs with known length (secret injection page address, SEV-ES reset
+> address, SEV table of hashes address).  But keeping the length there
+> allows adding variable-sized entries such as strings/blobs.
 
+OK. Good opportunity to document the prototype declaration ;)
 
-> +
-> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
-> +.endm
-> +
-> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
-> +.endm
-> +
-> +#endif /* CONFIG_ARM64_MTE */
-> +#endif /* __ASSEMBLY__ */
-> +#endif /* __ASM_KVM_MTE_H */
-> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-> index 65d15700a168..347ccac2341e 100644
-> --- a/arch/arm64/include/asm/sysreg.h
-> +++ b/arch/arm64/include/asm/sysreg.h
-> @@ -651,7 +651,8 @@
->
->  #define INIT_SCTLR_EL2_MMU_ON                                          \
->         (SCTLR_ELx_M  | SCTLR_ELx_C | SCTLR_ELx_SA | SCTLR_ELx_I |      \
-> -        SCTLR_ELx_IESB | SCTLR_ELx_WXN | ENDIAN_SET_EL2 | SCTLR_EL2_RES1)
-> +        SCTLR_ELx_IESB | SCTLR_ELx_WXN | ENDIAN_SET_EL2 |              \
-> +        SCTLR_ELx_ITFSB | SCTLR_EL2_RES1)
->
->  #define INIT_SCTLR_EL2_MMU_OFF \
->         (SCTLR_EL2_RES1 | ENDIAN_SET_EL2)
-> diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
-> index 0cb34ccb6e73..6f0044cb233e 100644
-> --- a/arch/arm64/kernel/asm-offsets.c
-> +++ b/arch/arm64/kernel/asm-offsets.c
-> @@ -111,6 +111,8 @@ int main(void)
->    DEFINE(VCPU_WORKAROUND_FLAGS,        offsetof(struct kvm_vcpu, arch.workaround_flags));
->    DEFINE(VCPU_HCR_EL2,         offsetof(struct kvm_vcpu, arch.hcr_el2));
->    DEFINE(CPU_USER_PT_REGS,     offsetof(struct kvm_cpu_context, regs));
-> +  DEFINE(CPU_RGSR_EL1,         offsetof(struct kvm_cpu_context, sys_regs[RGSR_EL1]));
-> +  DEFINE(CPU_GCR_EL1,          offsetof(struct kvm_cpu_context, sys_regs[GCR_EL1]));
->    DEFINE(CPU_APIAKEYLO_EL1,    offsetof(struct kvm_cpu_context, sys_regs[APIAKEYLO_EL1]));
->    DEFINE(CPU_APIBKEYLO_EL1,    offsetof(struct kvm_cpu_context, sys_regs[APIBKEYLO_EL1]));
->    DEFINE(CPU_APDAKEYLO_EL1,    offsetof(struct kvm_cpu_context, sys_regs[APDAKEYLO_EL1]));
-> diff --git a/arch/arm64/kvm/hyp/entry.S b/arch/arm64/kvm/hyp/entry.S
-> index e831d3dfd50d..435346ea1504 100644
-> --- a/arch/arm64/kvm/hyp/entry.S
-> +++ b/arch/arm64/kvm/hyp/entry.S
-> @@ -13,6 +13,7 @@
->  #include <asm/kvm_arm.h>
->  #include <asm/kvm_asm.h>
->  #include <asm/kvm_mmu.h>
-> +#include <asm/kvm_mte.h>
->  #include <asm/kvm_ptrauth.h>
->
->         .text
-> @@ -51,6 +52,9 @@ alternative_else_nop_endif
->
->         add     x29, x0, #VCPU_CONTEXT
->
-> +       // mte_switch_to_guest(g_ctxt, h_ctxt, tmp1)
-> +       mte_switch_to_guest x29, x1, x2
-> +
->         // Macro ptrauth_switch_to_guest format:
->         //      ptrauth_switch_to_guest(guest cxt, tmp1, tmp2, tmp3)
->         // The below macro to restore guest keys is not implemented in C code
-> @@ -142,6 +146,9 @@ SYM_INNER_LABEL(__guest_exit, SYM_L_GLOBAL)
->         // when this feature is enabled for kernel code.
->         ptrauth_switch_to_hyp x1, x2, x3, x4, x5
->
-> +       // mte_switch_to_hyp(g_ctxt, h_ctxt, reg1)
-> +       mte_switch_to_hyp x1, x2, x3
-> +
->         // Restore hyp's sp_el0
->         restore_sp_el0 x2, x3
->
-> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> index cce43bfe158f..de7e14c862e6 100644
-> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> @@ -14,6 +14,7 @@
->  #include <asm/kvm_asm.h>
->  #include <asm/kvm_emulate.h>
->  #include <asm/kvm_hyp.h>
-> +#include <asm/kvm_mmu.h>
->
->  static inline void __sysreg_save_common_state(struct kvm_cpu_context *ctxt)
->  {
-> @@ -26,6 +27,16 @@ static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
->         ctxt_sys_reg(ctxt, TPIDRRO_EL0) = read_sysreg(tpidrro_el0);
->  }
->
-> +static inline bool ctxt_has_mte(struct kvm_cpu_context *ctxt)
-> +{
-> +       struct kvm_vcpu *vcpu = ctxt->__hyp_running_vcpu;
-> +
-> +       if (!vcpu)
-> +               vcpu = container_of(ctxt, struct kvm_vcpu, arch.ctxt);
-> +
-> +       return kvm_has_mte(kern_hyp_va(vcpu->kvm));
-> +}
-> +
->  static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
->  {
->         ctxt_sys_reg(ctxt, CSSELR_EL1)  = read_sysreg(csselr_el1);
-> @@ -46,6 +57,11 @@ static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
->         ctxt_sys_reg(ctxt, PAR_EL1)     = read_sysreg_par();
->         ctxt_sys_reg(ctxt, TPIDR_EL1)   = read_sysreg(tpidr_el1);
->
-> +       if (ctxt_has_mte(ctxt)) {
-> +               ctxt_sys_reg(ctxt, TFSR_EL1) = read_sysreg_el1(SYS_TFSR);
-> +               ctxt_sys_reg(ctxt, TFSRE0_EL1) = read_sysreg_s(SYS_TFSRE0_EL1);
-> +       }
-> +
->         ctxt_sys_reg(ctxt, SP_EL1)      = read_sysreg(sp_el1);
->         ctxt_sys_reg(ctxt, ELR_EL1)     = read_sysreg_el1(SYS_ELR);
->         ctxt_sys_reg(ctxt, SPSR_EL1)    = read_sysreg_el1(SYS_SPSR);
-> @@ -107,6 +123,11 @@ static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
->         write_sysreg(ctxt_sys_reg(ctxt, PAR_EL1),       par_el1);
->         write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL1),     tpidr_el1);
->
-> +       if (ctxt_has_mte(ctxt)) {
-> +               write_sysreg_el1(ctxt_sys_reg(ctxt, TFSR_EL1), SYS_TFSR);
-> +               write_sysreg_s(ctxt_sys_reg(ctxt, TFSRE0_EL1), SYS_TFSRE0_EL1);
-> +       }
-> +
->         if (!has_vhe() &&
->             cpus_have_final_cap(ARM64_WORKAROUND_SPECULATIVE_AT) &&
->             ctxt->__hyp_running_vcpu) {
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index 36f67f8deae1..5c75b24eae21 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -1309,6 +1309,20 @@ static bool access_ccsidr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
->         return true;
->  }
->
-> +static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
-> +                                  const struct sys_reg_desc *rd)
-> +{
-> +       return REG_HIDDEN;
-> +}
-> +
-> +#define MTE_REG(name) {                                \
-> +       SYS_DESC(SYS_##name),                   \
-> +       .access = undef_access,                 \
-> +       .reset = reset_unknown,                 \
-> +       .reg = name,                            \
-> +       .visibility = mte_visibility,           \
-> +}
-> +
->  /* sys_reg_desc initialiser for known cpufeature ID registers */
->  #define ID_SANITISED(name) {                   \
->         SYS_DESC(SYS_##name),                   \
-> @@ -1477,8 +1491,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->         { SYS_DESC(SYS_ACTLR_EL1), access_actlr, reset_actlr, ACTLR_EL1 },
->         { SYS_DESC(SYS_CPACR_EL1), NULL, reset_val, CPACR_EL1, 0 },
->
-> -       { SYS_DESC(SYS_RGSR_EL1), undef_access },
-> -       { SYS_DESC(SYS_GCR_EL1), undef_access },
-> +       MTE_REG(RGSR_EL1),
-> +       MTE_REG(GCR_EL1),
->
->         { SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility = sve_visibility },
->         { SYS_DESC(SYS_TRFCR_EL1), undef_access },
-> @@ -1505,8 +1519,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->         { SYS_DESC(SYS_ERXMISC0_EL1), trap_raz_wi },
->         { SYS_DESC(SYS_ERXMISC1_EL1), trap_raz_wi },
->
-> -       { SYS_DESC(SYS_TFSR_EL1), undef_access },
-> -       { SYS_DESC(SYS_TFSRE0_EL1), undef_access },
-> +       MTE_REG(TFSR_EL1),
-> +       MTE_REG(TFSRE0_EL1),
->
->         { SYS_DESC(SYS_FAR_EL1), access_vm_reg, reset_unknown, FAR_EL1 },
->         { SYS_DESC(SYS_PAR_EL1), NULL, reset_unknown, PAR_EL1 },
-> --
-> 2.20.1
->
-> _______________________________________________
-> kvmarm mailing list
-> kvmarm@lists.cs.columbia.edu
-> https://lists.cs.columbia.edu/mailman/listinfo/kvmarm
+> 
+>>
+>>> +        error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
+>>> +        return false;
+>>> +    }
+>>> +    area = (SevHashTableDescriptor *)data;
+>>> +
+>>> +    ht = qemu_map_ram_ptr(NULL, area->base);
+>>> +
+>>> +    /* Populate the hashes table header */
+>>> +    memcpy(ht->guid, sev_hash_table_header_guid, sizeof(ht->guid));
+>>> +    ht->len = sizeof(*ht);
+>>> +
+>>> +    /* Calculate hash of kernel command-line */
+>>> +    if (qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA256, ctx->cmdline_data,
+>>> +                           ctx->cmdline_size,
+>>> +                           &hash, &hash_len, errp) < 0) {
+>>> +        return false;
+>>> +    }
+>>
+>> Maybe move the qcrypto_hash_bytes() call before filling ht?
+> 
+> (below)
+> 
+>>
+>>> +    e = &ht->entries[ht_index++];
+>>> +    fill_sev_hash_table_entry(e, sev_cmdline_entry_guid, hash, hash_len);
+>>> +
+>>> +    /* Calculate hash of initrd */
+>>> +    if (ctx->initrd_data) {
+>>> +        if (qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA256, ctx->initrd_data,
+>>> +                               ctx->initrd_size, &hash, &hash_len, errp) < 0) {
+>>> +            return false;
+>>> +        }
+>>
+>> Ah, now I see the pattern. Hmm OK then.
+>>
+> 
+> But this might change if initrd_hash is no longer optional (see separate
+> self-reply to this patch).  In such a case I'll probably first calculate
+> all the three hashes, and then fill in the SevHashTable struct.
+
+Yes, sounds simpler.
+
+Regards,
+
+Phil.
+
 
