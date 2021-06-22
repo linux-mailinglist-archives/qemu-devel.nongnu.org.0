@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D3E3B0989
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:51:06 +0200 (CEST)
-Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2463B098B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:51:09 +0200 (CEST)
+Received: from localhost ([::1]:45520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvig5-0007nF-Ne
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:51:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57128)
+	id 1lvig8-0007wg-R5
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvida-00051t-Eh
+ id 1lvida-00051V-3w
  for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:30 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45851)
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidU-0005Hy-CW
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:30 -0400
-Received: by mail-pg1-x532.google.com with SMTP id y14so5985851pgs.12
+ id 1lvidV-0005IM-93
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:29 -0400
+Received: by mail-pg1-x534.google.com with SMTP id p9so3076354pgb.1
  for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VyACFkGX+AoOo24zZ8c++sg0FmDfffCQNskIwq7OASc=;
- b=MjfDn5b0vjwmpoKtHkmAUmDVxZ9/siV5BWqBoJFT5UoArkHlgZWfOVzS7wS+AOFKfZ
- jE6srbbKAWanR+Shkr30AcnSg8FfkD0GcEBq7QQkz7leqgpmA2FcwT0NfxzBrwbdrPdq
- 981QwANs5P8fnJh9EfHHWnDDjU1Q0Ss0gJrm/VAfW2qIfTkrQiIrBvfLeO0sjE2NSG5+
- pMr00RiwbFDQph4lNrcWC/S2L5tI5FMe+1mO2Zh/r2mJWZK09NK+FGGbJJuVpObK3cdT
- EMdh7f77yWfdHejC2FNB573tC+hf6sqxBha5HpjFdVj+RbqYcJ97MsZQPR7lIB5cxUIB
- Vj/Q==
+ bh=KDiLqe9dSt4bFFEx812mp6CpLrrp0+muqbfaUvci+sc=;
+ b=Zy+LECNr7q7qANSSmJjSQ656quOM4XRilI1m51YfBi57GCT+9QX5+PO8nlCZUxW9qI
+ kV1FgWgYusYERxJImw1pV3lxcPUEzX+K7/jBxK6HYJYSomVnBzVsq6vg6ykQyQyf2x8/
+ y0WhEZPF81IQ/qkRb1xHmHHyFjj2QlqeJBgeV+pfdk5RLne/FjwfnqSNimjzoRjM2XPz
+ wRkHws+ZzpULxytrknuIdGWtL7NtscdjgWmvTSX1hGHvQu0B97F5AI2FHKaGLtVhUZT5
+ EI3pezyT00Q4N7iv2koxpeK8p14MFbUyiO0BwhRNXiy+45QVzh8ZCQDt31GY0t9NneNA
+ pe8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VyACFkGX+AoOo24zZ8c++sg0FmDfffCQNskIwq7OASc=;
- b=bNFmpEL45DLUutfh+hVxTk7rwq+D3FlgF+ByOM1cpW5MGBH9FtiQy5Z4Gbs4pvxJfe
- xvPfduYTBx6Dfn6CLZHM4mfQE4FuWuQKSDbSkNUJLLL77xITC9BiKjmPAlzXEWAkeI2Y
- 84VAPTChYn+yHb1Va57feVcn28Pfm+q7+dc1cCHAvMtA1mdCRqsvOyzMIVRlXh2Tf2Qp
- JHTvoF3P394SsPNml26Thg7YWWtwB26dhd4DlsjtUxpELKBDD6Y2Kh2VrCFTFa7CP0dq
- 16pyf8Q6NveMtjvaib5pTZRZg8+TQBnaN4SP1M5ZviLpPW7s8oJmIeY0PbkyVRr42X99
- 0ecQ==
-X-Gm-Message-State: AOAM53141J9lOVqKiV3Cqe/vxYVbf+OOLjAit9OzdC6gXFyLvgdPStim
- q00AKXkrcocyZH7w05aLon+xue4oE/F0pA==
-X-Google-Smtp-Source: ABdhPJxI/XXFCmCJCCzuKoHEBWIyh26/V+Ih0zQ8SooKOTkWdszEmgNlkFIWL9nZ1fQUmkAZ1kmjTg==
-X-Received: by 2002:a65:5248:: with SMTP id q8mr4348564pgp.176.1624376903123; 
+ bh=KDiLqe9dSt4bFFEx812mp6CpLrrp0+muqbfaUvci+sc=;
+ b=Y9SiRfDvorDvL74KggfhoREajpj0UzBnxuMeCcM3aqTvhVSRzPLJsWJ/g127kcHVNH
+ C6edWH9jvMkCPTWwyzSr5H1Tzvu8EwwqlvwAcardywFlAP4inKB7M1D3P5/1jbJ3Sfqe
+ oZngs5oCmzDlK610ElZMQHsExagfks/GDMwEfaGe1aci9Uknq2n+W5p4vZJxbIMF/RDm
+ kNP6dYCKUPaAqo0cactJ8F0Eg9P5Y6sv6cm37dWsHtwmazK151Ndsy96Z89xvVAVL+e0
+ gxAqv+XbCmKiI0ZjbEbbDI2hnisZG5VB8ShgtjffGfCs3NaMtskPSN25gEy5R4+11vO5
+ yzEg==
+X-Gm-Message-State: AOAM533Gveb9p5vFtu5jkCt1yuwWHrLmInUwzQJ961xY3WshHseXTovI
+ k9LHpv3Zaw7jXv0bbfDKLQZ3nTTcXwqRVw==
+X-Google-Smtp-Source: ABdhPJzho50Zr5C4IhMFX1r3cFN0iUoVc0O29zRiqZZ8Ydtq7cJtRo0xRqKbAX8W2Qs1kDIDnlnb9w==
+X-Received: by 2002:a63:d710:: with SMTP id d16mr4299022pgg.214.1624376903766; 
  Tue, 22 Jun 2021 08:48:23 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.22
+ by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 08:48:22 -0700 (PDT)
+ Tue, 22 Jun 2021 08:48:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/15] target/cris: Remove DISAS_SWI
-Date: Tue, 22 Jun 2021 08:48:07 -0700
-Message-Id: <20210622154820.1978982-3-richard.henderson@linaro.org>
+Subject: [PATCH v3 03/15] target/cris: Replace DISAS_TB_JUMP with
+ DISAS_NORETURN
+Date: Tue, 22 Jun 2021 08:48:08 -0700
+Message-Id: <20210622154820.1978982-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210622154820.1978982-1-richard.henderson@linaro.org>
 References: <20210622154820.1978982-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,33 +87,50 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This value is unused.
+The only semantic of DISAS_TB_JUMP is that we've done goto_tb,
+which is the same as DISAS_NORETURN -- we've exited the tb.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/cris/translate.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index bed7a7ed10..8c1bad9564 100644
+index 8c1bad9564..e086ff9131 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -56,7 +56,6 @@
+@@ -55,7 +55,6 @@
+ /* is_jmp field values */
  #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
  #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
- #define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
--#define DISAS_SWI     DISAS_TARGET_3
+-#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
  
  /* Used by the decoder.  */
  #define EXTRACT_FIELD(src, start, end) \
-@@ -3310,7 +3309,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+@@ -3242,12 +3241,12 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+                     gen_goto_tb(dc, 1, dc->jmp_pc);
+                     gen_set_label(l1);
+                     gen_goto_tb(dc, 0, dc->pc);
+-                    dc->base.is_jmp = DISAS_TB_JUMP;
++                    dc->base.is_jmp = DISAS_NORETURN;
+                     dc->jmp = JMP_NOJMP;
+                 } else if (dc->jmp == JMP_DIRECT) {
+                     cris_evaluate_flags(dc);
+                     gen_goto_tb(dc, 0, dc->jmp_pc);
+-                    dc->base.is_jmp = DISAS_TB_JUMP;
++                    dc->base.is_jmp = DISAS_NORETURN;
+                     dc->jmp = JMP_NOJMP;
+                 } else {
+                     TCGv c = tcg_const_tl(dc->pc);
+@@ -3309,7 +3308,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
                     to find the next TB */
              tcg_gen_exit_tb(NULL, 0);
              break;
--        case DISAS_SWI:
-         case DISAS_TB_JUMP:
+-        case DISAS_TB_JUMP:
++        case DISAS_NORETURN:
              /* nothing more to generate */
              break;
+         }
 -- 
 2.25.1
 
