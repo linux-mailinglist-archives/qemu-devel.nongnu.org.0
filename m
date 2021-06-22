@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2925C3AFF99
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 10:49:21 +0200 (CEST)
-Received: from localhost ([::1]:49868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8003AFFB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 10:58:07 +0200 (CEST)
+Received: from localhost ([::1]:35460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvc5v-00088n-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 04:49:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52212)
+	id 1lvcEQ-0000nT-4W
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 04:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvc4c-000728-Ck
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:47:58 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41912)
+ id 1lvcBx-00057t-85
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:55:33 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:44992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvc4Y-0005rn-Fk
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:47:57 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- y13-20020a1c4b0d0000b02901c20173e165so1734164wma.0
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 01:47:53 -0700 (PDT)
+ id 1lvcBv-0002Xi-CA
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:55:32 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ h21-20020a1ccc150000b02901d4d33c5ca0so1717840wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 01:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=RymQF2WTXlijVTM5JaqAG2T/Ff+bYS4O1MoYm8GOKSA=;
- b=Xe5yjCLHcNf7rgNPzcW75dt2uU0c3VJXbG5xaTrNYjFdS1teAmMQmCv9pgH7OuW/wm
- 2Ybffe9msjskys0FXjLoNvt1fkZuUA4LehyXB2ZTZX8iGdBYovAum4wrNGP6fWo8u1rU
- /oIE1kSH7QcqTwqvodD6eSL14BMZZ/BzS7dJFbgUwtmFi3u7C8kGCX7rHIJd9fXyQ8kG
- OFUG4ec7bSzw6DNkrtgzIePyQUmoLIPGt7s3IScxUyRMrvVgmLR419qeWPFUpJl+hTX5
- yC/I3S8QSfe8kakQB3cvk2DJBDOkMd4BQSuZFfOpWoc421z+qCsAQu93c3aZT/Tyj6An
- 25kg==
+ bh=h7Prj85gOBX5Ce2haoNmVyRUVSx+TVdDjBumyGpV+r4=;
+ b=PvkRNND3p9UVXfOMfVGb3fBtcea4dFG3l866JSSTRduMuzG5d8FjA6iGgP2ZbKYUAq
+ LZosjjgq/iPXgXIJsj6Qtf7zJzHhjrCyLGWYA++zUiokhILa4bHI62vaKlmGIZszkGme
+ bCk9rMKB3dUzEC9WtfiRFrXiA2OwyxoymeksI/MEFJc1dGW+6bEQ8gtcH1rlxuRu1i6i
+ EWs3hvLds8IDUNdZZOsdFtNVWe7qYjJWXZgATiZaSX/lx5q5gV2vihdZ0qCUAWcLHOPx
+ nMvFqYK/IjMdonUdKkXL3d7IqTd4f/A7XboKriSJbqkvCSgb43yug1cmj4kj/lkSfEKZ
+ 742A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=RymQF2WTXlijVTM5JaqAG2T/Ff+bYS4O1MoYm8GOKSA=;
- b=jCtPBMy0/W5DTO8rv9bo5loXM95012ejR7UNQ5XBZqqWQUrsI4MH5WPRJuM2iiN6K+
- qq6WUbABWhe60wBytxlB09ipK4++5dmcR58D8X56X8paWclrDbkqygN9fmvAYComGIRN
- z6x5U5pnK7ie0kJj7VKoKPc5Ev423AGkhmmOzN4cVavtWEM0jPa0DKrUhtZ7TwxjREVF
- dL+6Hrwn6kO0yCwvEsnUtxZcDkZOkSL90rfnNkhuw5H6LPYNZo1+s2UdGkWqUARGKfeq
- AaDu1Z3y9+o8XZe5se/aJC1p1IZpYz73KpyzeMclsn/ESsaLSC+ftnlqj2uwj//rewbV
- PYlQ==
-X-Gm-Message-State: AOAM533K10ttNTroeX6V5rBcSrgtB4kWCDtYU4+k4U34Oi2gv4PKSg2W
- dNxAgDWZmjqM2B8lorw7x49Hig==
-X-Google-Smtp-Source: ABdhPJztn6qjwHWVGW4T20tFc/qECXDaEaJV2Snu6VO45itN1LXBB2xbjYXpZPk+v/aAb66yewlEUQ==
-X-Received: by 2002:a05:600c:4f09:: with SMTP id
- l9mr3342304wmq.114.1624351672073; 
- Tue, 22 Jun 2021 01:47:52 -0700 (PDT)
+ bh=h7Prj85gOBX5Ce2haoNmVyRUVSx+TVdDjBumyGpV+r4=;
+ b=jaIjoqH80rWzrrS7XGmTuVYWJBgG5IhCAnZsERT3VKecTafvQixhkJGWt6SLcsnGHO
+ iXbN0enFDev/P/tDTaahuhsARNtpm/p7VmlRVEo+d/CSRLvZNeREFZEWOkplhXPBM4wf
+ yVyhQim/Fwd+pRZ+iGjpVmH3Qukq7cKE98i9DDb8BLhVhJvZX6NLs1nTGotdZqu4Xt7k
+ 7LLa2VObu8tKo7xUvbQzsUclRkMCTIQv3ZxAOwxi2aPXkc+1lirXxAbXBgc+MNqkXVRR
+ gviQWZMXPAIziybALivhZBv6iyLlVhneYyPe/ERNaCv7EHAxtiE5LdBwqAxr6fYlVcV0
+ 8ulg==
+X-Gm-Message-State: AOAM532IW3KPq3oO4RFlCAzuFD6friyz11PcEyPVG4rQvR3T+cgXM9Vj
+ uplhvpI3wCAinatXAvXyPniZBw==
+X-Google-Smtp-Source: ABdhPJyBDFiDSDqkKBZqKf25ew+qQZvyHxy8tfDsSDDFyvufBE4m74CdtRlBUrHluE7OfQpS7xZauw==
+X-Received: by 2002:a05:600c:4f4d:: with SMTP id
+ m13mr3358213wmq.14.1624352129496; 
+ Tue, 22 Jun 2021 01:55:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c74sm1647336wme.11.2021.06.22.01.47.50
+ by smtp.gmail.com with ESMTPSA id l16sm1624214wmq.28.2021.06.22.01.55.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 01:47:51 -0700 (PDT)
+ Tue, 22 Jun 2021 01:55:28 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5012A1FF7E;
- Tue, 22 Jun 2021 09:47:50 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id F09E81FF7E;
+ Tue, 22 Jun 2021 09:55:27 +0100 (BST)
 References: <20210618091101.2802534-1-erdnaxe@crans.org>
- <20210618091101.2802534-2-erdnaxe@crans.org>
+ <20210618091101.2802534-3-erdnaxe@crans.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Alexandre Iooss <erdnaxe@crans.org>
-Subject: Re: [PATCH v2 1/2] contrib/plugins: add execlog to log instruction
- execution and memory access
-Date: Tue, 22 Jun 2021 09:37:50 +0100
-In-reply-to: <20210618091101.2802534-2-erdnaxe@crans.org>
-Message-ID: <871r8uthe1.fsf@linaro.org>
+Subject: Re: [PATCH v2 2/2] docs/devel: tvg-plugins: add execlog plugin
+ description
+Date: Tue, 22 Jun 2021 09:48:08 +0100
+In-reply-to: <20210618091101.2802534-3-erdnaxe@crans.org>
+Message-ID: <87y2b2s2gw.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,196 +98,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Alexandre Iooss <erdnaxe@crans.org> writes:
 
-> Log instruction execution and memory access to a file.
-> This plugin can be used for reverse engineering or for side-channel analy=
-sis
-> using QEMU.
+> This adds description of the execlog TCG plugin with an example.
 >
 > Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
 > ---
->  MAINTAINERS               |   1 +
->  contrib/plugins/Makefile  |   1 +
->  contrib/plugins/execlog.c | 123 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 125 insertions(+)
->  create mode 100644 contrib/plugins/execlog.c
+>  docs/devel/tcg-plugins.rst | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7d9cd29042..65942d5802 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2974,6 +2974,7 @@ F: include/tcg/
->=20=20
->  TCG Plugins
->  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> +R: Alexandre Iooss <erdnaxe@crans.org>
->  S: Maintained
->  F: docs/devel/tcg-plugins.rst
->  F: plugins/
-> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-> index b9d7935e5e..51093acd17 100644
-> --- a/contrib/plugins/Makefile
-> +++ b/contrib/plugins/Makefile
-> @@ -13,6 +13,7 @@ include $(BUILD_DIR)/config-host.mak
->  VPATH +=3D $(SRC_PATH)/contrib/plugins
->=20=20
->  NAMES :=3D
-> +NAMES +=3D execlog
->  NAMES +=3D hotblocks
->  NAMES +=3D hotpages
->  NAMES +=3D howvec
-> diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
-> new file mode 100644
-> index 0000000000..995c4477f9
-> --- /dev/null
-> +++ b/contrib/plugins/execlog.c
-> @@ -0,0 +1,123 @@
-> +/*
-> + * Copyright (C) 2021, Alexandre Iooss <erdnaxe@crans.org>
-> + *
-> + * Log instruction execution with memory access.
-> + *
-> + * License: GNU GPL, version 2 or later.
-> + *   See the COPYING file in the top-level directory.
-> + */
-> +#include <glib.h>
-> +#include <inttypes.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <unistd.h>
+> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> index 18c6581d85..02818a3327 100644
+> --- a/docs/devel/tcg-plugins.rst
+> +++ b/docs/devel/tcg-plugins.rst
+> @@ -319,3 +319,25 @@ the user to see what hardware is accessed how often.=
+ It has a number of options:
+>        off:0000001c, 1, 2
+>        off:00000020, 1, 2
+>        ...
 > +
-> +#include <qemu-plugin.h>
+> +- contrib/plugins/execlog.c
 > +
-> +QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
-> +
-> +/* Store last executed instruction on each vCPU */
-> +GString **last_exec;
-> +
-> +/**
-> + * Add memory read or write information to current instruction log
-> + */
-> +static void vcpu_mem(unsigned int cpu_index, qemu_plugin_meminfo_t info,
-> +                     uint64_t vaddr, void *udata)
-> +{
-> +    if (qemu_plugin_mem_is_store(info)) {
-> +        g_string_append(last_exec[cpu_index], ", store");
-> +    } else {
-> +        g_string_append(last_exec[cpu_index], ", load");
-> +    }
-> +
-> +    /* If full system emulation log physical address and device name
->  */
+> +The execlog tool traces executed instructions with memory access. It can=
+ be used
+> +for debugging and security analysis purposes.
 
-The comment and logic implies that we might be running in user-mode but...
+We should probably mention that this will generate a lot of output.
+Running the admittedly memory heavy softmmu memory test:
 
-> +    struct qemu_plugin_hwaddr *hwaddr =3D qemu_plugin_get_hwaddr(info, v=
-addr);
-> +    if (hwaddr) {
-> +        uint64_t addr =3D qemu_plugin_hwaddr_phys_addr(hwaddr);
-> +        const char *name =3D qemu_plugin_hwaddr_device_name(hwaddr);
-> +        g_string_append_printf(last_exec[cpu_index], ", 0x%08"PRIx64", %=
-s",
-> +                               addr, name);
-> +    } else {
-> +        g_string_append_printf(last_exec[cpu_index], ", 0x%08"PRIx64, va=
-ddr);
-> +    }
-> +}
-> +
-> +/**
-> + * Log instruction execution
-> + */
-> +static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
-> +{
-> +    /* Print previous instruction in cache */
-> +    if (last_exec[cpu_index]->str) {
-> +        qemu_plugin_outs(last_exec[cpu_index]->str);
-> +        qemu_plugin_outs("\n");
-> +    }
-> +
-> +    /* Store new instruction in cache */
-> +    /* vcpu_mem will add memory access information to last_exec */
-> +    g_string_printf(last_exec[cpu_index], "%u, ", cpu_index);
-> +    g_string_append(last_exec[cpu_index], (char *)udata);
-> +}
-> +
-> +/**
-> + * On translation block new translation
-> + *
-> + * QEMU convert code by translation block (TB). By hooking here we can t=
-hen hook
-> + * a callback on each instruction and memory access.
-> + */
-> +static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-> +{
-> +    struct qemu_plugin_insn *insn;
-> +    uint64_t insn_vaddr;
-> +    uint32_t insn_opcode;
-> +    char *insn_disas;
-> +
-> +    size_t n =3D qemu_plugin_tb_n_insns(tb);
-> +    for (size_t i =3D 0; i < n; i++) {
-> +        /*
-> +         * `insn` is shared between translations in QEMU, copy needed da=
-ta here.
-> +         * `output` is never freed as it might be used multiple times du=
-ring
-> +         * the emulation lifetime.
-> +         * We only consider the first 32 bits of the instruction, this m=
-ay be
-> +         * a limitation for CISC architectures.
-> +         */
-> +        insn =3D qemu_plugin_tb_get_insn(tb, i);
-> +        insn_vaddr =3D qemu_plugin_insn_vaddr(insn);
-> +        insn_opcode =3D *((uint32_t *)qemu_plugin_insn_data(insn));
-> +        insn_disas =3D qemu_plugin_insn_disas(insn);
-> +        char *output =3D g_strdup_printf("0x%"PRIx64", 0x%"PRIx32", \"%s=
-\"",
-> +                                       insn_vaddr, insn_opcode, insn_dis=
-as);
-> +
-> +        /* Register callback on memory read or write */
-> +        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
-> +                                         QEMU_PLUGIN_CB_NO_REGS,
-> +                                         QEMU_PLUGIN_MEM_RW, NULL);
-> +
-> +        /* Register callback on instruction */
-> +        qemu_plugin_register_vcpu_insn_exec_cb(insn, vcpu_insn_exec,
-> +                                               QEMU_PLUGIN_CB_NO_REGS, o=
-utput);
-> +    }
-> +}
-> +
-> +/**
-> + * Install the plugin
-> + */
-> +QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-> +                                           const qemu_info_t *info, int =
-argc,
-> +                                           char **argv)
-> +{
-> +    int i;
-> +
-> +    /* Initialize instruction cache for each vCPU */
-> +    last_exec =3D calloc(info->system.max_vcpus, sizeof(GString *));
-> +    for (i =3D 0; i < info->system.max_vcpus; i++) {
-> +        last_exec[i] =3D g_string_new(NULL);
-> +    }
+  ./aarch64-softmmu/qemu-system-aarch64 -D test.out -d plugin \
+    -plugin contrib/plugins/libexeclog.so  \
+    -cpu max -serial mon:stdio -M virt \
+    -display none -semihosting-config chardev=3Dserial0 \
+    -kernel ./tests/tcg/aarch64-softmmu/memory
 
-We only allocate last_exec for system.max_vcpus here. You need to check
-the system_emulation bool before using that information and error out if
-it's not system emulation.
+generates a 8.6Gb text file. I suspect once this is merged you might
+want to look at options to target the instrumentation at areas of
+specific interest or abbreviate information.=20
 
+> +The plugin takes no argument::
 > +
-> +    /* Register translation block callback */
-> +    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+> +  qemu-system-arm $(QEMU_ARGS) \
+> +    -plugin ./contrib/plugins/libexeclog.so -d plugin
 > +
-> +    return 0;
-> +}
+> +which will output an execution trace following this structure::
+> +
+> +  # vCPU, vAddr, opcode, disassembly[, load/store, memory addr, device].=
+..
+> +  0, 0xa12, 0xf8012400, "movs r4, #0"
+> +  0, 0xa14, 0xf87f42b4, "cmp r4, r6"
+> +  0, 0xa16, 0xd206, "bhs #0xa26"
+> +  0, 0xa18, 0xfff94803, "ldr r0, [pc, #0xc]", load, 0x00010a28, RAM
+> +  0, 0xa1a, 0xf989f000, "bl #0xd30"
+> +  0, 0xd30, 0xfff9b510, "push {r4, lr}", store, 0x20003ee0, RAM, store, =
+0x20003ee4, RAM
+> +  0, 0xd32, 0xf9893014, "adds r0, #0x14"
+> +  0, 0xd34, 0xf9c8f000, "bl #0x10c8"
+> +  0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
 
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
