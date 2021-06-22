@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A123B01A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:44:12 +0200 (CEST)
-Received: from localhost ([::1]:55762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8E23B01A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:43:41 +0200 (CEST)
+Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvdt5-00045Y-Nz
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
+	id 1lvdsa-0002pm-1J
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:43:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lvdmD-00005M-78
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:37:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lvdm9-0000lM-PG
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:37:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624358220;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NNMQidApL/OX/RvoVBl0XRaraVUtDcJa4CByiQiTIY8=;
- b=YtLhyVA0S9pghgcI6LGZhUlFlpQfTnYsQHEJ0/Etb1rmgM62VhEmGNrmFsqaaB+3+y8j4M
- bRPmJYBp/7WfkzSaK4RFTq2cHWp5bTvwKWS+WQXEqAeKnqhyHylOOQI4bIPBNqeCK65Nvo
- akR2eVzr+Jid2jceB93+E2p9afeA63s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-XAtS18KOO5ywOOurUv7Wvw-1; Tue, 22 Jun 2021 06:36:57 -0400
-X-MC-Unique: XAtS18KOO5ywOOurUv7Wvw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE84A5074F;
- Tue, 22 Jun 2021 10:36:55 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B6F25DA2D;
- Tue, 22 Jun 2021 10:36:49 +0000 (UTC)
-Date: Tue, 22 Jun 2021 12:36:48 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
-Message-ID: <20210622123648.07402d7c@redhat.com>
-In-Reply-To: <ca74cc39-6e30-6588-aa5a-48f74d305b56@redhat.com>
-References: <20210616152455.1270264-1-imammedo@redhat.com>
- <d10ba45f-c71c-f472-fac7-9f8e5770c735@suse.de>
- <20210618132647.07cf2008@redhat.com>
- <2f7ae379-92e0-3274-6944-84a5bce6e82e@suse.de>
- <20210618152943.2009ad82@redhat.com> <874kdqtj25.fsf@linaro.org>
- <ca74cc39-6e30-6588-aa5a-48f74d305b56@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lvdqk-0000oP-PL
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:41:47 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lvdqi-0003jM-Mq
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:41:46 -0400
+Received: by mail-wr1-x430.google.com with SMTP id b3so12791192wrm.6
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 03:41:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=IvhS7bAckHDqGVPCibJLL0J6PPOQghZNnRndgkM7ovg=;
+ b=oe/J2ry4oZLwY/ICMNCWmPne/DjcVdqAic30kCGqX3NIXxIDMfBlfmWCSfh8aR+LEU
+ 0PmDpzLuw2z3Th/xs0k6wze4QNmY31bhsQla2uV7c2SbibrNi81qCLb7AhtMpG/5eDQR
+ E6gaEqptvUNdrYOjHa+z0e/UX2vZofNSsZQCG262Ez3LKrame5M+qZajzGCln5d6NVzY
+ QaaqDKCCxyO+wRhuQNKTSemtuC0NQY2SAAzw0p9ihzAP4AnWZo/j8mdR6Xn2UvR7dOnm
+ Lty8xCqs73Qk1tETAjagK//9ZRxtFVoqwqquujKU/xTNmHl8aNmwY+uIl1q07TCTXmTB
+ 0ZlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=IvhS7bAckHDqGVPCibJLL0J6PPOQghZNnRndgkM7ovg=;
+ b=LRl1PPWiMavGedpkOukyo5nnvz+5GYnujTLwYPC5Km07CZ3ujvRKGGX6fOy94pMk3A
+ B2tGHJFELoB6ym588yvdHWcU9RtayipKKIIZnSmzFxz6rpRY69beTFT4BA80gawKF0Qg
+ egSmamP1AjCJx818k9oQWsTfSHvYdG6+zyQBHOjwSacqQiBdmhW+f9jn4oa2T5aoUfJY
+ EuZnLTh17ICNwMzOAyjUh+8+gtzWv519hBDJ+0hcSmLAEdMTo8/B91OfX4pWQhj7DUOv
+ +UWHgbM+qD/3GF9HNmO7WqvuLRAAr//Q8hUhY+e1xppUmO5WmeBRXqnEZFy4G1tizNaM
+ NoQQ==
+X-Gm-Message-State: AOAM532JxbDqL/sEpUQagPMKBn5LO3/xqEQ+JvVKSvyILkmmWTXy+6Tg
+ JgVDDHQ03JdWOvIVbRwvfEd6gw==
+X-Google-Smtp-Source: ABdhPJzjzgaVGwJmIFeDd6Wh+AqGrlEpIuINaqQXdSupyJbt1btDPG7C1Ijm45Ugdd3wvakc5yqSjw==
+X-Received: by 2002:a05:6000:1a41:: with SMTP id
+ t1mr3804826wry.175.1624358503127; 
+ Tue, 22 Jun 2021 03:41:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x81sm2461657wmg.36.2021.06.22.03.41.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Jun 2021 03:41:42 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3299F1FF7E;
+ Tue, 22 Jun 2021 11:41:41 +0100 (BST)
+References: <20210618091101.2802534-1-erdnaxe@crans.org>
+ <20210618091101.2802534-3-erdnaxe@crans.org> <87y2b2s2gw.fsf@linaro.org>
+ <49027cc2-f89e-cbd6-cfc0-e59ce7dd4b17@crans.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alexandre IOOSS <erdnaxe@crans.org>
+Subject: Re: [PATCH v2 2/2] docs/devel: tvg-plugins: add execlog plugin
+ description
+Date: Tue, 22 Jun 2021 11:37:07 +0100
+In-reply-to: <49027cc2-f89e-cbd6-cfc0-e59ce7dd4b17@crans.org>
+Message-ID: <87y2b2rxju.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,187 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- mst@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+ "open list : All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Jun 2021 10:22:19 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-> On 6/22/21 10:07 AM, Alex Benn=C3=A9e wrote:
-> > Igor Mammedov <imammedo@redhat.com> writes: =20
-> >> On Fri, 18 Jun 2021 14:43:46 +0200
-> >> Claudio Fontana <cfontana@suse.de> wrote: =20
-> >>> On 6/18/21 1:26 PM, Igor Mammedov wrote: =20
-> >>>> On Thu, 17 Jun 2021 18:49:17 +0200
-> >>>> Claudio Fontana <cfontana@suse.de> wrote: =20
-> >>>>> On 6/16/21 5:24 PM, Igor Mammedov wrote:   =20
-> >>>>>>
-> >>>>>> Sometimes it's necessary to execute a test that depends on KVM,
-> >>>>>> however qtest is not aware if tested QEMU binary supports KVM
-> >>>>>> on the host it the test is executed.     =20
-> >>>>>
-> >>>>> Hello,
-> >>>>>
-> >>>>> It seems to me that we are constantly re-implementing the same feat=
-ure with slight variations?
-> >>>>>
-> >>>>> Didn't we have a generic series to introduce qtest_has_accel() from=
- Philippe before?   =20
-> >>>> It's mentioned in cover letter (PS: part) and in [1/3] with rational=
-e
-> >>>> why this was posted.   =20
-> >>>
-> >>> Thought it was separate, but now I see that it uses query-accel under=
-neath.
-> >>>
-> >>> Seems strange to add another check to do the same thing, it may point=
- to qtest_has_accel() needing some update?
-> >>> You mention it is time consuming to use qtest_has_accel(), have you m=
-easured an important overhead?
-> >>> With qtest_has_accel() not even being committed yet, is it already ne=
-cessary to work around it because it's too slow?  =20
-> >>
-> >> Tests are already take a lot of time as is, so I'd try to avoid slowin=
-g
-> >> them down.
-> >>
-> >> proposed qtest_has_accel() requires spawning QEMU to probe, which is s=
-low.
-> >> Worst case would be:
-> >>  =3D qemu startup time * number of checks * number of targets
-> >>
-> >> It's fine to run occasionally, I can take a coffee break while tests r=
-un.
-> >> But put it in context of CI and it multiplies by the number of push re=
-quests
-> >> and starts to eat not only time but also limited CI resources.
-> >>
-> >> In current form qtest_has_accel() is only marginally better functional=
-ity
-> >> wise, as it reports all built in accelerators while qtest_has_kvm() ac=
-counts
-> >> only for KVM.
-> >>
-> >> qtest_has_kvm() is collecting info about built-in accelerators at
-> >> configure/build time and that probably could be extended to other
-> >> accelerators (not a thing that I'm interested in at the moment).
-> >> So it could be extended to support the same accelerators
-> >> as currently proposed qtest_has_accel(). =20
-> >=20
-> > One minor downside is this forever ties the tests to the build. I have
-> > spoken with people before about the idea of separating the test
-> > artefacts from the build so they can be used either as a) cached test
-> > objects or b) other testing environments, for example verifying the
-> > kernel has not regressed. However we don't do either of those things at
-> > the moment so it's not a major concern. =20
->=20
-> This is the feature that is interesting RedHat QE too, run the latest
-> qtests on various released binaries to compare performances between
-> releases.
+Alexandre IOOSS <erdnaxe@crans.org> writes:
 
-Currently qtest is only a build only and hard tied to concrete release test=
-s.
-And it's usually mercilessly altered to fit any QEMU interface changes
-new version brings, which in turn breaks idea of testing other QEMU version=
-s
-with it.
+> [[PGP Signed Part:Undecided]]
+> On 6/22/21 10:48 AM, Alex Benn=C3=A9e wrote:
+>> Alexandre Iooss<erdnaxe@crans.org>  writes:
+>>> [...]
+>>> +
+>>> +The execlog tool traces executed instructions with memory access. It c=
+an be used
+>>> +for debugging and security analysis purposes.
+>> We should probably mention that this will generate a lot of output.
+>> Running the admittedly memory heavy softmmu memory test:
+>>    ./aarch64-softmmu/qemu-system-aarch64 -D test.out -d plugin \
+>>      -plugin contrib/plugins/libexeclog.so  \
+>>      -cpu max -serial mon:stdio -M virt \
+>>      -display none -semihosting-config chardev=3Dserial0 \
+>>      -kernel ./tests/tcg/aarch64-softmmu/memory
+>> generates a 8.6Gb text file. I suspect once this is merged you might
+>> want to look at options to target the instrumentation at areas of
+>> specific interest or abbreviate information.
+>
+> Yes! In my downstream version I am triggering the beginning and the
+> end of trace acquisition by matching two virtual addresses of GPIO
+> device access. This works in my case because I'm also using the same
+> GPIO for triggering an oscilloscope, but maybe we would like to
+> upstream something more generic.
+>
+> I'm still thinking about this (maybe for a later patch) but I believe
+> it would be nice to have the following:
+>  - If no argument is given to the plugin, log everything.
+>  - Allow the user to specify either a memory address, an instruction
+>    virtual address or an opcode that would start the acquisition.
+>  - Same to stop the acquisition.
 
-I'd guess it would take *a lot* of effort to make and maintain it
-as external test harness for various QEMU versions.
+Sounds reasonable to me.
 
-I think build time qtest used as public CI and external test suite
-are conflicting goals, for the former we probably minimize used
-compute resources while the later is probably run by QA in a more
-controlled manner (unless one integrates that into another CI)
+> This would look like this to start/stop acquisition using GPIO PA8 on
+> STM32VLDISCOVERY:
+>
+>   ./arm-softmmu/qemu-system-arm -M stm32vldiscovery \
+>     -kernel ./firmware.elf -d plugin \
+>     -plugin libexeclog.so,arg=3Dmem:1073809424,arg=3Dmem:1073809424
 
-If I needed something that were to be usable as external test suite,
-I'd look towards acceptance tests which are less depended on QEMU
-internals and versions.
-=20
-> > If the worry is about extending test times by having an extra round tri=
-p
-> > of a spawn and query step for every test could we not consider caching
-> > the information somewhere? Really any given binary should only need to
-> > be queried once per run, not per test. =20
->=20
-> Good idea.
+I quite like the formats you can use for -dfilter, for example:
 
-Yep, it should be less taxing, than the currently posted qtest_has_accel()
-version.
-It will reduce worst complexity little bit to
-   probbing_time * #test_binaries * number_targets * #push_req (all_forks)
-but that's still explosive path.
+  0x1000+0x100,0x2100-0x100,0x3000..0x3100
 
-> >> Given a less expensive approach exists, the qtest_has_accel()
-> >> in its current form might be not justifiable.=20
-> >>
-> >>     =20
-> >>>>> Does this series work with --disable-kvm builds? (TCG-only builds?)=
-   =20
-> >>>> I'll test. But on the first glance it should work without issues.
-> >>>> (i.e. kvm only tests will be skipped).
-> >>>>    =20
-> >>>>>
-> >>>>> Thanks,
-> >>>>>
-> >>>>> CLaudio
-> >>>>>
-> >>>>>   =20
-> >>>>>>
-> >>>>>> For an example:
-> >>>>>>  test q35 machine with intel_iommu
-> >>>>>>  This test will run only is KVM is available and fail
-> >>>>>>  to start QEMU if it fallsback to TCG, thus failing whole test.
-> >>>>>>  So if test is executed in VM where nested KVM is not enabled
-> >>>>>>  or on other than x86 host, it will break 'make check-qtest'
-> >>>>>>
-> >>>>>> Series adds a lightweight qtest_has_kvm() check, which abuses
-> >>>>>> build system and should help to avoid running KVM only tests
-> >>>>>> on hosts that do not support it.
-> >>>>>>
-> >>>>>> PS:
-> >>>>>> there is an alternative 'query-accels' QMP command proposal
-> >>>>>> https://patchwork.kernel.org/project/qemu-devel/patch/202105032110=
-20.894589-3-philmd@redhat.com/
-> >>>>>> which I think is more robust compared to qtest_has_kvm() and
-> >>>>>> could be extended to take into account machine type.
-> >>>>>> But it's more complex and what I dislike about it most,
-> >>>>>> it requires execution of 'probing' QEMU instance to find
-> >>>>>> execute 'query-accels' QMP command, which is rather resource
-> >>>>>> consuming. So I'd use query-accels approach only when it's
-> >>>>>> the only possible option to minimize load on CI systems.
-> >>>>>>
-> >>>>>> Igor Mammedov (2):
-> >>>>>>   tests: acpi: q35: test for x2APIC entries in SRAT
-> >>>>>>   tests: acpi: update expected tables blobs
-> >>>>>>
-> >>>>>> root (1):
-> >>>>>>   tests: qtest: add qtest_has_kvm() to check if tested bynary supp=
-orts
-> >>>>>>     KVM
-> >>>>>>
-> >>>>>>  tests/qtest/libqos/libqtest.h    |   7 +++++++
-> >>>>>>  meson.build                      |   1 +
-> >>>>>>  tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
-> >>>>>>  tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
-> >>>>>>  tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
-> >>>>>>  tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
-> >>>>>>  tests/qtest/bios-tables-test.c   |  10 +++++++---
-> >>>>>>  tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
-> >>>>>>  8 files changed, 35 insertions(+), 3 deletions(-)
-> >>>>>>  create mode 100644 tests/data/acpi/q35/APIC.numamem
-> >>>>>>  create mode 100644 tests/data/acpi/q35/FACP.numamem
-> >>>>>>      =20
-> >>>>>   =20
-> >>>>    =20
-> >>> =20
-> >=20
-> >  =20
->=20
+it might even be worth exposing qemu_set_dfilter_ranges as a helper
+function to plugins to avoid copy and paste.
 
+So what would your above command trigger? A write to 1073809424 would
+start the trace and the next write to the same address would stop it?
+
+> I would like to hear other users opinion on this, because I fear I
+> might implement something too specific.
+>
+> Thanks,
+> -- Alexandre
+>
+> [[End of PGP Signed Part]]
+
+
+--=20
+Alex Benn=C3=A9e
 
