@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570CE3AFD20
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 08:38:17 +0200 (CEST)
-Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927683AFD27
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 08:42:13 +0200 (CEST)
+Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lva36-0006YN-Eo
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 02:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49200)
+	id 1lva6u-0002pd-Cs
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 02:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lva1g-0005ms-0h
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:36:48 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42927)
+ id 1lva5x-00028h-9l
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:41:13 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:41654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lva1e-0003nQ-6N
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:36:47 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- l7-20020a05600c1d07b02901b0e2ebd6deso1471946wms.1
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 23:36:45 -0700 (PDT)
+ id 1lva5v-0006ay-65
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:41:13 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ y13-20020a1c4b0d0000b02901c20173e165so1510056wma.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 23:41:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Yoa4HRlamVxOGf7RW51aHUV8VH3pAb9VpunMB8QG21U=;
- b=WpcbeM96+TgmYXGevLpBtZFmKI668+9U17hUdz1pYA+fZpL2LhcYcNrgvajPkczp/h
- zmBZuJgiH1/TLJ0w0DpZIFbZMHVL6xVN5HdFIBjXM7P4YlYyaNCFCYvNE0o33efH+UGo
- +idQ0IaAhDmM/bKBAQ6qeG8cuhfOKxBRcBqb+boagUUwewWFa38ws0FKgpNcntxp4Gsi
- deGtuhMt4LxOgRW2DlgiZ0FPBRLF99SEhmOdVW+bYImZ9zbbo8e0FsWB/wW+m6jmwLIn
- eQY28khVmiPWrwLOO2EwHnmVM6tkspYLM7/6aW0QJoL4DKiz2KDAxrg74NMVCuX7xE5b
- WKNQ==
+ bh=DVRIjhoanfky4j0z/1DHGh+UDIEQBRqPE26Wt7BW7pU=;
+ b=GKOX/RXbpjdRuRW7WA1MD7oqtPQ/fvY3sCmxk2cCigRcsfD1a0iYR81OI1UvNGDHFZ
+ J/Tg/w7NOOAdcBUAy9/701dIGa63ea83v8UDYiIhYC4wSB08LOYf2g3bEJB8TCFvRFiv
+ aMnyOxtvXXxZhyg74elHfGjc+saMVQpge74N4/+r9leZFs/2iTKs3UWrBNmT755H/0Zk
+ cgcUbgYIsEyHJh8v1nDLgwmO/wokI+dXathEYowK9TIMCCnwnTqdFG7tcA+q87uYDJty
+ YtX+ADMvJE+3xw+DjJL4O1gOMAJZRRk5UUf05EL3n54ivlnhuw38YCrbF+0+sMK0B82H
+ wImw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Yoa4HRlamVxOGf7RW51aHUV8VH3pAb9VpunMB8QG21U=;
- b=ekOoYoju3aVUmijEbhDnUah0wdaS6z/eWdfHMF2+FQiZGIaIx8Q27rgEN1gXXZ0ZiT
- 64iQHBbKsmcX4wWUHrX48gB3LFBcta9N5Yeyz9Jd7SWl7YrAHIPI4D3axEkj+miaM6si
- 8InzJAQCpilan2PTCW6hyRH5W4OCjd5i3T4BdXFVQRp3e42IVt59xRi2lD+hrmY3SFYl
- ynRIkX+ZqFuhKNx0ny3v/b5yT68DbgWor6ksqtvk1in8StZwWfgisQDh/+Pvl6B3WIG/
- 8bRoNUXSkW4Qq5dQK41H/BFlDPyAdRmgmg4Te+8XlyBMrd197FyhMW+oeeDVdc9rFMQ+
- S0dA==
-X-Gm-Message-State: AOAM532iAJHUOb2WeMsThM4lemLyG6iCUqUt3Hiq7RN2xpsFg9rSqKX1
- Yb1oHwfYMo7ajRX86MlWtSig3ia9c3lZDQ==
-X-Google-Smtp-Source: ABdhPJwBmYyiEUGkrG4lWFtcSgQu8mzoL4fE74982scmoQfAcAq0tIvp0nWJFiZ4L2hAHDPkRv8EDA==
-X-Received: by 2002:a05:600c:3581:: with SMTP id
- p1mr2612658wmq.109.1624343804121; 
- Mon, 21 Jun 2021 23:36:44 -0700 (PDT)
+ bh=DVRIjhoanfky4j0z/1DHGh+UDIEQBRqPE26Wt7BW7pU=;
+ b=FTG+ptZJlUG5GdjX145QNKFGpg1iwvWpN2OZnudNPbwiSKLaKkWNv0Uttq5mQ4RQfp
+ 6y773q5XyK7OKa+uZpHfHG6SZXsG1g3Y6JySX5i2BhTiZ1M6/grozhdchgNH8/gGxFqn
+ 10CFEFs9HWFrBKMsRQ2b/XE7vz7fdCBo+poi+DwSJwgFt/SbyuyO8TWnJQwI3HjsVArm
+ zj1DPkK8oP1lir1oswLf6o8JeJEqiKPJt93gg18mg60cKxo71Ksl+xtrWLL3opvIgoQH
+ Awf6Dc0t0gLpntgdDti34/rhLk01ZZLHv+zWzZryQvwArHqgn10+tzjxTZ4eMJSo6ZAU
+ Iv8Q==
+X-Gm-Message-State: AOAM530/XYoJJTrFqSemyfgcvWLj6v/PUrHEdtXW57g5X4Te5Vex00E6
+ jRoZQ049zfxiq/5QnZAUG23g/3Q7YF57mw==
+X-Google-Smtp-Source: ABdhPJyhW8dqtDMJ3hVkavzM1C+3U3mOYf6xDMcqW8kOXnX/7+l3O0GJ3wOWCXm6uy2mFjDN7zwmSQ==
+X-Received: by 2002:a05:600c:2306:: with SMTP id
+ 6mr2557669wmo.32.1624344069501; 
+ Mon, 21 Jun 2021 23:41:09 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id v18sm11050813wrv.24.2021.06.21.23.36.43
+ by smtp.gmail.com with ESMTPSA id y189sm1340353wmg.6.2021.06.21.23.41.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 23:36:43 -0700 (PDT)
-Subject: Re: [PATCH 13/28] tcg/mips: Support bswap flags in tcg_out_bswap16
+ Mon, 21 Jun 2021 23:41:08 -0700 (PDT)
+Subject: Re: [PATCH 18/28] tcg: Make use of bswap flags in tcg_gen_qemu_ld_*
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210614083800.1166166-1-richard.henderson@linaro.org>
- <20210614083800.1166166-14-richard.henderson@linaro.org>
+ <20210614083800.1166166-19-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a6a30b81-6ff5-fbab-46ef-961054f8d667@amsat.org>
-Date: Tue, 22 Jun 2021 08:36:42 +0200
+Message-ID: <39c98a55-3f76-6ee4-adf2-1b438528bd91@amsat.org>
+Date: Tue, 22 Jun 2021 08:41:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210614083800.1166166-14-richard.henderson@linaro.org>
+In-Reply-To: <20210614083800.1166166-19-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,131 +94,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
-
 On 6/14/21 10:37 AM, Richard Henderson wrote:
-> Merge tcg_out_bswap16 and tcg_out_bswap16s.  Use the flags
-> in the internal uses for loads and stores.
+> We can perform any required sign-extension via TCG_BSWAP_OS.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/mips/tcg-target.c.inc | 60 ++++++++++++++++++---------------------
->  1 file changed, 28 insertions(+), 32 deletions(-)
-> 
-> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-> index 5944448b2a..7a5634419c 100644
-> --- a/tcg/mips/tcg-target.c.inc
-> +++ b/tcg/mips/tcg-target.c.inc
-> @@ -540,39 +540,36 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
->      }
->  }
->  
-> -static inline void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg)
-> +static void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
->  {
-> +    /* ret and arg can't be register tmp0 */
-> +    tcg_debug_assert(ret != TCG_TMP0);
-> +    tcg_debug_assert(arg != TCG_TMP0);
-> +
->      if (use_mips32r2_instructions) {
->          tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
-> -    } else {
-> -        /* ret and arg can't be register at */
-> -        if (ret == TCG_TMP0 || arg == TCG_TMP0) {
-> -            tcg_abort();
-> +        if (flags & TCG_BSWAP_OS) {
-> +            tcg_out_opc_reg(s, OPC_SEH, ret, 0, ret);
-> +        } else if ((flags & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
-> +            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xffff);
->          }
-> -
-> -        tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
-> -        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 8);
-> -        tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xff00);
-> -        tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
-> +        return;
->      }
-> -}
->  
-> -static inline void tcg_out_bswap16s(TCGContext *s, TCGReg ret, TCGReg arg)
-> -{
-> -    if (use_mips32r2_instructions) {
-> -        tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
-> -        tcg_out_opc_reg(s, OPC_SEH, ret, 0, ret);
-> -    } else {
-> -        /* ret and arg can't be register at */
-> -        if (ret == TCG_TMP0 || arg == TCG_TMP0) {
-> -            tcg_abort();
-> -        }
-> -
-> -        tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
-> +    tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
-> +    if (!(flags & TCG_BSWAP_IZ)) {
-> +        tcg_out_opc_imm(s, OPC_ANDI, TCG_TMP0, TCG_TMP0, 0x00ff);
-> +    }
-> +    if (flags & TCG_BSWAP_OS) {
->          tcg_out_opc_sa(s, OPC_SLL, ret, arg, 24);
->          tcg_out_opc_sa(s, OPC_SRA, ret, ret, 16);
-> -        tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
-> +    } else {
-> +        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 8);
-> +        if (flags & TCG_BSWAP_OZ) {
-> +            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xff00);
-> +        }
->      }
-> +    tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
->  }
-
-Do you mind including the comments (after reviewing them ;) )?
-
-static void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg, int
-flags)
-{
-    /* ret and arg can't be register tmp0 */
-    tcg_debug_assert(ret != TCG_TMP0);
-    tcg_debug_assert(arg != TCG_TMP0);
-
-                                                        /* src = abcd
-efgh */
-    if (use_mips32r2_instructions) {
-        tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);      /* ret = cdab
-ghef */
-        if (flags & TCG_BSWAP_OS) {
-            tcg_out_opc_reg(s, OPC_SEH, ret, 0, ret);   /* ret = ssss
-ghef */
-        } else if ((flags & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) ==
-TCG_BSWAP_OZ) {
-            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xffff);
-                                                        /* ret = 0000
-ghef */
-        }
-        return;
-    }
-
-    tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);       /* t0  = ssab
-cdef */
-    if (!(flags & TCG_BSWAP_IZ)) {                      /* t0  = 0000
-00ef */
-        tcg_out_opc_imm(s, OPC_ANDI, TCG_TMP0, TCG_TMP0, 0x00ff);
-    }
-    if (flags & TCG_BSWAP_OS) {
-        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 24);       /* ret = gh..
-.... */
-        tcg_out_opc_sa(s, OPC_SRA, ret, ret, 16);       /* ret = ssss
-gh.. */
-    } else {
-        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 8);        /* ret = cdef
-gh.. */
-        if (flags & TCG_BSWAP_OZ) {                     /* ret = 0000
-gh.. */
-            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xff00);
-        }
-    }
-    tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0); /* OZ: ret = 0000
-ghef */
-                                                    /* OS: ret = ssss
-ghef */
-}
+>  tcg/tcg-op.c | 24 ++++++++++--------------
+>  1 file changed, 10 insertions(+), 14 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
