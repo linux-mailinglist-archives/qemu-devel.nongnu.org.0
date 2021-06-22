@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075E33B07F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 16:56:29 +0200 (CEST)
-Received: from localhost ([::1]:55638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E173B0804
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 16:58:29 +0200 (CEST)
+Received: from localhost ([::1]:58178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvhpE-000652-3s
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 10:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
+	id 1lvhrA-0007yr-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 10:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lvhnF-0004oI-Gy
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:54:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lvhnD-0005L7-SO
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:54:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624373662;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YzY/ElsXzzSG0xvINKG5lngA9xilpsJjnJnx2HK+pPQ=;
- b=Iah7Cf0vOTrZpFcVo/O/PckBa6S+GeElZjo61kL9DNsO+jf4yqiO8ohwSPz4vNVkeE80a1
- gizAKfo5n2P4cCjOeSqjCitdg7mqcZp76p1cv7cxfTWuVt3H3Lv9uZVo894sN/YS65pwS+
- n9Qk6gAlFgcW+4NvHAth/aEjnEWQzu8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-DQphZphxNYeIIZo63Io1oQ-1; Tue, 22 Jun 2021 10:54:21 -0400
-X-MC-Unique: DQphZphxNYeIIZo63Io1oQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- p23-20020aa7cc970000b02903948bc39fd5so7555293edt.13
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 07:54:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lvhqK-0007Gh-Bg
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:57:36 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lvhqH-0007OY-Uf
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:57:35 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ j11-20020a05600c1c0bb02901e23d4c0977so1352145wms.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 07:57:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=uSJUiKZ7fl4TbbMguHh3D67c9mBtrtJRSo0o+6u0FME=;
+ b=K2nkPSylgVTCRZ6Hvwe/QdGx+F9qtLUJHjErDy9qF+yEYvdg4VLaHrHmdhiyJoFEmW
+ vK/tzYcClE6YYPxX7XOJUzM0vTmwLsMcamQ/cPkIWTHhoESCaHhN7L6j3/szzmnx9NS6
+ xWv8xWctdkOCdbDhRMAgVaqYq/Oet5Hwc6aMmaB+KVQ2Ymv3YJqB6AXYUqO2+W1AlzZK
+ ecz2QPzhNw1umjBJNqwkvhdUCRQfi6s34gdX4vK55rTktST59b+B4N2DYUpN8W8/On6/
+ D1nik33g8QutpVg7rG50fpAZV1qN3ohP/w/cT/MxRQCP5qca3nrRwEwJr42KXfe/9cel
+ g4OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YzY/ElsXzzSG0xvINKG5lngA9xilpsJjnJnx2HK+pPQ=;
- b=bRArw4nhmFjgJIGvqHap+0cPU0zjxt+nfPyGjejB3TN8POy6Wubq+ilwTy/14U/tUM
- KeBX2G5T2CXhbNIgj2IeetcefA5SwDWBLucwgnDkPF/XSZZWxjHud/fAcibZoo/p/L8S
- hXnpvoQn9h0p5+rBL6u4vFZh8HC46077ZJYSPDjs0gUVB03UZRCCk4RrQAZgrYxxbsSm
- TpINtQnaW3M9cqz2exqZ3cfDRQOqgKimJkKKlYaPwO45pHsJHlGOqfWnmIxVRoo1/8Cy
- EaeDSfsHmcn3ypu50X352/S/IEyc+u5pGWYPyuNxR75L5lBLR2kFyvOTspN5V67W5ipd
- J1vQ==
-X-Gm-Message-State: AOAM533YzCTmBMa5ypw6ZArnWTsiymjFHGaP4b1v2W5MRmfgyHTalElp
- 58eNSB86XgX6wcWAh4qwcRIH4STIrH9QLTva50V/7mpVIsdK/lGYpOCiu1rmZkatNwZaSmNWycT
- 7muggpVvOiYpvmmw=
-X-Received: by 2002:aa7:c614:: with SMTP id h20mr5509577edq.67.1624373660027; 
- Tue, 22 Jun 2021 07:54:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyh9M71D11WKeGXqB8uElfTPPeijN/J0oyuFct2FRdYMYrz6XpdKofrW85Dm2MoiXiQuBrm3A==
-X-Received: by 2002:aa7:c614:: with SMTP id h20mr5509557edq.67.1624373659877; 
- Tue, 22 Jun 2021 07:54:19 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id hg9sm6189603ejc.91.2021.06.22.07.54.19
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=uSJUiKZ7fl4TbbMguHh3D67c9mBtrtJRSo0o+6u0FME=;
+ b=cUOcHNhzgwH7y9X0MkGvIuMPQC4Ju6G3CIrmrjQx5L1rJt7HUSbWIjdjUG/VBm97ki
+ I6kO6VfyPegwzAoFX7d7lxjXQ6su9xaRmkj+T0UA0toJQ7+tl9ZPe/jyqrbg1t05KT1f
+ cdXalAHiHEu3pI8TUA3HZBZsCawl38kWJzFP6nJhudPctUyi7rULas1iOTB/ZzaSU+jw
+ DNK5vTOj0K7lT1rjG07MUcGu8DmEwsowElTAW2w/NANievRy9v2nuyLHZvhfSq1VAN6C
+ ARSVaW351C7udArF9FW9Wt4zziuGnn8KOpig+35l5Zo6WLusBG71hn0BAheKvgH7pNZW
+ F+3w==
+X-Gm-Message-State: AOAM532MYMq+LdaWOriGGPstnSEy2lcrgIImOlqK5rJqElHVoVPh97Gj
+ SrNdJC3mMqSlaWCTbz2jmDSCZw==
+X-Google-Smtp-Source: ABdhPJzswD7aWK+ZixOdV9G18uGQcVLzrNODDUg5yMT/ut4EIgq2ol7NQVJxV+9AUD56BTNEJdA5Ww==
+X-Received: by 2002:a05:600c:3223:: with SMTP id
+ r35mr4760501wmp.80.1624373852449; 
+ Tue, 22 Jun 2021 07:57:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v18sm12736311wrv.24.2021.06.22.07.57.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 07:54:19 -0700 (PDT)
-Date: Tue, 22 Jun 2021 16:54:17 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Arseny Krasnov <arseny.krasnov@kaspersky.com>
-Subject: Re: [PATCH v3] vhost-vsock: SOCK_SEQPACKET feature bit support
-Message-ID: <20210622145417.mmeicxdiha4rlds2@steredhat>
-References: <20210622144747.2949134-1-arseny.krasnov@kaspersky.com>
+ Tue, 22 Jun 2021 07:57:31 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id ACF7A1FF7E;
+ Tue, 22 Jun 2021 15:57:30 +0100 (BST)
+References: <20210608040532.56449-1-ma.mandourr@gmail.com>
+ <20210608040532.56449-5-ma.mandourr@gmail.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [RFC PATCH v3 4/4] plugins/cache: Added FIFO and LRU eviction
+ policies.
+Date: Tue, 22 Jun 2021 15:57:25 +0100
+In-reply-to: <20210608040532.56449-5-ma.mandourr@gmail.com>
+Message-ID: <87sg1arlph.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210622144747.2949134-1-arseny.krasnov@kaspersky.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,70 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, oxffffaa@gmail.com,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: cota@braap.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 22, 2021 at 05:47:47PM +0300, Arseny Krasnov wrote:
->This adds processing of VIRTIO_VSOCK_F_SEQPACKET features bit. Guest
->negotiates it with vhost, thus both will know that SOCK_SEQPACKET
->supported by peer.
->
->Signed-off-by: Arseny Krasnov <arseny.krasnov@kaspersky.com>
->---
-> hw/virtio/vhost-vsock.c                       | 12 ++++++++++--
-> include/standard-headers/linux/virtio_vsock.h |  3 +++
-> 2 files changed, 13 insertions(+), 2 deletions(-)
->
->diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
->index c8f0699b4f..e6339747b3 100644
->--- a/hw/virtio/vhost-vsock.c
->+++ b/hw/virtio/vhost-vsock.c
->@@ -20,6 +20,11 @@
-> #include "hw/virtio/vhost-vsock.h"
-> #include "monitor/monitor.h"
->
->+const int feature_bits[] = {
->+    VIRTIO_VSOCK_F_SEQPACKET,
->+    VHOST_INVALID_FEATURE_BIT
->+};
->+
-> static void vhost_vsock_get_config(VirtIODevice *vdev, uint8_t *config)
-> {
->     VHostVSock *vsock = VHOST_VSOCK(vdev);
->@@ -107,8 +112,11 @@ static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
->                                          uint64_t requested_features,
->                                          Error **errp)
-> {
->-    /* No feature bits used yet */
->-    return requested_features;
->+    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
->+
->+    virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
->+    return vhost_get_features(&vvc->vhost_dev, feature_bits,
->+                                requested_features);
-> }
->
-> static const VMStateDescription vmstate_virtio_vhost_vsock = {
->diff --git a/include/standard-headers/linux/virtio_vsock.h b/include/standard-headers/linux/virtio_vsock.h
->index be443211ce..5eac522ee2 100644
->--- a/include/standard-headers/linux/virtio_vsock.h
->+++ b/include/standard-headers/linux/virtio_vsock.h
->@@ -38,6 +38,9 @@
-> #include "standard-headers/linux/virtio_ids.h"
-> #include "standard-headers/linux/virtio_config.h"
->
->+/* The feature bitmap for virtio vsock */
->+#define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET supported */
->+
-> struct virtio_vsock_config {
-> 	uint64_t guest_cid;
-> } QEMU_PACKED;
->-- 
->2.25.1
->
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
+> Implemented FIFO and LRU eviction policies.
+> Now one of the three eviction policies can be chosen as an argument. On
+> not specifying an argument, LRU is used by default.
+>
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
