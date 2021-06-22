@@ -2,65 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BA93AFE55
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:49:50 +0200 (CEST)
-Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE04B3AFE63
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:51:14 +0200 (CEST)
+Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvbAL-0000o3-IF
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:49:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33246)
+	id 1lvbBi-0002do-1r
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lvb9O-00005z-02
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:48:50 -0400
-Received: from mga09.intel.com ([134.134.136.24]:34215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lvb9J-0007Pg-Dw
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:48:49 -0400
-IronPort-SDR: MoMXe9XjvHJl5GaEn5+o+USqk2NROJN4/62Z6k93gF9AT/LIsMv+4GdV5533BJxCKSwMlvlTDA
- YjMLJGCUnHTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="206949152"
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="206949152"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2021 00:48:40 -0700
-IronPort-SDR: RvNQlZTyH3QoNumoiKj8oKaNGlmu6yNRRe1LisJrlnlveGJIQnfhOv9mqJaodW2Wwki/chyMDj
- +79uDhOJxs1g==
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="452513456"
-Received: from unknown (HELO [10.239.13.19]) ([10.239.13.19])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2021 00:48:38 -0700
-Subject: Re: [PATCH V8 1/6] qapi/net: Add IPFlowSpec and QMP command for COLO
- passthrough
-To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
-References: <20210615113740.2278015-1-chen.zhang@intel.com>
- <20210615113740.2278015-2-chen.zhang@intel.com>
- <30fb1d13-8547-2027-44dd-683fc0ec67b4@redhat.com>
-From: "chen.zhang@intel.com" <chen.zhang@intel.com>
-Message-ID: <c6f5e29d-cf19-8ed0-d1f9-46ceb4e97c34@intel.com>
-Date: Tue, 22 Jun 2021 15:41:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lvbAi-0001ZR-DR
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:50:12 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:38828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lvbAe-0008Dm-Oh
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:50:11 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id 69so10015601plc.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 00:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=KpeAz2TJCzDMn8lNRUjNXolXLmconElP7LZe2OY3L2o=;
+ b=uXY1Kp35eDN4RbPFGCGBPzgp4MuPWEKYe3bL2sTo2TFI3ij2nJHEf5laXAaTE0V7Lr
+ TC7FsL7zXjSazcaI87Uvx+V2tIWI8+Pb03vROJVTDPBDOLMj3tyjbiCJQ8SNhmdaKMqR
+ 48J1HHJ/wmhr5YBKZoBvs0L1vdRtAD5o4+N/eQayICqrS5o8umusElhhNX/zA5+/JnF0
+ iQnOedjFFCEEJl+lPkjUq2SqxuDFSxvBkMWb8mf6kWCbKl/zxPl5pU5Nuu49DFThIiHZ
+ t7MuxYz+w6t90fiCussHjvDZF5dpC7/3hbAnuJm9NBrO/2YkViLx4TWcelhlKHXZJdV6
+ pYMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KpeAz2TJCzDMn8lNRUjNXolXLmconElP7LZe2OY3L2o=;
+ b=t4BjTbWa2wq7d8Vo1m/SsvIAbVVrIvWaoqQPNcnwIlZCC++cOzUbsn47pbQOWpLT87
+ F01R/uZDgO/SeLuGP/TFSQDADoqpMpPaPnfUu7wrCquo31sRnb0ba/4R9c/FkqN611IL
+ qgnAmysIN4heyqAgeumuYpw/N0RIXnc7C2cTCm7k3Emd437Zi3AxDrwaWX5sOQvyYQPA
+ DRAkbjz+XXqmV8T9OdjJo00Hlo60ieultLFTuHKQdPmmGS1DA3TUrAuUDv7Wj3JMXXUD
+ kVHHcvdTCDLQjFIFd8JP58eq3izNcQU8muDmk7q+wi4GSJCyUeHu3pwQ+dAic/kVEmj2
+ HILA==
+X-Gm-Message-State: AOAM5306XxerHW4faKsyQJcxoJrsgwCk4DCMm4MXDUZT9TQGi5PZUGYH
+ xVhhCn+dUxQQR1YuA1iJKrWO4A==
+X-Google-Smtp-Source: ABdhPJwty+dH5LGbB7VsBrM+6q97wkoTKSDtoPWNMcTyphvDGam4aM0J0WX+9V6eeWVPpQCgXC6nZA==
+X-Received: by 2002:a17:903:2307:b029:11d:60c0:9e with SMTP id
+ d7-20020a1709032307b029011d60c0009emr21762336plh.66.1624348203526; 
+ Tue, 22 Jun 2021 00:50:03 -0700 (PDT)
+Received: from localhost (110-175-254-242.static.tpgi.com.au.
+ [110.175.254.242])
+ by smtp.gmail.com with UTF8SMTPSA id b21sm19096576pgj.74.2021.06.22.00.50.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 00:50:02 -0700 (PDT)
+Message-ID: <025657b5-417b-7c06-dd7f-9536f156d705@ozlabs.ru>
+Date: Tue, 22 Jun 2021 17:49:57 +1000
 MIME-Version: 1.0
-In-Reply-To: <30fb1d13-8547-2027-44dd-683fc0ec67b4@redhat.com>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101
+ Thunderbird/88.0
+Subject: Re: [PATCH qemu v21] spapr: Implement Open Firmware client interface
 Content-Language: en-US
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=chen.zhang@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210615070612.22679-1-aik@ozlabs.ru>
+ <8987bd7c-dfe1-cb73-e388-ae26ed5a69@eik.bme.hu>
+ <1200c803-a397-78cf-2180-5b21dc0839f1@ozlabs.ru>
+ <7c7b75a1-d849-ca66-75d3-f9919366b95d@eik.bme.hu>
+ <274ae416-3af0-65f3-c30c-0681ad9716a1@ozlabs.ru>
+ <33b662dc-6a97-6e61-c17-c21a4a44d8fb@eik.bme.hu>
+ <c680d69c-7dfc-fec5-031c-403a19e7050c@ozlabs.ru>
+ <48f4473-3f44-4b6-7bf2-a8381fa8268e@eik.bme.hu>
+ <5082f436-1e36-05f7-5b7a-0b190351ffbb@ozlabs.ru>
+ <d673149d-39b-6ecd-875c-d2f1ff6020@eik.bme.hu>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <d673149d-39b-6ecd-875c-d2f1ff6020@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=aik@ozlabs.ru; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,149 +96,396 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, Zhang Chen <zhangckid@gmail.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 6/22/21 3:05 PM, Jason Wang wrote:
-> �� 2021/6/15 ����7:37, Zhang Chen д��:
->> Since the real user scenario does not need COLO to monitor all traffic.
->> Add colo-passthrough-add and colo-passthrough-del to maintain
->> a COLO network passthrough list. Add IPFlowSpec struct for all QMP commands.
->> All the fields of IPFlowSpec are optional.
+
+On 6/18/21 20:13, BALATON Zoltan wrote:
+> On Fri, 18 Jun 2021, Alexey Kardashevskiy wrote:
+>> On 6/17/21 21:29, BALATON Zoltan wrote:
+>>> On Thu, 17 Jun 2021, Alexey Kardashevskiy wrote:
+>>>> On 17/06/2021 19:16, BALATON Zoltan wrote:
+>>>>> On Thu, 17 Jun 2021, Alexey Kardashevskiy wrote:
+>>>>>> On 16/06/2021 20:34, BALATON Zoltan wrote:
+>>>>>>> On Wed, 16 Jun 2021, Alexey Kardashevskiy wrote:
+>>>>>>>> On 6/15/21 20:29, BALATON Zoltan wrote:
+>>>>>>>>> On Tue, 15 Jun 2021, Alexey Kardashevskiy wrote:
+>>>>>>>>>> The PAPR platform describes an OS environment that's presented by
+>>>>>>>>>> a combination of a hypervisor and firmware. The features it 
+>>>>>>>>>> specifies
+>>>>>>>>>> require collaboration between the firmware and the hypervisor.
+>>>>>>>>>>
+>>>>>>>>>> Since the beginning, the runtime component of the firmware 
+>>>>>>>>>> (RTAS) has
+>>>>>>>>>> been implemented as a 20 byte shim which simply forwards it to
+>>>>>>>>>> a hypercall implemented in qemu. The boot time firmware 
+>>>>>>>>>> component is
+>>>>>>>>>> SLOF - but a build that's specific to qemu, and has always 
+>>>>>>>>>> needed to be
+>>>>>>>>>> updated in sync with it. Even though we've managed to limit 
+>>>>>>>>>> the amount
+>>>>>>>>>> of runtime communication we need between qemu and SLOF, 
+>>>>>>>>>> there's some,
+>>>>>>>>>> and it has become increasingly awkward to handle as we've 
+>>>>>>>>>> implemented
+>>>>>>>>>> new features.
+>>>>>>>>>>
+>>>>>>>>>> This implements a boot time OF client interface (CI) which is
+>>>>>>>>>> enabled by a new "x-vof" pseries machine option (stands for 
+>>>>>>>>>> "Virtual Open
+>>>>>>>>>> Firmware). When enabled, QEMU implements the custom 
+>>>>>>>>>> H_OF_CLIENT hcall
+>>>>>>>>>> which implements Open Firmware Client Interface (OF CI). This 
+>>>>>>>>>> allows
+>>>>>>>>>> using a smaller stateless firmware which does not have to manage
+>>>>>>>>>> the device tree.
+>>>>>>>>>>
+>>>>>>>>>> The new "vof.bin" firmware image is included with source code 
+>>>>>>>>>> under
+>>>>>>>>>> pc-bios/. It also includes RTAS blob.
+>>>>>>>>>>
+>>>>>>>>>> This implements a handful of CI methods just to get 
+>>>>>>>>>> -kernel/-initrd
+>>>>>>>>>> working. In particular, this implements the device tree 
+>>>>>>>>>> fetching and
+>>>>>>>>>> simple memory allocator - "claim" (an OF CI memory allocator) 
+>>>>>>>>>> and updates
+>>>>>>>>>> "/memory@0/available" to report the client about available 
+>>>>>>>>>> memory.
+>>>>>>>>>>
+>>>>>>>>>> This implements changing some device tree properties which we 
+>>>>>>>>>> know how
+>>>>>>>>>> to deal with, the rest is ignored. To allow changes, this skips
+>>>>>>>>>> fdt_pack() when x-vof=on as not packing the blob leaves some 
+>>>>>>>>>> room for
+>>>>>>>>>> appending.
+>>>>>>>>>>
+>>>>>>>>>> In absence of SLOF, this assigns phandles to device tree nodes 
+>>>>>>>>>> to make
+>>>>>>>>>> device tree traversing work.
+>>>>>>>>>>
+>>>>>>>>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds 
+>>>>>>>>>> a tree.
+>>>>>>>>>>
+>>>>>>>>>> This adds basic instances support which are managed by a hash map
+>>>>>>>>>> ihandle -> [phandle].
+>>>>>>>>>>
+>>>>>>>>>> Before the guest started, the used memory is:
+>>>>>>>>>> 0..e60 - the initial firmware
+>>>>>>>>>> 8000..10000 - stack
+>>>>>>>>>> 400000.. - kernel
+>>>>>>>>>> 3ea0000.. - initramdisk
+>>>>>>>>>>
+>>>>>>>>>> This OF CI does not implement "interpret".
+>>>>>>>>>>
+>>>>>>>>>> Unlike SLOF, this does not format uninitialized nvram. 
+>>>>>>>>>> Instead, this
+>>>>>>>>>> includes a disk image with pre-formatted nvram.
+>>>>>>>>>>
+>>>>>>>>>> With this basic support, this can only boot into kernel directly.
+>>>>>>>>>> However this is just enough for the petitboot kernel and 
+>>>>>>>>>> initradmdisk to
+>>>>>>>>>> boot from any possible source. Note this requires reasonably 
+>>>>>>>>>> recent guest
+>>>>>>>>>> kernel with:
+>>>>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
+>>>>>>>>>> The immediate benefit is much faster booting time which 
+>>>>>>>>>> especially
+>>>>>>>>>> crucial with fully emulated early CPU bring up environments. 
+>>>>>>>>>> Also this
+>>>>>>>>>> may come handy when/if GRUB-in-the-userspace sees light of the 
+>>>>>>>>>> day.
+>>>>>>>>>>
+>>>>>>>>>> This separates VOF and sPAPR in a hope that VOF bits may be 
+>>>>>>>>>> reused by
+>>>>>>>>>> other POWERPC boards which do not support pSeries.
+>>>>>>>>>>
+>>>>>>>>>> This make VOF optional, it is disabled by default, add 
+>>>>>>>>>> --enable-vof
+>>>>>>>>>> to ./configure to enable it.
+>>>>>>>>>>
+>>>>>>>>>> This assumes potential support for booting from QEMU backends
+>>>>>>>>>> such as blockdev or netdev without devices/drivers used.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>>>>>>>>> ---
+>>>>>>>>>>
+>>>>>>>>>> The example command line is:
+>>>>>>>>>>
+>>>>>>>>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 
+>>>>>>>>>> \
+>>>>>>>>>> -nodefaults \
+>>>>>>>>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
+>>>>>>>>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
+>>>>>>>>>> -mon id=MON0,chardev=STDIO0,mode=readline \
+>>>>>>>>>> -nographic \
+>>>>>>>>>> -vga none \
+>>>>>>>>>> -enable-kvm \
+>>>>>>>>>> -m 8G \
+>>>>>>>>>> -machine 
+>>>>>>>>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
+>>>>>>>>>> \
+>>>>>>>>>> -kernel pbuild/kernel-le-guest/vmlinux \
+>>>>>>>>>> -initrd pb/rootfs.cpio.xz \
+>>>>>>>>>> -drive 
+>>>>>>>>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
+>>>>>>>>>> \
+>>>>>>>>>> -global spapr-nvram.drive=DRIVE0 \
+>>>>>>>>>> -snapshot \
+>>>>>>>>>> -smp 8,threads=8 \
+>>>>>>>>>> -L /home/aik/t/qemu-ppc64-bios/ \
+>>>>>>>>>> -trace events=qemu_trace_events \
+>>>>>>>>>> -d guest_errors \
+>>>>>>>>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
+>>>>>>>>>> -mon chardev=SOCKET0,mode=control
+>>>>>>>>>
+>>>>>>>>> I haven't looked at it in detail yet, just some quick comments 
+>>>>>>>>> I have on first skim through.
+>>>>>>>>>
+>>>>>>>>>> ---
+>>>>>>>>>> Changes:
+>>>>>>>>>> v21:
+>>>>>>>>>> * s/ld/ldz/ in entry.S
+>>>>>>>>>
+>>>>>>>>> Typo? Has this become lwz?
+>>>>>>>>
+>>>>>>>> Yup, lwz.
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> * moved CONFIG_VOF from 
+>>>>>>>>>> default-configs/devices/ppc64-softmmu.mak to Kconfig
+>>>>>>>>>> * made CONFIG_VOF optional
+>>>>>>>>>
+>>>>>>>>> This won't work for pegasos2, see below.
+>>>>>>>>>
+>>>>>>>>>> * s/l.lds/vof.lds/
+>>>>>>>>>> * force 32 BE in spapr_machine_reset() instead of the firmware
+>>>>>>>>>> * added checks for non-null methods of VofMachineIfClass
+>>>>>>>>>> * moved OF_STACK_SIZE to vof.h, renamed to VOF_..., added a 
+>>>>>>>>>> better comment
+>>>>>>>>>> * added  path_offset wrapper for handling mixed case for 
+>>>>>>>>>> addresses
+>>>>>>>>>> after "@" in node names
+>>>>>>>>>> * changed getprop() to check for actual "name" property in the 
+>>>>>>>>>> fdt
+>>>>>>>>>> * moved VOF_MEM_READ/VOF_MEM_WRITE to vof.h for sharing as 
+>>>>>>>>>> (unlike similar
+>>>>>>>>>> rtas_ld/ldl_be_*) they return error codes
+>>>>>>>>>> * VOF_MEM_READ uses now address_space_read (it was 
+>>>>>>>>>> address_space_read_full
+>>>>>>>>>> before, not sure why)
+>>>>>>>>> [...]
+>>>>>>>>>> ---
+>>>>>>>>>> configure               |    9 +
+>>>>>>>>>> pc-bios/vof/Makefile    |   23 +
+>>>>>>>>>> include/hw/ppc/spapr.h  |   25 +-
+>>>>>>>>>> include/hw/ppc/vof.h    |   55 ++
+>>>>>>>>>> pc-bios/vof/vof.h       |   43 ++
+>>>>>>>>>> hw/ppc/spapr.c          |   87 +++-
+>>>>>>>>>> hw/ppc/spapr_hcall.c    |   29 +-
+>>>>>>>>>> hw/ppc/spapr_vof.c      |  153 ++++++
+>>>>>>>>>> hw/ppc/vof.c            | 1052 
+>>>>>>>>>> +++++++++++++++++++++++++++++++++++++++
+>>>>>>>>>> pc-bios/vof/bootmem.c   |   14 +
+>>>>>>>>>> pc-bios/vof/ci.c        |   91 ++++
+>>>>>>>>>> pc-bios/vof/libc.c      |   92 ++++
+>>>>>>>>>> pc-bios/vof/main.c      |   21 +
+>>>>>>>>>> tests/qtest/rtas-test.c |   17 +-
+>>>>>>>>>> MAINTAINERS             |   12 +
+>>>>>>>>>> hw/ppc/Kconfig          |    3 +
+>>>>>>>>>> hw/ppc/meson.build      |    3 +
+>>>>>>>>>> hw/ppc/trace-events     |   24 +
+>>>>>>>>>> meson.build             |    1 +
+>>>>>>>>>> pc-bios/README          |    2 +
+>>>>>>>>>> pc-bios/vof-nvram.bin   |  Bin 0 -> 16384 bytes
+>>>>>>>>>> pc-bios/vof.bin         |  Bin 0 -> 3784 bytes
+>>>>>>>>>> pc-bios/vof/entry.S     |   49 ++
+>>>>>>>>>> pc-bios/vof/vof.lds     |   48 ++
+>>>>>>>>>> 24 files changed, 1840 insertions(+), 13 deletions(-)
+>>>>>>>>>> create mode 100644 pc-bios/vof/Makefile
+>>>>>>>>>> create mode 100644 include/hw/ppc/vof.h
+>>>>>>>>>> create mode 100644 pc-bios/vof/vof.h
+>>>>>>>>>> create mode 100644 hw/ppc/spapr_vof.c
+>>>>>>>>>> create mode 100644 hw/ppc/vof.c
+>>>>>>>>>> create mode 100644 pc-bios/vof/bootmem.c
+>>>>>>>>>> create mode 100644 pc-bios/vof/ci.c
+>>>>>>>>>> create mode 100644 pc-bios/vof/libc.c
+>>>>>>>>>> create mode 100644 pc-bios/vof/main.c
+>>>>>>>>>> create mode 100644 pc-bios/vof-nvram.bin
+>>>>>>>>>> create mode 100755 pc-bios/vof.bin
+>>>>>>>>>> create mode 100644 pc-bios/vof/entry.S
+>>>>>>>>>> create mode 100644 pc-bios/vof/vof.lds
+>>>>>>>>>>
+>>>>> [...]
+>>>>>>>>>> diff --git a/include/hw/ppc/vof.h b/include/hw/ppc/vof.h
+>>>>>>>>>> new file mode 100644
+>>>>>>>>>> index 000000000000..65ca2fed0d41
+>>>>>>>>>> --- /dev/null
+>>>>>>>>>> +++ b/include/hw/ppc/vof.h
+>>>>>>>>>> @@ -0,0 +1,55 @@
+>>>>>>>>>> +/*
+>>>>>>>>>> + * Virtual Open Firmware
+>>>>>>>>>> + *
+>>>>>>>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>>>>>>>>>> + */
+>>>>>>>>>> +#ifndef HW_VOF_H
+>>>>>>>>>> +#define HW_VOF_H
+>>>>>>>>>> +
+>>>>>>>>>> +typedef struct Vof {
+>>>>>>>>>> +    uint64_t top_addr; /* copied from rma_size */
+>>>>>>>>>> +    GArray *claimed; /* array of SpaprOfClaimed */
+>>>>>>>>>> +    uint64_t claimed_base;
+>>>>>>>>>> +    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
+>>>>>>>>>> +    uint32_t of_instance_last;
+>>>>>>>>>> +    char *bootargs;
+>>>>>>>>>> +    long fw_size;
+>>>>>>>>>> +} Vof;
+>>>>>>>>>> +
+>>>>>>>>>> +int vof_client_call(MachineState *ms, Vof *vof, void *fdt,
+>>>>>>>>>> +                    target_ulong args_real);
+>>>>>>>>>> +uint64_t vof_claim(Vof *vof, uint64_t virt, uint64_t size, 
+>>>>>>>>>> uint64_t align);
+>>>>>>>>>> +void vof_init(Vof *vof, uint64_t top_addr, Error **errp);
+>>>>>>>>>> +void vof_cleanup(Vof *vof);
+>>>>>>>>>> +void vof_build_dt(void *fdt, Vof *vof);
+>>>>>>>>>> +uint32_t vof_client_open_store(void *fdt, Vof *vof, const 
+>>>>>>>>>> char *nodename,
+>>>>>>>>>> +                               const char *prop, const char 
+>>>>>>>>>> *path);
+>>>>>>>>>> +
+>>>>>>>>>> +#define TYPE_VOF_MACHINE_IF "vof-machine-if"
+>>>>>>>>>> +
+>>>>>>>>>> +typedef struct VofMachineIfClass VofMachineIfClass;
+>>>>>>>>>> +DECLARE_CLASS_CHECKERS(VofMachineIfClass, VOF_MACHINE, 
+>>>>>>>>>> TYPE_VOF_MACHINE_IF)
+>>>>>>>>>> +
+>>>>>>>>>> +struct VofMachineIfClass {
+>>>>>>>>>> +    InterfaceClass parent;
+>>>>>>>>>> +    target_ulong (*client_architecture_support)(MachineState 
+>>>>>>>>>> *ms, CPUState *cs,
+>>>>>>>>>> +                                                target_ulong 
+>>>>>>>>>> vec);
+>>>>>>>>>> +    void (*quiesce)(MachineState *ms);
+>>>>>>>>>> +    bool (*setprop)(MachineState *ms, const char *path, const 
+>>>>>>>>>> char *propname,
+>>>>>>>>>> +                    void *val, int vallen);
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +/*
+>>>>>>>>>> + * Initial stack size is from
+>>>>>>>>>> + * 
+>>>>>>>>>> https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html 
+>>>>>>>>>> + */
+>>>>>>>>>> +#define VOF_STACK_SIZE       0x8000
+>>>>>>>>>
+>>>>>>>>> Maybe also add a define for RTAS_SIZE here? We'll need to put 
+>>>>>>>>> that in the device tree but it depends on the rtas shim size 
+>>>>>>>>> that's part of VOF so it should be defined here instead of 
+>>>>>>>>> hardcoding it in boards that use VOF so it can be updated later 
+>>>>>>>>> at one place if needed.
+>>>>>>>>
+>>>>>>>> This is rtas-size for pseries:
+>>>>>>>>
+>>>>>>>> _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+>>>>>>>>          ms->smp.max_cpus * sizeof(uint64_t)*2 + 
+>>>>>>>> sizeof(uint64_t)));
+>>>>>>>>
+>>>>>>>> => depends on cpus => depends on the command line.
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> RTAS_SIZE is not used by anything in pseries anymore, I'll send 
+>>>>>>>> a patch to ditch it.
+>>>>>>>
+>>>>>>> I mean you need to have at least the size of code in 
+>>>>>>> pc-bios/vof/entry.S hv_rtas where also hv_rtas_size is defined 
+>>>>>>> but that value is not available in QEMU where one needs to add it 
+>>>>>>> to the device tree. So a define for that should be here in vof.h. 
+>>>>>>> Currently I've counted instructions and have
+>>>>>>>
+>>>>>>>      qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-size", 20);
+>>>>>>>
+>>>>>>> in pegasos2.c but that 20 should be some VOF_RTAS_SIZE instead 
+>>>>>>> that you define corresponding to hv_rtas_size. You'll probably 
+>>>>>>> need the same even after changing above rtas size calculation in 
+>>>>>>> spapr because client has to allocate memory for instantiate-rtas.
+>>>>>>
+>>>>>>
+>>>>>> Ah fair point. I do not like "20" here and I think the right thing 
+>>>>>> will be adding whatever number of bytes to rtas-size in the 
+>>>>>> firmware itself and update it in QEMU via "setprop" as we do for 
+>>>>>> "linux,rtas-base". And then do the same in SLOF.
+>>>>>
+>>>>> This is not the base address but the size of the shim with the 
+>>>>> hypercall that instantiate-rtas copies. Why does it need to be 
+>>>>> updated?
+>>>>
+>>>> The vm kernel allocates the space for it.
+>>>>
+>>>>> And why does it need to be more bytes than necessary?
+>>>>
+>>>> What is necessary? It is definitely way more than 20 bytes.
+>>>
+>>> I thought instantiate-rtas only copies the hv_rtas routine as the 
+>>> comment in qemu/pc-bios/vof/entry.S says
 >>
->> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
->> ---
->>    net/net.c     | 10 +++++++
->
-> Let's avoid to have colo stuffs in the general net codes.
-
-
-As we will change the command to "passthrough-filter-add/del", the data 
-structure and commands are the general net codes.
-
-
-Thanks
-
-Chen
-
-
->
-> Thanks
->
->
->>    qapi/net.json | 74 +++++++++++++++++++++++++++++++++++++++++++++++++++
->>    2 files changed, 84 insertions(+)
+>> It does only copy the code, correct.
 >>
->> diff --git a/net/net.c b/net/net.c
->> index 76bbb7c31b..f913e97983 100644
->> --- a/net/net.c
->> +++ b/net/net.c
->> @@ -1195,6 +1195,16 @@ void qmp_netdev_del(const char *id, Error **errp)
->>        }
->>    }
->>    
->> +void qmp_colo_passthrough_add(IPFlowSpec *spec, Error **errp)
->> +{
->> +    /* TODO implement setup passthrough rule */
->> +}
->> +
->> +void qmp_colo_passthrough_del(IPFlowSpec *spec, Error **errp)
->> +{
->> +    /* TODO implement delete passthrough rule */
->> +}
->> +
->>    static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
->>    {
->>        char *str;
->> diff --git a/qapi/net.json b/qapi/net.json
->> index 7fab2e7cd8..91f2e1495a 100644
->> --- a/qapi/net.json
->> +++ b/qapi/net.json
->> @@ -7,6 +7,7 @@
->>    ##
->>    
->>    { 'include': 'common.json' }
->> +{ 'include': 'sockets.json' }
->>    
->>    ##
->>    # @set_link:
->> @@ -696,3 +697,76 @@
->>    ##
->>    { 'event': 'FAILOVER_NEGOTIATED',
->>      'data': {'device-id': 'str'} }
->> +
->> +##
->> +# @IPFlowSpec:
->> +#
->> +# IP flow specification.
->> +#
->> +# @protocol: Transport layer protocol like TCP/UDP, etc. The protocol is the
->> +#            string instead of enum, because it can be passed to getprotobyname(3)
->> +#            and avoid duplication with /etc/protocols.
->> +#
->> +# @object-name: The @object-name means packet handler in Qemu. Because not
->> +#               all the network packet must pass the colo-compare module,
->> +#               the net-filters are same situation. There modules attach to
->> +#               netdev or chardev to work, VM can run multiple modules
->> +#               at the same time. So it needs the object-name to set
->> +#               the effective module.
->> +#
->> +# @source: Source address and port.
->> +#
->> +# @destination: Destination address and port.
->> +#
->> +# Since: 6.1
->> +##
->> +{ 'struct': 'IPFlowSpec',
->> +  'data': { '*protocol': 'str', '*object-name': 'str',
->> +    '*source': 'InetSocketAddressBase',
->> +    '*destination': 'InetSocketAddressBase' } }
->> +
->> +##
->> +# @colo-passthrough-add:
->> +#
->> +# Add passthrough entry IPFlowSpec to the COLO-compare instance.
->> +# The protocol and source/destination IP/ports are optional. if the user
->> +# only inputs part of the information, this will match all traffic.
->> +#
->> +# Returns: Nothing on success
->> +#
->> +# Since: 6.1
->> +#
->> +# Example:
->> +#
->> +# -> { "execute": "colo-passthrough-add",
->> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
->> +#      "source": {"host": "192.168.1.1", "port": "1234"},
->> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
->> +# <- { "return": {} }
->> +#
->> +##
->> +{ 'command': 'colo-passthrough-add', 'boxed': true,
->> +     'data': 'IPFlowSpec' }
->> +
->> +##
->> +# @colo-passthrough-del:
->> +#
->> +# Delete passthrough entry IPFlowSpec to the COLO-compare instance.
->> +# The protocol and source/destination IP/ports are optional. if the user
->> +# only inputs part of the information, this will match all traffic.
->> +#
->> +# Returns: Nothing on success
->> +#
->> +# Since: 6.1
->> +#
->> +# Example:
->> +#
->> +# -> { "execute": "colo-passthrough-del",
->> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
->> +#      "source": {"host": "192.168.1.1", "port": "1234"},
->> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
->> +# <- { "return": {} }
->> +#
->> +##
->> +{ 'command': 'colo-passthrough-del', 'boxed': true,
->> +     'data': 'IPFlowSpec' }
+>>> and that routine is 20 bytes. 
+>>
+>>
+>> There is no "#define XXX 20" anywhere though. QEMU does not know and 
+>> does not need to know that it is 20, it does not manage the RTAS blob.
+> 
+> But it manages the rtas-size property which has to be at least the RTAS 
+> blob size so that's why I thought VOF should share this define in vof.h.
+> 
+>>
+>>> What else is needed? If that's not enough then we even more need a 
+>>> define for it as boards using VOF have no idea otherwise.
+>>>
+>>>>> I don't know what you do for spapr and why do you need larger 
+>>>>> rtas-size than this but for pegasos2 this /rtas/rtas-size property 
+>>>>> is only used by guests to allocate memory for rtas so all I need is 
+>>>>> how many bytes are needed for hv_rtas in pc-bios/vof/entry.S which 
+>>>>> is what should be #defined in vof.h. I've found 20 is just enough 
+>>>>> so you could add that to vof.h.
+>>>>
+>>>> I am thinking now that may be the property should be created by 
+>>>> vof.bin and not QEMU, QEMU just has to tell how many bytes on top it 
+>>>> needs.
+>>>
+>>> Maybe. If it's always in /rtas/rtas-size on every OF implementation 
+>>> (if that path is kind of standard for rtas) then that could also work 
+>>> or you could have an vof_init_rtas() function or similar that sets 
+>>> this, maybe pass it "/rtas" as path argument or even the whole 
+>>> property path ("/rtas/rtas-size") to avoid hard coding it and let the 
+>>> board tell it where it expects this property, then the value can be 
+>>> set by this function so that's within VOF then. But I think just 
+>>> adding a define for it in vof.h is enough and simple. Then boards can 
+>>> add whatever they need and put that in the property where they like.
+>>
+>>
+>> My idea is that boards like pegasos put a zero in such property and 
+>> VOF then adjusts it to whatever it is + 20.
+> 
+> That could work too if VOF knows how to find this property. If it's the 
+> same on every board then it does not have to look through the whole tree 
+> for it.
+
+
+After some thinking, I guess you just have to use 20 or some safe future 
+proof number (64 bytes or similar) as I cannot reliably define the RTAS 
+blob size in QEMU. Hacking the firmware seems even worse as the firmware 
+does not really care. Well, I can say in QEMU it is 20 but the same code 
+in spapr_rtas.c is supposed to work with the RTAS blob provided by VOF 
+and by SLOF and even though these are identical now, this is not 
+enforced ahyhow and not checked either.
+
+
+
+-- 
+Alexey
 
