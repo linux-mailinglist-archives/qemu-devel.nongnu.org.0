@@ -2,82 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE493B0E83
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 22:20:29 +0200 (CEST)
-Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01833B0E86
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 22:21:05 +0200 (CEST)
+Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvmsm-0005Zf-V0
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 16:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
+	id 1lvmtM-0006qQ-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 16:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lvmrf-0004MS-Tf
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 16:19:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43728)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lvmrv-0004qF-9U; Tue, 22 Jun 2021 16:19:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lvmre-0003JI-EX
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 16:19:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624393157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PhONQKPVzVnwtPBV9Bbu2us8C+O5LUVMJFkFjs0iWpw=;
- b=SpFWZ2ykdcAY4Bfoh8Ssb8W61NLZysNaxVga5VcI1Ti/qjtUKAgl7doS/kEcneJrrMrMub
- kQ0TI8KYq/LC4NkfEoRvMgfhfACpb1LRV70NwtWvmaB4USwtTD+SyGN1zCpGufaVKRsJRu
- /HQNZDBPPTB4lbLsCz6lItFhAxYcPAI=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-bM-fqL-TMW-MRN75uzOe5A-1; Tue, 22 Jun 2021 16:19:16 -0400
-X-MC-Unique: bM-fqL-TMW-MRN75uzOe5A-1
-Received: by mail-vs1-f71.google.com with SMTP id
- a13-20020a67eb0d0000b029025a1d69d58aso145107vso.1
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 13:19:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PhONQKPVzVnwtPBV9Bbu2us8C+O5LUVMJFkFjs0iWpw=;
- b=C8Xi3z4ck/hwwZvDpLXn/rDE/68e4PCV0K9whspM9VQGoB0+ArK60svDSP6FW00PNQ
- 2+NeoTcq9FOom0a4PLyZAAF0yrN4Wn/O/tC0sSNCc8SKhKadQpnxmzXWItcqO2pSDE4V
- gPAyO8KPiQiBmtm/p3Cvioc/7enjJjF6saxTJVg8M+5ei3yDBJeO12jcm28S4m/NtRNI
- Os3mRXLuz7Rwd/2wZMdnpWpRGAcWcsWASZkOvGkd7d2//AvkdibCwzO6CyCJV4AMjIgg
- EVPyBr/AwKuc2cDfEKkTCIUQiqWwRibHoLEa3vpyr31JajRn6bek/AmegCpsfYmKe0j+
- CjAQ==
-X-Gm-Message-State: AOAM530inmrVu18tGOqfNIjILWXdOmZp+SAtVdcYS1SJ6K+7nDvzN1kB
- CPKD6uqyjE+68pDQ5p27PwbGFRs3K2rjqKYkw2yiw79tfbWvFsBPp61JTHmiM3wkdbR7ixuKiYq
- vNN9c+JPHaAFywk0NOfSzhwsl1zS5XWQ=
-X-Received: by 2002:ab0:3253:: with SMTP id r19mr827553uan.5.1624393155802;
- Tue, 22 Jun 2021 13:19:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhnQZWpkxGKWPQr6dJpHFrYORJc9cyKUgmIOj+htyJDgnE2oaeWyAajhlkk8DZKttD/rbZtEslfkrR252Y8vQ=
-X-Received: by 2002:ab0:3253:: with SMTP id r19mr827531uan.5.1624393155608;
- Tue, 22 Jun 2021 13:19:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lvmrt-0003T8-DD; Tue, 22 Jun 2021 16:19:35 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15MK3Sma054645; Tue, 22 Jun 2021 16:19:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Gi0PxuFyfkNxUh54006dvH37l2hYkcxIXg7maJ4/bS4=;
+ b=KD2EzlZekEHcIQQWztRsARokHncr8rFdZaCN5sl8GFS9HnCJPNc3iT1har/9X1K4EtuZ
+ 5HaohYpcZdc9/u9kdGbKt4DZk0mpAgd9mEZHmmaEGyBzlhOJHWLxuCdoCaIWY7d3pz3C
+ 8ytXq8ejmJmH9Mw0C5z1EtEgrNKDBboVp2qvekFZNjGcTxwfbisuhkRAnZ3APc2Rp1a5
+ p7lATYSw6yZGG2zLLouoLkIx8jQtko6a7xaBl7py00JYIZ4qWvQHKhOV+5B2C5OYyNjr
+ 0LkbZgI94tamVOG2lASh+18CnilgZgAN3dXnNRh0VehEaV+++znJnS7nWhhF3QyElIna PQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39bpfgrkbb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 16:19:29 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15MK5Yiw066397;
+ Tue, 22 Jun 2021 16:19:29 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39bpfgrkad-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 16:19:29 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15MKDdxW020437;
+ Tue, 22 Jun 2021 20:19:27 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma05fra.de.ibm.com with ESMTP id 3998788w8m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 20:19:27 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15MKJOd127656488
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 22 Jun 2021 20:19:24 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0269AA404D;
+ Tue, 22 Jun 2021 20:19:24 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E283EA4040;
+ Tue, 22 Jun 2021 20:19:23 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 22 Jun 2021 20:19:23 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 9CE8FE03CC; Tue, 22 Jun 2021 22:19:23 +0200 (CEST)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH 0/1] Add features and cpu models
+Date: Tue, 22 Jun 2021 22:19:22 +0200
+Message-Id: <20210622201923.150205-1-borntraeger@de.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210430133414.39905-1-wainersm@redhat.com>
- <20210430133414.39905-8-wainersm@redhat.com>
-In-Reply-To: <20210430133414.39905-8-wainersm@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 22 Jun 2021 17:18:49 -0300
-Message-ID: <CAKJDGDbf420pNQ53UOHdF=Q7aF+CFL+3YEstc7k8=1zoBZcqxg@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] tests/acceptance: Handle cpu tag on
- x86_cpu_model_versions tests
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7ZMweQDoRLnMP3mYNMvJYm-_aaMONOVo
+X-Proofpoint-ORIG-GUID: vIdSN7sYITX1agWZgZFvmaaNzPENEquB
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-22_13:2021-06-22,
+ 2021-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=689
+ adultscore=0 suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 spamscore=0 impostorscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106220121
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_BL=0.001,
+ RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,28 +107,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu Daude <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Cleber Rosa Junior <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 30, 2021 at 10:35 AM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> Some test cases on x86_cpu_model_versions.py are corner cases because they
-> need to pass extra options to the -cpu argument. Once the avocado_qemu
-> framework will set -cpu automatically, the value should be reset. This changed
-> those tests so to call set_vm_arg() to overwrite the -cpu value.
->
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->  tests/acceptance/x86_cpu_model_versions.py | 40 +++++++++++++++++-----
->  1 file changed, 32 insertions(+), 8 deletions(-)
->
+5 new features and 2 new models
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Christian Borntraeger (1):
+  s390x/cpumodel: add 3931 and 3932
+
+ target/s390x/cpu_features_def.h.inc |  5 +++++
+ target/s390x/cpu_models.c           |  6 ++++++
+ target/s390x/gen-features.c         | 14 ++++++++++++++
+ 3 files changed, 25 insertions(+)
+
+-- 
+2.31.1
 
 
