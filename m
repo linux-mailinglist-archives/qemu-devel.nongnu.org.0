@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432A53B07C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 16:44:50 +0200 (CEST)
-Received: from localhost ([::1]:45480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62D13B07A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 16:42:14 +0200 (CEST)
+Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvhdx-0007GY-Bo
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 10:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43408)
+	id 1lvhbR-0005Nf-BG
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 10:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvhcu-0006ar-HE
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:43:44 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvhcq-00070Q-LL
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:43:44 -0400
-Received: by mail-wr1-x435.google.com with SMTP id i94so23961152wri.4
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 07:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=JKgm5Qs4f0O+CUuGMtFbdGMppixGLAgTPBfwZByEhAQ=;
- b=ooUzBDbjV1nXHwvtNt2yJ7K3s4K6ggC+EeX9TRIhNM4PZLnW8orCGUJwIzK8PdKM5S
- F3iVpNNmxbuXxtVISrgHwVsd73KoF7mOWfxaAUyRvrTFqpmoKkJ57oNiF44huKlS0gQX
- yXVLFllP58YQD3NfaZFzbDspc0O0D9/DSZ8J0vfuvctaR13hDtWYUygGnhOimy16+qEb
- qXJffplZ07c0zoBy/viyW3ZT3zTusg6OrZdt7R7f9bKfefRzNSDjaKXmXnjE3zkjOHLw
- IT1ReL6hxk6lJSoetT+l1h7hWcPL3U5CtPwUG3gKK7IiUO4qlNBWlY0rkZVCSW5i1pcT
- MWwQ==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lvhag-0004iN-58
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:41:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lvhad-0005Fn-Hm
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624372882;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C1VVKBdnF40Ch93vnzXa8uB6Y4/88EXk01b/5+6nDC0=;
+ b=VdqUQo7xWLv+12APjHUFRsYthp6M26nGXACYa89II3krBtM8wE9I2gdika+BPrkS+I1bhE
+ N7D1Dn+2DjuJBWOPKGNhpcW1EY5NQOtzIyC2d0Avxm6CO+tXVh5WZLfHuXx1Z3fQHTlOaV
+ YtzcJ1aAD5igWzWY9kb5PEgtVtLjnUU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-G0SwFIiGOPSILOJcHhiQTg-1; Tue, 22 Jun 2021 10:41:20 -0400
+X-MC-Unique: G0SwFIiGOPSILOJcHhiQTg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ cb4-20020a0564020b64b02903947455afa5so7812935edb.9
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 07:41:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=JKgm5Qs4f0O+CUuGMtFbdGMppixGLAgTPBfwZByEhAQ=;
- b=Q3k/2+fOckYc33mtKN356iU9YZCN7TtgArHW7UaqmocSDSv+g5NKHPBsd4HipQWUHU
- 8Jjz/jl5+CxzNbAWzISMXvWGYrpWZ6xfolDejUm6lg1iNqJD7E7E8xMAl6PYIvsfdrel
- eEMQQrUCls+80CxJGelOFktduyuWRvTBR5jPgedudl1WlMvnIgl+1soq8sI3sGBFH35K
- Eum4PGCKSfkz5XlSgmAu8zWRH7yrK2rK4PgSASofMNCUziDQ4Ub3N2IhgNtv4P+mh0Ko
- YSs0vMGeDMyiPvLpAWInEf0SFvbwy1EGyJZcKRgWY5exrHKzr2d+JCDB8CmWGURntuvE
- FPgQ==
-X-Gm-Message-State: AOAM5310wJTrFs3sByOiPBXrY0Gm331hV6lJ2wFplJSDgEFM29wvPdCd
- btjyD2WKOkjaHfAxvRU6PsaZp776MKJb4A==
-X-Google-Smtp-Source: ABdhPJwMvkvj7BZGX3P2UTWRordBLNf/CrRzwBPyii2szA56dxaNYCBgFwp8iyG6NEUNXOdYmGc6Zg==
-X-Received: by 2002:a5d:5603:: with SMTP id l3mr5164871wrv.403.1624373018768; 
- Tue, 22 Jun 2021 07:43:38 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s7sm21836915wru.67.2021.06.22.07.43.36
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=C1VVKBdnF40Ch93vnzXa8uB6Y4/88EXk01b/5+6nDC0=;
+ b=j2vgEobvD0QHXpOttchraKtd7yWzma468QnQeAc98P2iMpoGQtRquYcm5Dk8DXDiMh
+ 4zwqVzwfyDLMbFwGBz3zNohrbGg6qKWjvTIymBOVbjIGCNBKU8YZ8Stqg5lTN7UJiLum
+ PoJsea9fQb7l9CP8bOvpgTNXbF0xrxYqfhM05V3EqBcv3uxCDQuEJjKg353kEPq9e7Oa
+ A6fQBPoYd3fUyFoEO1oHLKPtXrT4/WPWLiN6UqRIAhmogtr+bysBBr4S8km1KwjUnata
+ in27TdM5P5SlYFv3lXR51kfpuQU6bBcYuYMTaFrmLpIARD1StMdATb+71gjuemJr2aW8
+ 9wUQ==
+X-Gm-Message-State: AOAM5339z8hb0Be4qXW+da2InebRRgtzF59E/2swo4Mn8TJVP1W/3UQV
+ mfHJrPolXJTbD7qHtmTBdjH8yEpN47nv42K4DMBwloURvRO5P3aL2ylLSXUacoASydCb1AERc1N
+ LvemsCrThYC0nKXM=
+X-Received: by 2002:a50:ff0a:: with SMTP id a10mr5469536edu.273.1624372879669; 
+ Tue, 22 Jun 2021 07:41:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLWnVS616Rhp1fuyXXFGKHyJW3Nr8xCFXRTak7V7ONSzETX96rUMEig0apIS+UumRFV4qSrQ==
+X-Received: by 2002:a50:ff0a:: with SMTP id a10mr5469499edu.273.1624372879431; 
+ Tue, 22 Jun 2021 07:41:19 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id m7sm12019092edc.46.2021.06.22.07.41.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 07:43:36 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0C79A1FF7E;
- Tue, 22 Jun 2021 15:43:36 +0100 (BST)
-References: <20210608040532.56449-1-ma.mandourr@gmail.com>
- <20210608040532.56449-4-ma.mandourr@gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [RFC PATCH v3 3/4] plugins/cache: Enabled cache parameterization
-Date: Tue, 22 Jun 2021 15:37:55 +0100
-In-reply-to: <20210608040532.56449-4-ma.mandourr@gmail.com>
-Message-ID: <87v966rmco.fsf@linaro.org>
+ Tue, 22 Jun 2021 07:41:19 -0700 (PDT)
+Date: Tue, 22 Jun 2021 16:41:17 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Arseny Krasnov <arseny.krasnov@kaspersky.com>
+Subject: Re: [PATCH v2] vhost-vsock: SOCK_SEQPACKET feature bit support
+Message-ID: <20210622144117.owtroypg4litbeem@steredhat>
+References: <20210622121631.2916319-1-arseny.krasnov@kaspersky.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210622121631.2916319-1-arseny.krasnov@kaspersky.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,114 +94,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, oxffffaa@gmail.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
-
-> Made both icache and dcache configurable through plugin arguments.
+On Tue, Jun 22, 2021 at 03:16:31PM +0300, Arseny Krasnov wrote:
+>This adds processing of VIRTIO_VSOCK_F_SEQPACKET features bit. Guest
+>negotiates it with vhost, thus both will know that SOCK_SEQPACKET
+>supported by peer.
 >
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> ---
->  contrib/plugins/cache.c | 44 +++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 42 insertions(+), 2 deletions(-)
+>Signed-off-by: Arseny Krasnov <arseny.krasnov@kaspersky.com>
+>---
+> hw/virtio/vhost-vsock.c                       | 12 ++++++++++--
+> include/standard-headers/linux/virtio_vsock.h |  3 +++
+> 2 files changed, 13 insertions(+), 2 deletions(-)
 >
-> diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-> index 715e5443b0..d8e8c750b6 100644
-> --- a/contrib/plugins/cache.c
-> +++ b/contrib/plugins/cache.c
-> @@ -104,8 +104,17 @@ static inline uint64_t extract_set(struct Cache *cac=
-he, uint64_t addr)
->      return (addr & cache->set_mask) >> cache->blksize_shift;
->  }
->=20=20
-> +static bool bad_cache_params(int blksize, int assoc, int cachesize)
-> +{
-> +    return (cachesize % blksize) !=3D 0 || (cachesize % (blksize * assoc=
-) !=3D 0);
-> +}
-> +
->  static struct Cache *cache_init(int blksize, int assoc, int cachesize)
->  {
-> +    if (bad_cache_params(blksize, assoc, cachesize)) {
-> +        return NULL;
-> +    }
-> +
->      struct Cache *cache;
->      int i;
->      uint64_t blk_mask;
-> @@ -403,8 +412,30 @@ int qemu_plugin_install(qemu_plugin_id_t id, const q=
-emu_info_t *info,
->=20=20
->      for (i =3D 0; i < argc; i++) {
->          char *opt =3D argv[i];
-> -        if (g_str_has_prefix(opt, "limit=3D")) {
-> -            limit =3D g_ascii_strtoull(opt + 6, NULL, 10);
-> +        if (g_str_has_prefix(opt, "I=3D")) {
-> +            gchar **toks =3D g_strsplit(opt + 2, " ", -1);
+>diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+>index c8f0699b4f..0406a5d3dc 100644
+>--- a/hw/virtio/vhost-vsock.c
+>+++ b/hw/virtio/vhost-vsock.c
+>@@ -103,12 +103,20 @@ static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
+>     }
+> }
+>
 
-I don't think this works because a space will trigger the shell to split
-the args - the only way I could get it to work was by quoting the whole
--plugin argument. I know the syntax of optional plugin args is ugly as
-hell but this should probably use "," like hwprofile.
+If you have to resend, better move this to the beginning of the file, 
+right after the includes.
 
-> +            if (g_strv_length(toks) !=3D 3) {
-> +                g_strfreev(toks);
-> +                fprintf(stderr, "option parsing failed: %s\n", opt);
-> +                return -1;
-> +            }
-> +            icachesize =3D g_ascii_strtoull(toks[0], NULL, 10);
-> +            iassoc =3D g_ascii_strtoull(toks[1], NULL, 10);
-> +            iblksize =3D g_ascii_strtoull(toks[2], NULL, 10);
-> +            g_strfreev(toks);
-> +        } else if (g_str_has_prefix(opt, "D=3D")) {
-> +            gchar **toks =3D g_strsplit(opt + 2, " ", -1);
-> +            if (g_strv_length(toks) !=3D 3) {
-> +                g_strfreev(toks);
-> +                fprintf(stderr, "option parsing failed: %s\n", opt);
-> +                return -1;
-> +            }
-> +            dcachesize =3D g_ascii_strtoull(toks[0], NULL, 10);
-> +            dassoc =3D g_ascii_strtoull(toks[1], NULL, 10);
-> +            dblksize =3D g_ascii_strtoull(toks[2], NULL, 10);
-> +            g_strfreev(toks);
-> +        } else if (g_str_has_prefix(opt, "limit=3D")) {
-> +            limit =3D g_ascii_strtoll(opt + 6, NULL, 10);
->          } else {
->              fprintf(stderr, "option parsing failed: %s\n", opt);
->              return -1;
-> @@ -412,7 +443,16 @@ int qemu_plugin_install(qemu_plugin_id_t id, const q=
-emu_info_t *info,
->      }
->=20=20
->      dcache =3D cache_init(dblksize, dassoc, dcachesize);
-> +    if (!dcache) {
-> +        fprintf(stderr, "dcache cannot be constructed from given paramet=
-ers\n");
-> +        return -1;
-> +    }
-> +
+>+const int feature_bits[] = {
+>+    VIRTIO_VSOCK_F_SEQPACKET,
+>+    VHOST_INVALID_FEATURE_BIT
+>+};
+>+
+> static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
+>                                          uint64_t requested_features,
+>                                          Error **errp)
+> {
+>-    /* No feature bits used yet */
+>-    return requested_features;
+>+    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>+
+>+    virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
+>+    return vhost_get_features(&vvc->vhost_dev, feature_bits,
+>+                                requested_features);
+> }
+>
+> static const VMStateDescription vmstate_virtio_vhost_vsock = {
+>diff --git a/include/standard-headers/linux/virtio_vsock.h b/include/standard-headers/linux/virtio_vsock.h
+>index be443211ce..5eac522ee2 100644
+>--- a/include/standard-headers/linux/virtio_vsock.h
+>+++ b/include/standard-headers/linux/virtio_vsock.h
+>@@ -38,6 +38,9 @@
+> #include "standard-headers/linux/virtio_ids.h"
+> #include "standard-headers/linux/virtio_config.h"
+>
+>+/* The feature bitmap for virtio vsock */
+>+#define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET supported */
+>+
+> struct virtio_vsock_config {
+> 	uint64_t guest_cid;
+> } QEMU_PACKED;
+>-- 
+>2.25.1
+>
 
-Can we give users more of a hint of what's wrong? I suspect you'll need
-to factor out a validate_cache_param and return a string that describes
-the failure mode. Otherwise it gets frustrating to the user.
+LGTM:
 
->      icache =3D cache_init(iblksize, iassoc, icachesize);
-> +    if (!icache) {
-> +        fprintf(stderr, "icache cannot be constructed from given paramet=
-ers\n");
-> +        return -1;
-> +    }
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-ditto
-
->=20=20
->      qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
->      qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-
-
---=20
-Alex Benn=C3=A9e
 
