@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03A93B0863
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:14:13 +0200 (CEST)
-Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7758A3B085F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:13:38 +0200 (CEST)
+Received: from localhost ([::1]:57190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvi6O-0001ym-TN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:14:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
+	id 1lvi5p-0001XN-I5
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1i-0002Ak-G7
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46792)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1a-000280-J8
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1W-0005v4-2z
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:20 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1T-0005sq-2T
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624374549;
+ s=mimecast20190719; t=1624374546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UWM6SYnSwKI9YRtqf/QbWmnR1AmG/mEgVibmF9Kguao=;
- b=fTTG5zofot/4UGWvWe+iybeLYWuw4CEwI4w0UWmaLyPpFVEm/f/SPIZBSoO9q9Qp4iM94v
- Szso+oLFJSOUtC8kYwpMxhx3GHBAidioO7V/p089/2XjLIOzMwiVe9nwMbCukdGpTzCvx4
- dYX0O33+11b5x/8DwU0yQNhBp82UwUQ=
+ bh=wtGKRqoDuRgwoltdQ0BztvlHlVmD6Am5ltSlx/b1ttU=;
+ b=WF5gjnyT0sGEUxCxY9X/Jvx7pSbsX/+atptTyQGkMpZQqhZ0K3KPo5XtwthLC+RKadfwxa
+ vMPPdfIwbZJu1+zefu78bLZbbiSXzoYv82jknXlDbTjICv4hmM6UiAZxw+aojIU2Vel5Th
+ jweT1EKFkbqF53KZ8mFAdHHydfeTBUU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-jc5aA0cFMnuPuxPAOsc-KQ-1; Tue, 22 Jun 2021 11:09:05 -0400
-X-MC-Unique: jc5aA0cFMnuPuxPAOsc-KQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-30-srpEe2YOP5KWyd_dIaMzuw-1; Tue, 22 Jun 2021 11:09:04 -0400
+X-MC-Unique: srpEe2YOP5KWyd_dIaMzuw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8137101C8A8;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB6C6192CC43;
  Tue, 22 Jun 2021 15:09:03 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-115-114.rdu2.redhat.com [10.10.115.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82A306090F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFB855C1A3;
  Tue, 22 Jun 2021 15:09:03 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 7C4DF225FD2; Tue, 22 Jun 2021 11:08:59 -0400 (EDT)
+ id 8089F225FD3; Tue, 22 Jun 2021 11:08:59 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v7 6/7] virtiofsd: Switch creds,
- drop FSETID for system.posix_acl_access xattr
-Date: Tue, 22 Jun 2021 11:08:51 -0400
-Message-Id: <20210622150852.1507204-7-vgoyal@redhat.com>
+Subject: [PATCH v7 7/7] virtiofsd: Add an option to enable/disable posix acls
+Date: Tue, 22 Jun 2021 11:08:52 -0400
+Message-Id: <20210622150852.1507204-8-vgoyal@redhat.com>
 In-Reply-To: <20210622150852.1507204-1-vgoyal@redhat.com>
 References: <20210622150852.1507204-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -67,7 +66,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,160 +85,249 @@ Cc: miklos@szeredi.hu, dgilbert@redhat.com, vgoyal@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When posix access acls are set on a file, it can lead to adjusting file
-permissions (mode) as well. If caller does not have CAP_FSETID and it
-also does not have membership of owner group, this will lead to clearing
-SGID bit in mode.
+fuse has an option FUSE_POSIX_ACL which needs to be opted in by fuse
+server to enable posix acls. As of now we are not opting in for this,
+so posix acls are disabled on virtiofs by default.
 
-Current fuse code is written in such a way that it expects file server
-to take care of chaning file mode (permission), if there is a need.
-Right now, host kernel does not clear SGID bit because virtiofsd is
-running as root and has CAP_FSETID. For host kernel to clear SGID,
-virtiofsd need to switch to gid of caller in guest and also drop
-CAP_FSETID (if caller did not have it to begin with).
+Add virtiofsd option "-o posix_acl/no_posix_acl" to let users enable/disable
+posix acl support. By default it is disabled as of now due to performance
+concerns with cache=none.
 
-If SGID needs to be cleared, client will set the flag
-FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
-should kill sgid.
+Currently even if file server has not opted in for FUSE_POSIX_ACL, user can
+still query acl and set acl, and system.posix_acl_access and
+system.posix_acl_default xattrs show up listxattr response.
 
-Currently just switch to uid/gid of the caller and drop CAP_FSETID
-and that should do it.
+Miklos said this is confusing. So he said lets block and filter
+system.posix_acl_access and system.posix_acl_default xattrs in
+getxattr/setxattr/listxattr if user has explicitly disabled
+posix acls using -o no_posix_acl.
 
-This should fix the xfstest generic/375 test case.
+As of now continuing to keeping the existing behavior if user did not
+specify any option to disable acl support due to concerns about backward
+compatibility.
 
-We don't have to switch uid for this to work. That could be one optimization
-that pass a parameter to lo_change_cred() to only switch gid and not uid.
-
-Also this will not work whenever (if ever) we support idmapped mounts. In
-that case it is possible that uid/gid in request are 0/0 but still we
-need to clear SGID. So we will have to pick a non-root sgid and switch
-to that instead. That's an TODO item for future when idmapped mount
-support is introduced.
-
-This patch only adds the capability to switch creds and drop FSETID
-when acl xattr is set. This does not take affect yet. It can take
-affect when next patch adds the capability to enable posix_acl.
-
-Reported-by: Luis Henriques <lhenriques@suse.de>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 75 ++++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+ docs/tools/virtiofsd.rst         |   3 +
+ tools/virtiofsd/helper.c         |   1 +
+ tools/virtiofsd/passthrough_ll.c | 115 ++++++++++++++++++++++++++++++-
+ 3 files changed, 118 insertions(+), 1 deletion(-)
 
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index 00554c75bd..a41f934999 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -101,6 +101,9 @@ Options
+     Enable/disable extended attributes (xattr) on files and directories.  The
+     default is ``no_xattr``.
+ 
++  * posix_acl|no_posix_acl -
++    Enable/disable posix acl support.  Posix ACLs are disabled by default`.
++
+ .. option:: --socket-path=PATH
+ 
+   Listen on vhost-user UNIX domain socket at PATH.
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 5e98ed702b..a8295d975a 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -186,6 +186,7 @@ void fuse_cmdline_help(void)
+            "                               to virtiofsd from guest applications.\n"
+            "                               default: no_allow_direct_io\n"
+            "    -o announce_submounts      Announce sub-mount points to the guest\n"
++           "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
+            );
+ }
+ 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 0c9084ea15..113c725def 100644
+index 113c725def..e80fd76d71 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -175,6 +175,7 @@ struct lo_data {
+@@ -175,7 +175,7 @@ struct lo_data {
      int user_killpriv_v2, killpriv_v2;
      /* If set, virtiofsd is responsible for setting umask during creation */
      bool change_umask;
-+    int posix_acl;
+-    int posix_acl;
++    int user_posix_acl, posix_acl;
  };
  
  static const struct fuse_opt lo_opts[] = {
-@@ -1185,6 +1186,51 @@ static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
-         umask(old->umask);
+@@ -208,6 +208,8 @@ static const struct fuse_opt lo_opts[] = {
+     { "announce_submounts", offsetof(struct lo_data, announce_submounts), 1 },
+     { "killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 1 },
+     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
++    { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
++    { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
+     FUSE_OPT_END
+ };
+ static bool use_syslog = false;
+@@ -706,6 +708,32 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+         conn->want &= ~FUSE_CAP_HANDLE_KILLPRIV_V2;
+         lo->killpriv_v2 = 0;
+     }
++
++    if (lo->user_posix_acl == 1) {
++        /*
++         * User explicitly asked for this option. Enable it unconditionally.
++         * If connection does not have this capability, print error message
++         * now. It will fail later in fuse_lowlevel.c
++         */
++        if (!(conn->capable & FUSE_CAP_POSIX_ACL) ||
++            !(conn->capable & FUSE_CAP_DONT_MASK) ||
++            !(conn->capable & FUSE_CAP_SETXATTR_EXT)) {
++            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable posix acl."
++                     " kernel does not support FUSE_POSIX_ACL, FUSE_DONT_MASK"
++                     " or FUSE_SETXATTR_EXT capability.\n");
++        } else {
++            fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
++        }
++
++        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
++                      FUSE_CAP_SETXATTR_EXT;
++        lo->change_umask = true;
++        lo->posix_acl = true;
++    } else {
++        /* User either did not specify anything or wants it disabled */
++        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
++        conn->want &= ~FUSE_CAP_POSIX_ACL;
++    }
  }
  
+ static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
+@@ -2783,6 +2811,63 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
+         assert(fchdir_res == 0);                       \
+     } while (0)
+ 
++static bool block_xattr(struct lo_data *lo, const char *name)
++{
++    /*
++     * If user explicitly enabled posix_acl or did not provide any option,
++     * do not block acl. Otherwise block system.posix_acl_access and
++     * system.posix_acl_default xattrs.
++     */
++    if (lo->user_posix_acl) {
++        return false;
++    }
++    if (!strcmp(name, "system.posix_acl_access") ||
++        !strcmp(name, "system.posix_acl_default"))
++            return true;
++
++    return false;
++}
++
 +/*
-+ * A helper to change cred and drop capability. Returns 0 on success and
-+ * errno on error
++ * Returns number of bytes in xattr_list after filtering on success. This
++ * could be zero as well if nothing is left after filtering.
++ *
++ * Returns negative error code on failure.
++ * xattr_list is modified in place.
 + */
-+static int lo_drop_cap_change_cred(fuse_req_t req, struct lo_cred *old,
-+                                   bool change_umask, const char *cap_name,
-+                                   bool *cap_dropped)
++static int remove_blocked_xattrs(struct lo_data *lo, char *xattr_list,
++                                 unsigned in_size)
 +{
-+    int ret;
-+    bool __cap_dropped;
++    size_t out_index, in_index;
 +
-+    assert(cap_name);
-+
-+    ret = drop_effective_cap(cap_name, &__cap_dropped);
-+    if (ret) {
-+        return ret;
++    /*
++     * As of now we only filter out acl xattrs. If acls are enabled or
++     * they have not been explicitly disabled, there is nothing to
++     * filter.
++     */
++    if (lo->user_posix_acl) {
++        return in_size;
 +    }
 +
-+    ret = lo_change_cred(req, old, change_umask);
-+    if (ret) {
-+        if (__cap_dropped) {
-+            if (gain_effective_cap(cap_name)) {
-+                fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_%s\n", cap_name);
++    out_index = 0;
++    in_index = 0;
++    while (in_index < in_size) {
++        char *in_ptr = xattr_list + in_index;
++
++        /* Length of current attribute name */
++        size_t in_len = strlen(xattr_list + in_index) + 1;
++
++        if (!block_xattr(lo, in_ptr)) {
++            if (in_index != out_index) {
++                memmove(xattr_list + out_index, xattr_list + in_index, in_len);
 +            }
++            out_index += in_len;
 +        }
-+    }
-+
-+    if (cap_dropped) {
-+        *cap_dropped = __cap_dropped;
-+    }
-+    return ret;
++        in_index += in_len;
++     }
++    return out_index;
 +}
 +
-+static void lo_restore_cred_gain_cap(struct lo_cred *old, bool restore_umask,
-+                                     const char *cap_name)
-+{
-+    assert(cap_name);
-+
-+    lo_restore_cred(old, restore_umask);
-+
-+    if (gain_effective_cap(cap_name)) {
-+        fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_%s\n", cap_name);
-+    }
-+}
-+
- static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-                              const char *name, mode_t mode, dev_t rdev,
-                              const char *link)
-@@ -2976,6 +3022,9 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-     ssize_t ret;
+ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+                         size_t size)
+ {
+@@ -2796,6 +2881,11 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
      int saverr;
      int fd = -1;
-+    bool switched_creds = false;
-+    bool cap_fsetid_dropped = false;
-+    struct lo_cred old = {};
  
++    if (block_xattr(lo, in_name)) {
++        fuse_reply_err(req, EOPNOTSUPP);
++        return;
++    }
++
      mapped_name = NULL;
      name = in_name;
-@@ -3006,6 +3055,26 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-              ", name=%s value=%s size=%zd)\n", ino, name, value, size);
- 
-     sprintf(procname, "%i", inode->fd);
-+    /*
-+     * If we are setting posix access acl and if SGID needs to be
-+     * cleared, then switch to caller's gid and drop CAP_FSETID
-+     * and that should make sure host kernel clears SGID.
-+     *
-+     * This probably will not work when we support idmapped mounts.
-+     * In that case we will need to find a non-root gid and switch
-+     * to it. (Instead of gid in request). Fix it when we support
-+     * idmapped mounts.
-+     */
-+    if (lo->posix_acl && !strcmp(name, "system.posix_acl_access")
-+        && (extra_flags & FUSE_SETXATTR_ACL_KILL_SGID)) {
-+        ret = lo_drop_cap_change_cred(req, &old, false, "FSETID",
-+                                      &cap_fsetid_dropped);
-+        if (ret) {
-+            saverr = ret;
+     if (lo->xattrmap) {
+@@ -2986,6 +3076,12 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+                 goto out;
+             }
+         }
++
++        ret = remove_blocked_xattrs(lo, value, ret);
++        if (ret <= 0) {
++            saverr = -ret;
 +            goto out;
 +        }
-+        switched_creds = true;
-+    }
-     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
-         fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-         if (fd < 0) {
-@@ -3021,6 +3090,12 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-         saverr = ret == -1 ? errno : 0;
-         FCHDIR_NOFAIL(lo->root.fd);
-     }
-+    if (switched_creds) {
-+        if (cap_fsetid_dropped)
-+            lo_restore_cred_gain_cap(&old, false, "FSETID");
-+        else
-+            lo_restore_cred(&old, false);
-+    }
+         fuse_reply_buf(req, value, ret);
+     } else {
+         /*
+@@ -3026,6 +3122,11 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+     bool cap_fsetid_dropped = false;
+     struct lo_cred old = {};
  
- out:
-     if (fd >= 0) {
++    if (block_xattr(lo, in_name)) {
++        fuse_reply_err(req, EOPNOTSUPP);
++        return;
++    }
++
+     mapped_name = NULL;
+     name = in_name;
+     if (lo->xattrmap) {
+@@ -3118,6 +3219,11 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
+     int saverr;
+     int fd = -1;
+ 
++    if (block_xattr(lo, in_name)) {
++        fuse_reply_err(req, EOPNOTSUPP);
++        return;
++    }
++
+     mapped_name = NULL;
+     name = in_name;
+     if (lo->xattrmap) {
+@@ -3812,6 +3918,7 @@ int main(int argc, char *argv[])
+         .allow_direct_io = 0,
+         .proc_self_fd = -1,
+         .user_killpriv_v2 = -1,
++        .user_posix_acl = -1,
+     };
+     struct lo_map_elem *root_elem;
+     struct lo_map_elem *reserve_elem;
+@@ -3940,6 +4047,12 @@ int main(int argc, char *argv[])
+         exit(1);
+     }
+ 
++    if (lo.user_posix_acl == 1 && !lo.xattr) {
++        fuse_log(FUSE_LOG_ERR, "Can't enable posix ACLs. xattrs are disabled."
++                 "\n");
++        exit(1);
++    }
++
+     lo.use_statx = true;
+ 
+     se = fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
 -- 
 2.25.4
 
