@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B393B09AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:58:09 +0200 (CEST)
-Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB193B0993
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:53:36 +0200 (CEST)
+Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvimu-0007sr-C8
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57204)
+	id 1lviiV-00057W-Ah
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidd-00058B-8v
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:33 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:40816)
+ id 1lvidc-00055g-I4
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:32 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:33712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidY-0005KE-KH
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:33 -0400
-Received: by mail-pf1-x435.google.com with SMTP id q192so10162679pfc.7
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:48:27 -0700 (PDT)
+ id 1lvidZ-0005KL-IJ
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:32 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id e20so17454726pgg.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LskbPVAjrbITbR/BLSWbN40vYGjGl6tGTo3OTtiJcvA=;
- b=U59w59lPOQkKBAWXmKZ2aHRwbiwS2SU4Qxa+k87XC9IXL24FEo9Pi7Iy7e7BAergRj
- DnPp5i1ARkVc7I1lzE/HaD2I+1s2TDBEE+FbOVwVrMMc5qeX3rZ6gogzTlgiwjl2wmYB
- qy00lt0mIglfu03JEbOkU7JWqq/iVIp6113n8gTOnynQQY8sqOzcDUSQ2ofiw3rlP3nt
- wFERb4LUNjqzNk8IPpX6SbkbqA3mErQgldj10LdlVnf6KHTxMEl0VF1W8bqpvoT4oam0
- ErjFay/L/AD2tVZRVi/rBH2vDXO2Fq93sUKMibvh+JLCs4VpZaubBnPwU6oRgQVk571k
- VCaA==
+ bh=i0J3Zms5jSdf0V0LutlOl2h6nFGrq/8kkpLuwS5pRBU=;
+ b=WklPy6C8Pr+Zx5Z0rTlK5diQl081jz7V3wua22knYG4bgM0gff59UK361iANGAC2Ym
+ HPOS0qYkg/+d7CjA8Wj9w+k9zsT2F4JAYRqLlU1lD/8OsNW7/+OaiZmkek/5JESqk+d6
+ zlWvyOQTVsreKsnfNKb0ZpFXlaaYSENCcn54A6EOZhYhf9ayN6vr+wcwWilBdueUa9VE
+ FG7uGw/1NgkkD3k3lWQedZNv0QEOc2m7HP5tx7vHCtBNA1qAJShEoaCmSlfnq1TjqnG2
+ a/4E8XOfBPz8qqT4pv6wDCXYPmlTL8etgeR8d2FLliZJYllAU1M1K6DMjq8fUsIr33sF
+ cdXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LskbPVAjrbITbR/BLSWbN40vYGjGl6tGTo3OTtiJcvA=;
- b=TkVmeiIPNjJfIzf87D7qAnvv2tocJf+zRIkc3vLphjWqJykZpv4GJ+Q1alg0l5JKE5
- jS2LmaMBeslQRANIWk8J8Mk7a6ON2IPBZ9/abNTYqWe6FIdTKoHBnY27j8PPf50LfSlC
- Ety1T76Z0+rr5wb7eSdjE0Q4YA8lvw5PXarrP6r46NB6ndVn9VXnViXZeSUojr0Sd/kf
- fXXm9+a++1oC0zl9J5kGmfBKJrH8X+8R3zBhDmHFQFP12fjK8STNSuENn2+KU1T/l2OZ
- J1BR/B1flyqrZ9e/UbjboowSdnWqojkuhNjC1Egg/fTxFbCaAXiiunyl+rEIlCex0H88
- C5Xw==
-X-Gm-Message-State: AOAM5336Vgu3Zn+GS10Q2R9ESdHaVO24mQWnefRWopBMuMlRrYZSk6M7
- Gv+D938Z8o8xGp33Crl/SAq6F+SCRuFnbA==
-X-Google-Smtp-Source: ABdhPJxvkSwukASnXA62gXgCI5xFOMAJYe0K8Haoeswfa5J52Kb7XhTgOe+OSPJxkVyYMWoWGllZXA==
-X-Received: by 2002:a63:2742:: with SMTP id n63mr2902541pgn.94.1624376907133; 
+ bh=i0J3Zms5jSdf0V0LutlOl2h6nFGrq/8kkpLuwS5pRBU=;
+ b=s8NrPSwwHBySZO+agX61wo3BcX7rtHrcr/0IqglVsXlkF02m1mmD5Lx/793BSXpExA
+ MeW/BShwxi8Rf3Kv9u7H+L5N/aTsqyjANpE/EsBxSkFIFtE2mQ1IE8oMOnqebQ+9pl17
+ z/OM6TW3lejHJV674gcahDPv6DbzDhxuAcXXlsvb1xUxZWXW43k6lHx6V9ltM8DceBFA
+ vjW2uJegPGftOcZgnS5m/wgHEnmE9XVC2h4zFBKQTCzItZHruQN6whlACAl19FdovPDK
+ 01dDSsECU4TuX5cHpQLL4ISJueOE2p5esrYJzRgqm5eITDUb7/dDGQTlYnloe+Trcy6u
+ f+NQ==
+X-Gm-Message-State: AOAM532sm+pTfFxmE0YYstrAMcvMfy1/2JqL6i31Sw8nmwEKMvj9TyNO
+ 6qSKMJg+F588aHtpZlSuQMT1WFwE9SY1TQ==
+X-Google-Smtp-Source: ABdhPJyp3OLzpHfPf+mVaG11dzyzT8OxNOprQ/+a/9Y5E9CnSFlo9sfiQ2lWyrZys1camjvgPfauFQ==
+X-Received: by 2002:a63:b63:: with SMTP id a35mr4390811pgl.318.1624376907592; 
  Tue, 22 Jun 2021 08:48:27 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.26
+ by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 08:48:26 -0700 (PDT)
+ Tue, 22 Jun 2021 08:48:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/15] target/cris: Mark static arrays const
-Date: Tue, 22 Jun 2021 08:48:13 -0700
-Message-Id: <20210622154820.1978982-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/15] target/cris: Fold unhandled X_FLAG changes into
+ cpustate_changed
+Date: Tue, 22 Jun 2021 08:48:14 -0700
+Message-Id: <20210622154820.1978982-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210622154820.1978982-1-richard.henderson@linaro.org>
 References: <20210622154820.1978982-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,115 +87,52 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We really do this already, by including them into the same test.
+This just hoists the expression up a bit.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c         | 19 ++++++++++---------
- target/cris/translate_v10.c.inc |  6 +++---
- 2 files changed, 13 insertions(+), 12 deletions(-)
+ target/cris/translate.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index eabede5251..e14b7acb10 100644
+index e14b7acb10..80276ae84d 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -137,14 +137,15 @@ static void gen_BUG(DisasContext *dc, const char *file, int line)
-     cpu_abort(CPU(dc->cpu), "%s:%d pc=%x\n", file, line, dc->pc);
- }
+@@ -3217,6 +3217,10 @@ static void cris_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+         cris_clear_x_flag(dc);
+     }
  
--static const char *regnames_v32[] =
-+static const char * const regnames_v32[] =
- {
-     "$r0", "$r1", "$r2", "$r3",
-     "$r4", "$r5", "$r6", "$r7",
-     "$r8", "$r9", "$r10", "$r11",
-     "$r12", "$r13", "$sp", "$acr",
- };
--static const char *pregnames_v32[] =
++    /* Fold unhandled changes to X_FLAG into cpustate_changed. */
++    dc->cpustate_changed |= !dc->flagx_known;
++    dc->cpustate_changed |= dc->flags_x != (dc->base.tb->flags & X_FLAG);
 +
-+static const char * const pregnames_v32[] =
- {
-     "$bz", "$vr", "$pid", "$srs",
-     "$wz", "$exs", "$eda", "$mof",
-@@ -153,7 +154,7 @@ static const char *pregnames_v32[] =
- };
+     /*
+      * Check for delayed branches here.  If we do it before
+      * actually generating any host code, the simulator will just
+@@ -3227,9 +3231,7 @@ static void cris_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+             t_gen_movi_env_TN(dslot, 0);
+         }
  
- /* We need this table to handle preg-moves with implicit width.  */
--static int preg_sizes[] = {
-+static const int preg_sizes[] = {
-     1, /* bz.  */
-     1, /* vr.  */
-     4, /* pid.  */
-@@ -475,9 +476,9 @@ static inline void t_gen_swapw(TCGv d, TCGv s)
-    ((T0 >> 5) & 0x02020202) |
-    ((T0 >> 7) & 0x01010101));
-  */
--static inline void t_gen_swapr(TCGv d, TCGv s)
-+static void t_gen_swapr(TCGv d, TCGv s)
- {
--    struct {
-+    static const struct {
-         int shift; /* LSL when positive, LSR when negative.  */
-         uint32_t mask;
-     } bitrev[] = {
-@@ -1279,7 +1280,7 @@ static int dec_prep_alu_m(CPUCRISState *env, DisasContext *dc,
- #if DISAS_CRIS
- static const char *cc_name(int cc)
- {
--    static const char *cc_names[16] = {
-+    static const char * const cc_names[16] = {
-         "cc", "cs", "ne", "eq", "vc", "vs", "pl", "mi",
-         "ls", "hi", "ge", "lt", "gt", "le", "a", "p"
-     };
-@@ -2926,7 +2927,7 @@ static int dec_null(CPUCRISState *env, DisasContext *dc)
-     return 2;
- }
+-        if (dc->cpustate_changed
+-            || !dc->flagx_known
+-            || (dc->flags_x != (dc->base.tb->flags & X_FLAG))) {
++        if (dc->cpustate_changed) {
+             cris_store_direct_jmp(dc);
+         }
  
--static struct decoder_info {
-+static const struct decoder_info {
-     struct {
-         uint32_t bits;
-         uint32_t mask;
-@@ -3363,8 +3364,8 @@ void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-     CRISCPU *cpu = CRIS_CPU(cs);
-     CPUCRISState *env = &cpu->env;
--    const char **regnames;
--    const char **pregnames;
-+    const char * const *regnames;
-+    const char * const *pregnames;
-     int i;
+@@ -3263,10 +3265,7 @@ static void cris_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     }
  
-     if (!env) {
-diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
-index 0ba2aca96f..4ab43dc404 100644
---- a/target/cris/translate_v10.c.inc
-+++ b/target/cris/translate_v10.c.inc
-@@ -21,7 +21,7 @@
- #include "qemu/osdep.h"
- #include "crisv10-decode.h"
- 
--static const char *regnames_v10[] =
-+static const char * const regnames_v10[] =
- {
-     "$r0", "$r1", "$r2", "$r3",
-     "$r4", "$r5", "$r6", "$r7",
-@@ -29,7 +29,7 @@ static const char *regnames_v10[] =
-     "$r12", "$r13", "$sp", "$pc",
- };
- 
--static const char *pregnames_v10[] =
-+static const char * const pregnames_v10[] =
- {
-     "$bz", "$vr", "$p2", "$p3",
-     "$wz", "$ccr", "$p6-prefix", "$mof",
-@@ -38,7 +38,7 @@ static const char *pregnames_v10[] =
- };
- 
- /* We need this table to handle preg-moves with implicit width.  */
--static int preg_sizes_v10[] = {
-+static const int preg_sizes_v10[] = {
-     1, /* bz.  */
-     1, /* vr.  */
-     1, /* pid. */
+     /* Force an update if the per-tb cpu state has changed.  */
+-    if (dc->base.is_jmp == DISAS_NEXT
+-        && (dc->cpustate_changed
+-            || !dc->flagx_known
+-            || (dc->flags_x != (dc->base.tb->flags & X_FLAG)))) {
++    if (dc->base.is_jmp == DISAS_NEXT && dc->cpustate_changed) {
+         dc->base.is_jmp = DISAS_UPDATE;
+         tcg_gen_movi_tl(env_pc, dc->pc);
+     }
 -- 
 2.25.1
 
