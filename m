@@ -2,81 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8E23B01A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:43:41 +0200 (CEST)
-Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5693B01A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:42:40 +0200 (CEST)
+Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvdsa-0002pm-1J
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
+	id 1lvdrb-0000RO-ME
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvdqk-0000oP-PL
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:41:47 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvdqi-0003jM-Mq
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:41:46 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b3so12791192wrm.6
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 03:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=IvhS7bAckHDqGVPCibJLL0J6PPOQghZNnRndgkM7ovg=;
- b=oe/J2ry4oZLwY/ICMNCWmPne/DjcVdqAic30kCGqX3NIXxIDMfBlfmWCSfh8aR+LEU
- 0PmDpzLuw2z3Th/xs0k6wze4QNmY31bhsQla2uV7c2SbibrNi81qCLb7AhtMpG/5eDQR
- E6gaEqptvUNdrYOjHa+z0e/UX2vZofNSsZQCG262Ez3LKrame5M+qZajzGCln5d6NVzY
- QaaqDKCCxyO+wRhuQNKTSemtuC0NQY2SAAzw0p9ihzAP4AnWZo/j8mdR6Xn2UvR7dOnm
- Lty8xCqs73Qk1tETAjagK//9ZRxtFVoqwqquujKU/xTNmHl8aNmwY+uIl1q07TCTXmTB
- 0ZlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=IvhS7bAckHDqGVPCibJLL0J6PPOQghZNnRndgkM7ovg=;
- b=LRl1PPWiMavGedpkOukyo5nnvz+5GYnujTLwYPC5Km07CZ3ujvRKGGX6fOy94pMk3A
- B2tGHJFELoB6ym588yvdHWcU9RtayipKKIIZnSmzFxz6rpRY69beTFT4BA80gawKF0Qg
- egSmamP1AjCJx818k9oQWsTfSHvYdG6+zyQBHOjwSacqQiBdmhW+f9jn4oa2T5aoUfJY
- EuZnLTh17ICNwMzOAyjUh+8+gtzWv519hBDJ+0hcSmLAEdMTo8/B91OfX4pWQhj7DUOv
- +UWHgbM+qD/3GF9HNmO7WqvuLRAAr//Q8hUhY+e1xppUmO5WmeBRXqnEZFy4G1tizNaM
- NoQQ==
-X-Gm-Message-State: AOAM532JxbDqL/sEpUQagPMKBn5LO3/xqEQ+JvVKSvyILkmmWTXy+6Tg
- JgVDDHQ03JdWOvIVbRwvfEd6gw==
-X-Google-Smtp-Source: ABdhPJzjzgaVGwJmIFeDd6Wh+AqGrlEpIuINaqQXdSupyJbt1btDPG7C1Ijm45Ugdd3wvakc5yqSjw==
-X-Received: by 2002:a05:6000:1a41:: with SMTP id
- t1mr3804826wry.175.1624358503127; 
- Tue, 22 Jun 2021 03:41:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x81sm2461657wmg.36.2021.06.22.03.41.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 03:41:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3299F1FF7E;
- Tue, 22 Jun 2021 11:41:41 +0100 (BST)
-References: <20210618091101.2802534-1-erdnaxe@crans.org>
- <20210618091101.2802534-3-erdnaxe@crans.org> <87y2b2s2gw.fsf@linaro.org>
- <49027cc2-f89e-cbd6-cfc0-e59ce7dd4b17@crans.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Alexandre IOOSS <erdnaxe@crans.org>
-Subject: Re: [PATCH v2 2/2] docs/devel: tvg-plugins: add execlog plugin
- description
-Date: Tue, 22 Jun 2021 11:37:07 +0100
-In-reply-to: <49027cc2-f89e-cbd6-cfc0-e59ce7dd4b17@crans.org>
-Message-ID: <87y2b2rxju.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lvdp6-00073f-Gi; Tue, 22 Jun 2021 06:40:04 -0400
+Received: from mail-vi1eur05on2130.outbound.protection.outlook.com
+ ([40.107.21.130]:22881 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lvdp3-0002d4-N9; Tue, 22 Jun 2021 06:40:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zp5Pl2TPsfsEljGFSzo0F/2Yv1TE6LFzjt4FoRKlkn9wzX3w+rHHYgomPeWXeBasSITYi576OEOCyMIs2/q4cytIIMRT3xMyvnmTsZeW35jrpZPwvK5qV2HAOCxQLQjSi7gproL5W7EXET7S4DpoYhKrwLVv/wTKol1vIIoP0JgAubeqB721Oa3v7QgRSdkezWBeLDIqjhCcI+FtDJleKzVw/wcGNm5vtYIrh1sa3R16o5eexV5QTxAPAwiEtqv5/wwVUEIJ0+O7ubzzDdbDFUujprL61R7WKN0hi+3ZtHPfN0Uko8S4TGfouVEWw6hwfujeB53WgMN6cZxoVhER5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MSwousMDB7UVM4G8hOGmqRqO5JIqljMjNaKrwx/n4DM=;
+ b=nDZS/TfXP6/Y9E+0q2r3ncglFRgeSZSSvsD8W4fJL0QgxIMbF/MAuvcDCrGuDzbV31SvI/1hrYIIcHZCzH5d0LuCPDCFjzCIfhTEIPsm7BlGFgvPFojpbwOUGBYi0iDCf6buIU+nuDhrGtVBssYKP8M3YqHo2xq8jgRNGAta0HVx87eC65OnuUTQsrUeGSD1r1siZ1DG/DZomcBUdh1F3AGc+PKLUp6rev+Tiz4PFv/avn3asXXcOjnjXSQFtlZSBFYosBANHrwnJzvNKb53rkb0RUPwc9eyHMEkC8YaYVEBK9PC1IMC9XUOGL84lUBQWlaja9B6E9z+F2xUAqVX3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MSwousMDB7UVM4G8hOGmqRqO5JIqljMjNaKrwx/n4DM=;
+ b=jzNKaVhl0ZysRe0EAk5kZTxZmgUW5I/EMtSLQOQhflicDSR+9T6ThaOu/75dJk5XDSLG8BPW1YtWpJ0Ec9BcK9sA2KoTu6saN05f794kE2zI+cs/oR5KDXB45i7E8BfrHNTQVp+B+rB72so4OVwyUMFYvHV3rIHd06qt6DHL1m8=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6293.eurprd08.prod.outlook.com (2603:10a6:20b:23e::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Tue, 22 Jun
+ 2021 10:39:58 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4242.023; Tue, 22 Jun 2021
+ 10:39:58 +0000
+Subject: Re: [PATCH v4 6/6] block-copy: atomic .cancelled and .finished fields
+ in BlockCopyCallState
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210614073350.17048-1-eesposit@redhat.com>
+ <20210614073350.17048-7-eesposit@redhat.com>
+ <fcb8849c-bedf-aacc-3831-0239d89af2d6@virtuozzo.com>
+ <c06306f6-e154-ec58-44cc-33d48d8ccdff@redhat.com>
+ <28d4cd1c-2495-b30d-3c9f-2d8d0d3e897b@virtuozzo.com>
+ <c8b4e9b9-15a6-3ae4-cb8f-5289a221dcbe@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <5e019d88-3551-4a08-6a67-e0699dd4f72e@virtuozzo.com>
+Date: Tue, 22 Jun 2021 13:39:55 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <c8b4e9b9-15a6-3ae4-cb8f-5289a221dcbe@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.221]
+X-ClientProxiedBy: HE1P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::34)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.221) by
+ HE1P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.18 via Frontend Transport; Tue, 22 Jun 2021 10:39:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 03bcff39-4bff-4b35-b0eb-08d9356a14bf
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6293:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB629362145AAC4504A2DD0C3AC1099@AS8PR08MB6293.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QheHdVw8reJNHNyBM94eqm8D1gZ9F5F0jAXkloo4bJJiHq/OoFHl7LW+Spjc43KGh2RBYSrLEYgPMqXUZUIld/Sn1aCu3qyaH4LjfTIlFbUmrHsmuYUK/LvR9iEQ92buA3ZDTfcjuREO/KajQfGPsEKYMBmfeHeB15tbEUt/wDJTK+y2qxgql/1mlG2UURnpkBiiUZOH4QHHyweyaZ298Yvnz/QlMExXE4U8fWAi6dBk/Lv7yKwsnTrWKq+elt/nQppyQPfROMJf/A0Gepbkoa11frLck8F/zXZyKt6lnMq7KdHl3XtZshnZ6Tjosac0uEq1z0Go07KJTDp3pv7R8pnKWOr64vNdv3SAbiJABBz+YvKhoL6cNCERzMN82gIUB8XIKTYulnWNmD8KnJGcsDlH/eNncz67jlU5+jptX3oQR04tIJqlnliYEqqKHj8y+cDuAoBSI/5F3Y6SDSh2Ki8ijo7KwXh9hz0AuNHEklOkY12WjQC4LxxlIaseFOy9yKEilRoOVQNy7fWTZn1fX8Nb20gDCYbOvCqVOE7Yr7/3rXPZN9ikKd8e5zcnsXYWdMQ/NjQs1PpiLCEqno/ZI2QKkWRBgGDSzFKXzLlVQi+DHD+ma24HDLH55Qkc0/B1ciHdNZhlXfDBlmg7QVh7Hppd6UU/3aykrVnaHOvl8w3pbYsYI/x5Uq1HAVfD0yojf353J9o4fG0BCU0yCwATblPdcwkZ1iO46jr6nxgzwdqpJdz8fZSNORBkTFguDw8z
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(396003)(346002)(39840400004)(376002)(53546011)(83380400001)(26005)(52116002)(186003)(16526019)(31686004)(6486002)(4326008)(478600001)(38100700002)(38350700002)(8676002)(2906002)(8936002)(316002)(16576012)(110136005)(54906003)(36756003)(2616005)(66476007)(66556008)(66946007)(956004)(31696002)(86362001)(5660300002)(142923001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjZlbTloemFKa0JrQUlUZEhMUVU3dEhUUXluVlY4OXBxTEN1UTVWZ3JnWlBS?=
+ =?utf-8?B?V2dwaEQ5UFpBS1NsdjVnRE5XMnBDbDdZSmtSQUNEK2QwWE1tRS9sMndmd0xI?=
+ =?utf-8?B?OU0wVWRNbzdwNWY3ckNRVStubHY5K29NT3FOb1NJTDRFTGF2NVNLUTRDQ0p6?=
+ =?utf-8?B?cjVUSm9VM25tU1d4WnN0NGZWNW04UUI3RlRtNE9aa1l2TTZmeUFiQ1loQ0w0?=
+ =?utf-8?B?bUFEM2NkQkFKUXFTMHdqNm9mNkxNQk5WeEhUTmRsYSswdGhDQ1lDZG9LeEpB?=
+ =?utf-8?B?cGtmaW1BdmhyQ1JDUzdzNGxiQ0dqZUQ4N290Yjg0ams2MVhYYlhHQTU1TFQr?=
+ =?utf-8?B?dVlsODJLenJMdFh5NUY4TWpoQkw4Zjcxc2RWVEpCbHF6dG5sNzV1djZ5eHdL?=
+ =?utf-8?B?ZU5Bb3I2cDA1QzVRM3krSjl1bjlzTTJXVHc0ZlFHL0xyNkQ1ZjRHY3RKbit2?=
+ =?utf-8?B?bjlZcDNPdjJrMDBoOTkzdGhkZXdlUTNRT0lZYWoxNXNiaW4yVW5lUWsrSUJq?=
+ =?utf-8?B?OU84WStzMUlXWUZraXdEOFVRalVteTc3ZGZKbFN1YSt3bnBoZ0Mxazl3b0Ft?=
+ =?utf-8?B?OWxmclM1L3k3WjZrczlDODhzRTBhVERBLzR1NnUyRHV6VnVvYnRCNnNhV0ls?=
+ =?utf-8?B?VXMvN3hNNkZOZTJSRTFmK0VSc1BHSXNDRHhWZ0JMbkxmMmo0Nk85bWtXWHI3?=
+ =?utf-8?B?a2czTHhsaXZVbW1kS05wZy94Ky9zZVYrZmU3Q3ZZQTc4eHFQZGsvSzcvcWtK?=
+ =?utf-8?B?R0V2T3ZCNENuZUFxQjZrcmk2M2E1NWNTWlVEUEFEUlAwNUtLTEd5bXhTa0p0?=
+ =?utf-8?B?eE5NdHNIbVpneDVHaU8wV0E1L01CUVhMSjE2QVBJYktCOE5VM0pnY1FmeG5h?=
+ =?utf-8?B?a0pFSGJ5YjhWci82ZlBpejQ3emtleTZIekxpcjIxdkpXdmgyZk5TdzFVL1Rz?=
+ =?utf-8?B?ZTM1T1pZNGtHRzk0ZmtNZStobDVHdy9DRVFkbWdJdU5BMWNQd3BlamVZNmVj?=
+ =?utf-8?B?U1FJR09nRDIrRGFySENPb2RBRytLU050VmFPRG1Ra0ZqK05sTHFjUVJvWU4w?=
+ =?utf-8?B?c3FUaW13SURtdGhkOUVwTEd2QU9Wc2dHWGxTT1M4L1hCQlJJcy80eHFpdUJT?=
+ =?utf-8?B?dVNuR0dkRjIxa1ZqSURXWnMrRzhsY3ZuSk1qbEdJY0tNaXA0ZEFYVVphTnlJ?=
+ =?utf-8?B?eGdsc3hpMHlyVUppZzZNYXhYSjF4MXpJTHNvYVpQU2FRVG5JanBTZFgyaXJO?=
+ =?utf-8?B?K1pOWFBiRnhWdTlJbENTZzBUU01NYjV5LzFCU05odkRmZmU1b2RXeTF3d0Rn?=
+ =?utf-8?B?WFU4dFNVa3kzZkZJWlVwNU83ak93bnYyQ2FQUk9aeFpNSThwKzlLVFJVNHpN?=
+ =?utf-8?B?UTdJSFhmR3VILzB2MXdIenZmNjNCUzk5V1h0LzRzQTg2YVZ2N2srZHQ5alps?=
+ =?utf-8?B?MVNoWGhiSGlUWjJpQXJEMERnSCtqQ2JhRERYeWJtcWNjWDQrTGlBWlhFa3NU?=
+ =?utf-8?B?VkVpSjI4Z1BtVVFaU0tETTd5djRwUXgzRXhzZ05FMXVvSGF2dXJhdmo4Smlp?=
+ =?utf-8?B?cmhvU2owbVZSZ1BkZCt5amhIMU5yUHN1TWViREMrZHB0ZUdkZTNKTDdJRjRH?=
+ =?utf-8?B?WHk1cnI1MTB6NndsdWpveDFGVW1paCtvRlhpWVhRWkxLQ2VTV2ErVmNoaTRY?=
+ =?utf-8?B?ck1uTHY4czhYdmtNNUovckJxcUUrQW5tcTY4NkR5MHRkWkx2TU9lWmp5dTB4?=
+ =?utf-8?Q?cr9tbnt+uWMOfzRH3yjZ//OTtVeGOWwfwSc3BSm?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03bcff39-4bff-4b35-b0eb-08d9356a14bf
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 10:39:58.1334 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YTCg4zlTsSl57d+mtvsf5Ra8s+CWLynIvecqhTKLQ6YRtsPZqo6swi2liWyF6adJi8opXUISCxb/CFlsv2H1qAvKEgIlRYLsEOdJ85PbT0I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6293
+Received-SPF: pass client-ip=40.107.21.130;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,74 +152,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- "open list : All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+22.06.2021 13:20, Paolo Bonzini wrote:
+> On 22/06/21 11:36, Vladimir Sementsov-Ogievskiy wrote:
+>>> It does.  If it returns true, you still want the load of finished to happen before the reads that follow.
+>>
+>> Hmm.. The worst case if we use just qatomic_read is that assertion will not crash when it actually should. That doesn't break the logic. But that's not good anyway.
+>>
+>> OK, I agree, let's keep it.
+> 
+> You can also have a finished job, but get a stale value for error_is_read or ret.  The issue is not in getting the stale value per se, but in block_copy_call_status's caller not expecting it.
+> 
+> (I understand you agree, but I guess it can be interesting to learn about this too).
+> 
 
-Alexandre IOOSS <erdnaxe@crans.org> writes:
+Hmm. So, do you mean that we can read ret and error_is_read ONLY after explicitly doing load_acquire(finished) and checking that it's true?
 
-> [[PGP Signed Part:Undecided]]
-> On 6/22/21 10:48 AM, Alex Benn=C3=A9e wrote:
->> Alexandre Iooss<erdnaxe@crans.org>  writes:
->>> [...]
->>> +
->>> +The execlog tool traces executed instructions with memory access. It c=
-an be used
->>> +for debugging and security analysis purposes.
->> We should probably mention that this will generate a lot of output.
->> Running the admittedly memory heavy softmmu memory test:
->>    ./aarch64-softmmu/qemu-system-aarch64 -D test.out -d plugin \
->>      -plugin contrib/plugins/libexeclog.so  \
->>      -cpu max -serial mon:stdio -M virt \
->>      -display none -semihosting-config chardev=3Dserial0 \
->>      -kernel ./tests/tcg/aarch64-softmmu/memory
->> generates a 8.6Gb text file. I suspect once this is merged you might
->> want to look at options to target the instrumentation at areas of
->> specific interest or abbreviate information.
->
-> Yes! In my downstream version I am triggering the beginning and the
-> end of trace acquisition by matching two virtual addresses of GPIO
-> device access. This works in my case because I'm also using the same
-> GPIO for triggering an oscilloscope, but maybe we would like to
-> upstream something more generic.
->
-> I'm still thinking about this (maybe for a later patch) but I believe
-> it would be nice to have the following:
->  - If no argument is given to the plugin, log everything.
->  - Allow the user to specify either a memory address, an instruction
->    virtual address or an opcode that would start the acquisition.
->  - Same to stop the acquisition.
+That means that we must do it not in assertion (to not be compiled out):
 
-Sounds reasonable to me.
+bool finished = load_acquire()
 
-> This would look like this to start/stop acquisition using GPIO PA8 on
-> STM32VLDISCOVERY:
->
->   ./arm-softmmu/qemu-system-arm -M stm32vldiscovery \
->     -kernel ./firmware.elf -d plugin \
->     -plugin libexeclog.so,arg=3Dmem:1073809424,arg=3Dmem:1073809424
+assert(finished);
 
-I quite like the formats you can use for -dfilter, for example:
-
-  0x1000+0x100,0x2100-0x100,0x3000..0x3100
-
-it might even be worth exposing qemu_set_dfilter_ranges as a helper
-function to plugins to avoid copy and paste.
-
-So what would your above command trigger? A write to 1073809424 would
-start the trace and the next write to the same address would stop it?
-
-> I would like to hear other users opinion on this, because I fear I
-> might implement something too specific.
->
-> Thanks,
-> -- Alexandre
->
-> [[End of PGP Signed Part]]
+... read reat and error_is_read ...
 
 
---=20
-Alex Benn=C3=A9e
+-- 
+Best regards,
+Vladimir
 
