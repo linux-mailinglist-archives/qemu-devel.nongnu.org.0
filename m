@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2AA3AFAB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 03:51:51 +0200 (CEST)
-Received: from localhost ([::1]:46782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670CF3AFB66
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 05:31:35 +0200 (CEST)
+Received: from localhost ([::1]:57790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvVZu-0001sG-4s
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 21:51:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
+	id 1lvX8Q-0006zZ-1B
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 23:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lvVZ2-0001DM-HE
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 21:50:56 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44027)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1lvX78-0006Dc-Ex
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 23:30:14 -0400
+Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:40470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lvVZ0-0002rv-K9
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 21:50:56 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id a127so4621792pfa.10
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 18:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jM0wP6pUa3jOTqtgp5haKJ3AVu0QTggeSeAqfAf0Vjg=;
- b=MfRoDjW6LWzlvOeN0H4/7EW0OMSqiizixJLwPK/irPklSqEUm/cdMifHO/djog/Az6
- rSeAz4gsFljEJCce8NvYd4xWfS5PaXTPSw+ODG/TXwXbfuyatWh5YY7GbTkHv2fh7uTW
- TPTrb4C/HUeXSIaxKy9wtARZXopxEBnpZjp4c7cE3lPqO4amw7sOvXzE+wZVRVpMowgS
- 3xr8XpIHgGSbnC/l+YI+v5e1IxNEuk1ZKRpE3dfoCmS7JR6P+xsXBCtA90RkZKBZFEtA
- 9adbDyluZV13V54GADIMG5MxBi8s6s9ZoO+1ANZoVZAD3kfqQch1duRR/ZOFAvRJp+iH
- uwgA==
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1lvX75-00007i-4l
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 23:30:14 -0400
+Received: by mail-oo1-xc29.google.com with SMTP id
+ r9-20020a4a37090000b029024b15d2fef9so4791025oor.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 20:30:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2Bq+aJS0dtdc0k+3OSNpDWY0uVnTYQXkatWlL+aPpYU=;
+ b=OtUzBuixvIF0Ua1gLoanapJ0rpAOvcElIBY4qnfrLWSOIMVMjGnB3LE0L5aYburJFs
+ ULuJtOm6iZefYQ9D9h6w3+b3dhe6rCSjdwWvp69HuziXujBfi6B3f9/9Rj0QyRPe7yMv
+ rCftTcXEp8bWXSlyPbd0L2C1vjznATyyKCGhnYqtkQG0H3RYUmcEC2NTtucfOMsrKGaa
+ evXQa0Ye+fe8usCWlZJS1zXHkZNfF/YdkqfrF14D6xOkk74/3+teVQlS/uhT7ZQ9Vm9l
+ vX1dZkl8/s6Wnw1pmEe0X+fZzNMt/nHQhqjmLVrcDcYF8xzBTPCalNATCUfrAlhsTI0F
+ Fqcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jM0wP6pUa3jOTqtgp5haKJ3AVu0QTggeSeAqfAf0Vjg=;
- b=sG6aQEPtKT4TqW0tVPtCsy62ZOzI8X6u2P1bNuPK5fBvDhNlUTUaFCoIWAE6pl3f4z
- LjqfgZzqE83kqe/uUHaL3o93CDIAnTboNVbsddac81eduHqDLgUl9yuw/PRAGnuLUTN2
- BK5gi54QHccQHu7Xmu/8pBXd2FukLHOdvkpektHtTLRBv5I3femPv+EjRw/NppynLyoX
- vf+i0D9mat6Gl21RAKxPBQYXipqxAUNQcKdKOjKNMN2mIzdb78PNzKFEqJBC/BT0cfTd
- l5aXKKZ25wmC/GTKYJzuNuFkD69TDyw0CUjTnZTZSKKlrJd13TKykPNf+FYV06WaxFyE
- l21Q==
-X-Gm-Message-State: AOAM531x2yDBfez59zU4CdFXvBuaAgLwYTrrpFO0H7inlh7UniwlbdWm
- fH+pZC0PVoDPJJdItUwKSzUNfTl4UEFrMA==
-X-Google-Smtp-Source: ABdhPJx13wZRDjalffqAJ19NmQyan2D0ZgLIaKuBa4l4V7RV0ujKKUZDhBcVe8DApK4BxU+5NlOlVg==
-X-Received: by 2002:a63:801:: with SMTP id 1mr1343709pgi.75.1624326651520;
- Mon, 21 Jun 2021 18:50:51 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:fcbe:8996:131c:c45b])
- by smtp.gmail.com with ESMTPSA id b133sm16989540pfb.36.2021.06.21.18.50.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Jun 2021 18:50:50 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] coreaudio: Lock only the buffer
-Date: Tue, 22 Jun 2021 10:50:43 +0900
-Message-Id: <20210622015043.41997-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2Bq+aJS0dtdc0k+3OSNpDWY0uVnTYQXkatWlL+aPpYU=;
+ b=X5VSM/nXFUtGkO5L9TO3HJZIeokRBtdP7kN50MdKUIdlU81WOxMDQBskp5W5dIaXYA
+ o4t+NIFdVwPMSSrctyDcXRs2M7QSryhH30TDFBT0bJs5bRcE2pYmEcimbmsGnYHHKx05
+ 9SLdFuG9nDwn64bxPP/4KPml2r+vxMJ0nWZDPmOmiND7cESWjNkoOtUZGrMgM7O0pN8t
+ XBucgKhsLEcwBi7TAjkb82SLGQUhk36u5BbZA8pGbbCmvI0XxM4JHoZBVvhoYsgSPT4q
+ HZVFhURWhkuM1lQMqUt3kToswQ9lnGwXUI+ccn+TwN3TZxwAo2oA9WKRKCpuJx2PtAN+
+ uFMw==
+X-Gm-Message-State: AOAM533X1gk3SCNxkR5OnnwsrfJWKb1c6LXnISoL8KlcZABJopuxTCFn
+ NGVABebqpFcn+A0awNHSnUMb+MkER2IaSmKOqicZEQ==
+X-Google-Smtp-Source: ABdhPJzmVk9lJP5c1lZFEgWInB0H+NypTohAfTox20hKdjohwl6mcyPY3Zbjqoh6gEJ4axc2NnoKjOB+yW+huvEGFQU=
+X-Received: by 2002:a4a:b203:: with SMTP id d3mr1295971ooo.55.1624332609141;
+ Mon, 21 Jun 2021 20:30:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210609100457.142570-1-andrew@daynix.com>
+ <f81de211-57f9-9319-9735-c6b964bbdc77@redhat.com>
+ <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
+ <3da88930-439c-1892-29b4-4977ddbb0b0a@redhat.com>
+ <CABcq3pE7Rx4r_H7qtpXAwqyiWzXCT_u1zp4X1Hc-pgMrW=9haA@mail.gmail.com>
+ <d51a7c1f-0df8-342e-219d-c9b3b36a1371@redhat.com>
+ <CABcq3pEec6f+ohA6SCn7iFAbromrvWgyS8Tjz6+iHZ-fa2OQxw@mail.gmail.com>
+ <CABcq3pEXZGoRPGQPB1b1Tb_rDEg5aMFCB+CELAyOjDCyTS1FTQ@mail.gmail.com>
+ <07a81543-c262-f153-6414-3d967dde02b2@redhat.com>
+In-Reply-To: <07a81543-c262-f153-6414-3d967dde02b2@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Tue, 22 Jun 2021 06:29:56 +0300
+Message-ID: <CAOEp5OeEkJh=5hMKveanMRdR2Mf93SWRuuktVbY6+=BKj6jVLA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::c29;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-oo1-xc29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,163 +87,257 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Andrew Melnichenko <andrew@daynix.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On macOS 11.3.1, Core Audio calls AudioDeviceIOProc after calling an
-internal function named HALB_Mutex::Lock(), which locks a mutex in
-HALB_IOThread::Entry(void*). HALB_Mutex::Lock() is also called in
-AudioObjectGetPropertyData, which is called by coreaudio driver.
-Therefore, a deadlock will occur if coreaudio driver calls
-AudioObjectGetPropertyData while holding a lock for a mutex and tries
-to lock the same mutex in AudioDeviceIOProc.
+On Mon, Jun 21, 2021 at 12:20 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/6/19 =E4=B8=8A=E5=8D=884:03, Andrew Melnichenko =E5=86=99=
+=E9=81=93:
+> > Hi Jason,
+> > I've checked "kernel.unprivileged_bpf_disabled=3D0" on Fedora,  Ubuntu,
+> > and Debian - no need permissions to update BPF maps.
+>
+>
+> How about RHEL :) ?
 
-audioDeviceIOProc, which implements AudioDeviceIOProc in coreaudio
-driver, requires an exclusive access for the device configuration and
-the buffer. Fortunately, a mutex is necessary only for the buffer in
-audioDeviceIOProc because a change for the device configuration occurs
-only before setting up AudioDeviceIOProc or after stopping the playback
-with AudioDeviceStop.
+If I'm not mistaken, the RHEL releases do not use modern kernels yet
+(for BPF we need 5.8+).
+So this will be (probably) relevant for RHEL 9. Please correct me if I'm wr=
+ong.
 
-With this change, the mutex owned by the driver will only be used for
-the buffer, and the device configuration change will be protected with
-the implicit iothread mutex.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- audio/coreaudio.c | 59 +++++++++++------------------------------------
- 1 file changed, 13 insertions(+), 46 deletions(-)
-
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 578ec9b8b2e..c8d9f01d275 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -26,6 +26,7 @@
- #include <CoreAudio/CoreAudio.h>
- #include <pthread.h>            /* pthread_X */
- 
-+#include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "audio.h"
- 
-@@ -551,9 +552,7 @@ static OSStatus handle_voice_change(
-     OSStatus status;
-     coreaudioVoiceOut *core = in_client_data;
- 
--    if (coreaudio_lock(core, __func__)) {
--        abort();
--    }
-+    qemu_mutex_lock_iothread();
- 
-     if (core->outputDeviceID) {
-         fini_out_device(core);
-@@ -564,7 +563,7 @@ static OSStatus handle_voice_change(
-         update_device_playback_state(core);
-     }
- 
--    coreaudio_unlock (core, __func__);
-+    qemu_mutex_unlock_iothread();
-     return status;
- }
- 
-@@ -582,11 +581,7 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
-     err = pthread_mutex_init(&core->mutex, NULL);
-     if (err) {
-         dolog("Could not create mutex\nReason: %s\n", strerror (err));
--        goto mutex_error;
--    }
--
--    if (coreaudio_lock(core, __func__)) {
--        goto lock_error;
-+        return -1;
-     }
- 
-     obt_as = *as;
-@@ -606,37 +601,21 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
-     if (status != kAudioHardwareNoError) {
-         coreaudio_playback_logerr (status,
-                                    "Could not listen to voice property change\n");
--        goto listener_error;
-+        return -1;
-     }
- 
-     if (init_out_device(core)) {
--        goto device_error;
-+        status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
-+                                                   &voice_addr,
-+                                                   handle_voice_change,
-+                                                   core);
-+        if (status != kAudioHardwareNoError) {
-+            coreaudio_playback_logerr(status,
-+                                      "Could not remove voice property change listener\n");
-+        }
-     }
- 
--    coreaudio_unlock(core, __func__);
-     return 0;
--
--device_error:
--    status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
--                                               &voice_addr,
--                                               handle_voice_change,
--                                               core);
--    if (status != kAudioHardwareNoError) {
--        coreaudio_playback_logerr(status,
--                                  "Could not remove voice property change listener\n");
--    }
--
--listener_error:
--    coreaudio_unlock(core, __func__);
--
--lock_error:
--    err = pthread_mutex_destroy(&core->mutex);
--    if (err) {
--        dolog("Could not destroy mutex\nReason: %s\n", strerror (err));
--    }
--
--mutex_error:
--    return -1;
- }
- 
- static void coreaudio_fini_out (HWVoiceOut *hw)
-@@ -645,10 +624,6 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
-     int err;
-     coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
- 
--    if (coreaudio_lock(core, __func__)) {
--        abort();
--    }
--
-     status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
-                                                &voice_addr,
-                                                handle_voice_change,
-@@ -659,8 +634,6 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
- 
-     fini_out_device(core);
- 
--    coreaudio_unlock(core, __func__);
--
-     /* destroy mutex */
-     err = pthread_mutex_destroy(&core->mutex);
-     if (err) {
-@@ -672,14 +645,8 @@ static void coreaudio_enable_out(HWVoiceOut *hw, bool enable)
- {
-     coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
- 
--    if (coreaudio_lock(core, __func__)) {
--        abort();
--    }
--
-     core->enabled = enable;
-     update_device_playback_state(core);
--
--    coreaudio_unlock(core, __func__);
- }
- 
- static void *coreaudio_audio_init(Audiodev *dev)
--- 
-2.30.1 (Apple Git-130)
-
+>
+> Thanks
+>
+>
+> >
+> > On Wed, Jun 16, 2021 at 1:18 AM Andrew Melnichenko <andrew@daynix.com
+> > <mailto:andrew@daynix.com>> wrote:
+> >
+> >     Hi,
+> >
+> >         I may miss something.
+> >
+> >         But RSS requires to update the map. This won't work if you
+> >         don't grant
+> >         any permission to qemu.
+> >
+> >         Thanks
+> >
+> >
+> >     Partly - with "kernel.unprivileged_bpf_disabled=3D0" capabilities i=
+s
+> >     not required to update maps.
+> >     With "kernel.unprivileged_bpf_disabled=3D1" - setting maps will
+> >     fail(without CAP_BPF) and "in-qemu" RSS will be used.
+> >
+> >     On Tue, Jun 15, 2021 at 12:13 PM Jason Wang <jasowang@redhat.com
+> >     <mailto:jasowang@redhat.com>> wrote:
+> >
+> >
+> >         =E5=9C=A8 2021/6/12 =E4=B8=8A=E5=8D=8812:49, Andrew Melnichenko=
+ =E5=86=99=E9=81=93:
+> >         > Hi,
+> >         >
+> >         >     So I think the series is for unprivileged_bpf disabled.
+> >         If I'm not
+> >         >     wrong, I guess the policy is to grant CAP_BPF but do
+> >         fine grain
+> >         >     checks
+> >         >     via LSM.
+> >         >
+> >         >
+> >         > The main idea is to run eBPF RSS with qemu without any
+> >         permission.
+> >         > Libvirt should handle everything and pass proper eBPF file
+> >         descriptors.
+> >         > For current eBPF RSS, CAP_SYS_ADMIN(bypass some limitations)
+> >         > also required, and in the future may be other permissions.
+> >
+> >
+> >         I may miss something.
+> >
+> >         But RSS requires to update the map. This won't work if you
+> >         don't grant
+> >         any permission to qemu.
+> >
+> >         Thanks
+> >
+> >
+> >         >
+> >         >     I'm not sure this is the best. We have several examples
+> >         that let
+> >         >     libvirt
+> >         >     to involve. Examples:
+> >         >
+> >         >     1) create TAP device (and the TUN_SETIFF)
+> >         >
+> >         >     2) open vhost devices
+> >         >
+> >         >
+> >         > Technically TAP/vhost not related to a particular qemu
+> >         emulator. So common
+> >         > TAP creation should fit any modern qemu. eBPF fds(program
+> >         and maps) should
+> >         > suit the interface for current qemu, g.e. some qemu builds
+> >         may have
+> >         > different map
+> >         > structures or their count. It's necessary that the qemu got f=
+ds
+> >         > prepared by the helper
+> >         > that was built with the qemu.
+> >         >
+> >         >     I think we need an example on the detail steps for how
+> >         libvirt is
+> >         >     expected to use this.
+> >         >
+> >         >
+> >         > The simplified workflow looks like this:
+> >         >
+> >         >  1. Libvirt got "emulator" from domain document.
+> >         >  2. Libvirt queries for qemu capabilities.
+> >         >  3. One of the capabilities is "qemu-ebpf-rss-helper"
+> >         path(if present).
+> >         >  4. On NIC preparation Libvirt checks for virtio-net + rss
+> >         configurations.
+> >         >  5. If required, the "qemu-ebpf-rss-helper" called and fds ar=
+e
+> >         >     received through unix fd.
+> >         >  6. Those fds are for eBPF RSS, which passed to child
+> >         process - qemu.
+> >         >  7. Qemu launched with virtio-net-pci property "rss" and
+> >         "ebpf_rss_fds".
+> >         >
+> >         >
+> >         > On Fri, Jun 11, 2021 at 8:36 AM Jason Wang
+> >         <jasowang@redhat.com <mailto:jasowang@redhat.com>
+> >         > <mailto:jasowang@redhat.com <mailto:jasowang@redhat.com>>>
+> >         wrote:
+> >         >
+> >         >
+> >         >     =E5=9C=A8 2021/6/10 =E4=B8=8B=E5=8D=882:55, Yuri Benditov=
+ich =E5=86=99=E9=81=93:
+> >         >     > On Thu, Jun 10, 2021 at 9:41 AM Jason
+> >         Wang<jasowang@redhat.com <mailto:jasowang@redhat.com>
+> >         >     <mailto:jasowang@redhat.com
+> >         <mailto:jasowang@redhat.com>>> wrote:
+> >         >     >> =E5=9C=A8 2021/6/9 =E4=B8=8B=E5=8D=886:04, Andrew Meln=
+ychenko =E5=86=99=E9=81=93:
+> >         >     >>> Libvirt usually launches qemu with strict permissions=
+.
+> >         >     >>> To enable eBPF RSS steering, qemu-ebpf-rss-helper
+> >         was added.
+> >         >     >> A silly question:
+> >         >     >>
+> >         >     >> Kernel had the following permission checks in bpf
+> >         syscall:
+> >         >     >>
+> >         >     >>          if (sysctl_unprivileged_bpf_disabled &&
+> >         !bpf_capable())
+> >         >     >>                   return -EPERM;
+> >         >     >> ...
+> >         >     >>
+> >         >     >>           err =3D security_bpf(cmd, &attr, size);
+> >         >     >>           if (err < 0)
+> >         >     >>                   return err;
+> >         >     >>
+> >         >     >> So if I understand the code correctly, bpf syscall
+> >         can only be
+> >         >     done if:
+> >         >     >>
+> >         >     >> 1) unprivileged_bpf is enabled or
+> >         >     >> 2) has the capability  and pass the LSM checks
+> >         >     >>
+> >         >     >> So I think the series is for unprivileged_bpf
+> >         disabled. If I'm not
+> >         >     >> wrong, I guess the policy is to grant CAP_BPF but do
+> >         fine grain
+> >         >     checks
+> >         >     >> via LSM.
+> >         >     >>
+> >         >     >> If this is correct, need to describe it in the commit
+> >         log.
+> >         >     >>
+> >         >     >>
+> >         >     >>> Added property "ebpf_rss_fds" for "virtio-net" that
+> >         allows to
+> >         >     >>> initialize eBPF RSS context with passed program &
+> >         maps fds.
+> >         >     >>>
+> >         >     >>> Added qemu-ebpf-rss-helper - simple helper that
+> >         loads eBPF
+> >         >     >>> context and passes fds through unix socket.
+> >         >     >>> Libvirt should call the helper and pass fds to qemu
+> >         through
+> >         >     >>> "ebpf_rss_fds" property.
+> >         >     >>>
+> >         >     >>> Added explicit target OS check for libbpf dependency
+> >         in meson.
+> >         >     >>> eBPF RSS works only with Linux TAP, so there is no
+> >         reason to
+> >         >     >>> build eBPF loader/helper for non-Linux.
+> >         >     >>>
+> >         >     >>> Overall, libvirt process should not be aware of the
+> >         "interface"
+> >         >     >>> of eBPF RSS, it will not be aware of eBPF
+> >         maps/program "type" and
+> >         >     >>> their quantity.
+> >         >     >> I'm not sure this is the best. We have several
+> >         examples that
+> >         >     let libvirt
+> >         >     >> to involve. Examples:
+> >         >     >>
+> >         >     >> 1) create TAP device (and the TUN_SETIFF)
+> >         >     >>
+> >         >     >> 2) open vhost devices
+> >         >     >>
+> >         >     >>
+> >         >     >>>    That's why qemu and the helper should be from
+> >         >     >>> the same build and be "synchronized". Technically
+> >         each qemu may
+> >         >     >>> have its own helper. That's why "query-helper-paths"
+> >         qmp command
+> >         >     >>> was added. Qemu should return the path to the helper
+> >         that suits
+> >         >     >>> and libvirt should use "that" helper for "that"
+> >         emulator.
+> >         >     >>>
+> >         >     >>> qmp sample:
+> >         >     >>> C: { "execute": "query-helper-paths" }
+> >         >     >>> S: { "return": [
+> >         >     >>>        {
+> >         >     >>>          "name": "qemu-ebpf-rss-helper",
+> >         >     >>>          "path":
+> >         "/usr/local/libexec/qemu-ebpf-rss-helper"
+> >         >     >>>        }
+> >         >     >>>       ]
+> >         >     >>>      }
+> >         >     >> I think we need an example on the detail steps for
+> >         how libvirt is
+> >         >     >> expected to use this.
+> >         >     > The preliminary patches for libvirt are at
+> >         >     > https://github.com/daynix/libvirt/tree/RSSv1
+> >         <https://github.com/daynix/libvirt/tree/RSSv1>
+> >         >     <https://github.com/daynix/libvirt/tree/RSSv1
+> >         <https://github.com/daynix/libvirt/tree/RSSv1>>
+> >         >
+> >         >
+> >         >     Will have a look but it would be better if the
+> >         assumption of the
+> >         >     management is detailed here to ease the reviewers.
+> >         >
+> >         >     Thanks
+> >         >
+> >         >
+> >         >     >
+> >         >
+> >
+>
 
