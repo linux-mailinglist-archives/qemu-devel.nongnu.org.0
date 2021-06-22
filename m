@@ -2,73 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC253B016E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:34:17 +0200 (CEST)
-Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8CC3B018B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:38:02 +0200 (CEST)
+Received: from localhost ([::1]:37742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvdjU-0003fV-9Q
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46898)
+	id 1lvdn7-0000Hf-IN
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvdbq-00025u-PC
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:26:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36452)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lvdbw-0002JV-US
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:26:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvdbo-0002tz-MT
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:26:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624357579;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=blNtDBNflu+/H/oq/+6cg/R8kjPPpM1okxqEcrb3ZWo=;
- b=aPsQGMrs/aZ5NXrW1lDse53rIPadqmy5BUh2ehGGsFKelnpVdQEDzOEBZNwVCW473FNrAI
- 5mRiCTnxRwuEoP7Wddd3Z+aopKWVAnLxxzyjj5zS2izBIIhJenSYq28cP4arJg8iw45tCV
- grnkavrnDX33Ro2HHB3NKrPRW+L7ZBk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-FD9Vg42DNkurH4iseQQEdg-1; Tue, 22 Jun 2021 06:26:18 -0400
-X-MC-Unique: FD9Vg42DNkurH4iseQQEdg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D1A5804140;
- Tue, 22 Jun 2021 10:26:17 +0000 (UTC)
-Received: from redhat.com (ovpn-114-176.ams2.redhat.com [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97DA619C66;
- Tue, 22 Jun 2021 10:26:04 +0000 (UTC)
-Date: Tue, 22 Jun 2021 11:26:01 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: RFC: Implementation of QMP documentation retrieval command
-Message-ID: <YNG6uec4cS+hD+Y4@redhat.com>
-References: <CAN6ztm8D4VMf7p-trHNHoOA+1kAXXufTTaHpbyNXZ5qO2_uuPg@mail.gmail.com>
- <6fb6d9d7-3af2-c487-a1d4-aa1140c5a54d@redhat.com>
- <CAN6ztm8bjVnFf_X-vEzYOmTdw09bcoQSkVH9h6BdPFr-PEsP_A@mail.gmail.com>
- <YNGu80s+NHMGw6jf@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lvdbu-0002xP-G6
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:26:28 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15MA4AQV079579; Tue, 22 Jun 2021 06:26:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=NSLYdwUXRFlfTvLCoLt9vsjKBAb6gCPa9Ret3ZAPmMM=;
+ b=GQQ5Fs8q4EN46eFByA7d5r5b9K8vO9bXMfsQqr9Epp8ln7ei+xp1ldnzBQqKikED3jdB
+ nRzaFWnNbTj01hG84wxLo1H1Js3dsadNV9xl9UpaH780QIzXRDmu4gQfid3bgLZ2ICAR
+ h94aDIMndlJmJlwwZ6SDXQEs14VuasCInjn1Ju8t3pYy74AxcfHpzT/AZaKRlpLYzDHx
+ fQis0y3yXRrZETYhxw+7UN08yfTNlv398Ukj4Q4g/SyZZcq8c9dcbYvY2lsXowJ64JZk
+ Ld+NXEeXyTi8h2INc6eW7HW7xAuZNLcjdaiKBM8+rVDtRjoIuT6t/1tyc1SjueAzCRLk Ow== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39bd2aj1bd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 06:26:22 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15MA4aJS081446;
+ Tue, 22 Jun 2021 06:26:22 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39bd2aj1af-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 06:26:22 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15MA71EH000541;
+ Tue, 22 Jun 2021 10:26:20 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3998789cn7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 10:26:19 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15MAQGnG31326620
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 22 Jun 2021 10:26:16 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 675C811C05E;
+ Tue, 22 Jun 2021 10:26:16 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D98BE11C04C;
+ Tue, 22 Jun 2021 10:26:11 +0000 (GMT)
+Received: from [9.160.112.114] (unknown [9.160.112.114])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 22 Jun 2021 10:26:11 +0000 (GMT)
+Subject: Re: [PATCH v2 1/2] sev/i386: Introduce sev_add_kernel_loader_hashes
+ for measured linux boot
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210621190553.1763020-1-dovmurik@linux.ibm.com>
+ <20210621190553.1763020-2-dovmurik@linux.ibm.com>
+ <89258a7b-fe24-4930-5af7-278b68d1f07c@redhat.com>
+ <25b381ad-cdca-60dc-6fb1-1d97ea626843@linux.ibm.com>
+ <d983dbc4-1d6b-c51e-aa1f-3d736ac0d154@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <c54bcaf2-e8df-79fc-3bca-de0212db6333@linux.ibm.com>
+Date: Tue, 22 Jun 2021 13:26:10 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YNGu80s+NHMGw6jf@stefanha-x1.localdomain>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <d983dbc4-1d6b-c51e-aa1f-3d736ac0d154@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 0NEXneurbYUt_U81KhrTJF6DbdjDctd-
+X-Proofpoint-ORIG-GUID: -s2Jh5G_b7pP1WepzyjfJi1qbMuvU-af
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-22_05:2021-06-21,
+ 2021-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 mlxscore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 impostorscore=0 clxscore=1015
+ priorityscore=1501 mlxlogscore=999 bulkscore=0 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106220064
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L5=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,103 +119,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
- John Snow <jsnow@redhat.com>, armbru@redhat.com, wainersm@redhat.com,
- qemu-devel@nongnu.org, "Niteesh G. S." <niteesh.gs@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 22, 2021 at 10:35:47AM +0100, Stefan Hajnoczi wrote:
-> On Mon, Jun 21, 2021 at 11:56:30PM +0530, Niteesh G. S. wrote:
-> > TLDR: The goal of this mail wasn't to review the dummy command I had posted
-> > but
-> > rather start a discussion regarding the implementation of the QMP
-> > documentation
-> > retrieval command for the TUI.
+
+
+On 22/06/2021 12:49, Philippe Mathieu-Daudé wrote:
+> On 6/22/21 11:44 AM, Dov Murik wrote:
+>> On 21/06/2021 23:32, Philippe Mathieu-Daudé wrote:
 > 
-> It's not clear to me what exactly you wanted to discuss. Here is the QMP
-> schema from the commit you linked. It's something concrete that we can
-> discuss:
-> 
->   ##
->   # @CommandDocumentation:
->   #
->   # A object representing documentation for a command.
->   #
->   # @name: Command name
->   #
->   # @doc: A string containing the documentation.
-> 
-> Is @doc in some kind of markup or plain text?
 
-There's a more fundamental question about structure here too.
-The documentation is not a arbitrary block of text. It contains
-specific data items for individual parameters, and return
-type, along with version number annotation too.
-
-If we're returning a single string, then the caller needs to
-know how to parser the current docs structure we're using
-for commands. Right now that's an internal only format, and
-I'm not sure we want to expose that as an ABI to consumers
-of QEMU. So quite possibly we need to return structured
-data instead
-
-eg potentially we need
-
-   { 'struct': 'CommandDocumentation',
-     'data': {'name': 'str',
-              'summary': 'str'
-              'description: 'str'
-	      'parameters': ['str'],
-	      'return': str,
-	      'since': str,
-	      'notes': str,
-	      'example':str,
-	     } }
+...
 
 > 
->   #
->   ##
->   { 'struct': 'CommandDocumentation',
->     'data': {'name': 'str', 'doc': 'str'} }
+>>>> +    if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+>>>
+>>> If we never use the data_len argument, can we simplify the prototype?
+>>
+>> The current uses for the OVMF reset vector GUIDed table is for simple
+>> structs with known length (secret injection page address, SEV-ES reset
+>> address, SEV table of hashes address).  But keeping the length there
+>> allows adding variable-sized entries such as strings/blobs.
 > 
->   ##
->   # @query-cmd-doc:
->   #
->   # (A simple *prototype* implementation)
->   # Command query-cmd-doc will return the documentation for the command
->   # specified. This will help QMP clients currently the AQMP TUI to show
->   # documentation related to a specific command.
->   #
->   # @command-name: The command name to query documentation for
->   #
->   # Returns: A @CommandDocumentation object containing the documentation.
->   #
->   # Since: TODO: Add a number
->   ##
->   { 'command': 'query-cmd-doc',
->     'data': { 'command-name': 'str' },
->     'returns': 'CommandDocumentation' }
-> 
-> Is there a way to retrieve struct/enum/etc documentation?
-> 
-> Do you see a need to query multiple items of documentation in a single
-> command? A single item query command can become a performance bottleneck
-> if the clients wants to query the documentation for all commands, for
-> example. This can be solved by making the the return value an array and
-> allowing multiple commands to be queried at once.
+> OK. Good opportunity to document the prototype declaration ;)
 
-If you want batch querying, then it needs to recursively return all
-the struct/enum docs related to the commands parameters/return values
-too.
+Yep. I'll send as a separate standalone patch.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
+P.S.
+In a previous version you mentioned you ran into issues with a qemu
+build with SEV disabled.  I tried that by modifying
+default-configs/devices/i386-softmmu.mak and uncommenting CONFIG_SEV=n
+there.  Is there a friendlier way to create such a build?
+
+I'm currently building with:
+
+    cd build
+    ../configure --target-list=x86_64-softmmu
+    make
+
+
+Thanks,
+-Dov
 
 
