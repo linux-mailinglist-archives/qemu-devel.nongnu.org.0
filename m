@@ -2,93 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5843B00C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:51:01 +0200 (CEST)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03E63B00D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:58:03 +0200 (CEST)
+Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvd3c-00061C-2z
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
+	id 1lvdAQ-0001NN-8c
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:58:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvd1t-00057p-3o
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 05:49:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28401)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lvd9W-0000Zl-Id; Tue, 22 Jun 2021 05:57:06 -0400
+Received: from mail-eopbgr80133.outbound.protection.outlook.com
+ ([40.107.8.133]:15854 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvd1q-00047T-Gk
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 05:49:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624355348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fJhhPgcPxLiNin2SC3knrmNpZG8Os+cxjW4930fy8F4=;
- b=AUCWFZggd8J2mVdltc71Bp9SnYodh+YT6vJpaHV6dThpoW/RANL6nZIdjpPrGyy0jzWZ/w
- hXZBNoQtWkCJN1+0D2x0+sNUvCZTj0h9LUFm6Tdy2HrYjRudYWPZXCbcYNQ/dUySp9W4oC
- v0yQZZmC3kZq0kjFDaTUD6jt/feYn50=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-dqVto-0zNQmkkkZa61kiEQ-1; Tue, 22 Jun 2021 05:49:07 -0400
-X-MC-Unique: dqVto-0zNQmkkkZa61kiEQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- s15-20020a7bc38f0000b02901dbb76fabe9so1075355wmj.4
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 02:49:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fJhhPgcPxLiNin2SC3knrmNpZG8Os+cxjW4930fy8F4=;
- b=t/htf898BABrrVxqcoG+CzyZAgwLY/iewL7BQZ1QybyN4HqmixEwMPfoBZPDyisGFQ
- TvBT4nwl0zuuofVsXRVU377z19ZqwtHATo/t9N4zcTy0684usPxb+uGCaxQRVwqAPvvW
- oNO8gPqc0Kf1Mt48Gchg1ql0x97rTDe9qCA0QfA04COxgttuEQ7a/vH9gqtG0O46rq4R
- 6HSeUu2+H0RdH6xRp0BY4Cezy+RDFfFT73kjNDB8XFDq+ZkIQXHHp8DYhn26/23WijBO
- GbS+nDhPBHB4ULEu7L78jvXdpQ4tSCNYOoxScchy3zsbfriVem2Znx5Lh9YEAUFCBkmd
- ZrMg==
-X-Gm-Message-State: AOAM532sQK9XK4hsBp6+00vmpXDj9Ya7gApS7BlYtX5z8agJGmLJxQ3D
- OTOolaUNZWn6lzlayYAFD1xWY5i2RSwRRTZn5vnZBnnKZCu6om1cgK3csMYMbGQv6L6A8WSZz0b
- YOo12HNz+4IlF2Zo=
-X-Received: by 2002:adf:ebc6:: with SMTP id v6mr3632788wrn.398.1624355346258; 
- Tue, 22 Jun 2021 02:49:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUhHI6Ttzxy6uFocxX78q9L8qh4qDeA7oUyBR2g3Uufkg5XbJJ5SlNQrVypXzSCz6o90qqNA==
-X-Received: by 2002:adf:ebc6:: with SMTP id v6mr3632760wrn.398.1624355346012; 
- Tue, 22 Jun 2021 02:49:06 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id r6sm20330574wrz.91.2021.06.22.02.49.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jun 2021 02:49:05 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] sev/i386: Introduce sev_add_kernel_loader_hashes
- for measured linux boot
-To: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20210621190553.1763020-1-dovmurik@linux.ibm.com>
- <20210621190553.1763020-2-dovmurik@linux.ibm.com>
- <89258a7b-fe24-4930-5af7-278b68d1f07c@redhat.com>
- <25b381ad-cdca-60dc-6fb1-1d97ea626843@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d983dbc4-1d6b-c51e-aa1f-3d736ac0d154@redhat.com>
-Date: Tue, 22 Jun 2021 11:49:04 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lvd9S-0000k7-Vx; Tue, 22 Jun 2021 05:57:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cwQDs2kDxgEvr+edy3KEOlv2eYiG5pjfILqhyqpkrh4ILM/yPR61ECIZtR/OwejQfFyluZWYaDMduxvLBDqMVUARJgYGG3NdFsCfMuUGvXdw4HsnVjZOLz9HyZJOuMu2waRDVxnUJu3Rqsz+gn2gB5hZDUjFPVR5XO4XbwoMo5BcE2rfB3ioUh76hCGH7xYD4u55UQ+bD6zu2V4Q4mYDQOWC5wQgG2LpquUYDCdJJz1QE8tfmIoRZrzfPq++dDBHp6h9WGEXw1730ac6hDsrOjFQADRSkpOSThML1EJmEw9l4pEPmcd6GPo/5bHsVWqX6HVSHYn3gkGzM70at5YORg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aYmAvUvwQmel1v2Bs57AfKpQ1hAO7l0E9mTNTfvxlrk=;
+ b=mGYcrk5b7bNn8HiZAfxVispiQlqx544eBwlaiz7FaGBG2Z2czULL7WGehIdXbk/sjen/Xkihao/ja8xxC/dQlF5gdRiI9sVcjRu1A9QLpDTjK2/xWBbROSp9xI0u7KtIFESKeNDWYX/ydvFv6dS4ZinuquAZj79dqhwSlKj+ywuAWb+Aw07D/GXaFDajMyoXgTOxEJqKxwE9qMAFOaWyqiC4j60he4RKABtyTRVNrRCR4N+MUxABAHySstJPungxTSA4amUUjp3/zQdJQfFAsFKlGnljjF/3uZBSwrytOiPJuV42Daho7EfMCdr31oifaK1qySt0gJBmeBbQ0ES64A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aYmAvUvwQmel1v2Bs57AfKpQ1hAO7l0E9mTNTfvxlrk=;
+ b=XBRRxAThbG9WzXmokReE6ScQDCbrxyUYFxxoaDcfiKH42AMWSYdpfrntRSYSKVb7PNOIVTpG9vik1J4rKAsRWZDf0XQfOUiPADPZMfiTJUlqg8vo/uKusRYgipqwACkC9fnRgJmIxzypihRO6gbkyQQrdhSWNSO4mIXOUhzfFzQ=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6166.eurprd08.prod.outlook.com (2603:10a6:20b:296::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Tue, 22 Jun
+ 2021 09:56:58 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4242.023; Tue, 22 Jun 2021
+ 09:56:58 +0000
+Subject: Re: [PATCH v4 6/6] block-copy: atomic .cancelled and .finished fields
+ in BlockCopyCallState
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210614073350.17048-1-eesposit@redhat.com>
+ <20210614073350.17048-7-eesposit@redhat.com>
+ <fcb8849c-bedf-aacc-3831-0239d89af2d6@virtuozzo.com>
+ <215f6356-1b9a-3f3b-c35d-bf0b176ebd0f@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <be6351d0-4616-b94d-9c31-922fe4afa437@virtuozzo.com>
+Date: Tue, 22 Jun 2021 12:56:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <25b381ad-cdca-60dc-6fb1-1d97ea626843@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <215f6356-1b9a-3f3b-c35d-bf0b176ebd0f@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [185.215.60.221]
+X-ClientProxiedBy: HE1PR0501CA0035.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::45) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.221) by
+ HE1PR0501CA0035.eurprd05.prod.outlook.com (2603:10a6:3:1a::45) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.18 via Frontend Transport; Tue, 22 Jun 2021 09:56:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a13f69d4-6d93-4210-05fb-08d9356412f7
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6166:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB61669B6A95F4350579371F45C1099@AS8PR08MB6166.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f3GHYeo4dpwBNP8ehFeEi6kx4HrBtwjjazO/1fSKnlr5q9GwXMQrTjCVBxN2QWAxpPsglLwZrUXTDkilUQRlGX+L0B9alfsgFblDBd2vAO1USmtUHJX7AW40XI+kzZN4zhWm/AHy6ptcC+ZbZutKAAxq4c9+YM9QVZxZIl6ZXWWFMMjJPxmDLNF7gLedeE42FChsaUFmxRzyR1x6puCzQckqwCvOUr8wHueCO9JIODxW7huMM0HlzplgX8bA8ef6TFUNuM1qkuSsqvKi5MQMd+hlKJHTRU+Vfkq2F+IEu9dYrlmKEWJhRFWPP6FqM5dluGbTHf8Sh2AKkJfSzGAA1Jybzqb8N7niuqiyls4yn4l7SxoJt++5LPQiuHdgS6TqPyTBV+q8hJ/wN2NmTXO4IInu4Xyk8kGXHAqvORbht5sXuhe8NytG95QP8dXKctBtadSjD3tMqqpvj5coZbTEW9VFzUoGtSBK//RZ1mAF9iKLFiWTeIgz8K2j3PEAUuvNCHvjp+n4m6IBHLguBuLRhPhr5l87czpKrlVoMyRUQ9YJ4QFVOHxGaz40OLhjRiJ91pvx3wnIIAw9m11bufNSfLYp35JWy71xy81SKHyI52jWbpV3qN8+wyQv6cYwa9J9CQWvc5ATtXc9q6lmG5e1N7Xc9vlwLcz4SoHiusN6TD1F9etsIedCSGBMEV4059poQ4eAu0nPsTvvCgcf+CA6/Cnh9CbX5HRTHdQxzV9M7J+2zEdlfhzfHgBQmZ1WxKEp
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(366004)(39840400004)(376002)(136003)(36756003)(54906003)(956004)(6486002)(31686004)(8676002)(2616005)(5660300002)(2906002)(8936002)(16576012)(66946007)(16526019)(316002)(83380400001)(478600001)(66476007)(38100700002)(31696002)(4326008)(38350700002)(86362001)(66556008)(52116002)(53546011)(186003)(26005)(142923001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3o3bUdzUVVNTm00NTBHYU9tbkxLSXpGdjVMT01YVysySVZRZTdpMWRzSWpE?=
+ =?utf-8?B?UzI5NlBNV0VRMDdCZkxzUnNCdTVDSmRjeGpvMGR1VTAzSXJrOUZsTHJHTFBp?=
+ =?utf-8?B?akNwYzR0TGoxSUk5dG01NVFJbVAydEpqM1NoQ0c1QU4zZ2Y0Q0EzaDZwVmNX?=
+ =?utf-8?B?bTEyV3U3VGV2V3U1cDJLT3k2d1VJc2l1RHR2U2lyZ3NYbjNBVktCSVd1OWZi?=
+ =?utf-8?B?R29UQithT0hJL2VCNHdzMm1XVFlGc1UrM0hTNlhrNk1LaWJJODYrN0d3ZW9O?=
+ =?utf-8?B?ZHlVemllVUpObEhJSkZpNFpVNFZLUk9vemFha0x0bVQvdzhoVWVneDNSNVBr?=
+ =?utf-8?B?d1dtS1JiZnJQUm8xMmhqMXdCWVVuZFRFNHRuR0dxTnRnWWVXNW8zbjBiZlpz?=
+ =?utf-8?B?WXRwRnNBbUR2TlhTeXEvVVpLQkp2Nzdja0E3c0xDREplRjBLSDVHRlZDZmRQ?=
+ =?utf-8?B?eUppeVFqMmtNSlhzNnJ0em1HeW1yNUhpRjc5dHozc3NZeHpBdWE2T1JsWm0y?=
+ =?utf-8?B?cjZKa2lnREc5YXBuWmFUMGMxOXlGSVNiOG5kNU5DQnZibi9tZ3o1N2pXRE1I?=
+ =?utf-8?B?MWJDNHRWM0dkWFZMSVFHeHNCVGNwMFdmcHhSZzZ4blRpMVo0cklTQVV3OXFh?=
+ =?utf-8?B?K0lVU0NUN3l3UUtpTjRkaFp1eDVSQzlueVJuYzlzM0dVT0d4UUtoVmRMeTJB?=
+ =?utf-8?B?TG16N1l2U2FtY29DTGoxTE5qKzBrTUdxejZVcVBuV0NjREllQUtHSEs1VDZL?=
+ =?utf-8?B?aGNsYlV1WlpzQXdKdkZxS2pRNG1jcW9kZjlRQ1ZkbTRUYUtIUjR5ZnZITUM3?=
+ =?utf-8?B?YnN6Nk81c0xiMldVQ0xHMlV2ZnhlNFVlQXJESncxVjBiTWF1bTl2Z3c5aS9a?=
+ =?utf-8?B?T0JDcWRUTWZReEJ0bnlPb2FHU0V2QmEvQ3RFNUUrU2luMHpCRkkzdk1GL21D?=
+ =?utf-8?B?YWxhcTFaVWpTaHM3OXd0Z3VkVXA3YmJGdmpjVGhldGIrMXdsN003b3lFRDF6?=
+ =?utf-8?B?NUV2dE9sNmNDRnFNeWp3QWVDSFNEeHVKTW9IekFZOVZXYjNxRmh1YlJKWjNE?=
+ =?utf-8?B?bDV3NzNsMWtEUjZ1MXU0aURsVGxxcDl0bHQ5eGF4dHYvKzZ6QVhBdFFNemZ6?=
+ =?utf-8?B?RFlnd3ZqaXZqL2RjdjFRWE1iY09zWW5mZjVWVloyMjUxSGJFZ3BDdHJGbWhk?=
+ =?utf-8?B?b05ldExvMUlnYUhkK1JnOHZnL3E2VVR3ZHlHVTU1UDdpL1F1cmlGb2hKS2R6?=
+ =?utf-8?B?MTBqNDNXQ0J0K0JGOTNsS2h2TlVLSTNrS1A4NS9UTnJrTEtaVzlHZVk3OU1B?=
+ =?utf-8?B?R1JVUENUdk1zbzUrUUZEYWl1Y3A3bU4yUlJiTlNIVDVjUEcyV0poTUppY3l2?=
+ =?utf-8?B?UEVQeGQxWEl3WUhkTW5lcWJIK0hFWGQwcjVDb1E0YnhKMW5jY0JPVUNYclMx?=
+ =?utf-8?B?NDgzb1FUN1gyck5DOFpuMlBOYkFEZjJ4WUpmQmJGSEtCOHJIOFROMERJd0s1?=
+ =?utf-8?B?ZlFVdFVNU1REeE5HaVp3QkVLYk9hQkRLL2JrWTlpbmhUNnJUL2J4RlZDVWJL?=
+ =?utf-8?B?NUJSWmhTYzlKa0VjT2xzOUJiT2JQNlJ2NkxlVEZsbHZORE9Lc01Cakx3bFhy?=
+ =?utf-8?B?T3pXSHg0bFc0Z3lKMUIwZkdLQUVScHptOTdsaGVkN1ZmUTF0ekxXYUhIUDBw?=
+ =?utf-8?B?OEhFRkVKQ3EyK0U1UkJndk44MHlqaXdWZzBONFBIQnJyRWJ3TmFIcVZEL1pZ?=
+ =?utf-8?Q?aKW6y+LmRAEVRIJnFkncBTtCBP9ns6F88bo8t9s?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a13f69d4-6d93-4210-05fb-08d9356412f7
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 09:56:58.1891 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NvgfIRAWzloC1N1CcgTlFhtXg4RROqaUsSHXS97FELgE1rW1Oh8YJvn8/gbYBwRH1ybtWoQPBSkcgqOFpuSfx0AJgankaoQnhljy1F+K6IU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6166
+Received-SPF: pass client-ip=40.107.8.133;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,89 +149,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/22/21 11:44 AM, Dov Murik wrote:
-> On 21/06/2021 23:32, Philippe Mathieu-Daudé wrote:
-
->> and added qemu_uuid_copy() to complete the API, but that's fine.
+21.06.2021 12:30, Emanuele Giuseppe Esposito wrote:
 > 
-> I think simple C assignment works for structs (and hence QemuUUID),
-> something like:
 > 
->     SevHashTable *ht = ...;
->     ht->guid = sev_hash_table_header_guid;
-> 
-> (where both ht->guid and sev_hash_table_header_guid are QemuUUID.)
-
-OK.
-
->>> +    if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+> On 19/06/2021 22:06, Vladimir Sementsov-Ogievskiy wrote:
+>> 14.06.2021 10:33, Emanuele Giuseppe Esposito wrote:
+>>> By adding acquire/release pairs, we ensure that .ret and .error_is_read
+>>> fields are written by block_copy_dirty_clusters before .finished is true.
 >>
->> If we never use the data_len argument, can we simplify the prototype?
+>> And that they are read by API user after .finished is true.
+>>
+>>>
+>>> The atomic here are necessary because the fields are concurrently modified
+>>> also outside coroutines.
+>>
+>> To be honest, finished is modified only in coroutine. And read outside.
+>>
+>>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>> ---
+>>>   block/block-copy.c | 33 ++++++++++++++++++---------------
+>>>   1 file changed, 18 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/block/block-copy.c b/block/block-copy.c
+>>> index 6416929abd..5348e1f61b 100644
+>>> --- a/block/block-copy.c
+>>> +++ b/block/block-copy.c
+>>> @@ -53,14 +53,14 @@ typedef struct BlockCopyCallState {
+>>>       Coroutine *co;
+>>>       /* State */
+>>> -    bool finished;
+>>> +    bool finished; /* atomic */
+>>
+>> So, logic around finished:
+>>
+>> Thread of block_copy does:
+>> 0. finished is false
+>> 1. tasks set ret and error_is_read
+>> 2. qatomic_store_release finished -> true
+>> 3. after that point ret and error_is_read are not modified
+>>
+>> Other threads can:
+>>
+>> - qatomic_read finished, just to check are we finished or not
+>>
+>> - if finished, can read ret and error_is_read safely. If you not sure that block-copy finished, use qatomic_load_acquire() of finished first, to be sure that you read ret and error_is_read AFTER finished read and checked to be true.
+>>
+>>>       QemuCoSleep sleep; /* TODO: protect API with a lock */
+>>>       /* To reference all call states from BlockCopyState */
+>>>       QLIST_ENTRY(BlockCopyCallState) list;
+>>>       /* OUT parameters */
+>>> -    bool cancelled;
+>>> +    bool cancelled; /* atomic */
+>>
+>> Logic around cancelled is simpler:
+>>
+>> - false at start
+>>
+>> - qatomic_read is allowed from any thread
+>>
+>> - qatomic_write to true is allowed from any thread
+>>
+>> - never write to false
+>>
+>> Note that cancelling and finishing are racy. User can cancel block-copy that's already finished. We probably may improve change it, but I'm not sure that it worth doing. Still, maybe leave some comment in API documentation.
+>>
+>>>       /* Fields protected by lock in BlockCopyState */
+>>>       bool error_is_read;
+>>>       int ret;
+>>> @@ -650,7 +650,8 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
+>>>       assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+>>>       assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+>>> -    while (bytes && aio_task_pool_status(aio) == 0 && !call_state->cancelled) {
+>>> +    while (bytes && aio_task_pool_status(aio) == 0 &&
+>>> +           !qatomic_read(&call_state->cancelled)) {
+>>>           BlockCopyTask *task;
+>>>           int64_t status_bytes;
+>>> @@ -761,7 +762,7 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+>>>       do {
+>>>           ret = block_copy_dirty_clusters(call_state);
+>>> -        if (ret == 0 && !call_state->cancelled) {
+>>> +        if (ret == 0 && !qatomic_read(&call_state->cancelled)) {
+>>>               WITH_QEMU_LOCK_GUARD(&s->lock) {
+>>>                   /*
+>>>                    * Check that there is no task we still need to
+>>> @@ -792,9 +793,9 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+>>>            * 2. We have waited for some intersecting block-copy request
+>>>            *    It may have failed and produced new dirty bits.
+>>>            */
+>>> -    } while (ret > 0 && !call_state->cancelled);
+>>> +    } while (ret > 0 && !qatomic_read(&call_state->cancelled));
+>>> -    call_state->finished = true;
+>>> +    qatomic_store_release(&call_state->finished, true);
+>>
+>> so, all writes to ret and error_is_read are finished to this point.
+>>
+>>>       if (call_state->cb) {
+>>>           call_state->cb(call_state->cb_opaque);
+>>> @@ -857,35 +858,37 @@ void block_copy_call_free(BlockCopyCallState *call_state)
+>>>           return;
+>>>       }
+>>> -    assert(call_state->finished);
+>>> +    assert(qatomic_load_acquire(&call_state->finished));
+>>
+>> Here we don't need load_aquire, as we don't read other fields. qatomic_read is enough.
 > 
-> The current uses for the OVMF reset vector GUIDed table is for simple
-> structs with known length (secret injection page address, SEV-ES reset
-> address, SEV table of hashes address).  But keeping the length there
-> allows adding variable-sized entries such as strings/blobs.
+> So what you say makes sense, the only thing that I wonder is: wouldn't it be better to have the acquire without assertion (or assert afterwards), just to be sure that we delete when finished is true?
+> 
 
-OK. Good opportunity to document the prototype declaration ;)
+Hmm. I think neither compiler nor processor should reorder read structure field and free() call on the whole structure :)
+
+And anyway for block_copy_call_free() caller is responsible for the structure not being used by other thread.
 
 > 
 >>
->>> +        error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
->>> +        return false;
->>> +    }
->>> +    area = (SevHashTableDescriptor *)data;
->>> +
->>> +    ht = qemu_map_ram_ptr(NULL, area->base);
->>> +
->>> +    /* Populate the hashes table header */
->>> +    memcpy(ht->guid, sev_hash_table_header_guid, sizeof(ht->guid));
->>> +    ht->len = sizeof(*ht);
->>> +
->>> +    /* Calculate hash of kernel command-line */
->>> +    if (qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA256, ctx->cmdline_data,
->>> +                           ctx->cmdline_size,
->>> +                           &hash, &hash_len, errp) < 0) {
->>> +        return false;
->>> +    }
+>>>   }
+>>>   bool block_copy_call_cancelled(BlockCopyCallState *call_state)
+>>>   {
+>>> -    return call_state->cancelled;
+>>> +    return qatomic_read(&call_state->cancelled);
+>>>   }
+>>>   int block_copy_call_status(BlockCopyCallState *call_state, bool *error_is_read)
+>>>   {
+>>> -    assert(call_state->finished);
+>>> +    assert(qatomic_load_acquire(&call_state->finished));
 >>
->> Maybe move the qcrypto_hash_bytes() call before filling ht?
+>> Hmm. Here qatomic_load_acquire protects nothing (assertion will crash if not yet finished anyway). So, caller is double sure that block-copy is finished.
+>>
+>> Also it's misleading: if we think that it do some protection, we are doing wrong thing: assertions may be simply compiled out, we can't rely on statements inside assert() to be executed.
+>>
+>> So, let's use simple qatomic_read here too.
 > 
-> (below)
+> Same applies here.
+
+Here I agree with Paolo, assertion works better as written..
+
+So we can just keep it as is.
+
 > 
 >>
->>> +    e = &ht->entries[ht_index++];
->>> +    fill_sev_hash_table_entry(e, sev_cmdline_entry_guid, hash, hash_len);
->>> +
->>> +    /* Calculate hash of initrd */
->>> +    if (ctx->initrd_data) {
->>> +        if (qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA256, ctx->initrd_data,
->>> +                               ctx->initrd_size, &hash, &hash_len, errp) < 0) {
->>> +            return false;
->>> +        }
+>>>       if (error_is_read) {
+>>>           *error_is_read = call_state->error_is_read;
+>>>       }
+>>> @@ -894,7 +897,7 @@ int block_copy_call_status(BlockCopyCallState *call_state, bool *error_is_read)
+>>>   void block_copy_call_cancel(BlockCopyCallState *call_state)
+>>>   {
+>>> -    call_state->cancelled = true;
+>>> +    qatomic_set(&call_state->cancelled, true);
+>>>       block_copy_kick(call_state);
+>>>   }
+>>>
 >>
->> Ah, now I see the pattern. Hmm OK then.
+>> Uhh :)
 >>
+>> Ok, that looks close too. Or in other words, I feel that I have good enough understanding of all the thread-safe logic that you have implemented :)
 > 
-> But this might change if initrd_hash is no longer optional (see separate
-> self-reply to this patch).  In such a case I'll probably first calculate
-> all the three hashes, and then fill in the SevHashTable struct.
+> Good! :)
+> 
+> Emanuele
+> 
 
-Yes, sounds simpler.
 
-Regards,
-
-Phil.
-
+-- 
+Best regards,
+Vladimir
 
