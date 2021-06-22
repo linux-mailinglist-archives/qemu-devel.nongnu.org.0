@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64023B09C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:00:43 +0200 (CEST)
-Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A30E3B0995
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:53:37 +0200 (CEST)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvipO-0005hA-Cb
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:00:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
+	id 1lviiW-0005CN-JT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:53:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidg-0005F9-R5
+ id 1lvidg-0005Eo-FF
  for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:36 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33718)
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidb-0005Lr-8R
+ id 1lvidc-0005Ma-3s
  for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:36 -0400
-Received: by mail-pg1-x533.google.com with SMTP id e20so17454885pgg.0
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:48:30 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ pf4-20020a17090b1d84b029016f6699c3f2so2008642pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N/lN13zaTHZB/kVsExqcKdAsEK0/M5Qen0CO6QpX8H8=;
- b=sfHOrJXgZ7p/0GEO6UzlRgLke9CLZYOrprOMfiA4EzPg8G03hqfY5vMi8zWbjz5j2d
- mptRCjoIln4CTyoNXiAzg/2v/OcNPGBxbuv68FKYpGrC6wuG7TtZo16IsG4bFDCX7QiM
- e4eL6gT17SWsW3/dhTmpdXPMGfejZjkLyB0useaSwL3Uvx0FgRLo2qvU/kqm9O87dcg0
- MBHPRxVrjuf1gPXGGlpPfwbmmNJACYyD8C1ycRWJZCn0904BOVPwgbvJ3V/K4QUpYa26
- c8EI1NFuBiQsdACD/kqf56BGPYTAet7Xf7zZ3hOhgEnOO9j9F48KFYMw5x5azgFX2eHL
- Ztkw==
+ bh=jNYcTdY0tgpC6WMieF5n4+EqywMO5iR2r/bf+GYbaDw=;
+ b=JrKRtVYIZG9TqyN4uQtORZFRThDGU+HgmBRn2GG763go/l2xlh5IVNj1dExRad3956
+ T5FNNGQ/MG3LX/2QYVFJMsiBpgXYBxRt4ZnipHCrTAqfuydIhY/UIAoWs4M/E0WZMdHd
+ gQKcD7IwpBSSiEA1tXFkHtCis55JzNGTTvNBUuF7HD/npLpTwL/5bo4oPKFKiMxXvRSA
+ Tnc+y5+LKTbfjskRjjWPnWSJODLdELjmpthcNvhOFQT/oBes/F2cdiNDE+crtXEH1DSK
+ 5mdj9E1SZSiD/1vw+Umws68R6hER3GOvcttO/7bJY5I9oaXaf17pY4dpgC9IcjJYEBa5
+ Vqew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N/lN13zaTHZB/kVsExqcKdAsEK0/M5Qen0CO6QpX8H8=;
- b=CrcRFiHsIJHiNGTzL/TgEGF8o0Ts/OzsifXUXT0VculCdPapN0vbspLGqWpJe71V3V
- BRZHyQKFxS2S9rc2AEraU/0+8EU3whKt+4rWvgj8TflT1amMsFinUlv21dwu8dwJq/XK
- MAyS3WERj44BBIbDbZP35mPNRCw0/5kgqNH1ebTrIe7f7yym79rDpbKIt2hL/kZyZdSo
- qJUrZK+u/7YXj8RB2rhuGWI0dmt3MNXrFMO9q7MF2kKm9bc+GYRkBSqm67drCy8y5tFa
- WaXn1kyGCF05wmOndBsRYvYlO3qduSEZHOZnUg9fL6Jw7nOql1vO3brtxwMBeX5Jh2x1
- v2lQ==
-X-Gm-Message-State: AOAM533NBmRyf0HeqY53I19sFlyXGMtE88lARJDzEihY/6JucBDXWwiH
- /FhIuPaqeLjqy5d5UhNAdNKwrPO4rCyRlw==
-X-Google-Smtp-Source: ABdhPJzI7btic9gJ9tslkVGE9debAJXQcmd05Ncfg5xoAp1Smp+daU5Y2DLGw1JhtbjDzlz3cInlnA==
-X-Received: by 2002:aa7:8507:0:b029:2ea:559:da5 with SMTP id
- v7-20020aa785070000b02902ea05590da5mr4169508pfn.45.1624376910016; 
+ bh=jNYcTdY0tgpC6WMieF5n4+EqywMO5iR2r/bf+GYbaDw=;
+ b=DtQd507jCqoBTkwS1fCA10sKTKCDmsobNZ9sxk6YS13V508pAkUS0hDmxe1iRFuTEx
+ eofhClkJhdLZ2+7Ok4Pgu7n2A76Hr4bmUE+gh1IYiIkdSJZGH1PcPeCgEHih4qiD42A1
+ T9qrp/VlhsXhsSCFWOdJ6dDd/o8guROp3jZOoAHcbOFYYeaWOyF2bpTS71JVjQoH2gyw
+ 66tmqTSYlOQyVvFDV8eA+BQXlElfA/VpXAnFD9Jfsmr5FvuccVDplnWGBpz18iHg12Bw
+ zuBhtfb+fKQMm9EYfOBV5uvJnQXfVkJnrFpAhkQVdJ8k/IOuw5J0mXrPdbZGDHgeWow1
+ QJaQ==
+X-Gm-Message-State: AOAM533+jJdNQWYTX2TR3mZn2ip4dXVu1WOqZt8ctQDQ0Kzr8p4Dvlh8
+ QzGSxPkZiO83oWXzr6+8nBpM/V3L224Vhg==
+X-Google-Smtp-Source: ABdhPJyg11VRHAGOUc6us7prMgjWk+CfhD9uDgDJ+RFEhMtAXA0Myu4TB2im85DHdojkgFyyjC3oAA==
+X-Received: by 2002:a17:90a:7401:: with SMTP id
+ a1mr4670611pjg.57.1624376910757; 
  Tue, 22 Jun 2021 08:48:30 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.29
+ by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 08:48:29 -0700 (PDT)
+ Tue, 22 Jun 2021 08:48:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/15] target/cris: Improve JMP_INDIRECT
-Date: Tue, 22 Jun 2021 08:48:18 -0700
-Message-Id: <20210622154820.1978982-14-richard.henderson@linaro.org>
+Subject: [PATCH v3 14/15] target/cris: Remove dc->flagx_known
+Date: Tue, 22 Jun 2021 08:48:19 -0700
+Message-Id: <20210622154820.1978982-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210622154820.1978982-1-richard.henderson@linaro.org>
 References: <20210622154820.1978982-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,56 +88,240 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use movcond instead of brcond to set env_pc.
-Discard the btarget and btaken variables to improve
-register allocation and avoid unnecessary writeback.
+Ever since 2a44f7f17364, flagx_known is always true.
+Fold away all of the tests against the flag.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ target/cris/translate.c         | 99 ++++++++-------------------------
+ target/cris/translate_v10.c.inc |  6 +-
+ 2 files changed, 24 insertions(+), 81 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index ea6efe19d9..05be0a41bd 100644
+index 05be0a41bd..45548ffb5e 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -522,17 +522,6 @@ static void t_gen_swapr(TCGv d, TCGv s)
-     tcg_temp_free(org_s);
+@@ -120,8 +120,6 @@ typedef struct DisasContext {
+ 
+     int cc_x_uptodate;  /* 1 - ccs, 2 - known | X_FLAG. 0 not up-to-date.  */
+     int flags_uptodate; /* Whether or not $ccs is up-to-date.  */
+-    int flagx_known; /* Whether or not flags_x has the x flag known at
+-                translation time.  */
+     int flags_x;
+ 
+     int clear_x; /* Clear x after this insn?  */
+@@ -377,66 +375,26 @@ static inline void t_gen_add_flag(TCGv d, int flag)
+ 
+ static inline void t_gen_addx_carry(DisasContext *dc, TCGv d)
+ {
+-    if (dc->flagx_known) {
+-        if (dc->flags_x) {
+-            TCGv c;
+-            
+-            c = tcg_temp_new();
+-            t_gen_mov_TN_preg(c, PR_CCS);
+-            /* C flag is already at bit 0.  */
+-            tcg_gen_andi_tl(c, c, C_FLAG);
+-            tcg_gen_add_tl(d, d, c);
+-            tcg_temp_free(c);
+-        }
+-    } else {
+-        TCGv x, c;
++    if (dc->flags_x) {
++        TCGv c = tcg_temp_new();
+ 
+-        x = tcg_temp_new();
+-        c = tcg_temp_new();
+-        t_gen_mov_TN_preg(x, PR_CCS);
+-        tcg_gen_mov_tl(c, x);
+-
+-        /* Propagate carry into d if X is set. Branch free.  */
++        t_gen_mov_TN_preg(c, PR_CCS);
++        /* C flag is already at bit 0.  */
+         tcg_gen_andi_tl(c, c, C_FLAG);
+-        tcg_gen_andi_tl(x, x, X_FLAG);
+-        tcg_gen_shri_tl(x, x, 4);
+-
+-        tcg_gen_and_tl(x, x, c);
+-        tcg_gen_add_tl(d, d, x);
+-        tcg_temp_free(x);
++        tcg_gen_add_tl(d, d, c);
+         tcg_temp_free(c);
+     }
  }
  
--static void t_gen_cc_jmp(TCGv pc_true, TCGv pc_false)
--{
--    TCGLabel *l1 = gen_new_label();
--
--    /* Conditional jmp.  */
--    tcg_gen_mov_tl(env_pc, pc_false);
--    tcg_gen_brcondi_tl(TCG_COND_EQ, env_btaken, 0, l1);
--    tcg_gen_mov_tl(env_pc, pc_true);
--    gen_set_label(l1);
--}
--
- static bool use_goto_tb(DisasContext *dc, target_ulong dest)
+ static inline void t_gen_subx_carry(DisasContext *dc, TCGv d)
  {
-     return ((dest ^ dc->base.pc_first) & TARGET_PAGE_MASK) == 0;
-@@ -3319,8 +3308,17 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-             /* fall through */
+-    if (dc->flagx_known) {
+-        if (dc->flags_x) {
+-            TCGv c;
+-            
+-            c = tcg_temp_new();
+-            t_gen_mov_TN_preg(c, PR_CCS);
+-            /* C flag is already at bit 0.  */
+-            tcg_gen_andi_tl(c, c, C_FLAG);
+-            tcg_gen_sub_tl(d, d, c);
+-            tcg_temp_free(c);
+-        }
+-    } else {
+-        TCGv x, c;
++    if (dc->flags_x) {
++        TCGv c = tcg_temp_new();
  
-         case JMP_INDIRECT:
--            t_gen_cc_jmp(env_btarget, tcg_constant_tl(npc));
-+            tcg_gen_movcond_tl(TCG_COND_NE, env_pc,
-+                               env_btaken, tcg_constant_tl(0),
-+                               env_btarget, tcg_constant_tl(npc));
-             is_jmp = dc->cpustate_changed ? DISAS_UPDATE : DISAS_JUMP;
+-        x = tcg_temp_new();
+-        c = tcg_temp_new();
+-        t_gen_mov_TN_preg(x, PR_CCS);
+-        tcg_gen_mov_tl(c, x);
+-
+-        /* Propagate carry into d if X is set. Branch free.  */
++        t_gen_mov_TN_preg(c, PR_CCS);
++        /* C flag is already at bit 0.  */
+         tcg_gen_andi_tl(c, c, C_FLAG);
+-        tcg_gen_andi_tl(x, x, X_FLAG);
+-        tcg_gen_shri_tl(x, x, 4);
+-
+-        tcg_gen_and_tl(x, x, c);
+-        tcg_gen_sub_tl(d, d, x);
+-        tcg_temp_free(x);
++        tcg_gen_sub_tl(d, d, c);
+         tcg_temp_free(c);
+     }
+ }
+@@ -541,11 +499,9 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+ 
+ static inline void cris_clear_x_flag(DisasContext *dc)
+ {
+-    if (dc->flagx_known && dc->flags_x) {
++    if (dc->flags_x) {
+         dc->flags_uptodate = 0;
+     }
+-
+-    dc->flagx_known = 1;
+     dc->flags_x = 0;
+ }
+ 
+@@ -630,12 +586,10 @@ static void cris_evaluate_flags(DisasContext *dc)
+         break;
+     }
+ 
+-    if (dc->flagx_known) {
+-        if (dc->flags_x) {
+-            tcg_gen_ori_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], X_FLAG);
+-        } else if (dc->cc_op == CC_OP_FLAGS) {
+-            tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~X_FLAG);
+-        }
++    if (dc->flags_x) {
++        tcg_gen_ori_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], X_FLAG);
++    } else if (dc->cc_op == CC_OP_FLAGS) {
++        tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~X_FLAG);
+     }
+     dc->flags_uptodate = 1;
+ }
+@@ -670,16 +624,11 @@ static void cris_update_cc_op(DisasContext *dc, int op, int size)
+ static inline void cris_update_cc_x(DisasContext *dc)
+ {
+     /* Save the x flag state at the time of the cc snapshot.  */
+-    if (dc->flagx_known) {
+-        if (dc->cc_x_uptodate == (2 | dc->flags_x)) {
+-            return;
+-        }
+-        tcg_gen_movi_tl(cc_x, dc->flags_x);
+-        dc->cc_x_uptodate = 2 | dc->flags_x;
+-    } else {
+-        tcg_gen_andi_tl(cc_x, cpu_PR[PR_CCS], X_FLAG);
+-        dc->cc_x_uptodate = 1;
++    if (dc->cc_x_uptodate == (2 | dc->flags_x)) {
++        return;
+     }
++    tcg_gen_movi_tl(cc_x, dc->flags_x);
++    dc->cc_x_uptodate = 2 | dc->flags_x;
+ }
+ 
+ /* Update cc prior to executing ALU op. Needs source operands untouched.  */
+@@ -1131,7 +1080,7 @@ static void gen_store (DisasContext *dc, TCGv addr, TCGv val,
+ 
+     /* Conditional writes. We only support the kind were X and P are known
+        at translation time.  */
+-    if (dc->flagx_known && dc->flags_x && (dc->tb_flags & P_FLAG)) {
++    if (dc->flags_x && (dc->tb_flags & P_FLAG)) {
+         dc->postinc = 0;
+         cris_evaluate_flags(dc);
+         tcg_gen_ori_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], C_FLAG);
+@@ -1140,7 +1089,7 @@ static void gen_store (DisasContext *dc, TCGv addr, TCGv val,
+ 
+     tcg_gen_qemu_st_tl(val, addr, mem_index, MO_TE + ctz32(size));
+ 
+-    if (dc->flagx_known && dc->flags_x) {
++    if (dc->flags_x) {
+         cris_evaluate_flags(dc);
+         tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~C_FLAG);
+     }
+@@ -1727,8 +1676,8 @@ static int dec_addc_r(CPUCRISState *env, DisasContext *dc)
+     LOG_DIS("addc $r%u, $r%u\n",
+             dc->op1, dc->op2);
+     cris_evaluate_flags(dc);
 +
-+            /*
-+             * We have now consumed btaken and btarget.  Hint to the
-+             * tcg compiler that the writeback to env may be dropped.
-+             */
-+            tcg_gen_discard_tl(env_btaken);
-+            tcg_gen_discard_tl(env_btarget);
-             break;
+     /* Set for this insn.  */
+-    dc->flagx_known = 1;
+     dc->flags_x = X_FLAG;
  
-         default:
+     cris_cc_mask(dc, CC_MASK_NZVC);
+@@ -2015,7 +1964,6 @@ static int dec_setclrf(CPUCRISState *env, DisasContext *dc)
+     }
+ 
+     if (flags & X_FLAG) {
+-        dc->flagx_known = 1;
+         if (set) {
+             dc->flags_x = X_FLAG;
+         } else {
+@@ -2479,7 +2427,6 @@ static int dec_addc_mr(CPUCRISState *env, DisasContext *dc)
+     cris_evaluate_flags(dc);
+ 
+     /* Set for this insn.  */
+-    dc->flagx_known = 1;
+     dc->flags_x = X_FLAG;
+ 
+     cris_alu_m_alloc_temps(t);
+@@ -3139,7 +3086,6 @@ static void cris_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     dc->ppc = pc_start;
+     dc->pc = pc_start;
+     dc->flags_uptodate = 1;
+-    dc->flagx_known = 1;
+     dc->flags_x = tb_flags & X_FLAG;
+     dc->cc_x_uptodate = 0;
+     dc->cc_mask = 0;
+@@ -3215,7 +3161,6 @@ static void cris_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     }
+ 
+     /* Fold unhandled changes to X_FLAG into cpustate_changed. */
+-    dc->cpustate_changed |= !dc->flagx_known;
+     dc->cpustate_changed |= dc->flags_x != (dc->base.tb->flags & X_FLAG);
+ 
+     /*
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
+index 4ab43dc404..f500e93447 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -106,9 +106,8 @@ static void gen_store_v10(DisasContext *dc, TCGv addr, TCGv val,
+         cris_store_direct_jmp(dc);
+     }
+ 
+-    /* Conditional writes. We only support the kind were X is known
+-       at translation time.  */
+-    if (dc->flagx_known && dc->flags_x) {
++    /* Conditional writes. */
++    if (dc->flags_x) {
+         gen_store_v10_conditional(dc, addr, val, size, mem_index);
+         return;
+     }
+@@ -376,7 +375,6 @@ static unsigned int dec10_setclrf(DisasContext *dc)
+ 
+ 
+     if (flags & X_FLAG) {
+-        dc->flagx_known = 1;
+         if (set)
+             dc->flags_x = X_FLAG;
+         else
 -- 
 2.25.1
 
