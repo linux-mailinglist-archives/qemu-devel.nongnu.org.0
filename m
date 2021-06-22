@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C523B0732
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 16:16:56 +0200 (CEST)
-Received: from localhost ([::1]:55440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFAC03B074C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 16:22:47 +0200 (CEST)
+Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvhCx-0002Cz-Or
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 10:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36890)
+	id 1lvhIc-0004NA-Ow
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 10:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvhC2-0001Hf-0x
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:15:58 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:34715)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvhC0-0004tb-BG
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:15:57 -0400
-Received: by mail-ed1-x530.google.com with SMTP id i5so6457476eds.1
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 07:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BBDAQ95PzCigF/6scozDwCGoyusjEsB8XZAQ8m0yhYs=;
- b=hvkshuIw2uch4Qh8deIWknWAWkFWTyMY8JgL9io731VD7cAbnP060wgMP1Rh4ETPim
- pFuKOu3KqXGcWkXgifxYW2DTXvXUSVyhQgcVqlA91Z/GrDEMRy97DVOwqo/ChGzQqed8
- QyNP4WcHhncdX6wCrSJMeG3JXxj3hpfqXDMJtsXjk+YwSXhS832Q9Bwvwdcmqh704t4p
- iDMiUXNdckhjT2Ql00HWIL/dzpRhgJydF/uAtp3yl6mPOMPFqsrnO8DGwFoS5rNId+gu
- gtiDDSI/ma9ODZC8s4BNBduAQGzawtOxmgRs8IXKTLVSsruN6taoza6IqZXq++erzJz9
- WtJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BBDAQ95PzCigF/6scozDwCGoyusjEsB8XZAQ8m0yhYs=;
- b=qBm965H92AOzu8iOwzihLd8yZW36mIRPGjahfYTSCuWN2C0q7n72IuYZtMJhs8qHuu
- 2VjUO2QTzBphcr8GyNkP2nJ6pQ6+bHiH86+7OUI4N6h5Tf/XaIwvdCB2dicXka3cLv+4
- 2obkESLozrXQBsFU6tTh2uf2JIXWmLDog7PEVjqXLsLhob6uJRigMiWiGahmiYcrvxSK
- Mbz5FB1lfZxytotA3Y/mOb3NEY5z7INEUgKd+jE91nfFEuIQHjpgsgFxqIFQ8VsaiAUm
- uQE0k8mSjNS1p1XxLu4SpJkSF8EEZRPJh7XW6BcLrU5ERvss3xigVMrzOpXDLnYrNZAI
- 8JZw==
-X-Gm-Message-State: AOAM531t1nnNTW2XOz8bxELVgJ6Xis4jW55sSM+OB8hTDQj9fQiUK2ro
- dPN+wewnkpMGwt7hqgdzpNpd1HKdHW/sluEa55jNsA==
-X-Google-Smtp-Source: ABdhPJxerPgcSWhv5ILrXiC64rv/fYOJVwU+kuflb9SOD6JRJK83dhIsGzD4Us/W28KVQnaSIIwnefq4UM6qrx3Ihxk=
-X-Received: by 2002:a05:6402:759:: with SMTP id
- p25mr5366536edy.146.1624371354481; 
- Tue, 22 Jun 2021 07:15:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lvhHt-0003hf-Gl
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:22:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lvhHr-0000dz-79
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:22:00 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A66A1611BF;
+ Tue, 22 Jun 2021 14:21:57 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=hot-poop.lan)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1lvhHn-0097g1-MJ; Tue, 22 Jun 2021 15:21:55 +0100
+From: Marc Zyngier <maz@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v17 0/6] MTE support for KVM guest
+Date: Tue, 22 Jun 2021 15:21:51 +0100
+Message-Id: <162437105102.29544.14666831489362675099.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210621111716.37157-1-steven.price@arm.com>
+References: <20210621111716.37157-1-steven.price@arm.com>
 MIME-Version: 1.0
-References: <20210622093413.13360-1-wangyanan55@huawei.com>
- <YNG44c9KtaiNXT7b@redhat.com> <20210622114634.crjqusw6x6oj4j6v@gator>
- <bc47a66a-b1ff-939c-32a2-94c90efd0caf@huawei.com>
- <YNHalhuNZhMa665J@redhat.com>
- <7fcc5f2d-cc84-3464-15cc-3bebb07f8190@huawei.com>
- <YNHvcQAMLSpVcxaE@redhat.com>
-In-Reply-To: <YNHvcQAMLSpVcxaE@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Jun 2021 15:15:18 +0100
-Message-ID: <CAFEAcA9X9fYAFAux4h2n00kYpTgxkNcJg6Ako7s6ndU4KWTJyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: catalin.marinas@arm.com, will@kernel.org,
+ steven.price@arm.com, linux-kernel@vger.kernel.org, Dave.Martin@arm.com,
+ peter.maydell@linaro.org, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, quintela@redhat.com, dgilbert@redhat.com,
+ drjones@redhat.com, qemu-devel@nongnu.org, tglx@linutronix.de,
+ james.morse@arm.com, richard.henderson@linaro.org, mark.rutland@arm.com,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,31 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- QEMU Developers <qemu-devel@nongnu.org>, yangyicong@huawei.com,
- "wangyanan \(Y\)" <wangyanan55@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
- Igor Mammedov <imammedo@redhat.com>, Zenghui Yu <yuzenghui@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ James Morse <james.morse@arm.com>, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.cs.columbia.edu, Thomas Gleixner <tglx@linutronix.de>,
+ Dave Martin <Dave.Martin@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Jun 2021 at 15:11, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
-> The QEMU man page says this explicitly
->
->                  For the PC target, the number of cores per die, the
->     number of threads per cores, the number of dies per packages and the
->     total number of sockets can be specified. Missing values will be
->     computed. If any on the three values is given, the total number of
->     CPUs n can be omitted.
+On Mon, 21 Jun 2021 12:17:10 +0100, Steven Price wrote:
+> This series adds support for using the Arm Memory Tagging Extensions
+> (MTE) in a KVM guest.
+> 
+> Changes since v16[1]:
+> 
+>  - Dropped the first patch ("Handle race when synchronising tags") as
+>    it's not KVM specific and by restricting MAP_SHARED in KVM there is
+>    no longer a dependency.
+> 
+> [...]
 
-Anybody feel like submitting a patch to fix the typo? Should read
-"If any of"...
+Applied to next, thanks!
 
--- PMM
+[1/6] arm64: mte: Sync tags for pages where PTE is untagged
+      commit: 69e3b846d8a753f9f279f29531ca56b0f7563ad0
+[2/6] KVM: arm64: Introduce MTE VM feature
+      commit: ea7fc1bb1cd1b92b42b1d9273ce7e231d3dc9321
+[3/6] KVM: arm64: Save/restore MTE registers
+      commit: e1f358b5046479d2897f23b1d5b092687c6e7a67
+[4/6] KVM: arm64: Expose KVM_ARM_CAP_MTE
+      commit: 673638f434ee4a00319e254ade338c57618d6f7e
+[5/6] KVM: arm64: ioctl to fetch/store tags in a guest
+      commit: f0376edb1ddcab19a473b4bf1fbd5b6bbed3705b
+[6/6] KVM: arm64: Document MTE capability and ioctl
+      commit: 04c02c201d7e8149ae336ead69fb64e4e6f94bc9
+
+I performed a number of changes in user_mem_abort(), so please
+have a look at the result. It is also pretty late in the merge
+cycle, so if anything looks amiss, I'll just drop it.
+
+Cheers,
+
+	M.
+-- 
+Without deviation from the norm, progress is not possible.
+
+
 
