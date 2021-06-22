@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84F03B038F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:03:26 +0200 (CEST)
-Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290603B03B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:07:53 +0200 (CEST)
+Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvf7l-0007n4-DF
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51498)
+	id 1lvfC3-0003Dt-ML
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvf5g-0006hy-VU
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:01:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21738)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lvf8w-0001Up-Rs
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:04:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvf5a-0000D8-MZ
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:01:16 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lvf8l-0001Sg-44
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:04:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624363270;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=QrvVi1mJkDuU4abRLngAAcXU4ya6G5C2QmhJi0Elr8o=;
- b=gULf7OQz36pFDZ9jYXlQXpjLb8U5wGz5nGZmlFlwBe2VolMupIsXPTmVbb7l5Utrin6kOo
- RAsHjyRQPSb9x7mqENGK457yEwclTwME6A59LeAYnReglnsDB+QDUHzyZLTjSAjcMyiVHC
- yD5sZ0t8/7QECGV391NdoHdzPhwcgjw=
+ s=mimecast20190719; t=1624363466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RlbW5gvb9OmleO5oFUCk5PY1tqHTPQ5P7GQDwexmQV4=;
+ b=P56+4uJzkiymLHs8t4SypLZg2szcovJYRHxWCBAUsJWH2AQXhoWCHT3v7J85FcQKftVVOO
+ DpQPi7IeM06EE72Gn2ADBnRuMZ4YjIWggXfsGFDXRNMOdPZ33oT2v6tMLbf3WcN+LpvpbU
+ WbxaGDUn3fgKcFgnTKa31TnDIHQjkQk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-o2ZovHp-Piq-8UPymUntJg-1; Tue, 22 Jun 2021 08:01:03 -0400
-X-MC-Unique: o2ZovHp-Piq-8UPymUntJg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-581-Ths-Oe_wPCG2rNAwUWubzQ-1; Tue, 22 Jun 2021 08:04:24 -0400
+X-MC-Unique: Ths-Oe_wPCG2rNAwUWubzQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E945E800685;
- Tue, 22 Jun 2021 12:01:02 +0000 (UTC)
-Received: from redhat.com (ovpn-114-176.ams2.redhat.com [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6792608BA;
- Tue, 22 Jun 2021 12:01:00 +0000 (UTC)
-Date: Tue, 22 Jun 2021 13:00:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH RFC] docs: document file-posix locking protocol
-Message-ID: <YNHQ+VDwnmMl1nm8@redhat.com>
-References: <20210322182738.60395-1-vsementsov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FE63800C60;
+ Tue, 22 Jun 2021 12:04:23 +0000 (UTC)
+Received: from localhost (ovpn-114-133.ams2.redhat.com [10.36.114.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E96C45D6BA;
+ Tue, 22 Jun 2021 12:04:20 +0000 (UTC)
+Date: Tue, 22 Jun 2021 13:04:19 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] block/ssh: add support for sha256 host key fingerprints
+Message-ID: <20210622120419.GE26415@redhat.com>
+References: <20210622115156.138458-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210322182738.60395-1-vsementsov@virtuozzo.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210622115156.138458-1-berrange@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,120 +78,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, eblake@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 22, 2021 at 09:27:38PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Let's document how we use file locks in file-posix driver, to allow
-> external programs to "communicate" in this way with Qemu.
+On Tue, Jun 22, 2021 at 12:51:56PM +0100, Daniel P. Berrangé wrote:
+> Currently the SSH block driver supports MD5 and SHA1 for host key
+> fingerprints. This is a cryptographically sensitive operation and
+> so these hash algorithms are inadequate by modern standards. This
+> adds support for SHA256 which has been supported in libssh since
+> the 0.8.1 release.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
-> 
-> Hi all!
-> 
-> We need to access disk images from non-Qemu code and coordinate with
-> Qemu utilities which may use same image. So, we want to support Qemu
-> file locking in the external code.
-> 
-> So, here is a patch to document how Qemu locking works, and make this
-> thing "public".
-> 
-> This is an RFC, because I'm unsure how should we actually document
-> different operations we have.
-> 
-> For example greaph-mod is a strange thing, I think we should get rid
-> of it at all.. And at least, no sense in locking corresponding byte in a
-> raw file.
-> 
-> The other thing is write-unchanged.. What it means when we consider a
-> raw file opened in several processes? Probably we don't need it too..
-> 
->  docs/system/qemu-block-drivers.rst.inc | 55 ++++++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
-> 
-> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-> index b052a6d14e..3cd708b3dc 100644
-> --- a/docs/system/qemu-block-drivers.rst.inc
-> +++ b/docs/system/qemu-block-drivers.rst.inc
-> @@ -952,3 +952,58 @@ on host and see if there are locks held by the QEMU process on the image file.
->  More than one byte could be locked by the QEMU instance, each byte of which
->  reflects a particular permission that is acquired or protected by the running
->  block driver.
-> +
-> +Image locking protocol
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +QEMU holds rd locks and never rw locks. Instead, GETLK fcntl is used with F_WRLCK
-> +to handle permissions as described below.
-> +QEMU process may rd-lock the following bytes of the image with corresponding
-> +meaning:
-> +
-> +Permission bytes. If permission byte is rd-locked, it means that some process
-> +uses corresponding permission on that file.
-> +
-> +Byte    Operation
-> +100     read
-> +          Lock holder can read
-> +101     write
-> +          Lock holder can write
-> +102     write-unchanged
-> +          Lock holder can write same data
-> +103     resize
-> +          Lock holder can resize the file
-> +104     graph-mod
-> +          Undefined. QEMU sometimes locks this byte, but external programs
-> +          should not. QEMU will stop locking this byte in future
-> +
-> +Unshare bytes. If permission byte is rd-locked, it means that some process
-> +does not allow the others use corresponding options on that file.
-> +
-> +Byte    Operation
-> +200     read
-> +          Lock holder don't allow read operation to other processes.
-> +201     write
-> +          Lock holder don't allow write operation to other processes.
-> +202     write-unchanged
-> +          Lock holder don't allow write-unchanged operation to other processes.
-> +203     resize
-> +          Lock holder don't allow resizing the file by other processes.
-> +204     graph-mod
-> +          Undefined. QEMU sometimes locks this byte, but external programs
-> +          should not. QEMU will stop locking this byte in future
-> +
-> +Handling the permissions works as follows: assume we want to open the file to do
-> +some operations and in the same time want to disallow some operation to other
-> +processes. So, we want to lock some of the bytes described above. We operate as
-> +follows:
-> +
-> +1. rd-lock all needed bytes, both "permission" bytes and "unshare" bytes.
-> +
-> +2. For each "unshare" byte we rd-locked, do GETLK that "tries" to wr-lock
-> +corresponding "permission" byte. So, we check is there any other process that
-> +uses the permission we want to unshare. If it exists we fail.
-> +
-> +3. For each "permission" byte we rd-locked, do GETLK that "tries" to wr-lock
-> +corresponding "unshare" byte. So, we check is there any other process that
-> +unshares the permission we want to have. If it exists we fail.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-I'd perhaps illustrate the few common scenarios - read-only, shared access,
-read-write, exclusive and read-write share access, using C-psuedo-code, from
-opening image, locking, doing operations, unlocking and closing image.
+Patch looks sensible:
 
-This would make it explicit that these locks need to be held open
-for the duration of the i/o operations.
+  Acked-by: Richard W.M. Jones <rjones@redhat.com>
 
-I'd also probably warn about the dangers of traditional fcntl locks  in
-threaded programs, compared to the saner OFD locks.
+Would you mind taking a look at nbdkit-ssh-plugin?  This is arguably
+more important (for Red Hat) since we no longer use the SSH driver in
+qemu for V2V and switched to using nbdkit some time ago.  The
+nbdkit-ssh-plugin appears to only support SHA1 from a cursory look.
 
-Regards,
-Daniel
+Rich.
+
+> 
+> Note I can't actually get iotest '207' to fully pass. It always
+> complains that it can't validate the "known_hosts" file
+> 
+>   qemu-img: Could not open 'TEST_IMG': no host key was found in known_hosts
+> 
+> it seems to rely on some specific developer host setup that my
+> laptop doesn't satisfy. It would be useful if any pre-requisite
+> could be documented in the iotest.
+> 
+> At least the sha256 verification step I added to 207 does pass
+> though.
+> 
+>  block/ssh.c                |  3 +++
+>  qapi/block-core.json       |  3 ++-
+>  tests/qemu-iotests/207     | 54 ++++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/207.out | 25 ++++++++++++++++++
+>  4 files changed, 84 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/ssh.c b/block/ssh.c
+> index b51a031620..d008caf059 100644
+> --- a/block/ssh.c
+> +++ b/block/ssh.c
+> @@ -442,6 +442,9 @@ static int check_host_key(BDRVSSHState *s, SshHostKeyCheck *hkc, Error **errp)
+>          } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA1) {
+>              return check_host_key_hash(s, hkc->u.hash.hash,
+>                                         SSH_PUBLICKEY_HASH_SHA1, errp);
+> +        } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA256) {
+> +            return check_host_key_hash(s, hkc->u.hash.hash,
+> +                                       SSH_PUBLICKEY_HASH_SHA256, errp);
+>          }
+>          g_assert_not_reached();
+>          break;
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 2ea294129e..4247dc46a5 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -3186,11 +3186,12 @@
+>  #
+>  # @md5: The given hash is an md5 hash
+>  # @sha1: The given hash is an sha1 hash
+> +# @sha256: The given hash is an sha256 hash
+>  #
+>  # Since: 2.12
+>  ##
+>  { 'enum': 'SshHostKeyCheckHashType',
+> -  'data': [ 'md5', 'sha1' ] }
+> +  'data': [ 'md5', 'sha1', 'sha256' ] }
+>  
+>  ##
+>  # @SshHostKeyHash:
+> diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
+> index f9f3fd7131..0f5c4bc8a0 100755
+> --- a/tests/qemu-iotests/207
+> +++ b/tests/qemu-iotests/207
+> @@ -73,6 +73,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>      iotests.log("=== Test host-key-check options ===")
+>      iotests.log("")
+>  
+> +    iotests.log("--- no host key checking --")
+> +    iotests.log("")
+> +
+>      vm.launch()
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+> @@ -90,6 +93,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>  
+>      iotests.img_info_log(remote_path)
+>  
+> +    iotests.log("--- known_hosts key checking --")
+> +    iotests.log("")
+> +
+>      vm.launch()
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+> @@ -115,6 +121,7 @@ with iotests.FilePath('t.img') as disk_path, \
+>      # Mappings of base64 representations to digests
+>      md5_keys = {}
+>      sha1_keys = {}
+> +    sha256_keys = {}
+>  
+>      for key in keys:
+>          md5_keys[key] = subprocess.check_output(
+> @@ -125,6 +132,10 @@ with iotests.FilePath('t.img') as disk_path, \
+>              'echo %s | base64 -d | sha1sum -b | cut -d" " -f1' % key,
+>              shell=True).rstrip().decode('ascii')
+>  
+> +        sha256_keys[key] = subprocess.check_output(
+> +            'echo %s | base64 -d | sha256sum -b | cut -d" " -f1' % key,
+> +            shell=True).rstrip().decode('ascii')
+> +
+>      vm.launch()
+>  
+>      # Find correct key first
+> @@ -150,6 +161,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>          vm.shutdown()
+>          iotests.notrun('Did not find a key that fits 127.0.0.1')
+>  
+> +    iotests.log("--- explicit md5 key checking --")
+> +    iotests.log("")
+> +
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+>                                'path': disk_path,
+> @@ -164,6 +178,7 @@ with iotests.FilePath('t.img') as disk_path, \
+>                                }
+>                            },
+>                            'size': 2097152 })
+> +
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+>                                'path': disk_path,
+> @@ -182,6 +197,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>  
+>      iotests.img_info_log(remote_path)
+>  
+> +    iotests.log("--- explicit sha1 key checking --")
+> +    iotests.log("")
+> +
+>      vm.launch()
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+> @@ -215,6 +233,42 @@ with iotests.FilePath('t.img') as disk_path, \
+>  
+>      iotests.img_info_log(remote_path)
+>  
+> +    iotests.log("--- explicit sha256 key checking --")
+> +    iotests.log("")
+> +
+> +    vm.launch()
+> +    blockdev_create(vm, { 'driver': 'ssh',
+> +                          'location': {
+> +                              'path': disk_path,
+> +                              'server': {
+> +                                  'host': '127.0.0.1',
+> +                                  'port': '22'
+> +                              },
+> +                              'host-key-check': {
+> +                                  'mode': 'hash',
+> +                                  'type': 'sha256',
+> +                                  'hash': 'wrong',
+> +                              }
+> +                          },
+> +                          'size': 2097152 })
+> +    blockdev_create(vm, { 'driver': 'ssh',
+> +                          'location': {
+> +                              'path': disk_path,
+> +                              'server': {
+> +                                  'host': '127.0.0.1',
+> +                                  'port': '22'
+> +                              },
+> +                              'host-key-check': {
+> +                                  'mode': 'hash',
+> +                                  'type': 'sha256',
+> +                                  'hash': sha256_keys[matching_key],
+> +                              }
+> +                          },
+> +                          'size': 4194304 })
+> +    vm.shutdown()
+> +
+> +    iotests.img_info_log(remote_path)
+> +
+>      #
+>      # Invalid path and user
+>      #
+> diff --git a/tests/qemu-iotests/207.out b/tests/qemu-iotests/207.out
+> index 1239d9d648..aeb8569d77 100644
+> --- a/tests/qemu-iotests/207.out
+> +++ b/tests/qemu-iotests/207.out
+> @@ -16,6 +16,8 @@ virtual size: 4 MiB (4194304 bytes)
+>  
+>  === Test host-key-check options ===
+>  
+> +--- no host key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 8388608}}}
+>  {"return": {}}
+>  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> @@ -25,6 +27,8 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 8 MiB (8388608 bytes)
+>  
+> +--- known_hosts key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "known_hosts"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
+>  {"return": {}}
+>  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> @@ -34,6 +38,8 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 4 MiB (4194304 bytes)
+>  
+> +--- explicit md5 key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "md5"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+>  {"return": {}}
+>  Job failed: remote host key does not match host_key_check 'wrong'
+> @@ -49,6 +55,8 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 8 MiB (8388608 bytes)
+>  
+> +--- explicit sha1 key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha1"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+>  {"return": {}}
+>  Job failed: remote host key does not match host_key_check 'wrong'
+> @@ -64,6 +72,23 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 4 MiB (4194304 bytes)
+>  
+> +--- explicit sha256 key checking --
+> +
+> +{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+> +{"return": {}}
+> +Job failed: remote host key does not match host_key_check 'wrong'
+> +{"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> +{"return": {}}
+> +
+> +{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "HASH", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
+> +{"return": {}}
+> +{"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> +{"return": {}}
+> +
+> +image: TEST_IMG
+> +file format: IMGFMT
+> +virtual size: 4 MiB (4194304 bytes)
+> +
+>  === Invalid path and user ===
+>  
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "/this/is/not/an/existing/path", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
+> -- 
+> 2.31.1
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-top is 'top' for virtual machines.  Tiny program with many
+powerful monitoring features, net stats, disk stats, logging, etc.
+http://people.redhat.com/~rjones/virt-top
 
 
