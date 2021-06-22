@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BD83AFC60
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:04:02 +0200 (CEST)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3FD3AFC73
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:08:24 +0200 (CEST)
+Received: from localhost ([::1]:39636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYZt-0001vs-64
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
+	id 1lvYe7-00045V-4A
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:08:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4C-0002su-JS
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58502)
+ id 1lvY47-0002hR-Fv
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:11 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY47-0000P0-4D
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:16 -0400
+ id 1lvY44-0000NT-Mz
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:11 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvY45-0003kW-10
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:09 +0000
+ id 1lvY42-0003ih-K7
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 05F182E8088
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:09 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 954A02E8075
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:45 -0000
-From: Launchpad Bug Tracker <1612908@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:17:48 -0000
+From: Launchpad Bug Tracker <1624896@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: python qom qom-list qom-tree scripts
+X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: caxl janitor th-huth
-X-Launchpad-Bug-Reporter: Carl Allendorph (caxl)
+X-Launchpad-Bug-Commenters: cdcs janitor th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?b?Q2zDoXVkaW8gU2lsdmEgKGNkY3Mp?=
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160813061515.22562.11521.malonedeb@soybean.canonical.com>
-Message-Id: <162433546554.20423.6077846870634232134.malone@loganberry.canonical.com>
-Subject: [Bug 1612908] Re: qom-[list, tree, get,
- set] don't accept tcp endpoint arg
+References: <20160918160752.2242.30024.malonedeb@soybean.canonical.com>
+Message-Id: <162433546834.20423.15824740612947054674.malone@loganberry.canonical.com>
+Subject: [Bug 1624896] Re: [PPC] SegFault due to Stack Overflow in E500
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 5a614904a9537507d7c3666af34b2abc5be29bac
+X-Launchpad-Hash: 1a1cf84b4539a56412eb4dd8a37ef5745fe7afd7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1612908 <1612908@bugs.launchpad.net>
+Reply-To: Bug 1624896 <1624896@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,29 +84,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1612908
+https://bugs.launchpad.net/bugs/1624896
 
 Title:
-  qom-[list,tree,get,set] don't accept tcp endpoint arg
+  [PPC] SegFault due to Stack Overflow in E500
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hi,
+  =
 
-  I'm using origin/master [6bbbb0ac13...]. When I run any of the
-  commands in 'qemu/scripts/qmp/qom-[list,tree,get,set]', the help text
-  says that it can connect to a QEMU instance by passing either a path
-  to a unix socket or a tcp endpoint in the format "host:port". The unix
-  socket variant works but the tcp endpoint variant does not.
-  QEMUMonitorProtocol accepts either a string (unix socket) or a tuple
-  (host,port). None of the qom-* scripts actually massage the '-s'
-  argument into a tuple.
+  I am getting a Segmentation Fault while simulating a PowerPC e500. I've t=
+ried to debug the problem and I've found that it occurs when you have a 0 v=
+alue decrementer. The function trace is the following:
 
-  I have a patch to fix this issue that I can submit to the developer
-  list.
+  1) __cpu_ppc_store_decr (ppc.c) is called with value =3D 0 and raise_excp=
+=3Dbooke_decr_cb;
+  2) Since value < 3, booke_decr_cb is called;
+  3) booke_decr_cb then calls booke_update_irq() and cpu_ppc_store_decr();
+  4) cpu_ppc_store_decr calls __cpu_ppc_store_decr
+
+  You're stuck on this infinite cycle until your stack overflows
+  eventually.
+
+  Command Line:
+  qemu-system-ppc -cpu e500v2 -d guest_errors,unimp -m 2048 -M ppce500 -nog=
+raphic -bios ../cc/share/qem
+  u/u-boot.e500 -kernel XKYAPP.exe
+
+  Platform where the bug occured: Bash ubuntu on Windows;
+
+  Revision where the bug was found:
+  e3571ae30cd26d19efd4554c25e32ef64d6a36b3 (16 Set 2016)
+
+
+  Thanks!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1612908/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1624896/+subscriptions
 
