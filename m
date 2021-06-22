@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2129E3B01A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:42:42 +0200 (CEST)
-Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2BE3B018C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:38:03 +0200 (CEST)
+Received: from localhost ([::1]:37994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvdrd-0000Y8-6H
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48906)
+	id 1lvdn8-0000Sb-8u
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvdkN-00065R-Au
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:35:11 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lvdkJ-00089U-Cs
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:35:10 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h11so5547907wrx.5
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 03:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:message-id
- :in-reply-to:mime-version:content-transfer-encoding;
- bh=N6/7Sb/XRbFSQUER1TXS53KQTORmXTcFJxkgP/h/w3U=;
- b=pEA+NJvJ4vw8hRHwPZbEKZdEDrbZHCPU/ob91UhOpOOSKjYrlOHo2W0ss4J5eKJFJd
- HiA33uTwMiPgzrGGMEJkevndOCd8OhH5llr2ACG27Zgbl3PsT5rHO7LC1o0pRkzxLjEJ
- qqfQrdSkhEy2cth/7umgy5+QhkhR8bf1RMSTllHUCHo+9PZ7XC4YSULSeenWjdlSGJSe
- WJBmY1MrR0yOsvkNoE1nLO40CUwNChR/cLYZk3vzmQf8WQQ95tesfpEdwXM7HRLMIJX0
- bXU++A4tnciolyE+wRXn3UkfPRPSSHdMsrH+obLRlCzDkfIr2NbbWb0neMFL0GXkvkoF
- mmCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :message-id:in-reply-to:mime-version:content-transfer-encoding;
- bh=N6/7Sb/XRbFSQUER1TXS53KQTORmXTcFJxkgP/h/w3U=;
- b=m45eyAd89Md7C6NDYz+G2J2goumooFO1b0uHbXf/AwJI7Fg1A1gG42AU910slFhk0B
- nvWSRtpnHR2gywgqpbH/1SbXyPYViJj0JgPf8Sdlvwvqh58eHJJtmCWol7rF+fvEDUVH
- ieiHftIC8kcqDlKVBOYtQl93Os03aBe1TED184hPmhCMtEefmjxwJfF4H/w4yvXLp1aj
- QUEXNjeNsh0Ep8T8rSu1uE9uHjfPZ236+PowVEYG/s5y8ahbD+ZofND8TGjWLGaOIYti
- ng3H3pxyE6eY1a9qNCRZUgIjyb2c5M1gTr/2Hg4L78nxdDnwAV6EjQEEeaY88OhhDR1z
- WyvA==
-X-Gm-Message-State: AOAM532tj5c5jyQ4sTqebmPyAhUnzQBJmLVF6LD3vrq4OUUQEfJyUlyC
- w46X5v9jvjrTMvXcCxVTfPSKdA==
-X-Google-Smtp-Source: ABdhPJxoeZ/yVlLeGCi65lfvkywEXmriI6/6H/pV2XAiBI4yci+4ywwmRutaJHrk5+UdOwxKBBAeCA==
-X-Received: by 2002:adf:de87:: with SMTP id w7mr3858890wrl.333.1624358105161; 
- Tue, 22 Jun 2021 03:35:05 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r1sm2029840wmn.10.2021.06.22.03.35.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 03:35:04 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D3091FF7E;
- Tue, 22 Jun 2021 11:35:03 +0100 (BST)
-References: <20210618091101.2802534-1-erdnaxe@crans.org>
- <20210618091101.2802534-2-erdnaxe@crans.org> <871r8uthe1.fsf@linaro.org>
- <a4798470-76ea-0241-b154-0820e6c0518c@crans.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Alexandre IOOSS <erdnaxe@crans.org>
-Subject: Re: [PATCH v2 1/2] contrib/plugins: add execlog to log instruction
- execution and memory access
-Date: Tue, 22 Jun 2021 11:33:11 +0100
-Message-ID: <8735tatcfm.fsf@linaro.org>
-In-reply-to: <a4798470-76ea-0241-b154-0820e6c0518c@crans.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lvdkP-00068n-Hd
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:35:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lvdkM-0008BL-UH
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:35:12 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4096C613BE;
+ Tue, 22 Jun 2021 10:35:08 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1lvdkI-0094e6-Dg; Tue, 22 Jun 2021 11:35:06 +0100
+Date: Tue, 22 Jun 2021 11:35:06 +0100
+Message-ID: <874kdqchlx.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Fuad Tabba <tabba@google.com>
+Subject: Re: [PATCH v17 6/6] KVM: arm64: Document MTE capability and ioctl
+In-Reply-To: <CA+EHjTwww=QFq30bi8n2t2fkfr1B_0v0KSZ75dK+ZJDUU3f5xQ@mail.gmail.com>
+References: <20210621111716.37157-1-steven.price@arm.com>
+ <20210621111716.37157-7-steven.price@arm.com>
+ <CA+EHjTwww=QFq30bi8n2t2fkfr1B_0v0KSZ75dK+ZJDUU3f5xQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: tabba@google.com, steven.price@arm.com,
+ catalin.marinas@arm.com, will@kernel.org, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, Dave.Martin@arm.com, quintela@redhat.com,
+ richard.henderson@linaro.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+ kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,35 +70,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- "open list : All patches CC here" <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Steven Price <steven.price@arm.com>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 22 Jun 2021 10:42:42 +0100,
+Fuad Tabba <tabba@google.com> wrote:
+> 
+> Hi,
+> 
+> 
+> On Mon, Jun 21, 2021 at 12:18 PM Steven Price <steven.price@arm.com> wrote:
+> >
+> > A new capability (KVM_CAP_ARM_MTE) identifies that the kernel supports
+> > granting a guest access to the tags, and provides a mechanism for the
+> > VMM to enable it.
+> >
+> > A new ioctl (KVM_ARM_MTE_COPY_TAGS) provides a simple way for a VMM to
+> > access the tags of a guest without having to maintain a PROT_MTE mapping
+> > in userspace. The above capability gates access to the ioctl.
+> >
+> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> > Signed-off-by: Steven Price <steven.price@arm.com>
+> > ---
+> >  Documentation/virt/kvm/api.rst | 61 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 61 insertions(+)
+> >
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 7fcb2fd38f42..97661a97943f 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -5034,6 +5034,43 @@ see KVM_XEN_VCPU_SET_ATTR above.
+> >  The KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST type may not be used
+> >  with the KVM_XEN_VCPU_GET_ATTR ioctl.
+> >
+> > +4.130 KVM_ARM_MTE_COPY_TAGS
+> > +---------------------------
+> > +
+> > +:Capability: KVM_CAP_ARM_MTE
+> > +:Architectures: arm64
+> > +:Type: vm ioctl
+> > +:Parameters: struct kvm_arm_copy_mte_tags
+> > +:Returns: number of bytes copied, < 0 on error (-EINVAL for incorrect
+> > +          arguments, -EFAULT if memory cannot be accessed).
+> > +
+> > +::
+> > +
+> > +  struct kvm_arm_copy_mte_tags {
+> > +       __u64 guest_ipa;
+> > +       __u64 length;
+> > +       void __user *addr;
+> > +       __u64 flags;
+> > +       __u64 reserved[2];
+> > +  };
+> > +
+> > +Copies Memory Tagging Extension (MTE) tags to/from guest tag memory. The
+> > +``guest_ipa`` and ``length`` fields must be ``PAGE_SIZE`` aligned. The ``addr``
+> > +field must point to a buffer which the tags will be copied to or from.
+> > +
+> > +``flags`` specifies the direction of copy, either ``KVM_ARM_TAGS_TO_GUEST`` or
+> > +``KVM_ARM_TAGS_FROM_GUEST``.
+> > +
+> > +The size of the buffer to store the tags is ``(length / 16)`` bytes
+> > +(granules in MTE are 16 bytes long). Each byte contains a single tag
+> > +value. This matches the format of ``PTRACE_PEEKMTETAGS`` and
+> > +``PTRACE_POKEMTETAGS``.
+> > +
+> > +If an error occurs before any data is copied then a negative error code is
+> > +returned. If some tags have been copied before an error occurs then the number
+> > +of bytes successfully copied is returned. If the call completes successfully
+> > +then ``length`` is returned.
+> > +
+> >  5. The kvm_run structure
+> >  ========================
+> >
+> > @@ -6362,6 +6399,30 @@ default.
+> >
+> >  See Documentation/x86/sgx/2.Kernel-internals.rst for more details.
+> >
+> > +7.26 KVM_CAP_ARM_MTE
+> > +--------------------
+> > +
+> > +:Architectures: arm64
+> > +:Parameters: none
+> > +
+> > +This capability indicates that KVM (and the hardware) supports exposing the
+> > +Memory Tagging Extensions (MTE) to the guest. It must also be enabled by the
+> > +VMM before creating any VCPUs to allow the guest access. Note that MTE is only
+> > +available to a guest running in AArch64 mode and enabling this capability will
+> > +cause attempts to create AArch32 VCPUs to fail.
+> 
+> I was wondering if there might be an issue with AArch32 at EL0 and
+> MTE, because I think that even if AArch64 at EL1 is disallowed, the
 
-Alexandre IOOSS <erdnaxe@crans.org> writes:
+Did you mean AArch32 here?
 
-> [[PGP Signed Part:Undecided]]
-> On 6/22/21 10:37 AM, Alex Benn=C3=A9e wrote:
->> We only allocate last_exec for system.max_vcpus here. You need to check
->> the system_emulation bool before using that information and error out if
->> it's not system emulation.
->
-> My bad, I did not test user mode emulation after converting last_exec
-> to an array. Should I consider only one vCPU in user mode emulation?
+> guest can still run AArch32 at EL0.
 
-It's up to you. The cpuid is essentially unbounded for linux-user so you
-could either dynamically assign new entries as they come up or just not
-load for non system emulation cases. If you attempt to run
-multi-threaded programs with a single entry in the array you will get
-weird interleaving issues.
+I don't get your question:
 
->
-> -- Alexandre
->
-> [[End of PGP Signed Part]]
+- If the guest is AArch32 at EL1, there is not MTE whatsoever (where
+  would you place the tag?)
 
+- If the guest is AArch64, it can have MTE enabled or not,
+  irrespective of the EL. If this guest decides to run an AArch32 EL0,
+  the architecture rules still apply, and it cannot expose MTE to its
+  own 32bit userspace. Nothing that KVM needs to do about this.
 
---=20
-Alex Benn=C3=A9e
+What KVM enforces is that at the point where the guest is in charge,
+we have a consistent architectural behaviour.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
