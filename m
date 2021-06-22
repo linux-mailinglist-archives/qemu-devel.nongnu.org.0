@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3652F3AFD31
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 08:45:38 +0200 (CEST)
-Received: from localhost ([::1]:53222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58EA63AFD33
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 08:45:59 +0200 (CEST)
+Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvaAC-0004tB-U1
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 02:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50560)
+	id 1lvaAY-0005js-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 02:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lva95-0003q5-Gw
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:44:27 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lva94-0000H2-10
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:44:27 -0400
-Received: by mail-wr1-x435.google.com with SMTP id j1so5026451wrn.9
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 23:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=//JtJrY4KSrwDonCR66BvwFMKz52dkJHLLrKF9Ui3Gg=;
- b=SjHv1MOeXKYfmcsL89HdY1l8wjjexsReszugaB58SaCRBK9R/sEPSUw9OyAUOUANot
- j4pbVtcSMwmYvqn5m99jNEKcbxP7gWd1SmPL+NZN6WFma1s/XjhH+71m13bw3OsfdFDk
- 5tVgB6qos1QO1CjZh6AZH+u/u0e6z6Z29ztTgM3cIzWbKHwmcSXWrWBCv43F3mvttXsx
- kXi9ycDGzME6I/Q/jA9EGrdbbwwyF1snPvwHB0RrUahLzgohPtwWzpHOdqLQHalpxWT8
- H4ytdPjMz90CvgaiwVitR3XfTdx5CQwpeinsQvlcJEuGdR2sgwM5mNSUdHF9IajpgcIi
- oRow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=//JtJrY4KSrwDonCR66BvwFMKz52dkJHLLrKF9Ui3Gg=;
- b=ewZDBPuZFIywjs1WwvtPoBq7uHJplTO5F6cbDSIZYBsktfW9ksPFhJjPg3Pr0R/USR
- MQ79aG5oTKe310qQozWU8t5VhbV4QaaS4ied080B6IRq06sqqxjcJS44tIpAjxLny1wI
- JOlt4tTQVXviBGRu3EfpUEh5+5cDmhv0Tppf5OCv1Cy5X3qP5QaKKpOR2P9ZdU2TshlH
- 5eruMGqsqUhAiaoKNK3mbDQDYoalyPF4R7bf5tUxhpuG61Bs2zHh4wvXrLONX+CrdXDj
- FsfUGL9FCD3Yt0D3+tC4xQd68KNS/Y0k2weslzBpIH0up/Qp8eq2Nzd40WpBz5nprI5E
- vgUA==
-X-Gm-Message-State: AOAM532e4HaTcXYonWO0csChBvwixibU/xrG2MwUvffjIddSh9CXMWTw
- lQ7VBn7ZdAsKXldWFh0X/gs=
-X-Google-Smtp-Source: ABdhPJzGO4gOP0/QVmgUbXxsBmmNZ7n3CFCvpsZpSXXwPqElhiLxSLueo40SXdJbXM1dz8N075//kA==
-X-Received: by 2002:adf:fd46:: with SMTP id h6mr2759196wrs.420.1624344264499; 
- Mon, 21 Jun 2021 23:44:24 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n10sm18964660wri.77.2021.06.21.23.44.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 23:44:23 -0700 (PDT)
-Subject: Re: [PATCH 21/28] target/arm: Improve vector REV
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210614083800.1166166-1-richard.henderson@linaro.org>
- <20210614083800.1166166-22-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2c571726-b1f0-d6e1-37c5-a271eb0fd3a8@amsat.org>
-Date: Tue, 22 Jun 2021 08:44:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lva9M-0004Eo-T4
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:44:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lva9K-0000SU-6E
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:44:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624344281;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ETdCV4XF+U0mbcRD0sUo1cTS3WfplBShflfv1z3I0Bo=;
+ b=KFu0n90eT0wc6jHyw32D1heZ3+kFq09DSU9Q3NEbsObKkZcgx/ovTxBI9pZDT4C1dY3oXR
+ f0ck5aUiHAglpoVusAx59b9dbkQR6BQQg0SEUWy02omNjWv51+oBiGmnHzJjUO9YpIp4/t
+ KwztJMqoZdHyhg2J3MYgTA9nAWHVEUs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-tuk7GCWpPYqkc7k_rTIfeQ-1; Tue, 22 Jun 2021 02:44:37 -0400
+X-MC-Unique: tuk7GCWpPYqkc7k_rTIfeQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53AE48042FE;
+ Tue, 22 Jun 2021 06:44:36 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32D7710016FE;
+ Tue, 22 Jun 2021 06:44:31 +0000 (UTC)
+Date: Tue, 22 Jun 2021 08:44:30 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v4 1/6] ACPI ERST: bios-tables-test.c steps 1 and 2
+Message-ID: <20210622084430.7f85a0fb@redhat.com>
+In-Reply-To: <20210622083409.342aaf22@redhat.com>
+References: <1623436283-20213-1-git-send-email-eric.devolder@oracle.com>
+ <1623436283-20213-2-git-send-email-eric.devolder@oracle.com>
+ <20210622083409.342aaf22@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210614083800.1166166-22-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,19 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: ehabkost@redhat.com, konrad.wilk@oracle.com, mst@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 10:37 AM, Richard Henderson wrote:
-> We can eliminate the requirement for a zero-extended output,
-> because the following store will ignore any garbage high bits.
-> 
-> Cc: Peter Maydell <peter.maydell@linaro.org> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate-a64.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+On Tue, 22 Jun 2021 08:34:09 +0200
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> On Fri, 11 Jun 2021 14:31:18 -0400
+> Eric DeVolder <eric.devolder@oracle.com> wrote:
+> 
+> > Following the guidelines in tests/qtest/bios-tables-test.c, this
+> > change adds empty placeholder files per step 1 for the new ERST
+> > table, and excludes resulting changed files in bios-tables-test-allowed-diff.h
+> > per step 2.
+> > 
+> > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>  
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
+> 
+> > ---
+> >  tests/data/acpi/microvm/ERST                | 0
+> >  tests/data/acpi/pc/ERST                     | 0
+> >  tests/data/acpi/q35/ERST                    | 0
+
+
+wait,
+you are adding empty template files here
+but the later matching bios-tables-test is nowhere to be found
+Was testcase lost somewhere along the way?
+
+also it seems you add ERST only to pc/q35,
+so why tests/data/acpi/microvm/ERST is here?
+
+> >  tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
+> >  4 files changed, 4 insertions(+)
+> >  create mode 100644 tests/data/acpi/microvm/ERST
+> >  create mode 100644 tests/data/acpi/pc/ERST
+> >  create mode 100644 tests/data/acpi/q35/ERST
+> > 
+> > diff --git a/tests/data/acpi/microvm/ERST b/tests/data/acpi/microvm/ERST
+> > new file mode 100644
+> > index 0000000..e69de29
+> > diff --git a/tests/data/acpi/pc/ERST b/tests/data/acpi/pc/ERST
+> > new file mode 100644
+> > index 0000000..e69de29
+> > diff --git a/tests/data/acpi/q35/ERST b/tests/data/acpi/q35/ERST
+> > new file mode 100644
+> > index 0000000..e69de29
+> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > index dfb8523..e004c71 100644
+> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > @@ -1 +1,5 @@
+> >  /* List of comma-separated changed AML files to ignore */
+> > +"tests/data/acpi/pc/ERST",
+> > +"tests/data/acpi/q35/ERST",
+> > +"tests/data/acpi/microvm/ERST",
+> > +  
+> 
+> 
+
 
