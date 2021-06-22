@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656FF3AFC1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:39:46 +0200 (CEST)
-Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C8B3AFC31
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:48:41 +0200 (CEST)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYCP-00048u-D2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57402)
+	id 1lvYL2-0001mW-RI
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzj-0007Rg-69
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56886)
+ id 1lvXzh-0007LJ-OZ
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzh-00058n-9M
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:38 -0400
+ id 1lvXzf-00057i-SA
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzT-00015i-Dh
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:23 +0000
+ id 1lvXzS-00014v-LV
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:22 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2673F2E816A
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:20 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5ED442E81DF
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:19 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:21 -0000
-From: Launchpad Bug Tracker <1837347@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:23 -0000
+From: Launchpad Bug Tracker <1837851@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm raspi2 tcg
+X-Launchpad-Bug-Tags: kvm qemu-kvm x86
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aditya-govardhan janitor th-huth
-X-Launchpad-Bug-Reporter: Aditya Govardhan (aditya-govardhan)
+X-Launchpad-Bug-Commenters: janitor stefan-proxmox th-huth
+X-Launchpad-Bug-Reporter: Stefan (stefan-proxmox)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <156377129036.14702.8663571503299830535.malonedeb@wampee.canonical.com>
-Message-Id: <162433550212.20423.5335742370310614776.malone@loganberry.canonical.com>
-Subject: [Bug 1837347] Re: guest userspace process core dump after raspi2
- kernel boot
+References: <156404155054.10633.9207967667458929652.malonedeb@wampee.canonical.com>
+Message-Id: <162433550345.20423.2229178113498797141.malone@loganberry.canonical.com>
+Subject: [Bug 1837851] Re: hv-tlbflush malfunctions on Intel host CPUs with
+ neither EPT nor VPID (qemu-kvm)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 94f117a77ed98e1410c865f9019bfb67e9e16e75
+X-Launchpad-Hash: a657dcff20cfa9f39d6adc86e5e036610980cb32
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1837347 <1837347@bugs.launchpad.net>
+Reply-To: Bug 1837851 <1837851@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,58 +85,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1837347
+https://bugs.launchpad.net/bugs/1837851
 
 Title:
-  guest userspace process core dump after raspi2 kernel boot
+  hv-tlbflush malfunctions on Intel host CPUs with neither EPT nor VPID
+  (qemu-kvm)
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Host info:
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  x86-64, Ubuntu 18.04, QEMU 4.0.0 (downloaded tarball from main site)
+  Enabling hv-tlbflush on older hosts using Intel CPUs supporting VT-x
+  but neither EPT nor VPID will lead to bluescreens on the guest.
 
-  Guest info:
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  ARM7l, Raspbian OS off the main raspberry pi site
+  It seems KVM only checks if EPT is available, and if it isn't it
+  forcibly uses VPID. If that's *also* not available, it defaults to
+  basically a no-op hypercall, though windows is expecting the TLB to be
+  flushed.
 
-  QEMU command:
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  qemu-system-arm -M raspi2 -kernel bootpart/kernel7.img -dtb bootpart/bcm2=
-709-rpi-2-b.dtb -drive file=3D2019-07-10-raspbian-buster.img,format=3Draw,i=
-f=3Dsd -append "rw earlyprintk console=3DttyAMA0,115200 fsck.repair=3Dyes r=
-ootwait memtest=3D1 loglevel=3D8 dwc_otg.lpm_enable=3D0 root=3D/dev/mmcblk0=
-p2" -serial stdio
+  hv-tlbflush is pretty useless on machines not supporting these
+  extensions anyway (only reasonably fix I can see would be to flush the
+  *entire* TLB on tlbflush hypercall in KVM (i.e. a kernel fix), but
+  that would remove any performance benefits), so I would suggest some
+  kind of preliminary check and warning/error if hv-tlbflush is
+  specified on such a host.
 
-  kernel7.img and bcm2709-rpi-2-b.dtb were obtained by the following
-  commands:
+  All CPUs mentioned in this thread[0] are confirmed to be affected by
+  the bug, and I have successfully reproduced it on an Intel Core2Duo
+  E8500.
 
-  guestfish --ro -a 2019-07-10-raspbian-buster.img -m /dev/sda1
-  ><fs> copy-out / bootpart/
-  ><fs> quit
-
-  Output:
-  =3D=3D=3D=3D=3D=3D=3D
-
-  https://pastebin.com/fL1eXhV0
-
-  References:
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  https://translatedcode.wordpress.com/2016/11/03/installing-debian-on-qemu=
-s-32-bit-arm-virt-board/
-  https://translatedcode.wordpress.com/2018/04/25/debian-on-qemus-raspberry=
--pi-3-model/
-
-  =
-
-  The core dump error can occur at both times, before logging in and after =
-logging in, in this case I have given the output after logging in to show t=
-he initial processes running.
-
-  Also please let me know if I using any kernel flags incorrectly
+  [0] https://forum.proxmox.com/threads/windows-guest-bluescreen-with-
+  proxmox-6.56053/
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1837347/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1837851/+subscriptions
 
