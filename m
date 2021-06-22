@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195C03B0A1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:17:24 +0200 (CEST)
-Received: from localhost ([::1]:43226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D43FC3B0A71
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:36:09 +0200 (CEST)
+Received: from localhost ([::1]:51270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvj5X-0004eh-5U
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:17:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36760)
+	id 1lvjNg-00034I-DQ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvj3w-0003Gs-7g; Tue, 22 Jun 2021 12:15:45 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvj3s-0005Bm-Jv; Tue, 22 Jun 2021 12:15:42 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id a11so24344893wrt.13;
- Tue, 22 Jun 2021 09:15:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xMuHYlxTGpWZ/cCewwWXbER7wzi9x2/gcVq+Sqd5Dy8=;
- b=Xe+wGRI0bNQDOKv8jdi9KT9Zbby66/Iigi9EGX3TG75Wqd9kurkGfIAWs+A0BHsnW9
- v3sy6BZvdAFsWVmqSsS+jZDhBzK7zNDZqs1x9gHCV231sH7bKtXLnCl/C7ljfjxShVAl
- GSVm9v/9dK1ModS5P5ZrNmpsXHHsgVemZOfnLkckS9tZdkWRNL7dBZbxGYM4W36xY5l4
- 3r2d5tQdptVFnvv2vTQjiF5EWao1jx4m7YbozoJq+jV6zGjiDZRDwAhcr5D5c4AiCUXg
- rUWVBN91p6L+E4U9pTcDFzN3ylG4JKobOv48sxx455GSNM3k5gortE/EQW604ZE3ENFF
- Grlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xMuHYlxTGpWZ/cCewwWXbER7wzi9x2/gcVq+Sqd5Dy8=;
- b=k8E3Yhtdc/jF1gzJ5FKIzBm8T6nGvZF5gHGtz/OwAgPQmcCcsGQzFt0wPoPIn8C9bn
- 5YCi+ammowLQza3HbwAIU9EANBnV0D8Y4vOPkI+djDgid5WVOtv2nVRN00YsdhhuuqIa
- UuCmpQ5rlTk16IeKVz46p5jSgFcXC6ExYzu3+M8z2P7c7I3CmPhAfF68QTGVw0hNGR65
- IPEIR8oEAUWzv6MqpnYpPv7Ds6cO5SyX47hGQv9qRRC2gNDxvHBBquKFAFNT1UqolYV2
- eg8lbMKMBRyKvJqXZ20VnIjFZmV47nEsGEih3fxNbeQBdsNpnVnd0XBYiu+eCu2ccX2j
- OwSA==
-X-Gm-Message-State: AOAM5307IqNUaxQMiSmTRly1mVfc/ODAMLfNMg1LRt6PKXfUc4pHA2vB
- saWfFeb9SKRYrDnJCfBRF1+9MjJvYLxGSg==
-X-Google-Smtp-Source: ABdhPJz1DR1iJeyZQa3Zey6944e7qhIj83cqJQfGJLDfY+KVcHoCPYaFkzw/VKx2cJHcEAvy+boo1g==
-X-Received: by 2002:a5d:4383:: with SMTP id i3mr5836138wrq.255.1624378537238; 
- Tue, 22 Jun 2021 09:15:37 -0700 (PDT)
-Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id i6sm16360929wro.12.2021.06.22.09.15.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 09:15:36 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg: Avoid including 'trace-tcg.h' in target translate.c
-Date: Tue, 22 Jun 2021 18:15:34 +0200
-Message-Id: <20210622161534.602428-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvjMP-0002BM-PJ
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:34:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45997)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvjMM-0001Yw-OO
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:34:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624379685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cuRKHgNJV30vvy+CRuy5M/GcKM3GzTdsx3lkTsJf8Ks=;
+ b=e9kGjT4tY9BkHC4nBmu8aj2NOfcjl9O7qreru+ppcGnbQmw52dJLRUiyBKndKfHBwl4saJ
+ /o/VFW0N2A1uE2lnUOEtEr3cfQpjczx+vuaP4hkHPV+BtYrzyIkELUK5a8qOPv8bYA6LCA
+ WKBhiwH8i92pVq0CU5U1v02k0c0KCxc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-Zsvntp59Nw6TOxkXbk20eA-1; Tue, 22 Jun 2021 12:34:43 -0400
+X-MC-Unique: Zsvntp59Nw6TOxkXbk20eA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 553C7CC622;
+ Tue, 22 Jun 2021 16:34:42 +0000 (UTC)
+Received: from redhat.com (ovpn-114-58.ams2.redhat.com [10.36.114.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B3DB60854;
+ Tue, 22 Jun 2021 16:34:41 +0000 (UTC)
+Date: Tue, 22 Jun 2021 18:34:39 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 3/4] export/fuse: Let permissions be adjustable
+Message-ID: <YNIRH94QiGEwo65V@redhat.com>
+References: <20210614144407.134243-1-mreitz@redhat.com>
+ <20210614144407.134243-4-mreitz@redhat.com>
+ <YNH7l5V/hAKfBmb8@redhat.com>
+ <8f2a3abb-4b42-6257-51b9-08982cd87cb4@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <8f2a3abb-4b42-6257-51b9-08982cd87cb4@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,265 +80,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Max Filippov <jcmvbkbc@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The root trace-events only declares a single TCG event:
+Am 22.06.2021 um 17:22 hat Max Reitz geschrieben:
+> On 22.06.21 17:02, Kevin Wolf wrote:
+> > Am 14.06.2021 um 16:44 hat Max Reitz geschrieben:
+> > > Allow changing the file mode, UID, and GID through SETATTR.
+> > > 
+> > > This only really makes sense with allow-other, though (because without
+> > > it, the effective access mode is fixed to be 0600 (u+rw) with qemu's
+> > > user being the file's owner), so changing these stat fields is not
+> > > allowed without allow-other.
+> > > 
+> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
+> > > ---
+> > >   block/export/fuse.c | 48 ++++++++++++++++++++++++++++++++++-----------
+> > >   1 file changed, 37 insertions(+), 11 deletions(-)
+> > > 
+> > > diff --git a/block/export/fuse.c b/block/export/fuse.c
+> > > index 1d54286d90..742e0af657 100644
+> > > --- a/block/export/fuse.c
+> > > +++ b/block/export/fuse.c
+> > > @@ -47,6 +47,10 @@ typedef struct FuseExport {
+> > >       bool writable;
+> > >       bool growable;
+> > >       bool allow_other;
+> > > +
+> > > +    mode_t st_mode;
+> > > +    uid_t st_uid;
+> > > +    gid_t st_gid;
+> > >   } FuseExport;
+> > >   static GHashTable *exports;
+> > > @@ -120,6 +124,13 @@ static int fuse_export_create(BlockExport *blk_exp,
+> > >       exp->growable = args->growable;
+> > >       exp->allow_other = args->allow_other;
+> > > +    exp->st_mode = S_IFREG | S_IRUSR;
+> > > +    if (exp->writable) {
+> > > +        exp->st_mode |= S_IWUSR;
+> > > +    }
+> > > +    exp->st_uid = getuid();
+> > > +    exp->st_gid = getgid();
+> > > +
+> > >       ret = setup_fuse_export(exp, args->mountpoint, errp);
+> > >       if (ret < 0) {
+> > >           goto fail;
+> > > @@ -329,7 +340,6 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
+> > >       int64_t length, allocated_blocks;
+> > >       time_t now = time(NULL);
+> > >       FuseExport *exp = fuse_req_userdata(req);
+> > > -    mode_t mode;
+> > >       length = blk_getlength(exp->common.blk);
+> > >       if (length < 0) {
+> > > @@ -344,17 +354,12 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
+> > >           allocated_blocks = DIV_ROUND_UP(allocated_blocks, 512);
+> > >       }
+> > > -    mode = S_IFREG | S_IRUSR;
+> > > -    if (exp->writable) {
+> > > -        mode |= S_IWUSR;
+> > > -    }
+> > > -
+> > >       statbuf = (struct stat) {
+> > >           .st_ino     = inode,
+> > > -        .st_mode    = mode,
+> > > +        .st_mode    = exp->st_mode,
+> > >           .st_nlink   = 1,
+> > > -        .st_uid     = getuid(),
+> > > -        .st_gid     = getgid(),
+> > > +        .st_uid     = exp->st_uid,
+> > > +        .st_gid     = exp->st_gid,
+> > >           .st_size    = length,
+> > >           .st_blksize = blk_bs(exp->common.blk)->bl.request_alignment,
+> > >           .st_blocks  = allocated_blocks,
+> > > @@ -400,15 +405,23 @@ static int fuse_do_truncate(const FuseExport *exp, int64_t size,
+> > >   }
+> > >   /**
+> > > - * Let clients set file attributes.  Only resizing is supported.
+> > > + * Let clients set file attributes.  With allow_other, only resizing and
+> > > + * changing permissions (st_mode, st_uid, st_gid) is allowed.  Without
+> > > + * allow_other, only resizing is supported.
+> > >    */
+> > >   static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
+> > >                            int to_set, struct fuse_file_info *fi)
+> > >   {
+> > >       FuseExport *exp = fuse_req_userdata(req);
+> > > +    int supported_attrs;
+> > >       int ret;
+> > > -    if (to_set & ~FUSE_SET_ATTR_SIZE) {
+> > > +    supported_attrs = FUSE_SET_ATTR_SIZE;
+> > > +    if (exp->allow_other) {
+> > > +        supported_attrs |= FUSE_SET_ATTR_MODE | FUSE_SET_ATTR_UID |
+> > > +            FUSE_SET_ATTR_GID;
+> > > +    }
+> > > +    if (to_set & ~supported_attrs) {
+> > >           fuse_reply_err(req, ENOTSUP);
+> > >           return;
+> > >       }
+> > > @@ -426,6 +439,19 @@ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
+> > >           }
+> > >       }
+> > > +    if (to_set & FUSE_SET_ATTR_MODE) {
+> > > +        /* Only allow changing the file mode, not the type */
+> > > +        exp->st_mode = (statbuf->st_mode & 07777) | S_IFREG;
+> > > +    }
+> > Should we check that the mode actually makes sense? Not sure if making
+> > an image executable has a good use case, and making it writable in the
+> > permissions for a read-only export isn't a good idea either.
+> 
+> I mean, I don’t mind what the user does.  It doesn’t really faze us, I
+> believe.  If the image contains an executable ELF and the user wants to run
+> it directly from FUSE...  I don’t mind.
+> 
+> As for +w on RO exports, I’m not sure.  This reminds me of `sudo chattr +i
+> $file`, which effectively makes any regular file read-only, too, and it can
+> still keep +w.  So the file permissions are basically just ACLs, getting
+> permission for something doesn’t mean you can actually do it.
+> 
+> OTOH, the difference to `chattr +i` is that we’d allow opening the export
+> R/W, only writing would then fail.  `chattr +i` does give EPERM when opening
+> the file.
+> 
+> So I’m not quite sure.  I don’t really want to prevent the user from setting
+> any access restrictions they want, but on the other hand, if writing can
+> never work, then there really is no point in allowing +w.  (Then I’m
+> wondering, if we don’t allow +w, should we silently drop it or return an
+> error?  I guess returning success but not actually succeeding is weird, so
+> we probably should return EROFS.)
 
-  $ git grep -w tcg trace-events
-  trace-events:115:# tcg/tcg-op.c
-  trace-events:137:vcpu tcg guest_mem_before(TCGv vaddr, uint16_t info) "info=%d", "vaddr=0x%016"PRIx64" info=%d"
+Yes, EROFS seems best.
 
-and only a tcg/tcg-op.c uses it:
+> But +x can technically work, so I wouldn’t disallow it.
 
-  $ git grep -l trace_guest_mem_before_tcg
-  tcg/tcg-op.c
+Fair enough.
 
-therefore it is pointless to include "trace-tcg.h" in each target
-(because it is not used). Remove it.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/alpha/translate.c      | 1 -
- target/arm/translate-a64.c    | 1 -
- target/arm/translate-sve.c    | 1 -
- target/arm/translate.c        | 1 -
- target/cris/translate.c       | 1 -
- target/hppa/translate.c       | 1 -
- target/i386/tcg/translate.c   | 1 -
- target/m68k/translate.c       | 1 -
- target/microblaze/translate.c | 1 -
- target/mips/tcg/translate.c   | 1 -
- target/openrisc/translate.c   | 1 -
- target/ppc/translate.c        | 1 -
- target/rx/translate.c         | 1 -
- target/s390x/translate.c      | 1 -
- target/sh4/translate.c        | 1 -
- target/sparc/translate.c      | 1 -
- target/xtensa/translate.c     | 1 -
- 17 files changed, 17 deletions(-)
-
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index f454adea5e0..5fcedd85d36 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -28,7 +28,6 @@
- #include "exec/cpu_ldst.h"
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
--#include "trace-tcg.h"
- #include "exec/translator.h"
- #include "exec/log.h"
- 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 7f74d0e81a9..066d942b7fc 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -35,7 +35,6 @@
- #include "exec/helper-gen.h"
- #include "exec/log.h"
- 
--#include "trace-tcg.h"
- #include "translate-a64.h"
- #include "qemu/atomic128.h"
- 
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 46210eb696d..35d838aa068 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -30,7 +30,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- #include "exec/log.h"
--#include "trace-tcg.h"
- #include "translate-a64.h"
- #include "fpu/softfloat.h"
- 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 9e2cca77077..3a3ccc97eb6 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -34,7 +34,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- 
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- 
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 6dd5a267a61..044e587eeb2 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -37,7 +37,6 @@
- 
- #include "exec/helper-gen.h"
- 
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 64af1e0d5cc..424ec3252ed 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -27,7 +27,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- #include "exec/translator.h"
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- /* Since we have a distinction between register size and address size,
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index a7f5c0c8f20..5fb3350c5a8 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -30,7 +30,6 @@
- #include "exec/helper-gen.h"
- #include "helper-tcg.h"
- 
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- #define PREFIX_REPZ   0x01
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index f0c5bf9154e..348fc6e844e 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -31,7 +31,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- 
--#include "trace-tcg.h"
- #include "exec/log.h"
- #include "fpu/softfloat.h"
- 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index c1b13f4c7d3..5dfb08d49f1 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -29,7 +29,6 @@
- #include "exec/translator.h"
- #include "qemu/qemu-print.h"
- 
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- #define EXTRACT_FIELD(src, start, end) \
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 797eba44347..9895f7336c6 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -32,7 +32,6 @@
- #include "semihosting/semihost.h"
- 
- #include "target/mips/trace.h"
--#include "trace-tcg.h"
- #include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index a9c81f8bd5b..5db63d76093 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -33,7 +33,6 @@
- #include "exec/helper-gen.h"
- #include "exec/gen-icount.h"
- 
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- /* is_jmp field values */
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index f65d1e81eac..07d79acc08f 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -32,7 +32,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- 
--#include "trace-tcg.h"
- #include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/atomic128.h"
-diff --git a/target/rx/translate.c b/target/rx/translate.c
-index 9ea941c6302..22a15ee11d8 100644
---- a/target/rx/translate.c
-+++ b/target/rx/translate.c
-@@ -26,7 +26,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- #include "exec/translator.h"
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- typedef struct DisasContext {
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index e243624d2a6..d7c7f37e363 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -42,7 +42,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- 
--#include "trace-tcg.h"
- #include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/atomic128.h"
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 93127906237..1096817ee79 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -28,7 +28,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- #include "exec/translator.h"
--#include "trace-tcg.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
- 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index 4bfa3179f8e..f3fe7a03699 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -29,7 +29,6 @@
- 
- #include "exec/helper-gen.h"
- 
--#include "trace-tcg.h"
- #include "exec/translator.h"
- #include "exec/log.h"
- #include "asi.h"
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 14028d307d8..d5da35f4fcd 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -43,7 +43,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- 
--#include "trace-tcg.h"
- #include "exec/log.h"
- 
- 
--- 
-2.31.1
+Kevin
 
 
