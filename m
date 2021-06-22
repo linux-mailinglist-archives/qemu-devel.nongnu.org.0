@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DE53AFD78
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 08:58:47 +0200 (CEST)
-Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10EA3AFD7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:00:12 +0200 (CEST)
+Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvaMw-0002nu-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 02:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53958)
+	id 1lvaOJ-0004fC-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:00:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvaM4-00022Z-Ne
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:57:52 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33627)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lvaMP-0002a8-Eu
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:58:13 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:54210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lvaM2-0000HG-UK
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:57:52 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id d11so19907896wrm.0
- for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 23:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NkELXyAGifupi9fNk7RCmMbaEUbNhZCX3ykXprQTGDI=;
- b=fkMQYQFeMMAyms6g9+lohoB7yCC7aeB+GJZsaJuGd993LYEQpmVDaHcpTkh9QWQNbC
- mIyre6AWXbMzTtaVJ97nxJqxhV/czi+YyKGSx6e5PgPqXr9yf7C7b/3VWiIzBhBCAVjy
- 2iFIFPxoOCDwprIrc1AoIQOieY0fv9eG/DaXYxNmuPp9Pz92sy7kxSmxuMcHz2y+aw0T
- 2d2S2wBOR6GM5KBrGA48IYIdkZdZh/BVjLWgbowJZlUu0bcJ+UxaeoMsPZWsdkuCRPIA
- LbwtkxMbF1bMZp8zTJHLHUw26qLar6Mtk4aEd4fIe9tmvjOwZLMzpSsDtR7VhjQaGJwT
- +8VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NkELXyAGifupi9fNk7RCmMbaEUbNhZCX3ykXprQTGDI=;
- b=gg0qwUHk2uqeRJDSQdkymLrPN3JvZF6qbUpxgcxQ1Fzbn/cDMSB2oFs6KyBFuinuWV
- 3OXio5vOR+6F1+018REWg9xnG95kV5AHTkLGxTldxAkaZN6FziAq1YLzHZLf5mNSOn1N
- Qm/9JUxRt6ZaPt+sBemRXYN9XOm/yCEUcAHgJdBsnFPywDREF4Gus3tRdbTw0BfChLWe
- ZMXp02SjUW82IcxPwbLBDE2PW/XOazt9VoXq8J8mJZOyQ9jZrrf/GDzyUV5OoVbTyEfg
- J1ND/k1daKsurzYqH29xibjY+7kWzKIyQYj+YHtVvvo7k8tfBLIIKQemDbysDBX1lH94
- Vpeg==
-X-Gm-Message-State: AOAM532NzXtZOM5ymNb0S5xdy/zqmbS2aBs4are5Axo1SxzHRhWrhNvV
- MYNQygiiaSfez7QMaP3vtBU=
-X-Google-Smtp-Source: ABdhPJxFXQjBwz0MluRk9sVPhqCQPkwrKPR1Sw97S/t0zYxifNqjEn+txSNoZvPn/yLEE1/OsPj1Og==
-X-Received: by 2002:a5d:48c6:: with SMTP id p6mr2822024wrs.45.1624345069393;
- Mon, 21 Jun 2021 23:57:49 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id h6sm1396612wmc.40.2021.06.21.23.57.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jun 2021 23:57:48 -0700 (PDT)
-Subject: Re: [PATCH] coreaudio: Lock only the buffer
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20210622015043.41997-1-akihiko.odaki@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <21dacd6b-36aa-eef6-8c0a-ed42be9a0c2c@amsat.org>
-Date: Tue, 22 Jun 2021 08:57:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lvaMN-0000Vu-E2
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 02:58:13 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C92F12198B;
+ Tue, 22 Jun 2021 06:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624345089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uRcBreLLE8rSoc7P0Eo5C7wXc5vLy81xBzcqcVzfPWM=;
+ b=T++Jw5eMXsoinEOZEjFS52XrupcbNWlIq1znYUFggAiOUIBGbcRiF2orxvSJpz7Gf1ef45
+ YsxwIuW4SfVOeI+m0yK2DT6U0tdhF6f0XqjmFlb6yWM4FzKta4FLwHAYokpJIycUpD/k1j
+ gAsajtcpfXLqeWHjPz/YR/7mhrsNrkA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624345089;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uRcBreLLE8rSoc7P0Eo5C7wXc5vLy81xBzcqcVzfPWM=;
+ b=MKRW9G4fFcJB+3w4/Ft8tdxnm3mgFct3XOQ5hWz3D32XuFV8OTTTnkfWdjiC8GYA2Exl4O
+ xYhyBC65VVGx0tCA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 73BC8118DD;
+ Tue, 22 Jun 2021 06:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624345089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uRcBreLLE8rSoc7P0Eo5C7wXc5vLy81xBzcqcVzfPWM=;
+ b=T++Jw5eMXsoinEOZEjFS52XrupcbNWlIq1znYUFggAiOUIBGbcRiF2orxvSJpz7Gf1ef45
+ YsxwIuW4SfVOeI+m0yK2DT6U0tdhF6f0XqjmFlb6yWM4FzKta4FLwHAYokpJIycUpD/k1j
+ gAsajtcpfXLqeWHjPz/YR/7mhrsNrkA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624345089;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uRcBreLLE8rSoc7P0Eo5C7wXc5vLy81xBzcqcVzfPWM=;
+ b=MKRW9G4fFcJB+3w4/Ft8tdxnm3mgFct3XOQ5hWz3D32XuFV8OTTTnkfWdjiC8GYA2Exl4O
+ xYhyBC65VVGx0tCA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id WChhGgGK0WCtWwAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Tue, 22 Jun 2021 06:58:09 +0000
+Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20210616152455.1270264-1-imammedo@redhat.com>
+ <d10ba45f-c71c-f472-fac7-9f8e5770c735@suse.de>
+ <20210618132647.07cf2008@redhat.com> <20210618175807.2fa30126@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f2181c09-95e4-db88-8d97-bb2605d14110@suse.de>
+Date: Tue, 22 Jun 2021 08:58:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210622015043.41997-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20210618175807.2fa30126@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,184 +100,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ mst@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/22/21 3:50 AM, Akihiko Odaki wrote:
-> On macOS 11.3.1, Core Audio calls AudioDeviceIOProc after calling an
-> internal function named HALB_Mutex::Lock(), which locks a mutex in
-> HALB_IOThread::Entry(void*). HALB_Mutex::Lock() is also called in
-> AudioObjectGetPropertyData, which is called by coreaudio driver.
-> Therefore, a deadlock will occur if coreaudio driver calls
-> AudioObjectGetPropertyData while holding a lock for a mutex and tries
-> to lock the same mutex in AudioDeviceIOProc.
+On 6/18/21 5:58 PM, Igor Mammedov wrote:
+> On Fri, 18 Jun 2021 13:26:47 +0200
+> Igor Mammedov <imammedo@redhat.com> wrote:
 > 
-> audioDeviceIOProc, which implements AudioDeviceIOProc in coreaudio
-> driver, requires an exclusive access for the device configuration and
-> the buffer. Fortunately, a mutex is necessary only for the buffer in
-> audioDeviceIOProc because a change for the device configuration occurs
-> only before setting up AudioDeviceIOProc or after stopping the playback
-> with AudioDeviceStop.
+>> On Thu, 17 Jun 2021 18:49:17 +0200
+>> Claudio Fontana <cfontana@suse.de> wrote:
 > 
-> With this change, the mutex owned by the driver will only be used for
-> the buffer, and the device configuration change will be protected with
-> the implicit iothread mutex.
+> [...]
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->  audio/coreaudio.c | 59 +++++++++++------------------------------------
->  1 file changed, 13 insertions(+), 46 deletions(-)
+>>> Does this series work with --disable-kvm builds? (TCG-only builds?)  
+>> I'll test. But on the first glance it should work without issues.
+>> (i.e. kvm only tests will be skipped).
 > 
-> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-> index 578ec9b8b2e..c8d9f01d275 100644
-> --- a/audio/coreaudio.c
-> +++ b/audio/coreaudio.c
-> @@ -26,6 +26,7 @@
->  #include <CoreAudio/CoreAudio.h>
->  #include <pthread.h>            /* pthread_X */
->  
-> +#include "qemu/main-loop.h"
->  #include "qemu/module.h"
->  #include "audio.h"
->  
+> it didn't work, built fine but still tries to execute KVM test.
+> Fixed v3 is on the way
 
-Suggestions to complete your patch, document init_out_device()
-and update_device_playback_state() are called with iothread
-lock taken:
+I am thinking, what about doing the checks we need to do at the beginning of the tests,
+and cache the results for all the tests, instead of checking every time?
 
-@@ -456,6 +456,7 @@ static OSStatus init_out_device(coreaudioVoiceOut *core)
-     return 0;
- }
+This way we could use a more general implementation qtest_has_accel("kvm"), and mitigate its cost?
 
-+/* Called with iothread lock taken. */
- static void fini_out_device(coreaudioVoiceOut *core)
- {
-     OSStatus status;
-@@ -486,6 +487,7 @@ static void fini_out_device(coreaudioVoiceOut *core)
-     core->outputDeviceID = kAudioDeviceUnknown;
- }
+Thanks
 
-+/* Called with iothread lock taken. */
- static void update_device_playback_state(coreaudioVoiceOut *core)
- {
-     OSStatus status;
+C
 
-> @@ -551,9 +552,7 @@ static OSStatus handle_voice_change(
->      OSStatus status;
->      coreaudioVoiceOut *core = in_client_data;
->  
-> -    if (coreaudio_lock(core, __func__)) {
-> -        abort();
-> -    }
-> +    qemu_mutex_lock_iothread();
->  
->      if (core->outputDeviceID) {
->          fini_out_device(core);
-> @@ -564,7 +563,7 @@ static OSStatus handle_voice_change(
->          update_device_playback_state(core);
->      }
->  
-> -    coreaudio_unlock (core, __func__);
-> +    qemu_mutex_unlock_iothread();
->      return status;
->  }
->  
-> @@ -582,11 +581,7 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
->      err = pthread_mutex_init(&core->mutex, NULL);
->      if (err) {
->          dolog("Could not create mutex\nReason: %s\n", strerror (err));
-> -        goto mutex_error;
-> -    }
-> -
-> -    if (coreaudio_lock(core, __func__)) {
-> -        goto lock_error;
-> +        return -1;
->      }
->  
->      obt_as = *as;
-> @@ -606,37 +601,21 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
->      if (status != kAudioHardwareNoError) {
->          coreaudio_playback_logerr (status,
->                                     "Could not listen to voice property change\n");
-> -        goto listener_error;
-> +        return -1;
->      }
->  
->      if (init_out_device(core)) {
-> -        goto device_error;
-> +        status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
-> +                                                   &voice_addr,
-> +                                                   handle_voice_change,
-> +                                                   core);
-> +        if (status != kAudioHardwareNoError) {
-> +            coreaudio_playback_logerr(status,
-> +                                      "Could not remove voice property change listener\n");
-> +        }
->      }
->  
-> -    coreaudio_unlock(core, __func__);
->      return 0;
-> -
-> -device_error:
-> -    status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
-> -                                               &voice_addr,
-> -                                               handle_voice_change,
-> -                                               core);
-> -    if (status != kAudioHardwareNoError) {
-> -        coreaudio_playback_logerr(status,
-> -                                  "Could not remove voice property change listener\n");
-> -    }
-> -
-> -listener_error:
-> -    coreaudio_unlock(core, __func__);
-> -
-> -lock_error:
-> -    err = pthread_mutex_destroy(&core->mutex);
-> -    if (err) {
-> -        dolog("Could not destroy mutex\nReason: %s\n", strerror (err));
-> -    }
-> -
-> -mutex_error:
-> -    return -1;
->  }
->  
->  static void coreaudio_fini_out (HWVoiceOut *hw)
-> @@ -645,10 +624,6 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
->      int err;
->      coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
->  
-> -    if (coreaudio_lock(core, __func__)) {
-> -        abort();
-> -    }
-> -
->      status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
->                                                 &voice_addr,
->                                                 handle_voice_change,
-> @@ -659,8 +634,6 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
->  
->      fini_out_device(core);
->  
-> -    coreaudio_unlock(core, __func__);
-> -
->      /* destroy mutex */
->      err = pthread_mutex_destroy(&core->mutex);
->      if (err) {
-> @@ -672,14 +645,8 @@ static void coreaudio_enable_out(HWVoiceOut *hw, bool enable)
->  {
->      coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
->  
-> -    if (coreaudio_lock(core, __func__)) {
-> -        abort();
-> -    }
-> -
->      core->enabled = enable;
->      update_device_playback_state(core);
-> -
-> -    coreaudio_unlock(core, __func__);
->  }
->  
->  static void *coreaudio_audio_init(Audiodev *dev)
+
+> 
+>>
+>>>
+>>> Thanks,
+>>>
+>>> CLaudio
+>>>
+>>>   
+>>>>
+>>>> For an example:
+>>>>  test q35 machine with intel_iommu
+>>>>  This test will run only is KVM is available and fail
+>>>>  to start QEMU if it fallsback to TCG, thus failing whole test.
+>>>>  So if test is executed in VM where nested KVM is not enabled
+>>>>  or on other than x86 host, it will break 'make check-qtest'
+>>>>
+>>>> Series adds a lightweight qtest_has_kvm() check, which abuses
+>>>> build system and should help to avoid running KVM only tests
+>>>> on hosts that do not support it.
+>>>>
+>>>> PS:
+>>>> there is an alternative 'query-accels' QMP command proposal
+>>>> https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
+>>>> which I think is more robust compared to qtest_has_kvm() and
+>>>> could be extended to take into account machine type.
+>>>> But it's more complex and what I dislike about it most,
+>>>> it requires execution of 'probing' QEMU instance to find
+>>>> execute 'query-accels' QMP command, which is rather resource
+>>>> consuming. So I'd use query-accels approach only when it's
+>>>> the only possible option to minimize load on CI systems.
+>>>>
+>>>> Igor Mammedov (2):
+>>>>   tests: acpi: q35: test for x2APIC entries in SRAT
+>>>>   tests: acpi: update expected tables blobs
+>>>>
+>>>> root (1):
+>>>>   tests: qtest: add qtest_has_kvm() to check if tested bynary supports
+>>>>     KVM
+>>>>
+>>>>  tests/qtest/libqos/libqtest.h    |   7 +++++++
+>>>>  meson.build                      |   1 +
+>>>>  tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
+>>>>  tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
+>>>>  tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
+>>>>  tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
+>>>>  tests/qtest/bios-tables-test.c   |  10 +++++++---
+>>>>  tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
+>>>>  8 files changed, 35 insertions(+), 3 deletions(-)
+>>>>  create mode 100644 tests/data/acpi/q35/APIC.numamem
+>>>>  create mode 100644 tests/data/acpi/q35/FACP.numamem
+>>>>     
+>>>   
+>>
+>>
+> 
 > 
 
 
