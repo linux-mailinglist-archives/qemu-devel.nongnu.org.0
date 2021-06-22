@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F143B0879
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:16:08 +0200 (CEST)
-Received: from localhost ([::1]:33066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B4F3B0853
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:11:24 +0200 (CEST)
+Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvi8F-0004Ht-4Y
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48660)
+	id 1lvi3f-0004vr-M1
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:11:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1X-00026r-4w
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24797)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1V-00024z-Qs
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1S-0005sZ-Kq
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:10 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1S-0005sV-K6
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1624374545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DTyNx9KOxoFz+giaagtGKef/aQBREHMod4NEDZYo4m4=;
- b=UjJsuOMGwyYjQ7Un2cAeNrJRUAS8ncqzUBaIPqYkyWs8wTJzkrTiJxlBc61VaNUXGqwOXt
- ggcSuD/t6D8l2jUOMODGpVIFb7FFSmqA3tg+ftGEIx/fHJo2wKM2g5XLMpwm5614daN79J
- vhaUnuBG2/YzaYy2IhyGxBMkVxXpGnA=
+ bh=V3ckmkKqsiTtvJ+K+xX7uBbPHXP7m9WwdgdYHmlx/sg=;
+ b=Dge++nJddS+8OSo6An24CGNPT3mYdn3fLVEPjGPSMxsmEW4u/PW+vdqKPB8HiPGZJPkB/J
+ 6oYER2xQHTuxN5HoEnAugDjhu+5ALteFunGhKHETayPdBRe0yUUNWUuApdGbNdaCg8UQ+r
+ q0U02gIoQ7A8S9YpCJhBaFRDuV7x8pw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-BZ77o6aFMZCII5TXhwlWyw-1; Tue, 22 Jun 2021 11:09:04 -0400
-X-MC-Unique: BZ77o6aFMZCII5TXhwlWyw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-328-YbQUWwT3O4i-P_ijpNJYOw-1; Tue, 22 Jun 2021 11:09:04 -0400
+X-MC-Unique: YbQUWwT3O4i-P_ijpNJYOw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49937804147;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42483101C8AB;
  Tue, 22 Jun 2021 15:09:03 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-115-114.rdu2.redhat.com [10.10.115.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C703F60916;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2AAA5C1A3;
  Tue, 22 Jun 2021 15:08:59 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 687C5225FCE; Tue, 22 Jun 2021 11:08:59 -0400 (EDT)
+ id 6E42C225FCF; Tue, 22 Jun 2021 11:08:59 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v7 2/7] virtiofsd: Fix xattr operations overwriting errno
-Date: Tue, 22 Jun 2021 11:08:47 -0400
-Message-Id: <20210622150852.1507204-3-vgoyal@redhat.com>
+Subject: [PATCH v7 3/7] virtiofsd: Add support for extended setxattr
+Date: Tue, 22 Jun 2021 11:08:48 -0400
+Message-Id: <20210622150852.1507204-4-vgoyal@redhat.com>
 In-Reply-To: <20210622150852.1507204-1-vgoyal@redhat.com>
 References: <20210622150852.1507204-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,107 +84,99 @@ Cc: miklos@szeredi.hu, dgilbert@redhat.com, vgoyal@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-getxattr/setxattr/removexattr/listxattr operations handle regualar
-and non-regular files differently. For the case of non-regular files
-we do fchdir(/proc/self/fd) and the xattr operation and then revert
-back to original working directory. After this we are saving errno
-and that's buggy because fchdir() will overwrite the errno.
-
-FCHDIR_NOFAIL(lo->proc_self_fd);
-ret = getxattr(procname, name, value, size);
-FCHDIR_NOFAIL(lo->root.fd);
-
-if (ret == -1)
-    saverr = errno
-
-In above example, if getxattr() failed, we will still return 0 to caller
-as errno must have been written by FCHDIR_NOFAIL(lo->root.fd) call.
-Fix all such instances and capture "errno" early and save in "saverr"
-variable.
+Add the bits to enable support for setxattr_ext if fuse offers it. Do not
+enable it by default yet. Let passthrough_ll opt-in. Enabling it by deafult
+kind of automatically means that you are taking responsibility of clearing
+SGID if ACL is set.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ tools/virtiofsd/fuse_common.h    |  5 +++++
+ tools/virtiofsd/fuse_lowlevel.c  | 11 ++++++++++-
+ tools/virtiofsd/fuse_lowlevel.h  |  3 ++-
+ tools/virtiofsd/passthrough_ll.c |  3 ++-
+ 4 files changed, 19 insertions(+), 3 deletions(-)
 
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index 0c2665b977..8abac80098 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -377,6 +377,11 @@ struct fuse_file_info {
+  */
+ #define FUSE_CAP_SETXATTR_EXT (1 << 29)
+ 
++/**
++ * Indicates that file server supports extended struct fuse_setxattr_in
++ */
++#define FUSE_CAP_SETXATTR_EXT (1 << 29)
++
+ /**
+  * Ioctl flags
+  *
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index c2b6ff1686..d1e24c013f 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1439,7 +1439,9 @@ static void do_setxattr(fuse_req_t req, fuse_ino_t nodeid,
+     }
+ 
+     if (req->se->op.setxattr) {
+-        req->se->op.setxattr(req, nodeid, name, value, arg->size, arg->flags);
++        uint32_t setxattr_flags = setxattr_ext ? arg->setxattr_flags : 0;
++        req->se->op.setxattr(req, nodeid, name, value, arg->size, arg->flags,
++                             setxattr_flags);
+     } else {
+         fuse_reply_err(req, ENOSYS);
+     }
+@@ -1986,6 +1988,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     if (arg->flags & FUSE_HANDLE_KILLPRIV_V2) {
+         se->conn.capable |= FUSE_CAP_HANDLE_KILLPRIV_V2;
+     }
++    if (arg->flags & FUSE_SETXATTR_EXT) {
++        se->conn.capable |= FUSE_CAP_SETXATTR_EXT;
++    }
+ #ifdef HAVE_SPLICE
+ #ifdef HAVE_VMSPLICE
+     se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
+@@ -2121,6 +2126,10 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+         outarg.flags |= FUSE_HANDLE_KILLPRIV_V2;
+     }
+ 
++    if (se->conn.want & FUSE_CAP_SETXATTR_EXT) {
++        outarg.flags |= FUSE_SETXATTR_EXT;
++    }
++
+     fuse_log(FUSE_LOG_DEBUG, "   INIT: %u.%u\n", outarg.major, outarg.minor);
+     fuse_log(FUSE_LOG_DEBUG, "   flags=0x%08x\n", outarg.flags);
+     fuse_log(FUSE_LOG_DEBUG, "   max_readahead=0x%08x\n", outarg.max_readahead);
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+index 3bf786b034..4b4e8c9724 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -798,7 +798,8 @@ struct fuse_lowlevel_ops {
+      *   fuse_reply_err
+      */
+     void (*setxattr)(fuse_req_t req, fuse_ino_t ino, const char *name,
+-                     const char *value, size_t size, int flags);
++                     const char *value, size_t size, int flags,
++                     uint32_t setxattr_flags);
+ 
+     /**
+      * Get an extended attribute
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 49c21fd855..ec91b3c133 100644
+index ec91b3c133..9f5cd98fb5 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2791,15 +2791,17 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-             goto out_err;
-         }
-         ret = fgetxattr(fd, name, value, size);
-+        saverr = ret == -1 ? errno : 0;
-     } else {
-         /* fchdir should not fail here */
-         FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = getxattr(procname, name, value, size);
-+        saverr = ret == -1 ? errno : 0;
-         FCHDIR_NOFAIL(lo->root.fd);
-     }
+@@ -2955,7 +2955,8 @@ out:
+ }
  
-     if (ret == -1) {
--        goto out_err;
-+        goto out;
-     }
-     if (size) {
-         saverr = 0;
-@@ -2864,15 +2866,17 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-             goto out_err;
-         }
-         ret = flistxattr(fd, value, size);
-+        saverr = ret == -1 ? errno : 0;
-     } else {
-         /* fchdir should not fail here */
-         FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = listxattr(procname, value, size);
-+        saverr = ret == -1 ? errno : 0;
-         FCHDIR_NOFAIL(lo->root.fd);
-     }
- 
-     if (ret == -1) {
--        goto out_err;
-+        goto out;
-     }
-     if (size) {
-         saverr = 0;
-@@ -2998,15 +3002,15 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-             goto out;
-         }
-         ret = fsetxattr(fd, name, value, size, flags);
-+        saverr = ret == -1 ? errno : 0;
-     } else {
-         /* fchdir should not fail here */
-         FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = setxattr(procname, name, value, size, flags);
-+        saverr = ret == -1 ? errno : 0;
-         FCHDIR_NOFAIL(lo->root.fd);
-     }
- 
--    saverr = ret == -1 ? errno : 0;
--
- out:
-     if (fd >= 0) {
-         close(fd);
-@@ -3064,15 +3068,15 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
-             goto out;
-         }
-         ret = fremovexattr(fd, name);
-+        saverr = ret == -1 ? errno : 0;
-     } else {
-         /* fchdir should not fail here */
-         FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = removexattr(procname, name);
-+        saverr = ret == -1 ? errno : 0;
-         FCHDIR_NOFAIL(lo->root.fd);
-     }
- 
--    saverr = ret == -1 ? errno : 0;
--
- out:
-     if (fd >= 0) {
-         close(fd);
+ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+-                        const char *value, size_t size, int flags)
++                        const char *value, size_t size, int flags,
++                        uint32_t extra_flags)
+ {
+     char procname[64];
+     const char *name;
 -- 
 2.25.4
 
