@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B363AFC67
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:05:37 +0200 (CEST)
-Received: from localhost ([::1]:58578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4173AFC68
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:05:54 +0200 (CEST)
+Received: from localhost ([::1]:59184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYbQ-0006Fa-KK
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58380)
+	id 1lvYbh-0006eU-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4G-000343-2e
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:20 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58892)
+ id 1lvY0D-00007E-6f
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:27:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4D-0000Uf-Ti
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:19 -0400
+ id 1lvY00-0005UI-9C
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:27:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvY4B-0003uH-Qy
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:15 +0000
+ id 1lvXzn-00014s-8G
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB1C32E8086
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:15 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D4FD92E8213
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:52 -0000
-From: Launchpad Bug Tracker <1574346@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:57 -0000
+From: Launchpad Bug Tracker <1703506@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor luto-mit th-huth
-X-Launchpad-Bug-Reporter: Andy Lutomirski (luto-mit)
+X-Launchpad-Bug-Commenters: babumoger ehabkost imatimba janitor ptx0
+ rs-databay ryzen27 scix th-huth
+X-Launchpad-Bug-Reporter: A S (scix)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160424174546.5288.30510.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162433553298.20423.1340431066590334915.malone@loganberry.canonical.com>
-Subject: [Bug 1574346] Re: TCG: mov to segment register is incorrectly
- emulated for AMD CPUs
+References: <149974876377.6612.10329067332937096720.malonedeb@gac.canonical.com>
+Message-Id: <162433553753.20423.306308208254101838.malone@loganberry.canonical.com>
+Subject: [Bug 1703506] Re: SMT not supported by QEMU on AMD Ryzen CPU
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: fc4ce0da5c65fdac5c2d3ea7bd7225c223dd55a1
+X-Launchpad-Hash: 61a66faf506bb5336f4c7d2eb43d0b9d21c9e6b3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1574346 <1574346@bugs.launchpad.net>
+Reply-To: Bug 1703506 <1703506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,32 +84,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1574346
+https://bugs.launchpad.net/bugs/1703506
 
 Title:
-  TCG: mov to segment register is incorrectly emulated for AMD CPUs
+  SMT not supported by QEMU on AMD Ryzen CPU
 
 Status in QEMU:
   Expired
 
 Bug description:
-  In TCG mode, the effect of:
+  HyperThreading/SMT is supported by AMD Ryzen CPUs but results in this
+  message when setting the topology to threads=3D2:
 
-  xorl %eax, %eax
-  movl %eax, %gs
+  qemu-system-x86_64: AMD CPU doesn't support hyperthreading. Please
+  configure -smp options properly.
 
-  is to mark the GS segment unusable and set its base to zero.  After
-  doing this, reading MSR_GS_BASE will return zero and using a GS prefix
-  in long mode will treat the GS base as zero.
+  Checking in a Windows 10 guest reveals that SMT is not enabled, and
+  from what I understand, QEMU converts the topology from threads to
+  cores internally on AMD CPUs. This appears to cause performance
+  problems in the guest perhaps because programs are assuming that these
+  threads are actual cores.
 
-  This is correct for Intel CPUs but is incorrect for AMD CPUs.  On an
-  AMD CPU, writing 0 to %gs using mov, pop, or (I think) lgs will leave
-  the base unchanged.
-
-  To make it easier to use TCG to validate behavior on different CPUs,
-  please consider changing the TCG behavior to match actual CPU behavior
-  when emulating an AMD CPU.
+  Software: Linux 4.12, qemu 2.9.0 host with KVM enabled, Windows 10 pro
+  guest
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1574346/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1703506/+subscriptions
 
