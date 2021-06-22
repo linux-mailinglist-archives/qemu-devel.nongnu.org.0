@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2747A3B0831
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:04:41 +0200 (CEST)
-Received: from localhost ([::1]:41296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4B43B0842
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:08:52 +0200 (CEST)
+Received: from localhost ([::1]:43798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvhxA-0007UX-7L
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:04:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47620)
+	id 1lvi1D-0000wW-JH
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvhvY-0005My-BA
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:03:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvhvV-0002EU-Kd
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:03:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624374177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GYHw+a4jcDV8eMqrXFiyqDYUFSlINPx31y0CDnd1/DU=;
- b=Q+7QoYwVJgeTT7Bw/ozJ0SYxdGDbngmdS6uh460KW7GS1sPUJk5zlqBxAUuWZ+mDJhp+Ar
- LHdJVzDdHuVQBzqo8D7YXjPJIBX1ef+Azf1EZVOH/kAF/JuXvc5KTp8jRqfJ7QqVACwOhd
- 8+aAa0XeJN5ABI7yD56wHFETXVEDsPk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-yEhvsp-vMeCzLD_k_2BDLg-1; Tue, 22 Jun 2021 11:02:50 -0400
-X-MC-Unique: yEhvsp-vMeCzLD_k_2BDLg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8176192CC42;
- Tue, 22 Jun 2021 15:02:49 +0000 (UTC)
-Received: from redhat.com (ovpn-114-58.ams2.redhat.com [10.36.114.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D77956090F;
- Tue, 22 Jun 2021 15:02:48 +0000 (UTC)
-Date: Tue, 22 Jun 2021 17:02:47 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 3/4] export/fuse: Let permissions be adjustable
-Message-ID: <YNH7l5V/hAKfBmb8@redhat.com>
-References: <20210614144407.134243-1-mreitz@redhat.com>
- <20210614144407.134243-4-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvi0M-00008y-Jd
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:07:58 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:37651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lvi0I-0005BD-Pp
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:07:58 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id ji1so28982107ejc.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:07:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rOykonGL9jSeNoR/k6R/8dEC3m6L4rDUD7u50fNJmr0=;
+ b=H0nkV+YMicGWltZvdvf4aQceHH7whUHHmW6tMcVhu25mhpe4o3SH40oDuE1I9IYpua
+ Im+f61Q21/YDvk/478YvKMYA3m/OIUleqHzALWhTxNKksoLEC+rOPYMdUfv/ACppiPgc
+ znKp7TQb5fEM++ymQl2f02h7qtjvOShz/aWX0EaxCQNo+Sgkt1+LSrtvEHMF8d+jkSwW
+ FG8Gq6STdfNqgKpJElAXQBDPEQfj2IMBZICAbz09JcIIPeAut+GsHxixG75FN+rQVlMD
+ meweADghT4o/zprpEqJAxFZZkQwYPYAlwXKrF3mwZkTfx+XxL2pZmHR+DWQBUtpaCPdM
+ W3zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rOykonGL9jSeNoR/k6R/8dEC3m6L4rDUD7u50fNJmr0=;
+ b=DLpDL4T3hrZHtXdcrT1SX9oWXvU2mcWYDcFHEMbIUfK3Z/RuamlTn1UVimYwzWhzB/
+ BSIo/kYnRRKzrL6/d0ARbiJ5SKlCOec2FpRZ+ONdUXMZi/paGlkg73/1aPmz/JdGCIxN
+ 3AQzaxCbGdmnXLQMTDLevi7dedWlCbxmGGNxeiw4mxkdVh2gzJ6S3S8f39HMq4KcxoYr
+ watBzx6MfxRt3OYhHlVxA1np+zMD9iIXI0lN36xGhonN1/pienAjp/laP+Gp7kmrdak0
+ Mf1tim4GDV8tf4uMvOpBwOslRpybvjt0fSZV7jI2xEOA773/vN65WXfRuSTWq0Yz+ZVg
+ Bdaw==
+X-Gm-Message-State: AOAM533EA/RSos5Mpy/7Ly4LGGlDZ8IPpKiajcWXSFVdDR7aP727MpLr
+ ozMEEf28qht4Ul+VlujjODXZSJG329j0gS2qgsUOqA==
+X-Google-Smtp-Source: ABdhPJyJQhJ6PfAN4GFaW9gog5OLgO4PWz00XniWi77lG8YLgvDgu0O4yrTCtANmY5O0vLFPllMuNEI+M6qnC5mq3Y4=
+X-Received: by 2002:a17:906:90c4:: with SMTP id
+ v4mr4342135ejw.382.1624374471307; 
+ Tue, 22 Jun 2021 08:07:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210614144407.134243-4-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210621095842.335162-1-cohuck@redhat.com>
+In-Reply-To: <20210621095842.335162-1-cohuck@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Jun 2021 16:07:15 +0100
+Message-ID: <CAFEAcA8saQGgfq7UhAY6TCqoyyNpZFGuCkCgcuD1nFb9w9orcA@mail.gmail.com>
+Subject: Re: [PULL 00/37] s390x update
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,132 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.06.2021 um 16:44 hat Max Reitz geschrieben:
-> Allow changing the file mode, UID, and GID through SETATTR.
-> 
-> This only really makes sense with allow-other, though (because without
-> it, the effective access mode is fixed to be 0600 (u+rw) with qemu's
-> user being the file's owner), so changing these stat fields is not
-> allowed without allow-other.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  block/export/fuse.c | 48 ++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 37 insertions(+), 11 deletions(-)
-> 
-> diff --git a/block/export/fuse.c b/block/export/fuse.c
-> index 1d54286d90..742e0af657 100644
-> --- a/block/export/fuse.c
-> +++ b/block/export/fuse.c
-> @@ -47,6 +47,10 @@ typedef struct FuseExport {
->      bool writable;
->      bool growable;
->      bool allow_other;
-> +
-> +    mode_t st_mode;
-> +    uid_t st_uid;
-> +    gid_t st_gid;
->  } FuseExport;
->  
->  static GHashTable *exports;
-> @@ -120,6 +124,13 @@ static int fuse_export_create(BlockExport *blk_exp,
->      exp->growable = args->growable;
->      exp->allow_other = args->allow_other;
->  
-> +    exp->st_mode = S_IFREG | S_IRUSR;
-> +    if (exp->writable) {
-> +        exp->st_mode |= S_IWUSR;
-> +    }
-> +    exp->st_uid = getuid();
-> +    exp->st_gid = getgid();
-> +
->      ret = setup_fuse_export(exp, args->mountpoint, errp);
->      if (ret < 0) {
->          goto fail;
-> @@ -329,7 +340,6 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
->      int64_t length, allocated_blocks;
->      time_t now = time(NULL);
->      FuseExport *exp = fuse_req_userdata(req);
-> -    mode_t mode;
->  
->      length = blk_getlength(exp->common.blk);
->      if (length < 0) {
-> @@ -344,17 +354,12 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
->          allocated_blocks = DIV_ROUND_UP(allocated_blocks, 512);
->      }
->  
-> -    mode = S_IFREG | S_IRUSR;
-> -    if (exp->writable) {
-> -        mode |= S_IWUSR;
-> -    }
-> -
->      statbuf = (struct stat) {
->          .st_ino     = inode,
-> -        .st_mode    = mode,
-> +        .st_mode    = exp->st_mode,
->          .st_nlink   = 1,
-> -        .st_uid     = getuid(),
-> -        .st_gid     = getgid(),
-> +        .st_uid     = exp->st_uid,
-> +        .st_gid     = exp->st_gid,
->          .st_size    = length,
->          .st_blksize = blk_bs(exp->common.blk)->bl.request_alignment,
->          .st_blocks  = allocated_blocks,
-> @@ -400,15 +405,23 @@ static int fuse_do_truncate(const FuseExport *exp, int64_t size,
->  }
->  
->  /**
-> - * Let clients set file attributes.  Only resizing is supported.
-> + * Let clients set file attributes.  With allow_other, only resizing and
-> + * changing permissions (st_mode, st_uid, st_gid) is allowed.  Without
-> + * allow_other, only resizing is supported.
->   */
->  static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
->                           int to_set, struct fuse_file_info *fi)
->  {
->      FuseExport *exp = fuse_req_userdata(req);
-> +    int supported_attrs;
->      int ret;
->  
-> -    if (to_set & ~FUSE_SET_ATTR_SIZE) {
-> +    supported_attrs = FUSE_SET_ATTR_SIZE;
-> +    if (exp->allow_other) {
-> +        supported_attrs |= FUSE_SET_ATTR_MODE | FUSE_SET_ATTR_UID |
-> +            FUSE_SET_ATTR_GID;
-> +    }
-> +    if (to_set & ~supported_attrs) {
->          fuse_reply_err(req, ENOTSUP);
->          return;
->      }
-> @@ -426,6 +439,19 @@ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
->          }
->      }
->  
-> +    if (to_set & FUSE_SET_ATTR_MODE) {
-> +        /* Only allow changing the file mode, not the type */
-> +        exp->st_mode = (statbuf->st_mode & 07777) | S_IFREG;
-> +    }
+On Mon, 21 Jun 2021 at 10:58, Cornelia Huck <cohuck@redhat.com> wrote:
+>
+> The following changes since commit 8f521741e1280f0957ac1b873292c19219e1fb9a:
+>
+>   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20210618.0' into staging (2021-06-18 16:42:25 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/cohuck/qemu.git tags/s390x-20210621
+>
+> for you to fetch changes up to c626710fc755628d0d6b88aab0514c9238a84522:
+>
+>   s390x/css: Add passthrough IRB (2021-06-21 08:48:21 +0200)
+>
+> ----------------------------------------------------------------
+> s390x update:
+> - tcg: implement the vector enhancements facility and bump the
+>   'qemu' cpu model to a stripped-down z14 GA2
+> - fix psw.mask handling in signals
+> - fix vfio-ccw sense data handling
+>
 
-Should we check that the mode actually makes sense? Not sure if making
-an image executable has a good use case, and making it writable in the
-permissions for a read-only export isn't a good idea either.
 
-> +
-> +    if (to_set & FUSE_SET_ATTR_UID) {
-> +        exp->st_uid = statbuf->st_uid;
-> +    }
-> +
-> +    if (to_set & FUSE_SET_ATTR_GID) {
-> +        exp->st_gid = statbuf->st_gid;
-> +    }
-> +
->      fuse_getattr(req, inode, fi);
->  }
+Applied, thanks.
 
-Kevin
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
+-- PMM
 
