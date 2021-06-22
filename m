@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054EE3B0B40
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 19:15:20 +0200 (CEST)
-Received: from localhost ([::1]:44392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE143B0B44
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 19:16:21 +0200 (CEST)
+Received: from localhost ([::1]:46526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvjzb-00032H-1L
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 13:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52926)
+	id 1lvk0a-0004Yx-Tv
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 13:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvjyG-0002KK-RO
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:13:56 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvjyD-0001yv-KM
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:13:56 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id r7so24656362edv.12
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 10:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y1dbZNJqRVcLL6H4b5d6T15nvsNztq2nDPL2jqgN6TA=;
- b=Ox+coga28E4Sqjg03NPRQxXd0QBAHiDUQVs7d94xNg5/u+IZxI0cNsTppz02LSYBJs
- 2DE7zN8gGhkPMSdBN5fBAm6C6uK78jS5eeyEgB27NKo+C5eylvmCq99xxpcXbfT8Iyqz
- pSfRFjseXwlHUJM714rh75J34jPc7odYb8N12msk9NwZlqaqPnA9RwbZoR/Vd+e04Y6F
- vyzwu8h57Ly9+xrIX3QJ0RAD44DCr6xCSL5lvpxRYh7JXLs4Vm1FWZC59tMSNFJIAh0n
- dM5IJc+pTFAvWkPTrbqcUSdtbncGvXRiCbv661xzkj3a5+vToXG0a0GkZY5SW5+swHjL
- gV4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Y1dbZNJqRVcLL6H4b5d6T15nvsNztq2nDPL2jqgN6TA=;
- b=fahS1EU0i67jlpx7Eo6oNCATLC6paOxZPfAMV93IwLxH6mbCH5ZZuysH+3M79WS9iE
- Zks8SvU3o6QV0SiHuZzGN4VUNzbppaZKTK1aDlOarbRm6+fnE4sCwBT/mNerINs56lRK
- RHv5LB1H5yCViKar2SEDFP0LZ73659+oETw0BnkBeUZU8z7M885/nFsOKu8+DFT7kQPN
- F+XUa9353QTRTnxwXnqFiZSXUybRrWQbaj23ssN4hqdENviD8Bb81AvD+VYowK24drt1
- zHxtIorIO20Axcu32jlx5Qj83ELJXTiZsHoH8yhud0IxUjhINHDKh2EzQX7Mg6XboLOp
- nRHA==
-X-Gm-Message-State: AOAM530JWLehBsywPO5uazDOxc0RXjlIoEI4D731Up8jr9rH4cokgwMg
- 7NcGPi0Il62DRevLzUjasiHbmpBT3JlbLIMr0kxirg==
-X-Google-Smtp-Source: ABdhPJxjPasZm0geI+ZNjd9isgnJC5kBSo/tk6MxiDmXTFsyc7ahrfcOmvzaU76XY5UVlr2nFmi/SzEcVvPYIMSyqiA=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr6363360edt.100.1624382031483; 
- Tue, 22 Jun 2021 10:13:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lvjz1-00033h-9A
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:14:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lvjyy-0002R5-UA
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:14:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624382080;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FALWW2EAjDXLRUMEsafVak9dLUJ/F94S6+EoHNlYHcw=;
+ b=iGj6nbYMJAMSB5FA+0kgodZzzyc16MmpnIfZAphmzyQ6PUg9YqK33ZU+pyiRGKHgCQFN9s
+ MdUKbCR0h2U9Fgn0JxAAMT71RuXw1f8kHHNvAhs+daKfitQbDzeIYLN7+FmTFqK8FGZDu8
+ MmPidgj+fEZYZa6Y4PyTYNEc9yLlEQU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-opy7sYk6O7WSMQ4vIm_IJA-1; Tue, 22 Jun 2021 13:14:39 -0400
+X-MC-Unique: opy7sYk6O7WSMQ4vIm_IJA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1D461018721;
+ Tue, 22 Jun 2021 17:14:36 +0000 (UTC)
+Received: from redhat.com (ovpn-114-176.ams2.redhat.com [10.36.114.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB17519C46;
+ Tue, 22 Jun 2021 17:14:27 +0000 (UTC)
+Date: Tue, 22 Jun 2021 18:14:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
+Message-ID: <YNIacfpt+iHHHzT6@redhat.com>
+References: <20210622093413.13360-1-wangyanan55@huawei.com>
+ <YNG44c9KtaiNXT7b@redhat.com>
+ <20210622114634.crjqusw6x6oj4j6v@gator>
+ <bc47a66a-b1ff-939c-32a2-94c90efd0caf@huawei.com>
+ <YNHalhuNZhMa665J@redhat.com>
+ <7fcc5f2d-cc84-3464-15cc-3bebb07f8190@huawei.com>
+ <YNHvcQAMLSpVcxaE@redhat.com>
+ <20210622142915.pekttdvbi3q5vnh3@gator>
+ <20210622174013.52422c73@redhat.com>
 MIME-Version: 1.0
-References: <20210621110445.231771-1-laurent@vivier.eu>
-In-Reply-To: <20210621110445.231771-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Jun 2021 18:13:15 +0100
-Message-ID: <CAFEAcA_paaDKDk+CpwT+mnD2_t13=1==ynw2Rfj7kER7hz8vdA@mail.gmail.com>
-Subject: Re: [PULL 0/9] Linux user for 6.1 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210622174013.52422c73@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,34 +89,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ yangyicong@huawei.com, "wangyanan \(Y\)" <wangyanan55@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Jun 2021 at 12:07, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2:
->
->   Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pull-request' into staging (2021-06-14 15:59:13 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-6.1-pull-request
->
-> for you to fetch changes up to 96ff758c6e9cd5a01443ee15afbd0df4f00c37a8:
->
->   linux-user: Use public sigev_notify_thread_id member if available (2021-06-20 16:41:47 +0200)
->
-> ----------------------------------------------------------------
-> Linux-user pull request 20210621
->
-> ----------------------------------------------------------------
+On Tue, Jun 22, 2021 at 05:40:13PM +0200, Igor Mammedov wrote:
+> On Tue, 22 Jun 2021 16:29:15 +0200
+> Andrew Jones <drjones@redhat.com> wrote:
+> 
+> > On Tue, Jun 22, 2021 at 03:10:57PM +0100, Daniel P. Berrangé wrote:
+> > > On Tue, Jun 22, 2021 at 10:04:52PM +0800, wangyanan (Y) wrote:  
+> > > > Hi Daniel,
+> > > > 
+> > > > On 2021/6/22 20:41, Daniel P. Berrangé wrote:  
+> > > > > On Tue, Jun 22, 2021 at 08:31:22PM +0800, wangyanan (Y) wrote:  
+> > > > > > 
+> > > > > > On 2021/6/22 19:46, Andrew Jones wrote:  
+> > > > > > > On Tue, Jun 22, 2021 at 11:18:09AM +0100, Daniel P. Berrangé wrote:  
+> > > > > > > > On Tue, Jun 22, 2021 at 05:34:06PM +0800, Yanan Wang wrote:  
+> > > > > > > > > Hi,
+> > > > > > > > > 
+> > > > > > > > > This is v4 of the series [1] that I posted to introduce support for
+> > > > > > > > > generating cpu topology descriptions to guest. Comments are welcome!
+> > > > > > > > > 
+> > > > > > > > > Description:
+> > > > > > > > > Once the view of an accurate virtual cpu topology is provided to guest,
+> > > > > > > > > with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
+> > > > > > > > > e.g., the scheduling performance improvement. See Dario Faggioli's
+> > > > > > > > > research and the related performance tests in [2] for reference. So here
+> > > > > > > > > we go, this patch series introduces cpu topology support for ARM platform.
+> > > > > > > > > 
+> > > > > > > > > In this series, instead of quietly enforcing the support for the latest
+> > > > > > > > > machine type, a new parameter "expose=on|off" in -smp command line is
+> > > > > > > > > introduced to leave QEMU users a choice to decide whether to enable the
+> > > > > > > > > feature or not. This will allow the feature to work on different machine
+> > > > > > > > > types and also ideally compat with already in-use -smp command lines.
+> > > > > > > > > Also we make much stricter requirement for the topology configuration
+> > > > > > > > > with "expose=on".  
+> > > > > > > > Seeing this 'expose=on' parameter feels to me like we're adding a
+> > > > > > > > "make-it-work=yes" parameter. IMHO this is just something that should
+> > > > > > > > be done by default for the current machine type version and beyond.
+> > > > > > > > I don't see the need for a parameter to turnthis on, especially since
+> > > > > > > > it is being made architecture specific.
+> > > > > > > >   
+> > > > > > > I agree.
+> > > > > > > 
+> > > > > > > Yanan, we never discussed an "expose" parameter in the previous versions
+> > > > > > > of this series. We discussed a "strict" parameter though, which would
+> > > > > > > allow existing command lines to "work" using assumptions of what the user
+> > > > > > > meant and strict=on users to get what they mean or an error saying that
+> > > > > > > they asked for something that won't work or would require unreasonable
+> > > > > > > assumptions. Why was this changed to an "expose" parameter?  
+> > > > > > Yes, we indeed discuss a new "strict" parameter but not a "expose" in v2 [1]
+> > > > > > of this series.
+> > > > > > [1] https://patchwork.kernel.org/project/qemu-devel/patch/20210413080745.33004-6-wangyanan55@huawei.com/
+> > > > > > 
+> > > > > > And in the discussion, we hoped things would work like below with "strict"
+> > > > > > parameter:
+> > > > > > Users who want to describe cpu topology should provide cmdline like
+> > > > > > 
+> > > > > > -smp strict=on,cpus=4,sockets=2,cores=2,threads=1
+> > > > > > 
+> > > > > > and in this case we require an more accurate -smp configuration and
+> > > > > > then generate the cpu topology description through ACPI/DT.
+> > > > > > 
+> > > > > > While without a strict description, no cpu topology description would
+> > > > > > be generated, so they get nothing through ACPI/DT.
+> > > > > > 
+> > > > > > It seems to me that the "strict" parameter actually serves as a knob to
+> > > > > > turn on/off the exposure of topology, and this is the reason I changed
+> > > > > > the name.  
+> > > > > Yes, the use of 'strict=on' is no better than expose=on IMHO.
+> > > > > 
+> > > > > If I give QEMU a cli
+> > > > > 
+> > > > >    -smp cpus=4,sockets=2,cores=2,threads=1
+> > > > > 
+> > > > > then I expect that topology to be exposed to the guest. I shouldn't
+> > > > > have to add extra flags to make that happen.
+> > > > > 
+> > > > > Looking at the thread, it seems the concern was around the fact that
+> > > > > the settings were not honoured historically and thus the CLI values
+> > > > > could be garbage. ie  -smp cpus=4,sockets=8,cores=3,thread=9  
+> > > > This "-smp cpus=4,sockets=8,cores=3,threads=9" behaviors as a wrong
+> > > > configuration, and the parsing function already report error for this case.
+> > > > 
+> > > > We hope more complete config like "-smp 4,sockets=2,cores=2,threads=1"
+> > > > for exposure of topology, and the incomplete ones like "-smp 4,sockets=1"
+> > > > or "-smp 4, cores=1" are not acceptable any more because we are starting
+> > > > to expose the topology.  
+> > > 
+> > > Incomplete specified topologies *are* acceptable.
+> > > 
+> > > The smp_parse method will automatically fill in any missing values.
+> > > 
+> > > ie,
+> > > 
+> > >   -smp 4,cores=1
+> > >   -smp cores=1
+> > >   -smp threads=1
+> > >   -smp sockets=4
+> > > 
+> > > are all functionally identical to
+> > > 
+> > >   -smp 4,sockets=4,cores=1,dies=1,threads=1
+> > > 
+> > > 
+> > > The QEMU man page says this explicitly
+> > > 
+> > >                  For the PC target, the number of cores per die, the
+> > >     number of threads per cores, the number of dies per packages and the
+> > >     total number of sockets can be specified. Missing values will be
+> > >     computed. If any on the three values is given, the total number of
+> > >     CPUs n can be omitted.  
+> > 
+> > It doesn't say how it will compute them though, which for the default
+> > smp_parse and for x86 is to prefer sockets over cores over threads.
+> > That's not necessarily what the user expects. IMO, we need a 'strict=on'
+> > parameter that doesn't allow any collection of smp parameters which
+> > require unreasonable assumptions. Reasonable assumptions are threads=1,
+> > when threads is not specified and the rest of the math adds up. Also,
+> > maxcpus == cpus when maxcpus isn't specified is reasonable. But, it's not
+> > as reasonable to decide how to divide cores among sockets or to assume
+> > threads=1 when only sockets and cores are given. How do we know the user
+> > didn't forget to specify threads if we can't check the math?
+> 
+> or just outlaw all invalid topologies incl. incomplete by default
+> (without requiring extra option), and permit them only for old machine
+> types ()using compat machinery) without topo info provided to guest.
+> And maybe later deprecate invalid topologies altogether.
 
+This feels like it is creating pain for users to fix a problem that
+isn't shown to actually be causing any common issues.
 
-Applied, thanks.
+We've supposed that users are having problems when forgetting to
+specify "threads" and not having the compute value be desirable,
+but where are the bug reports to back this up ?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+The partial topologies are valid and have well defined semantics.
+Those semantics may not match everyone's preference, but that
+doesn't make them invalid.
 
--- PMM
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
