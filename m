@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FE63B099C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:55:51 +0200 (CEST)
-Received: from localhost ([::1]:33752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B393B09AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:58:09 +0200 (CEST)
+Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvikg-0002LZ-TB
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57156)
+	id 1lvimu-0007sr-C8
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidb-00052O-8L
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:31 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:35792)
+ id 1lvidd-00058B-8v
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:33 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:40816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidX-0005K9-S3
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:31 -0400
-Received: by mail-pf1-x436.google.com with SMTP id t32so5383444pfg.2
+ id 1lvidY-0005KE-KH
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:33 -0400
+Received: by mail-pf1-x435.google.com with SMTP id q192so10162679pfc.7
  for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oqu6i/kvNHrYtHemRicmatPUkUSmc3yTCi7Ugc/TW74=;
- b=LWXY6JJg32ZFQ+dilKcSvw50uURtqpkCCXHyg7vL0EtxzMGh6DFMJworjN9T3Umlbf
- iAToMFrAfEgolkzkuT26JyoKFXbCeZDfCxhpdQnuNsXIIeNykSiY+xKaTVP+xqOL+H34
- XQOSA8gsOb1YCXuwJtv7v1+g3SI9IAOLEpPywUAhIOLBDYcMLqcQgYODY8LDJvnktzkv
- JxfKgp2T7dGCkRbl4Clvmy/8W2THzfyF82RnJ8TZCAM7OT8nivsdRzx8BXJf3IFSYEme
- 1ixvb4lDoFTtWiNpo3+u2TZ1h5A3QAeE5nUMHWIAIDg8GEJ2ngqDHHllq7VzVbFBQcjs
- 0F3A==
+ bh=LskbPVAjrbITbR/BLSWbN40vYGjGl6tGTo3OTtiJcvA=;
+ b=U59w59lPOQkKBAWXmKZ2aHRwbiwS2SU4Qxa+k87XC9IXL24FEo9Pi7Iy7e7BAergRj
+ DnPp5i1ARkVc7I1lzE/HaD2I+1s2TDBEE+FbOVwVrMMc5qeX3rZ6gogzTlgiwjl2wmYB
+ qy00lt0mIglfu03JEbOkU7JWqq/iVIp6113n8gTOnynQQY8sqOzcDUSQ2ofiw3rlP3nt
+ wFERb4LUNjqzNk8IPpX6SbkbqA3mErQgldj10LdlVnf6KHTxMEl0VF1W8bqpvoT4oam0
+ ErjFay/L/AD2tVZRVi/rBH2vDXO2Fq93sUKMibvh+JLCs4VpZaubBnPwU6oRgQVk571k
+ VCaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oqu6i/kvNHrYtHemRicmatPUkUSmc3yTCi7Ugc/TW74=;
- b=BFaVgRkmckTWDvJLHg3JtUgKsaJ418R49ny6ZNEvfBMsvQtzweWE7RwRvyYB8hOsk8
- WJeYlcInYvCYrIZhscl5fwlOoxwwM1YRTpL8DfNtslGZCHZ/ybkS3zgZFp9yaoCRx4Xx
- Mn+nTP9dIjan4TMtRpDP77XeM+5jN8+6hOyXXR57z+oG95hceWLTQOZim13TwqHCPTaY
- SNrZrMt+xqIunYikSiM7ar3/fU1APS/+FfLjwPXowSrwDDvqnygoHR9ou8AD62uGJ0oc
- NG22Dwtfg+4mCc3knQ/XOsECMACwkJNSrrGCRHQiC/hsl3JyjADjbtRItxxjH/2vOAzj
- 7S3g==
-X-Gm-Message-State: AOAM533rzyIIaOmpfBX+EQQPefUIP5TLrSzGGkY0Dzzemx43hDE409i7
- mn2YOGlgWEpxNynjP1lkgOIq5+Qq4I1DyQ==
-X-Google-Smtp-Source: ABdhPJxau3Yg7Eh1TjAI6Hky6Zxo2lfSUV2Ce67tRZXBwrcVFwuIHLy0Q1+RZel/1FeDQroL1L1aEQ==
-X-Received: by 2002:a65:57cc:: with SMTP id q12mr4340294pgr.155.1624376906404; 
- Tue, 22 Jun 2021 08:48:26 -0700 (PDT)
+ bh=LskbPVAjrbITbR/BLSWbN40vYGjGl6tGTo3OTtiJcvA=;
+ b=TkVmeiIPNjJfIzf87D7qAnvv2tocJf+zRIkc3vLphjWqJykZpv4GJ+Q1alg0l5JKE5
+ jS2LmaMBeslQRANIWk8J8Mk7a6ON2IPBZ9/abNTYqWe6FIdTKoHBnY27j8PPf50LfSlC
+ Ety1T76Z0+rr5wb7eSdjE0Q4YA8lvw5PXarrP6r46NB6ndVn9VXnViXZeSUojr0Sd/kf
+ fXXm9+a++1oC0zl9J5kGmfBKJrH8X+8R3zBhDmHFQFP12fjK8STNSuENn2+KU1T/l2OZ
+ J1BR/B1flyqrZ9e/UbjboowSdnWqojkuhNjC1Egg/fTxFbCaAXiiunyl+rEIlCex0H88
+ C5Xw==
+X-Gm-Message-State: AOAM5336Vgu3Zn+GS10Q2R9ESdHaVO24mQWnefRWopBMuMlRrYZSk6M7
+ Gv+D938Z8o8xGp33Crl/SAq6F+SCRuFnbA==
+X-Google-Smtp-Source: ABdhPJxvkSwukASnXA62gXgCI5xFOMAJYe0K8Haoeswfa5J52Kb7XhTgOe+OSPJxkVyYMWoWGllZXA==
+X-Received: by 2002:a63:2742:: with SMTP id n63mr2902541pgn.94.1624376907133; 
+ Tue, 22 Jun 2021 08:48:27 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Jun 2021 08:48:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/15] target/cris: Mark helper_raise_exception noreturn
-Date: Tue, 22 Jun 2021 08:48:12 -0700
-Message-Id: <20210622154820.1978982-8-richard.henderson@linaro.org>
+Subject: [PATCH v3 08/15] target/cris: Mark static arrays const
+Date: Tue, 22 Jun 2021 08:48:13 -0700
+Message-Id: <20210622154820.1978982-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210622154820.1978982-1-richard.henderson@linaro.org>
 References: <20210622154820.1978982-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,19 +88,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/cris/translate.c         | 19 ++++++++++---------
+ target/cris/translate_v10.c.inc |  6 +++---
+ 2 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/target/cris/helper.h b/target/cris/helper.h
-index 20d21c4358..3abf608682 100644
---- a/target/cris/helper.h
-+++ b/target/cris/helper.h
-@@ -1,4 +1,4 @@
--DEF_HELPER_2(raise_exception, void, env, i32)
-+DEF_HELPER_2(raise_exception, noreturn, env, i32)
- DEF_HELPER_2(tlb_flush_pid, void, env, i32)
- DEF_HELPER_2(spc_write, void, env, i32)
- DEF_HELPER_1(rfe, void, env)
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index eabede5251..e14b7acb10 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -137,14 +137,15 @@ static void gen_BUG(DisasContext *dc, const char *file, int line)
+     cpu_abort(CPU(dc->cpu), "%s:%d pc=%x\n", file, line, dc->pc);
+ }
+ 
+-static const char *regnames_v32[] =
++static const char * const regnames_v32[] =
+ {
+     "$r0", "$r1", "$r2", "$r3",
+     "$r4", "$r5", "$r6", "$r7",
+     "$r8", "$r9", "$r10", "$r11",
+     "$r12", "$r13", "$sp", "$acr",
+ };
+-static const char *pregnames_v32[] =
++
++static const char * const pregnames_v32[] =
+ {
+     "$bz", "$vr", "$pid", "$srs",
+     "$wz", "$exs", "$eda", "$mof",
+@@ -153,7 +154,7 @@ static const char *pregnames_v32[] =
+ };
+ 
+ /* We need this table to handle preg-moves with implicit width.  */
+-static int preg_sizes[] = {
++static const int preg_sizes[] = {
+     1, /* bz.  */
+     1, /* vr.  */
+     4, /* pid.  */
+@@ -475,9 +476,9 @@ static inline void t_gen_swapw(TCGv d, TCGv s)
+    ((T0 >> 5) & 0x02020202) |
+    ((T0 >> 7) & 0x01010101));
+  */
+-static inline void t_gen_swapr(TCGv d, TCGv s)
++static void t_gen_swapr(TCGv d, TCGv s)
+ {
+-    struct {
++    static const struct {
+         int shift; /* LSL when positive, LSR when negative.  */
+         uint32_t mask;
+     } bitrev[] = {
+@@ -1279,7 +1280,7 @@ static int dec_prep_alu_m(CPUCRISState *env, DisasContext *dc,
+ #if DISAS_CRIS
+ static const char *cc_name(int cc)
+ {
+-    static const char *cc_names[16] = {
++    static const char * const cc_names[16] = {
+         "cc", "cs", "ne", "eq", "vc", "vs", "pl", "mi",
+         "ls", "hi", "ge", "lt", "gt", "le", "a", "p"
+     };
+@@ -2926,7 +2927,7 @@ static int dec_null(CPUCRISState *env, DisasContext *dc)
+     return 2;
+ }
+ 
+-static struct decoder_info {
++static const struct decoder_info {
+     struct {
+         uint32_t bits;
+         uint32_t mask;
+@@ -3363,8 +3364,8 @@ void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ {
+     CRISCPU *cpu = CRIS_CPU(cs);
+     CPUCRISState *env = &cpu->env;
+-    const char **regnames;
+-    const char **pregnames;
++    const char * const *regnames;
++    const char * const *pregnames;
+     int i;
+ 
+     if (!env) {
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
+index 0ba2aca96f..4ab43dc404 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -21,7 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "crisv10-decode.h"
+ 
+-static const char *regnames_v10[] =
++static const char * const regnames_v10[] =
+ {
+     "$r0", "$r1", "$r2", "$r3",
+     "$r4", "$r5", "$r6", "$r7",
+@@ -29,7 +29,7 @@ static const char *regnames_v10[] =
+     "$r12", "$r13", "$sp", "$pc",
+ };
+ 
+-static const char *pregnames_v10[] =
++static const char * const pregnames_v10[] =
+ {
+     "$bz", "$vr", "$p2", "$p3",
+     "$wz", "$ccr", "$p6-prefix", "$mof",
+@@ -38,7 +38,7 @@ static const char *pregnames_v10[] =
+ };
+ 
+ /* We need this table to handle preg-moves with implicit width.  */
+-static int preg_sizes_v10[] = {
++static const int preg_sizes_v10[] = {
+     1, /* bz.  */
+     1, /* vr.  */
+     1, /* pid. */
 -- 
 2.25.1
 
