@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9954C3B0E77
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 22:17:45 +0200 (CEST)
-Received: from localhost ([::1]:56864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF56C3B0E76
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 22:17:20 +0200 (CEST)
+Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvmq8-0001ul-ND
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 16:17:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60182)
+	id 1lvmpj-0000Ps-FT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 16:17:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvmoT-0008UQ-UN
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 16:16:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvmoQ-0001Jl-MK
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 16:16:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvmoL-0005Uv-K0
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 20:15:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7059B2E816D
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 20:15:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lvmnq-0007su-Tf
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 16:15:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23014)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lvmno-0000u7-Es
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 16:15:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624392917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rtJkuasNi3dl2YT9FFS7usOA8EY4L1M2Da/F7vvM9DA=;
+ b=EQ/9aSWXS1jAjKNrimdDuH9sQ0bIqxM5gMWszEJQOlhBmE1iN+8N/ZKHZ9xVlfm3UVtQVy
+ j7XDGQowkmlPM5QtcqZxU/VICF6HF4Kz3eFimq7uIUm84bjoXOota73joybIglgbS+aZR5
+ r2KbhtVVAToh6uZ2D0EwNxD6ukkebPA=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-du-fRpX0O8ORxHUdrKtWFw-1; Tue, 22 Jun 2021 16:15:16 -0400
+X-MC-Unique: du-fRpX0O8ORxHUdrKtWFw-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ k67-20020a6724460000b029025ff03ce7c2so129210vsk.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 13:15:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rtJkuasNi3dl2YT9FFS7usOA8EY4L1M2Da/F7vvM9DA=;
+ b=rfEVUo5d+EhcpqYZceItI2JYsb68pM5U2nOSrtgs0dIwyi/VFGcYTRJNQZRii4SxBz
+ A2i4KcB15TYyfZsdQYAnPIbCf2cfhcZu9ujEpwW7Ti42KORNOUNHAz5XI2Z4Na2osc28
+ uXQ6r0/srOySyNd3e6+SS6bpMbUf5aPwPGQdeahNpW8id550s3+ctl3rNgvKfEwur0Yt
+ eLhvoW0pxbASgkbBumey9ciarJhNo1xrWN697DGsbQbxuHIZJRXWbENbOV+aVQa9zjO9
+ tERXz+qNOa0Bn4fsozvy4aOWxrgj/jjczyuaSZT9lstSAd55z7cPlQfNXMb6EqFaiwjM
+ 8stA==
+X-Gm-Message-State: AOAM531Hupkvnzs7Vqkkkz/tASRj0It30fgh3bY9s9y2WnF8wxu3cqR2
+ R/+uTZBt4vHe2hPJVtkHlXGBZWK9CJNnZH0Xu0K83adw2LUEo0kbkTeoiude5LFZeFnM85DdRQj
+ ooZejQaGF+p4fz7U0Ti0ic/7K1xQlVKg=
+X-Received: by 2002:a9f:2370:: with SMTP id 103mr817480uae.124.1624392915986; 
+ Tue, 22 Jun 2021 13:15:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxNvvhxtixhiMWQm3Ma9j3PxsFpVs9589OSas6oLWj2Nxs0+AKYmoUXSld8Byu4zBCubrxzLl/N7ADNv39sgzw=
+X-Received: by 2002:a9f:2370:: with SMTP id 103mr817463uae.124.1624392915827; 
+ Tue, 22 Jun 2021 13:15:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 20:00:33 -0000
-From: =?utf-8?q?Juan_Ni=C3=B1o?= <1776920@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eblake janitor jaywang0tw jnsnow mmoole paelzer
- ruluk th-huth wkozaczuk
-X-Launchpad-Bug-Reporter: Waldemar Kozaczuk (wkozaczuk)
-X-Launchpad-Bug-Modifier: =?utf-8?b?SnVhbiBOacOxbyAocnVsdWsp?=
-References: <152898515528.25954.5483198787570860596.malonedeb@soybean.canonical.com>
-Message-Id: <162439203389.4230.7844146378589778150.malone@gac.canonical.com>
-Subject: [Bug 1776920] Re: qemu-img convert on Mac OSX creates corrupt images
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9dbb463b42239a8426ed781b3086dde814e80a01"; Instance="production"
-X-Launchpad-Hash: b8a7166ec8d87c6e800421fab50b83d24799090b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210430133414.39905-1-wainersm@redhat.com>
+ <20210430133414.39905-7-wainersm@redhat.com>
+In-Reply-To: <20210430133414.39905-7-wainersm@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 22 Jun 2021 17:14:49 -0300
+Message-ID: <CAKJDGDZtGFCc8HKsZMpVme1rN+VRzFdc9Y+95uxmoWXeepDkdQ@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] tests/acceptance: Add set_vm_arg() to the Test
+ class
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,97 +90,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1776920 <1776920@bugs.launchpad.net>
+Cc: Philippe Mathieu Daude <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Cleber Rosa Junior <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey there! I tested @wkozaczuk's suggested minimal steps and THEY WORKED
-FOR ME!!
+On Fri, Apr 30, 2021 at 10:35 AM Wainer dos Santos Moschetta
+<wainersm@redhat.com> wrote:
+>
+> The set_vm_arg method is added to avocado_qemu.Test class on this
+> change. Use that method to set (or replace) an argument to the list of
+> arguments given to the QEMU binary.
+>
+> Suggested-by: Cleber Rosa <crosa@redhat.com>
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index 7f8e703757..14c6ae70c8 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -240,6 +240,27 @@ def get_vm(self, *args, name=None):
+>                  self._vms[name].set_machine(self.machine)
+>          return self._vms[name]
+>
+> +    def set_vm_arg(self, arg, value):
+> +        """
+> +        Set an argument to list of extra arguments to be given to the QEMU
+> +        binary. If the argument already exists then its value is replaced.
+> +
+> +        :param arg: the QEMU argument, such as "-cpu" in "-cpu host"
+> +        :type arg: str
+> +        :param value: the argument value, such as "host" in "-cpu host"
+> +        :type value: str
+> +        """
+> +        if not arg or not value:
+> +            return
+> +        if arg not in self.vm.args:
+> +            self.vm.args.extend([arg, value])
+> +        else:
+> +            idx = self.vm.args.index(arg) + 1
+> +            if idx < len(self.vm.args):
+> +                self.vm.args[idx] = value
+> +            else:
+> +                self.vm.args.append(value)
+> +
 
-The steps executed on my mac:
-1. dd if=3Dboot.bin of=3Dimage.img > /dev/null 2>&1
-2. dd if=3Dlzloader.elf of=3Dimage.img conv=3Dnotrunc seek=3D128 > /dev/nul=
-l 2>&1
-3. qemu-img convert image.img -O qcow2 image.qemu
-4. qemu-img convert image.qemu -O qcow2 image2.qemu
+Considering all args in self.vm.args are composed of [arg,value]:
 
-The end result:
--rw-r--r--  1 ***  ***  6684672 Jun 22 14:19 image.img
--rw-r--r--  1 ***  ***  7012352 Jun 22 14:20 image.qemu
--rw-r--r--  1 ***  ***  7012352 Jun 22 14:20 image2.qemu
--rw-r--r--  1 ***  ***  6750208 Jun 22 14:22 image2.vbox
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-The result of regular compare:
-qemu-img compare image.qemu image2.qemu
-Images are identical.
+>      def tearDown(self):
+>          for vm in self._vms.values():
+>              vm.shutdown()
+> --
+> 2.29.2
+>
 
-The result of strict compare:
-qemu-img compare -s image.qemu image2.qemu
-Images are identical.
-
-Qemu-img on my Mac:
-qemu-img --version
-qemu-img version 6.0.0
-Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
-
-Hardware Overview:
-
-  Model Name:	MacBook Pro
-  Model Identifier:	MacBookPro16,1
-  Processor Name:	8-Core Intel Core i9
-  Processor Speed:	2,4 GHz
-  Number of Processors:	1
-  Total Number of Cores:	8
-  L2 Cache (per Core):	256 KB
-  L3 Cache:	16 MB
-  Hyper-Threading Technology:	Enabled
-  Memory:	64 GB
-  Activation Lock Status:	Enabled
-
-Storage:
-
-  Mount Point:	/
-  File System:	APFS
-  Writable:	No
-  Ignore Ownership:	No
-  BSD Name:	disk1s1
-  Volume UUID:	67798918-C522-45C3-918F-3C4155EF4D13
-  Physical Drive:
-  Device Name:	APPLE SSD AP1024N
-  Media Name:	AppleAPFSMedia
-  Medium Type:	SSD
-  Protocol:	PCI-Express
-  Internal:	Yes
-  Partition Map Type:	Unknown
-  S.M.A.R.T. Status:	Verified
-
-System Software Overview:
-
-  System Version:	macOS 10.15.7 (19H1217)
-  Kernel Version:	Darwin 19.6.0
-  Boot Volume:	Macintosh HD
-  Boot Mode:	Normal
-  Secure Virtual Memory:	Enabled
-  System Integrity Protection:	Enabled
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1776920
-
-Title:
-  qemu-img convert on Mac OSX creates corrupt images
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  An image created by qemu-img create, then modified by another program
-  is converted to bad/corrupt image when using convert sub command on
-  Mac OSX. The same convert works on Linux. The version of qemu-img is
-  2.12.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1776920/+subscriptions
 
