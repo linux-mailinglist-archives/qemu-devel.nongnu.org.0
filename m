@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996383AFA5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 02:58:40 +0200 (CEST)
-Received: from localhost ([::1]:42034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2AA3AFAB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 03:51:51 +0200 (CEST)
+Received: from localhost ([::1]:46782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvUkR-0004Js-61
-	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 20:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56856)
+	id 1lvVZu-0001sG-4s
+	for lists+qemu-devel@lfdr.de; Mon, 21 Jun 2021 21:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lvUjM-0003df-Kh
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 20:57:32 -0400
-Received: from mx1.tachyum.com ([66.160.133.170]:52286)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lvUjJ-00027Z-Rq
- for qemu-devel@nongnu.org; Mon, 21 Jun 2021 20:57:32 -0400
-Received: by mx1.tachyum.com (Postfix, from userid 1000)
- id 8B32E1005693; Mon, 21 Jun 2021 17:57:27 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (unknown [10.7.1.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.tachyum.com (Postfix) with ESMTPS id 85DAC100D44E;
- Mon, 21 Jun 2021 17:57:26 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (10.7.1.6) by THQ-EX1.tachyum.com
- (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Mon, 21 Jun
- 2021 17:57:26 -0700
-Received: from THQ-EX1.tachyum.com ([10.7.1.6]) by THQ-EX1.tachyum.com
- ([10.7.1.6]) with mapi id 15.01.2176.014; Mon, 21 Jun 2021 17:57:26 -0700
-From: Michael Morrell <mmorrell@tachyum.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: Denormal input handling
-Thread-Topic: Denormal input handling
-Thread-Index: AddSVLVuQ70cTMk8SjeoZZpZvpdwcwUnLwIAAA+pMgAAC7w14A==
-Date: Tue, 22 Jun 2021 00:57:26 +0000
-Message-ID: <c1b992e063414da88b686e8f6e9642f2@tachyum.com>
-References: <30eafc8be31446f9aecbc40f487467e1@tachyum.com>
- <c021f386dcfb49aca2ab0c01f66bccc2@tachyum.com>
- <08ba29ee-d5c0-8c61-0efc-4c03fe9da944@linaro.org>
-In-Reply-To: <08ba29ee-d5c0-8c61-0efc-4c03fe9da944@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.100.197]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lvVZ2-0001DM-HE
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 21:50:56 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lvVZ0-0002rv-K9
+ for qemu-devel@nongnu.org; Mon, 21 Jun 2021 21:50:56 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id a127so4621792pfa.10
+ for <qemu-devel@nongnu.org>; Mon, 21 Jun 2021 18:50:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jM0wP6pUa3jOTqtgp5haKJ3AVu0QTggeSeAqfAf0Vjg=;
+ b=MfRoDjW6LWzlvOeN0H4/7EW0OMSqiizixJLwPK/irPklSqEUm/cdMifHO/djog/Az6
+ rSeAz4gsFljEJCce8NvYd4xWfS5PaXTPSw+ODG/TXwXbfuyatWh5YY7GbTkHv2fh7uTW
+ TPTrb4C/HUeXSIaxKy9wtARZXopxEBnpZjp4c7cE3lPqO4amw7sOvXzE+wZVRVpMowgS
+ 3xr8XpIHgGSbnC/l+YI+v5e1IxNEuk1ZKRpE3dfoCmS7JR6P+xsXBCtA90RkZKBZFEtA
+ 9adbDyluZV13V54GADIMG5MxBi8s6s9ZoO+1ANZoVZAD3kfqQch1duRR/ZOFAvRJp+iH
+ uwgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jM0wP6pUa3jOTqtgp5haKJ3AVu0QTggeSeAqfAf0Vjg=;
+ b=sG6aQEPtKT4TqW0tVPtCsy62ZOzI8X6u2P1bNuPK5fBvDhNlUTUaFCoIWAE6pl3f4z
+ LjqfgZzqE83kqe/uUHaL3o93CDIAnTboNVbsddac81eduHqDLgUl9yuw/PRAGnuLUTN2
+ BK5gi54QHccQHu7Xmu/8pBXd2FukLHOdvkpektHtTLRBv5I3femPv+EjRw/NppynLyoX
+ vf+i0D9mat6Gl21RAKxPBQYXipqxAUNQcKdKOjKNMN2mIzdb78PNzKFEqJBC/BT0cfTd
+ l5aXKKZ25wmC/GTKYJzuNuFkD69TDyw0CUjTnZTZSKKlrJd13TKykPNf+FYV06WaxFyE
+ l21Q==
+X-Gm-Message-State: AOAM531x2yDBfez59zU4CdFXvBuaAgLwYTrrpFO0H7inlh7UniwlbdWm
+ fH+pZC0PVoDPJJdItUwKSzUNfTl4UEFrMA==
+X-Google-Smtp-Source: ABdhPJx13wZRDjalffqAJ19NmQyan2D0ZgLIaKuBa4l4V7RV0ujKKUZDhBcVe8DApK4BxU+5NlOlVg==
+X-Received: by 2002:a63:801:: with SMTP id 1mr1343709pgi.75.1624326651520;
+ Mon, 21 Jun 2021 18:50:51 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:fcbe:8996:131c:c45b])
+ by smtp.gmail.com with ESMTPSA id b133sm16989540pfb.36.2021.06.21.18.50.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 21 Jun 2021 18:50:50 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH] coreaudio: Lock only the buffer
+Date: Tue, 22 Jun 2021 10:50:43 +0900
+Message-Id: <20210622015043.41997-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=66.160.133.170; envelope-from=mmorrell@tachyum.com;
- helo=mx1.tachyum.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,38 +81,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UmljaGFyZCwNCg0KSSB3YXMgdW5kZXIgdGhlIG1pc3Rha2VuIGltcHJlc3Npb24gdGhhdCB5b3Vy
-IGNoYW5nZXMgaW4gdGhpcyBhcmVhIChzcGxpdHRpbmcgZmxvYXRfZmxhZ19pbnB1dF9kZW5vcm1h
-bCBpbnRvIDIgZmxhZ3MpIHdlcmUgYWxyZWFkeSBjaGVja2VkIGluLCBidXQgSSBzZWUgbm93IHRo
-YXQgaXMgbm90IHRoZSBjYXNlLiAgSSBzaG91bGQgcHJvYmFibHkgd2FpdCB1bnRpbCB0aGF0IGlz
-IGRvbmUgYmVmb3JlIEkgdHJ5IHRvIGNsYWltIHRoZXJlIGFyZSBhZGRpdGlvbmFsIGlzc3VlcyBo
-ZXJlLg0KDQogICAgTWljaGFlbA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog
-UmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+IA0KU2VudDog
-TW9uZGF5LCBKdW5lIDIxLCAyMDIxIDQ6MzAgUE0NClRvOiBNaWNoYWVsIE1vcnJlbGwgPG1tb3Jy
-ZWxsQHRhY2h5dW0uY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQpTdWJqZWN0OiBSZTogRGVu
-b3JtYWwgaW5wdXQgaGFuZGxpbmcNCg0KT24gNi8yMS8yMSA0OjEzIFBNLCBNaWNoYWVsIE1vcnJl
-bGwgd3JvdGU6DQo+IEkgaGF2ZSBhbm90aGVyIGNvdXBsZSBvZiB0aG91Z2h0cyBhcm91bmQgaW5w
-dXQgZGVub3JtYWwgaGFuZGxpbmcuDQo+IA0KPiBUaGUgZmlyc3QgaXMgc3RyYWlnaHRmb3J3YXJk
-LsKgIEkgbm90aWNlZCB0aGF0IHRoZSBBYXJjaDY0IHBvcnQgZG9lc24ndCANCj4gcmVwb3J0IGlu
-cHV0IGRlbm9ybWFscyAoSSBjb3VsZCBub3QgZmluZCBhbnkgY29kZSB3aGljaCBzZXRzIHRoZSBJ
-REMgDQo+IGJpdCBpbiB0aGUgRlBTUikuwqAgSSBmb3VuZCBjb2RlIGluIHRoZSBhcm0gKG5vdCBh
-YXJjaDY0KSBwb3J0IHRoYXQgDQo+IHNldHMgb3RoZXIgYml0cyBsaWtlIElYQywgYnV0IG5vdGhp
-bmcgZm9yIElEQy7CoMKgIElzIHRoYXQgc2ltcGx5IGJlY2F1c2Ugbm8gb25lIGhhcyBib3RoZXJl
-ZCB0byBhZGQgdGhpcyBzdXBwb3J0Pw0KDQpJdCdzIGJlY2F1c2Ugd2UgZmFpbGVkIHRvIHVzZSBz
-eW1ib2xpYyBjb25zdGFudHMuICBTZWUgdmZwX2V4Y2VwdGJpdHNfZnJvbV9ob3N0LiAgV2hpY2gN
-CippcyogdXNlZCBmb3IgYm90aCBhYXJjaDY0IGFuZCBhcm0uDQoNCg0KPiBUaGUgc2Vjb25kIGNv
-bmNlcm5zIHN1cHBvcnQgZm9yIGNhc2VzIHdoZXJlIG11bHRpcGxlIGV4Y2VwdGlvbiBjb25kaXRp
-b25zIG9jY3VyLsKgwqAgSSBoYWQgDQo+IG9yaWdpbmFsbHkgdGhvdWdodCB0aGF0IGRlbm9ybWFs
-IGlucHV0IGhhbmRsaW5nIHdvdWxkIGJlIG9ydGhvZ29uYWwgdG8gZXZlcnl0aGluZyBlbHNlIGFu
-ZCANCj4gc28gYSBjYXNlIGxpa2UgInNOYU4gwqArIGRlbm9ybSIgd291bGQgc2V0IGJvdGggdGhl
-IGludmFsaWQgYW5kIGlucHV0IGRlbm9ybWFsIGZsYWdzIG9yIA0KPiAiZGVub3JtIC8gMCIgd291
-bGQgc2V0IGJvdGggaWRpdmRlIGJ5IHplcm8gYW5kIGlucHV0IGRlbm9ybWFsLCBidXQgSSBkb24n
-dCB0aGluayB0aGF0IGlzIA0KPiB0cnVlIGZvciBhdCBsZWFzdCBzb21lIGFyY2hpdGVjdHVyZXMu
-wqAgUGVyaGFwcyBzb21lIHNwZWNpYWxpemF0aW9uIGlzIG5lZWRlZCBoZXJlPw0KDQpJZiB5b3Un
-dmUgZ290IGEgc3BlY2lmaWMgZXhhbXBsZSwgd2UgY2FuIGxvb2sgYXQgaXQuICBUaGVyZSdzIG5v
-IHBvaW50IGFkZGluZyANCnNwZWNpYWxpemF0aW9uIHRoYXQgaXNuJ3QgZ29pbmcgdG8gYmUgdXNl
-ZC4NCg0KDQpyfg0K
+On macOS 11.3.1, Core Audio calls AudioDeviceIOProc after calling an
+internal function named HALB_Mutex::Lock(), which locks a mutex in
+HALB_IOThread::Entry(void*). HALB_Mutex::Lock() is also called in
+AudioObjectGetPropertyData, which is called by coreaudio driver.
+Therefore, a deadlock will occur if coreaudio driver calls
+AudioObjectGetPropertyData while holding a lock for a mutex and tries
+to lock the same mutex in AudioDeviceIOProc.
+
+audioDeviceIOProc, which implements AudioDeviceIOProc in coreaudio
+driver, requires an exclusive access for the device configuration and
+the buffer. Fortunately, a mutex is necessary only for the buffer in
+audioDeviceIOProc because a change for the device configuration occurs
+only before setting up AudioDeviceIOProc or after stopping the playback
+with AudioDeviceStop.
+
+With this change, the mutex owned by the driver will only be used for
+the buffer, and the device configuration change will be protected with
+the implicit iothread mutex.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ audio/coreaudio.c | 59 +++++++++++------------------------------------
+ 1 file changed, 13 insertions(+), 46 deletions(-)
+
+diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+index 578ec9b8b2e..c8d9f01d275 100644
+--- a/audio/coreaudio.c
++++ b/audio/coreaudio.c
+@@ -26,6 +26,7 @@
+ #include <CoreAudio/CoreAudio.h>
+ #include <pthread.h>            /* pthread_X */
+ 
++#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "audio.h"
+ 
+@@ -551,9 +552,7 @@ static OSStatus handle_voice_change(
+     OSStatus status;
+     coreaudioVoiceOut *core = in_client_data;
+ 
+-    if (coreaudio_lock(core, __func__)) {
+-        abort();
+-    }
++    qemu_mutex_lock_iothread();
+ 
+     if (core->outputDeviceID) {
+         fini_out_device(core);
+@@ -564,7 +563,7 @@ static OSStatus handle_voice_change(
+         update_device_playback_state(core);
+     }
+ 
+-    coreaudio_unlock (core, __func__);
++    qemu_mutex_unlock_iothread();
+     return status;
+ }
+ 
+@@ -582,11 +581,7 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+     err = pthread_mutex_init(&core->mutex, NULL);
+     if (err) {
+         dolog("Could not create mutex\nReason: %s\n", strerror (err));
+-        goto mutex_error;
+-    }
+-
+-    if (coreaudio_lock(core, __func__)) {
+-        goto lock_error;
++        return -1;
+     }
+ 
+     obt_as = *as;
+@@ -606,37 +601,21 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+     if (status != kAudioHardwareNoError) {
+         coreaudio_playback_logerr (status,
+                                    "Could not listen to voice property change\n");
+-        goto listener_error;
++        return -1;
+     }
+ 
+     if (init_out_device(core)) {
+-        goto device_error;
++        status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
++                                                   &voice_addr,
++                                                   handle_voice_change,
++                                                   core);
++        if (status != kAudioHardwareNoError) {
++            coreaudio_playback_logerr(status,
++                                      "Could not remove voice property change listener\n");
++        }
+     }
+ 
+-    coreaudio_unlock(core, __func__);
+     return 0;
+-
+-device_error:
+-    status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
+-                                               &voice_addr,
+-                                               handle_voice_change,
+-                                               core);
+-    if (status != kAudioHardwareNoError) {
+-        coreaudio_playback_logerr(status,
+-                                  "Could not remove voice property change listener\n");
+-    }
+-
+-listener_error:
+-    coreaudio_unlock(core, __func__);
+-
+-lock_error:
+-    err = pthread_mutex_destroy(&core->mutex);
+-    if (err) {
+-        dolog("Could not destroy mutex\nReason: %s\n", strerror (err));
+-    }
+-
+-mutex_error:
+-    return -1;
+ }
+ 
+ static void coreaudio_fini_out (HWVoiceOut *hw)
+@@ -645,10 +624,6 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
+     int err;
+     coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
+ 
+-    if (coreaudio_lock(core, __func__)) {
+-        abort();
+-    }
+-
+     status = AudioObjectRemovePropertyListener(kAudioObjectSystemObject,
+                                                &voice_addr,
+                                                handle_voice_change,
+@@ -659,8 +634,6 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
+ 
+     fini_out_device(core);
+ 
+-    coreaudio_unlock(core, __func__);
+-
+     /* destroy mutex */
+     err = pthread_mutex_destroy(&core->mutex);
+     if (err) {
+@@ -672,14 +645,8 @@ static void coreaudio_enable_out(HWVoiceOut *hw, bool enable)
+ {
+     coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
+ 
+-    if (coreaudio_lock(core, __func__)) {
+-        abort();
+-    }
+-
+     core->enabled = enable;
+     update_device_playback_state(core);
+-
+-    coreaudio_unlock(core, __func__);
+ }
+ 
+ static void *coreaudio_audio_init(Audiodev *dev)
+-- 
+2.30.1 (Apple Git-130)
+
 
