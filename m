@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5765A3B09AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:58:10 +0200 (CEST)
-Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64023B09C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:00:43 +0200 (CEST)
+Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvimv-0007vk-Dg
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57280)
+	id 1lvipO-0005hA-Cb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvidj-0005JO-Iv
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:39 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:39440)
+ id 1lvidg-0005F9-R5
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:36 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvida-0005Kx-OI
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:39 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- c7-20020a17090ad907b029016faeeab0ccso1973542pjv.4
+ id 1lvidb-0005Lr-8R
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:48:36 -0400
+Received: by mail-pg1-x533.google.com with SMTP id e20so17454885pgg.0
  for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pPAbZ+NnbuJu6Y7yeuOPLB6kF5Goh866R12FC5UPwXY=;
- b=BiF+WimtNMMr3Qk/G23pq2oza8a3MBPQlT7pRnY+8O8TPkDUN9zyeVY4ZccW1153lS
- 9kEVCzuLTD+MRAyda/BtPYb7eQPJMk21T9haF9K0MGpR/Wjjwaau7aoYKnJekdIxUuXU
- 8iZeYqX1MKYk5UJagESlOBIAODuBVJ/AOz/sXVQf7le0k+iYab0Dl7jKAhIIr8eNegZk
- fti8NjKP6EV6lMkOxBKltyvRajFIYptQOsoyE+yT4ui5JEmt2Z6hLvX/rPvuHYXUMusZ
- dIj46+dFwK8GxOJ0ou1XMhSHU7yow2Uo2aKebAfwIiSTofTbCJ7GtbewTsI+1rFU9P0V
- T6AQ==
+ bh=N/lN13zaTHZB/kVsExqcKdAsEK0/M5Qen0CO6QpX8H8=;
+ b=sfHOrJXgZ7p/0GEO6UzlRgLke9CLZYOrprOMfiA4EzPg8G03hqfY5vMi8zWbjz5j2d
+ mptRCjoIln4CTyoNXiAzg/2v/OcNPGBxbuv68FKYpGrC6wuG7TtZo16IsG4bFDCX7QiM
+ e4eL6gT17SWsW3/dhTmpdXPMGfejZjkLyB0useaSwL3Uvx0FgRLo2qvU/kqm9O87dcg0
+ MBHPRxVrjuf1gPXGGlpPfwbmmNJACYyD8C1ycRWJZCn0904BOVPwgbvJ3V/K4QUpYa26
+ c8EI1NFuBiQsdACD/kqf56BGPYTAet7Xf7zZ3hOhgEnOO9j9F48KFYMw5x5azgFX2eHL
+ Ztkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pPAbZ+NnbuJu6Y7yeuOPLB6kF5Goh866R12FC5UPwXY=;
- b=GV126NuuCJ0BxqWkPzxTVdHcWfwp4Tx85O0MVjMPE6NabgBgqdm1IXZnnnh/fnSO2E
- 1C0zj2lNKCBusLALxRkyxYDF+TxvHvFvWq2eCdI/tLBlt1A+vF2vxQM2Ky2tNaZ5KUJj
- +95ryTOEPNrsnet36HpTvP7O4rFeVgEHGLnyBSWRBXhN+wVVO1WdzBS2x8mLKktKd/At
- jwmoCuraiuUWhlb/zsdsmvfpP/b6pOVzIow0ASW+xYb8ztaHtA7ng054DS6pVVpgzTcq
- PSaPPOnmq0gj9GhGc5UDzhRP2kU7YxqKao32QbcWJieoUvORoyNEQh1NpmlZ9X4/HXQ6
- nz/g==
-X-Gm-Message-State: AOAM533FA0CmKYLvH//U2Drztny773jZV04gMe3J0bMfHScKKcWn7GVU
- 1P2j3JhxJnth76zUBvEKib8jYybVXi+K8Q==
-X-Google-Smtp-Source: ABdhPJwrYnom5zwUXDCW5gZttoWeDI4BaUNwtWF8+ejYK73zvPlEiG+4t25xO5m1iUi8sb2EjuTRKw==
-X-Received: by 2002:a17:90a:e284:: with SMTP id
- d4mr4687211pjz.124.1624376909457; 
- Tue, 22 Jun 2021 08:48:29 -0700 (PDT)
+ bh=N/lN13zaTHZB/kVsExqcKdAsEK0/M5Qen0CO6QpX8H8=;
+ b=CrcRFiHsIJHiNGTzL/TgEGF8o0Ts/OzsifXUXT0VculCdPapN0vbspLGqWpJe71V3V
+ BRZHyQKFxS2S9rc2AEraU/0+8EU3whKt+4rWvgj8TflT1amMsFinUlv21dwu8dwJq/XK
+ MAyS3WERj44BBIbDbZP35mPNRCw0/5kgqNH1ebTrIe7f7yym79rDpbKIt2hL/kZyZdSo
+ qJUrZK+u/7YXj8RB2rhuGWI0dmt3MNXrFMO9q7MF2kKm9bc+GYRkBSqm67drCy8y5tFa
+ WaXn1kyGCF05wmOndBsRYvYlO3qduSEZHOZnUg9fL6Jw7nOql1vO3brtxwMBeX5Jh2x1
+ v2lQ==
+X-Gm-Message-State: AOAM533NBmRyf0HeqY53I19sFlyXGMtE88lARJDzEihY/6JucBDXWwiH
+ /FhIuPaqeLjqy5d5UhNAdNKwrPO4rCyRlw==
+X-Google-Smtp-Source: ABdhPJzI7btic9gJ9tslkVGE9debAJXQcmd05Ncfg5xoAp1Smp+daU5Y2DLGw1JhtbjDzlz3cInlnA==
+X-Received: by 2002:aa7:8507:0:b029:2ea:559:da5 with SMTP id
+ v7-20020aa785070000b02902ea05590da5mr4169508pfn.45.1624376910016; 
+ Tue, 22 Jun 2021 08:48:30 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id x13sm2898769pjh.30.2021.06.22.08.48.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Jun 2021 08:48:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/15] target/cris: Use tcg_gen_lookup_and_goto_ptr
-Date: Tue, 22 Jun 2021 08:48:17 -0700
-Message-Id: <20210622154820.1978982-13-richard.henderson@linaro.org>
+Subject: [PATCH v3 13/15] target/cris: Improve JMP_INDIRECT
+Date: Tue, 22 Jun 2021 08:48:18 -0700
+Message-Id: <20210622154820.1978982-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210622154820.1978982-1-richard.henderson@linaro.org>
 References: <20210622154820.1978982-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,36 +87,56 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can use this in gen_goto_tb and for DISAS_JUMP
-to indirectly chain to the next TB.
+Use movcond instead of brcond to set env_pc.
+Discard the btarget and btaken variables to improve
+register allocation and avoid unnecessary writeback.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/cris/translate.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index f58f6f2e5e..ea6efe19d9 100644
+index ea6efe19d9..05be0a41bd 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -546,7 +546,7 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
-         tcg_gen_exit_tb(dc->base.tb, n);
-     } else {
-         tcg_gen_movi_tl(env_pc, dest);
--        tcg_gen_exit_tb(NULL, 0);
-+        tcg_gen_lookup_and_goto_ptr();
-     }
+@@ -522,17 +522,6 @@ static void t_gen_swapr(TCGv d, TCGv s)
+     tcg_temp_free(org_s);
  }
  
-@@ -3352,6 +3352,8 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-         tcg_gen_movi_tl(env_pc, npc);
-         /* fall through */
-     case DISAS_JUMP:
-+        tcg_gen_lookup_and_goto_ptr();
-+        break;
-     case DISAS_UPDATE:
-         /* Indicate that interupts must be re-evaluated before the next TB. */
-         tcg_gen_exit_tb(NULL, 0);
+-static void t_gen_cc_jmp(TCGv pc_true, TCGv pc_false)
+-{
+-    TCGLabel *l1 = gen_new_label();
+-
+-    /* Conditional jmp.  */
+-    tcg_gen_mov_tl(env_pc, pc_false);
+-    tcg_gen_brcondi_tl(TCG_COND_EQ, env_btaken, 0, l1);
+-    tcg_gen_mov_tl(env_pc, pc_true);
+-    gen_set_label(l1);
+-}
+-
+ static bool use_goto_tb(DisasContext *dc, target_ulong dest)
+ {
+     return ((dest ^ dc->base.pc_first) & TARGET_PAGE_MASK) == 0;
+@@ -3319,8 +3308,17 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+             /* fall through */
+ 
+         case JMP_INDIRECT:
+-            t_gen_cc_jmp(env_btarget, tcg_constant_tl(npc));
++            tcg_gen_movcond_tl(TCG_COND_NE, env_pc,
++                               env_btaken, tcg_constant_tl(0),
++                               env_btarget, tcg_constant_tl(npc));
+             is_jmp = dc->cpustate_changed ? DISAS_UPDATE : DISAS_JUMP;
++
++            /*
++             * We have now consumed btaken and btarget.  Hint to the
++             * tcg compiler that the writeback to env may be dropped.
++             */
++            tcg_gen_discard_tl(env_btaken);
++            tcg_gen_discard_tl(env_btarget);
+             break;
+ 
+         default:
 -- 
 2.25.1
 
