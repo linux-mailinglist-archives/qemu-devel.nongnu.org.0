@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8993B0150
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:26:00 +0200 (CEST)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3410A3B0162
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 12:30:07 +0200 (CEST)
+Received: from localhost ([::1]:52396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvdbT-00080d-JC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45206)
+	id 1lvdfS-0007jq-7w
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 06:30:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvdUS-00049J-CE
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:18:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47903)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lvdWW-0007w6-V7
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:20:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lvdUP-0006gs-AS
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:18:44 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lvdWU-00085M-D9
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 06:20:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624357120;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=gzrImPinhRNlxdci63CYV4SVhoeg6XtsX8beB1ydNkk=;
- b=MY+vSs6y6XesJO5S830wptl9xvsA/DRZ+wQ4n4h7QHu+aKlpht48ILrnR6P/PB/bnLA/GM
- P5QHVAQWc4yCTaYQ+bRIdItzDYTBNjbULGXefH/CJYHjuCOlSdgB5ohFqZ7YPGSJwEtchF
- aqyw1aIppnof3R+3+LUXTlDsJJ7E2PI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-97JpW901OT-AojPhjsJ9OA-1; Tue, 22 Jun 2021 06:18:24 -0400
-X-MC-Unique: 97JpW901OT-AojPhjsJ9OA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83A55101C8A8;
- Tue, 22 Jun 2021 10:18:22 +0000 (UTC)
-Received: from redhat.com (ovpn-114-176.ams2.redhat.com [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0B0E5C1CF;
- Tue, 22 Jun 2021 10:18:12 +0000 (UTC)
-Date: Tue, 22 Jun 2021 11:18:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
-Message-ID: <YNG44c9KtaiNXT7b@redhat.com>
-References: <20210622093413.13360-1-wangyanan55@huawei.com>
+ s=mimecast20190719; t=1624357249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4vG+8UAc2CIiieMIoDsFj3lXhoxReDatXuXH4mUo02Y=;
+ b=eRtp/vPHJqpAW8rspvc0I4aRWpKIFVLMHEtMiwL8dU87t6hBfXcna7y5ktdwot4nj9t5pH
+ E8JZOTg6aDRUNrtB6m6L2lrLyWRZVeeAwedDNyz8Z3MFC6tlxq+MVUiXw+TJDvAdgrdny7
+ /nE/IoJUbNo3cmtvEhdMPdWcMrR3sPk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-lXFZCwxfMiCpu39jSFe77A-1; Tue, 22 Jun 2021 06:20:48 -0400
+X-MC-Unique: lXFZCwxfMiCpu39jSFe77A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m6-20020a7bce060000b02901d2a0c361bfso561120wmc.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 03:20:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4vG+8UAc2CIiieMIoDsFj3lXhoxReDatXuXH4mUo02Y=;
+ b=uETeBtGlKfIXq4NhQkI8F1Cqt5wcXztPsIS6xoAn0tkQzrPwOCqsE403zFc7ks0CRi
+ juTam+qpwOyC54X4Pugr2nk5c71m9X1QXQ+yMK3C62wyrksvBH1zrY0gSgjRRHtySHhB
+ g/Ku+rCfaS+siRxVGNPLu2uVTsv9m2haIVnorDeDChVQbDhOPS61BF89yzYe1E8Zvf/m
+ 6BqhwwPELrC5xRpBftFu0XlwuwaqYeS33Jo6h1ZcUIkEDUECODzxrEfbr7kblmGM76Xl
+ 1ZxbPbeZrJq3Oum8/BSHaYrGWcZOqDQz2r3ovMy1FHPxQ/NnVyFAfMwygkQbXVNb78Xf
+ JZuA==
+X-Gm-Message-State: AOAM533pAPqjWLBlz9EazkHaAXBx8fN1hK4CzqoRZY99dyHtH/o4PyKI
+ W+6qx2Qpok8MKZHhrNedz42rCNsScWiWSyedQ+IzvIsKRYgJOQ8e16A2L0vyon96DbXXZQo0zUd
+ L83VZvghZ9P9GmVI=
+X-Received: by 2002:a1c:c911:: with SMTP id f17mr3483083wmb.60.1624357247146; 
+ Tue, 22 Jun 2021 03:20:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqJ8WOXA5s+VDEmvCBb7mDOKfUDwBcz8gRzyd0rXQv7HZag48tZ//qYeXFigVXLbQBMFw9dA==
+X-Received: by 2002:a1c:c911:: with SMTP id f17mr3483057wmb.60.1624357246845; 
+ Tue, 22 Jun 2021 03:20:46 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k2sm20430508wrw.93.2021.06.22.03.20.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 03:20:46 -0700 (PDT)
+Subject: Re: [PATCH RFC] meson: add option to use zstd for qcow2 compression
+ by default
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20210617195128.66675-1-vsementsov@virtuozzo.com>
+ <8d3711a0-2716-3bc5-3710-990042e16c0b@redhat.com>
+ <YNC3b3S8tLM47PJn@redhat.com>
+ <dca75636-dc66-26e6-a3cb-a073cb8d6f0a@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f7fba787-e9a6-d2b4-d81b-ffa920ca1103@redhat.com>
+Date: Tue, 22 Jun 2021 12:20:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210622093413.13360-1-wangyanan55@huawei.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <dca75636-dc66-26e6-a3cb-a073cb8d6f0a@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,52 +105,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: den@openvz.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 22, 2021 at 05:34:06PM +0800, Yanan Wang wrote:
-> Hi,
+On 22/06/21 12:16, Vladimir Sementsov-Ogievskiy wrote:
+>>
+>> Yes, this is more extensible.
 > 
-> This is v4 of the series [1] that I posted to introduce support for
-> generating cpu topology descriptions to guest. Comments are welcome!
-> 
-> Description:
-> Once the view of an accurate virtual cpu topology is provided to guest,
-> with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
-> e.g., the scheduling performance improvement. See Dario Faggioli's
-> research and the related performance tests in [2] for reference. So here
-> we go, this patch series introduces cpu topology support for ARM platform.
-> 
-> In this series, instead of quietly enforcing the support for the latest
-> machine type, a new parameter "expose=on|off" in -smp command line is
-> introduced to leave QEMU users a choice to decide whether to enable the
-> feature or not. This will allow the feature to work on different machine
-> types and also ideally compat with already in-use -smp command lines.
-> Also we make much stricter requirement for the topology configuration
-> with "expose=on".
+> Looks good, I'll try. I'm just not familiar with it and followed the 
+> pattern of zstd option.
 
-Seeing this 'expose=on' parameter feels to me like we're adding a
-"make-it-work=yes" parameter. IMHO this is just something that should
-be done by default for the current machine type version and beyond.
-I don't see the need for a parameter to turnthis on, especially since
-it is being made architecture specific.
+You can look at -Dmalloc for an example.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Paolo
 
 
