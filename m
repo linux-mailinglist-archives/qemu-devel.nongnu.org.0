@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAD83AFC8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:17:14 +0200 (CEST)
-Received: from localhost ([::1]:40890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE903AFC80
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:13:38 +0200 (CEST)
+Received: from localhost ([::1]:56102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYmf-00071b-5k
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:17:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
+	id 1lvYjB-0006jI-4f
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4g-0003gx-2T
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59548)
+ id 1lvY4d-0003W8-DH
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4a-0000fm-Hc
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:45 -0400
+ id 1lvY4X-0000cW-Ex
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvY4M-0004Vg-N4
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:26 +0000
+ id 1lvY4I-0003rh-B7
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:22 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7750E2E816B
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:26 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 489532E808D
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:22 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:28 -0000
-From: Launchpad Bug Tracker <1396497@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:17:30 -0000
+From: Launchpad Bug Tracker <1451067@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Expired; importance=Low; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug vivid
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamesodhunt janitor serge-hallyn th-huth
-X-Launchpad-Bug-Reporter: James Hunt (jamesodhunt)
+X-Launchpad-Bug-Commenters: janitor miki4242 th-huth
+X-Launchpad-Bug-Reporter: Alain Kalker (miki4242)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20141126083639.18143.93018.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162433544916.20423.1990186431473570784.malone@loganberry.canonical.com>
-Subject: [Bug 1396497] Re: 'qemu-img snapshot' allows new snapshot to be
- created with the name of an existing snapshot
+References: <20150502182723.29231.13701.malonedeb@soybean.canonical.com>
+Message-Id: <162433545050.20423.13210111310609389444.malone@loganberry.canonical.com>
+Subject: [Bug 1451067] Re: -smb option requires full path for Samba sharing to
+ work
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 34c8006bae94de2fb2f3fc221758b125339f542d
+X-Launchpad-Hash: 12145e012a972950935126a28f9523a062efbb8c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,128 +71,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1396497 <1396497@bugs.launchpad.net>
+Reply-To: Bug 1451067 <1451067@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for qemu (Ubuntu) because there has been no activity for 60
-days.]
+[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu (Ubuntu)
+** Changed in: qemu
        Status: Incomplete =3D> Expired
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1396497
+https://bugs.launchpad.net/bugs/1451067
 
 Title:
-  'qemu-img snapshot' allows new snapshot to be created with the name of
-  an existing snapshot
+  -smb option requires full path for Samba sharing to work
 
 Status in QEMU:
   Expired
-Status in qemu package in Ubuntu:
-  Expired
 
 Bug description:
-  qemu-img _may_ be working as designed, but it feels like this could be
-  a bug. I'd certainly prefer to only allow unique snapshot names
-  (unless maybe something like a "--force-non-unique-snapshot-names" was
-  also specified).
+  This issue has been reported on qemu-devel a looong time ago:
+  https://lists.gnu.org/archive/html/qemu-devel/2005-12/msg00141.html
 
-  If this really is correct behaviour, it should be documented as qemu-
-  img(1) currently specifies no details whatsoever regarding expected
-  behaviour or valid snapshot names.
+  QEMU version 2.2.1-4 on Arch Linux x86_64
 
-  $ qemu-img snapshot -l image.cow =
+  Steps to reproduce:
 
-  $ qemu-img snapshot -c foo image.cow        =
+  host$ mkdir share
+  host$ chmod o+rwx share
+  host$ qemu <other options> -smb share
 
-  $ qemu-img snapshot -l image.cow            =
+  vm$ smbclient //10.0.2.4/qemu -N
+  smbclient: Can't load /etc/samba/smb.conf - run testparm to debug it
+  Domain=3D[WORKGROUP] OS=3D[Windows 6.1] Server=3D[Samba 4.2.1]
+  tree connect failed: NT_STATUS_BAD_NETWORK_NAME
+  vm$ poweroff
 
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         foo                       0 2014-11-26 08:30:53   00:00:00.000
-  $ qemu-img snapshot -c foo image.cow =
+  Workaround:
 
-  $ qemu-img snapshot -l image.cow            =
+  host$ qemu <other options> -smb /full/path/to/share
 
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         foo                       0 2014-11-26 08:30:53   00:00:00.000
-  2         foo                       0 2014-11-26 08:30:58   00:00:00.000
-  $ qemu-img snapshot -c foo image.cow =
+  vm$ $ smbclient //10.0.2.4/qemu -N
+  smbclient: Can't load /etc/samba/smb.conf - run testparm to debug it
+  Domain=3D[WORKGROUP] OS=3D[Windows 6.1] Server=3D[Samba 4.2.1]
+  smb: \> ls
+    .                                   D        0  Sat May  2 19:57:31 2015
+    ..                                  D        0  Sat May  2 19:57:31 2015
 
-  $ qemu-img snapshot -l image.cow            =
+  		961302540 blocks of size 1024. 637557248 blocks available
+  smb: \> quit
 
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         foo                       0 2014-11-26 08:30:53   00:00:00.000
-  2         foo                       0 2014-11-26 08:30:58   00:00:00.000
-  3         foo                       0 2014-11-26 08:31:00   00:00:00.000
-  $ qemu-img snapshot -d foo image.cow        =
+  Please, please fix this gotcha, whether in the documentation or in
+  code. it can cause some serious bouts of hair-pulling.
 
-  $ qemu-img snapshot -l image.cow            =
-
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  2         foo                       0 2014-11-26 08:30:58   00:00:00.000
-  3         foo                       0 2014-11-26 08:31:00   00:00:00.000
-  $ qemu-img snapshot -d foo image.cow =
-
-  $ qemu-img snapshot -l image.cow            =
-
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  3         foo                       0 2014-11-26 08:31:00   00:00:00.000
-  $ qemu-img snapshot -d foo image.cow =
-
-  $ qemu-img snapshot -l image.cow =
-
-  $
-
-  Note also how snapshot deletion works in reverse order - the oldest
-  snapshot with a given name is deleted first.
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 15.04
-  Package: qemu-utils 2.1+dfsg-4ubuntu9
-  ProcVersionSignature: Ubuntu 3.16.0-25.33-generic 3.16.7
-  Uname: Linux 3.16.0-25-generic x86_64
-  ApportVersion: 2.14.7-0ubuntu10
-  Architecture: amd64
-  CurrentDesktop: Unity
-  Date: Wed Nov 26 08:28:16 2014
-  InstallationDate: Installed on 2014-04-11 (228 days ago)
-  InstallationMedia: Ubuntu 14.04 LTS "Trusty Tahr" - Daily amd64 (20140409)
-  KvmCmdLine:
-   COMMAND         STAT  EUID  RUID   PID  PPID %CPU COMMAND
-   kvm-irqfd-clean S<       0     0   719     2  0.0 [kvm-irqfd-clean]
-  MachineType: LENOVO 20AQCTO1WW
-  ProcKernelCmdLine: BOOT_IMAGE=3D/vmlinuz-3.16.0-25-generic root=3D/dev/ma=
-pper/ubuntu--vg-root ro quiet splash vt.handoff=3D7
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to vivid on 2014-05-08 (201 days ago)
-  dmi.bios.date: 02/10/2014
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: GJET71WW (2.21 )
-  dmi.board.asset.tag: Not Available
-  dmi.board.name: 20AQCTO1WW
-  dmi.board.vendor: LENOVO
-  dmi.board.version: 0B98405 STD
-  dmi.chassis.asset.tag: No Asset Information
-  dmi.chassis.type: 10
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: Not Available
-  dmi.modalias: dmi:bvnLENOVO:bvrGJET71WW(2.21):bd02/10/2014:svnLENOVO:pn20=
-AQCTO1WW:pvrThinkPadT440s:rvnLENOVO:rn20AQCTO1WW:rvr0B98405STD:cvnLENOVO:ct=
-10:cvrNotAvailable:
-  dmi.product.name: 20AQCTO1WW
-  dmi.product.version: ThinkPad T440s
-  dmi.sys.vendor: LENOVO
+  -Alain
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1396497/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1451067/+subscriptions
 
