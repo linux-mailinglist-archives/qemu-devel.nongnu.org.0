@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841C03AFC1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:41:16 +0200 (CEST)
-Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385F43AFC39
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:50:39 +0200 (CEST)
+Received: from localhost ([::1]:39832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYDr-0006T8-H0
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57328)
+	id 1lvYMw-0007py-8b
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:50:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXze-00077s-90
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56520)
+ id 1lvY4h-0003kx-7c
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzb-00053B-Dr
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:33 -0400
+ id 1lvY4e-0000ka-SV
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzN-00015g-D3
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:17 +0000
+ id 1lvY4R-0004V3-1P
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:31 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CA4062E81F1
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:13 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 65B4A2E8169
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:30 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1840250@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:17:22 -0000
+From: Launchpad Bug Tracker <690776@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: docker
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
+X-Launchpad-Bug-Commenters: janitor jwm th-huth
+X-Launchpad-Bug-Reporter: John Morrissey (jwm)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <156587216258.26985.5763583236132855979.malonedeb@gac.canonical.com>
-Message-Id: <162433543850.20423.14457436622293119675.malone@loganberry.canonical.com>
-Subject: [Bug 1840250] Re: 'make -j1 docker-test-build' uses more than one job
+References: <20101215181600.22832.16013.malonedeb@gandwana.canonical.com>
+Message-Id: <162433544283.20423.17253638881850832754.malone@loganberry.canonical.com>
+Subject: [Bug 690776] Re: Overwrite argv to set process title,
+ eliminating 16-character prctl() limit.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 90604ae8329909bb4937fce59bb3ad91f2a9c39c
+X-Launchpad-Hash: 8e1755a053d9df83138e2efa1e7170832c693a40
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1840250 <1840250@bugs.launchpad.net>
+Reply-To: Bug 690776 <690776@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,34 +84,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1840250
+https://bugs.launchpad.net/bugs/690776
 
 Title:
-  'make -j1 docker-test-build' uses more than one job
+  Overwrite argv to set process title, eliminating 16-character prctl()
+  limit.
 
 Status in QEMU:
   Expired
 
 Bug description:
-  version: v4.1.0-rc5
+  I've modified qemu to overwrite its arguments to set the process
+  title, since its current prctl() method has a 16-character limit.
 
-  Run 'make -j1 docker-test-build', wait a few, various containers get
-  instantiated.
-
-  $ make -j1 docker-test-build 2>&1 > /dev/null
-
-  On another terminal:
-
-  $ docker ps
-  CONTAINER ID        IMAGE                            COMMAND             =
-     CREATED             STATUS
-  62264a2d777a        qemu:debian-mips-cross           "/var/tmp/qemu/run t=
-=E2=80=A6"   10 minutes ago      Up 10 minutes
-  80807c47d0df        qemu:debian-armel-cross          "/var/tmp/qemu/run t=
-=E2=80=A6"   10 minutes ago      Up 10 minutes
-  06027b5dfd4a        qemu:debian-amd64                "/var/tmp/qemu/run t=
-=E2=80=A6"   10 minutes ago      Up 10 minutes
+  I posted the original patch to qemu-devel, made the changes others
+  suggested, then re-posted to qemu-devel. I flailed around a bit with
+  the patch submission process and think I finally got it right, but
+  haven't been able to gain the notice of a committer to have this
+  pushed. Maybe this will get more attention when reported in the BTS.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1840250/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/690776/+subscriptions
 
