@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3B03AFC7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:12:23 +0200 (CEST)
-Received: from localhost ([::1]:52460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAD83AFC8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:17:14 +0200 (CEST)
+Received: from localhost ([::1]:40890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYhy-0004IY-L7
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58504)
+	id 1lvYmf-00071b-5k
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:17:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4c-0003Sp-CC
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59400)
+ id 1lvY4g-0003gx-2T
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4X-0000dN-DO
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:42 -0400
+ id 1lvY4a-0000fm-Hc
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvY4K-0004OR-Fj
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:24 +0000
+ id 1lvY4M-0004Vg-N4
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:26 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 361B42E816E
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:24 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7750E2E816B
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:26 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:26 -0000
+Date: Tue, 22 Jun 2021 04:17:28 -0000
 From: Launchpad Bug Tracker <1396497@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: jamesodhunt janitor serge-hallyn th-huth
 X-Launchpad-Bug-Reporter: James Hunt (jamesodhunt)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <20141126083639.18143.93018.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162433544728.20423.17457714074724797867.malone@loganberry.canonical.com>
+Message-Id: <162433544916.20423.1990186431473570784.malone@loganberry.canonical.com>
 Subject: [Bug 1396497] Re: 'qemu-img snapshot' allows new snapshot to be
  created with the name of an existing snapshot
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 5d192f8668e26f713c09fea646f6a1bf59c68395
+X-Launchpad-Hash: 34c8006bae94de2fb2f3fc221758b125339f542d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -78,9 +78,10 @@ Reply-To: Bug 1396497 <1396497@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+[Expired for qemu (Ubuntu) because there has been no activity for 60
+days.]
 
-** Changed in: qemu
+** Changed in: qemu (Ubuntu)
        Status: Incomplete =3D> Expired
 
 -- =
