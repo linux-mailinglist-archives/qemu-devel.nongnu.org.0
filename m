@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444183B0D38
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 20:51:59 +0200 (CEST)
-Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66A93B0D3D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 20:54:22 +0200 (CEST)
+Received: from localhost ([::1]:47682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvlV7-0003XH-PX
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 14:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44102)
+	id 1lvlXR-0006Ub-Uj
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 14:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lvlTk-0002nw-0d
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 14:50:32 -0400
-Received: from mx1.tachyum.com ([66.160.133.170]:16028)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lvlVV-00052s-Ii; Tue, 22 Jun 2021 14:52:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
- id 1lvlTi-0005ay-5C
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 14:50:31 -0400
-Received: by mx1.tachyum.com (Postfix, from userid 1000)
- id CC0D01005691; Tue, 22 Jun 2021 11:50:27 -0700 (PDT)
-Received: from THQ-EX1.tachyum.com (unknown [10.7.1.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.tachyum.com (Postfix) with ESMTPS id 8C4C61005283;
- Tue, 22 Jun 2021 11:50:26 -0700 (PDT)
-Received: from THQ-EX3.tachyum.com (10.7.1.26) by THQ-EX1.tachyum.com
- (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Tue, 22 Jun
- 2021 11:50:27 -0700
-Received: from THQ-EX1.tachyum.com (10.7.1.6) by THQ-EX3.tachyum.com
- (10.7.1.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Tue, 22 Jun
- 2021 11:50:26 -0700
-Received: from THQ-EX1.tachyum.com ([10.7.1.6]) by THQ-EX1.tachyum.com
- ([10.7.1.6]) with mapi id 15.01.2176.014; Tue, 22 Jun 2021 11:50:26 -0700
-From: Michael Morrell <mmorrell@tachyum.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: Denormal input handling
-Thread-Topic: Denormal input handling
-Thread-Index: AddSVLVuQ70cTMk8SjeoZZpZvpdwcwUnLwIAAA+pMgAAC7w14AAN56Pg
-Date: Tue, 22 Jun 2021 18:50:26 +0000
-Message-ID: <12642a513386433f8697de0be358e6e4@tachyum.com>
-References: <30eafc8be31446f9aecbc40f487467e1@tachyum.com>
- <c021f386dcfb49aca2ab0c01f66bccc2@tachyum.com>
- <08ba29ee-d5c0-8c61-0efc-4c03fe9da944@linaro.org>
- <c1b992e063414da88b686e8f6e9642f2@tachyum.com>
-In-Reply-To: <c1b992e063414da88b686e8f6e9642f2@tachyum.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.100.197]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lvlVS-0006gL-1c; Tue, 22 Jun 2021 14:52:21 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15MIiMpE087366; Tue, 22 Jun 2021 14:52:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=UrZIJx2oR/EZpxCLXtO8J+Bp0thBZTs6oZVz6eVr9WU=;
+ b=nL1lxcE7HuvUfUEt3ZTgCxBXHDddBtfbm2hs/mxIqVLd6GVGJfHsRG4Sdm9jCvQy1lGU
+ A/2q/3bYa3qY88/9tF3kWOuA7B3t4/tzrNiVSMwXfATgjRxaNxXTqQVial6qzJRfzIGX
+ lxbr2XVhN02QVr31UbvOg0hVrlQaFOQcN644TbWuJqggoI8fP6rjmX9O923msprAHLAb
+ tylBYpH/oS1MscCk3NAGw4AdpPgPxCa9Zc20gVsFXyX1gqU+s9Q73XfS7zGJzzrCG/Wu
+ VCZs7XZ34fPnxjIsXmC//fyNkreu1jHw4sJBYSHr9P+krfuT/SA45+RWydg0YtEinIxa VA== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39bk9ymdbv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 14:52:08 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15MIq7dc009440;
+ Tue, 22 Jun 2021 18:52:07 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03dal.us.ibm.com with ESMTP id 399wjg91ef-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 18:52:07 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15MIq6mu21299560
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 22 Jun 2021 18:52:06 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3C75C7805E;
+ Tue, 22 Jun 2021 18:52:06 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A37F27805F;
+ Tue, 22 Jun 2021 18:52:05 +0000 (GMT)
+Received: from localhost (unknown [9.211.80.241])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 22 Jun 2021 18:52:05 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] target/ppc: Introduce ppc_interrupts_little_endian()
+In-Reply-To: <20210622140926.677618-2-groug@kaod.org>
+References: <20210622140926.677618-1-groug@kaod.org>
+ <20210622140926.677618-2-groug@kaod.org>
+Date: Tue, 22 Jun 2021 15:52:03 -0300
+Message-ID: <87tulpohpo.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=66.160.133.170; envelope-from=mmorrell@tachyum.com;
- helo=mx1.tachyum.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: OfC49Ys3Og6115W1tDC0XRzDY3EO77ZJ
+X-Proofpoint-GUID: OfC49Ys3Og6115W1tDC0XRzDY3EO77ZJ
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-22_12:2021-06-22,
+ 2021-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 priorityscore=1501 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106220113
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_BL=0.001,
+ RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,49 +100,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T0ssIEkndmUgZG9uZSBtb3JlIHRlc3RpbmcuICBJJ20gbm90IHN1cmUgaWYgd2UgbmVlZCBhbnkg
-c3BlY2lhbGl6YXRpb24sIGJ1dCB0aGUgc2V0dGluZyBmb3IgZmxvYXRfZmxhZ19pbm9ybV9kZW5v
-cm1hbCBpc24ndCByaWdodCBmb3IgeDg2Lg0KDQpJdCBpcyBzZXQgdW5jb25kaXRpb25hbGx5IHdo
-ZW4gZmx1c2hfaW5wdXRzX3RvX3plcm8gaXMgZmFsc2UsIGJ1dCBpdCBuZWVkcyB0byB0YWtlIGlu
-dG8gYWNjb3VudCB0aGUgb3RoZXIgb3BlcmFuZChzKS4gICBHaXZlbiAiZGVub3JtIC8gMCIgb3Ig
-YW55IGluc3RydWN0aW9uIHdpdGggYSBOYU4gb3BlcmFuZCwgZmxvYXRfZmxhZ19pbm9ybV9kZW5v
-cm1hbCBzaG91bGQgbm90IGJlIHNldCAoYW5kIHRoYXQgd2F5LCB0aGUgREUgYml0IGluIE1YQ1NS
-IHdvbid0IGJlIHNldCB3aGVuIGl0IHNob3VsZG4ndCBiZSkuDQoNCiAgIE1pY2hhZWwNCg0KLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IE1pY2hhZWwgTW9ycmVsbCANClNlbnQ6IE1v
-bmRheSwgSnVuZSAyMSwgMjAyMSA1OjU3IFBNDQpUbzogJ1JpY2hhcmQgSGVuZGVyc29uJyA8cmlj
-aGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZz47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KU3ViamVj
-dDogUkU6IERlbm9ybWFsIGlucHV0IGhhbmRsaW5nDQoNClJpY2hhcmQsDQoNCkkgd2FzIHVuZGVy
-IHRoZSBtaXN0YWtlbiBpbXByZXNzaW9uIHRoYXQgeW91ciBjaGFuZ2VzIGluIHRoaXMgYXJlYSAo
-c3BsaXR0aW5nIGZsb2F0X2ZsYWdfaW5wdXRfZGVub3JtYWwgaW50byAyIGZsYWdzKSB3ZXJlIGFs
-cmVhZHkgY2hlY2tlZCBpbiwgYnV0IEkgc2VlIG5vdyB0aGF0IGlzIG5vdCB0aGUgY2FzZS4gIEkg
-c2hvdWxkIHByb2JhYmx5IHdhaXQgdW50aWwgdGhhdCBpcyBkb25lIGJlZm9yZSBJIHRyeSB0byBj
-bGFpbSB0aGVyZSBhcmUgYWRkaXRpb25hbCBpc3N1ZXMgaGVyZS4NCg0KICAgIE1pY2hhZWwNCg0K
-LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNo
-YXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPg0KU2VudDogTW9uZGF5LCBKdW5lIDIxLCAyMDIxIDQ6
-MzAgUE0NClRvOiBNaWNoYWVsIE1vcnJlbGwgPG1tb3JyZWxsQHRhY2h5dW0uY29tPjsgcWVtdS1k
-ZXZlbEBub25nbnUub3JnDQpTdWJqZWN0OiBSZTogRGVub3JtYWwgaW5wdXQgaGFuZGxpbmcNCg0K
-T24gNi8yMS8yMSA0OjEzIFBNLCBNaWNoYWVsIE1vcnJlbGwgd3JvdGU6DQo+IEkgaGF2ZSBhbm90
-aGVyIGNvdXBsZSBvZiB0aG91Z2h0cyBhcm91bmQgaW5wdXQgZGVub3JtYWwgaGFuZGxpbmcuDQo+
-IA0KPiBUaGUgZmlyc3QgaXMgc3RyYWlnaHRmb3J3YXJkLsKgIEkgbm90aWNlZCB0aGF0IHRoZSBB
-YXJjaDY0IHBvcnQgZG9lc24ndCANCj4gcmVwb3J0IGlucHV0IGRlbm9ybWFscyAoSSBjb3VsZCBu
-b3QgZmluZCBhbnkgY29kZSB3aGljaCBzZXRzIHRoZSBJREMgDQo+IGJpdCBpbiB0aGUgRlBTUiku
-wqAgSSBmb3VuZCBjb2RlIGluIHRoZSBhcm0gKG5vdCBhYXJjaDY0KSBwb3J0IHRoYXQgDQo+IHNl
-dHMgb3RoZXIgYml0cyBsaWtlIElYQywgYnV0IG5vdGhpbmcgZm9yIElEQy7CoMKgIElzIHRoYXQg
-c2ltcGx5IGJlY2F1c2Ugbm8gb25lIGhhcyBib3RoZXJlZCB0byBhZGQgdGhpcyBzdXBwb3J0Pw0K
-DQpJdCdzIGJlY2F1c2Ugd2UgZmFpbGVkIHRvIHVzZSBzeW1ib2xpYyBjb25zdGFudHMuICBTZWUg
-dmZwX2V4Y2VwdGJpdHNfZnJvbV9ob3N0LiAgV2hpY2gNCippcyogdXNlZCBmb3IgYm90aCBhYXJj
-aDY0IGFuZCBhcm0uDQoNCg0KPiBUaGUgc2Vjb25kIGNvbmNlcm5zIHN1cHBvcnQgZm9yIGNhc2Vz
-IHdoZXJlIG11bHRpcGxlIGV4Y2VwdGlvbiANCj4gY29uZGl0aW9ucyBvY2N1ci7CoMKgIEkgaGFk
-IG9yaWdpbmFsbHkgdGhvdWdodCB0aGF0IGRlbm9ybWFsIGlucHV0IA0KPiBoYW5kbGluZyB3b3Vs
-ZCBiZSBvcnRob2dvbmFsIHRvIGV2ZXJ5dGhpbmcgZWxzZSBhbmQgc28gYSBjYXNlIGxpa2UgDQo+
-ICJzTmFOIMKgKyBkZW5vcm0iIHdvdWxkIHNldCBib3RoIHRoZSBpbnZhbGlkIGFuZCBpbnB1dCBk
-ZW5vcm1hbCBmbGFncyANCj4gb3IgImRlbm9ybSAvIDAiIHdvdWxkIHNldCBib3RoIGlkaXZkZSBi
-eSB6ZXJvIGFuZCBpbnB1dCBkZW5vcm1hbCwgYnV0IEkgZG9uJ3QgdGhpbmsgdGhhdCBpcyB0cnVl
-IGZvciBhdCBsZWFzdCBzb21lIGFyY2hpdGVjdHVyZXMuwqAgUGVyaGFwcyBzb21lIHNwZWNpYWxp
-emF0aW9uIGlzIG5lZWRlZCBoZXJlPw0KDQpJZiB5b3UndmUgZ290IGEgc3BlY2lmaWMgZXhhbXBs
-ZSwgd2UgY2FuIGxvb2sgYXQgaXQuICBUaGVyZSdzIG5vIHBvaW50IGFkZGluZyBzcGVjaWFsaXph
-dGlvbiB0aGF0IGlzbid0IGdvaW5nIHRvIGJlIHVzZWQuDQoNCg0Kcn4NCg==
+Greg Kurz <groug@kaod.org> writes:
+
+> PowerPC CPUs use big endian by default but starting with POWER7,
+> server grade CPUs use the ILE bit of the LPCR special purpose
+> register to decide on the endianness to use when handling
+> interrupts. This gives a clue to QEMU on the endianness the
+> guest kernel is running, which is needed when generating an
+> ELF dump of the guest or when delivering an FWNMI machine
+> check interrupt.
+>
+> Commit 382d2db62bcb ("target-ppc: Introduce callback for interrupt
+> endianness") added a class method to PowerPCCPUClass to modelize
+> this : default implementation returns a fixed "big endian" value,
+> while POWER7 and newer do the LPCR_ILE check. This is suboptimal
+> as it forces to implement the method for every new CPU family, and
+> it is very unlikely that this will ever be different than what we
+> have today.
+>
+> We basically only have three cases to consider:
+> a) CPU doesn't have an LPCR => big endian
+> b) CPU has an LPCR but doesn't support the ILE bit => big endian
+> c) CPU has an LPCR and supports the ILE bit => little or big endian
+>
+> Instead of class methods, introduce an inline helper that checks the
+> ILE bit in the LPCR_MASK to decide on the outcome. The new helper
+> words little endian instead of big endian. This allows to drop a !
+> operator in ppc_cpu_do_fwnmi_machine_check().
+>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+
+> ---
+>  target/ppc/cpu.h         | 15 +++++++++++++++
+>  target/ppc/arch_dump.c   |  8 +++-----
+>  target/ppc/excp_helper.c |  3 +--
+>  3 files changed, 19 insertions(+), 7 deletions(-)
+>
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index b4de0db7ff5c..93d308ac8f2d 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -2643,6 +2643,21 @@ static inline bool ppc_has_spr(PowerPCCPU *cpu, int spr)
+>      return cpu->env.spr_cb[spr].name != NULL;
+>  }
+>  
+> +static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu)
+> +{
+> +    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+> +
+> +    /*
+> +     * Only models that have an LPCR and know about LPCR_ILE can do little
+> +     * endian.
+> +     */
+> +    if (pcc->lpcr_mask & LPCR_ILE) {
+> +        return !!(cpu->env.spr[SPR_LPCR] & LPCR_ILE);
+> +    }
+> +
+> +    return false;
+> +}
+> +
+>  void dump_mmu(CPUPPCState *env);
+>  
+>  void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len);
+> diff --git a/target/ppc/arch_dump.c b/target/ppc/arch_dump.c
+> index 9210e61ef463..bb392f6d8885 100644
+> --- a/target/ppc/arch_dump.c
+> +++ b/target/ppc/arch_dump.c
+> @@ -227,22 +227,20 @@ int cpu_get_dump_info(ArchDumpInfo *info,
+>                        const struct GuestPhysBlockList *guest_phys_blocks)
+>  {
+>      PowerPCCPU *cpu;
+> -    PowerPCCPUClass *pcc;
+>  
+>      if (first_cpu == NULL) {
+>          return -1;
+>      }
+>  
+>      cpu = POWERPC_CPU(first_cpu);
+> -    pcc = POWERPC_CPU_GET_CLASS(cpu);
+>  
+>      info->d_machine = PPC_ELF_MACHINE;
+>      info->d_class = ELFCLASS;
+>  
+> -    if ((*pcc->interrupts_big_endian)(cpu)) {
+> -        info->d_endian = ELFDATA2MSB;
+> -    } else {
+> +    if (ppc_interrupts_little_endian(cpu)) {
+>          info->d_endian = ELFDATA2LSB;
+> +    } else {
+> +        info->d_endian = ELFDATA2MSB;
+>      }
+>      /* 64KB is the max page size for pseries kernel */
+>      if (strncmp(object_get_typename(qdev_get_machine()),
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index fd147e2a3766..a79a0ed465e5 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -1099,7 +1099,6 @@ void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+>  {
+>      PowerPCCPU *cpu = POWERPC_CPU(cs);
+>      CPUPPCState *env = &cpu->env;
+> -    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+>      target_ulong msr = 0;
+>  
+>      /*
+> @@ -1108,7 +1107,7 @@ void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+>       */
+>      msr = (1ULL << MSR_ME);
+>      msr |= env->msr & (1ULL << MSR_SF);
+> -    if (!(*pcc->interrupts_big_endian)(cpu)) {
+> +    if (ppc_interrupts_little_endian(cpu)) {
+>          msr |= (1ULL << MSR_LE);
+>      }
 
