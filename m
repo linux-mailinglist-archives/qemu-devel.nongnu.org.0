@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680FE3B085C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:12:47 +0200 (CEST)
-Received: from localhost ([::1]:54854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711943B0888
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:17:46 +0200 (CEST)
+Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvi50-0008OV-Fm
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:12:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48638)
+	id 1lvi9p-0007rj-GD
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:17:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1V-00024Q-C7
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41552)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1Y-000270-6u
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1S-0005sX-Kh
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:09 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1S-0005sd-KS
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624374545;
+ s=mimecast20190719; t=1624374546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Z29JCuSyiwdNZVh88aty8Ex/EdEwkhIxIQy0Xy6+mTE=;
- b=ZVaxrLVi+5fAdhubkhGp/kjaz//7ukonE0HV54V5J9PmAPk/JJMVC2lDbVxgdV7/4Hvo0h
- ltfEHr8x7RzicyiRGpHAf+Wqqe0KpbHQTAwLjSJReD+ladqxOy7CwWxIpcR7DcC8qUy/Kh
- 4lGtnvaYoDFQIEvEgQSBS9TsEOJv2As=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZMcoAoaVBkrZgg06iuioq8D2fotjinmsxoBBJaKby4g=;
+ b=Qs80LnvukMlEY19bjZX+8y52B+y7uUtl7B8km2ohGb5quW8rr+DacubSed6FvB2uGyOJ7G
+ BoWavMtVhhmfniv7Y3gqotIMGrEoMbEqImNQW+uEd6zkm+H/+6j6l60z+dX03t0ijuesde
+ cxFD8IqjXDHYGSG6xhCZSFJOv8IXYbE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-TosK2JbHNbWNqd1Ygypo-g-1; Tue, 22 Jun 2021 11:09:04 -0400
-X-MC-Unique: TosK2JbHNbWNqd1Ygypo-g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-298-jV39oY_6NJax64M_VMACQA-1; Tue, 22 Jun 2021 11:09:04 -0400
+X-MC-Unique: jV39oY_6NJax64M_VMACQA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4072E192CC46;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 239C1804146;
  Tue, 22 Jun 2021 15:09:03 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-115-114.rdu2.redhat.com [10.10.115.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C71E01346F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C50496090F;
  Tue, 22 Jun 2021 15:08:59 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 5FCE722054F; Tue, 22 Jun 2021 11:08:59 -0400 (EDT)
+ id 648D2223D99; Tue, 22 Jun 2021 11:08:59 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v7 0/7] virtiofsd: Add support to enable/disable posix acls
-Date: Tue, 22 Jun 2021 11:08:45 -0400
-Message-Id: <20210622150852.1507204-1-vgoyal@redhat.com>
+Subject: [PATCH v7 1/7] virtiofsd: Fix fuse setxattr() API change issue
+Date: Tue, 22 Jun 2021 11:08:46 -0400
+Message-Id: <20210622150852.1507204-2-vgoyal@redhat.com>
+In-Reply-To: <20210622150852.1507204-1-vgoyal@redhat.com>
+References: <20210622150852.1507204-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,47 +84,57 @@ Cc: miklos@szeredi.hu, dgilbert@redhat.com, vgoyal@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+With kernel header updates fuse_setxattr_in struct has grown in size.
+But this new struct size only takes affect if user has opted in
+for fuse feature FUSE_SETXATTR_EXT otherwise fuse continues to
+send "fuse_setxattr_in" of older size. Older size is determined
+by FUSE_COMPAT_SETXATTR_IN_SIZE.
 
-This is V7 of the patches.
+Fix this. If we have not opted in for FUSE_SETXATTR_EXT, then
+expect that we will get fuse_setxattr_in of size FUSE_COMPAT_SETXATTR_IN_SIZE
+and not sizeof(struct fuse_sexattr_in).
 
-Changes since V6.
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+---
+ tools/virtiofsd/fuse_common.h   | 5 +++++
+ tools/virtiofsd/fuse_lowlevel.c | 7 ++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-- Dropped kernel header update patch as somebody else did it.
-- Fixed coding style issues.
-
-Currently posix ACL support does not work well with virtiofs and bunch
-of tests fail when I run xfstests "./check -g acl".
-
-This patches series fixes the issues with virtiofs posix acl support
-and provides options to enable/disable posix acl (-o posix_acl/no_posix_acl).
-By default posix_acls are disabled.
-
-With this patch series applied and virtiofsd running with "-o posix_acl",
-xfstests "./check -g acl" passes.
-
-Thanks
-Vivek
-
-
-Vivek Goyal (7):
-  virtiofsd: Fix fuse setxattr() API change issue
-  virtiofsd: Fix xattr operations overwriting errno
-  virtiofsd: Add support for extended setxattr
-  virtiofsd: Add umask to seccom allow list
-  virtiofsd: Add capability to change/restore umask
-  virtiofsd: Switch creds, drop FSETID for system.posix_acl_access xattr
-  virtiofsd: Add an option to enable/disable posix acls
-
- docs/tools/virtiofsd.rst              |   3 +
- tools/virtiofsd/fuse_common.h         |  10 ++
- tools/virtiofsd/fuse_lowlevel.c       |  18 +-
- tools/virtiofsd/fuse_lowlevel.h       |   3 +-
- tools/virtiofsd/helper.c              |   1 +
- tools/virtiofsd/passthrough_ll.c      | 229 ++++++++++++++++++++++++--
- tools/virtiofsd/passthrough_seccomp.c |   1 +
- 7 files changed, 249 insertions(+), 16 deletions(-)
-
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index fa9671872e..0c2665b977 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -372,6 +372,11 @@ struct fuse_file_info {
+  */
+ #define FUSE_CAP_HANDLE_KILLPRIV_V2 (1 << 28)
+ 
++/**
++ * Indicates that file server supports extended struct fuse_setxattr_in
++ */
++#define FUSE_CAP_SETXATTR_EXT (1 << 29)
++
+ /**
+  * Ioctl flags
+  *
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 7fe2cef1eb..c2b6ff1686 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1419,8 +1419,13 @@ static void do_setxattr(fuse_req_t req, fuse_ino_t nodeid,
+     struct fuse_setxattr_in *arg;
+     const char *name;
+     const char *value;
++    bool setxattr_ext = req->se->conn.want & FUSE_CAP_SETXATTR_EXT;
+ 
+-    arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
++    if (setxattr_ext) {
++        arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
++    } else {
++        arg = fuse_mbuf_iter_advance(iter, FUSE_COMPAT_SETXATTR_IN_SIZE);
++    }
+     name = fuse_mbuf_iter_advance_str(iter);
+     if (!arg || !name) {
+         fuse_reply_err(req, EINVAL);
 -- 
 2.25.4
 
