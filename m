@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772A53AFBF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:32:20 +0200 (CEST)
-Received: from localhost ([::1]:56574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E793AFC02
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:35:08 +0200 (CEST)
+Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvY5D-0003GI-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
+	id 1lvY7v-0000uT-2w
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzb-0006wc-93
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:31 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56344)
+ id 1lvXzc-0006zg-3a
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzY-00051L-LK
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:30 -0400
+ id 1lvXzX-00050A-PF
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:31 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzK-00016M-PB
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:15 +0000
+ id 1lvXzJ-000149-PJ
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 34ABD2E819A
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:11 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0185D2E819C
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:10 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:33 -0000
-From: Launchpad Bug Tracker <1845185@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:34 -0000
+From: Launchpad Bug Tracker <1846392@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: mingw32 msys windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avladu chewi janitor philmd pmaydell th-huth
-X-Launchpad-Bug-Reporter: Adrian Vladu (avladu)
+X-Launchpad-Bug-Commenters: janitor rhodus th-huth ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: Rhodus (rhodus)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <156932212305.13447.6077258015607645915.malonedeb@gac.canonical.com>
-Message-Id: <162433551372.20423.10860718152622830743.malone@loganberry.canonical.com>
-Subject: [Bug 1845185] Re: Cannot build qemu utils (qemu-img.exe, qemu-edid.exe,
- qemu-io.exe) statically with MSYS64 on Windows because intl and iconv
- libs are not loaded
+References: <157004264359.16779.14522562243536509301.malonedeb@gac.canonical.com>
+Message-Id: <162433551465.20423.12317748283545117359.malone@loganberry.canonical.com>
+Subject: [Bug 1846392] Re: VCPU shutdown request with HAX
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 6c5331c286bfd69c1b9964fec57d82df9d78fbee
+X-Launchpad-Hash: 032b3cd17723e7b4ec11bfc6c624ff291c271021
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1845185 <1845185@bugs.launchpad.net>
+Reply-To: Bug 1846392 <1846392@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,81 +83,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1845185
+https://bugs.launchpad.net/bugs/1846392
 
 Title:
-  Cannot build qemu utils (qemu-img.exe, qemu-edid.exe, qemu-io.exe)
-  statically with MSYS64 on Windows because intl and iconv libs are not
-  loaded
+  VCPU shutdown request with HAX
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Using MSYS2 and mingw32 instructions from
-  https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2, I could not
-  statically build the qemu-utils using the latest qemu master branch.
+  In most scenarios when turning on HAX, QEMU will exit, printing "VCPU
+  shutdown request" to the console.
 
-  Steps to reproduce the issue:
-  1. Install MSYS2 on a Windows 10 x64 box
-  2. Install required mingw64 toolchain: pacman -S base-devel mingw-w64-x86=
-_64-toolchain git python mingw-w64-x86_64-glib2 mingw64/mingw-w64-x86_64-gt=
-k3 mingw64/mingw-w64-x86_64-SDL2
-  3. clone qemu
-  4. Run configure for static build for the tools only
-  =C2=A0=C2=A0./configure --disable-user --disable-system --disable-docs --=
-enable-tools  --disable-guest-agent --disable-capstone --disable-sheepdog -=
--enable-debug --static
-  =C2=A0=C2=A0# I had to remove sheepdog, capstone and guest agent because =
-other errors popped out, but let's not go in the rabbit hole.
-  5. Run 'make -j'. the following errors appeared, signaling that intl lib =
-is not loaded. If I add intl lib, iconv lib needs to be loaded too.
+  This is on Windows 8.1 with Intel HAXM 7.5.2.
+  QEMU's -version prints v4.1.0-11789-g013a2ecf4f-dirty .
+  I've used an installer from qemu.weilnetz.de.
+  The host CPU is an IvyBridge i5 (mobile).
 
-  make: *** [/home/ader1990/qemu/rules.mak:124: qemu-img.exe] Error 1
-  make: *** Waiting for unfinished jobs....
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1522): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x154f): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x157e): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15ad): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x15dc): unde=
-fined reference to `libintl_sprintf'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(giowin32.c.obj):(.text+0x1622): more=
- undefined references to `libintl_sprintf' follow
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x43): undefi=
-ned reference to `libintl_textdomain'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x52): undefi=
-ned reference to `libintl_gettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x203): undef=
-ined reference to `libintl_bindtextdomain'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x21e): undef=
-ined reference to `libintl_bind_textdomain_codeset'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x2c1): undef=
-ined reference to `libintl_dgettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x4e1): undef=
-ined reference to `libintl_dcgettext'
-  C:/msys64l/mingw64/lib\libglib-2.0.a(ggettext.c.obj):(.text+0x53a): undef=
-ined reference to `libintl_dngettext'
+  Some miscellaneous notes (you can skip them first):
+  Win10-1709-PE_Custom.iso is a custom WinPE image I had meant to test usin=
+g QEMU. It is likely broken and doesn't boot at all.
+  [Stuck, etc.]: I had given that image almost 2h during which the circle o=
+f dots continued to spin. I don't know if it or QEMU did anything of intere=
+st at all during that period, but this might indicate long-term stability, =
+sort of.
+  Win10_1709_German_x32.iso: Stock Win10 1709 32bit ISO I got off a German =
+tech website. I've waited for the install screen to appear.
+  TinyCore_10-1.iso: TinyCore by Core Project. A 18MB graphical Linux distr=
+ibution, pretty barren by default. I've generally opened Apps there, the pa=
+ckage manager, then shut it down again.
+  On the one marked [Fx stable], I've gotten Firefox 60.8.0 ESR and visited=
+ a couple of websites. (I don't know of any available program that would tr=
+y to execute exotic CPU instructions in weird combinations to do a proper t=
+est.)
+  Q64 is .\qemu-system-x86_64.exe , substituted for readability (shorter li=
+nes).
 
-  Patch to fix the issue (added intl and iconv to the libs):
+  =
 
-  diff --git a/configure b/configure
-  index 30aad233d1..e2ab8ef026 100755
-  --- a/configure
-  +++ b/configure
-  @@ -920,7 +920,7 @@ if test "$mingw32" =3D "yes" ; then
-  =C2=A0=C2=A0=C2=A0DSOSUF=3D".dll"
-  =C2=A0=C2=A0=C2=A0# MinGW needs -mthreads for TLS and macro _MT.
-  =C2=A0=C2=A0=C2=A0QEMU_CFLAGS=3D"-mthreads $QEMU_CFLAGS"
-  -  LIBS=3D"-lwinmm -lws2_32 -liphlpapi $LIBS"
-  +  LIBS=3D"-lwinmm -lws2_32 -liphlpapi -lintl -liconv $LIBS"
-  =C2=A0=C2=A0=C2=A0write_c_skeleton;
-  =C2=A0=C2=A0=C2=A0if compile_prog "" "-liberty" ; then
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0LIBS=3D"-liberty $LIBS"
+  Invocations that QEMU seemed to handle well (without the headline error):
+  Q64 -machine q35 -accel hax
+  Q64 -machine q35 -cdrom \!S\Win10-1709-PE_Custom.iso
+  Q64 -machine q35 -cdrom \!S\Win10-1709-PE_Custom.iso -m 4096 [Stuck, etc.]
+  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -m 1920
+  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -cpu max -m 256 [1]
+  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -cpu max -m 512
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -cpu max -serial file:\!S\QEMU_TC=
+L_BUG.log [2]
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax [Fx stable, s.a.]
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Skylake-Client-IB=
+RS
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Icelake-Client-v1
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Cascadelake-Serve=
+r-v2
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Broadwell-v4
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu IvyBridge-IBRS
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu coreduo
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu pentium
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu base [3]
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -cpu base [4]
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -cpu pentium
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu Icelake-Client-v1 [5]
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu Broadwell-v4 [5]
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu IvyBridge-v1 [5]
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu coreduo
+
+  =
+
+  Then, those that made it print "VCPU shutdown request" repeatedly and qui=
+t, immediately or after a couple of seconds at most, except where noted. I =
+put an indication of the number of messages into curly braces.
+  Q64 -machine q35,accel=3Dhax -cpu max  {many}
+  Q64 -machine q35,accel=3Dhax -cdrom \!S\Win10-1709-PE_Custom.iso
+  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -accel hax  =
+{very many}
+  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -accel hax -=
+cpu max  {very many}
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -accel hax  {just two}
+  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu max  {a couple}
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu Icelake-Client-v1 -a=
+ccel hax  {two}
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu IvyBridge-v1 -accel =
+hax  {two}
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu pentium -accel hax  =
+{three}
+  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu coreduo -accel hax  =
+{a few}
+
+
+  (I have rewritten a couple of commandlines to make them more uniform
+  (changing the placement of parameters and using '-accel hax' instead
+  of '-machine ...,accel=3Dhax').)
+
+  [1]: WinPE boot error, not enough RAM.
+  [2]: Will cause a kernel BUG: "... \ login[892]: root login on 'tty1' \ B=
+UG: unable to handle kernel paging request at 00010ffa \ ...". See attached=
+ file.
+  [3]: Stuck after "Booting the kernel.", cursor blinks.
+  [4]: Stuck at blinking console prompt, no input possible.
+  [5]: According to the printout, TCG doesn't support a bunch of those proc=
+essor's features that have been requested.
+
+  PS: There should be some note highlighting that there is a strict limit o=
+n line length (or at least that's what it looks like).  I can shorten the f=
+ile names further to enhance skimmability ... :/
+  Also, let me know if you need anything else.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1845185/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1846392/+subscriptions
 
