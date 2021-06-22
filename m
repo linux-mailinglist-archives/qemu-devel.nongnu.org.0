@@ -2,94 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE763AFDEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:31:06 +0200 (CEST)
-Received: from localhost ([::1]:39070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DECE3AFDF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:34:54 +0200 (CEST)
+Received: from localhost ([::1]:41854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvasD-0001OO-2d
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58544)
+	id 1lvavt-0003QP-NM
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvaqr-0000M8-Q3
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:29:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21534)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lvav5-0002bG-Om
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:34:03 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvaqp-0003ug-1N
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:29:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624346978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wL+rmDutY7pBDkFjWj8nDqxzpyJSm3a7+cgOKHWK+IY=;
- b=EQ42ux4JP9yIj/OQujv3bnFLtaAWJA4M9/TAFL65GzTAmlUiaeU7S4iaug/FgW7L3Oi0PD
- LuSkWhoiWw2C6GB2Hjphalw0NdUnG5wUKA8vXUlJ8rsKnr9rFXM3XG9Zqmeack6n39HB/b
- cN7Wgp0B0UDJyhY/22vjrI9HAOYuYvo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-ykM_NzazN9ahck13lwRhjQ-1; Tue, 22 Jun 2021 03:29:37 -0400
-X-MC-Unique: ykM_NzazN9ahck13lwRhjQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u16-20020a5d51500000b029011a6a17cf62so8999728wrt.13
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 00:29:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wL+rmDutY7pBDkFjWj8nDqxzpyJSm3a7+cgOKHWK+IY=;
- b=MN2naFEcBhWgqR2gGjoHjfX+atGd0rA42Vle7Nk8Y58Tt970zEAHzoL8X4G0xF0zlP
- BOzhvsku0NVarg+gZQT1RDDKOh//JIj+PfXMFqALeDofrPPFe/8cd5SaV3ITzoa2/e3N
- 1iHHLZiy/9mC+2J+/th/49qPdUk4aun5Kt4bTymPIwn+QLhux3UC8LPMS0v2pysnCcVA
- QSQ2S57Gpx1bv6CNxNEWxyt0iebO49HaQFOMJie4y2iZaGPnNxjVGxdKMYE1XpTiTJgJ
- C/7y1Ku0CIVUurb5Ouy0BLKC3T3NLWSLXJfGWQO1p6p3k/9BZm8Lf42JOft2jAoURI1W
- O/+Q==
-X-Gm-Message-State: AOAM531BWmJ0UnumyeFIJtH7aYdYrQaHv5D/O25A/7JY+wGep3aFsQkV
- FseiOyiZI3I8IsEIXYOBnsRvRJMHgXpvgyejwML981YhUmlLxWMHCAqebLxoG8aUBxYfd4TUDaT
- Fg+O0HwDWEPW6kTI=
-X-Received: by 2002:adf:9062:: with SMTP id h89mr1398120wrh.130.1624346976343; 
- Tue, 22 Jun 2021 00:29:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysi+C6Og9wynE5IEF0Ie0fvGiTWUSEsnYsTsH9Go0SOG+/C3DMQmmaGLpWfok7HEcTUtwdpg==
-X-Received: by 2002:adf:9062:: with SMTP id h89mr1398088wrh.130.1624346976010; 
- Tue, 22 Jun 2021 00:29:36 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n8sm1603258wmc.45.2021.06.22.00.29.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jun 2021 00:29:35 -0700 (PDT)
-Subject: Re: [PATCH v2] block/nvme: Fix VFIO_MAP_DMA failed: No space left on
- device
-To: Fam Zheng <fam@euphon.net>
-References: <20210621093240.4170701-1-philmd@redhat.com>
- <9A674DF3-041E-4E7C-BB49-481AA77B1F7B@euphon.net>
- <6b77db0c-8625-992e-8546-15b9a24ae928@redhat.com>
- <0EF3A65E-39CB-4114-8572-001C2DF05863@euphon.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a7cd0827-5ce3-0aaf-c222-f13f84cd4f2c@redhat.com>
-Date: Tue, 22 Jun 2021 09:29:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lvav4-0006ij-Av
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:34:03 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-5rEBVZkqO-aKe0jXW3Eaew-1; Tue, 22 Jun 2021 03:33:50 -0400
+X-MC-Unique: 5rEBVZkqO-aKe0jXW3Eaew-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C7FB18D6A39;
+ Tue, 22 Jun 2021 07:33:48 +0000 (UTC)
+Received: from bahia.lan (ovpn-113-182.ams2.redhat.com [10.36.113.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CA915C1D1;
+ Tue, 22 Jun 2021 07:33:46 +0000 (UTC)
+Date: Tue, 22 Jun 2021 09:33:45 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu] spapr: tune rtas-size
+Message-ID: <20210622093345.544e256d@bahia.lan>
+In-Reply-To: <20210622070336.1463250-1-aik@ozlabs.ru>
+References: <20210622070336.1463250-1-aik@ozlabs.ru>
 MIME-Version: 1.0
-In-Reply-To: <0EF3A65E-39CB-4114-8572-001C2DF05863@euphon.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,79 +62,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- qemu-stable@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/21 5:36 PM, Fam Zheng wrote:
->> On 21 Jun 2021, at 16:13, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->> On 6/21/21 3:18 PM, Fam Zheng wrote:
->>>> On 21 Jun 2021, at 10:32, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>>
->>>> When the NVMe block driver was introduced (see commit bdd6a90a9e5,
->>>> January 2018), Linux VFIO_IOMMU_MAP_DMA ioctl was only returning
->>>> -ENOMEM in case of error. The driver was correctly handling the
->>>> error path to recycle its volatile IOVA mappings.
->>>>
->>>> To fix CVE-2019-3882, Linux commit 492855939bdb ("vfio/type1: Limit
->>>> DMA mappings per container", April 2019) added the -ENOSPC error to
->>>> signal the user exhausted the DMA mappings available for a container.
->>>>
->>>> The block driver started to mis-behave:
->>>>
->>>> qemu-system-x86_64: VFIO_MAP_DMA failed: No space left on device
->>>> (qemu)
->>>> (qemu) info status
->>>> VM status: paused (io-error)
->>>> (qemu) c
->>>> VFIO_MAP_DMA failed: No space left on device
->>>> qemu-system-x86_64: block/block-backend.c:1968: blk_get_aio_context: Assertion `ctx == blk->ctx' failed.
->>>
->>> Hi Phil,
->>>
->>>
->>> The diff looks good to me, but I’m not sure what exactly caused the assertion failure. There is `if (r) { goto fail; }` that handles -ENOSPC before, so it should be treated as a general case. What am I missing?
->>
->> Good catch, ENOSPC ends setting BLOCK_DEVICE_IO_STATUS_NOSPACE
->> -> BLOCK_ERROR_ACTION_STOP, so the VM is paused with DMA mapping
->> exhausted. I don't understand the full "VM resume" path, but this
->> is not what we want (IO_NOSPACE is to warn the operator to add
->> more storage and resume, which is pointless in our case, resuming
->> won't help until we flush the mappings).
->>
->> IIUC what we want is return ENOMEM to set BLOCK_DEVICE_IO_STATUS_FAILED.
-> 
-> I agree with that. It just makes me feel there’s another bug in the resuming code path. Can you get a backtrace?
+On Tue, 22 Jun 2021 17:03:36 +1000
+Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
 
-It seems the resuming code path bug has been fixed elsewhere:
+> QEMU reserves space for RTAS via /rtas/rtas-size which tells the client
+> how much space the RTAS requires to work which includes the RTAS binary
+> blob implementing RTAS runtime. Because pseries supports FWNMI which
+> requires plenty of space, QEMU reserves more than 2KB which is
+> enough for the RTAS blob as it is just 20 bytes (under QEMU).
+>=20
+> Since FWNMI reset delivery was added, RTAS_SIZE macro is not used anymore=
+.
+> This replaces RTAS_SIZE with RTAS_MIN_SIZE and uses it in
+> the /rtas/rtas-size calculation to account for the RTAS blob.
+>=20
+> Fixes: 0e236d347790 ("ppc/spapr: Implement FWNMI System Reset delivery")
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+>=20
+> Alternatively SLOF could add hv_rtas_size to the property itself
+> but splitting calculations between 2 chunks of code seems an overkill.
+> The RTAS blob has always been 20 bytes and unlikely to ever change.
 
-(qemu) info status
-info status
-VM status: paused (io-error)
-(qemu) c
-c
-2021-06-22T07:27:00.745466Z qemu-system-x86_64: VFIO_MAP_DMA failed: No
-space left on device
-(qemu) info status
-info status
-VM status: paused (io-error)
-(qemu) c
-c
-2021-06-22T07:27:12.458137Z qemu-system-x86_64: VFIO_MAP_DMA failed: No
-space left on device
-(qemu) c
-c
-2021-06-22T07:27:13.439167Z qemu-system-x86_64: VFIO_MAP_DMA failed: No
-space left on device
-(qemu) c
-c
-2021-06-22T07:27:14.272071Z qemu-system-x86_64: VFIO_MAP_DMA failed: No
-space left on device
-(qemu)
+I guess this is acceptable.
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> ---
+>  include/hw/ppc/spapr.h | 2 +-
+>  hw/ppc/spapr.c         | 8 ++++++--
+>  2 files changed, 7 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index f05219f75ef6..5697327e4c00 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -770,7 +770,7 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *=
+fdt, hwaddr addr);
+>  #define SPAPR_IS_PCI_LIOBN(liobn)   (!!((liobn) & 0x80000000))
+>  #define SPAPR_PCI_DMA_WINDOW_NUM(liobn) ((liobn) & 0xff)
+> =20
+> -#define RTAS_SIZE               2048
+> +#define RTAS_MIN_SIZE           20 /* hv_rtas_size in SLOF */
+>  #define RTAS_ERROR_LOG_MAX      2048
+> =20
+>  /* Offset from rtas-base where error log is placed */
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 4dd90b75cc52..9e19c570327e 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -919,9 +919,13 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
+void *fdt)
+>       *
+>       * The extra 8 bytes is required because Linux's FWNMI error log che=
+ck
+>       * is off-by-one.
+> +     *
+> +     * RTAS_MIN_SIZE is required for the RTAS blob itself.
+>       */
+> -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+> -=09=09=09  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
+> +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_MIN_SIZE +
+> +                          RTAS_ERROR_LOG_MAX +
+> +                          ms->smp.max_cpus * sizeof(uint64_t) * 2 +
+> +                          sizeof(uint64_t)));
+>      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
+>                            RTAS_ERROR_LOG_MAX));
+>      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
 
 
