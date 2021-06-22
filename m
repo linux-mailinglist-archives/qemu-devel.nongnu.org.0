@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF3B3AFC42
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:54:49 +0200 (CEST)
-Received: from localhost ([::1]:52744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 729BE3AFC4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:00:49 +0200 (CEST)
+Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYQy-0008M6-P4
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57606)
+	id 1lvYWl-0005DV-W6
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzv-0008Be-9h
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57636)
+ id 1lvXzt-00086S-3F
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzs-0005No-Gg
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:50 -0400
+ id 1lvXzr-0005Lr-5d
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzf-00014I-6c
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:35 +0000
+ id 1lvXze-00014I-3p
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 614BD2E81B9
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:31 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6B89D2E81A8
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:30 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:58 -0000
-From: Launchpad Bug Tracker <1828507@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:00 -0000
+From: Launchpad Bug Tracker <1828508@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asurati janitor th-huth
-X-Launchpad-Bug-Reporter: Amol Surati (asurati)
+X-Launchpad-Bug-Commenters: alpha76 janitor stefanha th-huth
+X-Launchpad-Bug-Reporter: Jake Mikelson (alpha76)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <155746816636.22030.3977137421670178751.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162433547883.20423.11784887780597969688.malone@loganberry.canonical.com>
-Subject: [Bug 1828507] Re: qemu-system-ppc64 smp crash on manual reset
+References: <155746839267.15002.8138674450166661929.malonedeb@wampee.canonical.com>
+Message-Id: <162433548017.20423.4717810284242558316.malone@loganberry.canonical.com>
+Subject: [Bug 1828508] Re: qemu-img created VMDK files lead to "Unsupported or
+ invalid disk type 7"
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: e6c60c15fb8f68dc8bd944b22c40567d1fc5320e
+X-Launchpad-Hash: a4863bf2acca9c8623620892f6ad5e13ac116dd9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828507 <1828507@bugs.launchpad.net>
+Reply-To: Bug 1828508 <1828508@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,65 +84,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828507
+https://bugs.launchpad.net/bugs/1828508
 
 Title:
-  qemu-system-ppc64 smp crash on manual reset
+  qemu-img created VMDK files lead to "Unsupported or invalid disk type
+  7"
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Host Environment:
-     x86_64 Linux v5.0.2
-     QEMU emulator version 4.0.50 (v4.0.0-354-g812b835fb4)
-     SLOF:
-         Build Date =3D Jan 14 2019 18:00:39
-         FW Version =3D git-a5b428e1c1eae703
+  Using qemu-img version 3.1.50 (v3.1.0-13607-geb2db0f7ba-dirty) on a
+  Windows 10 machine.
 
-  Problem: Qemu crash immediately after a manual reset
-           (this is not the initial reset which launches the guest).
+  Converting a VHD to VMDK.
+  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
+slogic -p "c:\test\AppD-VM01.vmdk"
 
-  Steps:
+  I have also tried:
+  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
+slogic,hwversion=3D6 -p "c:\test\AppD-VM01.vmdk"
 
-  1. Download Debian ppc64el mini.iso:
-     http://ftp.debian.org/debian/dists/sid/main/installer-ppc64el/current/=
-images/netboot/mini.iso
-  2. Run qemu on the host. Ensure that it runs with more than one CPUs. Wit=
-h a single CPU, I was unable
-     to reproduce the crash.
-     qemu-system-ppc64 -M pseries -cpu power9 -smp 2 -m 512 -cdrom mini.iso
-  3. SLOF prints the version info on the serial device, and proceeds to boo=
-t.
-  4. After a few seconds, the GRUB menu appears on the VGA screen.
-  5. Select one of the install options (I have tested with Default and Expe=
-rt), and wait
-     for the Debian's text-mode installer (blue-gray-red) screen to appear.
-  6. Click Machine->Reset (or enter system_reset on the qemu monitor).
-  7. Notice that, on the serial device, SLOF has printed the version info. =
-That is, the system
-     has reset and is attempting to boot again.
-  8. On the host cmd prompt, qemu dies after printing this fatal error and =
-spewing the
-     contents of the CPU registers:
+  Attaching the VMDK to a VM in VMware produces the following error when
+  powering on.
 
-     qemu: fatal: Trying to deliver HV exception (MSR) 70 with no HV support
-     <CPU contents> (See attached out.txt for details)
-     Aborted (core dumped)
+  Power On virtual machine:Failed to open disk scsi0:1: Unsupported or inva=
+lid disk type 7. Ensure that the disk has been imported.
+  Target: MyVM1
+  vCenter Server: VCENTER
+  Error Stack
+  An error was received from the ESX host while powering on VM MyVM1.
+  Failed to start the virtual machine.
+  Module DevicePowerOn power on failed. =
+
+  Unable to create virtual SCSI device for scsi0:1, '/vmfs/volumes/5cca0155=
+-bdddf31d-2714-00215acbeb1e/AppD-VM01/AppDdisk1-VM01.vmdk' =
+
+  Failed to open disk scsi0:1: Unsupported or invalid disk type 7. Ensure t=
+hat the disk has been imported.
 
   =
 
-  The HV exception is either
-     (a) 70 =3D HISI, which occurs when NIP contains an outright bogus or i=
-naccessible value, or
-     (b) 69 =3D HDSI, which occurs when NIP happens to contain a somewhat s=
-aner value, and
-         the cpu attempts to run the instruction at that address.
-
-  The exception can occur on either of the CPUs. It occurs when qemu is run=
-ning the SLOF
-  code.
+  If I do not specify the adapter type, it creates an IDE VMDK which works =
+perfectly.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828507/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1828508/+subscriptions
 
