@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171A13B0073
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:40:18 +0200 (CEST)
-Received: from localhost ([::1]:34954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4352A3B0071
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:39:31 +0200 (CEST)
+Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvctF-0006lq-4Z
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35896)
+	id 1lvcsU-0004b3-By
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:39:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lvcnm-000327-4E; Tue, 22 Jun 2021 05:34:38 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2242)
+ id 1lvcnn-00037t-LM; Tue, 22 Jun 2021 05:34:39 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lvcnh-0002ym-0l; Tue, 22 Jun 2021 05:34:37 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4G8Lgr2vrWz1BPVv;
- Tue, 22 Jun 2021 17:29:12 +0800 (CST)
+ id 1lvcnh-00032h-9y; Tue, 22 Jun 2021 05:34:39 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G8Lk40d8Gz72mq;
+ Tue, 22 Jun 2021 17:31:08 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 22 Jun 2021 17:34:21 +0800
+ 15.1.2176.2; Tue, 22 Jun 2021 17:34:22 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 22 Jun 2021 17:34:20 +0800
+ 15.1.2176.2; Tue, 22 Jun 2021 17:34:21 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S .
@@ -35,18 +35,21 @@ To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <shannon.zhaosl@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
  David Gibson <david@gibson.dropbear.id.au>, <qemu-devel@nongnu.org>,
  <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
-Date: Tue, 22 Jun 2021 17:34:06 +0800
-Message-ID: <20210622093413.13360-1-wangyanan55@huawei.com>
+Subject: [RFC PATCH v4 1/7] vl: Add expose=on|off option support in -smp
+ command line
+Date: Tue, 22 Jun 2021 17:34:07 +0800
+Message-ID: <20210622093413.13360-2-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
+In-Reply-To: <20210622093413.13360-1-wangyanan55@huawei.com>
+References: <20210622093413.13360-1-wangyanan55@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -72,125 +75,114 @@ Cc: Barry Song <song.bao.hua@hisilicon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Once the view of virtual cpu topology is provided to guest kernel,
+with a well-designed vCPU pinning to the pCPU we could get a huge
+benefit, e.g., the scheduling performance improvement. However a
+virtual cpu topology view of guest may also have a negative impact
+if the pinning is badly-designed. See Dario Faggioli's research
+and the related performance tests in [1] for reference.
 
-This is v4 of the series [1] that I posted to introduce support for
-generating cpu topology descriptions to guest. Comments are welcome!
+[1] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-
+for-virtual-machines-friend-or-foe-dario-faggioli-suse
 
-Description:
-Once the view of an accurate virtual cpu topology is provided to guest,
-with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
-e.g., the scheduling performance improvement. See Dario Faggioli's
-research and the related performance tests in [2] for reference. So here
-we go, this patch series introduces cpu topology support for ARM platform.
+So here we go, let's introduce support of generating cpu topology
+descriptions to the guest. However, instead of quietly enforcing
+the support for the latest machine type, we'd better introduce a
+new parameter "expose=on|off" in -smp command line to leave QEMU
+users a choice to decide whether to enable the feature or not.
+This will allow the feature to work on different machine types
+and also ideally compat with already in-use -smp command lines.
 
-In this series, instead of quietly enforcing the support for the latest
-machine type, a new parameter "expose=on|off" in -smp command line is
-introduced to leave QEMU users a choice to decide whether to enable the
-feature or not. This will allow the feature to work on different machine
-types and also ideally compat with already in-use -smp command lines.
-Also we make much stricter requirement for the topology configuration
-with "expose=on".
+Furthermore, based on existing parsing rules of -smp command line
+in generic smp_parse() which allows to compute the missing values,
+another more strict rule is introduced to follow when exposure of
+cpu topology is enabled. With "expose=on", it's important to know
+what users actually want, so we require that all of cpus/sockets/
+cores/threads must be provided while maxcpus is optional.
+Hopefully the new rule will apply to all kinds of architectures
+which support the feature.
 
-Furthermore, both cpu-map in DT and ACPI PPTT table are introduced to
-present cpu topology to the guest. And an ARM-specific -smp parsing
-function virt_smp_parse is introduced, which shares the same logic
-with smp_parse() when "expose=off" and follow the stricter parsing
-rule when "expose=on".
+In conclusion, if a QEMU user doesn't hope to enable the virtual
+cpu topology support, then feel free to configure a -smp cmdline
+like below and everything will work just like before:
+-smp 96
+-smp 96,expose=off
+-smp 96,sockets=2
+-smp 96,sockets=2,expose=off
+...
 
-[1] https://patchwork.kernel.org/project/qemu-devel/cover/20210516102900.28036-1-wangyanan55@huawei.com/
-[2] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines-friend-or-foe-dario-faggioli-suse
+While if a QEMU user is ready to take advantage of the virtual cpu
+topology support, then he must configure an accurate -smp cmdline
+like below, on different machine types:
+-smp 96,sockets=2,cores=48,threads=1,expose=on
+-smp 96,maxcpus=96,sockets=2,cores=48,threads=1,expose=on
 
-Test results about exposure of topology:
-After applying this patch series, launch an ACPI guest with virt-6.1 on an ARM server.
-
-1) Enable the support:
-With cmdline: -smp 96,sockets=2,cores=48,threads=1,expose=on
-  or cmdline: -smp 96,maxcpus=96,sockets=2,cores=48,threads=1,expose=on
-we get:
-Architecture:        aarch64
-Byte Order:          Little Endian
-CPU(s):              96
-On-line CPU(s) list: 0-95
-Thread(s) per core:  1
-Core(s) per socket:  48
-Socket(s):           2
-NUMA node(s):        1
-Vendor ID:           0x48
-Model:               0
-Stepping:            0x1
-BogoMIPS:            200.00
-NUMA node0 CPU(s):   0-95
-
-2) Disable the support:
-With cmdline: -smp 96
-  or cmdline: -smp 96,expose=off
-we get:
-Architecture:        aarch64
-Byte Order:          Little Endian
-CPU(s):              96
-On-line CPU(s) list: 0-95
-Thread(s) per core:  1
-Core(s) per socket:  96
-Socket(s):           1
-NUMA node(s):        1
-Vendor ID:           0x48
-Model:               0
-Stepping:            0x1
-BogoMIPS:            200.00
-NUMA node0 CPU(s):   0-95
-
+Suggested-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
+ qemu-options.hx | 24 +++++++++++++++---------
+ softmmu/vl.c    |  3 +++
+ 2 files changed, 18 insertions(+), 9 deletions(-)
 
-Changelogs:
-
-v3->v4:
-- add new -smp parameter "expose=on|off" for users to enable/disable the feature
-- add stricter -smp cmdline parsing rules on "expose=on" case
-- move build_pptt to generic aml-build.c
-- add default cluster node in the cpu-map
-- rebase on top of latest upstream master
-- v3: https://patchwork.kernel.org/project/qemu-devel/cover/20210516102900.28036-1-wangyanan55@huawei.com/
-
-v2->v3:
-- address comments from David, Philippe, and Andrew. Thanks!
-- split some change into separate commits for ease of review
-- adjust parsing rules of virt_smp_parse to be more strict
-  (after discussion with Andrew)
-- adjust author credit for the patches
-- v2: https://patchwork.kernel.org/project/qemu-devel/cover/20210413080745.33004-1-wangyanan55@huawei.com/
-
-v1->v2:
-- Address Andrew Jones's comments
-- Address Michael S. Tsirkin's comments
-- v1: https://patchwork.kernel.org/project/qemu-devel/cover/20210225085627.2263-1-fangying1@huawei.com/
-
----
-
-Andrew Jones (2):
-  hw/arm/virt: Add cpu-map to device tree
-  hw/acpi/aml-build: Generate PPTT table
-
-Yanan Wang (5):
-  vl: Add expose=on|off option support in -smp command line
-  hw/arm/virt: Add separate -smp parsing function for ARM machines
-  machine: disallow -smp expose=on for non-ARM machines
-  device_tree: Add qemu_fdt_add_path
-  hw/acpi/aml-build: Add Processor hierarchy node structure
-
- hw/acpi/aml-build.c          |  75 +++++++++++++++
- hw/arm/virt-acpi-build.c     |   8 +-
- hw/arm/virt.c                | 171 +++++++++++++++++++++++++++++++++--
- hw/core/machine.c            |   7 ++
- hw/i386/pc.c                 |   7 ++
- include/hw/acpi/aml-build.h  |   7 ++
- include/hw/boards.h          |   1 +
- include/sysemu/device_tree.h |   1 +
- qemu-options.hx              |  24 +++--
- softmmu/device_tree.c        |  44 ++++++++-
- softmmu/vl.c                 |   3 +
- 11 files changed, 326 insertions(+), 22 deletions(-)
-
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 14258784b3..d18d64958b 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -196,25 +196,31 @@ SRST
+ ERST
+ 
+ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+-    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
++    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,expose=on|off]\n"
+     "                set the number of CPUs to 'n' [default=1]\n"
+     "                maxcpus= maximum number of total cpus, including\n"
+     "                offline CPUs for hotplug, etc\n"
+     "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
+     "                threads= number of threads on one CPU core\n"
+     "                dies= number of CPU dies on one socket (for PC only)\n"
+-    "                sockets= number of discrete sockets in the system\n",
++    "                sockets= number of discrete sockets in the system\n"
++    "                expose=on|off controls support for exposing cpu topology\n"
++    "                to the guest (default=off)\n",
+         QEMU_ARCH_ALL)
+ SRST
+-``-smp [cpus=]n[,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,maxcpus=maxcpus]``
++``-smp [cpus=]n[,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,maxcpus=maxcpus][,expose=on|off]``
+     Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+-    are supported. On Sparc32 target, Linux limits the number of usable
+-    CPUs to 4. For the PC target, the number of cores per die, the
+-    number of threads per cores, the number of dies per packages and the
+-    total number of sockets can be specified. Missing values will be
+-    computed. If any on the three values is given, the total number of
+-    CPUs n can be omitted. maxcpus specifies the maximum number of
++    are supported. On the Sparc32 target, Linux limits the number of usable
++    CPUs to 4. For the PC target, the number of cores per die, the number
++    of threads per core, the number of dies per package and the total number
++    of sockets can be specified. maxcpus specifies the maximum number of
+     hotpluggable CPUs.
++
++    With "expose=off" or not explicitly specified, missing values will be
++    computed, and the total number of CPUs n can be omitted if any on the
++    three values is given. Otherwise with "expose=on", much more detailed
++    configuration is required: cpus/sockets/cores/threads must be given,
++    while maxcpus is optional.
+ ERST
+ 
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index feb4d201f3..f4b59571c7 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -729,6 +729,9 @@ static QemuOptsList qemu_smp_opts = {
+         }, {
+             .name = "maxcpus",
+             .type = QEMU_OPT_NUMBER,
++        }, {
++            .name = "expose",
++            .type = QEMU_OPT_BOOL,
+         },
+         { /*End of list */ }
+     },
 -- 
 2.23.0
 
