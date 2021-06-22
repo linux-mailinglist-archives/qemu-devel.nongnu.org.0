@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7D23B053E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:53:33 +0200 (CEST)
-Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FCE3B0553
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:56:33 +0200 (CEST)
+Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvfuG-0007if-B5
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
+	id 1lvfxA-0005ks-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:56:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfqK-0002Ow-Px
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:49:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29299)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfqN-0002Qw-DB
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:49:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfqG-0008Uv-Sw
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:49:28 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfqK-0008Vz-HB
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:49:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624366163;
+ s=mimecast20190719; t=1624366167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jfljyWXSZEW1kG4lwXWraAl2HkCjYwBi4zyLzKaOYE4=;
- b=d+9sbqhsCf/OShQFqnBA13gOCFseORnMUBpNDDSMSK6z6cpjDmPRqZvq8SQntx2HpBOsVN
- +k/xjhbhlEK21pRY191Z4/j7tCpDoPjuS5HcnZ8L2CzoI8Hl/PpdAJ3TQZoLN8cL0o9ENv
- b6pIUDG0R6+9BX/jY5wuVP6kPbA9iy0=
+ bh=pwu7ByVlvVUODEspPEYf01bS4Xz0BZKDwp7H+1ARSK4=;
+ b=LJckHswMdjkqPDclEM7xu6yj3sPRdygqSVa9cnwC7Z0+meXC5pOTXuiUDoQbJsl3o6QfwI
+ J8CvuIKgdfG8RIddGkHDiE4BNJCmbPLkkHi0MHRJKut33wwFt4441wSxuNdo1evA3xDC0Q
+ T2f8CVlud/j2WD/lm66HGdRApXlK5fY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-cmP-lY7aMMK3_H8mQnnRiw-1; Tue, 22 Jun 2021 08:49:21 -0400
-X-MC-Unique: cmP-lY7aMMK3_H8mQnnRiw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-254-5kUuMxyrNNS0L7ZZ2UfI6Q-1; Tue, 22 Jun 2021 08:49:23 -0400
+X-MC-Unique: 5kUuMxyrNNS0L7ZZ2UfI6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96BF5101C8AA;
- Tue, 22 Jun 2021 12:49:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2A1A100C611;
+ Tue, 22 Jun 2021 12:49:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF3A55C1CF;
- Tue, 22 Jun 2021 12:49:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3764360C13;
+ Tue, 22 Jun 2021 12:49:22 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 55E511800840; Tue, 22 Jun 2021 14:49:15 +0200 (CEST)
+ id 6C1061800902; Tue, 22 Jun 2021 14:49:15 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] monitor: allow register hmp commands
-Date: Tue, 22 Jun 2021 14:49:11 +0200
-Message-Id: <20210622124915.261060-2-kraxel@redhat.com>
+Subject: [PATCH 2/5] usb: drop usb_host_dev_is_scsi_storage hook
+Date: Tue, 22 Jun 2021 14:49:12 +0200
+Message-Id: <20210622124915.261060-3-kraxel@redhat.com>
 In-Reply-To: <20210622124915.261060-1-kraxel@redhat.com>
 References: <20210622124915.261060-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,72 +88,169 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow commands having a NULL cmd pointer, add a function to set the
-pointer later.  Use case: allow modules implement hmp commands.
+Introduce an usb device flag instead, set it when usb-host looks at the
+device descriptors anyway.  Also set it for emulated storage devices,
+for consistency.  Add an inline helper function to check the flag.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/monitor/monitor.h |  3 +++
- monitor/hmp.c             |  7 +++++++
- monitor/misc.c            | 15 +++++++++++++++
- 3 files changed, 25 insertions(+)
+ include/hw/usb.h             |  7 ++++++-
+ hw/ppc/spapr.c               |  2 +-
+ hw/usb/dev-storage-bot.c     |  1 +
+ hw/usb/dev-storage-classic.c |  1 +
+ hw/usb/dev-uas.c             |  1 +
+ hw/usb/host-libusb.c         | 36 +++++++-----------------------------
+ hw/usb/host-stub.c           |  5 -----
+ 7 files changed, 17 insertions(+), 36 deletions(-)
 
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index 1211d6e6d69f..1a8a369b50b2 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -51,4 +51,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int flags);
- void monitor_fdset_dup_fd_remove(int dup_fd);
- int64_t monitor_fdset_dup_fd_find(int dup_fd);
+diff --git a/include/hw/usb.h b/include/hw/usb.h
+index 436e07b30404..33668dd0a99a 100644
+--- a/include/hw/usb.h
++++ b/include/hw/usb.h
+@@ -219,6 +219,7 @@ enum USBDeviceFlags {
+     USB_DEV_FLAG_IS_HOST,
+     USB_DEV_FLAG_MSOS_DESC_ENABLE,
+     USB_DEV_FLAG_MSOS_DESC_IN_USE,
++    USB_DEV_FLAG_IS_SCSI_STORAGE,
+ };
  
-+void monitor_register_hmp(const char *name, bool info,
-+                          void (*cmd)(Monitor *mon, const QDict *qdict));
-+
- #endif /* MONITOR_H */
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 6c0b33a0b19d..d50c3124e1e1 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1089,6 +1089,13 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
-         return;
-     }
+ /* definition of a USB device */
+@@ -465,7 +466,6 @@ void usb_generic_async_ctrl_complete(USBDevice *s, USBPacket *p);
  
-+    if (!cmd->cmd) {
-+        /* FIXME: is it useful to try autoload modules here ??? */
-+        monitor_printf(&mon->common, "Command \"%.*s\" is not available.\n",
-+                       (int)(cmdline - cmd_start), cmd_start);
-+        return;
-+    }
-+
-     qdict = monitor_parse_arguments(&mon->common, &cmdline, cmd);
-     if (!qdict) {
-         while (cmdline > cmd_start && qemu_isspace(cmdline[-1])) {
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 1539e18557f0..672267008b02 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1974,6 +1974,21 @@ static void sortcmdlist(void)
-           compare_mon_cmd);
- }
+ /* usb-linux.c */
+ void hmp_info_usbhost(Monitor *mon, const QDict *qdict);
+-bool usb_host_dev_is_scsi_storage(USBDevice *usbdev);
  
-+void monitor_register_hmp(const char *name, bool info,
-+                          void (*cmd)(Monitor *mon, const QDict *qdict))
+ /* usb ports of the VM */
+ 
+@@ -561,6 +561,11 @@ const char *usb_device_get_product_desc(USBDevice *dev);
+ 
+ const USBDesc *usb_device_get_usb_desc(USBDevice *dev);
+ 
++static inline bool usb_device_is_scsi_storage(USBDevice *dev)
 +{
-+    HMPCommand *table = info ? hmp_info_cmds : hmp_cmds;
-+
-+    while (table->name != NULL) {
-+        if (strcmp(table->name, name) == 0) {
-+            table->cmd = cmd;
-+            return;
-+        }
-+        table++;
-+    }
-+    g_assert_not_reached();
++    return dev->flags & (1 << USB_DEV_FLAG_IS_SCSI_STORAGE);
 +}
 +
- void monitor_init_globals(void)
+ /* quirks.c */
+ 
+ /* In bulk endpoints are streaming data sources (iow behave like isoc eps) */
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 4dd90b75cc52..f83a081af0f1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3106,7 +3106,7 @@ static char *spapr_get_fw_dev_path(FWPathProvider *p, BusState *bus,
+      */
+     if (strcmp("usb-host", qdev_fw_name(dev)) == 0) {
+         USBDevice *usbdev = CAST(USBDevice, dev, TYPE_USB_DEVICE);
+-        if (usb_host_dev_is_scsi_storage(usbdev)) {
++        if (usb_device_is_scsi_storage(usbdev)) {
+             return g_strdup_printf("storage@%s/disk", usbdev->port->path);
+         }
+     }
+diff --git a/hw/usb/dev-storage-bot.c b/hw/usb/dev-storage-bot.c
+index 6aad026d1133..68ebaca10c66 100644
+--- a/hw/usb/dev-storage-bot.c
++++ b/hw/usb/dev-storage-bot.c
+@@ -32,6 +32,7 @@ static void usb_msd_bot_realize(USBDevice *dev, Error **errp)
+ 
+     usb_desc_create_serial(dev);
+     usb_desc_init(dev);
++    dev->flags |= (1 << USB_DEV_FLAG_IS_SCSI_STORAGE);
+     if (d->hotplugged) {
+         s->dev.auto_attach = 0;
+     }
+diff --git a/hw/usb/dev-storage-classic.c b/hw/usb/dev-storage-classic.c
+index 00cb34b22f02..3d017a4e6791 100644
+--- a/hw/usb/dev-storage-classic.c
++++ b/hw/usb/dev-storage-classic.c
+@@ -64,6 +64,7 @@ static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
+ 
+     usb_desc_create_serial(dev);
+     usb_desc_init(dev);
++    dev->flags |= (1 << USB_DEV_FLAG_IS_SCSI_STORAGE);
+     scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
+                  &usb_msd_scsi_info_storage, NULL);
+     scsi_dev = scsi_bus_legacy_add_drive(&s->bus, blk, 0, !!s->removable,
+diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+index d2bd85d3f6bb..263056231c79 100644
+--- a/hw/usb/dev-uas.c
++++ b/hw/usb/dev-uas.c
+@@ -926,6 +926,7 @@ static void usb_uas_realize(USBDevice *dev, Error **errp)
+     QTAILQ_INIT(&uas->requests);
+     uas->status_bh = qemu_bh_new(usb_uas_send_status_bh, uas);
+ 
++    dev->flags |= (1 << USB_DEV_FLAG_IS_SCSI_STORAGE);
+     scsi_bus_new(&uas->bus, sizeof(uas->bus), DEVICE(dev),
+                  &usb_uas_scsi_info, NULL);
+ }
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index 2518306f527f..e6d21aa8e1d3 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -770,6 +770,13 @@ static void usb_host_speed_compat(USBHostDevice *s)
+         for (i = 0; i < conf->bNumInterfaces; i++) {
+             for (a = 0; a < conf->interface[i].num_altsetting; a++) {
+                 intf = &conf->interface[i].altsetting[a];
++
++                if (intf->bInterfaceClass == LIBUSB_CLASS_MASS_STORAGE &&
++                    intf->bInterfaceSubClass == 6) { /* SCSI */
++                    udev->flags |= (1 << USB_DEV_FLAG_IS_SCSI_STORAGE);
++                    break;
++                }
++
+                 for (e = 0; e < intf->bNumEndpoints; e++) {
+                     endp = &intf->endpoint[e];
+                     type = endp->bmAttributes & 0x3;
+@@ -1893,35 +1900,6 @@ static void usb_host_auto_check(void *unused)
+     timer_mod(usb_auto_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + 2000);
+ }
+ 
+-/**
+- * Check whether USB host device has a USB mass storage SCSI interface
+- */
+-bool usb_host_dev_is_scsi_storage(USBDevice *ud)
+-{
+-    USBHostDevice *uhd = USB_HOST_DEVICE(ud);
+-    struct libusb_config_descriptor *conf;
+-    const struct libusb_interface_descriptor *intf;
+-    bool is_scsi_storage = false;
+-    int i;
+-
+-    if (!uhd || libusb_get_active_config_descriptor(uhd->dev, &conf) != 0) {
+-        return false;
+-    }
+-
+-    for (i = 0; i < conf->bNumInterfaces; i++) {
+-        intf = &conf->interface[i].altsetting[ud->altsetting[i]];
+-        if (intf->bInterfaceClass == LIBUSB_CLASS_MASS_STORAGE &&
+-            intf->bInterfaceSubClass == 6) {                 /* 6 means SCSI */
+-            is_scsi_storage = true;
+-            break;
+-        }
+-    }
+-
+-    libusb_free_config_descriptor(conf);
+-
+-    return is_scsi_storage;
+-}
+-
+ void hmp_info_usbhost(Monitor *mon, const QDict *qdict)
  {
-     monitor_init_globals_core();
+     libusb_device **devs = NULL;
+diff --git a/hw/usb/host-stub.c b/hw/usb/host-stub.c
+index 80809ceba542..bbe69baa390f 100644
+--- a/hw/usb/host-stub.c
++++ b/hw/usb/host-stub.c
+@@ -38,8 +38,3 @@ void hmp_info_usbhost(Monitor *mon, const QDict *qdict)
+ {
+     monitor_printf(mon, "USB host devices not supported\n");
+ }
+-
+-bool usb_host_dev_is_scsi_storage(USBDevice *ud)
+-{
+-    return false;
+-}
 -- 
 2.31.1
 
