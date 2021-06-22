@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7758A3B085F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:13:38 +0200 (CEST)
-Received: from localhost ([::1]:57190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93AF3B0854
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:11:39 +0200 (CEST)
+Received: from localhost ([::1]:51678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvi5p-0001XN-I5
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
+	id 1lvi3u-0006KB-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:11:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1a-000280-J8
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53554)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lvi2Y-0003eL-Ut
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:10:14 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:39839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lvi1T-0005sq-2T
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:09:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624374546;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wtGKRqoDuRgwoltdQ0BztvlHlVmD6Am5ltSlx/b1ttU=;
- b=WF5gjnyT0sGEUxCxY9X/Jvx7pSbsX/+atptTyQGkMpZQqhZ0K3KPo5XtwthLC+RKadfwxa
- vMPPdfIwbZJu1+zefu78bLZbbiSXzoYv82jknXlDbTjICv4hmM6UiAZxw+aojIU2Vel5Th
- jweT1EKFkbqF53KZ8mFAdHHydfeTBUU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-srpEe2YOP5KWyd_dIaMzuw-1; Tue, 22 Jun 2021 11:09:04 -0400
-X-MC-Unique: srpEe2YOP5KWyd_dIaMzuw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB6C6192CC43;
- Tue, 22 Jun 2021 15:09:03 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-114.rdu2.redhat.com [10.10.115.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFB855C1A3;
- Tue, 22 Jun 2021 15:09:03 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 8089F225FD3; Tue, 22 Jun 2021 11:08:59 -0400 (EDT)
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH v7 7/7] virtiofsd: Add an option to enable/disable posix acls
-Date: Tue, 22 Jun 2021 11:08:52 -0400
-Message-Id: <20210622150852.1507204-8-vgoyal@redhat.com>
-In-Reply-To: <20210622150852.1507204-1-vgoyal@redhat.com>
-References: <20210622150852.1507204-1-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lvi2W-0006M2-PS
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:10:14 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 15MF9N0l024653
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 22 Jun 2021 11:09:26 -0400
+Date: Tue, 22 Jun 2021 11:09:23 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/4] fuzz: add an instrumentation filter
+Message-ID: <20210622150915.ceilqseteuxtifnn@mozz.bu.edu>
+References: <20210618154852.5673-1-alxndr@bu.edu>
+ <20210618154852.5673-3-alxndr@bu.edu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210618154852.5673-3-alxndr@bu.edu>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,255 +55,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, dgilbert@redhat.com, vgoyal@redhat.com,
- lhenriques@suse.de
+Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bandan Das <bsd@redhat.com>, f4bug@amsat.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fuse has an option FUSE_POSIX_ACL which needs to be opted in by fuse
-server to enable posix acls. As of now we are not opting in for this,
-so posix acls are disabled on virtiofs by default.
+On 210618 1148, Alexander Bulekov wrote:
+<snip>
+> diff --git a/configure b/configure
+> index debd50c085..40412bcfcf 100755
+> --- a/configure
+> +++ b/configure
+> @@ -6089,6 +6089,10 @@ if test "$fuzzing" = "yes" ; then
+>    # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
+>    # needed CFLAGS have already been provided
+>    if test -z "${LIB_FUZZING_ENGINE+xxx}" ; then
+> +    # Specify a filter to only instrument code that is directly related to
+> +    # virtual-devices.
+> +	QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize-coverage-allowlist=$source_path/scripts/oss-fuzz/instrumentation-filter"
 
-Add virtiofsd option "-o posix_acl/no_posix_acl" to let users enable/disable
-posix acl support. By default it is disabled as of now due to performance
-concerns with cache=none.
+Hmm I just realized this flag seems to only be available for clang-11+.
+We will need to do some probing before enabling it here..
 
-Currently even if file server has not opted in for FUSE_POSIX_ACL, user can
-still query acl and set acl, and system.posix_acl_access and
-system.posix_acl_default xattrs show up listxattr response.
-
-Miklos said this is confusing. So he said lets block and filter
-system.posix_acl_access and system.posix_acl_default xattrs in
-getxattr/setxattr/listxattr if user has explicitly disabled
-posix acls using -o no_posix_acl.
-
-As of now continuing to keeping the existing behavior if user did not
-specify any option to disable acl support due to concerns about backward
-compatibility.
-
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- docs/tools/virtiofsd.rst         |   3 +
- tools/virtiofsd/helper.c         |   1 +
- tools/virtiofsd/passthrough_ll.c | 115 ++++++++++++++++++++++++++++++-
- 3 files changed, 118 insertions(+), 1 deletion(-)
-
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 00554c75bd..a41f934999 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -101,6 +101,9 @@ Options
-     Enable/disable extended attributes (xattr) on files and directories.  The
-     default is ``no_xattr``.
- 
-+  * posix_acl|no_posix_acl -
-+    Enable/disable posix acl support.  Posix ACLs are disabled by default`.
-+
- .. option:: --socket-path=PATH
- 
-   Listen on vhost-user UNIX domain socket at PATH.
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 5e98ed702b..a8295d975a 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -186,6 +186,7 @@ void fuse_cmdline_help(void)
-            "                               to virtiofsd from guest applications.\n"
-            "                               default: no_allow_direct_io\n"
-            "    -o announce_submounts      Announce sub-mount points to the guest\n"
-+           "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
-            );
- }
- 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 113c725def..e80fd76d71 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -175,7 +175,7 @@ struct lo_data {
-     int user_killpriv_v2, killpriv_v2;
-     /* If set, virtiofsd is responsible for setting umask during creation */
-     bool change_umask;
--    int posix_acl;
-+    int user_posix_acl, posix_acl;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -208,6 +208,8 @@ static const struct fuse_opt lo_opts[] = {
-     { "announce_submounts", offsetof(struct lo_data, announce_submounts), 1 },
-     { "killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 1 },
-     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-+    { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-+    { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
-     FUSE_OPT_END
- };
- static bool use_syslog = false;
-@@ -706,6 +708,32 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-         conn->want &= ~FUSE_CAP_HANDLE_KILLPRIV_V2;
-         lo->killpriv_v2 = 0;
-     }
-+
-+    if (lo->user_posix_acl == 1) {
-+        /*
-+         * User explicitly asked for this option. Enable it unconditionally.
-+         * If connection does not have this capability, print error message
-+         * now. It will fail later in fuse_lowlevel.c
-+         */
-+        if (!(conn->capable & FUSE_CAP_POSIX_ACL) ||
-+            !(conn->capable & FUSE_CAP_DONT_MASK) ||
-+            !(conn->capable & FUSE_CAP_SETXATTR_EXT)) {
-+            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable posix acl."
-+                     " kernel does not support FUSE_POSIX_ACL, FUSE_DONT_MASK"
-+                     " or FUSE_SETXATTR_EXT capability.\n");
-+        } else {
-+            fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
-+        }
-+
-+        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
-+                      FUSE_CAP_SETXATTR_EXT;
-+        lo->change_umask = true;
-+        lo->posix_acl = true;
-+    } else {
-+        /* User either did not specify anything or wants it disabled */
-+        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-+        conn->want &= ~FUSE_CAP_POSIX_ACL;
-+    }
- }
- 
- static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-@@ -2783,6 +2811,63 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
-         assert(fchdir_res == 0);                       \
-     } while (0)
- 
-+static bool block_xattr(struct lo_data *lo, const char *name)
-+{
-+    /*
-+     * If user explicitly enabled posix_acl or did not provide any option,
-+     * do not block acl. Otherwise block system.posix_acl_access and
-+     * system.posix_acl_default xattrs.
-+     */
-+    if (lo->user_posix_acl) {
-+        return false;
-+    }
-+    if (!strcmp(name, "system.posix_acl_access") ||
-+        !strcmp(name, "system.posix_acl_default"))
-+            return true;
-+
-+    return false;
-+}
-+
-+/*
-+ * Returns number of bytes in xattr_list after filtering on success. This
-+ * could be zero as well if nothing is left after filtering.
-+ *
-+ * Returns negative error code on failure.
-+ * xattr_list is modified in place.
-+ */
-+static int remove_blocked_xattrs(struct lo_data *lo, char *xattr_list,
-+                                 unsigned in_size)
-+{
-+    size_t out_index, in_index;
-+
-+    /*
-+     * As of now we only filter out acl xattrs. If acls are enabled or
-+     * they have not been explicitly disabled, there is nothing to
-+     * filter.
-+     */
-+    if (lo->user_posix_acl) {
-+        return in_size;
-+    }
-+
-+    out_index = 0;
-+    in_index = 0;
-+    while (in_index < in_size) {
-+        char *in_ptr = xattr_list + in_index;
-+
-+        /* Length of current attribute name */
-+        size_t in_len = strlen(xattr_list + in_index) + 1;
-+
-+        if (!block_xattr(lo, in_ptr)) {
-+            if (in_index != out_index) {
-+                memmove(xattr_list + out_index, xattr_list + in_index, in_len);
-+            }
-+            out_index += in_len;
-+        }
-+        in_index += in_len;
-+     }
-+    return out_index;
-+}
-+
- static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-                         size_t size)
- {
-@@ -2796,6 +2881,11 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-     int saverr;
-     int fd = -1;
- 
-+    if (block_xattr(lo, in_name)) {
-+        fuse_reply_err(req, EOPNOTSUPP);
-+        return;
-+    }
-+
-     mapped_name = NULL;
-     name = in_name;
-     if (lo->xattrmap) {
-@@ -2986,6 +3076,12 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-                 goto out;
-             }
-         }
-+
-+        ret = remove_blocked_xattrs(lo, value, ret);
-+        if (ret <= 0) {
-+            saverr = -ret;
-+            goto out;
-+        }
-         fuse_reply_buf(req, value, ret);
-     } else {
-         /*
-@@ -3026,6 +3122,11 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-     bool cap_fsetid_dropped = false;
-     struct lo_cred old = {};
- 
-+    if (block_xattr(lo, in_name)) {
-+        fuse_reply_err(req, EOPNOTSUPP);
-+        return;
-+    }
-+
-     mapped_name = NULL;
-     name = in_name;
-     if (lo->xattrmap) {
-@@ -3118,6 +3219,11 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
-     int saverr;
-     int fd = -1;
- 
-+    if (block_xattr(lo, in_name)) {
-+        fuse_reply_err(req, EOPNOTSUPP);
-+        return;
-+    }
-+
-     mapped_name = NULL;
-     name = in_name;
-     if (lo->xattrmap) {
-@@ -3812,6 +3918,7 @@ int main(int argc, char *argv[])
-         .allow_direct_io = 0,
-         .proc_self_fd = -1,
-         .user_killpriv_v2 = -1,
-+        .user_posix_acl = -1,
-     };
-     struct lo_map_elem *root_elem;
-     struct lo_map_elem *reserve_elem;
-@@ -3940,6 +4047,12 @@ int main(int argc, char *argv[])
-         exit(1);
-     }
- 
-+    if (lo.user_posix_acl == 1 && !lo.xattr) {
-+        fuse_log(FUSE_LOG_ERR, "Can't enable posix ACLs. xattrs are disabled."
-+                 "\n");
-+        exit(1);
-+    }
-+
-     lo.use_statx = true;
- 
-     se = fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
--- 
-2.25.4
-
+> +
+>      # Add CFLAGS to tell clang to add fuzzer-related instrumentation to all the
+>      # compiled code.
+>      QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
+> diff --git a/scripts/oss-fuzz/instrumentation-filter b/scripts/oss-fuzz/instrumentation-filter
+> new file mode 100644
+> index 0000000000..44e853159c
+> --- /dev/null
+> +++ b/scripts/oss-fuzz/instrumentation-filter
+> @@ -0,0 +1,14 @@
+> +# Code that we actually want the fuzzer to target
+> +# See: https://clang.llvm.org/docs/SanitizerCoverage.html#disabling-instrumentation-without-source-modification
+> +#
+> +src:*/hw/*
+> +src:*/include/hw/*
+> +src:*/slirp/*
+> +
+> +# We don't care about coverage over fuzzer-specific code, however we should
+> +# instrument the fuzzer entry-point so libFuzzer always sees at least some
+> +# coverage - otherwise it will exit after the first input
+> +src:*/tests/qtest/fuzz/fuzz.c
+> +
+> +# Enable instrumentation for all functions in those files
+> +fun:*
+> -- 
+> 2.28.0
+> 
 
