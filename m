@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC953B0D9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 21:25:04 +0200 (CEST)
-Received: from localhost ([::1]:37708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E8D3B0DA4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 21:27:54 +0200 (CEST)
+Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvm19-0003Qc-LA
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 15:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
+	id 1lvm3t-00058J-8h
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 15:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lvm0J-0002kY-Mq
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 15:24:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37194)
+ id 1lvm37-0004SC-1N
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 15:27:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lvm0E-0001LK-3C
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 15:24:10 -0400
+ id 1lvm35-0003Lj-Gf
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 15:27:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624389844;
+ s=mimecast20190719; t=1624390022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cq+Zll/YgAmKMz/sCIfJk+Xw2HT0g6hFthoGRF0x9uI=;
- b=RmOtsTz1iOFe5PeNBUis2lXf7EuF1HX+sCQqZE3mlKYGV6dKBez0zm5kVwt982gWGP/RlJ
- DWnNybTkXPurwoxtgf0b0MDnsuq1mdNrjvfF+4jo99crQIpLl6A5G0RJog7kOjcyml7ODI
- TwErlGYP0ZFpXFKK3wRPJecOdFdNrb4=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-BOm48gWeMZWcp5jLPBgrdg-1; Tue, 22 Jun 2021 15:24:02 -0400
-X-MC-Unique: BOm48gWeMZWcp5jLPBgrdg-1
-Received: by mail-ua1-f71.google.com with SMTP id
- 80-20020ab004560000b0290278962332aeso4705908uav.10
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 12:24:02 -0700 (PDT)
+ bh=r0lwqAXjsBIBUkyOdPbC09kT5RcT8IUWK+AhJts6+oM=;
+ b=PPiMNVosuW2e9EAyK6GaOYkZR2rSzIyf724Og4UdIxk655wCkDKOF3RpCE2w/zO/T7SXMg
+ 48qo5WGq9tAvyIXFyHkNX4zWkiQqq/No3MxRa3xYAnxmhfILeu4bpYKWad3rhrzW7XIjCT
+ wB9cePYk+i0gp9hkZi/BY6uwu4r9bC0=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-O-W_k7feND6WyMv28xPnnw-1; Tue, 22 Jun 2021 15:27:01 -0400
+X-MC-Unique: O-W_k7feND6WyMv28xPnnw-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ k65-20020ab043470000b029027cb996995fso2564642uak.18
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 12:27:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cq+Zll/YgAmKMz/sCIfJk+Xw2HT0g6hFthoGRF0x9uI=;
- b=kgVpvY7puiWrnGtjIo8+K8VYMZHgtfAxk+SIZh4k9++tUMO+lcdFZpM+JhwgpypW4/
- hdw9aCNQJVcXGJNz9TLdUH3XrMrZjEgtTcUPJZJTUxqhrLQJSHq6YjR8sqdaDPRnP8LA
- h75fmuCm6qGOtRUz7xvB0Ofvb7QemGPEx4w2Ay+ZkOSOxted65VzYqziTKu0FgtdY/hC
- VQ4otCXmL9bVy0TswCltHwZxYHWG7mhaVES1BL3orHBJlswODPryfLdsLRTVWeFslVxI
- NF+ccoK/UVTS8OwIzbSiivdkjA98n0QSFFPelaKAjiPXO9QoAZw+BB1YvFWxJpyY8uCh
- QYDw==
-X-Gm-Message-State: AOAM530x+LqnleIkRYQVl4lNta5APOpQfa2tyvfZ07Ivc4OfTksPDm/p
- oNGbxKal0XjbWWEziIYGzBSvPEf1d0vYamegHx+RhKJM/eHHV4sRE1XVuoNjSYy2SmZC7LjyMBM
- JosFLCxT1rv/L0qtbFnSXDMjNVIqEb+Q=
-X-Received: by 2002:ab0:6199:: with SMTP id h25mr493674uan.113.1624389842217; 
- Tue, 22 Jun 2021 12:24:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxi9KP/9JQ9/PinUb6tmcO+t0WvBNAtJWdrBGQma0ld9K3hlnCkNfyGPzmvYqETEIUmQWdBFtEuo3aFZf1W28U=
-X-Received: by 2002:ab0:6199:: with SMTP id h25mr493646uan.113.1624389842008; 
- Tue, 22 Jun 2021 12:24:02 -0700 (PDT)
+ bh=r0lwqAXjsBIBUkyOdPbC09kT5RcT8IUWK+AhJts6+oM=;
+ b=gxsHx12tjdVSgXg8yi+FlD9qH+jP8vM+PZIGknRM/pQB40/qm+SmyE34kJhFUQByCJ
+ ubOf/ukovneqqCarGZYo3i/ecOlyjK/HJyAggw+20qfZ/7MoT6gyG857RXZL0h+RgfQi
+ LOItFX+nqd9Ia4c6SE0tPuRPvHbsuFou7bWXFTIK80yO8EsZS6jO6tQU3IhIeLFNyEa9
+ 6cSKoX/l9Vd37bm9+YRkjUiHzgNwasYm8z2DnIDV7gQEKkjQDb1nUnvHeS1l1PhFJyte
+ rlfZnGq0Bry3kfbmPBdx3AlzA3Oq0tzEtoB/3simDUwCWq4JivLeJ71UuCubeFlFVkQr
+ 6Mng==
+X-Gm-Message-State: AOAM530MEWRwxUhtvzhc5muuNi+B7X9FG/Vc+0qt2X7suhfp5N5BXlCv
+ 40rLtkllRfyw9HfDd3MqDZ9aRoaeyGVJ31O/WdKnL3LHWNBO0NnkHfGQZtqv18Fxyi3/udPostm
+ TQyeLVpPve8ipKS8n/ixtf54fvHj6uY8=
+X-Received: by 2002:a67:d80f:: with SMTP id e15mr10017636vsj.50.1624390021020; 
+ Tue, 22 Jun 2021 12:27:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHDGA0WApBNl8Ucxi8htRUehkO3Oln3KnoDqK71p/BLGmA/6zBZ51xNt9Xj9DBGp8CLV8TaIxTH+cmWQRC1Z8=
+X-Received: by 2002:a67:d80f:: with SMTP id e15mr10017621vsj.50.1624390020872; 
+ Tue, 22 Jun 2021 12:27:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <162332427732.194926.7555369160312506539.stgit@pasha-ThinkPad-X280>
- <162332429407.194926.5057230329979093589.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <162332429407.194926.5057230329979093589.stgit@pasha-ThinkPad-X280>
+ <162332429961.194926.12492368578557666684.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <162332429961.194926.12492368578557666684.stgit@pasha-ThinkPad-X280>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 22 Jun 2021 16:23:36 -0300
-Message-ID: <CAKJDGDYyz_-FokW+UzNEwhx4mBXrmH0xvgvoTkCc2Ht_K_p1Tw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] tests/acceptance: add replay kernel test for ppc64
+Date: Tue, 22 Jun 2021 16:26:34 -0300
+Message-ID: <CAKJDGDbb2Tv0vJ5SAZ_ME4N9o5iU-PkQz5xGt0F1KW4BGzZyMA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] tests/acceptance: add replay kernel test for openrisc
 To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -99,15 +99,15 @@ On Thu, Jun 10, 2021 at 8:25 AM Pavel Dovgalyuk
 <pavel.dovgalyuk@ispras.ru> wrote:
 >
 > This patch adds record/replay test which boots Linux
-> kernel on ppc64 platform. The test uses kernel binaries
+> kernel on openrisc platform. The test uses kernel binaries
 > taken from boot_linux_console test.
 >
 > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 > ---
->  tests/acceptance/boot_linux_console.py |   12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  tests/acceptance/replay_kernel.py |   11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >
 
-This is already upstream, right? b52d7e216c6 or am I missing something?
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
