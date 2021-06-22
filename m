@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4B43B0842
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:08:52 +0200 (CEST)
-Received: from localhost ([::1]:43798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993233B0851
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 17:10:43 +0200 (CEST)
+Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvi1D-0000wW-JH
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
+	id 1lvi30-0002uK-Fv
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 11:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvi0M-00008y-Jd
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:07:58 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:37651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lvi0I-0005BD-Pp
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:07:58 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id ji1so28982107ejc.4
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 08:07:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rOykonGL9jSeNoR/k6R/8dEC3m6L4rDUD7u50fNJmr0=;
- b=H0nkV+YMicGWltZvdvf4aQceHH7whUHHmW6tMcVhu25mhpe4o3SH40oDuE1I9IYpua
- Im+f61Q21/YDvk/478YvKMYA3m/OIUleqHzALWhTxNKksoLEC+rOPYMdUfv/ACppiPgc
- znKp7TQb5fEM++ymQl2f02h7qtjvOShz/aWX0EaxCQNo+Sgkt1+LSrtvEHMF8d+jkSwW
- FG8Gq6STdfNqgKpJElAXQBDPEQfj2IMBZICAbz09JcIIPeAut+GsHxixG75FN+rQVlMD
- meweADghT4o/zprpEqJAxFZZkQwYPYAlwXKrF3mwZkTfx+XxL2pZmHR+DWQBUtpaCPdM
- W3zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rOykonGL9jSeNoR/k6R/8dEC3m6L4rDUD7u50fNJmr0=;
- b=DLpDL4T3hrZHtXdcrT1SX9oWXvU2mcWYDcFHEMbIUfK3Z/RuamlTn1UVimYwzWhzB/
- BSIo/kYnRRKzrL6/d0ARbiJ5SKlCOec2FpRZ+ONdUXMZi/paGlkg73/1aPmz/JdGCIxN
- 3AQzaxCbGdmnXLQMTDLevi7dedWlCbxmGGNxeiw4mxkdVh2gzJ6S3S8f39HMq4KcxoYr
- watBzx6MfxRt3OYhHlVxA1np+zMD9iIXI0lN36xGhonN1/pienAjp/laP+Gp7kmrdak0
- Mf1tim4GDV8tf4uMvOpBwOslRpybvjt0fSZV7jI2xEOA773/vN65WXfRuSTWq0Yz+ZVg
- Bdaw==
-X-Gm-Message-State: AOAM533EA/RSos5Mpy/7Ly4LGGlDZ8IPpKiajcWXSFVdDR7aP727MpLr
- ozMEEf28qht4Ul+VlujjODXZSJG329j0gS2qgsUOqA==
-X-Google-Smtp-Source: ABdhPJyJQhJ6PfAN4GFaW9gog5OLgO4PWz00XniWi77lG8YLgvDgu0O4yrTCtANmY5O0vLFPllMuNEI+M6qnC5mq3Y4=
-X-Received: by 2002:a17:906:90c4:: with SMTP id
- v4mr4342135ejw.382.1624374471307; 
- Tue, 22 Jun 2021 08:07:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvi0w-00016W-7z
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:08:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvi0t-0005ZH-Pf
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 11:08:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624374510;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TCz7L9zZff6Sl1XF79z1JQ5kVC/Kj55rmzKh50NGmTI=;
+ b=hKPBIF65ibDH2SNB5Vp3rxyYsrW+5Q9sBzsiHvbqYhkdqzklU+cwrkXkGwslbucPPstZrJ
+ OolLVIs2xSfVkdNgHgbxXkKk8zftsgCzL51FHHxU1BtDQFssZcK0RL9fRq4y+re8vAxrGs
+ GR0CAusgPiR8848NeiK5dCy12DRltN8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-Q-lEF2B3P1aJfaWF47mPAg-1; Tue, 22 Jun 2021 11:08:29 -0400
+X-MC-Unique: Q-lEF2B3P1aJfaWF47mPAg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9896E362FA;
+ Tue, 22 Jun 2021 15:08:28 +0000 (UTC)
+Received: from redhat.com (ovpn-114-58.ams2.redhat.com [10.36.114.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C457C10023B5;
+ Tue, 22 Jun 2021 15:08:27 +0000 (UTC)
+Date: Tue, 22 Jun 2021 17:08:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 4/4] iotests/308: Test allow-other
+Message-ID: <YNH86rBVVG2mJo/E@redhat.com>
+References: <20210614144407.134243-1-mreitz@redhat.com>
+ <20210614144407.134243-5-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20210621095842.335162-1-cohuck@redhat.com>
-In-Reply-To: <20210621095842.335162-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Jun 2021 16:07:15 +0100
-Message-ID: <CAFEAcA8saQGgfq7UhAY6TCqoyyNpZFGuCkCgcuD1nFb9w9orcA@mail.gmail.com>
-Subject: Re: [PULL 00/37] s390x update
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210614144407.134243-5-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Jun 2021 at 10:58, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> The following changes since commit 8f521741e1280f0957ac1b873292c19219e1fb9a:
->
->   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20210618.0' into staging (2021-06-18 16:42:25 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/cohuck/qemu.git tags/s390x-20210621
->
-> for you to fetch changes up to c626710fc755628d0d6b88aab0514c9238a84522:
->
->   s390x/css: Add passthrough IRB (2021-06-21 08:48:21 +0200)
->
-> ----------------------------------------------------------------
-> s390x update:
-> - tcg: implement the vector enhancements facility and bump the
->   'qemu' cpu model to a stripped-down z14 GA2
-> - fix psw.mask handling in signals
-> - fix vfio-ccw sense data handling
->
+Am 14.06.2021 um 16:44 hat Max Reitz geschrieben:
+> We cannot reasonably test the main point of allow-other, which is to
+> allow users other than the current one to access the FUSE export,
+> because that would require access to sudo, which this test most likely
+> will not have.  (Also, we would need to figure out some user/group that
+> is on the machine and that is not the current user/group, which may
+> become a bit hairy.)
+> 
+> But we can test some byproducts: First, whether changing permissions
+> works (our FUSE code only allows so for allow-other=true), and second,
+> whether the kernel applies permission checks with allow-other=true
+> (because that implies default_permissions).
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
+This seems to have the problem that you mentioned:
 
-Applied, thanks.
+--- /home/kwolf/source/qemu/tests/qemu-iotests/308.out
++++ 308.out.bad
+@@ -205,7 +205,9 @@
+          'writable': true,
+          'allow-other': true
+           } }
+-{"return": {}}
++fusermount3: option allow_other only allowed if 'user_allow_other' is set in /etc/fuse.conf
++{"error": {"class": "GenericError", "desc": "Failed to mount FUSE session to export"}}
++Timeout waiting for return on handle 2
+ (Invoking chmod)
+ Permissions post-chmod: 666
+ (Removing all permissions)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+Maybe it should be a separate test case that is skipped with
+user_allow_other is disabled.
 
--- PMM
+>  tests/qemu-iotests/308     | 91 ++++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/308.out | 47 ++++++++++++++++++++
+>  2 files changed, 138 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
+> index f122065d0f..1b2f908947 100755
+> --- a/tests/qemu-iotests/308
+> +++ b/tests/qemu-iotests/308
+> @@ -334,6 +334,97 @@ echo '=== Compare copy with original ==='
+>  
+>  $QEMU_IMG compare -f raw -F $IMGFMT "$COPIED_IMG" "$TEST_IMG"
+>  
+> +echo
+> +echo '=== Test permissions ==='
+> +
+> +# Test that you can only change permissions on the export with allow-other=true.
+> +# We cannot really test the primary reason behind allow-other (i.e. to allow
+> +# users other than the current one access to the export), because for that we
+> +# would need sudo, which realistically nobody will allow this test to use.
+> +# What we can do is test that allow-other=true also enables default_permissions,
+> +# i.e. whether we can still read from the file if we remove the read permission.
+
+We already have other test cases that use sudo if available. Though I
+guess it means that these tests aren't run very often.
+
+Kevin
+
 
