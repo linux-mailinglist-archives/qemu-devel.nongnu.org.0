@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DECE3AFDF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:34:54 +0200 (CEST)
-Received: from localhost ([::1]:41854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB863AFE44
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:46:50 +0200 (CEST)
+Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvavt-0003QP-NM
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
+	id 1lvb7Q-0007bE-LC
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lvav5-0002bG-Om
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:34:03 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54876)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lvb5p-00066c-5u
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:45:09 -0400
+Received: from mga04.intel.com ([192.55.52.120]:47578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lvav4-0006ij-Av
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:34:03 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-5rEBVZkqO-aKe0jXW3Eaew-1; Tue, 22 Jun 2021 03:33:50 -0400
-X-MC-Unique: 5rEBVZkqO-aKe0jXW3Eaew-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C7FB18D6A39;
- Tue, 22 Jun 2021 07:33:48 +0000 (UTC)
-Received: from bahia.lan (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CA915C1D1;
- Tue, 22 Jun 2021 07:33:46 +0000 (UTC)
-Date: Tue, 22 Jun 2021 09:33:45 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu] spapr: tune rtas-size
-Message-ID: <20210622093345.544e256d@bahia.lan>
-In-Reply-To: <20210622070336.1463250-1-aik@ozlabs.ru>
-References: <20210622070336.1463250-1-aik@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lvb5l-00053R-GF
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:45:08 -0400
+IronPort-SDR: QjiLUbUk6QUD6usJo6e02MeoDY5qnWNT/RercpJf0M+ZFZv1prfo8jbDDgyMqGmeNOH6DsQ76k
+ cp2SllKMzZzg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="205178538"
+X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="205178538"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2021 00:44:54 -0700
+IronPort-SDR: 1YuILw0bn9ptFmMG9bTo1bgYcJ5WVWwkLPP+jFLYt5Zbfeoqwo74pt3zOSOc8KQ1RDNYk7s9n9
+ FM5JdGL5KfNA==
+X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="452512388"
+Received: from unknown (HELO [10.239.13.19]) ([10.239.13.19])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2021 00:44:51 -0700
+Subject: Re: [PATCH V8 1/6] qapi/net: Add IPFlowSpec and QMP command for COLO
+ passthrough
+To: Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20210615113740.2278015-1-chen.zhang@intel.com>
+ <20210615113740.2278015-2-chen.zhang@intel.com>
+ <87zgvrnq7w.fsf@dusky.pond.sub.org> <YNB4PbUeVbS0hqbA@work-vm>
+ <5bfc50e3-2315-8a11-1152-9bc62cb1bf79@intel.com>
+ <83403e8a-71b3-dacd-bab0-c1aee51e2d10@redhat.com>
+From: "chen.zhang@intel.com" <chen.zhang@intel.com>
+Message-ID: <c0f94696-8af0-9dbf-38e8-ded2e00d2ac4@intel.com>
+Date: Tue, 22 Jun 2021 15:38:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <83403e8a-71b3-dacd-bab0-c1aee51e2d10@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=chen.zhang@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,77 +72,260 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Lukas Straub <lukasstraub2@web.de>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Zhang Chen <zhangckid@gmail.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Jun 2021 17:03:36 +1000
-Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
 
-> QEMU reserves space for RTAS via /rtas/rtas-size which tells the client
-> how much space the RTAS requires to work which includes the RTAS binary
-> blob implementing RTAS runtime. Because pseries supports FWNMI which
-> requires plenty of space, QEMU reserves more than 2KB which is
-> enough for the RTAS blob as it is just 20 bytes (under QEMU).
->=20
-> Since FWNMI reset delivery was added, RTAS_SIZE macro is not used anymore=
-.
-> This replaces RTAS_SIZE with RTAS_MIN_SIZE and uses it in
-> the /rtas/rtas-size calculation to account for the RTAS blob.
->=20
-> Fixes: 0e236d347790 ("ppc/spapr: Implement FWNMI System Reset delivery")
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
->=20
-> Alternatively SLOF could add hv_rtas_size to the property itself
-> but splitting calculations between 2 chunks of code seems an overkill.
-> The RTAS blob has always been 20 bytes and unlikely to ever change.
+On 6/22/21 3:04 PM, Jason Wang wrote:
+> 在 2021/6/22 下午2:01, chen.zhang@intel.com 写道:
+>> On 6/21/21 7:30 PM, Dr. David Alan Gilbert wrote:
+>>> * Markus Armbruster (armbru@redhat.com) wrote:
+>>>> Zhang Chen <chen.zhang@intel.com> writes:
+>>>>
+>>>>> Since the real user scenario does not need COLO to monitor all
+>>>>> traffic.
+>>>>> Add colo-passthrough-add and colo-passthrough-del to maintain
+>>>>> a COLO network passthrough list. Add IPFlowSpec struct for all QMP
+>>>>> commands.
+>>>>> All the fields of IPFlowSpec are optional.
+>>>>>
+>>>>> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>>>>> ---
+>>>> The QAPI schema looks good to me, but the interface documentation is
+>>>> still not quite clear enough.  To make progress, I'm going to make
+>>>> concrete suggestions wherever I can despite being quite clueless about
+>>>> the subject matter.  Risks me writing something that's clearer, but
+>>>> wrong.  Keep that in mind, please.
+>>>>
+>>>>>    net/net.c     | 10 +++++++
+>>>>>    qapi/net.json | 74
+>>>>> +++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>    2 files changed, 84 insertions(+)
+>>>>>
+>>>>> diff --git a/net/net.c b/net/net.c
+>>>>> index 76bbb7c31b..f913e97983 100644
+>>>>> --- a/net/net.c
+>>>>> +++ b/net/net.c
+>>>>> @@ -1195,6 +1195,16 @@ void qmp_netdev_del(const char *id, Error
+>>>>> **errp)
+>>>>>        }
+>>>>>    }
+>>>>>    +void qmp_colo_passthrough_add(IPFlowSpec *spec, Error **errp)
+>>>>> +{
+>>>>> +    /* TODO implement setup passthrough rule */
+>>>>> +}
+>>>>> +
+>>>>> +void qmp_colo_passthrough_del(IPFlowSpec *spec, Error **errp)
+>>>>> +{
+>>>>> +    /* TODO implement delete passthrough rule */
+>>>>> +}
+>>>>> +
+>>>>>    static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+>>>>>    {
+>>>>>        char *str;
+>>>>> diff --git a/qapi/net.json b/qapi/net.json
+>>>>> index 7fab2e7cd8..91f2e1495a 100644
+>>>>> --- a/qapi/net.json
+>>>>> +++ b/qapi/net.json
+>>>>> @@ -7,6 +7,7 @@
+>>>>>    ##
+>>>>>      { 'include': 'common.json' }
+>>>>> +{ 'include': 'sockets.json' }
+>>>>>      ##
+>>>>>    # @set_link:
+>>>>> @@ -696,3 +697,76 @@
+>>>>>    ##
+>>>>>    { 'event': 'FAILOVER_NEGOTIATED',
+>>>>>      'data': {'device-id': 'str'} }
+>>>>> +
+>>>>> +##
+>>>>> +# @IPFlowSpec:
+>>>>> +#
+>>>>> +# IP flow specification.
+>>>>> +#
+>>>>> +# @protocol: Transport layer protocol like TCP/UDP, etc. The
+>>>>> protocol is the
+>>>>> +#            string instead of enum, because it can be passed to
+>>>>> getprotobyname(3)
+>>>>> +#            and avoid duplication with /etc/protocols.
+>>>> The rationale is good, but it doesn't really belong into the interface
+>>>> documentation.  Suggest:
+>>>>
+>>>>      # @protocol: Transport layer protocol like TCP/UDP, etc. This
+>>>> will be
+>>>>      #            passed to getprotobyname(3).
+>>>>
+>>>>
+>>>>> +#
+>>>>> +# @object-name: The @object-name means packet handler in Qemu.
+>
+> I think we need clarify "packet handler" here. It does not look like a
+> Qemu terminology.
 
-I guess this is acceptable.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+OK.
 
-> ---
->  include/hw/ppc/spapr.h | 2 +-
->  hw/ppc/spapr.c         | 8 ++++++--
->  2 files changed, 7 insertions(+), 3 deletions(-)
->=20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index f05219f75ef6..5697327e4c00 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -770,7 +770,7 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *=
-fdt, hwaddr addr);
->  #define SPAPR_IS_PCI_LIOBN(liobn)   (!!((liobn) & 0x80000000))
->  #define SPAPR_PCI_DMA_WINDOW_NUM(liobn) ((liobn) & 0xff)
-> =20
-> -#define RTAS_SIZE               2048
-> +#define RTAS_MIN_SIZE           20 /* hv_rtas_size in SLOF */
->  #define RTAS_ERROR_LOG_MAX      2048
-> =20
->  /* Offset from rtas-base where error log is placed */
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 4dd90b75cc52..9e19c570327e 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -919,9 +919,13 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
-void *fdt)
->       *
->       * The extra 8 bytes is required because Linux's FWNMI error log che=
-ck
->       * is off-by-one.
-> +     *
-> +     * RTAS_MIN_SIZE is required for the RTAS blob itself.
->       */
-> -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
-> -=09=09=09  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
-> +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_MIN_SIZE +
-> +                          RTAS_ERROR_LOG_MAX +
-> +                          ms->smp.max_cpus * sizeof(uint64_t) * 2 +
-> +                          sizeof(uint64_t)));
->      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
->                            RTAS_ERROR_LOG_MAX));
->      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
+The @object-name means a qemu object with network packet processing function, for example colo-compare, filtr-mirror, etc.
 
+I will add it in the next version.
+
+
+>
+>
+>>>>> Because not
+>>>>> +#               all the network packet must pass the colo-compare
+>>>>> module,
+>>>>> +#               the net-filters are same situation. There modules
+>>>>> attach to
+>>>>> +#               netdev or chardev to work, VM can run multiple
+>>>>> modules
+>>>>> +#               at the same time.
+>
+> This sentence needs some tweak since I fail to understand it's meaning.
+>
+
+OK. Change to:
+
+VM can running with multi network packet processing function objects.
+
+They can control different network data paths from netdev or chardev.
+
+So it needs the object-name to set the effective module.
+
+
+>>>>> So it needs the object-name to set
+>>>>> +#               the effective module.
+>>>> I still don't understand this, and I'm too ignorant of COLO and
+>>>> networking to suggest improvements.
+>>>>
+>>>> Jason or David, perhaps?
+>>> I'll leave Jason to check on the object behaviour (and I see the rest of
+>>> the thread); but at a high level, COLO is deciding whether to do VM
+>>> synchronisation on whether the network behaviour of the two VMs get out
+>>> of sync (e.g. due to randomness in the flow of requests); if you don't
+>>> sync then when you fail-over, you'll get TCP errors/inconsistencies in
+>>> the stream view from the secondary; but this patch series is saying
+>>> you don't care if some TCP connections fail like that, you only care
+>>> about maybe the main sockets the application is providing.
+>> Yes, you are right.
+>
+> I wonder if it's the best to introduce colo specific command here.
+> Instead, can we introduce commands to set and get netfilter properties?
+
+This series has not added pass-through support for other netfilters,
+
+Can we change the qmp command to passthrough-filter-add/del as markus's 
+comments in this series,
+
+And enable filters pass-through capability and add properties in next 
+series. Step by step.
+
+
+Thanks
+
+Chen
+
+
+>
+> Thanks
+>
+>
+>>
+>> Thanks
+>>
+>> Chen
+>>
+>>
+>>> Dave
+>>>
+>>>>> +#
+>>>>> +# @source: Source address and port.
+>>>>> +#
+>>>>> +# @destination: Destination address and port.
+>>>>> +#
+>>>>> +# Since: 6.1
+>>>>> +##
+>>>>> +{ 'struct': 'IPFlowSpec',
+>>>>> +  'data': { '*protocol': 'str', '*object-name': 'str',
+>>>>> +    '*source': 'InetSocketAddressBase',
+>>>>> +    '*destination': 'InetSocketAddressBase' } }
+>>>>> +
+>>>>> +##
+>>>>> +# @colo-passthrough-add:
+>>>>> +#
+>>>>> +# Add passthrough entry IPFlowSpec to the COLO-compare instance.
+>>>>> +# The protocol and source/destination IP/ports are optional. if
+>>>>> the user
+>>>>> +# only inputs part of the information, this will match all traffic.
+>>>> Actually, all arguments are optional.
+>>>>
+>>>> Suggest:
+>>>>
+>>>>      # Add an entry to the COLO network passthrough list.
+>>>>      # Absent protocol, host addresses and ports match anything.
+>>>>
+>>>> If there is more than one such list, then "to a COLO network
+>>>> passthrough
+>>>> list" instead.
+>>>>
+>>>> Still missing then: meaning of absent @object-name.  Does it select the
+>>>> COLO network passthrough list, perhaps?
+>>>>
+>>>>> +#
+>>>>> +# Returns: Nothing on success
+>>>>> +#
+>>>>> +# Since: 6.1
+>>>>> +#
+>>>>> +# Example:
+>>>>> +#
+>>>>> +# -> { "execute": "colo-passthrough-add",
+>>>>> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+>>>>> +#      "source": {"host": "192.168.1.1", "port": "1234"},
+>>>>> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+>>>>> +# <- { "return": {} }
+>>>>> +#
+>>>>> +##
+>>>>> +{ 'command': 'colo-passthrough-add', 'boxed': true,
+>>>>> +     'data': 'IPFlowSpec' }
+>>>>> +
+>>>>> +##
+>>>>> +# @colo-passthrough-del:
+>>>>> +#
+>>>>> +# Delete passthrough entry IPFlowSpec to the COLO-compare instance.
+>>>>> +# The protocol and source/destination IP/ports are optional. if
+>>>>> the user
+>>>>> +# only inputs part of the information, this will match all traffic.
+>>>> I suspect this command doesn't actually match traffic, it matches
+>>>> entries added with colo-passthrough-add.
+>>>>
+>>>> Can it delete more than one such entry?
+>>>>
+>>>> Suggest:
+>>>>
+>>>>      # Delete an entry from the COLO network passthrough list.
+>>>>
+>>>> and then explain how the command arguments select entries.
+>>>>
+>>>>> +#
+>>>>> +# Returns: Nothing on success
+>>>>> +#
+>>>>> +# Since: 6.1
+>>>>> +#
+>>>>> +# Example:
+>>>>> +#
+>>>>> +# -> { "execute": "colo-passthrough-del",
+>>>>> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+>>>>> +#      "source": {"host": "192.168.1.1", "port": "1234"},
+>>>>> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+>>>>> +# <- { "return": {} }
+>>>>> +#
+>>>>> +##
+>>>>> +{ 'command': 'colo-passthrough-del', 'boxed': true,
+>>>>> +     'data': 'IPFlowSpec' }
+>
 
