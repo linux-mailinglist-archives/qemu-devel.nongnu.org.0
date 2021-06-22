@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43FC3B0A71
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:36:09 +0200 (CEST)
-Received: from localhost ([::1]:51270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA4F3B0AF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:58:20 +0200 (CEST)
+Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvjNg-00034I-DQ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41706)
+	id 1lvjj8-0001LV-Ki
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:58:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvjMP-0002BM-PJ
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:34:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45997)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1lvjhv-0000ZI-UD
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:57:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lvjMM-0001Yw-OO
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:34:48 -0400
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1lvjhr-0007gt-Rt
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:57:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624379685;
+ s=mimecast20190719; t=1624381012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cuRKHgNJV30vvy+CRuy5M/GcKM3GzTdsx3lkTsJf8Ks=;
- b=e9kGjT4tY9BkHC4nBmu8aj2NOfcjl9O7qreru+ppcGnbQmw52dJLRUiyBKndKfHBwl4saJ
- /o/VFW0N2A1uE2lnUOEtEr3cfQpjczx+vuaP4hkHPV+BtYrzyIkELUK5a8qOPv8bYA6LCA
- WKBhiwH8i92pVq0CU5U1v02k0c0KCxc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-Zsvntp59Nw6TOxkXbk20eA-1; Tue, 22 Jun 2021 12:34:43 -0400
-X-MC-Unique: Zsvntp59Nw6TOxkXbk20eA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 553C7CC622;
- Tue, 22 Jun 2021 16:34:42 +0000 (UTC)
-Received: from redhat.com (ovpn-114-58.ams2.redhat.com [10.36.114.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B3DB60854;
- Tue, 22 Jun 2021 16:34:41 +0000 (UTC)
-Date: Tue, 22 Jun 2021 18:34:39 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 3/4] export/fuse: Let permissions be adjustable
-Message-ID: <YNIRH94QiGEwo65V@redhat.com>
-References: <20210614144407.134243-1-mreitz@redhat.com>
- <20210614144407.134243-4-mreitz@redhat.com>
- <YNH7l5V/hAKfBmb8@redhat.com>
- <8f2a3abb-4b42-6257-51b9-08982cd87cb4@redhat.com>
+ bh=J8P8bRA16DAM2lPUDMVlGVIYrRpg+irhktcJo2EfrSo=;
+ b=WOcf1MT45MVYZOyyiAPgYQcIycfutN9JXGqe44lhl8hcbOkk353On8gXeYVptHJD+YAwor
+ GmLvFMJUm/o+9VGLVnKAHROfdB7fda2dIs51FXduj02W3Ze/NfBFNHv+Mqoto1mlRhyYwF
+ HasSjCdcMKLvaUMz5uARwxP7reuzgF8=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-UlSp9T2QOQGhzo-UMPT4DQ-1; Tue, 22 Jun 2021 12:56:49 -0400
+X-MC-Unique: UlSp9T2QOQGhzo-UMPT4DQ-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ c25-20020a4ad7990000b029020e67cc1879so9515oou.18
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 09:56:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=J8P8bRA16DAM2lPUDMVlGVIYrRpg+irhktcJo2EfrSo=;
+ b=eTIDMkxLKdbYIqeqeCjMQTMfmH73AXj8oggzJ8d6nTdQBdb7I9J79Jc8QKfzzJTCcU
+ 3XoeO1scNE9TukBt0UFA2lwkQHSK0hmY/HCNUcUOTd25uxFZYHdTO0a2O8jdAARf6PJ1
+ kXEvgAZmEEi0yMcS8xWxmMb3nP442UwpSoKyLtq2x7OfhU1JNwq1hyI8MXIwyQUrRzCC
+ lwJKLYMvXqQRPxluwiCB3P+9+/zGL4SAbuSItPTxJA+MxsfDQHbGnYVBChlTcQYKf/di
+ PQZmG61YCRswB8wRQ5OowSxcWCMnHl1qglqV+23S6+4/j7orW1406mlbSFHisNYhNnDZ
+ YnVg==
+X-Gm-Message-State: AOAM531TXjfj+XbDX7AX0HEH0NIbrGDBfYKOC5TCQYHeL/olECU9OaQW
+ EF+1Rx0KuSHXHzuciwBXzZA1LpQ9J4PYGU59XqcwKxkH7L30w+1p0M6oigSSr8pNkiPmtojfTBC
+ emlHeHWitEMci3BFnJYaoAcvqwx7vaNw=
+X-Received: by 2002:a9d:6250:: with SMTP id i16mr3893041otk.170.1624381008744; 
+ Tue, 22 Jun 2021 09:56:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwKOVuUkX+lgTxAnFOs52uKBvc1lMye7uAJsKvFhTF/39sBLGDsqA/NZtAqFaKxIOyrLoqj0h5KJoFpL5xclec=
+X-Received: by 2002:a9d:6250:: with SMTP id i16mr3893036otk.170.1624381008551; 
+ Tue, 22 Jun 2021 09:56:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8f2a3abb-4b42-6257-51b9-08982cd87cb4@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20210611140157.1366738-1-eblake@redhat.com>
+ <20210611190316.1424729-1-eblake@redhat.com>
+ <YNID9rbo+RdwklCf@redhat.com>
+In-Reply-To: <YNID9rbo+RdwklCf@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 22 Jun 2021 19:56:32 +0300
+Message-ID: <CAMRbyyt5qsVan8dOF=HHvqqo92zwTBRucnfA_UEOOmRMqiyaAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/1] qemu-img: Add "backing":true to unallocated map
+ segments
+To: Kevin Wolf <kwolf@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,140 +91,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.06.2021 um 17:22 hat Max Reitz geschrieben:
-> On 22.06.21 17:02, Kevin Wolf wrote:
-> > Am 14.06.2021 um 16:44 hat Max Reitz geschrieben:
-> > > Allow changing the file mode, UID, and GID through SETATTR.
-> > > 
-> > > This only really makes sense with allow-other, though (because without
-> > > it, the effective access mode is fixed to be 0600 (u+rw) with qemu's
-> > > user being the file's owner), so changing these stat fields is not
-> > > allowed without allow-other.
-> > > 
-> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> > > ---
-> > >   block/export/fuse.c | 48 ++++++++++++++++++++++++++++++++++-----------
-> > >   1 file changed, 37 insertions(+), 11 deletions(-)
-> > > 
-> > > diff --git a/block/export/fuse.c b/block/export/fuse.c
-> > > index 1d54286d90..742e0af657 100644
-> > > --- a/block/export/fuse.c
-> > > +++ b/block/export/fuse.c
-> > > @@ -47,6 +47,10 @@ typedef struct FuseExport {
-> > >       bool writable;
-> > >       bool growable;
-> > >       bool allow_other;
-> > > +
-> > > +    mode_t st_mode;
-> > > +    uid_t st_uid;
-> > > +    gid_t st_gid;
-> > >   } FuseExport;
-> > >   static GHashTable *exports;
-> > > @@ -120,6 +124,13 @@ static int fuse_export_create(BlockExport *blk_exp,
-> > >       exp->growable = args->growable;
-> > >       exp->allow_other = args->allow_other;
-> > > +    exp->st_mode = S_IFREG | S_IRUSR;
-> > > +    if (exp->writable) {
-> > > +        exp->st_mode |= S_IWUSR;
-> > > +    }
-> > > +    exp->st_uid = getuid();
-> > > +    exp->st_gid = getgid();
-> > > +
-> > >       ret = setup_fuse_export(exp, args->mountpoint, errp);
-> > >       if (ret < 0) {
-> > >           goto fail;
-> > > @@ -329,7 +340,6 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
-> > >       int64_t length, allocated_blocks;
-> > >       time_t now = time(NULL);
-> > >       FuseExport *exp = fuse_req_userdata(req);
-> > > -    mode_t mode;
-> > >       length = blk_getlength(exp->common.blk);
-> > >       if (length < 0) {
-> > > @@ -344,17 +354,12 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
-> > >           allocated_blocks = DIV_ROUND_UP(allocated_blocks, 512);
-> > >       }
-> > > -    mode = S_IFREG | S_IRUSR;
-> > > -    if (exp->writable) {
-> > > -        mode |= S_IWUSR;
-> > > -    }
-> > > -
-> > >       statbuf = (struct stat) {
-> > >           .st_ino     = inode,
-> > > -        .st_mode    = mode,
-> > > +        .st_mode    = exp->st_mode,
-> > >           .st_nlink   = 1,
-> > > -        .st_uid     = getuid(),
-> > > -        .st_gid     = getgid(),
-> > > +        .st_uid     = exp->st_uid,
-> > > +        .st_gid     = exp->st_gid,
-> > >           .st_size    = length,
-> > >           .st_blksize = blk_bs(exp->common.blk)->bl.request_alignment,
-> > >           .st_blocks  = allocated_blocks,
-> > > @@ -400,15 +405,23 @@ static int fuse_do_truncate(const FuseExport *exp, int64_t size,
-> > >   }
-> > >   /**
-> > > - * Let clients set file attributes.  Only resizing is supported.
-> > > + * Let clients set file attributes.  With allow_other, only resizing and
-> > > + * changing permissions (st_mode, st_uid, st_gid) is allowed.  Without
-> > > + * allow_other, only resizing is supported.
-> > >    */
-> > >   static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
-> > >                            int to_set, struct fuse_file_info *fi)
-> > >   {
-> > >       FuseExport *exp = fuse_req_userdata(req);
-> > > +    int supported_attrs;
-> > >       int ret;
-> > > -    if (to_set & ~FUSE_SET_ATTR_SIZE) {
-> > > +    supported_attrs = FUSE_SET_ATTR_SIZE;
-> > > +    if (exp->allow_other) {
-> > > +        supported_attrs |= FUSE_SET_ATTR_MODE | FUSE_SET_ATTR_UID |
-> > > +            FUSE_SET_ATTR_GID;
-> > > +    }
-> > > +    if (to_set & ~supported_attrs) {
-> > >           fuse_reply_err(req, ENOTSUP);
-> > >           return;
-> > >       }
-> > > @@ -426,6 +439,19 @@ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
-> > >           }
-> > >       }
-> > > +    if (to_set & FUSE_SET_ATTR_MODE) {
-> > > +        /* Only allow changing the file mode, not the type */
-> > > +        exp->st_mode = (statbuf->st_mode & 07777) | S_IFREG;
-> > > +    }
-> > Should we check that the mode actually makes sense? Not sure if making
-> > an image executable has a good use case, and making it writable in the
-> > permissions for a read-only export isn't a good idea either.
-> 
-> I mean, I don’t mind what the user does.  It doesn’t really faze us, I
-> believe.  If the image contains an executable ELF and the user wants to run
-> it directly from FUSE...  I don’t mind.
-> 
-> As for +w on RO exports, I’m not sure.  This reminds me of `sudo chattr +i
-> $file`, which effectively makes any regular file read-only, too, and it can
-> still keep +w.  So the file permissions are basically just ACLs, getting
-> permission for something doesn’t mean you can actually do it.
-> 
-> OTOH, the difference to `chattr +i` is that we’d allow opening the export
-> R/W, only writing would then fail.  `chattr +i` does give EPERM when opening
-> the file.
-> 
-> So I’m not quite sure.  I don’t really want to prevent the user from setting
-> any access restrictions they want, but on the other hand, if writing can
-> never work, then there really is no point in allowing +w.  (Then I’m
-> wondering, if we don’t allow +w, should we silently drop it or return an
-> error?  I guess returning success but not actually succeeding is weird, so
-> we probably should return EROFS.)
+On Tue, Jun 22, 2021 at 6:38 PM Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> Am 11.06.2021 um 21:03 hat Eric Blake geschrieben:
+> > To save the user from having to check 'qemu-img info --backing-chain'
+> > or other followup command to determine which "depth":n goes beyond the
+> > chain, add a boolean field "backing" that is set only for unallocated
+> > portions of the disk.
+> >
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > ---
+> >
+> > Touches the same iotest output as 1/1.  If we decide that switching to
+> > "depth":n+1 is too risky, and that the mere addition of "backing":true
+> > while keeping "depth":n is good enough, then we'd have just one patch,
+> > instead of this double churn.  Preferences?
+>
+> I think the additional flag is better because it's guaranteed to be
+> backwards compatible, and because you don't need to know the number of
+> layers to infer whether a cluster was allocated in the whole backing
+> chain. And by exposing ALLOCATED we definitely give access to the whole
+> information that exists in QEMU.
+>
+> However, to continue with the bike shedding: I won't insist on
+> "allocated" even if that is what the flag is called internally and
+> consistency is usually helpful, but "backing" is misleading, too,
+> because intuitively it doesn't cover the top layer or standalone images
+> without a backing file. How about something like "present"?
 
-Yes, EROFS seems best.
+Looks hard to document:
 
-> But +x can technically work, so I wouldn’t disallow it.
+# @present: if present and false, the range is not allocated within the
+#           backing chain (since 6.1)
 
-Fair enough.
+And is not consistent with "offset". It would work better as:
 
-Kevin
+# @present: if present, the range is allocated within the backing
+#           chain (since 6.1)
+
+Or:
+
+# @absent: if present, the range is not allocated within the backing
+#           chain (since 6.1)
+
+This is used by libnbd now:
+https://github.com/libguestfs/libnbd/commit/1d01d2ac4f6443b160b7d81119d555e1aaedb56d
+
+But I'm fine with "backing", It is consistent with BLK_BACKING_FILE,
+meaning this area exposes data from a backing file (if one exists).
+
+We use "backing" internally to be consistent with future qemu-img.
 
 
