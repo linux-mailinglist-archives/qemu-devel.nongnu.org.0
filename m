@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290603B03B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:07:53 +0200 (CEST)
-Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAC93B03BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:08:29 +0200 (CEST)
+Received: from localhost ([::1]:38030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvfC3-0003Dt-ML
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52676)
+	id 1lvfCe-0004Hs-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lvf8w-0001Up-Rs
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:04:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31644)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lvf9x-00026G-Fb
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:05:41 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:53457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lvf8l-0001Sg-44
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:04:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624363466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RlbW5gvb9OmleO5oFUCk5PY1tqHTPQ5P7GQDwexmQV4=;
- b=P56+4uJzkiymLHs8t4SypLZg2szcovJYRHxWCBAUsJWH2AQXhoWCHT3v7J85FcQKftVVOO
- DpQPi7IeM06EE72Gn2ADBnRuMZ4YjIWggXfsGFDXRNMOdPZ33oT2v6tMLbf3WcN+LpvpbU
- WbxaGDUn3fgKcFgnTKa31TnDIHQjkQk=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lvf9v-0001pb-Gr
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:05:41 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-Ths-Oe_wPCG2rNAwUWubzQ-1; Tue, 22 Jun 2021 08:04:24 -0400
-X-MC-Unique: Ths-Oe_wPCG2rNAwUWubzQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-389-6F_1GMJ6OUuaTuaE-jFS6Q-1; Tue, 22 Jun 2021 08:05:31 -0400
+X-MC-Unique: 6F_1GMJ6OUuaTuaE-jFS6Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FE63800C60;
- Tue, 22 Jun 2021 12:04:23 +0000 (UTC)
-Received: from localhost (ovpn-114-133.ams2.redhat.com [10.36.114.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E96C45D6BA;
- Tue, 22 Jun 2021 12:04:20 +0000 (UTC)
-Date: Tue, 22 Jun 2021 13:04:19 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] block/ssh: add support for sha256 host key fingerprints
-Message-ID: <20210622120419.GE26415@redhat.com>
-References: <20210622115156.138458-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A23824F87;
+ Tue, 22 Jun 2021 12:05:29 +0000 (UTC)
+Received: from bahia.lan (ovpn-113-182.ams2.redhat.com [10.36.113.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF27D5C1CF;
+ Tue, 22 Jun 2021 12:05:26 +0000 (UTC)
+Date: Tue, 22 Jun 2021 14:05:24 +0200
+From: Greg Kurz <groug@kaod.org>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v2 02/10] target/ppc: Use MMUAccessType with
+ *_handle_mmu_fault
+Message-ID: <20210622140524.1d500f66@bahia.lan>
+In-Reply-To: <20210621125115.67717-3-bruno.larsen@eldorado.org.br>
+References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
+ <20210621125115.67717-3-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-In-Reply-To: <20210622115156.138458-1-berrange@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,269 +64,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: farosas@linux.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
+ luis.pires@eldorado.org.br, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 22, 2021 at 12:51:56PM +0100, Daniel P. Berrangé wrote:
-> Currently the SSH block driver supports MD5 and SHA1 for host key
-> fingerprints. This is a cryptographically sensitive operation and
-> so these hash algorithms are inadequate by modern standards. This
-> adds support for SHA256 which has been supported in libssh since
-> the 0.8.1 release.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On Mon, 21 Jun 2021 09:51:07 -0300
+"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
 
-Patch looks sensible:
+> From: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> These changes were waiting until we didn't need to match
+> the function type of PowerPCCPUClass.handle_mmu_fault.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-  Acked-by: Richard W.M. Jones <rjones@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Would you mind taking a look at nbdkit-ssh-plugin?  This is arguably
-more important (for Red Hat) since we no longer use the SSH driver in
-qemu for V2V and switched to using nbdkit some time ago.  The
-nbdkit-ssh-plugin appears to only support SHA1 from a cursory look.
-
-Rich.
-
-> 
-> Note I can't actually get iotest '207' to fully pass. It always
-> complains that it can't validate the "known_hosts" file
-> 
->   qemu-img: Could not open 'TEST_IMG': no host key was found in known_hosts
-> 
-> it seems to rely on some specific developer host setup that my
-> laptop doesn't satisfy. It would be useful if any pre-requisite
-> could be documented in the iotest.
-> 
-> At least the sha256 verification step I added to 207 does pass
-> though.
-> 
->  block/ssh.c                |  3 +++
->  qapi/block-core.json       |  3 ++-
->  tests/qemu-iotests/207     | 54 ++++++++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/207.out | 25 ++++++++++++++++++
->  4 files changed, 84 insertions(+), 1 deletion(-)
-> 
-> diff --git a/block/ssh.c b/block/ssh.c
-> index b51a031620..d008caf059 100644
-> --- a/block/ssh.c
-> +++ b/block/ssh.c
-> @@ -442,6 +442,9 @@ static int check_host_key(BDRVSSHState *s, SshHostKeyCheck *hkc, Error **errp)
->          } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA1) {
->              return check_host_key_hash(s, hkc->u.hash.hash,
->                                         SSH_PUBLICKEY_HASH_SHA1, errp);
-> +        } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA256) {
-> +            return check_host_key_hash(s, hkc->u.hash.hash,
-> +                                       SSH_PUBLICKEY_HASH_SHA256, errp);
->          }
->          g_assert_not_reached();
->          break;
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 2ea294129e..4247dc46a5 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -3186,11 +3186,12 @@
->  #
->  # @md5: The given hash is an md5 hash
->  # @sha1: The given hash is an sha1 hash
-> +# @sha256: The given hash is an sha256 hash
->  #
->  # Since: 2.12
->  ##
->  { 'enum': 'SshHostKeyCheckHashType',
-> -  'data': [ 'md5', 'sha1' ] }
-> +  'data': [ 'md5', 'sha1', 'sha256' ] }
->  
->  ##
->  # @SshHostKeyHash:
-> diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
-> index f9f3fd7131..0f5c4bc8a0 100755
-> --- a/tests/qemu-iotests/207
-> +++ b/tests/qemu-iotests/207
-> @@ -73,6 +73,9 @@ with iotests.FilePath('t.img') as disk_path, \
->      iotests.log("=== Test host-key-check options ===")
->      iotests.log("")
->  
-> +    iotests.log("--- no host key checking --")
-> +    iotests.log("")
-> +
->      vm.launch()
->      blockdev_create(vm, { 'driver': 'ssh',
->                            'location': {
-> @@ -90,6 +93,9 @@ with iotests.FilePath('t.img') as disk_path, \
->  
->      iotests.img_info_log(remote_path)
->  
-> +    iotests.log("--- known_hosts key checking --")
-> +    iotests.log("")
-> +
->      vm.launch()
->      blockdev_create(vm, { 'driver': 'ssh',
->                            'location': {
-> @@ -115,6 +121,7 @@ with iotests.FilePath('t.img') as disk_path, \
->      # Mappings of base64 representations to digests
->      md5_keys = {}
->      sha1_keys = {}
-> +    sha256_keys = {}
->  
->      for key in keys:
->          md5_keys[key] = subprocess.check_output(
-> @@ -125,6 +132,10 @@ with iotests.FilePath('t.img') as disk_path, \
->              'echo %s | base64 -d | sha1sum -b | cut -d" " -f1' % key,
->              shell=True).rstrip().decode('ascii')
->  
-> +        sha256_keys[key] = subprocess.check_output(
-> +            'echo %s | base64 -d | sha256sum -b | cut -d" " -f1' % key,
-> +            shell=True).rstrip().decode('ascii')
-> +
->      vm.launch()
->  
->      # Find correct key first
-> @@ -150,6 +161,9 @@ with iotests.FilePath('t.img') as disk_path, \
->          vm.shutdown()
->          iotests.notrun('Did not find a key that fits 127.0.0.1')
->  
-> +    iotests.log("--- explicit md5 key checking --")
-> +    iotests.log("")
-> +
->      blockdev_create(vm, { 'driver': 'ssh',
->                            'location': {
->                                'path': disk_path,
-> @@ -164,6 +178,7 @@ with iotests.FilePath('t.img') as disk_path, \
->                                }
->                            },
->                            'size': 2097152 })
-> +
->      blockdev_create(vm, { 'driver': 'ssh',
->                            'location': {
->                                'path': disk_path,
-> @@ -182,6 +197,9 @@ with iotests.FilePath('t.img') as disk_path, \
->  
->      iotests.img_info_log(remote_path)
->  
-> +    iotests.log("--- explicit sha1 key checking --")
-> +    iotests.log("")
-> +
->      vm.launch()
->      blockdev_create(vm, { 'driver': 'ssh',
->                            'location': {
-> @@ -215,6 +233,42 @@ with iotests.FilePath('t.img') as disk_path, \
->  
->      iotests.img_info_log(remote_path)
->  
-> +    iotests.log("--- explicit sha256 key checking --")
-> +    iotests.log("")
-> +
-> +    vm.launch()
-> +    blockdev_create(vm, { 'driver': 'ssh',
-> +                          'location': {
-> +                              'path': disk_path,
-> +                              'server': {
-> +                                  'host': '127.0.0.1',
-> +                                  'port': '22'
-> +                              },
-> +                              'host-key-check': {
-> +                                  'mode': 'hash',
-> +                                  'type': 'sha256',
-> +                                  'hash': 'wrong',
-> +                              }
-> +                          },
-> +                          'size': 2097152 })
-> +    blockdev_create(vm, { 'driver': 'ssh',
-> +                          'location': {
-> +                              'path': disk_path,
-> +                              'server': {
-> +                                  'host': '127.0.0.1',
-> +                                  'port': '22'
-> +                              },
-> +                              'host-key-check': {
-> +                                  'mode': 'hash',
-> +                                  'type': 'sha256',
-> +                                  'hash': sha256_keys[matching_key],
-> +                              }
-> +                          },
-> +                          'size': 4194304 })
-> +    vm.shutdown()
-> +
-> +    iotests.img_info_log(remote_path)
-> +
->      #
->      # Invalid path and user
->      #
-> diff --git a/tests/qemu-iotests/207.out b/tests/qemu-iotests/207.out
-> index 1239d9d648..aeb8569d77 100644
-> --- a/tests/qemu-iotests/207.out
-> +++ b/tests/qemu-iotests/207.out
-> @@ -16,6 +16,8 @@ virtual size: 4 MiB (4194304 bytes)
->  
->  === Test host-key-check options ===
->  
-> +--- no host key checking --
-> +
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 8388608}}}
->  {"return": {}}
->  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
-> @@ -25,6 +27,8 @@ image: TEST_IMG
->  file format: IMGFMT
->  virtual size: 8 MiB (8388608 bytes)
->  
-> +--- known_hosts key checking --
-> +
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "known_hosts"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
->  {"return": {}}
->  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
-> @@ -34,6 +38,8 @@ image: TEST_IMG
->  file format: IMGFMT
->  virtual size: 4 MiB (4194304 bytes)
->  
-> +--- explicit md5 key checking --
-> +
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "md5"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
->  {"return": {}}
->  Job failed: remote host key does not match host_key_check 'wrong'
-> @@ -49,6 +55,8 @@ image: TEST_IMG
->  file format: IMGFMT
->  virtual size: 8 MiB (8388608 bytes)
->  
-> +--- explicit sha1 key checking --
-> +
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha1"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
->  {"return": {}}
->  Job failed: remote host key does not match host_key_check 'wrong'
-> @@ -64,6 +72,23 @@ image: TEST_IMG
->  file format: IMGFMT
->  virtual size: 4 MiB (4194304 bytes)
->  
-> +--- explicit sha256 key checking --
-> +
-> +{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
-> +{"return": {}}
-> +Job failed: remote host key does not match host_key_check 'wrong'
-> +{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-> +{"return": {}}
-> +
-> +{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "HASH", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
-> +{"return": {}}
-> +{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-> +{"return": {}}
-> +
-> +image: TEST_IMG
-> +file format: IMGFMT
-> +virtual size: 4 MiB (4194304 bytes)
-> +
->  === Invalid path and user ===
->  
->  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "/this/is/not/an/existing/path", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
-> -- 
-> 2.31.1
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-top is 'top' for virtual machines.  Tiny program with many
-powerful monitoring features, net stats, disk stats, logging, etc.
-http://people.redhat.com/~rjones/virt-top
+>  target/ppc/mmu-hash32.c  | 7 ++-----
+>  target/ppc/mmu-hash32.h  | 4 ++--
+>  target/ppc/mmu-hash64.c  | 6 +-----
+>  target/ppc/mmu-hash64.h  | 4 ++--
+>  target/ppc/mmu-radix64.c | 7 ++-----
+>  target/ppc/mmu-radix64.h | 4 ++--
+>  6 files changed, 11 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
+> index 9f0a497657..8f19b43e47 100644
+> --- a/target/ppc/mmu-hash32.c
+> +++ b/target/ppc/mmu-hash32.c
+> @@ -415,8 +415,8 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, p=
+pc_hash_pte32_t pte,
+>      return (rpn & ~mask) | (eaddr & mask);
+>  }
+> =20
+> -int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+> -                                int mmu_idx)
+> +int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+> +                                MMUAccessType access_type, int mmu_idx)
+>  {
+>      CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+> @@ -425,11 +425,8 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vad=
+dr eaddr, int rwx,
+>      ppc_hash_pte32_t pte;
+>      int prot;
+>      int need_prot;
+> -    MMUAccessType access_type;
+>      hwaddr raddr;
+> =20
+> -    assert((rwx =3D=3D 0) || (rwx =3D=3D 1) || (rwx =3D=3D 2));
+> -    access_type =3D rwx;
+>      need_prot =3D prot_for_access_type(access_type);
+> =20
+>      /* 1. Handle real mode accesses */
+> diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
+> index 898021f0d8..30e35718a7 100644
+> --- a/target/ppc/mmu-hash32.h
+> +++ b/target/ppc/mmu-hash32.h
+> @@ -5,8 +5,8 @@
+> =20
+>  hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash);
+>  hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr=
+);
+> -int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
+> -                                int mmu_idx);
+> +int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
+> +                                MMUAccessType access_type, int mmu_idx);
+> =20
+>  /*
+>   * Segment register definitions
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 708dffc31b..2febd369b1 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -874,7 +874,7 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t=
+ *slb)
+>  }
+> =20
+>  int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+> -                                int rwx, int mmu_idx)
+> +                                MMUAccessType access_type, int mmu_idx)
+>  {
+>      CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+> @@ -884,13 +884,9 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vad=
+dr eaddr,
+>      hwaddr ptex;
+>      ppc_hash_pte64_t pte;
+>      int exec_prot, pp_prot, amr_prot, prot;
+> -    MMUAccessType access_type;
+>      int need_prot;
+>      hwaddr raddr;
+> =20
+> -    assert((rwx =3D=3D 0) || (rwx =3D=3D 1) || (rwx =3D=3D 2));
+> -    access_type =3D rwx;
+> -
+>      /*
+>       * Note on LPCR usage: 970 uses HID4, but our special variant of
+>       * store_spr copies relevant fields into env->spr[SPR_LPCR].
+> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+> index 4b8b8e7950..3e8a8eec1f 100644
+> --- a/target/ppc/mmu-hash64.h
+> +++ b/target/ppc/mmu-hash64.h
+> @@ -8,8 +8,8 @@ void dump_slb(PowerPCCPU *cpu);
+>  int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
+>                    target_ulong esid, target_ulong vsid);
+>  hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr=
+);
+> -int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
+> -                                int mmu_idx);
+> +int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
+> +                                MMUAccessType access_type, int mmu_idx);
+>  void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
+>                                 target_ulong pte_index,
+>                                 target_ulong pte0, target_ulong pte1);
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index b6d191c1d8..1c707d387d 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -555,19 +555,16 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr=
+ eaddr,
+>      return 0;
+>  }
+> =20
+> -int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+> -                                 int mmu_idx)
+> +int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+> +                                 MMUAccessType access_type, int mmu_idx)
+>  {
+>      CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+>      int page_size, prot;
+>      bool relocation;
+> -    MMUAccessType access_type;
+>      hwaddr raddr;
+> =20
+>      assert(!(msr_hv && cpu->vhyp));
+> -    assert((rwx =3D=3D 0) || (rwx =3D=3D 1) || (rwx =3D=3D 2));
+> -    access_type =3D rwx;
+> =20
+>      relocation =3D (access_type =3D=3D MMU_INST_FETCH ? msr_ir : msr_dr)=
+;
+>      /* HV or virtual hypervisor Real Mode Access */
+> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
+> index f28c5794d0..94bd72cb38 100644
+> --- a/target/ppc/mmu-radix64.h
+> +++ b/target/ppc/mmu-radix64.h
+> @@ -44,8 +44,8 @@
+> =20
+>  #ifdef TARGET_PPC64
+> =20
+> -int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+> -                                 int mmu_idx);
+> +int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+> +                                 MMUAccessType access_type, int mmu_idx)=
+;
+>  hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong add=
+r);
+> =20
+>  static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
 
 
