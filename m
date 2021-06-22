@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189373AFBF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:29:27 +0200 (CEST)
-Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B907C3AFBEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:28:06 +0200 (CEST)
+Received: from localhost ([::1]:39900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvY2Q-0005tD-2c
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57174)
+	id 1lvY17-0000Sc-Na
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzU-0006ZL-8e
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:24 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55948)
+ id 1lvXzH-0005o9-I6
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:11 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzS-0004vl-8z
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:24 -0400
+ id 1lvXzE-0004op-Av
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:11 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzE-00014v-M0
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:08 +0000
+ id 1lvXz9-00015g-9b
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:03 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F8982E81E3
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:04 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DD2FF2E81DD
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:25:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:38 -0000
-From: Launchpad Bug Tracker <1850378@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:43 -0000
+From: Launchpad Bug Tracker <1853123@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: riscv
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor palmerdabbelt th-huth tm42
-X-Launchpad-Bug-Reporter: tm (tm42)
+X-Launchpad-Bug-Commenters: ffasm janitor th-huth
+X-Launchpad-Bug-Reporter: Leonid Myravjev (ffasm)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157235518365.28116.9958641157871998206.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162433551901.20423.11256606073448271554.malone@loganberry.canonical.com>
-Subject: [Bug 1850378] Re: RISC-V unreliable IPIs
+References: <157415859481.31407.14877522937916803487.malonedeb@wampee.canonical.com>
+Message-Id: <162433552355.20423.13772404594710150847.malone@loganberry.canonical.com>
+Subject: [Bug 1853123] Re: Memory synchronization error between kvm and target, 
+ e1000(dpdk)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: b3ff6076a5748ed786ed5c41a221eb276f179638
+X-Launchpad-Hash: da532e2aa5d2ca0a8038ca965bf25de1b9539441
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1850378 <1850378@bugs.launchpad.net>
+Reply-To: Bug 1853123 <1853123@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,45 +84,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1850378
+https://bugs.launchpad.net/bugs/1853123
 
 Title:
-  RISC-V unreliable IPIs
+  Memory synchronization error between kvm and target, e1000(dpdk)
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I am working on a project with custom inter processor interrupts (IPIs) o=
-n the RISC-V virt machine.
-  After upgrading from version 3.1.0 to 4.1.0 which fixes a related issue (=
-https://github.com/riscv/riscv-qemu/issues/132) I am able to use the CPU ho=
-tplug feature.
+  Hi folks.
 
-  However, if I try to use IPIs for communication between two cores, the
-  wfi instruction behaves strangely. Either it does not return, or it
-  returns on timer interrupts, even though they are disabled. The code,
-  I use on one core to wait for an interrupt is the following.
+  I use linux with dpdk drivers on the target system, and e1000 emulation d=
+evice with tap interface for host. I use kvm for accelerate.
+  Version qemu 4.0.94 and master (Nov 12 10:14:33 2019)
+  Version dpdk stable-17.11.4
+  Version linux host 4.15.0-66-generic (ubuntu 18.04)
 
-  =C2=A0csr_clear(sie, SIE_SEIE | SIE_STIE);
-  =C2=A0do {
-  =C2=A0=C2=A0wait_for_interrupt();
-  =C2=A0=C2=A0sipval =3D csr_read(sip);
-  =C2=A0=C2=A0sieval =3D csr_read(sie);
-  =C2=A0=C2=A0scauseval =3D csr_read(scause) & 0xFF;
-  =C2=A0/* only break if wfi returns for an software interrupt */
-  =C2=A0} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
-  =C2=A0csr_set(sie, SIE_SEIE | SIE_STIE);
+  I type command "ping <target ip> -f" and wait about 1-2 minutes.
+  Network subsystem freezes.
 
-  Since the resulting sequence does not seem to be deterministic, my
-  guess is, that it has something to do with the communication of qemu's
-  threads for the different cores.
+  For receive the eth pack from host system (tap interface) to host
+  system the e1000 using ring buffer.
 
-  Update:
-  The exact same setup works fine in spike (the actual sim, not the qemu bo=
-ard), which might give a hint, that it is related to the interrupt controll=
-er implementation.
+  The e1000 write body of eth pack, set E1000_RXD_STAT_DD flag and move RDH=
+ (Ring Device Head).
+  (file hw/net/e1000.c function e1000_receive_iov() )
+
+  The dpdk driver is reading from E1000_RXD_STAT_DD flags (ignoring RDH), i=
+f flag is set: read buffer, unset flag E1000_RXD_STAT_DD and move RDT (Ring=
+ Device Tail).
+  (source drivers/net/e1000/em_rxtx.c function eth_em_recv_scattered_pkts()=
+ )
+
+  I see what the driver unet E1000_RXD_STAT_DD (rxdp->status =3D 0; ), but
+  sometimes rxdp->status remains equal to 7. On the next cycle, this
+  this buffer is read, RDT moved to far. RDH becomes equal RDT and
+  network is freezes.
+
+  If I insert some delay after unset E1000_RXD_STAT_DD, and repeatedly unse=
+t E1000_RXD_STAT_DD (if rxdp->status =3D=3D 7 ), then all work fine.
+  If check E1000_RXD_STAT_DD without delay, status rxdp->status always vali=
+d.
+
+  This only appears on kvm. If I use tcg all works fine.
+
+  I trying set watchpoint for memory on the qemu (for tcg), and see,
+  that for one package cycle of set/unse STAT_DD repeated once.
+
+  I trying set watchpoint for memory on the qemu (for kvm), and see,
+  that rxdp->status changed to 0(unset) only once, but is changes
+  immediately before set flag.
+
+  =
+
+  Please help me with advice on how to catch and fix this error. =
+
+  Theoretically, it would help me to trace the memory access when writing t=
+o E1000_RXD_STAT_DD, RHD and RDT, both from the target and the host system.=
+ But I have no idea how this can be done.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1850378/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1853123/+subscriptions
 
