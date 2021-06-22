@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375513B09F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:09:08 +0200 (CEST)
-Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB643B0A17
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:15:51 +0200 (CEST)
+Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvixX-00074Z-9M
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60980)
+	id 1lvj42-0002iT-9G
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:15:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lviu2-0008BR-E2
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:05:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48425)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lvj1r-00009P-Db
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:13:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lviu0-0006qU-KL
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:05:30 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lvj1n-0003dt-8J
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:13:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624377928;
+ s=mimecast20190719; t=1624378409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BvuA4K5URdUlqc31Q2O9LRG/4aqlhQ1KN4ZORXbimp0=;
- b=OYch/AunxT/wEV0CRja3cjCocBJTnkwX/0IoC342fUh3t24fASeSbgHkio/jHm+WiEpZGZ
- xEoSYNqFmnAJlwHhpcREE8WH35b4RyTCNVkCNfk32XO2fHmQng2s45nWoNvYJKjC+rsLIB
- XIIuEqmBmabX6cWOcGifamTFDgc/Zik=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-SUUhVLBiNC2DtgW80GlJTA-1; Tue, 22 Jun 2021 12:05:26 -0400
-X-MC-Unique: SUUhVLBiNC2DtgW80GlJTA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k3-20020a5d62830000b029011a69a4d069so9726215wru.21
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 09:05:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BvuA4K5URdUlqc31Q2O9LRG/4aqlhQ1KN4ZORXbimp0=;
- b=WMmD8ndKjQLcljoyvpzoqOv0NNDAtcFCj5a5SMMjBIqtj17uMscbvu81hZkH7UHRyr
- 3906rAtfXL1DhOKzbrT3+/6r0OxjaAnHAwgtX+VM0+4AsyeGv8DgwoMKYQUfsU1Crxhs
- tBmcQKmy4mFAJYJG20p2IRXvOAA8lidfdGwT+bco7pAp0DxMv5Ax/ae2TkehZNtNs95N
- lRtMVRAkO8ndfOsnMEvdLSi1oANH5QpMRBMsD5vd/csQryMDjTE4PcZQdW2OKxEodVQS
- rNqVg8J3w51PTujaOIP1046sVoug91IjjRDjF7dTAq716HPghldoDoOpmLjHV5LC0cXy
- kSFA==
-X-Gm-Message-State: AOAM530xx6rdKzAPaLMbPpjFlSmgXgBfRJv76aZybFWgwRKd83d55Xwm
- a28kRwzBtAMh3WUbeB8Zik6DUKSJdUTUiFGlOC/FIfUGjz3+oFgBuMDgc4FEAAOfRE2dE41VsvJ
- NUYMf65g7pBNmKhA=
-X-Received: by 2002:a5d:42ca:: with SMTP id t10mr5864345wrr.162.1624377925738; 
- Tue, 22 Jun 2021 09:05:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCt3xmVg8ZgO77DEFRc+YSCQ9DQ1yFCv1TqcmV6F9Yv546tfBlW4dXqpqOHgVIc3pZJ7ETlg==
-X-Received: by 2002:a5d:42ca:: with SMTP id t10mr5864324wrr.162.1624377925524; 
- Tue, 22 Jun 2021 09:05:25 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id w9sm16154006wru.3.2021.06.22.09.05.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jun 2021 09:05:24 -0700 (PDT)
-Subject: Re: [PATCH 0/4] modules: update developer documentation
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20210622125110.262843-1-kraxel@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1510692a-9f1f-46d7-a113-6cafeee04a38@redhat.com>
-Date: Tue, 22 Jun 2021 18:05:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=U3d46BWSzHA/knyPRlvDZrwuXeSE1BfWR31Euwq6HM0=;
+ b=QeXzZLKjK7RBNeFJU02BV8bIasV9W5IF30ZDxTR07vaT7izN0sHmoc01emzBjhIgMCp8Vk
+ Ag0ykvPADWkiTq+ks+UALdEPtsqt042hqew72i0fvfL6NkChuIvHXlTwb9ORaMKX3ldWvv
+ HZY0P+U/DBh2TwjZB5e3myC+ZiV4vZA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-D36IaQ4PNAOABphPeNVrkg-1; Tue, 22 Jun 2021 12:13:26 -0400
+X-MC-Unique: D36IaQ4PNAOABphPeNVrkg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA24181C860;
+ Tue, 22 Jun 2021 16:13:25 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-52.ams2.redhat.com
+ [10.36.115.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 330CA5D9DE;
+ Tue, 22 Jun 2021 16:13:24 +0000 (UTC)
+Subject: Re: Too slow edk2 bios boot?
+To: Bin Meng <bmeng.cn@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <CAEUhbmWMzo7ZhZLjk_ScBv=AskOY670L62ujqm76tgC5Zjbq4A@mail.gmail.com>
+ <20210618114650.mge72lslmr7cakxw@sirius.home.kraxel.org>
+ <CAEUhbmW0kh9wKtSQJUCgwzmbCehvrWg6L2xn65jPokLwEjO45A@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <66fed11e-9b74-0ca0-4922-0d4fe344b962@redhat.com>
+Date: Tue, 22 Jun 2021 18:13:23 +0200
 MIME-Version: 1.0
-In-Reply-To: <20210622125110.262843-1-kraxel@redhat.com>
+In-Reply-To: <CAEUhbmW0kh9wKtSQJUCgwzmbCehvrWg6L2xn65jPokLwEjO45A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,32 +80,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/06/21 14:51, Gerd Hoffmann wrote:
-> Depends on the "modules: add meta-data database" patch series.
+On 06/18/21 15:06, Bin Meng wrote:
+> On Fri, Jun 18, 2021 at 7:46 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 > 
-> Gerd Hoffmann (4):
->    modules: add documentation for module sourcesets
->    modules: add module_obj() note to QOM docs
->    modules: module.h kerneldoc annotations
->    modules: hook up modules.h to docs build
+>> On Fri, Jun 18, 2021 at 06:46:57PM +0800, Bin Meng wrote:
+>>> Hi Laszlo,
+>>>
+>>> Using the QEMU shipped edk2 bios, for i386, it boots very quickly to
+>>> the EFI shell.
+>>>
+>>> $ qemu-system-i386 -nographic -pflash edk2-i386-code.fd
+
+Ouch. Don't do this. If you use just one pflash chip, then a unified FD file is expected in that chip, containing both varstore and firmware executable.
+
+Upstream QEMU does not bundle / install unified FD files however. What it provides are separate executables and varstore *templates*.
+
+If you don't want to create a permanent variable store file for your VM, from the template called "edk2-i386-vars.fd", then the minimum command line is something like this:
+
+qemu-system-i386 \
+  -drive if=pflash,unit=0,format=raw,readonly=on,file=edk2-i386-code.fd \
+  -drive if=pflash,unit=1,format=raw,snapshot=on,file=edk2-i386-vars.fd \
+
+(Nowadays I should use the "blockdev" syntax instead of "-drive", but I've not updated my scripts thus far ;))
+
+
+>>>
+>>> However with x86_64, it takes a very long time to boot to the EFI
+>>> shell. It seems it got stuck in the PXE boot. Any ideas?
+>>
+>> One year ago ia32 efi netboot support was dropped (and you are the first
+>> who noticed 😎 ).
+
+I certainly noticed:
+
+http://mid.mail-archive.com/e6078611-789f-027b-bea5-759e02b10eee@redhat.com
+
+
+>>
 > 
->   include/qemu/module.h       | 59 ++++++++++++++++++++++++++++---------
->   docs/devel/build-system.rst | 17 +++++++++++
->   docs/devel/index.rst        |  1 +
->   docs/devel/modules.rst      |  5 ++++
->   docs/devel/qom.rst          |  8 +++++
->   5 files changed, 76 insertions(+), 14 deletions(-)
->   create mode 100644 docs/devel/modules.rst
+> I guess not many people play with ia32 these days :)
 > 
+> 
+>>
+>> commit 9ed02fbb847277bef88dbe6a677cf3e5f39e5a38
+>> Author: Gerd Hoffmann <kraxel@redhat.com>
+>> Date:   Wed Jul 22 12:24:35 2020 +0200
+>>
+>>     ipxe: drop ia32 efi roms
+>>
+>>     UEFI on ia32 never really took off.  Basically the BIOS -> UEFI shift
+>>     came too late, x64 was widespread already, so vendors went from BIOS
+>>     straight to UEFI on x64.
+>>
+>>     Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>>
+>>
+>>> I checked the boot manager, and it seems only 64-bit edk2 bios has
+>>> built-in PXE boot while 32-bit does not.
+>>
+>> It isn't edk2 but the nic boot roms, but yes, lack of pxe support on
+>> ia32 is the root cause.
+>>
+> 
+> Got it.
+> 
+> 
+>>> Any idea to speed up this whole PXE boot thing?
+>>
+>> qemu -nic none ?
+>>
+> 
+> Yep this works. Thanks a lot!
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+If you need neither NICs nor disks in your guest at all, then "-nic none" is indeed the simplest solution.
 
-Thank you very much!
-
-Paolo
+Thanks,
+Laszlo
 
 
