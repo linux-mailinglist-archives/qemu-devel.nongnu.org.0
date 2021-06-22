@@ -2,111 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0993B0424
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:19:57 +0200 (CEST)
-Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3113E3B045A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:28:13 +0200 (CEST)
+Received: from localhost ([::1]:56678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvfNk-0007GI-EO
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
+	id 1lvfVj-0003B7-N0
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Arseny.Krasnov@kaspersky.com>)
- id 1lvfLd-0004pW-9I
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:17:46 -0400
-Received: from mx12.kaspersky-labs.com ([91.103.66.155]:18495)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvfUs-0002Uo-Tk
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:27:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Arseny.Krasnov@kaspersky.com>)
- id 1lvfLb-0005nI-EE
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:17:45 -0400
-Received: from relay12.kaspersky-labs.com (unknown [127.0.0.10])
- by relay12.kaspersky-labs.com (Postfix) with ESMTP id 5D7C075D1D;
- Tue, 22 Jun 2021 15:17:41 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
- s=mail202102; t=1624364261;
- bh=Yy1xsgvDKqHmcGQx7UPswMWbCITSEJOFksTDiCaqovc=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type;
- b=X7B+oMevSKKwdg9oF2jHhOryuTustCBGF2266h3Bhg+k0TqBRu6zOgX2pfVetBZGF
- pzyLsu5zcHqTdepJhnHa4K1agSrexihUk0BASHSTIvvRn2Q7Lyz49gnptto2NSAn+O
- d6nFyzAN1kyhTfJWHOoOvySMShMRupBjeapCUfl2n5CQY3h89ZRw/I19c6rxk+suim
- bLwGYv8KcPshF1JvgZyUBRHnIFffosJ9haQh0XA67Wr7qGVlCXaxUl9U0H3AfntXAA
- sXv7so6yFMpYUjwbanh6XO1pgxk5qimK5sRLo3FodlDWdRjK3etU1GKiWclEJQHyVF
- Z2grJzd8HmDvw==
-Received: from mail-hq2.kaspersky.com (unknown [91.103.66.206])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (Client CN "mail-hq2.kaspersky.com",
- Issuer "Kaspersky MailRelays CA G3" (verified OK))
- by mailhub12.kaspersky-labs.com (Postfix) with ESMTPS id 2958E75D5A;
- Tue, 22 Jun 2021 15:17:41 +0300 (MSK)
-Received: from [10.16.171.77] (10.64.64.121) by hqmailmbx3.avp.ru
- (10.64.67.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.14; Tue, 22
- Jun 2021 15:17:40 +0300
-Subject: Re: [RFC PATCH v1] vhost-vsock: SOCK_SEQPACKET feature bit support
-To: Stefano Garzarella <sgarzare@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "oxffffaa@gmail.com" <oxffffaa@gmail.com>
-References: <20210621140741.2628913-1-arseny.krasnov@kaspersky.com>
- <20210622082409.cmjoor4liw4jslqt@steredhat>
-From: Arseny Krasnov <arseny.krasnov@kaspersky.com>
-Message-ID: <3ae7d965-549a-be7a-d1a5-9dcfb206f350@kaspersky.com>
-Date: Tue, 22 Jun 2021 15:17:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvfUp-0001Qn-De
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:27:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624364833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RezCyCm+8CqOmxH+eIeKDvtfn5CUbkgKg9dNoU+Mcco=;
+ b=V5LUrD9Z3wAAlJul01daa5ddlMqBbUHG2w8Cg0E8UoaM+HVOnp1ho6Bhe0FEmXEMkb22nn
+ 8IWNqJxIvhgOdiwvaoS8do6CmkIQLWKqJrkDboo/LBMVMS5P7F3LlJDIOmzCBNVMaeFoK2
+ hX4T8TP/SbAfU9RifClpNcwKKopjvOs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-E3YQ4K5iNdCROkK1UmQupA-1; Tue, 22 Jun 2021 08:27:11 -0400
+X-MC-Unique: E3YQ4K5iNdCROkK1UmQupA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k25-20020a5d52590000b0290114dee5b660so9677080wrc.16
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 05:27:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RezCyCm+8CqOmxH+eIeKDvtfn5CUbkgKg9dNoU+Mcco=;
+ b=Hpw66X5mf+ofH4+EfrveXdP+vIeOFzWXGcnsVvQjI4A7aOeJKPbwXElStIoK4juNV7
+ dcPk3OC0DwM74WpqJF6uTXpcIQMSN9zlgZP9zGCIanLV32UVH5BxoK4MXWRU/wO3duMW
+ Tgx4c44P7Q+tWJwedquHEPT+Mk/UYyQKi7r2tANsPiWtk4obK/QiJo3W+qPxeV58YaWo
+ EU9nNeOtxyXTAVCZqk7xg748m7HWRz0frUA8bMbPwmCm4R24h9LD2TKsRFBcO5sedbKY
+ Q77jyaTK0E/5nxnbSIqae5j5j+ngCLCUKeWR5gycHN1vE4cB/a9nhUzU1Ikx7riElWTB
+ wDxQ==
+X-Gm-Message-State: AOAM532CTSKqmd9LC/5g9sPCqY+UywzIn9kNfjVEl/mylodqeQaGEEZW
+ RWryoA8TkYnbM3mmOvp/3hK9h6WvuM3Nyx5Ht00Nckcp8qaPvzUuY0VxTYGCm2/OowNQahykJEr
+ iipvaPJWRhRcxn6Y=
+X-Received: by 2002:a5d:650b:: with SMTP id x11mr4639169wru.198.1624364830804; 
+ Tue, 22 Jun 2021 05:27:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJye2BzswHwLprb0xl7qbgZdYHrq9T2/XqyqXI4y7wOf3JMgFoD8IpUv534xa82KWKstaTwIag==
+X-Received: by 2002:a5d:650b:: with SMTP id x11mr4639140wru.198.1624364830575; 
+ Tue, 22 Jun 2021 05:27:10 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id u15sm2193759wmq.48.2021.06.22.05.27.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 05:27:10 -0700 (PDT)
+Subject: Re: [PATCH] block/ssh: add support for sha256 host key fingerprints
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Pino Toscano <ptoscano@redhat.com>
+References: <20210622115156.138458-1-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7df266d5-8df4-c063-4bbf-dbf9edf4df92@redhat.com>
+Date: Tue, 22 Jun 2021 14:27:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210622082409.cmjoor4liw4jslqt@steredhat>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210622115156.138458-1-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Originating-IP: [10.64.64.121]
-X-ClientProxiedBy: hqmailmbx3.avp.ru (10.64.67.243) To hqmailmbx3.avp.ru
- (10.64.67.243)
-X-KSE-ServerInfo: hqmailmbx3.avp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 06/22/2021 11:58:58
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 164532 [Jun 22 2021]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: arseny.krasnov@kaspersky.com
-X-KSE-AntiSpam-Info: LuaCore: 448 448 71fb1b37213ce9a885768d4012c46ac449c77b17
-X-KSE-AntiSpam-Info: {Tracking_phishing_log_reg_50_60}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; kaspersky.com:7.1.1
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Deterministic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 06/22/2021 12:02:00
-X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
- rules found
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 22.06.2021 10:33:00
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
- rules found
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-KLMS-Rule-ID: 52
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Status: not scanned, disabled by settings
-X-KLMS-AntiSpam-Interceptor-Info: not scanned
-X-KLMS-AntiPhishing: Clean, bases: 2021/06/22 08:28:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30,
- bases: 2021/06/22 05:48:00 #16781513
-X-KLMS-AntiVirus-Status: Clean, skipped
-Received-SPF: pass client-ip=91.103.66.155;
- envelope-from=Arseny.Krasnov@kaspersky.com; helo=mx12.kaspersky-labs.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,101 +99,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/22/21 1:51 PM, Daniel P. Berrangé wrote:
+> Currently the SSH block driver supports MD5 and SHA1 for host key
+> fingerprints. This is a cryptographically sensitive operation and
+> so these hash algorithms are inadequate by modern standards. This
+> adds support for SHA256 which has been supported in libssh since
+> the 0.8.1 release.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+> 
+> Note I can't actually get iotest '207' to fully pass. It always
+> complains that it can't validate the "known_hosts" file
+> 
+>   qemu-img: Could not open 'TEST_IMG': no host key was found in known_hosts
+> 
+> it seems to rely on some specific developer host setup that my
+> laptop doesn't satisfy. It would be useful if any pre-requisite
+> could be documented in the iotest.
+> 
+> At least the sha256 verification step I added to 207 does pass
+> though.
 
-On 22.06.2021 11:24, Stefano Garzarella wrote:
-> On Mon, Jun 21, 2021 at 05:07:41PM +0300, Arseny Krasnov wrote:
->> This adds processing of VIRTIO_VSOCK_F_SEQPACKET features bit. Guest
->> negotiates it with vhost, thus both will know that SOCK_SEQPACKET
->> supported by peer.
->>
->> Signed-off-by: Arseny Krasnov <arseny.krasnov@kaspersky.com>
->> ---
->> hw/virtio/vhost-vsock.c                       | 16 +++++++++++++++-
->> include/standard-headers/linux/virtio_vsock.h |  3 +++
->> 2 files changed, 18 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
->> index 8ddfb9abfe..fc8c143df9 100644
->> --- a/hw/virtio/vhost-vsock.c
->> +++ b/hw/virtio/vhost-vsock.c
->> @@ -108,10 +108,23 @@ static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
->>                                          uint64_t requested_features,
->>                                          Error **errp)
->> {
->> -    /* No feature bits used yet */
->> +    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
->> +
->> +    if (virtio_has_feature(vvc->vhost_dev.features, VIRTIO_VSOCK_F_SEQPACKET)) {
->> +        virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
->> +    }
->> +
-> I think we can use vhost_get_features(), take a look at 
-> hw/virtio/vhost-user-vsock.c
++Pino
 
-Hm, i've implemented use of 'vhost_get_features()' in the
+>  block/ssh.c                |  3 +++
+>  qapi/block-core.json       |  3 ++-
+>  tests/qemu-iotests/207     | 54 ++++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/207.out | 25 ++++++++++++++++++
+>  4 files changed, 84 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/ssh.c b/block/ssh.c
+> index b51a031620..d008caf059 100644
+> --- a/block/ssh.c
+> +++ b/block/ssh.c
+> @@ -442,6 +442,9 @@ static int check_host_key(BDRVSSHState *s, SshHostKeyCheck *hkc, Error **errp)
+>          } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA1) {
+>              return check_host_key_hash(s, hkc->u.hash.hash,
+>                                         SSH_PUBLICKEY_HASH_SHA1, errp);
+> +        } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA256) {
+> +            return check_host_key_hash(s, hkc->u.hash.hash,
+> +                                       SSH_PUBLICKEY_HASH_SHA256, errp);
 
-vhost-user-vsock.c manner...
+Easier to read as a switch() :)
 
->
->
->>     return requested_features;
->> }
->>
->> +static void vhost_vsock_set_features(VirtIODevice *vdev, uint64_t features)
->> +{
->> +    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
->> +    const VhostOps *vhost_ops = vvc->vhost_dev.vhost_ops;
->> +
->> +    vhost_ops->vhost_set_features(&vvc->vhost_dev, features);
-> Maybe we can avoid vhost_vsock_set_features(), because in 
-> vhost_vsock_common_start() we have this code that should do the same, 
-> sice vhost_dev_start() already call vhost_set_features() with the acked 
-> features:
->
->      vvc->vhost_dev.acked_features = vdev->guest_features;
->      ret = vhost_dev_start(&vvc->vhost_dev, vdev);
->
-> I'm not sure if it works. Can you try simply removing 
-> vhost_vsock_set_features()?
->
-> Thanks,
-> Stefano
-Thank You, that works.
->
->> +}
->> +
->> static const VMStateDescription vmstate_virtio_vhost_vsock = {
->>     .name = "virtio-vhost_vsock",
->>     .minimum_version_id = VHOST_VSOCK_SAVEVM_VERSION,
->> @@ -224,6 +237,7 @@ static void vhost_vsock_class_init(ObjectClass *klass, void *data)
->>     vdc->realize = vhost_vsock_device_realize;
->>     vdc->unrealize = vhost_vsock_device_unrealize;
->>     vdc->get_features = vhost_vsock_get_features;
->> +    vdc->set_features = vhost_vsock_set_features;
->>     vdc->get_config = vhost_vsock_get_config;
->>     vdc->set_status = vhost_vsock_set_status;
->> }
->> diff --git a/include/standard-headers/linux/virtio_vsock.h 
->> b/include/standard-headers/linux/virtio_vsock.h
->> index be443211ce..5eac522ee2 100644
->> --- a/include/standard-headers/linux/virtio_vsock.h
->> +++ b/include/standard-headers/linux/virtio_vsock.h
->> @@ -38,6 +38,9 @@
->> #include "standard-headers/linux/virtio_ids.h"
->> #include "standard-headers/linux/virtio_config.h"
->>
->> +/* The feature bitmap for virtio vsock */
->> +#define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET 
->> supported */
->> +
->> struct virtio_vsock_config {
->> 	uint64_t guest_cid;
->> } QEMU_PACKED;
->> -- 
->> 2.25.1
->>
->
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>          }
+>          g_assert_not_reached();
+>          break;
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 2ea294129e..4247dc46a5 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -3186,11 +3186,12 @@
+>  #
+>  # @md5: The given hash is an md5 hash
+>  # @sha1: The given hash is an sha1 hash
+> +# @sha256: The given hash is an sha256 hash
+>  #
+>  # Since: 2.12
+>  ##
+>  { 'enum': 'SshHostKeyCheckHashType',
+> -  'data': [ 'md5', 'sha1' ] }
+> +  'data': [ 'md5', 'sha1', 'sha256' ] }
+>  
+>  ##
+>  # @SshHostKeyHash:
+> diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
+> index f9f3fd7131..0f5c4bc8a0 100755
+> --- a/tests/qemu-iotests/207
+> +++ b/tests/qemu-iotests/207
+> @@ -73,6 +73,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>      iotests.log("=== Test host-key-check options ===")
+>      iotests.log("")
+>  
+> +    iotests.log("--- no host key checking --")
+> +    iotests.log("")
+> +
+>      vm.launch()
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+> @@ -90,6 +93,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>  
+>      iotests.img_info_log(remote_path)
+>  
+> +    iotests.log("--- known_hosts key checking --")
+> +    iotests.log("")
+> +
+>      vm.launch()
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+> @@ -115,6 +121,7 @@ with iotests.FilePath('t.img') as disk_path, \
+>      # Mappings of base64 representations to digests
+>      md5_keys = {}
+>      sha1_keys = {}
+> +    sha256_keys = {}
+>  
+>      for key in keys:
+>          md5_keys[key] = subprocess.check_output(
+> @@ -125,6 +132,10 @@ with iotests.FilePath('t.img') as disk_path, \
+>              'echo %s | base64 -d | sha1sum -b | cut -d" " -f1' % key,
+>              shell=True).rstrip().decode('ascii')
+>  
+> +        sha256_keys[key] = subprocess.check_output(
+> +            'echo %s | base64 -d | sha256sum -b | cut -d" " -f1' % key,
+> +            shell=True).rstrip().decode('ascii')
+> +
+>      vm.launch()
+>  
+>      # Find correct key first
+> @@ -150,6 +161,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>          vm.shutdown()
+>          iotests.notrun('Did not find a key that fits 127.0.0.1')
+>  
+> +    iotests.log("--- explicit md5 key checking --")
+> +    iotests.log("")
+> +
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+>                                'path': disk_path,
+> @@ -164,6 +178,7 @@ with iotests.FilePath('t.img') as disk_path, \
+>                                }
+>                            },
+>                            'size': 2097152 })
+> +
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+>                                'path': disk_path,
+> @@ -182,6 +197,9 @@ with iotests.FilePath('t.img') as disk_path, \
+>  
+>      iotests.img_info_log(remote_path)
+>  
+> +    iotests.log("--- explicit sha1 key checking --")
+> +    iotests.log("")
+> +
+>      vm.launch()
+>      blockdev_create(vm, { 'driver': 'ssh',
+>                            'location': {
+> @@ -215,6 +233,42 @@ with iotests.FilePath('t.img') as disk_path, \
+>  
+>      iotests.img_info_log(remote_path)
+>  
+> +    iotests.log("--- explicit sha256 key checking --")
+> +    iotests.log("")
+> +
+> +    vm.launch()
+> +    blockdev_create(vm, { 'driver': 'ssh',
+> +                          'location': {
+> +                              'path': disk_path,
+> +                              'server': {
+> +                                  'host': '127.0.0.1',
+> +                                  'port': '22'
+> +                              },
+> +                              'host-key-check': {
+> +                                  'mode': 'hash',
+> +                                  'type': 'sha256',
+> +                                  'hash': 'wrong',
+> +                              }
+> +                          },
+> +                          'size': 2097152 })
+> +    blockdev_create(vm, { 'driver': 'ssh',
+> +                          'location': {
+> +                              'path': disk_path,
+> +                              'server': {
+> +                                  'host': '127.0.0.1',
+> +                                  'port': '22'
+> +                              },
+> +                              'host-key-check': {
+> +                                  'mode': 'hash',
+> +                                  'type': 'sha256',
+> +                                  'hash': sha256_keys[matching_key],
+> +                              }
+> +                          },
+> +                          'size': 4194304 })
+> +    vm.shutdown()
+> +
+> +    iotests.img_info_log(remote_path)
+> +
+>      #
+>      # Invalid path and user
+>      #
+> diff --git a/tests/qemu-iotests/207.out b/tests/qemu-iotests/207.out
+> index 1239d9d648..aeb8569d77 100644
+> --- a/tests/qemu-iotests/207.out
+> +++ b/tests/qemu-iotests/207.out
+> @@ -16,6 +16,8 @@ virtual size: 4 MiB (4194304 bytes)
+>  
+>  === Test host-key-check options ===
+>  
+> +--- no host key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 8388608}}}
+>  {"return": {}}
+>  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> @@ -25,6 +27,8 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 8 MiB (8388608 bytes)
+>  
+> +--- known_hosts key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "known_hosts"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
+>  {"return": {}}
+>  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> @@ -34,6 +38,8 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 4 MiB (4194304 bytes)
+>  
+> +--- explicit md5 key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "md5"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+>  {"return": {}}
+>  Job failed: remote host key does not match host_key_check 'wrong'
+> @@ -49,6 +55,8 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 8 MiB (8388608 bytes)
+>  
+> +--- explicit sha1 key checking --
+> +
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha1"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+>  {"return": {}}
+>  Job failed: remote host key does not match host_key_check 'wrong'
+> @@ -64,6 +72,23 @@ image: TEST_IMG
+>  file format: IMGFMT
+>  virtual size: 4 MiB (4194304 bytes)
+>  
+> +--- explicit sha256 key checking --
+> +
+> +{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+> +{"return": {}}
+> +Job failed: remote host key does not match host_key_check 'wrong'
+> +{"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> +{"return": {}}
+> +
+> +{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "HASH", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
+> +{"return": {}}
+> +{"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> +{"return": {}}
+> +
+> +image: TEST_IMG
+> +file format: IMGFMT
+> +virtual size: 4 MiB (4194304 bytes)
+> +
+>  === Invalid path and user ===
+>  
+>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "/this/is/not/an/existing/path", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
+> 
+
 
