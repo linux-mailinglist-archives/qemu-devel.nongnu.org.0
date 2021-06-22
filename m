@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776663AFC00
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:35:02 +0200 (CEST)
-Received: from localhost ([::1]:36912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE1B3AFC12
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:38:33 +0200 (CEST)
+Received: from localhost ([::1]:49270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvY7p-0000e9-Cj
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
+	id 1lvYBE-0000ik-AT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzc-00071C-FQ
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:32 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56212)
+ id 1lvXza-0006vK-QO
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzV-0004zS-Th
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:32 -0400
+ id 1lvXzU-0004xx-Q5
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:30 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzH-00016O-OL
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:12 +0000
+ id 1lvXzG-00014H-KX
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 87B0A2E8186
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:07 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8D5B52E81A7
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:36 -0000
-From: Launchpad Bug Tracker <1847793@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:37 -0000
+From: Launchpad Bug Tracker <1847861@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,20 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: c-paetow dgilbert-h janitor lersek mattihami
- psyhomb sej7278 th-huth ufwisalmostok xanclic
-X-Launchpad-Bug-Reporter: Claus Paetow (c-paetow)
+X-Launchpad-Bug-Commenters: black-silver janitor th-huth
+X-Launchpad-Bug-Reporter: Emanuele Faranda (black-silver)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157080798335.681.12255731732435282400.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162433551643.20423.718156727669796770.malone@loganberry.canonical.com>
-Subject: [Bug 1847793] Re: qemu 4.1.0 - Corrupt guest filesystem after new vm
- install
+References: <157089035721.2099.14904442368526379360.malonedeb@wampee.canonical.com>
+Message-Id: <162433551730.20423.18161349803239110998.malone@loganberry.canonical.com>
+Subject: [Bug 1847861] Re: Guest stuttering under high disk IO (virtio)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: f06876edd04c0094a8fcfcf7c9a7fd322189b3b1
+X-Launchpad-Hash: bb933191365c5b0d5a0953a52b57e87abda38639
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847793 <1847793@bugs.launchpad.net>
+Reply-To: Bug 1847861 <1847861@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,69 +83,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847793
+https://bugs.launchpad.net/bugs/1847861
 
 Title:
-  qemu 4.1.0 - Corrupt guest filesystem after new vm install
+  Guest stuttering under high disk IO (virtio)
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When I install a new vm with qemu 4.1.0 all the guest filesystems are
-  corrupt. The first boot from the install dvd iso is ok and the
-  installer work fine. But the guest system hangs after the installer
-  finishes and I reboot the guest. I can see the grub boot menue but the
-  system cannot load the initramfs.
+  Performing io intensive tasks on virtualized Windows causes the system
+  to visually stutter. I can often reproduce the problem by running fio
+  on windows:
 
-  Testet with:
-  - RedHat Enterprise Linux 7.5, 7.6 and 7.7 (RedHat uses xfs for the /boot=
- and / partition)
-  Guided install with the graphical installer, no lvm selected.
-  - Debian Stable/Buster (Debian uses ext4 for / and /home partition)
-  Guidet install with the graphical installer and default options.
+  fio --randrepeat=3D1 --ioengine=3Dwindowsaio --direct=3D1 --gtod_reduce=
+=3D1
+  --name=3Dtest --filename=3D\\.\PhysicalDrive0 --bs=3D4k --iodepth=3D128
+  --size=3D4G --readwrite=3Drandread
 
-  Used commandline to create the vm disk image:
-  qemu-img create -f qcow2 /volumes/disk2-part2/vmdisks/vmtest10-1.qcow2 20G
+  While the fio command is running, moving the mouse pointer will be be
+  laggy. The stuttering does not appear with iodepth <=3D 32 . The
+  stuttering also manifests while playing games, the music and video
+  pauses for a fraction of second in a playable but disturbing way.
 
-  Used qemu commandline for vm installation:
-  #!/bin/sh
-  # vmtest10 Installation
-  #
-  /usr/bin/qemu-system-x86_64  -cpu SandyBridge-IBRS \
-      -soundhw hda \
-      -M q35 \
-      -k de \
-      -vga qxl \
-      -machine accel=3Dkvm \
-      -m 4096 \
-      -display gtk \
-      -drive file=3D/volumes/disk2-part2/images/debian-10.0.0-amd64-DVD-1.i=
-so,if=3Dide,media=3Dcdrom \
-      -drive file=3D/volumes/disk2-part2/images/vmtest10-1.qcow2,if=3Dvirti=
-o,media=3Ddisk,cache=3Dwriteback \
-      -boot once=3Dd,menu=3Doff \
-      -device virtio-net-pci,mac=3D52:54:00:2c:02:6c,netdev=3Dvlan0 \
-      -netdev bridge,br=3Dbr0,id=3Dvlan0 \
-      -rtc base=3Dlocaltime \
-      -name "vmtest10" \
-      -usb -device usb-tablet \
-      -spice disable-ticketing \
-      -device virtio-serial-pci \
-      -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spic=
-e.0 \
-      -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent $*
+  Here are my system specs:
 
-  Host OS:
-  Archlinux (last updated at 10.10.2019)
-  Linux testing 5.3.5-arch1-1-ARCH #1 SMP PREEMPT Mon Oct 7 19:03:08 UTC 20=
-19 x86_64 GNU/Linux
-  No libvirt in use.
+  Host OS: archlinux
+  Guest OS: Windows 10 Enterprise
+  qemu version: qemu-git 8:v4.1.0.r1378.g98b2e3c9ab-1 (from AUR, compiled w=
+ith -march=3Dnative)
+  CPU: AMD Ryzen Threadripper 1900X 8-Core Processor
+  Huge Pages: vm.nr_hugepages=3D4128
+  Disk: nvme type=3Draw, io=3Dthreads bus=3Dvirtio
+  GPU (passthrough): Radeon RX 570
 
-  =
+  Here are some fio test results on my windows guest:
 
-  With qemu 4.0.0 it works fine without any errors.
+  [size=3D512M,iodepth=3D1 -> min=3D30k,avg=3D31k,stddev=3D508]
+  [size=3D2G,iodepth=3D8 -> min=3D203k,avg=3D207k,stddev=3D2.3k]
+  [size=3D2G,iodepth=3D16 -> min=3D320k,avg=3D330k,stddev=3D4.3k]
+  [size=3D4G,iodepth=3D32 -> min=3D300k,avg=3D310k,stddev=3D4.8k]
+  [size=3D4G,iodepth=3D64 -> min=3D278k,avg=3D366k,stddev=3D68.6k] -> STUTT=
+ER
+  [size=3D4G,iodepth=3D64 -> min=3D358k,avg=3D428k,stddev=3D52.6k] -> STUTT=
+ER
+  [size=3D4G,iodepth=3D128 -> min=3D92k,avg=3D217k,stddev=3D185k] -> STUTTER
+  [size=3D4G,iodepth=3D128 -> min=3D241k,avg=3D257k,stddev=3D14k] -> same c=
+onfig as above, but no stuttering
+
+  The min and avg values are the bandwidth values reported in KB/s by
+  fio. You can see that, when the stuttering occurs, the stardard
+  deviation is high and the minimum bandwidth is way below the average.
+
+  Additional note: the bandwidth reported with `fio` on my linux host is
+  about 2x the one reported in the guest:
+
+  sudo fio --randrepeat=3D1 --ioengine=3Dlibaio --direct=3D1 --gtod_reduce=
+=3D1
+  --name=3Dtest --filename=3D/dev/nvme0n1 --bs=3D4k --iodepth=3D64 --size=
+=3D512M
+  --readwrite=3Drandread
+
+  read: IOPS=3D279k, BW=3D1092MiB/s (1145MB/s)(512MiB/469msec)
+
+  Moreover, during the fio tests on the guest I've noticed that the CPU
+  usage on the host is very high (around 450%) whereas on the guest is
+  only 10%
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847793/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1847861/+subscriptions
 
