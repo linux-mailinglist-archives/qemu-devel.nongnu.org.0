@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD773B0420
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:18:48 +0200 (CEST)
-Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0993B0424
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:19:57 +0200 (CEST)
+Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvfMc-0005E2-Qe
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
+	id 1lvfNk-0007GI-EO
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Arseny.Krasnov@kaspersky.com>)
- id 1lvfKn-0003ao-R9
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:16:54 -0400
-Received: from mx12.kaspersky-labs.com ([91.103.66.155]:18022)
+ id 1lvfLd-0004pW-9I
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:17:46 -0400
+Received: from mx12.kaspersky-labs.com ([91.103.66.155]:18495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Arseny.Krasnov@kaspersky.com>)
- id 1lvfKl-0005XN-2Z
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:16:53 -0400
+ id 1lvfLb-0005nI-EE
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:17:45 -0400
 Received: from relay12.kaspersky-labs.com (unknown [127.0.0.10])
- by relay12.kaspersky-labs.com (Postfix) with ESMTP id 0BDF676132;
- Tue, 22 Jun 2021 15:16:48 +0300 (MSK)
+ by relay12.kaspersky-labs.com (Postfix) with ESMTP id 5D7C075D1D;
+ Tue, 22 Jun 2021 15:17:41 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
- s=mail202102; t=1624364208;
- bh=4xj2HIfPcS+eFaX9d4FGG9El0kNX9SAHFfvTuq0ntmw=;
- h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
- b=5UiSa1WS9tplnyD0Xul7+eF8wXAC32MhX3jPqVSYqpjZ2R9OCySFWeiuT8MCjbhGL
- TC6JnR2AOiUhqPKJlQoz/k9FSKPvudQgmD33rLTCn3Y9Ng+Do8UUuX513050XWc1mf
- pn92ZtwVa9HZ+/fs/kkzM7BgqZq8mRTEVs9QY/wrSIXMphFsBgZL8gh1SE0jZkn1Gr
- S0/CN7GRB/aAYrOJpM0y06bW3WqOnJt4XSZNF1g0vAtFipQKo5OZo8QvzvzVXu3ThA
- I4IJmAvt08DcgzpMTA5WRzePK8/44nuLsIUrlVB5syZQGgXy7A+J2X+ik3qdFway5P
- 1sqAQgu/3sfvQ==
+ s=mail202102; t=1624364261;
+ bh=Yy1xsgvDKqHmcGQx7UPswMWbCITSEJOFksTDiCaqovc=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type;
+ b=X7B+oMevSKKwdg9oF2jHhOryuTustCBGF2266h3Bhg+k0TqBRu6zOgX2pfVetBZGF
+ pzyLsu5zcHqTdepJhnHa4K1agSrexihUk0BASHSTIvvRn2Q7Lyz49gnptto2NSAn+O
+ d6nFyzAN1kyhTfJWHOoOvySMShMRupBjeapCUfl2n5CQY3h89ZRw/I19c6rxk+suim
+ bLwGYv8KcPshF1JvgZyUBRHnIFffosJ9haQh0XA67Wr7qGVlCXaxUl9U0H3AfntXAA
+ sXv7so6yFMpYUjwbanh6XO1pgxk5qimK5sRLo3FodlDWdRjK3etU1GKiWclEJQHyVF
+ Z2grJzd8HmDvw==
 Received: from mail-hq2.kaspersky.com (unknown [91.103.66.206])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client CN "mail-hq2.kaspersky.com",
  Issuer "Kaspersky MailRelays CA G3" (verified OK))
- by mailhub12.kaspersky-labs.com (Postfix) with ESMTPS id A6EF676126;
- Tue, 22 Jun 2021 15:16:47 +0300 (MSK)
-Received: from arseniy-pc.avp.ru (10.64.64.121) by hqmailmbx3.avp.ru
+ by mailhub12.kaspersky-labs.com (Postfix) with ESMTPS id 2958E75D5A;
+ Tue, 22 Jun 2021 15:17:41 +0300 (MSK)
+Received: from [10.16.171.77] (10.64.64.121) by hqmailmbx3.avp.ru
  (10.64.67.243) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.14; Tue, 22
- Jun 2021 15:16:47 +0300
+ Jun 2021 15:17:40 +0300
+Subject: Re: [RFC PATCH v1] vhost-vsock: SOCK_SEQPACKET feature bit support
+To: Stefano Garzarella <sgarzare@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "oxffffaa@gmail.com" <oxffffaa@gmail.com>
+References: <20210621140741.2628913-1-arseny.krasnov@kaspersky.com>
+ <20210622082409.cmjoor4liw4jslqt@steredhat>
 From: Arseny Krasnov <arseny.krasnov@kaspersky.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>
-CC: <sgarzare@redhat.com>, <arseny.krasnov@kaspersky.com>, <oxffffaa@gmail.com>
-Subject: [PATCH v2] vhost-vsock: SOCK_SEQPACKET feature bit support
-Date: Tue, 22 Jun 2021 15:16:31 +0300
-Message-ID: <20210622121631.2916319-1-arseny.krasnov@kaspersky.com>
-X-Mailer: git-send-email 2.25.1
+Message-ID: <3ae7d965-549a-be7a-d1a5-9dcfb206f350@kaspersky.com>
+Date: Tue, 22 Jun 2021 15:17:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20210622082409.cmjoor4liw4jslqt@steredhat>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-Originating-IP: [10.64.64.121]
-X-ClientProxiedBy: hqmailmbx2.avp.ru (10.64.67.242) To hqmailmbx3.avp.ru
+X-ClientProxiedBy: hqmailmbx3.avp.ru (10.64.67.243) To hqmailmbx3.avp.ru
  (10.64.67.243)
 X-KSE-ServerInfo: hqmailmbx3.avp.ru, 9
 X-KSE-AntiSpam-Interceptor-Info: scan successful
@@ -65,8 +71,9 @@ X-KSE-AntiSpam-Info: Lua profiles 164532 [Jun 22 2021]
 X-KSE-AntiSpam-Info: Version: 5.9.20.0
 X-KSE-AntiSpam-Info: Envelope from: arseny.krasnov@kaspersky.com
 X-KSE-AntiSpam-Info: LuaCore: 448 448 71fb1b37213ce9a885768d4012c46ac449c77b17
+X-KSE-AntiSpam-Info: {Tracking_phishing_log_reg_50_60}
 X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2; arseniy-pc.avp.ru:7.1.1;
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;
  d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; kaspersky.com:7.1.1
 X-KSE-AntiSpam-Info: Rate: 0
 X-KSE-AntiSpam-Info: Status: not_detected
@@ -98,8 +105,8 @@ X-Spam_score: -4.6
 X-Spam_bar: ----
 X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,58 +122,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds processing of VIRTIO_VSOCK_F_SEQPACKET features bit. Guest
-negotiates it with vhost, thus both will know that SOCK_SEQPACKET
-supported by peer.
 
-Signed-off-by: Arseny Krasnov <arseny.krasnov@kaspersky.com>
----
- hw/virtio/vhost-vsock.c                       | 12 ++++++++++--
- include/standard-headers/linux/virtio_vsock.h |  3 +++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+On 22.06.2021 11:24, Stefano Garzarella wrote:
+> On Mon, Jun 21, 2021 at 05:07:41PM +0300, Arseny Krasnov wrote:
+>> This adds processing of VIRTIO_VSOCK_F_SEQPACKET features bit. Guest
+>> negotiates it with vhost, thus both will know that SOCK_SEQPACKET
+>> supported by peer.
+>>
+>> Signed-off-by: Arseny Krasnov <arseny.krasnov@kaspersky.com>
+>> ---
+>> hw/virtio/vhost-vsock.c                       | 16 +++++++++++++++-
+>> include/standard-headers/linux/virtio_vsock.h |  3 +++
+>> 2 files changed, 18 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+>> index 8ddfb9abfe..fc8c143df9 100644
+>> --- a/hw/virtio/vhost-vsock.c
+>> +++ b/hw/virtio/vhost-vsock.c
+>> @@ -108,10 +108,23 @@ static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
+>>                                          uint64_t requested_features,
+>>                                          Error **errp)
+>> {
+>> -    /* No feature bits used yet */
+>> +    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>> +
+>> +    if (virtio_has_feature(vvc->vhost_dev.features, VIRTIO_VSOCK_F_SEQPACKET)) {
+>> +        virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
+>> +    }
+>> +
+> I think we can use vhost_get_features(), take a look at 
+> hw/virtio/vhost-user-vsock.c
 
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index c8f0699b4f..0406a5d3dc 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -103,12 +103,20 @@ static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
-     }
- }
- 
-+const int feature_bits[] = {
-+    VIRTIO_VSOCK_F_SEQPACKET,
-+    VHOST_INVALID_FEATURE_BIT
-+};
-+
- static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
-                                          uint64_t requested_features,
-                                          Error **errp)
- {
--    /* No feature bits used yet */
--    return requested_features;
-+    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
-+
-+    virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
-+    return vhost_get_features(&vvc->vhost_dev, feature_bits,
-+                                requested_features);
- }
- 
- static const VMStateDescription vmstate_virtio_vhost_vsock = {
-diff --git a/include/standard-headers/linux/virtio_vsock.h b/include/standard-headers/linux/virtio_vsock.h
-index be443211ce..5eac522ee2 100644
---- a/include/standard-headers/linux/virtio_vsock.h
-+++ b/include/standard-headers/linux/virtio_vsock.h
-@@ -38,6 +38,9 @@
- #include "standard-headers/linux/virtio_ids.h"
- #include "standard-headers/linux/virtio_config.h"
- 
-+/* The feature bitmap for virtio vsock */
-+#define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET supported */
-+
- struct virtio_vsock_config {
- 	uint64_t guest_cid;
- } QEMU_PACKED;
--- 
-2.25.1
+Hm, i've implemented use of 'vhost_get_features()' in the
 
+vhost-user-vsock.c manner...
+
+>
+>
+>>     return requested_features;
+>> }
+>>
+>> +static void vhost_vsock_set_features(VirtIODevice *vdev, uint64_t features)
+>> +{
+>> +    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>> +    const VhostOps *vhost_ops = vvc->vhost_dev.vhost_ops;
+>> +
+>> +    vhost_ops->vhost_set_features(&vvc->vhost_dev, features);
+> Maybe we can avoid vhost_vsock_set_features(), because in 
+> vhost_vsock_common_start() we have this code that should do the same, 
+> sice vhost_dev_start() already call vhost_set_features() with the acked 
+> features:
+>
+>      vvc->vhost_dev.acked_features = vdev->guest_features;
+>      ret = vhost_dev_start(&vvc->vhost_dev, vdev);
+>
+> I'm not sure if it works. Can you try simply removing 
+> vhost_vsock_set_features()?
+>
+> Thanks,
+> Stefano
+Thank You, that works.
+>
+>> +}
+>> +
+>> static const VMStateDescription vmstate_virtio_vhost_vsock = {
+>>     .name = "virtio-vhost_vsock",
+>>     .minimum_version_id = VHOST_VSOCK_SAVEVM_VERSION,
+>> @@ -224,6 +237,7 @@ static void vhost_vsock_class_init(ObjectClass *klass, void *data)
+>>     vdc->realize = vhost_vsock_device_realize;
+>>     vdc->unrealize = vhost_vsock_device_unrealize;
+>>     vdc->get_features = vhost_vsock_get_features;
+>> +    vdc->set_features = vhost_vsock_set_features;
+>>     vdc->get_config = vhost_vsock_get_config;
+>>     vdc->set_status = vhost_vsock_set_status;
+>> }
+>> diff --git a/include/standard-headers/linux/virtio_vsock.h 
+>> b/include/standard-headers/linux/virtio_vsock.h
+>> index be443211ce..5eac522ee2 100644
+>> --- a/include/standard-headers/linux/virtio_vsock.h
+>> +++ b/include/standard-headers/linux/virtio_vsock.h
+>> @@ -38,6 +38,9 @@
+>> #include "standard-headers/linux/virtio_ids.h"
+>> #include "standard-headers/linux/virtio_config.h"
+>>
+>> +/* The feature bitmap for virtio vsock */
+>> +#define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET 
+>> supported */
+>> +
+>> struct virtio_vsock_config {
+>> 	uint64_t guest_cid;
+>> } QEMU_PACKED;
+>> -- 
+>> 2.25.1
+>>
+>
 
