@@ -2,75 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7223AFFC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:00:02 +0200 (CEST)
-Received: from localhost ([::1]:39762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8633AFFEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 11:09:42 +0200 (CEST)
+Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvcGH-0003fF-RD
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:00:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54636)
+	id 1lvcPc-0008Tm-PY
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 05:09:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1lvcDO-0007xl-Dl
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:57:02 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:44983)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1lvcDM-0003oi-Du
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:57:02 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id 14so354052oir.11
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 01:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gsnx3WWXGHiAO3TPKJpzIec1T+lt/uyQth3YVlL9pnc=;
- b=rVxG5kaR90ysvW7okvOvabn5lo+ydrxWE4ngLY16gB2qCaPmwTFGDpC/HrF4kLM7Dh
- bmY6PONRopxgaQqJRL8C2B6E6T/6y3QFUi/LNCbq1ZzOp+diERhvt4+bpHMkBCnO0scx
- DXifc9h3lxHiRPbdXOMAzd4bH7KEK2MlM8v/Yd030HIeiNZLuWwbecnSMJiQky1G6Hxp
- sXckYlybo1FVWHHRUsfV4IkBLZh9reVDIGFOp4yR29oG8VOylYV7WmQmcitA1S+SIZE4
- 4lZGrcqBU1UQzS9KNoPlW9Z0A2EAej47g0WSs0eME0KQTZMH6T3hP9m4TU2Pmul6yHsG
- rUyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gsnx3WWXGHiAO3TPKJpzIec1T+lt/uyQth3YVlL9pnc=;
- b=Q4/jLBzqtbCVo+GoImB2YxjWIJqiVT2BzKjsjYnRXTdAWa+C+HX/87THGFB6iBYlHW
- WN9fCnscyv4PBKtdIaJ8Ps0HNMyc/RrSk36iZPHeLpVGCqaQfNkrjbfvspUjSSTYIuqw
- yrXNouleVqGw180UHSAzOLPmZO58lcsJq+1PSHo8BnsqqMhkD1VDQeZiDmZXmXoA4XHh
- Z0zes9giA6SQCjfDVQ9pZinBHar5Art0Y/QuqljaA7TDz/ohHwBvOGuw/VFLbHUUdslH
- PIDDLul2pUwjsBMFjkq/uI9oqUTmdjLjpD3EzhchtMxDCvWp+ZWrZXIWlVz4IvAvHHoP
- SB8g==
-X-Gm-Message-State: AOAM530KZxSaLQco93O0VR12i8S52qE+ue9IhJBNDBLPO7DPVfaCCKIA
- hcoz7QjhaSaVJt8D8JocE0wwh8OlrJ8CWnm3CRwxhA==
-X-Google-Smtp-Source: ABdhPJzNy4tmmTU4hyu2JtcL2mUCBLsLb91CbtjqvgbJMOuxDhSiRtfNgTHpct2a5+XVH5QglaC1zgDWvalpN5+uc3c=
-X-Received: by 2002:aca:b38a:: with SMTP id c132mr2304058oif.90.1624352218925; 
- Tue, 22 Jun 2021 01:56:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lvcO4-0007eR-1w; Tue, 22 Jun 2021 05:08:04 -0400
+Received: from mail-am6eur05on2092.outbound.protection.outlook.com
+ ([40.107.22.92]:40206 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lvcO1-0002Pp-50; Tue, 22 Jun 2021 05:08:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e3W5L43kgRdwhVsElOufo8J3BDqvVn2j+EDfWgVIpOdoBNGCOifRvfD7Ur9zMpwmKUoR/lvvNXfEjnTGQJ37LfPolMqxuekQ8AielNkDAvoOF7DROive6qfE15/Kf+OplxbNy31AyfWnCwLZOcmX6rAU3dSuDvRQPGJdO1BbjV5PvIWIwNs4au6vnB3k+LyqvCQ5UBbrUpafoR0LFU8MeCx/Z1vhd2hfouoqfokUZ17l0Lx4chQkfocs+/i3ymPGwpGayJM3fXTCm/Kuj9rcu6x/tfrJphxd6dKgMVsRPTv4F/AaQ8hV1Mq1aAMLghIm5aDKt2OmRudHSNbuZOuuOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aVTkBLfT+L1puJXnVg/gYPdNQkGs2nTjlLr2VOy9Fy0=;
+ b=HJrxDewCE83TAMJ1+tLNpyF0cNP29RAkb69UQdLUyNMifJu5Sqi0+/KGGLjHK3s2TmBQoh/CfttnFYmbLAhlFx8hc8GRnurghkCM0GpznA7WHYu/kLflAEKoFPQMAkHaYCAJsvtceIg7Aw1+JR3QSzE8OWM1mMwNGbKKyPDjleFBtqxq6wH7o80cdRBR+apkdeZaHi4eWkaaOD/l3MGOgEVs4mL0mysjn+PCt38KMbKfVFp2ceG9CHCHaFEZLhXn0XTsyURaMQFI91UWQ0lUGn7m+xcwO5YqphGLUCFN5SOfz7TgM+/dnve3QbgDZr9zkvbXOpwjoyoCc+WOVDM6Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aVTkBLfT+L1puJXnVg/gYPdNQkGs2nTjlLr2VOy9Fy0=;
+ b=fmVmiLH+0inm49RV1Xq9bD98JQqMiYohRUj0MDYlbZBYtJHOmc0oVIK5yf1EEtC6COwk3TvrLwbm50kkkv31zkLXi+bWsdPNx6JElbjM6/uKii6AgCYXMzNEcAC61fxKNnIlwzhJ0qpZBYHhA+BFi50/sgXDcQHVg25xQi7/whY=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB7012.eurprd08.prod.outlook.com (2603:10a6:20b:34f::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Tue, 22 Jun
+ 2021 09:07:56 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4242.023; Tue, 22 Jun 2021
+ 09:07:56 +0000
+Subject: Re: [PATCH 5/6] block/nbd: Do not force-cap *pnum
+To: Eric Blake <eblake@redhat.com>
+Cc: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+References: <20210617155247.442150-1-mreitz@redhat.com>
+ <20210617155247.442150-6-mreitz@redhat.com>
+ <5b106499-94fb-2af7-3766-bc337d3f21ae@virtuozzo.com>
+ <20210621185336.zslqpqusqng4ub2u@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <488e47db-e7af-5b18-2cee-8dd6abb81481@virtuozzo.com>
+Date: Tue, 22 Jun 2021 12:07:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210621185336.zslqpqusqng4ub2u@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.221]
+X-ClientProxiedBy: HE1P192CA0001.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::11)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210621111716.37157-1-steven.price@arm.com>
- <20210621111716.37157-6-steven.price@arm.com>
-In-Reply-To: <20210621111716.37157-6-steven.price@arm.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Tue, 22 Jun 2021 09:56:22 +0100
-Message-ID: <CA+EHjTx7_atkNMqrUkHr0mM2xDbzBafip3s0JhGrGzsX9N08XQ@mail.gmail.com>
-Subject: Re: [PATCH v17 5/6] KVM: arm64: ioctl to fetch/store tags in a guest
-To: Steven Price <steven.price@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>, 
- Will Deacon <will@kernel.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org, 
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu, 
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=tabba@google.com; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: -155
-X-Spam_score: -15.6
-X-Spam_bar: ---------------
-X-Spam_report: (-15.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URI_DOTEDU=1.999, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.221) by
+ HE1P192CA0001.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.18 via Frontend Transport; Tue, 22 Jun 2021 09:07:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7817c8d0-6fd6-41d6-7e06-08d9355d39c6
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7012:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB701210B2B91F28B7F64FA083C1099@AS8PR08MB7012.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NwPnXGv/ZRt3U/bYFoM+HspnW5OPQ70r7kJhKZVqtRZSLxZ1PEhK6f+HgeMNt9ZJjYYeQxIfsjJagHJyYei8cekGd3iqiF0RbywYxDs3f4HDv9GCJIV8GEoSy2R1TTAFiU//QtvUYlOtMnCYTeV1OgR7wNt1H7ZtIvAhyQ9MyM7cUpG7ATZwrKiY/V3Az7qrm1y+asfsPRDoLSMgFXgrTSom4Un57aADWq2yFWtEXZdI45V1ZjJtnIfoHhcgvRDpr/eualAzdf+lPKUkmR3qIMp1BVKNgBx+6kt+dwi6bAKgliXEaGbkUD9W1mpkrIz6HgrCNfBmUWZWtHFwZ0v9Z64bQIFRlGAa4jRvp3hw6CN7c45QeauQLuIFSchKCmJqoYHoh4RbHTdDMzbR1huHcgbYM2ib8ibwm0z7X7IaNkEntZF5COipTilzMGxfS0Zn4HCshHpaE5+ikIBgrmaSK8FNOvtugmq6KVROvhGpfjOtoR0yffUbeEgzPyM6w2LUq5nvxYy3yvnGgUiPDOar45J02ANeD+ZgFwrXTBQZA1Ypde9MC9v8jVgl7hvC7ORe60NAkGZB84enTb51Ghu6lVzk+KEpT3pFEezgPbhbnFb+QrK8cQ8ymfWkuBSXUCWQbURe6kz1B1qGRsaiu6N0rqzMZiprtX6S4CayIsO8+x2+63RQtigTOTa6+b1Od5LwtKnwRFjMmWnknkR7PorN83ezDUTmtzkcamzGpoQOLJk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(39830400003)(376002)(396003)(366004)(16526019)(2616005)(186003)(316002)(16576012)(26005)(5660300002)(52116002)(956004)(8676002)(36756003)(6666004)(54906003)(83380400001)(4326008)(66476007)(38100700002)(38350700002)(6916009)(66556008)(8936002)(2906002)(31696002)(86362001)(66946007)(6486002)(31686004)(478600001)(2304002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dmxYME4wSHY5eEt6RkN6ZEEwajA3bDg0MnZpRkxTellpWCtyZmIrclZGUGxZ?=
+ =?utf-8?B?blVCRnNIVFcrT2M5RkpTTDI0djBIdzBzSjVzZXIwd1dGNm9YOUNrUmdvZ2Rn?=
+ =?utf-8?B?aHczRGxjd1JkaVJmd0JEbnJ4ME1PbVg1cDlNNHpHWncxeU81c0xLU0tmRWV5?=
+ =?utf-8?B?bkRSdURicHNYTnlNQkFTQXFsVnFtTWJTcU55YldqUHR0QUdYR3Y2cmZHSHI3?=
+ =?utf-8?B?eldDTWlEb3N1M2JodnBPeUNQTnN1VE9PWnBjSnMwQmZEYWFHMjB0dVAyKzE4?=
+ =?utf-8?B?SHZwV0VKT0ZoblUzZmdUZ2FaQnZtalNsNm5jOWVtSHEvU3BqK2pJL3hjakcy?=
+ =?utf-8?B?MXFHYko5cnJoK0RDMTJWTFE0dStRVWptVzlkcnNnNHJWbm1ySjdKSGI1cXVn?=
+ =?utf-8?B?TXdPZjRNTlNtaC9QcXNteGE3REJ0d2twZCtaTG5rR1kzSlFYb09pcjNoVm1K?=
+ =?utf-8?B?dXdOajlkVXh4KzlEV21YQytxWXFXMG4wZlNKMmRSMWE0STFHdnNsUkpVQkxG?=
+ =?utf-8?B?aHFycFl5ZUpoWXYrVXZXNWFIYXprV2huRDdLUjhmWmlPOFoyZW5hL3RKMEE5?=
+ =?utf-8?B?WHR3Y2RjcjZ5QmVkRmgweTVVVHBlY0t5bm8reVY1NjhBWEgyTTlNN1JlYXBQ?=
+ =?utf-8?B?eHNOT3JWRXR3cXlML2pQSCtXMWJmZytUMEw0Zjg0cHdVQloxY24yNWxWOVVo?=
+ =?utf-8?B?L2dyOTZUT2dYN1Q3Y0h2R0hPbnQ3YXhNQlJCOUxPeDNsZnMyZmVBNXg0Y1Jx?=
+ =?utf-8?B?VlZ1eHl4NHluK3Y4RTZMYjdWUzBYRjA2R1M5ZGpTczA5UDN0L3pLdHdBaHdY?=
+ =?utf-8?B?b2RBR05MMkhzVjR5WjJNbjVBOWNLK0RmaDhrMG1kUDkyRWNmRm5CWjc5SkhY?=
+ =?utf-8?B?SmJRMzdyRjNzeUxpazJLQytWVWxJSEQ5UmNRNVY1YkpOdTQxeWtXeDlKQVQ2?=
+ =?utf-8?B?QmVxWWtEa3dvMzVYL3N0T3BPczg2Z1p0RDg4SXVZN0hqdXhMZExkL2tHaFAx?=
+ =?utf-8?B?MGw4ZTRkbjllOGREYm5YR25CcHpSbDlnbWE3RHFXa3JobWJPUXl5bFpoaFRT?=
+ =?utf-8?B?K3h6UndsNnkwWkFBcWhlRlVDWndrUWJDRXZMOTl2bWdSZ1h2cXViQUdwbnBK?=
+ =?utf-8?B?OGtYblVNUFhMRzRwRnR6TUd2KzNVN2xFdDFZWWJQOXpUQllsaGF5b1ZhcmRx?=
+ =?utf-8?B?SytsQXdpeVdXeEF1c3VsT3NiT1ZCbk1oZ2N4K2JLRzJrbFJCV05zNlJNbk1E?=
+ =?utf-8?B?NERmUEhDQnJPdFRDSzkyVmhUcU8rL2lUVmRkNHpUQmRnTzVEdWpDL1ZkZGFF?=
+ =?utf-8?B?U01ISmtRRDNUQ0hjMUxobFVNODZ2TTVxLzJHb1Eza2RBYTN2Q3N3bHBOY3NV?=
+ =?utf-8?B?Z2dqaWhYb1hRam1KdCt4T3BuYTBubGYwQWFBTmc2aXdRZlpNcTFKQ1Avd1F2?=
+ =?utf-8?B?Z0FaWlNwVmZkYUNEN1NJZmk1aXB4UkZaQkhjUVhlT1p4Qmt2U3FyTFltYnU2?=
+ =?utf-8?B?QlRlbStiSWV4aklHOVFJdTR0K1R4WHRJYjRIYTdqK0dWa2lQVHF0SGxhZjE4?=
+ =?utf-8?B?ZmQwNTkvV1lhVEJJYXhjU0pOMEpicy94eWFWVlBPcnpMb3VGLzF3UVdGekYz?=
+ =?utf-8?B?ZmdIbnNsbjJzOXkxYWpHaXhRby9KaG90NE5KWm5qK0Q4SlQwNkV2dUFoQkVH?=
+ =?utf-8?B?bEJ6cnRRSk9vTktPV1ZSTyt4U3R5MlpCb2VDSWp1ckhPT0tLWW5VTzhQdVht?=
+ =?utf-8?Q?KjPkzbw6kx+XGIowkdok+rNUfmRSkILf4bq84Hl?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7817c8d0-6fd6-41d6-7e06-08d9355d39c6
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 09:07:56.8480 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pM+Y1wHhOwIa3sJXwtngzLS/5NvamIDinMtQsIn2tUvIzEKuZlNyY8s/6/4/EaBi8N5LkxC+ro2aLK4TQMPjOiWUFpm3TODM7HeXm+dxiRY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7012
+Received-SPF: pass client-ip=40.107.22.92;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,225 +150,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+21.06.2021 21:53, Eric Blake wrote:
+> On Sat, Jun 19, 2021 at 01:53:24PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>>> +++ b/block/nbd.c
+>>> @@ -1702,7 +1702,7 @@ static int coroutine_fn nbd_client_co_block_status(
+>>>            .type = NBD_CMD_BLOCK_STATUS,
+>>>            .from = offset,
+>>>            .len = MIN(QEMU_ALIGN_DOWN(INT_MAX, bs->bl.request_alignment),
+>>> -                   MIN(bytes, s->info.size - offset)),
+>>> +                   s->info.size - offset),
+>>>            .flags = NBD_CMD_FLAG_REQ_ONE,
+>>>        };
+>>>
+>>
+>> Hmm..
+>>
+>> I don't that this change is correct. In contrast with file-posix you don't get extra information for free, you just make a larger request. This means that server will have to do more work.
+> 
+> Not necessarily.  The fact that we have passed NBD_CMD_FLAG_REQ_ONE
+> means that the server is still only allowed to give us one extent in
+> its answer, and that it may not give us information beyond the length
+> we requested.  You are right that if we lose the REQ_ONE flag we may
+> result in the server doing more work to provide us additional extents
+> that we will then be ignoring because we aren't yet set up for
+> avoiding REQ_ONE.  Fixing that is a longer-term goal.  But in the
+> short term, I see no harm in giving a larger length to the server with
+> REQ_ONE.
+> 
+>>
+>> (look at blockstatus_to_extents, it calls bdrv_block_status_above in a loop).
+>>
+>> For example, assume that nbd export is a qcow2 image with all clusters allocated. With this change, nbd server will loop through the whole qcow2 image, load all L2 tables to return big allocated extent.
+> 
+> No, the server is allowed to reply with less length than our request,
+> and that is particularly true if the server does NOT have free access
+> to the full length of our request.  In the case of qcow2, since
+> bdrv_block_status is (by current design) clamped at cluster
+> boundaries, requesting a 4G length will NOT increase the amount of the
+> server response any further than the first cluster boundary (that is,
+> the point where the server no longer has free access to status without
+> loading another cluster of L2 entries).
+
+No. No matter where bdrv_block_status_above is clamped. If the whole disk is allocated, blockstatus_to_extents() in nbd/server.c will loop through the whole requested range and merge all the information into one extent. This doesn't violate NBD_CMD_FLAG_REQ_ONE: we have one extent on output and don't go beyound the length. It's valid for the server to try to satisfy as much as possible of request, and blockstatus_to_extents works in this way currently.
+
+Remember that nbd_extent_array_add() can merge new extent to the previous if it has the same type.
+
+> 
+>>
+>> So, only server can decide, could it add some extra free information to request or not. But unfortunately NBD_CMD_FLAG_REQ_ONE doesn't allow it.
+> 
+> What the flag prohibits is the server giving us more information than
+> the length we requested.  But this patch is increasing our request
+> length for the case where the server CAN give us more information than
+> we need locally, on the hopes that even though the server can only
+> reply with one extent, we aren't wasting as many network
+> back-and-forth trips when a larger request would have worked.
+> 
 
 
-On Mon, Jun 21, 2021 at 12:18 PM Steven Price <steven.price@arm.com> wrote:
->
-> The VMM may not wish to have it's own mapping of guest memory mapped
-> with PROT_MTE because this causes problems if the VMM has tag checking
-> enabled (the guest controls the tags in physical RAM and it's unlikely
-> the tags are correct for the VMM).
->
-> Instead add a new ioctl which allows the VMM to easily read/write the
-> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
-> while the VMM can still read/write the tags for the purpose of
-> migration.
->
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  arch/arm64/include/asm/kvm_host.h |  3 ++
->  arch/arm64/include/asm/mte-def.h  |  1 +
->  arch/arm64/include/uapi/asm/kvm.h | 11 +++++
->  arch/arm64/kvm/arm.c              |  7 +++
->  arch/arm64/kvm/guest.c            | 82 +++++++++++++++++++++++++++++++
->  include/uapi/linux/kvm.h          |  1 +
->  6 files changed, 105 insertions(+)
->
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 309e36cc1b42..6a2ac4636d42 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -729,6 +729,9 @@ int kvm_arm_vcpu_arch_get_attr(struct kvm_vcpu *vcpu,
->  int kvm_arm_vcpu_arch_has_attr(struct kvm_vcpu *vcpu,
->                                struct kvm_device_attr *attr);
->
-> +long kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
-> +                               struct kvm_arm_copy_mte_tags *copy_tags);
-> +
->  /* Guest/host FPSIMD coordination helpers */
->  int kvm_arch_vcpu_run_map_fp(struct kvm_vcpu *vcpu);
->  void kvm_arch_vcpu_load_fp(struct kvm_vcpu *vcpu);
-> diff --git a/arch/arm64/include/asm/mte-def.h b/arch/arm64/include/asm/mte-def.h
-> index cf241b0f0a42..626d359b396e 100644
-> --- a/arch/arm64/include/asm/mte-def.h
-> +++ b/arch/arm64/include/asm/mte-def.h
-> @@ -7,6 +7,7 @@
->
->  #define MTE_GRANULE_SIZE       UL(16)
->  #define MTE_GRANULE_MASK       (~(MTE_GRANULE_SIZE - 1))
-> +#define MTE_GRANULES_PER_PAGE  (PAGE_SIZE / MTE_GRANULE_SIZE)
->  #define MTE_TAG_SHIFT          56
->  #define MTE_TAG_SIZE           4
->  #define MTE_TAG_MASK           GENMASK((MTE_TAG_SHIFT + (MTE_TAG_SIZE - 1)), MTE_TAG_SHIFT)
-> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-> index 24223adae150..b3edde68bc3e 100644
-> --- a/arch/arm64/include/uapi/asm/kvm.h
-> +++ b/arch/arm64/include/uapi/asm/kvm.h
-> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
->         __u32 reserved[12];
->  };
->
-> +struct kvm_arm_copy_mte_tags {
-> +       __u64 guest_ipa;
-> +       __u64 length;
-> +       void __user *addr;
-> +       __u64 flags;
-> +       __u64 reserved[2];
-> +};
-> +
-> +#define KVM_ARM_TAGS_TO_GUEST          0
-> +#define KVM_ARM_TAGS_FROM_GUEST                1
-> +
->  /* If you need to interpret the index values, here is the key: */
->  #define KVM_REG_ARM_COPROC_MASK                0x000000000FFF0000
->  #define KVM_REG_ARM_COPROC_SHIFT       16
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 28ce26a68f09..511f3716fe33 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -1359,6 +1359,13 @@ long kvm_arch_vm_ioctl(struct file *filp,
->
->                 return 0;
->         }
-> +       case KVM_ARM_MTE_COPY_TAGS: {
-> +               struct kvm_arm_copy_mte_tags copy_tags;
-> +
-> +               if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
-> +                       return -EFAULT;
-> +               return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
-> +       }
->         default:
->                 return -EINVAL;
->         }
-> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
-> index 5cb4a1cd5603..4ddb20017b2f 100644
-> --- a/arch/arm64/kvm/guest.c
-> +++ b/arch/arm64/kvm/guest.c
-> @@ -995,3 +995,85 @@ int kvm_arm_vcpu_arch_has_attr(struct kvm_vcpu *vcpu,
->
->         return ret;
->  }
-> +
-> +long kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
-> +                               struct kvm_arm_copy_mte_tags *copy_tags)
-> +{
-> +       gpa_t guest_ipa = copy_tags->guest_ipa;
-> +       size_t length = copy_tags->length;
-> +       void __user *tags = copy_tags->addr;
-> +       gpa_t gfn;
-> +       bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
-> +       int ret = 0;
-> +
-> +       if (!kvm_has_mte(kvm))
-> +               return -EINVAL;
-> +
-> +       if (copy_tags->reserved[0] || copy_tags->reserved[1])
-> +               return -EINVAL;
-> +
-> +       if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
-> +               return -EINVAL;
-> +
-> +       if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
-> +               return -EINVAL;
-> +
-> +       gfn = gpa_to_gfn(guest_ipa);
-> +
-> +       mutex_lock(&kvm->slots_lock);
-> +
-> +       while (length > 0) {
-> +               kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
-> +               void *maddr;
-> +               unsigned long num_tags;
-> +               struct page *page;
-> +
-> +               if (is_error_noslot_pfn(pfn)) {
-> +                       ret = -EFAULT;
-> +                       goto out;
-> +               }
-> +
-> +               page = pfn_to_online_page(pfn);
-> +               if (!page) {
-> +                       /* Reject ZONE_DEVICE memory */
-> +                       ret = -EFAULT;
-> +                       goto out;
-> +               }
-> +               maddr = page_address(page);
-> +
-> +               if (!write) {
-> +                       if (test_bit(PG_mte_tagged, &page->flags))
-> +                               num_tags = mte_copy_tags_to_user(tags, maddr,
-> +                                                       MTE_GRANULES_PER_PAGE);
-> +                       else
-> +                               /* No tags in memory, so write zeros */
-> +                               num_tags = MTE_GRANULES_PER_PAGE -
-> +                                       clear_user(tags, MTE_GRANULES_PER_PAGE);
-> +                       kvm_release_pfn_clean(pfn);
-> +               } else {
-> +                       num_tags = mte_copy_tags_from_user(maddr, tags,
-> +                                                       MTE_GRANULES_PER_PAGE);
-> +                       kvm_release_pfn_dirty(pfn);
-> +               }
-> +
-> +               if (num_tags != MTE_GRANULES_PER_PAGE) {
-> +                       ret = -EFAULT;
-> +                       goto out;
-> +               }
-> +
-> +               /* Set the flag after checking the write completed fully */
-> +               if (write)
-> +                       set_bit(PG_mte_tagged, &page->flags);
-> +
-> +               gfn++;
-> +               tags += num_tags;
-> +               length -= PAGE_SIZE;
-> +       }
-> +
-> +out:
-> +       mutex_unlock(&kvm->slots_lock);
-> +       /* If some data has been copied report the number of bytes copied */
-> +       if (length != copy_tags->length)
-> +               return copy_tags->length - length;
-
-I'm not sure if this is actually an issue, but a couple of comments on
-the return value if there is an error after a partial copy has been
-done. If mte_copy_tags_to_user or mte_copy_tags_from_user don't return
-MTE_GRANULES_PER_PAGE, then the check for num_tags would fail, but
-some of the tags would have been copied, which wouldn't be reflected
-in length. That said, on a write the tagged bit wouldn't be set, and
-on read then the return value would be conservative, but not
-incorrect.
-
-That said, even though it is described that way in the documentation
-(rather deep in the description though), it might be confusing to
-return a non-negative value on an error. The other kvm ioctl I could
-find that does something similar, KVM_S390_GET_IRQ_STATE, seems to
-always return a -ERROR on error, rather than the number of bytes
-copied.
-
-Cheers,
-/fuad
-
-> +       return ret;
-> +}
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index d4da58ddcad7..da1edd2b4046 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1429,6 +1429,7 @@ struct kvm_s390_ucas_mapping {
->  /* Available with KVM_CAP_PMU_EVENT_FILTER */
->  #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
->  #define KVM_PPC_SVM_OFF                  _IO(KVMIO,  0xb3)
-> +#define KVM_ARM_MTE_COPY_TAGS    _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
->
->  /* ioctl for vm fd */
->  #define KVM_CREATE_DEVICE        _IOWR(KVMIO,  0xe0, struct kvm_create_device)
-> --
-> 2.20.1
->
-> _______________________________________________
-> kvmarm mailing list
-> kvmarm@lists.cs.columbia.edu
-> https://lists.cs.columbia.edu/mailman/listinfo/kvmarm
+-- 
+Best regards,
+Vladimir
 
