@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2860F3AFC20
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:43:00 +0200 (CEST)
-Received: from localhost ([::1]:37830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BED03AFC11
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:37:32 +0200 (CEST)
+Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYFX-00044Q-4S
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
+	id 1lvYAF-0006lt-A3
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzf-0007CY-Je
+ id 1lvXze-00079c-Vf
  for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56618)
+Received: from indium.canonical.com ([91.189.90.7]:56476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzd-00054e-4C
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:35 -0400
+ id 1lvXzb-00052i-1u
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:34 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzP-00014G-41
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:19 +0000
+ id 1lvXzM-00014I-Ho
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:16 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1DABC2E8167
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:16 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0162F2E81BF
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:29 -0000
-From: Launchpad Bug Tracker <1839294@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:31 -0000
+From: Launchpad Bug Tracker <1843852@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: baw-mls janitor phil-opp th-huth
-X-Launchpad-Bug-Reporter: Koganinja89 (baw-mls)
+X-Launchpad-Bug-Commenters: ajbennee janitor jnsnow th-huth
+X-Launchpad-Bug-Reporter: John Snow (jnsnow)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <156516896995.16228.929773034443965895.malonedeb@soybean.canonical.com>
-Message-Id: <162433550920.20423.15116506634790250326.malone@loganberry.canonical.com>
-Subject: [Bug 1839294] Re: Latest Installer (qemu-w64-setup-20190807.exe) for
- windows immediately deletes installed files at the very end of the
- installation
+References: <156833045171.17307.14707838609727225916.malonedeb@gac.canonical.com>
+Message-Id: <162433551180.20423.15688798921305934008.malone@loganberry.canonical.com>
+Subject: [Bug 1843852] Re: QEMU does not express a dependency on
+ perl-Test-Harness
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 2d9d91e7f806b12e348506702f00ddbd5cb3e6be
+X-Launchpad-Hash: 10a48cb5b4e25721d8b610f3e3841f6127581012
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1839294 <1839294@bugs.launchpad.net>
+Reply-To: Bug 1843852 <1843852@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,39 +84,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1839294
+https://bugs.launchpad.net/bugs/1843852
 
 Title:
-  Latest Installer (qemu-w64-setup-20190807.exe) for windows immediately
-  deletes installed files at the very end of the installation
+  QEMU does not express a dependency on perl-Test-Harness
 
 Status in QEMU:
   Expired
 
 Bug description:
-  This happens on Windows 10 with the latest installer for 64 bit
-  Windows: qemu-w64-setup-20190807.exe
+  This is a minor thing; in Fedora you can install most of the developer
+  dependencies by issuing something like `dnf builddep qemu-kvm` and
+  this takes care of just about everything such that you can run
+  ./configure and make.
 
-  On install it will create the files and go through all the typical
-  functions of installing the software, at the very end step it will
-  then delete all files the installer created.
+  For "make check" though, configure doesn't catch that you'll need
+  perl-Test-Harness; so it fails halfway through the check routine, and
+  you'll see this:
 
-  I looked for logs to see when was going on so I ran the installation
-  in Sandboxie and was able to retain all the installed files but I
-  couldn't find a log for the installer.
+  ```
+  Can't locate TAP/Parser.pm in @INC (you may need to install the TAP::Pars=
+er module) (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /u=
+sr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /u=
+sr/share/perl5) at ./scripts/tap-driver.pl line 30.
+  BEGIN failed--compilation aborted at ./scripts/tap-driver.pl line 30.
+  make: *** [/home/jhuston/src/qemu/tests/Makefile.include:905: check-unit]=
+ Error 2
+  ```
 
-  Here is a screenshot of it deleting all the files at the end of the
-  process.
+  I'm not sure how we should express this dependency; it shouldn't be a
+  requirement for building, but it IS a dependency for testing. We
+  probably ought not let users skip the qapi tests just because they
+  don't have the perl requirement met.
 
-  https://imgur.com/BWiTA38
-
-  If goes too fast for me to see what is written in the text console
-  otherwise I would post more information but this is all I have. It
-  does not give any error or any other information at completion.
-
-  This error does not occur in the earlier release:
-  qemu-w64-setup-20190731.exe
+  (And, separately, the Fedora package should list this as a builddep,
+  but that's not an issue for here.)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1839294/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1843852/+subscriptions
 
