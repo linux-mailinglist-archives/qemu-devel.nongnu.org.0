@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B74D3B0564
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:59:58 +0200 (CEST)
-Received: from localhost ([::1]:53804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035B83B0557
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 14:57:10 +0200 (CEST)
+Received: from localhost ([::1]:40838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvg0T-0007BR-3V
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39486)
+	id 1lvfxl-0006xU-1n
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 08:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfsA-0006mh-Mh
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:51:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30755)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfsH-0006uh-RZ
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:51:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfs8-0000pH-Pw
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:51:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvfsF-0000rU-Pv
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:51:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624366280;
+ s=mimecast20190719; t=1624366284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=igynxy3YOEjND3VjYBJIzFRvAhPKBdO6NCzFVbZz6EU=;
- b=BkERAo6g4WGYYw0pznucO8ReTNncP6zJxq9+DViEyQfYkbgBM7wBbciZkhzVKnoe55HW3f
- h9QwMCrFlXeMkDO++EbISrXvOBJQcK0PcXNLCf3FyDw+aHvwtNpHQHu5wk4KbZsLfvm9V5
- 99I+xyT1YIZVcYLS7/8Vdr9/MTYtTpY=
+ bh=xVLR4nyfl/9ugHyAatbOdExKd0NGwpydZQ/qEvg99i4=;
+ b=DRyXFAAxoDJTCFW1cX8nD9JzeZo1Np2e3WknvfDkGZOGd/1+C8lFtsHjQuHs0pGhim+ih6
+ eDSevts+tOLDjI+cZodlSceqNOA7v9JDHCW2z3+L2ncApkyFDbPmBJeX3rZ+jS9ur0jCZU
+ Fsul/tNb1NxbC+1Q1mRxVjHcOqPZhaQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-4ozURl79MOiuOpURdW-d1Q-1; Tue, 22 Jun 2021 08:51:18 -0400
-X-MC-Unique: 4ozURl79MOiuOpURdW-d1Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-13-EPuI7RMfNvaTE4uYYRWa4w-1; Tue, 22 Jun 2021 08:51:23 -0400
+X-MC-Unique: EPuI7RMfNvaTE4uYYRWa4w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EE068042F3
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 12:51:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 621EF804140
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 12:51:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 452315D9F0;
- Tue, 22 Jun 2021 12:51:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1F0860C13;
+ Tue, 22 Jun 2021 12:51:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D5EDE1800909; Tue, 22 Jun 2021 14:51:10 +0200 (CEST)
+ id E21821800913; Tue, 22 Jun 2021 14:51:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] modules: module.h kerneldoc annotations
-Date: Tue, 22 Jun 2021 14:51:09 +0200
-Message-Id: <20210622125110.262843-4-kraxel@redhat.com>
+Subject: [PATCH 4/4] modules: hook up modules.h to docs build
+Date: Tue, 22 Jun 2021 14:51:10 +0200
+Message-Id: <20210622125110.262843-5-kraxel@redhat.com>
 In-Reply-To: <20210622125110.262843-1-kraxel@redhat.com>
 References: <20210622125110.262843-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,95 +86,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ---
- include/qemu/module.h | 59 +++++++++++++++++++++++++++++++++----------
- 1 file changed, 45 insertions(+), 14 deletions(-)
+ docs/devel/index.rst   | 1 +
+ docs/devel/modules.rst | 5 +++++
+ 2 files changed, 6 insertions(+)
+ create mode 100644 docs/devel/modules.rst
 
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index 7f4b1af8198c..8bc80535a4d4 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -74,11 +74,18 @@ void module_load_qom_one(const char *type);
- void module_load_qom_all(void);
- void module_allow_arch(const char *arch);
- 
--/*
-- * module info annotation macros
-+/**
-+ * DOC: module info annotation macros
-  *
-- * scripts/modinfo-collect.py will collect module info,
-- * using the preprocessor and -DQEMU_MODINFO
-+ * `scripts/modinfo-collect.py` will collect module info,
-+ * using the preprocessor and -DQEMU_MODINFO.
-+ *
-+ * `scripts/modinfo-generate.py` will create a module meta-data database
-+ * from the collected information so qemu knows about module
-+ * dependencies and QOM objects implemented by modules.
-+ *
-+ * See `*.modinfo` and `modinfo.c` in the build directory to check the
-+ * script results.
-  */
- #ifdef QEMU_MODINFO
- # define modinfo(kind, value) \
-@@ -87,24 +94,48 @@ void module_allow_arch(const char *arch);
- # define modinfo(kind, value)
- #endif
- 
--/* module implements QOM type <name> */
-+/**
-+ * module_obj
-+ *
-+ * @name: QOM type.
-+ *
-+ * This module implements QOM type @name.
-+ */
- #define module_obj(name) modinfo(obj, name)
- 
--/* module has a dependency on <name> */
-+/**
-+ * module_dep
-+ *
-+ * @name: module name
-+ *
-+ * This module depends on module @name.
-+ */
- #define module_dep(name) modinfo(dep, name)
- 
--/* module is for target architecture <name> */
-+/**
-+ * module_arch
-+ *
-+ * @arch: target architecture
-+ *
-+ * This module is for target architecture @arch.
-+ *
-+ * Note that target-dependent modules are tagged automatically, so
-+ * this is only needed in case target-independent modules should be
-+ * restricted.  Use case example: the ccw bus is implemented by s390x
-+ * only.
-+ */
- #define module_arch(name) modinfo(arch, name)
- 
--/* module registers QemuOpts <name> */
-+/**
-+ * module_opts
-+ *
-+ * @name: QemuOpts name
-+ *
-+ * This module registers QemuOpts @name.
-+ */
- #define module_opts(name) modinfo(opts, name)
- 
--/*
-- * module info database
-- *
-- * scripts/modinfo-generate.c will build this using the data collected
-- * by scripts/modinfo-collect.py
-- */
-+/* module info database (created by scripts/modinfo-generate.py) */
- typedef struct QemuModinfo QemuModinfo;
- struct QemuModinfo {
-     const char *name;
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 977c3893bdaf..ba90badbbd6d 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -41,6 +41,7 @@ Contents:
+    s390-dasd-ipl
+    clocks
+    qom
++   modules
+    block-coroutine-wrapper
+    multi-process
+    ebpf_rss
+diff --git a/docs/devel/modules.rst b/docs/devel/modules.rst
+new file mode 100644
+index 000000000000..066f347b89ba
+--- /dev/null
++++ b/docs/devel/modules.rst
+@@ -0,0 +1,5 @@
++============
++Qemu modules
++============
++
++.. kernel-doc:: include/qemu/module.h
 -- 
 2.31.1
 
