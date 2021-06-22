@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E113F3AFC1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:42:17 +0200 (CEST)
-Received: from localhost ([::1]:33938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A152F3AFC18
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:39:41 +0200 (CEST)
+Received: from localhost ([::1]:53862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYEq-0001ET-Vf
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57188)
+	id 1lvYCK-0003oZ-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzV-0006dG-98
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:25 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55898)
+ id 1lvXzT-0006XU-QY
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:23 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzR-0004uy-Mz
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:24 -0400
+ id 1lvXzQ-0004sn-6O
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:23 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXzC-00014G-KP
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:07 +0000
+ id 1lvXzB-00014I-ID
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:05 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E1D192E81BF
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E1E702E81A8
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:40 -0000
-From: Launchpad Bug Tracker <1851547@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:41 -0000
+From: Launchpad Bug Tracker <1851845@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h janitor marietto2008 th-huth
-X-Launchpad-Bug-Reporter: Marietto (marietto2008)
+X-Launchpad-Bug-Commenters: blaster556 janitor th-huth
+X-Launchpad-Bug-Reporter: Master (blaster556)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157306426546.28368.6683622999323132409.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162433552098.20423.12939272024814228384.malone@loganberry.canonical.com>
-Subject: [Bug 1851547] Re: qemu 4 crashes with this parameter attached -usb
- -device usb-host, hostbus=1, hostaddr=7 \
+References: <157322243198.19302.7056686325122080277.malonedeb@wampee.canonical.com>
+Message-Id: <162433552183.20423.14195393703072784444.malone@loganberry.canonical.com>
+Subject: [Bug 1851845] Re: Windows 10 panics with BlueIris 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 6e860caddf42159b52e3f14214f5381a00819c33
+X-Launchpad-Hash: 24712befd6543da0e7946fad64e5d5a0444dbfb2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1851547 <1851547@bugs.launchpad.net>
+Reply-To: Bug 1851845 <1851845@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,65 +83,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1851547
+https://bugs.launchpad.net/bugs/1851845
 
 Title:
-  qemu 4 crashes with this parameter attached -usb -device usb-
-  host,hostbus=3D1,hostaddr=3D7 \
+  Windows 10 panics with BlueIris
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello.
+  Running Windows 10 64bit.  Starting BlueIris 64 bit causes Windows to
+  panic with CPU type is set higher than Penryn or CPU type =3D host.
 
-  qemu / kvm does not start anymore after upgrading ubuntu from 19.04 to
-  19.10 and qemu from 3 to 4,as you can see below. what can I do ?
+  I have been able to reproduce the same issue on Proxmox 4,5,6 as well
+  as oVirt 3. and 4.
 
-  root@ziomario-Z390-AORUS-PRO:/home/ziomario/Scrivania/OS-KVM# ./boot-
-  OS-HSP2.sh
+  Does not panic when CPU type is set to kvm64.
 
-  ----> qemu-system-x86_64: /build/qemu-
-  UryNDZ/qemu-4.0+dfsg/hw/usb/core.c:720: usb_ep_get: asserzione "dev !=3D
-  NULL" non riuscita.
+  =
 
-  ./boot-OS-HSP2.sh: riga 40: 26312 Annullato (core dump creato) qemu-
-  system-x86_64 -enable-kvm -m 16000 -cpu
-  Penryn,kvm=3Don,vendor=3DGenuineIntel,+invtsc,vmware-cpuid-
-  freq=3Don,$MY_OPTIONS -machine pc-q35-2.9 -smp 4,cores=3D2 -vga none
-  -device vfio-pci,host=3D01:00.0,bus=3Dpcie.0,multifunction=3Don -device
-  vfio-pci,host=3D01:00.1,bus=3Dpcie.0 -device vfio-
-  pci,host=3D01:00.2,bus=3Dpcie.0 -device vfio-pci,host=3D01:00.3,bus=3Dpci=
-e.0
-  -usb -device usb-host,hostbus=3D1,hostaddr=3D7 -drive
-  if=3Dpflash,format=3Draw,readonly,file=3D$OVMF/OVMF_CODE.fd -drive
-  if=3Dpflash,format=3Draw,file=3D$OVMF/OVMF_VARS-1024x768.fd -smbios type=
-=3D2
-  -device ich9-ahci,id=3Dsata -drive
-  id=3DClover,if=3Dnone,snapshot=3Don,format=3Dqcow2,file=3D./'Mo/CloverNG.=
-qcow2'
-  -device ide-hd,bus=3Dsata.2,drive=3DClover -device ide-
-  hd,bus=3Dsata.3,drive=3DInstallMedia -drive
-  id=3DInstallMedia,if=3Dnone,file=3DBaseSystemHS.img,format=3Draw -drive
-  id=3DBsdHDD,if=3Dnone,file=3D/dev/sdg,format=3Draw -device ide-
-  hd,bus=3Dsata.4,drive=3DBsdHDD -netdev
-  tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno -device
-  e1000-82545em,netdev=3Dnet0,id=3Dnet0,mac=3D52:54:00:c9:18:27 -monitor st=
-dio
+  pve-qemu-kvm/stable 4.0.1-4 amd64
 
-  It seems that this line is not good anymore (it worked with qemu 3.x)
-  :
-
-  -usb -device usb-host,hostbus=3D1,hostaddr=3D7 \
-
-  when I removed it,it works. But I need that. With what can I change it
-  ? You can reproduce that upgrading ubuntu 19.04 to 19.10 because in
-  that way also qemu will be upgraded from 3 to 4. These are the
-  packages that I'm using :
-
-  root@ziomario-Z390-AORUS-PRO:/home/ziomario# qemu-system-x86_64 --version
-  QEMU emulator version 4.0.0 (Debian 1:4.0+dfsg-0ubuntu9)
+   /usr/bin/kvm -id 102 -name win7-01 -chardev
+  socket,id=3Dqmp,path=3D/var/run/qemu-server/102.qmp,server,nowait -mon
+  chardev=3Dqmp,mode=3Dcontrol -chardev socket,id=3Dqmp-
+  event,path=3D/var/run/qmeventd.sock,reconnect=3D5 -mon chardev=3Dqmp-
+  event,mode=3Dcontrol -pidfile /var/run/qemu-server/102.pid -daemonize
+  -smbios type=3D1,uuid=3D3ec61114-c30c-4719-aa00-f3f05be22d48 -smp
+  8,sockets=3D1,cores=3D8,maxcpus=3D8 -nodefaults -boot menu=3Don,strict=3D=
+on
+  ,reboot-timeout=3D1000,splash=3D/usr/share/qemu-server/bootsplash.jpg -vnc
+  unix:/var/run/qemu-server/102.vnc,password -no-hpet -cpu
+  penryn,+lahf_lm,+sep,+kvm_pv_unhalt,+kvm_pv_eoi,hv_spinlocks=3D0x1fff,hv_=
+vapic,hv_time,hv_reset,hv_vpindex,hv_runtime,hv_relaxed,hv_synic,hv_stimer,=
+hv_ipi,enforce
+  -m 12000 -device pci-bridge,id=3Dpci.2,chassis_nr=3D2,bus=3Dpci.0,addr=3D=
+0x1f
+  -device pci-bridge,id=3Dpci.1,chassis_nr=3D1,bus=3Dpci.0,addr=3D0x1e -dev=
+ice
+  vmgenid,guid=3D50deb929-1974-4fd0-9ad3-71722149d568 -device piix3-usb-
+  uhci,id=3Duhci,bus=3Dpci.0,addr=3D0x1.0x2 -device usb-
+  tablet,id=3Dtablet,bus=3Duhci.0,port=3D1 -device
+  VGA,id=3Dvga,bus=3Dpci.0,addr=3D0x2 -chardev socket,path=3D/var/run/qemu-
+  server/102.qga,server,nowait,id=3Dqga0 -device virtio-
+  serial,id=3Dqga0,bus=3Dpci.0,addr=3D0x8 -device
+  virtserialport,chardev=3Dqga0,name=3Dorg.qemu.guest_agent.0 -device
+  virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x3 -iscsi initiator-
+  name=3Diqn.1993-08.org.debian:01:203582cea152 -drive if=3Dnone,id=3Ddrive-
+  ide2,media=3Dcdrom,aio=3Dthreads -device ide-cd,bus=3Dide.1,unit=3D0,drive
+  =3Ddrive-ide2,id=3Dide2,bootindex=3D200 -drive
+  file=3D/disk02/prox/images/102/vm-102-disk-0.raw,if=3Dnone,id=3Ddrive-
+  virtio0,cache=3Dwriteback,format=3Draw,aio=3Dthreads,detect-zeroes=3Don
+  -device virtio-blk-pci,drive=3Ddrive-
+  virtio0,id=3Dvirtio0,bus=3Dpci.0,addr=3D0xa,bootindex=3D100 -drive
+  file=3D/dev/disk/by-id/ata-WDC_WD80EMAZ-00WJTA0_7SGZLHYC-
+  part1,if=3Dnone,id=3Ddrive-virtio1,cache=3Dwriteback,format=3Draw,aio=3Dt=
+hreads
+  ,detect-zeroes=3Don -device virtio-blk-pci,drive=3Ddrive-
+  virtio1,id=3Dvirtio1,bus=3Dpci.0,addr=3D0xb -netdev
+  type=3Dtap,id=3Dnet0,ifname=3Dtap102i0,script=3D/var/lib/qemu-server/pve-
+  bridge,downscript=3D/var/lib/qemu-server/pve-bridgedown,vhost=3Don -device
+  virtio-net-
+  pci,mac=3D1e:be:cb:0b:6f:13,netdev=3Dnet0,bus=3Dpci.0,addr=3D0x12,id=3Dne=
+t0,bootindex=3D300
+  -netdev type=3Dtap,id=3Dnet1,ifname=3Dtap102i1,script=3D/var/lib/qemu-ser=
+ver
+  /pve-bridge,downscript=3D/var/lib/qemu-server/pve-bridgedown,vhost=3Don
+  -device virtio-net-
+  pci,mac=3DEA:76:56:16:2F:D7,netdev=3Dnet1,bus=3Dpci.0,addr=3D0x13,id=3Dne=
+t1,bootindex=3D301
+  -rtc driftfix=3Dslew,base=3Dlocaltime -machine type=3Dpc -global kvm-
+  pit.lost_tick_policy=3Ddiscard
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1851547/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1851845/+subscriptions
 
