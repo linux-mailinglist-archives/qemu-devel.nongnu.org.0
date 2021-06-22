@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9FA3AFF10
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 10:21:25 +0200 (CEST)
-Received: from localhost ([::1]:53580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62843AFF2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 10:23:46 +0200 (CEST)
+Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvbeu-0007Do-VT
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 04:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42866)
+	id 1lvbhB-00010Y-RA
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 04:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1lvbdq-0006FE-6m
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:20:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37081)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvbfx-0000GH-A9
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:22:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1lvbdo-0003MR-3k
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:20:17 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lvbfv-0004yj-4q
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 04:22:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624350015;
+ s=mimecast20190719; t=1624350146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OJfG6xHzKZO4p1mF7QOoq2I//Jjw6HTCsW5K0iOYu3Q=;
- b=bWCturH/RemvZdq/128m6Zp/BQ83a2JodnjwOcsIne+vQB9OzfvdCxCv5yVF624EQJPgXy
- XrN7bbIVsU1N5E87XwaDhLH3qpl4uuzq+zk5EPnY2KrkgmUO20iLqENXsvfKF5efpoRvnV
- zY3oaduJl50tg/vzPkvDA3vfPFbX5Tg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-W4Fet5gtORmgcklIl2dBmA-1; Tue, 22 Jun 2021 04:20:13 -0400
-X-MC-Unique: W4Fet5gtORmgcklIl2dBmA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j2-20020a05600c1c02b02901cecbe55d49so1979391wms.3
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 01:20:12 -0700 (PDT)
+ bh=2rgsSFtzBDG0oSGhhCWW0PBefydcRo5S7AiE0b6UV9I=;
+ b=NVt/C0k6nOyp4boYqI6Xj0YQnzr+JDLZefNsfvCQMDN7X0NmZ7PC4Uk6tmakZuzvc/VGxv
+ EF0C9bDad3hdkZezv9fu4BT/Pd7Cn0OeE/9d78HfCG/Vf24zYRO/oxNqBoG99icUmpJOr6
+ urlS6N1guFpShNhBsYOznhZ0XTeUI0Q=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-ibDbJxy4Nqmg1Nz4DyvKqg-1; Tue, 22 Jun 2021 04:22:23 -0400
+X-MC-Unique: ibDbJxy4Nqmg1Nz4DyvKqg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u16-20020a5d51500000b029011a6a17cf62so9054423wrt.13
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 01:22:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OJfG6xHzKZO4p1mF7QOoq2I//Jjw6HTCsW5K0iOYu3Q=;
- b=cA1vfcYewL089S2xB2n9C9ubHYI/cszhAYAz0DXWMWGbBLX9P4MEFgI0SyUS6kH2Yq
- p0h7IrEtQ8AsEWDuKVjF3GH+LzFG6yxVrDh38EP3U962/U/Pum2E/9hEb1XJoEljYDWN
- 95MoFN0uZToX69JoNgGH4ENN63Mr+w7T1NaA/0mzyemrnS09dESRBHP4iclzDOkG0A8y
- y3t5NYUQNeulZ/j0vd5H5znJoIanpSlilNnHNEw4Q9Uaw4RbS9lBHhkfjwHKsolpeRV9
- NKYqT3wRbB9rSsWPDcRzhkZ0Z2Bch+TVe76nLkQyyghvttPmj8RuHMVWbpcSgb6bpXeQ
- 6cXQ==
-X-Gm-Message-State: AOAM530C/bT1hUjLB0LYNR0keFqE8f+lup7CP6i0DuVvoKGlmLzeJSYY
- T1HXPor0pvApylm+g9XfWh6H+U0oYxvs5VQg7ZTzSv4jdb05cjIlhmpPWc2UzIjjRxKtBZKLEFw
- mbBlXmKy9W6F6q2A=
-X-Received: by 2002:a05:600c:210:: with SMTP id
- 16mr3132903wmi.59.1624350010698; 
- Tue, 22 Jun 2021 01:20:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2PJTrOw0/UpmCYlo5yV0NhXx9YkeWSPxa8hLrhoFKaWFZR1TI6gHTTX1IO+TQabBH+ikPog==
-X-Received: by 2002:a05:600c:210:: with SMTP id
- 16mr3132869wmi.59.1624350010385; 
- Tue, 22 Jun 2021 01:20:10 -0700 (PDT)
-Received: from [192.168.43.95] ([37.173.9.63])
- by smtp.gmail.com with ESMTPSA id z6sm16031414wrh.65.2021.06.22.01.20.09
+ bh=2rgsSFtzBDG0oSGhhCWW0PBefydcRo5S7AiE0b6UV9I=;
+ b=F3KoHllDv1XYmd+e41/1gFoqRYlClTrg+WgFGIpJrV5n+8YdDeX5mueqJVQiJ0an5i
+ okjHKtnrlA7tR6ZoG+yO0Ia06shOodhwOt+mvQETpJtP4iXG3Krayu/z4n9piDYkETb3
+ PWOa+GIK74NG8IsjENYkv4nV4X7DH+PISlTxV/6hMtAVFgAkRrzKfmxfSBpgOrlpfecu
+ jD2K4H7RL4pepBdnxGU/4D0ZAm3vkFANoK5Yer7uXLAzhRDs2si35AoNs8M+njEQ42im
+ 6yz03nZUv2sUljnQQT/6H/wjQ3KiW5gNkiaeX99d2uZFLOoTlE0lZUjokp0RQ0EuzfZy
+ zTRA==
+X-Gm-Message-State: AOAM5328FTZ0KAn6EmM7slQ5Qs6AKcZDou1onJGjMTO17xjdYD1ieAFb
+ 5YA8JAx4KqkKo8uM/E892K/XJ8MrWqXl/XQk7rsDO+TkMGrI/xYCheTogaw2Z3VFU3m9t0mtVSB
+ NM2HWi1vCoB4jRSksj7ZE5ssl2XKw6boLTnwpaVbJaeORxyJD6GmG7tQSfdqPMmko
+X-Received: by 2002:a7b:c76a:: with SMTP id x10mr2918783wmk.135.1624350141810; 
+ Tue, 22 Jun 2021 01:22:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyE8Aeso6oDdlBH9DSnmPk5HLTlrrgXLk3bsHmMLpISACq6fRingyJhXPS0U/x3Nu3L7ENhw==
+X-Received: by 2002:a7b:c76a:: with SMTP id x10mr2918762wmk.135.1624350141575; 
+ Tue, 22 Jun 2021 01:22:21 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id b11sm20793718wrf.43.2021.06.22.01.22.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jun 2021 01:20:09 -0700 (PDT)
-Subject: Re: QEMU PCIe expander bridge with 64kB page guest -> guest BUG_ON()
-From: Eric Auger <eauger@redhat.com>
-To: qemu list <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Ard Biesheuvel <ardb@kernel.org>, Xingang Wang <wangxingang5@huawei.com>,
- miaoyubo@huawei.com
-References: <1811f735-3426-08c0-ee86-b410b632efb5@redhat.com>
-Message-ID: <f3a5e2ce-54fd-f19a-4a8c-1cdcc4ba8f57@redhat.com>
-Date: Tue, 22 Jun 2021 10:20:08 +0200
+ Tue, 22 Jun 2021 01:22:21 -0700 (PDT)
+Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>
+References: <20210616152455.1270264-1-imammedo@redhat.com>
+ <d10ba45f-c71c-f472-fac7-9f8e5770c735@suse.de>
+ <20210618132647.07cf2008@redhat.com>
+ <2f7ae379-92e0-3274-6944-84a5bce6e82e@suse.de>
+ <20210618152943.2009ad82@redhat.com> <874kdqtj25.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ca74cc39-6e30-6588-aa5a-48f74d305b56@redhat.com>
+Date: Tue, 22 Jun 2021 10:22:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1811f735-3426-08c0-ee86-b410b632efb5@redhat.com>
+In-Reply-To: <874kdqtj25.fsf@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -101,161 +103,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lvivier@redhat.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ mst@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding Yubo in the loop as Jiahui's address is bouncing.
+On 6/22/21 10:07 AM, Alex Bennée wrote:
+> Igor Mammedov <imammedo@redhat.com> writes:
+>> On Fri, 18 Jun 2021 14:43:46 +0200
+>> Claudio Fontana <cfontana@suse.de> wrote:
+>>> On 6/18/21 1:26 PM, Igor Mammedov wrote:
+>>>> On Thu, 17 Jun 2021 18:49:17 +0200
+>>>> Claudio Fontana <cfontana@suse.de> wrote:
+>>>>> On 6/16/21 5:24 PM, Igor Mammedov wrote:  
+>>>>>>
+>>>>>> Sometimes it's necessary to execute a test that depends on KVM,
+>>>>>> however qtest is not aware if tested QEMU binary supports KVM
+>>>>>> on the host it the test is executed.    
+>>>>>
+>>>>> Hello,
+>>>>>
+>>>>> It seems to me that we are constantly re-implementing the same feature with slight variations?
+>>>>>
+>>>>> Didn't we have a generic series to introduce qtest_has_accel() from Philippe before?  
+>>>> It's mentioned in cover letter (PS: part) and in [1/3] with rationale
+>>>> why this was posted.  
+>>>
+>>> Thought it was separate, but now I see that it uses query-accel underneath.
+>>>
+>>> Seems strange to add another check to do the same thing, it may point to qtest_has_accel() needing some update?
+>>> You mention it is time consuming to use qtest_has_accel(), have you measured an important overhead?
+>>> With qtest_has_accel() not even being committed yet, is it already necessary to work around it because it's too slow? 
+>>
+>> Tests are already take a lot of time as is, so I'd try to avoid slowing
+>> them down.
+>>
+>> proposed qtest_has_accel() requires spawning QEMU to probe, which is slow.
+>> Worst case would be:
+>>  = qemu startup time * number of checks * number of targets
+>>
+>> It's fine to run occasionally, I can take a coffee break while tests run.
+>> But put it in context of CI and it multiplies by the number of push requests
+>> and starts to eat not only time but also limited CI resources.
+>>
+>> In current form qtest_has_accel() is only marginally better functionality
+>> wise, as it reports all built in accelerators while qtest_has_kvm() accounts
+>> only for KVM.
+>>
+>> qtest_has_kvm() is collecting info about built-in accelerators at
+>> configure/build time and that probably could be extended to other
+>> accelerators (not a thing that I'm interested in at the moment).
+>> So it could be extended to support the same accelerators
+>> as currently proposed qtest_has_accel().
+> 
+> One minor downside is this forever ties the tests to the build. I have
+> spoken with people before about the idea of separating the test
+> artefacts from the build so they can be used either as a) cached test
+> objects or b) other testing environments, for example verifying the
+> kernel has not regressed. However we don't do either of those things at
+> the moment so it's not a major concern.
 
+This is the feature that is interesting RedHat QE too, run the latest
+qtests on various released binaries to compare performances between
+releases.
 
-On 6/21/21 6:22 PM, Eric Auger wrote:
-> Hi Jiahui,
+> If the worry is about extending test times by having an extra round trip
+> of a spawn and query step for every test could we not consider caching
+> the information somewhere? Really any given binary should only need to
+> be queried once per run, not per test.
+
+Good idea.
+
+>> Given a less expensive approach exists, the qtest_has_accel()
+>> in its current form might be not justifiable. 
+>>
+>>    
+>>>>> Does this series work with --disable-kvm builds? (TCG-only builds?)  
+>>>> I'll test. But on the first glance it should work without issues.
+>>>> (i.e. kvm only tests will be skipped).
+>>>>   
+>>>>>
+>>>>> Thanks,
+>>>>>
+>>>>> CLaudio
+>>>>>
+>>>>>  
+>>>>>>
+>>>>>> For an example:
+>>>>>>  test q35 machine with intel_iommu
+>>>>>>  This test will run only is KVM is available and fail
+>>>>>>  to start QEMU if it fallsback to TCG, thus failing whole test.
+>>>>>>  So if test is executed in VM where nested KVM is not enabled
+>>>>>>  or on other than x86 host, it will break 'make check-qtest'
+>>>>>>
+>>>>>> Series adds a lightweight qtest_has_kvm() check, which abuses
+>>>>>> build system and should help to avoid running KVM only tests
+>>>>>> on hosts that do not support it.
+>>>>>>
+>>>>>> PS:
+>>>>>> there is an alternative 'query-accels' QMP command proposal
+>>>>>> https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
+>>>>>> which I think is more robust compared to qtest_has_kvm() and
+>>>>>> could be extended to take into account machine type.
+>>>>>> But it's more complex and what I dislike about it most,
+>>>>>> it requires execution of 'probing' QEMU instance to find
+>>>>>> execute 'query-accels' QMP command, which is rather resource
+>>>>>> consuming. So I'd use query-accels approach only when it's
+>>>>>> the only possible option to minimize load on CI systems.
+>>>>>>
+>>>>>> Igor Mammedov (2):
+>>>>>>   tests: acpi: q35: test for x2APIC entries in SRAT
+>>>>>>   tests: acpi: update expected tables blobs
+>>>>>>
+>>>>>> root (1):
+>>>>>>   tests: qtest: add qtest_has_kvm() to check if tested bynary supports
+>>>>>>     KVM
+>>>>>>
+>>>>>>  tests/qtest/libqos/libqtest.h    |   7 +++++++
+>>>>>>  meson.build                      |   1 +
+>>>>>>  tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
+>>>>>>  tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
+>>>>>>  tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
+>>>>>>  tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
+>>>>>>  tests/qtest/bios-tables-test.c   |  10 +++++++---
+>>>>>>  tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
+>>>>>>  8 files changed, 35 insertions(+), 3 deletions(-)
+>>>>>>  create mode 100644 tests/data/acpi/q35/APIC.numamem
+>>>>>>  create mode 100644 tests/data/acpi/q35/FACP.numamem
+>>>>>>     
+>>>>>  
+>>>>   
+>>>
 > 
-> I noticed the PCIe expander bridge + PCIe root port does not work with a
-> 64kB page guest. One hits a kernel BUG at mm/vmalloc.c:96
-> (BUG_ON(!pte_none(*pte));)! This happens with an upstream guest.
-> 
-> I understand this happens on pci_remap_iospace when handling the Io16
-> regions below. Wonder if the edk2 code could be the source (I saw you
-> write both the edk2 and the qemu part [edk2-devel] [PATCH v2 0/4] Add
-> extra pci roots support for Arm).
-> 
-> Please could give me a hand?
-> 
-> Best Regards
-> 
-> Eric
-> 
-> 
-> Sample qemu cmd options:
-> 
-> -device pxb-pcie,bus_nr=4,id=bridge,bus=pcie.0 \
-> -device pcie-root-port,bus=bridge,chassis=4,id=pcie.11 \
-> -device virtio-net-pci,bus=pcie.11,netdev=nic0,mac=6a:f5:10:b1:3d:d2
-> -netdev
-> tap,id=nic0,script=/home/augere/TEST/SCRIPTS/qemu-ifup,downscript=/home/augere/TEST/SCRIPTS/qemu-ifdown
-> 
-> 
-> [    2.867734] ACPI: PCI Root Bridge [PCFE] (domain 0000 [bus fe-ff])
-> [    2.869339] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM
-> ClockPM Segments MSI EDR HPX-Type3]
-> [    2.871405] acpi PNP0A08:00: _OSC: platform does not support [LTR DPC]
-> [    2.873226] acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME
-> AER PCIeCapability]
-> [    2.875609] acpi PNP0A08:00: ECAM area [mem
-> 0x401fe00000-0x401fffffff] reserved by PNP0C02:00
-> [    2.877830] acpi PNP0A08:00: ECAM at [mem 0x401fe00000-0x401fffffff]
-> for [bus fe-ff]
-> phys_addr=0x3eff3000
-> [    2.884036] ------------[ cut here ]------------
-> [    2.885249] kernel BUG at mm/vmalloc.c:96!
-> [    2.886322] Internal error: Oops - BUG: 0 [#1] SMP
-> [    2.887560] Modules linked in:
-> [    2.888352] CPU: 7 PID: 1 Comm: swapper/0 Not tainted
-> 5.13.0-rc6-guest-64K+ #57
-> [    2.890216] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0
-> 02/06/2015
-> [    2.891983] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO BTYPE=--)
-> [    2.893519] pc : vmap_range+0x1d8/0x208
-> [    2.894600] lr : vmap_range+0x38/0x208
-> [    2.895615] sp : fffffe0012c2f7f0
-> [    2.896517] x29: fffffe0012c2f7f0 x28: fffffffefe800000 x27:
-> fffffffefe801000
-> [    2.898437] x26: ffffffff20070000 x25: 00000001407f0000 x24:
-> 0140000000000000
-> [    2.900357] x23: fffffe001134ffb8 x22: 000000000000003f x21:
-> 0068000000000717
-> [    2.902284] x20: 000000003eff3000 x19: fffffffefe801000 x18:
-> 0000000000000010
-> [    2.904236] x17: 0000000000000000 x16: 0000000000000001 x15:
-> ffffffffffffffff
-> [    2.906157] x14: 695f70616d65725f x13: 696370202a2a2a2a x12:
-> fffffe0011c77150
-> [    2.908084] x11: 0000000000000003 x10: fffffe0011bb7110 x9 :
-> fffffe0010d33ad4
-> [    2.909996] x8 : 00000000000bffe8 x7 : c0000000ffff7fff x6 :
-> 0000000000000001
-> [    2.911323] x5 : 0000000000000000 x4 : 000000003eff0000 x3 :
-> 0000000000001ff7
-> [    2.912631] x2 : 0040000000000001 x1 : fffffc07f4080038 x0 :
-> fffffc07ffbecdc0
-> [    2.913951] Call trace:
-> [    2.914398]  vmap_range+0x1d8/0x208
-> [    2.915363]  ioremap_page_range+0x20/0x30
-> [    2.916453]  pci_remap_iospace+0xcc/0xf0
-> [    2.917519]  acpi_pci_probe_root_resources+0x244/0x268
-> [    2.918907]  pci_acpi_root_prepare_resources+0x28/0xc8
-> [    2.920281]  acpi_pci_root_create+0x9c/0x2f8
-> [    2.921443]  pci_acpi_scan_root+0x14c/0x230
-> [    2.922574]  acpi_pci_root_add+0x268/0x5c0
-> [    2.923710]  acpi_bus_attach+0x15c/0x2c0
-> [    2.924794]  acpi_bus_attach+0x9c/0x2c0
-> [    2.925833]  acpi_bus_attach+0x9c/0x2c0
-> [    2.926881]  acpi_bus_scan+0x64/0x118
-> [    2.927875]  acpi_scan_init+0x10c/0x25c
-> [    2.928922]  acpi_init+0x3e8/0x458
-> [    2.929847]  do_one_initcall+0x54/0x268
-> [    2.930879]  kernel_init_freeable+0x290/0x344
-> [    2.932068]  kernel_init+0x1c/0x128
-> [    2.933017]  ret_from_fork+0x10/0x18
-> [    2.934005] Code: a90687e2 97f518e5 a94687e2 17ffffe4 (d4210000)
-> [    2.935673] ---[ end trace 1d687ce361e3e7ca ]---
-> [    2.936922] Kernel panic - not syncing: Oops - BUG: Fatal exception
-> [    2.938611] SMP: stopping secondary CPUs
-> [    2.939760] ---[ end Kernel panic - not syncing: Oops - BUG: Fatal
-> exception ]---
-> 
-> 
-> At EDK2 level I have:
-> 
-> PciBus: Resource Map for Root Bridge PciRoot(0x0)^M
-> Type =   Io16; Base = 0x0;      Length = 0x3000;        Alignment = 0xFFF^M
->    Base = 0x0;  Length = 0x200; Alignment = 0xFFF;      Owner = PPB
-> [00|02|02:**]^M
->    Base = 0x1000;       Length = 0x200; Alignment = 0xFFF;      Owner =
-> PPB [00|02|01:**]^M
->    Base = 0x2000;       Length = 0x200; Alignment = 0xFFF;      Owner =
-> PPB [00|02|00:**]^M
-> Type =  Mem32; Base = 0x10000000;       Length = 0x700000;
-> Alignment = 0x1FFFFF^M
->    Base = 0x10000000;   Length = 0x200000;      Alignment = 0x1FFFFF;
-> Owner = PPB [00|02|02:**]^M
->    Base = 0x10200000;   Length = 0x200000;      Alignment = 0x1FFFFF;
-> Owner = PPB [00|02|01:**]^M
->    Base = 0x10400000;   Length = 0x200000;      Alignment = 0x1FFFFF;
-> Owner = PPB [00|02|00:**]^M
->    Base = 0x10600000;   Length = 0x1000;        Alignment = 0xFFF;
-> Owner = PPB [00|02|02:10]^M
->    Base = 0x10601000;   Length = 0x1000;        Alignment = 0xFFF;
-> Owner = PPB [00|02|01:10]^M
->    Base = 0x10602000;   Length = 0x1000;        Alignment = 0xFFF;
-> Owner = PPB [00|02|00:10]^M
-> Type =  Mem64; Base = 0x8000000000;     Length = 0x200000;
-> Alignment = 0xFFFFF^M
->    Base = 0x8000000000; Length = 0x100000;      Alignment = 0xFFFFF;
-> Owner = PPB [00|02|01:**]; Type = PMem64^M
->    Base = 0x8000100000; Length = 0x100000;      Alignment = 0xFFFFF;
-> Owner = PPB [00|02|02:**]; Type = PMem64^M
-> 
-> 
-> PciBus: Resource Map for Root Bridge PciRoot(0x4)^M
-> Type =   Io16; Base = 0x3000;   Length = 0x1000;        Alignment = 0xFFF^M
->    Base = 0x3000;       Length = 0x200; Alignment = 0xFFF;      Owner =
-> PPB [04|00|00:**]^M
-> Type =  Mem32; Base = 0x10800000;       Length = 0x300000;
-> Alignment = 0x1FFFFF^M
->    Base = 0x10800000;   Length = 0x200000;      Alignment = 0x1FFFFF;
-> Owner = PPB [04|00|00:**]^M
->    Base = 0x10A00000;   Length = 0x1000;        Alignment = 0xFFF;
-> Owner = PPB [04|00|00:10]^M
-> ^M
-> PciBus: Resource Map for Bridge [04|00|00]^M
-> Type =   Io16; Base = 0x3000;   Length = 0x200; Alignment = 0xFFF^M
->    Base = Padding;      Length = 0x200; Alignment = 0x1FF^M
-> Type =  Mem32; Base = 0x10800000;       Length = 0x200000;
-> Alignment = 0x1FFFFF^M
->    Base = Padding;      Length = 0x200000;      Alignment = 0x1FFFFF^M
-> Type =  Mem32; Base = 0x10A00000;       Length = 0x1000;
-> Alignment = 0xFFF^M
 > 
 
 
