@@ -2,53 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7233B09E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:04:32 +0200 (CEST)
-Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F953B09F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 18:07:14 +0200 (CEST)
+Received: from localhost ([::1]:41330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvit5-0003Ye-8s
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60020)
+	id 1lvivh-0001FN-Qb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 12:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lviqe-00013A-CS
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:02:00 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:47029)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lvisU-0004Dj-Lq
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:03:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lviqY-0004pT-Lx
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:01:59 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-0g5wLfnfMZ-fYDLoeowX5w-1; Tue, 22 Jun 2021 12:01:48 -0400
-X-MC-Unique: 0g5wLfnfMZ-fYDLoeowX5w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C1B31006B3D;
- Tue, 22 Jun 2021 16:01:46 +0000 (UTC)
-Received: from bahia.lan (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BD12692BC;
- Tue, 22 Jun 2021 16:01:22 +0000 (UTC)
-Date: Tue, 22 Jun 2021 18:01:21 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] virtiofsd: Don't allow file creation with FUSE_OPEN
-Message-ID: <20210622180121.0e4d6748@bahia.lan>
-In-Reply-To: <YNCVzPd1UGSzriMP@stefanha-x1.localdomain>
-References: <20210617141518.304659-1-groug@kaod.org>
- <YNCVzPd1UGSzriMP@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lvisS-0005q5-K1
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 12:03:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624377831;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kP7Md80zgi5juiSwSJjkj59pr5rEW1urtWDsw5/4F04=;
+ b=aR6j3t0pk7L3DYZxEnf3oIi9622RUlsbi/OSiu4VYFj8waZhOzmgFuGt96ZecXH3JEl4pf
+ OlmnxWcMvcrO7ux9GugWKl4F64Uyu80gFfTUO8p9RtCf4f3BKasBb/FUT0KeP/UmDnL6Zu
+ dUhxAkiKYEQa6gM8xbBv2skJ09fl7hQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-4IA8yX5wNhC4oFjjYjwhEg-1; Tue, 22 Jun 2021 12:03:49 -0400
+X-MC-Unique: 4IA8yX5wNhC4oFjjYjwhEg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d8-20020adfef880000b029011a9391927aso3626735wro.22
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 09:03:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:from:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=kP7Md80zgi5juiSwSJjkj59pr5rEW1urtWDsw5/4F04=;
+ b=BLE4qF9XfCLlQwZQVKt6h5MVSWp46uZxqmEQb+UXDWPorTaNmyqkW+mPC3582UyVBG
+ u46anj3Y7FjkM4gxhKcD04cyJgeKMmy2rQSK84pA9xf0BJncvcZSOYBd58WQH48pujOF
+ YHaHUfHcVnXwMzDbsvV4cKzIJIGiy6Wb6jcCsb06Z6ieFFse5WCcr3Rtqrvc0HzXPyr9
+ FfuuxYVG3EOYloTtI3tVKhm9fan8pK/CiOz1KpQTuCMWy3vmbxZnCKEdh4nRuyuu5gYR
+ JrGJiomGU9RqN7GztZRQubcv+07g69kEi/aufE0MhT7rGjAaTAaO5La7ine4GN4hf7L/
+ Vi3g==
+X-Gm-Message-State: AOAM531Pfq9Bd1u8eZAHO+muDDMtMW/2RGwlJVoRJjarWuL+oVVkj2TI
+ 3BwsKpTTxunN5vUl/UYxj9S6KaTUOGW68btfAlJyD31WD7E7ZhO+B+hnxih1cEDeO2JRLC6pe12
+ Yjm2v3jpn7XzA48Q=
+X-Received: by 2002:adf:ebc6:: with SMTP id v6mr5719392wrn.398.1624377827947; 
+ Tue, 22 Jun 2021 09:03:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyR8z9aSU2zgSxlIZpvrGu3U2EuFkbf4khTQ+xNckVpisnmC72Ctt9Uhnasvg/gIgjLe9X+tw==
+X-Received: by 2002:adf:ebc6:: with SMTP id v6mr5719342wrn.398.1624377827653; 
+ Tue, 22 Jun 2021 09:03:47 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id j18sm21666396wrw.30.2021.06.22.09.03.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 09:03:47 -0700 (PDT)
+Subject: Re: [PATCH v3 02/24] modules: collect module meta-data
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Lieven <pl@kamp.de>,
+ Max Reitz <mreitz@redhat.com>, Halil Pasic <pasic@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <eeadb47b-d35c-2608-7970-8f754a34258c@redhat.com>
+Date: Tue, 22 Jun 2021 18:03:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/SSFE.C8W0nmf_OLp0YmrYa3";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 1
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FAKE_REPLY_A1=2.899, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,102 +107,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
- qemu-devel@nongnu.org, Vivek Goyal <vgoyal@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/SSFE.C8W0nmf_OLp0YmrYa3
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 21/06/21 14:52, Gerd Hoffmann wrote:
+> ninja: error: 'libui-curses.a.p/meson-generated_.._config-host.h.o', needed by 'ui-curses.modinfo.test', missing and no known rule to make it
+> 
+> Hmm, not sure where this comes from.  meson doesn't try to link
+> config-host.h.o into libui-curses.a, so why does extract_all_objects()
+> return it?
+> 
+> Test patch (incremental to this series) below.
 
-On Mon, 21 Jun 2021 14:36:12 +0100
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+Bug in Meson, fix at https://github.com/mesonbuild/meson/pull/8900.  You 
+can just ignore missing files.
 
-> On Thu, Jun 17, 2021 at 04:15:18PM +0200, Greg Kurz wrote:
-> > A well behaved FUSE client uses FUSE_CREATE to create files. It isn't
-> > supposed to pass O_CREAT along a FUSE_OPEN request, as documented in
-> > the "fuse_lowlevel.h" header :
-> >=20
-> >     /**
-> >      * Open a file
-> >      *
-> >      * Open flags are available in fi->flags. The following rules
-> >      * apply.
-> >      *
-> >      *  - Creation (O_CREAT, O_EXCL, O_NOCTTY) flags will be
-> >      *    filtered out / handled by the kernel.
-> >=20
-> > But if it does anyway, virtiofsd crashes with:
-> >=20
-> > *** invalid openat64 call: O_CREAT or O_TMPFILE without mode ***: termi=
-nated
-> >=20
-> > This is because virtiofsd ends up passing this flag to openat() without
-> > passing a mode_t 4th argument which is mandatory with O_CREAT, and glibc
-> > aborts.
-> >=20
-> > The offending path is:
-> >=20
-> > lo_open()
-> >     lo_do_open()
-> >         lo_inode_open()
-> >=20
-> > Other callers of lo_inode_open() only pass O_RDWR and lo_create()
-> > passes a valid fd to lo_do_open() which thus doesn't even call
-> > lo_inode_open() in this case.
-> >=20
-> > Specifying O_CREAT with FUSE_OPEN is a protocol violation. Check this
-> > in lo_open() and return an error to the client : EINVAL since this is
-> > already what glibc returns with other illegal flag combinations.
-> >=20
-> > The FUSE filesystem doesn't currently support O_TMPFILE, but the very
-> > same would happen if O_TMPFILE was passed in a FUSE_OPEN request. Check
-> > that as well.
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
->=20
-> Thank you!
->=20
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Upstream libfuse folks suggested to do the change in fuse_lowlevel.c so
-that it fixes all filesystems, not only those based on passthrough_ll.c.
-
-I'll thus post a new version.
-
-They also seemed to be a little concerned by open() returning EINVAL
-to the end user who did nothing wrong (kernel did). They suggested
-that the server should rather print out an error and exit... which
-isn't really an option for us. And anyway, we already return EINVAL
-when we can't extract the arguments of the request. So I won't
-address this concern, but I still wanted to share it here.
-
---Sig_/SSFE.C8W0nmf_OLp0YmrYa3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmDSCVEACgkQcdTV5YIv
-c9Y/ww/+I3DeyRtFBJWuFL4Xpgx4Ldc7qJ5NWljpE0EPpBR+nWCxIeI0kvtuswmK
-9kxatBAe7wp6lZChnu27cmk/MN8vXXV4GLZya+SJ2EvfEE9eNunksOLkFlwP2NtL
-fM4gOWv6KjXhvOYQJJTm3J5GoCbBpPD3s23tsz0lDBu3TIG/sNJ4PzJ6dtu38+Rl
-sCyMWP1g1trwx2S+HEjpJbwmmo5yPY9Lsg17Qm8k0K9Sat7RX3eooSMarLk1skWI
-5LZeB87QaktKg6d7HBTzO0nuBYu+glHsaPM0lF89MdzgiO/YhlsB3jwv16tqXniV
-1Jc2isrMmGyTkoTwRCZlcpos3RRZ5zju3KMCzMrC3NHMZ9ah43/+OPdbtCZnJu23
-eDAAf6pakgsBabdx/dMRt2cvX2yLc66he5dyBNnRQWseBuyj3Lm9Hj0iMGAKrv2T
-XyJnx1JqN2QXPGXseSlG2fW8NZB9ZSxakjUzPqN8LduvwMqk3eVzOwgE51hw0bJu
-y6hTlSYzmgk8h+gX3lqPpbdYQTdViO0vs2NDrVIE/j7XMKhx54H134YGnKEfTWD1
-ZM8bU9qq0NW3RHWoH8i0CTp6EL7ucrziRiYTzSvympBKHiphQUEWBjCbmp3e2/oh
-q68UEmyRqi/z/PyiaWBOJI3hu3K+4D2GqyadhtsiTEP8iP+gVsI=
-=245e
------END PGP SIGNATURE-----
-
---Sig_/SSFE.C8W0nmf_OLp0YmrYa3--
+Paolo
 
 
