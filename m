@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE603AFC27
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:44:09 +0200 (CEST)
-Received: from localhost ([::1]:42986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CEB3AFC4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:00:34 +0200 (CEST)
+Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYGe-0007Vm-FA
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
+	id 1lvYWX-0004mE-Eh
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4E-0002yb-CI
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58790)
+ id 1lvY4B-0002qf-Uq
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4C-0000TP-BX
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:18 -0400
+ id 1lvY4A-0000Rj-3A
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvY4A-0003uH-0X
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:14 +0000
+ id 1lvY48-0003kl-5j
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:12 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0309D2E8076
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:14 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 22FB92E808C
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:12 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:39 -0000
-From: Launchpad Bug Tracker <1594394@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:17:42 -0000
+From: Launchpad Bug Tracker <1600112@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anarchetic janitor jrtc27 kb9vqf laurent-vivier
- legoll pmaydell th-huth
-X-Launchpad-Bug-Reporter: Timothy Pearson (kb9vqf)
+X-Launchpad-Bug-Commenters: janitor jeffbai th-huth
+X-Launchpad-Bug-Reporter: Jeff Bai (jeffbai)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160620140124.12349.60184.malonedeb@wampee.canonical.com>
-Message-Id: <162433545921.20423.7365835495852671324.malone@loganberry.canonical.com>
-Subject: [Bug 1594394] Re: Using setreuid / setegid crashes x86_64 user-mode
- target
+References: <20160708061626.23182.26110.malonedeb@gac.canonical.com>
+Message-Id: <162433546236.20423.2872618821480586458.malone@loganberry.canonical.com>
+Subject: [Bug 1600112] Re: Qemu GTK interface showing question marks instead
+ of correct strings
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 268cbdf070ad0086d6a16b7ba5cdf155be3c156a
+X-Launchpad-Hash: 891acaa1f457be9c546815cd29d39add707581b6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1594394 <1594394@bugs.launchpad.net>
+Reply-To: Bug 1600112 <1600112@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,83 +84,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1594394
+https://bugs.launchpad.net/bugs/1600112
 
 Title:
-  Using setreuid / setegid crashes x86_64 user-mode target
+  Qemu GTK interface showing question marks instead of correct strings
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When setreuid() or setegid() are called from x86_64 target code in
-  user mode, qemu crashes inside the NPTL signal handlers.  x86 targets
-  do not directly use a syscall to handle setreuid() / setegid();
-  instead the x86 NPTL implementation sets up a temporary data region in
-  memory (__xidcmd) and issues a signal (SIGRT1) to all threads,
-  allowing the handler for that signal to issue the syscall.  Under
-  qemu, __xidcmd remains null (see variable display below backtrace).
+  Qemu version: 2.6.0
 
-  Backtrace:
-  Program received signal SIGSEGV, Segmentation fault.
-  [Switching to Thread 0x3fff85c74fc0 (LWP 74517)]
-  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d08, c=
-tx=3D0x3fff85c71f90) at nptl-init.c:263
-  263     nptl-init.c: No such file or directory.
-  (gdb) thread apply all bt
+  When running Qemu system emulation (configured with GTK interface),
+  all interface strings shows up as question marks instead of the
+  correct translated strings. Tested on locale zh_CN.UTF-8.
 
-  Thread 3 (Thread 0x3fff87e8efc0 (LWP 74515)):
-  #0  0x00000000601cc430 in syscall ()
-  #1  0x0000000060109080 in futex_wait (val=3D<optimized out>, ev=3D<optimi=
-zed out>) at /build/qemu/util/qemu-thread-posix.c:292
-  #2  qemu_event_wait (ev=3D0x62367bb0 <rcu_call_ready_event>) at /build/qe=
-mu/util/qemu-thread-posix.c:399
-  #3  0x000000006010f73c in call_rcu_thread (opaque=3D<optimized out>) at /=
-build/qemu/util/rcu.c:250
-  #4  0x0000000060176f8c in start_thread (arg=3D0x3fff87e8efc0) at pthread_=
-create.c:336
-  #5  0x00000000601cebf4 in clone ()
-
-  Thread 2 (Thread 0x3fff85c74fc0 (LWP 74517)):
-  #0  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d0=
-8, ctx=3D0x3fff85c71f90) at nptl-init.c:263
-  #1  <signal handler called>
-  #2  0x00000000601cc42c in syscall ()
-  #3  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
-0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
-imized out>) at /build/qemu/linux-user/syscall.c:748
-  #4  do_futex (val3=3D<optimized out>, uaddr2=3D275186650880, timeout=3D0,=
- val=3D1129, op=3D128, uaddr=3D275186651116) at /build/qemu/linux-user/sysc=
-all.c:6201
-  #5  do_syscall (cpu_env=3D0x1000abfd350, num=3D<optimized out>, arg1=3D27=
-5186651116, arg2=3D<optimized out>, arg3=3D1129, arg4=3D0, arg5=3D275186650=
-880, arg6=3D<optimized out>, arg7=3D0, arg8=3D0)
-      at /build/qemu/linux-user/syscall.c:10651
-  #6  0x00000000600347b8 in cpu_loop (env=3D0x1000abfd350) at /build/qemu/l=
-inux-user/main.c:317
-  #7  0x0000000060036ae0 in clone_func (arg=3D0x3fffc4c2ca38) at /build/qem=
-u/linux-user/syscall.c:5445
-  #8  0x0000000060176f8c in start_thread (arg=3D0x3fff85c74fc0) at pthread_=
-create.c:336
-  #9  0x00000000601cebf4 in clone ()
-
-  Thread 1 (Thread 0x1000aa05000 (LWP 74511)):
-  #0  0x00000000601cc430 in syscall ()
-  #1  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
-0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
-imized out>) at /build/qemu/linux-user/syscall.c:748
-  #2  do_futex (val3=3D<optimized out>, uaddr2=3D1, timeout=3D0, val=3D1, o=
-p=3D128, uaddr=3D275078324992) at /build/qemu/linux-user/syscall.c:6201
-  #3  do_syscall (cpu_env=3D0x1000aa23890, num=3D<optimized out>, arg1=3D27=
-5078324992, arg2=3D<optimized out>, arg3=3D1, arg4=3D0, arg5=3D1, arg6=3D<o=
-ptimized out>, arg7=3D0, arg8=3D0) at /build/qemu/linux-user/syscall.c:10651
-  #4  0x00000000600347b8 in cpu_loop (env=3D0x1000aa23890) at /build/qemu/l=
-inux-user/main.c:317
-  #5  0x00000000600020e4 in main (argc=3D<optimized out>, argv=3D<optimized=
- out>, envp=3D<optimized out>) at /build/qemu/linux-user/main.c:4779
-  (gdb) p __xidcmd
-  $1 =3D (struct xid_command *) 0x0
+  I have attached a screenshot below for better understanding.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1594394/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1600112/+subscriptions
 
