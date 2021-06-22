@@ -2,56 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0693B05A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 15:14:00 +0200 (CEST)
-Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439353B056C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 15:03:03 +0200 (CEST)
+Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvgE3-0004ml-EN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 09:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1lvg3S-00029e-2W
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 09:03:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lveO8-0000vr-3l
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 07:16:16 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2180)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lvfyz-0003ZG-LZ
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:58:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lveNw-00008E-SA
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 07:16:09 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G8NyB53Rwz71H0;
- Tue, 22 Jun 2021 19:11:46 +0800 (CST)
-Received: from dggema768-chm.china.huawei.com (10.1.198.210) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 22 Jun 2021 19:15:52 +0800
-Received: from localhost (10.174.151.75) by dggema768-chm.china.huawei.com
- (10.1.198.210) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 22
- Jun 2021 19:15:51 +0800
-From: Lin Feng <linfeng23@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] migration: fix the memory overwriting risk in add_to_iovec
-Date: Tue, 22 Jun 2021 19:15:49 +0800
-Message-ID: <20210622111549.490-1-linfeng23@huawei.com>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lvfyx-0003Bs-6U
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 08:58:25 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15MCjDhn087176; Tue, 22 Jun 2021 08:58:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=VR4pVmVMzEhcS8wIQuWVHmVSbqosbkWlS+fPWBivSrI=;
+ b=K4sXE5AXTgvsPPYf6Jk5NMO/4SS7wh0T4z62YOAoZrrMCKH8fsPJINL+xgBXdZXZoUP/
+ Rsibe7VRz0Zui4IBcxvO8PjtH2pn+A0MVt1LMfT6ZSRhoDaz59yw3OaB8Z1blefxImcN
+ sxfjPetmYZJ+gzJ/MQ8oT+647yGHqO3Dug1aNwXcP8OnGCX1S+kJSrKzSDHyAYUyj6GZ
+ wyT++4poCR45sVqXvmDjbSGsQxaoAfQnUzXyi0RvvkV+q/in7Urzze3lE25bSMT4jR1M
+ sKGqDQJdWqW+Q35nLJO6q5c5DDNx4wyhFcyorUYvn1N8zV+2TN+RJLCJYjwEmaxIx9CE dA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39bcvhp6t0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 08:58:20 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15MCjK5e087360;
+ Tue, 22 Jun 2021 08:58:20 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39bcvhp6sb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 08:58:20 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15MCvrOn027338;
+ Tue, 22 Jun 2021 12:58:18 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3998789ff2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Jun 2021 12:58:18 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 15MCut4p34865582
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 22 Jun 2021 12:56:55 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E6ED311C05C;
+ Tue, 22 Jun 2021 12:58:15 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 54F3011C054;
+ Tue, 22 Jun 2021 12:58:13 +0000 (GMT)
+Received: from [9.160.112.114] (unknown [9.160.112.114])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 22 Jun 2021 12:58:13 +0000 (GMT)
+Subject: Re: [PATCH] hw/i386/pc: Document pc_system_ovmf_table_find
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210622124419.3008278-1-dovmurik@linux.ibm.com>
+ <838caecc-6d4a-6257-147e-fbef4148f679@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <d5fbda1c-69dc-35b6-388e-443a697c2fdf@linux.ibm.com>
+Date: Tue, 22 Jun 2021 15:58:11 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <838caecc-6d4a-6257-147e-fbef4148f679@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.151.75]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggema768-chm.china.huawei.com (10.1.198.210)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=linfeng23@huawei.com;
- helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: uU7UkELNCws6P4NzRhu_uOLO00LlJInb
+X-Proofpoint-ORIG-GUID: RAiq4aQDYif2Az_CsGQ_Gp1trQevXAzF
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-22_06:2021-06-21,
+ 2021-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ mlxlogscore=999 lowpriorityscore=0 impostorscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106220079
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 22 Jun 2021 09:12:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,75 +115,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangxinxin.wang@huawei.com, Feng Lin <linfeng23@huawei.com>,
- dgilbert@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Feng Lin <linfeng23@huawei.com>
++cc: Tom Lendacky
 
-When testing migration, a Segmentation fault qemu core is generated.
-0  error_free (err=0x1)
-1  0x00007f8b862df647 in qemu_fclose (f=f@entry=0x55e06c247640)
-2  0x00007f8b8516d59a in migrate_fd_cleanup (s=s@entry=0x55e06c0e1ef0)
-3  0x00007f8b8516d66c in migrate_fd_cleanup_bh (opaque=0x55e06c0e1ef0)
-4  0x00007f8b8626a47f in aio_bh_poll (ctx=ctx@entry=0x55e06b5a16d0)
-5  0x00007f8b8626e71f in aio_dispatch (ctx=0x55e06b5a16d0)
-6  0x00007f8b8626a33d in aio_ctx_dispatch (source=<optimized out>, callback=<optimized out>, user_data=<optimized out>)
-7  0x00007f8b866bdba4 in g_main_context_dispatch ()
-8  0x00007f8b8626cde9 in glib_pollfds_poll ()
-9  0x00007f8b8626ce62 in os_host_main_loop_wait (timeout=<optimized out>)
-10 0x00007f8b8626cffd in main_loop_wait (nonblocking=nonblocking@entry=0)
-11 0x00007f8b862ef01f in main_loop ()
-Using gdb print the struct QEMUFile f = {
-  ...,
-  iovcnt = 65, last_error = 21984,
-  last_error_obj = 0x1, shutdown = true
-}
-Well iovcnt is overflow, because the max size of MAX_IOV_SIZE is 64.
-struct QEMUFile {
-    ...;
-    struct iovec iov[MAX_IOV_SIZE];
-    unsigned int iovcnt;
-    int last_error;
-    Error *last_error_obj;
-    bool shutdown;
-};
-iovcnt and last_error is overwrited by add_to_iovec().
-Right now, add_to_iovec() increase iovcnt before check the limit.
-And it seems that add_to_iovec() assumes that iovcnt will set to zero
-in qemu_fflush(). But qemu_fflush() will directly return when f->shutdown
-is true.
+On 22/06/2021 15:47, Philippe Mathieu-Daudé wrote:
+> On 6/22/21 2:44 PM, Dov Murik wrote:
+>> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>> ---
+>>  hw/i386/pc_sysfw.c | 14 ++++++++++++++
+>>  1 file changed, 14 insertions(+)
+>>
+>> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+>> index 6ce37a2b05..e8d20cb83f 100644
+>> --- a/hw/i386/pc_sysfw.c
+>> +++ b/hw/i386/pc_sysfw.c
+>> @@ -176,6 +176,20 @@ static void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+>>      ovmf_table += tot_len;
+>>  }
+>>  
+>> +/**
+>> + * pc_system_ovmf_table_find - Find the data associated with an entry in OVMF's
+>> + * reset vector GUIDed table.
+>> + *
+>> + * @entry: GUID string of the entry to lookup
+>> + * @data: Filled with a pointer to the entry's value (if not NULL)
+>> + * @data_len: Filled with the length of the entry's value (if not NULL). Pass
+>> + *            NULL here if the length of data is known.
+>> + *
+>> + * Note that this function must be called after the OVMF table was found and
+>> + * copied by pc_system_parse_ovmf_flash().
+> 
+> What about replacing this comment by:
+> 
+>   assert(ovmf_table && ovmf_table_len);
+> 
 
-The situation may occur when libvirtd restart during migration, after
-f->shutdown is set, before calling qemu_file_set_error() in
-qemu_file_shutdown().
+I think this will break things: in target/i386/sev.c we have SEV-ES code
+that calls pc_system_ovmf_table_find() and can deal with the case when
+there's no OVMF table.  An assert will break it.
 
-So the safiest way is checking the iovcnt before increasing it.
 
-Signed-off-by: Feng Lin <linfeng23@huawei.com>
----
- migration/qemu-file.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> Otherwise,
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index d6e03dbc0e..3dde1a193c 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -419,8 +419,10 @@ static int add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
-         if (may_free) {
-             set_bit(f->iovcnt, f->may_free);
-         }
--        f->iov[f->iovcnt].iov_base = (uint8_t *)buf;
--        f->iov[f->iovcnt++].iov_len = size;
-+        if (f->iovcnt < MAX_IOV_SIZE) {
-+            f->iov[f->iovcnt].iov_base = (uint8_t *)buf;
-+            f->iov[f->iovcnt++].iov_len = size;
-+        }
-     }
- 
-     if (f->iovcnt >= MAX_IOV_SIZE) {
--- 
-2.23.0
+Thanks!
 
+-Dov
+
+
+
+> Thanks!
+> 
+>> + *
+>> + * Return: true if the entry was found in the OVMF table; false otherwise.
+>> + */
+>>  bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
+>>                                 int *data_len)
+>>  {
+>>
+> 
 
