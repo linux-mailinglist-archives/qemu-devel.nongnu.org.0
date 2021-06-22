@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CA43B0B14
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 19:06:23 +0200 (CEST)
-Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4033B0B28
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 19:09:28 +0200 (CEST)
+Received: from localhost ([::1]:39906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvjqw-0006Qn-Ce
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 13:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50670)
+	id 1lvjtu-0008Ac-QR
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 13:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lvjpY-0005Dp-Aq
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:04:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34433)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lvjsv-0007Jw-Ft
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:08:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lvjpS-0004MR-FK
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:04:56 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lvjst-0006hY-7i
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 13:08:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624381488;
+ s=mimecast20190719; t=1624381702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H4WYyJ1kN09AqFbdJIHGv94jmZpe9T6KvYpS+kpxKOg=;
- b=cNuZTvARIM0k5bUAc44uTMIs0SGEmn1B8xzckZxHDINvZ/GqJAPlfrkpItiCsXfIDGmn1H
- NCe4vFS2aIkNbA+rkhH/j36Fi0i/KOeThjgPZiW4HKQLpXHO9c8QyHKFHurZbkym2Pc3pk
- ZyYSw7DeyHFnheslTKAaCLHWzyJFcsQ=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-uZ_-q8I6N0K9LCO2W5x3CQ-1; Tue, 22 Jun 2021 13:04:47 -0400
-X-MC-Unique: uZ_-q8I6N0K9LCO2W5x3CQ-1
-Received: by mail-oo1-f70.google.com with SMTP id
- v19-20020a4a31530000b029024944222912so72519oog.1
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 10:04:47 -0700 (PDT)
+ bh=QQgP1LdSaC5ip8UfkYchb6vjZS1qYRDy5x2qvcLJFoU=;
+ b=fg0pWlkuJW64mnGdN6vmGPutFL12U4cQ2d0+sBSLBiUGthhgWWRh6Ngk3nflLKk2F5z8jc
+ Z1UtmBRig2euEI535XRULTD31ojtHGfe6TEJ2g4WmU9FmLHGqNWvtdzolWlBUBV3w0KzvD
+ h6PzMrWWYewRakk0drFd1LQOHAosS9I=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-DVRKDEn4Mo6jz8SQu9vvUw-1; Tue, 22 Jun 2021 13:08:09 -0400
+X-MC-Unique: DVRKDEn4Mo6jz8SQu9vvUw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ x10-20020aa7cd8a0000b0290394bdda92a8so2960568edv.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 10:08:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H4WYyJ1kN09AqFbdJIHGv94jmZpe9T6KvYpS+kpxKOg=;
- b=KsP1NpWrU88uciHBT0h7C6QSa4+IvdIVggJIzey8Ym3M6V+i06yd8T1Ti3KtKyqFna
- 8r1WPWK+wHwR4aNbIyd6+uFbctzu4JmWoEqWdS4ggwlp5nf9I0pnpaiwT/sSbHwJp5dU
- qogGeW9mAefM6srIcD2WD//oiOYsWjzpNQEfG6H78py9aT1lAQs15Kv8CQtovUV/vNOQ
- nWj2doxzmveh1JHMiRsfH/+nJKDwa5fTpczW7MpFS7PMfMdgIZVepLzLCzsATnQG6A5r
- 9C8upBEZslx79sm1C+kenavznzQ0FrRBJXe1x8tV7edvZFJD+rh3RvyZcSpa9mmOPXkh
- 2ETg==
-X-Gm-Message-State: AOAM53360DY1GuOufIk/PRsX3kFLLj0jcsUzVIFdZFRn+lDxAOa1N1aJ
- GfnPwqpgPyHQ8Do/HsmRHHxA66nPXjGZtFjKoJNOLUxfZP298yjzZm19Eq1Fh8dwzGJJv9jFEAH
- 33bpvYD0mShFWw2s9zWH9R0uNluBcc9E=
-X-Received: by 2002:a05:6808:3c4:: with SMTP id
- o4mr3905306oie.41.1624381486985; 
- Tue, 22 Jun 2021 10:04:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzp7xP7+RTJ9OIyFlrmjy49h0wp95ggMdIeT3O43+8Cv3efFt8Di6F34faQ0X/brWeAwLyQtcmtHsiAXpIYrqA=
-X-Received: by 2002:a05:6808:3c4:: with SMTP id
- o4mr3905293oie.41.1624381486820; 
- Tue, 22 Jun 2021 10:04:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QQgP1LdSaC5ip8UfkYchb6vjZS1qYRDy5x2qvcLJFoU=;
+ b=I7FFD885Q7A9ccLgyHXlMHzluPYPV9wljzMqkBYHidael/GHxyKt6iHMYXODQ4TNbT
+ DOXkwKf/ki89FaVydG4l0AdEoqZ4ZCcPVo6M1MbVJZL53GAb4xoBzB/HipVLzUlIiyM8
+ vwXZW8aDJTCrED9bQA4Plz1atb6D9SLhaoHYhBl+/0sMKRUNLjg/cYtOHzefhnNMg5kP
+ J/+mtZmhuXwLjZiiCoUDYVhaZqhd76yGfO08c6FFXHytlmzvydAyvZLn2PsdO9NJhWNG
+ D2VoUDak5ZnP/Kcmd8r4HFUexhP2zggQGY8y910OX2L46a0CL3iarxYfSzqZu5Ki5eEl
+ vSoA==
+X-Gm-Message-State: AOAM532C6/815sgadYNYJKrrQimEo/j/zKxu5D4Xu667coNPAOD8PV9b
+ nniHdX52mQsdycPXcKhK5Ztlt25rDkh5KJC5U7WL8O+XQiAwxVB2J103P4fO/8TJzOXrDHGvvIn
+ k18ujGlWDva3BWVk=
+X-Received: by 2002:aa7:c256:: with SMTP id y22mr6481097edo.177.1624381688071; 
+ Tue, 22 Jun 2021 10:08:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWXes9rtmCrugFPEAffP58Xoy3fgaEXKRmXqGlrd/8sW4NXIdp/nHD85wnzeQN9iJ9Lo2BPw==
+X-Received: by 2002:aa7:c256:: with SMTP id y22mr6481032edo.177.1624381687683; 
+ Tue, 22 Jun 2021 10:08:07 -0700 (PDT)
+Received: from gator (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id d23sm3749406edv.14.2021.06.22.10.08.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Jun 2021 10:08:07 -0700 (PDT)
+Date: Tue, 22 Jun 2021 19:08:05 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
+Message-ID: <20210622170805.thoybinmc2xl5kem@gator>
+References: <20210622093413.13360-1-wangyanan55@huawei.com>
+ <YNG44c9KtaiNXT7b@redhat.com>
+ <20210622114634.crjqusw6x6oj4j6v@gator>
+ <bc47a66a-b1ff-939c-32a2-94c90efd0caf@huawei.com>
+ <YNHalhuNZhMa665J@redhat.com>
+ <7fcc5f2d-cc84-3464-15cc-3bebb07f8190@huawei.com>
+ <YNHvcQAMLSpVcxaE@redhat.com>
+ <20210622142915.pekttdvbi3q5vnh3@gator>
+ <20210622174013.52422c73@redhat.com>
 MIME-Version: 1.0
-References: <20210611140157.1366738-1-eblake@redhat.com>
- <20210611190316.1424729-1-eblake@redhat.com>
-In-Reply-To: <20210611190316.1424729-1-eblake@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Tue, 22 Jun 2021 20:04:30 +0300
-Message-ID: <CAMRbyyv1hUAtPVqQFTmXkeBf5K3XdKyGMoQgX8xNLqPdTopd2g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/1] qemu-img: Add "backing":true to unallocated map
- segments
-To: Eric Blake <eblake@redhat.com>
+In-Reply-To: <20210622174013.52422c73@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=nsoffer@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,7 +91,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,122 +104,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ yangyicong@huawei.com, "wangyanan \(Y\)" <wangyanan55@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 11, 2021 at 10:03 PM Eric Blake <eblake@redhat.com> wrote:
->
-> To save the user from having to check 'qemu-img info --backing-chain'
-> or other followup command to determine which "depth":n goes beyond the
-> chain, add a boolean field "backing" that is set only for unallocated
-> portions of the disk.
->
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->
-> Touches the same iotest output as 1/1.  If we decide that switching to
-> "depth":n+1 is too risky, and that the mere addition of "backing":true
-> while keeping "depth":n is good enough, then we'd have just one patch,
-> instead of this double churn.  Preferences?
->
->  docs/tools/qemu-img.rst    |  3 ++
->  qapi/block-core.json       |  7 ++-
->  qemu-img.c                 | 15 +++++-
->  tests/qemu-iotests/122.out | 34 +++++++-------
->  tests/qemu-iotests/154.out | 96 +++++++++++++++++++-------------------
->  tests/qemu-iotests/179.out | 66 +++++++++++++-------------
->  tests/qemu-iotests/223.out | 24 +++++-----
->  tests/qemu-iotests/244.out |  6 +--
->  tests/qemu-iotests/252.out |  4 +-
->  tests/qemu-iotests/274.out | 16 +++----
->  tests/qemu-iotests/291.out |  8 ++--
->  tests/qemu-iotests/309.out |  4 +-
->  12 files changed, 150 insertions(+), 133 deletions(-)
->
-> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-> index c155b1bf3cc8..fbc623b645c3 100644
-> --- a/docs/tools/qemu-img.rst
-> +++ b/docs/tools/qemu-img.rst
-> @@ -601,6 +601,9 @@ Command description:
->      a ``depth``; for example, a depth of 2 refers to the backing file
->      of the backing file of *FILENAME*.  Depth will be one larger than
->      the chain length if no file in the chain provides the data.
-> +  - an optional ``backing`` field is present with value true if no
-> +    file in the backing chain provides the data (making it easier to
-> +    identify when ``depth`` exceeds the chain length).
->
->    In JSON format, the ``offset`` field is optional; it is absent in
->    cases where ``human`` format would omit the entry or exit with an error.
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 2ea294129e08..cebe12ba16a0 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -264,6 +264,9 @@
->  # @offset: if present, the image file stores the data for this range
->  #          in raw format at the given (host) offset
->  #
-> +# @backing: if present, the range is not allocated within the backing
-> +#           chain (since 6.1)
-> +#
->  # @filename: filename that is referred to by @offset
->  #
->  # Since: 2.6
-> @@ -271,8 +274,8 @@
->  ##
->  { 'struct': 'MapEntry',
->    'data': {'start': 'int', 'length': 'int', 'data': 'bool',
-> -           'zero': 'bool', 'depth': 'int', '*offset': 'int',
-> -           '*filename': 'str' } }
-> +           'zero': 'bool', 'depth': 'int', '*backing': 'bool',
-> +           '*offset': 'int', '*filename': 'str' } }
->
->  ##
->  # @BlockdevCacheInfo:
-> diff --git a/qemu-img.c b/qemu-img.c
-> index 33a5cd012b8b..4d357f534803 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -2977,8 +2977,13 @@ static int dump_map_entry(OutputFormat output_format, MapEntry *e,
->          break;
->      case OFORMAT_JSON:
->          printf("{ \"start\": %"PRId64", \"length\": %"PRId64","
-> -               " \"depth\": %"PRId64", \"zero\": %s, \"data\": %s",
-> -               e->start, e->length, e->depth,
-> +               " \"depth\": %"PRId64, e->start, e->length, e->depth);
-> +        if (e->has_backing) {
-> +            /* Backing should only be set at the end of the chain */
-> +            assert(e->backing && e->depth > 0);
-> +            printf(", \"backing\": true");
-> +        }
+On Tue, Jun 22, 2021 at 05:40:13PM +0200, Igor Mammedov wrote:
+> On Tue, 22 Jun 2021 16:29:15 +0200
+> Andrew Jones <drjones@redhat.com> wrote:
+> 
+> > On Tue, Jun 22, 2021 at 03:10:57PM +0100, Daniel P. Berrangé wrote:
+> > > On Tue, Jun 22, 2021 at 10:04:52PM +0800, wangyanan (Y) wrote:  
+> > > > Hi Daniel,
+> > > > 
+> > > > On 2021/6/22 20:41, Daniel P. Berrangé wrote:  
+> > > > > On Tue, Jun 22, 2021 at 08:31:22PM +0800, wangyanan (Y) wrote:  
+> > > > > > 
+> > > > > > On 2021/6/22 19:46, Andrew Jones wrote:  
+> > > > > > > On Tue, Jun 22, 2021 at 11:18:09AM +0100, Daniel P. Berrangé wrote:  
+> > > > > > > > On Tue, Jun 22, 2021 at 05:34:06PM +0800, Yanan Wang wrote:  
+> > > > > > > > > Hi,
+> > > > > > > > > 
+> > > > > > > > > This is v4 of the series [1] that I posted to introduce support for
+> > > > > > > > > generating cpu topology descriptions to guest. Comments are welcome!
+> > > > > > > > > 
+> > > > > > > > > Description:
+> > > > > > > > > Once the view of an accurate virtual cpu topology is provided to guest,
+> > > > > > > > > with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
+> > > > > > > > > e.g., the scheduling performance improvement. See Dario Faggioli's
+> > > > > > > > > research and the related performance tests in [2] for reference. So here
+> > > > > > > > > we go, this patch series introduces cpu topology support for ARM platform.
+> > > > > > > > > 
+> > > > > > > > > In this series, instead of quietly enforcing the support for the latest
+> > > > > > > > > machine type, a new parameter "expose=on|off" in -smp command line is
+> > > > > > > > > introduced to leave QEMU users a choice to decide whether to enable the
+> > > > > > > > > feature or not. This will allow the feature to work on different machine
+> > > > > > > > > types and also ideally compat with already in-use -smp command lines.
+> > > > > > > > > Also we make much stricter requirement for the topology configuration
+> > > > > > > > > with "expose=on".  
+> > > > > > > > Seeing this 'expose=on' parameter feels to me like we're adding a
+> > > > > > > > "make-it-work=yes" parameter. IMHO this is just something that should
+> > > > > > > > be done by default for the current machine type version and beyond.
+> > > > > > > > I don't see the need for a parameter to turnthis on, especially since
+> > > > > > > > it is being made architecture specific.
+> > > > > > > >   
+> > > > > > > I agree.
+> > > > > > > 
+> > > > > > > Yanan, we never discussed an "expose" parameter in the previous versions
+> > > > > > > of this series. We discussed a "strict" parameter though, which would
+> > > > > > > allow existing command lines to "work" using assumptions of what the user
+> > > > > > > meant and strict=on users to get what they mean or an error saying that
+> > > > > > > they asked for something that won't work or would require unreasonable
+> > > > > > > assumptions. Why was this changed to an "expose" parameter?  
+> > > > > > Yes, we indeed discuss a new "strict" parameter but not a "expose" in v2 [1]
+> > > > > > of this series.
+> > > > > > [1] https://patchwork.kernel.org/project/qemu-devel/patch/20210413080745.33004-6-wangyanan55@huawei.com/
+> > > > > > 
+> > > > > > And in the discussion, we hoped things would work like below with "strict"
+> > > > > > parameter:
+> > > > > > Users who want to describe cpu topology should provide cmdline like
+> > > > > > 
+> > > > > > -smp strict=on,cpus=4,sockets=2,cores=2,threads=1
+> > > > > > 
+> > > > > > and in this case we require an more accurate -smp configuration and
+> > > > > > then generate the cpu topology description through ACPI/DT.
+> > > > > > 
+> > > > > > While without a strict description, no cpu topology description would
+> > > > > > be generated, so they get nothing through ACPI/DT.
+> > > > > > 
+> > > > > > It seems to me that the "strict" parameter actually serves as a knob to
+> > > > > > turn on/off the exposure of topology, and this is the reason I changed
+> > > > > > the name.  
+> > > > > Yes, the use of 'strict=on' is no better than expose=on IMHO.
+> > > > > 
+> > > > > If I give QEMU a cli
+> > > > > 
+> > > > >    -smp cpus=4,sockets=2,cores=2,threads=1
+> > > > > 
+> > > > > then I expect that topology to be exposed to the guest. I shouldn't
+> > > > > have to add extra flags to make that happen.
+> > > > > 
+> > > > > Looking at the thread, it seems the concern was around the fact that
+> > > > > the settings were not honoured historically and thus the CLI values
+> > > > > could be garbage. ie  -smp cpus=4,sockets=8,cores=3,thread=9  
+> > > > This "-smp cpus=4,sockets=8,cores=3,threads=9" behaviors as a wrong
+> > > > configuration, and the parsing function already report error for this case.
+> > > > 
+> > > > We hope more complete config like "-smp 4,sockets=2,cores=2,threads=1"
+> > > > for exposure of topology, and the incomplete ones like "-smp 4,sockets=1"
+> > > > or "-smp 4, cores=1" are not acceptable any more because we are starting
+> > > > to expose the topology.  
+> > > 
+> > > Incomplete specified topologies *are* acceptable.
+> > > 
+> > > The smp_parse method will automatically fill in any missing values.
+> > > 
+> > > ie,
+> > > 
+> > >   -smp 4,cores=1
+> > >   -smp cores=1
+> > >   -smp threads=1
+> > >   -smp sockets=4
+> > > 
+> > > are all functionally identical to
+> > > 
+> > >   -smp 4,sockets=4,cores=1,dies=1,threads=1
+> > > 
+> > > 
+> > > The QEMU man page says this explicitly
+> > > 
+> > >                  For the PC target, the number of cores per die, the
+> > >     number of threads per cores, the number of dies per packages and the
+> > >     total number of sockets can be specified. Missing values will be
+> > >     computed. If any on the three values is given, the total number of
+> > >     CPUs n can be omitted.  
+> > 
+> > It doesn't say how it will compute them though, which for the default
+> > smp_parse and for x86 is to prefer sockets over cores over threads.
+> > That's not necessarily what the user expects. IMO, we need a 'strict=on'
+> > parameter that doesn't allow any collection of smp parameters which
+> > require unreasonable assumptions. Reasonable assumptions are threads=1,
+> > when threads is not specified and the rest of the math adds up. Also,
+> > maxcpus == cpus when maxcpus isn't specified is reasonable. But, it's not
+> > as reasonable to decide how to divide cores among sockets or to assume
+> > threads=1 when only sockets and cores are given. How do we know the user
+> > didn't forget to specify threads if we can't check the math?
+> 
+> or just outlaw all invalid topologies incl. incomplete by default
+> (without requiring extra option), and permit them only for old machine
+> types ()using compat machinery) without topo info provided to guest.
+> And maybe later deprecate invalid topologies altogether. 
 
-It will be easier to inspect the output if common fields come before
-optional fields.
+I like this proposal, but Peter generally does not want currently working
+command lines to stop working. The 'virt' machine type always points to
+the latest machine type, so '-M virt -smp sockets=2,cores=4' will
+currently work (even though no topology is generated), but, if we were to
+merge patches that outlawed that using the compat machinery for 6.2, then
+it'll stop working, possibly breaking scripts. The 'strict' parameter
+allows one to opt into the strict parsing and actually get the topology
+described. Everyone else will still have working command lines without
+topology no matter what they use. If Peter agrees to making the smp parser
+strict from 6.2 on (possibly by issuing a warning for a release or two
+instead of an error, like Daniel suggested), then that's indeed better.
+If not, then I don't know how to get a useful -smp command line parser
+without the additional parameter.
 
-> +        printf(", \"zero\": %s, \"data\": %s",
->                 e->zero ? "true" : "false",
->                 e->data ? "true" : "false");
->          if (e->has_offset) {
-...
-> diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-> index 779dab4847f0..c5aa2c9866f1 100644
-> --- a/tests/qemu-iotests/122.out
-> +++ b/tests/qemu-iotests/122.out
-> @@ -68,11 +68,11 @@ read 65536/65536 bytes at offset 4194304
->  read 65536/65536 bytes at offset 8388608
->  64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  [{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": true},
-> -{ "start": 65536, "length": 4128768, "depth": 1, "zero": true, "data": false},
-> +{ "start": 65536, "length": 4128768, "depth": 1, "backing": true, "zero": true, "data": false},
+Thanks,
+drew
 
-So this output would be:
-
-    [{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": true},
-     { "start": 65536, "length": 4128768, "depth": 1, "zero": true,
-"data": false, "backing": true},
+> 
+> 
+> > 
+> > Thanks,
+> > drew
+> > 
+> > > 
+> > > note this qemu-options.hx doc will require updating since it will apply
+> > > to more than just the PC target.
+> > > 
+> > > Regards,
+> > > Daniel
+> > > -- 
+> > > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> > > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> > > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> > >   
+> > 
+> 
 
 
