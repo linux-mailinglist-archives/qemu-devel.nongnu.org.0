@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27333AFC75
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:10:05 +0200 (CEST)
-Received: from localhost ([::1]:45530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C95E3AFC7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:11:20 +0200 (CEST)
+Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYfk-00082O-NM
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:10:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58488)
+	id 1lvYgx-0002K7-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4b-0003Sm-Up
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59220)
+ id 1lvY4W-0003Oy-6c
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4X-0000Z1-Ef
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:41 -0400
+ id 1lvY4S-0000Xz-Ij
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:35 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvY4H-0003rh-BL
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:21 +0000
+ id 1lvY4G-0003ri-Jt
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:20 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4EB5B2E808D
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:21 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8CC952E8085
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:20 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:31 -0000
-From: Launchpad Bug Tracker <1453612@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:17:32 -0000
+From: Launchpad Bug Tracker <1527765@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor krichter722 th-huth
-X-Launchpad-Bug-Reporter: Karl-Philipp Richter (krichter722)
+X-Launchpad-Bug-Commenters: glaubitz janitor laurent-vivier th-huth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20150510212609.29118.3935.malonedeb@wampee.canonical.com>
-Message-Id: <162433545155.20423.6823240591662510060.malone@loganberry.canonical.com>
-Subject: [Bug 1453612] Re: set_password command of monitor has poor feedback
- on failure
+References: <20151218220640.25998.28926.malonedeb@soybean.canonical.com>
+Message-Id: <162433545258.20423.6312615740232420249.malone@loganberry.canonical.com>
+Subject: [Bug 1527765] Re: sh4: ghc randomly segfaults on qemu-sh4-static
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 5b4b0d328287b85575e1ecbd9a5f81fbefe9b265
+X-Launchpad-Hash: 376d8ed3dc1bd34adb4241d169e52d424cfae4b8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1453612 <1453612@bugs.launchpad.net>
+Reply-To: Bug 1527765 <1527765@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,23 +83,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1453612
+https://bugs.launchpad.net/bugs/1527765
 
 Title:
-  set_password command of monitor has poor feedback on failure
+  sh4: ghc randomly segfaults on qemu-sh4-static
 
 Status in QEMU:
   Expired
 
 Bug description:
-  running `set_password vnc NkkmEz5icvTAGo6MECzBVEUxP` in qemu monitor
-  (which is the appropriate way to set a vnc password according to `man
-  qemu-system-x86_64`) started with `-monitor stdio` gives feedback
-  `Could not set password` which is unhelpful because it doesn't specify
-  the reason of the failure.
+  Hello!
 
-  experienced with 2.3.0
+  I am currently in the process of bootstrapping ghc for the Debian sh4
+  port and ran into a strange problem with qemu-sh4-static which
+  randomly segfaults when running ghc to compile a Haskell source:
+
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ls
+  Main.hi  Main.hs  Setup.hs  ghc-pwd.cabal  ghc.mk
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  [1 of 1] Compiling Main             ( Main.hs, Main.o )
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  [1 of 1] Compiling Main             ( Main.hs, Main.o )
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  [1 of 1] Compiling Main             ( Main.hs, Main.o )
+  Bad interface file: /usr/local/lib/sh4-unknown-linux-gnu-ghc-7.10.3/time/=
+dist-install/build/Data/Time/Format/Parse.hi
+  =C2=A0=C2=A0=C2=A0=C2=A0ghc: panic! (the 'impossible' happened)
+  =C2=A0=C2=A0(GHC version 7.10.3 for sh4-unknown-linux):
+  =C2=A0getSymtabName:unknown known-key unique
+  <<details unavailable>>
+
+  Please report this as a GHC bug:
+  http://www.haskell.org/ghc/reportabug
+
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd# ghc Main.hs
+  /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+  [1 of 1] Compiling Main             ( Main.hs, Main.o )
+  Linking Main ...
+  root@jessie32:~/ghc-7.8.4/utils/ghc-pwd#
+
+  As seen above, compiling a Haskell source code often results in a
+  segfault but simply by retrying to run ghc over and over again, the
+  compile process will eventually succeed and no segfault occurs.
+
+  I have created a tarball which contains the sh4 chroot from the
+  example above which also includes ghc, gcc and the source code in
+  question (in /root/ghc-7.8.4/utils/ghc-pwd). To test, it's probably a
+  good idea to replace the qemu-sh4-static binary in /usr/bin with a
+  current git snapshot (which I tried but didn't help).
+
+  > http://users.physik.fu-berlin.de/~glaubitz/sid-sh4-sbuild-ghc.tgz
+
+  In case anyone wants to try ghc with their own sh4 chroot, here's my
+  version of ghc:
+
+  > https://people.debian.org/~glaubitz/sh4-unknown-linux-gnu-
+  ghc-7.10.3.tar.gz
+
+  Just extract this tarball into the root directory of the sh4 chroot.
+
+  Please note, that it might be advisable on sh4 to apply the patches
+  from these two bug reports as otherwise qemu-sh4-static won't work
+  properly on amd64 and misses syscall 186:
+
+  > https://bugs.launchpad.net/ubuntu/+source/qemu-linaro/+bug/1254824
+  > https://bugs.launchpad.net/qemu/+bug/1516408
+
+  The above issue is reproducible with the two patches applied and
+  without. It's also reproducible with both libc6 2.19 and 2.21 in the
+  chroot. Thus, I am currently out of ideas what else to test.
+
+  Cheers,
+  Adrian
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1453612/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1527765/+subscriptions
 
