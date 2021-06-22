@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729BE3AFC4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 07:00:49 +0200 (CEST)
-Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401073AFC26
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:44:08 +0200 (CEST)
+Received: from localhost ([::1]:42720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYWl-0005DV-W6
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 01:00:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
+	id 1lvYGd-0007L3-90
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzt-00086S-3F
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57544)
+ id 1lvXzu-0008B7-Og
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvXzr-0005Lr-5d
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:48 -0400
+ id 1lvXzq-0005Lj-OM
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:26:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvXze-00014I-3p
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:34 +0000
+ id 1lvXzd-00014H-8i
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B89D2E81A8
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7491A2E81F1
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:26:29 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:18:00 -0000
-From: Launchpad Bug Tracker <1828508@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:18:01 -0000
+From: Launchpad Bug Tracker <1829696@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: centos clock qemu-kvm redhat
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alpha76 janitor stefanha th-huth
-X-Launchpad-Bug-Reporter: Jake Mikelson (alpha76)
+X-Launchpad-Bug-Commenters: berrange janitor qianxi416 th-huth
+X-Launchpad-Bug-Reporter: qianxi (qianxi416)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <155746839267.15002.8138674450166661929.malonedeb@wampee.canonical.com>
-Message-Id: <162433548017.20423.4717810284242558316.malone@loganberry.canonical.com>
-Subject: [Bug 1828508] Re: qemu-img created VMDK files lead to "Unsupported or
- invalid disk type 7"
+References: <155832450585.26079.9550620234862222790.malonedeb@soybean.canonical.com>
+Message-Id: <162433548126.20423.11505282489029902861.malone@loganberry.canonical.com>
+Subject: [Bug 1829696] Re: qemu-kvm takes 100% CPU when running redhat/centos
+ 7.6 guest VM OS
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: a4863bf2acca9c8623620892f6ad5e13ac116dd9
+X-Launchpad-Hash: 0c241e6c234fa5a3b6fb0227dbf8ae920f9d4e3f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828508 <1828508@bugs.launchpad.net>
+Reply-To: Bug 1829696 <1829696@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,50 +85,312 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828508
+https://bugs.launchpad.net/bugs/1829696
 
 Title:
-  qemu-img created VMDK files lead to "Unsupported or invalid disk type
-  7"
+  qemu-kvm takes 100% CPU when running redhat/centos 7.6 guest VM OS
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Using qemu-img version 3.1.50 (v3.1.0-13607-geb2db0f7ba-dirty) on a
-  Windows 10 machine.
+  Description
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  When running redhat or centos 7.6 guest os on vm,
+  the cpu usage is very low on vm(100% idle), but on host,
+  qemu-kvm reports 100% cpu busy usage.
 
-  Converting a VHD to VMDK.
-  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
-slogic -p "c:\test\AppD-VM01.vmdk"
-
-  I have also tried:
-  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
-slogic,hwversion=3D6 -p "c:\test\AppD-VM01.vmdk"
-
-  Attaching the VMDK to a VM in VMware produces the following error when
-  powering on.
-
-  Power On virtual machine:Failed to open disk scsi0:1: Unsupported or inva=
-lid disk type 7. Ensure that the disk has been imported.
-  Target: MyVM1
-  vCenter Server: VCENTER
-  Error Stack
-  An error was received from the ESX host while powering on VM MyVM1.
-  Failed to start the virtual machine.
-  Module DevicePowerOn power on failed. =
-
-  Unable to create virtual SCSI device for scsi0:1, '/vmfs/volumes/5cca0155=
--bdddf31d-2714-00215acbeb1e/AppD-VM01/AppDdisk1-VM01.vmdk' =
-
-  Failed to open disk scsi0:1: Unsupported or invalid disk type 7. Ensure t=
-hat the disk has been imported.
+  After searching some related bugs report,
+  I suspect that it is due to the clock settings in vm's domain xml.
+  My Openstack cluster uses the default clock settings as follow:
+      <clock offset=3D'utc'>
+        <timer name=3D'rtc' tickpolicy=3D'catchup'/>
+        <timer name=3D'pit' tickpolicy=3D'delay'/>
+        <timer name=3D'hpet' present=3D'no'/>
+      </clock>
+  And in this report, https://bugs.launchpad.net/qemu/+bug/1174654
+  it claims that <timer name=3D'rtc' track=3D'guest'/> can solve the 100% c=
+pu usage problem when using Windows Image Guest OS,
+  but I makes some tests, the solusion dose not work for me.
 
   =
 
-  If I do not specify the adapter type, it creates an IDE VMDK which works =
-perfectly.
+  Steps to reproduce
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  * create a vm using centos or redhat 7.6 image
+  * using sar tool inside vm and host to check the cpu usage, and compare t=
+hem
+
+  =
+
+  Expected result
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  host's cpu usage report should be same with vm's cpu usage
+
+  =
+
+  Actual result
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  vm's cpu usage is 100% idle, host's cpu usage is 100% busy
+
+  =
+
+  Environment
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  1. Exact version of OpenStack you are running.
+  # rpm -qa | grep nova
+  openstack-nova-compute-13.1.2-1.el7.noarch
+  python2-novaclient-3.3.2-1.el7.noarch
+  python-nova-13.1.2-1.el7.noarch
+  openstack-nova-common-13.1.2-1.el7.noarch
+
+  2. Which hypervisor did you use?
+     (For example: Libvirt + KVM, Libvirt + XEN, Hyper-V, PowerKVM, ...)
+     What's the version of that?
+  # libvirtd -V
+  libvirtd (libvirt) 3.9.0
+
+  # /usr/libexec/qemu-kvm --version
+  QEMU emulator version 2.6.0 (qemu-kvm-ev-2.6.0-28.el7_3.6.1), Copyright (=
+c) 2003-2008 Fabrice Bellard
+
+  =
+
+  Logs & Configs
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  The VM xml:
+  <domain type=3D'kvm' id=3D'29'>
+    <name>instance-00005022</name>
+    <uuid>7f5a66a5-****-****-****-75dec****bbb</uuid>
+    <metadata>
+      <nova:instance xmlns:nova=3D"http://openstack.org/xmlns/libvirt/nova/=
+1.0">
+        <nova:package version=3D"13.1.2-1.el7"/>
+        <nova:name>*******</nova:name>
+        <nova:creationTime>2019-05-20 03:08:46</nova:creationTime>
+        <nova:flavor name=3D"2d2dab36-****-****-****-246e9****110">
+          <nova:memory>2048</nova:memory>
+          <nova:disk>12</nova:disk>
+          <nova:swap>2048</nova:swap>
+          <nova:ephemeral>0</nova:ephemeral>
+          <nova:vcpus>1</nova:vcpus>
+        </nova:flavor>
+        <nova:owner>
+          <nova:user uuid=3D"********************">****</nova:user>
+          <nova:project uuid=3D"********************">****</nova:project>
+        </nova:owner>
+        <nova:root type=3D"image" uuid=3D"4496a420-****-****-****-b50f****a=
+da3"/>
+      </nova:instance>
+    </metadata>
+    <memory unit=3D'KiB'>2097152</memory>
+    <currentMemory unit=3D'KiB'>2097152</currentMemory>
+    <vcpu placement=3D'static'>1</vcpu>
+    <cputune>
+      <shares>1024</shares>
+      <vcpupin vcpu=3D'0' cpuset=3D'27'/>
+      <emulatorpin cpuset=3D'27'/>
+    </cputune>
+    <numatune>
+      <memory mode=3D'strict' nodeset=3D'1'/>
+      <memnode cellid=3D'0' mode=3D'strict' nodeset=3D'1'/>
+    </numatune>
+    <resource>
+      <partition>/machine</partition>
+    </resource>
+    <sysinfo type=3D'smbios'>
+      <system>
+        <entry name=3D'manufacturer'>Fedora Project</entry>
+        <entry name=3D'product'>OpenStack Nova</entry>
+        <entry name=3D'version'>13.1.2-1.el7</entry>
+        <entry name=3D'serial'>64ab0e89-****-****-****-05312ef66983</entry>
+        <entry name=3D'uuid'>7f5a66a5-****-****-****-75decaf82bbb</entry>
+        <entry name=3D'family'>Virtual Machine</entry>
+      </system>
+    </sysinfo>
+    <os>
+      <type arch=3D'x86_64' machine=3D'pc-i440fx-rhel7.3.0'>hvm</type>
+      <boot dev=3D'hd'/>
+      <smbios mode=3D'sysinfo'/>
+    </os>
+    <features>
+      <acpi/>
+      <apic/>
+    </features>
+    <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+      <model fallback=3D'forbid'>IvyBridge</model>
+      <topology sockets=3D'1' cores=3D'1' threads=3D'1'/>
+      <feature policy=3D'require' name=3D'hypervisor'/>
+      <feature policy=3D'require' name=3D'arat'/>
+      <feature policy=3D'require' name=3D'xsaveopt'/>
+      <numa>
+        <cell id=3D'0' cpus=3D'0' memory=3D'2097152' unit=3D'KiB'/>
+      </numa>
+    </cpu>
+    <clock offset=3D'utc'>
+      <timer name=3D'pit' tickpolicy=3D'delay'/>
+      <timer name=3D'rtc' tickpolicy=3D'catchup'/>
+      <timer name=3D'hpet' present=3D'no'/>
+    </clock>
+    <on_poweroff>destroy</on_poweroff>
+    <on_reboot>restart</on_reboot>
+    <on_crash>destroy</on_crash>
+    <devices>
+      <emulator>/usr/libexec/qemu-kvm</emulator>
+      <disk type=3D'file' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'raw' cache=3D'none'/>
+        <source file=3D'/data/instances/7f5a66a5-****-****-****-75decaf82bb=
+b/disk'/>
+        <backingStore/>
+        <target dev=3D'vda' bus=3D'virtio'/>
+        <alias name=3D'virtio-disk0'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x04' =
+function=3D'0x0'/>
+      </disk>
+      <disk type=3D'file' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'raw' cache=3D'none'/>
+        <source file=3D'/data/instances/7f5a66a5-****-****-****-75decaf82bb=
+b/disk.swap'/>
+        <backingStore/>
+        <target dev=3D'vdb' bus=3D'virtio'/>
+        <alias name=3D'virtio-disk1'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x05' =
+function=3D'0x0'/>
+      </disk>
+      <disk type=3D'file' device=3D'cdrom'>
+        <driver name=3D'qemu' type=3D'raw' cache=3D'none'/>
+        <source file=3D'/data/instances/7f5a66a5-****-****-****-75decaf82bb=
+b/disk.config'/>
+        <backingStore/>
+        <target dev=3D'hdd' bus=3D'ide'/>
+        <readonly/>
+        <alias name=3D'ide0-1-1'/>
+        <address type=3D'drive' controller=3D'0' bus=3D'1' target=3D'0' uni=
+t=3D'1'/>
+      </disk>
+      <controller type=3D'usb' index=3D'0' model=3D'piix3-uhci'>
+        <alias name=3D'usb'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' =
+function=3D'0x2'/>
+      </controller>
+      <controller type=3D'pci' index=3D'0' model=3D'pci-root'>
+        <alias name=3D'pci.0'/>
+      </controller>
+      <controller type=3D'ide' index=3D'0'>
+        <alias name=3D'ide'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' =
+function=3D'0x1'/>
+      </controller>
+      <interface type=3D'bridge'>
+        <mac address=3D'fa:16:3e:a6:ea:4f'/>
+        <source bridge=3D'brq52c66dc3-64'/>
+        <bandwidth>
+          <inbound average=3D'102400'/>
+          <outbound average=3D'102400'/>
+        </bandwidth>
+        <target dev=3D'tapa29e94e5-42'/>
+        <model type=3D'virtio'/>
+        <alias name=3D'net0'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x03' =
+function=3D'0x0'/>
+      </interface>
+      <serial type=3D'file'>
+        <source path=3D'/data/instances/7f5a66a5-****-****-****-75decaf82bb=
+b/console.log'/>
+        <target type=3D'isa-serial' port=3D'0'>
+          <model name=3D'isa-serial'/>
+        </target>
+        <alias name=3D'serial0'/>
+      </serial>
+      <serial type=3D'pty'>
+        <source path=3D'/dev/pts/10'/>
+        <target type=3D'isa-serial' port=3D'1'>
+          <model name=3D'isa-serial'/>
+        </target>
+        <alias name=3D'serial1'/>
+      </serial>
+      <console type=3D'file'>
+        <source path=3D'/data/instances/7f5a66a5-****-****-****-75decaf82bb=
+b/console.log'/>
+        <target type=3D'serial' port=3D'0'/>
+        <alias name=3D'serial0'/>
+      </console>
+      <input type=3D'tablet' bus=3D'usb'>
+        <alias name=3D'input0'/>
+        <address type=3D'usb' bus=3D'0' port=3D'1'/>
+      </input>
+      <input type=3D'mouse' bus=3D'ps2'>
+        <alias name=3D'input1'/>
+      </input>
+      <input type=3D'keyboard' bus=3D'ps2'>
+        <alias name=3D'input2'/>
+      </input>
+      <graphics type=3D'vnc' port=3D'5910' autoport=3D'yes' listen=3D'0.0.0=
+.0' keymap=3D'en-us'>
+        <listen type=3D'address' address=3D'0.0.0.0'/>
+      </graphics>
+      <video>
+        <model type=3D'cirrus' vram=3D'16384' heads=3D'1' primary=3D'yes'/>
+        <alias name=3D'video0'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x02' =
+function=3D'0x0'/>
+      </video>
+      <memballoon model=3D'virtio'>
+        <stats period=3D'10'/>
+        <alias name=3D'balloon0'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x06' =
+function=3D'0x0'/>
+      </memballoon>
+    </devices>
+    <seclabel type=3D'dynamic' model=3D'dac' relabel=3D'yes'>
+      <label>+107:+107</label>
+      <imagelabel>+107:+107</imagelabel>
+    </seclabel>
+  </domain>
+
+  CPU Usage Report inside VM:
+  # sar -u -P 0 1 5
+  Linux 3.10.0-957.el7.x86_64 (******) 	05/20/2019 	_x86_64_	(1 CPU)
+
+  11:34:40 AM     CPU     %user     %nice   %system   %iowait    %steal    =
+ %idle
+  11:34:41 AM       0      0.00      0.00      0.00      0.00      0.00    =
+100.00
+  11:34:42 AM       0      0.00      0.00      0.00      0.00      0.00    =
+100.00
+  11:34:43 AM       0      0.00      0.00      0.00      0.00      0.00    =
+100.00
+  11:34:44 AM       0      0.00      0.00      0.00      0.00      0.00    =
+100.00
+  11:34:45 AM       0      0.00      0.00      0.00      0.00      0.00    =
+100.00
+  Average:          0      0.00      0.00      0.00      0.00      0.00    =
+100.00
+
+  CPU Usage Report ON HOST(the vm's cpu is pinned on host's no.27 physic cp=
+u):
+  # sar -u -P 27 1 5
+  Linux 3.10.0-862.el7.x86_64 (******) 	05/20/2019 	_x86_64_	(48 CPU)
+
+  11:34:40 AM     CPU     %user     %nice   %system   %iowait    %steal    =
+ %idle
+  11:34:41 AM      27    100.00      0.00      0.00      0.00      0.00    =
+  0.00
+  11:34:42 AM      27    100.00      0.00      0.00      0.00      0.00    =
+  0.00
+  11:34:43 AM      27    100.00      0.00      0.00      0.00      0.00    =
+  0.00
+  11:34:44 AM      27    100.00      0.00      0.00      0.00      0.00    =
+  0.00
+  11:34:45 AM      27    100.00      0.00      0.00      0.00      0.00    =
+  0.00
+  Average:         27    100.00      0.00      0.00      0.00      0.00    =
+  0.00
+
+  clocksource inside VM:
+  # cat /sys/devices/system/clocksource/clocksource0/current_clocksource
+  kvm_clock
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828508/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1829696/+subscriptions
 
