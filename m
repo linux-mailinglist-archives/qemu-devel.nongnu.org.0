@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C3E3B0601
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 15:42:09 +0200 (CEST)
-Received: from localhost ([::1]:52618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCFE3B062D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 15:49:28 +0200 (CEST)
+Received: from localhost ([::1]:58036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvgfI-00051h-4O
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 09:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56492)
+	id 1lvgmN-0000aT-0A
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 09:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvgdv-0004Lo-NW
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 09:40:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:58443)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvgl0-0008JY-U6
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 09:48:02 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:46159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvgdt-0007ft-Na
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 09:40:43 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lvgky-0003sW-O5
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 09:48:02 -0400
 Received: from [192.168.100.1] ([82.142.21.22]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MuUza-1l5Ei01BVS-00rUFl; Tue, 22 Jun 2021 15:40:26 +0200
-Subject: Re: qemu-binfmt-conf.sh: enforce style consistency
-To: unai.martinezcorral@ehu.eus, Eric Blake <eblake@redhat.com>
-References: <20210620201509.GA9@c22643ce596e>
- <13e577e3-c85a-578e-e33f-dd7affaf00ca@vivier.eu>
- <CAGZZdDEetfWS55-crF8mgEEtoo3eWS6dmSV5Xcv7QS+4MOnxcA@mail.gmail.com>
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MjxW4-1lXJIr4236-00kPtx; Tue, 22 Jun 2021 15:47:58 +0200
+To: Takashi Yamamoto <yamamoto@midokura.com>
+References: <20210531055019.10149-1-yamamoto@midokura.com>
+ <20210531055019.10149-2-yamamoto@midokura.com>
+ <5c344989-6b77-5cb7-4e2d-953350fe9834@vivier.eu>
+ <CAH=wFzS_-q4wRauFPKLrAf6p=oew_Ja+QpEvpyX97sYC39LnmQ@mail.gmail.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c2502af7-d3c9-04fd-d136-f041f4f18c23@vivier.eu>
-Date: Tue, 22 Jun 2021 15:40:25 +0200
+Subject: Re: [PATCH v2 01/11] linux-user: handle /proc/self/exe for execve
+Message-ID: <7505eafb-a247-6b43-3c61-24183a4bdb42@vivier.eu>
+Date: Tue, 22 Jun 2021 15:47:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAGZZdDEetfWS55-crF8mgEEtoo3eWS6dmSV5Xcv7QS+4MOnxcA@mail.gmail.com>
+In-Reply-To: <CAH=wFzS_-q4wRauFPKLrAf6p=oew_Ja+QpEvpyX97sYC39LnmQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8Dvzpkkw0oncn5TWTTLjTQf0p6RGfgu3mj1HC3knqgHY+8fJ+g0
- KhBraatd1EkD3eJIvwDJKsjt0hnUIPZvilAsxwKorR2UWxfNU6a0aOJ7zpwfmmPGptw7J3O
- bEesstlvcMxF4vNW1JT/aG2Mgqlze9c7Ud6jYXPLl/qYeU5KCpGDVXmqQNUU6gfKjn7nd6/
- izIV90+el9ve7eZky6JIA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+xnf+c8CpPA=:GOCfAKWXGOiEMl11FuYtgY
- 2/Lfp/Q20Ul6BmO7qpFQsNKYL9ZFp7c8n6AuvuJH+ldgx1shKCBiiHiisxaB2x0VPB6bB5e2i
- 5EHhIHUgbZPC3/5BvZcEUpeTFA66zBNn2JjcGht6y3q1MqSTjlCgqdMeMUwLrdzkkVGN92/K0
- XNva1RujMU5rMm2OxjYsoLQMKndH/Clye+dfhQ/YwcOgP9jf9+N+3bmdgQ7U0VzMXcjw4Npwn
- vkoKR5J5P20HZfVRo0XEnORGcN5oTiNmWD7fI+pO7PbER9Z9WWxeiZlKGbpe9iaxkro3jAUHd
- knDqZdoBx0hlNAvlNx20c27tofmLnnKf/+VDWg65adU250vp0UAGb2RIWhCWj+u4xBcdOTqQu
- N6bX6GlYubKqpZpFH8wzLs1c3z/uiwCQynnqCwN2XjXTTtnn6YoQds3Pxt6wk8D9KZ0NxOkyv
- 7V6Ud3TmKf+UQGgrrBLk8nq6xkh4Kw8DzPpvw2vP756sgdg666TLFzVK53PIxOQpATExCsiyC
- iGcf5IESkKtaB27e6Jw6hY=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:k1MTANEEwM8pkElhYlKoJKXosGcp1qhQH5ufzYQunj892F+y6FG
+ HWZ+YS3IL0Z8mkxO+ogOg/0QRsHYoL5K+PXvUfAerVU2cxHdp85s/JpEbgHFxr63ImeJo0B
+ TjNK9craY1FXGaylAI+n36Vgz7x7gLIGCLd46BpM3TE8Pb2kHtCUDKFjm2J+4c5lS1E3Y1r
+ fq6cPeln5eOeXR7r30mZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gwi9+f6IFJU=:9OD2TtRdjFJ1niIHPk3ZYH
+ AxnX3Ser/tZXG6deWG1oebir44wG+LCn8rOoTZqC4XiRHI/q16bfeiovTD73lqMPJE58xKnS+
+ q/YnM/SFPZ6zuuMHxv0hMUMJp9ImB9VM08En7jCfVzgY7phxSWF+GtQy3Y6zRROUCycqjsbPc
+ 3vMBJB1SPu+QHitv0RPzm4zmkosKrjNZezzvQqUfV/AwR3MaQXNmJ/bOxhrNmkARhhw1uO1Cz
+ oaNmPZW7YX/cLV9yhLLl1etPkywYvtdF6D0qccq0QaMk+QeBjJC6DVWBZJ6osz2BPS8phf0B+
+ G+ScPyqytXiBiPiaDMG5rnTRTHVbrQV013Ws/ksB5cZ/+y22yxDj0JCu90QAOqpjhYMhd92cU
+ cMDQj5tjC6tdsUqNBu+fk1XCzjJC20uoiVHIt+3kCKSSrpkZyKeAJM7j9/Hdg4uoTXBsLSP6B
+ cKZUQlBCerqpzinoOWiIBIfEocFNY3jZYKFJHQ9nkDdg71hTbozxItS3Y0awHjNSdbk1OG6HJ
+ SHN234O0AJ4WiN50amb/Rw=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,36 +69,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 20/06/2021 à 23:22, Unai Martinez Corral a écrit :
-> Hi Laurent,
+Le 21/06/2021 à 04:02, Takashi Yamamoto a écrit :
+> On Sun, Jun 20, 2021 at 11:14 PM Laurent Vivier <laurent@vivier.eu> wrote:
+>>
+>> Le 31/05/2021 à 07:50, YAMAMOTO Takashi a écrit :
+>>> It seems somehow common to execve /proc/self/exe in docker
+>>> or golang community these days.
+>>> At least, moby "reexec" and runc "libcontainer" do that.
+>>>
+>>> Signed-off-by: YAMAMOTO Takashi <yamamoto@midokura.com>
+>>> ---
+>>>  linux-user/syscall.c | 7 ++++++-
+>>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>> index c9f812091c..a2b03ecb8b 100644
+>>> --- a/linux-user/syscall.c
+>>> +++ b/linux-user/syscall.c
+>>> @@ -8470,6 +8470,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>>>  #endif
+>>>      case TARGET_NR_execve:
+>>>          {
+>>> +            const char *path;
+>>>              char **argp, **envp;
+>>>              int argc, envc;
+>>>              abi_ulong gp;
+>>> @@ -8537,7 +8538,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>>>               * before the execve completes and makes it the other
+>>>               * program's problem.
+>>>               */
+>>> -            ret = get_errno(safe_execve(p, argp, envp));
+>>> +            path = p;
+>>> +            if (is_proc_myself(path, "exe")) {
+>>> +                path = exec_path;
+>>> +            }
+>>> +            ret = get_errno(safe_execve(path, argp, envp));
+>>>              unlock_user(p, arg1, 0);
+>>>
+>>>              goto execve_end;
+>>>
+>>
+>> The problem here is QEMU can fail to execute the file directly.
 > 
->     Well, I'm not sure there is a real consistency with this in the other scripts...
-> 
-> 
->     Changes look good, but can someone confirm this is the style we want to use everywhere?
-> 
->     Peter? 
-> 
-> 
-> Please, see https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg02267.html
-> <https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg02267.html>
+> i don't understand this sentence. can you explain a bit?
 
-OK, so if Eric adds his R-b, I will put the patch in my linux-user branch.
-
-> 
->     Please use your real name, not a nickname.
-> 
-> 
-> Sorry about that. It's 'Unai Martinez-Corral'.
-> Shall I resend the patch?
-
-No, I'll update the patch.
+It's related to the text below.
+The binary can be executable ('x') but not readable ('r'), so QEMU cannot load it.
+It's the purpose of the 'O' flag: kernel opens the file and pass the FD to QEMU to execute it.
 
 Thanks,
 Laurent
+
+> 
+>>
+>> The binary can be launched with binfmt_misc and the 'O' flag:
+>>
+>>      ``O`` - open-binary
+>>             Legacy behavior of binfmt_misc is to pass the full path
+>>             of the binary to the interpreter as an argument. When this flag is
+>>             included, binfmt_misc will open the file for reading and pass its
+>>             descriptor as an argument, instead of the full path, thus allowing
+>>             the interpreter to execute non-readable binaries. This feature
+>>             should be used with care - the interpreter has to be trusted not to
+>>             emit the contents of the non-readable binary.
+>>
+>> You should use do_openat() (that resolves the /proc/self/exe path) and fexecve().
+> 
+> i thought there was an issue with the approach. but i don't remember
+> what it was.
+> maybe i will retry it.
+> 
+>>
+>> Thanks,
+>> Laurent
 
 
