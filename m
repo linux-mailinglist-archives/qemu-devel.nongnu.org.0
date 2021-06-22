@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5849D3AFC49
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:58:38 +0200 (CEST)
-Received: from localhost ([::1]:37656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAA43AFC46
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 06:56:43 +0200 (CEST)
+Received: from localhost ([::1]:59436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvYUf-0000TS-Bg
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58312)
+	id 1lvYSo-0004Xy-Dr
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 00:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY4A-0002li-8a
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:14 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58566)
+ id 1lvY48-0002jf-Ub
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lvY47-0000Pm-VD
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:13 -0400
+ id 1lvY46-0000Oy-6n
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 00:31:12 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lvY46-0003kl-41
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:10 +0000
+ id 1lvY44-0003kX-6f
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:08 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 18E422E805B
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:10 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 216472E809C
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 04:31:08 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Jun 2021 04:17:44 -0000
-From: Launchpad Bug Tracker <1605611@bugs.launchpad.net>
+Date: Tue, 22 Jun 2021 04:17:46 -0000
+From: Launchpad Bug Tracker <1618122@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor mathieu-tarral th-huth
-X-Launchpad-Bug-Reporter: Mathieu Tarral (mathieu-tarral)
+X-Launchpad-Bug-Commenters: janitor th-huth vans-163
+X-Launchpad-Bug-Reporter: vans163 (vans-163)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160722121902.333.5320.malonedeb@gac.canonical.com>
-Message-Id: <162433546449.20423.15217835328164203194.malone@loganberry.canonical.com>
-Subject: [Bug 1605611] Re: memsave returns invalid addr when trying to read a
- 64 bits address
+References: <20160829160030.27613.81837.malonedeb@gac.canonical.com>
+Message-Id: <162433546707.20423.17608961190549168113.malone@loganberry.canonical.com>
+Subject: [Bug 1618122] Re: qemu-monitor screendump very slow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3619498b5524a71696f3dd612f4d11bd63449bb1"; Instance="production"
-X-Launchpad-Hash: 8e54cb1a23509b2a01f7a2e2c291f24b59fcf2e8
+X-Launchpad-Hash: 12896cad49c53a10b2d2f686016cec531ee4a36e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1605611 <1605611@bugs.launchpad.net>
+Reply-To: Bug 1618122 <1618122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,78 +83,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1605611
+https://bugs.launchpad.net/bugs/1618122
 
 Title:
-  memsave returns invalid addr when trying to read a 64 bits address
+  qemu-monitor screendump very slow
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I am trying to read the first 16 bytes of the System Process on a
-  Windows XP x64 SP2 using the memsave monitor command.
+  qemu-monitor screendump often using 10-20% cpu usage of one core to
+  take a small capture.
 
-  I cloned the latest release of QEMU, v2.6.0, configured it with =
+  Most of the CPU usage seems to come from libpixman. There were many
+  reports of libpixman becoming 8 times slower in newer releases.
 
-  ./configure --target-list=3Di386-softmmu,x86_64-softmmu --enable-sdl
-  and compiled it.
+  https://github.com/qemu/qemu/blob/0c56c6ab68902281094c7aac6305e2321c34c18=
+7/ui/console.c#L285
 
-  I first tried to use memsave against Windows XP SP3 32 bits.
-  This is the procedure i used :
+  Simple Valgrind Ir report.
 
-  1 - start the VM with :
-  ./i386-softmmu/qemu-system-i386 --enable-kvm -monitor stdio -hda ~/vm/win=
-xp.qcow2
-  and wait for the desktop
-  2 - take a physical memory dump with :
-  pmemsave 0 134217728 dump.raw
-  3 - call rekall on this memory dump to identify running processes :
-  rekall -f dump.raw pslist
-  _EPROCESS          Name          PID   PPID   Thds    Hnds    Sess  Wow64=
-           Start                     Exit          =
+  -------------------------------------------------------------------------=
+-------
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Ir
+  -------------------------------------------------------------------------=
+-------
+  9,994,313,959  PROGRAM TOTALS
 
-  ---------- -------------------- ----- ------ ------ -------- ------ -----=
-- ------------------------ ------------------------
-  0x80e8fa00 System                   4      0     46      148      - False=
-  -                        -                       =
+  -------------------------------------------------------------------------=
+-------
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Ir  fil=
+e:function
+  -------------------------------------------------------------------------=
+-------
+  4,883,603,360  /usr/src/debug/pixman-0.34.0/pixman/pixman-access.c:store_=
+scanline_b8g8r8 [/usr/lib64/libpixman-1.so.0.34.0]
+  =C2=A0=C2=A0282,312,800  /usr/src/debug/pixman-0.34.0/pixman/pixman-imple=
+mentation.c:_pixman_implementation_iter_init [/usr/lib64/libpixman-1.so.0.3=
+4.0]
+  =C2=A0=C2=A0267,394,160  /usr/src/debug/pixman-0.34.0/pixman/pixman-sse2.=
+c:sse2_fetch_x8r8g8b8 [/usr/lib64/libpixman-1.so.0.34.0]
+  =C2=A0=C2=A0256,761,600  /usr/src/debug/pixman-0.34.0/pixman/pixman-priva=
+te.h:store_scanline_b8g8r8
+  =C2=A0=C2=A0254,676,199  ???:0x0000000000011f40 [/usr/lib64/libjemalloc.s=
+o.2]
+  =C2=A0=C2=A0199,990,526  ???:0x0000000000011a10 [/usr/lib64/libjemalloc.s=
+o.2]
 
-  4 - read the first 16 bytes of the System PROCESS struct :
-  memsave 0x80e8fa00 16 system
-  5 - check the content with hexdump :
-  00000000  03 00 1b 00 00 00 00 00  08 fa e8 80 08 fa e8 80
-  you can recognize here the beginning of an EPROCESS struct.
+  Calls to there start from.
+  qemu_pixman_linebuf_fill
+  pixman_image_composite
+  ????
+  pixman_image_composite32
+  general_composite_rect
 
-  So on a 32 bits Windows XP OS, it works.
+  I tried taking a look on how to fix this, but it seems pixman is
+  deeply enrooted inside the monitor.  I wanted to try to simply take
+  whats on the display and memcpy it into .ppm format manually creating
+  the file header, but the image is all broken with colors being off or
+  its smeared.
 
-  But when i tried on Windows XP SP2 64 bits, rekall gave me the following =
-output :
-    _EPROCESS            Name          PID   PPID   Thds    Hnds    Sess  W=
-ow64           Start                     Exit          =
+  For example this is DisplaySurface:
 
-  -------------- -------------------- ----- ------ ------ -------- ------ -=
------ ------------------------ ------------------------
-  0xfadffd71d040 System                   4      0     51      398      - F=
-alse  -                        -                       =
+  struct DisplaySurface {
+  =C2=A0=C2=A0=C2=A0=C2=A0pixman_format_code_t format;
+  =C2=A0=C2=A0=C2=A0=C2=A0pixman_image_t *image;
+  =C2=A0=C2=A0=C2=A0=C2=A0uint8_t flags;
+  #ifdef CONFIG_OPENGL
+  =C2=A0=C2=A0=C2=A0=C2=A0GLenum glformat;
+  =C2=A0=C2=A0=C2=A0=C2=A0GLenum gltype;
+  =C2=A0=C2=A0=C2=A0=C2=A0GLuint texture;
+  #endif
+  };
 
-  And when i tried to read the memory with memsave :
-  memsave 0xfadffd71d040 16 system
+  =
 
-  I had the following error :
-  Invalid addr 0x0000fadffd71d040/size 16 specified
+  It appears graphic_hw_update(con) renders the vram to a pixman_image.  Th=
+en ppm_save(filename, surface, errp) goes over it yet again, mutates the by=
+tes in an expensive way to another pixman_image, and saves that row by row =
+to a ppm.
 
-  This address is supposed to be valid because I am reading the System EPro=
-cess struct, which should not be in the paged pool memory I think.
-  Also i disabled the paging file to be sure and the bug is still present.
-
-  Furthermore the bug is reproducible on the latest QEMU
-  (01a720125f5e2f0a23d2682b39dead2fcc820066).
-
-  Can you confirm that this is a bug ?
-  Should i check something ?
-
-  Thanks !
+  Using sdl graphics (the default) the drawing starts in
+  https://github.com/qemu/qemu/blob/7fa124b273acd22a808e742ead78c065ccd9b4c=
+4/hw/display/vga.c#L1466
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1605611/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1618122/+subscriptions
 
