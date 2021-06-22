@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C425D3B0654
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 15:58:00 +0200 (CEST)
-Received: from localhost ([::1]:35674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169F33B0668
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 16:02:28 +0200 (CEST)
+Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvgud-00052Y-SI
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 09:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60402)
+	id 1lvgyx-0007Hc-6F
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 10:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvgtT-0003s8-7q
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 09:56:47 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:40800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lvgtR-00018i-DI
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 09:56:46 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- bb10-20020a17090b008ab029016eef083425so1775161pjb.5
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 06:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=pYtnAtm09Tmv5uSDFvd+taC2tZNaSAKH/r3zUh8EQjw=;
- b=nh3tBAMYKrmODfsCl/E1Hw7UQjn/NygvYfdeX7JAZaEkhMeulJSFRO4aFXRsEKtRCf
- +89wYFXVgUSklGDW81yQJiXRsG9AX1rwAg+AHb5yInAeBl++ynxP3PG1vVo3FAnnfJ30
- w3g4HA7i/wy96Gan/RxLvWY0CBmkUJJyZE/J7sgOoqOywvXl728+1x42blITXt7ilR/m
- 5adPC9ID0vSvpaaRlUMpwKbYQWhhdmHFfj0fqoMseBdkLPmzPSK59FbsiEsCkvLqi+2U
- J6ldoYHdpgzoZ3OfVs1BBBTCyrbMhfD5PFTEthCBNLvAMMppZXm7mMwhSJnoI6SlUssH
- HpaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pYtnAtm09Tmv5uSDFvd+taC2tZNaSAKH/r3zUh8EQjw=;
- b=qlEmp0awBd9PkZQhY+1YfJgX3QxMgNLZXAtiN4Ro+yVTmMjYu18tVKcJQ8H09Plird
- erRXIY8+B67XYLiiVg8qAd06ULDjadOrS0/1SirvYm+q6qJDMMg7OUbyVbEhkL40RFGn
- WB0DkJJoMso9TatPzesjuVay4BwwCryzhPG8fDmOW5BNM5SYMbrFnLDEpn5Uu6nJ6YUE
- VhAklalLfOngHQyenWJ5s8+ujqFowDgOK3MohA9cEWqu2XZs8NZw74L/MIEb3l/2gISk
- HG4fUVrq5OLBEOo/H8GFtYjrrB6mOzSxLWuxp02mUZl33vXTwmrTLzrtDTcyH5zJiHZz
- OB0w==
-X-Gm-Message-State: AOAM5338WxJT1hAV3XOtG835M21c1OC8JX8EytgaFf79AoLi4PPM+nc/
- hv55CnUd/0Q7cnusHj8UGqnAHwcfG7d6Fg==
-X-Google-Smtp-Source: ABdhPJw8lFB32rQVHEUllncdCITVlowj2iraiAJ9RciyhGc1y5hShterTSkYn7a5K63GCgfVt9qdcA==
-X-Received: by 2002:a17:90a:520b:: with SMTP id
- v11mr4111602pjh.236.1624370203925; 
- Tue, 22 Jun 2021 06:56:43 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id x7sm2380843pjf.56.2021.06.22.06.56.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jun 2021 06:56:43 -0700 (PDT)
-Subject: Re: [PATCH 17/28] tcg: Add flags argument to tcg_gen_bswap16_*,
- tcg_gen_bswap32_i64
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210614083800.1166166-1-richard.henderson@linaro.org>
- <20210614083800.1166166-18-richard.henderson@linaro.org>
- <f01808cb-0bd1-aa4d-f289-a59a4c281203@amsat.org>
- <a9972b30-7f01-5600-c942-9058f78fca2e@linaro.org>
- <ad351945-da73-39b0-eb5f-3a66fb25109a@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f47ece2f-299f-9560-59c4-3cace6d5f543@linaro.org>
-Date: Tue, 22 Jun 2021 06:56:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lvgxN-00067p-TJ
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:00:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lvgxB-0003hn-Sc
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 10:00:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624370434;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qfJvHGcop9xFxDWhfGEL+uotEhOZzE4+pBqmyHd2Ww4=;
+ b=GLL4JcimgY/z7IfTUZM+ykD3j+v6cVb3oMQHNbb3opKoUvPlYGdqIB/D61Q/Ue1XsEOx7T
+ eixt54v81GWWNVb63fMM0HCe5Oj0bi94Oeg4qBwJLSeEe0xIxgf5S/JvLgWVl4K9rGQxbE
+ MqU4Kwv5f4Af5vJS1gW+jHWd9E5uSWQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-0B_hkovoPjqHVHJmDqUqWQ-1; Tue, 22 Jun 2021 10:00:33 -0400
+X-MC-Unique: 0B_hkovoPjqHVHJmDqUqWQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FCF0107B0F5;
+ Tue, 22 Jun 2021 14:00:32 +0000 (UTC)
+Received: from localhost (ovpn-114-129.ams2.redhat.com [10.36.114.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5B8E10013D6;
+ Tue, 22 Jun 2021 14:00:31 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] block: BDRV_O_NO_IO for backing file on creation
+Date: Tue, 22 Jun 2021 16:00:30 +0200
+Message-Id: <20210622140030.212487-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ad351945-da73-39b0-eb5f-3a66fb25109a@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,14 +73,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/22/21 3:20 AM, Philippe Mathieu-Daudé wrote:
-> Another I noticed is popcnt.
+When creating an image file with a backing file, we generally try to
+open the backing file (unless -u was specified), mostly to verify that
+it is there, but also to get the file size if none was specified for the
+new image.
 
-Already present as ctpop.  (Which is how we name the operation in host-utils.h too.)
+For neither of these things do we need data I/O, and so we can pass
+BDRV_O_NO_IO when opening the backing file.  This allows us to open even
+encrypted backing images without requiring the user to provide a secret.
 
+This makes the -u switch in iotests 189 and 198 unnecessary (and the
+$size parameter), so drop it, because this way we get regression tests
+for this patch here.
 
-r~
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/441
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block.c                | 6 +++++-
+ tests/qemu-iotests/189 | 2 +-
+ tests/qemu-iotests/198 | 2 +-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/block.c b/block.c
+index 3f456892d0..b459502632 100644
+--- a/block.c
++++ b/block.c
+@@ -6553,9 +6553,13 @@ void bdrv_img_create(const char *filename, const char *fmt,
+         }
+         assert(full_backing);
+ 
+-        /* backing files always opened read-only */
++        /*
++         * No need to do I/O here, which allows us to open encrypted
++         * backing images without needing the secret
++         */
+         back_flags = flags;
+         back_flags &= ~(BDRV_O_RDWR | BDRV_O_SNAPSHOT | BDRV_O_NO_BACKING);
++        back_flags |= BDRV_O_NO_IO;
+ 
+         backing_options = qdict_new();
+         if (backing_fmt) {
+diff --git a/tests/qemu-iotests/189 b/tests/qemu-iotests/189
+index 4e463385b2..801494c6b9 100755
+--- a/tests/qemu-iotests/189
++++ b/tests/qemu-iotests/189
+@@ -67,7 +67,7 @@ echo "== verify pattern =="
+ $QEMU_IO --object $SECRET0 -c "read -P 0xa 0 $size" --image-opts $IMGSPECBASE | _filter_qemu_io | _filter_testdir
+ 
+ echo "== create overlay =="
+-_make_test_img --object $SECRET1 -o "encrypt.format=luks,encrypt.key-secret=sec1,encrypt.iter-time=10" -u -b "$TEST_IMG_BASE" -F $IMGFMT $size
++_make_test_img --object $SECRET1 -o "encrypt.format=luks,encrypt.key-secret=sec1,encrypt.iter-time=10" -b "$TEST_IMG_BASE" -F $IMGFMT
+ 
+ echo
+ echo "== writing part of a cluster =="
+diff --git a/tests/qemu-iotests/198 b/tests/qemu-iotests/198
+index b333a8f281..1c93dea1f7 100755
+--- a/tests/qemu-iotests/198
++++ b/tests/qemu-iotests/198
+@@ -64,7 +64,7 @@ echo "== writing whole image base =="
+ $QEMU_IO --object $SECRET0 -c "write -P 0xa 0 $size" --image-opts $IMGSPECBASE | _filter_qemu_io | _filter_testdir
+ 
+ echo "== create overlay =="
+-_make_test_img --object $SECRET1 -o "encrypt.format=luks,encrypt.key-secret=sec1,encrypt.iter-time=10" -u -b "$TEST_IMG_BASE" -F $IMGFMT $size
++_make_test_img --object $SECRET1 -o "encrypt.format=luks,encrypt.key-secret=sec1,encrypt.iter-time=10" -b "$TEST_IMG_BASE" -F $IMGFMT
+ 
+ echo
+ echo "== writing whole image layer =="
+-- 
+2.31.1
+
 
