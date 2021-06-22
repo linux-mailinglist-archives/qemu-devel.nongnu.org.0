@@ -2,95 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716433AFDB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:15:31 +0200 (CEST)
-Received: from localhost ([::1]:59818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAE83AFDBC
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Jun 2021 09:21:42 +0200 (CEST)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvad8-00048W-9q
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:15:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56472)
+	id 1lvaj7-00069c-C3
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 03:21:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lvabi-0003Cq-FH
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:14:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58360)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvai5-0005De-0n
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:20:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lvabc-00028s-Do
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:14:02 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lvai3-0006PV-8y
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 03:20:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624346035;
+ s=mimecast20190719; t=1624346434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3qrirkiEA2oZJUGUmrQ/3uUaqNn+95O+awrLVh9USrU=;
- b=QyM74/GmHRmhSlt6xEarn7vtGq3wQt2yqgeLQ6Yy2b+Nyo1Fl0YgfdIrGQejc6gFqcbBwD
- Cv0FyAlIzVb2vDKASLgARQRNjgDamW/KBW5mFSPZFIPi/emIeR3fHbqBTfgEyG76a6gMKo
- inKjhxW/TLDKPMO0oEZiYfbW4+9EG64=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-lCZV-VAtP7iZT1mAFT8L9g-1; Tue, 22 Jun 2021 03:13:53 -0400
-X-MC-Unique: lCZV-VAtP7iZT1mAFT8L9g-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cb4-20020a0564020b64b02903947455afa5so7175974edb.9
- for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 00:13:53 -0700 (PDT)
+ bh=zOrjYHwWVaNxFGoCuovj+bvnyIyCbhiyONiHMJ+JO14=;
+ b=DJOcimZkpnDH5s+OJETxAvZhD9RvodvMZLjOcNE4P9l/CnNaTtF2Agd2yYSdjcQCCMMAjY
+ 8VN9xDvqXP0AOS+x6tuM6NMMia7ZpSmiWa1gzl8lMoUvoCW7vIDOrLaUVObRSvb8Nyr3D5
+ 4XnRKUqjXYjHbtt7FFOH1ctQObK3/SM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-j0lHrxlaPlGQfVfgi1xy6g-1; Tue, 22 Jun 2021 03:20:32 -0400
+X-MC-Unique: j0lHrxlaPlGQfVfgi1xy6g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i24-20020a1c54180000b02901dbcf5d699eso753096wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Jun 2021 00:20:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3qrirkiEA2oZJUGUmrQ/3uUaqNn+95O+awrLVh9USrU=;
- b=ETYGXaH9vLF14s/lpqL1/F/XRPBf1Al20uylqPE/rWTxib+6OcoUFgNFjZsKRRnfzg
- tGQ5ZM/+R16YK1eI5RYSd5yVtkBxbv+aX1MEBvGivdrOM6pe1iJ9RjAsjwDACECY1vH9
- /8EMobYPZxNFjLyvIUyIBUL7oD2p/eba4BlPK3hn6Naa8Jt0+iy9LnZTEuW3wjrhZTe/
- DwpYLZKVMlmv6UMiM+APhfrEJdH1lNHu5jM9FAeMrIZT7ozi7TdJv2i/Bc1eGB0LNhl3
- RfsQOtmb7CiGgYacN3zR91CCLNecF9amOwf+fqOdbs4et1vvQArUmTV9VeY/gXPuBTho
- N/VA==
-X-Gm-Message-State: AOAM530BsjXuhoH/54/KwmTTL6Dkhowj35GukusVTqGFEdKtf49yf0JD
- xUvwFpLBnkR1S7qi3ztEvJedNFz45CgHRaj8XOV4s4YU9ubMjnUWr+yiM+LEx107HD+euOOoPfu
- E3jFZWmASLSJhYuo=
-X-Received: by 2002:a17:906:3b13:: with SMTP id
- g19mr2394390ejf.360.1624346032331; 
- Tue, 22 Jun 2021 00:13:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywbCA1NMlwHpCM2kjo0ozEfFM05m8UBXNlvqtZi1/NQciuzsqtRWcBaxBz70KPPzCF17hT8A==
-X-Received: by 2002:a17:906:3b13:: with SMTP id
- g19mr2394362ejf.360.1624346032074; 
- Tue, 22 Jun 2021 00:13:52 -0700 (PDT)
-Received: from gator (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id b8sm1100013edr.42.2021.06.22.00.13.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 00:13:51 -0700 (PDT)
-Date: Tue, 22 Jun 2021 09:13:49 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH] hw/arm/boot: Use NUMA node ID in memory node name
-Message-ID: <20210622071349.ibni4btfjrb2v2p2@gator>
-References: <20210601073004.106490-1-gshan@redhat.com>
- <20210601075045.ppmceogd5hp5rqcf@gator.home>
- <e50c52e7-a8d5-c269-cebf-caf1688c629e@redhat.com>
- <20210602113642.axaxxgnw2haghas4@gator.home>
- <493194a5-bf72-de17-8de9-4b3556a011be@redhat.com>
- <7e9e4127-ba08-29e3-fd62-5d686baa9012@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zOrjYHwWVaNxFGoCuovj+bvnyIyCbhiyONiHMJ+JO14=;
+ b=FTeX4xPshMA15P7dkLBv6mMOmahqNOJfKclrXn/9HYFvEyshunZVYwmu46bUjK+biD
+ qfY87OsA5hT2fu6aQpTe9nIZ0BnItD8IwEgEQ2roCL8LgNLcRydVb05iCP9X/KEITbGQ
+ gKAVVmkSE81dW+R7J8RcF3/+flNalN69Iu8k4dZDlD52PWslAOBztWaP2oMEJAqXkEJL
+ q5bWS7ft1xyrF9RXgJ5cqiOe0feWbNM5wmUOpEs7cqu74A5Sske6KXA5YgmPbcmRNcmy
+ bXK3mLZIy7686QDJDVcH0KyJ5lzNtiSNV5Mu0aGAGIDHmfK3JHMmfdH/CYMEyBV/KRPP
+ FAng==
+X-Gm-Message-State: AOAM531aHJulAiRuBrOTmund634cDdEY02mwH0QElnPUpMZZaADBqi2y
+ 4me2KG53FubKy67Lr87KuDUr052isM0JiodICMTi+8mIr9Jtg78SN4CESZxYeNbgRAedskq/3aT
+ yDBzvYfW+ODtIsj4=
+X-Received: by 2002:a05:600c:3581:: with SMTP id
+ p1mr2800955wmq.109.1624346431535; 
+ Tue, 22 Jun 2021 00:20:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxM/ZSvlzQo1p/gWfOxBkHKzJ1jqXu7ZwhunSmQHySy9hS/QWHw9o1oz/NQcxKlmEb6X9HEog==
+X-Received: by 2002:a05:600c:3581:: with SMTP id
+ p1mr2800945wmq.109.1624346431364; 
+ Tue, 22 Jun 2021 00:20:31 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575f2f.dip0.t-ipconnect.de. [217.87.95.47])
+ by smtp.gmail.com with ESMTPSA id t64sm1310785wma.44.2021.06.22.00.20.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 00:20:30 -0700 (PDT)
+Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20210616152455.1270264-1-imammedo@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <f136b5a1-504b-c602-2e70-12b5b0d976b6@redhat.com>
+Date: Tue, 22 Jun 2021 09:20:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <7e9e4127-ba08-29e3-fd62-5d686baa9012@redhat.com>
+In-Reply-To: <20210616152455.1270264-1-imammedo@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,100 +99,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- shan.gavin@gmail.com, eric.auger@redhat.com
+Cc: lvivier@redhat.com, philmd@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 22, 2021 at 06:53:41PM +1000, Gavin Shan wrote:
-> Hi Drew,
+On 16/06/2021 17.24, Igor Mammedov wrote:
 > 
-> On 6/3/21 2:48 PM, Gavin Shan wrote:
-> > On 6/2/21 9:36 PM, Andrew Jones wrote:
-> > > On Wed, Jun 02, 2021 at 11:09:32AM +1000, Gavin Shan wrote:
-> > > > On 6/1/21 5:50 PM, Andrew Jones wrote:
-> > > > > On Tue, Jun 01, 2021 at 03:30:04PM +0800, Gavin Shan wrote:
-> > > > > > We possibly populate empty nodes where memory isn't included and might
-> > > > > > be hot added at late time. The FDT memory nodes can't be created due
-> > > > > > to conflicts on their names if multiple empty nodes are specified.
-> > > > > > For example, the VM fails to start with the following error messages.
-> > > > > > 
-> > > > > >     /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64          \
-> > > > > >     -accel kvm -machine virt,gic-version=host                        \
-> > > > > >     -cpu host -smp 4,sockets=2,cores=2,threads=1 -m 1024M,maxmem=64G \
-> > > > > >     -object memory-backend-ram,id=mem0,size=512M                     \
-> > > > > >     -object memory-backend-ram,id=mem1,size=512M                     \
-> > > > > >     -numa node,nodeid=0,cpus=0-1,memdev=mem0                         \
-> > > > > >     -numa node,nodeid=1,cpus=2-3,memdev=mem1                         \
-> > > > > >     -numa node,nodeid=2                                              \
-> > > > > >     -numa node,nodeid=3                                              \
-> > > > > >       :
-> > > > > >     -device virtio-balloon-pci,id=balloon0,free-page-reporting=yes
-> > > > > > 
-> > > > > >     qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: \
-> > > > > >                          FDT_ERR_EXISTS
-> > > > > > 
-> > > > > > This fixes the issue by using NUMA node ID or zero in the memory node
-> > > > > > name to avoid the conflicting memory node names. With this applied, the
-> > > > > > VM can boot successfully with above command lines.
-> > > > > > 
-> > > > > > Signed-off-by: Gavin Shan <gshan@redhat.com>
-> > > > > > ---
-> > > > > >    hw/arm/boot.c | 7 ++++++-
-> > > > > >    1 file changed, 6 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> > > > > > index d7b059225e..3169bdf595 100644
-> > > > > > --- a/hw/arm/boot.c
-> > > > > > +++ b/hw/arm/boot.c
-> > > > > > @@ -432,7 +432,12 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
-> > > > > >        char *nodename;
-> > > > > >        int ret;
-> > > > > > -    nodename = g_strdup_printf("/memory@%" PRIx64, mem_base);
-> > > > > > +    if (numa_node_id >= 0) {
-> > > > > > +        nodename = g_strdup_printf("/memory@%d", numa_node_id);
-> > > > > > +    } else {
-> > > > > > +        nodename = g_strdup("/memory@0");
-> > > > > > +    }
-> > > > > > +
-> > > > > >        qemu_fdt_add_subnode(fdt, nodename);
-> > > > > >        qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
-> > > > > >        ret = qemu_fdt_setprop_sized_cells(fdt, nodename, "reg", acells, mem_base,
+> Sometimes it's necessary to execute a test that depends on KVM,
+> however qtest is not aware if tested QEMU binary supports KVM
+> on the host it the test is executed.
 > 
-> [...]
+> For an example:
+>   test q35 machine with intel_iommu
+>   This test will run only is KVM is available and fail
+>   to start QEMU if it fallsback to TCG, thus failing whole test.
+>   So if test is executed in VM where nested KVM is not enabled
+>   or on other than x86 host, it will break 'make check-qtest'
 > 
-> > 
-> > I've sent one separate mail to check with Rob Herring. Hopefully he have
-> > ideas as he is maintaining linux FDT subsystem. You have been included to
-> > that thread. I didn't find something meaningful to this thread after doing
-> > some google search either.
-> > 
-> > Yes, I agree with you we need to follow the specification strictly. It seems
-> > it's uncertain about the 'physical memory map' bus binding requirements.
-> > 
-> 
-> I didn't get expected answers from device-tree experts.
+> Series adds a lightweight qtest_has_kvm() check, which abuses
+> build system and should help to avoid running KVM only tests
+> on hosts that do not support it.
 
-What response did you get? Can you please provide a link to the discussion?
+You also might want to update the check in tests/qtest/migration-test.c 
+while you're at it.
 
-> After rethinking about it,
-> I plan to fix this like this way, but please let me know if it sounds sensible
-> to you.
-> 
-> The idea is to assign a (not overlapped) dummy base address to each memory
-> node in the device-tree. The dummy is (last_valid_memory_address + NUMA ID).
-> The 'length' of the 'reg' property in the device-tree nodes, corresponding
-> to empty NUMA nodes, is still zero. This ensures the nodes are still invalid
-> until memory is added to these nodes.
-> 
-> I had the temporary patch for the implementation. It works fine and VM can
-> boot up successfully.
+> PS:
+> there is an alternative 'query-accels' QMP command proposal
+> https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
+> which I think is more robust compared to qtest_has_kvm() and
+> could be extended to take into account machine type.
 
-I would like to be sure that the kernel developers for NUMA, memory
-hotplug, and devicetree specifications are all happy with the approach
-before adding it to QEMU.
+Could you please get in touch with Philippe directly and discuss which way 
+to go? We certainly don't need two approaches in the end...
 
-Thanks,
-drew
+  Thanks,
+   Thomas
 
 
