@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648AB3B15B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 10:20:28 +0200 (CEST)
-Received: from localhost ([::1]:41168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7A93B15B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 10:19:52 +0200 (CEST)
+Received: from localhost ([::1]:39274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvy7X-0005tY-FI
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 04:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
+	id 1lvy6x-0004cN-Ut
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 04:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvy4u-00023b-AC
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 04:17:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52714)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvy5C-0002aX-Kl
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 04:18:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvy4s-0001QV-SG
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 04:17:44 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvy5B-0001cu-0Y
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 04:18:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624436262;
+ s=mimecast20190719; t=1624436280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Pe2vR7F883NfsKZir6qUn4B+9WNjO+ViFy1hmbbSGZw=;
- b=X0kqeYDT9AlPsoY30FxlICavcN7Eo1dSWd5ss0W9y972jU7mm5WTcYtw+oGZzy6N35WahQ
- Gt8njYcari7t9BdkFqoV2dNYrlLHr8kajH+6nOEtR5Y0lv3uUIGKoWF1rAIFIzrSeT07es
- JK4BSp59DUW4pj5Zp5ky9RstxYhzzNI=
+ bh=8R3LfPe03SLxbrJir40X7A+R/Zbzlk2WYFPN6UNvGMk=;
+ b=LY/nMWPfAszffXSWtPfpISwdAFXmrH3KXfD3DtrJFpRaog3gcBMJkgxdAbcJf1LuNNvZK4
+ evBOTQXHTHG6C+KGwmXrbi/DIAOE8IOlmSCAwzI99o1HVAxvVC9qhm7NVYXfsm5BaY3eU9
+ /9pD001uT1PLhyzkcIZthovE8lwU0BM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-ZpTid_DyOsK6l3_NKwEc9A-1; Wed, 23 Jun 2021 04:17:40 -0400
-X-MC-Unique: ZpTid_DyOsK6l3_NKwEc9A-1
+ us-mta-186-_3vyO-6IMsCs0074UM_jRw-1; Wed, 23 Jun 2021 04:17:59 -0400
+X-MC-Unique: _3vyO-6IMsCs0074UM_jRw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D21C45074E;
- Wed, 23 Jun 2021 08:17:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43269804142;
+ Wed, 23 Jun 2021 08:17:58 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C60E5D9C6;
- Wed, 23 Jun 2021 08:17:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F12D5D9DE;
+ Wed, 23 Jun 2021 08:17:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E365518007AD; Wed, 23 Jun 2021 10:17:37 +0200 (CEST)
-Date: Wed, 23 Jun 2021 10:17:37 +0200
+ id 57EDC18007AD; Wed, 23 Jun 2021 10:17:56 +0200 (CEST)
+Date: Wed, 23 Jun 2021 10:17:56 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v3 2/5] ui/egl: Add egl helpers to help with
- synchronization
-Message-ID: <20210623081737.7o2aujyjapbd72mh@sirius.home.kraxel.org>
+Subject: Re: [PATCH v3 4/5] ui/gtk-egl: Wait for the draw signal for dmabuf
+ blobs
+Message-ID: <20210623081756.zd7deunbzl2qhe6s@sirius.home.kraxel.org>
 References: <20210621192425.1188442-1-vivek.kasireddy@intel.com>
- <20210621192425.1188442-3-vivek.kasireddy@intel.com>
+ <20210621192425.1188442-5-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210621192425.1188442-3-vivek.kasireddy@intel.com>
+In-Reply-To: <20210621192425.1188442-5-vivek.kasireddy@intel.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
@@ -84,9 +84,9 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 12:24:22PM -0700, Vivek Kasireddy wrote:
-> These egl helpers would be used for creating and waiting on
-> a sync object.
+On Mon, Jun 21, 2021 at 12:24:24PM -0700, Vivek Kasireddy wrote:
+> Instead of immediately drawing and submitting, queue and wait
+> for the draw signal if the dmabuf submitted is a blob.
 > 
 > Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
