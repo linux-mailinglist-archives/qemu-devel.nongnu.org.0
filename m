@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517493B1A1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:29:41 +0200 (CEST)
-Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1753B1A32
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:31:17 +0200 (CEST)
+Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw20i-00022X-DI
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46708)
+	id 1lw22G-0003yD-4F
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:31:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m8-0003zl-Eq
+ id 1lw1m8-000414-RO
  for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:36 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37501)
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m6-00023C-Hj
+ id 1lw1m7-000240-5Z
  for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:36 -0400
-Received: by mail-ej1-x635.google.com with SMTP id ji1so3701486ejc.4
+Received: by mail-ej1-x629.google.com with SMTP id ot9so2677019ejb.8
  for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 05:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kFzdldg2EyRCSItr1sneSdB29YIgEZbKKLYDNLVcEbA=;
- b=LsJGpLHUvEEBdrtzzkfzc+Vbz2JbDTUWsPOSFkKjjTDi6BFkhjtGIijLs49ARfTkuz
- YTNhxyarA8QknfqxxIAnDmpVpzsKbKaB/gIl2Cb6QCj4f61NDqLcvNjIUDFUxWwhew0m
- 8lMbivU1Dy0sx9Jco9FA9RM8t+TOae3JCo+gHxVoWtb7mgKUyV++SFNtqysgZsZEOsIy
- Luvm06Xj/dLbl96xwB3XHNVXvQtXUAerGBeIP3nNLtoboPCSgqJiU5XtyQ+9s9VS2Ii+
- yPKw3/g2RlgEBm9v3cSCl/Paheuc/Iy/nBvEi67QYfAiVR2dVCKr6H5KZ3QHWYt9JQJ2
- qYnw==
+ bh=Q0ZN4n/dtFMRMepbnfjzMN5tAEFeuoYDClHc1sps4os=;
+ b=FBDceoT60Aearx2S/IAUP7YOHu1SYbRveXq5ucHpmpGueyVv/m/UGz1XYo40jZppc2
+ cgB63l3Ih8GWKUuR59zAMQxhKdg8d/4WMv/alAJ6KKl2p2q4cB4GlqgF+jm7WQiK4qXS
+ KIHow56ASBPmwnUcsvolZKsQyviZH2BoQEykS6IVJyAsqcC9bFb+fdkZqzn/qryOYWW2
+ 3XCYtL7UiH5dywNWONmTzuXZS4CTkjeSMxGrCMbwjIsfPhlxYBf8lf50ZxlPxh2rAzGf
+ 5E7rF0Jq4+1BbBInhAetk4ipmN+uw14zpUayjTf70BHxsHRYxIdMf3PO8+9DVfaUtwx8
+ KZbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kFzdldg2EyRCSItr1sneSdB29YIgEZbKKLYDNLVcEbA=;
- b=o2Dt/2+DZGnnfSLV1Dn+VCrUraeG2hcbyEIfYM2ceruVTWarmnwZLskv3/SaiQ30eI
- oUD9+HVeQcyumqweClP0WMrLj+oO1DFgRQIQoC7OTq8UcGFaT7oIkK5lZGDCoi8tIsRV
- AXIo/9TXuHtPqtQ3ZDdh6X6ICRN2Zr/4IXXIk/0RuMQk3Xt7WxfWDPEz44m4DeQb0b5C
- GY59uFa+jCODMm8J8BlQB+TJHLnZV5XOSuKf/z4hiWrzdrAmqEnk6aUFZbzPjm7LEpWS
- WsqOLHVz7Uf/m6ieDMdderQVoYAruWEfvIuo9pi+/M76/fE46YUiKNabH3vmToP/sZnI
- Z6Iw==
-X-Gm-Message-State: AOAM532w4GIfolobzq4TGVV3lXOW89j8b6GemxUwAlQBVkL9akCS8ENS
- XIt/D4aH1fv1QGEl8Z44mLt8QJdHQ30=
-X-Google-Smtp-Source: ABdhPJwuwaCm3XM6r4VUOgx9hVUB0oUvaz4df6WiRrWmPNqYF++nd9HR8/X0Fdb9wj1knjj6vyPOxw==
-X-Received: by 2002:a17:907:da4:: with SMTP id
- go36mr9421822ejc.21.1624450473193; 
+ bh=Q0ZN4n/dtFMRMepbnfjzMN5tAEFeuoYDClHc1sps4os=;
+ b=BLkar5gmhkysJVYzVyRw60G2+/bZl844KytCgOTP4YL1tg8YgDwmSxNko0UNLQSCWV
+ p9Kkij1M88epjVGqnTog9K+IXbCImqIDnciDIliD0PRzS0i/WjsaEawh821DFLT1hPe0
+ 4za9DuHxclLgxmjHJsbkyJG5mFFO+sCHHo+2l3GqhqiLFx/VJvFTmkhNXANWP/DW39Je
+ vcxBNCyulsSA7D3EIz//k2OR8dAZTUC2TmprI0sumYRFAGavMvgMszjQk/rLAKxHj22K
+ xTWZoWCv2befMt6w8HJ9wWMbFAB+ItOq6DZmVmT+bHtJlXbXnjX3UbtQWaxSmepD27aC
+ Sd9g==
+X-Gm-Message-State: AOAM530LgQBNANs8/cnPPZz8AVR2wODo0hFVUObLZjY4QxXeiQtxvZ/X
+ kVU91We+c9CKhUgvV0g+T4BB87vMxK4=
+X-Google-Smtp-Source: ABdhPJwwvWW7JAoAQg8gBOIX2cATroaYL2QoAtm4z/VDaLWPpjq/wr/gsKQiLIPwJ+kDX9lOGhFUVw==
+X-Received: by 2002:a17:907:1b11:: with SMTP id
+ mp17mr9794417ejc.1.1624450473874; 
  Wed, 23 Jun 2021 05:14:33 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.32
+ by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 05:14:32 -0700 (PDT)
+ Wed, 23 Jun 2021 05:14:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/12] configure, meson: convert libusbredir detection to meson
-Date: Wed, 23 Jun 2021 14:14:23 +0200
-Message-Id: <20210623121424.1259496-12-pbonzini@redhat.com>
+Subject: [PULL 12/12] KVM: Fix dirty ring mmap incorrect size due to renaming
+ accident
+Date: Wed, 23 Jun 2021 14:14:24 +0200
+Message-Id: <20210623121424.1259496-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623121424.1259496-1-pbonzini@redhat.com>
 References: <20210623121424.1259496-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,142 +85,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Hyman Huang <huangy81@chinatelecom.cn>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+From: Peter Xu <peterx@redhat.com>
+
+Found this when I wanted to try the per-vcpu dirty rate series out, then I
+found that it's not really working and it can quickly hang death a guest.  I
+found strange errors (e.g. guest crash after migration) happens even without
+the per-vcpu dirty rate series.
+
+When merging dirty ring, probably no one notice that the trivial renaming diff
+[1] missed two existing references of kvm_dirty_ring_sizes; they do matter
+since otherwise we'll mmap() a shorter range of memory after the renaming.
+
+I think it didn't SIGBUS for me easily simply because some other stuff within
+qemu mmap()ed right after the dirty rings (e.g. when testing 4096 slots, it
+aligned with one small page on x86), so when we access the rings we've been
+reading/writting to random memory elsewhere of qemu.
+
+Fix the two sizes when map/unmap the shared dirty gfn memory.
+
+[1] https://lore.kernel.org/qemu-devel/dac5f0c6-1bca-3daf-e5d2-6451dbbaca93@redhat.com/
+
+Cc: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210609014355.217110-1-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure          | 28 ++++------------------------
- hw/usb/meson.build |  2 +-
- meson.build        |  9 +++++----
- meson_options.txt  |  2 ++
- 4 files changed, 12 insertions(+), 29 deletions(-)
+ accel/kvm/kvm-all.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 02b0acc1f5..e799d908a3 100755
---- a/configure
-+++ b/configure
-@@ -375,7 +375,7 @@ rbd="auto"
- smartcard="auto"
- u2f="auto"
- libusb="auto"
--usb_redir="$default_feature"
-+usb_redir="auto"
- opengl="$default_feature"
- cpuid_h="no"
- avx2_opt="$default_feature"
-@@ -1289,9 +1289,9 @@ for opt do
-   ;;
-   --enable-libusb) libusb="enabled"
-   ;;
--  --disable-usb-redir) usb_redir="no"
-+  --disable-usb-redir) usb_redir="disabled"
-   ;;
--  --enable-usb-redir) usb_redir="yes"
-+  --enable-usb-redir) usb_redir="enabled"
-   ;;
-   --disable-zlib-test)
-   ;;
-@@ -3980,20 +3980,6 @@ EOF
-   fi
- fi
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index c7ec538850..e5b10dd129 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -411,7 +411,7 @@ static int do_kvm_destroy_vcpu(CPUState *cpu)
+     }
  
--# check for usbredirparser for usb network redirection support
--if test "$usb_redir" != "no" ; then
--    if $pkg_config --atleast-version=0.6 libusbredirparser-0.5; then
--        usb_redir="yes"
--        usb_redir_cflags=$($pkg_config --cflags libusbredirparser-0.5)
--        usb_redir_libs=$($pkg_config --libs libusbredirparser-0.5)
--    else
--        if test "$usb_redir" = "yes"; then
--            feature_not_found "usb-redir" "Install usbredir devel"
--        fi
--        usb_redir="no"
--    fi
--fi
--
- ##########################################
- # check if we have VSS SDK headers for win
+     if (cpu->kvm_dirty_gfns) {
+-        ret = munmap(cpu->kvm_dirty_gfns, s->kvm_dirty_ring_size);
++        ret = munmap(cpu->kvm_dirty_gfns, s->kvm_dirty_ring_bytes);
+         if (ret < 0) {
+             goto err;
+         }
+@@ -495,7 +495,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
  
-@@ -5597,12 +5583,6 @@ if test "$spice" = "yes" ; then
-   echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
- fi
- 
--if test "$usb_redir" = "yes" ; then
--  echo "CONFIG_USB_REDIR=y" >> $config_host_mak
--  echo "USB_REDIR_CFLAGS=$usb_redir_cflags" >> $config_host_mak
--  echo "USB_REDIR_LIBS=$usb_redir_libs" >> $config_host_mak
--fi
--
- if test "$opengl" = "yes" ; then
-   echo "CONFIG_OPENGL=y" >> $config_host_mak
-   echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
-@@ -6175,7 +6155,7 @@ if test "$skip_meson" = no; then
-         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
-         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
--        -Dlibusb=$libusb -Dsmartcard=$smartcard \
-+        -Dlibusb=$libusb -Dsmartcard=$smartcard -Dusb_redir=$usb_redir \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index df9effbb10..4f24b5274d 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -64,7 +64,7 @@ if u2f.found()
- endif
- 
- # usb redirect
--if config_host.has_key('CONFIG_USB_REDIR')
-+if usbredir.found()
-   usbredir_ss = ss.source_set()
-   usbredir_ss.add(when: 'CONFIG_USB',
-                   if_true: [usbredir, files('redirect.c', 'quirks.c')])
-diff --git a/meson.build b/meson.build
-index 3172b7e63d..c8505bb367 100644
---- a/meson.build
-+++ b/meson.build
-@@ -987,9 +987,10 @@ if have_system
-                    kwargs: static_kwargs)
- endif
- usbredir = not_found
--if 'CONFIG_USB_REDIR' in config_host
--  usbredir = declare_dependency(compile_args: config_host['USB_REDIR_CFLAGS'].split(),
--                                link_args: config_host['USB_REDIR_LIBS'].split())
-+if not get_option('usb_redir').auto() or have_system
-+  usbredir = dependency('libusbredirparser-0.5', required: get_option('usb_redir'),
-+                        version: '>=0.6', method: 'pkg-config',
-+                        kwargs: static_kwargs)
- endif
- libusb = not_found
- if not get_option('libusb').auto() or have_system
-@@ -2784,7 +2785,7 @@ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': cacard.found()}
- summary_info += {'U2F support':       u2f.found()}
- summary_info += {'libusb':            libusb.found()}
--summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
-+summary_info += {'usb net redir':     usbredir.found()}
- summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
- summary_info += {'GBM':               config_host.has_key('CONFIG_GBM')}
- summary_info += {'libiscsi support':  libiscsi.found()}
-diff --git a/meson_options.txt b/meson_options.txt
-index cd9374384e..f7ec9bee27 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -108,6 +108,8 @@ option('snappy', type : 'feature', value : 'auto',
-        description: 'snappy compression support')
- option('u2f', type : 'feature', value : 'auto',
-        description: 'U2F emulation support')
-+option('usb_redir', type : 'feature', value : 'auto',
-+       description: 'libusbredir support')
- option('vnc', type : 'feature', value : 'enabled',
-        description: 'VNC server')
- option('vnc_jpeg', type : 'feature', value : 'auto',
+     if (s->kvm_dirty_ring_size) {
+         /* Use MAP_SHARED to share pages with the kernel */
+-        cpu->kvm_dirty_gfns = mmap(NULL, s->kvm_dirty_ring_size,
++        cpu->kvm_dirty_gfns = mmap(NULL, s->kvm_dirty_ring_bytes,
+                                    PROT_READ | PROT_WRITE, MAP_SHARED,
+                                    cpu->kvm_fd,
+                                    PAGE_SIZE * KVM_DIRTY_LOG_PAGE_OFFSET);
 -- 
 2.31.1
-
 
 
