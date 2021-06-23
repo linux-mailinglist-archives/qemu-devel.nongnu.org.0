@@ -2,101 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E3A3B11CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 04:37:19 +0200 (CEST)
-Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724773B11E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 04:44:32 +0200 (CEST)
+Received: from localhost ([::1]:56686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvslS-0007O9-7E
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 22:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52362)
+	id 1lvssR-00036P-Go
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 22:44:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lvshO-0003zg-3y; Tue, 22 Jun 2021 22:33:08 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27722)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lvsrB-0001iD-AJ; Tue, 22 Jun 2021 22:43:13 -0400
+Resent-Date: Tue, 22 Jun 2021 22:43:13 -0400
+Resent-Message-Id: <E1lvsrB-0001iD-AJ@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lvshK-00070y-Aj; Tue, 22 Jun 2021 22:33:05 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15N2423w122267; Tue, 22 Jun 2021 22:33:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=LKwgmpdWsaxNIXMXuq64ft+M0XYiL+koNYESKIBEJ+s=;
- b=bxx8MFx3uz+5qR17PH3GkdZPorzQYcbF7YPkYSRpoSINjuUuOeRbdPD/hSVddIyFl1RZ
- cP/2cn1RRv5gc2QuWUWCD3SDrehl2l+HCXGf/feFTDB0n+K03/opeBs9utk05Vcs8uEw
- suHQLFEDkJcwxqSor2CTjmnysORMPjvZnmI0skUBQstvsXiFyTqW+dzWDGQLzfQio7to
- oM0ye4ZO1+jVmTFzLneCOE9Q54Wx7WVN7PccKc+xUGZR1YyH3Z2OoNCdROEJL09oyUbI
- VGO7cy5iX+F3LPfI6dcwoUko3yZ2MtsP0dPUNhKCbB6qXEu2MZuj2sAPTE+qP9bUND9t UQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39btp99u32-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Jun 2021 22:33:00 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15N25MsE127434;
- Tue, 22 Jun 2021 22:32:59 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39btp99u2j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Jun 2021 22:32:59 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15N2SvpW000918;
- Wed, 23 Jun 2021 02:32:57 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3998789qkd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Jun 2021 02:32:57 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 15N2VXid35848530
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Jun 2021 02:31:33 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9079CA4054;
- Wed, 23 Jun 2021 02:32:54 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 177A6A405B;
- Wed, 23 Jun 2021 02:32:54 +0000 (GMT)
-Received: from vm.lan (unknown [9.145.39.144])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 23 Jun 2021 02:32:54 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v5 2/2] tests/tcg/s390x: Test SIGILL and SIGSEGV handling
-Date: Wed, 23 Jun 2021 04:32:50 +0200
-Message-Id: <20210623023250.3667563-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lvsr8-0005cr-O4; Tue, 22 Jun 2021 22:43:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624416173; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=K8PDu8002KmGHkDi+uhy3vn4UhJssfFyVAMDvbtU4slIR4X7GF0HYEuTm7W07ycbTJrGJSlq6Ck3kCXM382xzkJvLcdhYCs+zfH8u+PZoziFKkrJpmt1IRWqfnpiXrqyTK/lMZzDYHNhUYEdQmSWLYWlwJzb1R5ndSuYd/2g5xY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1624416173;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=knqXD5Ou3fJVlK+bByKjXozBag95+k59w4sIbux65U4=; 
+ b=PNMEayDw6/9IpFpy4/PMAqF8zNlHjw5jf8y7G6MyUFwdVzyMDnQPQC74ldVSCsdpTDfAF9RmN+AcwgAIO1hvRo9vB5S0VxQs/u+OB7KQDpFEt6MpTEDAQp0pGekYm0sMXYapSv3HCqB44WT0IuY4BxBi+wLb+XyNRl8+rkkCEWk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1624416169726647.3164825295956;
+ Tue, 22 Jun 2021 19:42:49 -0700 (PDT)
 In-Reply-To: <20210623023250.3667563-1-iii@linux.ibm.com>
-References: <20210623023250.3667563-1-iii@linux.ibm.com>
+Subject: Re: [PATCH v5 0/2] target/s390x: Fix SIGILL/SIGFPE/SIGTRAP psw.addr
+ reporting
+Message-ID: <162441616846.28910.6846220658809436841@7c66fb7bc3ab>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: eZVX6BGD_hE6cfQgKvNynCbjeDGhliOR
-X-Proofpoint-ORIG-GUID: vTMmWXmlmQ2RMH6_hVFsXTbj4WM-ysxu
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-22_14:2021-06-22,
- 2021-06-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 bulkscore=0 malwarescore=0 impostorscore=0 clxscore=1015
- mlxscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106230008
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_BL=0.001,
- RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: iii@linux.ibm.com
+Date: Tue, 22 Jun 2021 19:42:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,204 +65,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Ulrich Weigand <ulrich.weigand@de.ibm.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Andreas Krebbel <krebbel@linux.ibm.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: jonathan.albrecht@linux.vnet.ibm.com, iii@linux.ibm.com, david@redhat.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, laurent@vivier.eu,
+ qemu-devel@nongnu.org, ulrich.weigand@de.ibm.com, qemu-s390x@nongnu.org,
+ krebbel@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that s390x-specific uc_mcontext.psw.addr is reported correctly.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.target |   1 +
- tests/tcg/s390x/signal.c        | 165 ++++++++++++++++++++++++++++++++
- 2 files changed, 166 insertions(+)
- create mode 100644 tests/tcg/s390x/signal.c
-
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 241ef28f61..cdb7d85316 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -8,3 +8,4 @@ TESTS+=exrl-trtr
- TESTS+=pack
- TESTS+=mvo
- TESTS+=mvc
-+TESTS+=signal
-diff --git a/tests/tcg/s390x/signal.c b/tests/tcg/s390x/signal.c
-new file mode 100644
-index 0000000000..37c6665075
---- /dev/null
-+++ b/tests/tcg/s390x/signal.c
-@@ -0,0 +1,165 @@
-+#include <assert.h>
-+#include <signal.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <ucontext.h>
-+#include <unistd.h>
-+
-+/*
-+ * Various instructions that generate SIGILL and SIGSEGV. They could have been
-+ * defined in a separate .s file, but this would complicate the build, so the
-+ * inline asm is used instead.
-+ */
-+
-+void illegal_op(void);
-+void after_illegal_op(void);
-+asm(".globl\tillegal_op\n"
-+    "illegal_op:\t.byte\t0x00,0x00\n"
-+    "\t.globl\tafter_illegal_op\n"
-+    "after_illegal_op:\tbr\t%r14");
-+
-+void stg(void *dst, unsigned long src);
-+asm(".globl\tstg\n"
-+    "stg:\tstg\t%r3,0(%r2)\n"
-+    "\tbr\t%r14");
-+
-+void mvc_8(void *dst, void *src);
-+asm(".globl\tmvc_8\n"
-+    "mvc_8:\tmvc\t0(8,%r2),0(%r3)\n"
-+    "\tbr\t%r14");
-+
-+static void safe_puts(const char *s)
-+{
-+    write(0, s, strlen(s));
-+    write(0, "\n", 1);
-+}
-+
-+enum exception {
-+    exception_operation,
-+    exception_translation,
-+    exception_protection,
-+};
-+
-+static struct {
-+    int sig;
-+    void *addr;
-+    unsigned long psw_addr;
-+    enum exception exception;
-+} expected;
-+
-+static void handle_signal(int sig, siginfo_t *info, void *ucontext)
-+{
-+    void *page;
-+    int err;
-+
-+    if (sig != expected.sig) {
-+        safe_puts("[  FAILED  ] wrong signal");
-+        _exit(1);
-+    }
-+
-+    if (info->si_addr != expected.addr) {
-+        safe_puts("[  FAILED  ] wrong si_addr");
-+        _exit(1);
-+    }
-+
-+    if (((ucontext_t *)ucontext)->uc_mcontext.psw.addr != expected.psw_addr) {
-+        safe_puts("[  FAILED  ] wrong psw.addr");
-+        _exit(1);
-+    }
-+
-+    switch (expected.exception) {
-+    case exception_translation:
-+        page = mmap(expected.addr, 4096, PROT_READ | PROT_WRITE,
-+                    MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
-+        if (page != expected.addr) {
-+            safe_puts("[  FAILED  ] mmap() failed");
-+            _exit(1);
-+        }
-+        break;
-+    case exception_protection:
-+        err = mprotect(expected.addr, 4096, PROT_READ | PROT_WRITE);
-+        if (err != 0) {
-+            safe_puts("[  FAILED  ] mprotect() failed");
-+            _exit(1);
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static void check_sigsegv(void *func, enum exception exception,
-+                          unsigned long val)
-+{
-+    int prot;
-+    unsigned long *page;
-+    unsigned long *addr;
-+    int err;
-+
-+    prot = exception == exception_translation ? PROT_NONE : PROT_READ;
-+    page = mmap(NULL, 4096, prot, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+    assert(page != MAP_FAILED);
-+    if (exception == exception_translation) {
-+        /* Hopefully nothing will be mapped at this address. */
-+        err = munmap(page, 4096);
-+        assert(err == 0);
-+    }
-+    addr = page + (val & 0x1ff);
-+
-+    expected.sig = SIGSEGV;
-+    expected.addr = page;
-+    expected.psw_addr = (unsigned long)func;
-+    expected.exception = exception;
-+    if (func == stg) {
-+        stg(addr, val);
-+    } else {
-+        assert(func == mvc_8);
-+        mvc_8(addr, &val);
-+    }
-+    assert(*addr == val);
-+
-+    err = munmap(page, 4096);
-+    assert(err == 0);
-+}
-+
-+int main(void)
-+{
-+    struct sigaction act;
-+    int err;
-+
-+    memset(&act, 0, sizeof(act));
-+    act.sa_sigaction = handle_signal;
-+    act.sa_flags = SA_SIGINFO;
-+    err = sigaction(SIGILL, &act, NULL);
-+    assert(err == 0);
-+    err = sigaction(SIGSEGV, &act, NULL);
-+    assert(err == 0);
-+
-+    safe_puts("[ RUN      ] Operation exception");
-+    expected.sig = SIGILL;
-+    expected.addr = illegal_op;
-+    expected.psw_addr = (unsigned long)after_illegal_op;
-+    expected.exception = exception_operation;
-+    illegal_op();
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Translation exception from stg");
-+    check_sigsegv(stg, exception_translation, 42);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Translation exception from mvc");
-+    check_sigsegv(mvc_8, exception_translation, 4242);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Protection exception from stg");
-+    check_sigsegv(stg, exception_protection, 424242);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Protection exception from mvc");
-+    check_sigsegv(mvc_8, exception_protection, 42424242);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[  PASSED  ]");
-+
-+    return 0;
-+}
--- 
-2.31.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyMzAyMzI1MC4zNjY3
+NTYzLTEtaWlpQGxpbnV4LmlibS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYyMzAyMzI1MC4zNjY3
+NTYzLTEtaWlpQGxpbnV4LmlibS5jb20KU3ViamVjdDogW1BBVENIIHY1IDAvMl0gdGFyZ2V0L3Mz
+OTB4OiBGaXggU0lHSUxML1NJR0ZQRS9TSUdUUkFQIHBzdy5hZGRyIHJlcG9ydGluZwoKPT09IFRF
+U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
+L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
+LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
+YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
+MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
+cm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDYyMTE0MTQ1Mi4y
+MDQ1LTEtam9uYXRoYW4uYWxicmVjaHRAbGludXgudm5ldC5pYm0uY29tIC0+IHBhdGNoZXcvMjAy
+MTA2MjExNDE0NTIuMjA0NS0xLWpvbmF0aGFuLmFsYnJlY2h0QGxpbnV4LnZuZXQuaWJtLmNvbQog
+KiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjIzMDIzMjUwLjM2Njc1NjMtMS1paWlA
+bGludXguaWJtLmNvbSAtPiBwYXRjaGV3LzIwMjEwNjIzMDIzMjUwLjM2Njc1NjMtMS1paWlAbGlu
+dXguaWJtLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjU2YmM0ZjMgdGVzdHMv
+dGNnL3MzOTB4OiBUZXN0IFNJR0lMTCBhbmQgU0lHU0VHViBoYW5kbGluZwpiNmI2ZDM5IHRhcmdl
+dC9zMzkweDogRml4IFNJR0lMTC9TSUdGUEUvU0lHVFJBUCBwc3cuYWRkciByZXBvcnRpbmcKCj09
+PSBPVVRQVVQgQkVHSU4gPT09CjEvMiBDaGVja2luZyBjb21taXQgYjZiNmQzOTc4NDU2ICh0YXJn
+ZXQvczM5MHg6IEZpeCBTSUdJTEwvU0lHRlBFL1NJR1RSQVAgcHN3LmFkZHIgcmVwb3J0aW5nKQoy
+LzIgQ2hlY2tpbmcgY29tbWl0IDU2YmM0ZjNiYjg5MyAodGVzdHMvdGNnL3MzOTB4OiBUZXN0IFNJ
+R0lMTCBhbmQgU0lHU0VHViBoYW5kbGluZykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
+ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjY6IApuZXcgZmls
+ZSBtb2RlIDEwMDY0NAoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmls
+ZXMKIzQ0OiBGSUxFOiB0ZXN0cy90Y2cvczM5MHgvc2lnbmFsLmM6MTQ6Cit2b2lkIGlsbGVnYWxf
+b3Aodm9pZCk7CgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwoj
+NDU6IEZJTEU6IHRlc3RzL3RjZy9zMzkweC9zaWduYWwuYzoxNToKK3ZvaWQgYWZ0ZXJfaWxsZWdh
+bF9vcCh2b2lkKTsKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVz
+CiM1MTogRklMRTogdGVzdHMvdGNnL3MzOTB4L3NpZ25hbC5jOjIxOgordm9pZCBzdGcodm9pZCAq
+ZHN0LCB1bnNpZ25lZCBsb25nIHNyYyk7CgpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUgYXZvaWRl
+ZCBpbiAuYyBmaWxlcwojNTY6IEZJTEU6IHRlc3RzL3RjZy9zMzkweC9zaWduYWwuYzoyNjoKK3Zv
+aWQgbXZjXzgodm9pZCAqZHN0LCB2b2lkICpzcmMpOwoKdG90YWw6IDQgZXJyb3JzLCAxIHdhcm5p
+bmdzLCAxNjkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAx
+CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8y
+MDIxMDYyMzAyMzI1MC4zNjY3NTYzLTEtaWlpQGxpbnV4LmlibS5jb20vdGVzdGluZy5jaGVja3Bh
+dGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
