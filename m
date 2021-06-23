@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0573B214F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 21:39:14 +0200 (CEST)
-Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B9A3B2191
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 22:07:10 +0200 (CEST)
+Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw8iP-0007ju-4I
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 15:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33148)
+	id 1lw99Q-0002lm-J7
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 16:07:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1lw8h9-000742-Lu
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 15:37:55 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.140.77]:41289)
+ id 1lw97c-0001St-0X
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 16:05:16 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:18548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1lw8h6-0006H5-Mp
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 15:37:54 -0400
+ id 1lw97X-0006wd-IW
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 16:05:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1624477072; x=1625081872;
+ t=1624478711; x=1625083511;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=RFI5m4BKdJ54RlL0uVIVBo3sjBBu3YEV4dYAVV5qsaw=;
- b=aLv46dje6gHkAxCyP6BZwijP8cr2ni7DZsqOTGVHWFX4uV7tCxcBVXc8
- BAO37mLafZCAXFz436mUnXJjixMdp2M5f1BAp/FbW8QShAn/Im2g1fPrb
- j4blVBnjxjPdv8Sr/Glt6rgA75cIC2qZNn6LltLHBTB54fYhtZXSdFqny E=;
-IronPort-SDR: AFYN4g9Gll1CWybrqWBw2KsJk21ZQJ4Ip/sQoP7+yw2rdvlL3imsBliX6Wiv9HqaXQqp2xKkCs
- 4nlYJEWjCPAL4ShUQXuig9/rzU2zHZj5T/FR83rKjBLngfZfxEVHSayb9hpCgRwMD/DnUnOIYi
- bFYLWa7B3iSmI9Wj/GKb3+IrO2D7inLchNA76//etrfa6A5RfGRsdIwc8/CywxvZm9pRCrhSlV
- kAPHBPsLQCLMaWEaikvtEbLECsi65KX+34L9ZI3ghp6B9L2PkTYfq7RaRtKK+0SmHUS/Wpv+L8
- Uuc=
-Received: from mail-bn8nam12lp2169.outbound.protection.outlook.com (HELO
- NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.169])
+ bh=RwvgpmB5rzFQVpoQzbNBshCfA0x3ucrlqClStkyx4Wc=;
+ b=2ZTR1THadPW5agP6cmoG0kXhrZyVTHDIJ6w7Qz0EfY0j3wKeHkAfLAns
+ gmrorXM9a27JNoVQ8CZXRQirX1sWPvwLDKp/03oNfMY6FWKrQGLDg+j4w
+ 2rld+q9nw00sp9GGs8FSQT6rkNkUBD0Zn2X/12KAlrifDnWxdQnnKIyc4 A=;
+IronPort-SDR: 3fcrJY+6Zpm68IrDF62vwv+2jcM/cVwFeqyjpPw1rxxw7Ke0cSp6M5SOEes0hseMFk0EyiYpag
+ RockiMCfkGhGjsAaIGvbh5/QPI1EgLZ88eLYaXCK1kKBGGKc5KZQ26mFgN8x8fBcYg54sNvA8Z
+ RQS+KkOOa2QL4nwCWeoyLxSfG75WhSERWK0mhFSWxSYwkMGIzGMitp4oVfIsnn5z5vgkOx3wya
+ +2DC7bDquzBTW7tkMbfZmxVbdv/cGGMMml/AKLQv2B1JF37adJsyZm8y8FYDUK2pmiCllAIAEt
+ 4ho=
+Received: from mail-sn1anam02lp2046.outbound.protection.outlook.com (HELO
+ NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.46])
  by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 19:37:48 +0000
+ 23 Jun 2021 20:05:07 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OsBcGk4PO+2x37G2RpjGamHEoMG8/Ox82b1m2NZyV672WtmjqIhOa7SOc0t52z5rpj2sgVC9Y2akDC9iMEVEOjg75e8MCWB/J1KTSVKizZQLW0tS+tdWJC3jf5mLVIBz4EblmQMpsSz3HlVTaEsirt5DVK9n7r4Zv/g528dUB2uQNpd/pq9etFulrHdTgRrnryfoE8bL5rxSa/IOCBVp2gmy/zkS3lxtW011bXSboSJojm252bodCblt2tm7dv/YvJsxJSZnbBEDrZqQec0jrQSnxEHzSlDirDWhNHfQF0WV1nQ+tlvvajv/bpEhlBOV3V8+4mIyhYunqUBfP4dSxA==
+ b=U0GncNRyejcwHi52FYkJ+uEwrOQYiHf5WkXhEMwmsQxuKqlwb29XqdhTalQVq6O4o+BYXYpq4SrcJoFWuNTuv5xG0dy4AWLTbqW54Xdab705xkJ4tA98tNm7ZcR4Ss+JTDQk2KeqXbKNlaEr8WKOZXUNEu6zHP8eSO4d3p05jBiY2bax8gedVTBbmvbkpth5ADxxZEKuPzbOvXQC3CIvODvI1AM9emQZfYe4kAWL1mGiiaK+qOQYq/Y+MlFlUbGj7jFEUxJyxz4BfJctuf1/875j+Hu6HdYEIeQ0T5ddRfE/jokfnVD2hDe7ReViZ6M7rkaxje1Tsudg5VihTIz/iA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pw/h4IC2WV9tr1UWxLMMTWX0ubZldNI3RRjRQDDs36I=;
- b=IeOYSU5F9EZi/HkiUAR1jhrllr5n9j0nsK5J4wdPsJIVdRbc2w96qFHgk1NHjs6N3JbvCnMy9YtIOrriY435/GmEwKtU82EzJkQidr3Yog8MH7dQzbeBZ62XQAYThV8ktxDzYdeKnZdJH9hhlSPEFb9JVED1hr2RA8Qp8ML8/04zdlBnGnWdEqOC2NH1elaubXpwpwcprbRmhIYaw7/iKiAoZmiaICu5KSPTFOWHEt+7JcgWzKIaRBpB0lckaCbnBsFqDcXiR1/Nl+6kgT+wJ3YP3Cthx2kWJqCWd+YJp03UazA4PWZFTNZukpR9cUGxbuosrY6AgtutQp3yINRJnw==
+ bh=Lz55TVEQXViAg8ZS8gEAKC922hmmfRJslOJHLRlPOUg=;
+ b=YIbB8l5Rc3Z5PkpjWBUdmXyMQfMBdA83yujs/c4bI9FmuMMUYhd/LrkaBcqZYHPn63n0oemUs6IDN7TnI+bLmsx3NeHqLx2uW/BreyVbMtal3fuP9kzw34b3CLPbe7bZcwHBab58zBzcl2DRuRXs1nDEDzXLTehGF4Uwy0hG36UDqCEh4tFn24nxlkKr2dRPHzeS/ck/carlfHgR70Spa+74umXzLehQXBvRKVqv5uhFes4PJ0J6lvvmcWcHbxpk1G0H9gbqM9AmfVPC9Y5HJfC7i39mo16CvB7CatZSEWkiHL45liDy94egqW/ah8HJCvAkMN32ssfj5/B0rCmY5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BY5PR02MB7091.namprd02.prod.outlook.com (2603:10b6:a03:21c::15)
+ by BYAPR02MB4232.namprd02.prod.outlook.com (2603:10b6:a02:f8::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Wed, 23 Jun
- 2021 19:37:47 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Wed, 23 Jun
+ 2021 20:05:05 +0000
 Received: from BYAPR02MB4886.namprd02.prod.outlook.com
  ([fe80::9533:5f34:8b3e:ed]) by BYAPR02MB4886.namprd02.prod.outlook.com
  ([fe80::9533:5f34:8b3e:ed%6]) with mapi id 15.20.4242.024; Wed, 23 Jun 2021
- 19:37:47 +0000
+ 20:05:05 +0000
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: Alessandro Di Federico <ale.qemu@rev.ng>, "qemu-devel@nongnu.org"
  <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v5 08/14] target/hexagon: prepare input for the idef-parser
-Thread-Topic: [PATCH v5 08/14] target/hexagon: prepare input for the
- idef-parser
-Thread-Index: AQHXZO7AGxVftXBZK0er+PWGm5eECash+Hmg
-Date: Wed, 23 Jun 2021 19:37:47 +0000
-Message-ID: <BYAPR02MB48864DEF85F8049DB4ED5B98DE089@BYAPR02MB4886.namprd02.prod.outlook.com>
+Subject: RE: [PATCH v5 09/14] target/hexagon: import lexer for idef-parser
+Thread-Topic: [PATCH v5 09/14] target/hexagon: import lexer for idef-parser
+Thread-Index: AQHXZO7BUuWx7rEkUkmKezCeuPjGfqsiBORg
+Date: Wed, 23 Jun 2021 20:05:04 +0000
+Message-ID: <BYAPR02MB488636852F71417BE2EA28E3DE089@BYAPR02MB4886.namprd02.prod.outlook.com>
 References: <20210619093713.1845446-1-ale.qemu@rev.ng>
- <20210619093713.1845446-9-ale.qemu@rev.ng>
-In-Reply-To: <20210619093713.1845446-9-ale.qemu@rev.ng>
+ <20210619093713.1845446-10-ale.qemu@rev.ng>
+In-Reply-To: <20210619093713.1845446-10-ale.qemu@rev.ng>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -76,56 +75,56 @@ authentication-results: rev.ng; dkim=none (message not signed)
  header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
 x-originating-ip: [76.120.51.212]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7ea46076-e1f5-48db-f4b4-08d9367e6128
-x-ms-traffictypediagnostic: BY5PR02MB7091:
+x-ms-office365-filtering-correlation-id: aa5319c1-12f0-467a-315c-08d936823148
+x-ms-traffictypediagnostic: BYAPR02MB4232:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR02MB7091582CE5A7D545E633891EDE089@BY5PR02MB7091.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1751;
+x-microsoft-antispam-prvs: <BYAPR02MB42328D59793BC8FB22BDE605DE089@BYAPR02MB4232.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1332;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: TWXRIoWkvq4doBkh1yYgLSofdFr6RXU0iqIYYkyzaqUVBZ1MaQSCuX+SuyAjA9DVYne5erPptyi2IJAt28rq/8ZamjQLvO+pasIZHgPx6d9KK0tiylBPT4UQb+HyZg0rQ6mB+pCfn9XpVtuw/CsvIVBRPmwCmwv6JHFM8fWQOTrkze32Y/CHQpK+IB/2Cb1EUyBrYL54rMxHYBOiL7I0g3ce7PiSm5f48eQli3eXyXXc+CgrXUgfx4OLevwtQIG6FGU+6uddVJZdDaaCLKY7aFKQrJfoXbHWjU+wESGefh1KN2UCMr5Vw8foVLrb6SlYhtkX52DrWeNJDoHBZaIo9XdIvC0QOfCL1T3xxdVxyK+kzciwsIj0dbBE3ZBBKJPAOzaj/Ne/9bGeYaixg9sOjcSVx4yxOWNthU665t0pQUy73leS7NLbF3fUxGHwD6kSBbYdzUh0bLxynGAUnVU0u0lEO2t1WK52mv1V/iT2OfohtuwcIVJfn1A0jcGqewi8h+HJLqMPglWW5otZJYAbnudlHQPhjSVuy8w8hB1XEWDgjsUnR3JDvSW9hQbFNo2F8C9TAz/bb0d8NzdLNOlAclrDD7ULIYVcJBRYGv49gbk=
+x-microsoft-antispam-message-info: c2H24S0efpCdAMMcK1l2VT/mS2ek3kdM8HkV9rRSzeWH+uGvLNjmCXDHJmugs8Ejy1rGS27HAH7qCR6ciy61VlDDZMfo4ulTcSCbtXsijrbJlWR1IAX69saM/qxLo7A1zqtPANxDhdp/MVsrmvzddTbwiX6d+Ec4XpImaLBhnwvCzeVMQEIbXTMFB55E85EHi0cXdx1m0VWnJY365i0o5e7RzaKoj3qriblEYxW4zva2u+MQ1r4vdkS65zE49Ssl0IdF3qKeyHnAF8lZu56UgukNmLP5I+fgmEcMITuVRWzVjwsMnWVpsVIqqtsDg0dF5qW5XiIZMWPYhHSkp3BZWoqYPrKl7VA+j5HDfuMCJp6bbcMM3VbJ0rI3UOT+r0mvXNLGWluFafYzIKEcf16M729pPO+VgEyB9FmbvmOkIr3jxO+YM4VMETgaGRwVHU1HLjalQADc7mx5RizQ7ydoOfNpZFs8km5ncq4b5OB/T3ArnesNguJ4FMQxylvaVmyBKvL50VTSlYlypxXWhUzAvZnjXWgyBk/B1fYniw/UVn+yjz+ay1A1tn+dku3HkMGnR6Xb8yHCn/jBvhSHMyehsQQWuQ2M7/gJFiN/NN/muV3+WXizJwQR6IOiWfVr1zpNjr+vLb75Q09IAc8pQExEMw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(346002)(39860400002)(136003)(366004)(38100700002)(122000001)(26005)(53546011)(9686003)(8936002)(55016002)(186003)(86362001)(83380400001)(6506007)(71200400001)(4326008)(7696005)(2906002)(478600001)(316002)(33656002)(66476007)(66946007)(76116006)(110136005)(66446008)(66556008)(64756008)(8676002)(5660300002)(52536014)(54906003);
+ SFS:(4636009)(366004)(26005)(6506007)(83380400001)(53546011)(7696005)(186003)(55016002)(33656002)(4326008)(498600001)(122000001)(38100700002)(9686003)(8676002)(76116006)(8936002)(71200400001)(64756008)(66556008)(66446008)(66946007)(66476007)(52536014)(110136005)(54906003)(2906002)(5660300002)(86362001);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?D+QT2NUn/kQtnnFgtYByf1mcydXr37dET55hPnQ7u0vYjIcOdXE7lr8THUzf?=
- =?us-ascii?Q?csOzhLsbEIhNo8X5m8yf1B65zzfCvMUlPt2GQVG0cUS6E1ZjOYM2eua6AcW6?=
- =?us-ascii?Q?ay1H5WJXTFYoG3l8e0/yLwWQYCkhSBzpL8k+/XtxTnGp6f/tO9e++GjP1yIg?=
- =?us-ascii?Q?vCCL5zC/6IYmPdc2RwVK5c9155+RWXHkIp8fC90KVRWMh7v/RstZhB57j6YR?=
- =?us-ascii?Q?2vyG+7RZGlGPu8aitJfT5MQJJtWM2GcHgE8/T0/98vs6kxkMQem7yyNaGhKH?=
- =?us-ascii?Q?EQCtUktW1Wfq7BoB5q3crtDtcj4p++Ot3BH9m/FPORXKKRIGAgsFXDHJAD0q?=
- =?us-ascii?Q?dmzi6HDSbrNQpoaiY1rsdHT1btzqWEbp6zfDZXIoOqohejp+hk4GhrtWNuxe?=
- =?us-ascii?Q?8DiYbcH/sPhiT+Kya7yhPSQhQ9dD1ixzMv3pUTTXwvtW5pT04bU9LHKSd8kK?=
- =?us-ascii?Q?VIgQmFXATU2r7opTwYo3VFp0yZ5AvBnA00qxOd68IMt64W6zkktv23l2DLNu?=
- =?us-ascii?Q?fb8FHH9vrypmSmlJCclexm65fbVWauZvC3lRW4R19exqLF8799YRdiFmyQAQ?=
- =?us-ascii?Q?/tEiN2hAFCeWUGr7fTjBj3vAuBgaO662Vm4dxp2en1cR1A7AnW62cv18THln?=
- =?us-ascii?Q?xmioDj64BT7HvDdmr9iegyEhlYdfzUy2zoHkb92Sb5Skd6jPhcFifPNL5y/L?=
- =?us-ascii?Q?FCA8lLl8ERlnkvjR1F7RSH41ATj2wpPKbwoYKkDb59QmFDY9q0so5qNYeBjv?=
- =?us-ascii?Q?dU9I/WLlCQFlxTpXCcSkNmnOBH2+NV0mMv9lQZZzK+4HD7mNQl0hb5bcwFiI?=
- =?us-ascii?Q?4nJlZHho/BHrn/pMvrRDhiz0gPg4FGHLC7Ao9c8RhqE4KHm4bnv3FIUPWcy8?=
- =?us-ascii?Q?1KwMJRerkecIUZTZa/MIJ0faNmT/QIuXgXopfed+jlP6O+X39TBF2sz95Oqi?=
- =?us-ascii?Q?WeZnxcXaSE91sZBVsbQ/p0Gz6AdrD5jUEHofqNcQa9ioR1FD2fGJVtXQHtkK?=
- =?us-ascii?Q?/m9/tSla/8mRm+VHhCGHMB+dI9ve6wklQzLlNP9zCCa2DqM1C0BiuVm05XyM?=
- =?us-ascii?Q?2ccmEB3v9EoePrZw7SGOZNe1rhBJtpsEx/2mrbanV7SIoJ+KEFlZLy5GPMjE?=
- =?us-ascii?Q?zPy1UWTjR6+Lw0OuZMh989klBT9jGpObAHouFtAr25uVw9OXwo2M8Vh05K0x?=
- =?us-ascii?Q?fpUwZLsaxx3ULOulaRAw4VEAiqslL0i+qeWIrquCeFYF2pKXhqx2x94w6Bfs?=
- =?us-ascii?Q?5ME0ZDycfflHQuvx7AegoPePQ08dCdNbrUBo/Wy3A2srtIBcZ8pzKQMD83QC?=
- =?us-ascii?Q?ZE1ZC43e1cKRwGl6aZdGJ4VO?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wpc0n4b43j5ljM28/wOAjPw5bGkVUpUpo/r2I5UGQxrKlHqNBvljbK96l9MP?=
+ =?us-ascii?Q?wERDGtYaok/ZSB7oGvnA7/yiwxz3/6Ds/dHBy+iIygvS/PLZvGcs4Pjo0u7m?=
+ =?us-ascii?Q?hc0fs/U5BI/ht/DGlQF3SiQhfx5aD3GAny8Z6hmsEDriTpsZMAhxUzT0d1hd?=
+ =?us-ascii?Q?jH60U8BxrC6+vzzNqhymyh8q0V93v2jpiFxoZQVqC4PNIEmNtxQdTiMl+3YU?=
+ =?us-ascii?Q?XhNLz2S2nL1bAE/JA5mH23xiwEqV5dbhfLCbum0IzKPN0i2kMkuvDgylzqQA?=
+ =?us-ascii?Q?763JrEOpEWlWE0eoE6fQhaEhhL708yWnprsnRh1Jz9LEqSKN2ehyZBgHVviC?=
+ =?us-ascii?Q?nH9D1imywYHeT5HIszlTVm0ZlV0ACnfOdcSXIRuW6E1kVqzmEgj+UhiO9sZQ?=
+ =?us-ascii?Q?11ooBW6bbV0SuG/t/OY+bPb5qAbA8IpgwY3VL71p+a22xAex9+1bEe8r5Uyh?=
+ =?us-ascii?Q?EmEya/XjumkDMSAzDlczgNB0NELaNDj6NmTXOH4C+SLbJhGFcPffqLpsyZG2?=
+ =?us-ascii?Q?TqUpttrot9tFcZpEjYxtAwW5juKBHg6MaFQJqE7vR7EVB6+NvmxInsWy4Y8X?=
+ =?us-ascii?Q?c4DFKrp093yOIaEhlz4T9Ue9wYfGNPJtYifXEdFv64P9IO7ZygWHIitrCtq/?=
+ =?us-ascii?Q?IpwOZNT6Z4qhnK3rvhfAooUw0q3Q4unEkyqLUFzepP6ukF95lv/XOCH0rb1t?=
+ =?us-ascii?Q?nk777ZD7kM6s5thdCmqGNbvoOLHCOSEEgNZviV9GH8zgw0286uffcyRvNIXx?=
+ =?us-ascii?Q?ma/5boJlkEhu3nbIayPhPzYpnQumSNynYlgwS339NIjLhrsASakLmcoGC2Aj?=
+ =?us-ascii?Q?qcfrGfjp91gZMHfUJOISUXUNu2CMgRIvYs083BlliEWZO7X++gPxCtkaTEdu?=
+ =?us-ascii?Q?90LW4HXLV0o4MfloZ7mt72ucKy6sdiNgLqj6yrANJeFCosKKBz4+L3zEDo9l?=
+ =?us-ascii?Q?QTelfZteW7DtRaNTtDyuWreTXkKgw5ub4QQAtgAz3rrjB3cgEcWMFZzVhh7P?=
+ =?us-ascii?Q?hlaggJ22GPPoaP+KdXdZZHw+FQ/m3p1K3hl+MAmEG4bJW+je6J8qP15kgPFM?=
+ =?us-ascii?Q?ESWdqeq04Y2L4DBaAb9OvwN5Yx2/+GQ04k8DkSLg5RxvlpdQIgalzVk8jL3q?=
+ =?us-ascii?Q?4cp5Dnph72hm4XKX3aXEAyUdLbXeuT8bSZQA/T2kwZns86LR/oTppFAsjUd6?=
+ =?us-ascii?Q?Tuu0FKGm+NePnqJQ6hMDkmEGMTSF5CSlE4pmzGHZLczqH4kGLUKjBJO2tDgx?=
+ =?us-ascii?Q?Zq2mVddm6eNLdiAWeQn467DRnXT8M+eFPL/AcmNRGVnKxNrBeL+0xLEUFp5g?=
+ =?us-ascii?Q?HNqjB5r+iOoVmp4gEUW+sqZP?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: quicinc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ea46076-e1f5-48db-f4b4-08d9367e6128
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 19:37:47.2279 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa5319c1-12f0-467a-315c-08d936823148
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 20:05:04.8719 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: njl6hCinu69iZTRplWVQbBI3B74ALVjHyOB3Pv62y/6qQ24naP3cYxFmsRSf0kVUtwnfYTLOWer2i31lO4tZow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB7091
-Received-SPF: pass client-ip=216.71.140.77; envelope-from=tsimpson@quicinc.com;
+X-MS-Exchange-CrossTenant-userprincipalname: lu22oElGNFIjygDt28uOqCv8JHoq5PGo/5tfovlBgkxt6ZZ9FuglK/QnkNx4YDeQoNBqew/2LmSt+OeXKJ+Xxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4232
+Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
  helo=esa.hc3962-90.iphmx.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -162,77 +161,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > Cc: Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
 > <bcain@quicinc.com>; babush@rev.ng; nizzo@rev.ng; philmd@redhat.com;
 > richard.henderson@linaro.org; Alessandro Di Federico <ale@rev.ng>
-> Subject: [PATCH v5 08/14] target/hexagon: prepare input for the idef-pars=
-er
+> Subject: [PATCH v5 09/14] target/hexagon: import lexer for idef-parser
 >=20
-> From: Alessandro Di Federico <ale@rev.ng>
->=20
-> Introduce infrastructure necessary to produce a file suitable for being p=
-arsed
-> by the idef-parser.
+> From: Paolo Montesel <babush@rev.ng>
 >=20
 > Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Paolo Montesel <babush@rev.ng>
 > ---
->  target/hexagon/gen_idef_parser_funcs.py | 114 ++++++++++++++++++
->  target/hexagon/idef-parser/macros.inc   | 153
-> ++++++++++++++++++++++++
->  target/hexagon/idef-parser/prepare      |  24 ++++
->  target/hexagon/meson.build              |  17 +++
->  4 files changed, 308 insertions(+)
->  create mode 100644 target/hexagon/gen_idef_parser_funcs.py
->  create mode 100644 target/hexagon/idef-parser/macros.inc
->  create mode 100755 target/hexagon/idef-parser/prepare
+>  target/hexagon/idef-parser/idef-parser.h      | 262 ++++++++
+>  target/hexagon/idef-parser/idef-parser.lex    | 597 ++++++++++++++++++
+>  target/hexagon/meson.build                    |   4 +
+>  tests/docker/dockerfiles/alpine.docker        |   1 +
+>  tests/docker/dockerfiles/centos8.docker       |   1 +
+>  tests/docker/dockerfiles/debian-amd64.docker  |   1 +
+>  tests/docker/dockerfiles/debian10.docker      |   1 +
+>  .../dockerfiles/fedora-i386-cross.docker      |   1 +
+>  .../dockerfiles/fedora-win32-cross.docker     |   1 +
+>  .../dockerfiles/fedora-win64-cross.docker     |   1 +
+>  tests/docker/dockerfiles/fedora.docker        |   1 +
+>  tests/docker/dockerfiles/opensuse-leap.docker |   1 +
+>  tests/docker/dockerfiles/ubuntu.docker        |   1 +
+>  tests/docker/dockerfiles/ubuntu1804.docker    |   1 +
+>  tests/docker/dockerfiles/ubuntu2004.docker    |   3 +-
+>  15 files changed, 876 insertions(+), 1 deletion(-)  create mode 100644
+> target/hexagon/idef-parser/idef-parser.h
+>  create mode 100644 target/hexagon/idef-parser/idef-parser.lex
 >=20
-> diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-> index 6fd9360b74..bf4a0f76fa 100644
-> --- a/target/hexagon/meson.build
-> +++ b/target/hexagon/meson.build
-> @@ -20,6 +20,7 @@ hexagon_ss =3D ss.source_set()  hex_common_py =3D
-> 'hex_common.py'
->  attribs_def =3D meson.current_source_dir() / 'attribs_def.h.inc'
->  gen_tcg_h =3D meson.current_source_dir() / 'gen_tcg.h'
-> +idef_parser_dir =3D meson.current_source_dir() / 'idef-parser'
->=20
->  #
->  #  Step 1
-> @@ -175,4 +176,20 @@ hexagon_ss.add(files(
->      'fma_emu.c',
->  ))
->=20
-> +idef_parser_input_generated =3D custom_target(
-> +    'idef_parser_input.h.inc',
-> +    output: 'idef_parser_input.h.inc',
+> diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/id=
+ef-
+> parser/idef-parser.h
+> new file mode 100644
 
-Add depends: [semantics_generated],
+> +/**
+> + * Types of control registers, assigned to the HexReg.id field  */
+> +typedef enum {SP, FP, LR, GP, LC0, LC1, SA0, SA1} CregType;
 
-> +    depend_files: [hex_common_py],
+Where is this used?  SP, FP, LR are not control registers - they are genera=
+l purpose registers.
 
-Add gen_tcg_h
 
-> +    command: [python, files('gen_idef_parser_funcs.py'),
-> +semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
-> +)
-> +
-> +idef_parser_input_generated_prep =3D custom_target(
-> +    'idef_parser_input.preprocessed.h.inc',
-> +    output: 'idef_parser_input.preprocessed.h.inc',
-> +    input: idef_parser_input_generated,
-> +    capture: true,
-> +    depend_files: [hex_common_py],
+> diff --git a/target/hexagon/idef-parser/idef-parser.lex
+> b/target/hexagon/idef-parser/idef-parser.lex
+> new file mode 100644
 
-Don't think this is needed.  If hex_common_py changes, the input will chang=
-e.  But otherwise, this doesn't use hex_common.py.
 
-> +    command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' +
-> +idef_parser_dir],
+> +"fREAD_SP()"             |
+> +"SP"                     { yylval->rvalue.type =3D REGISTER;
+> +                           yylval->rvalue.reg.type =3D CONTROL;
+> +                           yylval->rvalue.reg.id =3D SP;
+> +                           yylval->rvalue.reg.bit_width =3D 32;
+> +                           yylval->rvalue.bit_width =3D 32;
+> +                           return REG; }
+> +"fREAD_FP()"             |
+> +"FP"                     { yylval->rvalue.type =3D REGISTER;
+> +                           yylval->rvalue.reg.type =3D CONTROL;
+> +                           yylval->rvalue.reg.id =3D FP;
+> +                           yylval->rvalue.reg.bit_width =3D 32;
+> +                           yylval->rvalue.bit_width =3D 32;
+> +                           return REG; }
+> +"fREAD_LR()"             |
+> +"LR"                     { yylval->rvalue.type =3D REGISTER;
+> +                           yylval->rvalue.reg.type =3D CONTROL;
+> +                           yylval->rvalue.reg.id =3D LR;
+> +                           yylval->rvalue.reg.bit_width =3D 32;
+> +                           yylval->rvalue.bit_width =3D 32;
+> +                           return REG; }
 
-It would be more clear to add '-o', '@OUTPUT@' to the command.
+This looks like the use where you are treating these as control registers. =
+ Just lex them as general purpose registers with numbers 29, 30, 31.
 
-> +)
-> +
->  target_arch +=3D {'hexagon': hexagon_ss}
-> --
-> 2.31.1
->=20
 
 
