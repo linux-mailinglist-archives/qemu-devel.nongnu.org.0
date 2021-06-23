@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D873B19C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:19:24 +0200 (CEST)
-Received: from localhost ([::1]:33824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0AB3B1A1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:27:55 +0200 (CEST)
+Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw1ql-0003CE-LW
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
+	id 1lw1z0-0007bG-EF
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m6-0003vh-Lr
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:34 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34556)
+ id 1lw1m7-0003wY-2r
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:35 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m4-000223-Gz
+ id 1lw1m5-00022m-4W
  for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:34 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id i5so3189394eds.1
+Received: by mail-ed1-x52d.google.com with SMTP id s15so3100653edt.13
  for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 05:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wdNBBsrW5vIL9utRkwMG1tSad8yWDV0BnIWqmy35G8s=;
- b=iVVyoTgyOEGcfBnP8byUhqjaNaImzxrvEe4DXfJU8bN7CMB0ANPnxJqUvCtY3GzBKw
- 3L0m+ZxbHnxKfaX5aZ30OOgsHN/7VB6gU3oGYyWUK8LjB6Anm8G1Ou4P5BP64KME5fyh
- EX49n6aiGlQXj4hJtpPTGTyCTbfxuW7IG3Gi3Ffk2zxR1uq5Ih88dx1Eh5jDhuQQAIXX
- vh82mTemZr7sFC7Mi5k/eNjRikRcd2LqR1RoYhnceS94w0fBOs1CHD08dQFWk6lPuHzy
- WsukHrTa33sRHOzHALiuImaoP/RmfGp/9ed/b+3FPCKIJWW/tWjaPmXZBeadkXSNR741
- gzwg==
+ bh=6339Efw60Jl/NQWy3OYFPNuGJDbHQC3IgrkTeNLIbRI=;
+ b=PTWFceoKULUjelcNXMZrk2mzQ3VBIMCMk03rQRPPmg5Tvyi6rokgVw5TGjK/jmWw6O
+ LiNJwf1wVuXjTgfU8DgPPMP2CQ+lF5MYjYISjRBl+tPSRebKfW2grTeiNsW6qX94GYB0
+ m7z6KL1n5YGAJZ13JyYaBxr4J8NbWUPqZZIev+/+aJ0YoIPEWxErqVy1Pu76y8cF49KB
+ Zq7SjVbLPw/FrbrgFGr73Ndz1cyn7b3bkcCmhDozVtn7VdndDoBGXWurCp/ZSAq0itYK
+ OgHIYybs/BTtIZjL5r3WkxotJOlQxxR3PnRC5dtSjFUlbnQCdJv9QJqQn/8+n5DK5+p7
+ J8ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wdNBBsrW5vIL9utRkwMG1tSad8yWDV0BnIWqmy35G8s=;
- b=StX14Y5BDPnB1Nf2R4b9vr91YyFuEoF2TS3M9+KMj3eIRfhInmohozxmVI/lW4mEkq
- dsc6uxj1Fhogu/w+/PG5aBk7Tr2FwGInOCQIKCdIhCm8ix107CeTiQgKpHkrQeQ/lily
- wJiPZJXgraMBzYH91PF34SYhoti7COhAFeI84UAY1ivGOGxKYwGUhLiN+t5Sxf+cfJAV
- nu3/FJa6LVVwbmnPKFjkU/39y05D7XG8eVR1sm/0p4LRxPKyDp2obGGlRQWfzOSwd65V
- j0ql3mqMK7a9Xd3g3eqGUzjUPQGRjq+g1XUrfBJ6Fo8/K5CunaVYm0ZF4rcmQ5cHgsor
- DPQw==
-X-Gm-Message-State: AOAM531R6CxKMk7z97beUIIn6g7inifKH9mr8ruHZAq796weAAf4RLSj
- /zTbeMkpBanvV/+EdAKHgZmrAfps7Pc=
-X-Google-Smtp-Source: ABdhPJyq1IizHFcOP+PA/wSNgGbOBcWCT0psv+6sfClJ/ldUyPc1HaSm4iyIruvwuyoaEydsZI7sqQ==
-X-Received: by 2002:aa7:d818:: with SMTP id v24mr11734367edq.22.1624450471098; 
+ bh=6339Efw60Jl/NQWy3OYFPNuGJDbHQC3IgrkTeNLIbRI=;
+ b=PytM9KymcBMNL45xzxTw3S6ihngMiWuaWYvkb8MiQonubOrXWbnzTXrrjO5gxnUM8c
+ EMEw8Wkj4CpBMHdwAoZWNprL5mAXU8HLapBwqC0A1WHxKtZiSeNGm8YtOWe4/+I7ssg8
+ z7xgnPweI/1RFhOm2dnCuFvsA3gqXdTwdXwUsb54Q4+CLB9df3P6m9h3kOM0kvBd4Uap
+ kWj5eBmQDs9icQ/kSfGc4wrcbycdoe/315yAExz1Cg3ShJF9yMAOZODCTTtldAu4uQ57
+ 8YssQBNABRHswqJNSimKfpWRdbq0vDvw4ahSV4idmzO1MRbkwszub1W8nqY4SgCWwstg
+ Ww3Q==
+X-Gm-Message-State: AOAM530NoFiAsZtn3SvvV/ImLetZ/NJDSOfIVn6zjPHBILJTEK/vgL1v
+ tmWe9pxNEkWXreW1PO6Yhx56AkmRlaQ=
+X-Google-Smtp-Source: ABdhPJxx6un0My/z8BYTGjpe9DraIQSkNNmoP9ZjpTTVYajz4BznUUxtyD1sOpp9wNrLrKp2CQK/7w==
+X-Received: by 2002:a05:6402:1355:: with SMTP id
+ y21mr12044922edw.136.1624450471760; 
  Wed, 23 Jun 2021 05:14:31 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.30
+ by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 05:14:30 -0700 (PDT)
+ Wed, 23 Jun 2021 05:14:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/12] configure, meson: convert pam detection to meson
-Date: Wed, 23 Jun 2021 14:14:20 +0200
-Message-Id: <20210623121424.1259496-9-pbonzini@redhat.com>
+Subject: [PULL 09/12] configure, meson: convert libusb detection to meson
+Date: Wed, 23 Jun 2021 14:14:21 +0200
+Message-Id: <20210623121424.1259496-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623121424.1259496-1-pbonzini@redhat.com>
 References: <20210623121424.1259496-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,182 +92,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- authz/meson.build      |  2 +-
- configure              | 38 ++++----------------------------------
- meson.build            | 30 +++++++++++++++++++++++++-----
- meson_options.txt      |  2 ++
- tests/unit/meson.build |  2 +-
- 5 files changed, 33 insertions(+), 41 deletions(-)
+ configure          | 27 ++++-----------------------
+ hw/usb/meson.build |  2 +-
+ meson.build        | 11 +++++++----
+ meson_options.txt  |  2 ++
+ 4 files changed, 14 insertions(+), 28 deletions(-)
 
-diff --git a/authz/meson.build b/authz/meson.build
-index 88fa7769cb..42a1ec0ff6 100644
---- a/authz/meson.build
-+++ b/authz/meson.build
-@@ -6,4 +6,4 @@ authz_ss.add(files(
-   'simple.c',
- ))
- 
--authz_ss.add(when: ['CONFIG_AUTH_PAM', pam], if_true: files('pamacct.c'))
-+authz_ss.add(when: pam, if_true: files('pamacct.c'))
 diff --git a/configure b/configure
-index 3d36eea55f..237e99c3d0 100755
+index 237e99c3d0..e54d06b99e 100755
 --- a/configure
 +++ b/configure
-@@ -407,7 +407,7 @@ tls_priority="NORMAL"
- gnutls="auto"
- nettle="auto"
- gcrypt="auto"
--auth_pam="$default_feature"
-+auth_pam="auto"
- vte="$default_feature"
- virglrenderer="$default_feature"
- tpm="$default_feature"
-@@ -1383,9 +1383,9 @@ for opt do
+@@ -374,7 +374,7 @@ spice_protocol="auto"
+ rbd="auto"
+ smartcard="$default_feature"
+ u2f="auto"
+-libusb="$default_feature"
++libusb="auto"
+ usb_redir="$default_feature"
+ opengl="$default_feature"
+ cpuid_h="no"
+@@ -1285,9 +1285,9 @@ for opt do
    ;;
-   --enable-gcrypt) gcrypt="enabled"
+   --enable-u2f) u2f="enabled"
    ;;
--  --disable-auth-pam) auth_pam="no"
-+  --disable-auth-pam) auth_pam="disabled"
+-  --disable-libusb) libusb="no"
++  --disable-libusb) libusb="disabled"
    ;;
--  --enable-auth-pam) auth_pam="yes"
-+  --enable-auth-pam) auth_pam="enabled"
+-  --enable-libusb) libusb="yes"
++  --enable-libusb) libusb="enabled"
    ;;
-   --enable-rdma) rdma="yes"
+   --disable-usb-redir) usb_redir="no"
    ;;
-@@ -2799,33 +2799,6 @@ EOF
-   fi
+@@ -3994,20 +3994,6 @@ if test "$smartcard" != "no"; then
+     fi
  fi
  
--##########################################
--# PAM probe
--
--if test "$auth_pam" != "no"; then
--    cat > $TMPC <<EOF
--#include <security/pam_appl.h>
--#include <stdio.h>
--int main(void) {
--   const char *service_name = "qemu";
--   const char *user = "frank";
--   const struct pam_conv pam_conv = { 0 };
--   pam_handle_t *pamh = NULL;
--   pam_start(service_name, user, &pam_conv, &pamh);
--   return 0;
--}
--EOF
--    if compile_prog "" "-lpam" ; then
--        auth_pam=yes
+-# check for libusb
+-if test "$libusb" != "no" ; then
+-    if $pkg_config --atleast-version=1.0.13 libusb-1.0; then
+-        libusb="yes"
+-        libusb_cflags=$($pkg_config --cflags libusb-1.0)
+-        libusb_libs=$($pkg_config --libs libusb-1.0)
 -    else
--        if test "$auth_pam" = "yes"; then
--            feature_not_found "PAM" "Install PAM development package"
--        else
--            auth_pam=no
+-        if test "$libusb" = "yes"; then
+-            feature_not_found "libusb" "Install libusb devel >= 1.0.13"
 -        fi
+-        libusb="no"
 -    fi
 -fi
 -
- ##########################################
- # VTE probe
+ # check for usbredirparser for usb network redirection support
+ if test "$usb_redir" != "no" ; then
+     if $pkg_config --atleast-version=0.6 libusbredirparser-0.5; then
+@@ -5631,12 +5617,6 @@ if test "$smartcard" = "yes" ; then
+   echo "SMARTCARD_LIBS=$libcacard_libs" >> $config_host_mak
+ fi
  
-@@ -5540,9 +5513,6 @@ if test "$gdbus_codegen" != "" ; then
-     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
- fi
- echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
--if test "$auth_pam" = "yes" ; then
--    echo "CONFIG_AUTH_PAM=y" >> $config_host_mak
+-if test "$libusb" = "yes" ; then
+-  echo "CONFIG_USB_LIBUSB=y" >> $config_host_mak
+-  echo "LIBUSB_CFLAGS=$libusb_cflags" >> $config_host_mak
+-  echo "LIBUSB_LIBS=$libusb_libs" >> $config_host_mak
 -fi
- if test "$have_broken_size_max" = "yes" ; then
-     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
- fi
-@@ -6251,7 +6221,7 @@ if test "$skip_meson" = no; then
-         -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
-         -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
--        -Dgnutls=$gnutls -Dnettle=$nettle -Dgcrypt=$gcrypt \
-+        -Dgnutls=$gnutls -Dnettle=$nettle -Dgcrypt=$gcrypt -Dauth_pam=$auth_pam \
-         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
-         -Dattr=$attr -Ddefault_devices=$default_devices \
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+-
+ if test "$usb_redir" = "yes" ; then
+   echo "CONFIG_USB_REDIR=y" >> $config_host_mak
+   echo "USB_REDIR_CFLAGS=$usb_redir_cflags" >> $config_host_mak
+@@ -6215,6 +6195,7 @@ if test "$skip_meson" = no; then
+         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
+         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
+         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
++        -Dlibusb=$libusb \
+         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
+         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
+diff --git a/hw/usb/meson.build b/hw/usb/meson.build
+index f357270d0b..bd3f8735b9 100644
+--- a/hw/usb/meson.build
++++ b/hw/usb/meson.build
+@@ -72,7 +72,7 @@ if config_host.has_key('CONFIG_USB_REDIR')
+ endif
+ 
+ # usb pass-through
+-softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_USB_LIBUSB', libusb],
++softmmu_ss.add(when: ['CONFIG_USB', libusb],
+                if_true: files('host-libusb.c'),
+                if_false: files('host-stub.c'))
+ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('host-stub.c'))
 diff --git a/meson.build b/meson.build
-index d4ce2ca57b..c9266bd3cc 100644
+index c9266bd3cc..58d3a3bdc9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -325,10 +325,6 @@ if have_system or have_tools
-   pixman = dependency('pixman-1', required: have_system, version:'>=0.21.8',
-                       method: 'pkg-config', kwargs: static_kwargs)
+@@ -991,10 +991,12 @@ if 'CONFIG_USB_REDIR' in config_host
+                                 link_args: config_host['USB_REDIR_LIBS'].split())
  endif
--pam = not_found
--if 'CONFIG_AUTH_PAM' in config_host
--  pam = cc.find_library('pam')
--endif
- libaio = cc.find_library('aio', required: false)
- zlib = dependency('zlib', required: true, kwargs: static_kwargs)
- linux_io_uring = not_found
-@@ -907,6 +903,30 @@ if get_option('vnc').enabled()
-   endif
+ libusb = not_found
+-if 'CONFIG_USB_LIBUSB' in config_host
+-  libusb = declare_dependency(compile_args: config_host['LIBUSB_CFLAGS'].split(),
+-                              link_args: config_host['LIBUSB_LIBS'].split())
++if not get_option('libusb').auto() or have_system
++  libusb = dependency('libusb-1.0', required: get_option('libusb'),
++                      version: '>=1.0.13', method: 'pkg-config',
++                      kwargs: static_kwargs)
  endif
- 
-+pam = not_found
-+if not get_option('auth_pam').auto() or have_system
-+  pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
-+                        required: get_option('auth_pam'),
-+                        kwargs: static_kwargs)
-+endif
-+if pam.found() and not cc.links('''
-+   #include <security/pam_appl.h>
-+   int main(void) {
-+     const char *service_name = "qemu";
-+     const char *user = "frank";
-+     const struct pam_conv pam_conv = { 0 };
-+     pam_handle_t *pamh = NULL;
-+     pam_start(service_name, user, &pam_conv, &pamh);
-+     return 0;
-+   }''', dependencies: pam)
-+  pam = not_found
-+  if get_option('auth_pam').enabled()
-+    error('could not link libpam')
-+  else
-+    warning('could not link libpam, disabling')
-+  endif
-+endif
 +
- snappy = not_found
- if not get_option('snappy').auto() or have_system
-   snappy = cc.find_library('snappy', has_headers: ['snappy-c.h'],
-@@ -2729,7 +2749,7 @@ summary_info += {'VTE support':       config_host.has_key('CONFIG_VTE')}
- # TODO: add back version
- summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
- summary_info += {'libtasn1':          tasn1.found()}
--summary_info += {'PAM':               config_host.has_key('CONFIG_AUTH_PAM')}
-+summary_info += {'PAM':               pam.found()}
- summary_info += {'iconv support':     iconv.found()}
- summary_info += {'curses support':    curses.found()}
- # TODO: add back version
+ libpmem = not_found
+ if 'CONFIG_LIBPMEM' in config_host
+   libpmem = declare_dependency(compile_args: config_host['LIBPMEM_CFLAGS'].split(),
+@@ -1210,6 +1212,7 @@ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+ config_host_data.set('CONFIG_SNAPPY', snappy.found())
++config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+@@ -2779,7 +2782,7 @@ summary_info += {'rbd support':       rbd.found()}
+ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+ summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
+ summary_info += {'U2F support':       u2f.found()}
+-summary_info += {'libusb':            config_host.has_key('CONFIG_USB_LIBUSB')}
++summary_info += {'libusb':            libusb.found()}
+ summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
+ summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
+ summary_info += {'GBM':               config_host.has_key('CONFIG_GBM')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 343ffffb7c..ac6e90da07 100644
+index ac6e90da07..02c14d4751 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -52,6 +52,8 @@ option('multiprocess', type: 'feature', value: 'auto',
- 
- option('attr', type : 'feature', value : 'auto',
-        description: 'attr/xattr support')
-+option('auth_pam', type : 'feature', value : 'auto',
-+       description: 'PAM access control')
- option('brlapi', type : 'feature', value : 'auto',
-        description: 'brlapi character device driver')
- option('bzip2', type : 'feature', value : 'auto',
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 4c1ebc06ac..3e0504dd21 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -94,7 +94,7 @@ if have_block
-       'test-io-channel-tls': ['io-channel-helpers.c', 'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
-                               tasn1, io, crypto, gnutls]}
-   endif
--  if 'CONFIG_AUTH_PAM' in config_host
-+  if pam.found()
-     tests += {'test-authz-pam': [authz]}
-   endif
-   if xts == 'private'
+@@ -86,6 +86,8 @@ option('gcrypt', type : 'feature', value : 'auto',
+        description: 'libgcrypt cryptography support')
+ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
++option('libusb', type : 'feature', value : 'auto',
++       description: 'libusb support for USB passthrough')
+ option('lzfse', type : 'feature', value : 'auto',
+        description: 'lzfse support for DMG images')
+ option('lzo', type : 'feature', value : 'auto',
 -- 
 2.31.1
 
