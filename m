@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274BE3B1CA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:35:29 +0200 (CEST)
-Received: from localhost ([::1]:43670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D43D43B1CAC
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:37:47 +0200 (CEST)
+Received: from localhost ([::1]:50026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw3yS-0003Kl-73
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47620)
+	id 1lw40g-0007c8-VC
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3nk-0002NL-VF
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:24:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31909)
+ id 1lw3np-0002UI-5C
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:24:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3nh-0006iE-BP
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:24:24 -0400
+ id 1lw3nm-0006lM-PR
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:24:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624458260;
+ s=mimecast20190719; t=1624458265;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pwgIywLZD6lZvTVPEny5i9laVZsOwqtSjb3+4r4KdJw=;
- b=bCkKXW2nqf7vwK7kLDFobZug4gwUyqOHCjD4C45QyhmY7H7G7+8G3iIjyPEvUfcnvoMAnB
- 2drWJ4xL/n4s0I5OdkZSODTMHKjYp353NpD35w19lk+AgfpVpELhWvmMe7jrh101PZ3hxw
- fFp7+4DoYdm2s50tVVhbX4niYKNvHrA=
+ bh=CvrPr4+ASasHJ84go/qOWDUrkHdxPz4/ZsMORYwdWxo=;
+ b=XKg2s53/Dseg7wybEOjqwk19sAAvAz0sKINP2wgL6ji7564D6Ap2GzZ5X8RYRYJxJjFy4k
+ WL2CxY5G8eU2F5MrdWhnrCutDlVHJU/vGnmV1zk9ysVG14ihFM0WV+7picgJJ7JgYn/G66
+ a6YG+CDS27zsFCDcGailgVSaeGwXDiE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-y-51dsATM-y7wIztaWZYLg-1; Wed, 23 Jun 2021 10:24:19 -0400
-X-MC-Unique: y-51dsATM-y7wIztaWZYLg-1
+ us-mta-182-4A7zguHEO-GZK_Jl0B79EA-1; Wed, 23 Jun 2021 10:24:22 -0400
+X-MC-Unique: 4A7zguHEO-GZK_Jl0B79EA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB6F879EDF;
- Wed, 23 Jun 2021 14:24:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34BA479EE2;
+ Wed, 23 Jun 2021 14:24:21 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-176.ams2.redhat.com
  [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7716A60871;
- Wed, 23 Jun 2021 14:24:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23CC860854;
+ Wed, 23 Jun 2021 14:24:17 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 15/22] tests/docker: expand opensuse-leap package list
-Date: Wed, 23 Jun 2021 15:22:38 +0100
-Message-Id: <20210623142245.307776-16-berrange@redhat.com>
+Subject: [PATCH v4 16/22] tests/docker: add script for automating container
+ refresh
+Date: Wed, 23 Jun 2021 15:22:39 +0100
+Message-Id: <20210623142245.307776-17-berrange@redhat.com>
 In-Reply-To: <20210623142245.307776-1-berrange@redhat.com>
 References: <20210623142245.307776-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -90,131 +91,174 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the fully expanded list of build pre-requisites QEMU can
-conceivably use in any scenario.
+This introduces
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+  https://gitlab.com/libvirt/libvirt-ci
+
+as a git submodule at tests/docker/libvirt-ci
+
+This submodule only needs to be checked out when needing to re-generate
+the files in tests/docker/dockerfiles.
+
+When a new build pre-requisite is needed for QEMU, it should be added to
+the libvirt-ci project 'qemu.yml' file, and the submodule updated to the
+new commit. The 'make docker-refresh' target will then re-create all the
+dockerfiles with updated package lists. This ensures that all the
+containers get exactly the same build pre-requisite packages installed.
+
+It also facilitates the addition of containers targetting new distros
+or updating existing containers to new versions of the same distro,
+where packages might have been renamed.
+
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/opensuse-leap.docker | 59 ++++++++++++++++++-
- 1 file changed, 58 insertions(+), 1 deletion(-)
+ docs/devel/testing.rst              | 34 ++++++++++++++++--
+ tests/docker/Makefile.include       | 12 +++++++
+ tests/docker/dockerfiles-refresh.py | 56 +++++++++++++++++++++++++++++
+ 3 files changed, 100 insertions(+), 2 deletions(-)
+ create mode 100755 tests/docker/dockerfiles-refresh.py
 
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 6011447181..5a8bee0289 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -2,53 +2,110 @@ FROM registry.opensuse.org/opensuse/leap:15.2
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4e42392810..7882db85d4 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -372,8 +372,38 @@ Along with many other images, the ``centos8`` image is defined in a Dockerfile
+ in ``tests/docker/dockerfiles/``, called ``centos8.docker``. ``make docker-help``
+ command will list all the available images.
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-+    Mesa-devel \
-+    alsa-lib-devel \
-     bc \
-     brlapi-devel \
-     bzip2 \
-+    ca-certificates \
-     ccache \
-+    clang \
-+    ctags \
-     cyrus-sasl-devel \
-+    dbus-1 \
-+    diffutils \
-+    findutils \
-     gcc \
-     gcc-c++ \
-+    gcovr \
-     gettext-runtime \
-     git \
-     glib2-devel \
-+    glibc-locale \
-+    glibc-static \
-     glusterfs-devel \
-     gtk3-devel \
-+    hostname \
-+    jemalloc-devel \
-     libSDL2-devel \
-     libSDL2_image-devel \
-     libaio-devel \
-+    libasan6 \
-     libattr-devel \
-+    libbpf-devel \
-+    libbz2-devel \
-+    libcacard-devel \
-     libcap-ng-devel \
-+    libcurl-devel \
-+    libdrm-devel \
-     libepoxy-devel \
-     libfdt-devel \
-+    libffi-devel \
-+    libgcrypt-devel \
-     libgnutls-devel \
-     libiscsi-devel \
-     libjpeg8-devel \
-+    libndctl-devel \
-+    libnettle-devel \
-+    libnfs-devel \
-     libnuma-devel \
-     libpixman-1-0-devel \
-     libpmem-devel \
-     libpng16-devel \
-+    libpulse-devel \
-     librbd-devel \
-     libseccomp-devel \
-     libspice-server-devel \
-     libssh-devel \
-+    libtasn1-devel \
-+    libubsan1 \
-+    libudev-devel \
-+    libusb-1_0-devel \
-+    libxml2-devel \
-+    libzstd-devel \
-+    llvm \
-+    lttng-ust-devel \
-     lzo-devel \
-     make \
-     mkisofs \
-+    ncat \
-     ncurses-devel \
-     ninja \
--    perl \
-+    openssh \
-+    pam-devel \
-+    perl-Test-Harness \
-+    perl-base \
-+    pkgconfig \
-+    python3-Pillow \
-+    python3-PyYAML \
-+    python3-Sphinx \
-     python3-base \
-+    python3-numpy \
-+    python3-opencv \
-+    python3-pip \
-+    python3-setuptools \
-+    python3-sphinx_rtd_theme \
-     python3-virtualenv \
-+    python3-wheel \
-     rdma-core-devel \
-+    rpm \
-+    sed \
-     snappy-devel \
-+    sparse \
-+    spice-protocol-devel \
-     systemd-devel \
-     systemtap-sdt-devel \
-     tar \
-+    tesseract-ocr \
-+    tesseract-ocr-traineddata-english \
-+    texinfo \
-     usbredir-devel \
-+    util-linux \
-     virglrenderer-devel \
-     vte-devel \
-+    which \
-     xen-devel \
-+    xfsprogs-devel \
-     zlib-devel
- ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
+-To add a new image, simply create a new ``.docker`` file under the
+-``tests/docker/dockerfiles/`` directory.
++Most of the existing Dockerfiles were written by hand, simply by creating a
++a new ``.docker`` file under the ``tests/docker/dockerfiles/`` directory.
++This has led to an inconsistent set of packages being present across the
++different containers.
++
++Thus going forward, QEMU is aiming to automatically generate the Dockerfiles
++using the ``lcitool`` program provided by the ``libvirt-ci`` project:
++
++  https://gitlab.com/libvirt/libvirt-ci
++
++In that project, there is a ``qemu.yml`` file defining the list of build
++pre-requisites needed by QEMU. This is processed together with the
++``mappings.yml`` file to compute the distro specific list of package names.
++The package names are then fed into a generator which emits a well structured
++dockerfile. The set of dockerfiles which are auto-generated is defined in
++the ``tests/docker/dockerfiles-refresh.py`` script.
++
++When preparing a patch series that changes dockerfiles managed by ``libvirt-ci``
++tools, the following steps should be takenL
++
++ * Fork the ``libvirt-ci`` project on gitlab
++
++ * Prepare changes to its ``qemu.yml`` file and optionally ``mappings.yml``
++   to define the packages to be added to QEMU's dockerfiles.
++
++ * In QEMU run ``make docker-refresh LCITOOL=/path/to/libvirt-ci/lcitool``
++   to re-create the dockerfiles in ``tests/docker/dockerfiles``
++
++ * Submit your changes to QEMU in the normal manner
++
++ * Submit ``libvirt-ci`` changes as a merge request, linking to the
++   QEMU patch series that uses them.
  
+ A ``.pre`` script can be added beside the ``.docker`` file, which will be
+ executed before building the image under the build context directory. This is
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index ff5d732889..e8e5f497cc 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -27,6 +27,9 @@ DOCKER_TESTS := $(notdir $(shell \
+ ENGINE := auto
+ 
+ DOCKER_SCRIPT=$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
++REFRESH_SCRIPT=$(SRC_PATH)/tests/docker/dockerfiles-refresh.py
++# To be set to /path/to/checkout/of/libvirt-ci.git/lcitool
++LCITOOL=
+ 
+ TESTS ?= %
+ IMAGES ?= %
+@@ -220,6 +223,7 @@ docker:
+ 	@echo '    docker-image:        Build all images.'
+ 	@echo '    docker-image-IMAGE:  Build image "IMAGE".'
+ 	@echo '    docker-run:          For manually running a "TEST" with "IMAGE".'
++	@echo '    docker-refresh:      Re-generate dockerfiles after updating libvirt-ci'
+ 	@echo
+ 	@echo 'Available container images:'
+ 	@echo '    $(DOCKER_IMAGES)'
+@@ -302,3 +306,11 @@ docker-run-%:
+ 
+ docker-clean:
+ 	$(call quiet-command, $(DOCKER_SCRIPT) clean)
++
++docker-refresh:
++	@if [ -z "$(LCITOOL)" ] ; \
++	then \
++	    echo "No lcitool path specified. Use 'make docker-refresh LCITOOL=/path/to/libvirt-ci.git/lcitool'"; \
++	    exit 1; \
++	fi
++	$(call quiet-command, $(REFRESH_SCRIPT) $(LCITOOL) $(SRC_PATH))
+diff --git a/tests/docker/dockerfiles-refresh.py b/tests/docker/dockerfiles-refresh.py
+new file mode 100755
+index 0000000000..7f59ffbc59
+--- /dev/null
++++ b/tests/docker/dockerfiles-refresh.py
+@@ -0,0 +1,56 @@
++#!/usr/bin/python3
++#
++# Re-generate container recipes
++#
++# This script uses the "lcitool" available from
++#
++#   https://gitlab.com/libvirt/libvirt-ci
++#
++# Copyright (c) 2020 Red Hat Inc.
++#
++# This work is licensed under the terms of the GNU GPL, version 2
++# or (at your option) any later version. See the COPYING file in
++# the top-level directory.
++
++import sys
++import os
++import os.path
++import subprocess
++
++if len(sys.argv) != 3:
++   print("syntax: %s PATH-TO-LCITOOL SRC-ROOT" % sys.argv[0], file=sys.stderr)
++   sys.exit(1)
++
++lcitool_path=sys.argv[1]
++src_root=sys.argv[2]
++
++def atomic_write(filename, content):
++   dst = os.path.join(src_root, "tests", "docker", "dockerfiles", filename)
++   try:
++      with open(dst + ".tmp", "w") as fp:
++         print(content, file=fp, end="")
++         os.replace(dst + ".tmp", dst)
++   except Exception as ex:
++      os.unlink(dst + ".tmp")
++      raise
++
++def generate_image(filename, host, cross=None, trailer=None):
++   print("Generate %s" % filename)
++   args = [lcitool_path, "dockerfile"]
++   if cross is not None:
++      args.extend(["--cross", cross])
++   args.extend([host, "qemu"])
++   lcitool=subprocess.run(args, capture_output=True)
++
++   if lcitool.returncode != 0:
++      raise Exception("Failed to generate %s: %s" % (filename, lcitool.stderr))
++
++   content = lcitool.stdout.decode("utf8")
++   if trailer is not None:
++      content += trailer
++   atomic_write(filename, content)
++
++try:
++   pass
++except Exception as ex:
++   print(str(ex), file=sys.stderr)
 -- 
 2.31.1
 
