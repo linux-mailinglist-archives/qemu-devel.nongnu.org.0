@@ -2,73 +2,144 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438983B1985
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:01:49 +0200 (CEST)
-Received: from localhost ([::1]:44630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5BE3B1992
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:06:58 +0200 (CEST)
+Received: from localhost ([::1]:48150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw1Zj-0006DV-UW
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43916)
+	id 1lw1ej-0000Xe-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lw1Xa-0005TG-Oz
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:59:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46535)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lw1d9-0008At-K0
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:05:19 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:32062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lw1XV-0003QK-JR
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:59:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624449567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r1NeDpboL2hf7mso7wQHMShBPDOmkDcPokzo04QtVrU=;
- b=VeH4U3tiu7QO4HaHwQfRvhGfwgPwJo0tMjW+gOp4gBPkG/CUjkHZb0No7pTvHzr2t+xLVn
- n1tYMMHHM2zRVcNUqc/ONZ/7TLfL4ft8kngKxkm3hfEeVZ+xbqhjs0+QLsWY9VWnGizSsR
- cIo5fknee23caF9MJXQwkJfT+21et5Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-B434kaKCPpSeeGoXttIbBA-1; Wed, 23 Jun 2021 07:59:14 -0400
-X-MC-Unique: B434kaKCPpSeeGoXttIbBA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E483A19067E0;
- Wed, 23 Jun 2021 11:59:12 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 252DA5C1A1;
- Wed, 23 Jun 2021 11:58:59 +0000 (UTC)
-Date: Wed, 23 Jun 2021 13:58:59 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH RFC 0/6] i386/pc: Fix creation of >= 1Tb guests on AMD
- systems with IOMMU
-Message-ID: <20210623135859.42ac55d0@redhat.com>
-In-Reply-To: <23cff9d2-cc9b-07ba-1c21-9798854e14d9@oracle.com>
-References: <20210622154905.30858-1-joao.m.martins@oracle.com>
- <20210622151629.6c75427c.alex.williamson@redhat.com>
- <23cff9d2-cc9b-07ba-1c21-9798854e14d9@oracle.com>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lw1cz-00068W-2t
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:05:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1624449908; x=1625054708;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=Yg0OErPZBVtOZXKB06EGiVQEO8TTTi0OT5VvPB91qjg=;
+ b=mW8wznQ5DFmJUDLCHNwkHZlNqXPIUfYcfv9tygyPkl5wo/UhZrrt2wZP
+ 7QfS3C0Vzu+Lofg8PqShw6DcbFq3n4uuYIVK2gnZVY/ZBx2N1oylH+Mnb
+ 911sHSCD7SoKCCLcuFTmtsp8cI5Np6Bw/DvVE4s56Aume0BHnuu/ZL1MZ E=;
+IronPort-SDR: bM8YVqyRvPFP+Fx7GWTjkr7GUXgaw8wHtp3/2+DCRW7HrqQU8DscQNyVNJOPtzFNJZB+YCoTQB
+ Xa+PIPwzqMMNT0wZZHIbP4cfbVx68WZv5UwsSRCxMAUSJCDwH0+SOK+shRw1E/iMSOkRTPI9os
+ 3ACcbdA2LCGpDRRcJEXG5mabp7gDfUbYZYrszO6TQuV3MtciM2Jtnyfw52A003kOsKO/VhpX50
+ Rp00LDFSGDi3cN9fdiXwQEoauvQuvMiztd6NG0w9SqNYSF5fK26ExnyvWCSPLBsGhjh5JnUUxP
+ 9pM=
+Received: from mail-co1nam11lp2172.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.172])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2021 12:05:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KWYrGDjIqXlV105HHjhtR4kP0+pnFhfGYrXBwCKD+bbCyGbkjgaNMXHDXNZPLAIRNlpmXvHsz48P0BKfV6eB/F9WR2x/5y0n7GZHE0uGuwAwbrhPJ8zNCz0f1nFxQQd7YrxSaJ+khvA5D4+eO8VNQtDC8G20SB4NegK/3Cz8HTG7oxDs3YIH6qwBkK+hO3w2SiZU2TczIRcIyDwlAmIRx+ok55jap5JmIzugjZDBso18zA3lAAhUf9LcgEYRkjgZdxeQ3fqm0FIHl6rexH38/64BIevAkvvJBR9OP9w0xscMVYfE8X7uSi6yiq6Mj3TnZrttic4rlN+0G8iJrALx8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yg0OErPZBVtOZXKB06EGiVQEO8TTTi0OT5VvPB91qjg=;
+ b=czaILY5llB3DXCYO0ynKMuoj0LjSEEEE74D6iNK32PfFHS9xB7yreURHV2zT4y1bodSexLz6j6N2LniBT3HMu2XL1U/gNW4wg8pBZ2x/eiXg3OfgypDkCY6mm5bRTN7qKY5Gqvk/6+johRNKS7eNcP1l1IzgVh7+XXn3INvsuDAWRX3c+/d39sfLaRMSjfQKxElKYHtsZc0uC+viN8/xcYfVf0p8CDh0aSL7mhsRJQI6doKJJ6URrPNmIHWPs7vII3RRq32FRDVAl9RnkB8n5v2yqJufiupGyfRlYBBFv/2G6P4WTeri8+4pf5KESHaqJ7hqTP2c9zzWUmwzE/wa4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
+ by BY5PR02MB6993.namprd02.prod.outlook.com (2603:10b6:a03:23f::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Wed, 23 Jun
+ 2021 12:05:00 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::9533:5f34:8b3e:ed]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::9533:5f34:8b3e:ed%6]) with mapi id 15.20.4242.024; Wed, 23 Jun 2021
+ 12:05:00 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Alessandro Di Federico <ale.qemu@rev.ng>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v5 06/14] target/hexagon: introduce new helper functions
+Thread-Topic: [PATCH v5 06/14] target/hexagon: introduce new helper functions
+Thread-Index: AQHXZO7CSPh8OP1ifkigfhzs4PWBs6shhMow
+Date: Wed, 23 Jun 2021 12:05:00 +0000
+Message-ID: <BYAPR02MB4886BFECEB3909FFCBEA7233DE089@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <20210619093713.1845446-1-ale.qemu@rev.ng>
+ <20210619093713.1845446-7-ale.qemu@rev.ng>
+In-Reply-To: <20210619093713.1845446-7-ale.qemu@rev.ng>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: rev.ng; dkim=none (message not signed)
+ header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [76.120.51.212]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 88fff2ea-e64b-4c38-194d-08d9363f2081
+x-ms-traffictypediagnostic: BY5PR02MB6993:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR02MB69934A9D0673B341743CCBBADE089@BY5PR02MB6993.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:565;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vEDwcRndh5yOggnjS0xVtjYS4V4x31PBv2jabPU312+uAYrv8qlR5XJKYWdn/JU0CVx0zTE+03ZXry0SSs6/8TVbv0GLIqO9WbmdYBwhrR6FA6e48hd+RXxgv/REpXKdBcEsaHGibcueBUxfy9kK9w+Wj3LHxq94gcIZ30XcehdKcEimIANF+3fDm1CSCWDnL4lwc4N8FhRGdaoR70gCy7lcSrC8RKNEkTCkcJ1t3OZTQ168f9qSyuW4zH9jAUnK9vcQpg8GUNLiRHv7C5cqMRAmV5Z1ACcnHZv81uFed+YnkR9NqfioDxq9yMrIq8X8dgXMQUNAhd3WSSK0X43xWTwGxbdeTjt0UPvHSo1j94WTpbir913/9KtnAu+cOnjHLEGTNT/OSllnxrMF2Cwks4pjDeNwp93qIc0gzOYg3HR/qLZOzYtsOvLndA6+bjZkNFVn4DTqMmC+RL0dKScybD5bv7h64FWFVVEfn0ny76fikF4UO76cZ9O9fMTu1x74FzG4kOWGgzvNiORBrEB6IR5Yx0CZqvw3weZskOZv+HS8IZqUZBzc1E/gi35lYa2aEt3wVV/qUZdRTRqQKz6UqMmrfIfrBrUnTI2YKz6aopY=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(9686003)(4326008)(5660300002)(71200400001)(122000001)(55016002)(54906003)(316002)(110136005)(52536014)(38100700002)(7696005)(478600001)(2906002)(83380400001)(8676002)(86362001)(33656002)(6506007)(66946007)(53546011)(66446008)(64756008)(66556008)(66476007)(8936002)(26005)(76116006)(186003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UFNLc3hzc21UemdtTVExOGtnbTBsSGUyb2pWR2ZRL25xNUhMdFpJRnV1bmc1?=
+ =?utf-8?B?eHF5YmNISkRaaEdQVU5XZndSb3ZRdVZEaUtXcFJ0Z0V5RkJqQ2hlSnM4TjJ3?=
+ =?utf-8?B?U3dnRlRta2xLaHhFclp4ZUFKTHpzQVRtT3MweFdvK2hiTEw3WEZSK2VidUdO?=
+ =?utf-8?B?a09MMGtRNkxHU0w5TGQ1amxsYzZoQW1oQ1c5L3piTktQaDVhN1h2SFcyT1RL?=
+ =?utf-8?B?bmtFMUtSRCs5RThwZ1VCS29HWEZGYkV4OUhMNU84b2JOejRmNGNqVk02cDBK?=
+ =?utf-8?B?d3cxWU9jS1R1bTBZNUd0Ynk5ejVmTnZDbEQ2dU5aS1RsU2lwRDZSS1VWNkNP?=
+ =?utf-8?B?TXNwV2pWL3Z3alN6VUprZFdvOXZacm1TMkRMODJ0K2RFSUt5Zk10TXhMMGJ6?=
+ =?utf-8?B?andUb0gydFNwVjIwSkFMSjRZcXM1bmlydFdGNWtWc0s1RExaMnRDYWR1RnRT?=
+ =?utf-8?B?Tm5Vdkx5UDNsYklnRUdYdmRtNEhlZWEyaWQ1cEhBNWd4RkNaYVJ1L1MzM054?=
+ =?utf-8?B?NURxOTdSVmFLK09KNjBmRFV5R280bzRIQVQzeUQ2NUpDOFBQNTRwNFQ1NFpK?=
+ =?utf-8?B?Nno3akFpQ0preEpQRS9IWWtVS2JKSE9lMFd5Z3VIb2NrUWkwZm5lSjJEdm5Z?=
+ =?utf-8?B?MWFPNFJxcHRxY2V0b0RrUXVPbVZnVlYxNUZXSWRMTFVsckd6WHRFaERBZzdH?=
+ =?utf-8?B?cWtqQ0lKcnBNelZuai91NVJOL1NCOUU1YjlvQzdrb0I1NW5ETzBOSlI5RjJi?=
+ =?utf-8?B?RVdzMnBNTUl0ODRLQ2ZlZFYyUk9xRERvYmxRR2NER0hkejdlMUszR3BvVUxX?=
+ =?utf-8?B?Z0hLVXNxZ1Y1emZDN1hVNEFPMmxSRE9GZ0hXTjV1ZWRsWkFwbHZoYjg2eWRh?=
+ =?utf-8?B?dFB5MG5IRUhZbCs3cm9Ic0hIV0VUN0s1NkpVRVZ6TksvME9NOW5TcmdEWWlH?=
+ =?utf-8?B?YTM4WVVDY2c0eTNMTWVzdDlwTm9zS0hYMXJ3MmU1aXZ5QjBpUWtFY1Q3QUg3?=
+ =?utf-8?B?L01ianEyOVVaT0hRLzczRzRaV0E4eWFIY1Y2M1RaK3RNZlErKzNHUDc4VDYr?=
+ =?utf-8?B?UHBVUXZRZmpMRC8zL1FYSkFyYVFKSXd2R09aeGtZN0dQeFpXUUNtTFZ1YkNx?=
+ =?utf-8?B?ckRDVVVkbzc0ZDZxMExPSTk0eDYrK25pLzZBZk1zajFxdEFYTTNES1ltOW1P?=
+ =?utf-8?B?aWJuemsybmZVbENzOU5Oc3FGalljd1pINHBuVU9Ga0c5TmdhbFRuaWt0YjlX?=
+ =?utf-8?B?TUVpYkdvaHFCVUNSRDh6WkVlU0tRRldrUmFpdHZNcmlTQTBPV2hEV1NldEhw?=
+ =?utf-8?B?ODJPWVhZekg0N0NrWmpwc0wySERsMC85QzQxR3VyYkU3SWNCemZYMzRmU2tj?=
+ =?utf-8?B?ejBQd3kvZWhnT24yaHRQT0JXeDhKOTJJZytDSm9ycHR1M0NKbnRPcVR4YzhS?=
+ =?utf-8?B?MzVKaGRhZzJlSmUzendpVEYxMGFXUVUyaGwreTQ2UFRVM2c0OWRyM09xeTkx?=
+ =?utf-8?B?Znkvc1E2Vm9lMk9pck1HbUNjazd2SG9UNTh5SlB2UlMwMVFvaHdkWmhhMFov?=
+ =?utf-8?B?NGE2b21sd3dZd0JBcXMrcmdKcjV6OGVhZWZEWTNwdGFBa2V0MXExblg1cCs4?=
+ =?utf-8?B?czdUY25iQmZaK3J1WWdDRVY0bHU2K25XUWMwbUxTTzU1MGd6UlhHcUtMR1dZ?=
+ =?utf-8?B?TnBhZWU0RjdWZ0t3Q1Flb01odU9sK3RaaU5TRHNrQ3d6TC9PWWwwdnh0OUN0?=
+ =?utf-8?Q?FjOpxMjv9RtXYyLqQqCGo+1cougHLkhh7Pk8zAA?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88fff2ea-e64b-4c38-194d-08d9363f2081
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 12:05:00.4197 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bU9AeICzn/08ovBvqUKY4TH70se2vC2V+vXQW5Z/P/bQwWdMwZIvxrojaRBkCUQyaA03pn4J8xZ8XcLnVIQMHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6993
+Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
+ helo=esa.hc3962-90.iphmx.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,203 +152,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alessandro Di Federico <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "babush@rev.ng" <babush@rev.ng>, "nizzo@rev.ng" <nizzo@rev.ng>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Jun 2021 10:30:29 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
-
-> On 6/22/21 10:16 PM, Alex Williamson wrote:
-> > On Tue, 22 Jun 2021 16:48:59 +0100
-> > Joao Martins <joao.m.martins@oracle.com> wrote:
-> >   
-> >> Hey,
-> >>
-> >> This series lets Qemu properly spawn i386 guests with >= 1Tb with VFIO, particularly
-> >> when running on AMD systems with an IOMMU.
-> >>
-> >> Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
-> >> will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
-> >> affected by this extra validation. But AMD systems with IOMMU have a hole in
-> >> the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
-> >> here  FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
-> >> section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
-> >>
-> >> VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
-> >>  -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
-> >> of the failure:
-> >>
-> >> qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
-> >> qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
-> >> 	failed to setup container for group 258: memory listener initialization failed:
-> >> 		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
-> >>
-> >> Prior to v5.4, we could map using these IOVAs *but* that's still not the right thing
-> >> to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
-> >> spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
-> >> as documented on the links down below.
-> >>
-> >> This series tries to address that by dealing with this AMD-specific 1Tb hole,
-> >> similarly to how we deal with the 4G hole today in x86 in general. It is splitted
-> >> as following:
-> >>
-> >> * patch 1: initialize the valid IOVA ranges above 4G, adding an iterator
-> >>            which gets used too in other parts of pc/acpi besides MR creation. The
-> >> 	   allowed IOVA *only* changes if it's an AMD host, so no change for
-> >> 	   Intel. We walk the allowed ranges for memory above 4G, and
-> >> 	   add a E820_RESERVED type everytime we find a hole (which is at the
-> >> 	   1TB boundary).
-> >> 	   
-> >> 	   NOTE: For purposes of this RFC, I rely on cpuid in hw/i386/pc.c but I
-> >> 	   understand that it doesn't cover the non-x86 host case running TCG.
-> >>
-> >> 	   Additionally, an alternative to hardcoded ranges as we do today,
-> >> 	   VFIO could advertise the platform valid IOVA ranges without necessarily
-> >> 	   requiring to have a PCI device added in the vfio container. That would
-> >> 	   fetching the valid IOVA ranges from VFIO, rather than hardcoded IOVA
-> >> 	   ranges as we do today. But sadly, wouldn't work for older hypervisors.  
-> > 
-> > 
-> > $ grep -h . /sys/kernel/iommu_groups/*/reserved_regions | sort -u
-> > 0x00000000fee00000 0x00000000feefffff msi
-> > 0x000000fd00000000 0x000000ffffffffff reserved
-> >   
-> Yeap, I am aware.
-> 
-> The VFIO advertising extension was just because we already advertise the above info,
-> although behind a non-empty vfio container e.g. we seem to use that for example in
-> collect_usable_iova_ranges().
-> 
-> > Ideally we might take that into account on all hosts, but of course
-> > then we run into massive compatibility issues when we consider
-> > migration.  We run into similar problems when people try to assign
-> > devices to non-x86 TCG hosts, where the arch doesn't have a natural
-> > memory hole overlapping the msi range.
-> > 
-> > The issue here is similar to trying to find a set of supported CPU
-> > flags across hosts, QEMU only has visibility to the host where it runs,
-> > an upper level tool needs to be able to pass through information about
-> > compatibility to all possible migration targets.  
-> 
-> I agree with your generic sentiment (and idea) but are we sure this is really something as
-> dynamic/needing-denominator like CPU Features? The memory map looks to be deeply embedded
-> in the devices (ARM) or machine model (x86) that we pass in and doesn't change very often.
-> pc/q35 is one very good example, because this hasn't changed since it's inception [a
-> decade?] (and this limitation is there only for any multi-socket AMD machine with IOMMU
-> with more than 1Tb). Additionally, there might be architectural impositions like on x86
-> e.g. CMOS seems to tie in with memory above certain boundaries. Unless by a migration
-> targets, you mean to also cover you migrate between Intel and AMD hosts (which may need to
-> keep the reserved range nonetheless in the common denominator)
-> 
-> > Towards that end, we
-> > should probably have command line options that either allow to specify
-> > specific usable or reserved GPA address ranges.  For example something
-> > like:
-> > 	--reserved-mem-ranges=host
-> > 
-> > Or explicitly:
-> > 
-> > 	--reserved-mem-ranges=13G@1010G,1M@4078M
-
-if we can do without adding any option at all it will be even better
-since user/mgmt won't need to care about it as well.
-
-> >   
-> I like the added option, particularly because it lets everyone workaround similar issues.
-> I remember a series before that had similar issues on ARM (but can't remember now what it
-> was).
-> 
-> >> * patch 2 - 5: cover the remaining parts of the surrounding the mem map, particularly
-> >> 	       ACPI SRAT ranges, CMOS, hotplug as well as the PCI 64-bit hole.
-> >>
-> >> * patch 6: Add a machine property which is disabled for older machine types (<=6.0)
-> >> 	   to keep things as is.
-> >>
-> >> The 'consequence' of this approach is that we may need more than the default
-> >> phys-bits e.g. a guest with 1024G, will have ~13G be put after the 1TB
-> >> address, consequently needing 41 phys-bits as opposed to the default of 40.
-> >> I can't figure a reasonable way to establish the required phys-bits we
-> >> need for the memory map in a dynamic way, especially considering that
-> >> today there's already a precedent to depend on the user to pick the right value
-> >> of phys-bits (regardless of this series).
-> >>
-> >> Additionally, the reserved region is always added regardless of whether we have
-> >> VFIO devices to cover the VFIO device hotplug case.  
-> > 
-> > Various migration issues as you note later in the series.
-> >   
-> /me nods
-> 
-> >> Other options considered:
-> >>
-> >> a) Consider the reserved range part of RAM, and just marking it as
-> >> E820_RESERVED without SPA allocated for it. So a -m 1024G guest would
-> >> only allocate 1010G of RAM and the remaining would be marked reserved.
-> >> This is not how what we do today for the 4G hole i.e. the RAM
-> >> actually allocated is the value specified by the user and thus RAM available
-> >> to the guest (IIUC).
-
-it's partially true, we don't care about small MMIO regions that
-overlay on top of low memory. But concealing RAM behind large PCI
-hole would be a significant waste (especially when we are speaking
-about PCI hole below 4GB)
-
-I wonder how it works on real hardware?
-i.e. does memory controller remap physical RAM at 1T hole region, just hides it
-or just doesn't place any DIMMs there?
-
-
-> >> b) Avoid VFIO DMA_MAP ioctl() calls to the reserved range. Similar to a) but done at a
-> >> later stage when RAM mrs are already allocated at the invalid GPAs. Albeit that
-> >> alone wouldn't fix the way MRs are laid out which is where fundamentally the
-> >> problem is.  
-> > 
-> > Data corruption with b) should the guest ever use memory within this
-> > range as a DMA target.  Thanks,
-> >   
-> Yeap.
-> 
-> > Alex
-> >    
-> >> The proposed approach in this series works regardless of the kernel, and
-> >> relevant for old and new Qemu.
-> >>
-> >> Open to alternatives/comments/suggestions that I should pursue instead.
-> >>
-> >> 	Joao
-> >>
-> >> [1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
-> >> [2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
-> >>
-> >> Joao Martins (6):
-> >>   i386/pc: Account IOVA reserved ranges above 4G boundary
-> >>   i386/pc: Round up the hotpluggable memory within valid IOVA ranges
-> >>   pc/cmos: Adjust CMOS above 4G memory size according to 1Tb boundary
-> >>   i386/pc: Keep PCI 64-bit hole within usable IOVA space
-> >>   i386/acpi: Fix SRAT ranges in accordance to usable IOVA
-> >>   i386/pc: Add a machine property for AMD-only enforcing of valid IOVAs
-> >>
-> >>  hw/i386/acpi-build.c  |  22 ++++-
-> >>  hw/i386/pc.c          | 206 +++++++++++++++++++++++++++++++++++++++---
-> >>  hw/i386/pc_piix.c     |   2 +
-> >>  hw/i386/pc_q35.c      |   2 +
-> >>  hw/pci-host/i440fx.c  |   4 +-
-> >>  hw/pci-host/q35.c     |   4 +-
-> >>  include/hw/i386/pc.h  |  62 ++++++++++++-
-> >>  include/hw/i386/x86.h |   4 +
-> >>  target/i386/cpu.h     |   3 +
-> >>  9 files changed, 288 insertions(+), 21 deletions(-)
-> >>  
-> >   
-> 
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxlc3NhbmRybyBEaSBG
+ZWRlcmljbyA8YWxlLnFlbXVAcmV2Lm5nPg0KPiBTZW50OiBTYXR1cmRheSwgSnVuZSAxOSwgMjAy
+MSAzOjM3IEFNDQo+IFRvOiBxZW11LWRldmVsQG5vbmdudS5vcmcNCj4gQ2M6IFRheWxvciBTaW1w
+c29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT47IEJyaWFuIENhaW4NCj4gPGJjYWluQHF1aWNpbmMu
+Y29tPjsgYmFidXNoQHJldi5uZzsgbml6em9AcmV2Lm5nOyBwaGlsbWRAcmVkaGF0LmNvbTsNCj4g
+cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZzsgQWxlc3NhbmRybyBEaSBGZWRlcmljbyA8YWxl
+QHJldi5uZz4NCj4gU3ViamVjdDogW1BBVENIIHY1IDA2LzE0XSB0YXJnZXQvaGV4YWdvbjogaW50
+cm9kdWNlIG5ldyBoZWxwZXIgZnVuY3Rpb25zDQo+IA0KPiBGcm9tOiBOaWNjb2zDsiBJenpvIDxu
+aXp6b0ByZXYubmc+DQo+IA0KPiBUaGVzZSBoZWxwZXJzIHdpbGwgYmUgZW1wbG95ZWQgYnkgdGhl
+IGlkZWYtcGFyc2VyIGdlbmVyYXRlZCBjb2RlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQWxlc3Nh
+bmRybyBEaSBGZWRlcmljbyA8YWxlQHJldi5uZz4NCj4gU2lnbmVkLW9mZi1ieTogTmljY29sw7Ig
+SXp6byA8bml6em9AcmV2Lm5nPg0KPiAtLS0NCj4gIHRhcmdldC9oZXhhZ29uL2dlbnB0ci5jIHwg
+MTYzDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0NCj4gIHRhcmdl
+dC9oZXhhZ29uL2dlbnB0ci5oIHwgIDIzICsrKysrKw0KPiAgdGFyZ2V0L2hleGFnb24vbWFjcm9z
+LmggfCAgIDkgKysrDQo+ICAzIGZpbGVzIGNoYW5nZWQsIDE4MCBpbnNlcnRpb25zKCspLCAxNSBk
+ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9nZW5wdHIuYyBi
+L3RhcmdldC9oZXhhZ29uL2dlbnB0ci5jIGluZGV4DQo+IDZmMjgxNmY2ZTIuLmNmNDVjMjhmNTgg
+MTAwNjQ0DQo+IC0tLSBhL3RhcmdldC9oZXhhZ29uL2dlbnB0ci5jDQoNCg0KPiArKysgYi90YXJn
+ZXQvaGV4YWdvbi9nZW5wdHIuYw0KPiArdm9pZCBnZW5fZmJyZXYoVENHdiByZXN1bHQsIFRDR3Yg
+c3JjKQ0KPiArew0KPiArICAgIFRDR3YgbG8gPSB0Y2dfdGVtcF9uZXcoKTsNCj4gKyAgICBUQ0d2
+IHRtcDEgPSB0Y2dfdGVtcF9uZXcoKTsNCj4gKyAgICBUQ0d2IHRtcDIgPSB0Y2dfdGVtcF9uZXco
+KTsNCj4gKw0KPiArICAgIC8qIEJpdCByZXZlcnNhbCBvZiBsb3cgMTYgYml0cyAqLw0KPiArICAg
+IHRjZ19nZW5fZXh0cmFjdF90bChsbywgc3JjLCAwLCAxNik7DQo+ICsgICAgdGNnX2dlbl9hbmRp
+X3RsKHRtcDEsIGxvLCAweGFhYWEpOw0KPiArICAgIHRjZ19nZW5fc2hyaV90bCh0bXAxLCB0bXAx
+LCAxKTsNCj4gKyAgICB0Y2dfZ2VuX2FuZGlfdGwodG1wMiwgbG8sIDB4NTU1NSk7DQo+ICsgICAg
+dGNnX2dlbl9zaGxpX3RsKHRtcDIsIHRtcDIsIDEpOw0KPiArICAgIHRjZ19nZW5fb3JfdGwobG8s
+IHRtcDEsIHRtcDIpOw0KPiArICAgIHRjZ19nZW5fYW5kaV90bCh0bXAxLCBsbywgMHhjY2NjKTsN
+Cj4gKyAgICB0Y2dfZ2VuX3NocmlfdGwodG1wMSwgdG1wMSwgMik7DQo+ICsgICAgdGNnX2dlbl9h
+bmRpX3RsKHRtcDIsIGxvLCAweDMzMzMpOw0KPiArICAgIHRjZ19nZW5fc2hsaV90bCh0bXAyLCB0
+bXAyLCAyKTsNCj4gKyAgICB0Y2dfZ2VuX29yX3RsKGxvLCB0bXAxLCB0bXAyKTsNCj4gKyAgICB0
+Y2dfZ2VuX2FuZGlfdGwodG1wMSwgbG8sIDB4ZjBmMCk7DQo+ICsgICAgdGNnX2dlbl9zaHJpX3Rs
+KHRtcDEsIHRtcDEsIDQpOw0KPiArICAgIHRjZ19nZW5fYW5kaV90bCh0bXAyLCBsbywgMHgwZjBm
+KTsNCj4gKyAgICB0Y2dfZ2VuX3NobGlfdGwodG1wMiwgdG1wMiwgNCk7DQo+ICsgICAgdGNnX2dl
+bl9vcl90bChsbywgdG1wMSwgdG1wMik7DQo+ICsgICAgdGNnX2dlbl9ic3dhcDE2X3RsKGxvLCBs
+byk7DQo+ICsNCj4gKyAgICAvKiBGaW5hbCB0d2Vha3MgKi8NCj4gKyAgICB0Y2dfZ2VuX2RlcG9z
+aXRfdGwocmVzdWx0LCBzcmMsIGxvLCAwLCAxNik7DQo+ICsgICAgdGNnX2dlbl9vcl90bChyZXN1
+bHQsIHJlc3VsdCwgbG8pOw0KPiArDQo+ICsgICAgdGNnX3RlbXBfZnJlZShsbyk7DQo+ICsgICAg
+dGNnX3RlbXBfZnJlZSh0bXAxKTsNCj4gKyAgICB0Y2dfdGVtcF9mcmVlKHRtcDIpOw0KPiArfQ0K
+DQpSZW1vdmUgdGhpcyBmdW5jdGlvbiBhbmQgY2FsbCBnZW5faGVscGVyX2ZicmV2IGluc3RlYWQu
+ICBUaGlzIHdhcyBmZWVkYmFjayBmcm9tIFJpY2hhcmQgSGVuZGVyc29uIG9uIG9uZSBvZiBteSBw
+cmV2aW91cyBwYXRjaCBzZXJpZXMuDQoNClRoYW5rcywNClRheWxvcg0K
 
