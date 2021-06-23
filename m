@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82DF43B1FA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 19:37:45 +0200 (CEST)
-Received: from localhost ([::1]:42698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFE33B1FF7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 20:03:17 +0200 (CEST)
+Received: from localhost ([::1]:56484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw6oq-0005xe-3F
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 13:37:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34918)
+	id 1lw7DX-00080W-6H
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 14:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joannekoong@gmail.com>)
- id 1lw6nc-000544-CT; Wed, 23 Jun 2021 13:36:28 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35440)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lw7Aq-0005P1-B6; Wed, 23 Jun 2021 14:00:28 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joannekoong@gmail.com>)
- id 1lw6na-0003hy-Oi; Wed, 23 Jun 2021 13:36:28 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id gn32so5267746ejc.2;
- Wed, 23 Jun 2021 10:36:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lw7Ao-0002ri-71; Wed, 23 Jun 2021 14:00:28 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d11so3674480wrm.0;
+ Wed, 23 Jun 2021 11:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CQkxxIrNjz7Jvkkbm24kegFDeKrdBclMMTJQe9FN9o0=;
- b=flJWktrHGZsfKq8mqdO04DNELQz04QryVWv28PXZoMAg6w5+Y+cNwfgNHZkWJ5gxwo
- 8OaHxikzpdecYUhmmMty3qfU1vWjU0PcHNULDSlwBdwKnIVtsmQ4sRg2j2rIuTD2vTQ/
- zgomwPaYlLTJ42hHqOfcUngz74jU5KU+LbTQAwt5MsR001uAWiX4XpoFN3O/3GvJ2Ysn
- HHJ+6K0aNCql2LlArM39O0yVVi5WmY5Nui1IF/XFE+VeCxuqr7yPCXgUdbU6tht0V2f3
- W+gAAcxjx3toFDzcXkbkw2XgK/p3jaLopczjx/d4JAOMNB+USx5IwnloTtBo3kKMJYFm
- pL4w==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KGUvEh3/+LzhG5JJwRERyZmd3FW8HIp80HEkYAhaXMs=;
+ b=q2XArjrt68KDX9c8IgFHqw6+wOpsuUl6uY3AgB7NXRNJYUc1nO9fLtbAK4NP2g5aC0
+ aQuIX0EbQtb88DsCDBW7QPPAHRioemOdLb4DXTEF+Sb8VIrB5k8u5DtMKXexB2V1JasT
+ FD32b8kw2TLRHhwHLkocHdtt9MM77fyb/PnEbMQAhFEHc6dk4pd9rU/ltHuhwH2+Phgm
+ LYoyKar5kgkOK1MIMTHEucRyweCsOGNYSw58uAXAKzUczbawI9Pmf2JJbexCV580zaEQ
+ h+Up98lqozMHamYaLSI8fjgCh4JU4EtnRNIhoZ8Wbbm3CQz3qmmF5BlyUQLe7g0nJIDq
+ ZQyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CQkxxIrNjz7Jvkkbm24kegFDeKrdBclMMTJQe9FN9o0=;
- b=eahzrFkil4O4YNdNFdDSsdAQ60g2ct241j2GFjiXu6+dlx3KU8OyT8/QxsNHA3zTLi
- Av9ikF54xpQzmHYkqrrdC2B7u4389YcGYnc7ZrV4p6GpO6x49BcQKMe/2yXYg62ma3G/
- JNhIUZd32hxGaZh3H6sc4djbQeko/CJg40vWu02xjwIEGBILOE4CJwNelWBde7SaGKEi
- dz0DIna4EWUhV+mLpqgCAi5je9eUt5NCy9427XpBLWkduuHIx/FbZ/f8zhg1Z96UaCgJ
- VU5ltwXWk9ncvtha0KkZ6zliBUka6KQdiQs9gPvr1arCd9ihQjmRNR8Ju3uXb6pNZXQR
- yqKw==
-X-Gm-Message-State: AOAM532xXVSxD80II336Wht7qVqXu8VzvUwwDanOcs73oERzTiuqd8y3
- VN2oJZDmR2Zox/RFudH8sr92W0Ppark34DgGrIk=
-X-Google-Smtp-Source: ABdhPJyGf+4zhczpZpEo4u/RDxscpJlyoHucSCSASxJpdPDu8Bt/Ryv9UJYCf8qB8YHi6oO3FYxB8svIKBXnvtatdGc=
-X-Received: by 2002:a17:907:9691:: with SMTP id
- hd17mr1212698ejc.51.1624469785038; 
- Wed, 23 Jun 2021 10:36:25 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=KGUvEh3/+LzhG5JJwRERyZmd3FW8HIp80HEkYAhaXMs=;
+ b=jAOCGcRvAkiVZtAQHbnDLUdTcWd74sw9Ot1Fj4CyLclAQsLnuI9b94sH3fZDEa7MWn
+ BlQXyI3CTBuIpWxgW5s3iO9jP9HusCHSnvAYKKwypEtUTShOQXAohFHoLHyyQcWoLHsy
+ uMi3WccV8ZXZtGBxaoXqt+5kcJDkjs8dCmUMYFV8Dzkvwcn8E6JvcG+OV8bZDM6lH0pd
+ v0T3TuUD6RdIfzjB7rlMxNey6/0LVlrh5KzLGfgOdcZF1jenUwHqn29+zDdtaS2PwiK2
+ 0MeGup2fM3JZyMp2NIMmR2iTIzyKOvh8gP4+xjdq6psaeDpZ5jLmmzeMxw7HQmfRhgUt
+ t9wg==
+X-Gm-Message-State: AOAM531jwzI0X5YCDSGFcJgk2o4+uLUYDuYDMJRZLeCdNbybGipWC18Y
+ XEasBkPxo5TOaSi42545wcseLrh7Vi2HSw==
+X-Google-Smtp-Source: ABdhPJzFVQN2kUtN4BRy0A89qYOFK+JmcIYry8uVthvS8sAEkyMcNbHNkoBkO/TbY6K+vpXC4YtAHA==
+X-Received: by 2002:a5d:4dc8:: with SMTP id f8mr1541239wru.168.1624471224194; 
+ Wed, 23 Jun 2021 11:00:24 -0700 (PDT)
+Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id z25sm679991wmf.23.2021.06.23.11.00.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Jun 2021 11:00:23 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/9] hw/sd: Allow card size not power of 2 again
+Date: Wed, 23 Jun 2021 20:00:12 +0200
+Message-Id: <20210623180021.898286-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CAFAxGOcxET9j7VkDmcmUXmx3t9eSAM2a5RWSpCVmDfkOQPPfgA@mail.gmail.com>
- <774c11e6-401f-d7ac-a021-44857ea6c620@amsat.org>
-In-Reply-To: <774c11e6-401f-d7ac-a021-44857ea6c620@amsat.org>
-From: Joanne Koong <joannekoong@gmail.com>
-Date: Wed, 23 Jun 2021 10:36:14 -0700
-Message-ID: <CAFAxGOcsEUTFgKH3nLsKDaA4Mxs7PsLArjd3aR-L2KZNLxzhCA@mail.gmail.com>
-Subject: Re: SD/MMC host controller + 64-bit system bus
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000007c548105c5725812"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=joannekoong@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_05=-0.5, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,61 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Tom Yan <tom.ty89@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007c548105c5725812
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Great!! I'm happy to do so. Thanks for the reply!
-
-On Tue, Jun 22, 2021 at 1:51 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
-
-> Hi Joanne,
->
-> On 6/22/21 8:07 PM, Joanne Koong wrote:
-> > Hello! I noticed that the default SD/MMC host controller only supports =
-a
-> > 32-bit system bus. Is there a reason 64-bit system buses aren't
-> > supported by default?
->
-> We aim to support the spec v2.00, so this is a bug in the model, 64-bit
-> system bus should be supported. Do you mind sending a patch?
->
-> Thanks,
->
-> Phil.
->
-
---0000000000007c548105c5725812
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Great!! I&#39;m happy to do so. Thanks for the reply!=C2=
-=A0</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Tue, Jun 22, 2021 at 1:51 PM Philippe Mathieu-Daud=C3=A9 &lt;<a href=
-=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">Hi Joanne,<br>
-<br>
-On 6/22/21 8:07 PM, Joanne Koong wrote:<br>
-&gt; Hello! I noticed that the default SD/MMC host controller only supports=
- a<br>
-&gt; 32-bit system bus. Is there a reason 64-bit system buses aren&#39;t<br=
->
-&gt; supported by default?<br>
-<br>
-We aim to support the spec v2.00, so this is a bug in the model, 64-bit<br>
-system bus should be supported. Do you mind sending a patch?<br>
-<br>
-Thanks,<br>
-<br>
-Phil.<br>
-</blockquote></div>
-
---0000000000007c548105c5725812--
+Hi Ubi-Wan Kenubi and Tom,=0D
+=0D
+In commit a9bcedd (SD card size has to be power of 2) we decided=0D
+to restrict SD card size to avoid security problems (CVE-2020-13253)=0D
+but this became not practical to some users.=0D
+=0D
+This RFC series tries to remove the limitation, keeping our=0D
+functional tests working. It is unfinished work because I had to=0D
+attend other topics, but sending it early as RFC to get feedback.=0D
+I'll keep working when I get more time, except if one if you can=0D
+help me.=0D
+=0D
+Alexander, could you generate a qtest reproducer with the fuzzer=0D
+corpus? See: https://bugs.launchpad.net/qemu/+bug/1878054=0D
+=0D
+Thanks,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (9):=0D
+  hw/sd: When card is in wrong state, log which state it is=0D
+  hw/sd: Extract address_in_range() helper, log invalid accesses=0D
+  tests/acceptance: Tag NetBSD tests as 'os:netbsd'=0D
+  tests/acceptance: Extract image_expand() helper=0D
+  tests/acceptance: Use image_expand() in=0D
+    test_arm_orangepi_uboot_netbsd9=0D
+  tests/acceptance: Use image_expand() in test_arm_orangepi_bionic_20_08=0D
+  tests/acceptance: Do not expand SD card image in test_arm_orangepi_sd=0D
+  tests/acceptance: Remove now unused pow2ceil()=0D
+  hw/sd: Allow card size not power of 2 again=0D
+=0D
+ hw/sd/sd.c                             | 60 +++++++++++++-------------=0D
+ tests/acceptance/boot_linux_console.py | 39 ++++++++---------=0D
+ tests/acceptance/ppc_prep_40p.py       |  2 +=0D
+ 3 files changed, 52 insertions(+), 49 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
