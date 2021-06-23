@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663C63B199E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:11:38 +0200 (CEST)
-Received: from localhost ([::1]:50340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B8E3B19AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:16:43 +0200 (CEST)
+Received: from localhost ([::1]:54298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw1jF-0002ZB-6j
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:11:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46072)
+	id 1lw1oA-0005u0-5h
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:16:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lw1hT-0001p3-3Y
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:09:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lw1hE-0007ol-Hf
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:09:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624450170;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aBPQ++H0A7kqX7Usi0V8vfaXEbk1LZa5/QioHCWBr+4=;
- b=edoSkrk4yTAGgL/6hsFkMGbK5QyvW8+qAMloql87RKaE8agHw6qN3FHaBgZidpj4lLeOIF
- PutqaXeh/f369hcZUcEhbMhJq9cubxSbhWZ2wWrSSvhQqaOEkGGj5EBsVCrRDgRlK4e7xg
- r7VYZTZUb4mohDLno+qsshMOekyuphU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-hjRUCvttO522yHXRxpoZKQ-1; Wed, 23 Jun 2021 08:09:29 -0400
-X-MC-Unique: hjRUCvttO522yHXRxpoZKQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DEF98015F8;
- Wed, 23 Jun 2021 12:09:28 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53195421F;
- Wed, 23 Jun 2021 12:09:23 +0000 (UTC)
-Date: Wed, 23 Jun 2021 14:09:22 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
- boundary
-Message-ID: <20210623140922.404b280b@redhat.com>
-In-Reply-To: <21f86eb7-e9db-b7ac-9014-2baa9fd44741@oracle.com>
-References: <20210622154905.30858-1-joao.m.martins@oracle.com>
- <20210622154905.30858-2-joao.m.martins@oracle.com>
- <20210623110341.0ceca1b4@redhat.com>
- <21f86eb7-e9db-b7ac-9014-2baa9fd44741@oracle.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lw1m2-0003rB-M7
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:30 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:43619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lw1m0-0001xn-U5
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:30 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id s6so3106303edu.10
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 05:14:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Fa9OjhIJ3U//kVonjxwc0sQUDlQnlh1DEpuQTPjP+iw=;
+ b=m25OVf6+ubL1jzqjiOl4o6eXtd9bbte0UGzjGnFQ4STDlTUQhrLn1HYVrrSEV5cUyJ
+ yxQD4y2s+J8qDkx3OaNMy7cw1clFBGn6NQXpMHv2LSe/lqsAouWUww90/ZOjG2zhNP7+
+ CG0BurgHwPeRjJH1W/05YWCf2AXAlBLIs7YCKbKDA9Gce25R5nJ8z38keL8TC07BJTOz
+ 12m8UPOZHEhrnybIz1n07+QJY7/u6g+8WTWaf+aeyY5g3k9CYbG/MGF2z9jJBveaTOSy
+ XnKJ8VF2i4wAhXdQbOFS/tJXk6SLoamNfKKiDAKnKZjde9HFaJVJnF6xswllawpGz3Gp
+ aXqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Fa9OjhIJ3U//kVonjxwc0sQUDlQnlh1DEpuQTPjP+iw=;
+ b=hLvXziXa463vVzm5hZSn7Nh+uH6MptWzRI4KaWA2HeylduDwHzYU2AUYFeQsGGF5aT
+ M5uQmI+6iCtfKSg36buZiAsJP3X1g31LPszW/nLTijpUejw887oPTopvl1cK4XwfftJM
+ lyqPxR2gSvSGLkKo/ZpCyLwDGoFlX5jNPjtuw8MtmE0dkRznoHnKxIm9C0AkGDAB277r
+ Wxww6ciB5nhP1UcZx2pqq7DIyJA6do74lAjRwjbOCdnP4K26YRL8aOW/bpDVr+LVdScm
+ zj2cfyXU3Qy4OKoVczcqBlmLZj50TP6paKc9fsG2X4qyV2rnu5UFRvqJIGzm8pu5EhCx
+ JQsg==
+X-Gm-Message-State: AOAM533GAgw2vGROt8L1OK6WIiZx19zd2mMGTOuAsaOUH4Gy0LFePyI+
+ /4kO0uC+BuF4iU6mf40jxLwwKmHI2uI=
+X-Google-Smtp-Source: ABdhPJwKPZUWGlKROZ+hqQhyGA6ZlpymukzKZ27WWyxY0NBmZkcl6OfvxFCQrIGHtunRqU9gCE4WzA==
+X-Received: by 2002:a05:6402:520c:: with SMTP id
+ s12mr12149268edd.357.1624450465765; 
+ Wed, 23 Jun 2021 05:14:25 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.25
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Jun 2021 05:14:25 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/12] Misc, mostly meson patches for 2021-06-23
+Date: Wed, 23 Jun 2021 14:14:12 +0200
+Message-Id: <20210623121424.1259496-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,90 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Jun 2021 10:51:59 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
+The following changes since commit b22726abdfa54592d6ad88f65b0297c0e8b363e2:
 
-> On 6/23/21 10:03 AM, Igor Mammedov wrote:
-> > On Tue, 22 Jun 2021 16:49:00 +0100
-> > Joao Martins <joao.m.martins@oracle.com> wrote:
-> >   
-> >> It is assumed that the whole GPA space is available to be
-> >> DMA addressable, within a given address space limit. Since
-> >> v5.4 based that is not true, and VFIO will validate whether
-> >> the selected IOVA is indeed valid i.e. not reserved by IOMMU
-> >> on behalf of some specific devices or platform-defined.
-> >>
-> >> AMD systems with an IOMMU are examples of such platforms and
-> >> particularly may export only these ranges as allowed:
-> >>
-> >> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
-> >> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
-> >> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb)
-> >>
-> >> We already know of accounting for the 4G hole, albeit if the
-> >> guest is big enough we will fail to allocate a >1010G given
-> >> the ~12G hole at the 1Tb boundary, reserved for HyperTransport.
-> >>
-> >> When creating the region above 4G, take into account what
-> >> IOVAs are allowed by defining the known allowed ranges
-> >> and search for the next free IOVA ranges. When finding a
-> >> invalid IOVA we mark them as reserved and proceed to the
-> >> next allowed IOVA region.
-> >>
-> >> After accounting for the 1Tb hole on AMD hosts, mtree should
-> >> look like:
-> >>
-> >> 0000000100000000-000000fcffffffff (prio 0, i/o):
-> >> 	alias ram-above-4g @pc.ram 0000000080000000-000000fc7fffffff
-> >> 0000010000000000-000001037fffffff (prio 0, i/o):
-> >> 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff  
-> > 
-> > You are talking here about GPA which is guest specific thing
-> > and then somehow it becomes tied to host. For bystanders it's
-> > not clear from above commit message how both are related.
-> > I'd add here an explicit explanation how AMD host is related GPAs
-> > and clarify where you are talking about guest/host side.
-> >   
-> OK, makes sense.
-> 
-> Perhaps using IOVA makes it easier to understand. I said GPA because
-> there's an 1:1 mapping between GPA and IOVA (if you're not using vIOMMU).
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-06-22 16:07:53 +0100)
 
-IOVA may be a too broad term, maybe explain it in terms of GPA and HPA
-and why it does matter on each side (host/guest)
+are available in the Git repository at:
 
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-> > also what about usecases:
-> >  * start QEMU with Intel cpu model on AMD host with intel's iommu  
-> 
-> In principle it would be less likely to occur. But you would still need
-> to mark the same range as reserved. The limitation is on DMA occuring
-> on those IOVAs (host or guest) coinciding with that range, so you would
-> want to inform the guest that at least those should be avoided.
-> 
-> >  * start QEMU with AMD cpu model and AMD's iommu on Intel host  
-> 
-> Here you would probably only mark the range, solely for honoring how hardware
-> is usually represented. But really, on Intel, nothing stops you from exposing the
-> aforementioned range as RAM.
-> 
-> >  * start QEMU in TCG mode on AMD host (mostly form qtest point ot view)
-> >   
-> This one is tricky. Because you can hotplug a VFIO device later on,
-> I opted for always marking the reserved range. If you don't use VFIO you're good, but
-> otherwise you would still need reserved. But I am not sure how qtest is used
-> today for testing huge guests.
-I do not know if there are VFIO tests in qtest (probably nope, since that
-could require a host configured for that), but we can add a test
-for his memory quirk (assuming phys-bits won't get in the way)
+for you to fetch changes up to 0f38448da7ab61a23fc35f57276a7272d6e4d984:
+
+  KVM: Fix dirty ring mmap incorrect size due to renaming accident (2021-06-23 12:20:59 +0200)
+
+----------------------------------------------------------------
+* Some Meson test conversions
+* KVM dirty page ring buffer fix
+* KVM TSC scaling support
+
+----------------------------------------------------------------
+Paolo Bonzini (11):
+      target/i386: kvm: add support for TSC scaling
+      meson: drop unused CONFIG_GCRYPT_HMAC
+      configure: drop unused variables for xts
+      meson: remove preadv from summary
+      tests: remove QCRYPTO_HAVE_TLS_TEST_SUPPORT
+      configure, meson: convert crypto detection to meson
+      configure, meson: convert libtasn1 detection to meson
+      configure, meson: convert pam detection to meson
+      configure, meson: convert libusb detection to meson
+      configure, meson: convert libcacard detection to meson
+      configure, meson: convert libusbredir detection to meson
+
+Peter Xu (1):
+      KVM: Fix dirty ring mmap incorrect size due to renaming accident
+
+ accel/kvm/kvm-all.c                   |   4 +-
+ authz/meson.build                     |   2 +-
+ configure                             | 326 +++-------------------------------
+ crypto/meson.build                    |  41 ++---
+ hw/usb/meson.build                    |   6 +-
+ meson.build                           | 151 +++++++++++-----
+ meson_options.txt                     |  14 ++
+ target/i386/cpu.c                     |   2 +-
+ target/i386/cpu.h                     |   1 +
+ target/i386/kvm/kvm.c                 |  12 +-
+ tests/unit/crypto-tls-psk-helpers.c   |   6 -
+ tests/unit/crypto-tls-psk-helpers.h   |   4 -
+ tests/unit/crypto-tls-x509-helpers.c  |   4 -
+ tests/unit/crypto-tls-x509-helpers.h  |  11 +-
+ tests/unit/meson.build                |  10 +-
+ tests/unit/pkix_asn1_tab.c            |   3 -
+ tests/unit/test-crypto-tlscredsx509.c |  12 --
+ tests/unit/test-crypto-tlssession.c   |  12 --
+ tests/unit/test-io-channel-tls.c      |  12 --
+ 19 files changed, 177 insertions(+), 456 deletions(-)
+-- 
+2.31.1
 
 
