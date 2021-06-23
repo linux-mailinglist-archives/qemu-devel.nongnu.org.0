@@ -2,107 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6483B16D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 11:29:51 +0200 (CEST)
-Received: from localhost ([::1]:55120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8F43B16D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 11:30:37 +0200 (CEST)
+Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvzCg-0005e9-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 05:29:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48106)
+	id 1lvzDQ-0006da-Cx
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 05:30:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1lvzBd-0004mu-Iy
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:28:45 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41660)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lvzC6-0005G6-VT
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:29:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1lvzBb-0004dK-5x
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:28:45 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15N93a4v185047; Wed, 23 Jun 2021 05:28:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=oqCL372a+F5IYpM9w0Udj4ImYZXhm9sknJQfj5HV9K4=;
- b=Ttkjt9LAwyjJ9lX5C8GODkktjGoqvuWcd3iV8BxgmT0Z2RgdN01YSzXMzOFQs8v2GlNE
- wLpBxm9yY6slUEbPqeYWjZLYvo0BnPwuHdWU8Dhv2ZiJelvhrK1WPdowemO141wu6FaL
- /GcM+4KTALy5y47WD0MF2Ugqh+t4nWM61SEoJGLy0xZ1B28BBNzHmNnGaDy5+5aekL83
- paSor3ooSgfrVbIwT5nw3Ozo0A1AxfAHjQYeo/b5VkwC7F3pNkQmNom4FRntE/lmYiMK
- 2ppEIOVp3u/mBHFvf5TrnJUQX6lHnH3yEz78WNjD35FX74vb0XNDoFc3MaZiuFsrkr1n 4A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39c0ey411g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Jun 2021 05:28:39 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15N93xxK186660;
- Wed, 23 Jun 2021 05:28:38 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39c0ey410b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Jun 2021 05:28:38 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15N9FD2F019379;
- Wed, 23 Jun 2021 09:28:36 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 39987891rk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Jun 2021 09:28:36 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15N9SW3Y24773028
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Jun 2021 09:28:33 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D1F4452050;
- Wed, 23 Jun 2021 09:28:32 +0000 (GMT)
-Received: from [9.148.12.78] (unknown [9.148.12.78])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 996EF5204E;
- Wed, 23 Jun 2021 09:28:31 +0000 (GMT)
-Subject: Re: [PATCH v2 1/2] sev/i386: Introduce sev_add_kernel_loader_hashes
- for measured linux boot
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210621190553.1763020-1-dovmurik@linux.ibm.com>
- <20210621190553.1763020-2-dovmurik@linux.ibm.com>
- <de9d8cd5-fcc3-10d2-6dda-003e4ad5524d@redhat.com>
- <36ff1adc-79c5-5526-2212-0aa28283fd75@linux.ibm.com>
- <YNL1hazUg/shU7nU@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <4f50f4ef-b270-3985-30a7-ea5f0998d551@linux.ibm.com>
-Date: Wed, 23 Jun 2021 12:28:31 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lvzC3-00051S-Hv
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:29:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624440550;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=mQ/yRJpzblFYdIaQ4Kdd80JaxZPJVBVhrxhclWrofbk=;
+ b=GACifZO4wlFxnUk57dCbLR3eE3tIgpNHJeEeGL4EiXeTu5Q6SxeMX46M2wl6+agvQro9HR
+ Ne3Bm5xd+5I1xy5OyZkhvXc825gZVD/+BQk88MfoL9HTJifaRe42hI+EjgYURJ2Pvx/FMV
+ QgZJRT8o1C/W4oDaHJKTn/BMrrwBNCE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-LwbzrbrcN3yYriWP_xoobw-1; Wed, 23 Jun 2021 05:29:01 -0400
+X-MC-Unique: LwbzrbrcN3yYriWP_xoobw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12E2E100CF6F;
+ Wed, 23 Jun 2021 09:29:00 +0000 (UTC)
+Received: from redhat.com (ovpn-114-176.ams2.redhat.com [10.36.114.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF79810016F8;
+ Wed, 23 Jun 2021 09:28:58 +0000 (UTC)
+Date: Wed, 23 Jun 2021 10:28:55 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Tom Yan <tom.ty89@gmail.com>
+Subject: Re: Regarding commit a9bcedd (SD card size has to be power of 2)
+Message-ID: <YNL+19TnvDzK5NNh@redhat.com>
+References: <CAGnHSEnpEpnNHtryR=gMTxcGUd0EGW5h5KQeJvkYHp1Fw844fA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YNL1hazUg/shU7nU@redhat.com>
+In-Reply-To: <CAGnHSEnpEpnNHtryR=gMTxcGUd0EGW5h5KQeJvkYHp1Fw844fA@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uELEnrlME4k-gfMxudgYG_raUVQuk8XM
-X-Proofpoint-ORIG-GUID: iNJ29yZ2SWMscIMP18pQSqWwGS-eLn5d
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-23_03:2021-06-22,
- 2021-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015
- bulkscore=0 phishscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 malwarescore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106230054
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,54 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, dovmurik@linux.ibm.com,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: peter.maydell@linaro.org, alistair.francis@wdc.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 23/06/2021 11:49, Daniel P. Berrangé wrote:
-> On Wed, Jun 23, 2021 at 11:41:56AM +0300, Dov Murik wrote:
-
-...
-
->>
->> Related: I wondered if I could replace HASH_SIZE in:
->>
->>
->>   /* hard code sha256 digest size */
->>   #define HASH_SIZE 32
->>
->>   typedef struct QEMU_PACKED SevHashTableEntry {
->>       QemuUUID guid;
->>       uint16_t len;
->>       uint8_t hash[HASH_SIZE];
->>   } SevHashTableEntry;
->>
->>
->> with some SHA256-related constant from crypto/hash.h, but I only found
->> the qcrypto_hash_digest_len(QCRYPTO_HASH_ALG_SHA256) function which
->> doesn't work for setting sizes of arrays at compile-time.
->>
->> Daniel: do you know what would be the proper way?
+On Mon, Jun 07, 2021 at 04:29:54PM +0800, Tom Yan wrote:
+> Hi philmd (and others),
 > 
-> We don't have any public constants right now - they're just hardcoded
-> in hash.c struct. We could define public constants, and use those in
-> the struct instead, as well as in other callers.
+> So I just noticed your commit of requiring the size of an emulated SD
+> card to be a power of 2, when I was trying to emulate one for an
+> actual one (well, it's a microSD, but still), as it errored out.
 > 
+> You claim that the kernel will consider it to be a firmware bug and
+> "correct" the capacity by rounding it up. Could you provide a concrete
+> reference to the code that does such a thing? I'm not ruling out that
+> some crazy code could have gone upstream because some reviewers might
+> not be doing their job right, but if that really happened, it's a
+> kernel bug/regression and qemu should not do an equally-crazy thing to
+> "fix" it.
 
-Thanks Daniel.
+I looked back at the original threads for details, but didn't
+find any aside from this short message saying it broke Linux:
 
-I see the exact same pattern in block/quorom.c (see HASH_LENGTH there).
-I'll leave this change for a separate series.
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg720737.html
 
--Dov
+Philippe, do you have more details on the problem hit, or pointer
+to where the power-of-2 restriction is in Linux ?
+
+> No offense but what you claimed really sounds absurd and ridiculous.
+> Although I don't have hundreds of SD cards in hand, I owned quite a
+> few at least, like most people do, with capacities ranging from ~2G to
+> ~128G, and I don't even recall seeing a single one that has the
+> capacity being a power of 2. (Just like vendors of HDDs and SSDs, they
+> literally never do that AFAICT, for whatever reasons.)
+
+Yes, this does feel pretty odd to me too, based on the real physical
+SD cards I've used with Linux non-power-2 sizes.
+
+Also in general QEMU shouldn't be enforcing restrictions based on
+guest behaviour, it should follow the hardware specs. If the
+hardware spec doesn't mandate power-of-2 sizes, then QEMU shoud
+not require that, even if some guest OS has added an artificial
+restriction of its own.
+
+> Besides, even if there's a proper reason for the kernel to "fix" the
+> capacity, there's no reason for it to round it up either, because
+> obviously there will never be actual storage for the "virtual blocks".
+> I've never seen such a behavior so far either with the "mmcblk" hosts
+> I've used so far.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
