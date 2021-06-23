@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636713B1F08
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 18:52:31 +0200 (CEST)
-Received: from localhost ([::1]:56684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3FC3B1F15
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 18:56:22 +0200 (CEST)
+Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw673-0002iF-Vh
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 12:52:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52954)
+	id 1lw6Am-0005At-Uz
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 12:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lw653-0000cR-IR
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 12:50:25 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:33716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lw651-0007K1-Rb
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 12:50:25 -0400
-Received: by mail-ej1-x636.google.com with SMTP id bu12so5133172ejb.0
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 09:50:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bwh0103wUwMWqnMCL+72rqouNEWDjGDch1QNLDIocp0=;
- b=BFFACoSkmlFZYwKs3K43wbdir456RL0g/0H+tBZOTz00+gIxVAg1KjJ+f/xY/eObx+
- YCL3klNe18BUgroWP2HHyWK/knVrYuai3gZbJGUQ3xsWgK+EPQDs/5TgbUuw39wOXMUN
- pW9z+t0diJm+AZAK4Yn1mlJdaSX0IY9mg8VEsKW49n8VcqJz2VzXUFgi53UzAiSbxSvM
- N15GhgVV1+JICkqRm9R8ZsJTpeeYfJ//kutEETNKvjnRQXPwGekPHHVGxi3cudVeh1RL
- I4R4Vxv6WlL9FUjd7kLFRmtPGwuCe9nPSsJ3b2SmFDqBw0k/UktLD3h1kf9Lj+impXTh
- et8w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lw69B-00042g-0C
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 12:54:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lw696-0001rM-S3
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 12:54:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624467275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tXaeuQZ5m+k4Ka6cghkT5P81QqcmXIh7jTGvyGi3jvE=;
+ b=IgvY8BFOaa3hP+gASuoj5I9tHiwQdsJbL1kPvKkEVGszYhFeAWpnPaEGuOFLTV51kZeK9M
+ Do9VwMox4AhKiFGciqOi5miAnD7DNUNUD/TnQnW6En9MgJnWn7EMAakehRN9TXhL1CkR71
+ YXqCFiUgBUwbmkl1vs55v6HIA/uSOzA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-HvnVL5KuO2uOQvA8Fp_5ow-1; Wed, 23 Jun 2021 12:54:33 -0400
+X-MC-Unique: HvnVL5KuO2uOQvA8Fp_5ow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j2-20020a05600c1c02b02901cecbe55d49so250910wms.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 09:54:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bwh0103wUwMWqnMCL+72rqouNEWDjGDch1QNLDIocp0=;
- b=qaH1+8sLP5WcuN9ybdYt8O1cnImXpQKx65qEEjWMbKXfRtmd+Ue3+holcRNINL6pxy
- 5Aa5OSgadqkqQOBMgZcRRDFbzzyYaviU1CKPZy2uOG16ENUA9d0fUuS+wIY7ycTkomCA
- xNfEUf78ljonqToNfw1Uh63UGWNgJ2WmyM5wnu42SIzSQ+Xva7qv9l+xKLadDG3cUNsw
- zaM7XBL4JqBRcupkn417YI6MMF7il7FigzKJS6MNklessdVj4vRlJoqIeUNnHrou0cdD
- uCnwbE1c4XxtMfmZKTqhPoCDRWNNwFdYP0+L5lyyyktaERN5E85FeVF3j2I12w9mm0sg
- gYkw==
-X-Gm-Message-State: AOAM530KHycx3CgZQWeyyC6LtGZN/1He0/0eKqRNL3s3MTboebKCJmgG
- f2aCPUrZokw59MMyIlLju2G84+IY3ow+nCuURpDU+Q==
-X-Google-Smtp-Source: ABdhPJxqGVGjQWCr38HT9cALcx63IimfrdQHLQf9OXMuMXrRcJDybpFAzWizvW9z0ZwOdQgE7tfSLE8l4nNJy89ZpGs=
-X-Received: by 2002:a17:907:a064:: with SMTP id
- ia4mr1014522ejc.482.1624467021004; 
- Wed, 23 Jun 2021 09:50:21 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tXaeuQZ5m+k4Ka6cghkT5P81QqcmXIh7jTGvyGi3jvE=;
+ b=pqrOnYUiZb28HH9IA4zhxndndwrz7/N0KVYAmjjHogBARXFZNeMDq175bY6kyK7q48
+ 87qjE7+EuksFW/BTKy34Oc3jEjziAEJHaBSNwPnv3cIV22/CSSS170X4SZM7IlLWipUY
+ /Nxt97Q02HL10ggWIBiImgoiCMLnnRZtfZUOIlX+LGSTNsjGRtwQ3FNuV4eBJyDMo5LA
+ Kpaqw1nYpQeAcYM7m+Vc0DxW9sZFwi6b2KZxAXHevbzFwgqR2ZjY/O8UgRk0we6w2sL4
+ B2vp5mhB/renLjwaW7dX3dCEP98xMNrmZjPbpnOjRzGJB9dOD2q8A01EIGxV+5YA0uHy
+ bKZw==
+X-Gm-Message-State: AOAM5306vXhZOtxEQ7og9+XUHcB6heZOMmtrpJXrX7AXHVDc6G6XRFOD
+ dN4EJTRhkIIYvJewWCMa9Gp/eASRETpgPbSScuzRMJnRyXKuO0+EPmXF3VQ1kqYjNPKzInrbeYa
+ EyLgs/llWC4Cj13Y=
+X-Received: by 2002:a5d:4044:: with SMTP id w4mr1149907wrp.201.1624467272872; 
+ Wed, 23 Jun 2021 09:54:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWcbI6h1VGaVybYpWQUBYKYUCXbxxqBnE8HzSLWEZm7DE3LEHX7UcypPVqHU0wGZ/ccV11xQ==
+X-Received: by 2002:a5d:4044:: with SMTP id w4mr1149893wrp.201.1624467272700; 
+ Wed, 23 Jun 2021 09:54:32 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id b11sm6286094wmj.25.2021.06.23.09.54.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Jun 2021 09:54:32 -0700 (PDT)
+Subject: Re: [PATCH v7 0/6] hw/block/fdc: Allow Kconfig-selecting ISA
+ bus/SysBus floppy controllers
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210614193220.2007159-1-philmd@redhat.com>
+ <599f64bd-6d47-34a7-14be-b414d65490a1@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0ac75790-cda9-2f5f-75f3-12c5464e7cbb@redhat.com>
+Date: Wed, 23 Jun 2021 18:54:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <1624043202-20124-1-git-send-email-tsimpson@quicinc.com>
- <BYAPR02MB488608E16AA66341B3D9E972DE089@BYAPR02MB4886.namprd02.prod.outlook.com>
-In-Reply-To: <BYAPR02MB488608E16AA66341B3D9E972DE089@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Jun 2021 17:50:09 +0100
-Message-ID: <CAFEAcA-0gDMzKQ8nf3PK_h4n_Teg6u+GXfKTBnZLkMPgACR3_Q@mail.gmail.com>
-Subject: Re: [PULL 0/4] Hexagon (target/hexagon) bug fixes
-To: Taylor Simpson <tsimpson@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <599f64bd-6d47-34a7-14be-b414d65490a1@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,21 +100,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>, "philmd@redhat.com" <philmd@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Brian Cain <bcain@quicinc.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Jun 2021 at 15:31, Taylor Simpson <tsimpson@quicinc.com> wrote:
->
-> Adding Peter to the CC list ...
+On 6/23/21 5:56 PM, John Snow wrote:
+> On 6/14/21 3:32 PM, Philippe Mathieu-Daudé wrote:
+>> Hi,
+>>
+>> The floppy disc controllers pulls in irrelevant devices (sysbus in
+>> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
+>>
+>> This series clean that by extracting each device in its own file,
+>> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
 
-This is on my to-process list (I catch pull requests by
-looking for particular text in the email), but it's from
-a git repository I haven't dealt with before, so it went
-onto my "deal with when I have some time spare" list.
+> Staged again,
+> 
+> https://gitlab.com/jsnow/qemu/-/pipelines/326076557
+> 
+> will send PR as soon as the CI is done.
 
--- PMM
+🤞
+
 
