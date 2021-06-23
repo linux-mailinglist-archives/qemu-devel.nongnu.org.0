@@ -2,138 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B9A3B2191
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 22:07:10 +0200 (CEST)
-Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90CC3B2240
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 23:10:46 +0200 (CEST)
+Received: from localhost ([::1]:55724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw99Q-0002lm-J7
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 16:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40128)
+	id 1lwA8z-0005eR-EW
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 17:10:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1lw97c-0001St-0X
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 16:05:16 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:18548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1lw97X-0006wd-IW
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 16:05:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1624478711; x=1625083511;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=RwvgpmB5rzFQVpoQzbNBshCfA0x3ucrlqClStkyx4Wc=;
- b=2ZTR1THadPW5agP6cmoG0kXhrZyVTHDIJ6w7Qz0EfY0j3wKeHkAfLAns
- gmrorXM9a27JNoVQ8CZXRQirX1sWPvwLDKp/03oNfMY6FWKrQGLDg+j4w
- 2rld+q9nw00sp9GGs8FSQT6rkNkUBD0Zn2X/12KAlrifDnWxdQnnKIyc4 A=;
-IronPort-SDR: 3fcrJY+6Zpm68IrDF62vwv+2jcM/cVwFeqyjpPw1rxxw7Ke0cSp6M5SOEes0hseMFk0EyiYpag
- RockiMCfkGhGjsAaIGvbh5/QPI1EgLZ88eLYaXCK1kKBGGKc5KZQ26mFgN8x8fBcYg54sNvA8Z
- RQS+KkOOa2QL4nwCWeoyLxSfG75WhSERWK0mhFSWxSYwkMGIzGMitp4oVfIsnn5z5vgkOx3wya
- +2DC7bDquzBTW7tkMbfZmxVbdv/cGGMMml/AKLQv2B1JF37adJsyZm8y8FYDUK2pmiCllAIAEt
- 4ho=
-Received: from mail-sn1anam02lp2046.outbound.protection.outlook.com (HELO
- NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.46])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 20:05:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U0GncNRyejcwHi52FYkJ+uEwrOQYiHf5WkXhEMwmsQxuKqlwb29XqdhTalQVq6O4o+BYXYpq4SrcJoFWuNTuv5xG0dy4AWLTbqW54Xdab705xkJ4tA98tNm7ZcR4Ss+JTDQk2KeqXbKNlaEr8WKOZXUNEu6zHP8eSO4d3p05jBiY2bax8gedVTBbmvbkpth5ADxxZEKuPzbOvXQC3CIvODvI1AM9emQZfYe4kAWL1mGiiaK+qOQYq/Y+MlFlUbGj7jFEUxJyxz4BfJctuf1/875j+Hu6HdYEIeQ0T5ddRfE/jokfnVD2hDe7ReViZ6M7rkaxje1Tsudg5VihTIz/iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lz55TVEQXViAg8ZS8gEAKC922hmmfRJslOJHLRlPOUg=;
- b=YIbB8l5Rc3Z5PkpjWBUdmXyMQfMBdA83yujs/c4bI9FmuMMUYhd/LrkaBcqZYHPn63n0oemUs6IDN7TnI+bLmsx3NeHqLx2uW/BreyVbMtal3fuP9kzw34b3CLPbe7bZcwHBab58zBzcl2DRuRXs1nDEDzXLTehGF4Uwy0hG36UDqCEh4tFn24nxlkKr2dRPHzeS/ck/carlfHgR70Spa+74umXzLehQXBvRKVqv5uhFes4PJ0J6lvvmcWcHbxpk1G0H9gbqM9AmfVPC9Y5HJfC7i39mo16CvB7CatZSEWkiHL45liDy94egqW/ah8HJCvAkMN32ssfj5/B0rCmY5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BYAPR02MB4232.namprd02.prod.outlook.com (2603:10b6:a02:f8::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Wed, 23 Jun
- 2021 20:05:05 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::9533:5f34:8b3e:ed]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::9533:5f34:8b3e:ed%6]) with mapi id 15.20.4242.024; Wed, 23 Jun 2021
- 20:05:05 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Alessandro Di Federico <ale.qemu@rev.ng>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v5 09/14] target/hexagon: import lexer for idef-parser
-Thread-Topic: [PATCH v5 09/14] target/hexagon: import lexer for idef-parser
-Thread-Index: AQHXZO7BUuWx7rEkUkmKezCeuPjGfqsiBORg
-Date: Wed, 23 Jun 2021 20:05:04 +0000
-Message-ID: <BYAPR02MB488636852F71417BE2EA28E3DE089@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <20210619093713.1845446-1-ale.qemu@rev.ng>
- <20210619093713.1845446-10-ale.qemu@rev.ng>
-In-Reply-To: <20210619093713.1845446-10-ale.qemu@rev.ng>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: rev.ng; dkim=none (message not signed)
- header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
-x-originating-ip: [76.120.51.212]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: aa5319c1-12f0-467a-315c-08d936823148
-x-ms-traffictypediagnostic: BYAPR02MB4232:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB42328D59793BC8FB22BDE605DE089@BYAPR02MB4232.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1332;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: c2H24S0efpCdAMMcK1l2VT/mS2ek3kdM8HkV9rRSzeWH+uGvLNjmCXDHJmugs8Ejy1rGS27HAH7qCR6ciy61VlDDZMfo4ulTcSCbtXsijrbJlWR1IAX69saM/qxLo7A1zqtPANxDhdp/MVsrmvzddTbwiX6d+Ec4XpImaLBhnwvCzeVMQEIbXTMFB55E85EHi0cXdx1m0VWnJY365i0o5e7RzaKoj3qriblEYxW4zva2u+MQ1r4vdkS65zE49Ssl0IdF3qKeyHnAF8lZu56UgukNmLP5I+fgmEcMITuVRWzVjwsMnWVpsVIqqtsDg0dF5qW5XiIZMWPYhHSkp3BZWoqYPrKl7VA+j5HDfuMCJp6bbcMM3VbJ0rI3UOT+r0mvXNLGWluFafYzIKEcf16M729pPO+VgEyB9FmbvmOkIr3jxO+YM4VMETgaGRwVHU1HLjalQADc7mx5RizQ7ydoOfNpZFs8km5ncq4b5OB/T3ArnesNguJ4FMQxylvaVmyBKvL50VTSlYlypxXWhUzAvZnjXWgyBk/B1fYniw/UVn+yjz+ay1A1tn+dku3HkMGnR6Xb8yHCn/jBvhSHMyehsQQWuQ2M7/gJFiN/NN/muV3+WXizJwQR6IOiWfVr1zpNjr+vLb75Q09IAc8pQExEMw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(26005)(6506007)(83380400001)(53546011)(7696005)(186003)(55016002)(33656002)(4326008)(498600001)(122000001)(38100700002)(9686003)(8676002)(76116006)(8936002)(71200400001)(64756008)(66556008)(66446008)(66946007)(66476007)(52536014)(110136005)(54906003)(2906002)(5660300002)(86362001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wpc0n4b43j5ljM28/wOAjPw5bGkVUpUpo/r2I5UGQxrKlHqNBvljbK96l9MP?=
- =?us-ascii?Q?wERDGtYaok/ZSB7oGvnA7/yiwxz3/6Ds/dHBy+iIygvS/PLZvGcs4Pjo0u7m?=
- =?us-ascii?Q?hc0fs/U5BI/ht/DGlQF3SiQhfx5aD3GAny8Z6hmsEDriTpsZMAhxUzT0d1hd?=
- =?us-ascii?Q?jH60U8BxrC6+vzzNqhymyh8q0V93v2jpiFxoZQVqC4PNIEmNtxQdTiMl+3YU?=
- =?us-ascii?Q?XhNLz2S2nL1bAE/JA5mH23xiwEqV5dbhfLCbum0IzKPN0i2kMkuvDgylzqQA?=
- =?us-ascii?Q?763JrEOpEWlWE0eoE6fQhaEhhL708yWnprsnRh1Jz9LEqSKN2ehyZBgHVviC?=
- =?us-ascii?Q?nH9D1imywYHeT5HIszlTVm0ZlV0ACnfOdcSXIRuW6E1kVqzmEgj+UhiO9sZQ?=
- =?us-ascii?Q?11ooBW6bbV0SuG/t/OY+bPb5qAbA8IpgwY3VL71p+a22xAex9+1bEe8r5Uyh?=
- =?us-ascii?Q?EmEya/XjumkDMSAzDlczgNB0NELaNDj6NmTXOH4C+SLbJhGFcPffqLpsyZG2?=
- =?us-ascii?Q?TqUpttrot9tFcZpEjYxtAwW5juKBHg6MaFQJqE7vR7EVB6+NvmxInsWy4Y8X?=
- =?us-ascii?Q?c4DFKrp093yOIaEhlz4T9Ue9wYfGNPJtYifXEdFv64P9IO7ZygWHIitrCtq/?=
- =?us-ascii?Q?IpwOZNT6Z4qhnK3rvhfAooUw0q3Q4unEkyqLUFzepP6ukF95lv/XOCH0rb1t?=
- =?us-ascii?Q?nk777ZD7kM6s5thdCmqGNbvoOLHCOSEEgNZviV9GH8zgw0286uffcyRvNIXx?=
- =?us-ascii?Q?ma/5boJlkEhu3nbIayPhPzYpnQumSNynYlgwS339NIjLhrsASakLmcoGC2Aj?=
- =?us-ascii?Q?qcfrGfjp91gZMHfUJOISUXUNu2CMgRIvYs083BlliEWZO7X++gPxCtkaTEdu?=
- =?us-ascii?Q?90LW4HXLV0o4MfloZ7mt72ucKy6sdiNgLqj6yrANJeFCosKKBz4+L3zEDo9l?=
- =?us-ascii?Q?QTelfZteW7DtRaNTtDyuWreTXkKgw5ub4QQAtgAz3rrjB3cgEcWMFZzVhh7P?=
- =?us-ascii?Q?hlaggJ22GPPoaP+KdXdZZHw+FQ/m3p1K3hl+MAmEG4bJW+je6J8qP15kgPFM?=
- =?us-ascii?Q?ESWdqeq04Y2L4DBaAb9OvwN5Yx2/+GQ04k8DkSLg5RxvlpdQIgalzVk8jL3q?=
- =?us-ascii?Q?4cp5Dnph72hm4XKX3aXEAyUdLbXeuT8bSZQA/T2kwZns86LR/oTppFAsjUd6?=
- =?us-ascii?Q?Tuu0FKGm+NePnqJQ6hMDkmEGMTSF5CSlE4pmzGHZLczqH4kGLUKjBJO2tDgx?=
- =?us-ascii?Q?Zq2mVddm6eNLdiAWeQn467DRnXT8M+eFPL/AcmNRGVnKxNrBeL+0xLEUFp5g?=
- =?us-ascii?Q?HNqjB5r+iOoVmp4gEUW+sqZP?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <sraasch@gmail.com>) id 1lw9Gw-0005yW-5K
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 16:14:54 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sraasch@gmail.com>) id 1lw9Gq-00059e-8F
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 16:14:53 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id a11so3973632wrt.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 13:14:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:reply-to:from:date:message-id:subject:to;
+ bh=GQxeG2CgffAY8Bbp9MeCEDJR6S7r5bLjacy14P/A8B0=;
+ b=aFO6wCxYRz6n1rzCKyhVMUQXpa9+sQ+9Gzh+QK+kEt8AovT+GMTt1KRA+UMOIjOJo4
+ QFL9Y9KVQM/ghTsvUzeQ4/2zzLqpCDvM0+1a1DDQkSxukRStLoE+eCWdbyfSc4G8lRFZ
+ /S+0Ez2Q85H02lrJjE9q3AL352JPH9t8C4jaDzme3zM1L77j3OTnAfhh+ZdvJphbJiXr
+ z+sNrBXa9eQX600SWSH9EgK6mGeuGEv8sO4tFxIrEqz2DQk3KFTTUHV8cB3ozHNPJLIp
+ JVN3N+Dgy6d7vqjaAlPuzYu0gWRkTbp0Ebtm5HLAfurqIWsi2yt9y3BGavf63DFglSZX
+ kBcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+ :subject:to;
+ bh=GQxeG2CgffAY8Bbp9MeCEDJR6S7r5bLjacy14P/A8B0=;
+ b=h2bssfDM3PbWiRg2p5pKKrU6rTFETALiylcHZJ8AupSiP9x6oQEPxcQfPpTk6QUKXc
+ qzPHOvzM5G6HVCzCAGK0sVhPOxQiYAS2keZbdyH06JvbqbnvlYGVGXg88pqw/El+wv8c
+ yK5seQYg3PiVdu8xCIthAUXI5EMLAFmwfASkl6P7JLXu2fN3K7rfyn32zo7EdMfVj+/+
+ K+2DLiOkwuhHU2+bw/3brzSz/IJ+oco6XRmspTbBuNeRZT4ZGUExVsqypq0wwFo4v3M5
+ V/2Z+Bp/ReQoH6QfoBJkGBjeVgk27ofIekj5X/r51+pnMV0l8UANnvOtS6DE04r2+6dF
+ xAgg==
+X-Gm-Message-State: AOAM530Evyrnj63sZA8jfM4VvsH83z5yCcAbHboLmq3hx9AlHlz3ggmJ
+ zhld4FOpK+4ELlBZRFsu/3y/iP8+uvuKp/KfA3j5sLQauK+pbA==
+X-Google-Smtp-Source: ABdhPJwL4Nn9M+uUhZLBX2BhfdK/KY6y8GW+PIhblbOu757GUFH7nwUsVAHsTajt1OQgBJE8NTJCUHTk94Z1Riz+Q/A=
+X-Received: by 2002:adf:fe8e:: with SMTP id l14mr2166702wrr.49.1624479284071; 
+ Wed, 23 Jun 2021 13:14:44 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa5319c1-12f0-467a-315c-08d936823148
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 20:05:04.8719 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lu22oElGNFIjygDt28uOqCv8JHoq5PGo/5tfovlBgkxt6ZZ9FuglK/QnkNx4YDeQoNBqew/2LmSt+OeXKJ+Xxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4232
-Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+From: Steven Raasch <sraasch@gmail.com>
+Date: Wed, 23 Jun 2021 15:14:28 -0500
+Message-ID: <CA+5M2MC9q5RTNYh2YTan_g0TMAkNc0YD_Nx0OV7ze4v7dYdP9w@mail.gmail.com>
+Subject: Extracting PC information from QEMU/KVM during single-step
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000ac0ffb05c5748eac"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=sraasch@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 23 Jun 2021 17:09:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -145,90 +73,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alessandro Di Federico <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "babush@rev.ng" <babush@rev.ng>, "nizzo@rev.ng" <nizzo@rev.ng>,
- "philmd@redhat.com" <philmd@redhat.com>
+Reply-To: sraasch@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000ac0ffb05c5748eac
+Content-Type: text/plain; charset="UTF-8"
 
+Hi -
 
-> -----Original Message-----
-> From: Alessandro Di Federico <ale.qemu@rev.ng>
-> Sent: Saturday, June 19, 2021 3:37 AM
-> To: qemu-devel@nongnu.org
-> Cc: Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
-> <bcain@quicinc.com>; babush@rev.ng; nizzo@rev.ng; philmd@redhat.com;
-> richard.henderson@linaro.org; Alessandro Di Federico <ale@rev.ng>
-> Subject: [PATCH v5 09/14] target/hexagon: import lexer for idef-parser
->=20
-> From: Paolo Montesel <babush@rev.ng>
->=20
-> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-> Signed-off-by: Paolo Montesel <babush@rev.ng>
-> ---
->  target/hexagon/idef-parser/idef-parser.h      | 262 ++++++++
->  target/hexagon/idef-parser/idef-parser.lex    | 597 ++++++++++++++++++
->  target/hexagon/meson.build                    |   4 +
->  tests/docker/dockerfiles/alpine.docker        |   1 +
->  tests/docker/dockerfiles/centos8.docker       |   1 +
->  tests/docker/dockerfiles/debian-amd64.docker  |   1 +
->  tests/docker/dockerfiles/debian10.docker      |   1 +
->  .../dockerfiles/fedora-i386-cross.docker      |   1 +
->  .../dockerfiles/fedora-win32-cross.docker     |   1 +
->  .../dockerfiles/fedora-win64-cross.docker     |   1 +
->  tests/docker/dockerfiles/fedora.docker        |   1 +
->  tests/docker/dockerfiles/opensuse-leap.docker |   1 +
->  tests/docker/dockerfiles/ubuntu.docker        |   1 +
->  tests/docker/dockerfiles/ubuntu1804.docker    |   1 +
->  tests/docker/dockerfiles/ubuntu2004.docker    |   3 +-
->  15 files changed, 876 insertions(+), 1 deletion(-)  create mode 100644
-> target/hexagon/idef-parser/idef-parser.h
->  create mode 100644 target/hexagon/idef-parser/idef-parser.lex
->=20
-> diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/id=
-ef-
-> parser/idef-parser.h
-> new file mode 100644
+I'm trying to create a hack that will allow me to extract an instruction
+trace from QEMU/KVM (i386). The KVM part is important (see below).
 
-> +/**
-> + * Types of control registers, assigned to the HexReg.id field  */
-> +typedef enum {SP, FP, LR, GP, LC0, LC1, SA0, SA1} CregType;
+Background:
 
-Where is this used?  SP, FP, LR are not control registers - they are genera=
-l purpose registers.
+   - I have used KVM to create a snapshot of a windows-10 guest running a
+   graphics-intensive app. The *original* issue is that the app does not
+   execute correctly when re-started from the snapshot using TCG (it doesn't
+   crash, but it doesn't run correctly, either). So, using the existing "-d
+   in_asm" won't work. It seemed to me that hacking in tracing to KVM should
+   be easier than figuring out why the app doesn't work.
+   - I've poked around the tracing mechanism in the TCG, and extracted what
+   I need to dump instructions and then added that to kvm_cpu_exec().
+   - I'm setting DEBUG & single-step modes by calling cpu_single_step()
+   from the top of kvm_vcpu_thread_fn().
+   - in kvm_cpu_exec() I wait until I get a KVM_EXIT_DEBUG signal before
+   logging the instruction.
 
+I have the output of TCG "-d in_asm" from the beginning of the execution,
+and I'm comparing the KVM output with that.
 
-> diff --git a/target/hexagon/idef-parser/idef-parser.lex
-> b/target/hexagon/idef-parser/idef-parser.lex
-> new file mode 100644
+What I don't have right is the PC of the instruction that's been executed.
+The TCG is clearly sane, but the KVM output is not.
 
+My best thought was to extract the PC from kvm_run (run->debug.arch.pc)
+after the KVM_RUN ioctl, but that doesn't match up. I also tried
+kvm_vcpu_ioctl() with KVM_GET_REGS, and grabbing the rip from cpu->env.rip.
+I didn't expect any of these to be *exactly* right, but I thought they
+would lead me to something sane.
 
-> +"fREAD_SP()"             |
-> +"SP"                     { yylval->rvalue.type =3D REGISTER;
-> +                           yylval->rvalue.reg.type =3D CONTROL;
-> +                           yylval->rvalue.reg.id =3D SP;
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           return REG; }
-> +"fREAD_FP()"             |
-> +"FP"                     { yylval->rvalue.type =3D REGISTER;
-> +                           yylval->rvalue.reg.type =3D CONTROL;
-> +                           yylval->rvalue.reg.id =3D FP;
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           return REG; }
-> +"fREAD_LR()"             |
-> +"LR"                     { yylval->rvalue.type =3D REGISTER;
-> +                           yylval->rvalue.reg.type =3D CONTROL;
-> +                           yylval->rvalue.reg.id =3D LR;
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           return REG; }
+Using run->debug.arch.pc gives me the right address for the first
+instruction, but nothing makes sense after that.
 
-This looks like the use where you are treating these as control registers. =
- Just lex them as general purpose registers with numbers 29, 30, 31.
+Can anyone help me get onto the right track?
 
+Thanks!
 
+-Steve
+
+--000000000000ac0ffb05c5748eac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p style=3D"margin-top:0px;margin-right:0px;margin-left:0p=
+x;padding:0px;border:0px;font-variant-numeric:inherit;font-variant-east-asi=
+an:inherit;font-stretch:inherit;line-height:inherit;font-family:-apple-syst=
+em,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Liberation Sans&quot;,sans=
+-serif;font-size:15px;vertical-align:baseline;box-sizing:inherit;clear:both=
+;color:rgb(36,39,41)"><br></p><p style=3D"margin-top:0px;margin-right:0px;m=
+argin-left:0px;padding:0px;border:0px;font-variant-numeric:inherit;font-var=
+iant-east-asian:inherit;font-stretch:inherit;line-height:inherit;font-famil=
+y:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Liberation Sa=
+ns&quot;,sans-serif;font-size:15px;vertical-align:baseline;box-sizing:inher=
+it;clear:both;color:rgb(36,39,41)">Hi -</p><p style=3D"margin-top:0px;margi=
+n-right:0px;margin-left:0px;padding:0px;border:0px;font-variant-numeric:inh=
+erit;font-variant-east-asian:inherit;font-stretch:inherit;line-height:inher=
+it;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;=
+Liberation Sans&quot;,sans-serif;font-size:15px;vertical-align:baseline;box=
+-sizing:inherit;clear:both;color:rgb(36,39,41)">I&#39;m trying to create a =
+hack that will allow me to extract an instruction trace from QEMU/KVM (i386=
+). The KVM part is important (see below).<br></p><p style=3D"margin-top:0px=
+;margin-right:0px;margin-left:0px;padding:0px;border:0px;font-variant-numer=
+ic:inherit;font-variant-east-asian:inherit;font-stretch:inherit;line-height=
+:inherit;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,=
+&quot;Liberation Sans&quot;,sans-serif;font-size:15px;vertical-align:baseli=
+ne;box-sizing:inherit;clear:both;color:rgb(36,39,41)">Background:</p><ul st=
+yle=3D"margin-top:0px;margin-right:0px;margin-left:30px;padding:0px;border:=
+0px;font-variant-numeric:inherit;font-variant-east-asian:inherit;font-stret=
+ch:inherit;line-height:inherit;font-family:-apple-system,BlinkMacSystemFont=
+,&quot;Segoe UI&quot;,&quot;Liberation Sans&quot;,sans-serif;font-size:15px=
+;vertical-align:baseline;list-style-position:initial;box-sizing:inherit;col=
+or:rgb(36,39,41)"><li style=3D"margin-top:0px;margin-right:0px;margin-left:=
+0px;padding:0px;border:0px;font-style:inherit;font-variant:inherit;font-wei=
+ght:inherit;font-stretch:inherit;line-height:inherit;font-family:inherit;ve=
+rtical-align:baseline;box-sizing:inherit">I have used KVM to create a snaps=
+hot of a windows-10 guest running a graphics-intensive app. The *original* =
+issue is that the=C2=A0app does not execute correctly when re-started from =
+the snapshot using TCG (it doesn&#39;t crash, but it doesn&#39;t run correc=
+tly, either). So, using the existing &quot;-d in_asm&quot; won&#39;t work. =
+It seemed to me that hacking in tracing to KVM should be easier than figuri=
+ng out why the app doesn&#39;t work.</li><li style=3D"margin-top:0px;margin=
+-right:0px;margin-left:0px;padding:0px;border:0px;font-style:inherit;font-v=
+ariant:inherit;font-weight:inherit;font-stretch:inherit;line-height:inherit=
+;font-family:inherit;vertical-align:baseline;box-sizing:inherit">I&#39;ve p=
+oked around the tracing mechanism in the TCG, and extracted what I need to =
+dump instructions and then added that to kvm_cpu_exec().</li><li style=3D"m=
+argin-top:0px;margin-right:0px;margin-left:0px;padding:0px;border:0px;font-=
+style:inherit;font-variant:inherit;font-weight:inherit;font-stretch:inherit=
+;line-height:inherit;font-family:inherit;vertical-align:baseline;box-sizing=
+:inherit">I&#39;m setting DEBUG &amp; single-step modes by calling cpu_sing=
+le_step() from the top of kvm_vcpu_thread_fn().</li><li style=3D"margin:0px=
+;padding:0px;border:0px;font-style:inherit;font-variant:inherit;font-weight=
+:inherit;font-stretch:inherit;line-height:inherit;font-family:inherit;verti=
+cal-align:baseline;box-sizing:inherit">in kvm_cpu_exec() I wait until I get=
+ a KVM_EXIT_DEBUG signal before logging the instruction.</li></ul><p style=
+=3D"margin-top:0px;margin-right:0px;margin-left:0px;padding:0px;border:0px;=
+font-variant-numeric:inherit;font-variant-east-asian:inherit;font-stretch:i=
+nherit;line-height:inherit;font-family:-apple-system,BlinkMacSystemFont,&qu=
+ot;Segoe UI&quot;,&quot;Liberation Sans&quot;,sans-serif;font-size:15px;ver=
+tical-align:baseline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">I h=
+ave the output of TCG &quot;-d in_asm&quot; from the beginning of the execu=
+tion, and I&#39;m comparing the KVM output with that.</p><p style=3D"margin=
+-top:0px;margin-right:0px;margin-left:0px;padding:0px;border:0px;font-varia=
+nt-numeric:inherit;font-variant-east-asian:inherit;font-stretch:inherit;lin=
+e-height:inherit;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe U=
+I&quot;,&quot;Liberation Sans&quot;,sans-serif;font-size:15px;vertical-alig=
+n:baseline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">What I don&#3=
+9;t have right is the PC of the instruction that&#39;s been executed. The T=
+CG is clearly sane, but the KVM output is not.</p><p style=3D"margin-top:0p=
+x;margin-right:0px;margin-left:0px;padding:0px;border:0px;font-variant-nume=
+ric:inherit;font-variant-east-asian:inherit;font-stretch:inherit;line-heigh=
+t:inherit;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;=
+,&quot;Liberation Sans&quot;,sans-serif;font-size:15px;vertical-align:basel=
+ine;box-sizing:inherit;clear:both;color:rgb(36,39,41)">My best thought was =
+to extract the PC from kvm_run (run-&gt;debug.arch.pc) after the KVM_RUN io=
+ctl, but that doesn&#39;t match up. I also tried kvm_vcpu_ioctl() with KVM_=
+GET_REGS, and grabbing the rip from cpu-&gt;env.rip. I didn&#39;t expect an=
+y of these to be=C2=A0<em style=3D"margin:0px;padding:0px;border:0px;font-v=
+ariant:inherit;font-weight:inherit;font-stretch:inherit;line-height:inherit=
+;font-family:inherit;vertical-align:baseline;box-sizing:inherit">exactly</e=
+m>=C2=A0right, but I thought they would lead me to something sane.</p><p st=
+yle=3D"margin-top:0px;margin-right:0px;margin-left:0px;padding:0px;border:0=
+px;font-variant-numeric:inherit;font-variant-east-asian:inherit;font-stretc=
+h:inherit;line-height:inherit;font-family:-apple-system,BlinkMacSystemFont,=
+&quot;Segoe UI&quot;,&quot;Liberation Sans&quot;,sans-serif;font-size:15px;=
+vertical-align:baseline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">=
+Using run-&gt;debug.arch.pc gives me the right address for the first instru=
+ction, but nothing makes sense after that.</p><p style=3D"margin-top:0px;ma=
+rgin-right:0px;margin-left:0px;padding:0px;border:0px;font-variant-numeric:=
+inherit;font-variant-east-asian:inherit;font-stretch:inherit;line-height:in=
+herit;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&qu=
+ot;Liberation Sans&quot;,sans-serif;font-size:15px;vertical-align:baseline;=
+box-sizing:inherit;clear:both;color:rgb(36,39,41)">Can anyone help me get o=
+nto the right track?</p><p style=3D"margin:0px;padding:0px;border:0px;font-=
+variant-numeric:inherit;font-variant-east-asian:inherit;font-stretch:inheri=
+t;line-height:inherit;font-family:-apple-system,BlinkMacSystemFont,&quot;Se=
+goe UI&quot;,&quot;Liberation Sans&quot;,sans-serif;font-size:15px;vertical=
+-align:baseline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">Thanks!<=
+/p><p style=3D"margin:0px;padding:0px;border:0px;font-variant-numeric:inher=
+it;font-variant-east-asian:inherit;font-stretch:inherit;line-height:inherit=
+;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Li=
+beration Sans&quot;,sans-serif;font-size:15px;vertical-align:baseline;box-s=
+izing:inherit;clear:both;color:rgb(36,39,41)">-Steve</p><p style=3D"margin:=
+0px;padding:0px;border:0px;font-variant-numeric:inherit;font-variant-east-a=
+sian:inherit;font-stretch:inherit;line-height:inherit;font-family:-apple-sy=
+stem,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Liberation Sans&quot;,sa=
+ns-serif;font-size:15px;vertical-align:baseline;box-sizing:inherit;clear:bo=
+th;color:rgb(36,39,41)"><br></p></div>
+
+--000000000000ac0ffb05c5748eac--
 
