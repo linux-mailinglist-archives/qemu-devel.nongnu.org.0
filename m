@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E908C3B1C67
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:27:00 +0200 (CEST)
-Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E393B1C7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:29:31 +0200 (CEST)
+Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw3qF-0007Nt-WC
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
+	id 1lw3sg-0004kC-MZ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3ml-0000FX-Ff
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35225)
+ id 1lw3mp-0000TT-Ee
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3mj-0006LM-OF
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:23 -0400
+ id 1lw3mn-0006Nq-Co
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624458201;
+ s=mimecast20190719; t=1624458204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fi1KJ6nz6xAEY6CxDAoKAnNwxKAoAQSKY33u4fpGvSI=;
- b=BI6hcBXAGNpyX48/JfN4/UYWSj3vDHpstDr5T1BsDSUO1a2q7vmNxPyCn8+BDySWDf5uBE
- Ozn8iq8AQAPSngksSzITj3X6hQUJCK1dz7G/AYm+gZc5JDSs4reigoevHaAWYj2X3I0Nd6
- YODGQOlqrxeYdZW7gCRdkabI6SV9NyU=
+ bh=6nUhqmsfzDLzdzEDAIt5fdOKlRwOO0v1K40LDhAWqXo=;
+ b=NqglV2uPcURWUk/RJF2Qt5w4hLXgWiNOFQLg3Og2PNu2zTQ5cstbCL7pcxTbdvfnakAZjq
+ S3Xf8puoffhVTBCoUtVir7jL6kHNpjVB+ovZen7VcuFlRXglV4cUKl/iR8ZTZLJDFhJD+c
+ z2y9KWsg3gXKnMh9aSJcnni+YVxagvY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-T33VdVB3MBWJx9Ve2H8zmw-1; Wed, 23 Jun 2021 10:23:17 -0400
-X-MC-Unique: T33VdVB3MBWJx9Ve2H8zmw-1
+ us-mta-99-qzLvxxdJNuO5GI_81gPq-g-1; Wed, 23 Jun 2021 10:23:21 -0400
+X-MC-Unique: qzLvxxdJNuO5GI_81gPq-g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51065100C663;
- Wed, 23 Jun 2021 14:23:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 294EE81C86D;
+ Wed, 23 Jun 2021 14:23:20 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-176.ams2.redhat.com
  [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D72E60854;
- Wed, 23 Jun 2021 14:23:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB7E260854;
+ Wed, 23 Jun 2021 14:23:16 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/22] tests/docker: use project specific container
- registries
-Date: Wed, 23 Jun 2021 15:22:26 +0100
-Message-Id: <20210623142245.307776-4-berrange@redhat.com>
+Subject: [PATCH v4 04/22] tests/docker: use explicit docker.io registry
+Date: Wed, 23 Jun 2021 15:22:27 +0100
+Message-Id: <20210623142245.307776-5-berrange@redhat.com>
 In-Reply-To: <20210623142245.307776-1-berrange@redhat.com>
 References: <20210623142245.307776-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -91,93 +90,107 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since Docker Hub has started to enforce pull rate limits on clients, it
-is preferrable to use project specific container registries where they
-are available. Fedora and OpenSUSE projects provide registries.
+It is good practice to use an explicit registry for referencing the base
+image. This is because some distros will inject their own registries
+into the search path. For example registry.fedoraproject.org comes ahead
+of docker.io. Using an explicit registry avoids wasting time querying
+multiple registries for images that they won't have.
 
-The images in these registries are also refreshed on a more regular
-basis than the ones in docker hub, so the package update should
-generally be faster.
-
-While CentOS also has a registry it is considerably outdated compared
-to docker.io, and also only provides x86 images, while docker.io images
-are multi-arch.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
- tests/docker/dockerfiles/fedora-i386-cross.docker  | 2 +-
- tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
- tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
- tests/docker/dockerfiles/fedora.docker             | 2 +-
- tests/docker/dockerfiles/opensuse-leap.docker      | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ tests/docker/dockerfiles/centos8.docker             | 2 +-
+ tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 +-
+ tests/docker/dockerfiles/debian10.docker            | 2 +-
+ tests/docker/dockerfiles/debian11.docker            | 2 +-
+ tests/docker/dockerfiles/ubuntu.docker              | 2 +-
+ tests/docker/dockerfiles/ubuntu1804.docker          | 2 +-
+ tests/docker/dockerfiles/ubuntu2004.docker          | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
-index 1dfff6e0b9..91c373fdd3 100644
---- a/tests/docker/dockerfiles/fedora-cris-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
-@@ -2,7 +2,7 @@
- # Cross compiler for cris system tests
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 03e0440e03..8f810810f3 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -1,4 +1,4 @@
+-FROM centos:8.3.2011
++FROM docker.io/centos:8
+ 
+ RUN dnf -y update
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+index ba4148299c..2f11b3b7bc 100644
+--- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
++++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+@@ -5,7 +5,7 @@
+ # using a prebuilt toolchains for Xtensa cores from:
+ # https://github.com/foss-xtensa/toolchain/releases
+ #
+-FROM debian:stretch-slim
++FROM docker.io/library/debian:stretch-slim
+ 
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 4ffe47671e..a27b88df55 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -7,7 +7,7 @@
+ # On its own you can't build much but the docker-foo-cross targets
+ # build on top of the base debian image.
+ #
+-FROM debian:buster-slim
++FROM docker.io/library/debian:buster-slim
+ 
+ # Duplicate deb line as deb-src
+ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+diff --git a/tests/docker/dockerfiles/debian11.docker b/tests/docker/dockerfiles/debian11.docker
+index 5adfd62d55..febf884f8f 100644
+--- a/tests/docker/dockerfiles/debian11.docker
++++ b/tests/docker/dockerfiles/debian11.docker
+@@ -8,7 +8,7 @@
+ # On its own you can't build much but the docker-foo-cross targets
+ # build on top of the base debian image.
+ #
+-FROM debian:bullseye-slim
++FROM docker.io/library/debian:bullseye-slim
+ 
+ # Duplicate deb line as deb-src
+ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index 100cfa76e3..e0ff425c01 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -9,7 +9,7 @@
+ # system won't pick up that it has changed.
  #
  
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
- ENV PACKAGES gcc-cris-linux-gnu
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index 8004fd8ee5..dbb8195eb1 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
+-FROM ubuntu:20.04
++FROM docker.io/library/ubuntu:20.04
  ENV PACKAGES \
-     bzip2 \
      ccache \
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index a638afb525..9fed35f4e1 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+     clang \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 86114be23a..adcdef8244 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
 @@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
- 
- # Please keep this list sorted alphabetically
+-FROM ubuntu:18.04
++FROM docker.io/library/ubuntu:18.04
  ENV PACKAGES \
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index f53007ac86..fb641f6104 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+     ccache \
+     clang \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index b33ed139d9..78755bc2e3 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
 @@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
- 
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 9dde3f6a78..a506e68d33 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
- 
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index f7e1cbfbe6..7ebff1b3a8 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -1,4 +1,4 @@
--FROM opensuse/leap:15.2
-+FROM registry.opensuse.org/opensuse/leap:15.2
- 
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
+-FROM ubuntu:20.04
++FROM docker.io/library/ubuntu:20.04
+ ENV PACKAGES flex bison \
+     bsdmainutils \
+     ccache \
 -- 
 2.31.1
 
