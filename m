@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012CF3B1D42
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 17:09:16 +0200 (CEST)
-Received: from localhost ([::1]:44500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F9F3B1D4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 17:12:10 +0200 (CEST)
+Received: from localhost ([::1]:54122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw4V9-0000yp-1U
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 11:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56734)
+	id 1lw4Xx-0007Tn-SQ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 11:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lw4Qq-00031x-1Y
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:04:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22086)
+ id 1lw4S1-0004nt-J6
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:06:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lw4Qo-0006I1-Ae
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:04:47 -0400
+ id 1lw4Rz-00071D-Tx
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:06:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624460685;
+ s=mimecast20190719; t=1624460758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qDu7UI8bR3Cr8y9kdqdKRoHijGC1++e9hcHR9vlbSX4=;
- b=hXr4120rRgw6t2z4Ad2PQuowSEAj8SQ1bPwoIspf3gNKdKv9Gp2vdttRMBErlQd4SSyytO
- NxBneFMu7D9ge6RkH1P59747B6n9J7uEygsrCi675ukASY1D4a+Ge+fDUwChWNjmideMlB
- +k8oE0cGMo4V1jFvKaD+REnMBS6xgiA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-_icwp5-lOd2LW9pZ_drdPQ-1; Wed, 23 Jun 2021 11:04:39 -0400
-X-MC-Unique: _icwp5-lOd2LW9pZ_drdPQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- c9-20020a05640227c9b0290394ac48c2e4so1475108ede.11
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 08:04:39 -0700 (PDT)
+ bh=m0cxXSM2k4o+V1WShFhHX93GrJA16aAvxZV0Nwe9W88=;
+ b=bhXbtAe6Xh3DnysSFfdZA16miqisxYkYOgxHwT2qwNnMLvZ+LO2gCncavG+YA2NTz/sKvP
+ h0eLzDOobFyywQ09sc/jmIgiDe1ciZ8DWBymZlpx3pFWqzCw83rpW8QukNA9jrQT3N2sEJ
+ HEuyRyh6sl2nddp2M5dkX+Ga4916h78=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-qj5F-jpNNH2TiNTJvWSX9A-1; Wed, 23 Jun 2021 11:05:57 -0400
+X-MC-Unique: qj5F-jpNNH2TiNTJvWSX9A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ l9-20020a0564022549b0290394bafbfbcaso1488623edb.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 08:05:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=qDu7UI8bR3Cr8y9kdqdKRoHijGC1++e9hcHR9vlbSX4=;
- b=mpLa4ClSfBRbfHhPWULJq8q8diJHtjJnORqQVe7ocj8ScjEGuYG01Gl6RyRKgeuAxp
- zPGr96N/kecw29wKRri4UqXrFBV/IKCw9cAk2msiFis/7D1pCR6E121DRZ5rQ5XeWmNh
- erMeYyin4Vgux3T/HA4jrVSJPi4BgQ7NsIERkW9ZwU72OU2MPU/A/gY0gvK3kv80yEiH
- zbL8QoCEX5WAT+5InD7eDhSObJFRm0peifD0oJD87I0lxQBf0vae9V908OGwQqVSAq4n
- cQ6givHqxoethO77JLD/DnstodFwFKGyyd+r1CnZ3VL3xfPJ+wOJ6UADbzjFqUSV1MpB
- +ecw==
-X-Gm-Message-State: AOAM532gNOUh6sQU9AazucPIax9cr68QFyDpzOQtyipIY7ww8dGmmAAr
- xeHWCloIHj9Hpflk+Kl2h3ebjoaI1SodBKNhD6kEqEdfr30V67GSnLbaP8qMEkCzFc5JEyJ+Sef
- WQVlyZu7ACMQRRfY=
-X-Received: by 2002:aa7:d818:: with SMTP id v24mr219648edq.22.1624460678210;
- Wed, 23 Jun 2021 08:04:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1b7hWamLh4bxeNcjRfSEQbH0psfGpUtyo0XAw65EHed926/OK+/NGNLidevsqTtiGMg/XYQ==
-X-Received: by 2002:aa7:d818:: with SMTP id v24mr219620edq.22.1624460678081;
- Wed, 23 Jun 2021 08:04:38 -0700 (PDT)
+ bh=m0cxXSM2k4o+V1WShFhHX93GrJA16aAvxZV0Nwe9W88=;
+ b=kVI1/LOlDX9NVmcU/HdkwHuAAUoc//REGDtokU7vtmoRMGQywZn1tUkG/969P9o8hF
+ t0HYxtp3f/ZBYahLATEmN/IRBqiTYi1j6J32cU0PC5QU22vlwtQs0VIU6LAhjyOulvGY
+ 14MDsBnjVCpmy5YN66VjALpVRVgX+TgxJoAbWAz/TZlBOLXgkYmevJIAQ5rrWCF6xvgN
+ MZiDgkEMvW3ljHBjhJsaw1B8nOKihIgkMAqUGMr/Wt00WErtJ+HBnrGx8QrL5dDzQyF3
+ 27wt7t6Lgs9ndRLGN0ppg7omWUBe+LSKYn33Lv2/EkvuQ8DRU8+LmJGs+1BmgfxJryb1
+ /J4Q==
+X-Gm-Message-State: AOAM531xt8Nt5L6uFlqHviZeNleiN9/fRHw/zhljXiR3/OYWTVA0XYBv
+ T8ov6q1rTrzUZt6vIsLkeTmTisi9b2yZE1LlyYYuNL23mvttqH+aJMfNBr5h6DeP0XyRmJgAUo6
+ +Mg8vV98rzfR7LNo=
+X-Received: by 2002:a17:906:1299:: with SMTP id
+ k25mr457402ejb.139.1624460756015; 
+ Wed, 23 Jun 2021 08:05:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxal8+dH6C10ZmwjWUm02SlapciFSoS8UXwMIn1mjGGCA/urghIXhVNjOhai3x8uXifTDDiQw==
+X-Received: by 2002:a17:906:1299:: with SMTP id
+ k25mr457368ejb.139.1624460755758; 
+ Wed, 23 Jun 2021 08:05:55 -0700 (PDT)
 Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
  [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id j24sm172775edv.48.2021.06.23.08.04.37
+ by smtp.gmail.com with ESMTPSA id ch17sm179575edb.54.2021.06.23.08.05.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 08:04:37 -0700 (PDT)
-Date: Wed, 23 Jun 2021 17:04:35 +0200
+ Wed, 23 Jun 2021 08:05:55 -0700 (PDT)
+Date: Wed, 23 Jun 2021 17:05:53 +0200
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 08/18] vhost-vdpa: fix the wrong assertion in
- vhost_vdpa_init()
-Message-ID: <20210623150435.7pxk2oz6xc2idcsl@steredhat>
+Subject: Re: [PATCH 09/18] vhost-vdpa: remove the unncessary queue_index
+ assignment
+Message-ID: <20210623150553.7dcwrasx54miumjx@steredhat>
 References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-9-jasowang@redhat.com>
+ <20210621041650.5826-10-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210621041650.5826-9-jasowang@redhat.com>
+In-Reply-To: <20210621041650.5826-10-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,39 +103,34 @@ Cc: lulu@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, eperezma@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 12:16:40PM +0800, Jason Wang wrote:
->Vhost_vdpa_add() can fail for various reasons, so the assertion of the
->succeed is wrong. Instead, we should free the NetClientState and
->propagate the error to the caller
+On Mon, Jun 21, 2021 at 12:16:41PM +0800, Jason Wang wrote:
+>The queue_index of NetClientState should be assigned in set_netdev()
+>afterwards, so trying to net_vhost_vdpa_init() is meaningless. This
+>patch removes this.
 >
 >Signed-off-by: Jason Wang <jasowang@redhat.com>
 >---
-> net/vhost-vdpa.c | 5 ++++-
-> 1 file changed, 4 insertions(+), 1 deletion(-)
+> net/vhost-vdpa.c | 1 -
+> 1 file changed, 1 deletion(-)
 >
->diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
->index 0da7bc347a..87b181a74e 100644
->--- a/net/vhost-vdpa.c
->+++ b/net/vhost-vdpa.c
->@@ -174,7 +174,10 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
->     }
->     s->vhost_vdpa.device_fd = vdpa_device_fd;
->     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
->-    assert(s->vhost_net);
->+    if (ret) {
->+        qemu_close(vdpa_device_fd);
->+        qemu_del_net_client(nc);
->+    }
-
-Okay, I see now :-)
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
->     return ret;
-> }
->
->-- 
->2.25.1
+>diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>index 87b181a74e..572aed4ca2 100644
+>--- a/net/vhost-vdpa.c
+>+++ b/net/vhost-vdpa.c
+>@@ -166,7 +166,6 @@ static int net_vhost_vdpa_init(NetClientState 
+>*peer, const char *device,
+>     assert(name);
+>     nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, 
+>     name);
+>     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
+>-    nc->queue_index = 0;
+>     s = DO_UPCAST(VhostVDPAState, nc, nc);
+>     vdpa_device_fd = qemu_open_old(vhostdev, O_RDWR);
+>     if (vdpa_device_fd == -1) {
+>-- 2.25.1
 >
 >
 
