@@ -2,162 +2,162 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A2A3B1AB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 15:06:12 +0200 (CEST)
-Received: from localhost ([::1]:53486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0553B1ABF
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 15:08:41 +0200 (CEST)
+Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw2a3-0005g0-G2
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 09:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56570)
+	id 1lw2cS-0000IO-IU
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 09:08:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1lw2Yg-0004o9-Mi
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 09:04:46 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:5058)
+ id 1lw2bX-00082a-W4
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 09:07:44 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:37902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1lw2Yc-0002Lq-HV
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 09:04:46 -0400
+ id 1lw2bV-0003Ic-Vz
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 09:07:43 -0400
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15NCv0G2023247; Wed, 23 Jun 2021 13:04:38 GMT
+ 15ND76xq002798; Wed, 23 Jun 2021 13:07:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=2UpujsF64Tsh3C+oYjK7MH9l3K+FgtZwwxcxeEOGM3M=;
- b=Skhq75DvzQTc9gAEYmfRaR3qCDBUZpe4+EGzHouBd3uizxXznhAgsVYrzS/x9jkjpqkE
- yW7EIN6V69zE5xoakr9hkQ1XQpxpPV3x+XF9L7VZNjckD+FhkdTwmn8tll6ndrQgcKG9
- GWd6Mcc8a/iqLvXuxNQsdfOKt61hytNxh90i3S317zmBJXaZwHiAMbL9z0DLA/rEQWqK
- 5pDMXNPYKIHlFaX21fJ6YN+OzBna11jecBjwSg6NuueRfPJRjFhTMvS4i+rHCZJbwlAk
- qy5eE6348g/MqNx8h+sdxVV+OGzZ9jXBvR7Cnq6lPU+QPQUVbTSczuBDSlhcWoJ0ky+Y sA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 39c2wngb0k-1
+ bh=zfsxSzt145HOvFxWZb2F3M8DLvepDfWP8KSUTyPO/tk=;
+ b=L1JYpDNDEMaKbXa9FhPZ5QgRux6HHSSWZDq1UZMMee3IVfip7VjjJDks/qRryXu0uUas
+ xmKP14Sq4uwvhUvMGYAMGCkS6zJtYBrzjydVak8oVI7wHZ7KxblIqRdC2XrHZsqxd06+
+ zjnvt+jE+JKtyHc7+FGBGyoxQTyeRP7JiAQz4gDzRA+UAc02wUJgPBGif7uQrq52kfA2
+ XqNAcHacuCsq++rThVGAogPO9iMGnzpvgG8X7pm/a7J58d2niXsuT/rCO/jfPFiSZ1CZ
+ 8vgn20Gp7D6lbRcBzJCdn/HBrApi7tUNPP47648ZK1SzqPTy4deRXlUb15RKvUZhvW6f pA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39c2wngb72-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Jun 2021 13:04:38 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15NCtuAU076018;
- Wed, 23 Jun 2021 13:04:36 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
- by userp3020.oracle.com with ESMTP id 399tbuf7fk-1
+ Wed, 23 Jun 2021 13:07:38 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15ND5XBn161191;
+ Wed, 23 Jun 2021 13:07:37 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+ by aserp3020.oracle.com with ESMTP id 3998d936br-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Jun 2021 13:04:36 +0000
+ Wed, 23 Jun 2021 13:07:37 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ea+r5uO/Ee5jojxVTsCBCfkBWDXayh2qsPUaiCTsbhO5BhN07jv567JO8qXka28mqCevZRaLU7jvCPenEKwpehvYsQU4um7e5LfG6bP4YvbkLapHfEXUYfxJczJozgYAU8mzxd4OlooRcGCRMkPVdjh8f/FGeTyrdao2+7qvij12TtEdvrEoCMH7vd9CZDqXAfcmnKz25HAaLNFTt2S/uIBIyzu008Oa2ynLONO8lWiPR6twE/DmDY/tDRPCucagCyro3+D5IAGcSSzKsSq08jI0fxgx4dt9z8qwBVFaPY/KZOHjIAI1x1SF5RASYVGu8x52gSza5XsdsvY3qIFMjQ==
+ b=GbCKnix+ExZCyBwexkXs9Zw4YjCQpnn0PpQIAj+6n3sWPAjLMCkqR3U5cIvX7lhm+WKMSxN/p3gKCzHujGllqOzwNhpBPq4feLxeSDegJeQJNMLQnNr5hGVrYD1iHBuAlvLi27Y2eAcHpLS8Qlj/6nPtn3pXZZJMLTl+Bg6C2KE/1VdG9VToO8pxRSZr15QC2Rv4uFlAPmHQxuORsRprqWqV8Vfpq/NkMwMm6+kT9+/x71fM310J88uoRs/mDnzS1tmx0JAE8w+An18WD5Pk8XP0jfAirq6lSzD2sJQja8FXGxVEXK/f9PziT9WTf6/24q/MWKpdoC+aOVYJrxmpZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2UpujsF64Tsh3C+oYjK7MH9l3K+FgtZwwxcxeEOGM3M=;
- b=YKzTn/Tn0o8sUfmFZ9pJv8M6gWnoEaPejZQrzVs9KEfCXaI1DUZ1EPcsLpqHHmtnJAYPqVe3KPDwabVkcXO0Q9Be9hi69Oq/A4zOO5eg1gBugPJt8AFHTzB3Y0Q8vUa9/D0WFLL+TpIgoqG7da/I5oVAwuevzC/wpYVF3qidnB9iEDwB7ZnAjlOA8gxpX3W0R8Lhnhz48DYSftv4QEw9C6R72SinltrQaYN3METRtHBgZ6dJpHlHtZB9DsNE6TuGKmuHeorR/KM5fF9i7Z5lh3cuC6dHmXpGk/XMpsPT3o7OQ3+G4PkiHvl6E92mWeFCAXGb2MSvx891Vs4iNuumMg==
+ bh=zfsxSzt145HOvFxWZb2F3M8DLvepDfWP8KSUTyPO/tk=;
+ b=MNMiC9hXYx2PBmzbIIWND3eq5bGEum1WmHweyq2U085DQIMjcVxUALxH2kCJyJMEC66GrySrf6jk3Y+jDwFYjpD3seoitX9uK5EtgonnSTQvjMLP2yxEROouWwh1sgkhQIrnDSBe7IIvfaI7+P4+o3rbSM6rcAZNPe1FKd+YMsd3Bcxza7C/jk9WP3CuQB4N6wr3RAXBuoDijxILDYX4W3yfbyYprHfM/e6HHH9DVZLDJb/9dlaIEzqNzllr/hUTdNOjPci3nkaC00gc+LcSCoMLe4/2SdZ1Wq8GTHylU2U3cRf5wCs73FY8VRFFTLwQGwsSOk5/TjQfoOcKh8S+Mg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2UpujsF64Tsh3C+oYjK7MH9l3K+FgtZwwxcxeEOGM3M=;
- b=KSVuIG1huUFRneYK3NB3De032VnTH8x/327CzCWp0K48Tr2sAerx4z5x8PUTHUOvSN51U8Vybr3XfQVN9u+H+Y6uKEqOnTdjl0/x9QoDJvwtVhGCymLDsJedLCmQsnh1I00MDV/np607DH+drq2zV2EcLxo1+mq4KxFM0MFmXdE=
+ bh=zfsxSzt145HOvFxWZb2F3M8DLvepDfWP8KSUTyPO/tk=;
+ b=xHhw3I1X9bq8CKnlZrtPERGI5mhuSZ8a8Not9BjLqVFQJUuBUrrMURZauIpKKlWJeKLu+Va6ch2h3YlcDv2cvKVLgJYSYJozNheV/858AaYXmaXz73A+ataEmvSBgnQ8KNz9waZ204XaJFQtvClhGxZ549OZmFNS4+gZvM0VBhw=
 Authentication-Results: amd.com; dkim=none (message not signed)
  header.d=none;amd.com; dmarc=none action=none header.from=oracle.com;
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by BLAPR10MB4818.namprd10.prod.outlook.com (2603:10b6:208:30e::18)
+ by BLAPR10MB5043.namprd10.prod.outlook.com (2603:10b6:208:332::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Wed, 23 Jun
- 2021 13:04:34 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Wed, 23 Jun
+ 2021 13:07:35 +0000
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::d875:3dd7:c053:6582]) by BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::d875:3dd7:c053:6582%5]) with mapi id 15.20.4264.018; Wed, 23 Jun 2021
- 13:04:34 +0000
+ 13:07:35 +0000
 Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
  boundary
 To: Igor Mammedov <imammedo@redhat.com>
 References: <20210622154905.30858-1-joao.m.martins@oracle.com>
  <20210622154905.30858-2-joao.m.martins@oracle.com>
- <20210623091138.2f7828dd@redhat.com>
- <ea55dc1b-b48a-3af1-be03-e72abc358f46@oracle.com>
- <20210623133954.2be8f24e@redhat.com>
+ <20210623110341.0ceca1b4@redhat.com>
+ <21f86eb7-e9db-b7ac-9014-2baa9fd44741@oracle.com>
+ <20210623140922.404b280b@redhat.com>
 From: Joao Martins <joao.m.martins@oracle.com>
-Message-ID: <a8668c8d-22c5-6168-3f29-3f5055d99c32@oracle.com>
-Date: Wed, 23 Jun 2021 14:04:19 +0100
-In-Reply-To: <20210623133954.2be8f24e@redhat.com>
+Message-ID: <fabd186e-bfb4-3aaa-e207-72dc67ba4214@oracle.com>
+Date: Wed, 23 Jun 2021 14:07:29 +0100
+In-Reply-To: <20210623140922.404b280b@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [94.61.1.144]
-X-ClientProxiedBy: SG2PR0601CA0001.apcprd06.prod.outlook.com (2603:1096:3::11)
- To BLAPR10MB4835.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0409.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:189::18) To BLAPR10MB4835.namprd10.prod.outlook.com
  (2603:10b6:208:331::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.1.67] (94.61.1.144) by
- SG2PR0601CA0001.apcprd06.prod.outlook.com (2603:1096:3::11) with Microsoft
+ LO4P123CA0409.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:189::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Wed, 23 Jun 2021 13:04:28 +0000
+ 15.20.4242.19 via Frontend Transport; Wed, 23 Jun 2021 13:07:33 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 13c6db43-2871-499b-3aba-08d93647722c
-X-MS-TrafficTypeDiagnostic: BLAPR10MB4818:
+X-MS-Office365-Filtering-Correlation-Id: 07d13aa3-7a0d-409f-514f-08d93647de4d
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5043:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BLAPR10MB4818B00FDE539DB79D417054BB089@BLAPR10MB4818.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB5043C435E7C89CA140FB8A89BB089@BLAPR10MB5043.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XjL6s3pzUxWrqPVFXZEtkugPXeDEwWXUH63PNb/kGAvp76vYo/JlrlZV/yGxRFS2NSIuIydgx/Xyh/IAc0LSEe/EsHAIpzil7TSjG8J/nhKvWJtuWAvU7YsKBUMqxNuP3iqv8PNgSTZPgCIG53F7IHiiB6p6RxoBkh0/ZV2vkbkzP3CEie/tl6wcgoNiVb/eBxgMQw+JMOcma0aJxuSzm3wOTS5ED3OtX0DKw0urfgkiMBx/M2tJUZ3KIkyjLS+aO7BPqCRrN0I7gj8RUySjPQvPw5Dv1wanrLXXWpaKLGgrtbPfVyHHb4CYHhh2IO9KQpuHrlxeOLLQdpjPRp5p0wHx5kHP7PM8rwlZ0OyF1frqn0jB00QImfgnzBTQwqTHn7nY5b6wp/qp/Jji28EebDJLspGDPWmx+kbaLmFbYCCBITBDT2AYl6aV6VNXkUEnJrOnt03iQDLw/A+aQVY6/4Gcoy9wW4Ec95tyCWFsrOEXLJiB+2xQBi/ax/gCoZN3McUDTEwJDCW/ppetHGdj7Jwr5RYPOyxslzHOdyuahXg4bTR2aw/D97P3eNtacKHJbAT/0Cja2qdZIgODe3jQ3C/cMALaPlss1AOMlt4QrlVdIQ9VXTwWaKi26fOvLCKUfrFrvt50A8CmRTbmkwsxJ7RAPYAosorhodH6kYwMRb6CE1/RUJdpV0E42oQpUqzHGeM4u9Fril5H9rTgMXbUVw==
+X-Microsoft-Antispam-Message-Info: +yGa0OstDXCIejeS3/xyAEs95yYmFIdFBVBTlt52EzvikFmRDUg1JHU/vvTMf7XFpDwoTTNR9gytLpPJrUXxemsAwd62VKZYLsg8sscrvE/zlBvYEotNVhEJzgQ67Jel+bERG+HUlMR35sBd0JeyhZCmfLvFqBL+iMdrlOklLqBieRea+6ZTjH5oK8J6kOU4U2YT+lReco6Gb8BqlHDK3Y44qjGjEMFQ9+pvQRkdOtXKj7P1sNNGv41ZTvHXaGnW6tDACQKRhTNvo/md7db/e6jSUr+1h/Qe7oSD2Ed4mCc9nqB+Hn3eWLeb8x1RBPMuKrDRZxbaVLo2v5mHZbfqnYSclXIEHNAdRY1Hytl7QZH82tQi7IjuzWJagCkGRypQPD1+E0V+NHtqURYuRdUIokx9UnpjfZWPvTKSaYaY1z1WNUXpYhYPgeelwb09bNihXCLSYq48TMwpGE2VQbNjhgGXBQpg6cje7FT4hYwxKoUjsZJplkbvPDgsKHgoXnNOH266fm827AqtT/W230d5RC4c1Qao6J+KKyv+RwXAde+UGGOKG7Kl+DC90AZ475T4KM9l81dWHx3JauVu74QbXvMPh6LYQuvYcH09MUDTuLGXCMUoh+GAcmS8yRj+qPmji249NaYsk3k4Rb+h7w1fp871kbBKltyznb1A3KJ/gd4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(376002)(346002)(136003)(39860400002)(366004)(31696002)(16576012)(6666004)(38100700002)(4326008)(5660300002)(15650500001)(54906003)(2906002)(6916009)(83380400001)(31686004)(66946007)(956004)(36756003)(316002)(186003)(66476007)(26005)(53546011)(8676002)(6486002)(16526019)(66556008)(86362001)(478600001)(8936002)(2616005)(45980500001);
+ SFS:(136003)(346002)(366004)(396003)(39860400002)(376002)(86362001)(6486002)(8936002)(15650500001)(5660300002)(31696002)(16576012)(316002)(66556008)(66476007)(8676002)(53546011)(54906003)(956004)(2616005)(83380400001)(4326008)(16526019)(66946007)(31686004)(26005)(186003)(6666004)(2906002)(38100700002)(36756003)(6916009)(478600001)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVNsOXpzdVU5RE05NlFkVkRCQzNMZWxGU0gzamRmMzIrUjd3OWVIb3NWcVdv?=
- =?utf-8?B?NG41OWZlNU9BZWxxQkNuZkgxR2k3T25mSWFSNFlwRFlzQVJscmdhOVNERmJQ?=
- =?utf-8?B?UUsyU3llZjdndkpocVhUSWRtUnE0SU52SWJicmsxcHh4eS9pYndCWSswdk5a?=
- =?utf-8?B?WGNWbzc2c1RoNm1BWGdnR25IZ0F5cDFwTGZwSXJHRG1ISjFVNWM0SFhxMnlO?=
- =?utf-8?B?SWN6ekpUeFhrYVNQY2l3dzJvdXo5V0FhaWhNa3hzenlTc1pianFWQUkvR2Rv?=
- =?utf-8?B?Q3NzZlBhLzFWY21GMlY2N3hMNm5vRGx6M1dwSStKNXFEeXpiVnFvT2hySXdY?=
- =?utf-8?B?RG5MdUVaZjJ1Z1ZueStRd1V0dkQ4NXBsZW1tOEZOVCtITzh1RlNZUlZlQ2dP?=
- =?utf-8?B?SU00eCt6QlA1Z0w3OEszeG1Zck5NN0NJWXU4KzhOWjQ0Q0QxSWFwa3ZsTGh3?=
- =?utf-8?B?c3Q3WjJIOFVRbjRENG1ORGNCU1dQM2MrNlZTRSs2TVd5eGdQbVhEa3M3UnFV?=
- =?utf-8?B?bXNGSnRaQ1RKamFmZWVyQVVFMEdlRXNDeThvaXhyelIyUHZyRngxUkNMcWwx?=
- =?utf-8?B?SU82dXk2Qy96RzgxakorRWFkNmZiWlRPZWRuSmc4ZFFVd21jTVZ1QVh4Q3Zk?=
- =?utf-8?B?M29Yb1NTY2hPcjNKMHZzcUJXV1B1Z0xGQTdqWlllWGpLZHZnRkZOdUxxb1I2?=
- =?utf-8?B?dmhEQkFWa2wwdURHMzQzUFJMN29BbWIwQXhsZ2tiN2dQMm84NUEwUFc0eEo2?=
- =?utf-8?B?Z1A2YmZ3MjNBM28vaVBrYlg2cm1VSTJSVnl2Ynh5KzFNYW51NG5OZzZoL0tZ?=
- =?utf-8?B?N1ZyUmlEbjVyb0NiOEttQjFMeXljRzhNSDAvMDl0N0lXRDE0T0ZMbmgwRlha?=
- =?utf-8?B?SzlOTWNHTktLajhmdFQ4T0IxaHdHNWhjT1NGKy9PK0hLblUxSzFuOUd0TUF4?=
- =?utf-8?B?KzA0RkVJS1U1Nk9TK1Rnem8xWkFocXE5akVCMTVFVXpnMEJ0TUhxbzlvSlRx?=
- =?utf-8?B?OWlLMjJ2d1AwdUdtTi9GRzJ5T3JtdEtVRWJzUUV1QnZKY0RFNTUxa3hMOHdQ?=
- =?utf-8?B?TUY0cGZObHVob3BBaGZSVm1FN2gyL0pBc252M3V5cEIrV1NqMDR1NEkzQitS?=
- =?utf-8?B?M1E4ZHVNWklMR3pBV3RadjMwN0kxTHozQXBlRXpYM2pYYURMODFKOVFIenlu?=
- =?utf-8?B?NnJtYy9jWU1QM3VvZW5BbGJPSXdxZE01a0c2ZWpYQmt4ZklvQlBOcmQ1OHQ1?=
- =?utf-8?B?SEo5THNpWlZNNHdFQUJ4Wi80bUg5L0NkUGRVRHRpNW81dnIzL0U2RzcwYmMy?=
- =?utf-8?B?dXNsLzQwckVvSkFqMFJzcTB0MHV6UG1tWkF0TlgySFk2Z0U1cndGNmZBM3pw?=
- =?utf-8?B?UEF0cGUzamNIbXBaRU5QcEttdUZtNEt1dkZlSkZYQW85c2NRWmJLcXRrOGtj?=
- =?utf-8?B?L1UwVTJiaEY1eC95eXJXTDhxK0NwTERNMjQxaTU3OFpEOWo1bFBLRlFkdUlN?=
- =?utf-8?B?NmZKait4UjNTVWFpN01JV1NJYnFRVkNUNld4MlRpWENsLzdxaEdrV0NyOVho?=
- =?utf-8?B?L2UwMEdCWFJ2VTFiV1U1bmN1Y3NmMzdMbFZlYWJNeHRtRkpBTDlVd2tNQlRJ?=
- =?utf-8?B?T3ltUXhETHRTT2p0TitXYmRUZmhJb0JuNFRGdXpjV1BKVHp6d3EveHhwckhw?=
- =?utf-8?B?dER0dHpOZGpjZVVaSG5aNk5uc1EvOGRNOU11VFVKSEVWTFZTZFZReXpEN3lX?=
- =?utf-8?Q?X3Yai+MbzGo1WjUXAaXCvyWDFnG3B3H6Z6C3IDE?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2lsUFh6VlFkSXdUSnA5UmU3Z2UxeVRaU1NySkdTYm53OU0yTUs3RnduSm9D?=
+ =?utf-8?B?RGU5SWRDOUJtd1ZDTUp0VElucGkvbjM1Wi9hQ2ljVUNMSGdSdFQ5QWUzMWto?=
+ =?utf-8?B?S0ZTcVJ4STJUVVNqbFQ4d0dERGRidHBoRE5CL1RVTUV2bm41YXQ1c1BJQlox?=
+ =?utf-8?B?bVJZV1lkNnlHd2xaVHNIUkNJbFdPZkUwSlVXeG5xRHNid3dHSUwvcWFmUnNU?=
+ =?utf-8?B?b2ZIcHBiM3R6NEJOT3dzbzFMTVdkSURHUEphRnE4NDVCSU5yYWs0eUt3YUY0?=
+ =?utf-8?B?QzNlL0hDY1ZvSlQ1cDRVWDlpNThFMmFIdVRqaTdJZHhHaUtYeVlnZnNqYVp6?=
+ =?utf-8?B?bXJnOU1udFJCVlMrdjhhcWw2S3VydW0rS2tiVXdncTNMYVpEcFBYL240b3hY?=
+ =?utf-8?B?Q2dKWEpqU1dTazJRTEhVTjdjU2pmeHJLT0xVTkMvYXA1elQzUjRMYkZpR2lH?=
+ =?utf-8?B?eWtkcm9MNHVwRVhGV1pSR3RFRis5RVl2RWtSeXh4Mk1XaStKdmdiYXpqZnJ4?=
+ =?utf-8?B?YXNrL1F5cHQ1aytGNFEwN2YwNUJaZjVRQkswVFRhMW5UQkh1VThqQTFIUFVT?=
+ =?utf-8?B?Tit3OVZKa1dHM1VoQ3RnK2cybmJlRGxVd0lHK3M0NVhTN2VqNVJOajRSTDFo?=
+ =?utf-8?B?NnpGcmkrLzg2eFVlOHQrcUppZDBDMkJwQ3dSbGZsNHhWZlMwdVdLREpvSnht?=
+ =?utf-8?B?QnE1TWJGWVdCVm5VZTRYanVwZlQ1V1E1ZDFvNUx2ekR6TGRnU0ZtZDlrMzlS?=
+ =?utf-8?B?azd5TzRqeDRkSWk0czVyUUcyam40VFJ2eGlKYjFnRmpqdGh5Z1lmSlNDcjF2?=
+ =?utf-8?B?VDJoMm43MEEycld3L3ZMTURnWVY0SENlWVRQcFBwQWR6UEp3cFF6Zjc1SWFP?=
+ =?utf-8?B?TWVUUW81by9xNlc3Qzh6dW15R3c2L205WkxHajYxU2pPbUZDTmFaZGFmV21K?=
+ =?utf-8?B?V25RSnk1QmtydXdvdjMzTGpEeUhvNGc1ak9Uemk3RGlQdzBmQkkybjV4TWto?=
+ =?utf-8?B?YjhuWjhDaEdMVi9wVlFkTi9udnhaR1F2dmxhbHd4WE1EV1hod2NRa05meE80?=
+ =?utf-8?B?ZFhwT0JBc0x4WTdEU2JSZDBDQmdtYWQ4ZzFuNlZveXZvbnBNTllObHFlaXFD?=
+ =?utf-8?B?Y1JIOWRQYTRGZUdsNTJRVTNYbnlnbEY4YVJxZHlHQllyUkxZQTg5cVEyakEw?=
+ =?utf-8?B?WXpNZ2wxdDRsZjhnUlY3WkI0NmRDTjN3K1pkTy9uWFIvNmJtZFowY3JHejRo?=
+ =?utf-8?B?TkVhd1J0cGhabGMwWDBBbC9LY00vb1dwc3FpM0lpS1VNWE5MSkFkRzJTRHZw?=
+ =?utf-8?B?UFNEd1VHMHBpVkRrdnpQTlNuUjhBeEhMd2taNWtDUVVqbDlsOXlmVlJ2WEVz?=
+ =?utf-8?B?MVdkVTFZQU5PQjlaNzhrWVRnUTE0YXJvUDNZMVdLVnJZcEdhQm5oSW5VUHJQ?=
+ =?utf-8?B?VXdsTkcwaUlya21veFVlQUJhR0RmRFNERHMyK3JFSGRWMERBYmgyTU9oRWZ3?=
+ =?utf-8?B?K3kvOUlhakdKcVpySjk5d2xzRENsNWl4bHhLbjJKb3pOTk5RK3lWa01pWVk4?=
+ =?utf-8?B?Z0RHN09NMzdncWhDNnJPazNtYTZVRE5BTDUyZnZoVWZhekwwQmN2MmZiVDl5?=
+ =?utf-8?B?STBSbnhKZHd5V0JwQTdQL3pPMGN1VVZYNWNOM3ZnOStHMUI2ZSt3M24zQmRU?=
+ =?utf-8?B?MGx1Y0wrRWpIUkJrTlc4MUpaejBEVVBrZW5yWm9sR0pkTHR1bnFGMWJORlB3?=
+ =?utf-8?Q?vXXdH51gOnLfIRLtnMgsUaGehIJrESXj4ELj950?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13c6db43-2871-499b-3aba-08d93647722c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07d13aa3-7a0d-409f-514f-08d93647de4d
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 13:04:33.9747 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 13:07:35.1017 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6aQzAcoKWv7NEP6B0W8rzwtzljfOdU+zyyj90wfexI4hYLthc87NvDswh6Wqc+JRQ7LRas6W53HDWE12Xb5MaEFT7F8i+3U/F+qTUj5P9rQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4818
+X-MS-Exchange-CrossTenant-UserPrincipalName: BEC3k/ZB1dAjDOHNVgGV7TNnWpDQz4R/FZNasgz64NsJKPaAyGAm0b79+AMoeVTnT88aUsV7MtcVdXRdtail5R4y092XJEDrkSnW+kseIF0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5043
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10023
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 mlxscore=0
- spamscore=0 mlxlogscore=980 bulkscore=0 suspectscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106230075
-X-Proofpoint-GUID: q5eGsr81nQgPPsfXAj2D1DISQkdNwGIZ
-X-Proofpoint-ORIG-GUID: q5eGsr81nQgPPsfXAj2D1DISQkdNwGIZ
+ definitions=main-2106230076
+X-Proofpoint-GUID: doHtqePn9F9obhtfSAUsu4aZkcaRRD-4
+X-Proofpoint-ORIG-GUID: doHtqePn9F9obhtfSAUsu4aZkcaRRD-4
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -191,11 +191,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 6/23/21 12:39 PM, Igor Mammedov wrote:
-> On Wed, 23 Jun 2021 10:37:38 +0100
+On 6/23/21 1:09 PM, Igor Mammedov wrote:
+> On Wed, 23 Jun 2021 10:51:59 +0100
 > Joao Martins <joao.m.martins@oracle.com> wrote:
 > 
->> On 6/23/21 8:11 AM, Igor Mammedov wrote:
+>> On 6/23/21 10:03 AM, Igor Mammedov wrote:
 >>> On Tue, 22 Jun 2021 16:49:00 +0100
 >>> Joao Martins <joao.m.martins@oracle.com> wrote:
 >>>   
@@ -230,49 +230,51 @@ On 6/23/21 12:39 PM, Igor Mammedov wrote:
 >>>> 0000010000000000-000001037fffffff (prio 0, i/o):
 >>>> 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff  
 >>>
->>> why not push whole ram-above-4g above 1Tb mark
->>> when RAM is sufficiently large (regardless of used host),
->>> instead of creating yet another hole and all complexity it brings along?
+>>> You are talking here about GPA which is guest specific thing
+>>> and then somehow it becomes tied to host. For bystanders it's
+>>> not clear from above commit message how both are related.
+>>> I'd add here an explicit explanation how AMD host is related GPAs
+>>> and clarify where you are talking about guest/host side.
 >>>   
+>> OK, makes sense.
 >>
->> There's the problem with CMOS which describes memory above 4G, part of the
->> reason I cap it to the 1TB minus the reserved range i.e. for AMD, CMOS would
->> only describe up to 1T.
+>> Perhaps using IOVA makes it easier to understand. I said GPA because
+>> there's an 1:1 mapping between GPA and IOVA (if you're not using vIOMMU).
+> 
+> IOVA may be a too broad term, maybe explain it in terms of GPA and HPA
+> and why it does matter on each side (host/guest)
+> 
+
+I used the term IOVA specially because that is applicable to Host IOVA or
+Guest IOVA (same rules apply as this is not special cased for VMs). So,
+regardless of whether we have guest mode page tables, or just host
+iommu page tables, this address range should be reserved and not used.
+
+> 
+>>> also what about usecases:
+>>>  * start QEMU with Intel cpu model on AMD host with intel's iommu  
 >>
->> But should we not care about that then it's an option, I suppose.
-> we probably do not care about CMOS with so large RAM,
-> as long as QEMU generates correct E820 (cmos mattered only with old Seabios
-> which used it for generating memory map)
+>> In principle it would be less likely to occur. But you would still need
+>> to mark the same range as reserved. The limitation is on DMA occuring
+>> on those IOVAs (host or guest) coinciding with that range, so you would
+>> want to inform the guest that at least those should be avoided.
+>>
+>>>  * start QEMU with AMD cpu model and AMD's iommu on Intel host  
+>>
+>> Here you would probably only mark the range, solely for honoring how hardware
+>> is usually represented. But really, on Intel, nothing stops you from exposing the
+>> aforementioned range as RAM.
+>>
+>>>  * start QEMU in TCG mode on AMD host (mostly form qtest point ot view)
+>>>   
+>> This one is tricky. Because you can hotplug a VFIO device later on,
+>> I opted for always marking the reserved range. If you don't use VFIO you're good, but
+>> otherwise you would still need reserved. But I am not sure how qtest is used
+>> today for testing huge guests.
+> I do not know if there are VFIO tests in qtest (probably nope, since that
+> could require a host configured for that), but we can add a test
+> for his memory quirk (assuming phys-bits won't get in the way)
 > 
-OK, good to know.
 
-Any extension on CMOS would probably also be out of spec.
-
->> We would waste 1Tb of address space because of 12G, and btw the logic here
->> is not so different than the 4G hole, in fact could probably share this
->> with it.
-> the main reason I'm looking for alternative, is complexity
-> of making hole brings in. At this point, we can't do anything
-> with 4G hole as it's already there, but we can try to avoid that
-> for high RAM and keep rules there simple as it's now.
-> 
-Right. But for what is worth, that complexity is spread in two parts:
-
-1) dealing with a sparse RAM model (with more than one hole)
-
-2) offsetting everything else that assumes a linear RAM map.
-
-I don't think that even if we shift start of RAM to after 1TB boundary that
-we would get away top solving item 2 -- which personally is where I find this
-a tad bit more hairy. So it would probably make this patch complexity smaller, but
-not vary much in how spread the changes get.
-
-> Also partitioning/splitting main RAM is one of the things that
-> gets in the way converting it to PC-DIMMMs model.
-> 
-Can you expand on that? (a link to a series is enough)
-
-> Loosing 1Tb of address space might be acceptable on a host
-> that can handle such amounts of RAM
-> 
+	Joao
 
