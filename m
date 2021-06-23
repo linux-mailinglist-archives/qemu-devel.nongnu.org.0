@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390DE3B19CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:21:41 +0200 (CEST)
-Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D38A3B19BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:19:03 +0200 (CEST)
+Received: from localhost ([::1]:33288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw1sy-0007M0-8f
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
+	id 1lw1qQ-0002pO-AR
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m3-0003rR-UR
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:31 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:42586)
+ id 1lw1m2-0003rC-NF
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:30 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m1-0001yx-7c
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:31 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id bg14so3647588ejb.9
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 05:14:27 -0700 (PDT)
+ id 1lw1m0-0001zU-Ul
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:30 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id nb6so3656369ejc.10
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 05:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NaoA/Gz5B3VaHjNe4o2mJuay6G0a5kmwmmXcYmBXU30=;
- b=Gvb3XDcbe0hiI8n5pi01XgqBTRl+rA8ANzggSIyvpVTzFPep/ZfTE3xFqszlcEpIMR
- 6Q1c6Us51Nq8zF4+6b2527ad9hU/dJG6VXOLdleLl3VZuTBGbJXo/NxFaQ6+KeC+8UQ/
- IdCjp4MowyZcT/W3IqJ4RqnioS9vogFOKlq8/5vREIGgwwrrLbfA5fYBh/8vBOowUeYq
- PDbaOyXvjrj7hMagqxUnOQewV7mSKMd6YgHrJFw2nXfu418fphbq9oW7pz44kM1iO27m
- reuweGvjXQl3Jc05cSymvK0BZB1aIx2ejUY3T/75//kQxis5jEAtGjL98zESjGiOX98I
- fqnw==
+ bh=VP9s5JyOxdlmVpItLUdNGhW5j1cHS9B8ambxVV+LEbo=;
+ b=QN+7lVSaXDYlyuHIYEFz38wryx2Goi/L+OhqI0p1d4tv24ZSmj8dyxUBgIhXGolswO
+ aRhIvEYJJf4/I8fF4XcgxuCz+58J/ammr2hXIs6RtYxiA7PTYMdd9JYIy6UTSonaue/b
+ pbVl0PgG5JkP+4A83Y5GBlgR4kOcJdwSSvseY8PmD95i4Ov/KM7W/HJuMgD/9lZbojJA
+ JKWvRpuKtNNdr38Fsmv4yiF7RXJUzUGg8bXnjjqQOFSP0b0YAYqLyrGfSdnaxk1nxohX
+ j3dLA6jNURfRVC2ySaQnqh3GGwOJgONeJPX3/0MavFj52LCZ0NFZm2teLzATgs/pQsk7
+ 5oJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NaoA/Gz5B3VaHjNe4o2mJuay6G0a5kmwmmXcYmBXU30=;
- b=rFSr8DWMK6Y2V7Kq911Q/v8FAY5t8t2hQQZQXV8a7pvruZWmP9qIUomLFWc0+UgTaT
- 4CeuoFIyM1LRDAijsBHiNkE6XZhEK0B/IUbSeOgbGj1k3Mhe999MA+xsIi/IuVf/px2T
- Ev7XxdHUtlNyDBfQo4Hy3/Bj/4QBAdkTnIiJ0ynclPIkFePKJkw/clfNMzzYgle82My3
- PWr53bAZkdyu5QXkNPVI6XTmi0MV+2yyhaB93yNK+AjHppNpiDg6wBy4b4X6BnAJIGbZ
- lbFYZyjwL6cAZVrSOD4uT2i1Jq/CGXRdS9XJMDfuGKqyZby0JV9UwWRvwdsq4OIOWE6s
- 4Pcg==
-X-Gm-Message-State: AOAM531prDZAAsaZX+A3E2YZMPmeEfeeOcyEpIzDlSdT/2aoU2z8ErCK
- ANEXfdvoIP07cazfnh3ZoMVU98lfAH8=
-X-Google-Smtp-Source: ABdhPJwuQCnRx1fgGlbEvvX7941gm9xeddO7Ilq2jCe/iPs41FyQ1I/KO58gs3wwM5zdjFzGXLSkxw==
-X-Received: by 2002:a17:906:2b85:: with SMTP id
- m5mr9856466ejg.141.1624450467053; 
+ bh=VP9s5JyOxdlmVpItLUdNGhW5j1cHS9B8ambxVV+LEbo=;
+ b=as1T95eu+GZQRCAdtQyafcsQixLQ42NgSMGawQkU2kqeI2B4gZm4Ky7LGdQDdyCXGH
+ 36mRq8CnEwmjP4Q7xz4q17ngcrI9tmKzZnvlaPcX6Tu2zqRkZN0VjEerQl1P0XtDPpbl
+ /39YitMtijhPvSLpT/SSuNuo81MvZ0UkdIk19U16kafV23+2WRkkq1Xfp+8d6kLooGN8
+ KrZQp82agAfKOX7xrSGenxFki0qn5h/bp/8tR3lF5S0eayC77nYfXqzCo3osYCW17dX4
+ ycKeHSXTCjnf4G6PaDWlAfZ2EeTPHfDg5NPP1tkPkyQT7a/czIDQ0hB+7CxTZ+ZBDdk1
+ Ab9A==
+X-Gm-Message-State: AOAM5330i+HWR2S/Qfq8krET4k+Bb4XPhWzfWQF6nPrexrSwHP1JD47y
+ p4/UtJEPaRCg7X9gPwOogoLiaOWOSl0=
+X-Google-Smtp-Source: ABdhPJzLokrNpVGMZ5zQapMe5Sn0K9Kyd4RrmaFWM/pprsehLU2MVIxLSn0TRUhyrFolKvMZFLfgUg==
+X-Received: by 2002:a17:906:1681:: with SMTP id
+ s1mr9631162ejd.321.1624450467715; 
  Wed, 23 Jun 2021 05:14:27 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.26
+ by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 05:14:26 -0700 (PDT)
+ Wed, 23 Jun 2021 05:14:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/12] meson: drop unused CONFIG_GCRYPT_HMAC
-Date: Wed, 23 Jun 2021 14:14:14 +0200
-Message-Id: <20210623121424.1259496-3-pbonzini@redhat.com>
+Subject: [PULL 03/12] configure: drop unused variables for xts
+Date: Wed, 23 Jun 2021 14:14:15 +0200
+Message-Id: <20210623121424.1259496-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623121424.1259496-1-pbonzini@redhat.com>
 References: <20210623121424.1259496-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,31 +86,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@liaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CONFIG_GCRYPT_HMAC has been removed now that all supported distros have it.
+All XTS configuration uses qemu_private_xts.  Drop other variables as
+they have only ever been used to generate the summary (which has since
+been moved to meson.build).
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@liaro.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 1 -
- 1 file changed, 1 deletion(-)
+ configure | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index d8a92666fb..87147a5f3f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2664,7 +2664,6 @@ summary_info += {'GNUTLS support':    config_host.has_key('CONFIG_GNUTLS')}
- # TODO: add back version
- summary_info += {'libgcrypt':         config_host.has_key('CONFIG_GCRYPT')}
- if config_host.has_key('CONFIG_GCRYPT')
--   summary_info += {'  hmac':            config_host.has_key('CONFIG_GCRYPT_HMAC')}
-    summary_info += {'  XTS':             not config_host.has_key('CONFIG_QEMU_PRIVATE_XTS')}
- endif
- # TODO: add back version
+diff --git a/configure b/configure
+index 38704b4e11..00e7dd749a 100755
+--- a/configure
++++ b/configure
+@@ -406,9 +406,7 @@ gtk="auto"
+ tls_priority="NORMAL"
+ gnutls="$default_feature"
+ nettle="$default_feature"
+-nettle_xts="no"
+ gcrypt="$default_feature"
+-gcrypt_xts="no"
+ qemu_private_xts="yes"
+ auth_pam="$default_feature"
+ vte="$default_feature"
+@@ -2897,7 +2895,6 @@ int main(void) {
+ }
+ EOF
+         if compile_prog "$nettle_cflags" "$nettle_libs" ; then
+-            nettle_xts=yes
+             qemu_private_xts=no
+         fi
+     fi
+@@ -2938,7 +2935,6 @@ int main(void) {
+ }
+ EOF
+         if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
+-            gcrypt_xts=yes
+             qemu_private_xts=no
+         fi
+     elif test "$gcrypt" = "yes"; then
 -- 
 2.31.1
 
