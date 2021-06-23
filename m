@@ -2,108 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D6B3B1442
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 08:56:10 +0200 (CEST)
-Received: from localhost ([::1]:37688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A763B1475
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 09:16:17 +0200 (CEST)
+Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvwnw-00069o-K8
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 02:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35174)
+	id 1lvx7P-0000pJ-Vt
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 03:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1lvwmJ-0005SO-OE
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 02:54:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53668
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lvx4o-00082x-1b
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 03:13:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1lvwmH-0002ec-6v
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 02:54:27 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15N6WeBq079212; Wed, 23 Jun 2021 02:54:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=PYZMBtJ0qAaLlG7tZb0kwKCFHb6CnZW+YVPKMNUtcUc=;
- b=eV5FouUImGUFxS19EfVhAs4W66Ccj3VoWMXbtNsVnYDQUS2aJjTG+vm46W4gQdsJlGyr
- gE8k5DvJGoUzTwcI5L4LLrn7ZRX5prIj6jH4/8JGKq6QqhwgPy0sBBvJDWXuaNBGJPC8
- XCLttEodlZVnt+DNs9/rwhOA1Jm9iX390K7DJUx3J8FF0kNS8oBzvJzL9PsRKu9TivOP
- Tlo039B7b1OyL1SSC2T7u+SbjwocNt5Gk4ajP9ZFFZiGa5cqqV4x0v6l7HaU07lNbrTQ
- 0Hqb4X/Bb8NCULf96npLT91tZvu04FvHKCyzXYJee2fecH7LMHsn50GnypT3tMpk6n+P Gw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39bxfj298g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Jun 2021 02:54:21 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15N6YGfk085782;
- Wed, 23 Jun 2021 02:54:20 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39bxfj2970-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Jun 2021 02:54:20 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15N6sHI6003950;
- Wed, 23 Jun 2021 06:54:17 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 3998789t6b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Jun 2021 06:54:17 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 15N6qtmU27197876
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Jun 2021 06:52:55 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 60949AE04D;
- Wed, 23 Jun 2021 06:54:14 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 40EADAE058;
- Wed, 23 Jun 2021 06:54:13 +0000 (GMT)
-Received: from [9.148.12.78] (unknown [9.148.12.78])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 23 Jun 2021 06:54:13 +0000 (GMT)
-Subject: Re: [PATCH v2 2/2] x86/sev: generate SEV kernel loader hashes in
- x86_load_linux
-To: Connor Kuehl <ckuehl@redhat.com>, qemu-devel@nongnu.org
-References: <20210621190553.1763020-1-dovmurik@linux.ibm.com>
- <20210621190553.1763020-3-dovmurik@linux.ibm.com>
- <85acff2f-367f-8ef1-a830-ba367daf17d7@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <3203047d-564a-8b2e-a68b-e8f147f3ad13@linux.ibm.com>
-Date: Wed, 23 Jun 2021 09:54:12 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lvx39-0006sQ-RU
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 03:13:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624432308;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w2FatcxNshpFxFJE8T+mUyJN8sMD7//FMA30t6ev6Wc=;
+ b=M1FrtQkhrQ0of4skPkRB+raAmeZoTwSngVOkxvN/lVN1QiWzrlPMwYyaxF4P9++LSoMUeI
+ Vk7tp+Yc6cemdqYOSaVwexK5PDOMoPf5UCwRbf9wQuu4Uxno4oPo3ycodPu/1JmfcLZ35B
+ QxLDknGU9Hw7xAb2/TcS+mNeR0W2puI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-w9Eh15emMyaN_5jWP4rHVQ-1; Wed, 23 Jun 2021 03:11:47 -0400
+X-MC-Unique: w9Eh15emMyaN_5jWP4rHVQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF5911084F57;
+ Wed, 23 Jun 2021 07:11:45 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B031D19C87;
+ Wed, 23 Jun 2021 07:11:39 +0000 (UTC)
+Date: Wed, 23 Jun 2021 09:11:38 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
+ boundary
+Message-ID: <20210623091138.2f7828dd@redhat.com>
+In-Reply-To: <20210622154905.30858-2-joao.m.martins@oracle.com>
+References: <20210622154905.30858-1-joao.m.martins@oracle.com>
+ <20210622154905.30858-2-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <85acff2f-367f-8ef1-a830-ba367daf17d7@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: W4GIkE0Qz4vFPhfXKZ0Ynvf5gWe6N6uo
-X-Proofpoint-GUID: OoNFwuhqHz2EIPfpFE3hgLIfJ9hf2qgz
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-23_02:2021-06-22,
- 2021-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- adultscore=0 suspectscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1015 malwarescore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106230037
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.223,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,109 +80,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Connor,
+On Tue, 22 Jun 2021 16:49:00 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-On 22/06/2021 23:55, Connor Kuehl wrote:
-> On 6/21/21 2:05 PM, Dov Murik wrote:
->> If SEV is enabled and a kernel is passed via -kernel, pass the hashes of
->> kernel/initrd/cmdline in an encrypted guest page to OVMF for SEV
->> measured boot.
->>
->> Co-developed-by: James Bottomley <jejb@linux.ibm.com>
->> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
->> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
->> ---
->>  hw/i386/x86.c | 25 ++++++++++++++++++++++++-
->>  1 file changed, 24 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index ed796fe6ba..5c46463d9f 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -45,6 +45,7 @@
->>  #include "hw/i386/fw_cfg.h"
->>  #include "hw/intc/i8259.h"
->>  #include "hw/rtc/mc146818rtc.h"
->> +#include "target/i386/sev_i386.h"
->>  
->>  #include "hw/acpi/cpu_hotplug.h"
->>  #include "hw/irq.h"
->> @@ -778,6 +779,7 @@ void x86_load_linux(X86MachineState *x86ms,
->>      const char *initrd_filename = machine->initrd_filename;
->>      const char *dtb_filename = machine->dtb;
->>      const char *kernel_cmdline = machine->kernel_cmdline;
->> +    KernelLoaderContext kernel_loader_context = {};
->>  
->>      /* Align to 16 bytes as a paranoia measure */
->>      cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
->> @@ -924,6 +926,8 @@ void x86_load_linux(X86MachineState *x86ms,
->>      fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
->>      fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline) + 1);
->>      fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
->> +    kernel_loader_context.cmdline_data = (char *)kernel_cmdline;
->> +    kernel_loader_context.cmdline_size = strlen(kernel_cmdline) + 1;
+> It is assumed that the whole GPA space is available to be
+> DMA addressable, within a given address space limit. Since
+> v5.4 based that is not true, and VFIO will validate whether
+> the selected IOVA is indeed valid i.e. not reserved by IOMMU
+> on behalf of some specific devices or platform-defined.
 > 
-> I just wanted to check my understanding: I'm guessing you didn't set
-> `kernel_loader_context.cmdline_size` to `cmdline_size` (defined above)
-> so guest owners don't have to be aware of whatever alignment precaution
-> QEMU takes when producing their own measurement, right?
-
-The hashes calculated by OVMF must be identical to the hashes calculated
-by QEMU.  OVMF calculates a hash over the blob it receives from QEMU,
-which is:
-
-    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline) + 1);
-    fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
-
-That is -- the entire cmdline string including the terminating '\0'.
-
-Here's the OVMF side that verifies the last byte is '\0':
-
-    QemuFwCfgSelectItem (QemuFwCfgItemCommandLineData);
-    QemuFwCfgReadBytes (CommandLineSize, CommandLine);
-
-    //
-    // Verify NUL-termination of the command line.
-    //
-    if (CommandLine[CommandLineSize - 1] != '\0') {
-      DEBUG ((DEBUG_ERROR, "%a: kernel command line is not NUL-terminated\n",
-        __FUNCTION__));
-      Status = EFI_PROTOCOL_ERROR;
-      goto FreeCommandLine;
-    }
-
-(this is more or less where we're adding the hash verification in OVMF.)
-
-
-As you said, the Guest Owner also calculates the hash in exact the same
-way in order to verify the SEV PSP measurement.
-
-
-As I understand from the x86_load_linux code, the rounded/aligned
-`cmdline_size` is used for placing the command line in an aligned address 
-inside the guest memory.  In the kernel I'm booting the `cmdline_addr` is
-always 0x20000 and doesn't depend on cmdline_size at all.
-
-
+> AMD systems with an IOMMU are examples of such platforms and
+> particularly may export only these ranges as allowed:
 > 
-> Otherwise:
+> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
+> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
+> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb)
 > 
-> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+> We already know of accounting for the 4G hole, albeit if the
+> guest is big enough we will fail to allocate a >1010G given
+> the ~12G hole at the 1Tb boundary, reserved for HyperTransport.
 > 
+> When creating the region above 4G, take into account what
+> IOVAs are allowed by defining the known allowed ranges
+> and search for the next free IOVA ranges. When finding a
+> invalid IOVA we mark them as reserved and proceed to the
+> next allowed IOVA region.
+> 
+> After accounting for the 1Tb hole on AMD hosts, mtree should
+> look like:
+> 
+> 0000000100000000-000000fcffffffff (prio 0, i/o):
+> 	alias ram-above-4g @pc.ram 0000000080000000-000000fc7fffffff
+> 0000010000000000-000001037fffffff (prio 0, i/o):
+> 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff
 
-Thanks!
+why not push whole ram-above-4g above 1Tb mark
+when RAM is sufficiently large (regardless of used host),
+instead of creating yet another hole and all complexity it brings along?
 
--Dov
+
+> Co-developed-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+> Signed-off-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/i386/pc.c         | 103 +++++++++++++++++++++++++++++++++++++++----
+>  include/hw/i386/pc.h |  57 ++++++++++++++++++++++++
+>  target/i386/cpu.h    |   3 ++
+>  3 files changed, 154 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index c6d8d0d84d91..52a5473ba846 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -91,6 +91,7 @@
+>  #include "qapi/qmp/qerror.h"
+>  #include "e820_memory_layout.h"
+>  #include "fw_cfg.h"
+> +#include "target/i386/cpu.h"
+>  #include "trace.h"
+>  #include CONFIG_DEVICES
+>  
+> @@ -860,6 +861,93 @@ void xen_load_linux(PCMachineState *pcms)
+>      x86ms->fw_cfg = fw_cfg;
+>  }
+>  
+> +struct GPARange usable_iova_ranges[] = {
+> +    { .start = 4 * GiB, .end = UINT64_MAX, .name = "ram-above-4g" },
+> +
+> +/*
+> + * AMD systems with an IOMMU have an additional hole close to the
+> + * 1Tb, which are special GPAs that cannot be DMA mapped. Depending
+> + * on kernel version, VFIO may or may not let you DMA map those ranges.
+> + * Starting v5.4 we validate it, and can't create guests on AMD machines
+> + * with certain memory sizes. The range is:
+> + *
+> + * FD_0000_0000h - FF_FFFF_FFFFh
+> + *
+> + * The ranges represent the following:
+> + *
+> + * Base Address   Top Address  Use
+> + *
+> + * FD_0000_0000h FD_F7FF_FFFFh Reserved interrupt address space
+> + * FD_F800_0000h FD_F8FF_FFFFh Interrupt/EOI IntCtl
+> + * FD_F900_0000h FD_F90F_FFFFh Legacy PIC IACK
+> + * FD_F910_0000h FD_F91F_FFFFh System Management
+> + * FD_F920_0000h FD_FAFF_FFFFh Reserved Page Tables
+> + * FD_FB00_0000h FD_FBFF_FFFFh Address Translation
+> + * FD_FC00_0000h FD_FDFF_FFFFh I/O Space
+> + * FD_FE00_0000h FD_FFFF_FFFFh Configuration
+> + * FE_0000_0000h FE_1FFF_FFFFh Extended Configuration/Device Messages
+> + * FE_2000_0000h FF_FFFF_FFFFh Reserved
+> + *
+> + * See AMD IOMMU spec, section 2.1.2 "IOMMU Logical Topology",
+> + * Table 3: Special Address Controls (GPA) for more information.
+> + */
+> +#define DEFAULT_NR_USABLE_IOVAS 1
+> +#define AMD_MAX_PHYSADDR_BELOW_1TB  0xfcffffffff
+> +    { .start = 1 * TiB, .end = UINT64_MAX, .name = "ram-above-1t" },
+> +};
+> +
+> + uint32_t nb_iova_ranges = DEFAULT_NR_USABLE_IOVAS;
+> +
+> +static void init_usable_iova_ranges(void)
+> +{
+> +    uint32_t eax, vendor[3];
+> +
+> +    host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
+> +    if (IS_AMD_VENDOR(vendor)) {
+> +        usable_iova_ranges[0].end = AMD_MAX_PHYSADDR_BELOW_1TB;
+> +        nb_iova_ranges++;
+> +    }
+> +}
+> +
+> +static void add_memory_region(MemoryRegion *system_memory, MemoryRegion *ram,
+> +                                hwaddr base, hwaddr size, hwaddr offset)
+> +{
+> +    hwaddr start, region_size, resv_start, resv_end;
+> +    struct GPARange *range;
+> +    MemoryRegion *region;
+> +    uint32_t index;
+> +
+> +    for_each_usable_range(index, base, size, range, start, region_size) {
+> +        region = g_malloc(sizeof(*region));
+> +        memory_region_init_alias(region, NULL, range->name, ram,
+> +                                 offset, region_size);
+> +        memory_region_add_subregion(system_memory, start, region);
+> +        e820_add_entry(start, region_size, E820_RAM);
+> +
+> +        assert(size >= region_size);
+> +        if (size == region_size) {
+> +            return;
+> +        }
+> +
+> +        /*
+> +         * There's memory left to create a region for, so there should be
+> +         * another valid IOVA range left.  Creating the reserved region
+> +         * would also be pointless.
+> +         */
+> +        if (index + 1 == nb_iova_ranges) {
+> +            return;
+> +        }
+> +
+> +        resv_start = start + region_size;
+> +        resv_end = usable_iova_ranges[index + 1].start;
+> +
+> +        /* Create a reserved region in the IOVA hole. */
+> +        e820_add_entry(resv_start, resv_end - resv_start, E820_RESERVED);
+> +
+> +        offset += region_size;
+> +    }
+> +}
+> +
+>  void pc_memory_init(PCMachineState *pcms,
+>                      MemoryRegion *system_memory,
+>                      MemoryRegion *rom_memory,
+> @@ -867,7 +955,7 @@ void pc_memory_init(PCMachineState *pcms,
+>  {
+>      int linux_boot, i;
+>      MemoryRegion *option_rom_mr;
+> -    MemoryRegion *ram_below_4g, *ram_above_4g;
+> +    MemoryRegion *ram_below_4g;
+>      FWCfgState *fw_cfg;
+>      MachineState *machine = MACHINE(pcms);
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+> @@ -877,6 +965,8 @@ void pc_memory_init(PCMachineState *pcms,
+>      assert(machine->ram_size == x86ms->below_4g_mem_size +
+>                                  x86ms->above_4g_mem_size);
+>  
+> +    init_usable_iova_ranges();
+> +
+>      linux_boot = (machine->kernel_filename != NULL);
+>  
+>      /*
+> @@ -888,16 +978,11 @@ void pc_memory_init(PCMachineState *pcms,
+>      memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
+>                               0, x86ms->below_4g_mem_size);
+>      memory_region_add_subregion(system_memory, 0, ram_below_4g);
+> +
+>      e820_add_entry(0, x86ms->below_4g_mem_size, E820_RAM);
+>      if (x86ms->above_4g_mem_size > 0) {
+> -        ram_above_4g = g_malloc(sizeof(*ram_above_4g));
+> -        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
+> -                                 machine->ram,
+> -                                 x86ms->below_4g_mem_size,
+> -                                 x86ms->above_4g_mem_size);
+> -        memory_region_add_subregion(system_memory, 0x100000000ULL,
+> -                                    ram_above_4g);
+> -        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
+> +        add_memory_region(system_memory, machine->ram, 4 * GiB,
+> +                          x86ms->above_4g_mem_size, x86ms->below_4g_mem_size);
+>      }
+>  
+>      if (!pcmc->has_reserved_memory &&
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 1522a3359a93..73b8e2900c72 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -151,6 +151,63 @@ void pc_guest_info_init(PCMachineState *pcms);
+>  #define PCI_HOST_BELOW_4G_MEM_SIZE     "below-4g-mem-size"
+>  #define PCI_HOST_ABOVE_4G_MEM_SIZE     "above-4g-mem-size"
+>  
+> +struct GPARange {
+> +    uint64_t start;
+> +    uint64_t end;
+> +#define range_len(r) ((r).end - (r).start + 1)
+> +
+> +    const char *name;
+> +};
+> +
+> +extern uint32_t nb_iova_ranges;
+> +extern struct GPARange usable_iova_ranges[];
+> +
+> +static inline void next_iova_range_index(uint32_t i, hwaddr base, hwaddr size,
+> +                                         hwaddr *start, hwaddr *region_size,
+> +                                         uint32_t *index, struct GPARange **r)
+> +{
+> +    struct GPARange *range;
+> +
+> +    while (i < nb_iova_ranges) {
+> +        range = &usable_iova_ranges[i];
+> +        if (range->end >= base) {
+> +            break;
+> +        }
+> +        i++;
+> +    }
+> +
+> +    *index = i;
+> +    /* index is out of bounds or no region left to process */
+> +    if (i >= nb_iova_ranges || !size) {
+> +        return;
+> +    }
+> +
+> +    *start = MAX(range->start, base);
+> +    *region_size = MIN(range->end - *start + 1, size);
+> +    *r = range;
+> +}
+> +
+> +/*
+> + * for_each_usable_range() - iterates over usable IOVA regions
+> + *
+> + * @i:      range index within usable_iova_ranges
+> + * @base:   requested address we want to use
+> + * @size:   total size of the region with @base
+> + * @r:      range indexed by @i within usable_iova_ranges
+> + * @s:      calculated usable iova address base
+> + * @i_size: calculated usable iova region size starting @s
+> + *
+> + * Use this iterator to walk through usable GPA ranges. Platforms
+> + * such as AMD with IOMMU capable hardware restrict certain address
+> + * ranges for Hyper Transport. This iterator helper lets user avoid
+> + * using those said reserved ranges.
+> + */
+> +#define for_each_usable_range(i, base, size, r, s, i_size) \
+> +    for (s = 0, i_size = 0, r = NULL, \
+> +         next_iova_range_index(0, base, size, &s, &i_size, &i, &r); \
+> +         i < nb_iova_ranges && size != 0; \
+> +         size -= i_size, \
+> +         next_iova_range_index(i + 1, base, size, &s, &i_size, &i, &r))
+>  
+>  void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
+>                              MemoryRegion *pci_address_space);
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 1e11071d817b..f8f15a4523c6 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -869,6 +869,9 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+>  #define IS_AMD_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_AMD_1 && \
+>                           (env)->cpuid_vendor2 == CPUID_VENDOR_AMD_2 && \
+>                           (env)->cpuid_vendor3 == CPUID_VENDOR_AMD_3)
+> +#define IS_AMD_VENDOR(vendor) ((vendor[0]) == CPUID_VENDOR_AMD_1 && \
+> +                         (vendor[1]) == CPUID_VENDOR_AMD_2 && \
+> +                         (vendor[2]) == CPUID_VENDOR_AMD_3)
+>  
+>  #define CPUID_MWAIT_IBE     (1U << 1) /* Interrupts can exit capability */
+>  #define CPUID_MWAIT_EMX     (1U << 0) /* enumeration supported */
+
 
