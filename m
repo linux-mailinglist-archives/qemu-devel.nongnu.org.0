@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24AA3B1CCB
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:44:27 +0200 (CEST)
-Received: from localhost ([::1]:34274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391FB3B1CDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:49:14 +0200 (CEST)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw478-0007pO-SG
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51588)
+	id 1lw4Bl-0001NJ-AB
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:49:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lw467-00079F-GH
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:43:23 -0400
-Resent-Date: Wed, 23 Jun 2021 10:43:23 -0400
-Resent-Message-Id: <E1lw467-00079F-GH@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21322)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lw4Ah-0000Xu-TT
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:48:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lw464-0001Q7-UP
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:43:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624459378; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=L0Z1skAXar8GPaDPC4mCbA27yXQpn11UDpHvBMh+rdLC/tvuALtOYG5TCyDmaVUyYDBSz83raikIEtT5Jt2vVNLYfdclSsX9ShmliBtW1EPmQzYrq4b5w/+aO1tnUhdGv62a2A0RQ4s3KOm79UfmdWWxK8Lf1gMm6D7WWNDnFf0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1624459378;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=dkn+4aR9tQWLcf2mz+pN/DuiJm5WgAXCyT5Kg9FWEm4=; 
- b=VT4XQB1FFtrVYlwr1VAbqv8vgj5iUD5tIshqjbkw0bHBSqXTlIqgYAwzoQWV7+Jdjp7mA45OZAO55mYmC5bEJkgphHOJE1v2RWVj4VqpEStuWLrlYRooDEPo0SqAEoe/K/j75xfSrrOpyLlKzODlJ+JrEx6Axk64jJ0DAJ9+umY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 16244593731122.2389461070788457;
- Wed, 23 Jun 2021 07:42:53 -0700 (PDT)
-In-Reply-To: <20210623142245.307776-1-berrange@redhat.com>
-Subject: Re: [PATCH v4 00/22] tests/docker: start using libvirt-ci's "lcitool"
- for dockerfiles
-Message-ID: <162445937176.3692.10445444758617990238@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lw4Aa-0004Az-Qe
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:48:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624459679;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bkOiRrEUlMgI3IUDY7lD56jemhHnbYDLFuPmAyJ5/N8=;
+ b=YcPAVMpPTUE+4nqSmD0NQYu84fSdmr3XsRz9RZj+MH/8fKG8uvYojWwj4GURISyPQ2zK4/
+ 5J2kCtDHpY1zVUDwql03CZOUEim3lZL/GqIr8MvzezQtIphoCZo8CCz38HZUdrFP9wuyIy
+ 3CS1PMni5RT5eVORCaQqhfHr91QYrIQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-WiUdWAN1MwedKWNaKcDcgQ-1; Wed, 23 Jun 2021 10:47:58 -0400
+X-MC-Unique: WiUdWAN1MwedKWNaKcDcgQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E09D19611A4;
+ Wed, 23 Jun 2021 14:47:57 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.43.2.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9C6B60871;
+ Wed, 23 Jun 2021 14:47:55 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/pci/pcie_port: Rename "enable-native-hotplug" property
+Date: Wed, 23 Jun 2021 16:47:47 +0200
+Message-Id: <20210623144747.285302-1-jusual@redhat.com>
+In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
+References: <20210617190739.3673064-1-jusual@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Wed, 23 Jun 2021 07:42:53 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,107 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, peter.maydell@linaro.org, thuth@redhat.com,
- berrange@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- wainersm@redhat.com, f4bug@amsat.org, willianr@redhat.com, philmd@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyMzE0MjI0NS4zMDc3
-NzYtMS1iZXJyYW5nZUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA2MjMxNDIyNDUuMzA3
-Nzc2LTEtYmVycmFuZ2VAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjQgMDAvMjJdIHRlc3Rz
-L2RvY2tlcjogc3RhcnQgdXNpbmcgbGlidmlydC1jaSdzICJsY2l0b29sIiBmb3IgZG9ja2VyZmls
-ZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
-YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
-aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
-bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVh
-OWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29t
-L3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA2
-MjIxNTQ4MjAuMTk3ODk4Mi0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hl
-dy8yMDIxMDYyMjE1NDgyMC4xOTc4OTgyLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwog
-KiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjIzMTQyMjQ1LjMwNzc3Ni0xLWJlcnJh
-bmdlQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDYyMzE0MjI0NS4zMDc3NzYtMS1iZXJyYW5n
-ZUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOTc1ODgyNiB0ZXN0
-cy9kb2NrZXI6IHJlbW92ZSB1YnVudHUgY29udGFpbmVyCmVmM2VmNGUgdGVzdHMvZG9ja2VyOiBh
-dXRvLWdlbmVyYXRlIG9wZW5zdXNlLWxlYXAgd2l0aCBsY2l0b29sCjg5NWFlZDkgdGVzdHMvZG9j
-a2VyOiBhdXRvLWdlbmVyYXRlIHVidW50dTIwMDQgd2l0aCBsY2l0b29sCjIxMTlkZTUgdGVzdHMv
-ZG9ja2VyOiBhdXRvLWdlbmVyYXRlIHVidW50dTE4MDQgd2l0aCBsY2l0b29sCjAzZTFjZDMgdGVz
-dHMvZG9ja2VyOiBhdXRvLWdlbmVyYXRlIGZlZG9yYSB3aXRoIGxjaXRvb2wKYzYyYzczMSB0ZXN0
-cy9kb2NrZXI6IGF1dG8tZ2VuZXJhdGUgY2VudG9zOCB3aXRoIGxjaXRvb2wKZDY0YWIzMyB0ZXN0
-cy9kb2NrZXI6IGFkZCBzY3JpcHQgZm9yIGF1dG9tYXRpbmcgY29udGFpbmVyIHJlZnJlc2gKYzJi
-YWRkZCB0ZXN0cy9kb2NrZXI6IGV4cGFuZCBvcGVuc3VzZS1sZWFwIHBhY2thZ2UgbGlzdAozZGQw
-OGY2IHRlc3RzL2RvY2tlcjogZXhwYW5kIHVidW50dTIwMDQgcGFja2FnZSBsaXN0CjBiMWE2ZGQg
-dGVzdHMvZG9ja2VyOiBleHBhbmQgdWJ1bnR1MTgwNCBwYWNrYWdlIGxpc3QKZTUxODgyNyB0ZXN0
-cy9kb2NrZXI6IGV4cGFuZCBmZWRvcmEgcGFja2FnZSBsaXN0CmQxOWIwNzIgdGVzdHMvZG9ja2Vy
-OiBleHBhbmQgY2VudG9zOCBwYWNrYWdlIGxpc3QKZTI4MWFlOSB0ZXN0cy9kb2NrZXI6IHJlbW92
-ZSBtaW5ndyBwYWNrYWdlcyBmcm9tIEZlZG9yYQo1NzRiZTcwIHRlc3RzL2RvY2tlcjogZml4IG1p
-c3Rha2VzIGluIHVidW50dSBwYWNrYWdlIGxpc3RzCjg4Y2Q0MTAgdGVzdHMvZG9ja2VyOiBmaXgg
-bWlzdGFrZXMgaW4gZmVkb3JhIHBhY2thZ2UgbGlzdApiZmMxMGM5IHRlc3RzL2RvY2tlcjogZml4
-IG1pc3Rha2VzIGluIGNlbnRvcyBwYWNrYWdlIGxpc3RzCjRjNmI4NTEgdGVzdHMvZG9ja2VyOiBm
-aXggc29ydGluZyBpbiBwYWNrYWdlIGxpc3RzCmY5MjNiZjggdGVzdHMvZG9ja2VyOiByZW1vdmUg
-RkVBVFVSRVMgZW52IHZhciBmcm9tIHRlbXBsYXRlcwo2YmE1MDAwIHRlc3RzL2RvY2tlcjogdXNl
-IGV4cGxpY2l0IGRvY2tlci5pbyByZWdpc3RyeQpjNTc5MDUyIHRlc3RzL2RvY2tlcjogdXNlIHBy
-b2plY3Qgc3BlY2lmaWMgY29udGFpbmVyIHJlZ2lzdHJpZXMKN2JkMGIwOSB0ZXN0cy9kb2NrZXI6
-IGRvbid0IHVzZSBCVUlMREtJVCBpbiBHaXRMYWIgZWl0aGVyCjE1NWZlNzMgaHcvdXNiL2NjaWQ6
-IHJlbW92ZSByZWZlcmVuY2VzIHRvIE5TUwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yMiBDaGVj
-a2luZyBjb21taXQgMTU1ZmU3MzIwYTc2IChody91c2IvY2NpZDogcmVtb3ZlIHJlZmVyZW5jZXMg
-dG8gTlNTKQoyLzIyIENoZWNraW5nIGNvbW1pdCA3YmQwYjA5ZGEwZWIgKHRlc3RzL2RvY2tlcjog
-ZG9uJ3QgdXNlIEJVSUxES0lUIGluIEdpdExhYiBlaXRoZXIpCjMvMjIgQ2hlY2tpbmcgY29tbWl0
-IGM1NzkwNTIxYTUxYyAodGVzdHMvZG9ja2VyOiB1c2UgcHJvamVjdCBzcGVjaWZpYyBjb250YWlu
-ZXIgcmVnaXN0cmllcykKNC8yMiBDaGVja2luZyBjb21taXQgNmJhNTAwMGNiMjI4ICh0ZXN0cy9k
-b2NrZXI6IHVzZSBleHBsaWNpdCBkb2NrZXIuaW8gcmVnaXN0cnkpCjUvMjIgQ2hlY2tpbmcgY29t
-bWl0IGY5MjNiZjhjNmEwMiAodGVzdHMvZG9ja2VyOiByZW1vdmUgRkVBVFVSRVMgZW52IHZhciBm
-cm9tIHRlbXBsYXRlcykKNi8yMiBDaGVja2luZyBjb21taXQgNGM2Yjg1MTAxNjQ0ICh0ZXN0cy9k
-b2NrZXI6IGZpeCBzb3J0aW5nIGluIHBhY2thZ2UgbGlzdHMpCjcvMjIgQ2hlY2tpbmcgY29tbWl0
-IGJmYzEwYzk3YzRiOSAodGVzdHMvZG9ja2VyOiBmaXggbWlzdGFrZXMgaW4gY2VudG9zIHBhY2th
-Z2UgbGlzdHMpCjgvMjIgQ2hlY2tpbmcgY29tbWl0IDg4Y2Q0MTAwNjRhNiAodGVzdHMvZG9ja2Vy
-OiBmaXggbWlzdGFrZXMgaW4gZmVkb3JhIHBhY2thZ2UgbGlzdCkKOS8yMiBDaGVja2luZyBjb21t
-aXQgNTc0YmU3MGYwYmJlICh0ZXN0cy9kb2NrZXI6IGZpeCBtaXN0YWtlcyBpbiB1YnVudHUgcGFj
-a2FnZSBsaXN0cykKMTAvMjIgQ2hlY2tpbmcgY29tbWl0IGUyODFhZTk2NmYzNSAodGVzdHMvZG9j
-a2VyOiByZW1vdmUgbWluZ3cgcGFja2FnZXMgZnJvbSBGZWRvcmEpCjExLzIyIENoZWNraW5nIGNv
-bW1pdCBkMTliMDcyODZhYWEgKHRlc3RzL2RvY2tlcjogZXhwYW5kIGNlbnRvczggcGFja2FnZSBs
-aXN0KQoxMi8yMiBDaGVja2luZyBjb21taXQgZTUxODgyN2ViODMyICh0ZXN0cy9kb2NrZXI6IGV4
-cGFuZCBmZWRvcmEgcGFja2FnZSBsaXN0KQoxMy8yMiBDaGVja2luZyBjb21taXQgMGIxYTZkZDgx
-YWRmICh0ZXN0cy9kb2NrZXI6IGV4cGFuZCB1YnVudHUxODA0IHBhY2thZ2UgbGlzdCkKMTQvMjIg
-Q2hlY2tpbmcgY29tbWl0IDNkZDA4ZjYzYjRmNiAodGVzdHMvZG9ja2VyOiBleHBhbmQgdWJ1bnR1
-MjAwNCBwYWNrYWdlIGxpc3QpCjE1LzIyIENoZWNraW5nIGNvbW1pdCBjMmJhZGRkZTY3MDIgKHRl
-c3RzL2RvY2tlcjogZXhwYW5kIG9wZW5zdXNlLWxlYXAgcGFja2FnZSBsaXN0KQoxNi8yMiBDaGVj
-a2luZyBjb21taXQgZDY0YWIzMzIwOTdkICh0ZXN0cy9kb2NrZXI6IGFkZCBzY3JpcHQgZm9yIGF1
-dG9tYXRpbmcgY29udGFpbmVyIHJlZnJlc2gpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxl
-dGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzExNDogCm5ldyBm
-aWxlIG1vZGUgMTAwNzU1Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDEyMyBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAxNi8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxNy8yMiBDaGVj
-a2luZyBjb21taXQgYzYyYzczMTFlZWQ4ICh0ZXN0cy9kb2NrZXI6IGF1dG8tZ2VuZXJhdGUgY2Vu
-dG9zOCB3aXRoIGxjaXRvb2wpCjE4LzIyIENoZWNraW5nIGNvbW1pdCAwM2UxY2QzYzAzOGMgKHRl
-c3RzL2RvY2tlcjogYXV0by1nZW5lcmF0ZSBmZWRvcmEgd2l0aCBsY2l0b29sKQoxOS8yMiBDaGVj
-a2luZyBjb21taXQgMjExOWRlNTkwYjU4ICh0ZXN0cy9kb2NrZXI6IGF1dG8tZ2VuZXJhdGUgdWJ1
-bnR1MTgwNCB3aXRoIGxjaXRvb2wpCjIwLzIyIENoZWNraW5nIGNvbW1pdCA4OTVhZWQ5MDEzYzIg
-KHRlc3RzL2RvY2tlcjogYXV0by1nZW5lcmF0ZSB1YnVudHUyMDA0IHdpdGggbGNpdG9vbCkKRVJS
-T1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyODogRklMRTogdGVzdHMvZG9ja2VyL2RvY2tl
-cmZpbGVzLXJlZnJlc2gucHk6NjU6CisgICAgICAgICAgICAgICAiUlVOIHNlZCAtaSAncy9eY29u
-c3Qvc3RhdGljIGNvbnN0L2cnIC91c3IvbGliL2xsdm0tMTAvbGliL2NsYW5nLzEwLjAuMC9pbmNs
-dWRlL3Nhbml0aXplci90c2FuX2ludGVyZmFjZS5oXG4iXQoKdG90YWw6IDEgZXJyb3JzLCAwIHdh
-cm5pbmdzLCAyNzAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjAvMjIgaGFzIHN0eWxlIHByb2JsZW1z
-LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
-dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
-VEFJTkVSUy4KCjIxLzIyIENoZWNraW5nIGNvbW1pdCBlZjNlZjRlODgxMzEgKHRlc3RzL2RvY2tl
-cjogYXV0by1nZW5lcmF0ZSBvcGVuc3VzZS1sZWFwIHdpdGggbGNpdG9vbCkKMjIvMjIgQ2hlY2tp
-bmcgY29tbWl0IDk3NTg4MjY0MDYwNiAodGVzdHMvZG9ja2VyOiByZW1vdmUgdWJ1bnR1IGNvbnRh
-aW5lcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
-VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzU6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRv
-dGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjIvMjIg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
-bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
-cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA2MjMxNDIyNDUuMzA3Nzc2LTEtYmVycmFuZ2VAcmVk
-aGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
-YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
-YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+PCIE_SLOT property renamed to "native-hotplug" to be more concise
+and consistent with other properties.
+
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+ hw/i386/pc_q35.c   | 4 ++--
+ hw/pci/pcie_port.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index a0ec7964cc..04b4a4788d 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -243,8 +243,8 @@ static void pc_q35_init(MachineState *machine)
+                                           NULL);
+ 
+     if (acpi_pcihp) {
+-        object_register_sugar_prop(TYPE_PCIE_SLOT, "enable-native-hotplug",
+-                                  "false", true);
++        object_register_sugar_prop(TYPE_PCIE_SLOT, "native-hotplug",
++                                   "false", true);
+     }
+ 
+     /* irq lines */
+diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+index a410111825..da850e8dde 100644
+--- a/hw/pci/pcie_port.c
++++ b/hw/pci/pcie_port.c
+@@ -148,7 +148,7 @@ static Property pcie_slot_props[] = {
+     DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
+     DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
+     DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
+-    DEFINE_PROP_BOOL("enable-native-hotplug", PCIESlot, native_hotplug, true),
++    DEFINE_PROP_BOOL("native-hotplug", PCIESlot, native_hotplug, true),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
+-- 
+2.30.2
+
 
