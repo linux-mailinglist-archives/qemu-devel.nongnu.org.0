@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD133B116E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 03:49:58 +0200 (CEST)
-Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9663B1174
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 03:52:57 +0200 (CEST)
+Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvs1d-0000gh-6D
-	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 21:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45240)
+	id 1lvs4W-0002HA-Au
+	for lists+qemu-devel@lfdr.de; Tue, 22 Jun 2021 21:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lvs0t-0008RD-7r
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 21:49:11 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2181)
+ id 1lvs31-0001a2-FC
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 21:51:23 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lvs0q-0004FX-6v
- for qemu-devel@nongnu.org; Tue, 22 Jun 2021 21:49:10 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G8mKg2HQtz71dM;
- Wed, 23 Jun 2021 09:44:55 +0800 (CST)
+ id 1lvs2z-0005lN-1o
+ for qemu-devel@nongnu.org; Tue, 22 Jun 2021 21:51:23 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G8mM05PdGzXk8D;
+ Wed, 23 Jun 2021 09:46:04 +0800 (CST)
 Received: from dggema768-chm.china.huawei.com (10.1.198.210) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Wed, 23 Jun 2021 09:49:01 +0800
+ 15.1.2176.2; Wed, 23 Jun 2021 09:51:06 +0800
 Received: from localhost (10.174.151.75) by dggema768-chm.china.huawei.com
  (10.1.198.210) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 23
- Jun 2021 09:49:01 +0800
+ Jun 2021 09:51:06 +0800
 From: Lin Feng <linfeng23@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [v2] migration: fix the memory overwriting risk in add_to_iovec
-Date: Wed, 23 Jun 2021 09:48:45 +0800
-Message-ID: <20210623014845.1498-1-linfeng23@huawei.com>
+Subject: [v3] migration: fix the memory overwriting risk in add_to_iovec
+Date: Wed, 23 Jun 2021 09:51:04 +0800
+Message-ID: <20210623015104.218-1-linfeng23@huawei.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210622111549.490-1-linfeng23@huawei.com>
 References: <20210622111549.490-1-linfeng23@huawei.com>
@@ -42,16 +42,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.151.75]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggema768-chm.china.huawei.com (10.1.198.210)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=linfeng23@huawei.com;
- helo=szxga03-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=linfeng23@huawei.com;
+ helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -142,7 +143,7 @@ index d6e03dbc0e..f6486cf7bc 100644
 -
 -    return 0;
 +fflush:
-+    qemu_fflush();
++    qemu_fflush(f);
 +    return 1;
  }
  
