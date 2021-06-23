@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1B33B1BE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:02:29 +0200 (CEST)
-Received: from localhost ([::1]:42122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A16D3B1C16
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:08:53 +0200 (CEST)
+Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw3SW-0005hq-VN
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42078)
+	id 1lw3Yh-0000ia-P7
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lw3RN-000516-LY
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:01:17 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lw3RD-0003ej-3K
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:01:17 -0400
-Received: by mail-io1-xd31.google.com with SMTP id h2so3511552iob.11
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 07:01:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qKng8Ity78W+pOmQRTqvA1PTzb00GISdJ3usfb+AVyE=;
- b=N8Yg21uomgKByVem8rWqpeVCz9qy1e55ctjyT7mpJAcgS3mY+yKaPoGXvzThIg1U1P
- B0mqtOl/g3f9euzWXxQkao1zTV389Z4OMHiF3iepXS8vgUAgs/6HCaJsYH4jV5Kc91Sb
- Zulp/czRiW0CjL2pZQMspd6Jd7vYTsLqb5Uy4D9eSdfymg25v6InQ0WcPP76587plrVZ
- ljaTOpeyGPnY4jHyCr74jkHu+esPjXn+Cl8Qldkbp0l1XKqp+VhBuM6jXZ3tsXoX4ujI
- JHkNexj8t+6Ld1lU7tWSpElvdIEhYI6W3BYwLsdJzLrgdY7Hxa2pREwq4i5MWOQsYUIe
- nijg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qKng8Ity78W+pOmQRTqvA1PTzb00GISdJ3usfb+AVyE=;
- b=WHk7JEvNuFU33KDRXkxQiGesUqH+YWVU6JSs/YyXzjqUjl86GFD4ZCKN5f8xdTckCz
- azNlDfMiMEohxBkwglCtm0z2zQ7sEg2Ov24eO6ORz/lWFOToH9Rc0W6/yj8VAb3Oi/oa
- Y/Fzoo4k1AYp8rYwQJnqUVwDflN5n9zK20g9732/7jAwbXEgB/7iKnbCoipBdR0FiMF7
- kwn+8RuKMzeBmOyWCKPSDEVa+6KhMyxnLiYf5ufQ2yn7HqMDWLPdxWvN5YDjjVH1AoRR
- G/YPOtU2ZrVgC5b4Vzec0sUPsVyKMzdyEC8dabnaCqSOlVsy+pIO3eAC2qDkNuE3OL9j
- aK9g==
-X-Gm-Message-State: AOAM531AcRDntwxikNa97H6G7No0O++mixPHAVY7tklT8ztVAJQ6FdnR
- cM8AIbGzFFCWO2G1+yhg3oSnNlMRYsFskw2VYJvQIRJxUCXr2w==
-X-Google-Smtp-Source: ABdhPJzMWt9EHNEmjTtQTkMEPOCUJyYJ6bXwkGscs/j/6kxHZMla9mQGU7EBfqiIbYIB+PdVKRqJ+hHvasJGHLa2dV0=
-X-Received: by 2002:a6b:6205:: with SMTP id f5mr7292716iog.60.1624456864436;
- Wed, 23 Jun 2021 07:01:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lw3Xr-0008TP-28
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:07:59 -0400
+Received: from foss.arm.com ([217.140.110.172]:56942)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lw3Xn-0006w0-O4
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:07:58 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96CD1ED1;
+ Wed, 23 Jun 2021 07:07:52 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B571A3F718;
+ Wed, 23 Jun 2021 07:07:50 -0700 (PDT)
+Subject: Re: [PATCH v17 5/6] KVM: arm64: ioctl to fetch/store tags in a guest
+To: Fuad Tabba <tabba@google.com>, Marc Zyngier <maz@kernel.org>
+References: <20210621111716.37157-1-steven.price@arm.com>
+ <20210621111716.37157-6-steven.price@arm.com>
+ <CA+EHjTx7_atkNMqrUkHr0mM2xDbzBafip3s0JhGrGzsX9N08XQ@mail.gmail.com>
+ <875yy6ci20.wl-maz@kernel.org>
+ <CA+EHjTx18kLHLjZ0Zd2gpR35N5q0oENkbEtnnzdWxZZF-gMy4w@mail.gmail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <d22cc3e0-a6ac-0a1e-cf05-4b67367028cd@arm.com>
+Date: Wed, 23 Jun 2021 15:07:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210623125458.450462-1-ma.mandourr@gmail.com>
- <20210623125458.450462-5-ma.mandourr@gmail.com>
-In-Reply-To: <20210623125458.450462-5-ma.mandourr@gmail.com>
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-Date: Wed, 23 Jun 2021 16:00:53 +0200
-Message-ID: <CAD-LL6hVjtMvxE8VZ5-k=HzogNHQkRhGkj-BcKLUULGgkk0J+w@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] docs/devel: Added cache plugin to the plugins docs
-To: "open list:All patches CC here" <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000005b932005c56f56a1"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CA+EHjTx18kLHLjZ0Zd2gpR35N5q0oENkbEtnnzdWxZZF-gMy4w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,216 +61,287 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Juan Quintela <quintela@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005b932005c56f56a1
-Content-Type: text/plain; charset="UTF-8"
+On 22/06/2021 11:56, Fuad Tabba wrote:
+> Hi Marc,
+> 
+> On Tue, Jun 22, 2021 at 11:25 AM Marc Zyngier <maz@kernel.org> wrote:
+>>
+>> Hi Fuad,
+>>
+>> On Tue, 22 Jun 2021 09:56:22 +0100,
+>> Fuad Tabba <tabba@google.com> wrote:
+>>>
+>>> Hi,
+>>>
+>>>
+>>> On Mon, Jun 21, 2021 at 12:18 PM Steven Price <steven.price@arm.com> wrote:
+>>>>
+>>>> The VMM may not wish to have it's own mapping of guest memory mapped
+>>>> with PROT_MTE because this causes problems if the VMM has tag checking
+>>>> enabled (the guest controls the tags in physical RAM and it's unlikely
+>>>> the tags are correct for the VMM).
+>>>>
+>>>> Instead add a new ioctl which allows the VMM to easily read/write the
+>>>> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
+>>>> while the VMM can still read/write the tags for the purpose of
+>>>> migration.
+>>>>
+>>>> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>>>> Signed-off-by: Steven Price <steven.price@arm.com>
+>>>> ---
+>>>>  arch/arm64/include/asm/kvm_host.h |  3 ++
+>>>>  arch/arm64/include/asm/mte-def.h  |  1 +
+>>>>  arch/arm64/include/uapi/asm/kvm.h | 11 +++++
+>>>>  arch/arm64/kvm/arm.c              |  7 +++
+>>>>  arch/arm64/kvm/guest.c            | 82 +++++++++++++++++++++++++++++++
+>>>>  include/uapi/linux/kvm.h          |  1 +
+>>>>  6 files changed, 105 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+>>>> index 309e36cc1b42..6a2ac4636d42 100644
+>>>> --- a/arch/arm64/include/asm/kvm_host.h
+>>>> +++ b/arch/arm64/include/asm/kvm_host.h
+>>>> @@ -729,6 +729,9 @@ int kvm_arm_vcpu_arch_get_attr(struct kvm_vcpu *vcpu,
+>>>>  int kvm_arm_vcpu_arch_has_attr(struct kvm_vcpu *vcpu,
+>>>>                                struct kvm_device_attr *attr);
+>>>>
+>>>> +long kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+>>>> +                               struct kvm_arm_copy_mte_tags *copy_tags);
+>>>> +
+>>>>  /* Guest/host FPSIMD coordination helpers */
+>>>>  int kvm_arch_vcpu_run_map_fp(struct kvm_vcpu *vcpu);
+>>>>  void kvm_arch_vcpu_load_fp(struct kvm_vcpu *vcpu);
+>>>> diff --git a/arch/arm64/include/asm/mte-def.h b/arch/arm64/include/asm/mte-def.h
+>>>> index cf241b0f0a42..626d359b396e 100644
+>>>> --- a/arch/arm64/include/asm/mte-def.h
+>>>> +++ b/arch/arm64/include/asm/mte-def.h
+>>>> @@ -7,6 +7,7 @@
+>>>>
+>>>>  #define MTE_GRANULE_SIZE       UL(16)
+>>>>  #define MTE_GRANULE_MASK       (~(MTE_GRANULE_SIZE - 1))
+>>>> +#define MTE_GRANULES_PER_PAGE  (PAGE_SIZE / MTE_GRANULE_SIZE)
+>>>>  #define MTE_TAG_SHIFT          56
+>>>>  #define MTE_TAG_SIZE           4
+>>>>  #define MTE_TAG_MASK           GENMASK((MTE_TAG_SHIFT + (MTE_TAG_SIZE - 1)), MTE_TAG_SHIFT)
+>>>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+>>>> index 24223adae150..b3edde68bc3e 100644
+>>>> --- a/arch/arm64/include/uapi/asm/kvm.h
+>>>> +++ b/arch/arm64/include/uapi/asm/kvm.h
+>>>> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+>>>>         __u32 reserved[12];
+>>>>  };
+>>>>
+>>>> +struct kvm_arm_copy_mte_tags {
+>>>> +       __u64 guest_ipa;
+>>>> +       __u64 length;
+>>>> +       void __user *addr;
+>>>> +       __u64 flags;
+>>>> +       __u64 reserved[2];
+>>>> +};
+>>>> +
+>>>> +#define KVM_ARM_TAGS_TO_GUEST          0
+>>>> +#define KVM_ARM_TAGS_FROM_GUEST                1
+>>>> +
+>>>>  /* If you need to interpret the index values, here is the key: */
+>>>>  #define KVM_REG_ARM_COPROC_MASK                0x000000000FFF0000
+>>>>  #define KVM_REG_ARM_COPROC_SHIFT       16
+>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>>>> index 28ce26a68f09..511f3716fe33 100644
+>>>> --- a/arch/arm64/kvm/arm.c
+>>>> +++ b/arch/arm64/kvm/arm.c
+>>>> @@ -1359,6 +1359,13 @@ long kvm_arch_vm_ioctl(struct file *filp,
+>>>>
+>>>>                 return 0;
+>>>>         }
+>>>> +       case KVM_ARM_MTE_COPY_TAGS: {
+>>>> +               struct kvm_arm_copy_mte_tags copy_tags;
+>>>> +
+>>>> +               if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
+>>>> +                       return -EFAULT;
+>>>> +               return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
+>>>> +       }
+>>>>         default:
+>>>>                 return -EINVAL;
+>>>>         }
+>>>> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+>>>> index 5cb4a1cd5603..4ddb20017b2f 100644
+>>>> --- a/arch/arm64/kvm/guest.c
+>>>> +++ b/arch/arm64/kvm/guest.c
+>>>> @@ -995,3 +995,85 @@ int kvm_arm_vcpu_arch_has_attr(struct kvm_vcpu *vcpu,
+>>>>
+>>>>         return ret;
+>>>>  }
+>>>> +
+>>>> +long kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+>>>> +                               struct kvm_arm_copy_mte_tags *copy_tags)
+>>>> +{
+>>>> +       gpa_t guest_ipa = copy_tags->guest_ipa;
+>>>> +       size_t length = copy_tags->length;
+>>>> +       void __user *tags = copy_tags->addr;
+>>>> +       gpa_t gfn;
+>>>> +       bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+>>>> +       int ret = 0;
+>>>> +
+>>>> +       if (!kvm_has_mte(kvm))
+>>>> +               return -EINVAL;
+>>>> +
+>>>> +       if (copy_tags->reserved[0] || copy_tags->reserved[1])
+>>>> +               return -EINVAL;
+>>>> +
+>>>> +       if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+>>>> +               return -EINVAL;
+>>>> +
+>>>> +       if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+>>>> +               return -EINVAL;
+>>>> +
+>>>> +       gfn = gpa_to_gfn(guest_ipa);
+>>>> +
+>>>> +       mutex_lock(&kvm->slots_lock);
+>>>> +
+>>>> +       while (length > 0) {
+>>>> +               kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+>>>> +               void *maddr;
+>>>> +               unsigned long num_tags;
+>>>> +               struct page *page;
+>>>> +
+>>>> +               if (is_error_noslot_pfn(pfn)) {
+>>>> +                       ret = -EFAULT;
+>>>> +                       goto out;
+>>>> +               }
+>>>> +
+>>>> +               page = pfn_to_online_page(pfn);
+>>>> +               if (!page) {
+>>>> +                       /* Reject ZONE_DEVICE memory */
+>>>> +                       ret = -EFAULT;
+>>>> +                       goto out;
+>>>> +               }
+>>>> +               maddr = page_address(page);
+>>>> +
+>>>> +               if (!write) {
+>>>> +                       if (test_bit(PG_mte_tagged, &page->flags))
+>>>> +                               num_tags = mte_copy_tags_to_user(tags, maddr,
+>>>> +                                                       MTE_GRANULES_PER_PAGE);
+>>>> +                       else
+>>>> +                               /* No tags in memory, so write zeros */
+>>>> +                               num_tags = MTE_GRANULES_PER_PAGE -
+>>>> +                                       clear_user(tags, MTE_GRANULES_PER_PAGE);
+>>>> +                       kvm_release_pfn_clean(pfn);
+>>>> +               } else {
+>>>> +                       num_tags = mte_copy_tags_from_user(maddr, tags,
+>>>> +                                                       MTE_GRANULES_PER_PAGE);
+>>>> +                       kvm_release_pfn_dirty(pfn);
+>>>> +               }
+>>>> +
+>>>> +               if (num_tags != MTE_GRANULES_PER_PAGE) {
+>>>> +                       ret = -EFAULT;
+>>>> +                       goto out;
+>>>> +               }
+>>>> +
+>>>> +               /* Set the flag after checking the write completed fully */
+>>>> +               if (write)
+>>>> +                       set_bit(PG_mte_tagged, &page->flags);
+>>>> +
+>>>> +               gfn++;
+>>>> +               tags += num_tags;
+>>>> +               length -= PAGE_SIZE;
+>>>> +       }
+>>>> +
+>>>> +out:
+>>>> +       mutex_unlock(&kvm->slots_lock);
+>>>> +       /* If some data has been copied report the number of bytes copied */
+>>>> +       if (length != copy_tags->length)
+>>>> +               return copy_tags->length - length;
+>>>
+>>> I'm not sure if this is actually an issue, but a couple of comments on
+>>> the return value if there is an error after a partial copy has been
+>>> done. If mte_copy_tags_to_user or mte_copy_tags_from_user don't return
+>>> MTE_GRANULES_PER_PAGE, then the check for num_tags would fail, but
+>>> some of the tags would have been copied, which wouldn't be reflected
+>>> in length. That said, on a write the tagged bit wouldn't be set, and
+>>> on read then the return value would be conservative, but not
+>>> incorrect.
+>>>
+>>> That said, even though it is described that way in the documentation
+>>> (rather deep in the description though), it might be confusing to
+>>> return a non-negative value on an error. The other kvm ioctl I could
+>>> find that does something similar, KVM_S390_GET_IRQ_STATE, seems to
+>>> always return a -ERROR on error, rather than the number of bytes
+>>> copied.
+>>
+>> My mental analogy for this ioctl is the read()/write() syscalls, which
+>> return the number of bytes that have been transferred in either
+>> direction.
+>>
+>> I agree that there are some corner cases (a tag copy that fails
+>> because of a faulty page adjacent to a valid page will still report
+>> some degree of success), but it is also important to report what has
+>> actually been done in either direction.
+> 
+> read()/write() return an error (-1) and not the amount copied if there
+> is an actual error I believe:
+> 
+> https://man7.org/linux/man-pages/man2/read.2.html
+> 
+>> It is not an error if this number is smaller than the number of
+>> bytes requested; this may happen for example because fewer bytes
+>> are actually available right now (maybe because we were close to
+>> end-of-file, or because we are reading from a pipe, or from a
+>> terminal), or because read() was interrupted by a signal.
+>>
+>> On error, -1 is returned, and errno is set to indicate the error.
+>> In this case, it is left unspecified whether the file position
+>> (if any) changes.
+> 
+> I think that for the current return value, then it would be good for
+> the documentation in patch 6/6 to be more explicit. There it says:
 
-On Wed, Jun 23, 2021 at 2:55 PM Mahmoud Mandour <ma.mandourr@gmail.com>
-wrote:
+read() isn't quite as interesting because (usually) there's no effect if
+you abort a read part way through (you can easily roll back the file
+position and return an error). Although I believe it does have the same
+behaviour as write() in the cases of errors where rollback doesn't
+happen. write()[1] has the following text:
 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> ---
->  docs/devel/tcg-plugins.rst | 60 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
->
-> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-> index 18c6581d85..9d90110cbf 100644
-> --- a/docs/devel/tcg-plugins.rst
-> +++ b/docs/devel/tcg-plugins.rst
-> @@ -319,3 +319,63 @@ the user to see what hardware is accessed how often.
-> It has a number of options:
->        off:0000001c, 1, 2
->        off:00000020, 1, 2
->        ...
-> +
-> +- contrib/plugins/cache
-> +
-> +Cache modelling plugin that measures the performance of a given cache
-> +configuration when a given working set is run::
-> +
-> +    ./qemu-x86_64 -plugin ./libcache.so -d plugin -D cache.log \
-> +    ./build/tests/tcg/x86_64-linux-user/float_convs
-> +
->
+> Note that a successful write() may transfer fewer than count
+> bytes.  Such partial writes can occur for various reasons; for
+> example, because there was insufficient space on the disk device
+> to write all of the requested bytes, or because a blocked write()
+> to a socket, pipe, or similar was interrupted by a signal handler
+> after it had transferred some, but before it had transferred all
+> of the requested bytes.  In the event of a partial write, the
+> caller can make another write() call to transfer the remaining
+> bytes.  The subsequent call will either transfer further bytes or
+> may result in an error (e.g., if the disk is now full).
 
-Oops that's a wrong command... Should've been
+which matches the behaviour here - if there's an error (e.g. disk full)
+then the partial success is reported (and the error effectively
+ignored). The caller can then make another call to attempt the remaining
+part at which point the error will actually be reported.
 
-./x86_64-linux-user/qemu-x86_64 -plugin ./contrib/plugins/libcache.so -d
-plugin -D cache.log \
-./tests/tcg/x86_64-linux-user/float_convs
+[1] https://man7.org/linux/man-pages/man2/write.2.html
 
-If you find the patch suitable and can edit the command before queueing it,
-otherwise tell me
-if you want me to resend :)
+>> :Returns: number of bytes copied, < 0 on error (-EINVAL for incorrect
+>>           arguments, -EFAULT if memory cannot be accessed).
+> 
+> Later on it does state that if an error happens after some copying has
+> been done, it returns the number copied. But that's at the end of the
+> section. I think it would be less confusing to have it in the summary
+> (with the "Returns").
 
+I tried to keep the Returns section reasonably small. It does state
+"number of bytes copied" which I think gives the reader a hint that the
+return could be different from the number of bytes requested.
 
-> +
-> +will report the following::
-> +
-> +    Data accesses: 996479, Misses: 507
-> +    Miss rate: 0.050879%
-> +
-> +    Instruction accesses: 2641737, Misses: 18617
-> +    Miss rate: 0.704726%
-> +
-> +    address, data misses, instruction
-> +    0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)
-> +    0x41f395 (_IO_default_xsputn), 49, movb %dl, (%rdi, %rax)
-> +    0x42584d (ptmalloc_init.part.0), 33, movaps %xmm0, (%rax)
-> +    0x454d48 (__tunables_init), 20, cmpb $0, (%r8)
-> +    ...
-> +
-> +    address, fetch misses, instruction
-> +    0x4160a0 (__vfprintf_internal), 744, movl $1, %ebx
-> +    0x41f0a0 (_IO_setb), 744, endbr64
-> +    0x415882 (__vfprintf_internal), 744, movq %r12, %rdi
-> +    0x4268a0 (__malloc), 696, andq $0xfffffffffffffff0, %rax
-> +    ...
-> +
-> +The plugin has a number of arguments, all of them are optional:
-> +
-> +  * arg="limit=N"
-> +
-> +  Print top N icache and dcache thrashing instructions along with their
-> +  address, number of misses, and its disassembly. (default: 32)
-> +
-> +  * arg="icachesize=N"
-> +  * arg="iblksize=B"
-> +  * arg="iassoc=A"
-> +
-> +  Instruction cache configuration arguments. They specify the cache size,
-> block
-> +  size, and associativity of the instruction cache, respectively.
-> +  (default: N = 16384, B = 64, A = 8)
-> +
-> +  * arg="dcachesize=N"
-> +  * arg="dblksize=B"
-> +  * arg="dassoc=A"
-> +
-> +  Data cache configuration arguments. They specify the cache size, block
-> size,
-> +  and associativity of the data cache, respectively.
-> +  (default: N = 16384, B = 64, A = 8)
-> +
-> +  * arg="evict=POLICY"
-> +
-> +  Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
-> +  :code:`fifo`, and :code:`rand`. The plugin will use the specified
-> policy for
-> +  both instruction and data caches. (default: POLICY = :code:`lru`)
-> --
-> 2.25.1
->
->
+Thanks,
 
---0000000000005b932005c56f56a1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 23, 2021 at 2:55 PM Mahmo=
-ud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com">ma.mandourr@gmail.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Signed-off-by: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.co=
-m" target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
----<br>
-=C2=A0docs/devel/tcg-plugins.rst | 60 +++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A01 file changed, 60 insertions(+)<br>
-<br>
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst<br>
-index 18c6581d85..9d90110cbf 100644<br>
---- a/docs/devel/tcg-plugins.rst<br>
-+++ b/docs/devel/tcg-plugins.rst<br>
-@@ -319,3 +319,63 @@ the user to see what hardware is accessed how often. I=
-t has a number of options:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0off:0000001c, 1, 2<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0off:00000020, 1, 2<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0...<br>
-+<br>
-+- contrib/plugins/cache<br>
-+<br>
-+Cache modelling plugin that measures the performance of a given cache<br>
-+configuration when a given working set is run::<br>
-+<br>
-+=C2=A0 =C2=A0 ./qemu-x86_64 -plugin ./libcache.so -d plugin -D cache.log \=
-<br>
-+=C2=A0 =C2=A0 ./build/tests/tcg/x86_64-linux-user/float_convs<br>
-+<br></blockquote><div><br></div><div>Oops that&#39;s a wrong command... Sh=
-ould&#39;ve been</div><div><br></div><div>./x86_64-linux-user/qemu-x86_64 -=
-plugin ./contrib/plugins/libcache.so -d plugin -D cache.log \<br></div><div=
->./tests/tcg/x86_64-linux-user/float_convs</div><div><br></div><div>If you =
-find the patch suitable and can edit the command before queueing it, otherw=
-ise tell me=C2=A0</div><div>if you want me to resend :)</div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+will report the following::<br>
-+<br>
-+=C2=A0 =C2=A0 Data accesses: 996479, Misses: 507<br>
-+=C2=A0 =C2=A0 Miss rate: 0.050879%<br>
-+<br>
-+=C2=A0 =C2=A0 Instruction accesses: 2641737, Misses: 18617<br>
-+=C2=A0 =C2=A0 Miss rate: 0.704726%<br>
-+<br>
-+=C2=A0 =C2=A0 address, data misses, instruction<br>
-+=C2=A0 =C2=A0 0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)<br>
-+=C2=A0 =C2=A0 0x41f395 (_IO_default_xsputn), 49, movb %dl, (%rdi, %rax)<br=
->
-+=C2=A0 =C2=A0 0x42584d (ptmalloc_init.part.0), 33, movaps %xmm0, (%rax)<br=
->
-+=C2=A0 =C2=A0 0x454d48 (__tunables_init), 20, cmpb $0, (%r8)<br>
-+=C2=A0 =C2=A0 ...<br>
-+<br>
-+=C2=A0 =C2=A0 address, fetch misses, instruction<br>
-+=C2=A0 =C2=A0 0x4160a0 (__vfprintf_internal), 744, movl $1, %ebx<br>
-+=C2=A0 =C2=A0 0x41f0a0 (_IO_setb), 744, endbr64<br>
-+=C2=A0 =C2=A0 0x415882 (__vfprintf_internal), 744, movq %r12, %rdi<br>
-+=C2=A0 =C2=A0 0x4268a0 (__malloc), 696, andq $0xfffffffffffffff0, %rax<br>
-+=C2=A0 =C2=A0 ...<br>
-+<br>
-+The plugin has a number of arguments, all of them are optional:<br>
-+<br>
-+=C2=A0 * arg=3D&quot;limit=3DN&quot;<br>
-+<br>
-+=C2=A0 Print top N icache and dcache thrashing instructions along with the=
-ir<br>
-+=C2=A0 address, number of misses, and its disassembly. (default: 32)<br>
-+<br>
-+=C2=A0 * arg=3D&quot;icachesize=3DN&quot;<br>
-+=C2=A0 * arg=3D&quot;iblksize=3DB&quot;<br>
-+=C2=A0 * arg=3D&quot;iassoc=3DA&quot;<br>
-+<br>
-+=C2=A0 Instruction cache configuration arguments. They specify the cache s=
-ize, block<br>
-+=C2=A0 size, and associativity of the instruction cache, respectively.<br>
-+=C2=A0 (default: N =3D 16384, B =3D 64, A =3D 8)<br>
-+<br>
-+=C2=A0 * arg=3D&quot;dcachesize=3DN&quot;<br>
-+=C2=A0 * arg=3D&quot;dblksize=3DB&quot;<br>
-+=C2=A0 * arg=3D&quot;dassoc=3DA&quot;<br>
-+<br>
-+=C2=A0 Data cache configuration arguments. They specify the cache size, bl=
-ock size,<br>
-+=C2=A0 and associativity of the data cache, respectively.<br>
-+=C2=A0 (default: N =3D 16384, B =3D 64, A =3D 8)<br>
-+<br>
-+=C2=A0 * arg=3D&quot;evict=3DPOLICY&quot;<br>
-+<br>
-+=C2=A0 Sets the eviction policy to POLICY. Available policies are: :code:`=
-lru`,<br>
-+=C2=A0 :code:`fifo`, and :code:`rand`. The plugin will use the specified p=
-olicy for<br>
-+=C2=A0 both instruction and data caches. (default: POLICY =3D :code:`lru`)=
-<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000005b932005c56f56a1--
+Steve
 
