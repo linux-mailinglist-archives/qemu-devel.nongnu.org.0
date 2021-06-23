@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6AF3B168C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 11:13:35 +0200 (CEST)
-Received: from localhost ([::1]:60156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C0B3B168D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 11:13:42 +0200 (CEST)
+Received: from localhost ([::1]:60488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvyww-0006Iw-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 05:13:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
+	id 1lvyx3-0006Y4-G5
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 05:13:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyvO-0004LE-F5
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:11:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53607)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyvQ-0004PX-8P
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:12:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyvM-0007yp-4C
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:11:57 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyvN-00080L-1q
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:12:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624439514;
+ s=mimecast20190719; t=1624439515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ADh6S6P5NuVzxmN0sSCjIkzFo6ay+nGwJtyBtaP/snU=;
- b=QJOQQ6sh5fBHqODGCZBrcI6Lzmk3x0/Eog3mhZnrQSz9fuwSOsqRAefjrX24xSwd3+5agf
- Eh1D819Ins0w7JKcbaGYJjAfKvU5IKWJWKTyGsJ+TH7rSsg3qOuQXXjDESHWOJzx96tqTj
- VQ5NVQY7so0bFWBLTl2uwl42i/rQY9k=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lc5+MlIaN0SpBeuLPgviWkcFxoVDKJsKZrBsgN0Ih9I=;
+ b=OJG+NTOjgjNNkf0l/e/ujiSA6+4najsmXHTzX/cK/KDN7XE4ZE+xr8TO94zLwEWte8fvUi
+ L2mT4ltTd7CE6gffjy38R5iB8cJIrWhhPHOwT3Lu4CsfEFDm/MYuX2TO0L+TtkCkMHBf6a
+ kOxRmbcK86B1p72K4IHIPXTddCKZ3C4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-e6CD3hLgMAGkZxnJm2fY9w-1; Wed, 23 Jun 2021 05:11:51 -0400
-X-MC-Unique: e6CD3hLgMAGkZxnJm2fY9w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-75-qH-kJLY1PCeIP6SpMFvkPA-1; Wed, 23 Jun 2021 05:11:54 -0400
+X-MC-Unique: qH-kJLY1PCeIP6SpMFvkPA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2600318D6A2A;
- Wed, 23 Jun 2021 09:11:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61BDE100CA89;
+ Wed, 23 Jun 2021 09:11:53 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4011B60854;
- Wed, 23 Jun 2021 09:11:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CEF65C1CF;
+ Wed, 23 Jun 2021 09:11:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 57EFE18007AD; Wed, 23 Jun 2021 11:11:37 +0200 (CEST)
+ id 659971800916; Wed, 23 Jun 2021 11:11:37 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] [RfC] build windows installers in ci
-Date: Wed, 23 Jun 2021 11:11:34 +0200
-Message-Id: <20210623091137.1156959-1-kraxel@redhat.com>
+Subject: [PATCH 1/3] ci: build & store windows installer
+Date: Wed, 23 Jun 2021 11:11:35 +0200
+Message-Id: <20210623091137.1156959-2-kraxel@redhat.com>
+In-Reply-To: <20210623091137.1156959-1-kraxel@redhat.com>
+References: <20210623091137.1156959-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,34 +87,69 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Side product of making usb-host work on windows.=0D
-=0D
-I'll go disappear into my summer vacation soon,=0D
-so posting my current state as RfC.=0D
-=0D
-If someone feels like picking this up feel free=0D
-to do so.  Otherwise I'll go continue this when=0D
-I'm back, but it most likely wouldn't make it=0D
-into the 6.1 release then.=0D
-=0D
-take care,=0D
-  Gerd=0D
-=0D
-Gerd Hoffmann (3):=0D
-  ci: build & store windows installer=0D
-  [hack] scripts/copy-dlls=0D
-  ci: build & store guest agent msi=0D
-=0D
- .gitlab-ci.d/crossbuild-template.yml          |  7 +++=0D
- .gitlab-ci.d/crossbuilds.yml                  |  8 +++=0D
- scripts/copy-dlls                             | 56 +++++++++++++++++++=0D
- .../dockerfiles/fedora-win32-cross.docker     |  1 +=0D
- .../dockerfiles/fedora-win64-cross.docker     |  2 +=0D
- 5 files changed, 74 insertions(+)=0D
- create mode 100755 scripts/copy-dlls=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Build windows installer for qemu in gitlab CI,
+store the result as artifact.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ .gitlab-ci.d/crossbuild-template.yml               | 5 +++++
+ .gitlab-ci.d/crossbuilds.yml                       | 6 ++++++
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 1 +
+ 3 files changed, 12 insertions(+)
+
+diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+index 1be541174c91..7d3ad00a1eb9 100644
+--- a/.gitlab-ci.d/crossbuild-template.yml
++++ b/.gitlab-ci.d/crossbuild-template.yml
+@@ -11,6 +11,11 @@
+           i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
+           mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
+     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
++    - if grep -q "EXESUF=.exe" config-host.mak;
++      then make installer;
++      version="$(git describe --match v[0-9]*)";
++      mv -v qemu-setup*.exe qemu-setup-${version}.exe;
++      fi
+ 
+ # Job to cross-build specific accelerators.
+ #
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 6b3865c9e83e..4ff3aa3cfcdd 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -160,6 +160,9 @@ cross-win32-system:
+     job: win32-fedora-cross-container
+   variables:
+     IMAGE: fedora-win32-cross
++  artifacts:
++    paths:
++      - build/qemu-setup*.exe
+ 
+ cross-win64-system:
+   extends: .cross_system_build_job
+@@ -167,6 +170,9 @@ cross-win64-system:
+     job: win64-fedora-cross-container
+   variables:
+     IMAGE: fedora-win64-cross
++  artifacts:
++    paths:
++      - build/qemu-setup*.exe
+ 
+ cross-amd64-xen-only:
+   extends: .cross_accel_build_job
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index f53007ac865e..5fbfe8892896 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -13,6 +13,7 @@ ENV PACKAGES \
+     hostname \
+     make \
+     meson \
++    mingw32-nsis \
+     mingw64-bzip2 \
+     mingw64-curl \
+     mingw64-glib2 \
+-- 
+2.31.1
 
 
