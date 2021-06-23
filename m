@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0288B3B1862
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 13:02:32 +0200 (CEST)
-Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11E63B1863
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 13:03:11 +0200 (CEST)
+Received: from localhost ([::1]:45522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw0eK-0008HN-Tf
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 07:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33790)
+	id 1lw0f1-00016e-11
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 07:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lw0bn-0007Ij-Vi
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:59:52 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38527)
+ id 1lw0db-00089G-RR; Wed, 23 Jun 2021 07:01:43 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lw0bm-0004RE-8m
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:59:51 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- p10-20020a05600c430ab02901df57d735f7so3696720wme.3
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 03:59:49 -0700 (PDT)
+ id 1lw0dY-0005Wf-3O; Wed, 23 Jun 2021 07:01:42 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id a13so2127150wrf.10;
+ Wed, 23 Jun 2021 04:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rGSSn2D+cPN/f7TkV+G3w6c+vyZV/Baf3gBGoI6kQ+s=;
- b=gqhvW1KBBl325S0B3A1D3kdK+IjEhX8njVB4nWDqgQ42UWyf4yOIemJ62zqFBHor77
- rbxwFhye8DyXgzuQZDysOp+WtJ4fpPrRJUr0XXME+iJ7V+QqJ2+7qMa9U7LHleYPNHI/
- q2H7cKJ/maedcvklxF+UG46nOPeaKQRyByzd/vZYCeTqQ5PS50DxfvqwBFvCdjjfWoBR
- CW7Nf8MMXJn/SzoHBkK8tFUaQoO74cdSX3Z/ohJbhQB+Z8UXUqUrCEagLGYjItOPci+A
- 8krtjuYmC4DTclW7M11csxWD5stAE7iMN9XxnzMGwe0AcxVhOQ5H+w4/+LMznEps/dnu
- 123A==
+ bh=dJv07MiajCnAGL1JGiQrwFe1u+P1jlRYxBF0PpNese8=;
+ b=lJxEcPcpKCgWBWHT2nAe4ipc0stXCgBD8iAd2I79/e7+5rM6VvEqRkJLw0h9hYJ1e4
+ PkvmuAhIagOdGMT4aG/5uBfb21K89jx9I/OKstsuTi4bS3RQXb7nDSI/oDSl40pHgOiF
+ FRwFmlKQaWmO3tqz8Kv3MatlL9VS04HT991GrLRenCRhHjyjBbnWApqCiEP0DH3+WtxS
+ YEOsLQjwABW9PUlCH/mt4iqvxBPJLnQ+jvMgcDcTagMUc33zpVp1ppWQ2/G8C9xt6t0G
+ U8kNNiq+RtmW/Nz/aLOBQqtxxCjLub2f8O6WYOcaON1gOGuMC64LeplaFgrJyvsv3vHp
+ /iwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rGSSn2D+cPN/f7TkV+G3w6c+vyZV/Baf3gBGoI6kQ+s=;
- b=GM3OCEotrxlbbGYhr4d9cw0yX+WrbM2XTOHNlnmJ1UzTVGvegVi6qpJ+GEMK7DwuWB
- +rGLyvXKF22GOi04oe2NNpzv8SHHMcTRvV1W+Vmm0KlhgaYxGCzSNBl1Cr52bRoY2xaA
- OMlwUFx/e/iyXGo9GvFDlFN0MWju8srP0CFMCGBRoqry0C+UUnECqQAkcQJMoaj+nqKu
- iaGIVRtKKbNEM4GSb4c9BUk0r4SehSh3HC0tpF0mXc+mGvVOgS3PGRZXfBjQRidz0m7j
- rP4smpyYUOXL2244BU/Ev3xe75j9RGXay7TH8tY7sGmTfFilsudWN0nu2KJQl6ohe3QE
- afOg==
-X-Gm-Message-State: AOAM531hN/pXge7o1wCV/EEN8X2NDoxghzF5n+i5uG9QxSILQjj5Hmas
- gIoH4uocyfEznBgIEJLhuXr+sbYrXw5KFg==
-X-Google-Smtp-Source: ABdhPJxgssxiJrKM0rTfWybTbuyaD6S8db93awZ8Jnp/Ta8oTpYwe4CRUZAjLWP8YTmQG538qfFHkw==
-X-Received: by 2002:a7b:c846:: with SMTP id c6mr9738902wml.182.1624445987489; 
- Wed, 23 Jun 2021 03:59:47 -0700 (PDT)
+ bh=dJv07MiajCnAGL1JGiQrwFe1u+P1jlRYxBF0PpNese8=;
+ b=JE2jr2WP9h/RdqsQ1OGJ/ctQJVfyipJ1LakkCgIwIzpCRXBo3SW6NSrMQ92ShlCbo2
+ 5cAoGj+dMNi+uiMfdtAzRovczeS1eoDOXsbN2q0ANiQz/9tBdMRjDqiX3fmISOtx0LZM
+ Md7uut8uX6bZHFgV86ZrL3SanyW8PdF0hMjcVrLdWVRkkAF0TSvaEDe5vwSa8s39Z0Pl
+ 7KA7fzfgHz7RqU724aiESO0sR0qKpSabiNXc+bVDkYMHmIRhXWgme/QPs9A/CKTEunOr
+ Vy8GSUG9RIA1dmQbXg7w2GOQ3aRXU/X6GMdszp9x1DCvGSdH0KJGZ9hnRfnlArgRE6NM
+ q9ww==
+X-Gm-Message-State: AOAM530ZDIvyM+n6V9VxfxR7rhcH9hWjH2czfArzCWZNpCCTpMIWf5qF
+ DjQI6h475Z03KvgOnw5+HVdVVMmz0GvnXA==
+X-Google-Smtp-Source: ABdhPJwGJkmEQ+hYPYDgFP9TUhll+svJLYBLqjnVhShTJ6FqdEYSDKRSSpr9hSxV3Q9KPGiBg1zGrA==
+X-Received: by 2002:a5d:6441:: with SMTP id d1mr10881623wrw.93.1624446097158; 
+ Wed, 23 Jun 2021 04:01:37 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id y16sm2495973wrp.51.2021.06.23.03.59.45
+ by smtp.gmail.com with ESMTPSA id c12sm2593413wrw.46.2021.06.23.04.01.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jun 2021 03:59:46 -0700 (PDT)
-Subject: Re: Regarding commit a9bcedd (SD card size has to be power of 2)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Tom Yan <tom.ty89@gmail.com>
-References: <CAGnHSEnpEpnNHtryR=gMTxcGUd0EGW5h5KQeJvkYHp1Fw844fA@mail.gmail.com>
- <YNL+19TnvDzK5NNh@redhat.com>
+ Wed, 23 Jun 2021 04:01:35 -0700 (PDT)
+Subject: Re: [PATCH] sd: mmc: Fix SET_BLOCK_COUNT command argument
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210623083004.245894-1-clg@kaod.org>
+ <CAEUhbmXMKphSdgE0xMJT2Tzu5okf00SJcskPfK742PwZv-X1RQ@mail.gmail.com>
+ <efa3958c-8a08-76f3-a963-8424c660e4e5@amsat.org>
+ <CAEUhbmVO6Wo=JNDbqL0CqoP7kzZC1xmDsbHHTVywCmAMJ8ucjA@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <eb606b89-5c12-8502-aa64-fafdeeb7bae0@amsat.org>
-Date: Wed, 23 Jun 2021 12:59:45 +0200
+Message-ID: <2419c660-1948-8d32-5bb9-82eedd0005f4@amsat.org>
+Date: Wed, 23 Jun 2021 13:01:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YNL+19TnvDzK5NNh@redhat.com>
+In-Reply-To: <CAEUhbmVO6Wo=JNDbqL0CqoP7kzZC1xmDsbHHTVywCmAMJ8ucjA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,81 +89,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alistair.francis@wdc.com, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 6/23/21 11:28 AM, Daniel P. Berrangé wrote:
-> On Mon, Jun 07, 2021 at 04:29:54PM +0800, Tom Yan wrote:
->> Hi philmd (and others),
+On 6/23/21 11:11 AM, Bin Meng wrote:
+> On Wed, Jun 23, 2021 at 4:52 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>
->> So I just noticed your commit of requiring the size of an emulated SD
->> card to be a power of 2, when I was trying to emulate one for an
->> actual one (well, it's a microSD, but still), as it errored out.
+>> On 6/23/21 10:39 AM, Bin Meng wrote:
+>>> On Wed, Jun 23, 2021 at 4:30 PM Cédric Le Goater <clg@kaod.org> wrote:
+>>>>
+>>>> The number of blocks is defined in the lower bits [15:0]
+>>>
+>>> I checked the physical spec v8.00 and it says bits [31:0] for CMD23 argument.
 >>
->> You claim that the kernel will consider it to be a firmware bug and
->> "correct" the capacity by rounding it up. Could you provide a concrete
->> reference to the code that does such a thing? I'm not ruling out that
->> some crazy code could have gone upstream because some reviewers might
->> not be doing their job right, but if that really happened, it's a
->> kernel bug/regression and qemu should not do an equally-crazy thing to
->> "fix" it.
+>> Watch out, we only support 1-3:
+>>
 > 
-> I looked back at the original threads for details, but didn't
-> find any aside from this short message saying it broke Linux:
+> Yes
 > 
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg720737.html
+>> enum SDPhySpecificationVersion {
+>>     SD_PHY_SPECv1_10_VERS     = 1,
+>>     SD_PHY_SPECv2_00_VERS     = 2,
+>>     SD_PHY_SPECv3_01_VERS     = 3,
+>> };
+>>
 > 
-> Philippe, do you have more details on the problem hit, or pointer
-> to where the power-of-2 restriction is in Linux ?
-
-Sorry for not responding soon enough, too many things.
-
-I wrote patches to address Tom's problem, but couldn't fix all
-the cases yet. So far the problem is not Linux but firmwares
-announcing pow2 to Linux without checking card layout.
-
-It is hard to make everybody happy, security users and odd firmwares.
-
-I came out with a larger series to be able to classify QEMU API /
-devices code as security sensible or not, and use of some unsafe
-API to taint some security mode (so far only displaying a warning).
-If the security mode is tainted (use of unsafe device, unsafe config,
-unsafe feature), then users shouldn't expect safety in the guest.
-
-That way I could have classified the SD card model as unsafe and not
-bothered various users by restricting to pow2 card sizes.
-
->> No offense but what you claimed really sounds absurd and ridiculous.
->> Although I don't have hundreds of SD cards in hand, I owned quite a
->> few at least, like most people do, with capacities ranging from ~2G to
->> ~128G, and I don't even recall seeing a single one that has the
->> capacity being a power of 2. (Just like vendors of HDDs and SSDs, they
->> literally never do that AFAICT, for whatever reasons.)
+> However the physical sepc v8.00 should document any difference between
+> ver 3.0 and ver 8.0 if there are indeed any, but for CMD23 it does
+> not. So it means it's 32-bit since day 1.
 > 
-> Yes, this does feel pretty odd to me too, based on the real physical
-> SD cards I've used with Linux non-power-2 sizes.
-> 
-> Also in general QEMU shouldn't be enforcing restrictions based on
-> guest behaviour, it should follow the hardware specs. If the
-> hardware spec doesn't mandate power-of-2 sizes, then QEMU shoud
-> not require that, even if some guest OS has added an artificial
-> restriction of its own.
+> To double check, I just downloaded the spec 3.01 and confirmed it's
+> still 32-bit.
 
-The comment is misleading, the restriction was to answer CVE vuln.
+OK, so patch is incorrect then.
 
->> Besides, even if there's a proper reason for the kernel to "fix" the
->> capacity, there's no reason for it to round it up either, because
->> obviously there will never be actual storage for the "virtual blocks".
->> I've never seen such a behavior so far either with the "mmcblk" hosts
->> I've used so far.
-
-Help, reproducible configurations and patches to improve are always
-welcomed.
-
-Regards,
+Thanks,
 
 Phil.
 
