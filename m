@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7CB3B18E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 13:30:37 +0200 (CEST)
-Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A2E3B1929
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 13:42:11 +0200 (CEST)
+Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw15Y-0006Dc-KE
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 07:30:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38380)
+	id 1lw1Gk-0000yX-59
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 07:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw14P-0005X8-NY
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:29:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29927)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lw1Eo-00084U-CE
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:40:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw14L-0004ZY-Lw
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:29:25 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lw1Em-0001eq-Cl
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:40:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624447760;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1624448406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L5uO2vag2q3WW6gSM9/5YfIoE6UBPb+4ecdb5riyNrc=;
- b=Esp6lJCG5q1Hnwe0TgqA7Lsm3wJbrBjc4yIjucvkUYyXRsWfKZa7YOYeqOzdUdiwSzvRfl
- r8AA5bKE0IhULAuFbImspDZ1NpR9vWogjA8sidfooj8NKxFtsHUP06O2N9hFIMUdz2sVL/
- 9nG2RIpzQrl5C8hPQVobGfUxnzC0FD8=
+ bh=f02I2LlJuAHT6WCy10s+DFreZaKgUULvY0TTgCnSBHQ=;
+ b=cVzptyObsmqzIAgjVdvu9sl1dfi/nyiCmooJ2e93Rozympf8QG/lrcF5pt+2UNslzmHAgY
+ FOo5yFpzFe7FPu3uUwx1kDNq8w34WJHCte9qA9+BvRIwJ9Sy0OEyMa7fqV4na04RrnaZYi
+ OTuWtQeEmm3dIG3dcx8o7HEWvGSOA0I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-CPqTxebUMCKgvS6xXGt2qQ-1; Wed, 23 Jun 2021 07:29:12 -0400
-X-MC-Unique: CPqTxebUMCKgvS6xXGt2qQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-347-mL42vdyrPRSF9SI0u_Ax0Q-1; Wed, 23 Jun 2021 07:40:05 -0400
+X-MC-Unique: mL42vdyrPRSF9SI0u_Ax0Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEF61EC1BE;
- Wed, 23 Jun 2021 11:29:10 +0000 (UTC)
-Received: from redhat.com (ovpn-114-176.ams2.redhat.com [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81C1B5C1A1;
- Wed, 23 Jun 2021 11:29:08 +0000 (UTC)
-Date: Wed, 23 Jun 2021 12:29:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: Regarding commit a9bcedd (SD card size has to be power of 2)
-Message-ID: <YNMbATdEmcYKgc9W@redhat.com>
-References: <CAGnHSEnpEpnNHtryR=gMTxcGUd0EGW5h5KQeJvkYHp1Fw844fA@mail.gmail.com>
- <YNL+19TnvDzK5NNh@redhat.com>
- <eb606b89-5c12-8502-aa64-fafdeeb7bae0@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2F2A804140;
+ Wed, 23 Jun 2021 11:40:03 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90D255D9DE;
+ Wed, 23 Jun 2021 11:39:55 +0000 (UTC)
+Date: Wed, 23 Jun 2021 13:39:54 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
+ boundary
+Message-ID: <20210623133954.2be8f24e@redhat.com>
+In-Reply-To: <ea55dc1b-b48a-3af1-be03-e72abc358f46@oracle.com>
+References: <20210622154905.30858-1-joao.m.martins@oracle.com>
+ <20210622154905.30858-2-joao.m.martins@oracle.com>
+ <20210623091138.2f7828dd@redhat.com>
+ <ea55dc1b-b48a-3af1-be03-e72abc358f46@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <eb606b89-5c12-8502-aa64-fafdeeb7bae0@amsat.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,69 +82,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: peter.maydell@linaro.org, alistair.francis@wdc.com, qemu-devel@nongnu.org,
- Tom Yan <tom.ty89@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 23, 2021 at 12:59:45PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi,
-> 
-> On 6/23/21 11:28 AM, Daniel P. Berrangé wrote:
-> > On Mon, Jun 07, 2021 at 04:29:54PM +0800, Tom Yan wrote:
-> >> Hi philmd (and others),
+On Wed, 23 Jun 2021 10:37:38 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
+
+> On 6/23/21 8:11 AM, Igor Mammedov wrote:
+> > On Tue, 22 Jun 2021 16:49:00 +0100
+> > Joao Martins <joao.m.martins@oracle.com> wrote:
+> >   
+> >> It is assumed that the whole GPA space is available to be
+> >> DMA addressable, within a given address space limit. Since
+> >> v5.4 based that is not true, and VFIO will validate whether
+> >> the selected IOVA is indeed valid i.e. not reserved by IOMMU
+> >> on behalf of some specific devices or platform-defined.
 > >>
-> >> So I just noticed your commit of requiring the size of an emulated SD
-> >> card to be a power of 2, when I was trying to emulate one for an
-> >> actual one (well, it's a microSD, but still), as it errored out.
+> >> AMD systems with an IOMMU are examples of such platforms and
+> >> particularly may export only these ranges as allowed:
 > >>
-> >> You claim that the kernel will consider it to be a firmware bug and
-> >> "correct" the capacity by rounding it up. Could you provide a concrete
-> >> reference to the code that does such a thing? I'm not ruling out that
-> >> some crazy code could have gone upstream because some reviewers might
-> >> not be doing their job right, but if that really happened, it's a
-> >> kernel bug/regression and qemu should not do an equally-crazy thing to
-> >> "fix" it.
+> >> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
+> >> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
+> >> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb)
+> >>
+> >> We already know of accounting for the 4G hole, albeit if the
+> >> guest is big enough we will fail to allocate a >1010G given
+> >> the ~12G hole at the 1Tb boundary, reserved for HyperTransport.
+> >>
+> >> When creating the region above 4G, take into account what
+> >> IOVAs are allowed by defining the known allowed ranges
+> >> and search for the next free IOVA ranges. When finding a
+> >> invalid IOVA we mark them as reserved and proceed to the
+> >> next allowed IOVA region.
+> >>
+> >> After accounting for the 1Tb hole on AMD hosts, mtree should
+> >> look like:
+> >>
+> >> 0000000100000000-000000fcffffffff (prio 0, i/o):
+> >> 	alias ram-above-4g @pc.ram 0000000080000000-000000fc7fffffff
+> >> 0000010000000000-000001037fffffff (prio 0, i/o):
+> >> 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff  
 > > 
-> > I looked back at the original threads for details, but didn't
-> > find any aside from this short message saying it broke Linux:
-> > 
-> >   https://www.mail-archive.com/qemu-devel@nongnu.org/msg720737.html
-> > 
-> > Philippe, do you have more details on the problem hit, or pointer
-> > to where the power-of-2 restriction is in Linux ?
+> > why not push whole ram-above-4g above 1Tb mark
+> > when RAM is sufficiently large (regardless of used host),
+> > instead of creating yet another hole and all complexity it brings along?
+> >   
 > 
-> Sorry for not responding soon enough, too many things.
+> There's the problem with CMOS which describes memory above 4G, part of the
+> reason I cap it to the 1TB minus the reserved range i.e. for AMD, CMOS would
+> only describe up to 1T.
 > 
-> I wrote patches to address Tom's problem, but couldn't fix all
-> the cases yet. So far the problem is not Linux but firmwares
-> announcing pow2 to Linux without checking card layout.
-> 
-> It is hard to make everybody happy, security users and odd firmwares.
-> 
-> I came out with a larger series to be able to classify QEMU API /
-> devices code as security sensible or not, and use of some unsafe
-> API to taint some security mode (so far only displaying a warning).
-> If the security mode is tainted (use of unsafe device, unsafe config,
-> unsafe feature), then users shouldn't expect safety in the guest.
-> 
-> That way I could have classified the SD card model as unsafe and not
-> bothered various users by restricting to pow2 card sizes.
+> But should we not care about that then it's an option, I suppose.
+we probably do not care about CMOS with so large RAM,
+as long as QEMU generates correct E820 (cmos mattered only with old Seabios
+which used it for generating memory map)
 
-Ok, so QEMU has to be robust against guest OS, even if it is the
-fault of the firmware for telling guest the wrong size info. I
-don't think this means QEMU needs to restrict the sizes though.
+> We would waste 1Tb of address space because of 12G, and btw the logic here
+> is not so different than the 4G hole, in fact could probably share this
+> with it.
+the main reason I'm looking for alternative, is complexity
+of making hole brings in. At this point, we can't do anything
+with 4G hole as it's already there, but we can try to avoid that
+for high RAM and keep rules there simple as it's now.
 
-If QEMU's CVE fix breaks guest when the firmware is giving wrong
-info, then we should just pass that bug report onto the firmware
-maintainers.
+Also partitioning/splitting main RAM is one of the things that
+gets in the way converting it to PC-DIMMMs model.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Loosing 1Tb of address space might be acceptable on a host
+that can handle such amounts of RAM
+
 
 
