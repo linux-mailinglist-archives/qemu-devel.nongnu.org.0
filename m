@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A413B1C62
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:26:02 +0200 (CEST)
-Received: from localhost ([::1]:35384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B743B1C68
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:27:05 +0200 (CEST)
+Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw3pJ-0004BC-Sj
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47440)
+	id 1lw3qK-0007Tv-Ie
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3n9-0001Ly-Hb
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49809)
+ id 1lw3nA-0001PR-Nj
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3n5-0006Vn-9O
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:47 -0400
+ id 1lw3n6-0006Vt-ON
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624458222;
+ s=mimecast20190719; t=1624458223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9MjhdjzzRe6BBq1raIxIkcziVOm3DUElZVA+65SAvBk=;
- b=bm5xP3GWzrKntrNEBajE2KceXpTOcm8tMvy63J3bc8jVvSeSm17Qjaqj9Ld8z+yb1WVcCp
- T9hqXe7czwSD9gdU6SMJhCWYYlnrAxZqxhnjgumEQ25pFGMb+j2ATVwK/wpWrlmU+8vxpU
- OOQ+A4pEv1nXqiPr/oN5xm/TMUR9tr8=
+ bh=qe2CtyaXQG00oRODWYvHtvje7roCpLgxz2hT70AtZf8=;
+ b=Se+VyxKrhPoXx7PBeWtDNBpIcVtov2SoOlG0SS7OwsTqflFxdlEpzEwq+2A8zYDj6M5tlF
+ Kl9pZA9vA5hNqQMri13v7JSvZET1sHpC77Cv6rTvU3kTIRSPq9ojYpH6NVpfaE1E/HKKog
+ JmPBPrPMMMH+WDm8kGbAEoz6a6nLBZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-9YUhNMJOPRW_pny4e9I31Q-1; Wed, 23 Jun 2021 10:23:39 -0400
-X-MC-Unique: 9YUhNMJOPRW_pny4e9I31Q-1
+ us-mta-415-6os7sUkaMXuhUe5rO9hBHw-1; Wed, 23 Jun 2021 10:23:42 -0400
+X-MC-Unique: 6os7sUkaMXuhUe5rO9hBHw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09DE081C860;
- Wed, 23 Jun 2021 14:23:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EA9379EDF;
+ Wed, 23 Jun 2021 14:23:41 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-176.ams2.redhat.com
  [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B78960854;
- Wed, 23 Jun 2021 14:23:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56E0760854;
+ Wed, 23 Jun 2021 14:23:38 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/22] tests/docker: fix mistakes in centos package lists
-Date: Wed, 23 Jun 2021 15:22:30 +0100
-Message-Id: <20210623142245.307776-8-berrange@redhat.com>
+Subject: [PATCH v4 08/22] tests/docker: fix mistakes in fedora package list
+Date: Wed, 23 Jun 2021 15:22:31 +0100
+Message-Id: <20210623142245.307776-9-berrange@redhat.com>
 In-Reply-To: <20210623142245.307776-1-berrange@redhat.com>
 References: <20210623142245.307776-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -90,45 +90,28 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mesa-libEGL-devel is not used in QEMU at all, but mesa-libgbm-devel is.
-
-spice-glib-devel is not use in QEMU at all, but spice-protocol is.
-We also need the -devel package for spice-server, not the runtime.
-
-There is no need to specifically refer to python36, we can just
-use python3 as in other distros.
+libblockdev-mpath-devel is not used by QEMU, rather it wants
+device-mapper-multipath-devel.
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/centos8.docker | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/docker/dockerfiles/fedora.docker | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index ee52305646..5f1c57b4ad 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -21,16 +21,16 @@ ENV PACKAGES \
-     libgcrypt-devel \
-     lzo-devel \
-     make \
--    mesa-libEGL-devel \
-+    mesa-libgbm-devel \
-     nettle-devel \
-     ninja-build \
-     nmap-ncat \
-     perl-Test-Harness \
-     pixman-devel \
--    python36 \
-+    python3 \
-     rdma-core-devel \
--    spice-glib-devel \
--    spice-server \
-+    spice-protocol \
-+    spice-server-devel \
-     systemtap-sdt-devel \
-     tar \
-     zlib-devel
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 4a0a84eb43..f667f03cc5 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -28,7 +28,6 @@ ENV PACKAGES \
+     libaio-devel \
+     libasan \
+     libattr-devel \
+-    libblockdev-mpath-devel \
+     libcacard-devel \
+     libcap-ng-devel \
+     libcurl-devel \
 -- 
 2.31.1
 
