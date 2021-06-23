@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4183B1FF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 20:03:26 +0200 (CEST)
-Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FE83B2004
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 20:06:24 +0200 (CEST)
+Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw7Dh-0008Vn-N7
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 14:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40608)
+	id 1lw7GZ-0005yH-92
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 14:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lw7B5-0005ie-VS; Wed, 23 Jun 2021 14:00:44 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39471)
+ id 1lw7BB-0005zQ-PV; Wed, 23 Jun 2021 14:00:49 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lw7B3-00033A-Pw; Wed, 23 Jun 2021 14:00:43 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso4535645wmh.4; 
- Wed, 23 Jun 2021 11:00:40 -0700 (PDT)
+ id 1lw7B8-000393-Ut; Wed, 23 Jun 2021 14:00:49 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ v20-20020a05600c2154b02901dcefb16af0so1921701wml.5; 
+ Wed, 23 Jun 2021 11:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jpfEeYicWk3WcHYujzH4ZYs5R2DyejTVybejhWkZu7c=;
- b=GDo6Wsq33MoBa8m4nDO0NBM76C8tBygSmbtPDzVbNujY2NIj2/c3QncpLpBNh79F56
- gGiafNeovpUy9d8Dwq8BEfRlZTL8zrujhNunXNREfv0KBAPm3qbvnP2ptWCxICdmaZrw
- RowHo+9WRonRbiBoL+Q+qRrJ8FffkA2zj3q3IdqqVTDEh8KcSihCJRP0sRbdLyvALMja
- 4zsxk1wSRtoIAg7dLba4e0uCjWXV34TG9Zsl9KmvILpu/OeFmzSvJQUCNHj+0XWgwF5B
- hRBv1a8bsWpEHAeun9R/N+24nW/SL6JusF0AuTpQ+a/+Kd/pr+XhaSORhd89CCVLGwod
- 3v6A==
+ bh=2XYaMzq79oJ14Mdhp8DY6/ioX+j6FXQDMcscp3/hpSM=;
+ b=pq3bP9YV30SMxXr0g199HWQ2mwWrCaWuXViMQzax80LXWgezYHSfDhWxzg6EM6c7hS
+ EOiNW+ydFQbkVXrLfW5ZpyrC8S84DQS78IUCoMvjs8o/TYFY+L5md+OL4xL2E03Fk7TG
+ X2LgoPt40Tv+ui4U1v+9OJco0sLxBcXDM0EoshfqrdOMBANpaNbZiGsKkjbiO+c9/zWL
+ 4e3i7soZa7Qi41irTD0qGjbLrAJyDhccFRyTLpH9uADiY6qH0q+LnTRgGm9GX8upq+eB
+ PBo8uX2unB9VAnNrFH/iZnbjDxlwyEnL7Klo3tVOrMSA0D3cfRcVdRSnK7XSYzlZCIXH
+ nAcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jpfEeYicWk3WcHYujzH4ZYs5R2DyejTVybejhWkZu7c=;
- b=ekY1Y62A00vqrltmJVmY3I+nTxzguE4brB+wWUyZUBWf4Lbkzc/4OIaA94me4DieKK
- msuwpgSHTQOu8CvYcD4CoAo35hTBLC74FLCuG0H+6ZM2EegX68lNVDXd5kihpLaU5rRg
- lWzq9eMTAOWrvZ0Xi1pUNv1zvDmL/qiaEK4bt5qcCk0yLqIR/LkbwRxFETQvzSrCeS3e
- RTWfo8wiTdociAAlvIvE2Wr7AQCg0mCMYf0FAr+WcIwmf8TxWgntBXmXYUUZZOLDt318
- k+SyI/6GCyKIK/yDIdidfOFTHlZlKBrHnQPIoh9388mMIIMF2Xze+A1P/7etFX1K1w86
- 3lLA==
-X-Gm-Message-State: AOAM531n5pIr5WKAT3XHArmBS+k0gsHUiuSpA/FhNQr8xTvElMVoDCqt
- 2yj11B9alY36OsdLU5daFjK/ef73LgVC0g==
-X-Google-Smtp-Source: ABdhPJyM+/mAaoIFo5rA5NFnrUDbvXtKxWajw/+EQxD15G0NR+ILFupNsmxVKadvlvIzY4M+XCq35A==
-X-Received: by 2002:a05:600c:a4c:: with SMTP id
- c12mr12236702wmq.38.1624471239854; 
- Wed, 23 Jun 2021 11:00:39 -0700 (PDT)
+ bh=2XYaMzq79oJ14Mdhp8DY6/ioX+j6FXQDMcscp3/hpSM=;
+ b=l2LQFI3vpw+cyKA83+eMmF2AIHRC1zjQlES+dlmXS6Ez9TU8Du0r9YoHZ3ymAbKAHR
+ ELltpsxOaVQUeXRcB4AVp1aM2gsPFUs7a3vLYhNMRlLhqsakKdlQr+WaahGvBLcdkUKc
+ IhxtbJ0MeZ3AqylHNVAzsFEw2eEqkuSNMDAAA+7OcUvjMGHM4fLv7Jw3RbUqVzmB20EO
+ 0CrLsPNECoZxOsMBqvYPCLomDSKxw78CQlCm53mcbJTxl6A9CN3Bb3WdOOa2ks4R4sm6
+ 97F2z/qupvCVoj3AW2GX+gCH1XDFE25uEctdbko1LNmsHq512680lDXckvO6Kz4UXbg1
+ JhhQ==
+X-Gm-Message-State: AOAM530LNpnp7dt8bdobmE81xQrtXilQjqAyJ8JdgC/xVlMggivYYMPu
+ mYtv8stxnNQrJfo4dOYQpSlQ95IRR2Ycrw==
+X-Google-Smtp-Source: ABdhPJwWA6U52E/h61LwJHok19ZJNSQbLwQOZDQGnqdwTlTdKEe3WQWCVBe58eGKN5N1QO3egwcXRg==
+X-Received: by 2002:a05:600c:3791:: with SMTP id
+ o17mr12503338wmr.187.1624471244908; 
+ Wed, 23 Jun 2021 11:00:44 -0700 (PDT)
 Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id l23sm7660720wmc.5.2021.06.23.11.00.38
+ by smtp.gmail.com with ESMTPSA id g83sm662070wma.10.2021.06.23.11.00.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 11:00:39 -0700 (PDT)
+ Wed, 23 Jun 2021 11:00:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/9] tests/acceptance: Tag NetBSD tests as 'os:netbsd'
-Date: Wed, 23 Jun 2021 20:00:15 +0200
-Message-Id: <20210623180021.898286-4-f4bug@amsat.org>
+Subject: [PATCH 4/9] tests/acceptance: Extract image_expand() helper
+Date: Wed, 23 Jun 2021 20:00:16 +0200
+Message-Id: <20210623180021.898286-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623180021.898286-1-f4bug@amsat.org>
 References: <20210623180021.898286-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,49 +96,43 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avocado allows us to select set of tests using tags.
-When wanting to run all tests using a NetBSD guest OS,
-it is convenient to have them tagged, add the 'os:netbsd'
-tag.
+To be able to expand an image to a non-power-of-2 value,
+extract image_expand() from image_pow2ceil_expand().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/boot_linux_console.py | 1 +
- tests/acceptance/ppc_prep_40p.py       | 2 ++
- 2 files changed, 3 insertions(+)
+ tests/acceptance/boot_linux_console.py | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index cded547d1d4..20d57c1a8c6 100644
+index 20d57c1a8c6..61069f0064f 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -862,6 +862,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:orangepi-pc
-         :avocado: tags=device:sd
-+        :avocado: tags=os:netbsd
-         """
-         # This test download a 304MB compressed image and expand it to 2GB
-         deb_url = ('http://snapshot.debian.org/archive/debian/'
-diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
-index 96ba13b8943..2993ee3b078 100644
---- a/tests/acceptance/ppc_prep_40p.py
-+++ b/tests/acceptance/ppc_prep_40p.py
-@@ -27,6 +27,7 @@ def test_factory_firmware_and_netbsd(self):
-         """
-         :avocado: tags=arch:ppc
-         :avocado: tags=machine:40p
-+        :avocado: tags=os:netbsd
-         :avocado: tags=slowness:high
-         """
-         bios_url = ('http://ftpmirror.your.org/pub/misc/'
-@@ -64,6 +65,7 @@ def test_openbios_and_netbsd(self):
-         """
-         :avocado: tags=arch:ppc
-         :avocado: tags=machine:40p
-+        :avocado: tags=os:netbsd
-         """
-         drive_url = ('https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/'
-                      'NetBSD-7.1.2-prep.iso')
+@@ -35,15 +35,19 @@
+ def pow2ceil(x):
+     return 1 if x == 0 else 2**(x - 1).bit_length()
+ 
++"""
++Expand file size
++"""
++def image_expand(path, size):
++    if size != os.path.getsize(path):
++        with open(path, 'ab+') as fd:
++            fd.truncate(size)
++
+ """
+ Expand file size to next power of 2
+ """
+ def image_pow2ceil_expand(path):
+-        size = os.path.getsize(path)
+-        size_aligned = pow2ceil(size)
+-        if size != size_aligned:
+-            with open(path, 'ab+') as fd:
+-                fd.truncate(size_aligned)
++    image_expand(path, pow2ceil(os.path.getsize(path)))
+ 
+ class LinuxKernelTest(Test):
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
 -- 
 2.31.1
 
