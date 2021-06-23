@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D5E3B1A6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:45:57 +0200 (CEST)
-Received: from localhost ([::1]:54726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203823B1A73
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:46:55 +0200 (CEST)
+Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw2GS-0003Ni-Ia
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52416)
+	id 1lw2HO-0004N0-34
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lw2Ep-0001zE-3l
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:44:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34231)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lw2Ez-0002FO-Kg
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:44:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lw2Em-0003t2-Iv
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:44:14 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lw2Ey-0003xd-6z
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:44:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624452251;
+ s=mimecast20190719; t=1624452263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/gVhhA94YYdRnAsago5SaOuYlDXD67vT5TQEs3xJljc=;
- b=W/PsZuvLIKzF+/l8mO610HcFtRUaF+BkdCeKSh+rb8s600Waf5HGqcJCnLpH4bij2Jj6tq
- uWDeLPUszvx6T6rfuOwhcUgRfO8cnuVqfXr9p4mfAOuFHvqgtx2JtEDTmA8BqtLWoqthS9
- Z/MeVDcR1xhze5MMRLqG4w+zJD1Tpk4=
+ bh=TnQlSmZvtgDB0zcC5wQkY3VopDYW9Y1ejtaNvX2bCf4=;
+ b=WJUlpfDeJsDAiFR1ZGy5zATgIeeqKkBrT8/rBJ6VgxKI8TSfVVWPDoSZXKLto+/4TxQbUR
+ boQCGsGDCP5i5dWzYbDeRXUlq0Fgcc3ir5RJH1AyY4fnyc2lkvbbc/YewHzV1WFeykSugM
+ mt6B6CbFrmNx73VreJrXFGQglltWSzk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-QW17UIySNjixxi-6ajPq1g-1; Wed, 23 Jun 2021 08:44:07 -0400
-X-MC-Unique: QW17UIySNjixxi-6ajPq1g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-550-z1rD9DxfPLmSsiELgQBC_A-1; Wed, 23 Jun 2021 08:44:20 -0400
+X-MC-Unique: z1rD9DxfPLmSsiELgQBC_A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 118B4108856A
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 12:43:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 614D41936B6B;
+ Wed, 23 Jun 2021 12:43:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C7B571ABD8;
- Wed, 23 Jun 2021 12:43:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BD3719C66;
+ Wed, 23 Jun 2021 12:43:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F357A180060E; Wed, 23 Jun 2021 14:43:18 +0200 (CEST)
-Date: Wed, 23 Jun 2021 14:43:18 +0200
+ id 8D6E0180060E; Wed, 23 Jun 2021 14:43:55 +0200 (CEST)
+Date: Wed, 23 Jun 2021 14:43:55 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] ui: Make the DisplayType enum entries conditional
-Message-ID: <20210623124318.nrmbawbebptmzn4w@sirius.home.kraxel.org>
-References: <20210615090439.70926-1-thuth@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Set UI information
+Message-ID: <20210623124355.6li3vbide6zxastz@sirius.home.kraxel.org>
+References: <20210616141910.54188-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210615090439.70926-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210616141910.54188-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,35 +78,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 11:04:39AM +0200, Thomas Huth wrote:
-> Libvirt's "domcapabilities" command has a way to state whether certain
-> graphic frontends are available in QEMU or not. Originally, libvirt
-> looked at the "--help" output of the QEMU binary to determine whether
-> SDL was available or not (by looking for the "-sdl" parameter in the
-> help text), but since libvirt stopped doing this analysis of the help
-> text, the detection of SDL is currently broken, see:
+On Wed, Jun 16, 2021 at 11:19:10PM +0900, Akihiko Odaki wrote:
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  ui/cocoa.m | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
 > 
->  https://bugzilla.redhat.com/show_bug.cgi?id=1790902
-> 
-> QEMU should provide a way via the QMP interface instead. A simple way,
-> without introducing additional commands, is to make the DisplayType
-> enum entries conditional, so that the enum only contains the entries if
-> the corresponding CONFIG_xxx switches have been set. This of course
-> only gives an indication which possibilities have been enabled during
-> compile-time of QEMU (and does not take into account whether modules
-> are later available or not for example - for this we'd need a separate
-> command), but anyway, this should already be good enough for the above
-> bug ticket, and it's a good idea anyway to make the QMP interface
-> conditional here, so let's simply do it.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index 995301502be..8b83f91723a 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -540,6 +540,43 @@ - (void) setContentDimensions
+>      }
+>  }
 
-Added to ui queue.
+Added to UI queue.
 
 thanks,
   Gerd
