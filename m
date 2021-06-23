@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B743B1C68
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:27:05 +0200 (CEST)
-Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586C43B1C80
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:30:17 +0200 (CEST)
+Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw3qK-0007Tv-Ie
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
+	id 1lw3tQ-0006wJ-BT
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3nA-0001PR-Nj
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26548)
+ id 1lw3nE-0001X1-Fe
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lw3n6-0006Vt-ON
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:48 -0400
+ id 1lw3n9-0006XD-PR
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:23:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624458223;
+ s=mimecast20190719; t=1624458227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qe2CtyaXQG00oRODWYvHtvje7roCpLgxz2hT70AtZf8=;
- b=Se+VyxKrhPoXx7PBeWtDNBpIcVtov2SoOlG0SS7OwsTqflFxdlEpzEwq+2A8zYDj6M5tlF
- Kl9pZA9vA5hNqQMri13v7JSvZET1sHpC77Cv6rTvU3kTIRSPq9ojYpH6NVpfaE1E/HKKog
- JmPBPrPMMMH+WDm8kGbAEoz6a6nLBZk=
+ bh=4/PpYWPhDEANV9pVW+Wm5OID/sdySZEnrb/hk3Ee/18=;
+ b=ZyfqAneeFPdoZNZ9RYmfESBIF7slkfT/tvFRH3Z6V2vpS+cQW64tfpr1qIfaaA/QGTgazb
+ 5uGYnYG5u4gZg+eipzWhgPFiEZ5ldnJsD3YlgbjOwoWHicwMnjQQb20ek+xvt/tieRNge1
+ 4FKosa2LPqYA8UosdzpTkvaKAg4BFP8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-6os7sUkaMXuhUe5rO9hBHw-1; Wed, 23 Jun 2021 10:23:42 -0400
-X-MC-Unique: 6os7sUkaMXuhUe5rO9hBHw-1
+ us-mta-456-SUKPAAvgP9KIh7grh06YRw-1; Wed, 23 Jun 2021 10:23:45 -0400
+X-MC-Unique: SUKPAAvgP9KIh7grh06YRw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EA9379EDF;
- Wed, 23 Jun 2021 14:23:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A56B5100C660;
+ Wed, 23 Jun 2021 14:23:44 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-176.ams2.redhat.com
  [10.36.114.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56E0760854;
- Wed, 23 Jun 2021 14:23:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FC6C60854;
+ Wed, 23 Jun 2021 14:23:41 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 08/22] tests/docker: fix mistakes in fedora package list
-Date: Wed, 23 Jun 2021 15:22:31 +0100
-Message-Id: <20210623142245.307776-9-berrange@redhat.com>
+Subject: [PATCH v4 09/22] tests/docker: fix mistakes in ubuntu package lists
+Date: Wed, 23 Jun 2021 15:22:32 +0100
+Message-Id: <20210623142245.307776-10-berrange@redhat.com>
 In-Reply-To: <20210623142245.307776-1-berrange@redhat.com>
 References: <20210623142245.307776-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -90,28 +90,105 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libblockdev-mpath-devel is not used by QEMU, rather it wants
-device-mapper-multipath-devel.
+librados-dev is not required by QEMU directly, only librbd-dev.
+
+glusterfs-common is not directly needed by QEMU.
+
+QEMU uses ncursesw only on non-Windows hosts.
+
+The clang package is clang 10.
+
+flex and bison are not required by QEMU.
+
+Standardize on nmap ncat implementation to match Fedora/CentOS.
+
+Remove vim since it is not a build pre-requisite and no other containers
+include it.
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/fedora.docker | 1 -
- 1 file changed, 1 deletion(-)
+ tests/docker/dockerfiles/ubuntu1804.docker |  3 ---
+ tests/docker/dockerfiles/ubuntu2004.docker | 10 ++--------
+ 2 files changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 4a0a84eb43..f667f03cc5 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -28,7 +28,6 @@ ENV PACKAGES \
-     libaio-devel \
-     libasan \
-     libattr-devel \
--    libblockdev-mpath-devel \
-     libcacard-devel \
-     libcap-ng-devel \
-     libcurl-devel \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index a50a35e6fe..ee8545e4b1 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -5,7 +5,6 @@ ENV PACKAGES \
+     gcc \
+     gettext \
+     git \
+-    glusterfs-common \
+     libaio-dev \
+     libattr1-dev \
+     libbrlapi-dev \
+@@ -24,12 +23,10 @@ ENV PACKAGES \
+     libjemalloc-dev \
+     libjpeg-turbo8-dev \
+     liblzo2-dev \
+-    libncurses5-dev \
+     libncursesw5-dev \
+     libnfs-dev \
+     libnuma-dev \
+     libpixman-1-dev \
+-    librados-dev \
+     librbd-dev \
+     librdmacm-dev \
+     libsasl2-dev \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index eee2ef3cac..25f56adfb2 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,16 +1,13 @@
+ FROM docker.io/library/ubuntu:20.04
+ ENV PACKAGES \
+-    bison \
+     bsdmainutils \
+     ccache \
+-    clang-10\
+-    flex \
++    clang \
+     gcc \
+     gcovr \
+     genisoimage \
+     gettext \
+     git \
+-    glusterfs-common \
+     libaio-dev \
+     libattr1-dev \
+     libbrlapi-dev \
+@@ -30,12 +27,10 @@ ENV PACKAGES \
+     libjpeg-turbo8-dev \
+     liblttng-ust-dev \
+     liblzo2-dev \
+-    libncurses5-dev \
+     libncursesw5-dev \
+     libnfs-dev \
+     libnuma-dev \
+     libpixman-1-dev \
+-    librados-dev \
+     librbd-dev \
+     librdmacm-dev \
+     libsasl2-dev \
+@@ -53,7 +48,7 @@ ENV PACKAGES \
+     libxen-dev \
+     libzstd-dev \
+     make \
+-    netcat-openbsd \
++    ncat \
+     ninja-build \
+     python3-numpy \
+     python3-opencv \
+@@ -67,7 +62,6 @@ ENV PACKAGES \
+     sparse \
+     tesseract-ocr \
+     tesseract-ocr-eng \
+-    vim \
+     xfslibs-dev
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
 -- 
 2.31.1
 
