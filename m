@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DD93B1BD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 15:59:57 +0200 (CEST)
-Received: from localhost ([::1]:38562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1B33B1BE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:02:29 +0200 (CEST)
+Received: from localhost ([::1]:42122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw3Q4-0003C5-H6
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 09:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41184)
+	id 1lw3SW-0005hq-VN
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lw3P1-0001n7-TM
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 09:58:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24172)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lw3Oz-0002L9-4U
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 09:58:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624456727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+va21f1pZH7v+zV9ZrwMIs+bCiqMQawd4O28bwxJYCM=;
- b=CZ9wBBv8wqnVmFnPYGxacb/RVXQXRh3EpiORRXHg1KsilI1juTt+Uw0xmqycfz4pW4vHDa
- qJjRDBMu9j4J8GY6L+bdz4BWiOK1CpcwXnXp3NdV97hfmjzbN2DF/bwhDdiOuJp/enOL+Q
- D8agS5zek54ZF5tSnxe5IbJrR9TCpa0=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-MMTdZM6pMV-lGRPkG8rQBQ-1; Wed, 23 Jun 2021 09:58:45 -0400
-X-MC-Unique: MMTdZM6pMV-lGRPkG8rQBQ-1
-Received: by mail-oo1-f72.google.com with SMTP id
- h12-20020a4add8c0000b029024bea4e22afso1743916oov.19
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 06:58:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lw3RN-000516-LY
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:01:17 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lw3RD-0003ej-3K
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:01:17 -0400
+Received: by mail-io1-xd31.google.com with SMTP id h2so3511552iob.11
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 07:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qKng8Ity78W+pOmQRTqvA1PTzb00GISdJ3usfb+AVyE=;
+ b=N8Yg21uomgKByVem8rWqpeVCz9qy1e55ctjyT7mpJAcgS3mY+yKaPoGXvzThIg1U1P
+ B0mqtOl/g3f9euzWXxQkao1zTV389Z4OMHiF3iepXS8vgUAgs/6HCaJsYH4jV5Kc91Sb
+ Zulp/czRiW0CjL2pZQMspd6Jd7vYTsLqb5Uy4D9eSdfymg25v6InQ0WcPP76587plrVZ
+ ljaTOpeyGPnY4jHyCr74jkHu+esPjXn+Cl8Qldkbp0l1XKqp+VhBuM6jXZ3tsXoX4ujI
+ JHkNexj8t+6Ld1lU7tWSpElvdIEhYI6W3BYwLsdJzLrgdY7Hxa2pREwq4i5MWOQsYUIe
+ nijg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+va21f1pZH7v+zV9ZrwMIs+bCiqMQawd4O28bwxJYCM=;
- b=hG1RjASprEov6KMkNHsUDUQvkoHRHJywiQMmGoK3O58Vvr+JMVtXhy7ezFNxpn64Tt
- vyZmfiVTKLQtCBhUnlTWr5PuqS3EROIXn1k60RGb2vB8YNd5z72ib6/GFs3eJRYno/Ms
- 7/uU2MdATJrA+689siXBouHIAQ/g/PWBHZ4Rj4gStI31sfrgtnHZERGizUJ+gDtzRo7X
- PTAO0YGCcbdifEXk5ZE6zDNsPPY/17CI7JtufDOUJNx+78MMtKnoD71xsUvd9S+hwANR
- vVWyYjWz1WBnq7OzIAzJSj6LaeSJumnLBFsyyHeB6xRLmsuPFkosoh10Y2ZL9DpCI6MH
- vt3w==
-X-Gm-Message-State: AOAM531drv2XCTZotYO0SSQqWZqMj7hUl++6ENwtdZz4ti1DInxHYVO/
- O+zbXIlxlusnYa3GGdXuLO2gn68l4U+SLpo1IYnP2S7qt6Y6J4L2AwpHGcp05HkYUDosOvHFCL8
- YmGEDr/OGRt44ioZvAhNKumzvpwG+IfU=
-X-Received: by 2002:a9d:6081:: with SMTP id m1mr36604otj.226.1624456725098;
- Wed, 23 Jun 2021 06:58:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzsV5PUbf3EmTzlwQd7+unzVgnxaWBhMc5TzGWCoOcNIb9rXSk/MPb92kfX7yyv0yGBNuMFeV5g7pLBnojW6w=
-X-Received: by 2002:a9d:6081:: with SMTP id m1mr36590otj.226.1624456724917;
- Wed, 23 Jun 2021 06:58:44 -0700 (PDT)
+ bh=qKng8Ity78W+pOmQRTqvA1PTzb00GISdJ3usfb+AVyE=;
+ b=WHk7JEvNuFU33KDRXkxQiGesUqH+YWVU6JSs/YyXzjqUjl86GFD4ZCKN5f8xdTckCz
+ azNlDfMiMEohxBkwglCtm0z2zQ7sEg2Ov24eO6ORz/lWFOToH9Rc0W6/yj8VAb3Oi/oa
+ Y/Fzoo4k1AYp8rYwQJnqUVwDflN5n9zK20g9732/7jAwbXEgB/7iKnbCoipBdR0FiMF7
+ kwn+8RuKMzeBmOyWCKPSDEVa+6KhMyxnLiYf5ufQ2yn7HqMDWLPdxWvN5YDjjVH1AoRR
+ G/YPOtU2ZrVgC5b4Vzec0sUPsVyKMzdyEC8dabnaCqSOlVsy+pIO3eAC2qDkNuE3OL9j
+ aK9g==
+X-Gm-Message-State: AOAM531AcRDntwxikNa97H6G7No0O++mixPHAVY7tklT8ztVAJQ6FdnR
+ cM8AIbGzFFCWO2G1+yhg3oSnNlMRYsFskw2VYJvQIRJxUCXr2w==
+X-Google-Smtp-Source: ABdhPJzMWt9EHNEmjTtQTkMEPOCUJyYJ6bXwkGscs/j/6kxHZMla9mQGU7EBfqiIbYIB+PdVKRqJ+hHvasJGHLa2dV0=
+X-Received: by 2002:a6b:6205:: with SMTP id f5mr7292716iog.60.1624456864436;
+ Wed, 23 Jun 2021 07:01:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210611140157.1366738-1-eblake@redhat.com>
- <20210611190316.1424729-1-eblake@redhat.com>
- <YNID9rbo+RdwklCf@redhat.com>
- <CAMRbyyt5qsVan8dOF=HHvqqo92zwTBRucnfA_UEOOmRMqiyaAQ@mail.gmail.com>
- <YNL3kpqnhi15glTC@redhat.com>
-In-Reply-To: <YNL3kpqnhi15glTC@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Wed, 23 Jun 2021 16:58:28 +0300
-Message-ID: <CAMRbyyuik1Q=WMSpePz6T+0bEnau0CFWbA4VA9GBf6+mrCZS3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/1] qemu-img: Add "backing":true to unallocated map
- segments
-To: Kevin Wolf <kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210623125458.450462-1-ma.mandourr@gmail.com>
+ <20210623125458.450462-5-ma.mandourr@gmail.com>
+In-Reply-To: <20210623125458.450462-5-ma.mandourr@gmail.com>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Wed, 23 Jun 2021 16:00:53 +0200
+Message-ID: <CAD-LL6hVjtMvxE8VZ5-k=HzogNHQkRhGkj-BcKLUULGgkk0J+w@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] docs/devel: Added cache plugin to the plugins docs
+To: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000005b932005c56f56a1"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,91 +77,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 23, 2021 at 11:58 AM Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 22.06.2021 um 18:56 hat Nir Soffer geschrieben:
-> > On Tue, Jun 22, 2021 at 6:38 PM Kevin Wolf <kwolf@redhat.com> wrote:
-> > >
-> > > Am 11.06.2021 um 21:03 hat Eric Blake geschrieben:
-> > > > To save the user from having to check 'qemu-img info --backing-chain'
-> > > > or other followup command to determine which "depth":n goes beyond the
-> > > > chain, add a boolean field "backing" that is set only for unallocated
-> > > > portions of the disk.
-> > > >
-> > > > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > > > ---
-> > > >
-> > > > Touches the same iotest output as 1/1.  If we decide that switching to
-> > > > "depth":n+1 is too risky, and that the mere addition of "backing":true
-> > > > while keeping "depth":n is good enough, then we'd have just one patch,
-> > > > instead of this double churn.  Preferences?
-> > >
-> > > I think the additional flag is better because it's guaranteed to be
-> > > backwards compatible, and because you don't need to know the number of
-> > > layers to infer whether a cluster was allocated in the whole backing
-> > > chain. And by exposing ALLOCATED we definitely give access to the whole
-> > > information that exists in QEMU.
-> > >
-> > > However, to continue with the bike shedding: I won't insist on
-> > > "allocated" even if that is what the flag is called internally and
-> > > consistency is usually helpful, but "backing" is misleading, too,
-> > > because intuitively it doesn't cover the top layer or standalone images
-> > > without a backing file. How about something like "present"?
-> >
-> > Looks hard to document:
-> >
-> > # @present: if present and false, the range is not allocated within the
-> > #           backing chain (since 6.1)
->
-> I'm not sure why you would document it with a double negative.
->
-> > And is not consistent with "offset". It would work better as:
-> >
-> > # @present: if present, the range is allocated within the backing
-> > #           chain (since 6.1)
->
-> Completely ignoring the value? I would have documented it like this, but
-> with "if true..." instead of "if present...".
+--0000000000005b932005c56f56a1
+Content-Type: text/plain; charset="UTF-8"
 
-This is fine, but it means that this flag will present in all ranges,
-instead of
-only in unallocated ranges (what this patch is doing).
+On Wed, Jun 23, 2021 at 2:55 PM Mahmoud Mandour <ma.mandourr@gmail.com>
+wrote:
 
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> ---
+>  docs/devel/tcg-plugins.rst | 60 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
 >
-> > Or:
-> >
-> > # @absent: if present, the range is not allocated within the backing
-> > #           chain (since 6.1)
->
-> This is possible, too, but generally positive flags are preferable to
-> negative ones, and the internal one is already positive.
->
-> > This is used by libnbd now:
-> > https://github.com/libguestfs/libnbd/commit/1d01d2ac4f6443b160b7d81119d555e1aaedb56d
-> >
-> > But I'm fine with "backing", It is consistent with BLK_BACKING_FILE,
-> > meaning this area exposes data from a backing file (if one exists).
-> >
-> > We use "backing" internally to be consistent with future qemu-img.
->
-> I just realised that I actually misunderstood "backing" to mean the
-> opposite of what it is in this patch!
->
-> It really means "the data comes from some imaginary additional backing
-> file that doesn't exist in the backing chain", while I understood it as
-> "something in the (real) backing chain contains the data".
->
-> "present" or "absent" should be much less prone to such
-> misunderstandings.
->
-> Kevin
+> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> index 18c6581d85..9d90110cbf 100644
+> --- a/docs/devel/tcg-plugins.rst
+> +++ b/docs/devel/tcg-plugins.rst
+> @@ -319,3 +319,63 @@ the user to see what hardware is accessed how often.
+> It has a number of options:
+>        off:0000001c, 1, 2
+>        off:00000020, 1, 2
+>        ...
+> +
+> +- contrib/plugins/cache
+> +
+> +Cache modelling plugin that measures the performance of a given cache
+> +configuration when a given working set is run::
+> +
+> +    ./qemu-x86_64 -plugin ./libcache.so -d plugin -D cache.log \
+> +    ./build/tests/tcg/x86_64-linux-user/float_convs
+> +
 >
 
+Oops that's a wrong command... Should've been
+
+./x86_64-linux-user/qemu-x86_64 -plugin ./contrib/plugins/libcache.so -d
+plugin -D cache.log \
+./tests/tcg/x86_64-linux-user/float_convs
+
+If you find the patch suitable and can edit the command before queueing it,
+otherwise tell me
+if you want me to resend :)
+
+
+> +
+> +will report the following::
+> +
+> +    Data accesses: 996479, Misses: 507
+> +    Miss rate: 0.050879%
+> +
+> +    Instruction accesses: 2641737, Misses: 18617
+> +    Miss rate: 0.704726%
+> +
+> +    address, data misses, instruction
+> +    0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)
+> +    0x41f395 (_IO_default_xsputn), 49, movb %dl, (%rdi, %rax)
+> +    0x42584d (ptmalloc_init.part.0), 33, movaps %xmm0, (%rax)
+> +    0x454d48 (__tunables_init), 20, cmpb $0, (%r8)
+> +    ...
+> +
+> +    address, fetch misses, instruction
+> +    0x4160a0 (__vfprintf_internal), 744, movl $1, %ebx
+> +    0x41f0a0 (_IO_setb), 744, endbr64
+> +    0x415882 (__vfprintf_internal), 744, movq %r12, %rdi
+> +    0x4268a0 (__malloc), 696, andq $0xfffffffffffffff0, %rax
+> +    ...
+> +
+> +The plugin has a number of arguments, all of them are optional:
+> +
+> +  * arg="limit=N"
+> +
+> +  Print top N icache and dcache thrashing instructions along with their
+> +  address, number of misses, and its disassembly. (default: 32)
+> +
+> +  * arg="icachesize=N"
+> +  * arg="iblksize=B"
+> +  * arg="iassoc=A"
+> +
+> +  Instruction cache configuration arguments. They specify the cache size,
+> block
+> +  size, and associativity of the instruction cache, respectively.
+> +  (default: N = 16384, B = 64, A = 8)
+> +
+> +  * arg="dcachesize=N"
+> +  * arg="dblksize=B"
+> +  * arg="dassoc=A"
+> +
+> +  Data cache configuration arguments. They specify the cache size, block
+> size,
+> +  and associativity of the data cache, respectively.
+> +  (default: N = 16384, B = 64, A = 8)
+> +
+> +  * arg="evict=POLICY"
+> +
+> +  Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
+> +  :code:`fifo`, and :code:`rand`. The plugin will use the specified
+> policy for
+> +  both instruction and data caches. (default: POLICY = :code:`lru`)
+> --
+> 2.25.1
+>
+>
+
+--0000000000005b932005c56f56a1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 23, 2021 at 2:55 PM Mahmo=
+ud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com">ma.mandourr@gmail.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">Signed-off-by: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.co=
+m" target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0docs/devel/tcg-plugins.rst | 60 +++++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A01 file changed, 60 insertions(+)<br>
+<br>
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst<br>
+index 18c6581d85..9d90110cbf 100644<br>
+--- a/docs/devel/tcg-plugins.rst<br>
++++ b/docs/devel/tcg-plugins.rst<br>
+@@ -319,3 +319,63 @@ the user to see what hardware is accessed how often. I=
+t has a number of options:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0off:0000001c, 1, 2<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0off:00000020, 1, 2<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0...<br>
++<br>
++- contrib/plugins/cache<br>
++<br>
++Cache modelling plugin that measures the performance of a given cache<br>
++configuration when a given working set is run::<br>
++<br>
++=C2=A0 =C2=A0 ./qemu-x86_64 -plugin ./libcache.so -d plugin -D cache.log \=
+<br>
++=C2=A0 =C2=A0 ./build/tests/tcg/x86_64-linux-user/float_convs<br>
++<br></blockquote><div><br></div><div>Oops that&#39;s a wrong command... Sh=
+ould&#39;ve been</div><div><br></div><div>./x86_64-linux-user/qemu-x86_64 -=
+plugin ./contrib/plugins/libcache.so -d plugin -D cache.log \<br></div><div=
+>./tests/tcg/x86_64-linux-user/float_convs</div><div><br></div><div>If you =
+find the patch suitable and can edit the command before queueing it, otherw=
+ise tell me=C2=A0</div><div>if you want me to resend :)</div><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
++<br>
++will report the following::<br>
++<br>
++=C2=A0 =C2=A0 Data accesses: 996479, Misses: 507<br>
++=C2=A0 =C2=A0 Miss rate: 0.050879%<br>
++<br>
++=C2=A0 =C2=A0 Instruction accesses: 2641737, Misses: 18617<br>
++=C2=A0 =C2=A0 Miss rate: 0.704726%<br>
++<br>
++=C2=A0 =C2=A0 address, data misses, instruction<br>
++=C2=A0 =C2=A0 0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)<br>
++=C2=A0 =C2=A0 0x41f395 (_IO_default_xsputn), 49, movb %dl, (%rdi, %rax)<br=
+>
++=C2=A0 =C2=A0 0x42584d (ptmalloc_init.part.0), 33, movaps %xmm0, (%rax)<br=
+>
++=C2=A0 =C2=A0 0x454d48 (__tunables_init), 20, cmpb $0, (%r8)<br>
++=C2=A0 =C2=A0 ...<br>
++<br>
++=C2=A0 =C2=A0 address, fetch misses, instruction<br>
++=C2=A0 =C2=A0 0x4160a0 (__vfprintf_internal), 744, movl $1, %ebx<br>
++=C2=A0 =C2=A0 0x41f0a0 (_IO_setb), 744, endbr64<br>
++=C2=A0 =C2=A0 0x415882 (__vfprintf_internal), 744, movq %r12, %rdi<br>
++=C2=A0 =C2=A0 0x4268a0 (__malloc), 696, andq $0xfffffffffffffff0, %rax<br>
++=C2=A0 =C2=A0 ...<br>
++<br>
++The plugin has a number of arguments, all of them are optional:<br>
++<br>
++=C2=A0 * arg=3D&quot;limit=3DN&quot;<br>
++<br>
++=C2=A0 Print top N icache and dcache thrashing instructions along with the=
+ir<br>
++=C2=A0 address, number of misses, and its disassembly. (default: 32)<br>
++<br>
++=C2=A0 * arg=3D&quot;icachesize=3DN&quot;<br>
++=C2=A0 * arg=3D&quot;iblksize=3DB&quot;<br>
++=C2=A0 * arg=3D&quot;iassoc=3DA&quot;<br>
++<br>
++=C2=A0 Instruction cache configuration arguments. They specify the cache s=
+ize, block<br>
++=C2=A0 size, and associativity of the instruction cache, respectively.<br>
++=C2=A0 (default: N =3D 16384, B =3D 64, A =3D 8)<br>
++<br>
++=C2=A0 * arg=3D&quot;dcachesize=3DN&quot;<br>
++=C2=A0 * arg=3D&quot;dblksize=3DB&quot;<br>
++=C2=A0 * arg=3D&quot;dassoc=3DA&quot;<br>
++<br>
++=C2=A0 Data cache configuration arguments. They specify the cache size, bl=
+ock size,<br>
++=C2=A0 and associativity of the data cache, respectively.<br>
++=C2=A0 (default: N =3D 16384, B =3D 64, A =3D 8)<br>
++<br>
++=C2=A0 * arg=3D&quot;evict=3DPOLICY&quot;<br>
++<br>
++=C2=A0 Sets the eviction policy to POLICY. Available policies are: :code:`=
+lru`,<br>
++=C2=A0 :code:`fifo`, and :code:`rand`. The plugin will use the specified p=
+olicy for<br>
++=C2=A0 both instruction and data caches. (default: POLICY =3D :code:`lru`)=
+<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div></div>
+
+--0000000000005b932005c56f56a1--
 
