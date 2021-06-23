@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F173B1D45
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 17:09:49 +0200 (CEST)
-Received: from localhost ([::1]:47096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E6C3B1D48
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 17:10:34 +0200 (CEST)
+Received: from localhost ([::1]:50766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw4Vg-0002hp-5m
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 11:09:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57112)
+	id 1lw4WP-00059G-Q7
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 11:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lw4TJ-0006ij-SB
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:07:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42915)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lw4V4-0002I1-KZ
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:09:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lw4TI-0007qJ-5m
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:07:21 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lw4V2-0000Ti-Ql
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 11:09:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624460839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1624460948;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=chY3fdp9MAjJtLhNKdbUGLrHkHTBAeGujXlbDvPXbhQ=;
- b=EqYAbQhP11C5gu/4FSASFi/P/L6Y917Dj6943qVAq3hfdSxpx7yqE9my/xa4JOJtoMVEv8
- NzVexqYX6045oueV2ONE+SrAE6MI1l0yeHfwUg3Qgir7hVTgtBheAt+YjbY56UnQEZlGdY
- 3MO63oWGQhVPemrr/xKoN9R1nNxktJ0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-cHYVsv4ROT2btKPDKyvlzA-1; Wed, 23 Jun 2021 11:07:18 -0400
-X-MC-Unique: cHYVsv4ROT2btKPDKyvlzA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- ee28-20020a056402291cb0290394a9a0bfaeso1481170edb.6
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 08:07:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=chY3fdp9MAjJtLhNKdbUGLrHkHTBAeGujXlbDvPXbhQ=;
- b=PjWlppUINJ0ZhPcamORWbcFQIkrdjUElbrrP2GWhOwCql0k6/Vr1OLJBI+lNITm5bq
- esd5Vs4rE1dXXocUUXB5wMnDoNAgAlMDCstPbtQE4E8MhIil06DWevzQto0uvkEOcX12
- IzbYUZhalkb5G/3wwdkiPSzUtHKVYGZt1cYgTzAtwosiYQNYnNRfF1uMS7WG4eK0MpKv
- izjvoQtNfc31mvUw5qfhF4XRi+zxn8cdJ41a6N+PbPeAVBLrho0gxXmLn1aJnSls+pu8
- J5dA1EgFpOCwS04J6RTKaLwE4/rcd7KvrLkfEfVI26jilYV3SdSzf+YpR/my1DvxBEYD
- znAQ==
-X-Gm-Message-State: AOAM530bKY8xlQgbll6Z2YaSfuYqJmPpCUT0Iq1KkdzWZ4t+uEy89b93
- uCowgL3KBlAWks5vsSVKhs2snSOMukcRH5lzy/w3z+9FBukJ5JprOYgTj+y7De6871H/C+e7xAp
- 97eZpM8pRntYjRxI=
-X-Received: by 2002:a17:906:b190:: with SMTP id
- w16mr516056ejy.332.1624460836916; 
- Wed, 23 Jun 2021 08:07:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymVDEi8hMOtwXyuSEIaC2qtWmsHkf25AkWwTnXhpcjpbWoIOHMqlwhC7sONVWPLyxbS+yAlA==
-X-Received: by 2002:a17:906:b190:: with SMTP id
- w16mr516041ejy.332.1624460836731; 
- Wed, 23 Jun 2021 08:07:16 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id l26sm178246edt.40.2021.06.23.08.07.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 08:07:16 -0700 (PDT)
-Date: Wed, 23 Jun 2021 17:07:14 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 10/18] vhost-vdpa: open device fd in net_init_vhost_vdpa()
-Message-ID: <20210623150714.yvdusp3zazyl6aco@steredhat>
-References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-11-jasowang@redhat.com>
+ bh=JN2LaPG6f+ix8RS2CIzM68EBveSYYqoZwrs9h/z8B6Y=;
+ b=OF6P//LIKPfAZOneAJYDwgjE/8YgzywKO1jntH+rcCNm9TJWzQbTUyGWiq4PzgbG9DiqAv
+ Qo11XWpE5d5H99Vysu8+DUa5lOju93jkq91l9sEOJzVrhBimFpTUhYV1cbMy1wgR9AD76L
+ TdC+5d/o+2Rzb88fplHNtK3KWht8d7A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-s4grTEVzPmWxR0m8-N0Gow-1; Wed, 23 Jun 2021 11:09:04 -0400
+X-MC-Unique: s4grTEVzPmWxR0m8-N0Gow-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 578D479EDD
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 15:09:03 +0000 (UTC)
+Received: from redhat.com (ovpn-114-176.ams2.redhat.com [10.36.114.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E74C760C05;
+ Wed, 23 Jun 2021 15:09:01 +0000 (UTC)
+Date: Wed, 23 Jun 2021 16:08:59 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Auditing QEMU to replace NULL with &error_abort
+Message-ID: <YNNOi22ZQaKibqSO@redhat.com>
+References: <7132e6a4-8d3a-828e-1c08-b17954445341@redhat.com>
+ <87k0mk4vyg.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20210621041650.5826-11-jasowang@redhat.com>
+In-Reply-To: <87k0mk4vyg.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -97,83 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, eperezma@redhat.com,
- elic@nvidia.com, lingshan.zhu@intel.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 12:16:42PM +0800, Jason Wang wrote:
->This path switches to open device fd in net_init_vhost_vpda(). This is
->used to prepare for the multiqueue support.
->
->Signed-off-by: Jason Wang <jasowang@redhat.com>
->---
-> net/vhost-vdpa.c | 23 +++++++++++++++--------
-> 1 file changed, 15 insertions(+), 8 deletions(-)
+On Wed, Jun 23, 2021 at 02:16:55PM +0200, Markus Armbruster wrote:
+> &error_abort has been a clear win for us.  &error_fatal too, when used
+> judiciously.  Marc-André tried to get both into GLib, unsuccessfully[2].
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+...snip...
 
->
->diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
->index 572aed4ca2..e63a54a938 100644
->--- a/net/vhost-vdpa.c
->+++ b/net/vhost-vdpa.c
->@@ -157,24 +157,19 @@ static NetClientInfo net_vhost_vdpa_info = {
-> };
->
-> static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
->-                               const char *name, const char *vhostdev)
->+                               const char *name, int vdpa_device_fd)
-> {
->     NetClientState *nc = NULL;
->     VhostVDPAState *s;
->-    int vdpa_device_fd = -1;
->     int ret = 0;
->     assert(name);
->     nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
->     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
->     s = DO_UPCAST(VhostVDPAState, nc, nc);
->-    vdpa_device_fd = qemu_open_old(vhostdev, O_RDWR);
->-    if (vdpa_device_fd == -1) {
->-        return -errno;
->-    }
->+
->     s->vhost_vdpa.device_fd = vdpa_device_fd;
->     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
->     if (ret) {
->-        qemu_close(vdpa_device_fd);
->         qemu_del_net_client(nc);
->     }
->     return ret;
->@@ -202,6 +197,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->                         NetClientState *peer, Error **errp)
-> {
->     const NetdevVhostVDPAOptions *opts;
->+    int vdpa_device_fd, ret;
->
->     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->     opts = &netdev->u.vhost_vdpa;
->@@ -210,5 +206,16 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->                           (char *)name, errp)) {
->         return -1;
->     }
->-    return net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, opts->vhostdev);
->+
->+    vdpa_device_fd = qemu_open_old(opts->vhostdev, O_RDWR);
->+    if (vdpa_device_fd == -1) {
->+        return -errno;
->+    }
->+
->+    ret = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
->+    if (ret) {
->+        qemu_close(vdpa_device_fd);
->+    }
->+
->+    return ret;
-> }
->-- 
->2.25.1
->
->
+> [2] https://gitlab.gnome.org/GNOME/glib/-/issues/2288
+
+This doesn't actually suggest adding error_abort/fatal to GLib. Rather
+it adds a general callback hook to GLib. Biggest complaints there
+are around the callback concept and difficulty of safely using it,
+which I can't disagree with.
+
+I wonder if we would have more luck if we explicitly proposed the
+error_abort/fatal concept to GLib instead. At least that would not
+hit any of the complaints raised about the callback.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
