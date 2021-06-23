@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86143B18C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 13:20:27 +0200 (CEST)
-Received: from localhost ([::1]:55390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F3E3B18C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 13:24:28 +0200 (CEST)
+Received: from localhost ([::1]:58352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw0vi-0000sa-PR
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 07:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
+	id 1lw0zb-00031d-Cq
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 07:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lw0uU-00008s-Ar
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:19:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lw0uO-0008A5-4t
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:19:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624447142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <msuchanek@suse.de>) id 1lw0yY-0001rB-NT
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:23:24 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:40598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <msuchanek@suse.de>) id 1lw0yW-0001d2-Nc
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:23:22 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 163B021966;
+ Wed, 23 Jun 2021 11:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624447398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ELTbDzPKPsY4Lbk3j14wn+3KfGWKaUiFPWrK06zBFpY=;
- b=ajtnwc94sSyf6RaIL1+RBL4v1xWrSnokYV7r6g38GxTaos8OVjJMT0ERpteCR0lBu/5wc7
- kwPnmCZlhDKw0673prKOUnWKDQINbSuG8T0BZY5u0TfOK0uFy+k7hLXkuB6u/RV+Asvh2R
- 1etR9VyfuRQ1UkIeodaUh2vamRtr6PQ=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-SxFI_Sc_N-qy9ReQU18KWA-1; Wed, 23 Jun 2021 07:19:01 -0400
-X-MC-Unique: SxFI_Sc_N-qy9ReQU18KWA-1
-Received: by mail-ua1-f71.google.com with SMTP id
- k13-20020a9f30cd0000b029025e3e26edb8so767288uab.9
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 04:19:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ELTbDzPKPsY4Lbk3j14wn+3KfGWKaUiFPWrK06zBFpY=;
- b=UsQlt8gpP3KlGraKL287muJ7uhspso6YQPi87B9CNCY2dzmirz0gmP5G4g24nlqC5M
- MBNT4nlXVbjbmEFmCVMxmlYl2wWjce0qoQntncWVr08YA4Gvn1i904viPxqI9baHw0y+
- W0Ke/UB++MB6NRTbzAEK5jt85ngSVPagqaZiLi5FJNP8LBo+CVLhbNoFp4uzONwMJyXN
- DTcY/0yi//A0sQJROhl4oK5D6BQUsNQP/ZkElKsSLhrwBfVoiLq067+UD4/GtPYdCmAx
- x7c1Wv8bX5z/z3fgf6gZgNkjILppVtv3lOBUrMomB/jcoKnioX6dlfsvKEh9sjhowlyw
- ukrw==
-X-Gm-Message-State: AOAM532Uq0C0Xjkg/lTChPHbQl0AbXLFEsYzNrWTUbegZccLFf4m8LEN
- Jr+9RR/N4NWPMfL3666GWrNxXO8kRzqcW87Waq4TIRSReQlo9+aj9K9jmkTn5vASIb1HTSBV0BO
- 93eSbP5eQgn8eRtfRk5piBAkYX+pOyt4=
-X-Received: by 2002:a67:fa0a:: with SMTP id i10mr6522338vsq.45.1624447141055; 
- Wed, 23 Jun 2021 04:19:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAKKH1w+2rkD7mGkzpd8Kwkd+ibi2hMNQqjqWXwDh9KH4GWiSxlL3egMvakBPbydNbpgEC1Pjp9GHAdM14TBM=
-X-Received: by 2002:a67:fa0a:: with SMTP id i10mr6522328vsq.45.1624447140931; 
- Wed, 23 Jun 2021 04:19:00 -0700 (PDT)
+ bh=Us7sprk2XBxnMwx4k9ljJE4hsU6edysBMDxCSrPyFXM=;
+ b=kP+iOk5Wt4AYVV9mryFxxhwI7Kt5dtRVlB6bHBKH7z3aS4rlh8t7LpQbyNQDhEWUEG9wCF
+ g40YH3ZvtUZj2MDuXSCBwhr1DV9gxv6l0NY7w8DtAJNiCZAOsLlg/AzJTLSTRcJcIit3Bc
+ CkF7lds2TiJcYXZMGbLwu/78a065I2w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624447398;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Us7sprk2XBxnMwx4k9ljJE4hsU6edysBMDxCSrPyFXM=;
+ b=d1oHZ40lknHl6ciZd6AZhRuiy7mU9zsy+Cc4nbxwsp4eQ2pV+jXhWAyU3HnlxdTN4AXll3
+ sXmTXaBCgb5YJdCg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id E582411A97;
+ Wed, 23 Jun 2021 11:23:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624447398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Us7sprk2XBxnMwx4k9ljJE4hsU6edysBMDxCSrPyFXM=;
+ b=kP+iOk5Wt4AYVV9mryFxxhwI7Kt5dtRVlB6bHBKH7z3aS4rlh8t7LpQbyNQDhEWUEG9wCF
+ g40YH3ZvtUZj2MDuXSCBwhr1DV9gxv6l0NY7w8DtAJNiCZAOsLlg/AzJTLSTRcJcIit3Bc
+ CkF7lds2TiJcYXZMGbLwu/78a065I2w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624447398;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Us7sprk2XBxnMwx4k9ljJE4hsU6edysBMDxCSrPyFXM=;
+ b=d1oHZ40lknHl6ciZd6AZhRuiy7mU9zsy+Cc4nbxwsp4eQ2pV+jXhWAyU3HnlxdTN4AXll3
+ sXmTXaBCgb5YJdCg==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id 2hAhN6UZ02BIdwAALh3uQQ
+ (envelope-from <msuchanek@suse.de>); Wed, 23 Jun 2021 11:23:17 +0000
+Date: Wed, 23 Jun 2021 13:23:16 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: Regarding commit a9bcedd (SD card size has to be power of 2)
+Message-ID: <20210623112316.GY8544@kitsune.suse.cz>
+References: <CAGnHSEnpEpnNHtryR=gMTxcGUd0EGW5h5KQeJvkYHp1Fw844fA@mail.gmail.com>
+ <YNL+19TnvDzK5NNh@redhat.com>
+ <eb606b89-5c12-8502-aa64-fafdeeb7bae0@amsat.org>
 MIME-Version: 1.0
-References: <20210623102749.25686-1-alex.bennee@linaro.org>
- <20210623102749.25686-2-alex.bennee@linaro.org>
-In-Reply-To: <20210623102749.25686-2-alex.bennee@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 23 Jun 2021 08:18:35 -0300
-Message-ID: <CAKJDGDZ=bXsnFhn3TCUgvgn0Rcy2sZqSvx9+qE62+TQOwkTyxg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/8] tests/acceptance: tweak the tcg/kvm tests for virt
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eb606b89-5c12-8502-aa64-fafdeeb7bae0@amsat.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=msuchanek@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +99,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org, alistair.francis@wdc.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Tom Yan <tom.ty89@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 23, 2021 at 7:30 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
-> Really it's only TCG that can select which GIC model you want, KVM
-> guests should always be using the "host" version of the GIC for which
-> QEMU already provides a handy shortcut. Make the KVM test use this and
-> split the TCG test into it's two versions.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  tests/acceptance/boot_linux.py | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
->
+On Wed, Jun 23, 2021 at 12:59:45PM +0200, Philippe Mathieu-Daudé wrote:
+> Hi,
+> 
+> On 6/23/21 11:28 AM, Daniel P. Berrangé wrote:
+> > On Mon, Jun 07, 2021 at 04:29:54PM +0800, Tom Yan wrote:
+> >> Hi philmd (and others),
+> >>
+> >> So I just noticed your commit of requiring the size of an emulated SD
+> >> card to be a power of 2, when I was trying to emulate one for an
+> >> actual one (well, it's a microSD, but still), as it errored out.
+> >>
+> >> You claim that the kernel will consider it to be a firmware bug and
+> >> "correct" the capacity by rounding it up. Could you provide a concrete
+> >> reference to the code that does such a thing? I'm not ruling out that
+> >> some crazy code could have gone upstream because some reviewers might
+> >> not be doing their job right, but if that really happened, it's a
+> >> kernel bug/regression and qemu should not do an equally-crazy thing to
+> >> "fix" it.
+> > 
+> > I looked back at the original threads for details, but didn't
+> > find any aside from this short message saying it broke Linux:
+> > 
+> >   https://www.mail-archive.com/qemu-devel@nongnu.org/msg720737.html
+> > 
+> > Philippe, do you have more details on the problem hit, or pointer
+> > to where the power-of-2 restriction is in Linux ?
+> 
+> Sorry for not responding soon enough, too many things.
+> 
+> I wrote patches to address Tom's problem, but couldn't fix all
+> the cases yet. So far the problem is not Linux but firmwares
+> announcing pow2 to Linux without checking card layout.
+> 
+> It is hard to make everybody happy, security users and odd firmwares.
+> 
+> I came out with a larger series to be able to classify QEMU API /
+> devices code as security sensible or not, and use of some unsafe
+> API to taint some security mode (so far only displaying a warning).
+> If the security mode is tainted (use of unsafe device, unsafe config,
+> unsafe feature), then users shouldn't expect safety in the guest.
+> 
+> That way I could have classified the SD card model as unsafe and not
+> bothered various users by restricting to pow2 card sizes.
+> 
+> >> No offense but what you claimed really sounds absurd and ridiculous.
+> >> Although I don't have hundreds of SD cards in hand, I owned quite a
+> >> few at least, like most people do, with capacities ranging from ~2G to
+> >> ~128G, and I don't even recall seeing a single one that has the
+> >> capacity being a power of 2. (Just like vendors of HDDs and SSDs, they
+> >> literally never do that AFAICT, for whatever reasons.)
+> > 
+> > Yes, this does feel pretty odd to me too, based on the real physical
+> > SD cards I've used with Linux non-power-2 sizes.
+> > 
+> > Also in general QEMU shouldn't be enforcing restrictions based on
+> > guest behaviour, it should follow the hardware specs. If the
+> > hardware spec doesn't mandate power-of-2 sizes, then QEMU shoud
+> > not require that, even if some guest OS has added an artificial
+> > restriction of its own.
+> 
+> The comment is misleading, the restriction was to answer CVE vuln.
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Care to share the reference?
 
+I would be really interested in the piece of software that relies on
+power of two sized SD cards to be secure. Sounds like it's broken and
+should be fixed rather than worked around in qemu.
+
+It also means that on real hardware that lacks power of two sized SD
+cards it is always insecure.
+
+Thanks
+
+Michal
 
