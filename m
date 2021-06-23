@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391FB3B1CDA
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:49:14 +0200 (CEST)
-Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFED53B1CDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 16:50:21 +0200 (CEST)
+Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw4Bl-0001NJ-AB
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
+	id 1lw4Cq-0002on-SA
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 10:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lw4Ah-0000Xu-TT
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:48:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45175)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lw4Bz-000282-K9
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:49:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lw4Aa-0004Az-Qe
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:48:07 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lw4Bw-0004tf-7G
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 10:49:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624459679;
+ s=mimecast20190719; t=1624459763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bkOiRrEUlMgI3IUDY7lD56jemhHnbYDLFuPmAyJ5/N8=;
- b=YcPAVMpPTUE+4nqSmD0NQYu84fSdmr3XsRz9RZj+MH/8fKG8uvYojWwj4GURISyPQ2zK4/
- 5J2kCtDHpY1zVUDwql03CZOUEim3lZL/GqIr8MvzezQtIphoCZo8CCz38HZUdrFP9wuyIy
- 3CS1PMni5RT5eVORCaQqhfHr91QYrIQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-WiUdWAN1MwedKWNaKcDcgQ-1; Wed, 23 Jun 2021 10:47:58 -0400
-X-MC-Unique: WiUdWAN1MwedKWNaKcDcgQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E09D19611A4;
- Wed, 23 Jun 2021 14:47:57 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.43.2.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9C6B60871;
- Wed, 23 Jun 2021 14:47:55 +0000 (UTC)
-From: Julia Suvorova <jusual@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/pci/pcie_port: Rename "enable-native-hotplug" property
-Date: Wed, 23 Jun 2021 16:47:47 +0200
-Message-Id: <20210623144747.285302-1-jusual@redhat.com>
-In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
-References: <20210617190739.3673064-1-jusual@redhat.com>
+ bh=8QFcoWObF1GrnE0VRH38pjlMj0NnkRW805h3TKLMU2E=;
+ b=I2qNpJ1GLVLQ4cY9KBQ3M0wqipwqFP8XU+10ONqq4JNzosfGlLpuqJSfGVTBzLk4HLGpo0
+ v4HgZMGiS90caBAkkQlq3J04XcHoy0ZFzzFavMgr6i/xPnZ5W4HaDs57zTexE+eVV4g4rA
+ b1B6tAsP1OCVkBbpa7rRrYOTznJLibk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-yabvTEexNou-zlWO1HRjFw-1; Wed, 23 Jun 2021 10:49:21 -0400
+X-MC-Unique: yabvTEexNou-zlWO1HRjFw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ c13-20020a17090603cdb029049617c6be8eso1060580eja.19
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 07:49:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8QFcoWObF1GrnE0VRH38pjlMj0NnkRW805h3TKLMU2E=;
+ b=GAaYLAZfB0k1Cbl1oJ7YYGMCqIe/zbp7jTnCfqSecQWfdQcktE5A3FzOfFOfEwhezu
+ qH4RcbSE0ta8QbZjyngX99HfoDLEQvEP8ltjBon6w+uiE7C6SBCsVN+dPfwhnQjkot2Z
+ th5rxn7PgNusTVavMYreIsdfGM2L0730taSEYAUKFeF9r1k3OggfEESkptEuFM+X1IKI
+ qVgkqNr4viT+qeoz4arF6gh6HG9oY5VA7nHqqeiucW5JMOyd3ir+R4Cgmr8fcxbVEixN
+ IdcSRJhEJKrsDAEC+Tb4O+HbqkuwlkPctoVMMKKiMEFWKi2kUvfCzn6pkzIdypFJold9
+ mjlA==
+X-Gm-Message-State: AOAM532gLa2LeDj6qDw8sIvMvwgjQ9crXKv5Ok/z3FheiYmtDGZzgGO9
+ +Spol8EK8yntfUR3R5lJfHNgYgbExhMAleUWUT5pBM+UUAbTTezKcKFXmHA501/3tbX8HmXeJ7f
+ mbmj9Ujp1TXhb+wk=
+X-Received: by 2002:a17:906:9419:: with SMTP id
+ q25mr383832ejx.341.1624459760612; 
+ Wed, 23 Jun 2021 07:49:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6T855b+p9fXRyGSNV2CRSXHxp/iqjUuNCxmxCt/c1FYyQFYzixYvgvf7gYCWpMwfHwym2lA==
+X-Received: by 2002:a17:906:9419:: with SMTP id
+ q25mr383816ejx.341.1624459760366; 
+ Wed, 23 Jun 2021 07:49:20 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id y5sm159723eds.12.2021.06.23.07.49.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Jun 2021 07:49:19 -0700 (PDT)
+Date: Wed, 23 Jun 2021 16:49:17 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 03/18] vhost_net: do not assume nvqs is always 2
+Message-ID: <20210623144917.vomib2mdaq4xjrnl@steredhat>
+References: <20210621041650.5826-1-jasowang@redhat.com>
+ <20210621041650.5826-4-jasowang@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210621041650.5826-4-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jusual@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -76,49 +97,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: lulu@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, eperezma@redhat.com,
+ elic@nvidia.com, lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PCIE_SLOT property renamed to "native-hotplug" to be more concise
-and consistent with other properties.
+On Mon, Jun 21, 2021 at 12:16:35PM +0800, Jason Wang wrote:
+>This patch switches to initialize dev.nvqs from the VhostNetOptions
+>instead of assuming it was 2. This is useful for implementing control
+>virtqueue support which will be a single vhost_net structure with a
+>single cvq.
+>
+>Signed-off-by: Jason Wang <jasowang@redhat.com>
+>---
+> hw/net/vhost_net.c      | 2 +-
+> include/net/vhost_net.h | 1 +
+> net/tap.c               | 1 +
+> net/vhost-user.c        | 1 +
+> net/vhost-vdpa.c        | 1 +
+> 5 files changed, 5 insertions(+), 1 deletion(-)
+>
+>diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>index 6bd4184f96..ef1370bd92 100644
+>--- a/hw/net/vhost_net.c
+>+++ b/hw/net/vhost_net.c
+>@@ -163,9 +163,9 @@ struct vhost_net *vhost_net_init(VhostNetOptions *options)
+>         goto fail;
+>     }
+>     net->nc = options->net_backend;
+>+    net->dev.nvqs = options->nvqs;
+>
+>     net->dev.max_queues = 1;
+>-    net->dev.nvqs = 2;
+>     net->dev.vqs = net->vqs;
+>
+>     if (backend_kernel) {
+>diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>index 172b0051d8..fba40cf695 100644
+>--- a/include/net/vhost_net.h
+>+++ b/include/net/vhost_net.h
+>@@ -14,6 +14,7 @@ typedef struct VhostNetOptions {
+>     VhostBackendType backend_type;
+>     NetClientState *net_backend;
+>     uint32_t busyloop_timeout;
+>+    unsigned int nvqs;
+>     void *opaque;
+> } VhostNetOptions;
+>
+>diff --git a/net/tap.c b/net/tap.c
+>index f5686bbf77..f716be3e3f 100644
+>--- a/net/tap.c
+>+++ b/net/tap.c
+>@@ -749,6 +749,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>             qemu_set_nonblock(vhostfd);
+>         }
+>         options.opaque = (void *)(uintptr_t)vhostfd;
+>+        options.nvqs = 2;
+>
+>         s->vhost_net = vhost_net_init(&options);
+>         if (!s->vhost_net) {
+>diff --git a/net/vhost-user.c b/net/vhost-user.c
+>index ffbd94d944..b93918c5a4 100644
+>--- a/net/vhost-user.c
+>+++ b/net/vhost-user.c
+>@@ -85,6 +85,7 @@ static int vhost_user_start(int queues, NetClientState *ncs[],
+>         options.net_backend = ncs[i];
+>         options.opaque      = be;
+>         options.busyloop_timeout = 0;
+>+        options.nvqs = 2;
+>         net = vhost_net_init(&options);
+>         if (!net) {
+>             error_report("failed to init vhost_net for queue %d", i);
+>diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>index 19187dce8c..18b45ad777 100644
+>--- a/net/vhost-vdpa.c
+>+++ b/net/vhost-vdpa.c
+>@@ -105,6 +105,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
+>     options.net_backend = ncs;
+>     options.opaque      = be;
+>     options.busyloop_timeout = 0;
+>+    options.nvqs = 2;
+>
+>     net = vhost_net_init(&options);
+>     if (!net) {
+>-- 
+>2.25.1
+>
+>
 
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
----
- hw/i386/pc_q35.c   | 4 ++--
- hw/pci/pcie_port.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index a0ec7964cc..04b4a4788d 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -243,8 +243,8 @@ static void pc_q35_init(MachineState *machine)
-                                           NULL);
- 
-     if (acpi_pcihp) {
--        object_register_sugar_prop(TYPE_PCIE_SLOT, "enable-native-hotplug",
--                                  "false", true);
-+        object_register_sugar_prop(TYPE_PCIE_SLOT, "native-hotplug",
-+                                   "false", true);
-     }
- 
-     /* irq lines */
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index a410111825..da850e8dde 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -148,7 +148,7 @@ static Property pcie_slot_props[] = {
-     DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
-     DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
-     DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
--    DEFINE_PROP_BOOL("enable-native-hotplug", PCIESlot, native_hotplug, true),
-+    DEFINE_PROP_BOOL("native-hotplug", PCIESlot, native_hotplug, true),
-     DEFINE_PROP_END_OF_LIST()
- };
- 
--- 
-2.30.2
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
