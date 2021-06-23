@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1753B1A32
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:31:17 +0200 (CEST)
-Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789E33B19C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:19:23 +0200 (CEST)
+Received: from localhost ([::1]:33826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw22G-0003yD-4F
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:31:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46710)
+	id 1lw1qk-0003CH-Gf
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m8-000414-RO
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:36 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m7-000240-5Z
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:36 -0400
-Received: by mail-ej1-x629.google.com with SMTP id ot9so2677019ejb.8
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 05:14:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Q0ZN4n/dtFMRMepbnfjzMN5tAEFeuoYDClHc1sps4os=;
- b=FBDceoT60Aearx2S/IAUP7YOHu1SYbRveXq5ucHpmpGueyVv/m/UGz1XYo40jZppc2
- cgB63l3Ih8GWKUuR59zAMQxhKdg8d/4WMv/alAJ6KKl2p2q4cB4GlqgF+jm7WQiK4qXS
- KIHow56ASBPmwnUcsvolZKsQyviZH2BoQEykS6IVJyAsqcC9bFb+fdkZqzn/qryOYWW2
- 3XCYtL7UiH5dywNWONmTzuXZS4CTkjeSMxGrCMbwjIsfPhlxYBf8lf50ZxlPxh2rAzGf
- 5E7rF0Jq4+1BbBInhAetk4ipmN+uw14zpUayjTf70BHxsHRYxIdMf3PO8+9DVfaUtwx8
- KZbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q0ZN4n/dtFMRMepbnfjzMN5tAEFeuoYDClHc1sps4os=;
- b=BLkar5gmhkysJVYzVyRw60G2+/bZl844KytCgOTP4YL1tg8YgDwmSxNko0UNLQSCWV
- p9Kkij1M88epjVGqnTog9K+IXbCImqIDnciDIliD0PRzS0i/WjsaEawh821DFLT1hPe0
- 4za9DuHxclLgxmjHJsbkyJG5mFFO+sCHHo+2l3GqhqiLFx/VJvFTmkhNXANWP/DW39Je
- vcxBNCyulsSA7D3EIz//k2OR8dAZTUC2TmprI0sumYRFAGavMvgMszjQk/rLAKxHj22K
- xTWZoWCv2befMt6w8HJ9wWMbFAB+ItOq6DZmVmT+bHtJlXbXnjX3UbtQWaxSmepD27aC
- Sd9g==
-X-Gm-Message-State: AOAM530LgQBNANs8/cnPPZz8AVR2wODo0hFVUObLZjY4QxXeiQtxvZ/X
- kVU91We+c9CKhUgvV0g+T4BB87vMxK4=
-X-Google-Smtp-Source: ABdhPJwwvWW7JAoAQg8gBOIX2cATroaYL2QoAtm4z/VDaLWPpjq/wr/gsKQiLIPwJ+kDX9lOGhFUVw==
-X-Received: by 2002:a17:907:1b11:: with SMTP id
- mp17mr9794417ejc.1.1624450473874; 
- Wed, 23 Jun 2021 05:14:33 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 05:14:33 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] KVM: Fix dirty ring mmap incorrect size due to renaming
- accident
-Date: Wed, 23 Jun 2021 14:14:24 +0200
-Message-Id: <20210623121424.1259496-13-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210623121424.1259496-1-pbonzini@redhat.com>
-References: <20210623121424.1259496-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lw1oW-0000Qk-Ef
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:17:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lw1oU-0003k6-Dx
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:17:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624450621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P610PfzP7valeeEGLXaDEuwqD1AMewvLsUYdegKoKZA=;
+ b=FcDOpPzEo9yfHrIN5xeZkmQz+E8+VyMktM3LHpRhAdrK+WbXRyfFb94wz8AAvjHXeKw0Lf
+ b7myJ1Bmc+oaYqTJ3X+0ga6VSugfEjSf0uIVOLDklL0a3px3aAjIcRP4NGN0bcmM+gBQJQ
+ /cHFmhnsvtQ9wqQQBYpGQw4P1H6iy8o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-zGGF2PwJM6yVXjaQ5NdVNg-1; Wed, 23 Jun 2021 08:16:58 -0400
+X-MC-Unique: zGGF2PwJM6yVXjaQ5NdVNg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA7D010C1ADC
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 12:16:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-99.ams2.redhat.com
+ [10.36.112.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62ACD19D9D;
+ Wed, 23 Jun 2021 12:16:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D954A112D587; Wed, 23 Jun 2021 14:16:55 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Auditing QEMU to replace NULL with &error_abort
+References: <7132e6a4-8d3a-828e-1c08-b17954445341@redhat.com>
+Date: Wed, 23 Jun 2021 14:16:55 +0200
+In-Reply-To: <7132e6a4-8d3a-828e-1c08-b17954445341@redhat.com> (John Snow's
+ message of "Tue, 22 Jun 2021 11:20:44 -0400")
+Message-ID: <87k0mk4vyg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,64 +81,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hyman Huang <huangy81@chinatelecom.cn>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+John Snow <jsnow@redhat.com> writes:
 
-Found this when I wanted to try the per-vcpu dirty rate series out, then I
-found that it's not really working and it can quickly hang death a guest.  I
-found strange errors (e.g. guest crash after migration) happens even without
-the per-vcpu dirty rate series.
+> One of our Bite-Sized tasks on the wiki was to audit QEMU and, where
+> applicable, replace NULL with &error_abort.
 
-When merging dirty ring, probably no one notice that the trivial renaming diff
-[1] missed two existing references of kvm_dirty_ring_sizes; they do matter
-since otherwise we'll mmap() a shorter range of memory after the renaming.
+Context: NULL argument means "do not pass back an error object".
 
-I think it didn't SIGBUS for me easily simply because some other stuff within
-qemu mmap()ed right after the dirty rings (e.g. when testing 4096 slots, it
-aligned with one small page on x86), so when we access the rings we've been
-reading/writting to random memory elsewhere of qemu.
+This has two uses:
 
-Fix the two sizes when map/unmap the shared dirty gfn memory.
+1. When the function permits detecting failure in another way (typically
+   by returning distinct error value(s)), and the caller is not
+   interested in additional detail an error object provides.
 
-[1] https://lore.kernel.org/qemu-devel/dac5f0c6-1bca-3daf-e5d2-6451dbbaca93@redhat.com/
+2. When the caller ignores errors.
 
-Cc: Hyman Huang <huangy81@chinatelecom.cn>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210609014355.217110-1-peterx@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/kvm/kvm-all.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+In both cases, the caller can pass NULL to save itself the trouble of
+receiving and freeing a (useless) error object.
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index c7ec538850..e5b10dd129 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -411,7 +411,7 @@ static int do_kvm_destroy_vcpu(CPUState *cpu)
-     }
- 
-     if (cpu->kvm_dirty_gfns) {
--        ret = munmap(cpu->kvm_dirty_gfns, s->kvm_dirty_ring_size);
-+        ret = munmap(cpu->kvm_dirty_gfns, s->kvm_dirty_ring_bytes);
-         if (ret < 0) {
-             goto err;
-         }
-@@ -495,7 +495,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
- 
-     if (s->kvm_dirty_ring_size) {
-         /* Use MAP_SHARED to share pages with the kernel */
--        cpu->kvm_dirty_gfns = mmap(NULL, s->kvm_dirty_ring_size,
-+        cpu->kvm_dirty_gfns = mmap(NULL, s->kvm_dirty_ring_bytes,
-                                    PROT_READ | PROT_WRITE, MAP_SHARED,
-                                    cpu->kvm_fd,
-                                    PAGE_SIZE * KVM_DIRTY_LOG_PAGE_OFFSET);
--- 
-2.31.1
+Our most common *actual* use, however, is
+
+3. When the call site assumes errors can't happen (and breaks when they
+do).
+
+This is wrong.  The caller should pass &error_abort instead.
+
+> Everywhere else where it is intentional, we ought to add a comment or
+> some other indication explaining why it's the right thing to do in
+> that case.
+>
+> That task was ported to GitLab here:
+> https://gitlab.com/qemu-project/qemu/-/issues/414
+>
+> mreitz and thuth have chimed in with excellent clarifications. Phil
+> suggests that we should replace the intentional cases of NULL with=20
+> &error_ignore, to possibly log squelched errors in debugging
+> mode. This sounds like a great idea to me:
+>
+> - It allows us to remove NULL entirely, which as mreitz states "is
+>   fishy", but sometimes valid.
+
+It's perfectly valid when all you'd do with an error object was to throw
+it away.
+
+Whether you do that by passing NULL or some other special value doesn't
+matter all that much.  NULL is what GError uses.  It has turned out to
+be prone to misuse, but I suspect any other value would be just as
+prone.
+
+> - It annotates callsites where we have decided the ignore is
+>   intentional and correct.
+
+A fresh special value like &error_ignore can serve as "we really mean to
+ignore the error object here" signal, but only until people start
+misusing it the same way NULL is being misused.
+
+> - It gives us a review opportunity to require good comments at those
+>   callsites.
+
+Requiring a use of &error_ignore to come with a comment may be a
+workable way to ensure &error_ignore remains a reliable "we mean it".
+It may also tempt people to add more NULL arguments, because that's
+easier.
+
+Nothing stops us from add good comments to calls passing NULL.
+
+> - It gives us a good way to measure progress of the audit by making
+>   the removal of NULL a concrete goal.
+
+Yes, this is far easier to measure than "has a good comment".
+
+>                                        (Can we use coccinelle to find
+>  all instances of the literal NULL being passed to a variable named
+> errp?)
+
+Maybe.
+
+> From a brief chat on IRC, Markus is "reluctant to deviate from GError
+> even more". It sounds like there isn't consensus here. We should=20
+> probably reach consensus on this point before trying to pass the task
+> off to a neophyte, though -- so I'm raising this discussion on the
+> list and CC'ing Markus to see if we can define the task better or not.
+
+QEMU's Error preceded the adoption of GLib.  It is "loosely patterned
+after Glib's GError" (quoting error.h's big comment).
+
+We've discussed replacing Error by GError a couple of times.
+Non-trivial due to differences between the two, in particular
+&error_abort, &error_fatal, and error_propagate(()'s "multiple
+propagations are fine, first one wins" vs. g_propagate_error()'s
+"propagate at most once".
+
+The latter difference seems rather pointless now, but removing it safely
+would be a substantial amount of work[1].
+
+&error_abort has been a clear win for us.  &error_fatal too, when used
+judiciously.  Marc-Andr=C3=A9 tried to get both into GLib, unsuccessfully[2=
+].
+
+Nevertheless, I'm reluctant to add more differeneces.  That's not a
+"no".  It's a "you need to make a compelling case".
+
+> --js
+>
+>
+> (Personally, I've got no horse in the race beyond moving these tasks
+> off the wiki and onto the tracker. Since I moved the issue, though, I
+> might as well make sure the filing is accurate.)
+
+
+[1] Converting old code to ERRP_GUARD() may reduce the use of
+error_propagate() to a point where removing becomes easy.
+
+[2] https://gitlab.gnome.org/GNOME/glib/-/issues/2288
 
 
