@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7C83B1A58
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:40:05 +0200 (CEST)
-Received: from localhost ([::1]:47122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D5E3B1A6B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:45:57 +0200 (CEST)
+Received: from localhost ([::1]:54726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw2Am-0006MY-Go
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51002)
+	id 1lw2GS-0003Ni-Ia
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1lw25M-0008DC-QQ
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:34:28 -0400
-Received: from mail07.asahi-net.or.jp ([202.224.55.47]:40178)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1lw25K-0000s2-IO
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:34:28 -0400
-Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
- [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail07.asahi-net.or.jp (Postfix) with ESMTPA id 03EF2C1C93;
- Wed, 23 Jun 2021 21:34:23 +0900 (JST)
-Received: from yo-satoh-debian.localdomain
- (z215167.dynamic.ppp.asahi-net.or.jp [110.4.215.167])
- by sakura.ysato.name (Postfix) with ESMTPSA id A8FB21C06A2;
- Wed, 23 Jun 2021 21:34:22 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/sh4: sh7750 switch renesas_timer.
-Date: Wed, 23 Jun 2021 21:34:16 +0900
-Message-Id: <20210623123416.60038-4-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210623123416.60038-1-ysato@users.sourceforge.jp>
-References: <20210623123416.60038-1-ysato@users.sourceforge.jp>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lw2Ep-0001zE-3l
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:44:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lw2Em-0003t2-Iv
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:44:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624452251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/gVhhA94YYdRnAsago5SaOuYlDXD67vT5TQEs3xJljc=;
+ b=W/PsZuvLIKzF+/l8mO610HcFtRUaF+BkdCeKSh+rb8s600Waf5HGqcJCnLpH4bij2Jj6tq
+ uWDeLPUszvx6T6rfuOwhcUgRfO8cnuVqfXr9p4mfAOuFHvqgtx2JtEDTmA8BqtLWoqthS9
+ Z/MeVDcR1xhze5MMRLqG4w+zJD1Tpk4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-QW17UIySNjixxi-6ajPq1g-1; Wed, 23 Jun 2021 08:44:07 -0400
+X-MC-Unique: QW17UIySNjixxi-6ajPq1g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 118B4108856A
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 12:43:21 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7B571ABD8;
+ Wed, 23 Jun 2021 12:43:20 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id F357A180060E; Wed, 23 Jun 2021 14:43:18 +0200 (CEST)
+Date: Wed, 23 Jun 2021 14:43:18 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] ui: Make the DisplayType enum entries conditional
+Message-ID: <20210623124318.nrmbawbebptmzn4w@sirius.home.kraxel.org>
+References: <20210615090439.70926-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=202.224.55.47;
- envelope-from=ysato@users.sourceforge.jp; helo=mail07.asahi-net.or.jp
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20210615090439.70926-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,92 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: libvir-list@redhat.com, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- hw/sh4/sh7750.c | 32 +++++++++++++++++++++++++++++---
- hw/sh4/Kconfig  |  2 +-
- 2 files changed, 30 insertions(+), 4 deletions(-)
+On Tue, Jun 15, 2021 at 11:04:39AM +0200, Thomas Huth wrote:
+> Libvirt's "domcapabilities" command has a way to state whether certain
+> graphic frontends are available in QEMU or not. Originally, libvirt
+> looked at the "--help" output of the QEMU binary to determine whether
+> SDL was available or not (by looking for the "-sdl" parameter in the
+> help text), but since libvirt stopped doing this analysis of the help
+> text, the detection of SDL is currently broken, see:
+> 
+>  https://bugzilla.redhat.com/show_bug.cgi?id=1790902
+> 
+> QEMU should provide a way via the QMP interface instead. A simple way,
+> without introducing additional commands, is to make the DisplayType
+> enum entries conditional, so that the enum only contains the entries if
+> the corresponding CONFIG_xxx switches have been set. This of course
+> only gives an indication which possibilities have been enabled during
+> compile-time of QEMU (and does not take into account whether modules
+> are later available or not for example - for this we'd need a separate
+> command), but anyway, this should already be good enough for the above
+> bug ticket, and it's a good idea anyway to make the QMP interface
+> conditional here, so let's simply do it.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
-index d53a436d8c..bbebac8083 100644
---- a/hw/sh4/sh7750.c
-+++ b/hw/sh4/sh7750.c
-@@ -30,8 +30,10 @@
- #include "sh7750_regs.h"
- #include "sh7750_regnames.h"
- #include "hw/sh4/sh_intc.h"
--#include "hw/timer/tmu012.h"
-+#include "hw/timer/renesas_timer.h"
- #include "exec/exec-all.h"
-+#include "qapi/error.h"
-+#include "hw/qdev-properties.h"
- 
- #define NB_DEVICES 4
- 
-@@ -752,6 +754,30 @@ static const MemoryRegionOps sh7750_mmct_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
-+static void tmu012_init(MemoryRegion *sysmem, hwaddr base,
-+                        int unit, uint64_t freq,
-+                        qemu_irq ch0_irq, qemu_irq ch1_irq,
-+                        qemu_irq ch2_irq0, qemu_irq ch2_irq1)
-+{
-+    RenesasTMUState *tmu;
-+
-+    tmu = RENESAS_TMU(qdev_new(TYPE_RENESAS_TMU));
-+    qdev_prop_set_uint32(DEVICE(tmu), "unit", unit);
-+    qdev_prop_set_uint64(DEVICE(tmu), "input-freq", freq);
-+
-+    sysbus_realize(SYS_BUS_DEVICE(tmu), &error_abort);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(tmu), 0, ch0_irq);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(tmu), 1, ch1_irq);
-+    if (unit == 0) {
-+        /* ch2_irq1 is not used. */
-+        sysbus_connect_irq(SYS_BUS_DEVICE(tmu), 2, ch2_irq0);
-+    }
-+
-+    sysbus_mmio_map(SYS_BUS_DEVICE(tmu), 0, base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(tmu), 1, P4ADDR(base));
-+    sysbus_mmio_map(SYS_BUS_DEVICE(tmu), 2, A7ADDR(base));
-+}
-+
- SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
- {
-     SH7750State *s;
-@@ -817,7 +843,7 @@ SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
-                    s->intc.irqs[SCIF_BRI]);
- 
-     tmu012_init(sysmem, 0x1fd80000,
--		TMU012_FEAT_TOCR | TMU012_FEAT_3CHAN | TMU012_FEAT_EXTCLK,
-+                0,
- 		s->periph_freq,
- 		s->intc.irqs[TMU0],
- 		s->intc.irqs[TMU1],
-@@ -840,7 +866,7 @@ SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
-         sh_intc_register_sources(&s->intc,
- 				 _INTC_ARRAY(vectors_tmu34),
- 				 NULL, 0);
--        tmu012_init(sysmem, 0x1e100000, 0, s->periph_freq,
-+        tmu012_init(sysmem, 0x1e100000, 1, s->periph_freq,
- 		    s->intc.irqs[TMU3],
- 		    s->intc.irqs[TMU4],
- 		    NULL, NULL);
-diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
-index ab733a3f76..ee51b5e6ae 100644
---- a/hw/sh4/Kconfig
-+++ b/hw/sh4/Kconfig
-@@ -21,4 +21,4 @@ config SH7750
-     bool
-     select SH_INTC
-     select SH_SCI
--    select SH_TIMER
-+    select RENESAS_TIMER
--- 
-2.20.1
+Added to ui queue.
+
+thanks,
+  Gerd
 
 
