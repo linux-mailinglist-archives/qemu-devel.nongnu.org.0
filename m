@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3A13B182D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 12:37:18 +0200 (CEST)
-Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8857F3B182C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 12:37:17 +0200 (CEST)
+Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw0Fx-0007U5-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 06:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1lw0Fw-0007Qi-JG
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 06:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lw0Dz-0004yB-Md
+ id 1lw0Dz-0004xH-1O
  for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:35:15 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37863)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lw0Dx-0005wc-5g
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:35:15 -0400
-Received: by mail-wr1-x432.google.com with SMTP id i94so2068830wri.4
+ id 1lw0Dw-0005wX-Ux
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:35:14 -0400
+Received: by mail-wr1-x430.google.com with SMTP id e22so2081524wrc.1
  for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 03:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7Csq3L73UZfDLRhp+50fvannHlui5uKUq6fhdlJrVjY=;
- b=HCpNtft9zPqrED1fFB0ToTHOqNcWI9rTNtctgcjnMGo6rnJN6H+JBkoYL59V/2p+9g
- fBHEQfLUj3gLksSZ+7+8szyMWr7a6UtYGGivUl0byslB3KleXek717wQ3TdDtOISKok3
- pR9GI5oQUgsFZ6QF0FTL5BbAhzGkIu/iZQiz02osIboIZ7WSJUErTywMFDbguo6JoI6d
- cOjhfwmgZVJ1b6QVHdavQ/6HqDdnSRaKVG24b+LUM2rSWDwskCqOhUKtqF8RpLAtymfd
- aRivyBzVKAqHgKcEf9eFlMYUcQvorkQBAA2owffiTUztTOgu6/KOJe/Qf8yjjsnRjgRr
- SiPg==
+ bh=Z6mqxYtsl7lpcW7rht6AD8AivX4ujauO/piq+96DP6k=;
+ b=vjVXziva3HBtIhgklp8yeoT7NGywFwcJIOOIrWHuaxlKucnW+4svycznmZfhJi2oSL
+ fNyKuLlSBupWKpE9v8YJYfhlpS6z9B2VUlq1IAwOfAq1/h+Ya5MUkShvs8i/zhgsNXIA
+ OEF4kWYMKe8kBKc6prRsLhEQl9Eoh9nDyF+DFl2qa47BiLEkKyS4/h1WyRnUc3LmvIZG
+ i5VMx1bP4ntAd7BRlHe9ltHz1TsChjaZDQ9ZIsuoeXHWuiWcU4zP4qzpoDTW1eW5eKp+
+ fCdQSUT88RV9yw/vyrukmw+LQizrorcjf9CXO1NtWww4Mj35PUOwvdSFTOeYziH+VnP8
+ 1F6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7Csq3L73UZfDLRhp+50fvannHlui5uKUq6fhdlJrVjY=;
- b=cRmIaOvGbPGdQMWOOOesEyGG3hljN8RxqbCob+8qe3PRxKvJgNUgUdfNzRirPlMxlB
- NhD3Phgh9T+8CgYEJofECurkoh6jG9QtHRDHdRn/6zdJx0jfMzwM6Qmi95JUtMUdkNSQ
- 7UmlkxHFMXsBDKQ2VD0l67GURnfYsC7VJckZ0FheNIk0Y7c/z1OUWA9sv0nctzka62Me
- Fyhd0ls/vsDmov59WeQ67vnOe/r6EcR0QUYMP+d1Br4x0LxkE9GgpB+fr9QOd5JFjnF/
- xS0gZOrPACdySUZnoW9ms7ZHCD3harUqPtQwWHRRJ4sjpAbmB07yYCGthZqq2vUMaNyS
- wcsw==
-X-Gm-Message-State: AOAM530ETRfx+7xtbwLehNIKp//kTaz8rALCWmvI/eu1GJoU68hQAx1S
- TvXp7Wdq9v7gSKIdGXYMOKaLVI6ZcsYQ8g==
-X-Google-Smtp-Source: ABdhPJyYfbIrmDQLmENLOB1F3mbvxT3A4Jp+AYI0HNkI6Nu26ZBK6ge6dPuyWYhroQxwx972IrSOAA==
-X-Received: by 2002:adf:f088:: with SMTP id n8mr10584374wro.227.1624444511857; 
+ bh=Z6mqxYtsl7lpcW7rht6AD8AivX4ujauO/piq+96DP6k=;
+ b=Z3OzTgQmbn1rr18FAqjVJ7OsGBgfbIwgaicfiVxaooRC6fMeisN3BI8bDbzd+yK+ja
+ ZS/N/P9+9gCcNAgEfDMrdeEhneNrciExxCfRZ4CbRfRLhGkNqo/hNBwnKzFlksdNiIPo
+ m+lTyJvm84fOG14FaRNOLf45fmcx6QARM6PcZlANfJVS4iJCYxAuHw28CDk5GzgsFHb3
+ +/F38kWWzSm0VMdrsCC2jqPrGBlZjBGudV/ZEbOZU6HuXbkjrMbpaOhBh6ruLj8qKqF/
+ mYwtAkZJRMChrWCN3kYGlAgRHMG1HEW2QduQ3h/kGrHRr8brofGEPaabK8KfggbKiaQw
+ 241g==
+X-Gm-Message-State: AOAM530KnVwYPGNxv0enWq55o+9ibQgQHTJYc2XmCoMAn0xF1EJuNOWI
+ kq/bmtgz3np3RP0sggMDKzqc5w==
+X-Google-Smtp-Source: ABdhPJznAxNcqBnQfeZc+px8Bi2q/s5cN/v397H9gJdpqZa80hE2prCWxqvrdbeK3AAffIEqWqs93Q==
+X-Received: by 2002:adf:9bd0:: with SMTP id e16mr10547061wrc.392.1624444511266; 
  Wed, 23 Jun 2021 03:35:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n18sm5492764wmq.41.2021.06.23.03.35.10
+ by smtp.gmail.com with ESMTPSA id r3sm5068135wmq.8.2021.06.23.03.35.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 23 Jun 2021 03:35:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 557771FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 6D9BF1FF96;
  Wed, 23 Jun 2021 11:27:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 7/8] plugins/api: expose symbol lookup to plugins
-Date: Wed, 23 Jun 2021 11:27:48 +0100
-Message-Id: <20210623102749.25686-8-alex.bennee@linaro.org>
+Subject: [PATCH v1 8/8] Update documentation to refer to new location for
+ issues
+Date: Wed, 23 Jun 2021 11:27:49 +0100
+Message-Id: <20210623102749.25686-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210623102749.25686-1-alex.bennee@linaro.org>
 References: <20210623102749.25686-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,62 +87,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a quality of life helper for plugins so they don't need to
-re-implement symbol lookup when dumping an address. The strings are
-constant so don't need to be duplicated. One minor tweak is to return
-NULL instead of a zero length string to show lookup failed.
+From: Stefan Weil <sw@weilnetz.de>
 
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210619154253.553446-1-sw@weilnetz.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210601145824.3849-1-alex.bennee@linaro.org>
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-Message-Id: <20210608040532.56449-2-ma.mandourr@gmail.com>
 ---
- include/qemu/qemu-plugin.h | 9 +++++++++
- plugins/api.c              | 6 ++++++
- 2 files changed, 15 insertions(+)
+ README.rst           | 6 +++---
+ .github/lockdown.yml | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 97cdfd7761..dc3496f36c 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -525,6 +525,15 @@ qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
+diff --git a/README.rst b/README.rst
+index a92c7394b7..79b19f1481 100644
+--- a/README.rst
++++ b/README.rst
+@@ -131,16 +131,16 @@ will be tagged as my-feature-v2.
+ Bug reporting
+ =============
  
- char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn);
+-The QEMU project uses Launchpad as its primary upstream bug tracker. Bugs
++The QEMU project uses GitLab issues to track bugs. Bugs
+ found when running code built from QEMU git or upstream released sources
+ should be reported via:
  
-+/**
-+ * qemu_plugin_insn_symbol() - best effort symbol lookup
-+ * @insn: instruction reference
-+ *
-+ * Return a static string referring to the symbol. This is dependent
-+ * on the binary QEMU is running having provided a symbol table.
-+ */
-+const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn);
-+
- /**
-  * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
-  * @id: plugin ID
-diff --git a/plugins/api.c b/plugins/api.c
-index 817c9b6b69..332e2c60e2 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -233,6 +233,12 @@ char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn)
-     return plugin_disas(cpu, insn->vaddr, insn->data->len);
- }
+-* `<https://bugs.launchpad.net/qemu/>`_
++* `<https://gitlab.com/qemu-project/qemu/-/issues>`_
  
-+const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn)
-+{
-+    const char *sym = lookup_symbol(insn->vaddr);
-+    return sym[0] != 0 ? sym : NULL;
-+}
-+
- /*
-  * The memory queries allow the plugin to query information about a
-  * memory access.
+ If using QEMU via an operating system vendor pre-built binary package, it
+ is preferable to report bugs to the vendor's own bug tracker first. If
+ the bug is also known to affect latest upstream code, it can also be
+-reported via launchpad.
++reported via GitLab.
+ 
+ For additional information on bug reporting consult:
+ 
+diff --git a/.github/lockdown.yml b/.github/lockdown.yml
+index 07fc2f31ee..d3546bd2bc 100644
+--- a/.github/lockdown.yml
++++ b/.github/lockdown.yml
+@@ -14,11 +14,11 @@ issues:
+     at https://gitlab.com/qemu-project/qemu.git.
+     The project does not process issues filed on GitHub.
+ 
+-    The project issues are tracked on Launchpad:
+-    https://bugs.launchpad.net/qemu
++    The project issues are tracked on GitLab:
++    https://gitlab.com/qemu-project/qemu/-/issues
+ 
+     QEMU welcomes bug report contributions. You can file new ones on:
+-    https://bugs.launchpad.net/qemu/+filebug
++    https://gitlab.com/qemu-project/qemu/-/issues/new
+ 
+ pulls:
+   comment: |
 -- 
 2.20.1
 
