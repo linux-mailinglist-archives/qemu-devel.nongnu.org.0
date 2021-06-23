@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36483B1693
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 11:14:57 +0200 (CEST)
-Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A603B1690
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 11:14:44 +0200 (CEST)
+Received: from localhost ([::1]:38238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lvyyG-0002uy-S9
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 05:14:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45290)
+	id 1lvyy3-000254-Lp
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 05:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyva-0004wL-1e
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:12:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30512)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyve-0005CZ-BY
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:12:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyvY-0008CU-8s
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:12:09 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lvyvc-0008J9-L3
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 05:12:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624439527;
+ s=mimecast20190719; t=1624439532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6DN7xXCj6GeyayX+Sce1wD//G94eg+PlnAGbkon3TEk=;
- b=So3m5MOfok8ppSBcU4O6/cQ7HXRlC05fIjeNaWZkRpoUy58vtjBMtNjvBbg1Y+DyZbScvs
- a33ceXaw2nJUe9p5a6W9Qu8Na8HH14C2/8UFLLz6j7x1bxiK5D4Knxxy0PBFhU5KZ4YSTp
- 6V9P/VJ1acOe2UoiU/Vl37tOSoTwoK4=
+ bh=sgeRR5DoQxtWwABkFtrtDao9zG6b7rurzBpiz+pUsGo=;
+ b=GG2J2uXP8eAuwl4jMLEA+xHe5hkgP4yAo0zFwKX+MegQ8CvOX/DGZI+jMoDkF2cVKp/JGy
+ mVY7utVOVNJTwoj4T9J5x20XBRuglDM1bym2w+7qllge/flb2003kaahaxWhGvWckyImZ2
+ Yjs3P3JwrdjVN+MDyDVvPcemqVEdEms=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-4iveC3tfOW-e1MRK8Z5k1A-1; Wed, 23 Jun 2021 05:12:06 -0400
-X-MC-Unique: 4iveC3tfOW-e1MRK8Z5k1A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-4-6SydkJpCO3SP7mWZ6tbiVA-1; Wed, 23 Jun 2021 05:12:10 -0400
+X-MC-Unique: 6SydkJpCO3SP7mWZ6tbiVA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36967100CA88;
- Wed, 23 Jun 2021 09:12:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0CF79F934;
+ Wed, 23 Jun 2021 09:12:09 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1952960C13;
- Wed, 23 Jun 2021 09:11:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2F13100F49F;
+ Wed, 23 Jun 2021 09:11:55 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 729571800917; Wed, 23 Jun 2021 11:11:37 +0200 (CEST)
+ id 82E321800918; Wed, 23 Jun 2021 11:11:37 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] [hack] scripts/copy-dlls
-Date: Wed, 23 Jun 2021 11:11:36 +0200
-Message-Id: <20210623091137.1156959-3-kraxel@redhat.com>
+Subject: [PATCH 3/3] ci: build & store guest agent msi
+Date: Wed, 23 Jun 2021 11:11:37 +0200
+Message-Id: <20210623091137.1156959-4-kraxel@redhat.com>
 In-Reply-To: <20210623091137.1156959-1-kraxel@redhat.com>
 References: <20210623091137.1156959-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,89 +87,77 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Build guest agent windows msi install package in gitlab CI,
+store the result as artifact.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- .gitlab-ci.d/crossbuild-template.yml |  3 +-
- scripts/copy-dlls                    | 56 ++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+), 1 deletion(-)
- create mode 100755 scripts/copy-dlls
+ .gitlab-ci.d/crossbuild-template.yml               | 3 ++-
+ .gitlab-ci.d/crossbuilds.yml                       | 2 ++
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 1 +
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 1 +
+ 4 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-index 7d3ad00a1eb9..5411177935fc 100644
+index 5411177935fc..507440af0f4e 100644
 --- a/.gitlab-ci.d/crossbuild-template.yml
 +++ b/.gitlab-ci.d/crossbuild-template.yml
-@@ -12,7 +12,8 @@
-           mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
+@@ -13,9 +13,10 @@
      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
      - if grep -q "EXESUF=.exe" config-host.mak;
--      then make installer;
-+      then scripts/copy-dlls;
-+      make installer;
+       then scripts/copy-dlls;
+-      make installer;
++      make installer msi;
        version="$(git describe --match v[0-9]*)";
        mv -v qemu-setup*.exe qemu-setup-${version}.exe;
++      mv -v qga/*.msi $(basename qga/*.msi .msi)-${version}.msi;
        fi
-diff --git a/scripts/copy-dlls b/scripts/copy-dlls
-new file mode 100755
-index 000000000000..0a84cd004c87
---- /dev/null
-+++ b/scripts/copy-dlls
-@@ -0,0 +1,56 @@
-+#!/bin/sh
-+#
-+# copy dlls needed by windows binaries to $srcdir/dll/{w32,w64}
-+# the nsis installer scripts expects them there
-+#
-+# TODO: rewrite in python and integrate into scripts/nsis.py
-+#
-+
-+if test ! -f config-host.mak; then
-+    echo "must be started in builddir"
-+    exit 1
-+fi
-+
-+eval $(egrep '(CONFIG_WIN32|QEMU_GA_MSI_MINGW_DLL_PATH|SRC_PATH)' config-host.mak)
-+
-+if test "$CONFIG_WIN32" != "y"; then
-+    echo "not a windows build"
-+    exit 1
-+fi
-+
-+if test "$QEMU_GA_MSI_MINGW_DLL_PATH" = ""; then
-+    echo "unknown dll path"
-+    exit 1
-+fi
-+
-+case "$QEMU_GA_MSI_MINGW_DLL_PATH" in
-+    *-w32-*)
-+	DESTDIR="$SRC_PATH/dll/w32"
-+	;;
-+    *-w64-*)
-+	DESTDIR="$SRC_PATH/dll/w64"
-+	;;
-+    *)
-+	echo "can't figure w32 vs. w64"
-+	exit 1
-+	;;
-+esac
-+
-+function check_windows_binary_deps() {
-+    local file="$1"
-+    local dlls dll
-+
-+    dlls=$(objdump -p "$file" | awk '/DLL Name/ { print $3 }')
-+    for dll in $dlls; do
-+	test -f "$QEMU_GA_MSI_MINGW_DLL_PATH/$dll" || continue
-+	test -f "$DESTDIR/$dll" && continue
-+	echo "copy $dll"
-+	cp "$QEMU_GA_MSI_MINGW_DLL_PATH/$dll" "$DESTDIR/$dll"
-+	check_windows_binary_deps "$DESTDIR/$dll"
-+    done
-+}
-+
-+mkdir -p "$DESTDIR"
-+for file in *.exe; do
-+    check_windows_binary_deps $file
-+done
+ 
+ # Job to cross-build specific accelerators.
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 4ff3aa3cfcdd..fc14a1cf5c10 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -163,6 +163,7 @@ cross-win32-system:
+   artifacts:
+     paths:
+       - build/qemu-setup*.exe
++      - build/qemu-ga*.msi
+ 
+ cross-win64-system:
+   extends: .cross_system_build_job
+@@ -173,6 +174,7 @@ cross-win64-system:
+   artifacts:
+     paths:
+       - build/qemu-setup*.exe
++      - build/qemu-ga*.msi
+ 
+ cross-amd64-xen-only:
+   extends: .cross_accel_build_job
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index a638afb525ce..9fffc8e73881 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -28,6 +28,7 @@ ENV PACKAGES \
+     mingw32-pixman \
+     mingw32-pkg-config \
+     mingw32-SDL2 \
++    msitools \
+     perl \
+     perl-Test-Harness \
+     python3 \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 5fbfe8892896..d748c37c4aa4 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -25,6 +25,7 @@ ENV PACKAGES \
+     mingw64-libtasn1 \
+     mingw64-pixman \
+     mingw64-pkg-config \
++    msitools \
+     perl \
+     perl-Test-Harness \
+     python3 \
 -- 
 2.31.1
 
