@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B8E3B19AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:16:43 +0200 (CEST)
-Received: from localhost ([::1]:54298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6203B19AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:16:53 +0200 (CEST)
+Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw1oA-0005u0-5h
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:16:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46568)
+	id 1lw1oK-000692-9e
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m2-0003rB-M7
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:30 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:43619)
+ id 1lw1m4-0003rc-7x
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:32 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:42513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lw1m0-0001xn-U5
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:30 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id s6so3106303edu.10
+ id 1lw1m1-0001yB-DP
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 08:14:31 -0400
+Received: by mail-ed1-x530.google.com with SMTP id m14so3134980edp.9
  for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 05:14:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fa9OjhIJ3U//kVonjxwc0sQUDlQnlh1DEpuQTPjP+iw=;
- b=m25OVf6+ubL1jzqjiOl4o6eXtd9bbte0UGzjGnFQ4STDlTUQhrLn1HYVrrSEV5cUyJ
- yxQD4y2s+J8qDkx3OaNMy7cw1clFBGn6NQXpMHv2LSe/lqsAouWUww90/ZOjG2zhNP7+
- CG0BurgHwPeRjJH1W/05YWCf2AXAlBLIs7YCKbKDA9Gce25R5nJ8z38keL8TC07BJTOz
- 12m8UPOZHEhrnybIz1n07+QJY7/u6g+8WTWaf+aeyY5g3k9CYbG/MGF2z9jJBveaTOSy
- XnKJ8VF2i4wAhXdQbOFS/tJXk6SLoamNfKKiDAKnKZjde9HFaJVJnF6xswllawpGz3Gp
- aXqQ==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nv0ACy0+Eum8qUTT1PI/Lvp1yQqi/xZRGLjc430QOSY=;
+ b=TWcYdjOmunWyTSXp9lwr+6OcwegzBLpkA6NZZTUzelIEzyx1Y2jf9GXQY7jupM2ChK
+ QMB3ne3kEWF0FSifxJ48YcqSOAKgOE4BjCv8KH/WaFkYwblpJ9FEFaKJnm46XxEWNWRc
+ q0lb98oEG/AhYASykomXym/ULMC6UfDXwxXMZ+EuFN4nL1xD3ypoWftUdlAohfkyOdJS
+ OlrwHqn+Q65k93VbKSWRGgxRwMulxFDlj3F4y4CSLBGC7Q79KBTJYdNRiMOSCA+dbx/V
+ ArMD1QQTjLk7sI+Tei23pvQP2QXEz1+NxxSQ7X/QFO4WV2TdVo16FlZl547aAZxGs+as
+ AGmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Fa9OjhIJ3U//kVonjxwc0sQUDlQnlh1DEpuQTPjP+iw=;
- b=hLvXziXa463vVzm5hZSn7Nh+uH6MptWzRI4KaWA2HeylduDwHzYU2AUYFeQsGGF5aT
- M5uQmI+6iCtfKSg36buZiAsJP3X1g31LPszW/nLTijpUejw887oPTopvl1cK4XwfftJM
- lyqPxR2gSvSGLkKo/ZpCyLwDGoFlX5jNPjtuw8MtmE0dkRznoHnKxIm9C0AkGDAB277r
- Wxww6ciB5nhP1UcZx2pqq7DIyJA6do74lAjRwjbOCdnP4K26YRL8aOW/bpDVr+LVdScm
- zj2cfyXU3Qy4OKoVczcqBlmLZj50TP6paKc9fsG2X4qyV2rnu5UFRvqJIGzm8pu5EhCx
- JQsg==
-X-Gm-Message-State: AOAM533GAgw2vGROt8L1OK6WIiZx19zd2mMGTOuAsaOUH4Gy0LFePyI+
- /4kO0uC+BuF4iU6mf40jxLwwKmHI2uI=
-X-Google-Smtp-Source: ABdhPJwKPZUWGlKROZ+hqQhyGA6ZlpymukzKZ27WWyxY0NBmZkcl6OfvxFCQrIGHtunRqU9gCE4WzA==
-X-Received: by 2002:a05:6402:520c:: with SMTP id
- s12mr12149268edd.357.1624450465765; 
- Wed, 23 Jun 2021 05:14:25 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=nv0ACy0+Eum8qUTT1PI/Lvp1yQqi/xZRGLjc430QOSY=;
+ b=nQ+mf467bNu6rnLD5wnkNXkw+xoCoB4ZqL8bnhNUWj0fNR/R1b0iyzBimrNFp41ro1
+ IRUhPfMAI/qcdcbdaapm/6Sq0XVQ1MX9brh6M6jh9Ac509IdfN5hLNviPV1Zk/r+2dV/
+ leMS5nVuQqtomh+jy+LnK3hLT96lF7xdldgyDnQ+c0g4iWDnVBgQyq6iD4L9SwalxFzO
+ gmORxArIaJJn2SboI0Yv+IaCBj1BIWLhfpijME/XbILofN8FcNft7VXsPGb498h/xtlX
+ EB6SJoHRmdOGULmQr2G+tvCUOn7NAGYsEjWNt4GZdlBV/jJ9u8szAq4ijWv0WCq2p/YG
+ 48dw==
+X-Gm-Message-State: AOAM5322Iohd9ZJSu5JtJejhMRC4zQmyCaCuUu77QFPEMDiKDCUvEIGB
+ rnJIEyLkJtXMM1phhuBS5UCe8Konwxw=
+X-Google-Smtp-Source: ABdhPJwl9B4e5gEsHbh6329ZMCORatsP3HrA00ExUKHKQMITKeNP9XpKQ7whBHN6ZWDnGd9fXDTfoQ==
+X-Received: by 2002:aa7:db03:: with SMTP id t3mr11866991eds.153.1624450466357; 
+ Wed, 23 Jun 2021 05:14:26 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id o5sm1680778edt.44.2021.06.23.05.14.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 05:14:25 -0700 (PDT)
+ Wed, 23 Jun 2021 05:14:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/12] Misc, mostly meson patches for 2021-06-23
-Date: Wed, 23 Jun 2021 14:14:12 +0200
-Message-Id: <20210623121424.1259496-1-pbonzini@redhat.com>
+Subject: [PULL 01/12] target/i386: kvm: add support for TSC scaling
+Date: Wed, 23 Jun 2021 14:14:13 +0200
+Message-Id: <20210623121424.1259496-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210623121424.1259496-1-pbonzini@redhat.com>
+References: <20210623121424.1259496-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,61 +87,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b22726abdfa54592d6ad88f65b0297c0e8b363e2:
+Linux 5.14 will add support for nested TSC scaling.  Add the
+corresponding feature in QEMU; to keep support for existing kernels,
+do not add it to any processor yet.
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-06-22 16:07:53 +0100)
+The handling of the VMCS enumeration MSR is ugly; once we have more than
+one case, we may want to add a table to check VMX features against.
 
-are available in the Git repository at:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/cpu.c     |  2 +-
+ target/i386/cpu.h     |  1 +
+ target/i386/kvm/kvm.c | 12 ++++++++----
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 0f38448da7ab61a23fc35f57276a7272d6e4d984:
-
-  KVM: Fix dirty ring mmap incorrect size due to renaming accident (2021-06-23 12:20:59 +0200)
-
-----------------------------------------------------------------
-* Some Meson test conversions
-* KVM dirty page ring buffer fix
-* KVM TSC scaling support
-
-----------------------------------------------------------------
-Paolo Bonzini (11):
-      target/i386: kvm: add support for TSC scaling
-      meson: drop unused CONFIG_GCRYPT_HMAC
-      configure: drop unused variables for xts
-      meson: remove preadv from summary
-      tests: remove QCRYPTO_HAVE_TLS_TEST_SUPPORT
-      configure, meson: convert crypto detection to meson
-      configure, meson: convert libtasn1 detection to meson
-      configure, meson: convert pam detection to meson
-      configure, meson: convert libusb detection to meson
-      configure, meson: convert libcacard detection to meson
-      configure, meson: convert libusbredir detection to meson
-
-Peter Xu (1):
-      KVM: Fix dirty ring mmap incorrect size due to renaming accident
-
- accel/kvm/kvm-all.c                   |   4 +-
- authz/meson.build                     |   2 +-
- configure                             | 326 +++-------------------------------
- crypto/meson.build                    |  41 ++---
- hw/usb/meson.build                    |   6 +-
- meson.build                           | 151 +++++++++++-----
- meson_options.txt                     |  14 ++
- target/i386/cpu.c                     |   2 +-
- target/i386/cpu.h                     |   1 +
- target/i386/kvm/kvm.c                 |  12 +-
- tests/unit/crypto-tls-psk-helpers.c   |   6 -
- tests/unit/crypto-tls-psk-helpers.h   |   4 -
- tests/unit/crypto-tls-x509-helpers.c  |   4 -
- tests/unit/crypto-tls-x509-helpers.h  |  11 +-
- tests/unit/meson.build                |  10 +-
- tests/unit/pkix_asn1_tab.c            |   3 -
- tests/unit/test-crypto-tlscredsx509.c |  12 --
- tests/unit/test-crypto-tlssession.c   |  12 --
- tests/unit/test-io-channel-tls.c      |  12 --
- 19 files changed, 177 insertions(+), 456 deletions(-)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a9fe1662d3..d8f3ab3192 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1031,7 +1031,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "vmx-invpcid-exit", "vmx-vmfunc", "vmx-shadow-vmcs", "vmx-encls-exit",
+             "vmx-rdseed-exit", "vmx-pml", NULL, NULL,
+             "vmx-xsaves", NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, "vmx-tsc-scaling", NULL, NULL,
+             NULL, NULL, NULL, NULL,
+         },
+         .msr = {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 1e11071d81..f7fa5870b1 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -972,6 +972,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define VMX_SECONDARY_EXEC_RDSEED_EXITING           0x00010000
+ #define VMX_SECONDARY_EXEC_ENABLE_PML               0x00020000
+ #define VMX_SECONDARY_EXEC_XSAVES                   0x00100000
++#define VMX_SECONDARY_EXEC_TSC_SCALING              0x02000000
+ 
+ #define VMX_PIN_BASED_EXT_INTR_MASK                 0x00000001
+ #define VMX_PIN_BASED_NMI_EXITING                   0x00000008
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index ad950c3c27..04e4ec063f 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -2700,8 +2700,6 @@ static uint64_t make_vmx_msr_value(uint32_t index, uint32_t features)
+     return must_be_one | (((uint64_t)can_be_one) << 32);
+ }
+ 
+-#define VMCS12_MAX_FIELD_INDEX (0x17)
+-
+ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+ {
+     uint64_t kvm_vmx_basic =
+@@ -2791,8 +2789,14 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+                       CR0_PE_MASK | CR0_PG_MASK | CR0_NE_MASK);
+     kvm_msr_entry_add(cpu, MSR_IA32_VMX_CR4_FIXED0,
+                       CR4_VMXE_MASK);
+-    kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM,
+-                      VMCS12_MAX_FIELD_INDEX << 1);
++
++    if (f[FEAT_VMX_SECONDARY_CTLS] & VMX_SECONDARY_EXEC_TSC_SCALING) {
++        /* TSC multiplier (0x2032).  */
++        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x32);
++    } else {
++        /* Preemption timer (0x482E).  */
++        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x2E);
++    }
+ }
+ 
+ static void kvm_msr_entry_add_perf(X86CPU *cpu, FeatureWordArray f)
 -- 
 2.31.1
+
 
 
