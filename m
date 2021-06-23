@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FE83B2004
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 20:06:24 +0200 (CEST)
-Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045FD3B2007
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 20:08:44 +0200 (CEST)
+Received: from localhost ([::1]:42794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw7GZ-0005yH-92
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 14:06:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40644)
+	id 1lw7Ip-0000uG-UZ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 14:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lw7BB-0005zQ-PV; Wed, 23 Jun 2021 14:00:49 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46698)
+ id 1lw7BF-00064c-Gq; Wed, 23 Jun 2021 14:00:55 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lw7B8-000393-Ut; Wed, 23 Jun 2021 14:00:49 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- v20-20020a05600c2154b02901dcefb16af0so1921701wml.5; 
- Wed, 23 Jun 2021 11:00:46 -0700 (PDT)
+ id 1lw7BD-0003CC-OR; Wed, 23 Jun 2021 14:00:53 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u11so3585154wrw.11;
+ Wed, 23 Jun 2021 11:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2XYaMzq79oJ14Mdhp8DY6/ioX+j6FXQDMcscp3/hpSM=;
- b=pq3bP9YV30SMxXr0g199HWQ2mwWrCaWuXViMQzax80LXWgezYHSfDhWxzg6EM6c7hS
- EOiNW+ydFQbkVXrLfW5ZpyrC8S84DQS78IUCoMvjs8o/TYFY+L5md+OL4xL2E03Fk7TG
- X2LgoPt40Tv+ui4U1v+9OJco0sLxBcXDM0EoshfqrdOMBANpaNbZiGsKkjbiO+c9/zWL
- 4e3i7soZa7Qi41irTD0qGjbLrAJyDhccFRyTLpH9uADiY6qH0q+LnTRgGm9GX8upq+eB
- PBo8uX2unB9VAnNrFH/iZnbjDxlwyEnL7Klo3tVOrMSA0D3cfRcVdRSnK7XSYzlZCIXH
- nAcQ==
+ bh=2T3MRe80pK9VipLCU8CHFoaCxHfrkK4bYUI1dyRLTTU=;
+ b=Xck+VA6i84WM+hkfWrM6apyO901HJYkRdZ8CP1BWld1+yNC9/0+oM+5A+/6woI9cv7
+ vBrPW5/iISrl5k2Is8FJOYkS/Uze6Bpwu2yjrMxf3hsMk7VZsEoM4VZf8aaMYvzvnvZ5
+ YdbYzx6DySBCX3XfLT/M7VBROn0tPA5unFKgVSoBAd0ed3brfHA6NV08GdgAzDx1PGP/
+ 0rj5QxtzGuqzgnVnt/m3PxIybd/Eh4Ax/RTo+U1tQgDUw3mHYnVj1CgWb+d02X5xrRbi
+ Efr1RJPeycXsyCwhT8+C633xfBWnGMMT6b6BakK3IyeS0/PR6iEnJxWG2lBihheJSCkh
+ p5Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2XYaMzq79oJ14Mdhp8DY6/ioX+j6FXQDMcscp3/hpSM=;
- b=l2LQFI3vpw+cyKA83+eMmF2AIHRC1zjQlES+dlmXS6Ez9TU8Du0r9YoHZ3ymAbKAHR
- ELltpsxOaVQUeXRcB4AVp1aM2gsPFUs7a3vLYhNMRlLhqsakKdlQr+WaahGvBLcdkUKc
- IhxtbJ0MeZ3AqylHNVAzsFEw2eEqkuSNMDAAA+7OcUvjMGHM4fLv7Jw3RbUqVzmB20EO
- 0CrLsPNECoZxOsMBqvYPCLomDSKxw78CQlCm53mcbJTxl6A9CN3Bb3WdOOa2ks4R4sm6
- 97F2z/qupvCVoj3AW2GX+gCH1XDFE25uEctdbko1LNmsHq512680lDXckvO6Kz4UXbg1
- JhhQ==
-X-Gm-Message-State: AOAM530LNpnp7dt8bdobmE81xQrtXilQjqAyJ8JdgC/xVlMggivYYMPu
- mYtv8stxnNQrJfo4dOYQpSlQ95IRR2Ycrw==
-X-Google-Smtp-Source: ABdhPJwWA6U52E/h61LwJHok19ZJNSQbLwQOZDQGnqdwTlTdKEe3WQWCVBe58eGKN5N1QO3egwcXRg==
-X-Received: by 2002:a05:600c:3791:: with SMTP id
- o17mr12503338wmr.187.1624471244908; 
- Wed, 23 Jun 2021 11:00:44 -0700 (PDT)
+ bh=2T3MRe80pK9VipLCU8CHFoaCxHfrkK4bYUI1dyRLTTU=;
+ b=BpOAR1c6sEQ1zaUF9mxe6X71U9QTpkp2MgNlzYA0+QZezSmsbSjmzwX9zdc8gPSALs
+ TmI3AH4DwBRRVpIUDLmrM21EzruU1JuYg0OI4MQGO0npQPMTZNNio51wH4sBa1iF1gpY
+ iYccbRj8zscQr2De0Yqe63Nn3RvGoJTmJ/7eqbdIWi7/FJfhZzHpi+eSsnraanhZne4U
+ kZpTyFpFGTK4M1d0d1EeXHsQNiI+0T0mV+snwR6ToI+sZ3y7JeFtVdtktjLe3RrTMynZ
+ 5UrbxXqAHPWE4D2wLJj6ntwyJFBPMONUcTGkxXV2A3sJz7erPWV/SAPP1j4XCqkV+2qb
+ g9/w==
+X-Gm-Message-State: AOAM530VwEW5a00Zb//KUbJqJ516QJnnNzaKDNyviyuk8fmQMadv4E9S
+ Z9plkzn6Ca4O8p58v+cqnA6N9xlFZ2LpSw==
+X-Google-Smtp-Source: ABdhPJxAMDjHQVhATCD4g7Se7pvyTq7vaaOZnPwyM/iZVxX/mK2SNKMAy3tVF+kNL+32EScGQus2IA==
+X-Received: by 2002:adf:c843:: with SMTP id e3mr1522238wrh.25.1624471249830;
+ Wed, 23 Jun 2021 11:00:49 -0700 (PDT)
 Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id g83sm662070wma.10.2021.06.23.11.00.43
+ by smtp.gmail.com with ESMTPSA id s16sm820956wrm.36.2021.06.23.11.00.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 11:00:44 -0700 (PDT)
+ Wed, 23 Jun 2021 11:00:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/9] tests/acceptance: Extract image_expand() helper
-Date: Wed, 23 Jun 2021 20:00:16 +0200
-Message-Id: <20210623180021.898286-5-f4bug@amsat.org>
+Subject: [PATCH 5/9] tests/acceptance: Use image_expand() in
+ test_arm_orangepi_uboot_netbsd9
+Date: Wed, 23 Jun 2021 20:00:17 +0200
+Message-Id: <20210623180021.898286-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623180021.898286-1-f4bug@amsat.org>
 References: <20210623180021.898286-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,43 +95,41 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to expand an image to a non-power-of-2 value,
-extract image_expand() from image_pow2ceil_expand().
+The NetBSD OrangePi image must be at least 2GiB, not less.
+Expand the SD card image to this size before using it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/boot_linux_console.py | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ tests/acceptance/boot_linux_console.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 20d57c1a8c6..61069f0064f 100644
+index 61069f0064f..b10f7257503 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -35,15 +35,19 @@
- def pow2ceil(x):
-     return 1 if x == 0 else 2**(x - 1).bit_length()
+@@ -868,7 +868,12 @@ def test_arm_orangepi_uboot_netbsd9(self):
+         :avocado: tags=device:sd
+         :avocado: tags=os:netbsd
+         """
+-        # This test download a 304MB compressed image and expand it to 2GB
++        # This test download a 304MB compressed image and expand it to 2GB,
++        # which is the minimum card size required by the NetBSD installer:
++        # https://wiki.netbsd.org/ports/evbarm/raspberry_pi/#index7h2
++        # "A 2 GB card is the smallest workable size that the installation
++        # image will fit on."
++        NETBSD_SDCARD_MINSIZE = 2 * 1024 * 1024 * 1024
+         deb_url = ('http://snapshot.debian.org/archive/debian/'
+                    '20200108T145233Z/pool/main/u/u-boot/'
+                    'u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb')
+@@ -886,7 +891,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
+         image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
+         image_path = os.path.join(self.workdir, 'armv7.img')
+         archive.gzip_uncompress(image_path_gz, image_path)
+-        image_pow2ceil_expand(image_path)
++        image_expand(image_path, NETBSD_SDCARD_MINSIZE)
+         image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
  
-+"""
-+Expand file size
-+"""
-+def image_expand(path, size):
-+    if size != os.path.getsize(path):
-+        with open(path, 'ab+') as fd:
-+            fd.truncate(size)
-+
- """
- Expand file size to next power of 2
- """
- def image_pow2ceil_expand(path):
--        size = os.path.getsize(path)
--        size_aligned = pow2ceil(size)
--        if size != size_aligned:
--            with open(path, 'ab+') as fd:
--                fd.truncate(size_aligned)
-+    image_expand(path, pow2ceil(os.path.getsize(path)))
- 
- class LinuxKernelTest(Test):
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+         # dd if=u-boot-sunxi-with-spl.bin of=armv7.img bs=1K seek=8 conv=notrunc
 -- 
 2.31.1
 
