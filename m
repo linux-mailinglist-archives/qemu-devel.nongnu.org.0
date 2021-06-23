@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A2E3B1929
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 13:42:11 +0200 (CEST)
-Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438983B1985
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 14:01:49 +0200 (CEST)
+Received: from localhost ([::1]:44630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw1Gk-0000yX-59
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 07:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40130)
+	id 1lw1Zj-0006DV-UW
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 08:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lw1Eo-00084U-CE
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:40:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45429)
+ id 1lw1Xa-0005TG-Oz
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:59:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lw1Em-0001eq-Cl
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:40:09 -0400
+ id 1lw1XV-0003QK-JR
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 07:59:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624448406;
+ s=mimecast20190719; t=1624449567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f02I2LlJuAHT6WCy10s+DFreZaKgUULvY0TTgCnSBHQ=;
- b=cVzptyObsmqzIAgjVdvu9sl1dfi/nyiCmooJ2e93Rozympf8QG/lrcF5pt+2UNslzmHAgY
- FOo5yFpzFe7FPu3uUwx1kDNq8w34WJHCte9qA9+BvRIwJ9Sy0OEyMa7fqV4na04RrnaZYi
- OTuWtQeEmm3dIG3dcx8o7HEWvGSOA0I=
+ bh=r1NeDpboL2hf7mso7wQHMShBPDOmkDcPokzo04QtVrU=;
+ b=VeH4U3tiu7QO4HaHwQfRvhGfwgPwJo0tMjW+gOp4gBPkG/CUjkHZb0No7pTvHzr2t+xLVn
+ n1tYMMHHM2zRVcNUqc/ONZ/7TLfL4ft8kngKxkm3hfEeVZ+xbqhjs0+QLsWY9VWnGizSsR
+ cIo5fknee23caF9MJXQwkJfT+21et5Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-mL42vdyrPRSF9SI0u_Ax0Q-1; Wed, 23 Jun 2021 07:40:05 -0400
-X-MC-Unique: mL42vdyrPRSF9SI0u_Ax0Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-275-B434kaKCPpSeeGoXttIbBA-1; Wed, 23 Jun 2021 07:59:14 -0400
+X-MC-Unique: B434kaKCPpSeeGoXttIbBA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2F2A804140;
- Wed, 23 Jun 2021 11:40:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E483A19067E0;
+ Wed, 23 Jun 2021 11:59:12 +0000 (UTC)
 Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 90D255D9DE;
- Wed, 23 Jun 2021 11:39:55 +0000 (UTC)
-Date: Wed, 23 Jun 2021 13:39:54 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 252DA5C1A1;
+ Wed, 23 Jun 2021 11:58:59 +0000 (UTC)
+Date: Wed, 23 Jun 2021 13:58:59 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
- boundary
-Message-ID: <20210623133954.2be8f24e@redhat.com>
-In-Reply-To: <ea55dc1b-b48a-3af1-be03-e72abc358f46@oracle.com>
+Subject: Re: [PATCH RFC 0/6] i386/pc: Fix creation of >= 1Tb guests on AMD
+ systems with IOMMU
+Message-ID: <20210623135859.42ac55d0@redhat.com>
+In-Reply-To: <23cff9d2-cc9b-07ba-1c21-9798854e14d9@oracle.com>
 References: <20210622154905.30858-1-joao.m.martins@oracle.com>
- <20210622154905.30858-2-joao.m.martins@oracle.com>
- <20210623091138.2f7828dd@redhat.com>
- <ea55dc1b-b48a-3af1-be03-e72abc358f46@oracle.com>
+ <20210622151629.6c75427c.alex.williamson@redhat.com>
+ <23cff9d2-cc9b-07ba-1c21-9798854e14d9@oracle.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,80 +81,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
  David Edmondson <david.edmondson@oracle.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Jun 2021 10:37:38 +0100
+On Wed, 23 Jun 2021 10:30:29 +0100
 Joao Martins <joao.m.martins@oracle.com> wrote:
 
-> On 6/23/21 8:11 AM, Igor Mammedov wrote:
-> > On Tue, 22 Jun 2021 16:49:00 +0100
+> On 6/22/21 10:16 PM, Alex Williamson wrote:
+> > On Tue, 22 Jun 2021 16:48:59 +0100
 > > Joao Martins <joao.m.martins@oracle.com> wrote:
 > >   
-> >> It is assumed that the whole GPA space is available to be
-> >> DMA addressable, within a given address space limit. Since
-> >> v5.4 based that is not true, and VFIO will validate whether
-> >> the selected IOVA is indeed valid i.e. not reserved by IOMMU
-> >> on behalf of some specific devices or platform-defined.
+> >> Hey,
 > >>
-> >> AMD systems with an IOMMU are examples of such platforms and
-> >> particularly may export only these ranges as allowed:
+> >> This series lets Qemu properly spawn i386 guests with >= 1Tb with VFIO, particularly
+> >> when running on AMD systems with an IOMMU.
 > >>
-> >> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
-> >> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
-> >> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb)
+> >> Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
+> >> will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
+> >> affected by this extra validation. But AMD systems with IOMMU have a hole in
+> >> the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
+> >> here  FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
+> >> section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
 > >>
-> >> We already know of accounting for the 4G hole, albeit if the
-> >> guest is big enough we will fail to allocate a >1010G given
-> >> the ~12G hole at the 1Tb boundary, reserved for HyperTransport.
+> >> VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
+> >>  -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
+> >> of the failure:
 > >>
-> >> When creating the region above 4G, take into account what
-> >> IOVAs are allowed by defining the known allowed ranges
-> >> and search for the next free IOVA ranges. When finding a
-> >> invalid IOVA we mark them as reserved and proceed to the
-> >> next allowed IOVA region.
+> >> qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
+> >> qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
+> >> 	failed to setup container for group 258: memory listener initialization failed:
+> >> 		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
 > >>
-> >> After accounting for the 1Tb hole on AMD hosts, mtree should
-> >> look like:
+> >> Prior to v5.4, we could map using these IOVAs *but* that's still not the right thing
+> >> to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
+> >> spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
+> >> as documented on the links down below.
 > >>
-> >> 0000000100000000-000000fcffffffff (prio 0, i/o):
-> >> 	alias ram-above-4g @pc.ram 0000000080000000-000000fc7fffffff
-> >> 0000010000000000-000001037fffffff (prio 0, i/o):
-> >> 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff  
+> >> This series tries to address that by dealing with this AMD-specific 1Tb hole,
+> >> similarly to how we deal with the 4G hole today in x86 in general. It is splitted
+> >> as following:
+> >>
+> >> * patch 1: initialize the valid IOVA ranges above 4G, adding an iterator
+> >>            which gets used too in other parts of pc/acpi besides MR creation. The
+> >> 	   allowed IOVA *only* changes if it's an AMD host, so no change for
+> >> 	   Intel. We walk the allowed ranges for memory above 4G, and
+> >> 	   add a E820_RESERVED type everytime we find a hole (which is at the
+> >> 	   1TB boundary).
+> >> 	   
+> >> 	   NOTE: For purposes of this RFC, I rely on cpuid in hw/i386/pc.c but I
+> >> 	   understand that it doesn't cover the non-x86 host case running TCG.
+> >>
+> >> 	   Additionally, an alternative to hardcoded ranges as we do today,
+> >> 	   VFIO could advertise the platform valid IOVA ranges without necessarily
+> >> 	   requiring to have a PCI device added in the vfio container. That would
+> >> 	   fetching the valid IOVA ranges from VFIO, rather than hardcoded IOVA
+> >> 	   ranges as we do today. But sadly, wouldn't work for older hypervisors.  
 > > 
-> > why not push whole ram-above-4g above 1Tb mark
-> > when RAM is sufficiently large (regardless of used host),
-> > instead of creating yet another hole and all complexity it brings along?
+> > 
+> > $ grep -h . /sys/kernel/iommu_groups/*/reserved_regions | sort -u
+> > 0x00000000fee00000 0x00000000feefffff msi
+> > 0x000000fd00000000 0x000000ffffffffff reserved
+> >   
+> Yeap, I am aware.
+> 
+> The VFIO advertising extension was just because we already advertise the above info,
+> although behind a non-empty vfio container e.g. we seem to use that for example in
+> collect_usable_iova_ranges().
+> 
+> > Ideally we might take that into account on all hosts, but of course
+> > then we run into massive compatibility issues when we consider
+> > migration.  We run into similar problems when people try to assign
+> > devices to non-x86 TCG hosts, where the arch doesn't have a natural
+> > memory hole overlapping the msi range.
+> > 
+> > The issue here is similar to trying to find a set of supported CPU
+> > flags across hosts, QEMU only has visibility to the host where it runs,
+> > an upper level tool needs to be able to pass through information about
+> > compatibility to all possible migration targets.  
+> 
+> I agree with your generic sentiment (and idea) but are we sure this is really something as
+> dynamic/needing-denominator like CPU Features? The memory map looks to be deeply embedded
+> in the devices (ARM) or machine model (x86) that we pass in and doesn't change very often.
+> pc/q35 is one very good example, because this hasn't changed since it's inception [a
+> decade?] (and this limitation is there only for any multi-socket AMD machine with IOMMU
+> with more than 1Tb). Additionally, there might be architectural impositions like on x86
+> e.g. CMOS seems to tie in with memory above certain boundaries. Unless by a migration
+> targets, you mean to also cover you migrate between Intel and AMD hosts (which may need to
+> keep the reserved range nonetheless in the common denominator)
+> 
+> > Towards that end, we
+> > should probably have command line options that either allow to specify
+> > specific usable or reserved GPA address ranges.  For example something
+> > like:
+> > 	--reserved-mem-ranges=host
+> > 
+> > Or explicitly:
+> > 
+> > 	--reserved-mem-ranges=13G@1010G,1M@4078M
+
+if we can do without adding any option at all it will be even better
+since user/mgmt won't need to care about it as well.
+
+> >   
+> I like the added option, particularly because it lets everyone workaround similar issues.
+> I remember a series before that had similar issues on ARM (but can't remember now what it
+> was).
+> 
+> >> * patch 2 - 5: cover the remaining parts of the surrounding the mem map, particularly
+> >> 	       ACPI SRAT ranges, CMOS, hotplug as well as the PCI 64-bit hole.
+> >>
+> >> * patch 6: Add a machine property which is disabled for older machine types (<=6.0)
+> >> 	   to keep things as is.
+> >>
+> >> The 'consequence' of this approach is that we may need more than the default
+> >> phys-bits e.g. a guest with 1024G, will have ~13G be put after the 1TB
+> >> address, consequently needing 41 phys-bits as opposed to the default of 40.
+> >> I can't figure a reasonable way to establish the required phys-bits we
+> >> need for the memory map in a dynamic way, especially considering that
+> >> today there's already a precedent to depend on the user to pick the right value
+> >> of phys-bits (regardless of this series).
+> >>
+> >> Additionally, the reserved region is always added regardless of whether we have
+> >> VFIO devices to cover the VFIO device hotplug case.  
+> > 
+> > Various migration issues as you note later in the series.
+> >   
+> /me nods
+> 
+> >> Other options considered:
+> >>
+> >> a) Consider the reserved range part of RAM, and just marking it as
+> >> E820_RESERVED without SPA allocated for it. So a -m 1024G guest would
+> >> only allocate 1010G of RAM and the remaining would be marked reserved.
+> >> This is not how what we do today for the 4G hole i.e. the RAM
+> >> actually allocated is the value specified by the user and thus RAM available
+> >> to the guest (IIUC).
+
+it's partially true, we don't care about small MMIO regions that
+overlay on top of low memory. But concealing RAM behind large PCI
+hole would be a significant waste (especially when we are speaking
+about PCI hole below 4GB)
+
+I wonder how it works on real hardware?
+i.e. does memory controller remap physical RAM at 1T hole region, just hides it
+or just doesn't place any DIMMs there?
+
+
+> >> b) Avoid VFIO DMA_MAP ioctl() calls to the reserved range. Similar to a) but done at a
+> >> later stage when RAM mrs are already allocated at the invalid GPAs. Albeit that
+> >> alone wouldn't fix the way MRs are laid out which is where fundamentally the
+> >> problem is.  
+> > 
+> > Data corruption with b) should the guest ever use memory within this
+> > range as a DMA target.  Thanks,
+> >   
+> Yeap.
+> 
+> > Alex
+> >    
+> >> The proposed approach in this series works regardless of the kernel, and
+> >> relevant for old and new Qemu.
+> >>
+> >> Open to alternatives/comments/suggestions that I should pursue instead.
+> >>
+> >> 	Joao
+> >>
+> >> [1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+> >> [2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
+> >>
+> >> Joao Martins (6):
+> >>   i386/pc: Account IOVA reserved ranges above 4G boundary
+> >>   i386/pc: Round up the hotpluggable memory within valid IOVA ranges
+> >>   pc/cmos: Adjust CMOS above 4G memory size according to 1Tb boundary
+> >>   i386/pc: Keep PCI 64-bit hole within usable IOVA space
+> >>   i386/acpi: Fix SRAT ranges in accordance to usable IOVA
+> >>   i386/pc: Add a machine property for AMD-only enforcing of valid IOVAs
+> >>
+> >>  hw/i386/acpi-build.c  |  22 ++++-
+> >>  hw/i386/pc.c          | 206 +++++++++++++++++++++++++++++++++++++++---
+> >>  hw/i386/pc_piix.c     |   2 +
+> >>  hw/i386/pc_q35.c      |   2 +
+> >>  hw/pci-host/i440fx.c  |   4 +-
+> >>  hw/pci-host/q35.c     |   4 +-
+> >>  include/hw/i386/pc.h  |  62 ++++++++++++-
+> >>  include/hw/i386/x86.h |   4 +
+> >>  target/i386/cpu.h     |   3 +
+> >>  9 files changed, 288 insertions(+), 21 deletions(-)
+> >>  
 > >   
 > 
-> There's the problem with CMOS which describes memory above 4G, part of the
-> reason I cap it to the 1TB minus the reserved range i.e. for AMD, CMOS would
-> only describe up to 1T.
-> 
-> But should we not care about that then it's an option, I suppose.
-we probably do not care about CMOS with so large RAM,
-as long as QEMU generates correct E820 (cmos mattered only with old Seabios
-which used it for generating memory map)
-
-> We would waste 1Tb of address space because of 12G, and btw the logic here
-> is not so different than the 4G hole, in fact could probably share this
-> with it.
-the main reason I'm looking for alternative, is complexity
-of making hole brings in. At this point, we can't do anything
-with 4G hole as it's already there, but we can try to avoid that
-for high RAM and keep rules there simple as it's now.
-
-Also partitioning/splitting main RAM is one of the things that
-gets in the way converting it to PC-DIMMMs model.
-
-Loosing 1Tb of address space might be acceptable on a host
-that can handle such amounts of RAM
-
 
 
