@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492E93B1818
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 12:29:36 +0200 (CEST)
-Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF0B3B181E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Jun 2021 12:31:47 +0200 (CEST)
+Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lw08V-0003Om-B3
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 06:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57020)
+	id 1lw0Ac-0007Xe-Qn
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 06:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lw077-0001H0-IN
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:28:09 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:33289)
+ id 1lw071-0001BK-76
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:28:03 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lw070-0001cO-Oa
- for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:28:09 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- t11-20020a1cc30b0000b02901cec841b6a0so2991374wmf.0
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 03:28:01 -0700 (PDT)
+ id 1lw06x-0001Zi-7K
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 06:28:02 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ o33-20020a05600c5121b02901e360c98c08so1902801wms.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 03:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OQsxqROO64ifPQfJrlhBIb4V4vUbGpVp2XFtNhjxtPM=;
- b=oC411WFiAT7WK4m1kNfFxh9vq37bKiCy3F7Lm11fs19sZzs7d6KuB/M43nhKS6xT1e
- vqc/p22SuDPfL/ZLyqOlQOjYD/N+CjFjUrA7HH/CRALIL9FR1lHFfiMxBzlZZ8gK6xj7
- j7muoRa82ptrmpW0VhEtd2KbmR7XGlBLrSB8eOJGm6I6lp+XY3wb5zO50QyiJf6eJRjF
- nN0Chce+TGfADrtwaITQGB7pxwGi+K3WQovcApgwIFsOz8foR+8ThsOA7SZajCv5s+7G
- RG9XWmDeYfEU/0ZTrKUz6BpfbSRUctvUd6gzOAzILzT5+sNoaxpJlHYNBhMUrUNIjf0x
- GiDQ==
+ bh=0pJwxe1sTnYAUahPYh5EFYXCVN5HiifnmV7lYYOOY90=;
+ b=qKPu6R6ik+WnFrcMWRiBMVU7GdR0RYNcuTm/VRo4MYyTnBbWwaFQP2PR3J00GFNyVf
+ CDEOXV38YR/NYuJ8IpWH0axKvpUokYpJMvjxG6HvNyqd7BbnY8x95pKofSLFjp9l42XA
+ TwEweEjoGPAz8g+AJRyCDZg5wI4jPNCXQtWvQ2KsnWuuxMLhao42pOUsoBsFG95Ad8qq
+ gLLudLGdbMDK64fSzSed+ZvpYjMejlGQIE9QBMiMBeU04kBCiWIRXnDUB3wxPKE5VG6G
+ dc5U2JaYm0qIFaJuXk6R8uIKG/77dsw2kRlUg+SLvhSXhPC7TvIX0JVN0/LY4kBwXgE6
+ PK5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OQsxqROO64ifPQfJrlhBIb4V4vUbGpVp2XFtNhjxtPM=;
- b=Jym4/tDPDlyR84osTHpam+bEWQosIb8MUoXkJjf1OpCfLlCGifr6xW2X+xztGuZ1SV
- hwM3rqN3Yq1MRW1gLRnrMX/lzihSZPGly+zAC/WAB/Yajy2a/wTz8fyf+JOPTitlVt+8
- YZrBNVPL7DiWu3zulYwdouyYwQ5UQfgfMkU18q2uhkqrL9k4k/BAWk5YwS8j2KdYIRYP
- h1rXQa2Cw1yyacRChOywS1P0BosPzcI69S8OO6cIFMoGBWn71yHdQvQeu3rSy6zoy2T5
- 50IrKcA4tMKLNYilEvIGHwrXAcluPUjwTzds/+iSkinlZ1DWzrlwPyGYKLcEfwksmW+y
- 4oiA==
-X-Gm-Message-State: AOAM532YD/bpoerr/GWV9iBGaUAZH/blewquDUA8KrjmzlYR7FouKCsD
- kXbitC8UgshOJPRvKHWgmak6GA==
-X-Google-Smtp-Source: ABdhPJwlXTtoj36j1O8wUta3kV8Gs4uAJibc82S0emshgg8fKyflvqgHrOWu+CaotND18iZLjhHtRQ==
-X-Received: by 2002:a1c:f60f:: with SMTP id w15mr9692131wmc.71.1624444080637; 
- Wed, 23 Jun 2021 03:28:00 -0700 (PDT)
+ bh=0pJwxe1sTnYAUahPYh5EFYXCVN5HiifnmV7lYYOOY90=;
+ b=hURHjjYDIxjE1txfqjZ8Mn7lPsbhArUTPVlAsTUZPwJBWVUKe5MbOr9VjKpif8c6U7
+ BGbrTGCgXgN2/inCOGtgPO9bmOLgLBk/w4hH8Tvcyd/XOYh41hzYZlO3dvAJWigkbQBF
+ sA5UZf9Ym0aVpukSF/PJhHW1vXIw3Rd4zGZj3LRINYt28l8nlYiN2ui1HBkstwDZPHh+
+ y8o4dSlLoAvL8Taa5ayzGUMwlpvL6AxQSbvq6xgUYZHMxSvEPcCziVSbnBJBbEcxHLwh
+ SLvJ0YgCrZYr4FGst4UZr0r4g8hnGmsmUWisrDBYMphFfA2yFpZxoYV2n2+gmo8nsbbN
+ 9LqA==
+X-Gm-Message-State: AOAM531/r9V0N6ipJWOwp7jQMxyANC9VLeKOJ6f8GL1JyAL8zCmGDg0f
+ IyAUdL97SmlnHOKgga/WupUDYJaDJUuC2g==
+X-Google-Smtp-Source: ABdhPJxO9UQQLEId1g87swFzohx/XvpB6ap/O7ffCxME7GXTzKR1W7e6rdFE46+ZLWUloNFFZ4rXCg==
+X-Received: by 2002:a05:600c:4145:: with SMTP id
+ h5mr9743153wmm.108.1624444077439; 
+ Wed, 23 Jun 2021 03:27:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r10sm2454352wrq.17.2021.06.23.03.27.52
+ by smtp.gmail.com with ESMTPSA id b11sm5287170wmj.25.2021.06.23.03.27.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 03:27:59 -0700 (PDT)
+ Wed, 23 Jun 2021 03:27:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3F3CC1FF92;
- Wed, 23 Jun 2021 11:27:50 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id D14D71FF8C;
+ Wed, 23 Jun 2021 11:27:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 6/8] tests/tcg: skip the signals test for hppa/s390x for now
-Date: Wed, 23 Jun 2021 11:27:47 +0100
-Message-Id: <20210623102749.25686-7-alex.bennee@linaro.org>
+Subject: [PATCH v1 2/8] docs/devel: Add a single top-level header to MTTCG's
+ doc
+Date: Wed, 23 Jun 2021 11:27:43 +0100
+Message-Id: <20210623102749.25686-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210623102749.25686-1-alex.bennee@linaro.org>
 References: <20210623102749.25686-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,57 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+Cc: Luis Pires <luis.pires@eldorado.org.br>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are fixes currently in flight but as this is getting in the way
-of a green CI we might as well skip for now. For reference the fix
-series are:
+From: Luis Pires <luis.pires@eldorado.org.br>
 
-  linux-user: Move signal trampolines to new page
-  20210616011209.1446045-1-richard.henderson@linaro.org
+Without a single top-level header in the .rst file, the index ended
+up linking to all of the top-level headers separately. Now the index
+links to the top-level header at the beginning of the document and
+any inner headers are correctly linked as sub-items in the index.
 
-and
-
-  linux-user: Load a vdso for x86_64 and hppa
-  20210619034329.532318-1-richard.henderson@linaro.org
-
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210528123526.144065-1-luis.pires@eldorado.org.br>
 ---
- tests/tcg/hppa/Makefile.target  | 4 ++++
- tests/tcg/s390x/Makefile.target | 4 ++++
- 2 files changed, 8 insertions(+)
+ docs/devel/multi-thread-tcg.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/hppa/Makefile.target b/tests/tcg/hppa/Makefile.target
-index 8bf01966bd..71791235f6 100644
---- a/tests/tcg/hppa/Makefile.target
-+++ b/tests/tcg/hppa/Makefile.target
-@@ -4,3 +4,7 @@
+diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
+index 92a9eba13c..5b446ee08b 100644
+--- a/docs/devel/multi-thread-tcg.rst
++++ b/docs/devel/multi-thread-tcg.rst
+@@ -4,8 +4,9 @@
+   This work is licensed under the terms of the GNU GPL, version 2 or
+   later. See the COPYING file in the top-level directory.
  
- # On parisc Linux supports 4K/16K/64K (but currently only 4k works)
- EXTRA_RUNS+=run-test-mmap-4096 # run-test-mmap-16384 run-test-mmap-65536
-+
-+# There is a race that causes this to fail about 1% of the time
-+run-signals: signals
-+	$(call skip-test, $<, "BROKEN awaiting vdso support")
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 241ef28f61..0036b8a505 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -8,3 +8,7 @@ TESTS+=exrl-trtr
- TESTS+=pack
- TESTS+=mvo
- TESTS+=mvc
-+
-+# This triggers failures on s390x hosts about 4% of the time
-+run-signals: signals
-+	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups")
+-Introduction
+-============
++==================
++Multi-threaded TCG
++==================
+ 
+ This document outlines the design for multi-threaded TCG (a.k.a MTTCG)
+ system-mode emulation. user-mode emulation has always mirrored the
 -- 
 2.20.1
 
