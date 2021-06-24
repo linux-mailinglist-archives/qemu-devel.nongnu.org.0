@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D4D3B3535
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:07:16 +0200 (CEST)
-Received: from localhost ([::1]:46414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174103B3539
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:07:46 +0200 (CEST)
+Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwTkx-0002V4-Jg
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51614)
+	id 1lwTlR-0003W2-2a
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwTiJ-0007zz-N6; Thu, 24 Jun 2021 14:04:35 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:45626)
+ id 1lwTiJ-0007zy-Ma; Thu, 24 Jun 2021 14:04:32 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:43741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwTiH-0001R4-Dj; Thu, 24 Jun 2021 14:04:31 -0400
-Received: by mail-ej1-x631.google.com with SMTP id hc16so10755187ejc.12;
+ id 1lwTiH-0001Rs-JW; Thu, 24 Jun 2021 14:04:31 -0400
+Received: by mail-ej1-x636.google.com with SMTP id nb6so10866569ejc.10;
  Thu, 24 Jun 2021 11:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oBy2rWBfxuFWeS2NQNlXhg91jwIz3LB5M14uVRp5Bzc=;
- b=XVL+ww5we5OR0G2n7Hl9nF+LFURkAG5B2y0c18jZX7Zba3oCRBpKaUU/REm98RJiwD
- s+kzhQO2Ru2AQ68Wf4GS62LdQ4MLS8FICJGb6FI1YLv6g+cWCTgt1Ik4476DX4nWIpiw
- LxJ15RtdGVN9RGaaM9xs5s1yi8mfqNHrXWCjjlBTKladJAmfcrv+SbzOUeaOxNUlpNSY
- B200pnIUVvS/Mm6ebekeFQ+ULUWReXKipV5jL7Cq9r8SOAtEUWmW8vOQRARmGz4tg/ax
- mLHCC2Blx2exOPjaQ4wtAHwTpGypq7hXRIciN84FxfLtxVtBlNlRL24BeTi8NGxjDzpL
- OQ3w==
+ bh=GNN3PKGCrmEv1egmkbcKJ78YTkUsB3DLKlu9c2s2Q9Y=;
+ b=rQr1/65fvgMg3N7umnZVx4q6lGayemE4gwQJixH/v3azO3wW79ORgDpxePEkjnRVyC
+ 8IW6kBURiSPL+RCd7Ti/0+9Eu9+m3/780GF7EdtwIZZe4cJtZZ4hHS6sktrvH5wPttbN
+ 7bPUgR8hPPh62OCj0+d9BGT6ykhFngG2iVYuGabeLco+QNGc3GL2TEZtsh7eVFlK9xSK
+ EtxcaB/Ub9H5HmTGWjb4hSF2J8E9ZGXEixONZbHjGlNBjZ7gjHPZZkVaFIenMMY4hMBM
+ AJkXJiCBK+yrF/0XJcz0yODMZQZJN7oG8MtBvIXubgSfskat+K17dIPWlP+crA/vkfC+
+ +8LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oBy2rWBfxuFWeS2NQNlXhg91jwIz3LB5M14uVRp5Bzc=;
- b=NpKwgKfzYwnQJc035QNlvD0/YTPic2nBWbN3Iuv1CUm+sinIkMsIeW/i3Az4LAr5z8
- LJL+QWfkQ4bNTHSmvwMXWxTkHnH4PU7ouOVM94cKdUOLON5huFaDXLnTcq7zYOt8AlDN
- 3gJYJjy0iv9TfOGhQqPBpOWdGDNxHZzQu8d2kSTflq1ws20P4jGMyb/g0qB+RwOqqpYl
- KeA0k/4bJw+KO7rQ98XKpDEw1antqCcPILcp7HCT68yVNDF7fRXqRfsfwi88FL13x20Y
- 48BuwnlrVmq6s85MVnQI+GP8VxQGg8KrC/4r2zd0HQ8LfqGaXxPqPrjMxBJlIvrCIg7d
- MkpQ==
-X-Gm-Message-State: AOAM5325+ndehg6C7OS1KN/ohL9ybm5aooFsfpLBqtU0x6EmeialH2YZ
- 2U0Vj+umOmzhk++EF/A2f/WDvizYrXw=
-X-Google-Smtp-Source: ABdhPJzzol6boMxNi2LQMCMJMfu+2foufVQ870eLjJsQljBcFck19rUk0fs0punIHyGg8X11JbrDOA==
-X-Received: by 2002:a17:907:3f06:: with SMTP id
- hq6mr6195166ejc.130.1624557867074; 
+ bh=GNN3PKGCrmEv1egmkbcKJ78YTkUsB3DLKlu9c2s2Q9Y=;
+ b=kOrFq5kg1bQhypFFf0EzhcqhUzONdSlbU2bPKkcX1XHSaY7+Y7S6ulB2CSNeJnwC5R
+ 6Tqk4tYoFLWhHxX3rWWnHf7Yjkkthhz4sBQGI3/5JU4CBmTnL2T98uIS29ZNBO+njfch
+ 4bb09vyL0t92dC9LySZ4jsJFoJl/O0Jyj/Vf0lg5lt+WmnajmkudyJTXbwsWWmNJd+em
+ Kwk9UY/uEXXppmG//LiLhXMTC+0KFH5BsAKSiCjbg1sQHzth211RFVHA4XdXC94D5RhG
+ LHJAybzr0GE5A9tYHo7SRIc1p52SgJtbT41vMqiWCWSvnrhL2E6EmDdB7ACNj08h6ISx
+ RpFw==
+X-Gm-Message-State: AOAM530S3lrfXew22T4jhWW+FFvEJblTmhnjCIBk0mH2tIYj6hz3lMmJ
+ pPe6DyOOr0dQ4itEtvWPtd6KgTSLLX4=
+X-Google-Smtp-Source: ABdhPJy5UK5J8q2DdB0e4+36XSq7XWVY4Rlenvxm8oZP3azkS39emm1H+kNHYFyPg+UIx1nm57gP5g==
+X-Received: by 2002:a17:906:c241:: with SMTP id
+ bl1mr6453850ejb.536.1624557867971; 
  Thu, 24 Jun 2021 11:04:27 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a1sm2436466edt.16.2021.06.24.11.04.26
+ by smtp.gmail.com with ESMTPSA id a1sm2436466edt.16.2021.06.24.11.04.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 11:04:26 -0700 (PDT)
+ Thu, 24 Jun 2021 11:04:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/11] scsi-generic: pass max_segments via max_iov field in
- BlockLimits
-Date: Thu, 24 Jun 2021 20:04:14 +0200
-Message-Id: <20210624180423.1322165-3-pbonzini@redhat.com>
+Subject: [PATCH 03/11] osdep: provide ROUND_DOWN macro
+Date: Thu, 24 Jun 2021 20:04:15 +0200
+Message-Id: <20210624180423.1322165-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210624180423.1322165-1-pbonzini@redhat.com>
 References: <20210624180423.1322165-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,55 +86,67 @@ Cc: mreitz@redhat.com, qemu-block@nongnu.org, mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I/O to a disk via read/write is not limited by the number of segments allowed
-by the host adapter; the kernel can split requests if needed, and the limit
-imposed by the host adapter can be very low (256k or so) to avoid that SG_IO
-returns EINVAL if memory is heavily fragmented.
+osdep.h provides a ROUND_UP macro to hide bitwise operations for the
+purpose of rounding a number up to a power of two; add a ROUND_DOWN
+macro that does the same with truncation towards zero.
 
-Since this value is only interesting for SG_IO-based I/O, do not include
-it in the max_transfer and only take it into account when patching the
-block limits VPD page in the scsi-generic device.
+While at it, change the formatting of some comments.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c     | 3 +--
- hw/scsi/scsi-generic.c | 6 ++++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ include/qemu/osdep.h | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b8dc19ce1a..6db690baf2 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1237,8 +1237,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 0a54bf7be8..c3656b755a 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -319,11 +319,16 @@ extern "C" {
+     })
+ #endif
  
-         ret = sg_get_max_segments(s->fd);
-         if (ret > 0) {
--            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
--                                      ret * qemu_real_host_page_size);
-+            bs->bl.max_iov = ret;
-         }
-     }
+-/* Round number down to multiple */
++/*
++ * Round number down to multiple. Safe when m is not a power of 2 (see
++ * ROUND_DOWN for a faster version when a power of 2 is guaranteed).
++ */
+ #define QEMU_ALIGN_DOWN(n, m) ((n) / (m) * (m))
  
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index 40e039864f..b6c4143dc7 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -179,10 +179,12 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
-         (r->req.cmd.buf[1] & 0x01)) {
-         page = r->req.cmd.buf[2];
-         if (page == 0xb0) {
--            uint32_t max_transfer =
--                blk_get_max_transfer(s->conf.blk) / s->blocksize;
-+            uint32_t max_transfer = blk_get_max_transfer(s->conf.blk);
-+            uint32_t max_iov = blk_get_max_iov(s->conf.blk);
+-/* Round number up to multiple. Safe when m is not a power of 2 (see
+- * ROUND_UP for a faster version when a power of 2 is guaranteed) */
++/*
++ * Round number up to multiple. Safe when m is not a power of 2 (see
++ * ROUND_UP for a faster version when a power of 2 is guaranteed).
++ */
+ #define QEMU_ALIGN_UP(n, m) QEMU_ALIGN_DOWN((n) + (m) - 1, (m))
  
-             assert(max_transfer);
-+            max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size)
-+                / s->blocksize;
-             stl_be_p(&r->buf[8], max_transfer);
-             /* Also take care of the opt xfer len. */
-             stl_be_p(&r->buf[12],
+ /* Check if n is a multiple of m */
+@@ -340,11 +345,22 @@ extern "C" {
+ /* Check if pointer p is n-bytes aligned */
+ #define QEMU_PTR_IS_ALIGNED(p, n) QEMU_IS_ALIGNED((uintptr_t)(p), (n))
+ 
+-/* Round number up to multiple. Requires that d be a power of 2 (see
++/*
++ * Round number down to multiple. Requires that d be a power of 2 (see
+  * QEMU_ALIGN_UP for a safer but slower version on arbitrary
+- * numbers); works even if d is a smaller type than n.  */
++ * numbers); works even if d is a smaller type than n.
++ */
++#ifndef ROUND_DOWN
++#define ROUND_DOWN(n, d) ((n) & -(0 ? (n) : (d)))
++#endif
++
++/*
++ * Round number up to multiple. Requires that d be a power of 2 (see
++ * QEMU_ALIGN_UP for a safer but slower version on arbitrary
++ * numbers); works even if d is a smaller type than n.
++ */
+ #ifndef ROUND_UP
+-#define ROUND_UP(n, d) (((n) + (d) - 1) & -(0 ? (n) : (d)))
++#define ROUND_UP(n, d) ROUND_DOWN((n) + (d) - 1, (d))
+ #endif
+ 
+ #ifndef DIV_ROUND_UP
 -- 
 2.31.1
 
