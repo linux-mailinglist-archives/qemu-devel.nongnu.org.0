@@ -2,44 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067AD3B37D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:29:42 +0200 (CEST)
-Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F783B37D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:29:36 +0200 (CEST)
+Received: from localhost ([::1]:59734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwVyn-0008Rg-0T
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51462)
+	id 1lwVyh-00012O-30
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lwVrB-0001Ju-GA; Thu, 24 Jun 2021 16:21:49 -0400
-Received: from [201.28.113.2] (port=25523 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lwVr9-0007T7-Mo; Thu, 24 Jun 2021 16:21:49 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 24 Jun 2021 17:21:34 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id ECE7480107F;
- Thu, 24 Jun 2021 17:21:33 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwVx3-0007ix-Bs
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:27:53 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwVx1-0002zq-L1
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:27:53 -0400
+Received: by mail-wr1-x433.google.com with SMTP id j1so8054880wrn.9
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 13:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H9+/eP+V94hgUwGJh3E+JDW/AZY6l9Rex1E1aOp0vUQ=;
+ b=PA/dWIdvSa33+wcdoROXk6e/ctqhTve8g8kQ770+xUg61T9d2S9XXmVMcCF+wOof8j
+ m60aHtPAXyyYU0XA5gKoHVrYzt92U1lDXk6Wvqx80gNXg9W1K8UgADqu91WlK652Ipi/
+ AorbrALhUK8R6F5Eo02UBI4F+vwGcgFORFoguQGLVEbNxHG41pSmySVLGUuvWrxb4IUT
+ g8MF8m4bRUzfuyHkDmw2FN26bTQQ2xOWO3XORAKvWrGcpB/7yCHIH1terTWKd0GQtFGC
+ zbrMpfrLtTzt9aUQa9oAq6kJzJ9JGZR+96/Ovewixzz0FUns7wVHFrpp5hbWy7UyTrcY
+ R9WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=H9+/eP+V94hgUwGJh3E+JDW/AZY6l9Rex1E1aOp0vUQ=;
+ b=UQGPC3opuKngp0y9sv/39R4351+wytOSSdNVfgIT5nEuv2gvD7aG5/HkBwz+jJn+7Y
+ Psas59R1OJi6pHXgHIIJZ6U6MdYlhxeq3YTpZjJ/H/NlVNzvp/cFgY3SW8+y+mC1uyNm
+ 7HlPyItxK50rjrw1bZV6n7X1nx9ko66wlQsGAcB0FqZm5bxuJiLvG5aq2uibgeF0sO4K
+ 0XsAu7VrHufk3Fanw2iaye3XzvkLPe5PMIfHX3cpPQbFVMYljdExUf/KpVAEOAwXuq3G
+ J1f1aIxgj2PJw3P3qwNeQgg53BL1sekQIBPWif4vWsZscLupWLlli/QXtREXW9Xtzekm
+ dOPw==
+X-Gm-Message-State: AOAM5322Nv4mTg1kFr93rXdD9FPvavcEB7Wa65htUOQ6pTxQGaKZM51Q
+ X0pME5Q1RuFTcAs2ubbsmbxPdfkL5txQKQ==
+X-Google-Smtp-Source: ABdhPJzmyaHgjocfLec7rdrdGyLQ8km98Q7w92XrgZijZ83NI+XgUGTzlTeT2Rsc6N+j+7dRrCEAlA==
+X-Received: by 2002:a5d:65cc:: with SMTP id e12mr6531325wrw.354.1624566469551; 
+ Thu, 24 Jun 2021 13:27:49 -0700 (PDT)
+Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id l20sm3893509wmq.3.2021.06.24.13.27.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jun 2021 13:27:49 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] target/ppc: changed ppc_hash64_xlate to use mmu_idx
-Date: Thu, 24 Jun 2021 17:21:30 -0300
-Message-Id: <20210624202131.108255-4-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210624202131.108255-1-bruno.larsen@eldorado.org.br>
-References: <20210624202131.108255-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 24 Jun 2021 20:21:34.0331 (UTC)
- FILETIME=[86E95CB0:01D76936]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Subject: [PATCH 0/5] hw/mips: Fix the Fuloong 2E machine with PMON bios
+Date: Thu, 24 Jun 2021 22:27:42 +0200
+Message-Id: <20210624202747.1433023-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,216 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changed hash64 address translation to use the supplied mmu_idx instead
-of using the one stored in the msr, for parity purposes (other book3s
-MMUs already use it).
-
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
----
- target/ppc/mmu-hash64.c | 43 ++++++++++++++++++++---------------------
- target/ppc/mmu-hash64.h |  2 +-
- target/ppc/mmu_helper.c |  2 +-
- 3 files changed, 23 insertions(+), 24 deletions(-)
-
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index c1b98a97e9..191da21a5d 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -366,10 +366,9 @@ static inline int ppc_hash64_pte_noexec_guard(PowerPCCPU *cpu,
- }
- 
- /* Check Basic Storage Protection */
--static int ppc_hash64_pte_prot(PowerPCCPU *cpu,
-+static int ppc_hash64_pte_prot(PowerPCCPU *cpu, int mmu_idx,
-                                ppc_slb_t *slb, ppc_hash_pte64_t pte)
- {
--    CPUPPCState *env = &cpu->env;
-     unsigned pp, key;
-     /*
-      * Some pp bit combinations have undefined behaviour, so default
-@@ -377,7 +376,7 @@ static int ppc_hash64_pte_prot(PowerPCCPU *cpu,
-      */
-     int prot = 0;
- 
--    key = !!(msr_pr ? (slb->vsid & SLB_VSID_KP)
-+    key = !!(mmuidx_pr(mmu_idx) ? (slb->vsid & SLB_VSID_KP)
-              : (slb->vsid & SLB_VSID_KS));
-     pp = (pte.pte1 & HPTE64_R_PP) | ((pte.pte1 & HPTE64_R_PP0) >> 61);
- 
-@@ -744,17 +743,17 @@ static bool ppc_hash64_use_vrma(CPUPPCState *env)
-     }
- }
- 
--static void ppc_hash64_set_isi(CPUState *cs, uint64_t error_code)
-+static void ppc_hash64_set_isi(CPUState *cs, int mmu_idx, uint64_t error_code)
- {
-     CPUPPCState *env = &POWERPC_CPU(cs)->env;
-     bool vpm;
- 
--    if (msr_ir) {
-+    if (!mmuidx_real(mmu_idx)) {
-         vpm = !!(env->spr[SPR_LPCR] & LPCR_VPM1);
-     } else {
-         vpm = ppc_hash64_use_vrma(env);
-     }
--    if (vpm && !msr_hv) {
-+    if (vpm && !mmuidx_hv(mmu_idx)) {
-         cs->exception_index = POWERPC_EXCP_HISI;
-     } else {
-         cs->exception_index = POWERPC_EXCP_ISI;
-@@ -762,17 +761,17 @@ static void ppc_hash64_set_isi(CPUState *cs, uint64_t error_code)
-     env->error_code = error_code;
- }
- 
--static void ppc_hash64_set_dsi(CPUState *cs, uint64_t dar, uint64_t dsisr)
-+static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t dsisr)
- {
-     CPUPPCState *env = &POWERPC_CPU(cs)->env;
-     bool vpm;
- 
--    if (msr_dr) {
-+    if (!mmuidx_real(mmu_idx)) {
-         vpm = !!(env->spr[SPR_LPCR] & LPCR_VPM1);
-     } else {
-         vpm = ppc_hash64_use_vrma(env);
-     }
--    if (vpm && !msr_hv) {
-+    if (vpm && !mmuidx_hv(mmu_idx)) {
-         cs->exception_index = POWERPC_EXCP_HDSI;
-         env->spr[SPR_HDAR] = dar;
-         env->spr[SPR_HDSISR] = dsisr;
-@@ -874,7 +873,7 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
- }
- 
- bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
--                      hwaddr *raddrp, int *psizep, int *protp,
-+                      hwaddr *raddrp, int *psizep, int *protp, int mmu_idx,
-                       bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-@@ -897,7 +896,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-      */
- 
-     /* 1. Handle real mode accesses */
--    if (access_type == MMU_INST_FETCH ? !msr_ir : !msr_dr) {
-+    if (mmuidx_real(mmu_idx)) {
-         /*
-          * Translation is supposedly "off", but in real mode the top 4
-          * effective address bits are (mostly) ignored
-@@ -909,7 +908,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-              * In virtual hypervisor mode, there's nothing to do:
-              *   EA == GPA == qemu guest address
-              */
--        } else if (msr_hv || !env->has_hv_mode) {
-+        } else if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
-             /* In HV mode, add HRMOR if top EA bit is clear */
-             if (!(eaddr >> 63)) {
-                 raddr |= env->spr[SPR_HRMOR];
-@@ -937,13 +936,13 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-                 }
-                 switch (access_type) {
-                 case MMU_INST_FETCH:
--                    ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
-+                    ppc_hash64_set_isi(cs, mmu_idx, SRR1_PROTFAULT);
-                     break;
-                 case MMU_DATA_LOAD:
--                    ppc_hash64_set_dsi(cs, eaddr, DSISR_PROTFAULT);
-+                    ppc_hash64_set_dsi(cs, mmu_idx, eaddr, DSISR_PROTFAULT);
-                     break;
-                 case MMU_DATA_STORE:
--                    ppc_hash64_set_dsi(cs, eaddr,
-+                    ppc_hash64_set_dsi(cs, mmu_idx, eaddr,
-                                        DSISR_PROTFAULT | DSISR_ISSTORE);
-                     break;
-                 default:
-@@ -996,7 +995,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     /* 3. Check for segment level no-execute violation */
-     if (access_type == MMU_INST_FETCH && (slb->vsid & SLB_VSID_N)) {
-         if (guest_visible) {
--            ppc_hash64_set_isi(cs, SRR1_NOEXEC_GUARD);
-+            ppc_hash64_set_isi(cs, mmu_idx, SRR1_NOEXEC_GUARD);
-         }
-         return false;
-     }
-@@ -1009,13 +1008,13 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-         }
-         switch (access_type) {
-         case MMU_INST_FETCH:
--            ppc_hash64_set_isi(cs, SRR1_NOPTE);
-+            ppc_hash64_set_isi(cs, mmu_idx, SRR1_NOPTE);
-             break;
-         case MMU_DATA_LOAD:
--            ppc_hash64_set_dsi(cs, eaddr, DSISR_NOPTE);
-+            ppc_hash64_set_dsi(cs, mmu_idx, eaddr, DSISR_NOPTE);
-             break;
-         case MMU_DATA_STORE:
--            ppc_hash64_set_dsi(cs, eaddr, DSISR_NOPTE | DSISR_ISSTORE);
-+            ppc_hash64_set_dsi(cs, mmu_idx, eaddr, DSISR_NOPTE | DSISR_ISSTORE);
-             break;
-         default:
-             g_assert_not_reached();
-@@ -1028,7 +1027,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     /* 5. Check access permissions */
- 
-     exec_prot = ppc_hash64_pte_noexec_guard(cpu, pte);
--    pp_prot = ppc_hash64_pte_prot(cpu, slb, pte);
-+    pp_prot = ppc_hash64_pte_prot(cpu, mmu_idx, slb, pte);
-     amr_prot = ppc_hash64_amr_prot(cpu, pte);
-     prot = exec_prot & pp_prot & amr_prot;
- 
-@@ -1049,7 +1048,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-             if (PAGE_EXEC & ~amr_prot) {
-                 srr1 |= SRR1_IAMR; /* Access violates virt pg class key prot */
-             }
--            ppc_hash64_set_isi(cs, srr1);
-+            ppc_hash64_set_isi(cs, mmu_idx, srr1);
-         } else {
-             int dsisr = 0;
-             if (need_prot & ~pp_prot) {
-@@ -1061,7 +1060,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-             if (need_prot & ~amr_prot) {
-                 dsisr |= DSISR_AMR;
-             }
--            ppc_hash64_set_dsi(cs, eaddr, dsisr);
-+            ppc_hash64_set_dsi(cs, mmu_idx, eaddr, dsisr);
-         }
-         return false;
-     }
-diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-index 9f338e1fe9..c5b2f97ff7 100644
---- a/target/ppc/mmu-hash64.h
-+++ b/target/ppc/mmu-hash64.h
-@@ -8,7 +8,7 @@ void dump_slb(PowerPCCPU *cpu);
- int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
-                   target_ulong esid, target_ulong vsid);
- bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
--                      hwaddr *raddrp, int *psizep, int *protp,
-+                      hwaddr *raddrp, int *psizep, int *protp, int mmu_idx,
-                       bool guest_visible);
- void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
-                                target_ulong pte_index,
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index a3381e1aa0..0816c889a3 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -2916,7 +2916,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     case POWERPC_MMU_2_06:
-     case POWERPC_MMU_2_07:
-         return ppc_hash64_xlate(cpu, eaddr, access_type,
--                                raddrp, psizep, protp, guest_visible);
-+                                raddrp, psizep, protp, mmu_idx, guest_visible);
- #endif
- 
-     case POWERPC_MMU_32B:
--- 
-2.17.1
-
+Commit 911629e6d37 ("vt82c686: Fix SMBus IO base and configuration=0D
+registers") exposed a "bug" in the Bonito north bridge. Fix it=0D
+and add tests.=0D
+=0D
+Thanks to Zoltan for support while debugging :)=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (5):=0D
+  hw/isa/vt82c686: Replace magic numbers by definitions=0D
+  hw/pci-host/bonito: Trace PCI config accesses smaller than 32-bit=0D
+  hw/pci-host/bonito: Allow PCI config accesses smaller than 32-bit=0D
+  tests/acceptance: Test Linux on the Fuloong 2E machine=0D
+  tests/acceptance: Test PMON on the Fuloong 2E machine=0D
+=0D
+ hw/isa/vt82c686.c                          |  50 ++++++----=0D
+ hw/pci-host/bonito.c                       |  12 ++-=0D
+ MAINTAINERS                                |   1 +=0D
+ hw/pci-host/trace-events                   |   3 +=0D
+ tests/acceptance/machine_mips_fuloong2e.py | 104 +++++++++++++++++++++=0D
+ 5 files changed, 151 insertions(+), 19 deletions(-)=0D
+ create mode 100644 tests/acceptance/machine_mips_fuloong2e.py=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
