@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0533B3445
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 19:02:21 +0200 (CEST)
-Received: from localhost ([::1]:43194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31F73B344F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 19:08:04 +0200 (CEST)
+Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwSk8-0001wh-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 13:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36512)
+	id 1lwSpf-00041L-Ps
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 13:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lwSiz-0001GK-Dw
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 13:01:09 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lwSit-0003c6-GN
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 13:01:08 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7873B746344;
- Thu, 24 Jun 2021 19:00:58 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 188DB746342; Thu, 24 Jun 2021 19:00:57 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 1682B7457F0;
- Thu, 24 Jun 2021 19:00:57 +0200 (CEST)
-Date: Thu, 24 Jun 2021 19:00:57 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PULL 30/43] vt82c686: Fix SMBus IO base and configuration
- registers
-In-Reply-To: <77140305-bcab-31d8-e369-970ca3d26c27@amsat.org>
-Message-ID: <41499860-3e6d-677b-ae5c-564fc3b4e2f9@eik.bme.hu>
-References: <20210221143432.2468220-1-f4bug@amsat.org>
- <20210221143432.2468220-31-f4bug@amsat.org>
- <0c52a343-ed4c-92fa-fac0-0f32f37b0df2@amsat.org>
- <8aa3527b-0412-979f-ffb5-80b41004a4b6@amsat.org>
- <282f867e-2395-7fcb-b0df-12bcd99f0787@amsat.org>
- <77140305-bcab-31d8-e369-970ca3d26c27@amsat.org>
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1lwSod-00032G-Hz
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 13:06:59 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:46820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1lwSoa-0007S9-5p
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 13:06:59 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id s17so295275ybk.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 10:06:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c5vR8d3Z1yzmNQTWXrh5HZ3VwrD86iGy/dt5Z++MAm0=;
+ b=m7ZZfxgFz4cACkMb9cobXNDbOaj2maPQVqS9Y7WmA0UxPkout83YRiDqg470/NTU2U
+ /IWLr7S7uKJKZH1bURW2T82rChneygFGNc3l7/j/IPxiFmMXGovUycyWTpXXdHhZ3Ycq
+ dMilpcaQnE+LkfJRt0PNf1awwWCIsviNHYIjp55KJOoEH70YiwsZNwDjq0WwaRVFG8oT
+ HwUGh6TwurwYvycbfeYY8bvor2Wowm7bC7fdzzukASDLEdhvB4GaKT/Gn6bmnspzAUBv
+ Tsqkc8uUzNZYMnrNp5+JKqSBnw4jKRc0jhhrAOJ/TzpDRGOLWlx0ACDw5ODVra7bir8U
+ EGsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c5vR8d3Z1yzmNQTWXrh5HZ3VwrD86iGy/dt5Z++MAm0=;
+ b=WN6UCJQ+jAQT7X5YFaUM3Su1W4FPDbSN1EG4CkMkRLSpPHZu3EuRWDQsFZT5lI4U/a
+ S9O0apNRjkm95q04pOtiR3QTtaFq4WsErpqc2oatpRv1e9vB5HokqCpkQUJGLbbMeSq4
+ gALAUY9dD+Y7T0zre5jMmKQJfgkA0SJsAFxTEEHSVKHQ/OC5LnBxV45e5ga85l7l3Snq
+ CECMwCzBwfGzZyoqDCH1R/253G0NJZJpxiao8QGDdSnXivSEeUITMcRH6P6i1RX1Prfn
+ gZoe4uYyOR9TXoMtBdTZylM/JtEBPY2zhlU3llJSwy58tiTjIS+4uIn9X3yd6FG6pQCC
+ lrIA==
+X-Gm-Message-State: AOAM532+w8TOalhH2GY98BVK22oBJOHAn/FsiD1feaNQSSPVFvQy54QS
+ CfefllQ83etYjMyzALEu8Zahgx9PIXJK8dh4MM7kBH2+ShY=
+X-Google-Smtp-Source: ABdhPJwIMFUM9zVcM+FGmJPjIq4u3nrhi4ZPXP8R6fa6p3++NrH2WHaVX/1Dq9LLKer9rkRJFir6yW9jkX2QbHrGXq4=
+X-Received: by 2002:a25:2405:: with SMTP id k5mr6370454ybk.405.1624554414682; 
+ Thu, 24 Jun 2021 10:06:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1108432147-1624554057=:41362"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20210530150112.74411-1-ziqiaokong@gmail.com>
+ <20210530150112.74411-2-ziqiaokong@gmail.com>
+ <CAM0BWNAu5YCXnp+fxcQcWeQnosjJq_VegiibW77bh6mdZpQ3Ow@mail.gmail.com>
+ <CAM0BWNBdENZwQ-p3M3owrjCfw3u_=vZvnCceP82gAbQ123TqSw@mail.gmail.com>
+In-Reply-To: <CAM0BWNBdENZwQ-p3M3owrjCfw3u_=vZvnCceP82gAbQ123TqSw@mail.gmail.com>
+From: Ziqiao Kong <ziqiaokong@gmail.com>
+Date: Fri, 25 Jun 2021 01:06:43 +0800
+Message-ID: <CAM0BWNCZLmAP-XV7TA_DTes+9X3-bARo4jhbP2nxxCUGCcoydQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] target/i386: Correct implementation for FCS, FIP, 
+ FDS and FDP
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,318 +80,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paul Burton <paulburton@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Ping.
 
---3866299591-1108432147-1624554057=:41362
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
-> On 6/24/21 6:16 PM, Philippe Mathieu-Daudé wrote:
->> On 6/24/21 6:01 PM, Philippe Mathieu-Daudé wrote:
->>> On 6/24/21 5:46 PM, Philippe Mathieu-Daudé wrote:
->>>> Hi Zoltan,
->>>>
->>>> On 2/21/21 3:34 PM, Philippe Mathieu-Daudé wrote:
->>>>> From: BALATON Zoltan <balaton@eik.bme.hu>
->>>>>
->>>>> The base address of the SMBus io ports and its enabled status is set
->>>>> by registers in the PCI config space but this was not correctly
->>>>> emulated. Instead the SMBus registers were mapped on realize to the
->>>>> base address set by a property to the address expected by fuloong2e
->>>>> firmware.
->>>>>
->>>>> Fix the base and config register handling to more closely model
->>>>> hardware which allows to remove the property and allows the guest to
->>>>> control this mapping. Do all this in reset instead of realize so it's
->>>>> correctly updated on reset.
->>>>
->>>> This commit broken running PMON on Fuloong2E:
->>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
->>>> console: PMON2000 MIPS Initializing. Standby...
->>>> console: ERRORPC=00000000 CONFIG=00030932
->>>> console: PRID=00006302
->>>> console: DIMM read
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> console: 000000ff
->>>> ...
->>>>
->>>> From here the console loops displaying this value...
->>>
->>> Tracing:
->>>
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80490
->>> value 0xeee1 size 4
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe804d2
->>> value 0x1 size 2
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80404
->>> value 0x1 size 1
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80004
->>> value 0x7 size 4
->>> mr_ops_read mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80081
->>> value 0x0 size 1
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80081
->>> value 0x80 size 1
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80083
->>> value 0x89 size 1
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80085
->>> value 0x3 size 1
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe8005a
->>> value 0x7 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe2 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe3 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe6 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe7 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe8 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xee size 1
->>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80085
->>> value 0x1 size 1
->>
->> These are:
->> pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
+On Fri, Jun 11, 2021 at 10:32 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
 >
-> Offset 93-90 – SMBus I/O Base ....................................... RW
-> 15-4 I/O Base (16-byte I/O space)................ default = 00h
-> pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
+> Ping.
 >
->> pci_cfg_write vt82c686b-pm 05:4 @0xd0 <- 0x1
->
-> Offset D2 – SMBus Host Configuration ......................... RW
-> SMBus Host Controller Enable
-> 0 Disable SMB controller functions ......... default
-> 1 Enable SMB controller functions
-> pci_cfg_write vt82c686b-pm 05:4 @0xd0 <- 0x1
->
-> Hmm the datasheet indeed document 0xd2... why is the guest accessing
-> 0xd0 to enable the function? It seems this is the problem, since if
-> I replace d2 -> d0 PMON boots. See below [*].
->
->> pci_cfg_write vt82c686b-pm 05:4 @0x4 <- 0x1
->
-> (this one is PCI_COMMAND)
->
->> pci_cfg_write vt82c686b-isa 05:0 @0x4 <- 0x7
->> pci_cfg_read vt82c686b-isa 05:0 @0x80 -> 0x0
->> pci_cfg_write vt82c686b-isa 05:0 @0x80 <- 0x80
->> pci_cfg_write vt82c686b-isa 05:0 @0x80 <- 0x89
->> pci_cfg_write vt82c686b-isa 05:0 @0x84 <- 0x3
->> pci_cfg_write vt82c686b-isa 05:0 @0x58 <- 0x7
->> pci_cfg_write vt82c686b-isa 05:0 @0x84 <- 0x1
->>
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee4 value 0xa1 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee3 value 0x0 size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee2 value 0x8 size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee0 value 0x1f size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee2 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee2 value 0xff size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
->>> size 1
->>>
->>>> Expected:
->>>>
->>>> console: PMON2000 MIPS Initializing. Standby...
->>>> console: ERRORPC=00000000 CONFIG=00030932
->>>> console: PRID=00006302
->>>> console: DIMM read
->>>> console: 00000080
->>>> console: read memory type
->>>> console: read number of rows
->>>> ...
->>>>
->>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>>>> Message-Id: <f2ca2ad5f08ba8cee07afd9d67b4e75cda21db09.1610223397.git.balaton@eik.bme.hu>
->>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>> ---
->>>>>  hw/isa/vt82c686.c   | 49 +++++++++++++++++++++++++++++++++------------
->>>>>  hw/mips/fuloong2e.c |  4 +---
->>>>>  2 files changed, 37 insertions(+), 16 deletions(-)
->>>>>
->>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>>> index fe8961b0573..9c4d1530225 100644
->>>>> --- a/hw/isa/vt82c686.c
->>>>> +++ b/hw/isa/vt82c686.c
->>>>> @@ -22,6 +22,7 @@
->>>>>  #include "hw/i2c/pm_smbus.h"
->>>>>  #include "qapi/error.h"
->>>>>  #include "qemu/module.h"
->>>>> +#include "qemu/range.h"
->>>>>  #include "qemu/timer.h"
->>>>>  #include "exec/address-spaces.h"
->>>>>  #include "trace.h"
->>>>> @@ -34,7 +35,6 @@ struct VT686PMState {
->>>>>      ACPIREGS ar;
->>>>>      APMState apm;
->>>>>      PMSMBus smb;
->>>>> -    uint32_t smb_io_base;
->>>>>  };
->>>>>
->>>>>  static void pm_io_space_update(VT686PMState *s)
->>>>> @@ -50,11 +50,22 @@ static void pm_io_space_update(VT686PMState *s)
->>>>>      memory_region_transaction_commit();
->>>>>  }
->>>>>
->>>>> +static void smb_io_space_update(VT686PMState *s)
->>>>> +{
->>>>> +    uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
->>>>> +
->>>>> +    memory_region_transaction_begin();
->>>>> +    memory_region_set_address(&s->smb.io, smbase);
->>>>> +    memory_region_set_enabled(&s->smb.io, s->dev.config[0xd2] & BIT(0));
->>>>> +    memory_region_transaction_commit();
->>>>> +}
->>>>> +
->>>>>  static int vmstate_acpi_post_load(void *opaque, int version_id)
->>>>>  {
->>>>>      VT686PMState *s = opaque;
->>>>>
->>>>>      pm_io_space_update(s);
->>>>> +    smb_io_space_update(s);
->>>>>      return 0;
->>>>>  }
->>>>>
->>>>> @@ -77,8 +88,18 @@ static const VMStateDescription vmstate_acpi = {
->>>>>
->>>>>  static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
->>>>>  {
->>>>> +    VT686PMState *s = VT82C686B_PM(d);
->>>>> +
->>>>>      trace_via_pm_write(addr, val, len);
->>>>>      pci_default_write_config(d, addr, val, len);
->>>>> +    if (ranges_overlap(addr, len, 0x90, 4)) {
->>>>> +        uint32_t v = pci_get_long(s->dev.config + 0x90);
->>>>> +        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
->>>>> +    }
->>>>> +    if (range_covers_byte(addr, len, 0xd2)) {
->>>>> +        s->dev.config[0xd2] &= 0xf;
->>>>> +        smb_io_space_update(s);
->
-> [*] So the guest writing at 0xd0, this block is skipped, the
-> I/O region never enabled.
-
-Could it be it does word or dword i/o to access multiple addresses at 
-once. Wasn't there a recent change to memory regions that could break 
-this? Is adjusting valid access sizes to the mem region ops needed now to 
-have the memory region handle this?
-
-Regards,
-BALATON Zoltan
-
->>>>> +    }
->>>>>  }
->>>>>
->>>>>  static void pm_update_sci(VT686PMState *s)
->>>>> @@ -103,6 +124,17 @@ static void pm_tmr_timer(ACPIREGS *ar)
->>>>>      pm_update_sci(s);
->>>>>  }
->>>>>
->>>>> +static void vt82c686b_pm_reset(DeviceState *d)
->>>>> +{
->>>>> +    VT686PMState *s = VT82C686B_PM(d);
->>>>> +
->>>>> +    /* SMBus IO base */
->>>>> +    pci_set_long(s->dev.config + 0x90, 1);
->>>>> +    s->dev.config[0xd2] = 0;
->>>>> +
->>>>> +    smb_io_space_update(s);
->>>>> +}
->>>>> +
->>>>>  static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
->>>>>  {
->>>>>      VT686PMState *s = VT82C686B_PM(dev);
->>>>> @@ -116,13 +148,9 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
->>>>>      /* 0x48-0x4B is Power Management I/O Base */
->>>>>      pci_set_long(pci_conf + 0x48, 0x00000001);
->>>>>
->>>>> -    /* SMB ports:0xeee0~0xeeef */
->>>>> -    s->smb_io_base = ((s->smb_io_base & 0xfff0) + 0x0);
->>>>> -    pci_conf[0x90] = s->smb_io_base | 1;
->>>>> -    pci_conf[0x91] = s->smb_io_base >> 8;
->>>>> -    pci_conf[0xd2] = 0x90;
->>>>>      pm_smbus_init(DEVICE(s), &s->smb, false);
->>>>> -    memory_region_add_subregion(get_system_io(), s->smb_io_base, &s->smb.io);
->>>>> +    memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
->>>>> +    memory_region_set_enabled(&s->smb.io, false);
->>>>>
->>>>>      apm_init(dev, &s->apm, NULL, s);
->>>>>
->>>>> @@ -135,11 +163,6 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
->>>>>      acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
->>>>>  }
->>>>>
->>>>> -static Property via_pm_properties[] = {
->>>>> -    DEFINE_PROP_UINT32("smb_io_base", VT686PMState, smb_io_base, 0),
->>>>> -    DEFINE_PROP_END_OF_LIST(),
->>>>> -};
->>>>> -
->>>>>  static void via_pm_class_init(ObjectClass *klass, void *data)
->>>>>  {
->>>>>      DeviceClass *dc = DEVICE_CLASS(klass);
->>>>> @@ -151,10 +174,10 @@ static void via_pm_class_init(ObjectClass *klass, void *data)
->>>>>      k->device_id = PCI_DEVICE_ID_VIA_ACPI;
->>>>>      k->class_id = PCI_CLASS_BRIDGE_OTHER;
->>>>>      k->revision = 0x40;
->>>>> +    dc->reset = vt82c686b_pm_reset;
->>>>>      dc->desc = "PM";
->>>>>      dc->vmsd = &vmstate_acpi;
->>>>>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->>>>> -    device_class_set_props(dc, via_pm_properties);
->>>>>  }
->>>>>
->>>>>  static const TypeInfo via_pm_info = {
->>>>> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
->>>>> index 1f3680fda3e..94f4718147f 100644
->>>>> --- a/hw/mips/fuloong2e.c
->>>>> +++ b/hw/mips/fuloong2e.c
->>>>> @@ -230,9 +230,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
->>>>>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
->>>>>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
->>>>>
->>>>> -    dev = pci_new(PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
->>>>> -    qdev_prop_set_uint32(DEVICE(dev), "smb_io_base", 0xeee1);
->>>>> -    pci_realize_and_unref(dev, pci_bus, &error_fatal);
->>>>> +    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
->>>>>      *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
->>>>>
->>>>>      /* Audio support */
->>>>>
->>>>
->>>>
->>>
->>
->
->
---3866299591-1108432147-1624554057=:41362--
+> On Fri, Jun 4, 2021 at 11:04 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
+> >
+> > Ping.
+> >
+> > Sorry again for the previous duplicate emails.
+> >
+> > On Sun, May 30, 2021 at 11:05 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
+> > >
+> > > Update FCS:FIP and FDS:FDP according to the Intel Manual Vol.1 8.1.8. Note that
+> > > CPUID.(EAX=07H,ECX=0H):EBX[bit 13] is not implemented by design in this patch
+> > > and will be added along with TCG features flag in a separate patch later.
+> > >
+> > > Signed-off-by: Ziqiao Kong <ziqiaokong@gmail.com>
+> > > ---
+> > > Sorry for the duplicate emails due to my bad network. The v7 has no
+> > > difference from v6 and is sent just for clarification.
+> > > Changes since v5:
+> > > - Improve code indention in translate.c.
+> > > Changes since v4:
+> > > - Remove the dead code about CPUID_7_0_EBX_FCS_FDS.
+> > > - Rewrite the commit message.
+> > > ---
+> > >  target/i386/cpu.h            |  2 ++
+> > >  target/i386/tcg/fpu_helper.c | 32 +++++++++++--------------
+> > >  target/i386/tcg/translate.c  | 45 +++++++++++++++++++++++++++++++++++-
+> > >  3 files changed, 59 insertions(+), 20 deletions(-)
+> > >
+> > > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> > > index da72aa5228..147dadcce0 100644
+> > > --- a/target/i386/cpu.h
+> > > +++ b/target/i386/cpu.h
+> > > @@ -1455,6 +1455,8 @@ typedef struct CPUX86State {
+> > >      FPReg fpregs[8];
+> > >      /* KVM-only so far */
+> > >      uint16_t fpop;
+> > > +    uint16_t fpcs;
+> > > +    uint16_t fpds;
+> > >      uint64_t fpip;
+> > >      uint64_t fpdp;
+> > >
+> > > diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+> > > index 1b30f1bb73..d953f04bb5 100644
+> > > --- a/target/i386/tcg/fpu_helper.c
+> > > +++ b/target/i386/tcg/fpu_helper.c
+> > > @@ -728,6 +728,10 @@ void helper_fninit(CPUX86State *env)
+> > >  {
+> > >      env->fpus = 0;
+> > >      env->fpstt = 0;
+> > > +    env->fpcs = 0;
+> > > +    env->fpds = 0;
+> > > +    env->fpip = 0;
+> > > +    env->fpdp = 0;
+> > >      cpu_set_fpuc(env, 0x37f);
+> > >      env->fptags[0] = 1;
+> > >      env->fptags[1] = 1;
+> > > @@ -2357,19 +2361,19 @@ static void do_fstenv(CPUX86State *env, target_ulong ptr, int data32,
+> > >          cpu_stl_data_ra(env, ptr, env->fpuc, retaddr);
+> > >          cpu_stl_data_ra(env, ptr + 4, fpus, retaddr);
+> > >          cpu_stl_data_ra(env, ptr + 8, fptag, retaddr);
+> > > -        cpu_stl_data_ra(env, ptr + 12, 0, retaddr); /* fpip */
+> > > -        cpu_stl_data_ra(env, ptr + 16, 0, retaddr); /* fpcs */
+> > > -        cpu_stl_data_ra(env, ptr + 20, 0, retaddr); /* fpoo */
+> > > -        cpu_stl_data_ra(env, ptr + 24, 0, retaddr); /* fpos */
+> > > +        cpu_stl_data_ra(env, ptr + 12, env->fpip, retaddr); /* fpip */
+> > > +        cpu_stl_data_ra(env, ptr + 16, env->fpcs, retaddr); /* fpcs */
+> > > +        cpu_stl_data_ra(env, ptr + 20, env->fpdp, retaddr); /* fpoo */
+> > > +        cpu_stl_data_ra(env, ptr + 24, env->fpds, retaddr); /* fpos */
+> > >      } else {
+> > >          /* 16 bit */
+> > >          cpu_stw_data_ra(env, ptr, env->fpuc, retaddr);
+> > >          cpu_stw_data_ra(env, ptr + 2, fpus, retaddr);
+> > >          cpu_stw_data_ra(env, ptr + 4, fptag, retaddr);
+> > > -        cpu_stw_data_ra(env, ptr + 6, 0, retaddr);
+> > > -        cpu_stw_data_ra(env, ptr + 8, 0, retaddr);
+> > > -        cpu_stw_data_ra(env, ptr + 10, 0, retaddr);
+> > > -        cpu_stw_data_ra(env, ptr + 12, 0, retaddr);
+> > > +        cpu_stw_data_ra(env, ptr + 6, env->fpip, retaddr);
+> > > +        cpu_stw_data_ra(env, ptr + 8, env->fpcs, retaddr);
+> > > +        cpu_stw_data_ra(env, ptr + 10, env->fpdp, retaddr);
+> > > +        cpu_stw_data_ra(env, ptr + 12, env->fpds, retaddr);
+> > >      }
+> > >  }
+> > >
+> > > @@ -2436,17 +2440,7 @@ static void do_fsave(CPUX86State *env, target_ulong ptr, int data32,
+> > >      }
+> > >
+> > >      /* fninit */
+> > > -    env->fpus = 0;
+> > > -    env->fpstt = 0;
+> > > -    cpu_set_fpuc(env, 0x37f);
+> > > -    env->fptags[0] = 1;
+> > > -    env->fptags[1] = 1;
+> > > -    env->fptags[2] = 1;
+> > > -    env->fptags[3] = 1;
+> > > -    env->fptags[4] = 1;
+> > > -    env->fptags[5] = 1;
+> > > -    env->fptags[6] = 1;
+> > > -    env->fptags[7] = 1;
+> > > +    helper_fninit(env);
+> > >  }
+> > >
+> > >  void helper_fsave(CPUX86State *env, target_ulong ptr, int data32)
+> > > diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> > > index 5c1b7b87c5..4c57ee5c26 100644
+> > > --- a/target/i386/tcg/translate.c
+> > > +++ b/target/i386/tcg/translate.c
+> > > @@ -5930,6 +5930,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > >          /* floats */
+> > >      case 0xd8 ... 0xdf:
+> > >          {
+> > > +            TCGv last_addr = tcg_temp_new();
+> > > +            int last_seg;
+> > > +            bool update_fdp = false;
+> > > +            bool update_fip = true;
+> > > +
+> > >              if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
+> > >                  /* if CR0.EM or CR0.TS are set, generate an FPU exception */
+> > >                  /* XXX: what to do if illegal op ? */
+> > > @@ -5942,7 +5947,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > >              op = ((b & 7) << 3) | ((modrm >> 3) & 7);
+> > >              if (mod != 3) {
+> > >                  /* memory op */
+> > > -                gen_lea_modrm(env, s, modrm);
+> > > +                AddressParts a = gen_lea_modrm_0(env, s, modrm);
+> > > +                TCGv ea = gen_lea_modrm_1(s, a);
+> > > +
+> > > +                update_fdp = true;
+> > > +                last_seg = a.def_seg;
+> > > +                tcg_gen_mov_tl(last_addr, ea);
+> > > +                gen_lea_v_seg(s, s->aflag, ea, a.def_seg, s->override);
+> > > +
+> > >                  switch (op) {
+> > >                  case 0x00 ... 0x07: /* fxxxs */
+> > >                  case 0x10 ... 0x17: /* fixxxl */
+> > > @@ -6070,20 +6082,24 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > >                  case 0x0c: /* fldenv mem */
+> > >                      gen_helper_fldenv(cpu_env, s->A0,
+> > >                                        tcg_const_i32(dflag - 1));
+> > > +                    update_fip = update_fdp = false;
+> > >                      break;
+> > >                  case 0x0d: /* fldcw mem */
+> > >                      tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
+> > >                                          s->mem_index, MO_LEUW);
+> > >                      gen_helper_fldcw(cpu_env, s->tmp2_i32);
+> > > +                    update_fip = update_fdp = false;
+> > >                      break;
+> > >                  case 0x0e: /* fnstenv mem */
+> > >                      gen_helper_fstenv(cpu_env, s->A0,
+> > >                                        tcg_const_i32(dflag - 1));
+> > > +                    update_fip = update_fdp = false;
+> > >                      break;
+> > >                  case 0x0f: /* fnstcw mem */
+> > >                      gen_helper_fnstcw(s->tmp2_i32, cpu_env);
+> > >                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
+> > >                                          s->mem_index, MO_LEUW);
+> > > +                    update_fip = update_fdp = false;
+> > >                      break;
+> > >                  case 0x1d: /* fldt mem */
+> > >                      gen_helper_fldt_ST0(cpu_env, s->A0);
+> > > @@ -6095,15 +6111,18 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > >                  case 0x2c: /* frstor mem */
+> > >                      gen_helper_frstor(cpu_env, s->A0,
+> > >                                        tcg_const_i32(dflag - 1));
+> > > +                    update_fip = update_fdp = false;
+> > >                      break;
+> > >                  case 0x2e: /* fnsave mem */
+> > >                      gen_helper_fsave(cpu_env, s->A0,
+> > >                                       tcg_const_i32(dflag - 1));
+> > > +                    update_fip = update_fdp = false;
+> > >                      break;
+> > >                  case 0x2f: /* fnstsw mem */
+> > >                      gen_helper_fnstsw(s->tmp2_i32, cpu_env);
+> > >                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
+> > >                                          s->mem_index, MO_LEUW);
+> > > +                    update_fip = update_fdp = false;
+> > >                      break;
+> > >                  case 0x3c: /* fbld */
+> > >                      gen_helper_fbld_ST0(cpu_env, s->A0);
+> > > @@ -6146,6 +6165,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > >                      case 0: /* fnop */
+> > >                          /* check exceptions (FreeBSD FPU probe) */
+> > >                          gen_helper_fwait(cpu_env);
+> > > +                        update_fip = update_fdp = false;
+> > >                          break;
+> > >                      default:
+> > >                          goto unknown_op;
+> > > @@ -6315,9 +6335,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > >                          break;
+> > >                      case 2: /* fclex */
+> > >                          gen_helper_fclex(cpu_env);
+> > > +                        update_fip = update_fdp = false;
+> > >                          break;
+> > >                      case 3: /* fninit */
+> > >                          gen_helper_fninit(cpu_env);
+> > > +                        update_fip = update_fdp = false;
+> > >                          break;
+> > >                      case 4: /* fsetpm (287 only, just do nop here) */
+> > >                          break;
+> > > @@ -6438,6 +6460,27 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > >                      goto unknown_op;
+> > >                  }
+> > >              }
+> > > +
+> > > +            if (update_fip) {
+> > > +                tcg_gen_ld32u_tl(s->T0, cpu_env,
+> > > +                                 offsetof(CPUX86State, segs[R_CS].selector));
+> > > +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpcs));
+> > > +
+> > > +                tcg_gen_movi_tl(s->T0, pc_start - s->cs_base);
+> > > +                tcg_gen_st_tl(s->T0, cpu_env, offsetof(CPUX86State, fpip));
+> > > +            }
+> > > +
+> > > +            if (update_fdp) {
+> > > +                if (s->override >= 0) {
+> > > +                    last_seg = s->override;
+> > > +                }
+> > > +                tcg_gen_ld32u_tl(s->T0, cpu_env,
+> > > +                                 offsetof(CPUX86State,
+> > > +                                 segs[last_seg].selector));
+> > > +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpds));
+> > > +
+> > > +                tcg_gen_st_tl(last_addr, cpu_env, offsetof(CPUX86State, fpdp));
+> > > +            }
+> > >          }
+> > >          break;
+> > >          /************************/
+> > > --
+> > > 2.25.1
+> > >
 
