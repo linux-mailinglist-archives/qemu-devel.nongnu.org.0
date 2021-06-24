@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13473B35E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:39:45 +0200 (CEST)
-Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2E93B35EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:41:24 +0200 (CEST)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwUGO-0002Ag-ON
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:39:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59286)
+	id 1lwUHz-00041o-FQ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:41:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lwUEV-0000Ku-EN
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lwUES-0004G6-1F
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:37:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624559862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DkLaedE8yY/DbniH9nlw1Rh0xYB/tEAIza6da1zTGpU=;
- b=X0MEi9vLAZ2Z/Ds+OJmHn5UKnqiiIUtIMV5dIhxUuwkocnDCTK+Wk1AiBRsd4RFXaD2MpP
- PxtlM5dJzjqg7iD0i+ke1e1g1ABm66g5wIJ9buU8AJ34gYFS+aitKiJfjUI88i15lQPTRB
- JlicutFSNvrn+GLzDvwTNVDh1TfFgTg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-wZhTZZwmMyuSCUhtY0AlkA-1; Thu, 24 Jun 2021 14:37:40 -0400
-X-MC-Unique: wZhTZZwmMyuSCUhtY0AlkA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E7BA81CD1D
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 18:37:38 +0000 (UTC)
-Received: from thuth.com (ovpn-112-15.ams2.redhat.com [10.36.112.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF03A6E0B6;
- Thu, 24 Jun 2021 18:37:18 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [RFC PATCH] audio: Make the AudiodevDriver enum conditional
-Date: Thu, 24 Jun 2021 20:37:16 +0200
-Message-Id: <20210624183716.515721-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwUFl-0002Ro-5M
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:39:05 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:40455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwUFj-00053o-70
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:39:04 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ o33-20020a05600c5121b02901e360c98c08so5150803wms.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 11:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JF+b1fN+55NeZb+NKiQOEbFxkGeJZh9Hnyy2skvA8fs=;
+ b=OSUSETfLCvOkby4Sn7iIDtt07nTBH4YNyuBIgIANCF/srkXd8MLr+cHu3HHtuZHo2p
+ ezx+2/uCKMzN+e3ncm/1C8Jzi3fqDAH7LPY9a9x65794oWtPjFU45gabSvYhsBj0u6Sa
+ B3L6MVjNnbalN25I1WW97EN/gHaXxHlNZSTbCQbNacw4cFqFs81wObNJ3ixvrR81GPep
+ WX9FYjNiaZE9+G0fhzAzdF76y/N1zh+A6SjHUVSbBiAy/LBPDbAB69QgP3yzqxXdSXeK
+ fw4ZTYAFydpIyf0+D5mWgIqn+nLrvG5PAXWjGfIJ+OaG8LepdAcJj/TyOF9EMMBS4I4e
+ Wyjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JF+b1fN+55NeZb+NKiQOEbFxkGeJZh9Hnyy2skvA8fs=;
+ b=c7iyk9ChTQSDaUUxcCij5iO52z59YeSx+QWyEQRnh5PJEiaHpvuwzd3ENQL6I6GdSw
+ D2n7r9COX8Q8nj20HwT3uMbsEh/YYn7EZRuvhdjArXXh0/Ye0nDrhdR3iSU9epXRBOhH
+ kdi/K9BLZ0KNi178dutxwqglqsxjMNixe9qwtlJ35v7vloHY3XTvCmNB6KpLIRsZnKOD
+ hJB18xE+IbXAu2cSlBDn3ucgR+ostrumlpHLzEiDRu2lsjIPu/ujLfkCC4pmTJcekImX
+ klsk0Fdl0+EL9hy/mSRTPERujfbUeY16jQv/0IPbSACn145Gip+mFJMI8prEByT/5n8Y
+ KXeQ==
+X-Gm-Message-State: AOAM531R9pRX+wSNvnu44zmFF0ULp+K+JQSUR9MccCMfKqnUhYyL7Gzd
+ d88tdudec7QgHAjc0s0oKik=
+X-Google-Smtp-Source: ABdhPJxFGpWuCNGkAEDQaZT2ZgoK1qD25BSFzN7b6R29oSOrRpoYZTPxqb3WlJw65smfixHNuVr49A==
+X-Received: by 2002:a05:600c:4b88:: with SMTP id
+ e8mr5927098wmp.46.1624559941687; 
+ Thu, 24 Jun 2021 11:39:01 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id t11sm3959499wrz.7.2021.06.24.11.39.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 11:39:01 -0700 (PDT)
+Subject: Re: [PULL 30/43] vt82c686: Fix SMBus IO base and configuration
+ registers
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210221143432.2468220-1-f4bug@amsat.org>
+ <20210221143432.2468220-31-f4bug@amsat.org>
+ <0c52a343-ed4c-92fa-fac0-0f32f37b0df2@amsat.org>
+ <8aa3527b-0412-979f-ffb5-80b41004a4b6@amsat.org>
+ <282f867e-2395-7fcb-b0df-12bcd99f0787@amsat.org>
+ <77140305-bcab-31d8-e369-970ca3d26c27@amsat.org>
+ <41499860-3e6d-677b-ae5c-564fc3b4e2f9@eik.bme.hu>
+ <0e7d57aa-ba64-55d6-2496-56e0acd69a00@amsat.org>
+ <1fa09e8c-719-3a64-6f89-27246c20b3f0@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <993387fc-4717-6114-fdf9-99b828539d21@amsat.org>
+Date: Thu, 24 Jun 2021 20:38:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1fa09e8c-719-3a64-6f89-27246c20b3f0@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,335 +99,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This way, the upper layers like libvirt could have the possibility
-to use QAPI to find out which audio drivers have been enabled during
-compile-time of QEMU.
+On 6/24/21 8:01 PM, BALATON Zoltan wrote:
+> On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
+>> On 6/24/21 7:00 PM, BALATON Zoltan wrote:
+>>> On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
+>>>> On 6/24/21 6:16 PM, Philippe Mathieu-Daudé wrote:
+>>>>> On 6/24/21 6:01 PM, Philippe Mathieu-Daudé wrote:
+>>>>>> On 6/24/21 5:46 PM, Philippe Mathieu-Daudé wrote:
+>>>>>>> Hi Zoltan,
+>>>>>>>
+>>>>>>> On 2/21/21 3:34 PM, Philippe Mathieu-Daudé wrote:
+>>>>>>>> From: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>>>>>
+>>>>>>>> The base address of the SMBus io ports and its enabled status is
+>>>>>>>> set
+>>>>>>>> by registers in the PCI config space but this was not correctly
+>>>>>>>> emulated. Instead the SMBus registers were mapped on realize to the
+>>>>>>>> base address set by a property to the address expected by fuloong2e
+>>>>>>>> firmware.
+>>>>>>>>
+>>>>>>>> Fix the base and config register handling to more closely model
+>>>>>>>> hardware which allows to remove the property and allows the
+>>>>>>>> guest to
+>>>>>>>> control this mapping. Do all this in reset instead of realize so
+>>>>>>>> it's
+>>>>>>>> correctly updated on reset.
+>>>>>>>
+>>>>>>> This commit broken running PMON on Fuloong2E:
+>>>>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
+>>>>>>> console: PMON2000 MIPS Initializing. Standby...
+>>>>>>> console: ERRORPC=00000000 CONFIG=00030932
+>>>>>>> console: PRID=00006302
+>>>>>>> console: DIMM read
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> console: 000000ff
+>>>>>>> ...
+>>>>>>>
+>>>>>>> From here the console loops displaying this value...
+>>>>>>
+>>>>>> Tracing:
+>>
+>>>>> pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
+>>>>
+>>>> Offset 93-90 – SMBus I/O Base
+>>>> ....................................... RW
+>>>> 15-4 I/O Base (16-byte I/O space)................ default = 00h
+>>>> pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
+>>>>
+>>>>> pci_cfg_write vt82c686b-pm 05:4 @0xd0 <- 0x1
+>>>>
+>>>> Offset D2 – SMBus Host Configuration ......................... RW
+>>>> SMBus Host Controller Enable
+>>>> 0 Disable SMB controller functions ......... default
+>>>> 1 Enable SMB controller functions
+>>>> pci_cfg_write vt82c686b-pm 05:4 @0xd0 <- 0x1
+>>>>
+>>>> Hmm the datasheet indeed document 0xd2... why is the guest accessing
+>>>> 0xd0 to enable the function? It seems this is the problem, since if
+>>>> I replace d2 -> d0 PMON boots. See below [*].
+>>
+>>>>>>> Expected:
+>>>>>>>
+>>>>>>> console: PMON2000 MIPS Initializing. Standby...
+>>>>>>> console: ERRORPC=00000000 CONFIG=00030932
+>>>>>>> console: PRID=00006302
+>>>>>>> console: DIMM read
+>>>>>>> console: 00000080
+>>>>>>> console: read memory type
+>>>>>>> console: read number of rows
+>>>>>>> ...
+>>
+>>>>>>>>  static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t
+>>>>>>>> val, int len)
+>>>>>>>>  {
+>>>>>>>> +    VT686PMState *s = VT82C686B_PM(d);
+>>>>>>>> +
+>>>>>>>>      trace_via_pm_write(addr, val, len);
+>>>>>>>>      pci_default_write_config(d, addr, val, len);
+>>>>>>>> +    if (ranges_overlap(addr, len, 0x90, 4)) {
+>>>>>>>> +        uint32_t v = pci_get_long(s->dev.config + 0x90);
+>>>>>>>> +        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
+>>>>>>>> +    }
+>>>>>>>> +    if (range_covers_byte(addr, len, 0xd2)) {
+>>>>>>>> +        s->dev.config[0xd2] &= 0xf;
+>>>>>>>> +        smb_io_space_update(s);
+>>>>
+>>>> [*] So the guest writing at 0xd0, this block is skipped, the
+>>>> I/O region never enabled.
+>>>
+>>> Could it be it does word or dword i/o to access multiple addresses at
+>>> once. Wasn't there a recent change to memory regions that could break
+>>> this? Is adjusting valid access sizes to the mem region ops needed now
+>>> to have the memory region handle this?
+>>
+>> Do you mean it was buggy earlier, so to accept a guest write at 0xd0
+>> the code had to handle the 0xd2 address? 0xd2 is the address in the
+>> datasheet, so I doubt.
+> 
+> No, I meant that instead of writing a byte to 0xd2 the guest might write
+> a dword to 0xd0 which also overlaps 0xd2 and would change that but it
+> does not reach the device for some reason. But in your trace there was:
+> 
+>>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr
+>>> 0x1fe80490 value 0xeee1 size 4
+>>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr
+>>> 0x1fe804d2 value 0x1 size 2
+>>
+>> These are:
+>> pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
+>> pci_cfg_write vt82c686b-pm 05:4 @0xd0 <- 0x1
+> 
+> Where size is 2 so it would not reach 0xd2 but the address part above is
+> 0x1fe804d2 which somehow comes out as 0xd0 in the PCI trace so looks
+> like something strips the low bits within PCI code and the guest does
+> intend to access 0xd2 but it's not passed on to the device as such.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Note: Marked as RFC since it's quite a lot of ifdef'ing here...
-       not sure whether I really like it...
+Oh, good eyes :)
 
- audio/audio.c          | 16 +++++++++++++++
- audio/audio_legacy.c   | 45 +++++++++++++++++++++++++++++-------------
- audio/audio_template.h | 16 +++++++++++++++
- qapi/audio.json        | 37 ++++++++++++++++++++++++----------
- 4 files changed, 90 insertions(+), 24 deletions(-)
+Indeed I see:
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 59453ef856..34a0f39c29 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1988,14 +1988,30 @@ void audio_create_pdos(Audiodev *dev)
-         break
- 
-         CASE(NONE, none, );
-+#if defined(CONFIG_AUDIO_ALSA)
-         CASE(ALSA, alsa, Alsa);
-+#endif
-+#if defined(CONFIG_AUDIO_COREAUDIO)
-         CASE(COREAUDIO, coreaudio, Coreaudio);
-+#endif
-+#if defined(CONFIG_AUDIO_DSOUND)
-         CASE(DSOUND, dsound, );
-+#endif
-+#if defined(CONFIG_AUDIO_JACK)
-         CASE(JACK, jack, Jack);
-+#endif
-+#if defined(CONFIG_AUDIO_OSS)
-         CASE(OSS, oss, Oss);
-+#endif
-+#if defined(CONFIG_AUDIO_PA)
-         CASE(PA, pa, Pa);
-+#endif
-+#if defined(CONFIG_AUDIO_SDL)
-         CASE(SDL, sdl, Sdl);
-+#endif
-+#if defined(CONFIG_SPICE)
-         CASE(SPICE, spice, );
-+#endif
-         CASE(WAV, wav, );
- 
-     case AUDIODEV_DRIVER__MAX:
-diff --git a/audio/audio_legacy.c b/audio/audio_legacy.c
-index 0fe827b057..d940f77a27 100644
---- a/audio/audio_legacy.c
-+++ b/audio/audio_legacy.c
-@@ -92,7 +92,7 @@ static void get_fmt(const char *env, AudioFormat *dst, bool *has_dst)
-     }
- }
- 
--
-+#if defined(CONFIG_AUDIO_ALSA) || defined(CONFIG_AUDIO_DSOUND)
- static void get_millis_to_usecs(const char *env, uint32_t *dst, bool *has_dst)
- {
-     const char *val = getenv(env);
-@@ -101,6 +101,7 @@ static void get_millis_to_usecs(const char *env, uint32_t *dst, bool *has_dst)
-         *has_dst = true;
-     }
- }
-+#endif
- 
- static uint32_t frames_to_usecs(uint32_t frames,
-                                 AudiodevPerDirectionOptions *pdo)
-@@ -109,7 +110,7 @@ static uint32_t frames_to_usecs(uint32_t frames,
-     return (frames * 1000000 + freq / 2) / freq;
- }
- 
--
-+#if defined(CONFIG_AUDIO_COREAUDIO)
- static void get_frames_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-                                 AudiodevPerDirectionOptions *pdo)
- {
-@@ -119,6 +120,7 @@ static void get_frames_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-         *has_dst = true;
-     }
- }
-+#endif
- 
- static uint32_t samples_to_usecs(uint32_t samples,
-                                  AudiodevPerDirectionOptions *pdo)
-@@ -127,6 +129,7 @@ static uint32_t samples_to_usecs(uint32_t samples,
-     return frames_to_usecs(samples / channels, pdo);
- }
- 
-+#if defined(CONFIG_AUDIO_PA) || defined(CONFIG_AUDIO_SDL)
- static void get_samples_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-                                  AudiodevPerDirectionOptions *pdo)
- {
-@@ -136,6 +139,7 @@ static void get_samples_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-         *has_dst = true;
-     }
- }
-+#endif
- 
- static uint32_t bytes_to_usecs(uint32_t bytes, AudiodevPerDirectionOptions *pdo)
- {
-@@ -144,6 +148,7 @@ static uint32_t bytes_to_usecs(uint32_t bytes, AudiodevPerDirectionOptions *pdo)
-     return samples_to_usecs(bytes / bytes_per_sample, pdo);
- }
- 
-+__attribute__((unused))
- static void get_bytes_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-                                AudiodevPerDirectionOptions *pdo)
- {
-@@ -155,7 +160,7 @@ static void get_bytes_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
- }
- 
- /* backend specific functions */
--/* ALSA */
-+#if defined(CONFIG_AUDIO_ALSA)
- static void handle_alsa_per_direction(
-     AudiodevAlsaPerDirectionOptions *apdo, const char *prefix)
- {
-@@ -200,8 +205,9 @@ static void handle_alsa(Audiodev *dev)
-     get_millis_to_usecs("QEMU_ALSA_THRESHOLD",
-                         &aopt->threshold, &aopt->has_threshold);
- }
-+#endif
- 
--/* coreaudio */
-+#if defined(CONFIG_AUDIO_COREAUDIO)
- static void handle_coreaudio(Audiodev *dev)
- {
-     get_frames_to_usecs(
-@@ -213,8 +219,9 @@ static void handle_coreaudio(Audiodev *dev)
-             &dev->u.coreaudio.out->buffer_count,
-             &dev->u.coreaudio.out->has_buffer_count);
- }
-+#endif
- 
--/* dsound */
-+#if defined(CONFIG_AUDIO_DSOUND)
- static void handle_dsound(Audiodev *dev)
- {
-     get_millis_to_usecs("QEMU_DSOUND_LATENCY_MILLIS",
-@@ -228,8 +235,9 @@ static void handle_dsound(Audiodev *dev)
-                        &dev->u.dsound.in->has_buffer_length,
-                        dev->u.dsound.in);
- }
-+#endif
- 
--/* OSS */
-+#if defined(CONFIG_AUDIO_OSS)
- static void handle_oss_per_direction(
-     AudiodevOssPerDirectionOptions *opdo, const char *try_poll_env,
-     const char *dev_env)
-@@ -256,8 +264,9 @@ static void handle_oss(Audiodev *dev)
-     get_bool("QEMU_OSS_EXCLUSIVE", &oopt->exclusive, &oopt->has_exclusive);
-     get_int("QEMU_OSS_POLICY", &oopt->dsp_policy, &oopt->has_dsp_policy);
- }
-+#endif
- 
--/* pulseaudio */
-+#if defined(CONFIG_AUDIO_PA)
- static void handle_pa_per_direction(
-     AudiodevPaPerDirectionOptions *ppdo, const char *env)
- {
-@@ -280,8 +289,9 @@ static void handle_pa(Audiodev *dev)
- 
-     get_str("QEMU_PA_SERVER", &dev->u.pa.server, &dev->u.pa.has_server);
- }
-+#endif
- 
--/* SDL */
-+#if defined(CONFIG_AUDIO_SDL)
- static void handle_sdl(Audiodev *dev)
- {
-     /* SDL is output only */
-@@ -289,6 +299,7 @@ static void handle_sdl(Audiodev *dev)
-         &dev->u.sdl.out->has_buffer_length,
-         qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.out));
- }
-+#endif
- 
- /* wav */
- static void handle_wav(Audiodev *dev)
-@@ -348,30 +359,36 @@ static AudiodevListEntry *legacy_opt(const char *drvname)
-     }
- 
-     switch (e->dev->driver) {
-+#if defined(CONFIG_AUDIO_ALSA)
-     case AUDIODEV_DRIVER_ALSA:
-         handle_alsa(e->dev);
-         break;
--
-+#endif
-+#if defined(CONFIG_AUDIO_COREAUDIO)
-     case AUDIODEV_DRIVER_COREAUDIO:
-         handle_coreaudio(e->dev);
-         break;
--
-+#endif
-+#if defined(CONFIG_AUDIO_DSOUND)
-     case AUDIODEV_DRIVER_DSOUND:
-         handle_dsound(e->dev);
-         break;
--
-+#endif
-+#if defined(CONFIG_AUDIO_OSS)
-     case AUDIODEV_DRIVER_OSS:
-         handle_oss(e->dev);
-         break;
--
-+#endif
-+#if defined(CONFIG_AUDIO_PA)
-     case AUDIODEV_DRIVER_PA:
-         handle_pa(e->dev);
-         break;
--
-+#endif
-+#if defined(CONFIG_AUDIO_SDL)
-     case AUDIODEV_DRIVER_SDL:
-         handle_sdl(e->dev);
-         break;
--
-+#endif
-     case AUDIODEV_DRIVER_WAV:
-         handle_wav(e->dev);
-         break;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index c6714946aa..b808088c7b 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -322,23 +322,39 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
-     switch (dev->driver) {
-     case AUDIODEV_DRIVER_NONE:
-         return dev->u.none.TYPE;
-+#if defined(CONFIG_AUDIO_ALSA)
-     case AUDIODEV_DRIVER_ALSA:
-         return qapi_AudiodevAlsaPerDirectionOptions_base(dev->u.alsa.TYPE);
-+#endif
-+#if defined(CONFIG_AUDIO_COREAUDIO)
-     case AUDIODEV_DRIVER_COREAUDIO:
-         return qapi_AudiodevCoreaudioPerDirectionOptions_base(
-             dev->u.coreaudio.TYPE);
-+#endif
-+#if defined(CONFIG_AUDIO_DSOUND)
-     case AUDIODEV_DRIVER_DSOUND:
-         return dev->u.dsound.TYPE;
-+#endif
-+#if defined(CONFIG_AUDIO_JACK)
-     case AUDIODEV_DRIVER_JACK:
-         return qapi_AudiodevJackPerDirectionOptions_base(dev->u.jack.TYPE);
-+#endif
-+#if defined(CONFIG_AUDIO_OSS)
-     case AUDIODEV_DRIVER_OSS:
-         return qapi_AudiodevOssPerDirectionOptions_base(dev->u.oss.TYPE);
-+#endif
-+#if defined(CONFIG_AUDIO_PA)
-     case AUDIODEV_DRIVER_PA:
-         return qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE);
-+#endif
-+#if defined(CONFIG_AUDIO_SDL)
-     case AUDIODEV_DRIVER_SDL:
-         return qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE);
-+#endif
-+#if defined(CONFIG_SPICE)
-     case AUDIODEV_DRIVER_SPICE:
-         return dev->u.spice.TYPE;
-+#endif
-     case AUDIODEV_DRIVER_WAV:
-         return dev->u.wav.TYPE;
- 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 9cba0df8a4..128850eba4 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -386,8 +386,17 @@
- # Since: 4.0
- ##
- { 'enum': 'AudiodevDriver',
--  'data': [ 'none', 'alsa', 'coreaudio', 'dsound', 'jack', 'oss', 'pa',
--            'sdl', 'spice', 'wav' ] }
-+  'data': [
-+    { 'name': 'none' },
-+    { 'name': 'alsa', 'if': 'defined(CONFIG_AUDIO_ALSA)' },
-+    { 'name': 'coreaudio', 'if': 'defined(CONFIG_AUDIO_COREAUDIO)' },
-+    { 'name': 'dsound', 'if': 'defined(CONFIG_AUDIO_DSOUND)' },
-+    { 'name': 'jack', 'if': 'defined(CONFIG_AUDIO_JACK)' },
-+    { 'name': 'oss', 'if': 'defined(CONFIG_AUDIO_OSS)' },
-+    { 'name': 'pa', 'if': 'defined(CONFIG_AUDIO_PA)' },
-+    { 'name': 'sdl', 'if': 'defined(CONFIG_AUDIO_SDL)' },
-+    { 'name': 'spice', 'if': 'defined(CONFIG_SPICE)' },
-+    { 'name': 'wav' } ] }
- 
- ##
- # @Audiodev:
-@@ -410,12 +419,20 @@
-   'discriminator': 'driver',
-   'data': {
-     'none':      'AudiodevGenericOptions',
--    'alsa':      'AudiodevAlsaOptions',
--    'coreaudio': 'AudiodevCoreaudioOptions',
--    'dsound':    'AudiodevDsoundOptions',
--    'jack':      'AudiodevJackOptions',
--    'oss':       'AudiodevOssOptions',
--    'pa':        'AudiodevPaOptions',
--    'sdl':       'AudiodevSdlOptions',
--    'spice':     'AudiodevGenericOptions',
-+    'alsa':      { 'type': 'AudiodevAlsaOptions',
-+                   'if': 'defined(CONFIG_AUDIO_ALSA)' },
-+    'coreaudio': { 'type': 'AudiodevCoreaudioOptions',
-+                   'if': 'defined(CONFIG_AUDIO_COREAUDIO)' },
-+    'dsound':    { 'type': 'AudiodevDsoundOptions',
-+                   'if': 'defined(CONFIG_AUDIO_DSOUND)' },
-+    'jack':      { 'type': 'AudiodevJackOptions',
-+                   'if': 'defined(CONFIG_AUDIO_JACK)' },
-+    'oss':       { 'type': 'AudiodevOssOptions',
-+                   'if': 'defined(CONFIG_AUDIO_OSS)' },
-+    'pa':        { 'type': 'AudiodevPaOptions',
-+                   'if': 'defined(CONFIG_AUDIO_PA)' },
-+    'sdl':       { 'type': 'AudiodevSdlOptions',
-+                   'if': 'defined(CONFIG_AUDIO_SDL)' },
-+    'spice':     { 'type': 'AudiodevGenericOptions',
-+                   'if': 'defined(CONFIG_SPICE)' },
-     'wav':       'AudiodevWavOptions' } }
--- 
-2.27.0
+static uint32_t bonito_sbridge_pciaddr(void *opaque, hwaddr addr)
+{
+    ...
+    regno = (cfgaddr & BONITO_PCICONF_REG_MASK) >>
+BONITO_PCICONF_REG_OFFSET;
+    ...
 
+Having:
+
+#define BONITO_PCICONF_REG_MASK        0xFC
+#define BONITO_PCICONF_REG_OFFSET      0
+
+I'll look at what I have on Bonito.
 
