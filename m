@@ -2,48 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA623B2D1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:59:53 +0200 (CEST)
-Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3F83B2D29
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:02:41 +0200 (CEST)
+Received: from localhost ([::1]:40392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwN5M-00055m-Gz
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40448)
+	id 1lwN84-0000Ws-4A
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:02:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lwMxU-0004rj-Fm
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:51:46 -0400
-Received: from out28-220.mail.aliyun.com ([115.124.28.220]:40315)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMn6-00036a-KE
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lwMxP-0007z8-6r
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:51:44 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07443371|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.661577-0.000158915-0.338265;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047187; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=3; RT=3; SR=0; TI=SMTPD_---.KXKBQkc_1624531893; 
-Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KXKBQkc_1624531893)
- by smtp.aliyun-inc.com(10.147.40.200);
- Thu, 24 Jun 2021 18:51:34 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMn2-0007yH-S5
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624531255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BAhOEkRB+XqNxdKSCxIqwsE6YM+rfzIJzAUNzwPs19M=;
+ b=HK8q9Cz5dz08qrGeJZg5i3E8XHipYjjHrAAdu+XHFL241vk6tEjxyZVX9VsqBeAWbt56hN
+ J9TlGUBLuXWLA1or7NXS6qLVTKxo9nLvuPy/BGqaajwSAgrq+xgeqS4upQ3r4UK+5quPVb
+ 08TtCmKVDue8/gOhxROEk328upsKmrE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-rCaezko2MYmkI3Z5kaIw1A-1; Thu, 24 Jun 2021 06:40:54 -0400
+X-MC-Unique: rCaezko2MYmkI3Z5kaIw1A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACECC804141;
+ Thu, 24 Jun 2021 10:40:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3ECD5D6CF;
+ Thu, 24 Jun 2021 10:40:38 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E0AEA1803549; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] tcg: Add tcg_gen_vec_shl{shr}{sar}16i_i32
-Date: Thu, 24 Jun 2021 18:50:21 +0800
-Message-Id: <20210624105023.3852-4-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210624105023.3852-1-zhiwei_liu@c-sky.com>
-References: <20210624105023.3852-1-zhiwei_liu@c-sky.com>
-Received-SPF: none client-ip=115.124.28.220; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-220.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v4 19/34] modules: check arch on qom lookup
+Date: Thu, 24 Jun 2021 12:38:21 +0200
+Message-Id: <20210624103836.2382472-20-kraxel@redhat.com>
+In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
+References: <20210624103836.2382472-1-kraxel@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,103 +79,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Lieven <pl@kamp.de>,
+ Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-s390x@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement tcg_gen_vec_shl{shr}{sar}16i_tl by adding corresponging i32 OP.
+With target-specific modules we can have multiple modules implementing
+the same object.  Therefore we have to check the target arch on lookup
+to find the correct module.
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/tcg/tcg-op-gvec.h | 10 ++++++++++
- tcg/tcg-op-gvec.c         | 28 ++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
+ util/module.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index 2d5ad6ce12..e3c9f45926 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -408,16 +408,26 @@ void tcg_gen_vec_add16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
- void tcg_gen_vec_sub8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
- void tcg_gen_vec_sub16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
- 
-+void tcg_gen_vec_shl16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
-+void tcg_gen_vec_shr16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
-+void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
-+
- #if TARGET_LONG_BITS == 64
- #define tcg_gen_vec_add8_tl  tcg_gen_vec_add8_i64
- #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i64
- #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i64
- #define tcg_gen_vec_sub16_tl tcg_gen_vec_sub16_i64
-+#define tcg_gen_vec_shl16i_tl tcg_gen_vec_shl16i_i64
-+#define tcg_gen_vec_shr16i_tl tcg_gen_vec_shr16i_i64
-+#define tcg_gen_vec_sar16i_tl tcg_gen_vec_sar16i_i64
- #else
- #define tcg_gen_vec_add8_tl  tcg_gen_vec_add8_i32
- #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i32
- #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i32
- #define tcg_gen_vec_sub16_tl tcg_gen_vec_sub16_i32
-+#define tcg_gen_vec_shl16i_tl tcg_gen_vec_shl16i_i32
-+#define tcg_gen_vec_shr16i_tl tcg_gen_vec_shr16i_i32
-+#define tcg_gen_vec_sar16i_tl tcg_gen_vec_sar16i_i32
- #endif
- 
- #endif
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 78b86194a7..c2ce05e9ee 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -2678,6 +2678,13 @@ void tcg_gen_vec_shl16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c)
-     tcg_gen_andi_i64(d, d, mask);
- }
- 
-+void tcg_gen_vec_shl16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
-+{
-+    uint32_t mask = dup_const(MO_16, 0xffff << c);
-+    tcg_gen_shli_i32(d, a, c);
-+    tcg_gen_andi_i32(d, d, mask);
-+}
-+
- void tcg_gen_gvec_shli(unsigned vece, uint32_t dofs, uint32_t aofs,
-                        int64_t shift, uint32_t oprsz, uint32_t maxsz)
- {
-@@ -2729,6 +2736,13 @@ void tcg_gen_vec_shr16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c)
-     tcg_gen_andi_i64(d, d, mask);
- }
- 
-+void tcg_gen_vec_shr16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
-+{
-+    uint32_t mask = dup_const(MO_16, 0xffff >> c);
-+    tcg_gen_shri_i32(d, a, c);
-+    tcg_gen_andi_i32(d, d, mask);
-+}
-+
- void tcg_gen_gvec_shri(unsigned vece, uint32_t dofs, uint32_t aofs,
-                        int64_t shift, uint32_t oprsz, uint32_t maxsz)
- {
-@@ -2794,6 +2808,20 @@ void tcg_gen_vec_sar16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c)
-     tcg_temp_free_i64(s);
- }
- 
-+void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
-+{
-+    uint32_t s_mask = dup_const(MO_16, 0x8000 >> c);
-+    uint32_t c_mask = dup_const(MO_16, 0xffff >> c);
-+    TCGv_i32 s = tcg_temp_new_i32();
-+
-+    tcg_gen_shri_i32(d, a, c);
-+    tcg_gen_andi_i32(s, d, s_mask);  /* isolate (shifted) sign bit */
-+    tcg_gen_andi_i32(d, d, c_mask);  /* clear out bits above sign  */
-+    tcg_gen_muli_i32(s, s, (2 << c) - 2); /* replicate isolated signs */
-+    tcg_gen_or_i32(d, d, s);         /* include sign extension */
-+    tcg_temp_free_i32(s);
-+}
-+
- void tcg_gen_gvec_sari(unsigned vece, uint32_t dofs, uint32_t aofs,
-                        int64_t shift, uint32_t oprsz, uint32_t maxsz)
- {
+diff --git a/util/module.c b/util/module.c
+index 065aed09ffef..6bb4ad915a1c 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -329,6 +329,9 @@ void module_load_qom_one(const char *type)
+         if (!modinfo->objs) {
+             continue;
+         }
++        if (!module_check_arch(modinfo)) {
++            continue;
++        }
+         for (sl = modinfo->objs; *sl != NULL; sl++) {
+             if (strcmp(type, *sl) == 0) {
+                 module_load_one("", modinfo->name, false);
+@@ -349,6 +352,9 @@ void module_load_qom_all(void)
+         if (!modinfo->objs) {
+             continue;
+         }
++        if (!module_check_arch(modinfo)) {
++            continue;
++        }
+         module_load_one("", modinfo->name, false);
+     }
+     module_loaded_qom_all = true;
 -- 
-2.17.1
+2.31.1
 
 
