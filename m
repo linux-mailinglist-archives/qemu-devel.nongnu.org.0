@@ -2,113 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54CC3B295D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 09:34:17 +0200 (CEST)
-Received: from localhost ([::1]:56060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0380D3B2961
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 09:34:51 +0200 (CEST)
+Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwJsO-0000Ui-AV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 03:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
+	id 1lwJsw-00025B-3R
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 03:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lwJql-0007s3-KE
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:32:36 -0400
-Received: from mail-bn7nam10on2057.outbound.protection.outlook.com
- ([40.107.92.57]:5920 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lwJri-0008RY-5S; Thu, 24 Jun 2021 03:33:34 -0400
+Received: from mail-eopbgr140090.outbound.protection.outlook.com
+ ([40.107.14.90]:50766 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lwJqh-0002X9-VS
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:32:35 -0400
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lwJrd-0002sH-75; Thu, 24 Jun 2021 03:33:32 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kd9naAU+lE6DNttU7/NStW21QHR6Pfk41IMeKbs8vimsBqicxdYcZPz77KG2TLD4Idus3nyildniN+aEQq/2w6+21WjvgEIe5HMkj/HY2nFRkXJDvlhKoKLvCwmqSTNL53jN4K7g+sVv0uiuEAPOcq5ddSQQiLyN5w+VdS2W2rggA00fimZOJ1AmGgu8Xy6bNKJcmYm8ljHFq+oN0f/TjHxfVT5hFmVQ4xz1/q+DKi7imkTobF8vwpzQbCvQmG+aftQGVWCMZ2uowHwn5fj9Oc73JGo8VnJKl9f3D59yVj6y2FPVS8hnUz8efHmaT6+SMtC7EFkRmGWs/2xBO5TNLQ==
+ b=LNevx3lwyjVjpjfOJ3AfkQnBvsKeBatiiAl3RfCT08r0DSIRULCAAz2CL17PJ4REVb5Sp2hSEQqcmwHZiRK89i1Pyj8zsd0yqSvh8k6rb5NWQ5OqO5WvZgGpuJ/aA3o2yEors8Hr3HyXdg9UVVt/aCqjClMaUSpnDkd+X49A9PgWGxs7oZYtmxdosWFLAIEjGKAz/moSFyky1hMhqRTNeF1V4FxKBopWEJp2XA7sWbln9fzSHen/1uuYE+Jn2kKzPhPUXPyNe274xroHA8JwWMQBW86CxuEN5ksjw4rua8R9iGvCEGqJ/HXGZUPw6a//lAIrcfaT6oVsZMhSGZKD9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F5/IpbRT5pIpN4XtG0WDeZxlqTxlyiAVhavci3Lw5gc=;
- b=aYdNtimF4j9CTuJR3iKzJCW0QoDXaqtgKNTeu4poY174fujf6jZduU2r+XzuNlCAP5vSar9WZN44YFnzTTFNDK/NaULaMzcPK4tloF3rRFCZY6xaSmBmhewnb7HkWxEtQzEVIB/h34pmBwPm8tKiB6PbVQhVCWSKqyRJqaaLz/vJ8/93AWRhjZD1cxtshBkPl+5V7YKLxPA1OsFepho5f1zYKsSJqn4Wki1mHZjassgDOrYPK+A5A0NlN3V0MpMXMq1yv/+suMugmU9/pXsN4ku7Slv74gl8uwIOsqIZdCXd1dQu25LA3nKa7Bq+JypPpybVZEUM5QVclmbQ0LA8sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ bh=IZCY9Upr+wZ7ILDCB7dZuKDE6xVUapiuTkgrt5CmNOg=;
+ b=OzSj88TWhIcFf9Mq5ogrjIhQJm7MdMfR8mv0bhq49lWs8zJJ4XxTpFz+MOrHoi7v3gCMLh1W3N7QegZ1N+RCdyak1o1PsrP/LHZFvvZch6pD+zlX1XpIwvGq0ZrnFMEc1t1YW7nP0R3xQcaH3/zaQTkdQWYMdcdkyWtueCwncI3G4xmQpj4Y9iWo8br0/N/TNG1yie9JxNt1Y0h9ZAsLlfipekLs+gok+0qCLS2ELG7s4hGOOcACQkn357lH2AzfskNsmaRCEOwwMzq5mK2TIS4EapBTwLf9tEbfEA3pXXTIgUwvjwK9q+hIegeSe/Hdiv1da02NAve5RXgBRoA1oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F5/IpbRT5pIpN4XtG0WDeZxlqTxlyiAVhavci3Lw5gc=;
- b=GAImjRIpXdLVpWvhzAUBfXvSXGmAiLl5+fJpiCm/GQnefHF7lceEoiTWkGM1pdViSTQR1PIN23xC2M514GN2nt8M7KJNWpxXU5J45dx4OmarCw3l/9SCDYj3jM8FNnSNo2JRfh5y7lOlEy9NfPNfLtRy8jIBZEFHq9gIbfjluQdg2tTN/yvtB9HNosgzCUfugCWd4S2qODPqo+PD48dTFOzbutD6CShmyGvuo5FDyWqxxVrP9QvyzEUnuf8i34tDEygj5RK+ZGJ23nOnlqfZvO4IbZizoUR1fvhZfVSwSlfEDPytWcCn1qSOsM6U/XAHBtZXULDufsLerVxx6lYGrg==
-Received: from BN9PR03CA0623.namprd03.prod.outlook.com (2603:10b6:408:106::28)
- by CH0PR12MB5121.namprd12.prod.outlook.com (2603:10b6:610:bc::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Thu, 24 Jun
- 2021 07:32:29 +0000
-Received: from BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:106:cafe::f2) by BN9PR03CA0623.outlook.office365.com
- (2603:10b6:408:106::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend
- Transport; Thu, 24 Jun 2021 07:32:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT054.mail.protection.outlook.com (10.13.177.102) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4264.18 via Frontend Transport; Thu, 24 Jun 2021 07:32:28 +0000
-Received: from mtl-vdi-166.wap.labs.mlnx (172.20.187.6) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 24 Jun 2021 07:32:24 +0000
-Date: Thu, 24 Jun 2021 10:32:20 +0300
-From: Eli Cohen <elic@nvidia.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 06/18] vhost-vdpa: fix leaking of vhost_net in
- vhost_vdpa_add()
-Message-ID: <20210624073220.GA42206@mtl-vdi-166.wap.labs.mlnx>
-References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-7-jasowang@redhat.com>
- <20210623150016.mdrk35bkxfr3ww43@steredhat>
- <20210624070609.GA41237@mtl-vdi-166.wap.labs.mlnx>
- <53867f1d-5b57-29f0-ff1d-a3f2002c4324@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+ bh=IZCY9Upr+wZ7ILDCB7dZuKDE6xVUapiuTkgrt5CmNOg=;
+ b=IinBRC535NQ7t1jBBrD3gl32aC4/9FmmT2+tjieykvlQe7XEk7SexfWRTfkGmWNHHa+3Wt7502rI7dhN7w90DGhZDlqKSHreLXpfEd7kXcD3HR5c7qumiWrKrz1ZAmj3DiH8SE789tlkYo54efdaFXm5jVUioX5b07AUD02PzrM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1714.eurprd08.prod.outlook.com (2603:10a6:203:3a::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Thu, 24 Jun
+ 2021 07:33:06 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.020; Thu, 24 Jun 2021
+ 07:33:06 +0000
+Subject: Re: [PATCH v4 1/7] file-posix: fix max_iov for /dev/sg devices
+To: Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, kwolf@redhat.com
+References: <20210608131634.423904-1-pbonzini@redhat.com>
+ <20210608131634.423904-2-pbonzini@redhat.com>
+ <c8fcf5db-fe39-a2f7-08a6-95ed29619704@virtuozzo.com>
+ <370bcdef-15ae-f837-e5da-2293ca8f1342@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20293f4b-2928-8bfd-c584-d4546eb7ba8e@virtuozzo.com>
+Date: Thu, 24 Jun 2021 10:33:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <370bcdef-15ae-f837-e5da-2293ca8f1342@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <53867f1d-5b57-29f0-ff1d-a3f2002c4324@redhat.com>
-User-Agent: Mutt/1.9.5 (bf161cf53efb) (2018-04-13)
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
+X-Originating-IP: [185.215.60.221]
+X-ClientProxiedBy: FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.221) by
+ FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.7 via Frontend Transport; Thu, 24 Jun 2021 07:33:05 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 53e2b052-fb2d-4d99-b347-08d936e238b5
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5121:
-X-Microsoft-Antispam-PRVS: <CH0PR12MB5121FD326005F04328976BC3AB079@CH0PR12MB5121.namprd12.prod.outlook.com>
-X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-Correlation-Id: bf0a8edb-d7a4-48bb-c878-08d936e24ec6
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1714:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB17140A13BFD07DD0C2BBDA60C1079@AM5PR0801MB1714.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /gN7pS7TJjfqknCF0afSLN50z3u1r2mx1o2dVddr2BGjx+b9uDTjkUdhiqYQruQLrQYrCaoa69SuKSNrd80pZjwsit0YLBvTfKBNEusXHxrjwoz/H6x3M6wcM54iKLmnW0EMGjy+HncHE9lKt+Qzyfy9D8I0CfU1iBc9wJSE6kk7oViStboZKg1muKsK4EreOG68yqFp1tS5AmkG671ZdEUN/YWYerDJHKlCNSOSP9qbU9FAwCQieO0Zkx2vMlkvai/YsP+4gpMxvWrX/J/am6HsyOBF480HHq0XI58xFBZu7QuIkTnfk9TltbIq1ehVQjxszam5z2LQUmk5a8fVhIO2fDWex40cUW2HuBqA2qjMcc8UQ+gH7TcTfSoHM2ZO4APDQojAqOvWV2TEZWKPe1NxgEEFaygNYqazcZY0lI7QP42+pz97XY+wGDxc8ilynrSuWwXtuW+OcCxibw9xEPf+oBpEk7vNn1FQhtkKVYEzek8ooYUU0VNsaXTFpRhJmwq626hVbEF5JUChshhbYszg50I8cFzjmiAdBtjOBcMFj5GFPmG7DmzRmY8SuTLsAWwyx0ZxggozfyKb1qsiwaXcYg54nKFjMfZjAcgXtvvnQeGizayKSt11WEcQZBQUoHuuiqz91qAaU6A7ProwosEAcfNvFDhElIJVdzVf2GI=
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(36840700001)(46966006)(186003)(356005)(16526019)(7696005)(316002)(54906003)(9686003)(36860700001)(82310400003)(36906005)(6916009)(83380400001)(33656002)(7636003)(82740400003)(26005)(86362001)(6666004)(8676002)(8936002)(5660300002)(336012)(70206006)(70586007)(1076003)(2906002)(426003)(47076005)(4326008)(55016002)(478600001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 07:32:28.9697 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53e2b052-fb2d-4d99-b347-08d936e238b5
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5121
-Received-SPF: softfail client-ip=40.107.92.57; envelope-from=elic@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Microsoft-Antispam-Message-Info: O/tE77zGQ+PJBxmlOUDNcJeG7NGq2m1HvohsZ09KYhFaQ17xqIPydZVQJFNifneseAIr9+S1fNizyshvQXyEMD/Gquj2F/2bOGRib0YtZtPY7GI8ZWKh5xoCQ5KkqmzQk/hX1ICPWwH32DC4TBTPfYbbJlQn4KunkAjrmm9kKLIof/N5V5StuFf9pEG26DG4PzJMqbGx4CsJPCVXHcEin+aea9jAn0seCwS06NAFqcX+sEfx4rNtQAXGFohKiPFIhxpq+X7HHfhOG1ipnYwTMS5nD6dfkBbu7YqJe0BxePGKEkuiXa4ovW9Vdc00dcADZ7CkJSAQG0LprwQZ9f8N9fpU1gkW3uqZHXs+g05doPdkyEu68oIKORlIL3xg1a1C24fiqf5lwhx4ykmHlouA6GoaUqZGhrdQBR8+Zpj91kVvA4sdXnxQO6h7n6vKfYAhE0ADQ3GFBP/3G9Mhnl0TkBVUo5ro7BuUPsAnv8tX/3HIRVf9oyEy7JA6fywky2X8UbU/nC43B2RxRQ/BY672zHlctOVcDHAAKwUjoDoK5Xj8Cc7AiAEY7xRF2SOiP4bcMzDypAUcDed+uLIvqAJPo4T1X3WCSNzcf6xdA76G9S7uHncsGZTDIXfHXn1c3V/BidNCfDZOm1fJ9p8IpzTPLV3zrTGfLwezklvEUWC2aC7W2ZvZFF6hsCV8IPmdzkOTTLgxctVjUZG6wAbJvHH18E7Xj1dBk5nzcjcG488Nh+HLJe9ttGZnJxlDMlH0iAKKXQcIFovWdUyQkHHa2fnbQw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(136003)(39830400003)(346002)(376002)(31696002)(83380400001)(66476007)(66556008)(53546011)(52116002)(6486002)(26005)(86362001)(31686004)(316002)(5660300002)(38100700002)(2616005)(38350700002)(956004)(4326008)(478600001)(8936002)(66946007)(110136005)(2906002)(36756003)(16526019)(16576012)(8676002)(186003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U1lMTE9tck01bHdVbTA2OFQvd3hJb2dCam9GTjNaZFNGREtxa3p4SnlTZDJr?=
+ =?utf-8?B?UTk0c1B3MmpxbzFJRnZmQmJZNDFrWDhkT0MwNTVTRlJJSTErTTNURDdpT0FV?=
+ =?utf-8?B?Z1lGYnVIM1NqWUVZa1pxOHUySENiL1kzWUJJUUkzUXFWVFlFRGRIa3I2bytG?=
+ =?utf-8?B?YmxZam1qVGdML1daOTFoK1RxWTFsQ2UyczZJQytnbUltMHM4TGRVQTk2RTN2?=
+ =?utf-8?B?WGdnRmtpM0RYMDh6TjBiUjROSnQvbTkvZ1l6czRIOHNTdlFtZlRjU2xLT0di?=
+ =?utf-8?B?dDVVZllyUW82aWx3NUZCU3c3L1d5bVVrM3RlVnJKN0EzTkZkZUZpcklFOE1V?=
+ =?utf-8?B?Q2daUDNkWm1sVUFJK2tNN3VoTm5oM2Y0bjFSYjJlOTA3amFMWEt4K2ZPcVZm?=
+ =?utf-8?B?Ui92aHAvRkNCRmpObE9jNCs0cllqSFJ3MVhEWW92eGpIOUt1YnEwUU82Umx6?=
+ =?utf-8?B?dTZjM2tJTWtRcEoza3ZiMnpvYlNZS1hKMzJadTJMOUhsQjA2YzVST3lVZFI0?=
+ =?utf-8?B?NXN4ajE3YmJ4TUN2c1QzMFBMbElRVGMzRUNDN09IUmxwYzcwRzJCUWpmUTBi?=
+ =?utf-8?B?d0Fra1dpaEw5OUxreHR2UVFoUlE0K0xsSStOSnZjc2VnQ3RxR2hYb2pBdEZY?=
+ =?utf-8?B?Nmd3NDJiYUV2K0FhU3hZTWkxQU1Od3FwRWxjdFZCTCtkSXgvSEJENmh1a3ph?=
+ =?utf-8?B?cTg5RDNVdmhIU0x5aTdMbm45cjhZdGxZUEZCRHFoMXE5eVY0MFd0SzZzcGlj?=
+ =?utf-8?B?VkFncFZMMVRGdCs1eUhGS0FGeEw1WTdYY3FwTjAwTUNwZ3F1WFNQVTR4ZWFX?=
+ =?utf-8?B?cDcwd2JKWHFYaHBlOFJKTzdmSUFKZEdMZ01ab0I1cHFsaFZjbUlwa1BCZU1x?=
+ =?utf-8?B?T29WQ3M5cldLdC9VSGZtK01sR1QzWjViV2RZRHJ3bEtLeElvRGZvTSt6UGt2?=
+ =?utf-8?B?bVhEYVZtZ0dKMnlFODVFVTMzRWticm1lQkxIalhBWCtMaGRQT3orNHB1ZGVq?=
+ =?utf-8?B?VjArcWxwbEdGZjY2eVNUNUgzYTZVdmRHTnBYV3k0RGF6eVlRbkVyZGw1MHFl?=
+ =?utf-8?B?cVpPNStPZlU2QkxJdWtURmN5SHRmZUpQNjZVQjc2N0Q5dlp2TENkRUlTdEFp?=
+ =?utf-8?B?MWJhTlc3R0hWWDMzcEo0RHMzMVMvUCs1QWpTc1VBcmhVNjNXZTdtaHV5Tm02?=
+ =?utf-8?B?eWJqcmRXaHJqSSs1dFpTeE9ybXg5QmZkUjdLaldwYk1pTm1qeU1wRndLTjlG?=
+ =?utf-8?B?ODZDSXFMdDdkRCtzODdKUjZGd1NxWVl3cmYxQ1B4eG9uZzdtY3BhdEI5WmFR?=
+ =?utf-8?B?V3VwbW4zRHJJMktBbmhBUFVqOTNxRDRTNEpWQlczNk1ENGhJc1JXQWNIZW4r?=
+ =?utf-8?B?dkloaEVhZWFVYmJHWFl3UHRjVjBiM0E5dzlSeEhmWlZTdG5xaDkwNUYvdnpF?=
+ =?utf-8?B?VEdCZmRLVEVoWUdoQ3lBd1NRTlNOLzZ1VnFQOG5RWVpYRStPQTl6eENzYmRj?=
+ =?utf-8?B?V25yVURhT0FXUm1wVXlIMFVwV1BKbE9temg0WVdwb3dGZ2hYSzJSQWRDWWpq?=
+ =?utf-8?B?emsxM2RnVk9zcVdjK0VMQ0tNK1hIdGV4U05WTXZ5dGhpalNSMWwybFo4NDZi?=
+ =?utf-8?B?b3g5eStXMEFDN29nQTd6ZEpaZ2VnUzMxR2pFRWNIc2RJSER3VE1Nd1RmOEgz?=
+ =?utf-8?B?U3dhemc5em4yeGxXR1FGc1ZiZG93Tlo3NEZLZVRDMHFwd1hXdFE3SjNiYkVt?=
+ =?utf-8?Q?lrbVVDQx69YYeiKb1a7xGUUqHcQB0BtRnvjMnnx?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf0a8edb-d7a4-48bb-c878-08d936e24ec6
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 07:33:06.3447 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m6A8kXFYZTsoQsEeJfuSNDYx3TbYFJtYtYzGISFuwVMOve2QoKm1180gsa6/GXq3O80KZ4MI5ZMEyvbKMMqcI7Q8ZYoLfRq2eQhniMah1Kg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1714
+Received-SPF: pass client-ip=40.107.14.90;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,55 +147,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, eperezma@redhat.com,
- lingshan.zhu@intel.com, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 24, 2021 at 03:10:46PM +0800, Jason Wang wrote:
+23.06.2021 18:42, Max Reitz wrote:
+> On 08.06.21 21:14, Vladimir Sementsov-Ogievskiy wrote:
+>> 08.06.2021 16:16, Paolo Bonzini wrote:
+>>> Even though it was only called for devices that have bs->sg set (which
+>>> must be character devices), sg_get_max_segments looked at /sys/dev/block
+>>> which only works for block devices.
+>>>
+>>> On Linux the sg driver has its own way to provide the maximum number of
+>>> iovecs in a scatter/gather list, so add support for it.  The block device
+>>> path is kept because it will be reinstated in the next patches.
+>>>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>   block/file-posix.c | 11 +++++++++++
+>>>   1 file changed, 11 insertions(+)
+>>>
+>>> diff --git a/block/file-posix.c b/block/file-posix.c
+>>> index f37dfc10b3..536998a1d6 100644
+>>> --- a/block/file-posix.c
+>>> +++ b/block/file-posix.c
+>>> @@ -1180,6 +1180,17 @@ static int sg_get_max_segments(int fd)
+>>>           goto out;
+>>>       }
+>>>   +    if (S_ISCHR(st.st_mode)) {
+>>
+>> Why not check "if (bs->sg) {" instead? It seems to be more consistent with issuing SG_ ioctl. Or what I miss?
 > 
-> 在 2021/6/24 下午3:06, Eli Cohen 写道:
-> > On Wed, Jun 23, 2021 at 05:00:16PM +0200, Stefano Garzarella wrote:
-> > > On Mon, Jun 21, 2021 at 12:16:38PM +0800, Jason Wang wrote:
-> > > > Fixes: 1e0a84ea49b68 ("vhost-vdpa: introduce vhost-vdpa net client")
-> > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > > ---
-> > > > net/vhost-vdpa.c | 1 +
-> > > > 1 file changed, 1 insertion(+)
-> > > > 
-> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > index f5689a7c32..21f09c546f 100644
-> > > > --- a/net/vhost-vdpa.c
-> > > > +++ b/net/vhost-vdpa.c
-> > > > @@ -111,6 +111,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
-> > > > err:
-> > > >      if (net) {
-> > This check is redundant. net is not null.
+> I dismissed this in v3, because I didn’t understand why you’d raise this point.  The function is called sg_*(), and it’s only called if bs->sg is true anyway.  So clearly we can use SG_ ioctls, because the whole function is intended only for SG devices anyway.
 > 
+> This time, I looked forward, and perhaps starting at patch 4 I can understand where you’re coming from, because then the function is used for host devices in general.
 > 
-> Actually, it can:
+> So now I don’t particularly mind.  I think it’s still clear that if there’s a host device here that’s a character device, then that’s going to be an SG device, so I don’t really have a preference between S_ISCHR() and bs->sg.
 > 
->     net = vhost_net_init(&options);
->     if (!net) {
->         error_report("failed to init vhost_net for queue");
->         goto err;
->     }
 
-Hmmm... right.
+If I understand all correctly:
+
+In this patch we don't need neither S_ISCHR nor bs->sg check: they both must pass for sg devices. Starting from patch 4 we'll need here if (bs->sg) check.
+
 > 
-> Thanks
+>>> +        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
+>>> +            return ret;
+>>> +        }
+>>> +        return -ENOTSUP;
+>>> +    }
+>>> +
+>>> +    if (!S_ISBLK(st.st_mode)) {
+>>> +        return -ENOTSUP;
+>>> +    }
+>>> +
+>>>       sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
+>>>                                   major(st.st_rdev), minor(st.st_rdev));
+>>>       sysfd = open(sysfspath, O_RDONLY);
+>>>
+>>
+>>
 > 
-> 
-> > > >          vhost_net_cleanup(net);
-> > > > +        g_free(net);
-> > > >      }
-> > > >      return -1;
-> > > > }
-> > > > -- 
-> > > > 2.25.1
-> > > > 
-> > > > 
-> > > Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-> > > 
-> 
+
+
+-- 
+Best regards,
+Vladimir
 
