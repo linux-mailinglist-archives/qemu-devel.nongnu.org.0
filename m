@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EA63B287B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 09:22:51 +0200 (CEST)
-Received: from localhost ([::1]:40818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C7A3B287F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 09:24:19 +0200 (CEST)
+Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwJhK-0006Nw-Bf
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 03:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55154)
+	id 1lwJik-0001kM-Rq
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 03:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lwJfV-00043t-N0
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:20:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37536)
+ id 1lwJfa-00048v-EV
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:21:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lwJfU-0001Zu-4G
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:20:57 -0400
+ id 1lwJfW-0001bc-OQ
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:21:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624519255;
+ s=mimecast20190719; t=1624519258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KjtHrFHGhwjyuwbs0OHxoNFopcOz9d9PgS/JN9G+UWQ=;
- b=ghRmRYpj1SnQNYiM9ZB5O0hrvTqiF1QKF7v7ru+TnS/gpc373uFD8v/5FPTdwHHDbExYjF
- 2EFw4uq3CC6fNYMrxGCUyo5cOj+CRKh0ysqWacOM2ydyzWptl04tDprUms8HqbCHXCSnsN
- UjEVdiofXsjZjQu3peItk5uGSQHTpDs=
+ bh=lRAencybc+jCMyk7u+GJftewL3nXBTdkK/FvYuRQY28=;
+ b=QgGdCYcmuH2o1W251ZU7i1AeJDDC3vhpBJ3qj7H+dPKOLCEDJJCx2qgRTGeUR8H+LHkE3L
+ gSX26NIc5govaMWokhUNz+byPUPtatVAlOP3pm40Q6JgaQUzozZbhbR2CArvqpZAnm2ND/
+ z11M06qg4D6LNClfmGZiWr/ykVorUBk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-rzS0ZM31OaO9225bU8XD1g-1; Thu, 24 Jun 2021 03:20:53 -0400
-X-MC-Unique: rzS0ZM31OaO9225bU8XD1g-1
+ us-mta-485-lfuRi1BXMHm6JfI2A3Ie_g-1; Thu, 24 Jun 2021 03:20:56 -0400
+X-MC-Unique: lfuRi1BXMHm6JfI2A3Ie_g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7E63100C624;
- Thu, 24 Jun 2021 07:20:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 979621084F61;
+ Thu, 24 Jun 2021 07:20:55 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-113-3.ams2.redhat.com
  [10.36.113.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 533185C1BB;
- Thu, 24 Jun 2021 07:20:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23C605C1BB;
+ Thu, 24 Jun 2021 07:20:52 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 1/5] block-copy: small refactor in block_copy_task_entry
- and block_copy_common
-Date: Thu, 24 Jun 2021 09:20:39 +0200
-Message-Id: <20210624072043.180494-2-eesposit@redhat.com>
+Subject: [PATCH v5 2/5] block-copy: streamline choice of copy_range vs.
+ read/write
+Date: Thu, 24 Jun 2021 09:20:40 +0200
+Message-Id: <20210624072043.180494-3-eesposit@redhat.com>
 In-Reply-To: <20210624072043.180494-1-eesposit@redhat.com>
 References: <20210624072043.180494-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,70 +88,327 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a local variable instead of referencing BlockCopyState through a
-BlockCopyCallState or BlockCopyTask every time.
-This is in preparation for next patches.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-No functional change intended.
+Put the logic to determine the copy size in a separate function, so
+that there is a simple state machine for the possible methods of
+copying data from one BlockDriverState to the other.
+
+Use .method instead of .copy_range as in-out argument, and
+include also .zeroes as an additional copy method.
+
+While at it, store the common computation of block_copy_max_transfer
+into a new field of BlockCopyState, and make sure that we always
+obey max_transfer; that's more efficient even for the
+COPY_RANGE_READ_WRITE case.
 
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/block-copy.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ block/block-copy.c | 176 +++++++++++++++++++++++----------------------
+ 1 file changed, 90 insertions(+), 86 deletions(-)
 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 943e30b7e6..f0dbb4912b 100644
+index f0dbb4912b..bbcc53ff70 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -452,14 +452,15 @@ static void block_copy_handle_copy_range_result(BlockCopyState *s,
- static coroutine_fn int block_copy_task_entry(AioTask *task)
+@@ -28,6 +28,14 @@
+ #define BLOCK_COPY_MAX_WORKERS 64
+ #define BLOCK_COPY_SLICE_TIME 100000000ULL /* ns */
+ 
++typedef enum {
++    COPY_READ_WRITE_CLUSTER,
++    COPY_READ_WRITE,
++    COPY_WRITE_ZEROES,
++    COPY_RANGE_SMALL,
++    COPY_RANGE_FULL
++} BlockCopyMethod;
++
+ static coroutine_fn int block_copy_task_entry(AioTask *task);
+ 
+ typedef struct BlockCopyCallState {
+@@ -64,8 +72,7 @@ typedef struct BlockCopyTask {
+     BlockCopyCallState *call_state;
+     int64_t offset;
+     int64_t bytes;
+-    bool zeroes;
+-    bool copy_range;
++    BlockCopyMethod method;
+     QLIST_ENTRY(BlockCopyTask) list;
+     CoQueue wait_queue; /* coroutines blocked on this task */
+ } BlockCopyTask;
+@@ -86,8 +93,8 @@ typedef struct BlockCopyState {
+     BdrvDirtyBitmap *copy_bitmap;
+     int64_t in_flight_bytes;
+     int64_t cluster_size;
+-    bool use_copy_range;
+-    int64_t copy_size;
++    BlockCopyMethod method;
++    int64_t max_transfer;
+     uint64_t len;
+     QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
+     QLIST_HEAD(, BlockCopyCallState) calls;
+@@ -149,6 +156,24 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
+     return true;
+ }
+ 
++static int64_t block_copy_chunk_size(BlockCopyState *s)
++{
++    switch (s->method) {
++    case COPY_READ_WRITE_CLUSTER:
++        return s->cluster_size;
++    case COPY_READ_WRITE:
++    case COPY_RANGE_SMALL:
++        return MIN(MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER),
++                   s->max_transfer);
++    case COPY_RANGE_FULL:
++        return MIN(MAX(s->cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
++                   s->max_transfer);
++    default:
++        /* Cannot have COPY_WRITE_ZEROES here.  */
++        abort();
++    }
++}
++
+ /*
+  * Search for the first dirty area in offset/bytes range and create task at
+  * the beginning of it.
+@@ -158,8 +183,9 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+                                              int64_t offset, int64_t bytes)
  {
+     BlockCopyTask *task;
+-    int64_t max_chunk = MIN_NON_ZERO(s->copy_size, call_state->max_chunk);
++    int64_t max_chunk;
+ 
++    max_chunk = MIN_NON_ZERO(block_copy_chunk_size(s), call_state->max_chunk);
+     if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
+                                            offset, offset + bytes,
+                                            max_chunk, &offset, &bytes))
+@@ -183,7 +209,7 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+         .call_state = call_state,
+         .offset = offset,
+         .bytes = bytes,
+-        .copy_range = s->use_copy_range,
++        .method = s->method,
+     };
+     qemu_co_queue_init(&task->wait_queue);
+     QLIST_INSERT_HEAD(&s->tasks, task, list);
+@@ -267,28 +293,28 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         .len = bdrv_dirty_bitmap_size(copy_bitmap),
+         .write_flags = write_flags,
+         .mem = shres_create(BLOCK_COPY_MAX_MEM),
++        .max_transfer = QEMU_ALIGN_DOWN(
++                                    block_copy_max_transfer(source, target),
++                                    cluster_size),
+     };
+ 
+-    if (block_copy_max_transfer(source, target) < cluster_size) {
++    if (s->max_transfer < cluster_size) {
+         /*
+          * copy_range does not respect max_transfer. We don't want to bother
+          * with requests smaller than block-copy cluster size, so fallback to
+          * buffered copying (read and write respect max_transfer on their
+          * behalf).
+          */
+-        s->use_copy_range = false;
+-        s->copy_size = cluster_size;
++        s->method = COPY_READ_WRITE_CLUSTER;
+     } else if (write_flags & BDRV_REQ_WRITE_COMPRESSED) {
+         /* Compression supports only cluster-size writes and no copy-range. */
+-        s->use_copy_range = false;
+-        s->copy_size = cluster_size;
++        s->method = COPY_READ_WRITE_CLUSTER;
+     } else {
+         /*
+-         * We enable copy-range, but keep small copy_size, until first
++         * If copy range enabled, start with COPY_RANGE_SMALL, until first
+          * successful copy_range (look at block_copy_do_copy).
+          */
+-        s->use_copy_range = use_copy_range;
+-        s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
++        s->method = use_copy_range ? COPY_RANGE_SMALL : COPY_READ_WRITE;
+     }
+ 
+     ratelimit_init(&s->rate_limit);
+@@ -343,17 +369,14 @@ static coroutine_fn int block_copy_task_run(AioTaskPool *pool,
+  *
+  * No sync here: nor bitmap neighter intersecting requests handling, only copy.
+  *
+- * @copy_range is an in-out argument: if *copy_range is false, copy_range is not
+- * done. If *copy_range is true, copy_range is attempted. If the copy_range
+- * attempt fails, the function falls back to the usual read+write and
+- * *copy_range is set to false. *copy_range and zeroes must not be true
+- * simultaneously.
+- *
++ * @method is an in-out argument, so that copy_range can be either extended to
++ * a full-size buffer or disabled if the copy_range attempt fails.  The output
++ * value of @method should be used for subsequent tasks.
+  * Returns 0 on success.
+  */
+ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+                                            int64_t offset, int64_t bytes,
+-                                           bool zeroes, bool *copy_range,
++                                           BlockCopyMethod *method,
+                                            bool *error_is_read)
+ {
+     int ret;
+@@ -367,9 +390,9 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+     assert(offset + bytes <= s->len ||
+            offset + bytes == QEMU_ALIGN_UP(s->len, s->cluster_size));
+     assert(nbytes < INT_MAX);
+-    assert(!(*copy_range && zeroes));
+ 
+-    if (zeroes) {
++    switch (*method) {
++    case COPY_WRITE_ZEROES:
+         ret = bdrv_co_pwrite_zeroes(s->target, offset, nbytes, s->write_flags &
+                                     ~BDRV_REQ_WRITE_COMPRESSED);
+         if (ret < 0) {
+@@ -377,76 +400,59 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+             *error_is_read = false;
+         }
+         return ret;
+-    }
+ 
+-    if (*copy_range) {
++    case COPY_RANGE_SMALL:
++    case COPY_RANGE_FULL:
+         ret = bdrv_co_copy_range(s->source, offset, s->target, offset, nbytes,
+                                  0, s->write_flags);
+-        if (ret < 0) {
+-            trace_block_copy_copy_range_fail(s, offset, ret);
+-            *copy_range = false;
+-            /* Fallback to read+write with allocated buffer */
+-        } else {
++        if (ret >= 0) {
++            /* Successful copy-range, increase chunk size.  */
++            *method = COPY_RANGE_FULL;
+             return 0;
+         }
+-    }
+ 
+-    /*
+-     * In case of failed copy_range request above, we may proceed with buffered
+-     * request larger than BLOCK_COPY_MAX_BUFFER. Still, further requests will
+-     * be properly limited, so don't care too much. Moreover the most likely
+-     * case (copy_range is unsupported for the configuration, so the very first
+-     * copy_range request fails) is handled by setting large copy_size only
+-     * after first successful copy_range.
+-     */
++        trace_block_copy_copy_range_fail(s, offset, ret);
++        *method = COPY_READ_WRITE;
++        /* Fall through to read+write with allocated buffer */
+ 
+-    bounce_buffer = qemu_blockalign(s->source->bs, nbytes);
++    case COPY_READ_WRITE_CLUSTER:
++    case COPY_READ_WRITE:
++        /*
++         * In case of failed copy_range request above, we may proceed with
++         * buffered request larger than BLOCK_COPY_MAX_BUFFER.
++         * Still, further requests will be properly limited, so don't care too
++         * much. Moreover the most likely case (copy_range is unsupported for
++         * the configuration, so the very first copy_range request fails)
++         * is handled by setting large copy_size only after first successful
++         * copy_range.
++         */
+ 
+-    ret = bdrv_co_pread(s->source, offset, nbytes, bounce_buffer, 0);
+-    if (ret < 0) {
+-        trace_block_copy_read_fail(s, offset, ret);
+-        *error_is_read = true;
+-        goto out;
+-    }
++        bounce_buffer = qemu_blockalign(s->source->bs, nbytes);
+ 
+-    ret = bdrv_co_pwrite(s->target, offset, nbytes, bounce_buffer,
+-                         s->write_flags);
+-    if (ret < 0) {
+-        trace_block_copy_write_fail(s, offset, ret);
+-        *error_is_read = false;
+-        goto out;
+-    }
++        ret = bdrv_co_pread(s->source, offset, nbytes, bounce_buffer, 0);
++        if (ret < 0) {
++            trace_block_copy_read_fail(s, offset, ret);
++            *error_is_read = true;
++            goto out;
++        }
+ 
+-out:
+-    qemu_vfree(bounce_buffer);
++        ret = bdrv_co_pwrite(s->target, offset, nbytes, bounce_buffer,
++                             s->write_flags);
++        if (ret < 0) {
++            trace_block_copy_write_fail(s, offset, ret);
++            *error_is_read = false;
++            goto out;
++        }
+ 
+-    return ret;
+-}
++    out:
++        qemu_vfree(bounce_buffer);
++        break;
+ 
+-static void block_copy_handle_copy_range_result(BlockCopyState *s,
+-                                                bool is_success)
+-{
+-    if (!s->use_copy_range) {
+-        /* already disabled */
+-        return;
++    default:
++        abort();
+     }
+ 
+-    if (is_success) {
+-        /*
+-         * Successful copy-range. Now increase copy_size.  copy_range
+-         * does not respect max_transfer (it's a TODO), so we factor
+-         * that in here.
+-         */
+-        s->copy_size =
+-                MIN(MAX(s->cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
+-                    QEMU_ALIGN_DOWN(block_copy_max_transfer(s->source,
+-                                                            s->target),
+-                                    s->cluster_size));
+-    } else {
+-        /* Copy-range failed, disable it. */
+-        s->use_copy_range = false;
+-        s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
+-    }
++    return ret;
+ }
+ 
+ static coroutine_fn int block_copy_task_entry(AioTask *task)
+@@ -454,13 +460,12 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
      BlockCopyTask *t = container_of(task, BlockCopyTask, task);
-+    BlockCopyState *s = t->s;
+     BlockCopyState *s = t->s;
      bool error_is_read = false;
-     bool copy_range = t->copy_range;
+-    bool copy_range = t->copy_range;
++    BlockCopyMethod method = t->method;
      int ret;
  
--    ret = block_copy_do_copy(t->s, t->offset, t->bytes, t->zeroes,
-+    ret = block_copy_do_copy(s, t->offset, t->bytes, t->zeroes,
-                              &copy_range, &error_is_read);
-     if (t->copy_range) {
--        block_copy_handle_copy_range_result(t->s, copy_range);
-+        block_copy_handle_copy_range_result(s, copy_range);
+-    ret = block_copy_do_copy(s, t->offset, t->bytes, t->zeroes,
+-                             &copy_range, &error_is_read);
+-    if (t->copy_range) {
+-        block_copy_handle_copy_range_result(s, copy_range);
++    ret = block_copy_do_copy(s, t->offset, t->bytes, &method, &error_is_read);
++    if (s->method == t->method) {
++        s->method = method;
      }
      if (ret < 0) {
          if (!t->call_state->ret) {
-@@ -467,9 +468,9 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
-             t->call_state->error_is_read = error_is_read;
+@@ -643,8 +648,7 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
+             continue;
          }
-     } else {
--        progress_work_done(t->s->progress, t->bytes);
-+        progress_work_done(s->progress, t->bytes);
-     }
--    co_put_to_shres(t->s->mem, t->bytes);
-+    co_put_to_shres(s->mem, t->bytes);
-     block_copy_task_end(t, ret);
- 
-     return ret;
-@@ -714,14 +715,15 @@ void block_copy_kick(BlockCopyCallState *call_state)
- static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
- {
-     int ret;
-+    BlockCopyState *s = call_state->s;
- 
--    QLIST_INSERT_HEAD(&call_state->s->calls, call_state, list);
-+    QLIST_INSERT_HEAD(&s->calls, call_state, list);
- 
-     do {
-         ret = block_copy_dirty_clusters(call_state);
- 
-         if (ret == 0 && !call_state->cancelled) {
--            ret = block_copy_wait_one(call_state->s, call_state->offset,
-+            ret = block_copy_wait_one(s, call_state->offset,
-                                       call_state->bytes);
+         if (ret & BDRV_BLOCK_ZERO) {
+-            task->zeroes = true;
+-            task->copy_range = false;
++            task->method = COPY_WRITE_ZEROES;
          }
  
+         if (!call_state->ignore_ratelimit) {
 -- 
 2.31.1
 
