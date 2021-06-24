@@ -2,57 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25833B265E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 06:32:33 +0200 (CEST)
-Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873FE3B26E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 07:34:44 +0200 (CEST)
+Received: from localhost ([::1]:42384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwH2W-0004JK-Qe
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 00:32:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
+	id 1lwI0h-0006dV-6L
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 01:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lwH1F-0003c3-BZ
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 00:31:13 -0400
-Resent-Date: Thu, 24 Jun 2021 00:31:13 -0400
-Resent-Message-Id: <E1lwH1F-0003c3-BZ@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21377)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lwHzU-0005gx-Iy
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 01:33:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lwH1C-0001j2-2X
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 00:31:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624509050; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WB1AM1sSGw3gS/hrDMs5ZErUyGCQzvZj3bj8GQfiIcqqXWPeSaTYRaLIhO5Ait8V6nFjfKgsL60u5iRM922dSMtwim4baV3g4xX6NYhjw1lBOnhyF9mVhkvih/T0y8OYfPY+ABPXXWTRXLJPQkA/yAoNXuWcN98HV8ATreqIfhs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1624509050;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=RtEg9F2ZXqhawPgy2Hh4trWQU7BR6GhxxBR5dypRAOo=; 
- b=XqDPLXSeVUOm9I+IU+xiG6gxCLhnw/7y1fB0Lg0/IKvKOyL0LoKyM5lFefPz4y8kBLLz16rbH16+rFZCFGqJH1OS9RPL7VhdMQVF/Gf4S8tNRrYCteG5Rmty/brDlLneE2Na7YPMG2Bu48r72t6/CUghwefWve36AC3cS8Q1odQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1624509046228602.7021570895228;
- Wed, 23 Jun 2021 21:30:46 -0700 (PDT)
-In-Reply-To: <20210624041040.1250631-1-vivek.kasireddy@intel.com>
-Subject: Re: [RFC v1 0/1] ui: Add a Wayland backend for Qemu UI
-Message-ID: <162450904493.16025.10486341594793128250@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lwHzQ-00058N-U0
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 01:33:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624512803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VzgWy/Dg66BVore40hBFt2bDYBLrsDGL4+MtbGME5u8=;
+ b=bqvOucjl/vQPKLifX/y4KvVAcCOuWaUJTGr4UMf+4eple4pK9vAHRsIL57XH6ZjD503tuJ
+ bJHpGB5VcNtrXHczVtAMw5NlHi4Omfd9ixyWWt/UjrxE8bhQOoa8X7AXdQAQ8WxJrG/FId
+ mGBEqNtzb8tQIpkEH413iedlCi5kk/U=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-5q4DX9TDNZes5ls5DFykDA-1; Thu, 24 Jun 2021 01:33:19 -0400
+X-MC-Unique: 5q4DX9TDNZes5ls5DFykDA-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ e19-20020a170902ed93b0290110a7ccff51so1732111plj.20
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 22:33:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VzgWy/Dg66BVore40hBFt2bDYBLrsDGL4+MtbGME5u8=;
+ b=FR6kMmNUcRP0FYRaWoxvxIi1t6znn9ZgFd8C/4fFZs0jw96qEoFQEaNVtpzYueFLay
+ l7Wo6xaQba3zIezu99wV+rMMsvVBVE39ya3fPHj9teiWXqLoDlJl4Fm0u0/C6j2B1Jpx
+ jc8hz3CqsxhBlMqFoIpWzKVdSRafXxEl28a9klgr4mzSlX6bgLx7RrEcbgXoEmjNEy1u
+ N6s/WSO9tbZwdSutVui0Ad7hX2b4vyHjbXUIQc4CTQoyPT4cTbOxLrobsMSQrJFGlny4
+ YZUQiIFnOnM3VySQfo/QaoxbwXMAWKj4Sdg3tp6U2b3IFjylGmcbNsaEURpWDPyesUEy
+ tHUg==
+X-Gm-Message-State: AOAM532pdR3WHq2y+3V2xKKg8KFahf6+vfSB1wtWBdq6c6a4iRKVpnBs
+ gJVQZWbVhF2C+tnloytFbao/QRZG7iBCNmJUWKnhz6o2LU5pdMMuwpiOsq7Sxq/L5eDqGCrQO6C
+ PE3aqehz0LMUHSwSb2AFuPepjhq4oFTY=
+X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
+ e22-20020a62ee160000b02902feffcf775amr3277077pfi.59.1624512798174; 
+ Wed, 23 Jun 2021 22:33:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdometDJ/hc7/wZxF9GRivLtkqa2OcS6t5kG1rcBbIVFOQZTocs7zrAuclR4G1/k3nb6fN5YFi25iRaMFxLFs=
+X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
+ e22-20020a62ee160000b02902feffcf775amr3277045pfi.59.1624512797889; Wed, 23
+ Jun 2021 22:33:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vivek.kasireddy@intel.com
-Date: Wed, 23 Jun 2021 21:30:46 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <eeadb47b-d35c-2608-7970-8f754a34258c@redhat.com>
+ <20210623073612.ysrtxtpag4wm7k7e@sirius.home.kraxel.org>
+In-Reply-To: <20210623073612.ysrtxtpag4wm7k7e@sirius.home.kraxel.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 24 Jun 2021 07:33:05 +0200
+Message-ID: <CABgObfYR4XMtNaQqxpWc7DZCB2KydrXuwnkccaG56nJaWCotRQ@mail.gmail.com>
+Subject: Re: [PATCH v3 02/24] modules: collect module meta-data
+To: Gerd Hoffmann <kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000406e9505c57c5ce6"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,102 +92,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: dongwon.kim@intel.com, qemu-devel@nongnu.org, vivek.kasireddy@intel.com,
- tina.zhang@intel.com, kraxel@redhat.com, marcandre.lureau@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Peter Lieven <pl@kamp.de>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Halil Pasic <pasic@linux.vnet.ibm.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyNDA0MTA0MC4xMjUw
-NjMxLTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjI0MDQx
-MDQwLjEyNTA2MzEtMS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tClN1YmplY3Q6IFtSRkMgdjEg
-MC8xXSB1aTogQWRkIGEgV2F5bGFuZCBiYWNrZW5kIGZvciBRZW11IFVJCgo9PT0gVEVTVCBTQ1JJ
-UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8
-fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3Jp
-dGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9
-PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRl
-ZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3Qv
-cWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjI0MDQxMDQwLjEyNTA2MzEt
-MS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tIC0+IHBhdGNoZXcvMjAyMTA2MjQwNDEwNDAuMTI1
-MDYzMS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNo
-ICd0ZXN0Jwo1NDdjZTQ1IHVpOiBBZGQgYSBwbGFpbiBXYXlsYW5kIGJhY2tlbmQgZm9yIFFlbXUg
-VUkKCj09PSBPVVRQVVQgQkVHSU4gPT09CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
-IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI2MDogCm5ldyBmaWxl
-IG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjY2OiBGSUxF
-OiB1aS93YXlsYW5kLmM6MjoKKyAqIFdheWxhbmQgVUkgLS0gQSBzaW1wbGUgUWVtdSBVSSBiYWNr
-ZW5kIHRvIHNoYXJlIGJ1ZmZlcnMgd2l0aCBXYXlsYW5kIGNvbXBvc2l0b3JzCgpFUlJPUjogdXNl
-IFFFTVUgaW5zdGVhZCBvZiBRZW11IG9yIFFFbXUKIzI2NjogRklMRTogdWkvd2F5bGFuZC5jOjI6
-CisgKiBXYXlsYW5kIFVJIC0tIEEgc2ltcGxlIFFlbXUgVUkgYmFja2VuZCB0byBzaGFyZSBidWZm
-ZXJzIHdpdGggV2F5bGFuZCBjb21wb3NpdG9ycwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0
-ZXJzCiMyNzE6IEZJTEU6IHVpL3dheWxhbmQuYzo3OgorICogTW9zdGx5IChib2lsZXJwbGF0ZSkg
-YmFzZWQgb24gY2dpdC5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93ZXN0b24vdHJlZS9jbGllbnRz
-L3NpbXBsZS1kbWFidWYtZWdsLmMKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
-IHRhYnMKIzMxODogRklMRTogdWkvd2F5bGFuZC5jOjU0OgorXkleSV5JICAgICB1aW50MzJfdCBz
-ZXJpYWwpJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzI5OiBG
-SUxFOiB1aS93YXlsYW5kLmM6NjU6CiteSV5JXkkgICAgICBpbnQzMl90IHdpZHRoLCBpbnQzMl90
-IGhlaWdodCwkCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzMzA6
-IEZJTEU6IHVpL3dheWxhbmQuYzo2NjoKK15JXkleSSAgICAgIHN0cnVjdCB3bF9hcnJheSAqc3Rh
-dGVzKSQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ1OTogRklM
-RTogdWkvd2F5bGFuZC5jOjE5NToKK15JZXJyb3JfcmVwb3J0KCJDYW4ndCBmaW5kIGZyZWUgYnVm
-ZmVyXG4iKTskCgpFUlJPUjogRXJyb3IgbWVzc2FnZXMgc2hvdWxkIG5vdCBjb250YWluIG5ld2xp
-bmVzCiM0NTk6IEZJTEU6IHVpL3dheWxhbmQuYzoxOTU6CisgICAgICAgZXJyb3JfcmVwb3J0KCJD
-YW4ndCBmaW5kIGZyZWUgYnVmZmVyXG4iKTsKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2
-ZXIgdXNlIHRhYnMKIzUxOTogRklMRTogdWkvd2F5bGFuZC5jOjI1NToKK15JXkkgdWludDMyX3Qg
-Zm9ybWF0LCB1aW50MzJfdCBtb2RpZmllcl9oaSwgdWludDMyX3QgbW9kaWZpZXJfbG8pJAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTUyOiBGSUxFOiB1aS93YXls
-YW5kLmM6Mjg4OgorXkleSV5JICAgICAgICAgICAgICAgICBpZCwgJndsX2NvbXBvc2l0b3JfaW50
-ZXJmYWNlLCAxKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1
-NTQ6IEZJTEU6IHVpL3dheWxhbmQuYzoyOTA6CiteSWQtPndtX2Jhc2UgPSB3bF9yZWdpc3RyeV9i
-aW5kKHJlZ2lzdHJ5LCQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
-IzU1NTogRklMRTogdWkvd2F5bGFuZC5jOjI5MToKK15JXkleSV5JICAgICAgaWQsICZ4ZGdfd21f
-YmFzZV9pbnRlcmZhY2UsIDEpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
-IHRhYnMKIzU1NjogRklMRTogdWkvd2F5bGFuZC5jOjI5MjoKK15JeGRnX3dtX2Jhc2VfYWRkX2xp
-c3RlbmVyKGQtPndtX2Jhc2UsICZ3bV9iYXNlX2xpc3RlbmVyLCBkKTskCgpFUlJPUjogY29kZSBp
-bmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1NTg6IEZJTEU6IHVpL3dheWxhbmQuYzoyOTQ6
-CiteSWQtPmZzaGVsbCA9IHdsX3JlZ2lzdHJ5X2JpbmQocmVnaXN0cnksJAoKRVJST1I6IGNvZGUg
-aW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTU5OiBGSUxFOiB1aS93YXlsYW5kLmM6Mjk1
-OgorXkkgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlkLCAmendwX2Z1bGxzY3JlZW5fc2hl
-bGxfdjFfaW50ZXJmYWNlLCQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
-YnMKIzU2MDogRklMRTogdWkvd2F5bGFuZC5jOjI5NjoKK15JICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAxKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1
-NjI6IEZJTEU6IHVpL3dheWxhbmQuYzoyOTg6CiteSWQtPmRtYWJ1ZiA9IHdsX3JlZ2lzdHJ5X2Jp
-bmQocmVnaXN0cnksJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwoj
-NTYzOiBGSUxFOiB1aS93YXlsYW5kLmM6Mjk5OgorXkkgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGlkLCAmendwX2xpbnV4X2RtYWJ1Zl92MV9pbnRlcmZhY2UsIDMpOyQKCkVSUk9SOiBjb2Rl
-IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzU2NDogRklMRTogdWkvd2F5bGFuZC5jOjMw
-MDoKK15JendwX2xpbnV4X2RtYWJ1Zl92MV9hZGRfbGlzdGVuZXIoZC0+ZG1hYnVmLCAmZG1hYnVm
-X2xpc3RlbmVyLCQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzU2
-NTogRklMRTogdWkvd2F5bGFuZC5jOjMwMToKK15JICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgZCk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTkz
-OiBGSUxFOiB1aS93YXlsYW5kLmM6MzI5OgorXkllcnJvcl9yZXBvcnQoIk5vIHp3cF9saW51eF9k
-bWFidWYgZ2xvYmFsXG4iKTskCgpFUlJPUjogRXJyb3IgbWVzc2FnZXMgc2hvdWxkIG5vdCBjb250
-YWluIG5ld2xpbmVzCiM1OTM6IEZJTEU6IHVpL3dheWxhbmQuYzozMjk6CisgICAgICAgZXJyb3Jf
-cmVwb3J0KCJObyB6d3BfbGludXhfZG1hYnVmIGdsb2JhbFxuIik7CgpFUlJPUjogY29kZSBpbmRl
-bnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1OTQ6IEZJTEU6IHVpL3dheWxhbmQuYzozMzA6Cite
-SWV4aXQoMSk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNjA5
-OiBGSUxFOiB1aS93YXlsYW5kLmM6MzQ1OgorXkkgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHdpbmRvdy0+c3VyZmFjZSk7JAoKRVJST1I6IGNvZGUgaW5k
-ZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNjIxOiBGSUxFOiB1aS93YXlsYW5kLmM6MzU3Ogor
-XkkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd2luZG93LT5zdXJmYWNl
-LCQKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNjIyOiBGSUxFOiB1aS93YXlsYW5k
-LmM6MzU4OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBa
-V1BfRlVMTFNDUkVFTl9TSEVMTF9WMV9QUkVTRU5UX01FVEhPRF9ERUZBVUxULAoKRVJST1I6IGNv
-ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNjIyOiBGSUxFOiB1aS93YXlsYW5kLmM6
-MzU4OgorXkleSSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgWldQX0ZVTExTQ1JFRU5f
-U0hFTExfVjFfUFJFU0VOVF9NRVRIT0RfREVGQVVMVCwkCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
-dWxkIG5ldmVyIHVzZSB0YWJzCiM2MjM6IEZJTEU6IHVpL3dheWxhbmQuYzozNTk6CiteSV5JICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMKTskCgp0b3RhbDogMjcgZXJyb3JzLCAy
-IHdhcm5pbmdzLCA2MDcgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDU0N2NlNDViODAwZCAodWk6IEFk
-ZCBhIHBsYWluIFdheWxhbmQgYmFja2VuZCBmb3IgUWVtdSBVSSkgaGFzIHN0eWxlIHByb2JsZW1z
-LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
-dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
-VEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29k
-ZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xv
-Z3MvMjAyMTA2MjQwNDEwNDAuMTI1MDYzMS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20vdGVz
-dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
-dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
-dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+--000000000000406e9505c57c5ce6
+Content-Type: text/plain; charset="UTF-8"
+
+Oh well. Let's add a to-do marker.
+
+Paolo
+
+Il mer 23 giu 2021, 09:36 Gerd Hoffmann <kraxel@redhat.com> ha scritto:
+
+> On Tue, Jun 22, 2021 at 06:03:45PM +0200, Paolo Bonzini wrote:
+> > On 21/06/21 14:52, Gerd Hoffmann wrote:
+> > > ninja: error: 'libui-curses.a.p/meson-generated_.._config-host.h.o',
+> needed by 'ui-curses.modinfo.test', missing and no known rule to make it
+> > >
+> > > Hmm, not sure where this comes from.  meson doesn't try to link
+> > > config-host.h.o into libui-curses.a, so why does extract_all_objects()
+> > > return it?
+> > >
+> > > Test patch (incremental to this series) below.
+> >
+> > Bug in Meson, fix at https://github.com/mesonbuild/meson/pull/8900.
+> You can
+> > just ignore missing files.
+>
+> Well, it's ninja throwing the error not the modinfo script, the script
+> doesn't even run ...
+>
+> take care,
+>   Gerd
+>
+>
+
+--000000000000406e9505c57c5ce6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Oh well. Let&#39;s add a to-do marker.<div dir=3D"auto"><=
+br></div><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Il mer 23 giu 2021, 09:36 Gerd Hoffma=
+nn &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; ha sc=
+ritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">On Tue, Jun 22, 2021 at 06:0=
+3:45PM +0200, Paolo Bonzini wrote:<br>
+&gt; On 21/06/21 14:52, Gerd Hoffmann wrote:<br>
+&gt; &gt; ninja: error: &#39;libui-curses.a.p/meson-generated_.._config-hos=
+t.h.o&#39;, needed by &#39;ui-curses.modinfo.test&#39;, missing and no know=
+n rule to make it<br>
+&gt; &gt; <br>
+&gt; &gt; Hmm, not sure where this comes from.=C2=A0 meson doesn&#39;t try =
+to link<br>
+&gt; &gt; config-host.h.o into libui-curses.a, so why does extract_all_obje=
+cts()<br>
+&gt; &gt; return it?<br>
+&gt; &gt; <br>
+&gt; &gt; Test patch (incremental to this series) below.<br>
+&gt; <br>
+&gt; Bug in Meson, fix at <a href=3D"https://github.com/mesonbuild/meson/pu=
+ll/8900" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com=
+/mesonbuild/meson/pull/8900</a>.=C2=A0 You can<br>
+&gt; just ignore missing files.<br>
+<br>
+Well, it&#39;s ninja throwing the error not the modinfo script, the script<=
+br>
+doesn&#39;t even run ...<br>
+<br>
+take care,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div>
+
+--000000000000406e9505c57c5ce6--
+
 
