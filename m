@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22E13B341B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 18:43:35 +0200 (CEST)
-Received: from localhost ([::1]:57424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4AC3B3428
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 18:47:39 +0200 (CEST)
+Received: from localhost ([::1]:33356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwSRy-0008Nf-Cb
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 12:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60632)
+	id 1lwSVu-0002we-6j
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 12:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lwSRE-0007gy-Cd
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 12:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41860)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lwSR9-0000AY-Hg
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 12:42:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624552962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Hp/9SruU2pZtrppWiEyZDzbpfE90bfxH4RHDHoVABSY=;
- b=TMJ4HgCc8GBCFuz9FrJNCLgwhN4NgTTUwFkyIVDyeMri6YrGQMWFSdhMvXOudi1lEcQKw6
- /7m2qFZhMyE8/TxQc5I5iT2U9HGVy/g4rce54/ahXvSRyXirkFzONSQiHWitrNv5/oe9AZ
- YZ/KSmUbjiEbt20pTomnYNoTUPc11Gw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-l4mRMWEgMBS_zW_v8ACP0g-1; Thu, 24 Jun 2021 12:42:40 -0400
-X-MC-Unique: l4mRMWEgMBS_zW_v8ACP0g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8ED3418D6A36;
- Thu, 24 Jun 2021 16:42:39 +0000 (UTC)
-Received: from work-vm (ovpn-114-255.ams2.redhat.com [10.36.114.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BA665D6D7;
- Thu, 24 Jun 2021 16:42:38 +0000 (UTC)
-Date: Thu, 24 Jun 2021 17:42:35 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: [PATCH v2 1/2] migration/rdma: Fix out of order wrid
-Message-ID: <YNS1+ymtAJAgMSpL@work-vm>
-References: <20210618103612.152817-1-lizhijian@cn.fujitsu.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwSUX-0001Xz-Nt
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 12:46:13 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwSUR-0002Or-Cs
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 12:46:13 -0400
+Received: by mail-wr1-x431.google.com with SMTP id m18so7421209wrv.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 09:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WBygwUlUKXE05v2C8K1rUU9zYxPJWeVNMiDpcT7zfuc=;
+ b=Jy6YaP+u9ZDrZJbGoCQSQTKVdasTcmz36gng2y+fm6cqSYP5muFguDfArOUMEc89pf
+ 6BGUKsjbJuBJ1YbcbgtgxGUCaCciJem47aMpRZsMV+68DFHhtPNAU+3ePBgts0B7kBJY
+ Wqo9LNc/LOLPk8B384wVIeyv8y0skxQs4mQn/kto5Wh9CvjZrTYTCL7e0fFx15I5QS6i
+ 6miLilYNu2YApRN0QxO/XSwxXMIVCyzjAe4Rl60ZZppygOBNWVWHWNSa/0cKdw5pTOH2
+ gIvt+Sq4S/FAw2OSStnJbUlwumSen1Ow5dFMh3FKudVoyucYGF2/Hv3CQRqDbLh7MeJG
+ SlAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WBygwUlUKXE05v2C8K1rUU9zYxPJWeVNMiDpcT7zfuc=;
+ b=q2fyBFXlUh2Hg7YOoCJZTLxhbJiGMZ1mN8U17FKyutpQ/dcnw3qolJ5WsURT04zeX4
+ T1AIHzujkD71+HlEdDGU6OwaA23o33LU4SzfvF9BT/YoxQ2B52ztWO+qqS/6wqimJ7AQ
+ eaG4cphfy/Z8kfMd/PFFJsLGc77ZtexA/1zDlbW/+8acFjyTV4zyuxj7Clfyj8/Ytss3
+ Ufn7o0YHJeBpH73aPFk/fAujGS74hLk6k0Grgds8cRylIpgF+AFrRcJwup2LL6RhIe7r
+ mcLVmkRl3KF69ay6c8FUn3Mx2WxyIRI7JUb9gkT+rVxFr6zjEg3j5OuC5X9T5JbY7smw
+ GiVA==
+X-Gm-Message-State: AOAM532pqbO9ShChnIjpYemcmgNSDWnktnQUIBWzWnkEeU2E6lG0UTrW
+ zEQm87LTmjcOkfB+/3XBUkU=
+X-Google-Smtp-Source: ABdhPJxWKDVRdOWPICl9f2VJv3CbphVG3i1WX3xn/PdnentTDUTRuqUukmwtM1dISVnNaqT8lsAvdQ==
+X-Received: by 2002:a05:6000:188a:: with SMTP id
+ a10mr5702350wri.210.1624553165930; 
+ Thu, 24 Jun 2021 09:46:05 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id q5sm3910432wmc.0.2021.06.24.09.46.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 09:46:05 -0700 (PDT)
+Subject: Re: [PULL 30/43] vt82c686: Fix SMBus IO base and configuration
+ registers
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210221143432.2468220-1-f4bug@amsat.org>
+ <20210221143432.2468220-31-f4bug@amsat.org>
+ <0c52a343-ed4c-92fa-fac0-0f32f37b0df2@amsat.org>
+ <8aa3527b-0412-979f-ffb5-80b41004a4b6@amsat.org>
+ <282f867e-2395-7fcb-b0df-12bcd99f0787@amsat.org>
+Message-ID: <77140305-bcab-31d8-e369-970ca3d26c27@amsat.org>
+Date: Thu, 24 Jun 2021 18:46:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210618103612.152817-1-lizhijian@cn.fujitsu.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <282f867e-2395-7fcb-b0df-12bcd99f0787@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,320 +94,299 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Li Zhijian (lizhijian@cn.fujitsu.com) wrote:
-> destination:
-> ../qemu/build/qemu-system-x86_64 -enable-kvm -netdev tap,id=hn0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown -device e1000,netdev=hn0,mac=50:52:54:00:11:22 -boot c -drive if=none,file=./Fedora-rdma-server-migration.qcow2,id=drive-virtio-disk0 -device virtio-blk-pci,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0 -m 2048 -smp 2 -device piix3-usb-uhci -device usb-tablet -monitor stdio -vga qxl -spice streaming-video=filter,port=5902,disable-ticketing -incoming rdma:192.168.22.23:8888
-> qemu-system-x86_64: -spice streaming-video=filter,port=5902,disable-ticketing: warning: short-form boolean option 'disable-ticketing' deprecated
-> Please use disable-ticketing=on instead
-> QEMU 6.0.50 monitor - type 'help' for more information
-> (qemu) trace-event qemu_rdma_block_for_wrid_miss on
-> (qemu) dest_init RDMA Device opened: kernel name rxe_eth0 uverbs device name uverbs2, infiniband_verbs class device path /sys/class/infiniband_verbs/uverbs2, infiniband class device path /sys/class/infiniband/rxe_eth0, transport: (2) Ethernet
-> qemu_rdma_block_for_wrid_miss A Wanted wrid CONTROL SEND (2000) but got CONTROL RECV (4000)
+On 6/24/21 6:16 PM, Philippe Mathieu-Daudé wrote:
+> On 6/24/21 6:01 PM, Philippe Mathieu-Daudé wrote:
+>> On 6/24/21 5:46 PM, Philippe Mathieu-Daudé wrote:
+>>> Hi Zoltan,
+>>>
+>>> On 2/21/21 3:34 PM, Philippe Mathieu-Daudé wrote:
+>>>> From: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>
+>>>> The base address of the SMBus io ports and its enabled status is set
+>>>> by registers in the PCI config space but this was not correctly
+>>>> emulated. Instead the SMBus registers were mapped on realize to the
+>>>> base address set by a property to the address expected by fuloong2e
+>>>> firmware.
+>>>>
+>>>> Fix the base and config register handling to more closely model
+>>>> hardware which allows to remove the property and allows the guest to
+>>>> control this mapping. Do all this in reset instead of realize so it's
+>>>> correctly updated on reset.
+>>>
+>>> This commit broken running PMON on Fuloong2E:
+>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
+>>> console: PMON2000 MIPS Initializing. Standby...
+>>> console: ERRORPC=00000000 CONFIG=00030932
+>>> console: PRID=00006302
+>>> console: DIMM read
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> console: 000000ff
+>>> ...
+>>>
+>>> From here the console loops displaying this value...
+>>
+>> Tracing:
+>>
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80490
+>> value 0xeee1 size 4
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe804d2
+>> value 0x1 size 2
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80404
+>> value 0x1 size 1
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80004
+>> value 0x7 size 4
+>> mr_ops_read mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80081
+>> value 0x0 size 1
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80081
+>> value 0x80 size 1
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80083
+>> value 0x89 size 1
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80085
+>> value 0x3 size 1
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe8005a
+>> value 0x7 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe2 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe3 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe6 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe7 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xe8 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0x3f0 value 0xee size 1
+>> mr_ops_write mr 0x5583912b2e00 (south-bridge-pci-config) addr 0x1fe80085
+>> value 0x1 size 1
 > 
-> source:
-> ../qemu/build/qemu-system-x86_64 -enable-kvm -netdev tap,id=hn0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown -device e1000,netdev=hn0,mac=50:52:54:00:11:22 -boot c -drive if=none,file=./Fedora-rdma-server.qcow2,id=drive-virtio-disk0 -device virtio-blk-pci,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0 -m 2048 -smp 2 -device piix3-usb-uhci -device usb-tablet -monitor stdio -vga qxl -spice streaming-video=filter,port=5901,disable-ticketing -S
-> qemu-system-x86_64: -spice streaming-video=filter,port=5901,disable-ticketing: warning: short-form boolean option 'disable-ticketing' deprecated
-> Please use disable-ticketing=on instead
-> QEMU 6.0.50 monitor - type 'help' for more information
-> (qemu)
-> (qemu) trace-event qemu_rdma_block_for_wrid_miss on
-> (qemu) migrate -d rdma:192.168.22.23:8888
-> source_resolve_host RDMA Device opened: kernel name rxe_eth0 uverbs device name uverbs2, infiniband_verbs class device path /sys/class/infiniband_verbs/uverbs2, infiniband class device path /sys/class/infiniband/rxe_eth0, transport: (2) Ethernet
-> (qemu) qemu_rdma_block_for_wrid_miss A Wanted wrid WRITE RDMA (1) but got CONTROL RECV (4000)
-> 
-> NOTE: soft RoCE as the rdma device.
-> [root@iaas-rpma images]# rdma link show rxe_eth0/1
-> link rxe_eth0/1 state ACTIVE physical_state LINK_UP netdev eth0
-> 
-> This migration cannot be completed since out of order(OOO) CQ event occurs.
-> OOO cases will occur in both source side and destination side. And it
-> happens on only SEND and RECV are out of order. OOO between 'WRITE RDMA' and
-> 'RECV' doesn't matter.
-> 
-> below the OOO sequence:
-> 	  source                     destination
->   qemu_rdma_write_one()          qemu_rdma_registration_handle()
-> 1.	post_recv X                 post_recv Y
-> 2.			            post_send X
-> 3.			            wait X CQ event
-> 4.	X CQ event
-> 5.	post_send Y
-> 6.	wait Y CQ event
-> 7.			            Y CQ event (dropped)
-> 8.	Y CQ event(send Y done)
-> 9.			            X CQ event(send X done)
-> 10.                                 wait Y CQ event(dropped at (7), blocks forever)
-> 
-> Looks it only happens on soft RoCE rdma device in my a hundred of runs,
-> a hardware IB device works fine.
-> 
-> Here we introduce a independent send completion queue to distinguish
-> ibv_post_send completion queue from the original mixed completion queue.
-> It helps us to poll the specific CQE we are really interesting in.
+> These are:
+> pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
 
-Hi Li,
-  OK, it's a while since I've thought this much about completion, but I
-think that's OK, however, what stops the other messages, RDMA_WRITE and
-SEND_CONTROL being out of order?
+Offset 93-90 – SMBus I/O Base ....................................... RW
+15-4 I/O Base (16-byte I/O space)................ default = 00h
+pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
 
-  Could this be fixed another way; make block_for_wrid record a flag for
-WRID's it's received, and then check (and clear) that flag right at the
-start?
+> pci_cfg_write vt82c686b-pm 05:4 @0xd0 <- 0x1
 
-Dave
+Offset D2 – SMBus Host Configuration ......................... RW
+SMBus Host Controller Enable
+0 Disable SMB controller functions ......... default
+1 Enable SMB controller functions
+pci_cfg_write vt82c686b-pm 05:4 @0xd0 <- 0x1
 
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-> ---
-> V2 Introduce send completion queue
-> ---
->  migration/rdma.c | 94 ++++++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 79 insertions(+), 15 deletions(-)
-> 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index d90b29a4b51..16fe0688858 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -359,8 +359,10 @@ typedef struct RDMAContext {
->      struct rdma_event_channel   *channel;
->      struct ibv_qp *qp;                      /* queue pair */
->      struct ibv_comp_channel *comp_channel;  /* completion channel */
-> +    struct ibv_comp_channel *send_comp_channel;  /* send completion channel */
->      struct ibv_pd *pd;                      /* protection domain */
->      struct ibv_cq *cq;                      /* completion queue */
-> +    struct ibv_cq *send_cq;                 /* send completion queue */
->  
->      /*
->       * If a previous write failed (perhaps because of a failed
-> @@ -1067,8 +1069,7 @@ static int qemu_rdma_alloc_pd_cq(RDMAContext *rdma)
->      }
->  
->      /*
-> -     * Completion queue can be filled by both read and write work requests,
-> -     * so must reflect the sum of both possible queue sizes.
-> +     * Completion queue can be filled by read work requests.
->       */
->      rdma->cq = ibv_create_cq(rdma->verbs, (RDMA_SIGNALED_SEND_MAX * 3),
->              NULL, rdma->comp_channel, 0);
-> @@ -1077,6 +1078,20 @@ static int qemu_rdma_alloc_pd_cq(RDMAContext *rdma)
->          goto err_alloc_pd_cq;
->      }
->  
-> +    /* create send completion channel */
-> +    rdma->send_comp_channel = ibv_create_comp_channel(rdma->verbs);
-> +    if (!rdma->send_comp_channel) {
-> +        error_report("failed to allocate completion channel");
-> +        goto err_alloc_pd_cq;
-> +    }
-> +
-> +    rdma->send_cq = ibv_create_cq(rdma->verbs, (RDMA_SIGNALED_SEND_MAX * 3),
-> +                                  NULL, rdma->send_comp_channel, 0);
-> +    if (!rdma->send_cq) {
-> +        error_report("failed to allocate completion queue");
-> +        goto err_alloc_pd_cq;
-> +    }
-> +
->      return 0;
->  
->  err_alloc_pd_cq:
-> @@ -1086,8 +1101,16 @@ err_alloc_pd_cq:
->      if (rdma->comp_channel) {
->          ibv_destroy_comp_channel(rdma->comp_channel);
->      }
-> +    if (rdma->send_comp_channel) {
-> +        ibv_destroy_comp_channel(rdma->send_comp_channel);
-> +    }
-> +    if (rdma->cq) {
-> +        ibv_destroy_cq(rdma->cq);
-> +        rdma->cq = NULL;
-> +    }
->      rdma->pd = NULL;
->      rdma->comp_channel = NULL;
-> +    rdma->send_comp_channel = NULL;
->      return -1;
->  
->  }
-> @@ -1104,7 +1127,7 @@ static int qemu_rdma_alloc_qp(RDMAContext *rdma)
->      attr.cap.max_recv_wr = 3;
->      attr.cap.max_send_sge = 1;
->      attr.cap.max_recv_sge = 1;
-> -    attr.send_cq = rdma->cq;
-> +    attr.send_cq = rdma->send_cq;
->      attr.recv_cq = rdma->cq;
->      attr.qp_type = IBV_QPT_RC;
->  
-> @@ -1420,14 +1443,14 @@ static void qemu_rdma_signal_unregister(RDMAContext *rdma, uint64_t index,
->   * (of any kind) has completed.
->   * Return the work request ID that completed.
->   */
-> -static uint64_t qemu_rdma_poll(RDMAContext *rdma, uint64_t *wr_id_out,
-> -                               uint32_t *byte_len)
-> +static uint64_t qemu_rdma_poll(RDMAContext *rdma, struct ibv_cq *cq,
-> +                              uint64_t *wr_id_out, uint32_t *byte_len)
->  {
->      int ret;
->      struct ibv_wc wc;
->      uint64_t wr_id;
->  
-> -    ret = ibv_poll_cq(rdma->cq, 1, &wc);
-> +    ret = ibv_poll_cq(cq, 1, &wc);
->  
->      if (!ret) {
->          *wr_id_out = RDMA_WRID_NONE;
-> @@ -1499,7 +1522,8 @@ static uint64_t qemu_rdma_poll(RDMAContext *rdma, uint64_t *wr_id_out,
->  /* Wait for activity on the completion channel.
->   * Returns 0 on success, none-0 on error.
->   */
-> -static int qemu_rdma_wait_comp_channel(RDMAContext *rdma)
-> +static int qemu_rdma_wait_comp_channel(RDMAContext *rdma,
-> +                                       struct ibv_comp_channel *ch)
->  {
->      struct rdma_cm_event *cm_event;
->      int ret = -1;
-> @@ -1510,7 +1534,7 @@ static int qemu_rdma_wait_comp_channel(RDMAContext *rdma)
->       */
->      if (rdma->migration_started_on_destination &&
->          migration_incoming_get_current()->state == MIGRATION_STATUS_ACTIVE) {
-> -        yield_until_fd_readable(rdma->comp_channel->fd);
-> +        yield_until_fd_readable(ch->fd);
->      } else {
->          /* This is the source side, we're in a separate thread
->           * or destination prior to migration_fd_process_incoming()
-> @@ -1521,7 +1545,7 @@ static int qemu_rdma_wait_comp_channel(RDMAContext *rdma)
->           */
->          while (!rdma->error_state  && !rdma->received_error) {
->              GPollFD pfds[2];
-> -            pfds[0].fd = rdma->comp_channel->fd;
-> +            pfds[0].fd = ch->fd;
->              pfds[0].events = G_IO_IN | G_IO_HUP | G_IO_ERR;
->              pfds[0].revents = 0;
->  
-> @@ -1579,6 +1603,17 @@ static int qemu_rdma_wait_comp_channel(RDMAContext *rdma)
->      return rdma->error_state;
->  }
->  
-> +static struct ibv_comp_channel *to_channel(RDMAContext *rdma, int wrid)
-> +{
-> +    return wrid < RDMA_WRID_RECV_CONTROL ? rdma->send_comp_channel :
-> +           rdma->comp_channel;
-> +}
-> +
-> +static struct ibv_cq *to_cq(RDMAContext *rdma, int wrid)
-> +{
-> +    return wrid < RDMA_WRID_RECV_CONTROL ? rdma->send_cq : rdma->cq;
-> +}
-> +
->  /*
->   * Block until the next work request has completed.
->   *
-> @@ -1599,13 +1634,15 @@ static int qemu_rdma_block_for_wrid(RDMAContext *rdma, int wrid_requested,
->      struct ibv_cq *cq;
->      void *cq_ctx;
->      uint64_t wr_id = RDMA_WRID_NONE, wr_id_in;
-> +    struct ibv_comp_channel *ch = to_channel(rdma, wrid_requested);
-> +    struct ibv_cq *poll_cq = to_cq(rdma, wrid_requested);
->  
-> -    if (ibv_req_notify_cq(rdma->cq, 0)) {
-> +    if (ibv_req_notify_cq(poll_cq, 0)) {
->          return -1;
->      }
->      /* poll cq first */
->      while (wr_id != wrid_requested) {
-> -        ret = qemu_rdma_poll(rdma, &wr_id_in, byte_len);
-> +        ret = qemu_rdma_poll(rdma, poll_cq, &wr_id_in, byte_len);
->          if (ret < 0) {
->              return ret;
->          }
-> @@ -1626,12 +1663,12 @@ static int qemu_rdma_block_for_wrid(RDMAContext *rdma, int wrid_requested,
->      }
->  
->      while (1) {
-> -        ret = qemu_rdma_wait_comp_channel(rdma);
-> +        ret = qemu_rdma_wait_comp_channel(rdma, ch);
->          if (ret) {
->              goto err_block_for_wrid;
->          }
->  
-> -        ret = ibv_get_cq_event(rdma->comp_channel, &cq, &cq_ctx);
-> +        ret = ibv_get_cq_event(ch, &cq, &cq_ctx);
->          if (ret) {
->              perror("ibv_get_cq_event");
->              goto err_block_for_wrid;
-> @@ -1645,7 +1682,7 @@ static int qemu_rdma_block_for_wrid(RDMAContext *rdma, int wrid_requested,
->          }
->  
->          while (wr_id != wrid_requested) {
-> -            ret = qemu_rdma_poll(rdma, &wr_id_in, byte_len);
-> +            ret = qemu_rdma_poll(rdma, poll_cq, &wr_id_in, byte_len);
->              if (ret < 0) {
->                  goto err_block_for_wrid;
->              }
-> @@ -2365,10 +2402,18 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
->          ibv_destroy_cq(rdma->cq);
->          rdma->cq = NULL;
->      }
-> +    if (rdma->send_cq) {
-> +        ibv_destroy_cq(rdma->send_cq);
-> +        rdma->send_cq = NULL;
-> +    }
->      if (rdma->comp_channel) {
->          ibv_destroy_comp_channel(rdma->comp_channel);
->          rdma->comp_channel = NULL;
->      }
-> +    if (rdma->send_comp_channel) {
-> +        ibv_destroy_comp_channel(rdma->send_comp_channel);
-> +        rdma->send_comp_channel = NULL;
-> +    }
->      if (rdma->pd) {
->          ibv_dealloc_pd(rdma->pd);
->          rdma->pd = NULL;
-> @@ -3041,9 +3086,13 @@ static void qio_channel_rdma_set_aio_fd_handler(QIOChannel *ioc,
->      if (io_read) {
->          aio_set_fd_handler(ctx, rioc->rdmain->comp_channel->fd,
->                             false, io_read, io_write, NULL, opaque);
-> +        aio_set_fd_handler(ctx, rioc->rdmain->send_comp_channel->fd,
-> +                           false, io_read, io_write, NULL, opaque);
->      } else {
->          aio_set_fd_handler(ctx, rioc->rdmaout->comp_channel->fd,
->                             false, io_read, io_write, NULL, opaque);
-> +        aio_set_fd_handler(ctx, rioc->rdmaout->send_comp_channel->fd,
-> +                           false, io_read, io_write, NULL, opaque);
->      }
->  }
->  
-> @@ -3256,7 +3305,22 @@ static size_t qemu_rdma_save_page(QEMUFile *f, void *opaque,
->       */
->      while (1) {
->          uint64_t wr_id, wr_id_in;
-> -        int ret = qemu_rdma_poll(rdma, &wr_id_in, NULL);
-> +        int ret = qemu_rdma_poll(rdma, rdma->cq, &wr_id_in, NULL);
-> +        if (ret < 0) {
-> +            error_report("rdma migration: polling error! %d", ret);
-> +            goto err;
-> +        }
-> +
-> +        wr_id = wr_id_in & RDMA_WRID_TYPE_MASK;
-> +
-> +        if (wr_id == RDMA_WRID_NONE) {
-> +            break;
-> +        }
-> +    }
-> +
-> +    while (1) {
-> +        uint64_t wr_id, wr_id_in;
-> +        int ret = qemu_rdma_poll(rdma, rdma->send_cq, &wr_id_in, NULL);
->          if (ret < 0) {
->              error_report("rdma migration: polling error! %d", ret);
->              goto err;
-> -- 
-> 2.31.1
-> 
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Hmm the datasheet indeed document 0xd2... why is the guest accessing
+0xd0 to enable the function? It seems this is the problem, since if
+I replace d2 -> d0 PMON boots. See below [*].
 
+> pci_cfg_write vt82c686b-pm 05:4 @0x4 <- 0x1
+
+(this one is PCI_COMMAND)
+
+> pci_cfg_write vt82c686b-isa 05:0 @0x4 <- 0x7
+> pci_cfg_read vt82c686b-isa 05:0 @0x80 -> 0x0
+> pci_cfg_write vt82c686b-isa 05:0 @0x80 <- 0x80
+> pci_cfg_write vt82c686b-isa 05:0 @0x80 <- 0x89
+> pci_cfg_write vt82c686b-isa 05:0 @0x84 <- 0x3
+> pci_cfg_write vt82c686b-isa 05:0 @0x58 <- 0x7
+> pci_cfg_write vt82c686b-isa 05:0 @0x84 <- 0x1
+> 
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee4 value 0xa1 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee3 value 0x0 size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee2 value 0x8 size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee0 value 0x1f size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee2 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_write mr 0x558390ff4d00 (io) addr 0xeee2 value 0xff size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>> mr_ops_read mr 0x558390ff4d00 (io) addr 0xeee0 value 0xffffffffffffffff
+>> size 1
+>>
+>>> Expected:
+>>>
+>>> console: PMON2000 MIPS Initializing. Standby...
+>>> console: ERRORPC=00000000 CONFIG=00030932
+>>> console: PRID=00006302
+>>> console: DIMM read
+>>> console: 00000080
+>>> console: read memory type
+>>> console: read number of rows
+>>> ...
+>>>
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>>> Message-Id: <f2ca2ad5f08ba8cee07afd9d67b4e75cda21db09.1610223397.git.balaton@eik.bme.hu>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>>  hw/isa/vt82c686.c   | 49 +++++++++++++++++++++++++++++++++------------
+>>>>  hw/mips/fuloong2e.c |  4 +---
+>>>>  2 files changed, 37 insertions(+), 16 deletions(-)
+>>>>
+>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>> index fe8961b0573..9c4d1530225 100644
+>>>> --- a/hw/isa/vt82c686.c
+>>>> +++ b/hw/isa/vt82c686.c
+>>>> @@ -22,6 +22,7 @@
+>>>>  #include "hw/i2c/pm_smbus.h"
+>>>>  #include "qapi/error.h"
+>>>>  #include "qemu/module.h"
+>>>> +#include "qemu/range.h"
+>>>>  #include "qemu/timer.h"
+>>>>  #include "exec/address-spaces.h"
+>>>>  #include "trace.h"
+>>>> @@ -34,7 +35,6 @@ struct VT686PMState {
+>>>>      ACPIREGS ar;
+>>>>      APMState apm;
+>>>>      PMSMBus smb;
+>>>> -    uint32_t smb_io_base;
+>>>>  };
+>>>>  
+>>>>  static void pm_io_space_update(VT686PMState *s)
+>>>> @@ -50,11 +50,22 @@ static void pm_io_space_update(VT686PMState *s)
+>>>>      memory_region_transaction_commit();
+>>>>  }
+>>>>  
+>>>> +static void smb_io_space_update(VT686PMState *s)
+>>>> +{
+>>>> +    uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
+>>>> +
+>>>> +    memory_region_transaction_begin();
+>>>> +    memory_region_set_address(&s->smb.io, smbase);
+>>>> +    memory_region_set_enabled(&s->smb.io, s->dev.config[0xd2] & BIT(0));
+>>>> +    memory_region_transaction_commit();
+>>>> +}
+>>>> +
+>>>>  static int vmstate_acpi_post_load(void *opaque, int version_id)
+>>>>  {
+>>>>      VT686PMState *s = opaque;
+>>>>  
+>>>>      pm_io_space_update(s);
+>>>> +    smb_io_space_update(s);
+>>>>      return 0;
+>>>>  }
+>>>>  
+>>>> @@ -77,8 +88,18 @@ static const VMStateDescription vmstate_acpi = {
+>>>>  
+>>>>  static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+>>>>  {
+>>>> +    VT686PMState *s = VT82C686B_PM(d);
+>>>> +
+>>>>      trace_via_pm_write(addr, val, len);
+>>>>      pci_default_write_config(d, addr, val, len);
+>>>> +    if (ranges_overlap(addr, len, 0x90, 4)) {
+>>>> +        uint32_t v = pci_get_long(s->dev.config + 0x90);
+>>>> +        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
+>>>> +    }
+>>>> +    if (range_covers_byte(addr, len, 0xd2)) {
+>>>> +        s->dev.config[0xd2] &= 0xf;
+>>>> +        smb_io_space_update(s);
+
+[*] So the guest writing at 0xd0, this block is skipped, the
+I/O region never enabled.
+
+>>>> +    }
+>>>>  }
+>>>>  
+>>>>  static void pm_update_sci(VT686PMState *s)
+>>>> @@ -103,6 +124,17 @@ static void pm_tmr_timer(ACPIREGS *ar)
+>>>>      pm_update_sci(s);
+>>>>  }
+>>>>  
+>>>> +static void vt82c686b_pm_reset(DeviceState *d)
+>>>> +{
+>>>> +    VT686PMState *s = VT82C686B_PM(d);
+>>>> +
+>>>> +    /* SMBus IO base */
+>>>> +    pci_set_long(s->dev.config + 0x90, 1);
+>>>> +    s->dev.config[0xd2] = 0;
+>>>> +
+>>>> +    smb_io_space_update(s);
+>>>> +}
+>>>> +
+>>>>  static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+>>>>  {
+>>>>      VT686PMState *s = VT82C686B_PM(dev);
+>>>> @@ -116,13 +148,9 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+>>>>      /* 0x48-0x4B is Power Management I/O Base */
+>>>>      pci_set_long(pci_conf + 0x48, 0x00000001);
+>>>>  
+>>>> -    /* SMB ports:0xeee0~0xeeef */
+>>>> -    s->smb_io_base = ((s->smb_io_base & 0xfff0) + 0x0);
+>>>> -    pci_conf[0x90] = s->smb_io_base | 1;
+>>>> -    pci_conf[0x91] = s->smb_io_base >> 8;
+>>>> -    pci_conf[0xd2] = 0x90;
+>>>>      pm_smbus_init(DEVICE(s), &s->smb, false);
+>>>> -    memory_region_add_subregion(get_system_io(), s->smb_io_base, &s->smb.io);
+>>>> +    memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
+>>>> +    memory_region_set_enabled(&s->smb.io, false);
+>>>>  
+>>>>      apm_init(dev, &s->apm, NULL, s);
+>>>>  
+>>>> @@ -135,11 +163,6 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+>>>>      acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
+>>>>  }
+>>>>  
+>>>> -static Property via_pm_properties[] = {
+>>>> -    DEFINE_PROP_UINT32("smb_io_base", VT686PMState, smb_io_base, 0),
+>>>> -    DEFINE_PROP_END_OF_LIST(),
+>>>> -};
+>>>> -
+>>>>  static void via_pm_class_init(ObjectClass *klass, void *data)
+>>>>  {
+>>>>      DeviceClass *dc = DEVICE_CLASS(klass);
+>>>> @@ -151,10 +174,10 @@ static void via_pm_class_init(ObjectClass *klass, void *data)
+>>>>      k->device_id = PCI_DEVICE_ID_VIA_ACPI;
+>>>>      k->class_id = PCI_CLASS_BRIDGE_OTHER;
+>>>>      k->revision = 0x40;
+>>>> +    dc->reset = vt82c686b_pm_reset;
+>>>>      dc->desc = "PM";
+>>>>      dc->vmsd = &vmstate_acpi;
+>>>>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>>>> -    device_class_set_props(dc, via_pm_properties);
+>>>>  }
+>>>>  
+>>>>  static const TypeInfo via_pm_info = {
+>>>> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+>>>> index 1f3680fda3e..94f4718147f 100644
+>>>> --- a/hw/mips/fuloong2e.c
+>>>> +++ b/hw/mips/fuloong2e.c
+>>>> @@ -230,9 +230,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>>>>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+>>>>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+>>>>  
+>>>> -    dev = pci_new(PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
+>>>> -    qdev_prop_set_uint32(DEVICE(dev), "smb_io_base", 0xeee1);
+>>>> -    pci_realize_and_unref(dev, pci_bus, &error_fatal);
+>>>> +    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
+>>>>      *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>>>>  
+>>>>      /* Audio support */
+>>>>
+>>>
+>>>
+>>
+> 
 
