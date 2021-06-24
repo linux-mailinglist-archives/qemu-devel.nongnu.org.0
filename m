@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37CD3B37D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:30:38 +0200 (CEST)
-Received: from localhost ([::1]:33432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815813B37E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:33:45 +0200 (CEST)
+Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwVzh-0002La-RI
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55760)
+	id 1lwW2i-0006Lm-Ia
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:33:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwVxQ-00008F-Pz
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:28:16 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55065)
+ id 1lwVx7-0007sG-SX
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:27:57 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwVxP-0003EH-1Z
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:28:16 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id m3so4824105wms.4
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 13:28:14 -0700 (PDT)
+ id 1lwVx6-000331-87
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:27:57 -0400
+Received: by mail-wm1-x330.google.com with SMTP id r3so311081wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 13:27:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UCi9zS+WOU642oVpvfnDDUDAscPjtG7ffJ6K2lD9Qwg=;
- b=TLPuGl1TMUEq/UOZeZ6u3CFhQSinB3sAxHRWZm2TYVRVun6FDuTD8CHJcTkfU7qxHl
- Or3v4oBH0vVJ5IepZbfLh0S/19N7qC5wYqHp9pJgly9y5PTisb0U35SUsAt+GX6dv+MO
- VDA5A/u9qRwfYQsofjaUnS57yKo7NaYcqspk0VBqMInXnFoQ/knNA5RO0T9iEQpFCVgQ
- qgtyDgwz+tYu5ejw0GQmPVQDL/4eNXCI0EWpsw6tVukpOTaM/uWugp6Nb+gne/y5tfsF
- XT1h/s9j7p7dRTmNVSwgDVi1bCth6642rf4oChVvub0k+KQKkgHOdtx+stQjDwFjm1wS
- KIRg==
+ bh=h4oE4Yl+ZmW3FxHEA+QspghoRSVsp0JhrX2znpzx03E=;
+ b=hFfiNFm66zskVbyDI07zrdYVDlD/qyTttHVZkZYNpiieKMxpzsHvxUhvKTm3XdX81o
+ inB5ioYY45mbrVdMhTGDfkxs1puPqGW7nl43M0mow5E3DQ6XjUJzH4XGz6B94spbaW/0
+ 3vdS6nnrNFdk0qogxQq8JT2b1eAZtJ0BQb5JXkMTCkYYqwk2C1PLYSCNTM9M60+rWe92
+ uX+JvhHA+uT7Rq+FZmMzhOSCHykjwhCoD0sVByS5W7A1Td7mt5Y//To7rOw3P5P4LD+v
+ lwMeWpD0Fs+WJJTMEZAx2ie8pVjWKssFbeHhYtfrD62DgTZKU9ogYpjo3SogZhXBJDl0
+ /OZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UCi9zS+WOU642oVpvfnDDUDAscPjtG7ffJ6K2lD9Qwg=;
- b=C48XHq/vEGLgLVZnVt3I/NQ6qPp+KW0dci5sBVSp8XyAyays6tk2ooKpnXr3sOVYOE
- vmpIhJq5dZLBG4LpZLzJn5jN9AqAyVqPPuhr9HzbF5956CjuSCK19K1J6mUp6l5SIs1/
- C38LwSc42n6gg79AuYtHy49dy4/poG1gukUIuA4pi2cg6Hgs6ZNIGvdVN7WGD6rGfaJ2
- CQiG8yLGeDPO9tg8/OAmLzPsYQAveKwV1rwnpY20CdSZBUY+ECs7brlclAGfxwmxp1m9
- ik075B+i73REimloKDRg9bKHV/feJ67KZjDuQ7yfWP4rOkaXKTVHFxmtdKmUKme2SPFh
- 9Wwg==
-X-Gm-Message-State: AOAM530LPrFnSjLGu0Pf0rpIpgZqM6ez4M9JABoWkB4PdcL8zP4n54z+
- VA3qRXZtMmKWK5LaRXUbZt09wIGsOFHPLg==
-X-Google-Smtp-Source: ABdhPJyNwhoGvLwqSjI1MJdyRpZOdiVSjBwwhSGw96BiAU/d1vThocBAYzWzRBFNCiEWvdUPUTjl/Q==
-X-Received: by 2002:a05:600c:291:: with SMTP id
- 17mr6399367wmk.52.1624566493521; 
- Thu, 24 Jun 2021 13:28:13 -0700 (PDT)
+ bh=h4oE4Yl+ZmW3FxHEA+QspghoRSVsp0JhrX2znpzx03E=;
+ b=jnJfkRXsjtGYFPOnJqxB4F7HHbjAMriCxkLDl5k/Bkh2ydGYGeGtU3atImGgxPdfra
+ pkxVbT+1/V6qO9eIqr8IHWbFX68LMaotZTXR77bUfd30knpzHXErsinxP2VU7vNbugCs
+ S2O2S/bnQMoY6HMEZmyhG2PeHwRiPNWdB4jGbacEFbgiOG0geTln0hxH183Ej8tNIw5O
+ eTCTjuDy6RasDLi9TmYj2edYNh6F0YOv+lD7FR4+S0KlF9I2qkWXBqHqD9wqAAHvCrpR
+ Z5WJh3RGnJwI5MHh7x3+6/fXroNJkyacZ+c3ZOOtUDMWg1CtMguJoXHxe4zeNwJpUHwo
+ Corw==
+X-Gm-Message-State: AOAM530lzeLuGzxP8MhMZXfcMg6risJYVsKBKCM2mec/wA2n+ShJNogL
+ +LC73BTepT+mP1uhS9RCEA7k2jXfhVuq/A==
+X-Google-Smtp-Source: ABdhPJxH4Z0mGSZ2hOjOS6HM9Yz4r0VPW3NXPu79x7Qf38qAdeEtNEL6ndgC+uFnOhG5mnJzDsOW/w==
+X-Received: by 2002:a05:600c:8a7:: with SMTP id
+ l39mr6435011wmp.147.1624566474227; 
+ Thu, 24 Jun 2021 13:27:54 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id r2sm4251734wrv.39.2021.06.24.13.28.12
+ by smtp.gmail.com with ESMTPSA id o203sm4402208wmo.36.2021.06.24.13.27.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 13:28:13 -0700 (PDT)
+ Thu, 24 Jun 2021 13:27:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] tests/acceptance: Test PMON on the Fuloong 2E machine
-Date: Thu, 24 Jun 2021 22:27:47 +0200
-Message-Id: <20210624202747.1433023-6-f4bug@amsat.org>
+Subject: [PATCH 1/5] hw/isa/vt82c686: Replace magic numbers by definitions
+Date: Thu, 24 Jun 2021 22:27:43 +0200
+Message-Id: <20210624202747.1433023-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210624202747.1433023-1-f4bug@amsat.org>
 References: <20210624202747.1433023-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,153 +93,119 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test the PMON firmware. As the firmware is not redistributable,
-it has to be downloaded manually first. Then it can be used by
-providing its path via the PMON_BIN_PATH environment variable:
-
-  $ PMON2E_BIN_PATH=~/images/fuloong2e/pmon_2e.bin \
-    AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
-    avocado --show=app,console run tests/acceptance/machine_mips_fuloong2e.py
-  Fetching asset from tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_linux_kernel_isa_serial
-   (1/3) tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_pmon_serial_console:
-  console: PMON2000 MIPS Initializing. Standby...
-  console: ERRORPC=00000000 CONFIG=00030932
-  console: PRID=00006302
-  console: Init SDRAM Done!
-  console: Sizing caches...
-  console: Init caches...
-  console: godson2 caches found
-  console: Init caches done, cfg = 00030932
-  console: Copy PMON to execute location...
-  console: copy text section done.
-  console: Copy PMON to execute location done.
-  Uncompressing Bios........................OK,Booting Bios
-  PASS (0.25 s)
-   (2/3) tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_pmon_framebuffer_console:
-  [...]
-  Uncompressing Bios........................OK,Booting Bios
-  console: FREQ
-  console: FREI
-  console: DONE
-  console: TTYI
-  console: TTYD
-  console: ENVI
-  console: MAPV
-  console: Mfg  0, Id 60
-  console: STDV
-  console: SBDD
-  console: PPCIH
-  console: PCIS
-  console: PCIR
-  console: PCIW
-  console: NETI
-  console: RTCL
-  console: PCID
-  console: VGAI
-  console: Default MODE_ID 2
-  console: starting radeon init...
-  console: radeon init done
-  console: FRBI
-  console: cfb_console init,fb=b4000000
-  console: Video: Drawing the logo ...
-  console: CONSOLE_SIZE 450560HSTI
-  PASS (4.10 s)
-   (3/3) tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_linux_kernel_isa_serial:
-  console: Linux version 2.6.27.7lemote (root@debian) (gcc version 4.1.3 20080623 (prerelease) (Debian 4.1.2-23)) #6 Fri Dec 12 00:11:25 CST 2008
-  console: busclock=33000000, cpuclock=-2145008360,memsize=256,highmemsize=0
-  console: console [early0] enabled
-  console: CPU revision is: 00006302 (ICT Loongson-2)
-  PASS (0.19 s)
-  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 5.10 s
+Replace magic values of the Power Management / SMBus function (#4)
+by definitions from the datasheet. The result is less compact, and
+we can follow what the code does without having to recur to the
+datasheet.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/machine_mips_fuloong2e.py | 62 ++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ hw/isa/vt82c686.c | 50 +++++++++++++++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 17 deletions(-)
 
-diff --git a/tests/acceptance/machine_mips_fuloong2e.py b/tests/acceptance/machine_mips_fuloong2e.py
-index 0ac285e2af1..4854ba98560 100644
---- a/tests/acceptance/machine_mips_fuloong2e.py
-+++ b/tests/acceptance/machine_mips_fuloong2e.py
-@@ -8,15 +8,77 @@
- # SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index f57f3e70679..4ddcf2d398c 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -14,6 +14,7 @@
+  */
  
- import os
-+import time
+ #include "qemu/osdep.h"
++#include "hw/registerfields.h"
+ #include "hw/isa/vt82c686.h"
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
+@@ -38,6 +39,16 @@
+ #define TYPE_VIA_PM "via-pm"
+ OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
  
- from avocado import skipUnless
- from avocado_qemu import Test
- from avocado_qemu import wait_for_console_pattern
++REG8(PM_GEN_CFG0,                   0x40)
++REG8(PM_GEN_CFG1,                   0x41)
++FIELD(PM_GEN_CFG1, ACPI_IO_ENABLE,  7, 1)
++REG32(PM_IO_BASE,                   0x48)
++FIELD(PM_IO_BASE, ADDR,             7, 9)
++REG32(SMBUS_IO_BASE,                0x90)
++FIELD(SMBUS_IO_BASE, ADDR,          4, 12)
++REG8(SMBUS_HOST_CONFIG,             0xd2)
++FIELD(SMBUS_HOST_CONFIG, ENABLE,    0, 1)
++
+ struct ViaPMState {
+     PCIDevice dev;
+     MemoryRegion io;
+@@ -48,21 +59,24 @@ struct ViaPMState {
  
-+from tesseract_utils import tesseract_available, tesseract_ocr
-+
- class MipsFuloong2e(Test):
+ static void pm_io_space_update(ViaPMState *s)
+ {
+-    uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
++    uint32_t pmbase = pci_get_long(s->dev.config + A_PM_IO_BASE);
  
-     timeout = 60
+     memory_region_transaction_begin();
+-    memory_region_set_address(&s->io, pmbase);
+-    memory_region_set_enabled(&s->io, s->dev.config[0x41] & BIT(7));
++    memory_region_set_address(&s->io, pmbase & R_PM_IO_BASE_ADDR_MASK);
++    memory_region_set_enabled(&s->io, FIELD_EX32(s->dev.config[A_PM_GEN_CFG1],
++                                      PM_GEN_CFG1, ACPI_IO_ENABLE));
+     memory_region_transaction_commit();
+ }
  
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    @skipUnless(os.getenv('PMON2E_BIN_PATH'), 'PMON2E_BIN_PATH not available')
-+    def test_pmon_serial_console(self):
-+        """
-+        :avocado: tags=arch:mips64el
-+        :avocado: tags=machine:fuloong2e
-+        :avocado: tags=endian:little
-+        :avocado: tags=device:bonito64
-+        :avocado: tags=device:via686b
-+        """
-+        pmon_hash = 'c812e1695d7b2320036f3ef494976969' # v1.1.2
-+        pmon_path = self.fetch_asset('file://' + os.getenv('PMON2E_BIN_PATH'),
-+                                     asset_hash=pmon_hash, algorithm='md5')
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-bios', pmon_path)
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing. Standby...')
-+        wait_for_console_pattern(self, 'Booting Bios')
-+
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    # Tesseract 4 adds a new OCR engine based on LSTM neural networks. The
-+    # new version is faster and more accurate than version 3. The drawback is
-+    # that it is still alpha-level software.
-+    @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not available')
-+    @skipUnless(os.getenv('PMON2E_BIN_PATH'), 'PMON2E_BIN_PATH not available')
-+    def test_pmon_framebuffer_console(self):
-+        """
-+        :avocado: tags=arch:mips64el
-+        :avocado: tags=machine:fuloong2e
-+        :avocado: tags=endian:little
-+        :avocado: tags=device:bonito64
-+        :avocado: tags=device:ati-vga
-+        """
-+        screenshot_path = os.path.join(self.workdir, 'dump.ppm')
-+
-+        pmon_hash = 'c812e1695d7b2320036f3ef494976969' # v1.1.2
-+        pmon_path = self.fetch_asset('file://' + os.getenv('PMON2E_BIN_PATH'),
-+                                     asset_hash=pmon_hash, algorithm='md5')
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-bios', pmon_path,
-+                         '-vga', 'std',
-+                         '-device', 'ati-vga,model=rv100')
-+        self.vm.launch()
-+
-+        wait_for_console_pattern(self, 'Video: Drawing the logo ...')
-+        self.log.info('VM launched, waiting for logo on display')
-+        time.sleep(2)
-+        wait_for_console_pattern(self, 'CONSOLE_SIZE')
-+        self.vm.command('human-monitor-command', command_line='stop')
-+        self.vm.command('human-monitor-command',
-+                        command_line='screendump %s' % screenshot_path)
-+
-+        lines = tesseract_ocr(screenshot_path, tesseract_version=4,
-+                              tesseract_args='--dpi 128')
-+        pmon_version = 'PNON2000 for Loongson, Version 1.1.2' # PNON is enough
-+        self.assertIn(pmon_version, lines)
-+
-     @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-     @skipUnless(os.getenv('RESCUE_YL_PATH'), 'RESCUE_YL_PATH not available')
-     def test_linux_kernel_isa_serial(self):
+ static void smb_io_space_update(ViaPMState *s)
+ {
+-    uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
++    uint32_t smbase = pci_get_long(s->dev.config + A_SMBUS_IO_BASE);
+ 
+     memory_region_transaction_begin();
+-    memory_region_set_address(&s->smb.io, smbase);
+-    memory_region_set_enabled(&s->smb.io, s->dev.config[0xd2] & BIT(0));
++    memory_region_set_address(&s->smb.io, smbase & R_SMBUS_IO_BASE_ADDR_MASK);
++    memory_region_set_enabled(&s->smb.io,
++                              FIELD_EX32(s->dev.config[A_SMBUS_HOST_CONFIG],
++                                         SMBUS_HOST_CONFIG, ENABLE));
+     memory_region_transaction_commit();
+ }
+ 
+@@ -98,19 +112,21 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+ 
+     trace_via_pm_write(addr, val, len);
+     pci_default_write_config(d, addr, val, len);
+-    if (ranges_overlap(addr, len, 0x48, 4)) {
+-        uint32_t v = pci_get_long(s->dev.config + 0x48);
+-        pci_set_long(s->dev.config + 0x48, (v & 0xff80UL) | 1);
++    if (ranges_overlap(addr, len, A_PM_IO_BASE, 4)) {
++        uint32_t v = pci_get_long(s->dev.config + A_PM_IO_BASE);
++        pci_set_long(s->dev.config + A_PM_IO_BASE,
++                     (v & R_PM_IO_BASE_ADDR_MASK) | 1);
+     }
+-    if (range_covers_byte(addr, len, 0x41)) {
++    if (range_covers_byte(addr, len, A_PM_GEN_CFG1)) {
+         pm_io_space_update(s);
+     }
+-    if (ranges_overlap(addr, len, 0x90, 4)) {
+-        uint32_t v = pci_get_long(s->dev.config + 0x90);
+-        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
++    if (ranges_overlap(addr, len, A_SMBUS_IO_BASE, 4)) {
++        uint32_t v = pci_get_long(s->dev.config + A_SMBUS_IO_BASE);
++        pci_set_long(s->dev.config + A_SMBUS_IO_BASE,
++                     (v & R_SMBUS_IO_BASE_ADDR_MASK) | 1);
+     }
+-    if (range_covers_byte(addr, len, 0xd2)) {
+-        s->dev.config[0xd2] &= 0xf;
++    if (range_covers_byte(addr, len, A_SMBUS_HOST_CONFIG)) {
++        s->dev.config[A_SMBUS_HOST_CONFIG] &= 0xf;
+         smb_io_space_update(s);
+     }
+ }
+@@ -176,9 +192,9 @@ static void via_pm_reset(DeviceState *d)
+     memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
+            PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
+     /* Power Management IO base */
+-    pci_set_long(s->dev.config + 0x48, 1);
++    pci_set_long(s->dev.config + A_PM_IO_BASE, 1);
+     /* SMBus IO base */
+-    pci_set_long(s->dev.config + 0x90, 1);
++    pci_set_long(s->dev.config + A_SMBUS_IO_BASE, 1);
+ 
+     acpi_pm1_evt_reset(&s->ar);
+     acpi_pm1_cnt_reset(&s->ar);
 -- 
 2.31.1
 
