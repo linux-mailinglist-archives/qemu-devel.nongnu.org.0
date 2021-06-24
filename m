@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C85C3B299F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 09:44:46 +0200 (CEST)
-Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FEB3B29AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 09:45:41 +0200 (CEST)
+Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwK2X-0000UP-AX
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 03:44:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33614)
+	id 1lwK3Q-0002cy-Ex
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 03:45:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lwK0y-0006uv-9v
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:43:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45860)
+ id 1lwK2B-0000qB-JO
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:44:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lwK0w-0002Ys-FD
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:43:08 -0400
+ id 1lwK28-0003uI-Uh
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 03:44:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624520585;
+ s=mimecast20190719; t=1624520660;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D7sPThbQ0+nPD0kwk/krXdGTpnNcdOiuJugIOoSsIK0=;
- b=b3U4mpdgiHmcNbbuki5n3V8wBw1ekUUIxJ+tzs++R4BqWlnAP024bIq6D+n2ZFFCQQYXVW
- g4qwoplc4uiekg8rUfb5CvD6D+rKfk+QRTJDKqZ7POutY0jS5tILwLgKP+BNPqd0k6Yiv2
- Ut4vMhXEpbQb4XRcdRgEShEwCR8i1wE=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-Opn7-K_wPEq_EadWTIh2zg-1; Thu, 24 Jun 2021 03:43:04 -0400
-X-MC-Unique: Opn7-K_wPEq_EadWTIh2zg-1
-Received: by mail-pl1-f198.google.com with SMTP id
- g16-20020a1709028690b029011e9e164a59so1903357plo.23
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 00:43:04 -0700 (PDT)
+ bh=JEUnH2FkAYgG8FPMBL/k6x2U8GNhcz+PEYxHyuipSj0=;
+ b=awHULg0PtPzFFApJFp+4c49Ur+oXbPb3ulT8XI7/EJ88CBHlBTajC7s2vUyK2xImRHTghy
+ 7hmYJx2tSoO0A3FuqmFHnKd37/x+/PsPf0kBfHozJYrbnVpfip+OljH9fG0dtAM1z5G2hH
+ Z0HjZdHsGFh+k+XV6a/XG48x90+TZOc=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-n220VjcVNMaTUsbTbNlGYQ-1; Thu, 24 Jun 2021 03:44:18 -0400
+X-MC-Unique: n220VjcVNMaTUsbTbNlGYQ-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ z5-20020a17090ad785b029016ef9db92bfso3026660pju.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 00:44:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=D7sPThbQ0+nPD0kwk/krXdGTpnNcdOiuJugIOoSsIK0=;
- b=uBQTGWf00pj6fC8bmZPeWex2TG6gowbHV7Zz6QiNP9Q3s132X6Qqdhj+sV9AdCkcgj
- wnX0G/hVvR3g/70L0C0x754xicZIQyZCav6+yR/QpCHV4CxxBMJRu1PehHzLLGC4GLTS
- 8T84qux9IlrE0OwxYJ6M3V6pXs3nlb3lNFvj6SNKW549OtAF3foEGQNfJ0YwJLPvhbgt
- uSezVWNmgNF+JWyzglVKy9PocaUWaYRUIE/b+Q/H3KMKTHhMScTo/YJWb4THLPqjq0tc
- f/YbLQW32aekr8Sn80RlpKen8kb+/9QhAJ3CBxqkjwh44sk3gYb1lca2pKORDUh6ihKx
- yPYQ==
-X-Gm-Message-State: AOAM531yyh2n2jR+e18Qg6jc/TmNRevRwutoS+qNPiC20l4RC2OOaoEe
- biA1iiEFN9j0ZKUk5aMW3wlxTw0ibDqDkijv1zL9GiqnCfaTWumo2l39kGeQPE1kmqSM1keaOi0
- 35Xg+jgzZxQ0est8=
-X-Received: by 2002:aa7:8186:0:b029:2f7:f70a:b7be with SMTP id
- g6-20020aa781860000b02902f7f70ab7bemr3870395pfi.64.1624520583159; 
- Thu, 24 Jun 2021 00:43:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwtUNoeY2vvZcwXzE810k0mxJrIQsZ86TszShCPvsc8fMcSJyPn8rJa5rXzL1MzFqbnVtb6Aw==
-X-Received: by 2002:aa7:8186:0:b029:2f7:f70a:b7be with SMTP id
- g6-20020aa781860000b02902f7f70ab7bemr3870383pfi.64.1624520582992; 
- Thu, 24 Jun 2021 00:43:02 -0700 (PDT)
+ bh=JEUnH2FkAYgG8FPMBL/k6x2U8GNhcz+PEYxHyuipSj0=;
+ b=ZFXi6f4zZDjNvUKA57eXQZ6QQcoJojXn1a/UCSzQiIYozZw66hI9A0zUiYscVXJGqm
+ dK07B+jdhJVQbjM0wSVBf9lQCLdDCsmgCTMHgupVttV2pqkQMP5oyah1qydlICevwptc
+ udRbbzTFzuxJjbL/slFuOY83amRySRQ9ppLXflCYfNKQtBPT85Fnpco+zWdk8KV6VlYP
+ eBOryE7Z5BsI92bNmdNIpMH3zLADnOuUXixb+tFnsL8BCS7OuB37S3us2Vt9KWboLK1Q
+ VEKhrixkYkGrS/9UsZRo//VGDAp8aeQ8y8DK1Tn/Q+3FNXN9htTWQhISEqoFDQ7O8Ja3
+ uB2w==
+X-Gm-Message-State: AOAM533289qmCGQqt9nP2Ww7VPGyR7l5UHu/dDiZhtainEV0dmiZlhuK
+ 4XMD4O840CRHmAHoYGCyy2/9OoPkBfJqF2ZPaRiZ0+xkoCGASe9cnNOwHNSoaK5lTod6dmDcTp6
+ PFletwOU0I4E+qIo=
+X-Received: by 2002:a17:90a:9282:: with SMTP id
+ n2mr4042178pjo.204.1624520657859; 
+ Thu, 24 Jun 2021 00:44:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3k91mLuR+unRPNT2kuuY4Yj8/X/+N0ndqs0fbbCz/nCoN6yATtIVk5sM3pX8NypHKDVBVkg==
+X-Received: by 2002:a17:90a:9282:: with SMTP id
+ n2mr4042159pjo.204.1624520657668; 
+ Thu, 24 Jun 2021 00:44:17 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id n5sm1499144pgf.35.2021.06.24.00.43.00
+ by smtp.gmail.com with ESMTPSA id q12sm1535009pgc.25.2021.06.24.00.44.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 00:43:02 -0700 (PDT)
-Subject: Re: [PATCH 01/18] vhost_net: remove the meaningless assignment in
- vhost_net_start_one()
+ Thu, 24 Jun 2021 00:44:17 -0700 (PDT)
+Subject: Re: [PATCH 15/18] vhost-net: control virtqueue support
 To: Eli Cohen <elic@nvidia.com>
 References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-2-jasowang@redhat.com>
- <20210621114506.GA143139@mtl-vdi-166.wap.labs.mlnx>
+ <20210621041650.5826-16-jasowang@redhat.com>
+ <20210624074217.GB42206@mtl-vdi-166.wap.labs.mlnx>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <af0cd5eb-3006-5857-c3ad-4454b43066a9@redhat.com>
-Date: Thu, 24 Jun 2021 15:42:58 +0800
+Message-ID: <7c3f4682-85fe-d572-719c-0036e3ce1bab@redhat.com>
+Date: Thu, 24 Jun 2021 15:44:13 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210621114506.GA143139@mtl-vdi-166.wap.labs.mlnx>
+In-Reply-To: <20210624074217.GB42206@mtl-vdi-166.wap.labs.mlnx>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
@@ -110,45 +109,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/6/21 下午7:45, Eli Cohen 写道:
-> On Mon, Jun 21, 2021 at 12:16:33PM +0800, Jason Wang wrote:
->> The nvqs and vqs has been initialized during vhost_net_init() and is
-> I suggest "nvqs and vqs have been initialized during vhost_net_init() and
-> are not..."
-> Other than that
-> Reviewed-by: Eli Cohen <elic@nvidia.com>
+在 2021/6/24 下午3:42, Eli Cohen 写道:
+>>   
+>> -int vhost_net_start(VirtIODevice *dev, NetClientState *ncs, int total_queues);
+>> -void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs, int total_queues);
+> This breaks compilation of hw/net/vhost_net-stub.c
+>
 
-
-Will fix.
+Right, will fix.
 
 Thanks
-
-
->
->> not expected to change during the life cycle of vhost_net
->> structure. So this patch removes the meaningless assignment.
->>
->> Signed-off-by: Jason Wang <jasowang@redhat.com>
->> ---
->>   hw/net/vhost_net.c | 3 ---
->>   1 file changed, 3 deletions(-)
->>
->> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->> index 44c1ed92dc..6bd4184f96 100644
->> --- a/hw/net/vhost_net.c
->> +++ b/hw/net/vhost_net.c
->> @@ -238,9 +238,6 @@ static int vhost_net_start_one(struct vhost_net *net,
->>       struct vhost_vring_file file = { };
->>       int r;
->>   
->> -    net->dev.nvqs = 2;
->> -    net->dev.vqs = net->vqs;
->> -
->>       r = vhost_dev_enable_notifiers(&net->dev, dev);
->>       if (r < 0) {
->>           goto fail_notifiers;
->> -- 
->> 2.25.1
->>
 
 
