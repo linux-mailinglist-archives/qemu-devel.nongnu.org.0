@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23913B2D07
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:55:37 +0200 (CEST)
-Received: from localhost ([::1]:49612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4FC3B2CEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:52:06 +0200 (CEST)
+Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwN1E-0004TC-VJ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38128)
+	id 1lwMxp-0003Ij-Ro
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMmr-0002HQ-Bk
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:40:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22353)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMms-0002Jy-22
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:40:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMmn-0007lH-HV
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMmn-0007ku-9E
  for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:40:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1624531240;
@@ -23,31 +23,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D/bXIG09hYZhS65KPP0cOBUtgVTWw6OXVodp3CnFZz0=;
- b=QLIkdO5zlLq0XzzxiUmtttZatl1An5ZCa53+Tr/+FOxqkVDmPUfnRALtkw4TRcQsIbDBvR
- r9E9XODYUO2Um5cN/tb6nmyaeANYMCKxJb+NbqEA41WTwBH7zOJccOij6k69CVk1+1cMP6
- JMQ4Q9KMxbM0SXugYWc+O2Or7PAbOTs=
+ bh=l9uYxKFrK9WwU8Bk0tBUhZzNgciCZbCanX+mTsGMzPg=;
+ b=JwvLM6L2h6dTkp+855G0fH5y+BHzDnqvEwRO+By5avnwPcKs6d32gxj2fUFgFZ4DpeUqqT
+ PElFmV+K3XHc79mDDjYjuaapnYY+mKwdyCv0a1aQojScb30Uo0JxsadGrIvUddNDKEUF4M
+ 6QSg5NoU4yJJbOykWv1PGciKTwsklZM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-G2f7xLolOwiHXsDYW76f1Q-1; Thu, 24 Jun 2021 06:40:39 -0400
-X-MC-Unique: G2f7xLolOwiHXsDYW76f1Q-1
+ us-mta-349-rsm_9FSZNcmClJz9phTlcw-1; Thu, 24 Jun 2021 06:40:39 -0400
+X-MC-Unique: rsm_9FSZNcmClJz9phTlcw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59A6F100C609;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E4531934103;
  Thu, 24 Jun 2021 10:40:37 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53EA060CCC;
- Thu, 24 Jun 2021 10:40:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E5CF61093;
+ Thu, 24 Jun 2021 10:40:29 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BA29D1803546; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
+ id C67B01803547; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/34] modules: use modinfo for qemu opts load
-Date: Thu, 24 Jun 2021 12:38:18 +0200
-Message-Id: <20210624103836.2382472-17-kraxel@redhat.com>
+Subject: [PATCH v4 17/34] modules: add tracepoints
+Date: Thu, 24 Jun 2021 12:38:19 +0200
+Message-Id: <20210624103836.2382472-18-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,94 +98,54 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use module database to figure which module adds given QemuOpts group.
+One for module load and one for qom type lookup.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c        | 17 -----------------
- stubs/module-opts.c |  4 ----
- util/module.c       | 19 +++++++++++++++++++
- 3 files changed, 19 insertions(+), 21 deletions(-)
+ util/module.c     | 3 +++
+ util/trace-events | 4 ++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index e001505d79f7..5c26e80126db 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2675,23 +2675,6 @@ void qmp_x_exit_preconfig(Error **errp)
-     }
- }
- 
--#ifdef CONFIG_MODULES
--void qemu_load_module_for_opts(const char *group)
--{
--    static bool spice_tried;
--    if (g_str_equal(group, "spice") && !spice_tried) {
--        ui_module_load_one("spice-core");
--        spice_tried = true;
--    }
--
--    static bool iscsi_tried;
--    if (g_str_equal(group, "iscsi") && !iscsi_tried) {
--        block_module_load_one("iscsi");
--        iscsi_tried = true;
--    }
--}
--#endif
--
- void qemu_init(int argc, char **argv, char **envp)
- {
-     QemuOpts *opts;
-diff --git a/stubs/module-opts.c b/stubs/module-opts.c
-index a7d0e4ad6ead..5412429ea869 100644
---- a/stubs/module-opts.c
-+++ b/stubs/module-opts.c
-@@ -1,6 +1,2 @@
- #include "qemu/osdep.h"
- #include "qemu/config-file.h"
--
--void qemu_load_module_for_opts(const char *group)
--{
--}
 diff --git a/util/module.c b/util/module.c
-index 745ae0fb20ed..a9ec2da9972e 100644
+index a9ec2da9972e..acaaecad56c9 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -20,6 +20,7 @@
- #include "qemu/queue.h"
- #include "qemu/module.h"
- #include "qemu/cutils.h"
-+#include "qemu/config-file.h"
+@@ -24,6 +24,7 @@
  #ifdef CONFIG_MODULE_UPGRADES
  #include "qemu-version.h"
  #endif
-@@ -322,8 +323,26 @@ void module_load_qom_all(void)
-     module_loaded_qom_all = true;
- }
++#include "trace.h"
  
-+void qemu_load_module_for_opts(const char *group)
-+{
-+    const QemuModinfo *modinfo;
-+    const char **sl;
+ typedef struct ModuleEntry
+ {
+@@ -176,6 +177,7 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
+         ret = 0;
+     }
+ 
++    trace_module_load_module(fname);
+     QTAILQ_FOREACH_SAFE(e, &dso_init_list, node, next) {
+         QTAILQ_REMOVE(&dso_init_list, e, node);
+         g_free(e);
+@@ -294,6 +296,7 @@ void module_load_qom_one(const char *type)
+         return;
+     }
+ 
++    trace_module_lookup_object_type(type);
+     for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
+         if (!modinfo->objs) {
+             continue;
+diff --git a/util/trace-events b/util/trace-events
+index 806cac14a762..c8f53d7d9fc3 100644
+--- a/util/trace-events
++++ b/util/trace-events
+@@ -100,3 +100,7 @@ uffd_create_fd_api_failed(int err) "errno: %i"
+ uffd_create_fd_api_noioctl(uint64_t ioctl_req, uint64_t ioctl_supp) "ioctl_req: 0x%" PRIx64 "ioctl_supp: 0x%" PRIx64
+ uffd_register_memory_failed(void *addr, uint64_t length, uint64_t mode, int err) "addr: %p length: %" PRIu64 " mode: 0x%" PRIx64 " errno: %i"
+ uffd_unregister_memory_failed(void *addr, uint64_t length, int err) "addr: %p length: %" PRIu64 " errno: %i"
 +
-+    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
-+        if (!modinfo->opts) {
-+            continue;
-+        }
-+        for (sl = modinfo->opts; *sl != NULL; sl++) {
-+            if (strcmp(group, *sl) == 0) {
-+                module_load_one("", modinfo->name, false);
-+            }
-+        }
-+    }
-+}
-+
- #else
- 
-+void qemu_load_module_for_opts(const char *group) {}
- void module_load_qom_one(const char *type) {}
- void module_load_qom_all(void) {}
- 
++# module.c
++module_load_module(const char *name) "file %s"
++module_lookup_object_type(const char *name) "name %s"
 -- 
 2.31.1
 
