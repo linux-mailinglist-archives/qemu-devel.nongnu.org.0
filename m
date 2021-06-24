@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04033B2B59
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 11:26:54 +0200 (CEST)
-Received: from localhost ([::1]:58952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8580D3B2B62
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 11:27:48 +0200 (CEST)
+Received: from localhost ([::1]:33308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwLdN-0006pS-KQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 05:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52456)
+	id 1lwLeF-000083-7M
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 05:27:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwLaL-000156-Mb
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:23:45 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:37517)
+ id 1lwLaQ-00019H-IS
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:23:52 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwLaK-0001tZ-Bu
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:23:45 -0400
+ id 1lwLaP-0001zM-6p
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:23:50 -0400
 Received: by mail-wm1-x32c.google.com with SMTP id
- l21-20020a05600c1d15b02901e7513b02dbso379975wms.2
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 02:23:44 -0700 (PDT)
+ j11-20020a05600c1c0bb02901e23d4c0977so5140969wms.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 02:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TLb4r3Agp2xdR71abYvEL23ogxRsb2YvWszHjzXa0mY=;
- b=YdNFGkVwJHy03urcFsqWLXlA/KaaTfFrWSAwazkuAz7t9+Dce+Ahe1tMD57kjucrgO
- XHpy25uI2RQcAv3yvPMhLC4vg/3zrLplmQt81kws82r4tSwczg59W0X+m7mxf8WbQ4Tf
- hu/qmecMuT+rCuHxOp41SG3ThowS8+YPcDj9T78Z7Omn6Ls0FnqAXDjZG6wPhMqYKe/i
- NU43K2v9hTRabkNY9FR9PUgeapIL+txf175TC+FKLf3J3fvIRqsxUF4CKM0TkNX1lYsH
- 83SrjjeM22VMQfLzHjnHJ9UoqDZg1Jf4e8gAYPiNA/mevoCfVXHE5GXGsnx2O5ri7n8K
- Nn4w==
+ bh=95CO2cub1d4DnpPQZ+/zlTbJN/w6WVtkbtfzlWs4fTI=;
+ b=ksDzswNCckDxji3Bl6trfWAvEnm6F14FwFoOYX/9QRPMoSZ41YFEJKvLqwrGfBeCdb
+ Lc77OJEyi3IXXX8UvrNlbT7tTAthwLo7tdTUEV0UqwpU3CUGuvSo2KxS2my3me2ewvlk
+ SwdobRd8ipVSX97iBaQONjv9gKL4hBD/dQxleUcvw/zZZLXwcfOO+VknMqfzUudknEPG
+ cggQ8pZZfXbdtjWtPGH1L+woBmSrMydwGqGAlUv5xZkKf41LDjdnuB/WUsOdxpSR0Eha
+ 3HJOcfEBKA4SHiT0LYrxdR0eCvBZRJ9wnRrnaNBAx38f12AC3IQGp0pn6fedwqiu9m6c
+ E1Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TLb4r3Agp2xdR71abYvEL23ogxRsb2YvWszHjzXa0mY=;
- b=r28Ygp3+jT8BEORxDJARH59JjXLcISjW9za6RFlS0ViYWYmu5PAF+ns8AWUGkKx+bP
- toqRkQAvzw9uju8CIjg6OsgP9GHuZrEQI9fDj9Z/u8XIO+vE0MOYPQ6nPkf2EXD4OhnW
- khRXRcFw4d2vj5LpDkMvXhD/KKTHlciPTV0GH62t2YbIUmgp5vdvxZvf0dT1+TLKYJLJ
- PZGbo7tuEboCFfyhvSo5WqFsUe0WVDMedXmYMpZKMSSBcLDaTPAxi43gsJ5v+4alQ2YO
- dL3x1DmM/b+58Sron/4gijeAR873uqX0l3+nxu4IXJ4gmjXou0JuAvTWc35xbRibXcYE
- nMKg==
-X-Gm-Message-State: AOAM532m3nXNiT9HAXEG09XYoJKtJzbWsPLIEasDakHsoLLZE8d50Cp5
- LglcUI01cYSbLyqhSs7HXVZk6pS6JCJrmw==
-X-Google-Smtp-Source: ABdhPJypo21H1PdUeuOvvpRF/nFjL2o5lagZdMpgvKsHoDOUFQBOS1kik6jQKNP1VL0gunRr6slCFA==
-X-Received: by 2002:a05:600c:21cf:: with SMTP id
- x15mr3109718wmj.78.1624526622830; 
- Thu, 24 Jun 2021 02:23:42 -0700 (PDT)
+ bh=95CO2cub1d4DnpPQZ+/zlTbJN/w6WVtkbtfzlWs4fTI=;
+ b=inX2Odvmgaxfvlaa9yMZ/KykthyHshl1mqAFWWa/vgN/1Cev6F5E1QzoK50yGXijsw
+ F/t6rpzm/jQJl5MoshEPbWO1jDeR82SbEl9txttOoq0s5txXKsfuyOs+fXilJDYoAchz
+ vGi2E3FSWfovrH5b+5TUC6o0gsq0TD3MOhtUNq+bH9cNSnWIpQy5m+Yr9wnZQsQAEYLV
+ ZDYjidBPXQpdr7o+PEZQ39wSLNVkFS00arzLw8WCJKh0BAXXcGoKt7HEhbgJlRsCg0Pm
+ oRMRoj6E6zXAswReo2GjcPk8MT+VEV5tu7GVUMCxVXQ07nZIh1LxxpYkvIJiVrTdauCR
+ KRtA==
+X-Gm-Message-State: AOAM533rTXyQNtDp+wCIiGGkLEg+VePoU3u9jIQMZ30qX93I2GTuKZNK
+ ODQsDt5vhmMc54q19v43Ta+vtUl4GgNCuA==
+X-Google-Smtp-Source: ABdhPJwD9cVJ/Hez0SmaBYUYmV+jWEe0QU4M9sGVC0+R+7aU1lKGHSeIb2uGroldqbLT4CSZUGwsXw==
+X-Received: by 2002:a7b:cb55:: with SMTP id v21mr2992920wmj.19.1624526627738; 
+ Thu, 24 Jun 2021 02:23:47 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id e17sm3039301wre.79.2021.06.24.02.23.41
+ by smtp.gmail.com with ESMTPSA id v5sm8047679wml.26.2021.06.24.02.23.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 02:23:42 -0700 (PDT)
+ Thu, 24 Jun 2021 02:23:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] !fixup hw/timer: Add renesas_timer.
-Date: Thu, 24 Jun 2021 11:23:33 +0200
-Message-Id: <20210624092336.1078504-2-f4bug@amsat.org>
+Subject: [RFC PATCH 2/4] !fixup hw/rx: rx62n switch renesas_timer.
+Date: Thu, 24 Jun 2021 11:23:34 +0200
+Message-Id: <20210624092336.1078504-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210624092336.1078504-1-f4bug@amsat.org>
 References: <20210624092336.1078504-1-f4bug@amsat.org>
@@ -96,36 +95,65 @@ Fixup while reviewing.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/timer/renesas_timer.h | 1 +
- hw/timer/Kconfig                 | 3 +++
- 2 files changed, 4 insertions(+)
+ include/hw/rx/rx62n.h | 3 +--
+ hw/rx/rx62n.c         | 6 +++---
+ hw/rx/Kconfig         | 1 -
+ 3 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/timer/renesas_timer.h b/include/hw/timer/renesas_timer.h
-index dc0711ba832..ccf2e64b702 100644
---- a/include/hw/timer/renesas_timer.h
-+++ b/include/hw/timer/renesas_timer.h
-@@ -30,6 +30,7 @@ enum {
+diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
+index c35bf3998c7..a34b845e1e7 100644
+--- a/include/hw/rx/rx62n.h
++++ b/include/hw/rx/rx62n.h
+@@ -26,7 +26,6 @@
  
- enum {
-     CMT_NR_IRQ = 1 * TIMER_CH_CMT,
-+    TMU_NR_IRQ = 1 * TIMER_CH_TMU,
- };
+ #include "target/rx/cpu.h"
+ #include "hw/intc/rx_icu.h"
+-#include "hw/timer/renesas_tmr.h"
+ #include "hw/timer/renesas_timer.h"
+ #include "hw/char/renesas_sci.h"
+ #include "qemu/units.h"
+@@ -55,7 +54,7 @@ struct RX62NState {
  
- enum {
-diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index 9324ca7c6fa..3f049512641 100644
---- a/hw/timer/Kconfig
-+++ b/hw/timer/Kconfig
-@@ -43,6 +43,9 @@ config SH_TIMER
- config RENESAS_TMR
+     RXCPU cpu;
+     RXICUState icu;
+-    RTMRState tmr[RX62N_NR_TMR];
++    RenesasTMUState tmr[RX62N_NR_TMR];
+     RenesasCMTState cmt[RX62N_NR_CMT];
+     RSCIState sci[RX62N_NR_SCI];
+ 
+diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+index fa5add9f9db..626d027a2db 100644
+--- a/hw/rx/rx62n.c
++++ b/hw/rx/rx62n.c
+@@ -163,13 +163,13 @@ static void register_tmr(RX62NState *s, int unit)
+     int i, irqbase;
+ 
+     object_initialize_child(OBJECT(s), "tmr[*]",
+-                            &s->tmr[unit], TYPE_RENESAS_TMR);
++                            &s->tmr[unit], TYPE_RENESAS_TMU);
+     tmr = SYS_BUS_DEVICE(&s->tmr[unit]);
+     qdev_prop_set_uint64(DEVICE(tmr), "input-freq", s->pclk_freq_hz);
+     sysbus_realize(tmr, &error_abort);
+ 
+-    irqbase = RX62N_TMR_IRQ + TMR_NR_IRQ * unit;
+-    for (i = 0; i < TMR_NR_IRQ; i++) {
++    irqbase = RX62N_TMR_IRQ + TMU_NR_IRQ * unit;
++    for (i = 0; i < TMU_NR_IRQ; i++) {
+         sysbus_connect_irq(tmr, i, s->irq[irqbase + i]);
+     }
+     sysbus_mmio_map(tmr, 0, RX62N_TMR_BASE + unit * 0x10);
+diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
+index f9cb892633a..845ef416e38 100644
+--- a/hw/rx/Kconfig
++++ b/hw/rx/Kconfig
+@@ -1,7 +1,6 @@
+ config RX62N_MCU
      bool
+     select RX_ICU
+-    select RENESAS_TMR
+     select RENESAS_TIMER
+     select RENESAS_SCI
  
-+config RENESAS_CMT
-+    bool
-+
- config RENESAS_TIMER
-     bool
-     select PTIMER
 -- 
 2.31.1
 
