@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF8B3B2D6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:13:40 +0200 (CEST)
-Received: from localhost ([::1]:41102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7783B2D2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:04:21 +0200 (CEST)
+Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwNIh-0004PL-3g
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
+	id 1lwN9g-0004JM-PM
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMo6-0006Dk-J9
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30537)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMoa-0007Zk-Rg
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMo3-0000V3-4o
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:02 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMoS-0000rS-7b
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531318;
+ s=mimecast20190719; t=1624531342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4qr7iH+dVmCBCyjLknApkCwKC+SzynUInQNKaH1p9eE=;
- b=A1aWHKh1wggPJ12RFx52IJmkX3pf9V2CgiJPWoQ9U0qCFkEhUiAlQkTWqtetUkJ1CEQN5p
- 4FEAy6ot4WQeI5LogeR6iIP7Dyp0OsI5DJenXqoEnWTXrBQe8H6wX2t5VZGu2mzcXZJfqt
- 6IdWHXXLiIO4qa2po9LWdQq2cvvtf5w=
+ bh=LwdLbExeA9Nvec4TRFAJpOyf9hvd2ZFG3xB/eD7w26g=;
+ b=fbEbpEsCqX6ANktMlhJQxXIghDdSEtboc4F3A4vZyd2UoQlCMykB5dPj6sY9mwVLmczboY
+ oS7jnz3qGIDQYWjR3u5B+LlNGsBB75lmTgOUacUvc+55yma+zIzi9XoIvl3Ne1QPISRuDI
+ iWrAnvPAIV7HXcTmpgiSkrJU7LQkzHY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-jYwEwTAlOSGiVHYSeG-fSQ-1; Thu, 24 Jun 2021 06:41:57 -0400
-X-MC-Unique: jYwEwTAlOSGiVHYSeG-fSQ-1
+ us-mta-513-FDve_AW_O1epmCISCz_3Dw-1; Thu, 24 Jun 2021 06:42:21 -0400
+X-MC-Unique: FDve_AW_O1epmCISCz_3Dw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75938804140;
- Thu, 24 Jun 2021 10:41:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46C67100C619;
+ Thu, 24 Jun 2021 10:42:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EBFEF60CCC;
- Thu, 24 Jun 2021 10:41:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13BCF60E3A;
+ Thu, 24 Jun 2021 10:41:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 634E11803553; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
+ id 72BFA1803554; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 29/34] accel: build tcg modular
-Date: Thu, 24 Jun 2021 12:38:31 +0200
-Message-Id: <20210624103836.2382472-30-kraxel@redhat.com>
+Subject: [PATCH v4 30/34] monitor: allow register hmp commands
+Date: Thu, 24 Jun 2021 12:38:32 +0200
+Message-Id: <20210624103836.2382472-31-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,79 +98,73 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build tcg accel ops as module.
-Which is only a small fraction of tcg.
-Also only x86 for now.
+Allow commands having a NULL cmd pointer, add a function to set the
+pointer later.  Use case: allow modules implement hmp commands.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- accel/tcg/meson.build |  5 ++++-
- meson.build           | 14 +++++++++++++-
- 2 files changed, 17 insertions(+), 2 deletions(-)
+ include/monitor/monitor.h |  3 +++
+ monitor/hmp.c             |  7 +++++++
+ monitor/misc.c            | 16 ++++++++++++++++
+ 3 files changed, 26 insertions(+)
 
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-index 1236ac7b910b..0ae9180282e3 100644
---- a/accel/tcg/meson.build
-+++ b/accel/tcg/meson.build
-@@ -15,8 +15,11 @@ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 1211d6e6d69f..1a8a369b50b2 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -51,4 +51,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int flags);
+ void monitor_fdset_dup_fd_remove(int dup_fd);
+ int64_t monitor_fdset_dup_fd_find(int dup_fd);
  
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
-   'cputlb.c',
-+))
++void monitor_register_hmp(const char *name, bool info,
++                          void (*cmd)(Monitor *mon, const QDict *qdict));
 +
-+tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
-   'tcg-accel-ops.c',
-   'tcg-accel-ops-mttcg.c',
-   'tcg-accel-ops-icount.c',
--  'tcg-accel-ops-rr.c'
-+  'tcg-accel-ops-rr.c',
- ))
-diff --git a/meson.build b/meson.build
-index d2cacc145a91..9f1ca4177073 100644
---- a/meson.build
-+++ b/meson.build
-@@ -92,6 +92,8 @@ if cpu in ['x86', 'x86_64']
-   }
- endif
+ #endif /* MONITOR_H */
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index 6c0b33a0b19d..d50c3124e1e1 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1089,6 +1089,13 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
+         return;
+     }
  
-+modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
++    if (!cmd->cmd) {
++        /* FIXME: is it useful to try autoload modules here ??? */
++        monitor_printf(&mon->common, "Command \"%.*s\" is not available.\n",
++                       (int)(cmdline - cmd_start), cmd_start);
++        return;
++    }
 +
- edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
- install_edk2_blobs = false
- if get_option('install_blobs')
-@@ -1311,6 +1313,11 @@ foreach target : target_dirs
-       elif sym == 'CONFIG_XEN' and have_xen_pci_passthrough
-         config_target += { 'CONFIG_XEN_PCI_PASSTHROUGH': 'y' }
-       endif
-+      if target in modular_tcg
-+        config_target += { 'CONFIG_TCG_MODULAR': 'y' }
-+      else
-+        config_target += { 'CONFIG_TCG_BUILTIN': 'y' }
-+      endif
-       accel_kconfig += [ sym + '=y' ]
-     endif
-   endforeach
-@@ -1782,6 +1789,7 @@ util_ss = ss.source_set()
+     qdict = monitor_parse_arguments(&mon->common, &cmdline, cmd);
+     if (!qdict) {
+         while (cmdline > cmd_start && qemu_isspace(cmdline[-1])) {
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 1539e18557f0..ad476c6e51ea 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1974,6 +1974,22 @@ static void sortcmdlist(void)
+           compare_mon_cmd);
+ }
  
- # accel modules
- qtest_module_ss = ss.source_set()
-+tcg_module_ss = ss.source_set()
- 
- modules = {}
- target_modules = {}
-@@ -2022,7 +2030,11 @@ subdir('tests/qtest/libqos')
- subdir('tests/qtest/fuzz')
- 
- # accel modules
--target_modules += { 'accel' : { 'qtest': qtest_module_ss }}
-+tcg_real_module_ss = ss.source_set()
-+tcg_real_module_ss.add_all(when: 'CONFIG_TCG_MODULAR', if_true: tcg_module_ss)
-+specific_ss.add_all(when: 'CONFIG_TCG_BUILTIN', if_true: tcg_module_ss)
-+target_modules += { 'accel' : { 'qtest': qtest_module_ss,
-+                                'tcg': tcg_real_module_ss }}
- 
- ########################
- # Library dependencies #
++void monitor_register_hmp(const char *name, bool info,
++                          void (*cmd)(Monitor *mon, const QDict *qdict))
++{
++    HMPCommand *table = info ? hmp_info_cmds : hmp_cmds;
++
++    while (table->name != NULL) {
++        if (strcmp(table->name, name) == 0) {
++            g_assert(table->cmd == NULL);
++            table->cmd = cmd;
++            return;
++        }
++        table++;
++    }
++    g_assert_not_reached();
++}
++
+ void monitor_init_globals(void)
+ {
+     monitor_init_globals_core();
 -- 
 2.31.1
 
