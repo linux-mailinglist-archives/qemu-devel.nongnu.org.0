@@ -2,176 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97F23B3248
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 17:07:16 +0200 (CEST)
-Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 726F33B32CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 17:47:41 +0200 (CEST)
+Received: from localhost ([::1]:36912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwQwl-0005eD-Hl
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 11:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
+	id 1lwRZs-00077i-4m
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 11:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lwQvG-00044q-7i
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:05:42 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:58646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lwQvD-0004uE-HY
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:05:41 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15OEvJOW031247; Thu, 24 Jun 2021 15:05:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=XGc6mzqPggWS6m+RUkGVW75N1QxABBr6S39j07nmeqY=;
- b=QTiXOfAjDX37I87ziz76N7v5gB8cj0ITo4WzG6P6a5uakfkufk6uYv+V8Mo+sZvD64WY
- 3/1dXMZP++1Gn/9o1nB7GIlm0Pl7dBdj2tewEVc+F/I+2gm9m3UEq+mKUf0H4HKhFBPp
- XaA1BDpGwcHvV8HP/rbvaviI/nDcQzYu7acHCHEXdm4tDwOoCxAvNgg0eaLxKNSckGkh
- zAe4HYqfLhYSnygGEUdViMHc3OExYl+2Tx6jqelzZm66iuhrZLino02UhHQtQVLr/wyZ
- zNt+i0Rr0alPZ/Ak/Ze+M8Y2aeXMMYzEwaUvrkv37CA71D6bV/3VHw7hQUnKr3UV8TAg 9g== 
-Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 39c2wnk8kx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Jun 2021 15:05:31 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15OF5UTk178854;
- Thu, 24 Jun 2021 15:05:30 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
- by userp3020.oracle.com with ESMTP id 399tbw50ua-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Jun 2021 15:05:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XOBNSllKRwPqLrvSIj+lpQ5gmLT3uMKeHgcQUTwdIj68j6sg/cSPdIY4UUoDgulBi7cLRlPcWYDZuERFqTEW1VPBxYmDDF5elIwcm4lpD/TrB6qU291USwnYpzqdbpqTUoZj4EBc57HCbinuwqsprN9nlQqaYC4t6kc0UapmfFS0i6WfH/eOsvn9C33NS0a/+Kup1ipWZ3SpGxWc06WY9efqTQjcNLXVSe6x9SGAJJ2pjwnlwU9XVCV37vw13e7yc11MPN0cCncNwxftOk2aQsZqIdJ1M5JRIYQGzNuZrQ4s3khnQypMRVEArFNzL8Ued6P2NCBbbRNPlSldcCXHIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XGc6mzqPggWS6m+RUkGVW75N1QxABBr6S39j07nmeqY=;
- b=Y6JY8AlGrcqHxKlgLq5WrfjgSyeadimGIBkFdEr0RPYSYZFhq/H+01Gv9JB577FVj3SH/Vcb/HxEQiwDB8BDJqoj9/av1wvSUp8yBnaTYOAmJfakcZ2FhRYnLsuZJpWA4iWILuNyaNLDlxLQrzyXaQFpsvzoNTebJBEdEI5X8fvTKQt/xlo9Egg/fX7FFqZPxoc/ZNa6Bpx3yW9s2PypBHggE3WaC0gpAtTMGLWW2b6rjrY3QlQoazsHlxfswh3rHM9ogz1bCQ9MkDIDS3LsGldkPnN29OdlEJYwAtZVn7v1udLBy58TvHw3LD6KqW2us4XRu1VkbeevrfzuesOLlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XGc6mzqPggWS6m+RUkGVW75N1QxABBr6S39j07nmeqY=;
- b=D4o6MT59hEOU/L1oBiTTee7a1+JNfG6yJy+Jqbo3OXWg8TCsYn/+Xe984G/SyAOqNLn7TC+LYUdcjxFavtWnVLddxbqvm4BI/VkwYKmj40e/XF8LWGh5wK2IPQ3j48pAZ4ipNb8KKvwwJOo7/wp9e5+cXmilUWMwZMc07uqpto4=
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by BYAPR10MB2807.namprd10.prod.outlook.com (2603:10b6:a03:8e::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Thu, 24 Jun
- 2021 15:05:28 +0000
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::6ce3:f0a3:c303:f851]) by BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::6ce3:f0a3:c303:f851%7]) with mapi id 15.20.4242.023; Thu, 24 Jun 2021
- 15:05:28 +0000
-Subject: Re: [PATCH V3 00/22] Live Update [reboot]
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <YJwFkhlYISA9INwO@stefanha-x1.localdomain>
- <4d3dd5ff-5180-16df-ab48-11de610dd396@oracle.com>
- <YJ5kokhzyA5tCom3@stefanha-x1.localdomain>
- <29356c3a-0b3f-2773-4f9f-18ff4ed4d5bb@oracle.com> <YKOPnkefxgRZ8PoQ@work-vm>
- <a1d3dfea-d15e-35a3-a216-3ce65600f2d6@oracle.com> <YKQULUn5F+x1wrYI@work-vm>
- <38dc91ab-b96b-1cc3-bf8b-84ff77b334fd@oracle.com> <YKZdcSt0ltCBqVsz@work-vm>
- <5dc94efc-cb95-d7ff-cad3-391c90b3264f@oracle.com> <YMj8Fh2FAYJ5Pb/c@work-vm>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <879d3412-8918-45fc-55dd-2e0db956e089@oracle.com>
-Date: Thu, 24 Jun 2021 11:05:22 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwRYm-0005rW-Iw
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:46:32 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwRYk-0005zY-F5
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:46:32 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id j2so7171784wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 08:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=siBPPBrY6rBM6JmI6bJb9b4v6VATUPnqNNlMaXnJqyo=;
+ b=utVguxTfQBZBei6Ym1YeRm/4pkekYkjqMq0LSbJltfu8wlIcYqiPdyWgxGJcz67s/N
+ KjLuA/iuKL1KgR5o78oTt9luNJ6dCO5AnyBvTDX7MWqq3Xq7J5kgG6+39f4Y6UJHKn34
+ NpRNrIyVjpOc+P8DB3pmfrGeHGpNOzH33aPP1a8C6LnqYSVSE6NIlc7mVyeR64ZbVNn8
+ +BgA/cauoXLx2T2dUCn/kNrtCBN+CTywZhNHeI8AXJ8D14VFyMLTIDqaaBO33Tw8VQCK
+ 4NTXUNpZbHgDaVYucjVU2iLYZFAj1U5WknfX2ZANn0eOxlg5JEfqto1PfAWl0rYEn7OS
+ IPcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=siBPPBrY6rBM6JmI6bJb9b4v6VATUPnqNNlMaXnJqyo=;
+ b=eDfGO7j4ujqMJSK4+jZ6PHJYGUwChRMLua2r9EAJqnsnMTX9Iw/P7OHthi8mXtVU+d
+ EPuN8s3vna4MsoTrVNn6kDOzocqyAIu8yW1Rxg0fxKTCv7jlkAwFIrA0Ogfap2HyOLlB
+ 9xM75t7vwzLc2N2l+ytUk5R6WdzY4Ash07oG5pjru182jNVb8OTaM4jvpZqYhlzzfUMb
+ dHNQnGnB2y3X0wxdEHRwUuSAHtwabkGHGjLfGGdiL+TsLouPTW0l8GE2tMQricaZz90D
+ o7vAj503pIA5pY90UYuklWRt5ldHd4WOi67jQhqEIWwY5QHwcl5Kv6bgCAZT5nAApF9H
+ ZmwQ==
+X-Gm-Message-State: AOAM532wABozNqjzuWu+WA5ZfHZN/yb2Wu9ijIOi44mdDNl7ciFQxOBw
+ GnoS5sW0UsqYPloMZ0uyuCY=
+X-Google-Smtp-Source: ABdhPJzTOHBSiSn7UNa+12gdAC7zj/fWJcRplJzI6Sx/dBLBEJlAU5axf4MRoDcy2iHEph5FF4Fgzw==
+X-Received: by 2002:a05:6000:1563:: with SMTP id
+ 3mr5197849wrz.59.1624549588490; 
+ Thu, 24 Jun 2021 08:46:28 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id p20sm3186366wma.19.2021.06.24.08.46.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 08:46:27 -0700 (PDT)
+Subject: Re: [PULL 30/43] vt82c686: Fix SMBus IO base and configuration
+ registers
+To: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210221143432.2468220-1-f4bug@amsat.org>
+ <20210221143432.2468220-31-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0c52a343-ed4c-92fa-fac0-0f32f37b0df2@amsat.org>
+Date: Thu, 24 Jun 2021 17:46:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <YMj8Fh2FAYJ5Pb/c@work-vm>
+MIME-Version: 1.0
+In-Reply-To: <20210221143432.2468220-31-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [24.62.106.7]
-X-ClientProxiedBy: SN2PR01CA0079.prod.exchangelabs.com (2603:10b6:800::47) To
- BYAPR10MB3240.namprd10.prod.outlook.com
- (2603:10b6:a03:155::17)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.92] (24.62.106.7) by
- SN2PR01CA0079.prod.exchangelabs.com (2603:10b6:800::47) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Thu, 24 Jun 2021 15:05:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 56864c83-227a-4529-5784-08d93721806a
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2807:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB2807DCF5A42ADA90D6B5E9D4F9079@BYAPR10MB2807.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nVyPkdzYlwNXyPSMkMbFPKwqkHhyLLzRgFobFpMtfnEtir6GA8vxGV6VGVASvbDHvQ66zjNlIuN/ek3OEHfzHgfjgs2RN/dvHFEMA4RnqBxTODqCX31rtbNix53QgB6JE0MaW8ep4mf+jKKCzJ/9j1rwpQlKW2pVH7qOwpr0Fm0sfLlVTi9qX7798iU5L7XXh+qBes4h64lUUM3zaWHqt0sPGGL9JRhzMZarBs8jgo2QL9JlW7LZ9aozDydjY9j266Xd4J/eSurUNcwUs76XbPth7ru8ygnHhdnj/7KZyEk71T2DkExH5wyTSxMfvw7XWJ3L7W7Om05ntlwHcNpwBE8e3KNXJooi8mzZnaV5VPwEmrHbIPHdO5H3A0yd6jI2SUWz9YZKrjEjwnvAJsDWli2fQxWlVgKvYzyXOdLme7Lpaend7sPADXDt9ZuczcLQGlPR/ijsKRgqzkR6kAz8W/oUurKvBMdv4yqQ/BqSweKeafVSEW6hP1WEzMqWRonI1BqJ4UBAa0XwTJiu4nxDiyLMeHglkjwbZoPsg3H1EgurRZT2sQRkfUaUISerwKrMAbeCzWD5myqkldOe1Ya6kaMWNAKXDsMgCBGFiEWfBcAqR+8svycOx1xn4bXLt76Xb6ffaqAuI1LaEUuqmcLy2g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(366004)(396003)(136003)(346002)(39860400002)(86362001)(83380400001)(36756003)(478600001)(8676002)(6486002)(66476007)(31686004)(66946007)(8936002)(4326008)(31696002)(66556008)(107886003)(6666004)(53546011)(16576012)(54906003)(5660300002)(6916009)(316002)(7416002)(16526019)(186003)(38100700002)(2616005)(956004)(36916002)(26005)(44832011)(15650500001)(2906002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlF1TW9oMjBVRXFPRFcxVjNXcm5oM2JpNW80ejFyanJralpid2dBenhYbmZD?=
- =?utf-8?B?M3dXa0hBdGNLNDA0cGtKUHhhSzZuZkFHd2Vwd3h3Z2VKUXhRU3RQalFHNzZJ?=
- =?utf-8?B?TzhxTDgvK3ZTMU4yN0plTGZKVnhZSk1TQjB1Y0FhSVplMVZHV2gyT2V2ZlN6?=
- =?utf-8?B?VFVWMXg2SnpZM0YvRlQyZUYvT2FINFF1V3ZCR1paS3d3WVo5Z3E4RDIwWEMz?=
- =?utf-8?B?NkVnWGZ5Zm0xSkJjMVdrcGRUek1HaHB6Y0xRTEhUL0ZpL2luenhvWmJqNFRU?=
- =?utf-8?B?eExhUU1zcEY2VW8veHpvWHREQklOc1Q4OWkrRUVzUG0rb0UvUEJvQ1hiOVVv?=
- =?utf-8?B?T2ZUV3pwMklKT3pSWnZZbUdiL05nUWllUVQ0WUNkbFZ3VmxMY3RzMWhQK1ov?=
- =?utf-8?B?cmovZ3MxbFFMMTZNZzMrdFVmcXAxcUFpWGpZK3loZXVpQTd3c0JkU2toK3Nr?=
- =?utf-8?B?cGR3K0FPOGlBN1Y0Tkc3cmtRRUJ0cldkR2lTT1FTTjZka1ExR1phTTBnTXll?=
- =?utf-8?B?VzJjdU9RcjVwQjNab2xobmI5UDU3NU5xL1hCc3ZlVjRRaFp6RHpmeEFGVjF4?=
- =?utf-8?B?ek9CRnc0bncrbVhmZDdVWUJOSkx0SVlEQ25pRCtHaWpsYW9MMVpxM0Y1aWVL?=
- =?utf-8?B?dld3RVJzWUZUYWVObWtiSy9JZzZ0ZmEyb2JnZGhnYU0rSUM4NGp0elZRNVoz?=
- =?utf-8?B?Wm5PMm9ma3F0eTJsMS9PMWNiUWlTMWJEZmM4U1RpczkzVk1LOHpralNhQjcx?=
- =?utf-8?B?N29WNE5jeGllUkVrSjVCYnlqYU9oc2pXUDlmZzdDdDNpeFY0dnB6d3NkeW1G?=
- =?utf-8?B?K3lzME1nY0NKTTZ0V0VuZUZpN3dZODlzbmtFbU1zb3I4c000YTh4RWJVVzNa?=
- =?utf-8?B?RXFiMU54MTJpNGdXd0VkeVZ6NjFlWDFMTTY3RVYzc1g3ZlFCdTd3SXZxOTlr?=
- =?utf-8?B?Z1pkaE05dkd4UUs2bHpaV3QxZTRGUDIySkRCYTduUkhHUGZsTG54amdjeWhR?=
- =?utf-8?B?SHZtLzAzTzVib24yZTJBUE91MzlGNkRkVTc2SStQQXJuNjY2T2Z5ZUlDQmpx?=
- =?utf-8?B?Uzh4d1JUNHdMaklQZmp6RWNtTkxNeVFtRlFxbTFVUFZCTWQ4UkJYMEVIcmJ5?=
- =?utf-8?B?bndBZlVUK2szWGtCeVhCd0oweE9KK3pDSktuaXpiYkdPbGNOMTBSOVB6b0J5?=
- =?utf-8?B?Y0dtZHZpdEV2di9mNnVWWFA3NkN5emJJNThFTStncE1lMzV6RFdaVnNnTE1p?=
- =?utf-8?B?aFY4ZEtwN3VqWDZqUWhyWlByTXowS2YzUnMyc3dEUkwyUERPbUxULzBLZHFK?=
- =?utf-8?B?dXZka1BXMFJaRG51aldCMDBqcmptcmRmT1ovWVFyT3BNaHpnUmtVSXppVjdW?=
- =?utf-8?B?cC9Xdlp3OEtNYmVUT3N2M0thc1pyRTBvMWNZYnM0MUVGd25ZNllPTHFVWVJk?=
- =?utf-8?B?ZHRXM1oydndhaUhKUTF3b1Rtejd1RWhXeXdycU9WdW1SWmltK1VxczNhcU54?=
- =?utf-8?B?WkRSTFcyZjRiNmtXazRYSUdJRENqMmVONEd6bE1GRURKRFluNFlVZWZhT201?=
- =?utf-8?B?NGhTeHlWcHE2d3R0UVVRVmhiL0VYcVk3WnE2THlUbjRjTHp2MVdMbDJDWFBa?=
- =?utf-8?B?dld6MFpCcytLMGVFMnJsR3RhUHFsbXNxK3NaTkhTbEFvS3lhYTJDb2pTOU95?=
- =?utf-8?B?WVdqcnNSNWR4RGFXWXNBdzNCNm4vVUY0YjNXRVorTEV2T1dFaW5kc01WaXhF?=
- =?utf-8?Q?ce0Lh4E2j+drc7RBU33CDljOaUAXfd5cxT00aM/?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56864c83-227a-4529-5784-08d93721806a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 15:05:28.0275 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U9hWIrz0ahG1aq26B9f95vGeQQBw7M+sKfVb2LOrn5xCnh8/Ox9OEhgUHF3DWb5OIucFmFuMfNrKJI7QyqyBEIKvDxQIzvm/K6S5mOKpfpo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2807
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10025
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 mlxscore=0
- spamscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106240083
-X-Proofpoint-GUID: g0uiFRHTvffnoWYMIXK0C9P1f0EUpPLK
-X-Proofpoint-ORIG-GUID: g0uiFRHTvffnoWYMIXK0C9P1f0EUpPLK
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -184,59 +91,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/2021 3:14 PM, Dr. David Alan Gilbert wrote:
-> * Steven Sistare (steven.sistare@oracle.com) wrote:
->> On 5/20/2021 9:00 AM, Dr. David Alan Gilbert wrote:
->>> Hi Steven,
->>>   I'd like to split the discussion into reboot and restart,
->>> so I can make sure I understand them individually.
->>>
->>> So reboot mode;
->>> Can you explain which parts of this series are needed for reboot mode;
->>> I've managed to do a kexec based reboot on qemu with the current qemu -
->>> albeit with no vfio devices, my current understanding is that for doing
->>> reboot with vfio we just need some way of getting migrate to send the
->>> metadata associated with vfio devices if the guest is in S3.
->>>
->>> Is there something I'm missing and which you have in this series?
->>
->> You are correct, this series has little special code for reboot mode, but it does allow
->> reboot and restart to be handled similarly, which simplifies the management layer because 
->> the same calls are performed for each mode. 
->>
->> For vfio in reboot mode, prior to sending cprload, the manager sends the guest-suspend-ram
->> command to the qemu guest agent. This flushes requests and brings the guest device to a 
->> reset state, so there is no vfio metadata to save.  Reboot mode does not call vfio_cprsave.
->>
->> There are a few unique patches to support reboot mode.  One is qemu_ram_volatile, which
->> is a sanity check that the writable ram blocks are backed by some form of shared memory.
->> Plus there are a few fragments in the "cpr" patch that handle the suspended state that
->> is induced by guest-suspend-ram.  See qemu_system_start_on_wake_request() and instances
->> of RUN_STATE_SUSPENDED in migration/cpr.c
-> 
-> Could you split the 'reboot' part of separately, then we can review
-> that and perhaps get it in first? It should be a relatively small patch
-> set - it'll get things moving in the right direction.
-> 
-> The guest-suspend-ram stuff seems reasonable as an idea; lets just try
-> and avoid doing it all via environment variables though; make it proper
-> command line options.
+Hi Zoltan,
 
-How about I delete reboot mode and the mode argument instead.  Having two modes is causing no 
-end of confusion, and my primary business need is for restart mode.
+On 2/21/21 3:34 PM, Philippe Mathieu-Daudé wrote:
+> From: BALATON Zoltan <balaton@eik.bme.hu>
+> 
+> The base address of the SMBus io ports and its enabled status is set
+> by registers in the PCI config space but this was not correctly
+> emulated. Instead the SMBus registers were mapped on realize to the
+> base address set by a property to the address expected by fuloong2e
+> firmware.
+> 
+> Fix the base and config register handling to more closely model
+> hardware which allows to remove the property and allows the guest to
+> control this mapping. Do all this in reset instead of realize so it's
+> correctly updated on reset.
 
-- Steve
+This commit broken running PMON on Fuloong2E:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
+console: PMON2000 MIPS Initializing. Standby...
+console: ERRORPC=00000000 CONFIG=00030932
+console: PRID=00006302
+console: DIMM read
+console: 000000ff
+console: 000000ff
+console: 000000ff
+console: 000000ff
+console: 000000ff
+console: 000000ff
+console: 000000ff
+console: 000000ff
+console: 000000ff
+console: 000000ff
+...
+
+From here the console loops displaying this value...
+
+Expected:
+
+console: PMON2000 MIPS Initializing. Standby...
+console: ERRORPC=00000000 CONFIG=00030932
+console: PRID=00006302
+console: DIMM read
+console: 00000080
+console: read memory type
+console: read number of rows
+...
+
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Message-Id: <f2ca2ad5f08ba8cee07afd9d67b4e75cda21db09.1610223397.git.balaton@eik.bme.hu>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/isa/vt82c686.c   | 49 +++++++++++++++++++++++++++++++++------------
+>  hw/mips/fuloong2e.c |  4 +---
+>  2 files changed, 37 insertions(+), 16 deletions(-)
+> 
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index fe8961b0573..9c4d1530225 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -22,6 +22,7 @@
+>  #include "hw/i2c/pm_smbus.h"
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+> +#include "qemu/range.h"
+>  #include "qemu/timer.h"
+>  #include "exec/address-spaces.h"
+>  #include "trace.h"
+> @@ -34,7 +35,6 @@ struct VT686PMState {
+>      ACPIREGS ar;
+>      APMState apm;
+>      PMSMBus smb;
+> -    uint32_t smb_io_base;
+>  };
+>  
+>  static void pm_io_space_update(VT686PMState *s)
+> @@ -50,11 +50,22 @@ static void pm_io_space_update(VT686PMState *s)
+>      memory_region_transaction_commit();
+>  }
+>  
+> +static void smb_io_space_update(VT686PMState *s)
+> +{
+> +    uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
+> +
+> +    memory_region_transaction_begin();
+> +    memory_region_set_address(&s->smb.io, smbase);
+> +    memory_region_set_enabled(&s->smb.io, s->dev.config[0xd2] & BIT(0));
+> +    memory_region_transaction_commit();
+> +}
+> +
+>  static int vmstate_acpi_post_load(void *opaque, int version_id)
+>  {
+>      VT686PMState *s = opaque;
+>  
+>      pm_io_space_update(s);
+> +    smb_io_space_update(s);
+>      return 0;
+>  }
+>  
+> @@ -77,8 +88,18 @@ static const VMStateDescription vmstate_acpi = {
+>  
+>  static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+>  {
+> +    VT686PMState *s = VT82C686B_PM(d);
+> +
+>      trace_via_pm_write(addr, val, len);
+>      pci_default_write_config(d, addr, val, len);
+> +    if (ranges_overlap(addr, len, 0x90, 4)) {
+> +        uint32_t v = pci_get_long(s->dev.config + 0x90);
+> +        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
+> +    }
+> +    if (range_covers_byte(addr, len, 0xd2)) {
+> +        s->dev.config[0xd2] &= 0xf;
+> +        smb_io_space_update(s);
+> +    }
+>  }
+>  
+>  static void pm_update_sci(VT686PMState *s)
+> @@ -103,6 +124,17 @@ static void pm_tmr_timer(ACPIREGS *ar)
+>      pm_update_sci(s);
+>  }
+>  
+> +static void vt82c686b_pm_reset(DeviceState *d)
+> +{
+> +    VT686PMState *s = VT82C686B_PM(d);
+> +
+> +    /* SMBus IO base */
+> +    pci_set_long(s->dev.config + 0x90, 1);
+> +    s->dev.config[0xd2] = 0;
+> +
+> +    smb_io_space_update(s);
+> +}
+> +
+>  static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+>  {
+>      VT686PMState *s = VT82C686B_PM(dev);
+> @@ -116,13 +148,9 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+>      /* 0x48-0x4B is Power Management I/O Base */
+>      pci_set_long(pci_conf + 0x48, 0x00000001);
+>  
+> -    /* SMB ports:0xeee0~0xeeef */
+> -    s->smb_io_base = ((s->smb_io_base & 0xfff0) + 0x0);
+> -    pci_conf[0x90] = s->smb_io_base | 1;
+> -    pci_conf[0x91] = s->smb_io_base >> 8;
+> -    pci_conf[0xd2] = 0x90;
+>      pm_smbus_init(DEVICE(s), &s->smb, false);
+> -    memory_region_add_subregion(get_system_io(), s->smb_io_base, &s->smb.io);
+> +    memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
+> +    memory_region_set_enabled(&s->smb.io, false);
+>  
+>      apm_init(dev, &s->apm, NULL, s);
+>  
+> @@ -135,11 +163,6 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+>      acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
+>  }
+>  
+> -static Property via_pm_properties[] = {
+> -    DEFINE_PROP_UINT32("smb_io_base", VT686PMState, smb_io_base, 0),
+> -    DEFINE_PROP_END_OF_LIST(),
+> -};
+> -
+>  static void via_pm_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -151,10 +174,10 @@ static void via_pm_class_init(ObjectClass *klass, void *data)
+>      k->device_id = PCI_DEVICE_ID_VIA_ACPI;
+>      k->class_id = PCI_CLASS_BRIDGE_OTHER;
+>      k->revision = 0x40;
+> +    dc->reset = vt82c686b_pm_reset;
+>      dc->desc = "PM";
+>      dc->vmsd = &vmstate_acpi;
+>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> -    device_class_set_props(dc, via_pm_properties);
+>  }
+>  
+>  static const TypeInfo via_pm_info = {
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 1f3680fda3e..94f4718147f 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -230,9 +230,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+>  
+> -    dev = pci_new(PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
+> -    qdev_prop_set_uint32(DEVICE(dev), "smb_io_base", 0xeee1);
+> -    pci_realize_and_unref(dev, pci_bus, &error_fatal);
+> +    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
+>      *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>  
+>      /* Audio support */
+> 
+
 
