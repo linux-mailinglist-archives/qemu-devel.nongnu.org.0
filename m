@@ -2,49 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B866B3B384B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 23:04:30 +0200 (CEST)
-Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FA03B3855
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 23:08:10 +0200 (CEST)
+Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwWWT-00027E-1i
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 17:04:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33718)
+	id 1lwWa1-00041c-0c
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 17:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lwWUm-0001R2-26
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 17:02:44 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61758)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lwWWw-0003C7-Kv
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 17:04:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lwWUi-0007HB-Ho
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 17:02:43 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 694A974570E;
- Thu, 24 Jun 2021 23:02:36 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 387B57456E3; Thu, 24 Jun 2021 23:02:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 36DE47456B4;
- Thu, 24 Jun 2021 23:02:36 +0200 (CEST)
-Date: Thu, 24 Jun 2021 23:02:36 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/5] hw/isa/vt82c686: Replace magic numbers by definitions
-In-Reply-To: <20210624202747.1433023-2-f4bug@amsat.org>
-Message-ID: <13a8596d-dea5-7e83-34aa-fec3a86a166e@eik.bme.hu>
-References: <20210624202747.1433023-1-f4bug@amsat.org>
- <20210624202747.1433023-2-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lwWWs-0000Bq-VB
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 17:04:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624568693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bULg7HCOZDITz4f+9ELw3ZKtwbv7Np0c2gj5x+GeByU=;
+ b=a78tpPCR0TO65KNGbjuZyioN6vDEtEXFtMd7r19QV2tCr0Vg0R9KOwU/+qaEeBUnG4cm67
+ ZlLoutIZ7W5g4bb7cyjOwhFMqsHPXi91VwzUIQdw++UiSM99esLGVIAc/MVgTcO2zlfY/z
+ 0un+NISE+Vv6sIMSmhm97p4G3t/5KBA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-yi4tFPynO9eI93z-gCEB4Q-1; Thu, 24 Jun 2021 17:04:51 -0400
+X-MC-Unique: yi4tFPynO9eI93z-gCEB4Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ s80-20020a1ca9530000b02901cff732fde5so2120148wme.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 14:04:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bULg7HCOZDITz4f+9ELw3ZKtwbv7Np0c2gj5x+GeByU=;
+ b=KIZu4e3MsaPBohuP7UCxwDlj8P5dcinMP1t6YOp4mPU3F+J4hRqfciXyj9hI+cHZkN
+ xCaQlrMeDVbSuKKXsY4PzYP8Zbg6RqVTzEuMXREeZmFm25YqG2p7bZJC65SawVfOUt/U
+ si2KaaxZQqD+VkeSp5F49wPe4XIrhO1eNgEc8L2mA0wt9hgcVj3YvAGCmGDbGu+2+zX2
+ JwAVCsMYyRR6lsx0Bvz30+daW48LsfjY9LlDRKr7EF7zYAOiuL5V1EyZ5IEauGwzvX19
+ H5A7XYG3KHIeHu95hxNe+xBj2hHbSLFc0LtDkCUcQooxGO3FgERBcg/YOakUBBzAuR6c
+ TqnA==
+X-Gm-Message-State: AOAM533Sa4ubNrRZAwjbN31H4FFNKp1Sj81JWDZPDI8saBtE6M6j9QGS
+ sGsoVzjE2j7thC22sNcof/dbUZt7T0AoOsKqH9nI1BvEm/hxgzDOajaSv3QgS26PnOxNx/Pd1+m
+ 4414qqezqIQhB4rOWHBS/T/NOu6eDJOnbxHpzDKbyZRsreV258aCIheFMfAEBZO0ic8Y=
+X-Received: by 2002:a05:600c:2293:: with SMTP id
+ 19mr6560024wmf.175.1624568690280; 
+ Thu, 24 Jun 2021 14:04:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx6VThClCKqsuIYvZFWB/J360RlCMi/mfRPEyCdW9nKd7jXR5LHwN6RjEx6tsfK2PIEty82sg==
+X-Received: by 2002:a05:600c:2293:: with SMTP id
+ 19mr6559998wmf.175.1624568689980; 
+ Thu, 24 Jun 2021 14:04:49 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d4sm4053050wmd.42.2021.06.24.14.04.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 14:04:49 -0700 (PDT)
+Subject: Re: [PULL 00/12] Misc, mostly meson patches for 2021-06-23
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210623121424.1259496-1-pbonzini@redhat.com>
+ <CAFEAcA8kr5sn-jQ_wLa6a-m0DmbWPh1v6YuHQK74dy8pp01-Vw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3d085a3d-d4e0-6750-65c0-ec91c5f63d8d@redhat.com>
+Date: Thu, 24 Jun 2021 23:04:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1379392943-1624568556=:94935"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA8kr5sn-jQ_wLa6a-m0DmbWPh1v6YuHQK74dy8pp01-Vw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,146 +103,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 24/06/21 21:09, Peter Maydell wrote:
+> This generates a new warning on one of my boxes:
+> 
+> [...]
+> Has header "sasl/sasl.h" : YES (cached)
+> Library sasl2 found: YES
+> Has header "security/pam_appl.h" : YES
+> Library pam found: YES
+> ../meson.build:926: WARNING: could not link libpam, disabling
 
---3866299591-1379392943-1624568556=:94935
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This is probably too old a libpam, or something like that.  What distro 
+is it, and could you please attach the resulting meson-logs/meson-log.txt?
 
-On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
-> Replace magic values of the Power Management / SMBus function (#4)
-> by definitions from the datasheet. The result is less compact, and
-> we can follow what the code does without having to recur to the
-> datasheet.
+Thanks,
 
-I'm not sure this is an improvement. With the values it's clear what is 
-done but I can't follow how these magic constants are defined or what they 
-do so no idea if this is still correct. I think if you want to review a 
-device model then you should be familiar with the device or consult the 
-data sheet. Otherwise you can't spot problems in the definition of these 
-constants either. I'm not a fan of hiding things behind cryptic macros 
-when you could just write it in a straightforward way that could be 
-understood more clearly.
+Paolo
 
-Regards,
-BALATON Zoltan
-
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> hw/isa/vt82c686.c | 50 +++++++++++++++++++++++++++++++----------------
-> 1 file changed, 33 insertions(+), 17 deletions(-)
->
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index f57f3e70679..4ddcf2d398c 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -14,6 +14,7 @@
->  */
->
-> #include "qemu/osdep.h"
-> +#include "hw/registerfields.h"
-> #include "hw/isa/vt82c686.h"
-> #include "hw/pci/pci.h"
-> #include "hw/qdev-properties.h"
-> @@ -38,6 +39,16 @@
-> #define TYPE_VIA_PM "via-pm"
-> OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
->
-> +REG8(PM_GEN_CFG0,                   0x40)
-> +REG8(PM_GEN_CFG1,                   0x41)
-> +FIELD(PM_GEN_CFG1, ACPI_IO_ENABLE,  7, 1)
-> +REG32(PM_IO_BASE,                   0x48)
-> +FIELD(PM_IO_BASE, ADDR,             7, 9)
-> +REG32(SMBUS_IO_BASE,                0x90)
-> +FIELD(SMBUS_IO_BASE, ADDR,          4, 12)
-> +REG8(SMBUS_HOST_CONFIG,             0xd2)
-> +FIELD(SMBUS_HOST_CONFIG, ENABLE,    0, 1)
-> +
-> struct ViaPMState {
->     PCIDevice dev;
->     MemoryRegion io;
-> @@ -48,21 +59,24 @@ struct ViaPMState {
->
-> static void pm_io_space_update(ViaPMState *s)
-> {
-> -    uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
-> +    uint32_t pmbase = pci_get_long(s->dev.config + A_PM_IO_BASE);
->
->     memory_region_transaction_begin();
-> -    memory_region_set_address(&s->io, pmbase);
-> -    memory_region_set_enabled(&s->io, s->dev.config[0x41] & BIT(7));
-> +    memory_region_set_address(&s->io, pmbase & R_PM_IO_BASE_ADDR_MASK);
-> +    memory_region_set_enabled(&s->io, FIELD_EX32(s->dev.config[A_PM_GEN_CFG1],
-> +                                      PM_GEN_CFG1, ACPI_IO_ENABLE));
->     memory_region_transaction_commit();
-> }
->
-> static void smb_io_space_update(ViaPMState *s)
-> {
-> -    uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
-> +    uint32_t smbase = pci_get_long(s->dev.config + A_SMBUS_IO_BASE);
->
->     memory_region_transaction_begin();
-> -    memory_region_set_address(&s->smb.io, smbase);
-> -    memory_region_set_enabled(&s->smb.io, s->dev.config[0xd2] & BIT(0));
-> +    memory_region_set_address(&s->smb.io, smbase & R_SMBUS_IO_BASE_ADDR_MASK);
-> +    memory_region_set_enabled(&s->smb.io,
-> +                              FIELD_EX32(s->dev.config[A_SMBUS_HOST_CONFIG],
-> +                                         SMBUS_HOST_CONFIG, ENABLE));
->     memory_region_transaction_commit();
-> }
->
-> @@ -98,19 +112,21 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
->
->     trace_via_pm_write(addr, val, len);
->     pci_default_write_config(d, addr, val, len);
-> -    if (ranges_overlap(addr, len, 0x48, 4)) {
-> -        uint32_t v = pci_get_long(s->dev.config + 0x48);
-> -        pci_set_long(s->dev.config + 0x48, (v & 0xff80UL) | 1);
-> +    if (ranges_overlap(addr, len, A_PM_IO_BASE, 4)) {
-> +        uint32_t v = pci_get_long(s->dev.config + A_PM_IO_BASE);
-> +        pci_set_long(s->dev.config + A_PM_IO_BASE,
-> +                     (v & R_PM_IO_BASE_ADDR_MASK) | 1);
->     }
-> -    if (range_covers_byte(addr, len, 0x41)) {
-> +    if (range_covers_byte(addr, len, A_PM_GEN_CFG1)) {
->         pm_io_space_update(s);
->     }
-> -    if (ranges_overlap(addr, len, 0x90, 4)) {
-> -        uint32_t v = pci_get_long(s->dev.config + 0x90);
-> -        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
-> +    if (ranges_overlap(addr, len, A_SMBUS_IO_BASE, 4)) {
-> +        uint32_t v = pci_get_long(s->dev.config + A_SMBUS_IO_BASE);
-> +        pci_set_long(s->dev.config + A_SMBUS_IO_BASE,
-> +                     (v & R_SMBUS_IO_BASE_ADDR_MASK) | 1);
->     }
-> -    if (range_covers_byte(addr, len, 0xd2)) {
-> -        s->dev.config[0xd2] &= 0xf;
-> +    if (range_covers_byte(addr, len, A_SMBUS_HOST_CONFIG)) {
-> +        s->dev.config[A_SMBUS_HOST_CONFIG] &= 0xf;
->         smb_io_space_update(s);
->     }
-> }
-> @@ -176,9 +192,9 @@ static void via_pm_reset(DeviceState *d)
->     memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
->            PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
->     /* Power Management IO base */
-> -    pci_set_long(s->dev.config + 0x48, 1);
-> +    pci_set_long(s->dev.config + A_PM_IO_BASE, 1);
->     /* SMBus IO base */
-> -    pci_set_long(s->dev.config + 0x90, 1);
-> +    pci_set_long(s->dev.config + A_SMBUS_IO_BASE, 1);
->
->     acpi_pm1_evt_reset(&s->ar);
->     acpi_pm1_cnt_reset(&s->ar);
->
---3866299591-1379392943-1624568556=:94935--
 
