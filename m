@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392443B2CF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:54:32 +0200 (CEST)
-Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C0D3B2CF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:52:58 +0200 (CEST)
+Received: from localhost ([::1]:39238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwN0B-0001aq-3a
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
+	id 1lwMye-00063m-TN
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnO-0004EC-RN
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51872)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnb-0004pl-PE
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnI-0008AS-KJ
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:18 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnY-0008RM-Jy
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531271;
+ s=mimecast20190719; t=1624531288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rHIChWgkOKd/ty+O8y/YBUb6p7lpc7qKzmuQYkr/5Ig=;
- b=KRSd3HlszqK9KCbfM7rNsp0OnCkcI0WNj7R99dYrMnpaVXLBBIoKVC/2JuppQtpAjPADbJ
- IB+nncB4+kC5lrw0iycWUSio5FoxHndu8Aj2pA0mFDCNIOJ+w/P1mjLmkC/GDZ3H82JCHO
- +W1JH4HqP5UxRUbGuaCAFP6BTzhF8dk=
+ bh=GUBBwlUSpy2dTqkMTbIzZFfLigpsADB6Fv/nv7nGKoc=;
+ b=GvT1X2scL25SDqLdnZCkl8wg24Ofxka9G+lu1a3dOV95GVUWOydIPZt5GWDd2IpcNR4mnk
+ hYeXmA8MV34AwofYlSIFrF9bAo8bamsBz44oznVP7gQWU9NDXJueF2kBMkWWA83ecrcfl5
+ uMoBTI9rwZ1FEioDuZL1aiGaGDJU2TU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-lpPdkHdmPSGvdvClsJqqBA-1; Thu, 24 Jun 2021 06:41:10 -0400
-X-MC-Unique: lpPdkHdmPSGvdvClsJqqBA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-25-NnZL6uXdOb6-2P7_uQ_ZGA-1; Thu, 24 Jun 2021 06:41:26 -0400
+X-MC-Unique: NnZL6uXdOb6-2P7_uQ_ZGA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08B7536306;
- Thu, 24 Jun 2021 10:41:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAF15100C609;
+ Thu, 24 Jun 2021 10:41:24 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55B765D9F0;
- Thu, 24 Jun 2021 10:40:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CADB69CB4;
+ Thu, 24 Jun 2021 10:41:10 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 03696180354B; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
+ id 0E08D180354C; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 21/34] modules: add documentation for module sourcesets
-Date: Thu, 24 Jun 2021 12:38:23 +0200
-Message-Id: <20210624103836.2382472-22-kraxel@redhat.com>
+Subject: [PATCH v4 22/34] modules: add module_obj() note to QOM docs
+Date: Thu, 24 Jun 2021 12:38:24 +0200
+Message-Id: <20210624103836.2382472-23-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -101,37 +101,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/build-system.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ docs/devel/qom.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 7ef36f42d0f5..fd1650442ecc 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -272,6 +272,23 @@ Target-dependent emulator sourcesets:
-     target_arch += {'arm': arm_ss}
-     target_softmmu_arch += {'arm': arm_softmmu_ss}
+diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+index 42d0dc4f4da8..e5fe3597cd82 100644
+--- a/docs/devel/qom.rst
++++ b/docs/devel/qom.rst
+@@ -87,6 +87,14 @@ specific type:
+    #define MY_DEVICE(obj) \
+       OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
  
-+Module sourcesets:
-+  There are two dictionaries for modules: `modules` is used for
-+  target-independent modules and `target_modules` is used for
-+  target-dependent modules.  When modules are disabled the `module`
-+  source sets are added to `softmmu_ss` and the `target_modules`
-+  source sets are added to `specific_ss`.
++In case the ObjectClass implementation can be built as module a
++module_obj() line must be added to make sure qemu loads the module
++when the object is needed.
 +
-+  Both dictionaries are nested.  One dictionary is created per
-+  subdirectory, and these per-subdirectory dictionaries are added to
-+  the toplevel dictionaries.  For example::
++.. code-block:: c
 +
-+    hw_display_modules = {}
-+    qxl_ss = ss.source_set()
-+    ...
-+    hw_display_modules += { 'qxl': qxl_ss }
-+    modules += { 'hw-display': hw_display_modules }
++   module_obj(TYPE_MY_DEVICE);
 +
- Utility sourcesets:
-   All binaries link with a static library `libqemuutil.a`.  This library
-   is built from several sourcesets; most of them however host generated
+ Class Initialization
+ ====================
+ 
 -- 
 2.31.1
 
