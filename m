@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71003B2B74
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 11:31:41 +0200 (CEST)
-Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5492B3B2B7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 11:33:50 +0200 (CEST)
+Received: from localhost ([::1]:39554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwLi0-0002xX-QO
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 05:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53206)
+	id 1lwLk5-0004Wx-DF
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 05:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwLgQ-0002CD-Hk
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:30:02 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwLgO-0007At-Lm
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:30:02 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id j10so3496543wms.1
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 02:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=T8RtcTJNc4sjjXaIpRxQKtjX+D54Jg70BD5BrR/ge7Q=;
- b=dLkaPRisEuBE2AQxuvPpZV6C+t3fWbO1rxLTKGUIKomS76xtYvCPmSVy4rv7hm5kjd
- T1baRA/8QEuH7iKJcJTt6TPK4NRYgvLqS4m8rFTczFmue3g+ZgQA8jq+ROh8ZJ0UbnwQ
- 4hfSeFxkNZp+cjxXeGUzHcdNEXa/9P/KTK9ON5K//FwoKZ6Hy2XQODmFFttKM6LPEajY
- k48vBrRC60OigQ+9E9Z5SoS5jvSHCVwkfqoBs2aSecZ6kGrm0zx5F8QNGN0EfN5MocRT
- lFYsO7HzjV6xAK1kjpuPvnGoYgBZJnWb6hulohRJ3C5+o7/DRm3kYRIub8tM5sxkh63c
- clFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T8RtcTJNc4sjjXaIpRxQKtjX+D54Jg70BD5BrR/ge7Q=;
- b=uYCiOF0uqjEIxy9TCb6Zh9e7YQXFaE4Y1+DBrmp5p118cwl1GFDkmKAzcBOdvVx8Uz
- tdSNYVLjdrQZURzQUCkLL9eTLt42FYWaMHEN8/RC08DQlQ7rJc4+VZS6MB9FmJki0JSe
- DlNBB/Ae1kc7zmLmketwOGri717v/TgcvQBcDfafp1J4T3jJVx/ljXq4ovHkPyDhyJpu
- 1cTmqK+fx+0bqS8Z5Cm6z1dXrVlmBbCo25IP4lG0hLDPSVHq/q16U261pJTD33HRlGRN
- KK4N6EYMfS4Y6VsH6ipBC0WhcqBIHWh7kkHpZ09QUYdHY8lP9e7RjmHJkuhaACzgz3+Z
- 7eYw==
-X-Gm-Message-State: AOAM5324SXqaByj9Q0TBC6m0tu5HCKbpn3xDeXepQIgyK9LtluSU96YZ
- Vcy+cIo/96ixRRPTK/ghM0k=
-X-Google-Smtp-Source: ABdhPJwhF+ALNDrx0ka5dV8lkSDSTFhXfKKgIA0GbnCIcqFdpBpQR75/Mq4UMudqD5vhLrNtbxvK0w==
-X-Received: by 2002:a05:600c:19d3:: with SMTP id
- u19mr3183678wmq.100.1624526999379; 
- Thu, 24 Jun 2021 02:29:59 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id f13sm2638062wrt.86.2021.06.24.02.29.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 02:29:58 -0700 (PDT)
-Subject: Re: [PATCH v2] hw/audio/sb16: Restrict I/O sampling rate range for
- command 41h/42h
-To: Qiang Liu <cyruscyliu@gmail.com>
-References: <1624502687-5214-1-git-send-email-cyruscyliu@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <77f8cdae-27af-8bb3-de95-667aca28599c@amsat.org>
-Date: Thu, 24 Jun 2021 11:29:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lwLie-0003s4-SE
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:32:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lwLic-0000t0-9V
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 05:32:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624527136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uo67Fdxlifkg/8h4GzpUt2TftKoC11qNaED1g+JDPGI=;
+ b=ZcxipAmYZ8W58qVZqVZR9qtzIX/HvRVSx32YAplqmIyG3/cgHBSesNSw//0KIW6F3xt2YM
+ 7p4mzzvbb9x0ezmSlnsOvj8docWm1TqODaAjY1fnxGGmH0DxFlrTxeCEneKzm6iKR3bdYU
+ j1kTozmuonELTQxiiH85CFBcXml8JC8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-55MwVcFdNGOmy08DEM1zOA-1; Thu, 24 Jun 2021 05:32:15 -0400
+X-MC-Unique: 55MwVcFdNGOmy08DEM1zOA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B729910C1ADC;
+ Thu, 24 Jun 2021 09:32:13 +0000 (UTC)
+Received: from work-vm (ovpn-114-255.ams2.redhat.com [10.36.114.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04D2F18AD4;
+ Thu, 24 Jun 2021 09:32:07 +0000 (UTC)
+Date: Thu, 24 Jun 2021 10:32:05 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
+ boundary
+Message-ID: <YNRRFUvIJOKW7AJ6@work-vm>
+References: <20210622154905.30858-1-joao.m.martins@oracle.com>
+ <20210622154905.30858-2-joao.m.martins@oracle.com>
+ <20210623110341.0ceca1b4@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1624502687-5214-1-git-send-email-cyruscyliu@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+In-Reply-To: <20210623110341.0ceca1b4@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,95 +81,309 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Joao Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/21 4:44 AM, Qiang Liu wrote:
-> The I/O sampling rate range is enforced to 5000 to 45000HZ according to
-> commit a2cd86a9. Setting I/O sampling rate with command 41h/42h, a guest
-> user can break this assumption and trigger an assertion in audio_calloc
-> via command 0xd4. This patch restricts the I/O sampling rate range for
-> command 41h/42h.
+* Igor Mammedov (imammedo@redhat.com) wrote:
+> On Tue, 22 Jun 2021 16:49:00 +0100
+> Joao Martins <joao.m.martins@oracle.com> wrote:
 > 
-> Fixes: 85571bc7415 ("audio merge (malc)")
-> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> ---
->  hw/audio/sb16.c              | 31 +++++++++++++++++++------------
->  tests/qtest/fuzz-sb16-test.c | 17 +++++++++++++++++
->  2 files changed, 36 insertions(+), 12 deletions(-)
+> > It is assumed that the whole GPA space is available to be
+> > DMA addressable, within a given address space limit. Since
+> > v5.4 based that is not true, and VFIO will validate whether
+> > the selected IOVA is indeed valid i.e. not reserved by IOMMU
+> > on behalf of some specific devices or platform-defined.
+> > 
+> > AMD systems with an IOMMU are examples of such platforms and
+> > particularly may export only these ranges as allowed:
+> > 
+> > 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
+> > 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
+> > 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb)
+> > 
+> > We already know of accounting for the 4G hole, albeit if the
+> > guest is big enough we will fail to allocate a >1010G given
+> > the ~12G hole at the 1Tb boundary, reserved for HyperTransport.
+> > 
+> > When creating the region above 4G, take into account what
+> > IOVAs are allowed by defining the known allowed ranges
+> > and search for the next free IOVA ranges. When finding a
+> > invalid IOVA we mark them as reserved and proceed to the
+> > next allowed IOVA region.
+> > 
+> > After accounting for the 1Tb hole on AMD hosts, mtree should
+> > look like:
+> > 
+> > 0000000100000000-000000fcffffffff (prio 0, i/o):
+> > 	alias ram-above-4g @pc.ram 0000000080000000-000000fc7fffffff
+> > 0000010000000000-000001037fffffff (prio 0, i/o):
+> > 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff
 > 
-> diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
-> index 5cf121f..60f1f75 100644
-> --- a/hw/audio/sb16.c
-> +++ b/hw/audio/sb16.c
-> @@ -229,6 +229,23 @@ static void continue_dma8 (SB16State *s)
->      control (s, 1);
->  }
->  
-> +static inline int restrict_sampling_rate(int freq)
+> You are talking here about GPA which is guest specific thing
+> and then somehow it becomes tied to host. For bystanders it's
+> not clear from above commit message how both are related.
+> I'd add here an explicit explanation how AMD host is related GPAs
+> and clarify where you are talking about guest/host side.
+> 
+> also what about usecases:
+>  * start QEMU with Intel cpu model on AMD host with intel's iommu
 
-No need to 'inline', 1/ this is not performance critical code
-path, and 2/ we expect the compiler to be clever enough to figure
-that by itself.
+Does that work?
 
-> +{
-> +    if (freq < SAMPLE_RATE_MIN) {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "sampling range too low: %d, increasing to %u\n",
-> +                      freq, SAMPLE_RATE_MIN);
-> +        return SAMPLE_RATE_MIN;
-> +    } else if (freq > SAMPLE_RATE_MAX) {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "sampling range too high: %d, decreasing to %u\n",
-> +                      freq, SAMPLE_RATE_MAX);
-> +        return SAMPLE_RATE_MAX;
-> +    } else {
-> +        return freq;
-> +    }
-> +}
-> +
->  static void dma_cmd8 (SB16State *s, int mask, int dma_len)
->  {
->      s->fmt = AUDIO_FORMAT_U8;
-> @@ -244,17 +261,7 @@ static void dma_cmd8 (SB16State *s, int mask, int dma_len)
->          int tmp = (256 - s->time_const);
->          s->freq = (1000000 + (tmp / 2)) / tmp;
->      }
-> -    if (s->freq < SAMPLE_RATE_MIN) {
-> -        qemu_log_mask(LOG_GUEST_ERROR,
-> -                      "sampling range too low: %d, increasing to %u\n",
-> -                      s->freq, SAMPLE_RATE_MIN);
-> -        s->freq = SAMPLE_RATE_MIN;
-> -    } else if (s->freq > SAMPLE_RATE_MAX) {
-> -        qemu_log_mask(LOG_GUEST_ERROR,
-> -                      "sampling range too high: %d, decreasing to %u\n",
-> -                      s->freq, SAMPLE_RATE_MAX);
-> -        s->freq = SAMPLE_RATE_MAX;
-> -    }
-> +    s->freq = restrict_sampling_rate(s->freq);
->  
->      if (dma_len != -1) {
->          s->block_size = dma_len << s->fmt_stereo;
-> @@ -768,7 +775,7 @@ static void complete (SB16State *s)
->               * and FT2 sets output freq with this (go figure).  Compare:
->               * http://homepages.cae.wisc.edu/~brodskye/sb16doc/sb16doc.html#SamplingRate
->               */
-> -            s->freq = dsp_get_hilo (s);
-> +            s->freq = restrict_sampling_rate(dsp_get_hilo(s));
+>  * start QEMU with AMD cpu model and AMD's iommu on Intel host
 
-It seems the best we can do here...
+Isn't the case we commonly do:
+   * start QEMU with AMD cpu model on AMD host with Intel iommu?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Dave
 
->              ldebug ("set freq %d\n", s->freq);
->              break;
+>  * start QEMU in TCG mode on AMD host (mostly form qtest point ot view)
+> 
+> > Co-developed-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+> > Signed-off-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+> > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> > ---
+> >  hw/i386/pc.c         | 103 +++++++++++++++++++++++++++++++++++++++----
+> >  include/hw/i386/pc.h |  57 ++++++++++++++++++++++++
+> >  target/i386/cpu.h    |   3 ++
+> >  3 files changed, 154 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> > index c6d8d0d84d91..52a5473ba846 100644
+> > --- a/hw/i386/pc.c
+> > +++ b/hw/i386/pc.c
+> > @@ -91,6 +91,7 @@
+> >  #include "qapi/qmp/qerror.h"
+> >  #include "e820_memory_layout.h"
+> >  #include "fw_cfg.h"
+> > +#include "target/i386/cpu.h"
+> >  #include "trace.h"
+> >  #include CONFIG_DEVICES
+> >  
+> > @@ -860,6 +861,93 @@ void xen_load_linux(PCMachineState *pcms)
+> >      x86ms->fw_cfg = fw_cfg;
+> >  }
+> >  
+> > +struct GPARange usable_iova_ranges[] = {
+> > +    { .start = 4 * GiB, .end = UINT64_MAX, .name = "ram-above-4g" },
+> > +
+> > +/*
+> > + * AMD systems with an IOMMU have an additional hole close to the
+> > + * 1Tb, which are special GPAs that cannot be DMA mapped. Depending
+> > + * on kernel version, VFIO may or may not let you DMA map those ranges.
+> > + * Starting v5.4 we validate it, and can't create guests on AMD machines
+> > + * with certain memory sizes. The range is:
+> > + *
+> > + * FD_0000_0000h - FF_FFFF_FFFFh
+> > + *
+> > + * The ranges represent the following:
+> > + *
+> > + * Base Address   Top Address  Use
+> > + *
+> > + * FD_0000_0000h FD_F7FF_FFFFh Reserved interrupt address space
+> > + * FD_F800_0000h FD_F8FF_FFFFh Interrupt/EOI IntCtl
+> > + * FD_F900_0000h FD_F90F_FFFFh Legacy PIC IACK
+> > + * FD_F910_0000h FD_F91F_FFFFh System Management
+> > + * FD_F920_0000h FD_FAFF_FFFFh Reserved Page Tables
+> > + * FD_FB00_0000h FD_FBFF_FFFFh Address Translation
+> > + * FD_FC00_0000h FD_FDFF_FFFFh I/O Space
+> > + * FD_FE00_0000h FD_FFFF_FFFFh Configuration
+> > + * FE_0000_0000h FE_1FFF_FFFFh Extended Configuration/Device Messages
+> > + * FE_2000_0000h FF_FFFF_FFFFh Reserved
+> > + *
+> > + * See AMD IOMMU spec, section 2.1.2 "IOMMU Logical Topology",
+> > + * Table 3: Special Address Controls (GPA) for more information.
+> > + */
+> > +#define DEFAULT_NR_USABLE_IOVAS 1
+> > +#define AMD_MAX_PHYSADDR_BELOW_1TB  0xfcffffffff
+> > +    { .start = 1 * TiB, .end = UINT64_MAX, .name = "ram-above-1t" },
+> > +};
+> > +
+> > + uint32_t nb_iova_ranges = DEFAULT_NR_USABLE_IOVAS;
+> > +
+> > +static void init_usable_iova_ranges(void)
+> > +{
+> > +    uint32_t eax, vendor[3];
+> > +
+> > +    host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
+> > +    if (IS_AMD_VENDOR(vendor)) {
+> > +        usable_iova_ranges[0].end = AMD_MAX_PHYSADDR_BELOW_1TB;
+> > +        nb_iova_ranges++;
+> > +    }
+> > +}
+> > +
+> > +static void add_memory_region(MemoryRegion *system_memory, MemoryRegion *ram,
+> > +                                hwaddr base, hwaddr size, hwaddr offset)
+> > +{
+> > +    hwaddr start, region_size, resv_start, resv_end;
+> > +    struct GPARange *range;
+> > +    MemoryRegion *region;
+> > +    uint32_t index;
+> > +
+> > +    for_each_usable_range(index, base, size, range, start, region_size) {
+> > +        region = g_malloc(sizeof(*region));
+> > +        memory_region_init_alias(region, NULL, range->name, ram,
+> > +                                 offset, region_size);
+> > +        memory_region_add_subregion(system_memory, start, region);
+> > +        e820_add_entry(start, region_size, E820_RAM);
+> > +
+> > +        assert(size >= region_size);
+> > +        if (size == region_size) {
+> > +            return;
+> > +        }
+> > +
+> > +        /*
+> > +         * There's memory left to create a region for, so there should be
+> > +         * another valid IOVA range left.  Creating the reserved region
+> > +         * would also be pointless.
+> > +         */
+> > +        if (index + 1 == nb_iova_ranges) {
+> > +            return;
+> > +        }
+> > +
+> > +        resv_start = start + region_size;
+> > +        resv_end = usable_iova_ranges[index + 1].start;
+> > +
+> > +        /* Create a reserved region in the IOVA hole. */
+> > +        e820_add_entry(resv_start, resv_end - resv_start, E820_RESERVED);
+> > +
+> > +        offset += region_size;
+> > +    }
+> > +}
+> > +
+> >  void pc_memory_init(PCMachineState *pcms,
+> >                      MemoryRegion *system_memory,
+> >                      MemoryRegion *rom_memory,
+> > @@ -867,7 +955,7 @@ void pc_memory_init(PCMachineState *pcms,
+> >  {
+> >      int linux_boot, i;
+> >      MemoryRegion *option_rom_mr;
+> > -    MemoryRegion *ram_below_4g, *ram_above_4g;
+> > +    MemoryRegion *ram_below_4g;
+> >      FWCfgState *fw_cfg;
+> >      MachineState *machine = MACHINE(pcms);
+> >      MachineClass *mc = MACHINE_GET_CLASS(machine);
+> > @@ -877,6 +965,8 @@ void pc_memory_init(PCMachineState *pcms,
+> >      assert(machine->ram_size == x86ms->below_4g_mem_size +
+> >                                  x86ms->above_4g_mem_size);
+> >  
+> > +    init_usable_iova_ranges();
+> > +
+> >      linux_boot = (machine->kernel_filename != NULL);
+> >  
+> >      /*
+> > @@ -888,16 +978,11 @@ void pc_memory_init(PCMachineState *pcms,
+> >      memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
+> >                               0, x86ms->below_4g_mem_size);
+> >      memory_region_add_subregion(system_memory, 0, ram_below_4g);
+> > +
+> >      e820_add_entry(0, x86ms->below_4g_mem_size, E820_RAM);
+> >      if (x86ms->above_4g_mem_size > 0) {
+> > -        ram_above_4g = g_malloc(sizeof(*ram_above_4g));
+> > -        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
+> > -                                 machine->ram,
+> > -                                 x86ms->below_4g_mem_size,
+> > -                                 x86ms->above_4g_mem_size);
+> > -        memory_region_add_subregion(system_memory, 0x100000000ULL,
+> > -                                    ram_above_4g);
+> > -        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
+> > +        add_memory_region(system_memory, machine->ram, 4 * GiB,
+> > +                          x86ms->above_4g_mem_size, x86ms->below_4g_mem_size);
+> >      }
+> >  
+> >      if (!pcmc->has_reserved_memory &&
+> > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> > index 1522a3359a93..73b8e2900c72 100644
+> > --- a/include/hw/i386/pc.h
+> > +++ b/include/hw/i386/pc.h
+> > @@ -151,6 +151,63 @@ void pc_guest_info_init(PCMachineState *pcms);
+> >  #define PCI_HOST_BELOW_4G_MEM_SIZE     "below-4g-mem-size"
+> >  #define PCI_HOST_ABOVE_4G_MEM_SIZE     "above-4g-mem-size"
+> >  
+> > +struct GPARange {
+> > +    uint64_t start;
+> > +    uint64_t end;
+> > +#define range_len(r) ((r).end - (r).start + 1)
+> > +
+> > +    const char *name;
+> > +};
+> > +
+> > +extern uint32_t nb_iova_ranges;
+> > +extern struct GPARange usable_iova_ranges[];
+> > +
+> > +static inline void next_iova_range_index(uint32_t i, hwaddr base, hwaddr size,
+> > +                                         hwaddr *start, hwaddr *region_size,
+> > +                                         uint32_t *index, struct GPARange **r)
+> > +{
+> > +    struct GPARange *range;
+> > +
+> > +    while (i < nb_iova_ranges) {
+> > +        range = &usable_iova_ranges[i];
+> > +        if (range->end >= base) {
+> > +            break;
+> > +        }
+> > +        i++;
+> > +    }
+> > +
+> > +    *index = i;
+> > +    /* index is out of bounds or no region left to process */
+> > +    if (i >= nb_iova_ranges || !size) {
+> > +        return;
+> > +    }
+> > +
+> > +    *start = MAX(range->start, base);
+> > +    *region_size = MIN(range->end - *start + 1, size);
+> > +    *r = range;
+> > +}
+> > +
+> > +/*
+> > + * for_each_usable_range() - iterates over usable IOVA regions
+> > + *
+> > + * @i:      range index within usable_iova_ranges
+> > + * @base:   requested address we want to use
+> > + * @size:   total size of the region with @base
+> > + * @r:      range indexed by @i within usable_iova_ranges
+> > + * @s:      calculated usable iova address base
+> > + * @i_size: calculated usable iova region size starting @s
+> > + *
+> > + * Use this iterator to walk through usable GPA ranges. Platforms
+> > + * such as AMD with IOMMU capable hardware restrict certain address
+> > + * ranges for Hyper Transport. This iterator helper lets user avoid
+> > + * using those said reserved ranges.
+> > + */
+> > +#define for_each_usable_range(i, base, size, r, s, i_size) \
+> > +    for (s = 0, i_size = 0, r = NULL, \
+> > +         next_iova_range_index(0, base, size, &s, &i_size, &i, &r); \
+> > +         i < nb_iova_ranges && size != 0; \
+> > +         size -= i_size, \
+> > +         next_iova_range_index(i + 1, base, size, &s, &i_size, &i, &r))
+> >  
+> >  void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
+> >                              MemoryRegion *pci_address_space);
+> > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> > index 1e11071d817b..f8f15a4523c6 100644
+> > --- a/target/i386/cpu.h
+> > +++ b/target/i386/cpu.h
+> > @@ -869,6 +869,9 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+> >  #define IS_AMD_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_AMD_1 && \
+> >                           (env)->cpuid_vendor2 == CPUID_VENDOR_AMD_2 && \
+> >                           (env)->cpuid_vendor3 == CPUID_VENDOR_AMD_3)
+> > +#define IS_AMD_VENDOR(vendor) ((vendor[0]) == CPUID_VENDOR_AMD_1 && \
+> > +                         (vendor[1]) == CPUID_VENDOR_AMD_2 && \
+> > +                         (vendor[2]) == CPUID_VENDOR_AMD_3)
+> >  
+> >  #define CPUID_MWAIT_IBE     (1U << 1) /* Interrupts can exit capability */
+> >  #define CPUID_MWAIT_EMX     (1U << 0) /* enumeration supported */
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Thanks for the fix,
-
-Phil.
 
