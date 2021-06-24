@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057A53B2CC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:47:09 +0200 (CEST)
-Received: from localhost ([::1]:45318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838023B2CEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:51:58 +0200 (CEST)
+Received: from localhost ([::1]:34584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwMt1-0008AG-TD
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:47:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
+	id 1lwMxh-0002sK-HT
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:51:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMmI-0000Qo-LP
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMmI-0000R8-QH
  for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:40:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51131)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMm7-0007DT-FZ
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:40:09 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMmE-0007FQ-HJ
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:40:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531198;
+ s=mimecast20190719; t=1624531203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GMG26To2HhIsReHw8mY+AHfK8bISyekAm9NisM1uWFU=;
- b=P7HV+QKQV41gz0nblPpCnj3O5H+h4w22FuJ5t0YDVbnaITsZfBqRekTQCCN1BtRITWkVdX
- cq7wuMqbAzVyOFDqyeoad02j4UUxL8ko0AmpsdshTmJotD/VHXR3Y8WsCoKSf4iH1Z9XIX
- bAobzUgJ40MFbCXHMO5eWtadd7U5mac=
+ bh=Sj1Po7tVmKlopcgqBw4EOoHUga5mbhDkJwIGENn43Lo=;
+ b=AQaytpLTKpShEgsHFdEPeWBE+/Q3WI8tzQHw8Si/cPYr79GqJv/xcBMeycJldnXM7y5FLj
+ c2ykFEGv8O8wX7iBUeyM+YxaRKsHWUjgpACAig+s+kBMZ5+khFYCUojAVmGE6/TIbLbOCy
+ Vk4Ciq0Of42WO5CG4njs6zWNlQ9jMY0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-2CHkZW7VOpijG5neo-8OCw-1; Thu, 24 Jun 2021 06:39:57 -0400
-X-MC-Unique: 2CHkZW7VOpijG5neo-8OCw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-495-Pv0Mv8jEMW-GBiGx1j3Hkg-1; Thu, 24 Jun 2021 06:40:02 -0400
+X-MC-Unique: Pv0Mv8jEMW-GBiGx1j3Hkg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C77AA8C5EC0;
- Thu, 24 Jun 2021 10:39:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7541A1934102;
+ Thu, 24 Jun 2021 10:40:00 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C3B05D9F0;
- Thu, 24 Jun 2021 10:39:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69A3A17C5F;
+ Thu, 24 Jun 2021 10:39:45 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7EC75180091A; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
+ id 8A627180091C; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/34] modules: add ui module annotations
-Date: Thu, 24 Jun 2021 12:38:13 +0200
-Message-Id: <20210624103836.2382472-12-kraxel@redhat.com>
+Subject: [PATCH v4 12/34] modules: add s390x module annotations
+Date: Thu, 24 Jun 2021 12:38:14 +0200
+Message-Id: <20210624103836.2382472-13-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -100,73 +100,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/egl-headless.c | 4 ++++
- ui/gtk.c          | 4 ++++
- ui/sdl2.c         | 4 ++++
- ui/spice-app.c    | 3 +++
- ui/spice-core.c   | 5 +++++
- 5 files changed, 20 insertions(+)
+ hw/s390x/virtio-ccw-gpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/ui/egl-headless.c b/ui/egl-headless.c
-index da377a74af69..75404e0e8700 100644
---- a/ui/egl-headless.c
-+++ b/ui/egl-headless.c
-@@ -213,3 +213,7 @@ static void register_egl(void)
+diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
+index 75a9e4bb3908..5868a2a07093 100644
+--- a/hw/s390x/virtio-ccw-gpu.c
++++ b/hw/s390x/virtio-ccw-gpu.c
+@@ -59,6 +59,7 @@ static const TypeInfo virtio_ccw_gpu = {
+     .instance_init = virtio_ccw_gpu_instance_init,
+     .class_init    = virtio_ccw_gpu_class_init,
+ };
++module_obj(TYPE_VIRTIO_GPU_CCW);
+ 
+ static void virtio_ccw_gpu_register(void)
+ {
+@@ -68,3 +69,5 @@ static void virtio_ccw_gpu_register(void)
  }
  
- type_init(register_egl);
+ type_init(virtio_ccw_gpu_register)
 +
-+#ifdef CONFIG_OPENGL
-+module_dep("ui-opengl");
-+#endif
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 98046f577b9d..376b4d528daa 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2333,3 +2333,7 @@ static void register_gtk(void)
- }
- 
- type_init(register_gtk);
-+
-+#ifdef CONFIG_OPENGL
-+module_dep("ui-opengl");
-+#endif
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index a203cb0239e1..36d9010cb6c1 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -918,3 +918,7 @@ static void register_sdl1(void)
- }
- 
- type_init(register_sdl1);
-+
-+#ifdef CONFIG_OPENGL
-+module_dep("ui-opengl");
-+#endif
-diff --git a/ui/spice-app.c b/ui/spice-app.c
-index 4325ac2d9c54..641f4a9d53e3 100644
---- a/ui/spice-app.c
-+++ b/ui/spice-app.c
-@@ -221,3 +221,6 @@ static void register_spice_app(void)
- }
- 
- type_init(register_spice_app);
-+
-+module_dep("ui-spice-core");
-+module_dep("chardev-spice");
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 272d19b0c152..86d43783acac 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -1037,3 +1037,8 @@ static void spice_register_config(void)
-     qemu_add_opts(&qemu_spice_opts);
- }
- opts_init(spice_register_config);
-+module_opts("spice");
-+
-+#ifdef CONFIG_OPENGL
-+module_dep("ui-opengl");
-+#endif
++module_arch("s390x");
 -- 
 2.31.1
 
