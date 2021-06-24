@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61DB3B3156
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 16:29:46 +0200 (CEST)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1353B315D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 16:31:04 +0200 (CEST)
+Received: from localhost ([::1]:34482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwQMT-0004vO-RN
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 10:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56540)
+	id 1lwQNj-0006dN-De
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 10:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwQFh-0006Os-Hb; Thu, 24 Jun 2021 10:22:45 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40546)
+ id 1lwQFm-0006kP-UW; Thu, 24 Jun 2021 10:22:50 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwQFf-0008VB-U0; Thu, 24 Jun 2021 10:22:45 -0400
-Received: by mail-wr1-x435.google.com with SMTP id g7so2254296wri.7;
- Thu, 24 Jun 2021 07:22:43 -0700 (PDT)
+ id 1lwQFl-00007q-CW; Thu, 24 Jun 2021 10:22:50 -0400
+Received: by mail-wm1-x335.google.com with SMTP id o22so3161182wms.0;
+ Thu, 24 Jun 2021 07:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZYvuxt0NCh8Bn052rHsHuAYilMYeW5qZBoGZhPd54Lk=;
- b=skZ0/5UWRUEmo3J7TzGc/hC0AHrRKuifqYpEYYl+mkD5KsAzIwHWlWwnDm7LWCkMwI
- Pe1la39DWaewBK5wghXe0pIEKfhZXPKHka+QDFTsMYWzlf1fJ6l0iw9vXSh35v0WaNXB
- vQDO5bqL7ieyE210bJyV6oKjgxDbCEZJnJFdLw6butoRbSyAjKu8qvXyLwGPAbuQUVjX
- 8OVvGjao1Zs9Wc2+XYbQtSMORkF2GkPKyKofffkJMdmshaYmxddcknJmyielM5o2Gh6x
- mbpdHQZN8tuOvHdOi83oe9gr0C0sizO0TPlUeLPXvqOItLU0lr2UhM/pCUtZKj9SxlV3
- G60g==
+ bh=t2T5QOlfHrf7iG9/cLfyY3m+tgUgjAHfpuMa4aQXuhE=;
+ b=pZK+OxXsw7rulKYQ+x9wUUXA4wmeLQgxKF4hLdhDvnTRLSrdKjTHQfgTMQ9h6kZlzZ
+ JFhbYQThC0R3Bnd93pk+G6dn+HRHzuYR0ecxyqNHiQL4LinmIuzpYJJ59pyaUASPqbms
+ lljuGdAOXtPkCo3vbZ0r6/OsiWgWpa1kIk0M5cdWDD642rpSjJeiwlQ+hbyOaof7g+L6
+ XfRya3qV5+cf+f3tHqzgPRdgdf6brNxCmeCVTnY6hA/tWMlqDo51SeYqQT5+1CjSPlJb
+ PUc+sxpRsKG96d0/mNOMHfoD04hZxQ+iMDuZc+bUsZjTu8AgGLboc5ybIekhTwmjRsaD
+ yNxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZYvuxt0NCh8Bn052rHsHuAYilMYeW5qZBoGZhPd54Lk=;
- b=ePsyw0BUBjIxA1c9TSxEN+ugis6HST2HJOWT3Q3069hleVaH33Gr9DtVQ0Iq0XF1v9
- G3+PouToy+gn1uC02L7xZeWNeAwIs72XBKASmwuc2AZUfr8NRkxTyKHpvq6pl0kKrk/z
- xVJhIfL/0keF5Iaroyk/ZGss/S/myw2LUYljjyirnetn5g1nvZ4jhV+dxt8YgDllx8aX
- MrKvjo/YQnq1olm0FXR2b4h7Q2ATayf//i/KSAJo7v7oHAVgMoBhcabhMuMmmLrVF0tm
- pnCjiOqqG284rPkmSlgV/2LtfH3Xerco22BbzloffvjzMLqKBTkEUcUqI9PzbbBLMd/v
- KemQ==
-X-Gm-Message-State: AOAM532SmKGnWAwPK3zI0hZeFLRC3/MMgxkEC8LFy/It73BprSf82F/S
- dotd58dLJGG6jpGPMaLCSILsjnTSF0+vLg==
-X-Google-Smtp-Source: ABdhPJycTAx3L7vZcldgxhrMz4ec+gyuuZvY1whVcMOolmHdGuaVqCJ2HrCVt2/OOZniHWBqVG9ivg==
-X-Received: by 2002:a5d:680c:: with SMTP id w12mr4814139wru.142.1624544562084; 
- Thu, 24 Jun 2021 07:22:42 -0700 (PDT)
+ bh=t2T5QOlfHrf7iG9/cLfyY3m+tgUgjAHfpuMa4aQXuhE=;
+ b=XHRDE4km7zNaeyrJID2ANbU+14v11ANki3xTQR0hWq5Jz0kBalKUWmwPb44sWAzC5W
+ cBXkpYpnehYhLZ8tEfRle2/T8cyPn2qIpV/GuwByrnt1PHrLGLE0tNVJLqnhOeVC1Kh5
+ n6A83JewlR5zONlSAhviDEGl0wgUw69wrW8tHQISOU+CpfXY5HLvqQez1g6oDw371SPH
+ FRlDeyNr5f6HZhE6hnzwGU0TnUhKqFo4jl5MmvBD+2KgplCShKcu3x35p1tLN3pI/UlT
+ E645aJM6kavQ0jbaUUUJtEtTVAOq2HeRpF/iRtpneszrMK0WdWUrtIx611CkDEB3rvks
+ cQHQ==
+X-Gm-Message-State: AOAM531a+owy5xVjsROxVQ93PMUP9el8IYgn6Xfpu3QHhaeA1+LYYV5z
+ m1qEc8NJpHofF3s5MruS3dCIpyoxGnMlpA==
+X-Google-Smtp-Source: ABdhPJwX/d9F44h/H3fJPc3Pl7hu+ZBQexi1MfAoSkjYBSC2yDO48tO9JFqn98OSv5eCiUM0YFeaLg==
+X-Received: by 2002:a05:600c:4642:: with SMTP id
+ n2mr4605130wmo.101.1624544567562; 
+ Thu, 24 Jun 2021 07:22:47 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id c21sm2942022wme.38.2021.06.24.07.22.41
+ by smtp.gmail.com with ESMTPSA id 12sm6965377wmj.12.2021.06.24.07.22.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 07:22:41 -0700 (PDT)
+ Thu, 24 Jun 2021 07:22:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 06/10] hw/sd: Add sd_cmd_unimplemented() handler
-Date: Thu, 24 Jun 2021 16:22:05 +0200
-Message-Id: <20210624142209.1193073-7-f4bug@amsat.org>
+Subject: [RFC PATCH 07/10] hw/sd: Add sd_cmd_GO_IDLE_STATE() handler
+Date: Thu, 24 Jun 2021 16:22:06 +0200
+Message-Id: <20210624142209.1193073-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210624142209.1193073-1-f4bug@amsat.org>
 References: <20210624142209.1193073-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,62 +93,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ hw/sd/sd.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 0215bdb3689..2647fd26566 100644
+index 2647fd26566..3ef6aca89da 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -973,6 +973,15 @@ static sd_rsp_type_t sd_cmd_illegal(SDState *sd, SDRequest req)
+@@ -982,6 +982,16 @@ static sd_rsp_type_t sd_cmd_unimplemented(SDState *sd, SDRequest req)
      return sd_illegal;
  }
  
-+/* Commands that are recognised but not yet implemented. */
-+static sd_rsp_type_t sd_cmd_unimplemented(SDState *sd, SDRequest req)
++static sd_rsp_type_t sd_cmd_GO_IDLE_STATE(SDState *sd, SDRequest req)
 +{
-+    qemu_log_mask(LOG_UNIMP, "%s: CMD%i not implemented\n",
-+                  sd->proto->name, req.cmd);
++    if (sd->state != sd_inactive_state) {
++        sd->state = sd_idle_state;
++        sd_reset(DEVICE(sd));
++    }
 +
-+    return sd_illegal;
++    return sd->spi ? sd_r1 : sd_r0;
 +}
 +
  static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
  {
      uint32_t rca = 0x0000;
-@@ -1522,9 +1531,6 @@ static sd_rsp_type_t sd_app_command(SDState *sd,
+@@ -1021,18 +1031,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
  
      switch (req.cmd) {
-     case 6:	/* ACMD6:  SET_BUS_WIDTH */
--        if (sd->spi) {
--            goto unimplemented_spi_cmd;
--        }
-         switch (sd->state) {
-         case sd_transfer_state:
-             sd->sd_status[0] &= 0x3f;
-@@ -1655,12 +1661,6 @@ static sd_rsp_type_t sd_app_command(SDState *sd,
-     default:
-         /* Fall back to standard commands.  */
-         return sd_normal_command(sd, req);
+     /* Basic commands (Class 0 and Class 1) */
+-    case 0:	/* CMD0:   GO_IDLE_STATE */
+-        switch (sd->state) {
+-        case sd_inactive_state:
+-            return sd->spi ? sd_r1 : sd_r0;
 -
--    unimplemented_spi_cmd:
--        /* Commands that are recognised but not yet implemented in SPI mode.  */
--        qemu_log_mask(LOG_UNIMP, "SD: CMD%i not implemented in SPI mode\n",
--                      req.cmd);
--        return sd_illegal;
-     }
- 
-     qemu_log_mask(LOG_GUEST_ERROR, "SD: ACMD%i in a wrong state\n", req.cmd);
-@@ -2096,6 +2096,9 @@ static const SDProto sd_proto_spi = {
-         [26]        = sd_cmd_illegal,
-         [52 ... 54] = sd_cmd_illegal,
-     },
-+    .cmd = {
-+        [6]         = sd_cmd_unimplemented,
-+    },
- };
- 
+-        default:
+-            sd->state = sd_idle_state;
+-            sd_reset(DEVICE(sd));
+-            return sd->spi ? sd_r1 : sd_r0;
+-        }
+-        break;
+-
+     case 1:	/* CMD1:   SEND_OP_CMD */
+         sd->state = sd_transfer_state;
+         return sd_r1;
+@@ -2089,6 +2087,7 @@ void sd_enable(SDState *sd, bool enable)
+ static const SDProto sd_proto_spi = {
+     .name = "SPI",
+     .cmd = {
++        [0]         = sd_cmd_GO_IDLE_STATE,
+         [2 ... 4]   = sd_cmd_illegal,
+         [5]         = sd_cmd_illegal,
+         [7]         = sd_cmd_illegal,
+@@ -2104,6 +2103,7 @@ static const SDProto sd_proto_spi = {
  static const SDProto sd_proto_sd = {
+     .name = "SD",
+     .cmd = {
++        [0]         = sd_cmd_GO_IDLE_STATE,
+         [1]         = sd_cmd_illegal,
+         [5]         = sd_cmd_illegal,
+         [52 ... 54] = sd_cmd_illegal,
 -- 
 2.31.1
 
