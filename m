@@ -2,51 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E24A3B269F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 06:54:12 +0200 (CEST)
-Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25833B265E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 06:32:33 +0200 (CEST)
+Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwHNT-00055k-HQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 00:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58788)
+	id 1lwH2W-0004JK-Qe
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 00:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lwHLr-0002LR-CP; Thu, 24 Jun 2021 00:52:31 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43065 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lwH1F-0003c3-BZ
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 00:31:13 -0400
+Resent-Date: Thu, 24 Jun 2021 00:31:13 -0400
+Resent-Message-Id: <E1lwH1F-0003c3-BZ@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lwHLn-0003Q7-Cu; Thu, 24 Jun 2021 00:52:31 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4G9SRT1GNGz9sXL; Thu, 24 Jun 2021 14:52:21 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1624510341;
- bh=eTXlz+ycy89J9DOZzlL3SfEaWuEWVMFl0HFpibNTvyY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Qnnkg6GeVFRPwUNAfxzH75Trp2GbQwGEio9BE4U4Eq9lNsdhrskRaKndb8mmuy/gA
- zPtlwZuRTMDg6BGEW1VID1DLfslR/yu0NNWFaoocClBb6u2QantGfWCWItwbQ5wrQh
- SpTtsRKeDs/DbGN4IfXuIVmf+QYVVhv/PfiLZgDc=
-Date: Thu, 24 Jun 2021 13:31:10 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v2 04/10] target/ppc: Use bool success for
- ppc_radix64_xlate
-Message-ID: <YNP8fsx93ERNXjdQ@yekko>
-References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
- <20210621125115.67717-5-bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lwH1C-0001j2-2X
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 00:31:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624509050; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WB1AM1sSGw3gS/hrDMs5ZErUyGCQzvZj3bj8GQfiIcqqXWPeSaTYRaLIhO5Ait8V6nFjfKgsL60u5iRM922dSMtwim4baV3g4xX6NYhjw1lBOnhyF9mVhkvih/T0y8OYfPY+ABPXXWTRXLJPQkA/yAoNXuWcN98HV8ATreqIfhs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1624509050;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=RtEg9F2ZXqhawPgy2Hh4trWQU7BR6GhxxBR5dypRAOo=; 
+ b=XqDPLXSeVUOm9I+IU+xiG6gxCLhnw/7y1fB0Lg0/IKvKOyL0LoKyM5lFefPz4y8kBLLz16rbH16+rFZCFGqJH1OS9RPL7VhdMQVF/Gf4S8tNRrYCteG5Rmty/brDlLneE2Na7YPMG2Bu48r72t6/CUghwefWve36AC3cS8Q1odQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1624509046228602.7021570895228;
+ Wed, 23 Jun 2021 21:30:46 -0700 (PDT)
+In-Reply-To: <20210624041040.1250631-1-vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 0/1] ui: Add a Wayland backend for Qemu UI
+Message-ID: <162450904493.16025.10486341594793128250@7c66fb7bc3ab>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lWpAhLNn/jAND+He"
-Content-Disposition: inline
-In-Reply-To: <20210621125115.67717-5-bruno.larsen@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vivek.kasireddy@intel.com
+Date: Wed, 23 Jun 2021 21:30:46 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,175 +66,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br,
- luis.pires@eldorado.org.br
+Reply-To: qemu-devel@nongnu.org
+Cc: dongwon.kim@intel.com, qemu-devel@nongnu.org, vivek.kasireddy@intel.com,
+ tina.zhang@intel.com, kraxel@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---lWpAhLNn/jAND+He
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 21, 2021 at 09:51:09AM -0300, Bruno Larsen (billionai) wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
->=20
-> Instead of returning non-zero for failure, return true for success.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Applied to ppc-for-6.1, thanks.
-
-> ---
->  target/ppc/mmu-radix64.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
->=20
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index dd5ae69052..2d5f0850c9 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -463,10 +463,10 @@ static int ppc_radix64_process_scoped_xlate(PowerPC=
-CPU *cpu,
->   *              | =3D On        | Process Scoped |    Scoped     |
->   *              +-------------+----------------+---------------+
->   */
-> -static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-> -                             MMUAccessType access_type,
-> -                             hwaddr *raddr, int *psizep, int *protp,
-> -                             bool guest_visible)
-> +static bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-> +                              MMUAccessType access_type,
-> +                              hwaddr *raddr, int *psizep, int *protp,
-> +                              bool guest_visible)
->  {
->      CPUPPCState *env =3D &cpu->env;
->      uint64_t lpid, pid;
-> @@ -492,7 +492,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
-addr,
->          }
->          *protp =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
->          *psizep =3D TARGET_PAGE_BITS;
-> -        return 0;
-> +        return true;
->      }
-> =20
->      /*
-> @@ -510,7 +510,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
-addr,
->          if (guest_visible) {
->              ppc_radix64_raise_segi(cpu, access_type, eaddr);
->          }
-> -        return 1;
-> +        return false;
->      }
-> =20
->      /* Get Process Table */
-> @@ -523,13 +523,13 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr=
- eaddr,
->              if (guest_visible) {
->                  ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_NOPT=
-E);
->              }
-> -            return 1;
-> +            return false;
->          }
->          if (!validate_pate(cpu, lpid, &pate)) {
->              if (guest_visible) {
->                  ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BA=
-DCONFIG);
->              }
-> -            return 1;
-> +            return false;
->          }
->      }
-> =20
-> @@ -549,7 +549,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
-addr,
->                                                     pate, &g_raddr, &prot,
->                                                     &psize, guest_visible=
-);
->          if (ret) {
-> -            return ret;
-> +            return false;
->          }
->          *psizep =3D MIN(*psizep, psize);
->          *protp &=3D prot;
-> @@ -573,7 +573,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
-addr,
->                                                       &prot, &psize, fals=
-e,
->                                                       guest_visible);
->              if (ret) {
-> -                return ret;
-> +                return false;
->              }
->              *psizep =3D MIN(*psizep, psize);
->              *protp &=3D prot;
-> @@ -582,7 +582,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
-addr,
->          }
->      }
-> =20
-> -    return 0;
-> +    return true;
->  }
-> =20
->  int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> @@ -593,8 +593,8 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vad=
-dr eaddr,
->      hwaddr raddr;
-> =20
->      /* Translate eaddr to raddr (where raddr is addr qemu needs for acce=
-ss) */
-> -    if (ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
-> -                          &page_size, &prot, true)) {
-> +    if (!ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
-> +                           &page_size, &prot, true)) {
->          return 1;
->      }
-> =20
-> @@ -608,8 +608,8 @@ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cp=
-u, target_ulong eaddr)
->      int psize, prot;
->      hwaddr raddr;
-> =20
-> -    if (ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-> -                          &psize, &prot, false)) {
-> +    if (!ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
-> +                           &psize, &prot, false)) {
->          return -1;
->      }
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---lWpAhLNn/jAND+He
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDT/H4ACgkQbDjKyiDZ
-s5IzQg/8DbhRYmD0KlddVtFyOx5QarHQXJmoovz84BsBD0N4HMi0UMk8cH23PGy/
-51V2H5wjzQqwFaoW060dnkf6HnQajixTkzrTQZE/4YKSdgfWC7swhJTmARvson3D
-6BsZUDDGPXSyRq/HumnxPwc76B82woUBEa3CsEbGyrhj93fNHvWy+nMJgpaXYco6
-SrOrYpsIkiLLMPSbzqf4NnzxxpO3rBn+qYz2FVkxjtR4JHb9+Ck0TjqHNSTWWU4n
-V1X8ZySsGcPE1RAVcNS6+rDiyMRGXe5ihjjIJbJmj0X2ahTaEEbBt9eIxKT+BkPR
-0X7lMccsmAd27oVXeCErJb7gcwdJhx0/VUHsvQ0ma3T9Dpy7BMj32AgHE1pAAstC
-vy0BpKTgF35vr0OcTD8knfXX1tCGKhmSKqz8jxTAzB5j8bigsUr+XxTw/hdBsBvJ
-ks3ruRPaPy4JcuNjaJBkn2OWhMcaCCuTnLmIfYhvx+L/HFgG8DrdCTfjLm21gtLc
-prp/oLGvWdwUAQrGn4l6fTjL/A6IpXjeuzctRevGhvLRTD9xPeD7X6by0iW2FqSu
-Brf4Iu5jVVQlPd/JKCTWNK8Cxn5gSVps2eZuCauBdsRL7GULLNxFNgvMxps4u581
-bZ1h93iYhOVFlmW7Etd60pdkDcJ8jhbMSZu5A7SfJwqLCllEJBQ=
-=rAYa
------END PGP SIGNATURE-----
-
---lWpAhLNn/jAND+He--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyNDA0MTA0MC4xMjUw
+NjMxLTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjI0MDQx
+MDQwLjEyNTA2MzEtMS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tClN1YmplY3Q6IFtSRkMgdjEg
+MC8xXSB1aTogQWRkIGEgV2F5bGFuZCBiYWNrZW5kIGZvciBRZW11IFVJCgo9PT0gVEVTVCBTQ1JJ
+UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8
+fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3Jp
+dGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9
+PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRl
+ZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3Qv
+cWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjI0MDQxMDQwLjEyNTA2MzEt
+MS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tIC0+IHBhdGNoZXcvMjAyMTA2MjQwNDEwNDAuMTI1
+MDYzMS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNo
+ICd0ZXN0Jwo1NDdjZTQ1IHVpOiBBZGQgYSBwbGFpbiBXYXlsYW5kIGJhY2tlbmQgZm9yIFFlbXUg
+VUkKCj09PSBPVVRQVVQgQkVHSU4gPT09CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
+IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI2MDogCm5ldyBmaWxl
+IG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjY2OiBGSUxF
+OiB1aS93YXlsYW5kLmM6MjoKKyAqIFdheWxhbmQgVUkgLS0gQSBzaW1wbGUgUWVtdSBVSSBiYWNr
+ZW5kIHRvIHNoYXJlIGJ1ZmZlcnMgd2l0aCBXYXlsYW5kIGNvbXBvc2l0b3JzCgpFUlJPUjogdXNl
+IFFFTVUgaW5zdGVhZCBvZiBRZW11IG9yIFFFbXUKIzI2NjogRklMRTogdWkvd2F5bGFuZC5jOjI6
+CisgKiBXYXlsYW5kIFVJIC0tIEEgc2ltcGxlIFFlbXUgVUkgYmFja2VuZCB0byBzaGFyZSBidWZm
+ZXJzIHdpdGggV2F5bGFuZCBjb21wb3NpdG9ycwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0
+ZXJzCiMyNzE6IEZJTEU6IHVpL3dheWxhbmQuYzo3OgorICogTW9zdGx5IChib2lsZXJwbGF0ZSkg
+YmFzZWQgb24gY2dpdC5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93ZXN0b24vdHJlZS9jbGllbnRz
+L3NpbXBsZS1kbWFidWYtZWdsLmMKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
+IHRhYnMKIzMxODogRklMRTogdWkvd2F5bGFuZC5jOjU0OgorXkleSV5JICAgICB1aW50MzJfdCBz
+ZXJpYWwpJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzI5OiBG
+SUxFOiB1aS93YXlsYW5kLmM6NjU6CiteSV5JXkkgICAgICBpbnQzMl90IHdpZHRoLCBpbnQzMl90
+IGhlaWdodCwkCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzMzA6
+IEZJTEU6IHVpL3dheWxhbmQuYzo2NjoKK15JXkleSSAgICAgIHN0cnVjdCB3bF9hcnJheSAqc3Rh
+dGVzKSQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ1OTogRklM
+RTogdWkvd2F5bGFuZC5jOjE5NToKK15JZXJyb3JfcmVwb3J0KCJDYW4ndCBmaW5kIGZyZWUgYnVm
+ZmVyXG4iKTskCgpFUlJPUjogRXJyb3IgbWVzc2FnZXMgc2hvdWxkIG5vdCBjb250YWluIG5ld2xp
+bmVzCiM0NTk6IEZJTEU6IHVpL3dheWxhbmQuYzoxOTU6CisgICAgICAgZXJyb3JfcmVwb3J0KCJD
+YW4ndCBmaW5kIGZyZWUgYnVmZmVyXG4iKTsKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2
+ZXIgdXNlIHRhYnMKIzUxOTogRklMRTogdWkvd2F5bGFuZC5jOjI1NToKK15JXkkgdWludDMyX3Qg
+Zm9ybWF0LCB1aW50MzJfdCBtb2RpZmllcl9oaSwgdWludDMyX3QgbW9kaWZpZXJfbG8pJAoKRVJS
+T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTUyOiBGSUxFOiB1aS93YXls
+YW5kLmM6Mjg4OgorXkleSV5JICAgICAgICAgICAgICAgICBpZCwgJndsX2NvbXBvc2l0b3JfaW50
+ZXJmYWNlLCAxKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1
+NTQ6IEZJTEU6IHVpL3dheWxhbmQuYzoyOTA6CiteSWQtPndtX2Jhc2UgPSB3bF9yZWdpc3RyeV9i
+aW5kKHJlZ2lzdHJ5LCQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
+IzU1NTogRklMRTogdWkvd2F5bGFuZC5jOjI5MToKK15JXkleSV5JICAgICAgaWQsICZ4ZGdfd21f
+YmFzZV9pbnRlcmZhY2UsIDEpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
+IHRhYnMKIzU1NjogRklMRTogdWkvd2F5bGFuZC5jOjI5MjoKK15JeGRnX3dtX2Jhc2VfYWRkX2xp
+c3RlbmVyKGQtPndtX2Jhc2UsICZ3bV9iYXNlX2xpc3RlbmVyLCBkKTskCgpFUlJPUjogY29kZSBp
+bmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1NTg6IEZJTEU6IHVpL3dheWxhbmQuYzoyOTQ6
+CiteSWQtPmZzaGVsbCA9IHdsX3JlZ2lzdHJ5X2JpbmQocmVnaXN0cnksJAoKRVJST1I6IGNvZGUg
+aW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTU5OiBGSUxFOiB1aS93YXlsYW5kLmM6Mjk1
+OgorXkkgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlkLCAmendwX2Z1bGxzY3JlZW5fc2hl
+bGxfdjFfaW50ZXJmYWNlLCQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
+YnMKIzU2MDogRklMRTogdWkvd2F5bGFuZC5jOjI5NjoKK15JICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAxKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1
+NjI6IEZJTEU6IHVpL3dheWxhbmQuYzoyOTg6CiteSWQtPmRtYWJ1ZiA9IHdsX3JlZ2lzdHJ5X2Jp
+bmQocmVnaXN0cnksJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwoj
+NTYzOiBGSUxFOiB1aS93YXlsYW5kLmM6Mjk5OgorXkkgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGlkLCAmendwX2xpbnV4X2RtYWJ1Zl92MV9pbnRlcmZhY2UsIDMpOyQKCkVSUk9SOiBjb2Rl
+IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzU2NDogRklMRTogdWkvd2F5bGFuZC5jOjMw
+MDoKK15JendwX2xpbnV4X2RtYWJ1Zl92MV9hZGRfbGlzdGVuZXIoZC0+ZG1hYnVmLCAmZG1hYnVm
+X2xpc3RlbmVyLCQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzU2
+NTogRklMRTogdWkvd2F5bGFuZC5jOjMwMToKK15JICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgZCk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTkz
+OiBGSUxFOiB1aS93YXlsYW5kLmM6MzI5OgorXkllcnJvcl9yZXBvcnQoIk5vIHp3cF9saW51eF9k
+bWFidWYgZ2xvYmFsXG4iKTskCgpFUlJPUjogRXJyb3IgbWVzc2FnZXMgc2hvdWxkIG5vdCBjb250
+YWluIG5ld2xpbmVzCiM1OTM6IEZJTEU6IHVpL3dheWxhbmQuYzozMjk6CisgICAgICAgZXJyb3Jf
+cmVwb3J0KCJObyB6d3BfbGludXhfZG1hYnVmIGdsb2JhbFxuIik7CgpFUlJPUjogY29kZSBpbmRl
+bnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1OTQ6IEZJTEU6IHVpL3dheWxhbmQuYzozMzA6Cite
+SWV4aXQoMSk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNjA5
+OiBGSUxFOiB1aS93YXlsYW5kLmM6MzQ1OgorXkkgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHdpbmRvdy0+c3VyZmFjZSk7JAoKRVJST1I6IGNvZGUgaW5k
+ZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNjIxOiBGSUxFOiB1aS93YXlsYW5kLmM6MzU3Ogor
+XkkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd2luZG93LT5zdXJmYWNl
+LCQKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNjIyOiBGSUxFOiB1aS93YXlsYW5k
+LmM6MzU4OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBa
+V1BfRlVMTFNDUkVFTl9TSEVMTF9WMV9QUkVTRU5UX01FVEhPRF9ERUZBVUxULAoKRVJST1I6IGNv
+ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNjIyOiBGSUxFOiB1aS93YXlsYW5kLmM6
+MzU4OgorXkleSSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgWldQX0ZVTExTQ1JFRU5f
+U0hFTExfVjFfUFJFU0VOVF9NRVRIT0RfREVGQVVMVCwkCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
+dWxkIG5ldmVyIHVzZSB0YWJzCiM2MjM6IEZJTEU6IHVpL3dheWxhbmQuYzozNTk6CiteSV5JICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMKTskCgp0b3RhbDogMjcgZXJyb3JzLCAy
+IHdhcm5pbmdzLCA2MDcgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDU0N2NlNDViODAwZCAodWk6IEFk
+ZCBhIHBsYWluIFdheWxhbmQgYmFja2VuZCBmb3IgUWVtdSBVSSkgaGFzIHN0eWxlIHByb2JsZW1z
+LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
+dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
+VEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29k
+ZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xv
+Z3MvMjAyMTA2MjQwNDEwNDAuMTI1MDYzMS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20vdGVz
+dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
+dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
+dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
