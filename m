@@ -2,70 +2,176 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519293B322E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 17:03:20 +0200 (CEST)
-Received: from localhost ([::1]:46742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97F23B3248
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 17:07:16 +0200 (CEST)
+Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwQsx-0001NW-3K
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 11:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
+	id 1lwQwl-0005eD-Hl
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 11:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lwQrx-0000iH-Ft
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:02:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24442)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1lwQvG-00044q-7i
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:05:42 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:58646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lwQrv-0002zJ-Oi
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:02:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624546935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z9W/rOufi/IaYBDMpFJr0RR7IZvuTD5/SifYiQvRQg4=;
- b=ZZJHPVQQ0wH605Cdg8gKDqbEukOyl+f8SNhsEKooCtyyptOD1rEeer5Z0ycPcMxeW9GR55
- oHDy1Tc9b5iWaBwp64fDQkNTQJogUPDOQIn+bbaiIeKYIOGDhpr8n5i3q6gpSvruMxK3Z9
- OGaTspO59RTt3rbdHYfz9X43YqxWwV8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-IkctkmLsMMCdxYDF-7FJvA-1; Thu, 24 Jun 2021 11:01:49 -0400
-X-MC-Unique: IkctkmLsMMCdxYDF-7FJvA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C00CF195D564;
- Thu, 24 Jun 2021 15:01:46 +0000 (UTC)
-Received: from work-vm (ovpn-114-255.ams2.redhat.com [10.36.114.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AFD95D6AB;
- Thu, 24 Jun 2021 15:01:27 +0000 (UTC)
-Date: Thu, 24 Jun 2021 16:01:25 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 00/34] modules: add meta-data database
-Message-ID: <YNSeRVV+vejFd9Vw@work-vm>
-References: <20210624103836.2382472-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1lwQvD-0004uE-HY
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 11:05:41 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15OEvJOW031247; Thu, 24 Jun 2021 15:05:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=XGc6mzqPggWS6m+RUkGVW75N1QxABBr6S39j07nmeqY=;
+ b=QTiXOfAjDX37I87ziz76N7v5gB8cj0ITo4WzG6P6a5uakfkufk6uYv+V8Mo+sZvD64WY
+ 3/1dXMZP++1Gn/9o1nB7GIlm0Pl7dBdj2tewEVc+F/I+2gm9m3UEq+mKUf0H4HKhFBPp
+ XaA1BDpGwcHvV8HP/rbvaviI/nDcQzYu7acHCHEXdm4tDwOoCxAvNgg0eaLxKNSckGkh
+ zAe4HYqfLhYSnygGEUdViMHc3OExYl+2Tx6jqelzZm66iuhrZLino02UhHQtQVLr/wyZ
+ zNt+i0Rr0alPZ/Ak/Ze+M8Y2aeXMMYzEwaUvrkv37CA71D6bV/3VHw7hQUnKr3UV8TAg 9g== 
+Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39c2wnk8kx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Jun 2021 15:05:31 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15OF5UTk178854;
+ Thu, 24 Jun 2021 15:05:30 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+ by userp3020.oracle.com with ESMTP id 399tbw50ua-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Jun 2021 15:05:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XOBNSllKRwPqLrvSIj+lpQ5gmLT3uMKeHgcQUTwdIj68j6sg/cSPdIY4UUoDgulBi7cLRlPcWYDZuERFqTEW1VPBxYmDDF5elIwcm4lpD/TrB6qU291USwnYpzqdbpqTUoZj4EBc57HCbinuwqsprN9nlQqaYC4t6kc0UapmfFS0i6WfH/eOsvn9C33NS0a/+Kup1ipWZ3SpGxWc06WY9efqTQjcNLXVSe6x9SGAJJ2pjwnlwU9XVCV37vw13e7yc11MPN0cCncNwxftOk2aQsZqIdJ1M5JRIYQGzNuZrQ4s3khnQypMRVEArFNzL8Ued6P2NCBbbRNPlSldcCXHIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XGc6mzqPggWS6m+RUkGVW75N1QxABBr6S39j07nmeqY=;
+ b=Y6JY8AlGrcqHxKlgLq5WrfjgSyeadimGIBkFdEr0RPYSYZFhq/H+01Gv9JB577FVj3SH/Vcb/HxEQiwDB8BDJqoj9/av1wvSUp8yBnaTYOAmJfakcZ2FhRYnLsuZJpWA4iWILuNyaNLDlxLQrzyXaQFpsvzoNTebJBEdEI5X8fvTKQt/xlo9Egg/fX7FFqZPxoc/ZNa6Bpx3yW9s2PypBHggE3WaC0gpAtTMGLWW2b6rjrY3QlQoazsHlxfswh3rHM9ogz1bCQ9MkDIDS3LsGldkPnN29OdlEJYwAtZVn7v1udLBy58TvHw3LD6KqW2us4XRu1VkbeevrfzuesOLlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XGc6mzqPggWS6m+RUkGVW75N1QxABBr6S39j07nmeqY=;
+ b=D4o6MT59hEOU/L1oBiTTee7a1+JNfG6yJy+Jqbo3OXWg8TCsYn/+Xe984G/SyAOqNLn7TC+LYUdcjxFavtWnVLddxbqvm4BI/VkwYKmj40e/XF8LWGh5wK2IPQ3j48pAZ4ipNb8KKvwwJOo7/wp9e5+cXmilUWMwZMc07uqpto4=
+Authentication-Results: oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
+Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
+ by BYAPR10MB2807.namprd10.prod.outlook.com (2603:10b6:a03:8e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Thu, 24 Jun
+ 2021 15:05:28 +0000
+Received: from BYAPR10MB3240.namprd10.prod.outlook.com
+ ([fe80::6ce3:f0a3:c303:f851]) by BYAPR10MB3240.namprd10.prod.outlook.com
+ ([fe80::6ce3:f0a3:c303:f851%7]) with mapi id 15.20.4242.023; Thu, 24 Jun 2021
+ 15:05:28 +0000
+Subject: Re: [PATCH V3 00/22] Live Update [reboot]
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <YJwFkhlYISA9INwO@stefanha-x1.localdomain>
+ <4d3dd5ff-5180-16df-ab48-11de610dd396@oracle.com>
+ <YJ5kokhzyA5tCom3@stefanha-x1.localdomain>
+ <29356c3a-0b3f-2773-4f9f-18ff4ed4d5bb@oracle.com> <YKOPnkefxgRZ8PoQ@work-vm>
+ <a1d3dfea-d15e-35a3-a216-3ce65600f2d6@oracle.com> <YKQULUn5F+x1wrYI@work-vm>
+ <38dc91ab-b96b-1cc3-bf8b-84ff77b334fd@oracle.com> <YKZdcSt0ltCBqVsz@work-vm>
+ <5dc94efc-cb95-d7ff-cad3-391c90b3264f@oracle.com> <YMj8Fh2FAYJ5Pb/c@work-vm>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <879d3412-8918-45fc-55dd-2e0db956e089@oracle.com>
+Date: Thu, 24 Jun 2021 11:05:22 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <YMj8Fh2FAYJ5Pb/c@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [24.62.106.7]
+X-ClientProxiedBy: SN2PR01CA0079.prod.exchangelabs.com (2603:10b6:800::47) To
+ BYAPR10MB3240.namprd10.prod.outlook.com
+ (2603:10b6:a03:155::17)
 MIME-Version: 1.0
-In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.92] (24.62.106.7) by
+ SN2PR01CA0079.prod.exchangelabs.com (2603:10b6:800::47) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.18 via Frontend Transport; Thu, 24 Jun 2021 15:05:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 56864c83-227a-4529-5784-08d93721806a
+X-MS-TrafficTypeDiagnostic: BYAPR10MB2807:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR10MB2807DCF5A42ADA90D6B5E9D4F9079@BYAPR10MB2807.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nVyPkdzYlwNXyPSMkMbFPKwqkHhyLLzRgFobFpMtfnEtir6GA8vxGV6VGVASvbDHvQ66zjNlIuN/ek3OEHfzHgfjgs2RN/dvHFEMA4RnqBxTODqCX31rtbNix53QgB6JE0MaW8ep4mf+jKKCzJ/9j1rwpQlKW2pVH7qOwpr0Fm0sfLlVTi9qX7798iU5L7XXh+qBes4h64lUUM3zaWHqt0sPGGL9JRhzMZarBs8jgo2QL9JlW7LZ9aozDydjY9j266Xd4J/eSurUNcwUs76XbPth7ru8ygnHhdnj/7KZyEk71T2DkExH5wyTSxMfvw7XWJ3L7W7Om05ntlwHcNpwBE8e3KNXJooi8mzZnaV5VPwEmrHbIPHdO5H3A0yd6jI2SUWz9YZKrjEjwnvAJsDWli2fQxWlVgKvYzyXOdLme7Lpaend7sPADXDt9ZuczcLQGlPR/ijsKRgqzkR6kAz8W/oUurKvBMdv4yqQ/BqSweKeafVSEW6hP1WEzMqWRonI1BqJ4UBAa0XwTJiu4nxDiyLMeHglkjwbZoPsg3H1EgurRZT2sQRkfUaUISerwKrMAbeCzWD5myqkldOe1Ya6kaMWNAKXDsMgCBGFiEWfBcAqR+8svycOx1xn4bXLt76Xb6ffaqAuI1LaEUuqmcLy2g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(366004)(396003)(136003)(346002)(39860400002)(86362001)(83380400001)(36756003)(478600001)(8676002)(6486002)(66476007)(31686004)(66946007)(8936002)(4326008)(31696002)(66556008)(107886003)(6666004)(53546011)(16576012)(54906003)(5660300002)(6916009)(316002)(7416002)(16526019)(186003)(38100700002)(2616005)(956004)(36916002)(26005)(44832011)(15650500001)(2906002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlF1TW9oMjBVRXFPRFcxVjNXcm5oM2JpNW80ejFyanJralpid2dBenhYbmZD?=
+ =?utf-8?B?M3dXa0hBdGNLNDA0cGtKUHhhSzZuZkFHd2Vwd3h3Z2VKUXhRU3RQalFHNzZJ?=
+ =?utf-8?B?TzhxTDgvK3ZTMU4yN0plTGZKVnhZSk1TQjB1Y0FhSVplMVZHV2gyT2V2ZlN6?=
+ =?utf-8?B?VFVWMXg2SnpZM0YvRlQyZUYvT2FINFF1V3ZCR1paS3d3WVo5Z3E4RDIwWEMz?=
+ =?utf-8?B?NkVnWGZ5Zm0xSkJjMVdrcGRUek1HaHB6Y0xRTEhUL0ZpL2luenhvWmJqNFRU?=
+ =?utf-8?B?eExhUU1zcEY2VW8veHpvWHREQklOc1Q4OWkrRUVzUG0rb0UvUEJvQ1hiOVVv?=
+ =?utf-8?B?T2ZUV3pwMklKT3pSWnZZbUdiL05nUWllUVQ0WUNkbFZ3VmxMY3RzMWhQK1ov?=
+ =?utf-8?B?cmovZ3MxbFFMMTZNZzMrdFVmcXAxcUFpWGpZK3loZXVpQTd3c0JkU2toK3Nr?=
+ =?utf-8?B?cGR3K0FPOGlBN1Y0Tkc3cmtRRUJ0cldkR2lTT1FTTjZka1ExR1phTTBnTXll?=
+ =?utf-8?B?VzJjdU9RcjVwQjNab2xobmI5UDU3NU5xL1hCc3ZlVjRRaFp6RHpmeEFGVjF4?=
+ =?utf-8?B?ek9CRnc0bncrbVhmZDdVWUJOSkx0SVlEQ25pRCtHaWpsYW9MMVpxM0Y1aWVL?=
+ =?utf-8?B?dld3RVJzWUZUYWVObWtiSy9JZzZ0ZmEyb2JnZGhnYU0rSUM4NGp0elZRNVoz?=
+ =?utf-8?B?Wm5PMm9ma3F0eTJsMS9PMWNiUWlTMWJEZmM4U1RpczkzVk1LOHpralNhQjcx?=
+ =?utf-8?B?N29WNE5jeGllUkVrSjVCYnlqYU9oc2pXUDlmZzdDdDNpeFY0dnB6d3NkeW1G?=
+ =?utf-8?B?K3lzME1nY0NKTTZ0V0VuZUZpN3dZODlzbmtFbU1zb3I4c000YTh4RWJVVzNa?=
+ =?utf-8?B?RXFiMU54MTJpNGdXd0VkeVZ6NjFlWDFMTTY3RVYzc1g3ZlFCdTd3SXZxOTlr?=
+ =?utf-8?B?Z1pkaE05dkd4UUs2bHpaV3QxZTRGUDIySkRCYTduUkhHUGZsTG54amdjeWhR?=
+ =?utf-8?B?SHZtLzAzTzVib24yZTJBUE91MzlGNkRkVTc2SStQQXJuNjY2T2Z5ZUlDQmpx?=
+ =?utf-8?B?Uzh4d1JUNHdMaklQZmp6RWNtTkxNeVFtRlFxbTFVUFZCTWQ4UkJYMEVIcmJ5?=
+ =?utf-8?B?bndBZlVUK2szWGtCeVhCd0oweE9KK3pDSktuaXpiYkdPbGNOMTBSOVB6b0J5?=
+ =?utf-8?B?Y0dtZHZpdEV2di9mNnVWWFA3NkN5emJJNThFTStncE1lMzV6RFdaVnNnTE1p?=
+ =?utf-8?B?aFY4ZEtwN3VqWDZqUWhyWlByTXowS2YzUnMyc3dEUkwyUERPbUxULzBLZHFK?=
+ =?utf-8?B?dXZka1BXMFJaRG51aldCMDBqcmptcmRmT1ovWVFyT3BNaHpnUmtVSXppVjdW?=
+ =?utf-8?B?cC9Xdlp3OEtNYmVUT3N2M0thc1pyRTBvMWNZYnM0MUVGd25ZNllPTHFVWVJk?=
+ =?utf-8?B?ZHRXM1oydndhaUhKUTF3b1Rtejd1RWhXeXdycU9WdW1SWmltK1VxczNhcU54?=
+ =?utf-8?B?WkRSTFcyZjRiNmtXazRYSUdJRENqMmVONEd6bE1GRURKRFluNFlVZWZhT201?=
+ =?utf-8?B?NGhTeHlWcHE2d3R0UVVRVmhiL0VYcVk3WnE2THlUbjRjTHp2MVdMbDJDWFBa?=
+ =?utf-8?B?dld6MFpCcytLMGVFMnJsR3RhUHFsbXNxK3NaTkhTbEFvS3lhYTJDb2pTOU95?=
+ =?utf-8?B?WVdqcnNSNWR4RGFXWXNBdzNCNm4vVUY0YjNXRVorTEV2T1dFaW5kc01WaXhF?=
+ =?utf-8?Q?ce0Lh4E2j+drc7RBU33CDljOaUAXfd5cxT00aM/?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56864c83-227a-4529-5784-08d93721806a
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 15:05:28.0275 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U9hWIrz0ahG1aq26B9f95vGeQQBw7M+sKfVb2LOrn5xCnh8/Ox9OEhgUHF3DWb5OIucFmFuMfNrKJI7QyqyBEIKvDxQIzvm/K6S5mOKpfpo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2807
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10025
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106240083
+X-Proofpoint-GUID: g0uiFRHTvffnoWYMIXK0C9P1f0EUpPLK
+X-Proofpoint-ORIG-GUID: g0uiFRHTvffnoWYMIXK0C9P1f0EUpPLK
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,182 +184,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Lieven <pl@kamp.de>,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Gerd Hoffmann (kraxel@redhat.com) wrote:
-> This patch series adds support for module meta-data.  Today this is
-> either hard-coded in qemu (see qemu_load_module_for_opts) or handled
-> with manually maintained lists in util/module (see module_deps[] and
-> qom_modules[]).  This series replaced that scheme with annotation
-> macros, so the meta-data can go into the module source code and -- for
-> example -- the module_obj() annotations can go next to the TypeInfo
-> struct for the object class.
+On 6/15/2021 3:14 PM, Dr. David Alan Gilbert wrote:
+> * Steven Sistare (steven.sistare@oracle.com) wrote:
+>> On 5/20/2021 9:00 AM, Dr. David Alan Gilbert wrote:
+>>> Hi Steven,
+>>>   I'd like to split the discussion into reboot and restart,
+>>> so I can make sure I understand them individually.
+>>>
+>>> So reboot mode;
+>>> Can you explain which parts of this series are needed for reboot mode;
+>>> I've managed to do a kexec based reboot on qemu with the current qemu -
+>>> albeit with no vfio devices, my current understanding is that for doing
+>>> reboot with vfio we just need some way of getting migrate to send the
+>>> metadata associated with vfio devices if the guest is in S3.
+>>>
+>>> Is there something I'm missing and which you have in this series?
+>>
+>> You are correct, this series has little special code for reboot mode, but it does allow
+>> reboot and restart to be handled similarly, which simplifies the management layer because 
+>> the same calls are performed for each mode. 
+>>
+>> For vfio in reboot mode, prior to sending cprload, the manager sends the guest-suspend-ram
+>> command to the qemu guest agent. This flushes requests and brings the guest device to a 
+>> reset state, so there is no vfio metadata to save.  Reboot mode does not call vfio_cprsave.
+>>
+>> There are a few unique patches to support reboot mode.  One is qemu_ram_volatile, which
+>> is a sanity check that the writable ram blocks are backed by some form of shared memory.
+>> Plus there are a few fragments in the "cpr" patch that handle the suspended state that
+>> is induced by guest-suspend-ram.  See qemu_system_start_on_wake_request() and instances
+>> of RUN_STATE_SUSPENDED in migration/cpr.c
+> 
+> Could you split the 'reboot' part of separately, then we can review
+> that and perhaps get it in first? It should be a relatively small patch
+> set - it'll get things moving in the right direction.
+> 
+> The guest-suspend-ram stuff seems reasonable as an idea; lets just try
+> and avoid doing it all via environment variables though; make it proper
+> command line options.
 
-So this is slightly off-topic for the series; but kind of relevant,
-but...
-Is there a way to inhibit module loading after a given point?
+How about I delete reboot mode and the mode argument instead.  Having two modes is causing no 
+end of confusion, and my primary business need is for restart mode.
 
-I ask, because there's a fairly well known security escalation that
-takes advantage of NSS loading of PAM modules; typically you have
-your nice sandboxed application, you write out your nasty .so into the
-sandbox and then somehow get your application to trigger the PAM module
-load.
-Now, what stops the same attack here?
-
-Dave
-
-> Patches 1-3 put the infrastructure in place:  Add the annotation macros,
-> add a script to collect the meta-data, add a script to compile the
-> meta-data into C source code which we can then add to qemu.
-> 
-> Patch 4 - check module dependencies (Jose, new in v4).
-> 
-> Patches 5-13 add annotations macros to the modules we have.
-> 
-> Patches 14-16 put the modinfo database into use and remove the
-> module_deps[] and qom_modules[] lists.
-> 
-> Patch 16 adds two tracepoints for easier trouble-shooting.
-> 
-> Patches 18-20 add support for target-specific modules.
-> 
-> Patches 21-24 add documentation for all of the above (new in v4, was
-> separate series).
-> 
-> Patches 25-29 start building accelerators modular.  So far it is
-> only qtest (all archs) and a small fraction of tcg (x86 only).
-> 
-> Patches 30-34 add support for registering hmp commands so they can
-> be implemented as module (new in v4, was separate series).
-> 
-> take care,
->   Gerd
-> 
-> Gerd Hoffmann (33):
->   modules: add modinfo macros
->   modules: collect module meta-data
->   modules: generate modinfo.c
->   modules: add qxl module annotations
->   modules: add virtio-gpu module annotations
->   modules: add chardev module annotations
->   modules: add audio module annotations
->   modules: add usb-redir module annotations
->   modules: add ccid module annotations
->   modules: add ui module annotations
->   modules: add s390x module annotations
->   modules: add block module annotations
->   modules: use modinfo for dependencies
->   modules: use modinfo for qom load
->   modules: use modinfo for qemu opts load
->   modules: add tracepoints
->   modules: check arch and block load on mismatch
->   modules: check arch on qom lookup
->   modules: target-specific module build infrastructure
->   modules: add documentation for module sourcesets
->   modules: add module_obj() note to QOM docs
->   modules: module.h kerneldoc annotations
->   modules: hook up modules.h to docs build
->   accel: autoload modules
->   accel: add qtest module annotations
->   accel: build qtest modular
->   accel: add tcg module annotations
->   accel: build tcg modular
->   monitor: allow register hmp commands
->   usb: drop usb_host_dev_is_scsi_storage hook
->   monitor/usb: register 'info usbhost' dynamically
->   usb: build usb-host as module
->   monitor/tcg: move tcg hmp commands to accel/tcg, register them
->     dynamically
-> 
-> Jose R. Ziviani (1):
->   modules: check if all dependencies can be satisfied
-> 
->  scripts/modinfo-collect.py      |  67 +++++++++++
->  scripts/modinfo-generate.py     |  97 ++++++++++++++++
->  include/hw/usb.h                |   7 +-
->  include/monitor/monitor.h       |   3 +
->  include/qemu/module.h           |  74 ++++++++++++
->  accel/accel-common.c            |   2 +-
->  accel/accel-softmmu.c           |   2 +-
->  accel/qtest/qtest.c             |   2 +
->  accel/tcg/hmp.c                 |  29 +++++
->  accel/tcg/tcg-accel-ops.c       |   1 +
->  accel/tcg/tcg-all.c             |   1 +
->  audio/spiceaudio.c              |   2 +
->  block/iscsi-opts.c              |   1 +
->  chardev/baum.c                  |   1 +
->  chardev/spice.c                 |   4 +
->  hw/display/qxl.c                |   4 +
->  hw/display/vhost-user-gpu-pci.c |   1 +
->  hw/display/vhost-user-gpu.c     |   1 +
->  hw/display/vhost-user-vga.c     |   1 +
->  hw/display/virtio-gpu-base.c    |   1 +
->  hw/display/virtio-gpu-gl.c      |   3 +
->  hw/display/virtio-gpu-pci-gl.c  |   3 +
->  hw/display/virtio-gpu-pci.c     |   2 +
->  hw/display/virtio-gpu.c         |   1 +
->  hw/display/virtio-vga-gl.c      |   3 +
->  hw/display/virtio-vga.c         |   2 +
->  hw/ppc/spapr.c                  |   2 +-
->  hw/s390x/virtio-ccw-gpu.c       |   3 +
->  hw/usb/ccid-card-emulated.c     |   1 +
->  hw/usb/ccid-card-passthru.c     |   1 +
->  hw/usb/dev-storage-bot.c        |   1 +
->  hw/usb/dev-storage-classic.c    |   1 +
->  hw/usb/dev-uas.c                |   1 +
->  hw/usb/host-libusb.c            |  38 ++----
->  hw/usb/host-stub.c              |  45 -------
->  hw/usb/redirect.c               |   1 +
->  monitor/hmp.c                   |   7 ++
->  monitor/misc.c                  |  34 +++---
->  softmmu/vl.c                    |  24 ++--
->  stubs/module-opts.c             |   4 -
->  ui/egl-headless.c               |   4 +
->  ui/gtk.c                        |   4 +
->  ui/sdl2.c                       |   4 +
->  ui/spice-app.c                  |   3 +
->  ui/spice-core.c                 |   5 +
->  util/module.c                   | 200 ++++++++++++++++++--------------
->  accel/qtest/meson.build         |   8 +-
->  accel/tcg/meson.build           |   6 +-
->  docs/devel/build-system.rst     |  17 +++
->  docs/devel/index.rst            |   1 +
->  docs/devel/modules.rst          |   5 +
->  docs/devel/qom.rst              |   8 ++
->  hmp-commands-info.hx            |   3 -
->  hw/usb/meson.build              |  10 +-
->  meson.build                     |  82 +++++++++++++
->  util/trace-events               |   4 +
->  56 files changed, 624 insertions(+), 218 deletions(-)
->  create mode 100755 scripts/modinfo-collect.py
->  create mode 100755 scripts/modinfo-generate.py
->  create mode 100644 accel/tcg/hmp.c
->  delete mode 100644 hw/usb/host-stub.c
->  create mode 100644 docs/devel/modules.rst
-> 
-> -- 
-> 2.31.1
-> 
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+- Steve
 
