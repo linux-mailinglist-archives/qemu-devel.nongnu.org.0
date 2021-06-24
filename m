@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B153B2A8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:41:33 +0200 (CEST)
-Received: from localhost ([::1]:45636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CD23B2A9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:44:11 +0200 (CEST)
+Received: from localhost ([::1]:49080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwKvU-0002Px-VP
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+	id 1lwKy2-0004lX-Fd
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:44:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKtY-0007UD-CT
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42348)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKwU-0003uC-SL
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:42:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKtW-0006Ib-8t
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:39:32 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKwT-0000cH-EQ
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:42:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624523969;
+ s=mimecast20190719; t=1624524152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KMONyWjZHDWTcDKZgVImcioISyJIK1MQCSsztZ5sn4A=;
- b=gx0a9xHvBNDTLhufmcLAmUMA99Brzm4wqkyY9zq0gPKi3yE0tNc9SjAJ6++09AfUHjKcNz
- ZPuGc7jxVj9wAO7VGQc2/OcG7ghlGt51kdi2IRfkfmGW9/1EoqeukupYs/47YVaarPJN53
- wEjXquSY38BEtR7fYO9bdpIYaF+vccI=
+ bh=m8TRITcyT00RCdVrCIPxmI5RI0A9LtvyUlDXg4EulxQ=;
+ b=PvjlVuwsITpCgDKMMbrnnl9ktLVvae/8m29q/mi7ddvERVUd4Rrv4WFJzeFEk0WNQufU0Z
+ 44g1gtJBcKHypjaQy9DtIDE38xTj6TNXgZK4BLGJBUQV/ZdG2bL5LCPNTN1PUFgiAKfq1C
+ Js6Gffmz+8S3ZXMxSI+GTX1suLCfdIA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-UPhI8HIcMbS2jIzEd7dt7Q-1; Thu, 24 Jun 2021 04:39:27 -0400
-X-MC-Unique: UPhI8HIcMbS2jIzEd7dt7Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-264-Y6fSWQs3PSGakqn0QllQcw-1; Thu, 24 Jun 2021 04:42:30 -0400
+X-MC-Unique: Y6fSWQs3PSGakqn0QllQcw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0808089D9D4;
- Thu, 24 Jun 2021 08:39:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC561101F001;
+ Thu, 24 Jun 2021 08:42:29 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6EE25DA2D;
- Thu, 24 Jun 2021 08:39:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 760DB1002D71;
+ Thu, 24 Jun 2021 08:42:29 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C01F1180060E; Thu, 24 Jun 2021 10:39:21 +0200 (CEST)
-Date: Thu, 24 Jun 2021 10:39:21 +0200
+ id CE168180060E; Thu, 24 Jun 2021 10:42:27 +0200 (CEST)
+Date: Thu, 24 Jun 2021 10:42:27 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v3 3/5] ui: Create sync objects and fences only for blobs
-Message-ID: <20210624083921.5ciwcykojkb2fey6@sirius.home.kraxel.org>
-References: <20210621192425.1188442-1-vivek.kasireddy@intel.com>
- <20210621192425.1188442-4-vivek.kasireddy@intel.com>
- <20210623081515.ezdchomanr73wrp5@sirius.home.kraxel.org>
- <2b7a5e50d754416fba8fc271054b0db1@intel.com>
+To: Qiang Liu <cyruscyliu@gmail.com>
+Subject: Re: [PATCH] hw/audio/sb16: Restrict I/O sampling rate range for
+ command 41h/42h
+Message-ID: <20210624084227.omloqfqqd3m3r3el@sirius.home.kraxel.org>
+References: <CAAKa2jkj=rJVhOuE9XXC9ccsAt=2vg3_MO_NDL3OL98ALHMeFw@mail.gmail.com>
+ <CAAKa2jnbOLuaDbhaVT9Pc7BVfdJ632hpbFBsfk7eCW3evzzsgA@mail.gmail.com>
+ <20210623122046.q57ydwxnhomhdjrj@sirius.home.kraxel.org>
+ <CAAKa2jn-YU6H1U5vzRqFpbZbCCWoq-xpOnXHPeD5dg5S1VdJTw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2b7a5e50d754416fba8fc271054b0db1@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAAKa2jn-YU6H1U5vzRqFpbZbCCWoq-xpOnXHPeD5dg5S1VdJTw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,38 +82,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> >   Hi,
-> > 
-> > >      dmabuf->buf.fd = res->dmabuf_fd;
-> > > +    dmabuf->buf.blob = true;
-> > 
-> > Do you actually need the 'blob' field?
-> > I think checking 'fd' instead should work too.
-> [Kasireddy, Vivek] I want these changes to be limited to blob resources only as I do not
-> know how they might affect other use-cases or whether they are needed there or not. I
-> don't think I can rely on fd as vfio/display.c also populates the fd field:
->     dmabuf = g_new0(VFIODMABuf, 1);
->     dmabuf->dmabuf_id  = plane.dmabuf_id;
->     dmabuf->buf.width  = plane.width;
->     dmabuf->buf.height = plane.height;
->     dmabuf->buf.stride = plane.stride;
->     dmabuf->buf.fourcc = plane.drm_format;
->     dmabuf->buf.modifier = plane.drm_format_mod;
->     dmabuf->buf.fd     = fd;
+On Thu, Jun 24, 2021 at 10:11:35AM +0800, Qiang Liu wrote:
+> Hi
 > 
-> Therefore, I need a way to identify a dmabuf that is associated with blobs vs others.
+> > This looks like your mailer mangled the patch.
+> > Can you resent using 'git send-email`?
+> Yes, I can. I finally figure it out how to config my Gmail. I should
+> send a new email
+> and this thread is supposed to be closed, right?
 
-And it actually is a dma-buf too (the guest display provided by i915 gvt
-mdev driver).  So fencing that should work, right?
+Yes, sending as new message (or thread for a series) is correct.
+Applying v3 worked, queued up now.
 
-Even if we have to restrict it to some kinds of dma-bufs the field
-should have a more descriptive name like "allow_fences".
-
-take care,
+thanks,
   Gerd
 
 
