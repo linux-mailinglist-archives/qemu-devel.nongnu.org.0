@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDB83B2E92
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 14:06:41 +0200 (CEST)
-Received: from localhost ([::1]:44634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6FD3B2E87
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 14:04:11 +0200 (CEST)
+Received: from localhost ([::1]:36494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwO80-0003uh-SR
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 08:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54416)
+	id 1lwO5a-0006Fu-1y
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 08:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=802348aeb=alistair.francis@wdc.com>)
- id 1lwO3w-0003YP-4f
+ id 1lwO3w-0003ZX-GN
  for qemu-devel@nongnu.org; Thu, 24 Jun 2021 08:02:28 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:53591)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:53600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=802348aeb=alistair.francis@wdc.com>)
- id 1lwO3t-0003oZ-Ip
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 08:02:27 -0400
+ id 1lwO3u-0003qt-4r
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 08:02:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1624536145; x=1656072145;
+ t=1624536146; x=1656072146;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ITFr8OeVAPrRxzJtiBdw3XbLzbr/OQpRi3PhUKINCQY=;
- b=fZLIsI9NEGTDNfBHdXNDa3ekvevG37yiS0TazZMZ9p3fMWSINZJDOvz/
- 7kkrczHnFVhUKXjnymtVFBMF6RPHRRtTYTIdsGyFXfHWITEb5MV/9/cgL
- MyBlbWiZBnZG0Anx1CY4Euq//OrQGjVRhzJsTUW0sRb2kvdThOdAY6Pxp
- JHEUl61SlyJ3+HAr544KkWf1+5xXi7vXWuCLU84arCnD+4cEZOK+egNSm
- mnqrZhp/K1/ARcsTshbVL7TSdxnBGWJgwQfrLgwWrV6NCe6fRLJG1iDZY
- PkuuN6kUx/YU/SHFAbvlKPKeNSmnf81dlKvotn2TTqcTUE0JRSAeLMTpk w==;
-IronPort-SDR: H2CYvhD/q6780uLun62Kh+Bl5biaLmxdrq/9KfTOEMILSBj4MBBTLj3Jt6vbKtASiZ1R96SwGo
- yZyR7Dd1s6/D1ZDHPmHJ3EV1d1QOp6YbKYuI4CBqTl/gFLSsgDW33ycX0xD9En+THls6vXUMXC
- vainkrP9jsubscbRlnol13CQ41D0c6GvBSd+R37CHIYX5blkY703ZH+B0iBK4aIyB3Mq98+Qi5
- ywgryEvKR6Y52L0E1KwD1h/x8P3jzzXCUrTMpe07DwSog0Q93aQyDfjn0vNfnXSVlSnfY1a24V
- nos=
-X-IronPort-AV: E=Sophos;i="5.83,296,1616428800"; d="scan'208";a="173360799"
+ bh=o1fMzRHfUIya9XuwqHf51o/1khK1Dly0k/KbCVjHkIk=;
+ b=mYysrgb5c45R6HpuTLlpdZhVwZO37YoUd5z1r2Ps7i2bIHuqn0+ygP6f
+ H6ep0TDe+YTzMseag4vv1pvPy0RF5WB1BHeXcToJK9ZidMFewAuY0vPWG
+ f8jnKQwJ7Op85rLBqDv8vOJuDVq56g/lZZApLsELA4fqX81IQoSS1hiZh
+ NePlGhNOTTfjEPDNAbWXxTT8Y0mYDrS/HLkKngJaW58cM1PN1iflQDU4t
+ ++acmrfsFLJq6L4LRCXj1+RrjDCKUStCexlj56eRBhZI/aw+faELUJvHs
+ qqjDNjiyg5ZAWhgd5+fBWpiN04hc5WMP22NM2RFL/dsVumXMYuVhqGXO0 Q==;
+IronPort-SDR: eAOzwPQzyeYGvd6kab8uafqXxDUduMvveE5V85kd1TxrXTxHoca5jmGZo/HiM+iylwwuPJxbot
+ 2CFIryZ1ub8zoKbzM7kFPjeSlA6KrsBZiuB8GvFwcxgaph5cRvRSPbvKVVauXHvFfykvrT9dIj
+ 5VYE/n08NiQQQocSKMk/GPoc83mtDi8thCQJYLLH9IwqV0qo5rglwyT50CNGRQbtNvXcDdz4dM
+ fWRclb5CynTcWj+nph0jxGicahFtaEjVMd+6Wmukqjprsxl4TkoZXu6+8HTFv6hegbt106EbJd
+ PnI=
+X-IronPort-AV: E=Sophos;i="5.83,296,1616428800"; d="scan'208";a="173360800"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 24 Jun 2021 20:02:15 +0800
-IronPort-SDR: bDkw4B/eTM68nR1ORJKqnby0ACLHx9gR/45tqW0ufi5XsnpQX60z7T3XP+xRf2HSS9br8YfhUe
- 628NFF6bE+W0xvaMB34Y/0fSs2IFFJT/LHFujj0TUM0uzWqTgI0BX+HZMJ9jsiqiUVL/1S+Yer
- a4MVfCCO3hKMjziZCPENHDSrm/8DYOMSElrETlux84E0pZ9wnhvEmEr4LJJxA+pv80mV0xKty0
- W2NUvvlX6oLteucT/Tjg3/rm2yhKbo7yjkyKDmqDILjZ26uUUpaxraOarN7P5Zkj1gFmvtknsJ
- UAV5ncj8k+Crf/JaadJ+tGtL
+IronPort-SDR: U4VSL8BKP2uIQYiDasokOqoI5Z7E4de4L5hBufs9VqtPJ+HijQFVF7NfuM/mNYmHvbIqqMUcER
+ ma4N01hERcdJBbmdAaJpvcTQhrmXRK5q2vCK3FE+u3lrPed2eP0SV6PEcnLuXIq77GMKizfFV1
+ qqPGDTGYnBEiZ5w98pIJ7xtxF9jd3Yhe1DSs6QpCHVj102LJsaxdTb+GyavpF+31ub97Sl6gYG
+ WN2/D/mSLrLhC00uqEaayDr75zoRzbmfhai9a/3iJ9e51K+BloshouqxmehQ1iGpzptMyGaWrR
+ v+khSyGzQMNL/WL2NlbUHQtQ
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 Jun 2021 04:39:30 -0700
-IronPort-SDR: 2D0Bdf+WD0fnIVqiudrwadVCyiGXtJl7ihAiq1wGXC2rhTSPga3h1Gl+61fTdkumxthYknb4uJ
- 2fzZECaPt8Oh8YaQR7fRsQhCxjSxUnacjNgtT2DgfoGwBo7kS9AF2oJ9577jXEBLbWKe2PcFGw
- VLb/YjnKEY4pqZqmdgbjCCPGR+rX+3baoNGz9hpO/DceZAHhqbCSJTKFN5xkemcr4uB7jwLBIc
- fdJeLRBX/VQaGYFFvgEcg/ggfzBw0IldryHbbihRBLMYfRpOPONQIGvZm/YGiDO0lRDs1e8Vxh
- xd4=
+IronPort-SDR: fBoln/6UP9RyZ5JcqlD8tE/+vEBXAzw66SGhsr8WrCmPogohmrkezG8Zm3QI93VxIhj7WxRUdv
+ MHmzSTrguQysoEsNkSDVQLgfDT3QRPuWSNQAUegL6SQZxPX349x/WZ9U2qrtODxx9y2cvdw7II
+ QjuwGAkP+62R+80Q/dkmuiYLk+v2PcWDl/oeKfdkPolsEtxIif9MSuosA4WdLneb5ZfHRI5Ci8
+ QerWTCr4zpA0QstINlt6neTLavcYXOuA1hFUxYMqGcK6Sya2PiFclZnj89KyxPjzaW9BSl58fT
+ KvY=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.248])
@@ -62,9 +62,9 @@ Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/7] target/riscv: Use target_ulong for the DisasContext misa
-Date: Thu, 24 Jun 2021 05:02:05 -0700
-Message-Id: <20210624120211.85499-2-alistair.francis@wdc.com>
+Subject: [PULL 2/7] target/riscv: gdbstub: Fix dynamic CSR XML generation
+Date: Thu, 24 Jun 2021 05:02:06 -0700
+Message-Id: <20210624120211.85499-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210624120211.85499-1-alistair.francis@wdc.com>
 References: <20210624120211.85499-1-alistair.francis@wdc.com>
@@ -92,35 +92,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The is_32bit() check in translate.c expects a 64-bit guest to have a
-64-bit misa value otherwise the macro check won't work. This patches
-fixes that and fixes a Coverity issue at the same time.
+From: Bin Meng <bin.meng@windriver.com>
 
-Fixes: CID 1453107
+Since commit 605def6eeee5 ("target/riscv: Use the RISCVException enum for CSR operations")
+the CSR predicate() function was changed to return RISCV_EXCP_NONE
+instead of 0 for a valid CSR, but it forgot to update the dynamic
+CSR XML generation codes in gdbstub.
+
+Fixes: 605def6eeee5 ("target/riscv: Use the RISCVException enum for CSR operations")
+Reported-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210615085133.389887-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: c00176c7518c2a7b4de3eec320b6a683ab56f705.1622435221.git.alistair.francis@wdc.com
 ---
- target/riscv/translate.c | 2 +-
+ target/riscv/gdbstub.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index c6e8739614..62a7d7e4c7 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -47,7 +47,7 @@ typedef struct DisasContext {
-     bool virt_enabled;
-     uint32_t opcode;
-     uint32_t mstatus_fs;
--    uint32_t misa;
-+    target_ulong misa;
-     uint32_t mem_idx;
-     /* Remember the rounding mode encoded in the previous fp instruction,
-        which we have already installed into env->fp_status.  Or -1 for
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index ca78682cf4..a7a9c0b1fe 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -170,7 +170,7 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+ 
+     for (i = 0; i < CSR_TABLE_SIZE; i++) {
+         predicate = csr_ops[i].predicate;
+-        if (predicate && !predicate(env, i)) {
++        if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
+             if (csr_ops[i].name) {
+                 g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
+             } else {
 -- 
 2.31.1
 
