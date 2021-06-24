@@ -2,52 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6DE3B256A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 05:24:05 +0200 (CEST)
-Received: from localhost ([::1]:41632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87AD63B25B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 05:47:08 +0200 (CEST)
+Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwFyG-0003gB-SP
-	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 23:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44368)
+	id 1lwGKZ-0004np-55
+	for lists+qemu-devel@lfdr.de; Wed, 23 Jun 2021 23:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lwFrt-0007yh-Ev; Wed, 23 Jun 2021 23:17:29 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56119 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lwGIr-0002ox-18
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 23:45:21 -0400
+Received: from mail-co1nam11on2137.outbound.protection.outlook.com
+ ([40.107.220.137]:20321 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lwFrq-0006O4-4I; Wed, 23 Jun 2021 23:17:29 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4G9QKr1q8Zz9sXL; Thu, 24 Jun 2021 13:17:20 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1624504640;
- bh=iB/1W407EkTNsq3VnguNsF2D5cula+QTW9TrQ7drF8E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ErVu8qvNrY6z7eKQXoJTn+o+wlWMsc+oTH8FMxR7T/M4ibgYK6S6DF8Xqh+prPlhR
- 2u4SHBBt2hHMdanwuBAnpooXJenGdg+NiPHGi0+IO0UNNEk6XioED9xQLQKPxYVcZQ
- oLgtemVAVAG+9xFfaTPzQzpRFgmjYsfRb8qRHLt4=
-Date: Thu, 24 Jun 2021 11:40:58 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v2 01/10] target/ppc: Remove
- PowerPCCPUClass.handle_mmu_fault
-Message-ID: <YNPiqsTd1WE9t3nO@yekko>
-References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
- <20210621125115.67717-2-bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lwGIp-0004RN-7E
+ for qemu-devel@nongnu.org; Wed, 23 Jun 2021 23:45:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dn59UAL0u90ooLtUYaN2IZ89eDJ7F6Mu7ue+ef1U+oOVMbr04jPZxTCoEwgDsGX7BXtd8Tp4PIq7os4xnqabh34JmCAxSYR54KwottL7lkYhlGATnqX51wLPy9j39IyqSgye1kJ2udIjy0q+eATcbp07Mu1QoWSfQkkawFoa0Wjr407lUB5v3b/tvfSM0H+UKhxGRxBODRDEwsgWnGQa6clWZj/nO3puvTtUCWEyat+kam+f4ZglSF5gXxikzyZ22+gVbQt9U3HRBLIZSIZRZlNIwGeeVMbFfEiiXVB5A0HSMtyOK4Z0T+AcbjmAfLcMaBy48aexlo8M9a8mo1CCPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fev/o/Jsh8IZMs20nZYX8TmwnT1iXCsQgdT2cdzqxfI=;
+ b=hGPfh/a+g79yhTz7e6xTR2444yAk3bg1B02UboxiqJMgmQDnOfooKkMZXNeltAhaJNrRWIfE4TA3XOzegpchIFPJI4A7MkIgeinuNbi3lmCVGfSwk0t2dsJBIpHKDskJcWpQXCtdAg0vtk93IXKH8eMh+XaB85pcg1EH+unGsyw66apu9BVtC3EeMv6ZzL7pZncEbU4Ov/k/9vNv4FDRMu6OEsloYa/TVPo8m3dslGVhuLdI/9JhMXIlNyVk4MW2m5yP4gUZpGgJz3OIynnsCUy15nCnKGY4d9qybyuvmhAGL75serTY3kgqggfEWjqRAlt2sEZyS7Avre3XvUH/6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fev/o/Jsh8IZMs20nZYX8TmwnT1iXCsQgdT2cdzqxfI=;
+ b=biry2KGmSu5SENWl7zM+u+GvmvkffoLnmwcLjaqrrUZiiOlXY/ttkkCEcO4XTdTUopt9YJOtmRBjtbsBYuf98a+pfcuGZdQYGsSFeUI2Crl/itrJ+CrczgZ4gLtxZ3f/pjPbwaqtUm1SOJim4Hqz+pLan6GJq++qnZIwrBg+/40=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3680.namprd03.prod.outlook.com (2603:10b6:805:49::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.19; Thu, 24 Jun
+ 2021 03:45:14 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::24fc:a5d:be8d:eb3f]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::24fc:a5d:be8d:eb3f%3]) with mapi id 15.20.4242.023; Thu, 24 Jun 2021
+ 03:45:14 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] Miscellaneous fuzzer changes
+Date: Wed, 23 Jun 2021 23:44:59 -0400
+Message-Id: <20210624034503.86256-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [72.74.210.193]
+X-ClientProxiedBy: MN2PR15CA0016.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::29) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iRCirTWwD6H3DF+r"
-Content-Disposition: inline
-In-Reply-To: <20210621125115.67717-2-bruno.larsen@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.74.210.193) by
+ MN2PR15CA0016.namprd15.prod.outlook.com (2603:10b6:208:1b4::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend
+ Transport; Thu, 24 Jun 2021 03:45:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 18305eb4-4560-44bd-4eab-08d936c27956
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3680:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3680E88939B935AF8A408C48BA079@SN6PR03MB3680.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 93SBMELv6SFjC7BfDRZGltYeP+rKxdvv8z/fImCVnwR6zis1O9OyEKJtxXOzXcH5CTZat+Y7IVLCZXRVbH1xjmdyACQyTxdlaEmUdm/KatX/xq+cpKP7Y7hm+1T8/MIel663GmSEL5YbpDfB/lwK6CrRAQRc3fz3G48MVuL1lBGVc4x3LQHulnVYnYiSHoRESQwhGMDqAIJYCBV+j/0OAWZb/VLNUpT8aULnc7gNtUX7dGadixMuGB4R4x7j0shtVgPb5btCF9VJbDBbbWE2QcP3LXNcJrq1vpruZGqmy6DFXyqQyZsAWCZ+MY8Mo2YWruM/SrWDwsxwt0EpRiRKX3thchauQEnvN7m6WNxxleFdhARQc1EVx/bHb8Q0JOJCF/cNvEEeoafkHqKLCBcnysIBz8DqO2nIB51fM0n12sCdfIw/VkvPZOoox637WZBFuAkXVbo+u3FS6N00ESRq9bZ2yHHZheQxyTNqw4rOygpSPH6DhEk8uzB15jhDEWKJQ9VC2xebCllmcLQJOy7ps1z7Eldp3CYW00uBeBC1MRHZKfyuLrVMHbn3I/MYv41qb2cIcAHAOQpDX2dN6dm6BOcvU9nvI94NhKR6DIK4fnwLoA9D33iVXE+coGKb4XUjGo97BbhuoJYLnliaPRw+Lg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(6666004)(6506007)(52116002)(786003)(316002)(54906003)(38350700002)(38100700002)(2906002)(2616005)(6512007)(6916009)(956004)(6486002)(8676002)(75432002)(4744005)(1076003)(66556008)(66476007)(86362001)(66946007)(16526019)(26005)(186003)(4326008)(8936002)(83380400001)(5660300002)(36756003)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aHu+QzJ0hQyY5tlb6mJQHQtDI1HzkfmqmVTqLlb+BFfQGVWVYiKRqkKos6ch?=
+ =?us-ascii?Q?nJgFTZ79KY6ehaGDdHl74dPecb4WRmeZfv2mfyHftTVxfYMgen4ixvbjxKuq?=
+ =?us-ascii?Q?VKF7Cv/HLNcLbcOSDA5+ynd9xkQMhE3ovT5NOsMOpjgRC4KdGXzPE7qu4pJ/?=
+ =?us-ascii?Q?EsUPWseZQxH4ZcS3snGzSKQImzuRAEu1xk3RNp5zQd4lB/u5YkdKl+QaOQJD?=
+ =?us-ascii?Q?NUEZGQtFvTKX/LyXc02qxN9MxjI4bqcVKwyPKMZYLFZq75pR50iROS6MQKYP?=
+ =?us-ascii?Q?XR1HCc2vEwfrZVfw4ifzqHCotLf7i7Z3GsYvGmLu/VSLJaNCF4tgxy3n+SwV?=
+ =?us-ascii?Q?ITBxNDwCd0Y9UaShGRQcBIkluVxnox0y6DdhP6nJgRM2IYeaMODX/sEM5BvK?=
+ =?us-ascii?Q?0YbeaMbbWw0cg7TKVjeU6acntI1ZgXakkEPlVBF4Sq1M5usSGXPexpCz6nlD?=
+ =?us-ascii?Q?XivH0FvYqxQccKSL9BurL+WWR6q359vkAROl76cY9cXrmy05VsNWT6n61P45?=
+ =?us-ascii?Q?93OTZdUK4yj9xukWYbjIAirvqhnvZJ1hlL3AYNiJmN7jxeXdCi8s4yJzgUVQ?=
+ =?us-ascii?Q?P4RhImySHQKPTWGHZcODVW+FRSeSiR+yQMP1RR3dUmwbwXMoZZgLQzHH3mVD?=
+ =?us-ascii?Q?5+yk4V4caHJKEhwIzgLEPjeKkHfkKImPW7SzPRV69UZu0LUYY+5huLVoIGS8?=
+ =?us-ascii?Q?zKKY3DTRwffXir7d5bJwHfdZm9RddQRFg5jxaJQ/QNmsXRtjJzYZoisiNTV7?=
+ =?us-ascii?Q?Jd+gRe5jD4xhWdTG5IHfTYybk8D6LbhPuwmwhlN2omZ70FElhhxpCEzY+x0z?=
+ =?us-ascii?Q?fFfOzCK00EbNa+PDplKEFxY3Vd6le2ZT831G8DfO7eGBZXxf78+gg/kRi2d1?=
+ =?us-ascii?Q?gkkOZ6KxZ+ZUdu0m82kYyfUf9m5je1CP+Fzi+uEh0f0tSP8ocMgOneuiHEct?=
+ =?us-ascii?Q?h50QzDoaGrxXpbwk3Y8b2zqFeB4WhJIMO6FRAnuAQql5XTxjFlu8Y87X7Edc?=
+ =?us-ascii?Q?sWKofSMoNUj85+6zP2SxmfMerVKDHcqcGqDRyjd6Twz+0ZARbvsf+25Y72me?=
+ =?us-ascii?Q?vkQK8oWDI0OKbmyCY/X3CwvQOMyujF5yG/NVqlDUVCfzfFW8CBPoBAjdkpYK?=
+ =?us-ascii?Q?OqhyAqGBjwOZVnBEe2ShKLxkk2odjTHEsSgonjEo9/9b7wKPeTK8C3suaIl7?=
+ =?us-ascii?Q?angsjG/nbcgeGN5rBLSOSse6+Vo7si4nNnaSNDX+G5i7tYvgdXoO2u/FMZt+?=
+ =?us-ascii?Q?1M/ZW9eQX3sM1O1Jnns4aJBAnBWUyQ8NvGWmNYh57atjGR5CpTpJJHfY1Fua?=
+ =?us-ascii?Q?3/hc1BGFwqurS5XifBvIdtt5?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18305eb4-4560-44bd-4eab-08d936c27956
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 03:45:13.9638 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7h6O2cAajoMqzngttOpLapD3TaZBCEylZ81jxpFz8uHcyuCbkGk67qrSCtJzoYQ0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3680
+Received-SPF: pass client-ip=40.107.220.137; envelope-from=alxndr@bu.edu;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004 autolearn=no autolearn_force=no
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,310 +132,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br,
- luis.pires@eldorado.org.br
+Cc: darren.kenny@oracle.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+v3:
+    - Check in ./configure whether clang supports -fsanitize-coverage-allowlist
+v2:
+    - Add the instrumentation filter to the instrumentation filter patch
 
---iRCirTWwD6H3DF+r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These patches
+1.) Change generic-fuzzer timeouts so they are reconfigured prior to
+each individual IO command, to allow for longer-running inputs
+2.) Add an instrumentation filter to prevent libfuzzer from tracking
+noisy/irrelevant parts of the code.
+3.) Fix the AC97 and ES1370 fuzzer configs
 
-On Mon, Jun 21, 2021 at 09:51:06AM -0300, Bruno Larsen (billionai) wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
->=20
-> Instead, use a switch on env->mmu_model.  This avoids some
-> replicated information in cpu setup.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Alexander Bulekov (4):
+  fuzz: adjust timeout to allow for longer inputs
+  fuzz: add an instrumentation filter
+  fuzz: fix the AC97 generic-fuzzer config.
+  fuzz: fix the ES1370 generic-fuzzer config.
 
-As I mentioned on the earlier posting, I don't love the overall
-direction of this change (I want to move more towards hooks and things
-in the cpu class than magical model constants and switches all over
-the place).
+ configure                               | 11 +++++++++++
+ scripts/oss-fuzz/instrumentation-filter | 14 ++++++++++++++
+ tests/qtest/fuzz/generic_fuzz.c         | 13 +++++++++----
+ tests/qtest/fuzz/generic_fuzz_configs.h |  4 ++--
+ 4 files changed, 36 insertions(+), 6 deletions(-)
+ create mode 100644 scripts/oss-fuzz/instrumentation-filter
 
-But.. the cleanups this allows in the short term are worth the small
-step backwards.  So, applied to ppc-for-6.1.
+-- 
+2.28.0
 
-> ---
->  target/ppc/cpu-qom.h    |  1 -
->  target/ppc/cpu_init.c   | 45 -----------------------------------------
->  target/ppc/mmu_helper.c | 24 ++++++++++++++++++----
->  3 files changed, 20 insertions(+), 50 deletions(-)
->=20
-> diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-> index 06b6571bc9..3b14d2f134 100644
-> --- a/target/ppc/cpu-qom.h
-> +++ b/target/ppc/cpu-qom.h
-> @@ -198,7 +198,6 @@ struct PowerPCCPUClass {
->      int n_host_threads;
->      void (*init_proc)(CPUPPCState *env);
->      int  (*check_pow)(CPUPPCState *env);
-> -    int (*handle_mmu_fault)(PowerPCCPU *cpu, vaddr eaddr, int rwx, int m=
-mu_idx);
->      bool (*interrupts_big_endian)(PowerPCCPU *cpu);
->  };
-> =20
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index d0411e7302..3a8d8d3f07 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -4578,9 +4578,6 @@ POWERPC_FAMILY(601)(ObjectClass *oc, void *data)
->                      (1ull << MSR_IR) |
->                      (1ull << MSR_DR);
->      pcc->mmu_model =3D POWERPC_MMU_601;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_601;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_601;
-> @@ -4623,9 +4620,6 @@ POWERPC_FAMILY(601v)(ObjectClass *oc, void *data)
->                      (1ull << MSR_IR) |
->                      (1ull << MSR_DR);
->      pcc->mmu_model =3D POWERPC_MMU_601;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_601;
->      pcc->flags =3D POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG=
-_HID0_LE;
-> @@ -4889,9 +4883,6 @@ POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_604;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_604;
-> @@ -4973,9 +4964,6 @@ POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_604;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_604;
-> @@ -5044,9 +5032,6 @@ POWERPC_FAMILY(740)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_7x0;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_750;
-> @@ -5124,9 +5109,6 @@ POWERPC_FAMILY(750)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_7x0;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_750;
-> @@ -5327,9 +5309,6 @@ POWERPC_FAMILY(750cl)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_7x0;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_750;
-> @@ -5410,9 +5389,6 @@ POWERPC_FAMILY(750cx)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_7x0;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_750;
-> @@ -5498,9 +5474,6 @@ POWERPC_FAMILY(750fx)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_7x0;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_750;
-> @@ -5586,9 +5559,6 @@ POWERPC_FAMILY(750gx)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_7x0;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_750;
-> @@ -5828,9 +5798,6 @@ POWERPC_FAMILY(7400)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_74xx;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_7400;
-> @@ -5914,9 +5881,6 @@ POWERPC_FAMILY(7410)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_74xx;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_7400;
-> @@ -6743,9 +6707,6 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI) |
->                      (1ull << MSR_LE);
->      pcc->mmu_model =3D POWERPC_MMU_32B;
-> -#if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash32_handle_mmu_fault;
-> -#endif
->      pcc->excp_model =3D POWERPC_EXCP_74xx;
->      pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
->      pcc->bfd_mach =3D bfd_mach_ppc_7400;
-> @@ -7505,7 +7466,6 @@ POWERPC_FAMILY(970)(ObjectClass *oc, void *data)
->                      (1ull << MSR_RI);
->      pcc->mmu_model =3D POWERPC_MMU_64B;
->  #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
->      pcc->hash64_opts =3D &ppc_hash64_opts_basic;
->  #endif
->      pcc->excp_model =3D POWERPC_EXCP_970;
-> @@ -7583,7 +7543,6 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data)
->          LPCR_RMI | LPCR_HDICE;
->      pcc->mmu_model =3D POWERPC_MMU_2_03;
->  #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
->      pcc->hash64_opts =3D &ppc_hash64_opts_basic;
->      pcc->lrg_decr_bits =3D 32;
->  #endif
-> @@ -7727,7 +7686,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
->      pcc->lpcr_pm =3D LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2;
->      pcc->mmu_model =3D POWERPC_MMU_2_06;
->  #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
->      pcc->hash64_opts =3D &ppc_hash64_opts_POWER7;
->      pcc->lrg_decr_bits =3D 32;
->  #endif
-> @@ -7904,7 +7862,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
->                     LPCR_P8_PECE3 | LPCR_P8_PECE4;
->      pcc->mmu_model =3D POWERPC_MMU_2_07;
->  #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
->      pcc->hash64_opts =3D &ppc_hash64_opts_POWER7;
->      pcc->lrg_decr_bits =3D 32;
->      pcc->n_host_threads =3D 8;
-> @@ -8120,7 +8077,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
->      pcc->lpcr_pm =3D LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_=
-OEE;
->      pcc->mmu_model =3D POWERPC_MMU_3_00;
->  #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc64_v3_handle_mmu_fault;
->      /* segment page size remain the same */
->      pcc->hash64_opts =3D &ppc_hash64_opts_POWER7;
->      pcc->radix_page_info =3D &POWER9_radix_page_info;
-> @@ -8332,7 +8288,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
->      pcc->lpcr_pm =3D LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_=
-OEE;
->      pcc->mmu_model =3D POWERPC_MMU_3_00;
->  #if defined(CONFIG_SOFTMMU)
-> -    pcc->handle_mmu_fault =3D ppc64_v3_handle_mmu_fault;
->      /* segment page size remain the same */
->      pcc->hash64_opts =3D &ppc_hash64_opts_POWER7;
->      pcc->radix_page_info =3D &POWER10_radix_page_info;
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index 1ecb36e85a..c4b1c93e47 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -2947,14 +2947,30 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, i=
-nt size,
->                        bool probe, uintptr_t retaddr)
->  {
->      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cs);
->      CPUPPCState *env =3D &cpu->env;
->      int ret;
-> =20
-> -    if (pcc->handle_mmu_fault) {
-> -        ret =3D pcc->handle_mmu_fault(cpu, addr, access_type, mmu_idx);
-> -    } else {
-> +    switch (env->mmu_model) {
-> +#if defined(TARGET_PPC64)
-> +    case POWERPC_MMU_64B:
-> +    case POWERPC_MMU_2_03:
-> +    case POWERPC_MMU_2_06:
-> +    case POWERPC_MMU_2_07:
-> +        ret =3D ppc_hash64_handle_mmu_fault(cpu, addr, access_type, mmu_=
-idx);
-> +        break;
-> +    case POWERPC_MMU_3_00:
-> +        ret =3D ppc64_v3_handle_mmu_fault(cpu, addr, access_type, mmu_id=
-x);
-> +        break;
-> +#endif
-> +
-> +    case POWERPC_MMU_32B:
-> +    case POWERPC_MMU_601:
-> +        ret =3D ppc_hash32_handle_mmu_fault(cpu, addr, access_type, mmu_=
-idx);
-> +        break;
-> +
-> +    default:
->          ret =3D cpu_ppc_handle_mmu_fault(env, addr, access_type, mmu_idx=
-);
-> +        break;
->      }
->      if (unlikely(ret !=3D 0)) {
->          if (probe) {
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---iRCirTWwD6H3DF+r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDT4qgACgkQbDjKyiDZ
-s5K9rA/8C2LRHmAj2w76+6zReLo7edgB/M3F+e395Pcg+sfrfKmEJPOHuMjc+z0y
-9mbhmNwhpwfHWngndCR0goe/WpcuUN4pQRqtV9CHZLgLAcY31214BQZEN0EoWFxY
-FegkVgTMkjgEhomt1wWCtl1XIYHINklEHXCkrWyVYCSRHRoWixqChjZkZEfqB0dc
-UIRWeB1lfJi25/N1KV54Em+Sy5nQHKMhk+R0qe5LD/UMmnLk7y5XLgCdsVmVjO/K
-vQFb3+Z56xtzxmDBsbc/4kL4IzzW3DhmR1emlv5HlKt/8PR5ECc9pgidJopqdqiH
-NrH/XLpOYxnJi34bB80YSI+9HxWLDCyPipI5Vd2X7N6EWSNO/cg86AK8ZwAJma4u
-/JiVrI27BGv9/5A00J3f+5a3uce6w3oGU+fOX2BFBNVaTeaV+6894I2FQGMlv0RP
-hcRmRuGQ1E6UlCil4IVkMx5qP/lET5nDeXCec/Diojc45P+4j+kc6OkW87YQ7MEp
-UNcGpbQlngwVC73+P9gmMzW+98ohlL5NvM0ii6wW3TnOPb8QaysLeinTcmWTPJTF
-Yya8u/teR3DjyAE0S8Ds/G1LtvXsqK5rAZ1UUgemdAy+kvum8NSis2mz3rmu/TjQ
-+n4jvZtOFmvtHhrNfeGvspiUxMwDiA/aJYtsNnXQbzflshnfBFU=
-=8UDi
------END PGP SIGNATURE-----
-
---iRCirTWwD6H3DF+r--
 
