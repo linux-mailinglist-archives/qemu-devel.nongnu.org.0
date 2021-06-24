@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068C13B3826
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:47:37 +0200 (CEST)
-Received: from localhost ([::1]:54174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326A43B382A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:50:52 +0200 (CEST)
+Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwWG8-0000O8-1Y
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58454)
+	id 1lwWJG-0005Ed-UP
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lwWCo-00066f-Ot
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:44:11 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:62418)
+ id 1lwWHe-0003XY-Vz
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:49:11 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:30690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lwWCh-0004J2-6r
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:44:09 -0400
+ id 1lwWHZ-0007Hd-L3
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:49:09 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8FA9B7457F0;
- Thu, 24 Jun 2021 22:43:58 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 0AFD674570B;
+ Thu, 24 Jun 2021 22:49:03 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 54BD874570E; Thu, 24 Jun 2021 22:43:58 +0200 (CEST)
+ id D64C37456E3; Thu, 24 Jun 2021 22:49:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 52C4574570B;
- Thu, 24 Jun 2021 22:43:58 +0200 (CEST)
-Date: Thu, 24 Jun 2021 22:43:58 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id D47D77456B4;
+ Thu, 24 Jun 2021 22:49:02 +0200 (CEST)
+Date: Thu, 24 Jun 2021 22:49:02 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 5/5] tests/acceptance: Test PMON on the Fuloong 2E machine
-In-Reply-To: <20210624202747.1433023-6-f4bug@amsat.org>
-Message-ID: <f1c3c761-1ded-abc9-a66c-e73c4956c7d4@eik.bme.hu>
+Subject: Re: [PATCH 3/5] hw/pci-host/bonito: Allow PCI config accesses smaller
+ than 32-bit
+In-Reply-To: <20210624202747.1433023-4-f4bug@amsat.org>
+Message-ID: <10a58f2c-7b8f-fe6c-53c6-cd70b378395a@eik.bme.hu>
 References: <20210624202747.1433023-1-f4bug@amsat.org>
- <20210624202747.1433023-6-f4bug@amsat.org>
+ <20210624202747.1433023-4-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1375163378-1624567438=:94935"
+ boundary="3866299591-2139531822-1624567742=:94935"
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -68,166 +69,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1375163378-1624567438=:94935
+--3866299591-2139531822-1624567742=:94935
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
-> Test the PMON firmware. As the firmware is not redistributable,
-> it has to be downloaded manually first. Then it can be used by
-> providing its path via the PMON_BIN_PATH environment variable:
+> When running the official PMON firmware for the Fuloong 2E, we see
+> 8-bit and 16-bit accesses to PCI config space:
 >
->  $ PMON2E_BIN_PATH=~/images/fuloong2e/pmon_2e.bin \
->    AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
->    avocado --show=app,console run tests/acceptance/machine_mips_fuloong2e.py
->  Fetching asset from tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_linux_kernel_isa_serial
->   (1/3) tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_pmon_serial_console:
->  console: PMON2000 MIPS Initializing. Standby...
->  console: ERRORPC=00000000 CONFIG=00030932
->  console: PRID=00006302
->  console: Init SDRAM Done!
->  console: Sizing caches...
->  console: Init caches...
->  console: godson2 caches found
->  console: Init caches done, cfg = 00030932
->  console: Copy PMON to execute location...
->  console: copy text section done.
->  console: Copy PMON to execute location done.
->  Uncompressing Bios........................OK,Booting Bios
->  PASS (0.25 s)
->   (2/3) tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_pmon_framebuffer_console:
->  [...]
->  Uncompressing Bios........................OK,Booting Bios
->  console: FREQ
->  console: FREI
->  console: DONE
->  console: TTYI
->  console: TTYD
->  console: ENVI
->  console: MAPV
->  console: Mfg  0, Id 60
->  console: STDV
->  console: SBDD
->  console: PPCIH
->  console: PCIS
->  console: PCIR
->  console: PCIW
->  console: NETI
->  console: RTCL
->  console: PCID
->  console: VGAI
->  console: Default MODE_ID 2
->  console: starting radeon init...
->  console: radeon init done
->  console: FRBI
->  console: cfb_console init,fb=b4000000
->  console: Video: Drawing the logo ...
->  console: CONSOLE_SIZE 450560HSTI
->  PASS (4.10 s)
->   (3/3) tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_linux_kernel_isa_serial:
->  console: Linux version 2.6.27.7lemote (root@debian) (gcc version 4.1.3 20080623 (prerelease) (Debian 4.1.2-23)) #6 Fri Dec 12 00:11:25 CST 2008
->  console: busclock=33000000, cpuclock=-2145008360,memsize=256,highmemsize=0
->  console: console [early0] enabled
->  console: CPU revision is: 00006302 (ICT Loongson-2)
->  PASS (0.19 s)
->  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
->  JOB TIME   : 5.10 s
+>  $ qemu-system-mips64el -M fuloong2e -bios pmon_2e.bin \
+>    -trace -trace bonito\* -trace pci_cfg\*
 >
+>  pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
+>  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x4d2, size: 2
+>  pci_cfg_write vt82c686b-pm 05:4 @0xd2 <- 0x1
+>  pci_cfg_write vt82c686b-pm 05:4 @0x4 <- 0x1
+>  pci_cfg_write vt82c686b-isa 05:0 @0x4 <- 0x7
+>  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x81, size: 1
+>  pci_cfg_read vt82c686b-isa 05:0 @0x81 -> 0x0
+>  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x81, size: 1
+>  pci_cfg_write vt82c686b-isa 05:0 @0x81 <- 0x80
+>  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x83, size: 1
+>  pci_cfg_write vt82c686b-isa 05:0 @0x83 <- 0x89
+>  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x85, size: 1
+>  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x3
+>  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x5a, size: 1
+>  pci_cfg_write vt82c686b-isa 05:0 @0x5a <- 0x7
+>  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x85, size: 1
+>  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x1
+>
+> Also this is what the Linux kernel does since it supports the Bonito
+> north bridge:
+> https://elixir.bootlin.com/linux/v2.6.15/source/arch/mips/pci/ops-bonito64.c#L85
+>
+> So it seems safe to assume the datasheet is incomplete or outdated
+> regarding the address constraints.
+>
+> This problem was exposed by commit 911629e6d3773a8adeab48b
+> ("vt82c686: Fix SMBus IO base and configuration registers").
+>
+> Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> tests/acceptance/machine_mips_fuloong2e.py | 62 ++++++++++++++++++++++
-> 1 file changed, 62 insertions(+)
+> hw/pci-host/bonito.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/tests/acceptance/machine_mips_fuloong2e.py b/tests/acceptance/machine_mips_fuloong2e.py
-> index 0ac285e2af1..4854ba98560 100644
-> --- a/tests/acceptance/machine_mips_fuloong2e.py
-> +++ b/tests/acceptance/machine_mips_fuloong2e.py
-> @@ -8,15 +8,77 @@
-> # SPDX-License-Identifier: GPL-2.0-or-later
->
-> import os
-> +import time
->
-> from avocado import skipUnless
-> from avocado_qemu import Test
-> from avocado_qemu import wait_for_console_pattern
->
-> +from tesseract_utils import tesseract_available, tesseract_ocr
-> +
-> class MipsFuloong2e(Test):
->
->     timeout = 60
->
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-> +    @skipUnless(os.getenv('PMON2E_BIN_PATH'), 'PMON2E_BIN_PATH not available')
-> +    def test_pmon_serial_console(self):
-> +        """
-> +        :avocado: tags=arch:mips64el
-> +        :avocado: tags=machine:fuloong2e
-> +        :avocado: tags=endian:little
-> +        :avocado: tags=device:bonito64
-> +        :avocado: tags=device:via686b
-> +        """
-> +        pmon_hash = 'c812e1695d7b2320036f3ef494976969' # v1.1.2
-> +        pmon_path = self.fetch_asset('file://' + os.getenv('PMON2E_BIN_PATH'),
-> +                                     asset_hash=pmon_hash, algorithm='md5')
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args('-bios', pmon_path)
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing. Standby...')
-> +        wait_for_console_pattern(self, 'Booting Bios')
-> +
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-> +    # Tesseract 4 adds a new OCR engine based on LSTM neural networks. The
-> +    # new version is faster and more accurate than version 3. The drawback is
-> +    # that it is still alpha-level software.
-> +    @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not available')
-> +    @skipUnless(os.getenv('PMON2E_BIN_PATH'), 'PMON2E_BIN_PATH not available')
-> +    def test_pmon_framebuffer_console(self):
-> +        """
-> +        :avocado: tags=arch:mips64el
-> +        :avocado: tags=machine:fuloong2e
-> +        :avocado: tags=endian:little
-> +        :avocado: tags=device:bonito64
-> +        :avocado: tags=device:ati-vga
-> +        """
-> +        screenshot_path = os.path.join(self.workdir, 'dump.ppm')
-> +
-> +        pmon_hash = 'c812e1695d7b2320036f3ef494976969' # v1.1.2
-> +        pmon_path = self.fetch_asset('file://' + os.getenv('PMON2E_BIN_PATH'),
-> +                                     asset_hash=pmon_hash, algorithm='md5')
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args('-bios', pmon_path,
-> +                         '-vga', 'std',
-> +                         '-device', 'ati-vga,model=rv100')
+> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+> index 751fdcec689..3c10608c9a2 100644
+> --- a/hw/pci-host/bonito.c
+> +++ b/hw/pci-host/bonito.c
+> @@ -187,7 +187,7 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
+> #define BONITO_PCICONF_FUN_MASK        0x700    /* [10:8] */
+> #define BONITO_PCICONF_FUN_OFFSET      8
+> #define BONITO_PCICONF_REG_MASK_DS     (~3)         /* Per datasheet */
+> -#define BONITO_PCICONF_REG_MASK        0xFC
+> +#define BONITO_PCICONF_REG_MASK_HW     0xff         /* As seen on hardware */
 
-I think this is the default if you just drop -vga std so I don't know why 
-you have that in the first place but then you should not need to add 
-ati-vga explicitely.
+I think we didn't really see it on hardware just inferred this from what 
+the firmware does. That's a slight difference but may worth noting so 
+people later don't think this was really tested with real hardware. Maybe 
+"As seen with PMON"? Also if this is a loongson thing as was thought in 
+the thread in December then maybe the #define could be named that instead 
+of _HW so if somebody wants to reuse this model later ad Bonito then know 
+that it implements the Loongson version.
 
 Regards,
 BALATON Zoltan
 
-> +        self.vm.launch()
-> +
-> +        wait_for_console_pattern(self, 'Video: Drawing the logo ...')
-> +        self.log.info('VM launched, waiting for logo on display')
-> +        time.sleep(2)
-> +        wait_for_console_pattern(self, 'CONSOLE_SIZE')
-> +        self.vm.command('human-monitor-command', command_line='stop')
-> +        self.vm.command('human-monitor-command',
-> +                        command_line='screendump %s' % screenshot_path)
-> +
-> +        lines = tesseract_ocr(screenshot_path, tesseract_version=4,
-> +                              tesseract_args='--dpi 128')
-> +        pmon_version = 'PNON2000 for Loongson, Version 1.1.2' # PNON is enough
-> +        self.assertIn(pmon_version, lines)
-> +
->     @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
->     @skipUnless(os.getenv('RESCUE_YL_PATH'), 'RESCUE_YL_PATH not available')
->     def test_linux_kernel_isa_serial(self):
+> #define BONITO_PCICONF_REG_OFFSET      0
 >
---3866299591-1375163378-1624567438=:94935--
+>
+> @@ -466,7 +466,7 @@ static uint32_t bonito_sbridge_pciaddr(void *opaque, hwaddr addr)
+>              BONITO_PCICONF_IDSEL_OFFSET;
+>     devno = ctz32(idsel);
+>     funno = (cfgaddr & BONITO_PCICONF_FUN_MASK) >> BONITO_PCICONF_FUN_OFFSET;
+> -    regno = (cfgaddr & BONITO_PCICONF_REG_MASK) >> BONITO_PCICONF_REG_OFFSET;
+> +    regno = (cfgaddr & BONITO_PCICONF_REG_MASK_HW) >> BONITO_PCICONF_REG_OFFSET;
+>
+>     if (idsel == 0) {
+>         error_report("error in bonito pci config address 0x" TARGET_FMT_plx
+>
+--3866299591-2139531822-1624567742=:94935--
 
