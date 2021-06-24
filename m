@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349BC3B2803
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 08:54:26 +0200 (CEST)
-Received: from localhost ([::1]:45648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D0C3B2805
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 08:56:25 +0200 (CEST)
+Received: from localhost ([::1]:50840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwJFp-0006Je-9X
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 02:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49678)
+	id 1lwJHk-0001Tk-Qm
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 02:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lwJAP-00032K-S0; Thu, 24 Jun 2021 02:48:49 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:40049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lwJAN-0000gl-5A; Thu, 24 Jun 2021 02:48:49 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4G9W1V4ZKPz9sf9; Thu, 24 Jun 2021 16:48:30 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1624517310;
- bh=ZEzKAGLFLJXDliw5zRDV1AB1YdqLpy1/R8dJSRNFbCA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GPR9IqL02plbkdxNEm+0xtsIyuPZEoYjq6hfh0nE60eN0QkBrti5FUjsJVx3WxtnC
- eMJij7Ds5iqedkSztc8RCC+1mkNoTLnYhLeaVMeEUPF1xuU7ZQznFyzv7o3dzeRmpG
- SQ/9/NLBmrZ+cRkHvo4hBk7VmK8AnBHyx4TIssmc=
-Date: Thu, 24 Jun 2021 16:48:23 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v2 10/10] target/ppc: fix address translation bug for
- radix mmus
-Message-ID: <YNQqt5ent7PhEKTT@yekko>
-References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
- <20210621125115.67717-11-bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1lwJCQ-0004o5-T9
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 02:50:56 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:39727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1lwJCK-00025n-Mh
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 02:50:52 -0400
+Received: by mail-oi1-x236.google.com with SMTP id b2so3849169oiy.6
+ for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 23:50:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3M2naWR5TZZxnwomMpHRdCjhbc1pWjhnPGrdwBlRJ3k=;
+ b=NvhtvqsguyLKmbTlznEKWZMceVEKLeWOAMrKSnp+Njzyhe6uArib7K9SU1Mbw9uWDK
+ bZGNbsTF6XA0eqSDwJZizlvBOUGGIhdOsLHB1mJfuO2GFGoF2wHECXlJ84UN4zdkGxCQ
+ ZT759qPjNhFRfQsxWKcBF3OdSPp1D9NS7qfpuUbVV5ntC4BttwBolkTzNU8RmOLJGmXX
+ fGHpH8oZxssvaUYGQfzzbfc32DzSKFAJsNXs2rPNubnq7m18I/gNCgKHSr3xyif+FbY8
+ HOofVSRzEOEqxRyhTl17Rdeixsv4C+C3CReAh1kkxH4DnVJBvtr/CO3PL4kXIdLCwSDr
+ 8udg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3M2naWR5TZZxnwomMpHRdCjhbc1pWjhnPGrdwBlRJ3k=;
+ b=ne8WA1n/OV0JXBNuenIPUT2QRaCjOxQjsjmsyToict9xy7YV0x4SvZQoBaAskPU78W
+ ui2SdydWtuZKcleQ+qGh4YAQ6SuIDvVLINh0Nm44QQUVGY7b6A+kJJ2kP9nuu3msIPN6
+ jprDxiosganULaFg14biIHABXE61HeQGcQ1VdSNUIgXx4Q2XgbhqK5J7HB05AvFfsUuU
+ uIZKIKeM+jtWTUSFw96ZRlPbrpS7mjy2OnRyi3sjVJicBQOiUPUeNYAN/n1c7iDCe6mk
+ g5jGgTDWir4gBhU7QMuSt0dY1zuElMHaaOgp995y4HZdSHU8t3eSwv9BkHl1E979912Z
+ hP9g==
+X-Gm-Message-State: AOAM53049bgcH7LUPjB13P8WX6mAViXE4m+zPxd+RHHnABs84U0786xP
+ IjJgZfaTGHNWNAUAELbvCoE8WkmLhT4gd7X3/8ya6A==
+X-Google-Smtp-Source: ABdhPJxFpyCXacT37e16lUz+YaaW0PkYHvK2wGxCO9THD3g16TQn+wdB01J5N1vmxc2JOX7Ibs5u3hc2rlenZDUuFlo=
+X-Received: by 2002:a05:6808:1285:: with SMTP id
+ a5mr223565oiw.97.1624517443929; 
+ Wed, 23 Jun 2021 23:50:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FEaOFIsoBA9Bt48o"
-Content-Disposition: inline
-In-Reply-To: <20210621125115.67717-11-bruno.larsen@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+References: <20210610001424.209158-1-jiang.wang@bytedance.com>
+ <20210610094039.2ek3som6fxcgjtyw@steredhat>
+ <CAP_N_Z9B9SfyoSmW18RDxRWh6yv9WWWL1LpsZhhSkshQpi5s6A@mail.gmail.com>
+In-Reply-To: <CAP_N_Z9B9SfyoSmW18RDxRWh6yv9WWWL1LpsZhhSkshQpi5s6A@mail.gmail.com>
+From: "Jiang Wang ." <jiang.wang@bytedance.com>
+Date: Wed, 23 Jun 2021 23:50:33 -0700
+Message-ID: <CAP_N_Z9kFc3pnK0Uwqc-fvfaakAh5VMYBR+9SZkz3w658XRK1g@mail.gmail.com>
+Subject: Re: Re: [RFC v1] virtio/vsock: add two more queues for datagram types
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=jiang.wang@bytedance.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,345 +79,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org, clg@kaod.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: cong.wang@bytedance.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Yongji Xie <xieyongji@bytedance.com>,
+ =?UTF-8?B?5p+056iz?= <chaiwen.cc@bytedance.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, fam.zheng@bytedance.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Stefano,
 
---FEaOFIsoBA9Bt48o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I checked virtio_net_set_multiqueue(), which will help with following
+changes in my patch:
 
-On Mon, Jun 21, 2021 at 09:51:15AM -0300, Bruno Larsen (billionai) wrote:
-> This commit attempts to fix the first bug mentioned by Richard Henderson =
-in
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06247.html
->=20
-> To sumarize the bug here, when radix-style mmus are translating an
-> address, they might need to call a second level of translation, with
-> hypervisor privileges. However, the way it was being done up until
-> this point meant that the second level translation had the same
-> privileges as the first level.=20
->=20
-> This patch attempts to correct that by making radix64_*_xlate functions
-> receive the mmu_idx, and passing one with the correct permission for the
-> second level translation.
->=20
-> The mmuidx macros added by this patch are only correct for non-bookE
-> mmus, because BookE style set the IS and DS bits inverted and there
-> might be other subtle differences. However, there doesn't seem to be
-> BookE cpus that have radix-style mmus, so we left a comment there to
-> document the issue, in case a machine does have that and was missed.
->=20
-> As part of this cleanup, we now need to send the correct mmmu_idx
-> when calling get_phys_page_debug, otherwise we might not be able to see t=
-he
-> memory that the CPU could
->=20
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/ppc/internal.h    | 13 +++++++++++++
->  target/ppc/mmu-radix64.c | 37 +++++++++++++++++++++----------------
->  target/ppc/mmu-radix64.h |  2 +-
->  target/ppc/mmu_helper.c  |  8 +++++---
->  4 files changed, 40 insertions(+), 20 deletions(-)
->=20
-> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> index f1fd3c8d04..11a0e22cc9 100644
-> --- a/target/ppc/internal.h
-> +++ b/target/ppc/internal.h
-> @@ -245,4 +245,17 @@ static inline int prot_for_access_type(MMUAccessType=
- access_type)
->      g_assert_not_reached();
->  }
-> =20
-> +/*
-> + * These correspond to the mmu_idx values computed in
-> + * hreg_compute_hflags_value. See the tables therein
-> + */
-> +static inline bool mmuidx_pr(int idx) { return !(idx & 1); }
-> +/*
-> + * This macro is only correct for non Book-E MMUs. We can add an if clau=
-se
-> + * to check for mmu model, but since those don't have the bug, we decide=
-d to
+#ifdef CONFIG_VHOST_VSOCK_DGRAM
+vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+vhost_vsock_common_handle_output);
+vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+vhost_vsock_common_handle_output);
+#endif
 
-Referring to "the bug" in a comment isn't very helpful.
+But I think there is still an issue with the following lines, right?
 
-> + * keep the code clean.
-> + */
-> +static inline bool mmuidx_real(int idx) { return idx & 2; }
-> +static inline bool mmuidx_hv(int idx) { return idx & 4; }
+#ifdef CONFIG_VHOST_VSOCK_DGRAM
+struct vhost_virtqueue vhost_vqs[4];
+#else
+struct vhost_virtqueue vhost_vqs[2];
+#endif
 
-I'd really prefer to have these in mmu-book3s-v3.h.  Yes, I know they
-cover more than bookS.  But the trouble here is that "BookE" isn't
-clear: does it mean only "true" BookE, or anything that's not BookS
-including 40x, 44x, and 8xx.  I don't think these are correct for all
-of the 4xx variants, for one.
+I think the problem with feature bits is that they are set and get after
+vhost_vsock_common_realize() and after vhost_dev_init() in drivers/vhost/vsock.c
+But those virtqueues need to be set up correctly beforehand.
 
-We can move this out later if and when we actually have users for it
-outside the BookS code.
+I tried to test with the host kernel allocating 4 vqs, but qemu only
+allocated 2 vqs, and
+guest kernel will not be able to send even the vsock stream packets. I
+think the host
+kernel and the qemu have to agree on the number of vhost_vqs. Do you agree?
+Did I miss something?
 
->  #endif /* PPC_INTERNAL_H */
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index cbd404bfa4..5b0e62e676 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -155,7 +155,7 @@ static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, MM=
-UAccessType access_type,
-> =20
->  static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access=
-_type,
->                                     uint64_t pte, int *fault_cause, int *=
-prot,
-> -                                   bool partition_scoped)
-> +                                   int mmu_idx, bool partition_scoped)
->  {
->      CPUPPCState *env =3D &cpu->env;
->      int need_prot;
-> @@ -173,7 +173,8 @@ static bool ppc_radix64_check_prot(PowerPCCPU *cpu, M=
-MUAccessType access_type,
->      /* Determine permissions allowed by Encoded Access Authority */
->      if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
->          *prot =3D 0;
-> -    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) {
-> +    } else if (mmuidx_pr(mmu_idx) || (pte & R_PTE_EAA_PRIV) ||
-> +               partition_scoped) {
+Another idea to make the setting in runtime instead of compiling time is to use
+qemu cmd-line options, then qemu can allocate 2 or 4 queues depending on
+the cmd line. This will solve the issue when the host kernel is an old
+one( no dgram
+support) and the qemu is a new one.
 
-So.. it looks to me like hash64 and hash32 should also be using
-mmu_idx instead of direct msr checks.  Would you care to tackle them
-as well?
+But there is still an issue when the host kernel is a new one, while the qemu
+is an old one.  I am not sure how to make the virtqueues numbers to
+change in run-time
+for the host kernel. In another email thread, you mentioned removing kconfig
+in the linux kernel, I believe that is related to this qemu patch,
+right?  If so,
+any ideas that I can make the host kernel change the number of vqs in
+the run-time
+or when starting up vsock? The only way I can think of is to use a
+kernel module parameter
+for the vsock_vhost module. Any other ideas? Thanks.
 
->          *prot =3D ppc_radix64_get_prot_eaa(pte);
->      } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scoped =
-*/
->          *prot =3D ppc_radix64_get_prot_eaa(pte);
-> @@ -299,7 +300,7 @@ static int ppc_radix64_partition_scoped_xlate(PowerPC=
-CPU *cpu,
->                                                ppc_v3_pate_t pate,
->                                                hwaddr *h_raddr, int *h_pr=
-ot,
->                                                int *h_page_size, bool pde=
-_addr,
-> -                                              bool guest_visible)
-> +                                              int mmu_idx, bool guest_vi=
-sible)
->  {
->      int fault_cause =3D 0;
->      hwaddr pte_addr;
-> @@ -310,7 +311,8 @@ static int ppc_radix64_partition_scoped_xlate(PowerPC=
-CPU *cpu,
->      if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_=
-RPDB,
->                                pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_s=
-ize,
->                                &pte, &fault_cause, &pte_addr) ||
-> -        ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, h_pr=
-ot, true)) {
-> +        ppc_radix64_check_prot(cpu, access_type, pte,
-> +                               &fault_cause, h_prot, mmu_idx, true)) {
->          if (pde_addr) { /* address being translated was that of a guest =
-pde */
->              fault_cause |=3D DSISR_PRTABLE_FAULT;
->          }
-> @@ -332,7 +334,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->                                              vaddr eaddr, uint64_t pid,
->                                              ppc_v3_pate_t pate, hwaddr *=
-g_raddr,
->                                              int *g_prot, int *g_page_siz=
-e,
-> -                                            bool guest_visible)
-> +                                            int mmu_idx, bool guest_visi=
-ble)
->  {
->      CPUState *cs =3D CPU(cpu);
->      CPUPPCState *env =3D &cpu->env;
-> @@ -367,7 +369,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->          ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_=
-addr,
->                                                   pate, &h_raddr, &h_prot,
->                                                   &h_page_size, true,
-> -                                                 guest_visible);
-> +            /* mmu_idx is 5 because we're translating from hypervisor sc=
-ope */
-> +                                                 5, guest_visible);
->          if (ret) {
->              return ret;
->          }
-> @@ -407,7 +410,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->              ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pt=
-e_addr,
->                                                       pate, &h_raddr, &h_=
-prot,
->                                                       &h_page_size, true,
-> -                                                     guest_visible);
-> +            /* mmu_idx is 5 because we're translating from hypervisor sc=
-ope */
-> +                                                     5, guest_visible);
->              if (ret) {
->                  return ret;
->              }
-> @@ -431,7 +435,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->          *g_raddr =3D (rpn & ~mask) | (eaddr & mask);
->      }
-> =20
-> -    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, g_pr=
-ot, false)) {
-> +    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause,
-> +                               g_prot, mmu_idx, false)) {
->          /* Access denied due to protection */
->          if (guest_visible) {
->              ppc_radix64_raise_si(cpu, access_type, eaddr, fault_cause);
-> @@ -464,7 +469,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->   *              +-------------+----------------+---------------+
->   */
->  bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType acces=
-s_type,
-> -                       hwaddr *raddr, int *psizep, int *protp,
-> +                       hwaddr *raddr, int *psizep, int *protp, int mmu_i=
-dx,
->                         bool guest_visible)
->  {
->      CPUPPCState *env =3D &cpu->env;
-> @@ -474,17 +479,17 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr=
-, MMUAccessType access_type,
->      hwaddr g_raddr;
->      bool relocation;
-> =20
-> -    assert(!(msr_hv && cpu->vhyp));
-> +    assert(!(mmuidx_hv(mmu_idx) && cpu->vhyp));
-> =20
-> -    relocation =3D (access_type =3D=3D MMU_INST_FETCH ? msr_ir : msr_dr);
-> +    relocation =3D !mmuidx_real(mmu_idx);
-> =20
->      /* HV or virtual hypervisor Real Mode Access */
-> -    if (!relocation && (msr_hv || cpu->vhyp)) {
-> +    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
->          /* In real mode top 4 effective addr bits (mostly) ignored */
->          *raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
-> =20
->          /* In HV mode, add HRMOR if top EA bit is clear */
-> -        if (msr_hv || !env->has_hv_mode) {
-> +        if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
->              if (!(eaddr >> 63)) {
->                  *raddr |=3D env->spr[SPR_HRMOR];
->             }
-> @@ -546,7 +551,7 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, =
-MMUAccessType access_type,
->      if (relocation) {
->          int ret =3D ppc_radix64_process_scoped_xlate(cpu, access_type, e=
-addr, pid,
->                                                     pate, &g_raddr, &prot,
-> -                                                   &psize, guest_visible=
-);
-> +                                                   &psize, mmu_idx, gues=
-t_visible);
->          if (ret) {
->              return false;
->          }
-> @@ -564,13 +569,13 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr=
-, MMUAccessType access_type,
->           * quadrants 1 or 2. Translates a guest real address to a host
->           * real address.
->           */
-> -        if (lpid || !msr_hv) {
-> +        if (lpid || !mmuidx_hv(mmu_idx)) {
->              int ret;
-> =20
->              ret =3D ppc_radix64_partition_scoped_xlate(cpu, access_type,=
- eaddr,
->                                                       g_raddr, pate, radd=
-r,
->                                                       &prot, &psize, fals=
-e,
-> -                                                     guest_visible);
-> +                                                     mmu_idx, guest_visi=
-ble);
->              if (ret) {
->                  return false;
->              }
-> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-> index 6b13b89b64..b70357cf34 100644
-> --- a/target/ppc/mmu-radix64.h
-> +++ b/target/ppc/mmu-radix64.h
-> @@ -45,7 +45,7 @@
->  #ifdef TARGET_PPC64
-> =20
->  bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType acces=
-s_type,
-> -                       hwaddr *raddr, int *psizep, int *protp,
-> +                       hwaddr *raddr, int *psizep, int *protp, int mmu_i=
-dx,
->                         bool guest_visible);
-> =20
->  static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index ba1952c77d..9dcdf88597 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -2908,7 +2908,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr,=
- MMUAccessType access_type,
->      case POWERPC_MMU_3_00:
->          if (ppc64_v3_radix(cpu)) {
->              return ppc_radix64_xlate(cpu, eaddr, access_type,
-> -                                     raddrp, psizep, protp, guest_visibl=
-e);
-> +                                     raddrp, psizep, protp, mmu_idx, gue=
-st_visible);
->          }
->          /* fall through */
->      case POWERPC_MMU_64B:
-> @@ -2941,8 +2941,10 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, v=
-addr addr)
->       * try an MMU_DATA_LOAD, we may not be able to read instructions
->       * mapped by code TLBs, so we also try a MMU_INST_FETCH.
->       */
-> -    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
-> -        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
-> +    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p,
-> +                  cpu_mmu_index(&cpu->env, false), false) ||
-> +        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p,
-> +                  cpu_mmu_index(&cpu->env, true), false)) {
->          return raddr & TARGET_PAGE_MASK;
->      }
->      return -1;
+btw, I searched Linux kernel code but did not find any examples.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Regards,
 
---FEaOFIsoBA9Bt48o
-Content-Type: application/pgp-signature; name="signature.asc"
+Jiang
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDUKrUACgkQbDjKyiDZ
-s5Ij5RAAhefMXhpfF2nqU1VbSMglRA91vTzUbjA3MgJmiXMgDf4TAfVsETQKT8JF
-FglD989FfxUwnIEHFk9PcbqDYy3KGwcJ7xpjQo1o6Lf1t+JW3oU26ZuDmhhzwmeI
-AGhFN3WA2strge9ZVoQaPv1wU5XCfnVp0tys+dwql4rqrzkiuwthVW1GwAbKU1ll
-7NZYZnGufz/zAg/+QbtH5L9M5cUjdfwa7ofN2nbvX/JBPyJq0h1ryrsnpFun1qGy
-ZyQt26WEGP9fJwoaepiybtttvYOv8NLD0NajvoFwIqdn4tpoVdY/3OLusTlEZGjO
-3R5JI2It+Wvz4ckD3w0Fqfhpu7CFCn+84ks1UCSNvN2hWWXbMxtx7/YvZP8MR0Qa
-XngNAN628LkTlPkynZ4piS7VC2sjdPOT95oemeDjxsbxfxUvFmbVAUhLvaJ33N+E
-/t4SEODFBAnAZs5g/RWD3VLVcoMmrZ0KlCvRPlyz7B5I1G89YyKMO2IEBsr0P78f
-0aOJ9WBXT4NOFs53Sgy0q+cFxHE1rMQMn/LMeVMlOnroExzbbw+WEEyB/50wKn3F
-8K7Pjl7OnAdVGgJxqnkmrvFgBWmKnkq3ZPEEdZOeP3zjPyz9Ua42BECrd40mZCOG
-flhEyKveoveZi8N6UhxGKlKTgHabUSqyxWCgyesY1zCe9+CRXvc=
-=yMlM
------END PGP SIGNATURE-----
-
---FEaOFIsoBA9Bt48o--
+On Thu, Jun 10, 2021 at 10:29 AM Jiang Wang . <jiang.wang@bytedance.com> wrote:
+>
+> On Thu, Jun 10, 2021 at 2:40 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> >
+> > On Thu, Jun 10, 2021 at 12:14:24AM +0000, Jiang Wang wrote:
+> > >Datagram sockets are connectionless and unreliable.
+> > >The sender does not know the capacity of the receiver
+> > >and may send more packets than the receiver can handle.
+> > >
+> > >Add two more dedicate virtqueues for datagram sockets,
+> > >so that it will not unfairly steal resources from
+> > >stream and future connection-oriented sockets.
+> > >
+> > >The virtio spec patch is here:
+> > >https://www.spinics.net/lists/linux-virtualization/msg50027.html
+> > >
+> > >Here is the link for the linux kernel git repo with patches
+> > >to support dgram sockets:
+> > >https://github.com/Jiang1155/linux/tree/vsock-dgram-v1
+> > >
+> > >Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
+> > >---
+> > > configure                                     | 13 +++++++++++++
+> > > hw/virtio/vhost-vsock-common.c                | 11 ++++++++++-
+> > > hw/virtio/vhost-vsock.c                       |  8 +++++---
+> > > include/hw/virtio/vhost-vsock-common.h        | 10 +++++++++-
+> > > include/standard-headers/linux/virtio_vsock.h |  3 +++
+> > > meson.build                                   |  1 +
+> > > 6 files changed, 41 insertions(+), 5 deletions(-)
+> > >
+> > >diff --git a/configure b/configure
+> > >index 9f016b06b5..6455b283a5 100755
+> > >--- a/configure
+> > >+++ b/configure
+> > >@@ -343,6 +343,7 @@ vhost_net="$default_feature"
+> > > vhost_crypto="$default_feature"
+> > > vhost_scsi="$default_feature"
+> > > vhost_vsock="$default_feature"
+> > >+vhost_vsock_dgram="no"
+> > > vhost_user="no"
+> > > vhost_user_blk_server="auto"
+> > > vhost_user_fs="$default_feature"
+> > >@@ -1272,6 +1273,10 @@ for opt do
+> > >   ;;
+> > >   --enable-vhost-vsock) vhost_vsock="yes"
+> > >   ;;
+> > >+  --disable-vhost-vsock-dgram) vhost_vsock_dgram="no"
+> > >+  ;;
+> > >+  --enable-vhost-vsock-dgram) vhost_vsock_dgram="yes"
+> > >+  ;;
+> >
+> > I don't think we should add a configuration option to enable/disable the
+> > dgram support at build time.
+> >
+> > I think we should do it at runtime looking at the features negiotated.
+> >
+> > Take a look at virtio_net_set_multiqueue().
+>
+> Got it. Will check. Thanks.
+>
+> > Thanks,
+> > Stefano
+> >
 
