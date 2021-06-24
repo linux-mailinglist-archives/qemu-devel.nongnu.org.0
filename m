@@ -2,57 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD973B2EE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 14:24:12 +0200 (CEST)
-Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863A83B2F05
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 14:32:49 +0200 (CEST)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwOOx-0003VY-8z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 08:24:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58012)
+	id 1lwOXI-0007kb-JS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 08:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lwOMy-0002PW-MD
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 08:22:08 -0400
-Resent-Date: Thu, 24 Jun 2021 08:22:08 -0400
-Resent-Message-Id: <E1lwOMy-0002PW-MD@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lwOMr-0002MV-Bf
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 08:22:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624537311; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QuFLi1j5V1lUvjXKfNGBPtpxj6EijqfDpt9AqtSlVyKfHkuZ8oyCrfg8EzIV38kzjMdqLdYbPORsWLl16AR6DTvNPx2U9XcKjx5QMGsEZVY/zEtqW1ur6XiXV91xhGO62Zwr4JFQFgEYCgWU9A5PxcOvyBrYIeaFFRFnmD10xw0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1624537311;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=JczHK+Ch3xqiSh8hgq5W/LDB3j5sg/TWJdRU/pRys2k=; 
- b=LFzBvCEBk8Cdle7I/hJZrxv38VK+fun3qnwP5LpqWFRcKVRi8+XlJILZKuDD4+9OjOinmy6UETcHzVIl8JupsYAYwUSGFLtwLVHedaXmsJluEScg+hsP6hyYr6AYTqggAzRLCKs6bK9hKqxoNX3r92NzFUe+imJaBfpxBEUt+L0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1624537309019191.10552402796634;
- Thu, 24 Jun 2021 05:21:49 -0700 (PDT)
-In-Reply-To: <20210624121639.2422367-1-kraxel@redhat.com>
-Subject: Re: [PULL 0/2] Audio 20210624 patches
-Message-ID: <162453730789.22511.17796439531441296066@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lwOW0-0006hb-BT
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 08:31:28 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lwOVy-0005QG-Bc
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 08:31:27 -0400
+Received: by mail-wr1-x433.google.com with SMTP id u11so6431688wrw.11
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 05:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=CndAZhrTab0IRPX0KkrEB1Kc6WzDHNnSb+mtWg1WIR4=;
+ b=jHkEMEA5nKRAcBz4ObZ/upugDNZkjsUWSPLwZhoTx40rP8hL+gyZzlPXOzTDpVKiTT
+ dTF3WYG5zbJ6eNQs+1METn1Vuhp5QzgJPzMzlBf59rZqe/zs8M/0mBPRKDd8QV7iNTil
+ DvxpKXNX+SX/yWjUBpMoYWLK/lk1DgxmV9VUYBwih/wBmPDZphiT/ZnlvdhkOU4d0sbd
+ Fj3mvznzOyBYbvT4JRjewVLiByteUAgLc5fT0CBMZ7yucmSawDeK6btu+MM2yaufseBX
+ O2rDqLA0F5IFdwWM8qQpqdG4HMVqJys3lV2p/87ucYKxPUz9ZMlzLkNwsBQ3SckrI5vG
+ jNWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=CndAZhrTab0IRPX0KkrEB1Kc6WzDHNnSb+mtWg1WIR4=;
+ b=hHd/bK84VFLlFVWw3G5zrv6BiV6+Gjw3Cz+sQv86prQdSR6zT8uM9XyG91Isv0JeB/
+ susgAP+EQl31W0j07ezYh5VWtq+X6nxWNR351KPM0dDW/fiqXuRrrvh8VAE3wmEVw+p/
+ 4IvUjuqS8h3s2P5ttcTwqBC99SsTqqzNCWooHwDxHVXSRC43xvGeBk3hM2epPLCHhAOc
+ pDDXIZ1VaUumGteYFByLgI//Li81YIrtK2lxpnhlg6woYAgmn1fTImRvCs+IF77cKtf+
+ 8zafXWpC/SVN3KEE0g/SENpwe+i39RguN1SgnlmNI9rliCNbFV+rVnzhL6XvqXV+7I4p
+ iZVA==
+X-Gm-Message-State: AOAM532cwryKYIm39htycDrlq3TdLMbfZUrGPYtd1PRdqy9Svy5Dqf+p
+ +lHc0MGDicUduZlZbg1vl+DJ6g==
+X-Google-Smtp-Source: ABdhPJzQ9npom8cH1/P0esXbRniCZLZNvxxM1h6GcjA0GuYU6flxmAxIXCzLWHIrIQsimMUi9qb34w==
+X-Received: by 2002:adf:a319:: with SMTP id c25mr4341509wrb.68.1624537883922; 
+ Thu, 24 Jun 2021 05:31:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d3sm3158690wrx.28.2021.06.24.05.31.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jun 2021 05:31:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B18B91FF7E;
+ Thu, 24 Jun 2021 13:31:21 +0100 (BST)
+References: <20210604155312.15902-1-alex.bennee@linaro.org>
+ <20210604155312.15902-70-alex.bennee@linaro.org>
+ <17f14974-a922-dcda-4eb4-8754bf1fd45c@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v16 69/99] target/arm: add tcg cpu accel class
+Date: Thu, 24 Jun 2021 11:52:50 +0100
+In-reply-to: <17f14974-a922-dcda-4eb4-8754bf1fd45c@linaro.org>
+Message-ID: <8735t7saue.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Thu, 24 Jun 2021 05:21:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,63 +88,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lvivier@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org, alxndr@bu.edu,
- bsd@redhat.com, kraxel@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyNDEyMTYzOS4yNDIy
-MzY3LTEta3JheGVsQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYyNDEyMTYzOS4yNDIy
-MzY3LTEta3JheGVsQHJlZGhhdC5jb20KU3ViamVjdDogW1BVTEwgMC8yXSBBdWRpbyAyMDIxMDYy
-NCBwYXRjaGVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
-cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
-aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
-LzIwMjEwNjI0MTIxNjM5LjI0MjIzNjctMS1rcmF4ZWxAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIw
-MjEwNjI0MTIxNjM5LjI0MjIzNjctMS1rcmF4ZWxAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCmIzOTcyMDUgaHcvYXVkaW8vc2IxNjogUmVzdHJpY3QgSS9PIHNhbXBs
-aW5nIHJhdGUgcmFuZ2UgZm9yIGNvbW1hbmQgNDFoLzQyaAo4YjY2YmY0IGNvcmVhdWRpbzogTG9j
-ayBvbmx5IHRoZSBidWZmZXIKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMiBDaGVja2luZyBjb21t
-aXQgOGI2NmJmNDUxMjY5IChjb3JlYXVkaW86IExvY2sgb25seSB0aGUgYnVmZmVyKQpFUlJPUjog
-c3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVz
-aXMgJygnCiM2MTogRklMRTogYXVkaW8vY29yZWF1ZGlvLmM6MjQ1Ogorc3RhdGljIGludCBjb3Jl
-YXVkaW9fYnVmX2xvY2sgKGNvcmVhdWRpb1ZvaWNlT3V0ICpjb3JlLCBjb25zdCBjaGFyICpmbl9u
-YW1lKQoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBv
-cGVuIHBhcmVudGhlc2lzICcoJwojNjY6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjI0OToKKyAg
-ICBlcnIgPSBwdGhyZWFkX211dGV4X2xvY2sgKCZjb3JlLT5idWZfbXV0ZXgpOwoKRVJST1I6IHNw
-YWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lz
-ICcoJwojNzU6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjI1ODoKK3N0YXRpYyBpbnQgY29yZWF1
-ZGlvX2J1Zl91bmxvY2sgKGNvcmVhdWRpb1ZvaWNlT3V0ICpjb3JlLCBjb25zdCBjaGFyICpmbl9u
-YW1lKQoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBv
-cGVuIHBhcmVudGhlc2lzICcoJwojODA6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjI2MjoKKyAg
-ICBlcnIgPSBwdGhyZWFkX211dGV4X3VubG9jayAoJmNvcmUtPmJ1Zl9tdXRleCk7CgpFUlJPUjog
-c3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVz
-aXMgJygnCiMxMTc6IEZJTEU6IGF1ZGlvL2NvcmVhdWRpby5jOjMxNDoKKyAgICBpZiAoY29yZWF1
-ZGlvX2J1Zl9sb2NrIChjb3JlLCAiYXVkaW9EZXZpY2VJT1Byb2MiKSkgewoKRVJST1I6IHNwYWNl
-IHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICco
-JwojMTI0OiBGSUxFOiBhdWRpby9jb3JlYXVkaW8uYzozMjA6CisgICAgICAgIGNvcmVhdWRpb19i
-dWZfdW5sb2NrIChjb3JlLCAiYXVkaW9EZXZpY2VJT1Byb2Mob2xkIGRldmljZSkiKTsKCkVSUk9S
-OiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJlbnRo
-ZXNpcyAnKCcKIzEzMzogRklMRTogYXVkaW8vY29yZWF1ZGlvLmM6MzMwOgorICAgICAgICBjb3Jl
-YXVkaW9fYnVmX3VubG9jayAoY29yZSwgImF1ZGlvRGV2aWNlSU9Qcm9jKGVtcHR5KSIpOwoKRVJS
-T1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVu
-dGhlc2lzICcoJwojMTQyOiBGSUxFOiBhdWRpby9jb3JlYXVkaW8uYzozNTI6CisgICAgY29yZWF1
-ZGlvX2J1Zl91bmxvY2sgKGNvcmUsICJhdWRpb0RldmljZUlPUHJvYyIpOwoKdG90YWw6IDggZXJy
-b3JzLCAwIHdhcm5pbmdzLCAyMzcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS8yIGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCgoyLzIgQ2hlY2tpbmcgY29tbWl0IGIzOTcyMDU2OWJmNiAoaHcvYXVk
-aW8vc2IxNjogUmVzdHJpY3QgSS9PIHNhbXBsaW5nIHJhdGUgcmFuZ2UgZm9yIGNvbW1hbmQgNDFo
-LzQyaCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
-MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MjAyMTA2MjQxMjE2MzkuMjQyMjM2Ny0xLWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2tw
-YXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 6/4/21 8:52 AM, Alex Benn=C3=A9e wrote:
+>> From: Claudio Fontana <cfontana@suse.de>
+>> move init, realizefn and reset code into it.
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>   target/arm/tcg/tcg-cpu.h        |  4 ++-
+>>   target/arm/cpu.c                | 44 ++------------------------
+>>   target/arm/tcg/sysemu/tcg-cpu.c | 27 ++++++++++++++++
+>>   target/arm/tcg/tcg-cpu-models.c | 10 +++---
+>>   target/arm/tcg/tcg-cpu.c        | 55 +++++++++++++++++++++++++++++++--
+>>   5 files changed, 92 insertions(+), 48 deletions(-)
+>> diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
+>> index d93c6a6749..dd08587949 100644
+>> --- a/target/arm/tcg/tcg-cpu.h
+>> +++ b/target/arm/tcg/tcg-cpu.h
+>> @@ -22,15 +22,17 @@
+>>     #include "cpu.h"
+>>   #include "hw/core/tcg-cpu-ops.h"
+>> +#include "hw/core/accel-cpu.h"
+>
+> Ideally we'd have a qemu/typedef.h entry so this include isn't
+> needed...
+
+Ok, moved the needed includes into the .c
+
+>
+>>     void arm_cpu_synchronize_from_tb(CPUState *cs,
+>>                                    const TranslationBlock *tb);
+>>   -extern struct TCGCPUOps arm_tcg_ops;
+>> +void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
+>
+> ... simply for this declaration.
+> Also, can we now remove the tcg-cpu-ops.h include?
+>
+>> @@ -1467,7 +1429,7 @@ static void arm_cpu_class_init(ObjectClass *oc, vo=
+id *data)
+>>       cc->disas_set_info =3D arm_disas_set_info;
+>>     #ifdef CONFIG_TCG
+>> -    cc->tcg_ops =3D &arm_tcg_ops;
+>> +    cc->init_accel_cpu =3D tcg_arm_init_accel_cpu;
+>>   #endif /* CONFIG_TCG */
+>
+> Is this already inside tcg_enabled()?  Because otherwise it looks as
+> if this is overwriting a field also used by kvm.
+
+Is it? I can only see the existing x86 TCG CPU and now in this case
+allowing an override of arm_v7m_init_accel_cpu and it's resulting TCG
+ops variant. This is because all the 32 bit CPUs now have parent =3D
+TYPE_ARM_CPU as their parent class.
+
+> Whereas the code that's being replaced set a field only used by tcg.
+>
+> KVM sets its hooks differently, via kvm_cpu_accel_register_types, so I
+> don't understand this hook at all.  But it seems like there should not
+> be two different ways to set acc->cpu_instance_init.
+
+That isn't being reset - it's set once in the which ever
+accel_class_init ends up being instantiated. Of course this is all QOM
+so I could be wrong.
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
