@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9275A3B362B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:53:16 +0200 (CEST)
-Received: from localhost ([::1]:55594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9624E3B365D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:54:39 +0200 (CEST)
+Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwUTT-0006YH-KA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33640)
+	id 1lwUUo-0008MU-N6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lwUS3-0005De-I8
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:51:47 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lwURz-0003tW-Md
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:51:47 -0400
-Received: by mail-ej1-x635.google.com with SMTP id d16so7600982ejm.7
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 11:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BZcHcAV8pKQK07TAyrQCn2jKnN7sS0Ph+XjLTpHtXeg=;
- b=Pc+4to+mmuF91fchfoY26/6y42/tXKdFsvuapFNu102YNJ8W5XNSANjmprmkQkjus7
- 01xB1g07EeVR36gMNHfM7fmBS0z7LXGzBJbZ9OvHQOQJ88tUpAsOm0Ke4TjDQVwPfXpD
- 3Irtsg6n32fs1e7md2oNrppE14cPKDTcyUUtJyCusTYiyuYdHlPkvvnA2bgLJD+M8c4u
- c2wP2DTxD0G7bWVEBWDYU0fierm30ZZO9wiiU8yK6Vw6pk7v8fAUHj5GvKk3U6gjKx2a
- 2iSARaXSr4rTiEn/U7NKUonqarYwLk2vAyw2NyYfMvXc6hyveZ6z/TNHq5EjzqCKhhTS
- bseQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lwUTk-0007bb-4D
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:53:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lwUTd-0004sb-Fo
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:53:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624560803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MOWGd12r5GJqRHfOsxY1wODig0Azz/FWacA5Ll4JrUY=;
+ b=UY8GhxwRXNJf9axohXn5ntyKBV2AJrrfm6q8r+7VL2nCwSALnpL75evKI6572DN47prILc
+ t8qmxuPsBLZe3mohJw7WqTGH2ggOYX0v9beWf9UBbLlAX8IWe0HAsu1MmxVcWNULnMQYS2
+ icyu3N4g5ttoQKQ7IvA5awOdrXLwm9U=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-5_1KAV2FM3OZy1ejsFaSsA-1; Thu, 24 Jun 2021 14:53:21 -0400
+X-MC-Unique: 5_1KAV2FM3OZy1ejsFaSsA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ x5-20020adff0c50000b029011a7be832b7so2501616wro.18
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 11:53:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BZcHcAV8pKQK07TAyrQCn2jKnN7sS0Ph+XjLTpHtXeg=;
- b=PTvtCDk/mcJX6HH0E/yqOsyvE15rOhxJqyK7Yd4+BvYOu1Ce9IdWDYLLeTb6V0hKyL
- gFrjLxdfa1H23jIWAPg1LwqExxwqlyAyfwk40psGS4wRRRbu9fGw56A+eWkekjHT4+Cj
- 0to3KBt285l3tdzUfyDbCztEVgD3+cfwtXDNpCXzG9MHJUE/F6ZlCy35jYii3yLdnGt0
- EfrLGkXx2fBngzRqCmpXXxufLMBjgskkGd7YoTV8bH+VrKNRHpohnsgzRNeTl0TlKP3S
- q2SsTKnUkl1QbbfUD/2GLIxnzipSRc1+jGUHhxFt2KNAwYE//1LnZMqKghoymkY1T3vi
- 1dSA==
-X-Gm-Message-State: AOAM530cfdBjMkVO7OX8zQ5haU2JdgvmfwHUfwUg2AZdcUqaNpxZWzDR
- RcgWILbq2yN0GX3mjcysp1cQrAYovMlq85zARwiwEA==
-X-Google-Smtp-Source: ABdhPJwmFA5VWMwMJp0GpBW51LX99QNZsZ8lrri8PhgWKIztaLpTl3Gn9eUjTcuJGtW98ZPmZXfDzJeobYUwb7AbZYc=
-X-Received: by 2002:a17:906:a38d:: with SMTP id
- k13mr6895915ejz.250.1624560701114; 
- Thu, 24 Jun 2021 11:51:41 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MOWGd12r5GJqRHfOsxY1wODig0Azz/FWacA5Ll4JrUY=;
+ b=KT7Wr2WRhM5o9RkogvwgmPgOLd0y8Z94gzXE0EXSQb3qtZXiMtZWHi9kg5wY4slGAm
+ rzc4XLQP86yyexSqLtAOVRzUsrvVIMxw20PtcJKGL02JXvMA5yP46fmFP5EkJqOL+DFz
+ eK13dwDGA7M87kozEjRINgzJDTfurMHBv2PWjUo6cUPsZ14ncldmzd2ezcvdZtYWFUm0
+ MrQdmf+bqH1OKJjNT3RLZfpRMHaC5N3bSvFf7IylHIraXP7oObnbnv/SfKCYuWlBWTSd
+ OrSRI+utrYPxQmTSfdDhs4VI5rqboYgbc2lQ6DL1kxrObKLukCFbGZYe59vc/3ABg5MB
+ c1Og==
+X-Gm-Message-State: AOAM532ArEtec2e2fqlgqsb7EN6pJwMvnuKqmzuPanwu2O84VLLcnSv2
+ NxLSPwfMBaBI/gbrmM088VOvaranq5UYmoW5zAdcLQtuV5P//UQ82Gwxr5aJcB/zhhcmadsNl+l
+ 8+C/kqXlnzgomWfE=
+X-Received: by 2002:a05:600c:35c1:: with SMTP id
+ r1mr5997768wmq.181.1624560800236; 
+ Thu, 24 Jun 2021 11:53:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAXdmAkpG5lo+L7+Y//BQpAetNfsw4B0KNJVj7wlngaovplEihLQ0oaDllFZyUSxdBg5qePQ==
+X-Received: by 2002:a05:600c:35c1:: with SMTP id
+ r1mr5997735wmq.181.1624560799936; 
+ Thu, 24 Jun 2021 11:53:19 -0700 (PDT)
+Received: from redhat.com ([77.124.79.210])
+ by smtp.gmail.com with ESMTPSA id b7sm3976533wrw.20.2021.06.24.11.53.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jun 2021 11:53:19 -0700 (PDT)
+Date: Thu, 24 Jun 2021 14:53:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] acpi/ged: fix reset cause
+Message-ID: <20210624145307-mutt-send-email-mst@kernel.org>
+References: <20210624110057.2398779-1-kraxel@redhat.com>
+ <CAFEAcA-fULMwcstO3eCAggktfD6vDP4TPDadyB0A9eAKAtnP-w@mail.gmail.com>
 MIME-Version: 1.0
-References: <CA+5M2MC9q5RTNYh2YTan_g0TMAkNc0YD_Nx0OV7ze4v7dYdP9w@mail.gmail.com>
- <CAFEAcA8eADzVVMVZHaHBC9Lm09aVvC5Wwj-q7nLkKoRUn3vS5A@mail.gmail.com>
- <CA+5M2MDnOEvpmAn3Vhc_crj7prR6pDymTgtkFYgyh1HXJvyddA@mail.gmail.com>
-In-Reply-To: <CA+5M2MDnOEvpmAn3Vhc_crj7prR6pDymTgtkFYgyh1HXJvyddA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Jun 2021 19:51:05 +0100
-Message-ID: <CAFEAcA-VVwVvPC0qSWZc0c8evWO9FyBO7FqtjrE=HOK1d0GayQ@mail.gmail.com>
-Subject: Re: Extracting PC information from QEMU/KVM during single-step
-To: sraasch@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-fULMwcstO3eCAggktfD6vDP4TPDadyB0A9eAKAtnP-w@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,27 +94,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Jun 2021 at 18:09, Steven Raasch <sraasch@gmail.com> wrote:
-> NOTE: I do not yet understand how gdb interacts with the virtual machine.=
- I have experience with GDB, but only at a linux app-debug level. I don't g=
-rok how gdb on a linux host works with QEMU running a windows guest.
-> My *assumption* is that the VM continues to run while an app is being deb=
-ugged with GDB can be stopped, stepped, etc. If this is the case, I would e=
-xpect that the VM's sense of time will continue to move forward while the a=
-pp is paused. This would be an issue for my time-sensitive app.
+On Thu, Jun 24, 2021 at 12:06:14PM +0100, Peter Maydell wrote:
+> On Thu, 24 Jun 2021 at 12:01, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > Reset requests should use SHUTDOWN_CAUSE_GUEST_RESET not
+> > SHUTDOWN_CAUSE_GUEST_SHUTDOWN.
+> >
+> > Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >  hw/acpi/generic_event_device.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+> > index 39c825763ad8..e28457a7d103 100644
+> > --- a/hw/acpi/generic_event_device.c
+> > +++ b/hw/acpi/generic_event_device.c
+> > @@ -207,7 +207,7 @@ static void ged_regs_write(void *opaque, hwaddr addr, uint64_t data,
+> >          return;
+> >      case ACPI_GED_REG_RESET:
+> >          if (data == ACPI_GED_RESET_VALUE) {
+> > -            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> > +            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> >          }
+> >          return;
+> >      }
+> > --
+> > 2.31.1
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> thanks
+> -- PMM
 
-No, that's not how it works. A gdb connected to QEMU's gdbstub is a
-bit like a hardware JTAG debugger connected to a real CPU, if that
-helps. When gdb gets control the entire VM is stopped; stepping
-steps one instruction of whatever the VM is doing. gdb and the
-gdbstub have no understanding of individual processes running
-inside the guest OS -- single stepping will happily step through
-the app, into interrupt handlers, across the OS context switching
-and into other processes, etc.
+tagged, thanks!
 
--- PMM
 
