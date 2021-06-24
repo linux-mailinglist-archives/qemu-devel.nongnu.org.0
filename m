@@ -2,41 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BEEC3B2DB2
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:20:31 +0200 (CEST)
-Received: from localhost ([::1]:39542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 860373B2D9A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:16:54 +0200 (CEST)
+Received: from localhost ([::1]:52716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwNPK-0005xa-Gv
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:20:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40444)
+	id 1lwNLp-0003sg-I9
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lwMxT-0004rh-Oy
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:51:45 -0400
-Received: from out28-123.mail.aliyun.com ([115.124.28.123]:53332)
+ id 1lwN2D-0007ok-Fs; Thu, 24 Jun 2021 06:56:37 -0400
+Received: from out28-194.mail.aliyun.com ([115.124.28.194]:34181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lwMxP-0007zC-QP
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:51:43 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.4299956|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0420961-0.000484722-0.957419;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=3; RT=3; SR=0; TI=SMTPD_---.KXKBQkc_1624531893; 
+ id 1lwN2A-0003Ny-Av; Thu, 24 Jun 2021 06:56:37 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.235284|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.058603-0.000777643-0.940619;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047208; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KXK8TXZ_1624532187; 
 Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KXKBQkc_1624531893)
- by smtp.aliyun-inc.com(10.147.40.200);
- Thu, 24 Jun 2021 18:51:34 +0800
+ fp:SMTPD_---.KXK8TXZ_1624532187)
+ by smtp.aliyun-inc.com(10.147.43.95); Thu, 24 Jun 2021 18:56:27 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] tcg: Implement tcg_gen_vec_add{sub}32_tl
-Date: Thu, 24 Jun 2021 18:50:23 +0800
-Message-Id: <20210624105023.3852-6-zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v3 00/37] target/riscv: support packed extension v0.9.4
+Date: Thu, 24 Jun 2021 18:54:44 +0800
+Message-Id: <20210624105521.3964-1-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210624105023.3852-1-zhiwei_liu@c-sky.com>
-References: <20210624105023.3852-1-zhiwei_liu@c-sky.com>
-Received-SPF: none client-ip=115.124.28.123; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-123.mail.aliyun.com
+Received-SPF: none client-ip=115.124.28.194; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-194.mail.aliyun.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -55,37 +51,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- include/tcg/tcg-op-gvec.h | 4 ++++
- 1 file changed, 4 insertions(+)
+This patchset implements the packed extension for RISC-V on QEMU.
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index e3b274502c..da55fed870 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -420,6 +420,8 @@ void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
- #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i64
- #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i64
- #define tcg_gen_vec_sub16_tl tcg_gen_vec_sub16_i64
-+#define tcg_gen_vec_add32_tl tcg_gen_vec_add32_i64
-+#define tcg_gen_vec_sub32_tl tcg_gen_vec_sub32_i64
- #define tcg_gen_vec_shl8i_tl tcg_gen_vec_shl8i_i64
- #define tcg_gen_vec_shr8i_tl tcg_gen_vec_shr8i_i64
- #define tcg_gen_vec_sar8i_tl tcg_gen_vec_sar8i_i64
-@@ -432,6 +434,8 @@ void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
- #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i32
- #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i32
- #define tcg_gen_vec_sub16_tl tcg_gen_vec_sub16_i32
-+#define tcg_gen_vec_add32_tl tcg_gen_add_i32
-+#define tcg_gen_vec_sub32_tl tcg_gen_sub_i32
- #define tcg_gen_vec_shl8i_tl tcg_gen_vec_shl8i_i32
- #define tcg_gen_vec_shr8i_tl tcg_gen_vec_shr8i_i32
- #define tcg_gen_vec_sar8i_tl tcg_gen_vec_sar8i_i32
+You can also find this patch set on my
+repo(https://github.com/romanheros/qemu.git branch:packed-upstream-v3).
+
+Features:
+* support specification packed extension 
+  v0.9.4(https://github.com/riscv/riscv-p-spec/)
+* support basic packed extension.
+* support Zpsoperand.
+
+v3:
+* split 32 bit vector operations.
+
+v2:
+* remove all the TARGET_RISCV64 macro.
+* use tcg_gen_vec_* to accelabrate.
+* update specficication to latest v0.9.4
+* fix kmsxda32, kmsda32,kslra32,smal
+
+LIU Zhiwei (37):
+  target/riscv: implementation-defined constant parameters
+  target/riscv: Make the vector helper functions public
+  target/riscv: 16-bit Addition & Subtraction Instructions
+  target/riscv: 8-bit Addition & Subtraction Instruction
+  target/riscv: SIMD 16-bit Shift Instructions
+  target/riscv: SIMD 8-bit Shift Instructions
+  target/riscv: SIMD 16-bit Compare Instructions
+  target/riscv: SIMD 8-bit Compare Instructions
+  target/riscv: SIMD 16-bit Multiply Instructions
+  target/riscv: SIMD 8-bit Multiply Instructions
+  target/riscv: SIMD 16-bit Miscellaneous Instructions
+  target/riscv: SIMD 8-bit Miscellaneous Instructions
+  target/riscv: 8-bit Unpacking Instructions
+  target/riscv: 16-bit Packing Instructions
+  target/riscv: Signed MSW 32x32 Multiply and Add Instructions
+  target/riscv: Signed MSW 32x16 Multiply and Add Instructions
+  target/riscv: Signed 16-bit Multiply 32-bit Add/Subtract Instructions
+  target/riscv: Signed 16-bit Multiply 64-bit Add/Subtract Instructions
+  target/riscv: Partial-SIMD Miscellaneous Instructions
+  target/riscv: 8-bit Multiply with 32-bit Add Instructions
+  target/riscv: 64-bit Add/Subtract Instructions
+  target/riscv: 32-bit Multiply 64-bit Add/Subtract Instructions
+  target/riscv: Signed 16-bit Multiply with 64-bit Add/Subtract
+    Instructions
+  target/riscv: Non-SIMD Q15 saturation ALU Instructions
+  target/riscv: Non-SIMD Q31 saturation ALU Instructions
+  target/riscv: 32-bit Computation Instructions
+  target/riscv: Non-SIMD Miscellaneous Instructions
+  target/riscv: RV64 Only SIMD 32-bit Add/Subtract Instructions
+  target/riscv: RV64 Only SIMD 32-bit Shift Instructions
+  target/riscv: RV64 Only SIMD 32-bit Miscellaneous Instructions
+  target/riscv: RV64 Only SIMD Q15 saturating Multiply Instructions
+  target/riscv: RV64 Only 32-bit Multiply Instructions
+  target/riscv: RV64 Only 32-bit Multiply & Add Instructions
+  target/riscv: RV64 Only 32-bit Parallel Multiply & Add Instructions
+  target/riscv: RV64 Only Non-SIMD 32-bit Shift Instructions
+  target/riscv: RV64 Only 32-bit Packing Instructions
+  target/riscv: configure and turn on packed extension from command line
+
+ target/riscv/cpu.c                      |   34 +
+ target/riscv/cpu.h                      |    6 +
+ target/riscv/helper.h                   |  330 ++
+ target/riscv/insn32.decode              |  370 +++
+ target/riscv/insn_trans/trans_rvp.c.inc | 1155 +++++++
+ target/riscv/internals.h                |   50 +
+ target/riscv/meson.build                |    1 +
+ target/riscv/packed_helper.c            | 3851 +++++++++++++++++++++++
+ target/riscv/translate.c                |    3 +
+ target/riscv/vector_helper.c            |   82 +-
+ 10 files changed, 5824 insertions(+), 58 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvp.c.inc
+ create mode 100644 target/riscv/packed_helper.c
+
 -- 
 2.17.1
 
