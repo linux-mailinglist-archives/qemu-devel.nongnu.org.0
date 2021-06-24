@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FA03B3855
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 23:08:10 +0200 (CEST)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497993B3919
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 00:11:09 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwWa1-00041c-0c
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 17:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
+	id 1lwXYx-0006eS-Hp
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 18:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lwWWw-0003C7-Kv
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 17:04:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52923)
+ id 1lwXXO-0005uP-0q
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 18:09:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lwWWs-0000Bq-VB
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 17:04:57 -0400
+ id 1lwXXK-0006bP-L3
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 18:09:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624568693;
+ s=mimecast20190719; t=1624572565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bULg7HCOZDITz4f+9ELw3ZKtwbv7Np0c2gj5x+GeByU=;
- b=a78tpPCR0TO65KNGbjuZyioN6vDEtEXFtMd7r19QV2tCr0Vg0R9KOwU/+qaEeBUnG4cm67
- ZlLoutIZ7W5g4bb7cyjOwhFMqsHPXi91VwzUIQdw++UiSM99esLGVIAc/MVgTcO2zlfY/z
- 0un+NISE+Vv6sIMSmhm97p4G3t/5KBA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-yi4tFPynO9eI93z-gCEB4Q-1; Thu, 24 Jun 2021 17:04:51 -0400
-X-MC-Unique: yi4tFPynO9eI93z-gCEB4Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- s80-20020a1ca9530000b02901cff732fde5so2120148wme.6
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 14:04:51 -0700 (PDT)
+ bh=4B28hTOuAAuZaYAvuuG6IWNoNOJwRBtM2oXVHz9v8WA=;
+ b=NHufFhs/4D14CJR6KUeuhtNsI3YC2Bvw7y8uDlNiiIbnqIN7Qj5B9wE8tWFx6fTk7Y6SOF
+ 6IlmvrC/GSgybSpiiKSqt0s3G/JQ5kENgIO+c5R2UbPhXsAvavEmPYhbKFVtOBpCloS+Jy
+ kac4C6qcjIWoJK1VCjhs1J0v8ZBEIHo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-7vZbdVsFPWW6U3uBfQO5mg-1; Thu, 24 Jun 2021 18:09:24 -0400
+X-MC-Unique: 7vZbdVsFPWW6U3uBfQO5mg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z5-20020a05640235c5b0290393974bcf7eso4117519edc.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 15:09:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bULg7HCOZDITz4f+9ELw3ZKtwbv7Np0c2gj5x+GeByU=;
- b=KIZu4e3MsaPBohuP7UCxwDlj8P5dcinMP1t6YOp4mPU3F+J4hRqfciXyj9hI+cHZkN
- xCaQlrMeDVbSuKKXsY4PzYP8Zbg6RqVTzEuMXREeZmFm25YqG2p7bZJC65SawVfOUt/U
- si2KaaxZQqD+VkeSp5F49wPe4XIrhO1eNgEc8L2mA0wt9hgcVj3YvAGCmGDbGu+2+zX2
- JwAVCsMYyRR6lsx0Bvz30+daW48LsfjY9LlDRKr7EF7zYAOiuL5V1EyZ5IEauGwzvX19
- H5A7XYG3KHIeHu95hxNe+xBj2hHbSLFc0LtDkCUcQooxGO3FgERBcg/YOakUBBzAuR6c
- TqnA==
-X-Gm-Message-State: AOAM533Sa4ubNrRZAwjbN31H4FFNKp1Sj81JWDZPDI8saBtE6M6j9QGS
- sGsoVzjE2j7thC22sNcof/dbUZt7T0AoOsKqH9nI1BvEm/hxgzDOajaSv3QgS26PnOxNx/Pd1+m
- 4414qqezqIQhB4rOWHBS/T/NOu6eDJOnbxHpzDKbyZRsreV258aCIheFMfAEBZO0ic8Y=
-X-Received: by 2002:a05:600c:2293:: with SMTP id
- 19mr6560024wmf.175.1624568690280; 
- Thu, 24 Jun 2021 14:04:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6VThClCKqsuIYvZFWB/J360RlCMi/mfRPEyCdW9nKd7jXR5LHwN6RjEx6tsfK2PIEty82sg==
-X-Received: by 2002:a05:600c:2293:: with SMTP id
- 19mr6559998wmf.175.1624568689980; 
- Thu, 24 Jun 2021 14:04:49 -0700 (PDT)
+ bh=4B28hTOuAAuZaYAvuuG6IWNoNOJwRBtM2oXVHz9v8WA=;
+ b=YNZDYvj4JShwFOrdw35RdA2mzZGphKl3eQn8AXmCQM31HYfN8m+zYJ1lqLdrbsv6e7
+ Cz44WkL4fw0EZ/7SvKhzjefMIBc0UsdEooNVdgeayM/Joq5uij6udCkBL5jQLlMvTtX/
+ TtO44Jn+wRXKKojJ8Ho6Xbrjnv4KUFi0UY+bLdr6YSLD8mUtTU3aEOdVOVtDsLF4/sYI
+ DensiK+FaTXd+8jFQuLO7lVjtMIUQlM+5UsiLB2H5iA5co2zQZXeC+658KvetFW4NT89
+ u7YufJFURSKa3MUzUXmtHYB6VwrMSpT0PRvBGtS9rYChPZ7iRtq7w4ezKcgbqhhrqayF
+ yNuw==
+X-Gm-Message-State: AOAM530M8/MMYa7yysiN4uT8tCl5sARmQf5QQ4dj365GXitg9c3u6ApE
+ tBn/gXX3yt9XFCw9mU6e9VMdx5NI59bCqX+H35HFz8ZStUj/BrL8Mgisc0arHd+kwscgEa8vL0w
+ xFobNnOm4I8IiBts=
+X-Received: by 2002:aa7:c790:: with SMTP id n16mr10253909eds.370.1624572562885; 
+ Thu, 24 Jun 2021 15:09:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZ8cv3/ZUEDCRxG4NOJ5MztKZUgEz/sMHF1J59RzdTVcYjO5EmfGWPeopzbXXzqUAg+VteIw==
+X-Received: by 2002:aa7:c790:: with SMTP id n16mr10253727eds.370.1624572561086; 
+ Thu, 24 Jun 2021 15:09:21 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d4sm4053050wmd.42.2021.06.24.14.04.49
+ by smtp.gmail.com with ESMTPSA id em20sm1788907ejc.70.2021.06.24.15.09.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 14:04:49 -0700 (PDT)
-Subject: Re: [PULL 00/12] Misc, mostly meson patches for 2021-06-23
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210623121424.1259496-1-pbonzini@redhat.com>
- <CAFEAcA8kr5sn-jQ_wLa6a-m0DmbWPh1v6YuHQK74dy8pp01-Vw@mail.gmail.com>
+ Thu, 24 Jun 2021 15:09:20 -0700 (PDT)
+Subject: Re: [PATCH v2] mc146818rtc: Make PF independent of PIE
+To: Jason Thorpe <thorpej@me.com>
+References: <20210619193849.27889-1-thorpej@me.com>
+ <b9e20dbc-fa5f-1e37-ad8a-5d433d77c4b0@redhat.com>
+ <00FB4F43-698C-4888-91E7-45FE80CCFC67@me.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3d085a3d-d4e0-6750-65c0-ec91c5f63d8d@redhat.com>
-Date: Thu, 24 Jun 2021 23:04:48 +0200
+Message-ID: <bf3645bf-6a47-75f8-862a-7ea8c467f007@redhat.com>
+Date: Fri, 25 Jun 2021 00:09:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8kr5sn-jQ_wLa6a-m0DmbWPh1v6YuHQK74dy8pp01-Vw@mail.gmail.com>
+In-Reply-To: <00FB4F43-698C-4888-91E7-45FE80CCFC67@me.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -103,25 +102,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/21 21:09, Peter Maydell wrote:
-> This generates a new warning on one of my boxes:
+On 23/06/21 16:24, Jason Thorpe wrote:
+>> Second, the firmware could set a nonzero period, and this would cause
+>> continuous interruptions of the guest after the firmware stops, due to
+>> s->periodic_timer firing.  This is "optimized" by the bug that you are
+>> fixing.  To keep the optimization you could:
+>>
+>> - do the timer_mod in periodic_timer_update only if !PF || (PIE && lost_tick_policy==SLEW)
+>>
+>> - in cmos_ioport_read, if !timer_pending(s->periodic_timer) call
+>>
+>>     periodic_timer_update(s, qemu_clock_get_ns(rtc_clock),
+>>                           s->period, true);
+>>
+>> to update s->next_periodic_time for the next tick and ensure PF will be set.
 > 
-> [...]
-> Has header "sasl/sasl.h" : YES (cached)
-> Library sasl2 found: YES
-> Has header "security/pam_appl.h" : YES
-> Library pam found: YES
-> ../meson.build:926: WARNING: could not link libpam, disabling
+> I might be missing some subtlety here, but by my reading of
+> periodic_timer_update(), either one of those changes would result in a
+> delay of the next latching of PF by however many ns the CPU was late in
+> reading PF since the last time it was latched  Please correct me if I’m
+> wrong about this!
 
-This is probably too old a libpam, or something like that.  What distro 
-is it, and could you please attach the resulting meson-logs/meson-log.txt?
+No, it shouldn't.  I may be wrong, but the process is the following:
 
-Thanks,
+- the current rtc_clock value is stored in cur_clock
+
+- because period_change is true, the delay between writing PF and 
+reading C is stored in lost_clock
+
+- then the delay is compensated by next_irq_clock = cur_clock + period - 
+lost_clock
+
+The best way to confirm this would be by writing a testcase (there's 
+already an mc146818 suite in tests/qtest).
 
 Paolo
+
+> There exists software out there in the wild that depends on PF latching at regular intervals regardless if when the CPU reads, it, i.e.:
+> 
+> PF          PF          PF          PF          PF          PF
+>      C            C                  C      C                  C
+> 
+> -- thorpej
+> 
+> 
 
 
