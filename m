@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741B53B37C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:25:53 +0200 (CEST)
-Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067AD3B37D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:29:42 +0200 (CEST)
+Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwVv6-0003VX-Ew
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:25:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
+	id 1lwVyn-0008Rg-0T
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lwVr8-0001Ej-JH; Thu, 24 Jun 2021 16:21:46 -0400
+ id 1lwVrB-0001Ju-GA; Thu, 24 Jun 2021 16:21:49 -0400
 Received: from [201.28.113.2] (port=25523 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lwVr7-0007T7-03; Thu, 24 Jun 2021 16:21:46 -0400
+ id 1lwVr9-0007T7-Mo; Thu, 24 Jun 2021 16:21:49 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 24 Jun 2021 17:21:33 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 24 Jun 2021 17:21:34 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id BA3EB80107F;
+ by power9a (Postfix) with ESMTP id ECE7480107F;
  Thu, 24 Jun 2021 17:21:33 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/3] target/ppc: change ppc_hash32_xlate to use mmu_idx
-Date: Thu, 24 Jun 2021 17:21:29 -0300
-Message-Id: <20210624202131.108255-3-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v3 3/3] target/ppc: changed ppc_hash64_xlate to use mmu_idx
+Date: Thu, 24 Jun 2021 17:21:30 -0300
+Message-Id: <20210624202131.108255-4-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210624202131.108255-1-bruno.larsen@eldorado.org.br>
 References: <20210624202131.108255-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 24 Jun 2021 20:21:33.0893 (UTC)
- FILETIME=[86A68750:01D76936]
+X-OriginalArrivalTime: 24 Jun 2021 20:21:34.0331 (UTC)
+ FILETIME=[86E95CB0:01D76936]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -60,122 +60,207 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changed hash32 address translation to use the supplied mmu_idx, instead
-of using what was stored in the msr, for parity purposes (radix64
-already uses that).
+Changed hash64 address translation to use the supplied mmu_idx instead
+of using the one stored in the msr, for parity purposes (other book3s
+MMUs already use it).
 
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 ---
- target/ppc/mmu-hash32.c | 18 +++++++++---------
- target/ppc/mmu-hash32.h |  2 +-
+ target/ppc/mmu-hash64.c | 43 ++++++++++++++++++++---------------------
+ target/ppc/mmu-hash64.h |  2 +-
  target/ppc/mmu_helper.c |  2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ 3 files changed, 23 insertions(+), 24 deletions(-)
 
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index 6a07c345e4..9a477a181f 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -25,6 +25,7 @@
- #include "kvm_ppc.h"
- #include "internal.h"
- #include "mmu-hash32.h"
-+#include "mmu-book3s-v3.h"
- #include "exec/log.h"
- 
- /* #define DEBUG_BAT */
-@@ -86,13 +87,12 @@ static int ppc_hash32_pp_prot(int key, int pp, int nx)
-     return prot;
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index c1b98a97e9..191da21a5d 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -366,10 +366,9 @@ static inline int ppc_hash64_pte_noexec_guard(PowerPCCPU *cpu,
  }
  
--static int ppc_hash32_pte_prot(PowerPCCPU *cpu,
-+static int ppc_hash32_pte_prot(PowerPCCPU *cpu, int mmu_idx,
-                                target_ulong sr, ppc_hash_pte32_t pte)
+ /* Check Basic Storage Protection */
+-static int ppc_hash64_pte_prot(PowerPCCPU *cpu,
++static int ppc_hash64_pte_prot(PowerPCCPU *cpu, int mmu_idx,
+                                ppc_slb_t *slb, ppc_hash_pte64_t pte)
  {
 -    CPUPPCState *env = &cpu->env;
      unsigned pp, key;
+     /*
+      * Some pp bit combinations have undefined behaviour, so default
+@@ -377,7 +376,7 @@ static int ppc_hash64_pte_prot(PowerPCCPU *cpu,
+      */
+     int prot = 0;
  
--    key = !!(msr_pr ? (sr & SR32_KP) : (sr & SR32_KS));
-+    key = !!(mmuidx_pr(mmu_idx) ? (sr & SR32_KP) : (sr & SR32_KS));
-     pp = pte.pte1 & HPTE32_R_PP;
+-    key = !!(msr_pr ? (slb->vsid & SLB_VSID_KP)
++    key = !!(mmuidx_pr(mmu_idx) ? (slb->vsid & SLB_VSID_KP)
+              : (slb->vsid & SLB_VSID_KS));
+     pp = (pte.pte1 & HPTE64_R_PP) | ((pte.pte1 & HPTE64_R_PP0) >> 61);
  
-     return ppc_hash32_pp_prot(key, pp, !!(sr & SR32_NX));
-@@ -221,12 +221,12 @@ static hwaddr ppc_hash32_bat_lookup(PowerPCCPU *cpu, target_ulong ea,
- static bool ppc_hash32_direct_store(PowerPCCPU *cpu, target_ulong sr,
-                                     target_ulong eaddr,
-                                     MMUAccessType access_type,
--                                    hwaddr *raddr, int *prot,
-+                                    hwaddr *raddr, int *prot, int mmu_idx,
-                                     bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
--    int key = !!(msr_pr ? (sr & SR32_KP) : (sr & SR32_KS));
-+    int key = !!(mmuidx_pr(mmu_idx) ? (sr & SR32_KP) : (sr & SR32_KS));
- 
-     qemu_log_mask(CPU_LOG_MMU, "direct store...\n");
- 
-@@ -425,7 +425,7 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
+@@ -744,17 +743,17 @@ static bool ppc_hash64_use_vrma(CPUPPCState *env)
+     }
  }
  
- bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+-static void ppc_hash64_set_isi(CPUState *cs, uint64_t error_code)
++static void ppc_hash64_set_isi(CPUState *cs, int mmu_idx, uint64_t error_code)
+ {
+     CPUPPCState *env = &POWERPC_CPU(cs)->env;
+     bool vpm;
+ 
+-    if (msr_ir) {
++    if (!mmuidx_real(mmu_idx)) {
+         vpm = !!(env->spr[SPR_LPCR] & LPCR_VPM1);
+     } else {
+         vpm = ppc_hash64_use_vrma(env);
+     }
+-    if (vpm && !msr_hv) {
++    if (vpm && !mmuidx_hv(mmu_idx)) {
+         cs->exception_index = POWERPC_EXCP_HISI;
+     } else {
+         cs->exception_index = POWERPC_EXCP_ISI;
+@@ -762,17 +761,17 @@ static void ppc_hash64_set_isi(CPUState *cs, uint64_t error_code)
+     env->error_code = error_code;
+ }
+ 
+-static void ppc_hash64_set_dsi(CPUState *cs, uint64_t dar, uint64_t dsisr)
++static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t dsisr)
+ {
+     CPUPPCState *env = &POWERPC_CPU(cs)->env;
+     bool vpm;
+ 
+-    if (msr_dr) {
++    if (!mmuidx_real(mmu_idx)) {
+         vpm = !!(env->spr[SPR_LPCR] & LPCR_VPM1);
+     } else {
+         vpm = ppc_hash64_use_vrma(env);
+     }
+-    if (vpm && !msr_hv) {
++    if (vpm && !mmuidx_hv(mmu_idx)) {
+         cs->exception_index = POWERPC_EXCP_HDSI;
+         env->spr[SPR_HDAR] = dar;
+         env->spr[SPR_HDSISR] = dsisr;
+@@ -874,7 +873,7 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
+ }
+ 
+ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
 -                      hwaddr *raddrp, int *psizep, int *protp,
 +                      hwaddr *raddrp, int *psizep, int *protp, int mmu_idx,
                        bool guest_visible)
  {
      CPUState *cs = CPU(cpu);
-@@ -441,7 +441,7 @@ bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     *psizep = TARGET_PAGE_BITS;
+@@ -897,7 +896,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+      */
  
      /* 1. Handle real mode accesses */
 -    if (access_type == MMU_INST_FETCH ? !msr_ir : !msr_dr) {
 +    if (mmuidx_real(mmu_idx)) {
-         /* Translation is off */
-         *raddrp = eaddr;
-         *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-@@ -483,7 +483,7 @@ bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     /* 4. Handle direct store segments */
-     if (sr & SR32_T) {
-         return ppc_hash32_direct_store(cpu, sr, eaddr, access_type,
--                                       raddrp, protp, guest_visible);
-+                                       raddrp, protp, mmu_idx, guest_visible);
+         /*
+          * Translation is supposedly "off", but in real mode the top 4
+          * effective address bits are (mostly) ignored
+@@ -909,7 +908,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+              * In virtual hypervisor mode, there's nothing to do:
+              *   EA == GPA == qemu guest address
+              */
+-        } else if (msr_hv || !env->has_hv_mode) {
++        } else if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
+             /* In HV mode, add HRMOR if top EA bit is clear */
+             if (!(eaddr >> 63)) {
+                 raddr |= env->spr[SPR_HRMOR];
+@@ -937,13 +936,13 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+                 }
+                 switch (access_type) {
+                 case MMU_INST_FETCH:
+-                    ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
++                    ppc_hash64_set_isi(cs, mmu_idx, SRR1_PROTFAULT);
+                     break;
+                 case MMU_DATA_LOAD:
+-                    ppc_hash64_set_dsi(cs, eaddr, DSISR_PROTFAULT);
++                    ppc_hash64_set_dsi(cs, mmu_idx, eaddr, DSISR_PROTFAULT);
+                     break;
+                 case MMU_DATA_STORE:
+-                    ppc_hash64_set_dsi(cs, eaddr,
++                    ppc_hash64_set_dsi(cs, mmu_idx, eaddr,
+                                        DSISR_PROTFAULT | DSISR_ISSTORE);
+                     break;
+                 default:
+@@ -996,7 +995,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+     /* 3. Check for segment level no-execute violation */
+     if (access_type == MMU_INST_FETCH && (slb->vsid & SLB_VSID_N)) {
+         if (guest_visible) {
+-            ppc_hash64_set_isi(cs, SRR1_NOEXEC_GUARD);
++            ppc_hash64_set_isi(cs, mmu_idx, SRR1_NOEXEC_GUARD);
+         }
+         return false;
      }
+@@ -1009,13 +1008,13 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+         }
+         switch (access_type) {
+         case MMU_INST_FETCH:
+-            ppc_hash64_set_isi(cs, SRR1_NOPTE);
++            ppc_hash64_set_isi(cs, mmu_idx, SRR1_NOPTE);
+             break;
+         case MMU_DATA_LOAD:
+-            ppc_hash64_set_dsi(cs, eaddr, DSISR_NOPTE);
++            ppc_hash64_set_dsi(cs, mmu_idx, eaddr, DSISR_NOPTE);
+             break;
+         case MMU_DATA_STORE:
+-            ppc_hash64_set_dsi(cs, eaddr, DSISR_NOPTE | DSISR_ISSTORE);
++            ppc_hash64_set_dsi(cs, mmu_idx, eaddr, DSISR_NOPTE | DSISR_ISSTORE);
+             break;
+         default:
+             g_assert_not_reached();
+@@ -1028,7 +1027,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+     /* 5. Check access permissions */
  
-     /* 5. Check for segment level no-execute violation */
-@@ -520,7 +520,7 @@ bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+     exec_prot = ppc_hash64_pte_noexec_guard(cpu, pte);
+-    pp_prot = ppc_hash64_pte_prot(cpu, slb, pte);
++    pp_prot = ppc_hash64_pte_prot(cpu, mmu_idx, slb, pte);
+     amr_prot = ppc_hash64_amr_prot(cpu, pte);
+     prot = exec_prot & pp_prot & amr_prot;
  
-     /* 7. Check access permissions */
- 
--    prot = ppc_hash32_pte_prot(cpu, sr, pte);
-+    prot = ppc_hash32_pte_prot(cpu, mmu_idx, sr, pte);
- 
-     if (need_prot & ~prot) {
-         /* Access right violation */
-diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
-index 8694eccabd..807d9bc6e8 100644
---- a/target/ppc/mmu-hash32.h
-+++ b/target/ppc/mmu-hash32.h
-@@ -5,7 +5,7 @@
- 
- hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash);
- bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+@@ -1049,7 +1048,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+             if (PAGE_EXEC & ~amr_prot) {
+                 srr1 |= SRR1_IAMR; /* Access violates virt pg class key prot */
+             }
+-            ppc_hash64_set_isi(cs, srr1);
++            ppc_hash64_set_isi(cs, mmu_idx, srr1);
+         } else {
+             int dsisr = 0;
+             if (need_prot & ~pp_prot) {
+@@ -1061,7 +1060,7 @@ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+             if (need_prot & ~amr_prot) {
+                 dsisr |= DSISR_AMR;
+             }
+-            ppc_hash64_set_dsi(cs, eaddr, dsisr);
++            ppc_hash64_set_dsi(cs, mmu_idx, eaddr, dsisr);
+         }
+         return false;
+     }
+diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+index 9f338e1fe9..c5b2f97ff7 100644
+--- a/target/ppc/mmu-hash64.h
++++ b/target/ppc/mmu-hash64.h
+@@ -8,7 +8,7 @@ void dump_slb(PowerPCCPU *cpu);
+ int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
+                   target_ulong esid, target_ulong vsid);
+ bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
 -                      hwaddr *raddrp, int *psizep, int *protp,
 +                      hwaddr *raddrp, int *psizep, int *protp, int mmu_idx,
                        bool guest_visible);
- 
- /*
+ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
+                                target_ulong pte_index,
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 9dcdf88597..a3381e1aa0 100644
+index a3381e1aa0..0816c889a3 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -2922,7 +2922,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     case POWERPC_MMU_32B:
-     case POWERPC_MMU_601:
-         return ppc_hash32_xlate(cpu, eaddr, access_type,
+@@ -2916,7 +2916,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+     case POWERPC_MMU_2_06:
+     case POWERPC_MMU_2_07:
+         return ppc_hash64_xlate(cpu, eaddr, access_type,
 -                                raddrp, psizep, protp, guest_visible);
 +                                raddrp, psizep, protp, mmu_idx, guest_visible);
+ #endif
  
-     default:
-         return ppc_jumbo_xlate(cpu, eaddr, access_type, raddrp,
+     case POWERPC_MMU_32B:
 -- 
 2.17.1
 
