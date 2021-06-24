@@ -2,73 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976323B35DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:36:46 +0200 (CEST)
-Received: from localhost ([::1]:32928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542133B35E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:39:00 +0200 (CEST)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwUDV-0007Zv-4A
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58394)
+	id 1lwUFf-0000qX-Dh
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lwUBf-0006hI-UU
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:34:51 -0400
-Received: from mga18.intel.com ([134.134.136.126]:57507)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lwUDr-0008Ml-88
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:37:07 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:11730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lwUBd-0002JO-3G
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:34:51 -0400
-IronPort-SDR: +BPmOGC5foM6ufznJ8CzTxPiq1JV2lRaB0cev2PRliBcaD3EHp7ddKTKwpZ4XpIs91whXpn+TN
- AreJG/eeFDPA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="194833927"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="194833927"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 11:34:41 -0700
-IronPort-SDR: qpDs6IW7/S/1b9bsAf5CeqSAwk5iOpASnmM5JlnNb12dNqwW2YzZ+QbFNJ8MEqu/2QkLJ4xoG3
- RN0K7qdw9g8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="487874356"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by orsmga001.jf.intel.com with ESMTP; 24 Jun 2021 11:34:41 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 24 Jun 2021 11:34:41 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 24 Jun 2021 11:34:40 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
- Thu, 24 Jun 2021 11:34:40 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH v3 3/5] ui: Create sync objects and fences only for blobs
-Thread-Topic: [PATCH v3 3/5] ui: Create sync objects and fences only for blobs
-Thread-Index: AQHXZtTYJy9EF+mm+EOgPYQ+xcZiwqsht3mAgABALFCAAVjlgIAALCwA
-Date: Thu, 24 Jun 2021 18:34:40 +0000
-Message-ID: <9177ff8bd70a40c184e76ed7b2942842@intel.com>
-References: <20210621192425.1188442-1-vivek.kasireddy@intel.com>
- <20210621192425.1188442-4-vivek.kasireddy@intel.com>
- <20210623081515.ezdchomanr73wrp5@sirius.home.kraxel.org>
- <2b7a5e50d754416fba8fc271054b0db1@intel.com>
- <20210624083921.5ciwcykojkb2fey6@sirius.home.kraxel.org>
-In-Reply-To: <20210624083921.5ciwcykojkb2fey6@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lwUDo-0003rN-7Y
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:37:06 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EB32D74570B;
+ Thu, 24 Jun 2021 20:37:01 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B8FA57456E3; Thu, 24 Jun 2021 20:37:01 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B72387456B4;
+ Thu, 24 Jun 2021 20:37:01 +0200 (CEST)
+Date: Thu, 24 Jun 2021 20:37:01 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PULL 30/43] vt82c686: Fix SMBus IO base and configuration
+ registers
+In-Reply-To: <0c52a343-ed4c-92fa-fac0-0f32f37b0df2@amsat.org>
+Message-ID: <a28abcbd-204d-2c2c-7314-bdd98fff04f@eik.bme.hu>
+References: <20210221143432.2468220-1-f4bug@amsat.org>
+ <20210221143432.2468220-31-f4bug@amsat.org>
+ <0c52a343-ed4c-92fa-fac0-0f32f37b0df2@amsat.org>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=vivek.kasireddy@intel.com; helo=mga18.intel.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-1658082471-1624559821=:63692"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -86,59 +60,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> > >
-> > > >      dmabuf->buf.fd =3D res->dmabuf_fd;
-> > > > +    dmabuf->buf.blob =3D true;
-> > >
-> > > Do you actually need the 'blob' field?
-> > > I think checking 'fd' instead should work too.
-> > [Kasireddy, Vivek] I want these changes to be limited to blob resources=
- only as I do not
-> > know how they might affect other use-cases or whether they are needed t=
-here or not. I
-> > don't think I can rely on fd as vfio/display.c also populates the fd fi=
-eld:
-> >     dmabuf =3D g_new0(VFIODMABuf, 1);
-> >     dmabuf->dmabuf_id  =3D plane.dmabuf_id;
-> >     dmabuf->buf.width  =3D plane.width;
-> >     dmabuf->buf.height =3D plane.height;
-> >     dmabuf->buf.stride =3D plane.stride;
-> >     dmabuf->buf.fourcc =3D plane.drm_format;
-> >     dmabuf->buf.modifier =3D plane.drm_format_mod;
-> >     dmabuf->buf.fd     =3D fd;
-> >
-> > Therefore, I need a way to identify a dmabuf that is associated with bl=
-obs vs others.
->=20
-> And it actually is a dma-buf too (the guest display provided by i915 gvt
-> mdev driver).  So fencing that should work, right?
-[Kasireddy, Vivek] Well, for virtio-gpu, as you know we are adding a dma fe=
-nce to
-resource_flush to make it wait until it gets signalled by Qemu. We might ha=
-ve to do
-to something similar on i915 GVT side but I do not have the hardware to wri=
-te a patch
-and test it out -- as i915 GVT is not supported for > Gen 9 platforms.
+--3866299591-1658082471-1624559821=:63692
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
->=20
-> Even if we have to restrict it to some kinds of dma-bufs the field
-> should have a more descriptive name like "allow_fences".
-[Kasireddy, Vivek] I think limiting this to blobs makes sense at the moment=
-. If need be,
-we can extend it to include dma-bufs generated by i915 GVT later. Let me se=
-nd a
-v4 with your suggestion to change the name.
+On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
+> Hi Zoltan,
+>
+> On 2/21/21 3:34 PM, Philippe Mathieu-Daudé wrote:
+>> From: BALATON Zoltan <balaton@eik.bme.hu>
+>>
+>> The base address of the SMBus io ports and its enabled status is set
+>> by registers in the PCI config space but this was not correctly
+>> emulated. Instead the SMBus registers were mapped on realize to the
+>> base address set by a property to the address expected by fuloong2e
+>> firmware.
+>>
+>> Fix the base and config register handling to more closely model
+>> hardware which allows to remove the property and allows the guest to
+>> control this mapping. Do all this in reset instead of realize so it's
+>> correctly updated on reset.
+>
+> This commit broken running PMON on Fuloong2E:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
 
-Thanks,
-Vivek
->=20
-> take care,
->   Gerd
+By the way, I'm not sure I'm reading this test right but looks like the 
+one which claims to test ati-vga has -vga std command line option that 
+probably turns off ati-vga so maybe it does not really test it and the one 
+which has no -vga option so could test ati-vga is not declaring it. Not 
+sure it's a problem just something I've noticed.
 
+Regards,
+BALATON Zoltan
+--3866299591-1658082471-1624559821=:63692--
 
