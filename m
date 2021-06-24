@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD343B2D19
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:58:49 +0200 (CEST)
-Received: from localhost ([::1]:59156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F243B2CF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:52:59 +0200 (CEST)
+Received: from localhost ([::1]:39394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwN4K-0002Ue-OS
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38248)
+	id 1lwMyg-0006A2-KI
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMn6-00035w-69
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44883)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnL-00040A-8N
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMn2-0007y4-5S
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:40:59 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnI-0008AD-3d
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531255;
+ s=mimecast20190719; t=1624531271;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=knRgM+8UyobiMtp7tpNcTHLWowdvknC6HlopWI5dqPQ=;
- b=Ba5nDLZUvQApg14GpMUDwnK/RCNOkZkid9OAWwqjVzSjHn47GXMzubDt4U4HSG6mG1KTTM
- SS47XSs8VF5dat/kUVIhcK4c7cna65SBFiMNxsmWPYOhO7JATIRBf7PFPQ4+BWdMh26vMn
- BivJcK5PDMS1Z3oOyVASnl+wqQefNLk=
+ bh=5+BKDlmPA7NNdhmix8TmXxQQehHJQ81Rtjwtzs/AW4A=;
+ b=XYWKUUJnxKfz8c8CnP/9DjIQ9O+7ffvftSP11aZblIrQ5mSfLCf5xs9nWgAalubOV1w7Cy
+ CF7pXfCYkHTq2fYnXfXUWAHKyOwVDljl/oRukS3bBzXN0WdAmHYxg1liofq2E458s6HQeX
+ iRye2xvoQWa0HwQCNsc2NY4iJoWt6uU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-pZbp-_84OLuBW-lgxXESyQ-1; Thu, 24 Jun 2021 06:40:54 -0400
-X-MC-Unique: pZbp-_84OLuBW-lgxXESyQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-140-st5c5T9MOzCPZ0puYgSX5A-1; Thu, 24 Jun 2021 06:41:10 -0400
+X-MC-Unique: st5c5T9MOzCPZ0puYgSX5A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B718B100C612;
- Thu, 24 Jun 2021 10:40:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 945E1106B7DB;
+ Thu, 24 Jun 2021 10:41:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02D5E5D705;
- Thu, 24 Jun 2021 10:40:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 505B560871;
+ Thu, 24 Jun 2021 10:40:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D5B331803548; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
+ id EB8B8180354A; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/34] modules: check arch and block load on mismatch
-Date: Thu, 24 Jun 2021 12:38:20 +0200
-Message-Id: <20210624103836.2382472-19-kraxel@redhat.com>
+Subject: [PATCH v4 20/34] modules: target-specific module build infrastructure
+Date: Thu, 24 Jun 2021 12:38:22 +0200
+Message-Id: <20210624103836.2382472-21-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -98,110 +98,66 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add module_allow_arch() to set the target architecture.
-In case a module is limited to some arch verify arches
-match and ignore the module if not.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/qemu/module.h |  1 +
- softmmu/vl.c          |  3 +++
- util/module.c         | 29 +++++++++++++++++++++++++++++
- 3 files changed, 33 insertions(+)
+ meson.build | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index a98748d501d3..7f4b1af8198c 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -72,6 +72,7 @@ void module_call_init(module_init_type type);
- bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
- void module_load_qom_one(const char *type);
- void module_load_qom_all(void);
-+void module_allow_arch(const char *arch);
+diff --git a/meson.build b/meson.build
+index 6ae2b9ab9443..76020b43fb32 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1781,6 +1781,7 @@ user_ss = ss.source_set()
+ util_ss = ss.source_set()
  
- /*
-  * module info annotation macros
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5c26e80126db..a70e7b4658e8 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -126,6 +126,8 @@
- #include "sysemu/iothread.h"
- #include "qemu/guest-random.h"
+ modules = {}
++target_modules = {}
+ hw_arch = {}
+ target_arch = {}
+ target_softmmu_arch = {}
+@@ -2060,6 +2061,42 @@ foreach d, list : modules
+   endforeach
+ endforeach
  
-+#include "config-host.h"
++foreach d, list : target_modules
++  foreach m, module_ss : list
++    if enable_modules and targetos != 'windows'
++      foreach target : target_dirs
++        if target.endswith('-softmmu')
++          config_target = config_target_mak[target]
++          config_target += config_host
++          target_inc = [include_directories('target' / config_target['TARGET_BASE_ARCH'])]
++          c_args = ['-DNEED_CPU_H',
++                    '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
++                    '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
++          target_module_ss = module_ss.apply(config_target, strict: false)
++          if target_module_ss.sources() != []
++            module_name = d + '-' + m + '-' + config_target['TARGET_NAME']
++            sl = static_library(module_name,
++                                [genh, target_module_ss.sources()],
++                                dependencies: [modulecommon, target_module_ss.dependencies()],
++                                include_directories: target_inc,
++                                c_args: c_args,
++                                pic: true)
++            softmmu_mods += sl
++            # FIXME: Should use sl.extract_all_objects(recursive: true) too.
++            modinfo_files += custom_target(module_name + '.modinfo',
++                                           output: module_name + '.modinfo',
++                                           input: target_module_ss.sources(),
++                                           capture: true,
++                                           command: [modinfo_collect, '--target', target, '@INPUT@'])
++          endif
++        endif
++      endforeach
++    else
++      specific_ss.add_all(module_ss)
++    endif
++  endforeach
++endforeach
 +
- #define MAX_VIRTIO_CONSOLES 1
- 
- typedef struct BlockdevOptionsQueueEntry {
-@@ -2725,6 +2727,7 @@ void qemu_init(int argc, char **argv, char **envp)
- 
- #ifdef CONFIG_MODULES
-     module_init_info(qemu_modinfo);
-+    module_allow_arch(TARGET_NAME);
- #endif
- 
-     qemu_init_subsystems();
-diff --git a/util/module.c b/util/module.c
-index acaaecad56c9..065aed09ffef 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -117,12 +117,33 @@ static const QemuModinfo module_info_stub[] = { {
-     /* end of list */
- } };
- static const QemuModinfo *module_info = module_info_stub;
-+static const char *module_arch;
- 
- void module_init_info(const QemuModinfo *info)
- {
-     module_info = info;
- }
- 
-+void module_allow_arch(const char *arch)
-+{
-+    module_arch = arch;
-+}
-+
-+static bool module_check_arch(const QemuModinfo *modinfo)
-+{
-+    if (modinfo->arch) {
-+        if (!module_arch) {
-+            /* no arch set -> ignore all */
-+            return false;
-+        }
-+        if (strcmp(module_arch, modinfo->arch) != 0) {
-+            /* mismatch */
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-+
- static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
- {
-     GModule *g_module;
-@@ -224,6 +245,13 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-     g_hash_table_add(loaded_modules, module_name);
- 
-     for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
-+        if (modinfo->arch) {
-+            if (strcmp(modinfo->name, module_name) == 0) {
-+                if (!module_check_arch(modinfo)) {
-+                    return false;
-+                }
-+            }
-+        }
-         if (modinfo->deps) {
-             if (strcmp(modinfo->name, module_name) == 0) {
-                 /* we depend on other module(s) */
-@@ -345,6 +373,7 @@ void qemu_load_module_for_opts(const char *group)
- 
- #else
- 
-+void module_allow_arch(const char *arch) {}
- void qemu_load_module_for_opts(const char *group) {}
- void module_load_qom_one(const char *type) {}
- void module_load_qom_all(void) {}
+ if enable_modules
+   modinfo_src = custom_target('modinfo.c',
+                               output: 'modinfo.c',
 -- 
 2.31.1
 
