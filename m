@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA32B3B373E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 21:48:20 +0200 (CEST)
-Received: from localhost ([::1]:35250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976033B37AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 22:17:30 +0200 (CEST)
+Received: from localhost ([::1]:45612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwVKl-00088b-Am
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 15:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43958)
+	id 1lwVmz-00080Y-4h
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 16:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lwVIP-0006nL-0X
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 15:45:53 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39767)
+ id 1lwVlT-0007HS-Et
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:15:55 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lwVIM-00038t-1L
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 15:45:52 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso6994299wmh.4
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 12:45:49 -0700 (PDT)
+ id 1lwVlQ-0003s9-WE
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 16:15:55 -0400
+Received: by mail-wr1-x436.google.com with SMTP id j2so8003854wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 13:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=5qH7XFl49QrQVskZctb1dXUUlNvVRJyRAimPdOA1z0U=;
- b=dGgGM8xKaB3arnrWwqkewq7QFKDOGd1HKwL4J1e72wxy6dwN59cOMLeXQvKzjDtE5b
- mdYlow7eS1uYqi+fFaB9fFvzT7K0ERK3t3ticNnUg3HYugeElerE8cOEyHWyvV2pRYc7
- 32hA/dohYXM7siIYidFOXmQ5FqU+at66LlObdtsY0//XW6kOUWCRzgMCz7Nu44Q/Y6/I
- aOK/Fut+al/r8BOcuN7bWAcSLCKRVzlvgp82Z/IG4nP9+fIizyVAyE3cWWzUQXrEvfdC
- AWw+a576ouy0w9JqV3otdZQ6fsASPFoFP7AUwSrBim3AmTrVJ9jGgDhgOEEBFmCJxNtx
- 6wSw==
+ bh=5MSHOOOtmhqT13jMfZD0jUonNaAvjSDa5blAP9i6iG8=;
+ b=V+Qinc0Bwa6xDK9NL5Au3s5FN/BB9A1aH8PNVb+QoaLXw/7cMofW0hBLlwdgXFP7VV
+ xRneQHHHj3h45ICyw2MO2ThEicEGuJSTXDSf57k2oBq0wEnUVl4moryYeIKDZJXPZqse
+ ZShlW/iV/bCs1JHCOB0pwv8RxB5OHBqkyJSyWuEszg8C8iHgBJCCSS0vNb7ysp8Xl9Jj
+ ObrQ151OlT3iZswrXGHdLwH1a8ZbieQODstZ9LRugfOrciNjjY/TMJPt2r9vmOTD26Va
+ FLj6+sLCA+ZlR1H4VVjoOb9zUvVi9dDsEjpT8cZbpJnX5nD2wMhfLSjqagZLJZ/EMFEW
+ Vf2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=5qH7XFl49QrQVskZctb1dXUUlNvVRJyRAimPdOA1z0U=;
- b=pxp4UJP+CjGhmiGF/RdzwEXAmkgR/dcb7YmCHidxFFJpsKliHceWWWjW91DeLH8DRO
- Zl/3Pi7fRglhOaAbKMwgeiwLosSSL6AoAksxNaldmuDhjs71t8WiPvuIAHdvWNAvirxr
- ZNRTy7aBKrkELaBEEWw75RW5hARK2UH7zquKBlu5uFL6H8W1quinrE93EtiLlAeHkV6S
- gjoZa/XfsWLLLhEkeFYK4CFNR1icmTthaB02+YxNHWHIaVWzSmH6o3lKxiJLeP+W+Drx
- bRZzv86le0St98YDs3ls56HxVFbZ1HP3xG86alhF1eqJu05leXQkNAbSjLI+UO8Refie
- SczA==
-X-Gm-Message-State: AOAM5336GmdZNAGu+DXeeXNNFBwiep+80/j8+umKpbooP+gSn8+cFxpR
- c90lLMHW0C3+QDSfqrJFDxhzOQ==
-X-Google-Smtp-Source: ABdhPJyC3FgqOuiuRGU2HMQ8LvjfX5Yg1DUsxOf9CKadnN9YpE4LfiUi/G5AoOrTRaedzynq3eAqJg==
-X-Received: by 2002:a05:600c:28d:: with SMTP id
- 13mr6308324wmk.79.1624563948118; 
- Thu, 24 Jun 2021 12:45:48 -0700 (PDT)
+ bh=5MSHOOOtmhqT13jMfZD0jUonNaAvjSDa5blAP9i6iG8=;
+ b=c7aaGYBKM7iDqFWnE786NJUA8k3/O/zRKIqJrlU52DlxonRNkzGAau3NFxwL+TrqXQ
+ 8zt9vqX2IO61LM2EPrq7Ed5iMDW9awCeWvFUL68llefdqFQWT8M2qdeFjveKjjx+2Lkh
+ thzruNaZG74/fiTKqC98nzjWnKQegzU0S4xgb8hMe3xTu4psB8HadGkxBPp2/Y3T7j7D
+ 6qWRsyZe8OjNvJM15iYEYL2O8JQ+naTcSgO4f9n2DcJypwsEEVAfaQ85xqlFIWpMcNQc
+ jREyxU6tNeuZNFJS3tnVVEwHdO7+mgausb5R0CghxkeHbz2reWu8jl1helFT3agnckIq
+ Pw9A==
+X-Gm-Message-State: AOAM533rCgWCblNNe53D8ws/T8fkmAG2KQWI5c6n1s236LzQms5/Drdh
+ TVwhGcKIBzr2lkuLpuHfymqUYQ==
+X-Google-Smtp-Source: ABdhPJwHFqR0Vlg6yAKX1oypFrP+cbj2ceR88AVkBER8N8UYeHyku7u1e8vb9M7tnY9fRgkDtBKCAQ==
+X-Received: by 2002:a05:6000:1084:: with SMTP id
+ y4mr6591772wrw.173.1624565751559; 
+ Thu, 24 Jun 2021 13:15:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q5sm4295339wmc.0.2021.06.24.12.45.46
+ by smtp.gmail.com with ESMTPSA id s18sm4247231wrw.33.2021.06.24.13.15.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 12:45:46 -0700 (PDT)
+ Thu, 24 Jun 2021 13:15:50 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D7E6A1FF7E;
- Thu, 24 Jun 2021 20:45:45 +0100 (BST)
-References: <o1Yk83q9b8fPEPYKowd-FS7TM3GAByNtQScLqBwokjniIxwBv-rLo3gQU5MAjLDZGJn9hOGiPudeSXvp3TS-QxouCtlVqHbsnGqXf8dKs_k=@protonmail.com>
- <6c51799c-6882-c459-0996-325c58de87fd@amsat.org>
+ by zen.linaroharston (Postfix) with ESMTP id E96111FF7E;
+ Thu, 24 Jun 2021 21:15:49 +0100 (BST)
+References: <20210618091101.2802534-1-erdnaxe@crans.org>
+ <20210618091101.2802534-3-erdnaxe@crans.org> <87y2b2s2gw.fsf@linaro.org>
+ <49027cc2-f89e-cbd6-cfc0-e59ce7dd4b17@crans.org>
+ <87y2b2rxju.fsf@linaro.org>
+ <9c43ebbe-d0cd-5244-ba86-477e40f0c835@crans.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: Difficulties to access guest memory in TCG plugins
-Date: Thu, 24 Jun 2021 20:41:25 +0100
-In-reply-to: <6c51799c-6882-c459-0996-325c58de87fd@amsat.org>
-Message-ID: <87zgvfqc5y.fsf@linaro.org>
+To: Alexandre IOOSS <erdnaxe@crans.org>
+Subject: Re: [PATCH v2 2/2] docs/devel: tvg-plugins: add execlog plugin
+ description
+Date: Thu, 24 Jun 2021 21:13:55 +0100
+In-reply-to: <9c43ebbe-d0cd-5244-ba86-477e40f0c835@crans.org>
+Message-ID: <87tulnqaru.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,46 +92,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Mambu <kev.mambu@protonmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+ "open list : All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Alexandre IOOSS <erdnaxe@crans.org> writes:
 
-> Cc'ing the maintainer: Alex.
+> [[PGP Signed Part:Undecided]]
+> On 6/22/21 12:37 PM, Alex Benn=C3=A9e wrote:
+>> Alexandre IOOSS <erdnaxe@crans.org> writes:
+>>=20
+>>> [[PGP Signed Part:Undecided]]
+>>> On 6/22/21 10:48 AM, Alex Benn=C3=A9e wrote:
+>>>> Alexandre Iooss<erdnaxe@crans.org>  writes:
+>>>>> [...]
+>>>>> +
+>>>>> +The execlog tool traces executed instructions with memory access. It=
+ can be used
+>>>>> +for debugging and security analysis purposes.
+>>>> We should probably mention that this will generate a lot of output.
+>>>> Running the admittedly memory heavy softmmu memory test:
+>>>>     ./aarch64-softmmu/qemu-system-aarch64 -D test.out -d plugin \
+>>>>       -plugin contrib/plugins/libexeclog.so  \
+>>>>       -cpu max -serial mon:stdio -M virt \
+>>>>       -display none -semihosting-config chardev=3Dserial0 \
+>>>>       -kernel ./tests/tcg/aarch64-softmmu/memory
+>>>> generates a 8.6Gb text file. I suspect once this is merged you might
+>>>> want to look at options to target the instrumentation at areas of
+>>>> specific interest or abbreviate information.
+>>>
+>>> Yes! In my downstream version I am triggering the beginning and the
+>>> end of trace acquisition by matching two virtual addresses of GPIO
+>>> device access. This works in my case because I'm also using the same
+>>> GPIO for triggering an oscilloscope, but maybe we would like to
+>>> upstream something more generic.
+>>>
+>>> I'm still thinking about this (maybe for a later patch) but I believe
+>>> it would be nice to have the following:
+>>>   - If no argument is given to the plugin, log everything.
+>>>   - Allow the user to specify either a memory address, an instruction
+>>>     virtual address or an opcode that would start the acquisition.
+>>>   - Same to stop the acquisition.
+>> Sounds reasonable to me.
+>>=20
+>>> This would look like this to start/stop acquisition using GPIO PA8 on
+>>> STM32VLDISCOVERY:
+>>>
+>>>    ./arm-softmmu/qemu-system-arm -M stm32vldiscovery \
+>>>      -kernel ./firmware.elf -d plugin \
+>>>      -plugin libexeclog.so,arg=3Dmem:1073809424,arg=3Dmem:1073809424
+>> I quite like the formats you can use for -dfilter, for example:
+>>    0x1000+0x100,0x2100-0x100,0x3000..0x3100
+>> it might even be worth exposing qemu_set_dfilter_ranges as a helper
+>> function to plugins to avoid copy and paste.
 >
-> On 6/23/21 5:08 PM, Kevin Mambu wrote:
->> Hi, everyone,
->> I need to put in place a plugin which is able to modify memory for a
->> specific project, and until now I managed to do so using
->> cpu_memory_rw_debug().
+> We could expose "-dfilter", but maybe it is better to reserve it to
+> filter the output of the plugin rather than triggering the tracing?
 
-Out of interest what is your use-case for this? The project has very
-deliberately avoided adding such an API for writing memory for plugins
-to avoid people attempting to bypass the GPL by doing things in plugins.
+I meant the parsing code for dfilter style expressions, the dfilter
+itself ;-)
 
->> However, the function happens to fail at times, and when looking at the
->> source code of cpu_memory_rw_debug() on elixir, the issue seems to be
->> either the memory being locked by another part of QEMU code or some kind
->> of page fault.
->> My prior researches tend to put the blame on the RCU lock mechanism, and
->> I was wondering if there was another, fail-safe, function I could use to
->> access guest memory from my plug-in ?
-
-I'm not surprised. If you look at tlb_plugin_lookup you'll see the
-existing introspection code has to jump through some hoops to avoid race
-conditions that can cause updates to the internal TLB status. If we
-wanted to support reading values from memory that's probably doable -
-but for writing it would be hard to do in an idempotent way.
-
+> I could implement a format similar to dfilter to configure triggering.
+> This would enable someone to start logging on any access to a memory
+> range.
+>
+>> So what would your above command trigger? A write to 1073809424
+>> would
+>> start the trace and the next write to the same address would stop it?
 >>=20
->> Thank you in advance,
->>=20
->> *K=C3=A9vin Mambu*
->> Sent with ProtonMail <https://protonmail.com/> Secure Email.
->>=20
+>
+> Yes exactly. In this case the first access set the GPIO high, and the
+> second access set it low.
+>
+> I don't believe the plugin can access the value stored in memory (i.e.
+> differentiating between setting a GPIO output high or low). I don't
+> find this problematic in my case, but maybe it could be for someone
+> else.
+
+Not currently but in principle it wouldn't be too hard to do. It would
+just be extra data to copy into a TCG Arg. We would probably want to
+make it optional though.
+
+>
+> From the discussion I see the following possible patches:
+> 1. Add an argument to trigger the beginning with one address (memory
+> or instruction).
+> 2. Add an argument to trigger the end with one address (memory or
+> instruction).
+> 3. Add the support for ranges (in "dfilter" style).
+> 4. (maybe) Add the support to trigger on an opcode.
+> 5. Add support for "-dfilter" to filter the logging output.
+>
+> Thanks,
+> -- Alexandre
+>
+> [[End of PGP Signed Part]]
 
 
 --=20
