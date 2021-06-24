@@ -2,85 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9624E3B365D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:54:39 +0200 (CEST)
-Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E923B3683
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 21:02:28 +0200 (CEST)
+Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwUUo-0008MU-N6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:54:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
+	id 1lwUcN-0000CM-CU
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 15:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lwUTk-0007bb-4D
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:53:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29690)
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lwUW2-0000vO-EY
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:55:54 -0400
+Received: from mga11.intel.com ([192.55.52.93]:11040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lwUTd-0004sb-Fo
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:53:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624560803;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MOWGd12r5GJqRHfOsxY1wODig0Azz/FWacA5Ll4JrUY=;
- b=UY8GhxwRXNJf9axohXn5ntyKBV2AJrrfm6q8r+7VL2nCwSALnpL75evKI6572DN47prILc
- t8qmxuPsBLZe3mohJw7WqTGH2ggOYX0v9beWf9UBbLlAX8IWe0HAsu1MmxVcWNULnMQYS2
- icyu3N4g5ttoQKQ7IvA5awOdrXLwm9U=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-5_1KAV2FM3OZy1ejsFaSsA-1; Thu, 24 Jun 2021 14:53:21 -0400
-X-MC-Unique: 5_1KAV2FM3OZy1ejsFaSsA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- x5-20020adff0c50000b029011a7be832b7so2501616wro.18
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 11:53:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=MOWGd12r5GJqRHfOsxY1wODig0Azz/FWacA5Ll4JrUY=;
- b=KT7Wr2WRhM5o9RkogvwgmPgOLd0y8Z94gzXE0EXSQb3qtZXiMtZWHi9kg5wY4slGAm
- rzc4XLQP86yyexSqLtAOVRzUsrvVIMxw20PtcJKGL02JXvMA5yP46fmFP5EkJqOL+DFz
- eK13dwDGA7M87kozEjRINgzJDTfurMHBv2PWjUo6cUPsZ14ncldmzd2ezcvdZtYWFUm0
- MrQdmf+bqH1OKJjNT3RLZfpRMHaC5N3bSvFf7IylHIraXP7oObnbnv/SfKCYuWlBWTSd
- OrSRI+utrYPxQmTSfdDhs4VI5rqboYgbc2lQ6DL1kxrObKLukCFbGZYe59vc/3ABg5MB
- c1Og==
-X-Gm-Message-State: AOAM532ArEtec2e2fqlgqsb7EN6pJwMvnuKqmzuPanwu2O84VLLcnSv2
- NxLSPwfMBaBI/gbrmM088VOvaranq5UYmoW5zAdcLQtuV5P//UQ82Gwxr5aJcB/zhhcmadsNl+l
- 8+C/kqXlnzgomWfE=
-X-Received: by 2002:a05:600c:35c1:: with SMTP id
- r1mr5997768wmq.181.1624560800236; 
- Thu, 24 Jun 2021 11:53:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAXdmAkpG5lo+L7+Y//BQpAetNfsw4B0KNJVj7wlngaovplEihLQ0oaDllFZyUSxdBg5qePQ==
-X-Received: by 2002:a05:600c:35c1:: with SMTP id
- r1mr5997735wmq.181.1624560799936; 
- Thu, 24 Jun 2021 11:53:19 -0700 (PDT)
-Received: from redhat.com ([77.124.79.210])
- by smtp.gmail.com with ESMTPSA id b7sm3976533wrw.20.2021.06.24.11.53.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 11:53:19 -0700 (PDT)
-Date: Thu, 24 Jun 2021 14:53:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] acpi/ged: fix reset cause
-Message-ID: <20210624145307-mutt-send-email-mst@kernel.org>
-References: <20210624110057.2398779-1-kraxel@redhat.com>
- <CAFEAcA-fULMwcstO3eCAggktfD6vDP4TPDadyB0A9eAKAtnP-w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lwUVy-0006O1-SP
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:55:54 -0400
+IronPort-SDR: pUVKD3bM9DsdLDgvSv6yN2ArZaQGwHBsiJza0c4/xgGWjiwgt8DuvFQc2IKWdq7TrDxpD5i4sD
+ NUKKjNNflX9Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="204531440"
+X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="204531440"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 11:55:37 -0700
+IronPort-SDR: A+Q476NloBt2rEYeFnvc6LgRoWdRt3S1tGQyT+KBlIFi1ayMKEBFIS961EcGzaEeVjbJh4lp5P
+ ck31gB+tptgQ==
+X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="455176689"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 11:55:35 -0700
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 3/5] ui: Create sync objects and fences only for blobs
+Date: Thu, 24 Jun 2021 11:43:10 -0700
+Message-Id: <20210624184312.1275843-4-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210624184312.1275843-1-vivek.kasireddy@intel.com>
+References: <20210624184312.1275843-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-fULMwcstO3eCAggktfD6vDP4TPDadyB0A9eAKAtnP-w@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.93;
+ envelope-from=vivek.kasireddy@intel.com; helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,44 +61,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 24, 2021 at 12:06:14PM +0100, Peter Maydell wrote:
-> On Thu, 24 Jun 2021 at 12:01, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > Reset requests should use SHUTDOWN_CAUSE_GUEST_RESET not
-> > SHUTDOWN_CAUSE_GUEST_SHUTDOWN.
-> >
-> > Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > ---
-> >  hw/acpi/generic_event_device.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-> > index 39c825763ad8..e28457a7d103 100644
-> > --- a/hw/acpi/generic_event_device.c
-> > +++ b/hw/acpi/generic_event_device.c
-> > @@ -207,7 +207,7 @@ static void ged_regs_write(void *opaque, hwaddr addr, uint64_t data,
-> >          return;
-> >      case ACPI_GED_REG_RESET:
-> >          if (data == ACPI_GED_RESET_VALUE) {
-> > -            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-> > +            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> >          }
-> >          return;
-> >      }
-> > --
-> > 2.31.1
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> thanks
-> -- PMM
+Create sync objects and fences only for dmabufs that are blobs. Once a
+fence is created (after glFlush) and is signalled,
+graphic_hw_gl_flushed() will be called and virtio-gpu cmd processing
+will be resumed.
 
-tagged, thanks!
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ hw/display/virtio-gpu-udmabuf.c |  1 +
+ include/ui/console.h            |  1 +
+ include/ui/egl-helpers.h        |  1 +
+ include/ui/gtk.h                |  1 +
+ ui/gtk-egl.c                    | 20 ++++++++++++++++++++
+ ui/gtk-gl-area.c                | 20 ++++++++++++++++++++
+ ui/gtk.c                        | 13 +++++++++++++
+ 7 files changed, 57 insertions(+)
+
+diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
+index 3c01a415e7..c6f7f58784 100644
+--- a/hw/display/virtio-gpu-udmabuf.c
++++ b/hw/display/virtio-gpu-udmabuf.c
+@@ -185,6 +185,7 @@ static VGPUDMABuf
+     dmabuf->buf.stride = fb->stride;
+     dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
+     dmabuf->buf.fd = res->dmabuf_fd;
++    dmabuf->buf.allow_fences = true;
+ 
+     dmabuf->scanout_id = scanout_id;
+     QTAILQ_INSERT_HEAD(&g->dmabuf.bufs, dmabuf, next);
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 49978fdae3..93a0378e1d 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -170,6 +170,7 @@ typedef struct QemuDmaBuf {
+     bool      y0_top;
+     void      *sync;
+     int       fence_fd;
++    bool      allow_fences;
+ } QemuDmaBuf;
+ 
+ typedef struct DisplayState DisplayState;
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index 2c3ba92b53..2fb6e0dd6b 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -19,6 +19,7 @@ typedef struct egl_fb {
+     GLuint texture;
+     GLuint framebuffer;
+     bool delete_texture;
++    QemuDmaBuf *dmabuf;
+ } egl_fb;
+ 
+ void egl_fb_destroy(egl_fb *fb);
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index e6cbf0507c..3e6a48b978 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -152,6 +152,7 @@ extern bool gtk_use_gl_area;
+ /* ui/gtk.c */
+ void gd_update_windowsize(VirtualConsole *vc);
+ int gd_monitor_update_interval(GtkWidget *widget);
++void gd_hw_gl_flushed(void *vc);
+ 
+ /* ui/gtk-egl.c */
+ void gd_egl_init(VirtualConsole *vc);
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index b671181272..2c68696d9f 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -12,6 +12,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/main-loop.h"
+ 
+ #include "trace.h"
+ 
+@@ -63,6 +64,7 @@ void gd_egl_draw(VirtualConsole *vc)
+ {
+     GdkWindow *window;
+     int ww, wh;
++    QemuDmaBuf *dmabuf = vc->gfx.guest_fb.dmabuf;
+ 
+     if (!vc->gfx.gls) {
+         return;
+@@ -94,6 +96,14 @@ void gd_egl_draw(VirtualConsole *vc)
+     }
+ 
+     glFlush();
++    if (dmabuf) {
++        egl_dmabuf_create_fence(dmabuf);
++        if (dmabuf->fence_fd > 0) {
++            qemu_set_fd_handler(dmabuf->fence_fd, gd_hw_gl_flushed, NULL, vc);
++            return;
++        }
++        graphic_hw_gl_block(vc->gfx.dcl.con, false);
++    }
+     graphic_hw_gl_flushed(vc->gfx.dcl.con);
+ }
+ 
+@@ -209,6 +219,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+                            QemuDmaBuf *dmabuf)
+ {
+ #ifdef CONFIG_GBM
++    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++
+     egl_dmabuf_import_texture(dmabuf);
+     if (!dmabuf->texture) {
+         return;
+@@ -217,6 +229,10 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+     gd_egl_scanout_texture(dcl, dmabuf->texture,
+                            false, dmabuf->width, dmabuf->height,
+                            0, 0, dmabuf->width, dmabuf->height);
++
++    if (dmabuf->allow_fences) {
++        vc->gfx.guest_fb.dmabuf = dmabuf;
++    }
+ #endif
+ }
+ 
+@@ -281,6 +297,10 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+         egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, !vc->gfx.y0_top);
+     }
+ 
++    if (vc->gfx.guest_fb.dmabuf) {
++        egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
++    }
++
+     eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
+ }
+ 
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index dd5783fec7..1654941dc9 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/main-loop.h"
+ 
+ #include "trace.h"
+ 
+@@ -38,6 +39,7 @@ static void gtk_gl_area_set_scanout_mode(VirtualConsole *vc, bool scanout)
+ void gd_gl_area_draw(VirtualConsole *vc)
+ {
+     int ww, wh, y1, y2;
++    QemuDmaBuf *dmabuf = vc->gfx.guest_fb.dmabuf;
+ 
+     if (!vc->gfx.gls) {
+         return;
+@@ -71,7 +73,18 @@ void gd_gl_area_draw(VirtualConsole *vc)
+         surface_gl_render_texture(vc->gfx.gls, vc->gfx.ds);
+     }
+ 
++    if (dmabuf) {
++        egl_dmabuf_create_sync(dmabuf);
++    }
+     glFlush();
++    if (dmabuf) {
++        egl_dmabuf_create_fence(dmabuf);
++        if (dmabuf->fence_fd > 0) {
++            qemu_set_fd_handler(dmabuf->fence_fd, gd_hw_gl_flushed, NULL, vc);
++            return;
++        }
++        graphic_hw_gl_block(vc->gfx.dcl.con, false);
++    }
+     graphic_hw_gl_flushed(vc->gfx.dcl.con);
+ }
+ 
+@@ -213,6 +226,9 @@ void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+ 
++    if (vc->gfx.guest_fb.dmabuf) {
++        graphic_hw_gl_block(vc->gfx.dcl.con, true);
++    }
+     gtk_gl_area_queue_render(GTK_GL_AREA(vc->gfx.drawing_area));
+ }
+ 
+@@ -231,6 +247,10 @@ void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
+     gd_gl_area_scanout_texture(dcl, dmabuf->texture,
+                                false, dmabuf->width, dmabuf->height,
+                                0, 0, dmabuf->width, dmabuf->height);
++
++    if (dmabuf->allow_fences) {
++        vc->gfx.guest_fb.dmabuf = dmabuf;
++    }
+ #endif
+ }
+ 
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 6132bab52f..ee3a084c21 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -36,6 +36,7 @@
+ #include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-commands-misc.h"
+ #include "qemu/cutils.h"
++#include "qemu/main-loop.h"
+ 
+ #include "ui/console.h"
+ #include "ui/gtk.h"
+@@ -583,6 +584,18 @@ static void gd_gl_release_dmabuf(DisplayChangeListener *dcl,
+ #endif
+ }
+ 
++void gd_hw_gl_flushed(void *vcon)
++{
++    VirtualConsole *vc = vcon;
++    QemuDmaBuf *dmabuf = vc->gfx.guest_fb.dmabuf;
++
++    graphic_hw_gl_block(vc->gfx.dcl.con, false);
++    graphic_hw_gl_flushed(vc->gfx.dcl.con);
++    qemu_set_fd_handler(dmabuf->fence_fd, NULL, NULL, NULL);
++    close(dmabuf->fence_fd);
++    dmabuf->fence_fd = -1;
++}
++
+ /** DisplayState Callbacks (opengl version) **/
+ 
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+-- 
+2.30.2
 
 
