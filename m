@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DFF3B2D1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:59:33 +0200 (CEST)
-Received: from localhost ([::1]:32876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30833B2D18
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:58:09 +0200 (CEST)
+Received: from localhost ([::1]:55792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwN51-0003nP-FN
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38648)
+	id 1lwN3g-0000D0-OC
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnq-0005If-V4
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28795)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnv-0005Yj-3N
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMno-0000E5-UH
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:46 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnr-0000Gx-Fa
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531304;
+ s=mimecast20190719; t=1624531306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MOj1tDTsNrMLeU1D5eiY7ntP624q1LCrH82mgp0Qpto=;
- b=ABUSMq9Wff59DgjAp6EIWG+pP4G6BATHxVV+FObXfMzOlylopyts+2RBZyVGgpRfIOVgZx
- Ej7hNbwvek1UYG56Btep5dGVwV0JV6NIyeuXU3wGAODjUPQfpi3XYimdtXNUlsZ4WhamU0
- fripglSqHq9T4zX1U3niN7V1X5YQ9f4=
+ bh=uPViM2vkS1TedlRKpZgT+/BJXqdvrf0hBcYCAYIaiis=;
+ b=LuQ3fkIyc/t9iMOx1KVrs2f7SINJsjXab0IoPYsTCJZ7wRpa/fKnhg4yI++zjVhbJyKSs6
+ BnmG9Y13idRRWf4k6eu4TwC8YNDyph1ptnVH5jxPmyotPWT0Ap1Ptw912I4/iW0GJoUWqZ
+ UAtZOWF2RAVa86LLzvl1R8RhU/J6y14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-iJA1pgiQOymTiyBgb92Omw-1; Thu, 24 Jun 2021 06:41:43 -0400
-X-MC-Unique: iJA1pgiQOymTiyBgb92Omw-1
+ us-mta-247-621d9KK4Opa3PiVvu2RZ-Q-1; Thu, 24 Jun 2021 06:41:45 -0400
+X-MC-Unique: 621d9KK4Opa3PiVvu2RZ-Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D00E1934100;
- Thu, 24 Jun 2021 10:41:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E02B106B7DB;
+ Thu, 24 Jun 2021 10:41:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A4AC5D9F0;
- Thu, 24 Jun 2021 10:41:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 35F1A5D9F0;
+ Thu, 24 Jun 2021 10:41:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 31B3F180354F; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
+ id 4AF751803551; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 25/34] accel: autoload modules
-Date: Thu, 24 Jun 2021 12:38:27 +0200
-Message-Id: <20210624103836.2382472-26-kraxel@redhat.com>
+Subject: [PATCH v4 27/34] accel: build qtest modular
+Date: Thu, 24 Jun 2021 12:38:29 +0200
+Message-Id: <20210624103836.2382472-28-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,41 +98,52 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call module_object_class_by_name() instead of object_class_by_name()
-for objects possibly implemented as module
+Allow building accelerators as module.
+Start with qtest as first user.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- accel/accel-common.c  | 2 +-
- accel/accel-softmmu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ accel/qtest/meson.build | 8 ++------
+ meson.build             | 6 ++++++
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index cf07f78421d6..7b8ec7e0f72a 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -44,7 +44,7 @@ static const TypeInfo accel_type = {
- AccelClass *accel_find(const char *opt_name)
- {
-     char *class_name = g_strdup_printf(ACCEL_CLASS_NAME("%s"), opt_name);
--    AccelClass *ac = ACCEL_CLASS(object_class_by_name(class_name));
-+    AccelClass *ac = ACCEL_CLASS(module_object_class_by_name(class_name));
-     g_free(class_name);
-     return ac;
- }
-diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-index 50fa5acaa401..67276e4f5222 100644
---- a/accel/accel-softmmu.c
-+++ b/accel/accel-softmmu.c
-@@ -72,7 +72,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
-     g_assert(ac_name != NULL);
+diff --git a/accel/qtest/meson.build b/accel/qtest/meson.build
+index a2f327645980..4c6560029336 100644
+--- a/accel/qtest/meson.build
++++ b/accel/qtest/meson.build
+@@ -1,6 +1,2 @@
+-qtest_ss = ss.source_set()
+-qtest_ss.add(files(
+-  'qtest.c',
+-))
+-
+-specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: qtest_ss)
++qtest_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'],
++                    if_true: files('qtest.c'))
+diff --git a/meson.build b/meson.build
+index 76020b43fb32..d2cacc145a91 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1780,6 +1780,9 @@ trace_ss = ss.source_set()
+ user_ss = ss.source_set()
+ util_ss = ss.source_set()
  
-     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
--    ops = ACCEL_OPS_CLASS(object_class_by_name(ops_name));
-+    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-     g_free(ops_name);
++# accel modules
++qtest_module_ss = ss.source_set()
++
+ modules = {}
+ target_modules = {}
+ hw_arch = {}
+@@ -2018,6 +2021,9 @@ specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
+ subdir('tests/qtest/libqos')
+ subdir('tests/qtest/fuzz')
  
-     /*
++# accel modules
++target_modules += { 'accel' : { 'qtest': qtest_module_ss }}
++
+ ########################
+ # Library dependencies #
+ ########################
 -- 
 2.31.1
 
