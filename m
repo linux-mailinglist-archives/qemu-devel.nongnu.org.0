@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40F83B2AA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:45:41 +0200 (CEST)
-Received: from localhost ([::1]:52282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AEE33B2AB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:49:49 +0200 (CEST)
+Received: from localhost ([::1]:55468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwKzV-0006vd-2R
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:45:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
+	id 1lwL3U-0000sn-AG
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwKxT-00051q-B1
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:43:36 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwKxQ-0001av-AV
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:43:35 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id h11so5688766wrx.5
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 01:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XORmg6iyVy0Ku40m9zT9hjx5IpV/d6V+m5udoM1Y9mE=;
- b=newDtYL75MP3BuiPp4u5eJxTXPChZyWE2pmMruLudCwSAr0iRzRe40o1kMTOJMhC6r
- Lq+To7hK5YJTpFc6qyUXP9GcNl7ki2QzGF+cSthSuOGMiS2auATfjxwuCHnAU6lbDiBP
- lpghHBNfeUXPRdQRuz8NY4leb2hgq5jLdqUo3Upf8yk/H/IiSexiAnIFksqyrihoc9M2
- 0RwsulHG2elBK46ydstSVvvP0e/6eISAOnjcxxUVV3HMbFOMbQ61QQ5+x2z7v/Vuv2B0
- AB1mlSeuh/5WFbbizbuF1YQydcMPxNbg7z0QWhBzQfhfFmhMpWG8+ThcGwuGDtpmqE74
- oV4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XORmg6iyVy0Ku40m9zT9hjx5IpV/d6V+m5udoM1Y9mE=;
- b=hB2RrAqwoMbBRVAx1nhtDGBH35U6R2X4tJjDnP2F0w7vI+fgIi292MRCoUBfvsOFRi
- vLZKpm4JLChRLSbyxpO+mfLw8nmXmy/4sTTU8iUVH66n8SJXQL4ABuCp524UKy3W6mCT
- PiIEj1rTJkbeudI5l0o0MTgIBJZNWzkCIHoYjHu4J7HmegwiMi1ct7dF3YgdwQYGMLjM
- 3lMrTtQqjOnFG9G1arl2uL3gWhT3aXjCjyB3vHOv2aPKZyR6u6PuCeIiR2mMZeJ65ktK
- JDoCksNlBoDarw88toe5+tZQspgFT/gLJd/ZAAAkN3sb0xHhCEOgYihlundXwp1LD761
- mKRA==
-X-Gm-Message-State: AOAM530eRlvLl9vYFgPUgk7lDo3zuGXMPHp7IZ0ErGEq2V4h36AcfeUT
- JFitmK9KVLMqS9lhmA7gptCKg4kV35s6bA==
-X-Google-Smtp-Source: ABdhPJxLfHcG4Vft2zDYgzmsjm+g3octylPuzDk2pak9I+GNKzSEjV3BhVPeNbwCkVb2/QnzdKzTmw==
-X-Received: by 2002:adf:f9cf:: with SMTP id w15mr3083811wrr.151.1624524210205; 
- Thu, 24 Jun 2021 01:43:30 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n65sm7823968wme.21.2021.06.24.01.43.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 01:43:29 -0700 (PDT)
-Subject: Re: [PATCH 1/3] hw/timer: Add renesas_timer.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20210623123416.60038-1-ysato@users.sourceforge.jp>
- <20210623123416.60038-2-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <49bf34ca-e3db-4cf5-2e95-a4e27b36da62@amsat.org>
-Date: Thu, 24 Jun 2021 10:43:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwL2V-0000Am-5U
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:48:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwL2S-0005px-SP
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:48:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624524523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lKASuV0VzY/bH0DeTNS0tceT3RA7LVTpwTHBsxX2S/s=;
+ b=SOIsM6U49yq/mURtoacIEAFX8dda377vwTDCKHAnAuJGVnIOlEHSU1LJ+A7hRMqzYrakW9
+ nx9ewjyl7dywVnyfqEmcCpnrW+woHlfK+uO5Ebas64vpvLv+CTQK8pI7LNlUIqnITnOJI9
+ 02/HviB68a2x6gpfod7nAa/Ixnqq/o4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-l9vm7Vh9MveRPenhBoupCw-1; Thu, 24 Jun 2021 04:48:39 -0400
+X-MC-Unique: l9vm7Vh9MveRPenhBoupCw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88ED9804141;
+ Thu, 24 Jun 2021 08:48:38 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F1F760C05;
+ Thu, 24 Jun 2021 08:48:38 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B2D32180060E; Thu, 24 Jun 2021 10:48:36 +0200 (CEST)
+Date: Thu, 24 Jun 2021 10:48:36 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Khor, Swee Aun" <swee.aun.khor@intel.com>
+Subject: Re: [PATCH v3] ui/gtk: New -display gtk option
+ 'full-screen-on-monitor'.
+Message-ID: <20210624084836.4hwtq7i2p2cwcg7z@sirius.home.kraxel.org>
+References: <20210623082744.24421-1-swee.aun.khor@intel.com>
+ <20210623123351.irmwdawwktbvkdsb@sirius.home.kraxel.org>
+ <DM8PR11MB571751EF8FB44E601757843AAF079@DM8PR11MB5717.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20210623123416.60038-2-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <DM8PR11MB571751EF8FB44E601757843AAF079@DM8PR11MB5717.namprd11.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,742 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Romli, Khairul Anuar" <khairul.anuar.romli@intel.com>, "Mazlan,
+ Hazwan Arif" <hazwan.arif.mazlan@intel.com>, "Kasireddy,
+ Vivek" <vivek.kasireddy@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yoshinori,
-
-On 6/23/21 2:34 PM, Yoshinori Sato wrote:
-> Renesas MCU / SoC have timer modules with similar functionality.
-> SH4-TMU 32bit count down timer.
-> RX-CMT 16bit compare match timer.
+On Thu, Jun 24, 2021 at 12:56:28AM +0000, Khor, Swee Aun wrote:
+> Hi Gerd,
+> I am able to compile the code without error with my v3 patch. I don't see my patch showing up in https://patchew.org/QEMU/ , is it due to this compilation error?
 > 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->  include/hw/timer/renesas_timer.h |  89 ++++++
->  hw/timer/renesas_timer.c         | 532 +++++++++++++++++++++++++++++++
->  hw/timer/Kconfig                 |   3 +-
->  hw/timer/meson.build             |   1 +
->  4 files changed, 624 insertions(+), 1 deletion(-)
->  create mode 100644 include/hw/timer/renesas_timer.h
->  create mode 100644 hw/timer/renesas_timer.c
+> I tried to change from %ld -> %lld but I encountered compilation error this time. 
 > 
-> diff --git a/include/hw/timer/renesas_timer.h b/include/hw/timer/renesas_timer.h
-> new file mode 100644
-> index 0000000000..dc0711ba83
-> --- /dev/null
-> +++ b/include/hw/timer/renesas_timer.h
-> @@ -0,0 +1,89 @@
-> +/*
-> + * Renesas Timer unit Object
-> + *
-> + * Copyright (c) 2021 Yoshinori Sato
-> + *
-> + * This code is licensed under the GPL version 2 or later.
-> + *
-> + */
-> +
-> +#ifndef HW_RENESAS_TIMER_H
-> +#define HW_RENESAS_TIMER_H
-> +
-> +#include "hw/sysbus.h"
-> +#include "hw/ptimer.h"
-> +
-> +#define TYPE_RENESAS_TIMER_BASE "renesas-timer"
-> +OBJECT_DECLARE_TYPE(RenesasTimerBaseState, RenesasTimerBaseClass,
-> +                    RENESAS_TIMER_BASE)
-> +#define TYPE_RENESAS_CMT "renesas-cmt"
-> +OBJECT_DECLARE_TYPE(RenesasCMTState, RenesasCMTClass,
-> +                    RENESAS_CMT)
-> +#define TYPE_RENESAS_TMU "renesas-tmu"
-> +OBJECT_DECLARE_TYPE(RenesasTMUState, RenesasTMUClass,
-> +                    RENESAS_TMU)
-> +
-> +enum {
-> +    TIMER_CH_CMT = 2,
-> +    TIMER_CH_TMU = 3,
-> +};
-> +
-> +enum {
-> +    CMT_NR_IRQ = 1 * TIMER_CH_CMT,
-> +};
-> +
-> +enum {
-> +    TIMER_START = 1,
-> +    TIMER_STOP = 0,
-> +};
-> +
-> +struct RenesasTimerBaseState;
-> +
-> +struct rtimer_ch {
-> +    uint16_t ctrl;
-> +    qemu_irq irq;
-> +    ptimer_state *timer;
-> +    bool start;
-> +    struct RenesasTimerBaseState *tmrp;
-> +};
-> +
-> +typedef struct RenesasTimerBaseState {
-> +    SysBusDevice parent_obj;
-> +
-> +    uint64_t input_freq;
-> +    MemoryRegion memory;
-> +
-> +    struct rtimer_ch ch[TIMER_CH_TMU];
-> +    int num_ch;
-> +    int unit;
-> +} RenesasTimerBaseState;
-> +
-> +typedef struct RenesasCMTState {
-> +    RenesasTimerBaseState parent_obj;
-> +} RenesasCMTState;
-> +
-> +typedef struct RenesasTMUState {
-> +    RenesasTimerBaseState parent_obj;
-> +    uint8_t tocr;
-> +    MemoryRegion memory_p4;
-> +    MemoryRegion memory_a7;
-> +} RenesasTMUState;
-> +
-> +typedef struct RenesasTimerBaseClass {
-> +    SysBusDeviceClass parent;
-> +    int (*divrate)(RenesasTimerBaseState *tmr, int ch);
-> +    void (*timer_event)(void *opaque);
-> +    int64_t (*convert_count)(int64_t val, ptimer_state *t);
-> +    void (*update_clk)(RenesasTimerBaseState *tmr, int ch);
-> +} RenesasTimerBaseClass;
-> +
-> +typedef struct RenesasCMTClass {
-> +    RenesasTimerBaseClass parent;
-> +} RenesasCMTClass;
-> +
-> +typedef struct RenesasTMUClass {
-> +    RenesasTimerBaseClass parent;
-> +    void (*p_update_clk)(RenesasTimerBaseState *tmr, int ch);
-> +} RenesasTMUClass;
-> +
-> +#endif
-> diff --git a/hw/timer/renesas_timer.c b/hw/timer/renesas_timer.c
-> new file mode 100644
-> index 0000000000..8fdb25a41d
-> --- /dev/null
-> +++ b/hw/timer/renesas_timer.c
-> @@ -0,0 +1,532 @@
-> +/*
-> + * Renesas 16bit/32bit Compare-match timer (CMT/TMU)
-> + *
-> + * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
-> + *            (Rev.1.40 R01UH0033EJ0140)
-> + *        And SH7751 Group, SH7751R Group User's Manual: Hardware
-> + *            (Rev.4.01 R01UH0457EJ0401)
-> + *
-> + * Copyright (c) 2021 Yoshinori Sato
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "qemu/log.h"
-> +#include "qapi/error.h"
-> +#include "qemu/timer.h"
-> +#include "hw/hw.h"
-> +#include "hw/irq.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/registerfields.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/timer/renesas_timer.h"
-> +#include "migration/vmstate.h"
-> +#include "qemu/error-report.h"
-> +
-> +REG32(TOCR, 0)
-> +  FIELD(TOCR, TCOE, 0, 1)
-> +REG32(CMSTR, 0)
-> +REG32(TSTR, 4)
-> +REG32(TCOR, 8)
-> +REG32(TCNT, 12)
-> +REG32(TCR, 16)
-> +  FIELD(TCR, TPSC, 0, 3)
-> +  FIELD(TCR, CKEG, 3, 2)
-> +  FIELD(TCR, UNIE, 5, 1)
-> +  FIELD(TCR, ICPE, 6, 2)
-> +  FIELD(TCR, UNF, 8, 1)
-> +  FIELD(TCR, ICPF, 9, 1)
-> +REG32(CMCR, 16)
-> +  FIELD(CMCR, CKS, 0, 2)
-> +  FIELD(CMCR, CMIE, 6, 1)
-> +REG32(TCPR, 20)
-> +
-> +static int cmt_div(RenesasTimerBaseState *tmr, int ch)
-> +{
-> +    return 8 << (2 * FIELD_EX16(tmr->ch[ch].ctrl, CMCR, CKS));
-> +}
-> +
-> +static int tmu_div(RenesasTimerBaseState *tmr, int ch)
-> +{
-> +    if (FIELD_EX16(tmr->ch[ch].ctrl, TCR, TPSC) <= 5) {
-> +        return 4 << (2 * FIELD_EX16(tmr->ch[ch].ctrl, TCR, TPSC));
-> +    } else {
-> +        return 0;
-> +    }
-> +
+> ../ui/gtk.c: In function 'gtk_display_init':
+> ../ui/gtk.c:2300:25: error: format '%lld' expects argument of type 'long long int', but argument 2 has type 'int64_t' {aka 'long int'} [-Werror=format=]
+>  2300 |             warn_report("Failed to enable full screen on monitor %lld. "
+>       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ......
+>  2303 |                         opts->u.gtk.full_screen_on_monitor, monitor_n);
+>       |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |                                    |
+>       |                                    int64_t {aka long int}
+> cc1: all warnings being treated as errors
 
-Spurious new line ;)
+stdint.h also has #defines for printing integers (PRI{x,d}{8,16,32,64}),
+they make sure the correct format string is used.
 
-> +}
-> +
-> +static void cmt_timer_event(void *opaque)
-> +{
-> +    struct rtimer_ch *ch = opaque;
-> +    if (FIELD_EX16(ch->ctrl, CMCR, CMIE)) {
-> +        qemu_irq_pulse(ch->irq);
-> +    }
-> +}
-> +
-> +static void tmu_timer_event(void *opaque)
-> +{
-> +    struct rtimer_ch *ch = opaque;
-> +    if (!FIELD_EX16(ch->ctrl, TCR, UNF)) {
-> +        ch->ctrl = FIELD_DP16(ch->ctrl, TCR, UNF, 1);
-> +        qemu_set_irq(ch->irq, FIELD_EX16(ch->ctrl, TCR, UNIE));
-> +    }
-> +}
-> +
-> +static int64_t downcount(int64_t val, ptimer_state *t)
-> +{
-> +    return val;
-> +}
-> +
-> +static int64_t upcount(int64_t val, ptimer_state *t)
-> +{
-> +    int64_t limit;
-> +    limit = ptimer_get_limit(t);
-> +    return limit - val;
-> +}
-> +
-> +static void tmr_start_stop(RenesasTimerBaseState *tmr, int ch, int st)
-> +{
-> +    ptimer_transaction_begin(tmr->ch[ch].timer);
-> +    switch (st) {
-> +    case TIMER_STOP:
-> +        ptimer_stop(tmr->ch[ch].timer);
-> +        tmr->ch[ch].start = false;
-> +        break;
-> +    case TIMER_START:
-> +        ptimer_run(tmr->ch[ch].timer, 0);
-> +        tmr->ch[ch].start = true;
-> +        break;
+PRId64 would be the one for int64_t
 
-'st' is an integer argument, not enum type, so:
+take care,
+  Gerd
 
-       default:
-           g_assert_not_reached();
-
-> +    }
-> +    ptimer_transaction_commit(tmr->ch[ch].timer);
-> +}
-> +
-> +static uint64_t read_tstr(RenesasTimerBaseState *tmr)
-> +{
-> +    uint64_t ret = 0;
-> +    int ch;
-> +    for (ch = 0; ch < tmr->num_ch; ch++) {
-> +        ret = deposit64(ret, ch, 1, tmr->ch[ch].start);
-> +    }
-> +    return ret;
-> +}
-> +
-> +static void update_clk(RenesasTimerBaseState *tmr, int ch)
-> +{
-> +    RenesasTimerBaseClass *tc = RENESAS_TIMER_BASE_GET_CLASS(tmr);
-> +    int t;
-> +    ptimer_state *p;
-> +    t = tc->divrate(tmr, ch);
-> +    p = tmr->ch[ch].timer;
-> +    ptimer_transaction_begin(p);
-> +    if (t > 0) {
-> +        ptimer_set_freq(p, tmr->input_freq / t);
-> +    } else {
-> +        ptimer_stop(p);
-> +    }
-> +    ptimer_transaction_commit(p);
-> +}
-> +
-> +static void tmu_update_clk(RenesasTimerBaseState *tmr, int ch)
-> +{
-> +    /* Clock setting validation */
-> +    int tpsc = FIELD_EX16(tmr->ch[ch].ctrl, TCR, TPSC);
-> +    switch (tpsc) {
-> +    case 5:
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "renesas_timer: Invalid TPSC valule %d.\n", tpsc);
-
-Typo "value".
-
-> +        break;
-> +    case 6:
-> +    case 7:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "renesas_timer: External clock not implemented.\n");
-> +        break;
-
-What about the other cases? Also unimp? Maybe add 'default' with 6/7?
-
-> +    }
-> +    /* Interrupt clear */
-> +    if (FIELD_EX16(tmr->ch[ch].ctrl, TCR, UNF) == 0) {
-> +        qemu_set_irq(tmr->ch[ch].irq, 0);
-> +    }
-> +    update_clk(tmr, ch);
-> +}
-> +
-> +static uint64_t channel_read(RenesasTimerBaseState *tmr, int ch, int reg)
-> +{
-> +    RenesasTimerBaseClass *tc = RENESAS_TIMER_BASE_GET_CLASS(tmr);
-> +    ptimer_state *p = tmr->ch[ch].timer;
-> +    switch (reg) {
-> +    case R_TCR:
-> +        return tmr->ch[ch].ctrl;
-> +    case R_TCNT:
-> +        return tc->convert_count(ptimer_get_count(p), p);
-> +    case R_TCOR:
-> +        return ptimer_get_limit(p);
-
-       default:
-           g_assert_not_reached();
-
-> +    }
-> +    return UINT64_MAX;
-> +}
-> +
-> +static uint64_t cmt_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    RenesasCMTState *cmt = RENESAS_CMT(opaque);
-> +    int ch, reg;
-> +
-> +    /*  +0 - CMSTR (TSTR)  */
-> +    /*  +2 - CMCR0  (TCR)  */
-> +    /*  +4 - CMCNT0 (TCNT) */
-> +    /*  +6 - CMCOR0 (TCOR) */
-> +    /*  +8 - CMCR1  (TCR)  */
-> +    /* +10 - CMCNT1 (TCNT) */
-> +    /* +12 - CMCOR1 (TCOR) */
-> +    addr /= 2;
-> +    if (addr == R_CMSTR) {
-> +        return read_tstr(RENESAS_TIMER_BASE(cmt));
-> +    } else {
-> +        ch = addr / 4;
-> +        if (addr < 4) {
-> +            /* skip CMSTR */
-> +            addr--;
-> +        }
-> +        reg = 2 - (addr % 4);> +        return channel_read(RENESAS_TIMER_BASE(cmt), ch, reg);
-> +    }
-> +}
-> +
-> +static uint64_t tmu_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    RenesasTMUState *tmu = RENESAS_TMU(opaque);
-> +    RenesasTimerBaseState *tmr = RENESAS_TIMER_BASE(tmu);
-> +    int ch = -1, reg = -1;
-> +
-> +    /*  +0 - TCOR  */
-> +    /*  +4 - TSTR  */
-> +    /*  +8 - TCOR0 */
-> +    /* +12 - TCNT0 */
-> +    /* +16 - TCR0  */
-> +    /* +20 - TCOR1 */
-> +    /* +24 - TCNT1 */
-> +    /* +28 - TCR1  */
-> +    /* +32 - TCOR2 */
-> +    /* +36 - TCNT2 */
-> +    /* +40 - TCR2  */
-> +    /* +44 - TCPR2 */
-> +
-> +    if (tmr->unit != 0 && addr >= 32) {
-> +        /* UNIT1 channel2 is not exit */
-> +        qemu_log_mask(LOG_UNIMP, "renesas_timer: Register 0x%"
-> +                      HWADDR_PRIX " not implemented\n", addr);
-> +        return UINT64_MAX;
-> +    }
-> +    addr /= 4;
-> +    switch (addr) {
-> +    case R_TOCR:
-> +        return tmu->tocr;
-> +    case R_TSTR:
-> +        return read_tstr(RENESAS_TIMER_BASE(tmu));
-> +    case R_TCPR:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "renesas_timer: Input capture not implemented.\n");
-> +        return UINT64_MAX;
-> +    default:
-> +        ch = (addr - 2) / 3;
-> +        reg = (addr - 2) % 3 + 2;
-> +        return channel_read(RENESAS_TIMER_BASE(tmu), ch, reg);
-> +    }
-> +}
-> +
-> +static void write_tstr(RenesasTimerBaseState *tmr, uint16_t val)
-> +{
-> +    int ch;
-> +    for (ch = 0; ch < tmr->num_ch; ch++) {
-> +        tmr_start_stop(tmr, ch, extract16(val, ch, 1));
-> +    }
-> +}
-> +
-> +static void write_tcr(RenesasTimerBaseState *tmr, int ch,
-> +                      uint16_t val, uint16_t regmask)
-> +{
-> +    RenesasTimerBaseClass *tc = RENESAS_TIMER_BASE_GET_CLASS(tmr);
-> +    tmr->ch[ch].ctrl |= (regmask & 0x00ff);
-> +    tmr->ch[ch].ctrl &= val & regmask;
-> +    tc->update_clk(tmr, ch);
-> +}
-> +
-> +static void channel_write(RenesasTimerBaseState *tmr, int ch,
-> +                         int reg, uint64_t val)
-> +{
-> +    RenesasTimerBaseClass *tc = RENESAS_TIMER_BASE_GET_CLASS(tmr);
-> +    ptimer_state *t;
-> +    t = tmr->ch[ch].timer;
-> +    ptimer_transaction_begin(t);
-> +    switch (reg) {
-> +    case R_TCNT:
-> +        ptimer_set_count(t, tc->convert_count(val, t));
-> +        break;
-> +    case R_TCOR:
-> +        ptimer_set_limit(t, val, 0);
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +    ptimer_transaction_commit(t);
-> +}
-> +
-> +static void cmt_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-> +{
-> +    RenesasTimerBaseState *tmr = RENESAS_TIMER_BASE(opaque);
-> +    int ch, reg;
-> +    uint16_t mask;
-> +
-> +    addr /= 2;
-> +    if (addr == R_CMSTR) {
-> +        write_tstr(tmr, val);
-> +    } else {
-> +        ch = addr / 4;
-> +        if (addr < 4) {
-> +            /* skip CMSTR */
-> +            addr--;
-> +        }
-> +        reg = (2 - (addr % 4)) + 2;
-
-Duplicates code from cmt_read(), maybe add a getter?
-
-           cmt_get_reg_ch(addr, &reg, &ch);
-
-> +        if (reg == R_TCR) {
-> +            /* bit7 always 1 */
-> +            val |= 0x0080;
-> +            mask = 0;
-> +            mask = FIELD_DP16(mask, CMCR, CKS, 3);
-> +            mask = FIELD_DP16(mask, CMCR, CMIE, 1);
-> +            write_tcr(RENESAS_TIMER_BASE(tmr), ch, val, mask);
-> +        } else {
-> +            channel_write(RENESAS_TIMER_BASE(tmr), ch, reg, val);
-> +        }
-> +    }
-> +}
-> +
-> +static void tmu_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-> +{
-> +    RenesasTMUState *tmu = RENESAS_TMU(opaque);
-> +    RenesasTimerBaseState *tmr = RENESAS_TIMER_BASE(tmu);
-> +
-> +    int ch, reg;
-> +    uint16_t tcr_mask;
-> +
-> +    if (tmr->unit != 0 && addr >= 32) {
-> +        /* UNIT1 channel2 is not exit */
-> +        qemu_log_mask(LOG_UNIMP, "renesas_timer: Register 0x%"
-> +                      HWADDR_PRIX " not implemented\n", addr);
-> +        return;
-> +    }
-> +    addr /= 4;
-> +    switch (addr) {
-> +    case R_TOCR:
-> +        tmu->tocr = FIELD_DP8(tmu->tocr, TOCR, TCOE,
-> +                              FIELD_EX8(val, TOCR, TCOE));
-> +        break;
-> +    case R_TSTR:
-> +        write_tstr(tmr, val);
-> +        break;
-> +    case R_TCPR:
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "renesas_timer: TCPR is read only.\n");
-> +        break;
-> +    default:
-> +        ch = (addr - 2) / 3;
-> +        reg = (addr - 2) % 3 + 2;
-
-           tmu_get_reg_ch(addr, &reg, &ch);
-
-> +        if (reg == R_TCR) {
-> +            tcr_mask = 0;
-> +            tcr_mask = FIELD_DP16(tcr_mask, TCR, TPSC, 7);
-> +            tcr_mask = FIELD_DP16(tcr_mask, TCR, UNIE, 1);
-> +            tcr_mask = FIELD_DP16(tcr_mask, TCR, UNF, 1);
-> +            if (tmr->unit == 0) {
-> +                tcr_mask = FIELD_DP16(tcr_mask, TCR, CKEG, 3);
-> +                if (ch == 2) {
-> +                    tcr_mask = FIELD_DP16(tcr_mask, TCR, ICPE, 3);
-> +                    tcr_mask = FIELD_DP16(tcr_mask, TCR, ICPF, 1);
-> +                }
-> +            }
-> +            write_tcr(tmr, ch, val, tcr_mask);
-> +        } else {
-> +            channel_write(tmr, ch, reg, val);
-> +        }
-> +        break;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps cmt_ops = {
-> +    .write = cmt_write,
-> +    .read  = cmt_read,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> +    .impl = {
-> +        .min_access_size = 2,
-> +        .max_access_size = 2,
-> +    },
-
-Are all accesses valid (from 8-bit to 64-bit)?
-I'd expect 16-bit accesses here:
-
-       .valid = {
-           .min_access_size = 2,
-           .max_access_size = 2,
-        },
-
-> +};
-> +
-> +static const MemoryRegionOps tmu_ops = {
-> +    .write = tmu_write,
-> +    .read  = tmu_read,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> +    .impl = {
-> +        .min_access_size = 2,
-> +        .max_access_size = 4,
-> +    },
-
-Hmm you use 'addr /= 4', so I think you want:
-
-       .impl = {
-           .min_access_size = 4,
-           .max_access_size = 4,
-        },
-       .valid = {
-           .min_access_size = 2,
-           .max_access_size = 4,
-        },
-
-> +};
-> +
-> +static void timer_base_realize(RenesasTimerBaseState *tmr, int num_ch)
-> +{
-> +    RenesasTimerBaseClass *tc = RENESAS_TIMER_BASE_GET_CLASS(tmr);
-> +    int i;
-> +    tmr->num_ch = num_ch;
-> +    for (i = 0; i < num_ch; i++) {
-> +        tmr->ch[i].timer = ptimer_init(tc->timer_event, &tmr->ch[i], 0);
-> +    }
-> +}
-> +
-> +static void cmt_realize(DeviceState *dev, Error **errp)
-> +{
-> +    RenesasCMTState *cmt = RENESAS_CMT(dev);
-> +    RenesasTimerBaseState *tmr = RENESAS_TIMER_BASE(cmt);
-> +    int i;
-> +
-> +    timer_base_realize(tmr, TIMER_CH_CMT);
-> +
-> +    for (i = 0; i < TIMER_CH_CMT; i++) {
-> +        ptimer_transaction_begin(tmr->ch[i].timer);
-> +        ptimer_set_limit(tmr->ch[i].timer, 0xffff, 0);
-> +        ptimer_transaction_commit(tmr->ch[i].timer);
-> +        update_clk(tmr, i);
-> +    }
-> +}
-> +
-> +static void cmt_init(Object *obj)
-> +{
-> +    SysBusDevice *d = SYS_BUS_DEVICE(obj);
-> +    RenesasCMTState *cmt = RENESAS_CMT(obj);
-> +    RenesasTimerBaseState *tmr = RENESAS_TIMER_BASE(cmt);
-> +    int i;
-> +
-> +    memory_region_init_io(&tmr->memory, obj, &cmt_ops,
-> +                          tmr, "renesas-cmt", 0x10);
-> +    sysbus_init_mmio(d, &tmr->memory);
-> +
-> +    for (i = 0; i < TIMER_CH_CMT; i++) {
-> +        sysbus_init_irq(d, &tmr->ch[i].irq);
-> +    }
-> +}
-> +
-> +static void tmu_realize(DeviceState *dev, Error **errp)
-> +{
-> +    RenesasTMUState *tmu = RENESAS_TMU(dev);
-> +    RenesasTimerBaseState *tmr = RENESAS_TIMER_BASE(tmu);
-> +    int i;
-> +    int num_ch;
-> +
-> +    /* Unit0 have 3ch, Unit1 have 2ch */
-> +    num_ch = TIMER_CH_TMU - tmr->unit;
-> +    timer_base_realize(tmr, num_ch);
-> +    for (i = 0; i < num_ch; i++) {
-> +        ptimer_transaction_begin(tmr->ch[i].timer);
-> +        ptimer_set_limit(tmr->ch[i].timer, 0xffffffff, 0);
-> +        ptimer_transaction_commit(tmr->ch[i].timer);
-> +        update_clk(tmr, i);
-> +    }
-> +}
-> +
-> +static void tmu_init(Object *obj)
-> +{
-> +    SysBusDevice *d = SYS_BUS_DEVICE(obj);
-> +    RenesasTimerBaseState *tmr = RENESAS_TIMER_BASE(obj);
-> +    RenesasTMUState *tmu = RENESAS_TMU(obj);
-> +    int i;
-> +
-> +    memory_region_init_io(&tmr->memory, obj, &tmu_ops,
-> +                          tmr, "renesas-tmu", 0x30);
-> +    sysbus_init_mmio(d, &tmr->memory);
-> +    memory_region_init_alias(&tmu->memory_p4, NULL, "renesas-tmu-p4",
-> +                             &tmr->memory, 0, 0x30);
-> +    sysbus_init_mmio(d, &tmu->memory_p4);
-> +    memory_region_init_alias(&tmu->memory_a7, NULL, "renesas-tmu-a7",
-> +                             &tmr->memory, 0, 0x30);
-> +    sysbus_init_mmio(d, &tmu->memory_a7);
-> +    for (i = 0; i < TIMER_CH_TMU; i++) {
-> +        sysbus_init_irq(d, &tmr->ch[i].irq);
-> +    }
-> +}
-> +
-> +static Property renesas_timer_properties[] = {
-> +    DEFINE_PROP_INT32("unit", RenesasTimerBaseState, unit, 0),
-> +    DEFINE_PROP_UINT64("input-freq", RenesasTimerBaseState, input_freq, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void renesas_timer_base_class_init(ObjectClass *klass, void *data)
-> +{
-> +    RenesasTimerBaseClass *base = RENESAS_TIMER_BASE_CLASS(klass);
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    base->update_clk = update_clk;
-> +    device_class_set_props(dc, renesas_timer_properties);
-> +}
-> +
-> +static void cmt_class_init(ObjectClass *klass, void *data)
-> +{
-> +    RenesasTimerBaseClass *base = RENESAS_TIMER_BASE_CLASS(klass);
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    base->divrate = cmt_div;
-> +    base->timer_event = cmt_timer_event;
-> +    base->convert_count = upcount;
-> +    base->update_clk = update_clk;
-> +    dc->realize = cmt_realize;
-> +}
-> +
-> +static void tmu_class_init(ObjectClass *klass, void *data)
-> +{
-> +    RenesasTimerBaseClass *base = RENESAS_TIMER_BASE_CLASS(klass);
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    base->divrate = tmu_div;
-> +    base->timer_event = tmu_timer_event;
-> +    base->convert_count = downcount;
-> +    base->update_clk = tmu_update_clk;
-> +    dc->realize = tmu_realize;
-> +}
-> +
-> +static const TypeInfo renesas_timer_info[] = {
-> +    {
-> +        .name       = TYPE_RENESAS_TIMER_BASE,
-> +        .parent     = TYPE_SYS_BUS_DEVICE,
-> +        .instance_size = sizeof(RenesasTimerBaseState),
-> +        .class_init = renesas_timer_base_class_init,
-> +        .class_size = sizeof(RenesasTimerBaseClass),
-> +        .abstract = true,
-> +    },
-> +    {
-> +        .name       = TYPE_RENESAS_CMT,
-> +        .parent     = TYPE_RENESAS_TIMER_BASE,
-> +        .instance_size = sizeof(RenesasCMTState),
-> +        .instance_init = cmt_init,
-> +        .class_init = cmt_class_init,
-> +        .class_size = sizeof(RenesasCMTClass),
-> +    },
-> +    {
-> +        .name       = TYPE_RENESAS_TMU,
-> +        .parent     = TYPE_RENESAS_TIMER_BASE,
-> +        .instance_size = sizeof(RenesasTMUState),
-> +        .instance_init = tmu_init,
-> +        .class_init = tmu_class_init,
-> +        .class_size = sizeof(RenesasTMUClass),
-> +    },
-> +};
-> +
-> +DEFINE_TYPES(renesas_timer_info)
-> diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-> index bac2511715..9324ca7c6f 100644
-> --- a/hw/timer/Kconfig
-> +++ b/hw/timer/Kconfig
-> @@ -43,8 +43,9 @@ config SH_TIMER
->  config RENESAS_TMR
->      bool
->  
-> -config RENESAS_CMT
-
-You can not remove RENESAS_CMT yet, because it is still used
-(you'd break bisection). Please keep RENESAS_CMT, add the
-new RENESAS_TIMER, and remove RENESAS_CMT in the next commit
-where you switch.
-
-> +config RENESAS_TIMER
->      bool
-> +    select PTIMER
->  
->  config SSE_COUNTER
->      bool
-> diff --git a/hw/timer/meson.build b/hw/timer/meson.build
-> index 157f540ecd..9019dce993 100644
-> --- a/hw/timer/meson.build
-> +++ b/hw/timer/meson.build
-> @@ -33,5 +33,6 @@ softmmu_ss.add(when: 'CONFIG_SSE_COUNTER', if_true: files('sse-counter.c'))
->  softmmu_ss.add(when: 'CONFIG_SSE_TIMER', if_true: files('sse-timer.c'))
->  softmmu_ss.add(when: 'CONFIG_STM32F2XX_TIMER', if_true: files('stm32f2xx_timer.c'))
->  softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_timer.c'))
-> +softmmu_ss.add(when: 'CONFIG_RENESAS_TIMER', if_true: files('renesas_timer.c'))
->  
->  specific_ss.add(when: 'CONFIG_AVR_TIMER16', if_true: files('avr_timer16.c'))
-
-Very good patch, almost OK (only minor comments).
-
-Thanks :)
-
-Phil.
 
