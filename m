@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9A43B29FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:09:06 +0200 (CEST)
-Received: from localhost ([::1]:35360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6BF3B2A20
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:13:41 +0200 (CEST)
+Received: from localhost ([::1]:38576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwKQ5-0000c2-CI
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39118)
+	id 1lwKUW-0002yF-Dm
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwKOl-0008Ln-1K
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:07:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20937)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwKOi-00053a-PJ
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:07:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624522060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MFRZPMXOqdIjkBGnBW076d3/cSsNlvMApKSs72FFsL8=;
- b=WX9etgdqBqTuwJDICYUr4sDFe/wXaG0ghDmHUHCPPXDNuSnBf34//TBmJ62FoCxTRmQHnz
- Vdz0X1hBRYEfEI1bjjd4Ko4ZpISEQ+GuaEKhc5ESWB68fqdnv4PwTPBjcXhYabNUXNudz0
- PRT/gaPxaNNBdKFI9Vdz2fKq/VbP+MI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-lMdh-8BcObevAQpI3s0evg-1; Thu, 24 Jun 2021 04:07:36 -0400
-X-MC-Unique: lMdh-8BcObevAQpI3s0evg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x5-20020adff0c50000b029011a7be832b7so1882620wro.18
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 01:07:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwKTa-0002AQ-T3; Thu, 24 Jun 2021 04:12:42 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lwKTZ-0000e1-5i; Thu, 24 Jun 2021 04:12:42 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id m18so5602109wrv.2;
+ Thu, 24 Jun 2021 01:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3fNrmenkKLdD2FBMbyEtXwT5t3lpOuMmyAFUJPmUR0w=;
+ b=pR1gA3SHBubXlwvaHquL2nASjnmj7UVlk6kvOtFSJAwkzBRmwyrrgl6xyOrLAMr95E
+ EWU/hY98KYguQvCTxkD8riDyVqwh+eO6qsWtoFSflaRkks3l1/sbxcMfAt3+oXPQoT4X
+ 4Pi/YMQumOYrWaM6sLY2DaCf98D2VX1TDvssfxtug+d91mAbk8c1HwIKngKbb7NCo+pI
+ uHo77Ze/Vcwpseu2t6Mlqdsn+cn8eC6nGJQpOJx5z4Qsd/Ec1R3CneeDxFTePN8qpdAC
+ Z8NN1wmgv8jc/PCPlRC7RTnGx/M2feGqMRM99ssJ5IlhijrQ0kCXdm7xsKg2k9XFWYIO
+ nDXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MFRZPMXOqdIjkBGnBW076d3/cSsNlvMApKSs72FFsL8=;
- b=K0E2nUrGrf9Hi0yZNY4hRg9zol47vbr1mInIZ+JuT7pjePmfJZ3YijChWAuBxwfHrW
- iNS4EY/phMIxEkXZq0k6TE92vGSI+j8dhCsBAikAx2sTkf3WSCKdF+/Ia29BNPrLrPKo
- 6uc397hT8oFkbo1nC7TpYWwMjb7PlSaWbbqzkxcTQg7qF85Oz4GLfLmTCibOhaflIccx
- REHlNCLSjKLbkM1PYXR/HgiTTubjCugYymOjqkkZSN0Nbhc8EMr4K+lUgc4FH9rGo4mm
- y9vdl7wrn2kaqwwyuGbUewp7C8ptp2KZ03U75DHOciR3q4t4dzcsPifxOVY+G7p2X6IQ
- jefQ==
-X-Gm-Message-State: AOAM532Qzh0VgnOWtOF9tK0ix+s1buh6HnAk77YC50/Xlrt7+NeC3sHp
- BDP9ONQ6mGm0W5uiYz7CgHn35SvktZL/JTRNARwLqKAp9t8+jA1WeIkFK6X+4Jm+kg1q0vSCY/i
- 5tT+NDne649NJIvY=
-X-Received: by 2002:a5d:410f:: with SMTP id l15mr2975593wrp.82.1624522055506; 
- Thu, 24 Jun 2021 01:07:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygWcA2oUXNJ0VeIP20fAJRlxrUJrxz0e/Fw5w3zMQbI5EKWPz3vUhP88E6dqUpE0+yWxfw6Q==
-X-Received: by 2002:a5d:410f:: with SMTP id l15mr2975582wrp.82.1624522055404; 
- Thu, 24 Jun 2021 01:07:35 -0700 (PDT)
+ bh=3fNrmenkKLdD2FBMbyEtXwT5t3lpOuMmyAFUJPmUR0w=;
+ b=kAvjISxKq4FxI1hLEAmI9VYVg2GXcLstsGYEGQnmlGjHB+m8t8qvTXRnJx8MxoKm0p
+ k2LcrsJqYLpF77X2aOLnVvR5PECgmRK0LxEzAHAqZ67dhqdipcWpcezkU/vZ0oZU7GQ0
+ BrBE5IDter+9PTwVgcYE+fLQTFqmwK8lz53QNaha8v9IgZt+mYmcnivYI3NOFS2kBriA
+ 9BdZ6mrax/CR1kGENe97xrHo3j1QAfZJ5GEVOmWBKukz3a0S4u4nEPdHw4eayHRKY9aS
+ ABGLJGyStxQhgFEydFVUt66CVigm6+rBtzEWr3M2cAujzOw0nvXueS+x0HJMRQ2qkFnE
+ 3yog==
+X-Gm-Message-State: AOAM5307AjEJUQ8FkzG3aflrI21Tq5sUTG0PZOX00pL6LWDF8bThQfwf
+ zdFFn1NLgQO6tCbzVJEkdAI=
+X-Google-Smtp-Source: ABdhPJzgjvmJOK3itVEKLhMtlaqKrTM3kKpa/OAipSDhpoZI4ozCNBirA9/bWnOOIVb3UEUFGdZDhQ==
+X-Received: by 2002:a5d:4a81:: with SMTP id o1mr3000309wrq.1.1624522358972;
+ Thu, 24 Jun 2021 01:12:38 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id x81sm9527567wmg.36.2021.06.24.01.07.34
+ by smtp.gmail.com with ESMTPSA id q5sm2418709wmc.0.2021.06.24.01.12.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 01:07:35 -0700 (PDT)
-Subject: Re: [RFC v1 1/1] ui: Add a plain Wayland backend for Qemu UI
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>, qemu-devel@nongnu.org
-References: <20210624041040.1250631-1-vivek.kasireddy@intel.com>
- <20210624041040.1250631-2-vivek.kasireddy@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <18be0a83-ea61-c622-4d80-60a0651e1386@redhat.com>
-Date: Thu, 24 Jun 2021 10:07:34 +0200
+ Thu, 24 Jun 2021 01:12:38 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/9] hw/sd: Allow card size not power of 2 again
+To: Alexander Bulekov <alxndr@bu.edu>
+References: <20210623180021.898286-1-f4bug@amsat.org>
+ <20210624025054.57gf3w5fawybm3me@mozz.bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <235bae9f-4c24-0a78-2c53-ed08daa282b1@amsat.org>
+Date: Thu, 24 Jun 2021 10:12:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210624041040.1250631-2-vivek.kasireddy@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210624025054.57gf3w5fawybm3me@mozz.bu.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,43 +87,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, Tom Yan <tom.ty89@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/21 6:10 AM, Vivek Kasireddy wrote:
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->  configure         |  17 ++
->  meson.build       |  25 +++
->  meson_options.txt |   2 +
->  qapi/ui.json      |  19 ++-
->  ui/meson.build    |  52 ++++++
->  ui/wayland.c      | 402 ++++++++++++++++++++++++++++++++++++++++++++++
->  6 files changed, 516 insertions(+), 1 deletion(-)
->  create mode 100644 ui/wayland.c
+On 6/24/21 4:50 AM, Alexander Bulekov wrote:
+> On 210623 2000, Philippe Mathieu-Daudé wrote:
+>> Hi Ubi-Wan Kenubi and Tom,
+>>
+>> In commit a9bcedd (SD card size has to be power of 2) we decided
+>> to restrict SD card size to avoid security problems (CVE-2020-13253)
+>> but this became not practical to some users.
+>>
+>> This RFC series tries to remove the limitation, keeping our
+>> functional tests working. It is unfinished work because I had to
+>> attend other topics, but sending it early as RFC to get feedback.
+>> I'll keep working when I get more time, except if one if you can
+>> help me.
+>>
+>> Alexander, could you generate a qtest reproducer with the fuzzer
+>> corpus? See: https://bugs.launchpad.net/qemu/+bug/1878054
+> 
+> I think that bug was already fixed - the reproducer no logner causes a
+> timeout on 6.0. Did I misunderstand something?
 
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 1052ca9c38..55e5967889 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1057,6 +1057,20 @@
->  { 'struct'  : 'DisplayEGLHeadless',
->    'data'    : { '*rendernode' : 'str' } }
->  
-> +##
-> +# @DisplayWayland:
-> +#
-> +# Wayland display options.
-> +#
-> +# @rendernode: Which DRM render node should be used. Default is the first
-> +#              available node on the host.
-> +#
-> +# Since: 3.1
+That bug was fixed but now I'm changing the code and would like to feel
+sure I'm not re-introducing the problem, so having the reproducer in the
+tree would help.
 
-Likely 6.1 :)
+> I applied this series and ran the OSS-Fuzz corpus for the sdhci-v3
+> config. The only problem it found is this assert() (that exists without the
+> patch anyways):
+> https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29225 
 
-(no need to respin for this single comment).
+Sigh.
 
+> Let me know if this is something you think I should report on gitlab..
+
+Yes please :(
+
+> I'll leave the fuzzer running for another 24h or so, but otherwise I'm
+> happy to leave a Tested-by, once there is a V1 series 
+> -Alex
+
+Thanks!
+
+Phil.
 
