@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B823B2FF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 15:27:44 +0200 (CEST)
-Received: from localhost ([::1]:54242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343563B2FFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 15:32:38 +0200 (CEST)
+Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwPOR-0002s3-4V
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 09:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55480)
+	id 1lwPTB-0005JQ-9k
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 09:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <caojinhua1@huawei.com>)
- id 1lwO8j-00008Q-Lu; Thu, 24 Jun 2021 08:07:25 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2051)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lwPRo-0004Nu-Gk; Thu, 24 Jun 2021 09:31:12 -0400
+Resent-Date: Thu, 24 Jun 2021 09:31:12 -0400
+Resent-Message-Id: <E1lwPRo-0004Nu-Gk@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <caojinhua1@huawei.com>)
- id 1lwO8g-0005G9-TB; Thu, 24 Jun 2021 08:07:25 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G9f1Z3WR2zZlrg;
- Thu, 24 Jun 2021 20:04:02 +0800 (CST)
-Received: from dggpemm500022.china.huawei.com (7.185.36.162) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 24 Jun 2021 20:07:04 +0800
-Received: from localhost.localdomain (10.246.240.24) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 24 Jun 2021 20:07:03 +0800
-From: Jinhua Cao <caojinhua1@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-block@nongnu.org>
-Subject: [RFC] block/mirror: fix file-system went to read-only after
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lwPRl-00021a-T3; Thu, 24 Jun 2021 09:31:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624541447; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KIb14ShFb8IKjwMPEZKdP2YN0lmy9egKvxeLz8pFRdookdjbTv2GjIAD4iXvV16O3yRaLnmPU1q8LuqukWk0/9mFqiF8zLq7mgKESkMOAi/M2BcRjetdTPHgJqRXKO2Eote9ejr4ILpzwptJHMAANJZ1IajmJmYc5Ur08cSu6WA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1624541447;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=/kHKcvEo/MkEE3lGva12QcFwP6wwZEadEIeHv/PMdT4=; 
+ b=cUj4Qo7AtyCzDbFNFaPMrQXxo3j1bhH3nG8ToLNrcgHlWB+3f//0RwcM/cy8tMNMP6tTQWsECxvsrBy3whdrGqh1ArpZZjyR58Fb59XUyYYaHEyF0KQx1LP9pRa7jZMFCp1ilQljivZ121TF3pkcX80nmEWCkaXvhrfgCsF0N6c=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1624541446734278.22751326469506;
+ Thu, 24 Jun 2021 06:30:46 -0700 (PDT)
+In-Reply-To: <20210624120635.54573-1-caojinhua1@huawei.com>
+Subject: Re: [RFC] block/mirror: fix file-system went to read-only after
  block-mirror
-Date: Thu, 24 Jun 2021 20:06:35 +0800
-Message-ID: <20210624120635.54573-1-caojinhua1@huawei.com>
-X-Mailer: git-send-email 2.27.0
+Message-ID: <162454144563.24366.801461474012857238@7c66fb7bc3ab>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.246.240.24]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500022.china.huawei.com (7.185.36.162)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=caojinhua1@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: caojinhua1@huawei.com
+Date: Thu, 24 Jun 2021 06:30:46 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 24 Jun 2021 09:26:56 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,70 +65,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, eric.fangyi@huawei.com, vsementsov@virtuozzo.com,
- jsnow@redhat.com, mreitz@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ eric.fangyi@huawei.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1) Configure the VM disk as prdm.
-...
-<disk type='block' device='lun'>
-  <driver name='qemu' type='raw' cache='none'/>
-  <source dev='/dev/disk/by-id/scsi-368886030000000ca50c1cd1563996917' index='1'/>
-  <backingStore/>
-  <target dev='sdb' bus='scsi'/>
-  <alias name='scsi0-0-0-1'/>
-  <address type='drive' controller='0' bus='0' target='0' unit='1'/>
-</disk>
-...
-Mount the disk in guest and keep the disk writing data continuously during block-mirror,
-the file-system went to read-only after block-mirror.
-
-2) This commit 6cdbceb12cf[mirror: Add filter-node-name to blockdev-mirror] introduces
-mirror_top_bs which does not set default function for mirror_top_bs->drv->bdrv_co_ioctl.
-
-3) The function bdrv_co_ioctl in block/io.c will be called during block-mirror, in this
-function, the judgment is as follow:
----
-    if (!drv || (!drv->bdrv_aio_ioctl && !drv->bdrv_co_ioctl)) {
-        co.ret = -ENOTSUP;
-        goto out;
-    }
----
-The mirror_top_bs does not set drv->bdrv_aio_ioctl or drv->bdrv_co_ioctl which result this
-return -ENOTSUP. So the file-system went to read-only after block-mirror.
-
-4) This patch set a default function for mirror_top_bs->drv->bdrv_aio_ioctl, fix this problem.
----
- block/mirror.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/block/mirror.c b/block/mirror.c
-index 019f6deaa5..63b788ec39 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1480,6 +1480,12 @@ static int coroutine_fn bdrv_mirror_top_flush(BlockDriverState *bs)
-     return bdrv_co_flush(bs->backing->bs);
- }
- 
-+static int coroutine_fn bdrv_mirror_top_ioctl(BlockDriverState *bs,
-+    unsigned long int req, void *buf)
-+{
-+    return 0;
-+}
-+
- static int coroutine_fn bdrv_mirror_top_pwrite_zeroes(BlockDriverState *bs,
-     int64_t offset, int bytes, BdrvRequestFlags flags)
- {
-@@ -1555,6 +1561,7 @@ static BlockDriver bdrv_mirror_top = {
-     .bdrv_co_pwrite_zeroes      = bdrv_mirror_top_pwrite_zeroes,
-     .bdrv_co_pdiscard           = bdrv_mirror_top_pdiscard,
-     .bdrv_co_flush              = bdrv_mirror_top_flush,
-+    .bdrv_co_ioctl              = bdrv_mirror_top_ioctl,
-     .bdrv_refresh_filename      = bdrv_mirror_top_refresh_filename,
-     .bdrv_child_perm            = bdrv_mirror_top_child_perm,
- 
--- 
-2.27.0
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyNDEyMDYzNS41NDU3
+My0xLWNhb2ppbmh1YTFAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjI0MTIwNjM1LjU0
+NTczLTEtY2FvamluaHVhMUBodWF3ZWkuY29tClN1YmplY3Q6IFtSRkNdIGJsb2NrL21pcnJvcjog
+Zml4IGZpbGUtc3lzdGVtIHdlbnQgdG8gcmVhZC1vbmx5IGFmdGVyIGJsb2NrLW1pcnJvcgoKPT09
+IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAv
+ZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFj
+ayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4
+NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
+dy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDYyNDEyMDYz
+NS41NDU3My0xLWNhb2ppbmh1YTFAaHVhd2VpLmNvbSAtPiBwYXRjaGV3LzIwMjEwNjI0MTIwNjM1
+LjU0NTczLTEtY2FvamluaHVhMUBodWF3ZWkuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
+dGVzdCcKNmUyYmE1NCBibG9jay9taXJyb3I6IGZpeCBmaWxlLXN5c3RlbSB3ZW50IHRvIHJlYWQt
+b25seSBhZnRlciBibG9jay1taXJyb3IKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBNaXNz
+aW5nIFNpZ25lZC1vZmYtYnk6IGxpbmUocykKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywg
+MTkgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDZlMmJhNTQ3ZjA0MiAoYmxvY2svbWlycm9yOiBmaXgg
+ZmlsZS1zeXN0ZW0gd2VudCB0byByZWFkLW9ubHkgYWZ0ZXIgYmxvY2stbWlycm9yKSBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0
+ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0
+Y2hldy5vcmcvbG9ncy8yMDIxMDYyNDEyMDYzNS41NDU3My0xLWNhb2ppbmh1YTFAaHVhd2VpLmNv
+bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
+bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
