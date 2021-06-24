@@ -2,109 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F65C3B277F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 08:39:01 +0200 (CEST)
-Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A0D3B2807
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 08:57:04 +0200 (CEST)
+Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwJ0u-0007yl-MB
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 02:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47642)
+	id 1lwJIN-00023Y-As
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 02:57:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lwIzS-0007IY-FD
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 02:37:30 -0400
-Received: from mail-mw2nam12on2060.outbound.protection.outlook.com
- ([40.107.244.60]:51105 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lwJAM-0002we-Cn; Thu, 24 Jun 2021 02:48:46 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:39197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1lwIzP-0007wI-R4
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 02:37:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V/rcudoWV2zziQ98DbgGS5mzVYMzDKNKgb/kRcOOPssH+uUqPikHD7JbnJ2DxK7VMabK45RrVIe2ZG4lfRVGNYePAiP2BlUNupeqz7JGTQTcJNteDh9x6htfIKIjnabeT/F5TMf+lyCHAwigRVjtuU8p3vpRV3KmR3YiAakfSL5VMlaaRT2RUWY2E2raDYh3iRyyNe7Rqq1Gzum1MAV7O6uq6QaXCuJRp5jhdcPfBrhEWIy5ZWoypcDhEbxY1CBbh1rDXMnHFPJLzX7C+WCAxtbPHSjUCjip60+WUxlMM7aryUk/FQVbWV6lSoPmt/VM4BTNKUv/63pF0kIIQ/iMdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eO2ecd4VC45qgqkZOTtsXVOvqS/6EuN3RQe7HFUw6WY=;
- b=Fat3+C8SFDyGcSxN0nODPo3GZKTlfQNp2t4YTjkbWz6wpjdbf2HX/AIcNE9r5Qml8GMGx61+kQVjeuUznIJ8qamy2VHL+HnvdfC8ZoIsKsj9YwBuiUOhKa63QXokWyzEfZKIc403WUX5KcJ/kzsFap09gWKI9ZUOtaf4xNiur9QAjaqDhNpaJkX0RA3/Qey17LT26vEqTFlmRFmPH56oLmQLklOs5DjmH30hiB4a+c0rJe4Fdgrsk53BngM3UZCAIBzlx3NoMgGjKmabpgvQLXci66oClNgMx5rUp6J1ggwdawUDIrOQuLGlwoHPcWoFSj5TvknFF2nzBplF03yH4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eO2ecd4VC45qgqkZOTtsXVOvqS/6EuN3RQe7HFUw6WY=;
- b=d4QDLOI8zBOeyDgtzUCMBYs9M1oA92oifAXL6OPP0Vh/yx0cO8UCNrUJgDbXy1iej9hrXZ/4uTpJqW16CQ//yZenzqjzHExuaerK+vh9gs4bQVjOIAW2p14pAP/UmROzOHTZ6HA/bD9fRYjP10XD5jF8n5lTxnPqV5YGBfP27/3JGzXc8pglIIEFZU6t2+hq1YgMQLNPD1bM7gonZaxJpDt6bo5RdhHJslqTMmogaqfBEh4tIrXZogquEZHg6xc2OP0lMk9u+7SmhtIc+oO7MZqJARePhF9EgdBDXsF46qFMHP0+TVp3ticduyHxXXHFvtJ/UVuNF0mbCoFsvhWaoA==
-Received: from BN6PR11CA0068.namprd11.prod.outlook.com (2603:10b6:404:f7::30)
- by MW2PR12MB2556.namprd12.prod.outlook.com (2603:10b6:907:a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Thu, 24 Jun
- 2021 06:22:21 +0000
-Received: from BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:f7:cafe::6e) by BN6PR11CA0068.outlook.office365.com
- (2603:10b6:404:f7::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend
- Transport; Thu, 24 Jun 2021 06:22:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT008.mail.protection.outlook.com (10.13.177.95) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4264.18 via Frontend Transport; Thu, 24 Jun 2021 06:22:20 +0000
-Received: from mtl-vdi-166.wap.labs.mlnx (172.20.187.6) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 24 Jun 2021 06:22:18 +0000
-Date: Thu, 24 Jun 2021 09:22:14 +0300
-From: Eli Cohen <elic@nvidia.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 03/18] vhost_net: do not assume nvqs is always 2
-Message-ID: <20210624062214.GA38401@mtl-vdi-166.wap.labs.mlnx>
-References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-4-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lwJAH-0000UB-Ic; Thu, 24 Jun 2021 02:48:46 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4G9W1V3073z9sT6; Thu, 24 Jun 2021 16:48:30 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1624517310;
+ bh=8vmgFuIstK3NcqB7z2kIq379STgE0LGtavc3tJlkeSU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S75egp6wVpTVSv+jCctJw+sdv3S56c/NfOlU10c9kosRim24/Is9fMPW1SPhvsXuD
+ HNQeIjadvl4QhVAz07CT0STb3BipKwETz8SlJSBFKV8xOf4RRkdSZzpuwGHlZy3Qm+
+ JF2z8Rb63KZ6B6/SrBgyKLp5OBQdW3kRlXWUwOpY=
+Date: Thu, 24 Jun 2021 16:30:47 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v2 07/10] target/ppc: Split out ppc_jumbo_xlate
+Message-ID: <YNQml4olwaspHlnp@yekko>
+References: <20210621125115.67717-1-bruno.larsen@eldorado.org.br>
+ <20210621125115.67717-8-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wk9M20qvZ6U1I42Y"
 Content-Disposition: inline
-In-Reply-To: <20210621041650.5826-4-jasowang@redhat.com>
-User-Agent: Mutt/1.9.5 (bf161cf53efb) (2018-04-13)
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eedc0cb3-ac69-448c-82fe-08d936d86c5b
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2556:
-X-Microsoft-Antispam-PRVS: <MW2PR12MB2556BB106C30D4AB65F4589CAB079@MW2PR12MB2556.namprd12.prod.outlook.com>
-X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:1303;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6jeuXzDK5c7ufkfKCY/U1lngnjwUtm7NESyftJDnFUg2rhVFkqM8PS0/6B1xKtfVeKsKYylYH9eFT7JCJPNky7furGphnuNLSwH8Rc2ap/GfM55pn29fgGd2YFkrHDgBrs9cmWrgJZU0v2DjdtNJ6/gehzSXNuL5Z0oxoC1DasIvHLXf6iG/ii9XMzmjT7sApzroGSkut4gKPncnzxHf4RfTgx2LWsb0jENlOmWDvODQzFU554Pv2Q2V3nCA9U+Kg58J5El+r+Xb37WNqBH6fCDTxzlNGtccFhqE4rbFxsoQGlhjmb3AtVHAmelWWvdkySYQtZvVraEwbGwzw0jBJ8vPG6LgQK4D/tNVQe/RL3C0pup51TCT+E3ofCKzRbYT+6l0mtYbwHcUNbxmFjGttcL3KBNSAaTpW4bwZPMDrB9IDnMR9b9gN3ICnXV0vUYqTCLIShzU6I+SmvVVCIvKAUKm3XQntLpvEIS+nRE8moiL7ZNX/+Cy3uZ7w0qaWJFNsucPRRJsW4Zpj6iCGsR88yeB6Ht3qtCePB31FvpHVToCxE09QWga69zyWM3q9xaTG7rjyb0uB6c+EBU9Do8bg9l9VbqD13c882frHGhOnniRauGacPHbw/Z0kRKrx5hDYIeVrf5Tr9EGWqfZ8oCtZA==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(396003)(136003)(376002)(36840700001)(46966006)(54906003)(7696005)(86362001)(2906002)(70586007)(70206006)(316002)(6666004)(5660300002)(36906005)(6916009)(1076003)(36860700001)(336012)(26005)(478600001)(4326008)(82310400003)(8936002)(8676002)(426003)(47076005)(55016002)(9686003)(16526019)(82740400003)(33656002)(83380400001)(7636003)(356005)(186003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 06:22:20.6719 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eedc0cb3-ac69-448c-82fe-08d936d86c5b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT008.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2556
-Received-SPF: softfail client-ip=40.107.244.60; envelope-from=elic@nvidia.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210621125115.67717-8-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,95 +58,439 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, lingshan.zhu@intel.com, qemu-devel@nongnu.org,
- lulu@redhat.com, mst@redhat.com
+Cc: farosas@linux.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br,
+ luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 12:16:35PM +0800, Jason Wang wrote:
-> This patch switches to initialize dev.nvqs from the VhostNetOptions
-> instead of assuming it was 2. This is useful for implementing control
-> virtqueue support which will be a single vhost_net structure with a
-> single cvq.
 
-Maybe worth mentioning in the changelog that nvqs is still set to 2 for
-all users and this patch does not change functionality.
+--wk9M20qvZ6U1I42Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Eli Cohen <elic@nvidia.com>
+On Mon, Jun 21, 2021 at 09:51:12AM -0300, Bruno Larsen (billionai) wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> Mirror the interface of ppc_radix64_xlate (mostly), putting all
+> of the logic for older mmu translation into a single entry point.
+> For booke, we need to add mmu_idx to the xlate-style interface.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+Applied to ppc-for-6.1.  So, I noticed reviewing this that the
+existing debug path is wrong - a bunch of the get_physical_address()
+functions make guest visible state changes.  Oh well, this doesn't
+make it any worse.
+
 > ---
->  hw/net/vhost_net.c      | 2 +-
->  include/net/vhost_net.h | 1 +
->  net/tap.c               | 1 +
->  net/vhost-user.c        | 1 +
->  net/vhost-vdpa.c        | 1 +
->  5 files changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index 6bd4184f96..ef1370bd92 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -163,9 +163,9 @@ struct vhost_net *vhost_net_init(VhostNetOptions *options)
->          goto fail;
+>  target/ppc/mmu_helper.c | 179 +++++++++++++++++++++-------------------
+>  1 file changed, 96 insertions(+), 83 deletions(-)
+>=20
+> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+> index c4b1c93e47..2e92deb105 100644
+> --- a/target/ppc/mmu_helper.c
+> +++ b/target/ppc/mmu_helper.c
+> @@ -1435,48 +1435,6 @@ static int get_physical_address(CPUPPCState *env, =
+mmu_ctx_t *ctx,
+>  }
+>  #endif
+> =20
+> -hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+> -{
+> -    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> -    CPUPPCState *env =3D &cpu->env;
+> -    mmu_ctx_t ctx;
+> -
+> -    switch (env->mmu_model) {
+> -#if defined(TARGET_PPC64)
+> -    case POWERPC_MMU_64B:
+> -    case POWERPC_MMU_2_03:
+> -    case POWERPC_MMU_2_06:
+> -    case POWERPC_MMU_2_07:
+> -        return ppc_hash64_get_phys_page_debug(cpu, addr);
+> -    case POWERPC_MMU_3_00:
+> -        return ppc64_v3_get_phys_page_debug(cpu, addr);
+> -#endif
+> -
+> -    case POWERPC_MMU_32B:
+> -    case POWERPC_MMU_601:
+> -        return ppc_hash32_get_phys_page_debug(cpu, addr);
+> -
+> -    default:
+> -        ;
+> -    }
+> -
+> -    if (unlikely(get_physical_address(env, &ctx, addr, MMU_DATA_LOAD,
+> -                                      ACCESS_INT) !=3D 0)) {
+> -
+> -        /*
+> -         * Some MMUs have separate TLBs for code and data. If we only
+> -         * try an ACCESS_INT, we may not be able to read instructions
+> -         * mapped by code TLBs, so we also try a ACCESS_CODE.
+> -         */
+> -        if (unlikely(get_physical_address(env, &ctx, addr, MMU_INST_FETC=
+H,
+> -                                          ACCESS_CODE) !=3D 0)) {
+> -            return -1;
+> -        }
+> -    }
+> -
+> -    return ctx.raddr & TARGET_PAGE_MASK;
+> -}
+> -
+>  static void booke206_update_mas_tlb_miss(CPUPPCState *env, target_ulong =
+address,
+>                                           MMUAccessType access_type, int =
+mmu_idx)
+>  {
+> @@ -1532,30 +1490,38 @@ static void booke206_update_mas_tlb_miss(CPUPPCSt=
+ate *env, target_ulong address,
+>  }
+> =20
+>  /* Perform address translation */
+> -static int cpu_ppc_handle_mmu_fault(CPUPPCState *env, target_ulong addre=
+ss,
+> -                                    MMUAccessType access_type, int mmu_i=
+dx)
+> +/* TODO: Split this by mmu_model. */
+> +static bool ppc_jumbo_xlate(PowerPCCPU *cpu, vaddr eaddr,
+> +                            MMUAccessType access_type,
+> +                            hwaddr *raddrp, int *psizep, int *protp,
+> +                            int mmu_idx, bool guest_visible)
+>  {
+> -    CPUState *cs =3D env_cpu(env);
+> -    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> +    CPUState *cs =3D CPU(cpu);
+> +    CPUPPCState *env =3D &cpu->env;
+>      mmu_ctx_t ctx;
+>      int type;
+> -    int ret =3D 0;
+> +    int ret;
+> =20
+>      if (access_type =3D=3D MMU_INST_FETCH) {
+>          /* code access */
+>          type =3D ACCESS_CODE;
+> -    } else {
+> +    } else if (guest_visible) {
+>          /* data access */
+>          type =3D env->access_type;
+> +    } else {
+> +        type =3D ACCESS_INT;
 >      }
->      net->nc = options->net_backend;
-> +    net->dev.nvqs = options->nvqs;
->  
->      net->dev.max_queues = 1;
-> -    net->dev.nvqs = 2;
->      net->dev.vqs = net->vqs;
->  
->      if (backend_kernel) {
-> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-> index 172b0051d8..fba40cf695 100644
-> --- a/include/net/vhost_net.h
-> +++ b/include/net/vhost_net.h
-> @@ -14,6 +14,7 @@ typedef struct VhostNetOptions {
->      VhostBackendType backend_type;
->      NetClientState *net_backend;
->      uint32_t busyloop_timeout;
-> +    unsigned int nvqs;
->      void *opaque;
->  } VhostNetOptions;
->  
-> diff --git a/net/tap.c b/net/tap.c
-> index f5686bbf77..f716be3e3f 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -749,6 +749,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
->              qemu_set_nonblock(vhostfd);
+> -    ret =3D get_physical_address_wtlb(env, &ctx, address, access_type,
+> +
+> +    ret =3D get_physical_address_wtlb(env, &ctx, eaddr, access_type,
+>                                      type, mmu_idx);
+>      if (ret =3D=3D 0) {
+> -        tlb_set_page(cs, address & TARGET_PAGE_MASK,
+> -                     ctx.raddr & TARGET_PAGE_MASK, ctx.prot,
+> -                     mmu_idx, TARGET_PAGE_SIZE);
+> -        ret =3D 0;
+> -    } else if (ret < 0) {
+> +        *raddrp =3D ctx.raddr;
+> +        *protp =3D ctx.prot;
+> +        *psizep =3D TARGET_PAGE_BITS;
+> +        return true;
+> +    }
+> +
+> +    if (guest_visible) {
+>          LOG_MMU_STATE(cs);
+>          if (type =3D=3D ACCESS_CODE) {
+>              switch (ret) {
+> @@ -1565,7 +1531,7 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *en=
+v, target_ulong address,
+>                  case POWERPC_MMU_SOFT_6xx:
+>                      cs->exception_index =3D POWERPC_EXCP_IFTLB;
+>                      env->error_code =3D 1 << 18;
+> -                    env->spr[SPR_IMISS] =3D address;
+> +                    env->spr[SPR_IMISS] =3D eaddr;
+>                      env->spr[SPR_ICMP] =3D 0x80000000 | ctx.ptem;
+>                      goto tlb_miss;
+>                  case POWERPC_MMU_SOFT_74xx:
+> @@ -1575,29 +1541,25 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *=
+env, target_ulong address,
+>                  case POWERPC_MMU_SOFT_4xx_Z:
+>                      cs->exception_index =3D POWERPC_EXCP_ITLB;
+>                      env->error_code =3D 0;
+> -                    env->spr[SPR_40x_DEAR] =3D address;
+> +                    env->spr[SPR_40x_DEAR] =3D eaddr;
+>                      env->spr[SPR_40x_ESR] =3D 0x00000000;
+>                      break;
+>                  case POWERPC_MMU_BOOKE206:
+> -                    booke206_update_mas_tlb_miss(env, address, 2, mmu_id=
+x);
+> +                    booke206_update_mas_tlb_miss(env, eaddr, 2, mmu_idx);
+>                      /* fall through */
+>                  case POWERPC_MMU_BOOKE:
+>                      cs->exception_index =3D POWERPC_EXCP_ITLB;
+>                      env->error_code =3D 0;
+> -                    env->spr[SPR_BOOKE_DEAR] =3D address;
+> +                    env->spr[SPR_BOOKE_DEAR] =3D eaddr;
+>                      env->spr[SPR_BOOKE_ESR] =3D mmubooke206_esr(mmu_idx,=
+ MMU_DATA_LOAD);
+> -                    return -1;
+> +                    break;
+>                  case POWERPC_MMU_MPC8xx:
+> -                    /* XXX: TODO */
+>                      cpu_abort(cs, "MPC8xx MMU model is not implemented\n=
+");
+> -                    break;
+>                  case POWERPC_MMU_REAL:
+>                      cpu_abort(cs, "PowerPC in real mode should never rai=
+se "
+>                                "any MMU exceptions\n");
+> -                    return -1;
+>                  default:
+>                      cpu_abort(cs, "Unknown or invalid MMU model\n");
+> -                    return -1;
+>                  }
+>                  break;
+>              case -2:
+> @@ -1634,7 +1596,7 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *en=
+v, target_ulong address,
+>                          cs->exception_index =3D POWERPC_EXCP_DLTLB;
+>                          env->error_code =3D 0;
+>                      }
+> -                    env->spr[SPR_DMISS] =3D address;
+> +                    env->spr[SPR_DMISS] =3D eaddr;
+>                      env->spr[SPR_DCMP] =3D 0x80000000 | ctx.ptem;
+>                  tlb_miss:
+>                      env->error_code |=3D ctx.key << 19;
+> @@ -1652,7 +1614,7 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *en=
+v, target_ulong address,
+>                  tlb_miss_74xx:
+>                      /* Implement LRU algorithm */
+>                      env->error_code =3D ctx.key << 19;
+> -                    env->spr[SPR_TLBMISS] =3D (address & ~((target_ulong=
+)0x3)) |
+> +                    env->spr[SPR_TLBMISS] =3D (eaddr & ~((target_ulong)0=
+x3)) |
+>                          ((env->last_way + 1) & (env->nb_ways - 1));
+>                      env->spr[SPR_PTEHI] =3D 0x80000000 | ctx.ptem;
+>                      break;
+> @@ -1660,7 +1622,7 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *en=
+v, target_ulong address,
+>                  case POWERPC_MMU_SOFT_4xx_Z:
+>                      cs->exception_index =3D POWERPC_EXCP_DTLB;
+>                      env->error_code =3D 0;
+> -                    env->spr[SPR_40x_DEAR] =3D address;
+> +                    env->spr[SPR_40x_DEAR] =3D eaddr;
+>                      if (access_type =3D=3D MMU_DATA_STORE) {
+>                          env->spr[SPR_40x_ESR] =3D 0x00800000;
+>                      } else {
+> @@ -1670,23 +1632,20 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *=
+env, target_ulong address,
+>                  case POWERPC_MMU_MPC8xx:
+>                      /* XXX: TODO */
+>                      cpu_abort(cs, "MPC8xx MMU model is not implemented\n=
+");
+> -                    break;
+>                  case POWERPC_MMU_BOOKE206:
+> -                    booke206_update_mas_tlb_miss(env, address, access_ty=
+pe, mmu_idx);
+> +                    booke206_update_mas_tlb_miss(env, eaddr, access_type=
+, mmu_idx);
+>                      /* fall through */
+>                  case POWERPC_MMU_BOOKE:
+>                      cs->exception_index =3D POWERPC_EXCP_DTLB;
+>                      env->error_code =3D 0;
+> -                    env->spr[SPR_BOOKE_DEAR] =3D address;
+> +                    env->spr[SPR_BOOKE_DEAR] =3D eaddr;
+>                      env->spr[SPR_BOOKE_ESR] =3D mmubooke206_esr(mmu_idx,=
+ access_type);
+> -                    return -1;
+> +                    break;
+>                  case POWERPC_MMU_REAL:
+>                      cpu_abort(cs, "PowerPC in real mode should never rai=
+se "
+>                                "any MMU exceptions\n");
+> -                    return -1;
+>                  default:
+>                      cpu_abort(cs, "Unknown or invalid MMU model\n");
+> -                    return -1;
+>                  }
+>                  break;
+>              case -2:
+> @@ -1695,16 +1654,16 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *=
+env, target_ulong address,
+>                  env->error_code =3D 0;
+>                  if (env->mmu_model =3D=3D POWERPC_MMU_SOFT_4xx
+>                      || env->mmu_model =3D=3D POWERPC_MMU_SOFT_4xx_Z) {
+> -                    env->spr[SPR_40x_DEAR] =3D address;
+> +                    env->spr[SPR_40x_DEAR] =3D eaddr;
+>                      if (access_type =3D=3D MMU_DATA_STORE) {
+>                          env->spr[SPR_40x_ESR] |=3D 0x00800000;
+>                      }
+>                  } else if ((env->mmu_model =3D=3D POWERPC_MMU_BOOKE) ||
+>                             (env->mmu_model =3D=3D POWERPC_MMU_BOOKE206))=
+ {
+> -                    env->spr[SPR_BOOKE_DEAR] =3D address;
+> +                    env->spr[SPR_BOOKE_DEAR] =3D eaddr;
+>                      env->spr[SPR_BOOKE_ESR] =3D mmubooke206_esr(mmu_idx,=
+ access_type);
+>                  } else {
+> -                    env->spr[SPR_DAR] =3D address;
+> +                    env->spr[SPR_DAR] =3D eaddr;
+>                      if (access_type =3D=3D MMU_DATA_STORE) {
+>                          env->spr[SPR_DSISR] =3D 0x0A000000;
+>                      } else {
+> @@ -1719,13 +1678,13 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *=
+env, target_ulong address,
+>                      /* Floating point load/store */
+>                      cs->exception_index =3D POWERPC_EXCP_ALIGN;
+>                      env->error_code =3D POWERPC_EXCP_ALIGN_FP;
+> -                    env->spr[SPR_DAR] =3D address;
+> +                    env->spr[SPR_DAR] =3D eaddr;
+>                      break;
+>                  case ACCESS_RES:
+>                      /* lwarx, ldarx or stwcx. */
+>                      cs->exception_index =3D POWERPC_EXCP_DSI;
+>                      env->error_code =3D 0;
+> -                    env->spr[SPR_DAR] =3D address;
+> +                    env->spr[SPR_DAR] =3D eaddr;
+>                      if (access_type =3D=3D MMU_DATA_STORE) {
+>                          env->spr[SPR_DSISR] =3D 0x06000000;
+>                      } else {
+> @@ -1736,7 +1695,7 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *en=
+v, target_ulong address,
+>                      /* eciwx or ecowx */
+>                      cs->exception_index =3D POWERPC_EXCP_DSI;
+>                      env->error_code =3D 0;
+> -                    env->spr[SPR_DAR] =3D address;
+> +                    env->spr[SPR_DAR] =3D eaddr;
+>                      if (access_type =3D=3D MMU_DATA_STORE) {
+>                          env->spr[SPR_DSISR] =3D 0x06100000;
+>                      } else {
+> @@ -1748,16 +1707,14 @@ static int cpu_ppc_handle_mmu_fault(CPUPPCState *=
+env, target_ulong address,
+>                      cs->exception_index =3D POWERPC_EXCP_PROGRAM;
+>                      env->error_code =3D
+>                          POWERPC_EXCP_INVAL | POWERPC_EXCP_INVAL_INVAL;
+> -                    env->spr[SPR_DAR] =3D address;
+> +                    env->spr[SPR_DAR] =3D eaddr;
+>                      break;
+>                  }
+>                  break;
+>              }
 >          }
->          options.opaque = (void *)(uintptr_t)vhostfd;
-> +        options.nvqs = 2;
->  
->          s->vhost_net = vhost_net_init(&options);
->          if (!s->vhost_net) {
-> diff --git a/net/vhost-user.c b/net/vhost-user.c
-> index ffbd94d944..b93918c5a4 100644
-> --- a/net/vhost-user.c
-> +++ b/net/vhost-user.c
-> @@ -85,6 +85,7 @@ static int vhost_user_start(int queues, NetClientState *ncs[],
->          options.net_backend = ncs[i];
->          options.opaque      = be;
->          options.busyloop_timeout = 0;
-> +        options.nvqs = 2;
->          net = vhost_net_init(&options);
->          if (!net) {
->              error_report("failed to init vhost_net for queue %d", i);
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 19187dce8c..18b45ad777 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -105,6 +105,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
->      options.net_backend = ncs;
->      options.opaque      = be;
->      options.busyloop_timeout = 0;
-> +    options.nvqs = 2;
->  
->      net = vhost_net_init(&options);
->      if (!net) {
-> -- 
-> 2.25.1
-> 
+> -        ret =3D 1;
+>      }
+> -
+> -    return ret;
+> +    return false;
+>  }
+> =20
+>  #ifdef CONFIG_TCG
+> @@ -2942,6 +2899,62 @@ void helper_check_tlb_flush_global(CPUPPCState *en=
+v)
+> =20
+>  /***********************************************************************=
+******/
+> =20
+> +static int cpu_ppc_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+> +                                    MMUAccessType access_type, int mmu_i=
+dx)
+> +{
+> +    CPUState *cs =3D CPU(cpu);
+> +    int page_size, prot;
+> +    hwaddr raddr;
+> +
+> +    if (!ppc_jumbo_xlate(cpu, eaddr, access_type, &raddr,
+> +                         &page_size, &prot, mmu_idx, true)) {
+> +        return 1;
+> +    }
+> +
+> +    tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
+> +                 prot, mmu_idx, 1UL << page_size);
+> +    return 0;
+> +}
+> +
+> +hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+> +{
+> +    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> +    CPUPPCState *env =3D &cpu->env;
+> +    hwaddr raddr;
+> +    int s, p;
+> +
+> +    switch (env->mmu_model) {
+> +#if defined(TARGET_PPC64)
+> +    case POWERPC_MMU_64B:
+> +    case POWERPC_MMU_2_03:
+> +    case POWERPC_MMU_2_06:
+> +    case POWERPC_MMU_2_07:
+> +        return ppc_hash64_get_phys_page_debug(cpu, addr);
+> +    case POWERPC_MMU_3_00:
+> +        return ppc64_v3_get_phys_page_debug(cpu, addr);
+> +#endif
+> +
+> +    case POWERPC_MMU_32B:
+> +    case POWERPC_MMU_601:
+> +        return ppc_hash32_get_phys_page_debug(cpu, addr);
+> +
+> +    default:
+> +        ;
+> +    }
+> +
+> +    /*
+> +     * Some MMUs have separate TLBs for code and data. If we only
+> +     * try an MMU_DATA_LOAD, we may not be able to read instructions
+> +     * mapped by code TLBs, so we also try a MMU_INST_FETCH.
+> +     */
+> +    if (ppc_jumbo_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, fal=
+se) ||
+> +        ppc_jumbo_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, fa=
+lse)) {
+> +        return raddr & TARGET_PAGE_MASK;
+> +    }
+> +    return -1;
+> +}
+> +
+> +
+>  bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+>                        MMUAccessType access_type, int mmu_idx,
+>                        bool probe, uintptr_t retaddr)
+> @@ -2969,7 +2982,7 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int=
+ size,
+>          break;
+> =20
+>      default:
+> -        ret =3D cpu_ppc_handle_mmu_fault(env, addr, access_type, mmu_idx=
+);
+> +        ret =3D cpu_ppc_handle_mmu_fault(cpu, addr, access_type, mmu_idx=
+);
+>          break;
+>      }
+>      if (unlikely(ret !=3D 0)) {
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--wk9M20qvZ6U1I42Y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDUJpUACgkQbDjKyiDZ
+s5IELxAAkXmFtzr3aC3ScCyd+oBMQNuivFUmWof9VEbvoqXK2Rd4X5zmhuRit5l8
+ZxUd+hTxdYS+t33SdeX5FZVHycRxxa2iJiJQvwbPh/UGmD2KNaAIPFRKX21Hsun0
+T6cylBpnq4VRzpo18TqR/BA0C4aJPF6eSYAZiWUPFf67R6Uru6Y9tk2GGc+Vcxri
+S5QdqUM1Mbvj6J5Uzh0ltBkzxWQBo5Hy7e+/ej4Xv4T6c8c8DtomLusAryTDq8sR
+lwE6o5hWYLVUWvzZgWYte9JUNjRKmA3hdQG7M1f7y0z0IwslVbnXQH9js4f+q05J
+hNXXepNV2q+bqHJU6XcyMG6WhE7z//6jab/gUsV16bSmpZnZ/tdtxLpsPaL9X9AF
+Pipvoe4Nt6YA5NvegSK+b67QXkdECFa1ir2paGJKDd4b/QqXvn+J74FrZ3XnpKIp
+mgJU9kyRt+TyIhbuboPinjJszNCOxQaFYQsReVvXKNAOl8DCufrWFaOcB5I+HzII
+pigOL2gYRqfyYcqSMxfiNqSTHpbhcJki/dgzAEPWS2sGO2h21FnsBZGv7//vmFrO
+R1aISlPAWQI98951HLxCJNdCeHpca8sid77Ll1ZzmIZ0Wivxzvv5nIHwTxLmDRxX
+DEm7B5vIqJtup2XF/0xY7m25ZvnK0GMoZWou7VR8WyIMtoB//uU=
+=LyAr
+-----END PGP SIGNATURE-----
+
+--wk9M20qvZ6U1I42Y--
 
