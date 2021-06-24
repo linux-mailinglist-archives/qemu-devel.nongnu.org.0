@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3F83B2D29
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:02:41 +0200 (CEST)
-Received: from localhost ([::1]:40392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B613B2D31
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:06:13 +0200 (CEST)
+Received: from localhost ([::1]:50090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwN84-0000Ws-4A
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38252)
+	id 1lwNBU-0007Ox-KZ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMn6-00036a-KE
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22112)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnP-0004Hd-Q1
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMn2-0007yH-S5
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:00 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMnN-0008EP-Ab
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:41:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531255;
+ s=mimecast20190719; t=1624531276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BAhOEkRB+XqNxdKSCxIqwsE6YM+rfzIJzAUNzwPs19M=;
- b=HK8q9Cz5dz08qrGeJZg5i3E8XHipYjjHrAAdu+XHFL241vk6tEjxyZVX9VsqBeAWbt56hN
- J9TlGUBLuXWLA1or7NXS6qLVTKxo9nLvuPy/BGqaajwSAgrq+xgeqS4upQ3r4UK+5quPVb
- 08TtCmKVDue8/gOhxROEk328upsKmrE=
+ bh=GHhZ0iFD7up5OuQYLPNfL9AotYzSHkNm/MlSW7fq0G0=;
+ b=SxyyOnZKOR3N6cfCxM1P/ahmuWwc9BHgauu05kToPpw7olSteGQGvjrNbYODYzy5pGFuGI
+ A16kcJhwvf7R/TCAUm5kB9Tz186GmVP2v5JCCXKa0CcKZOHoa1M4x8IlhFvWGFVRV9mTLY
+ M1WEqrKafvs/6WGnc+Ldrl+aKmLV/q4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-rCaezko2MYmkI3Z5kaIw1A-1; Thu, 24 Jun 2021 06:40:54 -0400
-X-MC-Unique: rCaezko2MYmkI3Z5kaIw1A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-294-E-cHfGUWN0qt0CADoYlM0Q-1; Thu, 24 Jun 2021 06:41:13 -0400
+X-MC-Unique: E-cHfGUWN0qt0CADoYlM0Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACECC804141;
- Thu, 24 Jun 2021 10:40:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB619106B7D9;
+ Thu, 24 Jun 2021 10:41:11 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3ECD5D6CF;
- Thu, 24 Jun 2021 10:40:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AD5812C82;
+ Thu, 24 Jun 2021 10:41:10 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E0AEA1803549; Thu, 24 Jun 2021 12:38:37 +0200 (CEST)
+ id 19084180354D; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/34] modules: check arch on qom lookup
-Date: Thu, 24 Jun 2021 12:38:21 +0200
-Message-Id: <20210624103836.2382472-20-kraxel@redhat.com>
+Subject: [PATCH v4 23/34] modules: module.h kerneldoc annotations
+Date: Thu, 24 Jun 2021 12:38:25 +0200
+Message-Id: <20210624103836.2382472-24-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,39 +98,98 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With target-specific modules we can have multiple modules implementing
-the same object.  Therefore we have to check the target arch on lookup
-to find the correct module.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/module.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/qemu/module.h | 59 +++++++++++++++++++++++++++++++++----------
+ 1 file changed, 45 insertions(+), 14 deletions(-)
 
-diff --git a/util/module.c b/util/module.c
-index 065aed09ffef..6bb4ad915a1c 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -329,6 +329,9 @@ void module_load_qom_one(const char *type)
-         if (!modinfo->objs) {
-             continue;
-         }
-+        if (!module_check_arch(modinfo)) {
-+            continue;
-+        }
-         for (sl = modinfo->objs; *sl != NULL; sl++) {
-             if (strcmp(type, *sl) == 0) {
-                 module_load_one("", modinfo->name, false);
-@@ -349,6 +352,9 @@ void module_load_qom_all(void)
-         if (!modinfo->objs) {
-             continue;
-         }
-+        if (!module_check_arch(modinfo)) {
-+            continue;
-+        }
-         module_load_one("", modinfo->name, false);
-     }
-     module_loaded_qom_all = true;
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 7f4b1af8198c..8bc80535a4d4 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -74,11 +74,18 @@ void module_load_qom_one(const char *type);
+ void module_load_qom_all(void);
+ void module_allow_arch(const char *arch);
+ 
+-/*
+- * module info annotation macros
++/**
++ * DOC: module info annotation macros
+  *
+- * scripts/modinfo-collect.py will collect module info,
+- * using the preprocessor and -DQEMU_MODINFO
++ * `scripts/modinfo-collect.py` will collect module info,
++ * using the preprocessor and -DQEMU_MODINFO.
++ *
++ * `scripts/modinfo-generate.py` will create a module meta-data database
++ * from the collected information so qemu knows about module
++ * dependencies and QOM objects implemented by modules.
++ *
++ * See `*.modinfo` and `modinfo.c` in the build directory to check the
++ * script results.
+  */
+ #ifdef QEMU_MODINFO
+ # define modinfo(kind, value) \
+@@ -87,24 +94,48 @@ void module_allow_arch(const char *arch);
+ # define modinfo(kind, value)
+ #endif
+ 
+-/* module implements QOM type <name> */
++/**
++ * module_obj
++ *
++ * @name: QOM type.
++ *
++ * This module implements QOM type @name.
++ */
+ #define module_obj(name) modinfo(obj, name)
+ 
+-/* module has a dependency on <name> */
++/**
++ * module_dep
++ *
++ * @name: module name
++ *
++ * This module depends on module @name.
++ */
+ #define module_dep(name) modinfo(dep, name)
+ 
+-/* module is for target architecture <name> */
++/**
++ * module_arch
++ *
++ * @arch: target architecture
++ *
++ * This module is for target architecture @arch.
++ *
++ * Note that target-dependent modules are tagged automatically, so
++ * this is only needed in case target-independent modules should be
++ * restricted.  Use case example: the ccw bus is implemented by s390x
++ * only.
++ */
+ #define module_arch(name) modinfo(arch, name)
+ 
+-/* module registers QemuOpts <name> */
++/**
++ * module_opts
++ *
++ * @name: QemuOpts name
++ *
++ * This module registers QemuOpts @name.
++ */
+ #define module_opts(name) modinfo(opts, name)
+ 
+-/*
+- * module info database
+- *
+- * scripts/modinfo-generate.c will build this using the data collected
+- * by scripts/modinfo-collect.py
+- */
++/* module info database (created by scripts/modinfo-generate.py) */
+ typedef struct QemuModinfo QemuModinfo;
+ struct QemuModinfo {
+     const char *name;
 -- 
 2.31.1
 
