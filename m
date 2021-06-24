@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B285A3B2A7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:36:03 +0200 (CEST)
-Received: from localhost ([::1]:59652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08503B2A79
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:36:02 +0200 (CEST)
+Received: from localhost ([::1]:59592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwKqA-0001DA-Ps
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42630)
+	id 1lwKq9-0001Af-UO
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:36:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKnE-0003zw-N0
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:33:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43899)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKnJ-0004DH-RQ
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:33:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKnB-0001AR-OP
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:33:00 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwKnH-0001Fw-U8
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:33:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624523577;
+ s=mimecast20190719; t=1624523583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KTVt1bcujZaWl3tpwubZ3u9PkdE5cEzM4+eUsXSnzTk=;
- b=F/6Q4nXowGgyxhA4X7/At59yKR6hBxC0iJfu9uBa8a5iXWTF0p8xclyx70p3axN5/fLwyg
- 6glyAuizuUFPpUD7YxEoazzrbUO4WZOhcgI5MmaNeJJPxsarkA31+qL/dwuuDyrfMGESYA
- SyqpkVZCv6nM0utpRodllpCUgT9P7vg=
+ bh=cqnl0HCQFHvn4674Ff3SrwJyalPTu2kqbe/AvKIotUc=;
+ b=SwGtc0lNyELrq5iZl76rls8swAaF6VnBjg5PqsaNji4bKNGy4oOS+AGRfPZqzLvkzisTIg
+ B1brul4FHsijONgNk0aMHX/VN6MSj8W1dQEHY8/G0fVqB8FS57yE7A5XqsAAejtO1RB6cx
+ APLm3Ghpl5g/zUnjxJWHjSiSdF31coA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-adoQd5HUPQeBpoDGSlINbg-1; Thu, 24 Jun 2021 04:32:55 -0400
-X-MC-Unique: adoQd5HUPQeBpoDGSlINbg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-39-QJjHe5SgOPu6hL9zOK5Zfg-1; Thu, 24 Jun 2021 04:32:59 -0400
+X-MC-Unique: QJjHe5SgOPu6hL9zOK5Zfg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C1531922967;
- Thu, 24 Jun 2021 08:32:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2082EEC1A5;
+ Thu, 24 Jun 2021 08:32:58 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE1C160871;
- Thu, 24 Jun 2021 08:32:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A82D2604CD;
+ Thu, 24 Jun 2021 08:32:55 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1EC2918007A6; Thu, 24 Jun 2021 10:32:47 +0200 (CEST)
+ id 293F418007AD; Thu, 24 Jun 2021 10:32:47 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] input: Add lang1 and lang2 to QKeyCode
-Date: Thu, 24 Jun 2021 10:32:44 +0200
-Message-Id: <20210624083246.2297440-4-kraxel@redhat.com>
+Subject: [PULL 4/5] Add display suboptions to man pages
+Date: Thu, 24 Jun 2021 10:32:45 +0200
+Message-Id: <20210624083246.2297440-5-kraxel@redhat.com>
 In-Reply-To: <20210624083246.2297440-1-kraxel@redhat.com>
 References: <20210624083246.2297440-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,52 +81,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ahmed Abouzied <email@aabouzied.com>,
  Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+From: Ahmed Abouzied <email@aabouzied.com>
 
-lang1 and lang2 represents the keys with the same names in the
-keyboard/keypad usage page (0x07) included in the "HID Usage Tables for
-Universal Serial Bus (USB)" version 1.22. Although the keys are
-described as "Hangul/English toggle key" and "Hanja conversion key" in
-the specification, the meaning depends on the variety of the keyboard,
-and it will be used as the representations of Kana and Eisu keys on
-Japanese Macs in qemu_input_map_osx_to_qcode, which is used by ui/gtk.
+Updates man pages with the suboptions for the `-display`.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20210617023113.2441-2-akihiko.odaki@gmail.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/128
+Buglink: https://bugs.launchpad.net/qemu/+bug/1620660
+Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
+Message-Id: <20210601174117.661-1-email@aabouzied.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- qapi/ui.json | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ qemu-options.hx | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 1052ca9c3848..90b44c5c5ca9 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -786,6 +786,9 @@
- # @muhenkan: since 2.12
- # @katakanahiragana: since 2.12
- #
-+# @lang1: since 6.1
-+# @lang2: since 6.1
-+#
- # 'sysrq' was mistakenly added to hack around the fact that
- # the ps2 driver was not generating correct scancodes sequences
- # when 'alt+print' was pressed. This flaw is now fixed and the
-@@ -818,7 +821,8 @@
-             'audionext', 'audioprev', 'audiostop', 'audioplay', 'audiomute',
-             'volumeup', 'volumedown', 'mediaselect',
-             'mail', 'calculator', 'computer',
--            'ac_home', 'ac_back', 'ac_forward', 'ac_refresh', 'ac_bookmarks' ] }
-+            'ac_home', 'ac_back', 'ac_forward', 'ac_refresh', 'ac_bookmarks',
-+            'lang1', 'lang2' ] }
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 14258784b3ad..ba3ca9da1df1 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1819,11 +1819,22 @@ SRST
+     old style -sdl/-curses/... options. Use ``-display help`` to list
+     the available display types. Valid values for type are
  
- ##
- # @KeyValue:
+-    ``sdl``
++    ``spice-app[,gl=on|off]``
++        Start QEMU as a Spice server and launch the default Spice client
++        application. The Spice server will redirect the serial consoles
++        and QEMU monitors. (Since 4.0)
++
++    ``sdl[,window-close=on|off][,gl=on|core|es|off]``
++
+         Display video output via SDL (usually in a separate graphics
+         window; see the SDL documentation for other possibilities).
+ 
+-    ``curses``
++    ``gtk[,grab-on-hover=on|off][,gl=on|off]``
++        Display video output in a GTK window. This interface provides
++        drop-down menus and other UI elements to configure and control
++        the VM during runtime.
++
++    ``curses [,charset=<encoding>]``
+         Display video output via curses. For graphics device models
+         which support a text mode, QEMU can display this output using a
+         curses/ncurses interface. Nothing is displayed when the graphics
+@@ -1834,6 +1845,11 @@ SRST
+         ``charset=CP850`` for IBM CP850 encoding. The default is
+         ``CP437``.
+ 
++    ``egl-headless[,rendernode<file>]``
++        Offload all OpenGL operations to a local DRI device. For any
++        graphical display, this display needs to be paired with either
++        VNC or SPICE displays.
++
+     ``none``
+         Do not display video output. The guest will still see an
+         emulated graphics card, but its output will not be displayed to
+@@ -1842,23 +1858,8 @@ SRST
+         also changes the destination of the serial and parallel port
+         data.
+ 
+-    ``gtk``
+-        Display video output in a GTK window. This interface provides
+-        drop-down menus and other UI elements to configure and control
+-        the VM during runtime.
+ 
+-    ``vnc``
+-        Start a VNC server on display <arg>
+ 
+-    ``egl-headless``
+-        Offload all OpenGL operations to a local DRI device. For any
+-        graphical display, this display needs to be paired with either
+-        VNC or SPICE displays.
+-
+-    ``spice-app``
+-        Start QEMU as a Spice server and launch the default Spice client
+-        application. The Spice server will redirect the serial consoles
+-        and QEMU monitors. (Since 4.0)
+ ERST
+ 
+ DEF("nographic", 0, QEMU_OPTION_nographic,
 -- 
 2.31.1
 
