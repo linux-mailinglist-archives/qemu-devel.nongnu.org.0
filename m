@@ -2,139 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C6D3B2C73
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:27:44 +0200 (CEST)
-Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B62A3B2C9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:41:45 +0200 (CEST)
+Received: from localhost ([::1]:53344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwMaF-0003Dh-PK
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34578)
+	id 1lwMno-0002qA-EB
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:41:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lwMXq-0001Yo-DC; Thu, 24 Jun 2021 06:25:14 -0400
-Received: from mail-eopbgr70128.outbound.protection.outlook.com
- ([40.107.7.128]:49826 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMlG-000658-1z
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:39:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lwMXn-0002yO-R9; Thu, 24 Jun 2021 06:25:14 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n3VmLT+dBrKgUUOTkKxqZqLwJBqQMB+nf+RH8hoGhiw6QIcC/MColKQYbxp6axverJ3HL0jCDkmbI6xClXiViX6/tS5fHoUaJMZ9V0XFYvgRAop/IVgWomwkSLDwgh8OaikWeysnQ+OLOFJZtXPZzP84eYnsSBywd2CJ1GHXuyAGUUYovdHKjyx9aQ5xeMa2OZBSm66fpl5uuVQceYDjXAUim4OTitEJna1rlwyrCVdwiN0MlWABZUx39wpAJgpjyiy37RAwNZRjVbVtm3GAGv02sO5gAXslj/nbZ/zrAZRoXm5nz0+8BbwvACyVk3qtR/pPlp9HGnZFeSAscLPXIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FhqUztbliLriIita8yW+PF//Jg2CQLVqhw9cQt9PCak=;
- b=RefZzvU0LibZKxsXA2GP9TzugUGBMvHc449cAvQ9xq/LYJ7GXUrGzVPK6Q7e/mEJExTV+ErS5dxxnw9tdCWupm9W7qzKaw3EktEMJTDzFBkcvGtdD8ukTK9gMUrDwPfnI+eqJ93mD7OpDSgOvOLiUZo5vRRZuel6EXqGe/zoSx17BelYj7ardHuDkYIoPhFnQi40b/XHgZ+NaujZoV59c0iWg144DezbNH4D1IF2YUfE7KtOGfMzhshilQoOK9JFF2ClZBNDTsQptKCrCeio88wDJbqLuZJR0WoLCIMFNiPjQCg9W79oGDnnkC0uGhUr24m+N1rACdIG6Lj4Bd+2iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FhqUztbliLriIita8yW+PF//Jg2CQLVqhw9cQt9PCak=;
- b=VVoIIqZhJMXFpyo7vYl34i6bsY2R37dcYPonrPhAvxc6EJ22jJfOoTW2TxoSZP54oeSqzmmWxv1ejqbZoAHouWyLt3h79SemLjTkiBbOi3DU/4pGuqvDG/WECSbWywgF9uR29W7Z0EN1C+ZRXmFjov+nmWDRBvSnzMTcLRPbUgg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4691.eurprd08.prod.outlook.com (2603:10a6:20b:cc::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Thu, 24 Jun
- 2021 10:25:07 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.020; Thu, 24 Jun 2021
- 10:25:07 +0000
-Subject: Re: [PATCH v2 3/6] block: Clarify that @bytes is no limit on *pnum
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>
-References: <20210623150143.188184-1-mreitz@redhat.com>
- <20210623150143.188184-4-mreitz@redhat.com>
- <adfe02d6-4b40-86f1-fa6b-55cf00405036@virtuozzo.com>
- <3c4ae0ed-a7d7-b6c3-1785-f6e4a9efec7e@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <e6ed8b1d-9853-bfa2-15c2-ab75f9e31daf@virtuozzo.com>
-Date: Thu, 24 Jun 2021 13:25:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <3c4ae0ed-a7d7-b6c3-1785-f6e4a9efec7e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.221]
-X-ClientProxiedBy: FR3P281CA0070.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMl8-0006Pv-8z
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:39:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624531137;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=O+X+YlX42HHi0vTrxa6pf10MitshuW8d7nQCHFp2vTs=;
+ b=RfnTSte5XjsWTsHJWWtZZIO4eXaFh53cy7W/b8SPRPWuwVbOnSloJz8R7MtP/6HTJcWU9o
+ 06b9iAvPixOTaSkh/gvMB+5yfU43AvApU3F/IEMoPSCx5sEssAHtaByF4Ljq05XMqM/YSP
+ gexiu5clqEPBSV8Dy+MQ+KizAPsWp/s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-603-tff4mFA7NQeYqoaiNDT3QA-1; Thu, 24 Jun 2021 06:38:54 -0400
+X-MC-Unique: tff4mFA7NQeYqoaiNDT3QA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D3FA106B7D8;
+ Thu, 24 Jun 2021 10:38:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 736D05D6A1;
+ Thu, 24 Jun 2021 10:38:38 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D751C180060E; Thu, 24 Jun 2021 12:38:36 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/34] modules: add meta-data database
+Date: Thu, 24 Jun 2021 12:38:02 +0200
+Message-Id: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.221) by
- FR3P281CA0070.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4b::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.8 via Frontend Transport; Thu, 24 Jun 2021 10:25:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d85d9484-ea68-44ec-4e4d-08d936fa56c2
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4691:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4691C7D88D2B3F8599D5ACA6C1079@AM6PR08MB4691.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Qw2X6urJXNeSka3nPya8q0uhBBwvI5iA9e6J7vLRCUvsdCvrrzK7mHOTHdm6U7+WR/MwpRhVHg2JzcOWoRQFmxONdw2QRf+aCMCEsqwaWcL3ZNf7+myBIKz9c6re2flXVba7CIaZVnQ+81NfVFWEIc12guWdxkmg5bEWcCR5AmvgGFpalkuoq/0qZBx0IiHhl/Yzc1j+E77YGoV6rEe1TMGAHOFLxc48P1sML0bRMQPwx7HtEgYFIDVwiJpPGW7bx0q0H91coW2EkUAw7rAa3kld0nawHi2+MB128HiRIsDonvIRTvHcc/c+OqMl8C1XAOtgwq5TIRJiZiVX63M16Lu5k8+qAyEkNOpCtSWprUw2vg3LlnH4HcnOI4iX7AOM8ImuexeLXQt/hwBjD+20vFAe47QHxl2nKX3F6I6H+wJ3tvhianmQyjiSjMGuha50CyO8gTx8ew2EPTs+I/6z6Ni5peq92xo1lwsZpTHhkObFzTVtROHrR8KI9bYdBnJu7vdW1pgVpxxk5nUfj0alizA4DUDCWYDeX8m6nUckSfX5DFhGm+7QNTsvHTiALLSoZwgVFmA6bIwqbU9MMegHd6atNj/gfA3hPznXCZb+LyJAzSkAxekP3aMNLrfRq4ZVbgeAV0qHEAys8YWoP7DVBDzxx3J74LyG2/IXpL47c7JOgNiVPaUTmKUSU+WFvESaPL8duK1v8a4BPp1oX22uSY4TQQXO1QHfp/6xrK9b674JT6HoV8JU2V9yEHthY1HFgQbU9QanhAO620dxz1q69g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(39840400004)(376002)(366004)(346002)(478600001)(2906002)(316002)(16576012)(54906003)(66476007)(8676002)(66946007)(52116002)(66556008)(5660300002)(31686004)(38100700002)(38350700002)(26005)(956004)(6486002)(16526019)(4326008)(8936002)(36756003)(86362001)(83380400001)(31696002)(186003)(2616005)(53546011)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDRJaFQ1b043SmJnWXQ5UFJqelQ4RkNhVWRQV0djbDBTaG8vVURoVW9Fazdx?=
- =?utf-8?B?L3dRcnFtR0kwbjNId1EwelJqT1B1S3UzaEFYUnRFVGV1MXlDbVIzdnBwRi93?=
- =?utf-8?B?UFVTdmxWdEpoU3lLaXMxajlDL09CY2gxL04vaStqVVlvdnR3cng1RTFXQS8x?=
- =?utf-8?B?clh1V3hRNGtwTHQrVkhXRlpaL2d6NFN6dGNoRUIvMEhSMnZOQlZlMG9KWEVW?=
- =?utf-8?B?QjJzVk5ob2tkZFZVUUtTbWdqZlYyTFZscWIwZ1E3d3IzQnRFc3ZqdDJPeTIy?=
- =?utf-8?B?aXVqbFFBUlNTTTNkRGRPR0ErdXJCQVBRcUhBL2RocHJlNEFhTG9RWmhDenBp?=
- =?utf-8?B?TUw5amZlNXg5bUg0MlEzWXZZbjJTK05FenRvU2xDY1VOa2tuUUUvSmt4b3NF?=
- =?utf-8?B?M09BcGFMNnM4djVzQ0J5eDNyN3VqYXlCRE9WMFYyNE9BT3VySE1YVTIwSW1a?=
- =?utf-8?B?UnY2emxEeU9nemtGakJqb3NidWg4Yk9LUk16YnZPcEZrOXZ5VUVnVTVUSG04?=
- =?utf-8?B?QlFXbjYzZUxnTjhRSlg0ZHNXOXJ6NThGbzdyWEJDT0dzdlpOalo1eDVkWStX?=
- =?utf-8?B?bTlLQXg5VS80TlRESjRoZC9yNDl3WWNOcUlrL3lsbGRWUUthTUtuNTVzT1No?=
- =?utf-8?B?dVdvTEJWNVJLRzJpL2FFeHU2L25ReWZYZ1BPMTlOUDR5NWJzQSt1Q3pBakJv?=
- =?utf-8?B?Ulg5VVF6K1MyMzlJdXRhdFIxVTl0Y0lsVHVoeWFzb1JtVUZxeVg3YVZJdW5h?=
- =?utf-8?B?VGRiamZ6blBxa1hDeDhJaXh4WXBtMnQzWXVsa0YyN0hWTHpHTS81bk8rOHdC?=
- =?utf-8?B?NjQ4SFc5S29TMmI1VTh2aEhnNG9wejl2YXFySmw0Mk1wak5GREl6cVZUZEJK?=
- =?utf-8?B?WGp0anFTSFpDNlgxdmFNNzdZRFMvK3BKZmlVWldNMWpxcmlucElNZU9Cb1lJ?=
- =?utf-8?B?RlA5anJQaFg5Ui8rOFN1OG9ybDFTUDlPRGlGR0tQNGdmWUIrdWlJLzYwVjVx?=
- =?utf-8?B?bkZmdlN3VnA0dXBGc2hNVk9FaXBTaUhFTFQ4dE9JcGl2a3MySEl2QnlldTBB?=
- =?utf-8?B?NUFhQUF1c2hwTUNrdmVrZFV1K3ZpendtZHpaWk5OL1ludXdtQmpXMDBlaXVE?=
- =?utf-8?B?dEhVaXgxaWpDa1p2ckJHNGxPcVd0OU1EOTRhZmgyMWxlcUk3clVQcE1GSEtr?=
- =?utf-8?B?UURiVTJseWQvd2M5T3JPaG02SFo3RGd1alY5cEJYZGNpUzZCSXVZNmFVbDM2?=
- =?utf-8?B?Q01URVZ0YW55MFoyVmVMWm9WYWFCVjdYamd2L1JBTk1IdnZxYzR1UjBWSUNZ?=
- =?utf-8?B?dGtRbjZuVStEb0pkaytmOTF2Zm1pNUZBdEtURDZpclM3MUo3c29zZjZyU0Fp?=
- =?utf-8?B?NWs2Y1NlUmhTLy9YNnR5NU5qem15OWtyQlBDUDdNNlVMV3k2Z0VHRnRGOVBV?=
- =?utf-8?B?b1J4cERLU2tQOVljeXBSN3JiODIvL3lnVVgyb3NDNU5sSkRwQWJLSS90V2du?=
- =?utf-8?B?aU8wVk5oaXRjT1NyUU5CSEZLWlI4cFduQm1tajAzQWhqbXpydjJEOXpIQzdW?=
- =?utf-8?B?dXFNSVhvblA0MG9QTm40ZWtTSzJMQ0xXdWxVN2VKMjdEczBlZVBaWS8zMlBS?=
- =?utf-8?B?Qy9nNDU0dnBKWEFtcThzRzlDaSszaXB1cGdKVlI2SVdGcVFWNnBaU0RoTG1E?=
- =?utf-8?B?c2tZNmZIR3d3eENBZ0I3QmduWjhlSUtMdTRuSzRRV1lWYTFzWWk3WWRiZnp4?=
- =?utf-8?Q?6BBEqsc1iWhIxj9BVVre9TJFiBLCIaGtzfd1LCO?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d85d9484-ea68-44ec-4e4d-08d936fa56c2
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 10:25:07.6587 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o+/tZH/3+W86hkw2yAayEbl2UfaU/nIZ7p+IVkNn/k3oivPt5Z0zaDOb3A+bk2ZBsQVW+lTJIZyc3WzodNG2ouPQjZ7wWvF+VONKwpA/Raw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4691
-Received-SPF: pass client-ip=40.107.7.128;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,54 +76,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Lieven <pl@kamp.de>,
+ Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-s390x@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-24.06.2021 13:16, Max Reitz wrote:
-> On 24.06.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
->> 23.06.2021 18:01, Max Reitz wrote:
->>> .bdrv_co_block_status() implementations are free to return a *pnum that
->>> exceeds @bytes, because bdrv_co_block_status() in block/io.c will clamp
->>> *pnum as necessary.
->>>
->>> On the other hand, if drivers' implementations return values for *pnum
->>> that are as large as possible, our recently introduced block-status
->>> cache will become more effective.
->>>
->>> So, make a note in block_int.h that @bytes is no upper limit for *pnum.
->>>
->>> Suggested-by: Eric Blake <eblake@redhat.com>
->>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>> ---
->>>   include/block/block_int.h | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/include/block/block_int.h b/include/block/block_int.h
->>> index fcb599dd1c..f85b96ed99 100644
->>> --- a/include/block/block_int.h
->>> +++ b/include/block/block_int.h
->>> @@ -347,6 +347,11 @@ struct BlockDriver {
->>>        * clamped to bdrv_getlength() and aligned to request_alignment,
->>>        * as well as non-NULL pnum, map, and file; in turn, the driver
->>>        * must return an error or set pnum to an aligned non-zero value.
->>> +     *
->>> +     * Note that @bytes is just a hint on how big of a region the
->>> +     * caller wants to inspect.  It is not a limit on *pnum.
->>> +     * Implementations are free to return larger values of *pnum if
->>> +     * doing so does not incur a performance penalty.
->>
->> Worth mention that the cache will benefit of it?
-> 
-> Oh, right, absolutely.  Like so:
-> 
-> "block/io.c's bdrv_co_block_status() will clamp *pnum before returning it to its caller, but it itself can still make use of the unclamped *pnum value.  Specifically, the block-status cache for protocol nodes will benefit from storing as large a region as possible."
-> 
+This patch series adds support for module meta-data.  Today this is=0D
+either hard-coded in qemu (see qemu_load_module_for_opts) or handled=0D
+with manually maintained lists in util/module (see module_deps[] and=0D
+qom_modules[]).  This series replaced that scheme with annotation=0D
+macros, so the meta-data can go into the module source code and -- for=0D
+example -- the module_obj() annotations can go next to the TypeInfo=0D
+struct for the object class.=0D
+=0D
+Patches 1-3 put the infrastructure in place:  Add the annotation macros,=0D
+add a script to collect the meta-data, add a script to compile the=0D
+meta-data into C source code which we can then add to qemu.=0D
+=0D
+Patch 4 - check module dependencies (Jose, new in v4).=0D
+=0D
+Patches 5-13 add annotations macros to the modules we have.=0D
+=0D
+Patches 14-16 put the modinfo database into use and remove the=0D
+module_deps[] and qom_modules[] lists.=0D
+=0D
+Patch 16 adds two tracepoints for easier trouble-shooting.=0D
+=0D
+Patches 18-20 add support for target-specific modules.=0D
+=0D
+Patches 21-24 add documentation for all of the above (new in v4, was=0D
+separate series).=0D
+=0D
+Patches 25-29 start building accelerators modular.  So far it is=0D
+only qtest (all archs) and a small fraction of tcg (x86 only).=0D
+=0D
+Patches 30-34 add support for registering hmp commands so they can=0D
+be implemented as module (new in v4, was separate series).=0D
+=0D
+take care,=0D
+  Gerd=0D
+=0D
+Gerd Hoffmann (33):=0D
+  modules: add modinfo macros=0D
+  modules: collect module meta-data=0D
+  modules: generate modinfo.c=0D
+  modules: add qxl module annotations=0D
+  modules: add virtio-gpu module annotations=0D
+  modules: add chardev module annotations=0D
+  modules: add audio module annotations=0D
+  modules: add usb-redir module annotations=0D
+  modules: add ccid module annotations=0D
+  modules: add ui module annotations=0D
+  modules: add s390x module annotations=0D
+  modules: add block module annotations=0D
+  modules: use modinfo for dependencies=0D
+  modules: use modinfo for qom load=0D
+  modules: use modinfo for qemu opts load=0D
+  modules: add tracepoints=0D
+  modules: check arch and block load on mismatch=0D
+  modules: check arch on qom lookup=0D
+  modules: target-specific module build infrastructure=0D
+  modules: add documentation for module sourcesets=0D
+  modules: add module_obj() note to QOM docs=0D
+  modules: module.h kerneldoc annotations=0D
+  modules: hook up modules.h to docs build=0D
+  accel: autoload modules=0D
+  accel: add qtest module annotations=0D
+  accel: build qtest modular=0D
+  accel: add tcg module annotations=0D
+  accel: build tcg modular=0D
+  monitor: allow register hmp commands=0D
+  usb: drop usb_host_dev_is_scsi_storage hook=0D
+  monitor/usb: register 'info usbhost' dynamically=0D
+  usb: build usb-host as module=0D
+  monitor/tcg: move tcg hmp commands to accel/tcg, register them=0D
+    dynamically=0D
+=0D
+Jose R. Ziviani (1):=0D
+  modules: check if all dependencies can be satisfied=0D
+=0D
+ scripts/modinfo-collect.py      |  67 +++++++++++=0D
+ scripts/modinfo-generate.py     |  97 ++++++++++++++++=0D
+ include/hw/usb.h                |   7 +-=0D
+ include/monitor/monitor.h       |   3 +=0D
+ include/qemu/module.h           |  74 ++++++++++++=0D
+ accel/accel-common.c            |   2 +-=0D
+ accel/accel-softmmu.c           |   2 +-=0D
+ accel/qtest/qtest.c             |   2 +=0D
+ accel/tcg/hmp.c                 |  29 +++++=0D
+ accel/tcg/tcg-accel-ops.c       |   1 +=0D
+ accel/tcg/tcg-all.c             |   1 +=0D
+ audio/spiceaudio.c              |   2 +=0D
+ block/iscsi-opts.c              |   1 +=0D
+ chardev/baum.c                  |   1 +=0D
+ chardev/spice.c                 |   4 +=0D
+ hw/display/qxl.c                |   4 +=0D
+ hw/display/vhost-user-gpu-pci.c |   1 +=0D
+ hw/display/vhost-user-gpu.c     |   1 +=0D
+ hw/display/vhost-user-vga.c     |   1 +=0D
+ hw/display/virtio-gpu-base.c    |   1 +=0D
+ hw/display/virtio-gpu-gl.c      |   3 +=0D
+ hw/display/virtio-gpu-pci-gl.c  |   3 +=0D
+ hw/display/virtio-gpu-pci.c     |   2 +=0D
+ hw/display/virtio-gpu.c         |   1 +=0D
+ hw/display/virtio-vga-gl.c      |   3 +=0D
+ hw/display/virtio-vga.c         |   2 +=0D
+ hw/ppc/spapr.c                  |   2 +-=0D
+ hw/s390x/virtio-ccw-gpu.c       |   3 +=0D
+ hw/usb/ccid-card-emulated.c     |   1 +=0D
+ hw/usb/ccid-card-passthru.c     |   1 +=0D
+ hw/usb/dev-storage-bot.c        |   1 +=0D
+ hw/usb/dev-storage-classic.c    |   1 +=0D
+ hw/usb/dev-uas.c                |   1 +=0D
+ hw/usb/host-libusb.c            |  38 ++----=0D
+ hw/usb/host-stub.c              |  45 -------=0D
+ hw/usb/redirect.c               |   1 +=0D
+ monitor/hmp.c                   |   7 ++=0D
+ monitor/misc.c                  |  34 +++---=0D
+ softmmu/vl.c                    |  24 ++--=0D
+ stubs/module-opts.c             |   4 -=0D
+ ui/egl-headless.c               |   4 +=0D
+ ui/gtk.c                        |   4 +=0D
+ ui/sdl2.c                       |   4 +=0D
+ ui/spice-app.c                  |   3 +=0D
+ ui/spice-core.c                 |   5 +=0D
+ util/module.c                   | 200 ++++++++++++++++++--------------=0D
+ accel/qtest/meson.build         |   8 +-=0D
+ accel/tcg/meson.build           |   6 +-=0D
+ docs/devel/build-system.rst     |  17 +++=0D
+ docs/devel/index.rst            |   1 +=0D
+ docs/devel/modules.rst          |   5 +=0D
+ docs/devel/qom.rst              |   8 ++=0D
+ hmp-commands-info.hx            |   3 -=0D
+ hw/usb/meson.build              |  10 +-=0D
+ meson.build                     |  82 +++++++++++++=0D
+ util/trace-events               |   4 +=0D
+ 56 files changed, 624 insertions(+), 218 deletions(-)=0D
+ create mode 100755 scripts/modinfo-collect.py=0D
+ create mode 100755 scripts/modinfo-generate.py=0D
+ create mode 100644 accel/tcg/hmp.c=0D
+ delete mode 100644 hw/usb/host-stub.c=0D
+ create mode 100644 docs/devel/modules.rst=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Sounds good. Do you mean this as an addition or substitution? If the latter, I'd keep "if doing so does not incur a performance penalty"
-
-
-
--- 
-Best regards,
-Vladimir
 
