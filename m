@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2673B29DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:05:53 +0200 (CEST)
-Received: from localhost ([::1]:60890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9A43B29FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 10:09:06 +0200 (CEST)
+Received: from localhost ([::1]:35360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwKMy-00074k-Fs
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:05:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38524)
+	id 1lwKQ5-0000c2-CI
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 04:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwKKl-0005dQ-2T
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:03:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41143)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwKOl-0008Ln-1K
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:07:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwKKa-0002Aa-S4
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:03:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwKOi-00053a-PJ
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 04:07:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624521803;
+ s=mimecast20190719; t=1624522060;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gdh3FW5FBx+LRCNrQ1CFnpX81rDcOIzdUWTAK7l1qLQ=;
- b=G4UYnc1lMELTWyaAnOrTkzxsjg0ftnI/pNauVnBvXhrI0Jb193c/9cfDibFc1+/8A27+9g
- hbeHhPVOpXoZEHPO1LZSxVQrMM6HRpLy5uJ9EYVQPp+P/LPemEJtTBnX5djJWPOuOz0nqD
- Jv8siycP3rev0g+HhzdrWIfJkXC2NtM=
+ bh=MFRZPMXOqdIjkBGnBW076d3/cSsNlvMApKSs72FFsL8=;
+ b=WX9etgdqBqTuwJDICYUr4sDFe/wXaG0ghDmHUHCPPXDNuSnBf34//TBmJ62FoCxTRmQHnz
+ Vdz0X1hBRYEfEI1bjjd4Ko4ZpISEQ+GuaEKhc5ESWB68fqdnv4PwTPBjcXhYabNUXNudz0
+ PRT/gaPxaNNBdKFI9Vdz2fKq/VbP+MI=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-NREirQZxMfmiqM2JUEsL8w-1; Thu, 24 Jun 2021 04:03:21 -0400
-X-MC-Unique: NREirQZxMfmiqM2JUEsL8w-1
+ us-mta-426-lMdh-8BcObevAQpI3s0evg-1; Thu, 24 Jun 2021 04:07:36 -0400
+X-MC-Unique: lMdh-8BcObevAQpI3s0evg-1
 Received: by mail-wr1-f70.google.com with SMTP id
- j2-20020a5d61820000b029011a6a8149b5so1884112wru.14
- for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 01:03:21 -0700 (PDT)
+ x5-20020adff0c50000b029011a7be832b7so1882620wro.18
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 01:07:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gdh3FW5FBx+LRCNrQ1CFnpX81rDcOIzdUWTAK7l1qLQ=;
- b=XuJ3CO9Tmx2f8D9mFsbZg+Ikwpy2GpCUDE7II1L7nN47JSVEpdQxz9xmHm8D6ptWvB
- qw7sPNgZKNyK+OtL/+iW1Vmp0uk1YWeHGqjdqjY1a0ZUb7mzirpD7zGKpz+yjTDt2GNj
- u1VUhnsZVfg9ChuyFdE6P7UcOE8taUZkJn0ArfbyxBLdzmva2moEfEt5SrAGPkUVIi1D
- Cjpid8mZPTDtX/YuhvtmbAXWwQt4f/UWjJKliq/K2ySSUlp5x2qJ7HJtCmLguerpZLJL
- zGV00ekC8jNb8gf1A4DASNHfybbLZ4DSREvz0mEyYBSLKDeX1/t7Xb74iwXhWeelZYxk
- bccQ==
-X-Gm-Message-State: AOAM530ljPj1m1T9/PZu5CDgfDH5XmCGXtoxrTqhkm1nMM3YmSiUGFs3
- diPyusjNE3OsssYVVsspOzlup2Ai/zcoeNxHTBsS6F2zJQYoogxuDkfO2dy8ZcS4H7No660lbEd
- QKqYnYCrAryzuiG0=
-X-Received: by 2002:adf:fc43:: with SMTP id e3mr2891830wrs.212.1624521800488; 
- Thu, 24 Jun 2021 01:03:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0K2YUI3gF2VFss7a5Hon2rSajn3MpfaF4fck5hQQQJ2RzhG7YUvitlW4o5edo5rvGBwPf1w==
-X-Received: by 2002:adf:fc43:: with SMTP id e3mr2891799wrs.212.1624521800253; 
- Thu, 24 Jun 2021 01:03:20 -0700 (PDT)
+ bh=MFRZPMXOqdIjkBGnBW076d3/cSsNlvMApKSs72FFsL8=;
+ b=K0E2nUrGrf9Hi0yZNY4hRg9zol47vbr1mInIZ+JuT7pjePmfJZ3YijChWAuBxwfHrW
+ iNS4EY/phMIxEkXZq0k6TE92vGSI+j8dhCsBAikAx2sTkf3WSCKdF+/Ia29BNPrLrPKo
+ 6uc397hT8oFkbo1nC7TpYWwMjb7PlSaWbbqzkxcTQg7qF85Oz4GLfLmTCibOhaflIccx
+ REHlNCLSjKLbkM1PYXR/HgiTTubjCugYymOjqkkZSN0Nbhc8EMr4K+lUgc4FH9rGo4mm
+ y9vdl7wrn2kaqwwyuGbUewp7C8ptp2KZ03U75DHOciR3q4t4dzcsPifxOVY+G7p2X6IQ
+ jefQ==
+X-Gm-Message-State: AOAM532Qzh0VgnOWtOF9tK0ix+s1buh6HnAk77YC50/Xlrt7+NeC3sHp
+ BDP9ONQ6mGm0W5uiYz7CgHn35SvktZL/JTRNARwLqKAp9t8+jA1WeIkFK6X+4Jm+kg1q0vSCY/i
+ 5tT+NDne649NJIvY=
+X-Received: by 2002:a5d:410f:: with SMTP id l15mr2975593wrp.82.1624522055506; 
+ Thu, 24 Jun 2021 01:07:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygWcA2oUXNJ0VeIP20fAJRlxrUJrxz0e/Fw5w3zMQbI5EKWPz3vUhP88E6dqUpE0+yWxfw6Q==
+X-Received: by 2002:a5d:410f:: with SMTP id l15mr2975582wrp.82.1624522055404; 
+ Thu, 24 Jun 2021 01:07:35 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id w8sm2288476wre.70.2021.06.24.01.03.19
+ by smtp.gmail.com with ESMTPSA id x81sm9527567wmg.36.2021.06.24.01.07.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 01:03:19 -0700 (PDT)
-Subject: Re: [PATCH v3 2/4] fuzz: add an instrumentation filter
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20210624034503.86256-1-alxndr@bu.edu>
- <20210624034503.86256-3-alxndr@bu.edu>
+ Thu, 24 Jun 2021 01:07:35 -0700 (PDT)
+Subject: Re: [RFC v1 1/1] ui: Add a plain Wayland backend for Qemu UI
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>, qemu-devel@nongnu.org
+References: <20210624041040.1250631-1-vivek.kasireddy@intel.com>
+ <20210624041040.1250631-2-vivek.kasireddy@intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cd900b47-46ae-ad2e-d665-23774cefe678@redhat.com>
-Date: Thu, 24 Jun 2021 10:03:18 +0200
+Message-ID: <18be0a83-ea61-c622-4d80-60a0651e1386@redhat.com>
+Date: Thu, 24 Jun 2021 10:07:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210624034503.86256-3-alxndr@bu.edu>
+In-Reply-To: <20210624041040.1250631-2-vivek.kasireddy@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,53 +99,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com, Thomas Huth <thuth@redhat.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/21 5:45 AM, Alexander Bulekov wrote:
-> By default, -fsanitize=fuzzer instruments all code with coverage
-> information. However, this means that libfuzzer will track coverage over
-> hundreds of source files that are unrelated to virtual-devices. This
-> means that libfuzzer will optimize inputs for coverage observed in timer
-> code, memory APIs etc. This slows down the fuzzer and stores many inputs
-> that are not relevant to the actual virtual-devices.
-> 
-> With this change, clang versions that support the
-> "-fsanitize-coverage-allowlist" will only instrument a subset of the
-> compiled code, that is directly related to virtual-devices.
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+On 6/24/21 6:10 AM, Vivek Kasireddy wrote:
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 > ---
->  configure                               | 11 +++++++++++
->  scripts/oss-fuzz/instrumentation-filter | 14 ++++++++++++++
->  2 files changed, 25 insertions(+)
->  create mode 100644 scripts/oss-fuzz/instrumentation-filter
+>  configure         |  17 ++
+>  meson.build       |  25 +++
+>  meson_options.txt |   2 +
+>  qapi/ui.json      |  19 ++-
+>  ui/meson.build    |  52 ++++++
+>  ui/wayland.c      | 402 ++++++++++++++++++++++++++++++++++++++++++++++
+>  6 files changed, 516 insertions(+), 1 deletion(-)
+>  create mode 100644 ui/wayland.c
 
->  # Thread sanitizer is, for now, much noisier than the other sanitizers;
-> @@ -6101,6 +6106,12 @@ if test "$fuzzing" = "yes" ; then
->      # rule for the fuzzer adds these to the link_args. They need to be
->      # configurable, to support OSS-Fuzz
->      FUZZ_EXE_LDFLAGS="-fsanitize=fuzzer"
-> +
-> +    # Specify a filter to only instrument code that is directly related to
-> +    # virtual-devices.
-> +    if test "$have_clang_coverage_filter" = "yes" ; then
-> +        QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize-coverage-allowlist=$source_path/scripts/oss-fuzz/instrumentation-filter"
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 1052ca9c38..55e5967889 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1057,6 +1057,20 @@
+>  { 'struct'  : 'DisplayEGLHeadless',
+>    'data'    : { '*rendernode' : 'str' } }
+>  
+> +##
+> +# @DisplayWayland:
+> +#
+> +# Wayland display options.
+> +#
+> +# @rendernode: Which DRM render node should be used. Default is the first
+> +#              available node on the host.
+> +#
+> +# Since: 3.1
 
-Wouldn't it be more useful if we copy the instrumentation-filter
-template to the build directory and use it from there? So we could
-easily adapt individual fuzzing sessions while using the same
-branch (not modifying the source). At least that would be my use
-case :)
+Likely 6.1 :)
 
-If so, then better rename as instrumentation-filter-template.txt, and
-copy it as [fuzzer-]instrumentation-filter.txt.
-
-Regards,
-
-Phil.
+(no need to respin for this single comment).
 
 
