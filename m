@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3AC3B2D27
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:00:49 +0200 (CEST)
-Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4168C3B2D15
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 12:57:16 +0200 (CEST)
+Received: from localhost ([::1]:53998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwN6G-0006aT-GK
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:00:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
+	id 1lwN2p-0007SY-4l
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 06:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMoC-0006aD-DH
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50304)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMoy-0000WS-GO
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMo9-0000b5-9T
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:08 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMov-0001Hk-Pk
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531324;
+ s=mimecast20190719; t=1624531373;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ohZemjbMdxXAdqZHX1YAeGajo0H+ii+GLhm/3Tma2H0=;
- b=bp5CMWaJKzDjUsieUMBMw6+FyLikuFuwVeVKTRvUTMCC815Nd8/CiVaoBenX6KJJxkwsGk
- xBVDmBo2uWpf33I4pkPvz/2zdwGC1NgyIX9d4TjgAGfpqTI3kQ/7UmobqWGzrsl+dZ7ted
- gTdkDJQMr/8MkXs/Fu7uL2PfLsQ54ME=
+ bh=WB51l16ZFueZ1BfkdXRpdWS9y+r9iZDq7y7U9eocncg=;
+ b=GRWQiXAvKayKhwoI0OEXfICT8DI7kw5etO36IqnrpA/MdBZZGG+QLzvGXI6kuGjrBcNgeG
+ J3q21GhyAXoWrulK78KTettusoZe0xARIxoIfubZcMsUAMGBGORbWR/DFB3STR2yvJUVey
+ FZgCBEi03rhjcaEDobel+oiWhIBLOi0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-SIhmYCRcNxCx67O7CRzuCw-1; Thu, 24 Jun 2021 06:42:03 -0400
-X-MC-Unique: SIhmYCRcNxCx67O7CRzuCw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-48-iqMkjY5BPV2BHrmSzkAsUA-1; Thu, 24 Jun 2021 06:42:52 -0400
+X-MC-Unique: iqMkjY5BPV2BHrmSzkAsUA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B13408C5EC6;
- Thu, 24 Jun 2021 10:42:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62D881934100;
+ Thu, 24 Jun 2021 10:42:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DD7D60583;
- Thu, 24 Jun 2021 10:41:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB3ED26E41;
+ Thu, 24 Jun 2021 10:42:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5687B1803552; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
+ id BBAC61803558; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 28/34] accel: add tcg module annotations
-Date: Thu, 24 Jun 2021 12:38:30 +0200
-Message-Id: <20210624103836.2382472-29-kraxel@redhat.com>
+Subject: [PATCH v4 34/34] monitor/tcg: move tcg hmp commands to accel/tcg,
+ register them dynamically
+Date: Thu, 24 Jun 2021 12:38:36 +0200
+Message-Id: <20210624103836.2382472-35-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,38 +99,113 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add module annotations for tcg so autoloading works.
+One more little step towards modular tcg ...
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- accel/tcg/tcg-accel-ops.c | 1 +
- accel/tcg/tcg-all.c       | 1 +
- 2 files changed, 2 insertions(+)
+ accel/tcg/hmp.c       | 29 +++++++++++++++++++++++++++++
+ monitor/misc.c        | 18 ------------------
+ accel/tcg/meson.build |  1 +
+ hmp-commands-info.hx  |  2 --
+ 4 files changed, 30 insertions(+), 20 deletions(-)
+ create mode 100644 accel/tcg/hmp.c
 
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index 7191315aeed4..1a8e8390bd60 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -124,6 +124,7 @@ static const TypeInfo tcg_accel_ops_type = {
-     .class_init = tcg_accel_ops_class_init,
-     .abstract = true,
- };
-+module_obj(ACCEL_OPS_NAME("tcg"));
+diff --git a/accel/tcg/hmp.c b/accel/tcg/hmp.c
+new file mode 100644
+index 000000000000..a6e72fdb3ed6
+--- /dev/null
++++ b/accel/tcg/hmp.c
+@@ -0,0 +1,29 @@
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "exec/exec-all.h"
++#include "monitor/monitor.h"
++#include "sysemu/tcg.h"
++
++static void hmp_info_jit(Monitor *mon, const QDict *qdict)
++{
++    if (!tcg_enabled()) {
++        error_report("JIT information is only available with accel=tcg");
++        return;
++    }
++
++    dump_exec_info();
++    dump_drift_info();
++}
++
++static void hmp_info_opcount(Monitor *mon, const QDict *qdict)
++{
++    dump_opcount_info();
++}
++
++static void hmp_tcg_register(void)
++{
++    monitor_register_hmp("jit", true, hmp_info_jit);
++    monitor_register_hmp("opcount", true, hmp_info_opcount);
++}
++
++type_init(hmp_tcg_register);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index ad476c6e51ea..b28874d6dc59 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -320,24 +320,6 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
+     }
+ }
  
- static void tcg_accel_ops_register_types(void)
+-#ifdef CONFIG_TCG
+-static void hmp_info_jit(Monitor *mon, const QDict *qdict)
+-{
+-    if (!tcg_enabled()) {
+-        error_report("JIT information is only available with accel=tcg");
+-        return;
+-    }
+-
+-    dump_exec_info();
+-    dump_drift_info();
+-}
+-
+-static void hmp_info_opcount(Monitor *mon, const QDict *qdict)
+-{
+-    dump_opcount_info();
+-}
+-#endif
+-
+ static void hmp_info_sync_profile(Monitor *mon, const QDict *qdict)
  {
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 00803f76d870..d6336a9c966d 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -238,6 +238,7 @@ static const TypeInfo tcg_accel_type = {
-     .class_init = tcg_accel_class_init,
-     .instance_size = sizeof(TCGState),
- };
-+module_obj(TYPE_TCG_ACCEL);
+     int64_t max = qdict_get_try_int(qdict, "max", 10);
+diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
+index 0ae9180282e3..137a1a44cc0a 100644
+--- a/accel/tcg/meson.build
++++ b/accel/tcg/meson.build
+@@ -15,6 +15,7 @@ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
  
- static void register_accel_types(void)
- {
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+   'cputlb.c',
++  'hmp.c',
+ ))
+ 
+ tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index ce42aef47acb..27206ac049df 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -274,7 +274,6 @@ ERST
+         .args_type  = "",
+         .params     = "",
+         .help       = "show dynamic compiler info",
+-        .cmd        = hmp_info_jit,
+     },
+ #endif
+ 
+@@ -289,7 +288,6 @@ ERST
+         .args_type  = "",
+         .params     = "",
+         .help       = "show dynamic compiler opcode counters",
+-        .cmd        = hmp_info_opcount,
+     },
+ #endif
+ 
 -- 
 2.31.1
 
