@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13273B3663
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:58:40 +0200 (CEST)
-Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BBD3B3616
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 20:48:38 +0200 (CEST)
+Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwUYh-0003kg-Ra
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
+	id 1lwUOz-0001MY-9O
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 14:48:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lwUW1-0000tS-Nu
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:55:53 -0400
-Received: from mga11.intel.com ([192.55.52.93]:11038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lwUVz-0006N8-MJ
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:55:53 -0400
-IronPort-SDR: zro41/gWurEMN4oZizl5a+Hsh2k3YOkqKUoLddotp6oAyGc1calKGLEvIolUO5Bulh2g6WsfBt
- AAiqFDBOtJwg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="204531442"
-X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="204531442"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 11:55:37 -0700
-IronPort-SDR: Vk2+biRA/vui2iKp50YRKL5/Cw1Nk16MxZbtTQBmtNAsJQ5ds5nhNcEEvmfoQhynfDWtXpqK9C
- GDUWmN7uXHsA==
-X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="455176694"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 11:55:35 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] virtio-gpu: Add gl_flushed callback
-Date: Thu, 24 Jun 2021 11:43:12 -0700
-Message-Id: <20210624184312.1275843-6-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210624184312.1275843-1-vivek.kasireddy@intel.com>
-References: <20210624184312.1275843-1-vivek.kasireddy@intel.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwUMd-0007vI-Pp
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:46:11 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:44956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwUMb-0000GP-Ev
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 14:46:11 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id gt18so11012065ejc.11
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 11:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=8BT9ETe3hjtlpCnk79XUsUbpi72lzFRkuEVQIU/boXc=;
+ b=gk7a6tJ/tLRzyZCfvZIMankHP1Ufzms6ep5XHKXZ/d9u+22sFIu1OXxbRi1HcC5xGv
+ ElglOobcCFqhkB1tMSClOl703VQGJpnYOv4jK3Cbp29LMAZaH9NnXArdhzHLNJDRnQlc
+ H2ATral5SBy9BRQRoEVmnynGsW86FOlryth/j3Zy5ztFzIGzJnw2PL9seBnsrqlNTCEc
+ ymTV+vdYlMAhjWHjVkvMGMm68olecV4UGupSfWODTqwgV8OI/iti0iLFCWYkTP40J+dq
+ XV6xarGujhGPymDjq3+zAllv5QcJgWJcUUBCNW8+twke5TmR4TfO90J4c4f4o4P5bETd
+ PGgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=8BT9ETe3hjtlpCnk79XUsUbpi72lzFRkuEVQIU/boXc=;
+ b=XdWFR89QReH7mQ2EII557QKVc9QXSIqtUHUZ33rrTJtmBcZFntYQpxpm+w1CwtR4lw
+ OXzF1StPoVSPCW9JUV/R+/u85CKvUTtXlBMytek+fON9od3PMRs5nCAPbUWLsuBHE376
+ i1oEdLyGcjre1uBCEzUh1jeKVD4jSkeY64e0s+3+051LUwDvEztTRRV021WFu1v36cxo
+ jGiKHQt2t+DYpcHI3PKjSzbSLmkeLNPLx6syIg42D0VXMkeHzU+kiIRO5Ttvuz76zU4V
+ +D5fBuN/R+iiUmYZ00I0nQfn5UEOlQOvDkiAwnZ4yC3uul/XPt8Srv1XPu5S/6PmkvDI
+ sB1w==
+X-Gm-Message-State: AOAM5330Rrw85IGVdXm6l9yO8TGc0LZ5dNgP511SbVaR0tBJ/Ka7DlYv
+ AA2i68Q/iRpHZacDKGvlNHhjZGBKLPKWZxzAiwPhmGZRqkoG9A==
+X-Google-Smtp-Source: ABdhPJy7207QLC4yXFfMbEJXYFa565bMrKYy+5PnDrmCn5GJc8T2n+Wt05RSTVuQffzZHg/FjoAp543Gd6madoQTE5U=
+X-Received: by 2002:a17:906:90c4:: with SMTP id
+ v4mr6549270ejw.382.1624560366238; 
+ Thu, 24 Jun 2021 11:46:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93;
- envelope-from=vivek.kasireddy@intel.com; helo=mga11.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210624140009.24855-1-peter.maydell@linaro.org>
+In-Reply-To: <20210624140009.24855-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Jun 2021 19:45:30 +0100
+Message-ID: <CAFEAcA-uYr1e4WfVjjbeHsL7TdHj=s7VSW12Sm_HK_7HJTB8_w@mail.gmail.com>
+Subject: Re: [PULL v2 00/57] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,84 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding this callback provides a way to resume the processing of
-cmds in fenceq and cmdq that were not processed because the UI
-was waiting on a fence and blocked cmd processing.
+On Thu, 24 Jun 2021 at 15:00, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Squashed in a trivial fix for 32-bit hosts:
+>
+> --- a/target/arm/mve_helper.c
+> +++ b/target/arm/mve_helper.c
+> @@ -1120,7 +1120,7 @@ DO_LDAV(vmlsldavxsw, 4, int32_t, true, +=, -=)
+>                      acc = EVENACC(acc, TO128(n[H##ESIZE(e + 1 * XCHG)] * \
+>                                               m[H##ESIZE(e)]));          \
+>                  }                                                       \
+> -                acc = int128_add(acc, 1 << 7);                          \
+> +                acc = int128_add(acc, int128_make64(1 << 7));           \
+>              }                                                           \
+>          }                                                               \
+>          mve_advance_vpt(env);                                           \
+>
+> -- PMM
+>
+> The following changes since commit 53f306f316549d20c76886903181413d20842423:
+>
+>   Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2021-06-21 11:26:04 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210624
+>
+> for you to fetch changes up to 90a76c6316cfe6416fc33814a838fb3928f746ee:
+>
+>   docs/system: arm: Add nRF boards description (2021-06-24 14:58:48 +0100)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Don't require 'virt' board to be compiled in for ACPI GHES code
+>  * docs: Document which architecture extensions we emulate
+>  * Fix bugs in M-profile FPCXT_NS accesses
+>  * First slice of MVE patches
+>  * Implement MTE3
+>  * docs/system: arm: Add nRF boards description
+>
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- hw/display/virtio-gpu.c | 32 ++++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index e183f4ecda..3fcd44ac5e 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -991,8 +991,10 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
-         break;
-     }
-     if (!cmd->finished) {
--        virtio_gpu_ctrl_response_nodata(g, cmd, cmd->error ? cmd->error :
--                                        VIRTIO_GPU_RESP_OK_NODATA);
-+        if (!g->parent_obj.renderer_blocked) {
-+            virtio_gpu_ctrl_response_nodata(g, cmd, cmd->error ? cmd->error :
-+                                            VIRTIO_GPU_RESP_OK_NODATA);
-+        }
-     }
- }
- 
-@@ -1048,6 +1050,30 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
-     g->processing_cmdq = false;
- }
- 
-+static void virtio_gpu_process_fenceq(VirtIOGPU *g)
-+{
-+    struct virtio_gpu_ctrl_command *cmd, *tmp;
-+
-+    QTAILQ_FOREACH_SAFE(cmd, &g->fenceq, next, tmp) {
-+        trace_virtio_gpu_fence_resp(cmd->cmd_hdr.fence_id);
-+        virtio_gpu_ctrl_response_nodata(g, cmd, VIRTIO_GPU_RESP_OK_NODATA);
-+        QTAILQ_REMOVE(&g->fenceq, cmd, next);
-+        g_free(cmd);
-+        g->inflight--;
-+        if (virtio_gpu_stats_enabled(g->parent_obj.conf)) {
-+            fprintf(stderr, "inflight: %3d (-)\r", g->inflight);
-+        }
-+    }
-+}
-+
-+static void virtio_gpu_handle_gl_flushed(VirtIOGPUBase *b)
-+{
-+    VirtIOGPU *g = container_of(b, VirtIOGPU, parent_obj);
-+
-+    virtio_gpu_process_fenceq(g);
-+    virtio_gpu_process_cmdq(g);
-+}
-+
- static void virtio_gpu_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VirtIOGPU *g = VIRTIO_GPU(vdev);
-@@ -1406,10 +1432,12 @@ static void virtio_gpu_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
-     VirtIOGPUClass *vgc = VIRTIO_GPU_CLASS(klass);
-+    VirtIOGPUBaseClass *vgbc = &vgc->parent;
- 
-     vgc->handle_ctrl = virtio_gpu_handle_ctrl;
-     vgc->process_cmd = virtio_gpu_simple_process_cmd;
-     vgc->update_cursor_data = virtio_gpu_update_cursor_data;
-+    vgbc->gl_flushed = virtio_gpu_handle_gl_flushed;
- 
-     vdc->realize = virtio_gpu_device_realize;
-     vdc->reset = virtio_gpu_reset;
--- 
-2.30.2
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
