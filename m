@@ -2,84 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873FE3B26E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 07:34:44 +0200 (CEST)
-Received: from localhost ([::1]:42384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46A73B2725
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 08:08:03 +0200 (CEST)
+Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwI0h-0006dV-6L
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 01:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37778)
+	id 1lwIWw-0003SX-Ap
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 02:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lwHzU-0005gx-Iy
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 01:33:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22121)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lwIW2-0002Ae-2J; Thu, 24 Jun 2021 02:07:06 -0400
+Received: from out28-170.mail.aliyun.com ([115.124.28.170]:52217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lwHzQ-00058N-U0
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 01:33:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624512803;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VzgWy/Dg66BVore40hBFt2bDYBLrsDGL4+MtbGME5u8=;
- b=bqvOucjl/vQPKLifX/y4KvVAcCOuWaUJTGr4UMf+4eple4pK9vAHRsIL57XH6ZjD503tuJ
- bJHpGB5VcNtrXHczVtAMw5NlHi4Omfd9ixyWWt/UjrxE8bhQOoa8X7AXdQAQ8WxJrG/FId
- mGBEqNtzb8tQIpkEH413iedlCi5kk/U=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-5q4DX9TDNZes5ls5DFykDA-1; Thu, 24 Jun 2021 01:33:19 -0400
-X-MC-Unique: 5q4DX9TDNZes5ls5DFykDA-1
-Received: by mail-pl1-f198.google.com with SMTP id
- e19-20020a170902ed93b0290110a7ccff51so1732111plj.20
- for <qemu-devel@nongnu.org>; Wed, 23 Jun 2021 22:33:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VzgWy/Dg66BVore40hBFt2bDYBLrsDGL4+MtbGME5u8=;
- b=FR6kMmNUcRP0FYRaWoxvxIi1t6znn9ZgFd8C/4fFZs0jw96qEoFQEaNVtpzYueFLay
- l7Wo6xaQba3zIezu99wV+rMMsvVBVE39ya3fPHj9teiWXqLoDlJl4Fm0u0/C6j2B1Jpx
- jc8hz3CqsxhBlMqFoIpWzKVdSRafXxEl28a9klgr4mzSlX6bgLx7RrEcbgXoEmjNEy1u
- N6s/WSO9tbZwdSutVui0Ad7hX2b4vyHjbXUIQc4CTQoyPT4cTbOxLrobsMSQrJFGlny4
- YZUQiIFnOnM3VySQfo/QaoxbwXMAWKj4Sdg3tp6U2b3IFjylGmcbNsaEURpWDPyesUEy
- tHUg==
-X-Gm-Message-State: AOAM532pdR3WHq2y+3V2xKKg8KFahf6+vfSB1wtWBdq6c6a4iRKVpnBs
- gJVQZWbVhF2C+tnloytFbao/QRZG7iBCNmJUWKnhz6o2LU5pdMMuwpiOsq7Sxq/L5eDqGCrQO6C
- PE3aqehz0LMUHSwSb2AFuPepjhq4oFTY=
-X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
- e22-20020a62ee160000b02902feffcf775amr3277077pfi.59.1624512798174; 
- Wed, 23 Jun 2021 22:33:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzdometDJ/hc7/wZxF9GRivLtkqa2OcS6t5kG1rcBbIVFOQZTocs7zrAuclR4G1/k3nb6fN5YFi25iRaMFxLFs=
-X-Received: by 2002:a62:ee16:0:b029:2fe:ffcf:775a with SMTP id
- e22-20020a62ee160000b02902feffcf775amr3277045pfi.59.1624512797889; Wed, 23
- Jun 2021 22:33:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lwIVw-0008NT-KX; Thu, 24 Jun 2021 02:07:05 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07982182|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_social|0.118672-0.000276864-0.881051;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KXAcAyA_1624514809; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KXAcAyA_1624514809)
+ by smtp.aliyun-inc.com(10.147.41.137);
+ Thu, 24 Jun 2021 14:06:50 +0800
+Subject: Re: [PATCH v2 04/37] target/riscv: 8-bit Addition & Subtraction
+ Instruction
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
+ <20210610075908.3305506-5-zhiwei_liu@c-sky.com>
+ <cdb22947-9ca7-9353-b189-a70a94d7c7ab@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <32f0b6c2-bd7b-ce7d-2aba-b36e9b89d46d@c-sky.com>
+Date: Thu, 24 Jun 2021 14:05:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <eeadb47b-d35c-2608-7970-8f754a34258c@redhat.com>
- <20210623073612.ysrtxtpag4wm7k7e@sirius.home.kraxel.org>
-In-Reply-To: <20210623073612.ysrtxtpag4wm7k7e@sirius.home.kraxel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 24 Jun 2021 07:33:05 +0200
-Message-ID: <CABgObfYR4XMtNaQqxpWc7DZCB2KydrXuwnkccaG56nJaWCotRQ@mail.gmail.com>
-Subject: Re: [PATCH v3 02/24] modules: collect module meta-data
-To: Gerd Hoffmann <kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000406e9505c57c5ce6"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cdb22947-9ca7-9353-b189-a70a94d7c7ab@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------A6A93B8149E5807FE31110C8"
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.170; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-170.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,91 +63,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
- Peter Lieven <pl@kamp.de>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Halil Pasic <pasic@linux.vnet.ibm.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>, palmer@dabbelt.com,
+ bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000406e9505c57c5ce6
-Content-Type: text/plain; charset="UTF-8"
+This is a multi-part message in MIME format.
+--------------A6A93B8149E5807FE31110C8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Oh well. Let's add a to-do marker.
 
-Paolo
-
-Il mer 23 giu 2021, 09:36 Gerd Hoffmann <kraxel@redhat.com> ha scritto:
-
-> On Tue, Jun 22, 2021 at 06:03:45PM +0200, Paolo Bonzini wrote:
-> > On 21/06/21 14:52, Gerd Hoffmann wrote:
-> > > ninja: error: 'libui-curses.a.p/meson-generated_.._config-host.h.o',
-> needed by 'ui-curses.modinfo.test', missing and no known rule to make it
-> > >
-> > > Hmm, not sure where this comes from.  meson doesn't try to link
-> > > config-host.h.o into libui-curses.a, so why does extract_all_objects()
-> > > return it?
-> > >
-> > > Test patch (incremental to this series) below.
-> >
-> > Bug in Meson, fix at https://github.com/mesonbuild/meson/pull/8900.
-> You can
-> > just ignore missing files.
+On 2021/6/11 上午3:39, Richard Henderson wrote:
+> On 6/10/21 12:58 AM, LIU Zhiwei wrote:
+>>   include/tcg/tcg-op-gvec.h |  6 ++
+>>   tcg/tcg-op-gvec.c                       | 47 ++++++++++++++++
 >
-> Well, it's ninja throwing the error not the modinfo script, the script
-> doesn't even run ...
+> Likewise, should be split from the larger patch.
 >
-> take care,
->   Gerd
+>> +static void gen_addv_mask_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b, 
+>> TCGv_i32 m)
+>> +{
+>> +    TCGv_i32 t1 = tcg_temp_new_i32();
+>> +    TCGv_i32 t2 = tcg_temp_new_i32();
+>> +    TCGv_i32 t3 = tcg_temp_new_i32();
+>> +
+>> +    tcg_gen_andc_i32(t1, a, m);
+>> +    tcg_gen_andc_i32(t2, b, m);
+>> +    tcg_gen_xor_i32(t3, a, b);
+>> +    tcg_gen_add_i32(d, t1, t2);
+>> +    tcg_gen_and_i32(t3, t3, m);
+>> +    tcg_gen_xor_i32(d, d, t3);
+>> +
+>> +    tcg_temp_free_i32(t1);
+>> +    tcg_temp_free_i32(t2);
+>> +    tcg_temp_free_i32(t3);
+>> +}
+>> +
+>> +void tcg_gen_vec_add8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
+>> +{
+>> +    TCGv_i32 m = tcg_constant_i32((int32_t)dup_const(MO_8, 0x80));
+>> +    gen_addv_mask_i32(d, a, b, m);
+>> +}
+>
+> There will only ever be one use; we might as well merge them.
+OK
+> The cast is unnecessary.
+
+I meet compiler error report without cast. So I just keep it.
+
+../tcg/tcg-op-gvec.c: In function ‘tcg_gen_vec_sub8_i32’:
+/home/roman/git/qemu/include/tcg/tcg.h:1327:5: error: overflow in implicit constant conversion [-Werror=overflow]
+      (__builtin_constant_p(VECE)                                    \
+      ^
+../tcg/tcg-op-gvec.c:1947:35: note: in expansion of macro ‘dup_const’
+      TCGv_i32 m = tcg_constant_i32(dup_const(MO_8, 0x80));
+                                    ^~~~~~~~~
+cc1: all warnings being treated as errors
+
+Thanks,
+Zhiwei
+
 >
 >
+> r~
 
---000000000000406e9505c57c5ce6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------A6A93B8149E5807FE31110C8
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-<div dir=3D"auto">Oh well. Let&#39;s add a to-do marker.<div dir=3D"auto"><=
-br></div><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Il mer 23 giu 2021, 09:36 Gerd Hoffma=
-nn &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; ha sc=
-ritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">On Tue, Jun 22, 2021 at 06:0=
-3:45PM +0200, Paolo Bonzini wrote:<br>
-&gt; On 21/06/21 14:52, Gerd Hoffmann wrote:<br>
-&gt; &gt; ninja: error: &#39;libui-curses.a.p/meson-generated_.._config-hos=
-t.h.o&#39;, needed by &#39;ui-curses.modinfo.test&#39;, missing and no know=
-n rule to make it<br>
-&gt; &gt; <br>
-&gt; &gt; Hmm, not sure where this comes from.=C2=A0 meson doesn&#39;t try =
-to link<br>
-&gt; &gt; config-host.h.o into libui-curses.a, so why does extract_all_obje=
-cts()<br>
-&gt; &gt; return it?<br>
-&gt; &gt; <br>
-&gt; &gt; Test patch (incremental to this series) below.<br>
-&gt; <br>
-&gt; Bug in Meson, fix at <a href=3D"https://github.com/mesonbuild/meson/pu=
-ll/8900" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com=
-/mesonbuild/meson/pull/8900</a>.=C2=A0 You can<br>
-&gt; just ignore missing files.<br>
-<br>
-Well, it&#39;s ninja throwing the error not the modinfo script, the script<=
-br>
-doesn&#39;t even run ...<br>
-<br>
-take care,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2021/6/11 上午3:39, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:cdb22947-9ca7-9353-b189-a70a94d7c7ab@linaro.org">On
+      6/10/21 12:58 AM, LIU Zhiwei wrote:
+      <br>
+      <blockquote type="cite">  include/tcg/tcg-op-gvec.h              
+        |  6 ++
+        <br>
+          tcg/tcg-op-gvec.c                       | 47 ++++++++++++++++
+        <br>
+      </blockquote>
+      <br>
+      Likewise, should be split from the larger patch.
+      <br>
+      <br>
+      <blockquote type="cite">+static void gen_addv_mask_i32(TCGv_i32 d,
+        TCGv_i32 a, TCGv_i32 b, TCGv_i32 m)
+        <br>
+        +{
+        <br>
+        +    TCGv_i32 t1 = tcg_temp_new_i32();
+        <br>
+        +    TCGv_i32 t2 = tcg_temp_new_i32();
+        <br>
+        +    TCGv_i32 t3 = tcg_temp_new_i32();
+        <br>
+        +
+        <br>
+        +    tcg_gen_andc_i32(t1, a, m);
+        <br>
+        +    tcg_gen_andc_i32(t2, b, m);
+        <br>
+        +    tcg_gen_xor_i32(t3, a, b);
+        <br>
+        +    tcg_gen_add_i32(d, t1, t2);
+        <br>
+        +    tcg_gen_and_i32(t3, t3, m);
+        <br>
+        +    tcg_gen_xor_i32(d, d, t3);
+        <br>
+        +
+        <br>
+        +    tcg_temp_free_i32(t1);
+        <br>
+        +    tcg_temp_free_i32(t2);
+        <br>
+        +    tcg_temp_free_i32(t3);
+        <br>
+        +}
+        <br>
+        +
+        <br>
+        +void tcg_gen_vec_add8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
+        <br>
+        +{
+        <br>
+        +    TCGv_i32 m = tcg_constant_i32((int32_t)dup_const(MO_8,
+        0x80));
+        <br>
+        +    gen_addv_mask_i32(d, a, b, m);
+        <br>
+        +}
+        <br>
+      </blockquote>
+      <br>
+      There will only ever be one use; we might as well merge them.
+      <br>
+    </blockquote>
+    OK<br>
+    <blockquote type="cite"
+      cite="mid:cdb22947-9ca7-9353-b189-a70a94d7c7ab@linaro.org">The
+      cast is unnecessary.
+      <br>
+    </blockquote>
+    <p>I meet compiler error report without cast. So I just keep it.</p>
+    <pre>../tcg/tcg-op-gvec.c: In function ‘tcg_gen_vec_sub8_i32’:
+/home/roman/git/qemu/include/tcg/tcg.h:1327:5: error: overflow in implicit constant conversion [-Werror=overflow]
+     (__builtin_constant_p(VECE)                                    \
+     ^
+../tcg/tcg-op-gvec.c:1947:35: note: in expansion of macro ‘dup_const’
+     TCGv_i32 m = tcg_constant_i32(dup_const(MO_8, 0x80));
+                                   ^~~~~~~~~
+cc1: all warnings being treated as errors
+</pre>
+    <p>Thanks,<br>
+      Zhiwei<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:cdb22947-9ca7-9353-b189-a70a94d7c7ab@linaro.org">
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+  </body>
+</html>
 
---000000000000406e9505c57c5ce6--
-
+--------------A6A93B8149E5807FE31110C8--
 
