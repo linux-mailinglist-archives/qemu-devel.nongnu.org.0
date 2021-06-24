@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF6F3B2DA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:18:07 +0200 (CEST)
-Received: from localhost ([::1]:56478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0AD3B2D3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Jun 2021 13:08:10 +0200 (CEST)
+Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwNN0-0006VH-Kw
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:18:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39184)
+	id 1lwNDN-00028g-UL
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 07:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMol-0008El-Az
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25264)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMoj-00088z-OX
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMoh-00013l-8J
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lwMog-00012t-CR
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 06:42:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624531358;
+ s=mimecast20190719; t=1624531357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QiurdwY7zx/Ww1rbDD4KkyNSNb9+u2YvZzq+hk9TBso=;
- b=dhRffWG/zeyuNzfMwjpW4B9TszNg1H7lqe1r6tYvhWpnKMAdEl0FEKhC3pcNxRJTi/h7sx
- jM7QoxQ21Ks8R8sJRY/95BjZv+oL+iKuUw0sawhSBbP1ZgylrE6vtS/cICQozCON9ixY4z
- 8q4w0/YeWwLrky5BpFqc3ghplmtiIQ4=
+ bh=jNR7OSKPvAYdZ4eI0t2VIsh0jMrYUPKjJStHwBoBnB0=;
+ b=JXtLHcHXZCm5Gq14EE8fUWlf3OYP+QBtFJrpPI135UcLlJkeS0PINB/1gd73hlrLtLKYAD
+ DkVxlTCDaqfCSKiYnnpDfqWoj2mTtY7Aa70lykbSOETGwsBFOqQPAC6Q4jXZ2H+bw1L6HS
+ Js8r3M/Qc6k/3z9tm/20CGKDOXNS6SU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-XDN7YoiNOyO14H__a76YSQ-1; Thu, 24 Jun 2021 06:42:37 -0400
-X-MC-Unique: XDN7YoiNOyO14H__a76YSQ-1
+ us-mta-558-dY5y8yF9OVutSjd_G7eAVw-1; Thu, 24 Jun 2021 06:42:36 -0400
+X-MC-Unique: dY5y8yF9OVutSjd_G7eAVw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B110106B7DE;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34E02362FC;
  Thu, 24 Jun 2021 10:42:35 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE78C60E3A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB5CB60CCC;
  Thu, 24 Jun 2021 10:42:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9E2531803556; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
+ id AA9F71803557; Thu, 24 Jun 2021 12:38:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 32/34] monitor/usb: register 'info usbhost' dynamically
-Date: Thu, 24 Jun 2021 12:38:34 +0200
-Message-Id: <20210624103836.2382472-33-kraxel@redhat.com>
+Subject: [PATCH v4 33/34] usb: build usb-host as module
+Date: Thu, 24 Jun 2021 12:38:35 +0200
+Message-Id: <20210624103836.2382472-34-kraxel@redhat.com>
 In-Reply-To: <20210624103836.2382472-1-kraxel@redhat.com>
 References: <20210624103836.2382472-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,97 +98,42 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Drop one more shared library dependency (libusb) from core qemu.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/host-libusb.c |  1 +
- hw/usb/host-stub.c   | 40 ----------------------------------------
- hmp-commands-info.hx |  1 -
- hw/usb/meson.build   |  4 +---
- 4 files changed, 2 insertions(+), 44 deletions(-)
- delete mode 100644 hw/usb/host-stub.c
+ hw/usb/host-libusb.c | 1 +
+ hw/usb/meson.build   | 8 ++++++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index e6d21aa8e1d3..2b7f87872ce3 100644
+index 2b7f87872ce3..c0f314462aaf 100644
 --- a/hw/usb/host-libusb.c
 +++ b/hw/usb/host-libusb.c
-@@ -1781,6 +1781,7 @@ static TypeInfo usb_host_dev_info = {
+@@ -1777,6 +1777,7 @@ static TypeInfo usb_host_dev_info = {
+     .class_init    = usb_host_class_initfn,
+     .instance_init = usb_host_instance_init,
+ };
++module_obj(TYPE_USB_HOST_DEVICE);
+ 
  static void usb_host_register_types(void)
  {
-     type_register_static(&usb_host_dev_info);
-+    monitor_register_hmp("usbhost", true, hmp_info_usbhost);
- }
- 
- type_init(usb_host_register_types)
-diff --git a/hw/usb/host-stub.c b/hw/usb/host-stub.c
-deleted file mode 100644
-index bbe69baa390f..000000000000
---- a/hw/usb/host-stub.c
-+++ /dev/null
-@@ -1,40 +0,0 @@
--/*
-- * Stub host USB redirector
-- *
-- * Copyright (c) 2005 Fabrice Bellard
-- *
-- * Copyright (c) 2008 Max Krasnyansky
-- *      Support for host device auto connect & disconnect
-- *      Major rewrite to support fully async operation
-- *
-- * Copyright 2008 TJ <linux@tjworld.net>
-- *      Added flexible support for /dev/bus/usb /sys/bus/usb/devices in addition
-- *      to the legacy /proc/bus/usb USB device discovery and handling
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#include "qemu/osdep.h"
--#include "hw/usb.h"
--#include "monitor/monitor.h"
--
--void hmp_info_usbhost(Monitor *mon, const QDict *qdict)
--{
--    monitor_printf(mon, "USB host devices not supported\n");
--}
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index fb59c27200cb..ce42aef47acb 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -368,7 +368,6 @@ ERST
-         .args_type  = "",
-         .params     = "",
-         .help       = "show host USB devices",
--        .cmd        = hmp_info_usbhost,
-     },
- 
- SRST
 diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index f357270d0b6b..3d8f2ae99302 100644
+index 3d8f2ae99302..0a6029ec9797 100644
 --- a/hw/usb/meson.build
 +++ b/hw/usb/meson.build
-@@ -73,9 +73,7 @@ endif
+@@ -72,8 +72,12 @@ if config_host.has_key('CONFIG_USB_REDIR')
+ endif
  
  # usb pass-through
- softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_USB_LIBUSB', libusb],
--               if_true: files('host-libusb.c'),
--               if_false: files('host-stub.c'))
--softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('host-stub.c'))
-+               if_true: files('host-libusb.c'))
+-softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_USB_LIBUSB', libusb],
+-               if_true: files('host-libusb.c'))
++if config_host.has_key('CONFIG_USB_LIBUSB')
++  usbhost_ss = ss.source_set()
++  usbhost_ss.add(when: ['CONFIG_USB', libusb],
++                 if_true: files('host-libusb.c'))
++  hw_usb_modules += {'host': usbhost_ss}
++endif
  
  softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_XEN', libusb], if_true: files('xen-usb.c'))
  
