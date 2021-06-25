@@ -2,91 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46803B3F31
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 10:27:31 +0200 (CEST)
-Received: from localhost ([::1]:35472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90063B3FC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 10:50:12 +0200 (CEST)
+Received: from localhost ([::1]:39532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwhBS-0000oI-Pw
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 04:27:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45002)
+	id 1lwhXP-0006V3-SC
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 04:50:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwhAI-00006R-Vc
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:26:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37174)
+ (Exim 4.90_1) (envelope-from <swee.aun.khor@intel.com>)
+ id 1lwhV1-0003l7-Vt
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:47:43 -0400
+Received: from mga03.intel.com ([134.134.136.65]:10653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lwhAH-000789-FA
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:26:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624609576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sibh6iynVbMoNHxQ2zJ8hMVTEsRrDzpQTDof1DDyGW4=;
- b=HIuB7JUIcfasWbw1iVj2PV2LmVBLEarClDTA0tRNyJ18fJ7/XlXGz418BXadbmVS5VLS2Z
- 1bdBNnYLD+EJBqN0jwM6+JMDyyoP4p3UuVz1Y2D/UfFe8er+UcSn9ojyY0xQtxVf9j+xSu
- qzeVw4u6cLZjQcc+TD9maKXGc0vlsKQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-DcyX7jHINTWQGW0F5557SA-1; Fri, 25 Jun 2021 04:26:15 -0400
-X-MC-Unique: DcyX7jHINTWQGW0F5557SA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so2422659wmh.9
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 01:26:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sibh6iynVbMoNHxQ2zJ8hMVTEsRrDzpQTDof1DDyGW4=;
- b=l5L4iPR8GboXnDIVnR/BnxIORvWwb3earaH9p+U2KrrXFtijOSIuACs3gxQDR51/Y3
- egj32y05eMzbhlOnAsFq8hF935XvfWCeU7cSkIh2uRAgST9HFTFGvAUFGuZvzTmcuNhc
- gSwsjJUmbdHhbSn5G9WVC1hXWVzenl52GUEr7uzi6eF8n9+xKHrsz2R/LrMSKg1WEzqC
- HrxN3HBOxz5DbrEtF+aEdbDx8WSX6NHVEKQ320fI8dEtJi1mRCI9mV79E7b/TrNtKetw
- UD2QnztgynmixomRyY1CmeIJBTdp2Cq07EMAbig38/x7qJbPJqLqX823Z3ho8X9bQ8zP
- liFA==
-X-Gm-Message-State: AOAM5320TPQW1hQ5F0GFVtzRqdU+DbLxPMSx9LvsfeeXuVeuapr0oUL6
- WChr/zICFA9zdRT5cb29nOUS3yLKtifem8zpAErE0GPpshk4Lxa+/RZ3kdgcKNs528jggRoIoCl
- 20XwgdCRF2p+n+64=
-X-Received: by 2002:adf:c843:: with SMTP id e3mr9665174wrh.25.1624609573912;
- Fri, 25 Jun 2021 01:26:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxmehA1Ow50nmQ3y180gld5fWoHig4G2S+qxWDJmdHjdnZtPvpxCLjAir5YVOYdgGrJgsPMJw==
-X-Received: by 2002:adf:c843:: with SMTP id e3mr9665150wrh.25.1624609573700;
- Fri, 25 Jun 2021 01:26:13 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id b11sm5556358wrf.43.2021.06.25.01.26.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 01:26:13 -0700 (PDT)
-Subject: Re: [PATCH 03/11] osdep: provide ROUND_DOWN macro
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210624180423.1322165-1-pbonzini@redhat.com>
- <20210624180423.1322165-4-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cb30ce46-6c8d-4b4e-1d01-31ac05179a51@redhat.com>
-Date: Fri, 25 Jun 2021 10:26:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <swee.aun.khor@intel.com>)
+ id 1lwhUy-00077s-2C
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:47:43 -0400
+IronPort-SDR: EU1cN6WXidOEvwo1yzQE+MZxXfRctGKR+eh30biH0E7I/TEoQk11e/JpH63oZhfh4hrqxkOTVm
+ TvPk0nIBRAtw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207670445"
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="207670445"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 01:47:29 -0700
+IronPort-SDR: FpdJfFDN40hMHhqijXtD2Re1ATPGJ+wXrnLGfJjBdLgVXLoGJ0OTf4y2d45RHPk4/qAya/6L6t
+ 7by6YJTE0Uww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="474812697"
+Received: from pedgms.png.intel.com ([10.221.121.150])
+ by fmsmga004.fm.intel.com with ESMTP; 25 Jun 2021 01:47:27 -0700
+From: "Khor, Swee Aun" <swee.aun.khor@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5] ui/gtk: New -display gtk option 'full-screen-on-monitor'.
+Date: Fri, 25 Jun 2021 16:24:32 +0800
+Message-Id: <20210625082432.55842-1-swee.aun.khor@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20210624180423.1322165-4-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.65;
+ envelope-from=swee.aun.khor@intel.com; helo=mga03.intel.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) AC_FROM_MANY_DOTS=2.519, BAYES_00=-1.9,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,22 +60,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mlevitsk@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: swee.aun.khor@intel.com, khairul.anuar.romli@intel.com,
+ Hazwan.Arif.Mazlan@intel.com, vivek.kasireddy@intel.com, armbru@redhat.com,
+ kraxel@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/21 8:04 PM, Paolo Bonzini wrote:
-> osdep.h provides a ROUND_UP macro to hide bitwise operations for the
-> purpose of rounding a number up to a power of two; add a ROUND_DOWN
-> macro that does the same with truncation towards zero.
-> 
-> While at it, change the formatting of some comments.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/qemu/osdep.h | 28 ++++++++++++++++++++++------
->  1 file changed, 22 insertions(+), 6 deletions(-)
+This lets user select monitor number to display QEMU in full screen
+with -display gtk,full-screen-on-monitor=<value>.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+v2:
+ - https://patchew.org/QEMU/20210617020609.18089-1-swee.aun.khor@intel.com/.
+ - Added documentation for new member.
+ - Renamed member name from monitor-num to monitor.
+
+v3:
+- Changed commit message subject.
+- Cleaned up signed-off format.
+- Renamed member name from monitor to full-screen-on-monitor to make clear this option automatically enables full screen.
+- Added more detail documentation to specify full-screen-on-monitor option index started from 1.
+- Added code to check windows has been launched successfully at specified monitor.
+
+v4:
+- Used PRId64 format specifier for int64_t variable in warn_report().
+
+v5:
+- Removed gdk_screen and gdk_monitor variables as it used once only.
+- Fixed issue where v3 and v4 doesn't showing up in https://patchew.org/QEMU/.
+
+Signed-off-by: Khor Swee Aun <swee.aun.khor@intel.com>
+---
+ qapi/ui.json    | 10 +++++++---
+ qemu-options.hx |  2 +-
+ ui/gtk.c        | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 38 insertions(+), 4 deletions(-)
+
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 1052ca9c38..d775c29534 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1035,13 +1035,17 @@
+ #               assuming the guest will resize the display to match
+ #               the window size then.  Otherwise it defaults to "off".
+ #               Since 3.1
+-#
++# @full-screen-on-monitor: Monitor number to display QEMU in full screen.
++#                          Monitor number started from index 1. If total number
++#                          of monitors is 3, possible values for this option are
++#                          1, 2 or 3.
+ # Since: 2.12
+ #
+ ##
+ { 'struct'  : 'DisplayGTK',
+-  'data'    : { '*grab-on-hover' : 'bool',
+-                '*zoom-to-fit'   : 'bool'  } }
++  'data'    : { '*grab-on-hover'          : 'bool',
++                '*zoom-to-fit'            : 'bool',
++                '*full-screen-on-monitor' : 'int' } }
+ 
+ ##
+ # @DisplayEGLHeadless:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 14258784b3..29836db663 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1787,7 +1787,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+     "            [,window_close=on|off][,gl=on|core|es|off]\n"
+ #endif
+ #if defined(CONFIG_GTK)
+-    "-display gtk[,grab_on_hover=on|off][,gl=on|off]|\n"
++    "-display gtk[,grab-on-hover=on|off][,gl=on|off][,full-screen-on-monitor=<value>]\n"
+ #endif
+ #if defined(CONFIG_VNC)
+     "-display vnc=<display>[,<optargs>]\n"
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 98046f577b..4da904a024 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2189,6 +2189,8 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+     GdkDisplay *window_display;
+     GtkIconTheme *theme;
+     char *dir;
++    int monitor_n;
++    bool monitor_status = false;
+ 
+     if (!gtkinit) {
+         fprintf(stderr, "gtk initialization failed\n");
+@@ -2268,6 +2270,34 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+     }
+     gd_clipboard_init(s);
++
++    if (opts->u.gtk.has_full_screen_on_monitor) {
++        monitor_n = gdk_display_get_n_monitors(window_display);
++
++        if (opts->u.gtk.full_screen_on_monitor <= monitor_n &&
++            opts->u.gtk.full_screen_on_monitor > 0) {
++            gtk_window_fullscreen_on_monitor(GTK_WINDOW(s->window),
++                gdk_display_get_default_screen(window_display),
++                opts->u.gtk.full_screen_on_monitor - 1);
++
++            if (gdk_display_get_monitor(window_display,
++                                        opts->u.gtk.full_screen_on_monitor
++                                        - 1) != NULL) {
++                monitor_status = true;
++            }
++        }
++        if (monitor_status == false) {
++            /*
++             * Calling GDK API to read the number of monitors again in case
++             * monitor added or removed since last read.
++             */
++            monitor_n = gdk_display_get_n_monitors(window_display);
++            warn_report("Failed to enable full screen on monitor %" PRId64 ". "
++                        "Current total number of monitors is %d, "
++                        "please verify full-screen-on-monitor option value.",
++                        opts->u.gtk.full_screen_on_monitor, monitor_n);
++        }
++    }
+ }
+ 
+ static void early_gtk_display_init(DisplayOptions *opts)
+-- 
+2.24.3
 
 
