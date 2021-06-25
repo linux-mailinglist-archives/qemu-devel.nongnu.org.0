@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EF93B3AB0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 04:03:08 +0200 (CEST)
-Received: from localhost ([::1]:53674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1153B3ABF
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 04:10:22 +0200 (CEST)
+Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwbBT-0004sD-Cp
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 22:03:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53652)
+	id 1lwbIS-0006gF-Tx
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 22:10:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lwbAS-0004AN-KH
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 22:02:04 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lwbAO-0000Ue-So
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 22:02:04 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GB0Xg0tXFzZm7x;
- Fri, 25 Jun 2021 09:58:43 +0800 (CST)
-Received: from dggema724-chm.china.huawei.com (10.3.20.88) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 25 Jun 2021 10:01:45 +0800
-Received: from dggema768-chm.china.huawei.com (10.1.198.210) by
- dggema724-chm.china.huawei.com (10.3.20.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 25 Jun 2021 10:01:44 +0800
-Received: from dggema768-chm.china.huawei.com ([10.9.48.81]) by
- dggema768-chm.china.huawei.com ([10.9.48.81]) with mapi id 15.01.2176.012;
- Fri, 25 Jun 2021 10:01:45 +0800
-From: "linfeng (M)" <linfeng23@huawei.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: RE: [v3] migration: fix the memory overwriting risk in add_to_iovec
-Thread-Topic: [v3] migration: fix the memory overwriting risk in add_to_iovec
-Thread-Index: AQHXZ9I73sKI0YIevkuIU95SXY6uhKsjACAAgAD48DA=
-Date: Fri, 25 Jun 2021 02:01:44 +0000
-Message-ID: <a007baade93a409ca580fab42d6d74b3@huawei.com>
-References: <20210622111549.490-1-linfeng23@huawei.com>
- <20210623015104.218-1-linfeng23@huawei.com> <YNTV3lpfl4R8JQBi@work-vm>
-In-Reply-To: <YNTV3lpfl4R8JQBi@work-vm>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.151.75]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1lwbHS-00060O-A4
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 22:09:18 -0400
+Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b]:41494)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1lwbHN-0004rx-NW
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 22:09:17 -0400
+Received: by mail-vs1-xe2b.google.com with SMTP id c26so4617747vso.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 19:09:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=NCv1mwZXFUWzQpri131srCo+MLXsCQmjvmdgY9cvBNY=;
+ b=nnSSJRq3PVFzvJRM56BnmEBsUlTLQp2JlAaJDif11IoPsA3FN+ppX3bJYuOBa0TUhg
+ DpZTXf0M55yt21sxdeXCaVH+0o5o8eUJGhq3SAtzLWCW4735z7w/kBYhEvwSlfdE5qZ0
+ 3zn8Vr2vWCiC+6wvP3kZ5bsjxuQoY1WKO7+ORlOV6YcC2ppXM6mtej4ryVrVcOziYD9W
+ NwmaQJea5kvlwiQvX7aaxoeSXn5AzAIltv8+pOfuL5XpjQFWNmg/Mx1bKEZ8Iovd58U+
+ TvkwN1PQJnFpZWzE2HMx99vbsmx0mljm12qOHYUBijjV9tQ8e4G2b4q4JKxmvv9Gm9yN
+ hnBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=NCv1mwZXFUWzQpri131srCo+MLXsCQmjvmdgY9cvBNY=;
+ b=nTwRbD/TtxDjpbR9a+xUVWmnKfqP2rnDufY5ekWAtoZ4hOv9kc+sTU1MRdSb9oYJu4
+ Ii+dlq1EOIAlpn5CFCWnjINRUil+U2ZePJ/WvGP4mcRRbigPuuL4HMiXvw+nG0vvFdfH
+ JghSUzmdwMqtlCIdX/cLK0JGUfnP+/E31UCy46M2RW/EL276shFWpBfMBBeB44+3KIAv
+ of4TKAaPjPO94wOa5Me/bB1verpw1jD2YSZrlXYTmvOKBstlcROiQvd8KcPnXZOU8e6T
+ LWSxsow310AZlQdslkHZl8fxRszXa+Tj6GCp7ltyFsFZ8JFosJUcrloepDVISW9sf/ex
+ 1DXg==
+X-Gm-Message-State: AOAM532Ef0BbvPr/ASAETdYU8rKtvNqok8zSXWm0to05x8QZI+nU3ZhS
+ rq8PkYI6hbwoOBncXUgkqXdUKYZc/xya/pfgtBM=
+X-Google-Smtp-Source: ABdhPJyEtOTPiuUnZvYDUR90m/0ZvtW7G3h8V29Bdx6sRCXPAJEGOieBmGZt05zvBB2MDSTBkOQJYtfUcdzDwMM3X7c=
+X-Received: by 2002:a05:6102:32c9:: with SMTP id
+ o9mr6594539vss.11.1624586952187; 
+ Thu, 24 Jun 2021 19:09:12 -0700 (PDT)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=linfeng23@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210623121424.1259496-1-pbonzini@redhat.com>
+ <20210623121424.1259496-10-pbonzini@redhat.com>
+In-Reply-To: <20210623121424.1259496-10-pbonzini@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Fri, 25 Jun 2021 10:09:01 +0800
+Message-ID: <CAE2XoE9XWqyt3VM-miUdUy-+=nwNEPnUMgk62ea7Fv6eF16cOw@mail.gmail.com>
+Subject: Re: [PULL 09/12] configure, meson: convert libusb detection to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000031255605c58da059"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
+ envelope-from=luoyonggang@gmail.com; helo=mail-vs1-xe2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,127 +79,348 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wangxin \(Alexander\)" <wangxinxin.wang@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: luoyonggang@gmail.com
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert(mailto:dgilbert@redhat.com) wrote:
-> * Lin Feng (linfeng23@huawei.com) wrote:
-> > From: Feng Lin <linfeng23@huawei.com>
-> >
-> > When testing migration, a Segmentation fault qemu core is generated.
-> > 0  error_free (err=3D0x1)
-> > 1  0x00007f8b862df647 in qemu_fclose (f=3Df@entry=3D0x55e06c247640)
-> > 2  0x00007f8b8516d59a in migrate_fd_cleanup (s=3Ds@entry=3D0x55e06c0e1e=
-f0)
-> > 3  0x00007f8b8516d66c in migrate_fd_cleanup_bh (opaque=3D0x55e06c0e1ef0=
-)
-> > 4  0x00007f8b8626a47f in aio_bh_poll (ctx=3Dctx@entry=3D0x55e06b5a16d0)
-> > 5  0x00007f8b8626e71f in aio_dispatch (ctx=3D0x55e06b5a16d0)
-> > 6  0x00007f8b8626a33d in aio_ctx_dispatch (source=3D<optimized out>, ca=
-llback=3D<optimized out>,
-> user_data=3D<optimized out>)
-> > 7  0x00007f8b866bdba4 in g_main_context_dispatch ()
-> > 8  0x00007f8b8626cde9 in glib_pollfds_poll ()
-> > 9  0x00007f8b8626ce62 in os_host_main_loop_wait (timeout=3D<optimized o=
-ut>)
-> > 10 0x00007f8b8626cffd in main_loop_wait (nonblocking=3Dnonblocking@entr=
-y=3D0)
-> > 11 0x00007f8b862ef01f in main_loop ()
-> > Using gdb print the struct QEMUFile f =3D {
-> >   ...,
-> >   iovcnt =3D 65, last_error =3D 21984,
-> >   last_error_obj =3D 0x1, shutdown =3D true
-> > }
-> > Well iovcnt is overflow, because the max size of MAX_IOV_SIZE is 64.
-> > struct QEMUFile {
-> >     ...;
-> >     struct iovec iov[MAX_IOV_SIZE];
-> >     unsigned int iovcnt;
-> >     int last_error;
-> >     Error *last_error_obj;
-> >     bool shutdown;
-> > };
-> > iovcnt and last_error is overwrited by add_to_iovec().
-> > Right now, add_to_iovec() increase iovcnt before check the limit.
-> > And it seems that add_to_iovec() assumes that iovcnt will set to zero
-> > in qemu_fflush(). But qemu_fflush() will directly return when f->shutdo=
-wn
-> > is true.
-> >
-> > The situation may occur when libvirtd restart during migration, after
-> > f->shutdown is set, before calling qemu_file_set_error() in
-> > qemu_file_shutdown().
-> >
-> > So the safiest way is checking the iovcnt before increasing it.
-> >
-> > Signed-off-by: Feng Lin <linfeng23@huawei.com>
-> > ---
-> >  migration/qemu-file.c | 13 ++++++++-----
-> >  1 file changed, 8 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> > index d6e03dbc0e..f6486cf7bc 100644
-> > --- a/migration/qemu-file.c
-> > +++ b/migration/qemu-file.c
-> > @@ -416,6 +416,9 @@ static int add_to_iovec(QEMUFile *f, const uint8_t =
-*buf, size_t size,
-> >      {
-> >          f->iov[f->iovcnt - 1].iov_len +=3D size;
-> >      } else {
-> > +        if (f->iovcnt >=3D MAX_IOV_SIZE) {
-> > +            goto fflush;
-> > +        }
->=20
-> Why call qemu_fflush in this case?
-> If I understand what you're saying, then we only get to here if a
-> previous qemu_fflush has failed, so this should fail as well?
-Yes, that's what I mean.
+--00000000000031255605c58da059
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->=20
-> How about, something like:
->     if (f->iovcnt >=3D MAX_IOV_SIZE) {
->         /* Should only happen if a previous fflush failed */
->         assert(f->shutdown || !qemu_file_is_writeable(f));
->         return 1;
->     }
->=20
-> ?
-At first, I'm just thinking that overwriting requires qemu_fflush to reset =
-iovcnt and do not consider
-the possibility of packet loss caused by other exceptions. It makes more se=
-nse to make an assertion
-here. Thank you for your suggestions.
->=20
-> Dave
->=20
-> >          if (may_free) {
-> >              set_bit(f->iovcnt, f->may_free);
-> >          }
-> > @@ -423,12 +426,12 @@ static int add_to_iovec(QEMUFile *f, const uint8_=
-t *buf, size_t size,
-> >          f->iov[f->iovcnt++].iov_len =3D size;
-> >      }
-> >
-> > -    if (f->iovcnt >=3D MAX_IOV_SIZE) {
-> > -        qemu_fflush(f);
-> > -        return 1;
-> > +    if (f->iovcnt < MAX_IOV_SIZE) {
-> > +        return 0;
-> >      }
-> > -
-> > -    return 0;
-> > +fflush:
-> > +    qemu_fflush(f);
-> > +    return 1;
-> >  }
-> >
-> >  static void add_buf_to_iovec(QEMUFile *f, size_t len)
-> > --
-> > 2.23.0
-> >
+On Wed, Jun 23, 2021 at 8:27 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure          | 27 ++++-----------------------
+>  hw/usb/meson.build |  2 +-
+>  meson.build        | 11 +++++++----
+>  meson_options.txt  |  2 ++
+>  4 files changed, 14 insertions(+), 28 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 237e99c3d0..e54d06b99e 100755
+> --- a/configure
+> +++ b/configure
+> @@ -374,7 +374,7 @@ spice_protocol=3D"auto"
+>  rbd=3D"auto"
+>  smartcard=3D"$default_feature"
+>  u2f=3D"auto"
+> -libusb=3D"$default_feature"
+> +libusb=3D"auto"
+>  usb_redir=3D"$default_feature"
+>  opengl=3D"$default_feature"
+>  cpuid_h=3D"no"
+> @@ -1285,9 +1285,9 @@ for opt do
+>    ;;
+>    --enable-u2f) u2f=3D"enabled"
+>    ;;
+> -  --disable-libusb) libusb=3D"no"
+> +  --disable-libusb) libusb=3D"disabled"
+>    ;;
+> -  --enable-libusb) libusb=3D"yes"
+> +  --enable-libusb) libusb=3D"enabled"
+>    ;;
+>    --disable-usb-redir) usb_redir=3D"no"
+>    ;;
+> @@ -3994,20 +3994,6 @@ if test "$smartcard" !=3D "no"; then
+>      fi
+>  fi
+>
+> -# check for libusb
+> -if test "$libusb" !=3D "no" ; then
+> -    if $pkg_config --atleast-version=3D1.0.13 libusb-1.0; then
+> -        libusb=3D"yes"
+> -        libusb_cflags=3D$($pkg_config --cflags libusb-1.0)
+> -        libusb_libs=3D$($pkg_config --libs libusb-1.0)
+> -    else
+> -        if test "$libusb" =3D "yes"; then
+> -            feature_not_found "libusb" "Install libusb devel >=3D 1.0.13=
+"
+> -        fi
+> -        libusb=3D"no"
+> -    fi
+> -fi
+> -
+>  # check for usbredirparser for usb network redirection support
+>  if test "$usb_redir" !=3D "no" ; then
+>      if $pkg_config --atleast-version=3D0.6 libusbredirparser-0.5; then
+> @@ -5631,12 +5617,6 @@ if test "$smartcard" =3D "yes" ; then
+>    echo "SMARTCARD_LIBS=3D$libcacard_libs" >> $config_host_mak
+>  fi
+>
+> -if test "$libusb" =3D "yes" ; then
+> -  echo "CONFIG_USB_LIBUSB=3Dy" >> $config_host_mak
+> -  echo "LIBUSB_CFLAGS=3D$libusb_cflags" >> $config_host_mak
+> -  echo "LIBUSB_LIBS=3D$libusb_libs" >> $config_host_mak
+> -fi
+> -
+>  if test "$usb_redir" =3D "yes" ; then
+>    echo "CONFIG_USB_REDIR=3Dy" >> $config_host_mak
+>    echo "USB_REDIR_CFLAGS=3D$usb_redir_cflags" >> $config_host_mak
+> @@ -6215,6 +6195,7 @@ if test "$skip_meson" =3D no; then
+>          -Dkvm=3D$kvm -Dhax=3D$hax -Dwhpx=3D$whpx -Dhvf=3D$hvf -Dnvmm=3D$=
+nvmm \
+>          -Dxen=3D$xen -Dxen_pci_passthrough=3D$xen_pci_passthrough -Dtcg=
+=3D$tcg
+\
+>          -Dcocoa=3D$cocoa -Dgtk=3D$gtk -Dmpath=3D$mpath -Dsdl=3D$sdl
+-Dsdl_image=3D$sdl_image \
+> +        -Dlibusb=3D$libusb \
+>          -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg
+-Dvnc_png=3D$vnc_png \
+>          -Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f
+-Dvirtiofsd=3D$virtiofsd \
+>          -Dcapstone=3D$capstone -Dslirp=3D$slirp -Dfdt=3D$fdt -Dbrlapi=3D=
+$brlapi \
+> diff --git a/hw/usb/meson.build b/hw/usb/meson.build
+> index f357270d0b..bd3f8735b9 100644
+> --- a/hw/usb/meson.build
+> +++ b/hw/usb/meson.build
+> @@ -72,7 +72,7 @@ if config_host.has_key('CONFIG_USB_REDIR')
+>  endif
+>
+>  # usb pass-through
+> -softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_USB_LIBUSB', libusb],
+> +softmmu_ss.add(when: ['CONFIG_USB', libusb],
+>                 if_true: files('host-libusb.c'),
+>                 if_false: files('host-stub.c'))
+>  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('host-stub.c'))
+> diff --git a/meson.build b/meson.build
+> index c9266bd3cc..58d3a3bdc9 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -991,10 +991,12 @@ if 'CONFIG_USB_REDIR' in config_host
+>                                  link_args:
+config_host['USB_REDIR_LIBS'].split())
+>  endif
+>  libusb =3D not_found
+> -if 'CONFIG_USB_LIBUSB' in config_host
+> -  libusb =3D declare_dependency(compile_args:
+config_host['LIBUSB_CFLAGS'].split(),
+> -                              link_args:
+config_host['LIBUSB_LIBS'].split())
+> +if not get_option('libusb').auto() or have_system
+> +  libusb =3D dependency('libusb-1.0', required: get_option('libusb'),
+> +                      version: '>=3D1.0.13', method: 'pkg-config',
+> +                      kwargs: static_kwargs)
+>  endif
+
+Hi, I am not sure if it's right, but I think the dection may need convert
+to this:
+
+```
+if not get_option('libusb').disabled()
+  libusb =3D dependency('libusb-1.0', required: get_option('libusb').auto()=
+,
+                      version: '>=3D1.0.13', method: 'pkg-config',
+                      kwargs: static_kwargs)
+endif
+```
+
+> +
+>  libpmem =3D not_found
+>  if 'CONFIG_LIBPMEM' in config_host
+>    libpmem =3D declare_dependency(compile_args:
+config_host['LIBPMEM_CFLAGS'].split(),
+> @@ -1210,6 +1212,7 @@ config_host_data.set('CONFIG_SDL', sdl.found())
+>  config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+>  config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+>  config_host_data.set('CONFIG_SNAPPY', snappy.found())
+> +config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+>  config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER',
+have_vhost_user_blk_server)
+>  config_host_data.set('CONFIG_VNC', vnc.found())
+>  config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+> @@ -2779,7 +2782,7 @@ summary_info +=3D {'rbd support':       rbd.found()=
+}
+>  summary_info +=3D {'xfsctl support':    config_host.has_key('CONFIG_XFS'=
+)}
+>  summary_info +=3D {'smartcard support':
+config_host.has_key('CONFIG_SMARTCARD')}
+>  summary_info +=3D {'U2F support':       u2f.found()}
+> -summary_info +=3D {'libusb':
+ config_host.has_key('CONFIG_USB_LIBUSB')}
+> +summary_info +=3D {'libusb':            libusb.found()}
+>  summary_info +=3D {'usb net redir':
+config_host.has_key('CONFIG_USB_REDIR')}
+>  summary_info +=3D {'OpenGL support':
+ config_host.has_key('CONFIG_OPENGL')}
+>  summary_info +=3D {'GBM':               config_host.has_key('CONFIG_GBM'=
+)}
+> diff --git a/meson_options.txt b/meson_options.txt
+> index ac6e90da07..02c14d4751 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -86,6 +86,8 @@ option('gcrypt', type : 'feature', value : 'auto',
+>         description: 'libgcrypt cryptography support')
+>  option('libudev', type : 'feature', value : 'auto',
+>         description: 'Use libudev to enumerate host devices')
+> +option('libusb', type : 'feature', value : 'auto',
+> +       description: 'libusb support for USB passthrough')
+>  option('lzfse', type : 'feature', value : 'auto',
+>         description: 'lzfse support for DMG images')
+>  option('lzo', type : 'feature', value : 'auto',
 > --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 2.31.1
+>
+>
+>
 
+
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--00000000000031255605c58da059
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Wed, Jun 23, 2021 at 8:27 PM Paolo Bonzini &lt;=
+<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<b=
+r>&gt;<br>&gt; Reviewed-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:b=
+errange@redhat.com">berrange@redhat.com</a>&gt;<br>&gt; Signed-off-by: Paol=
+o Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a=
+>&gt;<br>&gt; ---<br>&gt; =C2=A0configure =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 27 ++++-----------------------<br>&gt; =C2=A0hw/usb/meson.build | =C2=
+=A02 +-<br>&gt; =C2=A0meson.build =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 +++++++--=
+--<br>&gt; =C2=A0meson_options.txt =C2=A0| =C2=A02 ++<br>&gt; =C2=A04 files=
+ changed, 14 insertions(+), 28 deletions(-)<br>&gt;<br>&gt; diff --git a/co=
+nfigure b/configure<br>&gt; index 237e99c3d0..e54d06b99e 100755<br>&gt; ---=
+ a/configure<br>&gt; +++ b/configure<br>&gt; @@ -374,7 +374,7 @@ spice_prot=
+ocol=3D&quot;auto&quot;<br>&gt; =C2=A0rbd=3D&quot;auto&quot;<br>&gt; =C2=A0=
+smartcard=3D&quot;$default_feature&quot;<br>&gt; =C2=A0u2f=3D&quot;auto&quo=
+t;<br>&gt; -libusb=3D&quot;$default_feature&quot;<br>&gt; +libusb=3D&quot;a=
+uto&quot;<br>&gt; =C2=A0usb_redir=3D&quot;$default_feature&quot;<br>&gt; =
+=C2=A0opengl=3D&quot;$default_feature&quot;<br>&gt; =C2=A0cpuid_h=3D&quot;n=
+o&quot;<br>&gt; @@ -1285,9 +1285,9 @@ for opt do<br>&gt; =C2=A0 =C2=A0;;<br=
+>&gt; =C2=A0 =C2=A0--enable-u2f) u2f=3D&quot;enabled&quot;<br>&gt; =C2=A0 =
+=C2=A0;;<br>&gt; - =C2=A0--disable-libusb) libusb=3D&quot;no&quot;<br>&gt; =
++ =C2=A0--disable-libusb) libusb=3D&quot;disabled&quot;<br>&gt; =C2=A0 =C2=
+=A0;;<br>&gt; - =C2=A0--enable-libusb) libusb=3D&quot;yes&quot;<br>&gt; + =
+=C2=A0--enable-libusb) libusb=3D&quot;enabled&quot;<br>&gt; =C2=A0 =C2=A0;;=
+<br>&gt; =C2=A0 =C2=A0--disable-usb-redir) usb_redir=3D&quot;no&quot;<br>&g=
+t; =C2=A0 =C2=A0;;<br>&gt; @@ -3994,20 +3994,6 @@ if test &quot;$smartcard&=
+quot; !=3D &quot;no&quot;; then<br>&gt; =C2=A0 =C2=A0 =C2=A0fi<br>&gt; =C2=
+=A0fi<br>&gt;<br>&gt; -# check for libusb<br>&gt; -if test &quot;$libusb&qu=
+ot; !=3D &quot;no&quot; ; then<br>&gt; - =C2=A0 =C2=A0if $pkg_config --atle=
+ast-version=3D1.0.13 libusb-1.0; then<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+libusb=3D&quot;yes&quot;<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0libusb_cflags=
+=3D$($pkg_config --cflags libusb-1.0)<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+libusb_libs=3D$($pkg_config --libs libusb-1.0)<br>&gt; - =C2=A0 =C2=A0else<=
+br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0if test &quot;$libusb&quot; =3D &quot;=
+yes&quot;; then<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0feature_=
+not_found &quot;libusb&quot; &quot;Install libusb devel &gt;=3D 1.0.13&quot=
+;<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0libusb=3D&quot;no&quot;<br>&gt; - =C2=A0 =C2=A0fi<br>&gt; -fi<br>&gt;=
+ -<br>&gt; =C2=A0# check for usbredirparser for usb network redirection sup=
+port<br>&gt; =C2=A0if test &quot;$usb_redir&quot; !=3D &quot;no&quot; ; the=
+n<br>&gt; =C2=A0 =C2=A0 =C2=A0if $pkg_config --atleast-version=3D0.6 libusb=
+redirparser-0.5; then<br>&gt; @@ -5631,12 +5617,6 @@ if test &quot;$smartca=
+rd&quot; =3D &quot;yes&quot; ; then<br>&gt; =C2=A0 =C2=A0echo &quot;SMARTCA=
+RD_LIBS=3D$libcacard_libs&quot; &gt;&gt; $config_host_mak<br>&gt; =C2=A0fi<=
+br>&gt;<br>&gt; -if test &quot;$libusb&quot; =3D &quot;yes&quot; ; then<br>=
+&gt; - =C2=A0echo &quot;CONFIG_USB_LIBUSB=3Dy&quot; &gt;&gt; $config_host_m=
+ak<br>&gt; - =C2=A0echo &quot;LIBUSB_CFLAGS=3D$libusb_cflags&quot; &gt;&gt;=
+ $config_host_mak<br>&gt; - =C2=A0echo &quot;LIBUSB_LIBS=3D$libusb_libs&quo=
+t; &gt;&gt; $config_host_mak<br>&gt; -fi<br>&gt; -<br>&gt; =C2=A0if test &q=
+uot;$usb_redir&quot; =3D &quot;yes&quot; ; then<br>&gt; =C2=A0 =C2=A0echo &=
+quot;CONFIG_USB_REDIR=3Dy&quot; &gt;&gt; $config_host_mak<br>&gt; =C2=A0 =
+=C2=A0echo &quot;USB_REDIR_CFLAGS=3D$usb_redir_cflags&quot; &gt;&gt; $confi=
+g_host_mak<br>&gt; @@ -6215,6 +6195,7 @@ if test &quot;$skip_meson&quot; =
+=3D no; then<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dkvm=3D$kvm -Dhax=
+=3D$hax -Dwhpx=3D$whpx -Dhvf=3D$hvf -Dnvmm=3D$nvmm \<br>&gt; =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0-Dxen=3D$xen -Dxen_pci_passthrough=3D$xen_pci_passthrou=
+gh -Dtcg=3D$tcg \<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dcocoa=3D$coco=
+a -Dgtk=3D$gtk -Dmpath=3D$mpath -Dsdl=3D$sdl -Dsdl_image=3D$sdl_image \<br>=
+&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dlibusb=3D$libusb \<br>&gt; =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0-Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$v=
+nc_jpeg -Dvnc_png=3D$vnc_png \<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-D=
+gettext=3D$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f -Dvirtiofsd=3D$vir=
+tiofsd \<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dcapstone=3D$capstone -=
+Dslirp=3D$slirp -Dfdt=3D$fdt -Dbrlapi=3D$brlapi \<br>&gt; diff --git a/hw/u=
+sb/meson.build b/hw/usb/meson.build<br>&gt; index f357270d0b..bd3f8735b9 10=
+0644<br>&gt; --- a/hw/usb/meson.build<br>&gt; +++ b/hw/usb/meson.build<br>&=
+gt; @@ -72,7 +72,7 @@ if config_host.has_key(&#39;CONFIG_USB_REDIR&#39;)<br=
+>&gt; =C2=A0endif<br>&gt;<br>&gt; =C2=A0# usb pass-through<br>&gt; -softmmu=
+_ss.add(when: [&#39;CONFIG_USB&#39;, &#39;CONFIG_USB_LIBUSB&#39;, libusb],<=
+br>&gt; +softmmu_ss.add(when: [&#39;CONFIG_USB&#39;, libusb],<br>&gt; =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if_true: files(&#39;ho=
+st-libusb.c&#39;),<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 if_false: files(&#39;host-stub.c&#39;))<br>&gt; =C2=A0softmmu_ss.ad=
+d(when: &#39;CONFIG_ALL&#39;, if_true: files(&#39;host-stub.c&#39;))<br>&gt=
+; diff --git a/meson.build b/meson.build<br>&gt; index c9266bd3cc..58d3a3bd=
+c9 100644<br>&gt; --- a/meson.build<br>&gt; +++ b/meson.build<br>&gt; @@ -9=
+91,10 +991,12 @@ if &#39;CONFIG_USB_REDIR&#39; in config_host<br>&gt; =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link_args: config_host[&#39;USB_RE=
+DIR_LIBS&#39;].split())<br>&gt; =C2=A0endif<br>&gt; =C2=A0libusb =3D not_fo=
+und<br>&gt; -if &#39;CONFIG_USB_LIBUSB&#39; in config_host<br>&gt; - =C2=A0=
+libusb =3D declare_dependency(compile_args: config_host[&#39;LIBUSB_CFLAGS&=
+#39;].split(),<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link_args: config_ho=
+st[&#39;LIBUSB_LIBS&#39;].split())<br>&gt; +if not get_option(&#39;libusb&#=
+39;).auto() or have_system<br>&gt; + =C2=A0libusb =3D dependency(&#39;libus=
+b-1.0&#39;, required: get_option(&#39;libusb&#39;),<br>&gt; + =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0version: &#3=
+9;&gt;=3D1.0.13&#39;, method: &#39;pkg-config&#39;,<br>&gt; + =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kwargs: stat=
+ic_kwargs)<br>&gt; =C2=A0endif<br><br>Hi, I am not sure if it&#39;s right, =
+but I think the dection may need convert to this:<br><br><div>```<br>if not=
+ get_option(&#39;libusb&#39;).disabled()<br>=C2=A0 libusb =3D dependency(&#=
+39;libusb-1.0&#39;, required: get_option(&#39;libusb&#39;).auto(),<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v=
+ersion: &#39;&gt;=3D1.0.13&#39;, method: &#39;pkg-config&#39;,<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kwarg=
+s: static_kwargs)<br>endif<br>```<br><br>&gt; +<br>&gt; =C2=A0libpmem =3D n=
+ot_found<br>&gt; =C2=A0if &#39;CONFIG_LIBPMEM&#39; in config_host<br>&gt; =
+=C2=A0 =C2=A0libpmem =3D declare_dependency(compile_args: config_host[&#39;=
+LIBPMEM_CFLAGS&#39;].split(),<br>&gt; @@ -1210,6 +1212,7 @@ config_host_dat=
+a.set(&#39;CONFIG_SDL&#39;, sdl.found())<br>&gt; =C2=A0config_host_data.set=
+(&#39;CONFIG_SDL_IMAGE&#39;, sdl_image.found())<br>&gt; =C2=A0config_host_d=
+ata.set(&#39;CONFIG_SECCOMP&#39;, seccomp.found())<br>&gt; =C2=A0config_hos=
+t_data.set(&#39;CONFIG_SNAPPY&#39;, snappy.found())<br>&gt; +config_host_da=
+ta.set(&#39;CONFIG_USB_LIBUSB&#39;, libusb.found())<br>&gt; =C2=A0config_ho=
+st_data.set(&#39;CONFIG_VHOST_USER_BLK_SERVER&#39;, have_vhost_user_blk_ser=
+ver)<br>&gt; =C2=A0config_host_data.set(&#39;CONFIG_VNC&#39;, vnc.found())<=
+br>&gt; =C2=A0config_host_data.set(&#39;CONFIG_VNC_JPEG&#39;, jpeg.found())=
+<br>&gt; @@ -2779,7 +2782,7 @@ summary_info +=3D {&#39;rbd support&#39;: =
+=C2=A0 =C2=A0 =C2=A0 rbd.found()}<br>&gt; =C2=A0summary_info +=3D {&#39;xfs=
+ctl support&#39;: =C2=A0 =C2=A0config_host.has_key(&#39;CONFIG_XFS&#39;)}<b=
+r>&gt; =C2=A0summary_info +=3D {&#39;smartcard support&#39;: config_host.ha=
+s_key(&#39;CONFIG_SMARTCARD&#39;)}<br>&gt; =C2=A0summary_info +=3D {&#39;U2=
+F support&#39;: =C2=A0 =C2=A0 =C2=A0 u2f.found()}<br>&gt; -summary_info +=
+=3D {&#39;libusb&#39;: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config_host=
+.has_key(&#39;CONFIG_USB_LIBUSB&#39;)}<br>&gt; +summary_info +=3D {&#39;lib=
+usb&#39;: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libusb.found()}<br>&gt; =
+=C2=A0summary_info +=3D {&#39;usb net redir&#39;: =C2=A0 =C2=A0 config_host=
+.has_key(&#39;CONFIG_USB_REDIR&#39;)}<br>&gt; =C2=A0summary_info +=3D {&#39=
+;OpenGL support&#39;: =C2=A0 =C2=A0config_host.has_key(&#39;CONFIG_OPENGL&#=
+39;)}<br>&gt; =C2=A0summary_info +=3D {&#39;GBM&#39;: =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 config_host.has_key(&#39;CONFIG_GBM&#39;)}<br>&=
+gt; diff --git a/meson_options.txt b/meson_options.txt<br>&gt; index ac6e90=
+da07..02c14d4751 100644<br>&gt; --- a/meson_options.txt<br>&gt; +++ b/meson=
+_options.txt<br>&gt; @@ -86,6 +86,8 @@ option(&#39;gcrypt&#39;, type : &#39=
+;feature&#39;, value : &#39;auto&#39;,<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+description: &#39;libgcrypt cryptography support&#39;)<br>&gt; =C2=A0option=
+(&#39;libudev&#39;, type : &#39;feature&#39;, value : &#39;auto&#39;,<br>&g=
+t; =C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Use libudev to enumerate h=
+ost devices&#39;)<br>&gt; +option(&#39;libusb&#39;, type : &#39;feature&#39=
+;, value : &#39;auto&#39;,<br>&gt; + =C2=A0 =C2=A0 =C2=A0 description: &#39=
+;libusb support for USB passthrough&#39;)<br>&gt; =C2=A0option(&#39;lzfse&#=
+39;, type : &#39;feature&#39;, value : &#39;auto&#39;,<br>&gt; =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 description: &#39;lzfse support for DMG images&#39;)<br>&=
+gt; =C2=A0option(&#39;lzo&#39;, type : &#39;feature&#39;, value : &#39;auto=
+&#39;,<br>&gt; --<br>&gt; 2.31.1<br>&gt;<br>&gt;<br>&gt;<br><br><br>--<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=
+=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<=
+br></div></div>
+
+--00000000000031255605c58da059--
 
