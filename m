@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2363B401D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:16:08 +0200 (CEST)
-Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDC73B401E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:16:21 +0200 (CEST)
+Received: from localhost ([::1]:58000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwhwV-00037H-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53004)
+	id 1lwhwi-0003Hq-Sy
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lwhuT-0000S6-Qi
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:01 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56271)
+ id 1lwhuW-0000XL-Pk
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:04 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lwhuQ-0002sz-SU
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:01 -0400
-Received: by mail-wm1-x333.google.com with SMTP id c84so5777792wme.5
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:13:58 -0700 (PDT)
+ id 1lwhuU-0002ve-D3
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:04 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ p8-20020a7bcc880000b02901dbb595a9f1so5368829wma.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ziq8Q+65yXs85QgnyMAfaIYXuYjNk9uwdvgV6eM+uzI=;
- b=Ur2AAx8npu5Tf/gcX+0hEvjPdB02yc/T8yq+9ylTUucwMnSwlP7rHcqPBnk6bMkScw
- tDWso5HZHvFeRZiMP+8KgDOKc4I4Vqp7HeLEE2OROARGE965J2ou3xaZodLJR+y6BDLs
- tD95jLtpvqWZivHagu+gGFUmlZ+U9/JThRiZtNZyr0L6drKOh+xjPMN9d+slYpz6jWnU
- fJGsP39SR+B4pqHHHWHzBb7vghj1mRW2sLMSkAlGnhehsaNZQqQSO/OWAhX1iwzjeisO
- TxMRKC9YGMwn7R4H1s4uay+ZVOILlwfUpue9/FlFS7we5pFFS3X+aOioJ2r/yAkxWFyc
- 6tnA==
+ bh=ES6aP9eLrpmL5vbwI6z5QtaMohdgOgmYVT83oPzFr5I=;
+ b=eu/zuwf0ekSIQp2bhEhSbXJ8X/i4kVpqCeosR8+Sqoqqv5Wq14oyofBTddXxbIpAkx
+ jy0hc5+E1bI1Op4bJKLwsl4mNE2aEfvbHY5zvRo8hxeFZv5NnDRKKIrkUbZp/MeaHN+m
+ 964cjzjEJ8CNsJB32NJril2tUYgygHgA+nVD6RjzorS3I9QOirorxYMgPXrVf8wLn18m
+ ADww6By00n0OXnVW0i0DSrHbCAIYOSAnkj/x25Tinnd3Cx/ItAsy3C2rWeVPMDQ1+l32
+ a0Tahl6ObSUSFibodrjt2Phi4H8cFHJjXrD2vcSrpianwBNAihSj3es92HEUdBWYO+RF
+ 0bwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ziq8Q+65yXs85QgnyMAfaIYXuYjNk9uwdvgV6eM+uzI=;
- b=bhwTT4T+j5klD8mA2G9BGULztLgEs1jDMWP7N+zz1ihbHtyOvdFozo0MvjV6CCMTrj
- txcLwJslDpKQnUuAVN/w+Qa+jG4km+i3Tjow/H7NBjQAfS0tJ1A/qPk/2YPOFYfR/I8M
- 49kX56AvqVu6jRSW4XgsMg5ZTMIrgc4Imvi1oZ6YcoUcKwqoO3/jN8pXC9dl2lJfzE6E
- CWUnE3Gnzq8iEPX2n0GWG+mheR+xxXqe7hfcBM69lJ9nlhnC9vlumz0N1KWJnlgdXLmh
- aVgUARNCKLORZoGQXZGn58wC/AX+JNhbfpewrTXxid9t9aT1Li6zDPd3uRykv+qit2Ko
- p67Q==
-X-Gm-Message-State: AOAM530R+KQ6ZFeJGtMdfPmHW+yQxMMLwpsg+S+NbJvke6k0rRvYffL4
- sPCYYCx8mjAOPod9PuQYsHfoi98ckI2ceg==
-X-Google-Smtp-Source: ABdhPJzJZ0H3iTJIYV0dZEeyYMA356Bv1coajOU/iZs2vi2OAMwIGQc+8h/8rg0VRz+jwtLU28+clA==
-X-Received: by 2002:a05:600c:a45:: with SMTP id
- c5mr9690130wmq.153.1624612437629; 
- Fri, 25 Jun 2021 02:13:57 -0700 (PDT)
+ bh=ES6aP9eLrpmL5vbwI6z5QtaMohdgOgmYVT83oPzFr5I=;
+ b=QcarUcQZuTZDOBoSaxedbQZLRRvcWcAQ6iD+9G3U23y4Xj/VvEbQcEKyHoMKVuL1pA
+ IxGcyZAVHqQmAppA3f6ONVCQMsdlnMRKxDQ4LQ7F8RlieyiDPWUe70xTmHpsxVJcCKXo
+ /XKa30nzxdbJv3OHJyqA1lKycZEfgXat3yGQvucgicrzq0BrYpR5xe+tm2DSWu3wUKOt
+ t4S5aALZ+Cg9p8LoCANvrhcSIji9PaKFfRdmPLjJ7XMyxQUREFgbp+azxW42YU4Rf647
+ 308g9Ag4CdwoLIMOV5MqPZLgziTXJzY6Q6RdZQBuaTavQjrPu4W4Rmq7EPd9p7YmvV68
+ pnuA==
+X-Gm-Message-State: AOAM532y10h4bzqueFsSQrEk0ADUNILV45YlzoNHH5vUMMcAmzjXcc06
+ NFs/jLFdaybluuW0GDwkMECdwA==
+X-Google-Smtp-Source: ABdhPJykHaloikqAMK4iXTtBjqx3fDtRNiKQdWm5heIc8SSQKoHHlsnolqk4fVGDXWrNrel0PDQ3Bw==
+X-Received: by 2002:a7b:c8d8:: with SMTP id f24mr9663361wml.31.1624612440801; 
+ Fri, 25 Jun 2021 02:14:00 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 9sm11730020wmf.3.2021.06.25.02.13.55
+ by smtp.gmail.com with ESMTPSA id m184sm5066849wmm.26.2021.06.25.02.13.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Jun 2021 02:13:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 903451FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id A91361FF8F;
  Fri, 25 Jun 2021 10:13:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 2/7] docs/devel: Add a single top-level header to MTTCG's doc
-Date: Fri, 25 Jun 2021 10:13:50 +0100
-Message-Id: <20210625091355.25673-3-alex.bennee@linaro.org>
+Subject: [PULL 3/7] scripts/checkpatch: roll diff tweaking into checkpatch
+ itself
+Date: Fri, 25 Jun 2021 10:13:51 +0100
+Message-Id: <20210625091355.25673-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210625091355.25673-1-alex.bennee@linaro.org>
 References: <20210625091355.25673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,39 +88,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luis Pires <luis.pires@eldorado.org.br>
+Rather than relying on external tweaks lets just do it inside
+checkpatch's direct commitish handling which is QEMU specific code
+anyway.
 
-Without a single top-level header in the .rst file, the index ended
-up linking to all of the top-level headers separately. Now the index
-links to the top-level header at the beginning of the document and
-any inner headers are correctly linked as sub-items in the index.
-
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210528123526.144065-1-luis.pires@eldorado.org.br>
-Message-Id: <20210623102749.25686-3-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20210623102749.25686-4-alex.bennee@linaro.org>
 
-diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
-index 92a9eba13c..5b446ee08b 100644
---- a/docs/devel/multi-thread-tcg.rst
-+++ b/docs/devel/multi-thread-tcg.rst
-@@ -4,8 +4,9 @@
-   This work is licensed under the terms of the GNU GPL, version 2 or
-   later. See the COPYING file in the top-level directory.
- 
--Introduction
--============
-+==================
-+Multi-threaded TCG
-+==================
- 
- This document outlines the design for multi-threaded TCG (a.k.a MTTCG)
- system-mode emulation. user-mode emulation has always mirrored the
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index 7e685c6a65..c5fa4fce26 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -4,9 +4,6 @@ check-patch:
+   needs:
+     job: amd64-centos8-container
+   script:
+-    - git config --local diff.renamelimit 0
+-    - git config --local diff.renames True
+-    - git config --local diff.algorithm histogram
+     - .gitlab-ci.d/check-patch.py
+   variables:
+     GIT_DEPTH: 1000
+diff --git a/.patchew.yml b/.patchew.yml
+index 2638b7f564..1b78262ce5 100644
+--- a/.patchew.yml
++++ b/.patchew.yml
+@@ -138,9 +138,6 @@ testing:
+       script: |
+         #!/bin/bash
+         git rev-parse base > /dev/null || exit 0
+-        git config --local diff.renamelimit 0
+-        git config --local diff.renames True
+-        git config --local diff.algorithm histogram
+         ./scripts/checkpatch.pl --mailback base..
+     docker-mingw@fedora:
+       enabled: true
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bbcd25ae05..cb8eff233e 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -399,7 +399,12 @@ if ($chk_branch) {
+ 	my $num_patches = @patches;
+ 	for my $hash (@patches) {
+ 		my $FILE;
+-		open($FILE, '-|', "git", "show", "--patch-with-stat", $hash) ||
++		open($FILE, '-|', "git",
++                     "-c", "diff.renamelimit=0",
++                     "-c", "diff.renames=True",
++                     "-c", "diff.algorithm=histogram",
++                     "show",
++                     "--patch-with-stat", $hash) ||
+ 			die "$P: git show $hash - $!\n";
+ 		while (<$FILE>) {
+ 			chomp;
 -- 
 2.20.1
 
