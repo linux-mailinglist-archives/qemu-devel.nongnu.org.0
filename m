@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0C73B482D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 19:24:49 +0200 (CEST)
-Received: from localhost ([::1]:46224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE1E3B4886
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 19:57:03 +0200 (CEST)
+Received: from localhost ([::1]:37826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwpZQ-0003oX-Qo
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 13:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45760)
+	id 1lwq4c-0001k8-1i
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 13:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lwpXI-0001kO-B5
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:22:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lwpXF-00029t-PG
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:22:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624641752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PkRWcILexKj/NMNSaTCqjPsqBCiYpZEGTO4SX0tFqUs=;
- b=EgiPKZeqDqIJht5K+dLMBEjFG61hXur5eHn6UeTYAo1VE8dCfsVAFD0V2cgaoUuCCgCKMz
- qH+EiKUJjJFWp02+EAK6JqHPSgELF01n+0CBOaE/HruaiM600LufKRVy9wlfhhg6NhKNbB
- 6/nZb2+4FWFAqZBTyzPSqVNRpqnfcuU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-MGdijH_kO6mUGh71cpQ2lg-1; Fri, 25 Jun 2021 13:22:31 -0400
-X-MC-Unique: MGdijH_kO6mUGh71cpQ2lg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF519100C609;
- Fri, 25 Jun 2021 17:22:29 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-183.ams2.redhat.com
- [10.36.114.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 843DA10016FE;
- Fri, 25 Jun 2021 17:22:27 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] cirrus: delete FreeBSD and macOS jobs
-Date: Fri, 25 Jun 2021 18:22:11 +0100
-Message-Id: <20210625172211.451010-4-berrange@redhat.com>
-In-Reply-To: <20210625172211.451010-1-berrange@redhat.com>
-References: <20210625172211.451010-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwq3d-0000yC-8H
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:56:01 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwq3a-0006Yn-M7
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:56:00 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id t3so14500147edc.7
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 10:55:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PEaCSST20cr8jtoHuPWgfJMiBZ8T+jElIaW2oiNkh2E=;
+ b=cyfXCwT4pnuQ+Fs3pmHjd6z/SqPC6x80wJoLBq7CMThrQhHboM0sMXAf1QMSC9OUGo
+ yLzgupa9QE/eurW8gHmf0WPR1TqgNH6PMK0CaqFopVfCYvPXMnCXkn8eVNefZ0l3udfg
+ Nwk96b2o9raRwvvfE8kaQ3V+eDBWS66IY0y+68HC0GYYYGaoPw87XFvk8I6idU95Tr4k
+ VVamMiL11sDxt8qpk/6OWusBTl64Sd1WZR5tb0ch6SYUXY0CztR4OVKwv8WwW1wyWvdC
+ +IOchH3eiUKkTxZZJhkApma9SEbZYcUs6WD5lkf2kkzYlgP5eXwDOHZ/rQxEPqg5OHqH
+ rakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PEaCSST20cr8jtoHuPWgfJMiBZ8T+jElIaW2oiNkh2E=;
+ b=PgqFL+gtdrb3hsQjn9Mk/63rzv/1iFkfkXP5TaslDEScHvt+7Bxj/0wVs3JumJuz9y
+ 2xVqJw2ovrss2AXlSl5vizMkEHo/8/zmszZ81gaW0urFfaKTXVnFFmKpw6ozJnKjKHcC
+ qNVHslosghz6xVI3VIUtOkZ1uarFB7Fuf+udoyaDGrcF+kHhf1wETSY3xC7bJz7FN/Ow
+ O8aHSYzR/AtENgE4TUOoJ9SM5Ocghg/o3OXU8IZHlv1ZoFhzCJ8sz+FciuuGHb4XMd8y
+ xFbOMZgDhv2HQ08DBJU5JHtt+6iXzPhZwRv2xtFbJ5M+i7t0BiYBOcRo3McOkv83FQut
+ iL0Q==
+X-Gm-Message-State: AOAM530pnP4sKrgMPTx1XDLcPDBHIx23pdbHtkMeE2kjQAih1TDGyER2
+ EN/BWAoVJd9ElDWk9fhcKgz+KMZ6vs+N9oMTQrW49A==
+X-Google-Smtp-Source: ABdhPJxN3/krFZKrm16whEXSBwqVn5YDXCrDBo1Oi/bXTPqfYPmyZZs/54r9ZcZmrbrWa+WvveynugrsYvhD4vOz88k=
+X-Received: by 2002:a05:6402:1911:: with SMTP id
+ e17mr16351862edz.36.1624643757054; 
+ Fri, 25 Jun 2021 10:55:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210624120211.85499-1-alistair.francis@wdc.com>
+In-Reply-To: <20210624120211.85499-1-alistair.francis@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Jun 2021 18:55:20 +0100
+Message-ID: <CAFEAcA_OTizHfz+nrnT8n5Q8Rrvzp5JCxoMbVMOmFb0s8y-uHw@mail.gmail.com>
+Subject: Re: [PULL 0/7] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,91 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The builds for these two platforms can now be performed from GitLab CI
-using cirrus-run.
+On Thu, 24 Jun 2021 at 13:02, Alistair Francis <alistair.francis@wdc.com> wrote:
+>
+> The following changes since commit d0ac9a61474cf594d19082bc8976247e984ea9a3:
+>
+>   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-06-21' into staging (2021-06-24 09:31:26 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210624-2
+>
+> for you to fetch changes up to 3ef6434409c575e11faf537ce50ca05426c78940:
+>
+>   hw/riscv: OpenTitan: Connect the mtime and mtimecmp timer (2021-06-24 05:00:13 -0700)
+>
+> ----------------------------------------------------------------
+> Third RISC-V PR for 6.1 release
+>
+>  - Fix MISA in the DisasContext
+>  - Fix GDB CSR XML generation
+>  - QOMify the SiFive UART
+>  - Add support for the OpenTitan timer
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .cirrus.yml | 55 -----------------------------------------------------
- 1 file changed, 55 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f4bf49b704..02c43a074a 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -1,61 +1,6 @@
- env:
-   CIRRUS_CLONE_DEPTH: 1
- 
--freebsd_12_task:
--  freebsd_instance:
--    image_family: freebsd-12-2
--    cpu: 8
--    memory: 8G
--  install_script:
--    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
--    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed
--          nettle perl5 pixman pkgconf png usbredir ninja
--  script:
--    - mkdir build
--    - cd build
--    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
--    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
--    - ../configure --enable-werror --disable-gnutls
--      || { cat config.log meson-logs/meson-log.txt; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake -j$(sysctl -n hw.ncpu) check V=1
--
--macos_task:
--  osx_instance:
--    image: catalina-base
--  install_script:
--    - brew install pkg-config python gnu-sed glib pixman make sdl2 bash ninja
--  script:
--    - mkdir build
--    - cd build
--    - ../configure --python=/usr/local/bin/python3 --enable-werror
--                   --extra-cflags='-Wno-error=deprecated-declarations'
--                   || { cat config.log meson-logs/meson-log.txt; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check-unit V=1
--    - gmake check-block V=1
--    - gmake check-qapi-schema V=1
--    - gmake check-softfloat V=1
--    - gmake check-qtest-x86_64 V=1
--
--macos_xcode_task:
--  osx_instance:
--    # this is an alias for the latest Xcode
--    image: catalina-xcode
--  install_script:
--    - brew install pkg-config gnu-sed glib pixman make sdl2 bash ninja
--  script:
--    - mkdir build
--    - cd build
--    - ../configure --extra-cflags='-Wno-error=deprecated-declarations' --enable-modules
--                   --enable-werror --cc=clang || { cat config.log meson-logs/meson-log.txt; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check-unit V=1
--    - gmake check-block V=1
--    - gmake check-qapi-schema V=1
--    - gmake check-softfloat V=1
--    - gmake check-qtest-x86_64 V=1
--
- windows_msys2_task:
-   timeout_in: 90m
-   windows_container:
--- 
-2.31.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
