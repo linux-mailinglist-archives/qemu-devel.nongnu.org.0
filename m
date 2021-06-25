@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2A03B3B24
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 05:20:55 +0200 (CEST)
-Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F863B3B25
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 05:20:56 +0200 (CEST)
+Received: from localhost ([::1]:46008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwcOk-0005wq-Ed
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 23:20:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
+	id 1lwcOl-00060L-Jy
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 23:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lwcNJ-0003wo-F5
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:25 -0400
-Received: from mga04.intel.com ([192.55.52.120]:4130)
+ id 1lwcNK-0003x2-D1
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:26 -0400
+Received: from mga04.intel.com ([192.55.52.120]:4132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lwcNG-00065R-E5
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:25 -0400
-IronPort-SDR: HmNakynxGpX1GnndCXK6bF37tv6X6Sr1F1gplobTCGXLyaLmmqkHLt1HQLRkpwVbBR5KCV08TB
- 9WhP4ovK2O6w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="205772511"
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="205772511"
+ id 1lwcNG-00068K-T9
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:26 -0400
+IronPort-SDR: 6wrUStMex5U65QGKMShTsHG9UDFd9zlaeR6aP+2ffQuL3ORIrBLI72lbxOkndT0Qo3Egq/1avH
+ DF45+lYClcGQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="205772515"
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="205772515"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 20:19:14 -0700
-IronPort-SDR: Iu5M1/AJMzbi+tyAfl0inFCd8f1f600wFuZdHqkQBO+ypU/PPVW39CPNnKPQ1vmD4THaSraZv/
- C60DZVX0XPLQ==
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="488024804"
+ 24 Jun 2021 20:19:17 -0700
+IronPort-SDR: AItyf3krOJ86ZmiXiV9vMQKgkXqZBSMr2K2NowGmu1HSNJLnH3Ny4qPEmINWtrRsl2/wkepKN8
+ hynT1uqoEYNg==
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="488024812"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 20:19:11 -0700
+ 24 Jun 2021 20:19:14 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PULL 1/6] qapi/net: Add IPFlowSpec and QMP command for filter
- passthrough
-Date: Fri, 25 Jun 2021 11:11:31 +0800
-Message-Id: <20210625031136.2775308-2-chen.zhang@intel.com>
+Subject: [PULL 2/6] util/qemu-sockets.c: Add inet_parse_base to handle
+ InetSocketAddressBase
+Date: Fri, 25 Jun 2021 11:11:32 +0800
+Message-Id: <20210625031136.2775308-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210625031136.2775308-1-chen.zhang@intel.com>
 References: <20210625031136.2775308-1-chen.zhang@intel.com>
@@ -71,132 +71,51 @@ Cc: Lukas Straub <lukasstraub2@web.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the real user scenario does not need to monitor all traffic.
-Add passthrough-filter-add and passthrough-filter-del to maintain
-a network passthrough list in object with network packet processing
-function. Add IPFlowSpec struct for all QMP commands.
-Most the fields of IPFlowSpec are optional,except object-name.
+No need to carry the flag all the time in many scenarios.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/net.c     | 10 +++++++
- qapi/net.json | 78 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 88 insertions(+)
+ include/qemu/sockets.h |  1 +
+ util/qemu-sockets.c    | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/net/net.c b/net/net.c
-index 76bbb7c31b..00f2be7a58 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1195,6 +1195,16 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 0c34bf2398..3a0f8fa8f2 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -32,6 +32,7 @@ int socket_set_fast_reuse(int fd);
+ int inet_ai_family_from_address(InetSocketAddress *addr,
+                                 Error **errp);
+ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
++int inet_parse_base(InetSocketAddressBase *addr, const char *str, Error **errp);
+ int inet_connect(const char *str, Error **errp);
+ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
+ 
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 080a240b74..cd7fa0b884 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -713,6 +713,20 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+     return 0;
  }
  
-+void qmp_passthrough_filter_add(IPFlowSpec *spec, Error **errp)
++int inet_parse_base(InetSocketAddressBase *base, const char *str, Error **errp)
 +{
-+    /* TODO implement setup passthrough rule */
++    InetSocketAddress *addr;
++    int ret = 0;
++
++    addr = g_new0(InetSocketAddress, 1);
++    ret = inet_parse(addr, str, errp);
++
++    base->host = addr->host;
++    base->port = addr->port;
++
++    g_free(addr);
++    return ret;
 +}
-+
-+void qmp_passthrough_filter_del(IPFlowSpec *spec, Error **errp)
-+{
-+    /* TODO implement delete passthrough rule */
-+}
-+
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
- {
-     char *str;
-diff --git a/qapi/net.json b/qapi/net.json
-index 7fab2e7cd8..bfe38faab5 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -7,6 +7,7 @@
- ##
  
- { 'include': 'common.json' }
-+{ 'include': 'sockets.json' }
- 
- ##
- # @set_link:
-@@ -696,3 +697,80 @@
- ##
- { 'event': 'FAILOVER_NEGOTIATED',
-   'data': {'device-id': 'str'} }
-+
-+##
-+# @IPFlowSpec:
-+#
-+# IP flow specification.
-+#
-+# @protocol: Transport layer protocol like TCP/UDP, etc. The protocol is the
-+#            string instead of enum, because it can be passed to getprotobyname(3)
-+#            and avoid duplication with /etc/protocols.
-+#
-+# @object-name: The @object-name means a qemu object with network packet
-+#               processing function, for example colo-compare, filtr-redirector
-+#               filtr-mirror, etc. VM can running with multi network packet
-+#               processing function objects. They can control different network
-+#               data paths from netdev or chardev. So it needs the object-name
-+#               to set the effective module.
-+#
-+# @source: Source address and port.
-+#
-+# @destination: Destination address and port.
-+#
-+# Since: 6.1
-+##
-+{ 'struct': 'IPFlowSpec',
-+  'data': { '*protocol': 'str', 'object-name': 'str',
-+    '*source': 'InetSocketAddressBase',
-+    '*destination': 'InetSocketAddressBase' } }
-+
-+##
-+# @passthrough-filter-add:
-+#
-+# Add passthrough entry IPFlowSpec to a qemu object with network packet
-+# processing function, for example filtr-mirror, COLO-compare, etc.
-+# The object-name is necessary. The protocol and source/destination IP and
-+# source/destination ports are optional. if only inputs part of the
-+# information, it will match all traffic.
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 6.1
-+#
-+# Example:
-+#
-+# -> { "execute": "passthrough-filter-add",
-+#      "arguments": { "protocol": "tcp", "object-name": "object0",
-+#      "source": {"host": "192.168.1.1", "port": "1234"},
-+#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'passthrough-filter-add', 'boxed': true,
-+     'data': 'IPFlowSpec' }
-+
-+##
-+# @passthrough-filter-del:
-+#
-+# Delete passthrough entry IPFlowSpec to a qemu object with network packet
-+# processing function, for example filtr-mirror, COLO-compare, etc.
-+# The object-name is necessary. The protocol and source/destination IP and
-+# source/destination ports are optional. if only inputs part of the
-+# information, only the exact same rule will be deleted.
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 6.1
-+#
-+# Example:
-+#
-+# -> { "execute": "passthrough-filter-del",
-+#      "arguments": { "protocol": "tcp", "object-name": "object0",
-+#      "source": {"host": "192.168.1.1", "port": "1234"},
-+#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'passthrough-filter-del', 'boxed': true,
-+     'data': 'IPFlowSpec' }
+ /**
+  * Create a blocking socket and connect it to an address.
 -- 
 2.25.1
 
