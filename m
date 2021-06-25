@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD543B414B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:16:31 +0200 (CEST)
-Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AE33B414C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:16:56 +0200 (CEST)
+Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwisw-00085a-4t
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:16:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59652)
+	id 1lwitL-0000tE-A7
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:16:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lwiYi-0007qN-0Q
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:55:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39999)
+ (Exim 4.90_1) (envelope-from <prvs=8031d3708=sidcha@amazon.de>)
+ id 1lwis1-0007Kj-TD
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:34 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:6086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lwiYf-0008P0-Eq
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:55:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624614931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TlNww+eUmHk4h3fpIAAWmfEBG3ZS98wqj6ZxCDaBtzc=;
- b=UgCtnqRuLxm8Vvga0HIImlMDvS4bj1DjWdCSSuclyrgnBTYcibKsw0x6PY1gPMWueLF1h0
- rdwYW2STMNMQsGcJNuRBjNUborjX2Jq+AMVKgwFTsXRwGWVsnBP80eHx++pGPxeh01+AS/
- dizKZoULCIUX6hXy5sHtKGq8fMB+Abk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-X4ZAqq5-OzyvzCTYfJba_Q-1; Fri, 25 Jun 2021 05:55:30 -0400
-X-MC-Unique: X4ZAqq5-OzyvzCTYfJba_Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16A38804143;
- Fri, 25 Jun 2021 09:55:29 +0000 (UTC)
-Received: from localhost (ovpn-113-51.ams2.redhat.com [10.36.113.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CDC75C1A3;
- Fri, 25 Jun 2021 09:55:22 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH 0/1] Add features and cpu models
-In-Reply-To: <20210622201923.150205-1-borntraeger@de.ibm.com>
-Organization: Red Hat GmbH
-References: <20210622201923.150205-1-borntraeger@de.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 25 Jun 2021 11:55:20 +0200
-Message-ID: <87eecqmfp3.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <prvs=8031d3708=sidcha@amazon.de>)
+ id 1lwirz-0006k3-4P
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+ t=1624616131; x=1656152131;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=AYMLO7ZOEMoAsELuu/au8tDMGQQPAkqWORPBg71AvnQ=;
+ b=UR2Jpw8LlCWjF2+UE49VH6sCvYZQcLwKLuIpdMqXwqTj9qK5Z6IuICo0
+ u97spBTB82E858k5mTsp5vgG/Ho8Wf2X0OyyOb9WxMxm/5q/LX8dmrD+c
+ f5trNp5XIDmJ/YakEDHxDcgqF5ZHPrhfR6GjYqGr6BI1zFK9IoZOxggjo s=;
+X-IronPort-AV: E=Sophos;i="5.83,298,1616457600"; d="scan'208";a="121286456"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 25 Jun 2021 10:15:22 +0000
+Received: from EX13D28EUC003.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+ by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS
+ id B184DA1F48; Fri, 25 Jun 2021 10:15:21 +0000 (UTC)
+Received: from uc8bbc9586ea454.ant.amazon.com (10.43.161.69) by
+ EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.18; Fri, 25 Jun 2021 10:15:16 +0000
+From: Siddharth Chandrasekaran <sidcha@amazon.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
+CC: Siddharth Chandrasekaran <sidcha@amazon.de>, Siddharth Chandrasekaran
+ <sidcha.dev@gmail.com>, Alexander Graf <graf@amazon.com>, Evgeny Iakovlev
+ <eyakovl@amazon.de>, Liran Alon <liran@amazon.com>, Ioannis Aslanidis
+ <iaslan@amazon.de>, <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
+Subject: [PATCH v2 0/6] Handle hypercall code overlay page in userspace
+Date: Fri, 25 Jun 2021 12:14:35 +0200
+Message-ID: <cover.1624615713.git.sidcha@amazon.de>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
+X-Originating-IP: [10.43.161.69]
+X-ClientProxiedBy: EX13D14UWC004.ant.amazon.com (10.43.162.99) To
+ EX13D28EUC003.ant.amazon.com (10.43.164.43)
+Precedence: Bulk
+Received-SPF: pass client-ip=52.95.49.90;
+ envelope-from=prvs=8031d3708=sidcha@amazon.de; helo=smtp-fw-6002.amazon.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,27 +74,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 22 2021, Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+Hyprcall code page is specified in the Hyper-V TLFS to be an overlay
+page, ie., guest chooses a GPA and the host _places_ a page at that
+location, making it visible to the guest and the existing page becomes
+inaccessible. Similarly when disabled, the host should _remove_ the
+overlay and the old page should become visible to the guest.
 
-> 5 new features and 2 new models
->
-> Christian Borntraeger (1):
->   s390x/cpumodel: add 3931 and 3932
->
->  target/s390x/cpu_features_def.h.inc |  5 +++++
->  target/s390x/cpu_models.c           |  6 ++++++
->  target/s390x/gen-features.c         | 14 ++++++++++++++
->  3 files changed, 25 insertions(+)
+Now, KVM directly patches the instructions into the guest chosen GPA for
+the hypercall code page. Strictly speaking this is guest memory
+corruption as the hyper-v TLFS specifies that the underlying page should
+be preserved. Since the guest seldom moves the hypercall code page
+around, it didn't see any problems till now. When trying to implement
+VSM API, we are seeing some exotic use of overlay pages which start
+expecting the underlying page to be intact. To handle those cases, we
+need a more generic approach handling these primitives.
 
-Thanks, applied.
+This patchset tries build an infrastructure for handling overlay pages
+in general by using the new user space MSR filtering feature of KVM to
+filter out writes to overlay MSRs, handle them in user space and then
+forward those writes back to KVM so it gets an opportunity to write
+contents into the page that was overlaid here. Additionally it does some
+housekeeping here and there.
+
+P.S. This is a follow up to the my initial approach of handling this in
+kernel, see [1] for discussions.
+
+~ Sid.
+
+[1]: https://lore.kernel.org/kvm/20210423090333.21910-1-sidcha@amazon.de/
+
+v1 -> v2:
+  - Don't allow hypercall page set when guest_os_id is not set.
+  - Address Alex's comments:
+      - Move filtering logic to 6/6 so we don't break bisection.
+      - Reword comment on filters
+      - Provide a default RDMSR handler
+      - Set run->msr.error = 1 to retain existing behaviour
+
+Siddharth Chandrasekaran (6):
+  hyper-v: Overlay abstraction for synic event and msg pages
+  hyper-v: Use -1 as invalid overlay address
+  kvm/i386: Stop using cpu->kvm_msr_buf in kvm_put_one_msr()
+  kvm/i386: Avoid multiple calls to check_extension(KVM_CAP_HYPERV)
+  kvm/i386: Add support for user space MSR filtering
+  hyper-v: Handle hypercall code page as an overlay page
+
+ hw/hyperv/hyperv.c         | 116 +++++++++++++++++++--------------
+ include/hw/hyperv/hyperv.h |  15 +++++
+ target/i386/kvm/hyperv.c   | 101 +++++++++++++++++++++++++++--
+ target/i386/kvm/hyperv.h   |   4 ++
+ target/i386/kvm/kvm.c      | 128 +++++++++++++++++++++++++++++++++++--
+ target/i386/kvm/kvm_i386.h |   1 +
+ 6 files changed, 305 insertions(+), 60 deletions(-)
+
+-- 
+2.17.1
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
 
