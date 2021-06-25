@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4E13B4159
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:18:15 +0200 (CEST)
-Received: from localhost ([::1]:33664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1B03B414D
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:16:59 +0200 (CEST)
+Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwiuc-0004fH-R8
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:18:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
+	id 1lwitO-00016M-6T
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8031d3708=sidcha@amazon.de>)
- id 1lwis2-0007Li-RC
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:34 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:6138)
+ id 1lwis8-0007T6-F9
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:40 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:6220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8031d3708=sidcha@amazon.de>)
- id 1lwirz-0006kk-PY
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:34 -0400
+ id 1lwis4-0006os-Cm
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1624616131; x=1656152131;
+ t=1624616136; x=1656152136;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=/cT7Nw140FNR31PuXevCkr1pgU1HbzKiOZ6t4fkkRnQ=;
- b=a1ta29zBEiverNoJPomkO0e6kb/4/3ftl6Qrdsk7c0rEbiCXOj/RAg4z
- YMQwF1t26t28LHfXAuZfI2tVZOGqU0a7+pPFfqTWXRHIh5II9C0itVMy7
- yObACle8aNeiKyTYexK1iTNifOgc6vqOawncX1xjWcw4jTBrToJaMwNO5 s=;
-X-IronPort-AV: E=Sophos;i="5.83,298,1616457600"; d="scan'208";a="121286473"
+ bh=gojSS2OyTyAP5gmkFDKD8MsYdNtGHCgL8o38XcphUVg=;
+ b=jVhnDr9d/7e/3g4pSJZVluZeNnN7vXhU2nTzIXdhbs5gtglPAJLoRI4y
+ TouHEdVsqB+3up6u4ugrG3gHrToIVZ1sD/Gos9sbOnPRk1YLiNhArC2bz
+ WxvxKtng0avRdKztdqaXi88Oy22J8xEZPcJo7qYkBHN4+IBePzJMW/FT/ E=;
+X-IronPort-AV: E=Sophos;i="5.83,298,1616457600"; d="scan'208";a="121286488"
 Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
  email-inbound-relay-2a-c5104f52.us-west-2.amazon.com) ([10.43.8.2])
- by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 25 Jun 2021 10:15:30 +0000
+ by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 25 Jun 2021 10:15:34 +0000
 Received: from EX13D28EUC003.ant.amazon.com
  (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
  by email-inbound-relay-2a-c5104f52.us-west-2.amazon.com (Postfix) with ESMTPS
- id 060D2A0646; Fri, 25 Jun 2021 10:15:29 +0000 (UTC)
+ id E6AF0A0646; Fri, 25 Jun 2021 10:15:33 +0000 (UTC)
 Received: from uc8bbc9586ea454.ant.amazon.com (10.43.161.69) by
  EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Fri, 25 Jun 2021 10:15:24 +0000
+ id 15.0.1497.18; Fri, 25 Jun 2021 10:15:28 +0000
 From: Siddharth Chandrasekaran <sidcha@amazon.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
 CC: Siddharth Chandrasekaran <sidcha@amazon.de>, Siddharth Chandrasekaran
  <sidcha.dev@gmail.com>, Alexander Graf <graf@amazon.com>, Evgeny Iakovlev
  <eyakovl@amazon.de>, Liran Alon <liran@amazon.com>, Ioannis Aslanidis
  <iaslan@amazon.de>, <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
-Subject: [PATCH v2 2/6] hyper-v: Use -1 as invalid overlay address
-Date: Fri, 25 Jun 2021 12:14:37 +0200
-Message-ID: <6dc5d59ae0077de3bb20918a553ee05cb768bfec.1624615713.git.sidcha@amazon.de>
+Subject: [PATCH v2 3/6] kvm/i386: Stop using cpu->kvm_msr_buf in
+ kvm_put_one_msr()
+Date: Fri, 25 Jun 2021 12:14:38 +0200
+Message-ID: <3d53e2f2c73c8ecc8adab0c50b23fa4f613a2f08.1624615713.git.sidcha@amazon.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1624615713.git.sidcha@amazon.de>
 References: <cover.1624615713.git.sidcha@amazon.de>
@@ -80,75 +81,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When managing overlay pages, we used hwaddr 0 to signal an invalid
-address (to disable a page). Although unlikely, 0 _could_ be a valid
-overlay offset as Hyper-V TLFS does not specify anything about it.
+kvm_put_one_msr() zeros cpu->kvm_msr_buf and uses it to set one MSR to
+KVM. It is pretty wasteful as cpu->kvm_msr_buf is 4096 bytes long;
+instead use a local buffer to avoid memset.
 
-Use -1 as the invalid address indicator as it can never be a valid
-address.
+Also, expose this method from kvm_i386.h as hyperv.c needs to set MSRs
+in a subsequent patch.
 
 Signed-off-by: Siddharth Chandrasekaran <sidcha@amazon.de>
 ---
- hw/hyperv/hyperv.c         | 15 +++++++++------
- include/hw/hyperv/hyperv.h |  1 +
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ target/i386/kvm/kvm.c      | 12 ++++++++----
+ target/i386/kvm/kvm_i386.h |  1 +
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
-index 8d09206702..ac45e8e139 100644
---- a/hw/hyperv/hyperv.c
-+++ b/hw/hyperv/hyperv.c
-@@ -43,7 +43,7 @@ static void alloc_overlay_page(struct hyperv_overlay_page *overlay,
-     memory_region_init_ram(&overlay->mr, owner, name,
-                            qemu_real_host_page_size, &error_abort);
-     overlay->ram_ptr = memory_region_get_ram_ptr(&overlay->mr);
--    overlay->addr = 0;
-+    overlay->addr = HYPERV_INVALID_OVERLAY_GPA;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index c676ee8b38..03202bd06b 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -2578,12 +2578,16 @@ static void kvm_msr_entry_add(X86CPU *cpu, uint32_t index, uint64_t value)
+     msrs->nmsrs++;
  }
  
- /**
-@@ -52,14 +52,17 @@ static void alloc_overlay_page(struct hyperv_overlay_page *overlay,
-  */
- static void hyperv_overlay_update(struct hyperv_overlay_page *overlay, hwaddr addr)
+-static int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value)
++int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value)
  {
--    /* check if overlay page is enabled */
--    addr = (addr & HYPERV_OVERLAY_ENABLED) ? (addr & TARGET_PAGE_MASK) : 0;
-+    if (addr != HYPERV_INVALID_OVERLAY_GPA) {
-+        /* check if overlay page is enabled */
-+        addr = (addr & HYPERV_OVERLAY_ENABLED) ?
-+                (addr & TARGET_PAGE_MASK) : HYPERV_INVALID_OVERLAY_GPA;
-+    }
+-    kvm_msr_buf_reset(cpu);
+-    kvm_msr_entry_add(cpu, index, value);
++    uint8_t msr_buf[sizeof(struct kvm_msrs) + sizeof(struct kvm_msr_entry)] = { 0 };
++    struct kvm_msrs *msr = (struct kvm_msrs *)msr_buf;
++
++    msr->nmsrs = 1;
++    msr->entries[0].index = index;
++    msr->entries[0].data = value;
  
-     if (overlay->addr != addr) {
--        if (overlay->addr) {
-+        if (overlay->addr != HYPERV_INVALID_OVERLAY_GPA) {
-             memory_region_del_subregion(get_system_memory(), &overlay->mr);
-         }
--        if (addr) {
-+        if (addr != HYPERV_INVALID_OVERLAY_GPA) {
-             memory_region_add_subregion(get_system_memory(), addr, &overlay->mr);
-             overlay->ram_ptr = memory_region_get_ram_ptr(&overlay->mr);
-         }
-@@ -121,7 +124,7 @@ static void synic_reset(DeviceState *dev)
-     SynICState *synic = SYNIC(dev);
-     memset(synic->msg_page.ram_ptr, 0, sizeof(struct hyperv_message_page));
-     memset(synic->event_page.ram_ptr, 0, sizeof(struct hyperv_event_flags_page));
--    synic_update(synic, false, 0, 0);
-+    synic_update(synic, false, HYPERV_INVALID_OVERLAY_GPA, HYPERV_INVALID_OVERLAY_GPA);
+-    return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
++    return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, msr);
  }
  
- static void synic_class_init(ObjectClass *klass, void *data)
-diff --git a/include/hw/hyperv/hyperv.h b/include/hw/hyperv/hyperv.h
-index 3b2e0093b5..d989193e84 100644
---- a/include/hw/hyperv/hyperv.h
-+++ b/include/hw/hyperv/hyperv.h
-@@ -15,6 +15,7 @@
- #include "exec/memory.h"
+ void kvm_put_apicbase(X86CPU *cpu, uint64_t value)
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index dc72508389..0c4cd08071 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -40,6 +40,7 @@ void kvm_synchronize_all_tsc(void);
+ void kvm_arch_reset_vcpu(X86CPU *cs);
+ void kvm_arch_do_init_vcpu(X86CPU *cs);
  
- #define HYPERV_OVERLAY_ENABLED     (1u << 0)
-+#define HYPERV_INVALID_OVERLAY_GPA ((hwaddr)-1)
++int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value);
+ void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
  
- struct hyperv_overlay_page {
-     hwaddr addr;
+ bool kvm_enable_x2apic(void);
 -- 
 2.17.1
 
