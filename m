@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5277A3B3C4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 07:41:48 +0200 (CEST)
-Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BD93B3C50
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 07:42:10 +0200 (CEST)
+Received: from localhost ([::1]:41014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lweb4-00056L-PM
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 01:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
+	id 1lwebR-0005Sm-JC
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 01:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lweYU-0002t5-9P
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:06 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:36186)
+ id 1lweYZ-0002wZ-2U
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:11 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:36196)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lweYR-0001b2-Fh
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:05 -0400
+ id 1lweYW-0001fZ-VB
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:10 -0400
 Received: from [127.0.1.1] (unknown [62.118.138.151])
- by mail.ispras.ru (Postfix) with ESMTPSA id 9C59340D4004;
- Fri, 25 Jun 2021 05:39:01 +0000 (UTC)
-Subject: [PATCH v2 0/6] More record/replay acceptance tests
+ by mail.ispras.ru (Postfix) with ESMTPSA id 4AA6340D4004;
+ Fri, 25 Jun 2021 05:39:07 +0000 (UTC)
+Subject: [PATCH v2 1/6] tests/acceptance: add replay kernel test for s390
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 25 Jun 2021 08:38:58 +0300
-Message-ID: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
+Date: Fri, 25 Jun 2021 08:39:03 +0300
+Message-ID: <162459954368.387455.15333719740993319179.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
+References: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -55,37 +57,42 @@ Cc: pavel.dovgalyuk@ispras.ru, philmd@redhat.com, wrampazz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following series adds new record/replay tests to the acceptance group.
+This patch adds record/replay test which boots Linux
+kernel on s390x platform. The test uses kernel binaries
+taken from boot_linux_console test.
 
-The provided tests perform kernel boot and disk image boot scenarios.
-For all of them recording and replaying phases are executed.
-Tests were borrowed from existing boot_linux*.py tests.
-
-New tests include kernel boot for s390x, ppc64, alpha, nios2, and openrisc,
-and Linux boot with cloudinit image for x86_64.
-
-v2 changes:
- - moved ppc64 test to the right script
-
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
+ tests/acceptance/replay_kernel.py |   16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Pavel Dovgaluk (1):
-      tests/acceptance: Linux boot test for record/replay
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index 71facdaa75..cdc22cb6d3 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -208,6 +208,22 @@ def test_arm_cubieboard_initrd(self):
+                           '-initrd', initrd_path,
+                           '-no-reboot'))
+ 
++    def test_s390x_s390_ccw_virtio(self):
++        """
++        :avocado: tags=arch:s390x
++        :avocado: tags=machine:s390-ccw-virtio
++        """
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
++                      '/fedora-secondary/releases/29/Everything/s390x/os/images'
++                      '/kernel.img')
++        kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=sclp0'
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=9,
++            args=('-nodefaults', '-smp', '1'))
++
+     def test_ppc64_pseries(self):
+         """
+         :avocado: tags=arch:ppc64
 
-Pavel Dovgalyuk (5):
-      tests/acceptance: add replay kernel test for s390
-      tests/acceptance: add replay kernel test for ppc64
-      tests/acceptance: add replay kernel test for openrisc
-      tests/acceptance: add replay kernel test for nios2
-      tests/acceptance: add replay kernel test for alpha
-
-
- MAINTAINERS                       |   1 +
- tests/acceptance/replay_kernel.py |  52 ++++++++++++++
- tests/acceptance/replay_linux.py  | 116 ++++++++++++++++++++++++++++++
- 3 files changed, 169 insertions(+)
- create mode 100644 tests/acceptance/replay_linux.py
-
---
-Pavel Dovgalyuk
 
