@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BD93B3C50
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 07:42:10 +0200 (CEST)
-Received: from localhost ([::1]:41014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447AF3B3C56
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 07:44:27 +0200 (CEST)
+Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwebR-0005Sm-JC
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 01:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
+	id 1lwede-0001xG-C0
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 01:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lweYZ-0002wZ-2U
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:11 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:36196)
+ id 1lweYf-000368-HL
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:17 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:36204)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lweYW-0001fZ-VB
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:10 -0400
+ id 1lweYc-0001k6-AI
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:17 -0400
 Received: from [127.0.1.1] (unknown [62.118.138.151])
- by mail.ispras.ru (Postfix) with ESMTPSA id 4AA6340D4004;
- Fri, 25 Jun 2021 05:39:07 +0000 (UTC)
-Subject: [PATCH v2 1/6] tests/acceptance: add replay kernel test for s390
+ by mail.ispras.ru (Postfix) with ESMTPSA id D2B0940D4004;
+ Fri, 25 Jun 2021 05:39:12 +0000 (UTC)
+Subject: [PATCH v2 2/6] tests/acceptance: add replay kernel test for ppc64
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 25 Jun 2021 08:39:03 +0300
-Message-ID: <162459954368.387455.15333719740993319179.stgit@pasha-ThinkPad-X280>
+Date: Fri, 25 Jun 2021 08:39:09 +0300
+Message-ID: <162459954921.387455.17000468377504697052.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
 References: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -58,41 +58,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch adds record/replay test which boots Linux
-kernel on s390x platform. The test uses kernel binaries
+kernel on ppc64 platform. The test uses kernel binaries
 taken from boot_linux_console test.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- tests/acceptance/replay_kernel.py |   16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ tests/acceptance/replay_kernel.py |   13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 71facdaa75..cdc22cb6d3 100644
+index cdc22cb6d3..7e7f4c8ccc 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -208,6 +208,22 @@ def test_arm_cubieboard_initrd(self):
-                           '-initrd', initrd_path,
-                           '-no-reboot'))
+@@ -367,6 +367,19 @@ def test_xtensa_lx60(self):
+         self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf',
+                                  args=('-cpu', 'dc233c'))
  
-+    def test_s390x_s390_ccw_virtio(self):
++    def test_ppc64_e500(self):
 +        """
-+        :avocado: tags=arch:s390x
-+        :avocado: tags=machine:s390-ccw-virtio
++        :avocado: tags=arch:ppc64
++        :avocado: tags=machine:ppce500
++        :avocado: tags=cpu:e5500
 +        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-+                      '/fedora-secondary/releases/29/Everything/s390x/os/images'
-+                      '/kernel.img')
-+        kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
++        tar_url = ('https://www.qemu-advent-calendar.org'
++                   '/2018/download/day19.tar.xz')
++        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
++        self.do_test_advcal_2018(file_path, 'uImage', ('-cpu', 'e5500'))
 +
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=sclp0'
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=9,
-+            args=('-nodefaults', '-smp', '1'))
 +
-     def test_ppc64_pseries(self):
-         """
-         :avocado: tags=arch:ppc64
+ @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+ class ReplayKernelSlow(ReplayKernelBase):
+     # Override the timeout, because this kernel includes an inner
 
 
