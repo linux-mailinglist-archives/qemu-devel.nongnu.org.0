@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564213B411E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:07:57 +0200 (CEST)
-Received: from localhost ([::1]:41216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D90B3B4126
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:10:06 +0200 (CEST)
+Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwike-0007XU-Ca
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
+	id 1lwimj-00015x-7A
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi3k-0003im-S8
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:36 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:40856)
+ id 1lwi49-0004jM-Ls
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:01 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi3h-0001Ta-9d
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:34 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- o33-20020a05600c5121b02901e360c98c08so6268397wms.5
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:23:32 -0700 (PDT)
+ id 1lwi45-0001lS-Oj
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:58 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id u20so629737wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ocTZ5CFkRVEvaS92O2Il/pyHOrPWFHxWjWzPkTUnz+Y=;
- b=TusqxrG2C0LGej8JUceeV2VQkfjpWKyW2cLSBFtdPSSs2OLNZERchCi8d2+lEKFRWX
- Kr+m/rNsO5Tk5aRYCkHIg7smHnxvFihdqFsblI7wyKp7LK01STWEtPGn5l3FSyAJJAqq
- EwUMaesnkHaC/3e7XGVTgLbaHqTbdiJ7MlJf+lEWA2TvAT2XSw9Kchd1lE7FUH59sjFw
- CCO1+3qSroSy4tgETb8KQQPhHVckwSf3L2K/lLqy60ugbZBEwuYNLxbSNUcSBjelYNN1
- fwWPjlnqaKhBAecsyqhRg/hSXO2DPmzeyUxB0PAPMPZjXQw4afgql0zkk8apfXLU4AT4
- VxKQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WwdNN5kZV6nSH6AN6jmAvVVXJTDQlT1EEV5IustrciY=;
+ b=Z4nJYjhuwtboGaNEHTYeeVwyneAGl4JaXan5YccRBwcmRZy3EhHdw/oVuTYcjZ0eM9
+ NOzRMeOys5XZD70MnQH404fdY5x5rnBdtmQzUzjTLQiUEjO3SAt+J3fLcxXkzlODkUsw
+ XF9BLLNDrfhgzShSmGoLdc8YSnvswXdEzOV8uBRMvfYoED3+BpviDTrm4JNaTdr4vDN3
+ XhG05hsevSI7qGlF6yMI+fviQzduf3emOp8csqV6JvGiRXJ1cEYxGLJZjKCv25Hr2TxV
+ e6jbcJEwwksL6KORCHGMam82ftXZGkAQoBdRyhhTuj8GF2jIvGOxT0EqBXad/FkjSTp6
+ knlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ocTZ5CFkRVEvaS92O2Il/pyHOrPWFHxWjWzPkTUnz+Y=;
- b=dZbfXU/ncpFWvkK2DB7msxKXihCQDWpdeIkPqkcYQ/9Gqj/3k+l4MlrcQ5zZyCoxj5
- 4/JUdOtRkvfjKKIj/um3J3oAXUPMQ1u2oxcmgMtcnlHBPe6v5hEy9BtDSVOkGVGBsXFY
- pxFvpa69KR+g94VccaWGBmBgF54Gz0p+SxzUdxy4aKZkKyIAvqCZUmftqdR0xS1dWCOU
- 97Ycu3i6KiGDDuRGjZZNXUDrY9u+J7PaS4uIIH+0aLjBxxsZbRnafgNsGx3VmepYAd7T
- ITAI0UfRDlwVcxAflhOfb4p92NYb7QR/nCW5lyxMuprX73EHsT815jAZ2mS2J+pbZ3JP
- 9mPw==
-X-Gm-Message-State: AOAM531hpncDc5UmYCR1wKG6SP0k46/jDSUmWyyd0yIqcQiEMH7fA/GK
- D3LrNb5KGjjfYibOz5JUCinAHyXUU3j0Xw==
-X-Google-Smtp-Source: ABdhPJwF/3mCI/C+lOJZOZFlUDJnaeYv7Tfi/pyNjUNFIldLy9v70ypARFJA2Ic3z3++xKX98KJuPw==
-X-Received: by 2002:a1c:25c6:: with SMTP id l189mr9741086wml.49.1624613011312; 
- Fri, 25 Jun 2021 02:23:31 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=WwdNN5kZV6nSH6AN6jmAvVVXJTDQlT1EEV5IustrciY=;
+ b=Cqbh2pThM4UGK518n3pfON8d84NF9jWTKgQPtSKYBTVo6mWe4ZtPhjVR9upRUcprtF
+ rJkFQ5n26BNph/q6Hi35oBe7zawerdghnwJidBZzpzXd9FlrrR7dDrCbzqXAx7Q1fDav
+ tCmwv5krMAW1JU/+WA3Ble8GmHOEmPwFYiGD+nHHQvNfLZxpc/9+IT9DULdjxHj3ZRur
+ 61pZu/qsaxEkCcbiorF6AizWXp3MNNkTBMj0mIsv7PHTcQCDBs386Ss5XyMNAWOxCGIU
+ kjbkQ+ByLUxmAxCjVtrrSAY4g5vrrMaT4xfo9BB6/t5sngVyJkKCOCl76JGBJqRPiCB2
+ lKAQ==
+X-Gm-Message-State: AOAM533TN3fM/53rSf4CgOIH180TvcylinP6d9aXbLi+j94oMlm+2r6R
+ XR1nt2VCmTHo1EoA0oiTCRsu0CO8EXj2/A==
+X-Google-Smtp-Source: ABdhPJyrWsp/NIkdhZK5ZdI4acH0v61Ub743RzxxNuwgrdIJ7mQC6EpEwe6H5ELUwWuD50LJ2GpwxA==
+X-Received: by 2002:a1c:1f54:: with SMTP id f81mr9250063wmf.121.1624613036258; 
+ Fri, 25 Jun 2021 02:23:56 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id g83sm5134822wma.10.2021.06.25.02.23.30
+ by smtp.gmail.com with ESMTPSA id l20sm5193943wmq.3.2021.06.25.02.23.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 02:23:30 -0700 (PDT)
+ Fri, 25 Jun 2021 02:23:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] MIPS patches for 2021-06-25
-Date: Fri, 25 Jun 2021 11:23:14 +0200
-Message-Id: <20210625092329.1529100-1-f4bug@amsat.org>
+Subject: [PULL 05/15] target/mips: Do not abort on invalid instruction
+Date: Fri, 25 Jun 2021 11:23:19 +0200
+Message-Id: <20210625092329.1529100-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210625092329.1529100-1-f4bug@amsat.org>
+References: <20210625092329.1529100-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,91 +86,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aurelien Jarno <aurelien@aurel32.net>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIME-Version: 1.0=0D
-Content-Type: text/plain; charset=3D"utf-8"=0D
-Content-Transfer-Encoding: 8bit=0D
-=0D
-The following changes since commit d0ac9a61474cf594d19082bc8976247e984ea9a3=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021=
--06-21' into staging (2021-06-24 09:31:26 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://github.com/philmd/qemu.git tags/mips-20210625=0D
-=0D
-for you to fetch changes up to f5c6ee0c6b7b4b79b52a1614a808633dbb694de4:=0D
-=0D
-  target/mips: Merge msa32/msa64 decodetree definitions (2021-06-24 16:48:0=
-8 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-MIPS patches queue=0D
-=0D
-Various fixes:=0D
-- Potential integer overflow (CID 1452921)=0D
-- Invalid emulation of nanoMIPS BPOSGE32 opcode=0D
-- Missing exception when DINSV opcode used with DSP disabled=0D
-- Do not abort but emit exception for invalid BRANCH opcodes=0D
-- TCG temporary leaks=0D
-=0D
-Housekeeping:=0D
-- Remove dead code / comments=0D
-- Restrict few files to TCG, declarations to sysemu=0D
-- Merge MSA32 and MSA64 decodetree definitions=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Aleksandar Rikalo (1):=0D
-  target/mips: fix emulation of nanoMIPS BPOSGE32 instruction=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (14):=0D
-  target/mips: Fix potential integer overflow (CID 1452921)=0D
-  target/mips: Fix TCG temporary leaks in gen_pool32a5_nanomips_insn()=0D
-  target/mips: Fix more TCG temporary leaks in=0D
-    gen_pool32a5_nanomips_insn=0D
-  target/mips: Raise exception when DINSV opcode used with DSP disabled=0D
-  target/mips: Do not abort on invalid instruction=0D
-  target/mips: Move TCG trace events to tcg/ sub directory=0D
-  target/mips: Move translate.h to tcg/ sub directory=0D
-  target/mips: Restrict some system specific declarations to sysemu=0D
-  target/mips: Remove SmartMIPS / MDMX unuseful comments=0D
-  target/mips: Remove microMIPS BPOSGE32 / BPOSGE64 unuseful cases=0D
-  target/mips: Constify host_to_mips_errno[]=0D
-  target/mips: Optimize regnames[] arrays=0D
-  target/mips: Remove pointless gen_msa()=0D
-  target/mips: Merge msa32/msa64 decodetree definitions=0D
-=0D
- meson.build                                  |  2 +-=0D
- target/mips/cpu.h                            | 10 ++++--=0D
- target/mips/internal.h                       |  2 +-=0D
- target/mips/tcg/trace.h                      |  1 +=0D
- target/mips/{ =3D> tcg}/translate.h            |  0=0D
- target/mips/trace.h                          |  1 -=0D
- target/mips/tcg/{msa32.decode =3D> msa.decode} |  8 +++--=0D
- target/mips/tcg/msa64.decode                 | 17 ----------=0D
- target/mips/cpu.c                            |  2 +-=0D
- target/mips/tcg/msa_translate.c              | 23 ++++---------=0D
- target/mips/tcg/mxu_translate.c              |  4 +--=0D
- target/mips/tcg/sysemu/mips-semi.c           |  2 +-=0D
- target/mips/tcg/sysemu/tlb_helper.c          |  3 +-=0D
- target/mips/tcg/translate.c                  | 35 ++++++++------------=0D
- target/mips/tcg/meson.build                  |  3 +-=0D
- target/mips/{ =3D> tcg}/trace-events           |  0=0D
- 16 files changed, 42 insertions(+), 71 deletions(-)=0D
- create mode 100644 target/mips/tcg/trace.h=0D
- rename target/mips/{ =3D> tcg}/translate.h (100%)=0D
- delete mode 100644 target/mips/trace.h=0D
- rename target/mips/tcg/{msa32.decode =3D> msa.decode} (74%)=0D
- delete mode 100644 target/mips/tcg/msa64.decode=0D
- rename target/mips/{ =3D> tcg}/trace-events (100%)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+On real hardware an invalid instruction doesn't halt the world,
+but usually triggers a RESERVED INSTRUCTION exception.
+TCG guest code shouldn't abort QEMU anyway.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210617174323.2900831-2-f4bug@amsat.org>
+---
+ target/mips/tcg/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 3fd0c48d772..4b7229a868a 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -12151,8 +12151,8 @@ static void gen_branch(DisasContext *ctx, int insn_bytes)
+             tcg_gen_lookup_and_goto_ptr();
+             break;
+         default:
+-            fprintf(stderr, "unknown branch 0x%x\n", proc_hflags);
+-            abort();
++            LOG_DISAS("unknown branch 0x%x\n", proc_hflags);
++            gen_reserved_instruction(ctx);
+         }
+     }
+ }
+-- 
+2.31.1
+
 
