@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0550B3B48C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:27:52 +0200 (CEST)
-Received: from localhost ([::1]:43366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F413B48CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:30:45 +0200 (CEST)
+Received: from localhost ([::1]:50978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwqYQ-0000DQ-VS
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59950)
+	id 1lwqbE-0005IJ-Kj
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:30:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwqRo-00043v-Si
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwqRo-000432-Gw
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:21:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54422)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwqRY-0005kU-3T
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwqRY-0005mu-4S
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:21:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624645242;
+ s=mimecast20190719; t=1624645243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8i8xinDtZ6m5roDKOuknYSg2NFaliuXZZJDWKqJlH+Q=;
- b=b5LCOoaJTsw95r0kL0/+ZmUeGDVk/vWdPcbpRyRcA319W2+SRiDK3oYFLV3odKIRZWJc2l
- up7tpgUS+2Nqz9zOH1e9iYykMLjrFzBuIGSkaISpxr2dle9qsINvRKJPaGucZ87KXFgYMO
- oVcJEhrvA/ok71cdAIiY0vWVHzJpN6k=
+ bh=aAOB/E5CPaLjPwAcFGN/NLfEOV/TwQV7VnVyCc7I0nw=;
+ b=SUhbVx1+GecB4j4nN2U5sYBSDRFx+d+4ImGsCk6z5MOh8dpdN7qF9yfRgZG7O3ssskqxXH
+ YH4n5G6SLPNgFbWZu2BIUYIrOa/jPCqAS12oS9XbtP3RNn4ePWzqu182Wu+OYtVVq/hg/d
+ pHPPTljHxt3qx+/2DGHoSyA8FkGcqiA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-zuQTsIxsOBCnK71QaMRs9Q-1; Fri, 25 Jun 2021 14:20:40 -0400
-X-MC-Unique: zuQTsIxsOBCnK71QaMRs9Q-1
+ us-mta-374-whR5dDSdMoaOh6VInRICdQ-1; Fri, 25 Jun 2021 14:20:41 -0400
+X-MC-Unique: whR5dDSdMoaOh6VInRICdQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3641100C611;
- Fri, 25 Jun 2021 18:20:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF13510C1ADC;
+ Fri, 25 Jun 2021 18:20:40 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB1705D9C6;
- Fri, 25 Jun 2021 18:20:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8A915D9C6;
+ Fri, 25 Jun 2021 18:20:39 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/10] iotests/linters: Add entry point for Python CI linters
-Date: Fri, 25 Jun 2021 14:20:20 -0400
-Message-Id: <20210625182021.803227-10-jsnow@redhat.com>
+Subject: [PATCH 10/10] python: Add iotest linters to test suite
+Date: Fri, 25 Jun 2021 14:20:21 -0400
+Message-Id: <20210625182021.803227-11-jsnow@redhat.com>
 In-Reply-To: <20210625182021.803227-1-jsnow@redhat.com>
 References: <20210625182021.803227-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,54 +84,25 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a main() function to linters.py so that the Python CI infrastructure
-has something it can run.
-
-Now, linters.py represents an invocation of the linting scripts that
-more resembles a "normal" execution of pylint/mypy, like you'd expect to
-use if 'qemu' was a bona-fide package you obtained from PyPI.
-
-297, by contrast, now represents the iotests-specific configuration bits
-you need to get it to function correctly as a part of iotests, and with
-'qemu' as a namespace package that isn't "installed" to the current
-environment, but just lives elsewhere in our source tree.
-
-By doing this, we will able to run the same linting configuration from
-the Python CI tests without calling iotest logging functions or messing
-around with PYTHONPATH / MYPYPATH.
-
-iotest 297 continues to operate in a standalone fashion for now --
-presumably, it's convenient for block maintainers and contributors to
-run in this manner.
-
-See the following commit for how this is used from the Python packaging side.
+As a convenience, since iotests is an extremely prominent user of the
+qemu.qmp and qemu.machine packages and already implements a linting
+regime, run those tests as well so that it's very hard to miss
+regressions caused by changes to the python library.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/linters.py | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ python/tests/iotests.sh | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100755 python/tests/iotests.sh
 
-diff --git a/tests/qemu-iotests/linters.py b/tests/qemu-iotests/linters.py
-index 6fa7ba2d22..1bbcfd1088 100755
---- a/tests/qemu-iotests/linters.py
-+++ b/tests/qemu-iotests/linters.py
-@@ -115,3 +115,16 @@ def run_linters(
-             print(p.stdout)
- 
-     return ret
-+
-+
-+def main() -> int:
-+    """
-+    Used by the Python CI system as an entry point to run these linters.
-+    """
-+    directory = os.path.dirname(os.path.realpath(__file__))
-+    files = get_test_files(directory)
-+    return run_linters(files, directory)
-+
-+
-+if __name__ == '__main__':
-+    sys.exit(main())
+diff --git a/python/tests/iotests.sh b/python/tests/iotests.sh
+new file mode 100755
+index 0000000000..ec2fc58066
+--- /dev/null
++++ b/python/tests/iotests.sh
+@@ -0,0 +1,2 @@
++#!/bin/sh -e
++PYTHONPATH=../tests/qemu-iotests/ python3 -m linters
 -- 
 2.31.1
 
