@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4984D3B3C96
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:19:20 +0200 (CEST)
-Received: from localhost ([::1]:38300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC423B3CA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:23:41 +0200 (CEST)
+Received: from localhost ([::1]:40554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwfBO-0007nT-S5
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
+	id 1lwfFd-000152-2I
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfAK-000779-Tc
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:18:12 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58582
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
+ id 1lwfER-0000N3-3t
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:22:27 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfAD-0007Ko-4N
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:18:12 -0400
-Received: from host109-153-84-9.range109-153.btcentralplus.com ([109.153.84.9]
- helo=[192.168.1.65]) by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwf9k-00063o-Js; Fri, 25 Jun 2021 07:17:39 +0100
-To: Finn Thain <fthain@fastmail.com.au>
-References: <20210613163738.2141-1-mark.cave-ayland@ilande.co.uk>
- <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
- <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
- <17f0917-de30-6771-26d0-7a10214221ca@nippy.intranet>
- <38512250-86bb-7cbd-caca-9bc0378e54e8@ilande.co.uk>
- <2a99f70-4584-be2f-4d82-72641d65d7a@nippy.intranet>
- <246849c9-c674-7b33-6fe0-ddfff1d128fe@ilande.co.uk>
- <87cdbdeb-1228-f08f-ed15-107f5cf6484@nippy.intranet>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <979b0b6c-19e0-d74c-eb99-9633d596ee07@ilande.co.uk>
-Date: Fri, 25 Jun 2021 07:17:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
+ id 1lwfEO-0002IX-H3
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:22:26 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GB6KH2r54zZmJX;
+ Fri, 25 Jun 2021 14:19:15 +0800 (CST)
+Received: from dggema768-chm.china.huawei.com (10.1.198.210) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 25 Jun 2021 14:22:17 +0800
+Received: from localhost (10.174.151.75) by dggema768-chm.china.huawei.com
+ (10.1.198.210) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 25
+ Jun 2021 14:22:17 +0800
+From: Lin Feng <linfeng23@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [v4] migration: fix the memory overwriting risk in add_to_iovec
+Date: Fri, 25 Jun 2021 14:21:38 +0800
+Message-ID: <20210625062138.1899-1-linfeng23@huawei.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210623015104.218-1-linfeng23@huawei.com>
+References: <20210623015104.218-1-linfeng23@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <87cdbdeb-1228-f08f-ed15-107f5cf6484@nippy.intranet>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.153.84.9
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/5] dp8393x: fixes for MacOS toolbox ROM
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.151.75]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggema768-chm.china.huawei.com (10.1.198.210)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=linfeng23@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,82 +65,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, hpoussin@reactos.org, aurelien@aurel32.net,
- Laurent Vivier <laurent@vivier.eu>
+Cc: wangxinxin.wang@huawei.com, Feng Lin <linfeng23@huawei.com>,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/2021 05:36, Finn Thain wrote:
+From: Feng Lin <linfeng23@huawei.com>
 
-> On Thu, 24 Jun 2021, Mark Cave-Ayland wrote:
-> 
->> Thanks for the link and the detailed testing information. I've been
->> trying to understand why you had to set the MAC address in the ARC
->> firmware so I had a bit of an experiment here.
->>
->> The reason that you need to do this is because of the NVRAM
->> configuration in your command line, in particular -global
->> ds1225y.size=8200. What this does is extend the NVRAM over the top of
->> the dp8393x-prom area where QEMU places the NIC MAC address and checksum
->> on startup, so the NVRAM captures the MAC address reads/writes instead.
->> The net effect of this is that the empty NVRAM initially reads all zeros
->> and why an initial setup is required to set the MAC address.
->>
->> This can be seen quite clearly in the "info mtree" output:
->>
->>      0000000080009000-000000008000b007 (prio 0, i/o): nvram
->>      000000008000b000-000000008000bfff (prio 0, rom): dp8393x-prom
->>
->> However if you completely drop -global ds1225y.size=8200 from your
->> command line then the NVRAM doesn't overrun into the dp8393x-prom area,
->> and the ARC firmware picks up the MAC address from QEMU correctly:
->>
->>      0000000080009000-000000008000afff (prio 0, i/o): nvram
->>      000000008000b000-000000008000bfff (prio 0, rom): dp8393x-prom
->>
->> I've also looked over the entire SONIC datasheet to see if the PROM
->> format is documented, and according to that there is no non-volatile
->> storage available on the chip itself.
-> 
-> Yes, that's my understanding also. The relevant National Semicondutor
-> Application Notes seem to include a separate PROM. And if you closely
-> examine the Linux macsonic.c driver, you'll see that the PowerBook 5x0
-> models get a random MAC address because no-one (outside of Apple) knows
-> where the real MAC address is stored.
+When testing migration, a Segmentation fault qemu core is generated.
+0  error_free (err=0x1)
+1  0x00007f8b862df647 in qemu_fclose (f=f@entry=0x55e06c247640)
+2  0x00007f8b8516d59a in migrate_fd_cleanup (s=s@entry=0x55e06c0e1ef0)
+3  0x00007f8b8516d66c in migrate_fd_cleanup_bh (opaque=0x55e06c0e1ef0)
+4  0x00007f8b8626a47f in aio_bh_poll (ctx=ctx@entry=0x55e06b5a16d0)
+5  0x00007f8b8626e71f in aio_dispatch (ctx=0x55e06b5a16d0)
+6  0x00007f8b8626a33d in aio_ctx_dispatch (source=<optimized out>, callback=<optimized out>, user_data=<optimized out>)
+7  0x00007f8b866bdba4 in g_main_context_dispatch ()
+8  0x00007f8b8626cde9 in glib_pollfds_poll ()
+9  0x00007f8b8626ce62 in os_host_main_loop_wait (timeout=<optimized out>)
+10 0x00007f8b8626cffd in main_loop_wait (nonblocking=nonblocking@entry=0)
+11 0x00007f8b862ef01f in main_loop ()
+Using gdb print the struct QEMUFile f = {
+  ...,
+  iovcnt = 65, last_error = 21984,
+  last_error_obj = 0x1, shutdown = true
+}
+Well iovcnt is overflow, because the max size of MAX_IOV_SIZE is 64.
+struct QEMUFile {
+    ...;
+    struct iovec iov[MAX_IOV_SIZE];
+    unsigned int iovcnt;
+    int last_error;
+    Error *last_error_obj;
+    bool shutdown;
+};
+iovcnt and last_error is overwrited by add_to_iovec().
+Right now, add_to_iovec() increase iovcnt before check the limit.
+And it seems that add_to_iovec() assumes that iovcnt will set to zero
+in qemu_fflush(). But qemu_fflush() will directly return when f->shutdown
+is true.
 
-Agreed. This means that the revised patchset should now be doing the right thing here.
+The situation may occur when libvirtd restart during migration, after
+f->shutdown is set, before calling qemu_file_set_error() in
+qemu_file_shutdown().
 
-FWIW I felt that it had changed too much in its latest form to include your original 
-Tested-by tag due to the extra PROM changes, so I'd be grateful if you could give it 
-a quick test.
+So the safiest way is checking the iovcnt before increasing it.
 
->> Testing shows that the checksum algorithm currently used for the dp8393x
->> device generates the same result as that generated by the ARC firmware,
->> which is known to be different than that used by the Q800 machine.
->>
->>  From this I conclude that the PROM is provided by the board and not the
->> chipset, and therefore each machine should construct its own PROM
->> accordingly. I'll send a v2 patchset shortly with these changes which
->> shall also include the proposed endian patch.
->>
-> 
-> If you potentially have both a ds1225y NVRAM and a dp8393x PROM (for the
-> magnum machine) how do you avoid ending up with conflicting state? Would
-> the two storage devices have to be mutually exclusive?
+Signed-off-by: Feng Lin <linfeng23@huawei.com>
+---
+ migration/qemu-file.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-The ds1225y NVRAM is located between 0x80009000-0x8000afff and running the nvram file 
-through hexdump shows only the first 0x1000 bytes contain any data, so any other 
-changes made to NVRAM via the ARC firmware setup will be preserved.
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index d6e03dbc0e..6879615197 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -416,6 +416,11 @@ static int add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
+     {
+         f->iov[f->iovcnt - 1].iov_len += size;
+     } else {
++        if (f->iovcnt >= MAX_IOV_SIZE) {
++            /* Should only happen if a previous fflush failed */
++            assert(f->shutdown || !qemu_file_is_writeable(f));
++            return 1;
++        }
+         if (may_free) {
+             set_bit(f->iovcnt, f->may_free);
+         }
+-- 
+2.23.0
 
-The existing default behaviour (without -global ds1225y.size=8200) is that only the 
-last few bytes at 0x8000b000 are mapped to the dp8393x PROM, and this area is marked 
-read-only to ensure that the MAC address obtained by the guest OS always matches the 
-one provided by the QEMU configuration.
-
-
-ATB,
-
-Mark.
 
