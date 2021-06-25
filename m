@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDF93B40A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:36:46 +0200 (CEST)
-Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870393B40B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:38:29 +0200 (CEST)
+Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwiGT-0006QI-WA
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
+	id 1lwiI8-0004Jr-H8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:38:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzZ-0002vq-9Q
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55322)
+ id 1lwhzc-00033q-EU
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzW-0006tS-C4
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:17 -0400
+ id 1lwhzZ-0006w4-9i
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624612753;
+ s=mimecast20190719; t=1624612756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tDN+xjsxF7iwEfkz8BLN6BBzEz5gwnoes2do9XUHeCI=;
- b=O9JwQELGLFqme8ngqxXGLCaA8xlpnyZ/e7du2SfPUrr99E7yPZGLbR4obywqo+d4eaUges
- lPCl/v4CcRMWI32bVKL847MKWGnkLDxwWCdC5nPKMhoCUGh2/4UidKP0P6zzLAYhiuoPPp
- GzReo2lIReShom69jU3S6++RQSQHAJw=
+ bh=jDuWf4u6117n4fJqd/tQSbJZpR3kSOCabdjyOQBeSIc=;
+ b=EsLDgiRCN2pbhE/fHflVMQv2+OWWcVuNTFQt/E0d3+/aMNqyHdqGRT+UqUY5qEUkNBHToP
+ TbL4cel6zCVJyYVl/P1WAsaZ9I1Yn43ayMPEFPhk8rkH9PGVlqaFJPYYXkABwfv9UHiy/9
+ p/jzkAvVmoRU02tel0M6cVRpELgHJBE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-zlq2wNZnOeWur7rn3Yk4ng-1; Fri, 25 Jun 2021 05:19:12 -0400
-X-MC-Unique: zlq2wNZnOeWur7rn3Yk4ng-1
+ us-mta-399-rN_avMHNM8OiaXY-rfL1xQ-1; Fri, 25 Jun 2021 05:19:13 -0400
+X-MC-Unique: rN_avMHNM8OiaXY-rfL1xQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 206061019982
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:19:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 352AEDF8A3;
+ Fri, 25 Jun 2021 09:19:12 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77E5660C05;
- Fri, 25 Jun 2021 09:19:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6758B60C05;
+ Fri, 25 Jun 2021 09:19:11 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/53] acpi: build_fadt: use
+Subject: [PATCH 24/53] acpi: build_tpm2: use
  acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Fri, 25 Jun 2021 05:17:48 -0400
-Message-Id: <20210625091818.1047980-25-imammedo@redhat.com>
+Date: Fri, 25 Jun 2021 05:17:49 -0400
+Message-Id: <20210625091818.1047980-26-imammedo@redhat.com>
 In-Reply-To: <20210625091818.1047980-1-imammedo@redhat.com>
 References: <20210625091818.1047980-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,7 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: stefanb@linux.vnet.ibm.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,56 +90,44 @@ which hides offsets magic from API user.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/aml-build.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+CC: stefanb@linux.vnet.ibm.com
+---
+ hw/acpi/aml-build.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 5f8f98cfc0..3da32301b6 100644
+index 3da32301b6..159f998187 100644
 --- a/hw/acpi/aml-build.c
 +++ b/hw/acpi/aml-build.c
-@@ -1969,9 +1969,10 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+@@ -2098,13 +2098,14 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
                  const char *oem_id, const char *oem_table_id)
  {
-     int off;
--    int fadt_start = tbl->len;
-+    AcpiTable table = { .sig = "FACP", .rev = f->rev,
+     uint8_t start_method_params[12] = {};
+-    unsigned log_addr_offset, tpm2_start;
++    unsigned log_addr_offset;
+     uint64_t control_area_start_address;
+     TPMIf *tpmif = tpm_find();
+     uint32_t start_method;
++    AcpiTable table = { .sig = "TPM2", .rev = 4,
 +                        .oem_id = oem_id, .oem_table_id = oem_table_id };
  
--    acpi_data_push(tbl, sizeof(AcpiTableHeader));
-+    acpi_init_table(&table, tbl);
+-    tpm2_start = table_data->len;
+-    acpi_data_push(table_data, sizeof(AcpiTableHeader));
++    acpi_init_table(&table, table_data);
  
-     /* FACS address to be filled by Guest linker at runtime */
-     off = tbl->len;
-@@ -2035,7 +2036,7 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-     build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
- 
-     if (f->rev == 1) {
--        goto build_hdr;
-+        goto done;
-     }
- 
-     build_append_gas_from_struct(tbl, &f->reset_reg); /* RESET_REG */
-@@ -2072,7 +2073,7 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-     build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0); /* X_GPE1_BLK */
- 
-     if (f->rev <= 4) {
--        goto build_hdr;
-+        goto done;
-     }
- 
-     /* SLEEP_CONTROL_REG */
-@@ -2083,9 +2084,8 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-     /* TODO: extra fields need to be added to support revisions above rev5 */
-     assert(f->rev == 5);
- 
--build_hdr:
--    build_header(linker, tbl, (void *)(tbl->data + fadt_start),
--                 "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
-+done:
+     /* Platform Class */
+     build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
+@@ -2142,9 +2143,7 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+     bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+                                    log_addr_offset, 8,
+                                    ACPI_BUILD_TPMLOG_FILE, 0);
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + tpm2_start),
+-                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
 +    acpi_table_composed(linker, &table);
  }
+ #endif
  
- #ifdef CONFIG_TPM
 -- 
 2.27.0
 
