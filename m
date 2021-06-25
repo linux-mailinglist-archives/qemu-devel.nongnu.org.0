@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1B03B414D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:16:59 +0200 (CEST)
-Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80643B41AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:29:08 +0200 (CEST)
+Received: from localhost ([::1]:42124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwitO-00016M-6T
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35922)
+	id 1lwj59-0002jp-MZ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:29:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8031d3708=sidcha@amazon.de>)
- id 1lwis8-0007T6-F9
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:40 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:6220)
+ id 1lwj0u-0007E1-V5
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:24:44 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:62683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8031d3708=sidcha@amazon.de>)
- id 1lwis4-0006os-Cm
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:15:40 -0400
+ id 1lwj0g-0005Jv-EF
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 06:24:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1624616136; x=1656152136;
+ t=1624616670; x=1656152670;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=gojSS2OyTyAP5gmkFDKD8MsYdNtGHCgL8o38XcphUVg=;
- b=jVhnDr9d/7e/3g4pSJZVluZeNnN7vXhU2nTzIXdhbs5gtglPAJLoRI4y
- TouHEdVsqB+3up6u4ugrG3gHrToIVZ1sD/Gos9sbOnPRk1YLiNhArC2bz
- WxvxKtng0avRdKztdqaXi88Oy22J8xEZPcJo7qYkBHN4+IBePzJMW/FT/ E=;
-X-IronPort-AV: E=Sophos;i="5.83,298,1616457600"; d="scan'208";a="121286488"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-2a-c5104f52.us-west-2.amazon.com) ([10.43.8.2])
- by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 25 Jun 2021 10:15:34 +0000
+ bh=emG7j8fZPGMdCYAjeHFKGkXfq8HitffOpSus8mjL/7E=;
+ b=s8Wc15TmtcY4WBrvK2PjiVQLourfga+VZ0w9oxa8m24ZciuS1Zaj4Mfc
+ ed5LnjR+puThdmsBKXCL5XezZzG977uotsqUGPlzdt1VGrmSKs1DW4i7D
+ zGk1ZntC9usALxZrHLK3r6eV/jRe2FO0CzmT/623yfQ1lDpSZQ9Hx/n/P Q=;
+X-IronPort-AV: E=Sophos;i="5.83,298,1616457600"; d="scan'208";a="142145158"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO
+ email-inbound-relay-2b-859fe132.us-west-2.amazon.com) ([10.25.36.214])
+ by smtp-border-fw-9102.sea19.amazon.com with ESMTP; 25 Jun 2021 10:24:21 +0000
 Received: from EX13D28EUC003.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
- by email-inbound-relay-2a-c5104f52.us-west-2.amazon.com (Postfix) with ESMTPS
- id E6AF0A0646; Fri, 25 Jun 2021 10:15:33 +0000 (UTC)
-Received: from uc8bbc9586ea454.ant.amazon.com (10.43.161.69) by
+ (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+ by email-inbound-relay-2b-859fe132.us-west-2.amazon.com (Postfix) with ESMTPS
+ id BA5A3220122; Fri, 25 Jun 2021 10:24:20 +0000 (UTC)
+Received: from uc8bbc9586ea454.ant.amazon.com (10.43.161.183) by
  EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Fri, 25 Jun 2021 10:15:28 +0000
+ id 15.0.1497.18; Fri, 25 Jun 2021 10:24:16 +0000
 From: Siddharth Chandrasekaran <sidcha@amazon.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
 CC: Siddharth Chandrasekaran <sidcha@amazon.de>, Siddharth Chandrasekaran
  <sidcha.dev@gmail.com>, Alexander Graf <graf@amazon.com>, Evgeny Iakovlev
  <eyakovl@amazon.de>, Liran Alon <liran@amazon.com>, Ioannis Aslanidis
  <iaslan@amazon.de>, <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
-Subject: [PATCH v2 3/6] kvm/i386: Stop using cpu->kvm_msr_buf in
- kvm_put_one_msr()
-Date: Fri, 25 Jun 2021 12:14:38 +0200
-Message-ID: <3d53e2f2c73c8ecc8adab0c50b23fa4f613a2f08.1624615713.git.sidcha@amazon.de>
+Subject: [PATCH v2 4/6] kvm/i386: Avoid multiple calls to
+ check_extension(KVM_CAP_HYPERV)
+Date: Fri, 25 Jun 2021 12:23:29 +0200
+Message-ID: <c11046833369b3bc006ce4fb95d9657b2d7dbad4.1624615713.git.sidcha@amazon.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1624615713.git.sidcha@amazon.de>
 References: <cover.1624615713.git.sidcha@amazon.de>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.161.69]
-X-ClientProxiedBy: EX13D14UWC004.ant.amazon.com (10.43.162.99) To
+X-Originating-IP: [10.43.161.183]
+X-ClientProxiedBy: EX13D05UWC004.ant.amazon.com (10.43.162.223) To
  EX13D28EUC003.ant.amazon.com (10.43.164.43)
 Precedence: Bulk
-Received-SPF: pass client-ip=52.95.49.90;
- envelope-from=prvs=8031d3708=sidcha@amazon.de; helo=smtp-fw-6002.amazon.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
+Received-SPF: pass client-ip=207.171.184.29;
+ envelope-from=prvs=8031d3708=sidcha@amazon.de; helo=smtp-fw-9102.amazon.com
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,56 +81,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_put_one_msr() zeros cpu->kvm_msr_buf and uses it to set one MSR to
-KVM. It is pretty wasteful as cpu->kvm_msr_buf is 4096 bytes long;
-instead use a local buffer to avoid memset.
-
-Also, expose this method from kvm_i386.h as hyperv.c needs to set MSRs
+KVM_CAP_HYPERV is a VM ioctl and can be cached at kvm_arch_init()
+instead of performing an ioctl each time in hyperv_enabled() which is
+called foreach vCPU. Apart from that, this variable will come in handy
 in a subsequent patch.
 
 Signed-off-by: Siddharth Chandrasekaran <sidcha@amazon.de>
 ---
- target/i386/kvm/kvm.c      | 12 ++++++++----
- target/i386/kvm/kvm_i386.h |  1 +
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ target/i386/kvm/kvm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index c676ee8b38..03202bd06b 100644
+index 03202bd06b..bcf1b4f2d0 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -2578,12 +2578,16 @@ static void kvm_msr_entry_add(X86CPU *cpu, uint32_t index, uint64_t value)
-     msrs->nmsrs++;
- }
+@@ -93,6 +93,7 @@ static bool has_msr_misc_enable;
+ static bool has_msr_smbase;
+ static bool has_msr_bndcfgs;
+ static int lm_capable_kernel;
++static bool has_hyperv;
+ static bool has_msr_hv_hypercall;
+ static bool has_msr_hv_crash;
+ static bool has_msr_hv_reset;
+@@ -716,7 +717,7 @@ unsigned long kvm_arch_vcpu_id(CPUState *cs)
  
--static int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value)
-+int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value)
+ static bool hyperv_enabled(X86CPU *cpu)
  {
--    kvm_msr_buf_reset(cpu);
--    kvm_msr_entry_add(cpu, index, value);
-+    uint8_t msr_buf[sizeof(struct kvm_msrs) + sizeof(struct kvm_msr_entry)] = { 0 };
-+    struct kvm_msrs *msr = (struct kvm_msrs *)msr_buf;
-+
-+    msr->nmsrs = 1;
-+    msr->entries[0].index = index;
-+    msr->entries[0].data = value;
- 
--    return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
-+    return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, msr);
+-    return kvm_check_extension(kvm_state, KVM_CAP_HYPERV) > 0 &&
++    return has_hyperv &&
+         ((cpu->hyperv_spinlock_attempts != HYPERV_SPINLOCK_NEVER_NOTIFY) ||
+          cpu->hyperv_features || cpu->hyperv_passthrough);
  }
+@@ -2216,6 +2217,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     has_xsave = kvm_check_extension(s, KVM_CAP_XSAVE);
+     has_xcrs = kvm_check_extension(s, KVM_CAP_XCRS);
+     has_pit_state2 = kvm_check_extension(s, KVM_CAP_PIT_STATE2);
++    has_hyperv = kvm_check_extension(s, KVM_CAP_HYPERV);
  
- void kvm_put_apicbase(X86CPU *cpu, uint64_t value)
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index dc72508389..0c4cd08071 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -40,6 +40,7 @@ void kvm_synchronize_all_tsc(void);
- void kvm_arch_reset_vcpu(X86CPU *cs);
- void kvm_arch_do_init_vcpu(X86CPU *cs);
+     hv_vpindex_settable = kvm_check_extension(s, KVM_CAP_HYPERV_VP_INDEX);
  
-+int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value);
- void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
- 
- bool kvm_enable_x2apic(void);
 -- 
 2.17.1
 
