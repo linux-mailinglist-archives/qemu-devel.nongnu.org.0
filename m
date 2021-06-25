@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA383B3D62
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 09:30:22 +0200 (CEST)
-Received: from localhost ([::1]:32942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148553B3D63
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 09:30:30 +0200 (CEST)
+Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwgI9-0002yV-KF
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 03:30:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
+	id 1lwgIH-0003CD-3u
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 03:30:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lwgFX-0000tX-BW; Fri, 25 Jun 2021 03:27:39 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:44763)
+ id 1lwgFj-000161-9H; Fri, 25 Jun 2021 03:27:51 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:44767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lwgFU-0002GM-8s; Fri, 25 Jun 2021 03:27:39 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id p133so3230116yba.11;
- Fri, 25 Jun 2021 00:27:35 -0700 (PDT)
+ id 1lwgFh-0002Oa-JA; Fri, 25 Jun 2021 03:27:50 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id p133so3230802yba.11;
+ Fri, 25 Jun 2021 00:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=cSsgV2fbA2GPae+HKI3ySLdxfbC+SgZOgCsQiTvBzMQ=;
- b=dFHVDHnCfYEM30Ft/+HuNANgC+AZrLHjxyIN4RkikChPb+mkH41sbvaoM74Ov1YIk/
- Kqhj5lLeSiIUhX2DdwgXbjfNjrzQjfkIj+g9A2FY7S6YSGvIKwfuz6sKtKent51JsyPx
- IVWMcjd/ecr61xjIf7hjqa+xfGhSCvZ3LUKmDWQF5X2onFwK9EqMup84K3Tj28E3ZAIu
- swgZo13Q6Cy0Oknhs6tYiFCxKSVnoGllUXQEpAsOe+1EvK0UDzwq66vVyd4RPYawOAx9
- uJfbgK04ZyUzSIIkaGufR0N6OT5y6j1Ce0/GVV8fCGKH7mgFI5qHrAE8Ua2qA47T1Aty
- I1DQ==
+ bh=E0xoGwezfGgWLPAImTv1P+lANGvvrm8bET+6s6UP04c=;
+ b=iLU6u8TxyGvtxnknv2JrS0Zh12yh67HBY0ykcV68lCIyWfdRShuRfTXGhEfuDh6Y8s
+ RrbGUDlPCKiORaRWlFuOtybP6sNeA4UdytwkjAeDNgby5HfWRCtY7DzxfT6Gjl3mnjdM
+ t5w5ezh4rFl3q/GD3q2dD/10DPRTtUJNY6bID9kEcfUHWm/e7BX2PzAqiMX5pEgMfY2P
+ FUUviEWnlSx5pCBU6NFDXPy1rvZYBoVkppfaCwzCUfUDY43Iij+lmDlisM7t94Dm7r3P
+ 3244EUpABPF7UIz4F22t0y4n05ZrWNGpebnuk7woj+HP7DWmSGuI+rLp9dkti7FbzV5H
+ 1PIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=cSsgV2fbA2GPae+HKI3ySLdxfbC+SgZOgCsQiTvBzMQ=;
- b=cEE/CsI7V7MN4PcOFSkQkIu5j51r467oSa9JiYpjraLNe+lz84IrjPnLP6FDBD0Mmk
- 8cfgJmNbZu2rWM18/V1N1mF0nnkTGMl3CSp47IuAkNA0SInu/2HEKB4cZAF+M56TJEvE
- OllM4HOS4rjjDrH3icEZ6i15ObgfIp0uWd9+kxlI20BkD6iTV/Bue+wAgjGUuZJ9GKGS
- l07nISJgYc+uCihNY5O34zwR2GO3tO+5TM55km4j+LVempzQOHgV14jRQG3NHqZWjXEK
- 1l1BuuY9iLNUO/kHnJXwhoJ9bKjXIE/l2vagVLh4eGuk/EIW3mBL/yp4GuSNPbg+xr5O
- umhQ==
-X-Gm-Message-State: AOAM532vSJnFsHaXe4jlPKjbt2U4KwOTey0X0xDQxU2BoCtCeENfQA1T
- SAmDOvobB16cmA8rfgnkEvm/Bg5GZXCW4/k2iIk=
-X-Google-Smtp-Source: ABdhPJxaCBzy6gkqLaPXaXcir/exxHjdBLW1brH4HmkITv/5aVeD4dE5NF6Dp7SqyrjkxcAz2kDqU1vk75vSL44fvvo=
-X-Received: by 2002:a25:7411:: with SMTP id p17mr10363107ybc.306.1624606055010; 
- Fri, 25 Jun 2021 00:27:35 -0700 (PDT)
+ bh=E0xoGwezfGgWLPAImTv1P+lANGvvrm8bET+6s6UP04c=;
+ b=Bk+uvsrRXbYroiCPhkV1uhDGCJlqkD2TW758v0eMbS0GKKjS8RbdNS1iZcfiUhEwnv
+ vkM43e9HbDyrNMvFLzXqzAFX2fkMLfspZrnkr40zL4D6Brj61dlbnfMLxKnqmeCXy6Vp
+ MwYTmyvxwTGoZzLUjYYj96qwjsrK1LWb5BZZJYxgs0ZrvoSg7JLvxjsgYC8teLn7zuLa
+ Y08ZBbrkwMuW7+5LvqRmgmHGnpBBOYF2FsY/I4Mvy7m1Z5jq0oMbpzVsiJkUM5ZUS/g3
+ J/eaTdisi7sEFaYovoejAEL4LXGoPF/Ds+LIS8IrT8M5g4C+6OOdTsUGLboXJgAxC2zF
+ 8qLg==
+X-Gm-Message-State: AOAM532Bjuz2+3+wudVZGpYyujkaQuKT9/SVjpCQZOPMlTklwsuDvYMk
+ xLHiujEb9rHzzCPOGP/F+5H2Ot05Onko5Bzk0yU=
+X-Google-Smtp-Source: ABdhPJydVrsfi+HeRvL/9DxqyEHtCm7jWx4ET9lXekSXG5EbNS1Gwcn73nld784C/4rtm83EuhEv4q4M1wy43lokDCY=
+X-Received: by 2002:a25:b222:: with SMTP id i34mr10182398ybj.152.1624606067388; 
+ Fri, 25 Jun 2021 00:27:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210624142209.1193073-1-f4bug@amsat.org>
- <20210624142209.1193073-3-f4bug@amsat.org>
-In-Reply-To: <20210624142209.1193073-3-f4bug@amsat.org>
+ <20210624142209.1193073-4-f4bug@amsat.org>
+In-Reply-To: <20210624142209.1193073-4-f4bug@amsat.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 25 Jun 2021 15:27:23 +0800
-Message-ID: <CAEUhbmWZGiDhZCKJtkW6uEgXXt-tJ5Ti+CfQ3J-A+2JsVGHtWA@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/10] hw/sd: Extract address_in_range() helper, log
- invalid accesses
+Date: Fri, 25 Jun 2021 15:27:36 +0800
+Message-ID: <CAEUhbmXh2CGV6YQBsjx3WAU=g+g_Vs36QXpSR8q6KymP1DmgVA@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/10] hw/sd: Move proto_name to SDProto structure
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,14 +88,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Thu, Jun 24, 2021 at 10:24 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> Multiple commands have to check the address requested is valid.
-> Extract this code pattern as a new address_in_range() helper, and
-> log invalid accesses as guest errors.
+> Introduce a new structure to hold the bus protocol specific
+> fields: SDProto. The first field is the protocol name.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/sd/sd.c | 32 ++++++++++++++++++++------------
->  1 file changed, 20 insertions(+), 12 deletions(-)
+>  hw/sd/sd.c | 28 ++++++++++++++++++++--------
+>  1 file changed, 20 insertions(+), 8 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
