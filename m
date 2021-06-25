@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995EC3B4036
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:21:15 +0200 (CEST)
-Received: from localhost ([::1]:43586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE8A3B4035
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:21:14 +0200 (CEST)
+Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwi1S-0004QW-Hv
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:21:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
+	id 1lwi1R-0004Px-I1
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhyr-0001Ez-5X
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52847)
+ id 1lwhys-0001Gx-On
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhyn-0006P8-IS
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:32 -0400
+ id 1lwhyn-0006OL-Js
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624612708;
+ s=mimecast20190719; t=1624612707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pbQmHBPxwBM0PcUmn3vJpbmkoBo010356F+A5LI+ak8=;
- b=d7iNjRGtlVMHvkBJDjYzXqAl/C/T+o+jC/X/2c9pDzVZWujdG9XbPs7H+mHxlnLdNBvgeN
- WrO28WDJzH3QmDzjGrK53ULKI9DJwj4VSeVDo/VDvNDh18sVbDZ9aYZPM0qqjlmbvVVCVM
- gvVgeRlOGFMaGnTz9XvKy3nDXbWF554=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DEmWoMCEu2PS5JP9e3w3XvOswVkGdx3Ds5PMkk8SAm8=;
+ b=bDd7CTrPC6cWZnPNXlxESAqfe/zbTvXZ+QLDh9OYoBDiW9V6oTGYR2t184phTAFtLhlSON
+ pLNzV+ciiesnn+7i8Qhb4F5ufnWVebWOnDjAtXlB/y9S9JDPKPJmEqS0F+U9AVtj6kQDqn
+ w+m9MCJcbzOty78PoE2bLLR1a30qry0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-b_vBB1QrMROXkj1IK9zVxA-1; Fri, 25 Jun 2021 05:18:25 -0400
-X-MC-Unique: b_vBB1QrMROXkj1IK9zVxA-1
+ us-mta-205-neNq4nj9MxSF0Lul40dN7w-1; Fri, 25 Jun 2021 05:18:26 -0400
+X-MC-Unique: neNq4nj9MxSF0Lul40dN7w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BAE41018720
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:18:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 846F21018724
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:18:25 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47D1860C05;
- Fri, 25 Jun 2021 09:18:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 926DB60C05;
+ Fri, 25 Jun 2021 09:18:24 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/53] acpi: refactor error prone build_header() and packed
- structures usage in ACPI tables
-Date: Fri, 25 Jun 2021 05:17:24 -0400
-Message-Id: <20210625091818.1047980-1-imammedo@redhat.com>
+Subject: [PATCH 01/53] tests: acpi: dump table with failed checksum
+Date: Fri, 25 Jun 2021 05:17:25 -0400
+Message-Id: <20210625091818.1047980-2-imammedo@redhat.com>
+In-Reply-To: <20210625091818.1047980-1-imammedo@redhat.com>
+References: <20210625091818.1047980-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -77,172 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Highlights:
-  * drop pointer arithmetic in ACPI tables code
-  * use endian agnostic API
-  * simplifies review of tables. /in most cases just line by line comparision with spec/
-
-Series replaces build_header() with acpi_init_table()/acpi_table_composed()
-API that hides pointer/offset arithmetic from user, to prevent
-errors caused by it [1].
-While doing above, it was necessary to split table header from
-packed structure that was describing the table, which is
-counter-productive since it still leaves packed structure drawbacks.
-So that sort of forced me to rewrite tables that were composed with
-help of packed structures to preferred build_append_int_noprefix() API.
-In cases where switch to build_append_int_noprefix() was small, it was
-combined with acpi_init_table()/acpi_table_composed() patch.
-Conversion reduced code size quite a bit despite me adding doc comments
-for every table row.
-
-Series also includes optional qtest patches that add missing acpi
-tests for tables that I'm touching to verify conversion changes.
-That includes an alternative build time based impl. of
-qtest_has_accel() API. So if we start bike-shedding this qtest_has_accel()
-we can safely drop all tests included, till the time discussion settles
-and some form of a qtest_has_accel() is merged, at which point I'd respin
-depended tests.
-
-1) commits
-   bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
-   4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
-
-Link to repo:
-   https://gitlab.com/imammedo/qemu/-/commits/acpi_build_header_refactoring
-
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
 CC: mst@redhat.com
+CC: thuth@redhat.com
+CC: lvivier@redhat.com
+---
+ tests/qtest/acpi-utils.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Igor Mammedov (53):
-  tests: acpi: dump table with failed checksum
-  tests: qtest: add qtest_has_accel() to check if tested binary supports
-    accelerator
-  tests: acpi: whitelist expected tables for acpi/q35/numamem testcase
-  tests: acpi: q35: test for x2APIC entries in SRAT
-  tests: acpi: update expected tables blobs
-  tests: acpi: whitelist new expected table
-    tests/data/acpi/q35/DMAR.dmar
-  tests: acpi: add testcase for intel_iommu (DMAR table)
-  tests: acpi: add expected blob for DMAR table
-  tests: acpi: whitelist expected blobs for new acpi/q35/ivrs testcase
-  tests: acpi: add testcase for amd-iommu (IVRS table)
-  tests: acpi: update expected blobs
-  tests: acpi: arm/virt: drop redundant test_acpi_one() in
-    test_acpi_virt_tcg()
-  tests: acpi: whitelist expected tables for acpi/virt/iort testcase
-  tests: acpi: arm/virt: use kvm to test IORT table
-  tests: acpi: add expected IORT table blob
-  tests: arm-cpu-features: use qtest_has_kvm() API
-  tests: migration-test: use qtest_has_accel() API
-  tests: bios-tables-test: use qtest_has_accel() API to register TCG
-    only tests
-  acpi: add helper routines to initialize ACPI tables
-  acpi: build_rsdt: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_xsdt: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_slit: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_fadt: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_tpm2: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: acpi_build_hest: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: build_mcfg: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_hmat: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: nvdimm_build_nfit: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: nvdimm_build_ssdt: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: vmgenid_build_acpi: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: x86: build_dsdt: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: build_hpet: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_tpm_tcpa: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: arm/x86: build_srat: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: use build_append_int_noprefix() API to compose SRAT table
-  acpi: build_dmar_q35: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: build_waet: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_amd_iommu: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: madt: arm/x86: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: x86: remove dead code
-  acpi: x86: set enabled when composing _MAT entries
-  acpi: x86: madt: use build_append_int_noprefix() API to compose MADT
-    table
-  acpi: arm/virt: madt: use build_append_int_noprefix() API to compose
-    MADT table
-  acpi: build_dsdt_microvm: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: arm: virt: build_dsdt: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: arm: virt: build_iort: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: arm/virt: convert build_iort() to endian agnostic
-    build_append_FOO() API
-  acpi: arm/virt: build_spcr: fix invalid cast
-  acpi: arm/virt: build_spcr: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: arm/virt: build_gtdt: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: build_facs: use build_append_int_noprefix() API to compose table
-  acpi: remove no longer used build_header()
-  acpi: AcpiGenericAddress no longer used to map/access fields of MMIO,
-    drop packed attribute
-
- include/hw/acpi/acpi-defs.h          | 528 +------------------------
- include/hw/acpi/acpi_dev_interface.h |   3 +-
- include/hw/acpi/aml-build.h          |  21 +-
- include/hw/i386/pc.h                 |   7 +-
- tests/qtest/libqos/libqtest.h        |   8 +
- hw/acpi/acpi-x86-stub.c              |   3 +-
- hw/acpi/aml-build.c                  | 188 +++++----
- hw/acpi/cpu.c                        |  17 +-
- hw/acpi/ghes.c                       |  10 +-
- hw/acpi/hmat.c                       |  14 +-
- hw/acpi/nvdimm.c                     |  64 ++--
- hw/acpi/pci.c                        |  18 +-
- hw/acpi/vmgenid.c                    |  16 +-
- hw/arm/virt-acpi-build.c             | 550 +++++++++++++++------------
- hw/i386/acpi-build.c                 | 285 +++++++-------
- hw/i386/acpi-common.c                | 158 ++++----
- hw/i386/acpi-microvm.c               |  13 +-
- meson.build                          |   6 +
- tests/data/acpi/q35/APIC.numamem     | Bin 0 -> 2686 bytes
- tests/data/acpi/q35/DMAR.dmar        | Bin 0 -> 80 bytes
- tests/data/acpi/q35/DSDT.ivrs        | Bin 0 -> 7877 bytes
- tests/data/acpi/q35/DSDT.numamem     | Bin 7865 -> 35222 bytes
- tests/data/acpi/q35/FACP.numamem     | Bin 0 -> 244 bytes
- tests/data/acpi/q35/IVRS.ivrs        | Bin 0 -> 104 bytes
- tests/data/acpi/q35/SRAT.numamem     | Bin 224 -> 5080 bytes
- tests/data/acpi/virt/IORT.iort       | Bin 0 -> 124 bytes
- tests/qtest/acpi-utils.c             |  14 +
- tests/qtest/arm-cpu-features.c       |  29 +-
- tests/qtest/bios-tables-test.c       |  85 ++++-
- tests/qtest/libqtest.c               |  27 ++
- tests/qtest/migration-test.c         |  15 +-
- 31 files changed, 873 insertions(+), 1206 deletions(-)
- create mode 100644 tests/data/acpi/q35/APIC.numamem
- create mode 100644 tests/data/acpi/q35/DMAR.dmar
- create mode 100644 tests/data/acpi/q35/DSDT.ivrs
- create mode 100644 tests/data/acpi/q35/FACP.numamem
- create mode 100644 tests/data/acpi/q35/IVRS.ivrs
- create mode 100644 tests/data/acpi/virt/IORT.iort
-
---
+diff --git a/tests/qtest/acpi-utils.c b/tests/qtest/acpi-utils.c
+index d2a202efca..766c48e3a6 100644
+--- a/tests/qtest/acpi-utils.c
++++ b/tests/qtest/acpi-utils.c
+@@ -98,6 +98,20 @@ void acpi_fetch_table(QTestState *qts, uint8_t **aml, uint32_t *aml_len,
+         ACPI_ASSERT_CMP(**aml, sig);
+     }
+     if (verify_checksum) {
++        if (acpi_calc_checksum(*aml, *aml_len)) {
++            gint fd, ret;
++            char *fname = NULL;
++            GError *error = NULL;
++
++            fprintf(stderr, "Invalid '%.4s'(%d)\n", *aml, *aml_len);
++            fd = g_file_open_tmp("malformed-XXXXXX.dat", &fname, &error);
++            g_assert_no_error(error);
++            fprintf(stderr, "Dumping invalid table into '%s'\n", fname);
++            ret = qemu_write_full(fd, *aml, *aml_len);
++            g_assert(ret == *aml_len);
++            close(fd);
++            g_free(fname);
++        }
+         g_assert(!acpi_calc_checksum(*aml, *aml_len));
+     }
+ }
+-- 
 2.27.0
 
 
