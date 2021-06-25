@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2473B442F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 15:13:42 +0200 (CEST)
-Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FC43B4434
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 15:15:07 +0200 (CEST)
+Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwleP-0005XJ-CD
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 09:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
+	id 1lwlfm-0008Du-8m
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 09:15:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lwlS2-0000uX-TW; Fri, 25 Jun 2021 09:00:58 -0400
-Received: from mail-db8eur05on2104.outbound.protection.outlook.com
- ([40.107.20.104]:54361 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1lwlSA-0000vn-PX; Fri, 25 Jun 2021 09:01:03 -0400
+Received: from mail-vi1eur05on2128.outbound.protection.outlook.com
+ ([40.107.21.128]:11041 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lwlRw-0006GP-7D; Fri, 25 Jun 2021 09:00:53 -0400
+ id 1lwlS1-0006HJ-Qa; Fri, 25 Jun 2021 09:01:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VcMa1HIaAey6xbcrgIMncgP9TJBf0trevTiSZOrzuJaA8KFrJcSNjuftBuj4/cmJnecCu27jHMRJlJdrP0zKEwz3OkZdKArC7L5LpIYHkvoXVstM6ZzYDxy8ytUu1InrFiqcTLM4wSBrzIC1Zpf7RsjN4fg81WxAghk+DGHbPiewA+JXQ0rHNTUJSnQ8mifKpwtyKk78deQszQDA5UFPKrVbIg8J/i6+V+CMGnJeKfLDofiJU6vKVS2hBFJNmUna/i3eahj/PWTxDxXAPo4YE8rrs74MlA477SY4IM5TZwQtkyFiGBRAVgwWPFi2FL1JGsCOkgPMWApd3z7gZJneKQ==
+ b=iF91mWKR04xqi+oMrk9ZZiw4xNMkVU3V5eXvwaxh78F3WyHGoOVxxHSxEFzMqdnYzUjQ60RAHb/E2iD0T32d902yV7gfrCDdVD4SPLa/0/njbj2CtXOd3C/x95YmUhtY/KTi4+4539q8/F+mX7sFg8qh6Sh1h2F3a3AVBoJhoIc5ssGDRZX5BJIakoS3Vtv3JztvlCJd9u9EFkkY8EsKMOaJ9PbC+rmqBEwnEb2Rz1uD4xs9TdzsME2suhUF2ngWF+3sdzSWu7PApicUQ1QG3pV7RJ9GBU9Rw7ahvlPhNPTkval3sxMYCg0JXVwysT8InN5gOLulven/V61C1plZ2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C7sMJe4XLIInm0Z9thxQuyy8zTbS1a7EmSxBZ4RC/9w=;
- b=AlmcUnxhwtmSoEUng2QRYlHwA7Uf52VB/zuTvnPIVCnsJXau19wGisC+KnO3UCpqJyW3cSUlXpFj6xr3kYE5ypuIevr/BSCEm7GNGSIrzQTnNde92h1Pg5i+EQLFR5BQDBQkuJIpqiNa/tocA7DcznQT2nd79AG9NIu7fPSyJJqIBKuNNzOh0cm3XFHB0nExRlK+ID26/ISEHmQ8SiZZAiY81lgHg3XKMEK8SGEnvx4fF/OdAEcR2fcINlY+EldFFsO6N+Uvti+Kx2z4i66b4ldpSGkYrfRzYktvUXHwsDaucekZ671oMGUxHrAkfkSBjMK4KYBK7CdMukEDJF46qQ==
+ bh=EzHk2FiluR6rLUOwIgXPlILRFFYRPAt15EX+WkhL4PQ=;
+ b=WHRaxOmcF3As9ZfiJZe7UIgC9+w36aNWaXZ5zddTtX5i4AEKd8bTbso436tjbiOzy6rp9aMqVR8PilIOt7kknWh0xa2LxSNlnwDlhFkg5LHiFuhhVNVq+ZlccQRcgK/n8x0cu94JrAyGa206mmXgTmk1jHr/gSj0RzOhE7XY1ENf3lZxid3g4SJYMI1Lr+apbu0Ehfq729AabnpDHTMsJcam5Bwe1USLGg/myFiAElaTftOUHTr9L03+lqxcTtpNx1byg5BsOJ5ElrXnEed4mE97Zs7mpNnmm0qWu5uQg7JkXRoNjvMfdO7CXHfNbtqF3Gj5xg/AYuj34C0PKoT6Iw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C7sMJe4XLIInm0Z9thxQuyy8zTbS1a7EmSxBZ4RC/9w=;
- b=huH5iDKRXwPNQfwrlUZFlJ3j3CZh7Ir/3LkZ/ICyof30grraF8nyg4UaeND5KZRi6LwgBZuLEgjSDSXvT2Un0wd/OJjqO8okAkpcBB3zBoIZf/I18ie7a+G18bM2WMTVK7PuLq7v+2jj29mRsGZswpwthfVR2AoBD9ATM0b+rkk=
+ bh=EzHk2FiluR6rLUOwIgXPlILRFFYRPAt15EX+WkhL4PQ=;
+ b=H71w/QtbGtn1mf1UN/nCvDOGQeKErnjLOkP0JIszNQ+8VGLf9hKvJFNiuOkFGq4h7+ct7ZP+6qVI5+AMn+e9c/7uR7Te2PAlLu8rsURkCKO328H5ermIvm9NQ3LUL3vxZig6lV7PPvyHeiyBbHZe27kX8DxnwKNgxI5gLA9DfK0=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6134.eurprd08.prod.outlook.com (2603:10a6:20b:291::22)
+ by AM5PR0801MB1652.eurprd08.prod.outlook.com (2603:10a6:203:3c::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.23; Fri, 25 Jun
- 2021 13:00:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Fri, 25 Jun
+ 2021 13:00:34 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.023; Fri, 25 Jun 2021
- 13:00:32 +0000
+ 13:00:34 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  jsnow@redhat.com, vsementsov@virtuozzo.com, pbonzini@redhat.com,
  stefanha@redhat.com, eesposit@redhat.com, peter.maydell@linaro.org
-Subject: [PULL 09/10] block-copy: add CoMutex lock
-Date: Fri, 25 Jun 2021 16:00:05 +0300
-Message-Id: <20210625130006.276511-10-vsementsov@virtuozzo.com>
+Subject: [PULL 10/10] block-copy: atomic .cancelled and .finished fields in
+ BlockCopyCallState
+Date: Fri, 25 Jun 2021 16:00:06 +0300
+Message-Id: <20210625130006.276511-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210625130006.276511-1-vsementsov@virtuozzo.com>
 References: <20210625130006.276511-1-vsementsov@virtuozzo.com>
@@ -66,57 +67,57 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.221) by
  HE1PR0202CA0024.eurprd02.prod.outlook.com (2603:10a6:3:8c::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Fri, 25 Jun 2021 13:00:31 +0000
+ 15.20.4264.18 via Frontend Transport; Fri, 25 Jun 2021 13:00:33 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3d6e9974-9ae9-4edf-c509-08d937d9376a
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6134:
+X-MS-Office365-Filtering-Correlation-Id: 816fe3fe-64b8-4508-340a-08d937d9382f
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1652:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB61342497680E902E2555D1F0C1069@AS8PR08MB6134.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1652DB2654137CDDC336DE11C1069@AM5PR0801MB1652.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:151;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: owKO0jwhGsPRVvhZRmH3TJ4KJ3LQa1EtR6L/2+1SoC2Tk92ZZfeQ56aCAZXV+pE4sSqfq4hzt4nv/DiSsecsfMExnQuZnguEdDAlenTYqFX3fD3+b0TVBEXHpKIPYCYjHK20WQXmTTldBj/Xpm93l3wdXzTV1AobaSJXprE6d3HAFXg96/zi+xcoBiENqzFuyyKnQXu4mWNQhiKNGuZMC8kIElwr2/9h0w74+nW7GHa0w/Of8NaxyunCVlmrO23PBMebkmT3n4LGu+VPBEfvME/8ldsvyXHyCvgGZJm6kDXl2FwyTmJMIl1wMRW43+qLHQMtXi+2Qnj6O/NgW6SgeWSvVEhiTto+pBoa5/FUVvvXHb8p5wYVDuIENkDG4AJQiryAaJhY+4DObLnXaBFj42wlMuZWRPbJBZ3FmAxbsDVQGNoKDNxlkF4FRkURlp+cfdsD7UOj0D99WWPREBvBo5gyc6JTaA9/f3yt+9GzNnjbaIph8Xn/C9i9vQhnYLfAIWxtIO2lZwGaZwEFs4zmeeEYaAKMcYYLzN2z6nqcu/wKsiAdw+EoydM3oJvNukcHUeP/De/0YsH5NIZYydzmJrKvpBFLXj3gjMK4G2rHNxTPvSB7Tj8NsF8gHM+1dTb2tYi7vUUqlcJ6vCJ3pv2jW5K/RR1gtW93uuNKSWhNJRVUs3SqZx5UDFfUGtvxi+R/
+X-Microsoft-Antispam-Message-Info: lj41cubOO/h4aEYj2TOdgBCuKsGDn2Z/KRqLr+Lwhmm/1GqJKKtmRHKAVekQc3gmBGI9ea1z2Z/ZFFx7+653pKbtatR5JhXE9YPerVWuv66RDzC+f2q4/gcO9AQ179I/i9eeL9/WQj47p7Cov6cTwG4Tm28iWr+JIS32PBJ9dEJ7QrS0ZDoC5sorT9sfxVJVwrEB7dRCrdzopRHsx8nOXKk5fWofGwmDjHDJ6jCITkxrMQHXQLuAlheMqp1oP5p/fwk/sdxL8fU1pSlTFZbcK5lxEGsMyL9KRXINnWb5lrnRWOBbU8ZWHzSiPBs/nia9nuYF1wkucIMUMARYWEiybHdCcFrqmIQ04wmKbBQMp0tGRw7+P3CBQm/v9dtMRHqShdXLFonDOtFkvRK0B/S6BQwrHGKWTN2fGgARL7iJvb5qDzAWj+khY16/9TGKBH3Sq3CCW9s+DUCWjedATuXjDuBGQQPxI4XzDkoYXk4vgYnXaSgkoRQIGmeBdcjCYVJeYa7SNU2t+81c3aIS9/aZ2jikfofHDO5V0AtxjO/izCTSYAobhu7eAG2RnRlNLKBx5lbNj4xK0O8DOScKiY1VWUnZ47LWIBfF/g33WLOS5A4+TGBaIREKeaTgE6SY5UYy480vQvdLK92q2xfPxKKEpHWTfZfdTwbH4WlHl0WYxMySAtvauD6RY4nE6ujjmLdvegM5rX2Yzn8nwXro6XMl0KLd2BVeqg1naVlHl/R/SrI3NFf9ywsU6RfuGPRGbLm1RM5fSC7cgCoWhbDh63Xqwg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(6029001)(4636009)(376002)(346002)(396003)(366004)(136003)(39840400004)(6916009)(6666004)(66556008)(66476007)(2906002)(66946007)(956004)(8936002)(16526019)(8676002)(6506007)(6512007)(26005)(478600001)(2616005)(38350700002)(38100700002)(6486002)(316002)(83380400001)(86362001)(36756003)(5660300002)(30864003)(1076003)(186003)(4326008)(52116002)(69590400013);
+ SFS:(4636009)(39840400004)(346002)(396003)(136003)(366004)(376002)(38100700002)(38350700002)(52116002)(956004)(8676002)(66556008)(2616005)(66476007)(6666004)(2906002)(316002)(8936002)(66946007)(186003)(6506007)(16526019)(26005)(4326008)(478600001)(1076003)(6916009)(6486002)(5660300002)(6512007)(83380400001)(36756003)(86362001)(69590400013)(142923001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ADwEl+Ontq5AAAstA3IohBErT84+J9wpHmZpcMlAH5O+btbOIzUexkmkw0X0?=
- =?us-ascii?Q?UzIJWTWTBFD6i2ZsKL5ol2jLRy7zbFo4CLkUnBmb6bfDgu1kyqoMFV8gPVMj?=
- =?us-ascii?Q?gN0VHypGKXG/bezdCtK/OmMOrxhb5TxyRSq7a9c3J8ukskVuOtF23tV3K4ea?=
- =?us-ascii?Q?8zFu6sxuxXSQj2fjCQjM5rUcvYZMsS8YzCzKQDQGc/TadbWUtJbPKYg8DnPv?=
- =?us-ascii?Q?ofZKYbKuqumODVi1KW9Qw+dlpx+KOA491pJkMc8ijxlANhxyEXfXbsD825kg?=
- =?us-ascii?Q?oxBk4iZHhd18xnRhyP/CdZP//5TSqVRLbQyGhgEgAAEP/QzuzPK+ekdesL/w?=
- =?us-ascii?Q?tAhmaHM9WI0aIRgZlExliPpZ0K/IKsJHVjWdhG6IObxqOKgZNfLMUmdD167h?=
- =?us-ascii?Q?eBy/AcNpLOYDuXEpQWeaPXSk5RHtG0CzG/M8rkMgNlPx7IQoamNlPwSJMelp?=
- =?us-ascii?Q?TQVyOd5cEGfG0M7N3g4oCABycGvh1OHb+O7Av+nCAQgDSvxZhtXZbHTCpmAb?=
- =?us-ascii?Q?+3mUnr4Sx9BqJjLBJzscnxX5U7o3ELhntTQ/mWcsf12m+jJN6mdmk/zhG4j0?=
- =?us-ascii?Q?v9Q8AOYkiOg6BYuweYosTMRh4v00zF+LxDhtSHweUA/aWeANmO8DPf69SQ7H?=
- =?us-ascii?Q?NSqyV0uRDToFdJEgFnQ0ZaVJdACA6ekuBgfP4z4zGBdwLObibF+OVQekDf/2?=
- =?us-ascii?Q?mQdjeJkjP65WgSQIiBVCMQKFHzFcQhVXrzwCXvTuaokq96/xEERzTvp2EQE1?=
- =?us-ascii?Q?pDqkkYW0q45bnjZjoJJ+rEb8ARJPYUHYcl4xDpQHfNIIB/qIWs7m+dY+VGHn?=
- =?us-ascii?Q?gNaZtica7thaQIhMTodaZBxnWVaOm8d6fNwHZN2IytT9Vh4Pz2mjQXLLFMuc?=
- =?us-ascii?Q?ldT0VZvY0t/NS6HznPQnewMjFprCcjP8ncjSerk6TO89W5g5yI2jbdICU7TK?=
- =?us-ascii?Q?q8kr5VxSW9KHdJM+saKV/QgqUNt7bmYQ2s5iDMmF+qK9q1lhG9q9cfyeTS3o?=
- =?us-ascii?Q?qDv/MI4q25fLfVSNWEOVH/RR1rx4OS0miZ1YPN2xHduAO2sJOJorWxnMEjfY?=
- =?us-ascii?Q?sb4hktJxfKky74fB2A4KO72XkVRk/1jrD3bY6NflJX5h1Yhj0WdQ5o/1QOEJ?=
- =?us-ascii?Q?ot+P8mGEm21iKiRC83Yjmku0H8LyAq15iwYp30qaMoNcbJLGp37FlzGPex6Q?=
- =?us-ascii?Q?QtmHOxRo1MNQj6mfOu/c7aaPBabj2apng9E7s5XmkDISsFmTGH2il8fSHlqn?=
- =?us-ascii?Q?e1x6WdCGH0Js5RF8yBQnizweXPoaa+Jj5UarSSwAFnsLv6r3TElpnlgoUGPi?=
- =?us-ascii?Q?d1KQjyyUYwjSJhRTcvZL/C29?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?01zo33/RK/JDqN4wDGaaQlWkvsMDFMpDcq/dYsX/L6lz/mLedaZyGItUkdcj?=
+ =?us-ascii?Q?jnaofQehcpD+g1VtqOMN+pC8JyaHHO3WJOfAWo0Z4XglOxPzLpmf/cwcIcIa?=
+ =?us-ascii?Q?1VN9apgBoVx/sfh7obrcVR/JC4Ah1QVpEli/A/7vKRNkIz5VNaH4sv+Q2a6c?=
+ =?us-ascii?Q?QGLHYGoQQmX/tdmdVfYvIcDw/DXqm+9SGV4Bvo9Pb4i2nZuRwr+TqYVul/hh?=
+ =?us-ascii?Q?/OjaLBUy7vYNcNIg020r6FMXgzVO/+gyL9SQDK5ZF1YIXopjVC2Ym++H3EGZ?=
+ =?us-ascii?Q?1Nt6t+fPztBvhXEE2srpCeWq2gOSn1VR526zLw/uBj8w5mG83YZhfzn6c3hX?=
+ =?us-ascii?Q?44La8yYzExTqiDrlnnxtWy1o5kd3knApTIxLiXZ9WZ1tur8BMEdZ/tyCZ/WE?=
+ =?us-ascii?Q?v/1n/9SUmEBUFqKU0Dox6TiQQaLkvhFgzmYOJgmqUd5P6RrPJyNmRN5qbrTL?=
+ =?us-ascii?Q?CI/ZCLMJnG3t0PdbY7fqlYK0m3P2gHOUJAWyoOS7i+GyJ3SS6DQvrPg1GjJg?=
+ =?us-ascii?Q?Wccjy1VOqUfMIXCu0zeTbvULrmVjF2om/GyilZHbB/N8ySdp9/7YpHH1uF8V?=
+ =?us-ascii?Q?IOuEDSigCLThUvS8zdurB5BNkFJIvkP6IpePU1B4VIKrHmpZrcWt950bRVcv?=
+ =?us-ascii?Q?PFyr/p5lL45TREGUBK87N9G1dBjWMjbL4Fbjr+O+2hdVyBLdPaf20b308lvE?=
+ =?us-ascii?Q?4ugwXvO8HBycsicLeqGHc9zrKBUGyeQoECv+IVYGQLTUnmuyC0Ok7kRzjq7u?=
+ =?us-ascii?Q?LynO7ztJf77VyDRaUTKc76m55bs5gXI5CyK5Orr66lyE3yQGp3VhxCTGFqSs?=
+ =?us-ascii?Q?2Ez/UlPtKA+g5qsI+X5zYcE4nu+J1+lgrGOIBhKuP9ByTB/afyfWJ+uj8wTA?=
+ =?us-ascii?Q?HklEoBxWXAFcrqqDu7E7V0w+zgMZgq7C/KADd0Pb/bSpaQrLGjmmRkmbRA3C?=
+ =?us-ascii?Q?6MMlOu2fZm1V+SPp19VGKFuyKLdPAJvHF2hntONJ3LZFzhrvYnxsnCGnrM6B?=
+ =?us-ascii?Q?JK2V+3FykVyQtFmDFvLBvT1hRa6MTkt+dnELIsgFwoh8NZbIRK6iKGkT6GgW?=
+ =?us-ascii?Q?19+WVast0fUX1o+s/uLctHgIV2Rh8JBujLEq+mus4F66jrgzqgjK+Fp/Reke?=
+ =?us-ascii?Q?wHgeapfPmgOuFDYYNn+GwnlvvCQJG3MYxY0Lj5HB+zOtiTx6zRoIulHb6q1/?=
+ =?us-ascii?Q?fvYjZmHgS5doEZkZHmOevBGWY9z9Smlqqyk5yi4LSRmyZMaPgzIl6jiAp+K6?=
+ =?us-ascii?Q?kyo5lcgW+WnuuzWjEl2z/KnxtPqM6cgjwkSBZ2V6cOsu05BuSE0drwCNnki0?=
+ =?us-ascii?Q?wWLUQAl+XcEz5D+6fkep1mrI?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d6e9974-9ae9-4edf-c509-08d937d9376a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 816fe3fe-64b8-4508-340a-08d937d9382f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 13:00:32.8264 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 13:00:34.1277 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aS3XUj9hdtxV+pKuOLFKKlpi+Fr5rVHjKDoWaOU6S8xq83FDoxfWbet74KtawCZDx33LCuVnG5G04CTl2MibfnzeszERIwrKuEU/PhHcCFo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6134
-Received-SPF: pass client-ip=40.107.20.104;
+X-MS-Exchange-CrossTenant-UserPrincipalName: UUeAHHRO+jgUrZuydYe83bgUZO1MQgo/C++cimXOEbhhe8IwidyygHdktOTXsvgo5ZOyq8FJInUH5EoGP7tNJhFJAM7vjh5vFnQ4C0R8ac4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1652
+Received-SPF: pass client-ip=40.107.21.128;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -142,366 +143,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Group various structures fields, to better understand what we need to
-protect with a lock and what doesn't need it.
-Then, add a CoMutex to protect concurrent access of block-copy
-data structures. This mutex also protects .copy_bitmap, because its thread-safe
-API does not prevent it from assigning two tasks to the same
-bitmap region.
+By adding acquire/release pairs, we ensure that .ret and .error_is_read
+fields are written by block_copy_dirty_clusters before .finished is true,
+and that they are read by API user after .finished is true.
 
-Exceptions to the lock:
-- .sleep_state is handled in the series "coroutine: new sleep/wake API"
-and thus here left as TODO.
-
-- .finished, .cancelled and reads to .ret and .error_is_read will be
-protected in the following patch, because are used also outside
-coroutines.
-
-- .skip_unallocated is atomic. Including it under the mutex would
-increase the critical sections and make them also much more complex.
-We can have it as atomic since it is only written from outside and
-read by block-copy coroutines.
+The atomic here are necessary because the fields are concurrently modified
+in coroutines, and read outside.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20210624072043.180494-5-eesposit@redhat.com>
-  [vsementsov: fix typo in comment]
+Message-Id: <20210624072043.180494-6-eesposit@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/block-copy.c | 155 +++++++++++++++++++++++++++++++++------------
- 1 file changed, 116 insertions(+), 39 deletions(-)
+ include/block/block-copy.h |  2 ++
+ block/block-copy.c         | 37 ++++++++++++++++++++++---------------
+ 2 files changed, 24 insertions(+), 15 deletions(-)
 
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 338f2ea7fd..5c8278895c 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -18,6 +18,8 @@
+ #include "block/block.h"
+ #include "qemu/co-shared-resource.h"
+ 
++/* All APIs are thread-safe */
++
+ typedef void (*BlockCopyAsyncCallbackFunc)(void *opaque);
+ typedef struct BlockCopyState BlockCopyState;
+ typedef struct BlockCopyCallState BlockCopyCallState;
 diff --git a/block/block-copy.c b/block/block-copy.c
-index b7bcb9da86..f3550d0825 100644
+index f3550d0825..0becad52da 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -39,7 +39,7 @@ typedef enum {
- static coroutine_fn int block_copy_task_entry(AioTask *task);
- 
- typedef struct BlockCopyCallState {
--    /* IN parameters. Initialized in block_copy_async() and never changed. */
-+    /* Fields initialized in block_copy_async() and never changed. */
-     BlockCopyState *s;
-     int64_t offset;
-     int64_t bytes;
-@@ -48,33 +48,60 @@ typedef struct BlockCopyCallState {
-     bool ignore_ratelimit;
-     BlockCopyAsyncCallbackFunc cb;
-     void *cb_opaque;
--
-     /* Coroutine where async block-copy is running */
+@@ -52,9 +52,9 @@ typedef struct BlockCopyCallState {
      Coroutine *co;
  
--    /* To reference all call states from BlockCopyState */
--    QLIST_ENTRY(BlockCopyCallState) list;
--
--    /* State */
--    int ret;
-+    /* Fields whose state changes throughout the execution */
-     bool finished;
--    QemuCoSleep sleep;
-+    QemuCoSleep sleep; /* TODO: protect API with a lock */
-     bool cancelled;
-+    /* To reference all call states from BlockCopyState */
-+    QLIST_ENTRY(BlockCopyCallState) list;
+     /* Fields whose state changes throughout the execution */
+-    bool finished;
++    bool finished; /* atomic */
+     QemuCoSleep sleep; /* TODO: protect API with a lock */
+-    bool cancelled;
++    bool cancelled; /* atomic */
+     /* To reference all call states from BlockCopyState */
+     QLIST_ENTRY(BlockCopyCallState) list;
  
--    /* OUT parameters */
-+    /*
-+     * Fields that report information about return values and erros.
-+     * Protected by lock in BlockCopyState.
-+     */
-     bool error_is_read;
-+    /*
-+     * @ret is set concurrently by tasks under mutex. Only set once by first
-+     * failed task (and untouched if no task failed).
-+     * After finishing (call_state->finished is true), it is not modified
-+     * anymore and may be safely read without mutex.
-+     */
-+    int ret;
- } BlockCopyCallState;
+@@ -667,7 +667,8 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
+     assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
  
- typedef struct BlockCopyTask {
-     AioTask task;
+-    while (bytes && aio_task_pool_status(aio) == 0 && !call_state->cancelled) {
++    while (bytes && aio_task_pool_status(aio) == 0 &&
++           !qatomic_read(&call_state->cancelled)) {
+         BlockCopyTask *task;
+         int64_t status_bytes;
  
-+    /*
-+     * Fields initialized in block_copy_task_create()
-+     * and never changed.
-+     */
-     BlockCopyState *s;
-     BlockCopyCallState *call_state;
-     int64_t offset;
--    int64_t bytes;
-+    /*
-+     * @method can also be set again in the while loop of
-+     * block_copy_dirty_clusters(), but it is never accessed concurrently
-+     * because the only other function that reads it is
-+     * block_copy_task_entry() and it is invoked afterwards in the same
-+     * iteration.
-+     */
-     BlockCopyMethod method;
--    QLIST_ENTRY(BlockCopyTask) list;
-+
-+    /*
-+     * Fields whose state changes throughout the execution
-+     * Protected by lock in BlockCopyState.
-+     */
-     CoQueue wait_queue; /* coroutines blocked on this task */
-+    /*
-+     * Only protect the case of parallel read while updating @bytes
-+     * value in block_copy_task_shrink().
-+     */
-+    int64_t bytes;
-+    QLIST_ENTRY(BlockCopyTask) list;
- } BlockCopyTask;
- 
- static int64_t task_end(BlockCopyTask *task)
-@@ -90,17 +117,25 @@ typedef struct BlockCopyState {
-      */
-     BdrvChild *source;
-     BdrvChild *target;
--    BdrvDirtyBitmap *copy_bitmap;
--    int64_t in_flight_bytes;
-+
-+    /*
-+     * Fields initialized in block_copy_state_new()
-+     * and never changed.
-+     */
-     int64_t cluster_size;
--    BlockCopyMethod method;
-     int64_t max_transfer;
-     uint64_t len;
--    QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
--    QLIST_HEAD(, BlockCopyCallState) calls;
--
-     BdrvRequestFlags write_flags;
- 
-+    /*
-+     * Fields whose state changes throughout the execution
-+     * Protected by lock.
-+     */
-+    CoMutex lock;
-+    int64_t in_flight_bytes;
-+    BlockCopyMethod method;
-+    QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
-+    QLIST_HEAD(, BlockCopyCallState) calls;
-     /*
-      * skip_unallocated:
-      *
-@@ -115,15 +150,15 @@ typedef struct BlockCopyState {
-      * skip unallocated regions, clear them in the copy_bitmap, and invoke
-      * block_copy_reset_unallocated() every time it does.
-      */
--    bool skip_unallocated;
--
-+    bool skip_unallocated; /* atomic */
-+    /* State fields that use a thread-safe API */
-+    BdrvDirtyBitmap *copy_bitmap;
-     ProgressMeter *progress;
--
-     SharedResource *mem;
--
-     RateLimit rate_limit;
- } BlockCopyState;
- 
-+/* Called with lock held */
- static BlockCopyTask *find_conflicting_task(BlockCopyState *s,
-                                             int64_t offset, int64_t bytes)
- {
-@@ -141,6 +176,9 @@ static BlockCopyTask *find_conflicting_task(BlockCopyState *s,
- /*
-  * If there are no intersecting tasks return false. Otherwise, wait for the
-  * first found intersecting tasks to finish and return true.
-+ *
-+ * Called with lock held. May temporary release the lock.
-+ * Return value of 0 proves that lock was NOT released.
-  */
- static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
-                                              int64_t bytes)
-@@ -151,11 +189,12 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
-         return false;
-     }
- 
--    qemu_co_queue_wait(&task->wait_queue, NULL);
-+    qemu_co_queue_wait(&task->wait_queue, &s->lock);
- 
-     return true;
- }
- 
-+/* Called with lock held */
- static int64_t block_copy_chunk_size(BlockCopyState *s)
- {
-     switch (s->method) {
-@@ -178,13 +217,14 @@ static int64_t block_copy_chunk_size(BlockCopyState *s)
-  * Search for the first dirty area in offset/bytes range and create task at
-  * the beginning of it.
-  */
--static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
--                                             BlockCopyCallState *call_state,
--                                             int64_t offset, int64_t bytes)
-+static coroutine_fn BlockCopyTask *
-+block_copy_task_create(BlockCopyState *s, BlockCopyCallState *call_state,
-+                       int64_t offset, int64_t bytes)
- {
-     BlockCopyTask *task;
-     int64_t max_chunk;
- 
-+    QEMU_LOCK_GUARD(&s->lock);
-     max_chunk = MIN_NON_ZERO(block_copy_chunk_size(s), call_state->max_chunk);
-     if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
-                                            offset, offset + bytes,
-@@ -227,6 +267,7 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
- static void coroutine_fn block_copy_task_shrink(BlockCopyTask *task,
-                                                 int64_t new_bytes)
- {
-+    QEMU_LOCK_GUARD(&task->s->lock);
-     if (new_bytes == task->bytes) {
-         return;
-     }
-@@ -243,6 +284,7 @@ static void coroutine_fn block_copy_task_shrink(BlockCopyTask *task,
- 
- static void coroutine_fn block_copy_task_end(BlockCopyTask *task, int ret)
- {
-+    QEMU_LOCK_GUARD(&task->s->lock);
-     task->s->in_flight_bytes -= task->bytes;
-     if (ret < 0) {
-         bdrv_set_dirty_bitmap(task->s->copy_bitmap, task->offset, task->bytes);
-@@ -321,12 +363,14 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-     }
- 
-     ratelimit_init(&s->rate_limit);
-+    qemu_co_mutex_init(&s->lock);
-     QLIST_INIT(&s->tasks);
-     QLIST_INIT(&s->calls);
- 
-     return s;
- }
- 
-+/* Only set before running the job, no need for locking. */
- void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm)
- {
-     s->progress = pm;
-@@ -467,16 +511,20 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
-     int ret;
- 
-     ret = block_copy_do_copy(s, t->offset, t->bytes, &method, &error_is_read);
--    if (s->method == t->method) {
--        s->method = method;
--    }
--    if (ret < 0) {
--        if (!t->call_state->ret) {
--            t->call_state->ret = ret;
--            t->call_state->error_is_read = error_is_read;
-+
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        if (s->method == t->method) {
-+            s->method = method;
-+        }
-+
-+        if (ret < 0) {
-+            if (!t->call_state->ret) {
-+                t->call_state->ret = ret;
-+                t->call_state->error_is_read = error_is_read;
-+            }
-+        } else {
-+            progress_work_done(s->progress, t->bytes);
-         }
--    } else {
--        progress_work_done(s->progress, t->bytes);
-     }
-     co_put_to_shres(s->mem, t->bytes);
-     block_copy_task_end(t, ret);
-@@ -491,7 +539,7 @@ static int block_copy_block_status(BlockCopyState *s, int64_t offset,
-     BlockDriverState *base;
-     int ret;
- 
--    if (s->skip_unallocated) {
-+    if (qatomic_read(&s->skip_unallocated)) {
-         base = bdrv_backing_chain_next(s->source->bs);
-     } else {
-         base = NULL;
-@@ -578,10 +626,12 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
-     bytes = clusters * s->cluster_size;
- 
-     if (!ret) {
-+        qemu_co_mutex_lock(&s->lock);
-         bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
-         progress_set_remaining(s->progress,
-                                bdrv_get_dirty_count(s->copy_bitmap) +
-                                s->in_flight_bytes);
-+        qemu_co_mutex_unlock(&s->lock);
-     }
- 
-     *count = bytes;
-@@ -639,7 +689,8 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
-         if (status_bytes < task->bytes) {
-             block_copy_task_shrink(task, status_bytes);
-         }
--        if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
-+        if (qatomic_read(&s->skip_unallocated) &&
-+            !(ret & BDRV_BLOCK_ALLOCATED)) {
-             block_copy_task_end(task, 0);
-             trace_block_copy_skip_range(s, task->offset, task->bytes);
-             offset = task_end(task);
-@@ -721,14 +772,38 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
-     int ret;
-     BlockCopyState *s = call_state->s;
- 
-+    qemu_co_mutex_lock(&s->lock);
-     QLIST_INSERT_HEAD(&s->calls, call_state, list);
-+    qemu_co_mutex_unlock(&s->lock);
- 
+@@ -779,7 +780,7 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
      do {
          ret = block_copy_dirty_clusters(call_state);
  
-         if (ret == 0 && !call_state->cancelled) {
--            ret = block_copy_wait_one(s, call_state->offset,
--                                      call_state->bytes);
-+            WITH_QEMU_LOCK_GUARD(&s->lock) {
-+                /*
-+                 * Check that there is no task we still need to
-+                 * wait to complete
-+                 */
-+                ret = block_copy_wait_one(s, call_state->offset,
-+                                          call_state->bytes);
-+                if (ret == 0) {
-+                    /*
-+                     * No pending tasks, but check again the bitmap in this
-+                     * same critical section, since a task might have failed
-+                     * between this and the critical section in
-+                     * block_copy_dirty_clusters().
-+                     *
-+                     * block_copy_wait_one return value 0 also means that it
-+                     * didn't release the lock. So, we are still in the same
-+                     * critical section, not interrupted by any concurrent
-+                     * access to state.
-+                     */
-+                    ret = bdrv_dirty_bitmap_next_dirty(s->copy_bitmap,
-+                                                       call_state->offset,
-+                                                       call_state->bytes) >= 0;
-+                }
-+            }
-         }
+-        if (ret == 0 && !call_state->cancelled) {
++        if (ret == 0 && !qatomic_read(&call_state->cancelled)) {
+             WITH_QEMU_LOCK_GUARD(&s->lock) {
+                 /*
+                  * Check that there is no task we still need to
+@@ -815,9 +816,9 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+          * 2. We have waited for some intersecting block-copy request
+          *    It may have failed and produced new dirty bits.
+          */
+-    } while (ret > 0 && !call_state->cancelled);
++    } while (ret > 0 && !qatomic_read(&call_state->cancelled));
  
-         /*
-@@ -748,7 +823,9 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+-    call_state->finished = true;
++    qatomic_store_release(&call_state->finished, true);
+ 
+     if (call_state->cb) {
          call_state->cb(call_state->cb_opaque);
+@@ -880,44 +881,50 @@ void block_copy_call_free(BlockCopyCallState *call_state)
+         return;
      }
  
-+    qemu_co_mutex_lock(&s->lock);
-     QLIST_REMOVE(call_state, list);
-+    qemu_co_mutex_unlock(&s->lock);
- 
-     return ret;
+-    assert(call_state->finished);
++    assert(qatomic_read(&call_state->finished));
+     g_free(call_state);
  }
-@@ -851,7 +928,7 @@ BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
  
- void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
+ bool block_copy_call_finished(BlockCopyCallState *call_state)
  {
--    s->skip_unallocated = skip;
-+    qatomic_set(&s->skip_unallocated, skip);
+-    return call_state->finished;
++    return qatomic_read(&call_state->finished);
  }
  
- void block_copy_set_speed(BlockCopyState *s, uint64_t speed)
+ bool block_copy_call_succeeded(BlockCopyCallState *call_state)
+ {
+-    return call_state->finished && !call_state->cancelled &&
+-        call_state->ret == 0;
++    return qatomic_load_acquire(&call_state->finished) &&
++           !qatomic_read(&call_state->cancelled) &&
++           call_state->ret == 0;
+ }
+ 
+ bool block_copy_call_failed(BlockCopyCallState *call_state)
+ {
+-    return call_state->finished && !call_state->cancelled &&
+-        call_state->ret < 0;
++    return qatomic_load_acquire(&call_state->finished) &&
++           !qatomic_read(&call_state->cancelled) &&
++           call_state->ret < 0;
+ }
+ 
+ bool block_copy_call_cancelled(BlockCopyCallState *call_state)
+ {
+-    return call_state->cancelled;
++    return qatomic_read(&call_state->cancelled);
+ }
+ 
+ int block_copy_call_status(BlockCopyCallState *call_state, bool *error_is_read)
+ {
+-    assert(call_state->finished);
++    assert(qatomic_load_acquire(&call_state->finished));
+     if (error_is_read) {
+         *error_is_read = call_state->error_is_read;
+     }
+     return call_state->ret;
+ }
+ 
++/*
++ * Note that cancelling and finishing are racy.
++ * User can cancel a block-copy that is already finished.
++ */
+ void block_copy_call_cancel(BlockCopyCallState *call_state)
+ {
+-    call_state->cancelled = true;
++    qatomic_set(&call_state->cancelled, true);
+     block_copy_kick(call_state);
+ }
+ 
 -- 
 2.29.2
 
