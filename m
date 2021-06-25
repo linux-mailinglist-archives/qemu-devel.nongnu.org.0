@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D313B48D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:34:16 +0200 (CEST)
-Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6593B48D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:37:13 +0200 (CEST)
+Received: from localhost ([::1]:33894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwqed-0001Rp-Fs
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60344)
+	id 1lwqhU-0004YH-62
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqUd-0001VS-CZ
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:23:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45293)
+ id 1lwqWO-00065b-18
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:25:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqUb-0007a1-Gf
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:23:55 -0400
+ id 1lwqWM-0000Fk-4G
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:25:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624645433;
+ s=mimecast20190719; t=1624645541;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iTUDCZaXDOhkk9PON8mvXfrngsbE1hs3Flj9SlCaPJY=;
- b=XmUL1Rmudc5zMvHFM+PdeXXtHaAIXGjG2DF2pprzVJvcNGe3IdQvDSpRQmvYTHw9/J4BlF
- 2lii/vNJtIuMlygqa4Wtftn4agB8Ccder4+k7YIHeFu3pfj42fz+UNPNPbXu56biqiJFpL
- yqnUcyBtNbhAYpcS8ZpI5WuvrS2rl1s=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-Kl6OMgq4M86qNQw2DdbYSQ-1; Fri, 25 Jun 2021 14:23:51 -0400
-X-MC-Unique: Kl6OMgq4M86qNQw2DdbYSQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- m13-20020a1f3f0d0000b029024ee66c3442so583314vka.1
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:23:51 -0700 (PDT)
+ bh=w3pkC6hCMWyQpJSmg9njMkvWEqFRUk8tzy3R0NR3ZNE=;
+ b=B4IuHvA5FAzhzpjjSTkHhX77Sz/kG0Klc+iWwv8Va6WR7CczFYaqObyGw+KiBFiwwnSU0H
+ aye5TPoUVSJlVkXUfYRwzakCowqe5JFamK/JlWOyoonLeeJqj4cWvd0XCsg8DrhCpETXKS
+ FsGra9VFsj9MeIBbzQQujKuLYWPYGkw=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-ZmPS8Tq5MjemGmVNXLJR_w-1; Fri, 25 Jun 2021 14:25:39 -0400
+X-MC-Unique: ZmPS8Tq5MjemGmVNXLJR_w-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ 42-20020ab003ad0000b0290287f748a168so2685487uau.21
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:25:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iTUDCZaXDOhkk9PON8mvXfrngsbE1hs3Flj9SlCaPJY=;
- b=hDBpQyUgWpwYgohqi3VEXg0LasugF2uFRTUc1CRhS9eIJvjdXyHJyTnjiDFp8NUvao
- f3JWwymhz+cdA573ghIgPXOxVqwrkIcHqZJVLi6Q88OhO/mqljZsURJ5Qe7A7k9FTH6S
- Guqa6LWiRl/Dr+g5fLcpZRKjkHaq7TE6bNtvtJFqtNLf5dNARfi3tfhxJoF9tY10wglX
- 0W5cE7OuYykYsdNsw+CpMec4b2KR4r/vb+Iz76CbWEp67E8G+4r1YcwFEcQ7hW915YUg
- 6ywYVICBZhyUXyFnhzniHxFdBYPFUfcjTCUcRn6oHhR4uIGgtXbgM8xwwRrIaTyrIb6T
- 4y1w==
-X-Gm-Message-State: AOAM530BWf56dgxPPB797IqSJaW2R3O120qJ9Cs/uxlVzWX9JA/bLA1D
- eeOCbF0CjsoOpkVHcgriTj+nvn0dNm+iO3keFM0CPVV5B2k824QmFqSRPIrI+eApl0rxmQtUQMx
- wKPhsusDfc7gyQnreOm0kfcdd8koZ1Ww=
-X-Received: by 2002:ab0:7642:: with SMTP id s2mr13134838uaq.133.1624645431421; 
- Fri, 25 Jun 2021 11:23:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyiWEOP+sshZ7yxXc0JO5LhXPa/SuCJm97NMjs7BOZLIsBRelhbEuaYgZrCPz51SyE8Z9MZv2yhYm5OXPJUBr4=
-X-Received: by 2002:ab0:7642:: with SMTP id s2mr13134821uaq.133.1624645431264; 
- Fri, 25 Jun 2021 11:23:51 -0700 (PDT)
+ bh=w3pkC6hCMWyQpJSmg9njMkvWEqFRUk8tzy3R0NR3ZNE=;
+ b=AM8dhXPR4wblpchCsr6/tcfqORL7D5EPZNDVRYRAmrxXPlFnPvAQuI67qUxORUyH+x
+ 9aW8lwapDOzwOurZXGWLwq5+ai7NADt30iVtJAc8V8UcMROaWmXtcZKQ2nPF8lQyeGai
+ 0feLFTMJSyhTmlVaUu8Xyeka5+7UzUb3YDbNHdkcwWJWlPPTnAbOxR25XL9G9A2yN3jC
+ IVCyKb8WWIX68aLyBLfDKbNmnDx0XZZhQzHMic171g3hcHMcbYmC2jcTjcHaeWgV16/v
+ DQofz6CSLFgunEyXAo5HB0/ahheqT6rjiZYL+P55Fux5c02XESZ31yK34dXUBVkkyaT5
+ xWzw==
+X-Gm-Message-State: AOAM532oPW6xBhdMc6gCi19i0e6mfT5iY/Zm1fBiRUjvebp6h3df10J5
+ LuLfHoUVJWYSSMR3EviKSDtKtAKEVSPZA1bXE4nMeIq8OFmlzVdRL28cKWJDIa47poXDzFanAkH
+ m3VXmplFDtMCLVTAgVI9T/Q6T3WsXZd0=
+X-Received: by 2002:a67:fa0a:: with SMTP id i10mr10657376vsq.45.1624645539431; 
+ Fri, 25 Jun 2021 11:25:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwb8W/tygevrCCljUJ0cahnNQNcrLt1pQ4mkTYVzF3O8uO5vCosh/zex1U9kdLcBeRUKyJBHAleGXdpqHZXi18=
+X-Received: by 2002:a67:fa0a:: with SMTP id i10mr10657235vsq.45.1624645538033; 
+ Fri, 25 Jun 2021 11:25:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210625154540.783306-1-jsnow@redhat.com>
- <20210625154540.783306-5-jsnow@redhat.com>
-In-Reply-To: <20210625154540.783306-5-jsnow@redhat.com>
+ <20210625154540.783306-6-jsnow@redhat.com>
+In-Reply-To: <20210625154540.783306-6-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 25 Jun 2021 15:23:25 -0300
-Message-ID: <CAKJDGDYX1t+yTGNYj0JJpJkyfYUsXLUJjovzj--mLO05Re9PyQ@mail.gmail.com>
-Subject: Re: [PATCH 04/11] python: README.rst touchups
+Date: Fri, 25 Jun 2021 15:25:12 -0300
+Message-ID: <CAKJDGDZ8Fw2YYUL+XRH74bA0kM71dhOf+ugBB6g5F2eCL4nH7w@mail.gmail.com>
+Subject: Re: [PATCH 05/11] python: Add no-install usage instructions
 To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -99,17 +99,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Jun 25, 2021 at 12:46 PM John Snow <jsnow@redhat.com> wrote:
 >
-> Clarifying a few points; removing the reference to 'setuptools' because
-> it referenced anywhere else in this document and doesn't really provide
-> any useful information to a Python newcomer.
->
-> Adjusting the language elsewhere to be less ambiguous and have fewer
-> run-on sentences.
+> It's not encouraged, but it's legitimate to want to know how to do.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/README.rst | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+>  python/README.rst | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
