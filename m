@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73893B40D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:49:52 +0200 (CEST)
-Received: from localhost ([::1]:37162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A43B4101
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:59:27 +0200 (CEST)
+Received: from localhost ([::1]:46372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwiT9-0008Vt-Vj
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:49:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
+	id 1lwicQ-0008TY-JA
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi3w-0004Ab-1H
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:48 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40861)
+ id 1lwi3x-0004GV-GP
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:49 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi3r-0001cn-F8
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:44 -0400
-Received: by mail-wr1-x436.google.com with SMTP id g7so5197326wri.7
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:23:43 -0700 (PDT)
+ id 1lwi3v-0001eg-TE
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:49 -0400
+Received: by mail-wr1-x435.google.com with SMTP id e22so9837951wrc.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:23:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jnFRCnirhHN/LJxQWIK0doxtcYNiRzsabYEfVyfdjrg=;
- b=gg8TNXNipFAYxUUTBGWIz5pdroidBD+jZvTe+JfC9+S2FT4xS+AL6BkBUzl3axinL1
- Pmh9F6ZNQGkp8vl9NSOMhkRuuFkkiwDeY9g1ahmTAjHwjZVZXxlhjhFs252WJNaGmgja
- vM2SV6nmQNhsb+HMthcR18y9FBW401a11SZSmzIyeJAHNQpLU9EXMvKyxTJbCJ6bGs0g
- Y3zmutD5X5yQV1cVFn4jDmwRL4TUdoOoTeIU4dOmzEkkuRMcag18cZVnlj4Xd4Sbz0yd
- mpwWVDLmwL4oaDV8CwiXDvaYQwS1UWzel96P19vXrZ98EKLjFYSK6cDqXgIf0FuSrkxR
- L5gw==
+ bh=N0fTwLIOiJMjngQmCVcuvBFg6eFc/s2QuczGmyUTGrU=;
+ b=Qr7WdreUptyTS0yGSipx/KCrMtYTdYUJ+BWZEDwHoqeVAKSI/mljXuqjdCYBGs0Jkn
+ hSzfz3+84o6BhrJPjhnjYtPqYluNc8j5UfiSLsM+pvnht/uIoMRCGcSIV4eGJMj1qIo7
+ a0swfCTHxUMM9kxk5PhnPd8nTi/UTKyz7oNDdpDKRvPFK/nzQBVpz/rMVSGbZLgYc6gh
+ MBpKhNZibwm31+TaorEp54wqbcqgsZ8rGTnvbYwtOAtJSMH8fr/MJ/fytXzq8lio4bZs
+ HJ7z+v8GxxxUgg/8oL2uh4GdnbFzdeA3EV74R4GHZXwRy/6quuBGptAzkzqpvwRN+Csn
+ gB/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jnFRCnirhHN/LJxQWIK0doxtcYNiRzsabYEfVyfdjrg=;
- b=RxgAtbmJYdJiBvoSOa2Fnr/wkmdepFqfQfbmO27bKVWMxYnRPpgkkWrx8cdNrb9L5a
- Nj90A/YAXouM0K/8VCA6cSq88ltS6boFamQdL2bqxNC9ED9JCDktb0tsF5C+ddzdvWYJ
- W+VDI+tWMk1yMX/sVssI5D2AhKSGbIRCfDpuPW/Ud0ui0NgVeORIRk4oosxJw4OLrcKj
- THxg8X+gCf6Xo+MSB+kevd4DpmwR1OZwtt45SGuAnQDMULuruJzpUWcVL+sB+gmongF6
- fjldlA4m9pMxH+QGVg8MkZR/sMy9+FaNTGfNC06EVUtBpkZiRuHPjdNH3KBUF1QsOgO/
- ov5w==
-X-Gm-Message-State: AOAM530um2oHwPBwrO/28tUpViCu1uwO/Uykrr9r9Lp8RdYS6GThztnc
- oDgkjiIK4EKZLsTMYCu3txrWFr0NpfRLfQ==
-X-Google-Smtp-Source: ABdhPJxCdAOsUsc82M70D0SgcTyHgUv8sCWVi9huFtsT/AzdlssQqMqHbUjuWKHywoeECBSeNmbnGg==
-X-Received: by 2002:a5d:6c68:: with SMTP id r8mr6271220wrz.263.1624613021556; 
- Fri, 25 Jun 2021 02:23:41 -0700 (PDT)
+ bh=N0fTwLIOiJMjngQmCVcuvBFg6eFc/s2QuczGmyUTGrU=;
+ b=ak8cOocBJdftnX4ttzAeG40fq9hIMPtK1XFueuUoAXkjnl6SWYhWABAtqfOHFbI7m9
+ IcL1L//Q8Wkj9Wfs95Z4LIQyXFM2r4ejqeS0oQ9gIKwce9d40l8/U6n313XGargU3uNb
+ D2WxC0fOobs2rRMVRuNKMVA1mwHTuuOjB535gdD/+3Hg/XY/IIJ05XSGiS6TVYymz7y6
+ UYj3E+icCKFaf9MXDqaQbzG5fjTzn/Nc8pvsRoLDC4eEOfOjQHEjsgnKDqPbayJj9HPB
+ cI87l2asqQ07iOt8oniR9ZgrzHGxFtWmAx2nB6J8GzqhZZsEAWI71D6OLyniGQT/fldT
+ GffA==
+X-Gm-Message-State: AOAM531km6ANpOoRkWuRqVWHWtO6rAjP2XBPKzripc2KGuDgcatcoE81
+ kRqsRyFtX/ZSr/Xm3D/S990wtYfv/B94QQ==
+X-Google-Smtp-Source: ABdhPJy1+6RzYmmYwKp8bMNB3IRMGxy5hxNM3Se98BQ3g+cwyGSnJGCjPsS/qyn3dOIMd6+BDi09pQ==
+X-Received: by 2002:adf:d22b:: with SMTP id k11mr9891613wrh.57.1624613026449; 
+ Fri, 25 Jun 2021 02:23:46 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id v5sm10766541wml.26.2021.06.25.02.23.40
+ by smtp.gmail.com with ESMTPSA id y13sm5401170wmj.18.2021.06.25.02.23.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 02:23:41 -0700 (PDT)
+ Fri, 25 Jun 2021 02:23:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/15] target/mips: Fix TCG temporary leaks in
- gen_pool32a5_nanomips_insn()
-Date: Fri, 25 Jun 2021 11:23:16 +0200
-Message-Id: <20210625092329.1529100-3-f4bug@amsat.org>
+Subject: [PULL 03/15] target/mips: Fix more TCG temporary leaks in
+ gen_pool32a5_nanomips_insn
+Date: Fri, 25 Jun 2021 11:23:17 +0200
+Message-Id: <20210625092329.1529100-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625092329.1529100-1-f4bug@amsat.org>
 References: <20210625092329.1529100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,29 +92,31 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a pair of TCG temporary leak when translating nanoMIPS SHILO opcode.
+Fix multiple TCG temporary leaks in gen_pool32a5_nanomips_insn().
 
-Fixes: 3285a3e4445 ("target/mips: Add emulation of DSP ASE for nanoMIPS")
+Fixes: 3285a3e4445 ("target/mips: Add emulation of DSP ASE for nanoMIPS - part 1")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210530094538.1275329-1-f4bug@amsat.org>
+Message-Id: <20210617174323.2900831-3-f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/mips/tcg/translate.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 797eba44347..120484a6c06 100644
+index 120484a6c06..09b19262c8c 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -20182,6 +20182,8 @@ static void gen_pool32a5_nanomips_insn(DisasContext *ctx, int opc,
-             tcg_gen_movi_tl(tv0, rd >> 3);
-             tcg_gen_movi_tl(tv1, imm);
-             gen_helper_shilo(tv0, tv1, cpu_env);
-+            tcg_temp_free(tv1);
-+            tcg_temp_free(tv0);
-         }
+@@ -20298,6 +20298,10 @@ static void gen_pool32a5_nanomips_insn(DisasContext *ctx, int opc,
+         gen_reserved_instruction(ctx);
          break;
-     case NM_MULEQ_S_W_PHL:
+     }
++
++    tcg_temp_free(v2_t);
++    tcg_temp_free(v1_t);
++    tcg_temp_free(t0);
+ }
+ 
+ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
 -- 
 2.31.1
 
