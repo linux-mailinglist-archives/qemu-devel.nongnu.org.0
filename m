@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0D43B4610
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:47:54 +0200 (CEST)
-Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF763B461F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:50:14 +0200 (CEST)
+Received: from localhost ([::1]:54724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwn7Z-0007oT-7y
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60906)
+	id 1lwn9p-0002Eb-91
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmfR-0003jP-Qu
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:49 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:35343)
+ id 1lwmfS-0003mP-Jw
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:50 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:38486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmfQ-0003Jk-0n
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:49 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id df12so13654703edb.2
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:47 -0700 (PDT)
+ id 1lwmfQ-0003KF-LD
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:50 -0400
+Received: by mail-ed1-x534.google.com with SMTP id q14so13621994eds.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QGL0PM6rhXFoTSl/VhJ0skxnKohdr8LQl81X8lWdfZU=;
- b=ZMPkjXvAqSEcyrrRYNIEKnA8Tsu9UFYF251+0mJpGKfvui1af6KmzUIAn7UPZpR1L/
- 3cKSod5YB6sBie5ccCOiOsTXJix8XqakMjdMMAnenG3WCGchQW4Kh1c9+j4ZP8c2L5Kd
- t1j1eZW3EIsKXYMpWAnvL4i3phrEkRAVLnlMu4elrwvhPcAdTpw7Bs494bgFSwOn7DH8
- mQ+KqW7SgRQx+AlfH8SByFyLUCIt8deJIxms0qxEoq9We8hj+Wx5nDzg0gook9HahgA+
- DQmBYGoqkzuyhUwSEQQ5AqoTefNy1ESiOQgMbZoQbSUnEzqH/WDStqbCvAaMJotQ05DR
- GDVg==
+ bh=/bIWGO6QOwJ/Qr0480AkBxbVNABvwpA6wvZiD7P+Log=;
+ b=ps2eEkP+oYBBMZHDI7NExvvKjkAbYXnDOwun45HSQK+qSz4ZiCZMTmKhwBs4eJLu5A
+ Zb6e8Tb7TXAbQHLc8k56Cc/fkBRjc6B+HpHqINXhUW+HyRcVa4s1/GLzxWINOIt1SOE9
+ eJVG9lTlduaJ8KccKQC8JVutFOwV025eEY4gBSMs0SzUiEvXrMyHDQtgy3MI1RL3SPYc
+ 7jEWTHBwcfVsYOJK08RiSxXvQfn9i0lR//YIGxyIVVzekMz0iWW5P1VQuMzuRCGYMhZv
+ 8d24Fgm0CcLhNkaUcTmji5ZDoWhCsB3Hc7ZZVIfz8eOBFlemN92nX1WYd3zph0hok+GS
+ dMiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QGL0PM6rhXFoTSl/VhJ0skxnKohdr8LQl81X8lWdfZU=;
- b=Ce5rctstgJYoXWhY/GHgriFqc2st3Yw8CjXj/ZHeiIC7RiDXQSHyGtOFFOOC0e9DPQ
- KvbQCk3X0uHTa1vM9+jUNVIZs9FRYjyAiULxIJdDlvFwwm7AD1J23/K74DxuWqHuueWl
- rQ8mAWpTv+j5xDrYukmXNla6P5f73GKAbbI6MYy2S7mKQlP9tL+OjEvGP3Z8MPgcYGxV
- e4ZyhQMl4ZuAmOZHEAC6eoDon68Hp1buBTvBsX2VgiCchAWlUwMjbh/yxI2+cQXzJF+C
- 29HyV6OWjFaT3JyIy2tXKTFLIDCcApAlXAmCme6bFzJU9iDLC3FhxazqbhM2HDOUZls+
- Dn4g==
-X-Gm-Message-State: AOAM532A4o9JYu25b7F8y24jW5JcZH6+FaaJk6KHGj4T+Eh6RiOaX4FT
- cFTHvlDa6L4vgpMklPkRJ1tYX1YTcPE=
-X-Google-Smtp-Source: ABdhPJxRYnx/MjN2B22rbtW9wooDmNI81PRTQjXEB9DJiAJ5v8c89jydqOJTGLKGbJMFy+mMJksNzg==
-X-Received: by 2002:a05:6402:220d:: with SMTP id
- cq13mr14710228edb.214.1624630726582; 
- Fri, 25 Jun 2021 07:18:46 -0700 (PDT)
+ bh=/bIWGO6QOwJ/Qr0480AkBxbVNABvwpA6wvZiD7P+Log=;
+ b=lI2+hfNi7NVbyFiJb4yLHh/bxWlxl5t7Js/AEXG89NxLMcqYy+pMdsDo8R1yt5PqP4
+ doF7TpgdkWvE2xG9WuI89wd1ntH0FFuRkGnK11CyfXz6eUM8Qvy0pTAebbXTAzTyKlzt
+ 0uKpMgBZdRILC/X3ZToJkkSviNKDFcZw1ZPMhzCPXfZZ5TOrzCUQ7zsdP7prjw8k0REf
+ UED0FuBYjHi+7y0lhZbll/v4e2V9hmF42zrQ+rK5iYTR++UB6xB4TzKETg89mrz2ROqP
+ rbIlvEmGzLf+ced16ADzTTMV5dxLXApLrfs5+0TKFNJfxtAKd3DoBGDQDMsNCZ9o5s43
+ Sufw==
+X-Gm-Message-State: AOAM533HF5zmMgsugtgASAHUUc0xNLTqnkx4euJqkmPbMX+aM8z7dVRA
+ o2OqFq12F6pSZK+1DbkdyxqT5jM6h/k=
+X-Google-Smtp-Source: ABdhPJzYu1PvEpFtCBl+RdJEtoVRps1vgVIlvzwch1vRWRcd1seZ1TaLnFGjauUYEFUip4jexqeh3A==
+X-Received: by 2002:a05:6402:4393:: with SMTP id
+ o19mr14853432edc.263.1624630727322; 
+ Fri, 25 Jun 2021 07:18:47 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.45
+ by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.46
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Jun 2021 07:18:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/28] machine: move dies from X86MachineState to CpuTopology
-Date: Fri, 25 Jun 2021 16:18:18 +0200
-Message-Id: <20210625141822.1368639-25-pbonzini@redhat.com>
+Subject: [PULL 25/28] machine: move common smp_parse code to caller
+Date: Fri, 25 Jun 2021 16:18:19 +0200
+Message-Id: <20210625141822.1368639-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625141822.1368639-1-pbonzini@redhat.com>
 References: <20210625141822.1368639-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,164 +85,291 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to make SMP configuration a Machine property, we need a getter as
-well as a setter.  To simplify the implementation put everything that the
-getter needs in the CpuTopology struct.
+Most of smp_parse and pc_smp_parse is guarded by an "if (opts)"
+conditional, and the rest is common to both function.  Move the
+conditional and the common code to the caller, machine_smp_parse.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Move the replay_add_blocker call after all errors are checked for.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210617155308.928754-7-pbonzini@redhat.com>
+Message-Id: <20210617155308.928754-8-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c     |  1 +
- hw/i386/pc.c          |  4 +---
- hw/i386/x86.c         | 15 +++++++--------
- include/hw/boards.h   |  1 +
- include/hw/i386/pc.h  |  1 -
- include/hw/i386/x86.h |  1 -
- 6 files changed, 10 insertions(+), 13 deletions(-)
+ hw/core/machine.c | 114 +++++++++++++++++++++++-----------------------
+ hw/i386/pc.c      | 108 ++++++++++++++++++++-----------------------
+ 2 files changed, 107 insertions(+), 115 deletions(-)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 55b9bc7817..d776c8cf20 100644
+index d776c8cf20..1016ec9e1c 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -970,6 +970,7 @@ static void machine_initfn(Object *obj)
-     ms->smp.cpus = mc->default_cpus;
-     ms->smp.max_cpus = mc->default_cpus;
-     ms->smp.cores = 1;
-+    ms->smp.dies = 1;
-     ms->smp.threads = 1;
-     ms->smp.sockets = 1;
+@@ -741,67 +741,59 @@ void machine_set_cpu_numa_node(MachineState *machine,
+ 
+ static void smp_parse(MachineState *ms, QemuOpts *opts)
+ {
+-    if (opts) {
+-        unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
+-        unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
+-        unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
+-        unsigned threads = qemu_opt_get_number(opts, "threads", 0);
++    unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
++    unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
++    unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
++    unsigned threads = qemu_opt_get_number(opts, "threads", 0);
+ 
+-        /* compute missing values, prefer sockets over cores over threads */
+-        if (cpus == 0 || sockets == 0) {
+-            cores = cores > 0 ? cores : 1;
+-            threads = threads > 0 ? threads : 1;
+-            if (cpus == 0) {
+-                sockets = sockets > 0 ? sockets : 1;
+-                cpus = cores * threads * sockets;
+-            } else {
+-                ms->smp.max_cpus =
+-                        qemu_opt_get_number(opts, "maxcpus", cpus);
+-                sockets = ms->smp.max_cpus / (cores * threads);
+-            }
+-        } else if (cores == 0) {
+-            threads = threads > 0 ? threads : 1;
+-            cores = cpus / (sockets * threads);
+-            cores = cores > 0 ? cores : 1;
+-        } else if (threads == 0) {
+-            threads = cpus / (cores * sockets);
+-            threads = threads > 0 ? threads : 1;
+-        } else if (sockets * cores * threads < cpus) {
+-            error_report("cpu topology: "
+-                         "sockets (%u) * cores (%u) * threads (%u) < "
+-                         "smp_cpus (%u)",
+-                         sockets, cores, threads, cpus);
+-            exit(1);
++    /* compute missing values, prefer sockets over cores over threads */
++    if (cpus == 0 || sockets == 0) {
++        cores = cores > 0 ? cores : 1;
++        threads = threads > 0 ? threads : 1;
++        if (cpus == 0) {
++            sockets = sockets > 0 ? sockets : 1;
++            cpus = cores * threads * sockets;
++        } else {
++            ms->smp.max_cpus =
++                    qemu_opt_get_number(opts, "maxcpus", cpus);
++            sockets = ms->smp.max_cpus / (cores * threads);
+         }
+-
+-        ms->smp.max_cpus =
+-                qemu_opt_get_number(opts, "maxcpus", cpus);
+-
+-        if (ms->smp.max_cpus < cpus) {
+-            error_report("maxcpus must be equal to or greater than smp");
+-            exit(1);
+-        }
+-
+-        if (sockets * cores * threads != ms->smp.max_cpus) {
+-            error_report("Invalid CPU topology: "
+-                         "sockets (%u) * cores (%u) * threads (%u) "
+-                         "!= maxcpus (%u)",
+-                         sockets, cores, threads,
+-                         ms->smp.max_cpus);
+-            exit(1);
+-        }
+-
+-        ms->smp.cpus = cpus;
+-        ms->smp.cores = cores;
+-        ms->smp.threads = threads;
+-        ms->smp.sockets = sockets;
++    } else if (cores == 0) {
++        threads = threads > 0 ? threads : 1;
++        cores = cpus / (sockets * threads);
++        cores = cores > 0 ? cores : 1;
++    } else if (threads == 0) {
++        threads = cpus / (cores * sockets);
++        threads = threads > 0 ? threads : 1;
++    } else if (sockets * cores * threads < cpus) {
++        error_report("cpu topology: "
++                        "sockets (%u) * cores (%u) * threads (%u) < "
++                        "smp_cpus (%u)",
++                        sockets, cores, threads, cpus);
++        exit(1);
+     }
+ 
+-    if (ms->smp.cpus > 1) {
+-        Error *blocker = NULL;
+-        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
+-        replay_add_blocker(blocker);
++    ms->smp.max_cpus =
++            qemu_opt_get_number(opts, "maxcpus", cpus);
++
++    if (ms->smp.max_cpus < cpus) {
++        error_report("maxcpus must be equal to or greater than smp");
++        exit(1);
+     }
++
++    if (sockets * cores * threads != ms->smp.max_cpus) {
++        error_report("Invalid CPU topology: "
++                        "sockets (%u) * cores (%u) * threads (%u) "
++                        "!= maxcpus (%u)",
++                        sockets, cores, threads,
++                        ms->smp.max_cpus);
++        exit(1);
++    }
++
++    ms->smp.cpus = cpus;
++    ms->smp.cores = cores;
++    ms->smp.threads = threads;
++    ms->smp.sockets = sockets;
  }
+ 
+ static void machine_class_init(ObjectClass *oc, void *data)
+@@ -1135,7 +1127,9 @@ bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+ 
+-    mc->smp_parse(ms, opts);
++    if (opts) {
++        mc->smp_parse(ms, opts);
++    }
+ 
+     /* sanity-check smp_cpus and max_cpus against mc */
+     if (ms->smp.cpus < mc->min_cpus) {
+@@ -1151,6 +1145,12 @@ bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+                    mc->name, mc->max_cpus);
+         return false;
+     }
++
++    if (ms->smp.cpus > 1) {
++        Error *blocker = NULL;
++        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
++        replay_add_blocker(blocker);
++    }
+     return true;
+ }
+ 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index c6d8d0d84d..92958e9ad7 100644
+index 92958e9ad7..e206ac85f3 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -712,8 +712,6 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
+@@ -712,69 +712,61 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
   */
  void pc_smp_parse(MachineState *ms, QemuOpts *opts)
  {
--    X86MachineState *x86ms = X86_MACHINE(ms);
+-    if (opts) {
+-        unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
+-        unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
+-        unsigned dies = qemu_opt_get_number(opts, "dies", 1);
+-        unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
+-        unsigned threads = qemu_opt_get_number(opts, "threads", 0);
++    unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
++    unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
++    unsigned dies = qemu_opt_get_number(opts, "dies", 1);
++    unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
++    unsigned threads = qemu_opt_get_number(opts, "threads", 0);
+ 
+-        /* compute missing values, prefer sockets over cores over threads */
+-        if (cpus == 0 || sockets == 0) {
+-            cores = cores > 0 ? cores : 1;
+-            threads = threads > 0 ? threads : 1;
+-            if (cpus == 0) {
+-                sockets = sockets > 0 ? sockets : 1;
+-                cpus = cores * threads * dies * sockets;
+-            } else {
+-                ms->smp.max_cpus =
+-                        qemu_opt_get_number(opts, "maxcpus", cpus);
+-                sockets = ms->smp.max_cpus / (cores * threads * dies);
+-            }
+-        } else if (cores == 0) {
+-            threads = threads > 0 ? threads : 1;
+-            cores = cpus / (sockets * dies * threads);
+-            cores = cores > 0 ? cores : 1;
+-        } else if (threads == 0) {
+-            threads = cpus / (cores * dies * sockets);
+-            threads = threads > 0 ? threads : 1;
+-        } else if (sockets * dies * cores * threads < cpus) {
+-            error_report("cpu topology: "
+-                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
+-                         "smp_cpus (%u)",
+-                         sockets, dies, cores, threads, cpus);
+-            exit(1);
++    /* compute missing values, prefer sockets over cores over threads */
++    if (cpus == 0 || sockets == 0) {
++        cores = cores > 0 ? cores : 1;
++        threads = threads > 0 ? threads : 1;
++        if (cpus == 0) {
++            sockets = sockets > 0 ? sockets : 1;
++            cpus = cores * threads * dies * sockets;
++        } else {
++            ms->smp.max_cpus =
++                    qemu_opt_get_number(opts, "maxcpus", cpus);
++            sockets = ms->smp.max_cpus / (cores * threads * dies);
+         }
 -
-     if (opts) {
-         unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-         unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-@@ -769,7 +767,7 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
-         ms->smp.sockets = sockets;
--        x86ms->smp_dies = dies;
-+        ms->smp.dies = dies;
+-        ms->smp.max_cpus =
+-                qemu_opt_get_number(opts, "maxcpus", cpus);
+-
+-        if (ms->smp.max_cpus < cpus) {
+-            error_report("maxcpus must be equal to or greater than smp");
+-            exit(1);
+-        }
+-
+-        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
+-            error_report("Invalid CPU topology deprecated: "
+-                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+-                         "!= maxcpus (%u)",
+-                         sockets, dies, cores, threads,
+-                         ms->smp.max_cpus);
+-            exit(1);
+-        }
+-
+-        ms->smp.cpus = cpus;
+-        ms->smp.cores = cores;
+-        ms->smp.threads = threads;
+-        ms->smp.sockets = sockets;
+-        ms->smp.dies = dies;
++    } else if (cores == 0) {
++        threads = threads > 0 ? threads : 1;
++        cores = cpus / (sockets * dies * threads);
++        cores = cores > 0 ? cores : 1;
++    } else if (threads == 0) {
++        threads = cpus / (cores * dies * sockets);
++        threads = threads > 0 ? threads : 1;
++    } else if (sockets * dies * cores * threads < cpus) {
++        error_report("cpu topology: "
++                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
++                        "smp_cpus (%u)",
++                        sockets, dies, cores, threads, cpus);
++        exit(1);
      }
  
-     if (ms->smp.cpus > 1) {
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index d30cf27e29..00448ed55a 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -64,7 +64,7 @@ inline void init_topo_info(X86CPUTopoInfo *topo_info,
- {
-     MachineState *ms = MACHINE(x86ms);
- 
--    topo_info->dies_per_pkg = x86ms->smp_dies;
-+    topo_info->dies_per_pkg = ms->smp.dies;
-     topo_info->cores_per_die = ms->smp.cores;
-     topo_info->threads_per_core = ms->smp.threads;
+-    if (ms->smp.cpus > 1) {
+-        Error *blocker = NULL;
+-        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
+-        replay_add_blocker(blocker);
++    ms->smp.max_cpus =
++            qemu_opt_get_number(opts, "maxcpus", cpus);
++
++    if (ms->smp.max_cpus < cpus) {
++        error_report("maxcpus must be equal to or greater than smp");
++        exit(1);
+     }
++
++    if (sockets * dies * cores * threads != ms->smp.max_cpus) {
++        error_report("Invalid CPU topology deprecated: "
++                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
++                        "!= maxcpus (%u)",
++                        sockets, dies, cores, threads,
++                        ms->smp.max_cpus);
++        exit(1);
++    }
++
++    ms->smp.cpus = cpus;
++    ms->smp.cores = cores;
++    ms->smp.threads = threads;
++    ms->smp.sockets = sockets;
++    ms->smp.dies = dies;
  }
-@@ -293,7 +293,7 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
  
-     init_topo_info(&topo_info, x86ms);
- 
--    env->nr_dies = x86ms->smp_dies;
-+    env->nr_dies = ms->smp.dies;
- 
-     /*
-      * If APIC ID is not set,
-@@ -301,13 +301,13 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
-      */
-     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
-         int max_socket = (ms->smp.max_cpus - 1) /
--                                smp_threads / smp_cores / x86ms->smp_dies;
-+                                smp_threads / smp_cores / ms->smp.dies;
- 
-         /*
-          * die-id was optional in QEMU 4.0 and older, so keep it optional
-          * if there's only one die per socket.
-          */
--        if (cpu->die_id < 0 && x86ms->smp_dies == 1) {
-+        if (cpu->die_id < 0 && ms->smp.dies == 1) {
-             cpu->die_id = 0;
-         }
- 
-@@ -322,9 +322,9 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
-         if (cpu->die_id < 0) {
-             error_setg(errp, "CPU die-id is not set");
-             return;
--        } else if (cpu->die_id > x86ms->smp_dies - 1) {
-+        } else if (cpu->die_id > ms->smp.dies - 1) {
-             error_setg(errp, "Invalid CPU die-id: %u must be in range 0:%u",
--                       cpu->die_id, x86ms->smp_dies - 1);
-+                       cpu->die_id, ms->smp.dies - 1);
-             return;
-         }
-         if (cpu->core_id < 0) {
-@@ -477,7 +477,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms)
-                                  &topo_info, &topo_ids);
-         ms->possible_cpus->cpus[i].props.has_socket_id = true;
-         ms->possible_cpus->cpus[i].props.socket_id = topo_ids.pkg_id;
--        if (x86ms->smp_dies > 1) {
-+        if (ms->smp.dies > 1) {
-             ms->possible_cpus->cpus[i].props.has_die_id = true;
-             ms->possible_cpus->cpus[i].props.die_id = topo_ids.die_id;
-         }
-@@ -1269,7 +1269,6 @@ static void x86_machine_initfn(Object *obj)
- 
-     x86ms->smm = ON_OFF_AUTO_AUTO;
-     x86ms->acpi = ON_OFF_AUTO_AUTO;
--    x86ms->smp_dies = 1;
-     x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
-     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 3d55d2bd62..87ae5cc300 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -282,6 +282,7 @@ typedef struct DeviceMemoryState {
-  */
- typedef struct CpuTopology {
-     unsigned int cpus;
-+    unsigned int dies;
-     unsigned int cores;
-     unsigned int threads;
-     unsigned int sockets;
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 1522a3359a..4c2ca6d36a 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -19,7 +19,6 @@
-  * PCMachineState:
-  * @acpi_dev: link to ACPI PM device that performs ACPI hotplug handling
-  * @boot_cpus: number of present VCPUs
-- * @smp_dies: number of dies per one package
-  */
- typedef struct PCMachineState {
-     /*< private >*/
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 25a1f16f01..6e9244a82c 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -62,7 +62,6 @@ struct X86MachineState {
-     unsigned pci_irq_mask;
-     unsigned apic_id_limit;
-     uint16_t boot_cpus;
--    unsigned smp_dies;
- 
-     OnOffAuto smm;
-     OnOffAuto acpi;
+ static
 -- 
 2.31.1
 
