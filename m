@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE1E3B4886
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 19:57:03 +0200 (CEST)
-Received: from localhost ([::1]:37826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B546F3B489D
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:09:50 +0200 (CEST)
+Received: from localhost ([::1]:43576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwq4c-0001k8-1i
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 13:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
+	id 1lwqGz-00066y-4u
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lwq3d-0000yC-8H
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:56:01 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lwq3a-0006Yn-M7
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:56:00 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id t3so14500147edc.7
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 10:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PEaCSST20cr8jtoHuPWgfJMiBZ8T+jElIaW2oiNkh2E=;
- b=cyfXCwT4pnuQ+Fs3pmHjd6z/SqPC6x80wJoLBq7CMThrQhHboM0sMXAf1QMSC9OUGo
- yLzgupa9QE/eurW8gHmf0WPR1TqgNH6PMK0CaqFopVfCYvPXMnCXkn8eVNefZ0l3udfg
- Nwk96b2o9raRwvvfE8kaQ3V+eDBWS66IY0y+68HC0GYYYGaoPw87XFvk8I6idU95Tr4k
- VVamMiL11sDxt8qpk/6OWusBTl64Sd1WZR5tb0ch6SYUXY0CztR4OVKwv8WwW1wyWvdC
- +IOchH3eiUKkTxZZJhkApma9SEbZYcUs6WD5lkf2kkzYlgP5eXwDOHZ/rQxEPqg5OHqH
- rakQ==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lwqG1-0004rt-Le
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:08:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lwqFy-0006U8-Cn
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:08:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624644524;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BFbG31uRuLThsGH1x6hrSJEj0e74yt9sxvb+DxV+uXg=;
+ b=UNQgSOsPR02zgOj+2AHmGp92j0L2CikQK/5E7A3Q2sJwlc7ypI7Q+Zamhdddxh/h2aeV6R
+ 67ka6AEqgGYFP8t5AcpPKXARBoDo18/i9zubGomxavFRhWGVNpv5GXPKdfSI952ZuGE1Fk
+ sjmKrczFweyslbKcPewr8Sqtp1C9N78=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-u9_i_NiHO0Wsrr-ZBjyFhA-1; Fri, 25 Jun 2021 14:08:42 -0400
+X-MC-Unique: u9_i_NiHO0Wsrr-ZBjyFhA-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ h22-20020ab02a960000b029028c253cd10bso835141uar.16
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:08:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PEaCSST20cr8jtoHuPWgfJMiBZ8T+jElIaW2oiNkh2E=;
- b=PgqFL+gtdrb3hsQjn9Mk/63rzv/1iFkfkXP5TaslDEScHvt+7Bxj/0wVs3JumJuz9y
- 2xVqJw2ovrss2AXlSl5vizMkEHo/8/zmszZ81gaW0urFfaKTXVnFFmKpw6ozJnKjKHcC
- qNVHslosghz6xVI3VIUtOkZ1uarFB7Fuf+udoyaDGrcF+kHhf1wETSY3xC7bJz7FN/Ow
- O8aHSYzR/AtENgE4TUOoJ9SM5Ocghg/o3OXU8IZHlv1ZoFhzCJ8sz+FciuuGHb4XMd8y
- xFbOMZgDhv2HQ08DBJU5JHtt+6iXzPhZwRv2xtFbJ5M+i7t0BiYBOcRo3McOkv83FQut
- iL0Q==
-X-Gm-Message-State: AOAM530pnP4sKrgMPTx1XDLcPDBHIx23pdbHtkMeE2kjQAih1TDGyER2
- EN/BWAoVJd9ElDWk9fhcKgz+KMZ6vs+N9oMTQrW49A==
-X-Google-Smtp-Source: ABdhPJxN3/krFZKrm16whEXSBwqVn5YDXCrDBo1Oi/bXTPqfYPmyZZs/54r9ZcZmrbrWa+WvveynugrsYvhD4vOz88k=
-X-Received: by 2002:a05:6402:1911:: with SMTP id
- e17mr16351862edz.36.1624643757054; 
- Fri, 25 Jun 2021 10:55:57 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BFbG31uRuLThsGH1x6hrSJEj0e74yt9sxvb+DxV+uXg=;
+ b=KZ3TvvpeY7dSIn9A6h3Rzhu7BTiLMcBQRYjbvT3GBQ41sIwXAJ9V0vrBI3AQbU3uBt
+ YyvmfLZuPKhjLKLtdQJnB4wNYKSkQy0X6V3rr5CBrUsxVb+nnosgcLtnjukbHIJe+qxE
+ ly8djP1FXUar6UJ8vIiKyiLTRdFM1/t7Z+9T9QHDO5K58qbAcKSQeqn0wsdvDDZ1G/qa
+ vGyzAjwhHPu5zrbiNxsYRz72Hn54tWs4Nl1NXp5zW/MjXaBn2D+FSoiFwqQfk6G554lX
+ 1fesjju3A9NZCCMHk7388NqI9KvkeFT3CffZpj6LrD/s6rBAJkP/bTkqnXRSH+0x6k9P
+ /50Q==
+X-Gm-Message-State: AOAM533wynqeXEpWeq7igl6pEOUxvOA03V2FuUhFM+Yx/41kDKFuGQle
+ 7HcY6Prr+Kk/Eb9ZLLVzyi4pgseB1GYz1htQLuXH0bz0hc6qchV8KK0mzQr6Isgp3jUkaUartkc
+ 5WaEA7zt2F9uZFbAKlo60qK1YQVVHpao=
+X-Received: by 2002:ab0:7412:: with SMTP id r18mr6381757uap.124.1624644522149; 
+ Fri, 25 Jun 2021 11:08:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfFepOsEJBNF8OuylURquAmvHfaBwSXSl4jvPgnPGS2fJ+PMrN9jBSEjNQk9qbiUq3jlBitdGpxUk5jocYI3k=
+X-Received: by 2002:ab0:7412:: with SMTP id r18mr6381739uap.124.1624644521991; 
+ Fri, 25 Jun 2021 11:08:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210624120211.85499-1-alistair.francis@wdc.com>
-In-Reply-To: <20210624120211.85499-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Jun 2021 18:55:20 +0100
-Message-ID: <CAFEAcA_OTizHfz+nrnT8n5Q8Rrvzp5JCxoMbVMOmFb0s8y-uHw@mail.gmail.com>
-Subject: Re: [PULL 0/7] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
+References: <20210625112741.12566-1-alex.bennee@linaro.org>
+In-Reply-To: <20210625112741.12566-1-alex.bennee@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 25 Jun 2021 15:08:16 -0300
+Message-ID: <CAKJDGDb4oNJoKZQXVekMB_xHx0MBcf_=7f0r0zM91LCCydUZWA@mail.gmail.com>
+Subject: Re: [RFC PATCH] tcg/plugins: enable by default for TCG builds
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
+ qemu-devel <qemu-devel@nongnu.org>, robhenry@microsoft.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Jun 2021 at 13:02, Alistair Francis <alistair.francis@wdc.com> wrote:
+On Fri, Jun 25, 2021 at 8:27 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> The following changes since commit d0ac9a61474cf594d19082bc8976247e984ea9a3:
+> Aside from a minor bloat to file size the ability to have TCG plugins
+> has no real impact on performance unless a plugin is actively loaded.
+> Even then the libempty.so plugin shows only a minor degradation in
+> performance caused by the extra book keeping the TCG has to do to keep
+> track of instructions. As it's a useful feature lets just enable it by
+> default and reduce our testing matrix a little.
 >
->   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-06-21' into staging (2021-06-24 09:31:26 +0100)
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  docs/devel/tcg-plugins.rst |  3 ++-
+>  configure                  |  2 +-
+>  .gitlab-ci.d/buildtest.yml | 23 -----------------------
+>  3 files changed, 3 insertions(+), 25 deletions(-)
 >
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210624-2
->
-> for you to fetch changes up to 3ef6434409c575e11faf537ce50ca05426c78940:
->
->   hw/riscv: OpenTitan: Connect the mtime and mtimecmp timer (2021-06-24 05:00:13 -0700)
->
-> ----------------------------------------------------------------
-> Third RISC-V PR for 6.1 release
->
->  - Fix MISA in the DisasContext
->  - Fix GDB CSR XML generation
->  - QOMify the SiFive UART
->  - Add support for the OpenTitan timer
 
+As far as code is concerned, it looks good to me.
 
-Applied, thanks.
+Reviewed-by: WIllian Rampazzo <willianr@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
--- PMM
 
