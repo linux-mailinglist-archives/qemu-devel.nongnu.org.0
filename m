@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142133B45E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:39:01 +0200 (CEST)
-Received: from localhost ([::1]:52046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B2B3B4606
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:45:16 +0200 (CEST)
+Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwmyy-0006gu-1k
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60844)
+	id 1lwn4w-0003cX-9b
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmfN-0003XQ-Us
+ id 1lwmfO-0003bE-Um
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:46 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:37627)
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:33715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmfM-0003I5-Ap
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:45 -0400
-Received: by mail-ej1-x630.google.com with SMTP id o11so2224401ejd.4
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:43 -0700 (PDT)
+ id 1lwmfN-0003IH-CC
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:46 -0400
+Received: by mail-ed1-x529.google.com with SMTP id w13so7641341edc.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SDfMHDSuKxMkZiFUP2o6GnGmA2A8MNufC6YTUOx3lYw=;
- b=rcFpB4Yb5JV8Fx3aYGr807kt/lOyvBbaSBvrPfWmREvjMbtvZjy2eCaplbsGk0Pt3n
- v1QlZXo9uQbKT59meejw4QgJqo9efn4HOvQAOV3qmaoFqh2xgte4HOAEvMiX6SqA0Ija
- sfUMJKKTxShf8wpGBQ0+UNmG6SCO9gdD2wqH69xdvmL7NpW4zSBF09T7DOyrV6PuJ8Y3
- 9ddMpgui2HbziHJ/TfMh9mSH8vxJfrNY8kZ6fFW0OVMtbFmekjjVcKy0WSxOrbxrVIzM
- GJhPOplNFg4dxWAtDArsDm6IrtokqRGR6Jmfx8c8s6ciS41iz7lG1Xc4S668ts6BAPmn
- b4hg==
+ bh=1inmLhcVq0aSD320zpWtlTjRRoDETw4S+Ab6hL0QjO8=;
+ b=JDzWR4qxco4TdjVmZvUi7KPsUPitzzTRlcy+jPMCa0k9sTYPOVqwwRB3DByeH4qqaO
+ T0cVljP4DQqVJpoE49ihypekfjnazoCQYX6i23z50qb6GlfyWKM/4YHWibX0D36ojkqM
+ RQWEMCtjACabOo4wz5GVJbn11oR5hQoJUh4DgrqOHqLRCsst6Mv1S+K6J1MGEW4YL70W
+ vD9KizmFvIfVCb06unVXHHYRVB/E4gZzM3Ah20RnKyhaDq5QTpu5bUgnmgNdwqF9eNL9
+ 0ajJ7rTViDJ8fnAAAI3mFXaw2O03CyPmQNkie1Z9Ua6mrmEvC8K34kbUSXkuf7wXiqZ5
+ y7RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SDfMHDSuKxMkZiFUP2o6GnGmA2A8MNufC6YTUOx3lYw=;
- b=s2LPBzVN5Wbx/9YhLZzoYuRzGhaKfGWp2WckW0wjGJyj8tfnc0EPip5Qw8IvxL3nR4
- 2D8MPgAlAAw/uqBk19lXkguedy+FC1iZ1AyEk5BEf0HSbN/pmdFc/i3vL9k6BPkRejRU
- 4vJZ8m6nyINGFueQpdcHuGTO1ZYmYWx2eBO4U9+bQmfB+sNPQ5ddJnE2prdTBwCklh95
- GnPN+MB67/XkpR/u6xOsGXqksbGB5nPU0CvQeSM47ybuGXDcLfBuWWogYdRaTaT8gGjR
- R5rBE0zHcNP6/4ZiXOoVlw3w6MRgYXTSMLMkXxmz04IJnym9lDFzf0SV5ieYbIbvimhM
- FASA==
-X-Gm-Message-State: AOAM531XF1dtHPREgkVm4fKdCIvGNV4WLhYIYdRBAqZ3cpiKsTyVh39D
- 4tFk/Xowd/r9wA2TGGcttGoNKZ3zy4E=
-X-Google-Smtp-Source: ABdhPJy3mA9yZG0xf6qCY42j5njvbqGF2lk5gpROnTD64Jo1ILCLrdz3iLLayEFeMqqFGn44DTau8A==
-X-Received: by 2002:a17:906:3c4a:: with SMTP id
- i10mr10937210ejg.372.1624630723101; 
+ bh=1inmLhcVq0aSD320zpWtlTjRRoDETw4S+Ab6hL0QjO8=;
+ b=AgLqWGQqfMK//jJePo2JBhT4Bt9TyT3YC6BOjmMPJwe6nTO9rcufWQcQMGbJbYer+k
+ KxEQ1H5w3IlJsA9ll7AFSFX6NcOtsFoGteJldA11+kcRUwP6PeyjDxjL0FsTpfO5Lv2D
+ qqkN5oaYaLuT1U+VpVVDZCQ7gQH0OBaKCPW1L7jJk7F4MlvJSDoGO/T04Kic2mcEFoHT
+ R39bBc/r5GDxBfKPLfTPpf/VpcfVHkNPIJDKaICtTl+8jhtWSGlMjMAm+itmh00Mfkxc
+ xCIzWqNeB4MUtFwinP4uIpM5eYvpbkXM9CcfV+ZvJ+G/lWBiWItXj7vmEg0TMaIS4nol
+ hrHA==
+X-Gm-Message-State: AOAM531ILYQcktyQo53z+hyBhnxFIctYoL3r7+/G7js9l4kc/KS57EgZ
+ 2OUmRIr53fGI6KDpJNLbrL6GbDslwD0=
+X-Google-Smtp-Source: ABdhPJwupxpLL+usnwEKICgDrxGP2hM9xkHsDUbAGCaUTBKhVWYaRIEF/3s4N74vVBjQG2OtAcccnQ==
+X-Received: by 2002:a05:6402:12d4:: with SMTP id
+ k20mr15176035edx.344.1624630723968; 
  Fri, 25 Jun 2021 07:18:43 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.42
+ by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.43
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 07:18:42 -0700 (PDT)
+ Fri, 25 Jun 2021 07:18:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/28] block: check for sys/disk.h
-Date: Fri, 25 Jun 2021 16:18:14 +0200
-Message-Id: <20210625141822.1368639-21-pbonzini@redhat.com>
+Subject: [PULL 21/28] block: try BSD disk size ioctls one after another
+Date: Fri, 25 Jun 2021 16:18:15 +0200
+Message-Id: <20210625141822.1368639-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625141822.1368639-1-pbonzini@redhat.com>
 References: <20210625141822.1368639-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,52 +85,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Joelle van Dyne <j@getutm.app>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joelle van Dyne <j@getutm.app>
+Try all the possible ioctls for disk size as long as they are
+supported, to keep the #if ladder simple.
 
-Some BSD platforms do not have this header.
+Extracted and cleaned up from a patch by Joelle van Dyne and
+Warner Losh.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Joelle van Dyne <j@getutm.app>
-Message-Id: <20210315180341.31638-3-j@getutm.app>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block.c     | 2 +-
- meson.build | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ block/file-posix.c | 34 ++++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
 
-diff --git a/block.c b/block.c
-index 3f456892d0..1d37f133a8 100644
---- a/block.c
-+++ b/block.c
-@@ -54,7 +54,7 @@
- #ifdef CONFIG_BSD
- #include <sys/ioctl.h>
- #include <sys/queue.h>
--#ifndef __DragonFly__
-+#if defined(HAVE_SYS_DISK_H)
- #include <sys/disk.h>
+diff --git a/block/file-posix.c b/block/file-posix.c
+index e56bb491a1..f16d987c07 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2327,39 +2327,37 @@ static int64_t raw_getlength(BlockDriverState *bs)
+ again:
  #endif
+     if (!fstat(fd, &sb) && (S_IFCHR & sb.st_mode)) {
++        size = 0;
+ #ifdef DIOCGMEDIASIZE
+-        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size))
+-#elif defined(DIOCGPART)
+-        {
+-                struct partinfo pi;
+-                if (ioctl(fd, DIOCGPART, &pi) == 0)
+-                        size = pi.media_size;
+-                else
+-                        size = 0;
++        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size)) {
++            size = 0;
++        }
++#endif
++#ifdef DIOCGPART
++        if (size == 0) {
++            struct partinfo pi;
++            if (ioctl(fd, DIOCGPART, &pi) == 0) {
++                size = pi.media_size;
++            }
+         }
+-        if (size == 0)
  #endif
-diff --git a/meson.build b/meson.build
-index 6419d4ee41..144456426c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1251,6 +1251,7 @@ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
- config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
- config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
- config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
-+config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
+ #if defined(__APPLE__) && defined(__MACH__)
+-        {
++        if (size == 0) {
+             uint64_t sectors = 0;
+             uint32_t sector_size = 0;
  
- config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
- 
+             if (ioctl(fd, DKIOCGETBLOCKCOUNT, &sectors) == 0
+                && ioctl(fd, DKIOCGETBLOCKSIZE, &sector_size) == 0) {
+                 size = sectors * sector_size;
+-            } else {
+-                size = lseek(fd, 0LL, SEEK_END);
+-                if (size < 0) {
+-                    return -errno;
+-                }
+             }
+         }
+-#else
+-        size = lseek(fd, 0LL, SEEK_END);
++#endif
++        if (size == 0) {
++            size = lseek(fd, 0LL, SEEK_END);
++        }
+         if (size < 0) {
+             return -errno;
+         }
+-#endif
+ #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+         switch(s->type) {
+         case FTYPE_CD:
 -- 
 2.31.1
 
