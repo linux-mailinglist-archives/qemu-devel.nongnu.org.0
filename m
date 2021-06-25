@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BB63B456E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:20:32 +0200 (CEST)
-Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600B53B4592
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:30:07 +0200 (CEST)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwmh5-0005oj-OH
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
+	id 1lwmqG-0006Gp-TK
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmfB-0002vS-De
+ id 1lwmfB-0002wf-Sv
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:33 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:39838)
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:37771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmf7-00038q-V3
+ id 1lwmf9-00039g-HU
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:33 -0400
-Received: by mail-ed1-x533.google.com with SMTP id c7so13612807edn.6
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:29 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id i24so13617505edx.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VArWV/JYlPRB+ITaKgwursWuWO5skwybUaAhhu6OsTQ=;
- b=TnyiuFapzs2RR6Zl6mz6v/u5As+m85c6fs2InT1X6Y0QiVJRnzwvrulDPmmlsXym89
- v8luZAFQkdjfUZWKSk6Cc5Wh/WDt4dw5LrJ+XG9++oFIXouv7CxxR1kOU6P7l0jUNMet
- qbfTZGIUP+vRjG37CaYwomYkcQaTI/bhiWhL9KgE64QCdRXrM75QwsqFfNfo2GE5JOSN
- oiPonz93LVoVAAbjZoRFpy2CEAQkwkWC2MPS3pB5XfBJAWe5OKRtiRWiYcPj4jp9i/dg
- SYOZbcv0UdOe0scyvEOEmKSoyGJr+zho3ePFiS/1n1tb1Mrxyfc6WDwXGc919wOdKtVV
- femw==
+ bh=GLj4HwwMombY8CaOsQjh5wwXRLnVD6SOn+E3r9+SCmQ=;
+ b=FgO9KbCxhKL3pxFONWN8QZRN+EN2+HQnfTBsn9eun1CAa5JxvFGljZQfrjAoWMYpaE
+ fYNCUD0OoDD6YaehaDIbyU0UGD5hlauZj8caS5RhKMeOJtcsl0iJ3VA1aRWyhfWytU5n
+ Glrn4OwMUkZj5nwEjPpN2h1MBy/2uKws+PkvnHOUgML757yJXN9SrHsJCAGQvfxQYVvm
+ WT5lbf8WFiFVKxLheacHbn/qMNOuxe5Pzfgej3y0LbaW9CoLFD1Q66HdiNSPtfx+9ak1
+ wnHnDtsIVj8DRM/CWLJbg89sJ6ZsNwf/1CpmDjUayprIYP2Iyt2ItV6KiIlcHdKXpsCC
+ 0BnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VArWV/JYlPRB+ITaKgwursWuWO5skwybUaAhhu6OsTQ=;
- b=Klzko6LyjJRV/IFjhOAewAucYo158oQlci0nJ2Lh/sirjuvqU1iXhApprsaCwq8ijT
- m0SiC4NJSbagVE4TlKb6poKCSXn++3gU7Z0yBJfdfON8tbA+35mz18f0QupjpWkHfs5N
- 0JfOrv4P7u3ulUBeV2dA0brz5CgCxukI2z1bFsTgLyXVVLjM+/UqFdljx3Y8cxgKBgEO
- WCDSkv5bazwlFVLkLEntdGq0w9qmxRm5A2JE7zPHLu5Ep6+M4kvZYzRV9RSnwfZI+Z+4
- vI/W1PZF/aAXCpIljHNOfHD+RgB8nVP2eu+8JQmZ7Hp+tpW6oD7zw0ckSnv/4O0ttF3F
- CkSw==
-X-Gm-Message-State: AOAM5326Z9UHw6QBqUuvjTPC7rHzPXXEBSDXXc+OLE5ipzuTuQf1Ss3f
- UFJzC1JAWOXaJwzlW+77dmReBMzteiU=
-X-Google-Smtp-Source: ABdhPJx8NxGLmRQEQVIlQSqQnSjagM6JAhjw1JCILONWMXbx0OEpQkZKtEZDTfxWLvzR65QJ3TDYNQ==
-X-Received: by 2002:a50:9b06:: with SMTP id o6mr15166296edi.284.1624630708613; 
- Fri, 25 Jun 2021 07:18:28 -0700 (PDT)
+ bh=GLj4HwwMombY8CaOsQjh5wwXRLnVD6SOn+E3r9+SCmQ=;
+ b=dtY7oSp89ucSVYBa+9doW3QGLmz+GOyiwGRIBCBcfEY/7oKnWMLWRyvqEf3Tu39qDx
+ S1r2hEbilLljKF5WnW6UmQgakCY2R4/gO8rbzgnmilrDumlIGvFTuXITachvd2RRvWhV
+ lbug+fw/68SO6qDYV9C3tgRv6VZQK57+j6PaxBUQXYx64QyJsJUo4AigOSxaMCD0Br+p
+ 5vcLFMpx+YRh7LCWdJBj4id0/F2RMs5NXMNvYbsBrD3A14U2tLV8Vh4UNuSYoCX73I8+
+ 8zExlaL96vhEr3TqzJApsNiliEUnYZFf+8A1/SlCj0Olx+xjG+/Pa1XJ4B/Lzj9B6jOY
+ ck6Q==
+X-Gm-Message-State: AOAM5317hdCK7DPuFn4fRL9y8kenjjwTRn1sUAz02LQpBDYkXDtjnavg
+ TngMbWhE4JMc5+sbWNkBQCt1sCo1R6w=
+X-Google-Smtp-Source: ABdhPJwaMtGe/zJYF3Jz6T7LQPSRt3ynK1jIEfxp9hQW0e9ZACbNwED40S8Z1Vfzxpp3V33mmPD3fw==
+X-Received: by 2002:aa7:d6d6:: with SMTP id x22mr14784625edr.224.1624630709437; 
+ Fri, 25 Jun 2021 07:18:29 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.27
+ by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 07:18:28 -0700 (PDT)
+ Fri, 25 Jun 2021 07:18:29 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/28] tests: remove QCRYPTO_HAVE_TLS_TEST_SUPPORT
-Date: Fri, 25 Jun 2021 16:17:59 +0200
-Message-Id: <20210625141822.1368639-6-pbonzini@redhat.com>
+Subject: [PULL 06/28] configure, meson: convert crypto detection to meson
+Date: Fri, 25 Jun 2021 16:18:00 +0200
+Message-Id: <20210625141822.1368639-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625141822.1368639-1-pbonzini@redhat.com>
 References: <20210625141822.1368639-1-pbonzini@redhat.com>
@@ -84,214 +84,483 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@liaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-meson.build already decides whether it is possible to build the TLS
-test suite.  There is no need to include that in the source as well.
-The dummy tests in fact are broken because they do not produce valid
-TAP output (empty output is rejected by scripts/tap-driver.pl).
-
-Cc: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@liaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/unit/crypto-tls-psk-helpers.c   |  6 ------
- tests/unit/crypto-tls-psk-helpers.h   |  4 ----
- tests/unit/crypto-tls-x509-helpers.c  |  4 ----
- tests/unit/crypto-tls-x509-helpers.h  | 11 +----------
- tests/unit/pkix_asn1_tab.c            |  3 ---
- tests/unit/test-crypto-tlscredsx509.c | 12 ------------
- tests/unit/test-crypto-tlssession.c   | 12 ------------
- tests/unit/test-io-channel-tls.c      | 12 ------------
- 8 files changed, 1 insertion(+), 63 deletions(-)
+ configure              | 188 +++--------------------------------------
+ crypto/meson.build     |  41 +++------
+ meson.build            |  81 +++++++++++++-----
+ meson_options.txt      |   6 ++
+ tests/unit/meson.build |   6 +-
+ 5 files changed, 90 insertions(+), 232 deletions(-)
 
-diff --git a/tests/unit/crypto-tls-psk-helpers.c b/tests/unit/crypto-tls-psk-helpers.c
-index a8395477c3..7f8a488961 100644
---- a/tests/unit/crypto-tls-psk-helpers.c
-+++ b/tests/unit/crypto-tls-psk-helpers.c
-@@ -20,14 +20,10 @@
+diff --git a/configure b/configure
+index 00e7dd749a..897e968e02 100755
+--- a/configure
++++ b/configure
+@@ -404,10 +404,9 @@ seccomp="auto"
+ glusterfs="auto"
+ gtk="auto"
+ tls_priority="NORMAL"
+-gnutls="$default_feature"
+-nettle="$default_feature"
+-gcrypt="$default_feature"
+-qemu_private_xts="yes"
++gnutls="auto"
++nettle="auto"
++gcrypt="auto"
+ auth_pam="$default_feature"
+ vte="$default_feature"
+ virglrenderer="$default_feature"
+@@ -1372,17 +1371,17 @@ for opt do
+   ;;
+   --tls-priority=*) tls_priority="$optarg"
+   ;;
+-  --disable-gnutls) gnutls="no"
++  --disable-gnutls) gnutls="disabled"
+   ;;
+-  --enable-gnutls) gnutls="yes"
++  --enable-gnutls) gnutls="enabled"
+   ;;
+-  --disable-nettle) nettle="no"
++  --disable-nettle) nettle="disabled"
+   ;;
+-  --enable-nettle) nettle="yes"
++  --enable-nettle) nettle="enabled"
+   ;;
+-  --disable-gcrypt) gcrypt="no"
++  --disable-gcrypt) gcrypt="disabled"
+   ;;
+-  --enable-gcrypt) gcrypt="yes"
++  --enable-gcrypt) gcrypt="enabled"
+   ;;
+   --disable-auth-pam) auth_pam="no"
+   ;;
+@@ -2800,156 +2799,6 @@ EOF
+   fi
+ fi
  
- #include "qemu/osdep.h"
- 
--/* Include this first because it defines QCRYPTO_HAVE_TLS_TEST_SUPPORT */
- #include "crypto-tls-x509-helpers.h"
+-##########################################
+-# GNUTLS probe
 -
- #include "crypto-tls-psk-helpers.h"
- #include "qemu/sockets.h"
- 
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+-if test "$gnutls" != "no"; then
+-    pass="no"
+-    if $pkg_config --exists "gnutls >= 3.5.18"; then
+-        gnutls_cflags=$($pkg_config --cflags gnutls)
+-        gnutls_libs=$($pkg_config --libs gnutls)
+-        # Packaging for the static libraries is not always correct.
+-        # At least ubuntu 18.04 ships only shared libraries.
+-        write_c_skeleton
+-        if compile_prog "" "$gnutls_libs" ; then
+-            pass="yes"
+-        fi
+-    fi
+-    if test "$pass" = "no" && test "$gnutls" = "yes"; then
+-	feature_not_found "gnutls" "Install gnutls devel >= 3.1.18"
+-    else
+-        gnutls="$pass"
+-    fi
+-fi
 -
- void test_tls_psk_init(const char *pskfile)
- {
-     FILE *fp;
-@@ -46,5 +42,3 @@ void test_tls_psk_cleanup(const char *pskfile)
- {
-     unlink(pskfile);
- }
 -
--#endif /* QCRYPTO_HAVE_TLS_TEST_SUPPORT */
-diff --git a/tests/unit/crypto-tls-psk-helpers.h b/tests/unit/crypto-tls-psk-helpers.h
-index 5aa9951cb6..faa645c629 100644
---- a/tests/unit/crypto-tls-psk-helpers.h
-+++ b/tests/unit/crypto-tls-psk-helpers.h
-@@ -23,11 +23,7 @@
- 
- #include <gnutls/gnutls.h>
- 
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+-# If user didn't give a --disable/enable-gcrypt flag,
+-# then mark as disabled if user requested nettle
+-# explicitly
+-if test -z "$gcrypt"
+-then
+-    if test "$nettle" = "yes"
+-    then
+-        gcrypt="no"
+-    fi
+-fi
 -
- void test_tls_psk_init(const char *keyfile);
- void test_tls_psk_cleanup(const char *keyfile);
- 
--#endif /* QCRYPTO_HAVE_TLS_TEST_SUPPORT */
+-# If user didn't give a --disable/enable-nettle flag,
+-# then mark as disabled if user requested gcrypt
+-# explicitly
+-if test -z "$nettle"
+-then
+-    if test "$gcrypt" = "yes"
+-    then
+-        nettle="no"
+-    fi
+-fi
 -
- #endif
-diff --git a/tests/unit/crypto-tls-x509-helpers.c b/tests/unit/crypto-tls-x509-helpers.c
-index 97658592a2..fc609b3fd4 100644
---- a/tests/unit/crypto-tls-x509-helpers.c
-+++ b/tests/unit/crypto-tls-x509-helpers.c
-@@ -24,8 +24,6 @@
- #include "crypto/init.h"
- #include "qemu/sockets.h"
- 
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+-has_libgcrypt() {
+-    if ! has "libgcrypt-config"
+-    then
+-	return 1
+-    fi
 -
- /*
-  * This stores some static data that is needed when
-  * encoding extensions in the x509 certs
-@@ -504,5 +502,3 @@ void test_tls_discard_cert(QCryptoTLSTestCertReq *req)
-         unlink(req->filename);
-     }
- }
+-    if test -n "$cross_prefix"
+-    then
+-	host=$(libgcrypt-config --host)
+-	if test "$host-" != $cross_prefix
+-	then
+-	    return 1
+-	fi
+-    fi
 -
--#endif /* QCRYPTO_HAVE_TLS_TEST_SUPPORT */
-diff --git a/tests/unit/crypto-tls-x509-helpers.h b/tests/unit/crypto-tls-x509-helpers.h
-index 8fcd7785ab..cf6329e653 100644
---- a/tests/unit/crypto-tls-x509-helpers.h
-+++ b/tests/unit/crypto-tls-x509-helpers.h
-@@ -23,14 +23,7 @@
- 
- #include <gnutls/gnutls.h>
- #include <gnutls/x509.h>
+-    maj=`libgcrypt-config --version | awk -F . '{print $1}'`
+-    min=`libgcrypt-config --version | awk -F . '{print $2}'`
 -
--#if !(defined WIN32) && \
--    defined(CONFIG_TASN1)
--# define QCRYPTO_HAVE_TLS_TEST_SUPPORT
--#endif
+-    if test $maj != 1 || test $min -lt 8
+-    then
+-       return 1
+-    fi
 -
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
--# include <libtasn1.h>
-+#include <libtasn1.h>
- 
- 
- /*
-@@ -127,6 +120,4 @@ void test_tls_cleanup(const char *keyfile);
- 
- extern const asn1_static_node pkix_asn1_tab[];
- 
--#endif /* QCRYPTO_HAVE_TLS_TEST_SUPPORT */
--
- #endif
-diff --git a/tests/unit/pkix_asn1_tab.c b/tests/unit/pkix_asn1_tab.c
-index 15397cf77a..89521408a1 100644
---- a/tests/unit/pkix_asn1_tab.c
-+++ b/tests/unit/pkix_asn1_tab.c
-@@ -6,8 +6,6 @@
- #include "qemu/osdep.h"
- #include "crypto-tls-x509-helpers.h"
- 
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
--
- const asn1_static_node pkix_asn1_tab[] = {
-   {"PKIX1", 536875024, 0},
-   {0, 1073741836, 0},
-@@ -1105,4 +1103,3 @@ const asn1_static_node pkix_asn1_tab[] = {
-   {0, 1048586, "2"},
-   {0, 0, 0}
- };
--#endif /* QCRYPTO_HAVE_TLS_TEST_SUPPORT */
-diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto-tlscredsx509.c
-index f487349c32..aab4149b56 100644
---- a/tests/unit/test-crypto-tlscredsx509.c
-+++ b/tests/unit/test-crypto-tlscredsx509.c
-@@ -25,8 +25,6 @@
- #include "qapi/error.h"
- #include "qemu/module.h"
- 
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
--
- #define WORKDIR "tests/test-crypto-tlscredsx509-work/"
- #define KEYFILE WORKDIR "key-ctx.pem"
- 
-@@ -706,13 +704,3 @@ int main(int argc, char **argv)
- 
-     return ret == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
- }
--
--#else /* ! QCRYPTO_HAVE_TLS_TEST_SUPPORT */
--
--int
--main(void)
--{
--    return EXIT_SUCCESS;
+-    return 0
 -}
 -
--#endif /* ! QCRYPTO_HAVE_TLS_TEST_SUPPORT */
-diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
-index 8b2453fa79..5f0da9192c 100644
---- a/tests/unit/test-crypto-tlssession.c
-+++ b/tests/unit/test-crypto-tlssession.c
-@@ -31,8 +31,6 @@
- #include "qemu/sockets.h"
- #include "authz/list.h"
- 
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
 -
- #define WORKDIR "tests/test-crypto-tlssession-work/"
- #define PSKFILE WORKDIR "keys.psk"
- #define KEYFILE WORKDIR "key-ctx.pem"
-@@ -648,13 +646,3 @@ int main(int argc, char **argv)
- 
-     return ret == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
- }
--
--#else /* ! QCRYPTO_HAVE_TLS_TEST_SUPPORT */
--
--int
--main(void)
--{
--    return EXIT_SUCCESS;
+-if test "$nettle" != "no"; then
+-    pass="no"
+-    if $pkg_config --exists "nettle >= 3.4"; then
+-        nettle_cflags=$($pkg_config --cflags nettle)
+-        nettle_libs=$($pkg_config --libs nettle)
+-        # Link test to make sure the given libraries work (e.g for static).
+-        write_c_skeleton
+-        if compile_prog "" "$nettle_libs" ; then
+-            if test -z "$gcrypt"; then
+-               gcrypt="no"
+-            fi
+-            pass="yes"
+-        fi
+-    fi
+-    if test "$pass" = "yes"
+-    then
+-        cat > $TMPC << EOF
+-#include <nettle/xts.h>
+-int main(void) {
+-  return 0;
 -}
+-EOF
+-        if compile_prog "$nettle_cflags" "$nettle_libs" ; then
+-            qemu_private_xts=no
+-        fi
+-    fi
+-    if test "$pass" = "no" && test "$nettle" = "yes"; then
+-        feature_not_found "nettle" "Install nettle devel >= 2.7.1"
+-    else
+-        nettle="$pass"
+-    fi
+-fi
 -
--#endif /* ! QCRYPTO_HAVE_TLS_TEST_SUPPORT */
-diff --git a/tests/unit/test-io-channel-tls.c b/tests/unit/test-io-channel-tls.c
-index ad7554c534..f6fb988c01 100644
---- a/tests/unit/test-io-channel-tls.c
-+++ b/tests/unit/test-io-channel-tls.c
-@@ -34,8 +34,6 @@
- #include "authz/list.h"
- #include "qom/object_interfaces.h"
- 
--#ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+-if test "$gcrypt" != "no"; then
+-    pass="no"
+-    if has_libgcrypt; then
+-        gcrypt_cflags=$(libgcrypt-config --cflags)
+-        gcrypt_libs=$(libgcrypt-config --libs)
+-        # Debian has removed -lgpg-error from libgcrypt-config
+-        # as it "spreads unnecessary dependencies" which in
+-        # turn breaks static builds...
+-        if test "$static" = "yes"
+-        then
+-            gcrypt_libs="$gcrypt_libs -lgpg-error"
+-        fi
 -
- #define WORKDIR "tests/test-io-channel-tls-work/"
- #define KEYFILE WORKDIR "key-ctx.pem"
- 
-@@ -334,13 +332,3 @@ int main(int argc, char **argv)
- 
-     return ret == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
- }
--
--#else /* ! QCRYPTO_HAVE_TLS_TEST_SUPPORT */
--
--int
--main(void)
--{
--    return EXIT_SUCCESS;
+-        # Link test to make sure the given libraries work (e.g for static).
+-        write_c_skeleton
+-        if compile_prog "" "$gcrypt_libs" ; then
+-            pass="yes"
+-        fi
+-    fi
+-    if test "$pass" = "yes"; then
+-        gcrypt="yes"
+-        cat > $TMPC << EOF
+-#include <gcrypt.h>
+-int main(void) {
+-  gcry_cipher_hd_t handle;
+-  gcry_cipher_open(&handle, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_XTS, 0);
+-  return 0;
 -}
+-EOF
+-        if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
+-            qemu_private_xts=no
+-        fi
+-    elif test "$gcrypt" = "yes"; then
+-        feature_not_found "gcrypt" "Install gcrypt devel >= 1.5.0"
+-    else
+-        gcrypt="no"
+-    fi
+-fi
 -
--#endif /* ! QCRYPTO_HAVE_TLS_TEST_SUPPORT */
+-
+-if test "$gcrypt" = "yes" && test "$nettle" = "yes"
+-then
+-    error_exit "Only one of gcrypt & nettle can be enabled"
+-fi
+-
+ ##########################################
+ # libtasn1 - only for the TLS creds/session test suite
+ 
+@@ -5705,24 +5554,6 @@ if test "$gdbus_codegen" != "" ; then
+     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
+ fi
+ echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
+-if test "$gnutls" = "yes" ; then
+-  echo "CONFIG_GNUTLS=y" >> $config_host_mak
+-  echo "GNUTLS_CFLAGS=$gnutls_cflags" >> $config_host_mak
+-  echo "GNUTLS_LIBS=$gnutls_libs" >> $config_host_mak
+-fi
+-if test "$gcrypt" = "yes" ; then
+-  echo "CONFIG_GCRYPT=y" >> $config_host_mak
+-  echo "GCRYPT_CFLAGS=$gcrypt_cflags" >> $config_host_mak
+-  echo "GCRYPT_LIBS=$gcrypt_libs" >> $config_host_mak
+-fi
+-if test "$nettle" = "yes" ; then
+-  echo "CONFIG_NETTLE=y" >> $config_host_mak
+-  echo "NETTLE_CFLAGS=$nettle_cflags" >> $config_host_mak
+-  echo "NETTLE_LIBS=$nettle_libs" >> $config_host_mak
+-fi
+-if test "$qemu_private_xts" = "yes" ; then
+-  echo "CONFIG_QEMU_PRIVATE_XTS=y" >> $config_host_mak
+-fi
+ if test "$tasn1" = "yes" ; then
+   echo "CONFIG_TASN1=y" >> $config_host_mak
+ fi
+@@ -6439,6 +6270,7 @@ if test "$skip_meson" = no; then
+         -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
+         -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
++        -Dgnutls=$gnutls -Dnettle=$nettle -Dgcrypt=$gcrypt \
+         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
+         -Dattr=$attr -Ddefault_devices=$default_devices \
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+diff --git a/crypto/meson.build b/crypto/meson.build
+index af7e80c6f6..7cbf1a6ba7 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -22,48 +22,31 @@ crypto_ss.add(files(
+   'tlssession.c',
+ ))
+ 
+-if 'CONFIG_NETTLE' in config_host
+-  crypto_ss.add(files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'))
+-elif 'CONFIG_GCRYPT' in config_host
+-  crypto_ss.add(files('hash-gcrypt.c', 'pbkdf-gcrypt.c'))
+-  crypto_ss.add(files('hmac-gcrypt.c'))
++if nettle.found()
++  crypto_ss.add(nettle, files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'))
++elif gcrypt.found()
++  crypto_ss.add(gcrypt, files('hash-gcrypt.c', 'hmac-gcrypt.c', 'pbkdf-gcrypt.c'))
+ else
+   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
+ endif
++if xts == 'private'
++  crypto_ss.add(files('xts.c'))
++endif
+ 
+ crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
+-crypto_ss.add(when: 'CONFIG_QEMU_PRIVATE_XTS', if_true: files('xts.c'))
+ crypto_ss.add(when: 'CONFIG_AF_ALG', if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
+-crypto_ss.add(when: 'CONFIG_GNUTLS', if_true: files('tls-cipher-suites.c'))
+-
+-if 'CONFIG_NETTLE' in config_host
+-  crypto_ss.add(nettle)
+-elif 'CONFIG_GCRYPT' in config_host
+-  crypto_ss.add(gcrypt)
+-endif
+-
+-if 'CONFIG_GNUTLS' in config_host
+-  crypto_ss.add(gnutls)
+-endif
+-
++crypto_ss.add(when: gnutls, if_true: files('tls-cipher-suites.c'))
+ 
+ util_ss.add(files('aes.c'))
+ util_ss.add(files('init.c'))
+ 
+-if 'CONFIG_GCRYPT' in config_host
+-  util_ss.add(files('random-gcrypt.c'))
+-elif 'CONFIG_GNUTLS' in config_host
+-  util_ss.add(files('random-gnutls.c'))
++if gcrypt.found()
++  util_ss.add(gcrypt, files('random-gcrypt.c'))
++elif gnutls.found()
++  util_ss.add(gnutls, files('random-gnutls.c'))
+ elif 'CONFIG_RNG_NONE' in config_host
+   util_ss.add(files('random-none.c'))
+ else
+   util_ss.add(files('random-platform.c'))
+ endif
+ 
+-if 'CONFIG_GCRYPT' in config_host
+-  util_ss.add(gcrypt)
+-endif
+-
+-if 'CONFIG_GNUTLS' in config_host
+-  util_ss.add(gnutls)
+-endif
+diff --git a/meson.build b/meson.build
+index 3809f51f7f..286b37aecb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -320,21 +320,6 @@ urcubp = not_found
+ if 'CONFIG_TRACE_UST' in config_host
+   urcubp = declare_dependency(link_args: config_host['URCU_BP_LIBS'].split())
+ endif
+-gcrypt = not_found
+-if 'CONFIG_GCRYPT' in config_host
+-  gcrypt = declare_dependency(compile_args: config_host['GCRYPT_CFLAGS'].split(),
+-                              link_args: config_host['GCRYPT_LIBS'].split())
+-endif
+-nettle = not_found
+-if 'CONFIG_NETTLE' in config_host
+-  nettle = declare_dependency(compile_args: config_host['NETTLE_CFLAGS'].split(),
+-                              link_args: config_host['NETTLE_LIBS'].split())
+-endif
+-gnutls = not_found
+-if 'CONFIG_GNUTLS' in config_host
+-  gnutls = declare_dependency(compile_args: config_host['GNUTLS_CFLAGS'].split(),
+-                              link_args: config_host['GNUTLS_LIBS'].split())
+-endif
+ pixman = not_found
+ if have_system or have_tools
+   pixman = dependency('pixman-1', required: have_system, version:'>=0.21.8',
+@@ -829,6 +814,54 @@ if 'CONFIG_OPENGL' in config_host
+                               link_args: config_host['OPENGL_LIBS'].split())
+ endif
+ 
++gnutls = not_found
++if not get_option('gnutls').auto() or have_system
++  gnutls = dependency('gnutls', version: '>=3.5.18',
++                      method: 'pkg-config',
++                      required: get_option('gnutls'),
++                      kwargs: static_kwargs)
++endif
++
++# Nettle has priority over gcrypt
++gcrypt = not_found
++nettle = not_found
++xts = 'private'
++if get_option('nettle').enabled() and get_option('gcrypt').enabled()
++  error('Only one of gcrypt & nettle can be enabled')
++elif (not get_option('nettle').auto() or have_system) and not get_option('gcrypt').enabled()
++  nettle = dependency('nettle', version: '>=3.4',
++                      method: 'pkg-config',
++                      required: get_option('nettle'),
++                      kwargs: static_kwargs)
++  if nettle.found() and cc.has_header('nettle/xts.h', dependencies: nettle)
++    xts = 'nettle'
++  endif
++endif
++if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
++  gcrypt = dependency('libgcrypt', version: '>=1.5',
++                         method: 'config-tool',
++                         required: get_option('gcrypt'),
++                         kwargs: static_kwargs)
++  if gcrypt.found() and cc.compiles('''
++    #include <gcrypt.h>
++    int main(void) {
++      gcry_cipher_hd_t handle;
++      gcry_cipher_open(&handle, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_XTS, 0);
++      return 0;
++    }
++    ''', dependencies: gcrypt)
++    xts = 'gcrypt'
++  endif
++  # Debian has removed -lgpg-error from libgcrypt-config
++  # as it "spreads unnecessary dependencies" which in
++  # turn breaks static builds...
++  if gcrypt.found() and enable_static
++    gcrypt = declare_dependency(dependencies: [
++      gcrypt,
++      cc.find_library('gpg-error', required: true, kwargs: static_kwargs)])
++  endif
++endif
++
+ gtk = not_found
+ gtkx11 = not_found
+ if not get_option('gtk').auto() or (have_system and not cocoa.found())
+@@ -1165,6 +1198,10 @@ config_host_data.set('CONFIG_VIRTFS', have_virtfs)
+ config_host_data.set('CONFIG_XKBCOMMON', xkbcommon.found())
+ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
+ config_host_data.set('CONFIG_GETTID', has_gettid)
++config_host_data.set('CONFIG_GNUTLS', gnutls.found())
++config_host_data.set('CONFIG_GCRYPT', gcrypt.found())
++config_host_data.set('CONFIG_NETTLE', nettle.found())
++config_host_data.set('CONFIG_QEMU_PRIVATE_XTS', xts == 'private')
+ config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
+ config_host_data.set('CONFIG_STATX', has_statx)
+ config_host_data.set('CONFIG_ZSTD', zstd.found())
+@@ -2659,16 +2696,16 @@ summary(summary_info, bool_yn: true, section: 'Block layer support')
+ # Crypto
+ summary_info = {}
+ summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
+-summary_info += {'GNUTLS support':    config_host.has_key('CONFIG_GNUTLS')}
++summary_info += {'GNUTLS support':    gnutls.found()}
+ # TODO: add back version
+-summary_info += {'libgcrypt':         config_host.has_key('CONFIG_GCRYPT')}
+-if config_host.has_key('CONFIG_GCRYPT')
+-   summary_info += {'  XTS':             not config_host.has_key('CONFIG_QEMU_PRIVATE_XTS')}
++summary_info += {'libgcrypt':         gcrypt.found()}
++if gcrypt.found()
++   summary_info += {'  XTS':             xts != 'private'}
+ endif
+ # TODO: add back version
+-summary_info += {'nettle':            config_host.has_key('CONFIG_NETTLE')}
+-if config_host.has_key('CONFIG_NETTLE')
+-   summary_info += {'  XTS':             not config_host.has_key('CONFIG_QEMU_PRIVATE_XTS')}
++summary_info += {'nettle':            nettle.found()}
++if nettle.found()
++   summary_info += {'  XTS':             xts != 'private'}
+ endif
+ summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
+ summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 3d304cac96..343ffffb7c 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -76,6 +76,12 @@ option('iconv', type : 'feature', value : 'auto',
+        description: 'Font glyph conversion support')
+ option('curses', type : 'feature', value : 'auto',
+        description: 'curses UI')
++option('gnutls', type : 'feature', value : 'auto',
++       description: 'GNUTLS cryptography support')
++option('nettle', type : 'feature', value : 'auto',
++       description: 'nettle cryptography support')
++option('gcrypt', type : 'feature', value : 'auto',
++       description: 'libgcrypt cryptography support')
+ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
+ option('lzfse', type : 'feature', value : 'auto',
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index b3bc2109da..fcf6ed2ef5 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -83,7 +83,7 @@ if have_block
+     'test-crypto-afsplit': [io],
+     'test-crypto-block': [io],
+   }
+-  if 'CONFIG_GNUTLS' in config_host and \
++  if gnutls.found() and \
+      'CONFIG_TASN1' in config_host and \
+      'CONFIG_POSIX' in config_host
+     tests += {
+@@ -97,7 +97,7 @@ if have_block
+   if 'CONFIG_AUTH_PAM' in config_host
+     tests += {'test-authz-pam': [authz]}
+   endif
+-  if 'CONFIG_QEMU_PRIVATE_XTS' in config_host
++  if xts == 'private'
+     tests += {'test-crypto-xts': [crypto, io]}
+   endif
+   if 'CONFIG_POSIX' in config_host
+@@ -106,7 +106,7 @@ if have_block
+   if 'CONFIG_REPLICATION' in config_host
+     tests += {'test-replication': [testblock]}
+   endif
+-  if 'CONFIG_NETTLE' in config_host or 'CONFIG_GCRYPT' in config_host
++  if nettle.found() or gcrypt.found()
+     tests += {'test-crypto-pbkdf': [io]}
+   endif
+   if 'CONFIG_EPOLL_CREATE1' in config_host
 -- 
 2.31.1
 
