@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870393B40B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:38:29 +0200 (CEST)
-Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FB33B40AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:37:26 +0200 (CEST)
+Received: from localhost ([::1]:43134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwiI8-0004Jr-H8
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
+	id 1lwiH7-0000FA-49
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzc-00033q-EU
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20945)
+ id 1lwhza-00030G-HN
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzZ-0006w4-9i
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:20 -0400
+ id 1lwhzY-0006vY-MG
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1624612756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jDuWf4u6117n4fJqd/tQSbJZpR3kSOCabdjyOQBeSIc=;
- b=EsLDgiRCN2pbhE/fHflVMQv2+OWWcVuNTFQt/E0d3+/aMNqyHdqGRT+UqUY5qEUkNBHToP
- TbL4cel6zCVJyYVl/P1WAsaZ9I1Yn43ayMPEFPhk8rkH9PGVlqaFJPYYXkABwfv9UHiy/9
- p/jzkAvVmoRU02tel0M6cVRpELgHJBE=
+ bh=pKnSD+rWAD5M3ws7kmsxQAjLpDeIBrvcFGenep6TCio=;
+ b=CEwXvLmsT5d+l0RNEkdfn2gJLVTBNkhXiN82y70ThDcuiBl4fSofznoGSKWwCUjIOuT9kw
+ vGtB73x7Hd1dd/3fZxXJYa9QW5px7BiKHp9+uXNIQsD360kJ0METOaLXXR62Rd9CfTFEcb
+ RHEFCZ+V3Mocmd2KB4Xc5AMi/2rR7xA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-rN_avMHNM8OiaXY-rfL1xQ-1; Fri, 25 Jun 2021 05:19:13 -0400
-X-MC-Unique: rN_avMHNM8OiaXY-rfL1xQ-1
+ us-mta-452-PBxu6FLBPRWi0fKLpxaf2Q-1; Fri, 25 Jun 2021 05:19:14 -0400
+X-MC-Unique: PBxu6FLBPRWi0fKLpxaf2Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 352AEDF8A3;
- Fri, 25 Jun 2021 09:19:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 949C710199A0;
+ Fri, 25 Jun 2021 09:19:13 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6758B60C05;
- Fri, 25 Jun 2021 09:19:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C58960C05;
+ Fri, 25 Jun 2021 09:19:12 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/53] acpi: build_tpm2: use
+Subject: [PATCH 25/53] acpi: acpi_build_hest: use
  acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Fri, 25 Jun 2021 05:17:49 -0400
-Message-Id: <20210625091818.1047980-26-imammedo@redhat.com>
+Date: Fri, 25 Jun 2021 05:17:50 -0400
+Message-Id: <20210625091818.1047980-27-imammedo@redhat.com>
 In-Reply-To: <20210625091818.1047980-1-imammedo@redhat.com>
 References: <20210625091818.1047980-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,7 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanb@linux.vnet.ibm.com, mst@redhat.com
+Cc: gengdongjiu1@gmail.com, drjones@redhat.com, qemu-arm@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,44 +91,40 @@ which hides offsets magic from API user.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: stefanb@linux.vnet.ibm.com
+CC: qemu-arm@nongnu.org
+CC: drjones@redhat.com
+CC: gengdongjiu1@gmail.com
 ---
- hw/acpi/aml-build.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ hw/acpi/ghes.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 3da32301b6..159f998187 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2098,13 +2098,14 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-                 const char *oem_id, const char *oem_table_id)
+diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+index a4dac6bf15..ae577c08e4 100644
+--- a/hw/acpi/ghes.c
++++ b/hw/acpi/ghes.c
+@@ -362,18 +362,16 @@ static void build_ghes_v2(GArray *table_data, int source_id, BIOSLinker *linker)
+ void acpi_build_hest(GArray *table_data, BIOSLinker *linker,
+                      const char *oem_id, const char *oem_table_id)
  {
-     uint8_t start_method_params[12] = {};
--    unsigned log_addr_offset, tpm2_start;
-+    unsigned log_addr_offset;
-     uint64_t control_area_start_address;
-     TPMIf *tpmif = tpm_find();
-     uint32_t start_method;
-+    AcpiTable table = { .sig = "TPM2", .rev = 4,
+-    uint64_t hest_start = table_data->len;
++    AcpiTable table = { .sig = "HEST", .rev = 1,
 +                        .oem_id = oem_id, .oem_table_id = oem_table_id };
  
--    tpm2_start = table_data->len;
+-    /* Hardware Error Source Table header*/
 -    acpi_data_push(table_data, sizeof(AcpiTableHeader));
 +    acpi_init_table(&table, table_data);
  
-     /* Platform Class */
-     build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-@@ -2142,9 +2143,7 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-     bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-                                    log_addr_offset, 8,
-                                    ACPI_BUILD_TPMLOG_FILE, 0);
--    build_header(linker, table_data,
--                 (void *)(table_data->data + tpm2_start),
--                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
+     /* Error Source Count */
+     build_append_int_noprefix(table_data, ACPI_GHES_ERROR_SOURCE_COUNT, 4);
+-
+     build_ghes_v2(table_data, ACPI_HEST_SRC_ID_SEA, linker);
+ 
+-    build_header(linker, table_data, (void *)(table_data->data + hest_start),
+-                 "HEST", table_data->len - hest_start, 1, oem_id, oem_table_id);
 +    acpi_table_composed(linker, &table);
  }
- #endif
  
+ void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
 -- 
 2.27.0
 
