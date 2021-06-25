@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F863B3B25
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 05:20:56 +0200 (CEST)
-Received: from localhost ([::1]:46008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120123B3B26
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 05:22:28 +0200 (CEST)
+Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwcOl-00060L-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 23:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35270)
+	id 1lwcQF-0001Ch-3H
+	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 23:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lwcNK-0003x2-D1
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:26 -0400
-Received: from mga04.intel.com ([192.55.52.120]:4132)
+ id 1lwcNL-0003xH-9J
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:27 -0400
+Received: from mga04.intel.com ([192.55.52.120]:4123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lwcNG-00068K-T9
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:26 -0400
-IronPort-SDR: 6wrUStMex5U65QGKMShTsHG9UDFd9zlaeR6aP+2ffQuL3ORIrBLI72lbxOkndT0Qo3Egq/1avH
- DF45+lYClcGQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="205772515"
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="205772515"
+ id 1lwcNJ-00060Y-Bd
+ for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:27 -0400
+IronPort-SDR: 1G2bTqsdb3pzsX9an58rKFYhbKepH9hE1+uzVgXxjWEIahQVFXHauzGWE2oU8focKmwX8Q7MOG
+ trjSw8lcWgaw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="205772517"
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="205772517"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 20:19:17 -0700
-IronPort-SDR: AItyf3krOJ86ZmiXiV9vMQKgkXqZBSMr2K2NowGmu1HSNJLnH3Ny4qPEmINWtrRsl2/wkepKN8
- hynT1uqoEYNg==
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="488024812"
+ 24 Jun 2021 20:19:20 -0700
+IronPort-SDR: e/LU32h+itNOz/mOGcb6/IZnFJEO1Um4Vu0Pgssax8dX2qx0GFiE3R7ta998QweykUAdPLRSpp
+ PnmdHkbyuDHQ==
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="488024824"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 20:19:14 -0700
+ 24 Jun 2021 20:19:17 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PULL 2/6] util/qemu-sockets.c: Add inet_parse_base to handle
- InetSocketAddressBase
-Date: Fri, 25 Jun 2021 11:11:32 +0800
-Message-Id: <20210625031136.2775308-3-chen.zhang@intel.com>
+Subject: [PULL 3/6] hmp-commands: Add new HMP command for filter passthrough
+Date: Fri, 25 Jun 2021 11:11:33 +0800
+Message-Id: <20210625031136.2775308-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210625031136.2775308-1-chen.zhang@intel.com>
 References: <20210625031136.2775308-1-chen.zhang@intel.com>
@@ -71,51 +70,153 @@ Cc: Lukas Straub <lukasstraub2@web.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No need to carry the flag all the time in many scenarios.
+Add hmp_passthrough_filter_add and hmp_passthrough_filter_del make user
+can maintain object network passthrough list in human monitor
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- include/qemu/sockets.h |  1 +
- util/qemu-sockets.c    | 14 ++++++++++++++
- 2 files changed, 15 insertions(+)
+ hmp-commands.hx       | 26 +++++++++++++++
+ include/monitor/hmp.h |  2 ++
+ monitor/hmp-cmds.c    | 76 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 104 insertions(+)
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 0c34bf2398..3a0f8fa8f2 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -32,6 +32,7 @@ int socket_set_fast_reuse(int fd);
- int inet_ai_family_from_address(InetSocketAddress *addr,
-                                 Error **errp);
- int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
-+int inet_parse_base(InetSocketAddressBase *addr, const char *str, Error **errp);
- int inet_connect(const char *str, Error **errp);
- int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 8e45bce2cd..426a7d6cda 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1292,6 +1292,32 @@ SRST
+   Remove host network device.
+ ERST
  
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 080a240b74..cd7fa0b884 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -713,6 +713,20 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
-     return 0;
++    {
++        .name       = "passthrough_filter_add",
++        .args_type  = "protocol:s?,object-name:s,src:s?,dst:s?",
++        .params     = "[protocol] object-name [src] [dst]",
++        .help       = "Add network passthrough rule to object passthrough list",
++        .cmd        = hmp_passthrough_filter_add,
++    },
++
++SRST
++``passthrough_filter_add``
++  Add network stream to object passthrough list.
++ERST
++
++    {
++        .name       = "passthrough_filter_del",
++        .args_type  = "protocol:s?,object-name:s,src:s?,dst:s?",
++        .params     = "[protocol] object-name [src] [dst]",
++        .help       = "Delete network passthrough rule from object passthrough list",
++        .cmd        = hmp_passthrough_filter_del,
++    },
++
++SRST
++``passthrough_filter_del``
++  Delete network stream from object passthrough list.
++ERST
++
+     {
+         .name       = "object_add",
+         .args_type  = "object:S",
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 3baa1058e2..ba6987e552 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -77,6 +77,8 @@ void hmp_device_del(Monitor *mon, const QDict *qdict);
+ void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict);
+ void hmp_netdev_add(Monitor *mon, const QDict *qdict);
+ void hmp_netdev_del(Monitor *mon, const QDict *qdict);
++void hmp_passthrough_filter_add(Monitor *mon, const QDict *qdict);
++void hmp_passthrough_filter_del(Monitor *mon, const QDict *qdict);
+ void hmp_getfd(Monitor *mon, const QDict *qdict);
+ void hmp_closefd(Monitor *mon, const QDict *qdict);
+ void hmp_sendkey(Monitor *mon, const QDict *qdict);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 0942027208..26ff316c93 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1638,6 +1638,82 @@ void hmp_netdev_del(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
  }
  
-+int inet_parse_base(InetSocketAddressBase *base, const char *str, Error **errp)
++void hmp_passthrough_filter_add(Monitor *mon, const QDict *qdict)
 +{
-+    InetSocketAddress *addr;
-+    int ret = 0;
++    IPFlowSpec *spec = g_new0(IPFlowSpec, 1);
++    char *src, *dst;
++    Error *err = NULL;
 +
-+    addr = g_new0(InetSocketAddress, 1);
-+    ret = inet_parse(addr, str, errp);
++    spec->protocol = g_strdup(qdict_get_try_str(qdict, "protocol"));
++    spec->object_name = g_strdup(qdict_get_try_str(qdict, "object-name"));
++    src = g_strdup(qdict_get_try_str(qdict, "src"));
++    dst = g_strdup(qdict_get_try_str(qdict, "dst"));
 +
-+    base->host = addr->host;
-+    base->port = addr->port;
++    if (src) {
++        spec->source = g_new0(InetSocketAddressBase, 1);
 +
-+    g_free(addr);
-+    return ret;
++        if (inet_parse_base(spec->source, src, NULL)) {
++            monitor_printf(mon, "Incorrect passthrough src address\n");
++            goto out;
++        }
++    }
++
++    if (dst) {
++        spec->destination = g_new0(InetSocketAddressBase, 1);
++
++        if (inet_parse_base(spec->destination, dst, NULL)) {
++            monitor_printf(mon, "Incorrect passthrough dst address\n");
++            goto out;
++        }
++    }
++
++    qmp_passthrough_filter_add(spec, &err);
++
++out:
++    g_free(src);
++    g_free(dst);
++
++    hmp_handle_error(mon, err);
 +}
- 
- /**
-  * Create a blocking socket and connect it to an address.
++
++void hmp_passthrough_filter_del(Monitor *mon, const QDict *qdict)
++{
++    IPFlowSpec *spec = g_new0(IPFlowSpec, 1);
++    char *src, *dst;
++    Error *err = NULL;
++
++    spec->protocol = g_strdup(qdict_get_try_str(qdict, "protocol"));
++    spec->object_name = g_strdup(qdict_get_try_str(qdict, "object-name"));
++    src = g_strdup(qdict_get_try_str(qdict, "src"));
++    dst = g_strdup(qdict_get_try_str(qdict, "dst"));
++
++    if (src) {
++        spec->source = g_new0(InetSocketAddressBase, 1);
++
++        if (inet_parse_base(spec->source, src, NULL)) {
++            monitor_printf(mon, "Incorrect passthrough src address\n");
++            goto out;
++        }
++    }
++
++    if (dst) {
++        spec->destination = g_new0(InetSocketAddressBase, 1);
++
++        if (inet_parse_base(spec->destination, dst, NULL)) {
++            monitor_printf(mon, "Incorrect passthrough dst address\n");
++            goto out;
++        }
++    }
++
++    qmp_passthrough_filter_del(spec, &err);
++
++out:
++    g_free(src);
++    g_free(dst);
++
++    hmp_handle_error(mon, err);
++}
++
+ void hmp_object_add(Monitor *mon, const QDict *qdict)
+ {
+     const char *options = qdict_get_str(qdict, "object");
 -- 
 2.25.1
 
