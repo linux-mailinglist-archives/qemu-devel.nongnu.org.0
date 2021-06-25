@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5953B3CD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:56:14 +0200 (CEST)
-Received: from localhost ([::1]:48680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05DB3B3CDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:56:34 +0200 (CEST)
+Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwfl7-0007xp-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:56:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
+	id 1lwflR-0000Hi-To
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfjD-0005fu-Pv
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:15 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58682
+ id 1lwfjO-0005sA-TM
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:26 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58688
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfjA-0001ml-Kw
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:15 -0400
+ id 1lwfjE-0001qA-1P
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:26 -0400
 Received: from host109-153-84-9.range109-153.btcentralplus.com ([109.153.84.9]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfir-0006FO-Da; Fri, 25 Jun 2021 07:53:57 +0100
+ id 1lwfiv-0006FO-Sv; Fri, 25 Jun 2021 07:54:02 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
  f4bug@amsat.org, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
  jasowang@redhat.com, fthain@telegraphics.com.au, laurent@vivier.eu
-Date: Fri, 25 Jun 2021 07:53:51 +0100
-Message-Id: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 25 Jun 2021 07:53:52 +0100
+Message-Id: <20210625065401.30170-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
+References: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 00/10] dp8393x: fixes for MacOS toolbox ROM
+Subject: [PATCH v2 01/10] dp8393x: checkpatch fixes
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,71 +64,342 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is the next set of patches from my attempts to boot MacOS under QEMU's
-Q800 machine related to the Sonic network adapter.
-
-Patches 1 and 2 sort out checkpatch and convert from DPRINTF macros to
-trace-events.
-
-The discussion for the v1 patchset concluded that the dp8393x device does
-NOT have its own NVRAM (there is no mention of it on the datasheet) and so
-patches 3 to 5 move the generation of the PROM to the q800 and jazz boards
-separately to allow the formats to diverge.
-
-Patch 6 adds an implementation of bitrev8 to bitops.h in preparation for
-changing the q800 PROM storage format, whilst patch 7 updates the MAC address
-storage and checksum for the q800 machine to match the format expected by the
-MacOS toolbox ROM.
-
-Patch 8 ensures that the CPU loads/stores are correctly converted to 16-bit
-accesses for the network card and patch 9 fixes a bug when selecting the
-index specified for CAM entries.
-
-Finally since the MIPS magnum machine exists for both big-endian (mips64) and
-little-endian (mips64el) configurations, patch 10 sets the dp8393x big_endian
-property accordingly using a similar technique already used for the MIPS malta
-machines.
-
-Migration notes: the changes to the dp8393x PROM are a migration break, but we
-don't care about this for now since a) the q800 machine will have more
-breaking migration changes as further MacOS toolbox ROM support is upstreamed
-and b) the magnum machine migration is currently broken (and has been for
-quite some time).
+Also fix a simple comment typo of "constrainst" to "constraints".
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/net/dp8393x.c | 231 +++++++++++++++++++++++++----------------------
+ 1 file changed, 122 insertions(+), 109 deletions(-)
 
-
-v2:
-- Move PROM generation from dp8393x to q800 and magnum machines and remove
-  the existing code from the device itself
-- Add bitrev8 implementation to bitops.h so it can be used elsewhere in
-  future. Use a shift/merge technique rather than a massive table lookup
-  as we don't care about speed
-- Add patch to set the big_endian property correctly depending upon whether
-  a big-endian or little-endian configuration is being used
-
-
-Mark Cave-Ayland (10):
-  dp8393x: checkpatch fixes
-  dp8393x: convert to trace-events
-  hw/mips/jazz: move PROM and checksum calculation from dp8393x device
-    to board
-  hw/m68k/q800: move PROM and checksum calculation from dp8393x device
-    to board
-  dp8393x: remove onboard PROM containing MAC address and checksum
-  qemu/bitops.h: add bitrev8 implementation
-  hw/m68k/q800: fix PROM checksum and MAC address storage
-  dp8393x: don't force 32-bit register access
-  dp8393x: fix CAM descriptor entry index
-  hw/mips/jazz: specify correct endian for dp8393x device
-
- hw/m68k/q800.c        |  21 ++-
- hw/mips/jazz.c        |  32 ++++-
- hw/net/dp8393x.c      | 313 +++++++++++++++++++-----------------------
- hw/net/trace-events   |  17 +++
- include/qemu/bitops.h |  22 +++
- 5 files changed, 231 insertions(+), 174 deletions(-)
-
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index 533a8304d0..56af08f0fe 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -29,14 +29,14 @@
+ #include <zlib.h>
+ #include "qom/object.h"
+ 
+-//#define DEBUG_SONIC
++/* #define DEBUG_SONIC */
+ 
+ #define SONIC_PROM_SIZE 0x1000
+ 
+ #ifdef DEBUG_SONIC
+ #define DPRINTF(fmt, ...) \
+ do { printf("sonic: " fmt , ##  __VA_ARGS__); } while (0)
+-static const char* reg_names[] = {
++static const char *reg_names[] = {
+     "CR", "DCR", "RCR", "TCR", "IMR", "ISR", "UTDA", "CTDA",
+     "TPS", "TFC", "TSA0", "TSA1", "TFS", "URDA", "CRDA", "CRBA0",
+     "CRBA1", "RBWC0", "RBWC1", "EOBC", "URRA", "RSA", "REA", "RRP",
+@@ -185,7 +185,8 @@ struct dp8393xState {
+     AddressSpace as;
+ };
+ 
+-/* Accessor functions for values which are formed by
++/*
++ * Accessor functions for values which are formed by
+  * concatenating two 16 bit device registers. By putting these
+  * in their own functions with a uint32_t return type we avoid the
+  * pitfall of implicit sign extension where ((x << 16) | y) is a
+@@ -350,8 +351,7 @@ static void dp8393x_do_read_rra(dp8393xState *s)
+     }
+ 
+     /* Warn the host if CRBA now has the last available resource */
+-    if (s->regs[SONIC_RRP] == s->regs[SONIC_RWP])
+-    {
++    if (s->regs[SONIC_RRP] == s->regs[SONIC_RWP]) {
+         s->regs[SONIC_ISR] |= SONIC_ISR_RBE;
+         dp8393x_update_irq(s);
+     }
+@@ -364,7 +364,8 @@ static void dp8393x_do_software_reset(dp8393xState *s)
+ {
+     timer_del(s->watchdog);
+ 
+-    s->regs[SONIC_CR] &= ~(SONIC_CR_LCAM | SONIC_CR_RRRA | SONIC_CR_TXP | SONIC_CR_HTX);
++    s->regs[SONIC_CR] &= ~(SONIC_CR_LCAM | SONIC_CR_RRRA | SONIC_CR_TXP |
++                           SONIC_CR_HTX);
+     s->regs[SONIC_CR] |= SONIC_CR_RST | SONIC_CR_RXDIS;
+ }
+ 
+@@ -490,8 +491,10 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+ 
+         /* Handle Ethernet checksum */
+         if (!(s->regs[SONIC_TCR] & SONIC_TCR_CRCI)) {
+-            /* Don't append FCS there, to look like slirp packets
+-             * which don't have one */
++            /*
++             * Don't append FCS there, to look like slirp packets
++             * which don't have one
++             */
+         } else {
+             /* Remove existing FCS */
+             tx_len -= 4;
+@@ -558,26 +561,34 @@ static void dp8393x_do_command(dp8393xState *s, uint16_t command)
+ 
+     s->regs[SONIC_CR] |= (command & SONIC_CR_MASK);
+ 
+-    if (command & SONIC_CR_HTX)
++    if (command & SONIC_CR_HTX) {
+         dp8393x_do_halt_transmission(s);
+-    if (command & SONIC_CR_TXP)
++    }
++    if (command & SONIC_CR_TXP) {
+         dp8393x_do_transmit_packets(s);
+-    if (command & SONIC_CR_RXDIS)
++    }
++    if (command & SONIC_CR_RXDIS) {
+         dp8393x_do_receiver_disable(s);
+-    if (command & SONIC_CR_RXEN)
++    }
++    if (command & SONIC_CR_RXEN) {
+         dp8393x_do_receiver_enable(s);
+-    if (command & SONIC_CR_STP)
++    }
++    if (command & SONIC_CR_STP) {
+         dp8393x_do_stop_timer(s);
+-    if (command & SONIC_CR_ST)
++    }
++    if (command & SONIC_CR_ST) {
+         dp8393x_do_start_timer(s);
+-    if (command & SONIC_CR_RST)
++    }
++    if (command & SONIC_CR_RST) {
+         dp8393x_do_software_reset(s);
++    }
+     if (command & SONIC_CR_RRRA) {
+         dp8393x_do_read_rra(s);
+         s->regs[SONIC_CR] &= ~SONIC_CR_RRRA;
+     }
+-    if (command & SONIC_CR_LCAM)
++    if (command & SONIC_CR_LCAM) {
+         dp8393x_do_load_cam(s);
++    }
+ }
+ 
+ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+@@ -587,24 +598,24 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+     uint16_t val = 0;
+ 
+     switch (reg) {
+-        /* Update data before reading it */
+-        case SONIC_WT0:
+-        case SONIC_WT1:
+-            dp8393x_update_wt_regs(s);
+-            val = s->regs[reg];
+-            break;
+-        /* Accept read to some registers only when in reset mode */
+-        case SONIC_CAP2:
+-        case SONIC_CAP1:
+-        case SONIC_CAP0:
+-            if (s->regs[SONIC_CR] & SONIC_CR_RST) {
+-                val = s->cam[s->regs[SONIC_CEP] & 0xf][2* (SONIC_CAP0 - reg) + 1] << 8;
+-                val |= s->cam[s->regs[SONIC_CEP] & 0xf][2* (SONIC_CAP0 - reg)];
+-            }
+-            break;
+-        /* All other registers have no special contrainst */
+-        default:
+-            val = s->regs[reg];
++    /* Update data before reading it */
++    case SONIC_WT0:
++    case SONIC_WT1:
++        dp8393x_update_wt_regs(s);
++        val = s->regs[reg];
++        break;
++    /* Accept read to some registers only when in reset mode */
++    case SONIC_CAP2:
++    case SONIC_CAP1:
++    case SONIC_CAP0:
++        if (s->regs[SONIC_CR] & SONIC_CR_RST) {
++            val = s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg) + 1] << 8;
++            val |= s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg)];
++        }
++        break;
++    /* All other registers have no special contraints */
++    default:
++        val = s->regs[reg];
+     }
+ 
+     DPRINTF("read 0x%04x from reg %s\n", val, reg_names[reg]);
+@@ -622,75 +633,75 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+     DPRINTF("write 0x%04x to reg %s\n", (uint16_t)val, reg_names[reg]);
+ 
+     switch (reg) {
+-        /* Command register */
+-        case SONIC_CR:
+-            dp8393x_do_command(s, val);
+-            break;
+-        /* Prevent write to read-only registers */
+-        case SONIC_CAP2:
+-        case SONIC_CAP1:
+-        case SONIC_CAP0:
+-        case SONIC_SR:
+-        case SONIC_MDT:
+-            DPRINTF("writing to reg %d invalid\n", reg);
+-            break;
+-        /* Accept write to some registers only when in reset mode */
+-        case SONIC_DCR:
+-            if (s->regs[SONIC_CR] & SONIC_CR_RST) {
+-                s->regs[reg] = val & 0xbfff;
+-            } else {
+-                DPRINTF("writing to DCR invalid\n");
+-            }
+-            break;
+-        case SONIC_DCR2:
+-            if (s->regs[SONIC_CR] & SONIC_CR_RST) {
+-                s->regs[reg] = val & 0xf017;
+-            } else {
+-                DPRINTF("writing to DCR2 invalid\n");
+-            }
+-            break;
+-        /* 12 lower bytes are Read Only */
+-        case SONIC_TCR:
+-            s->regs[reg] = val & 0xf000;
+-            break;
+-        /* 9 lower bytes are Read Only */
+-        case SONIC_RCR:
+-            s->regs[reg] = val & 0xffe0;
+-            break;
+-        /* Ignore most significant bit */
+-        case SONIC_IMR:
+-            s->regs[reg] = val & 0x7fff;
+-            dp8393x_update_irq(s);
+-            break;
+-        /* Clear bits by writing 1 to them */
+-        case SONIC_ISR:
+-            val &= s->regs[reg];
+-            s->regs[reg] &= ~val;
+-            if (val & SONIC_ISR_RBE) {
+-                dp8393x_do_read_rra(s);
+-            }
+-            dp8393x_update_irq(s);
+-            break;
+-        /* The guest is required to store aligned pointers here */
+-        case SONIC_RSA:
+-        case SONIC_REA:
+-        case SONIC_RRP:
+-        case SONIC_RWP:
+-            if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
+-                s->regs[reg] = val & 0xfffc;
+-            } else {
+-                s->regs[reg] = val & 0xfffe;
+-            }
+-            break;
+-        /* Invert written value for some registers */
+-        case SONIC_CRCT:
+-        case SONIC_FAET:
+-        case SONIC_MPT:
+-            s->regs[reg] = val ^ 0xffff;
+-            break;
+-        /* All other registers have no special contrainst */
+-        default:
+-            s->regs[reg] = val;
++    /* Command register */
++    case SONIC_CR:
++        dp8393x_do_command(s, val);
++        break;
++    /* Prevent write to read-only registers */
++    case SONIC_CAP2:
++    case SONIC_CAP1:
++    case SONIC_CAP0:
++    case SONIC_SR:
++    case SONIC_MDT:
++        DPRINTF("writing to reg %d invalid\n", reg);
++        break;
++    /* Accept write to some registers only when in reset mode */
++    case SONIC_DCR:
++        if (s->regs[SONIC_CR] & SONIC_CR_RST) {
++            s->regs[reg] = val & 0xbfff;
++        } else {
++            DPRINTF("writing to DCR invalid\n");
++        }
++        break;
++    case SONIC_DCR2:
++        if (s->regs[SONIC_CR] & SONIC_CR_RST) {
++            s->regs[reg] = val & 0xf017;
++        } else {
++            DPRINTF("writing to DCR2 invalid\n");
++        }
++        break;
++    /* 12 lower bytes are Read Only */
++    case SONIC_TCR:
++        s->regs[reg] = val & 0xf000;
++        break;
++    /* 9 lower bytes are Read Only */
++    case SONIC_RCR:
++        s->regs[reg] = val & 0xffe0;
++        break;
++    /* Ignore most significant bit */
++    case SONIC_IMR:
++        s->regs[reg] = val & 0x7fff;
++        dp8393x_update_irq(s);
++        break;
++    /* Clear bits by writing 1 to them */
++    case SONIC_ISR:
++        val &= s->regs[reg];
++        s->regs[reg] &= ~val;
++        if (val & SONIC_ISR_RBE) {
++            dp8393x_do_read_rra(s);
++        }
++        dp8393x_update_irq(s);
++        break;
++    /* The guest is required to store aligned pointers here */
++    case SONIC_RSA:
++    case SONIC_REA:
++    case SONIC_RRP:
++    case SONIC_RWP:
++        if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
++            s->regs[reg] = val & 0xfffc;
++        } else {
++            s->regs[reg] = val & 0xfffe;
++        }
++        break;
++    /* Invert written value for some registers */
++    case SONIC_CRCT:
++    case SONIC_FAET:
++    case SONIC_MPT:
++        s->regs[reg] = val ^ 0xffff;
++        break;
++    /* All other registers have no special contrainst */
++    default:
++        s->regs[reg] = val;
+     }
+ 
+     if (reg == SONIC_WT0 || reg == SONIC_WT1) {
+@@ -747,17 +758,18 @@ static int dp8393x_receive_filter(dp8393xState *s, const uint8_t * buf,
+     }
+ 
+     /* Check broadcast */
+-    if ((s->regs[SONIC_RCR] & SONIC_RCR_BRD) && !memcmp(buf, bcast, sizeof(bcast))) {
++    if ((s->regs[SONIC_RCR] & SONIC_RCR_BRD) &&
++         !memcmp(buf, bcast, sizeof(bcast))) {
+         return SONIC_RCR_BC;
+     }
+ 
+     /* Check CAM */
+     for (i = 0; i < 16; i++) {
+         if (s->regs[SONIC_CE] & (1 << i)) {
+-             /* Entry enabled */
+-             if (!memcmp(buf, s->cam[i], sizeof(s->cam[i]))) {
+-                 return 0;
+-             }
++            /* Entry enabled */
++            if (!memcmp(buf, s->cam[i], sizeof(s->cam[i]))) {
++                return 0;
++            }
+         }
+     }
+ 
+@@ -938,7 +950,8 @@ static void dp8393x_reset(DeviceState *dev)
+     s->regs[SONIC_SR] = 0x0004; /* only revision recognized by Linux/mips */
+     s->regs[SONIC_CR] = SONIC_CR_RST | SONIC_CR_STP | SONIC_CR_RXDIS;
+     s->regs[SONIC_DCR] &= ~(SONIC_DCR_EXBUS | SONIC_DCR_LBR);
+-    s->regs[SONIC_RCR] &= ~(SONIC_RCR_LB0 | SONIC_RCR_LB1 | SONIC_RCR_BRD | SONIC_RCR_RNT);
++    s->regs[SONIC_RCR] &= ~(SONIC_RCR_LB0 | SONIC_RCR_LB1 | SONIC_RCR_BRD |
++                            SONIC_RCR_RNT);
+     s->regs[SONIC_TCR] |= SONIC_TCR_NCRS | SONIC_TCR_PTX;
+     s->regs[SONIC_TCR] &= ~SONIC_TCR_BCM;
+     s->regs[SONIC_IMR] = 0;
 -- 
 2.20.1
 
