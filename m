@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDC73B401E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:16:21 +0200 (CEST)
-Received: from localhost ([::1]:58000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9F73B401F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:16:24 +0200 (CEST)
+Received: from localhost ([::1]:58236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwhwi-0003Hq-Sy
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:16:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
+	id 1lwhwl-0003RU-Sl
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:16:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lwhuW-0000XL-Pk
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:04 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44029)
+ id 1lwhuY-0000cR-Qe
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:06 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lwhuU-0002ve-D3
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:04 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- p8-20020a7bcc880000b02901dbb595a9f1so5368829wma.2
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:14:01 -0700 (PDT)
+ id 1lwhuW-0002xU-HG
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:14:06 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id h11so9776564wrx.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:14:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ES6aP9eLrpmL5vbwI6z5QtaMohdgOgmYVT83oPzFr5I=;
- b=eu/zuwf0ekSIQp2bhEhSbXJ8X/i4kVpqCeosR8+Sqoqqv5Wq14oyofBTddXxbIpAkx
- jy0hc5+E1bI1Op4bJKLwsl4mNE2aEfvbHY5zvRo8hxeFZv5NnDRKKIrkUbZp/MeaHN+m
- 964cjzjEJ8CNsJB32NJril2tUYgygHgA+nVD6RjzorS3I9QOirorxYMgPXrVf8wLn18m
- ADww6By00n0OXnVW0i0DSrHbCAIYOSAnkj/x25Tinnd3Cx/ItAsy3C2rWeVPMDQ1+l32
- a0Tahl6ObSUSFibodrjt2Phi4H8cFHJjXrD2vcSrpianwBNAihSj3es92HEUdBWYO+RF
- 0bwg==
+ bh=X7MWCKLUlWRy8aD7dKX2iXictuJ1eiPw/daTK5+xsVs=;
+ b=bZuGEVcCF9Wd4CqpEYDrx8F9AOUy8toj9VnwWIp4QWuBXQMwd+13utipMhpcV3M1Iz
+ 4dSxfrIRvK+tuUNmJ+MbyclybaJAYrub6JUGjNXEgiz0RIVmvXZyIVKpcgFpHyKqObIf
+ Nxpp8WFYN/fme7A9EdlPiANjze6nFSZP/oJuY9Icz6NYn92TfDPYyt7knIsiONrkh/8B
+ soGXA56X8EFptMDTI8XeRRdI39jizpSCivfg2nUrrKNdj6xmLlTIx1ezH491KJ2admqg
+ Jir+IqIbYrvHZM3snKCkjTcnasYesxHSa89BuQt6loIZYljzTeBegL2DSU7vCmhA8xzq
+ hGlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ES6aP9eLrpmL5vbwI6z5QtaMohdgOgmYVT83oPzFr5I=;
- b=QcarUcQZuTZDOBoSaxedbQZLRRvcWcAQ6iD+9G3U23y4Xj/VvEbQcEKyHoMKVuL1pA
- IxGcyZAVHqQmAppA3f6ONVCQMsdlnMRKxDQ4LQ7F8RlieyiDPWUe70xTmHpsxVJcCKXo
- /XKa30nzxdbJv3OHJyqA1lKycZEfgXat3yGQvucgicrzq0BrYpR5xe+tm2DSWu3wUKOt
- t4S5aALZ+Cg9p8LoCANvrhcSIji9PaKFfRdmPLjJ7XMyxQUREFgbp+azxW42YU4Rf647
- 308g9Ag4CdwoLIMOV5MqPZLgziTXJzY6Q6RdZQBuaTavQjrPu4W4Rmq7EPd9p7YmvV68
- pnuA==
-X-Gm-Message-State: AOAM532y10h4bzqueFsSQrEk0ADUNILV45YlzoNHH5vUMMcAmzjXcc06
- NFs/jLFdaybluuW0GDwkMECdwA==
-X-Google-Smtp-Source: ABdhPJykHaloikqAMK4iXTtBjqx3fDtRNiKQdWm5heIc8SSQKoHHlsnolqk4fVGDXWrNrel0PDQ3Bw==
-X-Received: by 2002:a7b:c8d8:: with SMTP id f24mr9663361wml.31.1624612440801; 
- Fri, 25 Jun 2021 02:14:00 -0700 (PDT)
+ bh=X7MWCKLUlWRy8aD7dKX2iXictuJ1eiPw/daTK5+xsVs=;
+ b=PEnr/oG/GlTgSHMiVtWYgxzkABX/Zapv5FQWMJNGe9HmhUQ/WEiSu4zBNyD9rArZ2T
+ TH1+yVk/5L6MOXAUnD6Op4bxRSXwTPbOMQtf7Da6McVuVLqpTMq70D+vABGY3eM/JcpR
+ vm0ZwR54aZx/vaOg6oSPWhM2qlIRQFo7tz8HtniNgr3iGp6vKXrV/XT0+vdHbkn5bzd0
+ pLFiicnbcpUEj6vCZa5rMo7UHmX9UKZOKy1RqJTcnIJMjCf6zNW8ri8GvwU4yDfQ+zF5
+ chMi9Nqmm0RRLBRqLBtdW5eSGvkd2YWXktlzoUNQVKZHdlWcXVNNfGLCY+DxwR9hP3Zg
+ retQ==
+X-Gm-Message-State: AOAM530vTGF9NZtoC4cTU5CahC3eCBAh6Jl/wEaR1kmbjzUgH3YTHrcT
+ Hy0xqGAQTFRS3fZ0viwi672GBA==
+X-Google-Smtp-Source: ABdhPJxbNaAZ7ITJNlOaPVoX4iI/KUU7fILwezY678/x7F54RijCCDE3dAOFE1S310G+6Fp5mFBPJQ==
+X-Received: by 2002:adf:e80c:: with SMTP id o12mr9790810wrm.425.1624612443122; 
+ Fri, 25 Jun 2021 02:14:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m184sm5066849wmm.26.2021.06.25.02.13.56
+ by smtp.gmail.com with ESMTPSA id c8sm5405961wri.91.2021.06.25.02.13.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 02:13:56 -0700 (PDT)
+ Fri, 25 Jun 2021 02:14:01 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A91361FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id C04CB1FF90;
  Fri, 25 Jun 2021 10:13:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 3/7] scripts/checkpatch: roll diff tweaking into checkpatch
- itself
-Date: Fri, 25 Jun 2021 10:13:51 +0100
-Message-Id: <20210625091355.25673-4-alex.bennee@linaro.org>
+Subject: [PULL 4/7] GitLab: Add "Bug" issue reporting template
+Date: Fri, 25 Jun 2021 10:13:52 +0100
+Message-Id: <20210625091355.25673-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210625091355.25673-1-alex.bennee@linaro.org>
 References: <20210625091355.25673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,74 +86,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Krempa <pkrempa@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than relying on external tweaks lets just do it inside
-checkpatch's direct commitish handling which is QEMU specific code
-anyway.
+From: John Snow <jsnow@redhat.com>
 
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Based loosely on libvirt's template, written by Peter Krempa.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210623102749.25686-4-alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+CC: Peter Krempa <pkrempa@redhat.com>
+Message-Id: <20210607153155.1760158-2-jsnow@redhat.com>
+Message-Id: <20210623102749.25686-5-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
-index 7e685c6a65..c5fa4fce26 100644
---- a/.gitlab-ci.d/static_checks.yml
-+++ b/.gitlab-ci.d/static_checks.yml
-@@ -4,9 +4,6 @@ check-patch:
-   needs:
-     job: amd64-centos8-container
-   script:
--    - git config --local diff.renamelimit 0
--    - git config --local diff.renames True
--    - git config --local diff.algorithm histogram
-     - .gitlab-ci.d/check-patch.py
-   variables:
-     GIT_DEPTH: 1000
-diff --git a/.patchew.yml b/.patchew.yml
-index 2638b7f564..1b78262ce5 100644
---- a/.patchew.yml
-+++ b/.patchew.yml
-@@ -138,9 +138,6 @@ testing:
-       script: |
-         #!/bin/bash
-         git rev-parse base > /dev/null || exit 0
--        git config --local diff.renamelimit 0
--        git config --local diff.renames True
--        git config --local diff.algorithm histogram
-         ./scripts/checkpatch.pl --mailback base..
-     docker-mingw@fedora:
-       enabled: true
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bbcd25ae05..cb8eff233e 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -399,7 +399,12 @@ if ($chk_branch) {
- 	my $num_patches = @patches;
- 	for my $hash (@patches) {
- 		my $FILE;
--		open($FILE, '-|', "git", "show", "--patch-with-stat", $hash) ||
-+		open($FILE, '-|', "git",
-+                     "-c", "diff.renamelimit=0",
-+                     "-c", "diff.renames=True",
-+                     "-c", "diff.algorithm=histogram",
-+                     "show",
-+                     "--patch-with-stat", $hash) ||
- 			die "$P: git show $hash - $!\n";
- 		while (<$FILE>) {
- 			chomp;
+diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
+new file mode 100644
+index 0000000000..e910f7b1c2
+--- /dev/null
++++ b/.gitlab/issue_templates/bug.md
+@@ -0,0 +1,64 @@
++<!--
++This is the upstream QEMU issue tracker.
++
++If you are able to, it will greatly facilitate bug triage if you attempt
++to reproduce the problem with the latest qemu.git master built from
++source. See https://www.qemu.org/download/#source for instructions on
++how to do this.
++
++QEMU generally supports the last two releases advertised on
++https://www.qemu.org/. Problems with distro-packaged versions of QEMU
++older than this should be reported to the distribution instead.
++
++See https://www.qemu.org/contribute/report-a-bug/ for additional
++guidance.
++
++If this is a security issue, please consult
++https://www.qemu.org/contribute/security-process/
++-->
++
++## Host environment
++ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
++ - OS/kernel version: (For POSIX hosts, use `uname -a`)
++ - Architecture: (x86, ARM, s390x, etc.)
++ - QEMU flavor: (qemu-system-x86_64, qemu-aarch64, qemu-img, etc.)
++ - QEMU version: (e.g. `qemu-system-x86_64 --version`)
++ - QEMU command line:
++   <!--
++   Give the smallest, complete command line that exhibits the problem.
++
++   If you are using libvirt, virsh, or vmm, you can likely find the QEMU
++   command line arguments in /var/log/libvirt/qemu/$GUEST.log.
++   -->
++   ```
++   ./qemu-system-x86_64 -M q35 -m 4096 -enable-kvm -hda fedora32.qcow2
++   ```
++
++## Emulated/Virtualized environment
++ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
++ - OS/kernel version: (For POSIX guests, use `uname -a`.)
++ - Architecture: (x86, ARM, s390x, etc.)
++
++
++## Description of problem
++<!-- Describe the problem, including any error/crash messages seen. -->
++
++
++## Steps to reproduce
++1.
++2.
++3.
++
++
++## Additional information
++
++<!--
++Attach logs, stack traces, screenshots, etc. Compress the files if necessary.
++If using libvirt, libvirt logs and XML domain information may be relevant.
++-->
++
++<!--
++The line below ensures that proper tags are added to the issue.
++Please do not remove it.
++-->
++/label ~"kind::Bug"
 -- 
 2.20.1
 
