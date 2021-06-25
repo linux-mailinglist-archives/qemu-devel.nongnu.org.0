@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208D43B3DD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 09:43:37 +0200 (CEST)
-Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD913B3E0F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 09:53:36 +0200 (CEST)
+Received: from localhost ([::1]:49272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwgUy-0003lN-7c
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 03:43:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37504)
+	id 1lwged-0006WS-CW
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 03:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwgTb-0002tv-NI
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 03:42:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31397)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwgdo-0005jU-3t
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 03:52:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwgTY-0005Lq-QV
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 03:42:10 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwgdl-0005f9-Ow
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 03:52:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624606927;
+ s=mimecast20190719; t=1624607560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lr0KgUZxKhntqopNIIg+uKQ5Ko91hfTBvUBON2pXXeQ=;
- b=fwgm/oz/fcOL0lpenVXrPicmUZcRQKRdPrZaPeqq+uSo8F/TQXmvlNxFz61RryTRQ8Bt8u
- co1xBuvG0N9mxZNfY2Q/YAyvZ96oxGnCNPgwQt5qlspncWj3kN8O6ZWsDlqWtc9R/q+VBy
- /6WCD0q7yE+4hKR0axwyXktPXgQgOVc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-jaEo547xPrmKfWGD00s0WQ-1; Fri, 25 Jun 2021 03:42:06 -0400
-X-MC-Unique: jaEo547xPrmKfWGD00s0WQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- da21-20020a0564021775b0290395165c6cefso1447938edb.1
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 00:42:06 -0700 (PDT)
+ bh=Jn8hkH5HCvV2P2qC2chvpKEmitrXo6WW+CJAcQti6s4=;
+ b=Y+U9U9iG1LfQrP0QegXPrwPwNaeBbjhnvLZzoyT2YUEoDyKycsjWp36QmnQMen1sm6sNc3
+ zqk8MUqrqhEf2iD/eYd/fx4EmM8LflqwnOBk2kgiudLi+CGIoBFLBkqhF3Po20vqKXpD1K
+ jbRTWrXkBHx6lLzsDk7YYLGLLLQEAbc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-f5TGqlYxMxGvYC24ajkGWg-1; Fri, 25 Jun 2021 03:52:39 -0400
+X-MC-Unique: f5TGqlYxMxGvYC24ajkGWg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w1-20020aa7da410000b029039533674a84so53931eds.9
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 00:52:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=lr0KgUZxKhntqopNIIg+uKQ5Ko91hfTBvUBON2pXXeQ=;
- b=FeO0LNTv05UxYAyboG6qOn0QmxOYZg3CuVK2kHyeICG3V1x+ArxSZYrcwTuo76fLVf
- Ea8fets49caSOABHkB+sjO1Ld06WvTKj/OxTbkVrg8qlsC4SpiAgXyculAdFV1y3hMu9
- BJj9ONkkaJCC/5FGTaUsqwuYKJsKdXeY7cK1byney0MAaopw7RouAcmDIbcFaaPtWe6o
- kIZXC2BCdoWgIvAHGnIUxq1Y9lNZ7dtVgzEFjJ1ik7D4vQXG18WfFikr7vAsXZ9D+gd0
- DIVHV/D9e0w7baczCfpq25kkdDkNu1N8Z8RPDr6sK0JSr9FuWQ4XJn+I4r5uqNeUADY8
- VKEg==
-X-Gm-Message-State: AOAM532g8InilPoXHvBoLgmSG2Vekg3OnfO8BmThkdYKRYyOlT/PMIKG
- smzVRBaR7uVYZN7mblWQsK366F0Ohkh93ofwb9T4dytzD6r1DHbUETwm4O2KmT77uLOBg+0EVYa
- RuP29Bdmbtq0w+/g=
-X-Received: by 2002:a05:6402:1a:: with SMTP id
- d26mr12813326edu.105.1624606925156; 
- Fri, 25 Jun 2021 00:42:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz1JwDwYaFIcEBFShvRx2+67s0oJWBMhdFKYwaND1ZAMPkAJi0LHOrYPeAqCGAbFFpnAR7THA==
-X-Received: by 2002:a05:6402:1a:: with SMTP id
- d26mr12813308edu.105.1624606924940; 
- Fri, 25 Jun 2021 00:42:04 -0700 (PDT)
+ bh=Jn8hkH5HCvV2P2qC2chvpKEmitrXo6WW+CJAcQti6s4=;
+ b=OU8NNTP4T7FdMgNVJgV+Ry6Z5bmF7S4Y+40m7m6Sdoopq0k69LLpSrY4GQyh8vefJF
+ vozzjQXrwADxCfNTodRAdxuT0cTwV+7AbPKg8edM3pFGFs5VKN1GPxV7/G9AGYUHVhgN
+ YOHzYiYzjnXgxN7/lNb6NsMX4aSvjzaRu3Yf/oN1/iEuLCmwooLRKVMCD7UIGqbxMAnv
+ lL1kkga9VfBAH702J2a72r8vjdxS7f/aayoNp1rEl27FzQdcOawdDGsyFjMAVN9tyJpz
+ a7McMO8mRYm5wRh9y+l5R4oDw3Q9fLkb0ubqTzyEyQVkGt0jA1Bdr/99JzZPQ9f0eAiY
+ QTGg==
+X-Gm-Message-State: AOAM530NQVXcd5kN1J3Dcq4KkNX5USC6XPAQKqW0berthyju4UdQf8rq
+ tWI/cbIhIgTz3dTF1QeH6sQihDbanIQUM4kZnvDjChl0YBcsUlsB7pgaIRa3SdGvNm8pydYrO3d
+ IgXE5c2eDD+2n6Ak=
+X-Received: by 2002:a50:eb8c:: with SMTP id y12mr12726119edr.189.1624607558125; 
+ Fri, 25 Jun 2021 00:52:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDYjDN0J4/Xlu1cxcNIDeHEAddoNcUBa47pSGlOGi70mSS9lmzQLJ36AIWjqGDkPF6pJ4W8A==
+X-Received: by 2002:a50:eb8c:: with SMTP id y12mr12726103edr.189.1624607557974; 
+ Fri, 25 Jun 2021 00:52:37 -0700 (PDT)
 Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
  by smtp.gmail.com with ESMTPSA id
- cn10sm3522212edb.38.2021.06.25.00.42.04
+ dd15sm3417978edb.45.2021.06.25.00.52.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 00:42:04 -0700 (PDT)
-Subject: Re: [PATCH 03/11] osdep: provide ROUND_DOWN macro
+ Fri, 25 Jun 2021 00:52:37 -0700 (PDT)
+Subject: Re: [PATCH 04/11] block-backend: align max_transfer to request
+ alignment
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20210624180423.1322165-1-pbonzini@redhat.com>
- <20210624180423.1322165-4-pbonzini@redhat.com>
+ <20210624180423.1322165-5-pbonzini@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
-Message-ID: <e119192f-9377-b971-f98d-2f67d87cce81@redhat.com>
-Date: Fri, 25 Jun 2021 09:42:03 +0200
+Message-ID: <90a7ba21-6039-ee89-e4fe-04d86b6b19e7@redhat.com>
+Date: Fri, 25 Jun 2021 09:52:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210624180423.1322165-4-pbonzini@redhat.com>
+In-Reply-To: <20210624180423.1322165-5-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -106,18 +105,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 24.06.21 20:04, Paolo Bonzini wrote:
-> osdep.h provides a ROUND_UP macro to hide bitwise operations for the
-> purpose of rounding a number up to a power of two; add a ROUND_DOWN
-> macro that does the same with truncation towards zero.
->
-> While at it, change the formatting of some comments.
+> Block device requests must be aligned to bs->bl.request_alignment.
+> It makes sense for drivers to align bs->bl.max_transfer the same
+> way; however when there is no specified limit, blk_get_max_transfer
+> just returns INT_MAX.  Since the contract of the function does not
+> specify that INT_MAX means "no maximum", just align the outcome
+> of the function (whether INT_MAX or bs->bl.max_transfer) before
+> returning it.
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   include/qemu/osdep.h | 28 ++++++++++++++++++++++------
->   1 file changed, 22 insertions(+), 6 deletions(-)
-
-What a nice thing to have.
+>   block/block-backend.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
