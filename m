@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACC53B4117
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:04:55 +0200 (CEST)
-Received: from localhost ([::1]:36244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650AE3B411B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:06:38 +0200 (CEST)
+Received: from localhost ([::1]:39102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwihi-00042J-3T
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
+	id 1lwijN-00065Q-FW
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwi0Y-0004bM-NU
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:20:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26498)
+ id 1lwi0b-0004dg-IG
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:20:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwi0V-0007ZQ-JK
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:20:18 -0400
+ id 1lwi0Y-0007cj-7E
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:20:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624612814;
+ s=mimecast20190719; t=1624612816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sevqBq2jwh0irBge6etk6FQ9XWj0lwGxMZYsSIdfkWI=;
- b=A9btc02/v0CmtfXfU5Ix7+onxuXPORQfnJegArUni7Pxu6gbgdnDtLVX2d8dn4uGlXM7+G
- Sl3sQ5mP6hYNzao3GOizG1YVs7LIS79NugsoSiwaBUk45H7Ph5wOrRufUvUWl/eX/J3QYy
- 8OqpFGWCm/kVGwDI0nZ7vBn8oNzBeJ8=
+ bh=BlXUmcjDsAcYFfgu4VkmS9NfwmdFGrWL7z5bXZoNVOc=;
+ b=YvTKoZFtNmyiw+iYzCyCQYmTBnVtcZixDhM9z3TV3dlgnf5WsY4DydaSdZgWs5LxRWSJm7
+ hkTcI8gcebwrs8mCF393q5Yh+GpRUL26AUzC08j/FIp6xU8Ri4zu+IWaIGSi2Ltn4iWYmX
+ +hOanHfMRhZR7XdVOh8E37/9G/w8X7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-S1wKasHQOWG-XlIRkgFMLA-1; Fri, 25 Jun 2021 05:20:12 -0400
-X-MC-Unique: S1wKasHQOWG-XlIRkgFMLA-1
+ us-mta-408-nus0IZUcPneQyyHZxL-y-w-1; Fri, 25 Jun 2021 05:20:14 -0400
+X-MC-Unique: nus0IZUcPneQyyHZxL-y-w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2C62362FA;
- Fri, 25 Jun 2021 09:20:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A021418A0748
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:20:13 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F357060CA0;
- Fri, 25 Jun 2021 09:20:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04A8960CA0;
+ Fri, 25 Jun 2021 09:20:12 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 51/53] acpi: build_facs: use build_append_int_noprefix() API
- to compose table
-Date: Fri, 25 Jun 2021 05:18:16 -0400
-Message-Id: <20210625091818.1047980-53-imammedo@redhat.com>
+Subject: [PATCH 53/53] acpi: AcpiGenericAddress no longer used to map/access
+ fields of MMIO, drop packed attribute
+Date: Fri, 25 Jun 2021 05:18:18 -0400
+Message-Id: <20210625091818.1047980-55-imammedo@redhat.com>
 In-Reply-To: <20210625091818.1047980-1-imammedo@redhat.com>
 References: <20210625091818.1047980-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,100 +84,24 @@ Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop usage of packed structures and explicit endian
-conversions when building table and use endian agnostic
-build_append_int_noprefix() API to build it.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: marcel.apfelbaum@gmail.com
----
- include/hw/acpi/acpi-defs.h | 14 --------------
- include/hw/acpi/aml-build.h |  1 +
- hw/acpi/aml-build.c         |  2 +-
- hw/i386/acpi-build.c        | 18 ++++++++++++++----
- 4 files changed, 16 insertions(+), 19 deletions(-)
+ include/hw/acpi/acpi-defs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index 0b375e7589..1a0774edd6 100644
+index ee733840aa..c97e8633ad 100644
 --- a/include/hw/acpi/acpi-defs.h
 +++ b/include/hw/acpi/acpi-defs.h
-@@ -117,18 +117,4 @@ typedef struct AcpiFadtData {
- #define ACPI_FADT_ARM_PSCI_COMPLIANT  (1 << 0)
- #define ACPI_FADT_ARM_PSCI_USE_HVC    (1 << 1)
- 
--/*
-- * ACPI 1.0 Firmware ACPI Control Structure (FACS)
-- */
--struct AcpiFacsDescriptorRev1 {
--    uint32_t signature;           /* ACPI Signature */
--    uint32_t length;                 /* Length of structure, in bytes */
--    uint32_t hardware_signature;     /* Hardware configuration signature */
--    uint32_t firmware_waking_vector; /* ACPI OS waking vector */
--    uint32_t global_lock;            /* Global Lock */
--    uint32_t flags;
--    uint8_t  resverved3 [40];        /* Reserved - must be zero */
+@@ -55,7 +55,7 @@ struct AcpiGenericAddress {
+     uint8_t access_width;    /* ACPI 3.0: Minimum Access size (ACPI 3.0),
+                                 ACPI 2.0: Reserved, Table 5-1 */
+     uint64_t address;        /* 64-bit address of struct or register */
 -} QEMU_PACKED;
--typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
--
- #endif
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index dcb7ce11a8..de7d50a5a0 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -413,6 +413,7 @@ Aml *aml_concatenate(Aml *source1, Aml *source2, Aml *target);
- Aml *aml_object_type(Aml *object);
++};
  
- void build_append_int_noprefix(GArray *table, uint64_t value, int size);
-+void build_append_byte(GArray *array, uint8_t val);
- 
- typedef struct AcpiTable {
-     const char *sig;
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 813542b081..c86003c3e9 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -47,7 +47,7 @@ static void build_prepend_byte(GArray *array, uint8_t val)
-     g_array_prepend_val(array, val);
- }
- 
--static void build_append_byte(GArray *array, uint8_t val)
-+void build_append_byte(GArray *array, uint8_t val)
- {
-     g_array_append_val(array, val);
- }
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ea6bfff5b7..90c88fdffc 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -346,13 +346,23 @@ static void acpi_align_size(GArray *blob, unsigned align)
-     g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
- }
- 
--/* FACS */
-+/*
-+ * ACPI spec 1.0b,
-+ * 5.2.6 Firmware ACPI Control Structure
-+ */
- static void
- build_facs(GArray *table_data)
- {
--    AcpiFacsDescriptorRev1 *facs = acpi_data_push(table_data, sizeof *facs);
--    memcpy(&facs->signature, "FACS", 4);
--    facs->length = cpu_to_le32(sizeof(*facs));
-+    const char *sig = "FACS";
-+    const uint8_t reserved[40] = {};
-+
-+    g_array_append_vals(table_data, sig, 4); /* Signature */
-+    build_append_int_noprefix(table_data, 64, 4); /* Length */
-+    build_append_int_noprefix(table_data, 0, 4); /* Hardware Signature */
-+    build_append_int_noprefix(table_data, 0, 4); /* Firmware Waking Vector */
-+    build_append_int_noprefix(table_data, 0, 4); /* Global Lock */
-+    build_append_int_noprefix(table_data, 0, 4); /* Flags */
-+    g_array_append_vals(table_data, reserved, 40); /* Reserved */
- }
- 
- static void build_append_pcihp_notify_entry(Aml *method, int slot)
+ typedef struct AcpiFadtData {
+     struct AcpiGenericAddress pm1a_cnt;   /* PM1a_CNT_BLK */
 -- 
 2.27.0
 
