@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899DD3B48A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:13:07 +0200 (CEST)
-Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4343B48B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:18:44 +0200 (CEST)
+Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwqKA-0007yU-Kp
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:13:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1lwqPb-0001Qt-7i
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqJ3-0007Ju-7z
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:11:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26328)
+ id 1lwqOQ-0000hT-R9
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:17:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqJ1-00007u-Lt
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:11:57 -0400
+ id 1lwqOP-0003ja-5f
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:17:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624644714;
+ s=mimecast20190719; t=1624645048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eqbDVkuLWzG4z0vxoz7PtbFSmb0rh24kLFEWBk1ZjZ4=;
- b=e+bVelsG25+EPAMT+6mysm9c8ChASxCxYHZ4B1l+lY1j02ic7C9NNuThkKu9Hrvp/0Tkb/
- g4Qqh4G23HarCZmO3gV4Q5j3dZ2zWtcYXJu2xijfKsG4cjqQdCOnYbW8TiI+pchVXKWxUi
- VDd86uM/Dao7XVPFwbZnkgKyUfbH6Ps=
+ bh=FB+MhKPXqEi77/RhWbRm2e5hI9cqj4TL0FORm4TJ+20=;
+ b=L2OyoX8mY1yKtMIt+ISwtwI8LVMqY1hGF59BWbrzdrVnws0buFYZPSTzLFXuI75OXcw3Hf
+ lDpcydFytuD4N4JkoTEIauX34CfpsEcHEEIYk9qLTwal7YJ26WAk+vIZX4rF28kD/n8Of4
+ eKOtmCOWk0KWqRvJsuv+hNiPoxu/xcw=
 Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
  [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-jDOcVAHtOUu1avUZlFQKsQ-1; Fri, 25 Jun 2021 14:11:52 -0400
-X-MC-Unique: jDOcVAHtOUu1avUZlFQKsQ-1
+ us-mta-594-ozD0GYDOOJidDcVGGWLQ1A-1; Fri, 25 Jun 2021 14:17:25 -0400
+X-MC-Unique: ozD0GYDOOJidDcVGGWLQ1A-1
 Received: by mail-vk1-f198.google.com with SMTP id
- w206-20020a1fadd70000b02901fb33a39f7aso3306873vke.20
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:11:52 -0700 (PDT)
+ s1-20020a1ff4010000b029024e2e9504e3so3325400vkh.16
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:17:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eqbDVkuLWzG4z0vxoz7PtbFSmb0rh24kLFEWBk1ZjZ4=;
- b=CZjBK6JB8+tyauDyFdJbzfrHfDkOz1+a/AR1+JqEfSFbjvwZ3lQ8hatJFbgAZYv7dw
- MGyWj/7jgHedDHKHVYUuYTL/2CZCk6nJ1SKfEiul+kyEItw3Kdps1d6aIOYbjQIQ+88q
- 56gau5piuCITQmnTGUGFKmUWZ0uXCP2QWG5zjZX1Z3TCK2tOPIdD+Fq9q3Mr+u2+yB0D
- wdCeKFQK3ZxQzdaIm3dFC5mjl901Xqg3PQRs20Bb6i7fO8fwLtI6XRXsYd7i0hFtiahf
- HPN9S3Vki7zFcjpGg090ddZKzvgskV3oTFU4iETE7npz0coAPKUdo7wX8u5Uk54v934v
- MNUQ==
-X-Gm-Message-State: AOAM530zu4KiG/YPHfTIVyqqagFKbjiVXmVi2lMxCDzadk5nOGxX/BIp
- RtFzsx4SiKz0fQEid3ETrb92cyEih1ejMsR1U1nCu94+8gqBQ+kjP2Ib1xglikYPeUF4cEMIS+2
- ZmzVByGbOyR7Rk/ZLBUA4jnqD5yKdd6Q=
-X-Received: by 2002:a67:3081:: with SMTP id w123mr10359905vsw.39.1624644712391; 
- Fri, 25 Jun 2021 11:11:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwMLYY37uK/k1AzX6TtRs+5hUcVosfjM5MrAUG/cHZuXadUtgfsKgNi/nf7MRjE+bfJD/WmpCWg4foztST5ZAc=
-X-Received: by 2002:a67:3081:: with SMTP id w123mr10359884vsw.39.1624644712209; 
- Fri, 25 Jun 2021 11:11:52 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=FB+MhKPXqEi77/RhWbRm2e5hI9cqj4TL0FORm4TJ+20=;
+ b=K0Dn5Bn4LJmmitZlv9NlC6Kww1u9i7O8GCIgxzv/DwIpTkklczfsUMjrs6jCVe4V4O
+ wGWnctYgA3YMa1N856mVV9pj+2BpTnTvoWhsI2mSd7iiMAm04W972lL847XnBLRvhHM3
+ Ces6OxH4/txmBGpUjDqqqxgUekc982hWEv5u37D1lxi857MkOCQEVlpq5p1UCgv3hajv
+ SRfS+gxAfN5BOJKpdzVeIGKz/9EV33zsGYI7QACGjZ6wZ9qU8HjeAFpOXRs2YRrblrx1
+ V1KGClktMZXKe1sD3PEAfh+7lHHvbTLat3zLj1cPJWZW4mbkxMvLpBOGMOadSj0vZHJ6
+ IsIg==
+X-Gm-Message-State: AOAM532rMfVEu8lepbb6BR6eRC8107f2/EYhuv9faU7fqAw5hehJvpI1
+ vR13n0nksbuup3uKgb1rwDxwSuSaKTrpvPVmQTBq44pbloSu2yGOjqMO8FIqLcoF3X0Ut45e0DM
+ iD4+VYZrovked1IH12JBL4l3MNaWA1JQ=
+X-Received: by 2002:ab0:7412:: with SMTP id r18mr6432208uap.124.1624645044916; 
+ Fri, 25 Jun 2021 11:17:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHL4Dko76VOWaFO1QY8XOJV9BszYPzsOK4s+sYCLYnlgCkq/6NDp4XcRSP9Nbnfl6ekNcOLjZHZ4HUIoObjT4=
+X-Received: by 2002:ab0:7412:: with SMTP id r18mr6432179uap.124.1624645044727; 
+ Fri, 25 Jun 2021 11:17:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210623142245.307776-1-berrange@redhat.com>
- <20210623142245.307776-2-berrange@redhat.com>
-In-Reply-To: <20210623142245.307776-2-berrange@redhat.com>
+References: <20210625154540.783306-1-jsnow@redhat.com>
+ <20210625154540.783306-2-jsnow@redhat.com>
+In-Reply-To: <20210625154540.783306-2-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 25 Jun 2021 15:11:26 -0300
-Message-ID: <CAKJDGDby+1DYTn3RP+1UEj2vdd0pmKS18qVjzAfptqX6f_R5GQ@mail.gmail.com>
-Subject: Re: [PATCH v4 01/22] hw/usb/ccid: remove references to NSS
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Fri, 25 Jun 2021 15:16:58 -0300
+Message-ID: <CAKJDGDboVBhJZdA801-ZArm6RG360yDY3T8VTxWY59XwVYtjgQ@mail.gmail.com>
+Subject: Re: [PATCH 01/11] python: expose typing information via PEP 561
+To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -91,41 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 23, 2021 at 11:23 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
+On Fri, Jun 25, 2021 at 12:46 PM John Snow <jsnow@redhat.com> wrote:
 >
-> The NSS package was previously pre-requisite for building CCID related
-> features, however, this became obsolete when the libcacard library was
-> spun off to a separate project:
+> https://www.python.org/dev/peps/pep-0561/#specification
 >
->     commit 7b02f5447c64d1854468f758398c9f6fe9e5721f
->     Author: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->     Date:   Sun Aug 30 11:48:40 2015 +0200
+> Create 'py.typed' files in each subpackage that indicate to mypy that
+> this is a typed module, so that users of any of these packages can use
+> mypy to check their code as well.
 >
->         libcacard: use the standalone project
+> Note: Theoretically it's possible to ditch MANIFEST.in in favor of using
+> package_data in setup.cfg, but I genuinely could not figure out how to
+> get it to include things from the *source root* into the *package root*;
+> only how to include things from each subpackage. I tried!
 >
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  .travis.yml                                | 12 ++++++------
->  docs/ccid.txt                              | 15 +++++++--------
->  scripts/coverity-scan/coverity-scan.docker |  1 -
->  tests/docker/dockerfiles/fedora.docker     |  2 +-
->  tests/docker/dockerfiles/ubuntu.docker     |  1 -
->  tests/docker/dockerfiles/ubuntu1804.docker |  1 -
->  tests/docker/dockerfiles/ubuntu2004.docker |  1 -
->  7 files changed, 14 insertions(+), 19 deletions(-)
+>  python/qemu/machine/py.typed | 0
+>  python/qemu/qmp/py.typed     | 0
+>  python/qemu/utils/py.typed   | 0
+>  python/setup.cfg             | 4 ++++
+>  4 files changed, 4 insertions(+)
+>  create mode 100644 python/qemu/machine/py.typed
+>  create mode 100644 python/qemu/qmp/py.typed
+>  create mode 100644 python/qemu/utils/py.typed
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
