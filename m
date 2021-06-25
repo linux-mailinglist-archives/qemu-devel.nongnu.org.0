@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D90B3B4126
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:10:06 +0200 (CEST)
-Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C873B4112
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:01:54 +0200 (CEST)
+Received: from localhost ([::1]:52718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwimj-00015x-7A
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
+	id 1lwien-0004Ue-Ft
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:01:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi49-0004jM-Ls
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:01 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55145)
+ id 1lwi4C-0004m8-QS
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:04 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:43571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi45-0001lS-Oj
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:23:58 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id u20so629737wmq.4
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:23:57 -0700 (PDT)
+ id 1lwi4B-0001n5-6K
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:04 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ p8-20020a7bcc880000b02901dbb595a9f1so5386516wma.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:24:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WwdNN5kZV6nSH6AN6jmAvVVXJTDQlT1EEV5IustrciY=;
- b=Z4nJYjhuwtboGaNEHTYeeVwyneAGl4JaXan5YccRBwcmRZy3EhHdw/oVuTYcjZ0eM9
- NOzRMeOys5XZD70MnQH404fdY5x5rnBdtmQzUzjTLQiUEjO3SAt+J3fLcxXkzlODkUsw
- XF9BLLNDrfhgzShSmGoLdc8YSnvswXdEzOV8uBRMvfYoED3+BpviDTrm4JNaTdr4vDN3
- XhG05hsevSI7qGlF6yMI+fviQzduf3emOp8csqV6JvGiRXJ1cEYxGLJZjKCv25Hr2TxV
- e6jbcJEwwksL6KORCHGMam82ftXZGkAQoBdRyhhTuj8GF2jIvGOxT0EqBXad/FkjSTp6
- knlA==
+ bh=n82fAnsfNr3VVPFp6ddOKhLvaXiXpM82IkFTfD/mycg=;
+ b=ktc/ouPj74Bn1eGoCjam2EgCUs++p0NV+C5Ve/5kQ8Nbp9t9+bTmKauOctJp50JycY
+ tIh+fVc2lhj83Hmn8C2Fo22IJeLzQZkG5RrFF8h8d7yPmsE7E2/6p/bF1BMgo9eDSetQ
+ 8IIyjKTOkXxnebQ4Ud+55WvBq9B0oxXEVWYPAaaVEg+6AxtUipvsEDOIF7gfQvicNlqq
+ 8bqzn8Tuerl9YvLNKiheECmGGiANwHI4/rghbQQnIE3NwmIbVF2cnJMX0W2P7TM7Yicq
+ Nc1ngVOJbvwWgxIctGyAGPl+62uAXtCsv0pc/rXQv009XXKv3tQdXC6z9UBaw3m2x19R
+ Qjig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WwdNN5kZV6nSH6AN6jmAvVVXJTDQlT1EEV5IustrciY=;
- b=Cqbh2pThM4UGK518n3pfON8d84NF9jWTKgQPtSKYBTVo6mWe4ZtPhjVR9upRUcprtF
- rJkFQ5n26BNph/q6Hi35oBe7zawerdghnwJidBZzpzXd9FlrrR7dDrCbzqXAx7Q1fDav
- tCmwv5krMAW1JU/+WA3Ble8GmHOEmPwFYiGD+nHHQvNfLZxpc/9+IT9DULdjxHj3ZRur
- 61pZu/qsaxEkCcbiorF6AizWXp3MNNkTBMj0mIsv7PHTcQCDBs386Ss5XyMNAWOxCGIU
- kjbkQ+ByLUxmAxCjVtrrSAY4g5vrrMaT4xfo9BB6/t5sngVyJkKCOCl76JGBJqRPiCB2
- lKAQ==
-X-Gm-Message-State: AOAM533TN3fM/53rSf4CgOIH180TvcylinP6d9aXbLi+j94oMlm+2r6R
- XR1nt2VCmTHo1EoA0oiTCRsu0CO8EXj2/A==
-X-Google-Smtp-Source: ABdhPJyrWsp/NIkdhZK5ZdI4acH0v61Ub743RzxxNuwgrdIJ7mQC6EpEwe6H5ELUwWuD50LJ2GpwxA==
-X-Received: by 2002:a1c:1f54:: with SMTP id f81mr9250063wmf.121.1624613036258; 
- Fri, 25 Jun 2021 02:23:56 -0700 (PDT)
+ bh=n82fAnsfNr3VVPFp6ddOKhLvaXiXpM82IkFTfD/mycg=;
+ b=X4we0tFnSrB5xs7WOpRO+u0qYkXkJwfU/HXFgmX+kcDab09S5GJj3/SxBuutV3fxys
+ 7+zhtf94UsEWoHkH0DS6Dl0UvUkBdp6fWzu2LHw55c7y2loUiw93vwM7DG4zg9zGvM56
+ RTZqjqNMpc0+ADDFzhqt8HKiPQK/bgthmLxc60f56W7MHsxXtASUaiAHvlvu8ue5xAyL
+ +9QaE53jM69r2NgC8ClqIeztguWMiQ5bIBOaG2tuU1/Yj4NdV+pXOHHqmsOplkpaCMnA
+ JPqT4Pf0yMH9JtMZ40agA/g58Wt45huNxmWhaRI0pmvoKTr7dGx798uY9tBQsHtiy/36
+ wJXg==
+X-Gm-Message-State: AOAM532umFv5eYU9rShvYLOeCO6duBcSlP+tktRCDwDPE4F0JNCe+LVz
+ n6rPXGNs3C7NaRR2lehm2fITVnBKzvnA7Q==
+X-Google-Smtp-Source: ABdhPJxa5ZpMqqshjsYj6nsHZ9j6MofibKvky/6IRCRArfS48PNgsoX0OW+cK22s4FOw+rh54yqz8g==
+X-Received: by 2002:a05:600c:198f:: with SMTP id
+ t15mr9568639wmq.27.1624613041120; 
+ Fri, 25 Jun 2021 02:24:01 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id l20sm5193943wmq.3.2021.06.25.02.23.55
+ by smtp.gmail.com with ESMTPSA id e12sm5595440wrw.34.2021.06.25.02.24.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 02:23:55 -0700 (PDT)
+ Fri, 25 Jun 2021 02:24:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/15] target/mips: Do not abort on invalid instruction
-Date: Fri, 25 Jun 2021 11:23:19 +0200
-Message-Id: <20210625092329.1529100-6-f4bug@amsat.org>
+Subject: [PULL 06/15] target/mips: Move TCG trace events to tcg/ sub directory
+Date: Fri, 25 Jun 2021 11:23:20 +0200
+Message-Id: <20210625092329.1529100-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625092329.1529100-1-f4bug@amsat.org>
 References: <20210625092329.1529100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,32 +93,68 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On real hardware an invalid instruction doesn't halt the world,
-but usually triggers a RESERVED INSTRUCTION exception.
-TCG guest code shouldn't abort QEMU anyway.
+Commit a2b0a27d33e ("target/mips: Move TCG source files under
+tcg/ sub directory") forgot to move the trace-event file.
+As it only contains TCG events, move it for consistency.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210617174323.2900831-2-f4bug@amsat.org>
+Message-Id: <20210617174323.2900831-4-f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meson.build                        | 2 +-
+ target/mips/tcg/trace.h            | 1 +
+ target/mips/trace.h                | 1 -
+ target/mips/tcg/translate.c        | 2 +-
+ target/mips/{ => tcg}/trace-events | 0
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+ create mode 100644 target/mips/tcg/trace.h
+ delete mode 100644 target/mips/trace.h
+ rename target/mips/{ => tcg}/trace-events (100%)
 
+diff --git a/meson.build b/meson.build
+index d8a92666fbc..a91b39465c7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1882,7 +1882,7 @@
+     'target/hppa',
+     'target/i386',
+     'target/i386/kvm',
+-    'target/mips',
++    'target/mips/tcg',
+     'target/ppc',
+     'target/riscv',
+     'target/s390x',
+diff --git a/target/mips/tcg/trace.h b/target/mips/tcg/trace.h
+new file mode 100644
+index 00000000000..b8c6c4568ec
+--- /dev/null
++++ b/target/mips/tcg/trace.h
+@@ -0,0 +1 @@
++#include "trace/trace-target_mips_tcg.h"
+diff --git a/target/mips/trace.h b/target/mips/trace.h
+deleted file mode 100644
+index f25b88ca6f9..00000000000
+--- a/target/mips/trace.h
++++ /dev/null
+@@ -1 +0,0 @@
+-#include "trace/trace-target_mips.h"
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 3fd0c48d772..4b7229a868a 100644
+index 4b7229a868a..0a4257db2a9 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -12151,8 +12151,8 @@ static void gen_branch(DisasContext *ctx, int insn_bytes)
-             tcg_gen_lookup_and_goto_ptr();
-             break;
-         default:
--            fprintf(stderr, "unknown branch 0x%x\n", proc_hflags);
--            abort();
-+            LOG_DISAS("unknown branch 0x%x\n", proc_hflags);
-+            gen_reserved_instruction(ctx);
-         }
-     }
- }
+@@ -31,7 +31,7 @@
+ #include "exec/helper-gen.h"
+ #include "semihosting/semihost.h"
+ 
+-#include "target/mips/trace.h"
++#include "trace.h"
+ #include "trace-tcg.h"
+ #include "exec/translator.h"
+ #include "exec/log.h"
+diff --git a/target/mips/trace-events b/target/mips/tcg/trace-events
+similarity index 100%
+rename from target/mips/trace-events
+rename to target/mips/tcg/trace-events
 -- 
 2.31.1
 
