@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C0A3B4823
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 19:21:48 +0200 (CEST)
-Received: from localhost ([::1]:41380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A65F3B482C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 19:24:41 +0200 (CEST)
+Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwpWV-0000Ta-BA
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 13:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
+	id 1lwpZI-0003SB-Cx
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 13:24:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwpV8-0007co-OE
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:20:22 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwpV6-0000d9-Ir
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:20:21 -0400
-Received: by mail-wr1-x430.google.com with SMTP id u11so11356155wrw.11
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 10:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=N7giX/ECf4vpn1DeVF6DPWgZdMiYLVUBtO7u6Lx/oWo=;
- b=NSDyvnMytoVLKN3VcrJOvzWo0v+FGeBu67ZmZsaQKmFEQxmeG2pvc9tGZG1o+0lYU0
- e2Yt/kYwRinsKJL7GkV2fba3UFmNHNMvRg0pFDJlA1KJJyBe1on2WiW1E8v/75fo5Mss
- vt7Sh2247oMP+3zsYs3OoY+6HKb6RtHVQsLLQCqOs3Dz5Rd7/TNJ1lxpCMDAtOzXYSMH
- tdPpscW8LATzY7zlDnSobgpJZk80USsXx47V9RU4Z7kW8jdj9cIy7DCVI8RYvS8qHCQz
- +rPSmjgkDxTSOr7+omeXOL5Uh/wczfRT7ZHZex1XlVvamkuOmJeN8CYmZXXp/wR7GbsM
- LeoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=N7giX/ECf4vpn1DeVF6DPWgZdMiYLVUBtO7u6Lx/oWo=;
- b=o6pSSZGRdBqv9n/Z5YBPKeNQypcFzvP0IeTBD7knBbJ4k2kqOJTsty4r8dPTz/Y9LP
- YGwJaSPQQy1e/isJF0jiD+TKNtwxHpKz9YXREercnr/xXr9s4z+YCEqtK638zNXktUGg
- ZzkyCL4Uwud2A/DNCF2lFN5wmkjL1CGol6gcallygzhUrb3kZg0Se8NVDXB5npaftSk3
- U+3/FyJ6nfYsHAKUfiqk3o3AxMR354m6DzTIk7v/YiO0uL9MBrLD9ImZkj4cXlvcEDoU
- G4fMjrfZhh7Kh8a+YKuAJwvMiyaeeYRobyzmUc3MxhqGwXyeDWnLfvyU14BcEygR47nH
- aTEw==
-X-Gm-Message-State: AOAM531gjAF3H6pDmM0F8micK3CjbsPTw2cLYWWi1ei9vTXhNnNeSm2t
- KqOxbtrJYNXwy8TsYgz0KsQ=
-X-Google-Smtp-Source: ABdhPJzx8vJmKlsBVedHUjdDp88Z6UAlBDEOWJzPACiG7TrWD4FqzDm21kiSOLSkMB8HmLR9PclgEA==
-X-Received: by 2002:adf:fd46:: with SMTP id h6mr12354674wrs.420.1624641619006; 
- Fri, 25 Jun 2021 10:20:19 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n8sm6411485wrt.95.2021.06.25.10.20.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 10:20:18 -0700 (PDT)
-Subject: Re: [PATCH 0/2] g364fb: fix migration (or: fix migration for MIPS
- magnum machines)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- aurelien@aurel32.net, jiaxun.yang@flygoat.com, aleksandar.rikalo@syrmia.com,
- hpoussin@reactos.org, fthain@telegraphics.com.au
-References: <20210625073844.1229-1-mark.cave-ayland@ilande.co.uk>
- <23ac7f38-6378-1506-aad9-9602ae5379e8@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <dbde0ed8-8f9a-2267-1eb9-f3676f3dc8f6@amsat.org>
-Date: Fri, 25 Jun 2021 19:20:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lwpXC-0001Yr-2H
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:22:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54428)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lwpX9-00024f-Br
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:22:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624641745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q+LDWtmArDb3ThSwYAO8uSeJffUZnwTUFeEKJQrWDBk=;
+ b=Lrqudc/8xGbnLj2X7RVTV8atxx2/tm4tins8LzdNgnIRfOVRYx+F/QCgOEdt3Iqumlqj10
+ 1AGpN1oiywEbTJ/nIlXVDxP8GMfMNJhxKbkqcMOLJZslkp7yvj44jnWqKcwR8bbJcG/4Fo
+ g9xJvACy/lCUcsO0ON1q1j2UnrjpfW0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-fycCa_8AM9-zd5N_VYWqaw-1; Fri, 25 Jun 2021 13:22:22 -0400
+X-MC-Unique: fycCa_8AM9-zd5N_VYWqaw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 497701835AC4;
+ Fri, 25 Jun 2021 17:22:21 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-183.ams2.redhat.com
+ [10.36.114.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BAC91007623;
+ Fri, 25 Jun 2021 17:22:12 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] ci: use cirrus-run to utilize Cirrus CI from GitLab CI
+Date: Fri, 25 Jun 2021 18:22:08 +0100
+Message-Id: <20210625172211.451010-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <23ac7f38-6378-1506-aad9-9602ae5379e8@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,46 +76,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/21 6:37 PM, Mark Cave-Ayland wrote:
-> On 25/06/2021 08:38, Mark Cave-Ayland wrote:
-> 
->> I noticed whilst testing the previous dp8393x patchset that I would
->> always
->> get a segfault whilst attempting to migrate the MIPS magnum machine.
->>
->> A bit of detective work shows that the problem is an incorrect
->> VMStateDescription
->> in the g364fb device which expects a G364State but instead receives a
->> G364SysBusState.
->>
->> Looking back through the git history suggests that migration for this
->> device
->> (and also the MIPS magnum machines) has been broken for several years,
->> so patch
->> 1 takes the opportunity to improve the migration stream for the
->> framebuffer
->> first whilst patch 2 contains the actual fix.
->>
->> Note that I don't use the MIPS magnum machines on a regular basis but the
->> patchset fixes the migration error and survives some light testing here.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>
->>
->> Mark Cave-Ayland (2):
->>    g364fb: use RAM memory region for framebuffer
->>    g364fb: add VMStateDescription for G364SysBusState
->>
->>   hw/display/g364fb.c | 27 ++++++++++++++++++---------
->>   1 file changed, 18 insertions(+), 9 deletions(-)
-> 
-> Thanks for the review Phil, I've just sent v2 on its way. Does it make
-> sense for this to be merged via the MIPS tree?
+Currently the Cirrus CI pipelines are completely separate from the=0D
+GitLab CI pipelines. This means contributors/maintainers have to=0D
+monitor two distinct places.=0D
+=0D
+This series uses the 'cirrus-run' tool from within a GitLab CI job=0D
+to invoke a Cirrus CI job. Effectively Cirrus CI becomes a custom=0D
+runner for GitLab in this way.=0D
+=0D
+The GitLab CI pipeline nows shows a complete picture for CI results=0D
+covering GitLab, Travis and Cirrus jobs.=0D
+=0D
+The implementation used here is a direct copy of what is done in=0D
+libvirt with cirrus-run. In fact the jobs are using the container=0D
+image published by https://gitlab.com/libvirt/libvirt-ci for=0D
+getting the 'cirrus-run' tool.=0D
+=0D
+Second, we use the 'lcitool' program to generate the=0D
+.gitlab-ci.d/cirrus/*.vars files which hold the package lists to=0D
+be installed on FreeBSD and macOS. As a result of the work done=0D
+with lcitool to generate the dockerfiles, this was easy to extend=0D
+to Cirrus CI, and as a result this new Cirrus config installs a=0D
+massively larger set of packages. Thus our testing coverage on=0D
+macOS and FreeBSD improves.=0D
+=0D
+The MSys Windows job still remains in the .cirrus.yml file. This=0D
+can be addressed to, if we extend libvirt-ci to have package=0D
+mapping information for MSys.=0D
+=0D
+Using this setup does require the contributor to do a one time=0D
+configuration task. They need to modify gitlab CI settings to=0D
+add two environment variables, providing the API token for the=0D
+Cirrus CI REST API.=0D
+=0D
+I have a demo pipeline here showing the 4 cirrus CI jobs:=0D
+=0D
+  https://gitlab.com/berrange/qemu/-/pipelines/327362404=0D
+=0D
+Note in this pipeline above, I temporarily disabled all the=0D
+normal GitLab CI jobs to reduce burden when I was debugging.=0D
+An earlier pipeline shows the full set of jobs:=0D
+=0D
+  https://gitlab.com/berrange/qemu/-/pipelines/327324780=0D
+=0D
+This series adds cirrus as always on jobs, but we should probably=0D
+use 'allow_failure: true' for a few weeks to demonstrate that=0D
+they are stable enough to be part of the main gating set.=0D
+=0D
+Daniel P. Berrang=C3=A9 (3):=0D
+  build: validate that system capstone works before using it=0D
+  gitlab: support for FreeBSD 12, 13 and macOS 11 via cirrus-run=0D
+  cirrus: delete FreeBSD and macOS jobs=0D
+=0D
+ .cirrus.yml                         |  55 ---------------=0D
+ .gitlab-ci.d/cirrus.yml             | 103 ++++++++++++++++++++++++++++=0D
+ .gitlab-ci.d/cirrus/README.rst      |  54 +++++++++++++++=0D
+ .gitlab-ci.d/cirrus/build.yml       |  35 ++++++++++=0D
+ .gitlab-ci.d/cirrus/freebsd-12.vars |  13 ++++=0D
+ .gitlab-ci.d/cirrus/freebsd-13.vars |  13 ++++=0D
+ .gitlab-ci.d/cirrus/macos-11.vars   |  15 ++++=0D
+ .gitlab-ci.d/qemu-project.yml       |   1 +=0D
+ meson.build                         |  13 ++++=0D
+ 9 files changed, 247 insertions(+), 55 deletions(-)=0D
+ create mode 100644 .gitlab-ci.d/cirrus.yml=0D
+ create mode 100644 .gitlab-ci.d/cirrus/README.rst=0D
+ create mode 100644 .gitlab-ci.d/cirrus/build.yml=0D
+ create mode 100644 .gitlab-ci.d/cirrus/freebsd-12.vars=0D
+ create mode 100644 .gitlab-ci.d/cirrus/freebsd-13.vars=0D
+ create mode 100644 .gitlab-ci.d/cirrus/macos-11.vars=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Sure, I was going to suggest that too. Gerd could still beats me
-since it is hw/display/ ;) I plan to send another pull request
-during next week.
 
