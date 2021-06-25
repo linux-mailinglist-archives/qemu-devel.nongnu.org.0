@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2563B3C55
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 07:44:19 +0200 (CEST)
-Received: from localhost ([::1]:47766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753AE3B3C52
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 07:42:25 +0200 (CEST)
+Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwedW-0001gu-DC
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 01:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40068)
+	id 1lwebg-00061m-FH
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 01:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lweYw-0003GS-Re
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:34 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:36258)
+ id 1lweZ5-0003KN-PN
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:44 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:36274)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lweYu-0001uO-F5
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:34 -0400
+ id 1lweYz-0001yl-7F
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 01:39:42 -0400
 Received: from [127.0.1.1] (unknown [62.118.138.151])
- by mail.ispras.ru (Postfix) with ESMTPSA id 8B3ED40A2BA5;
- Fri, 25 Jun 2021 05:39:29 +0000 (UTC)
-Subject: [PATCH v2 5/6] tests/acceptance: add replay kernel test for alpha
+ by mail.ispras.ru (Postfix) with ESMTPSA id 3D13140D4004;
+ Fri, 25 Jun 2021 05:39:35 +0000 (UTC)
+Subject: [PATCH v2 6/6] tests/acceptance: Linux boot test for record/replay
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 25 Jun 2021 08:39:25 +0300
-Message-ID: <162459956591.387455.1027724590350740044.stgit@pasha-ThinkPad-X280>
+Date: Fri, 25 Jun 2021 08:39:31 +0300
+Message-ID: <162459957149.387455.7213602019776604223.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
 References: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -57,43 +57,165 @@ Cc: pavel.dovgalyuk@ispras.ru, philmd@redhat.com, wrampazz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds record/replay test which boots Linux
-kernel on alpha platform. The test uses kernel binaries
-taken from boot_linux_console test.
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+This patch adds a test for record/replay, which boots Linux
+image from the disk and interacts with the network.
+The idea and code of this test is borrowed from boot_linux.py
+This test includes only x86_64 platform. Other platforms and
+machines will be added later after testing and improving
+record/replay to completely support them.
+
+Each test consists of the following phases:
+ - downloading the disk image
+ - recording the execution
+ - replaying the execution
+
+Replay does not validates the output, but waits until QEMU
+finishes the execution. This is reasonable, because
+QEMU usually hangs when replay goes wrong.
+
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- tests/acceptance/replay_kernel.py |   17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ MAINTAINERS                      |    1 
+ tests/acceptance/replay_linux.py |  116 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 117 insertions(+)
+ create mode 100644 tests/acceptance/replay_linux.py
 
-diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index ba2314d2ec..76af30b28b 100644
---- a/tests/acceptance/replay_kernel.py
-+++ b/tests/acceptance/replay_kernel.py
-@@ -224,6 +224,23 @@ def test_s390x_s390_ccw_virtio(self):
-         self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=9,
-             args=('-nodefaults', '-smp', '1'))
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0ca6b7de94..35ecb2ce2c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2864,6 +2864,7 @@ F: include/sysemu/replay.h
+ F: docs/replay.txt
+ F: stubs/replay.c
+ F: tests/acceptance/replay_kernel.py
++F: tests/acceptance/replay_linux.py
+ F: tests/acceptance/reverse_debugging.py
+ F: qapi/replay.json
  
-+    def test_alpha_clipper(self):
+diff --git a/tests/acceptance/replay_linux.py b/tests/acceptance/replay_linux.py
+new file mode 100644
+index 0000000000..15953f9e49
+--- /dev/null
++++ b/tests/acceptance/replay_linux.py
+@@ -0,0 +1,116 @@
++# Record/replay test that boots a complete Linux system via a cloud image
++#
++# Copyright (c) 2020 ISP RAS
++#
++# Author:
++#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import os
++import logging
++import time
++
++from avocado import skipUnless
++from avocado.utils import cloudinit
++from avocado.utils import network
++from avocado.utils import vmimage
++from avocado.utils import datadrainer
++from avocado.utils.path import find_command
++from avocado_qemu import LinuxTest
++
++class ReplayLinux(LinuxTest):
++    """
++    Boots a Linux system, checking for a successful initialization
++    """
++
++    timeout = 1800
++    chksum = None
++    hdd = 'ide-hd'
++    cd = 'ide-cd'
++    bus = 'ide'
++
++    def setUp(self):
++        super(ReplayLinux, self).setUp()
++        self.boot_path = self.download_boot()
++        self.cloudinit_path = self.prepare_cloudinit()
++
++    def vm_add_disk(self, vm, path, id, device):
++        bus_string = ''
++        if self.bus:
++            bus_string = ',bus=%s.%d' % (self.bus, id,)
++        vm.add_args('-drive', 'file=%s,snapshot,id=disk%s,if=none' % (path, id))
++        vm.add_args('-drive',
++            'driver=blkreplay,id=disk%s-rr,if=none,image=disk%s' % (id, id))
++        vm.add_args('-device',
++            '%s,drive=disk%s-rr%s' % (device, id, bus_string))
++
++    def launch_and_wait(self, record, args, shift):
++        vm = self.get_vm()
++        vm.add_args('-smp', '1')
++        vm.add_args('-m', '1024')
++        vm.add_args('-object', 'filter-replay,id=replay,netdev=hub0port0')
++        if args:
++            vm.add_args(*args)
++        self.vm_add_disk(vm, self.boot_path, 0, self.hdd)
++        self.vm_add_disk(vm, self.cloudinit_path, 1, self.cd)
++        logger = logging.getLogger('replay')
++        if record:
++            logger.info('recording the execution...')
++            mode = 'record'
++        else:
++            logger.info('replaying the execution...')
++            mode = 'replay'
++        replay_path = os.path.join(self.workdir, 'replay.bin')
++        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s' %
++                    (shift, mode, replay_path))
++
++        start_time = time.time()
++
++        vm.set_console()
++        vm.launch()
++        console_drainer = datadrainer.LineLogger(vm.console_socket.fileno(),
++                                    logger=self.log.getChild('console'),
++                                    stop_check=(lambda : not vm.is_running()))
++        console_drainer.start()
++        if record:
++            cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),
++                                          self.name)
++            vm.shutdown()
++            logger.info('finished the recording with log size %s bytes'
++                % os.path.getsize(replay_path))
++        else:
++            vm.event_wait('SHUTDOWN', self.timeout)
++            vm.shutdown(True)
++            logger.info('successfully fihished the replay')
++        elapsed = time.time() - start_time
++        logger.info('elapsed time %.2f sec' % elapsed)
++        return elapsed
++
++    def run_rr(self, args=None, shift=7):
++        t1 = self.launch_and_wait(True, args, shift)
++        t2 = self.launch_and_wait(False, args, shift)
++        logger = logging.getLogger('replay')
++        logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
++
++@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
++class ReplayLinuxX8664(ReplayLinux):
++    """
++    :avocado: tags=arch:x86_64
++    :avocado: tags=accel:tcg
++    """
++
++    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
++
++    def test_pc_i440fx(self):
 +        """
-+        :avocado: tags=arch:alpha
-+        :avocado: tags=machine:clipper
++        :avocado: tags=machine:pc
 +        """
-+        kernel_url = ('http://archive.debian.org/debian/dists/lenny/main/'
-+                      'installer-alpha/20090123lenny10/images/cdrom/vmlinuz')
-+        kernel_hash = '3a943149335529e2ed3e74d0d787b85fb5671ba3'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        self.run_rr(shift=1)
 +
-+        uncompressed_kernel = archive.uncompress(kernel_path, self.workdir)
-+
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
-+        self.run_rr(uncompressed_kernel, kernel_command_line, console_pattern, shift=9,
-+            args=('-nodefaults', ))
-+
-     def test_ppc64_pseries(self):
-         """
-         :avocado: tags=arch:ppc64
++    def test_pc_q35(self):
++        """
++        :avocado: tags=machine:q35
++        """
++        self.run_rr(shift=3)
 
 
