@@ -2,48 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A39C3B3BB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 06:37:35 +0200 (CEST)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFE43B3BDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 06:58:49 +0200 (CEST)
+Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwdaw-0003lV-BM
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 00:37:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52908)
+	id 1lwdvT-0007St-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 00:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@fastmail.com.au>)
- id 1lwda8-00036L-0a
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 00:36:44 -0400
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:35642)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@fastmail.com.au>) id 1lwda6-0002MT-DY
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 00:36:43 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by kvm5.telegraphics.com.au (Postfix) with ESMTP id 451EA2ABAA;
- Fri, 25 Jun 2021 00:36:35 -0400 (EDT)
-Date: Fri, 25 Jun 2021 14:36:37 +1000 (AEST)
-From: Finn Thain <fthain@fastmail.com.au>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 0/5] dp8393x: fixes for MacOS toolbox ROM
-In-Reply-To: <246849c9-c674-7b33-6fe0-ddfff1d128fe@ilande.co.uk>
-Message-ID: <87cdbdeb-1228-f08f-ed15-107f5cf6484@nippy.intranet>
-References: <20210613163738.2141-1-mark.cave-ayland@ilande.co.uk>
- <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
- <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
- <17f0917-de30-6771-26d0-7a10214221ca@nippy.intranet>
- <38512250-86bb-7cbd-caca-9bc0378e54e8@ilande.co.uk>
- <2a99f70-4584-be2f-4d82-72641d65d7a@nippy.intranet>
- <246849c9-c674-7b33-6fe0-ddfff1d128fe@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lwdu7-0006Do-JL
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 00:57:23 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:38796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lwdu5-00026n-KU
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 00:57:23 -0400
+Received: by mail-ot1-x334.google.com with SMTP id
+ x17-20020a05683000d1b029045fb1889a9eso7627936oto.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 21:57:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jsINzcpOcRumgmWEJ+dFYvZrgGjS6v5OoHeTWT+jYNk=;
+ b=pf8mY6/U1LFbjdvTN4R+QcF+9u2wUrsaa4O0SFLmvZ2xgjZJ1OfOVvT1WBXnUfyHfI
+ Ml0/VA9OMv7FWmToqRw3srXiM4CZ9na8nT0oGf+JBOu5dma+3f2NUpUCigtiLxnL4PcH
+ PtSPGUdulEk38Nk2LjBNqDe1BZ7u8Lg5UHvRIwspkfkY1QodpkO9IDHnotHtl6ilNnAl
+ GdHCuoHwY3w/Bkwc2tpyTY3QZqpPkN/bfXl8ze9X85sIkQsXcdGhmkVCURHcLNz261mC
+ v5T36/ih6CXdaMlYBOB8nGMfasvK7+K7aTbnZWDi2ef+s44qRd6s0Hz9bLLpxfaVgYV7
+ NDAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jsINzcpOcRumgmWEJ+dFYvZrgGjS6v5OoHeTWT+jYNk=;
+ b=bkzs6EBD/nQ2uuiGrC3Xtgkkbk6PI/GIBF0CUSjX/dYAS3oqIx9QoH+G0J0AKWhQO9
+ r7Vtsr2SEVlfaF+b908mNt2iAlrzi+J6o5EdPX0GKu9759QQEh+DttG0RJPWd4rQztgO
+ PQX5jYZa6AIlbF1fKSG4cZu7s01KWhoXc/10scmfdixRmOphOyXMgONyqDsWBi1Tm4YR
+ FNq9nzDk8L20su5P082mlEBN0OPRyHDg3c9ve/mLBNCEN6/f/Fea+t8QOOq50EyyHe70
+ OOkHwos2a+kXjSx7gKfDd3MBzWau10uEiUJLjJ1eyuCP90hM3YgI7M+vLWmvSThmFTFH
+ lWCA==
+X-Gm-Message-State: AOAM533QHP1PW1QCYKX+X4z0WojQ65gCs/CnCeAGcuwsqUGFJOU6Enui
+ PkJ9tX3eLqIvHV5Rhxnnxf4H6AjtmLGVJQWs
+X-Google-Smtp-Source: ABdhPJzGEm3dEREXwYMXhYySVu4dqIkdElDA+lYrzlheFva7QI5GWsjLZPqJ1gLmI0lSjS5MMrkVQw==
+X-Received: by 2002:a05:6830:823:: with SMTP id
+ t3mr5716331ots.334.1624597039540; 
+ Thu, 24 Jun 2021 21:57:19 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id p10sm1243157otf.45.2021.06.24.21.57.18
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 24 Jun 2021 21:57:18 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] Use correct trap number for *BSD
+Date: Thu, 24 Jun 2021 22:57:05 -0600
+Message-Id: <20210625045707.84534-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: neutral client-ip=98.124.60.144;
- envelope-from=fthain@fastmail.com.au; helo=kvm5.telegraphics.com.au
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::334;
+ envelope-from=imp@bsdimp.com; helo=mail-ot1-x334.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- MALFORMED_FREEMAIL=0.001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,59 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- hpoussin@reactos.org, aurelien@aurel32.net, Laurent Vivier <laurent@vivier.eu>
+Cc: pbonzini@redhat.com, riku.voipio@iki.fi, richard.henderson@linaro.org,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Jun 2021, Mark Cave-Ayland wrote:
+This is a resend of a patch I sent back in March that was missing the proper
+includes due to a rebasing mistake.
 
-> Thanks for the link and the detailed testing information. I've been 
-> trying to understand why you had to set the MAC address in the ARC 
-> firmware so I had a bit of an experiment here.
-> 
-> The reason that you need to do this is because of the NVRAM 
-> configuration in your command line, in particular -global 
-> ds1225y.size=8200. What this does is extend the NVRAM over the top of 
-> the dp8393x-prom area where QEMU places the NIC MAC address and checksum 
-> on startup, so the NVRAM captures the MAC address reads/writes instead. 
-> The net effect of this is that the empty NVRAM initially reads all zeros 
-> and why an initial setup is required to set the MAC address.
-> 
-> This can be seen quite clearly in the "info mtree" output:
-> 
->     0000000080009000-000000008000b007 (prio 0, i/o): nvram
->     000000008000b000-000000008000bfff (prio 0, rom): dp8393x-prom
-> 
-> However if you completely drop -global ds1225y.size=8200 from your 
-> command line then the NVRAM doesn't overrun into the dp8393x-prom area, 
-> and the ARC firmware picks up the MAC address from QEMU correctly:
-> 
->     0000000080009000-000000008000afff (prio 0, i/o): nvram
->     000000008000b000-000000008000bfff (prio 0, rom): dp8393x-prom
-> 
-> I've also looked over the entire SONIC datasheet to see if the PROM 
-> format is documented, and according to that there is no non-volatile 
-> storage available on the chip itself. 
+The issue is that all the BSDs use T_PAGEFLT to signal a page fault on x86,
+while linux uses 0xe. The patch harmonizes the different ways this can be
+spelled, as explained in the patch itself.
 
-Yes, that's my understanding also. The relevant National Semicondutor 
-Application Notes seem to include a separate PROM. And if you closely 
-examine the Linux macsonic.c driver, you'll see that the PowerBook 5x0 
-models get a random MAC address because no-one (outside of Apple) knows 
-where the real MAC address is stored.
+Warner Losh (1):
+  tcg: Use correct trap number for page faults on *BSD systems
 
-> Testing shows that the checksum algorithm currently used for the dp8393x 
-> device generates the same result as that generated by the ARC firmware, 
-> which is known to be different than that used by the Q800 machine.
-> 
-> From this I conclude that the PROM is provided by the board and not the 
-> chipset, and therefore each machine should construct its own PROM 
-> accordingly. I'll send a v2 patchset shortly with these changes which 
-> shall also include the proposed endian patch.
-> 
+ accel/tcg/user-exec.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-If you potentially have both a ds1225y NVRAM and a dp8393x PROM (for the 
-magnum machine) how do you avoid ending up with conflicting state? Would 
-the two storage devices have to be mutually exclusive?
+-- 
+2.22.1
+
 
