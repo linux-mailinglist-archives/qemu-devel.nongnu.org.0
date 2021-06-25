@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03793B42B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 13:53:13 +0200 (CEST)
-Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351D93B42C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 13:59:32 +0200 (CEST)
+Received: from localhost ([::1]:56532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwkOW-0000Jb-Dv
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 07:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56822)
+	id 1lwkUd-0003u2-8h
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 07:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwkNk-0007kA-5x
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 07:52:24 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59430
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwkNi-0004qd-JI
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 07:52:23 -0400
-Received: from host109-153-84-9.range109-153.btcentralplus.com ([109.153.84.9]
- helo=[192.168.1.65]) by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwkNJ-0008KZ-2C; Fri, 25 Jun 2021 12:52:01 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
- aleksandar.rikalo@syrmia.com, hpoussin@reactos.org,
- fthain@telegraphics.com.au
-References: <20210625073844.1229-1-mark.cave-ayland@ilande.co.uk>
- <20210625073844.1229-2-mark.cave-ayland@ilande.co.uk>
- <8a788aba-6914-163d-e98a-20dc088024e1@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <6e7db215-913e-c892-d817-c97358c18b33@ilande.co.uk>
-Date: Fri, 25 Jun 2021 12:52:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwkSo-0001q8-Ns
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 07:57:41 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwkSl-00074d-LZ
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 07:57:38 -0400
+Received: by mail-ed1-x529.google.com with SMTP id s6so12982482edu.10
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 04:57:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o0kJ2o5ve40Q+LEaLQfjI3pVB91S8+tSBhZeiIUy454=;
+ b=kUsVBelKUNBKrAUiutZOAQnagZeP90XxQB+MMspRWK0/6LSgXX3DREvfpAavKmdJmW
+ Lzg5S1MzNiSCesFI75cNvi9aeUJ3cfxrt+bxH1rvkF8D/sp7V0Rvd8Tn5c+Nt1mKuzsy
+ OqBJaOCxTuPRJKNayDrlRVzcvnrbGiIVY8cHy9Y3odJvU3oz7KMl4Tsg+43eBGle7gE0
+ XgUELCtM1eE/+8hwMTQ4TFEGfrYReyB/5mW0vi/jNiFSMYJP79QUxo2JN71bc64o4Cne
+ KCCiSD7/ea+f90f5nXkNTzM0WcYCRhjjXP1T2grWO+Mu9Gl1etcooP7rGpgzO6+CkDnk
+ eJbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o0kJ2o5ve40Q+LEaLQfjI3pVB91S8+tSBhZeiIUy454=;
+ b=NhQITxyqH6AoJgutFQfJL7nn0TyjrLvThGgQQq8Pl0fqNfQ9N7pKcuOyYNSi1zn+rI
+ utWKVUTer7E1e+qzK9DnjKKBnWuAETFzrmqeTzcYoH7kJa80MXyjPK9LlMnMNLEVmyPj
+ bw87FMM6PHqdwQ23cmthDy9c4O0D8Gm/HO3gLMonNv+auwKbAHFD35K1/omUGDZWQnfl
+ 9XAiYuYqGZ8aHiWXbvZdpr6Qwjsfh0qKYVKiJjkNQoP4BFKZCXmZiLac65XWZvW/nqBZ
+ g0NlfLDlFImZGUvVajBDWA/Ro/iBWS14q1chIirHUZACDEZT6rWNeFaRE2Nz6p7EjK5q
+ 7z5g==
+X-Gm-Message-State: AOAM532zjFMCVsf6OaA8bswqOmYrTNAilsi1G7VOFV9ZAnAUY8L+Tcmj
+ +baZYp1gQdRtS9duzN2XGiTzpu9+ui1ySySP42Zklw==
+X-Google-Smtp-Source: ABdhPJygdlgUjFH/XuJZolf2R/tcMoGQgDr464V5P0h0byo0k+vyljgxDsLcenr6zFAp4OQYhQXEBUM+Q4sUoz9LRqc=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr13790595edt.100.1624622253738; 
+ Fri, 25 Jun 2021 04:57:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8a788aba-6914-163d-e98a-20dc088024e1@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.153.84.9
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/2] g364fb: use RAM memory region for framebuffer
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210625111842.3790-1-maxim.uvarov@linaro.org>
+ <20210625111842.3790-3-maxim.uvarov@linaro.org>
+In-Reply-To: <20210625111842.3790-3-maxim.uvarov@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Jun 2021 12:56:57 +0100
+Message-ID: <CAFEAcA9K642UHLF5D5wzS0sN8fVurcs4-TN0x6EaT=xBRB0Fkg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] gpio_pwr: use shutdown function for reboot
+To: Maxim Uvarov <maxim.uvarov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,64 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/2021 09:37, Philippe Mathieu-Daudé wrote:
-
-> On 6/25/21 9:38 AM, Mark Cave-Ayland wrote:
->> Since the migration stream is already broken, we can use this opportunity to
->> change the framebuffer so that it is migrated as a RAM memory region rather
->> than as an array of bytes.
->>
->> In particular this helps the output of the analyze-migration.py tool which
->> no longer contains a huge array representing the framebuffer contents.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/display/g364fb.c | 15 +++++++--------
->>   1 file changed, 7 insertions(+), 8 deletions(-)
-> 
->> @@ -454,7 +457,6 @@ static const VMStateDescription vmstate_g364fb = {
->>       .minimum_version_id = 1,
-> 
-> Even if broken, I'd increase to version as good practice.
-
-Sure - I'll go ahead and do that for a v2. The reason I wasn't too worried was 
-because since the wrong struct is used for saving data, the outgoing stream is 
-corrupted so all bets are off on being able to reload it(!).
-
->>       .post_load = g364fb_post_load,
->>       .fields = (VMStateField[]) {
->> -        VMSTATE_VBUFFER_UINT32(vram, G364State, 1, NULL, vram_size),
->>           VMSTATE_BUFFER_UNSAFE(color_palette, G364State, 0, 256 * 3),
->>           VMSTATE_BUFFER_UNSAFE(cursor_palette, G364State, 0, 9),
->>           VMSTATE_UINT16_ARRAY(cursor, G364State, 512),
-> 
-> The vram pointer is now unused, we can remove it:
-
-Indeed. I remember thinking I had to do this, but clearly forgot. Will fix.
-
-> -- >8 --
-> diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
-> index 990ef3afdd8..11ad61fa73a 100644
-> --- a/hw/display/g364fb.c
-> +++ b/hw/display/g364fb.c
-> @@ -34,7 +34,6 @@
-> 
->   typedef struct G364State {
->       /* hardware */
-> -    uint8_t *vram;
->       uint32_t vram_size;
->       qemu_irq irq;
->       MemoryRegion mem_vram;
+On Fri, 25 Jun 2021 at 12:18, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+>
+> qemu has 2 type of functions: shutdown and reboot. Shutdown
+> function has to be used for machine shutdown.
+>
+> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
 > ---
-> 
-> Removing 'uint8_t *vram':
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  hw/gpio/gpio_pwr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/gpio/gpio_pwr.c b/hw/gpio/gpio_pwr.c
+> index 7714fa0dc4..dbaf1c70c8 100644
+> --- a/hw/gpio/gpio_pwr.c
+> +++ b/hw/gpio/gpio_pwr.c
+> @@ -43,7 +43,7 @@ static void gpio_pwr_reset(void *opaque, int n, int level)
+>  static void gpio_pwr_shutdown(void *opaque, int n, int level)
+>  {
+>      if (level) {
+> -        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>      }
+>  }
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-ATB,
-
-Mark.
+thanks
+-- PMM
 
