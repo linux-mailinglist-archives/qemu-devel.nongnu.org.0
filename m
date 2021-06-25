@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A65F3B482C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 19:24:41 +0200 (CEST)
-Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B593B482B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 19:24:40 +0200 (CEST)
+Received: from localhost ([::1]:45654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwpZI-0003SB-Cx
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 13:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45698)
+	id 1lwpZH-0003RS-G7
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 13:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lwpXC-0001Yr-2H
+ id 1lwpXC-0001Yq-2C
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:22:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54428)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lwpX9-00024f-Br
+ id 1lwpX9-00025t-Ii
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 13:22:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624641745;
+ s=mimecast20190719; t=1624641746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=q+LDWtmArDb3ThSwYAO8uSeJffUZnwTUFeEKJQrWDBk=;
- b=Lrqudc/8xGbnLj2X7RVTV8atxx2/tm4tins8LzdNgnIRfOVRYx+F/QCgOEdt3Iqumlqj10
- 1AGpN1oiywEbTJ/nIlXVDxP8GMfMNJhxKbkqcMOLJZslkp7yvj44jnWqKcwR8bbJcG/4Fo
- g9xJvACy/lCUcsO0ON1q1j2UnrjpfW0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yDGAwU2w1qI6/NG0bvhbjeemR2XJJMhtdv+ttGGAdqE=;
+ b=bRI3S1BpClnK9tDgVrM/ZebQKfR+aGDxAyYpennP922hmEf9gJ3phJ4HDxnx4IpJRES8vh
+ M1/tHQ5va729ASrcYGUvlWOf6ft0KLlKSqyRY/kxt4/tTg8RLsYBnyp+BfcBke2ql+BB+7
+ D11lS+6JoH4ME4nFYHOvmph02pJnltY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-fycCa_8AM9-zd5N_VYWqaw-1; Fri, 25 Jun 2021 13:22:22 -0400
-X-MC-Unique: fycCa_8AM9-zd5N_VYWqaw-1
+ us-mta-365-78Ly6JpqMPicW-qjMdVKkA-1; Fri, 25 Jun 2021 13:22:25 -0400
+X-MC-Unique: 78Ly6JpqMPicW-qjMdVKkA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 497701835AC4;
- Fri, 25 Jun 2021 17:22:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D30E362F8;
+ Fri, 25 Jun 2021 17:22:24 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-183.ams2.redhat.com
  [10.36.114.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3BAC91007623;
- Fri, 25 Jun 2021 17:22:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A68D31017CE5;
+ Fri, 25 Jun 2021 17:22:21 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] ci: use cirrus-run to utilize Cirrus CI from GitLab CI
-Date: Fri, 25 Jun 2021 18:22:08 +0100
-Message-Id: <20210625172211.451010-1-berrange@redhat.com>
+Subject: [PATCH 1/3] build: validate that system capstone works before using it
+Date: Fri, 25 Jun 2021 18:22:09 +0100
+Message-Id: <20210625172211.451010-2-berrange@redhat.com>
+In-Reply-To: <20210625172211.451010-1-berrange@redhat.com>
+References: <20210625172211.451010-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -86,77 +89,41 @@ Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the Cirrus CI pipelines are completely separate from the=0D
-GitLab CI pipelines. This means contributors/maintainers have to=0D
-monitor two distinct places.=0D
-=0D
-This series uses the 'cirrus-run' tool from within a GitLab CI job=0D
-to invoke a Cirrus CI job. Effectively Cirrus CI becomes a custom=0D
-runner for GitLab in this way.=0D
-=0D
-The GitLab CI pipeline nows shows a complete picture for CI results=0D
-covering GitLab, Travis and Cirrus jobs.=0D
-=0D
-The implementation used here is a direct copy of what is done in=0D
-libvirt with cirrus-run. In fact the jobs are using the container=0D
-image published by https://gitlab.com/libvirt/libvirt-ci for=0D
-getting the 'cirrus-run' tool.=0D
-=0D
-Second, we use the 'lcitool' program to generate the=0D
-.gitlab-ci.d/cirrus/*.vars files which hold the package lists to=0D
-be installed on FreeBSD and macOS. As a result of the work done=0D
-with lcitool to generate the dockerfiles, this was easy to extend=0D
-to Cirrus CI, and as a result this new Cirrus config installs a=0D
-massively larger set of packages. Thus our testing coverage on=0D
-macOS and FreeBSD improves.=0D
-=0D
-The MSys Windows job still remains in the .cirrus.yml file. This=0D
-can be addressed to, if we extend libvirt-ci to have package=0D
-mapping information for MSys.=0D
-=0D
-Using this setup does require the contributor to do a one time=0D
-configuration task. They need to modify gitlab CI settings to=0D
-add two environment variables, providing the API token for the=0D
-Cirrus CI REST API.=0D
-=0D
-I have a demo pipeline here showing the 4 cirrus CI jobs:=0D
-=0D
-  https://gitlab.com/berrange/qemu/-/pipelines/327362404=0D
-=0D
-Note in this pipeline above, I temporarily disabled all the=0D
-normal GitLab CI jobs to reduce burden when I was debugging.=0D
-An earlier pipeline shows the full set of jobs:=0D
-=0D
-  https://gitlab.com/berrange/qemu/-/pipelines/327324780=0D
-=0D
-This series adds cirrus as always on jobs, but we should probably=0D
-use 'allow_failure: true' for a few weeks to demonstrate that=0D
-they are stable enough to be part of the main gating set.=0D
-=0D
-Daniel P. Berrang=C3=A9 (3):=0D
-  build: validate that system capstone works before using it=0D
-  gitlab: support for FreeBSD 12, 13 and macOS 11 via cirrus-run=0D
-  cirrus: delete FreeBSD and macOS jobs=0D
-=0D
- .cirrus.yml                         |  55 ---------------=0D
- .gitlab-ci.d/cirrus.yml             | 103 ++++++++++++++++++++++++++++=0D
- .gitlab-ci.d/cirrus/README.rst      |  54 +++++++++++++++=0D
- .gitlab-ci.d/cirrus/build.yml       |  35 ++++++++++=0D
- .gitlab-ci.d/cirrus/freebsd-12.vars |  13 ++++=0D
- .gitlab-ci.d/cirrus/freebsd-13.vars |  13 ++++=0D
- .gitlab-ci.d/cirrus/macos-11.vars   |  15 ++++=0D
- .gitlab-ci.d/qemu-project.yml       |   1 +=0D
- meson.build                         |  13 ++++=0D
- 9 files changed, 247 insertions(+), 55 deletions(-)=0D
- create mode 100644 .gitlab-ci.d/cirrus.yml=0D
- create mode 100644 .gitlab-ci.d/cirrus/README.rst=0D
- create mode 100644 .gitlab-ci.d/cirrus/build.yml=0D
- create mode 100644 .gitlab-ci.d/cirrus/freebsd-12.vars=0D
- create mode 100644 .gitlab-ci.d/cirrus/freebsd-13.vars=0D
- create mode 100644 .gitlab-ci.d/cirrus/macos-11.vars=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Some versions of capstone have shipped a broken pkg-config file which
+puts the -I path without the trailing '/capstone' suffix. This breaks
+the ability to "#include <capstone.h>". Upstream and most distros have
+fixed this, but a few stragglers remain, notably FreeBSD.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ meson.build | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index d8a92666fb..9979ddae71 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1425,6 +1425,19 @@ if capstone_opt in ['enabled', 'auto', 'system']
+                         kwargs: static_kwargs, method: 'pkg-config',
+                         required: capstone_opt == 'system' or
+                                   capstone_opt == 'enabled' and not have_internal)
++
++  # Some versions of capstone have broken pkg-config file
++  # that reports a wrong -I path, causing the #include to
++  # fail later. If the system has such a broken version
++  # do not use it.
++  if capstone.found() and not cc.compiles('#include <capstone.h>',
++                                          dependencies: [capstone])
++    capstone = not_found
++    if capstone_opt == 'system'
++      error('system capstone requested, it it does not appear to work')
++    endif
++  endif
++
+   if capstone.found()
+     capstone_opt = 'system'
+   elif have_internal
+-- 
+2.31.1
 
 
