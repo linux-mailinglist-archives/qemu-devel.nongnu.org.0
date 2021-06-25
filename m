@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430DC3B48D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:36:04 +0200 (CEST)
-Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297D13B48DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:38:25 +0200 (CEST)
+Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwqgN-00037F-BL
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:36:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33512)
+	id 1lwqie-0006Kw-74
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqaW-00063E-PU
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:30:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29771)
+ id 1lwqgs-0004na-RX
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:36:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqaV-0002rT-2b
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:30:00 -0400
+ id 1lwqgq-0006lP-Kc
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:36:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624645798;
+ s=mimecast20190719; t=1624646192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wrVUw0xO59feolAQtbEdQVXCTwUhQTXSX1LJ8DW8Rig=;
- b=GcfN9f+IQUvUNwM9ZX/cnZZ5FJiT2+1s/lhJSPUJRHJdXnQBLddGmI4Ia1Y2quHQamtAee
- iNijFCGwgf0rFJizv1H+GmS2LXUtyFdcVMt0i1ZxFaKbKeHdh0MUlS6nnasBKesRPhpkdT
- I7DCP8+Ww6P7tZXyeEeeayfv7QTINuU=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-0-SbxgAZMoSZDqAmVXxeFg-1; Fri, 25 Jun 2021 14:29:53 -0400
-X-MC-Unique: 0-SbxgAZMoSZDqAmVXxeFg-1
-Received: by mail-ua1-f70.google.com with SMTP id
- a15-20020ab0684f0000b0290275ca73402eso2698245uas.12
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:29:53 -0700 (PDT)
+ bh=hSajvatipPrTZyb+7mw5hJf2bGRZAYCsigKtF1daz6w=;
+ b=Zzn3OL1ThhT/5EpWZUF8Zc2poTv7aMN08qkm8BxID18DATG61JmlfvkJAGVVgaRYbK1JGw
+ cEwVl2xHqvukqCnMNWKrTzAJ1R68WSqDBxWIaykYKvVgvsPcG3eR+b9DlZ/ypmYaz2S5x2
+ YLWyiZpSidFFDV7H/qAsd6y0DizKmtI=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-600-oBC18QsOP-mHl_3UUFf-_Q-1; Fri, 25 Jun 2021 14:36:28 -0400
+X-MC-Unique: oBC18QsOP-mHl_3UUFf-_Q-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ 22-20020a0561220716b029024e75239721so2869645vki.13
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:36:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wrVUw0xO59feolAQtbEdQVXCTwUhQTXSX1LJ8DW8Rig=;
- b=byBBpYu2Z6G3YmpWb+A60sb0FCKaG8w6Ro9WOdzgJMHQcpGQMqhlqiDdS++BMbLSjm
- S6Bm38Ep8cJpDASMyMy7lVfsBDY4qFT0SiixFKDUN2ryUuI9zgakit7ODXlMl6xbmWBJ
- kbMZEo6ogl6hg8TmxG3xDbLL30JFQ62raEX7tppN4dr6hXrm+YMHCH7ZZQVsDSeky2e5
- HqJOIzLwh4pti5dN7u7PHykOOApyM6il4H/g7BHGiQuElRXJg5dryZ17I9x2T599gojj
- CfZyhXfX3x13Dsd0pb4LJv8KQmsoMujwdoCrTyPpWHv7JS0YIxOie+12WKBSn7ot4vc9
- XOog==
-X-Gm-Message-State: AOAM531KI8o0DBUlPl5foof0IfTPlOumOtRCQf1m57Waz9Ve2ZcFbxtK
- 4VDzt359BKpHEq6wb+NXEQBzrx0j6g0ykCEkLAwGmUiHoOrW84mGHXxj9JP/1gkuLlhAvaTQf2W
- AOVzo6U2iT8IrxJTwkzH/743Avt3SmbY=
-X-Received: by 2002:a67:1905:: with SMTP id 5mr10443266vsz.1.1624645792939;
- Fri, 25 Jun 2021 11:29:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWVzW4WZtQOhbuk+tcWhtnRF3EUaEWrcwQ0T4gDaUFTJfnd+NA4TKKw4YChtFB+kT7ZezIsI9GIcnEqQtDjAU=
-X-Received: by 2002:a67:1905:: with SMTP id 5mr10443250vsz.1.1624645792814;
- Fri, 25 Jun 2021 11:29:52 -0700 (PDT)
+ bh=hSajvatipPrTZyb+7mw5hJf2bGRZAYCsigKtF1daz6w=;
+ b=AhGoj37G3do0LnI4ynLOVSfxPYswdICusOj0ubKbF+/Z4Ut3YutCVrLVFUV1UiG7Z4
+ AZ2nz2wve4uu74O2psQXa9aNb8TGAcGdrtbd0q30BgkTS47ET+uqAeubXZSZTnSXSRew
+ YWmBef2odZ+mPW/+06N16fTaW+cQ9z2Mnlirayl5bvmVmyiXAeuVH+dRVYPc6/HpDqi3
+ qBE4cz6mlos1v52BeUdDdSRWG08Ou+C8bjPcYKoumva+Swm5y9ZEzuDPGpyvvo4brxEr
+ eprzNgNWdVQ410eAYWpvxPYI8LQrVxYj1t/pyZrjnU8qet5GeQqGyqaSSLhs8vAwVIAK
+ ERWQ==
+X-Gm-Message-State: AOAM532hUgfAHsNAToDdMDEYvn18aDiZO4pGtu25ZcrGAowFtSqqBp2p
+ jrev7dpULUrHrILxL3iCPR3L5gvnFr5UbEftkcoXBt/wY0qWcqnJ+S5JeoEXWhVmTX8YJtBEdX6
+ NSo8Brc6zghRQfSOTsO8qgEso5+T7NtU=
+X-Received: by 2002:ab0:7412:: with SMTP id r18mr6550948uap.124.1624646187862; 
+ Fri, 25 Jun 2021 11:36:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuZYmm0qZVh6/ZdYplAJ4O9umyxPDzKkWGEf6FQvMRHuzSXBkBbV5b1cWaqUV2XrE8qmOqccXq/yLwamwuS9c=
+X-Received: by 2002:ab0:7412:: with SMTP id r18mr6550929uap.124.1624646187699; 
+ Fri, 25 Jun 2021 11:36:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210625154540.783306-1-jsnow@redhat.com>
- <20210625154540.783306-8-jsnow@redhat.com>
-In-Reply-To: <20210625154540.783306-8-jsnow@redhat.com>
+ <20210625154540.783306-9-jsnow@redhat.com>
+In-Reply-To: <20210625154540.783306-9-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 25 Jun 2021 15:29:27 -0300
-Message-ID: <CAKJDGDaME2-NKB6S8k5+cj-TwvwXcY4m-m=SmhOJAxNcOHkwYQ@mail.gmail.com>
-Subject: Re: [PATCH 07/11] python: update help text for check-tox
+Date: Fri, 25 Jun 2021 15:36:01 -0300
+Message-ID: <CAKJDGDa5DfPO5nw=PFAGnN00iJ7vzqM6QZajFsM6otMqan8JKA@mail.gmail.com>
+Subject: Re: [PATCH 08/11] python: add 'make check-venv' invocation
 To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -99,17 +99,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Jun 25, 2021 at 12:46 PM John Snow <jsnow@redhat.com> wrote:
 >
-> Move it up near the check-pipenv help text, and update it to suggest parity.
+> This is a *third* way to run the Python tests. Unlike the first two
+> (check-pipenv, check-tox), this version does not require any specific
+> interpreter version -- making it a lot easier to tell people to run it
+> as a quick smoketest prior to submission to GitLab CI.
 >
-> (At the time I first added it, I wasn't sure if I would be keeping it,
-> but I've come to appreciate it as it has actually helped uncover bugs I
-> would not have noticed without it. It should stay.)
+> Summary:
+>
+>   Checked via GitLab CI:
+>     - check-pipenv: tests our oldest python & dependencies
+>     - check-tox: tests newest dependencies on all non-EOL python versions
+>   Executed only incidentally:
+>     - check-venv: tests newest dependencies on whichever python version
+>
+> ('make check' does not set up any environment at all, it just runs the
+> tests in your current environment. All four invocations perform the
+> exact same tests, just in different execution environments.)
+>
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/Makefile | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  python/Makefile | 35 ++++++++++++++++++++++++++++++++---
+>  1 file changed, 32 insertions(+), 3 deletions(-)
 >
+> diff --git a/python/Makefile b/python/Makefile
+> index 5cb8378b81..76bb24e671 100644
+> --- a/python/Makefile
+> +++ b/python/Makefile
+> @@ -1,4 +1,6 @@
+> -.PHONY: help pipenv check-pipenv check clean distclean develop
+> +.PHONY: help pipenv venv check-venv check-pipenv check clean distclean develop
+> +
+> +QEMU_VENV_DIR=~/.cache/qemu-pyvenv
+>
+>  help:
+>         @echo "python packaging help:"
+> @@ -15,6 +17,11 @@ help:
+>         @echo "    Requires: Python 3.6-3.10 and tox."
+>         @echo "    Hint (Fedora): 'sudo dnf install python3-tox python3.10'"
+>         @echo ""
+> +       @echo "make check-venv:"
+
+Maybe, it may confuse people using `make check-venv` under `tests`.
+Anyway, I'm not opposed to it.
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+
+> +       @echo "    Run tests in a venv against your default python3 version."
+> +       @echo "    These tests use the newest dependencies."
+> +       @echo "    Requires: Python 3.x"
+> +       @echo ""
+>         @echo "make develop:    Install deps for 'make check', and"
+>         @echo "                 the qemu libs in editable/development mode."
+>         @echo ""
+> @@ -23,6 +30,9 @@ help:
+>         @echo "make pipenv"
+>         @echo "    Creates pipenv's virtual environment (.venv)"
+>         @echo ""
+> +       @echo "make venv"
+> +       @echo "    Creates a simple venv for check-venv. ($(QEMU_VENV_DIR))"
+> +       @echo ""
+>         @echo "make clean:      remove package build output."
+>         @echo ""
+>         @echo "make distclean:  remove venv files, qemu package forwarder,"
+> @@ -37,8 +47,27 @@ pipenv: .venv
+>  check-pipenv: pipenv
+>         @pipenv run make check
+>
+> +venv: $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate
+> +$(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
+> +       @echo "VENV $(QEMU_VENV_DIR)"
+> +       @python3 -m venv $(QEMU_VENV_DIR)
+> +       @(                                                      \
+> +               echo "ACTIVATE $(QEMU_VENV_DIR)";               \
+> +               . $(QEMU_VENV_DIR)/bin/activate;                \
+> +               echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";    \
+> +               make develop 1>/dev/null;                       \
+> +       )
+> +       @touch $(QEMU_VENV_DIR)
+> +
+> +check-venv: venv
+> +       @(                                                      \
+> +               echo "ACTIVATE $(QEMU_VENV_DIR)";               \
+> +               . $(QEMU_VENV_DIR)/bin/activate;                \
+> +               make check;                                     \
+> +       )
+> +
+>  develop:
+> -       pip3 install -e .[devel]
+> +       pip3 install --disable-pip-version-check -e .[devel]
+>
+>  check:
+>         @avocado --config avocado.cfg run tests/
+> @@ -50,4 +79,4 @@ clean:
+>         python3 setup.py clean --all
+>
+>  distclean: clean
+> -       rm -rf qemu.egg-info/ .venv/ .tox/ dist/
+> +       rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
+> --
+> 2.31.1
+>
 
 
