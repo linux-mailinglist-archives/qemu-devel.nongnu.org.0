@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFA33B3CD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:56:28 +0200 (CEST)
-Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D54E3B3CE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:58:45 +0200 (CEST)
+Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwflL-0008Lp-Id
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55786)
+	id 1lwfnY-0004qJ-9G
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfjK-0005mW-5E
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:22 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58702
+ id 1lwfjM-0005ov-LT
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:24 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58712
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfjF-0001qQ-AY
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:21 -0400
+ id 1lwfjG-0001r2-Uj
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:24 -0400
 Received: from host109-153-84-9.range109-153.btcentralplus.com ([109.153.84.9]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfj1-0006FO-2B; Fri, 25 Jun 2021 07:54:03 +0100
+ id 1lwfj1-0006FO-KD; Fri, 25 Jun 2021 07:54:03 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
  f4bug@amsat.org, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
  jasowang@redhat.com, fthain@telegraphics.com.au, laurent@vivier.eu
-Date: Fri, 25 Jun 2021 07:53:54 +0100
-Message-Id: <20210625065401.30170-4-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 25 Jun 2021 07:53:55 +0100
+Message-Id: <20210625065401.30170-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
 References: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 03/10] hw/mips/jazz: move PROM and checksum calculation
+Subject: [PATCH v2 04/10] hw/m68k/q800: move PROM and checksum calculation
  from dp8393x device to board
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
@@ -70,72 +70,61 @@ format and checksum for storing the MAC address.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/mips/jazz.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ hw/m68k/q800.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index 1e1cf8154e..89ca8bb910 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -119,6 +119,8 @@ static const MemoryRegionOps dma_dummy_ops = {
- #define MAGNUM_BIOS_SIZE                                                       \
-         (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE : MAGNUM_BIOS_SIZE_MAX)
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 11376daa85..491f283a17 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -70,6 +70,8 @@
+ #define NUBUS_SUPER_SLOT_BASE 0x60000000
+ #define NUBUS_SLOT_BASE       0xf0000000
  
-+#define SONIC_PROM_SIZE 0x1000
++#define SONIC_PROM_SIZE       0x1000
 +
- static void mips_jazz_init(MachineState *machine,
-                            enum jazz_model_e jazz_model)
- {
-@@ -137,6 +139,7 @@ static void mips_jazz_init(MachineState *machine,
-     MemoryRegion *rtc = g_new(MemoryRegion, 1);
-     MemoryRegion *i8042 = g_new(MemoryRegion, 1);
-     MemoryRegion *dma_dummy = g_new(MemoryRegion, 1);
+ /*
+  * the video base, whereas it a Nubus address,
+  * is needed by the kernel to have early display and
+@@ -211,8 +213,10 @@ static void q800_init(MachineState *machine)
+     int32_t initrd_size;
+     MemoryRegion *rom;
+     MemoryRegion *io;
 +    MemoryRegion *dp8393x_prom = g_new(MemoryRegion, 1);
-     NICInfo *nd;
-     DeviceState *dev, *rc4030;
-     SysBusDevice *sysbus;
-@@ -228,6 +231,10 @@ static void mips_jazz_init(MachineState *machine,
-                           NULL, "dummy_dma", 0x1000);
-     memory_region_add_subregion(address_space, 0x8000d000, dma_dummy);
++    uint8_t *prom;
+     const int io_slice_nb = (IO_SIZE / IO_SLICE) - 1;
+-    int i;
++    int i, checksum;
+     ram_addr_t ram_size = machine->ram_size;
+     const char *kernel_filename = machine->kernel_filename;
+     const char *initrd_filename = machine->initrd_filename;
+@@ -319,9 +323,25 @@ static void q800_init(MachineState *machine)
+     sysbus = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(sysbus, &error_fatal);
+     sysbus_mmio_map(sysbus, 0, SONIC_BASE);
+-    sysbus_mmio_map(sysbus, 1, SONIC_PROM_BASE);
+     sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 2));
  
-+    memory_region_init_rom(dp8393x_prom, NULL, "dp8393x-jazz.prom",
++    memory_region_init_rom(dp8393x_prom, NULL, "dp8393x-q800.prom",
 +                           SONIC_PROM_SIZE, &error_fatal);
-+    memory_region_add_subregion(address_space, 0x8000b000, dp8393x_prom);
++    memory_region_add_subregion(get_system_memory(), SONIC_PROM_BASE,
++                                dp8393x_prom);
 +
-     /* ISA bus: IO space at 0x90000000, mem space at 0x91000000 */
-     memory_region_init(isa_io, NULL, "isa-io", 0x00010000);
-     memory_region_init(isa_mem, NULL, "isa-mem", 0x01000000);
-@@ -275,6 +282,9 @@ static void mips_jazz_init(MachineState *machine,
-             nd->model = g_strdup("dp83932");
-         }
-         if (strcmp(nd->model, "dp83932") == 0) {
-+            int checksum, i;
-+            uint8_t *prom;
++    /* Add MAC address with valid checksum to PROM */
++    prom = memory_region_get_ram_ptr(dp8393x_prom);
++    checksum = 0;
++    for (i = 0; i < 6; i++) {
++        prom[i] = nd_table[0].macaddr.a[i];
++        checksum += prom[i];
++        if (checksum > 0xff) {
++            checksum = (checksum + 1) & 0xff;
++        }
++    }
++    prom[7] = 0xff - checksum;
 +
-             qemu_check_nic_model(nd, "dp83932");
+     /* SCC */
  
-             dev = qdev_new("dp8393x");
-@@ -285,8 +295,19 @@ static void mips_jazz_init(MachineState *machine,
-             sysbus = SYS_BUS_DEVICE(dev);
-             sysbus_realize_and_unref(sysbus, &error_fatal);
-             sysbus_mmio_map(sysbus, 0, 0x80001000);
--            sysbus_mmio_map(sysbus, 1, 0x8000b000);
-             sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(rc4030, 4));
-+
-+            /* Add MAC address with valid checksum to PROM */
-+            prom = memory_region_get_ram_ptr(dp8393x_prom);
-+            checksum = 0;
-+            for (i = 0; i < 6; i++) {
-+                prom[i] = nd->macaddr.a[i];
-+                checksum += prom[i];
-+                if (checksum > 0xff) {
-+                    checksum = (checksum + 1) & 0xff;
-+                }
-+            }
-+            prom[7] = 0xff - checksum;
-             break;
-         } else if (is_help_option(nd->model)) {
-             error_report("Supported NICs: dp83932");
+     dev = qdev_new(TYPE_ESCC);
 -- 
 2.20.1
 
