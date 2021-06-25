@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC863B45F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:41:55 +0200 (CEST)
-Received: from localhost ([::1]:60786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700153B45F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:42:00 +0200 (CEST)
+Received: from localhost ([::1]:32908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwn1m-0004BJ-Ce
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33414)
+	id 1lwn1r-0004QI-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwmk2-0006S2-44
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:23:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47521)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwmk1-0006R3-Sl
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:23:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwmjz-0005VH-Kd
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwmjz-0005VI-HN
  for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:23:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1624631011;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=etcABu90fvVWCUwK6OSwv+MYBaR8uQzbEu6Jv3suc/0=;
- b=MrDGuavLQjQA+2OCLpjO8A5jsvJWtxP6/SVisXNQZ19WEj3PBFzatTyOztJZOIRYEu6LCi
- oxBczsRiUkG7Tf8LUyBYRGLOM4cuvvWAqx3bYRCh8NzRAGzAypUTOo/lkKoUanCuYoxOzT
- Kzlx2B8SucIxnqbSh0VORaL7mL85pPY=
+ bh=IctT221+LncwKUNHCN/1vwdygYGUB4NBKFH/rSNe52g=;
+ b=hxriATZMMjR/uEm77pn4RijNwivfqpxPhJ6t1P7OuOLYqbbc8c4Ci155xxKWCM1701LV+x
+ FYkODO85CiLff1lywarNcGakQRMQa8QJabBBkBecv00RcmuEKQakLpeNyOt7na8UJ+ORYW
+ RG1vD4acg+3/RnDCO1Rcc4F0orizEsY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-ZZPO5TQ3M7qJRF6iGzbCnA-1; Fri, 25 Jun 2021 10:23:27 -0400
-X-MC-Unique: ZZPO5TQ3M7qJRF6iGzbCnA-1
+ us-mta-427-HcBdtyQlPE6AEVga0RtJHg-1; Fri, 25 Jun 2021 10:23:29 -0400
+X-MC-Unique: HcBdtyQlPE6AEVga0RtJHg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91D4C362FE;
- Fri, 25 Jun 2021 14:23:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A565100CF6E;
+ Fri, 25 Jun 2021 14:23:28 +0000 (UTC)
 Received: from localhost (ovpn-113-54.ams2.redhat.com [10.36.113.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31B415D6A8;
- Fri, 25 Jun 2021 14:23:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BDFA5D6A8;
+ Fri, 25 Jun 2021 14:23:28 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 3/6] export/fuse: Give SET_ATTR_SIZE its own branch
-Date: Fri, 25 Jun 2021 16:23:14 +0200
-Message-Id: <20210625142317.271673-4-mreitz@redhat.com>
+Subject: [PATCH v2 4/6] export/fuse: Let permissions be adjustable
+Date: Fri, 25 Jun 2021 16:23:15 +0200
+Message-Id: <20210625142317.271673-5-mreitz@redhat.com>
 In-Reply-To: <20210625142317.271673-1-mreitz@redhat.com>
 References: <20210625142317.271673-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +81,152 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to support changing other attributes than the file size in
-fuse_setattr(), we have to give each its own independent branch.  This
-also applies to the only attribute we do support right now.
+Allow changing the file mode, UID, and GID through SETATTR.
+
+Without allow_other, UID and GID are not allowed to be changed, because
+it would not make sense.  Also, changing group or others' permissions
+is not allowed either.
+
+For read-only exports, +w cannot be set.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/export/fuse.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ block/export/fuse.c | 73 ++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 62 insertions(+), 11 deletions(-)
 
 diff --git a/block/export/fuse.c b/block/export/fuse.c
-index 4068250241..26ad644cd7 100644
+index 26ad644cd7..ada9e263eb 100644
 --- a/block/export/fuse.c
 +++ b/block/export/fuse.c
-@@ -417,20 +417,22 @@ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
-     FuseExport *exp = fuse_req_userdata(req);
-     int ret;
+@@ -48,6 +48,10 @@ typedef struct FuseExport {
+     bool growable;
+     /* Whether allow_other was used as a mount option or not */
+     bool allow_other;
++
++    mode_t st_mode;
++    uid_t st_uid;
++    gid_t st_gid;
+ } FuseExport;
  
--    if (!exp->writable) {
--        fuse_reply_err(req, EACCES);
--        return;
+ static GHashTable *exports;
+@@ -125,6 +129,13 @@ static int fuse_export_create(BlockExport *blk_exp,
+         args->allow_other = FUSE_EXPORT_ALLOW_OTHER_AUTO;
+     }
+ 
++    exp->st_mode = S_IFREG | S_IRUSR;
++    if (exp->writable) {
++        exp->st_mode |= S_IWUSR;
++    }
++    exp->st_uid = getuid();
++    exp->st_gid = getgid();
++
+     if (args->allow_other == FUSE_EXPORT_ALLOW_OTHER_AUTO) {
+         /* Ignore errors on our first attempt */
+         ret = setup_fuse_export(exp, args->mountpoint, true, NULL);
+@@ -338,7 +349,6 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
+     int64_t length, allocated_blocks;
+     time_t now = time(NULL);
+     FuseExport *exp = fuse_req_userdata(req);
+-    mode_t mode;
+ 
+     length = blk_getlength(exp->common.blk);
+     if (length < 0) {
+@@ -353,17 +363,12 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
+         allocated_blocks = DIV_ROUND_UP(allocated_blocks, 512);
+     }
+ 
+-    mode = S_IFREG | S_IRUSR;
+-    if (exp->writable) {
+-        mode |= S_IWUSR;
 -    }
 -
-     if (to_set & ~FUSE_SET_ATTR_SIZE) {
+     statbuf = (struct stat) {
+         .st_ino     = inode,
+-        .st_mode    = mode,
++        .st_mode    = exp->st_mode,
+         .st_nlink   = 1,
+-        .st_uid     = getuid(),
+-        .st_gid     = getgid(),
++        .st_uid     = exp->st_uid,
++        .st_gid     = exp->st_gid,
+         .st_size    = length,
+         .st_blksize = blk_bs(exp->common.blk)->bl.request_alignment,
+         .st_blocks  = allocated_blocks,
+@@ -409,19 +414,52 @@ static int fuse_do_truncate(const FuseExport *exp, int64_t size,
+ }
+ 
+ /**
+- * Let clients set file attributes.  Only resizing is supported.
++ * Let clients set file attributes.  Only resizing and changing
++ * permissions (st_mode, st_uid, st_gid) is allowed.
++ * Changing permissions is only allowed as far as it will actually
++ * permit access: Read-only exports cannot be given +w, and exports
++ * without allow_other cannot be given a different UID or GID, and
++ * they cannot be given non-owner access.
+  */
+ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
+                          int to_set, struct fuse_file_info *fi)
+ {
+     FuseExport *exp = fuse_req_userdata(req);
++    int supported_attrs;
+     int ret;
+ 
+-    if (to_set & ~FUSE_SET_ATTR_SIZE) {
++    supported_attrs = FUSE_SET_ATTR_SIZE | FUSE_SET_ATTR_MODE;
++    if (exp->allow_other) {
++        supported_attrs |= FUSE_SET_ATTR_UID | FUSE_SET_ATTR_GID;
++    }
++
++    if (to_set & ~supported_attrs) {
          fuse_reply_err(req, ENOTSUP);
          return;
      }
  
--    ret = fuse_do_truncate(exp, statbuf->st_size, true, PREALLOC_MODE_OFF);
--    if (ret < 0) {
--        fuse_reply_err(req, -ret);
--        return;
-+    if (to_set & FUSE_SET_ATTR_SIZE) {
-+        if (!exp->writable) {
-+            fuse_reply_err(req, EACCES);
++    /* Do some argument checks first before committing to anything */
++    if (to_set & FUSE_SET_ATTR_MODE) {
++        /*
++         * Without allow_other, non-owners can never access the export, so do
++         * not allow setting permissions for them
++         */
++        if (!exp->allow_other &&
++            (statbuf->st_mode & (S_IRWXG | S_IRWXO)) != 0)
++        {
++            fuse_reply_err(req, EPERM);
 +            return;
 +        }
 +
-+        ret = fuse_do_truncate(exp, statbuf->st_size, true, PREALLOC_MODE_OFF);
-+        if (ret < 0) {
-+            fuse_reply_err(req, -ret);
++        /* +w for read-only exports makes no sense, disallow it */
++        if (!exp->writable &&
++            (statbuf->st_mode & (S_IWUSR | S_IWGRP | S_IWOTH)) != 0)
++        {
++            fuse_reply_err(req, EROFS);
 +            return;
 +        }
++    }
++
+     if (to_set & FUSE_SET_ATTR_SIZE) {
+         if (!exp->writable) {
+             fuse_reply_err(req, EACCES);
+@@ -435,6 +473,19 @@ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
+         }
      }
  
++    if (to_set & FUSE_SET_ATTR_MODE) {
++        /* Ignore FUSE-supplied file type, only change the mode */
++        exp->st_mode = (statbuf->st_mode & 07777) | S_IFREG;
++    }
++
++    if (to_set & FUSE_SET_ATTR_UID) {
++        exp->st_uid = statbuf->st_uid;
++    }
++
++    if (to_set & FUSE_SET_ATTR_GID) {
++        exp->st_gid = statbuf->st_gid;
++    }
++
      fuse_getattr(req, inode, fi);
+ }
+ 
 -- 
 2.31.1
 
