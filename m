@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78BE3B457A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:22:49 +0200 (CEST)
-Received: from localhost ([::1]:38412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6B43B4580
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 16:26:52 +0200 (CEST)
+Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwmjI-0003TI-Ki
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
+	id 1lwmnD-0000Ic-R8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 10:26:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmfD-0002zu-IC
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:35 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:43754)
+ id 1lwmfF-00034j-Ag
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:37 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lwmfB-0003Ay-OX
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:35 -0400
-Received: by mail-ed1-x536.google.com with SMTP id s6so13576985edu.10
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:33 -0700 (PDT)
+ id 1lwmfD-0003Bk-Mh
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 10:18:37 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id gn32so15427179ejc.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 07:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/NJW9B47FFiAWRRAuH2I9olXcKoFv5w9OJzC75jNnJo=;
- b=llvwrV9IJ+yinfTUH+eNGhCqgXOvN6QI7kpP4K2D9nHYjrQ2hJVRlMCud7tzj0Lb5Z
- guQFW1bUmdBWQxY2nTvYilBX2+su0Fuz7NvqXI9PlSf8gy5LkdxgvTglWHDK09Ab7eTi
- FWDqXP/y8MIBjMb0+RJOd0+nbCcN+tX8jmnOgfMRW3FkKzzxbobHyKALkVAUX8yHNJLE
- iXu59fcM9sQ2wCLTQPAoV7ki+Ee31xxoD9pZKZCC7NP8PaIPkLrhXxFWU+CuOIdvnRh6
- sBUgMu7ua6+qifei2Lguj16v8o+pgLCRpdBFJWroMYlInuNqCKZE+K816TAlUyrI2jL8
- 9qCQ==
+ bh=Q0ZN4n/dtFMRMepbnfjzMN5tAEFeuoYDClHc1sps4os=;
+ b=BvA2sa9AXHBTzWQ/x4oAmT2IsEmoyGBVG+qCup6YekPCSzpGS0swRM6PIrsFskM54j
+ j3ehNiXecn3URf8uWhFeBbKRHoy8URW+QAHLPZvQ8sHpPh2+ZSw4rT52vZqPo3AQRp+0
+ GZqgkBwWmi84uSlB+nHEL0fwX6fGPJxovHXjQmPubFPx7UzKqNPYrNV7hh4WaKzkn6SW
+ LpmF1Mg6OBJ/81iik6aIGSVJk8bLr2ovunu8g2QHEppNYYunIkAq3ed1BuuFokLC3SwR
+ Yjl3QxoD4LY1odSFbey23fKEB50SIWMRPuXBxArv8ukl82ww/ROkuhw4d0TI4aPzqIkz
+ tUWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/NJW9B47FFiAWRRAuH2I9olXcKoFv5w9OJzC75jNnJo=;
- b=XDLuStVxSOHQYWUkxBvdGamE4XcxB/QFkQAciwSf1spNPNcq+HxpevqPrVLUIc8Zf+
- 7Xj72aYI4udZYd8h5G2gi9j47OHuKSdn2YR9Ei9B6Z4vBE1Yu5VKImcErdGJkwjIq+29
- qfHQy29bRhDvosxPRnJn4fGMkVAisxEgqGNWc3U3vVhq00tTyJMF9Gt6VLEsVKBuvmJ8
- ekeFXu/jGIhuTJyttGVN4FGWiZ1Yvg9dCH0YKU3Tqkle08AL1mUcoY6XdkHDi51w5xi7
- ir+iG97lEyc7ACuiTlMoLv/FUpOOMjBYfhg55NXjjDkRt6+H9HskQ2bioxqWs1W2hugD
- c4Iw==
-X-Gm-Message-State: AOAM531a6MBKo4aNfZXP5S818fTfyxVxap4EcQlEWqPQkAKj4crWEMgy
- 0xeK31t4Las6eaOnoOs58DwiL1Iyd+c=
-X-Google-Smtp-Source: ABdhPJwgUFIvE53eFDmETqRKl/mwMxZyAq4Lzn/Vt2wd8K1LLzbdpERBaQon8V94Jp2zQRybAA9nSA==
-X-Received: by 2002:aa7:c799:: with SMTP id n25mr14627046eds.16.1624630712389; 
- Fri, 25 Jun 2021 07:18:32 -0700 (PDT)
+ bh=Q0ZN4n/dtFMRMepbnfjzMN5tAEFeuoYDClHc1sps4os=;
+ b=i+JG0AkxhtOBQTE0sKHzTHsFy6AxWoy0vpAovO+khZW1nAKOWjkLtXzEJktbHD6SRE
+ FQr2Wy9lmBsdoxB5iH3gkgk7wS9kmCoDbe4r/yVpaUXyltYqg+9sBuPLlG7Sxz97Wy+i
+ RRMl9qtKvYCVxJ5ZKvQN/Vhj8aUQIHEvUhLx6WB0LLvk1nmR0u2qt6oJbXyMmGyQwbAF
+ lSHs3tqMhE34AuihSAMTGK1VyI+OSC2FgTLcvD5K7zuTQeWGf6Bt6E//aRkZQcO3mebp
+ IKQg0WusvUpTlrWZEcXtIqAzEazHIh+B3MlDSKfYMqA0DiIDcMogqlXcCYdmChbYgbiB
+ AKKg==
+X-Gm-Message-State: AOAM531faFYGoXmjhyQMTGscEnbK84kn5CiRs857WcXvzzimhEAGymC3
+ qWlX+7t5Y3w8vbQw6XbXoO/dZ7fd83I=
+X-Google-Smtp-Source: ABdhPJzwvFQ7RgW6DZ0rJywrROR3UAxsKGMlzaPVQLzjMb0U/H1dwz4ygUzhJlkQpKYZ30LGn1fDLw==
+X-Received: by 2002:a17:907:384:: with SMTP id
+ ss4mr11150613ejb.120.1624630714413; 
+ Fri, 25 Jun 2021 07:18:34 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.31
+ by smtp.gmail.com with ESMTPSA id c28sm326579ejc.102.2021.06.25.07.18.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 07:18:32 -0700 (PDT)
+ Fri, 25 Jun 2021 07:18:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/28] configure, meson: convert libcacard detection to meson
-Date: Fri, 25 Jun 2021 16:18:04 +0200
-Message-Id: <20210625141822.1368639-11-pbonzini@redhat.com>
+Subject: [PULL 12/28] KVM: Fix dirty ring mmap incorrect size due to renaming
+ accident
+Date: Fri, 25 Jun 2021 16:18:06 +0200
+Message-Id: <20210625141822.1368639-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625141822.1368639-1-pbonzini@redhat.com>
 References: <20210625141822.1368639-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,140 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Hyman Huang <huangy81@chinatelecom.cn>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+From: Peter Xu <peterx@redhat.com>
+
+Found this when I wanted to try the per-vcpu dirty rate series out, then I
+found that it's not really working and it can quickly hang death a guest.  I
+found strange errors (e.g. guest crash after migration) happens even without
+the per-vcpu dirty rate series.
+
+When merging dirty ring, probably no one notice that the trivial renaming diff
+[1] missed two existing references of kvm_dirty_ring_sizes; they do matter
+since otherwise we'll mmap() a shorter range of memory after the renaming.
+
+I think it didn't SIGBUS for me easily simply because some other stuff within
+qemu mmap()ed right after the dirty rings (e.g. when testing 4096 slots, it
+aligned with one small page on x86), so when we access the rings we've been
+reading/writting to random memory elsewhere of qemu.
+
+Fix the two sizes when map/unmap the shared dirty gfn memory.
+
+[1] https://lore.kernel.org/qemu-devel/dac5f0c6-1bca-3daf-e5d2-6451dbbaca93@redhat.com/
+
+Cc: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210609014355.217110-1-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure          | 28 ++++------------------------
- hw/usb/meson.build |  2 +-
- meson.build        |  9 +++++----
- meson_options.txt  |  2 ++
- 4 files changed, 12 insertions(+), 29 deletions(-)
+ accel/kvm/kvm-all.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index e54d06b99e..02b0acc1f5 100755
---- a/configure
-+++ b/configure
-@@ -372,7 +372,7 @@ trace_file="trace"
- spice="$default_feature"
- spice_protocol="auto"
- rbd="auto"
--smartcard="$default_feature"
-+smartcard="auto"
- u2f="auto"
- libusb="auto"
- usb_redir="$default_feature"
-@@ -1277,9 +1277,9 @@ for opt do
-   ;;
-   --enable-xfsctl) xfs="yes"
-   ;;
--  --disable-smartcard) smartcard="no"
-+  --disable-smartcard) smartcard="disabled"
-   ;;
--  --enable-smartcard) smartcard="yes"
-+  --enable-smartcard) smartcard="enabled"
-   ;;
-   --disable-u2f) u2f="disabled"
-   ;;
-@@ -3980,20 +3980,6 @@ EOF
-   fi
- fi
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index c7ec538850..e5b10dd129 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -411,7 +411,7 @@ static int do_kvm_destroy_vcpu(CPUState *cpu)
+     }
  
--# check for smartcard support
--if test "$smartcard" != "no"; then
--    if $pkg_config --atleast-version=2.5.1 libcacard; then
--        libcacard_cflags=$($pkg_config --cflags libcacard)
--        libcacard_libs=$($pkg_config --libs libcacard)
--        smartcard="yes"
--    else
--        if test "$smartcard" = "yes"; then
--            feature_not_found "smartcard" "Install libcacard devel"
--        fi
--        smartcard="no"
--    fi
--fi
--
- # check for usbredirparser for usb network redirection support
- if test "$usb_redir" != "no" ; then
-     if $pkg_config --atleast-version=0.6 libusbredirparser-0.5; then
-@@ -5611,12 +5597,6 @@ if test "$spice" = "yes" ; then
-   echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
- fi
+     if (cpu->kvm_dirty_gfns) {
+-        ret = munmap(cpu->kvm_dirty_gfns, s->kvm_dirty_ring_size);
++        ret = munmap(cpu->kvm_dirty_gfns, s->kvm_dirty_ring_bytes);
+         if (ret < 0) {
+             goto err;
+         }
+@@ -495,7 +495,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
  
--if test "$smartcard" = "yes" ; then
--  echo "CONFIG_SMARTCARD=y" >> $config_host_mak
--  echo "SMARTCARD_CFLAGS=$libcacard_cflags" >> $config_host_mak
--  echo "SMARTCARD_LIBS=$libcacard_libs" >> $config_host_mak
--fi
--
- if test "$usb_redir" = "yes" ; then
-   echo "CONFIG_USB_REDIR=y" >> $config_host_mak
-   echo "USB_REDIR_CFLAGS=$usb_redir_cflags" >> $config_host_mak
-@@ -6195,7 +6175,7 @@ if test "$skip_meson" = no; then
-         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
-         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
--        -Dlibusb=$libusb \
-+        -Dlibusb=$libusb -Dsmartcard=$smartcard \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index bd3f8735b9..df9effbb10 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -49,7 +49,7 @@ softmmu_ss.add(when: ['CONFIG_POSIX', 'CONFIG_USB_STORAGE_MTP'], if_true: files(
- # smartcard
- softmmu_ss.add(when: 'CONFIG_USB_SMARTCARD', if_true: files('dev-smartcard-reader.c'))
- 
--if config_host.has_key('CONFIG_SMARTCARD')
-+if cacard.found()
-   usbsmartcard_ss = ss.source_set()
-   usbsmartcard_ss.add(when: 'CONFIG_USB_SMARTCARD',
-                       if_true: [cacard, files('ccid-card-emulated.c', 'ccid-card-passthru.c')])
-diff --git a/meson.build b/meson.build
-index 0b4b55b9da..afcfcb8c57 100644
---- a/meson.build
-+++ b/meson.build
-@@ -976,9 +976,10 @@ if 'CONFIG_XEN_BACKEND' in config_host
-                            link_args: config_host['XEN_LIBS'].split())
- endif
- cacard = not_found
--if 'CONFIG_SMARTCARD' in config_host
--  cacard = declare_dependency(compile_args: config_host['SMARTCARD_CFLAGS'].split(),
--                              link_args: config_host['SMARTCARD_LIBS'].split())
-+if not get_option('smartcard').auto() or have_system
-+  cacard = dependency('libcacard', required: get_option('smartcard'),
-+                      version: '>=2.5.1', method: 'pkg-config',
-+                      kwargs: static_kwargs)
- endif
- u2f = not_found
- if have_system
-@@ -2781,7 +2782,7 @@ summary_info += {'bpf support': libbpf.found()}
- summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
- summary_info += {'rbd support':       rbd.found()}
- summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
--summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
-+summary_info += {'smartcard support': cacard.found()}
- summary_info += {'U2F support':       u2f.found()}
- summary_info += {'libusb':            libusb.found()}
- summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
-diff --git a/meson_options.txt b/meson_options.txt
-index 02c14d4751..cd9374384e 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -102,6 +102,8 @@ option('sdl_image', type : 'feature', value : 'auto',
-        description: 'SDL Image support for icons')
- option('seccomp', type : 'feature', value : 'auto',
-        description: 'seccomp support')
-+option('smartcard', type : 'feature', value : 'auto',
-+       description: 'CA smartcard emulation support')
- option('snappy', type : 'feature', value : 'auto',
-        description: 'snappy compression support')
- option('u2f', type : 'feature', value : 'auto',
+     if (s->kvm_dirty_ring_size) {
+         /* Use MAP_SHARED to share pages with the kernel */
+-        cpu->kvm_dirty_gfns = mmap(NULL, s->kvm_dirty_ring_size,
++        cpu->kvm_dirty_gfns = mmap(NULL, s->kvm_dirty_ring_bytes,
+                                    PROT_READ | PROT_WRITE, MAP_SHARED,
+                                    cpu->kvm_fd,
+                                    PAGE_SIZE * KVM_DIRTY_LOG_PAGE_OFFSET);
 -- 
 2.31.1
 
