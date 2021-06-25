@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA8F3B4115
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:03:41 +0200 (CEST)
-Received: from localhost ([::1]:59034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811D13B412E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 12:11:33 +0200 (CEST)
+Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwigW-0000LA-Ug
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:03:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55506)
+	id 1lwio8-0002eK-K9
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 06:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi4M-000555-3l
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:14 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:47088)
+ id 1lwi4R-0005Pi-2T
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:19 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi4K-0001vC-Gi
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:13 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- v20-20020a05600c2154b02901dcefb16af0so5379492wml.5
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:24:12 -0700 (PDT)
+ id 1lwi4P-0001yy-J2
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:18 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id a13so9799846wrf.10
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ehB0qAlihF7k4LAF1LEURlWlaeE5Zj9aqJsWbLM6/nM=;
- b=ns3tbLZTFCaF9gWaI03iDv/PVe6/5NCRli4xXhMc7lOYevRj5WaY7CtWsjU/ZXAH1A
- lN2bUwMGqeXYTfh+8+/l5vRL7oAuIqd556k7jolMbJsyPHxnc7ijvP9DXnihQ4WryQSH
- QGR9OuvPkld1hui64SckdP+yljYRa6RISv09cQldWfDqfdzu7nSOpyRE6Ps3/OsanSia
- bxBxiqGO5TLwAugALsT/2h8SqkcKd7nW3nhQ1mmf/o5oDjGuFHmDXqm8llvxc7pmnk14
- mcRvRCFM1Jvfz1ZZDkL4WtfPoZVqLpIgGGpopWdeNFn+g7Nfzse/62+sleVMOgwhX5q/
- Pszg==
+ bh=SeSEcRIPGoSv9nIgUL5/majnlvtkMwRXIAnFMpntYY8=;
+ b=i8AcMrjs9iY3jRdNo1ntGr+neGC6pImAv1mHuAEwvSPIAB8lwQGEqQKTL0ewidYBzQ
+ DTGRUJdSwUjmK8VSt4fYaVCbAGLqAHZ9QDj9PPiCEHsEKUCKbXo5yM1Fa1C1HxJtkae8
+ QoLoUMNR+O2Ex9EF/x7zJ/S8wO+X+JuJB6M95swke9EpjtyvyUjTnrR3XGZO8bzYzxio
+ ACodGH9//kXb2Z1YlM3MOCGYg+eBeOkwwsryFsecpmNNGLeXiVg0ZGq0wGvRxK41HR18
+ CquCoegMQQ8xHoCcNVPMo7Yev15wHgGktR34zDl1vjT3XUT0IUyXX/Bwu3keH/WRFfLk
+ ZH1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ehB0qAlihF7k4LAF1LEURlWlaeE5Zj9aqJsWbLM6/nM=;
- b=mRVYuNORMVn7GHbuQ6zQ+pLi325jFb0x4eXYUzZQMmzITSb717I2eDFA3mRv8gf/LN
- ZZ0sIQHalLO2kjJB6XRhNSMnDz6q0L7NtJFL9ex5yOhIjN+L7XQmIVKMBVyrLHUhtZRp
- paPBvJ6C4a4GZTbUQsdy3OYfdZm3+h7xuCTzNU8pU4l2KnO0MVD84i4RmPBlje/bjI/y
- eUs5QAXuFCHBuKbvFwXxyWEGjDcQIzGmqUnRg//TguVVAHeCtEJljMCDjnH2MAOimPCl
- kSQV17ifTRInQBiX3ZQ9IzZGw0C5ynInifGSV4IMXb722VPP3z0ddhETqwlMtQtkxErf
- n0Pg==
-X-Gm-Message-State: AOAM533gi5fvPVOBpOTAdDDvp1yI07Zc43JanVmeM9oL30qT3Qkz5Udn
- DlfAlTF/Uf3dKQGs805LKL1gSVve6mK8xw==
-X-Google-Smtp-Source: ABdhPJzB2W3Uyr2eL2r7hWMVCVhMoQrkt+kdKsVB+j/lkMA4/Fi+Zl3WKOBUP0QFMk7QEZvePhCFsQ==
-X-Received: by 2002:a05:600c:4111:: with SMTP id
- j17mr9360772wmi.86.1624613051120; 
- Fri, 25 Jun 2021 02:24:11 -0700 (PDT)
+ bh=SeSEcRIPGoSv9nIgUL5/majnlvtkMwRXIAnFMpntYY8=;
+ b=Ryx5vxT3U92ILiS0rBGNp0mOWUlTO0RDCuU8r8Fqx2/sfLR/LLPzXVm03XnsOmdoGD
+ WMAuRnA1s2DiPpPLcoaYn/A39DePfgPf0ZrCggGXVB6AXvOYums3RR9TwSUU2Pdxy0ET
+ kSne/pmMGaSvRMYQWUU74s/Ztsc6FOlJxv9CGbM8E49OZnRFzOsorm88fI/DQrd494cC
+ UZ6BLSS1Hq5MEWVa/SUtxjU9pT6IqJJ/kj30v/jct3vuYf3/wSJfj5I0i4JD/m+aXhwa
+ cr9cXhtn9BJaLRlaMAGS5JMAoWGKbkz4j+kyUpqEPwRh1HPGuZXLbPhnA28xvhHN28xV
+ H/Kw==
+X-Gm-Message-State: AOAM531ZkhwPsCHBnwgKwYlIrm/VD4g9s0VEAbn7ZvSUasSktQft7WJB
+ fo/b8vDMhThD5k5MModAsINR5o92RJvLDw==
+X-Google-Smtp-Source: ABdhPJwBaGwUmxT8qSbfLwxIZbqU66wGQMpcYCWYXwXIYjn4bijRuffh4i2fK188CFzhutnFTOyWhg==
+X-Received: by 2002:a5d:648a:: with SMTP id o10mr8392212wri.304.1624613056125; 
+ Fri, 25 Jun 2021 02:24:16 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id m18sm5450062wmq.45.2021.06.25.02.24.10
+ by smtp.gmail.com with ESMTPSA id g17sm6734642wrh.72.2021.06.25.02.24.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 02:24:10 -0700 (PDT)
+ Fri, 25 Jun 2021 02:24:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/15] target/mips: Restrict some system specific declarations
- to sysemu
-Date: Fri, 25 Jun 2021 11:23:22 +0200
-Message-Id: <20210625092329.1529100-9-f4bug@amsat.org>
+Subject: [PULL 09/15] target/mips: Remove SmartMIPS / MDMX unuseful comments
+Date: Fri, 25 Jun 2021 11:23:23 +0200
+Message-Id: <20210625092329.1529100-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625092329.1529100-1-f4bug@amsat.org>
 References: <20210625092329.1529100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,63 +91,37 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 043715d1e0f ("target/mips: Update ITU to utilize SAARI
-and SAAR CP0 registers") declared itc_reconfigure() in public
-namespace, while it is restricted to system emulation.
-
-Similarly commit 5679479b9a1 ("target/mips: Move CP0 helpers
-to sysemu/cp0.c") restricted cpu_mips_soft_irq() definition to
-system emulation, but forgot to restrict its declaration.
-
-To avoid polluting user-mode emulation with these declarations,
-restrict them to sysemu. Also restrict the sysemu ITU/ITC/IRQ
-fields from CPUMIPSState.
+These placeholder comments for SmartMIPS and MDMX extensions have
+been added commit 3c824109da0 ("target-mips: microMIPS ASE support").
+More than 11 years later it is safe to assume there won't be added
+soon, so remove these unuseful comments.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210617174323.2900831-6-f4bug@amsat.org>
+Message-Id: <20210617174323.2900831-7-f4bug@amsat.org>
 ---
- target/mips/cpu.h | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ target/mips/tcg/translate.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 075c24abdad..1dfe69c6c0c 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1152,13 +1152,13 @@ struct CPUMIPSState {
-     CPUMIPSMVPContext *mvp;
- #if !defined(CONFIG_USER_ONLY)
-     CPUMIPSTLBContext *tlb;
-+    void *irq[8];
-+    struct MIPSITUState *itu;
-+    MemoryRegion *itc_tag; /* ITC Configuration Tags */
- #endif
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 0a4257db2a9..8b251183209 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -21578,14 +21578,6 @@ static int decode_nanomips_opc(CPUMIPSState *env, DisasContext *ctx)
+ }
  
-     const mips_def_t *cpu_model;
--    void *irq[8];
-     QEMUTimer *timer; /* Internal timer */
--    struct MIPSITUState *itu;
--    MemoryRegion *itc_tag; /* ITC Configuration Tags */
-     target_ulong exception_base; /* ExceptionBase input to the core */
-     uint64_t cp0_count_ns; /* CP0_Count clock period (in nanoseconds) */
- };
-@@ -1316,12 +1316,16 @@ uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr);
- bool mips_um_ksegs_enabled(void);
- void mips_um_ksegs_enable(void);
  
-+#if !defined(CONFIG_USER_ONLY)
-+
- /* mips_int.c */
- void cpu_mips_soft_irq(CPUMIPSState *env, int irq, int level);
- 
- /* mips_itu.c */
- void itc_reconfigure(struct MIPSITUState *tag);
- 
-+#endif /* !CONFIG_USER_ONLY */
-+
- /* helper.c */
- target_ulong exception_resume_pc(CPUMIPSState *env);
- 
+-/* SmartMIPS extension to MIPS32 */
+-
+-#if defined(TARGET_MIPS64)
+-
+-/* MDMX extension to MIPS64 */
+-
+-#endif
+-
+ /* MIPSDSP functions. */
+ static void gen_mipsdsp_ld(DisasContext *ctx, uint32_t opc,
+                            int rd, int base, int offset)
 -- 
 2.31.1
 
