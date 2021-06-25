@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCCE3B3E17
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 09:58:59 +0200 (CEST)
-Received: from localhost ([::1]:51676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5230D3B3E46
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 10:11:26 +0200 (CEST)
+Received: from localhost ([::1]:54032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwgjq-0008Ko-UH
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 03:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40072)
+	id 1lwgvs-0001za-VL
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 04:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwgj6-0007Xh-It
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 03:58:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lwgj3-0001Ef-RR
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 03:58:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624607889;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9bOHTVCnjjUeniHXM8Ge6f37it82ajNjnefagezPtqo=;
- b=KR4hTFPgYt7U2lmxwY9E/YPqedYIKe5auB+MrctY28KzrJEk0LJhxGsWK5t3DSBaMsCFpT
- 9a2f5eZXPColr4XTpDcgMRkldrGOx1+0qx1vbg6AIGZD0oEDT6jK7yxewt39xta/XYUWVf
- ED7Ot5WRsf1snALorva2lYKCbRMbJqg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-dL-fgL-PMVWaBc3t7X4Bsw-1; Fri, 25 Jun 2021 03:58:07 -0400
-X-MC-Unique: dL-fgL-PMVWaBc3t7X4Bsw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- z5-20020a05640235c5b0290393974bcf7eso4754343edc.2
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 00:58:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwgun-0001Jv-P2
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:10:17 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:36639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwgul-0002Y4-NE
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:10:17 -0400
+Received: by mail-ed1-x532.google.com with SMTP id h2so12273648edt.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 01:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R2DB6vixGPTXEQDysboSrJbbTAEsgkW+GKLJPxb6IMY=;
+ b=G6HJi56WbDHDDQz+AV+U7U8TIn0s5hbDahF/2Lv8piCwZiUp7MsbDha/c32fh4u9l7
+ vg59EUIi8TazaMQU6Gv3SaKRtt40zB6dceMPPrO5SsF8KKgdE0/mZyHkpWUKczyXw9N3
+ Ujb7n8RshjyM3W2r5wqTtkjBPTQuiVMvvj1ilGbuHmgaYcoVwGqWTlas21itiTddcP8C
+ JVedJTg2d4FkY0UnXPdO+G4KkUhYNIzxyo47GlaXQR6k04tH2cb/dbyT2XYSJ11LjunN
+ g0EvMMrHQtGYj/5lv7XamoO+H4xbtB7ANfrje04t1MqEouxCaz7idmVXVXt8tTqXT77a
+ QlcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=9bOHTVCnjjUeniHXM8Ge6f37it82ajNjnefagezPtqo=;
- b=JZKncgxAybhQ+1fsMp7KLri3g1cNQefwZ85iBgbyUJyK7s4wJ5GcTILkDmgzdvBj+j
- GrIvwhJwDJrM6hF48RQTvaqhHvQ2N2JnqQtb8yjkeWh6WVEZUN+CL9pWu2DPJiJKofZ/
- 3Tdm0fyIhtIOjKyJyae8Iv4WYw6Dw3mAfHh8xjooQ+XYbZTpQjKiKRIZdwevuwPEjhqG
- o7sgA/zR/UVMtqd7g7jRMNPbOuA+CMzksogAOJZQtZRTM4CZrrHrG1LakWYN3FbpN0gc
- LyxduXzARKgBlRKLEICoF7ku0i8/bpc19hxRH9Vj33X9KPxrfz5wFsede7hMUqDoodH1
- kLqQ==
-X-Gm-Message-State: AOAM530F4cliPiAjcCG0S4BHgiBNIUomHXonXkVJdGc3t87nNHERyMJ2
- ilMF15pDAB0aFaLTgAdyYIiEFjMnTulsM4Uf2iOdko7e6SMMe/kCxNwmUB+817x4dWuCPsPEaKS
- 5TQ2Y+J/A77FAv1o=
-X-Received: by 2002:a17:907:10c3:: with SMTP id
- rv3mr9300407ejb.420.1624607885948; 
- Fri, 25 Jun 2021 00:58:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/XugMS0Tc8rjnv9fk22ZP5mqCIYjPTrkKOWcIinLc6Aqp30xNg6EAfalEtYCgbIiB7YIeUQ==
-X-Received: by 2002:a17:907:10c3:: with SMTP id
- rv3mr9300388ejb.420.1624607885648; 
- Fri, 25 Jun 2021 00:58:05 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- cb14sm3430859edb.68.2021.06.25.00.58.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 00:58:05 -0700 (PDT)
-Subject: Re: [PATCH 05/11] block: add max_hw_transfer to BlockLimits
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210624180423.1322165-1-pbonzini@redhat.com>
- <20210624180423.1322165-6-pbonzini@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <3cc81f9e-d96c-ba38-a9fd-720c645f42c9@redhat.com>
-Date: Fri, 25 Jun 2021 09:58:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R2DB6vixGPTXEQDysboSrJbbTAEsgkW+GKLJPxb6IMY=;
+ b=kBDWc7xUiPUG9cH/DSuBDHm8DFGLU3dvWyGIRkz9HXeXXldw7cgX2Nor42WHv9YbTa
+ VQsC/zMFkd2z3r86RPjogAj79ouCV4QfvaXSQrCrP0+HaL0Q9O6uf4YA7UISpXn8E5wt
+ 1/6HYHly7xnpFGu3yrb67AWdjXKDA/MhHgcf43tulZ7e7Uve0YwmUafMvJG9nHL9UlnQ
+ V4i6kmvryHHHEipTDcjQNxyn0dIA/X8sqeKOk7JyL0lN154gf2m3vKkPhIaKSn38fVdW
+ jGKi7EkMPyeNPnwFj4B16uaUgeOdSYPR/8Fel7zXlG36xlyBxYCq35IliK2epOXvVOPL
+ rw4g==
+X-Gm-Message-State: AOAM533ikmD1TPcslFQav6MuM6RMUcGDipOq+ppTd9CLCUBveQpNBU6d
+ dPvJ6rcBrPKd8fJOBg5tGBa7mSJ2+eaI+WJqEtz1Ig==
+X-Google-Smtp-Source: ABdhPJwzAMWRI4/f/oM7XvF4m3gfSfQi65mZyl6JcYrFViH2dWiRVrmxIJod6qrsSy58Gv0EEM/gRQwWIxit3YrVo9w=
+X-Received: by 2002:a05:6402:5204:: with SMTP id
+ s4mr12713033edd.52.1624608613988; 
+ Fri, 25 Jun 2021 01:10:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210624180423.1322165-6-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210623121424.1259496-1-pbonzini@redhat.com>
+ <CAFEAcA8kr5sn-jQ_wLa6a-m0DmbWPh1v6YuHQK74dy8pp01-Vw@mail.gmail.com>
+ <3d085a3d-d4e0-6750-65c0-ec91c5f63d8d@redhat.com>
+In-Reply-To: <3d085a3d-d4e0-6750-65c0-ec91c5f63d8d@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Jun 2021 09:09:37 +0100
+Message-ID: <CAFEAcA_TAZ-CgzM4pQxr71jaC2Vr0kenF2WXsqcR13YLaddDDQ@mail.gmail.com>
+Subject: Re: [PULL 00/12] Misc, mostly meson patches for 2021-06-23
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,35 +79,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, mlevitsk@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.06.21 20:04, Paolo Bonzini wrote:
-> For block host devices, I/O can happen through either the kernel file
-> descriptor I/O system calls (preadv/pwritev, io_submit, io_uring)
-> or the SCSI passthrough ioctl SG_IO.
+On Thu, 24 Jun 2021 at 22:05, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> In the latter case, the size of each transfer can be limited by the
-> HBA, while for file descriptor I/O the kernel is able to split and
-> merge I/O in smaller pieces as needed.  Applying the HBA limits to
-> file descriptor I/O results in more system calls and suboptimal
-> performance, so this patch splits the max_transfer limit in two:
-> max_transfer remains valid and is used in general, while max_hw_transfer
-> is limited to the maximum hardware size.  max_hw_transfer can then be
-> included by the scsi-generic driver in the block limits page, to ensure
-> that the stricter hardware limit is used.
+> On 24/06/21 21:09, Peter Maydell wrote:
+> > This generates a new warning on one of my boxes:
+> >
+> > [...]
+> > Has header "sasl/sasl.h" : YES (cached)
+> > Library sasl2 found: YES
+> > Has header "security/pam_appl.h" : YES
+> > Library pam found: YES
+> > ../meson.build:926: WARNING: could not link libpam, disabling
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   block/block-backend.c          | 13 +++++++++++++
->   block/file-posix.c             |  2 +-
->   block/io.c                     |  2 ++
->   hw/scsi/scsi-generic.c         |  2 +-
->   include/block/block_int.h      |  7 +++++++
->   include/sysemu/block-backend.h |  1 +
->   6 files changed, 25 insertions(+), 2 deletions(-)
+> This is probably too old a libpam, or something like that.  What distro
+> is it, and could you please attach the resulting meson-logs/meson-log.txt?
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+I saw this on Ubuntu 18.04.5 LTS and also on Debian bullseye; I've uploaded
+the full meson-log.txt for the Ubuntu box to
+https://people.linaro.org/~peter.maydell/meson-log.txt
+but the important part seems to be:
 
+Running compile:
+Working directory:
+/home/peter.maydell/qemu-netbsd/build/meson-private/tmp97iric39
+Command line:  cc
+/home/peter.maydell/qemu-netbsd/build/meson-private/tmp97iric39/testfile.c
+-o /home/peter.maydell/qemu-netbsd/build/
+meson-private/tmp97iric39/output.exe -pipe -D_FILE_OFFSET_BITS=64 -O0
+-std=gnu99 -Wl,--start-group -lpam -Wl,--end-group
+
+Code:
+
+   #include <security/pam_appl.h>
+   int main(void) {
+     const char *service_name = "qemu";
+     const char *user = "frank";
+     const struct pam_conv pam_conv = { 0 };
+     pam_handle_t *pamh = NULL;
+     pam_start(service_name, user, &pam_conv, &pamh);
+     return 0;
+   }
+Compiler stdout:
+
+Compiler stderr:
+ /home/peter.maydell/qemu-netbsd/build/meson-private/tmp97iric39/testfile.c:
+In function 'main':
+/home/peter.maydell/qemu-netbsd/build/meson-private/tmp97iric39/testfile.c:7:27:
+error: 'NULL' undeclared (first use in this function)
+      pam_handle_t *pamh = NULL;
+                           ^~~~
+/home/peter.maydell/qemu-netbsd/build/meson-private/tmp97iric39/testfile.c:7:27:
+note: each undeclared identifier is reported only onc
+e for each function it appears in
+
+../meson.build:926: WARNING: could not link libpam, disabling
+
+
+Looks like a missing #include <stddef.h> in the test code, rather
+than anything specifically libpam related.
+
+
+More generally, I think if meson probes for some library
+and can't find it, the correct response is that it should
+just print "Library libpam found: NO", not a "WARNING".
+"You don't have an optional library, we'll skip that optional
+feature" is a normal situation.
+
+thanks
+-- PMM
 
