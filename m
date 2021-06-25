@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67053B40F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:56:49 +0200 (CEST)
-Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE66D3B40FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:58:17 +0200 (CEST)
+Received: from localhost ([::1]:43018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwiZs-0001yA-NK
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55664)
+	id 1lwibI-00064F-VI
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi4v-00074H-Op
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:51 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35533)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwi87-0006hX-Iq
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:28:07 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:46873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lwi4s-0002Le-4B
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:24:48 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- j11-20020a05600c1c0bb02901e23d4c0977so7388245wms.0
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=f5DPlzA8O4zttmU/S05Ji9+z4p90zXOhep4QV0U8i+Q=;
- b=Tk0z3vBNKbY1MUy7pIMEXRCKarGDPyJWHXMc6Reit1hMI4oyHCKyVu8410IVfREQKm
- 2WPq6gMMsBH8BKPn5Wqsnw92SqWOW5GYxVw3RVzZa7McL0QlKL6bqtgJw3eANDho1stR
- MQ9klNh26wRlkNPUd0QpnLVtfMGsAYvjEVVom2fs4QUeQJl0PEkjD3xUD3xjbCgziBrc
- 9jUy27A2eDieuFjbNG2TEkKhSTibawnSv7WUoZnAUbhXYjSfNj0EmL4n07rvrf+rik2x
- vf4AK224MBKJzsWO//Mn+Dx/k9geYi+lq/zRY6DyRzrhp07e4eStTQuMrnI9MD388lFw
- UC8Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lwi85-0004vK-Gd
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:28:07 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id s15so12462462edt.13
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 02:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bNnci1iaDuP28/CFU+ugROF0f27cLnnQ/KDn+3pHWmU=;
+ b=T/3jnp/YvMI3UXHLbeg25vRKpg/ayHiI03TLgxWKWSsVuNDfVmxuEdRfyORm7H6lOJ
+ ++Lao1NYVGsgysMWpWqNL1IwZAYdPf+D/IhloP/WFTb0I6J1mk8cB0YPsykqtOTrViY7
+ Zp+QyM4W7QgVcn/fJ1RJ7qmk4gww34mdSEtx2KCM5/p8NZJ6c5aY2QrvKLv9zf6TQ7Dp
+ wXTucZU5GjKks6d5BjfI+zP7fcR0Q3LhUF49lZP28W8/qnveRc/NYxwvoRNslawrYM3u
+ SFbz+ukIN9iccS0dL5hZ9Vjc/ssu15oFgUVMdSLK7nCDiyFR8SfrwujetCuf90z+CZOc
+ V2Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=f5DPlzA8O4zttmU/S05Ji9+z4p90zXOhep4QV0U8i+Q=;
- b=NpZZP2GjnOABcafJMiRbOXMF2YUeqrPYiXyGBOJjJmceCPT+dwChsdDhSYaTBRCSI8
- asQFV/EiQ6tVLAhc1Rghvp4jtUTT8+8HQkCIV6Id1UejnqKBwiyDFQC3sRzryyik/kEK
- KGZ7nrgdKAgEMQ3Q3C2pgFIsTiHF7yMawhXc0ZRurrWixq1DL3pPD0c/khJxlF4PDpaJ
- W4JTNk6Lf+NGWFcdn/St3aP/JQSK7CexSM6LdA8Q/z7c3zSnALPdstL+COZ8v8f4WXLq
- lusws43QMrTNG4ow93A1Y+04jtwBc6f4+ghfh6g7eLqUWarIZ0gfoM/s9kvdFLTQeOWi
- al2Q==
-X-Gm-Message-State: AOAM533r2UL664JJFMOj3djdusEVLqJ60Pk39jTTdXB4A/EiULCndSZE
- k8r/mcR3q9DUrCB0+GYpJqA66/uiFuhqNQ==
-X-Google-Smtp-Source: ABdhPJy4K3gWHKlDU0BzLDvtBe1wxiVdqepUw1QIaqk51e2jEQILPmw6WHU/KWTZipqGkTEEVr5DGw==
-X-Received: by 2002:a1c:9a8b:: with SMTP id c133mr9650720wme.65.1624613084630; 
- Fri, 25 Jun 2021 02:24:44 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id p13sm4081429wrx.30.2021.06.25.02.24.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 02:24:44 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 15/15] target/mips: Merge msa32/msa64 decodetree definitions
-Date: Fri, 25 Jun 2021 11:23:29 +0200
-Message-Id: <20210625092329.1529100-16-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210625092329.1529100-1-f4bug@amsat.org>
-References: <20210625092329.1529100-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bNnci1iaDuP28/CFU+ugROF0f27cLnnQ/KDn+3pHWmU=;
+ b=iglBnwFcxjgkk0FBTRqqZ4GI0j2Zi+8KFMjeq6xvbNNBme70EZt/mDd5I5T098Nx6m
+ T/o2ZXiojyQerKb6G83r1PUxBnp+EwJ6J/uVN5ynvI8ZKzWaoN3ir2sU+SM2Qn2BcSWS
+ 0RAL+3tlqkiD9wGZmWn50xVNJdwO/Xh743fO9jxEAyRtfAHzfS0OtBMnwXw6tK3z35b1
+ hTaTn1xnxGu63+fvxTxCp3aXunPiZ7RIi06fyHt0r0d5XV1dWq+3szU7Y3fXMEiUB3Tj
+ EDme1iMIszICzFi/jWSaHar1OA1FHgsXosSzLrHwFZomsMMTMi/8+jE7xTuP7IHPOoxX
+ d3PA==
+X-Gm-Message-State: AOAM532gxJn5W8oypM9d/2L4iYLNE9sT3amhLj3v6jtSWxqtpZL7Uksd
+ l8C7TRL5idiEe0qPiYkALKUeXoB7NUTNcDQ+zEr4nw==
+X-Google-Smtp-Source: ABdhPJwgwfJnR5MkamwcTENk/TRv0gQNDWzIETR9PVueU7QRStz/WjLGEfatf7RhX0xX7jJuOFoO+3uUGvzGRnaUi9s=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr12993088edt.100.1624613283958; 
+ Fri, 25 Jun 2021 02:28:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+References: <o1Yk83q9b8fPEPYKowd-FS7TM3GAByNtQScLqBwokjniIxwBv-rLo3gQU5MAjLDZGJn9hOGiPudeSXvp3TS-QxouCtlVqHbsnGqXf8dKs_k=@protonmail.com>
+ <6c51799c-6882-c459-0996-325c58de87fd@amsat.org> <87zgvfqc5y.fsf@linaro.org>
+ <ue5FWr9Im37PzO94ccnHkiZJawfs6i4R8DdYdA5aVq_8BJHXDFLa4ojQpN1CIh5trBH4wiAZNTPzy1V98TQFX4FPh_Z7jngXuYNTaR_hSS4=@pm.me>
+In-Reply-To: <ue5FWr9Im37PzO94ccnHkiZJawfs6i4R8DdYdA5aVq_8BJHXDFLa4ojQpN1CIh5trBH4wiAZNTPzy1V98TQFX4FPh_Z7jngXuYNTaR_hSS4=@pm.me>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Jun 2021 10:27:27 +0100
+Message-ID: <CAFEAcA-tS51CCvEB4eG7vkB+edTrZyxNV29YV++XF5SNw_4D+w@mail.gmail.com>
+Subject: Re: Difficulties to access guest memory in TCG plugins
+To: Kevin Mambu <kevin.mambu@pm.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,126 +80,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need to maintain 2 sets of decodetree definitions.
-Merge them into a single file.
+On Fri, 25 Jun 2021 at 10:25, Kevin Mambu <kevin.mambu@pm.me> wrote:
+> In the scope of my Ph. D subject, I want to model a DMA-like mechanism fo=
+r quick prototyping and evaluation, the plugin emulates an MMIO with Contro=
+l/Status Registers. I am actually able to pass parameters to the Control/St=
+atus Registers through store instruction without any issue. Only the data t=
+ransfer between two guest memory regions fails at times.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210617174636.2902654-3-f4bug@amsat.org>
----
- target/mips/tcg/{msa32.decode => msa.decode} |  8 +++++---
- target/mips/tcg/msa64.decode                 | 17 -----------------
- target/mips/tcg/msa_translate.c              | 14 ++++----------
- target/mips/tcg/meson.build                  |  3 +--
- 4 files changed, 10 insertions(+), 32 deletions(-)
- rename target/mips/tcg/{msa32.decode => msa.decode} (74%)
- delete mode 100644 target/mips/tcg/msa64.decode
+This really isn't what the plugin API is intended for -- it's meant
+for tracing and similar sorts of "track what the guest is doing" activities=
+.
+If you want to model an MMIO device, you're better off just writing a devic=
+e
+model like any of the others in QEMU, I think: the APIs for doing that
+are much more well-proven and there's plenty of examples in the tree
+of DMA and other devices.
 
-diff --git a/target/mips/tcg/msa32.decode b/target/mips/tcg/msa.decode
-similarity index 74%
-rename from target/mips/tcg/msa32.decode
-rename to target/mips/tcg/msa.decode
-index ca200e373b1..bf132e36b9b 100644
---- a/target/mips/tcg/msa32.decode
-+++ b/target/mips/tcg/msa.decode
-@@ -6,9 +6,10 @@
- #
- # Reference:
- #       MIPS Architecture for Programmers Volume IV-j
--#       The MIPS32 SIMD Architecture Module, Revision 1.12
--#       (Document Number: MD00866-2B-MSA32-AFP-01.12)
--#
-+#       - The MIPS32 SIMD Architecture Module, Revision 1.12
-+#         (Document Number: MD00866-2B-MSA32-AFP-01.12)
-+#       - The MIPS64 SIMD Architecture Module, Revision 1.12
-+#         (Document Number: MD00868-1D-MSA64-AFP-01.12)
- 
- &rtype              rs rt rd sa
- 
-@@ -19,6 +20,7 @@
- @bz_df              ...... ... df:2 wt:5 s16:16             &msa_bz
- 
- LSA                 000000 ..... ..... ..... 000 .. 000101  @lsa
-+DLSA                000000 ..... ..... ..... 000 .. 010101  @lsa
- 
- BZ_V                010001 01011  ..... ................    @bz
- BNZ_V               010001 01111  ..... ................    @bz
-diff --git a/target/mips/tcg/msa64.decode b/target/mips/tcg/msa64.decode
-deleted file mode 100644
-index d2442474d0b..00000000000
---- a/target/mips/tcg/msa64.decode
-+++ /dev/null
-@@ -1,17 +0,0 @@
--# MIPS SIMD Architecture Module instruction set
--#
--# Copyright (C) 2020  Philippe Mathieu-Daudé
--#
--# SPDX-License-Identifier: LGPL-2.1-or-later
--#
--# Reference:
--#       MIPS Architecture for Programmers Volume IV-j
--#       The MIPS64 SIMD Architecture Module, Revision 1.12
--#       (Document Number: MD00868-1D-MSA64-AFP-01.12)
--#
--
--&rtype              rs rt rd sa !extern
--
--@lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &rtype
--
--DLSA                 000000 ..... ..... ..... 000 .. 010101 @lsa
-diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index 9df4497c886..eed2eca6c92 100644
---- a/target/mips/tcg/msa_translate.c
-+++ b/target/mips/tcg/msa_translate.c
-@@ -18,8 +18,7 @@
- #include "internal.h"
- 
- /* Include the auto-generated decoder.  */
--#include "decode-msa32.c.inc"
--#include "decode-msa64.c.inc"
-+#include "decode-msa.c.inc"
- 
- #define OPC_MSA (0x1E << 26)
- 
-@@ -2269,13 +2268,8 @@ static bool trans_LSA(DisasContext *ctx, arg_rtype *a)
- 
- static bool trans_DLSA(DisasContext *ctx, arg_rtype *a)
- {
-+    if (TARGET_LONG_BITS != 64) {
-+        return false;
-+    }
-     return gen_dlsa(ctx, a->rd, a->rt, a->rs, a->sa);
- }
--
--bool decode_ase_msa(DisasContext *ctx, uint32_t insn)
--{
--    if (TARGET_LONG_BITS == 64 && decode_msa64(ctx, insn)) {
--        return true;
--    }
--    return decode_msa32(ctx, insn);
--}
-diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
-index 5d8acbaf0d3..bf4001e5741 100644
---- a/target/mips/tcg/meson.build
-+++ b/target/mips/tcg/meson.build
-@@ -1,8 +1,7 @@
- gen = [
-   decodetree.process('mips32r6.decode', extra_args: '--static-decode=decode_mips32r6'),
-   decodetree.process('mips64r6.decode', extra_args: '--static-decode=decode_mips64r6'),
--  decodetree.process('msa32.decode', extra_args: '--static-decode=decode_msa32'),
--  decodetree.process('msa64.decode', extra_args: '--static-decode=decode_msa64'),
-+  decodetree.process('msa.decode', extra_args: '--decode=decode_ase_msa'),
-   decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
- ]
- 
--- 
-2.31.1
-
+-- PMM
 
