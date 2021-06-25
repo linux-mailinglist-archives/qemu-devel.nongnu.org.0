@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1403B46E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 17:48:07 +0200 (CEST)
-Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935443B46FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 17:52:19 +0200 (CEST)
+Received: from localhost ([::1]:34824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwo3q-0003SU-5S
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 11:48:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47530)
+	id 1lwo7u-0004gi-K0
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 11:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwo1t-0000h3-Hf
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 11:46:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25344)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwo22-0000m3-5R
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 11:46:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwo1q-0007VJ-6O
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 11:46:05 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lwo1z-0007YY-08
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 11:46:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624635961;
+ s=mimecast20190719; t=1624635970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8i4OU6UNb/mmoFIfYeQQkhL8emwE2vbgBC8W8NLBnsE=;
- b=IJh+MMVmZhUTIYMGrMl5Mwl2D3wyx2Ft6l2lxPTe5S3Awh0N4CcSp1V73Y2L6CeFwc5/WN
- ue9AoJa2iTGZfKUbNKeOzNrft0QYWud1hXhcRcnjt62bk7tKNR4FZUK1NVTnA5cN8jdxfE
- zTOSznmuEK9IFsry9zha57t4OaBNsIU=
+ bh=aOome7Uo99YcspL2VwYgbnTq/oA8vmDBDw2kDCjor0I=;
+ b=JS5QoCYYI0x3a+OsF+HqFcnWLQvy0XOsPbRXVSxs8Ul8IdYPlvQl3lW+mkK/JoLhsWy8yV
+ NdOnSFPI4EW7RBoLEwoaGAufVLS5DKQMeGsy5x8RX5t4wDdntKh/2Jeltu7qQpJfwMiySl
+ 3XBuv5T9KefvGqacVWDga5l5+RZGkUE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-TRLTjTbvPfKQCrQVKVorEw-1; Fri, 25 Jun 2021 11:45:59 -0400
-X-MC-Unique: TRLTjTbvPfKQCrQVKVorEw-1
+ us-mta-459-fhRGhdPYNouSCtH72TuXsQ-1; Fri, 25 Jun 2021 11:46:07 -0400
+X-MC-Unique: fhRGhdPYNouSCtH72TuXsQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF788800D62;
- Fri, 25 Jun 2021 15:45:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C31B98015F8;
+ Fri, 25 Jun 2021 15:46:06 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9F3E1A86F;
- Fri, 25 Jun 2021 15:45:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0F8F1A86F;
+ Fri, 25 Jun 2021 15:45:58 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/11] python: README.rst touchups
-Date: Fri, 25 Jun 2021 11:45:33 -0400
-Message-Id: <20210625154540.783306-5-jsnow@redhat.com>
+Subject: [PATCH 05/11] python: Add no-install usage instructions
+Date: Fri, 25 Jun 2021 11:45:34 -0400
+Message-Id: <20210625154540.783306-6-jsnow@redhat.com>
 In-Reply-To: <20210625154540.783306-1-jsnow@redhat.com>
 References: <20210625154540.783306-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,68 +85,52 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clarifying a few points; removing the reference to 'setuptools' because
-it referenced anywhere else in this document and doesn't really provide
-any useful information to a Python newcomer.
-
-Adjusting the language elsewhere to be less ambiguous and have fewer
-run-on sentences.
+It's not encouraged, but it's legitimate to want to know how to do.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/README.rst | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ python/README.rst | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/python/README.rst b/python/README.rst
-index dcf993819d..107786ffdc 100644
+index 107786ffdc..d4502fdb60 100644
 --- a/python/README.rst
 +++ b/python/README.rst
-@@ -7,8 +7,7 @@ then by package (e.g. ``qemu/machine``, ``qemu/qmp``, etc).
+@@ -37,6 +37,34 @@ See `Installing packages using pip and virtual environments
+ for more information.
  
- ``setup.py`` is used by ``pip`` to install this tooling to the current
- environment. ``setup.cfg`` provides the packaging configuration used by
--``setup.py`` in a setuptools specific format. You will generally invoke
--it by doing one of the following:
-+``setup.py``. You will generally invoke it by doing one of the following:
  
- 1. ``pip3 install .`` will install these packages to your current
-    environment. If you are inside a virtual environment, they will
-@@ -17,12 +16,13 @@ it by doing one of the following:
- 
- 2. ``pip3 install --user .`` will install these packages to your user's
-    local python packages. If you are inside of a virtual environment,
--   this will fail; you likely want the first invocation above.
-+   this will fail; you want the first invocation above.
- 
--If you append the ``-e`` argument, pip will install in "editable" mode;
--which installs a version of the package that installs a forwarder
--pointing to these files, such that the package always reflects the
--latest version in your git tree.
-+If you append the ``--editable`` or ``-e`` argument to either invocation
-+above, pip will install in "editable" mode. This installs the package as
-+a forwarder ("qemu.egg-link") that points to the source tree. In so
-+doing, the installed package always reflects the latest version in your
-+source tree.
- 
- Installing ".[devel]" instead of "." will additionally pull in required
- packages for testing this package. They are not runtime requirements,
-@@ -30,6 +30,7 @@ and are not needed to simply use these libraries.
- 
- Running ``make develop`` will pull in all testing dependencies and
- install QEMU in editable mode to the current environment.
-+(It is a shortcut for ``pip3 install -e .[devel]``.)
- 
- See `Installing packages using pip and virtual environments
- <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
-@@ -39,7 +40,7 @@ for more information.
++Using these packages without installing them
++--------------------------------------------
++
++These packages may be used without installing them first, by using one
++of two tricks:
++
++1. Set your PYTHONPATH environment variable to include this source
++   directory, e.g. ``~/src/qemu/python``. See
++   https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH
++
++2. Inside a Python script, use ``sys.path`` to forcibly include a search
++   path prior to importing the ``qemu`` namespace. See
++   https://docs.python.org/3/library/sys.html#sys.path
++
++A strong downside to both approaches is that they generally interfere
++with static analysis tools being able to locate and analyze the code
++being imported.
++
++Package installation also normally provides executable console scripts,
++so that tools like ``qmp-shell`` are always available via $PATH. To
++invoke them without installation, you can invoke e.g.:
++
++``> PYTHONPATH=~/src/qemu/python python3 -m qemu.qmp.qmp_shell``
++
++The mappings between console script name and python module path can be
++found in ``setup.cfg``.
++
++
  Files in this directory
  -----------------------
  
--- ``qemu/`` Python package source directory.
-+- ``qemu/`` Python 'qemu' namespace package source directory.
- - ``tests/`` Python package tests directory.
- - ``avocado.cfg`` Configuration for the Avocado test-runner.
-   Used by ``make check`` et al.
 -- 
 2.31.1
 
