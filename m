@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4521A3B3B2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 05:24:20 +0200 (CEST)
-Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91933B3B6D
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 06:14:31 +0200 (CEST)
+Received: from localhost ([::1]:37736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwcS3-0004rM-C7
-	for lists+qemu-devel@lfdr.de; Thu, 24 Jun 2021 23:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
+	id 1lwdEc-00052G-EO
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 00:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lwcNS-0004Lg-O8
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:34 -0400
-Received: from mga04.intel.com ([192.55.52.120]:4130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lwcNP-00065R-SP
- for qemu-devel@nongnu.org; Thu, 24 Jun 2021 23:19:34 -0400
-IronPort-SDR: 2T1X8eEdRqifxFvtngBYTkAMdUAw5dVe5H383YtHa8bEvmyzTeHb49Og7IQz+rh0b/1p3LH5hZ
- tKdARdMEj3nw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="205772532"
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="205772532"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 20:19:29 -0700
-IronPort-SDR: uzGnr/3f3SiVtY+MT5HgaY4fW7mvJN/HSj3eEyVBd7pVix862QDHNpCxKi46TwpYvYpZwlYibK
- Eb8f+IEfAuBw==
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="488024848"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 20:19:26 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: [PULL 6/6] net/net.c: Add handler for passthrough filter command
-Date: Fri, 25 Jun 2021 11:11:36 +0800
-Message-Id: <20210625031136.2775308-7-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210625031136.2775308-1-chen.zhang@intel.com>
-References: <20210625031136.2775308-1-chen.zhang@intel.com>
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1lwdDH-0004MK-91
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 00:13:07 -0400
+Received: from mail-vk1-xa2d.google.com ([2607:f8b0:4864:20::a2d]:43972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1lwdDF-0007tu-1D
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 00:13:06 -0400
+Received: by mail-vk1-xa2d.google.com with SMTP id k16so1807469vke.10
+ for <qemu-devel@nongnu.org>; Thu, 24 Jun 2021 21:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=RM1+WtlycBhBzgvm6nT696H6+pmB3e+BjEuXv1Xp9t4=;
+ b=SGIoa/MMA49a1l09sCrLcFGNYQJMiSxHVTh5HCxeNfuXZCFFri4BdzPkc4kZ5MqagE
+ r5e6GGVOzI+8BVfClCslRu8PTweu5eVeskez+8pbL81BXQ1drB3jRD4DDD/Wcu5cwuc/
+ w/Cs0xrduseWoJ0KscFH1QKwBwMT7rCp8xUsFDcz7Ns4lZygtkkt9cXed8kYI2cHiAqA
+ V97Vg9SM0Ppi4aAd6vBtUPJLGux9yMB3jzmf1Ah0kT5EVYabUGHVwJolyl1D45HjLfzh
+ eh3vvZkCEkBIJ26Ik3XxVMXMwByohfWkE+mwm55gQ9z5EHowrJfol8Pk4NA5LYWnz5J+
+ ULGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=RM1+WtlycBhBzgvm6nT696H6+pmB3e+BjEuXv1Xp9t4=;
+ b=ErV+MCzOVHPVnLrQg5u7ZuoDL8Cbgb5oPligSd89UWH7wz/kk0/sdz5ObukJXhNefK
+ vBI/rJfnMpX3Ai2Lab5FoSVSZ8D71zgeNtUxQYPESfLBlJjPp1/QtWNQy3GTXFl8YxkD
+ K3bn6NThks1KGt36Om5Bu3m1tVGry2LwRAkqGhlitf/8NujZlvHviMxu1q5YspZLYA6u
+ ncO8op/jUNXqp/DGIioEBnoCDoyG6jkIvX9QlM+AMz1o/85nRMyYS01chGKo/Lgk1Gf0
+ QLpyWOtgl2+57uc815X24+WC9MtqlHzcRMd6IJee/mrtb2aJjSXFUExptV5Lm5NSqTXD
+ mR9g==
+X-Gm-Message-State: AOAM531jyHpoB8Pwly04wxtwadpL0nQoxGBM5Qgfp1IIVtUs2klLXuPa
+ MAqJKxA7TfRy17sbOClGrEmjEeVqgjvHDWHLk5MBOewq
+X-Google-Smtp-Source: ABdhPJxvLPW+dKTE1a+a0eEQuZ3s9dqZwyxlYxbYOrr3IvJGLkqwJN/ZuWFZyt1UeOikBtaw3YJr/EYXkq2y40qulgI=
+X-Received: by 2002:a05:6122:a1e:: with SMTP id 30mr6109578vkn.3.1624594383454; 
+ Thu, 24 Jun 2021 21:13:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=chen.zhang@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Richard Zak <richard.j.zak@gmail.com>
+Date: Fri, 25 Jun 2021 00:12:52 -0400
+Message-ID: <CAOakUfODNr9UCpbNyzavk3n8ycD5fNFU0VBv87fVWLhrw5O2Ow@mail.gmail.com>
+Subject: Qemu on Haiku
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000021473c05c58f5b1f"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=richard.j.zak@gmail.com; helo=mail-vk1-xa2d.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,248 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the connection protocol,src port,dst port,src ip,dst ip as the key
-to passthrough certain network traffic in object with network packet
-processing function.
+--00000000000021473c05c58f5b1f
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/net.c | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 197 insertions(+), 2 deletions(-)
+Hello there! I noticed the message which appears when building qemu on
+Haiku. I'd hate for Haiku to lose qemu, so I would like to help!
 
-diff --git a/net/net.c b/net/net.c
-index 00f2be7a58..9ede98d166 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -55,6 +55,8 @@
- #include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "net/colo-compare.h"
-+#include "qom/object_interfaces.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -1195,14 +1197,207 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
- }
- 
-+static int check_addr(InetSocketAddressBase *addr)
-+{
-+    if (!addr || (addr->host && !qemu_isdigit(addr->host[0]))) {
-+        return -1;
-+    }
-+
-+    if (atoi(addr->port) > 65536 || atoi(addr->port) < 0) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static CompareState *passthrough_filter_check(IPFlowSpec *spec, Error **errp)
-+{
-+    Object *container;
-+    Object *obj;
-+    CompareState *s;
-+
-+    if (!spec->object_name) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "object-name",
-+                   "Need input object name");
-+        return NULL;
-+    }
-+
-+    container = object_get_objects_root();
-+    obj = object_resolve_path_component(container, spec->object_name);
-+    if (!obj) {
-+        error_setg(errp, "object '%s' not found", spec->object_name);
-+        return NULL;
-+    }
-+
-+    s = COLO_COMPARE(obj);
-+
-+    if (!getprotobyname(spec->protocol)) {
-+        error_setg(errp, "Passthrough filter get wrong protocol");
-+        return NULL;
-+    }
-+
-+    if (spec->source) {
-+        if (check_addr(spec->source)) {
-+            error_setg(errp, "Passthrough filter get wrong source");
-+            return NULL;
-+        }
-+    }
-+
-+    if (spec->destination) {
-+        if (check_addr(spec->destination)) {
-+            error_setg(errp, "Passthrough filter get wrong destination");
-+            return NULL;
-+        }
-+    }
-+
-+    return s;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static COLOPassthroughEntry *passthrough_filter_find(CompareState *s,
-+                                                     COLOPassthroughEntry *ent)
-+{
-+    COLOPassthroughEntry *next = NULL, *origin = NULL;
-+
-+    if (!QLIST_EMPTY(&s->passthroughlist)) {
-+        QLIST_FOREACH_SAFE(origin, &s->passthroughlist, node, next) {
-+            if ((ent->l4_protocol.p_proto == origin->l4_protocol.p_proto) &&
-+                (ent->src_port == origin->src_port) &&
-+                (ent->dst_port == origin->dst_port) &&
-+                (ent->src_ip.s_addr == origin->src_ip.s_addr) &&
-+                (ent->dst_ip.s_addr == origin->dst_ip.s_addr)) {
-+                return origin;
-+            }
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static void passthrough_filter_add(CompareState *s,
-+                                   IPFlowSpec *spec,
-+                                   Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    if (spec->protocol) {
-+        memcpy(&pass->l4_protocol, getprotobyname(spec->protocol),
-+               sizeof(struct protoent));
-+    }
-+
-+    if (spec->source) {
-+        if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+            pass->src_ip.s_addr = 0;
-+        }
-+
-+        pass->src_port = atoi(spec->source->port);
-+    }
-+
-+    if (spec->destination) {
-+        if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+            pass->dst_ip.s_addr = 0;
-+        }
-+
-+        pass->dst_port = atoi(spec->destination->port);
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+    if (passthrough_filter_find(s, pass)) {
-+        error_setg(errp, "The pass through connection already exists");
-+        g_free(pass);
-+        qemu_mutex_unlock(&s->passthroughlist_mutex);
-+        return;
-+    }
-+
-+    QLIST_INSERT_HEAD(&s->passthroughlist, pass, node);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+/* The initial version only supports colo-compare */
-+static void passthrough_filter_del(CompareState *s,
-+                                   IPFlowSpec *spec,
-+                                   Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL, *result = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    if (spec->protocol) {
-+        memcpy(&pass->l4_protocol, getprotobyname(spec->protocol),
-+               sizeof(struct protoent));
-+    }
-+
-+    if (spec->source) {
-+        if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+            pass->src_ip.s_addr = 0;
-+        }
-+
-+        pass->src_port = atoi(spec->source->port);
-+    }
-+
-+    if (spec->destination) {
-+        if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+            pass->dst_ip.s_addr = 0;
-+        }
-+
-+        pass->dst_port = atoi(spec->destination->port);
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+
-+    result = passthrough_filter_find(s, pass);
-+    if (result) {
-+        QLIST_REMOVE(result, node);
-+        g_free(result);
-+    } else {
-+        error_setg(errp, "Can't find the IP flow Spec");
-+    }
-+
-+    g_free(pass);
-+    g_free(spec);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+/* The initial version only supports colo-compare */
- void qmp_passthrough_filter_add(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement setup passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = passthrough_filter_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    passthrough_filter_add(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
-+/* The initial version only supports colo-compare */
- void qmp_passthrough_filter_del(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement delete passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = passthrough_filter_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    passthrough_filter_del(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+What is needed in terms of a build system for continuous integration? I'm
+not familiar with CI systems, other than simply knowing what they do.
+
 -- 
-2.25.1
+Regards,
 
+Richard J. Zak
+Professional Genius
+PGP Key: https://keybase.io/rjzak/key.asc
+
+--00000000000021473c05c58f5b1f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello there! I noticed the message which appears when buil=
+ding qemu on Haiku. I&#39;d hate for Haiku to lose qemu, so I would like to=
+ help!<br clear=3D"all"><div><br></div><div>What is needed in terms of a bu=
+ild system for continuous integration? I&#39;m not familiar with CI systems=
+, other than simply knowing what they do.</div><div><br>-- <br><div dir=3D"=
+ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
+=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>Regards,<br><br>R=
+ichard J. Zak<br>Professional Genius</div><div>PGP Key:=C2=A0<a href=3D"htt=
+ps://keybase.io/rjzak/key.asc" target=3D"_blank">https://keybase.io/rjzak/k=
+ey.asc</a></div></div></div></div></div></div></div></div></div>
+
+--00000000000021473c05c58f5b1f--
 
