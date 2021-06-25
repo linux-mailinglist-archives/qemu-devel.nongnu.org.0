@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70DC3B3D60
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 09:30:01 +0200 (CEST)
-Received: from localhost ([::1]:60312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA383B3D62
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 09:30:22 +0200 (CEST)
+Received: from localhost ([::1]:32942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwgHo-0002PO-Sn
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 03:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34352)
+	id 1lwgI9-0002yV-KF
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 03:30:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lwgFJ-0000Z5-O3; Fri, 25 Jun 2021 03:27:25 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:42897)
+ id 1lwgFX-0000tX-BW; Fri, 25 Jun 2021 03:27:39 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:44763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lwgFI-00024E-3l; Fri, 25 Jun 2021 03:27:25 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id 8so3245487ybn.9;
- Fri, 25 Jun 2021 00:27:22 -0700 (PDT)
+ id 1lwgFU-0002GM-8s; Fri, 25 Jun 2021 03:27:39 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id p133so3230116yba.11;
+ Fri, 25 Jun 2021 00:27:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=RpsjxhnHk1FNIcCdmLXszLkSUmiVW6+CpQQW2OZWlnM=;
- b=q2Qh9Q8foG5bRljkXGVxCW9/mbJLLxYBw3P1aM5qsKnaGQAPxRFXNJjXypjQFLOLiJ
- wQRS9b/4a/kHIDtuZY6gHyAwPevNz/Fkh7tzTG7pmt7Y9bRW7hz8gStJxp6EPYO1uoYR
- 9jpJFm6DjSDzjE3zhiib2UDnlNU4+583lDDDtAYZWUmWZeXTH4nacONWoEK6n0x5JrP4
- bP8DACKyh2rMENfetkBIkjavbpknF3Rb/VspIor5F+FVnKWIciMiscItZ3QMYEBuwJ00
- U2OCbEooJTDZ6DsTkMIp8OCR89oF9XKXTHZKlOU4dgczh14ztEaUWcEWOdGjsRd9Nyd7
- fmyg==
+ bh=cSsgV2fbA2GPae+HKI3ySLdxfbC+SgZOgCsQiTvBzMQ=;
+ b=dFHVDHnCfYEM30Ft/+HuNANgC+AZrLHjxyIN4RkikChPb+mkH41sbvaoM74Ov1YIk/
+ Kqhj5lLeSiIUhX2DdwgXbjfNjrzQjfkIj+g9A2FY7S6YSGvIKwfuz6sKtKent51JsyPx
+ IVWMcjd/ecr61xjIf7hjqa+xfGhSCvZ3LUKmDWQF5X2onFwK9EqMup84K3Tj28E3ZAIu
+ swgZo13Q6Cy0Oknhs6tYiFCxKSVnoGllUXQEpAsOe+1EvK0UDzwq66vVyd4RPYawOAx9
+ uJfbgK04ZyUzSIIkaGufR0N6OT5y6j1Ce0/GVV8fCGKH7mgFI5qHrAE8Ua2qA47T1Aty
+ I1DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=RpsjxhnHk1FNIcCdmLXszLkSUmiVW6+CpQQW2OZWlnM=;
- b=TvAZCtmTar0ZMWoE8cYegts2PNy16uD0GVCvt/psugPdysI+16kIj/LtLe3Sh4Uf1A
- z6rLvEmn7/f0ZVT5lLmEAYk07OlaHpOw4qvKlkQ9ccQ7kSIgMU2TqZGfq0cTm8Fe32wP
- hRNAb/TquM4UTfDMY0eK5eV2SKXrz05Tj7R0hBVowA3uGFH1C6txYoa2bdaYhuV6CbsZ
- UKC+k1hFuqnLrpuyK1iyNSXWNIfEWTztuTi0SSORq+KeME03NSr/cWwMjlHFGcjoUV6J
- ExXtPWE4D1XXZ1FRuNoAXE/db8509sx0/eBnZImVxqnTuy7pj0C4Anv1Izw6F4/B8uYN
- 4Csg==
-X-Gm-Message-State: AOAM5305g2GHZYwHCRuUCC4+1FRYEzkzJEqML++3suTH033xbx9Tucxz
- 5yq5iObZhSTyyTpuEz+Zy7E3GJHtvLqg/2cv7go=
-X-Google-Smtp-Source: ABdhPJwJRsHbnai505ekpAuFFgL2ppLF4l+rRIO+KpJ7A8RgUxKzJcvoScOms+Cx5ahM8ahDE8300ff2DMZRkyojVlc=
-X-Received: by 2002:a25:4297:: with SMTP id p145mr8370573yba.387.1624606042164; 
- Fri, 25 Jun 2021 00:27:22 -0700 (PDT)
+ bh=cSsgV2fbA2GPae+HKI3ySLdxfbC+SgZOgCsQiTvBzMQ=;
+ b=cEE/CsI7V7MN4PcOFSkQkIu5j51r467oSa9JiYpjraLNe+lz84IrjPnLP6FDBD0Mmk
+ 8cfgJmNbZu2rWM18/V1N1mF0nnkTGMl3CSp47IuAkNA0SInu/2HEKB4cZAF+M56TJEvE
+ OllM4HOS4rjjDrH3icEZ6i15ObgfIp0uWd9+kxlI20BkD6iTV/Bue+wAgjGUuZJ9GKGS
+ l07nISJgYc+uCihNY5O34zwR2GO3tO+5TM55km4j+LVempzQOHgV14jRQG3NHqZWjXEK
+ 1l1BuuY9iLNUO/kHnJXwhoJ9bKjXIE/l2vagVLh4eGuk/EIW3mBL/yp4GuSNPbg+xr5O
+ umhQ==
+X-Gm-Message-State: AOAM532vSJnFsHaXe4jlPKjbt2U4KwOTey0X0xDQxU2BoCtCeENfQA1T
+ SAmDOvobB16cmA8rfgnkEvm/Bg5GZXCW4/k2iIk=
+X-Google-Smtp-Source: ABdhPJxaCBzy6gkqLaPXaXcir/exxHjdBLW1brH4HmkITv/5aVeD4dE5NF6Dp7SqyrjkxcAz2kDqU1vk75vSL44fvvo=
+X-Received: by 2002:a25:7411:: with SMTP id p17mr10363107ybc.306.1624606055010; 
+ Fri, 25 Jun 2021 00:27:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210624142209.1193073-1-f4bug@amsat.org>
- <20210624142209.1193073-2-f4bug@amsat.org>
-In-Reply-To: <20210624142209.1193073-2-f4bug@amsat.org>
+ <20210624142209.1193073-3-f4bug@amsat.org>
+In-Reply-To: <20210624142209.1193073-3-f4bug@amsat.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 25 Jun 2021 15:27:10 +0800
-Message-ID: <CAEUhbmVFDn2Bd=R2TCfNTnhWM8LyMc+XpABi_RXrzDUnziRrJg@mail.gmail.com>
-Subject: Re: [RFC PATCH 01/10] hw/sd: When card is in wrong state, log which
- state it is
+Date: Fri, 25 Jun 2021 15:27:23 +0800
+Message-ID: <CAEUhbmWZGiDhZCKJtkW6uEgXXt-tJ5Ti+CfQ3J-A+2JsVGHtWA@mail.gmail.com>
+Subject: Re: [RFC PATCH 02/10] hw/sd: Extract address_in_range() helper, log
+ invalid accesses
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,23 +86,17 @@ Cc: Qemu-block <qemu-block@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 24, 2021 at 10:22 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+On Thu, Jun 24, 2021 at 10:24 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> We report the card is in an inconsistent state, but don't precise
-
-%s/don't/is not
-
-> in which state it is. Add this information, as it is useful when
-> debugging problems.
->
-> Since we will reuse this code, extract as sd_invalid_state_for_cmd()
-> helper.
+> Multiple commands have to check the address requested is valid.
+> Extract this code pattern as a new address_in_range() helper, and
+> log invalid accesses as guest errors.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/sd/sd.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
+>  hw/sd/sd.c | 32 ++++++++++++++++++++------------
+>  1 file changed, 20 insertions(+), 12 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
