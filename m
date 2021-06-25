@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9366D3B4079
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:27:53 +0200 (CEST)
-Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3508B3B4074
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:25:55 +0200 (CEST)
+Received: from localhost ([::1]:60736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwi7s-0003dh-Ig
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53902)
+	id 1lwi5y-0007Wu-6q
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhyt-0001IL-NW
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48349)
+ id 1lwhyv-0001Lu-07
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhys-0006SV-4J
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:35 -0400
+ id 1lwhyt-0006U1-6a
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:18:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624612713;
+ s=mimecast20190719; t=1624612714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4jzSorC934c+iG7Zenf/zCUMuJqKMivpJkaaF+j/4Fg=;
- b=R24BSmmph+aqm5fWFuHVQ2S+4XDQfPK2GbUX/7NarzGTg63xlGhW9Hp0qdE3ysV+jaFtYI
- cLfoWTxdDhYdbP7FgKlLNIsJbikT7ha9OFvpM4NTdeixT+8cDn7wFE8OkBfgRd8nA79uez
- GOu+42cOIB6QIDgz/9f00OzWwM5FdxY=
+ bh=JfY4zXwA+57EgEnPHtNgNCEdpGsCpELVjFI4BKhvVQI=;
+ b=Y4YSbQwW38PJ0hLyjprKsbQl4MAamXfbOz7fK+DJ6UL/KutmyX2n1rs1QdB1kXxyMsVT4R
+ uBzaPtTffyaI+saBXFJuOFTZR3pOYsmzPsVTE3AgiaJ5UlbHkRJcnUiibnr1rTh8CiKT6Z
+ Nj+RG+1C4J46g4G6ziMhYbkwjYAhdWI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-pXz32xJnOuOI4h0IxTFVkw-1; Fri, 25 Jun 2021 05:18:31 -0400
-X-MC-Unique: pXz32xJnOuOI4h0IxTFVkw-1
+ us-mta-160-HRBexzpUMmOvIn8b4Nwhnw-1; Fri, 25 Jun 2021 05:18:33 -0400
+X-MC-Unique: HRBexzpUMmOvIn8b4Nwhnw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26B481835AC2
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:18:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E208CC621
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:18:32 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B02560C05;
- Fri, 25 Jun 2021 09:18:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A62560C05;
+ Fri, 25 Jun 2021 09:18:31 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/53] tests: acpi: whitelist new expected table
- tests/data/acpi/q35/DMAR.dmar
-Date: Fri, 25 Jun 2021 05:17:30 -0400
-Message-Id: <20210625091818.1047980-7-imammedo@redhat.com>
+Subject: [PATCH 07/53] tests: acpi: add testcase for intel_iommu (DMAR table)
+Date: Fri, 25 Jun 2021 05:17:31 -0400
+Message-Id: <20210625091818.1047980-8-imammedo@redhat.com>
 In-Reply-To: <20210625091818.1047980-1-imammedo@redhat.com>
 References: <20210625091818.1047980-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,27 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- tests/data/acpi/q35/DMAR.dmar               | 0
- 2 files changed, 1 insertion(+)
- create mode 100644 tests/data/acpi/q35/DMAR.dmar
+CC: thuth@redhat.com
+CC: lvivier@redhat.com
+---
+ tests/qtest/bios-tables-test.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..a2843335c8 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DMAR.dmar",
-diff --git a/tests/data/acpi/q35/DMAR.dmar b/tests/data/acpi/q35/DMAR.dmar
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index ca496819fa..7ba208a6cc 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1079,6 +1079,18 @@ static void test_acpi_q35_tcg_nohpet(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_tcg_dmar(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_Q35;
++    data.variant = ".dmar";
++    test_acpi_one("-machine kernel-irqchip=split -accel kvm"
++                  " -device intel-iommu,intremap=on,device-iotlb=on", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_piix4_tcg_numamem(void)
+ {
+     test_data data;
+@@ -1565,6 +1577,7 @@ int main(int argc, char *argv[])
+         }
+         if (has_kvm) {
+             qtest_add_func("acpi/q35/numamem", test_acpi_q35_kvm_numamem);
++            qtest_add_func("acpi/q35/dmar", test_acpi_q35_tcg_dmar);
+         }
+     } else if (strcmp(arch, "aarch64") == 0) {
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
 -- 
 2.27.0
 
