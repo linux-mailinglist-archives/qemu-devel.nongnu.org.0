@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4343B48B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:18:44 +0200 (CEST)
-Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDCE3B48B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 20:20:06 +0200 (CEST)
+Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwqPb-0001Qt-7i
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:18:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59128)
+	id 1lwqQv-0002tR-LQ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 14:20:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqOQ-0000hT-R9
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:17:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54440)
+ id 1lwqPt-0002EH-R2
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:19:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwqOP-0003ja-5f
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:17:30 -0400
+ id 1lwqPs-0004fX-2h
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 14:19:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624645048;
+ s=mimecast20190719; t=1624645139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FB+MhKPXqEi77/RhWbRm2e5hI9cqj4TL0FORm4TJ+20=;
- b=L2OyoX8mY1yKtMIt+ISwtwI8LVMqY1hGF59BWbrzdrVnws0buFYZPSTzLFXuI75OXcw3Hf
- lDpcydFytuD4N4JkoTEIauX34CfpsEcHEEIYk9qLTwal7YJ26WAk+vIZX4rF28kD/n8Of4
- eKOtmCOWk0KWqRvJsuv+hNiPoxu/xcw=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-ozD0GYDOOJidDcVGGWLQ1A-1; Fri, 25 Jun 2021 14:17:25 -0400
-X-MC-Unique: ozD0GYDOOJidDcVGGWLQ1A-1
-Received: by mail-vk1-f198.google.com with SMTP id
- s1-20020a1ff4010000b029024e2e9504e3so3325400vkh.16
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:17:25 -0700 (PDT)
+ bh=u4ljvAO4/KTV6xXwPU2vXZj7cR6BQLEpk/ynHufZCQc=;
+ b=i9DEdWoc9MsUhKyRF4VapnwRO/CugN5Q3MDjK6abBpklVAR3/3lLuIa6umeKAy3UZrMl/g
+ SaWAJyxvZfjtgx4s1/WTroQJ7cKjoKzYkK0chGF1NMO3MjCEqJwwRafiWC6eA3Wx9anJ1O
+ oJrYz/vSOt1Xk7HQjk6V9HqNVw8qpE8=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-TQiNw8LFPeSQbl-CMaJeJg-1; Fri, 25 Jun 2021 14:18:57 -0400
+X-MC-Unique: TQiNw8LFPeSQbl-CMaJeJg-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ i7-20020ab024870000b029028148361400so2677986uan.13
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 11:18:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FB+MhKPXqEi77/RhWbRm2e5hI9cqj4TL0FORm4TJ+20=;
- b=K0Dn5Bn4LJmmitZlv9NlC6Kww1u9i7O8GCIgxzv/DwIpTkklczfsUMjrs6jCVe4V4O
- wGWnctYgA3YMa1N856mVV9pj+2BpTnTvoWhsI2mSd7iiMAm04W972lL847XnBLRvhHM3
- Ces6OxH4/txmBGpUjDqqqxgUekc982hWEv5u37D1lxi857MkOCQEVlpq5p1UCgv3hajv
- SRfS+gxAfN5BOJKpdzVeIGKz/9EV33zsGYI7QACGjZ6wZ9qU8HjeAFpOXRs2YRrblrx1
- V1KGClktMZXKe1sD3PEAfh+7lHHvbTLat3zLj1cPJWZW4mbkxMvLpBOGMOadSj0vZHJ6
- IsIg==
-X-Gm-Message-State: AOAM532rMfVEu8lepbb6BR6eRC8107f2/EYhuv9faU7fqAw5hehJvpI1
- vR13n0nksbuup3uKgb1rwDxwSuSaKTrpvPVmQTBq44pbloSu2yGOjqMO8FIqLcoF3X0Ut45e0DM
- iD4+VYZrovked1IH12JBL4l3MNaWA1JQ=
-X-Received: by 2002:ab0:7412:: with SMTP id r18mr6432208uap.124.1624645044916; 
- Fri, 25 Jun 2021 11:17:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHL4Dko76VOWaFO1QY8XOJV9BszYPzsOK4s+sYCLYnlgCkq/6NDp4XcRSP9Nbnfl6ekNcOLjZHZ4HUIoObjT4=
-X-Received: by 2002:ab0:7412:: with SMTP id r18mr6432179uap.124.1624645044727; 
- Fri, 25 Jun 2021 11:17:24 -0700 (PDT)
+ bh=u4ljvAO4/KTV6xXwPU2vXZj7cR6BQLEpk/ynHufZCQc=;
+ b=ARpL3KQHwiQyU4x0RcyTH09jY6aE/F/5RR648oRhRkwfh/Q1RwNdpZ1b5Eelj1d1xO
+ el+i/jwvljrA++j/KjsXp3SbsMwySez3hwijXeEXcCF7Ro2tkbtb0IibAj42RIDZ/hPr
+ timUnAc31xhWM+I9lX78vDf/QB7Zwa1O/TkY2t0IuBKfedLk5yQyT/mIMRnAtWZv/YZA
+ PBHANj/lCUb5ysH4deMcfFg4zARebg3CzmLmt000poALaySoaOWIwaRkFFqVQLPkHemb
+ s0pfsouV/l6ZIuNvPwuCk3w9abjFt+HpXhzhkDoa+WMe6FZROmTeBuxYzZQMsMrzCI4D
+ QE9w==
+X-Gm-Message-State: AOAM530pkphEorYaFpCJRfFlCwsclyKIu1dnhiCbBO+ubijCkb+1GBHi
+ GaZVHFgvj6RCvh7Vehts8u9pj+J4TdjFQfCZv7bnMApRcIiNdGLtWl7tAPVQNsgDp7honDUsE0Q
+ BgzTQzsugTcxQjhiZYjzZNgih9VIZjug=
+X-Received: by 2002:ab0:3253:: with SMTP id r19mr12885731uan.5.1624645137507; 
+ Fri, 25 Jun 2021 11:18:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxilpOhYylwkn3wjA2aDkFIjdcip1FQj4FX6T+o1HGp/NfJ0wS3BZOmSxEEY23WAzBMqxBiwIR5X1jzTIatWJ0=
+X-Received: by 2002:ab0:3253:: with SMTP id r19mr12885713uan.5.1624645137386; 
+ Fri, 25 Jun 2021 11:18:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210625154540.783306-1-jsnow@redhat.com>
- <20210625154540.783306-2-jsnow@redhat.com>
-In-Reply-To: <20210625154540.783306-2-jsnow@redhat.com>
+ <20210625154540.783306-3-jsnow@redhat.com>
+In-Reply-To: <20210625154540.783306-3-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 25 Jun 2021 15:16:58 -0300
-Message-ID: <CAKJDGDboVBhJZdA801-ZArm6RG360yDY3T8VTxWY59XwVYtjgQ@mail.gmail.com>
-Subject: Re: [PATCH 01/11] python: expose typing information via PEP 561
+Date: Fri, 25 Jun 2021 15:18:31 -0300
+Message-ID: <CAKJDGDYJiKmqEdgijp+mNPggedQ6=pNFw63ijuGYuFt9=1Gh0w@mail.gmail.com>
+Subject: Re: [PATCH 02/11] python: Remove global pylint suppressions
 To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -99,27 +99,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Jun 25, 2021 at 12:46 PM John Snow <jsnow@redhat.com> wrote:
 >
-> https://www.python.org/dev/peps/pep-0561/#specification
->
-> Create 'py.typed' files in each subpackage that indicate to mypy that
-> this is a typed module, so that users of any of these packages can use
-> mypy to check their code as well.
->
-> Note: Theoretically it's possible to ditch MANIFEST.in in favor of using
-> package_data in setup.cfg, but I genuinely could not figure out how to
-> get it to include things from the *source root* into the *package root*;
-> only how to include things from each subpackage. I tried!
+> These suppressions only apply to a small handful of places. Instead of
+> disabling them globally, disable them just in the cases where we
+> need. The design of the machine class grew quite organically with tons
+> of constructor and class instance variables -- there's little chance of
+> meaningfully refactoring it in the near term, so just suppress the
+> warnings for that class.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/machine/py.typed | 0
->  python/qemu/qmp/py.typed     | 0
->  python/qemu/utils/py.typed   | 0
->  python/setup.cfg             | 4 ++++
->  4 files changed, 4 insertions(+)
->  create mode 100644 python/qemu/machine/py.typed
->  create mode 100644 python/qemu/qmp/py.typed
->  create mode 100644 python/qemu/utils/py.typed
+>  python/qemu/machine/machine.py | 3 +++
+>  python/qemu/machine/qtest.py   | 2 ++
+>  python/setup.cfg               | 4 +---
+>  3 files changed, 6 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
