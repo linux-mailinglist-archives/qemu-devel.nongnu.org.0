@@ -2,137 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3933B429D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 13:36:16 +0200 (CEST)
-Received: from localhost ([::1]:43140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04623B42B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 13:50:33 +0200 (CEST)
+Received: from localhost ([::1]:48876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwk87-0001rC-4q
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 07:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53504)
+	id 1lwkLw-0006iq-B9
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 07:50:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lwk76-000125-1q; Fri, 25 Jun 2021 07:35:12 -0400
-Received: from mail-eopbgr10096.outbound.protection.outlook.com
- ([40.107.1.96]:17799 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lwkL6-00064D-GH
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 07:49:40 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59406
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lwk73-0004cn-3k; Fri, 25 Jun 2021 07:35:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EsJxrKQs9GhO+PzDAXOkqMNOxZGhapbla9/7si6kymHvz4wle7YQOyGdjQuPuP9jBeUhL6KBl4RIXkhR1qjIzMrbc6rIHdCcq+JqgD6qxMgr0ezTN3Pn1cRDt3rwGewaLAbz8Wt39ylnF3Urh3BvmbbJuN0cExjUc/UEAgr8CczKGU3MqFbu/ZqrSzrqT7kb5ybu8l7NwlRNN6iG0x5c8IZWEVJcNb7S5aWof3DMxkKQ/JW2zXua3rnD0kguHqlVWkQ6MVsSawwWTsIBSRm+Q4as3FwxS0o/aXl87x7u3DIdV5zjqEPc7FcDRBKU99JF20OBzEObm51dHV574JNPYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t+f9dtj46O1gBytRGoB9c3r9ugz7VAgfuFrb5Fv5yOk=;
- b=gg3QlOH1Xeu03xjVkckoMgHVIK8kfkk1M6HcrVR9GgDUw4BOG2MqqlqDS2KKA/06u3LlRbrFa1qZ/sR68vOo7wuInKm4Vl+ELcz9Osmw9njOUzMV8C6FIcVFaccoE6ArXbVq4zLwQYlBourw8u/i9joxD6iSQXNxOrHJLSAGo6BPEMI9yRP7PzdrcIAEtiX6nJtij5jhm+CawzIiZzyK2RD46QEg3an8mZ4G3feb6tv5HHemSttNjH5ZPmaxw/EetkuKYk4vp1LAzm3YaTVuRkmfiqJ3Te5b3Eyuqn6FFBcm+/JWf78W3qwNiz9++OU1B0DWTmgDwEVu5PrRJqo+7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t+f9dtj46O1gBytRGoB9c3r9ugz7VAgfuFrb5Fv5yOk=;
- b=dEgTTgHkilVYqNw3yO9IfrB0BOFLTFaJh6+gO/XBrFwlkKF2HyEF36vVWsdWGEr0/recytP7hufxKBIji4Xicj3ew5k6y3QfwBPiULo1cngwQIpsnCqLsVF2LUZ3UEIjkC4nCX1SLyogaaeJoIAw7olD71UK5GQ58tRkyFB40f4=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6726.eurprd08.prod.outlook.com (2603:10a6:20b:39a::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Fri, 25 Jun
- 2021 11:35:04 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.023; Fri, 25 Jun 2021
- 11:35:04 +0000
-Subject: Re: [PATCH v5 0/5] block-copy: protect block-copy internal structures
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20210624072043.180494-1-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <5f30aca5-e8b7-58b6-f0bc-e8bd651c0aac@virtuozzo.com>
-Date: Fri, 25 Jun 2021 14:34:57 +0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lwkL4-0003TI-3X
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 07:49:40 -0400
+Received: from host109-153-84-9.range109-153.btcentralplus.com ([109.153.84.9]
+ helo=[192.168.1.65]) by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lwkKe-0008JK-1I; Fri, 25 Jun 2021 12:49:16 +0100
+To: Finn Thain <fthain@fastmail.com.au>
+References: <20210613163738.2141-1-mark.cave-ayland@ilande.co.uk>
+ <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
+ <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
+ <17f0917-de30-6771-26d0-7a10214221ca@nippy.intranet>
+ <38512250-86bb-7cbd-caca-9bc0378e54e8@ilande.co.uk>
+ <2a99f70-4584-be2f-4d82-72641d65d7a@nippy.intranet>
+ <246849c9-c674-7b33-6fe0-ddfff1d128fe@ilande.co.uk>
+ <87cdbdeb-1228-f08f-ed15-107f5cf6484@nippy.intranet>
+ <979b0b6c-19e0-d74c-eb99-9633d596ee07@ilande.co.uk>
+ <4bd8b183-6cb-ec29-e8e1-acbe74d2dd@nippy.intranet>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <84a33676-fa68-9d21-7cf6-984b415d79a3@ilande.co.uk>
+Date: Fri, 25 Jun 2021 12:49:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210624072043.180494-1-eesposit@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <4bd8b183-6cb-ec29-e8e1-acbe74d2dd@nippy.intranet>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.221]
-X-ClientProxiedBy: HE1PR06CA0159.eurprd06.prod.outlook.com
- (2603:10a6:7:16::46) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.221) by
- HE1PR06CA0159.eurprd06.prod.outlook.com (2603:10a6:7:16::46) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Fri, 25 Jun 2021 11:35:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dc55a83e-572a-417b-160a-08d937cd4687
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6726:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6726A9AC4898D584EB953278C1069@AS8PR08MB6726.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fhtcmLD+TqkEwfnHlysYRpJcRuLgDHvlnVms2moMb8yB3UZ7h80dz4Fz4z2AYM6jCdVBKbdCgLJPUmvn6GtHoDg68NM98qAOzfgFsGCmvSJLJ0L2w+Rwcksxxk7dsdhxmjEG8bgqrxo+nj3LaSA61z1nYKmSKxI5PTMPl5rqXulEQTP6rESlM6xnt6WIA56Rbe151CiXqFMiJ91Mygxk4b2Ifd6BCNkDpaDefcVT2uPUDnk+aDMLWNfFe5MsdzrjEwjGRG4B0Aq1M5dK+2X2zmeMRf/+AhIRUL3XSlcssu5FM0veMRpVutlrk9TOayEkTJoQKVb4JyPk6no/KXHZGeEAPSTaL1BOSNP98oG6sXE7+IBAP3iGUY1nSTwrx2AhvowUK7dYIidsvEcjTFBRg8SFFjlSQWuOAhUT0jnl8Ilhsdr7142FbqmWrhCBVI3nP2QJDqms3sr/YlP6m0T2ZGbdpFru6ieCVtx3Zt/DZL5ec8nzF96wmi7fqM/aMIOfMKsYYiVjTZrU5Z9Y1TEqX6wbA4d7rPjm3+flLMr0CeQK9WsbH2uHLSmqufApKoDY3k8A8nJ4g6MUzZRTCvg/XTDTM5C0TRYgztWEs8coHRcTAMB5givwhjE6XmLfQen4LdDbgveXUH4pA6avIzFxyogyjyNMiHiNd+b6OphdZB6qBoP3McItK5N0jFetbGimm8f64QSqBv8cUDVmr2v2NHKiFwaeCjML4b3rgq6ZJudb/0XR8Qm6rl7+9r62uPn7Ot32jMEbvbukQpBk6wietg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39840400004)(136003)(376002)(396003)(52116002)(186003)(16526019)(26005)(6666004)(478600001)(5660300002)(8936002)(2616005)(956004)(8676002)(31686004)(16576012)(316002)(2906002)(38350700002)(38100700002)(54906003)(4326008)(36756003)(83380400001)(86362001)(31696002)(6486002)(66946007)(66476007)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NytVN0Y4NkJtcDVpUmd4RUJTZFpTSEJVTk8rRVNyRytScytsaHhMOWRDdWdy?=
- =?utf-8?B?MFFuYm1PaHNiUmhEcjQxSUJpNExXMkIwN2twM1pQWnNzd3FMMmMrZlVJdmVB?=
- =?utf-8?B?ZmUrU0xZQnBZNTRsMVgxTlNGYmlMbGk5MFFYYllLQng3RGZkczhiRi8zbGt6?=
- =?utf-8?B?ekdLanhidUQzQi92aXNqL1N2WVNJamIzOHBCN3N5K292T3JhcndUZW51UUxC?=
- =?utf-8?B?Y0pxbWdvTXVyeUJ3K2xYSGJURUhReWQwelpYZTRiUm9zdTBkK1lDdkRsL2FS?=
- =?utf-8?B?cS95anVpZ29FdkttRkduTy9jbm1YWnNtaFVnRWZ4dDhUcVdoTmxjZDBWem9p?=
- =?utf-8?B?UitwSFVYUDR5NTIyeHdZYUw0elJuamhHdTBYcXJNdERDdVVjQ1FMbW4wR2Q4?=
- =?utf-8?B?MFB4R0Y5dXlack10MWUxMEFWb1RLTjhpcmQ4clBVN0NiY2lRWitzY2xIU0Iz?=
- =?utf-8?B?enE0bXNieXUvWUs3WTRFQVRQa28xK3Q5bFFuRFhzcktrUGQvejhIOFJJU0Rl?=
- =?utf-8?B?WlN4cHJxU2x5YlZWREQzK0FCaGxSc0lqVmt5Wnk0OEhXWU13OHA1OFgwRVdU?=
- =?utf-8?B?ZFdOZWh3T0EveWdxamJPb0c1eXJqNWNraVpiUHFmeUNGVUFPT1k2Nks2dE9P?=
- =?utf-8?B?aGEzazZQUUN5UHMzcEpsekxnTmRGQ1ozQ0VFNlhmVW1USWd2Z05XekhZaUU3?=
- =?utf-8?B?ZjZ3bTQwdUx2QnpGcXlZNVMrQWF0SlN6YlB6a0JMRGxDck00ZVRBV3JWM0xO?=
- =?utf-8?B?dTc1WG54bXRKbjUwdUlGTVZTMUdoUk56cW1HZmdJcjU3ZDJDTnBrV1FhM2pX?=
- =?utf-8?B?VjliN1ZBKytpdEJVUTBCaDVWcXpGVC8rWmdhdFVrUTNHbzVOeWxaVGt3VmZM?=
- =?utf-8?B?aDhDQXR3SVlhRVZVWG0rcnMyS1FjRm4wakFnVGlSWjk5L2xXdCs5bGdKRFBh?=
- =?utf-8?B?UFBDblNYdTVyOVcyNm5mUXFFRkhBeGprY2JhdEZoK3FrUjNCT2NOMjZoZFBs?=
- =?utf-8?B?ZytRODJkcHdTTk1GVzdoWEJLZndHU2d4akFGeDdtS0M1bmgwM3VLbmd2MVdI?=
- =?utf-8?B?ZUZMTlF3R1A5M3hYZmY4dytpOEp2a2lEa0ZmejdFclRSN052cXZ2YmNTbkFr?=
- =?utf-8?B?WFVjRGdWQVM1TXVQZ0lPN09saEVlR2pWeG0zM0VUbFJ5K2ZKY1BUODhpREtz?=
- =?utf-8?B?TndTb2JvdVdjb0ljNkRqVC9acTZrZmpwenVDVDVxSmJobzRvYy9lVWFuaUwv?=
- =?utf-8?B?YUpWZ3hoTG5MSGFLMEpDUm4zUWRWK2MyQ3ZEa29oemJtY3hMTm81Vll6Tyty?=
- =?utf-8?B?Z21QcXhrelRDb2dkVFpxV3I2b1ZBMEZpWjNCdXRHaDNzS21xaTN1bWxLeU4z?=
- =?utf-8?B?UHc0T3VoN3NxZkZ4MERMSUFBb1JiTUZ4d0hTRTlHOTZ1WE8vVUo3TzQ4WDFB?=
- =?utf-8?B?S0EvQnBrM1lIYTMyZWNvMzllcVlRT1JGUmhnR0FGd0VRVlRVZEkwdFAxcFJ4?=
- =?utf-8?B?Y3FyeVl5bEVQZmFYNzlZZkRxcTl3TnR4M3NRN0kzVWVTY081QkNzL1oyTjJB?=
- =?utf-8?B?OTRmTFE2eDFSTEpsRlFHVmVLZzdBTG5INkNXRFhNVm5lWTQrSy9kMDFHVmVj?=
- =?utf-8?B?cHpXd2duOWo0eU40bk4wakI5Nm5MOW1SUThVZ293M2hmc1hyOE96ZXNxQkxK?=
- =?utf-8?B?V1dKZnpJVXRmQzBYUVRqMWVpaDJldnUvSVpjVjdHYkVJV05SRnNMeHF2TWY1?=
- =?utf-8?Q?tqYr5NTajOitHjc331DJ4Iw6qvUjjAbe2i5HIbR?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc55a83e-572a-417b-160a-08d937cd4687
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 11:35:04.1683 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mum4xAPlYAh7XZ/f1TRhZfvPobORZHt2jhDM6sqooT5sc3R4bEr5q9gh0tRq8eHpXSYjFt28GINzYoyDvIS1WB8sZrgnIhsgNSa5emV5B5E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6726
-Received-SPF: pass client-ip=40.107.1.96;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.153.84.9
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 0/5] dp8393x: fixes for MacOS toolbox ROM
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,35 +71,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ hpoussin@reactos.org, aurelien@aurel32.net, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-24.06.2021 10:20, Emanuele Giuseppe Esposito wrote:
-> This serie of patches aims to reduce the usage of the
-> AioContexlock in block-copy, by introducing smaller granularity
-> locks thus on making the block layer thread safe.
-> 
-> This serie depends on my previous serie that brings thread safety
-> to the smaller API used by block-copy, like ratelimit, progressmeter
-> abd co-shared-resource.
-> 
-> What's missing for block-copy to be fully thread-safe is fixing
-> the CoSleep API to allow cross-thread sleep and wakeup.
-> Paolo is working on it.
-> 
-> Patch 1 provides a small refactoring, patch 2 introduces the
-> .method field in BlockCopyState, to be used instead of .use_copy_range,
-> .copy_size and .zeros.
-> Patch 3 provide a refactoring in preparation to
-> the lock added in patch 4 on BlockCopyTask, BlockCopyCallState and
-> BlockCopyState. Patch 5 uses load_acquire/store_release to make sure
-> BlockCopyCallState OUT fields are updated before finished is set to
-> true.
-> 
+On 25/06/2021 10:32, Finn Thain wrote:
 
-Thanks, applied to the jobs branch
+>>>> Thanks for the link and the detailed testing information. I've been
+>>>> trying to understand why you had to set the MAC address in the ARC
+>>>> firmware so I had a bit of an experiment here.
+>>>>
+>>>> The reason that you need to do this is because of the NVRAM
+>>>> configuration in your command line, in particular -global
+>>>> ds1225y.size=8200.
+> 
+> That configuration also shows up here,
+> https://virtuallyfun.com/wordpress/2013/08/30/restoring-the-mips-magnum-in-qemu-1-6-0/
+> with the explanation, "you'll need the NVRam stuff to add extra space for
+> the ethernet MAC address". So it seems that the 8200 figure was just a
+> hack and does not reflect the size of the NVRAM in an actual Magnum.
 
--- 
-Best regards,
-Vladimir
+Ah that makes sense! QEMU 1.6.0 was released in 2013 and Hervé's patches to add the 
+PROM MAC address support were added in 2015 so this information is outdated.
+
+>>>> What this does is extend the NVRAM over the top of the dp8393x-prom
+>>>> area where QEMU places the NIC MAC address and checksum on startup,
+>>>> so the NVRAM captures the MAC address reads/writes instead. The net
+>>>> effect of this is that the empty NVRAM initially reads all zeros and
+>>>> why an initial setup is required to set the MAC address.
+>>>>
+>>>> This can be seen quite clearly in the "info mtree" output:
+>>>>
+>>>>       0000000080009000-000000008000b007 (prio 0, i/o): nvram
+>>>>       000000008000b000-000000008000bfff (prio 0, rom): dp8393x-prom
+>>>>
+>>>> However if you completely drop -global ds1225y.size=8200 from your
+>>>> command line then the NVRAM doesn't overrun into the dp8393x-prom
+>>>> area, and the ARC firmware picks up the MAC address from QEMU
+>>>> correctly:
+>>>>
+>>>>       0000000080009000-000000008000afff (prio 0, i/o): nvram
+>>>>       000000008000b000-000000008000bfff (prio 0, rom): dp8393x-prom
+>>>>
+>>>> I've also looked over the entire SONIC datasheet to see if the PROM
+>>>> format is documented, and according to that there is no non-volatile
+>>>> storage available on the chip itself.
+>>>
+>>> Yes, that's my understanding also. The relevant National Semicondutor
+>>> Application Notes seem to include a separate PROM. And if you closely
+>>> examine the Linux macsonic.c driver, you'll see that the PowerBook 5x0
+>>> models get a random MAC address because no-one (outside of Apple)
+>>> knows where the real MAC address is stored.
+>>
+>> Agreed. This means that the revised patchset should now be doing the
+>> right thing here.
+>>
+>> FWIW I felt that it had changed too much in its latest form to include
+>> your original Tested-by tag due to the extra PROM changes, so I'd be
+>> grateful if you could give it a quick test.
+>>
+> 
+> Sure.
+> 
+>>>> Testing shows that the checksum algorithm currently used for the
+>>>> dp8393x device generates the same result as that generated by the
+>>>> ARC firmware, which is known to be different than that used by the
+>>>> Q800 machine.
+>>>>
+>>>>   From this I conclude that the PROM is provided by the board and not
+>>>> the chipset, and therefore each machine should construct its own
+>>>> PROM accordingly. I'll send a v2 patchset shortly with these changes
+>>>> which shall also include the proposed endian patch.
+>>>>
+>>>
+>>> If you potentially have both a ds1225y NVRAM and a dp8393x PROM (for
+>>> the magnum machine) how do you avoid ending up with conflicting state?
+>>> Would the two storage devices have to be mutually exclusive?
+>>
+>> The ds1225y NVRAM is located between 0x80009000-0x8000afff and running
+>> the nvram file through hexdump shows only the first 0x1000 bytes contain
+>> any data, so any other changes made to NVRAM via the ARC firmware setup
+>> will be preserved.
+>>
+> 
+> Perhaps '-global ds1225y.size=4096' could be used to test that assumption
+> about ARC firmware behaviour. Anyway, the default for ds1225y.size seems
+> to be 0x2000. And a glance at the DS1225Y datasheets agrees with that
+> figure. (I'm going to assume that DS1225Y is the actual part found in
+> Magnum machines even though MOS6522, for instance, was not used in
+> Quadras.)
+> 
+>> The existing default behaviour (without -global ds1225y.size=8200) is
+>> that only the last few bytes at 0x8000b000 are mapped to the dp8393x
+>> PROM, and this area is marked read-only to ensure that the MAC address
+>> obtained by the guest OS always matches the one provided by the QEMU
+>> configuration.
+>>
+> 
+> Well, I asked about conflicting state having assumed that the NVRAM in a
+> real Magnum was used to store the MAC address. But that's probably not the
+> case. There's probably some other chip involved and your PROM device seems
+> like a good way to model that. (Unfortunately I don't have access to a
+> Magnum machine so you should take what I say about that machine with a
+> grain of salt.)
+
+Certainly on real Magnum hardware the area of memory containing the MAC address is 
+backed by NVRAM and QEMU can access it, as validated by increasing the NVRAM size.
+
+However the current default behaviour seems correct to me, since NIC MAC addresses 
+are specified on the QEMU command line and so if you make this area NVRAM you can end 
+up with a mismatch between what QEMU thinks the MAC address is internally vs. the 
+value in the PROM...
+
+
+ATB,
+
+Mark.
 
