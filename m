@@ -2,100 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474A93B3FCF
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 10:53:37 +0200 (CEST)
-Received: from localhost ([::1]:49536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84C23B3FD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 10:53:47 +0200 (CEST)
+Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwhai-0004zz-9g
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 04:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49114)
+	id 1lwhas-0005UH-Tb
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 04:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lwhZL-0003O7-HC
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:52:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27701)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lwhZg-00041E-KT
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:52:32 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:33150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lwhZI-00023a-JO
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:52:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624611127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Up8vquIZcTUwfmGvPBh8P1pLLbdHUH2dgU9dltyJuE0=;
- b=ZixI+0lvyWTLESGZlcvX1W9d1lt+P+IxBP/gxFoBwzy4zSJq+Bs+XKdxHygpD4QLtNxJEe
- 1PALChQWFg9fFRfY4nDStnaiT2gFys6tBNX3swxUjEFXDBwesCdIKGT7Brn+Gmu42G2HvH
- SE6D1ttT59qfpleq8aedl3Ovje1kiYo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-RfRA0nsXMxmpX3j2yUnRMg-1; Fri, 25 Jun 2021 04:52:06 -0400
-X-MC-Unique: RfRA0nsXMxmpX3j2yUnRMg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- o16-20020aa7c7d00000b02903951279f8f3so2015814eds.11
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 01:52:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Up8vquIZcTUwfmGvPBh8P1pLLbdHUH2dgU9dltyJuE0=;
- b=gTqVK8O+7N1AdXb4AT2xu5Yw9CTHatN8DtHKgbFtkaxENw9IeR7YeWtxs2zLrRdoPw
- UbJwElG9uV0ybFupEEC6i6MwsER/+R3fLwrRdrPo4G1jF5yCIP1VbdqVZKVXzlDdkcMS
- NdSFP2pnbLXayuNMOBnYcMnUAWkZsW6wiVO2e5UE0JPRUC404cy/IEKc306AIJjoulU/
- QDT/vSYSKUejPqH+AYPl0kC+dPSbvc/+2KzSAvpIVDy4Ra2Gylreqd14nfZYWplskiLL
- 1KLOdBT+B1byrSX2T6HHHMA5xqUjQbcXbNsKXai/e3tqPpzDVZNpz7AWDnmRryz7FVlY
- dUIw==
-X-Gm-Message-State: AOAM530PA0KFx9jhwmQOc/MhT3Y5B+T88hD7gEYlZYmr7PYSwOejhBQK
- yBDSvv9idewdunpdm1i43CHO1aoL0pY+DH1fTPPpRYY2Nhp+sNu8huwMcGIPzESTSEb77AOqxab
- hBSFKZVHFUQ0g5rQ=
-X-Received: by 2002:a17:906:3c0d:: with SMTP id
- h13mr9610089ejg.269.1624611125254; 
- Fri, 25 Jun 2021 01:52:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLmyr6ZkuMSsprQ2AJ09tQzAnRjDF6sVI1nZXSyg6NUU7k0eIXxkIPhBWXCnZMfLVk76pd9A==
-X-Received: by 2002:a17:906:3c0d:: with SMTP id
- h13mr9610078ejg.269.1624611125091; 
- Fri, 25 Jun 2021 01:52:05 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id fl21sm2460458ejc.79.2021.06.25.01.52.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 01:52:04 -0700 (PDT)
-Subject: Re: [PATCH v5 00/11] block: file-posix queue
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20210624180423.1322165-1-pbonzini@redhat.com>
- <176597b0-f42c-601d-a401-e47fd0b60a3c@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ec71bd52-4b08-bb01-8a48-dab20c97b3ed@redhat.com>
-Date: Fri, 25 Jun 2021 10:52:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lwhZc-0002Cr-5z
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 04:52:31 -0400
+Received: from sas1-6b1512233ef6.qloud-c.yandex.net
+ (sas1-6b1512233ef6.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:44af:0:640:6b15:1223])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id E03CF2E15C0;
+ Fri, 25 Jun 2021 11:52:20 +0300 (MSK)
+Received: from sas1-9d43635d01d6.qloud-c.yandex.net
+ (sas1-9d43635d01d6.qloud-c.yandex.net [2a02:6b8:c08:793:0:640:9d43:635d])
+ by sas1-6b1512233ef6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ DR0ymCDW3W-qK0e4ai4; Fri, 25 Jun 2021 11:52:20 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1624611140; bh=PobhdN+YirR51iX3iNsl04ZAA1725oeM6h2YgYzFVos=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=g90zAfHFZIJwXQKAi9ydWRqFl+REbUiJubGqrf6rvYqeo7CNAO7AIKR+etPBA7DLE
+ J9XdHXmz7Fdf6zIvrU7tU9e057k0MgpFrrl1gRUjPK5wPhOtS4ao8SZeZzkH22wNX/
+ B0cj1HdztpZR4bl0ZPGTfhSnE0cHMATRqa963xRM=
+Authentication-Results: sas1-6b1512233ef6.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:13::1:2d])
+ by sas1-9d43635d01d6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ rUqgf9dUsm-qK6iw83j; Fri, 25 Jun 2021 11:52:20 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v0] vhost: make SET_VRING_ADDR,
+ SET_[PROTOCOL_]FEATEURES send replies
+Date: Fri, 25 Jun 2021 11:52:10 +0300
+Message-Id: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <176597b0-f42c-601d-a401-e47fd0b60a3c@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.362,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -104,18 +72,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, mlevitsk@redhat.com
+Cc: yc-core@yandex-team.ru, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/21 10:37, Max Reitz wrote:
-> Thanks, looks good to me, though I’m afraid I’ll be on PTO the next two 
-> weeks so I can’t take this series through my tree... (I don’t really 
-> want to send a pull request today when I probably wouldn’t be able to 
-> deal with potential problems)
+On vhost-user-blk migration, qemu normally sends a number of commands
+to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
+data logging.
+The issue is that qemu doesn't wait for reply from the vhost daemon
+for these commands which may result in races between qemu expectation
+of logging starting and actual login starting in vhost daemon.
+To resolve this issue, this patch makes qemu wait for the commands result
+explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
+Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
+command to make the features setting functions work similary.
 
-I can take it too, if it's okay for you.
+Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+---
+ hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Paolo
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index ee57abe04526..e47b82adab00 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+         .hdr.size = sizeof(msg.payload.addr),
+     };
+ 
++    bool reply_supported = virtio_has_feature(dev->protocol_features,
++                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
++    if (reply_supported) {
++        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++    }
++
+     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+         return -1;
+     }
+ 
++    if (reply_supported) {
++        return process_message_reply(dev, &msg);
++    }
++
+     return 0;
+ }
+ 
+@@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+         .hdr.size = sizeof(msg.payload.u64),
+     };
+ 
++    bool reply_supported = virtio_has_feature(dev->protocol_features,
++                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
++    if (reply_supported) {
++        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++    }
++
+     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+         return -1;
+     }
+ 
++    if (reply_supported) {
++        return process_message_reply(dev, &msg);
++    }
++
+     return 0;
+ }
+ 
+-- 
+2.25.1
 
 
