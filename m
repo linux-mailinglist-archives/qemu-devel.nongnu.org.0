@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABDD3B409F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:34:18 +0200 (CEST)
-Received: from localhost ([::1]:59404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDF93B40A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:36:46 +0200 (CEST)
+Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwiE5-0000ZS-Qo
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54236)
+	id 1lwiGT-0006QI-WA
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzX-0002r2-1Q
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46954)
+ id 1lwhzZ-0002vq-9Q
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzV-0006tF-3a
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:14 -0400
+ id 1lwhzW-0006tS-C4
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624612752;
+ s=mimecast20190719; t=1624612753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GW5vF87+ISbCZSlcgbFfzWQVwWs79e0qYJeafbSOr/Y=;
- b=Ah/U14XbILtUctwt8TWHAuCoEmfK7mKzkdGBgkwWOgPI1mPUSuzWNQ3opfSNETW4JvIyAG
- 1WcJVPAEa2clXxF9gMTK8hyhi/vBs+N5cbwdmo8ZJFfkrkYO+bB5ePfV91MhNZ6JAH821v
- 07hHd01twfZiICUCIQ6D099V2hjL64I=
+ bh=tDN+xjsxF7iwEfkz8BLN6BBzEz5gwnoes2do9XUHeCI=;
+ b=O9JwQELGLFqme8ngqxXGLCaA8xlpnyZ/e7du2SfPUrr99E7yPZGLbR4obywqo+d4eaUges
+ lPCl/v4CcRMWI32bVKL847MKWGnkLDxwWCdC5nPKMhoCUGh2/4UidKP0P6zzLAYhiuoPPp
+ GzReo2lIReShom69jU3S6++RQSQHAJw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-rzJcSvDvMTCrsymspct4jw-1; Fri, 25 Jun 2021 05:19:11 -0400
-X-MC-Unique: rzJcSvDvMTCrsymspct4jw-1
+ us-mta-365-zlq2wNZnOeWur7rn3Yk4ng-1; Fri, 25 Jun 2021 05:19:12 -0400
+X-MC-Unique: zlq2wNZnOeWur7rn3Yk4ng-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3054E1019998
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:19:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 206061019982
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:19:11 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8940360CA0;
- Fri, 25 Jun 2021 09:19:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77E5660C05;
+ Fri, 25 Jun 2021 09:19:10 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/53] acpi: build_slit: use
+Subject: [PATCH 23/53] acpi: build_fadt: use
  acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Fri, 25 Jun 2021 05:17:47 -0400
-Message-Id: <20210625091818.1047980-24-imammedo@redhat.com>
+Date: Fri, 25 Jun 2021 05:17:48 -0400
+Message-Id: <20210625091818.1047980-25-imammedo@redhat.com>
 In-Reply-To: <20210625091818.1047980-1-imammedo@redhat.com>
 References: <20210625091818.1047980-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -90,42 +90,56 @@ which hides offsets magic from API user.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/aml-build.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ hw/acpi/aml-build.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index e4089edc6c..5f8f98cfc0 100644
+index 5f8f98cfc0..3da32301b6 100644
 --- a/hw/acpi/aml-build.c
 +++ b/hw/acpi/aml-build.c
-@@ -1945,11 +1945,12 @@ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
- void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+@@ -1969,9 +1969,10 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
                  const char *oem_id, const char *oem_table_id)
  {
--    int slit_start, i, j;
--    slit_start = table_data->len;
-+    int i, j;
-     int nb_numa_nodes = ms->numa_state->num_nodes;
-+    AcpiTable table = { .sig = "SLIT", .rev = 1,
+     int off;
+-    int fadt_start = tbl->len;
++    AcpiTable table = { .sig = "FACP", .rev = f->rev,
 +                        .oem_id = oem_id, .oem_table_id = oem_table_id };
  
--    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-+    acpi_init_table(&table, table_data);
+-    acpi_data_push(tbl, sizeof(AcpiTableHeader));
++    acpi_init_table(&table, tbl);
  
-     build_append_int_noprefix(table_data, nb_numa_nodes, 8);
-     for (i = 0; i < nb_numa_nodes; i++) {
-@@ -1960,11 +1961,7 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-                                       1);
-         }
+     /* FACS address to be filled by Guest linker at runtime */
+     off = tbl->len;
+@@ -2035,7 +2036,7 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+     build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+ 
+     if (f->rev == 1) {
+-        goto build_hdr;
++        goto done;
      }
--
--    build_header(linker, table_data,
--                 (void *)(table_data->data + slit_start),
--                 "SLIT",
--                 table_data->len - slit_start, 1, oem_id, oem_table_id);
+ 
+     build_append_gas_from_struct(tbl, &f->reset_reg); /* RESET_REG */
+@@ -2072,7 +2073,7 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+     build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0); /* X_GPE1_BLK */
+ 
+     if (f->rev <= 4) {
+-        goto build_hdr;
++        goto done;
+     }
+ 
+     /* SLEEP_CONTROL_REG */
+@@ -2083,9 +2084,8 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+     /* TODO: extra fields need to be added to support revisions above rev5 */
+     assert(f->rev == 5);
+ 
+-build_hdr:
+-    build_header(linker, tbl, (void *)(tbl->data + fadt_start),
+-                 "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
++done:
 +    acpi_table_composed(linker, &table);
  }
  
- /* build rev1/rev3/rev5.1 FADT */
+ #ifdef CONFIG_TPM
 -- 
 2.27.0
 
