@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE6E3B40AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:38:14 +0200 (CEST)
-Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183883B4090
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 11:31:48 +0200 (CEST)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwiHt-0003JA-SR
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54120)
+	id 1lwiBf-0003BV-3F
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 05:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzN-0002I6-NB
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21908)
+ id 1lwhzP-0002Pw-If
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lwhzF-0006jG-Vf
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:05 -0400
+ id 1lwhzH-0006k1-SU
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 05:19:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624612737;
+ s=mimecast20190719; t=1624612738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VE8BAlMVMSGmq5BOBJ+NBV/hGAAFETciS40lKBklWqg=;
- b=Tkr4DZzRnA44UnlD8jXhLsOmrOQfvOqe8zjzeJArZKXDnVteoa6t2DeBRSyAXla4Zi65BI
- p2HobWjrvtk9ZmvJqW8EmrC37+XJZZX0Hsr/tfTRiYzn7z0E6QdJff6ZjRwOg7eQ1IshEo
- OsdhxF/EDWJt5dAWhQ8F0rAcett6QOc=
+ bh=tN2QgPrlMI4LdV8X78Uet3cSbM2O+jnK759uoMySS9Y=;
+ b=Hgxy2m1/82xldDEYf6aB3HSK410l9+8Y0jmbVKjEIYCa3zs2rnbcME4U7us4lyR/HPxK1i
+ nINhEUS5C3vxUM7UTLfQ0F1M7ibWVX3/x6cV6kE++m2mb58xlTZx5fGVaLp8PllLP6ammJ
+ WpnKfrjDShNZltXGe4HETpqpURLNO88=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-VIShfA-5NhC4OMNpkh86sQ-1; Fri, 25 Jun 2021 05:18:55 -0400
-X-MC-Unique: VIShfA-5NhC4OMNpkh86sQ-1
+ us-mta-137-Vonb8sKCPzyICVJyezLY2Q-1; Fri, 25 Jun 2021 05:18:56 -0400
+X-MC-Unique: Vonb8sKCPzyICVJyezLY2Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70A84100CF6E;
- Fri, 25 Jun 2021 09:18:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01E771019984
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 09:18:56 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D968660C05;
- Fri, 25 Jun 2021 09:18:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6C1E60C05;
+ Fri, 25 Jun 2021 09:18:54 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/53] tests: arm-cpu-features: use qtest_has_kvm() API
-Date: Fri, 25 Jun 2021 05:17:41 -0400
-Message-Id: <20210625091818.1047980-18-imammedo@redhat.com>
+Subject: [PATCH 17/53] tests: migration-test: use qtest_has_accel() API
+Date: Fri, 25 Jun 2021 05:17:42 -0400
+Message-Id: <20210625091818.1047980-19-imammedo@redhat.com>
 In-Reply-To: <20210625091818.1047980-1-imammedo@redhat.com>
 References: <20210625091818.1047980-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -79,79 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
- mst@redhat.com, drjones@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com
+Cc: lvivier@redhat.com, pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>,
+ dgilbert@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-and drop custom function that were doing the job
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
 ---
+CC: dgilbert@redhat.com
+CC: pbonzini@redhat.com
 CC: thuth@redhat.com
 CC: lvivier@redhat.com
-CC: drjones@redhat.com
-CC: peter.maydell@linaro.org
-CC: pbonzini@redhat.com
-CC: qemu-arm@nongnu.org
 ---
- tests/qtest/arm-cpu-features.c | 29 +++++------------------------
- 1 file changed, 5 insertions(+), 24 deletions(-)
+ tests/qtest/migration-test.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 8252b85bb8..dbeaf59076 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -26,21 +26,6 @@
-                     "  'arguments': { 'type': 'full', "
- #define QUERY_TAIL  "}}"
- 
--static bool kvm_enabled(QTestState *qts)
--{
--    QDict *resp, *qdict;
--    bool enabled;
--
--    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
--    g_assert(qdict_haskey(resp, "return"));
--    qdict = qdict_get_qdict(resp, "return");
--    g_assert(qdict_haskey(qdict, "enabled"));
--    enabled = qdict_get_bool(qdict, "enabled");
--    qobject_unref(resp);
--
--    return enabled;
--}
--
- static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 2b028df687..eba18433bd 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1372,6 +1372,7 @@ static void test_multifd_tcp_cancel(void)
+ int main(int argc, char **argv)
  {
-     return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
-@@ -493,14 +478,6 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+     char template[] = "/tmp/migration-test-XXXXXX";
++    const bool has_kvm = qtest_has_accel("kvm");
+     int ret;
  
-     qts = qtest_init(MACHINE_KVM "-cpu max");
- 
--    /*
--     * These tests target the 'host' CPU type, so KVM must be enabled.
--     */
--    if (!kvm_enabled(qts)) {
--        qtest_quit(qts);
--        return;
--    }
--
-     /* Enabling and disabling kvm-no-adjvtime should always work. */
-     assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
-     assert_set_feature(qts, "host", "kvm-no-adjvtime", true);
-@@ -624,7 +601,11 @@ int main(int argc, char **argv)
-      * order avoid attempting to run an AArch32 QEMU with KVM on
-      * AArch64 hosts. That won't work and isn't easy to detect.
+     g_test_init(&argc, &argv, NULL);
+@@ -1386,8 +1387,7 @@ int main(int argc, char **argv)
+      * some reason)
       */
--    if (g_str_equal(qtest_get_arch(), "aarch64")) {
-+    if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("kvm")) {
-+        /*
-+         * This tests target the 'host' CPU type, so register it only if
-+         * KVM is available.
-+         */
-         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
-                             NULL, test_query_cpu_model_expansion_kvm);
+     if (g_str_equal(qtest_get_arch(), "ppc64") &&
+-        (access("/sys/module/kvm_hv", F_OK) ||
+-         access("/dev/kvm", R_OK | W_OK))) {
++        (!has_kvm || access("/sys/module/kvm_hv", F_OK))) {
+         g_test_message("Skipping test: kvm_hv not available");
+         return g_test_run();
      }
+@@ -1396,16 +1396,9 @@ int main(int argc, char **argv)
+      * Similar to ppc64, s390x seems to be touchy with TCG, so disable it
+      * there until the problems are resolved
+      */
+-    if (g_str_equal(qtest_get_arch(), "s390x")) {
+-#if defined(HOST_S390X)
+-        if (access("/dev/kvm", R_OK | W_OK)) {
+-            g_test_message("Skipping test: kvm not available");
+-            return g_test_run();
+-        }
+-#else
+-        g_test_message("Skipping test: Need s390x host to work properly");
++    if (g_str_equal(qtest_get_arch(), "s390x") && !has_kvm) {
++        g_test_message("Skipping test: s390x host with KVM is required");
+         return g_test_run();
+-#endif
+     }
+ 
+     tmpfs = mkdtemp(template);
 -- 
 2.27.0
 
