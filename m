@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29493B3CEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:59:05 +0200 (CEST)
-Received: from localhost ([::1]:57112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83063B3CD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 08:56:31 +0200 (CEST)
+Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwfnt-0005FX-16
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55814)
+	id 1lwflO-0008W9-P9
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 02:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfjM-0005p9-Nu
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:24 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58718
+ id 1lwfjO-0005r6-DM
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:26 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58724
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfjG-0001rj-Uu
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:24 -0400
+ id 1lwfjG-0001s5-VV
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 02:54:26 -0400
 Received: from host109-153-84-9.range109-153.btcentralplus.com ([109.153.84.9]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lwfj2-0006FO-5i; Fri, 25 Jun 2021 07:54:04 +0100
+ id 1lwfj2-0006FO-OZ; Fri, 25 Jun 2021 07:54:04 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
  f4bug@amsat.org, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
  jasowang@redhat.com, fthain@telegraphics.com.au, laurent@vivier.eu
-Date: Fri, 25 Jun 2021 07:53:56 +0100
-Message-Id: <20210625065401.30170-6-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 25 Jun 2021 07:53:57 +0100
+Message-Id: <20210625065401.30170-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
 References: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
@@ -38,8 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 05/10] dp8393x: remove onboard PROM containing MAC address
- and checksum
+Subject: [PATCH v2 06/10] qemu/bitops.h: add bitrev8 implementation
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,78 +64,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the datasheet the dp8393x chipset does not contain any NVRAM capable
-of storing a MAC address or checksum. Now that both the MIPS jazz and m68k q800
-boards generate the PROM region and checksum themselves, remove the generated
-PROM from the dp8393x device itself.
+This will be required for an upcoming checksum calculation.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/net/dp8393x.c | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ include/qemu/bitops.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index ea5b22f680..252c0a2664 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -30,8 +30,6 @@
- #include "qom/object.h"
- #include "trace.h"
- 
--#define SONIC_PROM_SIZE 0x1000
--
- static const char *reg_names[] = {
-     "CR", "DCR", "RCR", "TCR", "IMR", "ISR", "UTDA", "CTDA",
-     "TPS", "TFC", "TSA0", "TSA1", "TFS", "URDA", "CRDA", "CRBA0",
-@@ -157,7 +155,6 @@ struct dp8393xState {
-     NICConf conf;
-     NICState *nic;
-     MemoryRegion mmio;
--    MemoryRegion prom;
- 
-     /* Registers */
-     uint8_t cam[16][6];
-@@ -966,16 +963,12 @@ static void dp8393x_instance_init(Object *obj)
-     dp8393xState *s = DP8393X(obj);
- 
-     sysbus_init_mmio(sbd, &s->mmio);
--    sysbus_init_mmio(sbd, &s->prom);
-     sysbus_init_irq(sbd, &s->irq);
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 03213ce952..110c56e099 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -618,4 +618,26 @@ static inline uint64_t half_unshuffle64(uint64_t x)
+     return x;
  }
  
- static void dp8393x_realize(DeviceState *dev, Error **errp)
- {
-     dp8393xState *s = DP8393X(dev);
--    int i, checksum;
--    uint8_t *prom;
--    Error *local_err = NULL;
- 
-     address_space_init(&s->as, s->dma_mr, "dp8393x");
-     memory_region_init_io(&s->mmio, OBJECT(dev), &dp8393x_ops, s,
-@@ -986,23 +979,6 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
-     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
- 
-     s->watchdog = timer_new_ns(QEMU_CLOCK_VIRTUAL, dp8393x_watchdog, s);
--
--    memory_region_init_rom(&s->prom, OBJECT(dev), "dp8393x-prom",
--                           SONIC_PROM_SIZE, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--    prom = memory_region_get_ram_ptr(&s->prom);
--    checksum = 0;
--    for (i = 0; i < 6; i++) {
--        prom[i] = s->conf.macaddr.a[i];
--        checksum += prom[i];
--        if (checksum > 0xff) {
--            checksum = (checksum + 1) & 0xff;
--        }
--    }
--    prom[7] = 0xff - checksum;
- }
- 
- static const VMStateDescription vmstate_dp8393x = {
++/**
++ * bitrev8:
++ * @x: 8-bit value to be reversed
++ *
++ * Given an input value with bits::
++ *
++ *   ABCDEFGH
++ *
++ * return the value with its bits reversed from left to right::
++ *
++ *   HGFEDCBA
++ *
++ * Returns: the bit-reversed value.
++ */
++static inline uint8_t bitrev8(uint8_t x)
++{
++    x = ((x >> 1) & 0x55) | ((x << 1) & 0xaa);
++    x = ((x >> 2) & 0x33) | ((x << 2) & 0xcc);
++    x = (x >> 4) | (x << 4) ;
++    return x;
++}
++
+ #endif
 -- 
 2.20.1
 
