@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348963B49BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 22:26:19 +0200 (CEST)
-Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798113B49DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Jun 2021 22:53:11 +0200 (CEST)
+Received: from localhost ([::1]:53712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwsP4-0003C7-9E
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 16:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
+	id 1lwsp4-0001gj-37
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 16:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwsNn-0001yE-Rp
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 16:24:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53755)
+ id 1lwsnk-0000dP-QK
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 16:51:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lwsNm-0007u9-6H
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 16:24:59 -0400
+ id 1lwsni-0000XP-Ea
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 16:51:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624652697;
+ s=mimecast20190719; t=1624654305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ol5lsIxAMUOdXKiep39EYHsCwygZZCn3QAuCkHRkkF4=;
- b=jKANGeyaCCdVFsAO/BAqobfXrMB7bbKzNFJk6FZOdQUvVPwizXEZg8OusAsh1yrP4BoUpB
- UgwD4I2qDluTKvsUV7z1HwByoQOYu29u7ghkWXhtm+7m85AuaSvYfe5ufV/pCx6a8mONEh
- g2oJ/yYGrrefmxgGY5TzJWhv0DmWBnI=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-RaEYLm39MbCoOUVD7uHDrg-1; Fri, 25 Jun 2021 16:24:56 -0400
-X-MC-Unique: RaEYLm39MbCoOUVD7uHDrg-1
-Received: by mail-vs1-f69.google.com with SMTP id
- u12-20020a67f94c0000b0290278a507ec3aso2563248vsq.18
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 13:24:56 -0700 (PDT)
+ bh=IMLUARK+F1ONepPDaHKUhMiMqXE6+v6gv5xylvK15+o=;
+ b=hSCLsxQy7Zzy0K1UfCtpyPrwuj9d8eyQSIKR/SwKfckPKNX5hMhQ61mszcSlwmgmmxTcoj
+ 1xtsraHxKoFpSRPtHwvlXhuPO4Keoaar/sjXEAQ+4xTwNWihIZ5nfBTzyZ27s+EVbEF5Vx
+ IEnH6qujz6HB1KUDgzsML0UIolRalZE=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-aKW62zMXNV6ZaKWCdVbKzQ-1; Fri, 25 Jun 2021 16:51:44 -0400
+X-MC-Unique: aKW62zMXNV6ZaKWCdVbKzQ-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ e7-20020a1f1e070000b02901ffbfb6bcd1so3475807vke.22
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 13:51:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=ol5lsIxAMUOdXKiep39EYHsCwygZZCn3QAuCkHRkkF4=;
- b=WEYnBY5Yy298rDEx/AKG+jgkQ6gYdtH4kT/InR4Gcn7Q/KJaXPaK/NWRgY+xaS1LAL
- fQx+TuoFdj2yKfbnhn2DvNmU7g5cWRWVeyzIfeEokkA2fIzr5c6iEAD5HiqJyItSxWXo
- DdTRWuMFSCHx3M52BnygO/vW/qWiDu1utO/drB/hHWf/AFjetuhvRlzBj0rLRwWdT79s
- Sx15/d/e0mTKijnKiOwP4S1mr0W+GkuQrlZPzt8hcZH1n1EkSIto6NRkHf7yWKxW44G6
- YjLPjJkk7jfRnzNVrEezIK/HX25Z4dtck1Zm+r0fh6A9av1htonx1+DU/lPAPYu8gLG3
- rJ3g==
-X-Gm-Message-State: AOAM53389p5ISGiL6Ma0LPE9Aeo6oYIg+kNP2zcNx6CgTh3dk3YPQadA
- NaUFrFS29hpgNR03oDLj0MmN7VZFSdROfZyzraS9JEj3RqYnuw52bkCr+IQqKNobH8jq7cn41tH
- hPgIxdCMf/84+lCDbakqZVAPQbPnC364=
-X-Received: by 2002:a67:d80f:: with SMTP id e15mr11208320vsj.50.1624652695698; 
- Fri, 25 Jun 2021 13:24:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYYElCtZlA8JnkNJPCgfvYfNocdPt8ULxu5FqItEuu78Ldv8lriLtQEhnsaPT7d/NKh5FC60ROhq7GKKFxacI=
-X-Received: by 2002:a67:d80f:: with SMTP id e15mr11208308vsj.50.1624652695585; 
- Fri, 25 Jun 2021 13:24:55 -0700 (PDT)
+ bh=IMLUARK+F1ONepPDaHKUhMiMqXE6+v6gv5xylvK15+o=;
+ b=UNgStO39IDOI2/F49Eo2HkliBOlTtf709UMSxme21tx15WhrbmzkejZ0ZhrMHRFi3L
+ qFH0OnJT6LJxcEtIlC++aiFxkOhWXhMxVDkn/eDEx+9c98YRshKCk0U6ZZZw1Say3csE
+ 1IYo1n7QBv15LZaojTr1gMS06Eyo6jis5u4SweKWbzAPVnijtJafg0YKRiPB/O2JuUFs
+ x8fyX4eXyRmg+a6oNCaZkRO/ACmdzHKO/OFSAw9BpZKwPpbHY6+Zi2P4GOumZ9Af42RN
+ dUsDoQ1IavZEk1Y3KKKAkSiDceUUa1J+DXRmOVwuJsWfFr05X/9rhUHwUkoKRbcbprdb
+ a7uw==
+X-Gm-Message-State: AOAM531BQf2HowgKuZGRAv1/KXuDENEgQwBJmb0BIA0pAIP57Zr/tTbJ
+ 4v0aAfzvueONzg5J4ZLowEqVQKMXDsobOL4F9/fWjOK16tDjgEw03tKfv+/29t/RkaqZYO8H0CC
+ RH08YpdgPE8auB+Q+yoN6B96r79681H8=
+X-Received: by 2002:a1f:ae4e:: with SMTP id x75mr10269276vke.2.1624654303546; 
+ Fri, 25 Jun 2021 13:51:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJwFt/eiWD1Uq+F2xKshtmfhecnL2jWiat5KbZlEh75wrcPziojBJmGR8dWpDntRuBtSR8yi5g7hgQNmxvRwk=
+X-Received: by 2002:a1f:ae4e:: with SMTP id x75mr10269259vke.2.1624654303268; 
+ Fri, 25 Jun 2021 13:51:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210623142245.307776-1-berrange@redhat.com>
- <20210623142245.307776-4-berrange@redhat.com>
-In-Reply-To: <20210623142245.307776-4-berrange@redhat.com>
+ <20210623142245.307776-6-berrange@redhat.com>
+In-Reply-To: <20210623142245.307776-6-berrange@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 25 Jun 2021 17:24:29 -0300
-Message-ID: <CAKJDGDbBPV+HcLm+=dNZeqYM7keQKnHWz5RGAk7ALJh4TjJzNw@mail.gmail.com>
-Subject: Re: [PATCH v4 03/22] tests/docker: use project specific container
- registries
+Date: Fri, 25 Jun 2021 17:51:17 -0300
+Message-ID: <CAKJDGDaSvDFqtz9xPOcKFBdaPQxDfHnrXq7h1ywDt+7W0+tJ8Q@mail.gmail.com>
+Subject: Re: [PATCH v4 05/22] tests/docker: remove FEATURES env var from
+ templates
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -105,32 +105,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, Jun 23, 2021 at 11:23 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
 om> wrote:
 >
-> Since Docker Hub has started to enforce pull rate limits on clients, it
-> is preferrable to use project specific container registries where they
+> In preparation for switching to auto-generated dockerfiles, remove the
+> FEATURES env variable. The equivalent functionality can be achieved in
+> most cases by just looking for existance of a binary.
 
-s/preferrable/preferable/
+s/existance/existence/
 
-> are available. Fedora and OpenSUSE projects provide registries.
 >
-> The images in these registries are also refreshed on a more regular
-> basis than the ones in docker hub, so the package update should
-> generally be faster.
->
-> While CentOS also has a registry it is considerably outdated compared
-> to docker.io, and also only provides x86 images, while docker.io images
-> are multi-arch.
+> The cases which don't correspond to binaries are simply dropped because
+> configure/meson will probe for any requested feature anyway.
 >
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
->  tests/docker/dockerfiles/fedora-i386-cross.docker  | 2 +-
->  tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
->  tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
->  tests/docker/dockerfiles/fedora.docker             | 2 +-
->  tests/docker/dockerfiles/opensuse-leap.docker      | 2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
+>  tests/docker/common.rc                        | 19 ++++++++++++++-----
+>  tests/docker/dockerfiles/debian10.docker      |  2 --
+>  .../dockerfiles/fedora-win32-cross.docker     |  1 -
+>  .../dockerfiles/fedora-win64-cross.docker     |  1 -
+>  tests/docker/dockerfiles/fedora.docker        |  1 -
+>  tests/docker/dockerfiles/ubuntu.docker        |  1 -
+>  tests/docker/dockerfiles/ubuntu1804.docker    |  1 -
+>  tests/docker/dockerfiles/ubuntu2004.docker    |  1 -
+>  tests/docker/run                              |  3 ---
+>  tests/docker/test-clang                       |  2 +-
+>  tests/docker/test-debug                       |  2 +-
+>  tests/docker/test-mingw                       |  3 ++-
+>  tests/docker/test-misc                        |  2 +-
+>  tests/docker/test-tsan                        |  2 +-
+>  14 files changed, 20 insertions(+), 21 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
