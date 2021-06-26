@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A453B4CB6
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 07:04:32 +0200 (CEST)
-Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754EF3B4CB5
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 07:04:31 +0200 (CEST)
+Received: from localhost ([::1]:39982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lx0UZ-0000yz-Of
-	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 01:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
+	id 1lx0UX-0000ur-Tn
+	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 01:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lx0TI-0006l1-Rq
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:03:12 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44630)
+ id 1lx0TH-0006kq-HL
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:03:11 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:45759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lx0TF-0008Br-Ng
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:03:12 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id u14so3520254pga.11
+ id 1lx0TF-0008CU-TL
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:03:11 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id k6so9101200pfk.12
  for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 22:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=c/A2sKtULIkrmMf1HqsP1lUVYcfLgZ6bHr+698hu/+4=;
- b=PWrdUcYDz9pxFrZc0nU1xM97nSpCn02W3vwCHtPNxTE6r2SoL6rsxbJxc7kX1gCunp
- ACIsBV5xT7mcDgJOz6U0Dnnj/rzNht1GW9Ac6lcE9A9zHxVTitka75iU8rBr37/cIWt0
- 1Ng7bG7yOb+yFBIx5ssV8m03qAOcibVK3oMV8rdfPGWGT3lGyLrSwAlsLCjiVU1aOtUd
- d5dbOEDK1K0Z5c0G8Nj0bh1PAmGmOjWwautBVNSb+jZmqA3+1TwbMzcCszcenLwRhcRK
- CM7Z8G9aVlQz5uV9kSrbrWkrA7yurFVASLWfOMpRI1bQGd6z1YaFNorK297trWIY0ivx
- CXQw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bbklp3w91AZnxV0DVY+ehnYj/Fm0IUkDRzdevgcjq84=;
+ b=OohdtbFMvTiNxf2kloSKhqZFLh7gyP9T++6HSX+QMPHqdV+EyaAig7iYcFWn/47sFZ
+ gymwhZM5k/1Mw0xLQOr6GpUq1HTzzWqlEy2vDuP/CSGQ+TmQGqqkKLLO7diu/VaoIXV3
+ eRXzwkVI6TmJxgU/v0ZuxVCGc+u/qt6lMXeDnzOAx/5855nCX6EURMXMyswU44MNXRmq
+ /jdsa080N9RPDL2fwvdgbDqc4pepirMJyXvNX9Ytb6/VxOLP1qqKx3Lm3gLRZ6JZy7Hw
+ 4oTf1YLyZoicYGdRn4Ci4xego4PUon0pLOtkAe9pz/wDH8j57gpcV3rfP+Ie71rD7X02
+ CESQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=c/A2sKtULIkrmMf1HqsP1lUVYcfLgZ6bHr+698hu/+4=;
- b=LaE+dTi7kV4yDpgy/L5u1P2Dmb9ZtojGpDok56kaCenz1aBC7O3z1Z2kkDqz0tjSMx
- Q+sqKB6jZ0L8YcKjVluWaZktdEjB046fUyowZlYvm4qCu623Lnl10iKR7N63pAGBiLWY
- oou4eYG+fbUdfn7X1DnBDjUNn1E421rQX4xb7wxLITZIZ9SdZnK6lMwsRV+/zPp0G4a9
- HOVNDlzue+I99m9eLfecADizcLCbm5l7BeUgmv0ghMjl+HUp7f4XZqLY4jkAQpRGACty
- 3WkmnU0pfq7tQCqw5s6ipndekrH3+bmuV4sw0cpu5KG9Xc7qR02oimrquDlY3ektwiPb
- PJpA==
-X-Gm-Message-State: AOAM533PUkbMGay0omLXLgfkWS7OD44+J97rmc+zztJvf1Nc4/NMZv6b
- sJ5W6VLhWkF8HTGMbj70k+uRZ/cgugBtlw==
-X-Google-Smtp-Source: ABdhPJw8wLM6oGweVWIuNgT/eGbpjSmN0Qi90S+upchGqfNQc05bTtUqUeAKW9CZwoyUZTFAhqFQgg==
-X-Received: by 2002:a62:8fc8:0:b029:2ec:9b7a:f59e with SMTP id
- n191-20020a628fc80000b02902ec9b7af59emr13961427pfd.39.1624683788158; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bbklp3w91AZnxV0DVY+ehnYj/Fm0IUkDRzdevgcjq84=;
+ b=UgkyzKHMcVePMchc5tXUeFR2kU3/qQZrviNmdX+vhoi8nhEb9jwVKszYWckaz7rNwp
+ DMHPo0z6QJqq1qnbId9Ps00oMimM1dGqCfTwvVLHqfvTa2UINVwac6U1593ivsWK2FYm
+ oiSGgY9bNSZkIuvHucnimPuv9jshcJMR8Q/FiGzY0J9ZiLF84T6p96uxnBdbzOgwUAVe
+ cIzDuiz9GgK7vf1gSTz6QjS3+ozLzPsSP9vy7iE5g+bAO3nAzH/qDL+nAR4lKC7HxjTy
+ pWpTlt/kzPI1/IuH6WhX5Pbyjhri11pzmWXZ+noASviYkAFgB0pOW61DyI71iNoUnarY
+ RCIg==
+X-Gm-Message-State: AOAM531TBjxA2ZnGP03dO0txCP2C58Vi9e2cbZTcbL1FRwH1hDvOCM9w
+ kJKoN+BE3k3kzpqyB6H6kOjVhT66YPm2hw==
+X-Google-Smtp-Source: ABdhPJzSSEofF8uy++mb15c+e0QaXbDxY/77DtMUgUHpH+PrbeSqn7NvMhEGcAp4rbzDVE1WNYjinA==
+X-Received: by 2002:a63:5a47:: with SMTP id k7mr12799222pgm.9.1624683788622;
  Fri, 25 Jun 2021 22:03:08 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id c62sm7389768pfa.12.2021.06.25.22.03.07
+ by smtp.gmail.com with ESMTPSA id c62sm7389768pfa.12.2021.06.25.22.03.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 22:03:07 -0700 (PDT)
+ Fri, 25 Jun 2021 22:03:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/16] tcg/s390x: host vector support
-Date: Fri, 25 Jun 2021 22:02:51 -0700
-Message-Id: <20210626050307.2408505-1-richard.henderson@linaro.org>
+Subject: [PATCH v4 01/16] tcg/s390x: Rename from tcg/s390
+Date: Fri, 25 Jun 2021 22:02:52 -0700
+Message-Id: <20210626050307.2408505-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210626050307.2408505-1-richard.henderson@linaro.org>
+References: <20210626050307.2408505-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,43 +86,51 @@ Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v4:
-  * Fix bug in RXB (david).
+This emphasizes that we don't support s390, only 64-bit s390x hosts.
 
-r~
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ meson.build                              | 2 --
+ tcg/{s390 => s390x}/tcg-target-con-set.h | 0
+ tcg/{s390 => s390x}/tcg-target-con-str.h | 0
+ tcg/{s390 => s390x}/tcg-target.h         | 0
+ tcg/{s390 => s390x}/tcg-target.c.inc     | 0
+ 5 files changed, 2 deletions(-)
+ rename tcg/{s390 => s390x}/tcg-target-con-set.h (100%)
+ rename tcg/{s390 => s390x}/tcg-target-con-str.h (100%)
+ rename tcg/{s390 => s390x}/tcg-target.h (100%)
+ rename tcg/{s390 => s390x}/tcg-target.c.inc (100%)
 
-Richard Henderson (16):
-  tcg/s390x: Rename from tcg/s390
-  tcg/s390x: Change FACILITY representation
-  tcg/s390x: Merge TCG_AREG0 and TCG_REG_CALL_STACK into TCGReg
-  tcg/s390x: Add host vector framework
-  tcg/s390x: Implement tcg_out_ld/st for vector types
-  tcg/s390x: Implement tcg_out_mov for vector types
-  tcg/s390x: Implement tcg_out_dup*_vec
-  tcg/s390x: Implement minimal vector operations
-  tcg/s390x: Implement andc, orc, abs, neg, not vector operations
-  tcg/s390x: Implement TCG_TARGET_HAS_mul_vec
-  tcg/s390x: Implement vector shift operations
-  tcg/s390x: Implement TCG_TARGET_HAS_minmax_vec
-  tcg: Expand usadd/ussub with umin/umax
-  tcg/s390x: Implement TCG_TARGET_HAS_sat_vec
-  tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec
-  tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec
-
- meson.build                              |   2 -
- tcg/{s390 => s390x}/tcg-target-con-set.h |   7 +
- tcg/{s390 => s390x}/tcg-target-con-str.h |   1 +
- tcg/{s390 => s390x}/tcg-target.h         |  90 ++-
- tcg/s390x/tcg-target.opc.h               |  15 +
- tcg/tcg-op-vec.c                         |  37 +-
- tcg/{s390 => s390x}/tcg-target.c.inc     | 925 +++++++++++++++++++++--
- 7 files changed, 982 insertions(+), 95 deletions(-)
- rename tcg/{s390 => s390x}/tcg-target-con-set.h (86%)
- rename tcg/{s390 => s390x}/tcg-target-con-str.h (96%)
- rename tcg/{s390 => s390x}/tcg-target.h (67%)
- create mode 100644 tcg/s390x/tcg-target.opc.h
- rename tcg/{s390 => s390x}/tcg-target.c.inc (73%)
-
+diff --git a/meson.build b/meson.build
+index d8a92666fb..e3677a2fd9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -258,8 +258,6 @@ if not get_option('tcg').disabled()
+     tcg_arch = 'tci'
+   elif config_host['ARCH'] == 'sparc64'
+     tcg_arch = 'sparc'
+-  elif config_host['ARCH'] == 's390x'
+-    tcg_arch = 's390'
+   elif config_host['ARCH'] in ['x86_64', 'x32']
+     tcg_arch = 'i386'
+   elif config_host['ARCH'] == 'ppc64'
+diff --git a/tcg/s390/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
+similarity index 100%
+rename from tcg/s390/tcg-target-con-set.h
+rename to tcg/s390x/tcg-target-con-set.h
+diff --git a/tcg/s390/tcg-target-con-str.h b/tcg/s390x/tcg-target-con-str.h
+similarity index 100%
+rename from tcg/s390/tcg-target-con-str.h
+rename to tcg/s390x/tcg-target-con-str.h
+diff --git a/tcg/s390/tcg-target.h b/tcg/s390x/tcg-target.h
+similarity index 100%
+rename from tcg/s390/tcg-target.h
+rename to tcg/s390x/tcg-target.h
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+similarity index 100%
+rename from tcg/s390/tcg-target.c.inc
+rename to tcg/s390x/tcg-target.c.inc
 -- 
 2.25.1
 
