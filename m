@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665523B4D3D
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 08:52:17 +0200 (CEST)
-Received: from localhost ([::1]:42480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D573B4D35
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 08:47:20 +0200 (CEST)
+Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lx2Aq-0005rx-Ed
-	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 02:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
+	id 1lx261-0002Wq-DI
+	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 02:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lx1vu-0002Qg-TG
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 02:36:50 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:33601)
+ id 1lx1vv-0002Tc-KB
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 02:36:51 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:42498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lx1vt-0000RU-0T
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 02:36:50 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- bv12-20020a17090af18cb029016fb18e04cfso1466920pjb.0
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 23:36:48 -0700 (PDT)
+ id 1lx1vt-0000Ro-OQ
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 02:36:51 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 13-20020a17090a08cdb029016eed209ca4so6847425pjn.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 23:36:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rDcd1B4hkbSouihbsC6aTM+tsQYAgRbIHXLOVbVbwkg=;
- b=l9DVngc1GRnGkdI2SMnU4cN3T17wn7aFj9U82jb/ByzF/Kb73O8xQwdx7ju18gg03o
- MLBJM9taJCZClt7LvfPFpgz+YQ0Po0ZEji2QyV7WTwVvx3R8k4v7NYoiobyuuGT2uX+T
- P3EvN5kFTiL1ffW0CfuzXYvL3wzHmCEX8/hnKAMDPka2rr8D2Aemf/c5b9AyDo+vCKvl
- o+0CJ8EcmPC1ngqDd/F3rTcQDer71QnM1HhJmJz3nuTycHYZdtjnyl/XQq3IlWjssdm3
- krpbcZCuxJtmJEQdhtXQJhVGW58LI20YqEjQHYPo6Nqml9yq/b+rID9mQsKo0FqXzMQD
- g+0A==
+ bh=48z68ulW8GGIpMYTx1SRl+BJDLbN2VvaGGeLWdHXQ9E=;
+ b=Fczfrazl50zhvzi66NatB6O7zVyLRVIPPsaB68bWBnLp5RCX+9Rk0ADJ1dKvKAp6aH
+ ipgPoIqsURINyQjP9RLiXJJ3Shkbxh4uVctdgBVKTLQNAU0rGpFf5NLAxd36a0Q1EhhU
+ p9FozHqDiwazuqqtI4U1YTPlUW9RMYnuxwA4NR2EIikQVhXLJ8IAldMKLGYloLm1ncpR
+ afKGiFbFt/8pEAy6Icqyspa6ntsABw/aVmfItp1RHCoxyi9ukK7OG1wbp6S9t9Emlhmo
+ KFflfwYPMrMXadGocXazU+WktIn5PR6lKh+an1WqNLS/BUvT9F3vZ2cvlI2xlcdjUln7
+ 942w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rDcd1B4hkbSouihbsC6aTM+tsQYAgRbIHXLOVbVbwkg=;
- b=nBuywT3DWj5X4NkCN2LGM4yi5bsOE5nq+7keSC8MPpmmUQGPWBdfgAnFw1moLU8oLw
- wZMKx8arPyiPiy6JZxIAx2QWMut3uyEjgaub9fd4WViqoZZynnWg2rSNFnaG/4qSjn2y
- 5IG5j4sstLkGDsbSwnLZ1jHJyO2COHcWI7bNIB3eONDEv3gUZUoFCtIKHGyXBnkTkFBi
- ojfHaVpsyI1ZT8qMa6xscstvuGAH9ZXyMuwefB0eNb5yYxCx5+1QGkVVHothWDehgJ7g
- wmXfOLRWeQ5UC1tQIySEKxmfOGbCjWvul18vx7nm14gkNkuKFDdmWcsoaMse1TCvrLZ/
- ph5g==
-X-Gm-Message-State: AOAM532tKWjbdWBN9JfLuf5phUHk+915fX+twpibdibo7Lp5O2IdKTDt
- uT4GbYov3SqpOypeL8v2XPOV41Zu2m2OxQ==
-X-Google-Smtp-Source: ABdhPJzvupSetxjnrrx5i+N4s/+AQ4cCpFycK2bN4FH9f6BwqD1F5w7d4n1/OyozPXU7Iip2R0cLeQ==
-X-Received: by 2002:a17:90a:b111:: with SMTP id
- z17mr12243005pjq.57.1624689407771; 
- Fri, 25 Jun 2021 23:36:47 -0700 (PDT)
+ bh=48z68ulW8GGIpMYTx1SRl+BJDLbN2VvaGGeLWdHXQ9E=;
+ b=QdssOWUrMp2RuH/KkKX2dcehNYKhghuSiAy2j4FOFR1OZIFZE5/uYcgmSqWTlrP4uR
+ EbRC751VZrstKABxg5LDcDC26aNHOzAtljTO3o3AUYquezx01wTiUOewiVgIWmvjqD1i
+ +ihL3PeiDKRfef8hWJdqjOKgenjlG3FTFA3R5svqDErzWrn4dwXIct9KKksyltRLtd5A
+ OxVEvZUyVOWBHImyLv3rWS7w6UEes4T7OIQ+3ckZ/TP/PF6MPhk+Xbvniq6yC4MeZvw7
+ Ker/1Jt8KF2pJ4RCPx81dqRg2E+xtNfV8jMzoALt6uUnYmhzrO213y4jUf5Fe3ncgLrJ
+ Bxuw==
+X-Gm-Message-State: AOAM531pgJdzjTadxwJ3CXnq9+mgfjdGLReWWOmPRXxuol9vjRFUxsCQ
+ lNXUzxJYGONpIIzuTtJ9CRs/GqvKmMDOvw==
+X-Google-Smtp-Source: ABdhPJza+zHprM4AUArvm+gdRwuu5FB8adDN0gN+wgD7NxIkFfRdDIVDIVhGsxbvTs+jSnucW/R7XQ==
+X-Received: by 2002:a17:90b:2504:: with SMTP id
+ ns4mr12293945pjb.140.1624689408388; 
+ Fri, 25 Jun 2021 23:36:48 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id v9sm7724201pgq.54.2021.06.25.23.36.47
+ by smtp.gmail.com with ESMTPSA id v9sm7724201pgq.54.2021.06.25.23.36.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 23:36:47 -0700 (PDT)
+ Fri, 25 Jun 2021 23:36:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 25/29] target/sh4: Improve swap.b translation
-Date: Fri, 25 Jun 2021 23:36:27 -0700
-Message-Id: <20210626063631.2411938-26-richard.henderson@linaro.org>
+Subject: [PATCH v3 26/29] target/mips: Fix gen_mxu_s32ldd_s32lddr
+Date: Fri, 25 Jun 2021 23:36:28 -0700
+Message-Id: <20210626063631.2411938-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210626063631.2411938-1-richard.henderson@linaro.org>
 References: <20210626063631.2411938-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,32 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove TCG_BSWAP_IZ and the preceding zero-extension.
+There were two bugs here: (1) the required endianness was
+not present in the MemOp, and (2) we were not providing a
+zero-extended input to the bswap as semantics required.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The best fix is to fold the bswap into the memory operation,
+producing the desired result directly.
+
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sh4/translate.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/mips/tcg/mxu_translate.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 147219759b..4dcfff81f6 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -676,8 +676,7 @@ static void _decode_opc(DisasContext * ctx)
-     case 0x6008:		/* swap.b Rm,Rn */
- 	{
-             TCGv low = tcg_temp_new();
--	    tcg_gen_ext16u_i32(low, REG(B7_4));
--	    tcg_gen_bswap16_i32(low, low, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
-+            tcg_gen_bswap16_i32(low, REG(B7_4), 0);
-             tcg_gen_deposit_i32(REG(B11_8), REG(B7_4), low, 0, 16);
- 	    tcg_temp_free(low);
- 	}
+diff --git a/target/mips/tcg/mxu_translate.c b/target/mips/tcg/mxu_translate.c
+index c12cf78df7..f4356432c7 100644
+--- a/target/mips/tcg/mxu_translate.c
++++ b/target/mips/tcg/mxu_translate.c
+@@ -857,12 +857,8 @@ static void gen_mxu_s32ldd_s32lddr(DisasContext *ctx)
+         tcg_gen_ori_tl(t1, t1, 0xFFFFF000);
+     }
+     tcg_gen_add_tl(t1, t0, t1);
+-    tcg_gen_qemu_ld_tl(t1, t1, ctx->mem_idx, MO_SL);
++    tcg_gen_qemu_ld_tl(t1, t1, ctx->mem_idx, MO_TESL ^ (sel * MO_BSWAP));
+ 
+-    if (sel == 1) {
+-        /* S32LDDR */
+-        tcg_gen_bswap32_tl(t1, t1, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
+-    }
+     gen_store_mxu_gpr(t1, XRa);
+ 
+     tcg_temp_free(t0);
 -- 
 2.25.1
 
