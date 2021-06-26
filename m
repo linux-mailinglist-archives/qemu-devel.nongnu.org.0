@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83CF3B4FC1
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 19:25:24 +0200 (CEST)
-Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54BC3B4FC3
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 19:34:04 +0200 (CEST)
+Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxC3X-0006dE-Ps
-	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 13:25:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
+	id 1lxCBv-00006L-VI
+	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 13:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lxC2I-0005s6-CW
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 13:24:07 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33494)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lxCB6-0007ta-7X
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 13:33:12 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lxC2C-0002Mt-Nx
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 13:24:06 -0400
-Received: by mail-pl1-x631.google.com with SMTP id f10so6425248plg.0
- for <qemu-devel@nongnu.org>; Sat, 26 Jun 2021 10:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5mjOcfTJtfkjGI0ujAA0+Zj4+kGTeM0Q12KmHQKNS3w=;
- b=LhM1/GcorusOQRq907uoQ3xu5sYgW3SnTI3CmNCE6aIcQmJPOdtcVLo212JlB9qM5P
- jxXEuZLxEOUfYaNrxFPjSd72XILugEE4Pnd428gguf01vX9E4aIqkpibC0l5rKuQuq2V
- xX//uAwl8xP9HevTQTpjFJIjr26x/8GpcVkIc2nPBUh1TyIXPkujzNv9lFClFm/6MOm1
- s4NmuoW1ahK+Hy2FHQIZnVEpPVm56DifucoPzhZpMequBjbXdKcCmk2rBy63HTNiZKBi
- 8yeGoYfJh4dhBj14GANQMcykuruYpK78lxg0h08TiHOd/9SRQOzJ3qmz68pUs4ZB1DO0
- vs3g==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lxCB4-0008Qp-Jn
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 13:33:12 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ a5-20020a7bc1c50000b02901e3bbe0939bso7959195wmj.0
+ for <qemu-devel@nongnu.org>; Sat, 26 Jun 2021 10:33:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0jwvjw8YBM2cQBlFAoOU9mhnKuMuwLWZIh9NnEpT2Y0=;
+ b=AO9nUXNMFSNCG7sF+J4hwSFQtOigv6UFyDTtd/nYvNbMUvyUxmQqmQIvPIHaViWm1l
+ yABjsXX1D9F1DbLItiNaDe2ikCvGCBRD97jcv7YR9bSVj1aXVt8Cn2G5EoKZbwUNLzYA
+ uxukQxeEIgrqwj1iwtNaHKyFAKXOiaDkDxRJs+xgu0MEIBLiPjeHEUINyiCTktY/Im9J
+ P6Dvte2FqARH1E9JFeDlNYRvEt2J1K8OSGH+9rnqavbEUa/VOGSe5mSqtdMTMzoDY/zC
+ lDOQ+k7Cu0IWBVcwg9RUGh6j+4WyWWN/bxWyPGLx8ZJvWHyE+OjPTtApDBhes9fFIo53
+ 2cDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5mjOcfTJtfkjGI0ujAA0+Zj4+kGTeM0Q12KmHQKNS3w=;
- b=o13GaSW5NeAgy5Iwpxu+26f1ZBVv5u2M5uPQxPopzKkCfEu1FWuuPqS/MJE4NF8+Lo
- 5LCJ9vlEyxNBNtordZ73eaDchQzkmBbdqi3IlfnaKWxwHMMd5brUEfTMKgX4mMOQx4T0
- Zl1zGowUJ3enm1E+lN4IGGebIAbaGONmMuxh9zV3PIOH6zUJrb7gtwqrTLqGIkcoJF5p
- Ei1mXPkxiXGC6uX3ek+HAue5TPR36bg4alsGfCbH9hGPakMr9mlICziLIK/UicYKzX9A
- 61+/6WKf52WYwSuNC00HBMDLaG2AK5SW7ol8g8vEfMvrfVASolmVFt3CE0hemKAmsRlk
- vtdQ==
-X-Gm-Message-State: AOAM530eYhR2lUyqCxkYSNq49N/KUdzMtjaLfAUXk/Ya7MVUg+BUj+mT
- I9KEdzPesJlbdDkPlBYij4TxSjWi/DJdAVRD
-X-Google-Smtp-Source: ABdhPJyVLvnEqED3HA+Gza2CKJdqGRThocOTuw1GksUZsm5SAQHk21Y77gE8BpA5cxFS62DBFUZWhQ==
-X-Received: by 2002:a17:90a:db16:: with SMTP id
- g22mr17757980pjv.111.1624728238715; 
- Sat, 26 Jun 2021 10:23:58 -0700 (PDT)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com.
- [209.85.216.42])
- by smtp.gmail.com with ESMTPSA id x190sm9663058pfx.198.2021.06.26.10.23.57
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0jwvjw8YBM2cQBlFAoOU9mhnKuMuwLWZIh9NnEpT2Y0=;
+ b=tgNdjYmXZbfz8sjRP9jYI2KYHwC5pDsTtcuaB6dM3NMI+ciaxwTZ0sCrYD/GVwdfD3
+ iTPG7T5Tk8Efxmex79Sl78BuoHIKpPnseu7Lr7hsS1UU2QK0LxLP83rS8h21W0O70tsU
+ K+QJ+MxZbB0vax73pWKeTCSS535uQfuuFQMN+38zXLa92bHvImNlAXKV5FNRRt23EsEa
+ cHiEwOF1/tP0r1KBPPbRxp6dnO3vSa0yZRVFrZ8SEocsC3xh2ZLMy6CwCtTzHtIz2vcn
+ 4bXUCZq9HVK6Wsx4XpWd3FoAVLy6RCzxeZH8Myz0G5A9FlAAMgwYa1nTwT7Ry8I2A2UG
+ QA0w==
+X-Gm-Message-State: AOAM530diZ399UTI1mqj5Oe2MRaJ1C9ZOWKVUILSWVwOUQj3BpTZi7Of
+ 8jzZxVN2QKkLZ5Jvr+OlHbc=
+X-Google-Smtp-Source: ABdhPJwbtNChoc7W7wQ1QLlqnqHaAJ9yT6NO3/CwUDuNCKpBNberXv6yi5B/TdGDwhZH8OP0k+PySg==
+X-Received: by 2002:a7b:ce82:: with SMTP id q2mr17383412wmj.60.1624728788790; 
+ Sat, 26 Jun 2021 10:33:08 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id m11sm3629591wrx.80.2021.06.26.10.33.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Jun 2021 10:23:58 -0700 (PDT)
-Received: by mail-pj1-f42.google.com with SMTP id
- bv12-20020a17090af18cb029016fb18e04cfso1923986pjb.0; 
- Sat, 26 Jun 2021 10:23:57 -0700 (PDT)
-X-Received: by 2002:a17:902:728e:b029:101:c3b7:a47f with SMTP id
- d14-20020a170902728eb0290101c3b7a47fmr14472844pll.21.1624728237385; Sat, 26
- Jun 2021 10:23:57 -0700 (PDT)
+ Sat, 26 Jun 2021 10:33:07 -0700 (PDT)
+Subject: Re: [PATCH v3] Add basic power management to raspi.
+To: Nolan Leake <nolan@sigbus.net>, qemu-devel@nongnu.org
+References: <20210625210209.1870217-1-nolan@sigbus.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <998200ac-3fff-7a28-2c33-648d63679658@amsat.org>
+Date: Sat, 26 Jun 2021 19:33:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <20210409074857.166082-3-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210409074857.166082-3-zhiwei_liu@c-sky.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sun, 27 Jun 2021 01:23:46 +0800
-X-Gmail-Original-Message-ID: <CANzO1D0kMsGwXWMHZrSQQdX3yDAScE6_psJPK+854TvWx4tW=A@mail.gmail.com>
-Message-ID: <CANzO1D0kMsGwXWMHZrSQQdX3yDAScE6_psJPK+854TvWx4tW=A@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/11] target/riscv: Update CSR xintthresh in CLIC mode
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: multipart/alternative; boundary="000000000000722bad05c5ae85f0"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+In-Reply-To: <20210625210209.1870217-1-nolan@sigbus.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,298 +89,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000722bad05c5ae85f0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-LIU Zhiwei <zhiwei_liu@c-sky.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=889=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=EF=BC=9A
-
-> The interrupt-level threshold (xintthresh) CSR holds an 8-bit field
-> for the threshold level of the associated privilege mode.
->
-> For horizontal interrupts, only the ones with higher interrupt levels
-> than the threshold level are allowed to preempt.
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->
-
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-
-
+On 6/25/21 11:02 PM, Nolan Leake wrote:
+> This is just enough to make reboot and poweroff work. Works for
+> linux, u-boot, and the arm trusted firmware. Not tested, but should
+> work for plan9, and bare-metal/hobby OSes, since they seem to generally
+> do what linux does for reset.
+> 
+> The watchdog timer functionality is not yet implemented.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/64
+> Signed-off-by: Nolan Leake <nolan@sigbus.net>
 > ---
->  target/riscv/cpu.h      |  2 ++
->  target/riscv/cpu_bits.h |  2 ++
->  target/riscv/csr.c      | 28 ++++++++++++++++++++++++++++
->  3 files changed, 32 insertions(+)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 1a44ca62c7..a5eab26a69 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -160,6 +160,7 @@ struct CPURISCVState {
->
->      uint32_t miclaim;
->      uint32_t mintstatus; /* clic-spec */
-> +    target_ulong mintthresh; /* clic-spec */
->
->      target_ulong mie;
->      target_ulong mideleg;
-> @@ -173,6 +174,7 @@ struct CPURISCVState {
->      target_ulong stvec;
->      target_ulong sepc;
->      target_ulong scause;
-> +    target_ulong sintthresh; /* clic-spec */
->
->      target_ulong mtvec;
->      target_ulong mepc;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index c4ce6ec3d9..9447801d22 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -166,6 +166,7 @@
->  #define CSR_MTVAL           0x343
->  #define CSR_MIP             0x344
->  #define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
-> +#define CSR_MINTTHRESH      0x347 /* clic-spec-draft */
->
->  /* Legacy Machine Trap Handling (priv v1.9.1) */
->  #define CSR_MBADADDR        0x343
-> @@ -185,6 +186,7 @@
->  #define CSR_STVAL           0x143
->  #define CSR_SIP             0x144
->  #define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
-> +#define CSR_SINTTHRESH      0x147 /* clic-spec-draft */
->
->  /* Legacy Supervisor Trap Handling (priv v1.9.1) */
->  #define CSR_SBADADDR        0x143
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 320b18ab60..4c31364967 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -746,6 +746,18 @@ static int read_mintstatus(CPURISCVState *env, int
-> csrno, target_ulong *val)
->      return 0;
->  }
->
-> +static int read_mintthresh(CPURISCVState *env, int csrno, target_ulong
-> *val)
-> +{
-> +    *val =3D env->mintthresh;
-> +    return 0;
-> +}
-> +
-> +static int write_mintthresh(CPURISCVState *env, int csrno, target_ulong
-> val)
-> +{
-> +    env->mintthresh =3D val;
-> +    return 0;
-> +}
-> +
->  /* Supervisor Trap Setup */
->  static int read_sstatus(CPURISCVState *env, int csrno, target_ulong *val=
-)
->  {
-> @@ -912,6 +924,18 @@ static int read_sintstatus(CPURISCVState *env, int
-> csrno, target_ulong *val)
->      return 0;
->  }
->
-> +static int read_sintthresh(CPURISCVState *env, int csrno, target_ulong
-> *val)
-> +{
-> +    *val =3D env->sintthresh;
-> +    return 0;
-> +}
-> +
-> +static int write_sintthresh(CPURISCVState *env, int csrno, target_ulong
-> val)
-> +{
-> +    env->sintthresh =3D val;
-> +    return 0;
-> +}
-> +
->  /* Supervisor Protection and Translation */
->  static int read_satp(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> @@ -1666,9 +1690,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
->
->      /* Machine Mode Core Level Interrupt Controller */
->      [CSR_MINTSTATUS] =3D { "mintstatus", clic,  read_mintstatus },
-> +    [CSR_MINTTHRESH] =3D { "mintthresh", clic,  read_mintthresh,
-> +                         write_mintthresh },
->
->      /* Supervisor Mode Core Level Interrupt Controller */
->      [CSR_SINTSTATUS] =3D { "sintstatus", clic,  read_sintstatus },
-> +    [CSR_SINTTHRESH] =3D { "sintthresh", clic,  read_sintthresh,
-> +                         write_sintthresh },
->
->  #endif /* !CONFIG_USER_ONLY */
->  };
-> --
-> 2.25.1
->
->
->
+>  hw/arm/bcm2835_peripherals.c         |  13 ++-
+>  hw/misc/bcm2835_powermgt.c           | 160 +++++++++++++++++++++++++++
+>  hw/misc/meson.build                  |   1 +
+>  include/hw/arm/bcm2835_peripherals.h |   3 +-
+>  include/hw/misc/bcm2835_powermgt.h   |  29 +++++
+>  5 files changed, 204 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/misc/bcm2835_powermgt.c
+>  create mode 100644 include/hw/misc/bcm2835_powermgt.h
 
---000000000000722bad05c5ae85f0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>      create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
+>      create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+> -    create_unimp(s, &s->powermgt, "bcm2835-powermgt", PM_OFFSET, 0x114);
+>      create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
+>      create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
+>      create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
+...
 
-<div dir=3D"ltr"><div dir=3D"ltr">LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_l=
-iu@c-sky.com">zhiwei_liu@c-sky.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=
-=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">The interrupt-level threshold (xintthresh) CSR holds a=
-n 8-bit field<br>
-for the threshold level of the associated privilege mode.<br>
-<br>
-For horizontal interrupts, only the ones with higher interrupt levels<br>
-than the threshold level are allowed to preempt.<br>
-<br>
-Signed-off-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@c-sky.com" targe=
-t=3D"_blank">zhiwei_liu@c-sky.com</a>&gt;<br></blockquote><div><br></div><d=
-iv>Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com">f=
-rank.chang@sifive.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
----<br>
-=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-=C2=A0target/riscv/cpu_bits.h |=C2=A0 2 ++<br>
-=C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 | 28 +++++++++++++++++++++++++=
-+++<br>
-=C2=A03 files changed, 32 insertions(+)<br>
-<br>
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
-index 1a44ca62c7..a5eab26a69 100644<br>
---- a/target/riscv/cpu.h<br>
-+++ b/target/riscv/cpu.h<br>
-@@ -160,6 +160,7 @@ struct CPURISCVState {<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t miclaim;<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t mintstatus; /* clic-spec */<br>
-+=C2=A0 =C2=A0 target_ulong mintthresh; /* clic-spec */<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong mie;<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong mideleg;<br>
-@@ -173,6 +174,7 @@ struct CPURISCVState {<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong stvec;<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong sepc;<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong scause;<br>
-+=C2=A0 =C2=A0 target_ulong sintthresh; /* clic-spec */<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong mtvec;<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong mepc;<br>
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
-index c4ce6ec3d9..9447801d22 100644<br>
---- a/target/riscv/cpu_bits.h<br>
-+++ b/target/riscv/cpu_bits.h<br>
-@@ -166,6 +166,7 @@<br>
-=C2=A0#define CSR_MTVAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x343<br>
-=C2=A0#define CSR_MIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x344<=
-br>
-=C2=A0#define CSR_MINTSTATUS=C2=A0 =C2=A0 =C2=A0 0x346 /* clic-spec-draft *=
-/<br>
-+#define CSR_MINTTHRESH=C2=A0 =C2=A0 =C2=A0 0x347 /* clic-spec-draft */<br>
-<br>
-=C2=A0/* Legacy Machine Trap Handling (priv v1.9.1) */<br>
-=C2=A0#define CSR_MBADADDR=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x343<br>
-@@ -185,6 +186,7 @@<br>
-=C2=A0#define CSR_STVAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x143<br>
-=C2=A0#define CSR_SIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x144<=
-br>
-=C2=A0#define CSR_SINTSTATUS=C2=A0 =C2=A0 =C2=A0 0x146 /* clic-spec-draft *=
-/<br>
-+#define CSR_SINTTHRESH=C2=A0 =C2=A0 =C2=A0 0x147 /* clic-spec-draft */<br>
-<br>
-=C2=A0/* Legacy Supervisor Trap Handling (priv v1.9.1) */<br>
-=C2=A0#define CSR_SBADADDR=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x143<br>
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-index 320b18ab60..4c31364967 100644<br>
---- a/target/riscv/csr.c<br>
-+++ b/target/riscv/csr.c<br>
-@@ -746,6 +746,18 @@ static int read_mintstatus(CPURISCVState *env, int csr=
-no, target_ulong *val)<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-+static int read_mintthresh(CPURISCVState *env, int csrno, target_ulong *va=
-l)<br>
-+{<br>
-+=C2=A0 =C2=A0 *val =3D env-&gt;mintthresh;<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-+static int write_mintthresh(CPURISCVState *env, int csrno, target_ulong va=
-l)<br>
-+{<br>
-+=C2=A0 =C2=A0 env-&gt;mintthresh =3D val;<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-=C2=A0/* Supervisor Trap Setup */<br>
-=C2=A0static int read_sstatus(CPURISCVState *env, int csrno, target_ulong *=
-val)<br>
-=C2=A0{<br>
-@@ -912,6 +924,18 @@ static int read_sintstatus(CPURISCVState *env, int csr=
-no, target_ulong *val)<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-+static int read_sintthresh(CPURISCVState *env, int csrno, target_ulong *va=
-l)<br>
-+{<br>
-+=C2=A0 =C2=A0 *val =3D env-&gt;sintthresh;<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-+static int write_sintthresh(CPURISCVState *env, int csrno, target_ulong va=
-l)<br>
-+{<br>
-+=C2=A0 =C2=A0 env-&gt;sintthresh =3D val;<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-=C2=A0/* Supervisor Protection and Translation */<br>
-=C2=A0static int read_satp(CPURISCVState *env, int csrno, target_ulong *val=
-)<br>
-=C2=A0{<br>
-@@ -1666,9 +1690,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<b=
-r>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Machine Mode Core Level Interrupt Controller */<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MINTSTATUS] =3D { &quot;mintstatus&quot;, clic,=C2=
-=A0 read_mintstatus },<br>
-+=C2=A0 =C2=A0 [CSR_MINTTHRESH] =3D { &quot;mintthresh&quot;, clic,=C2=A0 r=
-ead_mintthresh,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0write_mintthresh },<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Supervisor Mode Core Level Interrupt Controller */<b=
-r>
-=C2=A0 =C2=A0 =C2=A0[CSR_SINTSTATUS] =3D { &quot;sintstatus&quot;, clic,=C2=
-=A0 read_sintstatus },<br>
-+=C2=A0 =C2=A0 [CSR_SINTTHRESH] =3D { &quot;sintthresh&quot;, clic,=C2=A0 r=
-ead_sintthresh,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0write_sintthresh },<br>
-<br>
-=C2=A0#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0};<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div></div>
+> +static void bcm2835_powermgt_init(Object *obj)
+> +{
+> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(obj);
+> +
+> +    memory_region_init_io(&s->iomem, obj, &bcm2835_powermgt_ops, s,
+> +                          TYPE_BCM2835_POWERMGT, 0x114);
 
---000000000000722bad05c5ae85f0--
+In case Peter asks you to resend your patch because can't apply it,
+please use a region size of 0x200 here.
+
+Alternatively you can increase the odds to get your patch merged by
+resending it properly (I'm still not sure what broke it) before Peter
+review the ARM patches next week.
 
