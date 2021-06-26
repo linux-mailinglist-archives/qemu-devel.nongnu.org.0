@@ -2,57 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029DE3B4CD5
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 07:26:11 +0200 (CEST)
-Received: from localhost ([::1]:46822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025CE3B4CDB
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 07:38:15 +0200 (CEST)
+Received: from localhost ([::1]:49862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lx0pW-0008I4-PR
-	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 01:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46656)
+	id 1lx11C-0002LY-R8
+	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 01:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lx0oT-0007XT-Gl
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:25:05 -0400
-Resent-Date: Sat, 26 Jun 2021 01:25:05 -0400
-Resent-Message-Id: <E1lx0oT-0007XT-Gl@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lx0oQ-00006N-CJ
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:25:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624685092; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KGj3npP6Ac3nq53INZDee8iaGFDuXozge9KpfQyqFrzp8GmvZCwBJNpuUxfT3cMugnP/OUxX7UOzNrZknRNyRGOijePHCAk1KRzf97ey6KndHtJKpS2UK40M1ZevCHvAESr7OPUaeK7EcVHawYcmq9rtnAsdZsNAbV1+OV3IvOw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1624685092;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=t4PKaJU5bjtIH/h4NIcN7oDG7Jhwhuurw7+MyFpFxYk=; 
- b=HTY5KH/RK5u6Cik1TDGxqVkNej9KUaNL4w7PEVW2tnHVRv5X1mk0DC7S/8LGtDpDuXvH4oATyiBOPrhrpwZnQpI+eqNBT4SorFK/x3SLRTH66hEOtJYyyjJ0+nxSVvHIh+L98p4IId6jdIVwf4lk9nmfmsHhZgfj9wcAPOppyNY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1624685090364988.980885280434;
- Fri, 25 Jun 2021 22:24:50 -0700 (PDT)
-In-Reply-To: <20210626050307.2408505-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 00/16] tcg/s390x: host vector support
-Message-ID: <162468508926.31895.17188086203284551246@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lx109-0001hJ-JF
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:37:09 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lx107-00026T-LV
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 01:37:09 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id bb20so6635376pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 22:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iSE1ed2OESlQb3uo/rTQvXM9eQQ8B9hepKy+qd4nfYo=;
+ b=hC6s9Mm7mBP3a+Rcck8Omi2ARx02VSzW0nxH+5UO04CTVdYNzH/Vg8rQzf/8FsbvFn
+ CO7CyW046hxZx4d2HfZXUjQXSyozthvl550R84DcavHYJ/Avn3wJsxnSzyVnUKSfvu88
+ mOhPmE01WuyDcdvqPNkZmIuFSiGd2TKbbTUpZq8RJAAqFBBBvIXCOaeuO9p6TjTHA2ED
+ ng/7TVJUbCmEmr+8kXaenHogeItgBZslHb2yaekn5yz0cPmSbxUa6s/JJBxx+h1kDku4
+ WmdUBPMTsUvPkCCSUeVlQQhCHyEekuHvSbKNDrBYowv9j1vKLYVmZg3CNvJzZ6RdJiVs
+ +Z4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iSE1ed2OESlQb3uo/rTQvXM9eQQ8B9hepKy+qd4nfYo=;
+ b=e1yS2CdlKbIcwiiOLHu9XZQ66L/YFczu/weInjV3MtlU/yv3GZF4nVYZHhmabnSfV3
+ V4/IBNfE8kLtZUZbdB/ohV4edyJqwIDSpY9jJyPxv5GjGAKVLusJ79kkttbT+DBBorHI
+ Eh6HNy4ncO1z4wLnB/3dFnWgrxivRDR7WL2GyjfldAXeCa/4hvElRGgMLSI4E6HQqvyB
+ QfHB1ayGE0T1u3hycckCP4QZCjJ4cUp2wHsoTmp0yxfXBtcsB0RpMo2YnpOS6tMPV+mF
+ dGEL5FdEIYAk0a0hyPXuDBu+b7yy+I2no6RP4hT1M1SUjfUEb7vpU5Vg7b2J7NvqZfQO
+ MMhQ==
+X-Gm-Message-State: AOAM531rclvbh7f1GvRTPm43pWBqSh6QzSefmu7OTtEU3ZVVGQ3F0iIV
+ HIdKseQ4q+rvz+cUs/ZPdw5NrA==
+X-Google-Smtp-Source: ABdhPJyrDCHUgQVCYkNg0KoPgFwSkaFvOf7lq3g/YVpF/vx+RCOzN5YCuDWLXMAWgplzx3ydndYS/A==
+X-Received: by 2002:a17:902:e845:b029:128:b23b:426f with SMTP id
+ t5-20020a170902e845b0290128b23b426fmr2059570plg.61.1624685825455; 
+ Fri, 25 Jun 2021 22:37:05 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id u7sm7138872pjd.55.2021.06.25.22.37.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Jun 2021 22:37:05 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] tcg: Use correct trap number for page faults on
+ *BSD systems
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210625045707.84534-1-imp@bsdimp.com>
+ <20210625045707.84534-3-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <19adeef6-83be-78cb-402d-3b79e740bd26@linaro.org>
+Date: Fri, 25 Jun 2021 22:37:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Fri, 25 Jun 2021 22:24:50 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210625045707.84534-3-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,89 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: pbonzini@redhat.com, riku.voipio@iki.fi, Juergen Lock <nox@FreeBSD.org>,
+ Mark Johnston <markj@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyNjA1MDMwNy4yNDA4
-NTA1LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjI2
-MDUwMzA3LjI0MDg1MDUtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
-QVRDSCB2NCAwMC8xNl0gdGNnL3MzOTB4OiBob3N0IHZlY3RvciBzdXBwb3J0Cgo9PT0gVEVTVCBT
-Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVs
-bCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxn
-b3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2Uu
-Lgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRk
-MWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2pl
-Y3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzE2MjQ2NjIxNzQtMTc1ODI4LTEt
-Z2l0LXNlbmQtZW1haWwtam9lLmtvbWxvZGlAeGlsaW54LmNvbSAtPiBwYXRjaGV3LzE2MjQ2NjIx
-NzQtMTc1ODI4LTEtZ2l0LXNlbmQtZW1haWwtam9lLmtvbWxvZGlAeGlsaW54LmNvbQogKiBbbmV3
-IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjI2MDUwMzA3LjI0MDg1MDUtMS1yaWNoYXJkLmhl
-bmRlcnNvbkBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA2MjYwNTAzMDcuMjQwODUwNS0xLXJp
-Y2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0
-Jwo0NTBmMzY5IHRjZy9zMzkweDogSW1wbGVtZW50IFRDR19UQVJHRVRfSEFTX2NtcHNlbF92ZWMK
-OGUyMWM2ZCB0Y2cvczM5MHg6IEltcGxlbWVudCBUQ0dfVEFSR0VUX0hBU19iaXRzZWxfdmVjCjA4
-ZWU5ZWEgdGNnL3MzOTB4OiBJbXBsZW1lbnQgVENHX1RBUkdFVF9IQVNfc2F0X3ZlYwpkODk2NWY1
-IHRjZzogRXhwYW5kIHVzYWRkL3Vzc3ViIHdpdGggdW1pbi91bWF4CmMwZTY4MmUgdGNnL3MzOTB4
-OiBJbXBsZW1lbnQgVENHX1RBUkdFVF9IQVNfbWlubWF4X3ZlYwowZGE3MmRhIHRjZy9zMzkweDog
-SW1wbGVtZW50IHZlY3RvciBzaGlmdCBvcGVyYXRpb25zCjc0Y2FiYmEgdGNnL3MzOTB4OiBJbXBs
-ZW1lbnQgVENHX1RBUkdFVF9IQVNfbXVsX3ZlYwo2ODAyNTYzIHRjZy9zMzkweDogSW1wbGVtZW50
-IGFuZGMsIG9yYywgYWJzLCBuZWcsIG5vdCB2ZWN0b3Igb3BlcmF0aW9ucwoyZTZhMWQxIHRjZy9z
-MzkweDogSW1wbGVtZW50IG1pbmltYWwgdmVjdG9yIG9wZXJhdGlvbnMKNzlkOTE1OSB0Y2cvczM5
-MHg6IEltcGxlbWVudCB0Y2dfb3V0X2R1cCpfdmVjCmJlYTcwMmIgdGNnL3MzOTB4OiBJbXBsZW1l
-bnQgdGNnX291dF9tb3YgZm9yIHZlY3RvciB0eXBlcwowZjMzOTFhIHRjZy9zMzkweDogSW1wbGVt
-ZW50IHRjZ19vdXRfbGQvc3QgZm9yIHZlY3RvciB0eXBlcwpmNDJkODM1IHRjZy9zMzkweDogQWRk
-IGhvc3QgdmVjdG9yIGZyYW1ld29yawo5MTc3ZWQ0IHRjZy9zMzkweDogTWVyZ2UgVENHX0FSRUcw
-IGFuZCBUQ0dfUkVHX0NBTExfU1RBQ0sgaW50byBUQ0dSZWcKMmE0ZjYyYSB0Y2cvczM5MHg6IENo
-YW5nZSBGQUNJTElUWSByZXByZXNlbnRhdGlvbgphNjU4YmYxIHRjZy9zMzkweDogUmVuYW1lIGZy
-b20gdGNnL3MzOTAKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTYgQ2hlY2tpbmcgY29tbWl0IGE2
-NThiZjFlODMwZSAodGNnL3MzOTB4OiBSZW5hbWUgZnJvbSB0Y2cvczM5MCkKV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojMTQ6IAogdGNnL3tzMzkwID0+IHMzOTB4fS90Y2ctdGFyZ2V0LWNvbi1zZXQuaCB8IDAK
-CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgOCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzE2
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIvMTYgQ2hlY2tpbmcgY29tbWl0IDJhNGY2MmE1
-MGY4YiAodGNnL3MzOTB4OiBDaGFuZ2UgRkFDSUxJVFkgcmVwcmVzZW50YXRpb24pCjMvMTYgQ2hl
-Y2tpbmcgY29tbWl0IDkxNzdlZDQ3ZTI5OSAodGNnL3MzOTB4OiBNZXJnZSBUQ0dfQVJFRzAgYW5k
-IFRDR19SRUdfQ0FMTF9TVEFDSyBpbnRvIFRDR1JlZykKNC8xNiBDaGVja2luZyBjb21taXQgZjQy
-ZDgzNTk3MTllICh0Y2cvczM5MHg6IEFkZCBob3N0IHZlY3RvciBmcmFtZXdvcmspCldBUk5JTkc6
-IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
-cGRhdGluZz8KIzMzMjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEg
-d2FybmluZ3MsIDI5MCBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzE2IGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCjUvMTYgQ2hlY2tpbmcgY29tbWl0IDBmMzM5MWFhYTJjZCAodGNnL3MzOTB4OiBJ
-bXBsZW1lbnQgdGNnX291dF9sZC9zdCBmb3IgdmVjdG9yIHR5cGVzKQo2LzE2IENoZWNraW5nIGNv
-bW1pdCBiZWE3MDJiNTA3M2QgKHRjZy9zMzkweDogSW1wbGVtZW50IHRjZ19vdXRfbW92IGZvciB2
-ZWN0b3IgdHlwZXMpCjcvMTYgQ2hlY2tpbmcgY29tbWl0IDc5ZDkxNTk5ZWM5ZCAodGNnL3MzOTB4
-OiBJbXBsZW1lbnQgdGNnX291dF9kdXAqX3ZlYykKOC8xNiBDaGVja2luZyBjb21taXQgMmU2YTFk
-MWNhYmIwICh0Y2cvczM5MHg6IEltcGxlbWVudCBtaW5pbWFsIHZlY3RvciBvcGVyYXRpb25zKQo5
-LzE2IENoZWNraW5nIGNvbW1pdCA2ODAyNTYzZTMwNDcgKHRjZy9zMzkweDogSW1wbGVtZW50IGFu
-ZGMsIG9yYywgYWJzLCBuZWcsIG5vdCB2ZWN0b3Igb3BlcmF0aW9ucykKMTAvMTYgQ2hlY2tpbmcg
-Y29tbWl0IDc0Y2FiYmExMzY0NyAodGNnL3MzOTB4OiBJbXBsZW1lbnQgVENHX1RBUkdFVF9IQVNf
-bXVsX3ZlYykKMTEvMTYgQ2hlY2tpbmcgY29tbWl0IDBkYTcyZGExODliYyAodGNnL3MzOTB4OiBJ
-bXBsZW1lbnQgdmVjdG9yIHNoaWZ0IG9wZXJhdGlvbnMpCjEyLzE2IENoZWNraW5nIGNvbW1pdCBj
-MGU2ODJlMmYyMDkgKHRjZy9zMzkweDogSW1wbGVtZW50IFRDR19UQVJHRVRfSEFTX21pbm1heF92
-ZWMpCjEzLzE2IENoZWNraW5nIGNvbW1pdCBkODk2NWY1NjJmNWMgKHRjZzogRXhwYW5kIHVzYWRk
-L3Vzc3ViIHdpdGggdW1pbi91bWF4KQoxNC8xNiBDaGVja2luZyBjb21taXQgMDhlZTllYWNjMWU4
-ICh0Y2cvczM5MHg6IEltcGxlbWVudCBUQ0dfVEFSR0VUX0hBU19zYXRfdmVjKQpFUlJPUjogc3Bh
-Y2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMg
-JygnCiM3NTogRklMRTogdGNnL3MzOTB4L3RjZy10YXJnZXQuYy5pbmM6Mjg5MjoKKyAgICB0Y2df
-ZGVidWdfYXNzZXJ0ICh2ZWNlIDwgTU9fNjQpOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdz
-LCAxMTIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTQvMTYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KCjE1LzE2IENoZWNraW5nIGNvbW1pdCA4ZTIxYzZkY2NhNzQgKHRjZy9zMzkweDogSW1wbGVt
-ZW50IFRDR19UQVJHRVRfSEFTX2JpdHNlbF92ZWMpCjE2LzE2IENoZWNraW5nIGNvbW1pdCA0NTBm
-MzY5YTM2ZjIgKHRjZy9zMzkweDogSW1wbGVtZW50IFRDR19UQVJHRVRfSEFTX2NtcHNlbF92ZWMp
-Cj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpU
-aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEw
-NjI2MDUwMzA3LjI0MDg1MDUtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3Rpbmcu
-Y2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
-bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
-ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 6/24/21 9:57 PM, Warner Losh wrote:
+> The trap number for a page fault on BSD systems is T_PAGEFLT not 0xe. 0xe is
+> used by Linux and represents the intel hardware trap vector. The BSD kernels,
+> however, translate this to T_PAGEFLT in their Xpage, Xtrap0e, Xtrap14, etc fault
+> handlers. This is true for i386 and x86_64, though the name of the trap hanlder
+> can very on the flavor of BSD. As far as I can tell, Linux doesn't provide a
+> define for this value. Invent a new one (PAGE_FAULT_TRAP) and use it instead to
+> avoid uglier ifdefs.
+> 
+> Signed-off-by: Mark Johnston<markj@FreeBSD.org>
+> Signed-off-by: Juergen Lock<nox@FreeBSD.org>
+> [ Rework to avoid ifdefs and expand it to i386 ]
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> ---
+>   accel/tcg/user-exec.c | 20 ++++++++++++++++++--
+>   1 file changed, 18 insertions(+), 2 deletions(-)
+
+Thanks, queued to tcg-next.
+
+
+r~
 
