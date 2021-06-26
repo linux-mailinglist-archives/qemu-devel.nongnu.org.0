@@ -2,43 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B660C3B4B6F
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 02:06:54 +0200 (CEST)
-Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4584F3B4BCC
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 03:21:35 +0200 (CEST)
+Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwvqX-0000dC-92
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 20:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50600)
+	id 1lwx0n-0005Zv-W8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 21:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
- id 1lwvpR-0008JP-HJ
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 20:05:45 -0400
-Received: from static-71-162-116-19.bstnma.fios.verizon.net
- ([71.162.116.19]:37462 helo=server4.localdomain)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chris@server4.localdomain>) id 1lwvpO-0007u3-RU
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 20:05:45 -0400
-Received: by server4.localdomain (Postfix, from userid 503)
- id 4D9EE6031112B; Fri, 25 Jun 2021 20:05:42 -0400 (EDT)
-From: Chris Browy <cbrowy@avery-design.com>
-To: mst@redhat.com
-Subject: [PATCH v1 QEMU CXL modifications for openspdm 1/1] pcie/spdm: PCIe
- CMA implementation
-Date: Fri, 25 Jun 2021 20:05:39 -0400
-Message-Id: <1624665939-5740-1-git-send-email-cbrowy@avery-design.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1624665723-5169-1-git-send-email-cbrowy@avery-design.com>
-References: <1624665723-5169-1-git-send-email-cbrowy@avery-design.com>
-Received-SPF: none client-ip=71.162.116.19;
- envelope-from=chris@server4.localdomain; helo=server4.localdomain
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, KHOP_HELO_FCRDNS=0.399,
- NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lwwzC-0004k5-7T
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 21:19:54 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:45959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lwwzA-0006A3-Pg
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 21:19:53 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ z3-20020a17090a3983b029016bc232e40bso6541055pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 18:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=bfyx0/4gwhaYN1i8ELC4unM5BIWU8dI+bPxqAlBdkUY=;
+ b=iRqKyZe9kEXkzPjMui0W8dL1G9ZXlVUHBFKbIAHYsR3O1TOO1gJC5AJvwyhrBrJ1dQ
+ K2oHDAaUjLDj41SQRikLHfCUaRbgMtBKXrx18J4x4Df9/rpABNuEwp4KexIFU8QRUEDO
+ 0WldCHnS9ENuLh3Y2CUTcEpwuIqHIcLvQMUyEwAiOeY1bs6PvAm5VIyDSDDn8CyfK06x
+ mHXVpU7G0k/QuuejMHXxyzcF9iGurB5DiBPLeXKjTxYeQF84I3pg6IltH1eAKBmO8ZsZ
+ PgHFXupdziOqp/yTCA74sfSZMFq526KpIxwML+unUV1xIXvt3f/irfHHQ5y5YTGOIgXU
+ tOKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bfyx0/4gwhaYN1i8ELC4unM5BIWU8dI+bPxqAlBdkUY=;
+ b=prwGkM9yCnXx9mcHRbIsdd4bqi29dKxPHFR7xjYXuyZ7BjmrzGyyYw2xeRP44yxfcK
+ tlM+8bFH0DkS9DIU7QQlY8tc57gvigDMDU/NwNi+qWALC300RL3bs8bEzbXwQTTz6ByS
+ 74njaluP7cFQJAelPkK4Hx9GOiuPdK82pII7ulL6uI22vR11gQVCEZbsRTi3TmhIGVOk
+ 2O8ES2v8w6kqkosOtS0xAPV05RugVCPE4Y7/vDVrLDTW9cHoEDBRtIdma9fsXhpdbpna
+ nnBG2wIzHLIfFiaR7dz0ngtIEkKvpUNFTLfEq8igDvEU5f+XLjpQlckq/vQgeB5humgp
+ 6CJQ==
+X-Gm-Message-State: AOAM533TGJIOw74B/zZKLJDCP22OFLEZgNytH1lAwzz1fTOEL+OxiGGE
+ X/Q5zcBzPmLuXAnOp/HwROXlUjxH5wp2Yw==
+X-Google-Smtp-Source: ABdhPJzggif2vsvor4mgnCtG+SAlbn1HXHIiug70hw8VFY2pMc9Ym2lOCr4Qnu9ty3jlLu+bARUPNQ==
+X-Received: by 2002:a17:90b:1295:: with SMTP id
+ fw21mr13977969pjb.147.1624670390331; 
+ Fri, 25 Jun 2021 18:19:50 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id z6sm6559026pgs.24.2021.06.25.18.19.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Jun 2021 18:19:49 -0700 (PDT)
+Subject: Re: [PATCH] target/s390x: Fix CC set by CONVERT TO FIXED/LOGICAL
+To: Ulrich Weigand <ulrich.weigand@de.ibm.com>, david@redhat.com,
+ cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210623145020.GA30585@oc3748833570.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b24537e5-07f9-8a43-5820-ecc82ee84bdb@linaro.org>
+Date: Fri, 25 Jun 2021 18:19:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210623145020.GA30585@oc3748833570.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,542 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
- vishal.l.verma@intel.com, jgroves@micron.com,
- Chris Browy <cbrowy@avery-design.com>, armbru@redhat.com,
- linux-cxl@vger.kernel.org, f4bug@amsat.org, hchkuo@avery-design.com.tw,
- tyshao@avery-design.com.tw, jonathan.cameron@huawei.com, imammedo@redhat.com,
- dan.j.williams@intel.com, ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: hchkuo <hchkuo@avery-design.com.tw>
+On 6/23/21 7:50 AM, Ulrich Weigand wrote:
+> @@ -506,6 +534,7 @@ uint64_t HELPER(cgeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
+>   {
+>       int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
+>       int64_t ret = float32_to_int64(v2, &env->fpu_status);
+> +    env->cc_op = set_cc_conv_f32(v2, &env->fpu_status);
+...
 
-The Data Object Exchange implementation of Component Measurement
-and Authentication (CMA). This patch is basically based on Openspdm:
-https://github.com/jyao1/openspdm.git.
+> @@ -1875,7 +1860,7 @@ static DisasJumpType op_cgeb(DisasContext *s, DisasOps *o)
+>      }
+>      gen_helper_cgeb(o->out, cpu_env, o->in2, m34);
+>      tcg_temp_free_i32(m34);
+> -    gen_set_cc_nz_f32(s, o->in2);
+> +    set_cc_static(s);
+>      return DISAS_NEXT;
 
-Openspdm is an emulator composed of an SPDM requester and an SPDM
-responder. The requester and responder communicate with each other via
-a TCP socket. The Openspdm requester is merged to this patch as a DOE
-capability in hw/mem/cxl_type3.c. The "-spdm=<bool>" is provided to turn
-on/off the CMA capability. Once the option is turned on (-spdm=true) the 
-CXL device can communicate with Openspdm's responder to get the data 
-object of SPDM/secured SPDM.
+...
 
-Signed-off-by: hchkuo <hchkuo@avery-design.com.tw>
-Signed-off-by: Chris Browy <cbrowy@avery-design.com>
----
- hw/mem/cxl_type3.c              |  31 +++-
- hw/pci/Kconfig                  |   4 +
- hw/pci/SpdmEmuCommand.c         | 319 ++++++++++++++++++++++++++++++++++++++++
- hw/pci/meson.build              |   1 +
- include/hw/cxl/cxl_device.h     |   2 +
- include/hw/pci/SpdmEmuCommand.h |  21 +++
- include/hw/pci/pcie_doe.h       |   2 +
- 7 files changed, 377 insertions(+), 3 deletions(-)
- create mode 100644 hw/pci/SpdmEmuCommand.c
- create mode 100644 include/hw/pci/SpdmEmuCommand.h
+> helper.h:DEF_HELPER_FLAGS_3(clgdb, TCG_CALL_NO_WG, i64, env, i64, i32)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 4b4097f..da38f3f 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -16,6 +16,8 @@
- #include "hw/pci/msi.h"
- #include "hw/pci/msix.h"
- 
-+#include "hw/pci/SpdmEmuCommand.h"
-+
- #define DWORD_BYTE 4
- 
- /* This function will be used when cdat file is not specified */
-@@ -266,6 +268,9 @@ static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int size)
- 
-     if (pcie_doe_read_config(&ct3d->doe_comp, addr, size, &val)) {
-         return val;
-+    } else if (ct3d->use_spdm &&
-+               pcie_doe_read_config(&ct3d->doe_spdm, addr, size, &val)) {
-+        return val;
-     } else if (pcie_doe_read_config(&ct3d->doe_cdat, addr, size, &val)) {
-         return val;
-     }
-@@ -278,6 +283,9 @@ static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
- {
-     CXLType3Dev *ct3d = CT3(pci_dev);
- 
-+    if (ct3d->use_spdm) {
-+        pcie_doe_write_config(&ct3d->doe_spdm, addr, val, size);
-+    }
-     pcie_doe_write_config(&ct3d->doe_comp, addr, val, size);
-     pcie_doe_write_config(&ct3d->doe_cdat, addr, val, size);
-     pci_default_write_config(pci_dev, addr, val, size);
-@@ -472,6 +480,12 @@ static MemoryRegion *cxl_md_get_memory_region(MemoryDeviceState *md,
-     return ct3d->cxl_dstate.pmem;
- }
- 
-+static DOEProtocol doe_spdm_prot[] = {
-+    {PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_CMA, pcie_doe_spdm_rsp},
-+    {PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_SECURED_CMA, pcie_doe_spdm_rsp},
-+    {},
-+};
-+
- static DOEProtocol doe_comp_prot[] = {
-     {CXL_VENDOR_ID, CXL_DOE_COMPLIANCE, cxl_doe_compliance_rsp},
-     {},
-@@ -489,7 +503,7 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     ComponentRegisters *regs = &cxl_cstate->crb;
-     MemoryRegion *mr = &regs->component_registers;
-     uint8_t *pci_conf = pci_dev->config;
--    unsigned short msix_num = 2;
-+    unsigned short msix_num = 3;
-     int i;
- 
-     if (!ct3d->cxl_dstate.pmem) {
-@@ -528,13 +542,22 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     }
- 
-     /* DOE Initailization */
--    pcie_doe_init(pci_dev, &ct3d->doe_comp, 0x160, doe_comp_prot, true, 0);
--    pcie_doe_init(pci_dev, &ct3d->doe_cdat, 0x190, doe_cdat_prot, true, 1);
-+    if (ct3d->use_spdm) {
-+        spdm_sock_init(errp);
-+        pcie_doe_init(pci_dev, &ct3d->doe_spdm, 0x160, doe_spdm_prot, true, 2);
-+    }
-+    pcie_doe_init(pci_dev, &ct3d->doe_comp, 0x190, doe_comp_prot, true, 1);
-+    pcie_doe_init(pci_dev, &ct3d->doe_cdat, 0x1b0, doe_cdat_prot, true, 0);
- 
-     cxl_cstate->cdat.build_cdat_table = build_default_cdat_table;
-     cxl_doe_cdat_init(cxl_cstate, errp);
- }
- 
-+static void ct3_exit(PCIDevice *pci_dev)
-+{
-+    spdm_sock_fini();
-+}
-+
- static uint64_t cxl_md_get_addr(const MemoryDeviceState *md)
- {
-     CXLType3Dev *ct3d = CT3(md);
-@@ -570,6 +593,7 @@ static Property ct3_props[] = {
-     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-                      HostMemoryBackend *),
-     DEFINE_PROP_STRING("cdat", CXLType3Dev, cxl_cstate.cdat.filename),
-+    DEFINE_PROP_BOOL("spdm", CXLType3Dev, use_spdm, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -658,6 +682,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     CXLType3Class *cvc = CXL_TYPE3_DEV_CLASS(oc);
- 
-     pc->realize = ct3_realize;
-+    pc->exit = ct3_exit;
-     pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
-     pc->vendor_id = PCI_VENDOR_ID_INTEL;
-     pc->device_id = 0xd93; /* LVF for now */
-diff --git a/hw/pci/Kconfig b/hw/pci/Kconfig
-index 77f8b00..181495e 100644
---- a/hw/pci/Kconfig
-+++ b/hw/pci/Kconfig
-@@ -13,3 +13,7 @@ config MSI_NONBROKEN
-     # or support it and have a good implementation. See commit
-     # 47d2b0f33c664533b8dbd5cb17faa8e6a01afe1f.
-     bool
-+
-+config PCIE_SPDM
-+    bool
-+    default y
-diff --git a/hw/pci/SpdmEmuCommand.c b/hw/pci/SpdmEmuCommand.c
-new file mode 100644
-index 0000000..b1944fa
---- /dev/null
-+++ b/hw/pci/SpdmEmuCommand.c
-@@ -0,0 +1,319 @@
-+/**
-+@file
-+UEFI OS based application.
-+
-+Copyright (c) 2020, Intel Corporation. All rights reserved.<BR>
-+SPDX-License-Identifier: BSD-2-Clause-Patent
-+
-+**/
-+
-+#include "hw/pci/SpdmEmuCommand.h"
-+#include "qapi/error.h"
-+#include <sys/socket.h>
-+#include <arpa/inet.h>
-+
-+#define DWORD_BYTE 4
-+
-+struct in_addr mIpAddress = {0x0100007F};
-+int ClientSocket;
-+uint32_t mUseTransportLayer = SOCKET_TRANSPORT_TYPE_PCI_DOE;
-+
-+/**
-+  This function dump raw data.
-+
-+  @param  Data  raw data
-+  @param  Size  raw data size
-+**/
-+static void DumpData(uint8_t *Data, uint64_t Size)
-+{
-+    uint64_t Index;
-+
-+    for (Index = 0; Index < Size; Index++) {
-+        if (Index != 0) {
-+            printf (" ");
-+        }
-+        printf ("%02x", Data[Index]);
-+    }
-+    printf("\n");
-+}
-+
-+/**
-+  Read number of bytes data in blocking mode.
-+
-+  If there is no enough data in socket, this function will wait.
-+  This function will return if enough data is read, or socket error.
-+**/
-+static bool ReadBytes(int Socket, uint8_t *Buffer, uint32_t NumberOfBytes)
-+{
-+    int Result;
-+    uint32_t NumberReceived;
-+
-+    NumberReceived = 0;
-+    while (NumberReceived < NumberOfBytes) {
-+        Result = recv(Socket, (char *)(Buffer + NumberReceived),
-+                      NumberOfBytes - NumberReceived, 0);
-+        if (Result == -1) {
-+            printf("Receive error - 0x%x\n", errno);
-+            return false;
-+        }
-+        if (Result == 0) {
-+            return false;
-+        }
-+        NumberReceived += Result;
-+    }
-+    return true;
-+}
-+
-+static bool ReadData32(int Socket, uint32_t *Data)
-+{
-+    bool Result;
-+
-+    Result = ReadBytes(Socket, (uint8_t *)Data, sizeof(uint32_t));
-+    if (!Result) {
-+        return Result;
-+    }
-+    *Data = ntohl(*Data);
-+    return true;
-+}
-+
-+/**
-+  Read multiple bytes in blocking mode.
-+
-+  The length is presented as first 4 bytes in big endian.
-+  The data follows the length.
-+
-+  If there is no enough data in socket, this function will wait.
-+  This function will return if enough data is read, or socket error.
-+**/
-+static bool ReadMultipleBytes(int Socket, uint8_t *Buffer,
-+                              uint32_t *BytesReceived, uint32_t MaxBufferLength)
-+{
-+    uint32_t Length;
-+    bool Result;
-+
-+    Result = ReadData32(Socket, &Length);
-+    if (!Result) {
-+        return Result;
-+    }
-+    printf("Platform Port Receive Size: ");
-+    Length = ntohl(Length);
-+    DumpData((uint8_t *)&Length, sizeof(uint32_t));
-+    Length = ntohl(Length);
-+
-+    *BytesReceived = Length;
-+    if (*BytesReceived > MaxBufferLength) {
-+        printf("Buffer too small (0x%x). Expected - 0x%x\n",
-+               MaxBufferLength, *BytesReceived);
-+        return false;
-+    }
-+    if (Length == 0) {
-+        return true;
-+    }
-+    Result = ReadBytes (Socket, Buffer, Length);
-+    if (!Result) {
-+        return Result;
-+    }
-+    printf("Platform Port Receive Buffer:\n    ");
-+    DumpData(Buffer, Length);
-+    return true;
-+}
-+
-+static bool ReceivePlatformData(int Socket, uint32_t *Command,
-+                                uint8_t *ReceiveBuffer,
-+                                uint32_t *BytesToReceive)
-+{
-+    bool Result;
-+    uint32_t Response;
-+    uint32_t TransportType;
-+    uint32_t BytesReceived;
-+
-+    Result = ReadData32(Socket, &Response);
-+    if (!Result) {
-+        return Result;
-+    }
-+    *Command = Response;
-+    printf("Platform Port Receive Command: ");
-+    Response = ntohl(Response);
-+    DumpData((uint8_t *)&Response, sizeof(uint32_t));
-+
-+    Result = ReadData32(Socket, &TransportType);
-+    if (!Result) {
-+        return Result;
-+    }
-+    printf("Platform Port Receive TransportType: ");
-+    TransportType = ntohl(TransportType);
-+    DumpData((uint8_t *)&TransportType, sizeof(uint32_t));
-+    TransportType = ntohl(TransportType);
-+    if (TransportType != mUseTransportLayer) {
-+        printf("TransportType mismatch\n");
-+        return false;
-+    }
-+
-+    BytesReceived = 0;
-+    Result = ReadMultipleBytes(Socket, ReceiveBuffer, &BytesReceived,
-+                               (uint32_t)*BytesToReceive);
-+    if (!Result) {
-+        return Result;
-+    }
-+    *BytesToReceive = BytesReceived;
-+
-+    return Result;
-+}
-+
-+/**
-+  Write number of bytes data in blocking mode.
-+
-+  This function will return if data is written, or socket error.
-+**/
-+static bool WriteBytes(int Socket, uint8_t *Buffer, uint32_t NumberOfBytes)
-+{
-+    int Result;
-+    uint32_t NumberSent;
-+
-+    NumberSent = 0;
-+    while (NumberSent < NumberOfBytes) {
-+        Result = send(Socket, (char *)(Buffer + NumberSent),
-+                      NumberOfBytes - NumberSent, 0);
-+        if (Result == -1) {
-+            printf ("Send error - 0x%x\n", errno);
-+            return false;
-+        }
-+        NumberSent += Result;
-+    }
-+    return true;
-+}
-+
-+static bool WriteData32(int Socket, uint32_t Data)
-+{
-+    Data = htonl(Data);
-+    return WriteBytes(Socket, (uint8_t *)&Data, sizeof(uint32_t));
-+}
-+
-+/**
-+  Write multiple bytes.
-+
-+  The length is presented as first 4 bytes in big endian.
-+  The data follows the length.
-+**/
-+static bool WriteMultipleBytes(int Socket, uint8_t *Buffer,
-+                               uint32_t BytesToSend)
-+{
-+    bool Result;
-+
-+    Result = WriteData32 (Socket, BytesToSend);
-+    if (!Result) {
-+        return Result;
-+    }
-+    printf("Platform Port Transmit Size: ");
-+    BytesToSend = htonl(BytesToSend);
-+    DumpData((uint8_t *)&BytesToSend, sizeof(uint32_t));
-+    BytesToSend = htonl(BytesToSend);
-+
-+    Result = WriteBytes(Socket, Buffer, BytesToSend);
-+    if (!Result) {
-+        return Result;
-+    }
-+    printf("Platform Port Transmit Buffer:\n    ");
-+    DumpData(Buffer, BytesToSend);
-+
-+    return true;
-+}
-+
-+static bool SendPlatformData(int Socket, uint32_t Command, uint8_t *SendBuffer,
-+                             uint32_t BytesToSend)
-+{
-+    bool Result;
-+    uint32_t Request;
-+    uint32_t TransportType;
-+
-+    Request = Command;
-+    Result = WriteData32(Socket, Request);
-+    if (!Result) {
-+        return Result;
-+    }
-+    printf ("Platform Port Transmit Command: ");
-+    Request = htonl(Request);
-+    DumpData((uint8_t *)&Request, sizeof(uint32_t));
-+
-+    Result = WriteData32(Socket, mUseTransportLayer);
-+    if (!Result) {
-+        return Result;
-+    }
-+    printf("Platform Port Transmit TransportType: ");
-+    TransportType = ntohl(mUseTransportLayer);
-+    DumpData((uint8_t *)&TransportType, sizeof(uint32_t));
-+
-+    Result = WriteMultipleBytes(Socket, SendBuffer, BytesToSend);
-+    if (!Result) {
-+        return Result;
-+    }
-+
-+    return true;
-+}
-+
-+void spdm_sock_init(Error **errp)
-+{
-+    int result;
-+    struct sockaddr_in ServerAddr;
-+    uint16_t Port = 2323;
-+
-+    ClientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-+    if (ClientSocket == INVALID_SOCKET) {
-+        error_setg(errp, "Openspdm: %s\n", strerror(errno));
-+        return;
-+    }
-+
-+    ServerAddr.sin_family = AF_INET;
-+    memcpy(&ServerAddr.sin_addr.s_addr, &mIpAddress, sizeof(struct in_addr));
-+    ServerAddr.sin_port = htons(Port);
-+    memset(ServerAddr.sin_zero, 0, sizeof(ServerAddr.sin_zero));
-+
-+    result = connect(ClientSocket, (struct sockaddr *)&ServerAddr,
-+                     sizeof(ServerAddr));
-+    if (result == SOCKET_ERROR) {
-+        error_setg(errp, "Openspdm: %s\n", strerror(errno));
-+        closesocket(ClientSocket);
-+        return;
-+    }
-+    printf("Openspdm: Connect success!\n");
-+}
-+
-+bool pcie_doe_spdm_rsp(DOECap *doe_cap)
-+{
-+    void *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-+    uint32_t len = pcie_doe_get_obj_len(req);
-+    uint32_t rsp_len = MAX_SPDM_MESSAGE_BUFFER_SIZE, Command;
-+    bool result;
-+
-+    result = SendPlatformData(ClientSocket, SOCKET_SPDM_COMMAND_NORMAL,
-+                              req, len * DWORD_BYTE);
-+    if (!result) {
-+        printf("SendPlatformData error\n");
-+        return result;
-+    }
-+
-+    result = ReceivePlatformData(ClientSocket, &Command,
-+                                 (uint8_t *)doe_cap->read_mbox, &rsp_len);
-+    if (!result) {
-+        printf("ReceivePlatformData error\n");
-+        return result;
-+    }
-+
-+    assert(Command != 0);
-+    doe_cap->read_mbox_len += DIV_ROUND_UP(rsp_len, DWORD_BYTE);
-+
-+    return true;
-+}
-+
-+void spdm_sock_fini(void)
-+{
-+    bool result;
-+
-+    result = SendPlatformData(ClientSocket, SOCKET_SPDM_COMMAND_SHUTDOWN,
-+                              NULL, 0);
-+    if (!result) {
-+        printf("SendPlatformData error\n");
-+        return;
-+    }
-+    printf("Openspdm: Shutdown!\n");
-+}
-diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-index 115e502..e3be112 100644
---- a/hw/pci/meson.build
-+++ b/hw/pci/meson.build
-@@ -13,6 +13,7 @@ pci_ss.add(files(
- # CONFIG_PCI_EXPRESS=n.
- pci_ss.add(files('pcie.c', 'pcie_aer.c'))
- pci_ss.add(files('pcie_doe.c'))
-+pci_ss.add(when: 'CONFIG_PCIE_SPDM', if_true: files('SpdmEmuCommand.c'))
- softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
- softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
- 
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index de006ff..a112620 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -240,6 +240,8 @@ typedef struct cxl_type3_dev {
-     /* DOE */
-     DOECap doe_comp;
-     DOECap doe_cdat;
-+    bool use_spdm;
-+    DOECap doe_spdm;
- } CXLType3Dev;
- 
- #ifndef TYPE_CXL_TYPE3_DEV
-diff --git a/include/hw/pci/SpdmEmuCommand.h b/include/hw/pci/SpdmEmuCommand.h
-new file mode 100644
-index 0000000..39e7e9a
---- /dev/null
-+++ b/include/hw/pci/SpdmEmuCommand.h
-@@ -0,0 +1,21 @@
-+#include "qemu/osdep.h"
-+#include "hw/pci/pcie_doe.h"
-+
-+#define SOCKET_TRANSPORT_TYPE_MCTP     0x01
-+#define SOCKET_TRANSPORT_TYPE_PCI_DOE  0x02
-+
-+#define SOCKET_SPDM_COMMAND_NORMAL                0x0001
-+#define SOCKET_SPDM_COMMAND_OOB_ENCAP_KEY_UPDATE  0x8001
-+#define SOCKET_SPDM_COMMAND_CONTINUE              0xFFFD
-+#define SOCKET_SPDM_COMMAND_SHUTDOWN              0xFFFE
-+#define SOCKET_SPDM_COMMAND_UNKOWN                0xFFFF
-+#define SOCKET_SPDM_COMMAND_TEST                  0xDEAD
-+
-+#define INVALID_SOCKET (-1)
-+#define SOCKET_ERROR (-1)
-+
-+#define MAX_SPDM_MESSAGE_BUFFER_SIZE      0x1200
-+
-+void spdm_sock_init(Error **errp);
-+bool pcie_doe_spdm_rsp(DOECap *doe_cap);
-+void spdm_sock_fini(void);
-diff --git a/include/hw/pci/pcie_doe.h b/include/hw/pci/pcie_doe.h
-index e551f49..af4be56 100644
---- a/include/hw/pci/pcie_doe.h
-+++ b/include/hw/pci/pcie_doe.h
-@@ -47,6 +47,8 @@ REG32(PCI_DOE_CAP_STATUS, 0)
- 
- /* PCI-SIG defined Data Object Types - Table 7-x2 */
- #define PCI_SIG_DOE_DISCOVERY       0x00
-+#define PCI_SIG_DOE_CMA             0x01
-+#define PCI_SIG_DOE_SECURED_CMA     0x02
- 
- #define PCI_DOE_DW_SIZE_MAX         (1 << 18)
- #define PCI_DOE_PROTOCOL_NUM_MAX    256
--- 
-1.8.3.1
+This won't work reliably.  You're writing to a tcg global inside of a function that says 
+that it won't.
 
+It's probably time to take care of
+
+>     /*
+>      * FIXME:
+>      * 1. Right now, all inexact conditions are inidicated as
+>      *    "truncated" (0) and never as "incremented" (1) in the DXC.
+>      * 2. Only traps due to invalid/divbyzero are suppressing. Other traps
+>      *    are completing, meaning the target register has to be written!
+>      *    This, however will mean that we have to write the register before
+>      *    triggering the trap - impossible right now.
+>      */
+
+point 2, by splitting the fpu helpers.  In the first part, take care of the optimization 
+and suppressed traps, and return the register value.  In the second part, take care of FPC 
+write-back, completing traps, and return any cc value.  Which you can then assign, 
+properly, to the cc_op tcg global.
+
+BTW, we can now improve fpu performance by keeping masked exceptions in the float_status. 
+  Or at least inexact.  Once that's set, we allow softfloat.c to use host floating-point 
+insns under certain conditions.  I'm sure this code pre-dates that, so it made sense to 
+clear it all out at the time.
+
+
+r~
 
