@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBCF3B4D4B
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 09:05:27 +0200 (CEST)
-Received: from localhost ([::1]:37518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E513B4DCF
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 11:32:30 +0200 (CEST)
+Received: from localhost ([::1]:41348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lx2NZ-0004pV-VB
-	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 03:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
+	id 1lx4ft-0007pt-BP
+	for lists+qemu-devel@lfdr.de; Sat, 26 Jun 2021 05:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lx2MN-000490-Rt
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 03:04:12 -0400
-Resent-Date: Sat, 26 Jun 2021 03:04:11 -0400
-Resent-Message-Id: <E1lx2MN-000490-Rt@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lx2MH-0004Dn-4O
- for qemu-devel@nongnu.org; Sat, 26 Jun 2021 03:04:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624691038; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cP5ebD0o5yNXNJagc3YZ/TgrW4DeEQTNA5el9LUFMKSfJlGI0hw5t+Uocx926V6919vu5x114cxvKI4ISh3uttkLcDXU3hF1nOyWD8GYpPCYffa3TkiCbiNY+MtMdB6aWH48aBe56soOYwYo4QwI3VuiS5SZN2IVn2aha5fhKTs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1624691038;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=9rWvNElcFzbYELM/6IZxXsoBzmQWoxo2Gjl1RQPFizI=; 
- b=FZKC5gedsvHaBWQiXUft+MwSKkVvE50mrtlhblPi7m9rMCikngrz3Bm41mt6sMwulmQiRm2UzROJV8DuyTFgEW72xclpYve4t4mIHHPsaTAbvo1tidp7Q29n2vT6MzTGHdDqkEoE2hwG9aGE/XWe5T944hOl38Y0TAqV2npHxJ0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1624691035699620.936871354458;
- Sat, 26 Jun 2021 00:03:55 -0700 (PDT)
-In-Reply-To: <20210626063631.2411938-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 00/29] tcg: bswap improvements
-Message-ID: <162469103484.2101.18372609529582783590@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lx4eK-0006h9-M3
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 05:30:52 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lx4eJ-0003x0-1I
+ for qemu-devel@nongnu.org; Sat, 26 Jun 2021 05:30:52 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso9972080wmh.4
+ for <qemu-devel@nongnu.org>; Sat, 26 Jun 2021 02:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T17dXDR38Sf81IJ3AujRjg5n6wwF1jKKFp9ZvhYcNKU=;
+ b=ahmdWvU98WtnGsNMRrioPchs4/jUL3OYF19PEooaaSAHPa9FQgx2SLtmTOGJ3Iqz0U
+ O4F+ZWhKrcBItknB6qMyur37CyaooYhBDY3llsrFFfsOjOUGPOnwjM40eL770VIKUREY
+ ZUuxnlXMv2VVti8VeDVTSE6ZuPUo8YmNhjslJZul5K5V6Skv4vCW9veqWa8l+ua06ZbE
+ B6bhSpRNN5zyce9lY/OQtxE+Hi3QBoND3+M58gEphzxPP9M91leYGQBF441dju2A/Qmj
+ qUVvZamtWs+pHexHzvE31upepnX8Z9p9T6+tMrPabHmS8OGvCHuIkBi7yNi+lQMa7tMq
+ OO9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T17dXDR38Sf81IJ3AujRjg5n6wwF1jKKFp9ZvhYcNKU=;
+ b=pRn71i4+JWbvSOMS5y9aqXJWPtbrWM2cgFZBQ9cPA9RMJEotB7WeW8Q4mmjbGFBFGz
+ iqSYqHwYyy0u8FDBUuWKH/oTxwmkC0X46Rz4gwlKy9w0XbBnwOfdt8Te/QWXmu/OETXg
+ 2YXsW8AdbNEyM01Ek8CsKNBzIEnUAjH13q3XU5Tk+jPJVkCtR5G/0hqSINXALX40BPtC
+ uh9t3mvHDgOF1vv2Wm4ULd6GGZU8vpbOxWWOpOuwO2kJfX4iIUWOVI2/rWeWdN+Now7n
+ VGS3WqvPvoR+ctoSz7TIMQy980/GEjB830jqboFUMMfj5ZFNeCFFjUDx0UW8Ozsav4OT
+ ozjQ==
+X-Gm-Message-State: AOAM532JdNoxqkmYKeh/qdY0A/3UJaAaNVG9VKcHxAHX2Z4ztwLdp3Ei
+ s/2fclrQJkRgvUk5VO0CB5/YfxxlQp+skg==
+X-Google-Smtp-Source: ABdhPJz90FbrjJWBSPpYjL+Yew0R0GW0tvwImBXxC4q6J1LLNeBnCRxeO7Ov39Y1g7BMT+pJPYG2Aw==
+X-Received: by 2002:a05:600c:4f56:: with SMTP id
+ m22mr7614284wmq.16.1624699849152; 
+ Sat, 26 Jun 2021 02:30:49 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id n7sm12978667wmq.37.2021.06.26.02.30.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 26 Jun 2021 02:30:48 -0700 (PDT)
+Subject: Re: [PATCH v3 14/29] tcg/mips: Support bswap flags in tcg_out_bswap16
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210626063631.2411938-1-richard.henderson@linaro.org>
+ <20210626063631.2411938-15-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <34eca24b-ff0b-4457-0697-27e51ae56e72@amsat.org>
+Date: Sat, 26 Jun 2021 11:30:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Sat, 26 Jun 2021 00:03:55 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20210626063631.2411938-15-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,113 +91,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyNjA2MzYzMS4yNDEx
-OTM4LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjI2
-MDYzNjMxLjI0MTE5MzgtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
-QVRDSCB2MyAwMC8yOV0gdGNnOiBic3dhcCBpbXByb3ZlbWVudHMKCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
-aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
-aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
-RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
-NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11
-CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA2MjUxMTI3NDEuMTI1NjYtMS1hbGV4
-LmJlbm5lZUBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA2MjUxMTI3NDEuMTI1NjYtMS1hbGV4
-LmJlbm5lZUBsaW5hcm8ub3JnCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA2MjYw
-NjM2MzEuMjQxMTkzOC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8y
-MDIxMDYyNjA2MzYzMS4yNDExOTM4LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTd2l0
-Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmU1MWVmZTAgdGNnL3Jpc2N2OiBSZW1vdmUgTU9f
-QlNXQVAgaGFuZGxpbmcKNDA0MWI5ZiB0Y2cvYWFyY2g2NDogVW5zZXQgVENHX1RBUkdFVF9IQVNf
-TUVNT1JZX0JTV0FQCmYxMzY1NTggdGNnL2FybTogVW5zZXQgVENHX1RBUkdFVF9IQVNfTUVNT1JZ
-X0JTV0FQCmJjZGMxYjIgdGFyZ2V0L21pcHM6IEZpeCBnZW5fbXh1X3MzMmxkZF9zMzJsZGRyCjZh
-NGNkNTkgdGFyZ2V0L3NoNDogSW1wcm92ZSBzd2FwLmIgdHJhbnNsYXRpb24KODQ3NzU4NyB0YXJn
-ZXQvaTM4NjogSW1wcm92ZSBic3dhcCB0cmFuc2xhdGlvbgoyNmNjYzY2IHRhcmdldC9hcm06IElt
-cHJvdmUgUkVWU0gKZGE4ZTQzZSB0YXJnZXQvYXJtOiBJbXByb3ZlIHZlY3RvciBSRVYKZmE2ZDI3
-NyB0YXJnZXQvYXJtOiBJbXByb3ZlIFJFVjMyCjg4ZjVkY2QgdGNnOiBNYWtlIHVzZSBvZiBic3dh
-cCBmbGFncyBpbiB0Y2dfZ2VuX3FlbXVfc3RfKgpiMGE2MzVmIHRjZzogTWFrZSB1c2Ugb2YgYnN3
-YXAgZmxhZ3MgaW4gdGNnX2dlbl9xZW11X2xkXyoKM2Q2MDdjZSB0Y2c6IEFkZCBmbGFncyBhcmd1
-bWVudCB0byB0Y2dfZ2VuX2Jzd2FwMTZfKiwgdGNnX2dlbl9ic3dhcDMyX2k2NAo1MzU3YTBmIHRj
-ZzogSGFuZGxlIG5ldyBic3dhcCBmbGFncyBkdXJpbmcgb3B0aW1pemUKYmRiOTM1YyB0Y2cvdGNp
-OiBTdXBwb3J0IGJzd2FwIGZsYWdzCmFmMDczZDYgdGNnL21pcHM6IFN1cHBvcnQgYnN3YXAgZmxh
-Z3MgaW4gdGNnX291dF9ic3dhcDMyCjE3NWQxNmYgdGNnL21pcHM6IFN1cHBvcnQgYnN3YXAgZmxh
-Z3MgaW4gdGNnX291dF9ic3dhcDE2CjQ0ZmEwMzMgdGNnL3MzOTA6IFN1cHBvcnQgYnN3YXAgZmxh
-Z3MKNDM5OWJhYSB0Y2cvcHBjOiBVc2UgcG93ZXIxMCBieXRlLXJldmVyc2UgaW5zdHJ1Y3Rpb25z
-CjU0ZmUzYmMgdGNnL3BwYzogU3VwcG9ydCBic3dhcCBmbGFncwo0NGNjN2VjIHRjZy9wcGM6IFNw
-bGl0IG91dCB0Y2dfb3V0X2Jzd2FwNjQKMDEyZDdmZiB0Y2cvcHBjOiBTcGxpdCBvdXQgdGNnX291
-dF9ic3dhcDMyCmMxMGM5YzggdGNnL3BwYzogU3BsaXQgb3V0IHRjZ19vdXRfYnN3YXAxNgoxYThh
-YjMxIHRjZy9wcGM6IFNwbGl0IG91dCB0Y2dfb3V0X3Nhcml7MzIsNjR9CjcwYzY4NjQgdGNnL3Bw
-YzogU3BsaXQgb3V0IHRjZ19vdXRfZXh0ezgsMTYsMzJ9cwplYzU3MTdiIHRjZy9hcm06IFN1cHBv
-cnQgYnN3YXAgZmxhZ3MKOTM1YzgwYSB0Y2cvYWFyY2g2NDogU3VwcG9ydCBic3dhcCBmbGFncwpk
-NGUyMDlkIHRjZy9hYXJjaDY0OiBNZXJnZSB0Y2dfb3V0X3JldnsxNiwzMiw2NH0KNjY5N2M0MiB0
-Y2cvaTM4NjogU3VwcG9ydCBic3dhcCBmbGFncwowYjA0Y2E0IHRjZzogQWRkIGZsYWdzIGFyZ3Vt
-ZW50IHRvIGJzd2FwIG9wY29kZXMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjkgQ2hlY2tpbmcg
-Y29tbWl0IDBiMDRjYTQ0NTNmNiAodGNnOiBBZGQgZmxhZ3MgYXJndW1lbnQgdG8gYnN3YXAgb3Bj
-b2RlcykKMi8yOSBDaGVja2luZyBjb21taXQgNjY5N2M0MmYxMTk4ICh0Y2cvaTM4NjogU3VwcG9y
-dCBic3dhcCBmbGFncykKMy8yOSBDaGVja2luZyBjb21taXQgZDRlMjA5ZGQyM2Q0ICh0Y2cvYWFy
-Y2g2NDogTWVyZ2UgdGNnX291dF9yZXZ7MTYsMzIsNjR9KQo0LzI5IENoZWNraW5nIGNvbW1pdCA5
-MzVjODBhY2YyMDcgKHRjZy9hYXJjaDY0OiBTdXBwb3J0IGJzd2FwIGZsYWdzKQo1LzI5IENoZWNr
-aW5nIGNvbW1pdCBlYzU3MTdiZWQwMDggKHRjZy9hcm06IFN1cHBvcnQgYnN3YXAgZmxhZ3MpCjYv
-MjkgQ2hlY2tpbmcgY29tbWl0IDcwYzY4NjRkYjkyNyAodGNnL3BwYzogU3BsaXQgb3V0IHRjZ19v
-dXRfZXh0ezgsMTYsMzJ9cykKNy8yOSBDaGVja2luZyBjb21taXQgMWE4YWIzMTY5NGM3ICh0Y2cv
-cHBjOiBTcGxpdCBvdXQgdGNnX291dF9zYXJpezMyLDY0fSkKOC8yOSBDaGVja2luZyBjb21taXQg
-YzEwYzljODJmMGNlICh0Y2cvcHBjOiBTcGxpdCBvdXQgdGNnX291dF9ic3dhcDE2KQo5LzI5IENo
-ZWNraW5nIGNvbW1pdCAwMTJkN2ZmMTFkZjMgKHRjZy9wcGM6IFNwbGl0IG91dCB0Y2dfb3V0X2Jz
-d2FwMzIpCjEwLzI5IENoZWNraW5nIGNvbW1pdCA0NGNjN2VjOTU5NWYgKHRjZy9wcGM6IFNwbGl0
-IG91dCB0Y2dfb3V0X2Jzd2FwNjQpCjExLzI5IENoZWNraW5nIGNvbW1pdCA1NGZlM2JjZWFiY2Ug
-KHRjZy9wcGM6IFN1cHBvcnQgYnN3YXAgZmxhZ3MpCjEyLzI5IENoZWNraW5nIGNvbW1pdCA0Mzk5
-YmFhZTdkN2YgKHRjZy9wcGM6IFVzZSBwb3dlcjEwIGJ5dGUtcmV2ZXJzZSBpbnN0cnVjdGlvbnMp
-CjEzLzI5IENoZWNraW5nIGNvbW1pdCA0NGZhMDMzZGRhODYgKHRjZy9zMzkwOiBTdXBwb3J0IGJz
-d2FwIGZsYWdzKQoxNC8yOSBDaGVja2luZyBjb21taXQgMTc1ZDE2ZjFmZDE1ICh0Y2cvbWlwczog
-U3VwcG9ydCBic3dhcCBmbGFncyBpbiB0Y2dfb3V0X2Jzd2FwMTYpCjE1LzI5IENoZWNraW5nIGNv
-bW1pdCBhZjA3M2Q2OTY2NTQgKHRjZy9taXBzOiBTdXBwb3J0IGJzd2FwIGZsYWdzIGluIHRjZ19v
-dXRfYnN3YXAzMikKMTYvMjkgQ2hlY2tpbmcgY29tbWl0IGJkYjkzNWM3ZDM5YiAodGNnL3RjaTog
-U3VwcG9ydCBic3dhcCBmbGFncykKMTcvMjkgQ2hlY2tpbmcgY29tbWl0IDUzNTdhMGZmNmZmNSAo
-dGNnOiBIYW5kbGUgbmV3IGJzd2FwIGZsYWdzIGR1cmluZyBvcHRpbWl6ZSkKRVJST1I6IHNwYWNl
-cyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpWeEUpCiM0MTogRklMRTogdGNnL29wdGlt
-aXplLmM6MTAzNDoKKyAgICAgICAgQ0FTRV9PUF8zMl82NChic3dhcDE2KToKICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQg
-JzonIChjdHg6VnhFKQojOTQ6IEZJTEU6IHRjZy9vcHRpbWl6ZS5jOjExODk6CisgICAgICAgIENB
-U0VfT1BfMzJfNjQoYnN3YXAxNik6CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4OlZ4RSkKIzk1OiBGSUxF
-OiB0Y2cvb3B0aW1pemUuYzoxMTkwOgorICAgICAgICBDQVNFX09QXzMyXzY0KGJzd2FwMzIpOgog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDMgZXJyb3JzLCAwIHdhcm5p
-bmdzLCA4MiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8yOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoKMTgvMjkgQ2hlY2tpbmcgY29tbWl0IDNkNjA3Y2UxYzZhYyAodGNnOiBBZGQgZmxhZ3Mg
-YXJndW1lbnQgdG8gdGNnX2dlbl9ic3dhcDE2XyosIHRjZ19nZW5fYnN3YXAzMl9pNjQpCkVSUk9S
-OiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE2NTogRklMRTogdGFyZ2V0L3No
-NC90cmFuc2xhdGUuYzo2ODA6CiteSSAgICB0Y2dfZ2VuX2Jzd2FwMTZfaTMyKGxvdywgbG93LCBU
-Q0dfQlNXQVBfSVogfCBUQ0dfQlNXQVBfT1opOyQKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5n
-cywgMjk2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE4LzI5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCgoxOS8yOSBDaGVja2luZyBjb21taXQgYjBhNjM1ZjllMjVhICh0Y2c6IE1ha2UgdXNlIG9m
-IGJzd2FwIGZsYWdzIGluIHRjZ19nZW5fcWVtdV9sZF8qKQoyMC8yOSBDaGVja2luZyBjb21taXQg
-ODhmNWRjZGM0MjgwICh0Y2c6IE1ha2UgdXNlIG9mIGJzd2FwIGZsYWdzIGluIHRjZ19nZW5fcWVt
-dV9zdF8qKQoyMS8yOSBDaGVja2luZyBjb21taXQgZmE2ZDI3NzgxZjVmICh0YXJnZXQvYXJtOiBJ
-bXByb3ZlIFJFVjMyKQoyMi8yOSBDaGVja2luZyBjb21taXQgZGE4ZTQzZWFjMmJhICh0YXJnZXQv
-YXJtOiBJbXByb3ZlIHZlY3RvciBSRVYpCjIzLzI5IENoZWNraW5nIGNvbW1pdCAyNmNjYzY2ZWJj
-NGIgKHRhcmdldC9hcm06IEltcHJvdmUgUkVWU0gpCjI0LzI5IENoZWNraW5nIGNvbW1pdCA4NDc3
-NTg3MDY4YmMgKHRhcmdldC9pMzg2OiBJbXByb3ZlIGJzd2FwIHRyYW5zbGF0aW9uKQoyNS8yOSBD
-aGVja2luZyBjb21taXQgNmE0Y2Q1OTlkNTBhICh0YXJnZXQvc2g0OiBJbXByb3ZlIHN3YXAuYiB0
-cmFuc2xhdGlvbikKMjYvMjkgQ2hlY2tpbmcgY29tbWl0IGJjZGMxYjIyMTdlYyAodGFyZ2V0L21p
-cHM6IEZpeCBnZW5fbXh1X3MzMmxkZF9zMzJsZGRyKQoyNy8yOSBDaGVja2luZyBjb21taXQgZjEz
-NjU1ODlhOTg4ICh0Y2cvYXJtOiBVbnNldCBUQ0dfVEFSR0VUX0hBU19NRU1PUllfQlNXQVApCjI4
-LzI5IENoZWNraW5nIGNvbW1pdCA0MDQxYjlmZjZhYzMgKHRjZy9hYXJjaDY0OiBVbnNldCBUQ0df
-VEFSR0VUX0hBU19NRU1PUllfQlNXQVApCjI5LzI5IENoZWNraW5nIGNvbW1pdCBlNTFlZmUwYzZi
-OGIgKHRjZy9yaXNjdjogUmVtb3ZlIE1PX0JTV0FQIGhhbmRsaW5nKQo9PT0gT1VUUFVUIEVORCA9
-PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
-YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDYyNjA2MzYzMS4yNDExOTM4
-LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+On 6/26/21 8:36 AM, Richard Henderson wrote:
+> Merge tcg_out_bswap16 and tcg_out_bswap16s.  Use the flags
+> in the internal uses for loads and stores.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/mips/tcg-target.c.inc | 63 +++++++++++++++++++--------------------
+>  1 file changed, 30 insertions(+), 33 deletions(-)
+
+> -static inline void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg)
+> +static void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
+>  {
+> +    /* ret and arg can't be register tmp0 */
+> +    tcg_debug_assert(ret != TCG_TMP0);
+> +    tcg_debug_assert(arg != TCG_TMP0);
+> +
+> +    /* With arg = abcd: */
+>      if (use_mips32r2_instructions) {
+> -        tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
+> -    } else {
+> -        /* ret and arg can't be register at */
+> -        if (ret == TCG_TMP0 || arg == TCG_TMP0) {
+> -            tcg_abort();
+> +        tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);                 /* badc */
+> +        if (flags & TCG_BSWAP_OS) {
+> +            tcg_out_opc_reg(s, OPC_SEH, ret, 0, ret);              /* ssdc */
+> +        } else if ((flags & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
+> +            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xffff);        /* 00dc */
+>          }
+> -
+> -        tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
+> -        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 8);
+> -        tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xff00);
+> -        tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
+> +        return;
+>      }
+> -}
+>  
+> -static inline void tcg_out_bswap16s(TCGContext *s, TCGReg ret, TCGReg arg)
+> -{
+> -    if (use_mips32r2_instructions) {
+> -        tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
+> -        tcg_out_opc_reg(s, OPC_SEH, ret, 0, ret);
+> +    tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);                  /* 0abc */
+> +    if (!(flags & TCG_BSWAP_IZ)) {
+> +        tcg_out_opc_imm(s, OPC_ANDI, TCG_TMP0, TCG_TMP0, 0x00ff);  /* 000c */
+> +    }
+> +    if (flags & TCG_BSWAP_OS) {
+> +        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 24);                  /* d000 */
+> +        tcg_out_opc_sa(s, OPC_SRA, ret, ret, 16);                  /* ssd0 */
+>      } else {
+> -        /* ret and arg can't be register at */
+> -        if (ret == TCG_TMP0 || arg == TCG_TMP0) {
+> -            tcg_abort();
+> +        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 8);                   /* bcd0 */
+> +        if (flags & TCG_BSWAP_OZ) {
+> +            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xff00);        /* 00d0 */
+>          }
+> -
+> -        tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
+> -        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 24);
+> -        tcg_out_opc_sa(s, OPC_SRA, ret, ret, 16);
+> -        tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
+>      }
+> +    tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);                /* ssdc */
+>  }
+
+Thanks for adding the comments!
 
