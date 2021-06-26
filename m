@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E453B4BD0
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 03:30:09 +0200 (CEST)
-Received: from localhost ([::1]:33040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2093B4BF7
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Jun 2021 04:19:25 +0200 (CEST)
+Received: from localhost ([::1]:42932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lwx96-0007ss-63
-	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 21:30:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
+	id 1lwxum-0000Lf-IB
+	for lists+qemu-devel@lfdr.de; Fri, 25 Jun 2021 22:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lwx89-0007DJ-UH
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 21:29:09 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:46878)
+ id 1lwxtx-0007uN-63
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 22:18:33 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:36685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lwx85-0003ul-7z
- for qemu-devel@nongnu.org; Fri, 25 Jun 2021 21:29:09 -0400
-Received: by mail-pf1-x431.google.com with SMTP id x16so8800678pfa.13
- for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 18:29:04 -0700 (PDT)
+ id 1lwxtu-0001yw-Ra
+ for qemu-devel@nongnu.org; Fri, 25 Jun 2021 22:18:32 -0400
+Received: by mail-pl1-x631.google.com with SMTP id u2so5659569plf.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Jun 2021 19:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xCtQQbdTP6T4IFQilNNgHDPf8HizOQWmTetN1la1yc4=;
- b=XzNzEYAqcOC9UjvjuVpE5NsVVwY6CH3egwqf5qTXlwDvh4sJshRjH+p9fFVL2dK6vx
- IH1hgyeHKzAcQi+Klz3CMsPkYP/3ufA2SafFiIi4Xzp7Vs9NaxSj+5lFVED5/7/CuVC1
- 2JbgDTUwM1GGVioYVGdHU9V9qFEJXLN1HCK+xdl0uf8fVVQcW4eNRbl9XJ1Nd997esd0
- AE1VA9F5Xx5Gqd5FUOIHspWXfCyS/qQqoykz5e0Fei8b97qrGuoXczIotVuZ5D/R6drG
- GY6xK0kD+TINqprUAowZwjvr5pO5crhx0iOOjKCz+pZXEStiTp8FtMyy2dqIIOpcXkeh
- zHPw==
+ bh=adTq5jNGvDtdlxJZ0jo/X2Y0G9eh94VT3vNbiTzlDqQ=;
+ b=ml2crYcFngrPmqZAajCUjXEnakbeAd37mweOz0RP0ooJ9Lkr9G/jE/JkU3Z7HN+Gpo
+ dR6F/bwWl0AEjC/vtLa2aRTq3mqxAUeEBcq1xEhUJn9Cku+O0Jp3xwLH7C+d8ONw76Dh
+ 5T3cumZbG8VXOXBSb029wXL+BZkncyMdLXMiimHtwtOhhm/n5HQ1DzvFtgEWOm+xdWih
+ UzDe5mXs+0ithYDPZLq7ygv1MYmQtFIVGzbY78VNWtyf5tkYZuSB2HkTl6zGrQlRgdxs
+ 7JXkHLeSU9thtHtLBrqEMcdplNgLYOhmYpyYKDx0bmEB69FqRobPfl7fiXYq0nFLUVHl
+ u0iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xCtQQbdTP6T4IFQilNNgHDPf8HizOQWmTetN1la1yc4=;
- b=S5Z8chdZS3kuLpPw7L8YJMCX4NdfucbLmov/hm6nof1xRjvlEKWmSYikwzi0zfmAef
- 69otwSWIiY8YLyNgQwAKiD45yvy4Yb0ojyiU1vr9agSatUQ9IJlSfJhUoG5L7BxdJp31
- 56dQy2k4SJ2GD/U2/xwTteRRTexHbhZkFIe2MoijlZffWTjvQcNjWN6T/VfeFBP/1wA6
- /bMh24z0dZct1J4OeY+zds1ayZ5fXrgPY7gKluZ6AgGrwe6c6bmpeGxJbFWXI/Knz1H6
- kOOynuGw8h4orKD80i3FXR7asxWGy4p/M8oAtxBAg67nmS1Fl+hUo2Nnj0/BVhPpkKIH
- 5QlQ==
-X-Gm-Message-State: AOAM531bgCKCSzf1NC5peVCaNLaBCc5kXvHq80NyewfweA2gR1ghJCWv
- VCk8KhFd3qJX3f2bZJOCPciH56SyZNwRrg==
-X-Google-Smtp-Source: ABdhPJxkfKJ1YFXm5HInFEfrnkF6x/fqY1ONIBLh+Qf1VrWSKnyOVGjbQ8lVvCbUyMVHbshlikLqWw==
-X-Received: by 2002:aa7:8058:0:b029:2e9:ee0e:b106 with SMTP id
- y24-20020aa780580000b02902e9ee0eb106mr13431761pfm.4.1624670943063; 
- Fri, 25 Jun 2021 18:29:03 -0700 (PDT)
+ bh=adTq5jNGvDtdlxJZ0jo/X2Y0G9eh94VT3vNbiTzlDqQ=;
+ b=QwS2SVM+oeYY9x9TVF745V5Wi07HWeY8Oyv6Nk4WTEiUH7zEITVQZe5wJRNghwrPau
+ XM71kP/JxImzOrDcuyp7xlOUUbHGGzeFBuo7P/0MPTkrbAmWbKf2o6Gn+gz6su+nMWNu
+ +kaK2B9BfsT4z8i+gJYAz7f13T/73cVLXPlqU2znvWIiN6I541MmOSHtpsEZNCQ/wTGa
+ zi9ln8y56LNkvzRdmHiv1I3ajoCia+k3afAPnY7j1Ru9MFCKWUyWhLkA2/zn4DDtK+1W
+ 5pCID889sBXA/bpYhJwX48CH4jKWI+WJfg9PBsnpMBajRdXm34qUKDmxMsnypi/x029u
+ c8og==
+X-Gm-Message-State: AOAM5333ZF9HE0OGW6KDrw5CbX23MyYqCGgKepmsqZwpFznId2F6NhQf
+ tGl+Q5tMCsnEG3qXXrHA9fSCBA==
+X-Google-Smtp-Source: ABdhPJwI9Zy2jfj0U5Iz6O+Et1yavnaSNFrsCgcoYn4t9fY8PAt0gD80JQKmoTpzA75gdetaY83rLg==
+X-Received: by 2002:a17:90a:9411:: with SMTP id
+ r17mr14271032pjo.49.1624673909182; 
+ Fri, 25 Jun 2021 19:18:29 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id w123sm6807357pfb.109.2021.06.25.18.29.02
+ by smtp.gmail.com with ESMTPSA id y4sm6508498pfc.15.2021.06.25.19.18.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 18:29:02 -0700 (PDT)
-Subject: Re: Guidance on emulating "sparse" address spaces
-To: Jason Thorpe <thorpej@me.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <B588EDAA-3A97-44A9-8CAF-B2858CBE0A93@me.com>
- <13c2d220-4000-74e2-a07b-88d6b898fb34@amsat.org>
- <4E502648-2EFD-4A0E-B161-2C2410709536@me.com>
+ Fri, 25 Jun 2021 19:18:28 -0700 (PDT)
+Subject: Re: [PATCH 1/1] target/arm: Check NaN mode before silencing NaN
+To: Joe Komlodi <joe.komlodi@xilinx.com>, qemu-devel@nongnu.org
+References: <1624662174-175828-1-git-send-email-joe.komlodi@xilinx.com>
+ <1624662174-175828-2-git-send-email-joe.komlodi@xilinx.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3ebeed5b-22e9-fff9-3425-0f06663b7115@linaro.org>
-Date: Fri, 25 Jun 2021 18:29:01 -0700
+Message-ID: <99a806cf-8c54-a504-c51b-bd094a2773b3@linaro.org>
+Date: Fri, 25 Jun 2021 19:18:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <4E502648-2EFD-4A0E-B161-2C2410709536@me.com>
+In-Reply-To: <1624662174-175828-2-git-send-email-joe.komlodi@xilinx.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,15 +88,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/21 5:53 PM, Jason Thorpe wrote:
-> Thanks for the pointer!  Yes, it seems like that might be similar to what I need... create new address spaces (rather than using the "system" address space) for the PCI memory and I/O regions (I need to do this for PCI configuration space, too, FWIW...), then in my sparse ops handlers, decode the bus address and size, and then call address_space_{read,write}().  Have I got the gist of it?
+On 6/25/21 4:02 PM, Joe Komlodi wrote:
+> If the CPU is running in default NaN mode (FPCR.DN == 1) and we execute
+> FRSQRTE, FRECPE, or FRECPX with a signaling NaN, parts_silence_nan_frac() will
+> assert due to fpst->default_nan_mode being set.
+> 
+> To avoid this, we check to see what NaN mode we're running in before we call
+> floatxx_silence_nan().
+> 
+> Signed-off-by: Joe Komlodi<joe.komlodi@xilinx.com>
+> ---
+>   target/arm/helper-a64.c | 12 +++++++++---
+>   target/arm/vfp_helper.c | 24 ++++++++++++++++++------
+>   2 files changed, 27 insertions(+), 9 deletions(-)
 
-Yep.  That bitband device is a good example.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
