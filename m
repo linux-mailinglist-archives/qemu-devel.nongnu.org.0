@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB973B5531
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 23:09:03 +0200 (CEST)
-Received: from localhost ([::1]:58630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D953B5539
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 23:13:37 +0200 (CEST)
+Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxc1W-0002sh-CY
-	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 17:09:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38292)
+	id 1lxc5w-0004uE-Nl
+	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 17:13:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1lxc0X-00020b-4f; Sun, 27 Jun 2021 17:08:01 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:32998 helo=zulu616.server4you.de)
+ id 1lxc5B-00043e-TJ; Sun, 27 Jun 2021 17:12:49 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:33014 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1lxc0U-0002Jz-JE; Sun, 27 Jun 2021 17:08:00 -0400
+ id 1lxc5A-0005TC-7o; Sun, 27 Jun 2021 17:12:49 -0400
 Received: from MacBook-Air.alex.local
  (dynamic-077-002-101-004.77.2.pool.telefonica.de [77.2.101.4])
- by csgraf.de (Postfix) with ESMTPSA id AF34960801CD;
- Sun, 27 Jun 2021 23:07:55 +0200 (CEST)
-Subject: Re: [PATCH v8 19/19] hvf: arm: Handle Windows 10 SMC call
+ by csgraf.de (Postfix) with ESMTPSA id B454C60801CD;
+ Sun, 27 Jun 2021 23:12:45 +0200 (CEST)
+Subject: Re: [PATCH v8 18/19] arm: Enable Windows 10 trusted SMCCC boot call
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-20-agraf@csgraf.de>
- <CAFEAcA880Kgb5GtKEQQpnD=fAwfm1Cs1Sjfc4L5S0ETkjm-CWA@mail.gmail.com>
+ <20210519202253.76782-19-agraf@csgraf.de>
+ <CAFEAcA825LDibg_4rnBQ8TmE8fZNauDkKzKBMGbnfY+j7bSjWg@mail.gmail.com>
 From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <ee7df565-7b43-f1b3-aee7-de67167acf4c@csgraf.de>
-Date: Sun, 27 Jun 2021 23:07:55 +0200
+Message-ID: <23319027-1a44-d190-f70e-ed8a12cb37d9@csgraf.de>
+Date: Sun, 27 Jun 2021 23:12:45 +0200
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA880Kgb5GtKEQQpnD=fAwfm1Cs1Sjfc4L5S0ETkjm-CWA@mail.gmail.com>
+In-Reply-To: <CAFEAcA825LDibg_4rnBQ8TmE8fZNauDkKzKBMGbnfY+j7bSjWg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -66,7 +66,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 15.06.21 11:31, Peter Maydell wrote:
+On 15.06.21 13:02, Peter Maydell wrote:
 > On Wed, 19 May 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
 >> Windows 10 calls an SMCCC call via SMC unconditionally on boot. It lives
 >> in the trusted application call number space, but its purpose is unknown.
@@ -75,60 +75,25 @@ On 15.06.21 11:31, Peter Maydell wrote:
 >> including this one. However, Windows breaks on boot when we do this. Instead,
 >> let's return an error code.
 >>
->> With this patch applied I can successfully boot the current Windows 10
->> Insider Preview in HVF.
->>
->> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->>
->> ---
->>
->> v7 -> v8:
->>
->>   - fix checkpatch
->> ---
->>  target/arm/hvf/hvf.c | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
->> index 65c33e2a14..be670af578 100644
->> --- a/target/arm/hvf/hvf.c
->> +++ b/target/arm/hvf/hvf.c
->> @@ -931,6 +931,10 @@ int hvf_vcpu_exec(CPUState *cpu)
->>          cpu_synchronize_state(cpu);
->>          if (!hvf_handle_psci_call(cpu)) {
->>              advance_pc = true;
->> +        } else if (env->xregs[0] == QEMU_SMCCC_TC_WINDOWS10_BOOT) {
->> +            /* This special SMC is called by Windows 10 on boot. Return error */
->> +            env->xregs[0] = -1;
->> +            advance_pc = true;
->>          } else {
->>              trace_hvf_unknown_smc(env->xregs[0]);
->>              hvf_raise_exception(env, EXCP_UDEF, syn_uncategorized());
-> Where can I find documentation on what this SMC call is and what
-> it's supposed to do ?
+>> With this and -M virt,virtualization=on I can successfully boot the current
+>> Windows 10 Insider Preview in TCG.
+>
+> Same comments apply here and for patch 19.
+>
+> Either we can:
+>  * find a spec for whatever this SMC ABI is and implement it
+>    consistently across TCG, KVM and HVF
+>  * find whether we're misimplementing whatever the SMCCC spec says
+>    should happen for unknown SMC calls, and fix that bug
+>
+> But we're not adding random hacky workarounds for specific guest OSes.
 
 
-It's 0xc3000001 which according to the SMCCC spec [1] means OR'ed values
-of the following:
-
-0x80000000 = Fast Call
-0x40000000 = SMC64
-0x03000000 = OEM Service Calls
-0x00000001 = Function number 1
-
-So, uh. I'm not sure how to answer the question above. I don't have
-source level access to Windows to read what the call is supposed to do
-:). But it's definitely calling something OEM specific that it really
-shouldn't be callling.
-
-Reading the SMCCC spec section 5.2, unknown SMCCC calls should return
--1. It advises against probing by just calling them, but does not
-specify any other fault behavior than the -1 return (such as the #UDEF
-we inject in TCG).
+Let's move the conversation to 19/19 then. My take on this is that TCG
+is misinterpreting the SMCCC spec.
 
 
 Alex
 
-[1] https://developer.arm.com/documentation/den0028/latest
 
 
