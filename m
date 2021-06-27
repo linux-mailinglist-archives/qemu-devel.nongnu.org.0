@@ -2,80 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FED63B5421
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 17:57:36 +0200 (CEST)
-Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B616C3B5435
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 18:29:53 +0200 (CEST)
+Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxXA6-0003OS-Uh
-	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 11:57:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59080)
+	id 1lxXfM-0002LR-OT
+	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 12:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lxX8X-0001gb-C5
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 11:55:57 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lxX8Q-0006SJ-7Y
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 11:55:56 -0400
-Received: by mail-pg1-x529.google.com with SMTP id h4so13096629pgp.5
- for <qemu-devel@nongnu.org>; Sun, 27 Jun 2021 08:55:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ASiRu2WUs+uIt1JaMEZbmtMIF3dvDvoZRWRq8lWOOa8=;
- b=noGx42PgnU/5k+1cO31TtUSWeQh0qX1bHMFn28Y7a7GgqQ9NYqPEbLtBQ+ynAwx1qh
- VFYVewViWh4CXlte9AwtwE3JWPLkFTlgLa22NBdEHH/Stawzf4XeXDCp/BKUJAgLD/1d
- L0NDheZCl7xPyl7Xl1TwDhhJzOEY5Z9ffBFJF3KF0CoRcHLgAhffu/h7ct3FXUSbEguL
- WwcRy0QrRCeEeUrkfN38tstrvYgOEPQR9XuVmL2qWNQ70YZDyB1XyCcPD2PWaN7KEd8X
- XbYjNt1uY1H3OtbDwlOEk7JOjG4WuE6vbs9IZ8XuyotV9bbSadXZRgmnDs17U4M8vXdu
- ncVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ASiRu2WUs+uIt1JaMEZbmtMIF3dvDvoZRWRq8lWOOa8=;
- b=L1mvYkTPZPHTUCt/+/B/HHjzqLI0adSXWfdcde2TgJi8uqPdT6Db4+Djok3baXTMJv
- wLA9Y8q7gpiBKVbIK2BMeqV5iukG+HNcjxfl0WKlSl4UXWwgNYQdohVLW4bOWyNq05HQ
- qCbBzx7YKZ+2NcYqbXN/IJv1myqGaW3YMeEXXAlv+FtXF52LqVPuhzKA5NSDaIqbh9XN
- 3jAwUYCr9f4aiCAydv85A4L3V/NqDzPbbaQ9tmHm1yqwtaEcRKZBer+YpxM53AuVHWub
- lM60HVmgR8EiyUxaWA7RTCYZOJaJfS/EQer5nqwTJ7w/Ts5qLk7KDt6KSwg7dQ5ABt1R
- f52Q==
-X-Gm-Message-State: AOAM531DKWhUMRAdGroWGm19xWU22W7O6rk8viqKsr0nWifROdn+JIrg
- jYY62M4CE2Hy9q08m1wfhYBIGI7xKE464CQv
-X-Google-Smtp-Source: ABdhPJxfpj34jrts1UruhaUrRiNrVwaH8sYHqpXA/rtQwj8Gyz10Ug89Fhrc9oqD/cPunmW8ZJCAMQ==
-X-Received: by 2002:a62:774b:0:b029:308:b858:b1fa with SMTP id
- s72-20020a62774b0000b0290308b858b1famr16492078pfc.34.1624809346662; 
- Sun, 27 Jun 2021 08:55:46 -0700 (PDT)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com.
- [209.85.214.169])
- by smtp.gmail.com with ESMTPSA id m1sm17772884pjk.35.2021.06.27.08.55.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Jun 2021 08:55:46 -0700 (PDT)
-Received: by mail-pl1-f169.google.com with SMTP id h1so7478676plt.1;
- Sun, 27 Jun 2021 08:55:46 -0700 (PDT)
-X-Received: by 2002:a17:90a:6be6:: with SMTP id
- w93mr22509260pjj.171.1624809346006; 
- Sun, 27 Jun 2021 08:55:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lxXdh-0008Mg-1U
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 12:28:09 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:38043
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lxXdd-0000ew-Ve
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 12:28:08 -0400
+HMM_SOURCE_IP: 172.18.0.218:36824.1267841130
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.101?logid-04efeadc42754a6fb289043db07ad530
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id F1C9D28008E;
+ Mon, 28 Jun 2021 00:28:00 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 83ae0dcc5d064bef9625aa585bb16192 for
+ qemu-devel@nongnu.org; Mon Jun 28 00:28:00 2021
+X-Transaction-ID: 83ae0dcc5d064bef9625aa585bb16192
+X-filter-score: 
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH v10 1/6] KVM: introduce dirty_pages and kvm_dirty_ring_enabled
+Date: Mon, 28 Jun 2021 00:27:41 +0800
+Message-Id: <8123247030c13f8faff448a414827af43f663499.1624811188.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1624810438.git.huangy81@chinatelecom.cn>
+References: <cover.1624810438.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1624811188.git.huangy81@chinatelecom.cn>
+References: <cover.1624811188.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sun, 27 Jun 2021 23:55:35 +0800
-X-Gmail-Original-Message-ID: <CANzO1D3O-i2HZKV7vQ-DAJkaUGE=yvOVhN+oJShbA6HdqqBH-Q@mail.gmail.com>
-Message-ID: <CANzO1D3O-i2HZKV7vQ-DAJkaUGE=yvOVhN+oJShbA6HdqqBH-Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/11] RISC-V: support clic v0.9 specification
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: multipart/alternative; boundary="000000000000e5853905c5c1670d"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,197 +66,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e5853905c5c1670d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-LIU Zhiwei <zhiwei_liu@c-sky.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=889=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:58=E5=AF=AB=E9=81=93=EF=BC=9A
+dirty_pages is used to calculate dirtyrate via dirty ring, when
+enabled, kvm-reaper will increase the dirty pages after gfns
+being dirtied.
 
-> This patch set gives an implementation of "RISC-V Core-Local Interrupt
-> Controller(CLIC) Version 0.9-draft-20210217". It comes from [1], where
-> you can find the pdf format or the source code.
->
-> I take over the job from Michael Clark, who gave the first implementation
-> of clic-v0.7 specification. If there is any copyright question, please
-> let me know.
->
-> Features:
-> 1. support four kinds of trigger types.
-> 2. Preserve the CSR WARL/WPRI semantics.
-> 3. Option to select different modes, such as M/S/U or M/U.
-> 4. At most 4096 interrupts.
-> 5. At most 1024 apertures.
->
-> Todo:
-> 1. Encode the interrupt trigger information to exccode.
-> 2. Support complete CSR mclicbase when its number is fixed.
-> 3. Gave each aperture an independend address.
->
-> It have passed my qtest case and freertos test. Welcome to have a try
-> for your hardware.
->
-> Any advice is welcomed. Thanks very much.
->
-> Zhiwei
->
-> [1] specification website: https://github.com/riscv/riscv-fast-interrupt.
-> [2] Michael Clark origin work:
-> https://github.com/sifive/riscv-qemu/tree/sifive-clic.
->
->
-> LIU Zhiwei (11):
->   target/riscv: Add CLIC CSR mintstatus
->   target/riscv: Update CSR xintthresh in CLIC mode
->   hw/intc: Add CLIC device
->   target/riscv: Update CSR xie in CLIC mode
->   target/riscv: Update CSR xip in CLIC mode
->   target/riscv: Update CSR xtvec in CLIC mode
->   target/riscv: Update CSR xtvt in CLIC mode
->   target/riscv: Update CSR xnxti in CLIC mode
->   target/riscv: Update CSR mclicbase in CLIC mode
->   target/riscv: Update interrupt handling in CLIC mode
->   target/riscv: Update interrupt return in CLIC mode
->
->  default-configs/devices/riscv32-softmmu.mak |   1 +
->  default-configs/devices/riscv64-softmmu.mak |   1 +
->  hw/intc/Kconfig                             |   3 +
->  hw/intc/meson.build                         |   1 +
->  hw/intc/riscv_clic.c                        | 836 ++++++++++++++++++++
->  include/hw/intc/riscv_clic.h                | 103 +++
->  target/riscv/cpu.h                          |   9 +
->  target/riscv/cpu_bits.h                     |  32 +
->  target/riscv/cpu_helper.c                   | 117 ++-
->  target/riscv/csr.c                          | 247 +++++-
->  target/riscv/op_helper.c                    |  25 +
->  11 files changed, 1363 insertions(+), 12 deletions(-)
->  create mode 100644 hw/intc/riscv_clic.c
->  create mode 100644 include/hw/intc/riscv_clic.h
->
-> --
-> 2.25.1
->
->
->
-After reviewing this patchset.
-I found that CLIC v0.8 spec is quite incomplete.
-It lacks all S-mode related CSRs.
+kvm_dirty_ring_enabled shows if kvm-reaper is working. dirtyrate
+thread could use it to check if measurement can base on dirty
+ring feature.
 
-If you think that it's just the v0.8 spec issue for not covering
-all the required S-mode related CSRs -- and we should include them
-in CLIC v0.8 implementation even it's not documented explicitly.
-You can just ignore my comments in regard to S-mode CSRs for v0.8 CLIC.
-(Besides mintthresh, v0.8 spec does say that it holds the 8-bit field
-interrupt thresholds for each privilege mode.)
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Message-Id: <fee5fb2ab17ec2159405fc54a3cff8e02322f816.1624040308.git.huangy81@chinatelecom.cn>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+---
+ accel/kvm/kvm-all.c   | 7 +++++++
+ include/hw/core/cpu.h | 1 +
+ include/sysemu/kvm.h  | 1 +
+ 3 files changed, 9 insertions(+)
 
-Regards,
-Frank Chang
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index c7ec538..bc012f0 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -469,6 +469,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
+     cpu->kvm_fd = ret;
+     cpu->kvm_state = s;
+     cpu->vcpu_dirty = true;
++    cpu->dirty_pages = 0;
+ 
+     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
+     if (mmap_size < 0) {
+@@ -743,6 +744,7 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
+         count++;
+     }
+     cpu->kvm_fetch_index = fetch;
++    cpu->dirty_pages += count;
+ 
+     return count;
+ }
+@@ -2293,6 +2295,11 @@ bool kvm_vcpu_id_is_valid(int vcpu_id)
+     return vcpu_id >= 0 && vcpu_id < kvm_max_vcpu_id(s);
+ }
+ 
++bool kvm_dirty_ring_enabled(void)
++{
++    return kvm_state->kvm_dirty_ring_size ? true : false;
++}
++
+ static int kvm_init(MachineState *ms)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 4e0ea68..80fcb1d 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -374,6 +374,7 @@ struct CPUState {
+     struct kvm_run *kvm_run;
+     struct kvm_dirty_gfn *kvm_dirty_gfns;
+     uint32_t kvm_fetch_index;
++    uint64_t dirty_pages;
+ 
+     /* Used for events with 'vcpu' and *without* the 'disabled' properties */
+     DECLARE_BITMAP(trace_dstate_delayed, CPU_TRACE_DSTATE_MAX_EVENTS);
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index a1ab1ee..7b22aeb 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -547,4 +547,5 @@ bool kvm_cpu_check_are_resettable(void);
+ 
+ bool kvm_arch_cpu_check_are_resettable(void);
+ 
++bool kvm_dirty_ring_enabled(void);
+ #endif
+-- 
+1.8.3.1
 
---000000000000e5853905c5c1670d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_l=
-iu@c-sky.com">zhiwei_liu@c-sky.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:58=E5=AF=AB=E9=81=93=
-=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">This patch set gives an implementation of &quot;RISC-V=
- Core-Local Interrupt<br>
-Controller(CLIC) Version 0.9-draft-20210217&quot;. It comes from [1], where=
-<br>
-you can find the pdf format or the source code.<br>
-<br>
-I take over the job from Michael Clark, who gave the first implementation<b=
-r>
-of clic-v0.7 specification. If there is any copyright question, please<br>
-let me know.<br>
-<br>
-Features:<br>
-1. support four kinds of trigger types.<br>
-2. Preserve the CSR WARL/WPRI semantics. <br>
-3. Option to select different modes, such as M/S/U or M/U.<br>
-4. At most 4096 interrupts.<br>
-5. At most 1024 apertures.<br>
-<br>
-Todo:<br>
-1. Encode the interrupt trigger information to exccode.<br>
-2. Support complete CSR mclicbase when its number is fixed. <br>
-3. Gave each aperture an independend address.<br>
-<br>
-It have passed my qtest case and freertos test. Welcome to have a try<br>
-for your hardware.<br>
-<br>
-Any advice is welcomed. Thanks very much.<br>
-<br>
-Zhiwei<br>
-<br>
-[1] specification website: <a href=3D"https://github.com/riscv/riscv-fast-i=
-nterrupt" rel=3D"noreferrer" target=3D"_blank">https://github.com/riscv/ris=
-cv-fast-interrupt</a>.<br>
-[2] Michael Clark origin work: <a href=3D"https://github.com/sifive/riscv-q=
-emu/tree/sifive-clic" rel=3D"noreferrer" target=3D"_blank">https://github.c=
-om/sifive/riscv-qemu/tree/sifive-clic</a>.<br>
-<br>
-<br>
-LIU Zhiwei (11):<br>
-=C2=A0 target/riscv: Add CLIC CSR mintstatus<br>
-=C2=A0 target/riscv: Update CSR xintthresh in CLIC mode<br>
-=C2=A0 hw/intc: Add CLIC device<br>
-=C2=A0 target/riscv: Update CSR xie in CLIC mode<br>
-=C2=A0 target/riscv: Update CSR xip in CLIC mode<br>
-=C2=A0 target/riscv: Update CSR xtvec in CLIC mode<br>
-=C2=A0 target/riscv: Update CSR xtvt in CLIC mode<br>
-=C2=A0 target/riscv: Update CSR xnxti in CLIC mode<br>
-=C2=A0 target/riscv: Update CSR mclicbase in CLIC mode<br>
-=C2=A0 target/riscv: Update interrupt handling in CLIC mode<br>
-=C2=A0 target/riscv: Update interrupt return in CLIC mode<br>
-<br>
-=C2=A0default-configs/devices/riscv32-softmmu.mak |=C2=A0 =C2=A01 +<br>
-=C2=A0default-configs/devices/riscv64-softmmu.mak |=C2=A0 =C2=A01 +<br>
-=C2=A0hw/intc/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
-=C2=A0hw/intc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0hw/intc/riscv_clic.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 836 ++++++++++++++++++++<br>
-=C2=A0include/hw/intc/riscv_clic.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 | 103 +++<br>
-=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A09 +<br>
-=C2=A0target/riscv/cpu_bits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 32 +<br>
-=C2=A0target/riscv/cpu_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| 117 ++-<br>
-=C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 247 +++++-<br>
-=C2=A0target/riscv/op_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 25 +<br>
-=C2=A011 files changed, 1363 insertions(+), 12 deletions(-)<br>
-=C2=A0create mode 100644 hw/intc/riscv_clic.c<br>
-=C2=A0create mode 100644 include/hw/intc/riscv_clic.h<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br></blockquote><div><br></div><div>After reviewing this patchset.</div><d=
-iv>I found that CLIC v0.8 spec is quite incomplete.</div><div>It lacks all =
-S-mode related CSRs.<br></div><div><br></div><div>If you think that it&#39;=
-s just the v0.8 spec issue for not covering</div><div>all the required S-mo=
-de related CSRs -- and we should include them</div><div>in CLIC v0.8 implem=
-entation even it&#39;s not documented explicitly.</div><div>You can just ig=
-nore my comments in regard to S-mode CSRs for v0.8 CLIC.</div><div>(Besides=
-=C2=A0mintthresh, v0.8 spec does say that it holds the 8-bit field</div><di=
-v>interrupt thresholds for each privilege mode.)</div><div><br></div><div>R=
-egards,</div><div>Frank Chang</div></div></div>
-
---000000000000e5853905c5c1670d--
 
