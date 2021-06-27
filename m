@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D29F3B523D
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 07:44:09 +0200 (CEST)
-Received: from localhost ([::1]:57880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB633B523B
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 07:41:28 +0200 (CEST)
+Received: from localhost ([::1]:53732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxNaS-0003aY-A7
-	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 01:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53278)
+	id 1lxNXr-0000cR-Uf
+	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 01:41:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lxNVF-0007dm-54
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 01:38:45 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:44587
+ id 1lxNVH-0007dw-3e
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 01:38:47 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:44593
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lxNV6-0001LL-BZ
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 01:38:44 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lxNVB-0001QG-Pm
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 01:38:46 -0400
 HMM_SOURCE_IP: 172.18.0.218:60506.95674552
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-171.223.99.176?logid-0210caab79734a8b87be68778a878dff
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 31EF6280099;
- Sun, 27 Jun 2021 13:38:34 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 18BDB28009A;
+ Sun, 27 Jun 2021 13:38:39 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 1a488dc223314a2ca9e423d97856d07a for
- qemu-devel@nongnu.org; Sun Jun 27 13:38:34 2021
-X-Transaction-ID: 1a488dc223314a2ca9e423d97856d07a
+ by app0025 with ESMTP id 29f13c49ed394465816ab1302c0509a2 for
+ qemu-devel@nongnu.org; Sun Jun 27 13:38:39 2021
+X-Transaction-ID: 29f13c49ed394465816ab1302c0509a2
 X-filter-score: 
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] KVM: introduce kvm_get_manual_dirty_log_protect
-Date: Sun, 27 Jun 2021 13:38:15 +0800
-Message-Id: <93edbfecdaf4a67a8316c33a1183e2e5f97a0b22.1624771216.git.huangy81@chinatelecom.cn>
+Subject: [PATCH 3/4] memory: introduce DIRTY_MEMORY_DIRTY_RATE dirty bits
+ functions
+Date: Sun, 27 Jun 2021 13:38:16 +0800
+Message-Id: <a7553a5899b70d50afa04e06597967e20ae41873.1624771216.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1624768443.git.huangy81@chinatelecom.cn>
 References: <cover.1624768443.git.huangy81@chinatelecom.cn>
@@ -75,45 +76,226 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-introduce kvm_get_manual_dirty_log_protect for measureing
-dirtyrate via dirty bitmap. calculation of dirtyrate need
-to sync dirty log and depends on the features of dirty log.
+introduce util functions to setup the DIRTY_MEMORY_DIRTY_RATE
+dirty bits for the convenience of tracking dirty bitmap when
+calculating dirtyrate.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- accel/kvm/kvm-all.c  | 6 ++++++
- include/sysemu/kvm.h | 1 +
- 2 files changed, 7 insertions(+)
+ include/exec/ram_addr.h | 121 ++++++++++++++++++++++++++++++++++++++++++++++++
+ softmmu/physmem.c       |  61 ++++++++++++++++++++++++
+ 2 files changed, 182 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index e0e88a2..f7d9ae0 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -245,6 +245,12 @@ int kvm_get_max_memslots(void)
-     return s->nr_slots;
- }
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 6070a52..57dc96b 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -435,6 +435,12 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
+                                               ram_addr_t length,
+                                               unsigned client);
  
-+uint64_t kvm_get_manual_dirty_log_protect(void)
++void cpu_physical_memory_dirtyrate_clear_bit(ram_addr_t start,
++                                             ram_addr_t length);
++
++void cpu_physical_memory_dirtyrate_reprotect_bit(ram_addr_t start,
++                                                 ram_addr_t length);
++
+ DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
+     (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client);
+ 
+@@ -523,5 +529,120 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
+ 
+     return num_dirty;
+ }
++
++/* Called with RCU critical section */
++static inline
++void cpu_physical_memory_dirtyrate_clear_dirty_bits(RAMBlock *rb)
 +{
-+    KVMState *s = KVM_STATE(current_accel());
-+    return s->manual_dirty_log_protect;
++    ram_addr_t addr;
++    ram_addr_t length = rb->used_length;
++    unsigned long word = BIT_WORD(rb->offset >> TARGET_PAGE_BITS);
++
++    /* start address and length is aligned at the start of a word? */
++    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) == rb->offset &&
++        !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
++        int k;
++        int nr = BITS_TO_LONGS(length >> TARGET_PAGE_BITS);
++        unsigned long * const *src;
++        unsigned long idx = (word * BITS_PER_LONG) / DIRTY_MEMORY_BLOCK_SIZE;
++        unsigned long offset = BIT_WORD((word * BITS_PER_LONG) %
++                                        DIRTY_MEMORY_BLOCK_SIZE);
++
++        src = qatomic_rcu_read(
++                &ram_list.dirty_memory[DIRTY_MEMORY_DIRTY_RATE])->blocks;
++
++        for (k = 0; k < nr; k++) {
++            if (src[idx][offset]) {
++                qatomic_set(&src[idx][offset], 0);
++            }
++            if (++offset >= BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)) {
++                offset = 0;
++                idx++;
++            }
++        }
++    } else {
++        ram_addr_t offset = rb->offset;
++
++        for (addr = 0; addr < length; addr += TARGET_PAGE_SIZE) {
++            cpu_physical_memory_dirtyrate_clear_bit(addr + offset,
++                                                    TARGET_PAGE_SIZE);
++        }
++    }
++
++    return;
 +}
 +
- /* Called with KVMMemoryListener.slots_lock held */
- static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- {
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 7b22aeb..b668d49 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -533,6 +533,7 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *source);
- int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target);
- struct ppc_radix_page_info *kvm_get_radix_page_info(void);
- int kvm_get_max_memslots(void);
-+uint64_t kvm_get_manual_dirty_log_protect(void);
++/* Called with RCU critical section */
++static inline
++uint64_t cpu_physical_memory_dirtyrate_stat_dirty_bits(RAMBlock *rb)
++{
++    uint64_t dirty_pages = 0;
++    ram_addr_t addr;
++    ram_addr_t length = rb->used_length;
++    unsigned long word = BIT_WORD(rb->offset >> TARGET_PAGE_BITS);
++    unsigned long bits;
++
++    /* start address and length is aligned at the start of a word? */
++    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) == rb->offset &&
++        !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
++        int k;
++        int nr = BITS_TO_LONGS(length >> TARGET_PAGE_BITS);
++        unsigned long * const *src;
++        unsigned long idx = (word * BITS_PER_LONG) / DIRTY_MEMORY_BLOCK_SIZE;
++        unsigned long offset = BIT_WORD((word * BITS_PER_LONG) %
++                                        DIRTY_MEMORY_BLOCK_SIZE);
++
++        src = qatomic_rcu_read(
++                &ram_list.dirty_memory[DIRTY_MEMORY_DIRTY_RATE])->blocks;
++
++        for (k = 0; k < nr; k++) {
++            if (src[idx][offset]) {
++                bits = qatomic_read(&src[idx][offset]);
++                dirty_pages += ctpopl(bits);
++            }
++
++            if (++offset >= BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)) {
++                offset = 0;
++                idx++;
++            }
++        }
++    } else {
++        ram_addr_t offset = rb->offset;
++
++        for (addr = 0; addr < length; addr += TARGET_PAGE_SIZE) {
++            if (cpu_physical_memory_get_dirty(offset + addr,
++                                              TARGET_PAGE_SIZE,
++                                              DIRTY_MEMORY_DIRTY_RATE)) {
++                dirty_pages++;
++            }
++        }
++    }
++
++    return dirty_pages;
++}
++
++static inline
++void cpu_physical_memory_dirtyrate_reset_protect(RAMBlock *rb)
++{
++    ram_addr_t addr;
++    ram_addr_t length = rb->used_length;
++    unsigned long word = BIT_WORD(rb->offset >> TARGET_PAGE_BITS);
++
++    /* start address and length is aligned at the start of a word? */
++    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) == rb->offset &&
++        !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
++        memory_region_clear_dirty_bitmap(rb->mr, 0, length);
++    } else {
++        ram_addr_t offset = rb->offset;
++
++        for (addr = 0; addr < length; addr += TARGET_PAGE_SIZE) {
++            cpu_physical_memory_dirtyrate_reprotect_bit(offset + addr,
++                                                        TARGET_PAGE_SIZE);
++        }
++    }
++
++    return;
++}
++
+ #endif
+ #endif
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 9b171c9..d68649a 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1068,6 +1068,67 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
+     return dirty;
+ }
  
- /* Notify resamplefd for EOI of specific interrupts. */
- void kvm_resample_fd_notify(int gsi);
++void cpu_physical_memory_dirtyrate_clear_bit(ram_addr_t start,
++                                             ram_addr_t length)
++{
++    DirtyMemoryBlocks *blocks;
++    unsigned long end, page;
++    RAMBlock *ramblock;
++
++    if (length == 0) {
++        return;
++    }
++
++    end = TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
++    page = start >> TARGET_PAGE_BITS;
++
++    WITH_RCU_READ_LOCK_GUARD() {
++        blocks =
++            qatomic_rcu_read(&ram_list.dirty_memory[DIRTY_MEMORY_DIRTY_RATE]);
++        ramblock = qemu_get_ram_block(start);
++        /* Range sanity check on the ramblock */
++        assert(start >= ramblock->offset &&
++               start + length <= ramblock->offset + ramblock->used_length);
++        while (page < end) {
++            unsigned long idx = page / DIRTY_MEMORY_BLOCK_SIZE;
++            unsigned long offset = page % DIRTY_MEMORY_BLOCK_SIZE;
++            unsigned long num = MIN(end - page,
++                                    DIRTY_MEMORY_BLOCK_SIZE - offset);
++
++            clear_bit(num, blocks->blocks[idx]);
++            page += num;
++        }
++    }
++
++    return;
++}
++
++void cpu_physical_memory_dirtyrate_reprotect_bit(ram_addr_t start,
++                                                 ram_addr_t length)
++{
++    unsigned long end, start_page;
++    RAMBlock *ramblock;
++    uint64_t mr_offset, mr_size;
++
++    if (length == 0) {
++        return;
++    }
++
++    end = TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
++    start_page = start >> TARGET_PAGE_BITS;
++
++    ramblock = qemu_get_ram_block(start);
++    /* Range sanity check on the ramblock */
++    assert(start >= ramblock->offset &&
++        start + length <= ramblock->offset + ramblock->used_length);
++
++    mr_offset = (ram_addr_t)(start_page << TARGET_PAGE_BITS) - ramblock->offset;
++    mr_size = (end - start_page) << TARGET_PAGE_BITS;
++    memory_region_clear_dirty_bitmap(ramblock->mr, mr_offset, mr_size);
++
++    return;
++}
++
+ DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
+     (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client)
+ {
 -- 
 1.8.3.1
 
