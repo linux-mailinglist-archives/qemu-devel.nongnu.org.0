@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23883B5503
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 21:31:20 +0200 (CEST)
-Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CE73B5528
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 22:42:02 +0200 (CEST)
+Received: from localhost ([::1]:53590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxaUw-0005S6-PR
-	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 15:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
+	id 1lxbbN-0006iM-8p
+	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 16:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1lxaTT-0004XF-Ne; Sun, 27 Jun 2021 15:29:47 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:49201)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1lxaTR-0006Zk-BM; Sun, 27 Jun 2021 15:29:47 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from [192.168.178.98] ([79.201.210.135])
- (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Sun, 27 Jun 2021 21:29:29 +0200
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1lxba9-0005hT-SU; Sun, 27 Jun 2021 16:40:45 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:32976 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1lxbZq-0001Ov-3y; Sun, 27 Jun 2021 16:40:45 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-077-002-101-004.77.2.pool.telefonica.de [77.2.101.4])
+ by csgraf.de (Postfix) with ESMTPSA id 706C860801CD;
+ Sun, 27 Jun 2021 22:40:20 +0200 (CEST)
+Subject: Re: [PATCH v8 13/19] hvf: Add Apple Silicon support
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210519202253.76782-1-agraf@csgraf.de>
+ <20210519202253.76782-14-agraf@csgraf.de>
+ <CAFEAcA_M6SB8f4X1z=P4+pZ0Q-H3vdhvgu8ZsQLxZFro5TuiVQ@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <30c30532-c84a-051d-825e-9da6da0b4dcf@csgraf.de>
+Date: Sun, 27 Jun 2021 22:40:19 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_M6SB8f4X1z=P4+pZ0Q-H3vdhvgu8ZsQLxZFro5TuiVQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Peter Lieven <pl@kamp.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH V3 5/6] block/rbd: add write zeroes support
-Date: Sun, 27 Jun 2021 21:29:32 +0200
-Message-Id: <4B3051D6-3D41-4216-9C58-066C85B233A4@kamp.de>
-References: <CAOi1vP8Hp8zHuG0_xB7g8X1sBPAw=oZ4np65--UqBavB4YAXAQ@mail.gmail.com>
-In-Reply-To: <CAOi1vP8Hp8zHuG0_xB7g8X1sBPAw=oZ4np65--UqBavB4YAXAQ@mail.gmail.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-X-Mailer: iPhone Mail (18D70)
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.765,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,159 +55,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com,
- "=?utf-8?Q? Daniel_P._Berrang=C3=A9 ?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, ct@flyingcircus.io,
- Paolo Bonzini <pbonzini@redhat.com>, mreitz@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Peter,
+
+On 15.06.21 12:21, Peter Maydell wrote:
+> On Wed, 19 May 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
+>> With Apple Silicon available to the masses, it's a good time to add support
+>> for driving its virtualization extensions from QEMU.
+>>
+>> This patch adds all necessary architecture specific code to get basic VMs
+>> working. It's still pretty raw, but definitely functional.
+>>
+>> Known limitations:
+>>
+>>   - Vtimer acknowledgement is hacky
+>>   - Should implement more sysregs and fault on invalid ones then
+>>   - WFI handling is missing, need to marry it with vtimer
+>>
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>> @@ -446,11 +454,17 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
+>>                         cpu, QEMU_THREAD_JOINABLE);
+>>  }
+>>
+>> +__attribute__((weak)) void hvf_kick_vcpu_thread(CPUState *cpu)
+>> +{
+>> +    cpus_kick_thread(cpu);
+>> +}
+> Why is this marked 'weak' ? If there's a reason for it then
+> it ought to have a comment describing the reason. If we can avoid
+> it then we should do so -- past experience is that 'weak' refs
+> are rather non-portable, though at least this one is in a
+> host-OS-specific file.
 
 
-> Am 26.06.2021 um 17:57 schrieb Ilya Dryomov <idryomov@gmail.com>:
->=20
-> =EF=BB=BFOn Mon, Jun 21, 2021 at 10:49 AM Peter Lieven <pl@kamp.de> wrote:=
+Mostly because I wanted to keep the kick function in the generic file
+for the generic case. ARM is special in that it requires different kick
+mechanisms depending on which context we're in (in-vcpu or in-QEMU).
 
->>=20
->>> Am 18.06.21 um 12:34 schrieb Ilya Dryomov:
->>> On Fri, Jun 18, 2021 at 11:00 AM Peter Lieven <pl@kamp.de> wrote:
->>>> Am 16.06.21 um 14:34 schrieb Ilya Dryomov:
->>>>> On Wed, May 19, 2021 at 4:28 PM Peter Lieven <pl@kamp.de> wrote:
->>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
->>>>>> ---
->>>>>>  block/rbd.c | 37 ++++++++++++++++++++++++++++++++++++-
->>>>>>  1 file changed, 36 insertions(+), 1 deletion(-)
->>>>>>=20
->>>>>> diff --git a/block/rbd.c b/block/rbd.c
->>>>>> index 0d8612a988..ee13f08a74 100644
->>>>>> --- a/block/rbd.c
->>>>>> +++ b/block/rbd.c
->>>>>> @@ -63,7 +63,8 @@ typedef enum {
->>>>>>      RBD_AIO_READ,
->>>>>>      RBD_AIO_WRITE,
->>>>>>      RBD_AIO_DISCARD,
->>>>>> -    RBD_AIO_FLUSH
->>>>>> +    RBD_AIO_FLUSH,
->>>>>> +    RBD_AIO_WRITE_ZEROES
->>>>>>  } RBDAIOCmd;
->>>>>>=20
->>>>>>  typedef struct BDRVRBDState {
->>>>>> @@ -705,6 +706,10 @@ static int qemu_rbd_open(BlockDriverState *bs, Q=
-Dict *options, int flags,
->>>>>>          }
->>>>>>      }
->>>>>>=20
->>>>>> +#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
->>>>>> +    bs->supported_zero_flags =3D BDRV_REQ_MAY_UNMAP;
->>>>> I wonder if we should also set BDRV_REQ_NO_FALLBACK here since librbd
->>>>> does not really have a notion of non-efficient explicit zeroing.
->>>>=20
->>>> This is only true if thick provisioning is supported which is in Octopu=
-s onwards, right?
->>> Since Pacific, I think.
->>>=20
->>>> So it would only be correct to set this if thick provisioning is suppor=
-ted otherwise we could
->>>>=20
->>>> fail with ENOTSUP and then qemu emulates the zeroing with plain writes.=
+However, I agree that with 2 architectures, there's not really a
+"default". I'm happy to move it into the x86 specific file.
 
->>> I actually had a question about that.  Why are you returning ENOTSUP
->>> in case BDRV_REQ_MAY_UNMAP is not specified and that can't be fulfilled
->>> because librbd is too old for RBD_WRITE_ZEROES_FLAG_THICK_PROVISION?
->>>=20
->>> My understanding has always been that BDRV_REQ_MAY_UNMAP is just
->>> a hint.  Deallocating if BDRV_REQ_MAY_UNMAP is specified is not nice
->>> but should be perfectly acceptable.  It is certainly better than
->>> returning ENOTSUP, particularly if ENOTSUP causes Qemu to do plain
->>> zeroing.
->>=20
->>=20
->> I think this was introduced to support different provisioning modes. If B=
-DRV_REQ_MAY_UNMAP is not set
->>=20
->> the caller of bdrv_write_zeroes expects that the driver does thick provis=
-ioning. If the driver cannot handle that (efficiently)
->>=20
->> qemu does a plain zero write.
->>=20
->>=20
->> I am still not fully understanding the meaning of the BDRV_REQ_NO_FALLBAC=
-K flag. The original commit states that it was introduced for qemu-img to ef=
-ficiently
->>=20
->> zero out the target and avoid the slow fallback. When I last worked on qe=
-mu-img convert I remember that there was a call to zero out the target if bd=
-rv_has_zero_init
->>=20
->> is not 1. It seems hat meanwhile a target_is_zero cmdline switch for qemu=
--img convert was added to let the user assert that a preexisting target is z=
-ero.
->>=20
->> Maybe someone can help here if it would be right to set BDRV_REQ_NO_FALLB=
-ACK for rbd in either of the 2 cases (thick provisioning is support or not)?=
 
->=20
-> Since no one spoke up I think we should
->=20
-> a) remove the BDRV_REQ_MAY_UNMAP check in qemu_rbd_co_pwrite_zeroes()
->   and as a consequence always unmap if librbd is too old
->=20
->   It's not clear what qemu's expectation is but in general Write
->   Zeroes is allowed to unmap.  The only guarantee is that subsequent
->   reads return zeroes, everything else is a hint.  This is how it is
->   specified in the kernel and in the NVMe spec.
->=20
->   In particular, block/nvme.c implements it as follows:
->=20
->   if (flags & BDRV_REQ_MAY_UNMAP) {
->       cdw12 |=3D (1 << 25);
->   }
->=20
->   This sets the Deallocate bit.  But if it's not set, the device may
->   still deallocate:
->=20
->   """
->   If the Deallocate bit (CDW12.DEAC) is set to '1' in a Write Zeroes
->   command, and the namespace supports clearing all bytes to 0h in the
->   values read (e.g., bits 2:0 in the DLFEAT field are set to 001b)
->   from a deallocated logical block and its metadata (excluding
->   protection information), then for each specified logical block, the
->   controller:
->   - should deallocate that logical block;
->=20
->   ...
->=20
->   If the Deallocate bit is cleared to '0' in a Write Zeroes command,
->   and the namespace supports clearing all bytes to 0h in the values
->   read (e.g., bits 2:0 in the DLFEAT field are set to 001b) from
->   a deallocated logical block and its metadata (excluding protection
->   information), then, for each specified logical block, the
->   controller:
->   - may deallocate that logical block;
->   """
->=20
->   https://nvmexpress.org/wp-content/uploads/NVM-Express-NVM-Command-Set-Sp=
-ecification-2021.06.02-Ratified-1.pdf
->=20
-> b) set BDRV_REQ_NO_FALLBACK in supported_zero_flags
->=20
->   Again, it's not clear what qemu expects here, but without it we end
->   up in a ridiculous situation where specifying the "don't allow slow
->   fallback" switch immediately fails all efficient zeroing requests on
->   a device where Write Zeroes is always efficient:
->=20
->   $ qemu-io -c 'help write' | grep -- '-[zun]'
->    -n, -- with -z, don't allow slow fallback
->    -u, -- with -z, allow unmapping
->    -z, -- write zeroes using blk_co_pwrite_zeroes
->=20
->   $ qemu-io -f rbd -c 'write -z -u -n 0 1M' rbd:foo/bar
->   write failed: Operation not supported
+>
+>> +static void hvf_raise_exception(CPUARMState *env, uint32_t excp,
+>> +                                uint32_t syndrome)
+>> +{
+>> +    unsigned int new_el = 1;
+>> +    unsigned int old_mode = pstate_read(env);
+>> +    unsigned int new_mode = aarch64_pstate_mode(new_el, true);
+>> +    target_ulong addr = env->cp15.vbar_el[new_el];
+>> +
+>> +    env->cp15.esr_el[new_el] = syndrome;
+>> +    aarch64_save_sp(env, arm_current_el(env));
+>> +    env->elr_el[new_el] = env->pc;
+>> +    env->banked_spsr[aarch64_banked_spsr_index(new_el)] = old_mode;
+>> +    pstate_write(env, PSTATE_DAIF | new_mode);
+>> +    aarch64_restore_sp(env, new_el);
+>> +    env->pc = addr;
+>> +}
+> KVM does "raise an exception" by calling arm_cpu_do_interrupt()
+> to do the "set ESR_ELx, save SPSR, etc etc" work (see eg
+> kvm_arm_handle_debug()". Does that not work here ?
 
-Agreed,
-I will try to send a V4 early this week.
 
-Peter
+It works like a charm. I mostly did the dance because I was under the
+impression you wanted to avoid me calling into any TCG code. And to me
+arm_cpu_do_interrupt() seemed like TCG code. I'm absolutely happy to
+change it though. Leaving things to generic code is good IMHO :).
+
+
+>
+>> +
+>> +static uint64_t hvf_sysreg_read(CPUState *cpu, uint32_t reg)
+>> +{
+>> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
+>> +    uint64_t val = 0;
+>> +
+>> +    switch (reg) {
+>> +    case SYSREG_CNTPCT_EL0:
+>> +        val = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) /
+>> +              gt_cntfrq_period_ns(arm_cpu);
+>> +        break;
+> Does hvf handle the "EL0 access which should be denied because
+> CNTKCTL_EL1.EL0PCTEN is 0" case for us, or should we have
+> an access-check here ?
+
+
+A quick test where I tried to access it in a VM in EL0 shows that either
+the CPU or HVF already generates the trap. So no check needed.
+
+
+>
+>> +    case SYSREG_PMCCNTR_EL0:
+>> +        val = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> This is supposed to be a cycle counter, not a timestamp...
+
+
+At 1Ghz cycle frequency, what's the difference? Or are you concerned
+about the lack of overflow and PMCR logic?
+
+
+>
+>> +        break;
+>> +    default:
+>> +        trace_hvf_unhandled_sysreg_read(reg,
+>> +                                        (reg >> 20) & 0x3,
+>> +                                        (reg >> 14) & 0x7,
+>> +                                        (reg >> 10) & 0xf,
+>> +                                        (reg >> 1) & 0xf,
+>> +                                        (reg >> 17) & 0x7);
+>> +        break;
+>> +    }
+>> +
+>> +    return val;
+>> +}
+>> +
+>> +static void hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
+>> +{
+>> +    switch (reg) {
+>> +    case SYSREG_CNTPCT_EL0:
+>> +        break;
+> CNTPCT_EL0 is read-only (ie writes should fault) but this
+> makes it writes-ignored, doesn't it ?
+
+
+It does indeed, let me fix that.
+
+
+>
+>> +    default:
+>> +        trace_hvf_unhandled_sysreg_write(reg,
+>> +                                         (reg >> 20) & 0x3,
+>> +                                         (reg >> 14) & 0x7,
+>> +                                         (reg >> 10) & 0xf,
+>> +                                         (reg >> 1) & 0xf,
+>> +                                         (reg >> 17) & 0x7);
+>> +        break;
+>> +    }
+>> +}
+>> +    switch (ec) {
+>> +    case EC_DATAABORT: {
+>> +        bool isv = syndrome & ARM_EL_ISV;
+>> +        bool iswrite = (syndrome >> 6) & 1;
+>> +        bool s1ptw = (syndrome >> 7) & 1;
+>> +        uint32_t sas = (syndrome >> 22) & 3;
+>> +        uint32_t len = 1 << sas;
+>> +        uint32_t srt = (syndrome >> 16) & 0x1f;
+>> +        uint64_t val = 0;
+>> +
+>> +        trace_hvf_data_abort(env->pc, hvf_exit->exception.virtual_address,
+>> +                             hvf_exit->exception.physical_address, isv,
+>> +                             iswrite, s1ptw, len, srt);
+>> +
+>> +        assert(isv);
+> This seems dubious -- won't we just crash if the guest does
+> a data access to a device or to unmapped memory with an insn that
+> doesn't set ISV ? With KVM we feed this back to the guest as an
+> external data abort (see the KVM_EXIT_ARM_NISV handling).
+
+
+Hm, I can't say I'm a big fan of that behavior: It makes enabling OSs
+that are not properly adapted for non-ISV behavior harder, because
+understanding in-guest exception flows is usually harder than looking at
+undesired code paths from the outside. And I highly doubt you'll find a
+properly functional guest environment that gets external data aborts on
+non-enlightened MMIO access.
+
+But if you feel strongly about it, I'm happy to imitate the behavior of
+today's KVM_EXIT_ARM_NISV handler.
+
+
+>
+>> +
+>> +        if (iswrite) {
+>> +            val = hvf_get_reg(cpu, srt);
+>> +            address_space_write(&address_space_memory,
+>> +                                hvf_exit->exception.physical_address,
+>> +                                MEMTXATTRS_UNSPECIFIED, &val, len);
+>> +        } else {
+>> +            address_space_read(&address_space_memory,
+>> +                               hvf_exit->exception.physical_address,
+>> +                               MEMTXATTRS_UNSPECIFIED, &val, len);
+>> +            hvf_set_reg(cpu, srt, val);
+>> +        }
+>> +
+>> +        advance_pc = true;
+>> +        break;
+>> +    }
+>> +    case EC_SYSTEMREGISTERTRAP: {
+>> +        bool isread = (syndrome >> 0) & 1;
+>> +        uint32_t rt = (syndrome >> 5) & 0x1f;
+>> +        uint32_t reg = syndrome & SYSREG_MASK;
+>> +        uint64_t val = 0;
+>> +
+>> +        if (isread) {
+>> +            val = hvf_sysreg_read(cpu, reg);
+>> +            trace_hvf_sysreg_read(reg,
+>> +                                  (reg >> 20) & 0x3,
+>> +                                  (reg >> 14) & 0x7,
+>> +                                  (reg >> 10) & 0xf,
+>> +                                  (reg >> 1) & 0xf,
+>> +                                  (reg >> 17) & 0x7,
+>> +                                  val);
+>> +            hvf_set_reg(cpu, rt, val);
+>> +        } else {
+>> +            val = hvf_get_reg(cpu, rt);
+>> +            trace_hvf_sysreg_write(reg,
+>> +                                   (reg >> 20) & 0x3,
+>> +                                   (reg >> 14) & 0x7,
+>> +                                   (reg >> 10) & 0xf,
+>> +                                   (reg >> 1) & 0xf,
+>> +                                   (reg >> 17) & 0x7,
+>> +                                   val);
+>> +            hvf_sysreg_write(cpu, reg, val);
+>> +        }
+> This needs support for "this really was a bogus system register
+> access, feed the guest an exception".
+
+
+Yup. Added.
+
+
+Thanks!
+
+Alex
 
 
 
