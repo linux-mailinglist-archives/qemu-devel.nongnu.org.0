@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA443B52C5
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 12:09:23 +0200 (CEST)
-Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5A03B52F8
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 13:02:39 +0200 (CEST)
+Received: from localhost ([::1]:58446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxRj8-0005z9-Gm
-	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 06:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48096)
+	id 1lxSYf-0008P8-La
+	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 07:02:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lxRhT-0004qQ-CT
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 06:07:39 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40906)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lxSWc-0006vj-KS; Sun, 27 Jun 2021 07:00:30 -0400
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:40690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lxRhQ-0005Tj-MK
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 06:07:39 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id q192so11506414pfc.7
- for <qemu-devel@nongnu.org>; Sun, 27 Jun 2021 03:07:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lxSWa-0004gN-D0; Sun, 27 Jun 2021 07:00:30 -0400
+Received: by mail-il1-x12b.google.com with SMTP id g3so5647660ilj.7;
+ Sun, 27 Jun 2021 04:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G8mHFPDahVjOfkmgDuGDFhZcYai2eKHPSalroRM7M90=;
- b=hddLmjxlKrHorDBmWrOXnILRQiPsXQY9gqK1CdRwgaw9uN1IKWy1krcwCjDEvp4GGJ
- eHCpixuKkLtM37IAAdUeJOdh869372BrOmhj6PfkxszcPfeOkkFaXDggT3Q7A/4fV/CR
- X+WAhyVFBRK7Cig/10KuEfY3YXoGQNlE+5CsEeVt8DkGxcB7T5aVtnuFxHwsx2JGE/+5
- 72WEOSDGvx04EEDAPGbEcr5E+0M4sr/DGIdxAukw+HUFU7g4Oe5NgUv2gSlEVco2ONtB
- dLnbhkqYgCu44Eg34VdUe+TwNSUrtvM/0tGh+v+f7DIwrFUC7dfGJ3PvMby4nSS/68eJ
- GECA==
+ :cc; bh=rqORg3KVnkZdge+uDaAbnRPwmaFvDqpbYZIWwctt+JA=;
+ b=lZhdUVnWEwQRAbHRl9nm1+gDB4jfdIndQMnddb/rIYzlx3Pg4YoIISZDTIDv8T2XGh
+ G/QCpZdJM+FqEgsvy2mgusuUHth1H0oOwJvn1aVY/XRiAOMk0A1WSVOytFuP0yWCg2/8
+ K3GmcvVHqbGCnLAttXtFLWo9gm6yAVEvdHe+QjeAWFfy5PGSrFACOGzR7MmQS9Nf0cRt
+ IocFYtmEZWfUHl3T1WwIpGQKoXN0nHcsdRBi6xGg9WN7pQn8Qs1DUDX/e6uOmbixfh/h
+ 8Ej6Pz2n5BMb0SvqdBhxtbyg2gOFV4YLXw+9tEiqdWRkSQ5fuLx+hCHnH9Y+Qg+qD3ID
+ DUOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=G8mHFPDahVjOfkmgDuGDFhZcYai2eKHPSalroRM7M90=;
- b=eMegpqZLwqdgW1SEqOaokcos6VH/Cg0GM4k+B66iCmrdgiu2l2phfJyWFeuDvtMxPY
- ZDfgbgQj4n96mrwAhAdu11SN9Y1gMQNIcBFESgww0C7ZqNkutwFbTn111h2KKI+Jfdpm
- 1MQDmhzsON2LMTT/erxHBx/vdWCMWFfPD/hNGeZjbmNfLo9smS0Wqyyw6TtFLBI8MojW
- Afayqi5OV+Sep2jf3uNeidd0T0sNxgM6MZp28JYctE0Cqhv3mwThXtzjEfMkjzlqhnMo
- c1/CpTxX8TzKHEaaUApA8MlMmdv1n59zQy4s/nACoqUfuBzgWzDQIvQwCdEtjiRwc1YZ
- GltQ==
-X-Gm-Message-State: AOAM532VNUO6MJNNXqqMPKVVaWg4HK3JL4Ywe9wKCUh3lpEmzMTyPVcN
- J0L9+GYObSCOO8fNnRT4ZrRrMnVGpIOGnWJf
-X-Google-Smtp-Source: ABdhPJwIED5vYLA1hLFaA4rHn7VzH2F22xSD/JqBDc2yg6hLxqfFwFuM1XK+/RbXOsKoXYFYub4ZFQ==
-X-Received: by 2002:a63:de02:: with SMTP id f2mr18352672pgg.32.1624788454882; 
- Sun, 27 Jun 2021 03:07:34 -0700 (PDT)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com.
- [209.85.216.52])
- by smtp.gmail.com with ESMTPSA id n23sm10580058pfv.56.2021.06.27.03.07.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Jun 2021 03:07:34 -0700 (PDT)
-Received: by mail-pj1-f52.google.com with SMTP id
- z3-20020a17090a3983b029016bc232e40bso8382691pjb.4; 
- Sun, 27 Jun 2021 03:07:34 -0700 (PDT)
-X-Received: by 2002:a17:90a:6be6:: with SMTP id
- w93mr21156020pjj.171.1624788454045; 
- Sun, 27 Jun 2021 03:07:34 -0700 (PDT)
+ bh=rqORg3KVnkZdge+uDaAbnRPwmaFvDqpbYZIWwctt+JA=;
+ b=NNS5Ebqum7iWLD47kg73CNc5wywU/+Yc4FcKpNd0r4X0m6cJiLuUpWHpZsqlvkekbN
+ HYx//q2Der+Pv3f/HIaxsSjRmHcZeTVBIVlKksLKoxWJchvDr7GN++zsS+iAasFEhsAA
+ YZPUqDhs6onxLyxL6cCKt7dqFc05OzEyZddsLsruZmWHY4AXSwEUzrqFj6Lv/uspUsOQ
+ xlm1I/MKJHHv65hwEs2h75SYMgqUtqPO6abEuF0x200/LW1abtWYCKA29H528/0ZyDTk
+ eZO+ciBiIU1UHs5PewrOT1I06HnrU9YyXMeO8vCUg2dbfQ7iNR7mzkwP4CVGDrqZLzlZ
+ FFtA==
+X-Gm-Message-State: AOAM532KxQIG+40UDWXQ7Gnv9L02MqwTDkWFGLLjCX4qBXpRAaZrtlrG
+ MXwcJv3cQG3GXtJzSCGJ53Eqjpspo66WBYFYqYk=
+X-Google-Smtp-Source: ABdhPJynMdLahJRE59hM0q/auvDwrmG0ZlQKf/FJtqeig3we648oQCXOto6dIvUsfWX8OH6vMF4og3vEKcZl+lWrlbk=
+X-Received: by 2002:a92:c708:: with SMTP id a8mr5486035ilp.177.1624791626134; 
+ Sun, 27 Jun 2021 04:00:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <20210409074857.166082-9-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210409074857.166082-9-zhiwei_liu@c-sky.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sun, 27 Jun 2021 18:07:23 +0800
-X-Gmail-Original-Message-ID: <CANzO1D2dLjmvr_19zE_fbk0UpSrvD4O10RHh4m2BXiY-UkCG_g@mail.gmail.com>
-Message-ID: <CANzO1D2dLjmvr_19zE_fbk0UpSrvD4O10RHh4m2BXiY-UkCG_g@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/11] target/riscv: Update CSR xnxti in CLIC mode
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: multipart/alternative; boundary="000000000000a37d5105c5bc8aa0"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42b.google.com
+References: <20210627083054.3920288-1-oro@il.ibm.com>
+ <OFDCE9D738.9662FBDF-ON00258701.002FE1AF-00258701.00300179@ibm.com>
+In-Reply-To: <OFDCE9D738.9662FBDF-ON00258701.002FE1AF-00258701.00300179@ibm.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Sun, 27 Jun 2021 13:00:09 +0200
+Message-ID: <CAOi1vP-pZrqFyjh4cDoNy5pC=4ooQPp=9yXcZxzoDNj8W4=YGA@mail.gmail.com>
+Subject: Re: [PATCH] block/rbd: Add support for rbd image encryption
+To: Or Ozeri <ORO@il.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=idryomov@gmail.com; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,581 +75,341 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
+Cc: kwolf@redhat.com,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Mykola Golub <to.my.trociny@gmail.com>, Danny Harnik <DANNYH@il.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a37d5105c5bc8aa0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-LIU Zhiwei <zhiwei_liu@c-sky.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=889=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=EF=BC=9A
-
-> The CSR can be used by software to service the next horizontal interrupt
-> when it has greater level than the saved interrupt context
-> (held in xcause`.pil`) and greater level than the interrupt threshold of
-> the corresponding privilege mode,
+On Sun, Jun 27, 2021 at 10:44 AM Or Ozeri <ORO@il.ibm.com> wrote:
 >
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Ilya,
+>
+> I fixed according to your suggestions, except for the passphrase zeroing.
+> Looks like it's not a one-liner, but rather a long list of ifdefs to try and cover all possible platforms/compilers (this is what I've seen they do in k5-int.h).
+> I didn't want to copy this into rbd.c.
+> I guess that the right solution would be adding a qemu utility function (not sure where exactly), but anyways perhaps this, like the changes I previously made to raw_format.c, should be made in different patch.
+
+Hi Or,
+
+Yes, given that there doesn't seem to be an existing straightforward
+API for it, I don't think it is a blocker.  Just something to keep in
+mind.
+
+You also implemented one change that I didn't suggest -- storing
+the encryption status in BDRVRBDState.  BTW it is a good practice
+to include the version in the subject (e.g. [PATCH v3] ...) and
+a per-version changelog in the description.
+
+The way the encryption format is reported in this patch actually begs
+more questions because now I think we need to differentiate between an
+encrypted image for which the encryption profile has been loaded and
+one for which it hasn't been loaded and probably also report the raw
+size...
+
+The previous approach of reporting the encryption format only for "raw"
+images was a good starting point IMO.  I'd keep the bit that switches
+from rbd_get_size() to s->image_size and drop everything else for now.
+
+>
+> Thanks,
+> Or
+>
+> -----"Or Ozeri" <oro@il.ibm.com> wrote: -----
+> To: qemu-devel@nongnu.org
+> From: "Or Ozeri" <oro@il.ibm.com>
+> Date: 06/27/2021 11:31AM
+> Cc: qemu-block@nongnu.org, oro@il.ibm.com, kwolf@redhat.com, to.my.trociny@gmail.com, dannyh@il.ibm.com, berrange@redhat.com, idryomov@gmail.com
+> Subject: [PATCH] block/rbd: Add support for rbd image encryption
+>
+> Starting from ceph Pacific, RBD has built-in support for image-level encryption.
+> Currently supported formats are LUKS version 1 and 2.
+>
+> There are 2 new relevant librbd APIs for controlling encryption, both expect an
+> open image context:
+>
+> rbd_encryption_format: formats an image (i.e. writes the LUKS header)
+> rbd_encryption_load: loads encryptor/decryptor to the image IO stack
+>
+> This commit extends the qemu rbd driver API to support the above.
+>
+> Signed-off-by: Or Ozeri <oro@il.ibm.com>
 > ---
->  target/riscv/cpu_bits.h |  16 ++++++
->  target/riscv/csr.c      | 114 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 130 insertions(+)
+>  block/rbd.c          | 380 ++++++++++++++++++++++++++++++++++++++++++-
+>  qapi/block-core.json | 110 ++++++++++++-
+>  2 files changed, 484 insertions(+), 6 deletions(-)
 >
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 7922097776..494e41edc9 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -166,6 +166,7 @@
->  #define CSR_MCAUSE          0x342
->  #define CSR_MTVAL           0x343
->  #define CSR_MIP             0x344
-> +#define CSR_MNXTI           0x345 /* clic-spec-draft */
->  #define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
->  #define CSR_MINTTHRESH      0x347 /* clic-spec-draft */
+> diff --git a/block/rbd.c b/block/rbd.c
+> index f098a89c7b..dadecaf3da 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -73,6 +73,18 @@
+>  #define LIBRBD_USE_IOVEC 0
+>  #endif
 >
-> @@ -187,6 +188,7 @@
->  #define CSR_SCAUSE          0x142
->  #define CSR_STVAL           0x143
->  #define CSR_SIP             0x144
-> +#define CSR_SNXTI           0x145 /* clic-spec-draft */
->  #define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
->  #define CSR_SINTTHRESH      0x147 /* clic-spec-draft */
->
-> @@ -596,10 +598,24 @@
->  #define MINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
->  #define MINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
->
-> +/* mcause */
-> +#define MCAUSE_MINHV                       0x40000000 /* minhv */
-> +#define MCAUSE_MPP                         0x30000000 /* mpp[1:0] */
-> +#define MCAUSE_MPIE                        0x08000000 /* mpie */
-> +#define MCAUSE_MPIL                        0x00ff0000 /* mpil[7:0] */
-> +#define MCAUSE_EXCCODE                     0x00000fff /* exccode[11:0] *=
-/
+> +#define RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN 8
 > +
->  /* sintstatus */
->  #define SINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
->  #define SINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
->
-> +/* scause */
-> +#define SCAUSE_SINHV                       0x40000000 /* sinhv */
-> +#define SCAUSE_SPP                         0x10000000 /* spp */
-> +#define SCAUSE_SPIE                        0x08000000 /* spie */
-> +#define SCAUSE_SPIL                        0x00ff0000 /* spil[7:0] */
-> +#define SCAUSE_EXCCODE                     0x00000fff /* exccode[11:0] *=
-/
+> +static const char rbd_luks_header_verification[
+> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> +    'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 1
+> +};
 > +
->  /* MIE masks */
->  #define MIE_SEIE                           (1 << IRQ_S_EXT)
->  #define MIE_UEIE                           (1 << IRQ_U_EXT)
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e12222b77f..72cba080bf 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -774,6 +774,80 @@ static int rmw_mip(CPURISCVState *env, int csrno,
-> target_ulong *ret_value,
->      return 0;
+> +static const char rbd_luks2_header_verification[
+> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> +    'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 2
+> +};
+> +
+>  typedef enum {
+>      RBD_AIO_READ,
+>      RBD_AIO_WRITE,
+> @@ -106,6 +118,7 @@ typedef struct BDRVRBDState {
+>      char *snap;
+>      char *namespace;
+>      uint64_t image_size;
+> +    ImageInfoSpecificRbd image_info;
+>  } BDRVRBDState;
+>
+>  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+> @@ -341,6 +354,207 @@ static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
+>      }
 >  }
 >
-> +static bool get_xnxti_status(CPURISCVState *env)
+> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION
+> +static int qemu_rbd_convert_luks_options(
+> +        RbdEncryptionOptionsLUKSBase *luks_opts,
+> +        char **passphrase,
+> +        size_t *passphrase_len,
+> +        Error **errp)
 > +{
-> +    CPUState *cs =3D env_cpu(env);
-> +    int clic_irq, clic_priv, clic_il, pil;
-> +
-> +    if (!env->exccode) { /* No interrupt */
-> +        return false;
-> +    }
-> +    /* The system is not in a CLIC mode */
-> +    if (!riscv_clic_is_clic_mode(env)) {
-> +        return false;
-> +    } else {
-> +        riscv_clic_decode_exccode(env->exccode, &clic_priv, &clic_il,
-> +                                  &clic_irq);
-> +
-> +        if (env->priv =3D=3D PRV_M) {
-> +            pil =3D MAX(get_field(env->mcause, MCAUSE_MPIL),
-> env->mintthresh);
-
-+        } else if (env->priv =3D=3D PRV_S) {
-> +            pil =3D MAX(get_field(env->scause, SCAUSE_SPIL),
-> env->sintthresh);
->
-
-Same here, for v0.8 CLIC[1],
-both mintthresh and sintthresh valuse should be retrieved from
-CLIC mintthresh memory-mapped register.
-
-+        } else {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "CSR: rmw xnxti with unsupported mode\n");
-> +            exit(1);
-> +        }
-> +
-> +        if ((clic_priv !=3D env->priv) || /* No horizontal interrupt */
-> +            (clic_il <=3D pil) || /* No higher level interrupt */
-> +            (riscv_clic_shv_interrupt(env->clic, clic_priv, cs->cpu_inde=
-x,
-> +                                      clic_irq))) { /* CLIC vector mode =
-*/
-> +            return false;
-> +        } else {
-> +            return true;
-> +        }
-> +    }
+> +    return qcrypto_secret_lookup(luks_opts->key_secret, (uint8_t **)passphrase,
+> +                                 passphrase_len, errp);
 > +}
 > +
-> +static int rmw_mnxti(CPURISCVState *env, int csrno, target_ulong
-> *ret_value,
-> +                     target_ulong new_value, target_ulong write_mask)
+> +static int qemu_rbd_convert_luks_create_options(
+> +        RbdEncryptionCreateOptionsLUKSBase *luks_opts,
+> +        rbd_encryption_algorithm_t *alg,
+> +        char **passphrase,
+> +        size_t *passphrase_len,
+> +        Error **errp)
 > +{
-> +    int clic_priv, clic_il, clic_irq;
-> +    bool ready;
-> +    CPUState *cs =3D env_cpu(env);
-> +    if (write_mask) {
-> +        env->mstatus |=3D new_value & (write_mask & 0b11111);
+> +    int r = 0;
+> +
+> +    r = qemu_rbd_convert_luks_options(
+> +            qapi_RbdEncryptionCreateOptionsLUKSBase_base(luks_opts),
+> +            passphrase, passphrase_len, errp);
+> +    if (r < 0) {
+> +        return r;
 > +    }
 > +
-> +    qemu_mutex_lock_iothread();
-> +    ready =3D get_xnxti_status(env);
-> +    if (ready) {
-> +        riscv_clic_decode_exccode(env->exccode, &clic_priv, &clic_il,
-> +                                  &clic_irq);
-> +        if (write_mask) {
-> +            bool edge =3D riscv_clic_edge_triggered(env->clic, clic_priv=
-,
-> +                                                  cs->cpu_index,
-> clic_irq);
-> +            if (edge) {
-> +                riscv_clic_clean_pending(env->clic, clic_priv,
-> +                                         cs->cpu_index, clic_irq);
+> +    if (luks_opts->has_cipher_alg) {
+> +        switch (luks_opts->cipher_alg) {
+> +            case QCRYPTO_CIPHER_ALG_AES_128: {
+> +                *alg = RBD_ENCRYPTION_ALGORITHM_AES128;
+> +                break;
 > +            }
-> +            env->mintstatus =3D set_field(env->mintstatus,
-> +                                        MINTSTATUS_MIL, clic_il);
-> +            env->mcause =3D set_field(env->mcause, MCAUSE_EXCCODE,
-> clic_irq);
-> +        }
-> +        if (ret_value) {
-> +            *ret_value =3D (env->mtvt & ~0x3f) + sizeof(target_ulong) *
-> clic_irq;
+> +            case QCRYPTO_CIPHER_ALG_AES_256: {
+> +                *alg = RBD_ENCRYPTION_ALGORITHM_AES256;
+> +                break;
+> +            }
+> +            default: {
+> +                r = -ENOTSUP;
+> +                error_setg_errno(errp, -r, "unknown encryption algorithm: %u",
+> +                                 luks_opts->cipher_alg);
+> +                return r;
+> +            }
 > +        }
 > +    } else {
-> +        if (ret_value) {
-> +            *ret_value =3D 0;
-> +        }
+> +        /* default alg */
+> +        *alg = RBD_ENCRYPTION_ALGORITHM_AES256;
 > +    }
-> +    qemu_mutex_unlock_iothread();
+> +
 > +    return 0;
 > +}
 > +
->  static int read_mintstatus(CPURISCVState *env, int csrno, target_ulong
-> *val)
->  {
->      *val =3D env->mintstatus;
-> @@ -982,6 +1056,44 @@ static int rmw_sip(CPURISCVState *env, int csrno,
-> target_ulong *ret_value,
->      return ret;
->  }
->
-> +static int rmw_snxti(CPURISCVState *env, int csrno, target_ulong
-> *ret_value,
-> +                     target_ulong new_value, target_ulong write_mask)
->
-
-snxti does not exist in v0.8 CLIC spec[1].
-
-[1] https://github.com/riscv/riscv-fast-interrupt/blob/74f86c3858/clic.adoc
-
-Regards,
-Frank Chang
-
-
+> +static int qemu_rbd_encryption_format(rbd_image_t image,
+> +                                      RbdEncryptionCreateOptions *encrypt,
+> +                                      Error **errp)
 > +{
-> +    int clic_priv, clic_il, clic_irq;
-> +    bool ready;
-> +    CPUState *cs =3D env_cpu(env);
-> +    if (write_mask) {
-> +        env->mstatus |=3D new_value & (write_mask & 0b11111);
+> +    int r = 0;
+> +    g_autofree char *passphrase = NULL;
+> +    size_t passphrase_len;
+> +    rbd_encryption_format_t format;
+> +    rbd_encryption_options_t opts;
+> +    rbd_encryption_luks1_format_options_t luks_opts;
+> +    rbd_encryption_luks2_format_options_t luks2_opts;
+> +    size_t opts_size;
+> +    uint64_t raw_size, effective_size;
+> +
+> +    r = rbd_get_size(image, &raw_size);
+> +    if (r < 0) {
+> +        error_setg_errno(errp, -r, "cannot get raw image size");
+> +        return r;
 > +    }
 > +
-> +    qemu_mutex_lock_iothread();
-> +    ready =3D get_xnxti_status(env);
-> +    if (ready) {
-> +        riscv_clic_decode_exccode(env->exccode, &clic_priv, &clic_il,
-> +                                  &clic_irq);
-> +        if (write_mask) {
-> +            bool edge =3D riscv_clic_edge_triggered(env->clic, clic_priv=
-,
-> +                                                  cs->cpu_index,
-> clic_irq);
-> +            if (edge) {
-> +                riscv_clic_clean_pending(env->clic, clic_priv,
-> +                                         cs->cpu_index, clic_irq);
+> +    switch (encrypt->format) {
+> +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS: {
+> +            memset(&luks_opts, 0, sizeof(luks_opts));
+> +            format = RBD_ENCRYPTION_FORMAT_LUKS1;
+> +            opts = &luks_opts;
+> +            opts_size = sizeof(luks_opts);
+> +            r = qemu_rbd_convert_luks_create_options(
+> +                    qapi_RbdEncryptionCreateOptionsLUKS_base(&encrypt->u.luks),
+> +                    &luks_opts.alg, &passphrase, &passphrase_len, errp);
+> +            if (r < 0) {
+> +                return r;
 > +            }
-> +            env->mintstatus =3D set_field(env->mintstatus,
-> +                                        MINTSTATUS_SIL, clic_il);
-> +            env->scause =3D set_field(env->scause, SCAUSE_EXCCODE,
-> clic_irq);
+> +            luks_opts.passphrase = passphrase;
+> +            luks_opts.passphrase_size = passphrase_len;
+> +            break;
 > +        }
-> +        if (ret_value) {
-> +            *ret_value =3D (env->stvt & ~0x3f) + sizeof(target_ulong) *
-> clic_irq;
+> +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
+> +            memset(&luks2_opts, 0, sizeof(luks2_opts));
+> +            format = RBD_ENCRYPTION_FORMAT_LUKS2;
+> +            opts = &luks2_opts;
+> +            opts_size = sizeof(luks2_opts);
+> +            r = qemu_rbd_convert_luks_create_options(
+> +                    qapi_RbdEncryptionCreateOptionsLUKS2_base(
+> +                            &encrypt->u.luks2),
+> +                    &luks2_opts.alg, &passphrase, &passphrase_len, errp);
+> +            if (r < 0) {
+> +                return r;
+> +            }
+> +            luks2_opts.passphrase = passphrase;
+> +            luks2_opts.passphrase_size = passphrase_len;
+> +            break;
 > +        }
-> +    } else {
-> +        if (ret_value) {
-> +            *ret_value =3D 0;
+> +        default: {
+> +            r = -ENOTSUP;
+> +            error_setg_errno(
+> +                    errp, -r, "unknown image encryption format: %u",
+> +                    encrypt->format);
+> +            return r;
 > +        }
 > +    }
-> +    qemu_mutex_unlock_iothread();
+> +
+> +    r = rbd_encryption_format(image, format, opts, opts_size);
+> +    if (r < 0) {
+> +        error_setg_errno(errp, -r, "encryption format fail");
+> +        return r;
+> +    }
+> +
+> +    r = rbd_get_size(image, &effective_size);
+> +    if (r < 0) {
+> +        error_setg_errno(errp, -r, "cannot get effective image size");
+> +        return r;
+> +    }
+> +
+> +    r = rbd_resize(image, raw_size + (raw_size - effective_size));
+> +    if (r < 0) {
+> +        error_setg_errno(errp, -r, "cannot resize image after format");
+> +        return r;
+> +    }
+> +
 > +    return 0;
 > +}
 > +
->  static int read_sintstatus(CPURISCVState *env, int csrno, target_ulong
-> *val)
->  {
->      target_ulong mask =3D SINTSTATUS_SIL | SINTSTATUS_UIL;
-> @@ -1755,6 +1867,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
+> +static int qemu_rbd_encryption_load(rbd_image_t image,
+> +                                    RbdEncryptionOptions *encrypt,
+> +                                    ImageInfoSpecificRbd *image_info,
+> +                                    Error **errp)
+> +{
+> +    int r = 0;
+> +    g_autofree char *passphrase = NULL;
+> +    size_t passphrase_len;
+> +    rbd_encryption_luks1_format_options_t luks_opts;
+> +    rbd_encryption_luks2_format_options_t luks2_opts;
+> +    rbd_encryption_format_t format;
+> +    rbd_encryption_options_t opts;
+> +    size_t opts_size;
+> +
+> +    switch (encrypt->format) {
+> +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS: {
+> +            memset(&luks_opts, 0, sizeof(luks_opts));
+> +            format = RBD_ENCRYPTION_FORMAT_LUKS1;
+> +            opts = &luks_opts;
+> +            opts_size = sizeof(luks_opts);
+> +            r = qemu_rbd_convert_luks_options(
+> +                    qapi_RbdEncryptionOptionsLUKS_base(&encrypt->u.luks),
+> +                    &passphrase, &passphrase_len, errp);
+> +            if (r < 0) {
+> +                return r;
+> +            }
+> +            luks_opts.passphrase = passphrase;
+> +            luks_opts.passphrase_size = passphrase_len;
+> +            image_info->encryption_format = RBD_IMAGE_ENCRYPTION_FORMAT_LUKS;
+> +            break;
+> +        }
+> +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
+> +            memset(&luks2_opts, 0, sizeof(luks2_opts));
+> +            format = RBD_ENCRYPTION_FORMAT_LUKS2;
+> +            opts = &luks2_opts;
+> +            opts_size = sizeof(luks2_opts);
+> +            r = qemu_rbd_convert_luks_options(
+> +                    qapi_RbdEncryptionOptionsLUKS2_base(&encrypt->u.luks2),
+> +                    &passphrase, &passphrase_len, errp);
+> +            if (r < 0) {
+> +                return r;
+> +            }
+> +            luks2_opts.passphrase = passphrase;
+> +            luks2_opts.passphrase_size = passphrase_len;
+> +            image_info->encryption_format = RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2;
+> +            break;
+> +        }
+> +        default: {
+> +            r = -ENOTSUP;
+> +            error_setg_errno(
+> +                    errp, -r, "unknown image encryption format: %u",
+> +                    encrypt->format);
+> +            return r;
+> +        }
+> +    }
+> +
+> +    r = rbd_encryption_load(image, format, opts, opts_size);
+> +    if (r < 0) {
+> +        error_setg_errno(errp, -r, "encryption load fail");
+> +        return r;
+> +    }
+> +
+> +    image_info->has_encryption_format = true;
+> +    return 0;
+> +}
+> +#endif
+> +
+>  /* FIXME Deprecate and remove keypairs or make it available in QMP. */
+>  static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+>                                const char *keypairs, const char *password_secret,
+> @@ -358,6 +572,13 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+>          return -EINVAL;
+>      }
 >
->      /* Machine Mode Core Level Interrupt Controller */
->      [CSR_MTVT] =3D { "mtvt", clic,  read_mtvt,  write_mtvt      },
-> +    [CSR_MNXTI] =3D { "mnxti", clic,  NULL,  NULL,  rmw_mnxti   },
->      [CSR_MINTSTATUS] =3D { "mintstatus", clic,  read_mintstatus },
->      [CSR_MINTTHRESH] =3D { "mintthresh", clic,  read_mintthresh,
->                           write_mintthresh },
-> @@ -1766,6 +1879,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
+> +#ifndef LIBRBD_SUPPORTS_ENCRYPTION
+> +    if (opts->has_encrypt) {
+> +        error_setg(errp, "RBD library does not support image encryption");
+> +        return -ENOTSUP;
+> +    }
+> +#endif
+> +
+>      if (opts->has_cluster_size) {
+>          int64_t objsize = opts->cluster_size;
+>          if ((objsize - 1) & objsize) {    /* not a power of 2? */
+> @@ -383,6 +604,28 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+>          goto out;
+>      }
 >
->      /* Supervisor Mode Core Level Interrupt Controller */
->      [CSR_STVT] =3D { "stvt", clic,  read_stvt, write_stvt       },
-> +    [CSR_SNXTI] =3D { "snxti", clic,  NULL,  NULL,  rmw_snxti   },
->
->  #endif /* !CONFIG_USER_ONLY */
->  };
-> --
-> 2.25.1
->
->
->
+> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION
+> +    if (opts->has_encrypt) {
+> +        rbd_image_t image;
+> +
+> +        ret = rbd_open(io_ctx, opts->location->image, &image, NULL);
+> +        if (ret < 0) {
+> +            error_setg_errno(errp, -ret,
+> +                             "error opening image '%s' for encryption format",
+> +                             opts->location->image);
 
---000000000000a37d5105c5bc8aa0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+No need to include image name here.
 
-<div dir=3D"ltr"><div dir=3D"ltr">LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_l=
-iu@c-sky.com">zhiwei_liu@c-sky.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=
-=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">The CSR can be used by software to service the next ho=
-rizontal interrupt<br>
-when it has greater level than the saved interrupt context<br>
-(held in xcause`.pil`) and greater level than the interrupt threshold of<br=
->
-the corresponding privilege mode,<br>
-<br>
-Signed-off-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@c-sky.com" targe=
-t=3D"_blank">zhiwei_liu@c-sky.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/cpu_bits.h |=C2=A0 16 ++++++<br>
-=C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 | 114 ++++++++++++++++++++++++=
-++++++++++++++++<br>
-=C2=A02 files changed, 130 insertions(+)<br>
-<br>
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
-index 7922097776..494e41edc9 100644<br>
---- a/target/riscv/cpu_bits.h<br>
-+++ b/target/riscv/cpu_bits.h<br>
-@@ -166,6 +166,7 @@<br>
-=C2=A0#define CSR_MCAUSE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x342<br>
-=C2=A0#define CSR_MTVAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x343<br>
-=C2=A0#define CSR_MIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x344<=
-br>
-+#define CSR_MNXTI=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x345 /* clic-sp=
-ec-draft */<br>
-=C2=A0#define CSR_MINTSTATUS=C2=A0 =C2=A0 =C2=A0 0x346 /* clic-spec-draft *=
-/<br>
-=C2=A0#define CSR_MINTTHRESH=C2=A0 =C2=A0 =C2=A0 0x347 /* clic-spec-draft *=
-/<br>
-<br>
-@@ -187,6 +188,7 @@<br>
-=C2=A0#define CSR_SCAUSE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x142<br>
-=C2=A0#define CSR_STVAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x143<br>
-=C2=A0#define CSR_SIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x144<=
-br>
-+#define CSR_SNXTI=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x145 /* clic-sp=
-ec-draft */<br>
-=C2=A0#define CSR_SINTSTATUS=C2=A0 =C2=A0 =C2=A0 0x146 /* clic-spec-draft *=
-/<br>
-=C2=A0#define CSR_SINTTHRESH=C2=A0 =C2=A0 =C2=A0 0x147 /* clic-spec-draft *=
-/<br>
-<br>
-@@ -596,10 +598,24 @@<br>
-=C2=A0#define MINTSTATUS_SIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0000ff00 /* sil[7:0] */<br>
-=C2=A0#define MINTSTATUS_UIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x000000ff /* uil[7:0] */<br>
-<br>
-+/* mcause */<br>
-+#define MCAUSE_MINHV=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x40000000 /* minhv */<br>
-+#define MCAUSE_MPP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x30000000 /* mpp[1:0] */<br>
-+#define MCAUSE_MPIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x08000000 /* mpie */<br>
-+#define MCAUSE_MPIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00ff0000 /* mpil[7:0] */<br>
-+#define MCAUSE_EXCCODE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A00x00000fff /* exccode[11:0] */<br>
-+<br>
-=C2=A0/* sintstatus */<br>
-=C2=A0#define SINTSTATUS_SIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0000ff00 /* sil[7:0] */<br>
-=C2=A0#define SINTSTATUS_UIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x000000ff /* uil[7:0] */<br>
-<br>
-+/* scause */<br>
-+#define SCAUSE_SINHV=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x40000000 /* sinhv */<br>
-+#define SCAUSE_SPP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x10000000 /* spp */<br>
-+#define SCAUSE_SPIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x08000000 /* spie */<br>
-+#define SCAUSE_SPIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00ff0000 /* spil[7:0] */<br>
-+#define SCAUSE_EXCCODE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A00x00000fff /* exccode[11:0] */<br>
-+<br>
-=C2=A0/* MIE masks */<br>
-=C2=A0#define MIE_SEIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; IRQ_S_EXT)<br>
-=C2=A0#define MIE_UEIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; IRQ_U_EXT)<br>
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-index e12222b77f..72cba080bf 100644<br>
---- a/target/riscv/csr.c<br>
-+++ b/target/riscv/csr.c<br>
-@@ -774,6 +774,80 @@ static int rmw_mip(CPURISCVState *env, int csrno, targ=
-et_ulong *ret_value,<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-+static bool get_xnxti_status(CPURISCVState *env)<br>
-+{<br>
-+=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
-+=C2=A0 =C2=A0 int clic_irq, clic_priv, clic_il, pil;<br>
-+<br>
-+=C2=A0 =C2=A0 if (!env-&gt;exccode) { /* No interrupt */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 /* The system is not in a CLIC mode */<br>
-+=C2=A0 =C2=A0 if (!riscv_clic_is_clic_mode(env)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_decode_exccode(env-&gt;exccode, &am=
-p;clic_priv, &amp;clic_il,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;clic_irq);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (env-&gt;priv =3D=3D PRV_M) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pil =3D MAX(get_field(env-&gt;mc=
-ause, MCAUSE_MPIL), env-&gt;mintthresh);=C2=A0</blockquote><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (env-&gt;priv =3D=3D PRV_S) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pil =3D MAX(get_field(env-&gt;sc=
-ause, SCAUSE_SPIL), env-&gt;sintthresh);<br></blockquote><div><br></div><di=
-v>Same here, for v0.8 CLIC[1],</div><div>both mintthresh and sintthresh val=
-use should be retrieved from</div><div>CLIC mintthresh memory-mapped regist=
-er.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR,<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &quot;CSR: rmw xnxti with unsupported mode\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((clic_priv !=3D env-&gt;priv) || /* No hor=
-izontal interrupt */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (clic_il &lt;=3D pil) || /* No h=
-igher level interrupt */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (riscv_clic_shv_interrupt(env-&g=
-t;clic, clic_priv, cs-&gt;cpu_index,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clic_irq))) { /=
-* CLIC vector mode */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static int rmw_mnxti(CPURISCVState *env, int csrno, target_ulong *ret_valu=
-e,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0target_ulong new_value, target_ulong write_mask)<br>
-+{<br>
-+=C2=A0 =C2=A0 int clic_priv, clic_il, clic_irq;<br>
-+=C2=A0 =C2=A0 bool ready;<br>
-+=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
-+=C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mstatus |=3D new_value &amp; (write_ma=
-sk &amp; 0b11111);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_mutex_lock_iothread();<br>
-+=C2=A0 =C2=A0 ready =3D get_xnxti_status(env);<br>
-+=C2=A0 =C2=A0 if (ready) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_decode_exccode(env-&gt;exccode, &am=
-p;clic_priv, &amp;clic_il,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool edge =3D riscv_clic_edge_tr=
-iggered(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (edge) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_clean_p=
-ending(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cs=
--&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mintstatus =3D set_field=
-(env-&gt;mintstatus,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MINTSTAT=
-US_MIL, clic_il);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mcause =3D set_field(env=
--&gt;mcause, MCAUSE_EXCCODE, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D (env-&gt;mtvt &am=
-p; ~0x3f) + sizeof(target_ulong) * clic_irq;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qemu_mutex_unlock_iothread();<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-=C2=A0static int read_mintstatus(CPURISCVState *env, int csrno, target_ulon=
-g *val)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0*val =3D env-&gt;mintstatus;<br>
-@@ -982,6 +1056,44 @@ static int rmw_sip(CPURISCVState *env, int csrno, tar=
-get_ulong *ret_value,<br>
-=C2=A0 =C2=A0 =C2=A0return ret;<br>
-=C2=A0}<br>
-<br>
-+static int rmw_snxti(CPURISCVState *env, int csrno, target_ulong *ret_valu=
-e,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0target_ulong new_value, target_ulong write_mask)<br></blockquote><div><b=
-r></div><div>snxti does not exist in v0.8 CLIC spec[1].</div><div><br></div=
-><div>[1]=C2=A0<a href=3D"https://github.com/riscv/riscv-fast-interrupt/blo=
-b/74f86c3858/clic.adoc" target=3D"_blank">https://github.com/riscv/riscv-fa=
-st-interrupt/blob/74f86c3858/clic.adoc</a><br></div><div><div><br class=3D"=
-gmail-Apple-interchange-newline">Regards,</div><div>Frank Chang</div></div>=
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+{<br>
-+=C2=A0 =C2=A0 int clic_priv, clic_il, clic_irq;<br>
-+=C2=A0 =C2=A0 bool ready;<br>
-+=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
-+=C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mstatus |=3D new_value &amp; (write_ma=
-sk &amp; 0b11111);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_mutex_lock_iothread();<br>
-+=C2=A0 =C2=A0 ready =3D get_xnxti_status(env);<br>
-+=C2=A0 =C2=A0 if (ready) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_decode_exccode(env-&gt;exccode, &am=
-p;clic_priv, &amp;clic_il,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool edge =3D riscv_clic_edge_tr=
-iggered(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (edge) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_clean_p=
-ending(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cs=
--&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mintstatus =3D set_field=
-(env-&gt;mintstatus,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MINTSTAT=
-US_SIL, clic_il);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;scause =3D set_field(env=
--&gt;scause, SCAUSE_EXCCODE, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D (env-&gt;stvt &am=
-p; ~0x3f) + sizeof(target_ulong) * clic_irq;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qemu_mutex_unlock_iothread();<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-=C2=A0static int read_sintstatus(CPURISCVState *env, int csrno, target_ulon=
-g *val)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong mask =3D SINTSTATUS_SIL | SINTSTATUS_UIL;<=
-br>
-@@ -1755,6 +1867,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<br=
->
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Machine Mode Core Level Interrupt Controller */<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MTVT] =3D { &quot;mtvt&quot;, clic,=C2=A0 read_mtv=
-t,=C2=A0 write_mtvt=C2=A0 =C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 [CSR_MNXTI] =3D { &quot;mnxti&quot;, clic,=C2=A0 NULL,=C2=A0=
- NULL,=C2=A0 rmw_mnxti=C2=A0 =C2=A0},<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MINTSTATUS] =3D { &quot;mintstatus&quot;, clic,=C2=
-=A0 read_mintstatus },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MINTTHRESH] =3D { &quot;mintthresh&quot;, clic,=C2=
-=A0 read_mintthresh,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 write_mintthresh },<br>
-@@ -1766,6 +1879,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<br=
->
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Supervisor Mode Core Level Interrupt Controller */<b=
-r>
-=C2=A0 =C2=A0 =C2=A0[CSR_STVT] =3D { &quot;stvt&quot;, clic,=C2=A0 read_stv=
-t, write_stvt=C2=A0 =C2=A0 =C2=A0 =C2=A0},<br>
-+=C2=A0 =C2=A0 [CSR_SNXTI] =3D { &quot;snxti&quot;, clic,=C2=A0 NULL,=C2=A0=
- NULL,=C2=A0 rmw_snxti=C2=A0 =C2=A0},<br>
-<br>
-=C2=A0#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0};<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div></div>
+Thanks,
 
---000000000000a37d5105c5bc8aa0--
+                Ilya
 
