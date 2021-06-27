@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDC93B545A
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 18:31:49 +0200 (CEST)
-Received: from localhost ([::1]:52774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE413B545C
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Jun 2021 18:32:55 +0200 (CEST)
+Received: from localhost ([::1]:56448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxXhF-0006hY-0J
-	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 12:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34664)
+	id 1lxXiI-0000oD-6A
+	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 12:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lxXdk-0008N0-2r
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 12:28:12 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:38034
+ id 1lxXdz-0000hp-G4
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 12:28:27 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:38062
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lxXdg-0000dE-Ol
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 12:28:11 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lxXdq-0000pN-Hr
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 12:28:27 -0400
 HMM_SOURCE_IP: 172.18.0.218:36824.1267841130
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.43.101?logid-04efeadc42754a6fb289043db07ad530
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 5BF1F28008C;
- Mon, 28 Jun 2021 00:27:51 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 0213E28008C;
+ Mon, 28 Jun 2021 00:28:14 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 04efeadc42754a6fb289043db07ad530 for
- qemu-devel@nongnu.org; Mon Jun 28 00:27:55 2021
-X-Transaction-ID: 04efeadc42754a6fb289043db07ad530
+ by app0025 with ESMTP id 7af8fc66681e43cb8e5c85b42d35d900 for
+ qemu-devel@nongnu.org; Mon Jun 28 00:28:14 2021
+X-Transaction-ID: 7af8fc66681e43cb8e5c85b42d35d900
 X-filter-score: 
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 0/6] support dirtyrate at the granualrity of vcpu  
-Date: Mon, 28 Jun 2021 00:27:40 +0800
-Message-Id: <cover.1624810438.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v10 4/6] migration/dirtyrate: adjust order of registering
+ thread
+Date: Mon, 28 Jun 2021 00:27:44 +0800
+Message-Id: <1fdc2466aa4dcc19aff6cba2381aed4fb8724a38.1624811188.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1624810438.git.huangy81@chinatelecom.cn>
+References: <cover.1624810438.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1624811188.git.huangy81@chinatelecom.cn>
+References: <cover.1624811188.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,183 +76,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-v10
-- rebase on master
+registering get_dirtyrate thread in advance so that both
+page-sampling and dirty-ring mode can be covered.
 
-- pre-check if dirty log has started when calling
-  memory_global_dirty_log_stop in the ram_save_cleanup.
-  since it will stop dirty log unconditionally, so add if statement
-  to ensure that memory_global_dirty_log_start/stop used in pairs.
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Message-Id: <d7727581a8e86d4a42fc3eacf7f310419b9ebf7e.1624040308.git.huangy81@chinatelecom.cn>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+---
+ migration/dirtyrate.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-- modify the memory_global_dirty_log_start/log in xen vitualization
-  and make the qemu works in the old way.
-
-v9
-- rebase on master
-
-- make global_dirty_tracking a bitmask:
-  pass the casted "flags" to the callback in the right way, and drop
-  the malloc/free step.
-
-- make bitmask comments more accurate
-
-please review, thanks.
-
-v8
-- drop the "none" type of DirtyRateMeasureMode
-
-- make global_dirty_tracking a bitmask:
-  1. code clean: pass the casted "flags" as input parameter in
-     memory_global_dirty_log_stop, and then drop the free step.
-  2. squash commit "rename global_dirty_log to global_dirty_tracking"
-     into commit "make global_dirty_tracking a bitmask"
-  3. move "GLOBAL_DIRTY_MASK" macro to the bits's definations.
-
-- drop the "cleanup_dirtyrate_stat" in commit
-  "move init step of calculation to main thread" so that each commit
-  keeps the old way working.
-
-- add dirty rate unit "MB/s" in the output of hmp
-
-please review, may be this is the last version of this patchset, :)
-thanks for Peter's patient instructions and reviews.
-
-Hyman Huang(黄勇)
-
-v7
-- fix the code style problem, sorry about that
-
-v6:
-- pick up commit "KVM: introduce dirty_pages and kvm_dirty_ring_enabled"
-  which has been dropped in verison 5
-
-v5:
-- rename global_dirty_log to global_dirty_tracking on Peter's advice
-
-- make global_dirty_tracking a bitmask:
-  1. add assert statement to ensure starting dirty tracking repeatly
-     not allowed.
-  2. add assert statement to ensure dirty tracking cannot be stopped
-     without having been started.
-
-- protecting dirty rate stat info:
-  1. drop the mutext for protecting dirty rate introduced in version 4
-  2. change the code block in query_dirty_rate_info so that requirements
-     of "safe racing" to the dirty rate stat can be meet
-
-- make the helper function "record_dirtypages" inline and change
-  the global var dirty_pages  to local var
-
-- free DirtyRateVcpuList in case of memory leak
-
-please review, thanks a lot.
-
-v4:
-- make global_dirty_log a bitmask:
-  1. add comments about dirty log bitmask
-  2. use assert statement to check validity of flags
-  3. add trace to log bitmask changes
-
-- introduce mode option to show what method calculation should be used,
-  also, export mode option in the as last commmit
-
-- split cleanup and init of dirty rate stat and move it in the main
-  thread
-
-- change the fields of DirtyPageRecord to uint64_t type so that we
-  can calculation the increased dirty pages with the formula
-  as Peter's advice: dirty pages = end_pages - start_pages
-
-- introduce mutex to protect dirty rate stat info
-
-- adjust order of registering thread
-
-- drop the memory free callback
-
-this version modify some code on Peter's advice, reference to:
-https://lore.kernel.org/qemu-devel/YL5nNYXmrqMlXF3v@t490s/
-
-thanks again.
-
-v3:
-- pick up "migration/dirtyrate: make sample page count configurable" to
-  make patchset apply master correctly
-
-v2:
-- rebase to "migration/dirtyrate: make sample page count configurable"
-
-- rename "vcpu" to "per_vcpu" to show the per-vcpu method
-
-- squash patch 5/6 into a single one, squash patch 1/2 also
-
-- pick up "hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds"
-
-- make global_dirty_log a bitmask to make sure both migration and dirty
-  could not intefer with each other
-
-- add memory free callback to prevent memory leaking
-
-the most different of v2 fron v1 is that we make the global_dirty_log a
-bitmask. the reason is dirty rate measurement may start or stop dirty
-logging during calculation. this conflict with migration because stop
-dirty log make migration leave dirty pages out then that'll be a
-problem.
-
-make global_dirty_log a bitmask can let both migration and dirty
-rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION and
-GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty log aims
-for, migration or dirty rate.
-
-all references to global_dirty_log should be untouched because any bit
-set there should justify that global dirty logging is enabled.
-
-Please review, thanks !
-
-v1:
-
-Since the Dirty Ring on QEMU part has been merged recently, how to use
-this feature is under consideration.
-
-In the scene of migration, it is valuable to provide a more accurante
-interface to track dirty memory than existing one, so that the upper
-layer application can make a wise decision, or whatever. More
-importantly,
-dirtyrate info at the granualrity of vcpu could provide a possibility to
-make migration convergent by imposing restriction on vcpu. With Dirty
-Ring, we can calculate dirtyrate efficiently and cheaply.
-
-The old interface implemented by sampling pages, it consumes cpu
-resource, and the larger guest memory size become, the more cpu resource
-it consumes, namely, hard to scale. New interface has no such drawback.
-
-Please review, thanks !
-
-Best Regards !
-
-Hyman Huang(黄勇) (6):
-  KVM: introduce dirty_pages and kvm_dirty_ring_enabled
-  memory: make global_dirty_tracking a bitmask
-  migration/dirtyrate: introduce struct and adjust DirtyRateStat
-  migration/dirtyrate: adjust order of registering thread
-  migration/dirtyrate: move init step of calculation to main thread
-  migration/dirtyrate: implement dirty-ring dirtyrate calculation
-
- accel/kvm/kvm-all.c     |   7 ++
- hmp-commands.hx         |   7 +-
- hw/i386/xen/xen-hvm.c   |   4 +-
- include/exec/memory.h   |  20 +++-
- include/exec/ram_addr.h |   4 +-
- include/hw/core/cpu.h   |   1 +
- include/sysemu/kvm.h    |   1 +
- migration/dirtyrate.c   | 265 +++++++++++++++++++++++++++++++++++++++++-------
- migration/dirtyrate.h   |  19 +++-
- migration/ram.c         |  15 ++-
- migration/trace-events  |   2 +
- qapi/migration.json     |  46 ++++++++-
- softmmu/memory.c        |  32 ++++--
- softmmu/trace-events    |   1 +
- 14 files changed, 360 insertions(+), 64 deletions(-)
-
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index e0a27a9..a9bdd60 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -352,7 +352,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+     int64_t msec = 0;
+     int64_t initial_time;
+ 
+-    rcu_register_thread();
+     rcu_read_lock();
+     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
+@@ -375,7 +374,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ out:
+     rcu_read_unlock();
+     free_ramblock_dirty_info(block_dinfo, block_count);
+-    rcu_unregister_thread();
+ }
+ 
+ void *get_dirtyrate_thread(void *arg)
+@@ -383,6 +381,7 @@ void *get_dirtyrate_thread(void *arg)
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
+     int ret;
+     int64_t start_time;
++    rcu_register_thread();
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -401,6 +400,8 @@ void *get_dirtyrate_thread(void *arg)
+     if (ret == -1) {
+         error_report("change dirtyrate state failed.");
+     }
++
++    rcu_unregister_thread();
+     return NULL;
+ }
+ 
 -- 
 1.8.3.1
 
