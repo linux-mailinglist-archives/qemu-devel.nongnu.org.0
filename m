@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CCC3B64FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:16:36 +0200 (CEST)
-Received: from localhost ([::1]:40854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8373B3B6500
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:17:00 +0200 (CEST)
+Received: from localhost ([::1]:41628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxszz-0001YY-1O
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39206)
+	id 1lxt0N-00025U-J9
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxsyN-0000Md-5x
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:14:55 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:41841)
+ id 1lxsye-0000fn-T1
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:15:13 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxsyL-0000SF-Nt
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:14:54 -0400
-Received: by mail-ed1-x531.google.com with SMTP id n20so26461013edv.8
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 08:14:53 -0700 (PDT)
+ id 1lxsyc-0000gO-GE
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:15:11 -0400
+Received: by mail-ed1-x529.google.com with SMTP id w17so10942298edd.10
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 08:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CLBqapnLz6LITEuIky+AG1685Qs+0CAU5gWBkpiZh9k=;
- b=hRGVtD1b+bA4Few6Taq8wU1MnNyVuOJ05/6Sd2GZExjDIDbDTL5CCfvlk2dlO9/toU
- if3tZyYfvOQ0ORaqUw38PN7w5Rx4KpMuZUwpo8T72aEDHvoWkfKl7MJzCFJ55oGZpwll
- 6JKqGe18+ZnzTFrVfzhHlTa7wluBhGcuU8md1g8+QvLqmlv69iOoxK7rz/wCQH2Mutkh
- 4OB12s67chJC5nMuN+LUhvtH5epc7rp2Nsvex5Id2grJVY+WNeOdm4C51XwwinxE8bA1
- 4FtJS/C7ISBmVgz2wYdy52YbQNGMRs/xvFSgB0ig2fAbwc5NCtg9/31wkOFxaSGa79n3
- kQgA==
+ :cc; bh=wKksJ+GgiGnaSlqHvYhXmYTbnSZr5PFOyls+d33xa0Y=;
+ b=YsmvFJ6JAyfXe0dmwuzp2z4YcorNdci0xvfJbgZt1ImuMVJ9A50zvDcI6iXvFHUxqc
+ nS+9RfB73TPVVteGdxXzaSC4P3pwAgz/zzS8FDdwwj2pLtU4E3t5bC6OLSRex0K7qRZa
+ RY4osVNVXQD91UN3rRpbwWHekMaWurknpsF9zkm+iHfEHk48YOPwMpw/f66aRJEew4N5
+ aqnFVDvHbRfrENLbjB0894LKq0m83LmcpZLBqB8Cr56wFZaN/+LNTs8BbE1DbsBAGpNZ
+ JVuMUDFxLpXgbsg42UoOZ+COnDQyHyrmw6YDdwL+trxgEABopEYAAMvwubha+qHGk4Mm
+ hjfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=CLBqapnLz6LITEuIky+AG1685Qs+0CAU5gWBkpiZh9k=;
- b=bzAPfboRb++Jy8gtnJ0J/BLXwJ32pCdJLTM6e/3lagGrHNyF8E2e+Ip5hl04vQMCtg
- CQaEreP7u4ntKzd2r6xySll2PNMXwszLhc4SsnWr57toYM12C+MAxPuWGmrJUCsAnxTJ
- WX2fQCMjHex7POKfw9FCmW73UgfBJY+1BzNM8cvHZmINxlw+Enj0UYHezBhSG6wW8g8D
- Vb47sTfm9UVh6UcpBvhKfaaSrkz/rxcYqYdxl8+mRHIXzVMRrwL5breBURdABfkxHALn
- Gua2yGTuRVaBZAiHyzuX51YXMbVfz3v5AhGkYn8lZn1EibkZo5QMF8kn1cKK/AN1VhQ1
- 5QAg==
-X-Gm-Message-State: AOAM531xrhv4QOeEuqSoe3Rd9uLyKHaKRwwsYd647gdVYwFi3CDoFs31
- TcyVnPCJlEbDTc8xkJ+XioQmijq06e2DXDK/UCxguw==
-X-Google-Smtp-Source: ABdhPJwl2aHYZHAk942HYAHzFK9eV4hFtS7erHAZHFsKiuzyIqgizf/bOxbV1O3QgFByhsSlgHLWF5ojnZJ5/k9QQ1g=
-X-Received: by 2002:aa7:c644:: with SMTP id z4mr33239320edr.204.1624893292223; 
- Mon, 28 Jun 2021 08:14:52 -0700 (PDT)
+ bh=wKksJ+GgiGnaSlqHvYhXmYTbnSZr5PFOyls+d33xa0Y=;
+ b=TlYJ4KavkHXkK4YjRRl5Ykz2LM34yGTlBT9GiTOPMb++qSpbp4dqXqY96aiXdxxEfH
+ nxjZDm7h+3L2EN6/dPO/nKP56mLhFS4e1iMOHOh2VpnHWI1poFOZgcflPtTYv1eYReVf
+ g8/X+PGSZAcHsoyA7ejvIFu03Z73yeU1sb0Hb38vL5XSHANPaNCTTfOxM/A55tO2Vn6o
+ kxdqdA+mUSj9uSyTBlKcvirhmCX1JteBWbVxeBvAfflPX6r/lgt+dgLX9Zqg3tzmulOA
+ +gS95GvBXD5Gf//Xsd+16sQUcFEzilUSFaGUHQKc+BnWJcBFnPTCOEHoqenlel8MPLLe
+ lFOw==
+X-Gm-Message-State: AOAM532Y1IJyV1h79mEDiMhrTiGVt51T3wYxME9rIgNY7hJ1qRTLqGo5
+ 9xFC0pvF0YS8b1GxZp7h1WPLSAEZ3U+cIXN09q/4aA==
+X-Google-Smtp-Source: ABdhPJyZIs40lX0wObohn8mrw8VqOXyX7g+CTDfnyCMPqUvpfNXjk94w21U24Qv8hNHELWwonQUuMuR1t8bQqgX/7Fc=
+X-Received: by 2002:a05:6402:759:: with SMTP id
+ p25mr34067245edy.146.1624893308851; 
+ Mon, 28 Jun 2021 08:15:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210620221046.1526418-1-richard.henderson@linaro.org>
- <20210620221046.1526418-2-richard.henderson@linaro.org>
-In-Reply-To: <20210620221046.1526418-2-richard.henderson@linaro.org>
+References: <20210620052543.1315091-1-richard.henderson@linaro.org>
+ <20210620052543.1315091-3-richard.henderson@linaro.org>
+In-Reply-To: <20210620052543.1315091-3-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Jun 2021 16:14:15 +0100
-Message-ID: <CAFEAcA_stA8gXZ_pxf2tgQm5L=1+HBK_+Uuepgy=Rh+DmzqZfQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] target/nios2: Replace DISAS_TB_JUMP with
- DISAS_NORETURN
+Date: Mon, 28 Jun 2021 16:14:31 +0100
+Message-ID: <CAFEAcA_FuuFzMgxkdPmZRCO0mQ4XWe6K4MdPXatTcFtkFdhZmA@mail.gmail.com>
+Subject: Re: [PATCH 2/7] target/nios2: Use global cpu_env
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,14 +83,15 @@ Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 20 Jun 2021 at 23:15, Richard Henderson
+On Sun, 20 Jun 2021 at 06:29, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> The only semantic of DISAS_TB_JUMP is that we've done goto_tb,
-> which is the same as DISAS_NORETURN -- we've exited the tb.
+> We do not need to copy this into DisasContext.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  target/nios2/translate.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
