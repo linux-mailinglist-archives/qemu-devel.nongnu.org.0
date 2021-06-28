@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22B33B5A9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 10:44:47 +0200 (CEST)
-Received: from localhost ([::1]:56276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00C53B5AA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 10:46:57 +0200 (CEST)
+Received: from localhost ([::1]:59750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxmso-0007UU-K6
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 04:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
+	id 1lxmuu-0001Z0-UE
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 04:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lxmrX-0006Vw-4W; Mon, 28 Jun 2021 04:43:27 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2055)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lxmtH-0008SN-SC; Mon, 28 Jun 2021 04:45:15 -0400
+Received: from out28-148.mail.aliyun.com ([115.124.28.148]:56870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lxmrT-0006oA-LB; Mon, 28 Jun 2021 04:43:26 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GD1JK4qphzZnJG;
- Mon, 28 Jun 2021 16:40:01 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 28 Jun 2021 16:43:06 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 28 Jun 2021 16:43:05 +0800
-Subject: Re: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Andrew Jones
- <drjones@redhat.com>
-References: <YNG44c9KtaiNXT7b@redhat.com>
- <20210622114634.crjqusw6x6oj4j6v@gator>
- <bc47a66a-b1ff-939c-32a2-94c90efd0caf@huawei.com>
- <YNHalhuNZhMa665J@redhat.com>
- <7fcc5f2d-cc84-3464-15cc-3bebb07f8190@huawei.com>
- <YNHvcQAMLSpVcxaE@redhat.com> <20210622142915.pekttdvbi3q5vnh3@gator>
- <20210622174013.52422c73@redhat.com> <YNIacfpt+iHHHzT6@redhat.com>
- <20210622172934.537l7e27sxd6car6@gator> <YNIgInK00yNNI4Dy@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <d695bc58-f648-38e5-cd98-9d91fcebd80a@huawei.com>
-Date: Mon, 28 Jun 2021 16:43:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lxmtD-0007yn-1Z; Mon, 28 Jun 2021 04:45:15 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07046292|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.453855-0.00124752-0.544897;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047193; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KZApaW8_1624869904; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KZApaW8_1624869904)
+ by smtp.aliyun-inc.com(10.147.44.129);
+ Mon, 28 Jun 2021 16:45:05 +0800
+Subject: Re: [RFC PATCH 03/11] hw/intc: Add CLIC device
+To: Frank Chang <frank.chang@sifive.com>
+References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
+ <20210409074857.166082-4-zhiwei_liu@c-sky.com>
+ <CANzO1D0v5F4K--ACjGaMT7imyXK4vUhZpET3T7CpsEscOPUV2A@mail.gmail.com>
+ <52225a77-c509-9999-9d8a-942ea407f44d@c-sky.com>
+ <CAE_xrPg9qG-uOfkMeGvudWZFLUCG+7SSEbvS08iWmL_KKq7KZA@mail.gmail.com>
+ <27879b9f-bffa-96c9-a8b2-033eb0a0be4c@c-sky.com>
+ <CANzO1D062NOxsNG=fmoagXGJfQMu5tw_3uku307hm+t7iB_i7Q@mail.gmail.com>
+ <6c9c894c-6f85-c6bb-a372-d69e15896571@c-sky.com>
+ <CANzO1D1RVotEcropVmHu5bPp7Hq30t2-BkR0pn7=iD18mKZiXw@mail.gmail.com>
+ <a573ec98-9821-4aa2-2026-bb95664ada54@c-sky.com>
+ <CANzO1D3AOvExDirwaWbLqrngx2B=zsD9xYsZarFO5JmzGfZZrA@mail.gmail.com>
+ <26909592-51e0-df55-dff2-40f5dbc90085@c-sky.com>
+ <CANzO1D381kKxSkcnPu7cxUXVt-bgfTv02SjCwF62u1+mG_9=ZQ@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <a98abcad-55a2-8644-492e-a37348301699@c-sky.com>
+Date: Mon, 28 Jun 2021 16:43:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YNIgInK00yNNI4Dy@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANzO1D381kKxSkcnPu7cxUXVt-bgfTv02SjCwF62u1+mG_9=ZQ@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------6EF1CBC224640ADFE25291EA"
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.765,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=115.124.28.148; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-148.mail.aliyun.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-1.765, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,204 +72,935 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com, qemu-devel@nongnu.org,
- yangyicong@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair
- Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, wxy194768@alibaba-inc.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-On 2021/6/23 1:39, Daniel P. Berrangé wrote:
-> On Tue, Jun 22, 2021 at 07:29:34PM +0200, Andrew Jones wrote:
->> On Tue, Jun 22, 2021 at 06:14:25PM +0100, Daniel P. Berrangé wrote:
->>> On Tue, Jun 22, 2021 at 05:40:13PM +0200, Igor Mammedov wrote:
->>>> On Tue, 22 Jun 2021 16:29:15 +0200
->>>> Andrew Jones <drjones@redhat.com> wrote:
+This is a multi-part message in MIME format.
+--------------6EF1CBC224640ADFE25291EA
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+On 2021/6/28 下午4:19, Frank Chang wrote:
+> LIU Zhiwei <zhiwei_liu@c-sky.com <mailto:zhiwei_liu@c-sky.com>> 於 
+> 2021年6月28日 週一 下午4:12寫道：
+>
+>
+>     On 2021/6/28 下午4:07, Frank Chang wrote:
+>>     LIU Zhiwei <zhiwei_liu@c-sky.com <mailto:zhiwei_liu@c-sky.com>> 於
+>>     2021年6月28日 週一 下午4:03寫道：
+>>
+>>
+>>         On 2021/6/28 下午3:49, Frank Chang wrote:
+>>>         LIU Zhiwei <zhiwei_liu@c-sky.com
+>>>         <mailto:zhiwei_liu@c-sky.com>> 於 2021年6月28日 週一
+>>>         下午3:40寫道：
+>>>
+>>>
+>>>             On 2021/6/28 下午3:23, Frank Chang wrote:
+>>>>             LIU Zhiwei <zhiwei_liu@c-sky.com
+>>>>             <mailto:zhiwei_liu@c-sky.com>> 於 2021年6月28日 週一
+>>>>             下午3:17寫道：
 >>>>
->>>>> On Tue, Jun 22, 2021 at 03:10:57PM +0100, Daniel P. Berrangé wrote:
->>>>>> On Tue, Jun 22, 2021 at 10:04:52PM +0800, wangyanan (Y) wrote:
->>>>>>> Hi Daniel,
->>>>>>>
->>>>>>> On 2021/6/22 20:41, Daniel P. Berrangé wrote:
->>>>>>>> On Tue, Jun 22, 2021 at 08:31:22PM +0800, wangyanan (Y) wrote:
->>>>>>>>> On 2021/6/22 19:46, Andrew Jones wrote:
->>>>>>>>>> On Tue, Jun 22, 2021 at 11:18:09AM +0100, Daniel P. Berrangé wrote:
->>>>>>>>>>> On Tue, Jun 22, 2021 at 05:34:06PM +0800, Yanan Wang wrote:
->>>>>>>>>>>> Hi,
->>>>>>>>>>>>
->>>>>>>>>>>> This is v4 of the series [1] that I posted to introduce support for
->>>>>>>>>>>> generating cpu topology descriptions to guest. Comments are welcome!
->>>>>>>>>>>>
->>>>>>>>>>>> Description:
->>>>>>>>>>>> Once the view of an accurate virtual cpu topology is provided to guest,
->>>>>>>>>>>> with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
->>>>>>>>>>>> e.g., the scheduling performance improvement. See Dario Faggioli's
->>>>>>>>>>>> research and the related performance tests in [2] for reference. So here
->>>>>>>>>>>> we go, this patch series introduces cpu topology support for ARM platform.
->>>>>>>>>>>>
->>>>>>>>>>>> In this series, instead of quietly enforcing the support for the latest
->>>>>>>>>>>> machine type, a new parameter "expose=on|off" in -smp command line is
->>>>>>>>>>>> introduced to leave QEMU users a choice to decide whether to enable the
->>>>>>>>>>>> feature or not. This will allow the feature to work on different machine
->>>>>>>>>>>> types and also ideally compat with already in-use -smp command lines.
->>>>>>>>>>>> Also we make much stricter requirement for the topology configuration
->>>>>>>>>>>> with "expose=on".
->>>>>>>>>>> Seeing this 'expose=on' parameter feels to me like we're adding a
->>>>>>>>>>> "make-it-work=yes" parameter. IMHO this is just something that should
->>>>>>>>>>> be done by default for the current machine type version and beyond.
->>>>>>>>>>> I don't see the need for a parameter to turnthis on, especially since
->>>>>>>>>>> it is being made architecture specific.
->>>>>>>>>>>    
->>>>>>>>>> I agree.
->>>>>>>>>>
->>>>>>>>>> Yanan, we never discussed an "expose" parameter in the previous versions
->>>>>>>>>> of this series. We discussed a "strict" parameter though, which would
->>>>>>>>>> allow existing command lines to "work" using assumptions of what the user
->>>>>>>>>> meant and strict=on users to get what they mean or an error saying that
->>>>>>>>>> they asked for something that won't work or would require unreasonable
->>>>>>>>>> assumptions. Why was this changed to an "expose" parameter?
->>>>>>>>> Yes, we indeed discuss a new "strict" parameter but not a "expose" in v2 [1]
->>>>>>>>> of this series.
->>>>>>>>> [1] https://patchwork.kernel.org/project/qemu-devel/patch/20210413080745.33004-6-wangyanan55@huawei.com/
->>>>>>>>>
->>>>>>>>> And in the discussion, we hoped things would work like below with "strict"
->>>>>>>>> parameter:
->>>>>>>>> Users who want to describe cpu topology should provide cmdline like
->>>>>>>>>
->>>>>>>>> -smp strict=on,cpus=4,sockets=2,cores=2,threads=1
->>>>>>>>>
->>>>>>>>> and in this case we require an more accurate -smp configuration and
->>>>>>>>> then generate the cpu topology description through ACPI/DT.
->>>>>>>>>
->>>>>>>>> While without a strict description, no cpu topology description would
->>>>>>>>> be generated, so they get nothing through ACPI/DT.
->>>>>>>>>
->>>>>>>>> It seems to me that the "strict" parameter actually serves as a knob to
->>>>>>>>> turn on/off the exposure of topology, and this is the reason I changed
->>>>>>>>> the name.
->>>>>>>> Yes, the use of 'strict=on' is no better than expose=on IMHO.
->>>>>>>>
->>>>>>>> If I give QEMU a cli
->>>>>>>>
->>>>>>>>     -smp cpus=4,sockets=2,cores=2,threads=1
->>>>>>>>
->>>>>>>> then I expect that topology to be exposed to the guest. I shouldn't
->>>>>>>> have to add extra flags to make that happen.
->>>>>>>>
->>>>>>>> Looking at the thread, it seems the concern was around the fact that
->>>>>>>> the settings were not honoured historically and thus the CLI values
->>>>>>>> could be garbage. ie  -smp cpus=4,sockets=8,cores=3,thread=9
->>>>>>> This "-smp cpus=4,sockets=8,cores=3,threads=9" behaviors as a wrong
->>>>>>> configuration, and the parsing function already report error for this case.
->>>>>>>
->>>>>>> We hope more complete config like "-smp 4,sockets=2,cores=2,threads=1"
->>>>>>> for exposure of topology, and the incomplete ones like "-smp 4,sockets=1"
->>>>>>> or "-smp 4, cores=1" are not acceptable any more because we are starting
->>>>>>> to expose the topology.
->>>>>> Incomplete specified topologies *are* acceptable.
+>>>>
+>>>>                 On 2021/6/26 下午8:56, Frank Chang wrote:
+>>>>>                 On Wed, Jun 16, 2021 at 10:56 AM LIU Zhiwei
+>>>>>                 <zhiwei_liu@c-sky.com
+>>>>>                 <mailto:zhiwei_liu@c-sky.com>> wrote:
+>>>>>
+>>>>>
+>>>>>                     On 6/13/21 6:10 PM, Frank Chang wrote:
+>>>>>>                     LIU Zhiwei <zhiwei_liu@c-sky.com
+>>>>>>                     <mailto:zhiwei_liu@c-sky.com>> 於 2021年4月9日
+>>>>>>                     週五 下午3:57寫道：
 >>>>>>
->>>>>> The smp_parse method will automatically fill in any missing values.
->>>>>>
->>>>>> ie,
->>>>>>
->>>>>>    -smp 4,cores=1
->>>>>>    -smp cores=1
->>>>>>    -smp threads=1
->>>>>>    -smp sockets=4
->>>>>>
->>>>>> are all functionally identical to
->>>>>>
->>>>>>    -smp 4,sockets=4,cores=1,dies=1,threads=1
+>>>>>>                         +static void
+>>>>>>                         riscv_clic_realize(DeviceState *dev,
+>>>>>>                         Error **errp)
+>>>>>>                         +{
+>>>>>>                         + RISCVCLICState *clic = RISCV_CLIC(dev);
+>>>>>>                         +    size_t harts_x_sources =
+>>>>>>                         clic->num_harts * clic->num_sources;
+>>>>>>                         +    int irqs, i;
+>>>>>>                         +
+>>>>>>                         +    if (clic->prv_s && clic->prv_u) {
+>>>>>>                         +        irqs = 3 * harts_x_sources;
+>>>>>>                         +    } else if (clic->prv_s || clic->prv_u) {
+>>>>>>                         +        irqs = 2 * harts_x_sources;
+>>>>>>                         +    } else {
+>>>>>>                         +        irqs = harts_x_sources;
+>>>>>>                         +    }
+>>>>>>                         +
+>>>>>>                         + clic->clic_size = irqs * 4 + 0x1000;
+>>>>>>                         + memory_region_init_io(&clic->mmio,
+>>>>>>                         OBJECT(dev), &riscv_clic_ops, clic,
+>>>>>>                         + TYPE_RISCV_CLIC, clic->clic_size);
+>>>>>>                         +
+>>>>>>                         + clic->clicintip = g_new0(uint8_t, irqs);
+>>>>>>                         + clic->clicintie = g_new0(uint8_t, irqs);
+>>>>>>                         + clic->clicintattr = g_new0(uint8_t, irqs);
+>>>>>>                         + clic->clicintctl = g_new0(uint8_t, irqs);
+>>>>>>                         + clic->active_list =
+>>>>>>                         g_new0(CLICActiveInterrupt, irqs);
+>>>>>>                         + clic->active_count = g_new0(size_t,
+>>>>>>                         clic->num_harts);
+>>>>>>                         + clic->exccode = g_new0(uint32_t,
+>>>>>>                         clic->num_harts);
+>>>>>>                         + clic->cpu_irqs = g_new0(qemu_irq,
+>>>>>>                         clic->num_harts);
+>>>>>>                         + sysbus_init_mmio(SYS_BUS_DEVICE(dev),
+>>>>>>                         &clic->mmio);
+>>>>>>                         +
+>>>>>>                         +    /* Allocate irq through gpio, so
+>>>>>>                         that we can use qtest */
+>>>>>>                         + qdev_init_gpio_in(dev,
+>>>>>>                         riscv_clic_set_irq, irqs);
+>>>>>>                         + qdev_init_gpio_out(dev, clic->cpu_irqs,
+>>>>>>                         clic->num_harts);
+>>>>>>                         +
+>>>>>>                         +    for (i = 0; i < clic->num_harts; i++) {
+>>>>>>                         + RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(i));
 >>>>>>
 >>>>>>
->>>>>> The QEMU man page says this explicitly
+>>>>>>                     As spec says:
+>>>>>>                       Smaller single-core systems might have only
+>>>>>>                     a CLIC,
+>>>>>>                       while multicore systems might have a CLIC
+>>>>>>                     per-core and a single shared PLIC.
+>>>>>>                       The PLIC xeip signals are treated as
+>>>>>>                     hart-local interrupt sources by the CLIC at
+>>>>>>                     each core.
 >>>>>>
->>>>>>                   For the PC target, the number of cores per die, the
->>>>>>      number of threads per cores, the number of dies per packages and the
->>>>>>      total number of sockets can be specified. Missing values will be
->>>>>>      computed. If any on the three values is given, the total number of
->>>>>>      CPUs n can be omitted.
->>>>> It doesn't say how it will compute them though, which for the default
->>>>> smp_parse and for x86 is to prefer sockets over cores over threads.
->>>>> That's not necessarily what the user expects. IMO, we need a 'strict=on'
->>>>> parameter that doesn't allow any collection of smp parameters which
->>>>> require unreasonable assumptions. Reasonable assumptions are threads=1,
->>>>> when threads is not specified and the rest of the math adds up. Also,
->>>>> maxcpus == cpus when maxcpus isn't specified is reasonable. But, it's not
->>>>> as reasonable to decide how to divide cores among sockets or to assume
->>>>> threads=1 when only sockets and cores are given. How do we know the user
->>>>> didn't forget to specify threads if we can't check the math?
->>>> or just outlaw all invalid topologies incl. incomplete by default
->>>> (without requiring extra option), and permit them only for old machine
->>>> types ()using compat machinery) without topo info provided to guest.
->>>> And maybe later deprecate invalid topologies altogether.
->>> This feels like it is creating pain for users to fix a problem that
->>> isn't shown to actually be causing any common issues.
+>>>>>>                     It looks like it's possible to have one CLIC
+>>>>>>                     instance per core.
+>>>>>
+>>>>>                     If you want to delivery an interrupt to one
+>>>>>                     hart, you should encode the IRQ by the
+>>>>>                     interrupt number
+>>>>>                     , the hart number and the interrupt target
+>>>>>                     privilege, then set the irq.
+>>>>>
+>>>>>                     I think how to calculate the hart number is
+>>>>>                     the task of PLIC and it can make use of
+>>>>>                     "hartid-base"
+>>>>>                     to calculate it.
+>>>>>
+>>>>>                     Thanks,
+>>>>>                     Zhiwei
+>>>>>
+>>>>>
+>>>>>                 Hi Zhiwei,
+>>>>>
+>>>>>                 What I mean is if there are multiple CLIC
+>>>>>                 instances, each per core (CLIC spec allows that).
+>>>>>                 If you try to bind CLIC with CPU index start from 0,
+>>>>>                 it will be impossible for CLIC instance to bind
+>>>>>                 CPU from index other than 0.
+>>>>>
+>>>>>                 For example, for 4 cores system, it's possible to
+>>>>>                 have 4 CLIC instances:
+>>>>>                   * CLIC 0 binds to CPU 0
+>>>>>                   * CLIC 1 binds to CPU 1
+>>>>>                   * CLIC 2 binds to CPU 2
+>>>>>                   * CLIC 3 binds to CPU 3
+>>>>>
+>>>>>                 and that's why I said it's possible to pass an
+>>>>>                 extra "hartid-base" just like PLIC.
+>>>>>                 I know most of hardid are calculated by the
+>>>>>                 requesing address, so most hartid usages should be
+>>>>>                 fine.
+>>>>>                 But I saw two places using qemu_get_cpu(),
+>>>>>                 which may cause the problem for the scenario I
+>>>>>                 describe above:
+>>>>>                 i.e. riscv_clic_next_interrupt() and
+>>>>>                 riscv_clic_realize() as my original reply.
+>>>>
+>>>>                 So what's the problem here?
+>>>>
+>>>>                 Currently all cores share the same CLIC instance.
+>>>>                 Do you want to give each core  a CLIC instance?
+>>>>
+>>>>             Yes, that's what I mean, which should be supported as
+>>>>             what spec says[1]:
+>>>>               The CLIC complements the PLIC. Smaller single-core
+>>>>             systems might have only a CLIC,
+>>>>               while multicore systems might have *a CLIC per-core*
+>>>>             and a single shared PLIC.
+>>>>               The PLIC xeip signals are treated as hart-local
+>>>>             interrupt sources by the CLIC at each core.
+>>>>
+>>>>             [1]
+>>>>             https://github.com/riscv/riscv-fast-interrupt/blob/646310a5e4ae055964b4680f12c1c04a7cc0dd56/clic.adoc#12-clic-versus-plic
+>>>>             <https://github.com/riscv/riscv-fast-interrupt/blob/646310a5e4ae055964b4680f12c1c04a7cc0dd56/clic.adoc#12-clic-versus-plic>
+>>>>
+>>>>             Thanks,
+>>>>             Frank Chang
 >>>
->>> We've supposed that users are having problems when forgetting to
->>> specify "threads" and not having the compute value be desirable,
->>> but where are the bug reports to back this up ?
+>>>             If we give each core a CLIC instance, it is not
+>>>             convenient to access the shared memory, such as 0x0-0x1000.
+>>>             Which CLIC instance should contain this memory region?
 >>>
->>> The partial topologies are valid and have well defined semantics.
->>> Those semantics may not match everyone's preference, but that
->>> doesn't make them invalid.
->>>
->> If we adopt the [undocumented] semantics of x86 for arm, then we may
->> surprise some users that expect e.g. '-smp 16' to give them a single
->> socket with 16 cores, because they'll start getting 16 sockets with 1
->> core each. That's because if we don't describe a topology to an arm linux
->> guest then it assumes cores. Maybe we shouldn't worry about this, but I'd
->> prefer we require explicit inputs from users and, if necessary, for them
->> to explicitly opt-in to requiring those explicit inputs.
-> Even for x86, defaulting to maximising sockets over cores is sub-optimal.
-> In real world x86 hardware it is very rare to have sockets > 2 or 4. For
-> large CPU counts, you generally have large cores-per-socket counts on x86.
+>>>         What do you mean by: "access the shared memory" here?
+>>
+>>         It means the cliccfg or clicinfo which should be shared by
+>>         all CLIC instances.
+>>
+>>     If there are multiple CLIC instances, shouldn't they have their
+>>     own base addresses?
+>>     So I do not understand how cliccfg and clicinfo would be shared
+>>     by all CLIC instances. (Or they should?)
 >
-> The QEMU preference for sockets over cores on x86 (and PPC too IIUC)
-> is a fairly arbitrary historical decision.
+>     Once we have a talk on tech-fast-interrupt. The chair of fast
+>     interrupt reply is:
 >
-> It can cause problems with guest OS licensing because both Windows
-> and RHEL have been known to charge differently for sockets vs cores,
-> with high core counts being cheaper.
+>     /"The first part (address 0x0000-0x0FFF) which contains
+>     cliccfg/clicinfo/clicinttrig should be global since only one copy
+>     of the configuration setting is enough.//
+>     //On the other hand, the latter part (0x1000-0x4FFF) which
+>     contains control bits for individual interrupt should be one copy
+>     per hart"/
 >
-> We are not tied into the precise behaviour of the computed topology
-> values, as we have no made any promises. All that's required is that
-> we keep ABI compat for existing machine types.
-If based on this point of view that we haven't made any promises for the
-precise behavior of the computed topology, things may get much easier.
-I have the following understanding (also a proposal):
+> Hmm... interesting, that's probably something I have missed.
+> and they didn't document this statement in the spec :(
+>
+> But I think this statement has a contradiction against the system with 
+> multi-CLIC instances described in spec.
+> Does it imply that either:
+>   * I can only have one CLIC in the system, or
+>   * All CLIC instances must have the same configuration in the system.
 
-We will introduce the support for exposing cpu topology since machine
-type 6.2 and we will also describe the computed topology for the guest.
-We will not make any stricter parsing logic, however the -smp content in
-qemu-options.hx should be rearranged to clearly explain how the missing
-values will exactly be computed. And this is what QEMU is responsible for.
+The second one.
 
-We know that a well designed cpu topology configuration can gain much
-benefit for the guest, while a badly designed one will also probably cause
-negative impact. But the users should be responsible for the design of the
--smp cmdlines. If they are using an incomplete cmdline for a 6.2 machine,
-then they should have known what the computed values will be and that
-the computed topology will be exposed to the guest.
->
-> So we could decide to change the computed topology so that it prefers
-> high core counts, over sockets, whem using new machine types only.
-> That would seem to benefit all arches, by making QEMU more reflective
-> of real world CPUs topology.
-If we really decide to prefer cores over sockets over threads for new 
-machine
-types, then I think we should also record this change in qemu-option.hx.
+I think the CLIC instance here is just on the concept of logic, like the 
+current implementation. Furthermore, we can give
+every logic CLIC instance a configurable memory region from the machine 
+board in the near future.
 
 Thanks,
-Yanan
-.
-> Regards,
-> Daniel
+Zhiwei
 
+> Do you have the link to this statement? I would like to take a look.
+>
+> Thanks,
+> Frank Chang
+>
+>
+>     Thanks,
+>     Zhiwei
+>
+>>     Each CLIC instance will manage its own cliccfg and clicinfo.
+>>
+>>     Thanks,
+>>     Frank Chang
+>>
+>>         Thanks,
+>>         Zhiwei
+>>
+>>>         I thought the memory region is defined during CLIC's creation?
+>>>         So it should depend on the platform that creates CLIC instances.
+>>>
+>>>         Thanks,
+>>>         Frank Chang
+>>>
+>>>             Thanks,
+>>>             Zhiwei
+>>>
+>>>>
+>>>>                 Thanks,
+>>>>                 Zhiwei
+>>>>
+>>>>>                 Regards,
+>>>>>                 Frank Chang
+>>>>>
+>>>>>>                     However if you try to bind CPU reference
+>>>>>>                     start from index i = 0.
+>>>>>>                     It's not possible for each per-core CLIC to
+>>>>>>                     bind their own CPU instance in multicore system
+>>>>>>                     as they have to bind from CPU 0.
+>>>>>>
+>>>>>>                     I'm not sure if we add a new "hartid-base"
+>>>>>>                     property just like what SiFive PLIC is
+>>>>>>                     implemented would be a good idea or not.
+>>>>>>
+>>>>>>
+>>>>>>                     Regards,
+>>>>>>                     Frank Chang
+>>>>>>
+>>>>>>                         + qemu_irq irq =
+>>>>>>                         qemu_allocate_irq(riscv_clic_cpu_irq_handler,
+>>>>>>                         +  &cpu->env, 1);
+>>>>>>                         + qdev_connect_gpio_out(dev, i, irq);
+>>>>>>                         + cpu->env.clic = clic;
+>>>>>>                         +    }
+>>>>>>                         +}
+>>>>>>                         +
+>>>>>>
+>>>>>>
+
+--------------6EF1CBC224640ADFE25291EA
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2021/6/28 下午4:19, Frank Chang wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANzO1D381kKxSkcnPu7cxUXVt-bgfTv02SjCwF62u1+mG_9=ZQ@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr">LIU Zhiwei &lt;<a
+            href="mailto:zhiwei_liu@c-sky.com" moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+          於 2021年6月28日 週一 下午4:12寫道：<br>
+        </div>
+        <div class="gmail_quote">
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            <div>
+              <p><br>
+              </p>
+              <div>On 2021/6/28 下午4:07, Frank Chang wrote:<br>
+              </div>
+              <blockquote type="cite">
+                <div dir="ltr">
+                  <div dir="ltr">LIU Zhiwei &lt;<a
+                      href="mailto:zhiwei_liu@c-sky.com" target="_blank"
+                      moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+                    於 2021年6月28日 週一 下午4:03寫道：<br>
+                  </div>
+                  <div class="gmail_quote">
+                    <blockquote class="gmail_quote" style="margin:0px
+                      0px 0px 0.8ex;border-left:1px solid
+                      rgb(204,204,204);padding-left:1ex">
+                      <div>
+                        <p><br>
+                        </p>
+                        <div>On 2021/6/28 下午3:49, Frank Chang wrote:<br>
+                        </div>
+                        <blockquote type="cite">
+                          <div dir="ltr">
+                            <div dir="ltr">LIU Zhiwei &lt;<a
+                                href="mailto:zhiwei_liu@c-sky.com"
+                                target="_blank" moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+                              於 2021年6月28日 週一 下午3:40寫道：<br>
+                            </div>
+                            <div class="gmail_quote">
+                              <blockquote class="gmail_quote"
+                                style="margin:0px 0px 0px
+                                0.8ex;border-left:1px solid
+                                rgb(204,204,204);padding-left:1ex">
+                                <div>
+                                  <p><br>
+                                  </p>
+                                  <div>On 2021/6/28 下午3:23, Frank Chang
+                                    wrote:<br>
+                                  </div>
+                                  <blockquote type="cite">
+                                    <div dir="ltr">
+                                      <div dir="ltr">LIU Zhiwei &lt;<a
+                                          href="mailto:zhiwei_liu@c-sky.com"
+                                          target="_blank"
+                                          moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+                                        於 2021年6月28日 週一 下午3:17寫道：<br>
+                                      </div>
+                                      <div class="gmail_quote">
+                                        <blockquote class="gmail_quote"
+                                          style="margin:0px 0px 0px
+                                          0.8ex;border-left:1px solid
+                                          rgb(204,204,204);padding-left:1ex">
+                                          <div>
+                                            <p><br>
+                                            </p>
+                                            <div>On 2021/6/26 下午8:56,
+                                              Frank Chang wrote:<br>
+                                            </div>
+                                            <blockquote type="cite">
+                                              <div dir="ltr">
+                                                <div dir="ltr">On Wed,
+                                                  Jun 16, 2021 at 10:56
+                                                  AM LIU Zhiwei &lt;<a
+                                                    href="mailto:zhiwei_liu@c-sky.com"
+                                                    target="_blank"
+                                                    moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+                                                  wrote:<br>
+                                                </div>
+                                                <div class="gmail_quote">
+                                                  <blockquote
+                                                    class="gmail_quote"
+                                                    style="margin:0px
+                                                    0px 0px
+                                                    0.8ex;border-left:1px
+                                                    solid
+                                                    rgb(204,204,204);padding-left:1ex">
+                                                    <div>
+                                                      <p><br>
+                                                      </p>
+                                                      <div>On 6/13/21
+                                                        6:10 PM, Frank
+                                                        Chang wrote:<br>
+                                                      </div>
+                                                      <blockquote
+                                                        type="cite">
+                                                        <div dir="ltr">
+                                                          <div dir="ltr">LIU
+                                                          Zhiwei &lt;<a
+href="mailto:zhiwei_liu@c-sky.com" target="_blank"
+                                                          moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+                                                          於 2021年4月9日 週五
+                                                          下午3:57寫道：<br>
+                                                          </div>
+                                                          <div
+                                                          class="gmail_quote"><br>
+                                                          <blockquote
+                                                          class="gmail_quote"
+style="margin:0px 0px 0px 0.8ex;border-left:1px solid
+                                                          rgb(204,204,204);padding-left:1ex">
+                                                          +static void
+                                                          riscv_clic_realize(DeviceState
+                                                          *dev, Error
+                                                          **errp)<br>
+                                                          +{<br>
+                                                          +   
+                                                          RISCVCLICState
+                                                          *clic =
+                                                          RISCV_CLIC(dev);<br>
+                                                          +    size_t
+                                                          harts_x_sources
+                                                          =
+                                                          clic-&gt;num_harts
+                                                          *
+clic-&gt;num_sources;<br>
+                                                          +    int irqs,
+                                                          i;<br>
+                                                          +<br>
+                                                          +    if
+                                                          (clic-&gt;prv_s
+                                                          &amp;&amp;
+                                                          clic-&gt;prv_u)
+                                                          {<br>
+                                                          +        irqs
+                                                          = 3 *
+                                                          harts_x_sources;<br>
+                                                          +    } else if
+(clic-&gt;prv_s || clic-&gt;prv_u) {<br>
+                                                          +        irqs
+                                                          = 2 *
+                                                          harts_x_sources;<br>
+                                                          +    } else {<br>
+                                                          +        irqs
+                                                          =
+                                                          harts_x_sources;<br>
+                                                          +    }<br>
+                                                          +<br>
+                                                          +   
+                                                          clic-&gt;clic_size
+                                                          = irqs * 4 +
+                                                          0x1000;<br>
+                                                          +   
+                                                          memory_region_init_io(&amp;clic-&gt;mmio,
+                                                          OBJECT(dev),
+                                                          &amp;riscv_clic_ops,
+                                                          clic,<br>
+                                                          +             
+                                                                     
+                                                          TYPE_RISCV_CLIC,
+clic-&gt;clic_size);<br>
+                                                          +<br>
+                                                          +   
+                                                          clic-&gt;clicintip
+                                                          =
+                                                          g_new0(uint8_t,
+                                                          irqs);<br>
+                                                          +   
+                                                          clic-&gt;clicintie
+                                                          =
+                                                          g_new0(uint8_t,
+                                                          irqs);<br>
+                                                          +   
+                                                          clic-&gt;clicintattr
+                                                          =
+                                                          g_new0(uint8_t,
+                                                          irqs);<br>
+                                                          +   
+                                                          clic-&gt;clicintctl
+                                                          =
+                                                          g_new0(uint8_t,
+                                                          irqs);<br>
+                                                          +   
+                                                          clic-&gt;active_list
+                                                          =
+                                                          g_new0(CLICActiveInterrupt,
+                                                          irqs);<br>
+                                                          +   
+                                                          clic-&gt;active_count
+                                                          =
+                                                          g_new0(size_t,
+clic-&gt;num_harts);<br>
+                                                          +   
+                                                          clic-&gt;exccode
+                                                          =
+                                                          g_new0(uint32_t,
+clic-&gt;num_harts);<br>
+                                                          +   
+                                                          clic-&gt;cpu_irqs
+                                                          =
+                                                          g_new0(qemu_irq,
+clic-&gt;num_harts);<br>
+                                                          +   
+                                                          sysbus_init_mmio(SYS_BUS_DEVICE(dev),
+&amp;clic-&gt;mmio);<br>
+                                                          +<br>
+                                                          +    /*
+                                                          Allocate irq
+                                                          through gpio,
+                                                          so that we can
+                                                          use qtest */<br>
+                                                          +   
+                                                          qdev_init_gpio_in(dev,
+riscv_clic_set_irq, irqs);<br>
+                                                          +   
+                                                          qdev_init_gpio_out(dev,
+clic-&gt;cpu_irqs, clic-&gt;num_harts);<br>
+                                                          +<br>
+                                                          +    for (i =
+                                                          0; i &lt;
+                                                          clic-&gt;num_harts;
+                                                          i++) {<br>
+                                                          +       
+                                                          RISCVCPU *cpu
+                                                          =
+                                                          RISCV_CPU(qemu_get_cpu(i));<br>
+                                                          </blockquote>
+                                                          <div><br>
+                                                          </div>
+                                                          <div>As spec
+                                                          says:</div>
+                                                          <div>  Smaller
+                                                          single-core
+                                                          systems might
+                                                          have only a
+                                                          CLIC,</div>
+                                                          <div>  while
+                                                          multicore
+                                                          systems might
+                                                          have a CLIC
+                                                          per-core and a
+                                                          single shared
+                                                          PLIC.</div>
+                                                          <div>  The
+                                                          PLIC xeip
+                                                          signals are
+                                                          treated as
+                                                          hart-local
+                                                          interrupt
+                                                          sources by the
+                                                          CLIC at each
+                                                          core.<br>
+                                                          </div>
+                                                          <div><br>
+                                                          </div>
+                                                          <div>It looks
+                                                          like it's
+                                                          possible to
+                                                          have one CLIC
+                                                          instance per
+                                                          core.</div>
+                                                          </div>
+                                                        </div>
+                                                      </blockquote>
+                                                      <p>If you want to
+                                                        delivery an
+                                                        interrupt to one
+                                                        hart, you should
+                                                        encode the IRQ
+                                                        by the interrupt
+                                                        number<br>
+                                                        , the hart
+                                                        number and the
+                                                        interrupt target
+                                                        privilege, then
+                                                        set the irq.</p>
+                                                      <p>I think how to
+                                                        calculate the
+                                                        hart number is
+                                                        the task of PLIC
+                                                        and it can make
+                                                        use of
+                                                        "hartid-base"<br>
+                                                        to calculate it.</p>
+                                                      <p>Thanks,<br>
+                                                        Zhiwei<br>
+                                                      </p>
+                                                    </div>
+                                                  </blockquote>
+                                                  <div><br>
+                                                  </div>
+                                                  <div>Hi Zhiwei,</div>
+                                                  <div><br>
+                                                  </div>
+                                                  <div>What I mean is if
+                                                    there are multiple
+                                                    CLIC instances, each
+                                                    per core (CLIC spec
+                                                    allows that).</div>
+                                                  <div>If you try to
+                                                    bind CLIC with CPU
+                                                    index start from 0,</div>
+                                                  <div>it will be
+                                                    impossible for CLIC
+                                                    instance to bind CPU
+                                                    from index other
+                                                    than 0.</div>
+                                                  <div><br>
+                                                  </div>
+                                                  <div>For example, for
+                                                    4 cores system, it's
+                                                    possible to have 4
+                                                    CLIC instances:</div>
+                                                  <div>  * CLIC 0 binds
+                                                    to CPU 0</div>
+                                                  <div>  * CLIC 1 binds
+                                                    to CPU 1</div>
+                                                  <div>  * CLIC 2 binds
+                                                    to CPU 2</div>
+                                                  <div>  * CLIC 3 binds
+                                                    to CPU 3</div>
+                                                  <div><br>
+                                                  </div>
+                                                  <div>and that's why I
+                                                    said it's possible
+                                                    to pass an extra
+                                                    "hartid-base" just
+                                                    like PLIC.</div>
+                                                  <div>I know most of
+                                                    hardid are
+                                                    calculated by the
+                                                    requesing address,
+                                                    so most
+                                                    hartid usages should
+                                                    be fine.</div>
+                                                  <div>But I saw two
+                                                    places
+                                                    using qemu_get_cpu(),<br>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </blockquote>
+                                            <blockquote type="cite">
+                                              <div dir="ltr">
+                                                <div class="gmail_quote">
+                                                  <div>which may cause
+                                                    the problem for the
+                                                    scenario I describe
+                                                    above:</div>
+                                                  <div>i.e.
+                                                    riscv_clic_next_interrupt()
+                                                    and
+                                                    riscv_clic_realize()
+                                                    as my original
+                                                    reply.</div>
+                                                </div>
+                                              </div>
+                                            </blockquote>
+                                            <p>So what's the problem
+                                              here?</p>
+                                            <p>Currently all cores share
+                                              the same CLIC instance. Do
+                                              you want to give each
+                                              core  a CLIC instance?</p>
+                                          </div>
+                                        </blockquote>
+                                        <div>
+                                          <div>Yes, that's what I mean,
+                                            which should be supported as
+                                            what spec says[1]:</div>
+                                          <div>  The CLIC complements
+                                            the PLIC. Smaller
+                                            single-core systems might
+                                            have only a CLIC,</div>
+                                          <div>  while multicore systems
+                                            might have <b>a CLIC
+                                              per-core</b> and a single
+                                            shared PLIC.</div>
+                                          <div>  The PLIC xeip signals
+                                            are treated as hart-local
+                                            interrupt sources by the
+                                            CLIC at each core.</div>
+                                          <div><br>
+                                          </div>
+                                          <div>[1] <a
+href="https://github.com/riscv/riscv-fast-interrupt/blob/646310a5e4ae055964b4680f12c1c04a7cc0dd56/clic.adoc#12-clic-versus-plic"
+                                              target="_blank"
+                                              moz-do-not-send="true">https://github.com/riscv/riscv-fast-interrupt/blob/646310a5e4ae055964b4680f12c1c04a7cc0dd56/clic.adoc#12-clic-versus-plic</a></div>
+                                          <div><br>
+                                          </div>
+                                          <div>Thanks,</div>
+                                          <div>Frank Chang</div>
+                                        </div>
+                                        <div> </div>
+                                      </div>
+                                    </div>
+                                  </blockquote>
+                                  <p>If we give each core a CLIC
+                                    instance, it is not convenient to
+                                    access the shared memory, such as
+                                    0x0-0x1000.<br>
+                                    Which CLIC instance should contain
+                                    this memory region?</p>
+                                </div>
+                              </blockquote>
+                              <div>What do you mean by: "access the
+                                shared memory" here?</div>
+                            </div>
+                          </div>
+                        </blockquote>
+                        <p>It means the cliccfg or clicinfo which 
+                          should be shared by all CLIC instances.</p>
+                      </div>
+                    </blockquote>
+                    <div>If there are multiple CLIC instances, shouldn't
+                      they have their own base addresses?</div>
+                    <div>So I do not understand how cliccfg and clicinfo
+                      would be shared by all CLIC instances. (Or they
+                      should?)</div>
+                  </div>
+                </div>
+              </blockquote>
+              <p>Once we have a talk on tech-fast-interrupt. The chair
+                of fast interrupt reply is:</p>
+              <p><i>"The first part (address 0x0000-0x0FFF) which
+                  contains cliccfg/clicinfo/clicinttrig should be global
+                  since only one copy of the configuration setting is
+                  enough.</i><i><br>
+                </i><i>On the other hand, the latter part
+                  (0x1000-0x4FFF) which contains control bits for
+                  individual interrupt should be one copy per hart"</i></p>
+            </div>
+          </blockquote>
+          <div>Hmm... interesting, that's probably something I have
+            missed.</div>
+          <div>and they didn't document this statement in the spec :(</div>
+          <div><br>
+          </div>
+          <div>But I think this statement has a contradiction against
+            the system with multi-CLIC instances described in spec.</div>
+          <div>Does it imply that either:</div>
+          <div>  * I can only have one CLIC in the system, or</div>
+          <div>  * All CLIC instances must have the same configuration
+            in the system.</div>
+        </div>
+      </div>
+    </blockquote>
+    <p>The second one.<br>
+      <br>
+      I think the CLIC instance here is just on the concept of logic, 
+      like the current implementation. Furthermore, we can give<br>
+      every logic CLIC instance a configurable memory region from the
+      machine board in the near future.</p>
+    <p>Thanks,<br>
+      Zhiwei<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CANzO1D381kKxSkcnPu7cxUXVt-bgfTv02SjCwF62u1+mG_9=ZQ@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div>Do you have the link to this statement? I would like to
+            take a look.</div>
+          <div><br>
+          </div>
+          <div>Thanks,</div>
+          <div>Frank Chang</div>
+          <div><br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            <div>
+              <p><br>
+              </p>
+              <p>Thanks,<br>
+                Zhiwei<br>
+              </p>
+              <blockquote type="cite">
+                <div dir="ltr">
+                  <div class="gmail_quote">
+                    <div>Each CLIC instance will manage its own cliccfg
+                      and clicinfo.</div>
+                    <div><br>
+                    </div>
+                    <div>Thanks,</div>
+                    <div>Frank Chang</div>
+                    <div><br>
+                    </div>
+                    <blockquote class="gmail_quote" style="margin:0px
+                      0px 0px 0.8ex;border-left:1px solid
+                      rgb(204,204,204);padding-left:1ex">
+                      <div>
+                        <p>Thanks,<br>
+                          Zhiwei<br>
+                        </p>
+                        <blockquote type="cite">
+                          <div dir="ltr">
+                            <div class="gmail_quote">
+                              <div>I thought the memory region is
+                                defined during CLIC's creation?</div>
+                              <div>So it should depend on the platform
+                                that creates CLIC instances.</div>
+                              <div><br>
+                              </div>
+                              <div>Thanks,</div>
+                              <div>Frank Chang</div>
+                              <div> <br>
+                              </div>
+                              <blockquote class="gmail_quote"
+                                style="margin:0px 0px 0px
+                                0.8ex;border-left:1px solid
+                                rgb(204,204,204);padding-left:1ex">
+                                <div>
+                                  <p>Thanks,<br>
+                                    Zhiwei<br>
+                                  </p>
+                                  <blockquote type="cite">
+                                    <div dir="ltr">
+                                      <div class="gmail_quote">
+                                        <blockquote class="gmail_quote"
+                                          style="margin:0px 0px 0px
+                                          0.8ex;border-left:1px solid
+                                          rgb(204,204,204);padding-left:1ex">
+                                          <div>
+                                            <p> <br>
+                                            </p>
+                                            <p>Thanks,<br>
+                                              Zhiwei</p>
+                                          </div>
+                                        </blockquote>
+                                        <blockquote class="gmail_quote"
+                                          style="margin:0px 0px 0px
+                                          0.8ex;border-left:1px solid
+                                          rgb(204,204,204);padding-left:1ex">
+                                          <div>
+                                            <blockquote type="cite">
+                                              <div dir="ltr">
+                                                <div class="gmail_quote">
+                                                  <div>Regards,</div>
+                                                  <div>Frank Chang</div>
+                                                  <div> <br>
+                                                  </div>
+                                                  <blockquote
+                                                    class="gmail_quote"
+                                                    style="margin:0px
+                                                    0px 0px
+                                                    0.8ex;border-left:1px
+                                                    solid
+                                                    rgb(204,204,204);padding-left:1ex">
+                                                    <div>
+                                                      <p> </p>
+                                                      <blockquote
+                                                        type="cite">
+                                                        <div dir="ltr">
+                                                          <div
+                                                          class="gmail_quote">
+                                                          <div>However
+                                                          if you try to
+                                                          bind CPU
+                                                          reference
+                                                          start from
+                                                          index i = 0.</div>
+                                                          <div>It's not
+                                                          possible for
+                                                          each per-core
+                                                          CLIC to bind
+                                                          their own CPU
+                                                          instance in
+                                                          multicore
+                                                          system</div>
+                                                          <div>as they
+                                                          have to bind
+                                                          from CPU 0.</div>
+                                                          <div><br>
+                                                          I'm not sure
+                                                          if we add a
+                                                          new
+                                                          "hartid-base"
+                                                          property just
+                                                          like what
+                                                          SiFive PLIC is</div>
+                                                          <div>implemented
+                                                          would be a
+                                                          good idea or
+                                                          not.</div>
+                                                          <div><br>
+                                                          </div>
+                                                          <div><br>
+                                                          </div>
+                                                          <div>Regards,</div>
+                                                          <div>Frank
+                                                          Chang</div>
+                                                          <div> </div>
+                                                          <blockquote
+                                                          class="gmail_quote"
+style="margin:0px 0px 0px 0.8ex;border-left:1px solid
+                                                          rgb(204,204,204);padding-left:1ex">
+                                                          +       
+                                                          qemu_irq irq =
+qemu_allocate_irq(riscv_clic_cpu_irq_handler,<br>
+                                                          +             
+                                                                       
+                                                                     
+                                                           &amp;cpu-&gt;env,
+                                                          1);<br>
+                                                          +       
+                                                          qdev_connect_gpio_out(dev,
+                                                          i, irq);<br>
+                                                          +       
+                                                          cpu-&gt;env.clic
+                                                          = clic;<br>
+                                                          +    }<br>
+                                                          +}<br>
+                                                          +<br>
+                                                          <br>
+                                                          <br>
+                                                          </blockquote>
+                                                          </div>
+                                                        </div>
+                                                      </blockquote>
+                                                    </div>
+                                                  </blockquote>
+                                                </div>
+                                              </div>
+                                            </blockquote>
+                                          </div>
+                                        </blockquote>
+                                      </div>
+                                    </div>
+                                  </blockquote>
+                                </div>
+                              </blockquote>
+                            </div>
+                          </div>
+                        </blockquote>
+                      </div>
+                    </blockquote>
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+  </body>
+</html>
+
+--------------6EF1CBC224640ADFE25291EA--
 
