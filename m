@@ -2,155 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478153B5990
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 09:15:11 +0200 (CEST)
-Received: from localhost ([::1]:55094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACFA3B59A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 09:18:21 +0200 (CEST)
+Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxlU5-0006wd-P4
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 03:15:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
+	id 1lxlXA-0001eB-NQ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 03:18:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lxlSn-0006Gy-Ia
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:13:49 -0400
-Received: from esa7.fujitsucc.c3s2.iphmx.com ([68.232.159.87]:35069)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lxlWD-0000nl-W4; Mon, 28 Jun 2021 03:17:22 -0400
+Received: from out28-146.mail.aliyun.com ([115.124.28.146]:49256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lxlSk-0006fC-0c
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:13:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
- t=1624864427; x=1656400427;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=fSUxUuKstVk1P/51k3AmJBzMZnrryWjF5U0PEEEENOg=;
- b=K1n4sb6wsZcDvTb63ixrW0QSMAoEqBbNYvgJfZ+wmwd2h5xnsq5CocWX
- Y4MX8HGeLEmkoJSyW9mPlRfqAOIsY2sFAvmfFS3KtSO3mcrVXHu0gISyx
- bkNtDkzZ8M8+NTmqenVi1GBryiiWpxgVPQ8mqV0LsEqIEl/C6DFMz4f+j
- Zd21PBX9N9u8wyT2j7x4VSM+sn0FNpYu1VWnKcmG7UohETbArLRsL2qyz
- k1fdX1sn5MsnANIXnV8dwt2Sf2FgAw6RKRsvp91jMS29mkNAr0AHJB3U/
- bgT/7TaJypFJSdp2U85HR/idpJ9rAGjbHNnUugLMlF6QitnE+eMlUiHZ3 A==;
-IronPort-SDR: IyNcbQNFG6OJcNBiUDSjHCp73RvF+h0GuWFvhigURAjWvofc/ndjMa1a600Rzw1UUrHdIfDb5u
- lcOPyOnbjJG3qKliV6ir4n1P/0j9urcW5sQA3QbrJIb8uKYIcWSDaoMSKIQQOT9Pd/sb1828C7
- mYSIGTlZsbN05uRGUIkPH2WRvCkV4mV23WZCqvkt54LeOxZu06XC18rtbU30rhWUA10dqvM+ni
- TojQZ47FCxYpf7gDt/T1Vwg7CBdzwHMAsZjp4NQKEa3lm/aW6r3PtsziB5q9zm33jWgfTIcBfZ
- LXU=
-X-IronPort-AV: E=McAfee;i="6200,9189,10028"; a="33858785"
-X-IronPort-AV: E=Sophos;i="5.83,305,1616425200"; d="scan'208";a="33858785"
-Received: from mail-os2jpn01lp2058.outbound.protection.outlook.com (HELO
- JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.58])
- by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 16:13:41 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mMZYXLtKuWLOFvHeuvVBsmXoG4C0bNSAQuaex+aUh3u2+OZ5Q4qw/YD6kAr7Jv21raawJhkdGMYUUOxb7wwGqhZuAKi4D0zlP/h6IqUNDkEijwZF8hJfTb3Ert3zrOCefqODDH40dy2i9CEy4Uonc+dtoI1cyo9UjcHe9fxKNEvgBDuyJ9YYI8YS7Fg9Iq9OL9Y4BMhYLwdaqM6TtBI+6B11wMKUof2HVLhOu49+IJQ4ZQ+x6y/zfRzalY1cp8d7+lhdcOT13wrlOn6EgUnN1uJphHA5a5GsNcjo/ZDWPDrig37B/7q9Sn/GGO0jPfG+CLUIN68Pvkud66cbm5+TYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fSUxUuKstVk1P/51k3AmJBzMZnrryWjF5U0PEEEENOg=;
- b=Mt68W7kVCaFNe/JpIfzztxYD/4z1ihZ5jLtnibcMbbkoNyqlbB4xdqxbp/3P1ZBNqQzP1ht3n3Vbt61SWWXTgH4DfHsjrNQAK6C69PfSJocotSn6NvzCrP2TFPxhS872+yZtF+tqq3PbTHBvYEzDC48IxAp/f813e8rMoBoTA09Y+h3CN5fUQ8/LJKUxXOc485umHUopCs36dnFsGYymvnZPk5AXaUjmK+Aj0kkP3yFM0+5FijxTPbi4usna4hHiZdtxY2ARewydgWHCU0hKmnVZro9onCpU7i29NCvtuElbjyOFNpPyijOi3BhAAawZTPAkTVl94rhpcOLuS6DSUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fSUxUuKstVk1P/51k3AmJBzMZnrryWjF5U0PEEEENOg=;
- b=Ng93Xc9ga+o3VXSHRVvVRdwWX57Go4zPfnsQJpV19qJ+a+xPI6bRPSdQQWMxrux0HbkZOHQZ4fc8sjGZm9lv8gvg29JFG91sZj7v5AFcOpkmYJpuoJb2S5pxwP4DKP7lR1HvwZ3CEtfwPYA6oTQxZgm3zexhaz5HrAweUkjjRXk=
-Received: from OS3PR01MB7650.jpnprd01.prod.outlook.com (2603:1096:604:14f::5)
- by OSAPR01MB7182.jpnprd01.prod.outlook.com (2603:1096:604:141::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Mon, 28 Jun
- 2021 07:13:37 +0000
-Received: from OS3PR01MB7650.jpnprd01.prod.outlook.com
- ([fe80::bc45:4133:3e06:d1b0]) by OS3PR01MB7650.jpnprd01.prod.outlook.com
- ([fe80::bc45:4133:3e06:d1b0%9]) with mapi id 15.20.4264.026; Mon, 28 Jun 2021
- 07:13:37 +0000
-From: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "lizhijian@fujitsu.com"
- <lizhijian@fujitsu.com>
-Subject: Re: [PATCH v2 1/2] migration/rdma: Fix out of order wrid
-Thread-Topic: [PATCH v2 1/2] migration/rdma: Fix out of order wrid
-Thread-Index: AQHXZC0kbVrUMfTsc0GPFqRNiROWlqsjZ4SAgAWqPgA=
-Date: Mon, 28 Jun 2021 07:13:37 +0000
-Message-ID: <245659a2-7c26-8e70-617c-cc05ed7c0ce7@fujitsu.com>
-References: <20210618103612.152817-1-lizhijian@cn.fujitsu.com>
- <YNS1+ymtAJAgMSpL@work-vm>
-In-Reply-To: <YNS1+ymtAJAgMSpL@work-vm>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=fujitsu.com;
-x-originating-ip: [223.111.68.150]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ea71bf9e-906e-4382-d0a6-08d93a043ff3
-x-ms-traffictypediagnostic: OSAPR01MB7182:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSAPR01MB71828FED5AA6AF7BD82CE814A5039@OSAPR01MB7182.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: W8rTgysuSzHHwpaVzV0j83w8P18Qe6cjvQUU76c9mtU1//GKC/wNH4YoK4nF6iLDttr+bgahPsRC/3hHkROFLCUiAs10IiQ5eIsboB+fZeYFAy07LeGGGVG2UR4z34+OuSDdeYgM5Tt6xH4XsCw9/aZuvFy/kvhFtmaMFhZD7n8VJU/tHMaTk+u+m5w2UaMDSBNi1KW3q4vHz3QvVUg98GwCw/mgkZaiUeY4TCorghWUMYp2j4L9EktMrtpk4K1qFLK4fclxS3zFW8uw2Qf9St2vf+pAyWQtr9QUhhIkXfmws4vdRDDB8loBYUEUxxUDCAVGhTMjc5yfr2KGowJ8mNZpqsqi19ZTm+ifF61EFEYOjiRu0NII5WYkZ/ng1Cyot30FQKG3RBkz6qc2k4D7/AJ2CoQg2V3uX7uTjE+zGGIE+ey6NHCW/cfq4irBjqiQtEuCK1o3W6FsWNdODN2QjhcKnHn9zN3sb045eI2DDGwssJN2i27G6E9NfoxQ7LJ7sqEY9EFHEKOth44WtwhjTHZeAOhIBAt383BITBNiLSHypxDUwVwRGLr29Qc3WkcIqukQPVVPqMp7BIgrunHrssDBn3e4nIgeuKcTLtgTy2kxpUGKmodpTEVDP+rghV/3VAqeLr8tLuGYCwBwx1qw/xdCJcs6UudU7Fq939VYATgV5Pq4/C38Z6jRpz26RbLiBE026+V8d7v0d2zMBkELMo/Y0Dt1d/6jKcyEh/BUx6gGMb98Icf9RmdtXT5/CIdfdWPcUvd/ig2zjw1XZCGgQw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS3PR01MB7650.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(346002)(366004)(396003)(39860400002)(478600001)(2616005)(316002)(54906003)(30864003)(8676002)(6506007)(8936002)(31696002)(4326008)(186003)(5660300002)(2906002)(6486002)(85182001)(110136005)(38100700002)(71200400001)(31686004)(122000001)(53546011)(86362001)(36756003)(91956017)(66446008)(76116006)(64756008)(66556008)(66946007)(83380400001)(6512007)(26005)(966005)(66476007)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZmhTRnlKdWU3Y1FNeVJlVlJLdXBYeUZHYmJ0THBwa09hY25Zd3JOZC9TR3hq?=
- =?utf-8?B?bjlidGRTUGt0WTQ2TklGS0hMTCsxUEtYU0RRWFVvaDRiUlRONVk0OE5lMnNq?=
- =?utf-8?B?UkhMUDJuUkttODdRS254QWRjeDdXKzVkdWN2Y1ZWcVNJVmUrdlVGM2o4bzBQ?=
- =?utf-8?B?N0tJS2U0SEQwVG84MGpyQzl0eWRvcHQ3L2dLeVVFVlYzV3phUHVVcGF2Zk1l?=
- =?utf-8?B?N2liS0tzeDNqTXNVcFhnbU13RkFpbHcxL0pncGZscjh4dWltM3VtK2c4MjYx?=
- =?utf-8?B?cGxOMC9Ud3dvODA2aUZzang2MGR5UDh1VDdKbllqTUhMUEw5Y1NWUmxDQ2Jk?=
- =?utf-8?B?dnNXQW0vaHptSGZlbWZHZ0tGUUpYL3lIR1R4Y1BMM1VqcTZad1BsRDhTQ0Zt?=
- =?utf-8?B?TzNIQ0RiUTVENnJ5bGpJcjR1QzRTeE55SWZTNFR2dWdXVGdnRkFJWEVUSnlX?=
- =?utf-8?B?cFAzWnhQUUJPOXRVU216ZFFMczdQditHNzFmVmMxMTcvOWR2VWs1NG14LzRK?=
- =?utf-8?B?a0J0dmxuLzFWbVJrdC9JZmx3Q0J5SXRRYVFqZGkrcCthMmlBQXhlaHlnZldr?=
- =?utf-8?B?VEI5bUpkaW5pS3EvRW5rRXgyZFpKSFZscG1sdjBCNnZUMFRXeGprclcxZU0x?=
- =?utf-8?B?WTR1YzF0UjFkMUIvdk9VL0VvMTRrcW43TndnQ0Q3NDdjZnRtNHVaV0hsM0JR?=
- =?utf-8?B?cStXaG5uYjNnV2gwcGhkVlhzNWdwaTR0UFowNkJlZWhkU3JFc3MydTMvOFRj?=
- =?utf-8?B?QXVCQUxqNmQwbnY2YVFaYmlxY0liamJhT2tNWFh3V2xvc0xwQ2xydWZXVk0x?=
- =?utf-8?B?UVR3aGo0elh6V2RLTG9LMDliRzdzUjh2M1ByM2dzK1o2bytTWElNcGNVWHl3?=
- =?utf-8?B?c0kzZzdVZWtsTkQ2MVJERjhieUZ2aHRRU3UzRkV2MTdGV1Ntck5xU21aSTFR?=
- =?utf-8?B?ekM4clczT0ZHZTE4V3MyOWxxVFd0RXd5d0NwbVNFbldhemtwZUFNcEZBVFJ4?=
- =?utf-8?B?VjVKNzc1dGorNE5PRSs5aG5Yd3lwcktJZzYrSGg5bmhYM3h3MUxuOG1vWUlh?=
- =?utf-8?B?Z2MwYXlZaDRWYXhDcDcyTjgySk1KUGVSbkNWMnFXbU1Ib29rL2V4R2IrQWJ1?=
- =?utf-8?B?d1BSZ3Jua0NINUNNY1h4RWRTdVFBV1RtbE0wTTNsa0FRdm1nZjF0RTdJNzlw?=
- =?utf-8?B?Z3R3RlkreVF4TW9QNkJ6YmY3NmgrZ1k1OXo1YnczZS90Q0xMakZLOGMwYzQ4?=
- =?utf-8?B?bm0yN3Z0WERmNGU2a3djUU9Ubi9yekM5TzluK01ndnJDckFBYmdBbXpvSXQw?=
- =?utf-8?B?RTk0SXo3RVZTem5lWGhqSkVEeUZxdkhRdmtSZVc4aGNEa0NWUVdJd3pFQnpM?=
- =?utf-8?B?ZGxvaElPSTdYUHJEU0FyRWFGMWlMZTBpYXRML25uTlNDeHQvbUNjSXVHL1Bl?=
- =?utf-8?B?ejB4clZ1bi9kdnhrK3BaeUZBb1kvYm9QMWRNTjQ0aHVDdVo1VldhUlNvTmpL?=
- =?utf-8?B?eGRMSHRnaUdZY3FDS0I3ZTJCZDBTSllTbjkraG1aYlRHeTc4K0hSc21sZ3Vq?=
- =?utf-8?B?VjZsR3RBM2lGUThDQkp0TmRPMVE0emdGS0ZHQkN1dENZMytlZUNBUEd2Sy9R?=
- =?utf-8?B?QlVjUFVROHlOdEQvblhZZHI4TFExbVZBOE1zT2VlZjRrRUk5b0FuaitKN1Bx?=
- =?utf-8?B?dnpxMStrM2phOThhZXNJUkZRQXVpRndjLzZacStyMXhkUTYySVZubmwyMmVh?=
- =?utf-8?Q?ZxUpv/LHZEG6DQKNIkH31jsM0HdlafP49QGU+g8?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <71D509944024E8449DF60E69D35E13D7@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lxlW8-0000yA-FF; Mon, 28 Jun 2021 03:17:21 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436308|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_enroll_verification|0.0303065-0.00758275-0.962111;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DU; RN=6; RT=6; SR=0; TI=SMTPD_---.KZ7mFMe_1624864621; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KZ7mFMe_1624864621)
+ by smtp.aliyun-inc.com(10.147.44.145);
+ Mon, 28 Jun 2021 15:17:07 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Subject: Re: [RFC PATCH 03/11] hw/intc: Add CLIC device
+To: Frank Chang <frank.chang@sifive.com>
+References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
+ <20210409074857.166082-4-zhiwei_liu@c-sky.com>
+ <CANzO1D0v5F4K--ACjGaMT7imyXK4vUhZpET3T7CpsEscOPUV2A@mail.gmail.com>
+ <52225a77-c509-9999-9d8a-942ea407f44d@c-sky.com>
+ <CAE_xrPg9qG-uOfkMeGvudWZFLUCG+7SSEbvS08iWmL_KKq7KZA@mail.gmail.com>
+Message-ID: <27879b9f-bffa-96c9-a8b2-033eb0a0be4c@c-sky.com>
+Date: Mon, 28 Jun 2021 15:15:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB7650.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea71bf9e-906e-4382-d0a6-08d93a043ff3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2021 07:13:37.6480 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: h7BNojeTqkLWRbMbpdjUGFgVhjtkV+SoDZZETNcmcf87AyeIywi9ELqHbgaA4l9lYFQtPsaoO6arMn0SV/VY8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7182
-Received-SPF: pass client-ip=68.232.159.87; envelope-from=lizhijian@fujitsu.com;
- helo=esa7.fujitsucc.c3s2.iphmx.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAE_xrPg9qG-uOfkMeGvudWZFLUCG+7SSEbvS08iWmL_KKq7KZA@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------5B4C7790D4F3E0C20B49FDD0"
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.146; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-146.mail.aliyun.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-1.765, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -163,269 +64,372 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, wxy194768@alibaba-inc.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDI1LzA2LzIwMjEgMDA6NDIsIERyLiBEYXZpZCBBbGFuIEdpbGJlcnQgd3JvdGU6DQo+
-ICogTGkgWmhpamlhbiAobGl6aGlqaWFuQGNuLmZ1aml0c3UuY29tKSB3cm90ZToNCj4+IGRlc3Rp
-bmF0aW9uOg0KPj4gLi4vcWVtdS9idWlsZC9xZW11LXN5c3RlbS14ODZfNjQgLWVuYWJsZS1rdm0g
-LW5ldGRldiB0YXAsaWQ9aG4wLHNjcmlwdD0vZXRjL3FlbXUtaWZ1cCxkb3duc2NyaXB0PS9ldGMv
-cWVtdS1pZmRvd24gLWRldmljZSBlMTAwMCxuZXRkZXY9aG4wLG1hYz01MDo1Mjo1NDowMDoxMToy
-MiAtYm9vdCBjIC1kcml2ZSBpZj1ub25lLGZpbGU9Li9GZWRvcmEtcmRtYS1zZXJ2ZXItbWlncmF0
-aW9uLnFjb3cyLGlkPWRyaXZlLXZpcnRpby1kaXNrMCAtZGV2aWNlIHZpcnRpby1ibGstcGNpLGJ1
-cz1wY2kuMCxhZGRyPTB4NCxkcml2ZT1kcml2ZS12aXJ0aW8tZGlzazAsaWQ9dmlydGlvLWRpc2sw
-IC1tIDIwNDggLXNtcCAyIC1kZXZpY2UgcGlpeDMtdXNiLXVoY2kgLWRldmljZSB1c2ItdGFibGV0
-IC1tb25pdG9yIHN0ZGlvIC12Z2EgcXhsIC1zcGljZSBzdHJlYW1pbmctdmlkZW89ZmlsdGVyLHBv
-cnQ9NTkwMixkaXNhYmxlLXRpY2tldGluZyAtaW5jb21pbmcgcmRtYToxOTIuMTY4LjIyLjIzOjg4
-ODgNCj4+IHFlbXUtc3lzdGVtLXg4Nl82NDogLXNwaWNlIHN0cmVhbWluZy12aWRlbz1maWx0ZXIs
-cG9ydD01OTAyLGRpc2FibGUtdGlja2V0aW5nOiB3YXJuaW5nOiBzaG9ydC1mb3JtIGJvb2xlYW4g
-b3B0aW9uICdkaXNhYmxlLXRpY2tldGluZycgZGVwcmVjYXRlZA0KPj4gUGxlYXNlIHVzZSBkaXNh
-YmxlLXRpY2tldGluZz1vbiBpbnN0ZWFkDQo+PiBRRU1VIDYuMC41MCBtb25pdG9yIC0gdHlwZSAn
-aGVscCcgZm9yIG1vcmUgaW5mb3JtYXRpb24NCj4+IChxZW11KSB0cmFjZS1ldmVudCBxZW11X3Jk
-bWFfYmxvY2tfZm9yX3dyaWRfbWlzcyBvbg0KPj4gKHFlbXUpIGRlc3RfaW5pdCBSRE1BIERldmlj
-ZSBvcGVuZWQ6IGtlcm5lbCBuYW1lIHJ4ZV9ldGgwIHV2ZXJicyBkZXZpY2UgbmFtZSB1dmVyYnMy
-LCBpbmZpbmliYW5kX3ZlcmJzIGNsYXNzIGRldmljZSBwYXRoIC9zeXMvY2xhc3MvaW5maW5pYmFu
-ZF92ZXJicy91dmVyYnMyLCBpbmZpbmliYW5kIGNsYXNzIGRldmljZSBwYXRoIC9zeXMvY2xhc3Mv
-aW5maW5pYmFuZC9yeGVfZXRoMCwgdHJhbnNwb3J0OiAoMikgRXRoZXJuZXQNCj4+IHFlbXVfcmRt
-YV9ibG9ja19mb3Jfd3JpZF9taXNzIEEgV2FudGVkIHdyaWQgQ09OVFJPTCBTRU5EICgyMDAwKSBi
-dXQgZ290IENPTlRST0wgUkVDViAoNDAwMCkNCj4+DQo+PiBzb3VyY2U6DQo+PiAuLi9xZW11L2J1
-aWxkL3FlbXUtc3lzdGVtLXg4Nl82NCAtZW5hYmxlLWt2bSAtbmV0ZGV2IHRhcCxpZD1objAsc2Ny
-aXB0PS9ldGMvcWVtdS1pZnVwLGRvd25zY3JpcHQ9L2V0Yy9xZW11LWlmZG93biAtZGV2aWNlIGUx
-MDAwLG5ldGRldj1objAsbWFjPTUwOjUyOjU0OjAwOjExOjIyIC1ib290IGMgLWRyaXZlIGlmPW5v
-bmUsZmlsZT0uL0ZlZG9yYS1yZG1hLXNlcnZlci5xY293MixpZD1kcml2ZS12aXJ0aW8tZGlzazAg
-LWRldmljZSB2aXJ0aW8tYmxrLXBjaSxidXM9cGNpLjAsYWRkcj0weDQsZHJpdmU9ZHJpdmUtdmly
-dGlvLWRpc2swLGlkPXZpcnRpby1kaXNrMCAtbSAyMDQ4IC1zbXAgMiAtZGV2aWNlIHBpaXgzLXVz
-Yi11aGNpIC1kZXZpY2UgdXNiLXRhYmxldCAtbW9uaXRvciBzdGRpbyAtdmdhIHF4bCAtc3BpY2Ug
-c3RyZWFtaW5nLXZpZGVvPWZpbHRlcixwb3J0PTU5MDEsZGlzYWJsZS10aWNrZXRpbmcgLVMNCj4+
-IHFlbXUtc3lzdGVtLXg4Nl82NDogLXNwaWNlIHN0cmVhbWluZy12aWRlbz1maWx0ZXIscG9ydD01
-OTAxLGRpc2FibGUtdGlja2V0aW5nOiB3YXJuaW5nOiBzaG9ydC1mb3JtIGJvb2xlYW4gb3B0aW9u
-ICdkaXNhYmxlLXRpY2tldGluZycgZGVwcmVjYXRlZA0KPj4gUGxlYXNlIHVzZSBkaXNhYmxlLXRp
-Y2tldGluZz1vbiBpbnN0ZWFkDQo+PiBRRU1VIDYuMC41MCBtb25pdG9yIC0gdHlwZSAnaGVscCcg
-Zm9yIG1vcmUgaW5mb3JtYXRpb24NCj4+IChxZW11KQ0KPj4gKHFlbXUpIHRyYWNlLWV2ZW50IHFl
-bXVfcmRtYV9ibG9ja19mb3Jfd3JpZF9taXNzIG9uDQo+PiAocWVtdSkgbWlncmF0ZSAtZCByZG1h
-OjE5Mi4xNjguMjIuMjM6ODg4OA0KPj4gc291cmNlX3Jlc29sdmVfaG9zdCBSRE1BIERldmljZSBv
-cGVuZWQ6IGtlcm5lbCBuYW1lIHJ4ZV9ldGgwIHV2ZXJicyBkZXZpY2UgbmFtZSB1dmVyYnMyLCBp
-bmZpbmliYW5kX3ZlcmJzIGNsYXNzIGRldmljZSBwYXRoIC9zeXMvY2xhc3MvaW5maW5pYmFuZF92
-ZXJicy91dmVyYnMyLCBpbmZpbmliYW5kIGNsYXNzIGRldmljZSBwYXRoIC9zeXMvY2xhc3MvaW5m
-aW5pYmFuZC9yeGVfZXRoMCwgdHJhbnNwb3J0OiAoMikgRXRoZXJuZXQNCj4+IChxZW11KSBxZW11
-X3JkbWFfYmxvY2tfZm9yX3dyaWRfbWlzcyBBIFdhbnRlZCB3cmlkIFdSSVRFIFJETUEgKDEpIGJ1
-dCBnb3QgQ09OVFJPTCBSRUNWICg0MDAwKQ0KPj4NCj4+IE5PVEU6IHNvZnQgUm9DRSBhcyB0aGUg
-cmRtYSBkZXZpY2UuDQo+PiBbcm9vdEBpYWFzLXJwbWEgaW1hZ2VzXSMgcmRtYSBsaW5rIHNob3cg
-cnhlX2V0aDAvMQ0KPj4gbGluayByeGVfZXRoMC8xIHN0YXRlIEFDVElWRSBwaHlzaWNhbF9zdGF0
-ZSBMSU5LX1VQIG5ldGRldiBldGgwDQo+Pg0KPj4gVGhpcyBtaWdyYXRpb24gY2Fubm90IGJlIGNv
-bXBsZXRlZCBzaW5jZSBvdXQgb2Ygb3JkZXIoT09PKSBDUSBldmVudCBvY2N1cnMuDQo+PiBPT08g
-Y2FzZXMgd2lsbCBvY2N1ciBpbiBib3RoIHNvdXJjZSBzaWRlIGFuZCBkZXN0aW5hdGlvbiBzaWRl
-LiBBbmQgaXQNCj4+IGhhcHBlbnMgb24gb25seSBTRU5EIGFuZCBSRUNWIGFyZSBvdXQgb2Ygb3Jk
-ZXIuIE9PTyBiZXR3ZWVuICdXUklURSBSRE1BJyBhbmQNCj4+ICdSRUNWJyBkb2Vzbid0IG1hdHRl
-ci4NCj4+DQo+PiBiZWxvdyB0aGUgT09PIHNlcXVlbmNlOg0KPj4gCSAgc291cmNlICAgICAgICAg
-ICAgICAgICAgICAgZGVzdGluYXRpb24NCj4+ICAgIHFlbXVfcmRtYV93cml0ZV9vbmUoKSAgICAg
-ICAgICBxZW11X3JkbWFfcmVnaXN0cmF0aW9uX2hhbmRsZSgpDQo+PiAxLglwb3N0X3JlY3YgWCAg
-ICAgICAgICAgICAgICAgcG9zdF9yZWN2IFkNCj4+IDIuCQkJICAgICAgICAgICAgcG9zdF9zZW5k
-IFgNCj4+IDMuCQkJICAgICAgICAgICAgd2FpdCBYIENRIGV2ZW50DQo+PiA0LglYIENRIGV2ZW50
-DQo+PiA1Lglwb3N0X3NlbmQgWQ0KPj4gNi4Jd2FpdCBZIENRIGV2ZW50DQo+PiA3LgkJCSAgICAg
-ICAgICAgIFkgQ1EgZXZlbnQgKGRyb3BwZWQpDQo+PiA4LglZIENRIGV2ZW50KHNlbmQgWSBkb25l
-KQ0KPj4gOS4JCQkgICAgICAgICAgICBYIENRIGV2ZW50KHNlbmQgWCBkb25lKQ0KPj4gMTAuICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd2FpdCBZIENRIGV2ZW50KGRyb3BwZWQgYXQg
-KDcpLCBibG9ja3MgZm9yZXZlcikNCj4+DQo+PiBMb29rcyBpdCBvbmx5IGhhcHBlbnMgb24gc29m
-dCBSb0NFIHJkbWEgZGV2aWNlIGluIG15IGEgaHVuZHJlZCBvZiBydW5zLA0KPj4gYSBoYXJkd2Fy
-ZSBJQiBkZXZpY2Ugd29ya3MgZmluZS4NCj4+DQo+PiBIZXJlIHdlIGludHJvZHVjZSBhIGluZGVw
-ZW5kZW50IHNlbmQgY29tcGxldGlvbiBxdWV1ZSB0byBkaXN0aW5ndWlzaA0KPj4gaWJ2X3Bvc3Rf
-c2VuZCBjb21wbGV0aW9uIHF1ZXVlIGZyb20gdGhlIG9yaWdpbmFsIG1peGVkIGNvbXBsZXRpb24g
-cXVldWUuDQo+PiBJdCBoZWxwcyB1cyB0byBwb2xsIHRoZSBzcGVjaWZpYyBDUUUgd2UgYXJlIHJl
-YWxseSBpbnRlcmVzdGluZyBpbi4NCj4gSGkgTGksDQo+ICAgIE9LLCBpdCdzIGEgd2hpbGUgc2lu
-Y2UgSSd2ZSB0aG91Z2h0IHRoaXMgbXVjaCBhYm91dCBjb21wbGV0aW9uLCBidXQgSQ0KPiB0aGlu
-ayB0aGF0J3MgT0ssIGhvd2V2ZXIsIHdoYXQgc3RvcHMgdGhlIG90aGVyIG1lc3NhZ2VzLCBSRE1B
-X1dSSVRFIGFuZA0KPiBTRU5EX0NPTlRST0wgYmVpbmcgb3V0IG9mIG9yZGVyPw0KDQpPbmNlIGVp
-dGhlciBzb3VyY2Ugb3IgZGVzdGluYXRpb24gZ290IGJlbG93IE9PTyB3cmlkLCBib3RoIHNpZGVz
-IHdpbGwgd2FpdCBmb3IgdGhlaXIgRkRzIGJlY29taW5nDQpyZWFkYWJsZSBzbyB0aGF0IHRoZSBt
-aWdyYXRpb24gd2lsbCBoYXZlIG5vIGNoYW5jZSB0byBiZSBjb21wbGV0ZWQuDQpxZW11X3JkbWFf
-YmxvY2tfZm9yX3dyaWRfbWlzcyBBIFdhbnRlZCB3cmlkIENPTlRST0wgU0VORCAoMjAwMCkgYnV0
-IGdvdCBDT05UUk9MIFJFQ1YgKDQwMDApDQoNCg0KDQo+DQo+ICAgIENvdWxkIHRoaXMgYmUgZml4
-ZWQgYW5vdGhlciB3YXk7IG1ha2UgYmxvY2tfZm9yX3dyaWQgcmVjb3JkIGEgZmxhZyBmb3INCj4g
-V1JJRCdzIGl0J3MgcmVjZWl2ZWQsIGFuZCB0aGVuIGNoZWNrIChhbmQgY2xlYXIpIHRoYXQgZmxh
-ZyByaWdodCBhdCB0aGUNCj4gc3RhcnQ/DQoNCkkgaW50ZW50IHRvIGRvIHNvIGxpa2UgWzFdLCBi
-dXQgaSB0aGluayBpdCdzIHRvbyB0cmlja3kgYW5kIGhhcmQgdG8gdW5kZXJzdGFuZC4NCg0KQW5k
-IEkgaGF2ZSBjb25zaWRlcmF0aW9uIGFib3V0Og0KLSBzaG91bGQgd2UgcmVjb3JkIGEgT09PIGlu
-ICdXUklURSBSRE1BJyBhbmQgQ09OVFJPTCBSRUNWIGV2ZW4gaWYgaXQgZG9lc24ndCBtYXR0ZXIg
-aW4gcHJhY3RpY2UNCi0gaG93IG1hbnkgb29vX3dyaWQgd2Ugc2hvdWxkIHJlY29yZCwgSSBoYXZl
-IG9ic2VydmVkwqAgMiBsYXRlciBXUnMnIENRIGFycml2ZWQgZWFybGllciB0aGFuDQp0aGUgd2Fu
-dGVkIG9uZS4NCg0KDQoNClsxXTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcWVtdS1kZXZlbC8x
-NjIzNzExMTg1NzguMjM1OC4xMjQ0NzI1MTQ4NzQ5NDQ5MjQzNEA3YzY2ZmI3YmMzYWIvVC8jdA0K
-DQpUaGFua3MNCkxpDQoNCj4NCj4gRGF2ZQ0KPg0KPj4gU2lnbmVkLW9mZi1ieTogTGkgWmhpamlh
-biA8bGl6aGlqaWFuQGNuLmZ1aml0c3UuY29tPg0KPj4gLS0tDQo+PiBWMiBJbnRyb2R1Y2Ugc2Vu
-ZCBjb21wbGV0aW9uIHF1ZXVlDQo+PiAtLS0NCj4+ICAgbWlncmF0aW9uL3JkbWEuYyB8IDk0ICsr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLQ0KPj4gICAxIGZp
-bGUgY2hhbmdlZCwgNzkgaW5zZXJ0aW9ucygrKSwgMTUgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlm
-ZiAtLWdpdCBhL21pZ3JhdGlvbi9yZG1hLmMgYi9taWdyYXRpb24vcmRtYS5jDQo+PiBpbmRleCBk
-OTBiMjlhNGI1MS4uMTZmZTA2ODg4NTggMTAwNjQ0DQo+PiAtLS0gYS9taWdyYXRpb24vcmRtYS5j
-DQo+PiArKysgYi9taWdyYXRpb24vcmRtYS5jDQo+PiBAQCAtMzU5LDggKzM1OSwxMCBAQCB0eXBl
-ZGVmIHN0cnVjdCBSRE1BQ29udGV4dCB7DQo+PiAgICAgICBzdHJ1Y3QgcmRtYV9ldmVudF9jaGFu
-bmVsICAgKmNoYW5uZWw7DQo+PiAgICAgICBzdHJ1Y3QgaWJ2X3FwICpxcDsgICAgICAgICAgICAg
-ICAgICAgICAgLyogcXVldWUgcGFpciAqLw0KPj4gICAgICAgc3RydWN0IGlidl9jb21wX2NoYW5u
-ZWwgKmNvbXBfY2hhbm5lbDsgIC8qIGNvbXBsZXRpb24gY2hhbm5lbCAqLw0KPj4gKyAgICBzdHJ1
-Y3QgaWJ2X2NvbXBfY2hhbm5lbCAqc2VuZF9jb21wX2NoYW5uZWw7ICAvKiBzZW5kIGNvbXBsZXRp
-b24gY2hhbm5lbCAqLw0KPj4gICAgICAgc3RydWN0IGlidl9wZCAqcGQ7ICAgICAgICAgICAgICAg
-ICAgICAgIC8qIHByb3RlY3Rpb24gZG9tYWluICovDQo+PiAgICAgICBzdHJ1Y3QgaWJ2X2NxICpj
-cTsgICAgICAgICAgICAgICAgICAgICAgLyogY29tcGxldGlvbiBxdWV1ZSAqLw0KPj4gKyAgICBz
-dHJ1Y3QgaWJ2X2NxICpzZW5kX2NxOyAgICAgICAgICAgICAgICAgLyogc2VuZCBjb21wbGV0aW9u
-IHF1ZXVlICovDQo+PiAgIA0KPj4gICAgICAgLyoNCj4+ICAgICAgICAqIElmIGEgcHJldmlvdXMg
-d3JpdGUgZmFpbGVkIChwZXJoYXBzIGJlY2F1c2Ugb2YgYSBmYWlsZWQNCj4+IEBAIC0xMDY3LDgg
-KzEwNjksNyBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9hbGxvY19wZF9jcShSRE1BQ29udGV4dCAq
-cmRtYSkNCj4+ICAgICAgIH0NCj4+ICAgDQo+PiAgICAgICAvKg0KPj4gLSAgICAgKiBDb21wbGV0
-aW9uIHF1ZXVlIGNhbiBiZSBmaWxsZWQgYnkgYm90aCByZWFkIGFuZCB3cml0ZSB3b3JrIHJlcXVl
-c3RzLA0KPj4gLSAgICAgKiBzbyBtdXN0IHJlZmxlY3QgdGhlIHN1bSBvZiBib3RoIHBvc3NpYmxl
-IHF1ZXVlIHNpemVzLg0KPj4gKyAgICAgKiBDb21wbGV0aW9uIHF1ZXVlIGNhbiBiZSBmaWxsZWQg
-YnkgcmVhZCB3b3JrIHJlcXVlc3RzLg0KPj4gICAgICAgICovDQo+PiAgICAgICByZG1hLT5jcSA9
-IGlidl9jcmVhdGVfY3EocmRtYS0+dmVyYnMsIChSRE1BX1NJR05BTEVEX1NFTkRfTUFYICogMyks
-DQo+PiAgICAgICAgICAgICAgIE5VTEwsIHJkbWEtPmNvbXBfY2hhbm5lbCwgMCk7DQo+PiBAQCAt
-MTA3Nyw2ICsxMDc4LDIwIEBAIHN0YXRpYyBpbnQgcWVtdV9yZG1hX2FsbG9jX3BkX2NxKFJETUFD
-b250ZXh0ICpyZG1hKQ0KPj4gICAgICAgICAgIGdvdG8gZXJyX2FsbG9jX3BkX2NxOw0KPj4gICAg
-ICAgfQ0KPj4gICANCj4+ICsgICAgLyogY3JlYXRlIHNlbmQgY29tcGxldGlvbiBjaGFubmVsICov
-DQo+PiArICAgIHJkbWEtPnNlbmRfY29tcF9jaGFubmVsID0gaWJ2X2NyZWF0ZV9jb21wX2NoYW5u
-ZWwocmRtYS0+dmVyYnMpOw0KPj4gKyAgICBpZiAoIXJkbWEtPnNlbmRfY29tcF9jaGFubmVsKSB7
-DQo+PiArICAgICAgICBlcnJvcl9yZXBvcnQoImZhaWxlZCB0byBhbGxvY2F0ZSBjb21wbGV0aW9u
-IGNoYW5uZWwiKTsNCj4+ICsgICAgICAgIGdvdG8gZXJyX2FsbG9jX3BkX2NxOw0KPj4gKyAgICB9
-DQo+PiArDQo+PiArICAgIHJkbWEtPnNlbmRfY3EgPSBpYnZfY3JlYXRlX2NxKHJkbWEtPnZlcmJz
-LCAoUkRNQV9TSUdOQUxFRF9TRU5EX01BWCAqIDMpLA0KPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBOVUxMLCByZG1hLT5zZW5kX2NvbXBfY2hhbm5lbCwgMCk7DQo+PiArICAg
-IGlmICghcmRtYS0+c2VuZF9jcSkgew0KPj4gKyAgICAgICAgZXJyb3JfcmVwb3J0KCJmYWlsZWQg
-dG8gYWxsb2NhdGUgY29tcGxldGlvbiBxdWV1ZSIpOw0KPj4gKyAgICAgICAgZ290byBlcnJfYWxs
-b2NfcGRfY3E7DQo+PiArICAgIH0NCj4+ICsNCj4+ICAgICAgIHJldHVybiAwOw0KPj4gICANCj4+
-ICAgZXJyX2FsbG9jX3BkX2NxOg0KPj4gQEAgLTEwODYsOCArMTEwMSwxNiBAQCBlcnJfYWxsb2Nf
-cGRfY3E6DQo+PiAgICAgICBpZiAocmRtYS0+Y29tcF9jaGFubmVsKSB7DQo+PiAgICAgICAgICAg
-aWJ2X2Rlc3Ryb3lfY29tcF9jaGFubmVsKHJkbWEtPmNvbXBfY2hhbm5lbCk7DQo+PiAgICAgICB9
-DQo+PiArICAgIGlmIChyZG1hLT5zZW5kX2NvbXBfY2hhbm5lbCkgew0KPj4gKyAgICAgICAgaWJ2
-X2Rlc3Ryb3lfY29tcF9jaGFubmVsKHJkbWEtPnNlbmRfY29tcF9jaGFubmVsKTsNCj4+ICsgICAg
-fQ0KPj4gKyAgICBpZiAocmRtYS0+Y3EpIHsNCj4+ICsgICAgICAgIGlidl9kZXN0cm95X2NxKHJk
-bWEtPmNxKTsNCj4+ICsgICAgICAgIHJkbWEtPmNxID0gTlVMTDsNCj4+ICsgICAgfQ0KPj4gICAg
-ICAgcmRtYS0+cGQgPSBOVUxMOw0KPj4gICAgICAgcmRtYS0+Y29tcF9jaGFubmVsID0gTlVMTDsN
-Cj4+ICsgICAgcmRtYS0+c2VuZF9jb21wX2NoYW5uZWwgPSBOVUxMOw0KPj4gICAgICAgcmV0dXJu
-IC0xOw0KPj4gICANCj4+ICAgfQ0KPj4gQEAgLTExMDQsNyArMTEyNyw3IEBAIHN0YXRpYyBpbnQg
-cWVtdV9yZG1hX2FsbG9jX3FwKFJETUFDb250ZXh0ICpyZG1hKQ0KPj4gICAgICAgYXR0ci5jYXAu
-bWF4X3JlY3Zfd3IgPSAzOw0KPj4gICAgICAgYXR0ci5jYXAubWF4X3NlbmRfc2dlID0gMTsNCj4+
-ICAgICAgIGF0dHIuY2FwLm1heF9yZWN2X3NnZSA9IDE7DQo+PiAtICAgIGF0dHIuc2VuZF9jcSA9
-IHJkbWEtPmNxOw0KPj4gKyAgICBhdHRyLnNlbmRfY3EgPSByZG1hLT5zZW5kX2NxOw0KPj4gICAg
-ICAgYXR0ci5yZWN2X2NxID0gcmRtYS0+Y3E7DQo+PiAgICAgICBhdHRyLnFwX3R5cGUgPSBJQlZf
-UVBUX1JDOw0KPj4gICANCj4+IEBAIC0xNDIwLDE0ICsxNDQzLDE0IEBAIHN0YXRpYyB2b2lkIHFl
-bXVfcmRtYV9zaWduYWxfdW5yZWdpc3RlcihSRE1BQ29udGV4dCAqcmRtYSwgdWludDY0X3QgaW5k
-ZXgsDQo+PiAgICAqIChvZiBhbnkga2luZCkgaGFzIGNvbXBsZXRlZC4NCj4+ICAgICogUmV0dXJu
-IHRoZSB3b3JrIHJlcXVlc3QgSUQgdGhhdCBjb21wbGV0ZWQuDQo+PiAgICAqLw0KPj4gLXN0YXRp
-YyB1aW50NjRfdCBxZW11X3JkbWFfcG9sbChSRE1BQ29udGV4dCAqcmRtYSwgdWludDY0X3QgKndy
-X2lkX291dCwNCj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDMyX3QgKmJ5
-dGVfbGVuKQ0KPj4gK3N0YXRpYyB1aW50NjRfdCBxZW11X3JkbWFfcG9sbChSRE1BQ29udGV4dCAq
-cmRtYSwgc3RydWN0IGlidl9jcSAqY3EsDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgdWludDY0X3QgKndyX2lkX291dCwgdWludDMyX3QgKmJ5dGVfbGVuKQ0KPj4gICB7DQo+PiAg
-ICAgICBpbnQgcmV0Ow0KPj4gICAgICAgc3RydWN0IGlidl93YyB3YzsNCj4+ICAgICAgIHVpbnQ2
-NF90IHdyX2lkOw0KPj4gICANCj4+IC0gICAgcmV0ID0gaWJ2X3BvbGxfY3EocmRtYS0+Y3EsIDEs
-ICZ3Yyk7DQo+PiArICAgIHJldCA9IGlidl9wb2xsX2NxKGNxLCAxLCAmd2MpOw0KPj4gICANCj4+
-ICAgICAgIGlmICghcmV0KSB7DQo+PiAgICAgICAgICAgKndyX2lkX291dCA9IFJETUFfV1JJRF9O
-T05FOw0KPj4gQEAgLTE0OTksNyArMTUyMiw4IEBAIHN0YXRpYyB1aW50NjRfdCBxZW11X3JkbWFf
-cG9sbChSRE1BQ29udGV4dCAqcmRtYSwgdWludDY0X3QgKndyX2lkX291dCwNCj4+ICAgLyogV2Fp
-dCBmb3IgYWN0aXZpdHkgb24gdGhlIGNvbXBsZXRpb24gY2hhbm5lbC4NCj4+ICAgICogUmV0dXJu
-cyAwIG9uIHN1Y2Nlc3MsIG5vbmUtMCBvbiBlcnJvci4NCj4+ICAgICovDQo+PiAtc3RhdGljIGlu
-dCBxZW11X3JkbWFfd2FpdF9jb21wX2NoYW5uZWwoUkRNQUNvbnRleHQgKnJkbWEpDQo+PiArc3Rh
-dGljIGludCBxZW11X3JkbWFfd2FpdF9jb21wX2NoYW5uZWwoUkRNQUNvbnRleHQgKnJkbWEsDQo+
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGlidl9jb21w
-X2NoYW5uZWwgKmNoKQ0KPj4gICB7DQo+PiAgICAgICBzdHJ1Y3QgcmRtYV9jbV9ldmVudCAqY21f
-ZXZlbnQ7DQo+PiAgICAgICBpbnQgcmV0ID0gLTE7DQo+PiBAQCAtMTUxMCw3ICsxNTM0LDcgQEAg
-c3RhdGljIGludCBxZW11X3JkbWFfd2FpdF9jb21wX2NoYW5uZWwoUkRNQUNvbnRleHQgKnJkbWEp
-DQo+PiAgICAgICAgKi8NCj4+ICAgICAgIGlmIChyZG1hLT5taWdyYXRpb25fc3RhcnRlZF9vbl9k
-ZXN0aW5hdGlvbiAmJg0KPj4gICAgICAgICAgIG1pZ3JhdGlvbl9pbmNvbWluZ19nZXRfY3VycmVu
-dCgpLT5zdGF0ZSA9PSBNSUdSQVRJT05fU1RBVFVTX0FDVElWRSkgew0KPj4gLSAgICAgICAgeWll
-bGRfdW50aWxfZmRfcmVhZGFibGUocmRtYS0+Y29tcF9jaGFubmVsLT5mZCk7DQo+PiArICAgICAg
-ICB5aWVsZF91bnRpbF9mZF9yZWFkYWJsZShjaC0+ZmQpOw0KPj4gICAgICAgfSBlbHNlIHsNCj4+
-ICAgICAgICAgICAvKiBUaGlzIGlzIHRoZSBzb3VyY2Ugc2lkZSwgd2UncmUgaW4gYSBzZXBhcmF0
-ZSB0aHJlYWQNCj4+ICAgICAgICAgICAgKiBvciBkZXN0aW5hdGlvbiBwcmlvciB0byBtaWdyYXRp
-b25fZmRfcHJvY2Vzc19pbmNvbWluZygpDQo+PiBAQCAtMTUyMSw3ICsxNTQ1LDcgQEAgc3RhdGlj
-IGludCBxZW11X3JkbWFfd2FpdF9jb21wX2NoYW5uZWwoUkRNQUNvbnRleHQgKnJkbWEpDQo+PiAg
-ICAgICAgICAgICovDQo+PiAgICAgICAgICAgd2hpbGUgKCFyZG1hLT5lcnJvcl9zdGF0ZSAgJiYg
-IXJkbWEtPnJlY2VpdmVkX2Vycm9yKSB7DQo+PiAgICAgICAgICAgICAgIEdQb2xsRkQgcGZkc1sy
-XTsNCj4+IC0gICAgICAgICAgICBwZmRzWzBdLmZkID0gcmRtYS0+Y29tcF9jaGFubmVsLT5mZDsN
-Cj4+ICsgICAgICAgICAgICBwZmRzWzBdLmZkID0gY2gtPmZkOw0KPj4gICAgICAgICAgICAgICBw
-ZmRzWzBdLmV2ZW50cyA9IEdfSU9fSU4gfCBHX0lPX0hVUCB8IEdfSU9fRVJSOw0KPj4gICAgICAg
-ICAgICAgICBwZmRzWzBdLnJldmVudHMgPSAwOw0KPj4gICANCj4+IEBAIC0xNTc5LDYgKzE2MDMs
-MTcgQEAgc3RhdGljIGludCBxZW11X3JkbWFfd2FpdF9jb21wX2NoYW5uZWwoUkRNQUNvbnRleHQg
-KnJkbWEpDQo+PiAgICAgICByZXR1cm4gcmRtYS0+ZXJyb3Jfc3RhdGU7DQo+PiAgIH0NCj4+ICAg
-DQo+PiArc3RhdGljIHN0cnVjdCBpYnZfY29tcF9jaGFubmVsICp0b19jaGFubmVsKFJETUFDb250
-ZXh0ICpyZG1hLCBpbnQgd3JpZCkNCj4+ICt7DQo+PiArICAgIHJldHVybiB3cmlkIDwgUkRNQV9X
-UklEX1JFQ1ZfQ09OVFJPTCA/IHJkbWEtPnNlbmRfY29tcF9jaGFubmVsIDoNCj4+ICsgICAgICAg
-ICAgIHJkbWEtPmNvbXBfY2hhbm5lbDsNCj4+ICt9DQo+PiArDQo+PiArc3RhdGljIHN0cnVjdCBp
-YnZfY3EgKnRvX2NxKFJETUFDb250ZXh0ICpyZG1hLCBpbnQgd3JpZCkNCj4+ICt7DQo+PiArICAg
-IHJldHVybiB3cmlkIDwgUkRNQV9XUklEX1JFQ1ZfQ09OVFJPTCA/IHJkbWEtPnNlbmRfY3EgOiBy
-ZG1hLT5jcTsNCj4+ICt9DQo+PiArDQo+PiAgIC8qDQo+PiAgICAqIEJsb2NrIHVudGlsIHRoZSBu
-ZXh0IHdvcmsgcmVxdWVzdCBoYXMgY29tcGxldGVkLg0KPj4gICAgKg0KPj4gQEAgLTE1OTksMTMg
-KzE2MzQsMTUgQEAgc3RhdGljIGludCBxZW11X3JkbWFfYmxvY2tfZm9yX3dyaWQoUkRNQUNvbnRl
-eHQgKnJkbWEsIGludCB3cmlkX3JlcXVlc3RlZCwNCj4+ICAgICAgIHN0cnVjdCBpYnZfY3EgKmNx
-Ow0KPj4gICAgICAgdm9pZCAqY3FfY3R4Ow0KPj4gICAgICAgdWludDY0X3Qgd3JfaWQgPSBSRE1B
-X1dSSURfTk9ORSwgd3JfaWRfaW47DQo+PiArICAgIHN0cnVjdCBpYnZfY29tcF9jaGFubmVsICpj
-aCA9IHRvX2NoYW5uZWwocmRtYSwgd3JpZF9yZXF1ZXN0ZWQpOw0KPj4gKyAgICBzdHJ1Y3QgaWJ2
-X2NxICpwb2xsX2NxID0gdG9fY3EocmRtYSwgd3JpZF9yZXF1ZXN0ZWQpOw0KPj4gICANCj4+IC0g
-ICAgaWYgKGlidl9yZXFfbm90aWZ5X2NxKHJkbWEtPmNxLCAwKSkgew0KPj4gKyAgICBpZiAoaWJ2
-X3JlcV9ub3RpZnlfY3EocG9sbF9jcSwgMCkpIHsNCj4+ICAgICAgICAgICByZXR1cm4gLTE7DQo+
-PiAgICAgICB9DQo+PiAgICAgICAvKiBwb2xsIGNxIGZpcnN0ICovDQo+PiAgICAgICB3aGlsZSAo
-d3JfaWQgIT0gd3JpZF9yZXF1ZXN0ZWQpIHsNCj4+IC0gICAgICAgIHJldCA9IHFlbXVfcmRtYV9w
-b2xsKHJkbWEsICZ3cl9pZF9pbiwgYnl0ZV9sZW4pOw0KPj4gKyAgICAgICAgcmV0ID0gcWVtdV9y
-ZG1hX3BvbGwocmRtYSwgcG9sbF9jcSwgJndyX2lkX2luLCBieXRlX2xlbik7DQo+PiAgICAgICAg
-ICAgaWYgKHJldCA8IDApIHsNCj4+ICAgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4+ICAgICAg
-ICAgICB9DQo+PiBAQCAtMTYyNiwxMiArMTY2MywxMiBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9i
-bG9ja19mb3Jfd3JpZChSRE1BQ29udGV4dCAqcmRtYSwgaW50IHdyaWRfcmVxdWVzdGVkLA0KPj4g
-ICAgICAgfQ0KPj4gICANCj4+ICAgICAgIHdoaWxlICgxKSB7DQo+PiAtICAgICAgICByZXQgPSBx
-ZW11X3JkbWFfd2FpdF9jb21wX2NoYW5uZWwocmRtYSk7DQo+PiArICAgICAgICByZXQgPSBxZW11
-X3JkbWFfd2FpdF9jb21wX2NoYW5uZWwocmRtYSwgY2gpOw0KPj4gICAgICAgICAgIGlmIChyZXQp
-IHsNCj4+ICAgICAgICAgICAgICAgZ290byBlcnJfYmxvY2tfZm9yX3dyaWQ7DQo+PiAgICAgICAg
-ICAgfQ0KPj4gICANCj4+IC0gICAgICAgIHJldCA9IGlidl9nZXRfY3FfZXZlbnQocmRtYS0+Y29t
-cF9jaGFubmVsLCAmY3EsICZjcV9jdHgpOw0KPj4gKyAgICAgICAgcmV0ID0gaWJ2X2dldF9jcV9l
-dmVudChjaCwgJmNxLCAmY3FfY3R4KTsNCj4+ICAgICAgICAgICBpZiAocmV0KSB7DQo+PiAgICAg
-ICAgICAgICAgIHBlcnJvcigiaWJ2X2dldF9jcV9ldmVudCIpOw0KPj4gICAgICAgICAgICAgICBn
-b3RvIGVycl9ibG9ja19mb3Jfd3JpZDsNCj4+IEBAIC0xNjQ1LDcgKzE2ODIsNyBAQCBzdGF0aWMg
-aW50IHFlbXVfcmRtYV9ibG9ja19mb3Jfd3JpZChSRE1BQ29udGV4dCAqcmRtYSwgaW50IHdyaWRf
-cmVxdWVzdGVkLA0KPj4gICAgICAgICAgIH0NCj4+ICAgDQo+PiAgICAgICAgICAgd2hpbGUgKHdy
-X2lkICE9IHdyaWRfcmVxdWVzdGVkKSB7DQo+PiAtICAgICAgICAgICAgcmV0ID0gcWVtdV9yZG1h
-X3BvbGwocmRtYSwgJndyX2lkX2luLCBieXRlX2xlbik7DQo+PiArICAgICAgICAgICAgcmV0ID0g
-cWVtdV9yZG1hX3BvbGwocmRtYSwgcG9sbF9jcSwgJndyX2lkX2luLCBieXRlX2xlbik7DQo+PiAg
-ICAgICAgICAgICAgIGlmIChyZXQgPCAwKSB7DQo+PiAgICAgICAgICAgICAgICAgICBnb3RvIGVy
-cl9ibG9ja19mb3Jfd3JpZDsNCj4+ICAgICAgICAgICAgICAgfQ0KPj4gQEAgLTIzNjUsMTAgKzI0
-MDIsMTggQEAgc3RhdGljIHZvaWQgcWVtdV9yZG1hX2NsZWFudXAoUkRNQUNvbnRleHQgKnJkbWEp
-DQo+PiAgICAgICAgICAgaWJ2X2Rlc3Ryb3lfY3EocmRtYS0+Y3EpOw0KPj4gICAgICAgICAgIHJk
-bWEtPmNxID0gTlVMTDsNCj4+ICAgICAgIH0NCj4+ICsgICAgaWYgKHJkbWEtPnNlbmRfY3EpIHsN
-Cj4+ICsgICAgICAgIGlidl9kZXN0cm95X2NxKHJkbWEtPnNlbmRfY3EpOw0KPj4gKyAgICAgICAg
-cmRtYS0+c2VuZF9jcSA9IE5VTEw7DQo+PiArICAgIH0NCj4+ICAgICAgIGlmIChyZG1hLT5jb21w
-X2NoYW5uZWwpIHsNCj4+ICAgICAgICAgICBpYnZfZGVzdHJveV9jb21wX2NoYW5uZWwocmRtYS0+
-Y29tcF9jaGFubmVsKTsNCj4+ICAgICAgICAgICByZG1hLT5jb21wX2NoYW5uZWwgPSBOVUxMOw0K
-Pj4gICAgICAgfQ0KPj4gKyAgICBpZiAocmRtYS0+c2VuZF9jb21wX2NoYW5uZWwpIHsNCj4+ICsg
-ICAgICAgIGlidl9kZXN0cm95X2NvbXBfY2hhbm5lbChyZG1hLT5zZW5kX2NvbXBfY2hhbm5lbCk7
-DQo+PiArICAgICAgICByZG1hLT5zZW5kX2NvbXBfY2hhbm5lbCA9IE5VTEw7DQo+PiArICAgIH0N
-Cj4+ICAgICAgIGlmIChyZG1hLT5wZCkgew0KPj4gICAgICAgICAgIGlidl9kZWFsbG9jX3BkKHJk
-bWEtPnBkKTsNCj4+ICAgICAgICAgICByZG1hLT5wZCA9IE5VTEw7DQo+PiBAQCAtMzA0MSw5ICsz
-MDg2LDEzIEBAIHN0YXRpYyB2b2lkIHFpb19jaGFubmVsX3JkbWFfc2V0X2Fpb19mZF9oYW5kbGVy
-KFFJT0NoYW5uZWwgKmlvYywNCj4+ICAgICAgIGlmIChpb19yZWFkKSB7DQo+PiAgICAgICAgICAg
-YWlvX3NldF9mZF9oYW5kbGVyKGN0eCwgcmlvYy0+cmRtYWluLT5jb21wX2NoYW5uZWwtPmZkLA0K
-Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYWxzZSwgaW9fcmVhZCwgaW9fd3JpdGUs
-IE5VTEwsIG9wYXF1ZSk7DQo+PiArICAgICAgICBhaW9fc2V0X2ZkX2hhbmRsZXIoY3R4LCByaW9j
-LT5yZG1haW4tPnNlbmRfY29tcF9jaGFubmVsLT5mZCwNCj4+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBmYWxzZSwgaW9fcmVhZCwgaW9fd3JpdGUsIE5VTEwsIG9wYXF1ZSk7DQo+PiAgICAg
-ICB9IGVsc2Ugew0KPj4gICAgICAgICAgIGFpb19zZXRfZmRfaGFuZGxlcihjdHgsIHJpb2MtPnJk
-bWFvdXQtPmNvbXBfY2hhbm5lbC0+ZmQsDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGZhbHNlLCBpb19yZWFkLCBpb193cml0ZSwgTlVMTCwgb3BhcXVlKTsNCj4+ICsgICAgICAgIGFp
-b19zZXRfZmRfaGFuZGxlcihjdHgsIHJpb2MtPnJkbWFvdXQtPnNlbmRfY29tcF9jaGFubmVsLT5m
-ZCwNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICBmYWxzZSwgaW9fcmVhZCwgaW9fd3Jp
-dGUsIE5VTEwsIG9wYXF1ZSk7DQo+PiAgICAgICB9DQo+PiAgIH0NCj4+ICAgDQo+PiBAQCAtMzI1
-Niw3ICszMzA1LDIyIEBAIHN0YXRpYyBzaXplX3QgcWVtdV9yZG1hX3NhdmVfcGFnZShRRU1VRmls
-ZSAqZiwgdm9pZCAqb3BhcXVlLA0KPj4gICAgICAgICovDQo+PiAgICAgICB3aGlsZSAoMSkgew0K
-Pj4gICAgICAgICAgIHVpbnQ2NF90IHdyX2lkLCB3cl9pZF9pbjsNCj4+IC0gICAgICAgIGludCBy
-ZXQgPSBxZW11X3JkbWFfcG9sbChyZG1hLCAmd3JfaWRfaW4sIE5VTEwpOw0KPj4gKyAgICAgICAg
-aW50IHJldCA9IHFlbXVfcmRtYV9wb2xsKHJkbWEsIHJkbWEtPmNxLCAmd3JfaWRfaW4sIE5VTEwp
-Ow0KPj4gKyAgICAgICAgaWYgKHJldCA8IDApIHsNCj4+ICsgICAgICAgICAgICBlcnJvcl9yZXBv
-cnQoInJkbWEgbWlncmF0aW9uOiBwb2xsaW5nIGVycm9yISAlZCIsIHJldCk7DQo+PiArICAgICAg
-ICAgICAgZ290byBlcnI7DQo+PiArICAgICAgICB9DQo+PiArDQo+PiArICAgICAgICB3cl9pZCA9
-IHdyX2lkX2luICYgUkRNQV9XUklEX1RZUEVfTUFTSzsNCj4+ICsNCj4+ICsgICAgICAgIGlmICh3
-cl9pZCA9PSBSRE1BX1dSSURfTk9ORSkgew0KPj4gKyAgICAgICAgICAgIGJyZWFrOw0KPj4gKyAg
-ICAgICAgfQ0KPj4gKyAgICB9DQo+PiArDQo+PiArICAgIHdoaWxlICgxKSB7DQo+PiArICAgICAg
-ICB1aW50NjRfdCB3cl9pZCwgd3JfaWRfaW47DQo+PiArICAgICAgICBpbnQgcmV0ID0gcWVtdV9y
-ZG1hX3BvbGwocmRtYSwgcmRtYS0+c2VuZF9jcSwgJndyX2lkX2luLCBOVUxMKTsNCj4+ICAgICAg
-ICAgICBpZiAocmV0IDwgMCkgew0KPj4gICAgICAgICAgICAgICBlcnJvcl9yZXBvcnQoInJkbWEg
-bWlncmF0aW9uOiBwb2xsaW5nIGVycm9yISAlZCIsIHJldCk7DQo+PiAgICAgICAgICAgICAgIGdv
-dG8gZXJyOw0KPj4gLS0gDQo+PiAyLjMxLjENCj4+DQo+Pg0KPj4NCg==
+This is a multi-part message in MIME format.
+--------------5B4C7790D4F3E0C20B49FDD0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+On 2021/6/26 下午8:56, Frank Chang wrote:
+> On Wed, Jun 16, 2021 at 10:56 AM LIU Zhiwei <zhiwei_liu@c-sky.com 
+> <mailto:zhiwei_liu@c-sky.com>> wrote:
+>
+>
+>     On 6/13/21 6:10 PM, Frank Chang wrote:
+>>     LIU Zhiwei <zhiwei_liu@c-sky.com <mailto:zhiwei_liu@c-sky.com>> 於
+>>     2021年4月9日 週五 下午3:57寫道：
+>>
+>>         +static void riscv_clic_realize(DeviceState *dev, Error **errp)
+>>         +{
+>>         +    RISCVCLICState *clic = RISCV_CLIC(dev);
+>>         +    size_t harts_x_sources = clic->num_harts *
+>>         clic->num_sources;
+>>         +    int irqs, i;
+>>         +
+>>         +    if (clic->prv_s && clic->prv_u) {
+>>         +        irqs = 3 * harts_x_sources;
+>>         +    } else if (clic->prv_s || clic->prv_u) {
+>>         +        irqs = 2 * harts_x_sources;
+>>         +    } else {
+>>         +        irqs = harts_x_sources;
+>>         +    }
+>>         +
+>>         +    clic->clic_size = irqs * 4 + 0x1000;
+>>         +    memory_region_init_io(&clic->mmio, OBJECT(dev),
+>>         &riscv_clic_ops, clic,
+>>         +                          TYPE_RISCV_CLIC, clic->clic_size);
+>>         +
+>>         +    clic->clicintip = g_new0(uint8_t, irqs);
+>>         +    clic->clicintie = g_new0(uint8_t, irqs);
+>>         +    clic->clicintattr = g_new0(uint8_t, irqs);
+>>         +    clic->clicintctl = g_new0(uint8_t, irqs);
+>>         +    clic->active_list = g_new0(CLICActiveInterrupt, irqs);
+>>         +    clic->active_count = g_new0(size_t, clic->num_harts);
+>>         +    clic->exccode = g_new0(uint32_t, clic->num_harts);
+>>         +    clic->cpu_irqs = g_new0(qemu_irq, clic->num_harts);
+>>         +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &clic->mmio);
+>>         +
+>>         +    /* Allocate irq through gpio, so that we can use qtest */
+>>         +    qdev_init_gpio_in(dev, riscv_clic_set_irq, irqs);
+>>         +    qdev_init_gpio_out(dev, clic->cpu_irqs, clic->num_harts);
+>>         +
+>>         +    for (i = 0; i < clic->num_harts; i++) {
+>>         +        RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(i));
+>>
+>>
+>>     As spec says:
+>>       Smaller single-core systems might have only a CLIC,
+>>       while multicore systems might have a CLIC per-core and a single
+>>     shared PLIC.
+>>       The PLIC xeip signals are treated as hart-local interrupt
+>>     sources by the CLIC at each core.
+>>
+>>     It looks like it's possible to have one CLIC instance per core.
+>
+>     If you want to delivery an interrupt to one hart, you should
+>     encode the IRQ by the interrupt number
+>     , the hart number and the interrupt target privilege, then set the
+>     irq.
+>
+>     I think how to calculate the hart number is the task of PLIC and
+>     it can make use of "hartid-base"
+>     to calculate it.
+>
+>     Thanks,
+>     Zhiwei
+>
+>
+> Hi Zhiwei,
+>
+> What I mean is if there are multiple CLIC instances, each per core 
+> (CLIC spec allows that).
+> If you try to bind CLIC with CPU index start from 0,
+> it will be impossible for CLIC instance to bind CPU from index other 
+> than 0.
+>
+> For example, for 4 cores system, it's possible to have 4 CLIC instances:
+>   * CLIC 0 binds to CPU 0
+>   * CLIC 1 binds to CPU 1
+>   * CLIC 2 binds to CPU 2
+>   * CLIC 3 binds to CPU 3
+>
+> and that's why I said it's possible to pass an extra "hartid-base" 
+> just like PLIC.
+> I know most of hardid are calculated by the requesing address, so most 
+> hartid usages should be fine.
+> But I saw two places using qemu_get_cpu(),
+> which may cause the problem for the scenario I describe above:
+> i.e. riscv_clic_next_interrupt() and riscv_clic_realize() as my 
+> original reply.
+
+So what's the problem here?
+
+Currently all cores share the same CLIC instance. Do you want to give 
+each core  a CLIC instance?
+
+Thanks,
+Zhiwei
+
+>
+> Regards,
+> Frank Chang
+>
+>>     However if you try to bind CPU reference start from index i = 0.
+>>     It's not possible for each per-core CLIC to bind their own CPU
+>>     instance in multicore system
+>>     as they have to bind from CPU 0.
+>>
+>>     I'm not sure if we add a new "hartid-base" property just like
+>>     what SiFive PLIC is
+>>     implemented would be a good idea or not.
+>>
+>>
+>>     Regards,
+>>     Frank Chang
+>>
+>>         + qemu_irq irq = qemu_allocate_irq(riscv_clic_cpu_irq_handler,
+>>         +  &cpu->env, 1);
+>>         +        qdev_connect_gpio_out(dev, i, irq);
+>>         +        cpu->env.clic = clic;
+>>         +    }
+>>         +}
+>>         +
+>>
+>>
+
+--------------5B4C7790D4F3E0C20B49FDD0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2021/6/26 下午8:56, Frank Chang wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAE_xrPg9qG-uOfkMeGvudWZFLUCG+7SSEbvS08iWmL_KKq7KZA@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr">On Wed, Jun 16, 2021 at 10:56 AM LIU Zhiwei &lt;<a
+            href="mailto:zhiwei_liu@c-sky.com" moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+          wrote:<br>
+        </div>
+        <div class="gmail_quote">
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            <div>
+              <p><br>
+              </p>
+              <div>On 6/13/21 6:10 PM, Frank Chang wrote:<br>
+              </div>
+              <blockquote type="cite">
+                <div dir="ltr">
+                  <div dir="ltr">LIU Zhiwei &lt;<a
+                      href="mailto:zhiwei_liu@c-sky.com" target="_blank"
+                      moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
+                    於 2021年4月9日 週五 下午3:57寫道：<br>
+                  </div>
+                  <div class="gmail_quote"><br>
+                    <blockquote class="gmail_quote" style="margin:0px
+                      0px 0px 0.8ex;border-left:1px solid
+                      rgb(204,204,204);padding-left:1ex"> +static void
+                      riscv_clic_realize(DeviceState *dev, Error **errp)<br>
+                      +{<br>
+                      +    RISCVCLICState *clic = RISCV_CLIC(dev);<br>
+                      +    size_t harts_x_sources = clic-&gt;num_harts *
+                      clic-&gt;num_sources;<br>
+                      +    int irqs, i;<br>
+                      +<br>
+                      +    if (clic-&gt;prv_s &amp;&amp; clic-&gt;prv_u)
+                      {<br>
+                      +        irqs = 3 * harts_x_sources;<br>
+                      +    } else if (clic-&gt;prv_s || clic-&gt;prv_u)
+                      {<br>
+                      +        irqs = 2 * harts_x_sources;<br>
+                      +    } else {<br>
+                      +        irqs = harts_x_sources;<br>
+                      +    }<br>
+                      +<br>
+                      +    clic-&gt;clic_size = irqs * 4 + 0x1000;<br>
+                      +    memory_region_init_io(&amp;clic-&gt;mmio,
+                      OBJECT(dev), &amp;riscv_clic_ops, clic,<br>
+                      +                          TYPE_RISCV_CLIC,
+                      clic-&gt;clic_size);<br>
+                      +<br>
+                      +    clic-&gt;clicintip = g_new0(uint8_t, irqs);<br>
+                      +    clic-&gt;clicintie = g_new0(uint8_t, irqs);<br>
+                      +    clic-&gt;clicintattr = g_new0(uint8_t, irqs);<br>
+                      +    clic-&gt;clicintctl = g_new0(uint8_t, irqs);<br>
+                      +    clic-&gt;active_list =
+                      g_new0(CLICActiveInterrupt, irqs);<br>
+                      +    clic-&gt;active_count = g_new0(size_t,
+                      clic-&gt;num_harts);<br>
+                      +    clic-&gt;exccode = g_new0(uint32_t,
+                      clic-&gt;num_harts);<br>
+                      +    clic-&gt;cpu_irqs = g_new0(qemu_irq,
+                      clic-&gt;num_harts);<br>
+                      +    sysbus_init_mmio(SYS_BUS_DEVICE(dev),
+                      &amp;clic-&gt;mmio);<br>
+                      +<br>
+                      +    /* Allocate irq through gpio, so that we can
+                      use qtest */<br>
+                      +    qdev_init_gpio_in(dev, riscv_clic_set_irq,
+                      irqs);<br>
+                      +    qdev_init_gpio_out(dev, clic-&gt;cpu_irqs,
+                      clic-&gt;num_harts);<br>
+                      +<br>
+                      +    for (i = 0; i &lt; clic-&gt;num_harts; i++) {<br>
+                      +        RISCVCPU *cpu =
+                      RISCV_CPU(qemu_get_cpu(i));<br>
+                    </blockquote>
+                    <div><br>
+                    </div>
+                    <div>As spec says:</div>
+                    <div>  Smaller single-core systems might have only a
+                      CLIC,</div>
+                    <div>  while multicore systems might have a CLIC
+                      per-core and a single shared PLIC.</div>
+                    <div>  The PLIC xeip signals are treated as
+                      hart-local interrupt sources by the CLIC at each
+                      core.<br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>It looks like it's possible to have one CLIC
+                      instance per core.</div>
+                  </div>
+                </div>
+              </blockquote>
+              <p>If you want to delivery an interrupt to one hart, you
+                should encode the IRQ by the interrupt number<br>
+                , the hart number and the interrupt target privilege,
+                then set the irq.</p>
+              <p>I think how to calculate the hart number is the task of
+                PLIC and it can make use of "hartid-base"<br>
+                to calculate it.</p>
+              <p>Thanks,<br>
+                Zhiwei<br>
+              </p>
+            </div>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Hi Zhiwei,</div>
+          <div><br>
+          </div>
+          <div>What I mean is if there are multiple CLIC instances, each
+            per core (CLIC spec allows that).</div>
+          <div>If you try to bind CLIC with CPU index start from 0,</div>
+          <div>it will be impossible for CLIC instance to bind CPU from
+            index other than 0.</div>
+          <div><br>
+          </div>
+          <div>For example, for 4 cores system, it's possible to have 4
+            CLIC instances:</div>
+          <div>  * CLIC 0 binds to CPU 0</div>
+          <div>  * CLIC 1 binds to CPU 1</div>
+          <div>  * CLIC 2 binds to CPU 2</div>
+          <div>  * CLIC 3 binds to CPU 3</div>
+          <div><br>
+          </div>
+          <div>and that's why I said it's possible to pass an extra
+            "hartid-base" just like PLIC.</div>
+          <div>I know most of hardid are calculated by the requesing
+            address, so most hartid usages should be fine.</div>
+          <div>But I saw two places using qemu_get_cpu(),<br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <blockquote type="cite"
+cite="mid:CAE_xrPg9qG-uOfkMeGvudWZFLUCG+7SSEbvS08iWmL_KKq7KZA@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div>which may cause the problem for the scenario I describe
+            above:</div>
+          <div>i.e. riscv_clic_next_interrupt() and riscv_clic_realize()
+            as my original reply.</div>
+        </div>
+      </div>
+    </blockquote>
+    <p>So what's the problem here?</p>
+    <p>Currently all cores share the same CLIC instance. Do you want to
+      give each core  a CLIC instance? <br>
+    </p>
+    <p>Thanks,<br>
+      Zhiwei<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CAE_xrPg9qG-uOfkMeGvudWZFLUCG+7SSEbvS08iWmL_KKq7KZA@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div><br>
+          </div>
+          <div>Regards,</div>
+          <div>Frank Chang</div>
+          <div> <br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            <div>
+              <p> </p>
+              <blockquote type="cite">
+                <div dir="ltr">
+                  <div class="gmail_quote">
+                    <div>However if you try to bind CPU reference start
+                      from index i = 0.</div>
+                    <div>It's not possible for each per-core CLIC to
+                      bind their own CPU instance in multicore system</div>
+                    <div>as they have to bind from CPU 0.</div>
+                    <div><br>
+                      I'm not sure if we add a new "hartid-base"
+                      property just like what SiFive PLIC is</div>
+                    <div>implemented would be a good idea or not.</div>
+                    <div><br>
+                    </div>
+                    <div><br>
+                    </div>
+                    <div>Regards,</div>
+                    <div>Frank Chang</div>
+                    <div> </div>
+                    <blockquote class="gmail_quote" style="margin:0px
+                      0px 0px 0.8ex;border-left:1px solid
+                      rgb(204,204,204);padding-left:1ex"> +       
+                      qemu_irq irq =
+                      qemu_allocate_irq(riscv_clic_cpu_irq_handler,<br>
+                      +                                       
+                       &amp;cpu-&gt;env, 1);<br>
+                      +        qdev_connect_gpio_out(dev, i, irq);<br>
+                      +        cpu-&gt;env.clic = clic;<br>
+                      +    }<br>
+                      +}<br>
+                      +<br>
+                      <br>
+                      <br>
+                    </blockquote>
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+  </body>
+</html>
+
+--------------5B4C7790D4F3E0C20B49FDD0--
 
