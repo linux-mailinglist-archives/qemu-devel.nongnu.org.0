@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B463B5DD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:17:12 +0200 (CEST)
-Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1823B5DB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:11:28 +0200 (CEST)
+Received: from localhost ([::1]:41366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxqCN-0006CK-AP
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
+	id 1lxq6p-0002hR-TJ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1lxq0c-0002DH-Gn
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:05:02 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:45420 helo=loongson.cn)
+ id 1lxq0f-0002Hj-RK
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:05:05 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:45482 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1lxq0V-00019E-7Z
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:05:02 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1lxq0Y-0001A9-6D
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:05:05 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0LdutlgOrYZAA--.8747S10; 
- Mon, 28 Jun 2021 20:04:51 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0LdutlgOrYZAA--.8747S11; 
+ Mon, 28 Jun 2021 20:04:52 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/20] target/loongarch: Add fixed point shift instruction
+Subject: [PATCH 09/20] target/loongarch: Add fixed point bit instruction
  translation
-Date: Mon, 28 Jun 2021 20:04:33 +0800
-Message-Id: <1624881885-31692-9-git-send-email-gaosong@loongson.cn>
+Date: Mon, 28 Jun 2021 20:04:34 +0800
+Message-Id: <1624881885-31692-10-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
 References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL0LdutlgOrYZAA--.8747S10
-X-Coremail-Antispam: 1UD129KBjvJXoW3CF15uF1fGFyrZry5GryUKFg_yoWDArWxpr
- 1Uury8Wr48tr17Gr9Ikr15Gr98JF1IkF1jg3sav348CF48J3WDJrnYy3yayFWjvws7WFWj
- vF98uFy7KFy8XwUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxL0LdutlgOrYZAA--.8747S11
+X-Coremail-Antispam: 1UD129KBjvAXoWftr4rtF4fGw48ur45Ar1fJFb_yoW8uFyxZo
+ W7GF15ArW8Gw1avrnIva1DXr4jqry8Cay7J39I9w1kW3W8Cry7tFyjgFn5ZayxJws2grW5
+ Xa4aqFnxJ3y3Ar97n29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -61,332 +61,549 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implement fixed point shift instruction translation.
+This patch implement fixed point bit instruction translation.
 
 This includes:
-- SLL.W, SRL.W, SRA.W, ROTR.W
-- SLLI.W, SRLI.W, SRAI.W, ROTRI.W
-- SLL.D, SRL.D, SRA.D, ROTR.D
-- SLLI.D, SRLI.D, SRAI.D, ROTRI.D
+- EXT.W.{B/H}
+- CL{O/Z}.{W/D}, CT{O/Z}.{W/D}
+- BYTEPICK.{W/D}
+- REVB.{2H/4H/2W/D}
+- REVH.{2W/D}
+- BITREV.{4B/8B}, BITREV.{W/D}
+- BSTRINS.{W/D}, BSTRPICK.{W/D}
+- MASKEQZ, MASKNEZ
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/insns.decode |  26 ++++++++
- target/loongarch/instmap.h    |  13 ++++
- target/loongarch/trans.inc.c  | 134 ++++++++++++++++++++++++++++++++++++++++++
- target/loongarch/translate.c  | 107 +++++++++++++++++++++++++++++++++
- 4 files changed, 280 insertions(+)
+ target/loongarch/helper.h     |  10 ++
+ target/loongarch/insns.decode |  45 +++++++
+ target/loongarch/instmap.h    |  19 ++-
+ target/loongarch/op_helper.c  | 119 +++++++++++++++++
+ target/loongarch/trans.inc.c  | 233 +++++++++++++++++++++++++++++++++
+ target/loongarch/translate.c  | 298 ++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 722 insertions(+), 2 deletions(-)
 
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index 6c7e19b..bbbcc26 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -8,3 +8,13 @@
+ 
+ DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
+ DEF_HELPER_2(raise_exception, noreturn, env, i32)
++
++DEF_HELPER_2(cto_w, tl, env, tl)
++DEF_HELPER_2(ctz_w, tl, env, tl)
++DEF_HELPER_2(cto_d, tl, env, tl)
++DEF_HELPER_2(ctz_d, tl, env, tl)
++DEF_HELPER_2(bitrev_w, tl, env, tl)
++DEF_HELPER_2(bitrev_d, tl, env, tl)
++
++DEF_HELPER_FLAGS_1(loongarch_bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(loongarch_dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 1e0b755..9302576 100644
+index 9302576..ec599a9 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -17,6 +17,8 @@
+@@ -13,12 +13,17 @@
+ %rj      5:5
+ %rk      10:5
+ %sa2     15:2
++%sa3     15:3
+ %si12    10:s12
  %ui12    10:12
  %si16    10:s16
  %si20    5:s20
-+%ui5     10:5
-+%ui6     10:6
+ %ui5     10:5
+ %ui6     10:6
++%msbw    16:5
++%lsbw    10:5
++%msbd    16:6
++%lsbd    10:6
  
  #
  # Argument sets
-@@ -27,6 +29,8 @@
- &fmt_rdrjsi16       rd rj si16
- &fmt_rdrjui12       rd rj ui12
+@@ -31,6 +36,10 @@
  &fmt_rdsi20         rd si20
-+&fmt_rdrjui5        rd rj ui5
-+&fmt_rdrjui6        rd rj ui6
+ &fmt_rdrjui5        rd rj ui5
+ &fmt_rdrjui6        rd rj ui6
++&fmt_rdrj           rd rj
++&fmt_rdrjrksa3      rd rj rk sa3
++&fmt_rdrjmsbwlsbw   rd rj msbw lsbw
++&fmt_rdrjmsbdlsbd   rd rj msbd lsbd
  
  #
  # Formats
-@@ -37,6 +41,8 @@
- @fmt_rdrjrksa2       .... ........ ... .. ..... ..... .....   &fmt_rdrjrksa2      %rd %rj %rk %sa2
- @fmt_rdrjsi16        .... .. ................ ..... .....     &fmt_rdrjsi16       %rd %rj %si16
+@@ -43,6 +52,10 @@
  @fmt_rdsi20          .... ... .................... .....      &fmt_rdsi20         %rd %si20
-+@fmt_rdrjui5         .... ........ ..... ..... ..... .....    &fmt_rdrjui5        %rd %rj %ui5
-+@fmt_rdrjui6         .... ........ .... ...... ..... .....    &fmt_rdrjui6        %rd %rj %ui6
+ @fmt_rdrjui5         .... ........ ..... ..... ..... .....    &fmt_rdrjui5        %rd %rj %ui5
+ @fmt_rdrjui6         .... ........ .... ...... ..... .....    &fmt_rdrjui6        %rd %rj %ui6
++@fmt_rdrj            .... ........ ..... ..... ..... .....    &fmt_rdrj           %rd %rj
++@fmt_rdrjmsbwlsbw    .... ....... ..... . ..... ..... .....   &fmt_rdrjmsbwlsbw   %rd %rj %msbw %lsbw
++@fmt_rdrjmsbdlsbd    .... ...... ...... ...... ..... .....    &fmt_rdrjmsbdlsbd   %rd %rj %msbd %lsbd
++@fmt_rdrjrksa3       .... ........ .. ... ..... ..... .....   &fmt_rdrjrksa3      %rd %rj %rk %sa3
  
  #
  # Fixed point arithmetic operation instruction
-@@ -87,3 +93,23 @@ addu16i_d        0001 00 ................ ..... .....     @fmt_rdrjsi16
- andi             0000 001101 ............ ..... .....     @fmt_rdrjui12
- ori              0000 001110 ............ ..... .....     @fmt_rdrjui12
- xori             0000 001111 ............ ..... .....     @fmt_rdrjui12
+@@ -113,3 +126,35 @@ srai_w           0000 00000100 10001 ..... ..... .....    @fmt_rdrjui5
+ srai_d           0000 00000100 1001 ...... ..... .....    @fmt_rdrjui6
+ rotri_w          0000 00000100 11001 ..... ..... .....    @fmt_rdrjui5
+ rotri_d          0000 00000100 1101 ...... ..... .....    @fmt_rdrjui6
 +
 +#
-+# Fixed point shift operation instruction
++# Fixed point bit operation instruction
 +#
-+sll_w            0000 00000001 01110 ..... ..... .....    @fmt_rdrjrk
-+srl_w            0000 00000001 01111 ..... ..... .....    @fmt_rdrjrk
-+sra_w            0000 00000001 10000 ..... ..... .....    @fmt_rdrjrk
-+sll_d            0000 00000001 10001 ..... ..... .....    @fmt_rdrjrk
-+srl_d            0000 00000001 10010 ..... ..... .....    @fmt_rdrjrk
-+sra_d            0000 00000001 10011 ..... ..... .....    @fmt_rdrjrk
-+rotr_w           0000 00000001 10110 ..... ..... .....    @fmt_rdrjrk
-+rotr_d           0000 00000001 10111 ..... ..... .....    @fmt_rdrjrk
-+slli_w           0000 00000100 00001 ..... ..... .....    @fmt_rdrjui5
-+slli_d           0000 00000100 0001 ...... ..... .....    @fmt_rdrjui6
-+srli_w           0000 00000100 01001 ..... ..... .....    @fmt_rdrjui5
-+srli_d           0000 00000100 0101 ...... ..... .....    @fmt_rdrjui6
-+srai_w           0000 00000100 10001 ..... ..... .....    @fmt_rdrjui5
-+srai_d           0000 00000100 1001 ...... ..... .....    @fmt_rdrjui6
-+rotri_w          0000 00000100 11001 ..... ..... .....    @fmt_rdrjui5
-+rotri_d          0000 00000100 1101 ...... ..... .....    @fmt_rdrjui6
++ext_w_h          0000 00000000 00000 10110 ..... .....    @fmt_rdrj
++ext_w_b          0000 00000000 00000 10111 ..... .....    @fmt_rdrj
++clo_w            0000 00000000 00000 00100 ..... .....    @fmt_rdrj
++clz_w            0000 00000000 00000 00101 ..... .....    @fmt_rdrj
++cto_w            0000 00000000 00000 00110 ..... .....    @fmt_rdrj
++ctz_w            0000 00000000 00000 00111 ..... .....    @fmt_rdrj
++clo_d            0000 00000000 00000 01000 ..... .....    @fmt_rdrj
++clz_d            0000 00000000 00000 01001 ..... .....    @fmt_rdrj
++cto_d            0000 00000000 00000 01010 ..... .....    @fmt_rdrj
++ctz_d            0000 00000000 00000 01011 ..... .....    @fmt_rdrj
++revb_2h          0000 00000000 00000 01100 ..... .....    @fmt_rdrj
++revb_4h          0000 00000000 00000 01101 ..... .....    @fmt_rdrj
++revb_2w          0000 00000000 00000 01110 ..... .....    @fmt_rdrj
++revb_d           0000 00000000 00000 01111 ..... .....    @fmt_rdrj
++revh_2w          0000 00000000 00000 10000 ..... .....    @fmt_rdrj
++revh_d           0000 00000000 00000 10001 ..... .....    @fmt_rdrj
++bitrev_4b        0000 00000000 00000 10010 ..... .....    @fmt_rdrj
++bitrev_8b        0000 00000000 00000 10011 ..... .....    @fmt_rdrj
++bitrev_w         0000 00000000 00000 10100 ..... .....    @fmt_rdrj
++bitrev_d         0000 00000000 00000 10101 ..... .....    @fmt_rdrj
++bytepick_w       0000 00000000 100 .. ..... ..... .....   @fmt_rdrjrksa2
++bytepick_d       0000 00000000 11 ... ..... ..... .....   @fmt_rdrjrksa3
++maskeqz          0000 00000001 00110 ..... ..... .....    @fmt_rdrjrk
++masknez          0000 00000001 00111 ..... ..... .....    @fmt_rdrjrk
++bstrins_w        0000 0000011 ..... 0 ..... ..... .....   @fmt_rdrjmsbwlsbw
++bstrpick_w       0000 0000011 ..... 1 ..... ..... .....   @fmt_rdrjmsbwlsbw
++bstrins_d        0000 000010 ...... ...... ..... .....    @fmt_rdrjmsbdlsbd
++bstrpick_d       0000 000011 ...... ...... ..... .....    @fmt_rdrjmsbdlsbd
 diff --git a/target/loongarch/instmap.h b/target/loongarch/instmap.h
-index 8844333..5aaffb4 100644
+index 5aaffb4..57b5a1c 100644
 --- a/target/loongarch/instmap.h
 +++ b/target/loongarch/instmap.h
-@@ -21,6 +21,14 @@ enum {
+@@ -11,12 +11,26 @@
+ 
+ /* fixed point opcodes */
+ enum {
++    LA_OPC_CLO_W     = (0x000004 << 10),
++    LA_OPC_CLZ_W     = (0x000005 << 10),
++    LA_OPC_CLO_D     = (0x000008 << 10),
++    LA_OPC_CLZ_D     = (0x000009 << 10),
++    LA_OPC_REVB_2H   = (0x00000C << 10),
++    LA_OPC_REVB_4H   = (0x00000D << 10),
++    LA_OPC_REVH_D    = (0x000011 << 10),
++    LA_OPC_BREV_4B   = (0x000012 << 10),
++    LA_OPC_BREV_8B   = (0x000013 << 10),
++    LA_OPC_EXT_WH    = (0x000016 << 10),
++    LA_OPC_EXT_WB    = (0x000017 << 10),
++
+     LA_OPC_ADD_W     = (0x00020 << 15),
+     LA_OPC_ADD_D     = (0x00021 << 15),
+     LA_OPC_SUB_W     = (0x00022 << 15),
+     LA_OPC_SUB_D     = (0x00023 << 15),
+     LA_OPC_SLT       = (0x00024 << 15),
+     LA_OPC_SLTU      = (0x00025 << 15),
++    LA_OPC_MASKEQZ   = (0x00026 << 15),
++    LA_OPC_MASKNEZ   = (0x00027 << 15),
+     LA_OPC_NOR       = (0x00028 << 15),
      LA_OPC_AND       = (0x00029 << 15),
      LA_OPC_OR        = (0x0002A << 15),
-     LA_OPC_XOR       = (0x0002B << 15),
-+    LA_OPC_SLL_W     = (0x0002E << 15),
-+    LA_OPC_SRL_W     = (0x0002F << 15),
-+    LA_OPC_SRA_W     = (0x00030 << 15),
-+    LA_OPC_SLL_D     = (0x00031 << 15),
-+    LA_OPC_SRL_D     = (0x00032 << 15),
-+    LA_OPC_SRA_D     = (0x00033 << 15),
-+    LA_OPC_ROTR_W    = (0x00036 << 15),
-+    LA_OPC_ROTR_D    = (0x00037 << 15),
-     LA_OPC_MUL_W     = (0x00038 << 15),
-     LA_OPC_MULH_W    = (0x00039 << 15),
-     LA_OPC_MULH_WU   = (0x0003A << 15),
-@@ -35,6 +43,9 @@ enum {
-     LA_OPC_MOD_D     = (0x00045 << 15),
-     LA_OPC_DIV_DU    = (0x00046 << 15),
-     LA_OPC_MOD_DU    = (0x00047 << 15),
-+    LA_OPC_SRLI_W    = (0x00089 << 15),
-+    LA_OPC_SRAI_W    = (0x00091 << 15),
-+    LA_OPC_ROTRI_W   = (0x00099 << 15),
+@@ -48,8 +62,9 @@ enum {
+     LA_OPC_ROTRI_W   = (0x00099 << 15),
  
      LA_OPC_ALSL_W    = (0x0002 << 17),
-     LA_OPC_ALSL_D    = (0x0016 << 17)
-@@ -51,3 +62,5 @@ enum {
-     LA_OPC_ORI       = (0x00E << 22),
-     LA_OPC_XORI      = (0x00F << 22)
+-    LA_OPC_ALSL_D    = (0x0016 << 17)
+-
++    LA_OPC_ALSL_D    = (0x0016 << 17),
++    LA_OPC_TRINS_W   = (0x003 << 21) | (0x0 << 15),
++    LA_OPC_TRPICK_W  = (0x003 << 21) | (0x1 << 15)
  };
+ 
+ /* 12 bit immediate opcodes */
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index 97113e4..1725f9b 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -26,3 +26,122 @@ void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
+ {
+     do_raise_exception(env, exception, GETPC());
+ }
 +
-+#endif
++target_ulong helper_cto_w(CPULoongArchState *env, target_ulong rj)
++{
++    uint32_t v = (uint32_t)rj;
++    int temp = 0;
++
++    while ((v & 0x1) == 1) {
++        temp++;
++        v = v >> 1;
++    }
++
++    return (target_ulong)temp;
++}
++
++target_ulong helper_ctz_w(CPULoongArchState *env, target_ulong rj)
++{
++    uint32_t v = (uint32_t)rj;
++
++    if (v == 0) {
++        return 32;
++    }
++
++    int temp = 0;
++    while ((v & 0x1) == 0) {
++        temp++;
++        v = v >> 1;
++    }
++
++    return (target_ulong)temp;
++}
++
++target_ulong helper_cto_d(CPULoongArchState *env, target_ulong rj)
++{
++    uint64_t v = rj;
++    int temp = 0;
++
++    while ((v & 0x1) == 1) {
++        temp++;
++        v = v >> 1;
++    }
++
++    return (target_ulong)temp;
++}
++
++target_ulong helper_ctz_d(CPULoongArchState *env, target_ulong rj)
++{
++    uint64_t v = rj;
++
++    if (v == 0) {
++        return 64;
++    }
++
++    int temp = 0;
++    while ((v & 0x1) == 0) {
++        temp++;
++        v = v >> 1;
++    }
++
++    return (target_ulong)temp;
++}
++
++target_ulong helper_bitrev_w(CPULoongArchState *env, target_ulong rj)
++{
++    int32_t v = (int32_t)rj;
++    const int SIZE = 32;
++    uint8_t bytes[SIZE];
++
++    int i;
++    for (i = 0; i < SIZE; i++) {
++        bytes[i] = v & 0x1;
++        v = v >> 1;
++    }
++    /* v == 0 */
++    for (i = 0; i < SIZE; i++) {
++        v = v | ((uint32_t)bytes[i] << (SIZE - 1 - i));
++    }
++
++    return (target_ulong)(int32_t)v;
++}
++
++target_ulong helper_bitrev_d(CPULoongArchState *env, target_ulong rj)
++{
++    uint64_t v = rj;
++    const int SIZE = 64;
++    uint8_t bytes[SIZE];
++
++    int i;
++    for (i = 0; i < SIZE; i++) {
++        bytes[i] = v & 0x1;
++        v = v >> 1;
++    }
++    /* v == 0 */
++    for (i = 0; i < SIZE; i++) {
++        v = v | ((uint64_t)bytes[i] << (SIZE - 1 - i));
++    }
++
++    return (target_ulong)v;
++}
++
++static inline target_ulong bitswap(target_ulong v)
++{
++    v = ((v >> 1) & (target_ulong)0x5555555555555555ULL) |
++        ((v & (target_ulong)0x5555555555555555ULL) << 1);
++    v = ((v >> 2) & (target_ulong)0x3333333333333333ULL) |
++        ((v & (target_ulong)0x3333333333333333ULL) << 2);
++    v = ((v >> 4) & (target_ulong)0x0F0F0F0F0F0F0F0FULL) |
++        ((v & (target_ulong)0x0F0F0F0F0F0F0F0FULL) << 4);
++    return v;
++}
++
++target_ulong helper_loongarch_dbitswap(target_ulong rj)
++{
++    return bitswap(rj);
++}
++
++target_ulong helper_loongarch_bitswap(target_ulong rt)
++{
++    return (int32_t)bitswap(rt);
++}
 diff --git a/target/loongarch/trans.inc.c b/target/loongarch/trans.inc.c
-index a5bc1ea..7d3b45f 100644
+index 7d3b45f..5473361 100644
 --- a/target/loongarch/trans.inc.c
 +++ b/target/loongarch/trans.inc.c
-@@ -365,3 +365,137 @@ static bool trans_xori(DisasContext *ctx, arg_xori *a)
-     gen_loongarch_logic_imm(ctx, LA_OPC_XORI, a->rd, a->rj, a->ui12);
+@@ -499,3 +499,236 @@ static bool trans_rotri_d(DisasContext *ctx, arg_rotri_d *a)
+     tcg_temp_free(t0);
      return true;
  }
 +
-+/* Fixed point shift operation instruction translation */
-+static bool trans_sll_w(DisasContext *ctx, arg_sll_w *a)
++/* Fixed point bit operation instruction translation */
++static bool trans_ext_w_h(DisasContext *ctx, arg_ext_w_h *a)
 +{
-+    gen_loongarch_shift(ctx, LA_OPC_SLL_W, a->rd, a->rk, a->rj);
++    gen_loongarch_bshfl(ctx, LA_OPC_EXT_WH, a->rj, a->rd);
 +    return true;
 +}
 +
-+static bool trans_srl_w(DisasContext *ctx, arg_srl_w *a)
++static bool trans_ext_w_b(DisasContext *ctx, arg_ext_w_b *a)
 +{
-+    gen_loongarch_shift(ctx, LA_OPC_SRL_W, a->rd, a->rk, a->rj);
++    gen_loongarch_bshfl(ctx, LA_OPC_EXT_WB, a->rj, a->rd);
 +    return true;
 +}
 +
-+static bool trans_sra_w(DisasContext *ctx, arg_sra_w *a)
++static bool trans_clo_w(DisasContext *ctx, arg_clo_w *a)
 +{
-+    gen_loongarch_shift(ctx, LA_OPC_SRA_W, a->rd, a->rk, a->rj);
++    gen_loongarch_cl(ctx, LA_OPC_CLO_W, a->rd, a->rj);
 +    return true;
 +}
 +
-+static bool trans_sll_d(DisasContext *ctx, arg_sll_d *a)
++static bool trans_clz_w(DisasContext *ctx, arg_clz_w *a)
++{
++    gen_loongarch_cl(ctx, LA_OPC_CLZ_W, a->rd, a->rj);
++    return true;
++}
++
++static bool trans_cto_w(DisasContext *ctx, arg_cto_w *a)
++{
++    TCGv t0 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_helper_cto_w(cpu_gpr[a->rd], cpu_env, t0);
++
++    tcg_temp_free(t0);
++    return true;
++}
++
++static bool trans_ctz_w(DisasContext *ctx, arg_ctz_w *a)
++{
++    TCGv t0 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_helper_ctz_w(cpu_gpr[a->rd], cpu_env, t0);
++
++    tcg_temp_free(t0);
++    return true;
++}
++static bool trans_clo_d(DisasContext *ctx, arg_clo_d *a)
 +{
 +    check_loongarch_64(ctx);
-+    gen_loongarch_shift(ctx, LA_OPC_SLL_D, a->rd, a->rk, a->rj);
++    gen_loongarch_cl(ctx, LA_OPC_CLO_D, a->rd, a->rj);
 +    return true;
 +}
-+static bool trans_srl_d(DisasContext *ctx, arg_srl_d *a)
++
++static bool trans_clz_d(DisasContext *ctx, arg_clz_d *a)
 +{
 +    check_loongarch_64(ctx);
-+    gen_loongarch_shift(ctx, LA_OPC_SRL_D, a->rd, a->rk, a->rj);
++    gen_loongarch_cl(ctx, LA_OPC_CLZ_D, a->rd, a->rj);
 +    return true;
 +}
 +
-+static bool trans_sra_d(DisasContext *ctx, arg_sra_d *a)
++static bool trans_cto_d(DisasContext *ctx, arg_cto_d *a)
++{
++    TCGv t0 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_helper_cto_d(cpu_gpr[a->rd], cpu_env, t0);
++
++    tcg_temp_free(t0);
++    return true;
++}
++
++static bool trans_ctz_d(DisasContext *ctx, arg_ctz_d *a)
++{
++    TCGv t0 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rj);
++    gen_helper_ctz_d(cpu_gpr[a->rd], cpu_env, t0);
++
++    tcg_temp_free(t0);
++    return true;
++}
++
++static bool trans_revb_2h(DisasContext *ctx, arg_revb_2h *a)
++{
++    gen_loongarch_bshfl(ctx, LA_OPC_REVB_2H, a->rj, a->rd);
++    return true;
++}
++
++static bool trans_revb_4h(DisasContext *ctx, arg_revb_4h *a)
 +{
 +    check_loongarch_64(ctx);
-+    gen_loongarch_shift(ctx, LA_OPC_SRA_D, a->rd, a->rk, a->rj);
++    gen_loongarch_bshfl(ctx, LA_OPC_REVB_4H, a->rj, a->rd);
 +    return true;
 +}
 +
-+static bool trans_rotr_w(DisasContext *ctx, arg_rotr_w *a)
++static bool trans_revb_2w(DisasContext *ctx, arg_revb_2w *a)
 +{
-+    gen_loongarch_shift(ctx, LA_OPC_ROTR_W, a->rd, a->rk, a->rj);
++    handle_rev32(ctx, a->rj, a->rd);
 +    return true;
 +}
 +
-+static bool trans_rotr_d(DisasContext *ctx, arg_rotr_d *a)
++static bool trans_revb_d(DisasContext *ctx, arg_revb_d *a)
++{
++    handle_rev64(ctx, a->rj, a->rd);
++    return true;
++}
++static bool trans_revh_2w(DisasContext *ctx, arg_revh_2w *a)
++{
++    handle_rev16(ctx, a->rj, a->rd);
++    return true;
++}
++
++static bool trans_revh_d(DisasContext *ctx, arg_revh_d *a)
 +{
 +    check_loongarch_64(ctx);
-+    gen_loongarch_shift(ctx, LA_OPC_ROTR_D, a->rd, a->rk, a->rj);
++    gen_loongarch_bshfl(ctx, LA_OPC_REVH_D, a->rj, a->rd);
 +    return true;
 +}
 +
-+static bool trans_slli_w(DisasContext *ctx, arg_slli_w *a)
++static bool trans_bitrev_4b(DisasContext *ctx, arg_bitrev_4b *a)
 +{
-+    if (a->rd == 0) {
-+        /* Nop */
-+        return true;
++    gen_loongarch_bitswap(ctx, LA_OPC_BREV_4B, a->rd, a->rj);
++    return true;
++}
++
++static bool trans_bitrev_8b(DisasContext *ctx, arg_bitrev_8b *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_bitswap(ctx, LA_OPC_BREV_8B, a->rd, a->rj);
++    return true;
++}
++
++static bool trans_bitrev_w(DisasContext *ctx, arg_bitrev_w *a)
++{
++    TCGv t0 = tcg_temp_new();
++    gen_load_gpr(t0, a->rj);
++    gen_helper_bitrev_w(cpu_gpr[a->rd], cpu_env, t0);
++    tcg_temp_free(t0);
++    return true;
++}
++
++static bool trans_bitrev_d(DisasContext *ctx, arg_bitrev_d *a)
++{
++    TCGv t0 = tcg_temp_new();
++    gen_load_gpr(t0, a->rj);
++    gen_helper_bitrev_d(cpu_gpr[a->rd], cpu_env, t0);
++    tcg_temp_free(t0);
++    return true;
++}
++
++static bool trans_bytepick_w(DisasContext *ctx, arg_bytepick_w *a)
++{
++    gen_loongarch_align(ctx, 32, a->rd, a->rj, a->rk, a->sa2);
++    return true;
++}
++
++static bool trans_bytepick_d(DisasContext *ctx, arg_bytepick_d *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_align(ctx, 64, a->rd, a->rj, a->rk, a->sa3);
++    return true;
++}
++
++static bool trans_maskeqz(DisasContext *ctx, arg_maskeqz *a)
++{
++    gen_loongarch_cond_zero(ctx, LA_OPC_MASKEQZ, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_masknez(DisasContext *ctx, arg_masknez *a)
++{
++    gen_loongarch_cond_zero(ctx, LA_OPC_MASKNEZ, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_bstrins_d(DisasContext *ctx, arg_bstrins_d *a)
++{
++    int lsb = a->lsbd;
++    int msb = a->msbd;
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++
++    if (lsb > msb) {
++        return false;
 +    }
 +
-+    TCGv t0 = tcg_temp_new();
-+
-+    gen_load_gpr(t0, a->rj);
-+    tcg_gen_shli_tl(t0, t0, a->ui5);
-+    tcg_gen_ext32s_tl(cpu_gpr[a->rd], t0);
++    gen_load_gpr(t1, a->rj);
++    gen_load_gpr(t0, a->rd);
++    tcg_gen_deposit_tl(t0, t0, t1, lsb, msb - lsb + 1);
++    gen_store_gpr(t0, a->rd);
 +
 +    tcg_temp_free(t0);
++    tcg_temp_free(t1);
 +    return true;
 +}
 +
-+static bool trans_slli_d(DisasContext *ctx, arg_slli_d *a)
++static bool trans_bstrpick_d(DisasContext *ctx, arg_bstrpick_d *a)
 +{
-+    if (a->rd == 0) {
-+        /* Nop */
-+        return true;
++    int lsb = a->lsbd;
++    int msb = a->msbd;
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++
++    if (lsb > msb) {
++        return false;
 +    }
 +
-+    TCGv t0 = tcg_temp_new();
-+
-+    gen_load_gpr(t0, a->rj);
-+    tcg_gen_shli_tl(cpu_gpr[a->rd], t0, a->ui6);
-+
-+    tcg_temp_free(t0);
-+    return true;
-+}
-+
-+static bool trans_srli_w(DisasContext *ctx, arg_srli_w *a)
-+{
-+    gen_loongarch_shift_imm(ctx, LA_OPC_SRLI_W, a->rd, a->rj, a->ui5);
-+    return true;
-+}
-+
-+static bool trans_srli_d(DisasContext *ctx, arg_srli_d *a)
-+{
-+    TCGv t0 = tcg_temp_new();
-+
-+    gen_load_gpr(t0, a->rj);
-+    tcg_gen_shri_tl(cpu_gpr[a->rd], t0, a->ui6);
++    gen_load_gpr(t1, a->rj);
++    gen_load_gpr(t0, a->rd);
++    tcg_gen_extract_tl(t0, t1, lsb, msb - lsb + 1);
++    gen_store_gpr(t0, a->rd);
 +
 +    tcg_temp_free(t0);
++    tcg_temp_free(t1);
 +    return true;
 +}
 +
-+static bool trans_srai_w(DisasContext *ctx, arg_srai_w *a)
++static bool trans_bstrins_w(DisasContext *ctx, arg_bstrins_w *a)
 +{
-+    gen_loongarch_shift_imm(ctx, LA_OPC_SRAI_W, a->rd, a->rj, a->ui5);
++    gen_loongarch_bitops(ctx, LA_OPC_TRINS_W, a->rd, a->rj, a->lsbw, a->msbw);
 +    return true;
 +}
 +
-+static bool trans_srai_d(DisasContext *ctx, arg_srai_d *a)
++static bool trans_bstrpick_w(DisasContext *ctx, arg_bstrpick_w *a)
 +{
-+    TCGv t0 = tcg_temp_new();
-+    check_loongarch_64(ctx);
-+    gen_load_gpr(t0, a->rj);
-+    tcg_gen_sari_tl(cpu_gpr[a->rd], t0, a->ui6);
-+    tcg_temp_free(t0);
-+    return true;
-+}
-+
-+static bool trans_rotri_w(DisasContext *ctx, arg_rotri_w *a)
-+{
-+    gen_loongarch_shift_imm(ctx, LA_OPC_ROTRI_W, a->rd, a->rj, a->ui5);
-+    return true;
-+}
-+
-+static bool trans_rotri_d(DisasContext *ctx, arg_rotri_d *a)
-+{
-+    TCGv t0 = tcg_temp_new();
-+    check_loongarch_64(ctx);
-+    gen_load_gpr(t0, a->rj);
-+    tcg_gen_rotri_tl(cpu_gpr[a->rd], t0, a->ui6);
-+    tcg_temp_free(t0);
++    if (a->lsbw > a->msbw) {
++        return false;
++    }
++    gen_loongarch_bitops(ctx, LA_OPC_TRPICK_W,
++                         a->rd, a->rj, a->lsbw, a->msbw - a->lsbw);
 +    return true;
 +}
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 3b40a59..60f884f 100644
+index 60f884f..8c735df 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -747,6 +747,113 @@ static void gen_loongarch_alsl(DisasContext *ctx, int opc, int rd,
-     return;
+@@ -854,6 +854,304 @@ static void gen_loongarch_shift_imm(DisasContext *ctx, uint32_t opc,
+     tcg_temp_free(t0);
  }
  
-+/*loongarch shifts */
-+static void gen_loongarch_shift(DisasContext *ctx, uint32_t opc,
-+                                int rd, int rj, int rk)
++/* loongarch bit shift */
++static void gen_loongarch_bshfl(DisasContext *ctx, uint32_t opc,
++                                int rj, int rd)
 +{
-+    TCGv t0, t1;
-+
-+    if (rd == 0) {
-+        /* Treat as NOP. */
-+        return;
-+    }
-+
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
-+    gen_load_gpr(t0, rj);
-+    gen_load_gpr(t1, rk);
-+    switch (opc) {
-+    case LA_OPC_SLL_W:
-+        tcg_gen_andi_tl(t0, t0, 0x1f);
-+        tcg_gen_shl_tl(t0, t1, t0);
-+        tcg_gen_ext32s_tl(cpu_gpr[rd], t0);
-+        break;
-+    case LA_OPC_SRA_W:
-+        tcg_gen_andi_tl(t0, t0, 0x1f);
-+        tcg_gen_sar_tl(cpu_gpr[rd], t1, t0);
-+        break;
-+    case LA_OPC_SRL_W:
-+        tcg_gen_ext32u_tl(t1, t1);
-+        tcg_gen_andi_tl(t0, t0, 0x1f);
-+        tcg_gen_shr_tl(t0, t1, t0);
-+        tcg_gen_ext32s_tl(cpu_gpr[rd], t0);
-+        break;
-+    case LA_OPC_ROTR_W:
-+        {
-+            TCGv_i32 t2 = tcg_temp_new_i32();
-+            TCGv_i32 t3 = tcg_temp_new_i32();
-+            tcg_gen_trunc_tl_i32(t2, t0);
-+            tcg_gen_trunc_tl_i32(t3, t1);
-+            tcg_gen_andi_i32(t2, t2, 0x1f);
-+            tcg_gen_rotr_i32(t2, t3, t2);
-+            tcg_gen_ext_i32_tl(cpu_gpr[rd], t2);
-+            tcg_temp_free_i32(t2);
-+            tcg_temp_free_i32(t3);
-+        }
-+        break;
-+    case LA_OPC_SLL_D:
-+        tcg_gen_andi_tl(t0, t0, 0x3f);
-+        tcg_gen_shl_tl(cpu_gpr[rd], t1, t0);
-+        break;
-+    case LA_OPC_SRA_D:
-+        tcg_gen_andi_tl(t0, t0, 0x3f);
-+        tcg_gen_sar_tl(cpu_gpr[rd], t1, t0);
-+        break;
-+    case LA_OPC_SRL_D:
-+        tcg_gen_andi_tl(t0, t0, 0x3f);
-+        tcg_gen_shr_tl(cpu_gpr[rd], t1, t0);
-+        break;
-+    case LA_OPC_ROTR_D:
-+        tcg_gen_andi_tl(t0, t0, 0x3f);
-+        tcg_gen_rotr_tl(cpu_gpr[rd], t1, t0);
-+        break;
-+    }
-+    tcg_temp_free(t0);
-+    tcg_temp_free(t1);
-+}
-+
-+/* loongarch shifts with immediate operand */
-+static void gen_loongarch_shift_imm(DisasContext *ctx, uint32_t opc,
-+                                    int rd, int rj, int16_t imm)
-+{
-+    target_ulong uimm = ((uint16_t)imm) & 0x1f;
 +    TCGv t0;
 +
 +    if (rd == 0) {
@@ -397,31 +614,288 @@ index 3b40a59..60f884f 100644
 +    t0 = tcg_temp_new();
 +    gen_load_gpr(t0, rj);
 +    switch (opc) {
-+    case LA_OPC_SRAI_W:
-+        tcg_gen_sari_tl(cpu_gpr[rd], t0, uimm);
-+        break;
-+    case LA_OPC_SRLI_W:
-+        if (uimm != 0) {
-+            tcg_gen_ext32u_tl(t0, t0);
-+            tcg_gen_shri_tl(cpu_gpr[rd], t0, uimm);
-+        } else {
++    case LA_OPC_REVB_2H:
++        {
++            TCGv t1 = tcg_temp_new();
++            TCGv t2 = tcg_const_tl(0x00FF00FF);
++            tcg_gen_shri_tl(t1, t0, 8);
++            tcg_gen_and_tl(t1, t1, t2);
++            tcg_gen_and_tl(t0, t0, t2);
++            tcg_gen_shli_tl(t0, t0, 8);
++            tcg_gen_or_tl(t0, t0, t1);
++            tcg_temp_free(t2);
++            tcg_temp_free(t1);
 +            tcg_gen_ext32s_tl(cpu_gpr[rd], t0);
 +        }
 +        break;
-+    case LA_OPC_ROTRI_W:
-+        if (uimm != 0) {
-+            TCGv_i32 t1 = tcg_temp_new_i32();
++    case LA_OPC_EXT_WB:
++        tcg_gen_ext8s_tl(cpu_gpr[rd], t0);
++        break;
++    case LA_OPC_EXT_WH:
++        tcg_gen_ext16s_tl(cpu_gpr[rd], t0);
++        break;
++    case LA_OPC_REVB_4H:
++        {
++            TCGv t1 = tcg_temp_new();
++            TCGv t2 = tcg_const_tl(0x00FF00FF00FF00FFULL);
++            tcg_gen_shri_tl(t1, t0, 8);
++            tcg_gen_and_tl(t1, t1, t2);
++            tcg_gen_and_tl(t0, t0, t2);
++            tcg_gen_shli_tl(t0, t0, 8);
++            tcg_gen_or_tl(cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t2);
++            tcg_temp_free(t1);
++        }
++        break;
++    case LA_OPC_REVH_D:
++        {
++            TCGv t1 = tcg_temp_new();
++            TCGv t2 = tcg_const_tl(0x0000FFFF0000FFFFULL);
++            tcg_gen_shri_tl(t1, t0, 16);
++            tcg_gen_and_tl(t1, t1, t2);
++            tcg_gen_and_tl(t0, t0, t2);
++            tcg_gen_shli_tl(t0, t0, 16);
++            tcg_gen_or_tl(t0, t0, t1);
++            tcg_gen_shri_tl(t1, t0, 32);
++            tcg_gen_shli_tl(t0, t0, 32);
++            tcg_gen_or_tl(cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t2);
++            tcg_temp_free(t1);
++        }
++        break;
++    default:
++        gen_reserved_instruction(ctx);
++        tcg_temp_free(t0);
++        return;
++    }
++    tcg_temp_free(t0);
++}
 +
-+            tcg_gen_trunc_tl_i32(t1, t0);
-+            tcg_gen_rotri_i32(t1, t1, uimm);
-+            tcg_gen_ext_i32_tl(cpu_gpr[rd], t1);
-+            tcg_temp_free_i32(t1);
-+        } else {
-+            tcg_gen_ext32s_tl(cpu_gpr[rd], t0);
-+        }
++/* loongarch clo/clz */
++static void gen_loongarch_cl(DisasContext *ctx, uint32_t opc,
++                             int rd, int rj)
++{
++    TCGv t0;
++
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    t0 = cpu_gpr[rd];
++    gen_load_gpr(t0, rj);
++
++    switch (opc) {
++    case LA_OPC_CLO_W:
++    case LA_OPC_CLO_D:
++        tcg_gen_not_tl(t0, t0);
++        break;
++    }
++
++    switch (opc) {
++    case LA_OPC_CLO_W:
++    case LA_OPC_CLZ_W:
++        tcg_gen_ext32u_tl(t0, t0);
++        tcg_gen_clzi_tl(t0, t0, TARGET_LONG_BITS);
++        tcg_gen_subi_tl(t0, t0, TARGET_LONG_BITS - 32);
++        break;
++    case LA_OPC_CLO_D:
++    case LA_OPC_CLZ_D:
++        tcg_gen_clzi_i64(t0, t0, 64);
++        break;
++    }
++}
++
++static void handle_rev64(DisasContext *ctx,
++                         unsigned int rj, unsigned int rd)
++{
++    tcg_gen_bswap64_i64(cpu_gpr[rd], cpu_gpr[rj]);
++}
++
++static void handle_rev32(DisasContext *ctx,
++                         unsigned int rj, unsigned int rd)
++{
++    TCGv_i64 tcg_rd = tcg_temp_new_i64();
++    gen_load_gpr(tcg_rd, rd);
++
++    TCGv_i64 tcg_tmp = tcg_temp_new_i64();
++    TCGv_i64 tcg_rj  = tcg_temp_new_i64();
++    gen_load_gpr(tcg_rj, rj);
++
++    tcg_gen_ext32u_i64(tcg_tmp, tcg_rj);
++    tcg_gen_bswap32_i64(tcg_rd, tcg_tmp);
++    tcg_gen_shri_i64(tcg_tmp, tcg_rj, 32);
++    tcg_gen_bswap32_i64(tcg_tmp, tcg_tmp);
++    tcg_gen_concat32_i64(cpu_gpr[rd], tcg_rd, tcg_tmp);
++
++    tcg_temp_free_i64(tcg_tmp);
++    tcg_temp_free_i64(tcg_rd);
++    tcg_temp_free_i64(tcg_rj);
++}
++
++static void handle_rev16(DisasContext *ctx, unsigned int rj, unsigned int rd)
++{
++    TCGv_i64 tcg_rd = tcg_temp_new_i64();
++    TCGv_i64 tcg_rj = tcg_temp_new_i64();
++    gen_load_gpr(tcg_rd, rd);
++    gen_load_gpr(tcg_rj, rj);
++    TCGv_i64 tcg_tmp = tcg_temp_new_i64();
++    TCGv_i64 mask = tcg_const_i64(0x0000ffff0000ffffull);
++
++    tcg_gen_shri_i64(tcg_tmp, tcg_rj, 16);
++    tcg_gen_and_i64(tcg_rd, tcg_rj, mask);
++    tcg_gen_and_i64(tcg_tmp, tcg_tmp, mask);
++    tcg_gen_shli_i64(tcg_rd, tcg_rd, 16);
++    tcg_gen_or_i64(cpu_gpr[rd], tcg_rd, tcg_tmp);
++
++    tcg_temp_free_i64(mask);
++    tcg_temp_free_i64(tcg_tmp);
++    tcg_temp_free_i64(tcg_rd);
++    tcg_temp_free_i64(tcg_rj);
++}
++
++/* loongarch bit swap */
++static void gen_loongarch_bitswap(DisasContext *ctx, int opc, int rd, int rj)
++{
++    TCGv t0;
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    t0 = tcg_temp_new();
++    gen_load_gpr(t0, rj);
++    switch (opc) {
++    case LA_OPC_BREV_4B:
++        gen_helper_loongarch_bitswap(cpu_gpr[rd], t0);
++        break;
++    case LA_OPC_BREV_8B:
++        gen_helper_loongarch_dbitswap(cpu_gpr[rd], t0);
 +        break;
 +    }
 +    tcg_temp_free(t0);
++}
++
++/* loongarch align bits */
++static void gen_loongarch_align_bits(DisasContext *ctx, int wordsz, int rd,
++                                     int rj, int rk, int bits)
++{
++    TCGv t0;
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    t0 = tcg_temp_new();
++    if (bits == 0 || bits == wordsz) {
++        if (bits == 0) {
++            gen_load_gpr(t0, rk);
++        } else {
++            gen_load_gpr(t0, rj);
++        }
++        switch (wordsz) {
++        case 32:
++            tcg_gen_ext32s_tl(cpu_gpr[rd], t0);
++            break;
++        case 64:
++            tcg_gen_mov_tl(cpu_gpr[rd], t0);
++            break;
++        }
++    } else {
++        TCGv t1 = tcg_temp_new();
++        gen_load_gpr(t0, rk);
++        gen_load_gpr(t1, rj);
++        switch (wordsz) {
++        case 32:
++            {
++                TCGv_i64 t2 = tcg_temp_new_i64();
++                tcg_gen_concat_tl_i64(t2, t1, t0);
++                tcg_gen_shri_i64(t2, t2, 32 - bits);
++                gen_move_low32(cpu_gpr[rd], t2);
++                tcg_temp_free_i64(t2);
++            }
++            break;
++        case 64:
++            tcg_gen_shli_tl(t0, t0, bits);
++            tcg_gen_shri_tl(t1, t1, 64 - bits);
++            tcg_gen_or_tl(cpu_gpr[rd], t1, t0);
++            break;
++        }
++        tcg_temp_free(t1);
++    }
++    tcg_temp_free(t0);
++}
++
++/* loongarch align */
++static void gen_loongarch_align(DisasContext *ctx, int wordsz, int rd,
++                                int rj, int rk, int bp)
++{
++    gen_loongarch_align_bits(ctx, wordsz, rd, rj, rk, bp * 8);
++}
++
++/* loongarch cond set zero */
++static void gen_loongarch_cond_zero(DisasContext *ctx, uint32_t opc,
++                                    int rd, int rj, int rk)
++{
++    TCGv t0, t1, t2;
++
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    gen_load_gpr(t0, rk);
++    t1 = tcg_const_tl(0);
++    t2 = tcg_temp_new();
++    gen_load_gpr(t2, rj);
++    switch (opc) {
++    case LA_OPC_MASKEQZ:
++        tcg_gen_movcond_tl(TCG_COND_NE, cpu_gpr[rd], t0, t1, t2, t1);
++        break;
++    case LA_OPC_MASKNEZ:
++        tcg_gen_movcond_tl(TCG_COND_EQ, cpu_gpr[rd], t0, t1, t2, t1);
++        break;
++    }
++    tcg_temp_free(t2);
++    tcg_temp_free(t1);
++    tcg_temp_free(t0);
++}
++
++/* loongarch bit ops */
++static void gen_loongarch_bitops(DisasContext *ctx, uint32_t opc, int rd,
++                                 int rj, int lsb, int msb)
++{
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++
++    gen_load_gpr(t1, rj);
++    switch (opc) {
++    case LA_OPC_TRPICK_W:
++        if (lsb + msb > 31) {
++            goto fail;
++        }
++        if (msb != 31) {
++            tcg_gen_extract_tl(t0, t1, lsb, msb + 1);
++        } else {
++            tcg_gen_ext32s_tl(t0, t1);
++        }
++        break;
++    case LA_OPC_TRINS_W:
++        if (lsb > msb) {
++            goto fail;
++        }
++        gen_load_gpr(t0, rd);
++        tcg_gen_deposit_tl(t0, t0, t1, lsb, msb - lsb + 1);
++        tcg_gen_ext32s_tl(t0, t0);
++        break;
++    default:
++fail:
++        gen_reserved_instruction(ctx);
++        tcg_temp_free(t0);
++        tcg_temp_free(t1);
++        return;
++    }
++    gen_store_gpr(t0, rd);
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
 +}
 +
  static void loongarch_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
