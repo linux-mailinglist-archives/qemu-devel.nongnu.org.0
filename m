@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3288D3B59CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 09:33:17 +0200 (CEST)
-Received: from localhost ([::1]:46854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A70B3B59CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 09:33:05 +0200 (CEST)
+Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxllc-00049j-9P
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 03:33:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51838)
+	id 1lxllQ-0003dV-4F
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 03:33:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lxlhw-0007vd-42
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:29:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49064)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lxlk4-0001um-NN
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:31:40 -0400
+Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:52632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lxlhu-0001XN-6b
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:29:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624865363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/8t2rBvxAJVBCFp9NhUtYp/qqHCS/ZBRKQ67Z9mey/Q=;
- b=hv1wy6f6DDKIkJPxdsWzJwC338pCyd7jZx0apOjeDzNUqscvS70m+IAwL9lW+dpZQG9MhZ
- x64yuSBXAEWzL+qhBMiW8h14uzoL1VHyL+GAJlkA/xwAZYx5o3KXgXbKGAoPAaumMbsHvt
- 3j+ZmrNL8ox1gB1DLNPN8bGorRJ6/K8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-uzkN4PWvNvOatEmiu57oig-1; Mon, 28 Jun 2021 03:29:19 -0400
-X-MC-Unique: uzkN4PWvNvOatEmiu57oig-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z127-20020a1c7e850000b02901e46e4d52c0so4726459wmc.6
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 00:29:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/8t2rBvxAJVBCFp9NhUtYp/qqHCS/ZBRKQ67Z9mey/Q=;
- b=I8dZyvN/A1rjMFqsoJvImRixIs5xhnGd3mupPjJGxGfVwOG+5LlwknYOjz/ySRF151
- Ma4szPjRCnnqPbtJlVBDuOq3crkWxVAR/dOrcHGlfRFvJ2kJkUDw7I1VAl8VS+EnjgaV
- /DrQz8xmx5e9e/FNA333GwVGlGVT8FlTur8bR8ZPChOoSa27n7bbs8IhNdacEjxznCwj
- nb1aBF5cR5d2aW5i/q7VSre68sWWU1aTro19yo6f4rUqCpsOoyrMc9ksCI/cirTZta0W
- EFevTDdYhDNifjFSZ+jMm7wL3F89Dxbnd1c16PxiBrEERxo1nrEOImvmRCcBsU8BSaOu
- 8iSQ==
-X-Gm-Message-State: AOAM531zUvLv3Q/AQK/OZ5q/GGdQMJbkuw4EIiAUw4NIrwE4H9YddO7q
- bi0s3LFryq2DAroz5T12jCnD0nsKWLtIQpxd2A1hn4+f9wPxTvXY2pytX2qwxKzXKjabl+k/tT3
- q4hU3JAldqExTmyw=
-X-Received: by 2002:a7b:c0d6:: with SMTP id s22mr24392017wmh.52.1624865358111; 
- Mon, 28 Jun 2021 00:29:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCxk8/FeN6botVPypJp8Y62MOK8/2Tt7Ie6Xp6xdbJtivM/aipquAkAGFo0xIJbY0fWZR1Vg==
-X-Received: by 2002:a7b:c0d6:: with SMTP id s22mr24392000wmh.52.1624865357939; 
- Mon, 28 Jun 2021 00:29:17 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575ea7.dip0.t-ipconnect.de.
- [217.87.94.167])
- by smtp.gmail.com with ESMTPSA id n8sm20211205wmc.45.2021.06.28.00.29.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jun 2021 00:29:17 -0700 (PDT)
-Subject: Re: [PATCH 3/3] cirrus: delete FreeBSD and macOS jobs
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210625172211.451010-1-berrange@redhat.com>
- <20210625172211.451010-4-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <f82b1366-a505-ae0c-e218-5560231ca6b0@redhat.com>
-Date: Mon, 28 Jun 2021 09:29:16 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lxlk2-00035T-NX
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:31:40 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.27])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 95C472819FC;
+ Mon, 28 Jun 2021 09:31:35 +0200 (CEST)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.10; Mon, 28 Jun
+ 2021 09:31:34 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006f23180ba-c59d-4742-8f3c-1db38ebebc84,
+ A5942444232ACF3D755B1638A42E9F49C81D83AA) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [RFC PATCH 05/10] hw/sd: Add sd_cmd_illegal() handler
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ <qemu-devel@nongnu.org>
+References: <20210624142209.1193073-1-f4bug@amsat.org>
+ <20210624142209.1193073-6-f4bug@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <780c3813-9440-1ac9-1cd6-a8c3674599a8@kaod.org>
+Date: Mon, 28 Jun 2021 09:31:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210625172211.451010-4-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210624142209.1193073-6-f4bug@amsat.org>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.696,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.765, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: acd288f5-7322-403c-af41-05eac7faadd5
+X-Ovh-Tracer-Id: 8851543592665778982
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfeehfedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo52.mail-out.ovh.net
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.765,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,92 +71,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ed Maste <emaste@freebsd.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Bin Meng <bin.meng@windriver.com>,
+ Joel Stanley <joel@jms.id.au>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/2021 19.22, Daniel P. Berrangé wrote:
-> The builds for these two platforms can now be performed from GitLab CI
-> using cirrus-run.
+On 6/24/21 4:22 PM, Philippe Mathieu-Daudé wrote:
+> Log illegal commands as GUEST_ERROR.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Note: we are logging back the SDIO commands (CMD5, CMD52-54).
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   .cirrus.yml | 55 -----------------------------------------------------
->   1 file changed, 55 deletions(-)
+>  hw/sd/sd.c | 57 ++++++++++++++++++++++--------------------------------
+>  1 file changed, 23 insertions(+), 34 deletions(-)
 > 
-> diff --git a/.cirrus.yml b/.cirrus.yml
-> index f4bf49b704..02c43a074a 100644
-> --- a/.cirrus.yml
-> +++ b/.cirrus.yml
-> @@ -1,61 +1,6 @@
->   env:
->     CIRRUS_CLONE_DEPTH: 1
->   
-> -freebsd_12_task:
-> -  freebsd_instance:
-> -    image_family: freebsd-12-2
-> -    cpu: 8
-> -    memory: 8G
-> -  install_script:
-> -    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
-> -    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed
-> -          nettle perl5 pixman pkgconf png usbredir ninja
-> -  script:
-> -    - mkdir build
-> -    - cd build
-> -    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
-> -    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
-> -    - ../configure --enable-werror --disable-gnutls
-> -      || { cat config.log meson-logs/meson-log.txt; exit 1; }
-> -    - gmake -j$(sysctl -n hw.ncpu)
-> -    - gmake -j$(sysctl -n hw.ncpu) check V=1
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index ce1eec0374f..0215bdb3689 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -965,6 +965,14 @@ static sd_rsp_type_t sd_invalid_state_for_cmd(SDState *sd, SDRequest req)
+>      return sd_illegal;
+>  }
+>  
+> +static sd_rsp_type_t sd_cmd_illegal(SDState *sd, SDRequest req)
+> +{
+> +    qemu_log_mask(LOG_GUEST_ERROR, "%s: Unknown CMD%i\n",
+> +                  sd->proto->name, req.cmd);
+> +
+> +    return sd_illegal;
+> +}>  static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>  {
+>      uint32_t rca = 0x0000;
+> @@ -1017,15 +1025,10 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>  
+>      case 1:	/* CMD1:   SEND_OP_CMD */
+> -        if (!sd->spi)
+> -            goto bad_cmd;
 > -
-> -macos_task:
-> -  osx_instance:
-> -    image: catalina-base
-> -  install_script:
-> -    - brew install pkg-config python gnu-sed glib pixman make sdl2 bash ninja
-> -  script:
-> -    - mkdir build
-> -    - cd build
-> -    - ../configure --python=/usr/local/bin/python3 --enable-werror
-> -                   --extra-cflags='-Wno-error=deprecated-declarations'
-> -                   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-> -    - gmake -j$(sysctl -n hw.ncpu)
-> -    - gmake check-unit V=1
-> -    - gmake check-block V=1
-> -    - gmake check-qapi-schema V=1
-> -    - gmake check-softfloat V=1
-> -    - gmake check-qtest-x86_64 V=1
+>          sd->state = sd_transfer_state;
+>          return sd_r1;
+>  
+>      case 2:	/* CMD2:   ALL_SEND_CID */
+> -        if (sd->spi)
+> -            goto bad_cmd;
+>          switch (sd->state) {
+>          case sd_ready_state:
+>              sd->state = sd_identification_state;
+> @@ -1037,8 +1040,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>  
+>      case 3:	/* CMD3:   SEND_RELATIVE_ADDR */
+> -        if (sd->spi)
+> -            goto bad_cmd;
+>          switch (sd->state) {
+>          case sd_identification_state:
+>          case sd_standby_state:
+> @@ -1052,8 +1053,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>  
+>      case 4:	/* CMD4:   SEND_DSR */
+> -        if (sd->spi)
+> -            goto bad_cmd;
+>          switch (sd->state) {
+>          case sd_standby_state:
+>              break;
+> @@ -1063,9 +1062,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          }
+>          break;
+>  
+> -    case 5: /* CMD5: reserved for SDIO cards */
+> -        return sd_illegal;
 > -
-> -macos_xcode_task:
-> -  osx_instance:
-> -    # this is an alias for the latest Xcode
-> -    image: catalina-xcode
-> -  install_script:
-> -    - brew install pkg-config gnu-sed glib pixman make sdl2 bash ninja
-> -  script:
-> -    - mkdir build
-> -    - cd build
-> -    - ../configure --extra-cflags='-Wno-error=deprecated-declarations' --enable-modules
-> -                   --enable-werror --cc=clang || { cat config.log meson-logs/meson-log.txt; exit 1; }
-> -    - gmake -j$(sysctl -n hw.ncpu)
-> -    - gmake check-unit V=1
-> -    - gmake check-block V=1
-> -    - gmake check-qapi-schema V=1
-> -    - gmake check-softfloat V=1
-> -    - gmake check-qtest-x86_64 V=1
+>      case 6:	/* CMD6:   SWITCH_FUNCTION */
+>          switch (sd->mode) {
+>          case sd_data_transfer_mode:
+> @@ -1081,8 +1077,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>  
+>      case 7:	/* CMD7:   SELECT/DESELECT_CARD */
+> -        if (sd->spi)
+> -            goto bad_cmd;
+>          switch (sd->state) {
+>          case sd_standby_state:
+>              if (sd->rca != rca)
+> @@ -1212,8 +1206,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>  
+>      case 15:	/* CMD15:  GO_INACTIVE_STATE */
+> -        if (sd->spi)
+> -            goto bad_cmd;
+>          switch (sd->mode) {
+>          case sd_data_transfer_mode:
+>              if (sd->rca != rca)
+> @@ -1320,8 +1312,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>  
+>      case 26:	/* CMD26:  PROGRAM_CID */
+> -        if (sd->spi)
+> -            goto bad_cmd;
+>          switch (sd->state) {
+>          case sd_transfer_state:
+>              sd->state = sd_receivingdata_state;
+> @@ -1466,15 +1456,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          }
+>          break;
+>  
+> -    case 52 ... 54:
+> -        /* CMD52, CMD53, CMD54: reserved for SDIO cards
+> -         * (see the SDIO Simplified Specification V2.0)
+> -         * Handle as illegal command but do not complain
+> -         * on stderr, as some OSes may use these in their
+> -         * probing for presence of an SDIO card.
+> -         */
+> -        return sd_illegal;
 > -
->   windows_msys2_task:
->     timeout_in: 90m
->     windows_container:
+>      /* Application specific commands (Class 8) */
+>      case 55:	/* CMD55:  APP_CMD */
+>          switch (sd->state) {
+> @@ -1515,19 +1496,12 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>  
+>      case 58:    /* CMD58:   READ_OCR (SPI) */
+> -        if (!sd->spi) {
+> -            goto bad_cmd;
+> -        }
+>          return sd_r3;
+>  
+>      case 59:    /* CMD59:   CRC_ON_OFF (SPI) */
+> -        if (!sd->spi) {
+> -            goto bad_cmd;
+> -        }
+>          return sd_r1;
+>  
+>      default:
+> -    bad_cmd:
+>          qemu_log_mask(LOG_GUEST_ERROR, "SD: Unknown CMD%i\n", req.cmd);
+>          return sd_illegal;
+>      }
+> @@ -2114,10 +2088,25 @@ void sd_enable(SDState *sd, bool enable)
+>  
+>  static const SDProto sd_proto_spi = {
+>      .name = "SPI",
+> +    .cmd = {
+> +        [2 ... 4]   = sd_cmd_illegal,
+> +        [5]         = sd_cmd_illegal,
+> +        [7]         = sd_cmd_illegal,
+> +        [15]        = sd_cmd_illegal,
+> +        [26]        = sd_cmd_illegal,
+> +        [52 ... 54] = sd_cmd_illegal,
+> +    },
+>  };
+>  
+>  static const SDProto sd_proto_sd = {
+>      .name = "SD",
+> +    .cmd = {
+> +        [1]         = sd_cmd_illegal,
+> +        [5]         = sd_cmd_illegal,
+> +        [52 ... 54] = sd_cmd_illegal,
+> +        [58]        = sd_cmd_illegal,
+> +        [59]        = sd_cmd_illegal,
+> +    },
+>  };
+>  
+>  static void sd_instance_init(Object *obj)
 > 
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+
+Looks good. 
+
+I would start to move these commands in a sd_cmd.c file or sd_common.c
+may be.
+
+Thanks,
+
+C.
 
 
