@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DC43B6760
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 19:13:16 +0200 (CEST)
-Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4783B6764
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 19:13:45 +0200 (CEST)
+Received: from localhost ([::1]:53698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxuot-0001so-92
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 13:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33650)
+	id 1lxupM-0000TR-NR
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 13:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lxujC-0005Te-Np
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 13:07:22 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:38604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lxuj9-0005Vu-Rk
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 13:07:22 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id h4so15971494pgp.5
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 10:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=WNRb/HWX20aNjmPPLKY60jUJ6PU04+pJkw3m1FM7R38=;
- b=cAgdECPB+DYaHScR1KZve5e7T/Bso8pERijglQTvuco6fEZFXzafiff2+bhca5gC71
- W5vwFGPx3lJ8Hd4OXXe3TXC4bR+gT9TY4IGeQTRcCKUmQylFAJthyMU1/4tHyMSOy172
- 8iAS5hp1FAZZkHrlrzF5XArfMPG+KNaM31HJlEip62JixCZbwXw6ibddHdYj9Evpc//V
- X0EUHXgF4oKsfbVQEDtx+wsaHtQS+96mWHxSK6D3c82+x2x0DU8JHrzmFF8E3UOlTIrP
- j/fE3WtQh53bpu8+nDndkaRQ/bAwgTUc1Y809BNVo8vbDgG5LaV6eL7Qh2TfvUC+d+wY
- gTTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WNRb/HWX20aNjmPPLKY60jUJ6PU04+pJkw3m1FM7R38=;
- b=fHO89y67iuLkHf4SY1qoz663wen7AnETBwHCA6AoSDjV7LjS0GkW74Z1mFDpppE+Ld
- Up15w1ADL12zBtxD3eF5EvfR4IT2oNXlCPsG5EMCYF7az8BACOoSl6RXe5oALFQdklDA
- izaN9qYxp7DrMQ1SmW04x2byUivL9fN48Ko30Q45qtm3ppZ5lvfxn6X7wxDJyzl84Ap3
- enIKhpti51ZJ1iNIV6d/JfBzbNeqwXM7UMACinc27ef6MJfwlUiaF5E7YZjJmm8UYnpj
- hXLlaCYmT0U6k9tYGT5XMdDSdl6ME1QWR6pb/7wwojMgDRf7qfYB69ZNEbQLkGGx2bkY
- maNw==
-X-Gm-Message-State: AOAM533hL4EcwmVQo3sckWwHv5ntlIs/X0dfzIYsVYSIBlo+XDbiNS5F
- SpWKNotJdttRqir/RiMX8j01RfEHyHUZkw==
-X-Google-Smtp-Source: ABdhPJxyD45xmXhh3FKfgjyenqSlFaGaHqinFTNx80/VDd5GOVVqX96tmJjg84ZxOtxl6+Ld/wvsrg==
-X-Received: by 2002:aa7:8489:0:b029:2fb:4ce0:339c with SMTP id
- u9-20020aa784890000b02902fb4ce0339cmr25765933pfn.16.1624900038287; 
- Mon, 28 Jun 2021 10:07:18 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id t14sm15690492pfe.45.2021.06.28.10.07.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jun 2021 10:07:18 -0700 (PDT)
-Subject: Re: [PATCH 16/18] target/arm: Implement MVE long shifts by register
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210628135835.6690-1-peter.maydell@linaro.org>
- <20210628135835.6690-17-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <69b2a232-ebc8-f6f1-9d7f-1e93df6c543d@linaro.org>
-Date: Mon, 28 Jun 2021 10:07:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lxujm-00065s-BS; Mon, 28 Jun 2021 13:07:58 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:51503)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lxujk-0005u6-C0; Mon, 28 Jun 2021 13:07:58 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7A89A5C00B8;
+ Mon, 28 Jun 2021 13:07:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 28 Jun 2021 13:07:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=87SYpR2taVqsRxr2ayT30k8oZcO
+ LzjvkHdpy9ULfCfs=; b=bzGEA/udxUdaZ6aQP5Vngjl7QF0L5mQ10st7MfCcAZ5
+ oBEIw2B6lsOA3IDfezeHIhWNmSe+h2dXFOI33W1XbMyHreAD9UvWwjS9Lj6IvSdJ
+ 2RQlNPhng//cRHXMcpx4UX6PaD4ES3mBCcapuW1fk3S4uXgEI0tuwGKhDTzfrNzg
+ hnH1nKeBoevR7n57FJwZKNXZOvvM8K9BbDWUhyqmCmE3m5yEvcs30o/m+g/UAMyC
+ gF/UqZPod8yRKLQ2bNHz84e6YFEThIAmkX5+w7hB6qWbFCIT7qSGK7uAc34y3wRf
+ cNi0fWSJ32UG19d/r9Em3Ult7eI5lt/I6W0WeVFjVxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=87SYpR
+ 2taVqsRxr2ayT30k8oZcOLzjvkHdpy9ULfCfs=; b=LH15MQOUIXtGR5kqFvNf7j
+ MU+iH3a3odt2YCxiFwysuxmS34lYQznYw0N+1WoovUbvX78RNAyl/Q5biQgsPid3
+ QX2SHRKSoIP4Rt2EB11YTqEztTSSOS871Tj06/fQGNhmhb2cWN+lcrydWVlvBlEX
+ 50tXwFt5Fzgm+Yz2YXKINH+7JO3SCEP7rImiFZjjU3azBGxRF+7T2zwgEZ9EzdVw
+ ZLd1Dw8yf6c2tFlAYTCe8G9p3b/WcwPAqvKpbEOp9hu3wCIP6O0Rn+Og19ldNvUg
+ 6gSHwTq2ZYmGY/9aEAPvVpaOLOMdHndlC+5EICdSPBUY3x900l3NXE0PqWmcQH0A
+ ==
+X-ME-Sender: <xms:6gHaYFRncH1-gMja7yCDmJghC2YH6KBwdtX11G-DpoKOanXxovxHTw>
+ <xme:6gHaYOySF8dVh196D9ulrGh8mEPmN0Ix3_63LW6nNlNqB-8J5dK7Y6nB2Gd8dxwh2
+ 5RQFSjMVuN3nv9226Q>
+X-ME-Received: <xmr:6gHaYK3u-QMcxSs3zCeX3MlkJq3nAUBUnxMcgVtWjnroTBVXDXp9kKSwj_iZlyylmO_6uypa1hWVplIY8YY9ZTC5-jv80gZbEiX-MkqQfgs4qgBYpg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeehgedguddtkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
+ etveejudeileduffefjeegfffhuddvudffkeenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:6gHaYNB5OZCgHy2-2v-rXt6Su0VqR1BkORoTqESR9Fy64mKU9dld_w>
+ <xmx:6gHaYOiB7fMFZdPsr1qoeWc5pAvBp7f2lrP_fIa6TLxvSMegYNzNDg>
+ <xmx:6gHaYBpcnbHgwhiFmACABedRgs9b02E-4QcFend-iSVgY6Nm5SXoAA>
+ <xmx:6wHaYCiwe8EBit-N_qLi7ZYNDx5OnnitmLoxl2xHdMlz6ZxFzTTovQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 28 Jun 2021 13:07:52 -0400 (EDT)
+Date: Mon, 28 Jun 2021 19:07:51 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH] tests/qtest/nvme-test: add persistent memory region test
+Message-ID: <YNoB51AY9aV+w7rz@apples.localdomain>
+References: <CGME20210618103850epcas5p49b85b7dc6e5f14b03b2bf35c10b3bdda@epcas5p4.samsung.com>
+ <20210618103431.9951-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <20210628135835.6690-17-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QZrx6ju7nQYQqY14"
+Content-Disposition: inline
+In-Reply-To: <20210618103431.9951-1-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,22 +92,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/28/21 6:58 AM, Peter Maydell wrote:
-> +  LSLL_rr        1110101 0010 1 ... 0 ....  ... 1 0000 1101   @mve_shl_rr
-> +  ASRL_rr        1110101 0010 1 ... 0 ....  ... 1 0010 1101   @mve_shl_rr
-> +  UQRSHLL64_rr   1110101 0010 1 ... 1 ....  ... 1 0000 1101   @mve_shl_rr
-> +  SQRSHRL64_rr   1110101 0010 1 ... 1 ....  ... 1 0010 1101   @mve_shl_rr
-> +  UQRSHLL48_rr   1110101 0010 1 ... 1 ....  ... 1 1000 1101   @mve_shl_rr
-> +  SQRSHRL48_rr   1110101 0010 1 ... 1 ....  ... 1 1010 1101   @mve_shl_rr
 
-Looks like these 6 could be inside [].
+--QZrx6ju7nQYQqY14
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Either way,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Jun 18 16:04, Gollu Appalanaidu wrote:
+>This will test the PMR functionality.
+>
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+> tests/qtest/nvme-test.c | 78 ++++++++++++++++++++++++++++++++++++++++-
+> 1 file changed, 77 insertions(+), 1 deletion(-)
+>
+>diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
+>index d32c953a38..6d557be6ca 100644
+>--- a/tests/qtest/nvme-test.c
+>+++ b/tests/qtest/nvme-test.c
+>@@ -13,6 +13,7 @@
+> #include "libqos/libqtest.h"
+> #include "libqos/qgraph.h"
+> #include "libqos/pci.h"
+>+#include "include/block/nvme.h"
+>
+> typedef struct QNvme QNvme;
+>
+>@@ -21,6 +22,9 @@ struct QNvme {
+>     QPCIDevice dev;
+> };
+>
+>+static char *t_path;
+>+#define TEST_IMAGE_SIZE (2 * 1024 * 1024)
+>+
+> static void *nvme_get_driver(void *obj, const char *interface)
+> {
+>     QNvme *nvme =3D obj;
+>@@ -66,12 +70,77 @@ static void nvmetest_oob_cmb_test(void *obj, void *dat=
+a, QGuestAllocator *alloc)
+>     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=3D, 0x4=
+4332211);
+> }
+>
+>+static void nvmetest_pmr_reg_test(void *obj, void *data, QGuestAllocator =
+*alloc)
+>+{
+>+    QNvme *nvme =3D obj;
+>+    QPCIDevice *pdev =3D &nvme->dev;
+>+    QPCIBar pmr_bar, nvme_bar;
+>+    uint32_t pmrcap, pmrsts;
+>+
+>+    qpci_device_enable(pdev);
+>+    pmr_bar =3D qpci_iomap(pdev, 4, NULL);
+>+
+>+    /* Without Enabling PMRCTL check bar enablemet */
+>+    qpci_io_writel(pdev, pmr_bar, 0, 0xccbbaa99);
+>+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=3D, 0x99);
+>+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=3D, 0xaa99);
+>+
+>+    /* Map NVMe Bar Register to Enable the Mem Region */
+>+    nvme_bar =3D qpci_iomap(pdev, 0, NULL);
+>+
+>+    pmrcap =3D qpci_io_readl(pdev, nvme_bar, 0xe00);
+>+    g_assert_cmpint(NVME_PMRCAP_RDS(pmrcap), =3D=3D, 0x1);
+>+    g_assert_cmpint(NVME_PMRCAP_WDS(pmrcap), =3D=3D, 0x1);
+>+    g_assert_cmpint(NVME_PMRCAP_BIR(pmrcap), =3D=3D, 0x4);
+>+    g_assert_cmpint(NVME_PMRCAP_PMRWBM(pmrcap), =3D=3D, 0x2);
+>+    g_assert_cmpint(NVME_PMRCAP_CMSS(pmrcap), =3D=3D, 0x1);
+>+
+>+    /* Enable PMRCTRL */
+>+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x1);
+>+
+>+    qpci_io_writel(pdev, pmr_bar, 0, 0x44332211);
+>+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), =3D=3D, 0x11);
+>+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), =3D=3D, 0x2211);
+>+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), =3D=3D, 0x44332211);
+>+
+>+    pmrsts =3D qpci_io_readl(pdev, nvme_bar, 0xe08);
+>+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), =3D=3D, 0x0);
+>+
+>+    /* Disable PMRCTRL */
+>+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x0);
+>+
+>+    qpci_io_writel(pdev, pmr_bar, 0, 0x88776655);
+>+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=3D, 0x55);
+>+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=3D, 0x6655);
+>+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), !=3D, 0x88776655);
+>+
+>+    pmrsts =3D qpci_io_readl(pdev, nvme_bar, 0xe08);
+>+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), =3D=3D, 0x1);
+>+
+>+    qpci_iounmap(pdev, nvme_bar);
+>+    qpci_iounmap(pdev, pmr_bar);
+>+}
+>+
+> static void nvme_register_nodes(void)
+> {
+>+    int fd, ret;
+>+    t_path =3D g_strdup("/tmp/qtest.XXXXXX");
+>+
+>+    /* Create a temporary raw image*/
+>+    fd =3D mkstemp(t_path);
+>+    g_assert(fd >=3D 0);
+>+    ret =3D ftruncate(fd, TEST_IMAGE_SIZE);
+>+    g_assert(ret =3D=3D 0);
+>+    close(fd);
+>+
+>+    char *pmr_cmd_line =3D g_strdup_printf("-object memory-backend-file,i=
+d=3Dpmr0,"
+>+                                         "share=3Don,mem-path=3D%s,size=
+=3D8", t_path);
+>+
+>     QOSGraphEdgeOptions opts =3D {
+>         .extra_device_opts =3D "addr=3D04.0,drive=3Ddrv0,serial=3Dfoo",
+>         .before_cmd_line =3D "-drive id=3Ddrv0,if=3Dnone,file=3Dnull-co:/=
+/,"
+>-                           "file.read-zeroes=3Don,format=3Draw",
+>+                           "file.read-zeroes=3Don,format=3Draw ",
+>+                           pmr_cmd_line,
+>     };
+>
+>     add_qpci_address(&opts, &(QPCIAddress) { .devfn =3D QPCI_DEVFN(4, 0) =
+});
+>@@ -83,6 +152,13 @@ static void nvme_register_nodes(void)
+>     qos_add_test("oob-cmb-access", "nvme", nvmetest_oob_cmb_test, &(QOSGr=
+aphTestOptions) {
+>         .edge.extra_device_opts =3D "cmb_size_mb=3D2"
+>     });
+>+
+>+    qos_add_test("pmr-test-access", "nvme", nvmetest_pmr_reg_test,
+>+                 &(QOSGraphTestOptions) {
+>+        .edge.extra_device_opts =3D "pmrdev=3Dpmr0"
+>+    });
+>+
+>+    unlink(t_path);
+> }
+>
+> libqos_init(nvme_register_nodes);
+>--=20
+>2.17.1
+>
 
+An extra test is always nice and looks fine,
 
-r~
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--QZrx6ju7nQYQqY14
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDaAeQACgkQTeGvMW1P
+DelXkwf9HqAYRtLSZvUM+PMjjt53XrARFI/DGtdJWMRA3Iu8q6g94q1PUwgvvl0P
+UtaOUXtjHYufA+FCcgiqujd5uMX29PQ8GhW46xW6CER7R10p2HtoEHSV+/vfKW18
+PldDqNI+UX0G46Nk7Abgy8deV5l9jk+9ixxMSOYtJRwwQnPF3tAqZxpCxCpSUJM1
+DjIMeZZXm2pNqhvJ+KIH6QryP3kmLrcGK/1P1EIWM8NWc12wXJwxtlQBnMqKh2rN
+PzxXuNTEUMB9ogOzg2iHm4zdm1r9yOrBdtz4y1R7347hHVjQkI903e40UOCij+EA
+6obbLU4Hybx8W5Te+9/rGxBFphVzwQ==
+=Ib88
+-----END PGP SIGNATURE-----
+
+--QZrx6ju7nQYQqY14--
 
