@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB2B3B5E31
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:42:05 +0200 (CEST)
-Received: from localhost ([::1]:36424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA963B5E15
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:34:30 +0200 (CEST)
+Received: from localhost ([::1]:43094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxqaS-0007R8-R2
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56262)
+	id 1lxqT7-0001GI-PY
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lxqQt-0006mM-7M
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37499)
+ id 1lxqQy-0006qu-4N
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lxqQn-00036z-AI
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:09 -0400
+ id 1lxqQw-00039l-6q
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624883524;
+ s=mimecast20190719; t=1624883533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bghjg58GX0rJDAuujFUtFRgJCOvD2fY4XUZEchNMw4w=;
- b=Uq88ncwJdnBubn5UvOjezCArLcZxZFhkoXIfrwF+O6ESzTNcDalbmXyf5XOSwYTOU5gDWf
- 0FW+OShar1pHg1yk/Wk+/CWyuwx0kUSy41NJXvGVRl4gQgAKM5UTNc8oynsld4bwSpVxIq
- 5FgUBfPq10XNS7KVOl/HBNQHoAoL+hQ=
+ bh=lMU2fH+LADcBLsYJQ+MPbwl9mzxsilO2vHXhikPhPtY=;
+ b=MZ1fbTjazasuvTC7d98rzPzIz25hghu/G1jS5CErCQ11UFiNgCojHqS8vSMgQM3pMQOlcA
+ BPLdeXhwb2uNai6zP6o/pd6B5Xssha59XmaSZm9CkPzMz+9fapbQDBxBcSBQYhaAkd3/s7
+ eq0GCp7YgwybTa/kq0FoLAzldzlaRVI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-Wk0oXd13OlGbRDEhQF8z7A-1; Mon, 28 Jun 2021 08:32:01 -0400
-X-MC-Unique: Wk0oXd13OlGbRDEhQF8z7A-1
+ us-mta-299-XRpyj05yNcC7pZ3-4SHuNg-1; Mon, 28 Jun 2021 08:32:09 -0400
+X-MC-Unique: XRpyj05yNcC7pZ3-4SHuNg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17530100C685;
- Mon, 28 Jun 2021 12:31:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76EB3BBEF8;
+ Mon, 28 Jun 2021 12:31:59 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-114-69.ams2.redhat.com
  [10.36.114.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9E0D19C46;
- Mon, 28 Jun 2021 12:31:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61A7019C46;
+ Mon, 28 Jun 2021 12:31:57 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 01/16] python: qemu: add timer parameter for qmp.accept
- socket
-Date: Mon, 28 Jun 2021 14:31:35 +0200
-Message-Id: <20210628123150.56567-2-eesposit@redhat.com>
+Subject: [PATCH v7 02/16] python: Reduce strictness of pylint's duplicate-code
+ check
+Date: Mon, 28 Jun 2021 14:31:36 +0200
+Message-Id: <20210628123150.56567-3-eesposit@redhat.com>
 In-Reply-To: <20210628123150.56567-1-eesposit@redhat.com>
 References: <20210628123150.56567-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -81,7 +81,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
  Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -89,102 +88,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also add a new _qmp_timer field to the QEMUMachine class.
+From: John Snow <jsnow@redhat.com>
 
-Let's change the default socket timeout to None, so that if
-a subclass needs to add a timer, it can be done by modifying
-this private field.
+Pylint prior to 2.8.3 (We pin at >= 2.8.0) includes function and method
+signatures as part of its duplicate checking algorithm. This check does
+not listen to pragmas, so the only way to disable it is to turn it off
+completely or increase the minimum duplicate lines so that it doesn't
+trigger for functions with long, multi-line signatures.
 
-At the same time, restore the timer to be 15 seconds in iotests.py, to
-give an upper bound to the QMP monitor test command execution.
+When we decide to upgrade to pylint 2.8.3 or greater, we will be able to
+use 'ignore-signatures = true' to the config instead.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+I'd prefer not to keep us on the very bleeding edge of pylint if I can
+help it -- 2.8.3 came out only three days ago at time of writing.
+
+See: https://github.com/PyCQA/pylint/pull/4474
+Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine/machine.py | 7 +++++--
- python/qemu/machine/qtest.py   | 5 +++--
- tests/qemu-iotests/iotests.py  | 3 ++-
- 3 files changed, 10 insertions(+), 5 deletions(-)
+ python/setup.cfg | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index b62435528e..fdf2fc0e9c 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -95,7 +95,8 @@ def __init__(self,
-                  socket_scm_helper: Optional[str] = None,
-                  sock_dir: Optional[str] = None,
-                  drain_console: bool = False,
--                 console_log: Optional[str] = None):
-+                 console_log: Optional[str] = None,
-+                 qmp_timer: Optional[float] = None):
-         '''
-         Initialize a QEMUMachine
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 85cecbb41b..0a57aca191 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -103,6 +103,11 @@ good-names=i,
+ # Ignore imports when computing similarities.
+ ignore-imports=yes
  
-@@ -109,6 +110,7 @@ def __init__(self,
-         @param sock_dir: where to create socket (defaults to base_temp_dir)
-         @param drain_console: (optional) True to drain console socket to buffer
-         @param console_log: (optional) path to console log file
-+        @param qmp_timer: (optional) default QMP socket timeout
-         @note: Qemu process is not started until launch() is used.
-         '''
-         # Direct user configuration
-@@ -116,6 +118,7 @@ def __init__(self,
-         self._binary = binary
-         self._args = list(args)
-         self._wrapper = wrapper
-+        self._qmp_timer = qmp_timer
- 
-         self._name = name or "qemu-%d" % os.getpid()
-         self._base_temp_dir = base_temp_dir
-@@ -333,7 +336,7 @@ def _pre_launch(self) -> None:
- 
-     def _post_launch(self) -> None:
-         if self._qmp_connection:
--            self._qmp.accept()
-+            self._qmp.accept(self._qmp_timer)
- 
-     def _post_shutdown(self) -> None:
-         """
-diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
-index 93700684d1..33a86a9d69 100644
---- a/python/qemu/machine/qtest.py
-+++ b/python/qemu/machine/qtest.py
-@@ -115,14 +115,15 @@ def __init__(self,
-                  name: Optional[str] = None,
-                  base_temp_dir: str = "/var/tmp",
-                  socket_scm_helper: Optional[str] = None,
--                 sock_dir: Optional[str] = None):
-+                 sock_dir: Optional[str] = None,
-+                 qmp_timer: Optional[float] = None):
-         if name is None:
-             name = "qemu-%d" % os.getpid()
-         if sock_dir is None:
-             sock_dir = base_temp_dir
-         super().__init__(binary, args, name=name, base_temp_dir=base_temp_dir,
-                          socket_scm_helper=socket_scm_helper,
--                         sock_dir=sock_dir)
-+                         sock_dir=sock_dir, qmp_timer=qmp_timer)
-         self._qtest: Optional[QEMUQtestProtocol] = None
-         self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
- 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 89663dac06..6b0db4ce54 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -570,10 +570,11 @@ class VM(qtest.QEMUQtestMachine):
- 
-     def __init__(self, path_suffix=''):
-         name = "qemu%s-%d" % (path_suffix, os.getpid())
-+        timer = 15.0
-         super().__init__(qemu_prog, qemu_opts, name=name,
-                          base_temp_dir=test_dir,
-                          socket_scm_helper=socket_scm_helper,
--                         sock_dir=sock_dir)
-+                         sock_dir=sock_dir, qmp_timer=timer)
-         self._num_drives = 0
- 
-     def add_object(self, opts):
++# Minimum lines number of a similarity.
++# TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.
++min-similarity-lines=6
++
++
+ [isort]
+ force_grid_wrap=4
+ force_sort_within_sections=True
 -- 
 2.31.1
 
