@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E96E3B63AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:57:14 +0200 (CEST)
-Received: from localhost ([::1]:50326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADBF3B63AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:57:39 +0200 (CEST)
+Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxshF-0004zc-NI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
+	id 1lxshe-0005iV-Ag
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lxsfM-0002Ss-F2
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:55:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33858)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lxsfx-0003hB-MC
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:55:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lxsfF-0004HX-NM
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:55:15 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lxsfv-0004pT-Tq
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:55:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624892105;
+ s=mimecast20190719; t=1624892151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=44GqLlX3J+6C/s7Q19SARKDqVBTs4IKCbcLEGhHNXyU=;
- b=DAvjvG8WfPEQZKglb6TeaKf/1WBFG6z0UBhSu834LQJhvtEmGm7oSz+W6/MZmlkbzrYd2X
- IAh3K2XqDNLRqT7Pqls3MPVjPxSIoe5mM+y7lV2Lq020d6bNDYgMRdHYLabBZDG7Fqxe89
- jqc0kEEAN1SQtOWyHsMVhhWX594Bc5s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-CKB7Y65eNqu_mWXEY3ztqQ-1; Mon, 28 Jun 2021 10:55:03 -0400
-X-MC-Unique: CKB7Y65eNqu_mWXEY3ztqQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2D951054F9C;
- Mon, 28 Jun 2021 14:55:01 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-225.rdu2.redhat.com [10.10.115.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E8B660C13;
- Mon, 28 Jun 2021 14:54:54 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 9C37722054F; Mon, 28 Jun 2021 10:54:53 -0400 (EDT)
-Date: Mon, 28 Jun 2021 10:54:53 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH v7 1/7] virtiofsd: Fix fuse setxattr() API
- change issue
-Message-ID: <20210628145453.GA1818333@redhat.com>
-References: <20210622150852.1507204-1-vgoyal@redhat.com>
- <20210622150852.1507204-2-vgoyal@redhat.com>
- <YNng0CPIFHxDIE3a@work-vm>
+ bh=wIXNaYag5SlNACVwuwbCc7mT5noDYGj9XV1/sT/Pwqc=;
+ b=ZOfFf6jqdTc7BMLeCCan/yfLkj5Chi3Oa1Mg2bRXRflRk/nqOLElnZS/dfHsXCFKpkES2A
+ qUOHhQwetjWnEBlzoSl6/Doyur70vVaLdp7s8M+UtMcf7ksFrVODJpgRrRFoe+x5oU8+hq
+ RM6fQhuD2VgfC9LpHLyc8T5MZTfKtzY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-3a-3e8vMOTSexXrkuxbEHQ-1; Mon, 28 Jun 2021 10:55:48 -0400
+X-MC-Unique: 3a-3e8vMOTSexXrkuxbEHQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ ds1-20020a0564021cc1b02903956bf3b50cso1242798edb.8
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 07:55:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wIXNaYag5SlNACVwuwbCc7mT5noDYGj9XV1/sT/Pwqc=;
+ b=uiid95YwOo3k87+RhbJWjfnckNhVWa1TDJ5a4vmbqMtUmaIDPak3oCdbS9ALDWBumb
+ pzCZlbV5uafqLtXsl5N91kMzeSChMeOaf7zHnw1UkEdxRkTO1DRGCW9Ql1dG7aSddANK
+ TmywTwJ2f2C58SEvsJ3W0MYaOjdj7DHzuXPE8tzZLZDDQklZcp1WpsNN5kswFpdKBxPA
+ /eLNCpzJmMDQB7cOtjwZpgeMRdii7+bjopkWne/V0ahweSzv1VRCUYjJEHs6L3V5a+zD
+ 195MPvriuX4HGnKJIfWcXgGjI/7CMjVx96+KGNT9hlWml7JTWo50JLrdB1ISYHYtBE27
+ CdTw==
+X-Gm-Message-State: AOAM5321nevWWoCajLOlL1kGtOETOhGfmCn0PxKeT+my0WrGL0jfBlj6
+ lK1oF/pYG7BDhszNGq+hklpg3dzGROwBVf8mhl8dfGG0oCMrGoaf3pDm3FQ2SBJUtn26A+8oEuc
+ wkl4qPbERJSjYtN8=
+X-Received: by 2002:a05:6402:3507:: with SMTP id
+ b7mr34008247edd.66.1624892147578; 
+ Mon, 28 Jun 2021 07:55:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIX7fPGXexukjAqP6Vjdu7zdBQ6X2ENHTNIALQ+D2OVT41JcWIkNSTfkx9BLM+oETx/atW+Q==
+X-Received: by 2002:a05:6402:3507:: with SMTP id
+ b7mr34008230edd.66.1624892147424; 
+ Mon, 28 Jun 2021 07:55:47 -0700 (PDT)
+Received: from gator (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id u4sm6946484eje.81.2021.06.28.07.55.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 07:55:46 -0700 (PDT)
+Date: Mon, 28 Jun 2021 16:55:44 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 0/4] docs: improve -smp documentation
+Message-ID: <20210628145544.6bsubol7ousdlbzl@gator>
+References: <20210628113047.462498-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YNng0CPIFHxDIE3a@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210628113047.462498-1-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,99 +98,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Nikolaus Rath <Nikolaus@rath.org>,
- qemu-devel@nongnu.org, miklos@szeredi.hu
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "wangyanan \(Y\)" <wangyanan55@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 28, 2021 at 03:46:40PM +0100, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > With kernel header updates fuse_setxattr_in struct has grown in size.
-> > But this new struct size only takes affect if user has opted in
-> > for fuse feature FUSE_SETXATTR_EXT otherwise fuse continues to
-> > send "fuse_setxattr_in" of older size. Older size is determined
-> > by FUSE_COMPAT_SETXATTR_IN_SIZE.
-> > 
-> > Fix this. If we have not opted in for FUSE_SETXATTR_EXT, then
-> > expect that we will get fuse_setxattr_in of size FUSE_COMPAT_SETXATTR_IN_SIZE
-> > and not sizeof(struct fuse_sexattr_in).
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+On Mon, Jun 28, 2021 at 12:30:43PM +0100, Daniel P. Berrangé wrote:
+> This is a spin off from this thread:
 > 
-> Yeh it's a bit of a grim fix, but I think it's the best we can do, and
-> we need to get it in since the headers have already been merged.
-> (I don't think libfuse has a fix for this in yet itself, but it might
-> survive because it doesn't bother copying the data like we do with
-> mbuf).
-
-[ CC Niklaus Rath]
-
-libfuse will need a fix as well once they move to 5.13 kernel headers.
-As of now they seem to be still working with 5.2 kernel headers.
-
-commit 249942f6411042c4af18bd10438da34801cce02b
-Author: Kirill Smelkov <kirr@nexedi.com>
-Date:   Tue Jul 9 23:54:09 2019 +0300
-
-    Sync fuse_kernel.h with Linux 5.2 (#433)
-
-Thanks
-Vivek
-
+>   https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg06135.html
 > 
+> to improve the documentation of the current behaviour of -smp
+> arg. In that thread it is suggested that we change the behaviour
+> to prefer use of cores over sockets, when topology is omitted. This
+> documentation update explicitly notes that default topology is liable
+> to change, to allow for this enhancement.
 > 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Daniel P. Berrangé (4):
+>   docs: fix typo s/Intel/AMD/ in CPU model notes
+>   qemu-options: re-arrange CPU topology options
+>   qemu-options: tweak to show that CPU count is optional
+>   qemu-options: rewrite help for -smp options
 > 
-> > ---
-> >  tools/virtiofsd/fuse_common.h   | 5 +++++
-> >  tools/virtiofsd/fuse_lowlevel.c | 7 ++++++-
-> >  2 files changed, 11 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-> > index fa9671872e..0c2665b977 100644
-> > --- a/tools/virtiofsd/fuse_common.h
-> > +++ b/tools/virtiofsd/fuse_common.h
-> > @@ -372,6 +372,11 @@ struct fuse_file_info {
-> >   */
-> >  #define FUSE_CAP_HANDLE_KILLPRIV_V2 (1 << 28)
-> >  
-> > +/**
-> > + * Indicates that file server supports extended struct fuse_setxattr_in
-> > + */
-> > +#define FUSE_CAP_SETXATTR_EXT (1 << 29)
-> > +
-> >  /**
-> >   * Ioctl flags
-> >   *
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> > index 7fe2cef1eb..c2b6ff1686 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > @@ -1419,8 +1419,13 @@ static void do_setxattr(fuse_req_t req, fuse_ino_t nodeid,
-> >      struct fuse_setxattr_in *arg;
-> >      const char *name;
-> >      const char *value;
-> > +    bool setxattr_ext = req->se->conn.want & FUSE_CAP_SETXATTR_EXT;
-> >  
-> > -    arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
-> > +    if (setxattr_ext) {
-> > +        arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
-> > +    } else {
-> > +        arg = fuse_mbuf_iter_advance(iter, FUSE_COMPAT_SETXATTR_IN_SIZE);
-> > +    }
-> >      name = fuse_mbuf_iter_advance_str(iter);
-> >      if (!arg || !name) {
-> >          fuse_reply_err(req, EINVAL);
-> > -- 
-> > 2.25.4
-> > 
+>  docs/system/cpu-models-x86.rst.inc |  2 +-
+>  qemu-options.hx                    | 37 ++++++++++++++++++++----------
+>  2 files changed, 26 insertions(+), 13 deletions(-)
+> 
 > -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 2.31.1
 > 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://listman.redhat.com/mailman/listinfo/virtio-fs
-> 
+>
+
+For the series
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
