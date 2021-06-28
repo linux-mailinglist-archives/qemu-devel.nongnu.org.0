@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38E63B6A92
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 23:45:43 +0200 (CEST)
-Received: from localhost ([::1]:50576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088193B6A95
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 23:50:03 +0200 (CEST)
+Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxz4Y-00035Z-HS
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 17:45:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47016)
+	id 1lxz8k-0005YG-3s
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 17:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lxz39-0002KL-Hq
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:44:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48039)
+ id 1lxz7p-0004nT-1Z
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:49:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lxz38-0007vy-0X
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:44:15 -0400
+ id 1lxz7n-0002cI-BD
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:49:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624916653;
+ s=mimecast20190719; t=1624916942;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6gj4BxTt2hFmG/BNRmcErmroRbvSL2Gnscjma8Uczng=;
- b=JOJee/mn11XcF77TE7YL03MbPCAcZszr6TjfHlESXBTigqU6DJ//+BY8etdSfNsOd9VddO
- j40pzbK2b3Cu6ehUWSmZhbTvdb2uwpRWITtQW7VYM2yrv2ixO3+ZxqKTCa1JeIPZ8RSxXW
- J+qJVSDJdYFp+1ZMJo3oURBspZVp17k=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-AtOGewSpMymCxP3hp51O6w-1; Mon, 28 Jun 2021 17:44:12 -0400
-X-MC-Unique: AtOGewSpMymCxP3hp51O6w-1
-Received: by mail-pj1-f72.google.com with SMTP id
- cv22-20020a17090afd16b029017071bb3b48so786887pjb.9
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 14:44:12 -0700 (PDT)
+ bh=gyWkcjKyX1bixNGRl3UPSY0zXBpBq59WeWMKwrxNcpY=;
+ b=NeqR5FhD6/5ughD+kDKRwain0xMpH7tZzPP/wSM13ZnHufF1UnO+BMZiSQiLnyLUMPhrMa
+ iRY9/mEFGgH0d9fcg6q9JJTInoFYxRFt2GwK/pUEvR9eCMpK4nNqztkdWhbEzLzRVHONh/
+ Q9CYI/6zS8HsKgcghsUy04tWJaAVfTM=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-593-NmTtTd9jNRKoV08Eg65dSQ-1; Mon, 28 Jun 2021 17:48:59 -0400
+X-MC-Unique: NmTtTd9jNRKoV08Eg65dSQ-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ o9-20020a6561490000b0290226fc371410so11730546pgv.8
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 14:48:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=6gj4BxTt2hFmG/BNRmcErmroRbvSL2Gnscjma8Uczng=;
- b=NY6i4l6UJ8Rz/ECKM5ZG8OY1KQ2StF5BcxSmgY9iVizfgJW0FjHHVFn+7f7dzS0HOw
- Se63riF7LV6mYGX+eDNqq0GS3vHnAow2ucJ+Efj6/+qQvTCgtFmmzphxNc9atg06Govq
- 2P0xQjiC7CxRFmtiYtu1O9F7JvpHpy0EmHVOaNpMVztq+S2z3hz93yDEEmot/FtNovem
- 73DJZd0yOFEzVzoQ1DRTzJdf72oTiBTbf6DxA0Jp/1pegeWxbiujtbAlTgh1eS8dantO
- UZc/Kd0PtRYBHIl/gDhtobjdmTYJq/Elj+oG/9yA6ohEYfkDR+G6hqLEoLZALLc/KDdm
- 7Kfw==
-X-Gm-Message-State: AOAM533Ce1JPSpnine7whD7ChrGq6ebmTeNJ+GVZ2Y/Ofw6v47mo4jmN
- M6NYOfLlURYZ7Mt3uP9WGoCTqQg5nVxMZD0gB0rZ0zbUbAhbYgE0B+cNG7rPKVCrzni0O0apEEF
- 2DGt+UJLZQfJU4Bo=
-X-Received: by 2002:a63:312:: with SMTP id 18mr25273925pgd.33.1624916651290;
- Mon, 28 Jun 2021 14:44:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpOSKisK50kXjZ5kX8Bw/rS/SEJTyjic1pUTIlX0CMH3fszPzyYDq6fzKv5U/QNKrU/cEFxg==
-X-Received: by 2002:a63:312:: with SMTP id 18mr25273910pgd.33.1624916651091;
- Mon, 28 Jun 2021 14:44:11 -0700 (PDT)
+ bh=gyWkcjKyX1bixNGRl3UPSY0zXBpBq59WeWMKwrxNcpY=;
+ b=MuxhCOFV0sRrDoqq0cv/mnlTmLcxkSsXmuWHlKDug64eOdCOu0Vz7t6Oh/XFrzgLeX
+ hNKg7FwRq2HSXPdKARfhuIssB5HuHVi0wsH4ImQIOPehrk74Ug4p5pOWdOzVTgV6YDAv
+ FKWbgBmxST2NxeCU65CkL0Yq7GAxKTUccJbd7jVTMWlwIgM65mFh2RWsHnqOHhv/27v/
+ SrDib10XTZb+g4V56STVaD00hkEchYLnloaCNA9PqxCVLXURMo74qZI5hEca2FGKW3u9
+ SehU1w0ZspR2kMH6g6jUJUfHHZkyea3i/3DLB3tJ5UPFW7iNKodPq/JR09njk+o4nfOs
+ tQ+A==
+X-Gm-Message-State: AOAM53126LNhoXVi6W3ijudh0nJr7XUE1gXCjtyCfhktWwhcyrlLJ7pV
+ CVHYT2nI2OfV6t1HVMASeIFTjwHaWpPc2L5mRVpZNzid9aL4aMQCfU9F7/rCLjNAzfE3+6MJMAK
+ xasbi9vkjSmb41Vs=
+X-Received: by 2002:a65:61ad:: with SMTP id i13mr25145461pgv.345.1624916938064; 
+ Mon, 28 Jun 2021 14:48:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfM2gxgUjbHQhYtZynY8JTLzrQQgDzo573rPOkmj06UAKvj+8ZwJnSyky8goO35dMwz4aVtw==
+X-Received: by 2002:a65:61ad:: with SMTP id i13mr25145450pgv.345.1624916937810; 
+ Mon, 28 Jun 2021 14:48:57 -0700 (PDT)
 Received: from wainer-laptop.localdomain ([179.105.223.44])
- by smtp.gmail.com with ESMTPSA id k25sm15134192pfa.213.2021.06.28.14.44.07
+ by smtp.gmail.com with ESMTPSA id v13sm506819pja.44.2021.06.28.14.48.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jun 2021 14:44:10 -0700 (PDT)
-Subject: Re: [PATCH 10/11] python: Update help text on 'make clean', 'make
- distclean'
+ Mon, 28 Jun 2021 14:48:57 -0700 (PDT)
+Subject: Re: [PATCH 11/11] python: remove auto-generated pyproject.toml file
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20210625154540.783306-1-jsnow@redhat.com>
- <20210625154540.783306-11-jsnow@redhat.com>
+ <20210625154540.783306-12-jsnow@redhat.com>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <c47351d4-1074-8978-41de-18e10d17ad5c@redhat.com>
-Date: Mon, 28 Jun 2021 18:44:04 -0300
+Message-ID: <2f7fb21d-8544-e215-86be-e398f8e7c459@redhat.com>
+Date: Mon, 28 Jun 2021 18:48:52 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210625154540.783306-11-jsnow@redhat.com>
+In-Reply-To: <20210625154540.783306-12-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -112,40 +111,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 6/25/21 12:45 PM, John Snow wrote:
-> Just for visual parity with everything else.
+> For reasons that at-present escape me, pipenv insists on creating a stub
+> pyproject.toml file. This file is a nuisance, because its mere presence
+> changes the behavior of various tools.
+>
+> For instance, this stub file will cause "pip install --user -e ." to
+> fail in spectacular fashion with misleading errors. "pip install -e ."
+> works okay, but for some reason pip does not support editable installs
+> to the user directory when using PEP517.
+>
+> References:
+>    https://github.com/pypa/pip/pull/9990
+>    https://github.com/pypa/pip/issues/7953
+>
+> As outlined in ea1213b7ccc, it is still too early for us to consider
+> moving to a PEP-517 exclusive package. We must support support older
+> distributions, so squash the annoyance for now. (Python 3.6 shipped Dec
+> 2016, PEP517 support showed up in pip sometime in 2019 or so.)
+>
+> Add 'pyproject.toml' to the 'make clean' target, and also delete it
+> after every pipenv invocation issued by the Makefile.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   python/Makefile | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
+>   python/Makefile | 2 ++
+>   1 file changed, 2 insertions(+)
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 >
 > diff --git a/python/Makefile b/python/Makefile
-> index 4ed37c29f0..06f78f760a 100644
+> index 06f78f760a..758ce2c8d8 100644
 > --- a/python/Makefile
 > +++ b/python/Makefile
-> @@ -37,11 +37,14 @@ help:
->   	@echo "make venv"
->   	@echo "    Creates a simple venv for check-venv. ($(QEMU_VENV_DIR))"
->   	@echo ""
-> -	@echo "make clean:      remove package build output."
-> +	@echo "make clean:"
-> +	@echo "    Remove package build output."
->   	@echo ""
-> -	@echo "make distclean:  remove venv files, qemu package forwarder,"
-> -	@echo "                 built distribution files, and everything"
-> -	@echo "                 from 'make clean'."
-> +	@echo "make distclean:"
-> +	@echo "    remove pipenv/venv files, qemu package forwarder,"
-> +	@echo "    built distribution files, and everything from 'make clean'."
-> +	@echo ""
-> +	@echo -e "Have a nice day ^_^\n"
-
-Devs will like the last message. ;)
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
->   
+> @@ -49,6 +49,7 @@ help:
 >   pipenv: .venv
 >   .venv: Pipfile.lock
+>   	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
+> +	rm -f pyproject.toml
+>   	@touch .venv
+>   
+>   check-pipenv: pipenv
+> @@ -84,6 +85,7 @@ check-tox:
+>   
+>   clean:
+>   	python3 setup.py clean --all
+> +	rm -f pyproject.toml
+>   
+>   distclean: clean
+>   	rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
 
 
