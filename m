@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926A93B6B07
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 00:40:31 +0200 (CEST)
-Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4A43B6B29
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 01:07:01 +0200 (CEST)
+Received: from localhost ([::1]:51788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxzva-0000Dt-4P
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 18:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55266)
+	id 1ly0LE-0006Rl-IA
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 19:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <taylor.qemu@gmail.com>)
- id 1lxzuW-00080r-Iq
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:39:24 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <taylor.qemu@gmail.com>)
- id 1lxzuT-0000S4-Gp
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:39:24 -0400
-Received: by mail-wm1-x330.google.com with SMTP id o22so11562533wms.0
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 15:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cIO3ojpdUKG/KYeTQaaHtNzqKrPmFXvl8dIlZ5z69+A=;
- b=M2YQs3BStCpWiFasKTcLGNBjcYzREQQdcrc7kphucp9hQIJmdfYpUwxA1MI7Ra7l08
- bXdGuINCmpb8z9lMtvFo6NQOxoQGukoEj3m2l6eHSckZpfx0JaK0V+SG2B4/pp1WKP6G
- e379jeDgkJtJXxOP1wAj+C3uzsUKHrFJvZW50pAyyXgL2PjHU/amuKk0foYPXYch8iXD
- IhfUsJ6y6opDWfl+51XI2uHyRcZhAN6/SSMGp8cx2GxLlJJmeTvlH+qnKzueeVui9s9Z
- gZdw3Sx0MS8haY8rUmzCbyRJPOwTPld6RlVJ1/e/Emtan5N5zSloHRSe2U6z/C7Uwu+v
- 7Rjg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ly0KL-0005gi-Rf
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 19:06:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ly0KH-0001AE-SU
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 19:06:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624921560;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nOLl823yXKP9LkgdwNt7ujP7Nym/DVoBca4zuq4A2Z8=;
+ b=HOzAFS+4DtNbb5/7s+MUy3e/9OZDbeuojhR9P0DtT3kDRocSCbPcl/+8tliq2zTBVLb6dd
+ KhsYOoBPUjiYY82EezCyH5e+fox31pOlTJsErFzGfQXDJIPtdZsG3F1DClWRGN46Y/2PpJ
+ ryMa1A74meM0ZwTYk+YNa/6pnDrfjoM=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-OgrxtuDkOVaI8TqnznaWUg-1; Mon, 28 Jun 2021 19:05:56 -0400
+X-MC-Unique: OgrxtuDkOVaI8TqnznaWUg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ a12-20020ac8108c0000b029023c90fba3dcso14051234qtj.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 16:05:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cIO3ojpdUKG/KYeTQaaHtNzqKrPmFXvl8dIlZ5z69+A=;
- b=G68m0nCkj6QmkcsPuCCD2xrJBqM4ErLG2mMcB+2QiO+J79ehs4dd+Ez2CSvZjjY4IB
- XuWBgANzHYUKyvXe22LSzCwKx6c8cXtXamwQG2vLWuaB/0aSeKz04GAZTdApvbNu4I6p
- 7kxiFDsNa6IOMiPcTuiMltwuqQxu0Z5g1bxgdHq8ad5cHo4YHGyQDYUsoc72ZGGOoN5B
- RfLv8Z2tcrlk/hyIpB9HGCqu08guPAUh0tN0NB+Op09uN9uJ9AURXpMOG+xnESihAowz
- Y+pZjNaITDuzii94CDALWPSSEPYY9+J2XNtPI5f6l8jh5SBi6+tQEbsx473R8bDepQzW
- FfVQ==
-X-Gm-Message-State: AOAM533etI6tSaWNDIo17SM/dDjoF1V8oseBfGQDhLqxegZBBya+0wcy
- jxNQQvoOUiAuAhPgrN3BiOPOGfBxsEVVJCeGc3A=
-X-Google-Smtp-Source: ABdhPJxFBpXmZG/iJNoH+ILLufGQuQPWnXJZJxbR4Lo16iITZqdHo89CQSor56adJRbdn+MGY4c1mOHO3gqq2zNmuJA=
-X-Received: by 2002:a05:600c:1d23:: with SMTP id
- l35mr27534869wms.134.1624919959080; 
- Mon, 28 Jun 2021 15:39:19 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nOLl823yXKP9LkgdwNt7ujP7Nym/DVoBca4zuq4A2Z8=;
+ b=Wf0NIQRhXcUEvVyBCQnSIoEjMA9c9pqLWefSyaRidlAHX/gVNf6yw3DXGNawwK2CUW
+ LAV/ioQwJalS1hy+CO3wwPWGmk/ZeAQs9M26F2XfohH8Tm2lb0dhoQ2QnnErWSrDi1Y8
+ 2Wo1RzbyHy5Fb/3xl8cYrebpScvjHc/Kp1E6f+IMvMjkRv2RgsbkHgFYNny+OKlSONbL
+ 9mMiGq+xadb55NIa7c77aQRmf6j476hbGp7zKSWMyrnlXLfo0bKciGe66ms6dIOlb5dm
+ yMkPyY/crt/T2hNbWHkNeH/bZkkxu8Ncjpu1EJ+QUlQIKEEuYr3S6LbFzgfqHusHUvcp
+ KU7g==
+X-Gm-Message-State: AOAM530yTVNlSXFIv6E5zGIutQou36eJZkfdOpM9vBbLPWCt1EHvewh8
+ PbglorfKdV63DPVJMjUnY2Ukng28ZQ5SrCFiIp8/wBKCDQXIQQcKVZJnsDwU8T6nY13hEc8yGpB
+ FNeJbWUVpvXlBAU8=
+X-Received: by 2002:ad4:5cea:: with SMTP id iv10mr1725528qvb.8.1624921556444; 
+ Mon, 28 Jun 2021 16:05:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlKlXoVxsSBVa8uC0okVGdKllIQchDuJDwgntjOvPGzCOyd62ZYz00d4ZAt0ry1Rr0a2cOXw==
+X-Received: by 2002:ad4:5cea:: with SMTP id iv10mr1725511qvb.8.1624921556248; 
+ Mon, 28 Jun 2021 16:05:56 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id y63sm11252356qke.16.2021.06.28.16.05.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 16:05:55 -0700 (PDT)
+Date: Mon, 28 Jun 2021 19:05:54 -0400
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v10 6/6] migration/dirtyrate: implement dirty-ring
+ dirtyrate calculation
+Message-ID: <YNpV0q1nEF3NiNSt@t490s>
+References: <cover.1624811188.git.huangy81@chinatelecom.cn>
+ <e0cc5b347011b1cef06ff95446bf8b3d6a6584b0.1624811188.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-References: <20210619093713.1845446-1-ale.qemu@rev.ng>
- <20210619093713.1845446-14-ale.qemu@rev.ng>
- <CANji28b-AWkJ0C-Co5dYop2ykKgjjR96bw6e+MoaYtukUXKWEg@mail.gmail.com>
-In-Reply-To: <CANji28b-AWkJ0C-Co5dYop2ykKgjjR96bw6e+MoaYtukUXKWEg@mail.gmail.com>
-From: Taylor Simpson <taylor.qemu@gmail.com>
-Date: Mon, 28 Jun 2021 17:39:08 -0500
-Message-ID: <CANji28Y8pCFg9AShdV6_Fanw2KnkqoEq-xqmd8fMhkOyOkJ8Yg@mail.gmail.com>
-Subject: Re: [PATCH v5 13/14] target/hexagon: import additional tests
-To: Alessandro Di Federico <ale.qemu@rev.ng>
-Content-Type: multipart/alternative; boundary="000000000000f310ea05c5db28d4"
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=taylor.qemu@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e0cc5b347011b1cef06ff95446bf8b3d6a6584b0.1624811188.git.huangy81@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,101 +94,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alessandro Di Federico <ale@rev.ng>, bcain@quicinc.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, babush@rev.ng,
- tsimpson@quicinc.com, nizzo@rev.ng, philmd@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f310ea05c5db28d4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jun 28, 2021 at 12:27:46AM +0800, huangy81@chinatelecom.cn wrote:
+> +static void dirtyrate_global_dirty_log_stop(void)
+> +{
+> +    qemu_mutex_lock_iothread();
 
-On Fri, Jun 25, 2021 at 6:56 PM Taylor Simpson <taylor.qemu@gmail.com>
-wrote:
+One thing I missed: maybe we want to sync dirty before stop, so the value will
+be more accurate.  Perhaps a call to memory_global_dirty_log_sync() here?
 
->
->
-> On Sat, Jun 19, 2021 at 4:49 AM Alessandro Di Federico via <
-> qemu-devel@nongnu.org> wrote:
->
->> From: Niccol=C3=B2 Izzo <nizzo@rev.ng>
->>
->> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
->> Signed-off-by: Niccol=C3=B2 Izzo <nizzo@rev.ng>
->> ---
->>
->
->
->
-> +    .text
->> +    .globl _start
->> +
->> +_start:
->> +    {
->> +        call init
->> +    }
->> +    {
->> +        r0=3D#1
->> +        memw(sp+#0)=3Dr0.new
->> +    }
->>
->
-> You haven't set up the stack, so you shouldn't use sp.  Even if the stack
-> were set up, you should allocframe first.
->
->
-My apologies - the stack *is* set up in linux-user mode.  So, it is OK to
-reference sp after you do an allocframe.
+> +    memory_global_dirty_log_stop(GLOBAL_DIRTY_DIRTY_RATE);
+> +    qemu_mutex_unlock_iothread();
+> +}
 
-You can disregard the other comments in the review about setting up the
-stack.
+-- 
+Peter Xu
 
-
-Thanks,
-Taylor
-
---000000000000f310ea05c5db28d4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div dir=3D"lt=
-r"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Fri, Jun 25, 2021 at 6:56 PM Taylor Simpson &lt;<a href=3D"mailto=
-:taylor.qemu@gmail.com" target=3D"_blank">taylor.qemu@gmail.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"=
-ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Sat, Jun 19, 2021 at 4:49 AM Alessandro Di Fed=
-erico via &lt;<a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">qe=
-mu-devel@nongnu.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">From: Niccol=C3=B2 Izzo &lt;nizzo@rev.ng&gt;<br>
-<br>
-Signed-off-by: Alessandro Di Federico &lt;ale@rev.ng&gt;<br>
-Signed-off-by: Niccol=C3=B2 Izzo &lt;nizzo@rev.ng&gt;<br>
----<br></blockquote><div>=C2=A0</div><br><br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
-+=C2=A0 =C2=A0 .text<br>
-+=C2=A0 =C2=A0 .globl _start<br>
-+<br>
-+_start:<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 call init<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r0=3D#1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 memw(sp+#0)=3Dr0.new<br>
-+=C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>You haven&#39;t set up=
- the stack, so you shouldn&#39;t use sp.=C2=A0 Even if the stack were set u=
-p, you should allocframe first.<br></div></div><br></div></blockquote><div>=
-<br></div><div>My apologies - the stack *is* set up in linux-user mode.=C2=
-=A0 So, it is OK to reference sp after you do an allocframe.</div><div><br>=
-</div><div>You can disregard the other comments in the review about setting=
- up the stack.</div><div><br></div><div><br></div><div>Thanks,</div><div>Ta=
-ylor</div><div><br></div></div></div>
-</div>
-
---000000000000f310ea05c5db28d4--
 
