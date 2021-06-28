@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890623B65CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:36:08 +0200 (CEST)
-Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB24F3B65CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:36:03 +0200 (CEST)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxtIt-0001Qg-HF
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43616)
+	id 1lxtIo-0001K2-Gy
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxtFH-0005d8-Gv
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:32:24 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:46784)
+ id 1lxtHK-0008Mr-6U
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:34:30 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxtFF-0003WD-3l
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:32:23 -0400
-Received: by mail-ed1-x534.google.com with SMTP id s15so26477763edt.13
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 08:32:20 -0700 (PDT)
+ id 1lxtHI-0004rk-GR
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:34:29 -0400
+Received: by mail-ej1-x631.google.com with SMTP id gn32so30734546ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 08:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u/EFM1ifKJ6/7lkNFrvBoaY9vpYJkJsn/dEe3lHZRSs=;
- b=GQBTauioEzwmieqE4ymsFzOrTGJADU3EheIkwHd0kbxzafFg90kaXgbzAwwaL9FERM
- GZd9SFIAcHV6eaD59pdh98CV6oUPbvFaluMl8g8TH2e6RZhgAbcg2St28nVXcQ4qoZIi
- 0h/GaQktuTHnFLFwQiVZ6TVunCcermz9Y+yth+cVfKPHaW9ICCF1d6DsUT8x+2sgv1Ec
- Afg2kTtlcHuM7aRW/gGNNe7WGojggRQcwhi4uLlCxDPbhlwrKQ/JMcSpEozyHUAASg42
- KJDC+72UmSgFPA/3goNEsAeFlIg6mBRHMdIoScJ5SlgoQ66heKK8n9kY9+HqE2yrt1iJ
- PypA==
+ :cc; bh=Kux0d1wTMHYXRUxomYRGZP/KTkhV4tKoCw8MTjQiMqY=;
+ b=SycLbKTYHBh+RKCqjiyEDLk7obwXHG9fWMtDS6K3/Nc8CM2EomtttOeXZOyu4qt0Wx
+ ILzXn2OjSmSgbrsUdeVCSUftSDYU9KaWPH7BVOczoAIBovE1uYY68htiXMXTRv/zgCqE
+ qHOkhD/QsYhYI0AjJdp9OqYgh1csRJR78vbbToNi0fy/1nrgQUWfQCsoTU8onmMzBq77
+ rlUxgIeg2RIN6Z4uBy06K+1ZncPeWV8jWKpEg0P169nemUGy6jM53aSSasgB1dJts9EQ
+ 19GHf9iXntzuuraxdCe3skF0gclf1sHvc57WpYC56YALD4e4u2WCJ3LDDMPfz2txmJ0Z
+ KkUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=u/EFM1ifKJ6/7lkNFrvBoaY9vpYJkJsn/dEe3lHZRSs=;
- b=TCT6xaHtWEckfhGkWUw3qm6skWdXd0bxUKsGjR3FWgzSZfu76S24ZqjPU2pWcKZOpi
- S7jZ8/U38hUFQ6KQAb4/q1r3xHP05pZY5/i2/9fMserQOEkKkMjd7mummqd2xBk9BnoN
- lMLT9xSFUqvMFCvXZxVdOZzEl4U03BlecWx7rYEdYQGPonH7hORNMBiVMDLm94xemdLo
- lVWUVjnM+aWMWSCPmuvIJ33QHzMSTYo4bdvb4ePsQOSF+muBh45k6ID7K5ZDGLu9o0uZ
- oZkjlU5d5R2/ypIkJoB8QfeYU7qMLoLfhOkIdxl5bcHRJRMl0udfzmlbvVRACsCezYVg
- UXFw==
-X-Gm-Message-State: AOAM531zQmnPuxK096YVlJHv+rfEoLnJXW9eidXK1sp2i535eFq8vN0I
- MvZo1EyuiZo9j/UGSShee9+Wpg13iEUzB5BzcuPwiA==
-X-Google-Smtp-Source: ABdhPJzD63qePFhPRkRGvgZTf8nfZScz/AYINsj9Z30p1+OVzKsLu+AHv743bM65StXVCNsig4QecpWcq2SrndkxW88=
-X-Received: by 2002:aa7:c644:: with SMTP id z4mr33350203edr.204.1624894339070; 
- Mon, 28 Jun 2021 08:32:19 -0700 (PDT)
+ bh=Kux0d1wTMHYXRUxomYRGZP/KTkhV4tKoCw8MTjQiMqY=;
+ b=aEwLDLFYTa0drO3aSoG0+9V7eyxsK7hr6qLz7qN578qZ61Zu8AQtFGtPZRi5dVlSxL
+ XVD4cVKLzmaqR9T8XfF5jzHDRv4J/O7lUWUoKZkfLcigfpnThj8hTWwBtHL8kI1AJfyn
+ TCNVu27XKSCm7eSiCSHG1Ei2iKEtP4BbG33yAcD4LnqqfPQJzrg+e/nzEQkvImog8zaK
+ poTkZtjzqmgkKX+RSkAeqGtfkOB4a7PaioHznhuUmoBoQJa+2qtTeb/gnmntKDSONc1j
+ /si9dWkeQMB3scFILpmLBkKj+qpJtWaYPKLHzoOtJD48JmHOr2aNtZU6ZdA3bxE8XKHR
+ Du5w==
+X-Gm-Message-State: AOAM532tWMNngip6NkDRcKYfuIhGqYBLUQJSLu3FLYD3Vw8dr6VSeV/a
+ MDIQwivyUVRYLikCWHvnuHjW/ViXRCItk9+bCT5Lug==
+X-Google-Smtp-Source: ABdhPJySGFfS6nyUQE04qGIWA5++s86efru1TBF2IYaYcVjt0k89CIxrLX3VIq/9N9QVuYQZhvHzvp8sGe19SU0h+5U=
+X-Received: by 2002:a17:906:4759:: with SMTP id
+ j25mr24632454ejs.4.1624894467045; 
+ Mon, 28 Jun 2021 08:34:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210620221046.1526418-1-richard.henderson@linaro.org>
- <20210620221046.1526418-7-richard.henderson@linaro.org>
-In-Reply-To: <20210620221046.1526418-7-richard.henderson@linaro.org>
+ <20210620221046.1526418-8-richard.henderson@linaro.org>
+In-Reply-To: <20210620221046.1526418-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Jun 2021 16:31:42 +0100
-Message-ID: <CAFEAcA-9h+vUQWR2GxZQZk+O_cE+-gyoKi3XeY1=VaTsTJXh_g@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] target/nios2: Remove assignment to env in
- handle_instruction
+Date: Mon, 28 Jun 2021 16:33:50 +0100
+Message-ID: <CAFEAcA-1K-49LXG34LyagJaw=qk2o317uxiovGTRMyTwn4zG+g@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] target/nios2: Clean up goto in handle_instruction
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,46 +83,43 @@ Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 20 Jun 2021 at 23:15, Richard Henderson
+On Sun, 20 Jun 2021 at 23:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Direct assignments to env during translation do not work.
->
-> As it happens, the only way we can get here is if env->pc
-> is already set to dc->pc.
-
-More to the point, t_gen_helper_raise_exception() does
-    tcg_gen_movi_tl(dc->cpu_R[R_PC], dc->pc);
-before raising the exception (as you would expect it to).
-
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/nios2/translate.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  target/nios2/translate.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
 > diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-> index 06705c894d..31f63d9faa 100644
+> index 31f63d9faa..276643cee0 100644
 > --- a/target/nios2/translate.c
 > +++ b/target/nios2/translate.c
-> @@ -740,14 +740,15 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
->      uint32_t code;
->      uint8_t op;
->      const Nios2Instruction *instr;
-> +
->  #if defined(CONFIG_USER_ONLY)
->      /* FIXME: Is this needed ? */
->      if (dc->pc >= 0x1000 && dc->pc < 0x2000) {
-> -        env->regs[R_PC] = dc->pc;
->          t_gen_helper_raise_exception(dc, 0xaa);
->          return;
->      }
->  #endif
-> +
->      code = cpu_ldl_code(env, dc->pc);
+> @@ -753,7 +753,8 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
 >      op = get_opcode(code);
+>
+>      if (unlikely(op >= ARRAY_SIZE(i_type_instructions))) {
+> -        goto illegal_op;
+> +        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
+> +        return;
+>      }
+>
+>      dc->zero = NULL;
+> @@ -764,11 +765,6 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
+>      if (dc->zero) {
+>          tcg_temp_free(dc->zero);
+>      }
+> -
+> -    return;
+> -
+> -illegal_op:
+> -    t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
+>  }
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-but you probably want to tweak the commit message.
+
+For consistency, we should do the same for the identical code pattern
+in handle_r_type_instr().
 
 thanks
 -- PMM
