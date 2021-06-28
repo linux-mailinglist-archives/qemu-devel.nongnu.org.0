@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B2D3B6993
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 22:16:12 +0200 (CEST)
-Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F3A3B69A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 22:31:01 +0200 (CEST)
+Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxxfv-0004zk-Ey
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 16:16:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49422)
+	id 1lxxuF-0002YI-Mw
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 16:30:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lxxeN-00046V-Nv
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:14:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43556)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lxxsP-0001JL-VJ
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:29:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lxxeH-0003Hm-E4
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:14:35 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lxxsL-0005Po-Og
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:29:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624911268;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1624912140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=g8KxK/2iB0wskZoS+pl3SZGwOohYuZx0C76JKBIo8e0=;
- b=BGiXUK2BrUN0qkWHRtHPkpGnklAULTtTpLw8485svK2MGKJRD8rbb7idKVCJC8UkCecn2J
- IfrTP0nL+Bhl7sGxfZldrBnWGXxpmspyAT9rF8GqNgZArr5RSRNfaUxVd4mnDVoFdh7YAM
- gu9Ph2naHj4Z97AwkBkqDQNmR7Imn+Y=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-5wVgs2HZNbeeMhKHxBA9AQ-1; Mon, 28 Jun 2021 16:14:26 -0400
-X-MC-Unique: 5wVgs2HZNbeeMhKHxBA9AQ-1
-Received: by mail-pl1-f198.google.com with SMTP id
- q2-20020a170902e302b0290128ec775274so953163plc.20
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 13:14:25 -0700 (PDT)
+ bh=divCttqqlu5eYqlApQA5QQQltA4Zns6BUZyLxD3qVHs=;
+ b=CZR6Yv3epIX9XeEwTrHcPW6qOgBNnezgUzcxHjUJJZLOqnQNAKe/d8+Sv9evYTxZm9Hrgy
+ xDfJO30WziQgDNZ9n5FWe5LPEzg+DVG+Az075GnE5LJX/52+Jze8iFZwwe9WBR5avn99fe
+ GXmI12nfWplT10Ihwy6xV+PqcTcNgIg=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-fJsfkTL3Omy3BM46qXIV9A-1; Mon, 28 Jun 2021 16:28:58 -0400
+X-MC-Unique: fJsfkTL3Omy3BM46qXIV9A-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ t22-20020a0568081596b029023a41b03dc9so8264130oiw.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 13:28:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=g8KxK/2iB0wskZoS+pl3SZGwOohYuZx0C76JKBIo8e0=;
- b=rsLiV4EBScK7YFAk0CqemcBgbOTgBgWZuEq5D+ZuYS8mzklCz5B5xRGZ4Q94PJVppX
- CjR4a/C+o1EnpBWeR18X3ui0qmsy/So3+4q51QoohZWIL3FH9R7N1vTqjHNYmmeHkdb9
- ixepbQ9ey6vrWb5IrGZO1Be1q6NkQdSH2I72R2UBE0U8V9LAldxra3mf19x9QOLSHy4t
- a344a0GaxXr6fbRz1maKwaKIl+velYBnA6BxEv2N7Pz1rV3ht1uLewuINp8MAQIJvwKF
- 0mOkHO0Gl/RAuZTNxJSlcTuetdkeVtFYna/m6SMryLss+pG4e0zDgSjXAsp74Lu6CbW6
- FPqA==
-X-Gm-Message-State: AOAM5310SToztMYV/hwIWhZQ69JzA8F/zKq+2+NhpOg1S+7Xw0zq6sXN
- A5URcs6A9KRuRw8l6fTFqXszOCGkGgY0FU3MsmjxeHTqJjSD5fZYij52DQlFSTo5QRqwWdqLDnV
- 8gmilIH+N8UMj+cY=
-X-Received: by 2002:a63:f54f:: with SMTP id e15mr25064797pgk.64.1624911264650; 
- Mon, 28 Jun 2021 13:14:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYeVYyaMZ9nHR2cuWFXr7iduRdPKoH9NPJntzjnLgVxNEUxAn2noNh04aGsclO78p1pornoA==
-X-Received: by 2002:a63:f54f:: with SMTP id e15mr25064788pgk.64.1624911264462; 
- Mon, 28 Jun 2021 13:14:24 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.105.223.44])
- by smtp.gmail.com with ESMTPSA id j2sm14997061pfi.111.2021.06.28.13.14.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jun 2021 13:14:23 -0700 (PDT)
-Subject: Re: [PATCH 02/11] python: Remove global pylint suppressions
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210625154540.783306-1-jsnow@redhat.com>
- <20210625154540.783306-3-jsnow@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <5c828d11-f5de-ffc6-e8e9-5b97be9bdb97@redhat.com>
-Date: Mon, 28 Jun 2021 17:14:19 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=divCttqqlu5eYqlApQA5QQQltA4Zns6BUZyLxD3qVHs=;
+ b=EdKP/m3dr6b3y5qTiZ5YJ2Pfp33XbUrFLmqWvNvLPWcJ5uNdsiQaX3+U8L9qat90Ml
+ CUO3JFe7+2Lc/dFzGvfiEOt12l/Rbc9IDOSV60Bdt3MvWFd2LTgRV5EoaBCUXRT4uLk3
+ 28bCNIqmWBke8zu3N7L/SsyKGUSISosTzK9XpwARCQnI7Emrtu/Ha8k+67WkktL+Ooq9
+ Nhq3qrYeqWswDcPQKL3cRHdRCVG/6W8+/5Hu/oesg8eeEZDSWw/oDxmJgEh63NL624Ga
+ A4MCaxatRv02KB4NPzxXOzDrj7bU3KeqAE3xqc+wpzX8pRCrrrqGYzqpzfo3SZTiQc9m
+ RM1w==
+X-Gm-Message-State: AOAM531BNBNCX3hxO6HGdzSXyMBOSZ/9o5vAcP1Clob4/bLF7ZVv3jRc
+ /vYiVncAznAyiv57hECB7Tixb4qr+6/GcuUdWHPU2V3B9VQZeQST6+jZOfDp4BwpWVpAJUL7zIT
+ jQzhjYZKoWA+heso5Wls/syQFjAhwpNQ=
+X-Received: by 2002:aca:2212:: with SMTP id b18mr11916981oic.52.1624912137421; 
+ Mon, 28 Jun 2021 13:28:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoOtg7VU3a89kRh9VqSD4/Qx8k0zttcJ1ZkfE06H7ykRYn+Z+EFsurAWkZ17N4YtekHiWKczqaRvf3rg4IIHE=
+X-Received: by 2002:aca:2212:: with SMTP id b18mr11916972oic.52.1624912137295; 
+ Mon, 28 Jun 2021 13:28:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210625154540.783306-3-jsnow@redhat.com>
+References: <20210625154540.783306-1-jsnow@redhat.com>
+ <20210625154540.783306-2-jsnow@redhat.com>
+ <0550dc79-de0a-f6e4-8e85-38a22a0e19da@redhat.com>
+In-Reply-To: <0550dc79-de0a-f6e4-8e85-38a22a0e19da@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 28 Jun 2021 16:28:46 -0400
+Message-ID: <CAFn=p-ZwTULuF1piMpR5udgeRdrer_oLGj9swJ4eTpoHQk4yZg@mail.gmail.com>
+Subject: Re: [PATCH 01/11] python: expose typing information via PEP 561
+To: wainersm@redhat.com
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000bc28f905c5d9568d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,79 +89,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
 Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Willian Rampazzo <willianr@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000bc28f905c5d9568d
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/25/21 12:45 PM, John Snow wrote:
-> These suppressions only apply to a small handful of places. Instead of
-> disabling them globally, disable them just in the cases where we
-> need. The design of the machine class grew quite organically with tons
-> of constructor and class instance variables -- there's little chance of
-> meaningfully refactoring it in the near term, so just suppress the
-> warnings for that class.
+On Mon, Jun 28, 2021 at 4:12 PM Wainer dos Santos Moschetta <
+wainersm@redhat.com> wrote:
+
+> Hi,
 >
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   python/qemu/machine/machine.py | 3 +++
->   python/qemu/machine/qtest.py   | 2 ++
->   python/setup.cfg               | 4 +---
->   3 files changed, 6 insertions(+), 3 deletions(-)
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> On 6/25/21 12:45 PM, John Snow wrote:
+> > https://www.python.org/dev/peps/pep-0561/#specification
+> > Create 'py.typed' files in each subpackage that indicate to mypy that
+> > this is a typed module, so that users of any of these packages can use
+> > mypy to check their code as well.
+> >
+> > Note: Theoretically it's possible to ditch MANIFEST.in in favor of using
+> > package_data in setup.cfg, but I genuinely could not figure out how to
+> > get it to include things from the *source root* into the *package root*;
+> > only how to include things from each subpackage. I tried!
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >   python/qemu/machine/py.typed | 0
+> >   python/qemu/qmp/py.typed     | 0
+> >   python/qemu/utils/py.typed   | 0
+> >   python/setup.cfg             | 4 ++++
+> >   4 files changed, 4 insertions(+)
+> >   create mode 100644 python/qemu/machine/py.typed
+> >   create mode 100644 python/qemu/qmp/py.typed
+> >   create mode 100644 python/qemu/utils/py.typed
 >
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> index b62435528e..e3345dfa1b 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -84,6 +84,7 @@ class QEMUMachine:
->               ...
->           # vm is guaranteed to be shut down here
->       """
-> +    # pylint: disable=too-many-instance-attributes, too-many-public-methods
->   
->       def __init__(self,
->                    binary: str,
-> @@ -111,6 +112,8 @@ def __init__(self,
->           @param console_log: (optional) path to console log file
->           @note: Qemu process is not started until launch() is used.
->           '''
-> +        # pylint: disable=too-many-arguments
-> +
->           # Direct user configuration
->   
->           self._binary = binary
-> diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
-> index 93700684d1..d6d9c6a34a 100644
-> --- a/python/qemu/machine/qtest.py
-> +++ b/python/qemu/machine/qtest.py
-> @@ -116,6 +116,8 @@ def __init__(self,
->                    base_temp_dir: str = "/var/tmp",
->                    socket_scm_helper: Optional[str] = None,
->                    sock_dir: Optional[str] = None):
-> +        # pylint: disable=too-many-arguments
-> +
->           if name is None:
->               name = "qemu-%d" % os.getpid()
->           if sock_dir is None:
-> diff --git a/python/setup.cfg b/python/setup.cfg
-> index db1639c1f2..524789d6e0 100644
-> --- a/python/setup.cfg
-> +++ b/python/setup.cfg
-> @@ -87,9 +87,7 @@ ignore_missing_imports = True
->   # --enable=similarities". If you want to run only the classes checker, but have
->   # no Warning level messages displayed, use "--disable=all --enable=classes
->   # --disable=W".
-> -disable=too-many-arguments,
-> -        too-many-instance-attributes,
-> -        too-many-public-methods,
-> +disable=
->   
->   [pylint.basic]
->   # Good variable names which should always be accepted, separated by a comma.
+> Just double-checking that you did not add a single py.typed on the root
+> "python" dir, so that all modules inherit from it, because this is a
+> namespace package. Right?
+>
+
+Yes, that's right. Each sub-package here can technically be typed or not
+independently from one another, even though the packaging script I have
+written at the moment will bundle all three of these packages together.
+Complying with PEP 561 requires package-level information.
+
+(So far as I am aware at-present, anyway.)
+
+
+> Anyway,
+>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>
+
+Thanks!
+--js
+
+--000000000000bc28f905c5d9568d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 28, 2021 at 4:12 PM Waine=
+r dos Santos Moschetta &lt;<a href=3D"mailto:wainersm@redhat.com">wainersm@=
+redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Hi,<br>
+<br>
+On 6/25/21 12:45 PM, John Snow wrote:<br>
+&gt; <a href=3D"https://www.python.org/dev/peps/pep-0561/#specification" re=
+l=3D"noreferrer" target=3D"_blank">https://www.python.org/dev/peps/pep-0561=
+/#specification</a><br>
+&gt; Create &#39;py.typed&#39; files in each subpackage that indicate to my=
+py that<br>
+&gt; this is a typed module, so that users of any of these packages can use=
+<br>
+&gt; mypy to check their code as well.<br>
+&gt;<br>
+&gt; Note: Theoretically it&#39;s possible to ditch MANIFEST.in in favor of=
+ using<br>
+&gt; package_data in setup.cfg, but I genuinely could not figure out how to=
+<br>
+&gt; get it to include things from the *source root* into the *package root=
+*;<br>
+&gt; only how to include things from each subpackage. I tried!<br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0python/qemu/machine/py.typed | 0<br>
+&gt;=C2=A0 =C2=A0python/qemu/qmp/py.typed=C2=A0 =C2=A0 =C2=A0| 0<br>
+&gt;=C2=A0 =C2=A0python/qemu/utils/py.typed=C2=A0 =C2=A0| 0<br>
+&gt;=C2=A0 =C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| 4 ++++<br>
+&gt;=C2=A0 =C2=A04 files changed, 4 insertions(+)<br>
+&gt;=C2=A0 =C2=A0create mode 100644 python/qemu/machine/py.typed<br>
+&gt;=C2=A0 =C2=A0create mode 100644 python/qemu/qmp/py.typed<br>
+&gt;=C2=A0 =C2=A0create mode 100644 python/qemu/utils/py.typed<br>
+<br>
+Just double-checking that you did not add a single py.typed on the root <br=
+>
+&quot;python&quot; dir, so that all modules inherit from it, because this i=
+s a <br>
+namespace package. Right?<br></blockquote><div><br></div><div><div>Yes, tha=
+t&#39;s right. Each sub-package here can technically be typed=20
+or not independently from one another, even though the packaging script I
+ have written at the moment will bundle all three of these packages=20
+together. Complying with PEP 561 requires package-level information.</div><=
+div><br></div><div>(So far as I am aware at-present, anyway.)</div></div><d=
+iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Anyway,<br>
+<br>
+Reviewed-by: Wainer dos Santos Moschetta &lt;<a href=3D"mailto:wainersm@red=
+hat.com" target=3D"_blank">wainersm@redhat.com</a>&gt;<br></blockquote><div=
+><br></div><div></div><div>Thanks!</div><div>--js<br></div><div>=C2=A0</div=
+></div></div>
+
+--000000000000bc28f905c5d9568d--
 
 
