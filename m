@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CE93B5EE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 15:27:23 +0200 (CEST)
-Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2393B5EE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 15:27:55 +0200 (CEST)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxrII-0000G5-Sz
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 09:27:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
+	id 1lxrIo-0001ga-F7
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 09:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lxrH3-00080S-Cg
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:26:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lxrH1-00075h-3U
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:26:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624886761;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m3pMaNhzT63rTYLHfDBgAlaCFm6Q/1gLslQ26zhUseU=;
- b=VRLAfI9YKGHPyBY6g/gbQt6DoitYK4zgAacLjbeVzcuEVc3R0DMLodzFgATbGOEAh1JA2J
- vxdK3/9zew7HbLxVG03fVKQsBvUOYQA8djBG19TFJbZgPnVPYLe/mDYzX2sP8Bu/qBUIl+
- mM5HteX5bamLssu2feHiOSgL1yAauN4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-7YbkOJ0uMIuSa6ADyZ_G1w-1; Mon, 28 Jun 2021 09:25:58 -0400
-X-MC-Unique: 7YbkOJ0uMIuSa6ADyZ_G1w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC37019067E3;
- Mon, 28 Jun 2021 13:25:56 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B024360C0F;
- Mon, 28 Jun 2021 13:25:51 +0000 (UTC)
-Date: Mon, 28 Jun 2021 15:25:50 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
- boundary
-Message-ID: <20210628152550.6c86a43a@redhat.com>
-In-Reply-To: <fabd186e-bfb4-3aaa-e207-72dc67ba4214@oracle.com>
-References: <20210622154905.30858-1-joao.m.martins@oracle.com>
- <20210622154905.30858-2-joao.m.martins@oracle.com>
- <20210623110341.0ceca1b4@redhat.com>
- <21f86eb7-e9db-b7ac-9014-2baa9fd44741@oracle.com>
- <20210623140922.404b280b@redhat.com>
- <fabd186e-bfb4-3aaa-e207-72dc67ba4214@oracle.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxrHy-0000L2-F1
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:27:02 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:46701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxrHt-0007Uk-K4
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:27:02 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ b5-20020a17090a9905b029016fc06f6c5bso10437759pjp.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 06:26:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YEowzxFpnNZibU4QdOGdCfflBSnTI8T7eglrFBOYNqk=;
+ b=nDYi1Un/H3kOOZv7bvb3m8x9JQaHVWI70tbg+LPzwv3lDiJ8OghLf1IhLhXX4I4wsK
+ dgoreJcPx7CpekZZccMC97Ii99E4TsbJXWnHmUXrBbQTvNaKaCYJ5ORiDrYjMuDrjlnR
+ kyDqh8mKqrMNICUmLCWuF6q3halqIs8+VobQ7idUPqe89IZOMdxzaVZM3QJS9Ty8/gcG
+ vEUWTQOzHObA3czuAIpIcXuD8kSzCE3bZfS/1ASLUeHzEETl3C4kKT+UQ4cTks5ijGFr
+ 9N0+YeCJq8krktz6GpV0mlTD+3GnDfSvroGJwI8bTNBvDovHLJRavTzA1rJwiO2dXg5q
+ sKCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YEowzxFpnNZibU4QdOGdCfflBSnTI8T7eglrFBOYNqk=;
+ b=g7BowPWbU4PTu4qGInz+8AkqLXh3/elhKrWJGk3zq0ZdlUdasiS8ZFZZuHHWIoZ1Wj
+ TtmngOmdIAK32MoD2H4pjFnEpX528N4G3X+XD2FDLZ7G3iWKvZ3G4hn+yZ4/TvFd0qxj
+ 34ZxvgVTbPMy8uZc7cT1UFue16azC/xGZQb9alJfe6CuNaUajAjGrPOpCKd2EViihMpU
+ Ul9eikOpKrxM9Yp+eHF0hf2/AwZgiaVBYu3mWGOdAoXEW5BG+huHiIJ17z47PcN2lgKB
+ WO0YugQpkRFL3Svgi44jl/sdrOSemKl32hyNUYQMQ0AZax6X1n0HE7bI+EHn6cuBqJ+C
+ WhQA==
+X-Gm-Message-State: AOAM530t3bbC4gO8WfleMX++k3QHlY8nEn/UTmRFfit7Fq7rkgCtQSDH
+ 1rBG7j2VGRAi5/D6UrmQPJYv5p+EHtqJFw==
+X-Google-Smtp-Source: ABdhPJzhxrXtEVfoWhnnzCnfgnli30wo5AG9Thav1udrK8HWp2AWH7DoOKyY8BEBKT96jP+eTI2CEQ==
+X-Received: by 2002:a17:90a:a101:: with SMTP id
+ s1mr36113085pjp.31.1624886815058; 
+ Mon, 28 Jun 2021 06:26:55 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id v1sm14948146pjg.19.2021.06.28.06.26.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jun 2021 06:26:54 -0700 (PDT)
+Subject: Re: [PATCH] target/s390x: Fix CC set by CONVERT TO FIXED/LOGICAL
+To: Ulrich Weigand <uweigand@de.ibm.com>
+References: <20210623145020.GA30585@oc3748833570.ibm.com>
+ <b24537e5-07f9-8a43-5820-ecc82ee84bdb@linaro.org>
+ <20210628125803.GA29264@oc3748833570.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5c9a00df-aa43-d721-912c-eeb9eda839a4@linaro.org>
+Date: Mon, 28 Jun 2021 06:26:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210628125803.GA29264@oc3748833570.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,109 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, Ulrich Weigand <ulrich.weigand@de.ibm.com>,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Jun 2021 14:07:29 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
-
-> On 6/23/21 1:09 PM, Igor Mammedov wrote:
-> > On Wed, 23 Jun 2021 10:51:59 +0100
-> > Joao Martins <joao.m.martins@oracle.com> wrote:
-> >   
-> >> On 6/23/21 10:03 AM, Igor Mammedov wrote:  
-> >>> On Tue, 22 Jun 2021 16:49:00 +0100
-> >>> Joao Martins <joao.m.martins@oracle.com> wrote:
-> >>>     
-> >>>> It is assumed that the whole GPA space is available to be
-> >>>> DMA addressable, within a given address space limit. Since
-> >>>> v5.4 based that is not true, and VFIO will validate whether
-> >>>> the selected IOVA is indeed valid i.e. not reserved by IOMMU
-> >>>> on behalf of some specific devices or platform-defined.
-> >>>>
-> >>>> AMD systems with an IOMMU are examples of such platforms and
-> >>>> particularly may export only these ranges as allowed:
-> >>>>
-> >>>> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
-> >>>> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
-> >>>> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb)
-> >>>>
-> >>>> We already know of accounting for the 4G hole, albeit if the
-> >>>> guest is big enough we will fail to allocate a >1010G given
-> >>>> the ~12G hole at the 1Tb boundary, reserved for HyperTransport.
-> >>>>
-> >>>> When creating the region above 4G, take into account what
-> >>>> IOVAs are allowed by defining the known allowed ranges
-> >>>> and search for the next free IOVA ranges. When finding a
-> >>>> invalid IOVA we mark them as reserved and proceed to the
-> >>>> next allowed IOVA region.
-> >>>>
-> >>>> After accounting for the 1Tb hole on AMD hosts, mtree should
-> >>>> look like:
-> >>>>
-> >>>> 0000000100000000-000000fcffffffff (prio 0, i/o):
-> >>>> 	alias ram-above-4g @pc.ram 0000000080000000-000000fc7fffffff
-> >>>> 0000010000000000-000001037fffffff (prio 0, i/o):
-> >>>> 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff    
-> >>>
-> >>> You are talking here about GPA which is guest specific thing
-> >>> and then somehow it becomes tied to host. For bystanders it's
-> >>> not clear from above commit message how both are related.
-> >>> I'd add here an explicit explanation how AMD host is related GPAs
-> >>> and clarify where you are talking about guest/host side.
-> >>>     
-> >> OK, makes sense.
-> >>
-> >> Perhaps using IOVA makes it easier to understand. I said GPA because
-> >> there's an 1:1 mapping between GPA and IOVA (if you're not using vIOMMU).  
-> > 
-> > IOVA may be a too broad term, maybe explain it in terms of GPA and HPA
-> > and why it does matter on each side (host/guest)
-> >   
+On 6/28/21 5:58 AM, Ulrich Weigand wrote:
+>>> helper.h:DEF_HELPER_FLAGS_3(clgdb, TCG_CALL_NO_WG, i64, env, i64, i32)
+>>
+>> This won't work reliably.  You're writing to a tcg global inside of
+>> a function that says that it won't.
 > 
-> I used the term IOVA specially because that is applicable to Host IOVA or
-> Guest IOVA (same rules apply as this is not special cased for VMs). So,
-> regardless of whether we have guest mode page tables, or just host
-> iommu page tables, this address range should be reserved and not used.
+> I missed that, sorry.  That problem can be fixed by changing the above
+> line to something like:
+> DEF_HELPER_3(clgdb, i64, env, i64, i32)
+> right?
 
-IOVA doesn't make it any clearer, on contrary it's more confusing.
+Yes.
 
-And does host's HPA matter at all? (if host's firmware isn't broken,
-it should never use nor advertise 1Tb hole). So we probably talking
-here only about GPA only.
-   
-> >>> also what about usecases:
-> >>>  * start QEMU with Intel cpu model on AMD host with intel's iommu    
-> >>
-> >> In principle it would be less likely to occur. But you would still need
-> >> to mark the same range as reserved. The limitation is on DMA occuring
-> >> on those IOVAs (host or guest) coinciding with that range, so you would
-> >> want to inform the guest that at least those should be avoided.
-> >>  
-> >>>  * start QEMU with AMD cpu model and AMD's iommu on Intel host    
-> >>
-> >> Here you would probably only mark the range, solely for honoring how hardware
-> >> is usually represented. But really, on Intel, nothing stops you from exposing the
-> >> aforementioned range as RAM.
-> >>  
-> >>>  * start QEMU in TCG mode on AMD host (mostly form qtest point ot view)
-> >>>     
-> >> This one is tricky. Because you can hotplug a VFIO device later on,
-> >> I opted for always marking the reserved range. If you don't use VFIO you're good, but
-> >> otherwise you would still need reserved. But I am not sure how qtest is used
-> >> today for testing huge guests.  
-> > I do not know if there are VFIO tests in qtest (probably nope, since that
-> > could require a host configured for that), but we can add a test
-> > for his memory quirk (assuming phys-bits won't get in the way)
-> >   
-> 
-> 	Joao
-> 
+> In any case, the current implementation already has two helpers, and
+> I initially tried to keep that, by using a different second part to
+> correctly compute CC.  But this ran into the problem that I didn't
+> see any way to detect the fact that the conversion operation had run
+> into one of the special cases in the second helper, without re-doing
+> the whole conversion a second time.  Is there any way to pass
+> information between the two helpers (without running again into the
+> same qemu global state updating problem)?
+
+Don't clear out env->fpu_status.float_exception_flags in handle_exceptions.  Wait until 
+we're actually done with the data.
+
+
+r~
 
 
