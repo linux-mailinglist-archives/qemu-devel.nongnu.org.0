@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6E93B5A8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 10:35:10 +0200 (CEST)
-Received: from localhost ([::1]:53300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22B33B5A9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 10:44:47 +0200 (CEST)
+Received: from localhost ([::1]:56276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxmjV-0004wP-Is
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 04:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
+	id 1lxmso-0007UU-K6
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 04:44:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lxmi6-0004GB-7N
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 04:33:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24763)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lxmrX-0006Vw-4W; Mon, 28 Jun 2021 04:43:27 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lxmi2-0000dY-6L
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 04:33:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624869217;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gxPVAdLCp6ojccipo8zy+dBGLSbC1bVrv97icuKb2JE=;
- b=LGFiTN/qm9JAVDyTknS8xka+Zj7INOAJLdme+jQe8MDVkcyt9XIEB+O9dvfQtANWefrit6
- 0MZZLbuQypUC85CeK2WhOhqoWNOCyISuZ/W8wTye9mIzUis4OvlSzURcaqER/AMXT8N0M5
- gDQXz6bUR6j/wHYweph8qKZP7nlkVoo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-dgWwQbnmOZOTlWbv4UlqVA-1; Mon, 28 Jun 2021 04:33:33 -0400
-X-MC-Unique: dgWwQbnmOZOTlWbv4UlqVA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17DEB80430D;
- Mon, 28 Jun 2021 08:33:32 +0000 (UTC)
-Received: from redhat.com (ovpn-115-35.ams2.redhat.com [10.36.115.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BAA23B04;
- Mon, 28 Jun 2021 08:33:22 +0000 (UTC)
-Date: Mon, 28 Jun 2021 09:33:20 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/3] gitlab: support for FreeBSD 12, 13 and macOS 11 via
- cirrus-run
-Message-ID: <YNmJUCaNI88SYYOO@redhat.com>
-References: <20210625172211.451010-1-berrange@redhat.com>
- <20210625172211.451010-3-berrange@redhat.com>
- <bc459548-6afa-dc35-696f-4757431fbb46@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lxmrT-0006oA-LB; Mon, 28 Jun 2021 04:43:26 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GD1JK4qphzZnJG;
+ Mon, 28 Jun 2021 16:40:01 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 16:43:06 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 16:43:05 +0800
+Subject: Re: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Andrew Jones
+ <drjones@redhat.com>
+References: <YNG44c9KtaiNXT7b@redhat.com>
+ <20210622114634.crjqusw6x6oj4j6v@gator>
+ <bc47a66a-b1ff-939c-32a2-94c90efd0caf@huawei.com>
+ <YNHalhuNZhMa665J@redhat.com>
+ <7fcc5f2d-cc84-3464-15cc-3bebb07f8190@huawei.com>
+ <YNHvcQAMLSpVcxaE@redhat.com> <20210622142915.pekttdvbi3q5vnh3@gator>
+ <20210622174013.52422c73@redhat.com> <YNIacfpt+iHHHzT6@redhat.com>
+ <20210622172934.537l7e27sxd6car6@gator> <YNIgInK00yNNI4Dy@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <d695bc58-f648-38e5-cd98-9d91fcebd80a@huawei.com>
+Date: Mon, 28 Jun 2021 16:43:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <bc459548-6afa-dc35-696f-4757431fbb46@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <YNIgInK00yNNI4Dy@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.696,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.765,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,257 +73,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Ed Maste <emaste@freebsd.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Michael S .
+ Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com, qemu-devel@nongnu.org,
+ yangyicong@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair
+ Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 28, 2021 at 09:28:18AM +0200, Thomas Huth wrote:
-> On 25/06/2021 19.22, Daniel P. Berrangé wrote:
-> > This adds support for running 4 jobs via Cirrus CI runners:
-> > 
-> >   * FreeBSD 12
-> >   * FreeBSD 13
-> >   * macOS 11 with default XCode
-> >   * macOS 11 with latest XCode
-> > 
-> > The gitlab job uses a container published by the libvirt-ci
-> > project (https://gitlab.com/libvirt/libvirt-ci) that contains
-> > the 'cirrus-run' command. This accepts a short yaml file that
-> > describes a single Cirrus CI job, runs it using the Cirrus CI
-> > REST API, and reports any output to the console.
-> > 
-> > In this way Cirrus CI is effectively working as an indirect
-> > custom runner for GitLab CI pipelines. The key benefit is that
-> > Cirrus CI job results affect the GitLab CI pipeline result and
-> > so the user only has look at one CI dashboard.
-> 
-> Cool, thanks for tackling this!
-> 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >   .gitlab-ci.d/cirrus.yml             | 103 ++++++++++++++++++++++++++++
-> >   .gitlab-ci.d/cirrus/README.rst      |  54 +++++++++++++++
-> >   .gitlab-ci.d/cirrus/build.yml       |  35 ++++++++++
-> >   .gitlab-ci.d/cirrus/freebsd-12.vars |  13 ++++
-> >   .gitlab-ci.d/cirrus/freebsd-13.vars |  13 ++++
-> >   .gitlab-ci.d/cirrus/macos-11.vars   |  15 ++++
-> >   .gitlab-ci.d/qemu-project.yml       |   1 +
-> >   7 files changed, 234 insertions(+)
-> >   create mode 100644 .gitlab-ci.d/cirrus.yml
-> >   create mode 100644 .gitlab-ci.d/cirrus/README.rst
-> >   create mode 100644 .gitlab-ci.d/cirrus/build.yml
-> >   create mode 100644 .gitlab-ci.d/cirrus/freebsd-12.vars
-> >   create mode 100644 .gitlab-ci.d/cirrus/freebsd-13.vars
-> >   create mode 100644 .gitlab-ci.d/cirrus/macos-11.vars
-> > 
-> > diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-> > new file mode 100644
-> > index 0000000000..d7b4cce79b
-> > --- /dev/null
-> > +++ b/.gitlab-ci.d/cirrus.yml
-> > @@ -0,0 +1,103 @@
-> > +# Jobs that we delegate to Cirrus CI because they require an operating
-> > +# system other than Linux. These jobs will only run if the required
-> > +# setup has been performed on the GitLab account.
-> > +#
-> > +# The Cirrus CI configuration is generated by replacing target-specific
-> > +# variables in a generic template: some of these variables are provided
-> > +# when the GitLab CI job is defined, others are taken from a shell
-> > +# snippet generated using lcitool.
-> > +#
-> > +# Note that the $PATH environment variable has to be treated with
-> > +# special care, because we can't just override it at the GitLab CI job
-> > +# definition level or we risk breaking it completely.
-> > +.cirrus_build_job:
-> > +  stage: build
-> > +  image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
-> > +  needs: []
-> > +  script:
-> > +    - source .gitlab-ci.d/cirrus/$NAME.vars
-> > +    - sed -e "s|[@]CI_REPOSITORY_URL@|$CI_REPOSITORY_URL|g"
-> > +          -e "s|[@]CI_COMMIT_REF_NAME@|$CI_COMMIT_REF_NAME|g"
-> > +          -e "s|[@]CI_COMMIT_SHA@|$CI_COMMIT_SHA|g"
-> > +          -e "s|[@]CIRRUS_VM_INSTANCE_TYPE@|$CIRRUS_VM_INSTANCE_TYPE|g"
-> > +          -e "s|[@]CIRRUS_VM_IMAGE_SELECTOR@|$CIRRUS_VM_IMAGE_SELECTOR|g"
-> > +          -e "s|[@]CIRRUS_VM_IMAGE_NAME@|$CIRRUS_VM_IMAGE_NAME|g"
-> > +          -e "s|[@]CIRRUS_VM_CPUS@|$CIRRUS_VM_CPUS|g"
-> > +          -e "s|[@]CIRRUS_VM_RAM@|$CIRRUS_VM_RAM|g"
-> > +          -e "s|[@]UPDATE_COMMAND@|$UPDATE_COMMAND|g"
-> > +          -e "s|[@]INSTALL_COMMAND@|$INSTALL_COMMAND|g"
-> > +          -e "s|[@]PATH@|$PATH_EXTRA${PATH_EXTRA:+:}\$PATH|g"
-> > +          -e "s|[@]PKG_CONFIG_PATH@|$PKG_CONFIG_PATH|g"
-> > +          -e "s|[@]PKGS@|$PKGS|g"
-> > +          -e "s|[@]MAKE@|$MAKE|g"
-> > +          -e "s|[@]PYTHON@|$PYTHON|g"
-> > +          -e "s|[@]PIP3@|$PIP3|g"
-> > +          -e "s|[@]PYPI_PKGS@|$PYPI_PKGS|g"
-> > +          -e "s|[@]CONFIGURE_ARGS@|$CONFIGURE_ARGS|g"
-> > +          -e "s|[@]TEST_TARGETSS@|$TEST_TARGETSS|g"
-> > +      <.gitlab-ci.d/cirrus/build.yml >.gitlab-ci.d/cirrus/$NAME.yml
-> > +    - cat .gitlab-ci.d/cirrus/$NAME.yml
-> > +    - cirrus-run -v --show-build-log always .gitlab-ci.d/cirrus/$NAME.yml
-> > +  rules:
-> > +    - if: "$TEMPORARILY_DISABLED"
-> > +      allow_failure: true
-> > +    - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
-> > +
-> > +x64-freebsd-12-build:
-> > +  extends: .cirrus_build_job
-> > +  variables:
-> > +    NAME: freebsd-12
-> > +    CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
-> > +    CIRRUS_VM_IMAGE_SELECTOR: image_family
-> > +    CIRRUS_VM_IMAGE_NAME: freebsd-12-2
-> > +    CIRRUS_VM_CPUS: 8
-> > +    CIRRUS_VM_RAM: 8G
-> > +    UPDATE_COMMAND: pkg update
-> > +    INSTALL_COMMAND: pkg install -y
-> > +    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
-> > +    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
-> > +    CONFIGURE_ARGS: --disable-gnutls
-> > +    TEST_TARGETS: check
-> > +
-> > +x64-freebsd-13-build:
-> > +  extends: .cirrus_build_job
-> > +  variables:
-> > +    NAME: freebsd-13
-> > +    CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
-> > +    CIRRUS_VM_IMAGE_SELECTOR: image_family
-> > +    CIRRUS_VM_IMAGE_NAME: freebsd-13-0
-> > +    CIRRUS_VM_CPUS: 8
-> > +    CIRRUS_VM_RAM: 8G
-> > +    UPDATE_COMMAND: pkg update
-> > +    INSTALL_COMMAND: pkg install -y
-> > +    TEST_TARGETS: check
-> > +
-> > +x64-macos-11-base-build:
-> > +  extends: .cirrus_build_job
-> > +  variables:
-> > +    NAME: macos-11
-> > +    CIRRUS_VM_INSTANCE_TYPE: osx_instance
-> > +    CIRRUS_VM_IMAGE_SELECTOR: image
-> > +    CIRRUS_VM_IMAGE_NAME: big-sur-base
-> > +    CIRRUS_VM_CPUS: 12
-> > +    CIRRUS_VM_RAM: 24G
-> > +    UPDATE_COMMAND: brew update
-> > +    INSTALL_COMMAND: brew install
-> > +    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
-> > +    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-> > +    TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
-> > +
-> > +x64-macos-11-xcode-build:
-> > +  extends: .cirrus_build_job
-> > +  variables:
-> > +    NAME: macos-11
-> > +    CIRRUS_VM_INSTANCE_TYPE: osx_instance
-> > +    CIRRUS_VM_IMAGE_SELECTOR: image
-> > +    CIRRUS_VM_IMAGE_NAME: big-sur-xcode
-> > +    CIRRUS_VM_CPUS: 12
-> > +    CIRRUS_VM_RAM: 24G
-> > +    UPDATE_COMMAND: brew update
-> > +    INSTALL_COMMAND: brew install
-> > +    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
-> > +    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-> > +    TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
-> 
-> Not directly related to your patch, but I wonder whether we really gain much
-> by having two macos build jobs in our CI ... they seem to be very similar,
-> e.g. compare the output of the "configure" step of the "macos" and the
-> "macos_xcode" job here:
-> 
->  https://cirrus-ci.com/build/4919300914937856
-> 
-> The diff basically looks like this:
+Hi,
+On 2021/6/23 1:39, Daniel P. Berrangé wrote:
+> On Tue, Jun 22, 2021 at 07:29:34PM +0200, Andrew Jones wrote:
+>> On Tue, Jun 22, 2021 at 06:14:25PM +0100, Daniel P. Berrangé wrote:
+>>> On Tue, Jun 22, 2021 at 05:40:13PM +0200, Igor Mammedov wrote:
+>>>> On Tue, 22 Jun 2021 16:29:15 +0200
+>>>> Andrew Jones <drjones@redhat.com> wrote:
+>>>>
+>>>>> On Tue, Jun 22, 2021 at 03:10:57PM +0100, Daniel P. Berrangé wrote:
+>>>>>> On Tue, Jun 22, 2021 at 10:04:52PM +0800, wangyanan (Y) wrote:
+>>>>>>> Hi Daniel,
+>>>>>>>
+>>>>>>> On 2021/6/22 20:41, Daniel P. Berrangé wrote:
+>>>>>>>> On Tue, Jun 22, 2021 at 08:31:22PM +0800, wangyanan (Y) wrote:
+>>>>>>>>> On 2021/6/22 19:46, Andrew Jones wrote:
+>>>>>>>>>> On Tue, Jun 22, 2021 at 11:18:09AM +0100, Daniel P. Berrangé wrote:
+>>>>>>>>>>> On Tue, Jun 22, 2021 at 05:34:06PM +0800, Yanan Wang wrote:
+>>>>>>>>>>>> Hi,
+>>>>>>>>>>>>
+>>>>>>>>>>>> This is v4 of the series [1] that I posted to introduce support for
+>>>>>>>>>>>> generating cpu topology descriptions to guest. Comments are welcome!
+>>>>>>>>>>>>
+>>>>>>>>>>>> Description:
+>>>>>>>>>>>> Once the view of an accurate virtual cpu topology is provided to guest,
+>>>>>>>>>>>> with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
+>>>>>>>>>>>> e.g., the scheduling performance improvement. See Dario Faggioli's
+>>>>>>>>>>>> research and the related performance tests in [2] for reference. So here
+>>>>>>>>>>>> we go, this patch series introduces cpu topology support for ARM platform.
+>>>>>>>>>>>>
+>>>>>>>>>>>> In this series, instead of quietly enforcing the support for the latest
+>>>>>>>>>>>> machine type, a new parameter "expose=on|off" in -smp command line is
+>>>>>>>>>>>> introduced to leave QEMU users a choice to decide whether to enable the
+>>>>>>>>>>>> feature or not. This will allow the feature to work on different machine
+>>>>>>>>>>>> types and also ideally compat with already in-use -smp command lines.
+>>>>>>>>>>>> Also we make much stricter requirement for the topology configuration
+>>>>>>>>>>>> with "expose=on".
+>>>>>>>>>>> Seeing this 'expose=on' parameter feels to me like we're adding a
+>>>>>>>>>>> "make-it-work=yes" parameter. IMHO this is just something that should
+>>>>>>>>>>> be done by default for the current machine type version and beyond.
+>>>>>>>>>>> I don't see the need for a parameter to turnthis on, especially since
+>>>>>>>>>>> it is being made architecture specific.
+>>>>>>>>>>>    
+>>>>>>>>>> I agree.
+>>>>>>>>>>
+>>>>>>>>>> Yanan, we never discussed an "expose" parameter in the previous versions
+>>>>>>>>>> of this series. We discussed a "strict" parameter though, which would
+>>>>>>>>>> allow existing command lines to "work" using assumptions of what the user
+>>>>>>>>>> meant and strict=on users to get what they mean or an error saying that
+>>>>>>>>>> they asked for something that won't work or would require unreasonable
+>>>>>>>>>> assumptions. Why was this changed to an "expose" parameter?
+>>>>>>>>> Yes, we indeed discuss a new "strict" parameter but not a "expose" in v2 [1]
+>>>>>>>>> of this series.
+>>>>>>>>> [1] https://patchwork.kernel.org/project/qemu-devel/patch/20210413080745.33004-6-wangyanan55@huawei.com/
+>>>>>>>>>
+>>>>>>>>> And in the discussion, we hoped things would work like below with "strict"
+>>>>>>>>> parameter:
+>>>>>>>>> Users who want to describe cpu topology should provide cmdline like
+>>>>>>>>>
+>>>>>>>>> -smp strict=on,cpus=4,sockets=2,cores=2,threads=1
+>>>>>>>>>
+>>>>>>>>> and in this case we require an more accurate -smp configuration and
+>>>>>>>>> then generate the cpu topology description through ACPI/DT.
+>>>>>>>>>
+>>>>>>>>> While without a strict description, no cpu topology description would
+>>>>>>>>> be generated, so they get nothing through ACPI/DT.
+>>>>>>>>>
+>>>>>>>>> It seems to me that the "strict" parameter actually serves as a knob to
+>>>>>>>>> turn on/off the exposure of topology, and this is the reason I changed
+>>>>>>>>> the name.
+>>>>>>>> Yes, the use of 'strict=on' is no better than expose=on IMHO.
+>>>>>>>>
+>>>>>>>> If I give QEMU a cli
+>>>>>>>>
+>>>>>>>>     -smp cpus=4,sockets=2,cores=2,threads=1
+>>>>>>>>
+>>>>>>>> then I expect that topology to be exposed to the guest. I shouldn't
+>>>>>>>> have to add extra flags to make that happen.
+>>>>>>>>
+>>>>>>>> Looking at the thread, it seems the concern was around the fact that
+>>>>>>>> the settings were not honoured historically and thus the CLI values
+>>>>>>>> could be garbage. ie  -smp cpus=4,sockets=8,cores=3,thread=9
+>>>>>>> This "-smp cpus=4,sockets=8,cores=3,threads=9" behaviors as a wrong
+>>>>>>> configuration, and the parsing function already report error for this case.
+>>>>>>>
+>>>>>>> We hope more complete config like "-smp 4,sockets=2,cores=2,threads=1"
+>>>>>>> for exposure of topology, and the incomplete ones like "-smp 4,sockets=1"
+>>>>>>> or "-smp 4, cores=1" are not acceptable any more because we are starting
+>>>>>>> to expose the topology.
+>>>>>> Incomplete specified topologies *are* acceptable.
+>>>>>>
+>>>>>> The smp_parse method will automatically fill in any missing values.
+>>>>>>
+>>>>>> ie,
+>>>>>>
+>>>>>>    -smp 4,cores=1
+>>>>>>    -smp cores=1
+>>>>>>    -smp threads=1
+>>>>>>    -smp sockets=4
+>>>>>>
+>>>>>> are all functionally identical to
+>>>>>>
+>>>>>>    -smp 4,sockets=4,cores=1,dies=1,threads=1
+>>>>>>
+>>>>>>
+>>>>>> The QEMU man page says this explicitly
+>>>>>>
+>>>>>>                   For the PC target, the number of cores per die, the
+>>>>>>      number of threads per cores, the number of dies per packages and the
+>>>>>>      total number of sockets can be specified. Missing values will be
+>>>>>>      computed. If any on the three values is given, the total number of
+>>>>>>      CPUs n can be omitted.
+>>>>> It doesn't say how it will compute them though, which for the default
+>>>>> smp_parse and for x86 is to prefer sockets over cores over threads.
+>>>>> That's not necessarily what the user expects. IMO, we need a 'strict=on'
+>>>>> parameter that doesn't allow any collection of smp parameters which
+>>>>> require unreasonable assumptions. Reasonable assumptions are threads=1,
+>>>>> when threads is not specified and the rest of the math adds up. Also,
+>>>>> maxcpus == cpus when maxcpus isn't specified is reasonable. But, it's not
+>>>>> as reasonable to decide how to divide cores among sockets or to assume
+>>>>> threads=1 when only sockets and cores are given. How do we know the user
+>>>>> didn't forget to specify threads if we can't check the math?
+>>>> or just outlaw all invalid topologies incl. incomplete by default
+>>>> (without requiring extra option), and permit them only for old machine
+>>>> types ()using compat machinery) without topo info provided to guest.
+>>>> And maybe later deprecate invalid topologies altogether.
+>>> This feels like it is creating pain for users to fix a problem that
+>>> isn't shown to actually be causing any common issues.
+>>>
+>>> We've supposed that users are having problems when forgetting to
+>>> specify "threads" and not having the compute value be desirable,
+>>> but where are the bug reports to back this up ?
+>>>
+>>> The partial topologies are valid and have well defined semantics.
+>>> Those semantics may not match everyone's preference, but that
+>>> doesn't make them invalid.
+>>>
+>> If we adopt the [undocumented] semantics of x86 for arm, then we may
+>> surprise some users that expect e.g. '-smp 16' to give them a single
+>> socket with 16 cores, because they'll start getting 16 sockets with 1
+>> core each. That's because if we don't describe a topology to an arm linux
+>> guest then it assumes cores. Maybe we shouldn't worry about this, but I'd
+>> prefer we require explicit inputs from users and, if necessary, for them
+>> to explicitly opt-in to requiring those explicit inputs.
+> Even for x86, defaulting to maximising sockets over cores is sub-optimal.
+> In real world x86 hardware it is very rare to have sockets > 2 or 4. For
+> large CPU counts, you generally have large cores-per-socket counts on x86.
+>
+> The QEMU preference for sockets over cores on x86 (and PPC too IIUC)
+> is a fairly arbitrary historical decision.
+>
+> It can cause problems with guest OS licensing because both Windows
+> and RHEL have been known to charge differently for sockets vs cores,
+> with high core counts being cheaper.
+>
+> We are not tied into the precise behaviour of the computed topology
+> values, as we have no made any promises. All that's required is that
+> we keep ABI compat for existing machine types.
+If based on this point of view that we haven't made any promises for the
+precise behavior of the computed topology, things may get much easier.
+I have the following understanding (also a proposal):
 
-snip
+We will introduce the support for exposing cpu topology since machine
+type 6.2 and we will also describe the computed topology for the guest.
+We will not make any stricter parsing logic, however the -smp content in
+qemu-options.hx should be rearranged to clearly explain how the missing
+values will exactly be computed. And this is what QEMU is responsible for.
 
+We know that a well designed cpu topology configuration can gain much
+benefit for the guest, while a badly designed one will also probably cause
+negative impact. But the users should be responsible for the design of the
+-smp cmdlines. If they are using an incomplete cmdline for a 6.2 machine,
+then they should have known what the computed values will be and that
+the computed topology will be exposed to the guest.
+>
+> So we could decide to change the computed topology so that it prefers
+> high core counts, over sockets, whem using new machine types only.
+> That would seem to benefit all arches, by making QEMU more reflective
+> of real world CPUs topology.
+If we really decide to prefer cores over sockets over threads for new 
+machine
+types, then I think we should also record this change in qemu-option.hx.
 
-Looking back, the 2nd job was added by
-
-
-commit fc84471ae2867823f56b1ad1705de324c2d8b725
-Author: Alex Bennée <alex.bennee@linaro.org>
-Date:   Wed Oct 16 19:27:13 2019 +0100
-
-    cirrus.yml: add latest Xcode build target
-    
-    CirrusCI provides a mojave-xcode alias for the latest Xcode available.
-    Let's use it to make sure we track the latest releases.
-    
-
-At the time this was added there was likely a significant difference
-in XCode versions.
-
-Since that time, both images were upgraded to catalina, instead of
-mojave, and that appears to have eliminated the differences. My
-changes upgrade again to big-sur.
-
-So yes, we can drop the 2nd job at this time,
-
-
-> > diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
-> > new file mode 100644
-> > index 0000000000..857bdc5536
-> > --- /dev/null
-> > +++ b/.gitlab-ci.d/cirrus/build.yml
-> > @@ -0,0 +1,35 @@
-> > +@CIRRUS_VM_INSTANCE_TYPE@:
-> > +  @CIRRUS_VM_IMAGE_SELECTOR@: @CIRRUS_VM_IMAGE_NAME@
-> > +  cpu: @CIRRUS_VM_CPUS@
-> > +  memory: @CIRRUS_VM_RAM@
-> > +
-> > +env:
-> > +  CIRRUS_CLONE_DEPTH: 1
-> > +  CI_REPOSITORY_URL: "@CI_REPOSITORY_URL@"
-> > +  CI_COMMIT_REF_NAME: "@CI_COMMIT_REF_NAME@"
-> > +  CI_COMMIT_SHA: "@CI_COMMIT_SHA@"
-> > +  PATH: "@PATH@"
-> > +  PKG_CONFIG_PATH: "@PKG_CONFIG_PATH@"
-> > +  PYTHON: "@PYTHON@"
-> > +  MAKE: "@MAKE@"
-> > +  CONFIGURE_ARGS: "@CONFIGURE_ARGS@"
-> > +
-> > +build_task:
-> > +  install_script:
-> > +    - @UPDATE_COMMAND@
-> > +    - @INSTALL_COMMAND@ @PKGS@
-> > +    - if test -n "@PYPI_PKGS@" ; then @PIP3@ install @PYPI_PKGS@ ; fi
-> > +  clone_script:
-> > +    - git clone --depth 100 "$CI_REPOSITORY_URL" .
-> > +    - git fetch origin "$CI_COMMIT_REF_NAME"
-> > +    - git reset --hard "$CI_COMMIT_SHA"
-> > +  build_script:
-> > +    - mkdir build
-> > +    - cd build
-> > +    - ../configure --enable-werror $CONFIGURE_ARGS
-> > +      || { cat config.log meson-logs/meson-log.txt; exit 1; }
-> > +    - $MAKE -j$(sysctl -n hw.ncpu)
-> > +    - for TARGET in $TEST_TARGETS ;
-> > +      do
-> > +        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
-> > +      done
-> 
-> You seem to try to enable ccache in the other files (e.g. by extending the
-> PATH) ... however, I don't see where you try to save the ccache directory
-> between the runs... so I guess that ccache won't be working with this setup
-> yet? In that case, I'd recommend to rather drop the other ccache changes
-> again, since the initial run with ccache (where the cache gets populated) is
-> rather slower than compiling without ccache.
-
-I'll examine that. I think the path change is harmless though, because it
-points to a location that I don't think exists. 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+Yanan
+.
+> Regards,
+> Daniel
 
 
