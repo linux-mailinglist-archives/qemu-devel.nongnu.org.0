@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A418B3B6243
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:44:40 +0200 (CEST)
-Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B483B6244
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:44:41 +0200 (CEST)
+Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxsV5-0001vP-O1
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59500)
+	id 1lxsV6-00024Q-QH
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lxsTL-0000Ws-D5
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:42:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35092)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lxsTU-0000h0-OQ
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:43:03 -0400
+Resent-Date: Mon, 28 Jun 2021 10:43:00 -0400
+Resent-Message-Id: <E1lxsTU-0000h0-OQ@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lxsTI-00054U-4U
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:42:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624891366;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FUOlKerTUhwWPZzzvy9wAI2kKSLhzXWi4s/IR6gWAoU=;
- b=IrFVv0iCz9yoFuy3JozRM00miwU2Gtkq1pUDQCSFUJ+4bvH63YizXb0tPL18Q7SjFWAWGe
- F4QYJNjPYydF59rRBwtVI3ETdmP+5wKxbk+x76lkknY6KNyRCASrrUQATnACEkMPt8kAyK
- +xKJThrNGFS/MLA3xWbwrqyDfM5aJiE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-Sv7B574dMrWOvV71SqxUsA-1; Mon, 28 Jun 2021 10:42:45 -0400
-X-MC-Unique: Sv7B574dMrWOvV71SqxUsA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BFE3100CF7A;
- Mon, 28 Jun 2021 14:42:44 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B99B45D9DC;
- Mon, 28 Jun 2021 14:42:38 +0000 (UTC)
-Date: Mon, 28 Jun 2021 16:42:37 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 1/6] i386/pc: Account IOVA reserved ranges above 4G
- boundary
-Message-ID: <20210628164237.5f6b17ac@redhat.com>
-In-Reply-To: <YNRRFUvIJOKW7AJ6@work-vm>
-References: <20210622154905.30858-1-joao.m.martins@oracle.com>
- <20210622154905.30858-2-joao.m.martins@oracle.com>
- <20210623110341.0ceca1b4@redhat.com> <YNRRFUvIJOKW7AJ6@work-vm>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lxsTS-00059o-Db
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:43:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624891373; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Xgtb/n8hW2S18yCpjjG5f8H2Ez2btf1d2SQDVuP/RzrTINo2TLae0FxiJQ6DnDbtk+CFlePeiNY4TyubCEnI1FfuM93nQwNgHkThY3Lij+cbyQ3rwWaZafPlYKFiAFgMpMAdNx/HKG7vX5Zq2C/4UF/lzMP3qoAFvyvSuTNyVVA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1624891373;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=X3OAuB3IW+w5nnPNibawW7JCAZVyK5HhqkYAtaxrA+I=; 
+ b=OIVuo9JDn4AeC/0gpbSfcLcn+wQ7WyR2s/OGJoW6zwDnaFABXwrpqc2Ooau2v93w0bLspLFOX6dQ86l5QSSL3p2MwoqgGbGeqO9FmvWQeZFoHT0sqhY2vKT9v61+KRSASN5IVDGSjA19rQDaPAc1iiUGrzlrQOAo618T0aJtQN4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1624891371120935.592901504753;
+ Mon, 28 Jun 2021 07:42:51 -0700 (PDT)
+In-Reply-To: <20210628143551.2870006-1-richard.henderson@linaro.org>
+Subject: Re: [PULL 0/5] target/alpha patch queue
+Message-ID: <162489137016.7989.16664528574107569290@7c66fb7bc3ab>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Mon, 28 Jun 2021 07:42:51 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,314 +66,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Joao Martins <joao.m.martins@oracle.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Jun 2021 10:32:05 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-
-> * Igor Mammedov (imammedo@redhat.com) wrote:
-> > On Tue, 22 Jun 2021 16:49:00 +0100
-> > Joao Martins <joao.m.martins@oracle.com> wrote:
-> >   
-> > > It is assumed that the whole GPA space is available to be
-> > > DMA addressable, within a given address space limit. Since
-> > > v5.4 based that is not true, and VFIO will validate whether
-> > > the selected IOVA is indeed valid i.e. not reserved by IOMMU
-> > > on behalf of some specific devices or platform-defined.
-> > > 
-> > > AMD systems with an IOMMU are examples of such platforms and
-> > > particularly may export only these ranges as allowed:
-> > > 
-> > > 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
-> > > 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
-> > > 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb)
-> > > 
-> > > We already know of accounting for the 4G hole, albeit if the
-> > > guest is big enough we will fail to allocate a >1010G given
-> > > the ~12G hole at the 1Tb boundary, reserved for HyperTransport.
-> > > 
-> > > When creating the region above 4G, take into account what
-> > > IOVAs are allowed by defining the known allowed ranges
-> > > and search for the next free IOVA ranges. When finding a
-> > > invalid IOVA we mark them as reserved and proceed to the
-> > > next allowed IOVA region.
-> > > 
-> > > After accounting for the 1Tb hole on AMD hosts, mtree should
-> > > look like:
-> > > 
-> > > 0000000100000000-000000fcffffffff (prio 0, i/o):
-> > > 	alias ram-above-4g @pc.ram 0000000080000000-000000fc7fffffff
-> > > 0000010000000000-000001037fffffff (prio 0, i/o):
-> > > 	alias ram-above-1t @pc.ram 000000fc80000000-000000ffffffffff  
-> > 
-> > You are talking here about GPA which is guest specific thing
-> > and then somehow it becomes tied to host. For bystanders it's
-> > not clear from above commit message how both are related.
-> > I'd add here an explicit explanation how AMD host is related GPAs
-> > and clarify where you are talking about guest/host side.
-> > 
-> > also what about usecases:
-> >  * start QEMU with Intel cpu model on AMD host with intel's iommu  
-
-I vaguely recall KVM fixing up vendor_id to host's CPU type
-without redefining the rest of CPU model but I can't find it anymore.
-Though I'm not sure how guest kernel would behave in this mixed case,
-guest might get confused.
-
-> Does that work?
-> 
-> >  * start QEMU with AMD cpu model and AMD's iommu on Intel host  
-> 
-> Isn't the case we commonly do:
->    * start QEMU with AMD cpu model on AMD host with Intel iommu?
-> Dave
-> 
-> >  * start QEMU in TCG mode on AMD host (mostly form qtest point ot view)
-> >   
-> > > Co-developed-by: Daniel Jordan <daniel.m.jordan@oracle.com>
-> > > Signed-off-by: Daniel Jordan <daniel.m.jordan@oracle.com>
-> > > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> > > ---
-> > >  hw/i386/pc.c         | 103 +++++++++++++++++++++++++++++++++++++++----
-> > >  include/hw/i386/pc.h |  57 ++++++++++++++++++++++++
-> > >  target/i386/cpu.h    |   3 ++
-> > >  3 files changed, 154 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > > index c6d8d0d84d91..52a5473ba846 100644
-> > > --- a/hw/i386/pc.c
-> > > +++ b/hw/i386/pc.c
-> > > @@ -91,6 +91,7 @@
-> > >  #include "qapi/qmp/qerror.h"
-> > >  #include "e820_memory_layout.h"
-> > >  #include "fw_cfg.h"
-> > > +#include "target/i386/cpu.h"
-> > >  #include "trace.h"
-> > >  #include CONFIG_DEVICES
-> > >  
-> > > @@ -860,6 +861,93 @@ void xen_load_linux(PCMachineState *pcms)
-> > >      x86ms->fw_cfg = fw_cfg;
-> > >  }
-> > >  
-> > > +struct GPARange usable_iova_ranges[] = {
-> > > +    { .start = 4 * GiB, .end = UINT64_MAX, .name = "ram-above-4g" },
-> > > +
-> > > +/*
-> > > + * AMD systems with an IOMMU have an additional hole close to the
-> > > + * 1Tb, which are special GPAs that cannot be DMA mapped. Depending
-> > > + * on kernel version, VFIO may or may not let you DMA map those ranges.
-> > > + * Starting v5.4 we validate it, and can't create guests on AMD machines
-> > > + * with certain memory sizes. The range is:
-> > > + *
-> > > + * FD_0000_0000h - FF_FFFF_FFFFh
-> > > + *
-> > > + * The ranges represent the following:
-> > > + *
-> > > + * Base Address   Top Address  Use
-> > > + *
-> > > + * FD_0000_0000h FD_F7FF_FFFFh Reserved interrupt address space
-> > > + * FD_F800_0000h FD_F8FF_FFFFh Interrupt/EOI IntCtl
-> > > + * FD_F900_0000h FD_F90F_FFFFh Legacy PIC IACK
-> > > + * FD_F910_0000h FD_F91F_FFFFh System Management
-> > > + * FD_F920_0000h FD_FAFF_FFFFh Reserved Page Tables
-> > > + * FD_FB00_0000h FD_FBFF_FFFFh Address Translation
-> > > + * FD_FC00_0000h FD_FDFF_FFFFh I/O Space
-> > > + * FD_FE00_0000h FD_FFFF_FFFFh Configuration
-> > > + * FE_0000_0000h FE_1FFF_FFFFh Extended Configuration/Device Messages
-> > > + * FE_2000_0000h FF_FFFF_FFFFh Reserved
-> > > + *
-> > > + * See AMD IOMMU spec, section 2.1.2 "IOMMU Logical Topology",
-> > > + * Table 3: Special Address Controls (GPA) for more information.
-> > > + */
-> > > +#define DEFAULT_NR_USABLE_IOVAS 1
-> > > +#define AMD_MAX_PHYSADDR_BELOW_1TB  0xfcffffffff
-> > > +    { .start = 1 * TiB, .end = UINT64_MAX, .name = "ram-above-1t" },
-> > > +};
-> > > +
-> > > + uint32_t nb_iova_ranges = DEFAULT_NR_USABLE_IOVAS;
-> > > +
-> > > +static void init_usable_iova_ranges(void)
-> > > +{
-> > > +    uint32_t eax, vendor[3];
-> > > +
-> > > +    host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
-> > > +    if (IS_AMD_VENDOR(vendor)) {
-> > > +        usable_iova_ranges[0].end = AMD_MAX_PHYSADDR_BELOW_1TB;
-> > > +        nb_iova_ranges++;
-> > > +    }
-> > > +}
-> > > +
-> > > +static void add_memory_region(MemoryRegion *system_memory, MemoryRegion *ram,
-> > > +                                hwaddr base, hwaddr size, hwaddr offset)
-> > > +{
-> > > +    hwaddr start, region_size, resv_start, resv_end;
-> > > +    struct GPARange *range;
-> > > +    MemoryRegion *region;
-> > > +    uint32_t index;
-> > > +
-> > > +    for_each_usable_range(index, base, size, range, start, region_size) {
-> > > +        region = g_malloc(sizeof(*region));
-> > > +        memory_region_init_alias(region, NULL, range->name, ram,
-> > > +                                 offset, region_size);
-> > > +        memory_region_add_subregion(system_memory, start, region);
-> > > +        e820_add_entry(start, region_size, E820_RAM);
-> > > +
-> > > +        assert(size >= region_size);
-> > > +        if (size == region_size) {
-> > > +            return;
-> > > +        }
-> > > +
-> > > +        /*
-> > > +         * There's memory left to create a region for, so there should be
-> > > +         * another valid IOVA range left.  Creating the reserved region
-> > > +         * would also be pointless.
-> > > +         */
-> > > +        if (index + 1 == nb_iova_ranges) {
-> > > +            return;
-> > > +        }
-> > > +
-> > > +        resv_start = start + region_size;
-> > > +        resv_end = usable_iova_ranges[index + 1].start;
-> > > +
-> > > +        /* Create a reserved region in the IOVA hole. */
-> > > +        e820_add_entry(resv_start, resv_end - resv_start, E820_RESERVED);
-> > > +
-> > > +        offset += region_size;
-> > > +    }
-> > > +}
-> > > +
-> > >  void pc_memory_init(PCMachineState *pcms,
-> > >                      MemoryRegion *system_memory,
-> > >                      MemoryRegion *rom_memory,
-> > > @@ -867,7 +955,7 @@ void pc_memory_init(PCMachineState *pcms,
-> > >  {
-> > >      int linux_boot, i;
-> > >      MemoryRegion *option_rom_mr;
-> > > -    MemoryRegion *ram_below_4g, *ram_above_4g;
-> > > +    MemoryRegion *ram_below_4g;
-> > >      FWCfgState *fw_cfg;
-> > >      MachineState *machine = MACHINE(pcms);
-> > >      MachineClass *mc = MACHINE_GET_CLASS(machine);
-> > > @@ -877,6 +965,8 @@ void pc_memory_init(PCMachineState *pcms,
-> > >      assert(machine->ram_size == x86ms->below_4g_mem_size +
-> > >                                  x86ms->above_4g_mem_size);
-> > >  
-> > > +    init_usable_iova_ranges();
-> > > +
-> > >      linux_boot = (machine->kernel_filename != NULL);
-> > >  
-> > >      /*
-> > > @@ -888,16 +978,11 @@ void pc_memory_init(PCMachineState *pcms,
-> > >      memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
-> > >                               0, x86ms->below_4g_mem_size);
-> > >      memory_region_add_subregion(system_memory, 0, ram_below_4g);
-> > > +
-> > >      e820_add_entry(0, x86ms->below_4g_mem_size, E820_RAM);
-> > >      if (x86ms->above_4g_mem_size > 0) {
-> > > -        ram_above_4g = g_malloc(sizeof(*ram_above_4g));
-> > > -        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
-> > > -                                 machine->ram,
-> > > -                                 x86ms->below_4g_mem_size,
-> > > -                                 x86ms->above_4g_mem_size);
-> > > -        memory_region_add_subregion(system_memory, 0x100000000ULL,
-> > > -                                    ram_above_4g);
-> > > -        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
-> > > +        add_memory_region(system_memory, machine->ram, 4 * GiB,
-> > > +                          x86ms->above_4g_mem_size, x86ms->below_4g_mem_size);
-> > >      }
-> > >  
-> > >      if (!pcmc->has_reserved_memory &&
-> > > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> > > index 1522a3359a93..73b8e2900c72 100644
-> > > --- a/include/hw/i386/pc.h
-> > > +++ b/include/hw/i386/pc.h
-> > > @@ -151,6 +151,63 @@ void pc_guest_info_init(PCMachineState *pcms);
-> > >  #define PCI_HOST_BELOW_4G_MEM_SIZE     "below-4g-mem-size"
-> > >  #define PCI_HOST_ABOVE_4G_MEM_SIZE     "above-4g-mem-size"
-> > >  
-> > > +struct GPARange {
-> > > +    uint64_t start;
-> > > +    uint64_t end;
-> > > +#define range_len(r) ((r).end - (r).start + 1)
-> > > +
-> > > +    const char *name;
-> > > +};
-> > > +
-> > > +extern uint32_t nb_iova_ranges;
-> > > +extern struct GPARange usable_iova_ranges[];
-> > > +
-> > > +static inline void next_iova_range_index(uint32_t i, hwaddr base, hwaddr size,
-> > > +                                         hwaddr *start, hwaddr *region_size,
-> > > +                                         uint32_t *index, struct GPARange **r)
-> > > +{
-> > > +    struct GPARange *range;
-> > > +
-> > > +    while (i < nb_iova_ranges) {
-> > > +        range = &usable_iova_ranges[i];
-> > > +        if (range->end >= base) {
-> > > +            break;
-> > > +        }
-> > > +        i++;
-> > > +    }
-> > > +
-> > > +    *index = i;
-> > > +    /* index is out of bounds or no region left to process */
-> > > +    if (i >= nb_iova_ranges || !size) {
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    *start = MAX(range->start, base);
-> > > +    *region_size = MIN(range->end - *start + 1, size);
-> > > +    *r = range;
-> > > +}
-> > > +
-> > > +/*
-> > > + * for_each_usable_range() - iterates over usable IOVA regions
-> > > + *
-> > > + * @i:      range index within usable_iova_ranges
-> > > + * @base:   requested address we want to use
-> > > + * @size:   total size of the region with @base
-> > > + * @r:      range indexed by @i within usable_iova_ranges
-> > > + * @s:      calculated usable iova address base
-> > > + * @i_size: calculated usable iova region size starting @s
-> > > + *
-> > > + * Use this iterator to walk through usable GPA ranges. Platforms
-> > > + * such as AMD with IOMMU capable hardware restrict certain address
-> > > + * ranges for Hyper Transport. This iterator helper lets user avoid
-> > > + * using those said reserved ranges.
-> > > + */
-> > > +#define for_each_usable_range(i, base, size, r, s, i_size) \
-> > > +    for (s = 0, i_size = 0, r = NULL, \
-> > > +         next_iova_range_index(0, base, size, &s, &i_size, &i, &r); \
-> > > +         i < nb_iova_ranges && size != 0; \
-> > > +         size -= i_size, \
-> > > +         next_iova_range_index(i + 1, base, size, &s, &i_size, &i, &r))
-> > >  
-> > >  void pc_pci_as_mapping_init(Object *owner, MemoryRegion *system_memory,
-> > >                              MemoryRegion *pci_address_space);
-> > > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> > > index 1e11071d817b..f8f15a4523c6 100644
-> > > --- a/target/i386/cpu.h
-> > > +++ b/target/i386/cpu.h
-> > > @@ -869,6 +869,9 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
-> > >  #define IS_AMD_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_AMD_1 && \
-> > >                           (env)->cpuid_vendor2 == CPUID_VENDOR_AMD_2 && \
-> > >                           (env)->cpuid_vendor3 == CPUID_VENDOR_AMD_3)
-> > > +#define IS_AMD_VENDOR(vendor) ((vendor[0]) == CPUID_VENDOR_AMD_1 && \
-> > > +                         (vendor[1]) == CPUID_VENDOR_AMD_2 && \
-> > > +                         (vendor[2]) == CPUID_VENDOR_AMD_3)
-> > >  
-> > >  #define CPUID_MWAIT_IBE     (1U << 1) /* Interrupts can exit capability */
-> > >  #define CPUID_MWAIT_EMX     (1U << 0) /* enumeration supported */  
-> > 
-> >   
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYyODE0MzU1MS4yODcw
+MDA2LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
+ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
+IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjI4
+MTQzNTUxLjI4NzAwMDYtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
+VUxMIDAvNV0gdGFyZ2V0L2FscGhhIHBhdGNoIHF1ZXVlCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
+PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
+ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
+Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
+Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
+ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBb
+dGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNjI2MDYzNjMxLjI0MTE5MzgtMS1yaWNoYXJk
+LmhlbmRlcnNvbkBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA2MjYwNjM2MzEuMjQxMTkzOC0x
+LXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hl
+dy8yMDIxMDYyODE0MzU1MS4yODcwMDA2LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAt
+PiBwYXRjaGV3LzIwMjEwNjI4MTQzNTUxLjI4NzAwMDYtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5h
+cm8ub3JnClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZWQ0MjU3ZCB0YXJnZXQvYWxw
+aGE6IEhvbm9yIHRoZSBGRU4gYml0CjNhYzAyNWIgcGMtYmlvczogVXBkYXRlIHRoZSBwYWxjb2Rl
+LWNsaXBwZXIgaW1hZ2UKN2UxZTM1MSBody9hbHBoYTogUHJvdmlkZSBhIFBDSS1JU0EgYnJpZGdl
+IGRldmljZSBub2RlCjNlZWY4MzMgaHcvYWxwaGE6IFByb3ZpZGUgY29uc29sZSBpbmZvcm1hdGlv
+biB0byB0aGUgUEFMY29kZSBhdCBzdGFydC11cAphOGM3MTI5IGh3L2FscGhhOiBTZXQgbWluaW11
+bSBQQ0kgZGV2aWNlIElEIHRvIDEgdG8gbWF0Y2ggQ2xpcHBlciBJUlEgbWFwcGluZ3MKCj09PSBP
+VVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgYThjNzEyOTkwNzYzIChody9hbHBo
+YTogU2V0IG1pbmltdW0gUENJIGRldmljZSBJRCB0byAxIHRvIG1hdGNoIENsaXBwZXIgSVJRIG1h
+cHBpbmdzKQoyLzUgQ2hlY2tpbmcgY29tbWl0IDNlZWY4MzMxNGUxMCAoaHcvYWxwaGE6IFByb3Zp
+ZGUgY29uc29sZSBpbmZvcm1hdGlvbiB0byB0aGUgUEFMY29kZSBhdCBzdGFydC11cCkKMy81IENo
+ZWNraW5nIGNvbW1pdCA3ZTFlMzUxNTQ3ZWEgKGh3L2FscGhhOiBQcm92aWRlIGEgUENJLUlTQSBi
+cmlkZ2UgZGV2aWNlIG5vZGUpCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyon
+IChjdHg6V3hWKQojNTQ6IEZJTEU6IGh3L2FscGhhL2FscGhhX3N5cy5oOjEzOgorUENJQnVzICp0
+eXBob29uX2luaXQoTWVtb3J5UmVnaW9uICosIHFlbXVfaXJxICosIHFlbXVfaXJxICosIEFscGhh
+Q1BVICpbNF0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAx
+MjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo0
+LzUgQ2hlY2tpbmcgY29tbWl0IDNhYzAyNWIxYWJiNyAocGMtYmlvczogVXBkYXRlIHRoZSBwYWxj
+b2RlLWNsaXBwZXIgaW1hZ2UpCjUvNSBDaGVja2luZyBjb21taXQgZWQ0MjU3ZDg0MDg0ICh0YXJn
+ZXQvYWxwaGE6IEhvbm9yIHRoZSBGRU4gYml0KQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
+bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
+dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDYyODE0MzU1MS4yODcwMDA2LTEtcmljaGFyZC5o
+ZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
+CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
+dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
+dC5jb20=
 
