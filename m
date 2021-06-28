@@ -2,59 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553DC3B65E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:41:18 +0200 (CEST)
-Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5249D3B6613
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:50:07 +0200 (CEST)
+Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxtNt-0000PE-DU
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45776)
+	id 1lxtWQ-0002bn-5E
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lxtMn-0007vX-71
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:40:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29008)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lxtVX-0001x8-5X
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:49:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lxtMg-0008Pv-MD
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:40:05 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lxtVU-00068T-EH
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:49:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624894802;
+ s=mimecast20190719; t=1624895347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nMZVP0rMKaHcIwUOjp6MilfFbdUQeCaEEsaHxOb/7fw=;
- b=bQUqw1kYYYDN2sKeYMEnILH+379HHXO0NBUGLqHfKeB8f9p/Wz3mUhx242hZtDX5OyryGh
- jFUco4BRzaGlHUMO5wkwHioOCMp8B1J4wscDujqJHmq1AFDFyk1TcgoCAuTqqm/gMYlhKW
- pvzC1CZpoTzdJgo5s0P4LmlZ4Jafs1g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-GC1GWV32PAqOGsNTTF-MCw-1; Mon, 28 Jun 2021 11:40:00 -0400
-X-MC-Unique: GC1GWV32PAqOGsNTTF-MCw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C6BA79EDD;
- Mon, 28 Jun 2021 15:39:59 +0000 (UTC)
-Received: from redhat.com (ovpn-112-137.ams2.redhat.com [10.36.112.137])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB0F5189C4;
- Mon, 28 Jun 2021 15:39:56 +0000 (UTC)
-Date: Mon, 28 Jun 2021 17:39:55 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v6 0/9] Allow changing bs->file on reopen
-Message-ID: <YNntS5cW0l4eEPlw@redhat.com>
-References: <20210610120537.196183-1-vsementsov@virtuozzo.com>
+ bh=BeBeHVr5QHOLg/CSfMbTluQDVS9JEQfwmZYCS+FcIHA=;
+ b=ZatEphcllJywbh2unEGJu+n4mLUHpCImtifS6hUULyxO5yqxBn8vtjSlT3ZVF21Tzo5EDR
+ BwbXoICvBSH1vfaAzJpx60SpceOgwFH/9G42adow7mZU0A6wq9WZInMvTp+R92b2To1UGh
+ oBBSKG/NMkQ1ZNJqaxCSBFwxpq4m3TY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-AuPAvxqvOkSgNE7DxwUWRA-1; Mon, 28 Jun 2021 11:49:06 -0400
+X-MC-Unique: AuPAvxqvOkSgNE7DxwUWRA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ b3-20020a05600018a3b029011a84f85e1cso4787664wri.10
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 08:49:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=BeBeHVr5QHOLg/CSfMbTluQDVS9JEQfwmZYCS+FcIHA=;
+ b=BL7h0341rRQ1hrCqPKnBy0gEv/BUfSm2uA+vk/y24JA5uMYOxLrk8oHBckvd3caKaE
+ DtkhEt490JwzYvX8jYR9UgkX29Wn9FwfS8QG/w/ZqETudNyeDICBLkuX52v81uRhTFf0
+ X9/haY8A+R1tvuKRMCeQIh6/UBColC+TBk+F0C14qJeJ6gzTuNW8Dv4RFC0NKAa6csyA
+ qb/AKtKyU832FGcGEajJ2bPJFAGKhMwFxj+03K9qmUVmoE9Swe37ocDpogm9QzVyABfV
+ miFPhYJPzb5aS/2DAlqy0aNFMDTy+PXQn8dYduQ6lTui5fdJRnMdm5hnknjQ4cjNcWb9
+ io8Q==
+X-Gm-Message-State: AOAM530CKOcIu/oENxM62qSmmVPFLytmgHHby6bqV7PqLJSgDtA6kY/d
+ EMrG+pu4CzNCqd3fE7ueAHLubq5l7pKp1Cd/Q17iK68A6ddOdq2WFU+vlWT7zcuucF/VYacklL1
+ t4GWADvQQvoWH7ww=
+X-Received: by 2002:a1c:9d10:: with SMTP id g16mr8651044wme.108.1624895345024; 
+ Mon, 28 Jun 2021 08:49:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxomz/O5HbIOtiF/dguK9NK/Rcr5QGSOywLtj7Z6BGz1TWCqZrHQh4nhtU6FaMnE3XRKtxRRQ==
+X-Received: by 2002:a1c:9d10:: with SMTP id g16mr8651013wme.108.1624895344736; 
+ Mon, 28 Jun 2021 08:49:04 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id d12sm12322167wri.77.2021.06.28.08.49.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 08:49:04 -0700 (PDT)
+Date: Mon, 28 Jun 2021 16:49:02 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v7 3/7] virtiofsd: Add support for extended setxattr
+Message-ID: <YNnvbneBCm4GYRP9@work-vm>
+References: <20210622150852.1507204-1-vgoyal@redhat.com>
+ <20210622150852.1507204-4-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610120537.196183-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210622150852.1507204-4-vgoyal@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -75,31 +96,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berto@igalia.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: virtio-fs@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
+ lhenriques@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.06.2021 um 14:05 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Note that this is only "subject" part of original Alberto's
-> "[PATCH v4 0/6] Allow changing bs->file on reopen" which also included
-> multiple reopen and dropping x- prefix of reopen together with some
-> refactoring.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Add the bits to enable support for setxattr_ext if fuse offers it. Do not
+> enable it by default yet. Let passthrough_ll opt-in. Enabling it by deafult
+> kind of automatically means that you are taking responsibility of clearing
+> SGID if ACL is set.
 > 
-> v6: rebased
-> 08: changed error message in test
-> 09: somehow, now '.' are spread in test output
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_common.h    |  5 +++++
+>  tools/virtiofsd/fuse_lowlevel.c  | 11 ++++++++++-
+>  tools/virtiofsd/fuse_lowlevel.h  |  3 ++-
+>  tools/virtiofsd/passthrough_ll.c |  3 ++-
+>  4 files changed, 19 insertions(+), 3 deletions(-)
 > 
-> Now, v6 based on two first simple patches of
->   "[PATCH v5 00/35] block: publish backup-top filter"
-> Based-on: <20210610112618.127378-1-vsementsov@virtuozzo.com>
-> 
-> So, if this goes first, just take first two patches of
-> "[PATCH v5 00/35] block: publish backup-top filter" which are already
-> reviewed by Max.
+> diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+> index 0c2665b977..8abac80098 100644
+> --- a/tools/virtiofsd/fuse_common.h
+> +++ b/tools/virtiofsd/fuse_common.h
+> @@ -377,6 +377,11 @@ struct fuse_file_info {
+>   */
+>  #define FUSE_CAP_SETXATTR_EXT (1 << 29)
+>  
+> +/**
+> + * Indicates that file server supports extended struct fuse_setxattr_in
+> + */
+> +#define FUSE_CAP_SETXATTR_EXT (1 << 29)
+> +
 
-Thanks, applied with the dependencies to the block branch.
+You already added that in 1/7 - but other than that, 
 
-Kevin
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+>  /**
+>   * Ioctl flags
+>   *
+> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> index c2b6ff1686..d1e24c013f 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.c
+> +++ b/tools/virtiofsd/fuse_lowlevel.c
+> @@ -1439,7 +1439,9 @@ static void do_setxattr(fuse_req_t req, fuse_ino_t nodeid,
+>      }
+>  
+>      if (req->se->op.setxattr) {
+> -        req->se->op.setxattr(req, nodeid, name, value, arg->size, arg->flags);
+> +        uint32_t setxattr_flags = setxattr_ext ? arg->setxattr_flags : 0;
+> +        req->se->op.setxattr(req, nodeid, name, value, arg->size, arg->flags,
+> +                             setxattr_flags);
+>      } else {
+>          fuse_reply_err(req, ENOSYS);
+>      }
+> @@ -1986,6 +1988,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+>      if (arg->flags & FUSE_HANDLE_KILLPRIV_V2) {
+>          se->conn.capable |= FUSE_CAP_HANDLE_KILLPRIV_V2;
+>      }
+> +    if (arg->flags & FUSE_SETXATTR_EXT) {
+> +        se->conn.capable |= FUSE_CAP_SETXATTR_EXT;
+> +    }
+>  #ifdef HAVE_SPLICE
+>  #ifdef HAVE_VMSPLICE
+>      se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
+> @@ -2121,6 +2126,10 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+>          outarg.flags |= FUSE_HANDLE_KILLPRIV_V2;
+>      }
+>  
+> +    if (se->conn.want & FUSE_CAP_SETXATTR_EXT) {
+> +        outarg.flags |= FUSE_SETXATTR_EXT;
+> +    }
+> +
+>      fuse_log(FUSE_LOG_DEBUG, "   INIT: %u.%u\n", outarg.major, outarg.minor);
+>      fuse_log(FUSE_LOG_DEBUG, "   flags=0x%08x\n", outarg.flags);
+>      fuse_log(FUSE_LOG_DEBUG, "   max_readahead=0x%08x\n", outarg.max_readahead);
+> diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+> index 3bf786b034..4b4e8c9724 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.h
+> +++ b/tools/virtiofsd/fuse_lowlevel.h
+> @@ -798,7 +798,8 @@ struct fuse_lowlevel_ops {
+>       *   fuse_reply_err
+>       */
+>      void (*setxattr)(fuse_req_t req, fuse_ino_t ino, const char *name,
+> -                     const char *value, size_t size, int flags);
+> +                     const char *value, size_t size, int flags,
+> +                     uint32_t setxattr_flags);
+>  
+>      /**
+>       * Get an extended attribute
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index ec91b3c133..9f5cd98fb5 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -2955,7 +2955,8 @@ out:
+>  }
+>  
+>  static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+> -                        const char *value, size_t size, int flags)
+> +                        const char *value, size_t size, int flags,
+> +                        uint32_t extra_flags)
+>  {
+>      char procname[64];
+>      const char *name;
+> -- 
+> 2.25.4
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
