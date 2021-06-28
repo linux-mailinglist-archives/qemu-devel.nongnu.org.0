@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328673B5C95
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 12:39:40 +0200 (CEST)
-Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6542E3B5CB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 12:49:20 +0200 (CEST)
+Received: from localhost ([::1]:50840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxofy-0000JR-Sr
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 06:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
+	id 1lxopL-0005jI-08
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 06:49:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lxoeu-00084f-JL
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 06:38:32 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:45955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lxoes-0003pr-0S
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 06:38:32 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- u8-20020a7bcb080000b02901e44e9caa2aso10733226wmj.4
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 03:38:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ZvLQjaifCm2OzbC/WKcWcqblFg5vvMznTLDx+q4KCsE=;
- b=btpLQ91WkpdikOEZn+9bxitb+KKc286S4AhT0GAPJ1Kky+5d4mbgv4TX9NgbdUDcyL
- eNBAGCGknAFsfJCaHCxCw2BHnuu5RIDFw/8jBFwazcgL4sGgeFUyio3UWeezkQedyTtO
- SiWA3WcqXw25RTSJXmamiQSRF8uG+Gn6uqgwQnwa/t9lrFfeveQwr4/o8spVhg90LQ/N
- eYz81MyLqhVpwFxR69zjE8bcd4kKovs+2x1bJdN5+tq2PYxe5N3SiD5qXIF+sI7t9w14
- AnvrrjKbXMIEflmBJNwOVdzEwFLT3g5U4Dbu6aRla4lJL12k6VU39Mx2rT2bnVKtfU3Z
- 6kxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ZvLQjaifCm2OzbC/WKcWcqblFg5vvMznTLDx+q4KCsE=;
- b=okHKODwFcrI5pB5GkQoHX5XFjGWY1JlBF4sL2wsT6WX0c0VzuPmOTni5cPLrfZ+ibf
- QzU+5MVtBt0/UH8eKpdG7FgpTqo8qQMCsPDv2G4haKkKKU0lcow2XpZpJs59rQfiia4U
- PuXtAZ7uZtXbvV1SklnbHyJtiFVUI0bASCXOAfuy7wQ5Of9RtS27blFUDEhxWm5dgoJz
- fKWhki0LhBQ7nXEQtOStmmSlK/2Vc5eh3aUQlXorRn5PpHW3m+amcesi2G7OKluasKoe
- q4efRxZ50gJqYnJ68M/xFvqWx42ZXimE3CBcE3enFsTrWH482PrMHffnMu+Qw430zofc
- J5KA==
-X-Gm-Message-State: AOAM530VraySvBKKFuf6zYXLcutS1GGJbgcM5Xsgx6N/dKfnuE2NhSNa
- XJPxChBZeuRoPM+ut8EOhl/adg==
-X-Google-Smtp-Source: ABdhPJzf04lx8Jb2VzGfObePCzvi55scitm+sIkPN6MKbdWV1zg6noBQeofdrsn1Y/TnqA2/F2yU7A==
-X-Received: by 2002:a05:600c:a45:: with SMTP id
- c5mr26320794wmq.153.1624876705169; 
- Mon, 28 Jun 2021 03:38:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c16sm5966923wmr.2.2021.06.28.03.38.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Jun 2021 03:38:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 769E61FF7E;
- Mon, 28 Jun 2021 11:38:23 +0100 (BST)
-References: <20210623155553.481099-1-ma.mandourr@gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [RFC PATCH] Subject: [RFC PATCH] plugins: Passed the parsed
- arguments directly to plugins
-Date: Fri, 25 Jun 2021 12:38:37 +0100
-In-reply-to: <20210623155553.481099-1-ma.mandourr@gmail.com>
-Message-ID: <87r1gmw9y8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lxooR-0004r5-GI; Mon, 28 Jun 2021 06:48:23 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2428)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lxooN-0001ZZ-RQ; Mon, 28 Jun 2021 06:48:23 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GD44h0D2YzZkgy;
+ Mon, 28 Jun 2021 18:45:08 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 18:48:12 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 18:48:11 +0800
+Subject: Re: [RFC PATCH v4 0/7] hw/arm/virt: Introduce cpu topology support
+To: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <bc47a66a-b1ff-939c-32a2-94c90efd0caf@huawei.com>
+ <YNHalhuNZhMa665J@redhat.com>
+ <7fcc5f2d-cc84-3464-15cc-3bebb07f8190@huawei.com>
+ <YNHvcQAMLSpVcxaE@redhat.com> <20210622142915.pekttdvbi3q5vnh3@gator>
+ <20210622174013.52422c73@redhat.com> <YNIacfpt+iHHHzT6@redhat.com>
+ <20210622172934.537l7e27sxd6car6@gator> <YNIgInK00yNNI4Dy@redhat.com>
+ <d695bc58-f648-38e5-cd98-9d91fcebd80a@huawei.com>
+ <20210628085805.5y7bxvqprx75hwi4@gator>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <5c8c0f85-4d4f-61db-b1e8-adaae2b78106@huawei.com>
+Date: Mon, 28 Jun 2021 18:48:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210628085805.5y7bxvqprx75hwi4@gator>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,101 +72,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ yangyicong@huawei.com, yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
+ zhukeqian1@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2021/6/28 16:58, Andrew Jones wrote:
+> On Mon, Jun 28, 2021 at 04:43:05PM +0800, wangyanan (Y) wrote:
+>> Hi,
+>> On 2021/6/23 1:39, Daniel P. Berrangé wrote:
+>>> On Tue, Jun 22, 2021 at 07:29:34PM +0200, Andrew Jones wrote:
+>>>> On Tue, Jun 22, 2021 at 06:14:25PM +0100, Daniel P. Berrangé wrote:
+>>>>> On Tue, Jun 22, 2021 at 05:40:13PM +0200, Igor Mammedov wrote:
+>>>>>> On Tue, 22 Jun 2021 16:29:15 +0200
+>>>>>> Andrew Jones <drjones@redhat.com> wrote:
+>>>>>>
+>>>>>>> On Tue, Jun 22, 2021 at 03:10:57PM +0100, Daniel P. Berrangé wrote:
+>>>>>>>> On Tue, Jun 22, 2021 at 10:04:52PM +0800, wangyanan (Y) wrote:
+>>>>>>>>> Hi Daniel,
+>>>>>>>>>
+>>>>>>>>> On 2021/6/22 20:41, Daniel P. Berrangé wrote:
+>>>>>>>>>> On Tue, Jun 22, 2021 at 08:31:22PM +0800, wangyanan (Y) wrote:
+>>>>>>>>>>> On 2021/6/22 19:46, Andrew Jones wrote:
+>>>>>>>>>>>> On Tue, Jun 22, 2021 at 11:18:09AM +0100, Daniel P. Berrangé wrote:
+>>>>>>>>>>>>> On Tue, Jun 22, 2021 at 05:34:06PM +0800, Yanan Wang wrote:
+>>>>>>>>>>>>>> Hi,
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> This is v4 of the series [1] that I posted to introduce support for
+>>>>>>>>>>>>>> generating cpu topology descriptions to guest. Comments are welcome!
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Description:
+>>>>>>>>>>>>>> Once the view of an accurate virtual cpu topology is provided to guest,
+>>>>>>>>>>>>>> with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
+>>>>>>>>>>>>>> e.g., the scheduling performance improvement. See Dario Faggioli's
+>>>>>>>>>>>>>> research and the related performance tests in [2] for reference. So here
+>>>>>>>>>>>>>> we go, this patch series introduces cpu topology support for ARM platform.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> In this series, instead of quietly enforcing the support for the latest
+>>>>>>>>>>>>>> machine type, a new parameter "expose=on|off" in -smp command line is
+>>>>>>>>>>>>>> introduced to leave QEMU users a choice to decide whether to enable the
+>>>>>>>>>>>>>> feature or not. This will allow the feature to work on different machine
+>>>>>>>>>>>>>> types and also ideally compat with already in-use -smp command lines.
+>>>>>>>>>>>>>> Also we make much stricter requirement for the topology configuration
+>>>>>>>>>>>>>> with "expose=on".
+>>>>>>>>>>>>> Seeing this 'expose=on' parameter feels to me like we're adding a
+>>>>>>>>>>>>> "make-it-work=yes" parameter. IMHO this is just something that should
+>>>>>>>>>>>>> be done by default for the current machine type version and beyond.
+>>>>>>>>>>>>> I don't see the need for a parameter to turnthis on, especially since
+>>>>>>>>>>>>> it is being made architecture specific.
+>>>>>>>>>>>> I agree.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Yanan, we never discussed an "expose" parameter in the previous versions
+>>>>>>>>>>>> of this series. We discussed a "strict" parameter though, which would
+>>>>>>>>>>>> allow existing command lines to "work" using assumptions of what the user
+>>>>>>>>>>>> meant and strict=on users to get what they mean or an error saying that
+>>>>>>>>>>>> they asked for something that won't work or would require unreasonable
+>>>>>>>>>>>> assumptions. Why was this changed to an "expose" parameter?
+>>>>>>>>>>> Yes, we indeed discuss a new "strict" parameter but not a "expose" in v2 [1]
+>>>>>>>>>>> of this series.
+>>>>>>>>>>> [1] https://patchwork.kernel.org/project/qemu-devel/patch/20210413080745.33004-6-wangyanan55@huawei.com/
+>>>>>>>>>>>
+>>>>>>>>>>> And in the discussion, we hoped things would work like below with "strict"
+>>>>>>>>>>> parameter:
+>>>>>>>>>>> Users who want to describe cpu topology should provide cmdline like
+>>>>>>>>>>>
+>>>>>>>>>>> -smp strict=on,cpus=4,sockets=2,cores=2,threads=1
+>>>>>>>>>>>
+>>>>>>>>>>> and in this case we require an more accurate -smp configuration and
+>>>>>>>>>>> then generate the cpu topology description through ACPI/DT.
+>>>>>>>>>>>
+>>>>>>>>>>> While without a strict description, no cpu topology description would
+>>>>>>>>>>> be generated, so they get nothing through ACPI/DT.
+>>>>>>>>>>>
+>>>>>>>>>>> It seems to me that the "strict" parameter actually serves as a knob to
+>>>>>>>>>>> turn on/off the exposure of topology, and this is the reason I changed
+>>>>>>>>>>> the name.
+>>>>>>>>>> Yes, the use of 'strict=on' is no better than expose=on IMHO.
+>>>>>>>>>>
+>>>>>>>>>> If I give QEMU a cli
+>>>>>>>>>>
+>>>>>>>>>>      -smp cpus=4,sockets=2,cores=2,threads=1
+>>>>>>>>>>
+>>>>>>>>>> then I expect that topology to be exposed to the guest. I shouldn't
+>>>>>>>>>> have to add extra flags to make that happen.
+>>>>>>>>>>
+>>>>>>>>>> Looking at the thread, it seems the concern was around the fact that
+>>>>>>>>>> the settings were not honoured historically and thus the CLI values
+>>>>>>>>>> could be garbage. ie  -smp cpus=4,sockets=8,cores=3,thread=9
+>>>>>>>>> This "-smp cpus=4,sockets=8,cores=3,threads=9" behaviors as a wrong
+>>>>>>>>> configuration, and the parsing function already report error for this case.
+>>>>>>>>>
+>>>>>>>>> We hope more complete config like "-smp 4,sockets=2,cores=2,threads=1"
+>>>>>>>>> for exposure of topology, and the incomplete ones like "-smp 4,sockets=1"
+>>>>>>>>> or "-smp 4, cores=1" are not acceptable any more because we are starting
+>>>>>>>>> to expose the topology.
+>>>>>>>> Incomplete specified topologies *are* acceptable.
+>>>>>>>>
+>>>>>>>> The smp_parse method will automatically fill in any missing values.
+>>>>>>>>
+>>>>>>>> ie,
+>>>>>>>>
+>>>>>>>>     -smp 4,cores=1
+>>>>>>>>     -smp cores=1
+>>>>>>>>     -smp threads=1
+>>>>>>>>     -smp sockets=4
+>>>>>>>>
+>>>>>>>> are all functionally identical to
+>>>>>>>>
+>>>>>>>>     -smp 4,sockets=4,cores=1,dies=1,threads=1
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> The QEMU man page says this explicitly
+>>>>>>>>
+>>>>>>>>                    For the PC target, the number of cores per die, the
+>>>>>>>>       number of threads per cores, the number of dies per packages and the
+>>>>>>>>       total number of sockets can be specified. Missing values will be
+>>>>>>>>       computed. If any on the three values is given, the total number of
+>>>>>>>>       CPUs n can be omitted.
+>>>>>>> It doesn't say how it will compute them though, which for the default
+>>>>>>> smp_parse and for x86 is to prefer sockets over cores over threads.
+>>>>>>> That's not necessarily what the user expects. IMO, we need a 'strict=on'
+>>>>>>> parameter that doesn't allow any collection of smp parameters which
+>>>>>>> require unreasonable assumptions. Reasonable assumptions are threads=1,
+>>>>>>> when threads is not specified and the rest of the math adds up. Also,
+>>>>>>> maxcpus == cpus when maxcpus isn't specified is reasonable. But, it's not
+>>>>>>> as reasonable to decide how to divide cores among sockets or to assume
+>>>>>>> threads=1 when only sockets and cores are given. How do we know the user
+>>>>>>> didn't forget to specify threads if we can't check the math?
+>>>>>> or just outlaw all invalid topologies incl. incomplete by default
+>>>>>> (without requiring extra option), and permit them only for old machine
+>>>>>> types ()using compat machinery) without topo info provided to guest.
+>>>>>> And maybe later deprecate invalid topologies altogether.
+>>>>> This feels like it is creating pain for users to fix a problem that
+>>>>> isn't shown to actually be causing any common issues.
+>>>>>
+>>>>> We've supposed that users are having problems when forgetting to
+>>>>> specify "threads" and not having the compute value be desirable,
+>>>>> but where are the bug reports to back this up ?
+>>>>>
+>>>>> The partial topologies are valid and have well defined semantics.
+>>>>> Those semantics may not match everyone's preference, but that
+>>>>> doesn't make them invalid.
+>>>>>
+>>>> If we adopt the [undocumented] semantics of x86 for arm, then we may
+>>>> surprise some users that expect e.g. '-smp 16' to give them a single
+>>>> socket with 16 cores, because they'll start getting 16 sockets with 1
+>>>> core each. That's because if we don't describe a topology to an arm linux
+>>>> guest then it assumes cores. Maybe we shouldn't worry about this, but I'd
+>>>> prefer we require explicit inputs from users and, if necessary, for them
+>>>> to explicitly opt-in to requiring those explicit inputs.
+>>> Even for x86, defaulting to maximising sockets over cores is sub-optimal.
+>>> In real world x86 hardware it is very rare to have sockets > 2 or 4. For
+>>> large CPU counts, you generally have large cores-per-socket counts on x86.
+>>>
+>>> The QEMU preference for sockets over cores on x86 (and PPC too IIUC)
+>>> is a fairly arbitrary historical decision.
+>>>
+>>> It can cause problems with guest OS licensing because both Windows
+>>> and RHEL have been known to charge differently for sockets vs cores,
+>>> with high core counts being cheaper.
+>>>
+>>> We are not tied into the precise behaviour of the computed topology
+>>> values, as we have no made any promises. All that's required is that
+>>> we keep ABI compat for existing machine types.
+>> If based on this point of view that we haven't made any promises for the
+>> precise behavior of the computed topology, things may get much easier.
+>> I have the following understanding (also a proposal):
+>>
+>> We will introduce the support for exposing cpu topology since machine
+>> type 6.2 and we will also describe the computed topology for the guest.
+>> We will not make any stricter parsing logic, however the -smp content in
+>> qemu-options.hx should be rearranged to clearly explain how the missing
+>> values will exactly be computed. And this is what QEMU is responsible for.
+>>
+>> We know that a well designed cpu topology configuration can gain much
+>> benefit for the guest, while a badly designed one will also probably cause
+>> negative impact. But the users should be responsible for the design of the
+>> -smp cmdlines. If they are using an incomplete cmdline for a 6.2 machine,
+>> then they should have known what the computed values will be and that
+>> the computed topology will be exposed to the guest.
+>>> So we could decide to change the computed topology so that it prefers
+>>> high core counts, over sockets, whem using new machine types only.
+>>> That would seem to benefit all arches, by making QEMU more reflective
+>>> of real world CPUs topology.
+>> If we really decide to prefer cores over sockets over threads for new
+>> machine
+>> types, then I think we should also record this change in qemu-option.hx.
+>>
+> I agree. The proposal sounds good to me. I'd like to hear Eduardo's
+> opinion too (CC'ed).
+Thanks, Drew. I also hope that more people will reach an agreement on 
+this issue,
+so that I can prepare v5 with confidence, although it will probably be 
+late for 6.1.
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
-
-The subject got a bit mangled. I usually send single one off patches
-directly from the command line like this:
-
-  git send-email --subject-prefix "RFC PATCH" HEAD^.. --to qemu HEAD^..
-
-> Arguments were passed to plugins in the following form:
->     -plugin path/to/plugin,arg=3D"positional_arg=3Dvalue",arg=3D"second_a=
-rg"
+Thanks,
+Yanan
+.
+> Thanks,
+> drew
 >
-> This patch removes the need for "arg" so that the argument name itself
-> is now expected and passed directly to the plugin.
 >
-> Now options can be passed in the following manner:
->     -plugin path/to/plugin,positional_arg=3Dvalue,second_arg
->
-> Since short boolean arguments are deprecated, passing an argument that
-> takes no value will trigger a warning saying that the user should use a
-> full "arg_name=3Don" instead of just "arg_name". In either case, the
-> argument is passed to the plugin as only the name, omitting the "=3Don"
-> part.
->
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> ---
->  plugins/loader.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/plugins/loader.c b/plugins/loader.c
-> index 05df40398d..7f32b8c8bd 100644
-> --- a/plugins/loader.c
-> +++ b/plugins/loader.c
-> @@ -94,6 +94,7 @@ static int plugin_add(void *opaque, const char *name, c=
-onst char *value,
->  {
->      struct qemu_plugin_parse_arg *arg =3D opaque;
->      struct qemu_plugin_desc *p;
-> +    char *full_arg;
->=20=20
->      if (strcmp(name, "file") =3D=3D 0) {
->          if (strcmp(value, "") =3D=3D 0) {
-> @@ -107,7 +108,7 @@ static int plugin_add(void *opaque, const char *name,=
- const char *value,
->              QTAILQ_INSERT_TAIL(arg->head, p, entry);
->          }
->          arg->curr =3D p;
-> -    } else if (strcmp(name, "arg") =3D=3D 0) {
-> +    } else {
+> .
 
-Unfortunately I think we also want to support the arg=3D form for now and
-also update the deprecated.rst and plugin.rst documentation to point to
-the new format.
-
->          if (arg->curr =3D=3D NULL) {
->              error_setg(errp, "missing earlier '-plugin file=3D' option");
->              return 1;
-> @@ -115,9 +116,12 @@ static int plugin_add(void *opaque, const char *name=
-, const char *value,
->          p =3D arg->curr;
->          p->argc++;
->          p->argv =3D g_realloc_n(p->argv, p->argc, sizeof(char *));
-> -        p->argv[p->argc - 1] =3D g_strdup(value);
-> -    } else {
-> -        error_setg(errp, "-plugin: unexpected parameter '%s'; ignored", =
-name);
-> +        if (strcmp(value, "on")) {
-> +            full_arg =3D g_strdup_printf("%s=3D%s", name, value);
-
-We should probably prefer g_strcmp0 to strcmp and an explicit value test
-(!=3D 0) because strcmp is weird with truth/falsity. However as we are
-handling the syntactic sugar of adding "on" in the command line I wonder
-if we can query QemuOpt directly. Maybe something like:
-
-        /* pass true bools as single arg */
-        if (qapi_bool_parse(name, value, &is_true, errp) && is_true) {
-            full_arg =3D g_strdup(name);
-        } else {
-            full_arg =3D g_strdup_printf("%s=3D%s", name, value);
-        }
-
-
-> +        } else {
-> +            full_arg =3D g_strdup(name);
-> +        }
-> +        p->argv[p->argc - 1] =3D full_arg;
->      }
->      return 0;
->  }
-
-
---=20
-Alex Benn=C3=A9e
 
