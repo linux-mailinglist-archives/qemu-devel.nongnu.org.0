@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7D73B5DEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:25:09 +0200 (CEST)
-Received: from localhost ([::1]:48332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596093B5DE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:21:08 +0200 (CEST)
+Received: from localhost ([::1]:38004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxqK2-0002I4-Hb
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
+	id 1lxqGB-0003Zl-Ac
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:21:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1lxq6h-0004hM-9L
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:11:19 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46926 helo=loongson.cn)
+ id 1lxq0c-0002Cj-4f
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:05:02 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:45404 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1lxq6a-00042W-26
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:11:19 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1lxq0U-00018U-2F
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:05:01 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0LdutlgOrYZAA--.8747S8;
- Mon, 28 Jun 2021 20:04:48 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0LdutlgOrYZAA--.8747S9;
+ Mon, 28 Jun 2021 20:04:49 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/20] target/loongarch: Add main translation routines
-Date: Mon, 28 Jun 2021 20:04:31 +0800
-Message-Id: <1624881885-31692-7-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH 07/20] target/loongarch: Add fixed point arithmetic
+ instruction translation
+Date: Mon, 28 Jun 2021 20:04:32 +0800
+Message-Id: <1624881885-31692-8-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
 References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL0LdutlgOrYZAA--.8747S8
-X-Coremail-Antispam: 1UD129KBjvAXoW3tFW8XrWkGF1UGw45AFyrWFg_yoW8CF45uo
- W7CF45Ary8GrnxZr9akr4kJa42qF4Ika1UJa90va1kWa18CrW5tF9xKw15ZrW7JF4kGay7
- WF9avF17Xan7Jrnxn29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+X-CM-TRANSID: AQAAf9DxL0LdutlgOrYZAA--.8747S9
+X-Coremail-Antispam: 1UD129KBjvAXoWfXw4kWF1rJr4kXF48Aw1kXwb_yoW5Wr43Go
+ W7JayDGrZ5Kw17Xrn09a18XF4Iqw48Cay3J390v3Z5WF43Cr17tw17Kw1rZayxJa4vgrW3
+ Xa4aqF43J3y3Jr98n29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
  AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -60,678 +61,1035 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add main translation routines and
-basic functions for translation.
+This patch implement fixed point arithemtic instruction translation.
+
+This includes:
+- ADD.{W/D}, SUB.{W/D}
+- ADDI.{W/D}, ADDU16ID
+- ALSL.{W[U]/D}
+- LU12I.W, LU32I.D LU52I.D
+- SLT[U], SLT[U]I
+- PCADDI, PCADDU12I, PCADDU18I, PCALAU12I
+- AND, OR, NOR, XOR, ANDN, ORN
+- MUL.{W/D}, MULH.{W[U]/D[U]}
+- MULW.D.W[U]
+- DIV.{W[U]/D[U]}, MOD.{W[U]/D[U]}
+- ANDI, ORI, XORI
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/helper.h    |  10 +
- target/loongarch/op_helper.c |  28 +++
- target/loongarch/translate.c | 537 +++++++++++++++++++++++++++++++++++++++++++
- target/loongarch/translate.h |  58 +++++
- 4 files changed, 633 insertions(+)
- create mode 100644 target/loongarch/helper.h
- create mode 100644 target/loongarch/op_helper.c
- create mode 100644 target/loongarch/translate.c
- create mode 100644 target/loongarch/translate.h
+ target/loongarch/insns.decode |  89 ++++++++
+ target/loongarch/instmap.h    |  53 +++++
+ target/loongarch/trans.inc.c  | 367 +++++++++++++++++++++++++++++++++
+ target/loongarch/translate.c  | 458 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 967 insertions(+)
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/instmap.h
+ create mode 100644 target/loongarch/trans.inc.c
 
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
 new file mode 100644
-index 0000000..6c7e19b
+index 0000000..1e0b755
 --- /dev/null
-+++ b/target/loongarch/helper.h
-@@ -0,0 +1,10 @@
++++ b/target/loongarch/insns.decode
+@@ -0,0 +1,89 @@
++#
++# LoongArch instruction decode definitions.
++#
++# Copyright (c) 2021 Loongson Technology Corporation Limited
++#
++# SPDX-License-Identifier: LGPL-2.1+
++#
++
++#
++# Fields
++#
++%rd      0:5
++%rj      5:5
++%rk      10:5
++%sa2     15:2
++%si12    10:s12
++%ui12    10:12
++%si16    10:s16
++%si20    5:s20
++
++#
++# Argument sets
++#
++&fmt_rdrjrk         rd rj rk
++&fmt_rdrjsi12       rd rj si12
++&fmt_rdrjrksa2      rd rj rk sa2
++&fmt_rdrjsi16       rd rj si16
++&fmt_rdrjui12       rd rj ui12
++&fmt_rdsi20         rd si20
++
++#
++# Formats
++#
++@fmt_rdrjrk          .... ........ ..... ..... ..... .....    &fmt_rdrjrk         %rd %rj %rk
++@fmt_rdrjsi12        .... ...... ............ ..... .....     &fmt_rdrjsi12       %rd %rj %si12
++@fmt_rdrjui12        .... ...... ............ ..... .....     &fmt_rdrjui12       %rd %rj %ui12
++@fmt_rdrjrksa2       .... ........ ... .. ..... ..... .....   &fmt_rdrjrksa2      %rd %rj %rk %sa2
++@fmt_rdrjsi16        .... .. ................ ..... .....     &fmt_rdrjsi16       %rd %rj %si16
++@fmt_rdsi20          .... ... .................... .....      &fmt_rdsi20         %rd %si20
++
++#
++# Fixed point arithmetic operation instruction
++#
++add_w            0000 00000001 00000 ..... ..... .....    @fmt_rdrjrk
++add_d            0000 00000001 00001 ..... ..... .....    @fmt_rdrjrk
++sub_w            0000 00000001 00010 ..... ..... .....    @fmt_rdrjrk
++sub_d            0000 00000001 00011 ..... ..... .....    @fmt_rdrjrk
++slt              0000 00000001 00100 ..... ..... .....    @fmt_rdrjrk
++sltu             0000 00000001 00101 ..... ..... .....    @fmt_rdrjrk
++slti             0000 001000 ............ ..... .....     @fmt_rdrjsi12
++sltui            0000 001001 ............ ..... .....     @fmt_rdrjsi12
++nor              0000 00000001 01000 ..... ..... .....    @fmt_rdrjrk
++and              0000 00000001 01001 ..... ..... .....    @fmt_rdrjrk
++or               0000 00000001 01010 ..... ..... .....    @fmt_rdrjrk
++xor              0000 00000001 01011 ..... ..... .....    @fmt_rdrjrk
++orn              0000 00000001 01100 ..... ..... .....    @fmt_rdrjrk
++andn             0000 00000001 01101 ..... ..... .....    @fmt_rdrjrk
++mul_w            0000 00000001 11000 ..... ..... .....    @fmt_rdrjrk
++mulh_w           0000 00000001 11001 ..... ..... .....    @fmt_rdrjrk
++mulh_wu          0000 00000001 11010 ..... ..... .....    @fmt_rdrjrk
++mul_d            0000 00000001 11011 ..... ..... .....    @fmt_rdrjrk
++mulh_d           0000 00000001 11100 ..... ..... .....    @fmt_rdrjrk
++mulh_du          0000 00000001 11101 ..... ..... .....    @fmt_rdrjrk
++mulw_d_w         0000 00000001 11110 ..... ..... .....    @fmt_rdrjrk
++mulw_d_wu        0000 00000001 11111 ..... ..... .....    @fmt_rdrjrk
++div_w            0000 00000010 00000 ..... ..... .....    @fmt_rdrjrk
++mod_w            0000 00000010 00001 ..... ..... .....    @fmt_rdrjrk
++div_wu           0000 00000010 00010 ..... ..... .....    @fmt_rdrjrk
++mod_wu           0000 00000010 00011 ..... ..... .....    @fmt_rdrjrk
++div_d            0000 00000010 00100 ..... ..... .....    @fmt_rdrjrk
++mod_d            0000 00000010 00101 ..... ..... .....    @fmt_rdrjrk
++div_du           0000 00000010 00110 ..... ..... .....    @fmt_rdrjrk
++mod_du           0000 00000010 00111 ..... ..... .....    @fmt_rdrjrk
++alsl_w           0000 00000000 010 .. ..... ..... .....   @fmt_rdrjrksa2
++alsl_wu          0000 00000000 011 .. ..... ..... .....   @fmt_rdrjrksa2
++alsl_d           0000 00000010 110 .. ..... ..... .....   @fmt_rdrjrksa2
++lu12i_w          0001 010 .................... .....      @fmt_rdsi20
++lu32i_d          0001 011 .................... .....      @fmt_rdsi20
++lu52i_d          0000 001100 ............ ..... .....     @fmt_rdrjsi12
++pcaddi           0001 100 .................... .....      @fmt_rdsi20
++pcalau12i        0001 101 .................... .....      @fmt_rdsi20
++pcaddu12i        0001 110 .................... .....      @fmt_rdsi20
++pcaddu18i        0001 111 .................... .....      @fmt_rdsi20
++addi_w           0000 001010 ............ ..... .....     @fmt_rdrjsi12
++addi_d           0000 001011 ............ ..... .....     @fmt_rdrjsi12
++addu16i_d        0001 00 ................ ..... .....     @fmt_rdrjsi16
++andi             0000 001101 ............ ..... .....     @fmt_rdrjui12
++ori              0000 001110 ............ ..... .....     @fmt_rdrjui12
++xori             0000 001111 ............ ..... .....     @fmt_rdrjui12
+diff --git a/target/loongarch/instmap.h b/target/loongarch/instmap.h
+new file mode 100644
+index 0000000..8844333
+--- /dev/null
++++ b/target/loongarch/instmap.h
+@@ -0,0 +1,53 @@
 +/*
-+ * QEMU LoongArch CPU
++ * LoongArch emulation for qemu: instruction opcode
 + *
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + *
 + * SPDX-License-Identifier: LGPL-2.1+
 + */
 +
-+DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
-+DEF_HELPER_2(raise_exception, noreturn, env, i32)
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
++#ifndef TARGET_LOONGARCH_INSTMAP_H
++#define TARGET_LOONGARCH_INSTMAP_H
++
++/* fixed point opcodes */
++enum {
++    LA_OPC_ADD_W     = (0x00020 << 15),
++    LA_OPC_ADD_D     = (0x00021 << 15),
++    LA_OPC_SUB_W     = (0x00022 << 15),
++    LA_OPC_SUB_D     = (0x00023 << 15),
++    LA_OPC_SLT       = (0x00024 << 15),
++    LA_OPC_SLTU      = (0x00025 << 15),
++    LA_OPC_NOR       = (0x00028 << 15),
++    LA_OPC_AND       = (0x00029 << 15),
++    LA_OPC_OR        = (0x0002A << 15),
++    LA_OPC_XOR       = (0x0002B << 15),
++    LA_OPC_MUL_W     = (0x00038 << 15),
++    LA_OPC_MULH_W    = (0x00039 << 15),
++    LA_OPC_MULH_WU   = (0x0003A << 15),
++    LA_OPC_MUL_D     = (0x0003B << 15),
++    LA_OPC_MULH_D    = (0x0003C << 15),
++    LA_OPC_MULH_DU   = (0x0003D << 15),
++    LA_OPC_DIV_W     = (0x00040 << 15),
++    LA_OPC_MOD_W     = (0x00041 << 15),
++    LA_OPC_DIV_WU    = (0x00042 << 15),
++    LA_OPC_MOD_WU    = (0x00043 << 15),
++    LA_OPC_DIV_D     = (0x00044 << 15),
++    LA_OPC_MOD_D     = (0x00045 << 15),
++    LA_OPC_DIV_DU    = (0x00046 << 15),
++    LA_OPC_MOD_DU    = (0x00047 << 15),
++
++    LA_OPC_ALSL_W    = (0x0002 << 17),
++    LA_OPC_ALSL_D    = (0x0016 << 17)
++
++};
++
++/* 12 bit immediate opcodes */
++enum {
++    LA_OPC_SLTI      = (0x008 << 22),
++    LA_OPC_SLTIU     = (0x009 << 22),
++    LA_OPC_ADDI_W    = (0x00A << 22),
++    LA_OPC_ADDI_D    = (0x00B << 22),
++    LA_OPC_ANDI      = (0x00D << 22),
++    LA_OPC_ORI       = (0x00E << 22),
++    LA_OPC_XORI      = (0x00F << 22)
++};
+diff --git a/target/loongarch/trans.inc.c b/target/loongarch/trans.inc.c
 new file mode 100644
-index 0000000..97113e4
+index 0000000..a5bc1ea
 --- /dev/null
-+++ b/target/loongarch/op_helper.c
-@@ -0,0 +1,28 @@
++++ b/target/loongarch/trans.inc.c
+@@ -0,0 +1,367 @@
 +/*
-+ * LoongArch emulation helpers for qemu.
++ * LoongArch translate functions
 + *
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + *
 + * SPDX-License-Identifier: LGPL-2.1+
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qemu/main-loop.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "qemu/host-utils.h"
-+#include "exec/helper-proto.h"
-+#include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+
-+/* Exceptions helpers */
-+void helper_raise_exception_err(CPULoongArchState *env, uint32_t exception,
-+                                int error_code)
++/* Fixed point arithmetic operation instruction translation */
++static bool trans_add_w(DisasContext *ctx, arg_add_w *a)
 +{
-+    do_raise_exception_err(env, exception, error_code, 0);
++    gen_loongarch_arith(ctx, LA_OPC_ADD_W, a->rd, a->rj, a->rk);
++    return true;
 +}
 +
-+void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
++static bool trans_add_d(DisasContext *ctx, arg_add_d *a)
 +{
-+    do_raise_exception(env, exception, GETPC());
++    gen_loongarch_arith(ctx, LA_OPC_ADD_D, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_sub_w(DisasContext *ctx, arg_sub_w *a)
++{
++    gen_loongarch_arith(ctx, LA_OPC_SUB_W, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_sub_d(DisasContext *ctx, arg_sub_d *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_arith(ctx, LA_OPC_SUB_D, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_slt(DisasContext *ctx, arg_slt *a)
++{
++    gen_loongarch_slt(ctx, LA_OPC_SLT, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_sltu(DisasContext *ctx, arg_sltu *a)
++{
++    gen_loongarch_slt(ctx, LA_OPC_SLTU, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_slti(DisasContext *ctx, arg_slti *a)
++{
++    gen_loongarch_slt_imm(ctx, LA_OPC_SLTI, a->rd, a->rj, a->si12);
++    return true;
++}
++
++static bool trans_sltui(DisasContext *ctx, arg_sltui *a)
++{
++    gen_loongarch_slt_imm(ctx, LA_OPC_SLTIU, a->rd, a->rj, a->si12);
++    return true;
++}
++
++static bool trans_nor(DisasContext *ctx, arg_nor *a)
++{
++    gen_loongarch_logic(ctx, LA_OPC_NOR, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_and(DisasContext *ctx, arg_and *a)
++{
++    gen_loongarch_logic(ctx, LA_OPC_AND, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_or(DisasContext *ctx, arg_or *a)
++{
++    gen_loongarch_logic(ctx, LA_OPC_OR, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_xor(DisasContext *ctx, arg_xor *a)
++{
++    gen_loongarch_logic(ctx, LA_OPC_XOR, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_orn(DisasContext *ctx, arg_orn *a)
++{
++    TCGv t0 = tcg_temp_new();
++    gen_load_gpr(t0, a->rk);
++    tcg_gen_not_tl(t0, t0);
++    tcg_gen_or_tl(cpu_gpr[a->rd], cpu_gpr[a->rj], t0);
++    tcg_temp_free(t0);
++    return true;
++}
++
++static bool trans_andn(DisasContext *ctx, arg_andn *a)
++{
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++    gen_load_gpr(t0, a->rk);
++    gen_load_gpr(t1, a->rj);
++    tcg_gen_not_tl(t0, t0);
++    tcg_gen_and_tl(cpu_gpr[a->rd], t1, t0);
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    return true;
++}
++
++static bool trans_mul_w(DisasContext *ctx, arg_mul_w *a)
++{
++    gen_loongarch_muldiv(ctx, LA_OPC_MUL_W, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mulh_w(DisasContext *ctx, arg_mulh_w *a)
++{
++    gen_loongarch_muldiv(ctx, LA_OPC_MULH_W, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mulh_wu(DisasContext *ctx, arg_mulh_wu *a)
++{
++    gen_loongarch_muldiv(ctx, LA_OPC_MULH_WU, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mul_d(DisasContext *ctx, arg_mul_d *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_muldiv(ctx, LA_OPC_MUL_D, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mulh_d(DisasContext *ctx, arg_mulh_d *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_muldiv(ctx, LA_OPC_MULH_D, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mulh_du(DisasContext *ctx, arg_mulh_du *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_muldiv(ctx, LA_OPC_MULH_DU, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mulw_d_w(DisasContext *ctx, arg_mulw_d_w *a)
++{
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
++    TCGv_i64 t2 = tcg_temp_new_i64();
++    gen_load_gpr(t0, a->rj);
++    gen_load_gpr(t1, a->rk);
++    tcg_gen_ext32s_i64(t0, t0);
++    tcg_gen_ext32s_i64(t1, t1);
++    tcg_gen_mul_i64(t2, t0, t1);
++    gen_store_gpr(t2, a->rd);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++    tcg_temp_free_i64(t2);
++    return true;
++}
++
++static bool trans_mulw_d_wu(DisasContext *ctx, arg_mulw_d_wu *a)
++{
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
++    TCGv_i64 t2 = tcg_temp_new_i64();
++    gen_load_gpr(t0, a->rj);
++    gen_load_gpr(t1, a->rk);
++    tcg_gen_ext32u_i64(t0, t0);
++    tcg_gen_ext32u_i64(t1, t1);
++    tcg_gen_mul_i64(t2, t0, t1);
++    gen_store_gpr(t2, a->rd);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++    tcg_temp_free_i64(t2);
++    return true;
++}
++
++static bool trans_div_w(DisasContext *ctx, arg_div_w *a)
++{
++    gen_loongarch_muldiv(ctx, LA_OPC_DIV_W, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mod_w(DisasContext *ctx, arg_mod_w *a)
++{
++    gen_loongarch_muldiv(ctx, LA_OPC_MOD_W, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_div_wu(DisasContext *ctx, arg_div_wu *a)
++{
++    gen_loongarch_muldiv(ctx, LA_OPC_DIV_WU, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mod_wu(DisasContext *ctx, arg_mod_wu *a)
++{
++    gen_loongarch_muldiv(ctx, LA_OPC_MOD_WU, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_div_d(DisasContext *ctx, arg_div_d *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_muldiv(ctx, LA_OPC_DIV_D, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mod_d(DisasContext *ctx, arg_mod_d *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_muldiv(ctx, LA_OPC_MOD_D, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_div_du(DisasContext *ctx, arg_div_du *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_muldiv(ctx, LA_OPC_DIV_DU, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_mod_du(DisasContext *ctx, arg_mod_du *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_muldiv(ctx, LA_OPC_MOD_DU, a->rd, a->rj, a->rk);
++    return true;
++}
++
++static bool trans_alsl_w(DisasContext *ctx, arg_alsl_w *a)
++{
++    gen_loongarch_alsl(ctx, LA_OPC_ALSL_W, a->rd, a->rj, a->rk, a->sa2);
++    return true;
++}
++
++static bool trans_alsl_wu(DisasContext *ctx, arg_alsl_wu *a)
++{
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++    gen_load_gpr(t0, a->rj);
++    gen_load_gpr(t1, a->rk);
++    tcg_gen_shli_tl(t0, t0, a->sa2 + 1);
++    tcg_gen_add_tl(t0, t0, t1);
++    tcg_gen_ext32u_tl(cpu_gpr[a->rd], t0);
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_alsl_d(DisasContext *ctx, arg_alsl_d *a)
++{
++    check_loongarch_64(ctx);
++    gen_loongarch_alsl(ctx, LA_OPC_ALSL_D, a->rd, a->rj, a->rk, a->sa2);
++    return true;
++}
++
++static bool trans_lu12i_w(DisasContext *ctx, arg_lu12i_w *a)
++{
++    tcg_gen_movi_tl(cpu_gpr[a->rd], a->si20 << 12);
++    return true;
++}
++
++static bool trans_lu32i_d(DisasContext *ctx, arg_lu32i_d *a)
++{
++    TCGv_i64 t0, t1;
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
++
++    tcg_gen_movi_tl(t0, a->si20);
++    tcg_gen_concat_tl_i64(t1, cpu_gpr[a->rd], t0);
++    gen_store_gpr(t1, a->rd);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    return true;
++}
++
++static bool trans_lu52i_d(DisasContext *ctx, arg_lu52i_d *a)
++{
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++
++    gen_load_gpr(t1, a->rj);
++
++    tcg_gen_movi_tl(t0, a->si12);
++    tcg_gen_shli_tl(t0, t0, 52);
++    tcg_gen_andi_tl(t1, t1, 0xfffffffffffffU);
++    tcg_gen_or_tl(cpu_gpr[a->rd], t0, t1);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    return true;
++}
++
++static bool trans_pcaddi(DisasContext *ctx, arg_pcaddi *a)
++{
++    target_ulong pc = ctx->base.pc_next;
++    target_ulong addr = pc + (a->si20 << 2);
++    tcg_gen_movi_tl(cpu_gpr[a->rd], addr);
++    return true;
++}
++
++static bool trans_pcalau12i(DisasContext *ctx, arg_pcalau12i *a)
++{
++    target_ulong pc = ctx->base.pc_next;
++    target_ulong addr = (pc + (a->si20 << 12)) & ~0xfff;
++    tcg_gen_movi_tl(cpu_gpr[a->rd], addr);
++    return true;
++}
++
++static bool trans_pcaddu12i(DisasContext *ctx, arg_pcaddu12i *a)
++{
++    target_ulong pc = ctx->base.pc_next;
++    target_ulong addr = pc + (a->si20 << 12);
++    tcg_gen_movi_tl(cpu_gpr[a->rd], addr);
++    return true;
++}
++
++static bool trans_pcaddu18i(DisasContext *ctx, arg_pcaddu18i *a)
++{
++    target_ulong pc = ctx->base.pc_next;
++    target_ulong addr = pc + ((target_ulong)(a->si20) << 18);
++    tcg_gen_movi_tl(cpu_gpr[a->rd], addr);
++    return true;
++}
++
++static bool trans_addi_w(DisasContext *ctx, arg_addi_w *a)
++{
++    gen_loongarch_arith_imm(ctx, LA_OPC_ADDI_W, a->rd, a->rj, a->si12);
++    return true;
++}
++
++static bool trans_addi_d(DisasContext *ctx, arg_addi_d *a)
++{
++    gen_loongarch_arith_imm(ctx, LA_OPC_ADDI_D, a->rd, a->rj, a->si12);
++    return true;
++}
++
++static bool trans_addu16i_d(DisasContext *ctx, arg_addu16i_d *a)
++{
++    if (a->rj != 0) {
++        tcg_gen_addi_tl(cpu_gpr[a->rd], cpu_gpr[a->rj], a->si16 << 16);
++    } else {
++        tcg_gen_movi_tl(cpu_gpr[a->rd], a->si16 << 16);
++    }
++    return true;
++}
++
++static bool trans_andi(DisasContext *ctx, arg_andi *a)
++{
++    gen_loongarch_logic_imm(ctx, LA_OPC_ANDI, a->rd, a->rj, a->ui12);
++    return true;
++}
++
++static bool trans_ori(DisasContext *ctx, arg_ori *a)
++{
++    gen_loongarch_logic_imm(ctx, LA_OPC_ORI, a->rd, a->rj, a->ui12);
++    return true;
++}
++
++static bool trans_xori(DisasContext *ctx, arg_xori *a)
++{
++    gen_loongarch_logic_imm(ctx, LA_OPC_XORI, a->rd, a->rj, a->ui12);
++    return true;
 +}
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-new file mode 100644
-index 0000000..83efd39
---- /dev/null
+index 83efd39..3b40a59 100644
+--- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -0,0 +1,537 @@
-+/*
-+ * LoongArch emulation for QEMU - main translation routines.
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1+
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "tcg/tcg-op.h"
-+#include "exec/translator.h"
-+#include "exec/helper-proto.h"
-+#include "exec/helper-gen.h"
-+#include "semihosting/semihost.h"
-+
-+#include "exec/translator.h"
-+#include "exec/log.h"
-+#include "qemu/qemu-print.h"
-+#include "fpu_helper.h"
-+#include "translate.h"
-+#include "instmap.h"
-+
-+/* global register indices */
-+TCGv cpu_gpr[32], cpu_PC;
-+TCGv btarget, bcond;
-+static TCGv cpu_lladdr, cpu_llval;
-+static TCGv_i32 hflags;
-+TCGv_i32 fpu_fcsr0;
-+TCGv_i64 fpu_f64[32];
-+
-+#include "exec/gen-icount.h"
-+
-+#define DISAS_STOP       DISAS_TARGET_0
-+#define DISAS_EXIT       DISAS_TARGET_1
-+
-+static const char * const regnames[] = {
-+    "r0", "ra", "tp", "sp", "a0", "a1", "a2", "a3",
-+    "a4", "a5", "a6", "a7", "t0", "t1", "t2", "t3",
-+    "t4", "t5", "t6", "t7", "t8", "x0", "fp", "s0",
-+    "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8",
-+};
-+
-+static const char * const fregnames[] = {
-+    "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
-+    "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
-+    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
-+    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
-+};
-+
-+/* General purpose registers moves. */
-+void gen_load_gpr(TCGv t, int reg)
+@@ -292,6 +292,461 @@ static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
+     ctx->default_tcg_memop_mask = MO_UNALN;
+ }
+ 
++/* loongarch arithmetic */
++static void gen_loongarch_arith(DisasContext *ctx, uint32_t opc,
++                                int rd, int rj, int rk)
 +{
-+    if (reg == 0) {
-+        tcg_gen_movi_tl(t, 0);
-+    } else {
-+        tcg_gen_mov_tl(t, cpu_gpr[reg]);
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
 +    }
-+}
 +
-+void gen_store_gpr(TCGv t, int reg)
-+{
-+    if (reg != 0) {
-+        tcg_gen_mov_tl(cpu_gpr[reg], t);
-+    }
-+}
-+
-+static inline void gen_save_pc(target_ulong pc)
-+{
-+    tcg_gen_movi_tl(cpu_PC, pc);
-+}
-+
-+static inline void save_cpu_state(DisasContext *ctx, int do_save_pc)
-+{
-+    if (do_save_pc && ctx->base.pc_next != ctx->saved_pc) {
-+        gen_save_pc(ctx->base.pc_next);
-+        ctx->saved_pc = ctx->base.pc_next;
-+    }
-+    if (ctx->hflags != ctx->saved_hflags) {
-+        tcg_gen_movi_i32(hflags, ctx->hflags);
-+        ctx->saved_hflags = ctx->hflags;
-+        switch (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
-+        case LOONGARCH_HFLAG_BR:
-+            break;
-+        case LOONGARCH_HFLAG_BC:
-+        case LOONGARCH_HFLAG_B:
-+            tcg_gen_movi_tl(btarget, ctx->btarget);
-+            break;
++    switch (opc) {
++    case LA_OPC_ADD_W:
++        if (rj != 0 && rk != 0) {
++            tcg_gen_add_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++        } else if (rj == 0 && rk != 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rk]);
++        } else if (rj != 0 && rk == 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rj]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
 +        }
-+    }
-+}
-+
-+static inline void restore_cpu_state(CPULoongArchState *env, DisasContext *ctx)
-+{
-+    ctx->saved_hflags = ctx->hflags;
-+    switch (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
-+    case LOONGARCH_HFLAG_BR:
 +        break;
-+    case LOONGARCH_HFLAG_BC:
-+    case LOONGARCH_HFLAG_B:
-+        ctx->btarget = env->btarget;
-+        break;
-+    }
-+}
-+
-+void generate_exception_err(DisasContext *ctx, int excp, int err)
-+{
-+    TCGv_i32 texcp = tcg_const_i32(excp);
-+    TCGv_i32 terr = tcg_const_i32(err);
-+    save_cpu_state(ctx, 1);
-+    gen_helper_raise_exception_err(cpu_env, texcp, terr);
-+    tcg_temp_free_i32(terr);
-+    tcg_temp_free_i32(texcp);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+}
-+
-+void generate_exception_end(DisasContext *ctx, int excp)
-+{
-+    generate_exception_err(ctx, excp, 0);
-+}
-+
-+void gen_reserved_instruction(DisasContext *ctx)
-+{
-+    generate_exception_end(ctx, EXCP_INE);
-+}
-+
-+void gen_load_fpr32(DisasContext *ctx, TCGv_i32 t, int reg)
-+{
-+    tcg_gen_extrl_i64_i32(t, fpu_f64[reg]);
-+}
-+
-+void gen_store_fpr32(DisasContext *ctx, TCGv_i32 t, int reg)
-+{
-+    TCGv_i64 t64 = tcg_temp_new_i64();
-+    tcg_gen_extu_i32_i64(t64, t);
-+    tcg_gen_deposit_i64(fpu_f64[reg], fpu_f64[reg], t64, 0, 32);
-+    tcg_temp_free_i64(t64);
-+}
-+
-+static void gen_load_fpr32h(DisasContext *ctx, TCGv_i32 t, int reg)
-+{
-+    tcg_gen_extrh_i64_i32(t, fpu_f64[reg]);
-+}
-+
-+static void gen_store_fpr32h(DisasContext *ctx, TCGv_i32 t, int reg)
-+{
-+    TCGv_i64 t64 = tcg_temp_new_i64();
-+    tcg_gen_extu_i32_i64(t64, t);
-+    tcg_gen_deposit_i64(fpu_f64[reg], fpu_f64[reg], t64, 32, 32);
-+    tcg_temp_free_i64(t64);
-+}
-+
-+void gen_load_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
-+{
-+    tcg_gen_mov_i64(t, fpu_f64[reg]);
-+}
-+
-+void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
-+{
-+    tcg_gen_mov_i64(fpu_f64[reg], t);
-+}
-+
-+/* Addresses computation */
-+void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0, TCGv arg1)
-+{
-+    tcg_gen_add_tl(ret, arg0, arg1);
-+}
-+
-+/* Sign-extract the low 32-bits to a target_long. */
-+void gen_move_low32(TCGv ret, TCGv_i64 arg)
-+{
-+    tcg_gen_ext32s_i64(ret, arg);
-+}
-+
-+/* Sign-extract the high 32-bits to a target_long.  */
-+void gen_move_high32(TCGv ret, TCGv_i64 arg)
-+{
-+    tcg_gen_sari_i64(ret, arg, 32);
-+}
-+
-+void check_fpu_enabled(DisasContext *ctx)
-+{
-+    /* Nop */
-+}
-+
-+/*
-+ * This code generates a "reserved instruction" exception if 64-bit
-+ * instructions are not enabled.
-+ */
-+void check_loongarch_64(DisasContext *ctx)
-+{
-+    if (unlikely(!(ctx->hflags & LOONGARCH_HFLAG_64))) {
-+        gen_reserved_instruction(ctx);
-+    }
-+}
-+
-+void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset)
-+{
-+    if (base == 0) {
-+        tcg_gen_movi_tl(addr, offset);
-+    } else if (offset == 0) {
-+        gen_load_gpr(addr, base);
-+    } else {
-+        tcg_gen_movi_tl(addr, offset);
-+        gen_op_addr_add(ctx, addr, cpu_gpr[base], addr);
-+    }
-+}
-+
-+
-+static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
-+{
-+    return true;
-+}
-+
-+static inline void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
-+{
-+    if (use_goto_tb(ctx, dest)) {
-+        tcg_gen_goto_tb(n);
-+        gen_save_pc(dest);
-+        tcg_gen_exit_tb(ctx->base.tb, n);
-+    } else {
-+        gen_save_pc(dest);
-+        tcg_gen_lookup_and_goto_ptr();
-+    }
-+}
-+
-+static inline void clear_branch_hflags(DisasContext *ctx)
-+{
-+    ctx->hflags &= ~LOONGARCH_HFLAG_BMASK;
-+    if (ctx->base.is_jmp == DISAS_NEXT) {
-+        save_cpu_state(ctx, 0);
-+    } else {
-+        /*
-+         * It is not safe to save ctx->hflags as hflags may be changed
-+         * in execution time.
-+         */
-+        tcg_gen_andi_i32(hflags, hflags, ~LOONGARCH_HFLAG_BMASK);
-+    }
-+}
-+
-+static void gen_branch(DisasContext *ctx, int insn_bytes)
-+{
-+    if (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
-+        int proc_hflags = ctx->hflags & LOONGARCH_HFLAG_BMASK;
-+        /* Branches completion */
-+        clear_branch_hflags(ctx);
-+        ctx->base.is_jmp = DISAS_NORETURN;
-+        switch (proc_hflags & LOONGARCH_HFLAG_BMASK) {
-+        case LOONGARCH_HFLAG_B:
-+            /* unconditional branch */
-+            gen_goto_tb(ctx, 0, ctx->btarget);
-+            break;
-+        case LOONGARCH_HFLAG_BC:
-+            /* Conditional branch */
-+            {
-+                TCGLabel *l1 = gen_new_label();
-+
-+                tcg_gen_brcondi_tl(TCG_COND_NE, bcond, 0, l1);
-+                gen_goto_tb(ctx, 1, ctx->base.pc_next + insn_bytes);
-+                gen_set_label(l1);
-+                gen_goto_tb(ctx, 0, ctx->btarget);
-+            }
-+            break;
-+        case LOONGARCH_HFLAG_BR:
-+            /* unconditional branch to register */
-+            tcg_gen_mov_tl(cpu_PC, btarget);
-+            tcg_gen_lookup_and_goto_ptr();
-+            break;
-+        default:
-+            fprintf(stderr, "unknown branch 0x%x\n", proc_hflags);
-+            abort();
++    case LA_OPC_SUB_W:
++        if (rj != 0 && rk != 0) {
++            tcg_gen_sub_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++        } else if (rj == 0 && rk != 0) {
++            tcg_gen_neg_tl(cpu_gpr[rd], cpu_gpr[rk]);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++        } else if (rj != 0 && rk == 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rj]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
 +        }
-+    }
-+}
-+
-+static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
-+                                            CPUState *cs)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    CPULoongArchState *env = cs->env_ptr;
-+
-+    ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
-+    ctx->saved_pc = -1;
-+    ctx->insn_flags = env->insn_flags;
-+    ctx->btarget = 0;
-+    ctx->PAMask = env->PAMask;
-+    /* Restore state from the tb context.  */
-+    ctx->hflags = (uint32_t)ctx->base.tb->flags;
-+    restore_cpu_state(env, ctx);
-+    ctx->mem_idx = LOONGARCH_HFLAG_UM;
-+    ctx->default_tcg_memop_mask = MO_UNALN;
-+}
-+
-+static void loongarch_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
-+{
-+}
-+
-+static void loongarch_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+
-+    tcg_gen_insn_start(ctx->base.pc_next, ctx->hflags & LOONGARCH_HFLAG_BMASK,
-+                       ctx->btarget);
-+}
-+
-+static bool loongarch_tr_breakpoint_check(DisasContextBase *dcbase,
-+                                          CPUState *cs,
-+                                          const CPUBreakpoint *bp)
-+{
-+    return true;
-+}
-+
-+/* 128 and 256 msa vector instructions are not supported yet */
-+static bool decode_lsx(uint32_t opcode)
-+{
-+    uint32_t value = (opcode & 0xff000000);
-+
-+    if ((opcode & 0xf0000000) == 0x70000000) {
-+        return true;
-+    } else if ((opcode & 0xfff00000) == 0x38400000) {
-+        return true;
-+    } else {
-+        switch (value) {
-+        case 0x09000000:
-+        case 0x0a000000:
-+        case 0x0e000000:
-+        case 0x0f000000:
-+        case 0x2c000000:
-+        case 0x30000000:
-+        case 0x31000000:
-+        case 0x32000000:
-+        case 0x33000000:
-+            return true;
++        break;
++    case LA_OPC_ADD_D:
++        if (rj != 0 && rk != 0) {
++            tcg_gen_add_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++        } else if (rj == 0 && rk != 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rk]);
++        } else if (rj != 0 && rk == 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rj]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
 +        }
-+    }
-+    return false;
-+}
-+
-+static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-+{
-+    CPULoongArchState *env = cs->env_ptr;
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    int insn_bytes = 4;
-+
-+    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
-+
-+    if (!decode(ctx, ctx->opcode)) {
-+        if (!decode_lsx(ctx->opcode)) {
-+            fprintf(stderr, "Error: unkown opcode. 0x%lx: 0x%x\n",
-+                    ctx->base.pc_next, ctx->opcode);
++        break;
++    case LA_OPC_SUB_D:
++        if (rj != 0 && rk != 0) {
++            tcg_gen_sub_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++        } else if (rj == 0 && rk != 0) {
++            tcg_gen_neg_tl(cpu_gpr[rd], cpu_gpr[rk]);
++        } else if (rj != 0 && rk == 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rj]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
 +        }
-+        generate_exception_end(ctx, EXCP_INE);
++        break;
 +    }
-+
-+    if (ctx->hflags & LOONGARCH_HFLAG_BMASK) {
-+        gen_branch(ctx, insn_bytes);
-+    }
-+    ctx->base.pc_next += insn_bytes;
 +}
 +
-+static void loongarch_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
++/* loongarch arithmetic with immediate operand */
++static void gen_loongarch_arith_imm(DisasContext *ctx, uint32_t opc,
++                                    int rd, int rj, int imm)
 +{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
++    target_ulong uimm = (target_long)imm;
 +
-+    switch (ctx->base.is_jmp) {
-+    case DISAS_STOP:
-+        gen_save_pc(ctx->base.pc_next);
-+        tcg_gen_lookup_and_goto_ptr();
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    switch (opc) {
++    case LA_OPC_ADDI_W:
++        if (rj != 0) {
++            tcg_gen_addi_tl(cpu_gpr[rd], cpu_gpr[rj], uimm);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], uimm);
++        }
 +        break;
-+    case DISAS_NEXT:
-+    case DISAS_TOO_MANY:
-+        save_cpu_state(ctx, 0);
-+        gen_goto_tb(ctx, 0, ctx->base.pc_next);
++    case LA_OPC_ADDI_D:
++        if (rj != 0) {
++            tcg_gen_addi_tl(cpu_gpr[rd], cpu_gpr[rj], uimm);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], uimm);
++        }
 +        break;
-+    case DISAS_EXIT:
-+        tcg_gen_exit_tb(NULL, 0);
++    }
++}
++
++/* loongarch set on lower than */
++static void gen_loongarch_slt(DisasContext *ctx, uint32_t opc,
++                              int rd, int rj, int rk)
++{
++    TCGv t0, t1;
++
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++    gen_load_gpr(t0, rj);
++    gen_load_gpr(t1, rk);
++    switch (opc) {
++    case LA_OPC_SLT:
++        tcg_gen_setcond_tl(TCG_COND_LT, cpu_gpr[rd], t0, t1);
 +        break;
-+    case DISAS_NORETURN:
++    case LA_OPC_SLTU:
++        tcg_gen_setcond_tl(TCG_COND_LTU, cpu_gpr[rd], t0, t1);
++        break;
++    }
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++}
++
++/* loongarch set on less than with immediate operand */
++static void gen_loongarch_slt_imm(DisasContext *ctx, uint32_t opc,
++                                  int rd, int rj, int16_t imm)
++{
++    target_ulong uimm = (target_long)imm;
++    TCGv t0;
++
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    t0 = tcg_temp_new();
++    gen_load_gpr(t0, rj);
++    switch (opc) {
++    case LA_OPC_SLTI:
++        tcg_gen_setcondi_tl(TCG_COND_LT, cpu_gpr[rd], t0, uimm);
++        break;
++    case LA_OPC_SLTIU:
++        tcg_gen_setcondi_tl(TCG_COND_LTU, cpu_gpr[rd], t0, uimm);
++        break;
++    }
++    tcg_temp_free(t0);
++}
++
++/* loongarch logic */
++static void gen_loongarch_logic(DisasContext *ctx, uint32_t opc,
++                                int rd, int rj, int rk)
++{
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    switch (opc) {
++    case LA_OPC_AND:
++        if (likely(rj != 0 && rk != 0)) {
++            tcg_gen_and_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++        }
++        break;
++    case LA_OPC_NOR:
++        if (rj != 0 && rk != 0) {
++            tcg_gen_nor_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++        } else if (rj == 0 && rk != 0) {
++            tcg_gen_not_tl(cpu_gpr[rd], cpu_gpr[rk]);
++        } else if (rj != 0 && rk == 0) {
++            tcg_gen_not_tl(cpu_gpr[rd], cpu_gpr[rj]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], ~((target_ulong)0));
++        }
++        break;
++    case LA_OPC_OR:
++        if (likely(rj != 0 && rk != 0)) {
++            tcg_gen_or_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++        } else if (rj == 0 && rk != 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rk]);
++        } else if (rj != 0 && rk == 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rj]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++        }
++        break;
++    case LA_OPC_XOR:
++        if (likely(rj != 0 && rk != 0)) {
++            tcg_gen_xor_tl(cpu_gpr[rd], cpu_gpr[rj], cpu_gpr[rk]);
++        } else if (rj == 0 && rk != 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rk]);
++        } else if (rj != 0 && rk == 0) {
++            tcg_gen_mov_tl(cpu_gpr[rd], cpu_gpr[rj]);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++        }
++        break;
++    }
++}
++
++/* loongarch logic with immediate operand */
++static void gen_loongarch_logic_imm(DisasContext *ctx, uint32_t opc,
++                                    int rd, int rj, int16_t imm)
++{
++    target_ulong uimm;
++
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    uimm = (uint16_t)imm;
++    switch (opc) {
++    case LA_OPC_ANDI:
++        if (likely(rj != 0)) {
++            tcg_gen_andi_tl(cpu_gpr[rd], cpu_gpr[rj], uimm);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], 0);
++        }
++        break;
++    case LA_OPC_ORI:
++        if (rj != 0) {
++            tcg_gen_ori_tl(cpu_gpr[rd], cpu_gpr[rj], uimm);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], uimm);
++        }
++        break;
++    case LA_OPC_XORI:
++        if (likely(rj != 0)) {
++            tcg_gen_xori_tl(cpu_gpr[rd], cpu_gpr[rj], uimm);
++        } else {
++            tcg_gen_movi_tl(cpu_gpr[rd], uimm);
++        }
 +        break;
 +    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static void loongarch_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
-+{
-+    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
-+}
-+
-+static const TranslatorOps loongarch_tr_ops = {
-+    .init_disas_context = loongarch_tr_init_disas_context,
-+    .tb_start           = loongarch_tr_tb_start,
-+    .insn_start         = loongarch_tr_insn_start,
-+    .breakpoint_check   = loongarch_tr_breakpoint_check,
-+    .translate_insn     = loongarch_tr_translate_insn,
-+    .tb_stop            = loongarch_tr_tb_stop,
-+    .disas_log          = loongarch_tr_disas_log,
-+};
-+
-+void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-+{
-+    DisasContext ctx;
-+
-+    translator_loop(&loongarch_tr_ops, &ctx.base, cs, tb, max_insns);
-+}
-+
-+static void fpu_dump_state(CPULoongArchState *env, FILE * f, int flags)
-+{
-+    int i;
-+    int is_fpu64 = 1;
-+
-+#define printfpr(fp)                                              \
-+    do {                                                          \
-+        if (is_fpu64)                                             \
-+            qemu_fprintf(f, "w:%08x d:%016" PRIx64                \
-+                        " fd:%13g fs:%13g psu: %13g\n",           \
-+                        (fp)->w[FP_ENDIAN_IDX], (fp)->d,          \
-+                        (double)(fp)->fd,                         \
-+                        (double)(fp)->fs[FP_ENDIAN_IDX],          \
-+                        (double)(fp)->fs[!FP_ENDIAN_IDX]);        \
-+        else {                                                    \
-+            fpr_t tmp;                                            \
-+            tmp.w[FP_ENDIAN_IDX] = (fp)->w[FP_ENDIAN_IDX];        \
-+            tmp.w[!FP_ENDIAN_IDX] = ((fp) + 1)->w[FP_ENDIAN_IDX]; \
-+            qemu_fprintf(f, "w:%08x d:%016" PRIx64                \
-+                        " fd:%13g fs:%13g psu:%13g\n",            \
-+                        tmp.w[FP_ENDIAN_IDX], tmp.d,              \
-+                        (double)tmp.fd,                           \
-+                        (double)tmp.fs[FP_ENDIAN_IDX],            \
-+                        (double)tmp.fs[!FP_ENDIAN_IDX]);          \
-+        }                                                         \
-+    } while (0)
-+
-+
-+    qemu_fprintf(f,
-+                 "FCSR0 0x%08x  SR.FR %d  fp_status 0x%02x\n",
-+                 env->active_fpu.fcsr0, is_fpu64,
-+                 get_float_exception_flags(&env->active_fpu.fp_status));
-+    for (i = 0; i < 32; (is_fpu64) ? i++ : (i += 2)) {
-+        qemu_fprintf(f, "%3s: ", fregnames[i]);
-+        printfpr(&env->active_fpu.fpr[i]);
-+    }
-+
-+#undef printfpr
-+}
-+
-+void loongarch_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-+{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
-+    int i;
-+
-+    qemu_fprintf(f, "pc=0x" TARGET_FMT_lx " ds %04x "
-+                 TARGET_FMT_lx " " TARGET_FMT_ld "\n",
-+                 env->active_tc.PC, env->hflags, env->btarget, env->bcond);
-+    for (i = 0; i < 32; i++) {
-+        if ((i & 3) == 0) {
-+            qemu_fprintf(f, "GPR%02d:", i);
-+        }
-+        qemu_fprintf(f, " %s " TARGET_FMT_lx,
-+                     regnames[i], env->active_tc.gpr[i]);
-+        if ((i & 3) == 3) {
-+            qemu_fprintf(f, "\n");
-+        }
-+    }
-+
-+    qemu_fprintf(f, "EUEN            0x%lx\n", env->CSR_EUEN);
-+    qemu_fprintf(f, "ESTAT           0x%lx\n", env->CSR_ESTAT);
-+    qemu_fprintf(f, "ERA             0x%lx\n", env->CSR_ERA);
-+    qemu_fprintf(f, "CRMD            0x%lx\n", env->CSR_CRMD);
-+    qemu_fprintf(f, "PRMD            0x%lx\n", env->CSR_PRMD);
-+    qemu_fprintf(f, "BadVAddr        0x%lx\n", env->CSR_BADV);
-+    qemu_fprintf(f, "TLB refill ERA  0x%lx\n", env->CSR_TLBRERA);
-+    qemu_fprintf(f, "TLB refill BadV 0x%lx\n", env->CSR_TLBRBADV);
-+    qemu_fprintf(f, "EEPN            0x%lx\n", env->CSR_EEPN);
-+    qemu_fprintf(f, "BadInstr        0x%lx\n", env->CSR_BADI);
-+    qemu_fprintf(f, "PRCFG1    0x%lx\nPRCFG2     0x%lx\nPRCFG3     0x%lx\n",
-+                 env->CSR_PRCFG1, env->CSR_PRCFG3, env->CSR_PRCFG3);
-+    if ((flags & CPU_DUMP_FPU) && (env->hflags & LOONGARCH_HFLAG_FPU)) {
-+        fpu_dump_state(env, f, flags);
-+    }
-+}
-+
-+void loongarch_tcg_init(void)
-+{
-+    int i;
-+
-+    for (i = 0; i < 32; i++)
-+        cpu_gpr[i] = tcg_global_mem_new(cpu_env,
-+                                        offsetof(CPULoongArchState,
-+                                                 active_tc.gpr[i]),
-+                                        regnames[i]);
-+
-+    for (i = 0; i < 32; i++) {
-+        int off = offsetof(CPULoongArchState, active_fpu.fpr[i].d);
-+        fpu_f64[i] = tcg_global_mem_new_i64(cpu_env, off, fregnames[i]);
-+    }
-+
-+    cpu_PC = tcg_global_mem_new(cpu_env,
-+                                offsetof(CPULoongArchState,
-+                                         active_tc.PC), "PC");
-+    bcond = tcg_global_mem_new(cpu_env,
-+                               offsetof(CPULoongArchState, bcond), "bcond");
-+    btarget = tcg_global_mem_new(cpu_env,
-+                                 offsetof(CPULoongArchState, btarget),
-+                                 "btarget");
-+    hflags = tcg_global_mem_new_i32(cpu_env,
-+                                    offsetof(CPULoongArchState, hflags),
-+                                    "hflags");
-+    fpu_fcsr0 = tcg_global_mem_new_i32(cpu_env,
-+                                   offsetof(CPULoongArchState,
-+                                            active_fpu.fcsr0), "fcsr0");
-+    cpu_lladdr = tcg_global_mem_new(cpu_env,
-+                                    offsetof(CPULoongArchState, lladdr),
-+                                    "lladdr");
-+    cpu_llval = tcg_global_mem_new(cpu_env,
-+                                   offsetof(CPULoongArchState, llval),
-+                                   "llval");
-+}
-+
-+void restore_state_to_opc(CPULoongArchState *env, TranslationBlock *tb,
-+                          target_ulong *data)
-+{
-+    env->active_tc.PC = data[0];
-+    env->hflags &= ~LOONGARCH_HFLAG_BMASK;
-+    env->hflags |= data[1];
-+    switch (env->hflags & LOONGARCH_HFLAG_BMASK) {
-+    case LOONGARCH_HFLAG_BR:
-+        break;
-+    case LOONGARCH_HFLAG_BC:
-+    case LOONGARCH_HFLAG_B:
-+        env->btarget = data[2];
 +        break;
 +    }
 +}
-diff --git a/target/loongarch/translate.h b/target/loongarch/translate.h
-new file mode 100644
-index 0000000..c7f2b4b
---- /dev/null
-+++ b/target/loongarch/translate.h
-@@ -0,0 +1,58 @@
-+/*
-+ * LoongArch translation routines.
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1+
-+ */
 +
-+#ifndef TARGET_LOONGARCH_TRANSLATE_H
-+#define TARGET_LOONGARCH_TRANSLATE_H
++/* loongarch mul and div */
++static void gen_loongarch_muldiv(DisasContext *ctx, int opc, int rd,
++                                 int rj, int rk)
++{
++    TCGv t0, t1;
 +
-+#include "exec/translator.h"
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
 +
-+#define LOONGARCH_DEBUG_DISAS 0
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
 +
-+typedef struct DisasContext {
-+    DisasContextBase base;
-+    target_ulong saved_pc;
-+    target_ulong page_start;
-+    uint32_t opcode;
-+    uint64_t insn_flags;
-+    /* Routine used to access memory */
-+    int mem_idx;
-+    MemOp default_tcg_memop_mask;
-+    uint32_t hflags, saved_hflags;
-+    target_ulong btarget;
-+    uint64_t PAMask;
-+} DisasContext;
++    gen_load_gpr(t0, rj);
++    gen_load_gpr(t1, rk);
 +
-+void generate_exception_err(DisasContext *ctx, int excp, int err);
-+void generate_exception_end(DisasContext *ctx, int excp);
-+void gen_reserved_instruction(DisasContext *ctx);
++    switch (opc) {
++    case LA_OPC_DIV_W:
++        {
++            TCGv t2 = tcg_temp_new();
++            TCGv t3 = tcg_temp_new();
++            tcg_gen_ext32s_tl(t0, t0);
++            tcg_gen_ext32s_tl(t1, t1);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, INT_MIN);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1);
++            tcg_gen_and_tl(t2, t2, t3);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
++            tcg_gen_or_tl(t2, t2, t3);
++            tcg_gen_movi_tl(t3, 0);
++            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
++            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_MOD_W:
++        {
++            TCGv t2 = tcg_temp_new();
++            TCGv t3 = tcg_temp_new();
++            tcg_gen_ext32s_tl(t0, t0);
++            tcg_gen_ext32s_tl(t1, t1);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, INT_MIN);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1);
++            tcg_gen_and_tl(t2, t2, t3);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
++            tcg_gen_or_tl(t2, t2, t3);
++            tcg_gen_movi_tl(t3, 0);
++            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
++            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_DIV_WU:
++        {
++            TCGv t2 = tcg_const_tl(0);
++            TCGv t3 = tcg_const_tl(1);
++            tcg_gen_ext32u_tl(t0, t0);
++            tcg_gen_ext32u_tl(t1, t1);
++            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
++            tcg_gen_divu_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_MOD_WU:
++        {
++            TCGv t2 = tcg_const_tl(0);
++            TCGv t3 = tcg_const_tl(1);
++            tcg_gen_ext32u_tl(t0, t0);
++            tcg_gen_ext32u_tl(t1, t1);
++            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
++            tcg_gen_remu_tl(cpu_gpr[rd], t0, t1);
++            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_MUL_W:
++        {
++            TCGv_i32 t2 = tcg_temp_new_i32();
++            TCGv_i32 t3 = tcg_temp_new_i32();
++            tcg_gen_trunc_tl_i32(t2, t0);
++            tcg_gen_trunc_tl_i32(t3, t1);
++            tcg_gen_mul_i32(t2, t2, t3);
++            tcg_gen_ext_i32_tl(cpu_gpr[rd], t2);
++            tcg_temp_free_i32(t2);
++            tcg_temp_free_i32(t3);
++        }
++        break;
++    case LA_OPC_MULH_W:
++        {
++            TCGv_i32 t2 = tcg_temp_new_i32();
++            TCGv_i32 t3 = tcg_temp_new_i32();
++            tcg_gen_trunc_tl_i32(t2, t0);
++            tcg_gen_trunc_tl_i32(t3, t1);
++            tcg_gen_muls2_i32(t2, t3, t2, t3);
++            tcg_gen_ext_i32_tl(cpu_gpr[rd], t3);
++            tcg_temp_free_i32(t2);
++            tcg_temp_free_i32(t3);
++        }
++        break;
++    case LA_OPC_MULH_WU:
++        {
++            TCGv_i32 t2 = tcg_temp_new_i32();
++            TCGv_i32 t3 = tcg_temp_new_i32();
++            tcg_gen_trunc_tl_i32(t2, t0);
++            tcg_gen_trunc_tl_i32(t3, t1);
++            tcg_gen_mulu2_i32(t2, t3, t2, t3);
++            tcg_gen_ext_i32_tl(cpu_gpr[rd], t3);
++            tcg_temp_free_i32(t2);
++            tcg_temp_free_i32(t3);
++        }
++        break;
++    case LA_OPC_DIV_D:
++        {
++            TCGv t2 = tcg_temp_new();
++            TCGv t3 = tcg_temp_new();
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, -1LL << 63);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1LL);
++            tcg_gen_and_tl(t2, t2, t3);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
++            tcg_gen_or_tl(t2, t2, t3);
++            tcg_gen_movi_tl(t3, 0);
++            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
++            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_MOD_D:
++        {
++            TCGv t2 = tcg_temp_new();
++            TCGv t3 = tcg_temp_new();
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, -1LL << 63);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1LL);
++            tcg_gen_and_tl(t2, t2, t3);
++            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
++            tcg_gen_or_tl(t2, t2, t3);
++            tcg_gen_movi_tl(t3, 0);
++            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
++            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_DIV_DU:
++        {
++            TCGv t2 = tcg_const_tl(0);
++            TCGv t3 = tcg_const_tl(1);
++            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
++            tcg_gen_divu_i64(cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_MOD_DU:
++        {
++            TCGv t2 = tcg_const_tl(0);
++            TCGv t3 = tcg_const_tl(1);
++            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
++            tcg_gen_remu_i64(cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t3);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_MUL_D:
++        tcg_gen_mul_i64(cpu_gpr[rd], t0, t1);
++        break;
++    case LA_OPC_MULH_D:
++        {
++            TCGv t2 = tcg_temp_new();
++            tcg_gen_muls2_i64(t2, cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t2);
++        }
++        break;
++    case LA_OPC_MULH_DU:
++        {
++            TCGv t2 = tcg_temp_new();
++            tcg_gen_mulu2_i64(t2, cpu_gpr[rd], t0, t1);
++            tcg_temp_free(t2);
++        }
++        break;
++    default:
++        generate_exception_end(ctx, EXCP_INE);
++        goto out;
++    }
++ out:
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
 +
-+void check_insn(DisasContext *ctx, uint64_t flags);
-+void check_loongarch_64(DisasContext *ctx);
-+void check_fpu_enabled(DisasContext *ctx);
++    return;
++}
 +
-+void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset);
-+void gen_move_low32(TCGv ret, TCGv_i64 arg);
-+void gen_move_high32(TCGv ret, TCGv_i64 arg);
-+void gen_load_gpr(TCGv t, int reg);
-+void gen_store_gpr(TCGv t, int reg);
-+void gen_load_fpr32(DisasContext *ctx, TCGv_i32 t, int reg);
-+void gen_load_fpr64(DisasContext *ctx, TCGv_i64 t, int reg);
-+void gen_store_fpr32(DisasContext *ctx, TCGv_i32 t, int reg);
-+void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg);
++/* loongarch alsl_X */
++static void gen_loongarch_alsl(DisasContext *ctx, int opc, int rd,
++                               int rj, int rk, int imm2)
++{
++    TCGv t0;
++    TCGv t1;
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++    gen_load_gpr(t0, rj);
++    gen_load_gpr(t1, rk);
++    tcg_gen_shli_tl(t0, t0, imm2 + 1);
++    tcg_gen_add_tl(cpu_gpr[rd], t0, t1);
++    if (opc == LA_OPC_ALSL_W) {
++        tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
++    }
 +
-+/*
-+ * Address Computation and Large Constant Instructions
-+ */
-+void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0, TCGv arg1);
++    tcg_temp_free(t1);
++    tcg_temp_free(t0);
 +
-+extern TCGv cpu_gpr[32], cpu_PC;
-+extern TCGv_i32 fpu_fscr0;
-+extern TCGv_i64 fpu_f64[32];
-+extern TCGv bcond;
++    return;
++}
 +
-+#endif
+ static void loongarch_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
+ {
+ }
+@@ -337,6 +792,9 @@ static bool decode_lsx(uint32_t opcode)
+     return false;
+ }
+ 
++#include "decode-insns.c.inc"
++#include "trans.inc.c"
++
+ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ {
+     CPULoongArchState *env = cs->env_ptr;
 -- 
 1.8.3.1
 
