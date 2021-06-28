@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4483B578D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 04:56:44 +0200 (CEST)
-Received: from localhost ([::1]:60158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3A63B57C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 05:10:08 +0200 (CEST)
+Received: from localhost ([::1]:36050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxhRy-0008HI-Sv
-	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 22:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45324)
+	id 1lxhex-0003CD-01
+	for lists+qemu-devel@lfdr.de; Sun, 27 Jun 2021 23:10:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lxhR1-00074z-PE
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 22:55:43 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:36502)
+ id 1lxhdt-0002Tj-Qy
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 23:09:01 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lxhQy-0000QS-6z
- for qemu-devel@nongnu.org; Sun, 27 Jun 2021 22:55:43 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id u19so2388000plc.3
- for <qemu-devel@nongnu.org>; Sun, 27 Jun 2021 19:55:39 -0700 (PDT)
+ id 1lxhdq-0002v0-BV
+ for qemu-devel@nongnu.org; Sun, 27 Jun 2021 23:09:01 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id u190so14205063pgd.8
+ for <qemu-devel@nongnu.org>; Sun, 27 Jun 2021 20:08:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=m1WB6vHlwIRt/icDOSnqfETo7YEk0oU2G55sykH+wJc=;
- b=YokL2MDIut33N99ike79Ehx7A84n+QpH/H5nl1ccT869KIWg22uKqsXZdYU75bRhPC
- ubTseQFNshTEP0C9Cez1IByhHZPdyGH5g7RCK8Y84iMC0Bb2fTyJbq3kzdNAiZkiZInG
- kVtRHCmkRizlcXICz1MqQI+TYP7dJCK3rLZ1oeeEM6Ao92z8KuidcL13d7/DNU50wfvW
- y1wkQY5DCWieVnZP9PrY+t9sWnQor+8D+4+vQCXm+PUhkOmoVJt2xAIc3vGBRk2vE9CC
- ncm3Ol/u7brEa+9TPDxZf3ugURXzLeekk3IomDdYc/JorbUl5xigfkwNCcTbGwcRjaoI
- ECbQ==
+ bh=rfapygqrYNyK7xTo0KmAc2hq+L8+aOE0O7pkAVcxxBg=;
+ b=rOHnFszTP/6kke94KT9jI7FSv5H4Kg+sNOmhViQPrrlFWiKXGgbQHKwgqPXRRC8y0h
+ xG6QXqJCiXPXvceKHi7aFZFwCUNBKaiV5W3R0Epbsl2nsxqmOrQuEWQKSUCLpsWTJM2c
+ 06rBD/aF/HCmb/nM8JWvz1Yq7LMw5RdMoq9Z2hXyl/oDg+KzCJiOMBUkfkn/dfFmwUp0
+ n6BlunQ1PwCI9RYJDLAV0lMMp4cgcBOpNnJtm7kfrVrebptmDNvh6GyKKfm3Bfk1J3+y
+ 69cipW2fXSv+xxJtfJx2aYMC8vIkCufI2dmnNb1emEu2vD6K6bRBnj4bsodCAdKYLU7m
+ TsDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=m1WB6vHlwIRt/icDOSnqfETo7YEk0oU2G55sykH+wJc=;
- b=uDntw+KH5P4IaFAXsQWjYrSE4m0Rf0ZrctErys77d9Q/f6w09cqVn8ES7i4QJ1PgNd
- K4hcPPI0SrVBm0sMOb8uZ4bkBukr10MdfTlDFNK0KS2/KFupyg6ZKS9BjsvmyNkLuK3+
- OgCagYiU8UGP6VLMbsZkPOFaabC+yuRwPdGZQuKIy0NnM/P8ovZIuGFK3F7dlU5EhOIQ
- YWj3SyRrkq+zl6FvrGrafMhfZ6E7R7fz214goAnE4jhYFaKbxG4amg4465MVq4aQR++4
- syYdhZiBJ1bCrtb+ofIY19aAqlMJ2rk5LCCSBy1OeOVsJw1nf5+6hcnQgTsIkUQTwBvQ
- X4WA==
-X-Gm-Message-State: AOAM530lQm0/U/cvfD81G3gQNJWPFXj0PeJ4NbY5lOt4hAJIHQyluXMf
- ayCHB9uqWF0CRRqDL4skXySd4tbPKaXZMA==
-X-Google-Smtp-Source: ABdhPJw3EJl40UvaaAZI4PNy7W3QXU2UVAb2KGp4wDtj4vkdOqftNJwne+NdA1qUSoJO9QupLfJ6Iw==
-X-Received: by 2002:a17:90a:1641:: with SMTP id
- x1mr25355483pje.160.1624848937865; 
- Sun, 27 Jun 2021 19:55:37 -0700 (PDT)
+ bh=rfapygqrYNyK7xTo0KmAc2hq+L8+aOE0O7pkAVcxxBg=;
+ b=G5o1aPiMv5wktVj7Yk1KXJlEVGISSlxd9iLMqPNcRgmLQNUrZLz0B1YQv12Se0etoE
+ H3ujmRLcMMcvoJ6sDrq1Ftf7qaPm3zZFdxNRqFpP0HgF5Q8FBfj+lpFjtWiulFYKwPN6
+ Gg79JImPPRa7mmibrVaWuyvdS1d1aFSdy7gv2k0qfzjaIGTZ6MXe3RxISwrUYumnwodR
+ 1vP6H/kw2hLd6weFbTLx1lAkC1ffeJyzAb7bZDTqr+KT3k/BLdgKfLHeDBF1OGpD2iQQ
+ +78oL0GL5JElu83q5jhNpBAP9bodGREfxU5YM7jjTZ8uNX5asutwMxOXDMoMvQrVpouF
+ RPFQ==
+X-Gm-Message-State: AOAM531I4sMiOrmTiKAzadsqjmpxT5Io+yCOuonn58Dt7UV6wKtWMmym
+ JH1BgnbFBqFdIpb+0Nz4Cx6qOkbK9FqXjA==
+X-Google-Smtp-Source: ABdhPJzUy+qMYqXUXlvSp9SfcuGE9Bm+5io0SSyTzDohISJby13AEfXFwLcarEFYy7sG2RDrfrvJdQ==
+X-Received: by 2002:a63:2cc4:: with SMTP id
+ s187mr21050258pgs.233.1624849736400; 
+ Sun, 27 Jun 2021 20:08:56 -0700 (PDT)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:196f:aeac:cb2e:6936])
- by smtp.gmail.com with ESMTPSA id a25sm12105074pff.54.2021.06.27.19.55.34
+ by smtp.gmail.com with ESMTPSA id n69sm12703900pfd.132.2021.06.27.20.08.54
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 27 Jun 2021 19:55:37 -0700 (PDT)
+ Sun, 27 Jun 2021 20:08:55 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH] ui/cocoa: Use NSWindow's ability to resize
-Date: Mon, 28 Jun 2021 11:55:24 +0900
-Message-Id: <20210628025524.30600-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v2] ui/cocoa: Use NSWindow's ability to resize
+Date: Mon, 28 Jun 2021 12:08:50 +0900
+Message-Id: <20210628030850.34321-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,10 +98,10 @@ Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
  1 file changed, 249 insertions(+), 293 deletions(-)
 
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 6cc1d15baba..e54c69e69f1 100644
+index 9f72844b079..091d9721f4d 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -94,12 +94,10 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+@@ -93,12 +93,10 @@ static void cocoa_switch(DisplayChangeListener *dcl,
  static DisplayChangeListener dcl = {
      .ops = &dcl_ops,
  };
@@ -114,7 +114,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  static NSTextField *pauseLabel;
  static NSArray * supportedImageFileTypes;
  
-@@ -302,20 +300,17 @@ static void handleAnyDeviceErrors(Error * err)
+@@ -301,19 +299,16 @@ static void handleAnyDeviceErrors(Error * err)
  */
  @interface QemuCocoaView : NSView
  {
@@ -127,25 +127,24 @@ index 6cc1d15baba..e54c69e69f1 100644
      BOOL isMouseGrabbed;
 -    BOOL isFullscreen;
      BOOL isAbsoluteEnabled;
-     CFMachPortRef eventsTap;
  }
  - (void) switchSurface:(pixman_image_t *)image;
  - (void) grabMouse;
  - (void) ungrabMouse;
 -- (void) toggleFullScreen:(id)sender;
- - (void) setFullGrab:(id)sender;
  - (void) handleMonitorInput:(NSEvent *)event;
  - (bool) handleEvent:(NSEvent *)event;
-@@ -332,8 +327,6 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
+ - (bool) handleEventLocked:(NSEvent *)event;
+@@ -328,8 +323,6 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
+  */
  - (BOOL) isMouseGrabbed;
  - (BOOL) isAbsoluteEnabled;
- - (BOOL) isSwapOptionCommandEnabled;
 -- (float) cdx;
 -- (float) cdy;
  - (QEMUScreen) gscreen;
  - (void) raiseAllKeys;
  @end
-@@ -391,46 +384,43 @@ - (BOOL) isOpaque
+@@ -369,46 +362,43 @@ - (BOOL) isOpaque
      return YES;
  }
  
@@ -222,7 +221,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  - (void) hideCursor
  {
      if (!cursor_hide) {
-@@ -493,13 +483,14 @@ - (void) drawRect:(NSRect) rect
+@@ -471,13 +461,14 @@ - (void) drawRect:(NSRect) rect
          int i;
          CGImageRef clipImageRef;
          CGRect clipRect;
@@ -241,7 +240,7 @@ index 6cc1d15baba..e54c69e69f1 100644
              clipImageRef = CGImageCreateWithImageInRect(
                                                          imageRef,
                                                          clipRect
-@@ -512,36 +503,34 @@ - (void) drawRect:(NSRect) rect
+@@ -490,36 +481,34 @@ - (void) drawRect:(NSRect) rect
      }
  }
  
@@ -302,7 +301,7 @@ index 6cc1d15baba..e54c69e69f1 100644
      }
  }
  
-@@ -560,7 +549,12 @@ - (void) updateUIInfo
+@@ -538,7 +527,12 @@ - (void) updateUIInfo
          NSSize screenSize = [[[self window] screen] frame].size;
          CGSize screenPhysicalSize = CGDisplayScreenSize(display);
  
@@ -316,7 +315,7 @@ index 6cc1d15baba..e54c69e69f1 100644
          info.width_mm = frameSize.width / screenSize.width * screenPhysicalSize.width;
          info.height_mm = frameSize.height / screenSize.height * screenPhysicalSize.height;
      } else {
-@@ -577,31 +571,19 @@ - (void) updateUIInfo
+@@ -555,31 +549,19 @@ - (void) updateUIInfo
      dpy_set_ui_info(dcl.con, &info);
  }
  
@@ -350,7 +349,7 @@ index 6cc1d15baba..e54c69e69f1 100644
      }
  
      // update screenBuffer
-@@ -610,51 +592,6 @@ - (void) switchSurface:(pixman_image_t *)image
+@@ -588,51 +570,6 @@ - (void) switchSurface:(pixman_image_t *)image
      }
  
      pixman_image = image;
@@ -401,8 +400,8 @@ index 6cc1d15baba..e54c69e69f1 100644
 -    }
  }
  
- - (void) setFullGrab:(id)sender
-@@ -783,12 +720,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+ - (void) toggleKey: (int)keycode {
+@@ -724,12 +661,7 @@ - (bool) handleEventLocked:(NSEvent *)event
  {
      /* Return true if we handled the event, false if it should be given to OSX */
      COCOA_DEBUG("QemuCocoaView: handleEvent\n");
@@ -415,7 +414,7 @@ index 6cc1d15baba..e54c69e69f1 100644
      NSUInteger modifiers = [event modifierFlags];
  
      /*
-@@ -868,25 +800,25 @@ - (bool) handleEventLocked:(NSEvent *)event
+@@ -799,37 +731,37 @@ - (bool) handleEventLocked:(NSEvent *)event
                      if (!!(modifiers & NSEventModifierFlagShift)) {
                          [self toggleKey:Q_KEY_CODE_SHIFT];
                      }
@@ -445,36 +444,31 @@ index 6cc1d15baba..e54c69e69f1 100644
  
                  case kVK_Option:
                      if (!!(modifiers & NSEventModifierFlagOption)) {
-@@ -896,7 +828,7 @@ - (bool) handleEventLocked:(NSEvent *)event
-                             [self toggleKey:Q_KEY_CODE_ALT];
-                         }
+                         [self toggleKey:Q_KEY_CODE_ALT];
                      }
 -                    break;
 +                    return true;
  
                  case kVK_RightOption:
                      if (!!(modifiers & NSEventModifierFlagOption)) {
-@@ -906,7 +838,7 @@ - (bool) handleEventLocked:(NSEvent *)event
-                             [self toggleKey:Q_KEY_CODE_ALT_R];
-                         }
+                         [self toggleKey:Q_KEY_CODE_ALT_R];
                      }
 -                    break;
 +                    return true;
  
                  /* Don't pass command key changes to guest unless mouse is grabbed */
                  case kVK_Command:
-@@ -918,7 +850,7 @@ - (bool) handleEventLocked:(NSEvent *)event
-                             [self toggleKey:Q_KEY_CODE_META_L];
-                         }
+@@ -837,28 +769,23 @@ - (bool) handleEventLocked:(NSEvent *)event
+                         !!(modifiers & NSEventModifierFlagCommand)) {
+                         [self toggleKey:Q_KEY_CODE_META_L];
                      }
 -                    break;
 +                    return true;
  
                  case kVK_RightCommand:
                      if (isMouseGrabbed &&
-@@ -929,21 +861,16 @@ - (bool) handleEventLocked:(NSEvent *)event
-                             [self toggleKey:Q_KEY_CODE_META_R];
-                         }
+                         !!(modifiers & NSEventModifierFlagCommand)) {
+                         [self toggleKey:Q_KEY_CODE_META_R];
                      }
 -                    break;
 +                    return true;
@@ -498,7 +492,7 @@ index 6cc1d15baba..e54c69e69f1 100644
                  return false;
              }
  
-@@ -974,7 +901,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+@@ -889,7 +816,7 @@ - (bool) handleEventLocked:(NSEvent *)event
              } else {
                  [self handleMonitorInput: event];
              }
@@ -507,7 +501,7 @@ index 6cc1d15baba..e54c69e69f1 100644
          case NSEventTypeKeyUp:
              keycode = cocoa_keycode_to_qemu([event keyCode]);
  
-@@ -987,67 +914,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+@@ -902,67 +829,7 @@ - (bool) handleEventLocked:(NSEvent *)event
              if (qemu_console_is_graphic(NULL)) {
                  qkbd_state_key_event(kbd, keycode, false);
              }
@@ -576,7 +570,7 @@ index 6cc1d15baba..e54c69e69f1 100644
          case NSEventTypeScrollWheel:
              /*
               * Send wheel events to the guest regardless of window focus.
-@@ -1061,7 +928,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+@@ -976,7 +843,7 @@ - (bool) handleEventLocked:(NSEvent *)event
               */
              if ([event deltaY] != 0) {
              /* Determine if this is a scroll up or scroll down event */
@@ -585,7 +579,7 @@ index 6cc1d15baba..e54c69e69f1 100644
                      INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
                  qemu_input_queue_btn(dcl.con, buttons, true);
                  qemu_input_event_sync();
-@@ -1072,62 +939,124 @@ - (bool) handleEventLocked:(NSEvent *)event
+@@ -987,62 +854,124 @@ - (bool) handleEventLocked:(NSEvent *)event
               * Since deltaY also reports scroll wheel events we prevent mouse
               * movement code from executing.
               */
@@ -752,7 +746,7 @@ index 6cc1d15baba..e54c69e69f1 100644
      [self hideCursor];
      CGAssociateMouseAndMouseCursorPosition(isAbsoluteEnabled);
      isMouseGrabbed = TRUE; // while isMouseGrabbed = TRUE, QemuCocoaApp sends all events to [cocoaView handleEvent:]
-@@ -1137,15 +1066,14 @@ - (void) ungrabMouse
+@@ -1052,15 +981,14 @@ - (void) ungrabMouse
  {
      COCOA_DEBUG("QemuCocoaView: ungrabMouse\n");
  
@@ -773,16 +767,16 @@ index 6cc1d15baba..e54c69e69f1 100644
  }
  
  - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
-@@ -1157,8 +1085,6 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
+@@ -1071,8 +999,6 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
+ }
  - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
  - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
- - (BOOL) isSwapOptionCommandEnabled {return screen.swap_option_command;}
 -- (float) cdx {return cdx;}
 -- (float) cdy {return cdy;}
  - (QEMUScreen) gscreen {return screen;}
  
  /*
-@@ -1172,6 +1098,15 @@ - (void) raiseAllKeys
+@@ -1086,6 +1012,15 @@ - (void) raiseAllKeys
          qkbd_state_lift_all_keys(kbd);
      });
  }
@@ -798,7 +792,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  @end
  
  
-@@ -1186,7 +1121,6 @@ @interface QemuCocoaAppController : NSObject
+@@ -1100,7 +1035,6 @@ @interface QemuCocoaAppController : NSObject
  {
  }
  - (void)doToggleFullScreen:(id)sender;
@@ -806,7 +800,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  - (void)showQEMUDoc:(id)sender;
  - (void)zoomToFit:(id) sender;
  - (void)displayConsole:(id)sender;
-@@ -1229,12 +1163,12 @@ - (id) init
+@@ -1143,12 +1077,12 @@ - (id) init
              exit(1);
          }
          [normalWindow setAcceptsMouseMovedEvents:YES];
@@ -821,7 +815,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  
          /* Used for displaying pause on the screen */
          pauseLabel = [NSTextField new];
-@@ -1305,9 +1239,20 @@ - (void)windowDidChangeScreen:(NSNotification *)notification
+@@ -1219,9 +1153,20 @@ - (void)windowDidChangeScreen:(NSNotification *)notification
      [cocoaView updateUIInfo];
  }
  
@@ -843,7 +837,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  }
  
  /* Called when the user clicks on a window's close button */
-@@ -1323,6 +1268,23 @@ - (BOOL)windowShouldClose:(id)sender
+@@ -1237,6 +1182,23 @@ - (BOOL)windowShouldClose:(id)sender
      return NO;
  }
  
@@ -867,7 +861,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  /* Called when QEMU goes into the background */
  - (void) applicationWillResignActive: (NSNotification *)aNotification
  {
-@@ -1336,14 +1298,7 @@ - (void) applicationWillResignActive: (NSNotification *)aNotification
+@@ -1250,14 +1212,7 @@ - (void) applicationWillResignActive: (NSNotification *)aNotification
   */
  - (void) doToggleFullScreen:(id)sender
  {
@@ -882,8 +876,8 @@ index 6cc1d15baba..e54c69e69f1 100644
 +    [normalWindow toggleFullScreen:sender];
  }
  
- - (void) setFullGrab:(id)sender
-@@ -1394,13 +1349,15 @@ - (void)showQEMUDoc:(id)sender
+ /* Tries to find then open the specified filename */
+@@ -1294,13 +1249,15 @@ - (void)showQEMUDoc:(id)sender
      [self openDocumentation: @"index.html"];
  }
  
@@ -902,7 +896,7 @@ index 6cc1d15baba..e54c69e69f1 100644
          [sender setState: NSControlStateValueOff];
      }
  }
-@@ -1408,7 +1365,9 @@ - (void)zoomToFit:(id) sender
+@@ -1308,7 +1265,9 @@ - (void)zoomToFit:(id) sender
  /* Displays the console on the screen */
  - (void)displayConsole:(id)sender
  {
@@ -913,7 +907,7 @@ index 6cc1d15baba..e54c69e69f1 100644
  }
  
  /* Pause the guest */
-@@ -2052,16 +2011,14 @@ static void cocoa_update(DisplayChangeListener *dcl,
+@@ -1952,16 +1911,14 @@ static void cocoa_update(DisplayChangeListener *dcl,
      COCOA_DEBUG("qemu_cocoa: cocoa_update\n");
  
      dispatch_async(dispatch_get_main_queue(), ^{
@@ -938,16 +932,16 @@ index 6cc1d15baba..e54c69e69f1 100644
          [cocoaView setNeedsDisplayInRect:rect];
      });
  
-@@ -2135,8 +2092,7 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+@@ -2034,8 +1991,7 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
      /* if fullscreen mode is to be used */
      if (opts->has_full_screen && opts->full_screen) {
          dispatch_async(dispatch_get_main_queue(), ^{
 -            [NSApp activateIgnoringOtherApps: YES];
--            [[controller delegate] toggleFullScreen: nil];
+-            [(QemuCocoaAppController *)[[NSApplication sharedApplication] delegate] toggleFullScreen: nil];
 +            [normalWindow toggleFullScreen: nil];
          });
      }
-     if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
+     if (opts->has_show_cursor && opts->show_cursor) {
 -- 
 2.30.1 (Apple Git-130)
 
