@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A513B6ADB
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 00:12:21 +0200 (CEST)
-Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A29C3B6ADC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 00:12:22 +0200 (CEST)
+Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxzUK-0000WH-AL
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 18:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51172)
+	id 1lxzUL-0000aI-FA
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 18:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lxzQW-00011N-Ou
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:08:25 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:40452)
+ id 1lxzQY-00011g-2J
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:08:26 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:41684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lxzQQ-0006I7-U6
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:08:24 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id m17so9746762plx.7
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 15:08:16 -0700 (PDT)
+ id 1lxzQQ-0006IG-UR
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:08:25 -0400
+Received: by mail-pf1-x431.google.com with SMTP id c5so15406347pfv.8
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 15:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/6g32w52G2pzRv3LnQoNyzNgEZsD49+r9MgWNfn6Rxk=;
- b=QvKtXlnZbHcQY4OMIAeclzjAkPZV5JhwDnKEzNE8uqmfZkbjH9mq+kUvs5iIB2wKZe
- +p6DoliIy3qbRxd2DlJy6drAI5qHWYjKizqCqt2yvdVQDcfmkuCcIOP30jhX9kQoBgVZ
- 2W4bkJhyn2Qs3raF8YQqo7WTCeLY+hPE+4jea+UqMirTriso+jebOqJd43IE5mSIt2Nz
- Zm8QWVWp3nt2SskiU2WRSb2qvaNbFKMxs3zDrlmobgIHKuUgnI3exlsReHPsYnBoGjC8
- TJpbeYnV6a+CMDOhQDfuhBjFirqGKqyelHeKolZAEFJPPyMefhJ1PbvjK3Xx4siCysk3
- Glaw==
+ bh=/s+Gri2Ok0ukt6u01K6TNKDtNlxwEADD2265TMPJCTI=;
+ b=BIvIrhfod87VIelrN9EFMkIN/rzHFM1+boqArW2B9RaFSGOeHoW+y1yMGsRMEiD8+H
+ zq2MGMoJsyta5DHvLDRr2dR2dyGCO1eKIdNal8nhLl5vLr0/BTQn8EpvQ7H4E2rdh4gh
+ P0VWLCHwK57Y8gAzhSyvA5KtNXOwIFDrRXgNUH1G8DnhUZPr8GOIGqnRpTJwwvpYVs8X
+ kAp0LDliWv12y03E9SIB6A60/7L7kcGUsCoEovMJg8skzgzmNdZRL65vgH12QhYIYDvE
+ z3s+R+DuxGAmh0rcYykz/9Te++rIq1oh9UefwVAByu+PP6b8mxxEnK2//GhlZ8QqlOFx
+ i2mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/6g32w52G2pzRv3LnQoNyzNgEZsD49+r9MgWNfn6Rxk=;
- b=OECAwMK3/J6bLKSlw+IQ1G87ZRFUbZUoBy/npSzkmrRrtgYvYa+PuUl4sv0/EQWWHn
- v421PZCtRCU2+Fjf3tqEWbLq2uUkW/ZWBRw8SDEf+Qcwgrm4ZtYQxMynGWOqzm6vSN8d
- gMKptKy7cFLKLCppEiBjFsJNC0V7z3SY/q0iFX9SnrJ5gjlFo9wW/i+cT1epM0vp8HUe
- 8zyFMA58VQzQWV/73sNaVtslr6BfV5OcwMTMfAAOxK93VxMVjW1vyZrteyFSD9iS/4Lm
- /GwtBG3NqTBS8gwuaHk0qoUhQVsJNqFs7raxGn18yxdSaZ/YGA/6GA2sVwyM5ZyOcj3W
- DJyQ==
-X-Gm-Message-State: AOAM531F58oCFQDqMIVTq1hO+dyANda6F4TGvSJlIawkuCkf7zLNoLWI
- SRGlWQ+Its1g7+WrLV5AgPJtrTi9UythTA==
-X-Google-Smtp-Source: ABdhPJyC+UrXmL1OIWNTPCrin94+fZ8/EAEEaun2m7KuEzfqASCMuuLXw1xwEiCARgQx24ppLhKY1g==
-X-Received: by 2002:a17:90a:cb0c:: with SMTP id
- z12mr24904103pjt.195.1624918095842; 
- Mon, 28 Jun 2021 15:08:15 -0700 (PDT)
+ bh=/s+Gri2Ok0ukt6u01K6TNKDtNlxwEADD2265TMPJCTI=;
+ b=Q/ANwA5aRyymLcmuTHkEoo4dEsbjBFgA5pfSv8vqT8vqnO7xpwuv8jaqybmRZpJWSG
+ p9TxeOxxrrKOA/qkjfaFrcwCOS0t2bCEyKs01Kmglujb/hcVx4pa6pHqV3dEfNU+fRD3
+ oj5QHOWeYJbNmnRdUUQ0tmdNWPmeunpV0slCl6s+DOWFhmb4fopOpRUVg6xOlOwKm/Q+
+ s23/qJOwgoAs4WbvCZ2uVTJcaEhx2jU9F924KKYLH3vFGrKOCaTZ/ff+gOmWev5++S3y
+ 7lmfiG1NuurJbJd6lFvVSMCVDFiBtacMwGkQhyXVyCrKCm+xT21LfQ61mRkwI1wNQoIf
+ uxLg==
+X-Gm-Message-State: AOAM532dxQbupLlLuteWCGaRFpUZ1bM6K7BS6rZ6h95Ut2AIZ5urf0OV
+ 9TLNZO+4N2Nso6sjlg04qM67zIx8CYyLlQ==
+X-Google-Smtp-Source: ABdhPJwqFYYlcC0qR1H/93hpx8k2alPRb/rA2n1GxeNN8wjpuZENY3QBMwQxOJBkd6S4PXswio9gog==
+X-Received: by 2002:a65:42c3:: with SMTP id l3mr24753697pgp.259.1624918096603; 
+ Mon, 28 Jun 2021 15:08:16 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id l6sm16030164pgh.34.2021.06.28.15.08.15
+ by smtp.gmail.com with ESMTPSA id l6sm16030164pgh.34.2021.06.28.15.08.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Jun 2021 15:08:15 -0700 (PDT)
+ Mon, 28 Jun 2021 15:08:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/9] target/nios2: Remove assignment to env in
- handle_instruction
-Date: Mon, 28 Jun 2021 15:08:07 -0700
-Message-Id: <20210628220810.2919600-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 7/9] target/nios2: Clean up goto in handle_instruction
+Date: Mon, 28 Jun 2021 15:08:08 -0700
+Message-Id: <20210628220810.2919600-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210628220810.2919600-1-richard.henderson@linaro.org>
 References: <20210628220810.2919600-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,38 +86,37 @@ Cc: marex@denx.de, crwulff@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Direct assignments to env during translation do not work.
-
-As it happens, the only way we can get here is if env->pc
-is already set to dc->pc.  We will trap on the first insn
-we execute anywhere on the page.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/nios2/translate.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 66f4c25b06..6fd4330b31 100644
+index 6fd4330b31..9e71267b42 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -740,14 +740,15 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
-     uint32_t code;
-     uint8_t op;
-     const Nios2Instruction *instr;
-+
- #if defined(CONFIG_USER_ONLY)
-     /* FIXME: Is this needed ? */
-     if (dc->pc >= 0x1000 && dc->pc < 0x2000) {
--        env->regs[R_PC] = dc->pc;
-         t_gen_helper_raise_exception(dc, 0xaa);
-         return;
-     }
- #endif
-+
-     code = cpu_ldl_code(env, dc->pc);
+@@ -753,7 +753,8 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
      op = get_opcode(code);
  
+     if (unlikely(op >= ARRAY_SIZE(i_type_instructions))) {
+-        goto illegal_op;
++        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
++        return;
+     }
+ 
+     dc->zero = NULL;
+@@ -764,11 +765,6 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
+     if (dc->zero) {
+         tcg_temp_free(dc->zero);
+     }
+-
+-    return;
+-
+-illegal_op:
+-    t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
+ }
+ 
+ static const char * const regnames[] = {
 -- 
 2.25.1
 
