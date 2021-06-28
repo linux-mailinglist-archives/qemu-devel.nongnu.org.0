@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8F63B5D15
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 13:19:41 +0200 (CEST)
-Received: from localhost ([::1]:36952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9603B5D19
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 13:21:54 +0200 (CEST)
+Received: from localhost ([::1]:39108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxpIi-00011Z-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 07:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40648)
+	id 1lxpKr-0002Z5-AG
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 07:21:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lxpHj-0000KE-Et
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 07:18:39 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:42974)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lxpJe-0001ni-9j
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 07:20:38 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:45686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lxpHh-00035l-GX
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 07:18:39 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id o6so6988014oic.9
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 04:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=FQNDpSSlwwV4B/vu7797RqrPv/YAuT1bvP/u1aipXZ4=;
- b=bSIMbNI8LpXjvTUCyync1jaGUZARiYE2BVUKpja3HGfQowottkvnsCjMPdDzMeakgA
- uCyMbeGdc8nKF/vYfvKxGhUXqLpoCZQz/fVcRwwXIslt+ai1HixvCdCus/MXM7FGe2o/
- j4gmRve49qrvGavWmAIZNCN2oTkASQvo4kANSIPhhNktIfh6k5+Qx/qm11CqctwYFMSG
- 2Jm4jm8wwxhHvOX2BJrfQ5QtwyeG0wN+aQ6odjUeJCQ1l2gyWROem7JAfIfcPwuoXQ+Z
- ZAnpGFUqWRXrXeh2yqi6SFaIKwwiEu9wsD9tEc2jPSsJiZ4PXKAIpsBc/svvhWI6jOnF
- Thiw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lxpJc-00041l-Lh
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 07:20:38 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ u8-20020a7bcb080000b02901e44e9caa2aso10820794wmj.4
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 04:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Fy3PaFgd8a+qI+JXp0D1QcyBb6ULOjyW1lQSTkeAiAU=;
+ b=US/PsnQZdwVss66qcriri3Y0C2PMGPuImCWOb2otDyFdMe8JjBgFeWWQUVrTZvae9S
+ XNcFRIvLsRf4loEKfHs5KAnY60zweLacyvGdO7ahKK0xIGB1OUTEeD0bEKEn36+eGWcG
+ 2VzNuCSMQNHfHFONOVJ+j+YHxQNQnxjzvz5Ty8fDPBjHxuF+2ofkSuGLLaDg6r06H/KM
+ A1Aeux+dFtOuAzMwG76IKbmWIGM4d8Yoizz/5ofVWQxV2spzCNXeW2mUqo4Wz6Pv5P5Y
+ BKoi7TCjtxjQsuILHCNHGKKH651mNZf+tEfFkdDWYzkXbzF3WwuYiQ8KMdQZ93aWmXYM
+ mgPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FQNDpSSlwwV4B/vu7797RqrPv/YAuT1bvP/u1aipXZ4=;
- b=QvZhZ1+PCjP0bvAeBsJEb6sx0cbeI16oChqcVQ0Nwg63AGtr3n79mAJ5EnwOThVy30
- 9Qxu/xwHzPnTIPgTet7a6cF27FSAZMX/0+ev1rU1owWPZDdDwQ5WVxhBzk2bLhUNXSKk
- VtPImM4kJAOlAeoVO/54FQt2HG4icj7zofQ8tX8EJTiZoXHP6KhpyOQKVw6wHQ4w1AJe
- FXeSwmHrQ3mkncLpPgf5DIr6PCPqX9udjQ7fAay6Fhl0wURJPH/pMOmrADP2MBLnKPvu
- Wx4C7DQK0B14RPqh0YeAW9Me2/iKUSrWa8WBCYlhEpH2WSiTmVgX2c/4HsbyLmgYkReS
- fe5A==
-X-Gm-Message-State: AOAM532aSrOMJUcs2U7MyqYXApkUm+cqtUuqUA3ercm+aQIh1vUq8YSe
- bYRNdKwCEyrUeFebl7fR2iTlEB42EaVjcp2GTE5QAg==
-X-Google-Smtp-Source: ABdhPJzHtwX7UzMEPgfAK0rJd18/9GE4uNWMNvMCEtinIzwp5vq/Wr57n/E7K9AqsuG5PUm4uZMg/eY4iB9C6jceQKQ=
-X-Received: by 2002:a54:4703:: with SMTP id k3mr15053935oik.91.1624879115408; 
- Mon, 28 Jun 2021 04:18:35 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Fy3PaFgd8a+qI+JXp0D1QcyBb6ULOjyW1lQSTkeAiAU=;
+ b=VOGs75wsoEQdIvcrVdC47c2hFos1Z2CUXJf3WoFCQU/vXJpeiGiRq11RjI1y+KgxCv
+ LckqPYnhgWJa+QFBLr1FSGe/zxNM/NMyfVjkqvpec/bnuq0lKTz7wby1Q0H9UILcvNkp
+ 1JHR8+mgB3eVyfE6/s1AS1NrXWkxOJNwW14DBgIFjGiZHFLWdCbfwKq770dxgmmlrNE7
+ PjlieSgD3g36W0vxgY8z3UZDANojDzCH9OX8X95PezOpeTTfscnjn9O2mU0LUiv1l1au
+ 509hn/F4XfLTRFlCKLyEcyMpeNyrdaXlXc1KROQ4xjFkLpVc4BDyW+uTgaJ9kTszGL0H
+ 6Udg==
+X-Gm-Message-State: AOAM530JvN1qX0jpIX59jVIdGOI+QmIzfqNubSYK0T9X3X1/74cmXS9a
+ q8yRZScWlE0h/LvsJkiGkZOW1PLjtmEjyA==
+X-Google-Smtp-Source: ABdhPJwTiiSN5bT80Vu98zF7tWU0BKRm9YSVTcRAZSwMsxdOLVJu0snkloa/d65iEMAnFJDu/gJ9xg==
+X-Received: by 2002:a7b:c1c1:: with SMTP id a1mr22545524wmj.187.1624879233509; 
+ Mon, 28 Jun 2021 04:20:33 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id f13sm14510154wrt.86.2021.06.28.04.20.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jun 2021 04:20:32 -0700 (PDT)
+Subject: Re: tests: ReverseDebugging_AArch64.test_aarch64_virt ->
+ InvalidPacketError
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <6f85be92-627c-c3ac-2d49-fd18a00dd1f9@amsat.org>
+ <66d56c24-eacf-0d23-2def-0259b2c1b922@ispras.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c484c8b0-691b-100a-b863-2d1a9d94950a@amsat.org>
+Date: Mon, 28 Jun 2021 13:20:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
- <3da88930-439c-1892-29b4-4977ddbb0b0a@redhat.com>
- <CABcq3pE7Rx4r_H7qtpXAwqyiWzXCT_u1zp4X1Hc-pgMrW=9haA@mail.gmail.com>
- <d51a7c1f-0df8-342e-219d-c9b3b36a1371@redhat.com>
- <CABcq3pEec6f+ohA6SCn7iFAbromrvWgyS8Tjz6+iHZ-fa2OQxw@mail.gmail.com>
- <CABcq3pEXZGoRPGQPB1b1Tb_rDEg5aMFCB+CELAyOjDCyTS1FTQ@mail.gmail.com>
- <07a81543-c262-f153-6414-3d967dde02b2@redhat.com>
- <CAOEp5OeEkJh=5hMKveanMRdR2Mf93SWRuuktVbY6+=BKj6jVLA@mail.gmail.com>
- <9157bf00-299f-993d-dd16-62f13e017a3f@redhat.com> <87o8byqpao.fsf@toke.dk>
- <YNGe3iiZ103ps36n@redhat.com> <87im26qn9q.fsf@toke.dk>
- <965bb2c1-64c5-eeb2-6f35-52dd2652d1be@redhat.com>
-In-Reply-To: <965bb2c1-64c5-eeb2-6f35-52dd2652d1be@redhat.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 28 Jun 2021 14:18:23 +0300
-Message-ID: <CAOEp5OfgkpRhw-dDB+X-XAPsrTushFWVEiMfee5pAwdNQS-xCA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::22b;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x22b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <66d56c24-eacf-0d23-2def-0259b2c1b922@ispras.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,94 +92,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Melnichenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Yan Vugenfirer <yan@daynix.com>, Eric Blake <eblake@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 23, 2021 at 3:47 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/6/22 =E4=B8=8B=E5=8D=885:09, Toke H=C3=B8iland-J=C3=B8rgen=
-sen =E5=86=99=E9=81=93:
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-> >
-> >> On Tue, Jun 22, 2021 at 10:25:19AM +0200, Toke H=C3=B8iland-J=C3=B8rge=
-nsen wrote:
-> >>> Jason Wang <jasowang@redhat.com> writes:
-> >>>
-> >>>> =E5=9C=A8 2021/6/22 =E4=B8=8A=E5=8D=8811:29, Yuri Benditovich =E5=86=
-=99=E9=81=93:
-> >>>>> On Mon, Jun 21, 2021 at 12:20 PM Jason Wang <jasowang@redhat.com> w=
-rote:
-> >>>>>> =E5=9C=A8 2021/6/19 =E4=B8=8A=E5=8D=884:03, Andrew Melnichenko =E5=
-=86=99=E9=81=93:
-> >>>>>>> Hi Jason,
-> >>>>>>> I've checked "kernel.unprivileged_bpf_disabled=3D0" on Fedora,  U=
-buntu,
-> >>>>>>> and Debian - no need permissions to update BPF maps.
-> >>>>>> How about RHEL :) ?
-> >>>>> If I'm not mistaken, the RHEL releases do not use modern kernels ye=
-t
-> >>>>> (for BPF we need 5.8+).
-> >>>>> So this will be (probably) relevant for RHEL 9. Please correct me i=
-f I'm wrong.
-> >>>> Adding Toke for more ideas on this.
-> >>> Ignore the kernel version number; we backport all of BPF to RHEL,
-> >>> basically. RHEL8.4 is up to upstream kernel 5.10, feature-wise.
-> >>>
-> >>> However, we completely disable unprivileged BPF on RHEL kernels. Also=
-,
-> >>> there's upstream commit:
-> >>> 08389d888287 ("bpf: Add kconfig knob for disabling unpriv bpf by defa=
-ult")
-> >>>
-> >>> which adds a new value of '2' to the unprivileged_bpf_disable sysctl.=
- I
-> >>> believe this may end up being the default on Fedora as well.
-> >>>
-> >>> So any design relying on unprivileged BPF is likely to break; I'd
-> >>> suggest you look into how you can get this to work with CAP_BPF :)
-> >> QEMU will never have any capabilities. Any resources that required
-> >> privileges have to be opened by a separate privileged helper, and the
-> >> open FD then passed across to the QEMU process. This relies on the
-> >> capabilities checks only being performed at time of initial opening,
-> >> and *not* on operations performed on the already open FD.
-> > That won't work for regular map updates either, unfortunately: you stil=
-l
-> > have to perform a bpf() syscall to update an element, and that is a
-> > privileged operation.
-> >
-> > You may be able to get around this by using an array map type and
-> > mmap()'ing the map contents, but I'm not sure how well that will work
-> > across process boundaries.
-> >
-> > If it doesn't, I only see two possibilities: populate the map
-> > ahead-of-time and leave it in place, or keep the privileged helper
-> > process around to perform map updates on behalf of QEMU...
->
->
-> Right, and this could be probably done by extending and tracking the RSS
-> update via rx filter event.
+On 6/28/21 7:14 AM, Pavel Dovgalyuk wrote:
+> On 25.06.2021 20:01, Philippe Mathieu-Daudé wrote:
+>> Hi Pavel,
+>>
+>> FYI as of commit 050cee12315 ("Merge remote-tracking branch
+>> 'remotes/stsquad/tags/pull-testing-updates-250621-1' into staging")
+> 
+> Doesn't it mean, that the real culprit is hidden and we should bisect?
 
-Jason,
-Can you please get a little into details - what you mean by 'extending
-and tracking the RSS
-> update via rx filter event'?
+Could be, I have no idea, I don't run this test often, only when I do
+changes related to aa64. I could bisect if you can't, but it won't be
+soon.
 
-Thanks,
-Yuri
+>> the ReverseDebugging_AArch64 test is failing:
+> 
+> Shouldn't the merge be postponed in such cases?
 
->
-> Thanks
->
->
-> >
-> > -Toke
-> >
->
+This test isn't run on CI (you marked it @skip in commit be52eca3097).
+
+>>   (28/37)
+>> tests/acceptance/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt:
+>>
+>>   ERROR (0.96 s)
+>>
+>> INFO | recorded log with 1690570+ steps
+>> INFO | replaying the execution...
+>> INFO | connecting to gdbstub
+>> INFO | stepping forward
+>> INFO | saving position 40000000
+>> ERROR|
+>> ERROR| Reproduced traceback from:
+>> lib/python3.8/site-packages/avocado/core/test.py:770
+>> ERROR| Traceback (most recent call last):
+>> ERROR|   File "acceptance/reverse_debugging.py", line 206, in
+>> test_aarch64_virt
+>> ERROR|     self.reverse_debugging(
+>> ERROR|   File "acceptance/reverse_debugging.py", line 140, in
+>> reverse_debugging
+>> ERROR|     pc = self.get_pc(g)
+>> ERROR|   File "acceptance/reverse_debugging.py", line 77, in get_pc
+>> ERROR|     return self.get_reg(g, self.REG_PC)
+>> ERROR|   File "acceptance/reverse_debugging.py", line 72, in get_reg
+>> ERROR|     return self.get_reg_le(g, reg)
+>> ERROR|   File "acceptance/reverse_debugging.py", line 58, in get_reg_le
+>> ERROR|     res = g.cmd(b'p%x' % reg)
+>> ERROR|   File "lib/python3.8/site-packages/avocado/utils/gdb.py", line
+>> 783, in cmd
+>> ERROR|     response_payload = self.decode(result)
+>> ERROR|   File "lib/python3.8/site-packages/avocado/utils/gdb.py", line
+>> 738, in decode
+>> ERROR|     raise InvalidPacketError
+>> ERROR| avocado.utils.gdb.InvalidPacketError
 
