@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F7C3B66BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 18:28:33 +0200 (CEST)
-Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8943B66B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 18:28:19 +0200 (CEST)
+Received: from localhost ([::1]:34218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxu7d-00006u-1S
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 12:28:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54904)
+	id 1lxu7O-0007pq-ED
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 12:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxu5c-0006I4-Ih
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 12:26:28 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:33682)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxu5Q-0005r0-4E
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 12:26:16 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:37510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxu5Z-00045E-Ne
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 12:26:28 -0400
-Received: by mail-ed1-x530.google.com with SMTP id w13so20831167edc.0
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 09:26:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxu5N-0003uw-6b
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 12:26:15 -0400
+Received: by mail-pf1-x429.google.com with SMTP id s137so6921996pfc.4
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 09:26:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5n590fBEpRMrKH6fJYWHH9IGuY38gH9hzq+B+1RgJFs=;
- b=v47LuQ+3FnGJ7P9XSyiAZbnmhOUDRBmahCZeQflYIFSdNIqLZ4J7B/dipF4VOHuAWX
- Z0jhCTIY6LHQsjRyRUxLX7XF2JEtJDqW6NYfYWj3ewezcXtIcesyJQ9dipPINz99r2O0
- AJBjFC1KAM7uK4EGeTCrCAt7FtxO7K4TKw8y8qU9Pv2wrbzbDUQkHwcd3WP0hLkzGILF
- jsANOXOpiBj1Gp2YNN8PH2wUIzRep/BQ/KcVuf5OgUwS4VEP51q9+iTNmEsAG0Ifdw1R
- GQga5qkb/eDvBPGmb32SKIR9eFnI9HL6QSOidxI8JYKouASkwQIZpaa+9fPdHBlRlyQQ
- J2HQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=K7GBvLooGu6oyfCGMLgyd1N1/7+0VnyWXEApFbvoBeI=;
+ b=TgM/gF1X2IesdBsM1DHlQzMeD8bZ02OPe8qH1ahMjklgZHesVAn9xVk+g9BLhQEbeh
+ hMnhI5qVga4fgU4DRqssa1pSLOh4yjL8jL6yPBr6U8q53/qyFQws0OWlp/xJ4P85s2qD
+ Z9CEf+5WZOw0cObdvFVbLFdoTG80QxY1SmTIIdJK/Zzuj0YB+P5ff0xn0ikl6b364JF3
+ 3Tn7HlffUpBXmG+LZh2v35jc8wIZ8QReP+134qZ+3He5xO5/2nRJjJ8GxwuvGCAaM8NW
+ FvOr5lt7xy0htzBElqGwaZMEydugpw3iris0QY2niA9XEgBCsJRJZW3/2si/U8mhsUtz
+ QjVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5n590fBEpRMrKH6fJYWHH9IGuY38gH9hzq+B+1RgJFs=;
- b=n6CT/t/cR+yQriqgICxowSLojfCRs4vYf6PBC36Tm1WV2LUKmPg3YLqCcXoZMJ9L2V
- qZhyfvpfZin3lJUBLK6AvM8stKGpv/LFTgtRi0emE6PdqQwkXGGOxFH4Pdo+GAVnSoj9
- XBnVkQMOlQVw5lYZcQUCFKi1QCjxTVtzgVlXIZ5nQpE+uOqMmKpXRvyoY+z88BgbthK7
- RowN9CveFz4N1fy88gx4bx0lheY9BxbtLQbCAQZxDB4Dpcn0qCPfHN6QmeOXEaDOHNGf
- fDSiY8+bv670dHJY+Qkx5SCOdXOIRtc9o05wFdTrEe+Mlj+MliFmfjOz8bobmqz80f1f
- eH6w==
-X-Gm-Message-State: AOAM530sOQFio1fF0FAqcb04g0waG4XbJPpUcpkY75GA8p4jkDagJLap
- H1WURhEgQkrOr42uocOkgUglbklbrm/oLHJ1GeYEqA==
-X-Google-Smtp-Source: ABdhPJx+vwXe83APkZ6q1FPnkZnUzyRdIEaM3FNl8EItFKXR7Djj5TEUpk7Di1Ou3YX4BoLJzjwPbzQzSuNEifRA5qM=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr33257178edt.100.1624897583833; 
- Mon, 28 Jun 2021 09:26:23 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=K7GBvLooGu6oyfCGMLgyd1N1/7+0VnyWXEApFbvoBeI=;
+ b=lrXdpfSgFk1HUDhK4Lctio9puQEAvdY5dozJPnsXEShqiQQJlzfCYBaAjh3DggEWG6
+ ZEsSQlhZuHeMCD8+NVEJ43SqlkiAe8aaV7NG2oCPPqwdkpzJYRSA73Sx+UrvnxTi5hip
+ I9hyuPsEF7j39B4E38JzJinl6mdGVpQqsMye9RmBkjlX4/0WVSo8I1pJ7v3jC2dtN7il
+ VCEv/3Mh5oZEmhbJOe9v41gLYxUTqKC0xmEJvzWgHYspebTvfh00X/Y7fAq3sORlpeuF
+ jD0V8fk6E0h2yYFLeIwMYZ41LkrNKp2pYvqd9mk9dawwBU4QWSBOw9xogV8U8rA8PBY8
+ QZ0A==
+X-Gm-Message-State: AOAM533jAywGdtK4f4WVCPl4TcGrmdNxYjqUSG9J1q9cKmbkXrMd+1De
+ TGcDJsOVtRY3UwtmWQRVbRcQE9tQjUYxnw==
+X-Google-Smtp-Source: ABdhPJz4DSawCzFgSN8sdAlQ3Wq7pVT9DIdD2mFL+J0Yhan/fzflm80STlGJu7fU/d/tyfKPs2hg6Q==
+X-Received: by 2002:a63:2d46:: with SMTP id t67mr23812998pgt.307.1624897571595; 
+ Mon, 28 Jun 2021 09:26:11 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id w2sm15356532pjq.5.2021.06.28.09.26.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jun 2021 09:26:11 -0700 (PDT)
+Subject: Re: [PATCH 10/18] target/arm: Implement MVE VSRI, VSLI
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210628135835.6690-1-peter.maydell@linaro.org>
+ <20210628135835.6690-11-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fde240ca-bde2-f47b-3dbc-00f03acd907a@linaro.org>
+Date: Mon, 28 Jun 2021 09:26:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210615192848.1065297-1-venture@google.com>
- <CAFEAcA9mqyn6J-W_qiZ_T=JbsBuahZuLAXXc8c9ASarVASbg7g@mail.gmail.com>
-In-Reply-To: <CAFEAcA9mqyn6J-W_qiZ_T=JbsBuahZuLAXXc8c9ASarVASbg7g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Jun 2021 17:25:46 +0100
-Message-ID: <CAFEAcA8V9TegQbisBufg0CHooV-eDzE6Arvh-7H2wc2F_cRBXA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Updates docs/system/arm to include new bmc machines
-To: Patrick Venture <venture@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+In-Reply-To: <20210628135835.6690-11-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,47 +88,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Jun 2021 at 15:07, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 15 Jun 2021 at 20:28, Patrick Venture <venture@google.com> wrote:
-> >
-> >
-> > Patrick Venture (2):
-> >   docs/system/arm: Add quanta-q7l1-bmc reference
-> >   docs/system/arm: Add quanta-gbs-bmc reference
-> >
-> >  docs/system/arm/aspeed.rst  | 1 +
-> >  docs/system/arm/nuvoton.rst | 3 ++-
-> >  2 files changed, 3 insertions(+), 1 deletion(-)
->
->
->
-> Applied to target-arm.next, thanks.
+On 6/28/21 6:58 AM, Peter Maydell wrote:
+> Implement the MVE VSRI and VSLI insns, which perform a
+> shift-and-insert operation.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/helper-mve.h    |  8 ++++++++
+>   target/arm/mve.decode      |  9 ++++++++
+>   target/arm/mve_helper.c    | 42 ++++++++++++++++++++++++++++++++++++++
+>   target/arm/translate-mve.c |  3 +++
+>   4 files changed, 62 insertions(+)
 
-Just noticed the docs don't actually build:
-
-Warning, treated as error:
-/home/petmay01/linaro/qemu-from-laptop/qemu/docs/system/arm/nuvoton.rst:2:Title
-underline too short.
-
-Nuvoton iBMC boards (``*-bmc``, ``npcm750-evb``, ``quanta-gsj``)
-=====================================================
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-But the fix is trivial, so I will make it locally.
-
-Passing configure '--enable-docs' will enforce that it complains if you
-don't have enough prerequisites to build the docs, rather than silently
-skipping them.
-
-thanks
--- PMM
+r~
 
