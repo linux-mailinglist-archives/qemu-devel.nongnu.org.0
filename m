@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC363B6A6C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 23:28:04 +0200 (CEST)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9C03B6A76
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 23:33:37 +0200 (CEST)
+Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxynT-0007hK-2P
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 17:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
+	id 1lxysq-00024A-NZ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 17:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lxymW-0006vS-Tv
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:27:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lxymT-0004cV-Mm
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:27:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624915620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+QGXJ9RjtvAmkZzq5ERj4/jK2JRppUu9ykyhUOtPx3c=;
- b=NfMXXHteeEVM0e7lbdbC1YgA1//2fkwcliL9rQ2t+C0hI9nb4iLF9w1kz7+Mm+Hqwbpmt1
- mBrw0m6XlHQOYdQWA1Ey9EskbE6agZEPZtc5H72Gmd5JhCa8ypW1UmBgOtMR4jrYJYEuFt
- CwCqVA316qgtv4Rg+MewrTQzxrl8S6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-ot0jVGhWM7SzZY9r5EOigA-1; Mon, 28 Jun 2021 17:26:56 -0400
-X-MC-Unique: ot0jVGhWM7SzZY9r5EOigA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C1ACEC1A1;
- Mon, 28 Jun 2021 21:26:55 +0000 (UTC)
-Received: from redhat.com (ovpn-113-39.phx2.redhat.com [10.3.113.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 504AB5C1A1;
- Mon, 28 Jun 2021 21:26:51 +0000 (UTC)
-Date: Mon, 28 Jun 2021 16:26:49 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PULL 00/10] Block Jobs patches
-Message-ID: <20210628212649.aomv6yd7gkegafdx@redhat.com>
-References: <20210625130006.276511-1-vsementsov@virtuozzo.com>
- <CAFEAcA_j+vQt_a5zYYghmBdo-+G+_sq3yV40w2CQSJ27+Py8Eg@mail.gmail.com>
- <eb11da56-fa17-77cb-8695-c190e7e631d8@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxyqs-0000ij-Hy
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:31:34 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:37864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxyqq-0007mH-Pf
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:31:34 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id s137so7708691pfc.4
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 14:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hr/HqFwyaxwuUtL8C88DoheE0hTXDB6Ak4xGH2dk40s=;
+ b=xid3fZkjr991bMwyWklwt6f6sckRUg8GKJ7tLdUxoHjbVY4wj2atpTH7TOm78kr9Io
+ SubmHbKlCNcU43eprzjQdFIsvB4NpNyOYUyE4emFxEGeNHcSxy3jJTLUWeseVdBi7LE9
+ pKCOkmGUaGQ08MfqJJl1K/O+ZUtq7Jrgfx/rq9BxZEjGZP8YkIcJDVtJqRLB7k8i3tTm
+ 9xrcS6pFFLuOYctbmYQHD4pdmmgoWHvOn6oAq0FXkGFX/7yOeoKKEiZ6StUxrTCUY/pF
+ MViXJqLco68aqozq3pQq6YEhxNynmlWWl0ZV+ttpfSPjd+4sZz7SVbFKRvY40dzv6i7C
+ YsqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hr/HqFwyaxwuUtL8C88DoheE0hTXDB6Ak4xGH2dk40s=;
+ b=o5kx1c5VAqN5H9UJPC06cETV2YoRBwi0xpmalKBB7NUhPX6E9Pu8mR+f50lI49xj3X
+ BEkgCeXfCDOMWw5OlmeVV2NfPDpEI3fybV4mbmHxVises5sMgDEJ1ATiBMftSXzHJymS
+ 6VDqiIH/i0cn64wpFTDEiYHYa01xIl/DV/SIB9kvHhIbRBWBvBEj/GKT6GXkErKyaXbP
+ VD0qQdbMxAp5APdB3d3Qvj+iJodIN58p8Yyk+0orrLqu09ktY1+xw+XPpJVjrW/j6cM7
+ Q0z3pycaabNutKsnyDoVfdApD25xykZ2nx/1spZgPgPqZMS8LXPTbrdxTzgSPqiJG+NY
+ g/Iw==
+X-Gm-Message-State: AOAM530uxwp/JpVBtmbdUKgWULZ5dcbYMqT+qeJK1e8dg2vXW1pLIgo6
+ 0spKSj8rcxW2QIkDrYtaUXumfw==
+X-Google-Smtp-Source: ABdhPJxXZg5+VjjYFtaRYd4D/IQwfZ+umkARhZz0cX67+c3DDa19r+1+mVOQl6JEjM9xX6TAdArTtA==
+X-Received: by 2002:a05:6a00:17a4:b029:304:a2d1:25a6 with SMTP id
+ s36-20020a056a0017a4b0290304a2d125a6mr26773855pfg.68.1624915891144; 
+ Mon, 28 Jun 2021 14:31:31 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id z27sm15801609pfg.91.2021.06.28.14.31.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jun 2021 14:31:30 -0700 (PDT)
+Subject: Re: [PATCH 1/4] target/mips: Add declarations for generic TCG helpers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210617174907.2904067-1-f4bug@amsat.org>
+ <20210617174907.2904067-2-f4bug@amsat.org>
+ <a586a9e9-ea77-04da-f1f0-45d79d6eb626@linaro.org>
+ <ea1ec188-d011-e8f2-7131-3946bfd6d963@amsat.org>
+ <79cfc24f-d271-fbf6-33bc-b8c2f1381b5a@linaro.org>
+ <876235ff-c85c-9b6c-d1a7-a3fe3f602cc1@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <188995a5-2612-2d4a-9956-3eb3467a5ff1@linaro.org>
+Date: Mon, 28 Jun 2021 14:31:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <eb11da56-fa17-77cb-8695-c190e7e631d8@virtuozzo.com>
-User-Agent: NeoMutt/20210205-557-802118
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <876235ff-c85c-9b6c-d1a7-a3fe3f602cc1@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,67 +93,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 28, 2021 at 07:19:47PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 28.06.2021 19:09, Peter Maydell wrote:
-> > On Fri, 25 Jun 2021 at 14:00, Vladimir Sementsov-Ogievskiy
-> > <vsementsov@virtuozzo.com> wrote:
-> > > 
-> > > The following changes since commit e0da9171e02f4534124b9a9e07333382b38376c6:
-> > > 
-> > >    Merge remote-tracking branch 'remotes/kraxel/tags/ui-20210624-pull-request' into staging (2021-06-25 09:10:37 +0100)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >    ssh://git@src.openvz.org/~vsementsov/qemu.git tags/pull-jobs-2021-06-25
-> > 
-> > This doesn't look like a public git url. I'm going to assume you mean
-> >   https://src.openvz.org/scm/~vsementsov/qemu.git
+On 6/28/21 9:33 AM, Philippe Mathieu-Daudé wrote:
+>> I don't mind the ordering, just that there's a reason.
 > 
-> Yes, that's a right URL, sorry.
+> Is that OK if I reword as:
 > 
-> > (the remote URL I have on file or you) since it has the right tag/commit.
+> ---
+> We want to extract the microMIPS ISA and Code Compaction ASE to
+> new compilation units.
+> 
+> We will first extract this code as included source files (.c.inc),
+> then make them new compilation units afterward.
+> 
+> The following methods are going to be used externally:
+> 
+>    micromips_translate.c.inc:1778:   gen_ldxs(ctx, rs, rt, rd);
+>    micromips_translate.c.inc:1806:   gen_align(ctx, 32, rd, rs, ...
+>    micromips_translate.c.inc:2859:   gen_addiupc(ctx, reg, offset, ...
+>    mips16e_translate.c.inc:444:      gen_addiupc(ctx, ry, offset, ...
+> 
+> To avoid too much code churn, it is simpler to declare these
+> prototypes in "translate.h" now.
+> ---
 
-This may be a factor of how you have set up your local copy of your
-staging repo.  Easiest is to update your .git/config to set your
-remote.NAME.url to be the readonly public name, and
-remote.NAME.pushurl to be your personal one that you can push to.
+Sure.
 
-This can also be done with repo URL shortening; for example, in my
-~/.gitconfig, I have:
 
-[url "https://repo.or.cz/"]
-        insteadof = repo:
-[url "ericb@repo.or.cz:/srv/git/"]
-        pushinsteadof = repo:
-
-and then in my qemu staging checkout, I have:
-
-[remote "repo"]
-        url = repo:qemu/ericb.git
-
-where the repo: prefix takes care of letting me push pull requests
-then producing a sane string in 'git request-pull' I use to announce
-it. 'git remote show repo' lets me check that my nicknames properly
-expanded into the actual URLs needed.
-
-(Another benefit of having url different from pushurl is that you no
-longer have to spend time authenticating when merely downloading from
-the repo, although that matters more if you are using that repo to
-synchronize changes across multiple machines, and less if you are
-using it only for preparing pull requests for others to download)
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
