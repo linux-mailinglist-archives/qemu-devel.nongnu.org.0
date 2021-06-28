@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A70B3B59CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 09:33:05 +0200 (CEST)
-Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F213B59DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 09:36:36 +0200 (CEST)
+Received: from localhost ([::1]:50272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxllQ-0003dV-4F
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 03:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52116)
+	id 1lxlop-0006ZY-TC
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 03:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lxlk4-0001um-NN
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:31:40 -0400
-Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:52632)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lxln6-0005Qu-IR
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:34:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lxlk2-00035T-NX
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:31:40 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.27])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 95C472819FC;
- Mon, 28 Jun 2021 09:31:35 +0200 (CEST)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.10; Mon, 28 Jun
- 2021 09:31:34 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006f23180ba-c59d-4742-8f3c-1db38ebebc84,
- A5942444232ACF3D755B1638A42E9F49C81D83AA) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [RFC PATCH 05/10] hw/sd: Add sd_cmd_illegal() handler
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- <qemu-devel@nongnu.org>
-References: <20210624142209.1193073-1-f4bug@amsat.org>
- <20210624142209.1193073-6-f4bug@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <780c3813-9440-1ac9-1cd6-a8c3674599a8@kaod.org>
-Date: Mon, 28 Jun 2021 09:31:34 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lxln4-0005Y5-Px
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 03:34:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624865686;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/yTZB3xWK4EAHn9ne40QsWL7iAZR4e711i/H16xpyoE=;
+ b=g3lN+kbFs5WXaz4V3054dr8RjevrJMxOHaFWEMqiTqib4lPXm3+ZjbIDZunzZUY+WUJ30y
+ g/fLY4/dP7wYY/eHVrzHS1cxJ4ibXKj3CZQIG7NDkKK6OjtliNmffKQZqakll2ykVoBnQr
+ Vb5Zx1GRjvxXOMozqLSJKM2ziFoZ6hE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-1puB1HlOOc6SrSpD6HAA2A-1; Mon, 28 Jun 2021 03:34:44 -0400
+X-MC-Unique: 1puB1HlOOc6SrSpD6HAA2A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ k3-20020a5d62830000b029011a69a4d069so4277857wru.21
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 00:34:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/yTZB3xWK4EAHn9ne40QsWL7iAZR4e711i/H16xpyoE=;
+ b=krec0XHuBQzkp7h5EaFKNaMwbaA6XXv8L8qPOUix6bshsLbWJ1LP07waSgmKcqJClH
+ qTWsN5d7Nb93qq4Wl+PzozLMl4l6hNoGCBucjbJRyxp8yOWRCzIk8rXTzb0k+gwCXV79
+ lhZQ08lsWb7sqGttiDVQjzunEw4KukJz8bSR0uqJdImQZ9iFhqLFeMMLtQ1dEriiNYn8
+ rtzbf87KYD/hQP1g1b5z2w14kePcg7R5Qchddd4KN2hPRT6MX/SrBATYer847RqkLIL2
+ gCba2BBGmSXJPcVEJkfULYsGbO0llgyT6hnWKKAZM+ICBj2pJTaNwyFZZGUDCLk6i3L4
+ WADQ==
+X-Gm-Message-State: AOAM531khIsOEWEKeUmZmdSURrJG2K4Ka84sm/KAvpkCFbUUU9cYnYCS
+ t+8G8JqR/jO2clSMGTsVOA6/tJjQPzWa9JRytOBMd6xd8jk/C9GVmBebGUe1UsyUku8LlxxaZ/O
+ CuXubhbEJEeHksCk=
+X-Received: by 2002:a7b:c107:: with SMTP id w7mr24531306wmi.107.1624865683400; 
+ Mon, 28 Jun 2021 00:34:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5qPrV04mX+/Ahhygw+ZSap1/1cRMCE2PMpR+0WQDhgfWQmZpukkb0SbXpBkSYDlA4u3Z0HQ==
+X-Received: by 2002:a7b:c107:: with SMTP id w7mr24531275wmi.107.1624865683197; 
+ Mon, 28 Jun 2021 00:34:43 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575ea7.dip0.t-ipconnect.de.
+ [217.87.94.167])
+ by smtp.gmail.com with ESMTPSA id p9sm1498755wrx.59.2021.06.28.00.34.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jun 2021 00:34:42 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210625172211.451010-1-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 0/3] ci: use cirrus-run to utilize Cirrus CI from GitLab CI
+Message-ID: <37c78715-0819-3961-93ea-5c5d95a2791a@redhat.com>
+Date: Mon, 28 Jun 2021 09:34:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210624142209.1193073-6-f4bug@amsat.org>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210625172211.451010-1-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: acd288f5-7322-403c-af41-05eac7faadd5
-X-Ovh-Tracer-Id: 8851543592665778982
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfeehfedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo52.mail-out.ovh.net
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.765,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.696,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.765, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,182 +99,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Bin Meng <bin.meng@windriver.com>,
- Joel Stanley <joel@jms.id.au>, qemu-block@nongnu.org
+Cc: Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/21 4:22 PM, Philippe Mathieu-Daudé wrote:
-> Log illegal commands as GUEST_ERROR.
-> 
-> Note: we are logging back the SDIO commands (CMD5, CMD52-54).
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/sd/sd.c | 57 ++++++++++++++++++++++--------------------------------
->  1 file changed, 23 insertions(+), 34 deletions(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index ce1eec0374f..0215bdb3689 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -965,6 +965,14 @@ static sd_rsp_type_t sd_invalid_state_for_cmd(SDState *sd, SDRequest req)
->      return sd_illegal;
->  }
->  
-> +static sd_rsp_type_t sd_cmd_illegal(SDState *sd, SDRequest req)
-> +{
-> +    qemu_log_mask(LOG_GUEST_ERROR, "%s: Unknown CMD%i\n",
-> +                  sd->proto->name, req.cmd);
-> +
-> +    return sd_illegal;
-> +}>  static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->  {
->      uint32_t rca = 0x0000;
-> @@ -1017,15 +1025,10 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->  
->      case 1:	/* CMD1:   SEND_OP_CMD */
-> -        if (!sd->spi)
-> -            goto bad_cmd;
-> -
->          sd->state = sd_transfer_state;
->          return sd_r1;
->  
->      case 2:	/* CMD2:   ALL_SEND_CID */
-> -        if (sd->spi)
-> -            goto bad_cmd;
->          switch (sd->state) {
->          case sd_ready_state:
->              sd->state = sd_identification_state;
-> @@ -1037,8 +1040,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->  
->      case 3:	/* CMD3:   SEND_RELATIVE_ADDR */
-> -        if (sd->spi)
-> -            goto bad_cmd;
->          switch (sd->state) {
->          case sd_identification_state:
->          case sd_standby_state:
-> @@ -1052,8 +1053,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->  
->      case 4:	/* CMD4:   SEND_DSR */
-> -        if (sd->spi)
-> -            goto bad_cmd;
->          switch (sd->state) {
->          case sd_standby_state:
->              break;
-> @@ -1063,9 +1062,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          }
->          break;
->  
-> -    case 5: /* CMD5: reserved for SDIO cards */
-> -        return sd_illegal;
-> -
->      case 6:	/* CMD6:   SWITCH_FUNCTION */
->          switch (sd->mode) {
->          case sd_data_transfer_mode:
-> @@ -1081,8 +1077,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->  
->      case 7:	/* CMD7:   SELECT/DESELECT_CARD */
-> -        if (sd->spi)
-> -            goto bad_cmd;
->          switch (sd->state) {
->          case sd_standby_state:
->              if (sd->rca != rca)
-> @@ -1212,8 +1206,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->  
->      case 15:	/* CMD15:  GO_INACTIVE_STATE */
-> -        if (sd->spi)
-> -            goto bad_cmd;
->          switch (sd->mode) {
->          case sd_data_transfer_mode:
->              if (sd->rca != rca)
-> @@ -1320,8 +1312,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->  
->      case 26:	/* CMD26:  PROGRAM_CID */
-> -        if (sd->spi)
-> -            goto bad_cmd;
->          switch (sd->state) {
->          case sd_transfer_state:
->              sd->state = sd_receivingdata_state;
-> @@ -1466,15 +1456,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          }
->          break;
->  
-> -    case 52 ... 54:
-> -        /* CMD52, CMD53, CMD54: reserved for SDIO cards
-> -         * (see the SDIO Simplified Specification V2.0)
-> -         * Handle as illegal command but do not complain
-> -         * on stderr, as some OSes may use these in their
-> -         * probing for presence of an SDIO card.
-> -         */
-> -        return sd_illegal;
-> -
->      /* Application specific commands (Class 8) */
->      case 55:	/* CMD55:  APP_CMD */
->          switch (sd->state) {
-> @@ -1515,19 +1496,12 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->  
->      case 58:    /* CMD58:   READ_OCR (SPI) */
-> -        if (!sd->spi) {
-> -            goto bad_cmd;
-> -        }
->          return sd_r3;
->  
->      case 59:    /* CMD59:   CRC_ON_OFF (SPI) */
-> -        if (!sd->spi) {
-> -            goto bad_cmd;
-> -        }
->          return sd_r1;
->  
->      default:
-> -    bad_cmd:
->          qemu_log_mask(LOG_GUEST_ERROR, "SD: Unknown CMD%i\n", req.cmd);
->          return sd_illegal;
->      }
-> @@ -2114,10 +2088,25 @@ void sd_enable(SDState *sd, bool enable)
->  
->  static const SDProto sd_proto_spi = {
->      .name = "SPI",
-> +    .cmd = {
-> +        [2 ... 4]   = sd_cmd_illegal,
-> +        [5]         = sd_cmd_illegal,
-> +        [7]         = sd_cmd_illegal,
-> +        [15]        = sd_cmd_illegal,
-> +        [26]        = sd_cmd_illegal,
-> +        [52 ... 54] = sd_cmd_illegal,
-> +    },
->  };
->  
->  static const SDProto sd_proto_sd = {
->      .name = "SD",
-> +    .cmd = {
-> +        [1]         = sd_cmd_illegal,
-> +        [5]         = sd_cmd_illegal,
-> +        [52 ... 54] = sd_cmd_illegal,
-> +        [58]        = sd_cmd_illegal,
-> +        [59]        = sd_cmd_illegal,
-> +    },
->  };
->  
->  static void sd_instance_init(Object *obj)
-> 
+On 25/06/2021 19.22, Daniel P. Berrangé wrote:
+[...]
+> The MSys Windows job still remains in the .cirrus.yml file. This
+> can be addressed to, if we extend libvirt-ci to have package
+> mapping information for MSys.
 
+I think gitlab-CI offers shared Windows runners, too, see e.g.:
 
+  https://about.gitlab.com/blog/2020/01/21/windows-shared-runner-beta/
 
-Looks good. 
+So I think we likely should rather convert that job to a shared gitlab-CI 
+Windows runner instead?
 
-I would start to move these commands in a sd_cmd.c file or sd_common.c
-may be.
-
-Thanks,
-
-C.
+  Thomas
 
 
