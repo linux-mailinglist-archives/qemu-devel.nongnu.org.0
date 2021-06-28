@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA44E3B5E51
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:44:20 +0200 (CEST)
-Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023043B5E5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:47:13 +0200 (CEST)
+Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxqcd-0005Qn-Lq
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:44:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56566)
+	id 1lxqfN-00024E-7n
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lxqRC-00078u-2d
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50654)
+ id 1lxqRC-00079Q-Nb
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lxqR7-0003Dm-KI
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:29 -0400
+ id 1lxqR9-0003ES-OF
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:32:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624883544;
+ s=mimecast20190719; t=1624883546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vHWZtqNvl/YLGyLOiUuiUalq5tGvTYqCzazXdWHLgxQ=;
- b=IBD+MbkdedBfvvTB5k+xU7cOqLs2d9UxH5k3iZQDOZfaQ5RYa9MsmKnDr4ofXsuDxMKwlJ
- bqzBk1/MXrXTKvcyM+fDWEOqLfAfFvEwUcCvPHrY9RyvQijcLdxr1HM/xVhTqR2gLDMZAt
- xVR263Pf6Tz1L5jVp8JHdp+WwU54ueI=
+ bh=ERdSQhrv1dpNgYyhUXn0SP0xdRZ4+cF2nkeM4ca6HvY=;
+ b=ZLqfqfrRul7BfjuEHy2rnUk87l2DzlGuz60hBruW+TmM8hbSdUBYJnmWxKW+wKBUG/wMcO
+ 0q9qRIEe5IIsu/BYg1y24wCB74ZmS1IDdoPkAWL8nIR8jcAfh+T5E5J3MKXJlui1CH+Nhz
+ 2lNYkhBm98lQFa+uCdw65SkkHe25v/o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-NEHaGIJlMna5UdXWH10p2A-1; Mon, 28 Jun 2021 08:32:23 -0400
-X-MC-Unique: NEHaGIJlMna5UdXWH10p2A-1
+ us-mta-244-7YV6ddUDPJO7zXu_9aYrCA-1; Mon, 28 Jun 2021 08:32:25 -0400
+X-MC-Unique: 7YV6ddUDPJO7zXu_9aYrCA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3480D81CCC7;
- Mon, 28 Jun 2021 12:32:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9C4980430B;
+ Mon, 28 Jun 2021 12:32:18 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-114-69.ams2.redhat.com
  [10.36.114.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6F2046;
- Mon, 28 Jun 2021 12:32:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80ADB19C46;
+ Mon, 28 Jun 2021 12:32:16 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 08/16] qemu-iotests: add gdbserver option to script tests
- too
-Date: Mon, 28 Jun 2021 14:31:42 +0200
-Message-Id: <20210628123150.56567-9-eesposit@redhat.com>
+Subject: [PATCH v7 09/16] docs/devel/testing: add -gdb option to the debugging
+ section of QEMU iotests
+Date: Mon, 28 Jun 2021 14:31:43 +0200
+Message-Id: <20210628123150.56567-10-eesposit@redhat.com>
 In-Reply-To: <20210628123150.56567-1-eesposit@redhat.com>
 References: <20210628123150.56567-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,57 +89,34 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove read timer in test script when GDB_OPTIONS are set,
-so that the bash tests won't timeout while running gdb.
-
-The only limitation here is that running a script with gdbserver
-will make the test output mismatch with the expected
-results, making the test fail.
-
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/common.qemu | 7 ++++++-
- tests/qemu-iotests/common.rc   | 8 +++++++-
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ docs/devel/testing.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
-index 0fc52d20d7..cbca757b49 100644
---- a/tests/qemu-iotests/common.qemu
-+++ b/tests/qemu-iotests/common.qemu
-@@ -85,7 +85,12 @@ _timed_wait_for()
-     timeout=yes
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 9d6a8f8636..8b24e6fb47 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -229,6 +229,17 @@ Debugging a test case
+ The following options to the ``check`` script can be useful when debugging
+ a failing test:
  
-     QEMU_STATUS[$h]=0
--    while IFS= read -t ${QEMU_COMM_TIMEOUT} resp <&${QEMU_OUT[$h]}
-+    read_timeout="-t ${QEMU_COMM_TIMEOUT}"
-+    if [ ! -z ${GDB_OPTIONS} ]; then
-+        read_timeout=
-+    fi
++* ``-gdb`` wraps every QEMU invocation in a ``gdbserver``, which waits for a
++  connection from a gdb client.  The options given to ``gdbserver`` (e.g. the
++  address on which to listen for connections) are taken from the ``$GDB_OPTIONS``
++  environment variable.  By default (if ``$GDB_OPTIONS`` is empty), it listens on
++  ``localhost:12345``.
++  It is possible to connect to it for example with
++  ``gdb -iex "target remote $addr"``, where ``$addr`` is the address
++  ``gdbserver`` listens on.
++  If the ``-gdb`` option is not used, ``$GDB_OPTIONS`` is ignored,
++  regardless on whether it is set or not.
 +
-+    while IFS= read ${read_timeout} resp <&${QEMU_OUT[$h]}
-     do
-         if [ -n "$capture_events" ]; then
-             capture=0
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index cbbf6d7c7f..a1ef2b5c2f 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -166,8 +166,14 @@ _qemu_wrapper()
-         if [ -n "${QEMU_NEED_PID}" ]; then
-             echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid"
-         fi
-+
-+        GDB=""
-+        if [ ! -z ${GDB_OPTIONS} ]; then
-+            GDB="gdbserver ${GDB_OPTIONS}"
-+        fi
-+
-         VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGFILE}" \
--            "$QEMU_PROG" $QEMU_OPTIONS "$@"
-+            $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@"
-     )
-     RETVAL=$?
-     _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
+ * ``-d`` (debug) just increases the logging verbosity, showing
+   for example the QMP commands and answers.
+ 
 -- 
 2.31.1
 
