@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A32E3B61A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:35:10 +0200 (CEST)
-Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8863B61B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:37:26 +0200 (CEST)
+Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxsLt-0006iC-LK
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
+	id 1lxsO5-0001ZI-U9
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxsKe-0005Jk-Ci
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:33:54 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:44910)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxsMd-0007bz-MX
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:35:55 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:43613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxsKY-0007e0-8H
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:33:52 -0400
-Received: by mail-ej1-x632.google.com with SMTP id l24so1038091ejq.11
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 07:33:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxsMb-0000a9-Pz
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 10:35:55 -0400
+Received: by mail-pl1-x629.google.com with SMTP id v12so9039574plo.10
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 07:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8u/mhMfO5z/Zb0IahUh4PPcqAEKZlvqnZkMFRTLfrv0=;
- b=Wjda6lYLe47NUizJSZF6k379WouzLqp+hvcoar2J9bgVeCI0wTKkXr8rEvMtSaRk5A
- AZGQteyl/KqsyfW7rHWqsYucXlrSvE6/G71JefzvdPIqSyk3TspphZ9voBUFYSFbeYai
- Mudc7+s/bwn5HuCgxTGRkZVQOEfwGrkOV/rY1nrtug+7nhIZz5HXepwcgQvLrfTcrSj8
- 5ZVKWRSkVCY/O4gsNPi1/8JCzY3RDGob2bB7PGrpImdX7mGJIw2W5IHs9v/OL/MKDahb
- d0nBKlKjbmN7ATNXkXU8eKiwbCRnhIF74Z1q70FfXQ2H+dYZNnOMN2W0xRWs6DKHpdd1
- r4Og==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y0WrYhrVDzzZszaEKWCoSlG0dPqEZIEruspn65dC8sY=;
+ b=luYA2vp4zVgAkXa3nBzd0nlcaqnYnGkGZSmpomPlk63p6eBIAXO/1uT4nIqSHM8+ux
+ HwNui+BcD/d/xZXDJLtr6VwJalBOAVd/+3vKNPdovjfbPjI4wyzhzXPbnRtSl8nmYJDf
+ yvxuW8KjFAUFbBR9Ex1skrqBDxRp3bkPZhCfA52VvI45gwVrVt82XXFCWkM4hVT6rNWP
+ 0OwTs8qrx2Cv4ns9Ii/6mAuDdG+1B3K+wkjW9C9qvHrSp7MpcbCRfs7rEaET127yxme/
+ YAZOj9+4wG6LmElUJfa5oTTk9Ldz2W9aq8C83fovKBueWoyRgC27QQQOUDSVTWLO1Wdr
+ AQ3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8u/mhMfO5z/Zb0IahUh4PPcqAEKZlvqnZkMFRTLfrv0=;
- b=HJLOIiIDLBrLDd67kthPqZ/jWPQFHIgsB+Cz6cZUkyCncDtrn3OwvTXq3doYEwRZq9
- zAp4bP+YAWPln/r6sVXYDRQ/6YE1qNy9Qi3wlz4UcgTqoK+Eu1EXSjJ1+qhWKLNqDQxd
- Wsu/PybwUHrs36hlzoL0mnfTocCKnz9M5VV0ia6tUOm9IFO6/Zr31OFP739qMbhlUwms
- IgdKtsmigUS0WFc2iUdFqjBB4PuqUu3IJy8+hEv4BjNSmEOchV0fsiEpbPyiv1eQo320
- g+oyQfOBhK7OmYtcEsCy6WJmoJULb/F9pQQhFhe1vEet3s8Vmwe+fumBgbGyWetUUMFB
- YawA==
-X-Gm-Message-State: AOAM532kSA3D89Djz2FgVlEh61KX2Re1DZEI3TZW6lNB0T9DskZ41w0R
- WYU+MZhkOXsRSwOP0vp6f1moYLkgpdANXPedEPKt6Q==
-X-Google-Smtp-Source: ABdhPJz5ElXwETHRgV31dNQxaJxR0XEjrprpL8cF1LDxy+jhIo6qC7BpssD3ShRFfxi/vvRS0GfhJuXGHaz0XTgLe94=
-X-Received: by 2002:a17:906:ce29:: with SMTP id
- sd9mr25035791ejb.56.1624890824153; 
- Mon, 28 Jun 2021 07:33:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y0WrYhrVDzzZszaEKWCoSlG0dPqEZIEruspn65dC8sY=;
+ b=DaZVyJ/gWo9eQdTVaPvFqLPp+o3hMkes0F8sRDKaX8HK2Zn2DmV1hN4truruFoGl8n
+ xPd2Kxo7yVPjkiKDsWU8R8SoZNGpLqyJ7SKoHHI4PSlhzc4ghfe5wMeXOZIRCpYKbRUx
+ eIAKGyfATDvdb47t6wMxnDTHwLAizFACNA0h6oV0QLQEINr+mhoUNCVEcWUyn4Dnh/ae
+ IIlQpPI90Tsbl5j7OvGeXS1KMI12FLG1Tj0uIEHFX2tGBAe5onYiHP9oaIioFAJRGjPA
+ 7SK3fMFOAJQzYot94YirBjjlUJ/2Efvtrtz4OyTpMeZylqAuRn827z7hKKswJll682Wk
+ cctw==
+X-Gm-Message-State: AOAM530VXIjj/uY8Fl5zC0dL4jkIzx9qCmL8cMWEDJvIMmsr+LIANMqy
+ 7SGzjmWT0LjnccTF9N0WTl9jOnyH3+gp1Q==
+X-Google-Smtp-Source: ABdhPJyeniWhBuyihBjE7zJIwMMRXc5v7EQHSgRi2CdBIZbyDT4XyHu07zpNLltfPPqwUuWF7OunPQ==
+X-Received: by 2002:a17:902:c641:b029:122:6927:6e50 with SMTP id
+ s1-20020a170902c641b029012269276e50mr22871002pls.6.1624890952320; 
+ Mon, 28 Jun 2021 07:35:52 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id k13sm72779pgh.82.2021.06.28.07.35.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 07:35:52 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] target/alpha patch queue
+Date: Mon, 28 Jun 2021 07:35:46 -0700
+Message-Id: <20210628143551.2870006-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210626063631.2411938-1-richard.henderson@linaro.org>
- <20210626063631.2411938-13-richard.henderson@linaro.org>
-In-Reply-To: <20210626063631.2411938-13-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Jun 2021 15:33:07 +0100
-Message-ID: <CAFEAcA9njnXqgx=wmfizZEpW5j4kzxJhKC5MExmqOXeN28ig=w@mail.gmail.com>
-Subject: Re: [PATCH v3 12/29] tcg/ppc: Use power10 byte-reverse instructions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,31 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 26 Jun 2021 at 07:41, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Cc: qemu-ppc@nongnu.org
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/ppc/tcg-target.c.inc | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
+The following changes since commit 687f9f7834e30330fd952f1fe096518509ff8ff7:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+  Merge remote-tracking branch 'remotes/philmd/tags/mips-20210625' into staging (2021-06-28 09:44:42 +0100)
 
-> +    if (have_isa_3_10) {
+are available in the Git repository at:
 
-Side note, why do we call this have_isa_3_10 when it's checking
-for ISA 3.1, not 3.10 ? The kernel calls its feature bit
-#define PPC_FEATURE2_ARCH_3_1          0x00040000 /* ISA 3.1 */
+  https://gitlab.com/rth7680/qemu.git tags/pull-axp-20210628
 
-but we seem to have gone for
-#define PPC_FEATURE2_ARCH_3_10          0x00040000
-in our elf.h.
+for you to fetch changes up to 9d14a0428012b0bb7969aec512f2357247a86236:
 
-thanks
--- PMM
+  target/alpha: Honor the FEN bit (2021-06-28 07:27:55 -0700)
+
+----------------------------------------------------------------
+Fixes for NetBSD/alpha:
+  - Provide a proper PCI-ISA bridge
+  - Set PCI device IDs correctly
+  - Pass -nographic flag to PALcode
+  - Update PALcode to set up the Console Terminal Block
+  - Honor the Floating-point ENable bit during translate.
+
+----------------------------------------------------------------
+Jason Thorpe (3):
+      hw/alpha: Set minimum PCI device ID to 1 to match Clipper IRQ mappings
+      hw/alpha: Provide console information to the PALcode at start-up
+      hw/alpha: Provide a PCI-ISA bridge device node
+
+Richard Henderson (2):
+      pc-bios: Update the palcode-clipper image
+      target/alpha: Honor the FEN bit
+
+ hw/alpha/alpha_sys.h     |   4 +--
+ hw/alpha/dp264.c         |  57 ++++++++++++++++++++++++++++-------
+ hw/alpha/typhoon.c       |  20 ++++---------
+ target/alpha/translate.c |  75 +++++++++++++++++++++++++++++++++++++++++++++++
+ hw/alpha/Kconfig         |   4 +--
+ pc-bios/palcode-clipper  | Bin 156328 -> 153728 bytes
+ roms/qemu-palcode        |   2 +-
+ 7 files changed, 130 insertions(+), 32 deletions(-)
 
