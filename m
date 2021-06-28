@@ -2,46 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797BF3B5E06
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:32:42 +0200 (CEST)
-Received: from localhost ([::1]:37730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0CA3B5DFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 14:31:53 +0200 (CEST)
+Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxqRN-0005qo-3t
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:32:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52490)
+	id 1lxqQa-0005M8-Uy
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 08:31:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1lxq6f-0004cQ-LV
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:11:17 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:47008 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1lxq6d-00045Y-2x
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:11:17 -0400
-Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0LdutlgOrYZAA--.8747S7;
- Mon, 28 Jun 2021 20:04:47 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 05/20] target/loongarch: Add memory management support
-Date: Mon, 28 Jun 2021 20:04:30 +0800
-Message-Id: <1624881885-31692-6-git-send-email-gaosong@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
-References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL0LdutlgOrYZAA--.8747S7
-X-Coremail-Antispam: 1UD129KBjvJXoWxWFWkKryrWw4rtrW7Gr17Wrg_yoWrArW5pr
- 9rCryUGF48X39xZ3yfXa4FqF15ua1xGryIva1ft34Sk34aqr1jvr4vg3srXF15Cw4UJw4I
- v3WrZw1jgF1UZaDanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lxqOU-0003By-Dn
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:29:42 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2492)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lxqOR-0002GE-5j
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 08:29:42 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GD6H3569dzXj0f;
+ Mon, 28 Jun 2021 20:24:15 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 20:29:32 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 28 Jun 2021 20:29:32 +0800
+Subject: Re: [PATCH 3/4] qemu-options: tweak to show that CPU count is optional
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20210628113047.462498-1-berrange@redhat.com>
+ <20210628113047.462498-4-berrange@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <52e2b61a-a551-78a3-cbcb-75a4440f8435@huawei.com>
+Date: Mon, 28 Jun 2021 20:29:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20210628113047.462498-4-berrange@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,169 +69,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, richard.henderson@linaro.org,
- laurent@vivier.eu, maobibo@loongson.cn, alistair.francis@wdc.com,
- pbonzini@redhat.com, philmd@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch introduces one memory-management-related functions
-- loongarch_cpu_tlb_fill()
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- target/loongarch/cpu.c        |   1 +
- target/loongarch/internal.h   |   9 ++++
- target/loongarch/tlb_helper.c | 109 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 119 insertions(+)
- create mode 100644 target/loongarch/tlb_helper.c
+On 2021/6/28 19:30, Daniel P. Berrangé wrote:
+> The initial CPU count number is not required, if any of the topology
+> options are given, since it can be computed.
+>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   qemu-options.hx | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index aa33dfdcfd..5871df7291 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -196,7 +196,7 @@ SRST
+>   ERST
+>   
+>   DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+> -    "-smp [cpus=]n[,maxcpus=cpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]\n"
+> +    "-smp [[cpus=]n][,maxcpus=cpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]\n"
+>       "                set the number of CPUs to 'n' [default=1]\n"
+>       "                maxcpus= maximum number of total cpus, including\n"
+>       "                offline CPUs for hotplug, etc\n"
+> @@ -206,7 +206,7 @@ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+>       "                threads= number of threads on one CPU core\n"
+>           QEMU_ARCH_ALL)
+>   SRST
+> -``-smp [cpus=]n[,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
+> +``-smp [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
+>       Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+>       are supported. On Sparc32 target, Linux limits the number of usable
+>       CPUs to 4. For the PC target, the number of cores per die, the
+This looks correct to me:
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index c3ecc4b..a39a3bd 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -379,6 +379,7 @@ static struct TCGCPUOps loongarch_tcg_ops = {
-     .initialize = loongarch_tcg_init,
-     .synchronize_from_tb = loongarch_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = loongarch_cpu_exec_interrupt,
-+    .tlb_fill = loongarch_cpu_tlb_fill,
- };
- #endif /* CONFIG_TCG */
- 
-diff --git a/target/loongarch/internal.h b/target/loongarch/internal.h
-index 09e667c..40454ee 100644
---- a/target/loongarch/internal.h
-+++ b/target/loongarch/internal.h
-@@ -95,4 +95,13 @@ static inline void compute_hflags(CPULoongArchState *env)
- 
- const char *loongarch_exception_name(int32_t exception);
- 
-+/* tlb_helper.c */
-+bool loongarch_cpu_tlb_fill(CPUState *cs,
-+                            vaddr address,
-+                            int size,
-+                            MMUAccessType access_type,
-+                            int mmu_idx,
-+                            bool probe,
-+                            uintptr_t retaddr);
-+
- #endif
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-new file mode 100644
-index 0000000..3889109
---- /dev/null
-+++ b/target/loongarch/tlb_helper.c
-@@ -0,0 +1,109 @@
-+/*
-+ * LoongArch tlb emulation helpers for qemu.
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1+
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "cpu-csr.h"
-+#include "exec/helper-proto.h"
-+#include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+#include "exec/log.h"
-+
-+enum {
-+    TLBRET_PE = -7,
-+    TLBRET_XI = -6,
-+    TLBRET_RI = -5,
-+    TLBRET_DIRTY = -4,
-+    TLBRET_INVALID = -3,
-+    TLBRET_NOMATCH = -2,
-+    TLBRET_BADADDR = -1,
-+    TLBRET_MATCH = 0
-+};
-+
-+static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-+                                MMUAccessType access_type, int tlb_error)
-+{
-+    CPUState *cs = env_cpu(env);
-+    int exception = 0, error_code = 0;
-+
-+    if (access_type == MMU_INST_FETCH) {
-+        error_code |= INST_INAVAIL;
-+    }
-+
-+    switch (tlb_error) {
-+    default:
-+    case TLBRET_BADADDR:
-+        exception = EXCP_ADE;
-+        break;
-+    case TLBRET_NOMATCH:
-+        /* No TLB match for a mapped address */
-+        if (access_type == MMU_DATA_STORE) {
-+            exception = EXCP_TLBS;
-+        } else {
-+            exception = EXCP_TLBL;
-+        }
-+        error_code |= TLB_NOMATCH;
-+        break;
-+    case TLBRET_INVALID:
-+        /* TLB match with no valid bit */
-+        if (access_type == MMU_DATA_STORE) {
-+            exception = EXCP_TLBS;
-+        } else {
-+            exception = EXCP_TLBL;
-+        }
-+        break;
-+    case TLBRET_DIRTY:
-+        exception = EXCP_TLBM;
-+        break;
-+    case TLBRET_XI:
-+        /* Execute-Inhibit Exception */
-+        exception = EXCP_TLBXI;
-+        break;
-+    case TLBRET_RI:
-+        /* Read-Inhibit Exception */
-+        exception = EXCP_TLBRI;
-+        break;
-+    case TLBRET_PE:
-+        /* Privileged Exception */
-+        exception = EXCP_TLBPE;
-+        break;
-+    }
-+
-+    if (env->insn_flags & INSN_LOONGARCH) {
-+        if (tlb_error == TLBRET_NOMATCH) {
-+            env->CSR_TLBRBADV = address;
-+            env->CSR_TLBREHI = address & (TARGET_PAGE_MASK << 1);
-+            cs->exception_index = exception;
-+            env->error_code = error_code;
-+            return;
-+        }
-+    }
-+
-+    /* Raise exception */
-+    env->CSR_BADV = address;
-+    cs->exception_index = exception;
-+    env->error_code = error_code;
-+
-+    if (env->insn_flags & INSN_LOONGARCH) {
-+        env->CSR_TLBEHI = address & (TARGET_PAGE_MASK << 1);
-+    }
-+}
-+
-+bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr)
-+{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
-+    int ret = TLBRET_BADADDR;
-+
-+    /* data access */
-+    raise_mmu_exception(env, address, access_type, ret);
-+    do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
-+}
--- 
-1.8.3.1
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 
+Thanks,
+Yanan
+.
 
