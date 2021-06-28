@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6133B5F8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:03:54 +0200 (CEST)
-Received: from localhost ([::1]:58936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BB53B5F9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:08:06 +0200 (CEST)
+Received: from localhost ([::1]:43860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxrrd-000062-Mn
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48704)
+	id 1lxrvh-0000NU-UL
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxrml-0002lb-Od
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:58:51 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43636)
+ id 1lxrmr-00036Q-ND
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:58:57 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxrma-00061Q-Ua
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:58:51 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a13so21388324wrf.10
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 06:58:40 -0700 (PDT)
+ id 1lxrmb-00061x-JV
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:58:57 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id y3so1999468wrq.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 06:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XO3DLIxHALVfZvKfS4jUqZHa6EDz5gRTzJxp9rmr/QQ=;
- b=rlZuvH49xuaWVnv7yvvHiHWBWZ39D9RdubQ1DP4OGIn5CknLdp1U6Hzjbk5j/VH0Y4
- 96vsbGvYZWN+tcjzqiIkmfHCxEdjG38qaeezzJqL8fhggKUuaMKe/EYV1phsDrRIWg8U
- DssHbF8VFLRSGv91407E7Ixv2fL2dREuvqo6WHdXy5ghBBdOVAFKOIBdXlgPpa2w2XY3
- yM0fSI+/k/l+yXyXkqsZdBFN4m965VeaHUomBv0nmlXqK7zYSNOMUV2EhYGJs9SOA21T
- qHX3F5/n4J8cZ+KrdsmDP56KCLJr6fansVStjsPHmw2424QM5wGJAZEQnQ8bF3JA1HR7
- iMpw==
+ bh=9E74MPT3ybVV57GDlruswg0m9Iqe4oPECULw0v5ivl0=;
+ b=JfaKf03xleAvSflBHEEk4YHIagi3zZgVPVH5F7qQIOVSEd5olZPWHfLq5ZHny7v9Qq
+ rnFJ1GuabtipkCtlLOui4SooxpC7ZUdX300W0jUiWG9EfZxxGvTXjHPQtKr2D/bf7HBF
+ 5LF/PrKDHp5/DEz88mWyi8i7XIKnUSWfwCLy2zrOE/M7fDDieCe+g/aLYQ3LH3NOa7v/
+ MG+wTFXlXjeyOjgg8s8fub1u+zWWhJAPQzSws4KtOXQsgZEY/W6N/+Z8t/A/JMakwb2J
+ V2Zk+3dXPgoAANwJpv4mMivBaMQvByJHQfRko6Ivsxwz7kqSPzlJlvguDumb4rPOGVRn
+ IHvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XO3DLIxHALVfZvKfS4jUqZHa6EDz5gRTzJxp9rmr/QQ=;
- b=A5X8ntox9HSE2McAa5uayIm07X0tW1uDtK6eeY4glPf1ZCM2whREsyCa0EKGRej1yj
- Hp0gduiMlUA9ViWboOpKyHaQqyYXNAaQtJ5H+rSTYmuD1ZXVVZ8xSSomLg+2X8Bycynf
- 6mqQf4j+MMDMs/31n/PWVznyPIDi25Qy9UND0c36GF85seX4qMxHPCRLLp4HzVJanSxW
- jJktNGAEpjKKgdEpjeH0JmeZ2bsYrqq+NXkm4SyVfUxbsqsku2Tr6Uf6Jyi2jUnXkohx
- gQXtt1INI6DB3dIl+2G3mcx7eMMlecSWTTfcl7IK1n3BGcgLzFlHYB7elKoFDrMBFMNJ
- DERw==
-X-Gm-Message-State: AOAM532W3q7PiYjOIXVXH6+VuzxUsVHVgQw8OQlh/z99HCq24obMw5FT
- Y1VjG+VsGmZxNlpGGroQjZUQqw==
-X-Google-Smtp-Source: ABdhPJzCf3Rf/LFQMEE/GIGqVFNCqHGszI6F3XvC8+skpUD7Y+v5z6j7Zi7uhsuL9ZKFxiHWBckQ4w==
-X-Received: by 2002:a5d:4b92:: with SMTP id b18mr27535831wrt.124.1624888719618; 
- Mon, 28 Jun 2021 06:58:39 -0700 (PDT)
+ bh=9E74MPT3ybVV57GDlruswg0m9Iqe4oPECULw0v5ivl0=;
+ b=HnrazK42urjzjn5Z1+ZnuHLUZ9dHhl4uSAdB0x2gK7jhVJKQ5L+5g6JLiPBED3UNEY
+ 0yx0XyixzoVhDFZsG5jbHWQKsKncUHGIzA2T3Sa8oUz8vrQbyQ+trznXDABdbD8vdJqm
+ z1Fi/fkF5EsqdTOE9GWniJo0p2dduIodGVmQKsrJN5xAvQMy39MfOwmwVDWjbkNJOJT6
+ PqC0PRl3u/odaK8XkdwV0v9QPUUbDDQKkFbiDXJJgie35t3rsjOk2CEtlafZNZq1rbdZ
+ 63aVg7DMJ9Qd4cGNaJW+R63kSRPiVwzrxzodqixXVtXcSXKM8hmwKo+EkvXdWLiF1+35
+ qNYw==
+X-Gm-Message-State: AOAM533Br+Uf+hZnsFH2mRwLwV67h2tTDiI2idiMouWocOV++r/LdGJ4
+ mD/dIdBgP3UVoPUT7La5iIkKUA==
+X-Google-Smtp-Source: ABdhPJzOexE4+GsL+HxzvMzStVOSLbDTEihiX5Ho0yoF3PX46cqF5cFDeUVq2D1R6cX9DdW8JcEO8g==
+X-Received: by 2002:adf:ec8b:: with SMTP id z11mr2067204wrn.408.1624888720280; 
+ Mon, 28 Jun 2021 06:58:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d12sm12047627wri.77.2021.06.28.06.58.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -54,23 +54,23 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 03/18] target/arm: Make asimd_imm_const() public
-Date: Mon, 28 Jun 2021 14:58:20 +0100
-Message-Id: <20210628135835.6690-4-peter.maydell@linaro.org>
+Subject: [PATCH 04/18] target/arm: Use asimd_imm_const for A64 decode
+Date: Mon, 28 Jun 2021 14:58:21 +0100
+Message-Id: <20210628135835.6690-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210628135835.6690-1-peter.maydell@linaro.org>
 References: <20210628135835.6690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,185 +86,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function asimd_imm_const() in translate-neon.c is an
-implementation of the pseudocode AdvSIMDExpandImm(), which we will
-also want for MVE.  Move the implementation to translate.c, with a
-prototype in translate.h.
+The A64 AdvSIMD modified-immediate grouping uses almost the same
+constant encoding that A32 Neon does; reuse asimd_imm_const() (to
+which we add the AArch64-specific case for cmode 15 op 1) instead of
+reimplementing it all.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.h      | 16 ++++++++++
- target/arm/translate-neon.c | 63 -------------------------------------
- target/arm/translate.c      | 57 +++++++++++++++++++++++++++++++++
- 3 files changed, 73 insertions(+), 63 deletions(-)
+ target/arm/translate.h     |  3 +-
+ target/arm/translate-a64.c | 86 ++++----------------------------------
+ target/arm/translate.c     | 17 +++++++-
+ 3 files changed, 24 insertions(+), 82 deletions(-)
 
 diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 99c917c571a..6c8d5f6ede1 100644
+index 6c8d5f6ede1..e2f056c32c2 100644
 --- a/target/arm/translate.h
 +++ b/target/arm/translate.h
-@@ -532,4 +532,20 @@ static inline MemOp finalize_memop(DisasContext *s, MemOp opc)
-     return opc | s->be_data;
- }
+@@ -540,7 +540,8 @@ static inline MemOp finalize_memop(DisasContext *s, MemOp opc)
+  * VMVN and VBIC (when cmode < 14 && op == 1).
+  *
+  * The combination cmode == 15 op == 1 is a reserved encoding for AArch32;
+- * callers must catch this.
++ * callers must catch this; we return the 64-bit constant value defined
++ * for AArch64.
+  *
+  * cmode = 2,3,4,5,6,7,10,11,12,13 imm=0 was UNPREDICTABLE in v7A but
+  * is either not unpredictable or merely CONSTRAINED UNPREDICTABLE in v8A;
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 7f74d0e81a9..97b4a41a0c7 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -8199,8 +8199,6 @@ static void disas_simd_mod_imm(DisasContext *s, uint32_t insn)
+ {
+     int rd = extract32(insn, 0, 5);
+     int cmode = extract32(insn, 12, 4);
+-    int cmode_3_1 = extract32(cmode, 1, 3);
+-    int cmode_0 = extract32(cmode, 0, 1);
+     int o2 = extract32(insn, 11, 1);
+     uint64_t abcdefgh = extract32(insn, 5, 5) | (extract32(insn, 16, 3) << 5);
+     bool is_neg = extract32(insn, 29, 1);
+@@ -8219,83 +8217,13 @@ static void disas_simd_mod_imm(DisasContext *s, uint32_t insn)
+         return;
+     }
  
-+/**
-+ * asimd_imm_const: Expand an encoded SIMD constant value
-+ *
-+ * Expand a SIMD constant value. This is essentially the pseudocode
-+ * AdvSIMDExpandImm, except that we also perform the boolean NOT needed for
-+ * VMVN and VBIC (when cmode < 14 && op == 1).
-+ *
-+ * The combination cmode == 15 op == 1 is a reserved encoding for AArch32;
-+ * callers must catch this.
-+ *
-+ * cmode = 2,3,4,5,6,7,10,11,12,13 imm=0 was UNPREDICTABLE in v7A but
-+ * is either not unpredictable or merely CONSTRAINED UNPREDICTABLE in v8A;
-+ * we produce an immediate constant value of 0 in these cases.
-+ */
-+uint64_t asimd_imm_const(uint32_t imm, int cmode, int op);
-+
- #endif /* TARGET_ARM_TRANSLATE_H */
-diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
-index 633fef3bf76..f915f70970b 100644
---- a/target/arm/translate-neon.c
-+++ b/target/arm/translate-neon.c
-@@ -1781,69 +1781,6 @@ DO_FP_2SH(VCVT_UH, gen_helper_gvec_vcvt_uh)
- DO_FP_2SH(VCVT_HS, gen_helper_gvec_vcvt_hs)
- DO_FP_2SH(VCVT_HU, gen_helper_gvec_vcvt_hu)
- 
--static uint64_t asimd_imm_const(uint32_t imm, int cmode, int op)
--{
--    /*
--     * Expand the encoded constant.
--     * Note that cmode = 2,3,4,5,6,7,10,11,12,13 imm=0 is UNPREDICTABLE.
--     * We choose to not special-case this and will behave as if a
--     * valid constant encoding of 0 had been given.
--     * cmode = 15 op = 1 must UNDEF; we assume decode has handled that.
--     */
--    switch (cmode) {
--    case 0: case 1:
--        /* no-op */
+-    /* See AdvSIMDExpandImm() in ARM ARM */
+-    switch (cmode_3_1) {
+-    case 0: /* Replicate(Zeros(24):imm8, 2) */
+-    case 1: /* Replicate(Zeros(16):imm8:Zeros(8), 2) */
+-    case 2: /* Replicate(Zeros(8):imm8:Zeros(16), 2) */
+-    case 3: /* Replicate(imm8:Zeros(24), 2) */
+-    {
+-        int shift = cmode_3_1 * 8;
+-        imm = bitfield_replicate(abcdefgh << shift, 32);
 -        break;
--    case 2: case 3:
--        imm <<= 8;
+-    }
+-    case 4: /* Replicate(Zeros(8):imm8, 4) */
+-    case 5: /* Replicate(imm8:Zeros(8), 4) */
+-    {
+-        int shift = (cmode_3_1 & 0x1) * 8;
+-        imm = bitfield_replicate(abcdefgh << shift, 16);
 -        break;
--    case 4: case 5:
--        imm <<= 16;
+-    }
+-    case 6:
+-        if (cmode_0) {
+-            /* Replicate(Zeros(8):imm8:Ones(16), 2) */
+-            imm = (abcdefgh << 16) | 0xffff;
+-        } else {
+-            /* Replicate(Zeros(16):imm8:Ones(8), 2) */
+-            imm = (abcdefgh << 8) | 0xff;
+-        }
+-        imm = bitfield_replicate(imm, 32);
 -        break;
--    case 6: case 7:
--        imm <<= 24;
--        break;
--    case 8: case 9:
--        imm |= imm << 16;
--        break;
--    case 10: case 11:
--        imm = (imm << 8) | (imm << 24);
--        break;
--    case 12:
--        imm = (imm << 8) | 0xff;
--        break;
--    case 13:
--        imm = (imm << 16) | 0xffff;
--        break;
--    case 14:
--        if (op) {
--            /*
--             * This is the only case where the top and bottom 32 bits
--             * of the encoded constant differ.
--             */
--            uint64_t imm64 = 0;
--            int n;
--
--            for (n = 0; n < 8; n++) {
--                if (imm & (1 << n)) {
--                    imm64 |= (0xffULL << (n * 8));
+-    case 7:
+-        if (!cmode_0 && !is_neg) {
+-            imm = bitfield_replicate(abcdefgh, 8);
+-        } else if (!cmode_0 && is_neg) {
+-            int i;
+-            imm = 0;
+-            for (i = 0; i < 8; i++) {
+-                if ((abcdefgh) & (1 << i)) {
+-                    imm |= 0xffULL << (i * 8);
 -                }
 -            }
--            return imm64;
+-        } else if (cmode_0) {
+-            if (is_neg) {
+-                imm = (abcdefgh & 0x3f) << 48;
+-                if (abcdefgh & 0x80) {
+-                    imm |= 0x8000000000000000ULL;
+-                }
+-                if (abcdefgh & 0x40) {
+-                    imm |= 0x3fc0000000000000ULL;
+-                } else {
+-                    imm |= 0x4000000000000000ULL;
+-                }
+-            } else {
+-                if (o2) {
+-                    /* FMOV (vector, immediate) - half-precision */
+-                    imm = vfp_expand_imm(MO_16, abcdefgh);
+-                    /* now duplicate across the lanes */
+-                    imm = bitfield_replicate(imm, 16);
+-                } else {
+-                    imm = (abcdefgh & 0x3f) << 19;
+-                    if (abcdefgh & 0x80) {
+-                        imm |= 0x80000000;
+-                    }
+-                    if (abcdefgh & 0x40) {
+-                        imm |= 0x3e000000;
+-                    } else {
+-                        imm |= 0x40000000;
+-                    }
+-                    imm |= (imm << 32);
+-                }
+-            }
 -        }
--        imm |= (imm << 8) | (imm << 16) | (imm << 24);
 -        break;
--    case 15:
--        imm = ((imm & 0x80) << 24) | ((imm & 0x3f) << 19)
--            | ((imm & 0x40) ? (0x1f << 25) : (1 << 30));
--        break;
+-    default:
+-        g_assert_not_reached();
 -    }
--    if (op) {
--        imm = ~imm;
--    }
--    return dup_const(MO_32, imm);
--}
 -
- static bool do_1reg_imm(DisasContext *s, arg_1reg_imm *a,
-                         GVecGen2iFn *fn)
- {
+-    if (cmode_3_1 != 7 && is_neg) {
+-        imm = ~imm;
++    if (cmode == 15 && o2 && !is_neg) {
++        /* FMOV (vector, immediate) - half-precision */
++        imm = vfp_expand_imm(MO_16, abcdefgh);
++        /* now duplicate across the lanes */
++        imm = bitfield_replicate(imm, 16);
++    } else {
++        imm = asimd_imm_const(abcdefgh, cmode, is_neg);
+     }
+ 
+     if (!((cmode & 0x9) == 0x1 || (cmode & 0xd) == 0x9)) {
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 9e2cca77077..97eea935433 100644
+index 97eea935433..3cb9996a509 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -90,6 +90,63 @@ void arm_translate_init(void)
-     a64_translate_init();
- }
- 
-+uint64_t asimd_imm_const(uint32_t imm, int cmode, int op)
-+{
-+    /* Expand the encoded constant as per AdvSIMDExpandImm pseudocode */
-+    switch (cmode) {
-+    case 0: case 1:
-+        /* no-op */
-+        break;
-+    case 2: case 3:
-+        imm <<= 8;
-+        break;
-+    case 4: case 5:
-+        imm <<= 16;
-+        break;
-+    case 6: case 7:
-+        imm <<= 24;
-+        break;
-+    case 8: case 9:
-+        imm |= imm << 16;
-+        break;
-+    case 10: case 11:
-+        imm = (imm << 8) | (imm << 24);
-+        break;
-+    case 12:
-+        imm = (imm << 8) | 0xff;
-+        break;
-+    case 13:
-+        imm = (imm << 16) | 0xffff;
-+        break;
-+    case 14:
+@@ -121,8 +121,8 @@ uint64_t asimd_imm_const(uint32_t imm, int cmode, int op)
+     case 14:
+         if (op) {
+             /*
+-             * This is the only case where the top and bottom 32 bits
+-             * of the encoded constant differ.
++             * This and cmode == 15 op == 1 are the only cases where
++             * the top and bottom 32 bits of the encoded constant differ.
+              */
+             uint64_t imm64 = 0;
+             int n;
+@@ -137,6 +137,19 @@ uint64_t asimd_imm_const(uint32_t imm, int cmode, int op)
+         imm |= (imm << 8) | (imm << 16) | (imm << 24);
+         break;
+     case 15:
 +        if (op) {
-+            /*
-+             * This is the only case where the top and bottom 32 bits
-+             * of the encoded constant differ.
-+             */
-+            uint64_t imm64 = 0;
-+            int n;
-+
-+            for (n = 0; n < 8; n++) {
-+                if (imm & (1 << n)) {
-+                    imm64 |= (0xffULL << (n * 8));
-+                }
++            /* Reserved encoding for AArch32; valid for AArch64 */
++            uint64_t imm64 = (uint64_t)(imm & 0x3f) << 48;
++            if (imm & 0x80) {
++                imm64 |= 0x8000000000000000ULL;
++            }
++            if (imm & 0x40) {
++                imm64 |= 0x3fc0000000000000ULL;
++            } else {
++                imm64 |= 0x4000000000000000ULL;
 +            }
 +            return imm64;
 +        }
-+        imm |= (imm << 8) | (imm << 16) | (imm << 24);
-+        break;
-+    case 15:
-+        imm = ((imm & 0x80) << 24) | ((imm & 0x3f) << 19)
-+            | ((imm & 0x40) ? (0x1f << 25) : (1 << 30));
-+        break;
-+    }
-+    if (op) {
-+        imm = ~imm;
-+    }
-+    return dup_const(MO_32, imm);
-+}
-+
- /* Generate a label used for skipping this instruction */
- void arm_gen_condlabel(DisasContext *s)
- {
+         imm = ((imm & 0x80) << 24) | ((imm & 0x3f) << 19)
+             | ((imm & 0x40) ? (0x1f << 25) : (1 << 30));
+         break;
 -- 
 2.20.1
 
