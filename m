@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB24F3B65CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:36:03 +0200 (CEST)
-Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579163B65CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 17:37:17 +0200 (CEST)
+Received: from localhost ([::1]:52786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxtIo-0001K2-Gy
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44296)
+	id 1lxtK0-0003s7-Du
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 11:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxtHK-0008Mr-6U
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:34:30 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35784)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxtIz-0002q8-QH
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:36:13 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxtHI-0004rk-GR
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:34:29 -0400
-Received: by mail-ej1-x631.google.com with SMTP id gn32so30734546ejc.2
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 08:34:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lxtIx-000611-F9
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 11:36:13 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id v7so15799165pgl.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 08:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kux0d1wTMHYXRUxomYRGZP/KTkhV4tKoCw8MTjQiMqY=;
- b=SycLbKTYHBh+RKCqjiyEDLk7obwXHG9fWMtDS6K3/Nc8CM2EomtttOeXZOyu4qt0Wx
- ILzXn2OjSmSgbrsUdeVCSUftSDYU9KaWPH7BVOczoAIBovE1uYY68htiXMXTRv/zgCqE
- qHOkhD/QsYhYI0AjJdp9OqYgh1csRJR78vbbToNi0fy/1nrgQUWfQCsoTU8onmMzBq77
- rlUxgIeg2RIN6Z4uBy06K+1ZncPeWV8jWKpEg0P169nemUGy6jM53aSSasgB1dJts9EQ
- 19GHf9iXntzuuraxdCe3skF0gclf1sHvc57WpYC56YALD4e4u2WCJ3LDDMPfz2txmJ0Z
- KkUw==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=7jlagpo4AUlheQevVqLvJ85BvUN14xq4gkanarUnJ1E=;
+ b=pnxuqiiL7eF/HvmFOSHbVKUrGfi2LRr7FAdKLt93XeNvKsaXwir74A9CaEuieQmqlx
+ PmyVSJH/FPgVjULEs2tNHS2Pa/dHSaPwCQ9Czp+nphWqNDamB9wOXstIhqtoRoXrLhk8
+ WfY7L1vWHMgYcUhgTiixnJXPHtHpsApdvRMUDTCF4dcCqgoxeQCYxMLFeK8011+YJUqT
+ esDofIN5aIDhNNe2N9USj4XMjMa2JIOYLXyHoQ7LC44tCQKlR3Rmcsu4oW2UO+qrZwRI
+ 3ud7Xu4LlDhlWG13jNpbjLkykDdOZq3PLdJ8NxcNioLLeYcWJdlNHIl+1U4oDxv4d5Gw
+ QKRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Kux0d1wTMHYXRUxomYRGZP/KTkhV4tKoCw8MTjQiMqY=;
- b=aEwLDLFYTa0drO3aSoG0+9V7eyxsK7hr6qLz7qN578qZ61Zu8AQtFGtPZRi5dVlSxL
- XVD4cVKLzmaqR9T8XfF5jzHDRv4J/O7lUWUoKZkfLcigfpnThj8hTWwBtHL8kI1AJfyn
- TCNVu27XKSCm7eSiCSHG1Ei2iKEtP4BbG33yAcD4LnqqfPQJzrg+e/nzEQkvImog8zaK
- poTkZtjzqmgkKX+RSkAeqGtfkOB4a7PaioHznhuUmoBoQJa+2qtTeb/gnmntKDSONc1j
- /si9dWkeQMB3scFILpmLBkKj+qpJtWaYPKLHzoOtJD48JmHOr2aNtZU6ZdA3bxE8XKHR
- Du5w==
-X-Gm-Message-State: AOAM532tWMNngip6NkDRcKYfuIhGqYBLUQJSLu3FLYD3Vw8dr6VSeV/a
- MDIQwivyUVRYLikCWHvnuHjW/ViXRCItk9+bCT5Lug==
-X-Google-Smtp-Source: ABdhPJySGFfS6nyUQE04qGIWA5++s86efru1TBF2IYaYcVjt0k89CIxrLX3VIq/9N9QVuYQZhvHzvp8sGe19SU0h+5U=
-X-Received: by 2002:a17:906:4759:: with SMTP id
- j25mr24632454ejs.4.1624894467045; 
- Mon, 28 Jun 2021 08:34:27 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7jlagpo4AUlheQevVqLvJ85BvUN14xq4gkanarUnJ1E=;
+ b=c3LO4OS1cbB20qYSmV5+drkYGF6cQuOmcj6C/4o6v2UWNPYlhk+tBxE0Rrx1nzEF3b
+ 5PE1ePGmtSwx8/ggb1MrktREm2YLodxpUxkwgk6ET/evWe789tb9GUn31c1H2431fif8
+ Uon0RNsPRt1Gwp1jI6QjY4VjzEVVr3dXiGQ5qvmwsQUpZcIDMy9dfqi/VXUz3slwTrwg
+ gMCCLOkCDygj6/EE9bFasYGB22lAt18f+7icCEHskvBCr7rNUiAii6la3VoAxKPfzTeM
+ t69QWhwc5zCbJB72ofeH2VzafpO2UYOvStJD99s/hggSAdWVIi5sRJlRWC3lJMhE9hvA
+ p1UA==
+X-Gm-Message-State: AOAM531yj9FF9hyyCRQxclO9shXKuZ8IjoDWJSEShWr6NtEim9xpL3jR
+ X2f6OR3GcoRKbypEyfOmoARxGS3VxFcMZw==
+X-Google-Smtp-Source: ABdhPJwLbLIhZCUq64maa/9KQLUXAoO343zLYNVRRCdjUOHbKP5m/ghD9V9Wl4I1D09c+cXMJPHBcw==
+X-Received: by 2002:a65:454b:: with SMTP id x11mr23927515pgr.48.1624894569997; 
+ Mon, 28 Jun 2021 08:36:09 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id m5sm5158598pgv.24.2021.06.28.08.36.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jun 2021 08:36:09 -0700 (PDT)
+Subject: Re: [PATCH 04/18] target/arm: Use asimd_imm_const for A64 decode
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210628135835.6690-1-peter.maydell@linaro.org>
+ <20210628135835.6690-5-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5a8318b3-ee48-927d-4a41-06b78c77ee7f@linaro.org>
+Date: Mon, 28 Jun 2021 08:36:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210620221046.1526418-1-richard.henderson@linaro.org>
- <20210620221046.1526418-8-richard.henderson@linaro.org>
-In-Reply-To: <20210620221046.1526418-8-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Jun 2021 16:33:50 +0100
-Message-ID: <CAFEAcA-1K-49LXG34LyagJaw=qk2o317uxiovGTRMyTwn4zG+g@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] target/nios2: Clean up goto in handle_instruction
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+In-Reply-To: <20210628135835.6690-5-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,49 +88,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 20 Jun 2021 at 23:13, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 6/28/21 6:58 AM, Peter Maydell wrote:
+> The A64 AdvSIMD modified-immediate grouping uses almost the same
+> constant encoding that A32 Neon does; reuse asimd_imm_const() (to
+> which we add the AArch64-specific case for cmode 15 op 1) instead of
+> reimplementing it all.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->  target/nios2/translate.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-> index 31f63d9faa..276643cee0 100644
-> --- a/target/nios2/translate.c
-> +++ b/target/nios2/translate.c
-> @@ -753,7 +753,8 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
->      op = get_opcode(code);
->
->      if (unlikely(op >= ARRAY_SIZE(i_type_instructions))) {
-> -        goto illegal_op;
-> +        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
-> +        return;
->      }
->
->      dc->zero = NULL;
-> @@ -764,11 +765,6 @@ static void handle_instruction(DisasContext *dc, CPUNios2State *env)
->      if (dc->zero) {
->          tcg_temp_free(dc->zero);
->      }
-> -
-> -    return;
-> -
-> -illegal_op:
-> -    t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
->  }
+>   target/arm/translate.h     |  3 +-
+>   target/arm/translate-a64.c | 86 ++++----------------------------------
+>   target/arm/translate.c     | 17 +++++++-
+>   3 files changed, 24 insertions(+), 82 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I'm a little surprised that the fp16 case didn't move as well, but either way,
 
-For consistency, we should do the same for the identical code pattern
-in handle_r_type_instr().
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+r~
 
