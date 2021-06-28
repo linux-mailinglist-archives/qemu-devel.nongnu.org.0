@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBC93B696E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 22:03:38 +0200 (CEST)
-Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31153B6974
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 22:06:12 +0200 (CEST)
+Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxxTk-0003Lf-TW
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 16:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
+	id 1lxxWF-0006Qo-Ld
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 16:06:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxxSU-0002Kt-G0
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:02:18 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:36849)
+ id 1lxxUT-0004wY-Q4
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:04:22 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxxSQ-0002iO-HR
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:02:18 -0400
-Received: by mail-ed1-x535.google.com with SMTP id h2so27792790edt.3
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 13:02:13 -0700 (PDT)
+ id 1lxxUS-00045d-4U
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 16:04:21 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id bu12so32110576ejb.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 13:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SJGXWSQqZqpp78kNZXI1pjCnN4IFLVvgnZNfWDe9g+8=;
- b=uUbc12sC5H8QxpgmHay1oM/EJglgmL2ipkNUMxNWLPJ/umMNcGU5foZmp22oiBHtVS
- 33oZQUYOFcaodFWuVyxJrV6SGxT+VvJBqdeVfi47fESrWRmUny1SFvQsqZTdAcmx4Hdc
- oDb92TUP6r955N8DPtw+G1GdJszVgOXcn6N/n7837o1gJIs8/fCiL098JGgOijP6ugJH
- lMMnzdDyyD4CfXXdAfmT9Dg8TcnBYRJINwVAdnFWtNGVZ2vDYqy8xwVIB4gJ6wLpzRJp
- TcZDDQ7sXGwDgnfoxC3yjtDQw8O0Qho2wcx8DwiJHlTWAgCFzWf7tTf69L83/dWAl6lx
- 6Oiw==
+ :cc; bh=wwE6/I96fK0ZDFd8tfudaQQTx2t7ga0qm/6/O1o2PPY=;
+ b=Xb9PiXLvHbGC09ufKODhfXzz3EM23XM05rIbqgZm2eFuX7x+RxLRdlF8iCSPlKBEwq
+ pWV2+QUsZ1YgCK7yOObDP2QLNO+LyIZQrJwevmjGjrz4sntyWaLuUhqDoGmMlULcV4Zs
+ JHF96foHXBbiKnH6yyTc3PWdKH7+rNhD4Q/Vhds9vyRXTKdzWBohciKkeldJv7KF7xHJ
+ sO8ruo7mw/7KWXiLsB2HI7jgpVh0zSiCLLW0BoCWozROtW2IvH6iYkT1I/2SovEjcrhz
+ vVRnVQbGDhsYiF5uLbhv741cFFlFGI7jkHspW5j5TDHhh0yWMDfoh2p7qoqaw1bAvsgv
+ jk8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SJGXWSQqZqpp78kNZXI1pjCnN4IFLVvgnZNfWDe9g+8=;
- b=uRKUuKtFI7bacuNANM4AHTYTimJHhowvdKtL2a7OhJlPIUo/y3CaqxWjBQ7MQLGpk+
- yZkQdkrYPhD8mn8/QIUKeP0qzRE+q56j6fSrbsfV25LI1KDLu/AXU7aofZSJQn89KDAa
- 3OQl/nvTuMg56FWWo0m62IZwjS/EKD3/CSqPxrXxfAZLvvemqRVRgqqt33CV3/0ZhWb4
- IQ29EATC49ryjAYVcGN08XLCCjbnTOC1oTrpgH/x1C/smaO72Z8rRaFsIc73urCvhBQY
- g+dWCa9f46zzaxXDjhDpSq8ubKUc3vy3va/42A3xDPR7eHL3/7b/AVZEyX8rW85/8l7F
- nK2A==
-X-Gm-Message-State: AOAM533e9N+5BYzg/hPQS0cNsMEiTVP1uIG1+zCRHVtPRy6iRa8CxxLe
- Gl6h4KjwJBze/fYXdd7Rlola3WgE8dntEOuscYfKWg==
-X-Google-Smtp-Source: ABdhPJydp+Xl452A5QRMgDvVJUgZTGlq67WeKkDRI0BlQbnhhZSR0awtyMLd8J3uSgiai/6oUSzLDzfgA+8XOs1WUEs=
-X-Received: by 2002:aa7:c644:: with SMTP id z4mr34760822edr.204.1624910532099; 
- Mon, 28 Jun 2021 13:02:12 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=wwE6/I96fK0ZDFd8tfudaQQTx2t7ga0qm/6/O1o2PPY=;
+ b=A53zHH5sKD1VEYA7SnD2KOVAMlFkzPKUPLrAPlUjG65iJbGZ+MFKpwWIPGdYBRdV60
+ P+ehiOg/FmOnoMTMHNKeCBaNAIf7iIeGqfY3hF0gYkQfCoMapfXCDVIlGJpcmfQKHqG9
+ Al2kiUBS0JBEa/BhOEREU5vUui4Sl35eLlZK3Jw73YVxzhaTBoZykHGED7XvC5qQ7Cbd
+ WgkDkKmrDj+ujZmFrhYldWibbbcH2du+nZErL3qeY7FBKlbqI7SDRPZfKZQ/6c0nRhWl
+ IX2EZUA/TXzo4Ohoa5bt1vYElitsGLtf42LXywFGhmXCEq107+q07W2FU0mFnUt/EavI
+ 7cXg==
+X-Gm-Message-State: AOAM532xpFTlf0iHctw9ngB6LbamqeZwd/LiDkMgxl9+IqJYp8fwTy9k
+ zI3phY2on7eZpzeaLAJkVZYUvwMf1c1yHJMhF2vySQ==
+X-Google-Smtp-Source: ABdhPJxyqw2R6oQpetVCHMaCry/Z2FewlADPt7FmaekQbVzrzyfORwKTn2zdtd9vT4+uoY32cW7rVNfeqZnQycUDYS0=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr25426155ejy.407.1624910658550; 
+ Mon, 28 Jun 2021 13:04:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210623134756.30930-1-alex.bennee@linaro.org>
- <20210623134756.30930-3-alex.bennee@linaro.org>
-In-Reply-To: <20210623134756.30930-3-alex.bennee@linaro.org>
+References: <20210625130006.276511-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20210625130006.276511-1-vsementsov@virtuozzo.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Jun 2021 21:01:35 +0100
-Message-ID: <CAFEAcA-UPE5+moyVM-1pJ_gi9fj3t1nWtWfZaZ13hkd6-=L5nw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] tests/tcg: port SYS_HEAPINFO to a system test
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Mon, 28 Jun 2021 21:03:41 +0100
+Message-ID: <CAFEAcA-W8_upf4w88AbPy2y-CTCqHrT1je+w3kKQLQ=p29Vm-g@mail.gmail.com>
+Subject: Re: [PULL 00/10] Block Jobs patches
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,131 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Jun 2021 at 14:48, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+On Fri, 25 Jun 2021 at 14:00, Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
 >
-> This allows us to check our new SYS_HEAPINFO implementation generates
-> sane values.
+> The following changes since commit e0da9171e02f4534124b9a9e07333382b38376c6:
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  tests/tcg/aarch64/system/semiheap.c | 74 +++++++++++++++++++++++++++++
->  1 file changed, 74 insertions(+)
->  create mode 100644 tests/tcg/aarch64/system/semiheap.c
+>   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20210624-pull-request' into staging (2021-06-25 09:10:37 +0100)
 >
-> diff --git a/tests/tcg/aarch64/system/semiheap.c b/tests/tcg/aarch64/syst=
-em/semiheap.c
-> new file mode 100644
-> index 0000000000..d5613dca59
-> --- /dev/null
-> +++ b/tests/tcg/aarch64/system/semiheap.c
-> @@ -0,0 +1,74 @@
-> +/*
-> + * Semihosting System HEAPINFO Test
-> + *
-> + * Copyright (c) 2021 Linaro Ltd
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include <inttypes.h>
-> +#include <stddef.h>
-> +#include <minilib.h>
-> +
-> +#define SYS_HEAPINFO    0x16
-> +
-> +uintptr_t __semi_call(uintptr_t type, uintptr_t arg0)
-> +{
-> +    register uintptr_t t asm("x0") =3D type;
-> +    register uintptr_t a0 asm("x1") =3D arg0;
-> +    asm("hlt 0xf000"
-> +        : "=3Dr" (t)
-> +        : "r" (t), "r" (a0));
+> are available in the Git repository at:
+>
+>   ssh://git@src.openvz.org/~vsementsov/qemu.git tags/pull-jobs-2021-06-25
+>
+> for you to fetch changes up to 149009bef4b4b4db37b3cf72b41dc2c6e8ca1885:
+>
+>   block-copy: atomic .cancelled and .finished fields in BlockCopyCallState (2021-06-25 14:33:51 +0300)
+>
+> ----------------------------------------------------------------
+> block: Make block-copy API thread-safe
+>
 
-You should include "memory" in the clobbers list here, or the compiler
-has license to assume that the semihosting call doesn't actually
-write to the struct info.
 
-> +
-> +    return t;
-> +}
-> +
-> +int main(int argc, char *argv[argc])
-> +{
-> +    struct {
-> +        void *heap_base;
-> +        void *heap_limit;
-> +        void *stack_base;
-> +        void *stack_limit;
-> +    } info;
-> +    void *ptr_to_info =3D (void *) &info;
-> +
-> +    ml_printf("Semihosting Heap Info Test\n");
-> +
-> +    /* memset(&info, 0, sizeof(info)); */
+Applied, thanks.
 
-Why is this here but commented out ? (If you want to zero initialize
-the struct, using "=3D { }" when you define it above is simpler.)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-> +    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
-> +
-> +    if (info.heap_base =3D=3D NULL || info.heap_limit =3D=3D NULL) {
-> +        ml_printf("null heap: %p -> %p\n", info.heap_base, info.heap_lim=
-it);
-> +        return -1;
-> +    }
-> +
-> +    /* Error if heap base is above limit */
-> +    if ((uintptr_t) info.heap_base >=3D (uintptr_t) info.heap_limit) {
-> +        ml_printf("heap base %p >=3D heap_limit %p\n",
-> +               info.heap_base, info.heap_limit);
-> +        return -2;
-> +    }
-> +
-> +    if (info.stack_base =3D=3D NULL) {
-> +        ml_printf("null stack: %p -> %p\n", info.stack_base, info.stack_=
-limit);
-> +        return -3;
-> +    }
-> +
-> +    /*
-> +     * We don't check our local variables are inside the reported
-> +     * stack because the runtime may select a different stack area (as
-> +     * our boot.S code does). However we can check we don't clash with
-> +     * the heap.
-> +     */
-> +    if (ptr_to_info > info.heap_base && ptr_to_info < info.heap_limit) {
-> +        ml_printf("info appears to be inside the heap: %p in %p:%p\n",
-> +               ptr_to_info, info.heap_base, info.heap_limit);
-
-I'm not sure this test is valid -- the 'struct info' is on our stack,
-so it could be anywhere in RAM, including possibly in the big
-range we got back from SYS_HEAPINFO.
-
-You could if you liked check that for instance the address of 'main'
-is not inside the heap (assuming that you load this test case with
-the ELF loader, it should be in a rom blob and thus excluded from
-the heap range.)
-
-> +        return -4;
-> +    }
-> +
-> +    ml_printf("heap: %p -> %p\n", info.heap_base, info.heap_limit);
-> +    ml_printf("stack: %p <- %p\n", info.stack_limit, info.stack_base);
-> +    ml_printf("Passed HeapInfo checks\n");
-> +    return 0;
-> +}
-
-It would also be useful to check that you can write to the memory and
-read back the value written (ie that we have not been given
-back a range that's read-only or which is not backed by anything).
-(You might need to jump through a hoop or two to check where your
-current stack is before potentially stomping on it...)
-
-thanks
 -- PMM
 
