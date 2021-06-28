@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BAEF3B68AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 20:48:23 +0200 (CEST)
-Received: from localhost ([::1]:50432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF8D3B68B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 20:49:26 +0200 (CEST)
+Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxwIw-00037l-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 14:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33638)
+	id 1lxwJx-00057A-D3
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 14:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lxwGI-0001Z5-IN
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 14:45:38 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lxwGC-0005H0-DT
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 14:45:38 -0400
-Received: by mail-pl1-x630.google.com with SMTP id b1so2952024pls.5
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 11:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=i6VyoCRMOjoW3rekB+QyHa6tuGDyDPbHx0PB2HDJac4=;
- b=TyXy4/VpP8EH0hBMsGyLKYdTVeaiicbs4dS2V430TujRuvhmMavimySJoz3A74dj3T
- lBOPLxqCsfL/1xIPHEMAmqDz5SEwdqtBnAYwFoonMoE3LpmH69iqz+JiXorIbJsfK4Bi
- nawXUnaOwHvh8wqS2Q2LFCX4/3VHxVBuSaFv5FT8SWNyys6nNqEU9op0y5eADieaMxMo
- HJ2FhrNKAZu6cCjTEQQYy0sNnbcH/ulwQcaM+IEY+6hHXtUi4mYxUCc2Vnbfl3uGhBd/
- ISTckfLZJLQzzsNi828LtRi1csDZeXQQGtbaMg+W1bHYFpiVd0fP0GvsQyrFyuPfrAdE
- 6wNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i6VyoCRMOjoW3rekB+QyHa6tuGDyDPbHx0PB2HDJac4=;
- b=NUztx01394tp8QY9/EZ11mUyN9o2+fIJNyuu36DOjc9roSppzJlb4FD3u8hAFK8ckf
- xMjw8LxH9OZnjywrONrZ/WRMWhzJ6s75TuVYYcIPo0VfwbXXMmUgUM/ftoRX/hXQSEXS
- e/E5YQz0l78HMIXnKrUWQUY6N+jxhWep3yJNtns2R8CpUCFun/hkgJeFvg7B412rB4th
- MFS2vlx2UqhE9zzEntooSbJkd42lEdXngBTP8qNPd7ibMq3VJF/298QGwFL8ckgvXNkf
- abO1qpTIUdKCbz4w7QAvlA7t1UCMn66ZAaDGWxZjJVQj2fE0YTz02QtR0yNWU+i8dFA7
- vSqA==
-X-Gm-Message-State: AOAM532eR/Wc4t+w1m2ze2YPtbtrpsuCOLR/q277qSv8V9prEnhOJ1SP
- BSOFj0XUra6p11+LolOdNnDGFX/pACQG8Q==
-X-Google-Smtp-Source: ABdhPJwdCuy6bE2zi6o/pruokdlijw1k/1aNiZ0bjJueFJHmEePE2CLJcxbhmQnAf1LCLXHrjbt50g==
-X-Received: by 2002:a17:90a:6402:: with SMTP id
- g2mr28968035pjj.82.1624905929938; 
- Mon, 28 Jun 2021 11:45:29 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id w8sm16438502pgf.81.2021.06.28.11.45.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jun 2021 11:45:29 -0700 (PDT)
-Subject: Re: [PATCH v2] target/s390x: Fix CC set by CONVERT TO FIXED/LOGICAL
-To: Ulrich Weigand <ulrich.weigand@de.ibm.com>, david@redhat.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210628163520.GA15209@oc3748833570.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0ec4b69c-02cb-0b1c-e980-9b462ab3a615@linaro.org>
-Date: Mon, 28 Jun 2021 11:45:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lxwHU-0002ok-DE
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 14:46:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lxwHQ-0006Cx-Qg
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 14:46:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624906005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EVayhRMqlDMrAsUdWvgFh2aQTcN7kTqJ42QeDthz2yU=;
+ b=gunIhxS+YYIDdaic6iA041XltdrIHYPup0iLROZwSGwrlHzlVoMh83A3wnEQ7TJ3Mf0cZF
+ J9tUQug/CtqLPLDSmdCmxAtHl/8MiAA6Rp95DIxLD0AqtnjH3+7WE7EzpikjHHhU2VDBVg
+ I1d7FDXbiyM8nd5ZjNfeZo2qn0tD8yo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-B12RTiEeMX6drkFvZSaGkg-1; Mon, 28 Jun 2021 14:46:41 -0400
+X-MC-Unique: B12RTiEeMX6drkFvZSaGkg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B13EB804142;
+ Mon, 28 Jun 2021 18:46:40 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-225.rdu2.redhat.com [10.10.115.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C58A60C0F;
+ Mon, 28 Jun 2021 18:46:37 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 93F2B22054F; Mon, 28 Jun 2021 14:46:36 -0400 (EDT)
+Date: Mon, 28 Jun 2021 14:46:36 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v7 5/7] virtiofsd: Add capability to change/restore umask
+Message-ID: <20210628184636.GH1803896@redhat.com>
+References: <20210622150852.1507204-1-vgoyal@redhat.com>
+ <20210622150852.1507204-6-vgoyal@redhat.com>
+ <YNn03dfqpGnTTIne@work-vm> <20210628181218.GF1803896@redhat.com>
+ <YNoWotomJg1S09pF@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20210628163520.GA15209@oc3748833570.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YNoWotomJg1S09pF@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,57 +80,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
+ lhenriques@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/28/21 9:35 AM, Ulrich Weigand wrote:
-> @@ -506,6 +534,7 @@ uint64_t HELPER(cgeb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
->   {
->       int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
->       int64_t ret = float32_to_int64(v2, &env->fpu_status);
-> +    env->cc_op = set_cc_conv_f32(v2, &env->fpu_status);
->   
->       s390_restore_bfp_rounding_mode(env, old_mode);
->       handle_exceptions(env, xxc_from_m34(m34), GETPC());
+On Mon, Jun 28, 2021 at 07:36:18PM +0100, Dr. David Alan Gilbert wrote:
+> * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > On Mon, Jun 28, 2021 at 05:12:13PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > > > When parent directory has default acl and a file is created in that
+> > > > directory, then umask is ignored and final file permissions are
+> > > > determined using default acl instead. (man 2 umask).
+> > > > 
+> > > > Currently, fuse applies the umask and sends modified mode in create
+> > > > request accordingly. fuse server can set FUSE_DONT_MASK and tell
+> > > > fuse client to not apply umask and fuse server will take care of
+> > > > it as needed.
+> > > > 
+> > > > With posix acls enabled, requirement will be that we want umask
+> > > > to determine final file mode if parent directory does not have
+> > > > default acl.
+> > > > 
+> > > > So if posix acls are enabled, opt in for FUSE_DONT_MASK. virtiofsd
+> > > > will set umask of the thread doing file creation. And host kernel
+> > > > should use that umask if parent directory does not have default
+> > > > acls, otherwise umask does not take affect.
+> > > > 
+> > > > Miklos mentioned that we already call unshare(CLONE_FS) for
+> > > > every thread. That means umask has now become property of per
+> > > > thread and it should be ok to manipulate it in file creation path.
+> > > > 
+> > > > This patch only adds capability to change umask and restore it. It
+> > > > does not enable it yet. Next few patches will add capability to enable it
+> > > > based on if user enabled posix_acl or not.
+> > > > 
+> > > > This should fix fstest generic/099.
+> > > > 
+> > > > Reported-by: Luis Henriques <lhenriques@suse.de>
+> > > > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > ---
+> > > >  tools/virtiofsd/passthrough_ll.c | 22 ++++++++++++++++------
+> > > >  1 file changed, 16 insertions(+), 6 deletions(-)
+> > > > 
+> > > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > > index 9f5cd98fb5..0c9084ea15 100644
+> > > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > > @@ -122,6 +122,7 @@ struct lo_inode {
+> > > >  struct lo_cred {
+> > > >      uid_t euid;
+> > > >      gid_t egid;
+> > > > +    mode_t umask;
+> > > >  };
+> > > >  
+> > > >  enum {
+> > > > @@ -172,6 +173,8 @@ struct lo_data {
+> > > >      /* An O_PATH file descriptor to /proc/self/fd/ */
+> > > >      int proc_self_fd;
+> > > >      int user_killpriv_v2, killpriv_v2;
+> > > > +    /* If set, virtiofsd is responsible for setting umask during creation */
+> > > > +    bool change_umask;
+> > > >  };
+> > > >  
+> > > >  static const struct fuse_opt lo_opts[] = {
+> > > > @@ -1134,7 +1137,8 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
+> > > >   * ownership of caller.
+> > > >   * TODO: What about selinux context?
+> > > >   */
+> > > > -static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
+> > > > +static int lo_change_cred(fuse_req_t req, struct lo_cred *old,
+> > > > +                          bool change_umask)
+> > > >  {
+> > > >      int res;
+> > > >  
+> > > > @@ -1154,11 +1158,14 @@ static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
+> > > >          return errno_save;
+> > > >      }
+> > > >  
+> > > > +    if (change_umask) {
+> > > > +        old->umask = umask(req->ctx.umask);
+> > > > +    }
+> > > >      return 0;
+> > > >  }
+> > > >  
+> > > >  /* Regain Privileges */
+> > > > -static void lo_restore_cred(struct lo_cred *old)
+> > > > +static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
+> > > >  {
+> > > >      int res;
+> > > >  
+> > > > @@ -1173,6 +1180,9 @@ static void lo_restore_cred(struct lo_cred *old)
+> > > >          fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
+> > > >          exit(1);
+> > > >      }
+> > > > +
+> > > > +    if (restore_umask)
+> > > > +        umask(old->umask);
+> > > >  }
+> > > >  
+> > > >  static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+> > > > @@ -1202,7 +1212,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+> > > >          return;
+> > > >      }
+> > > >  
+> > > > -    saverr = lo_change_cred(req, &old);
+> > > > +    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
+> > > 
+> > > Can you explain what these ISLNK checks are for (insid mknod_symlink, so
+> > > is that always true or irrelevant?)
+> > 
+> > I think I put this check in because if we are creating symlink then we
+> > don't have to change umask as symlink will always get a some fix
+> > mode (usually 777) and umask will not have an affect. So this is
+> > just an optimization to avoid switching umask in some cases. I 
+> > can't think of any other reason.
+> 
+> But this is in 'lo_mknod_symlink' - so when do we call that except for
+> making symlinks?
 
-Don't you need to wait until after handle_exceptions, and the handling of suppressing 
-exceptions, to write back to cc_op?
-
-I'm thinking that should be able to remove TCGv_i32 cc_op in the translator and manually 
-write back to the slot instead.  We already do a good job of caching the value within 
-DisasContext -- I imagine that the final code wouldn't even change too much.
-
-Which would allow us to drop
-
-> -DEF_HELPER_FLAGS_3(cgeb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_3(cgdb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_4(cgxb, TCG_CALL_NO_WG, i64, env, i64, i64, i32)
-> -DEF_HELPER_FLAGS_3(cfeb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_3(cfdb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_4(cfxb, TCG_CALL_NO_WG, i64, env, i64, i64, i32)
-> -DEF_HELPER_FLAGS_3(clgeb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_3(clgdb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_4(clgxb, TCG_CALL_NO_WG, i64, env, i64, i64, i32)
-> -DEF_HELPER_FLAGS_3(clfeb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_3(clfdb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_4(clfxb, TCG_CALL_NO_WG, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(cgeb, i64, env, i64, i32)
-> +DEF_HELPER_3(cgdb, i64, env, i64, i32)
-> +DEF_HELPER_4(cgxb, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(cfeb, i64, env, i64, i32)
-> +DEF_HELPER_3(cfdb, i64, env, i64, i32)
-> +DEF_HELPER_4(cfxb, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(clgeb, i64, env, i64, i32)
-> +DEF_HELPER_3(clgdb, i64, env, i64, i32)
-> +DEF_HELPER_4(clgxb, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(clfeb, i64, env, i64, i32)
-> +DEF_HELPER_3(clfdb, i64, env, i64, i32)
-> +DEF_HELPER_4(clfxb, i64, env, i64, i64, i32)
-
-this bit.
-
-I'll experiment this afternoon.
+I think it is called for other mknod paths as well and not limited to
+symlink only.
 
 
-r~
+static void lo_mknod(fuse_req_t req, fuse_ino_t parent, const char *name,
+                     mode_t mode, dev_t rdev)
+{
+    lo_mknod_symlink(req, parent, name, mode, rdev, NULL);
+}
+
+static void lo_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
+                     mode_t mode)
+{
+    lo_mknod_symlink(req, parent, name, S_IFDIR | mode, 0, NULL);
+}
+
+static void lo_symlink(fuse_req_t req, const char *link, fuse_ino_t parent,
+                       const char *name)
+{
+    lo_mknod_symlink(req, parent, name, S_IFLNK, 0, link);
+}
+
+Vivek
+
 
