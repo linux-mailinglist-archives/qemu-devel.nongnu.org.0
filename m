@@ -2,81 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F370F3B6AA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 23:59:33 +0200 (CEST)
-Received: from localhost ([::1]:37988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09993B6AE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 00:16:38 +0200 (CEST)
+Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxzHx-0005ll-2b
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 17:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49574)
+	id 1lxzYT-0000r6-Ho
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 18:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lxzGu-0004GJ-Ll
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:58:28 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:41943)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lxzGp-0000D6-Ck
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 17:58:28 -0400
-Received: by mail-qt1-x829.google.com with SMTP id d9so14684500qtx.8
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 14:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=F3Yq7roblHtWN1xd1j9QA48GATfICKWN019Kc3QJ9wk=;
- b=XPD99WDfHvka5HRuTqxP4pB6zBGaVnkyLoe4/5Pffnaay+WhE22HoxMwT9GrLsxTd1
- 1yXYe8nKUphUYABZ8DsKvGNMT9Zhmjc1kwMpNTvPgKqAXynobMQDBDgsS/ln9GuIcCzK
- T6NGekNTkqitDznAiKwNdsvKVnfdH7jE8BPiZoiYERvNC5vuGfCHkMbefokiTb7HqFK5
- IU5q2xMKguIv6Y55i2iJrN60ESzFuLXZzlhJmpuV9sq+RQpnDzoJPv6rVt1jMRYZOjmE
- 3M/dvdEVnO50xiPyZzT3Ix+nwndBtWUwrDfbtXWoMPT8oc1WNW44P0btAocvc9rXNrbm
- UJaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=F3Yq7roblHtWN1xd1j9QA48GATfICKWN019Kc3QJ9wk=;
- b=YluGu8V6yrTgoUVHxW6PCKO15l6WZ0+s1uiyYpwxq7ol62aF6/bkyaeEmeSSynziMk
- IYeczkAvTcv/fbSWUv8XLukYKR/Fccj1e0/nyV09rdhyaTjCrP4qg9nMbiBzSgigvJbB
- mCqt7kjxrqlYDfVMJmf7oPfb4eHxw575B+k+EwIIlo3VC2cy+OFuhYfGDYFLGITOIm+x
- ic2bXfaZayQyBFtKBFqopeDygkXJOQtzsd3+KyCUFkMUmD8GjxNv/R3gjLNdXKixhz+E
- YI9jF1jokjwz8x7HSwDZ6Z+YYVP4d4XEcw29ZnF7b6BkBmYT64vewkUH+hPtId/LqI6i
- wUaQ==
-X-Gm-Message-State: AOAM531hC9Awbw8Dnnm/qYe1MywnePvMqT51IBtFYT84wq+bX45/DvIO
- u44Tc9kEtZqcR1Tzwvwt6xS02A==
-X-Google-Smtp-Source: ABdhPJxzo1p8dZMQp+x4KFyp+7I522lpnCSEYmGtQ9WJ2erY8b4yitA6X4U5EFX6sHATu8wgM/vMfw==
-X-Received: by 2002:a05:622a:149:: with SMTP id
- v9mr24074625qtw.144.1624917502327; 
- Mon, 28 Jun 2021 14:58:22 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.gmail.com with ESMTPSA id v5sm45794qtp.25.2021.06.28.14.58.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Jun 2021 14:58:22 -0700 (PDT)
-Message-ID: <5f27806f097493171e35f0f56b2b312e77a2bf0a.camel@linaro.org>
-Subject: Re: [PATCH v4 3/8] hw/intc: GICv3 ITS command queue framework
-From: shashi.mallela@linaro.org
-To: Eric Auger <eauger@redhat.com>, peter.maydell@linaro.org,
- leif@nuviainc.com,  rad@semihalf.com
-Date: Mon, 28 Jun 2021 17:58:20 -0400
-In-Reply-To: <2d330011-16aa-9f2f-ac75-834dd63b25c5@redhat.com>
-References: <20210602180042.111347-1-shashi.mallela@linaro.org>
- <20210602180042.111347-4-shashi.mallela@linaro.org>
- <27cf428d-f22f-c336-2b6c-a2feca1103d7@redhat.com>
- <14fa559532fe2dde138b8c9b0688c7cdc5232e2c.camel@linaro.org>
- <2d330011-16aa-9f2f-ac75-834dd63b25c5@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x829.google.com
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1lxzQn-0001oZ-QL
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:08:41 -0400
+Received: from mail-dm6nam08on2060c.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8b::60c]:61761
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1lxzQk-0006ST-LT
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 18:08:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QkYcsKUxBqC40u9zO3Qe4Gm+SvSbskUNmBUqvrOINmLreAKRYCnV7uWKI+Dsgicd2Ywla3ijYZ/GjSCU/+i0nYiX14uDnviQJ8Br5VxpvMy3PD44+hf8tgJ3LudxbHjEdr8iytIuFHkyW4UqHdsvc2PIoubOuKB844rFt3lQ4Q5p4pH+2w855KBv7t6XmkMcyAj03SoJB2snTXyEfgozlX0wJBjKqVAKzEej2gSyCh356SugoxdQmoSP+pEqBSFHmF4OwxQJS6LZsBGOsr9Ofd5Mtzi8/lcrEqboy2AA2ruw/1hjRDWiWHX5NcMzZLumom3zBDwflXKUuUR9r1a4Fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vHqAyPJ755p1tWhcTivJ0Bh36JAdozwVk/3e0MfVCPQ=;
+ b=Qeu+Ys+YJtwb1+Jfqg1a7/2QXNy0zkyTNJxu049XNcJHKgPhno2t8XqVV1p6BQQ4N6324vjUvRzjSxcywTVQneZg+DC1DdTGJjlWYMpWsJ/pvXylFcPGVLdL8ApIYV/vEMKv+IPNsBwVb/dBkZCR94UWY5Lsb6/OIxpXO/4q1fBlJVpEDVtBqAH/bgZSCyjjp0TjZFniQxZVsllVlmTZRI2vitQkh9GdkGQ+jhG/Uoum2SvdR6a9NkGk0xIgIrOGja8yfZNwqLWON1jumcOq1PwHo+6OYxHEAp3fKkplqLV94Nse3I7o4M9YjEM6iKq6IS5a0PEA3SsIWVhb4+b+cQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vHqAyPJ755p1tWhcTivJ0Bh36JAdozwVk/3e0MfVCPQ=;
+ b=QHBcMW0Dlz5R1xot1KkY6VVrOkr7ozUoR/GmhdM+8Du98CnxMGWkMQVChiNLMhZmEcc7XKEXg0ixwpgNth1VaJX6+lbx2HN3mALvAGQwcUiyguEVN97ZZOTMAYPXgUh0sJsPAAFwGZOJ9BgYS/z7F4Gc61Mo1RuIUmdgkpOsGfI=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR1201MB0217.namprd12.prod.outlook.com (2603:10b6:4:54::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.23; Mon, 28 Jun 2021 22:03:33 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::6437:2e87:f7dc:a686]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::6437:2e87:f7dc:a686%12]) with mapi id 15.20.4264.026; Mon, 28 Jun
+ 2021 22:03:33 +0000
+Subject: Re: [PATCH] hw/i386/pc: Document pc_system_ovmf_table_find
+To: Dov Murik <dovmurik@linux.ibm.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210622124419.3008278-1-dovmurik@linux.ibm.com>
+ <838caecc-6d4a-6257-147e-fbef4148f679@redhat.com>
+ <d5fbda1c-69dc-35b6-388e-443a697c2fdf@linux.ibm.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <f6eb39fe-50bd-5fae-99a3-11abd2141fea@amd.com>
+Date: Mon, 28 Jun 2021 17:03:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <d5fbda1c-69dc-35b6-388e-443a697c2fdf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [67.79.209.213]
+X-ClientProxiedBy: SA9PR11CA0015.namprd11.prod.outlook.com
+ (2603:10b6:806:6e::20) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from office-ryzen.texastahm.com (67.79.209.213) by
+ SA9PR11CA0015.namprd11.prod.outlook.com (2603:10b6:806:6e::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.18 via Frontend Transport; Mon, 28 Jun 2021 22:03:32 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ea558c28-2301-446b-1bf5-08d93a809213
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0217:
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB0217F5ECF8CB869E43ED05D6EC039@DM5PR1201MB0217.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SU+t+uV9/682Jkqa6wvn/3Bw9a8/ZnpjjVsriGzmnqnahxgunEjuvVeaW9qhXAqVozXuS1QgNFLhrbxlU30QovIiafItk2lTNBuQLWHtKehznFwljAWXzQc8C3/McY1XN3KAKONNbYP7V/3Bgki6Nqf+GlhqcnGuGReXEsG24clKgIYAqpHcbCm99pPL5wtE+1/bAVQ012o4rzrlo7EKVSVXho5ptMlSrEZ6awuOiidbDKmMfwB4YQYVCc3q9pf+0Z2O4pi0NoH25Rb1zgQcpw1px36VQ1zpFSmtQgM/uxD/zp7RAMHeRxa1pezxogx05DFN1GZNqY+3b4eyOBbQS7oahXpv3mX5SMBK6Gv33TJwOyL9L05Y6YlVvRD/GzQJfpEfD1iVIOJFEuv+gk0y3OKR4uvqXOguNJlWH3Gu80w+pB0rnhdWnyQEaWBJfP/d5QsYuYy+SgNV8z27665rda2TMANiLvLc6EAMLlzIab7xelXkGLj45RE9oIaMLmE3ekRt07UqIWynf5n4NGVYRMx82/p8nTaZC2WLhT4/ORiUVd/HvtlFU0qw0rZJ40ntnfyQD3iWewhFVTX/FNnbqdoX7i3fYuYNyM6b6KPulJ6eO8Ht/JWNHBOyWfWiwhzOW9acP4E94ridE0ZoI18GdEYiqgQGxg0hGLH6Bt10W4q9z8u3v8xUZQDs2LNGUfXhC/Mn4GE7ObRUKKeEziWhNnw76m4fsN5BG/+lIyhljjo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(396003)(39860400002)(366004)(136003)(8676002)(8936002)(6486002)(53546011)(86362001)(110136005)(2906002)(6512007)(6506007)(31696002)(31686004)(38100700002)(478600001)(66476007)(5660300002)(316002)(956004)(66946007)(186003)(26005)(54906003)(66556008)(16526019)(2616005)(4326008)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VEdac0NWQ05iWGVZQXcxMmJ3OHppL2RVNmZwZ1IvREx5VGhKNGtRa0s4eHgy?=
+ =?utf-8?B?MC9EOXB0SGU0cXpOYkUyWnhtZVJnczNlWUZDK1R1elQ5SFVRM2ZVRFYzN0pp?=
+ =?utf-8?B?UGt1VStydkIyNzJIMldPcU1jT3ZrRWNPTTdlZC9GZXMxNFh4ZkxYNkl5QlJ5?=
+ =?utf-8?B?US9nbDhZRCt0UzVCbkVhWndtOUdhdWF5UnROQ25BS1BIVy93TXlpTnhUTnJ6?=
+ =?utf-8?B?U2JnVU8yY3k0MEh0Y0VlYkxmRG5CT21zcmxlWFp0UEx6bEVrZUcxcTFhSW9k?=
+ =?utf-8?B?MDZzTTBRUzdxdmFJa1paSVZFQUF0eStPNFB4Vi94bEE4UXQ5bWlIMENnUHJE?=
+ =?utf-8?B?ZEs3UlovQy9qb1RuLzBLN0EwZThnOVpGOUU2Q3dxZ3hndGNGMVMvYmZQeWVR?=
+ =?utf-8?B?bW9NTmZFU3hFYVpzTUF5ai9DbTdweG04TGZFT0w5VnBiOWNPdlZSeUdSYTFk?=
+ =?utf-8?B?VVVjZjlNMVBEZExBTXREaXAyS1Y3dmE5STVuVWVzWUZLdUdDSjdXdUkydytF?=
+ =?utf-8?B?UFZhRWNtNWtheU9FS1VML05pY1J0L2Y0bUpoZ1ZOOUtQMXQreWJDYS9GemtG?=
+ =?utf-8?B?S2lDdU14OFFnV0dMTkpBZU5zRzBRcUpWMEZFQ3hiZ3hRSnlaUzN1YXdNSzNv?=
+ =?utf-8?B?RG1lU3RpemJXckdKemN3VEZZVU01TWxkMHUwNnNvcHQxS0d1cEVDRzFnVDB2?=
+ =?utf-8?B?TFhrSTh4WERQNGx2VjQ3UkxzeXV5ZGpJUVViT3FvLzNWZUdZQjVEdnRYMktN?=
+ =?utf-8?B?UDFnZmVkVmlRVEpyUCtEa3B5WDhycnRjRW5LS2ZlY0FQc3Z0ak5ienBnbnNT?=
+ =?utf-8?B?Yjh2MFUxNG1kNnphSUNIT2JBWWdSYk1VUXJTaVoySnl6NlhyYjkyTlJ1Q0U3?=
+ =?utf-8?B?eHZBRnkvdnBUSVp4THIvODFucWRIMXNpWk1BVXlKdHNDdGtLY0JSdFN3dDRV?=
+ =?utf-8?B?T09ERTVHVloxeXU2elJlTEhXNmJSbjRONHE0RlA4ZTJMY3hKU3pHZ3dxdWY0?=
+ =?utf-8?B?cUFuQWZLVlFTVmZvQXFEaTk1bEs0cEVGK2RqWUJpaExqam5NQjVROFNaZXVV?=
+ =?utf-8?B?YlRoaEdnQzdoRFdZMHd4UU96V2I0Smt2eUhQdmVuaUU5N3FWQUxLU0hVRkJE?=
+ =?utf-8?B?aUp5Tmh3ckZ1V2c5T0dXbzcwWnVUUWhhMnVVQzAxN3FvWnUzVkJtSUxZUGZp?=
+ =?utf-8?B?aUJOR0ZvWFFkL2dncU5qN0ZZTDhRTjVNMUxpM0VvaE43QkkzZC9CMVozZis1?=
+ =?utf-8?B?ZGVKckt6aXNEd1E5b3dURVV2ZDh5Sllpak0zQU9NRlVadGRlM01YZUliWjM1?=
+ =?utf-8?B?bkJLRTQ2V2RlVUZxSVBWM0o2RWlLK1NqYk9rZ1kzejFHakRXOVhnQ001Vkgv?=
+ =?utf-8?B?ME5aM3UvSnVva0pCTUczcitlbzcya3NHamxRd2UzUEwrYWwrbGtMVDNnbm16?=
+ =?utf-8?B?L2JDMUNmOWxrcXRnR1VZcEdUNG1oSlBObHBDTmttVVhWZXNkQ1FBTHQzS2Yr?=
+ =?utf-8?B?RFBTdHloUFZUVFh4ajg5YnA0ODZkMGloaUJ6V0V0Zlh2MFpXNnhoVVFGN0xr?=
+ =?utf-8?B?UHRTNVJBZnlUdURqVHZGRmEyaDFwRmlNa0M5cWMzZGJmL2UyRHNZbkNnZ04r?=
+ =?utf-8?B?V29wbXFKb2tvd256OE9vcm1NeXY5eTlZeHhkZWNqUXBRV1VXWURIbEpwaTBH?=
+ =?utf-8?B?YkRDTFdpNVUrNEcveUt6OXNPNWYyMWN0VVliYUVzcUVubzBwWld3a3EvR2ZC?=
+ =?utf-8?Q?a8VFe1jNjyiCWqqvkyduWYmxk+/wfjYcym95Ddi?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea558c28-2301-446b-1bf5-08d93a809213
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2021 22:03:33.1986 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mM7VNY1KUQuGjG/RcD4IIoMVFXNeMoD9ujU1uGzUu8fK2QAy+KbnshHIoImhwaRGwN6ABf6Zx+vlLFqK7o+BqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0217
+Received-SPF: softfail client-ip=2a01:111:f400:7e8b::60c;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,574 +151,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
-
-Please find my responses to your latest comments (taken care of)
-inline:-
-
-On Mon, 2021-06-21 at 12:03 +0200, Eric Auger wrote:
+On 6/22/21 7:58 AM, Dov Murik wrote:
+> +cc: Tom Lendacky
 > 
-> On 6/16/21 11:02 PM, shashi.mallela@linaro.org wrote:
-> > Hi Eric,
-> > 
-> > Please find my responses inline (below):-
-> > 
-> > On Sun, 2021-06-13 at 16:13 +0200, Eric Auger wrote:
-> > > Hi Sashi,
-> > > 
-> > > On 6/2/21 8:00 PM, Shashi Mallela wrote:
-> > > > Added functionality to trigger ITS command queue processing on
-> > > > write to CWRITE register and process each command queue entry
-> > > > to
-> > > > identify the command type and handle commands like
-> > > > MAPD,MAPC,SYNC.
-> > > > 
-> > > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > > > ---
-> > > >  hw/intc/arm_gicv3_its.c  | 295
-> > > > +++++++++++++++++++++++++++++++++++++++
-> > > >  hw/intc/gicv3_internal.h |  37 +++++
-> > > >  2 files changed, 332 insertions(+)
-> > > > 
-> > > > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-> > > > index af60f19c98..6551c577b3 100644
-> > > > --- a/hw/intc/arm_gicv3_its.c
-> > > > +++ b/hw/intc/arm_gicv3_its.c
-> > > > @@ -49,6 +49,295 @@ static uint64_t baser_base_addr(uint64_t
-> > > > value,
-> > > > uint32_t page_sz)
-> > > >      return result;
-> > > >  }
-> > > >  
-> > > > +static MemTxResult update_cte(GICv3ITSState *s, uint16_t icid,
-> > > > bool valid,
-> > > > +                              uint64_t rdbase)
-> > > > +{
-> > > > +    AddressSpace *as = &s->gicv3->dma_as;
-> > > > +    uint64_t value;
-> > > > +    uint64_t l2t_addr;
-> > > > +    bool valid_l2t;
-> > > > +    uint32_t l2t_id;
-> > > > +    uint32_t max_l2_entries;
-> > > > +    uint64_t cte = 0;
-> > > > +    MemTxResult res = MEMTX_OK;
-> > > > +
-> > > > +    if (!s->ct.valid) {
-> > > Isn't it a guest log error case. Also you return MEMTX_OK in that
-> > > case.
-> > > Is that what you want?
-> > Yes,because the current implementation treats all command specific
-> > errors as "ignored" and moves onto next command in the queue.MEMTX
-> > return values are significant for dma read/write status and in case
-> > of
-> > error we stall the command processing 
-> OK
-> > > > +        return res;
-> > > > +    }
-> > > > +
-> > > > +    if (valid) {
-> > > > +        /* add mapping entry to collection table */
-> > > > +        cte = (valid & VALID_MASK) |
-> > > > +              ((rdbase & RDBASE_PROCNUM_MASK) << 1ULL);
-> > > Do you really need to sanitize rdbase again?
-> > Not required,have rectified it.
-> > > > +    }
-> > > > +
-> > > > +    /*
-> > > > +     * The specification defines the format of level 1 entries
-> > > > of
-> > > > a
-> > > > +     * 2-level table, but the format of level 2 entries and
-> > > > the
-> > > > format
-> > > > +     * of flat-mapped tables is IMPDEF.
-> > > > +     */
-> > > > +    if (s->ct.indirect) {
-> > > > +        l2t_id = icid / (s->ct.page_sz / L1TABLE_ENTRY_SIZE);
-> > > > +
-> > > > +        value = address_space_ldq_le(as,
-> > > > +                                     s->ct.base_addr +
-> > > > +                                     (l2t_id *
-> > > > L1TABLE_ENTRY_SIZE),
-> > > > +                                     MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +
-> > > > +        if (res != MEMTX_OK) {
-> > > > +            return res;
-> > > > +        }
-> > > > +
-> > > > +        valid_l2t = (value >> VALID_SHIFT) & VALID_MASK;
-> > > > +
-> > > > +        if (valid_l2t) {
-> > > > +            max_l2_entries = s->ct.page_sz / s->ct.entry_sz;
-> > > > +
-> > > > +            l2t_addr = value & ((1ULL << 51) - 1);
-> > > > +
-> > > > +            address_space_stq_le(as, l2t_addr +
-> > > > +                                 ((icid % max_l2_entries) *
-> > > > GITS_CTE_SIZE),
-> > > > +                                 cte, MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +        }
-> > > > +    } else {
-> > > > +        /* Flat level table */
-> > > > +        address_space_stq_le(as, s->ct.base_addr + (icid *
-> > > > GITS_CTE_SIZE),
-> > > > +                             cte, MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +    }
-> > > > +    return res;
-> > > > +}
-> > > > +
-> > > > +static MemTxResult process_mapc(GICv3ITSState *s, uint32_t
-> > > > offset)
-> > > > +{
-> > > > +    AddressSpace *as = &s->gicv3->dma_as;
-> > > > +    uint16_t icid;
-> > > > +    uint64_t rdbase;
-> > > > +    bool valid;
-> > > > +    MemTxResult res = MEMTX_OK;
-> > > > +    uint64_t value;
-> > > > +
-> > > > +    offset += NUM_BYTES_IN_DW;
-> > > > +    offset += NUM_BYTES_IN_DW;
-> > > May be relevant to add some trace points for debuggability.
-> > Probably the trace functionality for ITS can be taken up as a
-> > seperate
-> > task/feature TODO.
-> Yes of course. It may just be useful for you as well to debug ;-)
-> > > > +
-> > > > +    value = address_space_ldq_le(as, s->cq.base_addr + offset,
-> > > > +                                 MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +
-> > > > +    if (res != MEMTX_OK) {
-> > > > +        return res;
-> > > > +    }
-> > > > +
-> > > > +    icid = value & ICID_MASK;
-> > > > +
-> > > > +    rdbase = (value >> R_MAPC_RDBASE_SHIFT) &
-> > > > RDBASE_PROCNUM_MASK;
-> > > usually the mask is applied before the shift.
-> > Here we are extracting only 16 bit rdbase(processor number) value
-> > by
-> > masking with RDBASE_PROCNUM_MASK only after we have right shifted
-> > the
-> > rdbase offset from the 64 bit DW value.
-> > As an alternative,I could have used rdbase = (value &
-> > R_MAPC_RDBASE_MASK) to first extract the 32 bits rdbase value from
-> > DW
-> > and then later mask again with RDBASE_PROCNUM_MASK to narrow it
-> > down to
-> > 16 bit rdbase(processor number).
-> My comment rather was about the fact that generally the mask applied
-> to
-> the shifted location and then you shift the masked field. I notived
-> Peter also made this comment in 4/8 (FIELD macro). You tend to use
-> the
-> same pattern in different places in your series.
-Accepted and have made changes across all relevant sections in all
-patch series 
-> > > > +
-> > > > +    valid = (value >> VALID_SHIFT) & VALID_MASK;
-> > > use FIELD, see below
-> > > > +
-> > > > +    if ((icid > s->ct.max_collids) || (rdbase > s->gicv3-
-> > > > > num_cpu)) {
-> > > you also need to check against ITS_CIDBITS limit?
-> > CIDBITS limits is being checked through the s->ct.max_collids
-> > member
-> > above
-> Ah OK
-> > > > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > > > +                      "ITS MAPC: invalid collection table
-> > > > attributes "
-> > > > +                      "icid %d rdbase %lu\n",  icid, rdbase);
-> > > > +        /*
-> > > > +         * in this implementation,in case of error
-> > > > +         * we ignore this command and move onto the next
-> > > > +         * command in the queue
-> > > spec says a command error occurs in that case.
-> > Yes,we chose to ignore the  error'ed command and move onto the next
-> > one
-> > in the queue as per command error options in the spec
-> > > > +         */
-> > > > +    } else {
-> > > > +        res = update_cte(s, icid, valid, rdbase);
-> > > > +    }
-> > > > +
-> > > > +    return res;
-> > > > +}
-> > > > +
-> > > > +static MemTxResult update_dte(GICv3ITSState *s, uint32_t
-> > > > devid,
-> > > > bool valid,
-> > > > +                              uint8_t size, uint64_t itt_addr)
-> > > > +{
-> > > > +    AddressSpace *as = &s->gicv3->dma_as;
-> > > > +    uint64_t value;
-> > > > +    uint64_t l2t_addr;
-> > > > +    bool valid_l2t;
-> > > > +    uint32_t l2t_id;
-> > > > +    uint32_t max_l2_entries;
-> > > > +    uint64_t dte = 0;
-> > > > +    MemTxResult res = MEMTX_OK;
-> > > > +
-> > > > +    if (s->dt.valid) {
-> > > > +        if (valid) {
-> > > > +            /* add mapping entry to device table */
-> > > > +            dte = (valid & VALID_MASK) |
-> > > > +                  ((size & SIZE_MASK) << 1U) |
-> > > > +                  ((itt_addr & ITTADDR_MASK) << 6ULL);
-> > > > +        }
-> > > > +    } else {
-> > > > +        return res;
-> > > > +    }
-> > > > +
-> > > > +    /*
-> > > > +     * The specification defines the format of level 1 entries
-> > > > of
-> > > > a
-> > > > +     * 2-level table, but the format of level 2 entries and
-> > > > the
-> > > > format
-> > > > +     * of flat-mapped tables is IMPDEF.
-> > > > +     */
-> > > > +    if (s->dt.indirect) {
-> > > > +        l2t_id = devid / (s->dt.page_sz / L1TABLE_ENTRY_SIZE);
-> > > > +
-> > > > +        value = address_space_ldq_le(as,
-> > > > +                                     s->dt.base_addr +
-> > > > +                                     (l2t_id *
-> > > > L1TABLE_ENTRY_SIZE),
-> > > > +                                     MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +
-> > > > +        if (res != MEMTX_OK) {
-> > > > +            return res;
-> > > > +        }
-> > > > +
-> > > > +        valid_l2t = (value >> VALID_SHIFT) & VALID_MASK;
-> > > > +
-> > > > +        if (valid_l2t) {
-> > > > +            max_l2_entries = s->dt.page_sz / s->dt.entry_sz;
-> > > > +
-> > > > +            l2t_addr = value & ((1ULL << 51) - 1);
-> > > > +
-> > > > +            address_space_stq_le(as, l2t_addr +
-> > > > +                                 ((devid % max_l2_entries) *
-> > > > GITS_DTE_SIZE),
-> > > > +                                 dte, MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +        }
-> > > > +    } else {
-> > > > +        /* Flat level table */
-> > > > +        address_space_stq_le(as, s->dt.base_addr + (devid *
-> > > > GITS_DTE_SIZE),
-> > > > +                             dte, MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +    }
-> > > > +    return res;
-> > > > +}
-> > > > +
-> > > > +static MemTxResult process_mapd(GICv3ITSState *s, uint64_t
-> > > > value,
-> > > you do not seem to use the input value, remove it?
-> > yes we are using the input value,which is the 1st DW from the
-> > command
-> > to extract the deviceid (devid) field below
-> Hum my mistake sorry.
-> > > > +                                uint32_t offset)
-> > > > +{
-> > > > +    AddressSpace *as = &s->gicv3->dma_as;
-> > > > +    uint32_t devid;
-> > > > +    uint8_t size;
-> > > > +    uint64_t itt_addr;
-> > > > +    bool valid;
-> > > > +    MemTxResult res = MEMTX_OK;
-> > > > +
-> > > > +    devid = (value >> DEVID_SHIFT) & DEVID_MASK;
-> > > > +
-> > > > +    offset += NUM_BYTES_IN_DW;
-> > > > +    value = address_space_ldq_le(as, s->cq.base_addr + offset,
-> > > > +                                 MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +
-> > > > +    if (res != MEMTX_OK) {
-> > > > +        return res;
-> > > > +    }
-> > > > +
-> > > > +    size = (value & SIZE_MASK);
-> > > > +
-> > > > +    offset += NUM_BYTES_IN_DW;
-> > > > +    value = address_space_ldq_le(as, s->cq.base_addr + offset,
-> > > > +                                 MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +
-> > > > +    if (res != MEMTX_OK) {
-> > > > +        return res;
-> > > > +    }
-> > > > +
-> > > > +    itt_addr = (value >> ITTADDR_SHIFT) & ITTADDR_MASK;
-> > > this looks weird to me, usually we apply the mask first and then
-> > > shift.
-> > from the 64 bit DW,we right shift (by 8)to align the itt_addr at
-> > 0th
-> > position and extract 44 bits(0 to 43) using the mask 
-> ditto
-Accepted and taken care of as indicated in the previous response
-> > > > +
-> > > > +    valid = (value >> VALID_SHIFT) & VALID_MASK;
-> > > use FIELD_EX64()?
-> > > > +
-> > > > +    if ((devid > s->dt.max_devids) ||
-> > > > +        (size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS))) {
-> > > ITS_IDBITS?
-> > IDBITS is one of the fields in GITS_TYPER and the field naming is
-> > consistent with the spec definition
-> > > > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > > > +                      "ITS MAPD: invalid device table
-> > > > attributes "
-> > > > +                      "devid %d or size %d\n", devid, size);
-> > > > +        /*
-> > > > +         * in this implementation, in case of error
-> > > > +         * we ignore this command and move onto the next
-> > > > +         * command in the queue
-> > > > +         */
-> > > > +    } else {
-> > > > +        res = update_dte(s, devid, valid, size, itt_addr);
-> > > > +    }
-> > > > +
-> > > > +    return res;
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * Current implementation blocks until all
-> > > > + * commands are processed
-> > > > + */
-> > > > +static void process_cmdq(GICv3ITSState *s)
-> > > > +{> +    uint32_t wr_offset = 0;
-> > > > +    uint32_t rd_offset = 0;
-> > > > +    uint32_t cq_offset = 0;
-> > > > +    uint64_t data;
-> > > > +    AddressSpace *as = &s->gicv3->dma_as;
-> > > > +    MemTxResult res = MEMTX_OK;
-> > > > +    uint8_t cmd;
-> > > > +
-> > > > +    if (!(s->ctlr & ITS_CTLR_ENABLED)) {
-> > > > +        return;
-> > > > +    }
-> > > > +
-> > > > +    wr_offset = FIELD_EX64(s->cwriter, GITS_CWRITER, OFFSET);
-> > > > +
-> > > > +    if (wr_offset > s->cq.max_entries) {
-> > > Shouldn't this be checked on cwrite write instead?
-> > Yes we are checking within the cwriter write scope,just that the
-> > check
-> > is happening through this function (called during cwrite write)
-> > > > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > > > +                      "%s: invalid write offset "
-> > > > +                      "%d\n", __func__, wr_offset);
-> > > > +        return;
-> > > > +    }
-> > > > +
-> > > > +    rd_offset = FIELD_EX64(s->creadr, GITS_CREADR, OFFSET);
-> > > > +
-> > > > +    while (wr_offset != rd_offset) {
-> > > > +        cq_offset = (rd_offset * GITS_CMDQ_ENTRY_SIZE);
-> > > > +        data = address_space_ldq_le(as, s->cq.base_addr +
-> > > > cq_offset,
-> > > > +                                    MEMTXATTRS_UNSPECIFIED,
-> > > > &res);
-> > > > +        cmd = (data & CMD_MASK);
-> > > > +
-> > > > +        switch (cmd) {
-> > > > +        case GITS_CMD_INT:
-> > > > +            break;
-> > > > +        case GITS_CMD_CLEAR:
-> > > > +            break;
-> > > > +        case GITS_CMD_SYNC:
-> > > > +            /*
-> > > > +             * Current implementation makes a blocking
-> > > > synchronous
-> > > > call
-> > > > +             * for every command issued earlier, hence the
-> > > > internal state
-> > > > +             * is already consistent by the time SYNC command
-> > > > is
-> > > > executed.
-> > > > +             * Hence no further processing is required for
-> > > > SYNC
-> > > > command.
-> > > > +             */
-> > > > +            break;
-> > > > +        case GITS_CMD_MAPD:
-> > > > +            res = process_mapd(s, data, cq_offset);
-> > > > +            break;
-> > > > +        case GITS_CMD_MAPC:
-> > > > +            res = process_mapc(s, cq_offset);
-> > > > +            break;
-> > > > +        case GITS_CMD_MAPTI:
-> > > > +            break;
-> > > > +        case GITS_CMD_MAPI:
-> > > > +            break;
-> > > > +        case GITS_CMD_DISCARD:
-> > > > +            break;
-> > > > +        default:
-> > > > +            break;
-> > > > +        }
-> > > > +        if (res == MEMTX_OK) {
-> > > > +            rd_offset++;
-> > > > +            rd_offset %= s->cq.max_entries;
-> > > > +            s->creadr = FIELD_DP64(s->creadr, GITS_CREADR,
-> > > > OFFSET,
-> > > > rd_offset);
-> > > > +        } else {
-> > > > +            /*
-> > > > +             * in this implementation,in case of dma
-> > > > read/write
-> > > > error
-> > > > +             * we stall the command processing
-> > > > +             */
-> > > > +            s->creadr = FIELD_DP64(s->creadr, GITS_CREADR,
-> > > > STALLED, 1);
-> > > > +            qemu_log_mask(LOG_GUEST_ERROR,
-> > > > +                          "%s: %x cmd processing failed!!\n",
-> > > > __func__, cmd);
-> > > > +            break;
-> > > > +        }
-> > > > +    }
-> > > > +}
-> > > > +
-> > > >  static void extract_table_params(GICv3ITSState *s)
-> > > >  {
-> > > >      uint16_t num_pages = 0;
-> > > > @@ -226,6 +515,9 @@ static MemTxResult its_writel(GICv3ITSState
-> > > > *s,
-> > > > hwaddr offset,
-> > > >      case GITS_CWRITER:
-> > > >          s->cwriter = deposit64(s->cwriter, 0, 32,
-> > > >                                 (value &
-> > > > ~R_GITS_CWRITER_RETRY_MASK));
-> > > > +        if (s->cwriter != s->creadr) {
-> > > > +            process_cmdq(s);
-> > > I would expect process_cmdq() to be called as well on ITS enable
-> > Done
-> > > > +        }
-> > > >          break;
-> > > >      case GITS_CWRITER + 4:
-> > > >          s->cwriter = deposit64(s->cwriter, 32, 32,
-> > > > @@ -346,6 +638,9 @@ static MemTxResult
-> > > > its_writell(GICv3ITSState
-> > > > *s, hwaddr offset,
-> > > >          break;
-> > > >      case GITS_CWRITER:
-> > > >          s->cwriter = value & ~R_GITS_CWRITER_RETRY_MASK;
-> > > > +        if (s->cwriter != s->creadr) {
-> > > > +            process_cmdq(s);
-> > > > +        }
-> > > >          break;
-> > > >      case GITS_CREADR:
-> > > >      case GITS_TYPER:
-> > > > diff --git a/hw/intc/gicv3_internal.h
-> > > > b/hw/intc/gicv3_internal.h
-> > > > index d6aaa94e4c..0932a30560 100644
-> > > > --- a/hw/intc/gicv3_internal.h
-> > > > +++ b/hw/intc/gicv3_internal.h
-> > > > @@ -253,6 +253,9 @@ FIELD(GITS_CBASER, OUTERCACHE, 53, 3)
-> > > >  FIELD(GITS_CBASER, INNERCACHE, 59, 3)
-> > > >  FIELD(GITS_CBASER, VALID, 63, 1)
-> > > >  
-> > > > +FIELD(GITS_CREADR, STALLED, 0, 1)
-> > > > +FIELD(GITS_CREADR, OFFSET, 5, 15)
-> > > > +
-> > > >  FIELD(GITS_CWRITER, RETRY, 0, 1)
-> > > >  FIELD(GITS_CWRITER, OFFSET, 5, 15)
-> > > >  
-> > > > @@ -289,6 +292,40 @@ FIELD(GITS_TYPER, CIL, 36, 1)
-> > > >  #define L1TABLE_ENTRY_SIZE         8
-> > > >  
-> > > >  #define GITS_CMDQ_ENTRY_SIZE               32
-> > > > +#define NUM_BYTES_IN_DW                     8
-> > > > +
-> > > > +#define CMD_MASK                  0xff
-> > > > +
-> > > > +/* ITS Commands */
-> > > > +#define GITS_CMD_CLEAR            0x04
-> > > > +#define GITS_CMD_DISCARD          0x0F
-> > > > +#define GITS_CMD_INT              0x03
-> > > > +#define GITS_CMD_MAPC             0x09
-> > > > +#define GITS_CMD_MAPD             0x08
-> > > > +#define GITS_CMD_MAPI             0x0B
-> > > > +#define GITS_CMD_MAPTI            0x0A
-> > > > +#define GITS_CMD_SYNC             0x05
-> > > > +
-> > > > +/* MAPC command fields */
-> > > > +#define ICID_LENGTH                  16
-> > > > +#define ICID_MASK                 ((1U << ICID_LENGTH) - 1)
-> > > can't you use FIELD') as well for the ICID?
-> > in addition to MAPC command ICID is a common field for MAPTI,MAPI
-> > commands as well,hence wanted to keep it common and seperate
-> > > > +FIELD(MAPC, RDBASE, 16, 32)
-> > > > +
-> > > > +#define RDBASE_PROCNUM_LENGTH        16
-> > > > +#define RDBASE_PROCNUM_MASK       ((1ULL <<
-> > > > RDBASE_PROCNUM_LENGTH)
-> > > > - 1)
-> > > why do we have both the RDBASE FIELD def and above defs?
-> > RDBASE FIELD def points to the rdbase field within the MAPC
-> > command,while the RDBASE_PROCNUM_ defines are used to consider 16
-> > bit
-> > PE number as the target destination instead of redistributor base
-> > address option.
-> > > > +
-> > > > +#define DEVID_SHIFT                  32
-> > > > +#define DEVID_LENGTH                 32
-> > > > +#define DEVID_MASK                ((1ULL << DEVID_LENGTH) - 1)
-> > > we don't have any DEVID field in MAPC, I guess it belongs to
-> > > MAPD?
-> > MAPC doesnt have a DEVID field ,but it is a common field in
-> > MAPD,INT,MAPI,MAPTI commands(at the same offset)
-> Yes but above there is a command saying "MAPC command fields */
-Have moved the DEVID defs to common section to avoid the confusion with
-MAPC related define
-> > > > +
-> > > > +/* MAPD command fields */
-> > > > +#define ITTADDR_LENGTH               44
-> > > > +#define ITTADDR_SHIFT                 8
-> > > > +#define ITTADDR_MASK              ((1ULL << ITTADDR_LENGTH) -
-> > > > 1)
-> > > > +#define SIZE_MASK                 0x1f
-> > > Can't you homogenize the definition, use field() and/or prefix
-> > > with
-> > > the
-> > > cmd name when not common to severals cmds?
-> > Since ITTADDR_MASK is common to both MAPD command as well as device
-> > table entry field,didnt want to go with field() as the MAPD tag-
-> > name in
-> > device table entry would be insignificant
-> > > > +
-> > > > +#define VALID_SHIFT               63
-> > > > +#define VALID_MASK                1ULL
-> > > >  
-> > > >  /**
-> > > >   * Default features advertised by this version of ITS
-> > > > 
-> > > Thanks
-> > > 
-> > > Eric
-> > > 
-> > 
-> > 
-> > 
-> Thanks
+> On 22/06/2021 15:47, Philippe Mathieu-Daudé wrote:
+>> On 6/22/21 2:44 PM, Dov Murik wrote:
+>>> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>>> ---
+>>>  hw/i386/pc_sysfw.c | 14 ++++++++++++++
+>>>  1 file changed, 14 insertions(+)
+>>>
+>>> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+>>> index 6ce37a2b05..e8d20cb83f 100644
+>>> --- a/hw/i386/pc_sysfw.c
+>>> +++ b/hw/i386/pc_sysfw.c
+>>> @@ -176,6 +176,20 @@ static void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+>>>      ovmf_table += tot_len;
+>>>  }
+>>>  
+>>> +/**
+>>> + * pc_system_ovmf_table_find - Find the data associated with an entry in OVMF's
+>>> + * reset vector GUIDed table.
+>>> + *
+>>> + * @entry: GUID string of the entry to lookup
+>>> + * @data: Filled with a pointer to the entry's value (if not NULL)
+>>> + * @data_len: Filled with the length of the entry's value (if not NULL). Pass
+>>> + *            NULL here if the length of data is known.
+>>> + *
+>>> + * Note that this function must be called after the OVMF table was found and
+>>> + * copied by pc_system_parse_ovmf_flash().
+>>
+>> What about replacing this comment by:
+>>
+>>   assert(ovmf_table && ovmf_table_len);
+>>
 > 
-> Eric
-> 
+> I think this will break things: in target/i386/sev.c we have SEV-ES code
+> that calls pc_system_ovmf_table_find() and can deal with the case when
+> there's no OVMF table.  An assert will break it.
 
+Right, what would be best is to differentiate between an OVMF table that
+isn't present in the flash vs the fact that pc_system_parse_ovmf_flash()
+wasn't called, asserting only on the latter.
+
+Thanks,
+Tom
+
+> 
+> 
+>> Otherwise,
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>
+> 
+> Thanks!
+> 
+> -Dov
+> 
+> 
+> 
+>> Thanks!
+>>
+>>> + *
+>>> + * Return: true if the entry was found in the OVMF table; false otherwise.
+>>> + */
+>>>  bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
+>>>                                 int *data_len)
+>>>  {
+>>>
+>>
 
