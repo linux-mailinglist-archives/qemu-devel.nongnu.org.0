@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4783B6764
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 19:13:45 +0200 (CEST)
-Received: from localhost ([::1]:53698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C1F3B6786
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 19:18:44 +0200 (CEST)
+Received: from localhost ([::1]:33752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxupM-0000TR-NR
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 13:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
+	id 1lxuuB-0006Us-O9
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 13:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lxujm-00065s-BS; Mon, 28 Jun 2021 13:07:58 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:51503)
+ id 1lxukY-0006td-8W; Mon, 28 Jun 2021 13:08:46 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:49429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lxujk-0005u6-C0; Mon, 28 Jun 2021 13:07:58 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 7A89A5C00B8;
- Mon, 28 Jun 2021 13:07:55 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 28 Jun 2021 13:07:55 -0400
+ id 1lxukW-0006PS-Jn; Mon, 28 Jun 2021 13:08:46 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id DCDDC5C0131;
+ Mon, 28 Jun 2021 13:08:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 28 Jun 2021 13:08:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=87SYpR2taVqsRxr2ayT30k8oZcO
- LzjvkHdpy9ULfCfs=; b=bzGEA/udxUdaZ6aQP5Vngjl7QF0L5mQ10st7MfCcAZ5
- oBEIw2B6lsOA3IDfezeHIhWNmSe+h2dXFOI33W1XbMyHreAD9UvWwjS9Lj6IvSdJ
- 2RQlNPhng//cRHXMcpx4UX6PaD4ES3mBCcapuW1fk3S4uXgEI0tuwGKhDTzfrNzg
- hnH1nKeBoevR7n57FJwZKNXZOvvM8K9BbDWUhyqmCmE3m5yEvcs30o/m+g/UAMyC
- gF/UqZPod8yRKLQ2bNHz84e6YFEThIAmkX5+w7hB6qWbFCIT7qSGK7uAc34y3wRf
- cNi0fWSJ32UG19d/r9Em3Ult7eI5lt/I6W0WeVFjVxw==
+ :content-type:in-reply-to; s=fm3; bh=uR72MShrS3g+DS1HEqabup1ZFvS
+ TY18SFbSHkm+wgtw=; b=KZH66Waf+e9ye3uqYdcZaC4hyiibp/hkl6M3acXHZzn
+ rCBs/zACKVvtepV05iLa2hWU4i+ErOWer6gYGGXqGUMO4BMLv2cyBf+iPF+W5iHJ
+ 1SAWPq7ipSiUrR7QfeUcsIKOl++zVKo8rASytnY0bcPyPLz0DOxUhRwhA2lvgLwr
+ 63AsVuvDdPVQ0SFRI/OWAz/3DSNCtc1lCWxXrTiFyQSuLwRtoHg/mujWJfDzmYYa
+ O1jkqWdUmdZwru48hCPSO8A3JpVy9eVJdIXc2Wrt1ZJoCtSyjVnFAb4xEeLNBLDq
+ jG586buKOLR/1kVCXYrwSNgZc+0vEkglI9/8ToU5dew==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=87SYpR
- 2taVqsRxr2ayT30k8oZcOLzjvkHdpy9ULfCfs=; b=LH15MQOUIXtGR5kqFvNf7j
- MU+iH3a3odt2YCxiFwysuxmS34lYQznYw0N+1WoovUbvX78RNAyl/Q5biQgsPid3
- QX2SHRKSoIP4Rt2EB11YTqEztTSSOS871Tj06/fQGNhmhb2cWN+lcrydWVlvBlEX
- 50tXwFt5Fzgm+Yz2YXKINH+7JO3SCEP7rImiFZjjU3azBGxRF+7T2zwgEZ9EzdVw
- ZLd1Dw8yf6c2tFlAYTCe8G9p3b/WcwPAqvKpbEOp9hu3wCIP6O0Rn+Og19ldNvUg
- 6gSHwTq2ZYmGY/9aEAPvVpaOLOMdHndlC+5EICdSPBUY3x900l3NXE0PqWmcQH0A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=uR72MS
+ hrS3g+DS1HEqabup1ZFvSTY18SFbSHkm+wgtw=; b=EssDM/wvUXHz6CzJhlajHQ
+ mym2SBdQkTHSOUMCtd24/c+wbStCdTUCuD3/U1YIn7JdJVIa5Uvv9UTKYAn8OVHs
+ O3QdmtwUPZaA5ZXeuHNfOT+giIzOroQ2BxGy1eRAa9zGBPn6LrAbK361PUnBCsGC
+ XO0Pz7ZK5EWCqPsnwItzhnMfXAsT73cKIXY38mFWpl0Q2dG0tJ8gGaoaufNehA9v
+ phdTN/KQ2mibGxOL9+eMd4Vm1I0GoWkFXZrrsTZKVH9eRh/gFolQGokHvQITx2pg
+ JVXj22pyFnBpTzO63VNjvOzrjT6SA4lDvlm6XgADRNAX2slMZ/+/RD58aHY9JM4g
  ==
-X-ME-Sender: <xms:6gHaYFRncH1-gMja7yCDmJghC2YH6KBwdtX11G-DpoKOanXxovxHTw>
- <xme:6gHaYOySF8dVh196D9ulrGh8mEPmN0Ix3_63LW6nNlNqB-8J5dK7Y6nB2Gd8dxwh2
- 5RQFSjMVuN3nv9226Q>
-X-ME-Received: <xmr:6gHaYK3u-QMcxSs3zCeX3MlkJq3nAUBUnxMcgVtWjnroTBVXDXp9kKSwj_iZlyylmO_6uypa1hWVplIY8YY9ZTC5-jv80gZbEiX-MkqQfgs4qgBYpg>
+X-ME-Sender: <xms:GgLaYLLC77bt7fzvbWeW92H7d4xMRBfvDtmx98cq_h8vVoRdbibnbQ>
+ <xme:GgLaYPLtD23guOYDSECW3jiKPvrvXixXd-u5kmE80e2os4ynhNULJpAKUy-UX2JoQ
+ Kq2rbcACcQK74Lxc34>
+X-ME-Received: <xmr:GgLaYDsUCO7DG19_t5vl051KubvaG6LfAQ1yU2j-S2wYDuPIGMC8Ox9p8WzErO43C55qAt0OTj3Z9SEFTOEM1HfoUD03Paxh2vPj_Z2UiuMPzxtE7A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeehgedguddtkecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
- etveejudeileduffefjeegfffhuddvudffkeenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:6gHaYNB5OZCgHy2-2v-rXt6Su0VqR1BkORoTqESR9Fy64mKU9dld_w>
- <xmx:6gHaYOiB7fMFZdPsr1qoeWc5pAvBp7f2lrP_fIa6TLxvSMegYNzNDg>
- <xmx:6gHaYBpcnbHgwhiFmACABedRgs9b02E-4QcFend-iSVgY6Nm5SXoAA>
- <xmx:6wHaYCiwe8EBit-N_qLi7ZYNDx5OnnitmLoxl2xHdMlz6ZxFzTTovQ>
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:GgLaYEYL5bDnT4ZnQVfRSrl4kdx7X6_9LPGEblxV9F9nWXRAqqa-jg>
+ <xmx:GgLaYCZ1cm5PmzlyMlUHhxswpdOpVmZ6E0SUnEWGWzUNIdZJxewv5Q>
+ <xmx:GgLaYICh6k_KjcN9JfUo6Tzprqn0Gph3R0MnTP_tWM_z5ry9qzIYGw>
+ <xmx:GwLaYIOBoALsqppwmMkSvYRSGSK3mHy_BT9Zd-zOh5sYdMPRpn_jIQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Jun 2021 13:07:52 -0400 (EDT)
-Date: Mon, 28 Jun 2021 19:07:51 +0200
+ 28 Jun 2021 13:08:40 -0400 (EDT)
+Date: Mon, 28 Jun 2021 19:08:38 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Subject: Re: [PATCH] tests/qtest/nvme-test: add persistent memory region test
-Message-ID: <YNoB51AY9aV+w7rz@apples.localdomain>
-References: <CGME20210618103850epcas5p49b85b7dc6e5f14b03b2bf35c10b3bdda@epcas5p4.samsung.com>
- <20210618103431.9951-1-anaidu.gollu@samsung.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 00/11] hw/nvme: reimplement all multi-aio commands
+ with custom aiocbs
+Message-ID: <YNoCFm+pUTuxmF7r@apples.localdomain>
+References: <20210617190657.110823-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QZrx6ju7nQYQqY14"
+ protocol="application/pgp-signature"; boundary="Sd2zDJUE2/+UaXiU"
 Content-Disposition: inline
-In-Reply-To: <20210618103431.9951-1-anaidu.gollu@samsung.com>
+In-Reply-To: <20210617190657.110823-1-its@irrelevant.dk>
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -92,171 +93,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- kbusch@kernel.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---QZrx6ju7nQYQqY14
+--Sd2zDJUE2/+UaXiU
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jun 18 16:04, Gollu Appalanaidu wrote:
->This will test the PMR functionality.
+On Jun 17 21:06, Klaus Jensen wrote:
+>From: Klaus Jensen <k.jensen@samsung.com>
 >
->Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->---
-> tests/qtest/nvme-test.c | 78 ++++++++++++++++++++++++++++++++++++++++-
-> 1 file changed, 77 insertions(+), 1 deletion(-)
+>This series reimplements flush, dsm, copy, zone reset and format nvm to
+>allow cancellation. I posted an RFC back in March ("hw/block/nvme:
+>convert ad-hoc aio tracking to aiocb") and I've applied some feedback
+>from Stefan and reimplemented the remaining commands.
 >
->diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
->index d32c953a38..6d557be6ca 100644
->--- a/tests/qtest/nvme-test.c
->+++ b/tests/qtest/nvme-test.c
->@@ -13,6 +13,7 @@
-> #include "libqos/libqtest.h"
-> #include "libqos/qgraph.h"
-> #include "libqos/pci.h"
->+#include "include/block/nvme.h"
+>The basic idea is to define custom AIOCBs for these commands. The custom
+>AIOCB takes care of issuing all the "nested" AIOs one by one instead of
+>blindly sending them off simultaneously without tracking the returned
+>aiocbs.
 >
-> typedef struct QNvme QNvme;
+>v2:
+>  - dropped RFC
+>  - fixed flush cancel from being unintentially a noop (Vladimir)
 >
->@@ -21,6 +22,9 @@ struct QNvme {
->     QPCIDevice dev;
-> };
+>Klaus Jensen (11):
+>  hw/nvme: reimplement flush to allow cancellation
+>  hw/nvme: add nvme_block_status_all helper
+>  hw/nvme: reimplement dsm to allow cancellation
+>  hw/nvme: save reftag when generating pi
+>  hw/nvme: remove assert from nvme_get_zone_by_slba
+>  hw/nvme: use prinfo directly in nvme_check_prinfo and nvme_dif_check
+>  hw/nvme: add dw0/1 to the req completion trace event
+>  hw/nvme: reimplement the copy command to allow aio cancellation
+>  hw/nvme: reimplement zone reset to allow cancellation
+>  hw/nvme: reimplement format nvm to allow cancellation
+>  Partially revert "hw/block/nvme: drain namespaces on sq deletion"
 >
->+static char *t_path;
->+#define TEST_IMAGE_SIZE (2 * 1024 * 1024)
->+
-> static void *nvme_get_driver(void *obj, const char *interface)
-> {
->     QNvme *nvme =3D obj;
->@@ -66,12 +70,77 @@ static void nvmetest_oob_cmb_test(void *obj, void *dat=
-a, QGuestAllocator *alloc)
->     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=3D, 0x4=
-4332211);
-> }
+> hw/nvme/nvme.h       |   10 +-
+> include/block/nvme.h |    8 +
+> hw/nvme/ctrl.c       | 1883 ++++++++++++++++++++++++------------------
+> hw/nvme/dif.c        |   64 +-
+> hw/nvme/trace-events |   21 +-
+> 5 files changed, 1124 insertions(+), 862 deletions(-)
 >
->+static void nvmetest_pmr_reg_test(void *obj, void *data, QGuestAllocator =
-*alloc)
->+{
->+    QNvme *nvme =3D obj;
->+    QPCIDevice *pdev =3D &nvme->dev;
->+    QPCIBar pmr_bar, nvme_bar;
->+    uint32_t pmrcap, pmrsts;
->+
->+    qpci_device_enable(pdev);
->+    pmr_bar =3D qpci_iomap(pdev, 4, NULL);
->+
->+    /* Without Enabling PMRCTL check bar enablemet */
->+    qpci_io_writel(pdev, pmr_bar, 0, 0xccbbaa99);
->+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=3D, 0x99);
->+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=3D, 0xaa99);
->+
->+    /* Map NVMe Bar Register to Enable the Mem Region */
->+    nvme_bar =3D qpci_iomap(pdev, 0, NULL);
->+
->+    pmrcap =3D qpci_io_readl(pdev, nvme_bar, 0xe00);
->+    g_assert_cmpint(NVME_PMRCAP_RDS(pmrcap), =3D=3D, 0x1);
->+    g_assert_cmpint(NVME_PMRCAP_WDS(pmrcap), =3D=3D, 0x1);
->+    g_assert_cmpint(NVME_PMRCAP_BIR(pmrcap), =3D=3D, 0x4);
->+    g_assert_cmpint(NVME_PMRCAP_PMRWBM(pmrcap), =3D=3D, 0x2);
->+    g_assert_cmpint(NVME_PMRCAP_CMSS(pmrcap), =3D=3D, 0x1);
->+
->+    /* Enable PMRCTRL */
->+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x1);
->+
->+    qpci_io_writel(pdev, pmr_bar, 0, 0x44332211);
->+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), =3D=3D, 0x11);
->+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), =3D=3D, 0x2211);
->+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), =3D=3D, 0x44332211);
->+
->+    pmrsts =3D qpci_io_readl(pdev, nvme_bar, 0xe08);
->+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), =3D=3D, 0x0);
->+
->+    /* Disable PMRCTRL */
->+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x0);
->+
->+    qpci_io_writel(pdev, pmr_bar, 0, 0x88776655);
->+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=3D, 0x55);
->+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=3D, 0x6655);
->+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), !=3D, 0x88776655);
->+
->+    pmrsts =3D qpci_io_readl(pdev, nvme_bar, 0xe08);
->+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), =3D=3D, 0x1);
->+
->+    qpci_iounmap(pdev, nvme_bar);
->+    qpci_iounmap(pdev, pmr_bar);
->+}
->+
-> static void nvme_register_nodes(void)
-> {
->+    int fd, ret;
->+    t_path =3D g_strdup("/tmp/qtest.XXXXXX");
->+
->+    /* Create a temporary raw image*/
->+    fd =3D mkstemp(t_path);
->+    g_assert(fd >=3D 0);
->+    ret =3D ftruncate(fd, TEST_IMAGE_SIZE);
->+    g_assert(ret =3D=3D 0);
->+    close(fd);
->+
->+    char *pmr_cmd_line =3D g_strdup_printf("-object memory-backend-file,i=
-d=3Dpmr0,"
->+                                         "share=3Don,mem-path=3D%s,size=
-=3D8", t_path);
->+
->     QOSGraphEdgeOptions opts =3D {
->         .extra_device_opts =3D "addr=3D04.0,drive=3Ddrv0,serial=3Dfoo",
->         .before_cmd_line =3D "-drive id=3Ddrv0,if=3Dnone,file=3Dnull-co:/=
-/,"
->-                           "file.read-zeroes=3Don,format=3Draw",
->+                           "file.read-zeroes=3Don,format=3Draw ",
->+                           pmr_cmd_line,
->     };
->
->     add_qpci_address(&opts, &(QPCIAddress) { .devfn =3D QPCI_DEVFN(4, 0) =
-});
->@@ -83,6 +152,13 @@ static void nvme_register_nodes(void)
->     qos_add_test("oob-cmb-access", "nvme", nvmetest_oob_cmb_test, &(QOSGr=
-aphTestOptions) {
->         .edge.extra_device_opts =3D "cmb_size_mb=3D2"
->     });
->+
->+    qos_add_test("pmr-test-access", "nvme", nvmetest_pmr_reg_test,
->+                 &(QOSGraphTestOptions) {
->+        .edge.extra_device_opts =3D "pmrdev=3Dpmr0"
->+    });
->+
->+    unlink(t_path);
-> }
->
-> libqos_init(nvme_register_nodes);
 >--=20
->2.17.1
+>2.32.0
 >
 
-An extra test is always nice and looks fine,
+Applied to nvme-next.
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---QZrx6ju7nQYQqY14
+--Sd2zDJUE2/+UaXiU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDaAeQACgkQTeGvMW1P
-DelXkwf9HqAYRtLSZvUM+PMjjt53XrARFI/DGtdJWMRA3Iu8q6g94q1PUwgvvl0P
-UtaOUXtjHYufA+FCcgiqujd5uMX29PQ8GhW46xW6CER7R10p2HtoEHSV+/vfKW18
-PldDqNI+UX0G46Nk7Abgy8deV5l9jk+9ixxMSOYtJRwwQnPF3tAqZxpCxCpSUJM1
-DjIMeZZXm2pNqhvJ+KIH6QryP3kmLrcGK/1P1EIWM8NWc12wXJwxtlQBnMqKh2rN
-PzxXuNTEUMB9ogOzg2iHm4zdm1r9yOrBdtz4y1R7347hHVjQkI903e40UOCij+EA
-6obbLU4Hybx8W5Te+9/rGxBFphVzwQ==
-=Ib88
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDaAhUACgkQTeGvMW1P
+DelDkgf9GHDSznyoOJnMhTbZx0Z6p4Ws+IlnLtJrgTMp+dqp3+Mfqq63UBClq9hl
+sg7lnoRcR+GuCvWeM2iOb3vS46i/p3rv8nZT0euDts7pK5vBsnl5sOopgSB3RLE2
+712HUD4k5StqBcTSMyIYT2Jao3H0yLIg/N82AcqwcXYVrrwcipWCPR8dGsQzEbYy
+Cr7cWvLo5Bjh0W6T8Fy1huV/maZ82mWeUsrORVF/DxuvJoP4bpOWP0X3+pODL2aB
+ZfvfoktHNojqcd0cPJCrcOsMpxkt1GaCqG8LrMM9deZ1RHecZdhRzT0KQip9/i7g
+VBmGAWsiOTqIIix16w0r4F60ahFPCA==
+=IZVK
 -----END PGP SIGNATURE-----
 
---QZrx6ju7nQYQqY14--
+--Sd2zDJUE2/+UaXiU--
 
