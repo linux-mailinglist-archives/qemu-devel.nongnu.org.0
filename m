@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994EA3B5FC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:15:35 +0200 (CEST)
-Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6F23B5FA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Jun 2021 16:09:17 +0200 (CEST)
+Received: from localhost ([::1]:49220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lxs2w-0000qG-EI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:15:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48994)
+	id 1lxrwq-0003vG-2p
+	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 10:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxrn3-0003Ox-OJ
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:59:09 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40875)
+ id 1lxrn6-0003RS-6j
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:59:13 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lxrmk-00065s-Sc
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:59:09 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id g7so16805630wri.7
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 06:58:47 -0700 (PDT)
+ id 1lxrmk-000665-So
+ for qemu-devel@nongnu.org; Mon, 28 Jun 2021 09:59:11 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id l8so12635386wry.13
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 06:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ACAUeCX9+Wz6GLIq3XrxvGBI0qMISpWslzw8tcPYLUU=;
- b=pXxlE/VJprXBlqDmBw8K41KFOcJQvMFmQcpftTunHiqNeK1Vd+zHmw0eXHErfophfy
- CeC/pYyF0IJTnWTBWaQJJAaYoxl2SLdZFNf8A2Nf+bvyc15G7PeL8srxL8CrfA70idrp
- k9eZdlS4DtyE7rGHPbqLY87jLsPwtstf4AvKWi0wrUyTx+ddVKl4jeoLW+us22vpkoRK
- zC6Xg4s5OgnGWnXLZqQflMF/awKMVUEEXLm9qkRG2ZClhqys1voienR4yN1QcJZvpGoC
- CNmrN3ntH7HpxQYadWHWey81xTqvJyQIvpBU7eCiIHLBtzKySJohCNWrKGT//EjB+oAd
- yUyg==
+ bh=LkoOH3ETnKTeal6J43R20gkNbw1izsYxj80GkABOwHE=;
+ b=hu+no2bAZi4Go5AtDKgL4n4jrgFUmW9jMYncAjEqjapToLdGcK3cDS6yjs3zseMR1Z
+ BrLVpktUyTAL7jnn8xpbIIb0mtptFHHpFvJ87gEw9ix6CLfDlyiRp4aL7CWXiDgW1+fl
+ /6F7Ebxxzryfu74hLU6cXh2hpOouHNtgW9LoVnvzCEVEV7/3wLsl0piWl7DKfAHS7fTd
+ gaqbeZtQJav2QHkdmdttLzFZ9FzSA3NM4fXfiPPI+7b4DuJT7JI5J2VeyMevYx0gIXs2
+ tiGHAg0x5dsMRilAfwsSRPJcnftLA1Tcidz245IxNHohjAEPghlDIAVbG1DSqLH00cD5
+ 1G5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ACAUeCX9+Wz6GLIq3XrxvGBI0qMISpWslzw8tcPYLUU=;
- b=jNhhnwp9QJW9h0QdVxV9ieJC7j/BZjkluv2aVag7fwmhWq6wJ8GeDKKNLqPFujMjzc
- rIza517OOSZGHMqdQ9lFkwbXL6Qa7GpMc66cFEpFhRlqsunNGJ9H3toaxK1huw0Lbd56
- JKYHzH+LJFWhCuUbmnYIjINsFLwAiXKiZvTUBw45obL1dFDSoEYzHqEz2J5jftzPdpvd
- 4sy32p9HE4/B5JuOcdvxKWMkLuWR4iRsQnBKTh3Yohj80VfwzvumMgFPyRI9GMFOmg6W
- 3Co+uYhBkJResy1TjldVwaCmGUdK3LiSL5AfffrU+y8TFUvtZm0Rb8fwwYbBSbxwXESf
- 0q6w==
-X-Gm-Message-State: AOAM530oaTOQYjS+od3T4yM2zwp5YSIy1gIrUo523GS72cXt9DhAAvLT
- KElzEg4zLrRVmfuOusbX/KA3Uw==
-X-Google-Smtp-Source: ABdhPJymz8A/emTzLLKarRNo3trEUZwPLcSulc09+5QjXEysV/d1urn4TBwgEJbNMi4OD8kLQte/cA==
-X-Received: by 2002:a5d:698a:: with SMTP id g10mr26916272wru.129.1624888726388; 
- Mon, 28 Jun 2021 06:58:46 -0700 (PDT)
+ bh=LkoOH3ETnKTeal6J43R20gkNbw1izsYxj80GkABOwHE=;
+ b=th/C4gNiFozMksxw3tMwfoNbyxZne6r4QFNCe9J7FTmOMtNJUfmR5COphDMzxM8+wQ
+ o+moaURlQl6Y+Sbeod5NcdxDJvz6LLgoSs1u0ZX1+E53ec5sVUg9XdkcIltCAzXdisMX
+ HJzKZlnULOriax6Fw1cuj/LrHoOongl4EzppNZHfNPqHJ3t9fA/eJGA5uhTaaCRkpHxq
+ WsPphgWd3Aa0wh0kX16lqDzddgGW9nj3rx4kD31mofFANc08RFMQoEBZfF1pG9xfXGkR
+ XNjvsEH596hOV6AoBEZ7JN/D7CQKDB+A4efepqpWiCRhIJqVEzjIgnDcAzeLSx629vm/
+ Cj6Q==
+X-Gm-Message-State: AOAM532zVcp9/71Imci377VWdDPwiDFmGClSTROb0XA9hYIs/+RZOapa
+ aEo1rr990AT0oP11KzKa4YQM1xx78NBeB1EK
+X-Google-Smtp-Source: ABdhPJxnck/NiZoRljJ0UetM+XMdR1dpdTaDECZn6T+gPtTYHYWvlRPQx7LilL7RFRPh3mXl5olSxQ==
+X-Received: by 2002:a05:6000:1a41:: with SMTP id
+ t1mr26801530wry.175.1624888727136; 
+ Mon, 28 Jun 2021 06:58:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d12sm12047627wri.77.2021.06.28.06.58.45
+ by smtp.gmail.com with ESMTPSA id d12sm12047627wri.77.2021.06.28.06.58.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 28 Jun 2021 06:58:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 13/18] target/arm: Implement MVE VSHLC
-Date: Mon, 28 Jun 2021 14:58:30 +0100
-Message-Id: <20210628135835.6690-14-peter.maydell@linaro.org>
+Subject: [PATCH 14/18] target/arm: Implement MVE VADDLV
+Date: Mon, 28 Jun 2021 14:58:31 +0100
+Message-Id: <20210628135835.6690-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210628135835.6690-1-peter.maydell@linaro.org>
 References: <20210628135835.6690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,122 +87,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VSHLC insn, which performs a shift left of the
-entire vector with carry in bits provided from a general purpose
-register and carry out bits written back to that register.
+Implement the MVE VADDLV insn; this is similar to VADDV, except
+that it accumulates 32-bit elements into a 64-bit accumulator
+stored in a pair of general-purpose registers.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-mve.h    |  2 ++
- target/arm/mve.decode      |  2 ++
- target/arm/mve_helper.c    | 38 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c | 30 ++++++++++++++++++++++++++++++
- 4 files changed, 72 insertions(+)
+ target/arm/helper-mve.h    |  3 ++
+ target/arm/mve.decode      |  6 +++-
+ target/arm/mve_helper.c    | 19 ++++++++++++
+ target/arm/translate-mve.c | 63 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 90 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 96b4c0dfd34..d414b6309d5 100644
+index d414b6309d5..cf5ba860f2f 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -444,3 +444,5 @@ DEF_HELPER_FLAGS_4(mve_vqrshrunbb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vqrshrunbh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vqrshruntb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vqrshrunth, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+@@ -356,6 +356,9 @@ DEF_HELPER_FLAGS_3(mve_vaddvuh, TCG_CALL_NO_WG, i32, env, ptr, i32)
+ DEF_HELPER_FLAGS_3(mve_vaddvsw, TCG_CALL_NO_WG, i32, env, ptr, i32)
+ DEF_HELPER_FLAGS_3(mve_vaddvuw, TCG_CALL_NO_WG, i32, env, ptr, i32)
+ 
++DEF_HELPER_FLAGS_3(mve_vaddlv_s, TCG_CALL_NO_WG, i64, env, ptr, i64)
++DEF_HELPER_FLAGS_3(mve_vaddlv_u, TCG_CALL_NO_WG, i64, env, ptr, i64)
 +
-+DEF_HELPER_FLAGS_4(mve_vshlc, TCG_CALL_NO_WG, i32, env, ptr, i32, i32)
+ DEF_HELPER_FLAGS_3(mve_vmovi, TCG_CALL_NO_WG, void, env, ptr, i64)
+ DEF_HELPER_FLAGS_3(mve_vandi, TCG_CALL_NO_WG, void, env, ptr, i64)
+ DEF_HELPER_FLAGS_3(mve_vorri, TCG_CALL_NO_WG, void, env, ptr, i64)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 1d11387bc07..914b108c379 100644
+index 914b108c379..595d97568eb 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -419,3 +419,5 @@ VQRSHRUNB         111 1 1110 1 . ... ... ... 0 1111 1 1 . 0 ... 0 @2_shr_b
- VQRSHRUNB         111 1 1110 1 . ... ... ... 0 1111 1 1 . 0 ... 0 @2_shr_h
- VQRSHRUNT         111 1 1110 1 . ... ... ... 1 1111 1 1 . 0 ... 0 @2_shr_b
- VQRSHRUNT         111 1 1110 1 . ... ... ... 1 1111 1 1 . 0 ... 0 @2_shr_h
-+
-+VSHLC             111 0 1110 1 . 1 imm:5 ... 0 1111 1100 rdm:4 qd=%qd
+@@ -307,7 +307,11 @@ VQDMULH_scalar   1110 1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
+ VQRDMULH_scalar  1111 1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
+ 
+ # Vector add across vector
+-VADDV            111 u:1 1110 1111 size:2 01 ... 0 1111 0 0 a:1 0 qm:3 0 rda=%rdalo
++{
++  VADDV          111 u:1 1110 1111 size:2 01 ... 0 1111 0 0 a:1 0 qm:3 0 rda=%rdalo
++  VADDLV         111 u:1 1110 1 ... 1001 ... 0 1111 00 a:1 0 qm:3 0 \
++                 rdahi=%rdahi rdalo=%rdalo
++}
+ 
+ # Predicate operations
+ %mask_22_13      22:1 13:3
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 3e736e89095..9d4a07c1c0c 100644
+index 9d4a07c1c0c..37af94bd9ea 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1468,3 +1468,41 @@ DO_VSHRN_SAT_UB(vqrshrnb_ub, vqrshrnt_ub, DO_RSHRN_UB)
- DO_VSHRN_SAT_UH(vqrshrnb_uh, vqrshrnt_uh, DO_RSHRN_UH)
- DO_VSHRN_SAT_SB(vqrshrunbb, vqrshruntb, DO_RSHRUN_B)
- DO_VSHRN_SAT_SH(vqrshrunbh, vqrshrunth, DO_RSHRUN_H)
+@@ -1189,6 +1189,25 @@ DO_VADDV(vaddvub, 1, uint8_t)
+ DO_VADDV(vaddvuh, 2, uint16_t)
+ DO_VADDV(vaddvuw, 4, uint32_t)
+ 
++#define DO_VADDLV(OP, TYPE, LTYPE)                              \
++    uint64_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vm, \
++                                    uint64_t ra)                \
++    {                                                           \
++        uint16_t mask = mve_element_mask(env);                  \
++        unsigned e;                                             \
++        TYPE *m = vm;                                           \
++        for (e = 0; e < 16 / 4; e++, mask >>= 4) {              \
++            if (mask & 1) {                                     \
++                ra += (LTYPE)m[H4(e)];                          \
++            }                                                   \
++        }                                                       \
++        mve_advance_vpt(env);                                   \
++        return ra;                                              \
++    }                                                           \
 +
-+uint32_t HELPER(mve_vshlc)(CPUARMState *env, void *vd, uint32_t rdm,
-+                           uint32_t shift)
-+{
-+    uint32_t *d = vd;
-+    uint16_t mask = mve_element_mask(env);
-+    unsigned e;
-+    uint32_t r;
++DO_VADDLV(vaddlv_s, int32_t, int64_t)
++DO_VADDLV(vaddlv_u, uint32_t, uint64_t)
 +
-+    /*
-+     * For each 32-bit element, we shift it left, bringing in the
-+     * low 'shift' bits of rdm at the bottom. Bits shifted out at
-+     * the top become the new rdm, if the predicate mask permits.
-+     * The final rdm value is returned to update the register.
-+     * shift == 0 here means "shift by 32 bits".
-+     */
-+    if (shift == 0) {
-+        for (e = 0; e < 16 / 4; e++, mask >>= 4) {
-+            r = rdm;
-+            if (mask & 1) {
-+                rdm = d[H4(e)];
-+            }
-+            mergemask(&d[H4(e)], r, mask);
-+        }
-+    } else {
-+        uint32_t shiftmask = MAKE_64BIT_MASK(0, shift);
-+
-+        for (e = 0; e < 16 / 4; e++, mask >>= 4) {
-+            r = (d[H4(e)] << shift) | (rdm & shiftmask);
-+            if (mask & 1) {
-+                rdm = d[H4(e)] >> (32 - shift);
-+            }
-+            mergemask(&d[H4(e)], r, mask);
-+        }
-+    }
-+    mve_advance_vpt(env);
-+    return rdm;
-+}
+ /* Shifts by immediate */
+ #define DO_2SHIFT(OP, ESIZE, TYPE, FN)                          \
+     void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd,     \
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index eef4f1f6ce3..460dff260fe 100644
+index 460dff260fe..a2a45036a0b 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -938,3 +938,33 @@ DO_2SHIFT_N(VQRSHRNB_U, vqrshrnb_u)
- DO_2SHIFT_N(VQRSHRNT_U, vqrshrnt_u)
- DO_2SHIFT_N(VQRSHRUNB, vqrshrunb)
- DO_2SHIFT_N(VQRSHRUNT, vqrshrunt)
-+
-+static bool trans_VSHLC(DisasContext *s, arg_VSHLC *a)
+@@ -790,6 +790,69 @@ static bool trans_VADDV(DisasContext *s, arg_VADDV *a)
+     return true;
+ }
+ 
++static bool trans_VADDLV(DisasContext *s, arg_VADDLV *a)
 +{
 +    /*
-+     * Whole Vector Left Shift with Carry. The carry is taken
-+     * from a general purpose register and written back there.
-+     * An imm of 0 means "shift by 32".
++     * Vector Add Long Across Vector: accumulate the 32-bit
++     * elements of the vector into a 64-bit result stored in
++     * a pair of general-purpose registers.
++     * No need to check Qm's bank: it is only 3 bits in decode.
 +     */
-+    TCGv_ptr qd;
-+    TCGv_i32 rdm;
++    TCGv_ptr qm;
++    TCGv_i64 rda;
++    TCGv_i32 rdalo, rdahi;
 +
-+    if (!dc_isar_feature(aa32_mve, s) || !mve_check_qreg_bank(s, a->qd)) {
++    if (!dc_isar_feature(aa32_mve, s)) {
 +        return false;
 +    }
-+    if (a->rdm == 13 || a->rdm == 15) {
-+        /* CONSTRAINED UNPREDICTABLE: we UNDEF */
++    /*
++     * rdahi == 13 is UNPREDICTABLE; rdahi == 15 is a related
++     * encoding; rdalo always has bit 0 clear so cannot be 13 or 15.
++     */
++    if (a->rdahi == 13 || a->rdahi == 15) {
 +        return false;
 +    }
 +    if (!mve_eci_check(s) || !vfp_access_check(s)) {
 +        return true;
 +    }
 +
-+    qd = mve_qreg_ptr(a->qd);
-+    rdm = load_reg(s, a->rdm);
-+    gen_helper_mve_vshlc(rdm, cpu_env, qd, rdm, tcg_constant_i32(a->imm));
-+    store_reg(s, a->rdm, rdm);
-+    tcg_temp_free_ptr(qd);
++    /*
++     * This insn is subject to beat-wise execution. Partial execution
++     * of an A=0 (no-accumulate) insn which does not execute the first
++     * beat must start with the current value of RdaHi:RdaLo, not zero.
++     */
++    if (a->a || mve_skip_first_beat(s)) {
++        /* Accumulate input from RdaHi:RdaLo */
++        rda = tcg_temp_new_i64();
++        rdalo = load_reg(s, a->rdalo);
++        rdahi = load_reg(s, a->rdahi);
++        tcg_gen_concat_i32_i64(rda, rdalo, rdahi);
++        tcg_temp_free_i32(rdalo);
++        tcg_temp_free_i32(rdahi);
++    } else {
++        /* Accumulate starting at zero */
++        rda = tcg_const_i64(0);
++    }
++
++    qm = mve_qreg_ptr(a->qm);
++    if (a->u) {
++        gen_helper_mve_vaddlv_u(rda, cpu_env, qm, rda);
++    } else {
++        gen_helper_mve_vaddlv_s(rda, cpu_env, qm, rda);
++    }
++    tcg_temp_free_ptr(qm);
++
++    rdalo = tcg_temp_new_i32();
++    rdahi = tcg_temp_new_i32();
++    tcg_gen_extrl_i64_i32(rdalo, rda);
++    tcg_gen_extrh_i64_i32(rdahi, rda);
++    store_reg(s, a->rdalo, rdalo);
++    store_reg(s, a->rdahi, rdahi);
++    tcg_temp_free_i64(rda);
 +    mve_update_eci(s);
 +    return true;
 +}
++
+ static bool do_1imm(DisasContext *s, arg_1imm *a, MVEGenOneOpImmFn *fn)
+ {
+     TCGv_ptr qd;
 -- 
 2.20.1
 
