@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C1E3B7022
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 11:35:25 +0200 (CEST)
-Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659B43B7031
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 11:40:51 +0200 (CEST)
+Received: from localhost ([::1]:57466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyA9M-0004Be-Oj
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 05:35:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42370)
+	id 1lyAEb-0006Aw-LG
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 05:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lyA8B-0003FF-L9; Tue, 29 Jun 2021 05:34:12 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lyA83-0006eH-Vh; Tue, 29 Jun 2021 05:34:11 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GDfNP31DNzZnkT;
- Tue, 29 Jun 2021 17:30:45 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 29 Jun 2021 17:33:49 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 29 Jun 2021 17:33:49 +0800
-To: Peter Maydell <peter.maydell@linaro.org>, Eric Auger
- <eric.auger@redhat.com>, "open list:ARM cores" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Subject: [question] Shall we flush ITS tables into guest RAM when shutdown the
- VM?
-Message-ID: <ef4df56d-5b60-99f1-fec6-fe2e62434d3f@huawei.com>
-Date: Tue, 29 Jun 2021 17:33:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lyADM-0005JZ-65
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 05:39:32 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:44796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lyADK-0001zC-IW
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 05:39:31 -0400
+Received: by mail-ej1-x631.google.com with SMTP id l24so5973301ejq.11
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 02:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2m1cm4DNjdxFK97J07+kJqGsdUAHFeoMZD6p9ec3dTs=;
+ b=DgsI38+KTWaigw4Q4tYn+iz7ZMMmc+e8Mz7IWnRyEqwzI1ZaTsMYCDOyKGvBmj8bHh
+ FyHfo7K1plkgSx7hXcqUbS0eg65gZPI/VvBIWDXO/WcFhwah+wUmWwf2h33K2fe1yP6Q
+ AiSsE36DFxrww2oC7gpgE/Ev2NWugr4uZqrtyvbBCfsK8wH6HjeWU2uNpkwA1HHgz3FT
+ BcKfCHCgspub+cM6JH6NltoVkbUkMzwAlF/lQmnHwAlnudD85uw91Y7xG8G9ue9A6M18
+ E1eHuAKK6Z1sEA5s7KjRPZ0JhQ5cwzBudtQB8fYW8FKPv3yj3AFUsHBZdP1UeoIkZ2/b
+ p3YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2m1cm4DNjdxFK97J07+kJqGsdUAHFeoMZD6p9ec3dTs=;
+ b=q+NgJiGNMfyS92pxJC87Zpntk8XPv8P2caYb3xf4Q8F7iEM5Znjof9QKLBXHl+QqNE
+ kn0wLgwnykr6qdzvnxT7M2mP7UK+ZunFCkVhPckaxAXpx7P4RGgcmYGDyo0pzknzX3Da
+ /cIegutGWjzn23n1gGPqs42vHunbOkaehwgrZdwIkVaZ+eoegRRi1khOMkx/FxH1d0ve
+ ofY5tOOKv16NaqmekniWfMbiiCkQO5eOPjZHGGLQKaGmeuFKgFNq5OO56ddL2G69hsU6
+ WEorg5LL0Xo1DPUuVShbx1KSYooVzJgYwTIcGTBPS8GMN/njwoHIfACDf9VazryXtDU+
+ HJWg==
+X-Gm-Message-State: AOAM5323Xjd5S/JS9NCZcFsouxEJjpD83mUvFjBLpcp7ZzHUQB+QhCPE
+ VccpYfplxqfFInhgsYfrAC3XnZrip2GM3GW6V5mXow==
+X-Google-Smtp-Source: ABdhPJwLVelBNDqeZRe4FWYQ7Upvh1ty3HtU8x0P3wuLuo36vBnloNnJW/FrYjR6pZqapK9zEkH3Lgg1cMLvsraNYq8=
+X-Received: by 2002:a17:907:98eb:: with SMTP id
+ ke11mr29411177ejc.85.1624959568867; 
+ Tue, 29 Jun 2021 02:39:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <1624662174-175828-1-git-send-email-joe.komlodi@xilinx.com>
+ <CAFEAcA_vxA12WMi6qdV2_wNiNAKZ4j6-FTKnwfphT7nGznJoYw@mail.gmail.com>
+ <12d4c7de-1346-2aee-75f5-4db729b7f1c7@linaro.org>
+In-Reply-To: <12d4c7de-1346-2aee-75f5-4db729b7f1c7@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 29 Jun 2021 10:38:51 +0100
+Message-ID: <CAFEAcA_BOGSuFBuW_YczvbT1eFRhq9eL4K7f8EaSwjvPfEXmbQ@mail.gmail.com>
+Subject: Re: [PATCH 0/1] target/arm: Check NaN mode before silencing NaN
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,64 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joe Komlodi <joe.komlodi@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+On Mon, 28 Jun 2021 at 16:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/28/21 7:54 AM, Peter Maydell wrote:
+> > Richard, Alex: what is the assertion trying to achieve ? It doesn't
+> > seem entirely obvious to me that because we're in default-NaN mode
+> > (which is a property of the *output* of FPU insns) that we should
+> > blow up on calling float*_silence_nan() (which is typically an action
+> > performed on the *input* of FPU insns).
+>
+> This was in response to e9e5534ff30.
+>
+> My assumption in adding the assert is that it was probably a configuration error.  If you
+> disagree, I suppose we can revert it, as it's not critical.
+>
+> > If we do want to keep the assertion, somebody should audit the
+> > other frontends that use float*_silence_nan() (i386, m68k, s390x)
+> > to see if they also need updating.
+>
+> Easily done.  None of them ever set default_nan mode.
 
-Accroding to the patch cddafd8f353d2d251b1a5c6c948a577a85838582,
-our original intention is to flush the ITS tables into guest RAM at the 
-point
-RUN_STATE_FINISH_MIGRATE, but sometimes the VM gets stopped before
-migration launch so let's simply flush the tables each time the VM gets
-stopped.
+Hmm, I guess this was just Arm, then, and the current code
+is silencing the NaN and then ignoring that result in favour
+of the default NaN, which is a bit unnecessary. Plus, we have
+this patch now thanks to Joe and we don't have the hypothetical
+"drop the assert" patch :-)
 
-But I encountered an error when I shut down the virtual machine.
+Applied to target-arm.next, thanks.
 
-> qemu-system-aarch64: KVM_SET_DEVICE_ATTR failed: Group 4 attr 
-> 0x0000000000000001: Permission denied
-
-Shall we need to flush ITS tables into guest RAM when 'shutdown' the VM?
-Or do you think this error is normal?
-
-This error occurs in the following scenario:
-Kunpeng 920 、enable GICv4、passthrough a accelerator Hisilicon SEC to the 
-VM.
-
-The flow is as follows:
-
-QEMU:
-vm_shutdown
-     do_vm_stop(RUN_STATE_SHUTDOWN)
-         vm_state_notify
-             ...
-             vm_change_state_handler (hw/intc/arm_gicv3_its_kvm.c)
-                 kvm_device_access
-
-Kernel:
-     vgic_its_save_tables_v0
-         vgic_its_save_device_tables
-             vgic_its_save_itt
-
-There is such a code in vgic_its_save_itt():
-> /*
->  * If an LPI carries the HW bit, this means that this
->  * interrupt is controlled by GICv4, and we do not
->  * have direct access to that state without GICv4.1.
->  * Let's simply fail the save operation...
->  */
-> if (ite->irq->hw && !kvm_vgic_global_state.has_gicv4_1)
->           return -EACCES;
-
-Looking forward to your reply.
-
-Thanks,
-Kunkun Jiang
-
-
-
-
-
-
+-- PMM
 
