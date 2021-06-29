@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB543B7753
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 19:36:15 +0200 (CEST)
-Received: from localhost ([::1]:59784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6753B775D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 19:44:51 +0200 (CEST)
+Received: from localhost ([::1]:34272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyHeg-0003UG-EV
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 13:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44678)
+	id 1lyHn0-0005uu-4t
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 13:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lyHdU-0002eA-O0
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:35:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25204)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lyHlS-00058k-JQ
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:43:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lyHdS-00079W-Cl
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:34:59 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lyHlQ-0004Wb-W5
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:43:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624988096;
+ s=mimecast20190719; t=1624988591;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0VUYAEkyTYMnGNanrTQwRxGcQ0SrFYqX1SMgDGPgR4Y=;
- b=bM37UnT9BsCJCcAXSqG7n3/ckZKphEah2qnRLpj1Tkqe1Pii9ITRbWbZbjXu7H0naLNlnw
- SQtm0MwK4rOoJydHuy+lYqpwCWmNz5izlUlRo+sXzjQrNA5S/W1r8jeP0YER4yIsBuZL7P
- r6ihQVimACGa6SzQ3f1skIJrHmScqn4=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-E0pkF8qLMommvrTWcOukqg-1; Tue, 29 Jun 2021 13:34:55 -0400
-X-MC-Unique: E0pkF8qLMommvrTWcOukqg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- c5-20020a17090a1d05b029016f9eccfcd6so2714846pjd.0
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 10:34:55 -0700 (PDT)
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LDRVWxKBMqqARaVm12XdNM+AmH1lo944nq9JrAez+bY=;
+ b=GvrKl0s7l3rjx2K7lVoLP4vTYvBRcO9wfIgxsX8Aajrj54cCxpB5upCMHiPc0o+0SQWh5R
+ pj801CtdTqFuwtQYDSm1NaOVfzy3YDJS7O213XszjgFHq6yMAJ3553M0LMvQODNplrk3o/
+ LLdVStfI8iO01FrgaL1h3Byp2VFXl9Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-V1Pm6Mc-NgWnkolGXWkeag-1; Tue, 29 Jun 2021 13:43:07 -0400
+X-MC-Unique: V1Pm6Mc-NgWnkolGXWkeag-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ u64-20020a1cdd430000b02901ed0109da5fso1585542wmg.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 10:43:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=0VUYAEkyTYMnGNanrTQwRxGcQ0SrFYqX1SMgDGPgR4Y=;
- b=MDxrGOllrWGh4JJPiFTaIXXxPaL7a4zZKhNW9vEJ0vzvrCArQKq9ZN0b5HNWwAv03e
- sJ8jnqvS/KnUFkzgRxXrBQ2VrX4SLCb5NFdJv7EKPN3Vedmkr1HiUXjQDn9cv9JXRHWK
- Q5zii2Zr4qWNjDWjBq5urPSmw4dwkfJyXiJsoeSxLKt+TbXy+uGcOserIkp8fFkQrfFx
- WkSDO72/HitlTjjSpo3Ykm7Gb3iVDoe5pkfKtklh+ccMrGPpTtnt1Og/Uq/qNKKj8PTS
- 4KI+mGUZ7Lxi4iWWXKRbec5SVndKGceTr33ORf5/wUUdxZLYxFiQDQzyLIFF2WqC14Tx
- Usig==
-X-Gm-Message-State: AOAM5335TTh85sCUcqlxqpevxyoCDOYALaInBrnhrsrn3UWr+g2qqz78
- Pok/4Tf4lSeN5IHVjKFNAYtkaEZ5ZGeCjD5GHwzKs5aeUrc8Oqb61iOtennmnlCwKvMhRRRPT/a
- oBpeupn3fooSoCy0=
-X-Received: by 2002:a62:9242:0:b029:300:6fb1:38b7 with SMTP id
- o63-20020a6292420000b02903006fb138b7mr30940062pfd.80.1624988094589; 
- Tue, 29 Jun 2021 10:34:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxJ+iigGUOLzkKk4WG6Tceaohg5aLY0RHTsx/SrMskopGU3gic3AY/84BTFPa2EiufW1K+dA==
-X-Received: by 2002:a62:9242:0:b029:300:6fb1:38b7 with SMTP id
- o63-20020a6292420000b02903006fb138b7mr30940036pfd.80.1624988094327; 
- Tue, 29 Jun 2021 10:34:54 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.105.223.44])
- by smtp.gmail.com with ESMTPSA id m16sm13776097pfo.1.2021.06.29.10.34.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jun 2021 10:34:53 -0700 (PDT)
-Subject: Re: [PATCH v2 09/12] python: add 'make check-dev' invocation
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210629164253.1272763-1-jsnow@redhat.com>
- <20210629164253.1272763-10-jsnow@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <a63f357e-42c4-5385-fa40-82f291efac71@redhat.com>
-Date: Tue, 29 Jun 2021 14:34:47 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=LDRVWxKBMqqARaVm12XdNM+AmH1lo944nq9JrAez+bY=;
+ b=GroxefGgsKCuzjaH6GrGufQe4XOF1A4IhD4+OBF4UiBDibI+z1u7XVHaQ4fz3R8ffu
+ agSqoie2sGBl8XURyh0UMgl0EXN/Pn0Oi7VyfXBRQVlrTcZvY+qqMS+y6YPd1b2awf96
+ MPkCnkzxRy1bdSGQLoz5LnX+74Q3kctOjG8Xe2XP+Q9FhW5xLDcZLDwPFe/e3FVEVb8c
+ y5f0LVwkVPeOX7n7haXXpJofRqAB06ywXebv5emrwAOkIcAAwnqrRWC3acQd65l9FuyI
+ Y4KKgO18T+9ONNtInPXSplyNGCeQ43LfkKRF1WtNPN2j/F2Ps6DBmAAd9igkZVXbFH7N
+ lJ8g==
+X-Gm-Message-State: AOAM533IPG0IJdqdFlfXB/iqJCsXcyNqWWpxtIf5mppvTkRPL3GAi5wB
+ FZjfElpHyN+uP6iWHc20mSD6ZldPftMXsSRXIgp0q0hC8f1FlxDFlhO+4g5d9qG7xB7iQ1ls9Zr
+ QXoFxgCMTG++XsHA=
+X-Received: by 2002:a05:6000:114a:: with SMTP id
+ d10mr34628147wrx.7.1624988585609; 
+ Tue, 29 Jun 2021 10:43:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyW1RKj/VqKQdAOKrz9XqRkhybLChc/Ii4OiYKcE0AMlnYs9P7i9U1z712IVQFmpmLXtZDkqQ==
+X-Received: by 2002:a05:6000:114a:: with SMTP id
+ d10mr34628117wrx.7.1624988585329; 
+ Tue, 29 Jun 2021 10:43:05 -0700 (PDT)
+Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
+ by smtp.gmail.com with ESMTPSA id l15sm19090363wrt.47.2021.06.29.10.43.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Jun 2021 10:43:04 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] migration: failover: reset partially_hotplugged
+In-Reply-To: <20210629152937.619193-1-lvivier@redhat.com> (Laurent Vivier's
+ message of "Tue, 29 Jun 2021 17:29:37 +0200")
+References: <20210629152937.619193-1-lvivier@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Date: Tue, 29 Jun 2021 19:43:03 +0200
+Message-ID: <87r1gkk1nc.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20210629164253.1272763-10-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,125 +96,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: quintela@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 6/29/21 1:42 PM, John Snow wrote:
-> This is a *third* way to run the Python tests. Unlike the first two
-> (check-pipenv, check-tox), this version does not require any specific
-> interpreter version -- making it a lot easier to tell people to run it
-> as a quick smoketest prior to submission to GitLab CI.
+Laurent Vivier <lvivier@redhat.com> wrote:
+> When the card is plugged back, reset the partially_hotplugged flag to false
 >
-> Summary:
->
->    Checked via GitLab CI:
->      - check-pipenv: tests our oldest python & dependencies
->      - check-tox: tests newest dependencies on all non-EOL python versions
->    Executed only incidentally:
->      - check-dev: tests newest dependencies on whichever python version
->
-> ('make check' does not set up any environment at all, it just runs the
-> tests in your current environment. All four invocations perform the
-> exact same tests, just in different execution environments.)
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> Bug: https://bugzilla.redhat.com/show_bug.cgi?id=1787194
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 > ---
->   python/Makefile | 35 +++++++++++++++++++++++++++++++++--
->   1 file changed, 33 insertions(+), 2 deletions(-)
+>  hw/net/virtio-net.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/python/Makefile b/python/Makefile
-> index d34c4e35d9..8f8e1999c0 100644
-> --- a/python/Makefile
-> +++ b/python/Makefile
-> @@ -1,3 +1,5 @@
-> +QEMU_VENV_DIR=.dev-venv
-> +
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index bd7958b9f0ee..16d20cdee52a 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3234,6 +3234,7 @@ static bool failover_replug_primary(VirtIONet *n, DeviceState *dev,
+>          }
+>          hotplug_handler_plug(hotplug_ctrl, dev, &err);
+>      }
+> +    pdev->partially_hotplugged = false;
+>  
+>  out:
+>      error_propagate(errp, err);
 
-I gave `make check-dev` a try and `tests/flake8.sh` failed, because it 
-is checking the python sources from the $QEMU_VENV_DIR itself.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Either we keep $QEMU_VENV_DIR outside (as in the v1 series) or ...
 
-   diff --git a/python/tests/flake8.sh b/python/tests/flake8.sh
-   index 51e0788462..1cd7d40fad 100755
-   --- a/python/tests/flake8.sh
-   +++ b/python/tests/flake8.sh
-   @@ -1,2 +1,2 @@
-    #!/bin/sh -e
-   -python3 -m flake8
-   +python3 -m flake8 qemu/
+But while we are at this:
+- In case hotplug_handler_pre_plug() fails, we don't reset it.
+  No, I have no clue what is the right thing to in that error case.
+  We have already plugged it once, so it should work (famous last
+  words).
 
-... to ensure flake8 parses only the files from the 'qemu' directory 
-(btw, this is how tests/pylint.sh is configured). I prefer the later.
+- Independent of this patch, we check if hotplug_ctrl is NULL, but
+  nothing else on the tree check for that.
+  Ok, device_set_realize() check it, but nothing else, except network
+  failover.  I can't see how we are going to be able to arrive there and
+  not having it, though.
 
->   .PHONY: help
->   help:
->   	@echo "python packaging help:"
-> @@ -14,6 +16,11 @@ help:
->   	@echo "    Requires: Python 3.6 - 3.10, and tox."
->   	@echo "    Hint (Fedora): 'sudo dnf install python3-tox python3.10'"
->   	@echo ""
-> +	@echo "make check-dev:"
-> +	@echo "    Run tests in a venv against your default python3 version."
-> +	@echo "    These tests use the newest dependencies."
-> +	@echo "    Requires: Python 3.x"
-> +	@echo ""
->   	@echo "make develop:    Install deps for 'make check', and"
->   	@echo "                 the qemu libs in editable/development mode."
->   	@echo ""
-> @@ -22,6 +29,9 @@ help:
->   	@echo "make pipenv"
->   	@echo "    Creates pipenv's virtual environment (.venv)"
->   	@echo ""
-> +	@echo "make dev-venv"
-> +	@echo "    Creates a simple venv for check-dev. ($(QEMU_VENV_DIR))"
-> +	@echo ""
->   	@echo "make clean:      remove package build output."
->   	@echo ""
->   	@echo "make distclean:  remove venv files, qemu package forwarder,"
-> @@ -38,9 +48,30 @@ pipenv: .venv
->   check-pipenv: pipenv
->   	@pipenv run make check
->   
-> +.PHONY: dev-venv
-> +dev-venv: $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate
-> +$(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
-> +	@echo "VENV $(QEMU_VENV_DIR)"
-> +	@python3 -m venv $(QEMU_VENV_DIR)
-> +	@(							\
-> +		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
-> +		. $(QEMU_VENV_DIR)/bin/activate;		\
-> +		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
-> +		make develop 1>/dev/null;			\
-> +	)
-> +	@touch $(QEMU_VENV_DIR)
-> +
-> +.PHONY: check-dev
-> +check-dev: dev-venv
-> +	@(							\
-> +		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
-> +		. $(QEMU_VENV_DIR)/bin/activate;		\
-> +		make check;					\
-> +	)
-> +
->   .PHONY: develop
->   develop:
-> -	pip3 install -e .[devel]
-> +	pip3 install --disable-pip-version-check -e .[devel]
->   
->   .PHONY: check
->   check:
-> @@ -56,4 +87,4 @@ clean:
->   
->   .PHONY: distclean
->   distclean: clean
-> -	rm -rf qemu.egg-info/ .venv/ .tox/ dist/
-> +	rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
+Later, Juan.
+
+
 
 
