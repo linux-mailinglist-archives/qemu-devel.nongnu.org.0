@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485EF3B78D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:45:05 +0200 (CEST)
-Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26B03B78D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:48:38 +0200 (CEST)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJfM-0001Dq-AE
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:45:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39504)
+	id 1lyJid-0007Ac-Pr
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyIwD-0003xH-Vz
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:58:26 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:46886)
+ id 1lyIwH-0003yj-Hj
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:58:30 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyIwA-0002wu-TR
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:58:25 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- b5-20020a17090a9905b029016fc06f6c5bso3081661pjp.5
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:58:22 -0700 (PDT)
+ id 1lyIwC-0002xZ-7r
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:58:29 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id q91so142980pjk.3
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nkUwvYz/H7E5G0Q9SrKLVPmT+1u2d8aWX4+EJ+0VG1o=;
- b=VK8QqAfDxNWf3pwj17kQSMHzB0I7Pr/P3JtXMyAUmY68wabdQvi1VaZ5PB88BWAM9P
- R0ylYoV8SyOHXxWxnZwuwgBaymk4VAebLb1jC45wSzlD8pZG05g+yJLvAue6gu30hU8E
- b7cqxiG/x3LEl4IYpsCyRXw0n1EfpI/AZHJBvSkL7dxhcsSrzCye+JmV4DPbavqmvr3v
- uBsYt8Orq1hPKRdGvXk45QfClFgmAP2XPHRk+46G92Fjfxbi3CqAPX2ZZ0FR3iV71oya
- 2f+O+rOBe0fYomBRBlqrzQrgkHeDz5izUTDaZPBIszBrH20KOas7+OYicFvy0c8eHX1N
- EtdA==
+ bh=fXrizxcUnvvf6PXr7Yc72AhaPXA1gSYgiDq85iqI09c=;
+ b=eXW4prePy3Lf1Se7IA+P5zotkPGKPaWBvHrZhZO8vxGR8al4hnb6+3HBfnuQURsG7X
+ OBhdjyoQMFuOGV5zq76NGKHbwiwUvvLPKzJv1L/PT5zbXGrTok4GPvZxgIhoJSwAv17L
+ 9byE/q4MTgWtlmYDjLqaEGDcHcvCjxGJh/KgQ9r01HpimWuwCb4oRaUhrcSNdVtckHub
+ OIjel75mtskoI5nC8sC+jnOtCgGPZpsCDqJNN111nP9qX1w1baNJBO1LdeltPQe1ir7N
+ j6bp5iy3PHvXbY1XVsrekl45Ms1FMVgtqR56sTGdjsfymH/GBt1bZyJIW3G0tvCTyF0D
+ QrKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nkUwvYz/H7E5G0Q9SrKLVPmT+1u2d8aWX4+EJ+0VG1o=;
- b=Xy+nLWApB6NbatgW91qSFzlepZtSM0wbDHfhQ7bmP7QTwnc52f35r8fPvkVIlRQxAG
- f0GoLkpHZF+NfRhmd8fuF6xGavp31OLbPtrJhP2LPdGOQDjMgCD0cPDoNyknUwWFB+Ao
- En0tu5D/fe+EnoRjFOtzME42+ovFEWm9g5y8wk7LMVmXAWGti2fhgMZ0vE6KvVDg/WrZ
- KCZAky2EsR6kqSMkM8esHVn689C730bHMLp49TqSFchjM7I/QQ6p5HzuPYkhYDVtjJ1j
- QeLMMOOTxXUrWomL2vRRANVHKidA7GBoUX3rNfwjJsUfo/sp+kLpahIzZlY5l0tg2+Ah
- 1QiA==
-X-Gm-Message-State: AOAM5325xpCiJetO4ve5yO14QLomZRZ4niyGPe7ZNVAqpJ0KihxIVeMP
- veiijcWPY4+qt8x/B3W9w+qQeL/rFm+PMA==
-X-Google-Smtp-Source: ABdhPJwtR7/Dgm3TRY8zvC+7cmziNJcDQ/uJFgIMJYbW0T8ryh9K6DG72oZSkWRYtHdK9lFDbRmCKQ==
-X-Received: by 2002:a17:902:c602:b029:127:a3a2:4951 with SMTP id
- r2-20020a170902c602b0290127a3a24951mr25460046plr.65.1624993101477; 
- Tue, 29 Jun 2021 11:58:21 -0700 (PDT)
+ bh=fXrizxcUnvvf6PXr7Yc72AhaPXA1gSYgiDq85iqI09c=;
+ b=bn/bAQVv/bA820j4KWUqzMGdhkCTE+A+GM+r9Yj3LT2rA/Q7+3WOphBpf83G0sZpVO
+ HtLwDL8VUIUOwqV3nxSdmzXTL/BcFZJ5ecvw5UG1axb4FPAGqRC5iMSchElIaNl4/5Qn
+ 4nKsXS+spYQCNrk7W2wAHOQe2FgFNJ5ZTz2rDmdgzNc9RfHprHF9+VQdPgHstaGi9ZK6
+ Vso6e+V032+9NxSy7+DOjIdhFSf2uslVjcfofEdD17gR+kvttocuORFlEse5q9xlPJ0X
+ /aC+n+GUU2Y9kry8pHXNxEdY1T48BwHuHz3kUhIxsuGECjI8y0Y6qa1qPIpoFRqQ5lQV
+ 0LwQ==
+X-Gm-Message-State: AOAM532Y9O8uCpGd0ZJNSH09bXDglgNX+PXX9AHe0I4NatXEm+/hBrob
+ 6aIueu0flu/CwAad9oIEZRXfytSNx7HS8A==
+X-Google-Smtp-Source: ABdhPJzzT0VVa16mNM96q6eXvjPvg0iqxYcafpjW/4oEAa/UNJljcvYhMs9EzjhbwsohY5Byrz8yNQ==
+X-Received: by 2002:a17:902:e548:b029:124:5738:cd9b with SMTP id
+ n8-20020a170902e548b02901245738cd9bmr28555466plf.37.1624993102375; 
+ Tue, 29 Jun 2021 11:58:22 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id 21sm18002849pfh.103.2021.06.29.11.58.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 11:58:21 -0700 (PDT)
+ Tue, 29 Jun 2021 11:58:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/63] tcg/ppc: Split out tcg_out_ext{8,16,32}s
-Date: Tue, 29 Jun 2021 11:54:32 -0700
-Message-Id: <20210629185455.3131172-41-richard.henderson@linaro.org>
+Subject: [PULL 41/63] tcg/ppc: Split out tcg_out_sari{32,64}
+Date: Tue, 29 Jun 2021 11:54:33 -0700
+Message-Id: <20210629185455.3131172-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210629185455.3131172-1-richard.henderson@linaro.org>
 References: <20210629185455.3131172-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,88 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will shortly require these in other context;
-make the expansion as clear as possible.
+We will shortly require sari in other context;
+split out both for cleanliness sake.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.c.inc | 31 +++++++++++++++++++++----------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+ tcg/ppc/tcg-target.c.inc | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 795701442b..aa35ff8250 100644
+index aa35ff8250..50347182d7 100644
 --- a/tcg/ppc/tcg-target.c.inc
 +++ b/tcg/ppc/tcg-target.c.inc
-@@ -738,6 +738,21 @@ static inline void tcg_out_rlw(TCGContext *s, int op, TCGReg ra, TCGReg rs,
-     tcg_out32(s, op | RA(ra) | RS(rs) | SH(sh) | MB(mb) | ME(me));
+@@ -768,6 +768,12 @@ static inline void tcg_out_shli64(TCGContext *s, TCGReg dst, TCGReg src, int c)
+     tcg_out_rld(s, RLDICR, dst, src, c, 63 - c);
  }
  
-+static inline void tcg_out_ext8s(TCGContext *s, TCGReg dst, TCGReg src)
++static inline void tcg_out_sari32(TCGContext *s, TCGReg dst, TCGReg src, int c)
 +{
-+    tcg_out32(s, EXTSB | RA(dst) | RS(src));
++    /* Limit immediate shift count lest we create an illegal insn.  */
++    tcg_out32(s, SRAWI | RA(dst) | RS(src) | SH(c & 31));
 +}
 +
-+static inline void tcg_out_ext16s(TCGContext *s, TCGReg dst, TCGReg src)
-+{
-+    tcg_out32(s, EXTSH | RA(dst) | RS(src));
-+}
-+
-+static inline void tcg_out_ext32s(TCGContext *s, TCGReg dst, TCGReg src)
-+{
-+    tcg_out32(s, EXTSW | RA(dst) | RS(src));
-+}
-+
- static inline void tcg_out_ext32u(TCGContext *s, TCGReg dst, TCGReg src)
+ static inline void tcg_out_shri32(TCGContext *s, TCGReg dst, TCGReg src, int c)
  {
-     tcg_out_rld(s, RLDICL, dst, src, 0, 32);
-@@ -2322,7 +2337,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const int const_args[TCG_MAX_OP_ARGS])
+     tcg_out_rlw(s, RLWINM, dst, src, 32 - c, c, 31);
+@@ -778,6 +784,11 @@ static inline void tcg_out_shri64(TCGContext *s, TCGReg dst, TCGReg src, int c)
+     tcg_out_rld(s, RLDICL, dst, src, 64 - c, c);
+ }
+ 
++static inline void tcg_out_sari64(TCGContext *s, TCGReg dst, TCGReg src, int c)
++{
++    tcg_out32(s, SRADI | RA(dst) | RS(src) | SH(c & 0x1f) | ((c >> 4) & 2));
++}
++
+ /* Emit a move into ret of arg, if it can be done in one insn.  */
+ static bool tcg_out_movi_one(TCGContext *s, TCGReg ret, tcg_target_long arg)
  {
-     TCGArg a0, a1, a2;
--    int c;
- 
-     switch (opc) {
-     case INDEX_op_exit_tb:
-@@ -2390,7 +2404,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ld8s_i32:
-     case INDEX_op_ld8s_i64:
-         tcg_out_mem_long(s, LBZ, LBZX, args[0], args[1], args[2]);
--        tcg_out32(s, EXTSB | RS(args[0]) | RA(args[0]));
-+        tcg_out_ext8s(s, args[0], args[0]);
+@@ -2601,8 +2612,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
          break;
-     case INDEX_op_ld16u_i32:
-     case INDEX_op_ld16u_i64:
-@@ -2728,18 +2742,15 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     case INDEX_op_ext8s_i32:
-     case INDEX_op_ext8s_i64:
--        c = EXTSB;
--        goto gen_ext;
-+        tcg_out_ext8s(s, args[0], args[1]);
-+        break;
-     case INDEX_op_ext16s_i32:
-     case INDEX_op_ext16s_i64:
--        c = EXTSH;
--        goto gen_ext;
-+        tcg_out_ext16s(s, args[0], args[1]);
-+        break;
-     case INDEX_op_ext_i32_i64:
-     case INDEX_op_ext32s_i64:
--        c = EXTSW;
--        goto gen_ext;
--    gen_ext:
--        tcg_out32(s, c | RS(args[1]) | RA(args[0]));
-+        tcg_out_ext32s(s, args[0], args[1]);
+     case INDEX_op_sar_i32:
+         if (const_args[2]) {
+-            /* Limit immediate shift count lest we create an illegal insn.  */
+-            tcg_out32(s, SRAWI | RS(args[1]) | RA(args[0]) | SH(args[2] & 31));
++            tcg_out_sari32(s, args[0], args[1], args[2]);
+         } else {
+             tcg_out32(s, SRAW | SAB(args[1], args[0], args[2]));
+         }
+@@ -2690,8 +2700,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
          break;
-     case INDEX_op_extu_i32_i64:
-         tcg_out_ext32u(s, args[0], args[1]);
+     case INDEX_op_sar_i64:
+         if (const_args[2]) {
+-            int sh = SH(args[2] & 0x1f) | (((args[2] >> 5) & 1) << 1);
+-            tcg_out32(s, SRADI | RA(args[0]) | RS(args[1]) | sh);
++            tcg_out_sari64(s, args[0], args[1], args[2]);
+         } else {
+             tcg_out32(s, SRAD | SAB(args[1], args[0], args[2]));
+         }
 -- 
 2.25.1
 
