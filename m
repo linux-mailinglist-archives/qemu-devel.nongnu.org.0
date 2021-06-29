@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5693B7327
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 15:25:16 +0200 (CEST)
-Received: from localhost ([::1]:50410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EF03B732E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 15:27:26 +0200 (CEST)
+Received: from localhost ([::1]:53074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyDjn-0002i2-Jy
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 09:25:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37560)
+	id 1lyDlt-0004kT-9W
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 09:27:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyDiJ-000134-5n
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:23:43 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:46041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyDiG-0002Cl-Q6
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:23:42 -0400
-Received: by mail-ed1-x531.google.com with SMTP id t3so9744874edt.12
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 06:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q3yGFca07Tv8cwQ++E5DMHd7Vw+rvKlsvxS5TOV3rmE=;
- b=P/3Zk6k+XAfV78h4c6tXseXbr87XVZ0aAKK3BcAOCs51IyYYFdHX23RgE+Pca8jQWJ
- OvR/x+7R6XgbKAWFxf7u34MqccQ60xYc1fceV96D2QiCduAsgh/EaRxJYuEer4xyj9dA
- XANmwVJDpGVdVQOVxgbvyvxv3H0p7MA8RV8ao1nDp+BeJnqPDj5jyL58cPlimr+n9paR
- BdiOn2D+sWNugiNIL0S4CMCRHvTP+AmoAnkGuBo2LYluVYB66k1VUJdswC5oinmv3CLm
- z8P4blbr1oLlj5akDgyJuLyqMDge7zVTpieXGGGKrEh6skvLOP6J9OLbbd6QdHn0qa8B
- S9Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q3yGFca07Tv8cwQ++E5DMHd7Vw+rvKlsvxS5TOV3rmE=;
- b=rjm1dS5nl6hjvacWAmDJdg7jcpb9P0VXlCd07KDLo5q+QvE0eymek48QwS6waAg07j
- Inu3Da8cvd+h1Mv8cc5g9fO96bkZLD/E10OEBJWWlJPZmgdF3mWJTw1VF9O+4Vy/dLHZ
- 28yxQkt6w6J6Gfd3/eQj2rNnpEb1V4Y5pO11YSKBa3TM/rHBBzcYSbuFeWzR80+w/aja
- Ae7p0xae1JG0orFV9gYY641Qt7Q9So95ZVlnIvHH+2WfnpJj3hr2tH68E+jORNq+kc6x
- v0C7TWZEI8KT2ysejv3ZrfKVxBaT3jgRUDiS45KgBgJagvbdmj6j0QFk0iL6mID7CAJV
- g7sQ==
-X-Gm-Message-State: AOAM530UlJaRLOM9JA/p+dZYRSUYWUE6pYqY+aV56DQv2ZQz9wbt/p9+
- 9MVcYlowebu0JHjxhnKNGRDwdTeOK7xf/emG9U0Zkg==
-X-Google-Smtp-Source: ABdhPJwEhl51SL/S8KB9ybRd7ZhgW7tH/wBeSNWZNb9iOcIt7Jo+AQHM0jWuYJ37WwODVge6Gc5hpfDSdw14HpxLY8s=
-X-Received: by 2002:aa7:c644:: with SMTP id z4mr39792171edr.204.1624973019064; 
- Tue, 29 Jun 2021 06:23:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
+ id 1lyDjQ-0002x5-0L
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:24:52 -0400
+Received: from mout.gmx.net ([212.227.15.15]:41953)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
+ id 1lyDjN-0002wV-Mt
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:24:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1624973085;
+ bh=jf/fnRubEY8AHqepPvhUUFcsci2Zuw6SRetbWg3+2Js=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=WVRmZAsILSjEzPBEr85u5wQivKi2uxc1WdYtTQ7vwHrijb+B1PjgvXDdCjFuMbrBw
+ dAlSxov5leMCAXMBB4mSf+/Iq6xk3ueaGGdExEHCzIuJXZ4vCMVLMJ9QifmAVN30zg
+ u+kEEcJY+fiInBWbgzK5hpQ9oa1s7g+2tsUrIKfs=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([88.130.62.147]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MRTN9-1ld5q408sX-00NV7w; Tue, 29 Jun 2021 15:24:45 +0200
+From: =?UTF-8?q?Dennis=20W=C3=B6lfing?= <denniswoelfing@gmx.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ui/gtk: Fix relative mouse with multiple monitors
+Date: Tue, 29 Jun 2021 15:24:10 +0200
+Message-Id: <20210629132410.286813-1-denniswoelfing@gmx.de>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210616091244.33049-1-ysato@users.sourceforge.jp>
- <20210616091244.33049-4-ysato@users.sourceforge.jp>
-In-Reply-To: <20210616091244.33049-4-ysato@users.sourceforge.jp>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Jun 2021 14:23:01 +0100
-Message-ID: <CAFEAcA9n8D0GbMv9B_k=Z_B6x1wyseSAGhTEoTxAd0RW51MX2Q@mail.gmail.com>
-Subject: Re: [PATCH 3/3] hw/sh4: sh7750 using renesas_sci.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:XwzDDChQ/VFiFyKMJDX45gJkotxxG+LES467Zr/lIK9cZzwdZjy
+ j7EAbdJBB1wvQBg12RGC0UNJ8jK0GC44Hdtr/frWXDHu6rwpfNsRlNr62ahMT6eNg4+Jkjr
+ 6XCAssJGlgfqwvIfGZawb6/YGT1cE4IbTJDZIFLVXceBvMImBQhoj29nc5jdJMv0X0Hfo6O
+ 6Q3I/YC9mulO369pTHwpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VQYnSAhMA4k=:YkuAj0gtD1sScJ7y+ojmB+
+ i4Vxawy+TWUpRo3J8fwdaA+Y46j+n89JhsspWO7vk095p/NycGh9WMocopAzMlC1XCw1vLJen
+ HUZY7TQORGSg8KQdCxE/lFzr6AsbwAxUTcT/nS5gxVX10+U3nORqDz3Dm8rqJ6xuRa3lVExx2
+ 9cpx2HAO93DEtGJxV3EfTYFjcj+eFOw+tlR9Jr3tjGmqrhE8al3EyRIJ4L8pho6/2zecZOWmf
+ NiIVMNAszyGvTc/c57LXfU2bmH8maExwrcgbHANg9vM5A11GxXnpVz4H1tC0ybMlAIDLWDWsT
+ qddyuWZTyxvMVhnPvvgoLqieOWzgKpostem5PVdKDHC6Kzd9RN+eP0Ehqv1T3JsvrMCmG5C4/
+ Zr4evCdkwTbYiEIpeohViPTP0vfpiy8PcI+4e2qpgFi+V94Yrl5i/0xeAHGcAK7RPt4Tpx9KQ
+ H4mYpNJ5oIg9vXlqkQCiTxGaLib91kQwZir+YwgfSPmRZA4I2iNkpj60s2OnQpHMvFEc//aOe
+ xF5ropGnZ6reoQx/l25iLgOdPB9xCKGTjMLypEqU05HSBuZSEPuY0nCwRIp/O44vQUCoKiVcX
+ t3HsceVt7YaYYjrkBflLSiraTZqXQfWyQAUJzD8imMbgO0hpIaFfX0Qk0LZn/XM62qwq8oYt3
+ shfVEeCdc3ehY69NtilgHgR7TvX0iJDYVwHu7I3b6OQ4Hjzw+sP9C6LJPsCpP/iAUqTWYLTjK
+ v7AGNPYQyxV9XdF7Y7vEU7DQfZgCyZ+jxITPMLQfNka8J7PbcD8agW40cexgFzZHWDJnowFQ0
+ bgenO3zM15z8iDz+wdjsjw9PueO21kUiuLL6RMbBjh/qS7FhVpDp4OieRv130gRcAmAfBr8Kg
+ DDUEozEIU+Vlp8sGhTTd26c3W+RtQOPJweXBVzzmAQGQ8tm9LzJlOZNiPreIsRdCL0ouMcfZJ
+ 6+6ABKtXgNT3I+RDeLDM0zdomDrjqNoEBfG4VaCDC5difVBff081zaX67n0ZSrEkOenocSt9t
+ CIQeTrTBEYfjsjSvH4tjcBkkXz3u1oYQ1gs1xs5AG+xTi1/R/Zm9ZhORF5hIbuSavkoMX6vyR
+ LbHABXjNf2JxtmInNrE7XW5WUWQZWnNE3qp1d5M5vx57iyS/WYUn9ENMQ==
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=denniswoelfing@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,167 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Dennis=20W=C3=B6lfing?= <denniswoelfing@gmx.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Jun 2021 at 10:14, Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
->
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->  include/hw/sh4/sh.h |  8 --------
->  hw/sh4/sh7750.c     | 41 +++++++++++++++++++++++++++++++++++++++++
->  hw/sh4/Kconfig      |  2 +-
->  3 files changed, 42 insertions(+), 9 deletions(-)
->
-> diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
-> index becb596979..74e1ba59a8 100644
-> --- a/include/hw/sh4/sh.h
-> +++ b/include/hw/sh4/sh.h
-> @@ -55,14 +55,6 @@ int sh7750_register_io_device(struct SH7750State *s,
->
->  /* sh_serial.c */
->  #define SH_SERIAL_FEAT_SCIF (1 << 0)
-> -void sh_serial_init(MemoryRegion *sysmem,
-> -                    hwaddr base, int feat,
-> -                    uint32_t freq, Chardev *chr,
-> -                    qemu_irq eri_source,
-> -                    qemu_irq rxi_source,
-> -                    qemu_irq txi_source,
-> -                    qemu_irq tei_source,
-> -                    qemu_irq bri_source);
+To handle relative mouse input the event handler needs to move the mouse
+away from the screen edges. Failing to do so results in the mouse
+getting stuck at invisible walls. However the current implementation for
+this is broken on hosts with multiple monitors.
 
-This change means that the code in sh_serial.c will no longer compile,
-because it has a non-static function with no previous prototype.
-The patch as a whole compiles because the change to hw/sh4/Kconfig
-file removes the selection of SH_SCI and so we never try to
-compile sh_serial.c. But we shouldn't leave dead code around in
-the tree.
+With multiple monitors the mouse can be located outside of the current
+monitor which is not handled by the current code. Also the monitor
+itself might be located at coordinates different from (0, 0).
 
-Option A:
-I guess the idea is to avoid having to rename sh_serial_init(),
-which makes sense. If you want to take this route, then
-in this patch we should mention that in the commit message,
-something like:
+Signed-off-by: Dennis W=C3=B6lfing <denniswoelfing@gmx.de>
+=2D--
+ ui/gtk.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-===begin===
-hw/sh4: Switch sh7750 to new renesas-sci devices
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 98046f577b..5258532b19 100644
+=2D-- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -865,33 +865,30 @@ static gboolean gd_motion_event(GtkWidget *widget, G=
+dkEventMotion *motion,
+         GdkWindow *win =3D gtk_widget_get_window(widget);
+         GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, wi=
+n);
+         GdkRectangle geometry;
+-        int screen_width, screen_height;
 
-Switch the sh7750 away from the old serial device implementation
-in sh_serial.c to use the new renesas-sci devices.
+         int x =3D (int)motion->x_root;
+         int y =3D (int)motion->y_root;
 
-Note that deleting the prototype for sh_serial_init() means that
-sh_serial.c will no longer be able to compile (it would hit a
-warning about having a non-static function without a previous
-prototype). This is OK because we remove the only place that
-was selecting the SH_SCI Kconfig feature, so we won't attempt
-to compile that source file. In the following commit, we will
-delete the file entirely.
+         gdk_monitor_get_geometry(monitor, &geometry);
+-        screen_width =3D geometry.width;
+-        screen_height =3D geometry.height;
 
-===end===
+         /* In relative mode check to see if client pointer hit
+-         * one of the screen edges, and if so move it back by
++         * one of the monitor edges, and if so move it back by
+          * 200 pixels. This is important because the pointer
+          * in the server doesn't correspond 1-for-1, and so
+          * may still be only half way across the screen. Without
+          * this warp, the server pointer would thus appear to hit
+          * an invisible wall */
+-        if (x =3D=3D 0) {
+-            x +=3D 200;
++        if (x <=3D geometry.x) {
++            x =3D geometry.x + 200;
+         }
+-        if (y =3D=3D 0) {
+-            y +=3D 200;
++        if (y <=3D geometry.y) {
++            y =3D geometry.y + 200;
+         }
+-        if (x =3D=3D (screen_width - 1)) {
+-            x -=3D 200;
++        if (x - geometry.x >=3D (geometry.width - 1)) {
++            x =3D geometry.x + (geometry.width - 1) - 200;
+         }
+-        if (y =3D=3D (screen_height - 1)) {
+-            y -=3D 200;
++        if (y - geometry.y >=3D (geometry.height - 1)) {
++            y =3D geometry.y + (geometry.height - 1) - 200;
+         }
 
-Then in a new patch to go after this one, remove:
- * the file sh_serial.c itself
- * the "config SH_SCI" section in hw/char/Kconfig
- * the line for sh_serial.c in hw/char/meson.build
+         if (x !=3D (int)motion->x_root || y !=3D (int)motion->y_root) {
+=2D-
+2.32.0
 
-
-Option B: would be to give your new sh7750.c function a different
-name than sh_serial_init() (eg sci_init()) and change the two
-callsites in this patch. Then you could keep the old sh_serial_init()
-prototype in this patch and delete it as part of the new "remove
-sh_serial.c" patch (which is where removal of the prototype more
-logically belongs.)
-
-I don't mind which of the two you go for.
-
->  /* sh7750.c */
->  qemu_irq sh7750_irl(struct SH7750State *s);
-> diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
-> index d53a436d8c..1ef8b73c65 100644
-> --- a/hw/sh4/sh7750.c
-> +++ b/hw/sh4/sh7750.c
-> @@ -24,6 +24,7 @@
->   */
->
->  #include "qemu/osdep.h"
-> +#include "qapi/error.h"
->  #include "hw/irq.h"
->  #include "hw/sh4/sh.h"
->  #include "sysemu/sysemu.h"
-> @@ -32,6 +33,8 @@
->  #include "hw/sh4/sh_intc.h"
->  #include "hw/timer/tmu012.h"
->  #include "exec/exec-all.h"
-> +#include "hw/char/renesas_sci.h"
-> +#include "hw/qdev-properties.h"
->
->  #define NB_DEVICES 4
->
-> @@ -752,6 +755,44 @@ static const MemoryRegionOps sh7750_mmct_ops = {
->      .endianness = DEVICE_NATIVE_ENDIAN,
->  };
->
-> +static void sh_serial_init(MemoryRegion *sysmem,
-> +                           hwaddr base, int feat,
-> +                           uint32_t freq, Chardev *chr,
-> +                           qemu_irq eri_source,
-> +                           qemu_irq rxi_source,
-> +                           qemu_irq txi_source,
-> +                           qemu_irq tei_source,
-> +                           qemu_irq bri_source)
-> +{
-> +    RenesasSCIBaseState *sci;
-> +    char ckname[16];
-> +
-> +    switch(feat) {
-> +    case 0: /* SCI */
-> +        sci = RENESAS_SCI_BASE(qdev_new(TYPE_RENESAS_SCI));
-> +        snprintf(ckname, sizeof(ckname), "pck_sci");
-> +        break;
-> +    case SH_SERIAL_FEAT_SCIF:
-> +        sci = RENESAS_SCI_BASE(qdev_new(TYPE_RENESAS_SCIF));
-> +        snprintf(ckname, sizeof(ckname), "pck_scif");
-> +        break;
-> +    }
-
-The ckname[] array seems to be set but never used ?
-
-Since you never use 'sci' as a RenesasSCIBaseState, you could
-instead declare
-
-   Device *sci;
-
-and then
-   sci = qdev_new(TYPE_RENESAS_whatever);
-
-and avoid some of the DEVICE() casts below.
-
-You might also prefer to have a SysBusDevice *sbd which you
-can then set with
-   sbd = SYS_BUS_DEVICE(sci);
-and use sbd instead of casting every time you need it.
-
-> +    qdev_prop_set_chr(DEVICE(sci), "chardev", chr);
-> +    qdev_prop_set_uint32(DEVICE(sci), "register-size", SCI_REGWIDTH_32);
-> +    qdev_prop_set_uint64(DEVICE(sci), "input-freq", freq);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 0, eri_source);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 1, rxi_source);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 2, txi_source);
-> +    if (tei_source)
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(sci), 3, tei_source);
-> +    if (bri_source)
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(sci), 3, bri_source);
-
-QEMU coding style requires braces for all if statements, even when
-they're only one line.
-
-> +    sysbus_realize(SYS_BUS_DEVICE(sci), &error_abort);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 0, base);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 1, P4ADDR(base));
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 2, A7ADDR(base));
-> +}
-
-thanks
--- PMM
 
