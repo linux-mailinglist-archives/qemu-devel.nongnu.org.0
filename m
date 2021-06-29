@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5F33B789A
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:28:20 +0200 (CEST)
-Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA3C3B7859
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:13:15 +0200 (CEST)
+Received: from localhost ([::1]:52028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJP9-0002uj-6s
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36918)
+	id 1lyJAY-0005hx-Ow
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:13:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyInM-0001zy-3M; Tue, 29 Jun 2021 14:49:16 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:46723)
+ id 1lyInQ-00026O-41; Tue, 29 Jun 2021 14:49:20 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:57869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyInH-0005fY-Dx; Tue, 29 Jun 2021 14:49:15 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 47C102B00AC6;
- Tue, 29 Jun 2021 14:48:49 -0400 (EDT)
+ id 1lyInO-0005kf-86; Tue, 29 Jun 2021 14:49:19 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id B27022B00AC9;
+ Tue, 29 Jun 2021 14:48:55 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 29 Jun 2021 14:48:50 -0400
+ by compute6.internal (MEProxy); Tue, 29 Jun 2021 14:48:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=vio4zXWSjN0xE
- KlqJ4Ey4Vu/JZKT1Pv2y4bfNe5vWjM=; b=ZeEia5MbSCo+SD7bcrsYbmbuCs/IV
- lX2rAShBDyFTPUKFRFjGZtWWt1ptGkOZ8alk/DptHFHDjgGzL61BF1B7JzSDkiOl
- 7kmVTgvyd8zSmDP3064C2qvC4dPud5LNjqEfA+uvXlZUtXNmPkCdQini8bgxXfGr
- b5ApTs2GftzF+cZ+7VA9o5zAS89deRYRMXhxUU+k1u5AG6cVCX2RF6dHbIchSKtd
- yi4F1RsPzFD7BESr3+vfplnNECiRnTSkI65pm3i5fhCICC8RbTIF/dYuBpIjwBCR
- i6fPya23qgzn7zug8SUmlrCWvd/Q2qnrQC94cnZHKQer0GEJNKCJ0Yt/Q==
+ :mime-version:content-transfer-encoding; s=fm3; bh=I8VlBmrxV4OB7
+ HuvEgWJH7oyQEZhZg8hJWmu/RUDCdw=; b=iQ6lEA2qgZxVu8fOl5HRDYTg9pH9A
+ IaMiBbIzVe9JOAXlPQgSqLZGhEQWjei8qZBtEWwAko2zdPGix5F6sOVWb2lfKveW
+ /4rwbNFeZDOaP+9449+gWq+epOTtN9JAtxDBGifR8kOLi7LAPI9CFX1UcI4W6mOW
+ VPM97TFsvDMTbXDJT2yPW6dO0VRoSt3VSZOJc92ITXBeljDHaULJ5uhgs3d9QOaj
+ cLyl0OB1uFfv3ZC19CPIHiqQ/ilL2JdaJvFunSq0LmsdxAmLkLNM7Pr2yRO5QONc
+ W82q9IyGz+w3GIishNk4ZjPCLR0N+I/5V0eFnwxXAlO/U9Ux2YpOB6V2w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=vio4zXWSjN0xEKlqJ4Ey4Vu/JZKT1Pv2y4bfNe5vWjM=; b=iK68hWd7
- kgSSBQf6nov3iIU7QVejR216n27NOPoLwuVga1RpKLiEaMlam6IMyWPjodzqj3rC
- ui9a67w/XPaMsykGtSHhOBBFJH7dJPQkQShZqEZ/vJpWchNQ/Deo57I5XjKOQYoZ
- Tbcco0NjPHKKA8xmT+hQZU1uLrWlVEFFI9aMY72aX9WfEfsVSNmO5H59XY6xoDHp
- Co0Wmo4cvRZQOkmPomxeFaB8sQSi+Ja0TViwOteLCuBEJWlHPPn5s1msiJH9CyGu
- D3Y0kuJqNtwRSHHxtXh8Auoguk3uDNIxajPzUxXhCOiQNL2s9Fw9SfaJB0wExnhu
- dEeNzxJOgCX5Rg==
-X-ME-Sender: <xms:D2vbYGYwO9AD875h0D98cu91BFUIeU2IanOq3Mo1KnzOgkVoROtT_w>
- <xme:D2vbYJZbrTCTd6veeypaqblWbfo3fpK39wK1z8rH8Qh30JY1B4DOHWbkNnGMKza4H
- JDHl9XMv3NtQQzsg34>
-X-ME-Received: <xmr:D2vbYA8bwfMSIryEl-2-qOGuAbQh6K_DBfi0qS3taB5sFMpUTLjxh9fD1WugYLxUU1reFVYAQgtZNQ1jvUDUYDRjmsjGyGXRrbTgr6FVQA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleehucetufdoteggodetrfdotf
+ fm3; bh=I8VlBmrxV4OB7HuvEgWJH7oyQEZhZg8hJWmu/RUDCdw=; b=r3+4AJ/X
+ dS6LoqSH0Euh1B/60NL8FVXVup/0HpTRZcyQv7avD/3hS+rFM4fX7BJ1cTZoR9D5
+ mYuYrGNxY2c1uU4eZeVPdkj3U3gENehkG4+yXsE6Zz2/rSH2F3OmqYPKlpLzvh43
+ ppOC0somTmVnV84hQ+vXqM+pzAsjsLxBJK4lgceBtj+sJC9JzlEIWwpR7hHqXQi8
+ dk1kYNHNVb2CuwtA2oplEA3jR6Dr6tgmczxScSazbXaA9l54uzx4b4LNHMVyU+2x
+ 34Tp+YZ+jIeUG3g7nwJWrhpeYRvCUwdpbHs4qU96LDu1rQ7ssCkHXa+VMPN85qtW
+ us2+iguO/NhYvQ==
+X-ME-Sender: <xms:F2vbYCDVeZLKbfO194UlJY-1Wsbrly5i5KfYXTvhYwbNozgtIYIHhA>
+ <xme:F2vbYMia0FTiI5wNSjJPpHg2CfEG3jq4elE8CHr8mU85rJHaVXllA7dtJbGZFELqk
+ 4blJ8YFHq772NsflkA>
+X-ME-Received: <xmr:F2vbYFnvoZ8Q4QM5-pzFUJ93w2LZqUfiLLj9ttV3dyjUTmQHHZZD5hmcjcIpyHh5vwxKWfwYjWbV_VMki3KMJxWRNTQxBcYonbtj0dJuyA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:D2vbYIprP4CWKseGmqzadeDxrWufOT9-FIAFQmPHrzSr-u0Hg4il4A>
- <xmx:D2vbYBqKGqGI9bZV7miv84shRLmA3PRB-tcBBkqEX9HyhlOXC28hCg>
- <xmx:D2vbYGTFPs1OdA3BJUb1fuqQZgszPn3WcgjSgDqGTu10w8Trtt6Hcw>
- <xmx:D2vbYOjW_wBBb6KFL-ULE8NKVDgG-jacBw6ULUtZdh4g0y8PJsDMtX5yt3g>
+X-ME-Proxy: <xmx:F2vbYAxL7I08Fs2En-tin6qjXoeza2x8tXqvF4dwuRFbnFzBWZh99w>
+ <xmx:F2vbYHSAXIycRObbcLaT8Z3Gg5adD71Cnv-YoGjgB6c2Y1NDo5ln3Q>
+ <xmx:F2vbYLaFoWJBHRGlr9gDbQ1MyZy5xd_mDGdCpU23ZuKLvOpoS7jeEA>
+ <xmx:F2vbYPZxHGPwya2--uDq3vBxZ2X-O25wRzNZXvaRzplRxiq0LuBhI3NTbPQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:48:46 -0400 (EDT)
+ 29 Jun 2021 14:48:53 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 17/23] hw/nvme: reimplement format nvm to allow cancellation
-Date: Tue, 29 Jun 2021 20:47:37 +0200
-Message-Id: <20210629184743.230173-18-its@irrelevant.dk>
+Subject: [PULL 19/23] hw/nvme: fix endianess conversion and add controller list
+Date: Tue, 29 Jun 2021 20:47:39 +0200
+Message-Id: <20210629184743.230173-20-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
@@ -94,383 +94,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Prior to this patch, the aios associated with broadcast format are
-submitted anonymously (no aiocb reference saved from the blk_aio call).
+Add the controller identifiers list CNS 0x13, available list of ctrls
+in NVM Subsystem that may or may not be attached to namespaces.
 
-Fix this by formatting the namespaces one after another, saving a
-reference to the aiocb for each.
+In Identify Ctrl List of the CNS 0x12 and 0x13 no endian conversion
+for the nsid field.
 
+These two CNS values shows affect when there exists a Subsystem.
+Added condition if there is no Subsystem return invalid field in
+command.
+
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/nvme/ctrl.c       | 289 +++++++++++++++++++++++--------------------
- hw/nvme/trace-events |   4 +-
- 2 files changed, 156 insertions(+), 137 deletions(-)
+ include/block/nvme.h |  1 +
+ hw/nvme/ctrl.c       | 26 ++++++++++++++++++--------
+ hw/nvme/trace-events |  2 +-
+ 3 files changed, 20 insertions(+), 9 deletions(-)
 
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 0fabe28b7bdd..527105fafc0b 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -988,6 +988,7 @@ enum NvmeIdCns {
+     NVME_ID_CNS_NS_PRESENT_LIST       = 0x10,
+     NVME_ID_CNS_NS_PRESENT            = 0x11,
+     NVME_ID_CNS_NS_ATTACHED_CTRL_LIST = 0x12,
++    NVME_ID_CNS_CTRL_LIST             = 0x13,
+     NVME_ID_CNS_CS_NS_PRESENT_LIST    = 0x1a,
+     NVME_ID_CNS_CS_NS_PRESENT         = 0x1b,
+     NVME_ID_CNS_IO_COMMAND_SET        = 0x1c,
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 5b550ec1a1b4..3b8c542db6e7 100644
+index 6a0c2cc48422..541c0819d5b0 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -1924,42 +1924,6 @@ out:
-     nvme_rw_complete_cb(req, ret);
+@@ -4449,9 +4449,11 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+     return NVME_INVALID_CMD_SET | NVME_DNR;
  }
  
--struct nvme_aio_format_ctx {
--    NvmeRequest   *req;
--    NvmeNamespace *ns;
--
--    /* number of outstanding write zeroes for this namespace */
--    int *count;
--};
--
--static void nvme_aio_format_cb(void *opaque, int ret)
--{
--    struct nvme_aio_format_ctx *ctx = opaque;
--    NvmeRequest *req = ctx->req;
--    NvmeNamespace *ns = ctx->ns;
--    uintptr_t *num_formats = (uintptr_t *)&req->opaque;
--    int *count = ctx->count;
--
--    g_free(ctx);
--
--    if (ret) {
--        nvme_aio_err(req, ret);
--    }
--
--    if (--(*count)) {
--        return;
--    }
--
--    g_free(count);
--    ns->status = 0x0;
--
--    if (--(*num_formats)) {
--        return;
--    }
--
--    nvme_enqueue_req_completion(nvme_cq(req), req);
--}
--
- static void nvme_verify_cb(void *opaque, int ret)
+-static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n, NvmeRequest *req,
++                                        bool attached)
  {
-     NvmeBounceContext *ctx = opaque;
-@@ -5272,30 +5236,98 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_SUCCESS;
- }
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
++    uint32_t nsid = le32_to_cpu(c->nsid);
+     uint16_t min_id = le16_to_cpu(c->ctrlid);
+     uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
+     uint16_t *ids = &list[1];
+@@ -4459,15 +4461,21 @@ static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
+     NvmeCtrl *ctrl;
+     int cntlid, nr_ids = 0;
  
--static uint16_t nvme_format_ns(NvmeCtrl *n, NvmeNamespace *ns, uint8_t lbaf,
--                               uint8_t mset, uint8_t pi, uint8_t pil,
--                               NvmeRequest *req)
--{
--    int64_t len, offset;
--    struct nvme_aio_format_ctx *ctx;
--    BlockBackend *blk = ns->blkconf.blk;
--    uint16_t ms;
--    uintptr_t *num_formats = (uintptr_t *)&req->opaque;
--    int *count;
-+typedef struct NvmeFormatAIOCB {
-+    BlockAIOCB common;
-+    BlockAIOCB *aiocb;
-+    QEMUBH *bh;
-+    NvmeRequest *req;
-+    int ret;
+-    trace_pci_nvme_identify_ns_attached_list(min_id);
++    trace_pci_nvme_identify_ctrl_list(c->cns, min_id);
  
-+    NvmeNamespace *ns;
-+    uint32_t nsid;
-+    bool broadcast;
-+    int64_t offset;
-+} NvmeFormatAIOCB;
-+
-+static void nvme_format_bh(void *opaque);
-+
-+static void nvme_format_cancel(BlockAIOCB *aiocb)
-+{
-+    NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
-+
-+    if (iocb->aiocb) {
-+        blk_aio_cancel_async(iocb->aiocb);
-+    }
-+}
-+
-+static const AIOCBInfo nvme_format_aiocb_info = {
-+    .aiocb_size = sizeof(NvmeFormatAIOCB),
-+    .cancel_async = nvme_format_cancel,
-+    .get_aio_context = nvme_get_aio_context,
-+};
-+
-+static void nvme_format_set(NvmeNamespace *ns, NvmeCmd *cmd)
-+{
-+    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-+    uint8_t lbaf = dw10 & 0xf;
-+    uint8_t pi = (dw10 >> 5) & 0x7;
-+    uint8_t mset = (dw10 >> 4) & 0x1;
-+    uint8_t pil = (dw10 >> 8) & 0x1;
-+
-+    trace_pci_nvme_format_set(ns->params.nsid, lbaf, mset, pi, pil);
-+
-+    ns->id_ns.dps = (pil << 3) | pi;
-+    ns->id_ns.flbas = lbaf | (mset << 4);
-+
-+    nvme_ns_init_format(ns);
-+}
-+
-+static void nvme_format_ns_cb(void *opaque, int ret)
-+{
-+    NvmeFormatAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeNamespace *ns = iocb->ns;
-+    int bytes;
-+
-+    if (ret < 0) {
-+        iocb->ret = ret;
-+        goto done;
-+    }
-+
-+    assert(ns);
-+
-+    if (iocb->offset < ns->size) {
-+        bytes = MIN(BDRV_REQUEST_MAX_BYTES, ns->size - iocb->offset);
-+
-+        iocb->aiocb = blk_aio_pwrite_zeroes(ns->blkconf.blk, iocb->offset,
-+                                            bytes, BDRV_REQ_MAY_UNMAP,
-+                                            nvme_format_ns_cb, iocb);
-+
-+        iocb->offset += bytes;
-+        return;
-+    }
-+
-+    nvme_format_set(ns, &req->cmd);
-+    ns->status = 0x0;
-+    iocb->ns = NULL;
-+    iocb->offset = 0;
-+
-+done:
-+    iocb->aiocb = NULL;
-+    qemu_bh_schedule(iocb->bh);
-+}
-+
-+static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
-+{
-     if (ns->params.zoned) {
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
--    trace_pci_nvme_format_ns(nvme_cid(req), nvme_nsid(ns), lbaf, mset, pi, pil);
--
-     if (lbaf > ns->id_ns.nlbaf) {
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
--    ms = ns->id_ns.lbaf[lbaf].ms;
--
--    if (pi && (ms < sizeof(NvmeDifTuple))) {
-+    if (pi && (ns->id_ns.lbaf[lbaf].ms < sizeof(NvmeDifTuple))) {
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
-@@ -5303,107 +5335,96 @@ static uint16_t nvme_format_ns(NvmeCtrl *n, NvmeNamespace *ns, uint8_t lbaf,
+-    if (c->nsid == NVME_NSID_BROADCAST) {
++    if (!n->subsys) {
          return NVME_INVALID_FIELD | NVME_DNR;
      }
  
--    nvme_ns_drain(ns);
--    nvme_ns_shutdown(ns);
--    nvme_ns_cleanup(ns);
--
--    ns->id_ns.dps = (pil << 3) | pi;
--    ns->id_ns.flbas = lbaf | (mset << 4);
--
--    nvme_ns_init_format(ns);
--
--    ns->status = NVME_FORMAT_IN_PROGRESS;
--
--    len = ns->size;
--    offset = 0;
--
--    count = g_new(int, 1);
--    *count = 1;
--
--    (*num_formats)++;
--
--    while (len) {
--        ctx = g_new(struct nvme_aio_format_ctx, 1);
--        ctx->req = req;
--        ctx->ns = ns;
--        ctx->count = count;
--
--        size_t bytes = MIN(BDRV_REQUEST_MAX_BYTES, len);
--
--        (*count)++;
--
--        blk_aio_pwrite_zeroes(blk, offset, bytes, BDRV_REQ_MAY_UNMAP,
--                              nvme_aio_format_cb, ctx);
--
--        offset += bytes;
--        len -= bytes;
--
--    }
--
--    if (--(*count)) {
--        return NVME_NO_COMPLETE;
--    }
--
--    g_free(count);
--    ns->status = 0x0;
--    (*num_formats)--;
--
-     return NVME_SUCCESS;
- }
+-    ns = nvme_subsys_ns(n->subsys, c->nsid);
+-    if (!ns) {
+-        return NVME_INVALID_FIELD | NVME_DNR;
++    if (attached) {
++        if (nsid == NVME_NSID_BROADCAST) {
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
++
++        ns = nvme_subsys_ns(n->subsys, nsid);
++        if (!ns) {
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
+     }
  
--static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
-+static void nvme_format_bh(void *opaque)
- {
--    NvmeNamespace *ns;
-+    NvmeFormatAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeCtrl *n = nvme_ctrl(req);
-     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
--    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-     uint8_t lbaf = dw10 & 0xf;
--    uint8_t mset = (dw10 >> 4) & 0x1;
-     uint8_t pi = (dw10 >> 5) & 0x7;
--    uint8_t pil = (dw10 >> 8) & 0x1;
--    uintptr_t *num_formats = (uintptr_t *)&req->opaque;
-     uint16_t status;
-     int i;
- 
--    trace_pci_nvme_format(nvme_cid(req), nsid, lbaf, mset, pi, pil);
-+    if (iocb->ret < 0) {
-+        goto done;
-+    }
- 
--    /* 1-initialize; see the comment in nvme_dsm */
--    *num_formats = 1;
--
--    if (nsid != NVME_NSID_BROADCAST) {
--        if (!nvme_nsid_valid(n, nsid)) {
--            return NVME_INVALID_NSID | NVME_DNR;
--        }
--
--        ns = nvme_ns(n, nsid);
--        if (!ns) {
--            return NVME_INVALID_FIELD | NVME_DNR;
--        }
--
--        status = nvme_format_ns(n, ns, lbaf, mset, pi, pil, req);
--        if (status && status != NVME_NO_COMPLETE) {
--            req->status = status;
--        }
--    } else {
--        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
--            ns = nvme_ns(n, i);
--            if (!ns) {
--                continue;
--            }
--
--            status = nvme_format_ns(n, ns, lbaf, mset, pi, pil, req);
--            if (status && status != NVME_NO_COMPLETE) {
--                req->status = status;
-+    if (iocb->broadcast) {
-+        for (i = iocb->nsid + 1; i <= NVME_MAX_NAMESPACES; i++) {
-+            iocb->ns = nvme_ns(n, i);
-+            if (iocb->ns) {
-+                iocb->nsid = i;
-                 break;
-             }
+     for (cntlid = min_id; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
+@@ -4476,7 +4484,7 @@ static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
+             continue;
          }
-     }
  
--    /* account for the 1-initialization */
--    if (--(*num_formats)) {
--        return NVME_NO_COMPLETE;
-+    if (!iocb->ns) {
-+        goto done;
-     }
+-        if (!nvme_ns(ctrl, c->nsid)) {
++        if (attached && !nvme_ns(ctrl, nsid)) {
+             continue;
+         }
  
--    return req->status;
-+    status = nvme_format_check(iocb->ns, lbaf, pi);
-+    if (status) {
-+        req->status = status;
-+        goto done;
-+    }
-+
-+    iocb->ns->status = NVME_FORMAT_IN_PROGRESS;
-+    nvme_format_ns_cb(iocb, 0);
-+    return;
-+
-+done:
-+    qemu_bh_delete(iocb->bh);
-+    iocb->bh = NULL;
-+
-+    iocb->common.cb(iocb->common.opaque, iocb->ret);
-+
-+    qemu_aio_unref(iocb);
-+}
-+
-+static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeFormatAIOCB *iocb;
-+    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-+    uint16_t status;
-+
-+    iocb = qemu_aio_get(&nvme_format_aiocb_info, NULL, nvme_misc_cb, req);
-+
-+    iocb->req = req;
-+    iocb->bh = qemu_bh_new(nvme_format_bh, iocb);
-+    iocb->ret = 0;
-+    iocb->ns = NULL;
-+    iocb->nsid = 0;
-+    iocb->broadcast = (nsid == NVME_NSID_BROADCAST);
-+    iocb->offset = 0;
-+
-+    if (!iocb->broadcast) {
-+        if (!nvme_nsid_valid(n, nsid)) {
-+            status = NVME_INVALID_NSID | NVME_DNR;
-+            goto out;
-+        }
-+
-+        iocb->ns = nvme_ns(n, nsid);
-+        if (!iocb->ns) {
-+            status = NVME_INVALID_FIELD | NVME_DNR;
-+            goto out;
-+        }
-+    }
-+
-+    req->aiocb = &iocb->common;
-+    qemu_bh_schedule(iocb->bh);
-+
-+    return NVME_NO_COMPLETE;
-+
-+out:
-+    qemu_bh_delete(iocb->bh);
-+    iocb->bh = NULL;
-+    qemu_aio_unref(iocb);
-+    return status;
- }
- 
- static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+@@ -4703,7 +4711,9 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_ID_CNS_NS_PRESENT:
+         return nvme_identify_ns(n, req, false);
+     case NVME_ID_CNS_NS_ATTACHED_CTRL_LIST:
+-        return nvme_identify_ns_attached_list(n, req);
++        return nvme_identify_ctrl_list(n, req, true);
++    case NVME_ID_CNS_CTRL_LIST:
++        return nvme_identify_ctrl_list(n, req, false);
+     case NVME_ID_CNS_CS_NS:
+         return nvme_identify_ns_csi(n, req, true);
+     case NVME_ID_CNS_CS_NS_PRESENT:
 diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index dc00c2860db7..48d10c36e85b 100644
+index 48d10c36e85b..f9a1f14e2638 100644
 --- a/hw/nvme/trace-events
 +++ b/hw/nvme/trace-events
-@@ -10,9 +10,7 @@ pci_nvme_map_sgl(uint8_t typ, uint64_t len) "type 0x%"PRIx8" len %"PRIu64""
- pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid 0x%"PRIx32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
- pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
- pci_nvme_flush_ns(uint32_t nsid) "nsid 0x%"PRIx32""
--pci_nvme_format(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
--pci_nvme_format_ns(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
--pci_nvme_format_cb(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
-+pci_nvme_format_set(uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
- pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+@@ -51,7 +51,7 @@ pci_nvme_identify(uint16_t cid, uint8_t cns, uint16_t ctrlid, uint8_t csi) "cid
+ pci_nvme_identify_ctrl(void) "identify controller"
+ pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+-pci_nvme_identify_ns_attached_list(uint16_t cntid) "cntid=%"PRIu16""
++pci_nvme_identify_ctrl_list(uint8_t cns, uint16_t cntid) "cns 0x%"PRIx8" cntid %"PRIu16""
+ pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
 -- 
 2.32.0
 
