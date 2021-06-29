@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEE63B76A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 18:48:08 +0200 (CEST)
-Received: from localhost ([::1]:54142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5753B76C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 18:58:22 +0200 (CEST)
+Received: from localhost ([::1]:57044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyGu7-0000XR-S7
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 12:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58282)
+	id 1lyH41-0004yI-HR
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 12:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGpd-00044N-OQ
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42238)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGq6-0004rd-O2
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGpb-0006Ic-NU
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGq4-0006cn-VI
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624985007;
+ s=mimecast20190719; t=1624985036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=emjkXwqBmLJF9zml7sAZeaRTSo4CACfJI13O28Bhw80=;
- b=YvyH7CnoiL/U0lhPpHlqqGAkieOsPZnNdfe5PFi/JyJnCPaZ+zhx0hO8952m/BRbdjN0RP
- IGDsYTC3foIggxLWVg4blehf/zMDEFtUSYMAJReVV9BREkqwRmUbbyDZVTu6Gl6iEp7P+p
- DXhRJiyv/GgX2D1uAT2ZxPK85/Xcpzs=
+ bh=aSnVjssN9hhZDxOZoZJVWS8SyrnuMV9LR95vpjh5sBM=;
+ b=Mz4YmTf5T03uRU+BoyoL+OK1FPsSot/lD77q03e8JFOySruyCWNqTZkD25e+XrKLKx/sET
+ f1PZb8wkG24/9+0wNmkXK32I3rJYv/ndhCp3NGR//HSkk1SXvBhWsjGXO5URhAVbxAn1zE
+ rJXnhBIgMk1H2zQx8Af7iFm7u86fuK8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-3B3lnhjQOG6MpZUNrq4-zw-1; Tue, 29 Jun 2021 12:43:25 -0400
-X-MC-Unique: 3B3lnhjQOG6MpZUNrq4-zw-1
+ us-mta-117-_HzOmGaVMQ-kmC4THzgizA-1; Tue, 29 Jun 2021 12:43:26 -0400
+X-MC-Unique: _HzOmGaVMQ-kmC4THzgizA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49E571F1C9;
- Tue, 29 Jun 2021 16:43:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 704651084F54;
+ Tue, 29 Jun 2021 16:43:25 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B535E715;
- Tue, 29 Jun 2021 16:43:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70061163C6;
+ Tue, 29 Jun 2021 16:43:24 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/12] python: Fix .PHONY Make specifiers
-Date: Tue, 29 Jun 2021 12:42:49 -0400
-Message-Id: <20210629164253.1272763-9-jsnow@redhat.com>
+Subject: [PATCH v2 09/12] python: add 'make check-dev' invocation
+Date: Tue, 29 Jun 2021 12:42:50 -0400
+Message-Id: <20210629164253.1272763-10-jsnow@redhat.com>
 In-Reply-To: <20210629164253.1272763-1-jsnow@redhat.com>
 References: <20210629164253.1272763-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,59 +85,98 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I missed the 'check-tox' target. Add that, but split the large .PHONY
-specifier at the top into its component pieces and move them near the
-targets they describe so that they're much harder to forget to update.
+This is a *third* way to run the Python tests. Unlike the first two
+(check-pipenv, check-tox), this version does not require any specific
+interpreter version -- making it a lot easier to tell people to run it
+as a quick smoketest prior to submission to GitLab CI.
+
+Summary:
+
+  Checked via GitLab CI:
+    - check-pipenv: tests our oldest python & dependencies
+    - check-tox: tests newest dependencies on all non-EOL python versions
+  Executed only incidentally:
+    - check-dev: tests newest dependencies on whichever python version
+
+('make check' does not set up any environment at all, it just runs the
+tests in your current environment. All four invocations perform the
+exact same tests, just in different execution environments.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/Makefile | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ python/Makefile | 35 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
 
 diff --git a/python/Makefile b/python/Makefile
-index d2cfa6ad8f..d34c4e35d9 100644
+index d34c4e35d9..8f8e1999c0 100644
 --- a/python/Makefile
 +++ b/python/Makefile
-@@ -1,5 +1,4 @@
--.PHONY: help pipenv check-pipenv check clean distclean develop
--
-+.PHONY: help
+@@ -1,3 +1,5 @@
++QEMU_VENV_DIR=.dev-venv
++
+ .PHONY: help
  help:
  	@echo "python packaging help:"
+@@ -14,6 +16,11 @@ help:
+ 	@echo "    Requires: Python 3.6 - 3.10, and tox."
+ 	@echo "    Hint (Fedora): 'sudo dnf install python3-tox python3.10'"
  	@echo ""
-@@ -29,25 +28,32 @@ help:
- 	@echo "                 built distribution files, and everything"
- 	@echo "                 from 'make clean'."
- 
-+.PHONY: pipenv
- pipenv: .venv
- .venv: Pipfile.lock
- 	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
- 	@touch .venv
- 
-+.PHONY: check-pipenv
++	@echo "make check-dev:"
++	@echo "    Run tests in a venv against your default python3 version."
++	@echo "    These tests use the newest dependencies."
++	@echo "    Requires: Python 3.x"
++	@echo ""
+ 	@echo "make develop:    Install deps for 'make check', and"
+ 	@echo "                 the qemu libs in editable/development mode."
+ 	@echo ""
+@@ -22,6 +29,9 @@ help:
+ 	@echo "make pipenv"
+ 	@echo "    Creates pipenv's virtual environment (.venv)"
+ 	@echo ""
++	@echo "make dev-venv"
++	@echo "    Creates a simple venv for check-dev. ($(QEMU_VENV_DIR))"
++	@echo ""
+ 	@echo "make clean:      remove package build output."
+ 	@echo ""
+ 	@echo "make distclean:  remove venv files, qemu package forwarder,"
+@@ -38,9 +48,30 @@ pipenv: .venv
  check-pipenv: pipenv
  	@pipenv run make check
  
-+.PHONY: develop
++.PHONY: dev-venv
++dev-venv: $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate
++$(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
++	@echo "VENV $(QEMU_VENV_DIR)"
++	@python3 -m venv $(QEMU_VENV_DIR)
++	@(							\
++		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
++		. $(QEMU_VENV_DIR)/bin/activate;		\
++		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
++		make develop 1>/dev/null;			\
++	)
++	@touch $(QEMU_VENV_DIR)
++
++.PHONY: check-dev
++check-dev: dev-venv
++	@(							\
++		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
++		. $(QEMU_VENV_DIR)/bin/activate;		\
++		make check;					\
++	)
++
+ .PHONY: develop
  develop:
- 	pip3 install -e .[devel]
+-	pip3 install -e .[devel]
++	pip3 install --disable-pip-version-check -e .[devel]
  
-+.PHONY: check
+ .PHONY: check
  check:
- 	@avocado --config avocado.cfg run tests/
+@@ -56,4 +87,4 @@ clean:
  
-+.PHONY: check-tox
- check-tox:
- 	@tox
- 
-+.PHONY: clean
- clean:
- 	python3 setup.py clean --all
- 
-+.PHONY: distclean
+ .PHONY: distclean
  distclean: clean
- 	rm -rf qemu.egg-info/ .venv/ .tox/ dist/
+-	rm -rf qemu.egg-info/ .venv/ .tox/ dist/
++	rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
 -- 
 2.31.1
 
