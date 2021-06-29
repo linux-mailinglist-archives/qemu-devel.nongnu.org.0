@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8C73B7376
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 15:47:22 +0200 (CEST)
-Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87ACB3B7378
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 15:47:38 +0200 (CEST)
+Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyE5A-0008D6-Tt
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 09:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41136)
+	id 1lyE5R-0000Bv-DL
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 09:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lyDy5-00049t-Fg
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:40:01 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:59794
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lyDy1-0004KH-TC
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:40:01 -0400
-HMM_SOURCE_IP: 172.18.0.48:50414.1447535983
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-125.69.43.101?logid-1ed94964eb2a4b1eab273f92c2ac1cf2
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 2328A280083;
- Tue, 29 Jun 2021 21:39:56 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id d5d805394ee54584bff531ea2f6dcf37 for
- qemu-devel@nongnu.org; Tue Jun 29 21:39:56 2021
-X-Transaction-ID: d5d805394ee54584bff531ea2f6dcf37
-X-filter-score: 
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel@nongnu.org
-Subject: [PATCH v11 6/6] migration/dirtyrate: implement dirty-ring dirtyrate
- calculation
-Date: Tue, 29 Jun 2021 21:39:18 +0800
-Message-Id: <19e9f8f6064d20b704aa316ba271097a4cb4335e.1624973150.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1624973150.git.huangy81@chinatelecom.cn>
-References: <cover.1624973150.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1624973150.git.huangy81@chinatelecom.cn>
-References: <cover.1624973150.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lyE0s-0002Ml-Ej
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:42:54 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:39440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lyE0o-00066r-Nw
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:42:53 -0400
+Received: by mail-ej1-x636.google.com with SMTP id yy20so28689516ejb.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 06:42:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p17HE7hDXce1n71AxYOWi1oO24J4ufK5itugnEo8N/A=;
+ b=IYrqnt2wFxvMkkXrUdXpS86MovSv0rp8yvrimNExoO0BW+78ez92UzSkj2HA5JHqqA
+ QUQIIjas7O2B60gWT8Iy1q9Ej1g/4pgzm8dlht0xG/Il1k1ZaWN4nKlewlEb7F9h99zq
+ uoy5c+VVOvYVuIg4sGeWPVgXbEgtCeYkpLIHC2iBOBt8BFELRw3WLwq5fnkJnvQYcSFm
+ NoOptCWSwnLcPYF57dwmIxQgTa/uLPyyro5rq77wY/Efc0tMsoyvltQ8P1MBy/eT0wF1
+ 0BBtS4olcQp21Y3AF7r5rEUj36zvIuMcx6Fn1tfHvFaFqtYl62H1p2BQ3MTS0uvgLAn4
+ fTyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p17HE7hDXce1n71AxYOWi1oO24J4ufK5itugnEo8N/A=;
+ b=Op2yoohIY+rX710tqh+XRKHXAGLvsRypaRjpsVR91SkjTsX4rRCp5y7qMlxmnpnPby
+ 6Rl6uAoo4S4PTWolT9SCIUHQd4Ws66qjjRnenf/6lsW9LAJz1qGWcwMYG4Z9/xwgMTFr
+ PSLrMD17VTgmXUGXPl/XiP9rkWeoB8mxgb9y6Swia2UTqF+fLBkC8WMBIqFXlhHAOVco
+ ye5EXnH4pxCNSIVcLNqKjfa5mSc2pPNbGiLhySc9vxbCbY+KesUnvrj/uWg1Itv2rxZB
+ orupwOqHnZdrJRVIX5Gvu9N+ps7Gb0OL24VI3oh9zineteoIhwH8E9TqmlKPqY4gYfwp
+ W4Yw==
+X-Gm-Message-State: AOAM5300fypG/uY/upSbvCg3rI2HSyQQGw8GR5U0fPGJMKr1Gx/PvcHW
+ HgxRg2Kt3gtJOmk9GHtP5QH53N0bO0X2tw9U29+cxg==
+X-Google-Smtp-Source: ABdhPJxyJ/R8euBl43viH0kFhqcvo/fi6ugvJjvTvzj05mzP3zdQOAEWncrUa833EJ0wzRwUWOZtR6G5Ya8HgUK5epM=
+X-Received: by 2002:a17:907:a064:: with SMTP id
+ ia4mr30376630ejc.482.1624974169075; 
+ Tue, 29 Jun 2021 06:42:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
+ <1624881885-31692-21-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1624881885-31692-21-git-send-email-gaosong@loongson.cn>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 29 Jun 2021 14:42:12 +0100
+Message-ID: <CAFEAcA_swZQG=XCGN4U4XfqrvK2poJw33oEC-5NDFtU3dT1ZuQ@mail.gmail.com>
+Subject: Re: [PATCH 20/20] target/loongarch: Add linux-user emulation support
+To: Song Gao <gaosong@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,432 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Bibo Mao <maobibo@loongson.cn>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Mon, 28 Jun 2021 at 13:05, Song Gao <gaosong@loongson.cn> wrote:
+>
+> Add files to linux-user/loongarch64
+> Add file to default-configs
+> Add loongarch to target/meson.build
+>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>  MAINTAINERS                                        |   1 +
+>  default-configs/targets/loongarch64-linux-user.mak |   4 +
+>  include/elf.h                                      |   2 +
+>  linux-user/elfload.c                               |  58 ++++
+>  linux-user/loongarch64/cpu_loop.c                  | 177 ++++++++++++
+>  linux-user/loongarch64/signal.c                    | 193 +++++++++++++
+>  linux-user/loongarch64/sockbits.h                  |   1 +
+>  linux-user/loongarch64/syscall_nr.h                | 307 +++++++++++++++++++++
+>  linux-user/loongarch64/target_cpu.h                |  36 +++
+>  linux-user/loongarch64/target_elf.h                |  14 +
+>  linux-user/loongarch64/target_fcntl.h              |  12 +
+>  linux-user/loongarch64/target_signal.h             |  28 ++
+>  linux-user/loongarch64/target_structs.h            |  49 ++++
+>  linux-user/loongarch64/target_syscall.h            |  46 +++
+>  linux-user/loongarch64/termbits.h                  | 229 +++++++++++++++
+>  linux-user/syscall_defs.h                          |   8 +-
+>  meson.build                                        |   2 +-
+>  qapi/machine-target.json                           |   4 +-
+>  target/loongarch/meson.build                       |  19 ++
+>  target/meson.build                                 |   1 +
+>  20 files changed, 1185 insertions(+), 6 deletions(-)
 
-use dirty ring feature to implement dirtyrate calculation.
+This is a massive patch that would benefit from being split up
+into multiple smaller patches.
 
-introduce mode option in qmp calc_dirty_rate to specify what
-method should be used when calculating dirtyrate, either
-page-sampling or dirty-ring should be passed.
+I'm told by a kernel developer that loongarch hasn't yet been
+accepted into the Linux kernel mainline. Until it has been, the
+syscall ABI for it is not yet stable, so we won't be able to take
+the linux-user patches for it yet. (We have been burned in the
+past by taking linux-user architecture support patches without
+realizing they weren't for a stable ABI, and then being out of
+sync with the eventual upstream kernel ABI that was accepted.)
 
-introduce "dirty_ring:-r" option in hmp calc_dirty_rate to
-indicate dirty ring method should be used for calculation.
+We can certainly do code review in the meantime, though.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Message-Id: <7db445109bd18125ce8ec86816d14f6ab5de6a7d.1624040308.git.huangy81@chinatelecom.cn>
-Reviewed-by: Peter Xu <peterx@redhat.com>
----
- hmp-commands.hx        |   7 +-
- migration/dirtyrate.c  | 208 ++++++++++++++++++++++++++++++++++++++++++++++---
- migration/trace-events |   2 +
- qapi/migration.json    |  16 +++-
- 4 files changed, 218 insertions(+), 15 deletions(-)
-
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 8e45bce..f7fc9d7 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1738,8 +1738,9 @@ ERST
- 
-     {
-         .name       = "calc_dirty_rate",
--        .args_type  = "second:l,sample_pages_per_GB:l?",
--        .params     = "second [sample_pages_per_GB]",
--        .help       = "start a round of guest dirty rate measurement",
-+        .args_type  = "dirty_ring:-r,second:l,sample_pages_per_GB:l?",
-+        .params     = "[-r] second [sample_pages_per_GB]",
-+        .help       = "start a round of guest dirty rate measurement (using -d to"
-+                      "\n\t\t\t specify dirty ring as the method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index b8f61cc..ecacee4 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -16,6 +16,7 @@
- #include "cpu.h"
- #include "exec/ramblock.h"
- #include "qemu/rcu_queue.h"
-+#include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
- #include "ram.h"
- #include "trace.h"
-@@ -23,9 +24,19 @@
- #include "monitor/hmp.h"
- #include "monitor/monitor.h"
- #include "qapi/qmp/qdict.h"
-+#include "sysemu/kvm.h"
-+#include "sysemu/runstate.h"
-+#include "exec/memory.h"
-+
-+typedef struct DirtyPageRecord {
-+    uint64_t start_pages;
-+    uint64_t end_pages;
-+} DirtyPageRecord;
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
- static struct DirtyRateStat DirtyStat;
-+static DirtyRateMeasureMode dirtyrate_mode =
-+                DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
- 
- static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
- {
-@@ -70,18 +81,37 @@ static int dirtyrate_set_state(int *state, int old_state, int new_state)
- 
- static struct DirtyRateInfo *query_dirty_rate_info(void)
- {
-+    int i;
-     int64_t dirty_rate = DirtyStat.dirty_rate;
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
--
--    if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
--        info->has_dirty_rate = true;
--        info->dirty_rate = dirty_rate;
--    }
-+    DirtyRateVcpuList *head = NULL, **tail = &head;
- 
-     info->status = CalculatingState;
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
-     info->sample_pages = DirtyStat.sample_pages;
-+    info->mode = dirtyrate_mode;
-+
-+    if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-+        info->has_dirty_rate = true;
-+        info->dirty_rate = dirty_rate;
-+
-+        if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+            /*
-+             * set sample_pages with 0 to indicate page sampling
-+             * isn't enabled
-+             **/
-+            info->sample_pages = 0;
-+            info->has_vcpu_dirty_rate = true;
-+            for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
-+                DirtyRateVcpu *rate = g_malloc0(sizeof(DirtyRateVcpu));
-+                rate->id = DirtyStat.dirty_ring.rates[i].id;
-+                rate->dirty_rate = DirtyStat.dirty_ring.rates[i].dirty_rate;
-+                QAPI_LIST_APPEND(tail, rate);
-+            }
-+            info->vcpu_dirty_rate = head;
-+        }
-+    }
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
- 
-@@ -111,6 +141,15 @@ static void init_dirtyrate_stat(int64_t start_time,
-     }
- }
- 
-+static void cleanup_dirtyrate_stat(struct DirtyRateConfig config)
-+{
-+    /* last calc-dirty-rate qmp use dirty ring mode */
-+    if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        free(DirtyStat.dirty_ring.rates);
-+        DirtyStat.dirty_ring.rates = NULL;
-+    }
-+}
-+
- static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
- {
-     DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
-@@ -345,7 +384,97 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
-     return true;
- }
- 
--static void calculate_dirtyrate(struct DirtyRateConfig config)
-+static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
-+                                     CPUState *cpu, bool start)
-+{
-+    if (start) {
-+        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
-+    } else {
-+        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
-+    }
-+}
-+
-+static void dirtyrate_global_dirty_log_start(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static void dirtyrate_global_dirty_log_stop(void)
-+{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_sync();
-+    memory_global_dirty_log_stop(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
-+{
-+    uint64_t memory_size_MB;
-+    int64_t time_s;
-+    uint64_t increased_dirty_pages =
-+        dirty_pages.end_pages - dirty_pages.start_pages;
-+
-+    memory_size_MB = (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
-+    time_s = DirtyStat.calc_time;
-+
-+    return memory_size_MB / time_s;
-+}
-+
-+static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
-+{
-+    CPUState *cpu;
-+    int64_t msec = 0;
-+    int64_t start_time;
-+    uint64_t dirtyrate = 0;
-+    uint64_t dirtyrate_sum = 0;
-+    DirtyPageRecord *dirty_pages;
-+    int nvcpu = 0;
-+    int i = 0;
-+
-+    CPU_FOREACH(cpu) {
-+        nvcpu++;
-+    }
-+
-+    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
-+
-+    DirtyStat.dirty_ring.nvcpu = nvcpu;
-+    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
-+
-+    dirtyrate_global_dirty_log_start();
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, true);
-+    }
-+
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    DirtyStat.start_time = start_time / 1000;
-+
-+    msec = config.sample_period_seconds * 1000;
-+    msec = set_sample_page_period(msec, start_time);
-+    DirtyStat.calc_time = msec / 1000;
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, false);
-+    }
-+
-+    dirtyrate_global_dirty_log_stop();
-+
-+    for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
-+        dirtyrate = do_calculate_dirtyrate_vcpu(dirty_pages[i]);
-+        trace_dirtyrate_do_calculate_vcpu(i, dirtyrate);
-+
-+        DirtyStat.dirty_ring.rates[i].id = i;
-+        DirtyStat.dirty_ring.rates[i].dirty_rate = dirtyrate;
-+        dirtyrate_sum += dirtyrate;
-+    }
-+
-+    DirtyStat.dirty_rate = dirtyrate_sum;
-+    free(dirty_pages);
-+}
-+
-+static void calculate_dirtyrate_sample_vm(struct DirtyRateConfig config)
- {
-     struct RamblockDirtyInfo *block_dinfo = NULL;
-     int block_count = 0;
-@@ -376,6 +505,17 @@ out:
-     free_ramblock_dirty_info(block_dinfo, block_count);
- }
- 
-+static void calculate_dirtyrate(struct DirtyRateConfig config)
-+{
-+    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        calculate_dirtyrate_dirty_ring(config);
-+    } else {
-+        calculate_dirtyrate_sample_vm(config);
-+    }
-+
-+    trace_dirtyrate_calculate(DirtyStat.dirty_rate);
-+}
-+
- void *get_dirtyrate_thread(void *arg)
- {
-     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-@@ -401,8 +541,12 @@ void *get_dirtyrate_thread(void *arg)
-     return NULL;
- }
- 
--void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
--                         int64_t sample_pages, Error **errp)
-+void qmp_calc_dirty_rate(int64_t calc_time,
-+                         bool has_sample_pages,
-+                         int64_t sample_pages,
-+                         bool has_mode,
-+                         DirtyRateMeasureMode mode,
-+                         Error **errp)
- {
-     static struct DirtyRateConfig config;
-     QemuThread thread;
-@@ -424,6 +568,15 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-         return;
-     }
- 
-+    if (!has_mode) {
-+        mode =  DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-+    }
-+
-+    if (has_sample_pages && mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+        error_setg(errp, "either sample-pages or dirty-ring can be specified.");
-+        return;
-+    }
-+
-     if (has_sample_pages) {
-         if (!is_sample_pages_valid(sample_pages)) {
-             error_setg(errp, "sample-pages is out of range[%d, %d].",
-@@ -436,6 +589,16 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-     }
- 
-     /*
-+     * dirty ring mode only works when kvm dirty ring is enabled.
-+     */
-+    if ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
-+        !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty ring is disabled, use sample-pages method "
-+                         "or remeasure later.");
-+        return;
-+    }
-+
-+    /*
-      * Init calculation state as unstarted.
-      */
-     ret = dirtyrate_set_state(&CalculatingState, CalculatingState,
-@@ -447,7 +610,15 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
- 
-     config.sample_period_seconds = calc_time;
-     config.sample_pages_per_gigabytes = sample_pages;
--    config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-+    config.mode = mode;
-+
-+    cleanup_dirtyrate_stat(config);
-+
-+    /*
-+     * update dirty rate mode so that we can figure out what mode has
-+     * been used in last calculation
-+     **/
-+    dirtyrate_mode = mode;
- 
-     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-     init_dirtyrate_stat(start_time, config);
-@@ -473,12 +644,24 @@ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
-                    info->sample_pages);
-     monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
-                    info->calc_time);
-+    monitor_printf(mon, "Mode: %s\n",
-+                   DirtyRateMeasureMode_str(info->mode));
-     monitor_printf(mon, "Dirty rate: ");
-     if (info->has_dirty_rate) {
-         monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
-+        if (info->has_vcpu_dirty_rate) {
-+            DirtyRateVcpuList *rate, *head = info->vcpu_dirty_rate;
-+            for (rate = head; rate != NULL; rate = rate->next) {
-+                monitor_printf(mon, "vcpu[%"PRIi64"], Dirty rate: %"PRIi64
-+                               " (MB/s)\n", rate->value->id,
-+                               rate->value->dirty_rate);
-+            }
-+        }
-     } else {
-         monitor_printf(mon, "(not ready)\n");
-     }
-+
-+    qapi_free_DirtyRateVcpuList(info->vcpu_dirty_rate);
-     g_free(info);
- }
- 
-@@ -487,6 +670,10 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-     int64_t sec = qdict_get_try_int(qdict, "second", 0);
-     int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
-     bool has_sample_pages = (sample_pages != -1);
-+    bool dirty_ring = qdict_get_try_bool(qdict, "dirty_ring", false);
-+    DirtyRateMeasureMode mode =
-+        (dirty_ring ? DIRTY_RATE_MEASURE_MODE_DIRTY_RING :
-+         DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING);
-     Error *err = NULL;
- 
-     if (!sec) {
-@@ -494,7 +681,8 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
--    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
-+    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, true,
-+                        mode, &err);
-     if (err) {
-         hmp_handle_error(mon, err);
-         return;
-diff --git a/migration/trace-events b/migration/trace-events
-index a1c0f03..ce0b5e6 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -331,6 +331,8 @@ get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock n
- calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
- skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
- find_page_matched(const char *idstr) "ramblock %s addr or size changed"
-+dirtyrate_calculate(int64_t dirtyrate) "dirty rate: %" PRIi64 " MB/s"
-+dirtyrate_do_calculate_vcpu(int idx, uint64_t rate) "vcpu[%d]: %"PRIu64 " MB/s"
- 
- # block.c
- migration_block_init_shared(const char *blk_device_name) "Start migration for %s with shared base image"
-diff --git a/qapi/migration.json b/qapi/migration.json
-index c464bef..de35528 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1773,6 +1773,12 @@
- # @sample-pages: page count per GB for sample dirty pages
- #                the default value is 512 (since 6.1)
- #
-+# @mode: mode containing method of calculate dirtyrate includes
-+#        'page-sampling' and 'dirty-ring' (Since 6.1)
-+#
-+# @vcpu-dirty-rate: dirtyrate for each vcpu if dirty-ring
-+#                   mode specified (Since 6.1)
-+#
- # Since: 5.2
- #
- ##
-@@ -1781,7 +1787,9 @@
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
-            'calc-time': 'int64',
--           'sample-pages': 'uint64'} }
-+           'sample-pages': 'uint64',
-+           'mode': 'DirtyRateMeasureMode',
-+           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ] } }
- 
- ##
- # @calc-dirty-rate:
-@@ -1793,6 +1801,9 @@
- # @sample-pages: page count per GB for sample dirty pages
- #                the default value is 512 (since 6.1)
- #
-+# @mode: mechanism of calculating dirtyrate includes
-+#        'page-sampling' and 'dirty-ring' (Since 6.1)
-+#
- # Since: 5.2
- #
- # Example:
-@@ -1801,7 +1812,8 @@
- #
- ##
- { 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64',
--                                         '*sample-pages': 'int'} }
-+                                         '*sample-pages': 'int',
-+                                         '*mode': 'DirtyRateMeasureMode'} }
- 
- ##
- # @query-dirty-rate:
--- 
-1.8.3.1
-
+thanks
+-- PMM
 
