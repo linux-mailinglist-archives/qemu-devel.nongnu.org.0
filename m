@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81E73B7776
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 19:54:30 +0200 (CEST)
-Received: from localhost ([::1]:60518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B863B7772
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 19:52:16 +0200 (CEST)
+Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyHwL-0007aq-VQ
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 13:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49530)
+	id 1lyHuB-0003ib-FO
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 13:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyHqj-0005p9-59
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:48:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46043)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lyHsl-0001aJ-C5
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:50:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyHqh-0008JL-FV
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:48:40 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1lyHsi-0001VN-2f
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:50:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624988918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LR5Z5sA7ge0/lPVDdSZDUvAytJnEL/ba1jjXUG6Pdko=;
- b=QbP6CDYR84MOyIumOt0X1MdcethYRZL8u7/BJDek8ympSSl949D/qTzSJYF4r0fSNl58YI
- mNByn7q2k94Hk07ehxEFS0HPJ+Z+ktW6n+Ppqzzujv7Z6OZOMRofwkKi0SgYE1g2wD1SDw
- Gmn4q9vY5BGOYgdz884a3r2IS9J/y3g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-vb9PXtEqOt6vdGwt_bgNVA-1; Tue, 29 Jun 2021 13:48:36 -0400
-X-MC-Unique: vb9PXtEqOt6vdGwt_bgNVA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- t82-20020a1cc3550000b02901ee1ed24f94so1575310wmf.9
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 10:48:36 -0700 (PDT)
+ s=mimecast20190719; t=1624989043;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=fqKGgpOPhI4z4BXiyNuEds0Tx+8nmF5D0ypC78dSQhU=;
+ b=OTbrxjfDIlGaSU5AYh5BbRmUlZ0L9iaiTIXPZLWIHJ65foWsbOta0QLCj4QRh6h2H5Tfzo
+ JLWsxbt1kvYgQWc+NHo7OkLTqsdsip46mfayAy27818FZKrdD/h3+eXdrycDMhDmGIKQha
+ duvce3SNSxmMqJNg3kQfxypyOlCZ/FQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-MooX437qMqyuc0Mb6zvsNA-1; Tue, 29 Jun 2021 13:50:41 -0400
+X-MC-Unique: MooX437qMqyuc0Mb6zvsNA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ u7-20020a5d46870000b029012786ba1bc9so24111wrq.21
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 10:50:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=LR5Z5sA7ge0/lPVDdSZDUvAytJnEL/ba1jjXUG6Pdko=;
- b=Y1X7wmODFYMTMDhOiOtMwdr0Tvz29kv5XLyRlweqkSLGAhXIaldQcbVxlcrKuw/D66
- 0LH/CwbIKoVG1xAhfTXZC6DTQ3O4RX7G4E4gRYUfQA6cNoaQHsOtLwy+E0YKSyC2Bz33
- 5zzQMRYttXMz0X4wUDhCxQDYBV+HLPgwlRnF3JLaqWgQQR6cUopuowl811SCCrgmry+M
- DByZYOi1mFBwWQkUxeJ/FTql6c/LrtnToMWnuaskjgjC89yDdf3Gq3EXEyCTTIXh1G8n
- Xw+MDGNf1GXTt24muu1qo1Ty5f3idJrKwT9gwu5Y6oUUl/3ewkGD4oOyM+tYWNCARbtm
- elSg==
-X-Gm-Message-State: AOAM532Ueq8FC8xnbDjmC2PzgnpP66rthG6ErU7aKZ7MEhs953GYWuHt
- mZIhpomHLlK0N9YE4pNvbZC5Iwh3HJdOcBn+akK4QokomiHbqTKp96pNhvdzmRT6MHCzncoA0T2
- UWE25aKoKySaOFck=
-X-Received: by 2002:a5d:42ca:: with SMTP id t10mr35879750wrr.162.1624988915185; 
- Tue, 29 Jun 2021 10:48:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFX/4Ky0qUEVrnhvjpQYICIpMKXLfB4879kh40YjiLQv8ydau9zbIAQRdkMakgo4MA8Hz03w==
-X-Received: by 2002:a5d:42ca:: with SMTP id t10mr35879733wrr.162.1624988914973; 
- Tue, 29 Jun 2021 10:48:34 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id h10sm3514327wmb.40.2021.06.29.10.48.34
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=fqKGgpOPhI4z4BXiyNuEds0Tx+8nmF5D0ypC78dSQhU=;
+ b=pOV5k0ut0fBJyhBXuTNeIKyx3ZVS89laYFu94rpc/WwfCSTKMF15hGy1vKIv894ULx
+ b/oCpAAMXpEpez23mQMNymL9i0UjM1AprSWQvi2tbLU/BXdLNb4trqC+0gFGLGwVSmwq
+ 47yQ83OLTnC/5Y1SxU+8zAVFWE5elt1RCotxA59zJV/CdkZTuiR62JBpaGAqEYBIHIhW
+ U1ekzGoSwUrUrDDLl2egVXIkiT2xRcG4K99bGgwpnmtl1NB2lrBon4KGAZEToT+423GK
+ le+I6t2SCkdMvd/lFKKGfuhGRQUXgELBaV0aKgSZUuxXnaGhBQBzK3IrH8YW1F6r7grP
+ cA/g==
+X-Gm-Message-State: AOAM533+urWXeMU5S6Reyk0IuzcA+eABFzbXosRRy6zDvqnDlkCOxx13
+ Rob3ka8OTr57DU+2yxcuCULGtoTOaYd0b/KrmjUd1CYMI+rnnYIldu/pA/4QENxcK0SB9Jd8Hva
+ LdKq4johM+3Ls7XA=
+X-Received: by 2002:a1c:63c3:: with SMTP id x186mr14176162wmb.27.1624989040014; 
+ Tue, 29 Jun 2021 10:50:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVFgmwwfRgrbAfkKdWeq4HMUGD5c5Uy9Adn3/xaGlETLOkZUKWf6cAW3ILM3aazg/up3IOZw==
+X-Received: by 2002:a1c:63c3:: with SMTP id x186mr14176149wmb.27.1624989039820; 
+ Tue, 29 Jun 2021 10:50:39 -0700 (PDT)
+Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
+ by smtp.gmail.com with ESMTPSA id z6sm18126654wrh.65.2021.06.29.10.50.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 10:48:34 -0700 (PDT)
-Date: Tue, 29 Jun 2021 18:48:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 1/2] migration: move wait-unplug loop to its own function
-Message-ID: <YNtc8K32iGkDr4wf@work-vm>
+ Tue, 29 Jun 2021 10:50:39 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 2/2] migration: failover: continue to wait card unplug
+ on error
+In-Reply-To: <20210629155007.629086-3-lvivier@redhat.com> (Laurent Vivier's
+ message of "Tue, 29 Jun 2021 17:50:07 +0200")
 References: <20210629155007.629086-1-lvivier@redhat.com>
- <20210629155007.629086-2-lvivier@redhat.com>
- <87mtr8k1fz.fsf@secure.mitica>
+ <20210629155007.629086-3-lvivier@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Date: Tue, 29 Jun 2021 19:50:38 +0200
+Message-ID: <87im1wk1ap.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <87mtr8k1fz.fsf@secure.mitica>
-User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -97,58 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: Jens Freimann <jfreimann@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Laurent Vivier <lvivier@redhat.com> wrote:
-> > The loop is used in migration_thread() and bg_migration_thread(),
-> > so we can move it to its own function and call it from these both places.
-> >
-> > Moreover, in migration_thread() we have a wrong state transition from
-> > SETUP to ACTIVE while state could be WAIT_UNPLUG. This is correctly
-> > managed in bg_migration_thread() so use this code instead.
-> >
-> > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> 
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> 
-> If you have to repost:
-> 
-> 
-> > +/*
-> > + * if failover devices are present, wait they are completely
-> > + * unplugged
-> > + */
-> > +
-> > +static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
-> > +                                    int new_state)
-> 
-> old_state and new state are always the same. SETUP -> ACTIVE.  I think
-> we can hardcode them.
-> 
-> 
-> > +{
-> > +    if (qemu_savevm_state_guest_unplug_pending()) {
-> > +        migrate_set_state(&s->state, old_state, MIGRATION_STATUS_WAIT_UNPLUG);
-> > +
-> > +        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
-> > +               qemu_savevm_state_guest_unplug_pending()) {
-> > +            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
-> 
-> I still don't understand why are we using a semaphore when we just want
-> a timer :-(
-> 
-> Yes, this is independent of this patch.
+Laurent Vivier <lvivier@redhat.com> wrote:
+> If the user cancels the migration in the unplug-wait state,
+> QEMU will try to plug back the card and this fails because the card
+> is partially unplugged.
+> To avoid the problem, continue to wait the card unplug, but to
+> allow the migration to be canceled if the card never finishes to unplug
+> use a timeout.
+>
+> Bug: https://bugzilla.redhat.com/show_bug.cgi?id=1976852
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  migration/migration.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 3e92c405a2b6..3b06d43a7f42 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3679,6 +3679,17 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
+>                 qemu_savevm_state_guest_unplug_pending()) {
+>              qemu_sem_timedwait(&s->wait_unplug_sem, 250);
+>          }
+> +        if (s->state != MIGRATION_STATUS_WAIT_UNPLUG) {
+> +            int timeout = 120; /* 30 seconds */
+> +            /*
+> +             * migration has been canceled
+> +             * but as we have started an unplug we must wait the end
+> +             * to be able to plug back the card
+> +             */
+> +            while (timeout-- && qemu_savevm_state_guest_unplug_pending()) {
+> +                qemu_sem_timedwait(&s->wait_unplug_sem, 250);
+> +            }
+> +        }
+>  
+>          migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG, new_state);
+>      } else {
 
-So yes I was going to ask on the 2nd patch; no one anywhere seems to set
-that semaphore?
+I agree with the idea.  But if we are getting out due to timeout == 0,
+shouldn't we return some error, warning, whatever?
 
-Dave
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Later, Juan.
 
 
