@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612A93B78DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:49:28 +0200 (CEST)
-Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F103B78CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:41:15 +0200 (CEST)
+Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJjb-0000Xc-Cy
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:49:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
+	id 1lyJbe-0001Cv-6E
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyItU-0000Bc-6d
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:36 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:38623)
+ id 1lyItT-00008f-7N
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:35 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:33519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyItC-0000wf-JX
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:35 -0400
-Received: by mail-pf1-x435.google.com with SMTP id c8so104495pfp.5
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:18 -0700 (PDT)
+ id 1lyItD-0000xi-Ns
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:34 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id f11so69800plg.0
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9Zapp0K87eHLqDH9uXtHOc8lqqdhk1016Rq7nGzaj2E=;
- b=QjX9pJ6jB5H8fuTkUsMw+Rfxx+TBAM+XKt2XF/j/aRaxGvdEdNEU1/gyFb/lfnmnKS
- onDPXS1QozvlxUCEPKOrGCaglc2NcGbnIhYDxQcpc82TuT1ulNQPvw2GbLdiP+zApC/b
- F1pJq7K2vNd80ChWn50SZIO2WCxEiCk5lA1CbjRgY+Wy8z1hFPXet42kaq+NzGG5UWT/
- 79nE1C6YFE8fSck2Qcxc1UGeT9W+CKL+U9Lc2m2avJ2DZM9aAvC1C6cBeE80lQb7GKq4
- KXreiMPvfunxcOJxo5QbcyHHVhOEs9eIvwlaLFKntK2HvmBcaG8qevK3TXNV4sq5Gtp3
- ++hg==
+ bh=CHsyqcYhDcvH4VyWNUvcKr7ulIJabCuia+q5kv3FL14=;
+ b=HrFkohaVYQ29xSYF4JQatHrvGdRzjAQzHsAkiObJMajF0mVSUX3EXDNPDOixiRZK24
+ sbz0P00epzQAUPRDnzxlyq/5GFr7zx7TNCYJFoX5ibNRSUjNjTanJFibBy4F1luOLDTI
+ nbGNNjLKxVvzMaW0xnXhYt+qdq4KH3SVccv5yn8eZMNJlH+PQVGz1acDXg9a1rT/P5V2
+ vfYWvU3Rj4iJELL5ktBsY07ArR1W1gx8Y8NpcafPyFvw6sQvUM18NTnMZEaoxm0aQ5KQ
+ ewDKCcP6Z6BcBxtmyNLguPcaRGtGlPSf8IyuSAW1sxqYwOFKgKcTkYGkF5ZGfqJJXj5B
+ 5Bhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9Zapp0K87eHLqDH9uXtHOc8lqqdhk1016Rq7nGzaj2E=;
- b=rxGn6dke5UtIymtw5d/kyfxpOJbGyo/TKjibWYTJ+BucEp3CyROGv7KraLx3QpwTm9
- WftSVvtQWxdiV5SixxeuTzOeFdQX4omZl0YfNCyd1YVVjlmwwON5zETIJZabfo1YyXaT
- sfQrUGd4UaVOn3uNqABgub+Xf7m2W6XQGg/c/sgHvFMAvaMtgA/UL53WJvYfTh4uVE9j
- JudryV1Xy1+nFGrrVp4cWbBP24Oaqc7+28OZ5cI3XxSYgenjwuSl4WUSnfX70NleerOd
- aAOekRzLllznE8O/6b2surH77719By86pi5b8jbN7ZNAKyX0X2JliUNho9YchEVbf4bE
- hsmw==
-X-Gm-Message-State: AOAM531qhJf3t9FvIqgeBekt8ISS9d437o0AoTAnDcIowDD1vaT9qEK3
- IzQvIVURwqdLaSGiH6HdqkpITlbHgHAn1Q==
-X-Google-Smtp-Source: ABdhPJz86yhV46uPhl/U8HmW75qv3IP7SeZirRvEEAS7oDFctlvGBggySej6CltAN0Hg3TzSnehydA==
-X-Received: by 2002:a65:6494:: with SMTP id e20mr2796181pgv.101.1624992917326; 
- Tue, 29 Jun 2021 11:55:17 -0700 (PDT)
+ bh=CHsyqcYhDcvH4VyWNUvcKr7ulIJabCuia+q5kv3FL14=;
+ b=XBypyUM5Bv8g8ADo0bAnR9HH/IvYNL73cwS2C/jP40xcCpbYOCEPm9ejP2jKpoM2xf
+ S9vzFYCPYWQ6f0Qg4yyXZyjAkwexg7kvNCDpX8BoZdQqQXSeIBPSGhM1QCIYalNCvMT9
+ 9VjvhYxSn5+cOhEMRetCiiU/KrAy4bt1n2Tj4MYuTvM0y625CxAZFx9pz2sN63OUEioe
+ sKXsly2OzqfTAZgl4lHitskJzycmU/mFLUU/UKwGV/zeRoFQuas6oGwTE/7BXHFn9+DL
+ 0Tzd6M1PkoqBdyZLQZotVJrWo4fTUDcPqNID6QgSm4b+IcvLNkcH7R+N9XiVDYqPg9Gr
+ Cs+w==
+X-Gm-Message-State: AOAM530jWx1qika6Z4DYliMW0gJp6S2msUXhFohOCoAi7/t+olJTXtPb
+ 9uCPl1VBHo/0zKHgktU7kQ5VGZg15iPSAw==
+X-Google-Smtp-Source: ABdhPJx4guyZlAQoPlMGzqoVqbmddkGWCSMwVTtbH8P9oGkQT6nbfoevYOt8Ghd3++dA/vLMof37wg==
+X-Received: by 2002:a17:902:249:b029:121:b9eb:a513 with SMTP id
+ 67-20020a1709020249b0290121b9eba513mr29176665plc.6.1624992918425; 
+ Tue, 29 Jun 2021 11:55:18 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.15
+ by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 11:55:15 -0700 (PDT)
+ Tue, 29 Jun 2021 11:55:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/63] tcg: Use correct trap number for page faults on *BSD
- systems
-Date: Tue, 29 Jun 2021 11:54:26 -0700
-Message-Id: <20210629185455.3131172-35-richard.henderson@linaro.org>
+Subject: [PULL 36/63] tcg/i386: Support bswap flags
+Date: Tue, 29 Jun 2021 11:54:28 -0700
+Message-Id: <20210629185455.3131172-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210629185455.3131172-1-richard.henderson@linaro.org>
 References: <20210629185455.3131172-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,126 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juergen Lock <nox@FreeBSD.org>, Mark Johnston <markj@FreeBSD.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Warner Losh <imp@bsdimp.com>
+Retain the current rorw bswap16 expansion for the zero-in/zero-out case.
+Otherwise, perform a wider bswap plus a right-shift or extend.
 
-The trap number for a page fault on BSD systems is T_PAGEFLT
-not 0xe -- 0xe is used by Linux and represents the intel hardware
-trap vector. The BSD kernels, however, translate this to T_PAGEFLT
-in their Xpage, Xtrap0e, Xtrap14, etc fault handlers. This is true
-for i386 and x86_64, though the name of the trap hanlder can very
-on the flavor of BSD. As far as I can tell, Linux doesn't provide
-a define for this value. Invent a new one (PAGE_FAULT_TRAP) and
-use it instead to avoid uglier ifdefs.
-
-Signed-off-by: Mark Johnston <markj@FreeBSD.org>
-Signed-off-by: Juergen Lock <nox@FreeBSD.org>
-[ Rework to avoid ifdefs and expand it to i386 ]
-Signed-off-by: Warner Losh <imp@bsdimp.com>
-Message-Id: <20210625045707.84534-3-imp@bsdimp.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/user-exec.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ tcg/i386/tcg-target.c.inc | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index e67b1617b5..ba09fd0413 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -254,28 +254,35 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 34113388ef..98d924b91a 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -2421,10 +2421,28 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         break;
  
- #if defined(__NetBSD__)
- #include <ucontext.h>
-+#include <machine/trap.h>
+     OP_32_64(bswap16):
+-        tcg_out_rolw_8(s, a0);
++        if (a2 & TCG_BSWAP_OS) {
++            /* Output must be sign-extended. */
++            if (rexw) {
++                tcg_out_bswap64(s, a0);
++                tcg_out_shifti(s, SHIFT_SAR + rexw, a0, 48);
++            } else {
++                tcg_out_bswap32(s, a0);
++                tcg_out_shifti(s, SHIFT_SAR, a0, 16);
++            }
++        } else if ((a2 & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
++            /* Output must be zero-extended, but input isn't. */
++            tcg_out_bswap32(s, a0);
++            tcg_out_shifti(s, SHIFT_SHR, a0, 16);
++        } else {
++            tcg_out_rolw_8(s, a0);
++        }
+         break;
+     OP_32_64(bswap32):
+         tcg_out_bswap32(s, a0);
++        if (rexw && (a2 & TCG_BSWAP_OS)) {
++            tcg_out_ext32s(s, a0, a0);
++        }
+         break;
  
- #define EIP_sig(context)     ((context)->uc_mcontext.__gregs[_REG_EIP])
- #define TRAP_sig(context)    ((context)->uc_mcontext.__gregs[_REG_TRAPNO])
- #define ERROR_sig(context)   ((context)->uc_mcontext.__gregs[_REG_ERR])
- #define MASK_sig(context)    ((context)->uc_sigmask)
-+#define PAGE_FAULT_TRAP      T_PAGEFLT
- #elif defined(__FreeBSD__) || defined(__DragonFly__)
- #include <ucontext.h>
-+#include <machine/trap.h>
- 
- #define EIP_sig(context)  (*((unsigned long *)&(context)->uc_mcontext.mc_eip))
- #define TRAP_sig(context)    ((context)->uc_mcontext.mc_trapno)
- #define ERROR_sig(context)   ((context)->uc_mcontext.mc_err)
- #define MASK_sig(context)    ((context)->uc_sigmask)
-+#define PAGE_FAULT_TRAP      T_PAGEFLT
- #elif defined(__OpenBSD__)
-+#include <machine/trap.h>
- #define EIP_sig(context)     ((context)->sc_eip)
- #define TRAP_sig(context)    ((context)->sc_trapno)
- #define ERROR_sig(context)   ((context)->sc_err)
- #define MASK_sig(context)    ((context)->sc_mask)
-+#define PAGE_FAULT_TRAP      T_PAGEFLT
- #else
- #define EIP_sig(context)     ((context)->uc_mcontext.gregs[REG_EIP])
- #define TRAP_sig(context)    ((context)->uc_mcontext.gregs[REG_TRAPNO])
- #define ERROR_sig(context)   ((context)->uc_mcontext.gregs[REG_ERR])
- #define MASK_sig(context)    ((context)->uc_sigmask)
-+#define PAGE_FAULT_TRAP      0xe
- #endif
- 
- int cpu_signal_handler(int host_signum, void *pinfo,
-@@ -301,34 +308,42 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-     pc = EIP_sig(uc);
-     trapno = TRAP_sig(uc);
-     return handle_cpu_signal(pc, info,
--                             trapno == 0xe ? (ERROR_sig(uc) >> 1) & 1 : 0,
-+                             trapno == PAGE_FAULT_TRAP ?
-+                             (ERROR_sig(uc) >> 1) & 1 : 0,
-                              &MASK_sig(uc));
- }
- 
- #elif defined(__x86_64__)
- 
- #ifdef __NetBSD__
-+#include <machine/trap.h>
- #define PC_sig(context)       _UC_MACHINE_PC(context)
- #define TRAP_sig(context)     ((context)->uc_mcontext.__gregs[_REG_TRAPNO])
- #define ERROR_sig(context)    ((context)->uc_mcontext.__gregs[_REG_ERR])
- #define MASK_sig(context)     ((context)->uc_sigmask)
-+#define PAGE_FAULT_TRAP       T_PAGEFLT
- #elif defined(__OpenBSD__)
-+#include <machine/trap.h>
- #define PC_sig(context)       ((context)->sc_rip)
- #define TRAP_sig(context)     ((context)->sc_trapno)
- #define ERROR_sig(context)    ((context)->sc_err)
- #define MASK_sig(context)     ((context)->sc_mask)
-+#define PAGE_FAULT_TRAP       T_PAGEFLT
- #elif defined(__FreeBSD__) || defined(__DragonFly__)
- #include <ucontext.h>
-+#include <machine/trap.h>
- 
- #define PC_sig(context)  (*((unsigned long *)&(context)->uc_mcontext.mc_rip))
- #define TRAP_sig(context)     ((context)->uc_mcontext.mc_trapno)
- #define ERROR_sig(context)    ((context)->uc_mcontext.mc_err)
- #define MASK_sig(context)     ((context)->uc_sigmask)
-+#define PAGE_FAULT_TRAP       T_PAGEFLT
- #else
- #define PC_sig(context)       ((context)->uc_mcontext.gregs[REG_RIP])
- #define TRAP_sig(context)     ((context)->uc_mcontext.gregs[REG_TRAPNO])
- #define ERROR_sig(context)    ((context)->uc_mcontext.gregs[REG_ERR])
- #define MASK_sig(context)     ((context)->uc_sigmask)
-+#define PAGE_FAULT_TRAP       0xe
- #endif
- 
- int cpu_signal_handler(int host_signum, void *pinfo,
-@@ -346,7 +361,8 @@ int cpu_signal_handler(int host_signum, void *pinfo,
- 
-     pc = PC_sig(uc);
-     return handle_cpu_signal(pc, info,
--                             TRAP_sig(uc) == 0xe ? (ERROR_sig(uc) >> 1) & 1 : 0,
-+                             TRAP_sig(uc) == PAGE_FAULT_TRAP ?
-+                             (ERROR_sig(uc) >> 1) & 1 : 0,
-                              &MASK_sig(uc));
- }
- 
+     OP_32_64(neg):
 -- 
 2.25.1
 
