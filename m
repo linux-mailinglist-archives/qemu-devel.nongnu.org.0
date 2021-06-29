@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC1A3B780C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:54:07 +0200 (CEST)
-Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623803B7810
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:55:49 +0200 (CEST)
+Received: from localhost ([::1]:45320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyIs2-0004hn-G3
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36440)
+	id 1lyItg-0006Rv-B8
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyIm6-00010m-J6; Tue, 29 Jun 2021 14:47:58 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:58081)
+ id 1lyImC-000176-Lx; Tue, 29 Jun 2021 14:48:04 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:34947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyIm3-0005Ar-0G; Tue, 29 Jun 2021 14:47:58 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 7BDAF2B00A62;
- Tue, 29 Jun 2021 14:47:51 -0400 (EDT)
+ id 1lyIm5-0005Ct-Gg; Tue, 29 Jun 2021 14:48:04 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 486452B00A65;
+ Tue, 29 Jun 2021 14:47:55 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 29 Jun 2021 14:47:52 -0400
+ by compute4.internal (MEProxy); Tue, 29 Jun 2021 14:47:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=DW+ph+y1RzB4w
- wyBvzo//f0iFMeM1exhdvDFCYgKCG0=; b=G+UXRFTNiuNvlj5Ye1X4bE7r1jstM
- wJwmZCmLounjtrhnsmaubIiwegJbjNQ0RIy1kG4w9Et5UZDxlgX9GRzpqP4D++4S
- ylXUNPOAUuWQ51sJyeFydCFyCRYwATB3I8p50rbly3KD97yXWnG6dyWS1FYhCvWQ
- W9FMXEuXDm9BStgnqtdaNNfxf3SvZK/DlZ44ovCi1T/iGZIa5TDqTKwLlNV9iRhJ
- YjzRwPKXPnoCB02YQXAtvbkBBkLjcGlx1+8zO6uPdaMhNjFsvezSCj4ujOp+YexG
- s9ulAbBzeEk5hFZJCVSekbnHLt5JYx1yQBJlssXiHrKGc+YFU7YLToY2A==
+ :mime-version:content-transfer-encoding; s=fm3; bh=NrI9HCzCHT1E/
+ h1uY47WLOmuo0/VzwOrQ1dvfN/aQA0=; b=X9nXKPtQed4wfzpH2YdZW63IIKO+e
+ VMyaJnCtPtIziiEpfY062HYQkBrNRPkzE5k+w6s8Nu+rVKD4FCPzZeSBmNuJe1gV
+ 7cyK+BB8pEQAJZ2k92r1cQzOIfc4HVtLRzGyzrwwK4gvz8ZMLQjv/HMZVEFS7TTZ
+ Ju0jDE598yP/pStZc/F3+WblHQzO4ITumbQhpc7WQCcL12H/UtfuazsMI8nEOrZC
+ GzaEEcG+boHMbbEtQCaoDIa6fuF8juAasEjfxkmQuCpzCtuwVWoJ1dXUmp8NHz5L
+ vxlXGsUG+2ZlPaV7QoNJ7WLDJDFtEBEIexGMFt/tCm3CImclmZIebfpTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=DW+ph+y1RzB4wwyBvzo//f0iFMeM1exhdvDFCYgKCG0=; b=wpntxjZ9
- 9Hjv7W0YbxkoHYnkR+yoxesPSElhT2t2khJ7ZiPUX6+wXt1qzpX9m1vxNct68ayo
- tZnGPLru2R8CkWvE7q9HCFMZpxK2vYLFs8YfIYTEpKID9JnYlXUAPfEVsw+bDqMk
- 1I+GkBZGJ4k8yPSii+dqoimz4GBrKndgYComtsBFNzMNFV2mRY5BAqaYv3fsI/IB
- YyjC2jyF7MvhPSVu2Wv30mjbo/S7PBTDEuwcYJYi/WIiNMfGUeiBvnjFOFstZPe9
- Bdmh7PkjmsfJDxkzzdflBWnWRYs4E2G6F10TSy3sD4yvej/fg4z2qxytCOg/OOCt
- Su2B0pMg/kJ7iQ==
-X-ME-Sender: <xms:1mrbYK3tC3PZLZdryGAkQsUDfOD8jc6KxC35IYJCanNMFSZ6n1UJBg>
- <xme:1mrbYNG8Dx2LHXIcbDJ4yVtG2KBUcM_An5o9XsrsSI93qOBzJ2pVeTOWrcypLBkYo
- 0mI20QePeW-VvwPPlU>
-X-ME-Received: <xmr:1mrbYC6DY8ktxWKB65QrgNzNr1m-8huLFm6pX2tTZL9bhSI9Rb1S8njd6s4jp1fefmJ5Xgx0yP-hXWqugRYiwsnWavQaPDNVSyD6w18wwQ>
+ fm3; bh=NrI9HCzCHT1E/h1uY47WLOmuo0/VzwOrQ1dvfN/aQA0=; b=vXCm5R+s
+ 2k0pJp93w7xpE/eLoR8rXmV2n6q9Wue0iTSQ9Bs/VXmUlEvCefV6Fo2r2ew+jo2T
+ beKQCoaj4Nyquq+SovtwIxnb5VmtmObiKy0dA+tk3UVLjVGD5fdd1Me0w7MWJfQj
+ XO73UbB+LZVK7hL0mKQj8exL2aoAhGyoguWhd0XhtpW5Cx8jDJ1Ax5FiDqVvDkDb
+ UhcDNpb9pH0E5YBKxoUry/Dvbxf0f5oDbOA8YwLDrerhSWl3amh+tvmDWiaGjr7x
+ YFyhzsbbThLaouJYFbScdTC4K5WVPdSm/ktYBGpvJ6JT2TlIEAhnu0Ye9/RsXXji
+ aNqPZsB4oZPzEg==
+X-ME-Sender: <xms:2mrbYCrOUr4JOzW4QEovXTFf8DCUozmebvElyurOW4VGISPSssrWbA>
+ <xme:2mrbYAqgKTHUBsc9SCWZ_skIVDV4hPudLmlJ_Rn4OESxUMdZ9fnY1hjdEQVUYBSUr
+ vpGtjy4xeP14-DNwJY>
+X-ME-Received: <xmr:2mrbYHN4GoF6q3aEa2BSwxQrI-2h9Sl1FxXH6KC0sjEjznVzWbP1MZNc0WX5e7OE0SEiahs0EUoPXnfq90TAdfy6EZd8VWOhuhGE-LovRQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,18 +54,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:1mrbYL2ahT7sh_fUZ90PsAwz2GMfWha2xBYnhuPoC-rFYbzevMgdUA>
- <xmx:1mrbYNF0aHC2a6E69XIOrp_UEpOkrVDMJPpSgImksCwsXSPgGs03Kg>
- <xmx:1mrbYE8fACXcnRRiwoQPQX3yI0We9bF3dx1koMKuqusB_hsb_3OCKA>
- <xmx:12rbYM-jqHPYl-SFwQMyZNlxIR7uAJlL-DTK9VDFxwZY49lhnxZphlJUmP8>
+X-ME-Proxy: <xmx:2mrbYB4HZMnwuYUY0meO1HbRE8tjIwvDvF-zbet_JYZXR_qoqiHfqQ>
+ <xmx:2mrbYB7A521PvRD1-slIV7ceNV9OY4QysCMMeQTmraYGj-GQu5wghw>
+ <xmx:2mrbYBhd1qKvr9Y1ysSHSL_VH2kwHGi4Efxn_Q4bVQwF83ryuLAj_w>
+ <xmx:2mrbYNjlnXJcV-IpZufX6oeZOLmgHJ-n_WEz2h6k4wiHNAQHzOvWiiWnnA8>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:47:49 -0400 (EDT)
+ 29 Jun 2021 14:47:52 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 01/23] hw/nvme: fix style
-Date: Tue, 29 Jun 2021 20:47:21 +0200
-Message-Id: <20210629184743.230173-2-its@irrelevant.dk>
+Subject: [PULL 02/23] hw/nvme: add identify namespace flbas/mc enums
+Date: Tue, 29 Jun 2021 20:47:22 +0200
+Message-Id: <20210629184743.230173-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
@@ -103,45 +103,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Identify command related functions style fix.
+Add enums for the Identify Namespace FLBAS and MC fields.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+[k.jensen: squashed separate flbas/mc commits into one]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/block/nvme.h | 9 +++++++++
+ hw/nvme/ns.c         | 4 ++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 0bcaf7192f99..40a7efcea914 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -4291,7 +4291,7 @@ static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
- }
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 0ff9ce17a99e..333affdb8534 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1341,6 +1341,15 @@ enum NvmeIdNsDps {
+     NVME_ID_NS_DPS_FIRST_EIGHT = 8,
+ };
  
- static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
--        bool active)
-+                                     bool active)
- {
-     NvmeNamespace *ns;
-     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
-@@ -4326,7 +4326,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
- }
++enum NvmeIdNsFlbas {
++    NVME_ID_NS_FLBAS_EXTENDED = 1 << 4,
++};
++
++enum NvmeIdNsMc {
++    NVME_ID_NS_MC_EXTENDED = 1 << 0,
++    NVME_ID_NS_MC_SEPARATE = 1 << 1,
++};
++
+ #define NVME_ID_NS_DPS_TYPE(dps) (dps & NVME_ID_NS_DPS_TYPE_MASK)
  
- static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req,
--        bool active)
-+                                     bool active)
- {
-     NvmeNamespace *ns;
-     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
-@@ -4373,7 +4373,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req,
- }
+ typedef struct NvmeDifTuple {
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 992e5a13f538..8066e311d1a2 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -82,10 +82,10 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+     ms = ns->params.ms;
  
- static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req,
--        bool active)
-+                                         bool active)
- {
-     NvmeNamespace *ns;
-     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+     if (ns->params.ms) {
+-        id_ns->mc = 0x3;
++        id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
+ 
+         if (ns->params.mset) {
+-            id_ns->flbas |= 0x10;
++            id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
+         }
+ 
+         id_ns->dpc = 0x1f;
 -- 
 2.32.0
 
