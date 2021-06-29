@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3C93B7781
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:00:40 +0200 (CEST)
-Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5BD3B77A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:08:08 +0200 (CEST)
+Received: from localhost ([::1]:43898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyI2J-0003Bh-O3
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:00:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
+	id 1lyI9X-0007v1-2L
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyI0b-0002Qr-PR
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:58:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28871)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lyI8M-0006UH-EZ
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:06:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyI0Y-0006xN-72
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 13:58:52 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lyI8I-0003ju-H6
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:06:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624989528;
+ s=mimecast20190719; t=1624990008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=M3JjusDHpGMBICm9dSqBsovwlTZsI9B/n1UfSASg3FU=;
- b=BghtAK6P8I+0gt6IcY6TP40DlsNk777zkKYaBi9YBrJwDTp+fGVunVmxMbAUVF0h9zxBVd
- sWlcUew7tJSQ0et3EKU23rodxzTOJNYeKn/zAOO2o5q1BMlRH/eFZqZndPXlUsUkIvILBc
- R/F9R3HLcb8QVUBqMgz0Z8K86gdGmfw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-SWM8ZljTOZekylLWEm86MA-1; Tue, 29 Jun 2021 13:58:47 -0400
-X-MC-Unique: SWM8ZljTOZekylLWEm86MA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u7-20020a5d46870000b029012786ba1bc9so29439wrq.21
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 10:58:47 -0700 (PDT)
+ bh=nDyTIHOsCTVB1QBS7frmRCFlgW5Zi/4ipt0UEN4rgIs=;
+ b=GZdajd0izLotKvXmM3oYNrC0q9HZ9LqNCkifFiEO5giSd9x/dna1w1Q7W29kQT27PJZ3zB
+ 91jEr5lIY7o7DWciTn+G5jHMAHmZqxOH0LbM9/aM8YQ+3Ku2+PTNhGqMK8ooA4bmusomw2
+ FA7xWu3sY83xdNnwYEK+3yJCQAxG+YM=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-lHma1zuAMOGRl0bucgapTQ-1; Tue, 29 Jun 2021 14:06:46 -0400
+X-MC-Unique: lHma1zuAMOGRl0bucgapTQ-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ c133-20020a1f9a8b0000b0290253a84ca362so82204vke.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:06:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=M3JjusDHpGMBICm9dSqBsovwlTZsI9B/n1UfSASg3FU=;
- b=cV9nUrLSh7qgN8k6K3feC+aJf9OnZDw/0q8xCecuvBg59EObFD4VJMXbmwy+oq2e+1
- pUpaqISKPrOSL3ddnRtQF+VH9rbmH1J0+F0kJzzKXj85NKGvcQYqTg6zsTSb49Iuxw9g
- Bj7ExbEcLX/0ZF/+1dhjqH+10eTqz2BEm6Ht/grf58qqcUIN/QePVE7flnCfQ+EIN6+8
- Un/liHBy0G9Vubd36A0yE30a+ktDKRlFldRZ41GCq1Z7EnIv/KBbnTopfQhPVvWzBgVh
- y1cGdFksOPSpJoo+DjPI7P8al9G0c9QVKHIq5jQMHBGa8Qgy+kk++1TauMTXbVZS/CVt
- Ye+Q==
-X-Gm-Message-State: AOAM5326TkvEQmK7JOnOipTaXtDNUp6Spw1vS6yNl1AFQGxWNmIwNxYO
- /XQp09tSgLTio1i9Bfc/h/PwmvwB8hD2/S/dEp/M2xsrU5a9ip2qffH0FXK3jXVnvsGV3Ix/ix8
- X/3bWEA079h+vR1I=
-X-Received: by 2002:a7b:c247:: with SMTP id b7mr1327772wmj.44.1624989526563;
- Tue, 29 Jun 2021 10:58:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxo6ltgALLpWQiYHWv1iaJFyOvBCpL2dm+cdjQKuZGO9sY1Sfgtk+oKIB2N0Z/0QHgnIwzraw==
-X-Received: by 2002:a7b:c247:: with SMTP id b7mr1327747wmj.44.1624989526352;
- Tue, 29 Jun 2021 10:58:46 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id f13sm19241887wrt.86.2021.06.29.10.58.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 10:58:45 -0700 (PDT)
-Date: Tue, 29 Jun 2021 18:58:43 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Lei Rao <lei.rao@intel.com>
-Subject: Re: [PATCH 1/7] Some minor optimizations for COLO
-Message-ID: <YNtfUxT3wz5ByfZr@work-vm>
-References: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
- <1623898035-18533-2-git-send-email-lei.rao@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nDyTIHOsCTVB1QBS7frmRCFlgW5Zi/4ipt0UEN4rgIs=;
+ b=EUDQR/qfWQpwbET5ytMlfjmXuyj65/ID9c+9+u5Ke9Dsj44c+V2V/fMXYUkhsbuhit
+ b8jHQmfG9jT8m7CCxQTt293IUF2IdxAYhRDqMPAdB+Rut6y66+3tt5BbeyEGkKYw4E0V
+ qrajcIvrR/bJ30bnhncNNMH7MOwl2e2oYXbfwrxDsqQL76hFFNdUW+sg8agf5+nepcz/
+ pd5CUeTHd2bpL5BHTZxFclSWnzr52Zd/+msBB0trguWPWI+A1pB9SkMdbE2MwuB8w2qe
+ 0TzBzktUc2Xv44LiKqVJeX4kpiy/z9nMMK7eaqxIoQxtnPcCgyZ033BH0EN/CcuI+K2d
+ az8w==
+X-Gm-Message-State: AOAM532CU7e5Y4NCthf6y3A8AvjB/y+xlXwR6M+nT9vIXZ4eiGLmDoQD
+ gePFiJNVZ9WyqTemIC71I+4NmgU/xhb8iZzk3pR3FJtukNNSFl68Jhe2IErTatIbjfZ6rU2bPF+
+ agugwiRWY1n8AR7dY4lNGeO1f5u9/kdc=
+X-Received: by 2002:a1f:280e:: with SMTP id o14mr23379403vko.19.1624990006087; 
+ Tue, 29 Jun 2021 11:06:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxN1KvVXZ3IXkoe2XuVeQ/AcljANejzrwv7mC5FjR8L/ybV95JGF4zGd/ReaIdtekxt+y4Bmah7y+bS6Pzwc4o=
+X-Received: by 2002:a1f:280e:: with SMTP id o14mr23379386vko.19.1624990005941; 
+ Tue, 29 Jun 2021 11:06:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1623898035-18533-2-git-send-email-lei.rao@intel.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+References: <20210629164253.1272763-1-jsnow@redhat.com>
+ <20210629164253.1272763-9-jsnow@redhat.com>
+In-Reply-To: <20210629164253.1272763-9-jsnow@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 29 Jun 2021 15:06:20 -0300
+Message-ID: <CAKJDGDbrt+uzyY+G5WbE0iqXFDoVp1W8daVj53RD_2ZHm=_sfw@mail.gmail.com>
+Subject: Re: [PATCH v2 08/12] python: Fix .PHONY Make specifiers
+To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -96,58 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: like.xu.linux@gmail.com, lukasstraub2@web.de,
- zhang.zhanghailiang@huawei.com, lizhijian@cn.fujitsu.com, quintela@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org, chen.zhang@intel.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Lei Rao (lei.rao@intel.com) wrote:
-> From: "Rao, Lei" <lei.rao@intel.com>
-> 
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
+On Tue, Jun 29, 2021 at 1:43 PM John Snow <jsnow@redhat.com> wrote:
+>
+> I missed the 'check-tox' target. Add that, but split the large .PHONY
+> specifier at the top into its component pieces and move them near the
+> targets they describe so that they're much harder to forget to update.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
+>  python/Makefile | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-
-OK, although to be honest, I think the compiler will probably do this
-for you.
-
->  migration/colo.c   | 2 +-
->  net/colo-compare.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/colo.c b/migration/colo.c
-> index 79fa1f6..616dc00 100644
-> --- a/migration/colo.c
-> +++ b/migration/colo.c
-> @@ -152,7 +152,7 @@ static void primary_vm_do_failover(void)
->       * kick COLO thread which might wait at
->       * qemu_sem_wait(&s->colo_checkpoint_sem).
->       */
-> -    colo_checkpoint_notify(migrate_get_current());
-> +    colo_checkpoint_notify(s);
->  
->      /*
->       * Wake up COLO thread which may blocked in recv() or send(),
-> diff --git a/net/colo-compare.c b/net/colo-compare.c
-> index b100e7b..4a64a5d 100644
-> --- a/net/colo-compare.c
-> +++ b/net/colo-compare.c
-> @@ -170,7 +170,7 @@ static bool packet_matches_str(const char *str,
->          return false;
->      }
->  
-> -    return !memcmp(str, buf, strlen(str));
-> +    return !memcmp(str, buf, packet_len);
->  }
->  
->  static void notify_remote_frame(CompareState *s)
-> -- 
-> 1.8.3.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
