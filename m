@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E283B7873
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:16:34 +0200 (CEST)
-Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159563B7894
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:26:04 +0200 (CEST)
+Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJDl-00029J-7v
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37054)
+	id 1lyJMx-0007xG-2t
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyInn-0002KJ-NC; Tue, 29 Jun 2021 14:49:43 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:39317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyInc-0005qq-7u; Tue, 29 Jun 2021 14:49:43 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id E7D0E2B00AC0;
- Tue, 29 Jun 2021 14:49:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 29 Jun 2021 14:49:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=wF4h7jglbyMs3
- eA1vmZ/L4EsKB0KZtq2c/rbA6JCSjE=; b=dR1vbQLXrUMDXWQWDjhAPmkaHp60a
- YUHPIcbaMN+8ZAZsNQOOTalQjuJzwWk/CjFtq/Coc6C2fMDqmoAQG15gf1OsEiN3
- dMGicYr954yg93xgE1d1RlFADw0bVsJz/ufFmbPPGJJ8Ds66jPtP5bVV1QuFh8vA
- n9r5GH0vX9MS4qyFImGFu2MliVmiJT/cp+13gG2X6OzyIS+UrpUk3fmqIE7EmGh8
- 9Wm/x/nwtuBGIbtais8VAHTjci7KZ0CcrqC/YFt+siPIOeMhO6RkxvXi5VKA2sHZ
- x+c5XzzzChqhVfHDeeYWXB+d6CuamNK6LCTfuhkejC3QCGMgiUAwgXYpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=wF4h7jglbyMs3eA1vmZ/L4EsKB0KZtq2c/rbA6JCSjE=; b=Rkw1UAnd
- NJmT3wQjQbCoKAWAAAUgsq2W/s6tjIIE+ei2fIAjolRsqFrVMAtOUDlcEJBKSBOC
- ZYbCRVkIXDpR7XeQ+oHXo63eIHW56wbLjdkzNwcBdT8GJuVhkKzExtkAeiskylXf
- rlcHhbkOqDoH615EuqAQpb1Tx/MHkZaK6yqmfj9BsVB2m4a6CQRzWWv1OAyz/EKL
- QS7KdDQGEb4IRMlbgfkCousNrz06+RRN4AvkQaM6nHG1o55gaK5Ise8DzQjE3KzY
- Ft3bsnZ4vbpx18bmFS4r/fsiFE6W/QTJGIuCT4Sw8NXm0MqmyrteIurg7aK7cYKd
- dGEOkupAR+IyEg==
-X-ME-Sender: <xms:JWvbYL0O8f0s4EdAnl3t4QzEiwpq8JSlBkbvzQyOevAu6e1PXwz5Wg>
- <xme:JWvbYKEwE3fxj1_-ssw0eBQB0yuJ5VSkqBC9B-4_7UeIdUWteTTXwn1OQSxJhpsWS
- e4iI1Y5T4k3RGfctSQ>
-X-ME-Received: <xmr:JWvbYL6yqFokY4VWHleTrh9kGuPyhAZXxiXpqafoWAo67ckBMX95kIrU623B-AXik_rL51muB_PF5fddU4sEwJUB3jFnGd47ORzT3vF5CA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:JWvbYA07dvoJDcyxbzGwZW9PFw-JFpmzEqKGC8I6XbNpHG-7QWQ49w>
- <xmx:JWvbYOGWpM_ySZDGlZbNkhf6MSlo6V-UxaEs0aOYNpdL9pcGuIurjw>
- <xmx:JWvbYB8A9f51T4aDLZXvupWf-xl6sD-XEdgf9w1RV7NUT8703ak4pQ>
- <xmx:JWvbYG-jUlDbMvR_lZvTn7t8XSDAy-qcjui_tWsLVuchQeQy60kHPYg1W_M>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:49:07 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 23/23] hw/nvme: add 'zoned.zasl' to documentation
-Date: Tue, 29 Jun 2021 20:47:43 +0200
-Message-Id: <20210629184743.230173-24-its@irrelevant.dk>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
-References: <20210629184743.230173-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lyIsu-0007sk-U1
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:01 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:37787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lyIsr-0000q5-Ur
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:00 -0400
+Received: by mail-pl1-x632.google.com with SMTP id o3so42785plg.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MDCyqZ7Vj5pkwWYjnYQwEUXqv5ckzw5EvMc/stSsL4Q=;
+ b=WmKI6CCAyXCDlsqANhL0DxN+GMGtuaWGORHEM7UGbvQqN8d5RmuUiSYFXj+eZeA1e1
+ rEV/1q2+NwGQTSMLrsA7hoQ9Jkzrxa8fY7l+XdK5xE3kRTUJHlSho03Vd+PQUjtRUl8E
+ Sl661xYDxag81FMa4WVwixu6j5nyqVtyLU+EF+yfbCeSO7DhLEzuK4mknoV1hC43Kl2l
+ WmKTo9BwC/sXSLTvpRpVBWA4lVk46JG5v+XjCTiYg6jobuLyMPafTNuTunG22xNbFM35
+ k/Ovj7Ocho5QQJMGUjLPNZc9fHy7OkfHaaYNaT1DzwmDWGLFfcvd+X0mAweo6QQYjDD9
+ Dnwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MDCyqZ7Vj5pkwWYjnYQwEUXqv5ckzw5EvMc/stSsL4Q=;
+ b=GODA4/ndG98rWpgwCFG1RqjMWh8PqUzGPvapygo109JYCWenmf4i1xFcNzAxglmY78
+ x+qA80U50kl/E51XG/TvqMWbv64kjwt8qFw94T3rgKWY883b+ywYMq3puiDXqf/FPuk7
+ Dg3mtcd/pD8AGPgU4ezfS1yCbLcvCoaUObXttew9w1UMOrKcvy/KhHQMQqCKUU+vmLkj
+ B+QQsIxr2MDaDtmPJpzH6ApX2Jxjd9GNOyRNHu1NvWMs8incIDbo7sLr1mPhAYUhU4rV
+ 51Ei42sL9wwt69vruRYpGQoeByjA0/ulPLtNKM9Q7eKQpWrTGAV4dHVj2DU0QgVBzfE/
+ oNow==
+X-Gm-Message-State: AOAM533KMPP6DdcKQMNFoRQYURzZ5eXoHwbQiG6Wk/imn/QMqCcaC26W
+ RormAfpENN11mxmLjMLazs+6aHNjAjsJwg==
+X-Google-Smtp-Source: ABdhPJwQSexJcHRX94oa4cl39SFmix2matON6kqsjitTE4fV5nGZ8N42PL4BUSGvmhlLI2vWCFaDDw==
+X-Received: by 2002:a17:902:c245:b029:128:e566:111d with SMTP id
+ 5-20020a170902c245b0290128e566111dmr8948523plg.77.1624992896163; 
+ Tue, 29 Jun 2021 11:54:56 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.54.55
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Jun 2021 11:54:55 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/63] tcg patch queue
+Date: Tue, 29 Jun 2021 11:53:52 -0700
+Message-Id: <20210629185455.3131172-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
- helo=wnew1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,41 +83,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Keith Busch <kbusch@kernel.org>
+The following changes since commit 13d5f87cc3b94bfccc501142df4a7b12fee3a6e7:
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- docs/system/nvme.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-axp-20210628' into staging (2021-06-29 10:02:42 +0100)
 
-diff --git a/docs/system/nvme.rst b/docs/system/nvme.rst
-index 33a15c7dbc78..bff72d1c24d0 100644
---- a/docs/system/nvme.rst
-+++ b/docs/system/nvme.rst
-@@ -202,6 +202,12 @@ The namespace may be configured with additional parameters
-   allows all zones to be open. If ``zoned.max_active`` is specified, this value
-   must be less than or equal to that.
- 
-+``zoned.zasl=UINT8`` (default: ``0``)
-+  Set the maximum data transfer size for the Zone Append command. Like
-+  ``mdts``, the value is specified as a power of two (2^n) and is in units of
-+  the minimum memory page size (CAP.MPSMIN). The default value (``0``)
-+  has this property inherit the ``mdts`` value.
-+
- Metadata
- --------
- 
--- 
-2.32.0
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210629
+
+for you to fetch changes up to c86bd2dc4c1d37653c27293b2dacee6bb46bb995:
+
+  tcg/riscv: Remove MO_BSWAP handling (2021-06-29 10:04:57 -0700)
+
+----------------------------------------------------------------
+TranslatorOps conversion for target/avr
+TranslatorOps conversion for target/cris
+TranslatorOps conversion for target/nios2
+Simple vector operations on TCGv_i32
+Host signal fixes for *BSD
+Improvements to tcg bswap operations
+
+----------------------------------------------------------------
+LIU Zhiwei (5):
+      tcg: Add tcg_gen_vec_add{sub}16_i32
+      tcg: Add tcg_gen_vec_add{sub}8_i32
+      tcg: Add tcg_gen_vec_shl{shr}{sar}16i_i32
+      tcg: Add tcg_gen_vec_shl{shr}{sar}8i_i32
+      tcg: Implement tcg_gen_vec_add{sub}32_tl
+
+Richard Henderson (57):
+      target/nios2: Replace DISAS_TB_JUMP with DISAS_NORETURN
+      target/nios2: Use global cpu_env
+      target/nios2: Use global cpu_R
+      target/nios2: Add DisasContextBase to DisasContext
+      target/nios2: Convert to TranslatorOps
+      target/nios2: Remove assignment to env in handle_instruction
+      target/nios2: Clean up goto in handle_instruction
+      target/nios2: Inline handle_instruction
+      target/nios2: Use pc_next for pc + 4
+      target/avr: Add DisasContextBase to DisasContext
+      target/avr: Change ctx to DisasContext* in gen_intermediate_code
+      target/avr: Convert to TranslatorOps
+      target/cris: Add DisasContextBase to DisasContext
+      target/cris: Remove DISAS_SWI
+      target/cris: Replace DISAS_TB_JUMP with DISAS_NORETURN
+      target/cris: Mark exceptions as DISAS_NORETURN
+      target/cris: Fix use_goto_tb
+      target/cris: Convert to TranslatorOps
+      target/cris: Mark helper_raise_exception noreturn
+      target/cris: Mark static arrays const
+      target/cris: Fold unhandled X_FLAG changes into cpustate_changed
+      target/cris: Set cpustate_changed for rfe/rfn
+      target/cris: Add DISAS_UPDATE_NEXT
+      target/cris: Add DISAS_DBRANCH
+      target/cris: Use tcg_gen_lookup_and_goto_ptr
+      target/cris: Improve JMP_INDIRECT
+      target/cris: Remove dc->flagx_known
+      target/cris: Do not exit tb for X_FLAG changes
+      tcg: Add flags argument to bswap opcodes
+      tcg/i386: Support bswap flags
+      tcg/aarch64: Merge tcg_out_rev{16,32,64}
+      tcg/aarch64: Support bswap flags
+      tcg/arm: Support bswap flags
+      tcg/ppc: Split out tcg_out_ext{8,16,32}s
+      tcg/ppc: Split out tcg_out_sari{32,64}
+      tcg/ppc: Split out tcg_out_bswap16
+      tcg/ppc: Split out tcg_out_bswap32
+      tcg/ppc: Split out tcg_out_bswap64
+      tcg/ppc: Support bswap flags
+      tcg/ppc: Use power10 byte-reverse instructions
+      tcg/s390: Support bswap flags
+      tcg/mips: Support bswap flags in tcg_out_bswap16
+      tcg/mips: Support bswap flags in tcg_out_bswap32
+      tcg/tci: Support bswap flags
+      tcg: Handle new bswap flags during optimize
+      tcg: Add flags argument to tcg_gen_bswap16_*, tcg_gen_bswap32_i64
+      tcg: Make use of bswap flags in tcg_gen_qemu_ld_*
+      tcg: Make use of bswap flags in tcg_gen_qemu_st_*
+      target/arm: Improve REV32
+      target/arm: Improve vector REV
+      target/arm: Improve REVSH
+      target/i386: Improve bswap translation
+      target/sh4: Improve swap.b translation
+      target/mips: Fix gen_mxu_s32ldd_s32lddr
+      tcg/arm: Unset TCG_TARGET_HAS_MEMORY_BSWAP
+      tcg/aarch64: Unset TCG_TARGET_HAS_MEMORY_BSWAP
+      tcg/riscv: Remove MO_BSWAP handling
+
+Warner Losh (1):
+      tcg: Use correct trap number for page faults on *BSD systems
+
+ include/tcg/tcg-op-gvec.h       |  43 ++++
+ include/tcg/tcg-op.h            |   8 +-
+ include/tcg/tcg-opc.h           |  10 +-
+ include/tcg/tcg.h               |  12 +
+ target/cris/helper.h            |   2 +-
+ tcg/aarch64/tcg-target.h        |   2 +-
+ tcg/arm/tcg-target.h            |   2 +-
+ accel/tcg/user-exec.c           |  20 +-
+ target/arm/translate-a64.c      |  21 +-
+ target/arm/translate.c          |   4 +-
+ target/avr/translate.c          | 284 ++++++++++++----------
+ target/cris/translate.c         | 515 ++++++++++++++++++++--------------------
+ target/i386/tcg/translate.c     |  14 +-
+ target/mips/tcg/mxu_translate.c |   6 +-
+ target/nios2/translate.c        | 318 ++++++++++++-------------
+ target/s390x/translate.c        |   4 +-
+ target/sh4/translate.c          |   3 +-
+ tcg/optimize.c                  |  56 ++++-
+ tcg/tcg-op-gvec.c               | 122 ++++++++++
+ tcg/tcg-op.c                    | 143 +++++++----
+ tcg/tcg.c                       |  28 +++
+ tcg/tci.c                       |   3 +-
+ target/cris/translate_v10.c.inc |  17 +-
+ tcg/aarch64/tcg-target.c.inc    | 125 ++++------
+ tcg/arm/tcg-target.c.inc        | 295 ++++++++++-------------
+ tcg/i386/tcg-target.c.inc       |  20 +-
+ tcg/mips/tcg-target.c.inc       | 102 ++++----
+ tcg/ppc/tcg-target.c.inc        | 230 ++++++++++++------
+ tcg/riscv/tcg-target.c.inc      |  64 ++---
+ tcg/s390/tcg-target.c.inc       |  34 ++-
+ tcg/tci/tcg-target.c.inc        |  23 +-
+ tcg/README                      |  22 +-
+ 32 files changed, 1458 insertions(+), 1094 deletions(-)
 
