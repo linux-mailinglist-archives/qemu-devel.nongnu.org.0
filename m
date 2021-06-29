@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E798D3B7891
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:24:26 +0200 (CEST)
-Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091FB3B7871
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:15:17 +0200 (CEST)
+Received: from localhost ([::1]:59060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJLN-0003c9-W8
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38744)
+	id 1lyJCW-000218-3d
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyItR-0008WJ-Bp
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:33 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:39847)
+ id 1lyItE-00088x-Ha
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:20 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyItA-0000tA-5J
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:33 -0400
-Received: by mail-pl1-x629.google.com with SMTP id d1so33179plg.6
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:06 -0700 (PDT)
+ id 1lyItA-0000to-26
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:20 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ cx9-20020a17090afd89b0290170a3e085edso3117314pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XHdB1I8aK6ZOFpKMHs281yG5ahJFgJAsOdRjioJDUOI=;
- b=mduk+61ykcVZeK4Er7w5axnTJO5lVejLQpBHQcJ8b5iK/cCq15K/G3w2RdVvRVi3oM
- qPi2vDowSKJmRlYcx7Tzrrh3e06VFw6A3sTktBzxk0ne7MqBwDAKbEAFo92Up7BweTAc
- yxY5WXTyxMCrt9GoXktnrcddMf74QCPzwYIgn+dqD0vJDcrzRc+xAc0JGlC7gu1RPD8H
- rx0p71+b1v/5XZxNRd3kUwyOqTW4fNLY9QlK0cMDitY+DtZi7cFEuCfOrvapMda9Ickm
- W/IzDVFWBBWMxUXtybzaBDohfOuIB+KEbO4rqj0lmMg2PfnsiMF4oDqRnAP6bwEaSXo3
- tsPA==
+ bh=kqh2og0wEwr/ALN9/Tn9edLBUCiuTurWoZvmUbX68qE=;
+ b=Uirq0MEO+S57FBVOSqsnn2dIQ6e9YWmQqobQyxfk0HGH0WGHbdEuOKYDowVwk6xCyX
+ Mqka5vHs2OahvM9XdpzsJAMx4lAG4ZgNMloYhloh5M91h1W6TsuAojA8hP4wlOAysQL5
+ +edBKPUsgUZSYQpSzilio9ecALPexu6LrWALGMc+Vx6lh690NnrpV/3tK5SaBVZMkUn2
+ MU9iUY9M/txGVg9GdOievZ6KyEML49lZvmtZ3Cjjh9bu/RuZETkT3CqQNa/c/qUTjSqx
+ Yj9kp8aXgB0IJr6478FtF44u7jbM8C6r6IW0xp4RCOdhmuPrNaiNgcgp/p6V4GzBZ5tc
+ EsHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XHdB1I8aK6ZOFpKMHs281yG5ahJFgJAsOdRjioJDUOI=;
- b=j5SV6SV8l9l196IZhTG5RC7DSPfdpH/KrArvK9s47KLcq9r+z8HvL+Huybn6xVyluI
- G2ObnWIii6YPJvfzvo5G2MMDihiP9BL4iWIByXTh7AFGEfAiO0YKtb6D9mDWX2MPKo4R
- e+Sx5FI4u6wGOFBecKGOmFufuiKxDW0syzVvSFN+u0Y63wnHsGoSoJJl+fUNuse3KLdE
- XqLUEN7meQsaGSBDrjWI+5rUHzPfdgK4CWdZ2Q/9gvYuFgTrNqoAkqHMEjCwdY2y9J/C
- KQcqp6c41tJHYPSGBWzAKLf9bdmgaabVureMIS4kRaITvnHZqmXx9LtMsfIkOy7u6bVW
- pQvw==
-X-Gm-Message-State: AOAM530NiTGjIQ3j/5dxxeUDXOsdBbIOIwZV9BOkVGm1VXXfprLiCV+v
- 4vqcj7DYyYC40+/+c9/17JRcTfQuVXmUcA==
-X-Google-Smtp-Source: ABdhPJzpMZgmIAMB/HfGvGJnf3QLTbRopF984AWZbRvlioJLovQFsr5M8bHkGix4Id1fz7Td1xxF5g==
-X-Received: by 2002:a17:902:ecc6:b029:128:ed8c:a025 with SMTP id
- a6-20020a170902ecc6b0290128ed8ca025mr7658086plh.64.1624992905174; 
- Tue, 29 Jun 2021 11:55:05 -0700 (PDT)
+ bh=kqh2og0wEwr/ALN9/Tn9edLBUCiuTurWoZvmUbX68qE=;
+ b=SwYx0t6bi5pU9q2lq69588XM7U0yfGC/mjPrTcHoKlAnWjvLwUubnM2Y7dEIJ3qPul
+ T4fzMlAX7y5eoG62ADPpEXJo+5AeOz3k9Pro8A3j2Qx7+IKvG129q/mVvJGU8OUT9Wp5
+ o2y7FR6k4BMs3DEbrZ4aut7x/DT2GWH5hY8DXf6+m+u4r7WhsLH6kbhR4IWBuuAHmPHP
+ h1vTfgHoaob4YSftqyAPCPzC1psrPz00pSfExAtaLbiUhFaFNQ8dnxSRj+cfaVwdrGIO
+ UDPeYvuIoZTbGDcjlycA1ncLluyl19KkEwZwQ1X0apYCcXvKJTlGRmeOzA1o6YeUcVvQ
+ 0JCw==
+X-Gm-Message-State: AOAM532db4ImyRC16HothEsROqkR15YVWLLAMOegDJAz3dAT6TqTG/gg
+ 3Q8LiS0fphtx/ju/4BRwbsszoVsn5lA0ew==
+X-Google-Smtp-Source: ABdhPJypk1H/KbBpor9VaUzL7UF2IbcF+wzLD5xKXvYB9qkTP8k2zLWs5WU22f1kKh7/eCZoJ6/hdQ==
+X-Received: by 2002:a17:902:8e88:b029:11c:51bc:def8 with SMTP id
+ bg8-20020a1709028e88b029011c51bcdef8mr28537709plb.57.1624992909166; 
+ Tue, 29 Jun 2021 11:55:09 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.04
+ by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 11:55:04 -0700 (PDT)
+ Tue, 29 Jun 2021 11:55:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/63] target/cris: Mark exceptions as DISAS_NORETURN
-Date: Tue, 29 Jun 2021 11:54:08 -0700
-Message-Id: <20210629185455.3131172-17-richard.henderson@linaro.org>
+Subject: [PULL 23/63] target/cris: Add DISAS_UPDATE_NEXT
+Date: Tue, 29 Jun 2021 11:54:15 -0700
+Message-Id: <20210629185455.3131172-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210629185455.3131172-1-richard.henderson@linaro.org>
 References: <20210629185455.3131172-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,67 +88,68 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After we've raised the exception, we have left the TB.
+Move this pc update into tb_stop.
+We will be able to re-use this code shortly.
 
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c         | 5 +++--
- target/cris/translate_v10.c.inc | 3 ++-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ target/cris/translate.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/target/cris/translate.c b/target/cris/translate.c
-index e086ff9131..24dbae6d58 100644
+index df92b90d4e..a2124ffcd5 100644
 --- a/target/cris/translate.c
 +++ b/target/cris/translate.c
-@@ -2873,6 +2873,7 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
-                        -offsetof(CRISCPU, env) + offsetof(CPUState, halted));
-         tcg_gen_movi_tl(env_pc, dc->pc + 2);
-         t_gen_raise_exception(EXCP_HLT);
-+        dc->base.is_jmp = DISAS_NORETURN;
-         return 2;
+@@ -52,9 +52,15 @@
+ #define BUG() (gen_BUG(dc, __FILE__, __LINE__))
+ #define BUG_ON(x) ({if (x) BUG();})
+ 
+-/* is_jmp field values */
+-#define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+-#define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
++/*
++ * Target-specific is_jmp field values
++ */
++/* Only pc was modified dynamically */
++#define DISAS_JUMP          DISAS_TARGET_0
++/* Cpu state was modified dynamically, including pc */
++#define DISAS_UPDATE        DISAS_TARGET_1
++/* Cpu state was modified dynamically, excluding pc -- use npc */
++#define DISAS_UPDATE_NEXT   DISAS_TARGET_2
+ 
+ /* Used by the decoder.  */
+ #define EXTRACT_FIELD(src, start, end) \
+@@ -3268,8 +3274,8 @@ static void cris_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ 
+     /* Force an update if the per-tb cpu state has changed.  */
+     if (dc->base.is_jmp == DISAS_NEXT && dc->cpustate_changed) {
+-        dc->base.is_jmp = DISAS_UPDATE;
+-        tcg_gen_movi_tl(env_pc, dc->pc);
++        dc->base.is_jmp = DISAS_UPDATE_NEXT;
++        return;
      }
  
-@@ -2900,7 +2901,7 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
-         /* Breaks start at 16 in the exception vector.  */
-         t_gen_movi_env_TN(trap_vector, dc->op1 + 16);
-         t_gen_raise_exception(EXCP_BREAK);
--        dc->base.is_jmp = DISAS_UPDATE;
-+        dc->base.is_jmp = DISAS_NORETURN;
+     /*
+@@ -3311,6 +3317,7 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+     if (unlikely(dc->base.singlestep_enabled)) {
+         switch (is_jmp) {
+         case DISAS_TOO_MANY:
++        case DISAS_UPDATE_NEXT:
+             tcg_gen_movi_tl(env_pc, npc);
+             /* fall through */
+         case DISAS_JUMP:
+@@ -3327,6 +3334,9 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+     case DISAS_TOO_MANY:
+         gen_goto_tb(dc, 0, npc);
          break;
-     default:
-         printf("op2=%x\n", dc->op2);
-@@ -3188,7 +3189,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-             cris_evaluate_flags(dc);
-             tcg_gen_movi_tl(env_pc, dc->pc);
-             t_gen_raise_exception(EXCP_DEBUG);
--            dc->base.is_jmp = DISAS_UPDATE;
-+            dc->base.is_jmp = DISAS_NORETURN;
-             /* The address covered by the breakpoint must be included in
-                [tb->pc, tb->pc + tb->size) in order to for it to be
-                properly cleared -- thus we increment the PC here so that
-diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
-index dd44a7eb97..0ba2aca96f 100644
---- a/target/cris/translate_v10.c.inc
-+++ b/target/cris/translate_v10.c.inc
-@@ -61,6 +61,7 @@ static inline void cris_illegal_insn(DisasContext *dc)
- {
-     qemu_log_mask(LOG_GUEST_ERROR, "illegal insn at pc=%x\n", dc->pc);
-     t_gen_raise_exception(EXCP_BREAK);
-+    dc->base.is_jmp = DISAS_NORETURN;
- }
- 
- static void gen_store_v10_conditional(DisasContext *dc, TCGv addr, TCGv val,
-@@ -1169,7 +1170,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-                     t_gen_mov_env_TN(trap_vector, c);
-                     tcg_temp_free(c);
-                     t_gen_raise_exception(EXCP_BREAK);
--                    dc->base.is_jmp = DISAS_UPDATE;
-+                    dc->base.is_jmp = DISAS_NORETURN;
-                     return insn_len;
-                 }
-                 LOG_DIS("%d: jump.%d %d r%d r%d\n", __LINE__, size,
++    case DISAS_UPDATE_NEXT:
++        tcg_gen_movi_tl(env_pc, npc);
++        /* fall through */
+     case DISAS_JUMP:
+     case DISAS_UPDATE:
+         /* Indicate that interupts must be re-evaluated before the next TB. */
 -- 
 2.25.1
 
