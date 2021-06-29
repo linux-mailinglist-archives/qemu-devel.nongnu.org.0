@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F69C3B6E84
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 09:03:17 +0200 (CEST)
-Received: from localhost ([::1]:52498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B951E3B6E89
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 09:07:38 +0200 (CEST)
+Received: from localhost ([::1]:54998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ly7m7-0004xG-P8
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 03:03:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36654)
+	id 1ly7qL-0006n0-Pv
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 03:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ly7kt-00047Z-3V
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 03:01:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55287)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ly7oe-0005vU-2h
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 03:05:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ly7kr-0003c2-Mx
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 03:01:58 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ly7oc-0006eP-F1
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 03:05:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624950116;
+ s=mimecast20190719; t=1624950349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LaWlAypusaxp12kzhtSTMAXOAGP7Tw9UJTzKBpbDRvM=;
- b=F+OABhgmvlK+EN/3dICKV8tZkQSwuopuVbAPOr1DG5k/1QZGNGbL0vALiwNBi62hmWsgeX
- jbHY3lkj32ASwqplLAFpda+hS3KoKz3WDx85qDj2Ay79J5wvVxWAAOuATPUYbCzArrlt5Q
- gaMkzwRJzAk90qDYuXyEFU+P28Oppqc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-s1l3H9veMiqmWxSA2m3Guw-1; Tue, 29 Jun 2021 03:01:54 -0400
-X-MC-Unique: s1l3H9veMiqmWxSA2m3Guw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k16-20020a7bc3100000b02901d849b41038so902747wmj.7
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 00:01:54 -0700 (PDT)
+ bh=ok8my7t89X3HNiJ6G9jE5bXIecuY89Y0VWVtoLfuYBE=;
+ b=aMZeO5LDsjjYy+oP2slXtyq/OhKqTAEhepHAHOD1Ir3OUy03NXczv0WoGbu3J/0GqEjSHj
+ dwBykDG20fTVfpTKsNOfg4djMTS2d0Oao49XeGhjuNGzZ8v69ZxsgW3+wiiTROCIEFzGKD
+ c94OOf7Br46Q/oSNrrdM0PE4DKxXOBU=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-dj58Pxn7P36qedndUfVIpw-1; Tue, 29 Jun 2021 03:05:47 -0400
+X-MC-Unique: dj58Pxn7P36qedndUfVIpw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ q14-20020a1709066aceb029049fa6bee56fso5278824ejs.21
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 00:05:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LaWlAypusaxp12kzhtSTMAXOAGP7Tw9UJTzKBpbDRvM=;
- b=UQvs4YKmJWgPs8G2IO2y/xxjjSjst4ZmsOUwC3xLd82K8ITXu2oEFbaxLegZsXcYDE
- WtM4+Z2MxJOgkqerH65EVhF6zrdSbsUVzoquAQ3+qOwff7LIWfoHmCuPCgcld9JbrtMC
- Fr3PfXr+UCSKGSay2a+VRHZxHMNDd5yjtHHEUJgTd/8yvGAsEgAYmk+0glbT4OmETHz/
- aiGEELC3d6jL/cTTpjpmw66XQv32DNlOAMlwA6wMSHoyNgR05EfOCLfxKKxxmFeS5z3E
- R2pfRsuzopRMRZk+RUfldJgwNQQOUqoss3sSuMgscFMb3epucegqWCb2UP2b+JpK+fMP
- h/3g==
-X-Gm-Message-State: AOAM533eYGIlYjzV5ILWJVMwperVx21v4+9LX01gz2jQpwLSlsfsDqtI
- nr0RCXaR241+chUbL6FP1pOMkbArQk5Yp5DTyTyYimEp6UOs7Xkeok2sDtK2jBW4i+EL3PPqcyb
- GB0zwzCDAENJ25f4=
-X-Received: by 2002:adf:93c1:: with SMTP id 59mr11815614wrp.312.1624950113375; 
- Tue, 29 Jun 2021 00:01:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJws7nsnt+izagH0WYi6XNokvQ1kUftUIZius2muQhJ8g1BT2sajD3yzHfYkDH3PHvKpGUfWxQ==
-X-Received: by 2002:adf:93c1:: with SMTP id 59mr11815600wrp.312.1624950113207; 
- Tue, 29 Jun 2021 00:01:53 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id s62sm1671056wms.13.2021.06.29.00.01.52
+ bh=ok8my7t89X3HNiJ6G9jE5bXIecuY89Y0VWVtoLfuYBE=;
+ b=ug+RDMPTKBKELjvbCnXLH81gi6ueACNkzOBzQBXStd1Wg8yntayxiCiKrSysgjzPKN
+ DOoxd7v3eo8y/MR8TVRMT9J57FzDDqUuKGa8Q8XEtxCWGVCofnOEoSaSTsy6TKga5FGs
+ gRQEwnhofE2xpvtnr8izkdyxuE7znZQ/1mIUoQrze2oTJPpZw2brJNGXLj4S0k71PQo+
+ 82CCeKryW9Xy3IRfvp/UxfXoRy4lkoPjBHZfkF8ul1g2Oy3djhjzvsXHPHC2cw/otxLV
+ LW+PsxZTy5O7QgaiGovcp+gwZBaFH9jSbLUZqHaWPguq2Y6uiSB1aDftqsZAzGlgmdQw
+ 8Xxw==
+X-Gm-Message-State: AOAM533Ro9CZqIpwXGZSF6IpbocM4GpN94w+SnqhIxZ4vzGgcMszopox
+ KiNTwDujKnNznH0493s6MYFbQB+D0xNPRV3JQ3br0xlUSkicmiM2jn+dMXMOrcJfMW/YGrZfdik
+ MaDw9ry/3Uu2h3/g=
+X-Received: by 2002:aa7:c2d8:: with SMTP id m24mr38269594edp.65.1624950346220; 
+ Tue, 29 Jun 2021 00:05:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJUuezdT6ZxuWuDtKxK+VhQODTdnrTkF8sUhfGrOe8KC4HUWSKOgo47H8yLya9d8bL/ydcPg==
+X-Received: by 2002:aa7:c2d8:: with SMTP id m24mr38269557edp.65.1624950345961; 
+ Tue, 29 Jun 2021 00:05:45 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ v25sm7794426ejk.90.2021.06.29.00.05.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jun 2021 00:01:52 -0700 (PDT)
-Subject: Re: [PATCH v6 3/7] qemu-nbd: Use qcrypto_tls_creds_check_endpoint()
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20210628160914.2461906-1-philmd@redhat.com>
- <20210628160914.2461906-4-philmd@redhat.com>
- <CAMVc7JW23VFMG4tboxjpds2SnK_1j9aqpOboGY7xOG2mwwUWGQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b93d1d5d-cb48-f365-d04b-124ce4d8e6bb@redhat.com>
-Date: Tue, 29 Jun 2021 09:01:52 +0200
+ Tue, 29 Jun 2021 00:05:45 -0700 (PDT)
+Subject: Re: [PATCH v7 14/16] docs/devel/testing: add -valgrind option to the
+ debug section of QEMU iotests
+To: Eric Blake <eblake@redhat.com>
+References: <20210628123150.56567-1-eesposit@redhat.com>
+ <20210628123150.56567-15-eesposit@redhat.com>
+ <20210628210009.ntb7l7xy7rhwplsd@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <680d52b6-429f-8001-33dd-bb7c58a6e1ac@redhat.com>
+Date: Tue, 29 Jun 2021 09:05:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <CAMVc7JW23VFMG4tboxjpds2SnK_1j9aqpOboGY7xOG2mwwUWGQ@mail.gmail.com>
+In-Reply-To: <20210628210009.ntb7l7xy7rhwplsd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,7 +90,7 @@ X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,25 +103,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/21 4:52 AM, Akihiko Odaki wrote:
-> Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Thanks! Does this apply to this single patch or the
-whole series (since this patch depends on patch #1)?
 
-> 2021年6月29日(火) 1:09 Philippe Mathieu-Daudé <philmd@redhat.com>:
->>
->> Avoid accessing QCryptoTLSCreds internals by using
->> the qcrypto_tls_creds_check_endpoint() helper.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 28/06/2021 23:00, Eric Blake wrote:
+> On Mon, Jun 28, 2021 at 02:31:48PM +0200, Emanuele Giuseppe Esposito wrote:
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >> ---
->>  qemu-nbd.c | 19 +++++++------------
->>  1 file changed, 7 insertions(+), 12 deletions(-)
+>>   docs/devel/testing.rst | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+>> index 8b24e6fb47..fa85592a38 100644
+>> --- a/docs/devel/testing.rst
+>> +++ b/docs/devel/testing.rst
+>> @@ -240,6 +240,13 @@ a failing test:
+>>     If the ``-gdb`` option is not used, ``$GDB_OPTIONS`` is ignored,
+>>     regardless on whether it is set or not.
+>>   
+>> +* ``-valgrind`` attaches a valgrind instance to QEMU. If it detects
+>> +  warnings, it will print and save the log in
+>> +  ``$TEST_DIR/<valgrind_pid>.valgrind``.
+>> +  The final command line will be ``valgrind --log-file=$TEST_DIR/
+>> +  <valgrind_pid>.valgrind --error-exitcode=99 $QEMU ...``
+>> +  Note: if used together with ``-gdb``, this command will be ignored.
+> 
+> Ignored? Or did the previous patch make it an error to try and use
+> both at once?
+> 
+
+I apologize, I forgot to update the documentation.
+You are right in patch 13, the intended behavior is to fail with a 
+meaningful error when both flags are used.
+
+Will remove this doc line and update the error message as you suggested.
+
+Thank you,
+Emanuele
 
 
