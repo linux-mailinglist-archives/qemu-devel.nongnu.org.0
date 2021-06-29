@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BF13B73B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:02:57 +0200 (CEST)
-Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163203B73D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:07:35 +0200 (CEST)
+Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyEKG-0001ZR-2f
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:02:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46430)
+	id 1lyEOh-0005Vc-TM
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyEI3-0008VD-EJ
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:00:39 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyEI0-00083P-NE
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:00:39 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id n11so7325601pjo.1
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 07:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CzSB9KClHWe8rbShMLbwd6rst2rm3nsnJ2r9agmhsUs=;
- b=tw6ByVwduLJ89XZ75gST3jxean8dBcQCCsa4e1DxtWNuHsG6ASQasNusR8iRaj52np
- Ribluz2NKF8D9va3ZsoTgBR9tEfoHkQKS8NqEW577ytc2ueXd4m46nrQ2uASQ1zvVUpN
- /wIwdPDphZkB/dle+ijrbp0U4GkQpmO40rZLzOB4T2U36eZQrFVzYIo7mESQ8jucR5lm
- 8x4q87GLILNOZPJIdd/KvbwkGaNPkFiwW5OXuNMurBXPVXeYkxX77PzX4a14RNCEnETL
- ygxevc/iU7JXBHXC2uo7AQftSejcELxfLkUaJZDkL4w4uWbfaOgT2O2ncN5ny4e+KryB
- mGeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CzSB9KClHWe8rbShMLbwd6rst2rm3nsnJ2r9agmhsUs=;
- b=RF6Otj+oY0iP723vW3b/3qQz2xkgn+AA8me1zTzihwoPXbhb6Uo8jlYrAlekWlENtT
- RXr/Bluz8hC7gXPx5pfc27LB6BfKuyOG9nTNbANlSi8+GCE/P8sRZUJyQJ2q5BbRoESg
- tYML4jVRreNFwyHvlcMxQDHbvyqW8pzwYISjQdgowRhft5CHG/Otxy4p7PqV3qC9iSOq
- mzXVZ/qYZIXByFtSdJOUmrWBo9LaRF9GPjSocEA16F3edXh/38GOGZAvw9xqpqDYHNuu
- DRyyrgH/eASDKxR3Th8lIBAvtd3JGWhnxXnBuiyHl3zgVegGuEZ6bmPPT5EsUsNIs2fK
- M8IA==
-X-Gm-Message-State: AOAM532+qVDkBl3S4GNw8eMW1/HJhpJ7gpLeyinl2bMElh8rRHzU76Tv
- iLAeZwvro08vB60Um0fhqNTjocLQgI0DSw==
-X-Google-Smtp-Source: ABdhPJwcj3h7g1Rr+l4BfDX9w5H/OA/zGag3EZDEibU1iQ+ZczOpiF+X22kAlCWTxY3qHyiJYuec0g==
-X-Received: by 2002:a17:90b:384f:: with SMTP id
- nl15mr22741434pjb.88.1624975234687; 
- Tue, 29 Jun 2021 07:00:34 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id j3sm18319591pfe.98.2021.06.29.07.00.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jun 2021 07:00:34 -0700 (PDT)
-Subject: Re: [PATCH] target/arm: Correct the encoding of MDCCSR_EL0
-To: Nick Hudson <hnick@vmware.com>
-References: <20210629081551.14133-1-hnick@vmware.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <90c71c55-4298-52c3-1ce2-0b60d52fac6d@linaro.org>
-Date: Tue, 29 Jun 2021 07:00:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lyEN9-0004me-Ll
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:05:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41408)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lyEN1-0002wc-Jz
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:05:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624975545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yyKBzY1u+7WoBXz7puZkI5+VVBewthF9rgnrId1DYHM=;
+ b=guPrIT7yyxhjYFLDtBLUkPd+kBZhxwYErQXlVCEWOjQptAh2akniKkI6uP9iEvlZ3J3xhC
+ 5SCOtV5j2qnjq+XkidwsDues6ygSLuJkx3lJ7PeEVa83gQg09zA/A1Gvk/dnoJqWatFVxk
+ VdQNAKt4s8xAWJNurmaoohMV/oyFDiM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-ViyrT8y3MI-djbwR-WCzTA-1; Tue, 29 Jun 2021 10:05:43 -0400
+X-MC-Unique: ViyrT8y3MI-djbwR-WCzTA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E01721018725;
+ Tue, 29 Jun 2021 14:05:42 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D02560C13;
+ Tue, 29 Jun 2021 14:05:35 +0000 (UTC)
+Date: Tue, 29 Jun 2021 16:05:34 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Li Zhijian <lizhijian@cn.fujitsu.com>
+Subject: Re: [PATCH] nvdimm: release the correct device list
+Message-ID: <20210629160534.208b56ad@redhat.com>
+In-Reply-To: <20210624110415.187164-1-lizhijian@cn.fujitsu.com>
+References: <20210624110415.187164-1-lizhijian@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <20210629081551.14133-1-hnick@vmware.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,20 +78,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Mohannad Ismail <imohannad@vmware.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, xiaoguangrong.eric@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/21 1:15 AM, Nick Hudson wrote:
->       { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_BOTH,
-> -      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 0,
-> +      .cp = 14, .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
+On Thu, 24 Jun 2021 19:04:15 +0800
+Li Zhijian <lizhijian@cn.fujitsu.com> wrote:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-r~
+> ---
+>  hw/acpi/nvdimm.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index e3d5fe19392..ff317263e85 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -355,10 +355,10 @@ nvdimm_build_structure_caps(GArray *structures, uint32_t capabilities)
+>  
+>  static GArray *nvdimm_build_device_structure(NVDIMMState *state)
+>  {
+> -    GSList *device_list = nvdimm_get_device_list();
+> +    GSList *device_list, *list = nvdimm_get_device_list();
+>      GArray *structures = g_array_new(false, true /* clear */, 1);
+>  
+> -    for (; device_list; device_list = device_list->next) {
+> +    for (device_list = list; device_list; device_list = device_list->next) {
+>          DeviceState *dev = device_list->data;
+>  
+>          /* build System Physical Address Range Structure. */
+> @@ -373,7 +373,7 @@ static GArray *nvdimm_build_device_structure(NVDIMMState *state)
+>          /* build NVDIMM Control Region Structure. */
+>          nvdimm_build_structure_dcr(structures, dev);
+>      }
+> -    g_slist_free(device_list);
+> +    g_slist_free(list);
+>  
+>      if (state->persistence) {
+>          nvdimm_build_structure_caps(structures, state->persistence);
+> @@ -1339,9 +1339,9 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
+>  
+>  void nvdimm_build_srat(GArray *table_data)
+>  {
+> -    GSList *device_list = nvdimm_get_device_list();
+> +    GSList *device_list, *list = nvdimm_get_device_list();
+>  
+> -    for (; device_list; device_list = device_list->next) {
+> +    for (device_list = list; device_list; device_list = device_list->next) {
+>          AcpiSratMemoryAffinity *numamem = NULL;
+>          DeviceState *dev = device_list->data;
+>          Object *obj = OBJECT(dev);
+> @@ -1356,7 +1356,7 @@ void nvdimm_build_srat(GArray *table_data)
+>          build_srat_memory(numamem, addr, size, node,
+>                            MEM_AFFINITY_ENABLED | MEM_AFFINITY_NON_VOLATILE);
+>      }
+> -    g_slist_free(device_list);
+> +    g_slist_free(list);
+>  }
+>  
+>  void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
+
 
