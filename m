@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAEE3B6D9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 06:27:07 +0200 (CEST)
-Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70123B6DA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 06:30:26 +0200 (CEST)
+Received: from localhost ([::1]:33252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ly5Kz-0003sn-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 00:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42048)
+	id 1ly5OD-0006VE-LM
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 00:30:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ly5Jr-0002Z3-8y
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:25:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54410)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ly5ND-0005lz-Gm
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:29:23 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ly5Jo-0001oW-Td
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:25:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1ly5Jg-0000LB-Tb
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 04:25:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2EC692E81AC
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 04:25:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ly5NB-0004jf-Tz
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:29:23 -0400
+Received: by mail-wr1-x432.google.com with SMTP id p8so7925121wrr.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 21:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=H2bU+uZaBEi3kI4w2wmiKW7JC0bb4m1kuYOBcPd593o=;
+ b=Ew+kDe7wzUmpLSkzjSkQaOMBkWKPcQPx2kA9UiUpbMY3Wsfe6yzblVDpeX+sGAsMJa
+ /lTEWYuX3VdUQ1uYdN0va6aPCowWr513D+4ULEhzNnVAh57QgehL6jf1z+lm/b3Tttw6
+ 8N0dZQrTHZb9Yb8X0dWI9elpoOaDrdXdSAd3RecfD7EG+gT+YF+jtmFbKOeQQJSDCfXJ
+ jEu7YZnGlIjSBCr3+jEa5cS5/FZy2W1JT93JOtLr2T5P3EpIf4vz9m6Nef00Ov7iF0n1
+ y2z92SLHvpkRfcxw+K033fYI+aOD6L2AJM0/9+4bYgJKb68FWV+3Tp2NHpzUi8Z8x7IS
+ +STg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H2bU+uZaBEi3kI4w2wmiKW7JC0bb4m1kuYOBcPd593o=;
+ b=mZkYcyu1xioGBKXj7F2wJSYZCKizgPmRZZ4sV41igWUmjliYl5D2VRBU7Elquo2UIA
+ 1L1aC6V4PAcb7vBOJr5SJpjFPLZDCoiOXqDVF2yoWNsZbqobVeG9z9qwhtEWTmcdCOnK
+ 7rr6RuPg9jsezbVxc1TrzWjl0U9XO7jaRSKqsZYtCjQnOPjMFQ41xjJQTaNSnp+4LDd7
+ mDT8k33W5//dDbz7MiR+6IXO8PppVmkCbWUH/5XFRC4kqYSKvInns2OWJNNGDq/opVJ4
+ DrgIPfcY5bsM2dXhSrroHd5/0eSdSVNo7wCeiALM5ng4FgLVcJEVkQM321MXS1KWSQEj
+ pU6A==
+X-Gm-Message-State: AOAM533oqZiMhuiJ9CgCybRYohug3gRIDDnU89VqsGs88KqO69cx1jHu
+ JvtVAUk4bX2M3sziUpJGoW0=
+X-Google-Smtp-Source: ABdhPJxHVUFRvYewUY4pWhS6sRj4oCqdIdjp+g9wEEzaAhR7xmzyaWKVj07sB/M2cVo/+NgvXVDE/w==
+X-Received: by 2002:a5d:4107:: with SMTP id l7mr9935758wrp.16.1624940959855;
+ Mon, 28 Jun 2021 21:29:19 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id r16sm7214784wrx.63.2021.06.28.21.29.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jun 2021 21:29:19 -0700 (PDT)
+Subject: Re: [PATCH] target/s390x: Use explicit stores to env->cc_op
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210629002930.3013776-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c1434485-d585-1883-1240-05604fa45dd7@amsat.org>
+Date: Tue, 29 Jun 2021 06:29:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Jun 2021 04:17:16 -0000
-From: Launchpad Bug Tracker <1883560@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: build linux-user mips
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic janitor
- laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159223432851.7281.13140123017230519248.malonedeb@gac.canonical.com>
-Message-Id: <162494023710.24284.9280610195087788138.malone@loganberry.canonical.com>
-Subject: [Bug 1883560] Re: mips linux-user builds occasionly crash randomly
- only to be fixed by a full clean re-build
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c11083652ba158ce73cebdfd79e69cf6f7d05a73"; Instance="production"
-X-Launchpad-Hash: 2a5445b3a98d98a06d308753c58fb44f28d68d07
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210629002930.3013776-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,70 +88,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883560 <1883560@bugs.launchpad.net>
+Cc: ulrich.weigand@de.ibm.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+On 6/29/21 2:29 AM, Richard Henderson wrote:
+> Remove cc_op as a TCG global and store to it directly.
+> This will help simplify the fix for some fpu bugs.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/helper.h        |  98 ++++++-------
+>  target/s390x/crypto_helper.c |   6 +-
+>  target/s390x/fpu_helper.c    |  40 +++---
+>  target/s390x/mem_helper.c    | 265 ++++++++++++++++++-----------------
+>  target/s390x/misc_helper.c   |  39 +++---
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+Minor one comment in tprot(), I reviewed the helper changes.
 
--- =
+>  target/s390x/translate.c     | 218 ++++++++++++++--------------
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883560
+For this file I got quickly lost (too many changes in a single
+patch, but I see it is hardly splitable). I might revisit to
+complete the review.
 
-Title:
-  mips linux-user builds occasionly crash randomly only to be fixed by a
-  full clean re-build
+>  6 files changed, 344 insertions(+), 322 deletions(-)
+...
 
-Status in QEMU:
-  Expired
+> -uint32_t HELPER(tprot)(CPUS390XState *env, uint64_t a1, uint64_t a2)
+> +void HELPER(tprot)(CPUS390XState *env, uint64_t a1, uint64_t a2)
+>  {
+>      S390CPU *cpu = env_archcpu(env);
+>      CPUState *cs = env_cpu(env);
+> +    int cc;
 
-Bug description:
-  From time to time I find check-tcg crashes with a one of the MIPS
-  binaries. The last time it crashed was running the test:
+This new variable isn't really useful, can you store to env->cc_op
+directly instead?
 
-    ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
-  user/threadcount
-
-  Inevitably after some time noodling around wondering what could be
-  causing this weird behaviour I wonder if it is a build issue. I wipe
-  all the mips* build directories, re-run configure and re-build and
-  voila problem goes away.
-
-  It seems there must be some sort of build artefact which isn't being
-  properly re-generated on a build update which causes weird problems.
-  Additional data point if I:
-
-    rm -rf mips64el-linux-user
-    ../../configure
-    make
-
-  then I see failures in mip32 builds - eg:
-
-      GEN     mipsn32el-linux-user/config-target.h
-    In file included from /home/alex/lsrc/qemu.git/linux-user/syscall_defs.=
-h:10,
-                     from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
-                     from /home/alex/lsrc/qemu.git/linux-user/linuxload.c:5:
-    /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error: unter=
-minated #ifndef
-     #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
-
-    make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69: linux-user/linuxlo=
-ad.o] Error 1
-    make[1]: *** Waiting for unfinished jobs....
-
-  which implies there is a cross dependency between different targets
-  somewhere. If I executed:
-
-    rm -rf mips*
-
-  before re-configuring and re-building then everything works again.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883560/+subscriptions
+>  
+>      /*
+>       * TODO: we currently don't handle all access protection types
+> @@ -2144,7 +2143,8 @@ uint32_t HELPER(tprot)(CPUS390XState *env, uint64_t a1, uint64_t a2)
+>       */
+>      if (!s390_cpu_virt_mem_check_write(cpu, a1, 0, 1)) {
+>          /* Fetching permitted; storing permitted */
+> -        return 0;
+> +        env->cc_op = 0;
+> +        return;
+>      }
+>  
+>      if (env->int_pgm_code == PGM_PROTECTION) {
+> @@ -2152,7 +2152,8 @@ uint32_t HELPER(tprot)(CPUS390XState *env, uint64_t a1, uint64_t a2)
+>          cs->exception_index = -1;
+>          if (!s390_cpu_virt_mem_check_read(cpu, a1, 0, 1)) {
+>              /* Fetching permitted; storing not permitted */
+> -            return 1;
+> +            env->cc_op = 1;
+> +            return;
+>          }
+>      }
+>  
+> @@ -2160,17 +2161,21 @@ uint32_t HELPER(tprot)(CPUS390XState *env, uint64_t a1, uint64_t a2)
+>      case PGM_PROTECTION:
+>          /* Fetching not permitted; storing not permitted */
+>          cs->exception_index = -1;
+> -        return 2;
+> +        cc = 2;
+> +        break;
+>      case PGM_ADDRESSING:
+>      case PGM_TRANS_SPEC:
+>          /* exceptions forwarded to the guest */
+>          s390_cpu_virt_mem_handle_exc(cpu, GETPC());
+> -        return 0;
+> +        cc = 0;
+> +        break;
+> +    default:
+> +        /* Translation not available */
+> +        cs->exception_index = -1;
+> +        cc = 3;
+> +        break;
+>      }
+> -
+> -    /* Translation not available */
+> -    cs->exception_index = -1;
+> -    return 3;
+> +    env->cc_op = cc;
+>  }
+...
 
