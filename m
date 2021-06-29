@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84473B750B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 17:19:18 +0200 (CEST)
-Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CB13B7518
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 17:21:12 +0200 (CEST)
+Received: from localhost ([::1]:44228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyFW9-0002hz-4c
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 11:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
+	id 1lyFXz-0005Av-0a
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 11:21:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyFUa-0001xW-6h
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:17:40 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:39427)
+ id 1lyFW9-0003ZF-OT
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:19:17 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:34755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyFUY-00072I-Em
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:17:39 -0400
-Received: by mail-ed1-x529.google.com with SMTP id j11so6295630edq.6
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 08:17:38 -0700 (PDT)
+ id 1lyFW7-0007uB-4R
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:19:17 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id i5so31866472eds.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 08:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=p1H/zadupZpMJDLuEL2puClu6Ke2qM3ZkkXF6xJnGv0=;
- b=HC/Ewis95Hptf4HnEZxT1PE14gFcfaINucLhpnbXQjmPRv/ulchQdlqRpLcoXhpqoI
- EdgpXL23oYln0t4gB1jrWaAqAbjwKhz1B1uU1Qrx5cQk7XeYzn/hyqyZWq1k5nGm9mJd
- sEm7y96ncUaHglvs0a5n/aTh9eIccOOKX81STg1cF9iLngSLA6g4mIdWfrGY0aVO3pAo
- eUCPlIUoKKE8PJ3CniQ/8ZQGvsLv7V0BAe4aGtu2m+bQER3VZABwpGAfmwEeMfVixG3t
- uLuI1LfdiY0/6wykh54SI32kuQPTGth2Yyrh8kSu2e0X3/CbMGm486HJxDhtQ1ExjZA1
- JBzg==
+ bh=LJonbArQa50gGC82Hc+0edn9vuAO1fy5ZJ1Y75mN5A0=;
+ b=zL5Dz49KQQKst9gBagyKlEFvFhDRVWNDXKqUjxuIMIDnqkczGX440iKsuH97h5ZLgo
+ S2tiK+jmdeGweTFcEx6SVvEzPXvz41o29tW5XAgfKGL7wxLwSdo81tvAJgolr+5l/aEe
+ klKlO1cs6Y9KUh3k2/fjGXoaW0bHqyA2BGTidaZNUa9gY3u8kp+AF0aS0ND+BFWWy7VJ
+ qgwc9zOs4ZAMDfiz+zNs9Yx9yicACfuXpeKXwAfycbL1IV+KhCf4Cln8HBZhVpMehmgO
+ 8tVMqqTGeEEZ9r86KbUz89WYyqFw75VRq+jLmaO5xRtMzDbtQYagLGsp+PzL+xAGe8qC
+ OvKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=p1H/zadupZpMJDLuEL2puClu6Ke2qM3ZkkXF6xJnGv0=;
- b=qeK5GAmLPsPqMS2dzH/I8k63Ca8BNEXAtm2HdNZPipawchfNy68xuuyQnmUWWhZ3OM
- Srk1yxDg9IhNdkMCW/wz40nO5LxGEbzIifKvZHjiZJibtV2KOJ5O3uRKH27L4RLooPV0
- Jy0XpPVPnpoMs1NGkeJYRqSaApz4qhju2HH+B06QSAHTOUtXwp9rdM4eMaohPZOiIxy8
- H8h6Pj+Xoltw2vetL0Wo0Sw+yzAMXQNS2dfPN3oKhzsnv5Fbx0GJyNjbGHwYRcXvZJvb
- 4xIBEo5dMczzAUrmkxuLeeLx7Gl9ms/0lSJcAuQ3p9tJEkTiomMt74lymR/IHZaFHfnT
- 11uA==
-X-Gm-Message-State: AOAM531FMV3VYUTGXK78jvio2hTaYdOGkjgmN1Ux2MZ6SHJ1cY7h3Jga
- 1Q3MVysFw5FyOKlB4dMqs0IFYsNU0EVWwv8lj8Airg==
-X-Google-Smtp-Source: ABdhPJwg0yic9uYj4gfQl18KuU7u4+gtnTGc2tQXzbpGZQ7TsBMTwQlS0QpRtXn5mPYnPvLdj9HUBiAuDv/x+LBKLYA=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr39931822edt.100.1624979856824; 
- Tue, 29 Jun 2021 08:17:36 -0700 (PDT)
+ bh=LJonbArQa50gGC82Hc+0edn9vuAO1fy5ZJ1Y75mN5A0=;
+ b=HGClFkjB50SMbdMWzFWi9Jl/bnrFajn/O76MmoNxa5lP8QPRVV1SmGA+V62VAoRCMA
+ oh98gL2LP3PhTmnDmLiBzSErFqRgi52Nygnt9jxNydTu5gsImiYGSwKXtNs8kRmd425g
+ YvWhp1CXc70KyTYyqvQTPWQXeFNNCoOlC3ZlcYBrpsWBJlYtYzoXZrDdVIIncFjhRunJ
+ yvwh6asVg+szg1PKLU8cErlALAKmPDwB6N6GASXSbp5dNnG0WBdP61JQHrsoPmXmFoUJ
+ 5lUqqN4ZhBOy9n9fVlO32BjsWU+uYmJbmnWSG09m+tMPnLtSn8Wkt4KS7/s6i4BI0ixG
+ hTBw==
+X-Gm-Message-State: AOAM532DDiuZ1ECJNra31IerZXl+8wwU0KyfUOxm0aGCZ370LU1gFBYX
+ dsQI+iCUqBTSfEpfiFiceozPq5ZUmuWkUItaUO6jsw==
+X-Google-Smtp-Source: ABdhPJzGZZbuyY/QzyGNVAlSvQCSteXTEWIDn/JL+l4LNiVJhfb1s1EaR5Had7rzXixSFwxrHw6gEs2sYJunk2sgDWc=
+X-Received: by 2002:a05:6402:759:: with SMTP id
+ p25mr41455335edy.146.1624979953478; 
+ Tue, 29 Jun 2021 08:19:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210619091342.3660495-1-f4bug@amsat.org>
- <20210619091342.3660495-2-f4bug@amsat.org>
-In-Reply-To: <20210619091342.3660495-2-f4bug@amsat.org>
+ <20210619091342.3660495-3-f4bug@amsat.org>
+In-Reply-To: <20210619091342.3660495-3-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Jun 2021 16:16:59 +0100
-Message-ID: <CAFEAcA-hnZjzZp+k7-9CT5gaqTvri049fOuk0HCHk7tvD8eJ9Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] coverity-scan: Remove lm32 / unicore32 targets
+Date: Tue, 29 Jun 2021 16:18:36 +0100
+Message-ID: <CAFEAcA80d-W_S0mS93XinAC-OL8D=VDJn_uPVJcYTWY=aWYetQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] coverity-scan: Add 'sysemu' component
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,48 +88,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, 19 Jun 2021 at 10:13, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
  wrote:
 >
-> lm32 has been removed in commit 9d49bcf6992 ("Drop the deprecated
-> lm32 target"), and unicore32 in 4369223902a ("Drop the deprecated
-> unicore32 target").
+> Issues related to system emulation currently appear under the 'tcg'
+> component. We commonly refer to system emulation as 'sysemu', so
+> add it as a new Coverity component to cover files that have nothing
+> to do with TCG.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  scripts/coverity-scan/COMPONENTS.md | 6 ------
->  1 file changed, 6 deletions(-)
+>  scripts/coverity-scan/COMPONENTS.md | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
 > diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/=
 COMPONENTS.md
-> index 02a3447dab0..183f26a32c9 100644
+> index 183f26a32c9..7ed3f0a0077 100644
 > --- a/scripts/coverity-scan/COMPONENTS.md
 > +++ b/scripts/coverity-scan/COMPONENTS.md
-> @@ -21,9 +21,6 @@ hppa
->  i386
->    ~ (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^=
-/]*\.c)
+> @@ -115,7 +115,7 @@ slirp
+>    ~ (/qemu)?(/.*slirp.*)
 >
-> -lm32
-> -  ~ (/qemu)?((/include)?/hw/lm32/.*|/target/lm32/.*|/hw/.*/(milkymist|lm=
-32).*)
-> -
->  m68k
->    ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?=
-/mcf.*)
->
-> @@ -60,9 +57,6 @@ tilegx
->  tricore
->    ~ (/qemu)?((/include)?/hw/tricore/.*|/target/tricore/.*)
->
-> -unicore32
-> -  ~ (/qemu)?((/include)?/hw/unicore32/.*|/target/unicore32/.*)
-> -
->  9pfs
->    ~ (/qemu)?(/hw/9pfs/.*|/fsdev/.*)
+>  tcg
+> -  ~ (/qemu)?(/accel/tcg/.*|/replay/.*|/(.*/)?softmmu.*)
+> +  ~ (/qemu)?(/accel/tcg/.*|/replay/.*|tcg/*\.?)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Makes sense not to call softmmu/ part of "TCG"...
 
-NB that somebody will have to manually make the changes to the Coverity con=
-fig
-on the website as well.
+>
+>  trace
+>    ~ (/qemu)?(/.*trace.*\.[ch])
+> @@ -129,6 +129,9 @@ usb
+>  user
+>    ~ (/qemu)?(/linux-user/.*|/bsd-user/.*|/user-exec\.c|/thunk\.c|/includ=
+e/exec/user/.*)
+>
+> +sysemu
+> +  ~ (/qemu)?(/softmmu/.*|/accel/(hvf|kvm)/.*)
+> +
+
+...but maybe we should have a component for each accelerator
+instead of lumping hvf and kvm under here ? We already have
+components for xen and tcg.
+
+>  util
+>    ~ (/qemu)?(/util/.*|/include/qemu/.*)
+>
+> --
+> 2.31.1
 
 thanks
 -- PMM
