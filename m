@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFCD3B7885
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:22:20 +0200 (CEST)
-Received: from localhost ([::1]:46766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E283B7873
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:16:34 +0200 (CEST)
+Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJJL-0004kE-Dh
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
+	id 1lyJDl-00029J-7v
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:16:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyIno-0002Km-9c; Tue, 29 Jun 2021 14:49:44 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:51035)
+ id 1lyInn-0002KJ-NC; Tue, 29 Jun 2021 14:49:43 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:39317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyInj-0005pK-8X; Tue, 29 Jun 2021 14:49:44 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id A24D32B00ACE;
- Tue, 29 Jun 2021 14:49:06 -0400 (EDT)
+ id 1lyInc-0005qq-7u; Tue, 29 Jun 2021 14:49:43 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id E7D0E2B00AC0;
+ Tue, 29 Jun 2021 14:49:09 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 29 Jun 2021 14:49:07 -0400
+ by compute4.internal (MEProxy); Tue, 29 Jun 2021 14:49:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
- 4uWHX8U2/wU4Mw7pC3WfZ1ZOMuA1lqM3FW8ByWTKxuI=; b=EQxykCYhiEZKKzc0
- 3Qj20hyAZxuSvsZ3F+CZqehhjFkogOai262Ii1W51fKQJngNMijpLVC8s8QGFafH
- /HsMKHC32EfEHPndBXPYXT5Cg5Fcl3ZCCgZFZMEQrOpGndsG3hgG8Nbyx3FYw9gC
- H5CEXCe00h8ajcBu4ABS0Mz9/oN3dPUzXuNx0XhP+Yr7Z+kYgLi3wqYSQtYzDgCB
- B1TPo09ILQ0RP51LX5hgW/+KywfiAa6Fa+EuxnCp79UVhWDwWaJxk+eS5lrB7N4d
- NPyL62QmfCblZHcM35DwcSDQo3Z4bHSV6SAShhsYCqM6ejGgoavjPmjFk/QULsQD
- g548Xg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=wF4h7jglbyMs3
+ eA1vmZ/L4EsKB0KZtq2c/rbA6JCSjE=; b=dR1vbQLXrUMDXWQWDjhAPmkaHp60a
+ YUHPIcbaMN+8ZAZsNQOOTalQjuJzwWk/CjFtq/Coc6C2fMDqmoAQG15gf1OsEiN3
+ dMGicYr954yg93xgE1d1RlFADw0bVsJz/ufFmbPPGJJ8Ds66jPtP5bVV1QuFh8vA
+ n9r5GH0vX9MS4qyFImGFu2MliVmiJT/cp+13gG2X6OzyIS+UrpUk3fmqIE7EmGh8
+ 9Wm/x/nwtuBGIbtais8VAHTjci7KZ0CcrqC/YFt+siPIOeMhO6RkxvXi5VKA2sHZ
+ x+c5XzzzChqhVfHDeeYWXB+d6CuamNK6LCTfuhkejC3QCGMgiUAwgXYpA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=4uWHX8U2/wU4Mw7pC3WfZ1ZOMuA1lqM3FW8ByWTKx
- uI=; b=VnXMk7lGkXqaIt9tafN1JlbVdlPPKRQYULmQBr2VW/J2cyFJHtAf1vpzw
- ROFTfLJSJVrUVWDNesrdeiLxuiv8BvHZnhY1TDM+9+i1UdjfJlzDg6GDWa7yIScZ
- kn0C1J2h0pVKMSHQfcUle0LmdnS5tXLLMqiC/7o+tsD3He42PldeJIpJ4hldgCZL
- YVRRfIonbelr+lx4nhiBhx9kkaIILt3Dowy/yBcb3+0Frf9odT5YHJyxRIa0GxTp
- fabj/R2qXFaYoScI6GQi8su8M/qu8Q+evHuE7lobh3BDYvKAYK1wEx+4evH8mNEd
- V1wrP/dTdGnLkc0fnEvCkwIDoWSHA==
-X-ME-Sender: <xms:IWvbYI_jDGat9SIc9cRW8d4ZmQXtDan3JkTe2P6o7nCGDFF4YMmY0w>
- <xme:IWvbYAt6uRlkXhg1xAfbSbLKE6zL4J35XUDeSrkeBPS1x9VAzX7EczWJnySnTE2td
- POnwrkfYYbijRfS52Y>
-X-ME-Received: <xmr:IWvbYOAwI5v7Xj7zPsDVe5M3DkpGq1Mw9_tk97EBy9JFjRGUMD2ZNFm3DcPxXxeKtKX0QKZlryXtFFaDTCBwvfxDEETMPKR2LEgA4YUwiw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=wF4h7jglbyMs3eA1vmZ/L4EsKB0KZtq2c/rbA6JCSjE=; b=Rkw1UAnd
+ NJmT3wQjQbCoKAWAAAUgsq2W/s6tjIIE+ei2fIAjolRsqFrVMAtOUDlcEJBKSBOC
+ ZYbCRVkIXDpR7XeQ+oHXo63eIHW56wbLjdkzNwcBdT8GJuVhkKzExtkAeiskylXf
+ rlcHhbkOqDoH615EuqAQpb1Tx/MHkZaK6yqmfj9BsVB2m4a6CQRzWWv1OAyz/EKL
+ QS7KdDQGEb4IRMlbgfkCousNrz06+RRN4AvkQaM6nHG1o55gaK5Ise8DzQjE3KzY
+ Ft3bsnZ4vbpx18bmFS4r/fsiFE6W/QTJGIuCT4Sw8NXm0MqmyrteIurg7aK7cYKd
+ dGEOkupAR+IyEg==
+X-ME-Sender: <xms:JWvbYL0O8f0s4EdAnl3t4QzEiwpq8JSlBkbvzQyOevAu6e1PXwz5Wg>
+ <xme:JWvbYKEwE3fxj1_-ssw0eBQB0yuJ5VSkqBC9B-4_7UeIdUWteTTXwn1OQSxJhpsWS
+ e4iI1Y5T4k3RGfctSQ>
+X-ME-Received: <xmr:JWvbYL6yqFokY4VWHleTrh9kGuPyhAZXxiXpqafoWAo67ckBMX95kIrU623B-AXik_rL51muB_PF5fddU4sEwJUB3jFnGd47ORzT3vF5CA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepteevuedugeevieehgeeileeufeetvddtkeetfeelgeehudfhjeeuledvhfff
- tdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:IWvbYId7SD9M-s3h_Ufn3J-b1saM0gXjNhCG94vI1Gd3Viz7IPfhsA>
- <xmx:IWvbYNOmjz82-jPb2XKQLN_0or9HF-BuGYcwQUlFnqWdiIjbrIwKwg>
- <xmx:IWvbYCk2dmXbu4n5FG3XrFPmbV_84n1Wp23Z3ss-tUGyAY-MOX-BYg>
- <xmx:ImvbYBksm29IH41b2fHeE_O97y7gH6a0GGUh-vKfd21DYIkTs2Z9xYZrjvw>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:JWvbYA07dvoJDcyxbzGwZW9PFw-JFpmzEqKGC8I6XbNpHG-7QWQ49w>
+ <xmx:JWvbYOGWpM_ySZDGlZbNkhf6MSlo6V-UxaEs0aOYNpdL9pcGuIurjw>
+ <xmx:JWvbYB8A9f51T4aDLZXvupWf-xl6sD-XEdgf9w1RV7NUT8703ak4pQ>
+ <xmx:JWvbYG-jUlDbMvR_lZvTn7t8XSDAy-qcjui_tWsLVuchQeQy60kHPYg1W_M>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:49:03 -0400 (EDT)
+ 29 Jun 2021 14:49:07 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 22/23] hw/nvme: fix pin-based interrupt behavior (again)
-Date: Tue, 29 Jun 2021 20:47:42 +0200
-Message-Id: <20210629184743.230173-23-its@irrelevant.dk>
+Subject: [PULL 23/23] hw/nvme: add 'zoned.zasl' to documentation
+Date: Tue, 29 Jun 2021 20:47:43 +0200
+Message-Id: <20210629184743.230173-24-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
  helo=wnew1-smtp.messagingengine.com
@@ -96,111 +94,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-stable@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Jakub=20Jerm=C3=A1=C5=99?= <jakub.jermar@kernkonzept.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Keith Busch <kbusch@kernel.org>
 
-Jakub noticed[1] that, when using pin-based interrupts, the device will
-unconditionally deasssert when any CQEs are acknowledged. However, the
-pin should not be deasserted if other completion queues still holds
-unacknowledged CQEs.
-
-The bug is an artifact of commit ca247d35098d ("hw/block/nvme: fix
-pin-based interrupt behavior") which fixed one bug but introduced
-another. This is the third time someone tries to fix pin-based
-interrupts (see commit 5e9aa92eb1a5 ("hw/block: Fix pin-based interrupt
-behaviour of NVMe"))...
-
-Third time's the charm, so fix it, again, by keeping track of how many
-CQs have unacknowledged CQEs and only deassert when all are cleared.
-
-  [1]: <20210610114624.304681-1-jakub.jermar@kernkonzept.com>
-
-Cc: qemu-stable@nongnu.org
-Fixes: ca247d35098d ("hw/block/nvme: fix pin-based interrupt behavior")
-Reported-by: Jakub Jermář <jakub.jermar@kernkonzept.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/nvme/nvme.h |  1 +
- hw/nvme/ctrl.c | 18 +++++++++++++++++-
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ docs/system/nvme.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 2509b8b039ef..56f8eceed2ad 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -410,6 +410,7 @@ typedef struct NvmeCtrl {
-     uint32_t    max_q_ents;
-     uint8_t     outstanding_aers;
-     uint32_t    irq_status;
-+    int         cq_pending;
-     uint64_t    host_timestamp;                 /* Timestamp sent by the host */
-     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-     uint64_t    starttime_ms;
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 5c6c7d3455c3..629b0d38c2a2 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -473,7 +473,9 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
-             return;
-         } else {
-             assert(cq->vector < 32);
--            n->irq_status &= ~(1 << cq->vector);
-+            if (!n->cq_pending) {
-+                n->irq_status &= ~(1 << cq->vector);
-+            }
-             nvme_irq_check(n);
-         }
-     }
-@@ -1253,6 +1255,7 @@ static void nvme_post_cqes(void *opaque)
-     NvmeCQueue *cq = opaque;
-     NvmeCtrl *n = cq->ctrl;
-     NvmeRequest *req, *next;
-+    bool pending = cq->head != cq->tail;
-     int ret;
+diff --git a/docs/system/nvme.rst b/docs/system/nvme.rst
+index 33a15c7dbc78..bff72d1c24d0 100644
+--- a/docs/system/nvme.rst
++++ b/docs/system/nvme.rst
+@@ -202,6 +202,12 @@ The namespace may be configured with additional parameters
+   allows all zones to be open. If ``zoned.max_active`` is specified, this value
+   must be less than or equal to that.
  
-     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
-@@ -1282,6 +1285,10 @@ static void nvme_post_cqes(void *opaque)
-         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
-     }
-     if (cq->tail != cq->head) {
-+        if (cq->irq_enabled && !pending) {
-+            n->cq_pending++;
-+        }
++``zoned.zasl=UINT8`` (default: ``0``)
++  Set the maximum data transfer size for the Zone Append command. Like
++  ``mdts``, the value is specified as a power of two (2^n) and is in units of
++  the minimum memory page size (CAP.MPSMIN). The default value (``0``)
++  has this property inherit the ``mdts`` value.
 +
-         nvme_irq_assert(n, cq);
-     }
- }
-@@ -4297,6 +4304,11 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeRequest *req)
-         trace_pci_nvme_err_invalid_del_cq_notempty(qid);
-         return NVME_INVALID_QUEUE_DEL;
-     }
-+
-+    if (cq->irq_enabled && cq->tail != cq->head) {
-+        n->cq_pending--;
-+    }
-+
-     nvme_irq_deassert(n, cq);
-     trace_pci_nvme_del_cq(qid);
-     nvme_free_cq(cq, n);
-@@ -6039,6 +6051,10 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
-         }
+ Metadata
+ --------
  
-         if (cq->tail == cq->head) {
-+            if (cq->irq_enabled) {
-+                n->cq_pending--;
-+            }
-+
-             nvme_irq_deassert(n, cq);
-         }
-     } else {
 -- 
 2.32.0
 
