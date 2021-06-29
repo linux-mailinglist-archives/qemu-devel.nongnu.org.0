@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2CC3B7820
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:59:24 +0200 (CEST)
-Received: from localhost ([::1]:51760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B18F3B7822
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:59:50 +0200 (CEST)
+Received: from localhost ([::1]:52942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyIx9-0002hS-Ai
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36504)
+	id 1lyIxZ-0003UL-0m
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImF-0001Ap-Hg; Tue, 29 Jun 2021 14:48:07 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:44395)
+ id 1lyImV-0001Mp-Ir; Tue, 29 Jun 2021 14:48:24 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:58457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyIm9-0005FV-6D; Tue, 29 Jun 2021 14:48:07 -0400
+ id 1lyImD-0005J1-JY; Tue, 29 Jun 2021 14:48:21 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 97EF22B00A63;
- Tue, 29 Jun 2021 14:47:58 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id 603332B00A75;
+ Tue, 29 Jun 2021 14:48:02 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 29 Jun 2021 14:47:59 -0400
+ by compute1.internal (MEProxy); Tue, 29 Jun 2021 14:48:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=NFiMHu6F+iavT
- Y9L7GefmmlLAaekOIMYpmWgzf86Uek=; b=cjFcOV5u57YJuuPHy+LcAhFCjPsSF
- bKs3etXLlTOTO0Yi1oWe0NHNdvmEDV8E1El6C/sC+ZgYJjF03YoX9nwSGzZ1d/8+
- hYhuqxNySUtc+Atb+A9NBh8TOEzAGCp2z0Mb54J2cDKboJdsPfWqEqGbzBKeK2cS
- txDhElx0AV9OdJWSGFbwOrnthrxg0ouicm6nz0DBkUinV6mSmMYKMUrxjHN8Xglf
- cqEbS12MC1SK7nsHr3CGB6xNLSEmSqVvgtx3e0jhpeO+b7AUSbTLb5vmmHq3JaHY
- pLBQXQiD9K0Bxs8UF6OefTVhjwynvSJd9ovZFX4RdCXC+ZUYElUbXV1Tw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=DuFopZ4A9RjcC
+ wbNQhkrU6J7tH/lODsXVd/hDzm3xrE=; b=U3oQzvfd1pGu7X1PI6xFM+CQVVMa4
+ D2afzRUevD4h0iveL+hDcEj/cFlcuwN2JwEx0JLOcjmevZCoiWBJmD2TM5jEEYjC
+ gi+eW1pHsnZd6L/ez04znQlOsH0sg7w1uqrU4LHDBgAcLZJMTo66i/Wkm5/Gd/XX
+ 2JcP7D8jli0MW7CIgg38z4xMTQhtQoBqJKqOfL4ZCgluN/cfLUXd+h2u+OgkdEJf
+ lFF8TUSht2GpgQf7vn/Rpo5zasDJ2AHK5QluxQKJdmj1d+cjUoIkJOm0GaEK2MaI
+ Vjm9SU088GGJQI0f+qEemI1on68BKQnW/6TuYHb+uMgMMYy+klTUlp9jg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=NFiMHu6F+iavTY9L7GefmmlLAaekOIMYpmWgzf86Uek=; b=ntccBRE/
- L+jP9wP9pd85Ys9bkCkockBS3760b50VY6E+ZPKdIJVlKfuQ6zdzA5cZJ37vTT9z
- GTbn7dRvSuQoK3+1DwMLaueTE43FWKOs6GQMCmTCxQr9UWQPmi3FHkcXaKuln/Wh
- RlyIR/bcfkoLDspBUmuk3eyQASXHRukUlg/T1fvkRDSEx1y1dg5mDGX8VOvN7MmZ
- xhUdmcbTDudvxTyzJ8irGEZ4v6uQ04ZT9BLsIRP3dJ3zC1LwxaAJP3iIE56yKJxG
- 2eusWid7Q2mqaz4KF9osj1BRyqz264+3LKZQqeu38geltZ3pGDi3zO6kiOrcFE6E
- kKbTNOvdi6VxNQ==
-X-ME-Sender: <xms:3mrbYFoZiiuHDv9M05AH4xhqj8ezEy405OxPqQYS0o5uAd42PHE_iw>
- <xme:3mrbYHrDgU-ZJug0KpRPFqHxQQN1Ih0Mtdb_ttAIjqhfreEpk8XqHR7t8pIOQfzK0
- FRyiUfpMh6GiP1WceQ>
-X-ME-Received: <xmr:3mrbYCMvuGcW4rI7htwnCTPohVacMl3FhBp9bvd5bpTId9hnY6P3bygIYlK9vrUHEBtwExgMnlLsnKEcidcf866lLiBsJurOiDz0GSiYzQ>
+ fm3; bh=DuFopZ4A9RjcCwbNQhkrU6J7tH/lODsXVd/hDzm3xrE=; b=S2VfpagT
+ xBSWtNwrAkM0W7obQXtccg7Kwx8Xd3+M6UXo+N0a8LNvKI3+tgLvslmlKpCI7Lbm
+ 30h1xd32dlzvMeTega3mWxbZOU+0LXrOEuod8d8OzRI4d8Havd3MrNwO681OZwVY
+ gSJhD5m9xu2wKHk3nm2wzfYcTiOYPCadFsTAoS+jlBZlgjt1n5w8IWwcBW1kqFY0
+ flSPah+GkMSdg+UAKNfuOt8BTZFl/fratLTUtJCbJCcSWzkNDQLjHasyhCfeXNhS
+ eXuRNjRtRlM2gV5ZixnhanDpq7VV77iBlTo1/auSPH3SZnFOmu521juiFrZE4lYc
+ jRd1hwZN98aUBQ==
+X-ME-Sender: <xms:4WrbYHHf3Of_a94EkrEF7c6cil98Sdhto9tv1O5UODUoesKtkYNS4g>
+ <xme:4WrbYEXF7GtnGH23DSEPCBdmnIpgiCgN7QXr_VeW9aiQw27bxFieU-TxPxWycsGhi
+ rzDi5nBnf-DHyLQO34>
+X-ME-Received: <xmr:4WrbYJJUCFbNgMcgJWA3WLonUlU8cEwoA6WqYXKw3JsY9B6YVnn1mJqpraE-vp0M4YRa251A0P_kFHHmLJ5Uj0crxPXM9yzgJcOATPML6Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:3mrbYA7w7LbuqpG9wftES0qZoCI8MaIBOi_dgCPUEVLZ_ViU58Fyrg>
- <xmx:3mrbYE6Oum9BYplNzcgLgRH8lIEySJbsS25ViYEU2vZof6HqGy59qA>
- <xmx:3mrbYIhHF4PoRIHDqltLVLv02-KWZEdFuLs7AiuIZDShb-zJI7lzJw>
- <xmx:3mrbYEhMrh8KcWeGC5yQyqq9J6xbyeypUj8JuiFgBrElKft9QSUHMOuPHS4>
+X-ME-Proxy: <xmx:4WrbYFGaAvXmMC3FAHpvcd-4_HwtUuEbqY0yT4dQsJYt2PzfFSSNqw>
+ <xmx:4WrbYNU-sGVNeWOf89gUKRxup5J4GSujCYpLZ-CMFKbWYGUt96CIuw>
+ <xmx:4WrbYAO7wMd7woRemmBYSt9BImnjfo3nbMi3C4L7g8MwgSxmkSd-0g>
+ <xmx:4mrbYIOUV1X1dSqhqVtjSzo0yaT5uboVoprLgUDyg7T4o1YcLTBPdSKQjUY>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:47:56 -0400 (EDT)
+ 29 Jun 2021 14:48:00 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 03/23] hw/nvme: fix lbaf formats initialization
-Date: Tue, 29 Jun 2021 20:47:23 +0200
-Message-Id: <20210629184743.230173-4-its@irrelevant.dk>
+Subject: [PULL 04/23] hw/nvme: add param to control auto zone transitioning to
+ zone state closed
+Date: Tue, 29 Jun 2021 20:47:24 +0200
+Message-Id: <20210629184743.230173-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
@@ -94,96 +95,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-Currently LBAF formats are being intialized based on metadata
-size if and only if nvme-ns "ms" parameter is non-zero value.
-Since FormatNVM command being supported device parameter "ms"
-may not be the criteria to initialize the supported LBAFs.
+In the Zoned Namespace Command Set Specification, chapter
+2.5.1 Managing resources
 
-And make LBAF array as read-only.
+"The controller may transition zones in the ZSIO:Implicitly Opened state
+to the ZSC:Closed state for resource management purposes."
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+The word may in this sentence means that automatically transitioning
+an implicitly opened zone to closed is completely optional.
+
+Add a new parameter so that the user can control if this automatic
+transitioning should be performed or not.
+
+Being able to control this can help with verifying that e.g. a user-space
+program behaves properly even without this optional ZNS feature.
+
+The default value is set to true, in order to not change the existing
+behavior.
+
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+[k.jensen: moved parameter to controller]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ns.c | 53 +++++++++++++++++++++++-----------------------------
- 1 file changed, 23 insertions(+), 30 deletions(-)
+ hw/nvme/nvme.h |  1 +
+ hw/nvme/ctrl.c | 32 ++++++++++++++++++++++----------
+ 2 files changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 8066e311d1a2..3fec9c627321 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -81,39 +81,32 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
-     ds = 31 - clz32(ns->blkconf.logical_block_size);
-     ms = ns->params.ms;
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 81a35cda142b..93a7e0e5380e 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -382,6 +382,7 @@ typedef struct NvmeParams {
+     uint8_t  vsl;
+     bool     use_intel_id;
+     uint8_t  zasl;
++    bool     auto_transition_zones;
+     bool     legacy_cmb;
+ } NvmeParams;
  
--    if (ns->params.ms) {
--        id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
-+    id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 40a7efcea914..8dd9cb2ccbf3 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -34,6 +34,7 @@
+  *              aerl=<N[optional]>,aer_max_queued=<N[optional]>, \
+  *              mdts=<N[optional]>,vsl=<N[optional]>, \
+  *              zoned.zasl=<N[optional]>, \
++ *              zoned.auto_transition=<on|off[optional]>, \
+  *              subsys=<subsys_id>
+  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
+  *              zoned=<true|false[optional]>, \
+@@ -100,6 +101,11 @@
+  *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
+  *   defaulting to the value of `mdts`).
+  *
++ * - `zoned.auto_transition`
++ *   Indicates if zones in zone state implicitly opened can be automatically
++ *   transitioned to zone state closed for resource management purposes.
++ *   Defaults to 'on'.
++ *
+  * nvme namespace device parameters
+  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  * - `shared`
+@@ -1686,8 +1692,8 @@ enum {
+     NVME_ZRM_AUTO = 1 << 0,
+ };
  
--        if (ns->params.mset) {
--            id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
--        }
--
--        id_ns->dpc = 0x1f;
--        id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
--
--        NvmeLBAF lbaf[16] = {
--            [0] = { .ds =  9           },
--            [1] = { .ds =  9, .ms =  8 },
--            [2] = { .ds =  9, .ms = 16 },
--            [3] = { .ds =  9, .ms = 64 },
--            [4] = { .ds = 12           },
--            [5] = { .ds = 12, .ms =  8 },
--            [6] = { .ds = 12, .ms = 16 },
--            [7] = { .ds = 12, .ms = 64 },
--        };
--
--        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
--        id_ns->nlbaf = 7;
--    } else {
--        NvmeLBAF lbaf[16] = {
--            [0] = { .ds =  9 },
--            [1] = { .ds = 12 },
--        };
--
--        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
--        id_ns->nlbaf = 1;
-+    if (ms && ns->params.mset) {
-+        id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
+-static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
+-                                    int flags)
++static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
++                                    NvmeZone *zone, int flags)
+ {
+     int act = 0;
+     uint16_t status;
+@@ -1699,7 +1705,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
+         /* fallthrough */
+ 
+     case NVME_ZONE_STATE_CLOSED:
+-        nvme_zrm_auto_transition_zone(ns);
++        if (n->params.auto_transition_zones) {
++            nvme_zrm_auto_transition_zone(ns);
++        }
+         status = nvme_aor_check(ns, act, 1);
+         if (status) {
+             return status;
+@@ -1735,14 +1743,16 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
      }
+ }
  
-+    id_ns->dpc = 0x1f;
-+    id_ns->dps = ns->params.pi;
-+    if (ns->params.pi && ns->params.pil) {
-+        id_ns->dps |= NVME_ID_NS_DPS_FIRST_EIGHT;
-+    }
-+
-+    static const NvmeLBAF lbaf[16] = {
-+        [0] = { .ds =  9           },
-+        [1] = { .ds =  9, .ms =  8 },
-+        [2] = { .ds =  9, .ms = 16 },
-+        [3] = { .ds =  9, .ms = 64 },
-+        [4] = { .ds = 12           },
-+        [5] = { .ds = 12, .ms =  8 },
-+        [6] = { .ds = 12, .ms = 16 },
-+        [7] = { .ds = 12, .ms = 64 },
-+    };
-+
-+    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
-+    id_ns->nlbaf = 7;
-+
-     for (i = 0; i <= id_ns->nlbaf; i++) {
-         NvmeLBAF *lbaf = &id_ns->lbaf[i];
-         if (lbaf->ds == ds) {
+-static inline uint16_t nvme_zrm_auto(NvmeNamespace *ns, NvmeZone *zone)
++static inline uint16_t nvme_zrm_auto(NvmeCtrl *n, NvmeNamespace *ns,
++                                     NvmeZone *zone)
+ {
+-    return nvme_zrm_open_flags(ns, zone, NVME_ZRM_AUTO);
++    return nvme_zrm_open_flags(n, ns, zone, NVME_ZRM_AUTO);
+ }
+ 
+-static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
++static inline uint16_t nvme_zrm_open(NvmeCtrl *n, NvmeNamespace *ns,
++                                     NvmeZone *zone)
+ {
+-    return nvme_zrm_open_flags(ns, zone, 0);
++    return nvme_zrm_open_flags(n, ns, zone, 0);
+ }
+ 
+ static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
+@@ -2283,7 +2293,7 @@ static void nvme_copy_in_complete(NvmeRequest *req)
+             goto invalid;
+         }
+ 
+-        status = nvme_zrm_auto(ns, zone);
++        status = nvme_zrm_auto(nvme_ctrl(req), ns, zone);
+         if (status) {
+             goto invalid;
+         }
+@@ -3080,7 +3090,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+             goto invalid;
+         }
+ 
+-        status = nvme_zrm_auto(ns, zone);
++        status = nvme_zrm_auto(n, ns, zone);
+         if (status) {
+             goto invalid;
+         }
+@@ -3169,7 +3179,7 @@ enum NvmeZoneProcessingMask {
+ static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
+                                NvmeZoneState state, NvmeRequest *req)
+ {
+-    return nvme_zrm_open(ns, zone);
++    return nvme_zrm_open(nvme_ctrl(req), ns, zone);
+ }
+ 
+ static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
+@@ -6259,6 +6269,8 @@ static Property nvme_props[] = {
+     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
+     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
+     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
++    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
++                     params.auto_transition_zones, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.32.0
 
