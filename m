@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36A33B783B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:06:01 +0200 (CEST)
-Received: from localhost ([::1]:34482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3A73B786F
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:14:37 +0200 (CEST)
+Received: from localhost ([::1]:55380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJ3Y-00023H-Ni
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36602)
+	id 1lyJBs-0007wp-Bm
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImY-0001Pc-Ge; Tue, 29 Jun 2021 14:48:26 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:44983)
+ id 1lyImb-0001SC-Mu; Tue, 29 Jun 2021 14:48:30 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:45997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImO-0005Nv-SR; Tue, 29 Jun 2021 14:48:23 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 02F402B00AAA;
- Tue, 29 Jun 2021 14:48:13 -0400 (EDT)
+ id 1lyImS-0005PH-JP; Tue, 29 Jun 2021 14:48:29 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id 84CDB2B00AAE;
+ Tue, 29 Jun 2021 14:48:17 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 29 Jun 2021 14:48:15 -0400
+ by compute2.internal (MEProxy); Tue, 29 Jun 2021 14:48:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=mFoV6U2iUBImJ
- 8+uKTCws82hjluU0Z3Qtq0CMNRwjdc=; b=TgLfZjjYbNDyYZfeFW/APTpYphM3j
- jY6xz+PoXMAk4AGRxBeiR4fWRuPCVjw6RMyXyFBfc1dTWEfH5gYSxJg5lzoSJS1F
- mhT4bF553i6uMwbZn1ekGdg0KBz0gnAjnXT4kTXpVsvDgBo89OSM3uZwYxrhuUlL
- K5aferYuBYb0En9URFIplDF78sQ+avWq+shCO7ALg+qqq0eub8mJ52fqZPAjhdh9
- WMcwo5cgdHO0lQizJSYwQBwbBR+dV4p83eJVFyrQDLfb6Orv4fxGhD/KvXY2KDmR
- iUrtmCtFtkFjBF7MU27iOcjOHwmOuwPI/nJgDp4GnxqcsPKfK9y5mRY6g==
+ :mime-version:content-transfer-encoding; s=fm3; bh=zgmg8Utm40hoz
+ 6dINXrVI9YgTbV0PQqvwGlu+ed5QCQ=; b=h5AR7ZkY0y09diJ7lqbUH4/1EL/YO
+ lqXecOlS/67nVz8eW2CMhYIsl4fILlTKnmOZHkXFVF2r46zGZeeeZIEWMC++aNro
+ KqYBsxactAW4vZywD3Wu66Q/1m0g4BvchKcvNYwugXFC14lBnK2lZRbh8+c3X0CA
+ Anx3l/+UKF0P2914nImzn6hLGKj8v6yWf8nl4vuf/urEcDK+to10mBOxkGB0qgbt
+ 64zXCNjUCp/KP1vHgzSW2ZD2LUgoCWhdDa8oKJJfp9iTG2iMtjorkoV2tuF4RRh0
+ QJ0YR+wVhYV3T6rnDzGix892iydEWa6Fyr3GJPAfefMJTNl0kJThG++8A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=mFoV6U2iUBImJ8+uKTCws82hjluU0Z3Qtq0CMNRwjdc=; b=Lzf0sFzG
- IP375qMyIujn+RtKqkW3adpmWAnVKNzN0v1CIDib1xg1S3KWiPHaMB+VS6kSACgG
- kCyFWMuC3vWcZWTCM6As1W4JgOL6ag3VgXAW4amrcXLCTHMY5ow95pqP44ok8qQh
- isX6JeTCzMfvtn1cv60qLIwL/DSYGMenSfgVL/hA71ieJyC8psxH7Q+Q+DLMcMti
- Ra9YOZv/TuP4ADjAArPy1BoymyQvNONpuBQEtf8QFEcRtug6mR3oRlUnnUQb2KQC
- CGyxgVFSa/2Jli65czTX1UrtBtSbotdKkG7+/S+XsbpI2bJiHj/qO8/3eF0SYdpS
- 3+5Qg/kEULPtgQ==
-X-ME-Sender: <xms:7WrbYKZnNAEGk5EkIkdK6mJDNkRciSACWYzX-8o_d9FCu9D2xfMCbA>
- <xme:7WrbYNZhbWF87unVb1gEBbv2n3KlOX452rBXf8NEXBa0JeztvdOcbZqRC5Y9uHgCo
- NA1JYWdq3elJe08pnk>
-X-ME-Received: <xmr:7WrbYE9EIX7mZBggI3qGG7WjJ4hJjZ_L921ZI9cqWHQrj-_bCvWVdQur33Doy68Du9a6obHOwmzlovGBif4wq-TFKYjIw4SsKZBk6dg5Bw>
+ fm3; bh=zgmg8Utm40hoz6dINXrVI9YgTbV0PQqvwGlu+ed5QCQ=; b=c51Ka1Dt
+ IwS+MeZwvNhAymCpU5wDjw9zzXLELq/xZQykN/027UiSFJ1Ul1z9cy+0oD9fo/l2
+ 2iylsUEquANdRG+S2rVWtwFsOj3BaPsAeG4/pkmkxxUQrDRie2E07mvrx7TaOrIX
+ zbGhFAmxd0jLzar00xWo6Jtg/HkCj+twIrUL3qfYAXXfCnm0x5R/eVyolDOfgSR2
+ 1DpAayXcPs+xyf/03+aBsKvGK4XYNvw6n5OrmuiLiZMM5bqpdHEl3nJCvqjD2I5a
+ PkRDbc+E2Eq0vGL8tBG4VyVt9c4LqI150l3DvwVyFVOS52JXsE4a1SoJjLUdnfFE
+ YjbQYzQ5eaKjZw==
+X-ME-Sender: <xms:8WrbYAtqeLjqKizYnAhP7M8jClCGP3FeINjqVsG4SMD9CjEHNCpujg>
+ <xme:8WrbYNckpU4qLC6uiXS6JekxeeWEM_cMu-9KPGlw-nQ7rVi1yFbjEw6PwWpCghAE7
+ UEqJVhwZATSmFw8k2U>
+X-ME-Received: <xmr:8WrbYLwx_jp_e7KKAhH5LFmkcp_k-NkpgP8W8cVO8cnZaj1dCAhsfvxPgeOyBBqhW9JsuUEwWYCNhxlKz-lUwiwAGwGaA_wrJqCbbNj4eQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:7WrbYMp7QFdaDSQOO94ThUQQC7moDRLuyxiba3KUzk7NzLgPgXEQtQ>
- <xmx:7WrbYFr1J5yP78m6zLr4bFbD-DrYPStXAWv6OEA3d5ySM4UQaNpM3A>
- <xmx:7WrbYKTvUB8GttBglOikdVkPlFAFVg4T5wz39mzI0G0tfrH5kZqEDQ>
- <xmx:7WrbYGQzUurdRGSJMifKV458PUiIve-wfZTRiqso1JaS8QYsja6M0Xk0khY>
+X-ME-Proxy: <xmx:8WrbYDOBHaV2sdaHxbWkBDDl8JANKB1Rvy3ssbywF-0TMGH80cBP-A>
+ <xmx:8WrbYA-Z62DTlc6fxCvZRoAouKAlhYZUwPwy-O8YtfuvG64yuQyOiQ>
+ <xmx:8WrbYLVBjoz2jO1ASBv_CUZClVer-F5SnNBuWN6pWSC5UYgu5kX-Iw>
+ <xmx:8WrbYB2NNv4f15wUDbHxIGR66cPcVFew0EsNnFEtTNHtT5UrA3OxvAFFnW4>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:48:11 -0400 (EDT)
+ 29 Jun 2021 14:48:15 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 07/23] hw/nvme: default for namespace EUI-64
-Date: Tue, 29 Jun 2021 20:47:27 +0200
-Message-Id: <20210629184743.230173-8-its@irrelevant.dk>
+Subject: [PULL 08/23] hw/nvme: reimplement flush to allow cancellation
+Date: Tue, 29 Jun 2021 20:47:28 +0200
+Message-Id: <20210629184743.230173-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
@@ -94,105 +94,316 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Heinrich Schuchardt <xypron.glpk@gmx.de>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-On machines with version > 6.0 replace a missing EUI-64 by a generated
-value.
+Prior to this patch, a broadcast flush would result in submitting
+multiple "fire and forget" aios (no reference saved to the aiocbs
+returned from the blk_aio_flush calls).
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Fix this by issuing the flushes one after another.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- docs/system/nvme.rst | 2 ++
- hw/nvme/nvme.h       | 2 ++
- hw/core/machine.c    | 1 +
- hw/nvme/ns.c         | 9 +++++++++
- 4 files changed, 14 insertions(+)
+ hw/nvme/nvme.h       |   2 +
+ hw/nvme/ctrl.c       | 206 ++++++++++++++++++++++++++-----------------
+ hw/nvme/trace-events |   6 +-
+ 3 files changed, 130 insertions(+), 84 deletions(-)
 
-diff --git a/docs/system/nvme.rst b/docs/system/nvme.rst
-index b5f8288d7c85..33a15c7dbc78 100644
---- a/docs/system/nvme.rst
-+++ b/docs/system/nvme.rst
-@@ -84,6 +84,8 @@ There are a number of parameters available:
- ``eui64``
-   Set the EUI-64 of the namespace. This will be reported as a "IEEE Extended
-   Unique Identifier" descriptor in the Namespace Identification Descriptor List.
-+  Since machine type 6.1 a non-zero default value is used if the parameter
-+  is not provided. For earlier machine types the field defaults to 0.
- 
- ``bus``
-   If there are more ``nvme`` devices defined, this parameter may be used to
 diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index ac90e13d7b3f..371ac9bfd8fc 100644
+index 371ac9bfd8fc..7f3d0a181d1d 100644
 --- a/hw/nvme/nvme.h
 +++ b/hw/nvme/nvme.h
-@@ -26,6 +26,7 @@
- 
- #define NVME_MAX_CONTROLLERS 32
+@@ -28,6 +28,8 @@
  #define NVME_MAX_NAMESPACES  256
-+#define NVME_EUI64_DEFAULT ((uint64_t)0x5254000000000000)
+ #define NVME_EUI64_DEFAULT ((uint64_t)0x5254000000000000)
  
++QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BROADCAST - 1);
++
  typedef struct NvmeCtrl NvmeCtrl;
  typedef struct NvmeNamespace NvmeNamespace;
-@@ -84,6 +85,7 @@ typedef struct NvmeNamespaceParams {
-     uint32_t nsid;
-     QemuUUID uuid;
-     uint64_t eui64;
-+    bool     eui64_default;
  
-     uint16_t ms;
-     uint8_t  mset;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 55b9bc7817d8..d0e934888872 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -39,6 +39,7 @@
- GlobalProperty hw_compat_6_0[] = {
-     { "gpex-pcihost", "allow-unmapped-accesses", "false" },
-     { "i8042", "extended-state", "false"},
-+    { "nvme-ns", "eui64-default", "off"},
- };
- const size_t hw_compat_6_0_len = G_N_ELEMENTS(hw_compat_6_0);
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 762bb82e3cac..26c65a12e80c 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1788,22 +1788,19 @@ static inline bool nvme_is_write(NvmeRequest *req)
+            rw->opcode == NVME_CMD_WRITE_ZEROES;
+ }
  
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 45e457de6ae1..4275c3db6301 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -56,6 +56,7 @@ void nvme_ns_init_format(NvmeNamespace *ns)
- 
- static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
++static AioContext *nvme_get_aio_context(BlockAIOCB *acb)
++{
++    return qemu_get_aio_context();
++}
++
+ static void nvme_misc_cb(void *opaque, int ret)
  {
-+    static uint64_t ns_count;
-     NvmeIdNs *id_ns = &ns->id_ns;
-     uint8_t ds;
-     uint16_t ms;
-@@ -73,6 +74,12 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
-         id_ns->nmic |= NVME_NMIC_NS_SHARED;
+     NvmeRequest *req = opaque;
+-    NvmeNamespace *ns = req->ns;
+ 
+-    BlockBackend *blk = ns->blkconf.blk;
+-    BlockAcctCookie *acct = &req->acct;
+-    BlockAcctStats *stats = blk_get_stats(blk);
+-
+-    trace_pci_nvme_misc_cb(nvme_cid(req), blk_name(blk));
++    trace_pci_nvme_misc_cb(nvme_cid(req));
+ 
+     if (ret) {
+-        block_acct_failed(stats, acct);
+         nvme_aio_err(req, ret);
+-    } else {
+-        block_acct_done(stats, acct);
      }
  
-+    /* Substitute a missing EUI-64 by an autogenerated one */
-+    ++ns_count;
-+    if (!ns->params.eui64 && ns->params.eui64_default) {
-+        ns->params.eui64 = ns_count + NVME_EUI64_DEFAULT;
+     nvme_enqueue_req_completion(nvme_cq(req), req);
+@@ -1919,41 +1916,6 @@ static void nvme_aio_format_cb(void *opaque, int ret)
+     nvme_enqueue_req_completion(nvme_cq(req), req);
+ }
+ 
+-struct nvme_aio_flush_ctx {
+-    NvmeRequest     *req;
+-    NvmeNamespace   *ns;
+-    BlockAcctCookie acct;
+-};
+-
+-static void nvme_aio_flush_cb(void *opaque, int ret)
+-{
+-    struct nvme_aio_flush_ctx *ctx = opaque;
+-    NvmeRequest *req = ctx->req;
+-    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
+-
+-    BlockBackend *blk = ctx->ns->blkconf.blk;
+-    BlockAcctCookie *acct = &ctx->acct;
+-    BlockAcctStats *stats = blk_get_stats(blk);
+-
+-    trace_pci_nvme_aio_flush_cb(nvme_cid(req), blk_name(blk));
+-
+-    if (!ret) {
+-        block_acct_done(stats, acct);
+-    } else {
+-        block_acct_failed(stats, acct);
+-        nvme_aio_err(req, ret);
+-    }
+-
+-    (*num_flushes)--;
+-    g_free(ctx);
+-
+-    if (*num_flushes) {
+-        return;
+-    }
+-
+-    nvme_enqueue_req_completion(nvme_cq(req), req);
+-}
+-
+ static void nvme_verify_cb(void *opaque, int ret)
+ {
+     NvmeBounceContext *ctx = opaque;
+@@ -2868,56 +2830,138 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_NO_COMPLETE;
+ }
+ 
++typedef struct NvmeFlushAIOCB {
++    BlockAIOCB common;
++    BlockAIOCB *aiocb;
++    NvmeRequest *req;
++    QEMUBH *bh;
++    int ret;
++
++    NvmeNamespace *ns;
++    uint32_t nsid;
++    bool broadcast;
++} NvmeFlushAIOCB;
++
++static void nvme_flush_cancel(BlockAIOCB *acb)
++{
++    NvmeFlushAIOCB *iocb = container_of(acb, NvmeFlushAIOCB, common);
++
++    iocb->ret = -ECANCELED;
++
++    if (iocb->aiocb) {
++        blk_aio_cancel_async(iocb->aiocb);
++    }
++}
++
++static const AIOCBInfo nvme_flush_aiocb_info = {
++    .aiocb_size = sizeof(NvmeFlushAIOCB),
++    .cancel_async = nvme_flush_cancel,
++    .get_aio_context = nvme_get_aio_context,
++};
++
++static void nvme_flush_ns_cb(void *opaque, int ret)
++{
++    NvmeFlushAIOCB *iocb = opaque;
++    NvmeNamespace *ns = iocb->ns;
++
++    if (ret < 0) {
++        iocb->ret = ret;
++        goto out;
++    } else if (iocb->ret < 0) {
++        goto out;
 +    }
 +
-     /* simple copy */
-     id_ns->mssrl = cpu_to_le16(ns->params.mssrl);
-     id_ns->mcl = cpu_to_le32(ns->params.mcl);
-@@ -533,6 +540,8 @@ static Property nvme_ns_props[] = {
-                        params.max_open_zones, 0),
-     DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespace,
-                        params.zd_extension_size, 0),
-+    DEFINE_PROP_BOOL("eui64-default", NvmeNamespace, params.eui64_default,
-+                     true),
-     DEFINE_PROP_END_OF_LIST(),
- };
++    if (ns) {
++        trace_pci_nvme_flush_ns(iocb->nsid);
++
++        iocb->ns = NULL;
++        iocb->aiocb = blk_aio_flush(ns->blkconf.blk, nvme_flush_ns_cb, iocb);
++        return;
++    }
++
++out:
++    iocb->aiocb = NULL;
++    qemu_bh_schedule(iocb->bh);
++}
++
++static void nvme_flush_bh(void *opaque)
++{
++    NvmeFlushAIOCB *iocb = opaque;
++    NvmeRequest *req = iocb->req;
++    NvmeCtrl *n = nvme_ctrl(req);
++    int i;
++
++    if (iocb->ret < 0) {
++        goto done;
++    }
++
++    if (iocb->broadcast) {
++        for (i = iocb->nsid + 1; i <= NVME_MAX_NAMESPACES; i++) {
++            iocb->ns = nvme_ns(n, i);
++            if (iocb->ns) {
++                iocb->nsid = i;
++                break;
++            }
++        }
++    }
++
++    if (!iocb->ns) {
++        goto done;
++    }
++
++    nvme_flush_ns_cb(iocb, 0);
++    return;
++
++done:
++    qemu_bh_delete(iocb->bh);
++    iocb->bh = NULL;
++
++    iocb->common.cb(iocb->common.opaque, iocb->ret);
++
++    qemu_aio_unref(iocb);
++
++    return;
++}
++
+ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+ {
++    NvmeFlushAIOCB *iocb;
+     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+-    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
+     uint16_t status;
+-    struct nvme_aio_flush_ctx *ctx;
+-    NvmeNamespace *ns;
  
+-    trace_pci_nvme_flush(nvme_cid(req), nsid);
++    iocb = qemu_aio_get(&nvme_flush_aiocb_info, NULL, nvme_misc_cb, req);
+ 
+-    if (nsid != NVME_NSID_BROADCAST) {
+-        req->ns = nvme_ns(n, nsid);
+-        if (unlikely(!req->ns)) {
+-            return NVME_INVALID_FIELD | NVME_DNR;
++    iocb->req = req;
++    iocb->bh = qemu_bh_new(nvme_flush_bh, iocb);
++    iocb->ret = 0;
++    iocb->ns = NULL;
++    iocb->nsid = 0;
++    iocb->broadcast = (nsid == NVME_NSID_BROADCAST);
++
++    if (!iocb->broadcast) {
++        if (!nvme_nsid_valid(n, nsid)) {
++            status = NVME_INVALID_NSID | NVME_DNR;
++            goto out;
+         }
+ 
+-        block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
+-                         BLOCK_ACCT_FLUSH);
+-        req->aiocb = blk_aio_flush(req->ns->blkconf.blk, nvme_misc_cb, req);
+-        return NVME_NO_COMPLETE;
+-    }
+-
+-    /* 1-initialize; see comment in nvme_dsm */
+-    *num_flushes = 1;
+-
+-    for (int i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+-        ns = nvme_ns(n, i);
+-        if (!ns) {
+-            continue;
++        iocb->ns = nvme_ns(n, nsid);
++        if (!iocb->ns) {
++            status = NVME_INVALID_FIELD | NVME_DNR;
++            goto out;
+         }
+ 
+-        ctx = g_new(struct nvme_aio_flush_ctx, 1);
+-        ctx->req = req;
+-        ctx->ns = ns;
+-
+-        (*num_flushes)++;
+-
+-        block_acct_start(blk_get_stats(ns->blkconf.blk), &ctx->acct, 0,
+-                         BLOCK_ACCT_FLUSH);
+-        blk_aio_flush(ns->blkconf.blk, nvme_aio_flush_cb, ctx);
++        iocb->nsid = nsid;
+     }
+ 
+-    /* account for the 1-initialization */
+-    (*num_flushes)--;
++    req->aiocb = &iocb->common;
++    qemu_bh_schedule(iocb->bh);
+ 
+-    if (*num_flushes) {
+-        status = NVME_NO_COMPLETE;
+-    } else {
+-        status = req->status;
+-    }
++    return NVME_NO_COMPLETE;
++
++out:
++    qemu_bh_delete(iocb->bh);
++    iocb->bh = NULL;
++    qemu_aio_unref(iocb);
+ 
+     return status;
+ }
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index ea33d0ccc383..ce6b6ffe9604 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -7,16 +7,16 @@ pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
+ pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
+ pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2, int num_prps) "trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
+ pci_nvme_map_sgl(uint8_t typ, uint64_t len) "type 0x%"PRIx8" len %"PRIu64""
+-pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
++pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid 0x%"PRIx32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+-pci_nvme_flush(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
++pci_nvme_flush_ns(uint32_t nsid) "nsid 0x%"PRIx32""
+ pci_nvme_format(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
+ pci_nvme_format_ns(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
+ pci_nvme_format_cb(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
+ pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+-pci_nvme_misc_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
++pci_nvme_misc_cb(uint16_t cid) "cid %"PRIu16""
+ pci_nvme_dif_rw(uint8_t pract, uint8_t prinfo) "pract 0x%"PRIx8" prinfo 0x%"PRIx8""
+ pci_nvme_dif_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+ pci_nvme_dif_rw_mdata_in_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
 -- 
 2.32.0
 
