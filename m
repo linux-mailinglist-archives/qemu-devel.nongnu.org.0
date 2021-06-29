@@ -2,93 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5BE3B6D1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 05:41:25 +0200 (CEST)
-Received: from localhost ([::1]:46728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB3E3B6D62
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 06:13:31 +0200 (CEST)
+Received: from localhost ([::1]:53906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ly4cl-0002Dr-9x
-	for lists+qemu-devel@lfdr.de; Mon, 28 Jun 2021 23:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36332)
+	id 1ly57p-0000SZ-FH
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 00:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ly4bS-0001WI-9K
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 23:40:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47460)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ly572-0008EO-Ot
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:12:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ly4bL-0005wL-SU
- for qemu-devel@nongnu.org; Mon, 28 Jun 2021 23:40:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ly56y-00082F-Jq
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:12:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624937994;
+ s=mimecast20190719; t=1624939955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nW0U+jp9lzC79TFY0chuX3oP7lyxVYzh2R58A+vPKfk=;
- b=IOjzP+EHO+uiU/zfB6KsNfpmQXaRLfsdw125ygRjhlqZg4RwQFOvEyN3tVV+Dj25Kd0bwL
- GADVkWxCc0/6qX9OyqDp6bUdAwmRKTDRC/8AxmFW50UZ9famk+JLingbNs1HvHEv/XMyfU
- IJLhOMuscdqL1kZzoDmCm1l/TrAMFn0=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-ujOPo9lUMOei_caY29MsQA-1; Mon, 28 Jun 2021 23:39:52 -0400
-X-MC-Unique: ujOPo9lUMOei_caY29MsQA-1
-Received: by mail-pj1-f69.google.com with SMTP id
- 16-20020a17090a19d0b029016fc64ff1a2so12413564pjj.1
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 20:39:52 -0700 (PDT)
+ bh=+90OUSqtcC1YaK9syT00a4X9k629Sd24QWcYaGBkMuc=;
+ b=aDoVxRuznOvRbQ4Dn1cs+uK9/MMU1xsoPkPCCWG1kechrUCXN/8D+NdlwoZhjC2ofaM807
+ IpYpcSeDI7Ch86+OyR6iVyapa4uFEdEc78qQPB/c5qdC/zTWy8D+RoCS/2rgrYVmjnIVR7
+ oV6JqP+q/9bT3bB4zDEcFFZFU172030=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-LoPo8TMZN6CgR-qAQLooNA-1; Tue, 29 Jun 2021 00:12:33 -0400
+X-MC-Unique: LoPo8TMZN6CgR-qAQLooNA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x8-20020a5d54c80000b029012583535285so1726606wrv.8
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 21:12:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=nW0U+jp9lzC79TFY0chuX3oP7lyxVYzh2R58A+vPKfk=;
- b=V7nmhs0whkqJ4zRD9udZL37FR5nnL2pHTPNj4U2x4poZenII8gTZPgtnq8+QV/fSwW
- cHLwu8aRDCFJrgUpDKajWCk264QrKfxYQMIgj6cmgZnWs1b/5alrX3kIc1RiOrjs0Y71
- coRML5H+Q0gum8fx4+Q/i0aLvKKJkWNu1q4hroA5tDQODu+biQscZ+/uz6zzS2tWZlq7
- O1C9TkEAfolk24K0vCwUooA9P+AoRRi/5/yIKUx5Cz1Fk3a2ZYuYpLKCv6soeZ+w0bBP
- PR3a+N6ek+w2CKagCuabbO/THxd3ATlmDkKIcBLdyV9MIOfZe0N8ot7seoPr9YE0jPt/
- jB+Q==
-X-Gm-Message-State: AOAM530zdpBIB9+3gz4Mtpj81c0EZcmIJnIUWMwc9id8lotuwh7X3KEQ
- UZ5FsUAniZAcO0/qLB7PoppvsNQ+h97MvaHs6wVHeNxpnjlCADoWo253M2d+7BxtNg5qv/fArR/
- Ri2Yh2/wYmPgdyJw=
-X-Received: by 2002:a63:dc06:: with SMTP id s6mr26561084pgg.39.1624937991558; 
- Mon, 28 Jun 2021 20:39:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLribDhexlVusEn85c3fw2ycQfn+0WLszY40srmROa2bljdxtj+9EXaBIBeaaB9+87K31yhA==
-X-Received: by 2002:a63:dc06:: with SMTP id s6mr26561050pgg.39.1624937991299; 
- Mon, 28 Jun 2021 20:39:51 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id j2sm15640506pfi.111.2021.06.28.20.39.47
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+90OUSqtcC1YaK9syT00a4X9k629Sd24QWcYaGBkMuc=;
+ b=otnrMsnbvrqcnJzdN743GJfejjUEyNz4UW6ycTABu3f9sG1LgFER8LPqgGiHCC6Wy0
+ zHDvMCgQ3HeXFzIHhcI63DgYDS+KY+0T3hlQiqESrR7Dy7gEb3b1Q0pDGD1NKDarKs21
+ 5o6smCEslGoJrZGMJvxi3IA/qKZc4FKcca2hrpN32c3OEmZYwWDIUF9Y/RBLcCWN0QOg
+ vdjbgzUIYBvCiAcWcLoM7fvDNp+/2jUt7HKNms2kjEfhlye+BXSBa+zewr3LFCzpPJBf
+ I+yeCsiVSEc02W7Yd4VwOmr3YpDKo5jRTXl6mvXAwBIAd1CmPgmxtg7nOBVKq4GQoBUq
+ UWqw==
+X-Gm-Message-State: AOAM530Rx81q9lUaQriOX9QzolVfF58rmTLK8ujq9xFB8NZJc8wGLUit
+ SlPR2yoKNgbZI0U7Hu8/vpnV+drWwvXYivv3os6CIE4yCR6YhrZ3R0U38gGl3UbaU57efG3BfoB
+ P/HOPMTJOnW6fl5T9D8Fzvq08QRmSt9RJAVLlIxXqF3fqqQ7Ts1XgPLnjiu3mg3mT
+X-Received: by 2002:a1c:7415:: with SMTP id p21mr29857132wmc.88.1624939951801; 
+ Mon, 28 Jun 2021 21:12:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyrbakL3pat1g5KeRv+Z2QrfAob8PahIGYDXZ+OImuBhCWnz0UR7pAAyMval0x5dI0rNtp3Aw==
+X-Received: by 2002:a1c:7415:: with SMTP id p21mr29857111wmc.88.1624939951545; 
+ Mon, 28 Jun 2021 21:12:31 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id k15sm1276372wms.21.2021.06.28.21.12.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jun 2021 20:39:50 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
- <3da88930-439c-1892-29b4-4977ddbb0b0a@redhat.com>
- <CABcq3pE7Rx4r_H7qtpXAwqyiWzXCT_u1zp4X1Hc-pgMrW=9haA@mail.gmail.com>
- <d51a7c1f-0df8-342e-219d-c9b3b36a1371@redhat.com>
- <CABcq3pEec6f+ohA6SCn7iFAbromrvWgyS8Tjz6+iHZ-fa2OQxw@mail.gmail.com>
- <CABcq3pEXZGoRPGQPB1b1Tb_rDEg5aMFCB+CELAyOjDCyTS1FTQ@mail.gmail.com>
- <07a81543-c262-f153-6414-3d967dde02b2@redhat.com>
- <CAOEp5OeEkJh=5hMKveanMRdR2Mf93SWRuuktVbY6+=BKj6jVLA@mail.gmail.com>
- <9157bf00-299f-993d-dd16-62f13e017a3f@redhat.com> <87o8byqpao.fsf@toke.dk>
- <YNGe3iiZ103ps36n@redhat.com> <87im26qn9q.fsf@toke.dk>
- <965bb2c1-64c5-eeb2-6f35-52dd2652d1be@redhat.com>
- <CAOEp5OfgkpRhw-dDB+X-XAPsrTushFWVEiMfee5pAwdNQS-xCA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <3a058e95-e45a-db5a-ef2f-4491e8c40d79@redhat.com>
-Date: Tue, 29 Jun 2021 11:39:41 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ Mon, 28 Jun 2021 21:12:31 -0700 (PDT)
+Subject: Re: [PULL 15/28] osdep: provide ROUND_DOWN macro
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210625141822.1368639-1-pbonzini@redhat.com>
+ <20210625141822.1368639-16-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0d56c6a3-3893-2727-bd86-21e4c51989ab@redhat.com>
+Date: Tue, 29 Jun 2021 06:12:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5OfgkpRhw-dDB+X-XAPsrTushFWVEiMfee5pAwdNQS-xCA@mail.gmail.com>
+In-Reply-To: <20210625141822.1368639-16-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -110,99 +99,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Melnichenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Yan Vugenfirer <yan@daynix.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/25/21 4:18 PM, Paolo Bonzini wrote:
+> osdep.h provides a ROUND_UP macro to hide bitwise operations for the
+> purpose of rounding a number up to a power of two; add a ROUND_DOWN
+> macro that does the same with truncation towards zero.
+> 
+> While at it, change the formatting of some comments.
+> 
 
-在 2021/6/28 下午7:18, Yuri Benditovich 写道:
-> On Wed, Jun 23, 2021 at 3:47 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2021/6/22 下午5:09, Toke Høiland-Jørgensen 写道:
->>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>
->>>> On Tue, Jun 22, 2021 at 10:25:19AM +0200, Toke Høiland-Jørgensen wrote:
->>>>> Jason Wang <jasowang@redhat.com> writes:
->>>>>
->>>>>> 在 2021/6/22 上午11:29, Yuri Benditovich 写道:
->>>>>>> On Mon, Jun 21, 2021 at 12:20 PM Jason Wang <jasowang@redhat.com> wrote:
->>>>>>>> 在 2021/6/19 上午4:03, Andrew Melnichenko 写道:
->>>>>>>>> Hi Jason,
->>>>>>>>> I've checked "kernel.unprivileged_bpf_disabled=0" on Fedora,  Ubuntu,
->>>>>>>>> and Debian - no need permissions to update BPF maps.
->>>>>>>> How about RHEL :) ?
->>>>>>> If I'm not mistaken, the RHEL releases do not use modern kernels yet
->>>>>>> (for BPF we need 5.8+).
->>>>>>> So this will be (probably) relevant for RHEL 9. Please correct me if I'm wrong.
->>>>>> Adding Toke for more ideas on this.
->>>>> Ignore the kernel version number; we backport all of BPF to RHEL,
->>>>> basically. RHEL8.4 is up to upstream kernel 5.10, feature-wise.
->>>>>
->>>>> However, we completely disable unprivileged BPF on RHEL kernels. Also,
->>>>> there's upstream commit:
->>>>> 08389d888287 ("bpf: Add kconfig knob for disabling unpriv bpf by default")
->>>>>
->>>>> which adds a new value of '2' to the unprivileged_bpf_disable sysctl. I
->>>>> believe this may end up being the default on Fedora as well.
->>>>>
->>>>> So any design relying on unprivileged BPF is likely to break; I'd
->>>>> suggest you look into how you can get this to work with CAP_BPF :)
->>>> QEMU will never have any capabilities. Any resources that required
->>>> privileges have to be opened by a separate privileged helper, and the
->>>> open FD then passed across to the QEMU process. This relies on the
->>>> capabilities checks only being performed at time of initial opening,
->>>> and *not* on operations performed on the already open FD.
->>> That won't work for regular map updates either, unfortunately: you still
->>> have to perform a bpf() syscall to update an element, and that is a
->>> privileged operation.
->>>
->>> You may be able to get around this by using an array map type and
->>> mmap()'ing the map contents, but I'm not sure how well that will work
->>> across process boundaries.
->>>
->>> If it doesn't, I only see two possibilities: populate the map
->>> ahead-of-time and leave it in place, or keep the privileged helper
->>> process around to perform map updates on behalf of QEMU...
->>
->> Right, and this could be probably done by extending and tracking the RSS
->> update via rx filter event.
-> Jason,
-> Can you please get a little into details - what you mean by 'extending
-> and tracking the RSS
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-
-There's a monitor event which could be used for qemu to notify the 
-privileged application (e.g the one has CAP_NET_ADMIN) to update the rx 
-filter attributes of the host networking device.
-
-It works like, when the rx filters is updated by guest, qemu will 
-generate an rx filter update event (see rxfilter_notify()) which could 
-be captured by the privileged application.
-
-Then the privileged application query rx filter information via 
-query-rx-filter command and do the proper setups.
-
-This is designed for macvtap but I think it might be used by RSS as well.
-
-The helper can monitor the rx-filter event and update the eBPF maps. But 
-I'm not sure if it needs some coordination with libvirt in this case.
-
-Thanks
-
-
->> update via rx filter event'?
-> Thanks,
-> Yuri
->
->> Thanks
->>
->>
->>> -Toke
->>>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  include/qemu/osdep.h | 28 ++++++++++++++++++++++------
+>  1 file changed, 22 insertions(+), 6 deletions(-)
 
 
