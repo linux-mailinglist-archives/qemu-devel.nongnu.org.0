@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F8D3B78B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:31:52 +0200 (CEST)
-Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BFA3B78C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:39:52 +0200 (CEST)
+Received: from localhost ([::1]:55146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJSZ-0004VK-Dz
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38470)
+	id 1lyJaJ-0007HO-9M
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyItC-000850-Sw
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:18 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40468)
+ id 1lyItD-00085V-4t
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:19 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyIt1-0000sk-42
+ id 1lyIt0-0000t6-8l
  for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:18 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id g22so1096429pgl.7
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:03 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ ce18-20020a17090aff12b0290170a3e3eb07so3087872pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fGRHMcrVsTBuc+poYCILKBwWahcIDUOmxH2NMmMtJuY=;
- b=TUXp0LSR2d53p7lKsVXDg1/Zpoc0eovkepHahcioGYO82QqrvTMw9hYQ1JAH0kmxJT
- HmfE19G+fU6lQIBkd9pk9nt5NbM7hBjC3SZ4j31qMQ2T3xMCFRyTMThTXR4pLF50KoeE
- Fb0uuSsOkG1/3EmZAbDCsxYUySJ21WEbxg6H6qfWbhiH3GDIuTChUXVEQ5W3LIXkrjM3
- Wn6Q11DpkGPW1ULZqjZDaRAOLCYYdTzUzIxkV6IIA3AEn/1vVP1/ZWMcHdby1mPk7xjE
- 84VvMo1IJ3SG5TH6cvHrr/gf7rZWO3SkecMCtzwjAPq4R+ggfQvMRjikpfnVQFEWsXnT
- l/8w==
+ bh=aUaGX+sm0NS0DUU+29DBSLSesa8Faq3SdPEvW0Ohij4=;
+ b=UHS4IsIJwBOUMmFaHdgAnBQ9+WynlInRgIkYMA9Kq6IbBzQgL0KVV5ytjjUy3bzu61
+ 9s52GhpUh23Wgdh+KZopwOE4ksqvOI+rD0st6i3wWUo1MyppWkHOz5HTjQ0TaDvPkOOt
+ MrC0Ol/Uv9OwdvFO8YhQKzCND98sB1OjXdDgCNKuB2507WGpg13Db+Qs1ciOOtf1C/RD
+ QqvM+ffdOXGscd3JN7/goq4inwHT0VBDw9fNoHXvEfM0nilKQSUYcFIOohNsB6FUCWNX
+ O948KPm/UIVRo+L9PeOcF3qCe+BTSbmn8bE3PqGyS3nPok3C07dnUjaK/x60/HgZXGG1
+ TKXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fGRHMcrVsTBuc+poYCILKBwWahcIDUOmxH2NMmMtJuY=;
- b=DhD1uK2yisnqrHSKpGYeuwtABxEalNpXOm1vhSJVWI8BjCPlZf+xYMfPIOJe/Xo48c
- t42olibj0JMrknxDgkIwp22JI5uwqbUWwXeByIxkLcvBJ4pGNMVGf+iILv2kLW44oIMK
- ssZpNceCjgRdJBm8mWND4/8lYwDms8GW5niuCLkMv4ETUIpBeGyZk6sNuXT3wWvTdOtA
- PDgkhQCRTlBJSovE337KFldkHclFb8ukmSh0G8jilkpIXPA11xtbDVoM43yQoYdWOugT
- 03SajkLMWxtG8Q1AQ676ykbSyApQYZeRY+NZPpAOgRmmVPIfHFDHPg0pYTf4EcanFZAf
- Pb2g==
-X-Gm-Message-State: AOAM531grAPw9/ptu7mlq03Ail8/6DB6pnGf82VGpdmEY3+ZoBMopiiJ
- xdRICjdPuXH/6mU5DI2Zd9HgZVI7FX1yDg==
-X-Google-Smtp-Source: ABdhPJy6jrHOUYPwv1T4fezmAVbUPX6JyAu08pvGYfI4jooG7OVNdU9BJzz9bves7JwCM8bZsqSU0g==
-X-Received: by 2002:a63:9256:: with SMTP id s22mr26210553pgn.166.1624992902433; 
- Tue, 29 Jun 2021 11:55:02 -0700 (PDT)
+ bh=aUaGX+sm0NS0DUU+29DBSLSesa8Faq3SdPEvW0Ohij4=;
+ b=NaRWir5fopaIj4B/V1MbbCN8PO9oM66hY98aWLp8LcYyt5it46SZHdYpS5M/jdEa0V
+ IXyyh0tlHn8g3LJbyuSiUwLm3y85RiTCYmwHv0+8UiZ2+Ia9C5dMpTHeVt+GniM+4bhu
+ uRLgVpCAL5by2PQzvxQ8PR3Ee4yRASaArCJTFUlfEyzZCfpR4D7I8bGNVVyNiMKtlCrF
+ yweYi2xCxZBfy5qvylmYgTGjBV6hasqLiIHmuocANmVRoNjd4y3J5gZFuPl/8OvDrLjV
+ VMt0U8Vnk2Xamzy4UPVAIoieH1b6/dWBwAgGidOwGUZSejjaN+ASLkiME3v8GyR00InA
+ Gncw==
+X-Gm-Message-State: AOAM533muIkwdaBahp2y66hS0i0YZhIEEjqUgps8CisyWMddCRpOeWMP
+ Td5MNJWolMQtMuPQIyYvPyEAs80ZC6UvdQ==
+X-Google-Smtp-Source: ABdhPJxFlEkHHhRav6hvLpruKz5kON/UMvA9bUwsyLCFkftQECPp9ZkxRnLj/sUYx/37L9kgMxOoSQ==
+X-Received: by 2002:a17:902:da84:b029:129:fdf:f929 with SMTP id
+ j4-20020a170902da84b02901290fdff929mr1123503plx.53.1624992904677; 
+ Tue, 29 Jun 2021 11:55:04 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.02
+ by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 11:55:02 -0700 (PDT)
+ Tue, 29 Jun 2021 11:55:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/63] target/avr: Change ctx to DisasContext* in
- gen_intermediate_code
-Date: Tue, 29 Jun 2021 11:54:03 -0700
-Message-Id: <20210629185455.3131172-12-richard.henderson@linaro.org>
+Subject: [PULL 15/63] target/cris: Replace DISAS_TB_JUMP with DISAS_NORETURN
+Date: Tue, 29 Jun 2021 11:54:07 -0700
+Message-Id: <20210629185455.3131172-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210629185455.3131172-1-richard.henderson@linaro.org>
 References: <20210629185455.3131172-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,217 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prepare for receiving it as a pointer input.
+The only semantic of DISAS_TB_JUMP is that we've done goto_tb,
+which is the same as DISAS_NORETURN -- we've exited the tb.
 
-Tested-by: Michael Rolnik <mrolnik@gmail.com>
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/translate.c | 84 +++++++++++++++++++++---------------------
- 1 file changed, 43 insertions(+), 41 deletions(-)
+ target/cris/translate.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 20c5062730..66e9882422 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -104,7 +104,7 @@ struct DisasContext {
-      * used in the following manner (sketch)
-      *
-      * TCGLabel *skip_label = NULL;
--     * if (ctx.skip_cond != TCG_COND_NEVER) {
-+     * if (ctx->skip_cond != TCG_COND_NEVER) {
-      *     skip_label = gen_new_label();
-      *     tcg_gen_brcond_tl(skip_cond, skip_var0, skip_var1, skip_label);
-      * }
-@@ -114,7 +114,7 @@ struct DisasContext {
-      *     free_skip_var0 = false;
-      * }
-      *
--     * translate(&ctx);
-+     * translate(ctx);
-      *
-      * if (skip_label) {
-      *     gen_set_label(skip_label);
-@@ -2900,7 +2900,7 @@ static bool canonicalize_skip(DisasContext *ctx)
- void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
- {
-     CPUAVRState *env = cs->env_ptr;
--    DisasContext ctx = {
-+    DisasContext ctx1 = {
-         .base.tb = tb,
-         .base.is_jmp = DISAS_NEXT,
-         .base.pc_first = tb->pc,
-@@ -2911,6 +2911,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-         .memidx = 0,
-         .skip_cond = TCG_COND_NEVER,
-     };
-+    DisasContext *ctx = &ctx1;
-     target_ulong pc_start = tb->pc / 2;
-     int num_insns = 0;
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index 8c1bad9564..e086ff9131 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -55,7 +55,6 @@
+ /* is_jmp field values */
+ #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+ #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
+-#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
  
-@@ -2921,23 +2922,23 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-          */
-         max_insns = 1;
-     }
--    if (ctx.base.singlestep_enabled) {
-+    if (ctx->base.singlestep_enabled) {
-         max_insns = 1;
-     }
- 
-     gen_tb_start(tb);
- 
--    ctx.npc = pc_start;
-+    ctx->npc = pc_start;
-     if (tb->flags & TB_FLAGS_SKIP) {
--        ctx.skip_cond = TCG_COND_ALWAYS;
--        ctx.skip_var0 = cpu_skip;
-+        ctx->skip_cond = TCG_COND_ALWAYS;
-+        ctx->skip_var0 = cpu_skip;
-     }
- 
-     do {
-         TCGLabel *skip_label = NULL;
- 
-         /* translate current instruction */
--        tcg_gen_insn_start(ctx.npc);
-+        tcg_gen_insn_start(ctx->npc);
-         num_insns++;
- 
-         /*
-@@ -2946,65 +2947,66 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-          * b main   - sets breakpoint at address 0x00000100 (code)
-          * b *0x100 - sets breakpoint at address 0x00800100 (data)
-          */
--        if (unlikely(!ctx.base.singlestep_enabled &&
--                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_ANY) ||
--                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_ANY)))) {
--            canonicalize_skip(&ctx);
--            tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+        if (unlikely(!ctx->base.singlestep_enabled &&
-+            (cpu_breakpoint_test(cs, OFFSET_CODE + ctx->npc * 2, BP_ANY) ||
-+             cpu_breakpoint_test(cs, OFFSET_DATA + ctx->npc * 2, BP_ANY)))) {
-+            canonicalize_skip(ctx);
-+            tcg_gen_movi_tl(cpu_pc, ctx->npc);
-             gen_helper_debug(cpu_env);
-             goto done_generating;
-         }
- 
-         /* Conditionally skip the next instruction, if indicated.  */
--        if (ctx.skip_cond != TCG_COND_NEVER) {
-+        if (ctx->skip_cond != TCG_COND_NEVER) {
-             skip_label = gen_new_label();
--            if (ctx.skip_var0 == cpu_skip) {
-+            if (ctx->skip_var0 == cpu_skip) {
-                 /*
-                  * Copy cpu_skip so that we may zero it before the branch.
-                  * This ensures that cpu_skip is non-zero after the label
-                  * if and only if the skipped insn itself sets a skip.
-                  */
--                ctx.free_skip_var0 = true;
--                ctx.skip_var0 = tcg_temp_new();
--                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
-+                ctx->free_skip_var0 = true;
-+                ctx->skip_var0 = tcg_temp_new();
-+                tcg_gen_mov_tl(ctx->skip_var0, cpu_skip);
-                 tcg_gen_movi_tl(cpu_skip, 0);
-             }
--            if (ctx.skip_var1 == NULL) {
--                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip_label);
-+            if (ctx->skip_var1 == NULL) {
-+                tcg_gen_brcondi_tl(ctx->skip_cond, ctx->skip_var0,
-+                                   0, skip_label);
-             } else {
--                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
--                                  ctx.skip_var1, skip_label);
--                ctx.skip_var1 = NULL;
-+                tcg_gen_brcond_tl(ctx->skip_cond, ctx->skip_var0,
-+                                  ctx->skip_var1, skip_label);
-+                ctx->skip_var1 = NULL;
-             }
--            if (ctx.free_skip_var0) {
--                tcg_temp_free(ctx.skip_var0);
--                ctx.free_skip_var0 = false;
-+            if (ctx->free_skip_var0) {
-+                tcg_temp_free(ctx->skip_var0);
-+                ctx->free_skip_var0 = false;
-             }
--            ctx.skip_cond = TCG_COND_NEVER;
--            ctx.skip_var0 = NULL;
-+            ctx->skip_cond = TCG_COND_NEVER;
-+            ctx->skip_var0 = NULL;
-         }
- 
--        translate(&ctx);
-+        translate(ctx);
- 
-         if (skip_label) {
--            canonicalize_skip(&ctx);
-+            canonicalize_skip(ctx);
-             gen_set_label(skip_label);
--            if (ctx.base.is_jmp == DISAS_NORETURN) {
--                ctx.base.is_jmp = DISAS_CHAIN;
-+            if (ctx->base.is_jmp == DISAS_NORETURN) {
-+                ctx->base.is_jmp = DISAS_CHAIN;
-             }
-         }
--    } while (ctx.base.is_jmp == DISAS_NEXT
-+    } while (ctx->base.is_jmp == DISAS_NEXT
-              && num_insns < max_insns
--             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
-+             && (ctx->npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
-              && !tcg_op_buf_full());
- 
-     if (tb->cflags & CF_LAST_IO) {
-         gen_io_end();
-     }
- 
--    bool nonconst_skip = canonicalize_skip(&ctx);
-+    bool nonconst_skip = canonicalize_skip(ctx);
- 
--    switch (ctx.base.is_jmp) {
-+    switch (ctx->base.is_jmp) {
-     case DISAS_NORETURN:
-         assert(!nonconst_skip);
-         break;
-@@ -3013,19 +3015,19 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     case DISAS_CHAIN:
-         if (!nonconst_skip) {
-             /* Note gen_goto_tb checks singlestep.  */
--            gen_goto_tb(&ctx, 1, ctx.npc);
-+            gen_goto_tb(ctx, 1, ctx->npc);
-             break;
-         }
--        tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+        tcg_gen_movi_tl(cpu_pc, ctx->npc);
-         /* fall through */
-     case DISAS_LOOKUP:
--        if (!ctx.base.singlestep_enabled) {
-+        if (!ctx->base.singlestep_enabled) {
-             tcg_gen_lookup_and_goto_ptr();
-             break;
-         }
-         /* fall through */
-     case DISAS_EXIT:
--        if (ctx.base.singlestep_enabled) {
-+        if (ctx->base.singlestep_enabled) {
-             gen_helper_debug(cpu_env);
-         } else {
+ /* Used by the decoder.  */
+ #define EXTRACT_FIELD(src, start, end) \
+@@ -3242,12 +3241,12 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+                     gen_goto_tb(dc, 1, dc->jmp_pc);
+                     gen_set_label(l1);
+                     gen_goto_tb(dc, 0, dc->pc);
+-                    dc->base.is_jmp = DISAS_TB_JUMP;
++                    dc->base.is_jmp = DISAS_NORETURN;
+                     dc->jmp = JMP_NOJMP;
+                 } else if (dc->jmp == JMP_DIRECT) {
+                     cris_evaluate_flags(dc);
+                     gen_goto_tb(dc, 0, dc->jmp_pc);
+-                    dc->base.is_jmp = DISAS_TB_JUMP;
++                    dc->base.is_jmp = DISAS_NORETURN;
+                     dc->jmp = JMP_NOJMP;
+                 } else {
+                     TCGv c = tcg_const_tl(dc->pc);
+@@ -3309,7 +3308,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+                    to find the next TB */
              tcg_gen_exit_tb(NULL, 0);
-@@ -3038,7 +3040,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
- done_generating:
-     gen_tb_end(tb, num_insns);
- 
--    tb->size = (ctx.npc - pc_start) * 2;
-+    tb->size = (ctx->npc - pc_start) * 2;
-     tb->icount = num_insns;
- 
- #ifdef DEBUG_DISAS
+             break;
+-        case DISAS_TB_JUMP:
++        case DISAS_NORETURN:
+             /* nothing more to generate */
+             break;
+         }
 -- 
 2.25.1
 
