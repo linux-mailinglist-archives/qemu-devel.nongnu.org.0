@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF5D3B70EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 12:44:54 +0200 (CEST)
-Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261C93B70F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 12:49:05 +0200 (CEST)
+Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyBEb-0000TK-59
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 06:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59344)
+	id 1lyBIe-0002Gq-8V
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 06:49:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyBDo-00088q-Gs
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 06:44:04 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyBDm-0002Bs-M2
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 06:44:04 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id nd37so35608328ejc.3
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 03:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jd2woIm6gqndv7xNCSSLp31F+lGyYkcfMNV7/8kPFNM=;
- b=cz1ilR+mKpCJ6vKcNk8t1E0JJb6jlHOV+ch//S1R1lQpl3XAXT6ZYyWNntI3wkAaTn
- kcnexFtYztZcLekNgAhGvhpqwr1hRW+068ln1Aptjsco+JWM+VjUD4nqjGVPqpGmHlyQ
- Bt6S9pbOBoSmjqucR/cs+TCm0Nym21mBzLyLyQjgCwHnnD2LhpPJjIsOIkbfq3FQUs9N
- bK8E/1OCdgXaNxVA55At7wZZH6G0srR9ozalTpG9v8ZcDjHVU8I8q945Sc0572QK1P+2
- I+yhUDTRF6NMTZg5/AC4+1OI7/jhFnrknO4/vEQ3a4anwHgUUmAO/laZIWauQ1xa83HX
- z/Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jd2woIm6gqndv7xNCSSLp31F+lGyYkcfMNV7/8kPFNM=;
- b=LD+iRGkmU9hcDMX5mbKJmqJ0lxr6hDAIbhxRPdv2nUNFlLOeKF2IXw6Lx6gygg3+i2
- pbBWTUEnlcumv3Z63PrBcU0OY9VtYtVHZ9hLci2iGLYRbkdKnxdbiFxTypSpqczO5xPc
- /YRHEeXPlFAE4xVXY6De2t7XByyk/uQyul646AN8SmPG5uqrMmVCsvMTGa8+57da5dhu
- 86EGtuLQRUeMr6lEYUIYQk4MGGMohPV1JawvtjJ1nta4X7oSwgWIAmlo0ZKfmoiiV+ab
- qtgImoA01isgHuC2wnr3bWP4aX0UJZG+6ws4zUflkMXxA9F/AjG+UIky7u19tX46+Ep0
- bW9Q==
-X-Gm-Message-State: AOAM532NidaXJ/9TPDkMBIcjjLIb5G+bamiAA+/C3le5XQRSw47cWx/n
- IJHMJJs7dssaQhNL6BbchvztvcHDVdvyyjms1xLw+w==
-X-Google-Smtp-Source: ABdhPJyIpfabgXJhBFtP9k1FhxrQboeZDiq43X8zVc5UGTUyW8Jq+NUuwlG6rKYXoHxdgN9pdFtSqL1BAEt2l2zpQmE=
-X-Received: by 2002:a17:907:a064:: with SMTP id
- ia4mr29582442ejc.482.1624963440480; 
- Tue, 29 Jun 2021 03:44:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lyBHX-0001aV-8X
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 06:47:55 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:29756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lyBHT-0004fh-9F
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 06:47:55 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C96A374570B;
+ Tue, 29 Jun 2021 12:47:46 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 766DD745708; Tue, 29 Jun 2021 12:47:46 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 74F027456B4;
+ Tue, 29 Jun 2021 12:47:46 +0200 (CEST)
+Date: Tue, 29 Jun 2021 12:47:46 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 5/5] tests/acceptance: Test PMON on the Fuloong 2E machine
+In-Reply-To: <be4c8cfa-78d6-0ec8-60fb-463b3140f8fa@amsat.org>
+Message-ID: <4a11b9c7-4444-c936-f32d-97c190c749c7@eik.bme.hu>
+References: <20210624202747.1433023-1-f4bug@amsat.org>
+ <20210624202747.1433023-6-f4bug@amsat.org>
+ <f1c3c761-1ded-abc9-a66c-e73c4956c7d4@eik.bme.hu>
+ <be4c8cfa-78d6-0ec8-60fb-463b3140f8fa@amsat.org>
 MIME-Version: 1.0
-References: <20210628143551.2870006-1-richard.henderson@linaro.org>
-In-Reply-To: <20210628143551.2870006-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Jun 2021 11:43:23 +0100
-Message-ID: <CAFEAcA91gR47tejFs7e0OoeSF=aYvEM70M-XSbprqiTtfanaUw@mail.gmail.com>
-Subject: Re: [PULL 0/5] target/alpha patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1381490523-1624963666=:46869"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,39 +60,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Jun 2021 at 15:35, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit 687f9f7834e30330fd952f1fe096518509ff8ff7:
->
->   Merge remote-tracking branch 'remotes/philmd/tags/mips-20210625' into staging (2021-06-28 09:44:42 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-axp-20210628
->
-> for you to fetch changes up to 9d14a0428012b0bb7969aec512f2357247a86236:
->
->   target/alpha: Honor the FEN bit (2021-06-28 07:27:55 -0700)
->
-> ----------------------------------------------------------------
-> Fixes for NetBSD/alpha:
->   - Provide a proper PCI-ISA bridge
->   - Set PCI device IDs correctly
->   - Pass -nographic flag to PALcode
->   - Update PALcode to set up the Console Terminal Block
->   - Honor the Floating-point ENable bit during translate.
->
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+--3866299591-1381490523-1624963666=:46869
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Applied, thanks.
+On Tue, 29 Jun 2021, Philippe Mathieu-Daudé wrote:
+> On 6/24/21 10:43 PM, BALATON Zoltan wrote:
+>> On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
+>>> Test the PMON firmware. As the firmware is not redistributable,
+>>> it has to be downloaded manually first. Then it can be used by
+>>> providing its path via the PMON_BIN_PATH environment variable:
+>>>
+>>>  $ PMON2E_BIN_PATH=~/images/fuloong2e/pmon_2e.bin \
+>>>    AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
+>>>    avocado --show=app,console run
+>>> tests/acceptance/machine_mips_fuloong2e.py
+>>>  Fetching asset from
+>>> tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_linux_kernel_isa_serial
+>>>
+>>>   (1/3)
+>>> tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_pmon_serial_console:
+>>>
+>>>  console: PMON2000 MIPS Initializing. Standby...
+>>>  console: ERRORPC=00000000 CONFIG=00030932
+>>>  console: PRID=00006302
+>>>  console: Init SDRAM Done!
+>>>  console: Sizing caches...
+>>>  console: Init caches...
+>>>  console: godson2 caches found
+>>>  console: Init caches done, cfg = 00030932
+>>>  console: Copy PMON to execute location...
+>>>  console: copy text section done.
+>>>  console: Copy PMON to execute location done.
+>>>  Uncompressing Bios........................OK,Booting Bios
+>>>  PASS (0.25 s)
+>>>   (2/3)
+>>> tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_pmon_framebuffer_console:
+>>>
+>>>  [...]
+>>>  Uncompressing Bios........................OK,Booting Bios
+>>>  console: FREQ
+>>>  console: FREI
+>>>  console: DONE
+>>>  console: TTYI
+>>>  console: TTYD
+>>>  console: ENVI
+>>>  console: MAPV
+>>>  console: Mfg  0, Id 60
+>>>  console: STDV
+>>>  console: SBDD
+>>>  console: PPCIH
+>>>  console: PCIS
+>>>  console: PCIR
+>>>  console: PCIW
+>>>  console: NETI
+>>>  console: RTCL
+>>>  console: PCID
+>>>  console: VGAI
+>>>  console: Default MODE_ID 2
+>>>  console: starting radeon init...
+>>>  console: radeon init done
+>>>  console: FRBI
+>>>  console: cfb_console init,fb=b4000000
+>>>  console: Video: Drawing the logo ...
+>>>  console: CONSOLE_SIZE 450560HSTI
+>>>  PASS (4.10 s)
+>>>   (3/3)
+>>> tests/acceptance/machine_mips_fuloong2e.py:MipsFuloong2e.test_linux_kernel_isa_serial:
+>>>
+>>>  console: Linux version 2.6.27.7lemote (root@debian) (gcc version
+>>> 4.1.3 20080623 (prerelease) (Debian 4.1.2-23)) #6 Fri Dec 12 00:11:25
+>>> CST 2008
+>>>  console: busclock=33000000,
+>>> cpuclock=-2145008360,memsize=256,highmemsize=0
+>>>  console: console [early0] enabled
+>>>  console: CPU revision is: 00006302 (ICT Loongson-2)
+>>>  PASS (0.19 s)
+>>>  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT
+>>> 0 | CANCEL 0
+>>>  JOB TIME   : 5.10 s
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>> tests/acceptance/machine_mips_fuloong2e.py | 62 ++++++++++++++++++++++
+>>> 1 file changed, 62 insertions(+)
+>>>
+>>> diff --git a/tests/acceptance/machine_mips_fuloong2e.py
+>>> b/tests/acceptance/machine_mips_fuloong2e.py
+>>> index 0ac285e2af1..4854ba98560 100644
+>>> --- a/tests/acceptance/machine_mips_fuloong2e.py
+>>> +++ b/tests/acceptance/machine_mips_fuloong2e.py
+>>> @@ -8,15 +8,77 @@
+>>> # SPDX-License-Identifier: GPL-2.0-or-later
+>>>
+>>> import os
+>>> +import time
+>>>
+>>> from avocado import skipUnless
+>>> from avocado_qemu import Test
+>>> from avocado_qemu import wait_for_console_pattern
+>>>
+>>> +from tesseract_utils import tesseract_available, tesseract_ocr
+>>> +
+>>> class MipsFuloong2e(Test):
+>>>
+>>>     timeout = 60
+>>>
+>>> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted
+>>> code')
+>>> +    @skipUnless(os.getenv('PMON2E_BIN_PATH'), 'PMON2E_BIN_PATH not
+>>> available')
+>>> +    def test_pmon_serial_console(self):
+>>> +        """
+>>> +        :avocado: tags=arch:mips64el
+>>> +        :avocado: tags=machine:fuloong2e
+>>> +        :avocado: tags=endian:little
+>>> +        :avocado: tags=device:bonito64
+>>> +        :avocado: tags=device:via686b
+>>> +        """
+>>> +        pmon_hash = 'c812e1695d7b2320036f3ef494976969' # v1.1.2
+>>> +        pmon_path = self.fetch_asset('file://' +
+>>> os.getenv('PMON2E_BIN_PATH'),
+>>> +                                     asset_hash=pmon_hash,
+>>> algorithm='md5')
+>>> +
+>>> +        self.vm.set_console()
+>>> +        self.vm.add_args('-bios', pmon_path)
+>>> +        self.vm.launch()
+>>> +        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing.
+>>> Standby...')
+>>> +        wait_for_console_pattern(self, 'Booting Bios')
+>>> +
+>>> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted
+>>> code')
+>>> +    # Tesseract 4 adds a new OCR engine based on LSTM neural
+>>> networks. The
+>>> +    # new version is faster and more accurate than version 3. The
+>>> drawback is
+>>> +    # that it is still alpha-level software.
+>>> +    @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not
+>>> available')
+>>> +    @skipUnless(os.getenv('PMON2E_BIN_PATH'), 'PMON2E_BIN_PATH not
+>>> available')
+>>> +    def test_pmon_framebuffer_console(self):
+>>> +        """
+>>> +        :avocado: tags=arch:mips64el
+>>> +        :avocado: tags=machine:fuloong2e
+>>> +        :avocado: tags=endian:little
+>>> +        :avocado: tags=device:bonito64
+>>> +        :avocado: tags=device:ati-vga
+>>> +        """
+>>> +        screenshot_path = os.path.join(self.workdir, 'dump.ppm')
+>>> +
+>>> +        pmon_hash = 'c812e1695d7b2320036f3ef494976969' # v1.1.2
+>>> +        pmon_path = self.fetch_asset('file://' +
+>>> os.getenv('PMON2E_BIN_PATH'),
+>>> +                                     asset_hash=pmon_hash,
+>>> algorithm='md5')
+>>> +
+>>> +        self.vm.set_console()
+>>> +        self.vm.add_args('-bios', pmon_path,
+>>> +                         '-vga', 'std',
+>>> +                         '-device', 'ati-vga,model=rv100')
+>>
+>> I think this is the default if you just drop -vga std so I don't know
+>> why you have that in the first place but then you should not need to add
+>> ati-vga explicitely.
+>
+> I thought this is what you asked me here:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg753832.html
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+No, I've said the same in that message that fuloong2e has an ati-vga as 
+default so no -vga option should be needed at all.
 
--- PMM
+> Currently:
+>
+> console: VGAI
+> console: Default MODE_ID 2
+> console: starting radeon init...
+> console: iobase=bfd0a200,mmbase=b6064000
+> console: mc_status=5
+> console: mc_status=5
+> console: mc_status=5
+> console: mc_status=5
+> console: ppll_div_3 = 301f4
+> console: Wrote: 0x00000043 0x000301f4 0x00000000 (0x00000000)
+> console: Wrote: rd=67, fd=500, pd=3
+> console: VCLK_ECP_CNTL = 000000C3
+> console: radeon init done
+> console: FRBI
+> console: cfb_console init,fb=b5000000
+> console: Video: Drawing the logo ...
+> console: CONSOLE_SIZE 450560HSTI
+> PASS (4.53 s)
+>
+> Without '-vga std -device ati-vga,model=rv100':
+>
+> console: VGAI
+> console: Default MODE_ID 2
+> console: starting radeon init...
+> INTERRUPTED: Test interrupted by SIGTERM
+> Runner error occurred: Timeout reached... (60.29 s)
+
+That's strange (with the REG_MASK fixed to 0xff in bonito.c) I get:
+
+$ qemu-system-mips64el -M fuloong2e -bios pmon_2e.bin -serial stdio
+[...]
+VGAI
+Default MODE_ID 2
+starting radeon init...
+iobase=bfd0a100,mmbase=b5050000
+mc_status=5
+mc_status=5
+mc_status=5
+mc_status=5
+ppll_div_3 = 301f4
+Wrote: 0x00000043 0x000301f4 0x00000000 (0x00000000)
+Wrote: rd=67, fd=500, pd=3
+VCLK_ECP_CNTL = 000000C3
+radeon init done
+FRBI
+cfb_console init,fb=b4000000
+Video: Drawing the logo ...
+CONSOLE_SIZE 450560HSTI
+
+So I think you should not need either -vga std nor -device ati-vga as 
+those would add another VGA card to the one already on the board.
+
+Regards,
+BALATON Zoltan
+
+> With '-vga std':
+>
+> console: VGAI
+> console: Default MODE_ID 2
+> console: starting radeon init...
+> console: iobase=bfd0a200,mmbase=b6064000
+> console: mc_status=5
+> console: mc_status=5
+> console: mc_status=5
+> console: mc_status=5
+> console: ppll_div_3 = 301f4
+> console: Wrote: 0x00000043 0x000301f4 0x00000000 (0x00000000)
+> console: Wrote: rd=67, fd=500, pd=3
+> console: VCLK_ECP_CNTL = 000000C3
+> console: radeon init done
+> console: FRBI
+> console: cfb_console init,fb=b5000000
+> console: Video: Drawing the logo ...
+> console: CONSOLE_SIZE 450560HSTI
+> PASS (4.34 s)
+>
+> So I'll simply keep "-vga std".
+>
+> Thanks,
+>
+> Phil.
+>
+>
+--3866299591-1381490523-1624963666=:46869--
 
