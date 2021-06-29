@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9C83B7882
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:21:17 +0200 (CEST)
-Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140E73B7888
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 21:22:48 +0200 (CEST)
+Received: from localhost ([::1]:50808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyJIK-00049n-BH
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38666)
+	id 1lyJJn-0007UI-43
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 15:22:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyItN-0008PP-VU
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:30 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:37693)
+ id 1lyItP-0008TE-LZ
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:31 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:38622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyItA-0000u8-58
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:29 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- 22-20020a17090a0c16b0290164a5354ad0so2580586pjs.2
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:12 -0700 (PDT)
+ id 1lyItA-0000uX-6T
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 14:55:31 -0400
+Received: by mail-pf1-x434.google.com with SMTP id c8so104363pfp.5
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 11:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XkD3zAg3BgpWG1/1/ejQcAjqq103aTDKBL3ooamcmZ0=;
- b=SstRJdemeQoBQn3790dxEz8N3mcPA2gAnVzv+nwMfNU3cul3ne3TWQdiXgvkcVuRzP
- mcXQ79ni7VbNRSS7odVnEN+Evi/nF7XkDd0hMUI5+uUDwQBGOYZgXQQdcpnenW2hCCQy
- +xfNVpqTMB3bmk+DUlDrH+yHzb+Ag8iQTqnPszgc0DD+JSTyUei0qBZguTblUI1uPMMF
- FAuF6CJFIQ9XsyQN1FhaK9FNqG22SiWqynWB8jgub3KHpLImQZYJJ/BXKNTy+ixmPnRL
- WLuxCnf6OaChcbinkhDlb2cgeIjCnrr0O/rFHHp6CM5xPIfhMUms3l4MBokCQF7+/Sc0
- SrCQ==
+ bh=p5LfB36r6i3yx5bOwYc8DmXqbz43Ns7565tCjIvpo+w=;
+ b=l14gK2Py0dhAv0Ah5n4QDAfvu07JZ4Nnv8ExxeWD1YIBzrQSKJGXDela0Ozyi4PqGb
+ lpDT5wfiWYuzn/i6bGeEwh/a5U7aaeHjQkvzBQblY+F6fYDm9zFlCGFfkk4qk1Y91dyf
+ YZN3sJ8EhtlfFEsKKl7YC81/8z6L5TimFQp2MyXUpwkpTtgeDM0Uj6hXCMOD32Ys7Dq/
+ 2jTXlPduNYmCxXLxKCVRip9DD2jqqQkKdzGkJSXsN9a7aWjGRMIdvM67W1vwtVNoNO/6
+ M2tZ2kdZDTtxkjR8YOH/5qvvmQbRkYoPZVdpDkWHdjgx8GncDtFcD6h2snENZdB4hW2i
+ BdMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XkD3zAg3BgpWG1/1/ejQcAjqq103aTDKBL3ooamcmZ0=;
- b=Xxp3iPP+YnXsvNQ2Ay19QlLB/PbQ5BjsxUSuxCenKUNnZj7yeHWYeP2PlcEJk2MFf+
- pHCZh+eLxYn+iANKovs37LU8DF0ERH1I7rVLR9xW0qGluNI4khUI5OTzy3RPxTb8B7vN
- aNNXHupowuc4peAiiTeG50ObjxSjKf5sAapt3DlFSCdkA/THQ4T2k0Ff7+4KnFXhsqzG
- JMV0wLxAdolWPS1gd1V9FdkYGvmELinW/DC6cA9Puhxqz6hNJ2Xy0kCmJcLXzTkbo6R0
- cll6bBBOvk4eSS9Bd/IXmHtWRupbGjCwgYMgECqYAQy7iu01/ARCvPOo9kATnqTu4ob7
- BDpg==
-X-Gm-Message-State: AOAM530tMHAPYpAGF8Y6cqrd3T5gG3AzxnG07d8YMTP4scu3phFEBsZL
- vjkXZOE97XeFFhDwfS1zBM7qCCQoNiZt5g==
-X-Google-Smtp-Source: ABdhPJwKaJuIfifvi46cSPJhOqgruadHbxYYTE0RPDbcrT5slbGMd9Ea+9St7qPCIHOLHJcfIR0wPg==
-X-Received: by 2002:a17:902:8305:b029:120:1d69:6bd8 with SMTP id
- bd5-20020a1709028305b02901201d696bd8mr29333514plb.2.1624992911690; 
- Tue, 29 Jun 2021 11:55:11 -0700 (PDT)
+ bh=p5LfB36r6i3yx5bOwYc8DmXqbz43Ns7565tCjIvpo+w=;
+ b=fHT1rpnqID2xvR9aSshyTUDee35VvrLRxpa/uebOd8m879N8vqH5mbd5K5QNbggIv/
+ a865qGJvTFHrCrcSjG+PJh1Q0odJVWuaY+iwb1NEGDVRBQ7QiuW+eqsF+cwBROeXDZo1
+ OEHWAw2mf7HtjL6DNJ5obBYwtYVybup1NKiN8A2DRmfVJ3zWShttSDNMTDSb++XJHfDP
+ 0YPH3Do1Oq61RZucExQJGMibZplA3V8I9QLQtm9vnZROTse+my94VtLiwJ29A+OCGoW6
+ nAcULQxgsUT+ko7XhN3+1hrKiHd9F4eZpI74gKXCWgNpSA+wBs3Rmrk2zLCjDsmnWpxf
+ lzaw==
+X-Gm-Message-State: AOAM53080hDZFgPwoAQhICNhE6Cipx1R1uUEYY7/aOq9LCCNzUi+koNw
+ s2B6ysAF3ypPx0asBCv7BkNzqrGwij9Jiw==
+X-Google-Smtp-Source: ABdhPJya0nNZbBOJ7Y1xAm7uYq2gMTBFCWmCLIymvI2w82XNRxB9qRsQmANIXD1DMgYrDV1K88diFw==
+X-Received: by 2002:a63:fa11:: with SMTP id y17mr30095407pgh.128.1624992914711; 
+ Tue, 29 Jun 2021 11:55:14 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.11
+ by smtp.gmail.com with ESMTPSA id j2sm18811253pfb.53.2021.06.29.11.55.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 11:55:11 -0700 (PDT)
+ Tue, 29 Jun 2021 11:55:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/63] target/cris: Remove dc->flagx_known
-Date: Tue, 29 Jun 2021 11:54:19 -0700
-Message-Id: <20210629185455.3131172-28-richard.henderson@linaro.org>
+Subject: [PULL 32/63] tcg: Add tcg_gen_vec_shl{shr}{sar}8i_i32
+Date: Tue, 29 Jun 2021 11:54:24 -0700
+Message-Id: <20210629185455.3131172-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210629185455.3131172-1-richard.henderson@linaro.org>
 References: <20210629185455.3131172-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,246 +82,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>
+Cc: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ever since 2a44f7f17364, flagx_known is always true.
-Fold away all of the tests against the flag.
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Implement tcg_gen_vec_shl{shr}{sar}8i_tl by adding corresponging i32 OP.
+
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-Id: <20210624105023.3852-5-zhiwei_liu@c-sky.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c         | 99 ++++++++-------------------------
- target/cris/translate_v10.c.inc |  6 +-
- 2 files changed, 24 insertions(+), 81 deletions(-)
+ include/tcg/tcg-op-gvec.h | 10 ++++++++++
+ tcg/tcg-op-gvec.c         | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 1d4c78eab2..0be10390e9 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -120,8 +120,6 @@ typedef struct DisasContext {
+diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
+index e3c9f45926..e3b274502c 100644
+--- a/include/tcg/tcg-op-gvec.h
++++ b/include/tcg/tcg-op-gvec.h
+@@ -408,8 +408,11 @@ void tcg_gen_vec_add16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+ void tcg_gen_vec_sub8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+ void tcg_gen_vec_sub16_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
  
-     int cc_x_uptodate;  /* 1 - ccs, 2 - known | X_FLAG. 0 not up-to-date.  */
-     int flags_uptodate; /* Whether or not $ccs is up-to-date.  */
--    int flagx_known; /* Whether or not flags_x has the x flag known at
--                translation time.  */
-     int flags_x;
++void tcg_gen_vec_shl8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+ void tcg_gen_vec_shl16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++void tcg_gen_vec_shr8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+ void tcg_gen_vec_shr16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
++void tcg_gen_vec_sar8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+ void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
  
-     int clear_x; /* Clear x after this insn?  */
-@@ -377,66 +375,26 @@ static inline void t_gen_add_flag(TCGv d, int flag)
- 
- static inline void t_gen_addx_carry(DisasContext *dc, TCGv d)
- {
--    if (dc->flagx_known) {
--        if (dc->flags_x) {
--            TCGv c;
--            
--            c = tcg_temp_new();
--            t_gen_mov_TN_preg(c, PR_CCS);
--            /* C flag is already at bit 0.  */
--            tcg_gen_andi_tl(c, c, C_FLAG);
--            tcg_gen_add_tl(d, d, c);
--            tcg_temp_free(c);
--        }
--    } else {
--        TCGv x, c;
-+    if (dc->flags_x) {
-+        TCGv c = tcg_temp_new();
- 
--        x = tcg_temp_new();
--        c = tcg_temp_new();
--        t_gen_mov_TN_preg(x, PR_CCS);
--        tcg_gen_mov_tl(c, x);
--
--        /* Propagate carry into d if X is set. Branch free.  */
-+        t_gen_mov_TN_preg(c, PR_CCS);
-+        /* C flag is already at bit 0.  */
-         tcg_gen_andi_tl(c, c, C_FLAG);
--        tcg_gen_andi_tl(x, x, X_FLAG);
--        tcg_gen_shri_tl(x, x, 4);
--
--        tcg_gen_and_tl(x, x, c);
--        tcg_gen_add_tl(d, d, x);
--        tcg_temp_free(x);
-+        tcg_gen_add_tl(d, d, c);
-         tcg_temp_free(c);
-     }
- }
- 
- static inline void t_gen_subx_carry(DisasContext *dc, TCGv d)
- {
--    if (dc->flagx_known) {
--        if (dc->flags_x) {
--            TCGv c;
--            
--            c = tcg_temp_new();
--            t_gen_mov_TN_preg(c, PR_CCS);
--            /* C flag is already at bit 0.  */
--            tcg_gen_andi_tl(c, c, C_FLAG);
--            tcg_gen_sub_tl(d, d, c);
--            tcg_temp_free(c);
--        }
--    } else {
--        TCGv x, c;
-+    if (dc->flags_x) {
-+        TCGv c = tcg_temp_new();
- 
--        x = tcg_temp_new();
--        c = tcg_temp_new();
--        t_gen_mov_TN_preg(x, PR_CCS);
--        tcg_gen_mov_tl(c, x);
--
--        /* Propagate carry into d if X is set. Branch free.  */
-+        t_gen_mov_TN_preg(c, PR_CCS);
-+        /* C flag is already at bit 0.  */
-         tcg_gen_andi_tl(c, c, C_FLAG);
--        tcg_gen_andi_tl(x, x, X_FLAG);
--        tcg_gen_shri_tl(x, x, 4);
--
--        tcg_gen_and_tl(x, x, c);
--        tcg_gen_sub_tl(d, d, x);
--        tcg_temp_free(x);
-+        tcg_gen_sub_tl(d, d, c);
-         tcg_temp_free(c);
-     }
- }
-@@ -541,11 +499,9 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
- 
- static inline void cris_clear_x_flag(DisasContext *dc)
- {
--    if (dc->flagx_known && dc->flags_x) {
-+    if (dc->flags_x) {
-         dc->flags_uptodate = 0;
-     }
--
--    dc->flagx_known = 1;
-     dc->flags_x = 0;
- }
- 
-@@ -630,12 +586,10 @@ static void cris_evaluate_flags(DisasContext *dc)
-         break;
-     }
- 
--    if (dc->flagx_known) {
--        if (dc->flags_x) {
--            tcg_gen_ori_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], X_FLAG);
--        } else if (dc->cc_op == CC_OP_FLAGS) {
--            tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~X_FLAG);
--        }
-+    if (dc->flags_x) {
-+        tcg_gen_ori_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], X_FLAG);
-+    } else if (dc->cc_op == CC_OP_FLAGS) {
-+        tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~X_FLAG);
-     }
-     dc->flags_uptodate = 1;
- }
-@@ -670,16 +624,11 @@ static void cris_update_cc_op(DisasContext *dc, int op, int size)
- static inline void cris_update_cc_x(DisasContext *dc)
- {
-     /* Save the x flag state at the time of the cc snapshot.  */
--    if (dc->flagx_known) {
--        if (dc->cc_x_uptodate == (2 | dc->flags_x)) {
--            return;
--        }
--        tcg_gen_movi_tl(cc_x, dc->flags_x);
--        dc->cc_x_uptodate = 2 | dc->flags_x;
--    } else {
--        tcg_gen_andi_tl(cc_x, cpu_PR[PR_CCS], X_FLAG);
--        dc->cc_x_uptodate = 1;
-+    if (dc->cc_x_uptodate == (2 | dc->flags_x)) {
-+        return;
-     }
-+    tcg_gen_movi_tl(cc_x, dc->flags_x);
-+    dc->cc_x_uptodate = 2 | dc->flags_x;
- }
- 
- /* Update cc prior to executing ALU op. Needs source operands untouched.  */
-@@ -1131,7 +1080,7 @@ static void gen_store (DisasContext *dc, TCGv addr, TCGv val,
- 
-     /* Conditional writes. We only support the kind were X and P are known
-        at translation time.  */
--    if (dc->flagx_known && dc->flags_x && (dc->tb_flags & P_FLAG)) {
-+    if (dc->flags_x && (dc->tb_flags & P_FLAG)) {
-         dc->postinc = 0;
-         cris_evaluate_flags(dc);
-         tcg_gen_ori_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], C_FLAG);
-@@ -1140,7 +1089,7 @@ static void gen_store (DisasContext *dc, TCGv addr, TCGv val,
- 
-     tcg_gen_qemu_st_tl(val, addr, mem_index, MO_TE + ctz32(size));
- 
--    if (dc->flagx_known && dc->flags_x) {
-+    if (dc->flags_x) {
-         cris_evaluate_flags(dc);
-         tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~C_FLAG);
-     }
-@@ -1727,8 +1676,8 @@ static int dec_addc_r(CPUCRISState *env, DisasContext *dc)
-     LOG_DIS("addc $r%u, $r%u\n",
-             dc->op1, dc->op2);
-     cris_evaluate_flags(dc);
+ #if TARGET_LONG_BITS == 64
+@@ -417,14 +420,21 @@ void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t);
+ #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i64
+ #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i64
+ #define tcg_gen_vec_sub16_tl tcg_gen_vec_sub16_i64
++#define tcg_gen_vec_shl8i_tl tcg_gen_vec_shl8i_i64
++#define tcg_gen_vec_shr8i_tl tcg_gen_vec_shr8i_i64
++#define tcg_gen_vec_sar8i_tl tcg_gen_vec_sar8i_i64
+ #define tcg_gen_vec_shl16i_tl tcg_gen_vec_shl16i_i64
+ #define tcg_gen_vec_shr16i_tl tcg_gen_vec_shr16i_i64
+ #define tcg_gen_vec_sar16i_tl tcg_gen_vec_sar16i_i64
 +
-     /* Set for this insn.  */
--    dc->flagx_known = 1;
-     dc->flags_x = X_FLAG;
+ #else
+ #define tcg_gen_vec_add8_tl  tcg_gen_vec_add8_i32
+ #define tcg_gen_vec_sub8_tl  tcg_gen_vec_sub8_i32
+ #define tcg_gen_vec_add16_tl tcg_gen_vec_add16_i32
+ #define tcg_gen_vec_sub16_tl tcg_gen_vec_sub16_i32
++#define tcg_gen_vec_shl8i_tl tcg_gen_vec_shl8i_i32
++#define tcg_gen_vec_shr8i_tl tcg_gen_vec_shr8i_i32
++#define tcg_gen_vec_sar8i_tl tcg_gen_vec_sar8i_i32
+ #define tcg_gen_vec_shl16i_tl tcg_gen_vec_shl16i_i32
+ #define tcg_gen_vec_shr16i_tl tcg_gen_vec_shr16i_i32
+ #define tcg_gen_vec_sar16i_tl tcg_gen_vec_sar16i_i32
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index c8fb403957..ffe55e908f 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -2678,6 +2678,13 @@ void tcg_gen_vec_shl16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c)
+     tcg_gen_andi_i64(d, d, mask);
+ }
  
-     cris_cc_mask(dc, CC_MASK_NZVC);
-@@ -2015,7 +1964,6 @@ static int dec_setclrf(CPUCRISState *env, DisasContext *dc)
-     }
++void tcg_gen_vec_shl8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
++{
++    uint32_t mask = dup_const(MO_8, 0xff << c);
++    tcg_gen_shli_i32(d, a, c);
++    tcg_gen_andi_i32(d, d, mask);
++}
++
+ void tcg_gen_vec_shl16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
+ {
+     uint32_t mask = dup_const(MO_16, 0xffff << c);
+@@ -2736,6 +2743,13 @@ void tcg_gen_vec_shr16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c)
+     tcg_gen_andi_i64(d, d, mask);
+ }
  
-     if (flags & X_FLAG) {
--        dc->flagx_known = 1;
-         if (set) {
-             dc->flags_x = X_FLAG;
-         } else {
-@@ -2479,7 +2427,6 @@ static int dec_addc_mr(CPUCRISState *env, DisasContext *dc)
-     cris_evaluate_flags(dc);
++void tcg_gen_vec_shr8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
++{
++    uint32_t mask = dup_const(MO_8, 0xff >> c);
++    tcg_gen_shri_i32(d, a, c);
++    tcg_gen_andi_i32(d, d, mask);
++}
++
+ void tcg_gen_vec_shr16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
+ {
+     uint32_t mask = dup_const(MO_16, 0xffff >> c);
+@@ -2808,6 +2822,20 @@ void tcg_gen_vec_sar16i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c)
+     tcg_temp_free_i64(s);
+ }
  
-     /* Set for this insn.  */
--    dc->flagx_known = 1;
-     dc->flags_x = X_FLAG;
- 
-     cris_alu_m_alloc_temps(t);
-@@ -3141,7 +3088,6 @@ static void cris_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     dc->ppc = pc_start;
-     dc->pc = pc_start;
-     dc->flags_uptodate = 1;
--    dc->flagx_known = 1;
-     dc->flags_x = tb_flags & X_FLAG;
-     dc->cc_x_uptodate = 0;
-     dc->cc_mask = 0;
-@@ -3217,7 +3163,6 @@ static void cris_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     }
- 
-     /* Fold unhandled changes to X_FLAG into cpustate_changed. */
--    dc->cpustate_changed |= !dc->flagx_known;
-     dc->cpustate_changed |= dc->flags_x != (dc->base.tb->flags & X_FLAG);
- 
-     /*
-diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
-index 4ab43dc404..f500e93447 100644
---- a/target/cris/translate_v10.c.inc
-+++ b/target/cris/translate_v10.c.inc
-@@ -106,9 +106,8 @@ static void gen_store_v10(DisasContext *dc, TCGv addr, TCGv val,
-         cris_store_direct_jmp(dc);
-     }
- 
--    /* Conditional writes. We only support the kind were X is known
--       at translation time.  */
--    if (dc->flagx_known && dc->flags_x) {
-+    /* Conditional writes. */
-+    if (dc->flags_x) {
-         gen_store_v10_conditional(dc, addr, val, size, mem_index);
-         return;
-     }
-@@ -376,7 +375,6 @@ static unsigned int dec10_setclrf(DisasContext *dc)
- 
- 
-     if (flags & X_FLAG) {
--        dc->flagx_known = 1;
-         if (set)
-             dc->flags_x = X_FLAG;
-         else
++void tcg_gen_vec_sar8i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
++{
++    uint32_t s_mask = dup_const(MO_8, 0x80 >> c);
++    uint32_t c_mask = dup_const(MO_8, 0xff >> c);
++    TCGv_i32 s = tcg_temp_new_i32();
++
++    tcg_gen_shri_i32(d, a, c);
++    tcg_gen_andi_i32(s, d, s_mask);  /* isolate (shifted) sign bit */
++    tcg_gen_muli_i32(s, s, (2 << c) - 2); /* replicate isolated signs */
++    tcg_gen_andi_i32(d, d, c_mask);  /* clear out bits above sign  */
++    tcg_gen_or_i32(d, d, s);         /* include sign extension */
++    tcg_temp_free_i32(s);
++}
++
+ void tcg_gen_vec_sar16i_i32(TCGv_i32 d, TCGv_i32 a, int32_t c)
+ {
+     uint32_t s_mask = dup_const(MO_16, 0x8000 >> c);
 -- 
 2.25.1
 
