@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2506B3B780D
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:54:18 +0200 (CEST)
-Received: from localhost ([::1]:43120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61EEC3B7821
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:59:45 +0200 (CEST)
+Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyIsD-0004uA-3l
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:54:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36548)
+	id 1lyIxU-0003K1-DS
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImM-0001GG-SS; Tue, 29 Jun 2021 14:48:15 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:35311)
+ id 1lyImf-0001X3-Eb; Tue, 29 Jun 2021 14:48:35 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:40363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImG-0005LB-T1; Tue, 29 Jun 2021 14:48:12 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.west.internal (Postfix) with ESMTP id B86D92B00A94;
- Tue, 29 Jun 2021 14:48:06 -0400 (EDT)
+ id 1lyImc-0005TP-Cq; Tue, 29 Jun 2021 14:48:33 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 290972B00AB5;
+ Tue, 29 Jun 2021 14:48:28 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 29 Jun 2021 14:48:07 -0400
+ by compute3.internal (MEProxy); Tue, 29 Jun 2021 14:48:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=MoK9Hb6n9zcE5
- maGlnidS6flQTsjp6N6t7vv7geQmes=; b=jAX2/UKAwch4U9B8RtN6a3q0stXDA
- 3of44BiZfoU+nqGZDgZnZZySbZ+sBbDs34tzdqsqxReIJpZZgH/5g5xW8JpLIaGD
- 9SlQwbzp5PqN9cFsjZLSrOCOE/mHJjkWbEdaYDQyVjuG6tqpm4z4E8IFNlMgkhLA
- lO24vKCewoiCtkyXTmgaGD8fK4pAhA9Br48P1sJfUJQ3iq9WLCrGvgCXei4p9t74
- e90vtM8XlTrYoh8/mfV8L4RVmiEkxyHfPkFbPf1GtCMIJLVTV8/q8tU2IzSCGumL
- pxz3VRg7EK8mUh2lE2Ifamdr9UwEhtVq22SBjzaU5eVS6mY0SzCuQz5CA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=M74CacSlzOt7w
+ PhJHXCl6c/ToHTEqKkIjkC4ZW1G3dU=; b=WR9YKkmpWBF/yR3djSkG/NId/hQvf
+ 0iJZ1xJt7J7pABWAYTgK+3W68ewj0dVTXYc/jqX+HbJFobnlesTJspBE3XIasyzx
+ bunDNOeGh5ZiTbLcYpWz0yp426MZ9IghECOs0XpHSIn0bheBZgrqkfXvhzE355zy
+ LEsMt7wJhIrcT6XbwuKAKvHpsGDjoEBCLQe0O0UPzm+n63rSb2SOxZAuj9l8OAC9
+ wGUvYACX705RZj/S1SSuRKC1dJJJezPQtqv41qrFJ+lm7YlsB8vNIlJaKMRzihcl
+ j78emyH0d95OGX3HbnfUfYMHCgaF1Ki7boJ8LFYWVAjtibwbKjgYRLTNA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=MoK9Hb6n9zcE5maGlnidS6flQTsjp6N6t7vv7geQmes=; b=wOHCkDRk
- 8HmQ1b+WBW9/3ULKz7oNnQT75wKLJdbBHMInw2e9OhDavhZxhUMUHJcGFyif18uO
- gXmAkHjktdnFmbU1nraZrSrqpw55Anu6kRUutvLNUkPJtkL33teCJUtQuUkHjW7n
- mqSXWDS7qWLwLRxUZGQleUAi3D5zaYJj3DMrlgqdS/DnxB01891al4yld8jNiTKa
- 1weGCuMwv+O4FLCx/IUyyycuPtOshEuFqJjiTsbg6NfLxONA7ohxokVoP4l5q07Q
- c3vorUaEEHeq1xEHZ2LoYIGqOeDx8WvJcz6VLmFxpXm44ztKQycV0Nhh1Ux6ix3S
- 1XdaR24WdrH9TQ==
-X-ME-Sender: <xms:5WrbYJmXpPJsbOF3KJfJUi4irSeKyGjwntvFBqD4DK1y2Exx5fyg_A>
- <xme:5WrbYE0eSudN_-alMDTv4hMc1fpjavnniwY4YMAGGpsYZKwGB0qSDzhgzr6shEvD6
- igRTY8c5IoNpnmfWhA>
-X-ME-Received: <xmr:5WrbYPpsJL695Q5MabbeVfNOjxKgRCf-B33AatcADIi7PEj4lIFkFH6ftBU81B8l4tBU-Ju8WJc3SKEgVHdQoS20TNTrZnnb3x58tWRF_A>
+ fm3; bh=M74CacSlzOt7wPhJHXCl6c/ToHTEqKkIjkC4ZW1G3dU=; b=MF28gYAu
+ WQuqFFuSDpohqKMjtESKMwvqrsSpB3OhKnWNCSy7ObnLC2ZhVG2YeeaWUFwtZbjD
+ /w6E64xjcmaAIaD/NAayvnUOctgGTdpJPjiu4AuCdZr2jIgQvMexCb0wukPKu/SY
+ aTwt8x56RfNy1psiq8hD9sO9qAhNhZkJwKuX3u8Ij42eoN4XVuO4cqhnAGXpYdNh
+ r5MDLvYdEjCtUAjMNOcRayxjdO2f9BZGMQx8QGrUCK3bS9QiJjoTb3BAhEO4b0E1
+ 9akUffK+Tj5LBgGhQMrY8mdPBpCVU9502N2ANZlJ1nTy/L71bVqnlCKch6N9LCs4
+ jvdrr2uml3yJDQ==
+X-ME-Sender: <xms:-2rbYNtoBpUf9n89crKdVYZSxbYhLJiFQbNZXLAgn7gvbW82N8I10g>
+ <xme:-2rbYGeDyRE1e8Eef45URIgV25pF8qsMC2wi-fqsjWDAAqRX-6lfvEnQlyZi2mStl
+ z2zRwUcaWdgLjY5A-k>
+X-ME-Received: <xmr:-2rbYAzVLwubqjJb2QAQkxNQTsMtQSbni505JexRvpBlF-LQo51hDkjic6KLwONJV0zcjhwWU_afgo3pi_lg1WQSpLTaXI_j-BnHLraRiA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:5WrbYJluxjZMGnSuEH9KClf08R_VPlEgOc_njmjYCHM_BhzuChLAxQ>
- <xmx:5WrbYH1RKnkL0x8XsYhBZzFj4XlvtY1gAUTiwjxN1K4fJiAW9b1piw>
- <xmx:5WrbYIucXaIKj4qIN9HhqFM-pKZ3cxSWnxzKs1Mu_hXuZV86rXYGpQ>
- <xmx:5mrbYAvoj0JKpc-nT3aJ7QUBBC_WaHO4zQP2Yn6bZcZWNbFIhK0zwQIDucs>
+X-ME-Proxy: <xmx:-2rbYEPqudBWr4NmslzIJcTM4IEdPF6tv_IW3zdQDpHfViB0EYf1uQ>
+ <xmx:-2rbYN-0qDOYTMyMe14rNeKJpszC3DN9MlWOSTXbaPDs5spQwD33pA>
+ <xmx:-2rbYEX5zzG6tNyZvWymmhtkFJOKBzkqpDUVdmKbmzhPeFKdsb_FSg>
+ <xmx:-2rbYO08spSerByo0N1LC2ErXySAPB469tZQnxkH7hjQaOTiKLq6fCYtFxI>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:48:03 -0400 (EDT)
+ 29 Jun 2021 14:48:26 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 05/23] hw/nvme: fix csi field for cns 0x00 and 0x11
-Date: Tue, 29 Jun 2021 20:47:25 +0200
-Message-Id: <20210629184743.230173-6-its@irrelevant.dk>
+Subject: [PULL 11/23] hw/nvme: save reftag when generating pi
+Date: Tue, 29 Jun 2021 20:47:31 +0200
+Message-Id: <20210629184743.230173-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
@@ -94,70 +94,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-As per the TP 4056d Namespace types CNS 0x00 and CNS 0x11
-CSI field shouldn't use but it is being used for these two
-Identify command CNS values, fix that.
+Prepare nvme_dif_pract_generate_dif() and nvme_dif_check() to be
+callable in smaller increments by making the reftag a pointer parameter
+updated by the function.
 
-Remove 'nvme_csi_has_nvm_support()' helper as suggested by
-Klaus we can safely assume NVM command set support for all
-namespaces.
-
-Suggested-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/nvme/ctrl.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ hw/nvme/nvme.h |  4 ++--
+ hw/nvme/ctrl.c | 10 +++++-----
+ hw/nvme/dif.c  | 22 +++++++++++-----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 7f3d0a181d1d..98a7d1c7014e 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -542,11 +542,11 @@ uint16_t nvme_dif_mangle_mdata(NvmeNamespace *ns, uint8_t *mbuf, size_t mlen,
+                                uint64_t slba);
+ void nvme_dif_pract_generate_dif(NvmeNamespace *ns, uint8_t *buf, size_t len,
+                                  uint8_t *mbuf, size_t mlen, uint16_t apptag,
+-                                 uint32_t reftag);
++                                 uint32_t *reftag);
+ uint16_t nvme_dif_check(NvmeNamespace *ns, uint8_t *buf, size_t len,
+                         uint8_t *mbuf, size_t mlen, uint16_t ctrl,
+                         uint64_t slba, uint16_t apptag,
+-                        uint16_t appmask, uint32_t reftag);
++                        uint16_t appmask, uint32_t *reftag);
+ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req);
+ 
+ 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 8dd9cb2ccbf3..7dea64b72e6a 100644
+index bb9ee9361554..699919ad1ab1 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -4188,16 +4188,6 @@ static uint16_t nvme_rpt_empty_id_struct(NvmeCtrl *n, NvmeRequest *req)
-     return nvme_c2h(n, id, sizeof(id), req);
- }
+@@ -1968,7 +1968,7 @@ static void nvme_verify_cb(void *opaque, int ret)
  
--static inline bool nvme_csi_has_nvm_support(NvmeNamespace *ns)
--{
--    switch (ns->csi) {
--    case NVME_CSI_NVM:
--    case NVME_CSI_ZONED:
--        return true;
--    }
--    return false;
--}
--
- static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+         req->status = nvme_dif_check(ns, ctx->data.bounce, ctx->data.iov.size,
+                                      ctx->mdata.bounce, ctx->mdata.iov.size,
+-                                     ctrl, slba, apptag, appmask, reftag);
++                                     ctrl, slba, apptag, appmask, &reftag);
+     }
+ 
+ out:
+@@ -2204,7 +2204,7 @@ static void nvme_copy_in_complete(NvmeRequest *req)
+             reftag = le32_to_cpu(range->reftag);
+ 
+             status = nvme_dif_check(ns, buf, len, mbuf, mlen, prinfor, slba,
+-                                    apptag, appmask, reftag);
++                                    apptag, appmask, &reftag);
+             if (status) {
+                 goto invalid;
+             }
+@@ -2227,10 +2227,10 @@ static void nvme_copy_in_complete(NvmeRequest *req)
+             }
+ 
+             nvme_dif_pract_generate_dif(ns, ctx->bounce, len, ctx->mbounce,
+-                                        mlen, apptag, reftag);
++                                        mlen, apptag, &reftag);
+         } else {
+             status = nvme_dif_check(ns, ctx->bounce, len, ctx->mbounce, mlen,
+-                                    prinfow, sdlba, apptag, appmask, reftag);
++                                    prinfow, sdlba, apptag, appmask, &reftag);
+             if (status) {
+                 goto invalid;
+             }
+@@ -2370,7 +2370,7 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
+ 
+         status = nvme_dif_check(ns, ctx->data.bounce, ctx->data.iov.size,
+                                 ctx->mdata.bounce, ctx->mdata.iov.size, ctrl,
+-                                slba, apptag, appmask, reftag);
++                                slba, apptag, appmask, &reftag);
+         if (status) {
+             req->status = status;
+             goto out;
+diff --git a/hw/nvme/dif.c b/hw/nvme/dif.c
+index 88efcbe9bd60..f5f86f1c26ad 100644
+--- a/hw/nvme/dif.c
++++ b/hw/nvme/dif.c
+@@ -41,7 +41,7 @@ static uint16_t crc_t10dif(uint16_t crc, const unsigned char *buffer,
+ 
+ void nvme_dif_pract_generate_dif(NvmeNamespace *ns, uint8_t *buf, size_t len,
+                                  uint8_t *mbuf, size_t mlen, uint16_t apptag,
+-                                 uint32_t reftag)
++                                 uint32_t *reftag)
  {
-     trace_pci_nvme_identify_ctrl();
-@@ -4254,7 +4244,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+     uint8_t *end = buf + len;
+     int16_t pil = 0;
+@@ -51,7 +51,7 @@ void nvme_dif_pract_generate_dif(NvmeNamespace *ns, uint8_t *buf, size_t len,
+     }
+ 
+     trace_pci_nvme_dif_pract_generate_dif(len, ns->lbasz, ns->lbasz + pil,
+-                                          apptag, reftag);
++                                          apptag, *reftag);
+ 
+     for (; buf < end; buf += ns->lbasz, mbuf += ns->lbaf.ms) {
+         NvmeDifTuple *dif = (NvmeDifTuple *)(mbuf + pil);
+@@ -63,10 +63,10 @@ void nvme_dif_pract_generate_dif(NvmeNamespace *ns, uint8_t *buf, size_t len,
+ 
+         dif->guard = cpu_to_be16(crc);
+         dif->apptag = cpu_to_be16(apptag);
+-        dif->reftag = cpu_to_be32(reftag);
++        dif->reftag = cpu_to_be32(*reftag);
+ 
+         if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps) != NVME_ID_NS_DPS_TYPE_3) {
+-            reftag++;
++            (*reftag)++;
+         }
+     }
+ }
+@@ -132,13 +132,13 @@ static uint16_t nvme_dif_prchk(NvmeNamespace *ns, NvmeDifTuple *dif,
+ uint16_t nvme_dif_check(NvmeNamespace *ns, uint8_t *buf, size_t len,
+                         uint8_t *mbuf, size_t mlen, uint16_t ctrl,
+                         uint64_t slba, uint16_t apptag,
+-                        uint16_t appmask, uint32_t reftag)
++                        uint16_t appmask, uint32_t *reftag)
+ {
+     uint8_t *end = buf + len;
+     int16_t pil = 0;
+     uint16_t status;
+ 
+-    status = nvme_check_prinfo(ns, ctrl, slba, reftag);
++    status = nvme_check_prinfo(ns, ctrl, slba, *reftag);
+     if (status) {
+         return status;
+     }
+@@ -153,13 +153,13 @@ uint16_t nvme_dif_check(NvmeNamespace *ns, uint8_t *buf, size_t len,
+         NvmeDifTuple *dif = (NvmeDifTuple *)(mbuf + pil);
+ 
+         status = nvme_dif_prchk(ns, dif, buf, mbuf, pil, ctrl, apptag,
+-                                appmask, reftag);
++                                appmask, *reftag);
+         if (status) {
+             return status;
+         }
+ 
+         if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps) != NVME_ID_NS_DPS_TYPE_3) {
+-            reftag++;
++            (*reftag)++;
          }
      }
  
--    if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
-+    if (active || ns->csi == NVME_CSI_NVM) {
-         return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
-     }
+@@ -270,7 +270,7 @@ static void nvme_dif_rw_check_cb(void *opaque, int ret)
  
-@@ -4325,7 +4315,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
+     status = nvme_dif_check(ns, ctx->data.bounce, ctx->data.iov.size,
+                             ctx->mdata.bounce, ctx->mdata.iov.size, ctrl,
+-                            slba, apptag, appmask, reftag);
++                            slba, apptag, appmask, &reftag);
+     if (status) {
+         req->status = status;
+         goto out;
+@@ -478,11 +478,11 @@ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req)
+         /* splice generated protection information into the buffer */
+         nvme_dif_pract_generate_dif(ns, ctx->data.bounce, ctx->data.iov.size,
+                                     ctx->mdata.bounce, ctx->mdata.iov.size,
+-                                    apptag, reftag);
++                                    apptag, &reftag);
+     } else {
+         status = nvme_dif_check(ns, ctx->data.bounce, ctx->data.iov.size,
+                                 ctx->mdata.bounce, ctx->mdata.iov.size, ctrl,
+-                                slba, apptag, appmask, reftag);
++                                slba, apptag, appmask, &reftag);
+         if (status) {
+             goto err;
          }
-     }
- 
--    if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
-+    if (c->csi == NVME_CSI_NVM) {
-         return nvme_rpt_empty_id_struct(n, req);
-     } else if (c->csi == NVME_CSI_ZONED && ns->csi == NVME_CSI_ZONED) {
-         return nvme_c2h(n, (uint8_t *)ns->id_ns_zoned, sizeof(NvmeIdNsZoned),
 -- 
 2.32.0
 
