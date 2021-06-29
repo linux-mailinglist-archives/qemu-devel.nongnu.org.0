@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B885E3B76A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 18:49:11 +0200 (CEST)
-Received: from localhost ([::1]:58900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FCF3B769D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 18:46:40 +0200 (CEST)
+Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyGv8-0003nW-OS
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 12:49:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58178)
+	id 1lyGsh-0006gT-U0
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 12:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGpM-0003aM-7U
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45319)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGpP-0003ff-Rt
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGpK-00066B-15
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:12 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyGpL-00067Z-4u
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 12:43:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624984989;
+ s=mimecast20190719; t=1624984990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mO6cT9DWGn6AvlSVpHL+QcqqeDXyFMM6BsbjivjrK0U=;
- b=H/ZrVnDesnOdDaKhYqvow/2JvLEaHjVDt7guR+oip2Mcr0rtp39UNGSatcWDKUFG76nRRi
- sKyvZasb68MdXftdnUmAk1COrqJBp3tPVwGB90glx9Vpw1E5J/05p/6tes8KubST8Yn5iS
- mTT7sX701I0TIc5kv3aaK1i5fNSdYRg=
+ bh=LZAV0BMxzcjkPZA/fUmKVUcOwCJeaXKwTq+VTy5SQWw=;
+ b=e0myoYRPeyeQGXcBd7nL8Wk+jTO3OwIocfHMBbniK2xsuTV9nEmezqMdP0k9L/JBaOfP3c
+ PcT2OK63lDsiRgoDn2PJVbTs1nqXPcbZybYw3+nuI+pgbl2ZyXKUqdXLmvPY+4gxMwMALD
+ fk1uy0RTRMoMLaqLLzlXafp9BKC7pbc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-UIe2HIVlPK2JewCNHLwJKQ-1; Tue, 29 Jun 2021 12:43:05 -0400
-X-MC-Unique: UIe2HIVlPK2JewCNHLwJKQ-1
+ us-mta-308-JIYqrnAJOW2uh2_inxeWlg-1; Tue, 29 Jun 2021 12:43:06 -0400
+X-MC-Unique: JIYqrnAJOW2uh2_inxeWlg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8EC0801F97;
- Tue, 29 Jun 2021 16:43:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE7F119057A2;
+ Tue, 29 Jun 2021 16:43:05 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C715219D9D;
- Tue, 29 Jun 2021 16:43:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEDF319C79;
+ Tue, 29 Jun 2021 16:43:04 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/12] python: expose typing information via PEP 561
-Date: Tue, 29 Jun 2021 12:42:42 -0400
-Message-Id: <20210629164253.1272763-2-jsnow@redhat.com>
+Subject: [PATCH v2 02/12] python: Remove global pylint suppressions
+Date: Tue, 29 Jun 2021 12:42:43 -0400
+Message-Id: <20210629164253.1272763-3-jsnow@redhat.com>
 In-Reply-To: <20210629164253.1272763-1-jsnow@redhat.com>
 References: <20210629164253.1272763-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,61 +85,71 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://www.python.org/dev/peps/pep-0561/#specification
-
-Create 'py.typed' files in each subpackage that indicate to mypy that
-this is a typed module, so that users of any of these packages can use
-mypy to check their code as well.
-
-Note: Theoretically it's possible to ditch MANIFEST.in in favor of using
-package_data in setup.cfg, but I genuinely could not figure out how to
-get it to include things from the *source root* into the *package root*;
-only how to include things from each subpackage. I tried!
+These suppressions only apply to a small handful of places. Instead of
+disabling them globally, disable them just in the cases where we
+need. The design of the machine class grew quite organically with tons
+of constructor and class instance variables -- there's little chance of
+meaningfully refactoring it in the near term, so just suppress the
+warnings for that class.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- python/qemu/machine/py.typed | 0
- python/qemu/qmp/py.typed     | 0
- python/qemu/utils/py.typed   | 0
- python/setup.cfg             | 4 ++++
- 4 files changed, 4 insertions(+)
- create mode 100644 python/qemu/machine/py.typed
- create mode 100644 python/qemu/qmp/py.typed
- create mode 100644 python/qemu/utils/py.typed
+ python/qemu/machine/machine.py | 3 +++
+ python/qemu/machine/qtest.py   | 2 ++
+ python/setup.cfg               | 4 +---
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/python/qemu/machine/py.typed b/python/qemu/machine/py.typed
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/python/qemu/qmp/py.typed b/python/qemu/qmp/py.typed
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/python/qemu/utils/py.typed b/python/qemu/utils/py.typed
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index b62435528e..e3345dfa1b 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -84,6 +84,7 @@ class QEMUMachine:
+             ...
+         # vm is guaranteed to be shut down here
+     """
++    # pylint: disable=too-many-instance-attributes, too-many-public-methods
+ 
+     def __init__(self,
+                  binary: str,
+@@ -111,6 +112,8 @@ def __init__(self,
+         @param console_log: (optional) path to console log file
+         @note: Qemu process is not started until launch() is used.
+         '''
++        # pylint: disable=too-many-arguments
++
+         # Direct user configuration
+ 
+         self._binary = binary
+diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
+index 93700684d1..d6d9c6a34a 100644
+--- a/python/qemu/machine/qtest.py
++++ b/python/qemu/machine/qtest.py
+@@ -116,6 +116,8 @@ def __init__(self,
+                  base_temp_dir: str = "/var/tmp",
+                  socket_scm_helper: Optional[str] = None,
+                  sock_dir: Optional[str] = None):
++        # pylint: disable=too-many-arguments
++
+         if name is None:
+             name = "qemu-%d" % os.getpid()
+         if sock_dir is None:
 diff --git a/python/setup.cfg b/python/setup.cfg
-index 85cecbb41b..db1639c1f2 100644
+index db1639c1f2..524789d6e0 100644
 --- a/python/setup.cfg
 +++ b/python/setup.cfg
-@@ -19,6 +19,7 @@ classifiers =
-     Programming Language :: Python :: 3.8
-     Programming Language :: Python :: 3.9
-     Programming Language :: Python :: 3.10
-+    Typing :: Typed
+@@ -87,9 +87,7 @@ ignore_missing_imports = True
+ # --enable=similarities". If you want to run only the classes checker, but have
+ # no Warning level messages displayed, use "--disable=all --enable=classes
+ # --disable=W".
+-disable=too-many-arguments,
+-        too-many-instance-attributes,
+-        too-many-public-methods,
++disable=
  
- [options]
- python_requires = >= 3.6
-@@ -27,6 +28,9 @@ packages =
-     qemu.machine
-     qemu.utils
- 
-+[options.package_data]
-+* = py.typed
-+
- [options.extras_require]
- # Run `pipenv lock --dev` when changing these requirements.
- devel =
+ [pylint.basic]
+ # Good variable names which should always be accepted, separated by a comma.
 -- 
 2.31.1
 
