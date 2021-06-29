@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5073B75E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 17:52:18 +0200 (CEST)
-Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C8A3B75EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 17:54:46 +0200 (CEST)
+Received: from localhost ([::1]:45648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyG23-0008VJ-RR
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 11:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47464)
+	id 1lyG4S-0002tZ-BU
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 11:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1lyG0F-0007Jl-Pf
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:50:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29741)
+ id 1lyG0G-0007Jz-Ji
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:50:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1lyG0B-0003DL-MZ
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:50:23 -0400
+ id 1lyG0E-0003J6-Uq
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 11:50:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624981818;
+ s=mimecast20190719; t=1624981822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RtuI2oTe00qstGacTw9K2s3pdpFWaOKwrl3Rir93eNE=;
- b=TdA2HUAiICPuuda8As+PpzVcDFknBxPb3sIFTgA3VX9q0+SnEStI7nVoxDVsTTLPzcvh9I
- 8DogSZyskqarj+Sq8f2HVkLK+8NmqNjfV5lE5W+2N0VHVJCzTFsTOD5B/Mtgw2dctKEs25
- jFe4ZvWSxaRAS30yJZc4k91/utGCf6Y=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=67BVItjkRky02dYvHDGDRBHVMg3pEEnoQHXoR5F7lXg=;
+ b=MxFicU/VEONS4xxd8IBZViwhiE5C+e7aGE4i+wOL3P28EM91UNsTkXUcxecQdXvOSd7Aon
+ OnrwNR+g1Z4y5LqCJiniA4ra8rvuRm7Y+MqVReFuYzoFMWYHbEaFv5oST5kq3gFfeLnFKG
+ FGNbPyP8eeZg8BPnh7c1NyrPrLw/n98=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-5cwNt0bpNI6XQpv5H8W2tw-1; Tue, 29 Jun 2021 11:50:16 -0400
-X-MC-Unique: 5cwNt0bpNI6XQpv5H8W2tw-1
+ us-mta-483-RQcziAdiNEiFy4egQCpyAA-1; Tue, 29 Jun 2021 11:50:18 -0400
+X-MC-Unique: RQcziAdiNEiFy4egQCpyAA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC151084F55
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 15:50:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBE6C801B30
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 15:50:17 +0000 (UTC)
 Received: from thinkpad.redhat.com (ovpn-114-217.ams2.redhat.com
  [10.36.114.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0275160854;
- Tue, 29 Jun 2021 15:50:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56CBF60854;
+ Tue, 29 Jun 2021 15:50:16 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] migration: failover: continue to wait card unplug on error
-Date: Tue, 29 Jun 2021 17:50:05 +0200
-Message-Id: <20210629155007.629086-1-lvivier@redhat.com>
+Subject: [PATCH 1/2] migration: move wait-unplug loop to its own function
+Date: Tue, 29 Jun 2021 17:50:06 +0200
+Message-Id: <20210629155007.629086-2-lvivier@redhat.com>
+In-Reply-To: <20210629155007.629086-1-lvivier@redhat.com>
+References: <20210629155007.629086-1-lvivier@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -82,20 +85,101 @@ Cc: Jens Freimann <jfreimann@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to wait the end of the unplug phase to be able=0D
-to plug back the card.=0D
-=0D
-Bug: https://bugzilla.redhat.com/show_bug.cgi?id=3D1976852=0D
-=0D
-Laurent Vivier (2):=0D
-  migration: move wait-unplug loop to its own function=0D
-  migration: failover: continue to wait card unplug on error=0D
-=0D
- migration/migration.c | 65 ++++++++++++++++++++++++-------------------=0D
- 1 file changed, 37 insertions(+), 28 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+The loop is used in migration_thread() and bg_migration_thread(),
+so we can move it to its own function and call it from these both places.
+
+Moreover, in migration_thread() we have a wrong state transition from
+SETUP to ACTIVE while state could be WAIT_UNPLUG. This is correctly
+managed in bg_migration_thread() so use this code instead.
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ migration/migration.c | 54 +++++++++++++++++++++----------------------
+ 1 file changed, 26 insertions(+), 28 deletions(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index 4228635d1880..3e92c405a2b6 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3664,6 +3664,28 @@ bool migration_rate_limit(void)
+     return urgent;
+ }
+ 
++/*
++ * if failover devices are present, wait they are completely
++ * unplugged
++ */
++
++static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
++                                    int new_state)
++{
++    if (qemu_savevm_state_guest_unplug_pending()) {
++        migrate_set_state(&s->state, old_state, MIGRATION_STATUS_WAIT_UNPLUG);
++
++        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
++               qemu_savevm_state_guest_unplug_pending()) {
++            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
++        }
++
++        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG, new_state);
++    } else {
++        migrate_set_state(&s->state, old_state, new_state);
++    }
++}
++
+ /*
+  * Master migration thread on the source VM.
+  * It drives the migration and pumps the data down the outgoing channel.
+@@ -3710,22 +3732,10 @@ static void *migration_thread(void *opaque)
+ 
+     qemu_savevm_state_setup(s->to_dst_file);
+ 
+-    if (qemu_savevm_state_guest_unplug_pending()) {
+-        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+-                          MIGRATION_STATUS_WAIT_UNPLUG);
+-
+-        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
+-               qemu_savevm_state_guest_unplug_pending()) {
+-            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
+-        }
+-
+-        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
+-                MIGRATION_STATUS_ACTIVE);
+-    }
++    qemu_savevm_wait_unplug(s, MIGRATION_STATUS_SETUP,
++                               MIGRATION_STATUS_ACTIVE);
+ 
+     s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
+-    migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+-                      MIGRATION_STATUS_ACTIVE);
+ 
+     trace_migration_thread_setup_complete();
+ 
+@@ -3833,21 +3843,9 @@ static void *bg_migration_thread(void *opaque)
+     qemu_savevm_state_header(s->to_dst_file);
+     qemu_savevm_state_setup(s->to_dst_file);
+ 
+-    if (qemu_savevm_state_guest_unplug_pending()) {
+-        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+-                          MIGRATION_STATUS_WAIT_UNPLUG);
+-
+-        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
+-               qemu_savevm_state_guest_unplug_pending()) {
+-            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
+-        }
++    qemu_savevm_wait_unplug(s, MIGRATION_STATUS_SETUP,
++                               MIGRATION_STATUS_ACTIVE);
+ 
+-        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
+-                          MIGRATION_STATUS_ACTIVE);
+-    } else {
+-        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+-                MIGRATION_STATUS_ACTIVE);
+-    }
+     s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
+ 
+     trace_migration_thread_setup_complete();
+-- 
+2.31.1
 
 
