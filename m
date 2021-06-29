@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4471C3B6DCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 06:55:20 +0200 (CEST)
-Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972573B6DD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 07:14:23 +0200 (CEST)
+Received: from localhost ([::1]:54790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ly5mJ-0000U6-BQ
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 00:55:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47704)
+	id 1ly64k-0006ZH-95
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 01:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ly5lT-0008FW-H5
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:54:27 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ly5lR-0001PP-Op
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 00:54:27 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u6so1952470wrs.5
- for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 21:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hPB2BiDoenUlvcP0wU20V2Ce9rNF/3kxoQEmPhZn830=;
- b=JPoqTo8mwSUCUIfML9fxNqCvv3G9F30y2AM46krEXZnigy8CY+SLggMO1vNvKjKwO0
- +mGrDH9WR93fhhtPWNPtrflZHBBCb17jtbWFtvS2kj89jdQ7g0CW+4K07dwmDBgqbJOa
- WET02PkNwyJFWVpN3Lekwo2kd5JJCpx8Hcsp10Z7SRkyq2MSbSphFA4YLm/iKXI8aI+J
- 7tI9VvAiW1XWAVvT5+fDmxtumMG3EPvQkUa1vduhoYdnH9wQs+KzjkensX+uQXWbkNBT
- H8SraYkjiEA4G30pV6gBhHvFYOHzSAN17yZ20Gc8tRGoAIsDKMMRi5XJKp6eZ+Yxr8ef
- 5XyA==
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1ly63h-0005tV-L0
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 01:13:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24033)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1ly63d-0000Ua-Vz
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 01:13:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624943591;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ibmgnjtn7ThaSbwa8fEDVkjmsL+IvYd9N6FqySkPErE=;
+ b=POrpbYkwPYFh+YKROPEtxynUTBXH2QBK9mpurvm1U/ZpO9B/HSEn9Cwj4UJ/7MAbC4lu9w
+ 5L475vN0QD/4TfztARjn4DCGrD3S9xPPuIZ6IBrtclmqCeVfsukMmAHNYuzf0+ERXkTlCO
+ stZDUxQrGkqZYY6Kqd2ScK0LYraduAA=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-pKojP6LWPXCta071AQu9AQ-1; Tue, 29 Jun 2021 01:13:10 -0400
+X-MC-Unique: pKojP6LWPXCta071AQu9AQ-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ d1-20020a17090ae281b0290170ba1f9948so805845pjz.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Jun 2021 22:13:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=hPB2BiDoenUlvcP0wU20V2Ce9rNF/3kxoQEmPhZn830=;
- b=XRyD8idIrbJQHl3XiX34kO/lw3NBbdt8EFhhTsTsyuNCa2DsvBncCSihMNuTVJmr3Q
- +iiycLvNV3Z55pg+mOdXydps69ItTmcQ7Wm2FTGgwGV11bo6CEAv9Ncs0mazZfDaqsPQ
- shfD4imKhebHTumeasvBLEkifziJ+C197U2+C1EtSMRow1G3UKaS54bwXHuj7sGZQthv
- eFz9837Ful0ue9CPuiPkeAeMw2ECBhJdgfRAbjca2mEWX2eMfJDU5+v2IEsjgOIK6qAv
- Q/ho5vGxiE5koLc7TFixbZLy5gq1v32e6hVp+yD9RreFa23oKo7f+sKwApIMOJLVzREg
- NiDg==
-X-Gm-Message-State: AOAM532zOdIce6Wt7egck+sSXhTlG62ZmT7qpQhL994oqEfBg3aw6RA3
- cgwh8ap8Onexf2Hr0/iiDMU=
-X-Google-Smtp-Source: ABdhPJw6aduxKBnNhkSpMVx5odsRt7eanq1KUHIc40iChFJRSMK2MJmzBAqxBufS826xWiRmNx+z4A==
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr14808435wrr.181.1624942464054; 
- Mon, 28 Jun 2021 21:54:24 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id t16sm2425898wrx.89.2021.06.28.21.54.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jun 2021 21:54:23 -0700 (PDT)
-Subject: Re: [PATCH 3/5] hw/pci-host/bonito: Allow PCI config accesses smaller
- than 32-bit
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210624202747.1433023-1-f4bug@amsat.org>
- <20210624202747.1433023-4-f4bug@amsat.org>
- <10a58f2c-7b8f-fe6c-53c6-cd70b378395a@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7b5a0eb0-d280-a25f-01c1-54f2b3e6ce5f@amsat.org>
-Date: Tue, 29 Jun 2021 06:54:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=Ibmgnjtn7ThaSbwa8fEDVkjmsL+IvYd9N6FqySkPErE=;
+ b=E0Lgukx8JwSQE9XwjvnwPq1qz2lbEQS+8zn07FjH/cI+U+w8/ghPIq+4bg0nOvPoTm
+ e56jExdfQqwwHb9y4lH554g9RdiRIva0KEeAUexhYoPHDjtygPyf0SS+YVMf7uvbzDhw
+ MEkDO4RIq5xNmTnqq/BBugckgii6fPEbBuKDwCi679b1ivuzd+7GMF3iMJxBHHBDw26o
+ IwqBbMVfyake5q0CcRZrZ/OEu2W8o4i9MBkSzm5mBXP2Us/fj/BzCBEncaHPH/OC3BFx
+ KCJ6KlWA54rFAxcI0ljXaqj8dfbXhtYUqFHxOlPS8t1+TP/tjBLkWVh5VfamrNV9mCS8
+ d8yw==
+X-Gm-Message-State: AOAM533xEgcjjhS1S1yNLUoIa9b+5UwXZWu2gVsnoxdCkGiIxxw/Wl1k
+ RMF+/kkm/m7Zd8tsD79IxDcM3+w71J0o5HHzsZGyZPAjph3AXDzN5MB4cwK8kkzN+AZ/+OXG8Ov
+ 5BXtrdy3LzX21I8s=
+X-Received: by 2002:a62:2646:0:b029:2fe:f613:5e39 with SMTP id
+ m67-20020a6226460000b02902fef6135e39mr28092704pfm.78.1624943589060; 
+ Mon, 28 Jun 2021 22:13:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVyReh0o/5MpLkE2aYR/1PhcgjOrZ2tE97XT1oeKG4AV6jgBmm5axriLOSqxeYVLFw7jQYDQ==
+X-Received: by 2002:a62:2646:0:b029:2fe:f613:5e39 with SMTP id
+ m67-20020a6226460000b02902fef6135e39mr28092685pfm.78.1624943588841; 
+ Mon, 28 Jun 2021 22:13:08 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:87bb::1000])
+ by smtp.gmail.com with ESMTPSA id g16sm17107336pgl.22.2021.06.28.22.13.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 22:13:08 -0700 (PDT)
+From: Leonardo Bras <leobras@redhat.com>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PATCH v2 1/1] migration: Unregister yank if migration setup fails
+Date: Tue, 29 Jun 2021 02:05:23 -0300
+Message-Id: <20210629050522.147057-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <10a58f2c-7b8f-fe6c-53c6-cd70b378395a@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.375,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,89 +96,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/21 10:49 PM, BALATON Zoltan wrote:
-> On Thu, 24 Jun 2021, Philippe Mathieu-Daudé wrote:
->> When running the official PMON firmware for the Fuloong 2E, we see
->> 8-bit and 16-bit accesses to PCI config space:
->>
->>  $ qemu-system-mips64el -M fuloong2e -bios pmon_2e.bin \
->>    -trace -trace bonito\* -trace pci_cfg\*
->>
->>  pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
->>  bonito_spciconf_small_access PCI config address is smaller then
->> 32-bit, addr: 0x4d2, size: 2
->>  pci_cfg_write vt82c686b-pm 05:4 @0xd2 <- 0x1
->>  pci_cfg_write vt82c686b-pm 05:4 @0x4 <- 0x1
->>  pci_cfg_write vt82c686b-isa 05:0 @0x4 <- 0x7
->>  bonito_spciconf_small_access PCI config address is smaller then
->> 32-bit, addr: 0x81, size: 1
->>  pci_cfg_read vt82c686b-isa 05:0 @0x81 -> 0x0
->>  bonito_spciconf_small_access PCI config address is smaller then
->> 32-bit, addr: 0x81, size: 1
->>  pci_cfg_write vt82c686b-isa 05:0 @0x81 <- 0x80
->>  bonito_spciconf_small_access PCI config address is smaller then
->> 32-bit, addr: 0x83, size: 1
->>  pci_cfg_write vt82c686b-isa 05:0 @0x83 <- 0x89
->>  bonito_spciconf_small_access PCI config address is smaller then
->> 32-bit, addr: 0x85, size: 1
->>  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x3
->>  bonito_spciconf_small_access PCI config address is smaller then
->> 32-bit, addr: 0x5a, size: 1
->>  pci_cfg_write vt82c686b-isa 05:0 @0x5a <- 0x7
->>  bonito_spciconf_small_access PCI config address is smaller then
->> 32-bit, addr: 0x85, size: 1
->>  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x1
->>
->> Also this is what the Linux kernel does since it supports the Bonito
->> north bridge:
->> https://elixir.bootlin.com/linux/v2.6.15/source/arch/mips/pci/ops-bonito64.c#L85
->>
->>
->> So it seems safe to assume the datasheet is incomplete or outdated
->> regarding the address constraints.
->>
->> This problem was exposed by commit 911629e6d3773a8adeab48b
->> ("vt82c686: Fix SMBus IO base and configuration registers").
->>
->> Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
->> Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> hw/pci-host/bonito.c | 4 ++--
->> 1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
->> index 751fdcec689..3c10608c9a2 100644
->> --- a/hw/pci-host/bonito.c
->> +++ b/hw/pci-host/bonito.c
->> @@ -187,7 +187,7 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
->> #define BONITO_PCICONF_FUN_MASK        0x700    /* [10:8] */
->> #define BONITO_PCICONF_FUN_OFFSET      8
->> #define BONITO_PCICONF_REG_MASK_DS     (~3)         /* Per datasheet */
->> -#define BONITO_PCICONF_REG_MASK        0xFC
->> +#define BONITO_PCICONF_REG_MASK_HW     0xff         /* As seen on
->> hardware */
-> 
-> I think we didn't really see it on hardware just inferred this from what
-> the firmware does. That's a slight difference but may worth noting so
-> people later don't think this was really tested with real hardware.
-> Maybe "As seen with PMON"?
+Currently, if a qemu instance is started with "-incoming defer" and
+an incorect parameter is passed to "migrate_incoming", it will print the
+expected error and reply with "duplicate yank instance" for any upcoming
+"migrate_incoming" command.
 
-OK.
+This renders current qemu process unusable, and requires a new qemu
+process to be started before accepting a migration.
 
-> Also if this is a loongson thing as was
-> thought in the thread in December then maybe the #define could be named
-> that instead of _HW so if somebody wants to reuse this model later ad
-> Bonito then know that it implements the Loongson version.
+This is caused by a yank_register_instance() that happens in
+qemu_start_incoming_migration() but is never reverted if any error
+happens.
 
-Bonito64 is what is modelled. This is what I checked from the Linux
-kernel:
-https://elixir.bootlin.com/linux/v2.6.15/source/arch/mips/pci/ops-bonito64.c#L85
+Solves this by unregistering the instance if anything goes wrong
+in the function, allowing a new "migrate_incoming" command to be
+accepted.
+
+Fixes: b5eea99ec2f ("migration: Add yank feature", 2021-01-13)
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1974366
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+
+---
+Changes since v1:
+ - Add ERRP_GUARD() at the beginning of the function, so it deals with
+   errp passed as NULL, and does correct error propagation.
+---
+ migration/migration.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index 4228635d18..af0c72609f 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -454,6 +454,7 @@ void migrate_add_address(SocketAddress *address)
+ 
+ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
++    ERRP_GUARD();
+     const char *p = NULL;
+ 
+     if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
+@@ -474,9 +475,13 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+     } else if (strstart(uri, "fd:", &p)) {
+         fd_start_incoming_migration(p, errp);
+     } else {
+-        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+         error_setg(errp, "unknown migration protocol: %s", uri);
+     }
++
++    if (*errp) {
++        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
++    }
++
+ }
+ 
+ static void process_incoming_migration_bh(void *opaque)
+-- 
+2.32.0
+
 
