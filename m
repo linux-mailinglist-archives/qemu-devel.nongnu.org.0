@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1223B7390
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 15:58:33 +0200 (CEST)
-Received: from localhost ([::1]:60470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BF13B73B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:02:57 +0200 (CEST)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyEG0-0007En-6E
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 09:58:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
+	id 1lyEKG-0001ZR-2f
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:02:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyEDp-00057B-8p
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:56:17 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:43890)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lyEI3-0008VD-EJ
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:00:39 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyEDn-0005r6-FH
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:56:16 -0400
-Received: by mail-ed1-x534.google.com with SMTP id w17so15927086edd.10
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 06:56:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lyEI0-00083P-NE
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:00:39 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id n11so7325601pjo.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 07:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PIbtiXc3VW/IgoahqyTFHqKxaXJrFPkRlG5Tzvkz6Zo=;
- b=VN7ZKMxZAYjWbr/+kPv3NXjQzirY4qCoXEOJEFPsAkpsJJjSoL44nZefvizxX081YB
- vqQ3ayXMkD6JWRidQvF52qJIpVyEBv7+F5UM7FBqd6kDqXrQCrxhW4JpXK3zMVwYZqKt
- PaVIx46WOPvYBUBue5qe03gjUcHFc9G0kA8XirLxgajvm1iWe8JxG8AtVmPhznRLgC7b
- ECbT7shHPnGs8vRthFpZ8jHOD0Iizf5kdBB3NAXE6iO/FnYGe4XQresLC6RdUMrfGqI2
- 63m7WDX5Bz6ebMyHBHdISHez12KiOR1r5qypZxeJybA+VMpMWKYb7Td6mwnMVUrBGIWT
- +waQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CzSB9KClHWe8rbShMLbwd6rst2rm3nsnJ2r9agmhsUs=;
+ b=tw6ByVwduLJ89XZ75gST3jxean8dBcQCCsa4e1DxtWNuHsG6ASQasNusR8iRaj52np
+ Ribluz2NKF8D9va3ZsoTgBR9tEfoHkQKS8NqEW577ytc2ueXd4m46nrQ2uASQ1zvVUpN
+ /wIwdPDphZkB/dle+ijrbp0U4GkQpmO40rZLzOB4T2U36eZQrFVzYIo7mESQ8jucR5lm
+ 8x4q87GLILNOZPJIdd/KvbwkGaNPkFiwW5OXuNMurBXPVXeYkxX77PzX4a14RNCEnETL
+ ygxevc/iU7JXBHXC2uo7AQftSejcELxfLkUaJZDkL4w4uWbfaOgT2O2ncN5ny4e+KryB
+ mGeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PIbtiXc3VW/IgoahqyTFHqKxaXJrFPkRlG5Tzvkz6Zo=;
- b=gc7yecjsInkXJVLCOQZJUYssMQYxY3m8GQGpKhHzAEFvXomH9FuvNuaKvo5IJ5eBTE
- aOxzpu9W5QIdOvA94MNjOUn89q21M+mPlRHVQl21S+kmkHo06XxYEm6vU9NZ2UtUyR0q
- l7laLtxDTOtcXkfHxlJ89QIQjeyfeG6irF4wHnzGiF/1sjVXHsgYkKr1DlpvH7HG2L1f
- s5okaaCgfNaegyt6aAh+zoyu5WWZ6PxcULINoArzTK770T1I7mR+1HYlqmmC2NMdBrS9
- s/Ag7vRvdTXHvIaFIIzMJoiZN5PsJ9gYARx1+IKCB0+O5zBa77L7XVMfdE6l/pekBe2w
- SwNg==
-X-Gm-Message-State: AOAM533epKyuXk7RoNQSOyeZXnX2c8lQ1SEHOZYmu8UE0mE0GO21RoVR
- 0OGeYo3STtjaD92YI+XNAgA6rvrUO2/tERyNt8d1mA==
-X-Google-Smtp-Source: ABdhPJxOarBrDWydd9cwj5ZN23Lb6MJUTBt0gnhxUvrbm8Zr4+8izg7NFfC7fJCv06fPFmddUNZ6QcfIUmWUzHf/pAY=
-X-Received: by 2002:a05:6402:1911:: with SMTP id
- e17mr40044330edz.36.1624974973870; 
- Tue, 29 Jun 2021 06:56:13 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CzSB9KClHWe8rbShMLbwd6rst2rm3nsnJ2r9agmhsUs=;
+ b=RF6Otj+oY0iP723vW3b/3qQz2xkgn+AA8me1zTzihwoPXbhb6Uo8jlYrAlekWlENtT
+ RXr/Bluz8hC7gXPx5pfc27LB6BfKuyOG9nTNbANlSi8+GCE/P8sRZUJyQJ2q5BbRoESg
+ tYML4jVRreNFwyHvlcMxQDHbvyqW8pzwYISjQdgowRhft5CHG/Otxy4p7PqV3qC9iSOq
+ mzXVZ/qYZIXByFtSdJOUmrWBo9LaRF9GPjSocEA16F3edXh/38GOGZAvw9xqpqDYHNuu
+ DRyyrgH/eASDKxR3Th8lIBAvtd3JGWhnxXnBuiyHl3zgVegGuEZ6bmPPT5EsUsNIs2fK
+ M8IA==
+X-Gm-Message-State: AOAM532+qVDkBl3S4GNw8eMW1/HJhpJ7gpLeyinl2bMElh8rRHzU76Tv
+ iLAeZwvro08vB60Um0fhqNTjocLQgI0DSw==
+X-Google-Smtp-Source: ABdhPJwcj3h7g1Rr+l4BfDX9w5H/OA/zGag3EZDEibU1iQ+ZczOpiF+X22kAlCWTxY3qHyiJYuec0g==
+X-Received: by 2002:a17:90b:384f:: with SMTP id
+ nl15mr22741434pjb.88.1624975234687; 
+ Tue, 29 Jun 2021 07:00:34 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id j3sm18319591pfe.98.2021.06.29.07.00.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Jun 2021 07:00:34 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Correct the encoding of MDCCSR_EL0
+To: Nick Hudson <hnick@vmware.com>
+References: <20210629081551.14133-1-hnick@vmware.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <90c71c55-4298-52c3-1ce2-0b60d52fac6d@linaro.org>
+Date: Tue, 29 Jun 2021 07:00:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210628220810.2919600-1-richard.henderson@linaro.org>
- <20210628220810.2919600-9-richard.henderson@linaro.org>
- <CAFEAcA8jOHKcCqFhZ=M+qt-WBguiqv7j+Jwi0tAVKtYajVBN=Q@mail.gmail.com>
- <c92ee048-3f17-a5fd-a2af-8e07734aaaca@linaro.org>
-In-Reply-To: <c92ee048-3f17-a5fd-a2af-8e07734aaaca@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Jun 2021 14:55:37 +0100
-Message-ID: <CAFEAcA_ydDZGfo8qgu3YVmoxcn3uGepOix35hHTb46mq35EcRQ@mail.gmail.com>
-Subject: Re: [PATCH v3 8/9] target/nios2: Inline handle_instruction
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+In-Reply-To: <20210629081551.14133-1-hnick@vmware.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,37 +87,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Mohannad Ismail <imohannad@vmware.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Jun 2021 at 14:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 6/29/21 2:27 AM, Peter Maydell wrote:
-> > On Mon, 28 Jun 2021 at 23:13, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> Move handle_instruction into nios2_tr_translate_insn
-> >> as the only caller.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>   target/nios2/translate.c | 66 +++++++++++++++++++---------------------
-> >>   1 file changed, 31 insertions(+), 35 deletions(-)
-> >
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> >
-> > Side note: I think we could replace all the handling of dc->zero
-> > by having load_gpr() return a tcg_constant_i32(0) for R_ZERO,
-> > which then never needs freeing. (We never try to write back
-> > to what we get from load_gpr().)
->
-> Quite right.  There are several targets that could benefit from that simplification.
+On 6/29/21 1:15 AM, Nick Hudson wrote:
+>       { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_BOTH,
+> -      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 0,
+> +      .cp = 14, .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
 
-I'm still hoping one day you'll get around to making tcg_temp_free_*()
-calls entirely unnecessary :-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- PMM
+
+r~
 
