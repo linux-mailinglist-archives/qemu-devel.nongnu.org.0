@@ -2,142 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48543B6EAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 09:25:02 +0200 (CEST)
-Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8DB3B6EC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 09:31:37 +0200 (CEST)
+Received: from localhost ([::1]:40870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ly87B-0006ub-Ge
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 03:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40854)
+	id 1ly8DY-0000o5-1v
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 03:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ly863-00065H-27; Tue, 29 Jun 2021 03:23:51 -0400
-Received: from mail-eopbgr40091.outbound.protection.outlook.com
- ([40.107.4.91]:50247 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ly8C2-00005k-PM
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 03:30:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ly85z-0004V9-Pk; Tue, 29 Jun 2021 03:23:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fwi9p3I4kVD+3Dr/2wZicenFarV//9PeD8oReMVcRQvojtthYpPpl10ZKKj6TJxe+ddxgVze7sQ7Kr76Ir5AVhC5vT/PE7UI/G6Ofz+hVcRz/4/E/1vgL7rYb+r8PNTh33688tEGDg1otboeZK/qxTEjHozuvYk3iVd1e8aKvIf8OGXGD7kbc4ZKC+VjAlrILVtnkr/bcWbgNAnHPELrstpJGhowjzmdh3n8kBa5gKDArSdrJHeRxd5ROxdFz1bsWaUN6utzY4fZv6OUTt1RZ2Lore1v2T+dKUO2LvnfMK373PkuRXlmCIMZp917zwVu7Rc5Ypr+X7aehhWyD4870g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HLJvcSk7w8+EnsLfveMDgd3XdNBBfEHIux8ekJGkCYM=;
- b=ly73uWXwTO2VCx7gMdiOlFzj2+YlbXYm+n+xRV1oeaf6N49miBD0IJdpzc5QDNR7777TA+mxT779L5CdCWKByMxqoHFa6D3Deb0HIuMqEtJAI08YF2FFrkQfSAvb4VFx8DvE23r2vjC3OVgtouhsoEemwaTTbtCJlhXGdDPirucj0sEzsn4SpHFtF9WqXiYBSYSWHQr/gHQHibVC3dMJL59x0QxPKJwL3tpOZZU5XDjSN4fW9AmGXF2RtoeTzQu8q+f4xgjNnz4MuZaPqvwQ/LHM1MQHQaD3+LT6DRnK2oCwoky4O8aV8WK8kO4Hnbgy4jD21Gdkkst4SXtaQgF8sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HLJvcSk7w8+EnsLfveMDgd3XdNBBfEHIux8ekJGkCYM=;
- b=lOG+tuzQwTL6rZwxuCjp2g0nfSxqHwkQmZQ57d1SBOiD0Z+cn2v4z5fO/KbAjt8gnWDxuM0C2P6CJ5RgHOK0mCWI317YZueTHUSimzTyV74PoGkPi1aqIjBkh0ZuXEs1r9JL22hn/JI2fmDrP4DY+rITZOFFrm4yHDR6Ykefjxk=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6470.eurprd08.prod.outlook.com (2603:10a6:20b:33a::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Tue, 29 Jun
- 2021 07:23:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Tue, 29 Jun 2021
- 07:23:44 +0000
-Subject: Re: [PATCH v2 2/1] qemu-img: Add "backing":true to unallocated map
- segments
-To: Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: Nir Soffer <nsoffer@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
-References: <20210611140157.1366738-1-eblake@redhat.com>
- <20210611190316.1424729-1-eblake@redhat.com> <YNID9rbo+RdwklCf@redhat.com>
- <CAMRbyyt5qsVan8dOF=HHvqqo92zwTBRucnfA_UEOOmRMqiyaAQ@mail.gmail.com>
- <YNL3kpqnhi15glTC@redhat.com>
- <CAMRbyyuik1Q=WMSpePz6T+0bEnau0CFWbA4VA9GBf6+mrCZS3Q@mail.gmail.com>
- <YNNbg6jU2dD8VNiU@redhat.com> <20210628174216.25ybfzmtbiymgd6s@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <a22c25e6-e44a-7be6-f173-ddff8da7551b@virtuozzo.com>
-Date: Tue, 29 Jun 2021 10:23:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ly8Bx-00010D-Qs
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 03:30:02 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15T757be182278; Tue, 29 Jun 2021 03:29:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=BybtnMgiiACuL2ZPf43jbmPV3+dJlpvKEjvKSN+lomU=;
+ b=ozkgHZjch0Rx9D/CdQfQs2d3pzV7BbdUNGl1G3XRiB6ByrYjhf0SMmGl6WNOlazqFDLn
+ qRR9hhSERgWuEob97M4m6eZclkD4tGao+Z2NF48zU/b1MjpAc55497Udhk5YKUX+rvZ7
+ VfIyNYKrKD6Dam9gcUFyKTiw3O0cVc02iNSJ6HysgQ7a/2yr+5U8V58hm19p40l2VnMn
+ iPCB17M62CVBvVRHzBu35cslqK2n20APJQ8pIO/dcCh9ysy7eHalu4osN/fYHadHLDbS
+ SPxRPpFtPGMIGE0Pi+wAubnBIVSRvxgqzqwSyOXCqbyxzxReCTJK1T0sUEK0YUmV9kHP 1w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39fxq08u8y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Jun 2021 03:29:54 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15T75qYW186932;
+ Tue, 29 Jun 2021 03:29:53 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39fxq08u83-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Jun 2021 03:29:53 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15T7SvuI030145;
+ Tue, 29 Jun 2021 07:29:51 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 39duv8h4nq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Jun 2021 07:29:51 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15T7TlEs25428372
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Jun 2021 07:29:47 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 63EA5A406A;
+ Tue, 29 Jun 2021 07:29:47 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3EE51A4060;
+ Tue, 29 Jun 2021 07:29:41 +0000 (GMT)
+Received: from [9.160.49.135] (unknown [9.160.49.135])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 29 Jun 2021 07:29:39 +0000 (GMT)
+Subject: Re: [PATCH] hw/i386/pc: Document pc_system_ovmf_table_find
+From: Dov Murik <dovmurik@linux.ibm.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210622124419.3008278-1-dovmurik@linux.ibm.com>
+ <838caecc-6d4a-6257-147e-fbef4148f679@redhat.com>
+ <d5fbda1c-69dc-35b6-388e-443a697c2fdf@linux.ibm.com>
+ <f6eb39fe-50bd-5fae-99a3-11abd2141fea@amd.com>
+ <fd154b04-847a-efbd-7ae6-abc54630ac8f@linux.ibm.com>
+Message-ID: <3f573ada-9244-9df0-c342-23dab3ba9396@linux.ibm.com>
+Date: Tue, 29 Jun 2021 10:29:32 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210628174216.25ybfzmtbiymgd6s@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.221]
-X-ClientProxiedBy: FR0P281CA0045.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.221) by
- FR0P281CA0045.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:48::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.12 via Frontend Transport; Tue, 29 Jun 2021 07:23:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e904525d-d5a2-4262-1c1f-08d93aced3cc
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6470:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6470E1442D83DE50EF03BE0BC1029@AS8PR08MB6470.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nLepVsy7vRk46snQlLAVLNIpfPb8bggNFhLGJSxYGjtcK4JpeffTbDGQLdn14AltLZWISHU7kyAMyp+AA1dwuDOuio5zDGxzQZ0zywaqaKXQuwOlmwq9dbBeaeL+jsM/42Axln6TsG2eVtV1jA95nngSIjx9TrKhZaSkWHA9XoL35U/eItdNFOQnAwusjNzi7kQSweScjvws/19stUKvIhz9Rir3z1E1dxi5YhL3YXN3I0Kr2Ub/uKAM/2x2pSyqYAL/AgHW3Pz+XGCh05NULG9iPc3Yxn/XtroF32d4TvRBBrhKAWLb4nEjzZMkWBuFe7L+2sh5zhpzCcSmPm6BbIwY2dFq56D03gvLIBmqmnRNynyZhpGTAc6SM/auU2Ct8BB8fvzRjLAb0Jp9AJZpCmNvi1B8AXRubB8eiP774O6yzopj+rJ1D3qDDe/ft73eEYiNgVrDaGcbncNqFOo/YITpCx+uhBNghZ7tGsaAkniR429bxud4bas/agv1blZMvsjxiV8svzBnHnKhr0gW1V8sENA7QiiP9L9qnVbKOwH0x3A2JiPzzb6cfV9NIyfn53qtVfL3d/F6KRnaMInAiuM39smTwaJWtWYyYbT151PlvxXe9lQxieCktjxF5cgtYJ8BD5smo5ptI1CXtpvlkRlvzsRGC4RUa7IQBDJVvz+wnVC37pQkhH8Ha9E+8y67Yz2e3wkUSG8qxpkQ8ZmE3Wg+DkiySYfMPJCJiT8CT+UxnVtAwopRg6Pl+Qi3PeU2bLfhnSOURxDeuU/RXxNJJQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(366004)(376002)(346002)(39830400003)(16576012)(6486002)(316002)(54906003)(110136005)(38100700002)(38350700002)(16526019)(186003)(26005)(4326008)(83380400001)(478600001)(31686004)(5660300002)(52116002)(2906002)(956004)(2616005)(8676002)(66946007)(86362001)(8936002)(36756003)(66556008)(66476007)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1FVSnBSbi9aZU1ZR1VEV1J4bE5kc2trNWxaOVU3ZHpOdDN1ZkZEQVg1UFUw?=
- =?utf-8?B?bUdVTnVvQnpWTDZMbFM0Q3pmV1J3cnhLQXdzd2RXOUlNTE9UNzZBalV5MDJH?=
- =?utf-8?B?aTgwQkE0U1lsYlc4L2JNTktaclVRTFFXaE1pdEF1Vk1RMEt1QUlBRmhtbUdO?=
- =?utf-8?B?U3VOd2lZd0dCUTdxWFJaUXZ6Mnl2WmRHMVNoYmtTYXkzSnZTVVhUVjA1alhY?=
- =?utf-8?B?MmdDSHNrYTJLWjdCLzBjRGsrWG9EdkZYSG5SNTJITXBmRG04U3gyblVVaXRZ?=
- =?utf-8?B?ZXlEejJRL0hQOUxaNnR0K2RMdmlDbzE4UUZ2SGVnQldZVy9qYk9uSmJQZ0la?=
- =?utf-8?B?OC9sNXRiOUd3Rk96eUpCYTREWWlpaFg5QjNvSXNIcDdnZmwxV1lYeTU2bjcx?=
- =?utf-8?B?VzJDdmZEUmNHQ05ydklXSGNqN1F1WkU3bHcxaFpMTVVYajJuVDNTK1o2Nlpi?=
- =?utf-8?B?Z0hPcHVZZ2kvZ1NZZzRhOTJ0Q2pJWGtTQmRBR1FrWVM2V0pjMlJEZWNzV0o4?=
- =?utf-8?B?b0IxL3hVUWtISkdxK3VZeVJONzYyaWgzQTZDZ1JEZEg1cUxzRDBRMmI4WWFY?=
- =?utf-8?B?MnBXV1hrSGpSbUlzL0dvVUpYb3RFcFhoTXJnemZzRVVDQUdhTUE4ZFF3QzZZ?=
- =?utf-8?B?bGd5djR2V3lDUXFqK3R3QnNnK0tIOWlnOG1uLzh5Rit3RGhYY0MzK2kwd3JP?=
- =?utf-8?B?bG1laklMZmdEYldsSGRPT0dURXcyaG5UdkZZY0UzTGN5WEFMRUZXSDc5QjQv?=
- =?utf-8?B?UDBrcHFzNzZqMU52VjlMM1FvZENtZStuaHV0OEczdngzbTg5QVA3U1Nsczdn?=
- =?utf-8?B?Yi81bVluYUFWNXhRbUQxTmUwSTJheVBmNGpzVmtjcmhuVmJtYnJ3cFllaWdz?=
- =?utf-8?B?MXlZNDlDYVJSajhhUkhNZ2NjUDRYVHkxQjJPWURCd2lyUUZQUnV1ZHFiZCtT?=
- =?utf-8?B?RWJ2MFJkVXduYTBYMjF5UnhLTUY1QittanNuTU9FdW1iaWFoejF5Z1RBWTAv?=
- =?utf-8?B?Tm1JNUNlZjliUExFWm1semY2SkxTU3Z0U3FXWmN5Yy9xTEkyYm9rdTlHWEVu?=
- =?utf-8?B?bUhiUWtEOFoyTHNkN0VqNGNEYXZaN2RjdXEyWFRWeVhGYUtESDhGM2FjYmZ5?=
- =?utf-8?B?VWVFS0RtL2JXS1Yrd1lSNDdrRGZNY1hlUnRXdHdpb2FkYmtBcVF4a1hyTUUx?=
- =?utf-8?B?Nm5PL1FQNGorM1ZVcXlEQjZNSit6VHFrUnVRUk1hT0dzeFd6Z0NXRE1td0R6?=
- =?utf-8?B?VXVEcXNrWFRZbmdSVnV0SGtMZW9vb2EySlp3Nm4zUFFNVGxNMjVVRTgrdGxT?=
- =?utf-8?B?V1JYTW5USjFwMi9EU1NCbFE5dzc2QmZzYXlRN2VscCt6OWRndHV4SGwvbFJk?=
- =?utf-8?B?Q2hLR0xEc0ZMV1RyM1dQYUhCcmFtVWxzNlNtcEkxS09iWCtBVXJPK0Z4aUhi?=
- =?utf-8?B?bmdBaTlJTnFIK0gwWVQ5TTlvRGloZFNEQzkzV2RkdjFPOTdyN2ordWREbGFQ?=
- =?utf-8?B?MkVjTDdKVjdTa01ibU1iRkVObS9xaUdObUk4S016cUR3cUZESjZFd2FmbFcx?=
- =?utf-8?B?L21hYmsyVlpFdGU0cy9PeTMrVzRKUDgvS3paMGQyT0NzN1piRFBaalZIbUdP?=
- =?utf-8?B?Z1FWVlRmV2RaOHgxVWRnSDZpUUJ0Q3ZXZTB5UHNKdDZUeFBTSWcwdXpMcXBE?=
- =?utf-8?B?YWkxSGtsb0xYc1JTOFpjT1ZFRmcrcGVTN0RXdFJDc1dLU25XUmg4RlhJWnh6?=
- =?utf-8?Q?gs6yz6M8DNRwMn/VVpieX4uuJmIu1q4EFrT9F7c?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e904525d-d5a2-4262-1c1f-08d93aced3cc
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 07:23:44.2401 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 36/DahS8OKTc8FZqAeYPmmmLeVvwHNb/zNw528JB8/XmQtVo7mhgRxoLILn0lmI4Gm6hS5QBPKqPa7Vn+kDyPrZIACZFc8+FOzQeJLOHdzs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6470
-Received-SPF: pass client-ip=40.107.4.91;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <fd154b04-847a-efbd-7ae6-abc54630ac8f@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: pMiDqAm63LqEx3VYGabvtzXZPWybW4ek
+X-Proofpoint-GUID: Bn63HW-NNMLgq36Fo31ZGC3WtMBKZaBe
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-29_02:2021-06-25,
+ 2021-06-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 spamscore=0 mlxscore=0
+ malwarescore=0 impostorscore=0 phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106290050
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -151,36 +119,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-28.06.2021 20:42, Eric Blake wrote:
-> On Wed, Jun 23, 2021 at 06:04:19PM +0200, Kevin Wolf wrote:
->>> This is fine, but it means that this flag will present in all ranges,
->>> instead of only in unallocated ranges (what this patch is doing).
->>
->> An argument for always having the flag would be that it's probably
->> useful for a tool to know whether a given block is actually absent or
->> whether it's just running an old qemu-img.
->>
->> If we didn't care about this, I would still define the actual value, but
->> also document a default.
+
+
+On 29/06/2021 8:56, Dov Murik wrote:
 > 
-> So to summarize, it looks like my v3 will have the best chance of
-> approval if I go with always outputting the new field (instead of only
-> on one of its two boolean values), and put it at the end of the JSON
-> output.  It also looks like we have consensus on spelling the new
-> field "present":true for data found in the backing chain, and
-> "present":false for places where we would defer to another file if a
-> backing file is later added.
 > 
+> On 29/06/2021 1:03, Tom Lendacky wrote:
+>> On 6/22/21 7:58 AM, Dov Murik wrote:
+>>> +cc: Tom Lendacky
+>>>
+>>> On 22/06/2021 15:47, Philippe Mathieu-Daudé wrote:
+>>>> On 6/22/21 2:44 PM, Dov Murik wrote:
+>>>>> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>>>>> ---
+>>>>>  hw/i386/pc_sysfw.c | 14 ++++++++++++++
+>>>>>  1 file changed, 14 insertions(+)
+>>>>>
+>>>>> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+>>>>> index 6ce37a2b05..e8d20cb83f 100644
+>>>>> --- a/hw/i386/pc_sysfw.c
+>>>>> +++ b/hw/i386/pc_sysfw.c
+>>>>> @@ -176,6 +176,20 @@ static void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+>>>>>      ovmf_table += tot_len;
+>>>>>  }
+>>>>>  
+>>>>> +/**
+>>>>> + * pc_system_ovmf_table_find - Find the data associated with an entry in OVMF's
+>>>>> + * reset vector GUIDed table.
+>>>>> + *
+>>>>> + * @entry: GUID string of the entry to lookup
+>>>>> + * @data: Filled with a pointer to the entry's value (if not NULL)
+>>>>> + * @data_len: Filled with the length of the entry's value (if not NULL). Pass
+>>>>> + *            NULL here if the length of data is known.
+>>>>> + *
+>>>>> + * Note that this function must be called after the OVMF table was found and
+>>>>> + * copied by pc_system_parse_ovmf_flash().
+>>>>
+>>>> What about replacing this comment by:
+>>>>
+>>>>   assert(ovmf_table && ovmf_table_len);
+>>>>
+>>>
+>>> I think this will break things: in target/i386/sev.c we have SEV-ES code
+>>> that calls pc_system_ovmf_table_find() and can deal with the case when
+>>> there's no OVMF table.  An assert will break it.
+>>
+>> Right, what would be best is to differentiate between an OVMF table that
+>> isn't present in the flash vs the fact that pc_system_parse_ovmf_flash()
+>> wasn't called, asserting only on the latter.
+>>
+> 
+> [+cc James who wrote this code]
+> 
+> 
+> Thanks Tom; I agree.  To achieve that, we need one of these:
+> 
+> (a) add a 'static bool ovmf_table_parsed' which will be set to true at
+> the beginning of pc_system_parse_ovmf_flash(). Then, at the beginning of
+> pc_system_ovmf_table_find add: assert(ovmf_table_parsed).
+> 
+> (b) (ab)use our existing ovmf_table_len static variable: initialize it
+> to -1 (meaning that we haven't parsed the OVMF flash yet). When looking
+> for the table set it to 0 (meaning that OVMF table doesn't exist or is
+> invalid). When a proper table is found and copied to ovmf_table, then
+> set it to the real length (>= 0).
 
-I didn't follow the discussion carefully, but that sounds good to me.
-
-What's the decision about patch 1?
+typo: That should be    (> 0).
 
 
--- 
-Best regards,
-Vladimir
+> At the beginning of
+> pc_system_ovmf_table_find add: assert(ovmf_table_len != -1). (this -1
+> can be #define OVMF_FLASH_NOT_PARSED -1).
+> 
+> 
+> Phil, Tom, James: which do you prefer? other options? Rust enum? ;-)
+> 
+> 
+> Thanks,
+> Dov
+> 
+> 
+>> Thanks,
+>> Tom
+>>
+>>>
+>>>
+>>>> Otherwise,
+>>>>
+>>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>
+>>>
+>>> Thanks!
+>>>
+>>> -Dov
+>>>
+>>>
+>>>
+>>>> Thanks!
+>>>>
+>>>>> + *
+>>>>> + * Return: true if the entry was found in the OVMF table; false otherwise.
+>>>>> + */
+>>>>>  bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
+>>>>>                                 int *data_len)
+>>>>>  {
+>>>>>
+>>>>
 
