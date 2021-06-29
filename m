@@ -2,137 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B5B3B745D
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:31:28 +0200 (CEST)
-Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BAF3B7441
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:26:05 +0200 (CEST)
+Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyElp-0003Y8-2S
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53286)
+	id 1lyEge-00013I-K3
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:26:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lyEbn-00029N-DX
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:21:03 -0400
-Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:37088)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lyEef-0006iv-Bk; Tue, 29 Jun 2021 10:24:02 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30686
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lyEbj-0004Ej-Ls
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:21:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1624976458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4RieaPirioilf6rlUZp/smieKJ/lLqEsOWTqDfC51EM=;
- b=C4vt5dguO8nfN1bDjaUQoG2D2hr9ONjB+XHJyJVuP4TsqTtQpnVkuyVV7bV/9fuZPBOP9e
- rLCm2NZIBOEgaR6SHTyhYaucyYaJeD542gmTFrGt2I8qwrYE9+p/Wag0V+l3pzpqjejCKr
- lF2CLjhIC74zttlT2vV4FPJe1725a7E=
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur01lp2057.outbound.protection.outlook.com [104.47.2.57]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- de-mta-17-Kux0I9MDOyqo9X9v9wdiHQ-1; Tue, 29 Jun 2021 16:20:57 +0200
-X-MC-Unique: Kux0I9MDOyqo9X9v9wdiHQ-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HjCr5tMZkPTFvI5xr103GwweylV6phTEblj3mMBiPuM9Rgr1q1wgKACns/LkTyNtWwQGtENLBc1qPU5cUWSDZ26/Ay6gmZMkSSpO5mOhzfjQospBoHarPIq2wMDOEtPGp4ZaO6MqlKT70oOz4e1B31L9wbbiGL1gzLruhdKudY/FqSxTVzvATfs0XbnH2jQiJAU3Ch/eL3G2e+IGQXI0Bzdt3vE+y8JWnx5rQgf4KcAL2/dMD/DuHWgWTENzllQamHeSEhUPbSEYGq2WG8w3cXN2twQU1R5tSVztmhk++Gnzw3yQqpxZ8tGG5504kK7mcf+2GIKdyk1jsU+zRkRvRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aXk316ilrzyL+KrcU4fbkxjU5sXIvqTzzrF69tquBTw=;
- b=ZL88xzOUoz3QNPeoH5IMQkrxamBo3MNzE5wzjdBana6EwqM9yXbVuzCmaPM85fTD2mUEhOPF40NWkYrKMxcZgYhle1YpcrmSu/8V64Toua52Xqnx+WZ6rdWQ9KN3fRRdnARJKORZeuZsHwp2He1kynUxfAfz/xjBO+CJbFin35Ht2euLmGC9flUJdUn/QuD77nfkSCLiTuLzPUz9Ey28XZ39rwz0tjWS5/SBqt0FeTLv7QXIpx4EMhq3t/myof6g55EZ3SunrdylgTYS76/fwUizUxlq9++m5nyk7qeBMkHB4epC03U5sZ2himNtcbsdg7oRe6UbtDZ+QBbY7lGgAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
-Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
- (2603:10a6:803:16::25) by VI1PR0402MB3327.eurprd04.prod.outlook.com
- (2603:10a6:803:2::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.24; Tue, 29 Jun
- 2021 14:20:55 +0000
-Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
- ([fe80::4c1c:b538:59b8:30f]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
- ([fe80::4c1c:b538:59b8:30f%5]) with mapi id 15.20.4264.026; Tue, 29 Jun 2021
- 14:20:55 +0000
-From: "Cho, Yu-Chen" <acho@suse.com>
-To: qemu-devel@nongnu.org,
-	qemu-s390x@nongnu.org
-CC: cfontana@suse.com, acho@suse.com, jose.ziviani@suse.com,
- Claudio Fontana <cfontana@suse.de>
-Subject: [RFC v6 12/13] target/s390x: move kvm files into kvm/
-Date: Tue, 29 Jun 2021 22:19:30 +0800
-Message-ID: <20210629141931.4489-13-acho@suse.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210629141931.4489-1-acho@suse.com>
-References: <20210629141931.4489-1-acho@suse.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lyEec-0005wC-AE; Tue, 29 Jun 2021 10:24:00 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15TE5WhK117612; Tue, 29 Jun 2021 10:23:46 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39g4swgv70-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Jun 2021 10:23:45 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15TENIFh023300;
+ Tue, 29 Jun 2021 14:23:44 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06fra.de.ibm.com with ESMTP id 39dugh8pt2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Jun 2021 14:23:43 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 15TEM8Uq36831688
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Jun 2021 14:22:08 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 913B652B55;
+ Tue, 29 Jun 2021 14:23:41 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 0E3295215B;
+ Tue, 29 Jun 2021 14:23:41 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.54.151])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4FEDA220213;
+ Tue, 29 Jun 2021 16:23:40 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH 3/4] hw/misc: Add Infineon DPS310 sensor model
+Date: Tue, 29 Jun 2021 16:23:35 +0200
+Message-Id: <20210629142336.750058-4-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210629142336.750058-1-clg@kaod.org>
+References: <20210629142336.750058-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: QJ1awAWdYO6bdSux6u_aHMcpbsjMukRP
+X-Proofpoint-GUID: QJ1awAWdYO6bdSux6u_aHMcpbsjMukRP
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [1.169.28.175]
-X-ClientProxiedBy: TYAPR01CA0195.jpnprd01.prod.outlook.com
- (2603:1096:404:29::15) To VI1PR0402MB3744.eurprd04.prod.outlook.com
- (2603:10a6:803:16::25)
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (1.169.28.175) by
- TYAPR01CA0195.jpnprd01.prod.outlook.com (2603:1096:404:29::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Tue, 29 Jun 2021 14:20:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5b048918-3f0e-4edd-1f11-08d93b091b4b
-X-MS-TrafficTypeDiagnostic: VI1PR0402MB3327:
-X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0402MB33272276C8D14F97C86E5BE4A0029@VI1PR0402MB3327.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1751;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H2b8QXuTo0HUttM6+72FksK3QRkEkkdLXEEB/N70s3mFWLEG7DoAeKMjHqVxU5QOOD+D+6oyBImjRnAfatMws5R0u2DF72QQXF4MNOfknPTAiAqQRm9wG0Zg4HmHh3AqeJGMG7A7N943CYiFuiSgT/EPCiWeotOSnACSJsU09/ffoJ0vxrk8gZlCEYRhIg6nS4EqwD9COsPhKM5CLXnYxwV2L/Pj2euVODKiysXX9YCRcC19OhiAmacSJhs9FZMI5BUK22G7r9BwswAGUghZenvtCmcKL9frzonz5i4Mw+uE5mMfNV1ta+Vetf8y593IuDK2ipjUpg2TphEPsS0gVkD6qeZ1B9lqfM0sMbphQuLF2PfPkPe5W3hpiH+QK6atgKxOP8APPM6iEq1bPdvgpnysg78SiWW2/Pc1vADOW93QJI9zaWMAcmz/n91/nzXRiOeFb1UeEuaGVYrs+8IL+p7vF/1zXX+8ZLPsJG9qUSHg6ACk0u5ns9tRNxvSIyKX0fzXnwG53CL8GaZnw8e0vw33XU+u4pC4Ll1VBAkB6WoHZ9JxUllPZqB2GQsXX9U18QxwbuQGga4Mnz2dISVPlC4073zKz+CdQi3Q+ghlixTbzkHOxx7gQs1hfk+iw04UWITkbkibLiONdLTF3n/lo1rAE8imEA8Lp98Jw6yB0fx79C6BkCeNHavz703UNBoY
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(39850400004)(396003)(136003)(376002)(346002)(83380400001)(8676002)(6496006)(6666004)(16526019)(8936002)(186003)(86362001)(2906002)(478600001)(36756003)(4326008)(956004)(2616005)(66476007)(26005)(316002)(38100700002)(5660300002)(30864003)(66946007)(66556008)(1076003)(6486002)(36456004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RRSGqWoRDekfOpWfuv95dWbNNobvMm6nbCbFKXiniQZqH2Ey1qCbG+6KUMVV?=
- =?us-ascii?Q?AeDgFOHu9nRr1Pg7d49anczlXLwX2Mqbg90nQjF9kTlLlYCy7xgvwmVINzGb?=
- =?us-ascii?Q?WEvourBy45aQSdqm+T2+j0MIcVYZWRBc5yMyRwq+xO82rSmHewLK5s/UCXl9?=
- =?us-ascii?Q?6EQeCXdjqiXta00eEyYoPO17nEsBqkpZzTsL5e8I2z2OfEoftIeKt5a/7iCS?=
- =?us-ascii?Q?k3CTreLPUWbeZfKjnkhdrjsKsddHTjV/lGrNpiQoX0rO9LGXAB/0ZT7zgIw+?=
- =?us-ascii?Q?ViyqawxXUxJC0+y665h7vSabr+QRQ/g5VLA+uGwPumIEzNzD1d2O7zE5wXrY?=
- =?us-ascii?Q?u86XNfEhBf3prCdK4LhNx7OYtKfTTh8DsMvHPyegV1LZjc3xgkxakF2XF2Lq?=
- =?us-ascii?Q?l6qCLLlwyUIWECbir7G/YMHEmuRomaLmScZl82IPAjHaTpOnicrAtvPV93Qo?=
- =?us-ascii?Q?sR8xsaW6XTL0TWnm79RyR2HzLYSf3LdOXcQ8HGc0M/cmrWu94w5DxSZzKnhD?=
- =?us-ascii?Q?xy4LBkUn3Pd+o8zK9rEQo3TEcEdGfl2IVSLWImhag5cPnW6msw9+P8Jl4oN2?=
- =?us-ascii?Q?wo/HqZQ2NWO/LLVDVmCRb1lVd+gMzw3ScCV5qcM9FrbMvOntLL4fCQd13nGN?=
- =?us-ascii?Q?4ywUHvnNDo4Vgu4l15njCARZn4wxOy1Uthz4bQg4NsQjG9mOBoFeRCni1eSq?=
- =?us-ascii?Q?5M6mpIRf2ErfyU09gbz9YupxsqOmBu39TzdJkEy78bwruiMzyIgBWq8AfLjt?=
- =?us-ascii?Q?iR1xYgH4eYfInuc7MvAJfciDTNm76XFJBrpKSXs67ei9suHZBS3OgzosdKoN?=
- =?us-ascii?Q?jBodbSdZl2Xi5ra+nW5yYeEHT7kTMwFb+xeJSlSf/SFdPFvBFOwalzylViki?=
- =?us-ascii?Q?SyBiZ6amfu0LaKZ5l1JgfWx9vYIATxdu5ajdp7WeiwstHK+u1Lr1iQWzmDSs?=
- =?us-ascii?Q?VCG/XGBbj+t7eYaQ02nIryvvz+wuDzSEjDLXYhDKXLKbNEeV0pHYPYnaS/3P?=
- =?us-ascii?Q?4eSm+vw3DtHBWWHCgR48B5XVbYWcIEGRUtQ1gAR4tjMZjhcVmZrpKszctxSR?=
- =?us-ascii?Q?J+TSq9i2XMt6iT1gx1YEPLOHTVlYL8c6fiCPdiutV018+LvhevZk6sA0LOOR?=
- =?us-ascii?Q?IKDtZnTFi6sxVShlEVZeDnOXxu/CGjoOPBUG2U6b/w21pudXr3Bk7NEn3YO5?=
- =?us-ascii?Q?gSOqYRE7UT+eAEvyLpasawjK6LIB18Xw6PLzbLxOWGWvK63h7JVOrlPkczQX?=
- =?us-ascii?Q?T8p93S3oPBh37xaMwZG1gEw2o9haRpV2U0722Kg+Ukk6Hh/NzA3r1G8iFMUp?=
- =?us-ascii?Q?lZMNuJ5VTrtMwSzR8d6cO3Xv?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b048918-3f0e-4edd-1f11-08d93b091b4b
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 14:20:54.9997 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MzWPcihBnHTxITfhipbs5A3z8evbcMwOd6m/b9/eOFFrICQSB+qz8+ezyppjJChX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3327
-Received-SPF: pass client-ip=194.104.109.102; envelope-from=acho@suse.com;
- helo=de-smtp-delivery-102.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-29_06:2021-06-28,
+ 2021-06-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1034
+ spamscore=0 priorityscore=1501 bulkscore=0 malwarescore=0 adultscore=0
+ phishscore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106290095
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.207,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,345 +93,310 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move kvm files into kvm/
-After the reshuffling, update MAINTAINERS accordingly.
-Make use of the new directory:
+From: Joel Stanley <joel@jms.id.au>
 
-target/s390x/kvm/
+This contains some hardcoded register values that were obtained from the
+hardware after reading the temperature.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Signed-off-by: Cho, Yu-Chen <acho@suse.com>
+It does enough to test the Linux kernel driver. The FIFO mode, IRQs and
+operation modes other than the default as used by Linux are not modelled.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+[ clg: Fix sequential reading ]
+Message-Id: <20210616073358.750472-2-joel@jms.id.au>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- MAINTAINERS                        |  3 +--
- hw/intc/s390_flic_kvm.c            |  2 +-
- hw/s390x/s390-stattrib-kvm.c       |  2 +-
- hw/s390x/tod-kvm.c                 |  2 +-
- hw/vfio/ap.c                       |  2 +-
- meson.build                        |  1 +
- target/s390x/cpu-sysemu.c          |  2 +-
- target/s390x/cpu.c                 |  2 +-
- target/s390x/cpu_models.c          |  2 +-
- target/s390x/diag.c                |  2 +-
- target/s390x/interrupt.c           |  2 +-
- target/s390x/{ =3D> kvm}/kvm.c       |  2 +-
- target/s390x/{ =3D> kvm}/kvm_s390x.h |  0
- target/s390x/kvm/meson.build       | 17 +++++++++++++++++
- target/s390x/kvm/trace-events      |  7 +++++++
- target/s390x/kvm/trace.h           |  1 +
- target/s390x/machine.c             |  2 +-
- target/s390x/meson.build           | 16 +---------------
- target/s390x/mmu_helper.c          |  2 +-
- target/s390x/trace-events          |  6 ------
- 20 files changed, 40 insertions(+), 35 deletions(-)
- rename target/s390x/{ =3D> kvm}/kvm.c (99%)
- rename target/s390x/{ =3D> kvm}/kvm_s390x.h (100%)
- create mode 100644 target/s390x/kvm/meson.build
- create mode 100644 target/s390x/kvm/trace-events
- create mode 100644 target/s390x/kvm/trace.h
+ hw/misc/dps310.c    | 227 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/arm/Kconfig      |   1 +
+ hw/misc/Kconfig     |   4 +
+ hw/misc/meson.build |   1 +
+ 4 files changed, 233 insertions(+)
+ create mode 100644 hw/misc/dps310.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e172540c0..5a482d65da 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -393,8 +393,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
- M: Cornelia Huck <cohuck@redhat.com>
- M: Christian Borntraeger <borntraeger@de.ibm.com>
- S: Supported
--F: target/s390x/kvm.c
--F: target/s390x/kvm_s390x.h
-+F: target/s390x/kvm/
- F: target/s390x/ioinst.[ch]
- F: target/s390x/machine.c
- F: target/s390x/sigp.c
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index 929cfa3a68..efe5054182 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -11,7 +11,7 @@
-  */
-=20
- #include "qemu/osdep.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include <sys/ioctl.h>
- #include "qemu/error-report.h"
- #include "qemu/module.h"
-diff --git a/hw/s390x/s390-stattrib-kvm.c b/hw/s390x/s390-stattrib-kvm.c
-index f0b11a74e4..24cd01382e 100644
---- a/hw/s390x/s390-stattrib-kvm.c
-+++ b/hw/s390x/s390-stattrib-kvm.c
-@@ -16,7 +16,7 @@
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
- #include "exec/ram_addr.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
-=20
- Object *kvm_s390_stattrib_create(void)
- {
-diff --git a/hw/s390x/tod-kvm.c b/hw/s390x/tod-kvm.c
-index 0b94477486..ec855811ae 100644
---- a/hw/s390x/tod-kvm.c
-+++ b/hw/s390x/tod-kvm.c
-@@ -13,7 +13,7 @@
- #include "qemu/module.h"
- #include "sysemu/runstate.h"
- #include "hw/s390x/tod.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
-=20
- static void kvm_s390_get_tod_raw(S390TOD *tod, Error **errp)
- {
-diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-index 4b32aca1a0..e0dd561e85 100644
---- a/hw/vfio/ap.c
-+++ b/hw/vfio/ap.c
-@@ -21,7 +21,7 @@
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "migration/vmstate.h"
- #include "hw/qdev-properties.h"
- #include "hw/s390x/ap-bridge.h"
-diff --git a/meson.build b/meson.build
-index a91b39465c..293d509c7e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1886,6 +1886,7 @@ if have_system or have_user
-     'target/ppc',
-     'target/riscv',
-     'target/s390x',
-+    'target/s390x/kvm',
-     'target/sparc',
-   ]
- endif
-diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
-index 16e5301084..df2c6bf694 100644
---- a/target/s390x/cpu-sysemu.c
-+++ b/target/s390x/cpu-sysemu.c
-@@ -24,7 +24,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "qemu/timer.h"
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 2b2b70e1c6..9574bc9305 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -24,7 +24,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "qemu/module.h"
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 94789c7280..ba8f6a55ac 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -13,7 +13,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
- #include "qapi/error.h"
-diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-index 8405f69df0..76b01dcd68 100644
---- a/target/s390x/diag.c
-+++ b/target/s390x/diag.c
-@@ -21,7 +21,7 @@
- #include "hw/s390x/s390-virtio-ccw.h"
- #include "hw/s390x/pv.h"
- #include "sysemu/kvm.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
-=20
- int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
- {
-diff --git a/target/s390x/interrupt.c b/target/s390x/interrupt.c
-index 734f0c62de..5195f060ec 100644
---- a/target/s390x/interrupt.c
-+++ b/target/s390x/interrupt.c
-@@ -9,7 +9,7 @@
-=20
- #include "qemu/osdep.h"
- #include "cpu.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "s390x-internal.h"
- #include "exec/exec-all.h"
- #include "sysemu/kvm.h"
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm/kvm.c
-similarity index 99%
-rename from target/s390x/kvm.c
-rename to target/s390x/kvm/kvm.c
-index 5b1fdb55c4..07dae06de8 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -27,7 +27,7 @@
- #include "qemu-common.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm_int.h"
- #include "qemu/cutils.h"
- #include "qapi/error.h"
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
-similarity index 100%
-rename from target/s390x/kvm_s390x.h
-rename to target/s390x/kvm/kvm_s390x.h
-diff --git a/target/s390x/kvm/meson.build b/target/s390x/kvm/meson.build
+diff --git a/hw/misc/dps310.c b/hw/misc/dps310.c
 new file mode 100644
-index 0000000000..d1356356b1
+index 000000000000..893521ab8516
 --- /dev/null
-+++ b/target/s390x/kvm/meson.build
-@@ -0,0 +1,17 @@
++++ b/hw/misc/dps310.c
+@@ -0,0 +1,227 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright 2017-2021 Joel Stanley <joel@jms.id.au>, IBM Corporation
++ *
++ * Infineon DPS310 temperature and humidity sensor
++ *
++ * https://www.infineon.com/cms/en/product/sensor/pressure-sensors/pressur=
+e-sensors-for-iot/dps310/
++ */
 +
-+s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
-+  'kvm.c'
-+))
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "hw/hw.h"
++#include "hw/i2c/i2c.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "migration/vmstate.h"
 +
-+# Newer kernels on s390 check for an S390_PGSTE program header and
-+# enable the pgste page table extensions in that case. This makes
-+# the vm.allocate_pgste sysctl unnecessary. We enable this program
-+# header if
-+#  - we build on s390x
-+#  - we build the system emulation for s390x (qemu-system-s390x)
-+#  - KVM is enabled
-+#  - the linker supports --s390-pgste
-+if host_machine.cpu_family() =3D=3D 's390x' and cc.has_link_argument('-Wl,=
---s390-pgste')
-+  s390x_softmmu_ss.add(when: 'CONFIG_KVM',
-+                       if_true: declare_dependency(link_args: ['-Wl,--s390=
--pgste']))
-+endif
-diff --git a/target/s390x/kvm/trace-events b/target/s390x/kvm/trace-events
-new file mode 100644
-index 0000000000..5289f5f675
---- /dev/null
-+++ b/target/s390x/kvm/trace-events
-@@ -0,0 +1,7 @@
-+# See docs/devel/tracing.txt for syntax documentation.
++#define NUM_REGISTERS   0x33
 +
-+# kvm.c
-+kvm_enable_cmma(int rc) "CMMA: enabling with result code %d"
-+kvm_clear_cmma(int rc) "CMMA: clearing with result code %d"
-+kvm_failed_cpu_state_set(int cpu_index, uint8_t state, const char *msg) "W=
-arning: Unable to set cpu %d state %" PRIu8 " to KVM: %s"
-+kvm_assign_subch_ioeventfd(int fd, uint32_t addr, bool assign, int datamat=
-ch) "fd: %d sch: @0x%x assign: %d vq: %d"
-diff --git a/target/s390x/kvm/trace.h b/target/s390x/kvm/trace.h
-new file mode 100644
-index 0000000000..ae195b1306
---- /dev/null
-+++ b/target/s390x/kvm/trace.h
-@@ -0,0 +1 @@
-+#include "trace/trace-target_s390x_kvm.h"
-diff --git a/target/s390x/machine.c b/target/s390x/machine.c
-index 81a8a7ff99..37a076858c 100644
---- a/target/s390x/machine.c
-+++ b/target/s390x/machine.c
-@@ -17,7 +17,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "migration/vmstate.h"
- #include "tcg/tcg_s390x.h"
- #include "sysemu/kvm.h"
-diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-index 6c8e03b8fb..ec73bed524 100644
---- a/target/s390x/meson.build
-+++ b/target/s390x/meson.build
-@@ -8,8 +8,6 @@ s390x_ss.add(files(
-   'cpu-dump.c',
- ))
++typedef struct DPS310State {
++    /*< private >*/
++    I2CSlave i2c;
++
++    /*< public >*/
++    uint8_t regs[NUM_REGISTERS];
++
++    uint8_t len;
++    uint8_t pointer;
++
++} DPS310State;
++
++#define TYPE_DPS310 "dps310"
++#define DPS310(obj) OBJECT_CHECK(DPS310State, (obj), TYPE_DPS310)
++
++#define DPS310_PRS_B2           0x00
++#define DPS310_PRS_B1           0x01
++#define DPS310_PRS_B0           0x02
++#define DPS310_TMP_B2           0x03
++#define DPS310_TMP_B1           0x04
++#define DPS310_TMP_B0           0x05
++#define DPS310_PRS_CFG          0x06
++#define DPS310_TMP_CFG          0x07
++#define  DPS310_TMP_RATE_BITS   (0x70)
++#define DPS310_MEAS_CFG         0x08
++#define  DPS310_MEAS_CTRL_BITS  (0x07)
++#define   DPS310_PRESSURE_EN    BIT(0)
++#define   DPS310_TEMP_EN        BIT(1)
++#define   DPS310_BACKGROUND     BIT(2)
++#define  DPS310_PRS_RDY         BIT(4)
++#define  DPS310_TMP_RDY         BIT(5)
++#define  DPS310_SENSOR_RDY      BIT(6)
++#define  DPS310_COEF_RDY        BIT(7)
++#define DPS310_CFG_REG          0x09
++#define DPS310_RESET            0x0c
++#define  DPS310_RESET_MAGIC     (BIT(0) | BIT(3))
++#define DPS310_COEF_BASE        0x10
++#define DPS310_COEF_LAST        0x21
++#define DPS310_COEF_SRC         0x28
++
++static void dps310_reset(DeviceState *dev)
++{
++    DPS310State *s =3D DPS310(dev);
++
++    static const uint8_t regs_reset_state[] =3D {
++        0xfe, 0x2f, 0xee, 0x02, 0x69, 0xa6, 0x00, 0x80, 0xc7, 0x00, 0x00, =
+0x00,
++        0x00, 0x10, 0x00, 0x00, 0x0e, 0x1e, 0xdd, 0x13, 0xca, 0x5f, 0x21, =
+0x52,
++        0xf9, 0xc6, 0x04, 0xd1, 0xdb, 0x47, 0x00, 0x5b, 0xfb, 0x3a, 0x00, =
+0x00,
++        0x20, 0x49, 0x4e, 0xa5, 0x90, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, =
+0x00,
++        0x60, 0x15, 0x02
++    };
++
++    QEMU_BUILD_BUG_ON(sizeof(regs_reset_state) !=3D sizeof(s->regs));
++
++    memcpy(s->regs, regs_reset_state, sizeof(s->regs));
++    s->pointer =3D 0;
++
++    /* TODO: assert these after some timeout ? */
++    s->regs[DPS310_MEAS_CFG] =3D DPS310_COEF_RDY | DPS310_SENSOR_RDY
++        | DPS310_TMP_RDY | DPS310_PRS_RDY;
++}
++
++static uint8_t dps310_read(DPS310State *s, uint8_t reg)
++{
++    if (reg >=3D sizeof(s->regs)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: register 0x%02x out of bounds\=
+n",
++                      __func__, s->pointer);
++        return 0xFF;
++    }
++
++    switch (reg) {
++    case DPS310_PRS_B2:
++    case DPS310_PRS_B1:
++    case DPS310_PRS_B0:
++    case DPS310_TMP_B2:
++    case DPS310_TMP_B1:
++    case DPS310_TMP_B0:
++    case DPS310_PRS_CFG:
++    case DPS310_TMP_CFG:
++    case DPS310_MEAS_CFG:
++    case DPS310_CFG_REG:
++    case DPS310_COEF_BASE...DPS310_COEF_LAST:
++    case DPS310_COEF_SRC:
++    case 0x32: /* Undocumented register to indicate workaround not require=
+d */
++        return s->regs[reg];
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: register 0x%02x unimplemented\n",
++                      __func__, reg);
++        return 0xFF;
++    }
++}
++
++static void dps310_write(DPS310State *s, uint8_t reg, uint8_t data)
++{
++    if (reg >=3D sizeof(s->regs)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: register %d out of bounds\n",
++                      __func__, s->pointer);
++        return;
++    }
++
++    switch (reg) {
++    case DPS310_RESET:
++        if (data =3D=3D DPS310_RESET_MAGIC) {
++            device_cold_reset(DEVICE(s));
++        }
++        break;
++    case DPS310_PRS_CFG:
++    case DPS310_TMP_CFG:
++    case DPS310_MEAS_CFG:
++    case DPS310_CFG_REG:
++        s->regs[reg] =3D data;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: register 0x%02x unimplemented\n",
++                      __func__, reg);
++        return;
++    }
++}
++
++static uint8_t dps310_rx(I2CSlave *i2c)
++{
++    DPS310State *s =3D DPS310(i2c);
++
++    if (s->len =3D=3D 1) {
++        return dps310_read(s, s->pointer++);
++    } else {
++        return 0xFF;
++    }
++}
++
++static int dps310_tx(I2CSlave *i2c, uint8_t data)
++{
++    DPS310State *s =3D DPS310(i2c);
++
++    if (s->len =3D=3D 0) {
++        /*
++         * first byte is the register pointer for a read or write
++         * operation
++         */
++        s->pointer =3D data;
++        s->len++;
++    } else if (s->len =3D=3D 1) {
++        dps310_write(s, s->pointer++, data);
++    }
++
++    return 0;
++}
++
++static int dps310_event(I2CSlave *i2c, enum i2c_event event)
++{
++    DPS310State *s =3D DPS310(i2c);
++
++    switch (event) {
++    case I2C_START_SEND:
++        s->pointer =3D 0xFF;
++        s->len =3D 0;
++        break;
++    case I2C_START_RECV:
++        if (s->len !=3D 1) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid recv sequence\n",
++                          __func__);
++        }
++        break;
++    default:
++        break;
++    }
++
++    return 0;
++}
++
++static const VMStateDescription vmstate_dps310 =3D {
++    .name =3D "DPS310",
++    .version_id =3D 0,
++    .minimum_version_id =3D 0,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT8(len, DPS310State),
++        VMSTATE_UINT8_ARRAY(regs, DPS310State, NUM_REGISTERS),
++        VMSTATE_UINT8(pointer, DPS310State),
++        VMSTATE_I2C_SLAVE(i2c, DPS310State),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void dps310_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++    I2CSlaveClass *k =3D I2C_SLAVE_CLASS(klass);
++
++    k->event =3D dps310_event;
++    k->recv =3D dps310_rx;
++    k->send =3D dps310_tx;
++    dc->reset =3D dps310_reset;
++    dc->vmsd =3D &vmstate_dps310;
++}
++
++static const TypeInfo dps310_info =3D {
++    .name          =3D TYPE_DPS310,
++    .parent        =3D TYPE_I2C_SLAVE,
++    .instance_size =3D sizeof(DPS310State),
++    .class_init    =3D dps310_class_init,
++};
++
++static void dps310_register_types(void)
++{
++    type_register_static(&dps310_info);
++}
++
++type_init(dps310_register_types)
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 647b5c8b43ae..a8fa477709f8 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -411,6 +411,7 @@ config ASPEED_SOC
+     select DS1338
+     select FTGMAC100
+     select I2C
++    select DPS310
+     select PCA9552
+     select SERIAL
+     select SMBUS_EEPROM
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index c71ed2582046..016e34790e4f 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -49,6 +49,10 @@ config EDU
+     default y if TEST_DEVICES
+     depends on PCI && MSI_NONBROKEN
 =20
--s390x_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
--
- gen_features =3D executable('gen-features', 'gen-features.c', native: true=
-,
-                           build_by_default: false)
-=20
-@@ -32,22 +30,10 @@ s390x_softmmu_ss.add(files(
-   'cpu-sysemu.c',
- ))
-=20
--# Newer kernels on s390 check for an S390_PGSTE program header and
--# enable the pgste page table extensions in that case. This makes
--# the vm.allocate_pgste sysctl unnecessary. We enable this program
--# header if
--#  - we build on s390x
--#  - we build the system emulation for s390x (qemu-system-s390x)
--#  - KVM is enabled
--#  - the linker supports --s390-pgste
--if host_machine.cpu_family() =3D=3D 's390x' and cc.has_link_argument('-Wl,=
---s390-pgste')
--  s390x_softmmu_ss.add(when: 'CONFIG_KVM',
--                       if_true: declare_dependency(link_args: ['-Wl,--s390=
--pgste']))
--endif
--
- s390x_user_ss =3D ss.source_set()
-=20
- subdir('tcg')
-+subdir('kvm')
-=20
- target_arch +=3D {'s390x': s390x_ss}
- target_softmmu_arch +=3D {'s390x': s390x_softmmu_ss}
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 52fdd86c63..d779a9fc51 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -20,7 +20,7 @@
- #include "exec/address-spaces.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
- #include "exec/exec-all.h"
-diff --git a/target/s390x/trace-events b/target/s390x/trace-events
-index e83a8cf85e..729cb012b4 100644
---- a/target/s390x/trace-events
-+++ b/target/s390x/trace-events
-@@ -10,12 +10,6 @@ ioinst_sch_id(const char *insn, int cssid, int ssid, int=
- schid) "IOINST: %s (%x.
- ioinst_chp_id(const char *insn, int cssid, int chpid) "IOINST: %s (%x.%02x=
-)"
- ioinst_chsc_cmd(uint16_t cmd, uint16_t len) "IOINST: chsc command 0x%04x, =
-len 0x%04x"
-=20
--# kvm.c
--kvm_enable_cmma(int rc) "CMMA: enabling with result code %d"
--kvm_clear_cmma(int rc) "CMMA: clearing with result code %d"
--kvm_failed_cpu_state_set(int cpu_index, uint8_t state, const char *msg) "W=
-arning: Unable to set cpu %d state %" PRIu8 " to KVM: %s"
--kvm_assign_subch_ioeventfd(int fd, uint32_t addr, bool assign, int datamat=
-ch) "fd: %d sch: @0x%x assign: %d vq: %d"
--
- # cpu-sysemu.c
- cpu_set_state(int cpu_index, uint8_t state) "setting cpu %d state to %" PR=
-Iu8
- cpu_halt(int cpu_index) "halting cpu %d"
++config DPS310
++    bool
++    depends on I2C
++
+ config PCA9552
+     bool
+     depends on I2C
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 66e1648533e0..779d8b1582d3 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -1,4 +1,5 @@
+ softmmu_ss.add(when: 'CONFIG_APPLESMC', if_true: files('applesmc.c'))
++softmmu_ss.add(when: 'CONFIG_DPS310', if_true: files('dps310.c'))
+ softmmu_ss.add(when: 'CONFIG_EDU', if_true: files('edu.c'))
+ softmmu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('vmcoreinfo.c'))
+ softmmu_ss.add(when: 'CONFIG_ISA_DEBUG', if_true: files('debugexit.c'))
 --=20
-2.32.0
+2.31.1
 
 
