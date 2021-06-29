@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B18F3B7822
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:59:50 +0200 (CEST)
-Received: from localhost ([::1]:52942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2506B3B780D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:54:18 +0200 (CEST)
+Received: from localhost ([::1]:43120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyIxZ-0003UL-0m
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:59:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36594)
+	id 1lyIsD-0004uA-3l
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImV-0001Mp-Ir; Tue, 29 Jun 2021 14:48:24 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:58457)
+ id 1lyImM-0001GG-SS; Tue, 29 Jun 2021 14:48:15 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:35311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImD-0005J1-JY; Tue, 29 Jun 2021 14:48:21 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 603332B00A75;
- Tue, 29 Jun 2021 14:48:02 -0400 (EDT)
+ id 1lyImG-0005LB-T1; Tue, 29 Jun 2021 14:48:12 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id B86D92B00A94;
+ Tue, 29 Jun 2021 14:48:06 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 29 Jun 2021 14:48:03 -0400
+ by compute2.internal (MEProxy); Tue, 29 Jun 2021 14:48:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=DuFopZ4A9RjcC
- wbNQhkrU6J7tH/lODsXVd/hDzm3xrE=; b=U3oQzvfd1pGu7X1PI6xFM+CQVVMa4
- D2afzRUevD4h0iveL+hDcEj/cFlcuwN2JwEx0JLOcjmevZCoiWBJmD2TM5jEEYjC
- gi+eW1pHsnZd6L/ez04znQlOsH0sg7w1uqrU4LHDBgAcLZJMTo66i/Wkm5/Gd/XX
- 2JcP7D8jli0MW7CIgg38z4xMTQhtQoBqJKqOfL4ZCgluN/cfLUXd+h2u+OgkdEJf
- lFF8TUSht2GpgQf7vn/Rpo5zasDJ2AHK5QluxQKJdmj1d+cjUoIkJOm0GaEK2MaI
- Vjm9SU088GGJQI0f+qEemI1on68BKQnW/6TuYHb+uMgMMYy+klTUlp9jg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=MoK9Hb6n9zcE5
+ maGlnidS6flQTsjp6N6t7vv7geQmes=; b=jAX2/UKAwch4U9B8RtN6a3q0stXDA
+ 3of44BiZfoU+nqGZDgZnZZySbZ+sBbDs34tzdqsqxReIJpZZgH/5g5xW8JpLIaGD
+ 9SlQwbzp5PqN9cFsjZLSrOCOE/mHJjkWbEdaYDQyVjuG6tqpm4z4E8IFNlMgkhLA
+ lO24vKCewoiCtkyXTmgaGD8fK4pAhA9Br48P1sJfUJQ3iq9WLCrGvgCXei4p9t74
+ e90vtM8XlTrYoh8/mfV8L4RVmiEkxyHfPkFbPf1GtCMIJLVTV8/q8tU2IzSCGumL
+ pxz3VRg7EK8mUh2lE2Ifamdr9UwEhtVq22SBjzaU5eVS6mY0SzCuQz5CA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=DuFopZ4A9RjcCwbNQhkrU6J7tH/lODsXVd/hDzm3xrE=; b=S2VfpagT
- xBSWtNwrAkM0W7obQXtccg7Kwx8Xd3+M6UXo+N0a8LNvKI3+tgLvslmlKpCI7Lbm
- 30h1xd32dlzvMeTega3mWxbZOU+0LXrOEuod8d8OzRI4d8Havd3MrNwO681OZwVY
- gSJhD5m9xu2wKHk3nm2wzfYcTiOYPCadFsTAoS+jlBZlgjt1n5w8IWwcBW1kqFY0
- flSPah+GkMSdg+UAKNfuOt8BTZFl/fratLTUtJCbJCcSWzkNDQLjHasyhCfeXNhS
- eXuRNjRtRlM2gV5ZixnhanDpq7VV77iBlTo1/auSPH3SZnFOmu521juiFrZE4lYc
- jRd1hwZN98aUBQ==
-X-ME-Sender: <xms:4WrbYHHf3Of_a94EkrEF7c6cil98Sdhto9tv1O5UODUoesKtkYNS4g>
- <xme:4WrbYEXF7GtnGH23DSEPCBdmnIpgiCgN7QXr_VeW9aiQw27bxFieU-TxPxWycsGhi
- rzDi5nBnf-DHyLQO34>
-X-ME-Received: <xmr:4WrbYJJUCFbNgMcgJWA3WLonUlU8cEwoA6WqYXKw3JsY9B6YVnn1mJqpraE-vp0M4YRa251A0P_kFHHmLJ5Uj0crxPXM9yzgJcOATPML6Q>
+ fm3; bh=MoK9Hb6n9zcE5maGlnidS6flQTsjp6N6t7vv7geQmes=; b=wOHCkDRk
+ 8HmQ1b+WBW9/3ULKz7oNnQT75wKLJdbBHMInw2e9OhDavhZxhUMUHJcGFyif18uO
+ gXmAkHjktdnFmbU1nraZrSrqpw55Anu6kRUutvLNUkPJtkL33teCJUtQuUkHjW7n
+ mqSXWDS7qWLwLRxUZGQleUAi3D5zaYJj3DMrlgqdS/DnxB01891al4yld8jNiTKa
+ 1weGCuMwv+O4FLCx/IUyyycuPtOshEuFqJjiTsbg6NfLxONA7ohxokVoP4l5q07Q
+ c3vorUaEEHeq1xEHZ2LoYIGqOeDx8WvJcz6VLmFxpXm44ztKQycV0Nhh1Ux6ix3S
+ 1XdaR24WdrH9TQ==
+X-ME-Sender: <xms:5WrbYJmXpPJsbOF3KJfJUi4irSeKyGjwntvFBqD4DK1y2Exx5fyg_A>
+ <xme:5WrbYE0eSudN_-alMDTv4hMc1fpjavnniwY4YMAGGpsYZKwGB0qSDzhgzr6shEvD6
+ igRTY8c5IoNpnmfWhA>
+X-ME-Received: <xmr:5WrbYPpsJL695Q5MabbeVfNOjxKgRCf-B33AatcADIi7PEj4lIFkFH6ftBU81B8l4tBU-Ju8WJc3SKEgVHdQoS20TNTrZnnb3x58tWRF_A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:4WrbYFGaAvXmMC3FAHpvcd-4_HwtUuEbqY0yT4dQsJYt2PzfFSSNqw>
- <xmx:4WrbYNU-sGVNeWOf89gUKRxup5J4GSujCYpLZ-CMFKbWYGUt96CIuw>
- <xmx:4WrbYAO7wMd7woRemmBYSt9BImnjfo3nbMi3C4L7g8MwgSxmkSd-0g>
- <xmx:4mrbYIOUV1X1dSqhqVtjSzo0yaT5uboVoprLgUDyg7T4o1YcLTBPdSKQjUY>
+X-ME-Proxy: <xmx:5WrbYJluxjZMGnSuEH9KClf08R_VPlEgOc_njmjYCHM_BhzuChLAxQ>
+ <xmx:5WrbYH1RKnkL0x8XsYhBZzFj4XlvtY1gAUTiwjxN1K4fJiAW9b1piw>
+ <xmx:5WrbYIucXaIKj4qIN9HhqFM-pKZ3cxSWnxzKs1Mu_hXuZV86rXYGpQ>
+ <xmx:5mrbYAvoj0JKpc-nT3aJ7QUBBC_WaHO4zQP2Yn6bZcZWNbFIhK0zwQIDucs>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:48:00 -0400 (EDT)
+ 29 Jun 2021 14:48:03 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/23] hw/nvme: add param to control auto zone transitioning to
- zone state closed
-Date: Tue, 29 Jun 2021 20:47:24 +0200
-Message-Id: <20210629184743.230173-5-its@irrelevant.dk>
+Subject: [PULL 05/23] hw/nvme: fix csi field for cns 0x00 and 0x11
+Date: Tue, 29 Jun 2021 20:47:25 +0200
+Message-Id: <20210629184743.230173-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
@@ -95,155 +94,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Niklas Cassel <niklas.cassel@wdc.com>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-In the Zoned Namespace Command Set Specification, chapter
-2.5.1 Managing resources
+As per the TP 4056d Namespace types CNS 0x00 and CNS 0x11
+CSI field shouldn't use but it is being used for these two
+Identify command CNS values, fix that.
 
-"The controller may transition zones in the ZSIO:Implicitly Opened state
-to the ZSC:Closed state for resource management purposes."
+Remove 'nvme_csi_has_nvm_support()' helper as suggested by
+Klaus we can safely assume NVM command set support for all
+namespaces.
 
-The word may in this sentence means that automatically transitioning
-an implicitly opened zone to closed is completely optional.
-
-Add a new parameter so that the user can control if this automatic
-transitioning should be performed or not.
-
-Being able to control this can help with verifying that e.g. a user-space
-program behaves properly even without this optional ZNS feature.
-
-The default value is set to true, in order to not change the existing
-behavior.
-
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-[k.jensen: moved parameter to controller]
+Suggested-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/nvme.h |  1 +
- hw/nvme/ctrl.c | 32 ++++++++++++++++++++++----------
- 2 files changed, 23 insertions(+), 10 deletions(-)
+ hw/nvme/ctrl.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 81a35cda142b..93a7e0e5380e 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -382,6 +382,7 @@ typedef struct NvmeParams {
-     uint8_t  vsl;
-     bool     use_intel_id;
-     uint8_t  zasl;
-+    bool     auto_transition_zones;
-     bool     legacy_cmb;
- } NvmeParams;
- 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 40a7efcea914..8dd9cb2ccbf3 100644
+index 8dd9cb2ccbf3..7dea64b72e6a 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -34,6 +34,7 @@
-  *              aerl=<N[optional]>,aer_max_queued=<N[optional]>, \
-  *              mdts=<N[optional]>,vsl=<N[optional]>, \
-  *              zoned.zasl=<N[optional]>, \
-+ *              zoned.auto_transition=<on|off[optional]>, \
-  *              subsys=<subsys_id>
-  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
-  *              zoned=<true|false[optional]>, \
-@@ -100,6 +101,11 @@
-  *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
-  *   defaulting to the value of `mdts`).
-  *
-+ * - `zoned.auto_transition`
-+ *   Indicates if zones in zone state implicitly opened can be automatically
-+ *   transitioned to zone state closed for resource management purposes.
-+ *   Defaults to 'on'.
-+ *
-  * nvme namespace device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  * - `shared`
-@@ -1686,8 +1692,8 @@ enum {
-     NVME_ZRM_AUTO = 1 << 0,
- };
+@@ -4188,16 +4188,6 @@ static uint16_t nvme_rpt_empty_id_struct(NvmeCtrl *n, NvmeRequest *req)
+     return nvme_c2h(n, id, sizeof(id), req);
+ }
  
--static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
--                                    int flags)
-+static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
-+                                    NvmeZone *zone, int flags)
+-static inline bool nvme_csi_has_nvm_support(NvmeNamespace *ns)
+-{
+-    switch (ns->csi) {
+-    case NVME_CSI_NVM:
+-    case NVME_CSI_ZONED:
+-        return true;
+-    }
+-    return false;
+-}
+-
+ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
  {
-     int act = 0;
-     uint16_t status;
-@@ -1699,7 +1705,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
-         /* fallthrough */
- 
-     case NVME_ZONE_STATE_CLOSED:
--        nvme_zrm_auto_transition_zone(ns);
-+        if (n->params.auto_transition_zones) {
-+            nvme_zrm_auto_transition_zone(ns);
-+        }
-         status = nvme_aor_check(ns, act, 1);
-         if (status) {
-             return status;
-@@ -1735,14 +1743,16 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zone,
+     trace_pci_nvme_identify_ctrl();
+@@ -4254,7 +4244,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+         }
      }
- }
  
--static inline uint16_t nvme_zrm_auto(NvmeNamespace *ns, NvmeZone *zone)
-+static inline uint16_t nvme_zrm_auto(NvmeCtrl *n, NvmeNamespace *ns,
-+                                     NvmeZone *zone)
- {
--    return nvme_zrm_open_flags(ns, zone, NVME_ZRM_AUTO);
-+    return nvme_zrm_open_flags(n, ns, zone, NVME_ZRM_AUTO);
- }
+-    if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
++    if (active || ns->csi == NVME_CSI_NVM) {
+         return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
+     }
  
--static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
-+static inline uint16_t nvme_zrm_open(NvmeCtrl *n, NvmeNamespace *ns,
-+                                     NvmeZone *zone)
- {
--    return nvme_zrm_open_flags(ns, zone, 0);
-+    return nvme_zrm_open_flags(n, ns, zone, 0);
- }
- 
- static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
-@@ -2283,7 +2293,7 @@ static void nvme_copy_in_complete(NvmeRequest *req)
-             goto invalid;
+@@ -4325,7 +4315,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
          }
+     }
  
--        status = nvme_zrm_auto(ns, zone);
-+        status = nvme_zrm_auto(nvme_ctrl(req), ns, zone);
-         if (status) {
-             goto invalid;
-         }
-@@ -3080,7 +3090,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-             goto invalid;
-         }
- 
--        status = nvme_zrm_auto(ns, zone);
-+        status = nvme_zrm_auto(n, ns, zone);
-         if (status) {
-             goto invalid;
-         }
-@@ -3169,7 +3179,7 @@ enum NvmeZoneProcessingMask {
- static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
-                                NvmeZoneState state, NvmeRequest *req)
- {
--    return nvme_zrm_open(ns, zone);
-+    return nvme_zrm_open(nvme_ctrl(req), ns, zone);
- }
- 
- static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
-@@ -6259,6 +6269,8 @@ static Property nvme_props[] = {
-     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
-     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-+    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-+                     params.auto_transition_zones, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+-    if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
++    if (c->csi == NVME_CSI_NVM) {
+         return nvme_rpt_empty_id_struct(n, req);
+     } else if (c->csi == NVME_CSI_ZONED && ns->csi == NVME_CSI_ZONED) {
+         return nvme_c2h(n, (uint8_t *)ns->id_ns_zoned, sizeof(NvmeIdNsZoned),
 -- 
 2.32.0
 
