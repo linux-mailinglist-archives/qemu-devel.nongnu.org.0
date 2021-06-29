@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659B43B7031
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 11:40:51 +0200 (CEST)
-Received: from localhost ([::1]:57466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511D23B7052
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 11:51:59 +0200 (CEST)
+Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyAEb-0006Aw-LG
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 05:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43540)
+	id 1lyAPO-0001HS-5P
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 05:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyADM-0005JZ-65
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 05:39:32 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:44796)
+ id 1lyAO8-0000I8-Ko
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 05:50:40 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyADK-0001zC-IW
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 05:39:31 -0400
-Received: by mail-ej1-x631.google.com with SMTP id l24so5973301ejq.11
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 02:39:30 -0700 (PDT)
+ id 1lyAO6-0001HX-0v
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 05:50:40 -0400
+Received: by mail-ed1-x532.google.com with SMTP id n20so30460638edv.8
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 02:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2m1cm4DNjdxFK97J07+kJqGsdUAHFeoMZD6p9ec3dTs=;
- b=DgsI38+KTWaigw4Q4tYn+iz7ZMMmc+e8Mz7IWnRyEqwzI1ZaTsMYCDOyKGvBmj8bHh
- FyHfo7K1plkgSx7hXcqUbS0eg65gZPI/VvBIWDXO/WcFhwah+wUmWwf2h33K2fe1yP6Q
- AiSsE36DFxrww2oC7gpgE/Ev2NWugr4uZqrtyvbBCfsK8wH6HjeWU2uNpkwA1HHgz3FT
- BcKfCHCgspub+cM6JH6NltoVkbUkMzwAlF/lQmnHwAlnudD85uw91Y7xG8G9ue9A6M18
- E1eHuAKK6Z1sEA5s7KjRPZ0JhQ5cwzBudtQB8fYW8FKPv3yj3AFUsHBZdP1UeoIkZ2/b
- p3YQ==
+ :cc; bh=vorSwdVG0i0KPl2OP1yp5v2XNR2rdWWGV7ycT4N3POI=;
+ b=nWScd7wiFRo7DpLq01agugJ87wKaX5y63JENEypeowwi6tu4PQ3MAWJJRHvr8KZQVT
+ hVKgRglXmpgULjGQuawX2kKKH6Bk/bQj3Edu6jN0+ONH1CHxchSV1xVWVTl5lzibLdyn
+ JDQh5MLqtAvU3jBKsoN3EMqjijMs0HCUHvUZCTkR7wQqv7qQSojKgigof8y8Q64kHxsu
+ wRFlTKUsQHxzEF4FDrhUg6NovKxJj4DzFfz7sasy9/nxqCrbzh4UJJj5uKBUkv2yGC3i
+ MfiVV8/KSFvDjvVbJY0cHaneTEU6RFpk8RwRnWFaN/hcHk6m3HZGQoDKBXWNefMHk/1S
+ TFrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2m1cm4DNjdxFK97J07+kJqGsdUAHFeoMZD6p9ec3dTs=;
- b=q+NgJiGNMfyS92pxJC87Zpntk8XPv8P2caYb3xf4Q8F7iEM5Znjof9QKLBXHl+QqNE
- kn0wLgwnykr6qdzvnxT7M2mP7UK+ZunFCkVhPckaxAXpx7P4RGgcmYGDyo0pzknzX3Da
- /cIegutGWjzn23n1gGPqs42vHunbOkaehwgrZdwIkVaZ+eoegRRi1khOMkx/FxH1d0ve
- ofY5tOOKv16NaqmekniWfMbiiCkQO5eOPjZHGGLQKaGmeuFKgFNq5OO56ddL2G69hsU6
- WEorg5LL0Xo1DPUuVShbx1KSYooVzJgYwTIcGTBPS8GMN/njwoHIfACDf9VazryXtDU+
- HJWg==
-X-Gm-Message-State: AOAM5323Xjd5S/JS9NCZcFsouxEJjpD83mUvFjBLpcp7ZzHUQB+QhCPE
- VccpYfplxqfFInhgsYfrAC3XnZrip2GM3GW6V5mXow==
-X-Google-Smtp-Source: ABdhPJwLVelBNDqeZRe4FWYQ7Upvh1ty3HtU8x0P3wuLuo36vBnloNnJW/FrYjR6pZqapK9zEkH3Lgg1cMLvsraNYq8=
-X-Received: by 2002:a17:907:98eb:: with SMTP id
- ke11mr29411177ejc.85.1624959568867; 
- Tue, 29 Jun 2021 02:39:28 -0700 (PDT)
+ bh=vorSwdVG0i0KPl2OP1yp5v2XNR2rdWWGV7ycT4N3POI=;
+ b=FoW/dFGWOehdRUZQMFj684w4oHzkTmcBgACSo+mwH0Soe1FYCHJ8RDFF2a5IdUOTmF
+ cFEw/4fRu/S/gFOEe6D8GD/b/zGP+nterVcrW1v2XV3fN9Xk52ESKC5unfYGWntpDpLo
+ 0AoXHXjfyrBKx+jvziHVWxA15DhvPDhmMajsyNnGjW4T0IuF3tWA9Rs+mNKClUGzaccC
+ wLoRbypffkV/KyWtvIoXM9gaZDjkak0cTLJvPXmyn1z2tMBnF6zkeYC0EczZhIUprsFv
+ 1F5iHovEFhcCvgkp8IQIo/wrE14A04JoIfb6R2igrAJikl73sQ7n6IsZjeP/ZVQj69Vh
+ 3wyQ==
+X-Gm-Message-State: AOAM531Uk31yPFtktcURhNeko6lbo4q9iDtu48/ePbmSIZ6A5ZcRgjuL
+ ivS3nbjWJdp88NTS2/gfZLzek3NVCAF/+9s03V1v2g==
+X-Google-Smtp-Source: ABdhPJySsqvs8UdjpbMaBXwRTzeUaLXW/7Mx7Mj/SQyxn93BEqnbx1BJHekC01pPeakteyoV8Ka7lkK/TtLwzMIZiGk=
+X-Received: by 2002:a05:6402:5204:: with SMTP id
+ s4mr38906671edd.52.1624960236444; 
+ Tue, 29 Jun 2021 02:50:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <1624662174-175828-1-git-send-email-joe.komlodi@xilinx.com>
- <CAFEAcA_vxA12WMi6qdV2_wNiNAKZ4j6-FTKnwfphT7nGznJoYw@mail.gmail.com>
- <12d4c7de-1346-2aee-75f5-4db729b7f1c7@linaro.org>
-In-Reply-To: <12d4c7de-1346-2aee-75f5-4db729b7f1c7@linaro.org>
+References: <20210629082713.31396-1-hnick@vmware.com>
+In-Reply-To: <20210629082713.31396-1-hnick@vmware.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Jun 2021 10:38:51 +0100
-Message-ID: <CAFEAcA_BOGSuFBuW_YczvbT1eFRhq9eL4K7f8EaSwjvPfEXmbQ@mail.gmail.com>
-Subject: Re: [PATCH 0/1] target/arm: Check NaN mode before silencing NaN
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 29 Jun 2021 10:49:59 +0100
+Message-ID: <CAFEAcA-vSoriA2iCwyvBWofj1UvtMuRbEnqNuCsoG_hz1Yth_g@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Correct the encoding of MDCCSR_EL0
+To: hnick@vmware.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,40 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Joe Komlodi <joe.komlodi@xilinx.com>
+Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Mohannad Ismail <imohannad@vmware.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Jun 2021 at 16:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 29 Jun 2021 at 09:27, <hnick@vmware.com> wrote:
 >
-> On 6/28/21 7:54 AM, Peter Maydell wrote:
-> > Richard, Alex: what is the assertion trying to achieve ? It doesn't
-> > seem entirely obvious to me that because we're in default-NaN mode
-> > (which is a property of the *output* of FPU insns) that we should
-> > blow up on calling float*_silence_nan() (which is typically an action
-> > performed on the *input* of FPU insns).
+> Signed-off-by: Nick Hudson <hnick@vmware.com>
+> ---
+>  target/arm/helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> This was in response to e9e5534ff30.
->
-> My assumption in adding the assert is that it was probably a configuration error.  If you
-> disagree, I suppose we can revert it, as it's not critical.
->
-> > If we do want to keep the assertion, somebody should audit the
-> > other frontends that use float*_silence_nan() (i386, m68k, s390x)
-> > to see if they also need updating.
->
-> Easily done.  None of them ever set default_nan mode.
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index a66c1f0b9e..7267af7924 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -6330,7 +6330,7 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+>       * We don't implement the configurable EL0 access.
+>       */
+>      { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_BOTH,
+> -      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 0,
+> +      .cp = 14, .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
+>        .type = ARM_CP_ALIAS,
+>        .access = PL1_R, .accessfn = access_tda,
+>        .fieldoffset = offsetof(CPUARMState, cp15.mdscr_el1), },
 
-Hmm, I guess this was just Arm, then, and the current code
-is silencing the NaN and then ignoring that result in favour
-of the default NaN, which is a bit unnecessary. Plus, we have
-this patch now thanks to Joe and we don't have the hypothetical
-"drop the assert" patch :-)
+This fixes the encoding for AArch64, but breaks it for AArch32,
+where it is cp=14 opc1=0 crn=0 crm=1 opc2=0. Because this is one of
+those system registers where the AArch64 and AArch32 encodings
+don't match up, to fix the AArch64 encoding we need to replace
+this ARM_CP_STATE_BOTH reginfo with separate reginfo for
+ARM_CP_STATE_AA32 and ARM_CP_STATE_AA64, something like this:
 
-Applied to target-arm.next, thanks.
+    { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_AA64,
+      .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
+      .type = ARM_CP_ALIAS,
+      .access = PL1_R, .accessfn = access_tda,
+      .fieldoffset = offsetof(CPUARMState, cp15.mdscr_el1), },
+    { .name = "DBGDSCRint", .state = ARM_CP_STATE_AA32,
+      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 0,
+      .type = ARM_CP_ALIAS,
+      .access = PL1_R, .accessfn = access_tda,
+      .fieldoffset = offsetoflow32(CPUARMState, cp15.mdscr_el1), },
 
+thanks
 -- PMM
 
