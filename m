@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7213B7436
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:25:22 +0200 (CEST)
-Received: from localhost ([::1]:39026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132EA3B7453
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:28:11 +0200 (CEST)
+Received: from localhost ([::1]:48332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyEfx-0007hZ-PS
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53144)
+	id 1lyEie-0005zz-A1
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lyEbM-0001a0-TR
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:20:36 -0400
-Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:51096)
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lyEbc-0001jl-D9
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:20:52 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:24274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lyEbK-00040D-Tu
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:20:36 -0400
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lyEbT-00044u-5e
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 10:20:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1624976433;
+ s=mimecast20200619; t=1624976441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VF2/59L8YDrqB5M0pqJm99DiwF+5BnjXXXlY7qJ4JBg=;
- b=Xfk/PgVtFdz8JEpHZZvyNZlz4W+Aeh+T6FX2Dq2uZWLuPth4Gl/qkEuh1CEmTUYd0fQzHb
- AIHzoOBG3i+Vy2ksYa/EIvyPVIgw4DmXJEhtrz62dl89FpYMGVP35FtoKTc9s4loSdwUyO
- Yx080jVaR9nZiLV4KBkEcIkWKpCa7TY=
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04lp2050.outbound.protection.outlook.com [104.47.12.50]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- de-mta-14-9CaijboWM9eIIaGc_jhD6Q-1; Tue, 29 Jun 2021 16:20:32 +0200
-X-MC-Unique: 9CaijboWM9eIIaGc_jhD6Q-1
+ bh=I7AfSLRN7oMwfjUsIwliox4w+6+wvPIcVnP6iNgU2+o=;
+ b=GsP8ZADQVsUwtVbPgibb5k/WqIQ+sHd6VsA7J61rNSF2OIcTmpc5iu4gr1YmQSaKjjTEHb
+ A7gEGWPFTPp55IvvolvNWXkkdUOCUPxCn7pkexhvRMMChTe5UwavZkomMM/rlzGUcWxfdk
+ c0rZCzoezLbUKvbSjog2WkYVXdEbzGY=
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04lp2056.outbound.protection.outlook.com [104.47.14.56]) (Using
+ TLS) by relay.mimecast.com with ESMTP id de-mta-9-LFcdJKrHNvG8FLZeazpKCw-1;
+ Tue, 29 Jun 2021 16:20:40 +0200
+X-MC-Unique: LFcdJKrHNvG8FLZeazpKCw-1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MfM7V/IW1zKDNaP+26I5bYt+J/OTuKk1E0sJ4s1YZr4xRXZsbNPUzn2cp9GdypCGEJtCnPMDo7sAjU3ju9h2qZvxVkfELAJckWmj2i+1wnt4RzoA0z7U754Eh8IcP2bNzawt6HLUaWUyG1DJAY++2wN1vD3fols4YYKKXBdnjNYSOU4hvImFRR48vsTmKmvXcg8jWcSJWOOIRjgqAXsq98M50HLN0rHhebqpsnC3LftOlnZrBFN/CvMDI21sEqhfuxaiCZorfVzBLgcJHo50PiwmBkT47TaTJ8g7dd8lvd2ngGCLstRXISy6DMH+r876W5iDtf6qZ+u3LOqb2lDR0g==
+ b=FrekgM2nUMWR36ZdNAsHeU27YAtd1Y82DWvSHz9CSndo+y7lyAYPxIjBeg1NQOFXP4McWoNljHFGJdLjLSlmB4J4uzLGxpa8gJeMlJWsOXJhAwXfQVcNmN0fLsVM49JLncBIL8nr9xUck6u23/AZo5uwjXWkMVkYEvGFKwyE4t1pFY+rEaOSn+shsLtH4OF5aJcjjUSIH/FzzjCPMMIjiDJaUOibOZw8tSU1NoRvKXKtNgr5cCS3k3VtqTY1TwozNlZNi+1nEK3fKoXeeSIbTLWUZXbXv/ZBeZDdFsd4rZ201GL8d8xvU5JvUFTAIEzfbSA14W1CX8NPuNN2OEwLQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3z7la4Ehh2e367qEb7S19zAe6QWma/MbhP9SUT8Tke0=;
- b=CRQg5CbVJPb+AO0rq+dMar63XHov0up6Ys6dojbzZPx/ES/uCCl3rCpWaKaVq60ZDfUbW7nNbbpLyfIH/LFIEEapQeL0jnW7ucQR6FUefmkRIRczuAkypp5aOhl5RoRx/Cdmm7mPK0AgJnr13xwwOhhexiyB7HACTF5y4B7p8hiW/A3+oEIIF2SemPxitirO4VobAPbEqw4+jHBdDaO/8KkexGNMCY+exqqLxAXDNHmE8eZzMxhY9aKyNpDSkrkrdqEBmedIKmm8hwwS4jBRKkE2G7xaZAUGJ+JvEKOAUgeuWYOmJ/kYBcIQ2yyrqlWRzFELyjQearmywuOB2PSxuA==
+ bh=nw1yACjG9lZbj0bE06qheLUxHfn2hS48id5iWCu2OPs=;
+ b=HEyvQ9DPuymQabZWLxQCpsNDEudd26+9ks6xUnxtxQHioAGV+gLKI+BjqUTLU4Bld/iiwyzEjvQ3p6TGTRK7hTcS0Z8atayNLr1+cLlvUO0jG6y5KWRTijxYsG8m+n6gQRo6tIlLOQUK9Ieqpi5WLyBPsePm6H+RIOwIufdVYXOCfBNzVUU3KtWUmlAFn7xDcKLdlT2r+fVstEI6MC9g2I7FeofF8g7N2f3k5Wuat835uafE8mDk1ay3rb/gFbLWGpHSUrk7SqZRjgErFuf1E/D9dLo1ZqY/kdmKyndIyQzJsLjap8XeQB6xpXrGYTltERElh2bxwcdZ+gmYAEJneA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
  dkim=pass header.d=suse.com; arc=none
@@ -48,83 +48,84 @@ Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
  (2603:10a6:803:16::25) by VI1PR0402MB3327.eurprd04.prod.outlook.com
  (2603:10a6:803:2::29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.24; Tue, 29 Jun
- 2021 14:20:31 +0000
+ 2021 14:20:38 +0000
 Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
  ([fe80::4c1c:b538:59b8:30f]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
  ([fe80::4c1c:b538:59b8:30f%5]) with mapi id 15.20.4264.026; Tue, 29 Jun 2021
- 14:20:31 +0000
+ 14:20:38 +0000
 From: "Cho, Yu-Chen" <acho@suse.com>
 To: qemu-devel@nongnu.org,
 	qemu-s390x@nongnu.org
 CC: cfontana@suse.com, acho@suse.com, jose.ziviani@suse.com,
- Claudio Fontana <cfontana@suse.de>, Cornelia Huck <cohuck@redhat.com>
-Subject: [RFC v6 09/13] target/s390x: make helper.c sysemu-only
-Date: Tue, 29 Jun 2021 22:19:27 +0800
-Message-ID: <20210629141931.4489-10-acho@suse.com>
+ Claudio Fontana <cfontana@suse.de>
+Subject: [RFC v6 10/13] target/s390x: use kvm_enabled() to wrap call to
+ kvm_s390_get_hpage_1m
+Date: Tue, 29 Jun 2021 22:19:28 +0800
+Message-ID: <20210629141931.4489-11-acho@suse.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629141931.4489-1-acho@suse.com>
 References: <20210629141931.4489-1-acho@suse.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-Originating-IP: [1.169.28.175]
-X-ClientProxiedBy: HK0PR03CA0102.apcprd03.prod.outlook.com
- (2603:1096:203:b0::18) To VI1PR0402MB3744.eurprd04.prod.outlook.com
+X-ClientProxiedBy: HK2PR03CA0053.apcprd03.prod.outlook.com
+ (2603:1096:202:17::23) To VI1PR0402MB3744.eurprd04.prod.outlook.com
  (2603:10a6:803:16::25)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (1.169.28.175) by
- HK0PR03CA0102.apcprd03.prod.outlook.com (2603:1096:203:b0::18) with Microsoft
+ HK2PR03CA0053.apcprd03.prod.outlook.com (2603:1096:202:17::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Tue, 29 Jun 2021 14:20:30 +0000
+ 15.20.4287.14 via Frontend Transport; Tue, 29 Jun 2021 14:20:37 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9556a71d-1d56-4784-f42a-08d93b090d3d
+X-MS-Office365-Filtering-Correlation-Id: 4b69e91b-b224-4f3d-44a7-08d93b091164
 X-MS-TrafficTypeDiagnostic: VI1PR0402MB3327:
 X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0402MB3327B6E1259F1F6707AA851EA0029@VI1PR0402MB3327.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB3327E5EFC8962969740DC272A0029@VI1PR0402MB3327.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pzFWBn89FvMz2azR5cgALWvukFdwk8RK3FPoNrwSRnOQJEqDOfZ+cQMn2llGlcfBPbMw/zxR8aXeIAie/Zf9HxNhAqA2oSpRs284T/tC8G4hQ/SHy6rhiK32uGc1Dia0tRM0D6KjPhkdKqHwP6Tj4J9AiSCwTW6cruryHBtwKycOD+X61QXgdF4XqdR9f7PbG1V12HsVgWesJ8T1mtVOlKEB1jjwC+8+lCKby1BYpif7ffFTRGFRF2TcpiuVxcQtqA9+t9QK8jF69OYIjlOyCnt7y8UWzKBmq9g40NcqB4fr3ydRBlok79Xg2fqIJpBa+kv6tcRo+1BSreKTZpGeGMRldFq6KaNvG/ikWV+uFNxC/DBqKRlTYN9B9MlRWfDp7UiqI5EsxqJ8aJ2EirCjQ3BCC6EfyaRHiXUDNdhlT5blBKaYiR+X94iHO3HH7U4fKZwukKo9SWQiF8VlIgcybuf2k/SXGk1fp+JdJTDaTrneyVkF1xsnBiCjOkSxHaYjS6p/QayESLnsk1bBM0XKUuqQkua7WOyyzGPDYnplPJ7YJkZ4pb7trAYcwYTWiaxjJYT6/QkkiQClfs9nZLJ0GG+oj8H48EtkNvsAg+8Ai073MbYNUJMPnBUXmCoLg5EA4XaUAURBNyYFUg8/lEyiNwoC95WnN3Jc9m/mDWAicDBQ+hoD8wfXKpiBjSILu1FCMGqLMJMlhoS8jH5BiUlDeg==
+X-Microsoft-Antispam-Message-Info: khytpPEnuAvZLNKR8XC5tuMcUowECYCQyxtuCRsFUfNUrXUf7FDceYoMrgqWjYMnSL/j26xByXAtIkRkWym02QbRn+F2X5lDMHB1+AqdlcDdHnC64M7+x8A35CK38oOBBsgoUAzqaktdZhMp9QS4+TBI/qNlkd8epfPv3zYkffIMsqBH2d1047E6U5+JTcOT+TO+z6QnMIIZsnXIFF7IoEu4cxJVcys7wFvpZYJJgQr1Wg+rQnHqQi4S8c0HB4HXT6G4cBWdZldwbEwpCE/J0bACs3Wyj+Ohz4/cTNizpCWoCsqiXCbQKUnuNR809cHmh5aSFUejwQPSz9ny0xkuN2zgitGkJypvd38ebeD7OZm5uguyvRlMrQh8NnRR28sNWeQ3fUXgDPRcFSvMoH5WKi4aEIdPz1fzITmMTZMtFsVI+FXysBr8ljYvd2yAAS8M8+c3vAkdcrREB6PCtJisFO8ftF9ntumoj7vy/A7la6caMnVnrCri9fTSqc2MUJtN+ExxUQSHl5zr4exDyblBFvDJ2ZP8cLNsaU4Th21ue1IJsvBKQeVvQ5viwHN5Pci2sn+Ep7ZT/AEFje+QuM6vecyiYWDbspJjpmcfFPFZHaxYlwe42hxFlAfcVOOBcuOBFL8LifWX7ii3tNe7u8O1YFjMBUwo2mlcmg+NsWFb9y8Z8Bj4fxtSWrB5bOhYU6YsF0kbyviiMga0LDX6ZzjaGw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(39850400004)(396003)(136003)(376002)(346002)(83380400001)(8676002)(6496006)(6666004)(16526019)(8936002)(186003)(86362001)(2906002)(478600001)(36756003)(4326008)(956004)(2616005)(66476007)(26005)(316002)(38100700002)(5660300002)(66946007)(66556008)(1076003)(6486002)(54906003)(36456004);
+ SFS:(366004)(39850400004)(396003)(136003)(376002)(346002)(83380400001)(8676002)(6496006)(6666004)(16526019)(8936002)(186003)(86362001)(2906002)(478600001)(36756003)(4326008)(956004)(2616005)(66476007)(26005)(316002)(38100700002)(5660300002)(4744005)(66946007)(66556008)(1076003)(6486002)(36456004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RzhAqJMqYouiCnt6+mltzrvgrSV6+X2XZ9M4H/7z/yM3m0k50InJJeL7H6iI?=
- =?us-ascii?Q?tKVuhGEwjfoy3ZRZz4VlmSbCdMuzdTSIKsGfJj7m+2sGRcxAM9x3exiKiNBv?=
- =?us-ascii?Q?VR6jRwVGjeQzDdLlsXezPjvjA/YsMj/P5lkIX8boODuzzfH8EMj7MpN+D7DV?=
- =?us-ascii?Q?85bH0MRI0KyAx3vzfABZ9PeWTByxBoZ4VLsvcXTXSI3fbtdhXPCAOLauua5m?=
- =?us-ascii?Q?HnLbfNkqhgFIR+IybvTO8osGkanwM/seSIGGxtJjmlYnKG5AbuECBpFSpbxw?=
- =?us-ascii?Q?xaidBdlBxX66iN9bx5KTTkSoh4BG7gkFd7F/IuypCuV8t6tF1QAta3+wIpEt?=
- =?us-ascii?Q?YxQmnPTe/umqXaBgqYxww6RW35n6VffmgcIaq6b2Tc+Z+JBJQkvuMeXzd1Rh?=
- =?us-ascii?Q?siBpfw3HYjBP++DgzNozlvq0+CsTiL1ugLvybMopotyPOdkYbyqtZL4hQvdf?=
- =?us-ascii?Q?MFi38ffEZ7LfuwmoHI5LS5UsTwgf0LFuZylmxDnGhuIf4ihMCs3d1OuQq1sf?=
- =?us-ascii?Q?h90kX6WavKeJd5U+zI60XJOagKEUxzo7wdvyremDSYjBfbjmMCgzENTNc+2I?=
- =?us-ascii?Q?m7+3+327sRP62U2ozYxG66eYp93+v3fkmTEnOCg2K4OG1wgzfQ8rR8q38HCU?=
- =?us-ascii?Q?WQUhD0VF7fEJjZGIfClbrOGP8G2QkPHce+ZuFPCsuviEAp61/E2HG/cFnVtJ?=
- =?us-ascii?Q?ldFeiF63vCs3ayqPfC/3HMLXlrORnWMzGRkhyOUOPsa2aSf56/KygH/GE4Pp?=
- =?us-ascii?Q?1BwEpJUrbBB0Eaa14quSwW7gHh3+7xiyx54nq1KZlVxbVHUdC08DY7xhcTJy?=
- =?us-ascii?Q?49R8/fdeltjr28zeXO+m4GoMqQmLxwv+DbQwnq0kqn3hJg8yA9ab9hrJRLTG?=
- =?us-ascii?Q?2O9Z1MrpJYTy2tY9sfRh6XEC5LIOXqCeLqsepbwf4bBnHtUNx3+3znjqOAQD?=
- =?us-ascii?Q?O+6MctcywMR80dqzbEx+HQjWNN+NfQAJaXGmBbMIBCt32ZR0uC2bOooBpTp0?=
- =?us-ascii?Q?ll2xSX9bCtW8wc8o7lOXOPq8jrNQ4wk1oFN20CcEaBY9nSVvWsrYwpPS6sLW?=
- =?us-ascii?Q?X3ofelet5Zm3t4OQQWM627vqoAKrhplM9qaU1XJFhnYDHeyGhiivmDOf0MbP?=
- =?us-ascii?Q?1+K0MPxziFWvFi3OElPXMjZVVRuPCL3NG2h/bCDdVks6y0sBnY9lIAgrvADC?=
- =?us-ascii?Q?XdVXVQljAmv0KtRk8zEwzKmCqwW89PH4FU7KdtFnP4CWdLIHRinH9Q5GiOwd?=
- =?us-ascii?Q?CCXhWeuP4Gqnzkc6hyCF/e9FvLCz7b12r47wvDPFhsabfUZ/NPA5p6cwY7L6?=
- =?us-ascii?Q?hm+pWTl3HHc5Kq0+w0+iXrp6?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/mjZjKmBCQlZ1iVSFohPpOxcZwCjmNU85xpnHBH0eRQisEElrgbr3DCzBwPN?=
+ =?us-ascii?Q?atmB+xCPZ04Uj5Pg7J55DelBSsaay/ICbx0Lks+qO94bNe/EaLFBYjvzIBpG?=
+ =?us-ascii?Q?6HN+ZvSjg8jbDHIUWCbK1P5y+6YpK+3AuMSMQqXR+F5dAQ+F39Edg8pz8HWL?=
+ =?us-ascii?Q?q7x+gRRWdDHcjNLYUCV95UrgbhC5cF4a8bOrfBO8FXnY0dPQ8bkWvOm4YfnY?=
+ =?us-ascii?Q?DDYOZXL7HWUfJ8+l+Tp0FDri3BljbVkyNJqz0NnMF4KTlaR/3mj+NbC3685l?=
+ =?us-ascii?Q?kDfQtTBFomKs0F2tM5V78RuYH89MMSrztzafgG2dUKB6mpvIjt+RROb0NYks?=
+ =?us-ascii?Q?Kg0hr3epGy/nWZVuqtOoPsZqvCcFsBTXtO7AmWm3xkaacSw47walEwqIVDZp?=
+ =?us-ascii?Q?NPwWlgdG4TFI/902LOoeIIIyBjUk7aMfkwSb9vo+FENeQIFrzByh8nxsNqEn?=
+ =?us-ascii?Q?mBpHncgzCS4VI33chkvdaFH0SbqexLXtVF897YHTRiEEg8GxAcLbPnh9jcxJ?=
+ =?us-ascii?Q?l2KmdKF6RS1Y3oPSV+wXo5QGIg2QsXrAi91og0X08r9SAoASVUMPxqzrPB7b?=
+ =?us-ascii?Q?ApiaddODcRvtd9+iqNIf+Zlt+wdQS2d9JyWPeFbhlOlL1Ie6nXpsq7eRD/Oe?=
+ =?us-ascii?Q?oIan5rJYTyF8Uf6PbOZt/cwABj4pDZrs/IBvpqjHqG5w4VDS4/zJqrZuh7n7?=
+ =?us-ascii?Q?RB4spL9kU5FAKx4L07aa/AJ6zi0jSnlZF9oeI3nW1RZX7NHF0riGWFnHLJGe?=
+ =?us-ascii?Q?UWbcL+0glxQGVwDOfNltwroHzU6Zl4iC5r1gpzsL1NtV6kuRJ2woA7PMWtVc?=
+ =?us-ascii?Q?JqBe3uChymbLfWfHf0vGQZX/r+LWGH1mCci7aPVrqvCvRKWPRKR3P2R5wW5q?=
+ =?us-ascii?Q?1M6yfsN6EKCvShU7xQlP+d8gUd4aSdQBYE3x0lxKEZsTJHXOJ9lUuIYerzHa?=
+ =?us-ascii?Q?ZaVhDsEluySv15T5UnzxsmipBa/QKlImIkhelfIVNSojofNSi86Vw5jHfTxz?=
+ =?us-ascii?Q?07tStuvFOZUQ7vhYADDIVccvB7RyVMmIV0fN9Z182J5gLVvIK8C8FKi33d3i?=
+ =?us-ascii?Q?KT56/iBMrmrXMsvmDJWhm3b9DQCg8CuCLMfBJUOjgbpYVW3rzZMeIF7/sHo2?=
+ =?us-ascii?Q?T9vfzRnjkW7AEA30udERL6pM+7mQyzlxUUFD2Xno+FFjRGz8WgI6cCbXKW6G?=
+ =?us-ascii?Q?ZxV9BD/oUSCBhHkipKGpUUQXPAu18P7ufoSFPz2vpwA82Elyx1AOa8mOq5M/?=
+ =?us-ascii?Q?PW6JQS7Dennfe9YXJ6GVvlpAkGDQk13lufCAYdz91k3RNjIkQ+YEFMnv/Kjx?=
+ =?us-ascii?Q?xcVFglm0lPokDGyoSoWVjcVL?=
 X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9556a71d-1d56-4784-f42a-08d93b090d3d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b69e91b-b224-4f3d-44a7-08d93b091164
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 14:20:31.4043 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 14:20:38.3613 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wGh9jIuOwz4Hq3aox9ep5WT79wGIdnBnHe8Gi5iyx1UIe5bFuVpS8HAn4b0Fb62I
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4J3nNUMPwO73pFd/vObkSQ5YDkF+Z0IqvpKIt1VrWosqs1AOZOVYdo5s9AppPyIR
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3327
-Received-SPF: pass client-ip=194.104.111.102; envelope-from=acho@suse.com;
+Received-SPF: pass client-ip=194.104.109.102; envelope-from=acho@suse.com;
  helo=de-smtp-delivery-102.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -148,69 +149,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have moved cpu-dump functionality out of helper.c,
-we can make the module sysemu-only.
+this will allow to remove the kvm stubs.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Cho, Yu-Chen <acho@suse.com>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/helper.c    | 9 +--------
- target/s390x/meson.build | 2 +-
- 2 files changed, 2 insertions(+), 9 deletions(-)
+ target/s390x/diag.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index c72e990f4d..a4d4665f67 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -1,5 +1,5 @@
- /*
-- *  S/390 helpers
-+ *  S/390 helpers - systemu only
-  *
-  *  Copyright (c) 2009 Ulrich Hecht
-  *  Copyright (c) 2011 Alexander Graf
-@@ -27,11 +27,8 @@
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index c17a2498a7..8405f69df0 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -20,6 +20,7 @@
+ #include "hw/s390x/ipl.h"
+ #include "hw/s390x/s390-virtio-ccw.h"
  #include "hw/s390x/pv.h"
- #include "sysemu/hw_accel.h"
- #include "sysemu/runstate.h"
--#ifndef CONFIG_USER_ONLY
- #include "sysemu/tcg.h"
--#endif
++#include "sysemu/kvm.h"
+ #include "kvm_s390x.h"
 =20
--#ifndef CONFIG_USER_ONLY
- void s390x_tod_timer(void *opaque)
- {
-     cpu_inject_clock_comparator((S390CPU *) opaque);
-@@ -284,7 +281,3 @@ int s390_store_adtl_status(S390CPU *cpu, hwaddr addr, h=
-waddr len)
-     cpu_physical_memory_unmap(sa, len, 1, len);
-     return 0;
- }
--#else
--/* For user-only, tcg is always enabled. */
--#define tcg_enabled() true
--#endif /* CONFIG_USER_ONLY */
-diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-index 6e1aa3b0cd..bbcaede384 100644
---- a/target/s390x/meson.build
-+++ b/target/s390x/meson.build
-@@ -4,7 +4,6 @@ s390x_ss.add(files(
-   'cpu_features.c',
-   'cpu_models.c',
-   'gdbstub.c',
--  'helper.c',
-   'interrupt.c',
-   'cpu-dump.c',
- ))
-@@ -23,6 +22,7 @@ s390x_ss.add(gen_features_h)
+ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
+@@ -168,7 +169,7 @@ out:
+             return;
+         }
 =20
- s390x_softmmu_ss =3D ss.source_set()
- s390x_softmmu_ss.add(files(
-+  'helper.c',
-   'arch_dump.c',
-   'diag.c',
-   'ioinst.c',
+-        if (kvm_s390_get_hpage_1m()) {
++        if (kvm_enabled() && kvm_s390_get_hpage_1m()) {
+             error_report("Protected VMs can currently not be backed with "
+                          "huge pages");
+             env->regs[r1 + 1] =3D DIAG_308_RC_INVAL_FOR_PV;
 --=20
 2.32.0
 
