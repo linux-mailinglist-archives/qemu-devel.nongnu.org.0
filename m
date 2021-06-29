@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23F83B72F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 15:09:35 +0200 (CEST)
-Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B613B72FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 15:10:22 +0200 (CEST)
+Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyDUc-0001Lm-3p
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 09:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60976)
+	id 1lyDVN-0002ag-29
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 09:10:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lyDPG-0002be-8Q
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:04:02 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:37792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lyDPB-0008Dw-7t
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:03:59 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-96WqqRc-ORGMqrY10BslNg-1; Tue, 29 Jun 2021 09:03:51 -0400
-X-MC-Unique: 96WqqRc-ORGMqrY10BslNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C627C73A5;
- Tue, 29 Jun 2021 13:03:50 +0000 (UTC)
-Received: from bahia.lan (ovpn-113-63.ams2.redhat.com [10.36.113.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA11110027A5;
- Tue, 29 Jun 2021 13:03:45 +0000 (UTC)
-Date: Tue, 29 Jun 2021 15:03:43 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH v7 2/7] virtiofsd: Fix xattr operations
- overwriting errno
-Message-ID: <20210629150343.5cf10a26@bahia.lan>
-In-Reply-To: <YNnrT/mCw3w26/lT@work-vm>
-References: <20210622150852.1507204-1-vgoyal@redhat.com>
- <20210622150852.1507204-3-vgoyal@redhat.com>
- <YNnrT/mCw3w26/lT@work-vm>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lyDQ4-0004Ee-NQ
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:04:52 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:38303
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lyDQ2-0008Uo-AB
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 09:04:52 -0400
+HMM_SOURCE_IP: 172.18.0.218:33070.984371018
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.101?logid-50b45c0964ce43d28c81cb2b80903ad8
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 38B47280098;
+ Tue, 29 Jun 2021 21:04:27 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 50b45c0964ce43d28c81cb2b80903ad8 for
+ zhengchuan@huawei.com; Tue Jun 29 21:04:41 2021
+X-Transaction-ID: 50b45c0964ce43d28c81cb2b80903ad8
+X-filter-score: 
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+Subject: Re: [PATCH v10 6/6] migration/dirtyrate: implement dirty-ring
+ dirtyrate calculation
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1624811188.git.huangy81@chinatelecom.cn>
+ <e0cc5b347011b1cef06ff95446bf8b3d6a6584b0.1624811188.git.huangy81@chinatelecom.cn>
+ <YNpV0q1nEF3NiNSt@t490s>
+From: Hyman <huangy81@chinatelecom.cn>
+Message-ID: <effca94d-ccb3-846f-3e8d-134d67a52f2e@chinatelecom.cn>
+Date: Tue, 29 Jun 2021 21:04:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
+In-Reply-To: <YNpV0q1nEF3NiNSt@t490s>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,153 +68,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>, miklos@szeredi.hu
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Jun 2021 16:31:27 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > getxattr/setxattr/removexattr/listxattr operations handle regualar
-> > and non-regular files differently. For the case of non-regular files
-> > we do fchdir(/proc/self/fd) and the xattr operation and then revert
-> > back to original working directory. After this we are saving errno
-> > and that's buggy because fchdir() will overwrite the errno.
-> >=20
-> > FCHDIR_NOFAIL(lo->proc_self_fd);
-> > ret =3D getxattr(procname, name, value, size);
-> > FCHDIR_NOFAIL(lo->root.fd);
-> >=20
-> > if (ret =3D=3D -1)
-> >     saverr =3D errno
-> >=20
-> > In above example, if getxattr() failed, we will still return 0 to calle=
-r
-> > as errno must have been written by FCHDIR_NOFAIL(lo->root.fd) call.
 
-This assertion doesn't look right.
-
-From the errno(3) manual page:
-
-       The value in errno is significant only when the return value of
-       the call indicated an error (i.e., -1 from most system calls; -1
-       or NULL from most library functions); a function that succeeds is
-       allowed to change errno.  The value of errno is never set to zero
-                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
-       by any system call or library function.
-
-> > Fix all such instances and capture "errno" early and save in "saverr"
-> > variable.
-> >=20
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
->=20
-> I think the existing code is actually safe; I don't think fchdir
-> will/should set errno unless there's an error, and we're explictly
-> asserting there isn't one.
->=20
-> However, I do prefer doing this save since we already have the save
-> variables and it makes the chance of screwing it up from any other
-> forgotten syscall less likely, so
->=20
-
-Agreed. With this rationale in the changelog:
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->=20
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->=20
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 16 ++++++++++------
-> >  1 file changed, 10 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
-> > index 49c21fd855..ec91b3c133 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -2791,15 +2791,17 @@ static void lo_getxattr(fuse_req_t req, fuse_in=
-o_t ino, const char *in_name,
-> >              goto out_err;
-> >          }
-> >          ret =3D fgetxattr(fd, name, value, size);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >      } else {
-> >          /* fchdir should not fail here */
-> >          FCHDIR_NOFAIL(lo->proc_self_fd);
-> >          ret =3D getxattr(procname, name, value, size);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >          FCHDIR_NOFAIL(lo->root.fd);
-> >      }
-> > =20
-> >      if (ret =3D=3D -1) {
-> > -        goto out_err;
-> > +        goto out;
-> >      }
-> >      if (size) {
-> >          saverr =3D 0;
-> > @@ -2864,15 +2866,17 @@ static void lo_listxattr(fuse_req_t req, fuse_i=
-no_t ino, size_t size)
-> >              goto out_err;
-> >          }
-> >          ret =3D flistxattr(fd, value, size);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >      } else {
-> >          /* fchdir should not fail here */
-> >          FCHDIR_NOFAIL(lo->proc_self_fd);
-> >          ret =3D listxattr(procname, value, size);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >          FCHDIR_NOFAIL(lo->root.fd);
-> >      }
-> > =20
-> >      if (ret =3D=3D -1) {
-> > -        goto out_err;
-> > +        goto out;
-> >      }
-> >      if (size) {
-> >          saverr =3D 0;
-> > @@ -2998,15 +3002,15 @@ static void lo_setxattr(fuse_req_t req, fuse_in=
-o_t ino, const char *in_name,
-> >              goto out;
-> >          }
-> >          ret =3D fsetxattr(fd, name, value, size, flags);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >      } else {
-> >          /* fchdir should not fail here */
-> >          FCHDIR_NOFAIL(lo->proc_self_fd);
-> >          ret =3D setxattr(procname, name, value, size, flags);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >          FCHDIR_NOFAIL(lo->root.fd);
-> >      }
-> > =20
-> > -    saverr =3D ret =3D=3D -1 ? errno : 0;
-> > -
-> >  out:
-> >      if (fd >=3D 0) {
-> >          close(fd);
-> > @@ -3064,15 +3068,15 @@ static void lo_removexattr(fuse_req_t req, fuse=
-_ino_t ino, const char *in_name)
-> >              goto out;
-> >          }
-> >          ret =3D fremovexattr(fd, name);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >      } else {
-> >          /* fchdir should not fail here */
-> >          FCHDIR_NOFAIL(lo->proc_self_fd);
-> >          ret =3D removexattr(procname, name);
-> > +        saverr =3D ret =3D=3D -1 ? errno : 0;
-> >          FCHDIR_NOFAIL(lo->root.fd);
-> >      }
-> > =20
-> > -    saverr =3D ret =3D=3D -1 ? errno : 0;
-> > -
-> >  out:
-> >      if (fd >=3D 0) {
-> >          close(fd);
-> > --=20
-> > 2.25.4
-> >=20
-
+在 2021/6/29 7:05, Peter Xu 写道:
+> On Mon, Jun 28, 2021 at 12:27:46AM +0800, huangy81@chinatelecom.cn wrote:
+>> +static void dirtyrate_global_dirty_log_stop(void)
+>> +{
+>> +    qemu_mutex_lock_iothread();
+> 
+> One thing I missed: maybe we want to sync dirty before stop, so the value will
+> be more accurate.  Perhaps a call to memory_global_dirty_log_sync() here?
+seems good, if the dirty ring reaper is sleeping, we can sync log by 
+ourselves, making dirtyrate more accurate.
+> 
+>> +    memory_global_dirty_log_stop(GLOBAL_DIRTY_DIRTY_RATE);
+>> +    qemu_mutex_unlock_iothread();
+>> +}
+> 
 
