@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337623B6DD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 07:15:23 +0200 (CEST)
-Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9185C3B6DEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 07:24:25 +0200 (CEST)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ly65i-00089v-A3
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 01:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50552)
+	id 1ly6ES-0002hS-Bb
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 01:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ly64U-0006os-J8; Tue, 29 Jun 2021 01:14:06 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ly64S-0001EM-N0; Tue, 29 Jun 2021 01:14:06 -0400
-Received: by mail-wr1-x429.google.com with SMTP id i94so24175372wri.4;
- Mon, 28 Jun 2021 22:14:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ScbuV1uws/tcjQtyx9tP4Zkjz3punjNXoMsYbK2ktvg=;
- b=uuO+Wq5kulf5ube1SbhzX5Pf+rL+rBeFWni7+FL6MdF6L2318dS6Zkm5yhvOoqcFpe
- h55P5I/9OxYXmqu0FXCzSeaMWwXwAO3YtMdZ5cQodL5Z46fSgjhZ7QsmQei/ObAAobkZ
- WQzIEETMR43nJkUL/u7K/xyxOqZt4PsMkFVv8eW8XhdUzdr/sV/L4Ny2EGdQeK1pt1er
- tpOI/zU77tS4xvYxol6j5Opub81gVnPwn5x5Agnp91BxBETpWUgEYr1obdQ069JYarkp
- t4anleqw7ceQL7MUBLVuLTXuzrhvlFR6LwVZwtymtuU4vXRvuXDA0hjGR4CUaOXq28Rl
- LePQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ScbuV1uws/tcjQtyx9tP4Zkjz3punjNXoMsYbK2ktvg=;
- b=WSRFdlKiDCfzHAGCIxrIDNQNn1MmzXHBjz+KO+T7MVtvVjGvprrnU6agk2I0TeeXl8
- JXRX2hVAdpt/KwU0Fk53O0I6Cxt0lEK7VIrNNDEKxCBsG8Z29orTzWbZo7GP77LOQy00
- rAMvjSNI+lhxuEGDlX8Fzb/XQMg7QYgI4TpLBMqvYQLvRiW6IPNe94AKZqrqDQ/MxskQ
- 97q1nbw19xYOf96CXeE7KetHUVeahNjX96wLiT7JYjUAEDkEBpRu7svrzygL1Fc1qW52
- iUm6KqUaUv3R/r31mhtpeJWrvCMFelLN4S25M1eQFK+3GP+3FYOqrTPNBX/FHUfqetfP
- X5FQ==
-X-Gm-Message-State: AOAM5306fIeoOuCrh9H3C/khs+MsqliIu58ixUxp7Tgf7DUQnjrZfV4w
- FpoHE6cyxc76yHd0LMVGe0ni5v2VsdLReQ==
-X-Google-Smtp-Source: ABdhPJwFs9Pxtjo9wrFo2SOPv5SAfeFPKEyk1YdFYnV9pxAkYSURMX29dlDt5AAT51g4W/8t5h0kDA==
-X-Received: by 2002:adf:e449:: with SMTP id t9mr32206138wrm.40.1624943642499; 
- Mon, 28 Jun 2021 22:14:02 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id v18sm18860382wrv.24.2021.06.28.22.14.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Jun 2021 22:14:01 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ly69o-0000uu-VJ; Tue, 29 Jun 2021 01:19:37 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:58277)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ly69m-0005TG-Lh; Tue, 29 Jun 2021 01:19:36 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 701AD5C02E4;
+ Tue, 29 Jun 2021 01:19:32 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 29 Jun 2021 01:19:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=G1I2gCyW1TZau40qSU8r7bokyB0
+ Gl8AHG6GtZBJx2Hk=; b=YARqudrI4rPeaNqb4Q7toc1vHXBIDXxQC+FVC+61c0b
+ fWdb+pF2QMhPV7pCtmy9MovXKZjjqIlHZsrB6TvUSH7JmUAmE7nb9nMpXljgWuBR
+ vr9LYIBZ8Jh7sHxHzrxtxzZHM+TKIj6XE2/Uuwh1J05hcmpukrjm+FfoK0ysDH10
+ o8I7Sd4622cwghVfCcsTMSYqzu/skR9iFpZTLHbKnG/n2a/QwbrphA8cxcdTSGVT
+ Fo6kMl2cuW3WvGxKcZuLk8/EIhU7aSSA0G40qCbL1Lin3Pr2WYUvpFLWBAbAtsX8
+ djGQVhmltZRytyV4bLIQttiSen8UVOSo8qhn2r9+0uw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=G1I2gC
+ yW1TZau40qSU8r7bokyB0Gl8AHG6GtZBJx2Hk=; b=qmKrm4ad7l0SF3sqBsZx69
+ sIby5B70Z3Yt9P8y1CI1rBWPbr4kJuaoxag1b7ycRTB6TaYJlfWEDr/6vshIDxUv
+ h6JmklbN2veMW/1ItOFACcrjjO6hlHthfR4wApNhc3AaQYFm8AvatBCA9Jyonvio
+ 6usWnQkeHCXCGa/wuMiFAMO5PEWnsZEgndr3A9dwG9q1H+/7vuTl+ehmpyAvn6mT
+ raIAcbZJzmKVMTRCavZ/xs4PIHuMG2dr4TnzAUmndwb6nw4xH/xn72VBqe6NDyrg
+ WFrUp7C1caJ3eoRX2kmqDTsZYnyfgPDSQemy73fQ+N9QmPV43O14/1ViveqttBhA
+ ==
+X-ME-Sender: <xms:Y63aYKV06wp1m7Dua9-cKl7KznNkg9H5GapzNymGLW6q2yZrN1LwOg>
+ <xme:Y63aYGkEHxegzOT5OnmVlH18kMiEB5z6NCf4dsjBNrKAtcYRNi_JVFBWh4HncgCW-
+ NtPmIQqA8gW30E1YFM>
+X-ME-Received: <xmr:Y63aYOaOV8zcnl5X6r5E7uj0WXzdOlvQqxJHWn30kJOebauOZAeLFFCeeHhdXY8xn0IVcFtPKspVC9mIWPs3q5RauQ1qqonUBguPwtKeGKOiIfOTmQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeehhedgkeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeetudehfeefhffgieefhefgteffffegteevffegudetteeuvdejveetleejgfef
+ udenucffohhmrghinhepghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:Y63aYBXolSBTahmtnBpdYdRz9oSNa4oaRoN9AjH8KBclIw_mCLP7Og>
+ <xmx:Y63aYElz9vPYat2oTSJaTDpDh5MYSbIVy5sZ61Gj-8Lovot7b4dpIw>
+ <xmx:Y63aYGdItWF0WCuUB5FqXEjavYmasa_um9vWPkw_tYupj-SeBSTc-Q>
+ <xmx:ZK3aYFCpL6vpdlZvEUpmcKLaU_1jynjw86a-m-dEZxIesWw3oLwukw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 29 Jun 2021 01:19:30 -0400 (EDT)
+Date: Tue, 29 Jun 2021 07:19:28 +0200
+From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] misc: Fix "havn't" typo
-Date: Tue, 29 Jun 2021 07:14:00 +0200
-Message-Id: <20210629051400.2573253-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+Subject: Re: [PATCH] hw/nvme: fix missing check for PMR capability
+Message-ID: <YNqtYA5FZOBpFj5V@apples.localdomain>
+References: <20210607094757.29661-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4LWarcxG3tbXVfuc"
+Content-Disposition: inline
+In-Reply-To: <20210607094757.29661-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,101 +92,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Luis Pires <luis.pires@eldorado.org.br>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-stable@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix "havn't (make)" -> "haven't (made)" typo.
 
-Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/usb/desc-msos.c         | 2 +-
- target/s390x/translate.c   | 6 ++++--
- tcg/tcg-op.c               | 2 +-
- tcg/arm/tcg-target.c.inc   | 6 ++++--
- tcg/sparc/tcg-target.c.inc | 6 ++++--
- 5 files changed, 14 insertions(+), 8 deletions(-)
+--4LWarcxG3tbXVfuc
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/usb/desc-msos.c b/hw/usb/desc-msos.c
-index 3a5ad7c8d0f..836e38c67e1 100644
---- a/hw/usb/desc-msos.c
-+++ b/hw/usb/desc-msos.c
-@@ -181,7 +181,7 @@ static int usb_desc_msos_prop(const USBDesc *desc, uint8_t *dest)
- 
-     if (desc->msos->Label) {
-         /*
--         * Given as example in the specs.  Havn't figured yet where
-+         * Given as example in the specs.  Haven't figured yet where
-          * this label shows up in the windows gui.
-          */
-         length += usb_desc_msos_prop_str(dest+length, MSOS_REG_SZ,
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index e243624d2a6..6ac797a8a94 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -6270,8 +6270,10 @@ static void extract_field(DisasFields *o, const DisasField *f, uint64_t insn)
-         abort();
-     }
- 
--    /* Validate that the "compressed" encoding we selected above is valid.
--       I.e. we havn't make two different original fields overlap.  */
-+    /*
-+     * Validate that the "compressed" encoding we selected above is valid.
-+     * I.e. we haven't made two different original fields overlap.
-+     */
-     assert(((o->presentC >> f->indexC) & 1) == 0);
-     o->presentC |= 1 << f->indexC;
-     o->presentO |= 1 << f->indexO;
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index dcc2ed0bbc8..869dc6cdd29 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2695,7 +2695,7 @@ void tcg_gen_goto_tb(unsigned idx)
-     /* We only support two chained exits.  */
-     tcg_debug_assert(idx <= TB_EXIT_IDXMAX);
- #ifdef CONFIG_DEBUG_TCG
--    /* Verify that we havn't seen this numbered exit before.  */
-+    /* Verify that we haven't seen this numbered exit before.  */
-     tcg_debug_assert((tcg_ctx->goto_tb_issue_mask & (1 << idx)) == 0);
-     tcg_ctx->goto_tb_issue_mask |= 1 << idx;
- #endif
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 51571432460..5882479f3d3 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -2444,8 +2444,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
- 
- static void tcg_target_init(TCGContext *s)
- {
--    /* Only probe for the platform and capabilities if we havn't already
--       determined maximum values at compile time.  */
-+    /*
-+     * Only probe for the platform and capabilities if we haven't already
-+     * determined maximum values at compile time.
-+     */
- #if !defined(use_idiv_instructions) || !defined(use_neon_instructions)
-     {
-         unsigned long hwcap = qemu_getauxval(AT_HWCAP);
-diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index a6ec94a094f..688827968b0 100644
---- a/tcg/sparc/tcg-target.c.inc
-+++ b/tcg/sparc/tcg-target.c.inc
-@@ -1690,8 +1690,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
- 
- static void tcg_target_init(TCGContext *s)
- {
--    /* Only probe for the platform and capabilities if we havn't already
--       determined maximum values at compile time.  */
-+    /*
-+     * Only probe for the platform and capabilities if we haven't already
-+     * determined maximum values at compile time.
-+     */
- #ifndef use_vis3_instructions
-     {
-         unsigned long hwcap = qemu_getauxval(AT_HWCAP);
--- 
-2.31.1
+On Jun  7 11:47, Klaus Jensen wrote:
+>From: Klaus Jensen <k.jensen@samsung.com>
+>
+>Qiang Liu reported that an access on an unknown address is triggered in
+>memory_region_set_enabled because a check on CAP.PMRS is missing for the
+>PMRCTL register write when no PMR is configured.
+>
+>Cc: qemu-stable@nongnu.org
+>Fixes: 75c3c9de961d ("hw/block/nvme: disable PMR at boot up")
+>Resolves: https://gitlab.com/qemu-project/qemu/-/issues/362
+>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>---
+> hw/nvme/ctrl.c | 4 ++++
+> 1 file changed, 4 insertions(+)
+>
+>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>index 0bcaf7192f99..463772602c4e 100644
+>--- a/hw/nvme/ctrl.c
+>+++ b/hw/nvme/ctrl.c
+>@@ -5583,6 +5583,10 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offs=
+et, uint64_t data,
+>                        "invalid write to PMRCAP register, ignored");
+>         return;
+>     case 0xe04: /* PMRCTL */
+>+        if (!NVME_CAP_PMRS(n->bar.cap)) {
+>+            return;
+>+        }
+>+
+>         n->bar.pmrctl =3D data;
+>         if (NVME_PMRCTL_EN(data)) {
+>             memory_region_set_enabled(&n->pmr.dev->mr, true);
+>--=20
+>2.31.1
+>
 
+Applied to nvme-next!
+
+--4LWarcxG3tbXVfuc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDarVsACgkQTeGvMW1P
+DelMHAf+NbtV4VpVNdordPcMlYmx68vwmpE1K1UtwAQ9covOFn/XKwZ+ZhkTij9x
+pY0IjhLXbGel1Y9jwQ/+8kItuVXojPcg+nlIqdfg9j79aOG/lVwUhedB/RAj5EB6
+SoAcQ3E3cegrsjydDnP6AuOcVDBqRaVm0HfsDvDHem/v5AKZ0dYSbYB9kl0F4ydE
+wfhCA03s5pxj90krYESDHEpf4TVcgDQ5e8+Y2eN7ggjrDd3O1ReEbW62hHBk/CQn
+ATnMxYMz5mCepkez/pDhejcDaL3hwBNoKLRrniNuGEgPpcu1Qo1xMUfGaLDJSWvL
+1WVtQ/JgY5LDuN4L0TsLklrOdNmOjg==
+=ZSnj
+-----END PGP SIGNATURE-----
+
+--4LWarcxG3tbXVfuc--
 
