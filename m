@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623803B7810
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:55:49 +0200 (CEST)
-Received: from localhost ([::1]:45320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2CC3B7820
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 20:59:24 +0200 (CEST)
+Received: from localhost ([::1]:51760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyItg-0006Rv-B8
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:55:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36490)
+	id 1lyIx9-0002hS-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 14:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyImC-000176-Lx; Tue, 29 Jun 2021 14:48:04 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:34947)
+ id 1lyImF-0001Ap-Hg; Tue, 29 Jun 2021 14:48:07 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:44395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lyIm5-0005Ct-Gg; Tue, 29 Jun 2021 14:48:04 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 486452B00A65;
- Tue, 29 Jun 2021 14:47:55 -0400 (EDT)
+ id 1lyIm9-0005FV-6D; Tue, 29 Jun 2021 14:48:07 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 97EF22B00A63;
+ Tue, 29 Jun 2021 14:47:58 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 29 Jun 2021 14:47:56 -0400
+ by compute1.internal (MEProxy); Tue, 29 Jun 2021 14:47:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=NrI9HCzCHT1E/
- h1uY47WLOmuo0/VzwOrQ1dvfN/aQA0=; b=X9nXKPtQed4wfzpH2YdZW63IIKO+e
- VMyaJnCtPtIziiEpfY062HYQkBrNRPkzE5k+w6s8Nu+rVKD4FCPzZeSBmNuJe1gV
- 7cyK+BB8pEQAJZ2k92r1cQzOIfc4HVtLRzGyzrwwK4gvz8ZMLQjv/HMZVEFS7TTZ
- Ju0jDE598yP/pStZc/F3+WblHQzO4ITumbQhpc7WQCcL12H/UtfuazsMI8nEOrZC
- GzaEEcG+boHMbbEtQCaoDIa6fuF8juAasEjfxkmQuCpzCtuwVWoJ1dXUmp8NHz5L
- vxlXGsUG+2ZlPaV7QoNJ7WLDJDFtEBEIexGMFt/tCm3CImclmZIebfpTw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=NFiMHu6F+iavT
+ Y9L7GefmmlLAaekOIMYpmWgzf86Uek=; b=cjFcOV5u57YJuuPHy+LcAhFCjPsSF
+ bKs3etXLlTOTO0Yi1oWe0NHNdvmEDV8E1El6C/sC+ZgYJjF03YoX9nwSGzZ1d/8+
+ hYhuqxNySUtc+Atb+A9NBh8TOEzAGCp2z0Mb54J2cDKboJdsPfWqEqGbzBKeK2cS
+ txDhElx0AV9OdJWSGFbwOrnthrxg0ouicm6nz0DBkUinV6mSmMYKMUrxjHN8Xglf
+ cqEbS12MC1SK7nsHr3CGB6xNLSEmSqVvgtx3e0jhpeO+b7AUSbTLb5vmmHq3JaHY
+ pLBQXQiD9K0Bxs8UF6OefTVhjwynvSJd9ovZFX4RdCXC+ZUYElUbXV1Tw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=NrI9HCzCHT1E/h1uY47WLOmuo0/VzwOrQ1dvfN/aQA0=; b=vXCm5R+s
- 2k0pJp93w7xpE/eLoR8rXmV2n6q9Wue0iTSQ9Bs/VXmUlEvCefV6Fo2r2ew+jo2T
- beKQCoaj4Nyquq+SovtwIxnb5VmtmObiKy0dA+tk3UVLjVGD5fdd1Me0w7MWJfQj
- XO73UbB+LZVK7hL0mKQj8exL2aoAhGyoguWhd0XhtpW5Cx8jDJ1Ax5FiDqVvDkDb
- UhcDNpb9pH0E5YBKxoUry/Dvbxf0f5oDbOA8YwLDrerhSWl3amh+tvmDWiaGjr7x
- YFyhzsbbThLaouJYFbScdTC4K5WVPdSm/ktYBGpvJ6JT2TlIEAhnu0Ye9/RsXXji
- aNqPZsB4oZPzEg==
-X-ME-Sender: <xms:2mrbYCrOUr4JOzW4QEovXTFf8DCUozmebvElyurOW4VGISPSssrWbA>
- <xme:2mrbYAqgKTHUBsc9SCWZ_skIVDV4hPudLmlJ_Rn4OESxUMdZ9fnY1hjdEQVUYBSUr
- vpGtjy4xeP14-DNwJY>
-X-ME-Received: <xmr:2mrbYHN4GoF6q3aEa2BSwxQrI-2h9Sl1FxXH6KC0sjEjznVzWbP1MZNc0WX5e7OE0SEiahs0EUoPXnfq90TAdfy6EZd8VWOhuhGE-LovRQ>
+ fm3; bh=NFiMHu6F+iavTY9L7GefmmlLAaekOIMYpmWgzf86Uek=; b=ntccBRE/
+ L+jP9wP9pd85Ys9bkCkockBS3760b50VY6E+ZPKdIJVlKfuQ6zdzA5cZJ37vTT9z
+ GTbn7dRvSuQoK3+1DwMLaueTE43FWKOs6GQMCmTCxQr9UWQPmi3FHkcXaKuln/Wh
+ RlyIR/bcfkoLDspBUmuk3eyQASXHRukUlg/T1fvkRDSEx1y1dg5mDGX8VOvN7MmZ
+ xhUdmcbTDudvxTyzJ8irGEZ4v6uQ04ZT9BLsIRP3dJ3zC1LwxaAJP3iIE56yKJxG
+ 2eusWid7Q2mqaz4KF9osj1BRyqz264+3LKZQqeu38geltZ3pGDi3zO6kiOrcFE6E
+ kKbTNOvdi6VxNQ==
+X-ME-Sender: <xms:3mrbYFoZiiuHDv9M05AH4xhqj8ezEy405OxPqQYS0o5uAd42PHE_iw>
+ <xme:3mrbYHrDgU-ZJug0KpRPFqHxQQN1Ih0Mtdb_ttAIjqhfreEpk8XqHR7t8pIOQfzK0
+ FRyiUfpMh6GiP1WceQ>
+X-ME-Received: <xmr:3mrbYCMvuGcW4rI7htwnCTPohVacMl3FhBp9bvd5bpTId9hnY6P3bygIYlK9vrUHEBtwExgMnlLsnKEcidcf866lLiBsJurOiDz0GSiYzQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,18 +54,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgleegucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:2mrbYB4HZMnwuYUY0meO1HbRE8tjIwvDvF-zbet_JYZXR_qoqiHfqQ>
- <xmx:2mrbYB7A521PvRD1-slIV7ceNV9OY4QysCMMeQTmraYGj-GQu5wghw>
- <xmx:2mrbYBhd1qKvr9Y1ysSHSL_VH2kwHGi4Efxn_Q4bVQwF83ryuLAj_w>
- <xmx:2mrbYNjlnXJcV-IpZufX6oeZOLmgHJ-n_WEz2h6k4wiHNAQHzOvWiiWnnA8>
+X-ME-Proxy: <xmx:3mrbYA7w7LbuqpG9wftES0qZoCI8MaIBOi_dgCPUEVLZ_ViU58Fyrg>
+ <xmx:3mrbYE6Oum9BYplNzcgLgRH8lIEySJbsS25ViYEU2vZof6HqGy59qA>
+ <xmx:3mrbYIhHF4PoRIHDqltLVLv02-KWZEdFuLs7AiuIZDShb-zJI7lzJw>
+ <xmx:3mrbYEhMrh8KcWeGC5yQyqq9J6xbyeypUj8JuiFgBrElKft9QSUHMOuPHS4>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 14:47:52 -0400 (EDT)
+ 29 Jun 2021 14:47:56 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/23] hw/nvme: add identify namespace flbas/mc enums
-Date: Tue, 29 Jun 2021 20:47:22 +0200
-Message-Id: <20210629184743.230173-3-its@irrelevant.dk>
+Subject: [PULL 03/23] hw/nvme: fix lbaf formats initialization
+Date: Tue, 29 Jun 2021 20:47:23 +0200
+Message-Id: <20210629184743.230173-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210629184743.230173-1-its@irrelevant.dk>
 References: <20210629184743.230173-1-its@irrelevant.dk>
@@ -103,53 +103,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Add enums for the Identify Namespace FLBAS and MC fields.
+Currently LBAF formats are being intialized based on metadata
+size if and only if nvme-ns "ms" parameter is non-zero value.
+Since FormatNVM command being supported device parameter "ms"
+may not be the criteria to initialize the supported LBAFs.
+
+And make LBAF array as read-only.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-[k.jensen: squashed separate flbas/mc commits into one]
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- include/block/nvme.h | 9 +++++++++
- hw/nvme/ns.c         | 4 ++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ hw/nvme/ns.c | 53 +++++++++++++++++++++++-----------------------------
+ 1 file changed, 23 insertions(+), 30 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 0ff9ce17a99e..333affdb8534 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1341,6 +1341,15 @@ enum NvmeIdNsDps {
-     NVME_ID_NS_DPS_FIRST_EIGHT = 8,
- };
- 
-+enum NvmeIdNsFlbas {
-+    NVME_ID_NS_FLBAS_EXTENDED = 1 << 4,
-+};
-+
-+enum NvmeIdNsMc {
-+    NVME_ID_NS_MC_EXTENDED = 1 << 0,
-+    NVME_ID_NS_MC_SEPARATE = 1 << 1,
-+};
-+
- #define NVME_ID_NS_DPS_TYPE(dps) (dps & NVME_ID_NS_DPS_TYPE_MASK)
- 
- typedef struct NvmeDifTuple {
 diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 992e5a13f538..8066e311d1a2 100644
+index 8066e311d1a2..3fec9c627321 100644
 --- a/hw/nvme/ns.c
 +++ b/hw/nvme/ns.c
-@@ -82,10 +82,10 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+@@ -81,39 +81,32 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+     ds = 31 - clz32(ns->blkconf.logical_block_size);
      ms = ns->params.ms;
  
-     if (ns->params.ms) {
--        id_ns->mc = 0x3;
-+        id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
+-    if (ns->params.ms) {
+-        id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
++    id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
  
-         if (ns->params.mset) {
--            id_ns->flbas |= 0x10;
-+            id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
-         }
+-        if (ns->params.mset) {
+-            id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
+-        }
+-
+-        id_ns->dpc = 0x1f;
+-        id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+-
+-        NvmeLBAF lbaf[16] = {
+-            [0] = { .ds =  9           },
+-            [1] = { .ds =  9, .ms =  8 },
+-            [2] = { .ds =  9, .ms = 16 },
+-            [3] = { .ds =  9, .ms = 64 },
+-            [4] = { .ds = 12           },
+-            [5] = { .ds = 12, .ms =  8 },
+-            [6] = { .ds = 12, .ms = 16 },
+-            [7] = { .ds = 12, .ms = 64 },
+-        };
+-
+-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+-        id_ns->nlbaf = 7;
+-    } else {
+-        NvmeLBAF lbaf[16] = {
+-            [0] = { .ds =  9 },
+-            [1] = { .ds = 12 },
+-        };
+-
+-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+-        id_ns->nlbaf = 1;
++    if (ms && ns->params.mset) {
++        id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
+     }
  
-         id_ns->dpc = 0x1f;
++    id_ns->dpc = 0x1f;
++    id_ns->dps = ns->params.pi;
++    if (ns->params.pi && ns->params.pil) {
++        id_ns->dps |= NVME_ID_NS_DPS_FIRST_EIGHT;
++    }
++
++    static const NvmeLBAF lbaf[16] = {
++        [0] = { .ds =  9           },
++        [1] = { .ds =  9, .ms =  8 },
++        [2] = { .ds =  9, .ms = 16 },
++        [3] = { .ds =  9, .ms = 64 },
++        [4] = { .ds = 12           },
++        [5] = { .ds = 12, .ms =  8 },
++        [6] = { .ds = 12, .ms = 16 },
++        [7] = { .ds = 12, .ms = 64 },
++    };
++
++    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
++    id_ns->nlbaf = 7;
++
+     for (i = 0; i <= id_ns->nlbaf; i++) {
+         NvmeLBAF *lbaf = &id_ns->lbaf[i];
+         if (lbaf->ds == ds) {
 -- 
 2.32.0
 
