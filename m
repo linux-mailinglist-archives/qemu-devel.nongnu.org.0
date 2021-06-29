@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8AF3B74B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:50:58 +0200 (CEST)
-Received: from localhost ([::1]:47878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228363B74A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Jun 2021 16:47:59 +0200 (CEST)
+Received: from localhost ([::1]:41416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyF4i-0002sv-NX
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:50:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53940)
+	id 1lyF1p-0006qh-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 10:47:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lyEet-0006m0-J1; Tue, 29 Jun 2021 10:24:15 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47593)
+ id 1lyEef-0006j8-Gh; Tue, 29 Jun 2021 10:24:02 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lyEei-0005yX-Iw; Tue, 29 Jun 2021 10:24:06 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ id 1lyEed-0005wF-GC; Tue, 29 Jun 2021 10:24:01 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15TE3v93026091; Tue, 29 Jun 2021 10:23:45 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39g4ungtpx-1
+ 15TEM88n046611; Tue, 29 Jun 2021 10:23:46 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39g57jr1qs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Jun 2021 10:23:44 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15TEElK6025583;
- Tue, 29 Jun 2021 14:23:43 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 39duv89b54-1
+ Tue, 29 Jun 2021 10:23:46 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15TENdNj021262;
+ Tue, 29 Jun 2021 14:23:44 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 39duv8hb4x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 29 Jun 2021 14:23:43 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15TENfT634472414
+ Tue, 29 Jun 2021 14:23:44 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 15TEM66R30474560
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 29 Jun 2021 14:23:41 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E84F842087;
- Tue, 29 Jun 2021 14:23:40 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 66CB2420A4;
- Tue, 29 Jun 2021 14:23:40 +0000 (GMT)
+ Tue, 29 Jun 2021 14:22:06 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4608D11C0B5;
+ Tue, 29 Jun 2021 14:23:42 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F36E911C0A6;
+ Tue, 29 Jun 2021 14:23:41 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 29 Jun 2021 14:23:40 +0000 (GMT)
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 29 Jun 2021 14:23:41 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.54.151])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id A3C6122007E;
- Tue, 29 Jun 2021 16:23:39 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id F3C8822007E;
+ Tue, 29 Jun 2021 16:23:40 +0200 (CEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 2/4] aspeed: Emulate the AST2600A3
-Date: Tue, 29 Jun 2021 16:23:34 +0200
-Message-Id: <20210629142336.750058-3-clg@kaod.org>
+Subject: [PATCH 4/4] arm/aspeed: Add DPS310 to Witherspoon and Rainier
+Date: Tue, 29 Jun 2021 16:23:36 +0200
+Message-Id: <20210629142336.750058-5-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210629142336.750058-1-clg@kaod.org>
 References: <20210629142336.750058-1-clg@kaod.org>
@@ -63,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4Pzdz8k2D8CVJoJULr_RttPKE2gBHdaA
-X-Proofpoint-GUID: 4Pzdz8k2D8CVJoJULr_RttPKE2gBHdaA
+X-Proofpoint-ORIG-GUID: agcLS3DEOC-MQPtbWegifkL89ArqRWO3
+X-Proofpoint-GUID: agcLS3DEOC-MQPtbWegifkL89ArqRWO3
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-29_06:2021-06-28,
  2021-06-29 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- suspectscore=0 bulkscore=0 priorityscore=1501 clxscore=1034 malwarescore=0
- phishscore=0 mlxscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106290095
+ phishscore=0 spamscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 suspectscore=0 clxscore=1034
+ lowpriorityscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=986
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106290095
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -101,195 +101,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-This is the latest revision of the ASPEED 2600 SoC. As there is no
-need to model multiple revisions of the same SoC for the moment,
-update the SCU AST2600 to model the A3 revision instead of the A1 and
-adapt the AST2600 SoC and machines.
-
-Reset values are taken from v8 of the datasheet.
+Witherspoon uses the DPS310 as a temperature sensor. Rainier uses it as
+a temperature and humidity sensor.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
-[ clg: - Introduced an Aspeed "ast2600-a3" SoC class
-       - Commit log update ]
-Message-Id: <20210407171637.777743-21-clg@kaod.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20210616073358.750472-3-joel@jms.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/misc/aspeed_scu.h |  2 ++
- hw/arm/aspeed.c              |  6 +++---
- hw/arm/aspeed_ast2600.c      |  6 +++---
- hw/misc/aspeed_scu.c         | 36 +++++++++++++++++++++++++++++-------
- 4 files changed, 37 insertions(+), 13 deletions(-)
+ hw/arm/aspeed.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
-index d49bfb02fbdb..c14aff2bcbb5 100644
---- a/include/hw/misc/aspeed_scu.h
-+++ b/include/hw/misc/aspeed_scu.h
-@@ -43,6 +43,8 @@ struct AspeedSCUState {
- #define AST2500_A1_SILICON_REV   0x04010303U
- #define AST2600_A0_SILICON_REV   0x05000303U
- #define AST2600_A1_SILICON_REV   0x05010303U
-+#define AST2600_A2_SILICON_REV   0x05020303U
-+#define AST2600_A3_SILICON_REV   0x05030303U
-=20
- #define ASPEED_IS_AST2500(si_rev)     ((((si_rev) >> 24) & 0xff) =3D=3D =
-0x04)
-=20
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 62862a244842..aac52a8cc2fd 100644
+index aac52a8cc2fd..0f291dc7be15 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -997,7 +997,7 @@ static void aspeed_machine_ast2600_evb_class_init(Obj=
-ectClass *oc, void *data)
-     AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
+@@ -602,7 +602,6 @@ static void witherspoon_bmc_i2c_init(AspeedMachineSta=
+te *bmc)
 =20
-     mc->desc       =3D "Aspeed AST2600 EVB (Cortex-A7)";
--    amc->soc_name  =3D "ast2600-a1";
-+    amc->soc_name  =3D "ast2600-a3";
-     amc->hw_strap1 =3D AST2600_EVB_HW_STRAP1;
-     amc->hw_strap2 =3D AST2600_EVB_HW_STRAP2;
-     amc->fmc_model =3D "w25q512jv";
-@@ -1016,7 +1016,7 @@ static void aspeed_machine_tacoma_class_init(Object=
-Class *oc, void *data)
-     AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
+     /* Bus 3: TODO bmp280@77 */
+     /* Bus 3: TODO max31785@52 */
+-    /* Bus 3: TODO dps310@76 */
+     dev =3D DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
+     qdev_prop_set_string(dev, "description", "pca1");
+     i2c_slave_realize_and_unref(I2C_SLAVE(dev),
+@@ -617,6 +616,7 @@ static void witherspoon_bmc_i2c_init(AspeedMachineSta=
+te *bmc)
+         qdev_connect_gpio_out(dev, pca1_leds[i].gpio_id,
+                               qdev_get_gpio_in(DEVICE(led), 0));
+     }
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 3), "dps310", =
+0x76);
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), "tmp423", =
+0x4c);
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), "tmp423", =
+0x4c);
 =20
-     mc->desc       =3D "OpenPOWER Tacoma BMC (Cortex-A7)";
--    amc->soc_name  =3D "ast2600-a1";
-+    amc->soc_name  =3D "ast2600-a3";
-     amc->hw_strap1 =3D TACOMA_BMC_HW_STRAP1;
-     amc->hw_strap2 =3D TACOMA_BMC_HW_STRAP2;
-     amc->fmc_model =3D "mx66l1g45g";
-@@ -1053,7 +1053,7 @@ static void aspeed_machine_rainier_class_init(Objec=
-tClass *oc, void *data)
-     AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
+@@ -725,9 +725,9 @@ static void rainier_bmc_i2c_init(AspeedMachineState *=
+bmc)
+     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 0x50, 64 * KiB);
+     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 3), 0x51, 64 * KiB);
 =20
-     mc->desc       =3D "IBM Rainier BMC (Cortex-A7)";
--    amc->soc_name  =3D "ast2600-a1";
-+    amc->soc_name  =3D "ast2600-a3";
-     amc->hw_strap1 =3D RAINIER_BMC_HW_STRAP1;
-     amc->hw_strap2 =3D RAINIER_BMC_HW_STRAP2;
-     amc->fmc_model =3D "mx66l1g45g";
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index e3013128c670..8e1993790e6f 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -516,9 +516,9 @@ static void aspeed_soc_ast2600_class_init(ObjectClass=
- *oc, void *data)
-=20
-     dc->realize      =3D aspeed_soc_ast2600_realize;
-=20
--    sc->name         =3D "ast2600-a1";
-+    sc->name         =3D "ast2600-a3";
-     sc->cpu_type     =3D ARM_CPU_TYPE_NAME("cortex-a7");
--    sc->silicon_rev  =3D AST2600_A1_SILICON_REV;
-+    sc->silicon_rev  =3D AST2600_A3_SILICON_REV;
-     sc->sram_size    =3D 0x16400;
-     sc->spis_num     =3D 2;
-     sc->ehcis_num    =3D 2;
-@@ -530,7 +530,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass=
- *oc, void *data)
- }
-=20
- static const TypeInfo aspeed_soc_ast2600_type_info =3D {
--    .name           =3D "ast2600-a1",
-+    .name           =3D "ast2600-a3",
-     .parent         =3D TYPE_ASPEED_SOC,
-     .instance_size  =3D sizeof(AspeedSoCState),
-     .instance_init  =3D aspeed_soc_ast2600_init,
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index 40a38ebd8549..05edebedeb46 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -101,14 +101,24 @@
- #define AST2600_CLK_STOP_CTRL_CLR TO_REG(0x84)
- #define AST2600_CLK_STOP_CTRL2     TO_REG(0x90)
- #define AST2600_CLK_STOP_CTRL2_CLR TO_REG(0x94)
-+#define AST2600_DEBUG_CTRL        TO_REG(0xC8)
-+#define AST2600_DEBUG_CTRL2       TO_REG(0xD8)
- #define AST2600_SDRAM_HANDSHAKE   TO_REG(0x100)
- #define AST2600_HPLL_PARAM        TO_REG(0x200)
- #define AST2600_HPLL_EXT          TO_REG(0x204)
-+#define AST2600_APLL_PARAM        TO_REG(0x210)
-+#define AST2600_APLL_EXT          TO_REG(0x214)
-+#define AST2600_MPLL_PARAM        TO_REG(0x220)
- #define AST2600_MPLL_EXT          TO_REG(0x224)
-+#define AST2600_EPLL_PARAM        TO_REG(0x240)
- #define AST2600_EPLL_EXT          TO_REG(0x244)
-+#define AST2600_DPLL_PARAM        TO_REG(0x260)
-+#define AST2600_DPLL_EXT          TO_REG(0x264)
- #define AST2600_CLK_SEL           TO_REG(0x300)
- #define AST2600_CLK_SEL2          TO_REG(0x304)
--#define AST2600_CLK_SEL3          TO_REG(0x310)
-+#define AST2600_CLK_SEL3          TO_REG(0x308)
-+#define AST2600_CLK_SEL4          TO_REG(0x310)
-+#define AST2600_CLK_SEL5          TO_REG(0x314)
- #define AST2600_HW_STRAP1         TO_REG(0x500)
- #define AST2600_HW_STRAP1_CLR     TO_REG(0x504)
- #define AST2600_HW_STRAP1_PROT    TO_REG(0x508)
-@@ -433,6 +443,8 @@ static uint32_t aspeed_silicon_revs[] =3D {
-     AST2500_A1_SILICON_REV,
-     AST2600_A0_SILICON_REV,
-     AST2600_A1_SILICON_REV,
-+    AST2600_A2_SILICON_REV,
-+    AST2600_A3_SILICON_REV,
- };
-=20
- bool is_supported_silicon_rev(uint32_t silicon_rev)
-@@ -651,16 +663,26 @@ static const MemoryRegionOps aspeed_ast2600_scu_ops=
- =3D {
-     .valid.unaligned =3D false,
- };
-=20
--static const uint32_t ast2600_a1_resets[ASPEED_AST2600_SCU_NR_REGS] =3D =
-{
-+static const uint32_t ast2600_a3_resets[ASPEED_AST2600_SCU_NR_REGS] =3D =
-{
-     [AST2600_SYS_RST_CTRL]      =3D 0xF7C3FED8,
--    [AST2600_SYS_RST_CTRL2]     =3D 0xFFFFFFFC,
-+    [AST2600_SYS_RST_CTRL2]     =3D 0x0DFFFFFC,
-     [AST2600_CLK_STOP_CTRL]     =3D 0xFFFF7F8A,
-     [AST2600_CLK_STOP_CTRL2]    =3D 0xFFF0FFF0,
-+    [AST2600_DEBUG_CTRL]        =3D 0x00000FFF,
-+    [AST2600_DEBUG_CTRL2]       =3D 0x000000FF,
-     [AST2600_SDRAM_HANDSHAKE]   =3D 0x00000000,
--    [AST2600_HPLL_PARAM]        =3D 0x1000405F,
-+    [AST2600_HPLL_PARAM]        =3D 0x1000408F,
-+    [AST2600_APLL_PARAM]        =3D 0x1000405F,
-+    [AST2600_MPLL_PARAM]        =3D 0x1008405F,
-+    [AST2600_EPLL_PARAM]        =3D 0x1004077F,
-+    [AST2600_DPLL_PARAM]        =3D 0x1078405F,
-+    [AST2600_CLK_SEL]           =3D 0xF3940000,
-+    [AST2600_CLK_SEL2]          =3D 0x00700000,
-+    [AST2600_CLK_SEL3]          =3D 0x00000000,
-+    [AST2600_CLK_SEL4]          =3D 0xF3F40000,
-+    [AST2600_CLK_SEL5]          =3D 0x30000000,
-     [AST2600_CHIP_ID0]          =3D 0x1234ABCD,
-     [AST2600_CHIP_ID1]          =3D 0x88884444,
--
- };
-=20
- static void aspeed_ast2600_scu_reset(DeviceState *dev)
-@@ -675,7 +697,7 @@ static void aspeed_ast2600_scu_reset(DeviceState *dev=
-)
-      * of actual revision. QEMU and Linux only support A1 onwards so thi=
-s is
-      * sufficient.
-      */
--    s->regs[AST2600_SILICON_REV] =3D AST2600_A1_SILICON_REV;
-+    s->regs[AST2600_SILICON_REV] =3D AST2600_A3_SILICON_REV;
-     s->regs[AST2600_SILICON_REV2] =3D s->silicon_rev;
-     s->regs[AST2600_HW_STRAP1] =3D s->hw_strap1;
-     s->regs[AST2600_HW_STRAP2] =3D s->hw_strap2;
-@@ -689,7 +711,7 @@ static void aspeed_2600_scu_class_init(ObjectClass *k=
-lass, void *data)
-=20
-     dc->desc =3D "ASPEED 2600 System Control Unit";
-     dc->reset =3D aspeed_ast2600_scu_reset;
--    asc->resets =3D ast2600_a1_resets;
-+    asc->resets =3D ast2600_a3_resets;
-     asc->calc_hpll =3D aspeed_2500_scu_calc_hpll; /* No change since AST=
-2500 */
-     asc->apb_divider =3D 4;
-     asc->nr_regs =3D ASPEED_AST2600_SCU_NR_REGS;
+-    /* Bus 7: TODO dps310@76 */
+     /* Bus 7: TODO max31785@52 */
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
+ 0x61);
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "dps310", =
+0x76);
+     /* Bus 7: TODO si7021-a20@20 */
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), TYPE_TMP10=
+5,
+                      0x48);
 --=20
 2.31.1
 
