@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9833B88D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 20:57:13 +0200 (CEST)
-Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B76A3B88DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 20:59:35 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyfOZ-0002d0-Pg
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 14:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47786)
+	id 1lyfQs-0007wJ-KR
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 14:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyfAz-0004nW-Bt
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:43:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28404)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lyfDx-0001yo-0X
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:46:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyfAs-0007d7-Mi
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:43:08 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lyfDr-00011T-V3
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:46:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625078580;
+ s=mimecast20190719; t=1625078767;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zjPi2QtrPkKKTzmU1jQFMxKuCPKpXIZijSgCcld2sZk=;
- b=WcfRPncmUu0ihPoTlilVaEh88rPODE6OMaRqlMQgWWglfL+8WhMdd7Qb2UfxZGlHcOl5mF
- cWbLSNm76RVXpWJlpHM5q9eG1ggg9Or06QaKISM4jPbVPuxNDQbCVJadwMH9EsoKPq1TQO
- 3hlJjcS2k6ddaZlxUr97EP81H5R8G+I=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-8iVcuGNSPQK6hOuVEWoPdg-1; Wed, 30 Jun 2021 14:42:58 -0400
-X-MC-Unique: 8iVcuGNSPQK6hOuVEWoPdg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- i17-20020a5d43910000b02901258b767ad5so1313837wrq.2
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 11:42:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=zjPi2QtrPkKKTzmU1jQFMxKuCPKpXIZijSgCcld2sZk=;
- b=pr5VC4e30Hp1GtGL9+3u+UI/InnzsmfXDmIMmuMbJbDy1gyqxjgNr8SN2WvnJu8V42
- ihhvX9x6EaSSY1VX777KvfFKV37ZQekorsm+jpXQ+KM4PtChWRZAnRnBxeWax243akD0
- vGzoclA0uT2YMeksSEuQWALfj1O9emOn/87HhyNLSaBiTKRy9m4iC6YeOsj1Dw5zDYjt
- PdIqJOV/GJk4XDHhs8VvQL+TFCVM19dUNk3O9lAra/3gQMsYfCm1j6F3j8kylowKmTU2
- T2RJVw9RjNi99yN1IZdWjVaG0O3jxdxBdel8ktyP47Nz4cQRee32Rp1mXbziqJipG//a
- 6Mdg==
-X-Gm-Message-State: AOAM530S+ylGRtiVyMX7ly7xUT8by6ky6AdTYPCWMRR7tNcMh7lBFtw2
- CJb6SQtxXWbmjmurqb8u0z85YyXNN8wodiTIJU5BU4wS9M+7vnM/zRziBV4Wj8KQqrFAiyUwwJt
- TiDPj0MFdBt1Lcd4=
-X-Received: by 2002:a05:6000:114a:: with SMTP id
- d10mr40829330wrx.7.1625078577787; 
- Wed, 30 Jun 2021 11:42:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5apesTRzSPnTdgzYPWidwGVX4zSO+HUUZ676FS2w5UkDXuTiQJ+GjYOIDP4JQtVsJ6JCBKw==
-X-Received: by 2002:a05:6000:114a:: with SMTP id
- d10mr40829307wrx.7.1625078577549; 
- Wed, 30 Jun 2021 11:42:57 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id d3sm22518742wrx.28.2021.06.30.11.42.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 11:42:57 -0700 (PDT)
-Date: Wed, 30 Jun 2021 19:42:55 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2] virtiofsd: Don't allow file creation with FUSE_OPEN
-Message-ID: <YNy7L/9ofbz6QoBB@work-vm>
-References: <20210624101809.48032-1-groug@kaod.org>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xg6N1iMQs8xOrrdLF4oVuO2eK0u2Z2w7U5F1eVNy7AE=;
+ b=HrNuY+eCBDtyHNbqg8WYouxaXzTH67FUCvvuHfp0MwjnmwmsrZedMnU68VB0cyQYuw3j6j
+ VB9W7yON58sqkc+ZQeiui+Nv/2Vq6MkigisxbpkuVlnGWL2XYij2oB9hQic3Px7Zm58dm+
+ dqRd8lgbfqFPiME0tKzuy286SUtzL/U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-K5CMvJ6iNFiA70giFVuyUw-1; Wed, 30 Jun 2021 14:46:03 -0400
+X-MC-Unique: K5CMvJ6iNFiA70giFVuyUw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60652804142;
+ Wed, 30 Jun 2021 18:46:02 +0000 (UTC)
+Received: from wainer-laptop.localdomain.com (ovpn-116-48.gru2.redhat.com
+ [10.97.116.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D07C5C1A3;
+ Wed, 30 Jun 2021 18:45:50 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] python: Configure tox to skip missing interpreters
+Date: Wed, 30 Jun 2021 15:45:46 -0300
+Message-Id: <20210630184546.456582-1-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210624101809.48032-1-groug@kaod.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -97,77 +76,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: thuth@redhat.com, ehabkost@redhat.com, alex.bennee@linaro.org,
+ f4bug@amsat.org, willianr@redhat.com, crosa@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> A well behaved FUSE client uses FUSE_CREATE to create files. It isn't
-> supposed to pass O_CREAT along a FUSE_OPEN request, as documented in
-> the "fuse_lowlevel.h" header :
-> 
->     /**
->      * Open a file
->      *
->      * Open flags are available in fi->flags. The following rules
->      * apply.
->      *
->      *  - Creation (O_CREAT, O_EXCL, O_NOCTTY) flags will be
->      *    filtered out / handled by the kernel.
-> 
-> But if the client happens to do it anyway, the server ends up passing
-> this flag to open() without the mandatory mode_t 4th argument. Since
-> open() is a variadic function, glibc will happily pass whatever it
-> finds on the stack to the syscall. If this file is compiled with
-> -D_FORTIFY_SOURCE=2, glibc will even detect that and abort:
-> 
-> *** invalid openat64 call: O_CREAT or O_TMPFILE without mode ***: terminated
-> 
-> Specifying O_CREAT with FUSE_OPEN is a protocol violation. Check this
-> in do_open(), print out a message and return an error to the client,
-> EINVAL like we already do when fuse_mbuf_iter_advance() fails.
-> 
-> The FUSE filesystem doesn't currently support O_TMPFILE, but the very
-> same would happen if O_TMPFILE was passed in a FUSE_OPEN request. Check
-> that as well.
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+Currently tox tests against the installed interpreters, however if any
+supported interpreter is absent then it will return fail. It seems not
+reasonable to expect developers to have all supported interpreters
+installed on their systems. Luckily tox can be configured to skip
+missing interpreters.
 
-Queued
+This changed the tox setup so that missing interpreters are skipped by
+default. On the CI, however, we still want to enforce it tests
+against all supported. This way on CI the
+--skip-missing-interpreters=false option is passed to tox.
 
-> ---
-> 
-> v2:
->  - do the check in core FUSE code instead of passthrough_ll (libfuse folks)
-> 
-> 
->  tools/virtiofsd/fuse_lowlevel.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index 7fe2cef1eb3b..3d725bcba2ca 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -1084,6 +1084,12 @@ static void do_open(fuse_req_t req, fuse_ino_t nodeid,
->          return;
->      }
->  
-> +    /* File creation is handled by do_create() or do_mknod() */
-> +    if (arg->flags & (O_CREAT | O_TMPFILE)) {
-> +        fuse_reply_err(req, EINVAL);
-> +        return;
-> +    }
-> +
->      memset(&fi, 0, sizeof(fi));
->      fi.flags = arg->flags;
->      fi.kill_priv = arg->open_flags & FUSE_OPEN_KILL_SUIDGID;
-> -- 
-> 2.31.1
-> 
-> 
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+---
+Tested locally with `make check-tox` and where I only Python 3.6 and 3.9
+installed.
+Tested on CI: https://gitlab.com/wainersm/qemu/-/jobs/1390010988
+Still on CI, but I deliberately removed Python 3.8: https://gitlab.com/wainersm/qemu/-/jobs/1390046531
+
+ .gitlab-ci.d/static_checks.yml | 1 +
+ python/Makefile                | 5 ++++-
+ python/setup.cfg               | 1 +
+ 3 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index b01f6ec231..96dbd9e310 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -43,6 +43,7 @@ check-python-tox:
+     - make -C python check-tox
+   variables:
+     GIT_DEPTH: 1
++    QEMU_TOX_EXTRA_ARGS: --skip-missing-interpreters=false
+   needs:
+     job: python-container
+   allow_failure: true
+diff --git a/python/Makefile b/python/Makefile
+index ac46ae33e7..fe27a3e12e 100644
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -1,4 +1,5 @@
+ QEMU_VENV_DIR=.dev-venv
++QEMU_TOX_EXTRA_ARGS ?=
+ 
+ .PHONY: help
+ help:
+@@ -15,6 +16,8 @@ help:
+ 	@echo "    These tests use the newest dependencies."
+ 	@echo "    Requires: Python 3.6 - 3.10, and tox."
+ 	@echo "    Hint (Fedora): 'sudo dnf install python3-tox python3.10'"
++	@echo "    The variable QEMU_TOX_EXTRA_ARGS can be use to pass extra"
++	@echo "    arguments to tox".
+ 	@echo ""
+ 	@echo "make check-dev:"
+ 	@echo "    Run tests in a venv against your default python3 version."
+@@ -87,7 +90,7 @@ check:
+ 
+ .PHONY: check-tox
+ check-tox:
+-	@tox
++	@tox $(QEMU_TOX_EXTRA_ARGS)
+ 
+ .PHONY: clean
+ clean:
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 11f71d5312..14bab90288 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -121,6 +121,7 @@ multi_line_output=3
+ 
+ [tox:tox]
+ envlist = py36, py37, py38, py39, py310
++skip_missing_interpreters = true
+ 
+ [testenv]
+ allowlist_externals = make
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.31.1
 
 
