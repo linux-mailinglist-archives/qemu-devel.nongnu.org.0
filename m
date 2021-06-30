@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC063B7B2F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 03:04:38 +0200 (CEST)
-Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157DE3B7B30
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 03:06:15 +0200 (CEST)
+Received: from localhost ([::1]:55072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyOeb-00075b-1z
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 21:04:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41512)
+	id 1lyOgA-0000F9-5o
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 21:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lyOdI-0006PS-V6
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:03:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lyOdG-0005cj-KT
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:03:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625014993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=n8+pDrtaXPpDsGOs+vY8nqRIDArRPKmZrBaizNyWCD0=;
- b=Tqa8zhjEd/swb6ErlcXTquA/FvtmjvSooGDpwfkm1m84TCpYbCvWqVV5IQqhGLo2rNJSgE
- KJoq69gp0nDPUvuJIz8SvsQD0NrMryfQQnW3ew7dY6bhoaMebepI3mh5P8b53yWRnZqPXA
- cZTrVHh/R8dKlRKA8H380eV+E3D0+nY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-eit9keweMe-eje9G1JPAFw-1; Tue, 29 Jun 2021 21:03:11 -0400
-X-MC-Unique: eit9keweMe-eje9G1JPAFw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- p13-20020a05640210cdb029039560ff6f46so259263edu.17
- for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 18:03:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n8+pDrtaXPpDsGOs+vY8nqRIDArRPKmZrBaizNyWCD0=;
- b=mDGn1uW4sw6k4uRhF6379qgfafZBCRpBUW0CotDXWktTkeK82ivOzI9R+PZOORMSO9
- 2Qij76oApKHGgsSUutrG0CSJcGKVl5PTjh7UY23WqTTaVQgRxl0wv3AG8RqpG+nJxJUt
- qNjD5f4oc83U6KhD5Jom1fOkTYsBE+som1UsD8nnErstLrK5nYkgEbOZbjKJppEA+oxl
- 1KZJqIRVtD++XYJwtmZpg1yohzKz8Jbj0NAyY8fd3wQVXP6RHHyymqpXPhFGdvByrlJs
- fZAmVOQr2LDCejlm6ku4PJbmSUQ0hJI2v4u9N5ttQPVnz+4B60vgnTuvg9uRMTqQHLcH
- gWsg==
-X-Gm-Message-State: AOAM532nnZ3gakiHhqaiT/NO6RKnyyHGATYbMN9G56itOsxbfNbRXpeh
- SioHv5fGlN/uxsRVC3g9ZzwAh07/xq6Z6D1aHCTjVGUK5Gu4mb08ZOGaSD/4tCGNKT7ESi5DrLD
- KlFUMzB8CrBOysWgZsDjlB4n0VDInQBE=
-X-Received: by 2002:a17:906:e03:: with SMTP id l3mr31738142eji.6.1625014990454; 
- Tue, 29 Jun 2021 18:03:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUWpDIdI/dFgfeu6B5HcrS/0AvGO7hCxBUxTZGIozZnULkoBrNLTRD75Eiqdzj59f6EHLZCJJg+Ka5+nRArW8=
-X-Received: by 2002:a17:906:e03:: with SMTP id l3mr31738116eji.6.1625014990209; 
- Tue, 29 Jun 2021 18:03:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1lyOeu-0007sd-Ps
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:04:56 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:43326 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1lyOeq-0006a5-Lm
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:04:56 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj0Mqw9tgVI4aAA--.30719S3; 
+ Wed, 30 Jun 2021 09:04:43 +0800 (CST)
+Subject: Re: [PATCH 06/20] target/loongarch: Add main translation routines
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
+ <1624881885-31692-7-git-send-email-gaosong@loongson.cn>
+ <3b3ad9db-ed86-1ef4-5653-1c7106bc5bfd@amsat.org>
+ <88f8eaba-f99a-5865-898f-29a9f4b418f2@loongson.cn>
+ <871r8krh4m.fsf@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <f7c374dd-51ea-dff9-b397-3c3d4bdc1a44@loongson.cn>
+Date: Wed, 30 Jun 2021 09:04:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20210608031425.833536-1-crosa@redhat.com>
- <20210608031425.833536-5-crosa@redhat.com>
- <971d069b-9ba1-073d-34aa-15beb1d1a751@redhat.com>
-In-Reply-To: <971d069b-9ba1-073d-34aa-15beb1d1a751@redhat.com>
-From: Cleber Rosa <crosa@redhat.com>
-Date: Tue, 29 Jun 2021 21:02:59 -0400
-Message-ID: <CA+bd_6KU=mCPKsNsESaUGCk8c2Jn_t6O=UBcGbE4EPF2UGuw2A@mail.gmail.com>
-Subject: Re: [PATCH v6 4/4] Jobs based on custom runners: add job definitions
- for QEMU's machines
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <871r8krh4m.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxj0Mqw9tgVI4aAA--.30719S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7tr1xWFyrAF1fCFyUJF4ruFg_yoW8ZF4xpr
+ 13CF1rKw48Jry7Jr4agw1UXrnxtr48CFW7X3Z7tryrCr9Fqw1xZF18t342kFyxAw17uFyj
+ qF1Yy3429F13G3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBS1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
+ jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
+ vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ JVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI
+ 62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6c
+ x26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+ 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+ AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
+ cVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
+ 80aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,112 +75,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-devel@nongnu.org,
+ richard.henderson@linaro.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, maobibo@loongson.cn,
+ laurent@vivier.eu, alistair.francis@wdc.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 2:18 AM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 08/06/2021 05.14, Cleber Rosa wrote:
-> > The QEMU project has two machines (aarch64 and s390x) that can be used
-> > for jobs that do build and run tests.  This introduces those jobs,
-> > which are a mapping of custom scripts used for the same purpose.
-> >
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >   .gitlab-ci.d/custom-runners.yml | 208 ++++++++++++++++++++++++++++++++
-> >   1 file changed, 208 insertions(+)
-> >
-> > diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-> > index a07b27384c..061d3cdfed 100644
-> > --- a/.gitlab-ci.d/custom-runners.yml
-> > +++ b/.gitlab-ci.d/custom-runners.yml
-> > @@ -12,3 +12,211 @@
-> >   # guarantees a fresh repository on each job run.
-> >   variables:
-> >     GIT_STRATEGY: clone
-> > +
-> > +# All ubuntu-18.04 jobs should run successfully in an environment
-> > +# setup by the scripts/ci/setup/build-environment.yml task
-> > +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-> > +ubuntu-18.04-s390x-all-linux-static:
-> > + allow_failure: true
-> > + needs: []
-> > + stage: build
-> > + tags:
-> > + - ubuntu_18.04
-> > + - s390x
-> > + rules:
-> > + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
->
-> I don't think this will work very well... sub-maintainers might want to push
-> to a "staging" branch in their forked repositories, and without the s390x
-> runner, the pipeline gets stuck now:
->
->   https://gitlab.com/thuth/qemu/-/pipelines/317812558
->
+Hi, Alex,
 
-Hi Thomas,
+On 06/29/2021 08:26 PM, Alex Bennée wrote:
+> 
+> Song Gao <gaosong@loongson.cn> writes:
+> 
+>> Hi, Philippe,
+>>
+>> On 06/29/2021 02:46 AM, Philippe Mathieu-Daudé wrote:
+>>> On 6/28/21 2:04 PM, Song Gao wrote:
+>>>> This patch add main translation routines and
+>>>> basic functions for translation.
+>>>>
+>>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>>>> ---
+>>>>  target/loongarch/helper.h    |  10 +
+>>>>  target/loongarch/op_helper.c |  28 +++
+>>>>  target/loongarch/translate.c | 537 +++++++++++++++++++++++++++++++++++++++++++
+>>>>  target/loongarch/translate.h |  58 +++++
+>>>>  4 files changed, 633 insertions(+)
+>>>>  create mode 100644 target/loongarch/helper.h
+>>>>  create mode 100644 target/loongarch/op_helper.c
+>>>>  create mode 100644 target/loongarch/translate.c
+>>>>  create mode 100644 target/loongarch/translate.h
+>>>
+>>>> +/* 128 and 256 msa vector instructions are not supported yet */
+>>>> +static bool decode_lsx(uint32_t opcode)
+>>>> +{
+>>>> +    uint32_t value = (opcode & 0xff000000);
+>>>> +
+>>>> +    if ((opcode & 0xf0000000) == 0x70000000) {
+>>>> +        return true;
+>>>> +    } else if ((opcode & 0xfff00000) == 0x38400000) {
+>>>> +        return true;
+>>>> +    } else {
+>>>> +        switch (value) {
+>>>> +        case 0x09000000:
+>>>> +        case 0x0a000000:
+>>>> +        case 0x0e000000:
+>>>> +        case 0x0f000000:
+>>>> +        case 0x2c000000:
+>>>> +        case 0x30000000:
+>>>> +        case 0x31000000:
+>>>> +        case 0x32000000:
+>>>> +        case 0x33000000:
+>>>> +            return true;
+>>>> +        }
+>>>> +    }
+>>>> +    return false;
+>>>> +}
+>>>
+>>> Why not generate that with the decodetree script?
+>>>
+>> These instructions are privileged instructions， user mode does not need these instructions.
+>> I'll delete these codes.
+> 
+> Are you intending to include system emulation in due course?
+> 
+Yes,  After the loongarch kernel is submitted to the mainline, we will add system emulation support.
+You can see the lastest loongarch kernel at:
 
-As I put it in another response, I saw that actually as a feature, in
-the sense that:
+    https://github.com/loongson/linux/tree/loongarch-next
 
-* people should indeed be allowed to push to their repos and leverage
-their hardware, and
-* "staging" is a pretty well scoped word, and has a reasonably well
-defined meaning
-* one would want to mimic as closely as possible what will be done
-before a PR is merged
-
-I agree that having the jobs stuck in any situation is not ideal, but
-I honestly find that it would be reasonably hard to accidentally hit
-that situation.  I also believe it will end up being inevitable for
-entities to do a meta-analysis of the GitLab CI pipeline results,
-possibly disregarding jobs that they can not run, or simply do not
-care about, in their forks.
-
-> We had the same issue in the kvm-unit-test CI, and we solved it there by
-> rather making it depend on an environment variable that has to be set if the
-> runner is available:
->
->   only:
->     variables:
->      - $S390X_RUNNER_AVAILABLE
->
-> I think that's also nicer in case someone brings their own s390x runner and
-> want to use the CI tests on other branches than staging.
->
-
-The problem with this approach, is that it would not be enough to
-protect the jobs based on variables for the architecture, as the OS
-type and version also play a part in the possibility of running jobs.
-For instance, suppose we get s390x machines from LinuxOne running
-RHEL.  We'd need variables such as, say,
-S390X_RHEL_8_4_RUNNER_AVAILABLE and S390X_RHEL_7_6_RUNNER_AVAILABLE.
-
-> Could you please change your patch accordingly?
->
-
-If you strongly believe now is the time to attempt to handle that
-problem, I can go ahead and change it.  I stand behind my original
-position that we should start with a simpler, "by convention" approach
-and address the more complex scenarios as/if they come up.
-
->   Thanks,
->    Thomas
->
-
-Thank you!
-- Cleber.
+thanks
 
 
