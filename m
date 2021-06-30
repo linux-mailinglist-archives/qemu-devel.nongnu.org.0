@@ -2,97 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AE93B8A62
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 00:20:47 +0200 (CEST)
-Received: from localhost ([::1]:53680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8F93B8A94
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 00:45:43 +0200 (CEST)
+Received: from localhost ([::1]:37704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyiZa-0001XF-Ge
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 18:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32774)
+	id 1lyixh-0002iY-ND
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 18:45:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lyiYY-0000ne-66
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 18:19:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lyiYU-000729-5p
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 18:19:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625091576;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ETPT6OU50YKeAJQ1o5m2XL7j4McQmLOOdDbFDtUk6ac=;
- b=ZrsWBGn9Ale2Rbi5bI9RITTWZANPtXdhODAIwdn6GRZJLGF1X0ATC2wId13UYX8/QXSeKa
- 2IW6Co5ppqZgtOT4nuRgV/XC2gp9pEH3H6o58orCMN6IGt1pUN/EDY9KLuL7y9X4CamyNU
- K2BIE/+kxEi5xo7rXMLKI2oIjP8YaAo=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-7ABTS4KNN56htrgYRh28ew-1; Wed, 30 Jun 2021 18:19:33 -0400
-X-MC-Unique: 7ABTS4KNN56htrgYRh28ew-1
-Received: by mail-pj1-f72.google.com with SMTP id
- br8-20020a17090b0f08b02901706e80711dso2105181pjb.5
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 15:19:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1lyiwe-00023e-AB
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 18:44:36 -0400
+Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:42726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1lyiwZ-0007d6-CR
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 18:44:33 -0400
+Received: by mail-oo1-xc29.google.com with SMTP id
+ s10-20020a4aeaca0000b029024c2acf6eecso1061172ooh.9
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 15:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EhvSllsDz71TuYjLaHp2h611pahJw+ohibF/pq0MWuQ=;
+ b=V5g0WXoJ14HKbI0H5rb0D/TOL8/Ml+HJYavLPTKcq0hesNuWm2XKIe4wJbl9vEX8kk
+ LK1D/Outf6sPN9jgKZJRYNldoj4w6oDZOIyCOYFayJwWZQVBPBeZhvA4givOvH/WlM60
+ rWxCE1nB0EILoaV3RUcBy+VBkdNgIHaUI23Op38YrI1EOgGZ57moH6tC/zATjTSZSomQ
+ veToKWPmgMh1Qxr5bDQyidQLHmXEZT7YtzuxrWTZlaVDVDsk9FNAKnRhJG05nn8JspBo
+ +Z9JPumntkUINMrXdX/RW5dTJf3xYPNK5MSxkAJVuByGdFPuJ/yEFbzss8C9Dy++Rebo
+ 8eiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=ETPT6OU50YKeAJQ1o5m2XL7j4McQmLOOdDbFDtUk6ac=;
- b=EGuBQ3f40O7WGT1/G6EfSgYOA8azw03TEfXfNCfnTM0OEXnISEr8F4pAlx0drp52NZ
- VTBFIrA/JMtRDUQd1LtfDqbnHCnNHBQfznaggd+S2RToOfMdO/lm03ltRt9l4hVX4F2x
- WDexbfnTo7tTfHXmzyC6JNh9ZdNy36khiFfM2R5337Gsorvhte5YHlAgWxkzttKEdZKS
- MDVAbf6l0izXGKf5IEbcmXiI1ODRWSaq8JFhDpOjJIdqPuCsEjXCULBbBNc0aF9rypbv
- OEozH/yELWi0x6XXxqc0wyR3knkqkMBBUoTTr2o37qKuTiMLozeAgUVszH72DvkVrqxN
- I0BQ==
-X-Gm-Message-State: AOAM533NI5VI//q6VTCIAHQGZIyW0m5O3+wg6RsWfMjl14d/KnaBkbOD
- Z9WWcsAanivbOiPOiO8l1PHgVI6/8F2709XqPRdUXfhoDNW6ZvrYFsYbgR4cbDlYYoNGWdXEOe5
- QwQndf5fqUvo/VkY=
-X-Received: by 2002:aa7:9147:0:b029:30f:7bf3:64ed with SMTP id
- 7-20020aa791470000b029030f7bf364edmr6892347pfi.51.1625091572446; 
- Wed, 30 Jun 2021 15:19:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIsuLVqUUFG3GhpfVInL2YC5/V/I0B5mTGg0t2ZAnQZ+McATom/Us1M+xwvkBGCLI/gyYiIQ==
-X-Received: by 2002:aa7:9147:0:b029:30f:7bf3:64ed with SMTP id
- 7-20020aa791470000b029030f7bf364edmr6892295pfi.51.1625091572007; 
- Wed, 30 Jun 2021 15:19:32 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.105.223.44])
- by smtp.gmail.com with ESMTPSA id 18sm7440790pje.22.2021.06.30.15.19.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jun 2021 15:19:31 -0700 (PDT)
-Subject: Re: [PATCH v7 4/4] Jobs based on custom runners: add job definitions
- for QEMU's machines
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210630012619.115262-1-crosa@redhat.com>
- <20210630012619.115262-5-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <79f58e5b-3fa1-919f-6cda-5150ef2b7a43@redhat.com>
-Date: Wed, 30 Jun 2021 19:19:23 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EhvSllsDz71TuYjLaHp2h611pahJw+ohibF/pq0MWuQ=;
+ b=S/YBrp+KQQ/pVWpw8KWCTVIZcWw2o6RmwNp3ik+jymP8M6L4uUGhlhHtm2dgoCVqeN
+ KFAsuJp1qC38FZhe/IIW1GOfEFy8Ro2StsTvATXMqPDk1meC3p64Sq31NaMRvrmEkwhW
+ bFo0+ReodsAHJPn0yBf/8BXbmurBZjGTdOnya/CbZ1GVItAbY+9qvLY3wl4HWvd9ZdUB
+ L4keeZNyflbi+BdtzDwSwRP8kqCNDeHQeiZZmFHjsiBfT333H6POvsn4NT6jYBHJljky
+ l5VWreiFZRFnV/Qbsi5aOhCAFcpikncD3yZHepjRuuyGMDDZI4SMieVdVxLvrPOFqtSH
+ t6wQ==
+X-Gm-Message-State: AOAM531VDJTufQe8MP/vmuHKLIgIMdTlV8CLMJ2rURrTaicRw90y/f50
+ 8/ZA93+9pMpqAoxsYIbFpD7f+GKeKt7Mhk4bo5+aZg==
+X-Google-Smtp-Source: ABdhPJzZiqb/sxlAKz23pVcYZYpa/hMN5WvgQ90RUfh5t5T2gSjnUmcl5XIPhD0XxBYZGIuzsHbXEsewdJC+YuD7/0M=
+X-Received: by 2002:a4a:9b0f:: with SMTP id a15mr10250844ook.4.1625093068108; 
+ Wed, 30 Jun 2021 15:44:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210630012619.115262-5-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210610001424.209158-1-jiang.wang@bytedance.com>
+ <20210610094039.2ek3som6fxcgjtyw@steredhat>
+ <CAP_N_Z9B9SfyoSmW18RDxRWh6yv9WWWL1LpsZhhSkshQpi5s6A@mail.gmail.com>
+ <CAP_N_Z9kFc3pnK0Uwqc-fvfaakAh5VMYBR+9SZkz3w658XRK1g@mail.gmail.com>
+ <20210624143127.fqubmuvw634j44mi@steredhat>
+In-Reply-To: <20210624143127.fqubmuvw634j44mi@steredhat>
+From: "Jiang Wang ." <jiang.wang@bytedance.com>
+Date: Wed, 30 Jun 2021 15:44:17 -0700
+Message-ID: <CAP_N_Z87rs9vUhZr0r2UkYPwT6DC7w4SzagX3B2Gz8O5dz3GTQ@mail.gmail.com>
+Subject: Re: [External] Re: [RFC v1] virtio/vsock: add two more queues for
+ datagram types
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
+ envelope-from=jiang.wang@bytedance.com; helo=mail-oo1-xc29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,246 +82,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: cong.wang@bytedance.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Yongji Xie <xieyongji@bytedance.com>,
+ =?UTF-8?B?5p+056iz?= <chaiwen.cc@bytedance.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, fam.zheng@bytedance.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 6/29/21 10:26 PM, Cleber Rosa wrote:
-> The QEMU project has two machines (aarch64 and s390x) that can be used
-> for jobs that do build and run tests.  This introduces those jobs,
-> which are a mapping of custom scripts used for the same purpose.
+On Thu, Jun 24, 2021 at 7:31 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
 >
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> ---
->   .gitlab-ci.d/custom-runners.yml | 208 ++++++++++++++++++++++++++++++++
->   1 file changed, 208 insertions(+)
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> On Wed, Jun 23, 2021 at 11:50:33PM -0700, Jiang Wang . wrote:
+> >Hi Stefano,
+> >
+> >I checked virtio_net_set_multiqueue(), which will help with following
+> >changes in my patch:
+> >
+> >#ifdef CONFIG_VHOST_VSOCK_DGRAM
+> >vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >vhost_vsock_common_handle_output);
+> >vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >vhost_vsock_common_handle_output);
+> >#endif
+> >
+> >But I think there is still an issue with the following lines, right?
 >
-> diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-> index a07b27384c..061d3cdfed 100644
-> --- a/.gitlab-ci.d/custom-runners.yml
-> +++ b/.gitlab-ci.d/custom-runners.yml
-> @@ -12,3 +12,211 @@
->   # guarantees a fresh repository on each job run.
->   variables:
->     GIT_STRATEGY: clone
-> +
-> +# All ubuntu-18.04 jobs should run successfully in an environment
-> +# setup by the scripts/ci/setup/build-environment.yml task
-> +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-> +ubuntu-18.04-s390x-all-linux-static:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-> + # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-> + - mkdir build
-> + - cd build
-> + - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> + - make --output-sync -j`nproc` check-tcg V=1
-> +
-> +ubuntu-18.04-s390x-all:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> +
-> +ubuntu-18.04-s390x-alldbg:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --enable-debug --disable-libssh
-> + - make clean
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> +
-> +ubuntu-18.04-s390x-clang:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> +   when: manual
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> +
-> +ubuntu-18.04-s390x-tci:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh --enable-tcg-interpreter
-> + - make --output-sync -j`nproc`
-> +
-> +ubuntu-18.04-s390x-notcg:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> +   when: manual
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh --disable-tcg
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> +
-> +# All ubuntu-20.04 jobs should run successfully in an environment
-> +# setup by the scripts/ci/setup/qemu/build-environment.yml task
-> +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-> +ubuntu-20.04-aarch64-all-linux-static:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_20.04
-> + - aarch64
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-> + # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-> + - mkdir build
-> + - cd build
-> + - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> + - make --output-sync -j`nproc` check-tcg V=1
-> +
-> +ubuntu-20.04-aarch64-all:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_20.04
-> + - aarch64
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> +
-> +ubuntu-20.04-aarch64-alldbg:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_20.04
-> + - aarch64
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --enable-debug --disable-libssh
-> + - make clean
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> +
-> +ubuntu-20.04-aarch64-clang:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_20.04
-> + - aarch64
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> +   when: manual
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
-> +
-> +ubuntu-20.04-aarch64-tci:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_20.04
-> + - aarch64
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh --enable-tcg-interpreter
-> + - make --output-sync -j`nproc`
-> +
-> +ubuntu-20.04-aarch64-notcg:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_20.04
-> + - aarch64
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-> +   when: manual
-> + script:
-> + - mkdir build
-> + - cd build
-> + - ../configure --disable-libssh --disable-tcg
-> + - make --output-sync -j`nproc`
-> + - make --output-sync -j`nproc` check V=1
+> Yep, I think so.
+>
+> >
+> >#ifdef CONFIG_VHOST_VSOCK_DGRAM
+> >struct vhost_virtqueue vhost_vqs[4];
+> >#else
+> >struct vhost_virtqueue vhost_vqs[2];
+> >#endif
+> >
+> >I think the problem with feature bits is that they are set and get after
+> >vhost_vsock_common_realize() and after vhost_dev_init() in drivers/vhost/vsock.c
+> >But those virtqueues need to be set up correctly beforehand.
+>
+> I think we can follow net and scsi vhost devices, so we can set a
+> VHOST_VSOCK_VQ_MAX(5), allocates all the queues in any case and then use
+> only the queues acked by the guest.
+>
+Thanks for the advice. I checked both net and scsi and scsi is more helpful.
 
+> >
+> >I tried to test with the host kernel allocating 4 vqs, but qemu only
+> >allocated 2 vqs, and
+> >guest kernel will not be able to send even the vsock stream packets. I
+> >think the host
+> >kernel and the qemu have to agree on the number of vhost_vqs. Do you agree?
+> >Did I miss something?
+>
+> Mmm, I need to check, but for example vhost-net calls vhost_dev_init()
+> with VHOST_NET_VQ_MAX, but then the guest can decide to use only one
+> couple of TX and RX queues.
+>
+> I'm not sure about qemu point of view, but I expected that QEMU can set
+> less queues then queues allocated by the kernel. `vhost_dev.nvqs` should
+> be set with the amount of queue that QEMU can handle.
+>
+I checked that vhost_dev.nvqs is still the maximum number of queues (4 queues).
+But I found a way to workaround it. More details in the following text.
+
+> >
+> >Another idea to make the setting in runtime instead of compiling time
+> >is to use
+> >qemu cmd-line options, then qemu can allocate 2 or 4 queues depending
+> >on
+> >the cmd line. This will solve the issue when the host kernel is an old
+> >one( no dgram
+> >support) and the qemu is a new one.
+>
+> I don't think this is a good idea, at most we can add an ioctl that qemu
+> can use to query the kernel about allocated queues, but I still need to
+> understand better if we really we need this.
+>
+
+Hmm. Both net and scsi use the qemu cmd line option to configure
+number of queues. Qemu cmdline is a runtime setting and flexible.
+I think qemu cmdline is better than ioctl. I also make the qemu cmd
+line option default to only allocate two queues to be compatible with
+old versions.
+
+> >
+> >But there is still an issue when the host kernel is a new one, while
+> >the qemu
+> >is an old one.  I am not sure how to make the virtqueues numbers to
+> >change in run-time
+> >for the host kernel. In another email thread, you mentioned removing kconfig
+> >in the linux kernel, I believe that is related to this qemu patch,
+> >right?
+>
+> It was related to both, I don't think we should build QEMU and Linux
+> with or without dgram support.
+>
+> > If so,
+> >any ideas that I can make the host kernel change the number of vqs in
+> >the run-time
+> >or when starting up vsock? The only way I can think of is to use a
+> >kernel module parameter
+> >for the vsock_vhost module. Any other ideas? Thanks.
+>
+> I need to check better, but we should be able to do all at run time
+> looking at the features field. As I said, both QEMU and kernel can
+> allocate the maximum number of queues that they can handle, then enable
+> only the queues allocated by the guest (e.g. during
+> vhost_vsock_common_start()).
+>
+
+Yes. I checked the code and found there is an implementation bug ( or
+limitation) in drivers/vhost/vsock.c. In vhost_vsock_start(), if a queue
+failed to init, the code will clean up all previous successfully
+allocated queues. That is why V1 code does not work when
+host kernel is new,  but qemu and guest kernel is old. I made a change
+there and it works now. I will clean up the patch a little bit and
+send V2 soon.
+
+
+> >
+> >btw, I searched Linux kernel code but did not find any examples.
+> >
+>
+> I'm a bit busy this week, I'll try to write some PoC next week if you
+> can't find a working solution. (without any #ifdef :-)
+>
+> Thanks,
+> Stefano
+>
 
