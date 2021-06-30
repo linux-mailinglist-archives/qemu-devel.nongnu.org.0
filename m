@@ -2,79 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB803B85A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:00:05 +0200 (CEST)
-Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E90F3B85BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:05:21 +0200 (CEST)
+Received: from localhost ([::1]:51088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybh6-0005Gr-N5
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:00:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57056)
+	id 1lybmC-0000Pe-Ki
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lybg2-0004Ce-3w
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:58:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26028)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybjG-0007SJ-1q
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:02:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lybfy-0008BN-0M
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:58:57 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybjD-000237-IN
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:02:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625065132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1625065334;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HjNcKFGw8o1ttRLdP7wqL+EEEYNUTvmVKcyLYhbaGtI=;
- b=bVxNjAIVeMoHI41AkoDEstTalhKMCdJ1MXv0VdbNgjdkQQbOGVNyCOrd5EmKOrWBUjlzbX
- 4ZAiQlmq+83ZelexZRBxe5ICxei3SGwBX66G7t7DgIdSdivpM98Q9vX62Q50az3AJxTKyj
- kVvTT5okqBU4br9bE2VP2RGSk0qPfTI=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-g26j4vxaOqiB8gLdiivGvA-1; Wed, 30 Jun 2021 10:58:49 -0400
-X-MC-Unique: g26j4vxaOqiB8gLdiivGvA-1
-Received: by mail-oi1-f200.google.com with SMTP id
- l189-20020acabbc60000b02901f566a77bb8so1072589oif.7
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:58:48 -0700 (PDT)
+ bh=Iumui361QxMnp5y5fr9HA6BZ/qpC0DEZYSomh//NyX8=;
+ b=IYogJ1tma22B4OY4ccVFROGEFPVqakt+i4A9fSP/C55hgbCjN1B8/Zsl09GyiY1LcZyDYC
+ R0V+EOLgljk8GSXeuDkb7ymu7HpvPt4tYEMcXg9odCKtnOkmrHkYGVM6WGtlk1LUrd4+Sw
+ f1jn8mmNB7l+3GEOUC59NV3NQi/HSgg=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-Lcj6xXQdMu-tJ05y3dC_Ow-1; Wed, 30 Jun 2021 11:02:13 -0400
+X-MC-Unique: Lcj6xXQdMu-tJ05y3dC_Ow-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ e14-20020a170902784eb0290102b64712f9so1293305pln.10
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 08:02:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HjNcKFGw8o1ttRLdP7wqL+EEEYNUTvmVKcyLYhbaGtI=;
- b=DdnQGctfuXnpJPtfVs8ZdJkIXzDxladpI/xRAMYH6D/dTBQ5QwpqmsVc7VuO8x0bY/
- IdEGXx/EtMMVpZ50GMNeltKRKIC1tvKkh4CWq64aQybETytr2LZPySALUwwJryvWIyQG
- SqnM5gVFacEbEN1KZkusTdYJTLqqIxQdkxKhFxzAAga8CQ0/vgRkfOWltTOT8uimjOJ1
- OX7tbDVUVNWEx8oopcBN7/7nSbdsCVCIpp4kNclLJZ02QMXbxerJeuYtv8ufyn6sHcO6
- 9jvpN3/mORA63ENZ69/g1hTWWV6uIMxAM1BheHeQ7mx4MFn0xZRNPOaQRuEUXUrHEJNx
- +CvQ==
-X-Gm-Message-State: AOAM532bf1bqhPksJ90lnqW/BI/jc5bkvHgoPeQdafWUqRwPvelQuC8z
- nDesY3lTKzi2B0IHrT30IgZKhKqCucAlaH1gpLY8zJmsGK2nabhh1FBlPrZn8cZP9Fflq26TbZT
- vqas4OleVN9TPHdHC6rQNS5IFWqKeNRk=
-X-Received: by 2002:aca:2212:: with SMTP id b18mr18695600oic.52.1625065128362; 
- Wed, 30 Jun 2021 07:58:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGqI3vlj7el0g902O6RmPBmdz/iW7mK3bdHtI968IHL4dxCq1M+i6YJIC2AX69VvXj0DKcj/ehx847JOwbvcE=
-X-Received: by 2002:aca:2212:: with SMTP id b18mr18695594oic.52.1625065128207; 
- Wed, 30 Jun 2021 07:58:48 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=Iumui361QxMnp5y5fr9HA6BZ/qpC0DEZYSomh//NyX8=;
+ b=EshRF7cFhBhH3mJI9DRUGHedQRGm7I4lOHgsGoZ9OLturRkZbIPh58f40wHXPHvOZm
+ 3x9icCShVIzbuJwISr+dpF7SvRLDjr5OysKovhIvuLzaBCMAoldcLjHsXbmqapFgxMnT
+ RhGG72lYqpBmaoUoFQ6BuHI9typ/i1QrrVzMJ25sTHa1+MO6wpMiZLMCoPNUv6Grp48Z
+ 7KM6kuvkO1HaVM0S1W1N0hnKGafCooOJZNWVFMtfsXWTDijxLJzoQ9+E4pXQpdZ4KYGi
+ mys/vDaZrxeT8lRqpNvImTWHR/JzvGfWv1tkjIwKr6oufySBRS23bqOjpqzonbSRMOdh
+ 4kSg==
+X-Gm-Message-State: AOAM531FbL1RT/r8bVy2+GVumqSSkBBMMcURE/1V2ugLO5sRmrrTfJA1
+ 2WKyYtMlPXYKPVs2yWt66hU1Fow+VxUBMxr2JJMIVkVcJkT6ppzKn5GkKdaI5Nt3Xr6r83GdLp2
+ Jq+7krTGyETynz9w=
+X-Received: by 2002:a63:514c:: with SMTP id r12mr4462502pgl.70.1625064882958; 
+ Wed, 30 Jun 2021 07:54:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtR7nS1TiUSRAubEZX1GQWUy0dbOlVQCwyR+bSYHolfBsYmEm8NhH71d0UB8UxTAvQ/yOf8A==
+X-Received: by 2002:a63:514c:: with SMTP id r12mr4462483pgl.70.1625064882717; 
+ Wed, 30 Jun 2021 07:54:42 -0700 (PDT)
+Received: from wainer-laptop.localdomain ([179.105.223.44])
+ by smtp.gmail.com with ESMTPSA id 9sm3433679pfv.42.2021.06.30.07.54.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Jun 2021 07:54:42 -0700 (PDT)
+Subject: Re: [PATCH v3 10/15] python: only check qemu/ subdir with flake8
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20210629214323.1329806-1-jsnow@redhat.com>
- <20210629214323.1329806-12-jsnow@redhat.com>
- <CAKJDGDYrqaQpj+NH7p7WvnW1zzo3R3DQHhev33=ddcPAkga0NA@mail.gmail.com>
-In-Reply-To: <CAKJDGDYrqaQpj+NH7p7WvnW1zzo3R3DQHhev33=ddcPAkga0NA@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 30 Jun 2021 10:58:37 -0400
-Message-ID: <CAFn=p-aTMNMfcT_i57ZHoiG+TNEmXWME2KKnJvKPQQZ5F3H69g@mail.gmail.com>
-Subject: Re: [PATCH v3 11/15] python: add 'make check-dev' invocation
-To: Willian Rampazzo <wrampazz@redhat.com>
+ <20210629214323.1329806-11-jsnow@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <2144725e-1529-db7c-2441-233ca4a5bb01@redhat.com>
+Date: Wed, 30 Jun 2021 11:54:36 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210629214323.1329806-11-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b435d305c5fcf5d9"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,104 +101,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: wainersm@redhat.com
 Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b435d305c5fcf5d9
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 30, 2021 at 10:41 AM Willian Rampazzo <wrampazz@redhat.com>
-wrote:
+On 6/29/21 6:43 PM, John Snow wrote:
+> flake8 is a little eager to check everything it can. Limit it to
+> checking inside the qemu namespace directory only. Update setup.cfg now
+> that the exclude patterns are no longer necessary.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/setup.cfg       | 2 --
+>   python/tests/flake8.sh | 2 +-
+>   2 files changed, 1 insertion(+), 3 deletions(-)
 
-> On Tue, Jun 29, 2021 at 6:43 PM John Snow <jsnow@redhat.com> wrote:
-> >
-> > This is a *third* way to run the Python tests. Unlike the first two
-> > (check-pipenv, check-tox), this version does not require any specific
-> > interpreter version -- making it a lot easier to tell people to run it
-> > as a quick smoketest prior to submission to GitLab CI.
-> >
-> > Summary:
-> >
-> >   Checked via GitLab CI:
-> >     - check-pipenv: tests our oldest python & dependencies
-> >     - check-tox: tests newest dependencies on all non-EOL python versions
-> >   Executed only incidentally:
-> >     - check-dev: tests newest dependencies on whichever python version
-> >
-> > ('make check' does not set up any environment at all, it just runs the
-> > tests in your current environment. All four invocations perform the
-> > exact same tests, just in different execution environments.)
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  python/Makefile | 35 +++++++++++++++++++++++++++++++++--
-> >  1 file changed, 33 insertions(+), 2 deletions(-)
-> >
->
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
->
->
-Thanks. I am squashing in a hotfix here to add .dev-venv to .gitignore,
-too. Not worth an entire respin for that.
-(Assuming that's gonna be A-OK with both of you.)
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
---000000000000b435d305c5fcf5d9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 30, 2021 at 10:41 AM Will=
-ian Rampazzo &lt;<a href=3D"mailto:wrampazz@redhat.com">wrampazz@redhat.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-On Tue, Jun 29, 2021 at 6:43 PM John Snow &lt;<a href=3D"mailto:jsnow@redha=
-t.com" target=3D"_blank">jsnow@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This is a *third* way to run the Python tests. Unlike the first two<br=
->
-&gt; (check-pipenv, check-tox), this version does not require any specific<=
-br>
-&gt; interpreter version -- making it a lot easier to tell people to run it=
-<br>
-&gt; as a quick smoketest prior to submission to GitLab CI.<br>
-&gt;<br>
-&gt; Summary:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0Checked via GitLab CI:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- check-pipenv: tests our oldest python &amp; depen=
-dencies<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- check-tox: tests newest dependencies on all non-E=
-OL python versions<br>
-&gt;=C2=A0 =C2=A0Executed only incidentally:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- check-dev: tests newest dependencies on whichever=
- python version<br>
-&gt;<br>
-&gt; (&#39;make check&#39; does not set up any environment at all, it just =
-runs the<br>
-&gt; tests in your current environment. All four invocations perform the<br=
->
-&gt; exact same tests, just in different execution environments.)<br>
-&gt;<br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 python/Makefile | 35 +++++++++++++++++++++++++++++++++--<br>
-&gt;=C2=A0 1 file changed, 33 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-<br>
-Reviewed-by: Willian Rampazzo &lt;<a href=3D"mailto:willianr@redhat.com" ta=
-rget=3D"_blank">willianr@redhat.com</a>&gt;<br><br></blockquote><div><br></=
-div><div>Thanks. I am squashing in a hotfix here to add .dev-venv to .gitig=
-nore, too. Not worth an entire respin for that.<br></div><div>(Assuming tha=
-t&#39;s gonna be A-OK with both of you.)<br></div><div><br></div></div></di=
-v>
+How I tested it:
 
---000000000000b435d305c5fcf5d9--
+$ make check-dev
+VENV .dev-venv
+ACTIVATE .dev-venv
+INSTALL qemu[devel] .dev-venv
+ACTIVATE .dev-venv
+make[1]: Entering directory '/home/wmoschet/src/qemu/python'
+JOB ID     : 41162d4a9e93095abb66c219227b6af27edbcf43
+JOB LOG    : 
+/home/wmoschet/avocado/job-results/job-2021-06-30T11.50-41162d4/job.log
+  (1/4) tests/flake8.sh: PASS (0.30 s)
+  (2/4) tests/isort.sh: PASS (0.12 s)
+  (3/4) tests/mypy.sh: PASS (0.32 s)
+  (4/4) tests/pylint.sh: PASS (4.46 s)
+RESULTS    : PASS 4 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | 
+CANCEL 0
+JOB TIME   : 8.46 s
+make[1]: Leaving directory '/home/wmoschet/src/qemu/python'
+
+>
+> diff --git a/python/setup.cfg b/python/setup.cfg
+> index e730f208d3..11f71d5312 100644
+> --- a/python/setup.cfg
+> +++ b/python/setup.cfg
+> @@ -62,8 +62,6 @@ console_scripts =
+>   [flake8]
+>   extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
+>   exclude = __pycache__,
+> -          .venv,
+> -          .tox,
+>   
+>   [mypy]
+>   strict = True
+> diff --git a/python/tests/flake8.sh b/python/tests/flake8.sh
+> index 51e0788462..1cd7d40fad 100755
+> --- a/python/tests/flake8.sh
+> +++ b/python/tests/flake8.sh
+> @@ -1,2 +1,2 @@
+>   #!/bin/sh -e
+> -python3 -m flake8
+> +python3 -m flake8 qemu/
 
 
