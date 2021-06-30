@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2583B8704
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:25:39 +0200 (CEST)
-Received: from localhost ([::1]:43192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B82D3B8702
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:24:56 +0200 (CEST)
+Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyd1u-0002qL-MI
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44308)
+	id 1lyd1D-0001hn-Bu
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:24:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycg3-00032l-5z
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:03:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54377)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycg3-00033N-Fc
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:03:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycfd-000775-8z
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:03:02 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycfj-000787-IR
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:03:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625068956;
+ s=mimecast20190719; t=1625068959;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FWXZAsL3I0faxZD3HzjAdjp/nhX2pR+C3kho4LsKvr4=;
- b=Z1ewgM3ts13kZPoqzQYsoEIhjMoNdCoOF0Pk9ECcBE4vY73RUtElOZ96pJK078+fezK7NM
- V4UeAQAbYKZPdX9gGxUEBAl3Vas+c3RV9XrDrFLN6DfgWMJ2Dqy8RRuYAjnPaF98sqQZRh
- L18Ouf7qyJx6iWvqHlT6YhdWFyrC8yk=
+ bh=lY+CR9DyqRcBSb40dZwh7LYxoBtVR7xXUAS+jL4NECA=;
+ b=Qw/Gl1U9l34zfH0z3cT9DZwcEsjgfEgDGM9nYeuFIBWUkt1VrB6dtfcFqYg/AQXFyG3o5d
+ uUYdM6wZlIR5oESEmGtk5+7PlPdvonagdsFduiV2lfzjypIjdAQLNQohRThPLqa9BXjgAA
+ HudrW8o98ZmDJJQbD8PqdfxBin4c+dE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-4Nd79IoIPI-FeiptHnJPww-1; Wed, 30 Jun 2021 12:02:35 -0400
-X-MC-Unique: 4Nd79IoIPI-FeiptHnJPww-1
+ us-mta-57-dIwABHB4McWUHZgDcQ1rug-1; Wed, 30 Jun 2021 12:02:37 -0400
+X-MC-Unique: dIwABHB4McWUHZgDcQ1rug-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF4181023F41;
- Wed, 30 Jun 2021 16:02:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52AC110C1ADC;
+ Wed, 30 Jun 2021 16:02:36 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-114.ams2.redhat.com [10.36.114.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC507604CD;
- Wed, 30 Jun 2021 16:02:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5ED52604CD;
+ Wed, 30 Jun 2021 16:02:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/24] vhost: Add Error parameter to vhost_dev_init()
-Date: Wed, 30 Jun 2021 18:02:00 +0200
-Message-Id: <20210630160206.276439-19-kwolf@redhat.com>
+Subject: [PULL 20/24] vhost: Return 0/-errno in vhost_dev_init()
+Date: Wed, 30 Jun 2021 18:02:02 +0200
+Message-Id: <20210630160206.276439-21-kwolf@redhat.com>
 In-Reply-To: <20210630160206.276439-1-kwolf@redhat.com>
 References: <20210630160206.276439-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,280 +80,137 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows callers to return better error messages instead of making
-one up while the real error ends up on stderr. Most callers can
-immediately make use of this because they already have an Error
-parameter themselves. The others just keep printing the error with
-error_report_err().
+Instead of just returning 0/-1 and letting the caller make up a
+meaningless error message, switch to 0/-errno so that different kinds of
+errors can be distinguished in the caller.
+
+This involves changing a few more callbacks in VhostOps to return
+0/-errno: .vhost_set_owner(), .vhost_get_features() and
+.vhost_virtqueue_set_busyloop_timeout(). The implementations of these
+functions are trivial as they generally just send a message to the
+backend.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210609154658.350308-2-kwolf@redhat.com>
+Message-Id: <20210609154658.350308-4-kwolf@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/hw/virtio/vhost.h    |  2 +-
- backends/cryptodev-vhost.c   |  5 ++++-
- backends/vhost-user.c        |  4 ++--
- hw/block/vhost-user-blk.c    |  4 ++--
- hw/net/vhost_net.c           |  6 +++++-
- hw/scsi/vhost-scsi.c         |  4 +---
- hw/scsi/vhost-user-scsi.c    |  4 +---
- hw/virtio/vhost-user-fs.c    |  3 +--
- hw/virtio/vhost-user-vsock.c |  3 +--
- hw/virtio/vhost-vsock.c      |  3 +--
- hw/virtio/vhost.c            | 16 ++++++++++------
- 11 files changed, 29 insertions(+), 25 deletions(-)
+ hw/virtio/vhost-backend.c |  4 +++-
+ hw/virtio/vhost-user.c    | 10 +++++++---
+ hw/virtio/vhost-vdpa.c    |  4 +++-
+ hw/virtio/vhost.c         |  8 ++++----
+ 4 files changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 21a9a52088..2d7aaad67b 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -104,7 +104,7 @@ struct vhost_net {
- 
- int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-                    VhostBackendType backend_type,
--                   uint32_t busyloop_timeout);
-+                   uint32_t busyloop_timeout, Error **errp);
- void vhost_dev_cleanup(struct vhost_dev *hdev);
- int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
- void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
-index 8231e7f1bc..bc13e466b4 100644
---- a/backends/cryptodev-vhost.c
-+++ b/backends/cryptodev-vhost.c
-@@ -52,6 +52,7 @@ cryptodev_vhost_init(
+diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+index f4f71cf58a..594d770b75 100644
+--- a/hw/virtio/vhost-backend.c
++++ b/hw/virtio/vhost-backend.c
+@@ -24,10 +24,12 @@ static int vhost_kernel_call(struct vhost_dev *dev, unsigned long int request,
+                              void *arg)
  {
-     int r;
-     CryptoDevBackendVhost *crypto;
-+    Error *local_err = NULL;
+     int fd = (uintptr_t) dev->opaque;
++    int ret;
  
-     crypto = g_new(CryptoDevBackendVhost, 1);
-     crypto->dev.max_queues = 1;
-@@ -66,8 +67,10 @@ cryptodev_vhost_init(
-     /* vhost-user needs vq_index to initiate a specific queue pair */
-     crypto->dev.vq_index = crypto->cc->queue_index * crypto->dev.nvqs;
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_KERNEL);
  
--    r = vhost_dev_init(&crypto->dev, options->opaque, options->backend_type, 0);
-+    r = vhost_dev_init(&crypto->dev, options->opaque, options->backend_type, 0,
-+                       &local_err);
-     if (r < 0) {
-+        error_report_err(local_err);
-         goto fail;
-     }
- 
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index b366610e16..10b39992d2 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -48,9 +48,9 @@ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
-     b->dev.nvqs = nvqs;
-     b->dev.vqs = g_new0(struct vhost_virtqueue, nvqs);
- 
--    ret = vhost_dev_init(&b->dev, &b->vhost_user, VHOST_BACKEND_TYPE_USER, 0);
-+    ret = vhost_dev_init(&b->dev, &b->vhost_user, VHOST_BACKEND_TYPE_USER, 0,
-+                         errp);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret, "vhost initialization failed");
-         return -1;
-     }
- 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index c6210fad0c..0cb56baefb 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -332,9 +332,9 @@ static int vhost_user_blk_connect(DeviceState *dev, Error **errp)
- 
-     vhost_dev_set_config_notifier(&s->dev, &blk_ops);
- 
--    ret = vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_USER, 0);
-+    ret = vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_USER, 0,
-+                         errp);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret, "vhost initialization failed");
-         return ret;
-     }
- 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 44c1ed92dc..447b119f85 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -22,6 +22,7 @@
- #include "standard-headers/linux/vhost_types.h"
- #include "hw/virtio/virtio-net.h"
- #include "net/vhost_net.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- 
-@@ -157,6 +158,7 @@ struct vhost_net *vhost_net_init(VhostNetOptions *options)
-     bool backend_kernel = options->backend_type == VHOST_BACKEND_TYPE_KERNEL;
-     struct vhost_net *net = g_new0(struct vhost_net, 1);
-     uint64_t features = 0;
-+    Error *local_err = NULL;
- 
-     if (!options->net_backend) {
-         fprintf(stderr, "vhost-net requires net backend to be setup\n");
-@@ -187,8 +189,10 @@ struct vhost_net *vhost_net_init(VhostNetOptions *options)
-     }
- 
-     r = vhost_dev_init(&net->dev, options->opaque,
--                       options->backend_type, options->busyloop_timeout);
-+                       options->backend_type, options->busyloop_timeout,
-+                       &local_err);
-     if (r < 0) {
-+        error_report_err(local_err);
-         goto fail;
-     }
-     if (backend_kernel) {
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index 4d70fa036b..8c611bfd2d 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -219,10 +219,8 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-     vsc->dev.backend_features = 0;
- 
-     ret = vhost_dev_init(&vsc->dev, (void *)(uintptr_t)vhostfd,
--                         VHOST_BACKEND_TYPE_KERNEL, 0);
-+                         VHOST_BACKEND_TYPE_KERNEL, 0, errp);
-     if (ret < 0) {
--        error_setg(errp, "vhost-scsi: vhost initialization failed: %s",
--                   strerror(-ret));
-         goto free_vqs;
-     }
- 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 4666019442..1b2f7eed98 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -122,10 +122,8 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     vqs = vsc->dev.vqs;
- 
-     ret = vhost_dev_init(&vsc->dev, &s->vhost_user,
--                         VHOST_BACKEND_TYPE_USER, 0);
-+                         VHOST_BACKEND_TYPE_USER, 0, errp);
-     if (ret < 0) {
--        error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
--                   strerror(-ret));
-         goto free_vhost;
-     }
- 
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 6f7f91533d..c595957983 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -235,9 +235,8 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-     fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-     fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
-     ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
--                         VHOST_BACKEND_TYPE_USER, 0);
-+                         VHOST_BACKEND_TYPE_USER, 0, errp);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret, "vhost_dev_init failed");
-         goto err_virtio;
-     }
- 
-diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
-index a6f08c26b9..b6a4a25ea1 100644
---- a/hw/virtio/vhost-user-vsock.c
-+++ b/hw/virtio/vhost-user-vsock.c
-@@ -108,9 +108,8 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
-     vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
- 
-     ret = vhost_dev_init(&vvc->vhost_dev, &vsock->vhost_user,
--                         VHOST_BACKEND_TYPE_USER, 0);
-+                         VHOST_BACKEND_TYPE_USER, 0, errp);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret, "vhost_dev_init failed");
-         goto err_virtio;
-     }
- 
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index 8ddfb9abfe..777cafe70d 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -170,9 +170,8 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-     vhost_vsock_common_realize(vdev, "vhost-vsock");
- 
-     ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
--                         VHOST_BACKEND_TYPE_KERNEL, 0);
-+                         VHOST_BACKEND_TYPE_KERNEL, 0, errp);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret, "vhost-vsock: vhost_dev_init failed");
-         goto err_virtio;
-     }
- 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 7b7bde7657..991c67ddcd 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1286,7 +1286,8 @@ static void vhost_virtqueue_cleanup(struct vhost_virtqueue *vq)
+-    return ioctl(fd, request, arg);
++    ret = ioctl(fd, request, arg);
++    return ret < 0 ? -errno : ret;
  }
  
- int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
--                   VhostBackendType backend_type, uint32_t busyloop_timeout)
-+                   VhostBackendType backend_type, uint32_t busyloop_timeout,
-+                   Error **errp)
- {
-     uint64_t features;
-     int i, r, n_initialized_vqs = 0;
-@@ -1300,24 +1301,26 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+ static int vhost_kernel_init(struct vhost_dev *dev, void *opaque, Error **errp)
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 024cb201bb..889559d86a 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1353,7 +1353,11 @@ static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
  
-     r = hdev->vhost_ops->vhost_backend_init(hdev, opaque);
-     if (r < 0) {
-+        error_setg(errp, "vhost_backend_init failed");
-         goto fail;
+ static int vhost_user_get_features(struct vhost_dev *dev, uint64_t *features)
+ {
+-    return vhost_user_get_u64(dev, VHOST_USER_GET_FEATURES, features);
++    if (vhost_user_get_u64(dev, VHOST_USER_GET_FEATURES, features) < 0) {
++        return -EPROTO;
++    }
++
++    return 0;
+ }
+ 
+ static int vhost_user_set_owner(struct vhost_dev *dev)
+@@ -1364,7 +1368,7 @@ static int vhost_user_set_owner(struct vhost_dev *dev)
+     };
+ 
+     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+-        return -1;
++        return -EPROTO;
      }
+ 
+     return 0;
+@@ -1872,7 +1876,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+ 
+     err = vhost_user_get_features(dev, &features);
+     if (err < 0) {
+-        return -EPROTO;
++        return err;
+     }
+ 
+     if (virtio_has_feature(features, VHOST_USER_F_PROTOCOL_FEATURES)) {
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 80827ee040..0f469f1823 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -245,10 +245,12 @@ static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
+ {
+     struct vhost_vdpa *v = dev->opaque;
+     int fd = v->device_fd;
++    int ret;
+ 
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+ 
+-    return ioctl(fd, request, arg);
++    ret = ioctl(fd, request, arg);
++    return ret < 0 ? -errno : ret;
+ }
+ 
+ static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index fd13135706..c7f9d8bb06 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1309,13 +1309,13 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
  
      r = hdev->vhost_ops->vhost_set_owner(hdev);
      if (r < 0) {
--        VHOST_OPS_DEBUG("vhost_set_owner failed");
-+        error_setg(errp, "vhost_set_owner failed");
+-        error_setg(errp, "vhost_set_owner failed");
++        error_setg_errno(errp, -r, "vhost_set_owner failed");
          goto fail;
      }
  
      r = hdev->vhost_ops->vhost_get_features(hdev, &features);
      if (r < 0) {
--        VHOST_OPS_DEBUG("vhost_get_features failed");
-+        error_setg(errp, "vhost_get_features failed");
+-        error_setg(errp, "vhost_get_features failed");
++        error_setg_errno(errp, -r, "vhost_get_features failed");
          goto fail;
      }
  
-     for (i = 0; i < hdev->nvqs; ++i, ++n_initialized_vqs) {
-         r = vhost_virtqueue_init(hdev, hdev->vqs + i, hdev->vq_index + i);
-         if (r < 0) {
-+            error_setg_errno(errp, -r, "Failed to initialize virtqueue %d", i);
-             goto fail;
-         }
-     }
-@@ -1327,6 +1330,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+@@ -1332,7 +1332,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
              r = vhost_virtqueue_set_busyloop_timeout(hdev, hdev->vq_index + i,
                                                       busyloop_timeout);
              if (r < 0) {
-+                error_setg(errp, "Failed to set busyloop timeout");
+-                error_setg(errp, "Failed to set busyloop timeout");
++                error_setg_errno(errp, -r, "Failed to set busyloop timeout");
                  goto fail_busyloop;
              }
          }
-@@ -1367,7 +1371,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-     if (hdev->migration_blocker != NULL) {
-         r = migrate_add_blocker(hdev->migration_blocker, &local_err);
-         if (local_err) {
--            error_report_err(local_err);
-+            error_propagate(errp, local_err);
-             error_free(hdev->migration_blocker);
-             goto fail_busyloop;
-         }
-@@ -1384,8 +1388,8 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-     QLIST_INSERT_HEAD(&vhost_devices, hdev, entry);
- 
+@@ -1391,7 +1391,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
      if (used_memslots > hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
--        error_report("vhost backend memory slots limit is less"
--                " than current number of present memory slots");
-+        error_setg(errp, "vhost backend memory slots limit is less"
-+                   " than current number of present memory slots");
-         r = -1;
+         error_setg(errp, "vhost backend memory slots limit is less"
+                    " than current number of present memory slots");
+-        r = -1;
++        r = -EINVAL;
          goto fail_busyloop;
      }
+ 
 -- 
 2.31.1
 
