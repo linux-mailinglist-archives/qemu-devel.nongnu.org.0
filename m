@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8FD3B8522
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:36:53 +0200 (CEST)
-Received: from localhost ([::1]:54388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76623B8523
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:37:19 +0200 (CEST)
+Received: from localhost ([::1]:55498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybKe-0007Nh-C1
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52528)
+	id 1lybL5-00088S-02
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lybJI-0006Nu-PY
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:35:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40381)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybJe-0006l1-T3
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:35:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lybJF-0001ZG-5I
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:35:28 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybJc-0001rR-3K
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:35:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625063724;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1625063747;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gZeAKcyKiA3YAF20ED9L6A38UgejzCBUrNskpVDgCiQ=;
- b=WEpCOFitE4GhmklAygqa3NvcUnFGSfxenkXN6BBzUFD3OnpWgvKkD/HCZLgficMus5yaYg
- 2TVZR8gnMxl3/h9hZ6+d/7UcK67GfRKMbN2Pt3qYGyxUdm9PjHNEWZeM28a2HndcYt4nzR
- cHUweONZQvtSlmtQzdCUCC1G6/tfR1A=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-THqiVkEtN-W7pj_H8IY-9w-1; Wed, 30 Jun 2021 10:35:22 -0400
-X-MC-Unique: THqiVkEtN-W7pj_H8IY-9w-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j2-20020a0560001242b029012c82df4dbbso175557wrx.23
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:35:22 -0700 (PDT)
+ bh=nKdLwDWP3LjiSSH8GM4/ORKFGgY3NSzw89aAbuEFwiY=;
+ b=O7g7bacqLqFptagEjStqG0zufY8cxKG4AqCxusxTML/bKgD3+kbButbVzFvk5snkDIdQY2
+ AoMBcMPBL+wS5aDNvkECWsBKL13xY4hJSnaleCq88MwWM19RwMSyveM0ER3lVykN0mqXHI
+ XEkCLVEL3NYRDoGkyinVN4OU/qNUD70=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-W5LJuEAjN7SxRf-6lx1pCA-1; Wed, 30 Jun 2021 10:35:45 -0400
+X-MC-Unique: W5LJuEAjN7SxRf-6lx1pCA-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ a4-20020a1709027e44b02901289b070c11so1261471pln.0
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:35:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gZeAKcyKiA3YAF20ED9L6A38UgejzCBUrNskpVDgCiQ=;
- b=eLKv+yhiuoghLfFEvpqhYkfFE4zOlkl82nduO//21AkBJQPLoFM2+Gi610wJrwAG+c
- km1TCOkK8SZKF36Qx2fdqju49KXhPdsDGaaH6nAWvPKfO1o0P1VnIOT6TuwRVsShBHsB
- nkpV2F7eHcy1hmv8lk/J20tATj+izDXnSEH2lF985nf1q6nQ9XR+MCB6jvsPRNGMzXFq
- xMPK96ZYLCc5PvcBBXLzG1LTp82J/7SlLNbqmVZwb7Q2ftgpOXFkRVFLY0hj50kegCU7
- HS/ONh0BCZale7bLVM1lWjS6GfDeeBxS2j+ckMCafklWKBuIW+w8bba6jsHRtmK3pfBY
- OS1Q==
-X-Gm-Message-State: AOAM533h+DlHINWjcBkiXUBNIuY4Ba0tBqY2/jZLR8CaT8SHfRbnnKuh
- tdb5/fHnWvuN6VOOyTfxEaGN6e75Msk9bnnLXpm+ICDWm8OJgjLnskI4U4ljCqwRQbHTIubbnhL
- 3XEg1CS2YrJl0UKM=
-X-Received: by 2002:a5d:4522:: with SMTP id j2mr8409935wra.71.1625063721311;
- Wed, 30 Jun 2021 07:35:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz54xbLUsn+lOm9B9mdWvRhK/dGQrsbe5PQy1doZqABoVymV3HMWeGBCXMHGJ617HtR3zex5w==
-X-Received: by 2002:a5d:4522:: with SMTP id j2mr8409918wra.71.1625063721151;
- Wed, 30 Jun 2021 07:35:21 -0700 (PDT)
-Received: from [192.168.11.95] (pop.92-184-110-55.mobile.abo.orange.fr.
- [92.184.110.55])
- by smtp.gmail.com with ESMTPSA id y3sm22525488wru.78.2021.06.30.07.35.19
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=nKdLwDWP3LjiSSH8GM4/ORKFGgY3NSzw89aAbuEFwiY=;
+ b=dOrdW8MhxCabF73NQ/6QV8lERue8P/zZOY7ignaMlaA9GE2GIeQLospclP1ftqraU9
+ B/QVa0mHfWTVp8i9vspFtNm4ZCGQSsxgZ53UZlMR4biecTrl+l3OtAsUAlxRAeUlsAzt
+ 4lu8kCiWmg6aTloqQNQ5vZPgPxDgMFTAwjYXt4Dsx6EHCSOV4Vcye7lDEuE36Q+y9fD0
+ eEkJVmrNK0VCzkYsPF8fnGs0fPmy1yE7BHf8Og2VUizYIjippqOALKK3a8536jQStgDB
+ k+gMqUcM/Zw1pM2mVVzSk+5dSib4DLqCiQIzgPQIwPO7e3sc0+0UZ1pbXczukm34h4D+
+ aeow==
+X-Gm-Message-State: AOAM533/5OLtRiivVrokeQNbj+PF1x4MdrkT8v2nIngQW4YVDFvgRzbI
+ CpBlFXwoNX+N/rwAA5dY2MkmW2UsXFuoPcj0ivki8Dv/3BVmHZYhUQnmw6Glk7HiT7+FSqQw3UC
+ dZIGWYfXuEYWYm/M=
+X-Received: by 2002:a17:902:8d82:b029:120:4377:8e0e with SMTP id
+ v2-20020a1709028d82b029012043778e0emr32720151plo.32.1625063744586; 
+ Wed, 30 Jun 2021 07:35:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJkv/Mo2Y/WvjpJwMqDnAWwDeeoF6/HRNfwfZcK0ExmYA1I89NMuZBbpZ5ISmzvxEG2e987Q==
+X-Received: by 2002:a17:902:8d82:b029:120:4377:8e0e with SMTP id
+ v2-20020a1709028d82b029012043778e0emr32720138plo.32.1625063744345; 
+ Wed, 30 Jun 2021 07:35:44 -0700 (PDT)
+Received: from wainer-laptop.localdomain ([179.105.223.44])
+ by smtp.gmail.com with ESMTPSA id b25sm22208614pft.76.2021.06.30.07.35.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jun 2021 07:35:20 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] hw/i386/pc: pc_system_ovmf_table_find: Assert that
- flash was parsed
-To: Tom Lendacky <thomas.lendacky@amd.com>, Dov Murik
- <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20210630054625.3424178-1-dovmurik@linux.ibm.com>
- <20210630054625.3424178-2-dovmurik@linux.ibm.com>
- <563e4b65-b120-3232-cbe3-74299da6c351@amd.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e363fffd-5383-a9fa-459e-02e65be1bcda@redhat.com>
-Date: Wed, 30 Jun 2021 16:35:18 +0200
+ Wed, 30 Jun 2021 07:35:43 -0700 (PDT)
+Subject: Re: [PATCH v3 01/15] python/qom: Do not use 'err' name at module scope
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210629214323.1329806-1-jsnow@redhat.com>
+ <20210629214323.1329806-2-jsnow@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <d7976862-49f9-f3fe-9808-d62f5795bec6@redhat.com>
+Date: Wed, 30 Jun 2021 11:35:37 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <563e4b65-b120-3232-cbe3-74299da6c351@amd.com>
+In-Reply-To: <20210629214323.1329806-2-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,81 +103,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: wainersm@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/21 3:38 PM, Tom Lendacky wrote:
-> On 6/30/21 12:46 AM, Dov Murik wrote:
->> Add assertion in pc_system_ovmf_table_find that verifies that the flash
->> was indeed previously parsed (looking for the OVMF table) by
->> pc_system_parse_ovmf_flash.
->>
->> Now pc_system_ovmf_table_find distinguishes between "no one called
->> pc_system_parse_ovmf_flash" (which will abort due to assertion failure)
->> and "the flash was parsed but no OVMF table was found, or it is invalid"
->> (which will return false).
->>
->> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> 
-> Does the qemu coding style prefer not initializing the bool to false since
-> it will default to that?
 
-Indeed, you are right, and checkpatch will block this patch:
-
-ERROR: do not initialise statics to 0 or NULL
-#33: FILE: hw/i386/pc_sysfw.c:129:
-+static bool ovmf_flash_parsed = false;
-
-total: 1 errors, 0 warnings, 28 lines checked
-
-> Otherwise,
-> 
-> Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
-> 
->> ---
->>  hw/i386/pc_sysfw.c | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
->> index 6ce37a2b05..9eac36b830 100644
->> --- a/hw/i386/pc_sysfw.c
->> +++ b/hw/i386/pc_sysfw.c
->> @@ -126,6 +126,7 @@ void pc_system_flash_cleanup_unused(PCMachineState *pcms)
->>  
->>  #define OVMF_TABLE_FOOTER_GUID "96b582de-1fb2-45f7-baea-a366c55a082d"
->>  
->> +static bool ovmf_flash_parsed = false;
->>  static uint8_t *ovmf_table;
->>  static int ovmf_table_len;
->>  
->> @@ -136,10 +137,12 @@ static void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
->>      int tot_len;
->>  
->>      /* should only be called once */
->> -    if (ovmf_table) {
->> +    if (ovmf_flash_parsed) {
->>          return;
->>      }
->>  
->> +    ovmf_flash_parsed = true;
->> +
->>      if (flash_size < TARGET_PAGE_SIZE) {
->>          return;
->>      }
->> @@ -183,6 +186,8 @@ bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
->>      int tot_len = ovmf_table_len;
->>      QemuUUID entry_guid;
->>  
->> +    assert(ovmf_flash_parsed);
->> +
->>      if (qemu_uuid_parse(entry, &entry_guid) < 0) {
->>          return false;
->>      }
->>
-> 
+On 6/29/21 6:43 PM, John Snow wrote:
+> Pylint updated to 2.9.0 upstream, adding new warnings for things that
+> re-use the 'err' variable. Luckily, this only breaks the
+> python-check-tox job, which is allowed to fail as a warning.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> ---
+>
+> I guess that's good enough evidence that check-pipenv and check-tox both
+> have their place :)
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/qemu/qmp/qom.py | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>
+> diff --git a/python/qemu/qmp/qom.py b/python/qemu/qmp/qom.py
+> index 7ec7843d57..8ff28a8343 100644
+> --- a/python/qemu/qmp/qom.py
+> +++ b/python/qemu/qmp/qom.py
+> @@ -38,8 +38,8 @@
+>   
+>   try:
+>       from .qom_fuse import QOMFuse
+> -except ModuleNotFoundError as err:
+> -    if err.name != 'fuse':
+> +except ModuleNotFoundError as _err:
+> +    if _err.name != 'fuse':
+>           raise
+>   else:
+>       assert issubclass(QOMFuse, QOMCommand)
 
 
