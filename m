@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C4A3B87CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 19:35:34 +0200 (CEST)
-Received: from localhost ([::1]:44436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25243B8801
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 19:49:26 +0200 (CEST)
+Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lye7Y-0004Lh-Tx
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 13:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35530)
+	id 1lyeKz-00079b-GI
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 13:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lye6a-0003cO-HR
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 13:34:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35215)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lyeJz-0006N1-0n
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 13:48:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lye6R-0007Ok-TM
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 13:34:29 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lyeJw-0007P3-Bi
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 13:48:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625074461;
+ s=mimecast20190719; t=1625075298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pSDEAXly11JEDOSsBMTcPlWOS3kg/m0MTzKvTatjhCw=;
- b=T8Re5rsj2/i0BIqX3j/2cTTVEFdp19CHQ1roSx0ndyNwjj+CKugFNaefJPgceTGZT3J+m6
- /6eD163mCZWStqSXqj0udqANj2OFDG4fBwuDeFHvoBKSPxTt6WT69hqUIOfxwXkQpnbhgU
- xKhJjC/bWav+Y+OTOE0qUAockFmrKoc=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-Spd73HkKPt-0cAGusoYFSw-1; Wed, 30 Jun 2021 13:34:19 -0400
-X-MC-Unique: Spd73HkKPt-0cAGusoYFSw-1
-Received: by mail-qv1-f71.google.com with SMTP id
- k4-20020ad442040000b02902961c39935cso1926042qvp.8
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 10:34:19 -0700 (PDT)
+ bh=0Iv12GV0ha9xKvgXr45QzYF74HlKvuDsia5uf/ebf1M=;
+ b=PfdKCEgVsJhFTQ3DZ1AcO4hllQVe0NCzmZxfUW5Bwt5+TEiHJkaIiqoGrAXYkVxNPIcPc1
+ UIVO2Vauw8ktehau7OOYuY6hGxECOGZYBONOENCEhYdZ2va8VV3CgoU6nK1x8stAkfIMQ+
+ hBuEeen/f8k7SMQm2XnSu4XSIXFTIZU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-pF10sLy9Ptm9s_p3kUVfQA-1; Wed, 30 Jun 2021 13:48:17 -0400
+X-MC-Unique: pF10sLy9Ptm9s_p3kUVfQA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p4-20020a5d63840000b0290126f2836a61so1269277wru.6
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 10:48:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pSDEAXly11JEDOSsBMTcPlWOS3kg/m0MTzKvTatjhCw=;
- b=HrWsZ/DHi63BcKmnQZpuUGYKBQovbc2a6G97myqwu9iae8xIJVKFacceryPdDzJcEx
- 0ZAzLAVly0dQVxU+/8BzrDKFEtocLxVa+59Skv7y5hEhttfZd/vgOVpFLYov+eFyXe6/
- C9cXt7UcjLNeRBRLrRKj+UNaFd5cnqTI4E3Np0tv9JQJGA7Y66YwVvtBWOKxq51ZQzw8
- 2JXu3lgMzIwYSggSk5FYkVcuVNtlfVUvnPSYpYqD1ixH97O4fWdfn9T2iruGf4iSJmp/
- 712tTRI3ao/enlCJEu1md/sD9A4WpGixA2Rqkz/rwcm0HwwT1bBsr0kk8BKHv6Vy8CIV
- NFeg==
-X-Gm-Message-State: AOAM531bYdOsuwyAC7dhGm/bTQoVn9++64u7RfPV2OvhMFU/RYAy7v6R
- kNL0ogmCM2tjCGYT62JFksM5+tEDPCjAyzhTmbUWdlnmMXqWQ3wLFl9dtd8c6sGNVArnYWd3x9Y
- zkI/xfhz08qAJF7/7ST/CiHS+yI+Zt9k=
-X-Received: by 2002:ac8:474e:: with SMTP id k14mr25458642qtp.384.1625074458986; 
- Wed, 30 Jun 2021 10:34:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLXm1smLz7eAiVSWbgSCR/5kFUMEFQ6PoAmU6g3+3tu5BtRkCAmNji2S5txGiUAzYVQGQeq9WAqnNQMK8W/7s=
-X-Received: by 2002:ac8:474e:: with SMTP id k14mr25458628qtp.384.1625074458808; 
- Wed, 30 Jun 2021 10:34:18 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0Iv12GV0ha9xKvgXr45QzYF74HlKvuDsia5uf/ebf1M=;
+ b=hsturBnW13/w5pCE2IPn4vV0Ay5TJyCg4A2+edklUNRKG+q25m981efeslTRPnWaFy
+ NZ2mL0d15QgBmsc6DeB41u3L9zrD0/lzfgiePh0hZakWU8iLxeLm73Te8+JSP++p7mzX
+ wgzPx4uu1gFTrqI9vLnYOxsAujld3NStxz8zVOt2j21IBL1m565j8QEb9jptVpi+HLI4
+ 7YJOQawlqIHuPbeMyw9G3aNfRSwLrN4yOc9Bq2uLxGQR8ngMBxjFSsZp6ijzLr3HvkEn
+ dn+DY4SWPam5h3fJt3L/H7bvR0IjOf6WLbnewD2BdxLUKfVQrnbx7koWrmGSEA4k/rv5
+ oM+A==
+X-Gm-Message-State: AOAM531gTbVM7wJU8TQGiSPZ/7aJItzKXAAkoI67fr03b9N3yAZCasNI
+ 7BuJZyCslU3GrWLaBByFLeA62+TbfrJfWVPf+KhIK88DyxCqPByGe2qldwX58GLY9Fn0Q+sZssz
+ W0DnZnZJRfOWh36E=
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr5985957wmk.3.1625075296005;
+ Wed, 30 Jun 2021 10:48:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/Xbx9fkGYzscnJsMK9nSdpx36B86I20xtWIT92ev9A+c60UGdDiyQJXFG+l59hZ6QXGRCxQ==
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr5985937wmk.3.1625075295825;
+ Wed, 30 Jun 2021 10:48:15 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id 16sm9668863wmk.18.2021.06.30.10.48.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jun 2021 10:48:15 -0700 (PDT)
+Date: Wed, 30 Jun 2021 18:48:13 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 2/2] migration: failover: continue to wait card unplug on
+ error
+Message-ID: <YNyuXdxm6N8NKeXd@work-vm>
+References: <20210629155007.629086-1-lvivier@redhat.com>
+ <20210629155007.629086-3-lvivier@redhat.com>
 MIME-Version: 1.0
-References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-16-jasowang@redhat.com>
-In-Reply-To: <20210621041650.5826-16-jasowang@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 30 Jun 2021 19:33:42 +0200
-Message-ID: <CAJaqyWcAbH_X_nK6FqSd4Rt7CipsHLM7=_fcmsO8EajrjOxzXQ@mail.gmail.com>
-Subject: Re: [PATCH 15/18] vhost-net: control virtqueue support
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20210629155007.629086-3-lvivier@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -89,182 +97,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eli Cohen <elic@nvidia.com>, Cindy Lu <lulu@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, lingshan.zhu@intel.com,
- Michael Tsirkin <mst@redhat.com>
+Cc: Jens Freimann <jfreimann@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 6:18 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> We assume there's no cvq in the past, this is not true when we need
-> control virtqueue support for vhost-user backends. So this patch
-> implements the control virtqueue support for vhost-net. As datapath,
-> the control virtqueue is also required to be coupled with the
-> NetClientState. The vhost_net_start/stop() are tweaked to accept the
-> number of datapath queue pairs plus the the number of control
-> virtqueue for us to start and stop the vhost device.
->
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+* Laurent Vivier (lvivier@redhat.com) wrote:
+> If the user cancels the migration in the unplug-wait state,
+> QEMU will try to plug back the card and this fails because the card
+> is partially unplugged.
+> To avoid the problem, continue to wait the card unplug, but to
+> allow the migration to be canceled if the card never finishes to unplug
+> use a timeout.
+> 
+> Bug: https://bugzilla.redhat.com/show_bug.cgi?id=1976852
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+
+I'll take this for now, but as Juan says, we could really do with some
+diags when this happens, so when someone comes and tells us that
+the hotplug has failed we can see.  Please send something to add it.
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  hw/net/vhost_net.c      | 43 ++++++++++++++++++++++++++++++-----------
->  hw/net/virtio-net.c     |  4 ++--
->  include/net/vhost_net.h |  6 ++++--
->  3 files changed, 38 insertions(+), 15 deletions(-)
->
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index ef1370bd92..fe2fd7e3d5 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -311,11 +311,14 @@ static void vhost_net_stop_one(struct vhost_net *net,
->  }
->
->  int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-> -                    int total_queues)
-> +                    int data_qps, int cvq)
-
-I can see the convenience of being an int, but maybe it is more clear
-to use a boolean?
-
->  {
->      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(dev)));
->      VirtioBusState *vbus = VIRTIO_BUS(qbus);
->      VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
-> +    int total_notifiers = data_qps * 2 + cvq;
-> +    VirtIONet *n = VIRTIO_NET(dev);
-> +    int nvhosts = data_qps + cvq;
->      struct vhost_net *net;
->      int r, e, i;
->      NetClientState *peer;
-> @@ -325,9 +328,14 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->          return -ENOSYS;
->      }
->
-> -    for (i = 0; i < total_queues; i++) {
-> +    for (i = 0; i < nvhosts; i++) {
-> +
-> +        if (i < data_qps) {
-> +            peer = qemu_get_peer(ncs, i);
-> +        } else { /* Control Virtqueue */
-> +            peer = qemu_get_peer(ncs, n->max_qps);
-
-The field max_qps should be max_queues until the next patch, or maybe
-we can reorder the commits and then rename the field before this
-commit?
-
-Same comment later on this function and in vhost_net_stop.
-
-Thanks!
-
-> +        }
->
-> -        peer = qemu_get_peer(ncs, i);
->          net = get_vhost_net(peer);
->          vhost_net_set_vq_index(net, i * 2);
->
-> @@ -340,14 +348,18 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>  migration/migration.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 3e92c405a2b6..3b06d43a7f42 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3679,6 +3679,17 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
+>                 qemu_savevm_state_guest_unplug_pending()) {
+>              qemu_sem_timedwait(&s->wait_unplug_sem, 250);
 >          }
->       }
->
-> -    r = k->set_guest_notifiers(qbus->parent, total_queues * 2, true);
-> +    r = k->set_guest_notifiers(qbus->parent, total_notifiers, true);
->      if (r < 0) {
->          error_report("Error binding guest notifier: %d", -r);
->          goto err;
->      }
->
-> -    for (i = 0; i < total_queues; i++) {
-> -        peer = qemu_get_peer(ncs, i);
-> +    for (i = 0; i < nvhosts; i++) {
-> +        if (i < data_qps) {
-> +            peer = qemu_get_peer(ncs, i);
-> +        } else {
-> +            peer = qemu_get_peer(ncs, n->max_qps);
+> +        if (s->state != MIGRATION_STATUS_WAIT_UNPLUG) {
+> +            int timeout = 120; /* 30 seconds */
+> +            /*
+> +             * migration has been canceled
+> +             * but as we have started an unplug we must wait the end
+> +             * to be able to plug back the card
+> +             */
+> +            while (timeout-- && qemu_savevm_state_guest_unplug_pending()) {
+> +                qemu_sem_timedwait(&s->wait_unplug_sem, 250);
+> +            }
 > +        }
->          r = vhost_net_start_one(get_vhost_net(peer), dev);
->
->          if (r < 0) {
-> @@ -371,7 +383,7 @@ err_start:
->          peer = qemu_get_peer(ncs , i);
->          vhost_net_stop_one(get_vhost_net(peer), dev);
->      }
-> -    e = k->set_guest_notifiers(qbus->parent, total_queues * 2, false);
-> +    e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
->      if (e < 0) {
->          fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", e);
->          fflush(stderr);
-> @@ -381,18 +393,27 @@ err:
->  }
->
->  void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
-> -                    int total_queues)
-> +                    int data_qps, int cvq)
->  {
->      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(dev)));
->      VirtioBusState *vbus = VIRTIO_BUS(qbus);
->      VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
-> +    VirtIONet *n = VIRTIO_NET(dev);
-> +    NetClientState *peer;
-> +    int total_notifiers = data_qps * 2 + cvq;
-> +    int nvhosts = data_qps + cvq;
->      int i, r;
->
-> -    for (i = 0; i < total_queues; i++) {
-> -        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
-> +    for (i = 0; i < nvhosts; i++) {
-> +        if (i < data_qps) {
-> +            peer = qemu_get_peer(ncs, i);
-> +        } else {
-> +            peer = qemu_get_peer(ncs, n->max_qps);
-> +        }
-> +        vhost_net_stop_one(get_vhost_net(peer), dev);
->      }
->
-> -    r = k->set_guest_notifiers(qbus->parent, total_queues * 2, false);
-> +    r = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
->      if (r < 0) {
->          fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", r);
->          fflush(stderr);
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index bd7958b9f0..614660274c 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -285,14 +285,14 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
->          }
->
->          n->vhost_started = 1;
-> -        r = vhost_net_start(vdev, n->nic->ncs, queues);
-> +        r = vhost_net_start(vdev, n->nic->ncs, queues, 0);
->          if (r < 0) {
->              error_report("unable to start vhost net: %d: "
->                           "falling back on userspace virtio", -r);
->              n->vhost_started = 0;
->          }
+>  
+>          migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG, new_state);
 >      } else {
-> -        vhost_net_stop(vdev, n->nic->ncs, queues);
-> +        vhost_net_stop(vdev, n->nic->ncs, queues, 0);
->          n->vhost_started = 0;
->      }
->  }
-> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-> index fba40cf695..e656e38af9 100644
-> --- a/include/net/vhost_net.h
-> +++ b/include/net/vhost_net.h
-> @@ -21,8 +21,10 @@ typedef struct VhostNetOptions {
->  uint64_t vhost_net_get_max_queues(VHostNetState *net);
->  struct vhost_net *vhost_net_init(VhostNetOptions *options);
->
-> -int vhost_net_start(VirtIODevice *dev, NetClientState *ncs, int total_queues);
-> -void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs, int total_queues);
-> +int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-> +                    int data_qps, int cvq);
-> +void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
-> +                    int data_qps, int cvq);
->
->  void vhost_net_cleanup(VHostNetState *net);
->
-> --
-> 2.25.1
->
+> -- 
+> 2.31.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
