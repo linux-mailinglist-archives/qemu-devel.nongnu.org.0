@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45753B8727
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:37:00 +0200 (CEST)
-Received: from localhost ([::1]:33244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8CD3B8728
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:37:03 +0200 (CEST)
+Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lydCs-0007PQ-5M
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:36:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51684)
+	id 1lydCt-0007P2-8O
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:37:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyd94-0005Jx-IB
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyd94-0005JX-65
  for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:33:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53547)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyd8q-0000Iy-HI
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:33:02 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyd8w-0000Kd-7S
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:33:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625070767;
+ s=mimecast20190719; t=1625070772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4ydAJNihEcdfk3BDCQib5K3UK+CJuTNdU2Xrhsb3NEI=;
- b=gCsWBrrt0QiqjSHymX8d7DE27V5v78CcKBl8TZ1nnR+3qPiYkFrSKEtIABJ+PeKNJoay8A
- DXQa3fWndrZoSDBQYABUIpKMg8B154zLcgVPeDuKm+J/PQ7J29hFfFxRYVJxkEO4rMXirl
- 0LAzsRb2/jAVZrKI1SPPdWoqug3c/B4=
+ bh=wfEugb6DcQqvdzNLNiCiRlAcEDO5vSelAQwY9MmKOJY=;
+ b=eOM33luNs6Vwfrq3o0RLCJkWv0Q4XtNj1Td6HLCGkRMKaMvhZ1gusCufSuAJXLdLXiwalV
+ dQnjb05ivScxQ+clM7wSwwg1zrPpJmUbVdo2C8xaX2lxDf5eeE3E9oLzA7qYE7uWM+V5/8
+ EXPgYEnuWPD/RBGYlCc9SC9PIjJCWao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-rUuPGFuKO3iD-I04HnbOIg-1; Wed, 30 Jun 2021 12:32:45 -0400
-X-MC-Unique: rUuPGFuKO3iD-I04HnbOIg-1
+ us-mta-341-jYO14GitODaJkg9Qzxec2g-1; Wed, 30 Jun 2021 12:32:50 -0400
+X-MC-Unique: jYO14GitODaJkg9Qzxec2g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDE8219253C2
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 16:32:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75B3D1023F40
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 16:32:49 +0000 (UTC)
 Received: from thuth.com (ovpn-113-129.ams2.redhat.com [10.36.113.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF0F85C1A3;
- Wed, 30 Jun 2021 16:32:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3102E5C1A3;
+ Wed, 30 Jun 2021 16:32:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	kraxel@redhat.com
-Subject: [PATCH 2/4] ui: Fix the "-display sdl,window_close=..." parameter
-Date: Wed, 30 Jun 2021 18:32:29 +0200
-Message-Id: <20210630163231.467987-3-thuth@redhat.com>
+Subject: [PATCH 3/4] ui: Mark the '-no-quit' option as deprecated
+Date: Wed, 30 Jun 2021 18:32:30 +0200
+Message-Id: <20210630163231.467987-4-thuth@redhat.com>
 In-Reply-To: <20210630163231.467987-1-thuth@redhat.com>
 References: <20210630163231.467987-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -81,69 +81,70 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the QAPI schema, there is a "-" and not a "_" between
-"window" and "close", and we're also talking about "window-close"
-in the long parameter description in qemu-options.hx, so we should
-make sure that we rather use the variant with the "-" by default
-instead of only allowing the one with the "_" here. The old way
-still stays enabled for compatibility, but we deprecate it, so that
-we can switch to a QAPIfied parameter one day more easily.
+It's just a wrapper around the -display ...,window-close=off parameter,
+and the name "no-quit" is rather confusing compared to "window-close"
+(since there are still other means to quit the emulator), so we should
+rather tell our users to use the "window-close" parameter instead.
 
+While we're at it, update the documentation to state that
+"-no-quit" is available for GTK, too, not only for SDL.
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
  docs/system/deprecated.rst | 6 ++++++
- qemu-options.hx            | 2 +-
- softmmu/vl.c               | 7 ++++++-
- 3 files changed, 13 insertions(+), 2 deletions(-)
+ qemu-options.hx            | 5 +++--
+ softmmu/vl.c               | 2 ++
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index e2e0090878..bb624d3170 100644
+index bb624d3170..70e08baff6 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -126,6 +126,12 @@ other options have been processed.  This will either have no effect (if
- if they were not given.  The property is therefore useless and should not be
- specified.
+@@ -132,6 +132,12 @@ specified.
+ Use ``-display sdl,window-close=...`` instead (i.e. with a minus instead of
+ an underscore between "window" and "close").
  
-+``-display sdl,window_close=...`` (since 6.1)
-+'''''''''''''''''''''''''''''''''''''''''''''
++``-no-quit`` (since 6.1)
++''''''''''''''''''''''''
 +
-+Use ``-display sdl,window-close=...`` instead (i.e. with a minus instead of
-+an underscore between "window" and "close").
++The ``-no-quit`` is a synonym for ``-display ...,window-close=off`` which
++should be used instead.
 +
  
  QEMU Machine Protocol (QMP) commands
  ------------------------------------
 diff --git a/qemu-options.hx b/qemu-options.hx
-index ba3ca9da1d..ae56fa4f28 100644
+index ae56fa4f28..c862f1fa57 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -1784,7 +1784,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
- #endif
- #if defined(CONFIG_SDL)
-     "-display sdl[,alt_grab=on|off][,ctrl_grab=on|off]\n"
--    "            [,window_close=on|off][,gl=on|core|es|off]\n"
-+    "            [,window-close=on|off][,gl=on|core|es|off]\n"
- #endif
- #if defined(CONFIG_GTK)
-     "-display gtk[,grab_on_hover=on|off][,gl=on|off]|\n"
+@@ -1910,10 +1910,11 @@ SRST
+ ERST
+ 
+ DEF("no-quit", 0, QEMU_OPTION_no_quit,
+-    "-no-quit        disable SDL window close capability\n", QEMU_ARCH_ALL)
++    "-no-quit        disable SDL/GTK window close capability (deprecated)\n", QEMU_ARCH_ALL)
+ SRST
+ ``-no-quit``
+-    Disable SDL window close capability.
++    Disable window close capability (SDL and GTK only). This option is
++    deprecated, please use ``-display ...,window-close=off`` instead.
+ ERST
+ 
+ DEF("sdl", 0, QEMU_OPTION_sdl,
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index cee6339580..36b761677d 100644
+index 36b761677d..7dd2d72d0b 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -1089,7 +1089,12 @@ static void parse_display(const char *p)
-                 } else {
-                     goto invalid_sdl_args;
-                 }
--            } else if (strstart(opts, ",window_close=", &nextopt)) {
-+            } else if (strstart(opts, ",window_close=", &nextopt) ||
-+                       strstart(opts, ",window-close=", &nextopt)) {
-+                if (strstart(opts, ",window_close=", NULL)) {
-+                    warn_report("window_close with an underscore is deprecated,"
-+                                " please use window-close instead.");
-+                }
-                 opts = nextopt;
+@@ -3237,6 +3237,8 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_no_quit:
                  dpy.has_window_close = true;
-                 if (strstart(opts, "on", &nextopt)) {
+                 dpy.window_close = false;
++                warn_report("-no-quit is deprecated, please use "
++                            "-display ...,window-close=off instead.");
+                 break;
+             case QEMU_OPTION_sdl:
+ #ifdef CONFIG_SDL
 -- 
 2.27.0
 
