@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6C23B8492
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 15:59:32 +0200 (CEST)
-Received: from localhost ([::1]:57152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6F93B84A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:05:16 +0200 (CEST)
+Received: from localhost ([::1]:32828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyakV-0004hD-Qw
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 09:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41902)
+	id 1lyaq3-0007Zq-80
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:05:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1lyahm-0002BD-2Y
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:56:42 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:44809)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lyanr-0006ku-Ma
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:02:59 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1lyahi-0001cK-Nu
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:56:41 -0400
-Received: by mail-lf1-x132.google.com with SMTP id a11so5231545lfg.11
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 06:56:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lyanp-0005UX-KP
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:02:59 -0400
+Received: by mail-ed1-x532.google.com with SMTP id j11so3422271edq.6
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:02:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z03D2JSzBfVLdeJPOAUVD6ydq1aenXB8ml55Cn9XL+I=;
- b=cOBr/pDbeIzSG4kaH1zePaJFpMArszm7uGaujijYTkcOZ2rkL57VNgiTNzpz4cVE0J
- 0J2AwahYymn0WvJCe+5wox6vQoE/7adlb0LtwjuJNLukWs3lMg09KUJLJndAObllVmqL
- oNaE2y1tECotlyRVwV2lc7+IbeOqdVC0w6nxH5whTLAvFXWq5xn+xfhO8KwvfpWhqEOV
- v5muwE/opXzQeUV2MbZ1OwH63Ifs8ShdGqaWhcGDv+NcBdW/VJxm8bL1/aC/k8wDZajA
- secKcnMePacXZm0Z9K02nSvIy1qPVbYj4/HZCjXKwoSusTAJg38xXhIH68PzX8BxCtAO
- DJPg==
+ :cc; bh=W1lp+ZB68Q65B0rKzUfdiWUi0TkXUKU7TtDUAmxGEbY=;
+ b=UagMoZiPvNvZBemlAKrsNf66cO15HmyULMw8EoAccOpMC7D0RvOTIOCydAxgX15iyJ
+ gc3N+zSsAGpuygXu1EF/C0vF731vOn0qnIlry6nB1zeSg5BKvGCT7scmUaveHM4quX2a
+ LWXITR+nux9p0TzuCr4jEeDbkUBr8WIDZkzUT+JM5NodvMTfIKgsDFG9JEdxn6gVWm+D
+ RdUNYRa92bTf7rprKwj5wCLrhO7nyMtHF5ibCy8M0e/zNcye/S0xKTRHmj6i0+Xs0G51
+ ZCZxn8x/wMmoBFR5sd+o5vaPzXlSHnnqtj85NPSWveTa+7fKm+Vs0jiT+BDjjolM2NHn
+ IcxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z03D2JSzBfVLdeJPOAUVD6ydq1aenXB8ml55Cn9XL+I=;
- b=ep8b/ITefJhM5WgrVKPBjwxpuaRwSyW2e8+rDOOTrOWxj76QRj2siR4bZ7ehO0oXk0
- Uj0WpiEAZx38Zta5/TScA3KOmypMuA45hTFFgoazYZrPIk8I6hfPLrtJ1oHAsRD5zInA
- dVSutK3pEejDoUNBhTnFqzPUYk4TlY6guoGLz0whWLkq+O1iv1nHafFt96RYl0l4MQVc
- 852NrBUnTmWll2P8/Sro0PTJBnI2YbBwJsB74/emgj07WZu6sDI3JIFm0S9o4lobF/9C
- 0uYVW/V+LyfP8TiHTM0nk8Y3Y+ATWhPtTcTLgnL0DC3DZ7CCMuq03HSFWYEntDSV9o6D
- vFGA==
-X-Gm-Message-State: AOAM531K9vUYmf9AdD22f4nO/GMU+4C3gn7rVcjTX8CM/jh5taj59+xQ
- z1dXC4GqE+7pqrSlHGg5qzSQfcl3JvBcpsKeuDk=
-X-Google-Smtp-Source: ABdhPJxdMskVhkb6Au+ovQzM6NORhgFo26TD6W5pTst8bWgdXs3tSMuxq50qz/y4rm6TKYfXZegOyl5EveFQAtfM4Ek=
-X-Received: by 2002:ac2:5a06:: with SMTP id q6mr27845465lfn.283.1625061394182; 
- Wed, 30 Jun 2021 06:56:34 -0700 (PDT)
+ bh=W1lp+ZB68Q65B0rKzUfdiWUi0TkXUKU7TtDUAmxGEbY=;
+ b=OfJmpXFICorpITBU5101csYoemsc6cATCGMgEaJhjfWWsS6ELmQMlD32a5ANmJJx96
+ quoMlAP9apkoWb1CskYFYcQlFTKNIs/k+xCY4tIpBUV8BtVWLN7nSgmlZ1DNKTaIsUvn
+ 8GXNs6dUYu3mrNhecK/nsZ6zqRQcpZkYYwOyjQLrWyNT95wW+gji2lH4Utp4Spc94J9f
+ w9ejAS+zBNLfQnyAPA/7g0ziJYLDEIaSpHEbi6wbFouCytwlRgzwuZe1JAU+xRwSnxXF
+ 87xmz5Cvs70HJVqERdab+VqBGYKM9OOBo0KCztXa4SkE9nzq02ruwg36/ajk0kEMP7aa
+ 43IQ==
+X-Gm-Message-State: AOAM530anL1O4BTHx2Jmy4uB+x1Js26bndhuKMp9DAowWCKImDP4TP07
+ hMx03XMdzeF5/5/EYIX+kBCxfotIj8VY41sBeLw=
+X-Google-Smtp-Source: ABdhPJwaIzTHHNs4lVr2HqduVd7byQ7lZ16bOpvVnosNeM3966ConIff636STSb88rUj66luUHpMz93fxvqqNjqFWqY=
+X-Received: by 2002:a05:6402:18f6:: with SMTP id
+ x54mr48508029edy.53.1625061776179; 
+ Wed, 30 Jun 2021 07:02:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210630115246.2178219-1-marcel@redhat.com>
-In-Reply-To: <20210630115246.2178219-1-marcel@redhat.com>
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Date: Wed, 30 Jun 2021 16:56:19 +0300
-Message-ID: <CAMPkWoMbhAt6K=PS32BoXHGPQOCRtgWrjJtrH1x8v19xthkHQQ@mail.gmail.com>
-Subject: Re: [PATCH] pvrdma: Fix the ring init error flow (CVE-2021-3608)
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000023748705c5fc172a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=yuval.shaia.ml@gmail.com; helo=mail-lf1-x132.google.com
+References: <1625075081-2292-1-git-send-email-wang.yi59@zte.com.cn>
+In-Reply-To: <1625075081-2292-1-git-send-email-wang.yi59@zte.com.cn>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 30 Jun 2021 18:02:44 +0400
+Message-ID: <CAJ+F1CLt2zZVBW5UXE5HktKuXcyieP4aN5L_nepC=OYy+xDw9Q@mail.gmail.com>
+Subject: Re: [PATCH v2] qga: fix a memory leak in qmp_guest_exec_status()
+To: Yi Wang <wang.yi59@zte.com.cn>
+Content-Type: multipart/alternative; boundary="000000000000e845f205c5fc2d4e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,98 +77,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcel@redhat.com, vv474172261@gmail.com, mcascell@redhat.com,
- pj.pandit@yahoo.co.in, QEMU Developers <qemu-devel@nongnu.org>
+Cc: wang.liang82@zte.com.cn, Wang Yechao <wang.yechao255@zte.com.cn>,
+ QEMU <qemu-devel@nongnu.org>, xue.zhihong@zte.com.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000023748705c5fc172a
+--000000000000e845f205c5fc2d4e
 Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 30 Jun 2021 at 14:52, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-wrote:
-
-> Do not unmap uninitialized dma addresses.
->
-> Fixes: CVE-2021-3608
-> Reviewed-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-> Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-> Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-> ---
->  hw/rdma/vmw/pvrdma_dev_ring.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
-> index 074ac59b84..42130667a7 100644
-> --- a/hw/rdma/vmw/pvrdma_dev_ring.c
-> +++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-> @@ -41,7 +41,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name,
-> PCIDevice *dev,
->      qatomic_set(&ring->ring_state->cons_head, 0);
->      */
->      ring->npages = npages;
-> -    ring->pages = g_malloc(npages * sizeof(void *));
-> +    ring->pages = g_malloc0(npages * sizeof(void *));
->
->
-Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-
-
->      for (i = 0; i < npages; i++) {
->          if (!tbl[i]) {
-> --
-> 2.31.1
->
->
-
---00000000000023748705c5fc172a
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 30 Jun 2021 at 14:52, Marcel =
-Apfelbaum &lt;<a href=3D"mailto:marcel.apfelbaum@gmail.com">marcel.apfelbau=
-m@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Do not unmap uninitialized dma addresses.<br>
-<br>
-Fixes: CVE-2021-3608<br>
-Reviewed-by: VictorV (Kunlun Lab) &lt;<a href=3D"mailto:vv474172261@gmail.c=
-om" target=3D"_blank">vv474172261@gmail.com</a>&gt;<br>
-Tested-by: VictorV (Kunlun Lab) &lt;<a href=3D"mailto:vv474172261@gmail.com=
-" target=3D"_blank">vv474172261@gmail.com</a>&gt;<br>
-Signed-off-by: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel@redhat.com" ta=
-rget=3D"_blank">marcel@redhat.com</a>&gt;<br>
----<br>
-=C2=A0hw/rdma/vmw/pvrdma_dev_ring.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c<=
-br>
-index 074ac59b84..42130667a7 100644<br>
---- a/hw/rdma/vmw/pvrdma_dev_ring.c<br>
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.c<br>
-@@ -41,7 +41,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, =
-PCIDevice *dev,<br>
-=C2=A0 =C2=A0 =C2=A0qatomic_set(&amp;ring-&gt;ring_state-&gt;cons_head, 0);=
-<br>
-=C2=A0 =C2=A0 =C2=A0*/<br>
-=C2=A0 =C2=A0 =C2=A0ring-&gt;npages =3D npages;<br>
--=C2=A0 =C2=A0 ring-&gt;pages =3D g_malloc(npages * sizeof(void *));<br>
-+=C2=A0 =C2=A0 ring-&gt;pages =3D g_malloc0(npages * sizeof(void *));<br>
-<br></blockquote><div><br></div>Reviewed-by: Yuval Shaia &lt;<a href=3D"mai=
-lto:yuval.shaia.ml@gmail.com" target=3D"_blank">yuval.shaia.ml@gmail.com</a=
->&gt;<br><div>Tested-by: Yuval Shaia &lt;<a href=3D"mailto:yuval.shaia.ml@g=
-mail.com" target=3D"_blank">yuval.shaia.ml@gmail.com</a>&gt;=C2=A0=C2=A0</d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; npages; i++) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!tbl[i]) {<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div>
+On Wed, Jun 30, 2021 at 1:55 PM Yi Wang <wang.yi59@zte.com.cn> wrote:
 
---00000000000023748705c5fc172a--
+> From: Wang Yechao <wang.yechao255@zte.com.cn>
+>
+> In some case, $GuestExecInfo.out.length maybe zero and the memory
+> is leaked in qmp_guest_exec_status(). Call g_free() on the fileds
+> directly to fix memory leak (NULL is ignored).
+>
+> $GuestExecInfo.err.data has the same problem.
+>
+> Signed-off-by: Yechao Wang <wang.yechao255@zte.com.cn>
+> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+> ---
+> Changes in v2:
+>  - do not check the size > 0 when call g_free. Thanks to Marc.
+> ---
+>  qga/commands.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/qga/commands.c b/qga/commands.c
+> index d3fec80..26e9358 100644
+> --- a/qga/commands.c
+> +++ b/qga/commands.c
+>
+> @@ -214,17 +214,18 @@ GuestExecStatus *qmp_guest_exec_status(int64_t pid,=
+ Error **errp)
+>          if (gei->out.length > 0) {
+>              ges->has_out_data =3D true;
+>
+>              ges->out_data =3D g_base64_encode(gei->out.data, gei->out.le=
+ngth);
+> -            g_free(gei->out.data);
+>              ges->has_out_truncated =3D gei->out.truncated;
+>          }
+>
+>          if (gei->err.length > 0) {
+>              ges->has_err_data =3D true;
+>
+>              ges->err_data =3D g_base64_encode(gei->err.data, gei->err.le=
+ngth);
+> -            g_free(gei->err.data);
+>              ges->has_err_truncated =3D gei->err.truncated;
+>          }
+>
+> +        g_free(gei->out.data);
+> +        g_free(gei->err.data);
+> +
+>          QTAILQ_REMOVE(&guest_exec_state.processes, gei, next);
+>          g_free(gei);
+>      }
+> --
+> 1.8.3.1
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000e845f205c5fc2d4e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBkaXI9Imx0ciI+PGRpdiBkaXI9Imx0ciI+PGJyPjwvZGl2Pjxicj48ZGl2IGNsYXNzPSJn
+bWFpbF9xdW90ZSI+PGRpdiBkaXI9Imx0ciIgY2xhc3M9ImdtYWlsX2F0dHIiPk9uIFdlZCwgSnVu
+IDMwLCAyMDIxIGF0IDE6NTUgUE0gWWkgV2FuZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOndhbmcueWk1
+OUB6dGUuY29tLmNuIj53YW5nLnlpNTlAenRlLmNvbS5jbjwvYT4mZ3Q7IHdyb3RlOjxicj48L2Rp
+dj48YmxvY2txdW90ZSBjbGFzcz0iZ21haWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46MHB4IDBweCAw
+cHggMC44ZXg7Ym9yZGVyLWxlZnQ6MXB4IHNvbGlkIHJnYigyMDQsMjA0LDIwNCk7cGFkZGluZy1s
+ZWZ0OjFleCI+RnJvbTrCoFdhbmfCoFllY2hhb8KgJmx0OzxhIGhyZWY9Im1haWx0bzp3YW5nLnll
+Y2hhbzI1NUB6dGUuY29tLmNuIiB0YXJnZXQ9Il9ibGFuayI+d2FuZy55ZWNoYW8yNTVAenRlLmNv
+bS5jbjwvYT4mZ3Q7DQo8YnI+DQo8YnI+SW7CoHNvbWXCoGNhc2UswqAkR3Vlc3RFeGVjSW5mby5v
+dXQubGVuZ3RowqBtYXliZcKgemVyb8KgYW5kwqB0aGXCoG1lbW9yeTxicj5pc8KgbGVha2VkwqBp
+bsKgcW1wX2d1ZXN0X2V4ZWNfc3RhdHVzKCkuwqBDYWxswqBnX2ZyZWUoKcKgb27CoHRoZcKgZmls
+ZWRzPGJyPmRpcmVjdGx5wqB0b8KgZml4wqBtZW1vcnnCoGxlYWvCoChOVUxMwqBpc8KgaWdub3Jl
+ZCkuPGJyPg0KPGJyPiRHdWVzdEV4ZWNJbmZvLmVyci5kYXRhwqBoYXPCoHRoZcKgc2FtZcKgcHJv
+YmxlbS48YnI+DQo8YnI+U2lnbmVkLW9mZi1ieTrCoFllY2hhb8KgV2FuZ8KgJmx0OzxhIGhyZWY9
+Im1haWx0bzp3YW5nLnllY2hhbzI1NUB6dGUuY29tLmNuIiB0YXJnZXQ9Il9ibGFuayI+d2FuZy55
+ZWNoYW8yNTVAenRlLmNvbS5jbjwvYT4mZ3Q7DQo8YnI+U2lnbmVkLW9mZi1ieTrCoFlpwqBXYW5n
+wqAmbHQ7PGEgaHJlZj0ibWFpbHRvOndhbmcueWk1OUB6dGUuY29tLmNuIiB0YXJnZXQ9Il9ibGFu
+ayI+d2FuZy55aTU5QHp0ZS5jb20uY248L2E+Jmd0Ow0KPGJyPjwvYmxvY2txdW90ZT48ZGl2Pjxi
+cj48L2Rpdj48ZGl2PlJldmlld2VkLWJ5OiBNYXJjLUFuZHLDqSBMdXJlYXUgJmx0OzxhIGhyZWY9
+Im1haWx0bzptYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20iPm1hcmNhbmRyZS5sdXJlYXVAcmVk
+aGF0LmNvbTwvYT4mZ3Q7PC9kaXY+PGRpdj4gPGJyPjwvZGl2PjxibG9ja3F1b3RlIGNsYXNzPSJn
+bWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjowcHggMHB4IDBweCAwLjhleDtib3JkZXItbGVmdDox
+cHggc29saWQgcmdiKDIwNCwyMDQsMjA0KTtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxicj4tLS08YnI+
+Q2hhbmdlc8KgaW7CoHYyOjxicj7CoC3CoGRvwqBub3TCoGNoZWNrwqB0aGXCoHNpemXCoCZndDvC
+oDDCoHdoZW7CoGNhbGzCoGdfZnJlZS7CoFRoYW5rc8KgdG/CoE1hcmMuPGJyPi0tLTxicj7CoHFn
+YS9jb21tYW5kcy5jwqB8wqA1wqArKystLTxicj7CoDHCoGZpbGXCoGNoYW5nZWQswqAzwqBpbnNl
+cnRpb25zKCspLMKgMsKgZGVsZXRpb25zKC0pPGJyPg0KPGJyPmRpZmbCoC0tZ2l0wqBhL3FnYS9j
+b21tYW5kcy5jwqBiL3FnYS9jb21tYW5kcy5jPGJyPmluZGV4wqBkM2ZlYzgwLi4yNmU5MzU4wqAx
+MDA2NDQ8YnI+LS0twqBhL3FnYS9jb21tYW5kcy5jPGJyPisrK8KgYi9xZ2EvY29tbWFuZHMuYzxi
+cj5AQMKgLTIxNCwxN8KgKzIxNCwxOMKgQEDCoEd1ZXN0RXhlY1N0YXR1c8KgKnFtcF9ndWVzdF9l
+eGVjX3N0YXR1cyhpbnQ2NF90wqBwaWQswqBFcnJvcsKgKiplcnJwKTxicj7CoMKgwqDCoMKgwqDC
+oMKgwqBpZsKgKGdlaS0mZ3Q7b3V0Lmxlbmd0aMKgJmd0O8KgMCnCoHs8YnI+wqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBnZXMtJmd0O2hhc19vdXRfZGF0YcKgPcKgdHJ1ZTs8YnI+wqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBnZXMtJmd0O291dF9kYXRhwqA9wqBnX2Jhc2U2NF9lbmNvZGUoZ2Vp
+LSZndDtvdXQuZGF0YSzCoGdlaS0mZ3Q7b3V0Lmxlbmd0aCk7PGJyPi3CoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqBnX2ZyZWUoZ2VpLSZndDtvdXQuZGF0YSk7PGJyPsKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgZ2VzLSZndDtoYXNfb3V0X3RydW5jYXRlZMKgPcKgZ2VpLSZndDtvdXQudHJ1bmNhdGVk
+Ozxicj7CoMKgwqDCoMKgwqDCoMKgwqB9PGJyPsKgDQo8YnI+wqDCoMKgwqDCoMKgwqDCoMKgaWbC
+oChnZWktJmd0O2Vyci5sZW5ndGjCoCZndDvCoDApwqB7PGJyPsKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgZ2VzLSZndDtoYXNfZXJyX2RhdGHCoD3CoHRydWU7PGJyPsKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgZ2VzLSZndDtlcnJfZGF0YcKgPcKgZ19iYXNlNjRfZW5jb2RlKGdlaS0mZ3Q7ZXJy
+LmRhdGEswqBnZWktJmd0O2Vyci5sZW5ndGgpOzxicj4twqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+Z19mcmVlKGdlaS0mZ3Q7ZXJyLmRhdGEpOzxicj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdl
+cy0mZ3Q7aGFzX2Vycl90cnVuY2F0ZWTCoD3CoGdlaS0mZ3Q7ZXJyLnRydW5jYXRlZDs8YnI+wqDC
+oMKgwqDCoMKgwqDCoMKgfTxicj7CoA0KPGJyPivCoMKgwqDCoMKgwqDCoMKgZ19mcmVlKGdlaS0m
+Z3Q7b3V0LmRhdGEpOzxicj4rwqDCoMKgwqDCoMKgwqDCoGdfZnJlZShnZWktJmd0O2Vyci5kYXRh
+KTs8YnI+Kzxicj7CoMKgwqDCoMKgwqDCoMKgwqBRVEFJTFFfUkVNT1ZFKCZhbXA7Z3Vlc3RfZXhl
+Y19zdGF0ZS5wcm9jZXNzZXMswqBnZWkswqBuZXh0KTs8YnI+wqDCoMKgwqDCoMKgwqDCoMKgZ19m
+cmVlKGdlaSk7PGJyPsKgwqDCoMKgwqB9PGJyPi0twqANCjxicj4xLjguMy4xPGJyPjwvYmxvY2tx
+dW90ZT48L2Rpdj48YnIgY2xlYXI9ImFsbCI+PGJyPi0tIDxicj48ZGl2IGRpcj0ibHRyIiBjbGFz
+cz0iZ21haWxfc2lnbmF0dXJlIj5NYXJjLUFuZHLDqSBMdXJlYXU8YnI+PC9kaXY+PC9kaXY+DQo=
+--000000000000e845f205c5fc2d4e--
 
