@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76DA33B8AF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 01:30:16 +0200 (CEST)
-Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB1B3B8AF8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 01:33:03 +0200 (CEST)
+Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyjep-00065n-HY
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 19:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45304)
+	id 1lyjhT-000120-Qb
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 19:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjcm-0003bC-Aj
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:08 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:45226)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjcf-0003Pe-Q0
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:01 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:35440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjck-0001KT-HA
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:08 -0400
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjce-0001FE-3R
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:01 -0400
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 734CA22772;
- Wed, 30 Jun 2021 23:28:05 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 113151FF32;
+ Wed, 30 Jun 2021 23:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625095685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
- b=UzZy+7eaeCnM8azh3/wC3YhykMugaSFGyU99N6I/Q9509zlfupeuV2nrHkk76uETK7PDv+
- TzjN4dBLWSUJn8bwIqpwzlKS0WrimZ/bxGwfIEocE2jKslrZfqCrRZyL506GFFW+As6XuS
- Nrv2qiAtiXD2DeYfDJWXbphhzT0CrTA=
+ t=1625095677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
+ b=uf/CWxrgtFWiYg3LM/5MPLGcu58//9n3tdx0LpTskjeVzpjuBaCdMDkisUl3LDVhJzfxcn
+ TX+YsOqcyiixkvWjq//uX37fr5CbtGeDKvFRMJp2JscmpSd5OQ4EbC3ZMIqWki/00Kxzik
+ buH3jTyd5SzCSqQFRI3OaTTreMc8oPg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625095685;
+ s=susede2_ed25519; t=1625095677;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
- b=02dtMQ4dD/VgTSLHot5MkwzKAWdFUOQbSuFWKsnzJh9YFxegGrRr2g4UTMcEtj6SLJEGQ1
- 30b0jPoL7m3MuCCQ==
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
+ b=nY6SO2d7FdJsPOhNIbYxycdHbCmzRAQeC1g/w+kxYnzZwRyg4EZpY75BXhXYBwucbza3di
+ 0mYLK05uQfh9VeDQ==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 25A0A118DD;
- Wed, 30 Jun 2021 23:28:02 +0000 (UTC)
+ by imap.suse.de (Postfix) with ESMTP id BE222118DD;
+ Wed, 30 Jun 2021 23:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625095685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
- b=UzZy+7eaeCnM8azh3/wC3YhykMugaSFGyU99N6I/Q9509zlfupeuV2nrHkk76uETK7PDv+
- TzjN4dBLWSUJn8bwIqpwzlKS0WrimZ/bxGwfIEocE2jKslrZfqCrRZyL506GFFW+As6XuS
- Nrv2qiAtiXD2DeYfDJWXbphhzT0CrTA=
+ t=1625095677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
+ b=uf/CWxrgtFWiYg3LM/5MPLGcu58//9n3tdx0LpTskjeVzpjuBaCdMDkisUl3LDVhJzfxcn
+ TX+YsOqcyiixkvWjq//uX37fr5CbtGeDKvFRMJp2JscmpSd5OQ4EbC3ZMIqWki/00Kxzik
+ buH3jTyd5SzCSqQFRI3OaTTreMc8oPg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625095685;
+ s=susede2_ed25519; t=1625095677;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
- b=02dtMQ4dD/VgTSLHot5MkwzKAWdFUOQbSuFWKsnzJh9YFxegGrRr2g4UTMcEtj6SLJEGQ1
- 30b0jPoL7m3MuCCQ==
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
+ b=nY6SO2d7FdJsPOhNIbYxycdHbCmzRAQeC1g/w+kxYnzZwRyg4EZpY75BXhXYBwucbza3di
+ 0mYLK05uQfh9VeDQ==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id CMO4NQL+3GA/IQAALh3uQQ
- (envelope-from <jziviani@suse.de>); Wed, 30 Jun 2021 23:28:02 +0000
+ id PcQVH/r93GA/IQAALh3uQQ
+ (envelope-from <jziviani@suse.de>); Wed, 30 Jun 2021 23:27:54 +0000
 From: "Jose R. Ziviani" <jziviani@suse.de>
 To: qemu-devel@nongnu.org
-Subject: [RFC 3/3] qom: Improve error message in module_object_class_by_name()
-Date: Wed, 30 Jun 2021 20:27:49 -0300
-Message-Id: <20210630232749.21873-4-jziviani@suse.de>
+Subject: [RFC 0/3] Improve module accelerator error message
+Date: Wed, 30 Jun 2021 20:27:46 -0300
+Message-Id: <20210630232749.21873-1-jziviani@suse.de>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210630232749.21873-1-jziviani@suse.de>
-References: <20210630232749.21873-1-jziviani@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=jziviani@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=jziviani@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -101,90 +91,28 @@ Cc: berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-module_object_class_by_name() calls module_load_qom_one if the object
-is provided by a dynamically linked library. Such library might not be
-available at this moment - for instance, it can be a package not yet
-installed. Thus, instead of assert error messages, this patch outputs
-more friendly messages.
+Hello!
 
-Current error messages:
-$ ./qemu-system-x86_64 -machine q35 -accel tcg -kernel /boot/vmlinuz
-...
-ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
-Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
-[1]    31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
+I'm sending this as RFC because it's based on a patch still on
+review[1], so I'd like to see if it makes sense.
 
-New error message:
-$ ./qemu-system-x86_64 -machine q35 -accel tcg -kernel /boot/vmlinuz
-accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
+Tt will improve the error message when an accelerator module could
+not be loaded. Instead of the current assert error, a formated
+message will be displayed.
 
-$ make check
-...
-Running test qtest-x86_64/test-filter-mirror
-Running test qtest-x86_64/endianness-test
-accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
-accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
-accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
-accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
-accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
-accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
-...
+[1] https://patchwork.kernel.org/project/qemu-devel/list/?series=506379
 
-Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
----
- qom/object.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Jose R. Ziviani (3):
+  modules: Add CONFIG_TCG_MODULAR in config_host
+  modules: Implement module_is_loaded function
+  qom: Improve error message in module_object_class_by_name()
 
-diff --git a/qom/object.c b/qom/object.c
-index 6a01d56546..2d40245af9 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1024,6 +1024,24 @@ ObjectClass *object_class_by_name(const char *typename)
-     return type->class;
- }
- 
-+char *get_accel_module_name(const char *ac_name);
-+
-+char *get_accel_module_name(const char *ac_name)
-+{
-+    size_t len = strlen(ac_name);
-+    char *module_name = NULL;
-+
-+    if (strncmp(ac_name, "tcg-accel-ops", len) == 0) {
-+#ifdef CONFIG_TCG_MODULAR
-+        module_name = g_strdup_printf("%s%s", "accel-tcg-", "x86_64");
-+#endif
-+    } else if (strncmp(ac_name, "qtest-accel-ops", len) == 0) {
-+        module_name = g_strdup_printf("%s%s", "accel-qtest-", "x86_64");
-+    }
-+
-+    return module_name;
-+}
-+
- ObjectClass *module_object_class_by_name(const char *typename)
- {
-     ObjectClass *oc;
-@@ -1031,8 +1049,20 @@ ObjectClass *module_object_class_by_name(const char *typename)
-     oc = object_class_by_name(typename);
- #ifdef CONFIG_MODULES
-     if (!oc) {
-+        char *module_name;
-         module_load_qom_one(typename);
-         oc = object_class_by_name(typename);
-+        module_name = get_accel_module_name(typename);
-+        if (module_name) {
-+            if (!module_is_loaded(module_name)) {
-+                fprintf(stderr, "%s module is missing, install the "
-+                                "package or config the library path "
-+                                "correctly.\n", module_name);
-+                g_free(module_name);
-+                exit(1);
-+            }
-+            g_free(module_name);
-+        }
-     }
- #endif
-     return oc;
+ include/qemu/module.h |  3 +++
+ meson.build           |  3 +++
+ qom/object.c          | 30 ++++++++++++++++++++++++++++++
+ util/module.c         | 28 +++++++++++++++++++++-------
+ 4 files changed, 57 insertions(+), 7 deletions(-)
+
 -- 
 2.32.0
 
