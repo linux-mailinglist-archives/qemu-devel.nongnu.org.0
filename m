@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F17C3B88A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 20:43:46 +0200 (CEST)
-Received: from localhost ([::1]:58780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DB73B88A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 20:39:56 +0200 (CEST)
+Received: from localhost ([::1]:50824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyfBZ-0003MO-BY
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 14:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45456)
+	id 1lyf7r-0006NE-LX
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 14:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyf0n-0005B3-Ec
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:32:37 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:36508)
+ id 1lyf0o-0005EN-K0
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:32:38 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:37397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyf0k-00021T-Ry
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:32:37 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id e33so3206703pgm.3
+ id 1lyf0l-00021f-7k
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:32:38 -0400
+Received: by mail-pf1-x432.google.com with SMTP id 17so3087680pfz.4
  for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 11:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pCw6fLSKCEavs1htLRAjDwkOxh3efrl1ZEcFJiTTMvg=;
- b=T9pCnmwcoDUHtHGFeDqFXX63m+YAFJJHtY9WnHm0bMMbojRAxQo8bKSYd/QwEiM9N0
- W5rLbJkYHPJmlmUtlzf9xd1agh8RzedxsnpvQ6dqtgJUTBij8VDpZJ0sM9rSXCjbgkMP
- MGVdD+6pbarLJnZ9OiUmBZZHP5ifwcc+IqGIIr+Jo90BKrum9GyBE7MPfFk6ZtcINKJB
- +TNPyHRNxxkyHSL9xKSjE1KlglwB2cyNLVphrypv+G/71KBUik0vlyRnZVHiib5guReu
- 8vDKf979mTU3jSlWjkldTt1pJz4gCVjJj42t4kFOubbOhtDEJf1cjojyUw6heSLuio5+
- 2FMQ==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=cH+sdopDqg3AA/XmKjvzj97BFIKh2FfG1/i/yI9Y2V4=;
+ b=nZWpNRvmJr8B0KLGBlmol8zFkgwK9OeS5n1S8HpnfR8XZtneZQMeYlm1xQVmWhTSDX
+ nn78T4xFepqoJfUdbrxjRgL1Lgy9Xi8iR+dIkqeErBZpTetY8jwTG/qWfakhxadbVqUA
+ gbkLNbHMpG83++qabE6HHlcfT2K84ryb+563YjwHRDhMtvpXV47GpdWcBW73Xo17JfZI
+ ziZT1KOWn+eQBf8LxccUQ68S6rLFX7YD9hysqtjVR4FJvuU0udwtjdNMAkj/LvPKYH43
+ J5nnFcfXnZ5HFbyvZDuNKBqMCS6CLSC/HXT3j4AFkSmHFICgiIiay9lugaDnkfrgiDp1
+ KcAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pCw6fLSKCEavs1htLRAjDwkOxh3efrl1ZEcFJiTTMvg=;
- b=jDW/WCa+0MQf0NWj6GJrbpQIoybUKbSYqgouNEyz9jUFX0Jz8zO7CABCxB3j6gqn3D
- ic4xkb86jAkjV5yEEyF88V3piwpzAU3DnVpXbVRKQzHAZxAeRkDib1DKyK6KMqsh+y1B
- Z7g4n2hfVB1OI7M04YfpEz4NrnLym/EVlhspYW0EEGV8vNQM3FzXV5lL/jGNMthn6saS
- TKnrGZerCBslwas+FElutVddmpIueYEAN3WNtFFDdM9WbVn0ZSUxmt6+c6Egc8nY+2J1
- k2HIoNuHfudsykSGPGinSeUQRpcHoKqFKimABt8MR6pLWvmCs0dQYta2JYUdG5XidCWC
- 2nbg==
-X-Gm-Message-State: AOAM532DAm+kFm5zqve/Z1gcNwhzSEYU06CHal2+xemEIaLVjhqgrdhd
- mbLF3iQ8DXIjOy4a9/hh5q28uIAbEu92qg==
-X-Google-Smtp-Source: ABdhPJwtE7eAjcFvl8FzvVWCxh08Z03Pv8Y1deQEsZ3ipTYNfd8ZPDEkemMKU0RjJ+3sAjDFk5Utxg==
-X-Received: by 2002:a05:6a00:14c4:b029:303:fd5e:3800 with SMTP id
- w4-20020a056a0014c4b0290303fd5e3800mr37610153pfu.41.1625077953593; 
- Wed, 30 Jun 2021 11:32:33 -0700 (PDT)
+ bh=cH+sdopDqg3AA/XmKjvzj97BFIKh2FfG1/i/yI9Y2V4=;
+ b=bGlliZcukAPFCbyL54c+qot7JN1/dmgefhH7lIN5KXa8racDF7K01898uIKNIY+rm6
+ xQnuzagvodEGgPPsi/gMm6DSDpVjLdtHUN8FJSwaVGFZNytGZtfmpyZLg6AKLcaU7zPm
+ b6yC58kTsJDDLFnlEfXD854kMlmJYOTOlE4THbSvA3VOyM1omFLDZorAqitYqGlAVqnr
+ NbhfBPthtULdWxd1GvWAwaaJmhcrToFFxEngxltUFcpCH/DVwhbC2QZA1dJ52/Not5bN
+ KZk9P9oPPFXJK42DggdHgYIXAQOpvC+cXir8rXpaDle4ilyTzQoc12LfghbSsM7zzQcV
+ myCg==
+X-Gm-Message-State: AOAM533LgJ5elUDKkbgbs9YphM+gSwh62mbzSTiqDa8GDvjlSUBYsYuw
+ r90Tg2vhrbVW8mZdBka4OXVyQDMUbqz/Kw==
+X-Google-Smtp-Source: ABdhPJwWzfsFbvrZzJ9WIjV8/KKmRkuiHlgRGxT9AYky4ZNLUQOR8+6BQlsB9bSJVFg8ZvOyPlvfnw==
+X-Received: by 2002:a65:5889:: with SMTP id d9mr395398pgu.410.1625077954111;
+ Wed, 30 Jun 2021 11:32:34 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id m18sm23909517pff.88.2021.06.30.11.32.33
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 30 Jun 2021 11:32:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/28] target/cris: Use translator_use_goto_tb
-Date: Wed, 30 Jun 2021 11:32:08 -0700
-Message-Id: <20210630183226.3290849-11-richard.henderson@linaro.org>
+Subject: [PATCH v2 11/28] target/hppa: Use translator_use_goto_tb
+Date: Wed, 30 Jun 2021 11:32:09 -0700
+Message-Id: <20210630183226.3290849-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630183226.3290849-1-richard.henderson@linaro.org>
 References: <20210630183226.3290849-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,42 +83,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test for singlestepping is done in translator_use_goto_tb,
-so we may elide it from cris_tr_tb_stop.
-
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ target/hppa/translate.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 4cfe5c86d9..e33a3bb326 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -482,7 +482,7 @@ static void t_gen_swapr(TCGv d, TCGv s)
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index 64af1e0d5c..952cfe09a6 100644
+--- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -817,10 +817,7 @@ static bool gen_illegal(DisasContext *ctx)
  
- static bool use_goto_tb(DisasContext *dc, target_ulong dest)
+ static bool use_goto_tb(DisasContext *ctx, target_ureg dest)
  {
--    return ((dest ^ dc->base.pc_first) & TARGET_PAGE_MASK) == 0;
-+    return translator_use_goto_tb(&dc->base, dest);
+-    /* Suppress goto_tb for page crossing, IO, or single-steping.  */
+-    return !(((ctx->base.pc_first ^ dest) & TARGET_PAGE_MASK)
+-             || (tb_cflags(ctx->base.tb) & CF_LAST_IO)
+-             || ctx->base.singlestep_enabled);
++    return translator_use_goto_tb(&ctx->base, dest);
  }
  
- static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
-@@ -3235,8 +3235,7 @@ static void cris_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-              * Use a conditional branch if either taken or not-taken path
-              * can use goto_tb.  If neither can, then treat it as indirect.
-              */
--            if (likely(!dc->base.singlestep_enabled)
--                && likely(!dc->cpustate_changed)
-+            if (likely(!dc->cpustate_changed)
-                 && (use_goto_tb(dc, dc->jmp_pc) || use_goto_tb(dc, npc))) {
-                 TCGLabel *not_taken = gen_new_label();
- 
+ /* If the next insn is to be nullified, and it's on the same page,
 -- 
 2.25.1
 
