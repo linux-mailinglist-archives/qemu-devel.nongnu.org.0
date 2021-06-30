@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 511FF3B881F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 20:01:53 +0200 (CEST)
-Received: from localhost ([::1]:55582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAC43B883D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 20:17:51 +0200 (CEST)
+Received: from localhost ([::1]:60220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyeX2-00057n-9S
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 14:01:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39022)
+	id 1lyemU-0000sw-DR
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 14:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyeVI-00049d-DR
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:00:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23287)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyeVG-0005pv-8X
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:00:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625076001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HEZQlS1IHAIzBisPTZxboxOrbHNSR3sz8YQ3UADXcfs=;
- b=EU+Lo7u1bY/7D0r12RZD7sdMNH8NfgoPzvqwkYX/iXGalwayqnoNrMoxEq8Wfyl1AIkSvJ
- /kiXOGtcXD4u2v/kJd7roUWM2B46zOF+4mg/JxlBuaVKD//y76fcCK5r/JK4tM318ppGFG
- lwVaVlJuDw/vNdX524dgp05KjdLJipc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-EWjOsG_5NX-wqMjeb_0cuA-1; Wed, 30 Jun 2021 13:59:59 -0400
-X-MC-Unique: EWjOsG_5NX-wqMjeb_0cuA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z127-20020a1c7e850000b02901e46e4d52c0so3164535wmc.6
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 10:59:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lyel0-0000BE-KV
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:16:18 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lyeky-00080v-5t
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:16:18 -0400
+Received: by mail-ed1-x531.google.com with SMTP id n25so4544106edw.9
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 11:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+SM7iNver6CwLX/nePwihuit7z/Osyw086AyjJSXHpE=;
+ b=EcBOSnez5p1xPdZMm8R1t54j4BYMmPHninQyu/wXr5hZ+zfEHlXAnTSz7eyFxywCAS
+ LJIsaseXCdFbLnqLEo6OGgeLlD7bPAM0dm5HsG4vxr+0JI8Z/E/ZoqXDQ8f15hJuFjAa
+ ayAnkjM1QA9kkqdnJW/7HpSYDoOccCyT9gCWzL5Y2VFjgI+LGmDOk5TYE8TZsmKir7F6
+ ICx6RDB72DrSwwxLChHWIcMvYJdHi3AImnbPgEE3UfS39xLZEenhNRoE5WJhruLFMz7u
+ JK1GuHcQn6GnYvkr6KD11OcdRvhYV2Lv0cIS/MgiSLWpxX5DmQq4jJfeZKXKnrQ1WeDF
+ 6NWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=HEZQlS1IHAIzBisPTZxboxOrbHNSR3sz8YQ3UADXcfs=;
- b=cG9xgwQgnuvUKj8P2LyBdpV1cWsnnAkGS2N82kIQUDL4vrjr3CDWB+pVKVDnIKjUgO
- Xnuejy5iahKYkohkNtqa+yhwhh5/u4yn1lhzoXK0VQnkumtsnZYPNr0qfLY9iV5nkWXr
- grLrYHNFrpCPs7vLg9mySG9bj4Aimyu9G69O1yqiZuyiNfLu07BxGg4rd6sJoKNFmRaB
- h1PkMaLRQNwdR23iJeDtjTV/klTnByTITxOiMJKK706HYWRe6gqXMt3qJhl+VNHm6mxN
- 30xK1Us9AnuwLeVlRsGhn1PakKG7Hf/jZbcYvzKCkcUEZ25j4hyGmEXALhfzNKWYrlo8
- 21OA==
-X-Gm-Message-State: AOAM530hqLOfYG9wIj0V9Hktn4Bi5a02hP+ZiPhC9VDVRm8nI6GI7BcG
- ltQ770i7RKYy81ysNp2kPFibEAW3rCAMGCOFc4gOvIps05E4oCML6vAffB+WgnaZpIQBaaQnvcA
- iXMT4f6tPR6h5csU=
-X-Received: by 2002:a05:600c:354f:: with SMTP id
- i15mr6136538wmq.24.1625075998648; 
- Wed, 30 Jun 2021 10:59:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDhTsnvCWAB32h0pi+WJnCduBVDy+SX0N1fk+zm5ghf2a5G6+273Pc/Pv3BNX03ti3MWdt6w==
-X-Received: by 2002:a05:600c:354f:: with SMTP id
- i15mr6136521wmq.24.1625075998415; 
- Wed, 30 Jun 2021 10:59:58 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id t9sm15645257wrq.92.2021.06.30.10.59.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 10:59:57 -0700 (PDT)
-Date: Wed, 30 Jun 2021 18:59:56 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] virtiofsd: use GDateTime for formatting timestamp for
- debug messages
-Message-ID: <YNyxHD2mzvs/D1nS@work-vm>
-References: <20210611164319.67762-1-berrange@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+SM7iNver6CwLX/nePwihuit7z/Osyw086AyjJSXHpE=;
+ b=uR28VzoLpZzhSfFXKQ1vuohYg1ujJ1JNLbZsit3JRSUG7pDEaaXLOZCddjhfF0z5nK
+ MLvZWEZmOdwTM74OoK1ks4M8zgbxBn8e1icnLHY6zk3SbRTw5dUg0soJ9a+HXtgcQ5W0
+ pLPE1RRxZHcD6iA2jyo60tNszPv8n7SiExt4z6M4GRyTz1OzZxiqU0KMeEZZ2Z5zVoVl
+ wuI2dciCfZcxICU4En3f+8PirEBZaaWNMJjRLYEl3vTjSSAygkNCpxLQ2q+yjj1UtxZd
+ PJVX8RukiAHbC5mBeyoz7Af5LNu7N9xbaVA16ltTGTQV7HxkPUm0ijcOibXuafFHZYwd
+ pScA==
+X-Gm-Message-State: AOAM530TEH5T3sEEJpv6FMMPSfegkA/8C4lXzv1nB9x07Z+H0gCE2Zux
+ AQZ3nyUZMOsHN+7ztlB4QSdXdaT/6dEQpFOLeyg=
+X-Google-Smtp-Source: ABdhPJyFvoQ7QCCg1gIXpZLwQySIGy9DLBgTUtZgAfvtQCS4GsvVYc9r6KE3LJMHHmwHVRhyyRPHXqZ7ryxpEld255U=
+X-Received: by 2002:a50:fe95:: with SMTP id d21mr24211737edt.257.1625076973721; 
+ Wed, 30 Jun 2021 11:16:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210611164319.67762-1-berrange@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210510132051.2208563-1-kraxel@redhat.com>
+ <CAFEAcA_g3o3The6RsSF2Lczd2PaDVzQnjgyzA8ePh7n_AzZvUA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_g3o3The6RsSF2Lczd2PaDVzQnjgyzA8ePh7n_AzZvUA@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 30 Jun 2021 22:16:02 +0400
+Message-ID: <CAJ+F1C+FEg0i0RbC9CAro1h-L2=nUQ12dHX-CesWt-pQhAxnKA@mail.gmail.com>
+Subject: Re: [PULL 00/25] Vga 20210510 patches
+To: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000c05fcd05c5ffb71e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,74 +77,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> The GDateTime APIs provided by GLib avoid portability pitfalls, such
-> as some platforms where 'struct timeval.tv_sec' field is still 'long'
-> instead of 'time_t'. When combined with automatic cleanup, GDateTime
-> often results in simpler code too.
-> 
-> Localtime is changed to UTC to avoid the need to grant extra seccomp
-> permissions for GLib's access of the timezone database.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+--000000000000c05fcd05c5ffb71e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Queued
-> ---
->  tools/virtiofsd/passthrough_ll.c | 25 ++++---------------------
->  1 file changed, 4 insertions(+), 21 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 49c21fd855..9858e961d9 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -3559,10 +3559,6 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
->  static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
->  {
->      g_autofree char *localfmt = NULL;
-> -    struct timespec ts;
-> -    struct tm tm;
-> -    char sec_fmt[sizeof "2020-12-07 18:17:54"];
-> -    char zone_fmt[sizeof "+0100"];
->  
->      if (current_log_level < level) {
->          return;
-> @@ -3574,23 +3570,10 @@ static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
->              localfmt = g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid),
->                                         fmt);
->          } else {
-> -            /* try formatting a broken-down timestamp */
-> -            if (clock_gettime(CLOCK_REALTIME, &ts) != -1 &&
-> -                localtime_r(&ts.tv_sec, &tm) != NULL &&
-> -                strftime(sec_fmt, sizeof sec_fmt, "%Y-%m-%d %H:%M:%S",
-> -                         &tm) != 0 &&
-> -                strftime(zone_fmt, sizeof zone_fmt, "%z", &tm) != 0) {
-> -                localfmt = g_strdup_printf("[%s.%02ld%s] [ID: %08ld] %s",
-> -                                           sec_fmt,
-> -                                           ts.tv_nsec / (10L * 1000 * 1000),
-> -                                           zone_fmt, syscall(__NR_gettid),
-> -                                           fmt);
-> -            } else {
-> -                /* fall back to a flat timestamp */
-> -                localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
-> -                                           get_clock(), syscall(__NR_gettid),
-> -                                           fmt);
-> -            }
-> +            g_autoptr(GDateTime) now = g_date_time_new_now_utc();
-> +            g_autofree char *nowstr = g_date_time_format(now, "%Y-%m-%d %H:%M:%S.%f%z");
-> +            localfmt = g_strdup_printf("[%s] [ID: %08ld] %s",
-> +                                       nowstr, syscall(__NR_gettid), fmt);
->          }
->          fmt = localfmt;
->      }
-> -- 
-> 2.31.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Hi
 
+On Wed, May 12, 2021 at 7:07 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Mon, 10 May 2021 at 14:22, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > The following changes since commit
+> d90f154867ec0ec22fd719164b88716e8fd48672:
+> >
+> >   Merge remote-tracking branch
+> 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05
+> 20:29:14 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kraxel.org/qemu tags/vga-20210510-pull-request
+> >
+> > for you to fetch changes up to b36eb8860f8f4a9c6f131c3fd380116a3017e022=
+:
+> >
+> >   virtio-gpu: add virtio-vga-gl (2021-05-10 13:55:28 +0200)
+> >
+> > ----------------------------------------------------------------
+> > edid: display id support (for 5k+), bugfixes.
+> > virtio-gpu: iommu fix, device split.
+> >
+>
+>
+> Applied, thanks.
+>
+> Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+> for any user-visible changes.
+>
+> -- PMM
+>
+>
+After that series, the console is flooded with GTK warnings. When the
+machine/device is reset, virgl crashes (also reported at
+https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/226)
+
+Unfortunately, it's not easy to pinpoint the responsible patch since it's
+not easily bisectable (and it breaks the CLI). I will continue to
+investigate.
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000c05fcd05c5ffb71e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 12, 2021 at 7:07 PM Pet=
+er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
+naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Mon, 10 May 2021 at 14:22, Gerd Hoffmann &lt;<a href=3D"mailto:k=
+raxel@redhat.com" target=3D"_blank">kraxel@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; The following changes since commit d90f154867ec0ec22fd719164b88716e8fd=
+48672:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/dg-gitlab/tags/p=
+pc-for-6.1-20210504&#39; into staging (2021-05-05 20:29:14 +0100)<br>
+&gt;<br>
+&gt; are available in the Git repository at:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0git://<a href=3D"http://git.kraxel.org/qemu" rel=3D"norefe=
+rrer" target=3D"_blank">git.kraxel.org/qemu</a> tags/vga-20210510-pull-requ=
+est<br>
+&gt;<br>
+&gt; for you to fetch changes up to b36eb8860f8f4a9c6f131c3fd380116a3017e02=
+2:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0virtio-gpu: add virtio-vga-gl (2021-05-10 13:55:28 +0200)<=
+br>
+&gt;<br>
+&gt; ----------------------------------------------------------------<br>
+&gt; edid: display id support (for 5k+), bugfixes.<br>
+&gt; virtio-gpu: iommu fix, device split.<br>
+&gt;<br>
+<br>
+<br>
+Applied, thanks.<br>
+<br>
+Please update the changelog at <a href=3D"https://wiki.qemu.org/ChangeLog/6=
+.1" rel=3D"noreferrer" target=3D"_blank">https://wiki.qemu.org/ChangeLog/6.=
+1</a><br>
+for any user-visible changes.<br>
+<br>
+-- PMM<br>
+<br>
+</blockquote></div><div><br></div><div>After that series, the console is fl=
+ooded with GTK warnings. When the machine/device is reset, virgl crashes (a=
+lso reported at <a href=3D"https://gitlab.freedesktop.org/virgl/virglrender=
+er/-/issues/226">https://gitlab.freedesktop.org/virgl/virglrenderer/-/issue=
+s/226</a>)</div><div><br></div><div>Unfortunately, it&#39;s not easy to pin=
+point the responsible patch since it&#39;s not easily bisectable (and it br=
+eaks the CLI). I will continue to investigate.<br></div><div><br></div><br>=
+-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br=
+></div></div>
+
+--000000000000c05fcd05c5ffb71e--
 
