@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AA23B8906
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 21:11:05 +0200 (CEST)
-Received: from localhost ([::1]:45336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3DF3B8910
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 21:16:35 +0200 (CEST)
+Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyfc0-0001Hq-Jq
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 15:11:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53330)
+	id 1lyfhK-00031n-By
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 15:16:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1lyfZ3-0006s9-Bi
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 15:08:01 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:64920)
+ id 1lyfZ6-0006vD-NS
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 15:08:04 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:4604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1lyfZ0-0005jJ-Ub
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 15:08:00 -0400
+ id 1lyfZ2-0005kc-9d
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 15:08:04 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15UJ6T04005964; Wed, 30 Jun 2021 19:07:55 GMT
+ 15UJ6T05005964; Wed, 30 Jun 2021 19:07:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=wZfAvjwjzb4XNzJEnJp2r64ok9W1vDs4HG855mJ8SyE=;
- b=wpGji5wSswCG8QBpt9tKWLMkLM4KpmskNQzXsT+yS/bB5+oBlzVowSaQHrEiNEqsULia
- wYT6et+4A0+x+xw8Hxw697cj07zYHBy0CEuQvuDDankniPb3fD6nXVmlZo5Fc8MavOLj
- NXLBvJqFIkKI99BwBMW9Ib5Q2o5cFfTuHFhflYqRvtgkfSkeu3ijLz3n4wfG66GJ2ekB
- aomUGZgulhA9s6oelK37a8egyxz241/duASAyixyAFqMyVgaDr3lWAR/beZr14wtd8E7
- +VwUeo+ZJTujn6IDW7k38FWOGhLXf0DcKZVk7e6wzZTveCLqEOM1L1xR3aSTbYozhYmq ZQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 39gb2t26wv-1
+ bh=ggeqCo9toM/losbgAVSrqqlAcxFnvdTRMu+611m9pwI=;
+ b=pNKaKbqtcsow6ZSr1/GN4LLHYhzWsopxS0g+ul1rpgTPX4kQXOle5kgHVnxacQnfxka1
+ kDFq9QJAZAoFkMvsNJk5NqFCP9mOJH7BxeZXP4Xp72TGxnIjbI1w6jTEFBMuyyjmWem0
+ LDAmSjbstvfs2DiKUCIDntBEzf/z5q9nZ4KO3p0mBWhQYFwWCwZjMsxmkWl1w34YZc9C
+ 6+2usvQhVcYsB53WlZKPE42WcMYbChO1KNAtObrP4EWxeGYwTzLzMdI7F50Dl5nV+fG2
+ /JjELvtMjAjybPgl/nrqIVw0V9fgkr5wi5f2qinlbH9RMpHui4+ldNIssFxiT2ok0d8g bg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39gb2t26wx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Jun 2021 19:07:55 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15UIxv97089833;
- Wed, 30 Jun 2021 19:07:54 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam08lp2045.outbound.protection.outlook.com [104.47.73.45])
- by aserp3020.oracle.com with ESMTP id 39dv28kyaq-2
+ Wed, 30 Jun 2021 19:07:57 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15UJ0CFH101369;
+ Wed, 30 Jun 2021 19:07:57 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2175.outbound.protection.outlook.com [104.47.58.175])
+ by aserp3030.oracle.com with ESMTP id 39dt9hqny5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Jun 2021 19:07:54 +0000
+ Wed, 30 Jun 2021 19:07:56 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I3fKz2A9vLQ4i1+d92+l3L5RqqBpPz4ymFWudzA03kfWm09qea0Q4KXF70AHnKkWwwSmIcxffO1p5fnGCMeWGa7bN4B2MEWrBU+PbaxsI4HyBopaYLjLOF7wC45AZLoa2hQ+OTtzw+Agb8QbGZuPpTqejQUoCFbUGzakl8yXAo6w+/Ua/UHzkbbocovPLhAq2O0wScdmI+pUr5j/axPc9BVpy4u1lA4BMJMam7HOfGk/jcpxwoo8tUwzRh+OLe4n+CWo8kWustPXhtoJpJN77AJQkxYP1Lf3Q9xHdTtxayaEX4owex0JS7gyrtGt7XRQldimMByGY1zcT6d2HpXvDA==
+ b=T4oW0lLfN3tqef1dimZYs3I2lzdSXyWWX8+YPXeeJ3lIg7VTjVHgVPNuKRMdVyuGGqTvRDX9SG6bsC1Qgr5DpnBeaOV2hi4ORy5uq6GZRhHHxRrBguwLdPwQDrhBZy2Pc3etCaYGUbyyV+oFp3tsgy4CLzqORnjm0POd1myZ6BfiVW34Bri39I5FxPMOFDOD2R85CwaLNknGzWFCy9z6akDYM+mkyEb7wYdo52ua2gykyz1R48XtN42ya1+lYEWDkmj91S7auwM7RXD9YUgxSL9Z0dOGK9PxwajEEnH0ZWpDCirJ/CQEMOgRczVjNjCvCwvXM8/eIC/BebsMtO8iJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wZfAvjwjzb4XNzJEnJp2r64ok9W1vDs4HG855mJ8SyE=;
- b=X0de2MXm5d/LO7YANEaznkJuepjYC94Z3WmXFCeOxvX7OuEmxEYJnKm/YNniPow9vNjeH9Iu7igZaM+lkWJkun8TC9jMk1NxwIPJDagsJPt565dKmRfzeiECW0F5/7I5vBD1EjGOES3pHvZkYGIkytPVXvb1Jo03PcWAtzwp5J6vn1pzJGIk8g7f17nkCG8vsTWKoIvLNhN+PDzcKDBsCJhbrGgPRtU+QylYIoe4kRkE7kjRcc2azkY/Fb4sHksMRUMjTPB0GmGGyY8C+8JywnT29oFk6EZNlWawqhVyl6LfhPuHmMjsV/kmbHrGtqm2cKUtVxvw1mOygU8nITQoRw==
+ bh=ggeqCo9toM/losbgAVSrqqlAcxFnvdTRMu+611m9pwI=;
+ b=UJPQPtj9I8oeiMi/iQAj6dFHdnsd5vYYUKE9EE8DLXGaKYV2XDLmineZBT0Zb3VXBFzda/zgjWCbNIaBjJWJPcbjQ59GMqsG6bgbWnhNFQ33QSqFfE0vRldLs/By1rutYdtr/7EOrYPN5KiPWqHbwVvsdOJz46LkFv4t9SwmP3oMFmIN6/3ol9CXgu5zapTdf3M69enSPWwqCKmHK3FmFBIJkMQiL50z9u/lOI2k0DVrEf5eOnMwt/uizZG98f27565tVR/MqPm+XVITaH1We5g6prA/w0EP4hq6ZPkERFLw5Yh1rfHatCQPCgn2jRWS0NYV3/VEu2vCincc+MSgDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wZfAvjwjzb4XNzJEnJp2r64ok9W1vDs4HG855mJ8SyE=;
- b=jGyjK6qbJU6vBibIDnj5YPSwdyePWmTc4h/Y8Gw6lv7DxBzlgp+Lx4AeRJNuQDjglF2UOeN/IO9DLqS6ElIitnWLf/GT8SivvQVdCbkxoVywBBbf7ZAhoRKXCKOB2p08QURTpKJ4olooKrwsg39BFmuKrJvjbPu71BCqMH/0Bl0=
+ bh=ggeqCo9toM/losbgAVSrqqlAcxFnvdTRMu+611m9pwI=;
+ b=upDemyqk1JSKaw732bl24yZImIjpcSLK+oguIeo6PJfptXkSpzNJmcTR2zDcp1MNkCiwOTKoNNYBVSW+JOMapre+v1654HSKsQDbpGyGpkRSwnDaZyTxmuyraXQodrs1+nK3fyiPCDNFbsELLgZtme0C0ZBk303yOwKcCVhW5bY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
  by CO6PR10MB5441.namprd10.prod.outlook.com (2603:10b6:5:35a::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Wed, 30 Jun
- 2021 19:07:53 +0000
+ 2021 19:07:54 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::a0af:e69c:6e81:b8fc]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::a0af:e69c:6e81:b8fc%7]) with mapi id 15.20.4287.023; Wed, 30 Jun 2021
- 19:07:53 +0000
+ 19:07:54 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/10] ACPI ERST: bios-tables-test.c steps 1 and 2
-Date: Wed, 30 Jun 2021 15:07:12 -0400
-Message-Id: <1625080041-29010-2-git-send-email-eric.devolder@oracle.com>
+Subject: [PATCH v5 02/10] ACPI ERST: specification for ERST support
+Date: Wed, 30 Jun 2021 15:07:13 -0400
+Message-Id: <1625080041-29010-3-git-send-email-eric.devolder@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
 References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
@@ -88,63 +88,63 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from ban25x6uut23.us.oracle.com (138.3.201.23) by
  BYAPR01CA0060.prod.exchangelabs.com (2603:10b6:a03:94::37) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.23 via Frontend Transport; Wed, 30 Jun 2021 19:07:51 +0000
+ 15.20.4287.23 via Frontend Transport; Wed, 30 Jun 2021 19:07:53 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8fed60e2-09ef-41a7-3f5a-08d93bfa5c58
+X-MS-Office365-Filtering-Correlation-Id: 076908a8-875d-4a38-5f5f-08d93bfa5d53
 X-MS-TrafficTypeDiagnostic: CO6PR10MB5441:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR10MB5441486CB584B17DC3430CDF97019@CO6PR10MB5441.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Microsoft-Antispam-PRVS: <CO6PR10MB544127F92AB8CF15FF4E398797019@CO6PR10MB5441.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oz8WjJZrH1e40ucohCmfFnOLeUnRJyjwMFtA2eRh8CQzDc1EeFTCE/Az697PXHuIvVMSjg0ugVPUlsX/qf601KayFDBsVY6nJh5l6JL5UFq4so9l4FTKyjWW9G0aAu9Ac4Ei8OBL8tKDD3G3YyQdPSKFYfBx+jZSp/0ONdJ1eUacgPXTdofdaQZDq+LW7HLb6eVYOhgOyPfXZC7hxtzU1zYPqCd/BkaK3ZhwVaVLlB6Jr7wKNKNAb3mEE3wu4WhMx/ubfUSOFv3D33jM3aXarxB3lwXdGhYMs/5SXXNhKk360NXYd/RsR4C0J+n1YStFrK6rH0LwyAIJU6TGSA5RewDMHcZF7peaVgX3NLK7zlQEEMzYg21WvC3yG8LmxH55nqsgu+HFUZY6qGB1UO3WcxoGQtOds7DTL/5jrngP2YqsQo9SDJ+7rktSubqWwoxfvSlF7ljYiziaJe8QEV1txskSSWUE/tpMWb7adJliuyx9qkBI2nd2CCx0LeMAXwokFbcdTc+Hm3KW1BNQvTrrKSh47ibhwbVKNgOqsCsC6zB3Z5QksDaW8YUVRbH83H0HcTs8FY9DngTX7Q+XCpdRO2e/oZ/15XeYwOqnvImHuT4CBIfK8YzZ1hZ6CTQkFozdYCMg3GiTRElZpJ2uolTV/yOHGd7jZH+uBQ86RL2fRo2eIeO+re+H1pKcYZKMIOEssN9x+TUm9bnFvj1WlVbQVA==
+X-Microsoft-Antispam-Message-Info: Ou0z9YuR8Iq5OHOJQ9JrjlP4XChto1al47aacj3zyp3UOiJHn+Uj41FTD4tjkbswlZDMchCoUq4eLJSVoT1g1XvH+5Gt52SCwadiCryEWO33nbK2o+21UYnjVfooUW0CJB138wwHNiY7biB9gXnFj/O+awYvDv4LK02NOw4VFixlUyEXibUHFcjWCn5CKyUtduIyWcRTECQUuyX59EcGivrBmGp6J4s/hLqrSvLA6CLrhP/GWKAS6Y34hpzsxTxWHZ8B1tOie0BdZEDnFfB8xgpO/0df324RTbegBl4+FgcAnEqgX3pZzp5ZiAMeQZC+2Wn63ou2YOtss8XzxQNkkQ7bHYNPPvlzZM5KbwuoDBqRX2w2TMG+Y7SUmTFY/Nc1iPyGsb/mBu/Ww3ePoRhPxfzafV28zFzUeCPBnsosSTwgPYS0duWm0pzCiT9hgLmNqEpKvB3bST9WV2Um+eO85U0+sMSKmd2Wj0GrG3n27Xmmi6sXBcxQ6lrGTvucpWbxTiLYyAOotfo3GD6IrZ6sfnnCiPgUCltFGr9th6tDSIdDDylZTFq2C9WyJ7re4oTIs3z8q5EGrhTnpM3ohmE3UonAfjE9Z2yEldMBwpFADkZ3xDfks3B8UvtxWpRmPMK5dkHMF3SCSRbULnOYocWxnLew8xDIw7f+GpyKyvLX+CKmL38OIHjFbP7sBlQGIiOvhhhB904colMSDNd0p3Zg+g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(346002)(39860400002)(376002)(396003)(136003)(8936002)(107886003)(38350700002)(38100700002)(26005)(36756003)(186003)(8676002)(5660300002)(2616005)(956004)(16526019)(4326008)(86362001)(66946007)(7696005)(52116002)(316002)(66556008)(6666004)(66476007)(6916009)(478600001)(2906002)(6486002);
+ SFS:(366004)(346002)(39860400002)(376002)(396003)(136003)(8936002)(107886003)(38350700002)(38100700002)(26005)(36756003)(186003)(8676002)(5660300002)(2616005)(956004)(16526019)(4326008)(86362001)(66946007)(7696005)(52116002)(316002)(66556008)(6666004)(45080400002)(66476007)(83380400001)(6916009)(478600001)(2906002)(6486002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?52N+TTQz1DenpwJxjRorjJfUVb4q0R3O9TYtEXcRhtn0xzRSEsq19aKsnKeS?=
- =?us-ascii?Q?xCa/fUSetgNzd5dumMUNlSgtPYQPVFfw79BS9K1DudJKPog7+9xy8SiMoabp?=
- =?us-ascii?Q?Fr3Mx2iGiq2M0AFvq6xuAwviTsYCd0GhoUqyu8pus9VNNO1ej2HhePNBe0+7?=
- =?us-ascii?Q?EQjfI+WGMi0YxwiTvLd2MqWVI6SjLazq4ZQSdBeqjcunrxz29E7VzoEDLHzh?=
- =?us-ascii?Q?2GmnwoFSW+7Wa4vE+Loccwi0VPWHS/Xy5JGrbQczQjIsvIIVphgd4EVDKh6G?=
- =?us-ascii?Q?hipDozpluH/boMl/lNSwZ4/dnETYGcm2VrZMoeuRExbhQXZzclJefmOuD/Ft?=
- =?us-ascii?Q?bSpokWpvQQPOHUiI1hk+0u+PyZ2VuTt6DIqz2vVN/Vaaq3cf0AoG6gqaacP1?=
- =?us-ascii?Q?v+YuDaBSW+uvJpubRjwNIsS2jr7wN620yqKm+a78WjOZcXzwCopQgFbsSNi7?=
- =?us-ascii?Q?W/1UQFZ43Kr92Bv7bRrq01ixpO6aaAebdmjfXtuGTdejb8FJUUAkIR7FwizA?=
- =?us-ascii?Q?v0A4MW+f3fEUbfzecfHGPXM6E4Gk3DjAt62j6yyu+9uUG25/rUvJQBqiwuqH?=
- =?us-ascii?Q?xo5mabaZkjC91mJfB7FiOkgzj9c8lu9+5yMcZ+B5mUo1xY8DSHOWm93zYmpk?=
- =?us-ascii?Q?qBcOz3yHtk8JV+xhgm/FzjY7zwKYrsb/nsQCV04jfmcf2OLVP4bRPb8/vIJs?=
- =?us-ascii?Q?mINLpMIkJuUtX/WnqCXwfKf75VrMpJYSEOwppxqmyYHcaKLNFqXVHWoISG6V?=
- =?us-ascii?Q?9ey6uvFnwo6dsyThnB7dXEvWhNiDBF8dDpFYGtKblyBeWFKMHos6koeJw0CX?=
- =?us-ascii?Q?znPzs3nDo5WfZBVGZncInxaYSKxUjhoOFZPpfaxtJV8bnIR+FNLLzn55I1vo?=
- =?us-ascii?Q?tioQZZMVYyCWgfFUiWYbwsLLWBTZU9Rly0P1HAyyKvvDh7K/DWl7eX7Q0dEW?=
- =?us-ascii?Q?3/Yogh7/z1w0GUVR2w6Ijb4QLLEbztQJgApIKwivTw4T+nlAxbFxf1a0sYM5?=
- =?us-ascii?Q?BqgMjW8RSIlFG6LkUPAf6XcskrH1xLMLUA+VOTj1qMOtvUx1meSVZbL91uIT?=
- =?us-ascii?Q?bjZM5xhqknF5THLETJeeojlo63MH5n0MAmMWd8qfdgE1+vCBmH37XSRbhbJW?=
- =?us-ascii?Q?12WRg/UFkkr/4I9zBw0YIqEdyq8LyIKs6kzF5kZQiDwShuzfGAUtJXdf+pWw?=
- =?us-ascii?Q?MOnuPfkRiS69bkPRVImaWSxNrpcQ8cqMDkVrMvTbBRSV6b4I/EJiW5qw6FAS?=
- =?us-ascii?Q?YhqYTHUEMAIy9QV9v9SEFxqOLoUuQff+59sJ7VZneUAHqIDEPzjdXeeqVuar?=
- =?us-ascii?Q?W6wrj9x14AUOgdNa7+zvuaDr?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ySSG2PvsDZCExa0ZkCXf/xNFHoedHIe1I1mdyvfEAk4ag9cvwvo/PHXyZFyU?=
+ =?us-ascii?Q?7vUmGomLEBvZ0nqtP1bfsjXalNTC4kfv5EsNerS9O2taaR4zsNY5R61kAUII?=
+ =?us-ascii?Q?SyZvS4kngNydWB7Gk5CmpyQ5xGvHrq6q7kWAvFxMlcfo5+alA2N2yNBeQXAL?=
+ =?us-ascii?Q?MxGFLtMBmoDmI743dSJUTjZmowK1P0eYf5TnPREStRr4BBSnBL+8NJ9q3PbI?=
+ =?us-ascii?Q?dSVzPVE6Bnmq2lady51iLHEJCTmckeIIfXDynOlAiLFXlNacdwFFinAvnAMv?=
+ =?us-ascii?Q?tigAVOHqGz9wZL7Vs+tlX6tWaVQTG7WyT+A3NSMmOYBAbANsWUQqqa83qg20?=
+ =?us-ascii?Q?8IfrNxdq/H4HuA+quvz8iWLQFCirqWDqhrybgzjfEZY8M00YASfM4R5/Pl1k?=
+ =?us-ascii?Q?xehDyZA0sjFoFqrI1hT75X0QlAoJb0YpJg9c7R8Hb53uExZFhnwoGDm44/p8?=
+ =?us-ascii?Q?T0B+7Vwe2PaGZPVyo/AZMaSOFVeo1mbjgOCLraf4fAcSYBOAJk3prTPQ/hII?=
+ =?us-ascii?Q?lkIliOtaKek6eOf1uPFfjQKseefAji3LiHbNgANxJxLvJ9JRA7MYkKAsitNQ?=
+ =?us-ascii?Q?r6KuB0jU/AL8luBO0eb8ByEvVhgDVrNLNtDzuHhWKeF/gteHzOIEhQWCqmGT?=
+ =?us-ascii?Q?QoECD/Eh7lV8/Zvf1LpDZPAMccRuV7AgJsLgKDDf87v9FoWmRmdGE9P+A/ey?=
+ =?us-ascii?Q?/7nvewl8qG13lpxKG3utzKIHCwot29TOB8AgqR1oKIrPmsqw4swURGlqMeS0?=
+ =?us-ascii?Q?jTKm7PNUJ3anV9DsuF9hPKzm8KB56G7eXGIf4Uf6dj8Ln57aGCYHpd8E8Gd1?=
+ =?us-ascii?Q?uKFUI0tyaRw9NIHYguj5W7y72QEQm/CdzbrcIaCrn5lVFJXlsgFvxeK2Ag89?=
+ =?us-ascii?Q?lK1bn4v6Af2ZmSJdPH76g2NyjIinEP5PuUd6KK45J1tAGuIBbLMf9f5hSJ10?=
+ =?us-ascii?Q?fEGv8VpC1ny37ZIXqtAmH7T0g7QiA8QLzYki3MSO/iZ2ROOY7XyzSswoRH3z?=
+ =?us-ascii?Q?mogQs1ZfZEnbROZAe83VXSYfituH+aSHKrXKXFH+FrrYcdAC8qiSV5X5iaEc?=
+ =?us-ascii?Q?roq/LV4V/4IqYH0FAIj/Uglac5sllyW15MDWCx4+uGWSTO9cdBYVk1cTtJY/?=
+ =?us-ascii?Q?QwXEf5llWQ9wozdg12Ym3BKPjJGnB7Qr4r8Q+yohtFE/gXFva3wfI3opqIou?=
+ =?us-ascii?Q?SmbdOMJbdHqtW0zAS9tRKtVLAowMw/5pcqp+93m6CPqSU9upLJxozhA+dISv?=
+ =?us-ascii?Q?+lq61RFQ8d+7zivWv5XmC0sOcEJkOk+YUKXynVeEObn5aVvBteqMytZDgJPe?=
+ =?us-ascii?Q?VWJH4oNvHrLLubuFMr+JY3NM?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fed60e2-09ef-41a7-3f5a-08d93bfa5c58
+X-MS-Exchange-CrossTenant-Network-Message-Id: 076908a8-875d-4a38-5f5f-08d93bfa5d53
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2021 19:07:52.8777 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2021 19:07:54.4518 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eF/PHjKNzt2oFuEItwtKIILZxYrj9zISVceUEbWp+cywBkf5Vm7z1VJ3V6zLVMfCy+ajIdnOjoKjq7/h4YpsEK+8cagmXZJfPykkZ3Oh2zA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: AuLYPdXKf416qH9vxDc3Ah7HOpbUq15ztNK3y2cwVatXQ6hwV/mZ476vbCQ9KlcZn0q6eQbYCVnZ9sAXoKDy7ZqffI7/RudcL4EGx/MHW18=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5441
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10031
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 adultscore=0
- malwarescore=0 mlxlogscore=999 suspectscore=0 phishscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106300106
-X-Proofpoint-GUID: vjlqrhbzZjEUg9CXGoqk1dxhWChqNJ5N
-X-Proofpoint-ORIG-GUID: vjlqrhbzZjEUg9CXGoqk1dxhWChqNJ5N
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0
+ mlxlogscore=916 phishscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106300106
+X-Proofpoint-GUID: gRvJ9D5FEw5qsVewCkvxF5uCdBtJZCoe
+X-Proofpoint-ORIG-GUID: gRvJ9D5FEw5qsVewCkvxF5uCdBtJZCoe
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -172,40 +172,171 @@ Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the guidelines in tests/qtest/bios-tables-test.c, this
-change adds empty placeholder files per step 1 for the new ERST
-table, and excludes resulting changed files in bios-tables-test-allowed-diff.h
-per step 2.
+Information on the implementation of the ACPI ERST support.
 
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 ---
- tests/data/acpi/microvm/ERST                | 0
- tests/data/acpi/pc/ERST                     | 0
- tests/data/acpi/q35/ERST                    | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
- 4 files changed, 4 insertions(+)
- create mode 100644 tests/data/acpi/microvm/ERST
- create mode 100644 tests/data/acpi/pc/ERST
- create mode 100644 tests/data/acpi/q35/ERST
+ docs/specs/acpi_erst.txt | 152 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 152 insertions(+)
+ create mode 100644 docs/specs/acpi_erst.txt
 
-diff --git a/tests/data/acpi/microvm/ERST b/tests/data/acpi/microvm/ERST
+diff --git a/docs/specs/acpi_erst.txt b/docs/specs/acpi_erst.txt
 new file mode 100644
-index 0000000..e69de29
-diff --git a/tests/data/acpi/pc/ERST b/tests/data/acpi/pc/ERST
-new file mode 100644
-index 0000000..e69de29
-diff --git a/tests/data/acpi/q35/ERST b/tests/data/acpi/q35/ERST
-new file mode 100644
-index 0000000..e69de29
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523..e004c71 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,5 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/ERST",
-+"tests/data/acpi/q35/ERST",
-+"tests/data/acpi/microvm/ERST",
+index 0000000..79f8eb9
+--- /dev/null
++++ b/docs/specs/acpi_erst.txt
+@@ -0,0 +1,152 @@
++ACPI ERST DEVICE
++================
++
++The ACPI ERST device is utilized to support the ACPI Error Record
++Serialization Table, ERST, functionality. The functionality is
++designed for storing error records in persistent storage for
++future reference/debugging.
++
++The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
++(APEI)", and specifically subsection "Error Serialization", outlines
++a method for storing error records into persistent storage.
++
++The format of error records is described in the UEFI specification[2],
++in Appendix N "Common Platform Error Record".
++
++While the ACPI specification allows for an NVRAM "mode" (see
++GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES) where non-volatile RAM is
++directly exposed for direct access by the OS/guest, this implements
++the non-NVRAM "mode". This non-NVRAM "mode" is what is implemented
++by most BIOS (since flash memory requires programming operations
++in order to update its contents). Furthermore, as of the time of this
++writing, Linux does not support the non-NVRAM "mode".
++
++
++Background/Motivation
++---------------------
++Linux uses the persistent storage filesystem, pstore, to record
++information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
++independent of, and runs before, kdump.  In certain scenarios (ie.
++hosts/guests with root filesystems on NFS/iSCSI where networking
++software and/or hardware fails), pstore may contain the only
++information available for post-mortem debugging.
++
++Two common storage backends for the pstore filesystem are ACPI ERST
++and UEFI. Most BIOS implement ACPI ERST.  UEFI is not utilized in
++all guests. With QEMU supporting ACPI ERST, it becomes a viable
++pstore storage backend for virtual machines (as it is now for
++bare metal machines).
++
++Enabling support for ACPI ERST facilitates a consistent method to
++capture kernel panic information in a wide range of guests: from
++resource-constrained microvms to very large guests, and in
++particular, in direct-boot environments (which would lack UEFI
++run-time services).
++
++Note that Microsoft Windows also utilizes the ACPI ERST for certain
++crash information, if available.
++
++
++Invocation
++----------
++
++To utilize ACPI ERST, a memory-backend-file object and acpi-erst
++device must be created, for example:
++
++ qemu ...
++ -object memory-backend-file,id=erstnvram,mem-path=acpi-erst.backing,
++  size=0x10000,share=on
++ -device acpi-erst,memdev=erstnvram
++
++For proper operation, the ACPI ERST device needs a memory-backend-file
++object with the following parameters:
++
++ - id: The id of the memory-backend-file object is used to associate
++   this memory with the acpi-erst device.
++ - size: The size of the ACPI ERST backing storage. This parameter is
++   required.
++ - mem-path: The location of the ACPI ERST backing storage file. This
++   parameter is also required.
++ - share: The share=on parameter is required so that updates to the
++   ERST back store are written to the file immediately as well. Without
++   it, updates the the backing file are unpredictable and may not
++   properly persist (eg. if qemu should crash).
++
++The ACPI ERST device is a simple PCI device, and requires this one
++parameter:
++
++ - memdev: Is the object id of the memory-backend-file.
++
++
++PCI Interface
++-------------
++
++The ERST device is a PCI device with two BARs, one for accessing
++the programming registers, and the other for accessing the
++record exchange buffer.
++
++BAR0 contains the programming interface consisting of just two
++64-bit registers. The two registers are an ACTION (cmd) and a
++VALUE (data). All ERST actions/operations/side effects happen
++on the write to the ACTION, by design. Thus any data needed
++by the action must be placed into VALUE prior to writing
++ACTION. Reading the VALUE simply returns the register contents,
++which can be updated by a previous ACTION. This behavior is
++encoded in the ACPI ERST table generated by QEMU.
++
++BAR1 contains the record exchange buffer, and the size of this
++buffer sets the maximum record size. This record exchange
++buffer size is 8KiB.
++
++Backing File
++------------
++
++The ACPI ERST persistent storage is contained within a single backing
++file. The size and location of the backing file is specified upon
++QEMU startup of the ACPI ERST device.
++
++Records are stored in the backing file in a simple fashion.
++The backing file is essentially divided into fixed size
++"slots", ERST_RECORD_SIZE in length, with each "slot"
++storing a single record. No attempt at optimizing storage
++through compression, compaction, etc is attempted.
++NOTE that any change to this value will make any pre-
++existing backing files, not of the same ERST_RECORD_SIZE,
++unusable to the guest.
++
++Below is an example layout of the backing store file.
++The size of the file is a multiple of ERST_RECORD_SIZE,
++and contains N number of "slots" to store records. The
++example below shows two records (in CPER format) in the
++backing file, while the remaining slots are empty/
++available.
++
++ Slot   Record
++        +--------------------------------------------+
++    0   | empty/available                            |
++        +--------------------------------------------+
++    1   | CPER                                       |
++        +--------------------------------------------+
++    2   | CPER                                       |
++        +--------------------------------------------+
++  ...   |                                            |
++        +--------------------------------------------+
++    N   | empty/available                            |
++        +--------------------------------------------+
++        <-------------- ERST_RECORD_SIZE ------------>
++
++Not all slots need to be occupied, and they need not be
++occupied in a contiguous fashion. The ability to clear/erase
++specific records allows for the formation of unoccupied
++slots.
++
++
++References
++----------
++
++[1] "Advanced Configuration and Power Interface Specification",
++    version 4.0, June 2009.
++
++[2] "Unified Extensible Firmware Interface Specification",
++    version 2.1, October 2008.
 +
 -- 
 1.8.3.1
