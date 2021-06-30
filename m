@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3883B7C2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 05:43:38 +0200 (CEST)
-Received: from localhost ([::1]:33054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A8F3B7C2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 05:44:38 +0200 (CEST)
+Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyR8T-0004HG-Ez
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 23:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36928)
+	id 1lyR9R-0006df-3a
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 23:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyR7A-0002Fv-Ub
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:42:16 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyR7D-0002MS-4e
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:42:19 -0400
 Received: from mail-mw2nam10on2132.outbound.protection.outlook.com
  ([40.107.94.132]:5024 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyR79-0007HD-6T
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:42:16 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyR7B-0007HD-AZ
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:42:18 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lkEi15fOonyKb4z4d20R9D4iNDsy2VvqzQjV3d8ct0+hUnT94y767q9XaQL++fIXMh/JBmBmUAqMHZEeuj6Xb0Xm227+Os1BLr5T+BdEt6oRahdPOVUV0gkzbrv/VFwcAQT1JyzbIbHYuFv+0qEvayvOb0O1akEphzpnanBwugw5jA9Y9EV77OPZ5SsvkNC+2rLBiEnYmWnCBQ6Y604OyhvqAhRBIjWeVDav4/F2mPTkC36cBboDl5yhLFh93YozVR/thHQtrkkuI3wTAY0rf/Y+2eVBcMpEHWVid76qVeJdOGQxmihMNmoDpRh/8BQXxjaTuokp41/va2PdFg1CxQ==
+ b=GuTTDwcB97Sj7rMeZjdKQTuSqJlZJj2g3OLAfas2EjdShR2PyRPRt42QgLQvocXwDgK3c/f7R6O95/Zwno3J+AQBH+r5nh094VuIE3BaFC6H2ow2DA+LNSUE7STMAz9Fj/a411VIHAfrdkfqm/TtJsoN2M0Q2hjlfXNevdrb4kBXc4IB2b0KkL7iZXWLt+jSiSgNphlmGimGVhlcYYD/PMrKdOc1L/+nQ64v1rwAvLXVph+ojgWomP3ihSZ04Al6Dx0N2HhqMwbbL2GlCVnUJPfeZask3zkL9OQp0J4oAd4jP7prFmsUd6ViF14gBIQjqn4qFNRZvjLsQFWSs9FS8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IZ3lXN4UUz6DzR0OZYz1o2vxjTy3eBTIvXf0Rmu48JQ=;
- b=GZoFFr7zkhypSynYO30bp4YU5S3AS2kGz0N/u7tMfgS6QN+VKCKDWE2O4kX1FaPNvJzRNtdhw8bS1zSSCW44Kmz/7sMMpsouWC7ozsReLk+/pM1GZIu71nh6QGUcH1fWv3esb5yQDY3xWMTy6TmHDfjVuJVFkCMc2ZqgTQm8NkLMdilCp1+fmGz6ty5Iy0yyww5L/mjCuCSXNlDRA4VYcmw3Wpv6+zo9mraUyTEXErZPaFUitvehzDwMekSQaY/YFV11JrVwFNACjxpWhuipJno1NpfBuP/muAShqGdUKUAdC0jBYOgSEK9XsB3nt7MFJ3UYuGdY/ZrwFCNbi/ysQQ==
+ bh=wqQYQhMm2XGsqZdWKbgj4vRr5Whd8H0devDPtxIuCyQ=;
+ b=VvQ0HBXdGY2sDCcO/wrP04RuhMj+qd9jUGL4Kdr9IN8flau1q25CNqhf0egyweczmXIKoz1hvNXAdbewe11RUPLHxjBdrIzUnIwxAkgwfCrM9Ejuh44kqFsmBLOsI6a+iPd7u/4Y5U/xYiu7HHyTxsKKOSdLKoh7q5WuLIpZDWjB3xLwgEXO5+uudZG6whMIheMr02OKyh9UConIUB4i1LdnDiKSB6wcHHhVB1vsUsWKyHWkMrtU1THpqlTnnEWiR0x6jHFy3n0F30Nu8aR7d2DhlSdYKjnRYQGYycye3q2YA+vNv15pQY/MPIv9yGztzmyk+mvUOQzEjPwbsOJAsA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IZ3lXN4UUz6DzR0OZYz1o2vxjTy3eBTIvXf0Rmu48JQ=;
- b=aNvZv5DKk4DHu6CooooF3uj95WzorBWcvOPk/iugODgzIZQ5zfuaS2dfrIyrdMXnXzIKQwMbi4bQLWrRV9atTkXUlGfCj/gVwZS+/m66V5oOVzYpEmK6rP68rFq743nfHLVNQCh/Ycqa05dXreXZfa4HF2lZdMDzR/atEypdyCc=
+ bh=wqQYQhMm2XGsqZdWKbgj4vRr5Whd8H0devDPtxIuCyQ=;
+ b=maJnehOWmPqfz0VuZepjWv5apxQA38HWIeCtgwcRMZEV38EdxJJcumnVS2FNjeCo9moMyXP0+QKgHBfAv9Zr5xC9NpjYCAX0ZWRwUrisJfxzDkx4ZZrQE6qwuCZq0Q0Nv166bbbNsVw8wkh6yFl3CtW0NsD0DtDDuVHUxTAABvo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SA2PR03MB5817.namprd03.prod.outlook.com (2603:10b6:806:11d::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.21; Wed, 30 Jun
- 2021 03:41:37 +0000
+ 2021 03:41:38 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::24fc:a5d:be8d:eb3f]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::24fc:a5d:be8d:eb3f%3]) with mapi id 15.20.4264.027; Wed, 30 Jun 2021
- 03:41:37 +0000
+ 03:41:38 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/3] fuzz: add an instrumentation filter
-Date: Tue, 29 Jun 2021 23:41:23 -0400
-Message-Id: <20210630034124.222689-3-alxndr@bu.edu>
+Subject: [PATCH v5 3/3] fuzz: make object-name matching case-insensitive
+Date: Tue, 29 Jun 2021 23:41:24 -0400
+Message-Id: <20210630034124.222689-4-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210630034124.222689-1-alxndr@bu.edu>
 References: <20210630034124.222689-1-alxndr@bu.edu>
@@ -64,53 +64,53 @@ Received: from stormtrooper.vrmnet (72.74.210.193) by
  MN2PR16CA0063.namprd16.prod.outlook.com (2603:10b6:208:234::32) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.21 via Frontend
- Transport; Wed, 30 Jun 2021 03:41:37 +0000
+ Transport; Wed, 30 Jun 2021 03:41:38 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a36c30f5-cdb5-4c07-8bc6-08d93b78f6f5
+X-MS-Office365-Filtering-Correlation-Id: 0fb3ed12-8051-498a-6f79-08d93b78f796
 X-MS-TrafficTypeDiagnostic: SA2PR03MB5817:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA2PR03MB58178FAC985E342E1FFBEB74BA019@SA2PR03MB5817.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <SA2PR03MB581765B9BBF1021FEAF30638BA019@SA2PR03MB5817.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:323;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zLQSNtxCx/tAlRMxWnllAvEDgmF3h0IcprPFzM8FQIpMDRJAJxv/1fxzXCY142CHxJKdp5dOqX5uvtQWn9Xe8ZGXouAUP+7Sr0KRxAhTAjKwL9TyyqHf6qW5F8XDfeN3d4ITvUzZ9UgnAk1BD7wI4lxNzywCb+5sSbYQYWHrLUf5KFSt2C4T1Jfpf6QtUuMXxiO2U52LycPd5wjh2rDybnK0BCgOR4O5M9K6UM2sS4EOGwgA04ZCaXMLs0Vwlcee1jzn2jdLhQq/lHOvjKD0u7T0jTzeabVeXZdxijLevPG8Nogo2zGQpzM0x06w+uQeV9gLriIW27P7+KUjB+BDlh/LbGDm0N7hvcDvnFvhnbzMxevdvtDk6b4elKIPVrTV/Zfq1JR1NVKbMP4+MxkNlxWT8Cv9AVsrPs6PKl0ESqCoHEauifKjUst0agX/2FiZqs6yLHv5BpDHzjR1TQH8bLcD4fuX+LSUwwhZA0ahoguIRewF+0/ksHtBtxvoDs1U7yUhmBR6vrgw//ogf7OMxByQ45r7k1xMBoxmqObQ026JRU9memTiutj81bhCZPlYESvXAbMj/na0wcvxuWreGSp/0FeoNu1G/9J2OgsUnvEuuq+yzwTEqeZO0kFlmR0dlkF+m9QO6E5pYKSVXfvjG1Jh26dxv0++aQmjN7Gc2ioqK+juftOi7e1Tdp33hHfRmuo1CwGPSQWVizKym7qmr1OQkw2k1GJPv5bgNe+IdgWzX43Z9++pTwXiE20InadbGgtKwxvsMPeBYmm0mKpK/b8z0ofFtktSVcynYAUy29PUT4CEdszFPnD2xUAEuXHCAgwQ41I3EBBMaIsZbs/iFHF55/LEDE6TXsSoyIhAFck=
+X-Microsoft-Antispam-Message-Info: ivDXObKJXRXVgIRtiAWGnm8Z6+8LBcY3u+Y4BcQ44a7rEyNMC2oI53HD0VP3Bm/wc7T9nFPrzft4H6rlHSgu8xsyTFa26gHlMJFb6XUBYh0c/+Lqp9wwka7sijdP1zxrQxdr9u28U8aUVNyZLm06Xj6umi76B3UHLl9wDkMImr+XDhq1vVKCHNKgSLOym/zaf3t5IoCb02gBlZpqk0coOVAeQnZZHjC5imXVx7H+6ghcqWYGFqbMz+AgqsBidQm9X1jqOP3bIEs6478lfcqXXVTfQqrdKFFqD7gHKUGnHoyuWSwTZcAYUVTcS+1KT48JuHvzb0KRhVBUJcj4zZGUN/qzuSeXJiAzpsYttli92Q8Ri5Y4QG/l5B+ADnSDup2JVyKJ5tzfPvd+NKj2Q3XQkl79g0zIacs4DANntxRARU+5ybTlvYBU7+8986PLrsjzcB8TW1ZkWP5wJ3KzyZ/sOjZbog8sZzeJv4PCPXk4yLnjSjBEmA2KoQPHKLCIleMRzVk/33UP7T1BF9bBqGXwpbl8zka87S7wgJBgnvdgm8PbI6hfsHH8gxqVrgh5qUlJCd/1N90YQZEfTxGMiMKSHvrPdj1mTVAQael+AlocyOrr+NymH7FltAx/keerA8cyO75l9zGypVg/hLlGc2RgDoCvX7o/Sy3V1hvxSPY2e669ssmx0K2dFuALCZp88OrY
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(956004)(2616005)(66946007)(66476007)(1076003)(66556008)(26005)(478600001)(16526019)(38100700002)(6916009)(38350700002)(6486002)(8936002)(8676002)(6666004)(186003)(6506007)(36756003)(52116002)(4326008)(6512007)(786003)(316002)(54906003)(2906002)(966005)(86362001)(5660300002)(75432002)(21314003);
+ SFS:(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(956004)(2616005)(66946007)(66476007)(1076003)(66556008)(26005)(478600001)(16526019)(38100700002)(6916009)(38350700002)(6486002)(8936002)(8676002)(6666004)(186003)(6506007)(36756003)(52116002)(83380400001)(4326008)(6512007)(786003)(316002)(54906003)(2906002)(86362001)(5660300002)(75432002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wuiKN7yMBiKkgHH8YbcQc7bbMBQZwFJ5B77mHX29eTO50uVqQnoBls5rCXnV?=
- =?us-ascii?Q?/rmriMWI3Vvfi81pRCNsGFhA8G/1UMtL0VKPYDr7LEXWA8YX1po855JheXv1?=
- =?us-ascii?Q?e38x5bHfXbF1FX/juGCwnPpZ84fDrhl9LMh1QZRw5ht/tgxCAxnw4Z9Gjnqj?=
- =?us-ascii?Q?/xUpFGzg3tjBDNmPCIeGkb4MwZcWgBZ6AJRmCtNIyDYpV0pjN64TYMdNSugf?=
- =?us-ascii?Q?57i2BGesbhFt912pyL/TRu+H8UtL/B1eH9Ygt2Qz/+rGPT1LEzFkOEKx5EfB?=
- =?us-ascii?Q?VRYQ70/8KlK/wMo27AsZdY0qoufHcZY8X9KprBH5hfh6cFeLZ+CrUJ8d3p5V?=
- =?us-ascii?Q?Pf34xuZhmEk3l7RGDGBCfz6mWzlUamSm3+Ew9WJYVuz7sxKSZsds5ZaKpDD0?=
- =?us-ascii?Q?0zujPY3FOzu/EZNBnHi6d8bjTEBvEPbpdn6IBd0PB4lntuBIWIMyS5lU1VdW?=
- =?us-ascii?Q?72kfA+6sq2R7m6y2vyeIPgw58besR3Jy0EfC9GL7lxUi0xbQJBhzMZ7oTFm9?=
- =?us-ascii?Q?pSeTKpqzZjC/oj28mKbThPjkE7+oaHeJ3GN5huvUrLG425/dL4RsrVLEiSFM?=
- =?us-ascii?Q?qAfVZ3PJTnO2GxI2p8trLf6iApUHUyps+eHrHdCoHHIOzlOWEcae11FKtWPe?=
- =?us-ascii?Q?y7fLEnYZF12doxWPhKmhX4jFbycHIFTLQbk6/dvHiGlg1fHjcHyUjcSekU7k?=
- =?us-ascii?Q?HYS7PHReeKbMBtxFVV0eHrboekRyrEY4pHfa+yoWSYCIgegV3k1P64FkZ3ZE?=
- =?us-ascii?Q?XCRSRxXZxkJWf3NKBq3xQYhnjtePcLllhwOppfcfUc8HbmKAWBQ9sOUEt2s2?=
- =?us-ascii?Q?vA7zWyhgHqpMoKmK6znRII34mMv5rMwQNHAAnOoYvJ+qlnCErFpkm98L/Rgd?=
- =?us-ascii?Q?UKswI3VEUnnzqY6tp98H1VBt2mt/ORzan1cV70eBD1mMcOjAcx/dJNYLVlCk?=
- =?us-ascii?Q?gLWYO8mKwWCgGf5QTBePL23YKq5mhN7Vl2RdmPS/9eLiFlLvkvDtnAxqp1Vi?=
- =?us-ascii?Q?i9LPI9lrV4U8MO9NIma/6jK4kSg3ELG82lytkN1SOfJ3hemwiEMiNYKiSdEJ?=
- =?us-ascii?Q?ybODnH7YrQ8rptHR7gdM6y2B9vu2ibYQsH8dO3Ax9g863p+wnUKui698sL4P?=
- =?us-ascii?Q?myPJh7DRAx8RV/bpOUV2fxvXptCt3DlHE3NpfA2ZScsCUVbeSji+Jmv6n/ne?=
- =?us-ascii?Q?yL9GHixah0Bi08jQX0wBVYhk5tLxgXVUnyUpM/9jwtHjp0FnwCdif/nWESsx?=
- =?us-ascii?Q?6NfyxipLacMlRfujcma3Q7KkBp0hAHO9CGbnajSvOELKvcTIiSprSOPRfW5e?=
- =?us-ascii?Q?3TAu7WVL8TYJciHS6B1nwNAB?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LcF8Y28rL2tOrnJ8MIFlp1Pzg+fsGdASPHtGKqGT2II3AbsX1I1Ru8+ZUb9U?=
+ =?us-ascii?Q?7dBW1bY2p/MdxMtZ6Xk3cAirX5nArJmu4ITFKwKCQbIF+a0KfTxxFfUQVtr8?=
+ =?us-ascii?Q?kLT9VG50FyWCnEnmeynn0wRfMspinWzqlikpeWuCLNbaQg4jbARHinMIH5bl?=
+ =?us-ascii?Q?FNiX1pQ62l3XY4VwWqpcOBAhySE4oBXxLXIok+93cyfpDaWVTwCl1yKE+4Q/?=
+ =?us-ascii?Q?q2EBZ8gU8GQwqwcm3+fiP4TP34wVWGqh3KtQ+r8SD3FGrWlCW+660GGQwHDD?=
+ =?us-ascii?Q?d2heKw9+Ya47iuekRpjHA999oTDrKb7nVSeDv8g/8OTf18SZrvYA2wv7GxU4?=
+ =?us-ascii?Q?r8S8T+HQjfVfpoETcxT/jQr7hfl2TSgt7fHFYnmWoTu8DSGaP1rA46rYph/1?=
+ =?us-ascii?Q?Jx+yUh4/ymtk/l14Kyo7be5pQXwqTr89Ry6nLS+oMGDe7sBF5AJBPmvomX/l?=
+ =?us-ascii?Q?v83INODIyX0RzlTFqWuAbKeWsyw3q0cYTg9EEnbocNzOgtuEaJoPMWD/rn0F?=
+ =?us-ascii?Q?P2f1VaqZSxzP169inFqJwdTJsE6E63mfyhmmRRlgV7fQ7V/r0WfVF5n4Mk3B?=
+ =?us-ascii?Q?aFqTEaTVM4nrYi5ZsOqN5V3dh6YCXl/uj6zSsN6USh+WgjpIE+cS+DnCdFyd?=
+ =?us-ascii?Q?KLwm7G/rE2EGRl2RyhmboG6F1iggPvBxlgHCgGM37VecgEopsg1/kRe0VgZt?=
+ =?us-ascii?Q?JVA2qAC/P61U+6LVasGZZXQP/+VxvrR+Fh75ym8Nf4GGabrKQYv2WevelLC9?=
+ =?us-ascii?Q?g28xZiKLSgyxf5W4z3P/86diiFwqjsUAq+aBdEIBueePsbAoDiCkRiwdYJUv?=
+ =?us-ascii?Q?sD0Mcmi49GPBauR5zwqcziTHggnb4jQXH7qwigox+kjfgAXsWMSJc6kW9L15?=
+ =?us-ascii?Q?cYHXBbq2S9ys1cMScQhWPnmQUtR2n0w5e3CnatBw2o3w27L9pvxuUniqEu8s?=
+ =?us-ascii?Q?C2Q9D2E3OXtUPtRA2651Jx5EwFtXNfWY+vMcxxbChJRZIMMumwic9SeydXBk?=
+ =?us-ascii?Q?eNIzhXBHixYKt0rE4Yo5Z824Q5V3l6/u/2lyZFB8+9/J6K/FV5x3IHE4yPZY?=
+ =?us-ascii?Q?2BMvkIeF60Y6d7kFkgdddUTFkM/OXKh0F1L6/p2nKw0tNJanZrJ1sf1gaiiB?=
+ =?us-ascii?Q?JOC3kBBxmkSmlIM28EDQg7Ytgz6xkOQdY+wevqY7+Fs6Rz08bPL28vFLGfM6?=
+ =?us-ascii?Q?uSXMeOCZonFQUVjwcuE9b4SPR8t2EXfYlnOQtjjT9A2/BI6df+ZnWmdmNBLc?=
+ =?us-ascii?Q?3VWb4zsaoCDwpdaURxhxjrTlDZjIzVWogg4I/IBCaSIFWPaUZZmk5meZWB8s?=
+ =?us-ascii?Q?F7GTByqY8FHZk/ssEY4cEA/0?=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: a36c30f5-cdb5-4c07-8bc6-08d93b78f6f5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fb3ed12-8051-498a-6f79-08d93b78f796
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2021 03:41:37.6866 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2021 03:41:38.7280 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fM0zqcQf9xANUBPz2NW1sZg5vslGuhWBr3B5iiLXUYFlPgKaqv07N7HBc7V3B6cj
+X-MS-Exchange-CrossTenant-UserPrincipalName: MntL2JhiH6391ciC59fOS12PkUrjfZcmXbX3BNkYtdTJ4l7Y80hsmPNWTtcr8ixg
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5817
 Received-SPF: pass client-ip=40.107.94.132; envelope-from=alxndr@bu.edu;
  helo=NAM10-MW2-obe.outbound.protection.outlook.com
@@ -134,82 +134,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  darren.kenny@oracle.com, Bandan Das <bsd@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default, -fsanitize=fuzzer instruments all code with coverage
-information. However, this means that libfuzzer will track coverage over
-hundreds of source files that are unrelated to virtual-devices. This
-means that libfuzzer will optimize inputs for coverage observed in timer
-code, memory APIs etc. This slows down the fuzzer and stores many inputs
-that are not relevant to the actual virtual-devices.
+We have some configs for devices such as the AC97 and ES1370 that were
+not matching memory-regions correctly, because the configs provided
+lowercase names. To resolve these problems and prevent them from
+occurring again in the future, convert both the pattern and names to
+lower-case, prior to checking for a match.
 
-With this change, clang versions that support the
-"-fsanitize-coverage-allowlist" will only instrument a subset of the
-compiled code, that is directly related to virtual-devices.
-
+Suggested-by: Darren Kenny <darren.kenny@oracle.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- configure                                        | 13 +++++++++++++
- scripts/oss-fuzz/instrumentation-filter-template | 14 ++++++++++++++
- 2 files changed, 27 insertions(+)
- create mode 100644 scripts/oss-fuzz/instrumentation-filter-template
+ tests/qtest/fuzz/generic_fuzz.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 38704b4e11..3b6ca054b9 100755
---- a/configure
-+++ b/configure
-@@ -5189,6 +5189,11 @@ if test "$fuzzing" = "yes" && test -z "${LIB_FUZZING_ENGINE+xxx}"; then
-     error_exit "Your compiler doesn't support -fsanitize=fuzzer"
-     exit 1
-   fi
-+  have_clang_coverage_filter=no
-+  echo > $TMPTXT
-+  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer -fsanitize-coverage-allowlist=$TMPTXT" ""; then
-+      have_clang_coverage_filter=yes
-+  fi
- fi
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index 43f9011626..59be7219de 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -751,8 +751,13 @@ static int locate_fuzz_memory_regions(Object *child, void *opaque)
  
- # Thread sanitizer is, for now, much noisier than the other sanitizers;
-@@ -6120,6 +6125,14 @@ if test "$fuzzing" = "yes" ; then
-     # rule for the fuzzer adds these to the link_args. They need to be
-     # configurable, to support OSS-Fuzz
-     FUZZ_EXE_LDFLAGS="-fsanitize=fuzzer"
+ static int locate_fuzz_objects(Object *child, void *opaque)
+ {
++    GString *type_name;
++    GString *path_name;
+     char *pattern = opaque;
+-    if (g_pattern_match_simple(pattern, object_get_typename(child))) {
 +
-+    # Specify a filter to only instrument code that is directly related to
-+    # virtual-devices.
-+    if test "$have_clang_coverage_filter" = "yes" ; then
-+        cp "$source_path/scripts/oss-fuzz/instrumentation-filter-template" \
-+            instrumentation-filter
-+        QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize-coverage-allowlist=instrumentation-filter"
-+    fi
-   else
-     FUZZ_EXE_LDFLAGS="$LIB_FUZZING_ENGINE"
-   fi
-diff --git a/scripts/oss-fuzz/instrumentation-filter-template b/scripts/oss-fuzz/instrumentation-filter-template
-new file mode 100644
-index 0000000000..44e853159c
---- /dev/null
-+++ b/scripts/oss-fuzz/instrumentation-filter-template
-@@ -0,0 +1,14 @@
-+# Code that we actually want the fuzzer to target
-+# See: https://clang.llvm.org/docs/SanitizerCoverage.html#disabling-instrumentation-without-source-modification
-+#
-+src:*/hw/*
-+src:*/include/hw/*
-+src:*/slirp/*
-+
-+# We don't care about coverage over fuzzer-specific code, however we should
-+# instrument the fuzzer entry-point so libFuzzer always sees at least some
-+# coverage - otherwise it will exit after the first input
-+src:*/tests/qtest/fuzz/fuzz.c
-+
-+# Enable instrumentation for all functions in those files
-+fun:*
++    type_name = g_string_new(object_get_typename(child));
++    g_string_ascii_down(type_name);
++    if (g_pattern_match_simple(pattern, type_name->str)) {
+         /* Find and save ptrs to any child MemoryRegions */
+         object_child_foreach_recursive(child, locate_fuzz_memory_regions, NULL);
+ 
+@@ -769,8 +774,9 @@ static int locate_fuzz_objects(Object *child, void *opaque)
+             g_ptr_array_add(fuzzable_pci_devices, PCI_DEVICE(child));
+         }
+     } else if (object_dynamic_cast(OBJECT(child), TYPE_MEMORY_REGION)) {
+-        if (g_pattern_match_simple(pattern,
+-            object_get_canonical_path_component(child))) {
++        path_name = g_string_new(object_get_canonical_path_component(child));
++        g_string_ascii_down(path_name);
++        if (g_pattern_match_simple(pattern, path_name->str)) {
+             MemoryRegion *mr;
+             mr = MEMORY_REGION(child);
+             if ((memory_region_is_ram(mr) ||
+@@ -779,7 +785,9 @@ static int locate_fuzz_objects(Object *child, void *opaque)
+                 g_hash_table_insert(fuzzable_memoryregions, mr, (gpointer)true);
+             }
+         }
++        g_string_free(path_name, true);
+     }
++    g_string_free(type_name, true);
+     return 0;
+ }
+ 
+@@ -807,6 +815,7 @@ static void generic_pre_fuzz(QTestState *s)
+     MemoryRegion *mr;
+     QPCIBus *pcibus;
+     char **result;
++    GString *name_pattern;
+ 
+     if (!getenv("QEMU_FUZZ_OBJECTS")) {
+         usage();
+@@ -836,10 +845,17 @@ static void generic_pre_fuzz(QTestState *s)
+ 
+     result = g_strsplit(getenv("QEMU_FUZZ_OBJECTS"), " ", -1);
+     for (int i = 0; result[i] != NULL; i++) {
++        name_pattern = g_string_new(result[i]);
++        /*
++         * Make the pattern lowercase. We do the same for all the MemoryRegion
++         * and Type names so the configs are case-insensitive.
++         */
++        g_string_ascii_down(name_pattern);
+         printf("Matching objects by name %s\n", result[i]);
+         object_child_foreach_recursive(qdev_get_machine(),
+                                     locate_fuzz_objects,
+-                                    result[i]);
++                                    name_pattern->str);
++        g_string_free(name_pattern, true);
+     }
+     g_strfreev(result);
+     printf("This process will try to fuzz the following MemoryRegions:\n");
 -- 
 2.28.0
 
