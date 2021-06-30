@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157DE3B7B30
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 03:06:15 +0200 (CEST)
-Received: from localhost ([::1]:55072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4763B7B31
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 03:10:26 +0200 (CEST)
+Received: from localhost ([::1]:58022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyOgA-0000F9-5o
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 21:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
+	id 1lyOkD-0002No-Id
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 21:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1lyOeu-0007sd-Ps
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:04:56 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:43326 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1lyOeq-0006a5-Lm
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:04:56 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj0Mqw9tgVI4aAA--.30719S3; 
- Wed, 30 Jun 2021 09:04:43 +0800 (CST)
-Subject: Re: [PATCH 06/20] target/loongarch: Add main translation routines
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
- <1624881885-31692-7-git-send-email-gaosong@loongson.cn>
- <3b3ad9db-ed86-1ef4-5653-1c7106bc5bfd@amsat.org>
- <88f8eaba-f99a-5865-898f-29a9f4b418f2@loongson.cn>
- <871r8krh4m.fsf@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <f7c374dd-51ea-dff9-b397-3c3d4bdc1a44@loongson.cn>
-Date: Wed, 30 Jun 2021 09:04:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lyOiS-0001hr-Q5
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:08:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lyOiQ-0000fG-Rf
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 21:08:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625015314;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GC9w4AzCh4LP4j/5Eq4w7lnHQn2UjO19MgmWdBd/aBY=;
+ b=ED1KIpgnk5tBgvl8Rq3LaVrqMH8XHO1Y49O8aGX6EQ9udy8SQyeZ3zgMKY/SIUKvCaq8Y6
+ bhX5KgDOEpgF2Wdc3dskd9fEvLoVGeAKm2B2fXbBSe6rXs4EqYnt9NPz5aaWG/2P7kLUhz
+ 1F4NnFo4IyK7mVFAfbUOkVlDXdAc4oI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-qtF-5Pu3NBmQfv69Tn1r1g-1; Tue, 29 Jun 2021 21:08:31 -0400
+X-MC-Unique: qtF-5Pu3NBmQfv69Tn1r1g-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ w22-20020a17090652d6b029048a3391d9f6so168846ejn.12
+ for <qemu-devel@nongnu.org>; Tue, 29 Jun 2021 18:08:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GC9w4AzCh4LP4j/5Eq4w7lnHQn2UjO19MgmWdBd/aBY=;
+ b=OJng+/WNtpHg+j8Zj3Dhe3Ka9DhQOTMjxMCN8OUR4/K0s3DWFir2aYqX4tjvdafHmR
+ blKCfTodxKDBmcd4642VYVlQeIITRsibK4GRyhBP0pVvaqOrRh5kqVaTd9Rhi+eKTSD+
+ HcrngsvRGFD9X6GfPO0jeYVVVTPFwAAjP0AtoJazB7IrVlh89XbvMIglecROp9vD4BnC
+ RJwUlaH3RBoRwX3PeKK8LSM4eWQ+t9cidFxYgrnF4msJ6AuYRsBdtl6Durp+ZFn9qKjL
+ fQ72fOWUe5eIH/Px1bALNIhA6/1d1KmcUW5xf2kSNzcyjjDBOR6r65eXXW2Jnj9z3jVl
+ aKhA==
+X-Gm-Message-State: AOAM533L3JKVXyH/8/rsSxun/GUbrj8dsdQJl0yVNubhDpmQPsRXY0wF
+ qwqcHghCixKBHfsUKRZkH5LalLxQ+PDT7d2mGR0EQZNKm0WQSeZvpUjnLm69SM/5LlisvUrVTQM
+ P44WJfoeRrYe9yf+MTZizKHqEOLg5oZA=
+X-Received: by 2002:aa7:dcd5:: with SMTP id w21mr42464544edu.144.1625015310838; 
+ Tue, 29 Jun 2021 18:08:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyViA8sv5Ehfwq4SZGxqNx36aLfEb88pPYhUupHbtjEeyUHtw35jV5lkNz0NdiMhpr4XFTurOKjCHkdqstS/aA=
+X-Received: by 2002:aa7:dcd5:: with SMTP id w21mr42464513edu.144.1625015310665; 
+ Tue, 29 Jun 2021 18:08:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <871r8krh4m.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxj0Mqw9tgVI4aAA--.30719S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7tr1xWFyrAF1fCFyUJF4ruFg_yoW8ZF4xpr
- 13CF1rKw48Jry7Jr4agw1UXrnxtr48CFW7X3Z7tryrCr9Fqw1xZF18t342kFyxAw17uFyj
- qF1Yy3429F13G3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBS1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
- vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- JVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
- 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI
- 62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6c
- x26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
- 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
- AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
- cVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210608031425.833536-1-crosa@redhat.com>
+ <20210608031425.833536-5-crosa@redhat.com>
+ <9770910a-f586-0b79-395c-7154c4693690@amsat.org>
+ <CA+bd_6+-je9t3DzegS0uiyC9fCYF++sMXkRJhAz1Dxe2zz-v1A@mail.gmail.com>
+ <87czssirw4.fsf@linaro.org>
+In-Reply-To: <87czssirw4.fsf@linaro.org>
+From: Cleber Rosa <crosa@redhat.com>
+Date: Tue, 29 Jun 2021 21:08:19 -0400
+Message-ID: <CA+bd_6LJvf5hUYd=XSBaSO+Tx12_qyyDhw7TKDeit=05WDqBLA@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] Jobs based on custom runners: add job definitions
+ for QEMU's machines
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,76 +93,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-devel@nongnu.org,
- richard.henderson@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, maobibo@loongson.cn,
- laurent@vivier.eu, alistair.francis@wdc.com, pbonzini@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Alex,
+On Fri, Jun 11, 2021 at 7:04 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+>
+> Cleber Rosa Junior <crosa@redhat.com> writes:
+>
+> > On Tue, Jun 8, 2021 at 2:30 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
+.org> wrote:
+> >
+> >  Hi Alex, Stefan,
+> >
+> >  On 6/8/21 5:14 AM, Cleber Rosa wrote:
+> >  > The QEMU project has two machines (aarch64 and s390x) that can be us=
+ed
+> >  > for jobs that do build and run tests.
+> >
+> <snip>
+> >
+> >  Who has access to what and should do what (setup)? How is this list of
+> >  hw managed btw? Should there be some public visibility (i.e. Wiki)?
+> >
+> > These are good questions, and I believe Alex can answer them about thos=
+e two machines.  Even though I hooked them up to GitLab,
+> > AFAICT he is the ultimate admin (maybe Peter too?).
+> >
+> > About hardware management, it has been suggested to use either the Wiki=
+ or a MAINTAINERS entry.  This is still unresolved and feedback
+> > would be appreciated.  For me to propose a MAINTAINERS entry, say, on
+> > a v7, I'd need the information on who is managing them.
+>
+> I can only talk about aarch64.ci.qemu.org which is a donated Equinix
+> machine that comes from the WorksOnArm initiative. I applied for it on
+> behalf of the QEMU project and we can have it for as long as it's
+> useful.
+>
+> I don't know if we need anything more that documenting the nominal
+> contacts in:
+>
+>   https://wiki.qemu.org/AdminContacts
+>
 
-On 06/29/2021 08:26 PM, Alex Bennée wrote:
-> 
-> Song Gao <gaosong@loongson.cn> writes:
-> 
->> Hi, Philippe,
->>
->> On 06/29/2021 02:46 AM, Philippe Mathieu-Daudé wrote:
->>> On 6/28/21 2:04 PM, Song Gao wrote:
->>>> This patch add main translation routines and
->>>> basic functions for translation.
->>>>
->>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
->>>> ---
->>>>  target/loongarch/helper.h    |  10 +
->>>>  target/loongarch/op_helper.c |  28 +++
->>>>  target/loongarch/translate.c | 537 +++++++++++++++++++++++++++++++++++++++++++
->>>>  target/loongarch/translate.h |  58 +++++
->>>>  4 files changed, 633 insertions(+)
->>>>  create mode 100644 target/loongarch/helper.h
->>>>  create mode 100644 target/loongarch/op_helper.c
->>>>  create mode 100644 target/loongarch/translate.c
->>>>  create mode 100644 target/loongarch/translate.h
->>>
->>>> +/* 128 and 256 msa vector instructions are not supported yet */
->>>> +static bool decode_lsx(uint32_t opcode)
->>>> +{
->>>> +    uint32_t value = (opcode & 0xff000000);
->>>> +
->>>> +    if ((opcode & 0xf0000000) == 0x70000000) {
->>>> +        return true;
->>>> +    } else if ((opcode & 0xfff00000) == 0x38400000) {
->>>> +        return true;
->>>> +    } else {
->>>> +        switch (value) {
->>>> +        case 0x09000000:
->>>> +        case 0x0a000000:
->>>> +        case 0x0e000000:
->>>> +        case 0x0f000000:
->>>> +        case 0x2c000000:
->>>> +        case 0x30000000:
->>>> +        case 0x31000000:
->>>> +        case 0x32000000:
->>>> +        case 0x33000000:
->>>> +            return true;
->>>> +        }
->>>> +    }
->>>> +    return false;
->>>> +}
->>>
->>> Why not generate that with the decodetree script?
->>>
->> These instructions are privileged instructions， user mode does not need these instructions.
->> I'll delete these codes.
-> 
-> Are you intending to include system emulation in due course?
-> 
-Yes,  After the loongarch kernel is submitted to the mainline, we will add system emulation support.
-You can see the lastest loongarch kernel at:
+That's enough indeed, thanks.  I'll follow up with a proposal about
+the expected duties of admins, which should be nothing but common
+sense.
 
-    https://github.com/loongson/linux/tree/loongarch-next
+Is there anyone that can speak for the s390x machine?
 
-thanks
+> >  Is there a document explaining what are the steps to follow for an
+> >  entity to donate / sponsor hardware? Where would it be stored, should
+> >  this hw be shipped somewhere? What documentation should be provided fo=
+r
+> >  its system administration?
+>
+> I think the project can only really work with donations out of someones
+> data centre where they keep responsibility for the physical aspects of
+> any machines including the ongoing hosting and running costs.
+>
+
+Agreed.  Anything else is beyond what can be managed atm.
+
+> --
+> Alex Benn=C3=A9e
+>
+
+Thanks,
+- Cleber.
 
 
