@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39F13B861A
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:12:59 +0200 (CEST)
-Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E956A3B861D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:14:05 +0200 (CEST)
+Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybta-0006PN-Gj
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60372)
+	id 1lybuf-00006A-1V
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lybrt-00052S-H1
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:11:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lybro-0007OP-21
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:11:13 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lybri-000680-Ar
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 15:11:02 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 684D42E81F1
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 15:10:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lybt4-0006v7-0T
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:12:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lybsx-0008Pb-UE
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:12:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625065938;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JAexThhFnM1We87F/mnTJ1NGA3dyKP1w1LXBzVLt7jA=;
+ b=J6aQ8/S4UAmeASoJWVRo4kA8O98o3Hm/FNPkgDji7eB3BOvu572RbSmI/bCE8j9AOpk6yj
+ XFORUsxI+jhgHMCvy5hXGu6bdeZsfetzbafFDaCTMCjm3gvXSXZXCmJtBRYTJSxJVGQbhd
+ d2OeHKJM7VMTIyHG742Ge7azgah9mG0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-7v9sp0ClMgOPJahh4TQuvQ-1; Wed, 30 Jun 2021 11:12:14 -0400
+X-MC-Unique: 7v9sp0ClMgOPJahh4TQuvQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FBD6802C80;
+ Wed, 30 Jun 2021 15:12:13 +0000 (UTC)
+Received: from localhost (ovpn-112-48.ams2.redhat.com [10.36.112.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAE695DEFA;
+ Wed, 30 Jun 2021 15:12:12 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [RFC v6 07/13] target/s390x: move sysemu-only code out to
+ cpu-sysemu.c
+In-Reply-To: <20210629141931.4489-8-acho@suse.com>
+Organization: Red Hat GmbH
+References: <20210629141931.4489-1-acho@suse.com>
+ <20210629141931.4489-8-acho@suse.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Wed, 30 Jun 2021 17:12:11 +0200
+Message-ID: <87im1vl73o.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Jun 2021 15:04:09 -0000
-From: Gianluca Gabruelli <1907497@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr crazy8yte mauro-cascella th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Gianluca Gabruelli (crazy8yte)
-References: <20201209203024.mvdoyhe3qqg6frgg@mozz.bu.edu>
-Message-Id: <162506545003.25460.7939541648647494026.malone@gac.canonical.com>
-Subject: [Bug 1907497] Re: [OSS-Fuzz] Issue 28435
- qemu:qemu-fuzz-i386-target-generic-fuzz-intel-hda: Stack-overflow in
- ldl_le_dma
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: de96819c327b7ac8055511cc4c5e0bcc8ff5069b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,91 +79,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907497 <1907497@bugs.launchpad.net>
+Cc: cfontana@suse.com, Claudio Fontana <cfontana@suse.de>, acho@suse.com,
+ jose.ziviani@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@Thomas, could you try by compiling qemu with a commit close to the
-timeframe mentioned here [0]?
+On Tue, Jun 29 2021, "Cho, Yu-Chen" <acho@suse.com> wrote:
 
-[0] https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D28435#c2
+> move sysemu-only code out to cpu-sysemu.c
+>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
+> ---
+>  target/s390x/cpu-sysemu.c | 309 ++++++++++++++++++++++++++++++++++++++
+>  target/s390x/cpu.c        | 285 ++---------------------------------
+>  target/s390x/meson.build  |   1 +
+>  target/s390x/trace-events |   2 +-
+>  4 files changed, 320 insertions(+), 277 deletions(-)
+>  create mode 100644 target/s390x/cpu-sysemu.c
 
--- =
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907497
-
-Title:
-  [OSS-Fuzz] Issue 28435 qemu:qemu-fuzz-i386-target-generic-fuzz-intel-
-  hda: Stack-overflow in ldl_le_dma
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-   affects qemu
-
-  =3D=3D=3D Reproducer (build with --enable-sanitizers) =3D=3D=3D
-
-  cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
-  -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 \
-  -device hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 \
-  -qtest stdio
-  outl 0xcf8 0x80000804
-  outw 0xcfc 0xffff
-  write 0x0 0x1 0x12
-  write 0x2 0x1 0x2f
-  outl 0xcf8 0x80000811
-  outl 0xcfc 0x5a6a4406
-  write 0x6a44005a 0x1 0x11
-  write 0x6a44005c 0x1 0x3f
-  write 0x6a442050 0x4 0x0000446a
-  write 0x6a44204a 0x1 0xf3
-  write 0x6a44204c 0x1 0xff
-  writeq 0x6a44005a 0x17b3f0011
-  write 0x6a442050 0x4 0x0000446a
-  write 0x6a44204a 0x1 0xf3
-  write 0x6a44204c 0x1 0xff
-  EOF
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D411958=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
-fcaeb8bc88 (pc 0x55c7c9dc1159 bp 0x7ffcaeb8c4d0 sp 0x7ffcaeb8bc90 T0)
-      #0 0x55c7c9dc1159 in __asan_memcpy (u-system-i386+0x2a13159)
-      #1 0x55c7cb2a457e in flatview_do_translate softmmu/physmem.c:513:12
-      #2 0x55c7cb2bdab0 in flatview_translate softmmu/physmem.c:563:15
-      #3 0x55c7cb2bdab0 in flatview_read softmmu/physmem.c:2861:10
-      #4 0x55c7cb2bdab0 in address_space_read_full softmmu/physmem.c:2875:18
-      #5 0x55c7caaec937 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
-      #6 0x55c7caaec937 in dma_memory_rw include/sysemu/dma.h:110:12
-      #7 0x55c7caaec937 in dma_memory_read include/sysemu/dma.h:116:12
-      #8 0x55c7caaec937 in ldl_le_dma include/sysemu/dma.h:179:1
-      #9 0x55c7caaec937 in ldl_le_pci_dma include/hw/pci/pci.h:816:1
-      #10 0x55c7caaec937 in intel_hda_corb_run hw/audio/intel-hda.c:338:16
-      #11 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
-91:5
-      #12 0x55c7cb2e6bd3 in access_with_adjusted_size softmmu/memory.c:552:=
-18
-      #13 0x55c7cb2e646c in memory_region_dispatch_write softmmu/memory.c
-      #14 0x55c7cb2c8445 in flatview_write_continue softmmu/physmem.c:2759:=
-23
-      #15 0x55c7cb2bdfb8 in flatview_write softmmu/physmem.c:2799:14
-      #16 0x55c7cb2bdfb8 in address_space_write softmmu/physmem.c:2891:18
-      #17 0x55c7caae2c54 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
-      #18 0x55c7caae2c54 in dma_memory_rw include/sysemu/dma.h:110:12
-      #19 0x55c7caae2c54 in dma_memory_write include/sysemu/dma.h:122:12
-      #20 0x55c7caae2c54 in stl_le_dma include/sysemu/dma.h:179:1
-      #21 0x55c7caae2c54 in stl_le_pci_dma include/hw/pci/pci.h:816:1
-      #22 0x55c7caae2c54 in intel_hda_response hw/audio/intel-hda.c:370:5
-      #23 0x55c7caaeca00 in intel_hda_corb_run hw/audio/intel-hda.c:342:9
-      #24 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
-91:5
-  ...
-
-  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D28435
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907497/+subscriptions
 
