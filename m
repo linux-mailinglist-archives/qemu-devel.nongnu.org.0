@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96DD3B8AF6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 01:30:07 +0200 (CEST)
-Received: from localhost ([::1]:49848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DA33B8AF7
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 01:30:16 +0200 (CEST)
+Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyjeg-0005wg-Ev
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 19:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45292)
+	id 1lyjep-00065n-HY
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 19:30:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjcj-0003VT-Fw
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:05 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:45216)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjcm-0003bC-Aj
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:08 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:45226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjch-0001Io-QI
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:05 -0400
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjck-0001KT-HA
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:08 -0400
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A1E612279A;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 734CA22772;
+ Wed, 30 Jun 2021 23:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625095685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
+ b=UzZy+7eaeCnM8azh3/wC3YhykMugaSFGyU99N6I/Q9509zlfupeuV2nrHkk76uETK7PDv+
+ TzjN4dBLWSUJn8bwIqpwzlKS0WrimZ/bxGwfIEocE2jKslrZfqCrRZyL506GFFW+As6XuS
+ Nrv2qiAtiXD2DeYfDJWXbphhzT0CrTA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625095685;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
+ b=02dtMQ4dD/VgTSLHot5MkwzKAWdFUOQbSuFWKsnzJh9YFxegGrRr2g4UTMcEtj6SLJEGQ1
+ 30b0jPoL7m3MuCCQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 25A0A118DD;
  Wed, 30 Jun 2021 23:28:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625095682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1625095685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zJfVoDi1pO/XbYFWOW3cRPVtpKatrx3osqgLwEZBdH8=;
- b=uX+UoSqOjzokht8Dmska0/EK8i9GXZz23zxK8QPnhNyv2dALNqc/rHb6h5slch+4ngZoTv
- PqJ757qoUo0lB5UBRh8Y0uXNrCZAGMaVA3FdHHJp/U97mjkgyoekmgrVoyu8nhwc07hIQZ
- BHtfeLE/jdEZnoQPIavtUQD6JySc3KY=
+ bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
+ b=UzZy+7eaeCnM8azh3/wC3YhykMugaSFGyU99N6I/Q9509zlfupeuV2nrHkk76uETK7PDv+
+ TzjN4dBLWSUJn8bwIqpwzlKS0WrimZ/bxGwfIEocE2jKslrZfqCrRZyL506GFFW+As6XuS
+ Nrv2qiAtiXD2DeYfDJWXbphhzT0CrTA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625095682;
+ s=susede2_ed25519; t=1625095685;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zJfVoDi1pO/XbYFWOW3cRPVtpKatrx3osqgLwEZBdH8=;
- b=GScGqumomDM4fcPAUJAvCDz0nkqw0PyylMIEKJoaVIwfNBvGxMbSL7aM+gA3P7we7WTEcy
- ZgctDbQNkBHwReDA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 543AE118DD;
- Wed, 30 Jun 2021 23:28:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625095682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zJfVoDi1pO/XbYFWOW3cRPVtpKatrx3osqgLwEZBdH8=;
- b=uX+UoSqOjzokht8Dmska0/EK8i9GXZz23zxK8QPnhNyv2dALNqc/rHb6h5slch+4ngZoTv
- PqJ757qoUo0lB5UBRh8Y0uXNrCZAGMaVA3FdHHJp/U97mjkgyoekmgrVoyu8nhwc07hIQZ
- BHtfeLE/jdEZnoQPIavtUQD6JySc3KY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625095682;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zJfVoDi1pO/XbYFWOW3cRPVtpKatrx3osqgLwEZBdH8=;
- b=GScGqumomDM4fcPAUJAvCDz0nkqw0PyylMIEKJoaVIwfNBvGxMbSL7aM+gA3P7we7WTEcy
- ZgctDbQNkBHwReDA==
+ bh=KDqLDJYTh0P9kpqled2hZseGPTyb17fjHEmuFpYZiEw=;
+ b=02dtMQ4dD/VgTSLHot5MkwzKAWdFUOQbSuFWKsnzJh9YFxegGrRr2g4UTMcEtj6SLJEGQ1
+ 30b0jPoL7m3MuCCQ==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id mDC0BQD+3GA/IQAALh3uQQ
- (envelope-from <jziviani@suse.de>); Wed, 30 Jun 2021 23:28:00 +0000
+ id CMO4NQL+3GA/IQAALh3uQQ
+ (envelope-from <jziviani@suse.de>); Wed, 30 Jun 2021 23:28:02 +0000
 From: "Jose R. Ziviani" <jziviani@suse.de>
 To: qemu-devel@nongnu.org
-Subject: [RFC 2/3] modules: Implement module_is_loaded function
-Date: Wed, 30 Jun 2021 20:27:48 -0300
-Message-Id: <20210630232749.21873-3-jziviani@suse.de>
+Subject: [RFC 3/3] qom: Improve error message in module_object_class_by_name()
+Date: Wed, 30 Jun 2021 20:27:49 -0300
+Message-Id: <20210630232749.21873-4-jziviani@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210630232749.21873-1-jziviani@suse.de>
 References: <20210630232749.21873-1-jziviani@suse.de>
@@ -101,117 +101,90 @@ Cc: berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function module_load_one() fills a hash table will all modules that
-were successfuly loaded. However, that table is a static variable of
-module_load_one(). This patch changes it and creates a function that
-informs whether a given module was loaded or not.
+module_object_class_by_name() calls module_load_qom_one if the object
+is provided by a dynamically linked library. Such library might not be
+available at this moment - for instance, it can be a package not yet
+installed. Thus, instead of assert error messages, this patch outputs
+more friendly messages.
+
+Current error messages:
+$ ./qemu-system-x86_64 -machine q35 -accel tcg -kernel /boot/vmlinuz
+...
+ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
+Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
+[1]    31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
+
+New error message:
+$ ./qemu-system-x86_64 -machine q35 -accel tcg -kernel /boot/vmlinuz
+accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
+
+$ make check
+...
+Running test qtest-x86_64/test-filter-mirror
+Running test qtest-x86_64/endianness-test
+accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
+accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
+accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
+accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
+accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
+accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
+...
 
 Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
 ---
- include/qemu/module.h |  3 +++
- util/module.c         | 28 +++++++++++++++++++++-------
- 2 files changed, 24 insertions(+), 7 deletions(-)
+ qom/object.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index 456e190a55..01779cc7fb 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -14,6 +14,7 @@
- #ifndef QEMU_MODULE_H
- #define QEMU_MODULE_H
+diff --git a/qom/object.c b/qom/object.c
+index 6a01d56546..2d40245af9 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1024,6 +1024,24 @@ ObjectClass *object_class_by_name(const char *typename)
+     return type->class;
+ }
  
-+#include <stdbool.h>
- 
- #define DSO_STAMP_FUN         glue(qemu_stamp, CONFIG_STAMP)
- #define DSO_STAMP_FUN_STR     stringify(DSO_STAMP_FUN)
-@@ -74,6 +75,8 @@ void module_load_qom_one(const char *type);
- void module_load_qom_all(void);
- void module_allow_arch(const char *arch);
- 
-+bool module_is_loaded(const char *name);
++char *get_accel_module_name(const char *ac_name);
 +
- /**
-  * DOC: module info annotation macros
-  *
-diff --git a/util/module.c b/util/module.c
-index 6bb4ad915a..64307b7a25 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -119,6 +119,8 @@ static const QemuModinfo module_info_stub[] = { {
- static const QemuModinfo *module_info = module_info_stub;
- static const char *module_arch;
- 
-+static GHashTable *loaded_modules;
-+
- void module_init_info(const QemuModinfo *info)
- {
-     module_info = info;
-@@ -206,13 +208,10 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
- out:
-     return ret;
- }
--#endif
- 
- bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
- {
-     bool success = false;
--
--#ifdef CONFIG_MODULES
-     char *fname = NULL;
- #ifdef CONFIG_MODULE_UPGRADES
-     char *version_dir;
-@@ -223,7 +222,6 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-     int i = 0, n_dirs = 0;
-     int ret;
-     bool export_symbols = false;
--    static GHashTable *loaded_modules;
-     const QemuModinfo *modinfo;
-     const char **sl;
- 
-@@ -307,12 +305,9 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-         g_free(dirs[i]);
-     }
- 
--#endif
-     return success;
- }
- 
--#ifdef CONFIG_MODULES
--
- static bool module_loaded_qom_all;
- 
- void module_load_qom_one(const char *type)
-@@ -377,6 +372,15 @@ void qemu_load_module_for_opts(const char *group)
-     }
- }
- 
-+bool module_is_loaded(const char *name)
++char *get_accel_module_name(const char *ac_name)
 +{
-+    if (!loaded_modules || !g_hash_table_contains(loaded_modules, name)) {
-+        return false;
++    size_t len = strlen(ac_name);
++    char *module_name = NULL;
++
++    if (strncmp(ac_name, "tcg-accel-ops", len) == 0) {
++#ifdef CONFIG_TCG_MODULAR
++        module_name = g_strdup_printf("%s%s", "accel-tcg-", "x86_64");
++#endif
++    } else if (strncmp(ac_name, "qtest-accel-ops", len) == 0) {
++        module_name = g_strdup_printf("%s%s", "accel-qtest-", "x86_64");
 +    }
 +
-+    return true;
++    return module_name;
 +}
 +
- #else
- 
- void module_allow_arch(const char *arch) {}
-@@ -384,4 +388,14 @@ void qemu_load_module_for_opts(const char *group) {}
- void module_load_qom_one(const char *type) {}
- void module_load_qom_all(void) {}
- 
-+bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-+{
-+    return false;
-+}
-+
-+bool module_is_loaded(const char *name)
-+{
-+    return false;
-+}
-+
+ ObjectClass *module_object_class_by_name(const char *typename)
+ {
+     ObjectClass *oc;
+@@ -1031,8 +1049,20 @@ ObjectClass *module_object_class_by_name(const char *typename)
+     oc = object_class_by_name(typename);
+ #ifdef CONFIG_MODULES
+     if (!oc) {
++        char *module_name;
+         module_load_qom_one(typename);
+         oc = object_class_by_name(typename);
++        module_name = get_accel_module_name(typename);
++        if (module_name) {
++            if (!module_is_loaded(module_name)) {
++                fprintf(stderr, "%s module is missing, install the "
++                                "package or config the library path "
++                                "correctly.\n", module_name);
++                g_free(module_name);
++                exit(1);
++            }
++            g_free(module_name);
++        }
+     }
  #endif
+     return oc;
 -- 
 2.32.0
 
