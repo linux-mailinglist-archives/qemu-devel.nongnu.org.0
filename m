@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6413B8744
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:53:32 +0200 (CEST)
-Received: from localhost ([::1]:53762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6723B8742
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:52:27 +0200 (CEST)
+Received: from localhost ([::1]:50322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lydSt-0005WS-HP
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
+	id 1lydRp-0003D2-M6
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:52:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lydQX-0002WX-5a
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:51:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43104)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lydQT-0003Qm-CU
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:51:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lydQO-0005Ev-7H
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 16:50:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D08C82E81C6
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 16:50:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lydPs-0001ma-Ty
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:50:24 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:36716
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lydPp-0002xX-OR
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:50:24 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4GFS583Rfjz8PbP;
+ Wed, 30 Jun 2021 12:50:20 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=hYrvZKKsr
+ nqfSwmfSxJILoQWIxw=; b=E8DfE3upKH6eTojN0OWXKz8gvL0dKiRxo8EKNAnAc
+ d54CmGDt2TmsNeJSKaQQZ2uASeQdhV1LqAvLF9r0FilfoHbnhuna8x1RQJSpUni6
+ 0cEb1tBCFkmZPXD+SNGYAk3o4Mf1gWB5B4VKS1h76WDhpjhwSvuhuEbZaD7bWhwh
+ B8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=MdI
+ jeBwve93Cbwyw2jNS6a25QmGz234a4p7aJQUWHnWGTDHkRjPRDL0f01ZSbWH/qb9
+ JarSusfewGclqH+l0HPaKqcTeFEtK4nNSs7XhmH9V5/O7lzLZyK5ApbMXUXig3Oa
+ POPJ8BlOMOn0QNEgzZwF2V7nM14mhIeQeZgzPYjk=
+Received: from [IPV6:2001:470:b050:6:30c6:afbd:f093:7596] (unknown
+ [IPv6:2001:470:b050:6:30c6:afbd:f093:7596])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4GFS582KMXz8PbN;
+ Wed, 30 Jun 2021 12:50:20 -0400 (EDT)
+Message-ID: <8341e3ac-ad15-9235-c61c-5e05f1dd6ebf@comstyle.com>
+Date: Wed, 30 Jun 2021 12:50:19 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101
+ Thunderbird/90.0
+Subject: Re: [PATCH] tests/vm: update NetBSD to 9.2
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>
+References: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
+ <eb7e9e07-939e-82cd-c561-7765337d5da6@amsat.org>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <eb7e9e07-939e-82cd-c561-7765337d5da6@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Jun 2021 16:44:51 -0000
-From: Thomas Huth <1907497@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr crazy8yte mauro-cascella th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20201209203024.mvdoyhe3qqg6frgg@mozz.bu.edu>
-Message-Id: <162507149155.8169.15631664705450700674.malone@wampee.canonical.com>
-Subject: [Bug 1907497] Re: [OSS-Fuzz] Issue 28435
- qemu:qemu-fuzz-i386-target-generic-fuzz-intel-hda: Stack-overflow in
- ldl_le_dma
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: f87d2b85a8a1f98fad84d0875a490c6639c5ab5d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,90 +79,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907497 <1907497@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@Gianluca: The problem still reproduces with the current master branch
-(commit 13d5f87cc3b94bfccc5), so the problem is definitely not fixed
-yet. So no, I certainly won't waste my time trying it on older versions.
+Sorry my mistake.
 
--- =
+I'll keep that script in mind as it looks incredibly useful.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907497
-
-Title:
-  [OSS-Fuzz] Issue 28435 qemu:qemu-fuzz-i386-target-generic-fuzz-intel-
-  hda: Stack-overflow in ldl_le_dma
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-   affects qemu
-
-  =3D=3D=3D Reproducer (build with --enable-sanitizers) =3D=3D=3D
-
-  cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
-  -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 \
-  -device hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 \
-  -qtest stdio
-  outl 0xcf8 0x80000804
-  outw 0xcfc 0xffff
-  write 0x0 0x1 0x12
-  write 0x2 0x1 0x2f
-  outl 0xcf8 0x80000811
-  outl 0xcfc 0x5a6a4406
-  write 0x6a44005a 0x1 0x11
-  write 0x6a44005c 0x1 0x3f
-  write 0x6a442050 0x4 0x0000446a
-  write 0x6a44204a 0x1 0xf3
-  write 0x6a44204c 0x1 0xff
-  writeq 0x6a44005a 0x17b3f0011
-  write 0x6a442050 0x4 0x0000446a
-  write 0x6a44204a 0x1 0xf3
-  write 0x6a44204c 0x1 0xff
-  EOF
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D411958=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
-fcaeb8bc88 (pc 0x55c7c9dc1159 bp 0x7ffcaeb8c4d0 sp 0x7ffcaeb8bc90 T0)
-      #0 0x55c7c9dc1159 in __asan_memcpy (u-system-i386+0x2a13159)
-      #1 0x55c7cb2a457e in flatview_do_translate softmmu/physmem.c:513:12
-      #2 0x55c7cb2bdab0 in flatview_translate softmmu/physmem.c:563:15
-      #3 0x55c7cb2bdab0 in flatview_read softmmu/physmem.c:2861:10
-      #4 0x55c7cb2bdab0 in address_space_read_full softmmu/physmem.c:2875:18
-      #5 0x55c7caaec937 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
-      #6 0x55c7caaec937 in dma_memory_rw include/sysemu/dma.h:110:12
-      #7 0x55c7caaec937 in dma_memory_read include/sysemu/dma.h:116:12
-      #8 0x55c7caaec937 in ldl_le_dma include/sysemu/dma.h:179:1
-      #9 0x55c7caaec937 in ldl_le_pci_dma include/hw/pci/pci.h:816:1
-      #10 0x55c7caaec937 in intel_hda_corb_run hw/audio/intel-hda.c:338:16
-      #11 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
-91:5
-      #12 0x55c7cb2e6bd3 in access_with_adjusted_size softmmu/memory.c:552:=
-18
-      #13 0x55c7cb2e646c in memory_region_dispatch_write softmmu/memory.c
-      #14 0x55c7cb2c8445 in flatview_write_continue softmmu/physmem.c:2759:=
-23
-      #15 0x55c7cb2bdfb8 in flatview_write softmmu/physmem.c:2799:14
-      #16 0x55c7cb2bdfb8 in address_space_write softmmu/physmem.c:2891:18
-      #17 0x55c7caae2c54 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
-      #18 0x55c7caae2c54 in dma_memory_rw include/sysemu/dma.h:110:12
-      #19 0x55c7caae2c54 in dma_memory_write include/sysemu/dma.h:122:12
-      #20 0x55c7caae2c54 in stl_le_dma include/sysemu/dma.h:179:1
-      #21 0x55c7caae2c54 in stl_le_pci_dma include/hw/pci/pci.h:816:1
-      #22 0x55c7caae2c54 in intel_hda_response hw/audio/intel-hda.c:370:5
-      #23 0x55c7caaeca00 in intel_hda_corb_run hw/audio/intel-hda.c:342:9
-      #24 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
-91:5
-  ...
-
-  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D28435
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907497/+subscriptions
+On 6/30/2021 6:33 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Brad,
+>
+> You forgot to Cc the maintainers:
+>
+> $ ./scripts/get_maintainer.pl -f tests/vm/netbsd
+> "Alex Benn=C3=A9e" <alex.bennee@linaro.org> (maintainer:Build and test =
+au...)
+> "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org> (maintainer:Build and t=
+est au...)
+> Thomas Huth <thuth@redhat.com> (maintainer:Build and test au...)
+> Wainer dos Santos Moschetta <wainersm@redhat.com> (reviewer:Build and
+> test au...)
+> Willian Rampazzo <willianr@redhat.com> (reviewer:Build and test au...)
+> qemu-devel@nongnu.org (open list:All patches CC here)
+>
+> On 6/2/21 7:21 PM, Brad Smith wrote:
+>> tests/vm: update NetBSD to 9.2
+>>
+>> Signed-off-by: Brad Smith <brad@comstyle.com>
+> Acked-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+>> ---
+>>   tests/vm/netbsd | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+>> index b9efc269d2..4cc58df130 100755
+>> --- a/tests/vm/netbsd
+>> +++ b/tests/vm/netbsd
+>> @@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
+>>       name =3D "netbsd"
+>>       arch =3D "x86_64"
+>>  =20
+>> -    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/Net=
+BSD-9.1-amd64.iso"
+>> -    csum =3D "65bddc95945991c3b2021f9c8ded7f34c25f0a7611b7aa15a15fe23=
+399e902307e926ae97fcd01dc1662ac67b5f6e4be643c6a2b581692ddcb616d30125066f9=
+"
+>> +    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.2/images/Net=
+BSD-9.2-amd64.iso"
+>> +    csum =3D "5ee0ea101f73386b9b424f5d1041e371db3c42fdd6f4e4518dc79c4=
+a08f31d43091ebe93425c9f0dcaaed2b51131836fe6774f33f89030b58d64709b35fda72f=
+"
+>>       size =3D "20G"
+>>       pkgs =3D [
+>>           # tools
+>>
 
