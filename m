@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3243B8533
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:45:17 +0200 (CEST)
-Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808073B8599
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:59:09 +0200 (CEST)
+Received: from localhost ([::1]:43824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybSm-0006pG-Ad
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:45:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
+	id 1lybgC-0003pX-09
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybRW-0005le-CY
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:43:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28128)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybep-00037K-JC
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:57:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybRQ-0006jJ-G7
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:43:58 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybej-0007JH-4P
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:57:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625064232;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1625065054;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0vC+8q5BjHw3nw2sinFqRkwvARg5wTPIRwkdlFiuvGg=;
- b=KvWciwIrbFqjdWGZGCJiPZlzSmIBSJAX9zdOlboogvHbWFghmhCV0Imly90lfUlfOuutHy
- z5080V6Q9B+Kg+sXCm3X5+rJMZ0rDENdA2h3810J/IeKIMJnaa7oi0TsVuvr9Mw7qtYAAq
- DqRUDKSuzUIDbH7hV54Xt1DElduaTBQ=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-kJnWoVQ7N9KVj0mMlRTb-w-1; Wed, 30 Jun 2021 10:43:50 -0400
-X-MC-Unique: kJnWoVQ7N9KVj0mMlRTb-w-1
-Received: by mail-vk1-f199.google.com with SMTP id
- s1-20020a1ff4010000b029024e2e9504e3so568837vkh.16
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:43:50 -0700 (PDT)
+ bh=wuVGgvQW1pGxOUxKQ6fo2ga1YH5vtLvDpXFonWV6y6U=;
+ b=PTN5WRy5gwgInLs7tc1ZyKVTWxM37CHseJkkSs6I6kdo28/S1u7TqKqbDQtLHb9Zv1rX5K
+ FuAri3KpI1OlzY6PF0Fjjsk/JtsxsMyT4f+yaeqDS6/NmPsL0+JxjyMJ+nfpQENFs33+85
+ xj+y8I6fYn71Y6eRZhMV9aNuSrq6fPA=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-ZHVwAqHvNxeuptCx6w1g3g-1; Wed, 30 Jun 2021 10:57:33 -0400
+X-MC-Unique: ZHVwAqHvNxeuptCx6w1g3g-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ c24-20020a1709028498b0290128cdfbb2f1so1271032plo.14
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:57:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0vC+8q5BjHw3nw2sinFqRkwvARg5wTPIRwkdlFiuvGg=;
- b=Yt3iRt1K7+DQevHuUD3NdXerZnwzVFh9iqKyUQXBaN7moXICAebABxNL861SrBdDnz
- ZZ1w++oYIIPvJGFFbLEzp16IrI6+ISTWtBd7GSRr0HvpDwIEFwMzPTnJHNAnoJknpVYV
- F4eMFgbLFL3D0kd6PXEVUqZxCcZus0pyIuK4xBsZNnYyQPvAhXQJB5Vu21ZGrBO22LXF
- p2+ADyZxZKi3JFVKIEAQAg/SdotRFjuVoSvH8A7cVOetzsoZQfe58mfB4GZTUu926N/M
- cum8a0S5RZ4JNG3x3f2ZF6peysp1/ujDw1kAv99i0V4CmrR1Wh3b/kf7sdew/SV2A7lB
- 1oTQ==
-X-Gm-Message-State: AOAM531SkJFJpTZbnqAMr61SRI3Ji3C3dFVzlbXRYsmjfdryXOmO3rV5
- TJExuUWpadUEO/em8glXYP1Yk1mItQ5HaKARh+B9QOeV7ZwcjRuojXxoEFcP+uXVdoVxy3t+Iyr
- Z+rAwLfFd1EE6fcfhpixCT9Im6n0z3nI=
-X-Received: by 2002:ab0:3253:: with SMTP id r19mr32507078uan.5.1625064230309; 
- Wed, 30 Jun 2021 07:43:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJNiF+//l433EzUXkaao90j9sdJhVJNlydTxzS5fiB2b4mpyCg2ntL6gW6u56S69bA4OMmcjg+csqoO1y6TVQ=
-X-Received: by 2002:ab0:3253:: with SMTP id r19mr32507055uan.5.1625064230170; 
- Wed, 30 Jun 2021 07:43:50 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=wuVGgvQW1pGxOUxKQ6fo2ga1YH5vtLvDpXFonWV6y6U=;
+ b=iI4oF5YEWAEalccg0eQv5nzN2KWRSuE1/fKsJody298dOVtyTVlB/X/Hf6fdySeCM5
+ uDQirY24R+mN0Wu1G+caRDMorY5RVr2MK7w/X8OXKIntGHRPYM7WvB8ufCFkZSpTgT75
+ d02XwM7dmUjHqNLNeGxuHbj17U8skpBfDEU35PwtxkiBxgZjkewEWG3kDiPvkbmQAWv6
+ KAXiIfi6rumj0EwFJdRKDP/bJUfAHkugsECg/MSsv7/43mJtDFbDHi4DmihghMM0zENw
+ OreqlLYfrEJESE5HXSzBY4BNXNf+TilXawQZoC40TKBE/rcHqKZAYPt0d3p2BraCc+x2
+ Ibrw==
+X-Gm-Message-State: AOAM533duijmdtIeQszb/Qga9yNL9J1VwtwFG1+/CcIYoMbW4QehL+Wq
+ CSYiZcb6MRKASr+o4hGVLe4m/jMP3DGXazxHsj7gzClYEYbfn1p9Jiln6m20HP6gCZhmvZeYodA
+ dEMtXRWrzD5/0hLk=
+X-Received: by 2002:a63:2c8a:: with SMTP id s132mr34389225pgs.65.1625065052602; 
+ Wed, 30 Jun 2021 07:57:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+v8LXHYM6GBZJbgi+1iSJX9KsD10RJd/ZEttTfDxqdxqKrTPGoKHMlT0Lwj9Ihrk0mMwmGA==
+X-Received: by 2002:a63:2c8a:: with SMTP id s132mr34389194pgs.65.1625065052315; 
+ Wed, 30 Jun 2021 07:57:32 -0700 (PDT)
+Received: from wainer-laptop.localdomain ([179.105.223.44])
+ by smtp.gmail.com with ESMTPSA id g10sm6885532pji.10.2021.06.30.07.57.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Jun 2021 07:57:31 -0700 (PDT)
+Subject: Re: [PATCH v3 11/15] python: add 'make check-dev' invocation
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20210629214323.1329806-1-jsnow@redhat.com>
- <20210629214323.1329806-16-jsnow@redhat.com>
-In-Reply-To: <20210629214323.1329806-16-jsnow@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 30 Jun 2021 11:43:24 -0300
-Message-ID: <CAKJDGDY9rZBX-yVu-gOMU4UKR=+fPZE8_DLCAHx54RyhZgi-mw@mail.gmail.com>
-Subject: Re: [PATCH v3 15/15] python: Fix broken ReST docstrings
-To: John Snow <jsnow@redhat.com>
+ <20210629214323.1329806-12-jsnow@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <8640e641-82b5-247c-cb86-a326295b0fa0@redhat.com>
+Date: Wed, 30 Jun 2021 11:57:26 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210629214323.1329806-12-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,56 +101,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: wainersm@redhat.com
 Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 29, 2021 at 6:44 PM John Snow <jsnow@redhat.com> wrote:
->
-> This patch *doesn't* update all of the docstring standards across the
-> QEMU package directory to make our docstring usage consistent. It
-> *doesn't* fix the formatting to make it look pretty or reasonable in
-> generated output. It *does* fix a few small instances where Sphinx would
-> emit a build warning because of malformed ReST -- If we built our Python
-> docs with Sphinx.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> ---
->
-> You'll have to take my word for it for now, or, to test that (ugly
-> though it may be) a theoretical Sphinx build would produce no build
-> errors:
->
-> > cd ~/src/qemu/python
-> > sphinx-apidoc --separate --private --no-toc --module-first \
->     --implicit-namespaces --full --ext-intersphinx --ext-coverage \
->     --ext-viewcode qemu/ -o docs/
-> > sed -i '1s|^|import os; import sys; sys.path.insert(0, os.path.abspath("../"))\n|' docs/conf.py
-> > make -C docs html
-> > rm -rf docs/
->
-> I am preparing to add Sphinx, but need to fix these annoyances first so
-> that regressions are easy to spot as fixes are applied across the
-> tree. I plan to use my forthcoming Asynchronous QMP series as a test
-> pilot for documenting our docstring standards. Assuming it goes well, I
-> will update the docstrings elsewhere in this package at that time.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/machine/__init__.py | 6 +++---
->  python/qemu/machine/machine.py  | 3 ++-
->  python/qemu/qmp/__init__.py     | 1 +
->  python/qemu/qmp/qom_common.py   | 2 +-
->  python/qemu/utils/accel.py      | 2 +-
->  5 files changed, 8 insertions(+), 6 deletions(-)
->
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+On 6/29/21 6:43 PM, John Snow wrote:
+> This is a *third* way to run the Python tests. Unlike the first two
+> (check-pipenv, check-tox), this version does not require any specific
+> interpreter version -- making it a lot easier to tell people to run it
+> as a quick smoketest prior to submission to GitLab CI.
+>
+> Summary:
+>
+>    Checked via GitLab CI:
+>      - check-pipenv: tests our oldest python & dependencies
+>      - check-tox: tests newest dependencies on all non-EOL python versions
+>    Executed only incidentally:
+>      - check-dev: tests newest dependencies on whichever python version
+>
+> ('make check' does not set up any environment at all, it just runs the
+> tests in your current environment. All four invocations perform the
+> exact same tests, just in different execution environments.)
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/Makefile | 35 +++++++++++++++++++++++++++++++++--
+>   1 file changed, 33 insertions(+), 2 deletions(-)
+
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+It was tested as I mentioned on patch 10.
+
+>
+> diff --git a/python/Makefile b/python/Makefile
+> index d34c4e35d9..8f8e1999c0 100644
+> --- a/python/Makefile
+> +++ b/python/Makefile
+> @@ -1,3 +1,5 @@
+> +QEMU_VENV_DIR=.dev-venv
+> +
+>   .PHONY: help
+>   help:
+>   	@echo "python packaging help:"
+> @@ -14,6 +16,11 @@ help:
+>   	@echo "    Requires: Python 3.6 - 3.10, and tox."
+>   	@echo "    Hint (Fedora): 'sudo dnf install python3-tox python3.10'"
+>   	@echo ""
+> +	@echo "make check-dev:"
+> +	@echo "    Run tests in a venv against your default python3 version."
+> +	@echo "    These tests use the newest dependencies."
+> +	@echo "    Requires: Python 3.x"
+> +	@echo ""
+>   	@echo "make develop:    Install deps for 'make check', and"
+>   	@echo "                 the qemu libs in editable/development mode."
+>   	@echo ""
+> @@ -22,6 +29,9 @@ help:
+>   	@echo "make pipenv"
+>   	@echo "    Creates pipenv's virtual environment (.venv)"
+>   	@echo ""
+> +	@echo "make dev-venv"
+> +	@echo "    Creates a simple venv for check-dev. ($(QEMU_VENV_DIR))"
+> +	@echo ""
+>   	@echo "make clean:      remove package build output."
+>   	@echo ""
+>   	@echo "make distclean:  remove venv files, qemu package forwarder,"
+> @@ -38,9 +48,30 @@ pipenv: .venv
+>   check-pipenv: pipenv
+>   	@pipenv run make check
+>   
+> +.PHONY: dev-venv
+> +dev-venv: $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate
+> +$(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
+> +	@echo "VENV $(QEMU_VENV_DIR)"
+> +	@python3 -m venv $(QEMU_VENV_DIR)
+> +	@(							\
+> +		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
+> +		. $(QEMU_VENV_DIR)/bin/activate;		\
+> +		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
+> +		make develop 1>/dev/null;			\
+> +	)
+> +	@touch $(QEMU_VENV_DIR)
+> +
+> +.PHONY: check-dev
+> +check-dev: dev-venv
+> +	@(							\
+> +		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
+> +		. $(QEMU_VENV_DIR)/bin/activate;		\
+> +		make check;					\
+> +	)
+> +
+>   .PHONY: develop
+>   develop:
+> -	pip3 install -e .[devel]
+> +	pip3 install --disable-pip-version-check -e .[devel]
+>   
+>   .PHONY: check
+>   check:
+> @@ -56,4 +87,4 @@ clean:
+>   
+>   .PHONY: distclean
+>   distclean: clean
+> -	rm -rf qemu.egg-info/ .venv/ .tox/ dist/
+> +	rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
 
 
