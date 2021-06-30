@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3CD3B8526
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:38:45 +0200 (CEST)
-Received: from localhost ([::1]:59294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAD03B8525
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:38:42 +0200 (CEST)
+Received: from localhost ([::1]:59142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybMS-0002EJ-KK
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:38:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52758)
+	id 1lybMP-00028J-KG
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybKE-0007Vq-Go
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:36:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21294)
+ id 1lybLB-0000lA-Lf
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:37:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybK4-0002Av-PH
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:36:24 -0400
+ id 1lybL9-0002sD-18
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:37:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625063775;
+ s=mimecast20190719; t=1625063842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2bOMA/VVxbI80F04qL5WD/kEB60Zpm4pG0xiNs8x3tE=;
- b=IWZhGvwz/G8CXsRg0GiKzONCBQrbeTE1Vs5wKJMA+Wvspb4Os7rtpnNpzFj3a1H49ialye
- aGLWZlo6pFniln5sBxw58hybjIWpotmAGC66+ZmmjT6F00Dwhw9UVdWY1gQZ3tZtcUkOvO
- y9G5bNWrQaxM2BOlssw4pqRLVZ4DMfo=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-GHfugHy8NHOFnDrRxD8WFQ-1; Wed, 30 Jun 2021 10:36:13 -0400
-X-MC-Unique: GHfugHy8NHOFnDrRxD8WFQ-1
-Received: by mail-vk1-f197.google.com with SMTP id
- t6-20020ac5c3c60000b029024f8f474366so564696vkk.15
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:36:13 -0700 (PDT)
+ bh=tmaP/dG6MJVwJwAXmuGGQoRh6+McmrzYtRGLb2oHfrU=;
+ b=U4rQT9pXSJSqxLHoDNBYJkcXquCUgbrR1XJcFye1Ml5tAlKpwQk5SGUNNG0njHBfZuJaG+
+ AHMI9AvkWFmvlLYHg4Ysbi9DQozJlYr8nMq+GmjNsoj0XyXJldr0NicuiRN4YJWZ2zLKsQ
+ qBNBZ3nXZ2XODyOIRQ1iyiOTq4HXQMI=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-byLJfizoN0GOwl37OEaiiA-1; Wed, 30 Jun 2021 10:37:21 -0400
+X-MC-Unique: byLJfizoN0GOwl37OEaiiA-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ z16-20020a0561221490b029024cf7dcad61so569062vkp.14
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:37:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2bOMA/VVxbI80F04qL5WD/kEB60Zpm4pG0xiNs8x3tE=;
- b=oYEsaCx5zMglFYmVaTThPDznN7LWF8w8OpBiN20BFHEt+5NKn6xDE9Tbce/YtK0ke+
- 9OdWFZGwQofgIjQlG9kleKEoWuXcW8R/gtKO8j4CE1ywou0sRVJUIgnMr8003bPh12yk
- Le/iDPHJTPoxHnC5DEqfmifLfzO5Rvf+pxchsdwwHti8Itlsf2AeIlL8NvKV+7oNSuQl
- hUY9GbIRTaMaApaYCQ/30tXXnH4x1fPTYiyKPJmSaoEpB6HoRahy3RIQGJbI/0vzcIKH
- gvTVx7STn2drCD16EOLRG77TIEap305c9wciKgxmU6UP7ab6QkhfKhiDO59WdRQQULq+
- LdSQ==
-X-Gm-Message-State: AOAM530ysflKogTsMZl1qEGKTblhK8RdXAtS1GpypD5olaKeJqbhswj7
- uitAevG7/tGWjoM37r8cgdHeOP6g7hbI7hR/EOVqKel8prSdAaIKM8nNhUJwb7CzZvp3DA+uxzO
- 9A2FRX5d9sv6MIncp40/Mk7F/c5wU1eU=
-X-Received: by 2002:ab0:744c:: with SMTP id p12mr16057265uaq.113.1625063772853; 
- Wed, 30 Jun 2021 07:36:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2VTrp1/caSGtj/FJbn5OGPSToQvQqZhXJ29UB8v4JuZAGQaKLs9K4w+d+V8WuWtIZAgQKeJS6mxdzlQt8RAM=
-X-Received: by 2002:ab0:744c:: with SMTP id p12mr16057127uaq.113.1625063771711; 
- Wed, 30 Jun 2021 07:36:11 -0700 (PDT)
+ bh=tmaP/dG6MJVwJwAXmuGGQoRh6+McmrzYtRGLb2oHfrU=;
+ b=B0z6+hn8bIFOp4zbHRjKD8RO2upfvP29/029Ou1vDkKXaD3Jl4FVZ9tAsCpdCL1p19
+ iZHh81W0lGiaO9ObJBnh+TbCWq8mCLVYlo1RUFLUYpVncLXMAZIab/+fFlnUTh78MZNW
+ k2NtphAhWogkwXaGYa06+lAD9anyay9AlXJ6+hAKRQEtTuGokikeMLudn5NguRh30Vfh
+ LUbzR7g+iuMVfBGe4AkCz+hhmKhd2sabuBNWH+a0FtyrzsxHUOxiyI0bNkqWyz+9kpS7
+ s7mK9AGq4STAaoErEuC4wplDGFma6PeK2qUDX78ayMKusd9Gplaji8TlJwE4UUa1Rry/
+ bu7Q==
+X-Gm-Message-State: AOAM531kkZqUrmMdQGOKpueg5ZSzK2wDzQDyvWtTlsV39Uyj1VqiqNLm
+ dZ2UaTMIPWxbPbdFOWe7coNvpYioN+HgFbA3wOpjdXSpECRkHJZAgaDiYxkssfJ8YYGAxQ6mbMO
+ rSG0TWfZUyGxraCCaWiqaShfxjk0F87k=
+X-Received: by 2002:ab0:7642:: with SMTP id s2mr33318983uaq.133.1625063840675; 
+ Wed, 30 Jun 2021 07:37:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwomHFtfNid4PAuCf4/xFNE+LlApk/Wi3hfLZa47q/A9+3qz6Nb8oBbceqNyVQbXkgoTAcBI1r7K/51TA2giuo=
+X-Received: by 2002:ab0:7642:: with SMTP id s2mr33318952uaq.133.1625063840473; 
+ Wed, 30 Jun 2021 07:37:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210629214323.1329806-1-jsnow@redhat.com>
- <20210629214323.1329806-2-jsnow@redhat.com>
-In-Reply-To: <20210629214323.1329806-2-jsnow@redhat.com>
+ <20210629214323.1329806-11-jsnow@redhat.com>
+In-Reply-To: <20210629214323.1329806-11-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 30 Jun 2021 11:35:45 -0300
-Message-ID: <CAKJDGDbzR=CTVunh4MoCF6U6KzS6P7wG-F4P_834ngvBqCLnDg@mail.gmail.com>
-Subject: Re: [PATCH v3 01/15] python/qom: Do not use 'err' name at module scope
+Date: Wed, 30 Jun 2021 11:36:54 -0300
+Message-ID: <CAKJDGDYMWFLAR237LeUMoC4y5TvJhQNyXe5siE3emXuvWZ-tQg@mail.gmail.com>
+Subject: Re: [PATCH v3 10/15] python: only check qemu/ subdir with flake8
 To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -100,21 +100,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Jun 29, 2021 at 6:43 PM John Snow <jsnow@redhat.com> wrote:
 >
-> Pylint updated to 2.9.0 upstream, adding new warnings for things that
-> re-use the 'err' variable. Luckily, this only breaks the
-> python-check-tox job, which is allowed to fail as a warning.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> ---
->
-> I guess that's good enough evidence that check-pipenv and check-tox both
-> have their place :)
+> flake8 is a little eager to check everything it can. Limit it to
+> checking inside the qemu namespace directory only. Update setup.cfg now
+> that the exclude patterns are no longer necessary.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/qmp/qom.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  python/setup.cfg       | 2 --
+>  python/tests/flake8.sh | 2 +-
+>  2 files changed, 1 insertion(+), 3 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
