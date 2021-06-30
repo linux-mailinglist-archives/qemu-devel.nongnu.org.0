@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DF43B85B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:02:18 +0200 (CEST)
-Received: from localhost ([::1]:48240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81143B85BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:06:18 +0200 (CEST)
+Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybjF-0006vA-7q
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57578)
+	id 1lybn7-0001pY-VU
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lybi2-0006Cd-IV
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:01:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31500)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybjz-0008Km-HN
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:03:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lybhz-0001CV-1A
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:01:02 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lybjt-0002Q2-5H
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:03:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625065258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C4ou5YpvOnDtzNqrhWxofHlZH1cb0qY6aO2J5ijxF5U=;
- b=hM24zJBphfxapJbpr5/R2jSCJOtI0Ne8Vy9778Z3xl3aia7bVuYvpf80t0goxCPIommY6t
- z2xfRBvkxTMCMunq1cSVnRqiBGFMogFbzREfeXo7XMpNCT3Tlr2aO8uTRh4/DDxLyvEQvc
- +/OR4LshjLbQFVI8tC3H0Tel3BIQgOE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-5U907vAQPl2FTHkHuO2M7w-1; Wed, 30 Jun 2021 11:00:54 -0400
-X-MC-Unique: 5U907vAQPl2FTHkHuO2M7w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 631301927807;
- Wed, 30 Jun 2021 15:00:53 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5998B5DD68;
- Wed, 30 Jun 2021 15:00:48 +0000 (UTC)
-Date: Wed, 30 Jun 2021 17:00:47 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jingqi Liu <jingqi.liu@intel.com>
-Subject: Re: [PATCH] nvdimm: add 'target-node' option
-Message-ID: <20210630170047.2c6cc26b@redhat.com>
-In-Reply-To: <20210625022518.29994-1-jingqi.liu@intel.com>
-References: <20210625022518.29994-1-jingqi.liu@intel.com>
+ s=mimecast20190719; t=1625065376;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=QqP9LJFJT8d+jk9ExyxP5c6o6sQTP7oFdPC3MAszGKc=;
+ b=GxriBRlllPWDVbdO3yPBFLx/sqJUXyoQUIHV3Z/z/7cG0i26IboQarP9Kz7FBxjBGxZaFx
+ Yhmmx0l9+eYQToogNOGKdqM16sR8KjbPIt+JAXc3jDafja2LmmWSfpyALI55/T5RS2e2o9
+ S2IS7P06Y5QOz/6OOXhnvNU4PsHoW/4=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-hA1A1r-lP0-enfrposywNg-1; Wed, 30 Jun 2021 11:02:54 -0400
+X-MC-Unique: hA1A1r-lP0-enfrposywNg-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ t10-20020a170902b20ab029011b9ceafaafso1119559plr.11
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 08:02:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language;
+ bh=QqP9LJFJT8d+jk9ExyxP5c6o6sQTP7oFdPC3MAszGKc=;
+ b=oEn9SZfdVCzKUdxcR0Cx7knDNcpgID7Ot2+MM2/rviKc0+aF/SBstm8RTClLzVA3Q6
+ GCvROF/21bMIpx95K3wCRm4CNYbATNsuoQlMWKaH9A7du3C167mkOGwxjooimDwZJkmL
+ C8O+2k3PQAValkOqZ48eRknVStBZH7H6/dSgRyIjL0meORKLkrKAVVktaIZB6AheNwms
+ B+BfZWYGfyK+hjdcaAJuiDdAIo4nc/C8i2oX1oQZEptk5+8v0X6igUqqTyiSNgI7E1vT
+ jds+YYqTOulzD7qPlKIDaFzSvHXr7GNXurbNdAqHuLsVk/isy5qvuj8Mz4+z5kCjtSQc
+ ObNg==
+X-Gm-Message-State: AOAM532AxuGRldUzPmu1YTFgn1Jxco5iJ8v7VF3J3xGBvFxd4Wpx1kBa
+ +K3nGXTKHjxo1TG/QQ25kBfqcvJoand1+tIlQmK6jClVAR7wjvdamMwQLIYPmTRj1ajme3a7d1A
+ votzOqHhngdS0EAU=
+X-Received: by 2002:aa7:8e19:0:b029:30c:3dbc:8d0f with SMTP id
+ c25-20020aa78e190000b029030c3dbc8d0fmr17205941pfr.27.1625065373581; 
+ Wed, 30 Jun 2021 08:02:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMDUV/oltlhncVcaS48/t1oCmKVR/0kiITsXIcWLSSpwFi94J+anSFi+BNmrVY+fLbAgwn2A==
+X-Received: by 2002:aa7:8e19:0:b029:30c:3dbc:8d0f with SMTP id
+ c25-20020aa78e190000b029030c3dbc8d0fmr17205885pfr.27.1625065373191; 
+ Wed, 30 Jun 2021 08:02:53 -0700 (PDT)
+Received: from wainer-laptop.localdomain ([179.105.223.44])
+ by smtp.gmail.com with ESMTPSA id h18sm23387423pgl.87.2021.06.30.08.02.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Jun 2021 08:02:52 -0700 (PDT)
+Subject: Re: [PATCH v3 11/15] python: add 'make check-dev' invocation
+To: John Snow <jsnow@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>
+References: <20210629214323.1329806-1-jsnow@redhat.com>
+ <20210629214323.1329806-12-jsnow@redhat.com>
+ <CAKJDGDYrqaQpj+NH7p7WvnW1zzo3R3DQHhev33=ddcPAkga0NA@mail.gmail.com>
+ <CAFn=p-aTMNMfcT_i57ZHoiG+TNEmXWME2KKnJvKPQQZ5F3H69g@mail.gmail.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <874dc387-8b59-57dc-4d3f-00eef857eccc@redhat.com>
+Date: Wed, 30 Jun 2021 12:02:48 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAFn=p-aTMNMfcT_i57ZHoiG+TNEmXWME2KKnJvKPQQZ5F3H69g@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: multipart/alternative;
+ boundary="------------16237AA36E79C0D0644B5EE8"
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,432 +103,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pbonzini@redhat.com, xiaoguangrong.eric@gmail.com
+Reply-To: wainersm@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Jun 2021 10:25:18 +0800
-Jingqi Liu <jingqi.liu@intel.com> wrote:
-
-> Linux kernel version 5.1 brings in support for the volatile-use of
-> persistent memory as a hotplugged memory region (KMEM DAX).
-> When this feature is enabled, persistent memory can be seen as a
-> separate memory-only NUMA node(s). This newly-added memory can be
-> selected by its unique NUMA node.
-> 
-> Add 'target-node' option for 'nvdimm' device to indicate this NUMA
-> node. It can be extended to a new node after all existing NUMA nodes.
-
-how dynamic it is?
-can we force it to be 'static' node, would it break something?
-
-> The 'node' option of 'pc-dimm' device is to add the DIMM to an
-> existing NUMA node. The 'node' should be in the available NUMA nodes.
-> For KMEM DAX mode, persistent memory can be in a new separate
-> memory-only NUMA node. The new node is created dynamically.
-> So users use 'target-node' to control whether persistent memory
-> is added to an existing NUMA node or a new NUMA node.
-
-I don't get reasoning behind creating new property instead of reusing
-exiting 'node'.
+This is a multi-part message in MIME format.
+--------------16237AA36E79C0D0644B5EE8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-Can you provide more context by pointing to relevant kernel series?
-A pointer to a specification?
-
-and SRAT handling looks a bit sketchy,
-You are saying that it's dynamic and assigned by guest and then
-are trying to put it in static SRAT along with predefined nodes.
-
-> An example of configuration is as follows.
-> 
-> Using the following QEMU command:
->  -object memory-backend-file,id=nvmem1,share=on,mem-path=/dev/dax0.0,size=3G,align=2M
->  -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,targe-node=2
-> 
-> To list DAX devices:
->  # daxctl list -u
->  {
->    "chardev":"dax0.0",
->    "size":"3.00 GiB (3.22 GB)",
->    "target_node":2,
->    "mode":"devdax"
->  }
-> 
-> To create a namespace in Device-DAX mode as a standard memory:
->  $ ndctl create-namespace --mode=devdax --map=mem
-> To reconfigure DAX device from devdax mode to a system-ram mode:
->  $ daxctl reconfigure-device dax0.0 --mode=system-ram
-> 
-> There are two existing NUMA nodes in Guest. After these operations,
-> persistent memory is configured as a separate Node 2 and
-> can be used as a volatile memory. This NUMA node is dynamically
-> created according to 'target-node'.
-> 
-> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-> ---
->  docs/nvdimm.txt         | 93 +++++++++++++++++++++++++++++++++++++++++
->  hw/acpi/nvdimm.c        | 18 ++++++--
->  hw/i386/acpi-build.c    | 12 +++++-
->  hw/mem/nvdimm.c         | 23 +++++++++-
->  include/hw/mem/nvdimm.h | 15 ++++++-
->  util/nvdimm-utils.c     | 22 ++++++++++
->  6 files changed, 175 insertions(+), 8 deletions(-)
-> 
-> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-> index 0aae682be3..083d954bb4 100644
-> --- a/docs/nvdimm.txt
-> +++ b/docs/nvdimm.txt
-> @@ -107,6 +107,99 @@ Note:
->     may result guest data corruption (e.g. breakage of guest file
->     system).
->  
-> +Target node
-> +-----------
-> +
-> +Linux kernel version 5.1 brings in support for the volatile-use of
-> +persistent memory as a hotplugged memory region (KMEM DAX).
-> +When this feature is enabled, persistent memory can be seen as a
-> +separate memory-only NUMA node(s). This newly-added memory can be
-> +selected by its unique NUMA node.
-> +Add 'target-node' option for nvdimm device to indicate this NUMA node.
-> +It can be extended after all existing NUMA nodes.
-> +
-> +An example of configuration is presented below.
-> +
-> +Using the following QEMU command:
-> + -object memory-backend-file,id=nvmem1,share=on,mem-path=/dev/dax0.0,size=3G,align=2M
-> + -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,targe-node=1
-> +
-> +The below operations are in Guest.
-> +
-> +To list available NUMA nodes using numactl:
-> + # numactl -H
-> + available: 1 nodes (0)
-> + node 0 cpus: 0 1 2 3 4 5 6 7
-> + node 0 size: 5933 MB
-> + node 0 free: 5457 MB
-> + node distances:
-> + node   0
-> +   0:  10
-> +
-> +To create a namespace in Device-DAX mode as a standard memory from
-> +all the available capacity of NVDIMM:
-> +
-> + # ndctl create-namespace --mode=devdax --map=mem
-> + {
-> +   "dev":"namespace0.0",
-> +   "mode":"devdax",
-> +   "map":"mem",
-> +   "size":"3.00 GiB (3.22 GB)",
-> +   "uuid":"4e4d8293-dd3b-4e43-8ad9-7f3d2a8d1680",
-> +   "daxregion":{
-> +     "id":0,
-> +     "size":"3.00 GiB (3.22 GB)",
-> +     "align":2097152,
-> +     "devices":[
-> +       {
-> +         "chardev":"dax0.0",
-> +         "size":"3.00 GiB (3.22 GB)",
-> +         "target_node":1,
-> +         "mode":"devdax"
-> +       }
-> +     ]
-> +   },
-> +   "align":2097152
-> + }
-> +
-> +To list DAX devices:
-> + # daxctl list -u
-> + {
-> +   "chardev":"dax0.0",
-> +   "size":"3.00 GiB (3.22 GB)",
-> +   "target_node":1,
-> +   "mode":"devdax"
-> + }
-> +
-> +To reconfigure DAX device from devdax mode to a system-ram mode:
-> + # daxctl reconfigure-device dax0.0 --mode=system-ram
-> + [
-> +   {
-> +     "chardev":"dax0.0",
-> +     "size":3217031168,
-> +     "target_node":1,
-> +     "mode":"system-ram",
-> +     "movable":false
-> +   }
-> + ]
-> +
-> +After this operation, persistent memory is configured as a separate NUMA node
-> +and can be used as a volatile memory.
-> +The new NUMA node is Node 1:
-> + # numactl -H
-> + available: 2 nodes (0-1)
-> + node 0 cpus: 0 1 2 3 4 5 6 7
-> + node 0 size: 5933 MB
-> + node 0 free: 5339 MB
-> + node 1 cpus:
-> + node 1 size: 2816 MB
-> + node 1 free: 2815 MB
-> + node distances:
-> + node   0   1
-> +   0:  10  20
-> +   1:  20  10
-> +
-> +
->  Hotplug
->  -------
->  
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index e3d5fe1939..376ad6fd58 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -228,11 +228,13 @@ nvdimm_build_structure_spa(GArray *structures, DeviceState *dev)
->                                               NULL);
->      uint64_t size = object_property_get_uint(OBJECT(dev), PC_DIMM_SIZE_PROP,
->                                               NULL);
-> -    uint32_t node = object_property_get_uint(OBJECT(dev), PC_DIMM_NODE_PROP,
-node id is 32 bit per spec, don't loose it here
-
-
-> +    int node = object_property_get_int(OBJECT(dev), NVDIMM_TARGET_NODE_PROP,
->                                               NULL);
->      int slot = object_property_get_int(OBJECT(dev), PC_DIMM_SLOT_PROP,
->                                         NULL);
-> -
-> +    if (node < 0) {
-> +        node = object_property_get_uint(OBJECT(dev), PC_DIMM_NODE_PROP, NULL);
-> +    }
-see below about error handling
-
->      nfit_spa = acpi_data_push(structures, sizeof(*nfit_spa));
->  
->      nfit_spa->type = cpu_to_le16(0 /* System Physical Address Range
-> @@ -1337,8 +1339,9 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
->      free_aml_allocator();
->  }
->  
-> -void nvdimm_build_srat(GArray *table_data)
-> +int nvdimm_build_srat(GArray *table_data)
->  {
-> +    int max_target_node = nvdimm_check_target_nodes();
->      GSList *device_list = nvdimm_get_device_list();
->  
->      for (; device_list; device_list = device_list->next) {
-> @@ -1348,7 +1351,12 @@ void nvdimm_build_srat(GArray *table_data)
->          uint64_t addr, size;
->          int node;
->  
-> -        node = object_property_get_int(obj, PC_DIMM_NODE_PROP, &error_abort);
-> +        node = object_property_get_int(obj, NVDIMM_TARGET_NODE_PROP,
-> +                                       &error_abort);
-> +        if (node < 0) {
-> +            node = object_property_get_uint(obj, PC_DIMM_NODE_PROP,
-> +                                            &error_abort);
-> +        }
-it should be checked at realize time, with proper error handling.
-Also I'd make both properties mutually exclusive
-
->          addr = object_property_get_uint(obj, PC_DIMM_ADDR_PROP, &error_abort);
->          size = object_property_get_uint(obj, PC_DIMM_SIZE_PROP, &error_abort);
->  
-> @@ -1357,6 +1365,8 @@ void nvdimm_build_srat(GArray *table_data)
->                            MEM_AFFINITY_ENABLED | MEM_AFFINITY_NON_VOLATILE);
->      }
->      g_slist_free(device_list);
-> +
-> +   return max_target_node;
->  }
->  
->  void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 796ffc6f5c..19bf91063f 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1879,6 +1879,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      AcpiSratMemoryAffinity *numamem;
->  
->      int i;
-> +    int max_node = 0;
->      int srat_start, numa_start, slots;
->      uint64_t mem_len, mem_base, next_base;
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
-> @@ -1974,7 +1975,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      }
->  
->      if (machine->nvdimms_state->is_enabled) {
-> -        nvdimm_build_srat(table_data);
-> +        max_node = nvdimm_build_srat(table_data);
->      }
->  
->      slots = (table_data->len - numa_start) / sizeof *numamem;
-> @@ -1992,9 +1993,16 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->       * providing _PXM method if necessary.
->       */
->      if (hotplugabble_address_space_size) {
-> +        if (max_node < 0) {
-> +            max_node = pcms->numa_nodes - 1;
-> +        } else {
-> +            max_node = max_node > pcms->numa_nodes - 1 ?
-> +                       max_node : pcms->numa_nodes - 1;
-> +        }
+On 6/30/21 11:58 AM, John Snow wrote:
 >
->          numamem = acpi_data_push(table_data, sizeof *numamem);
->          build_srat_memory(numamem, machine->device_memory->base,
-> -                          hotplugabble_address_space_size, pcms->numa_nodes - 1,
-> +                          hotplugabble_address_space_size, max_node,
->                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->      }
->  
-> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-> index 7397b67156..a9c27f7ad0 100644
-> --- a/hw/mem/nvdimm.c
-> +++ b/hw/mem/nvdimm.c
-> @@ -27,11 +27,15 @@
->  #include "qemu/pmem.h"
->  #include "qapi/error.h"
->  #include "qapi/visitor.h"
-> +#include "hw/boards.h"
->  #include "hw/mem/nvdimm.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/mem/memory-device.h"
->  #include "sysemu/hostmem.h"
->  
-> +unsigned long nvdimm_target_nodes[BITS_TO_LONGS(MAX_NODES)];
-> +int nvdimm_max_target_node;
-> +
->  static void nvdimm_get_label_size(Object *obj, Visitor *v, const char *name,
->                                    void *opaque, Error **errp)
->  {
-> @@ -96,7 +100,6 @@ static void nvdimm_set_uuid(Object *obj, Visitor *v, const char *name,
->      g_free(value);
->  }
->  
-> -
->  static void nvdimm_init(Object *obj)
->  {
->      object_property_add(obj, NVDIMM_LABEL_SIZE_PROP, "int",
-> @@ -181,6 +184,23 @@ static MemoryRegion *nvdimm_md_get_memory_region(MemoryDeviceState *md,
->  static void nvdimm_realize(PCDIMMDevice *dimm, Error **errp)
->  {
->      NVDIMMDevice *nvdimm = NVDIMM(dimm);
+>
+> On Wed, Jun 30, 2021 at 10:41 AM Willian Rampazzo <wrampazz@redhat.com 
+> <mailto:wrampazz@redhat.com>> wrote:
+>
+>     On Tue, Jun 29, 2021 at 6:43 PM John Snow <jsnow@redhat.com
+>     <mailto:jsnow@redhat.com>> wrote:
+>     >
+>     > This is a *third* way to run the Python tests. Unlike the first two
+>     > (check-pipenv, check-tox), this version does not require any
+>     specific
+>     > interpreter version -- making it a lot easier to tell people to
+>     run it
+>     > as a quick smoketest prior to submission to GitLab CI.
+>     >
+>     > Summary:
+>     >
+>     >   Checked via GitLab CI:
+>     >     - check-pipenv: tests our oldest python & dependencies
+>     >     - check-tox: tests newest dependencies on all non-EOL python
+>     versions
+>     >   Executed only incidentally:
+>     >     - check-dev: tests newest dependencies on whichever python
+>     version
+>     >
+>     > ('make check' does not set up any environment at all, it just
+>     runs the
+>     > tests in your current environment. All four invocations perform the
+>     > exact same tests, just in different execution environments.)
+>     >
+>     > Signed-off-by: John Snow <jsnow@redhat.com
+>     <mailto:jsnow@redhat.com>>
+>     > ---
+>     >  python/Makefile | 35 +++++++++++++++++++++++++++++++++--
+>     >  1 file changed, 33 insertions(+), 2 deletions(-)
+>     >
+>
+>     Reviewed-by: Willian Rampazzo <willianr@redhat.com
+>     <mailto:willianr@redhat.com>>
+>
+>
+> Thanks. I am squashing in a hotfix here to add .dev-venv to 
+> .gitignore, too. Not worth an entire respin for that.
+> (Assuming that's gonna be A-OK with both of you.)
 
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    int nb_numa_nodes = ms->numa_state->num_nodes;
-> +
-> +    if (nvdimm->target_node >= MAX_NODES) {
-> +        error_setg(errp, "'NVDIMM property " NVDIMM_TARGET_NODE_PROP
-> +                   " has value %" PRIu32
-> +                   "' which exceeds the max number of numa nodes: %d",
-> +                   nvdimm->target_node, MAX_NODES);
-> +        return;
-> +    }
-> +
-> +    if (nvdimm->target_node >= nb_numa_nodes) {
-> +        set_bit(nvdimm->target_node, nvdimm_target_nodes);
-> +        if (nvdimm->target_node > nvdimm_max_target_node) {
-> +            nvdimm_max_target_node = nvdimm->target_node;
-> +        }
-> +    }
+Acked-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
 
-device shouldn't poke into Machine,
-use _pre_plug callback for that
+--------------16237AA36E79C0D0644B5EE8
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
->  
->      if (!nvdimm->nvdimm_mr) {
->          nvdimm_prepare_memory_region(nvdimm, errp);
-> @@ -229,6 +249,7 @@ static void nvdimm_write_label_data(NVDIMMDevice *nvdimm, const void *buf,
->  
->  static Property nvdimm_properties[] = {
->      DEFINE_PROP_BOOL(NVDIMM_UNARMED_PROP, NVDIMMDevice, unarmed, false),
-> +    DEFINE_PROP_INT32(NVDIMM_TARGET_NODE_PROP, NVDIMMDevice, target_node, -1),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
-> index bcf62f825c..96b609a60e 100644
-> --- a/include/hw/mem/nvdimm.h
-> +++ b/include/hw/mem/nvdimm.h
-> @@ -51,6 +51,7 @@ OBJECT_DECLARE_TYPE(NVDIMMDevice, NVDIMMClass, NVDIMM)
->  #define NVDIMM_LABEL_SIZE_PROP "label-size"
->  #define NVDIMM_UUID_PROP       "uuid"
->  #define NVDIMM_UNARMED_PROP    "unarmed"
-> +#define NVDIMM_TARGET_NODE_PROP "target-node"
->  
->  struct NVDIMMDevice {
->      /* private */
-> @@ -89,6 +90,14 @@ struct NVDIMMDevice {
->       * The PPC64 - spapr requires each nvdimm device have a uuid.
->       */
->      QemuUUID uuid;
-> +
-> +    /*
-> +     * Support for the volatile-use of persistent memory as normal RAM.
-> +     * This newly-added memory can be selected by its unique NUMA node.
-> +     * This node can be extended to a new node after all existing NUMA
-> +     * nodes.
-> +     */
-> +    int target_node;
->  };
->  
->  struct NVDIMMClass {
-> @@ -148,14 +157,18 @@ struct NVDIMMState {
->  };
->  typedef struct NVDIMMState NVDIMMState;
->  
-> +extern unsigned long nvdimm_target_nodes[];
-> +extern int nvdimm_max_target_node;
-> +
->  void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
->                              struct AcpiGenericAddress dsm_io,
->                              FWCfgState *fw_cfg, Object *owner);
-> -void nvdimm_build_srat(GArray *table_data);
-> +int nvdimm_build_srat(GArray *table_data);
->  void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
->                         BIOSLinker *linker, NVDIMMState *state,
->                         uint32_t ram_slots, const char *oem_id,
->                         const char *oem_table_id);
->  void nvdimm_plug(NVDIMMState *state);
->  void nvdimm_acpi_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev);
-> +int nvdimm_check_target_nodes(void);
->  #endif
-> diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
-> index aa3d199f2d..767f1e4787 100644
-> --- a/util/nvdimm-utils.c
-> +++ b/util/nvdimm-utils.c
-> @@ -1,5 +1,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/nvdimm-utils.h"
-> +#include "qapi/error.h"
-> +#include "hw/boards.h"
->  #include "hw/mem/nvdimm.h"
->  
->  static int nvdimm_device_list(Object *obj, void *opaque)
-> @@ -28,3 +30,23 @@ GSList *nvdimm_get_device_list(void)
->      object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
->      return list;
->  }
-> +
-> +int nvdimm_check_target_nodes(void)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    int nb_numa_nodes = ms->numa_state->num_nodes;
-> +    int node;
-> +
-> +    if (!nvdimm_max_target_node) {
-> +        return -1;
-> +    }
-> +
-> +    for (node = nb_numa_nodes; node <= nvdimm_max_target_node; node++) {
-> +        if (!test_bit(node, nvdimm_target_nodes)) {
-> +            error_report("nvdimm target-node: Node ID missing: %d", node);
-> +            exit(1);
-> +        }
-> +    }
-> +
-> +    return nvdimm_max_target_node;
-> +}
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 6/30/21 11:58 AM, John Snow wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAFn=p-aTMNMfcT_i57ZHoiG+TNEmXWME2KKnJvKPQQZ5F3H69g@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr"><br>
+        </div>
+        <br>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">On Wed, Jun 30, 2021 at
+            10:41 AM Willian Rampazzo &lt;<a
+              href="mailto:wrampazz@redhat.com" moz-do-not-send="true">wrampazz@redhat.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">On Tue, Jun 29, 2021 at
+            6:43 PM John Snow &lt;<a href="mailto:jsnow@redhat.com"
+              target="_blank" moz-do-not-send="true">jsnow@redhat.com</a>&gt;
+            wrote:<br>
+            &gt;<br>
+            &gt; This is a *third* way to run the Python tests. Unlike
+            the first two<br>
+            &gt; (check-pipenv, check-tox), this version does not
+            require any specific<br>
+            &gt; interpreter version -- making it a lot easier to tell
+            people to run it<br>
+            &gt; as a quick smoketest prior to submission to GitLab CI.<br>
+            &gt;<br>
+            &gt; Summary:<br>
+            &gt;<br>
+            &gt;   Checked via GitLab CI:<br>
+            &gt;     - check-pipenv: tests our oldest python &amp;
+            dependencies<br>
+            &gt;     - check-tox: tests newest dependencies on all
+            non-EOL python versions<br>
+            &gt;   Executed only incidentally:<br>
+            &gt;     - check-dev: tests newest dependencies on whichever
+            python version<br>
+            &gt;<br>
+            &gt; ('make check' does not set up any environment at all,
+            it just runs the<br>
+            &gt; tests in your current environment. All four invocations
+            perform the<br>
+            &gt; exact same tests, just in different execution
+            environments.)<br>
+            &gt;<br>
+            &gt; Signed-off-by: John Snow &lt;<a
+              href="mailto:jsnow@redhat.com" target="_blank"
+              moz-do-not-send="true">jsnow@redhat.com</a>&gt;<br>
+            &gt; ---<br>
+            &gt;  python/Makefile | 35
+            +++++++++++++++++++++++++++++++++--<br>
+            &gt;  1 file changed, 33 insertions(+), 2 deletions(-)<br>
+            &gt;<br>
+            <br>
+            Reviewed-by: Willian Rampazzo &lt;<a
+              href="mailto:willianr@redhat.com" target="_blank"
+              moz-do-not-send="true">willianr@redhat.com</a>&gt;<br>
+            <br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Thanks. I am squashing in a hotfix here to add .dev-venv
+            to .gitignore, too. Not worth an entire respin for that.<br>
+          </div>
+          <div>(Assuming that's gonna be A-OK with both of you.)<br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    <p>Acked-by: Wainer dos Santos Moschetta <a class="moz-txt-link-rfc2396E" href="mailto:wainersm@redhat.com">&lt;wainersm@redhat.com&gt;</a><br>
+    </p>
+  </body>
+</html>
+
+--------------16237AA36E79C0D0644B5EE8--
 
 
