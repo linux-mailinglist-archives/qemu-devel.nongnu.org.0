@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D893B7BFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 05:07:14 +0200 (CEST)
-Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AA73B7BF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 05:06:21 +0200 (CEST)
+Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyQZF-0008NB-3N
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 23:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
+	id 1lyQYO-0006qd-IE
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 23:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lyQXe-0006B6-Oc
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:05:34 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:22101
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lyQXd-0006Ax-Lo
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:05:33 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:16011
  helo=mail.comstyle.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lyQXc-0000VK-Dq
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:05:34 -0400
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lyQXc-0000kt-8f
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:05:33 -0400
 Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4GF5nB4gDBz8PbN;
- Tue, 29 Jun 2021 23:05:18 -0400 (EDT)
+ by mail.comstyle.com (Postfix) with ESMTP id 4GF5nR3CWwz8PbR;
+ Tue, 29 Jun 2021 23:05:31 -0400 (EDT)
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
  :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=XEwgGK9u4
- weYUja1Bk9x60E0UKk=; b=MaK8eV0HskO0fDbSz/vDJ52jpusnvpLD3kYHEDOxb
- ixLhF4V3MD8gCFHuraejRrliOFKwgh3rj19WDTL4RdpLGnuj/hECPkAl3oUSwYh/
- txPznMCn9P6YhJAB1FRJv4EldsjawsfYRaANtgxpCbSWeUqW+mXBw+9oQuLXvV8X
- bc=
+ :content-type:content-transfer-encoding; s=default; bh=3ccG558Qq
+ j4F36m38muc5SjukGY=; b=RmgpPmCIXAPl7mCTv/z9mF0ldGPf83vcHBBP0UdgX
+ raJon9YiEOXf5PoU5mZHFPkHUnzh/4sUwjclLVTDWAsySRNqsG8GQ8dpJvCM0C7o
+ vK2o6IV3HADurp3OKKo5rUH0g3z2sbGrmOgE5vsBu+HRM2a5hoBuKZMQDAJChueF
+ c4=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
  :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=WtG
- 9VjtmGmL+77eeW+8shTTiyXrhWEY4SGyDnLHpUiyLT3SyCm9jEA8HC/ZPGXm6P8V
- 3fyMhiJM9V1/pVnBaj7SwqdxQ09DaE7+QQ9xYnptoA/irwPn+Pdf8VJ+bWjokEW1
- w7hvi6laDe9ZuOSXFD7sQu16r6Sb4jBen44IEI0w=
+ :content-type:content-transfer-encoding; q=dns; s=default; b=Izx
+ LynF1tiNwqGsfFUQhGQNWvIdw2iMCXX8/7ziTrRDmIRmLeIxscrZ9pqEVItaWRrO
+ tENMOXwUfwwYRy5T1c1Fz7uHMbQQgZP08F1Zwti1ezFf611ZEd55wb497FgNb8WE
+ Dc9eL9yo0aGia//UVjnLfZ1WlBZhgcjFNfZaB5dw=
 Received: from [IPV6:2001:470:b050:6:c431:eb5a:d46:c0fa] (unknown
  [IPv6:2001:470:b050:6:c431:eb5a:d46:c0fa])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4GF5nB3jPCz8PbK;
- Tue, 29 Jun 2021 23:05:18 -0400 (EDT)
-Message-ID: <7d4f930f-2c27-7ed8-b918-c9b9225b6c03@comstyle.com>
-Date: Tue, 29 Jun 2021 23:05:17 -0400
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4GF5nR2wdjz8PbK;
+ Tue, 29 Jun 2021 23:05:31 -0400 (EDT)
+Message-ID: <31ac508b-7482-f37a-0027-8f55ccc51fe6@comstyle.com>
+Date: Tue, 29 Jun 2021 23:05:31 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101
  Thunderbird/90.0
-Subject: Re: [PATCH] tests/vm: update NetBSD to 9.2
+Subject: Re: [PATCH] tests/vm: update openbsd to release 6.9
 Content-Language: en-US
 To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Philippe =?unknown-8bit?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-References: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
- <20210603071913.adshtxhd5bhqmutn@sirius.home.kraxel.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <YLRDeJV8qBrt9++c@humpty.home.comstyle.com>
+ <20210531045541.aut6wbga7x4tn6p3@sirius.home.kraxel.org>
 From: Brad Smith <brad@comstyle.com>
-In-Reply-To: <20210603071913.adshtxhd5bhqmutn@sirius.home.kraxel.org>
+In-Reply-To: <20210531045541.aut6wbga7x4tn6p3@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2607:f938:3000:8::2;
@@ -81,9 +81,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ping.
 
-On 6/3/2021 3:19 AM, Gerd Hoffmann wrote:
-> On Wed, Jun 02, 2021 at 01:21:49PM -0400, Brad Smith wrote:
->> tests/vm: update NetBSD to 9.2
+On 5/31/2021 12:55 AM, Gerd Hoffmann wrote:
+> On Sun, May 30, 2021 at 10:01:28PM -0400, Brad Smith wrote:
+>> tests/vm: update openbsd to release 6.9
 >>
 >> Signed-off-by: Brad Smith <brad@comstyle.com>
 > Tested-by: Gerd Hoffmann <kraxel@redhat.com>
