@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44663B8529
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:42:37 +0200 (CEST)
-Received: from localhost ([::1]:34518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3243B8533
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:45:17 +0200 (CEST)
+Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybQC-0004kx-VB
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53714)
+	id 1lybSm-0006pG-Ad
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:45:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybOr-0003uc-6e
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:41:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21057)
+ id 1lybRW-0005le-CY
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybOo-0005JE-RK
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:41:12 -0400
+ id 1lybRQ-0006jJ-G7
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:43:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625064070;
+ s=mimecast20190719; t=1625064232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=71O0t+uLgb2RnNCLd/HaCsPnqIz1Hs7imORam0tjljY=;
- b=D9RrgRl9LJX65pd5N39uf3PWXgkF5CPVoiYmUuMAn5GRr3gOv9MRTJyvFjcwakRZzTsmAz
- MO5XyKXnoJGFotAYPW1M2qGG+fcetYulD2EoknZCeCBVFs5k3g2MCA5hbuXrmwd8SczaDd
- YmkAD0d0GDVK6flnXm2Y4tT+/v8GAUQ=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-_EHGUW3CO06RfYztq2RRig-1; Wed, 30 Jun 2021 10:41:06 -0400
-X-MC-Unique: _EHGUW3CO06RfYztq2RRig-1
-Received: by mail-ua1-f72.google.com with SMTP id
- y22-20020ab063960000b02902782db6cf24so463016uao.20
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:41:06 -0700 (PDT)
+ bh=0vC+8q5BjHw3nw2sinFqRkwvARg5wTPIRwkdlFiuvGg=;
+ b=KvWciwIrbFqjdWGZGCJiPZlzSmIBSJAX9zdOlboogvHbWFghmhCV0Imly90lfUlfOuutHy
+ z5080V6Q9B+Kg+sXCm3X5+rJMZ0rDENdA2h3810J/IeKIMJnaa7oi0TsVuvr9Mw7qtYAAq
+ DqRUDKSuzUIDbH7hV54Xt1DElduaTBQ=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-kJnWoVQ7N9KVj0mMlRTb-w-1; Wed, 30 Jun 2021 10:43:50 -0400
+X-MC-Unique: kJnWoVQ7N9KVj0mMlRTb-w-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ s1-20020a1ff4010000b029024e2e9504e3so568837vkh.16
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:43:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=71O0t+uLgb2RnNCLd/HaCsPnqIz1Hs7imORam0tjljY=;
- b=XDoxsVrX+/qrgu+7xF8tw9U8Mp4tkaKKeO6ls0nxb89Wwk3KmsOf0JYNvwh/T/tLwZ
- bItzwBRNNfP43wUNN+CDVD7w54JfsncNGmIoI/gtmzoiu3Ou4Ho2zzjfZNegW0AGGmvp
- OFISEhGwAMAu0a60mJkmRaySSec9XyzeLKFSys/BN5s5g454u3G2D4Hje+jQaBhdPFLK
- AotDJB+eEzLuGG3iEjtuQXO1t6ea8ZRQJdAMRIgpHnDRxmskxFrfkRh3jvjPICGcGnMv
- zptIilZG1wZU0wisHUO6DIJIzau4nY4hW7VJWSlrr63KBJARAW8QXcvGb7x+ZJS4l4YY
- NdTw==
-X-Gm-Message-State: AOAM531YFHg2uBgYEa866xzWj16coSoR7yQ8O+JjTfqVelka1ibOzGKL
- i9RtZt80B5yimfuWfn0eQ1z2E3gRDSeey+IMfJajzfx3tfDm3TS0xRs7xh0QkPJJsyS4CB2MB4u
- x0cA8efqPYw7cYbcj4qB5Ex5nBUiuMBQ=
-X-Received: by 2002:a67:c09b:: with SMTP id x27mr15876004vsi.50.1625064066490; 
- Wed, 30 Jun 2021 07:41:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyg+ZL3EW2uTjTeuca7Dgxd27WPK8/9l5xb01qbIYV7E5TorxoZz6lbUVqQRQ7AFOeeoDqhNOxUVHuVNm5GQsw=
-X-Received: by 2002:a67:c09b:: with SMTP id x27mr15875977vsi.50.1625064066326; 
- Wed, 30 Jun 2021 07:41:06 -0700 (PDT)
+ bh=0vC+8q5BjHw3nw2sinFqRkwvARg5wTPIRwkdlFiuvGg=;
+ b=Yt3iRt1K7+DQevHuUD3NdXerZnwzVFh9iqKyUQXBaN7moXICAebABxNL861SrBdDnz
+ ZZ1w++oYIIPvJGFFbLEzp16IrI6+ISTWtBd7GSRr0HvpDwIEFwMzPTnJHNAnoJknpVYV
+ F4eMFgbLFL3D0kd6PXEVUqZxCcZus0pyIuK4xBsZNnYyQPvAhXQJB5Vu21ZGrBO22LXF
+ p2+ADyZxZKi3JFVKIEAQAg/SdotRFjuVoSvH8A7cVOetzsoZQfe58mfB4GZTUu926N/M
+ cum8a0S5RZ4JNG3x3f2ZF6peysp1/ujDw1kAv99i0V4CmrR1Wh3b/kf7sdew/SV2A7lB
+ 1oTQ==
+X-Gm-Message-State: AOAM531SkJFJpTZbnqAMr61SRI3Ji3C3dFVzlbXRYsmjfdryXOmO3rV5
+ TJExuUWpadUEO/em8glXYP1Yk1mItQ5HaKARh+B9QOeV7ZwcjRuojXxoEFcP+uXVdoVxy3t+Iyr
+ Z+rAwLfFd1EE6fcfhpixCT9Im6n0z3nI=
+X-Received: by 2002:ab0:3253:: with SMTP id r19mr32507078uan.5.1625064230309; 
+ Wed, 30 Jun 2021 07:43:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJNiF+//l433EzUXkaao90j9sdJhVJNlydTxzS5fiB2b4mpyCg2ntL6gW6u56S69bA4OMmcjg+csqoO1y6TVQ=
+X-Received: by 2002:ab0:3253:: with SMTP id r19mr32507055uan.5.1625064230170; 
+ Wed, 30 Jun 2021 07:43:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210629214323.1329806-1-jsnow@redhat.com>
- <20210629214323.1329806-12-jsnow@redhat.com>
-In-Reply-To: <20210629214323.1329806-12-jsnow@redhat.com>
+ <20210629214323.1329806-16-jsnow@redhat.com>
+In-Reply-To: <20210629214323.1329806-16-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 30 Jun 2021 11:40:40 -0300
-Message-ID: <CAKJDGDYrqaQpj+NH7p7WvnW1zzo3R3DQHhev33=ddcPAkga0NA@mail.gmail.com>
-Subject: Re: [PATCH v3 11/15] python: add 'make check-dev' invocation
+Date: Wed, 30 Jun 2021 11:43:24 -0300
+Message-ID: <CAKJDGDY9rZBX-yVu-gOMU4UKR=+fPZE8_DLCAHx54RyhZgi-mw@mail.gmail.com>
+Subject: Re: [PATCH v3 15/15] python: Fix broken ReST docstrings
 To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -98,29 +98,45 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 29, 2021 at 6:43 PM John Snow <jsnow@redhat.com> wrote:
+On Tue, Jun 29, 2021 at 6:44 PM John Snow <jsnow@redhat.com> wrote:
 >
-> This is a *third* way to run the Python tests. Unlike the first two
-> (check-pipenv, check-tox), this version does not require any specific
-> interpreter version -- making it a lot easier to tell people to run it
-> as a quick smoketest prior to submission to GitLab CI.
+> This patch *doesn't* update all of the docstring standards across the
+> QEMU package directory to make our docstring usage consistent. It
+> *doesn't* fix the formatting to make it look pretty or reasonable in
+> generated output. It *does* fix a few small instances where Sphinx would
+> emit a build warning because of malformed ReST -- If we built our Python
+> docs with Sphinx.
 >
-> Summary:
+> Signed-off-by: John Snow <jsnow@redhat.com>
 >
->   Checked via GitLab CI:
->     - check-pipenv: tests our oldest python & dependencies
->     - check-tox: tests newest dependencies on all non-EOL python versions
->   Executed only incidentally:
->     - check-dev: tests newest dependencies on whichever python version
+> ---
 >
-> ('make check' does not set up any environment at all, it just runs the
-> tests in your current environment. All four invocations perform the
-> exact same tests, just in different execution environments.)
+> You'll have to take my word for it for now, or, to test that (ugly
+> though it may be) a theoretical Sphinx build would produce no build
+> errors:
+>
+> > cd ~/src/qemu/python
+> > sphinx-apidoc --separate --private --no-toc --module-first \
+>     --implicit-namespaces --full --ext-intersphinx --ext-coverage \
+>     --ext-viewcode qemu/ -o docs/
+> > sed -i '1s|^|import os; import sys; sys.path.insert(0, os.path.abspath("../"))\n|' docs/conf.py
+> > make -C docs html
+> > rm -rf docs/
+>
+> I am preparing to add Sphinx, but need to fix these annoyances first so
+> that regressions are easy to spot as fixes are applied across the
+> tree. I plan to use my forthcoming Asynchronous QMP series as a test
+> pilot for documenting our docstring standards. Assuming it goes well, I
+> will update the docstrings elsewhere in this package at that time.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/Makefile | 35 +++++++++++++++++++++++++++++++++--
->  1 file changed, 33 insertions(+), 2 deletions(-)
+>  python/qemu/machine/__init__.py | 6 +++---
+>  python/qemu/machine/machine.py  | 3 ++-
+>  python/qemu/qmp/__init__.py     | 1 +
+>  python/qemu/qmp/qom_common.py   | 2 +-
+>  python/qemu/utils/accel.py      | 2 +-
+>  5 files changed, 8 insertions(+), 6 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
