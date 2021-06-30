@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E956A3B861D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:14:05 +0200 (CEST)
-Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A053B8624
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 17:16:37 +0200 (CEST)
+Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybuf-00006A-1V
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:14:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
+	id 1lybx6-0001rz-Gd
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 11:16:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lybt4-0006v7-0T
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:12:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lybsx-0008Pb-UE
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:12:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625065938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JAexThhFnM1We87F/mnTJ1NGA3dyKP1w1LXBzVLt7jA=;
- b=J6aQ8/S4UAmeASoJWVRo4kA8O98o3Hm/FNPkgDji7eB3BOvu572RbSmI/bCE8j9AOpk6yj
- XFORUsxI+jhgHMCvy5hXGu6bdeZsfetzbafFDaCTMCjm3gvXSXZXCmJtBRYTJSxJVGQbhd
- d2OeHKJM7VMTIyHG742Ge7azgah9mG0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-7v9sp0ClMgOPJahh4TQuvQ-1; Wed, 30 Jun 2021 11:12:14 -0400
-X-MC-Unique: 7v9sp0ClMgOPJahh4TQuvQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FBD6802C80;
- Wed, 30 Jun 2021 15:12:13 +0000 (UTC)
-Received: from localhost (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAE695DEFA;
- Wed, 30 Jun 2021 15:12:12 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [RFC v6 07/13] target/s390x: move sysemu-only code out to
- cpu-sysemu.c
-In-Reply-To: <20210629141931.4489-8-acho@suse.com>
-Organization: Red Hat GmbH
-References: <20210629141931.4489-1-acho@suse.com>
- <20210629141931.4489-8-acho@suse.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Wed, 30 Jun 2021 17:12:11 +0200
-Message-ID: <87im1vl73o.fsf@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1lybvo-000170-BY
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:15:16 -0400
+Received: from mail11.asahi-net.or.jp ([202.224.55.51]:42052)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1lybvk-0001qV-Nr
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 11:15:15 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail11.asahi-net.or.jp (Postfix) with ESMTPA id 5CF4C225D6;
+ Thu,  1 Jul 2021 00:15:08 +0900 (JST)
+Received: from localhost.ysato.ml (z215167.dynamic.ppp.asahi-net.or.jp
+ [110.4.215.167])
+ by sakura.ysato.name (Postfix) with ESMTPSA id D23651C0640;
+ Thu,  1 Jul 2021 00:15:07 +0900 (JST)
+Date: Thu, 01 Jul 2021 00:15:04 +0900
+Message-ID: <s598s2ridtz.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/3] hw/sh4: sh7750 using renesas_sci.
+In-Reply-To: <CAFEAcA9n8D0GbMv9B_k=Z_B6x1wyseSAGhTEoTxAd0RW51MX2Q@mail.gmail.com>
+References: <20210616091244.33049-1-ysato@users.sourceforge.jp>
+ <20210616091244.33049-4-ysato@users.sourceforge.jp>
+ <CAFEAcA9n8D0GbMv9B_k=Z_B6x1wyseSAGhTEoTxAd0RW51MX2Q@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (arm-unknown-linux-androideabi) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: softfail client-ip=202.224.55.51;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail11.asahi-net.or.jp
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,25 +59,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cfontana@suse.com, Claudio Fontana <cfontana@suse.de>, acho@suse.com,
- jose.ziviani@suse.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 29 2021, "Cho, Yu-Chen" <acho@suse.com> wrote:
+On Tue, 29 Jun 2021 22:23:01 +0900,
+Peter Maydell wrote:
+> 
+> On Wed, 16 Jun 2021 at 10:14, Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
+> >
+> > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> > ---
+> >  include/hw/sh4/sh.h |  8 --------
+> >  hw/sh4/sh7750.c     | 41 +++++++++++++++++++++++++++++++++++++++++
+> >  hw/sh4/Kconfig      |  2 +-
+> >  3 files changed, 42 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
+> > index becb596979..74e1ba59a8 100644
+> > --- a/include/hw/sh4/sh.h
+> > +++ b/include/hw/sh4/sh.h
+> > @@ -55,14 +55,6 @@ int sh7750_register_io_device(struct SH7750State *s,
+> >
+> >  /* sh_serial.c */
+> >  #define SH_SERIAL_FEAT_SCIF (1 << 0)
+> > -void sh_serial_init(MemoryRegion *sysmem,
+> > -                    hwaddr base, int feat,
+> > -                    uint32_t freq, Chardev *chr,
+> > -                    qemu_irq eri_source,
+> > -                    qemu_irq rxi_source,
+> > -                    qemu_irq txi_source,
+> > -                    qemu_irq tei_source,
+> > -                    qemu_irq bri_source);
+> 
+> This change means that the code in sh_serial.c will no longer compile,
+> because it has a non-static function with no previous prototype.
+> The patch as a whole compiles because the change to hw/sh4/Kconfig
+> file removes the selection of SH_SCI and so we never try to
+> compile sh_serial.c. But we shouldn't leave dead code around in
+> the tree.
+> 
+> Option A:
+> I guess the idea is to avoid having to rename sh_serial_init(),
+> which makes sense. If you want to take this route, then
+> in this patch we should mention that in the commit message,
+> something like:
+> 
+> ===begin===
+> hw/sh4: Switch sh7750 to new renesas-sci devices
+> 
+> Switch the sh7750 away from the old serial device implementation
+> in sh_serial.c to use the new renesas-sci devices.
+> 
+> Note that deleting the prototype for sh_serial_init() means that
+> sh_serial.c will no longer be able to compile (it would hit a
+> warning about having a non-static function without a previous
+> prototype). This is OK because we remove the only place that
+> was selecting the SH_SCI Kconfig feature, so we won't attempt
+> to compile that source file. In the following commit, we will
+> delete the file entirely.
+> 
+> ===end===
+> 
+> Then in a new patch to go after this one, remove:
+>  * the file sh_serial.c itself
+>  * the "config SH_SCI" section in hw/char/Kconfig
+>  * the line for sh_serial.c in hw/char/meson.build
+> 
+> 
+> Option B: would be to give your new sh7750.c function a different
+> name than sh_serial_init() (eg sci_init()) and change the two
+> callsites in this patch. Then you could keep the old sh_serial_init()
+> prototype in this patch and delete it as part of the new "remove
+> sh_serial.c" patch (which is where removal of the prototype more
+> logically belongs.)
+> 
+> I don't mind which of the two you go for.
 
-> move sysemu-only code out to cpu-sysemu.c
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
-> ---
->  target/s390x/cpu-sysemu.c | 309 ++++++++++++++++++++++++++++++++++++++
->  target/s390x/cpu.c        | 285 ++---------------------------------
->  target/s390x/meson.build  |   1 +
->  target/s390x/trace-events |   2 +-
->  4 files changed, 320 insertions(+), 277 deletions(-)
->  create mode 100644 target/s390x/cpu-sysemu.c
+I think option B is fine.
+I would like to change sh7750 to qom as the next step.
+I don't want to make any major changes at this step.
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
 
+> >  /* sh7750.c */
+> >  qemu_irq sh7750_irl(struct SH7750State *s);
+> > diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
+> > index d53a436d8c..1ef8b73c65 100644
+> > --- a/hw/sh4/sh7750.c
+> > +++ b/hw/sh4/sh7750.c
+> > @@ -24,6 +24,7 @@
+> >   */
+> >
+> >  #include "qemu/osdep.h"
+> > +#include "qapi/error.h"
+> >  #include "hw/irq.h"
+> >  #include "hw/sh4/sh.h"
+> >  #include "sysemu/sysemu.h"
+> > @@ -32,6 +33,8 @@
+> >  #include "hw/sh4/sh_intc.h"
+> >  #include "hw/timer/tmu012.h"
+> >  #include "exec/exec-all.h"
+> > +#include "hw/char/renesas_sci.h"
+> > +#include "hw/qdev-properties.h"
+> >
+> >  #define NB_DEVICES 4
+> >
+> > @@ -752,6 +755,44 @@ static const MemoryRegionOps sh7750_mmct_ops = {
+> >      .endianness = DEVICE_NATIVE_ENDIAN,
+> >  };
+> >
+> > +static void sh_serial_init(MemoryRegion *sysmem,
+> > +                           hwaddr base, int feat,
+> > +                           uint32_t freq, Chardev *chr,
+> > +                           qemu_irq eri_source,
+> > +                           qemu_irq rxi_source,
+> > +                           qemu_irq txi_source,
+> > +                           qemu_irq tei_source,
+> > +                           qemu_irq bri_source)
+> > +{
+> > +    RenesasSCIBaseState *sci;
+> > +    char ckname[16];
+> > +
+> > +    switch(feat) {
+> > +    case 0: /* SCI */
+> > +        sci = RENESAS_SCI_BASE(qdev_new(TYPE_RENESAS_SCI));
+> > +        snprintf(ckname, sizeof(ckname), "pck_sci");
+> > +        break;
+> > +    case SH_SERIAL_FEAT_SCIF:
+> > +        sci = RENESAS_SCI_BASE(qdev_new(TYPE_RENESAS_SCIF));
+> > +        snprintf(ckname, sizeof(ckname), "pck_scif");
+> > +        break;
+> > +    }
+> 
+> The ckname[] array seems to be set but never used ?
+
+Yes.
+This array used old changes. I forgot remove it.
+
+> 
+> Since you never use 'sci' as a RenesasSCIBaseState, you could
+> instead declare
+> 
+>    Device *sci;
+> 
+> and then
+>    sci = qdev_new(TYPE_RENESAS_whatever);
+> 
+> and avoid some of the DEVICE() casts below.
+
+OK.
+
+> You might also prefer to have a SysBusDevice *sbd which you
+> can then set with
+>    sbd = SYS_BUS_DEVICE(sci);
+> and use sbd instead of casting every time you need it.
+
+OK.
+
+> > +    qdev_prop_set_chr(DEVICE(sci), "chardev", chr);
+> > +    qdev_prop_set_uint32(DEVICE(sci), "register-size", SCI_REGWIDTH_32);
+> > +    qdev_prop_set_uint64(DEVICE(sci), "input-freq", freq);
+> > +    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 0, eri_source);
+> > +    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 1, rxi_source);
+> > +    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 2, txi_source);
+> > +    if (tei_source)
+> > +        sysbus_connect_irq(SYS_BUS_DEVICE(sci), 3, tei_source);
+> > +    if (bri_source)
+> > +        sysbus_connect_irq(SYS_BUS_DEVICE(sci), 3, bri_source);
+> 
+> QEMU coding style requires braces for all if statements, even when
+> they're only one line.
+
+It was before checking with checkpatch.pl.
+I will clean it in the next patch.
+
+> > +    sysbus_realize(SYS_BUS_DEVICE(sci), &error_abort);
+> > +    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 0, base);
+> > +    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 1, P4ADDR(base));
+> > +    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 2, A7ADDR(base));
+> > +}
+> 
+> thanks
+> -- PMM
+
+-- 
+Yoshinori Sato
 
