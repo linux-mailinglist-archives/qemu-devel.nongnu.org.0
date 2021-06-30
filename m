@@ -2,90 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E903C3B7FC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 11:15:21 +0200 (CEST)
-Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42073B7FD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 11:18:47 +0200 (CEST)
+Received: from localhost ([::1]:52748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyWJU-0008J5-FN
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 05:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60724)
+	id 1lyWMo-0002hO-OV
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 05:18:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lyWII-0007cy-TU
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 05:14:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59524)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lyWLH-000174-Ph
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 05:17:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lyWID-00058B-M8
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 05:14:06 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lyWLB-0007N1-NF
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 05:17:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625044439;
+ s=mimecast20190719; t=1625044624;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=dwzk/clXDUOcHNyMY7ujxxrb0wmN39YuEmvjwE6N6dI=;
- b=IFVphjwuJic71quHxFvciZ0+zPZiXbTfnZBgbRUV4Rn76pmCXhkX/bkaMPRSrFAnEshMtf
- aDx+UxsAvgogZthrVczt39uQjOcFSHwWJH4tDDB3yIiKCGK4nzjghnG+SZXbzh4rvdtqLx
- Xz8RDrr5HEMFhORmMvCd5f6S7Lky8DA=
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XgFgSzEusYQshQUJd19+Sc+ka73Na/R/Yka7TYpoofc=;
+ b=U3+uEs1sR83AaZJuwlFvpo+rIe/PN5WqaQmMfY+x8vSqGzj0UndEyKm4I8iYkGAVsNvVQx
+ z6VXi4uLOhgcccgrZCCIGf46WPR7XvmL63BvNVvvjbFJlOi1j0IBypBbB2liD1SdQ57NYB
+ kmnNwHt3SD79fOgJAhkJVInfN2w4340=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-RpMFZUdiPOaBxK0nB2W9AQ-1; Wed, 30 Jun 2021 05:13:58 -0400
-X-MC-Unique: RpMFZUdiPOaBxK0nB2W9AQ-1
+ us-mta-427-tdodsIdwMZazr5Yk3TcSTg-1; Wed, 30 Jun 2021 05:17:03 -0400
+X-MC-Unique: tdodsIdwMZazr5Yk3TcSTg-1
 Received: by mail-wm1-f70.google.com with SMTP id
- l9-20020a05600c1d09b02901dc060832e2so417324wms.1
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 02:13:58 -0700 (PDT)
+ j2-20020a05600c1c02b02901cecbe55d49so277815wms.3
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 02:17:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=dwzk/clXDUOcHNyMY7ujxxrb0wmN39YuEmvjwE6N6dI=;
- b=ja0Xcki6A0uw2PPvuuG0KS+/hPGKRVRmkRJUh/rQ3hexpmimzc3AYC4J3XoxiGjetP
- IxefKPwydJTE84KenRt9difzC+buFjP11LOrS/XWRPi9IzZzX6XmLMu9BzLAbtLvgMcv
- YI9Dsf/TQDAVmLJUvyUMobXnfJv5bI6jk3zsrQO4amksEDUg5Z9bn03IvAvKN65xyLVG
- 3PMBUY1aqZK7+Zt0urf7863eI2ePYvIqaJQ5U46+je+6bIF2MnNu6A4myL3IUohduxoc
- wLTDoOYM5/ZeuLIm63lyseWsEXDsDAxu5/DXut29Mw2tuRW/CsMgWLZeHP0I4YGnpBkN
- Cg7g==
-X-Gm-Message-State: AOAM532mezmlVeKKoRyhC7uJKxQHb0GHiVqnDa9qkks3PDeHa6MjTHNw
- s7ZEJJHwNTQes2ZE4yEj0I7q4v8zNGjPTiTDNtrHx+U6m6bF7WhQrCO7MRq6YR11D1arh3EkwsV
- GLJcrz5kU8lsauP4=
-X-Received: by 2002:a5d:5307:: with SMTP id e7mr15822552wrv.353.1625044437367; 
- Wed, 30 Jun 2021 02:13:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzoSHWVmTW5XLJyEIoMeDV/5cFoIt6tuNv6B2nWwGvSdZWG3Msh9ulS/NE5p6E/csA49veE7Q==
-X-Received: by 2002:a5d:5307:: with SMTP id e7mr15822523wrv.353.1625044437132; 
- Wed, 30 Jun 2021 02:13:57 -0700 (PDT)
-Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
- by smtp.gmail.com with ESMTPSA id a9sm20699251wrv.37.2021.06.30.02.13.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 02:13:56 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH 2/2] migration: failover: continue to wait card unplug
- on error
-In-Reply-To: <c7ec3af8-5649-4e53-ef5c-39f7adc54e2b@redhat.com> (Laurent
- Vivier's message of "Wed, 30 Jun 2021 11:04:38 +0200")
-References: <20210629155007.629086-1-lvivier@redhat.com>
- <20210629155007.629086-3-lvivier@redhat.com>
- <87im1wk1ap.fsf@secure.mitica>
- <c7ec3af8-5649-4e53-ef5c-39f7adc54e2b@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date: Wed, 30 Jun 2021 11:13:55 +0200
-Message-ID: <871r8jzpd8.fsf@secure.mitica>
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=XgFgSzEusYQshQUJd19+Sc+ka73Na/R/Yka7TYpoofc=;
+ b=F0lVUKKdfWMBCewMlhGDjZVYyx29vftx07SnQXUbsZ2BQaQ5ugFMJvnkBjy+oF19Pt
+ mZPVl5U6gqM/OrGxu46qd9KItRGK3YXlqROH7buAiuqFpsKfGjGLdj8CqLR/BiqxJ9mT
+ cH8CPuZFoUE24JFNi7rjedPgLfmMC+BtYyUD7+gLgq/xhKqpp4dRZJa8HhwLEq8ZbR/1
+ 9okXWh04hgtKnJSdHHZXh9/2hvPiyxmXaCVt91vFnvmWGNHnZLPuv94y75oJOQjXow0+
+ wsUe8AhsP6jE4S9a+wfUrxacT0sMljuXhG0xuHP678ChDeSGwraJeMh1kkJ8P1Yo9qaY
+ i/Hg==
+X-Gm-Message-State: AOAM530Lj4vfdRqB4/iuK34CErFmIfVBmWA00UR/Kffk6A0ZOiWGcPhe
+ VV8V5OdxeULVh5OPt/AvYEWqX5NwE15aZbzycHtXQ7AD2rjkSqq4PTQ6YfPgB4fG1DSYx7QcZ5m
+ RktKOCTN8kcIrLW4=
+X-Received: by 2002:a5d:4564:: with SMTP id a4mr819241wrc.409.1625044620971;
+ Wed, 30 Jun 2021 02:17:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgiYguaDT0QWH97Om9dEm7IouRgAgZstYjwZrVk4pB3kc3fCmA+6q1NeBrU+TuudCZ1xmyqg==
+X-Received: by 2002:a5d:4564:: with SMTP id a4mr819224wrc.409.1625044620792;
+ Wed, 30 Jun 2021 02:17:00 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id s1sm5576432wmj.8.2021.06.30.02.16.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Jun 2021 02:17:00 -0700 (PDT)
+Subject: Re: [question] Shall we flush ITS tables into guest RAM when shutdown
+ the VM?
+To: Kunkun Jiang <jiangkunkun@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <ef4df56d-5b60-99f1-fec6-fe2e62434d3f@huawei.com>
+ <82c78e1f-98ef-982e-fbcc-34da6b8aaad7@redhat.com>
+ <91d179e0-8365-e3b4-cee6-d05ce918a32d@huawei.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <1d9123e9-705a-36ef-3286-b2f347ec5894@redhat.com>
+Date: Wed, 30 Jun 2021 11:16:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <91d179e0-8365-e3b4-cee6-d05ce918a32d@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,65 +107,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Jens Freimann <jfreimann@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: eric.auger@redhat.com
+Cc: wanghaibin.wang@huawei.com, lushenming@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> wrote:
-> On 29/06/2021 19:50, Juan Quintela wrote:
->> Laurent Vivier <lvivier@redhat.com> wrote:
->>> If the user cancels the migration in the unplug-wait state,
->>> QEMU will try to plug back the card and this fails because the card
->>> is partially unplugged.
->>> To avoid the problem, continue to wait the card unplug, but to
->>> allow the migration to be canceled if the card never finishes to unplug
->>> use a timeout.
+
+
+On 6/30/21 3:38 AM, Kunkun Jiang wrote:
+> On 2021/6/30 4:14, Eric Auger wrote:
+>> Hi Kunkun,
+>>
+>> On 6/29/21 11:33 AM, Kunkun Jiang wrote:
+>>> Hi all,
 >>>
->>> Bug: https://bugzilla.redhat.com/show_bug.cgi?id=1976852
->>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>> ---
->>>  migration/migration.c | 11 +++++++++++
->>>  1 file changed, 11 insertions(+)
+>>> Accroding to the patch cddafd8f353d2d251b1a5c6c948a577a85838582,
+>>> our original intention is to flush the ITS tables into guest RAM at
+>>> the point
+>>> RUN_STATE_FINISH_MIGRATE, but sometimes the VM gets stopped before
+>>> migration launch so let's simply flush the tables each time the VM gets
+>>> stopped.
 >>>
->>> diff --git a/migration/migration.c b/migration/migration.c
->>> index 3e92c405a2b6..3b06d43a7f42 100644
->>> --- a/migration/migration.c
->>> +++ b/migration/migration.c
->>> @@ -3679,6 +3679,17 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
->>>                 qemu_savevm_state_guest_unplug_pending()) {
->>>              qemu_sem_timedwait(&s->wait_unplug_sem, 250);
->>>          }
->>> +        if (s->state != MIGRATION_STATUS_WAIT_UNPLUG) {
->>> +            int timeout = 120; /* 30 seconds */
->>> +            /*
->>> +             * migration has been canceled
->>> +             * but as we have started an unplug we must wait the end
->>> +             * to be able to plug back the card
->>> +             */
->>> +            while (timeout-- && qemu_savevm_state_guest_unplug_pending()) {
->>> +                qemu_sem_timedwait(&s->wait_unplug_sem, 250);
->>> +            }
->>> +        }
->>>  
->>>          migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG, new_state);
->>>      } else {
->> I agree with the idea.  But if we are getting out due to timeout == 0,
->> shouldn't we return some error, warning, whatever?
+>>> But I encountered an error when I shut down the virtual machine.
+>>>
+>>>> qemu-system-aarch64: KVM_SET_DEVICE_ATTR failed: Group 4 attr
+>>>> 0x0000000000000001: Permission denied
+>>> Shall we need to flush ITS tables into guest RAM when 'shutdown' the
+>>> VM?
+>>> Or do you think this error is normal?
+>> yes we determined in the past this was the right moment do save the
+>> tables
+>>
+>> "with a live migration the guest is still running after
+>> the RAM has been first saved, and so the tables may still change
+>> during the iterative RAM save. You would actually need to do this
+>> at just the point we stop the VM before the final RAM save; that *might*
+>> be possible by using a notifier hook a vm run state change to
+>> RUN_STATE_FINISH_MIGRATE
+>> - if you can do the changes just as the migration flips into that mode
+>> it *should* work. " said David.
+>>
+>> But sometimes as the commit msg says, the VM is stopped before the
+>> migration launch - I do not remember the exact scenario tbh -.
+> Well, I initially wanted to know more about this scenario to determine
+> whether
+> a normal shutdown would fall into it.😂
+I think it was for save/restore use case. In that case you need to flush
+the KVM cache in memory on VM shutdown.
+> In my opinion, when the virtual machine is normally shutdown, flushing
+> the
+> ITS tables is not necessary. If we can't tell the difference between
+> 'normal shutdown'
+> and the above scenario, then this 'error' is inevitable.
+>> So each time the VM is stopped we flush the caches into guest RAM.
+>>
+>>
+>>
+>>> This error occurs in the following scenario:
+>>> Kunpeng 920 、enable GICv4、passthrough a accelerator Hisilicon SEC to
+>>> the VM.
+>>>
+>>> The flow is as follows:
+>>>
+>>> QEMU:
+>>> vm_shutdown
+>>>      do_vm_stop(RUN_STATE_SHUTDOWN)
+>>>          vm_state_notify
+>>>              ...
+>>>              vm_change_state_handler (hw/intc/arm_gicv3_its_kvm.c)
+>>>                  kvm_device_access
+>>>
+>>> Kernel:
+>>>      vgic_its_save_tables_v0
+>>>          vgic_its_save_device_tables
+>>>              vgic_its_save_itt
+>>>
+>>> There is such a code in vgic_its_save_itt():
+>>>> /*
+>>>>   * If an LPI carries the HW bit, this means that this
+>>>>   * interrupt is controlled by GICv4, and we do not
+>>>>   * have direct access to that state without GICv4.1.
+>>>>   * Let's simply fail the save operation...
+>>>>   */
+>>>> if (ite->irq->hw && !kvm_vgic_global_state.has_gicv4_1)
+>>>>            return -EACCES;
+Maybe we miss a piece of code for 4.0 that unsets the forwarding. The
+only way to handle this is to make sure  ite->irq->hw is not set on
+shutdown, no?
+
+Thanks
+
+Eric
+>> As far as I understand you need a v4.1 to migrate,
+>> following Shenming's series
+>> [PATCH v5 0/6] KVM: arm64: Add VLPI migration support on GICv4.1
+>> Maybe sync with him?
+> Yes, GICv4 does not support live migrate.
 >
-> In that case, we keep the current behaviour: guest kernel will report
-> an error when it
-> will try to plug back the card that has not been unplugged. This is a
-> corner case: if it
-> happens we have something really wrong with the machine. Perhaps we can remove the
-> timeout, but I don't like to block the user, or increase it to be sure.
-
-Oh, I whole agree that it is a corner case, and that it shouldn't
-happen.
-
-But if it happens, we don't log it anywhere.  That was my complaint.
-
-Later, Juan.
+> Thanks,
+> Kunkun Jiang
+>>
+>> Thanks
+>>
+>> Eric
+>>
+>>
+>>> Looking forward to your reply.
+>>>
+>>> Thanks,
+>>> Kunkun Jiang
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>> .
+>
+>
 
 
