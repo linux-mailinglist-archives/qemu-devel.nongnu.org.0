@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C723B89EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 22:56:42 +0200 (CEST)
-Received: from localhost ([::1]:60358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059EC3B89F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 23:02:52 +0200 (CEST)
+Received: from localhost ([::1]:35858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyhGD-0006Gx-BP
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 16:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46876)
+	id 1lyhMA-0000gg-KB
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 17:02:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lyhEc-0005Gl-6X
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 16:55:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36293)
+ id 1lyhJg-0007T1-F9
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 17:00:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lyhEa-0004x8-Ig
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 16:55:01 -0400
+ id 1lyhJe-0008K4-HD
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 17:00:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625086499;
+ s=mimecast20190719; t=1625086813;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UhV/HdaqBerdLmyKdfEMAHXmGYdOBE4tv9Orojc/IAw=;
- b=jDuAfSYgC8mGwelHUtqdR4ka5gSlDccRf/50K+OfQkRiuKfshbl0GYjkoJaG5gBflJ/6a1
- HEFSWWIp4qg+3YO2XSIWpN42raVE+AhHBpQfDOFPFjzsytydaqskc22LkfRwOgYfA2BrR9
- CIzAzfpCJmwrwRgvcSkelA1HyhYcx4k=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-6nPFjtpCMOiakLEA_IUlng-1; Wed, 30 Jun 2021 16:54:57 -0400
-X-MC-Unique: 6nPFjtpCMOiakLEA_IUlng-1
-Received: by mail-vs1-f72.google.com with SMTP id
- j12-20020a67e30c0000b02902826cb2208eso1300089vsf.11
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 13:54:57 -0700 (PDT)
+ bh=IpPic7AiBCmtqEEBHA6P4bDlmRs+h6Vet9L5+KjQSPI=;
+ b=AzRUiEtsP3JrkuPgvfJluTUEtrKetSOeHl64HO24PMCLxCbPwGHiFJKYcA+J8XMHzTnxyy
+ lmzx4lBOvxqTWL6HeXjy4DzZdtfWr4EVjUM2K+watk0edkhDOW58vOKz3gFmHSf86Cby5B
+ GfVeQtS3nt+yya8eiOonW5j6TGfPPnY=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-dxvZz9zZNl-J5Z8ipTIwvA-1; Wed, 30 Jun 2021 17:00:11 -0400
+X-MC-Unique: dxvZz9zZNl-J5Z8ipTIwvA-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ s1-20020a1ff4010000b029024e2e9504e3so855200vkh.16
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 14:00:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UhV/HdaqBerdLmyKdfEMAHXmGYdOBE4tv9Orojc/IAw=;
- b=ZHGGen6wHXj9lZBs+OzGBmfVwYcmv/bFKEZaY6PsfUEJ/88q5SjDqBTMBTLe+ERakp
- h1AeDkvqtoWKcgDYIQf9/KMTvD3kufYJbcDSGONcvc0X2psZocta0FF8Q0dYEqGDXhsp
- 4JRMNYvlpwNbcgzY9B0NBrLTkS4FCww2dfFxJ7E8SDwgrubHHix+ghquwmeHc7ppgsjv
- UDkcdd8kl703dX0DzAPOfQ8+p9Tzi80vkIYvMXypcTw00SrsP8jLU2Pu/aCGKXAYT9Y6
- 3onO3FTH3ehVW/WmUY/+kNshcq3z5zmjxymTVEQ2w+fw9OHHxMnJKAyQVyIDqlqAcacE
- WlKw==
-X-Gm-Message-State: AOAM532jCUN/JWeCwUBnqy40xnD9+zCVvZoN2+dj+GwRI7SuBahG28g1
- nLHv9cv0bT0rt+0Jm/fpZyx3LPDP1rXKLAdSQTpqLRtZR+fEZFLvwRfwZbrPNeL5wqZkaEx2wiA
- QCHXwCUv74XKcWdhpzh7/1TV55RUu0EI=
-X-Received: by 2002:a1f:280e:: with SMTP id o14mr29623032vko.19.1625086496710; 
- Wed, 30 Jun 2021 13:54:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzxDUMypIwZGvmHkShiRmARyHaeSOCa8GxNDlSXUpHGyN5gd+Nywo2Qep8yX1ALuQ4dD2N61xl8cll1kcwZmo=
-X-Received: by 2002:a1f:280e:: with SMTP id o14mr29623020vko.19.1625086496569; 
- Wed, 30 Jun 2021 13:54:56 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=IpPic7AiBCmtqEEBHA6P4bDlmRs+h6Vet9L5+KjQSPI=;
+ b=LKclRiyYQiRN67ri7XO5P1bdg7lUoEOeYwQ3x+Ka0aOH9dLNyc0vahq+7f2xzdwIv8
+ DDSQaz3ZMDDPna+6Q8HcBpddfc2xyMI7/Knc2Ni+z+jW1qk1Tl+h91IIUxfntEH8UnKQ
+ pGsHGK1mOxLtmR9Vkd/NKm3T4h2s9UdwN0YrTUeEVnp99Yx/7rsp9D5eG0lqqBHIiwBT
+ XwTOjJLcRtAK/3MRCalS+GeZ64KtzMyPuTlY7H5ePsgZ319K0F6L0VDv6dodWNnDIAxE
+ HAHDUw/6JT0WY6CaL4eCW4L7+KKlIjWU3pIGnwHKhDL61udZmDXvvZvKe3B7IOCmwVRu
+ yriQ==
+X-Gm-Message-State: AOAM5326aTM+nU6dvKmTVtWZuqx9rlLoGSoFS1/32TWb56kH6fu7qFKQ
+ CYLjsaOvLaCMfjuTRwbQlFr7VqqkvTbSbLXuZpiMubvQhiI9uAIXTaF7e6YqRueGMQaHlDaXD5R
+ zrVjoYzmiK64ydjPakdZxrh1xJQvmpnY=
+X-Received: by 2002:a67:fa0a:: with SMTP id i10mr33611083vsq.45.1625086811423; 
+ Wed, 30 Jun 2021 14:00:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlOn5hEPNHefaWT6RHaTyDkIxUdf8Ulf1fJY23aCxw30Y74s48j8TfJ24dopR/3/llqa53JhXsIMLn4W34Le8=
+X-Received: by 2002:a67:fa0a:: with SMTP id i10mr33611070vsq.45.1625086811290; 
+ Wed, 30 Jun 2021 14:00:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210625172211.451010-1-berrange@redhat.com>
- <20210625172211.451010-2-berrange@redhat.com>
-In-Reply-To: <20210625172211.451010-2-berrange@redhat.com>
+References: <20210630184546.456582-1-wainersm@redhat.com>
+In-Reply-To: <20210630184546.456582-1-wainersm@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 30 Jun 2021 17:54:30 -0300
-Message-ID: <CAKJDGDZNBHwmCz_1vu75ZhBiXGE9K=h8VkepTJFr6WqjBb9QbA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] build: validate that system capstone works before
- using it
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Wed, 30 Jun 2021 17:59:45 -0300
+Message-ID: <CAKJDGDYv5xo+qCBcksAfMXx1b5i5hkc9NDcyzSNfkgbmYE996Q@mail.gmail.com>
+Subject: Re: [PATCH] python: Configure tox to skip missing interpreters
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -92,29 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Yonggang Luo <luoyonggang@gmail.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Cleber Rosa Junior <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 25, 2021 at 2:22 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
+On Wed, Jun 30, 2021 at 3:46 PM Wainer dos Santos Moschetta
+<wainersm@redhat.com> wrote:
 >
-> Some versions of capstone have shipped a broken pkg-config file which
-> puts the -I path without the trailing '/capstone' suffix. This breaks
-> the ability to "#include <capstone.h>". Upstream and most distros have
-> fixed this, but a few stragglers remain, notably FreeBSD.
+> Currently tox tests against the installed interpreters, however if any
+> supported interpreter is absent then it will return fail. It seems not
+> reasonable to expect developers to have all supported interpreters
+> installed on their systems. Luckily tox can be configured to skip
+> missing interpreters.
 >
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> This changed the tox setup so that missing interpreters are skipped by
+> default. On the CI, however, we still want to enforce it tests
+> against all supported. This way on CI the
+> --skip-missing-interpreters=false option is passed to tox.
+>
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > ---
->  meson.build | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+> Tested locally with `make check-tox` and where I only Python 3.6 and 3.9
+> installed.
+> Tested on CI: https://gitlab.com/wainersm/qemu/-/jobs/1390010988
+> Still on CI, but I deliberately removed Python 3.8: https://gitlab.com/wainersm/qemu/-/jobs/1390046531
 >
+>  .gitlab-ci.d/static_checks.yml | 1 +
+>  python/Makefile                | 5 ++++-
+>  python/setup.cfg               | 1 +
+>  3 files changed, 6 insertions(+), 1 deletion(-)
+>
+
+Seems reasonable.
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
