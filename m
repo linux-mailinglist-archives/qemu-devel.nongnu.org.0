@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858413B7C45
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 05:47:57 +0200 (CEST)
-Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D86E3B7C2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 05:43:37 +0200 (CEST)
+Received: from localhost ([::1]:32946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyRCe-0000EM-KX
-	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 23:47:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
+	id 1lyR8R-0004DG-Kb
+	for lists+qemu-devel@lfdr.de; Tue, 29 Jun 2021 23:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyRBV-0007fs-Rz
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:46:45 -0400
-Received: from mail-mw2nam12on20714.outbound.protection.outlook.com
- ([2a01:111:f400:fe5a::714]:40352
- helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyR79-0002Dq-4t
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:42:15 -0400
+Received: from mail-mw2nam10on2132.outbound.protection.outlook.com
+ ([40.107.94.132]:5024 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyRBR-0002Zn-3G
- for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:46:45 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lyR76-0007HD-VG
+ for qemu-devel@nongnu.org; Tue, 29 Jun 2021 23:42:14 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DmXegVbcCt4BkfNaG5oiZd5aQ+U4ilzMkWp2o9rgvbmP7H1we4sWvxVWeUCof+O/4m62/e5q3IFWo8jqt5UzDmXKclA+dDE/gSMW3BsMAiPqiyg8Dj8UluNpu9pdohiLjImh/0/5LrXv1eLuR9RHlRMzymXKky9bvkeKrlGFUzFFpCCt5oyv7UeWpMvFg7TG5zx2fZWOwDln2sPozowkNbsrsG59jvl4vqFI+Xbgr51F8y67n5OOztYohn8mF41QjCqT3Z8TNNNmcyHhLBoykFc7jtCWr6jH9wnhzrfEHn/Po168qyHUKhL92SOoWZFact2c2/Lm+GqFmNtu3EsopA==
+ b=jnDb+e2VuU9uJ65YsWR6eHjmYwYHB0N1aHs2QjGg1VTYx6kadavUs8l3Ysm+hipxphoQl0SQaxqkjXPSMHVHDsa8S52T5N5vLO2WzsDj4u9CdVSc8wLci5jC3T/v0TNRxQ7VijRL6OqPgdQm7XYUMaAI1sv6r5EavAVHdsRGykIml/1Rl7Ca/ofwuzAA7VOsO4ipT4nPPAz/IqkoLUT8bjdnYEvzPW0npww/tVrlpYulbEqJ3tZBKk3q0XLryqtdzCwwE0dqm7EWdFk/z222X3YtFrR9Qmjs6/9vBWwOJqyt5YzYwEauVJxS6zF1MiEJM5w2aaEbgV16c5484X3Okw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zzG5iHA5b88VsXXflDGyXn/F8RlHtyiLApJLlzZe9mg=;
- b=XAJmvDDW0o2etdbDBKcskz+KdM20bGgLMBR2mfP9O9tnnYnPqN46BFR+DiOnzmR230Ywu1x0/G4zAFcauMGpgz+46jz9MsF+Hf+UooE0oZV8b9faywCl3B+U+Rbq1KWoNxoul4s5vyk1yM6QBHw7Bg+GnPN0p4PPSqKJ8zOsL/cEt5oecEP9QaEFBV2Sh0TI5+STZSS+/0SAh8Opa2Y8mZaDVrU0TXiXVykCWI7ARrmcnXLoZ+fuSYZCcpGTzU2XgFJexASrA3UM+jTLz1WAzx8dtq0jJG7JQRmzt4eNGTSp+SABEh1KOH0NvnHWAfiSW1do4jLIHyotqOp3T6B5AA==
+ bh=9imeiB9aCDEIdZCqooCS7CIrBJUip/G8IeHpyIdKgus=;
+ b=S78jJ1oa2fSs5TlXczGnPjWrWv6ugwV8KMonEtbi8jouyudvMmy4oQ1TRMbAUc7o5EZX9bujbQofIzjacoIAjibRBDgIAYoq4KbzsbdOnKHTg7+7xqIlFVbCDNs6nj5qM1FfbHqzn2F1B0CeP4dA4Use46sFROKzLiNdBx2QkJ504JiB5npGCywnBcAnEq3fAOjVmpPFI3dX6pv3eJ8zz2i8Ho8C54gE9LUbxTXBFzgAxNRFCTbS7ke8p//7f8DJvf8xaALMKwjDvhCzYjYECbBAo2W73IBWJJD5f7dUamM9d94sQc9/kUMgCDsDaiSWMFTz+LrvdsGqo3fKzPmppw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zzG5iHA5b88VsXXflDGyXn/F8RlHtyiLApJLlzZe9mg=;
- b=VUqmQf3K1tkuIkyjB3BZPgsXUWHCuk6DxPMzk0erMq5Sk9HbpJawuiDDDMUhCWoeLrkT/UiyZJMah2Nrp949cnGLhg3nQantRcU9rtzi0M4szvfBTDMnobtKA0Q8zOButK3PxRISqfJZ+L+Y9HOGyVMnR2x+OJkM4W+QK3Lz/NM=
+ bh=9imeiB9aCDEIdZCqooCS7CIrBJUip/G8IeHpyIdKgus=;
+ b=mBl0lcybLlvArcMZ+gwZpsKPC/pekMMOeWyQy54cvWkOM8rNs8AEpIjbigF/FCa4mqz610c/VZ60+qsrl3AfIx2E21tDu8OQVD7zhOle99voBurXT+SeyDJJ45RSnpK9Lhp+KmqOoQjJ95+QYwOEtqd9KV93dvTzgazz/dn9OZk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SA2PR03MB5817.namprd03.prod.outlook.com (2603:10b6:806:11d::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.21; Wed, 30 Jun
- 2021 03:41:35 +0000
+ 2021 03:41:36 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::24fc:a5d:be8d:eb3f]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::24fc:a5d:be8d:eb3f%3]) with mapi id 15.20.4264.027; Wed, 30 Jun 2021
- 03:41:35 +0000
+ 03:41:36 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/3] Fuzzer pattern-matching, timeouts,
- and instrumentation-filtering
-Date: Tue, 29 Jun 2021 23:41:21 -0400
-Message-Id: <20210630034124.222689-1-alxndr@bu.edu>
+Subject: [PATCH v5 1/3] fuzz: adjust timeout to allow for longer inputs
+Date: Tue, 29 Jun 2021 23:41:22 -0400
+Message-Id: <20210630034124.222689-2-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210630034124.222689-1-alxndr@bu.edu>
+References: <20210630034124.222689-1-alxndr@bu.edu>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [72.74.210.193]
@@ -64,63 +64,63 @@ Received: from stormtrooper.vrmnet (72.74.210.193) by
  MN2PR16CA0063.namprd16.prod.outlook.com (2603:10b6:208:234::32) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.21 via Frontend
- Transport; Wed, 30 Jun 2021 03:41:34 +0000
+ Transport; Wed, 30 Jun 2021 03:41:35 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0edd34e2-7ea1-4104-1c9a-08d93b78f59e
+X-MS-Office365-Filtering-Correlation-Id: ae21d752-12f0-43cc-89f2-08d93b78f650
 X-MS-TrafficTypeDiagnostic: SA2PR03MB5817:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA2PR03MB5817433FEE712A0367D87178BA019@SA2PR03MB5817.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <SA2PR03MB58173AC5655E1A99B3C63C5CBA019@SA2PR03MB5817.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:765;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dJIqPUivMGmNaGLhFkvTtqAuiCUUimkvLbX0rrhWcPW3pjSOCcmDakXQ2RAWddDIoxzuqQNDmeSOsgCWcDYuNR0l9T1gf3aUu4cyXGgfZbZMR9Zz/PL0A2Slsv3n0ONKM0r8Yu7rRfqenha8jfOZ3HodxcEKo2oSa3yjgmJWfM6a+kBSAk7eni5HWdqDwU4OKyLMVOFu4C3XvbJ5t6ap7RaHPuB5XPq4nzEJYl5iSTicS7AU6jJ8ju2SZzjtPxGc1fb74KndgKZ70mNSf4i684d0pz1x0gQIyqhXHOrULVAKHYc/A+1DlnhJpSAvrFqGaH8sjGrWhVh3YvTIvW4FCAxqwL15830Cgascn833Hfo443kXmgPv7BX2SNewbSjOLY0vpMhuuiq/tdr8tQABb5pA1YjduotJY5QiQunL8yK3596ZYgMhL7QDfc3VUyXvGWyXhGbn+ZjhXJfHPPBZw2WxZa0mku0/A12d3J/KieJeGmcIx0V8HeB2ElfBBZ7suN+hwdvXaMaNI9BWOUSbPRupZYcepGxRdQw4km+oB7UbeMQ1rqG0n6D6zvTe9z1Eagjuq6kpitpzOZZpWRZy3FWpmoDN1azbbrMVRNvI0jTnMpXNwj0sRX0mWoSqv8WGupQEWulhiWj72BYctKXB89bu8ChS020MMrpo3XDWDWM0fxyLOwcwKrzBHAWwkTGuO/s6o4tOXy4OFV4RLsKG4A==
+X-Microsoft-Antispam-Message-Info: wPi/uFcRMlo2DyVEYrqbh4W348cucnPgF0U+y0EdErXuBauy6gIhq9pq4iq6UDPfZ9CE7KZ7SgiJ6dAmAsiA/QdsHq/jh6uJ7Y2H2RH0btz6yGKkrl5i8hW7hl0amc37+KchxX/WoiE5h9wWT9TP0Q5JiIoRTih85GbnJVfVVszya3+Sxdu5qIP2EeA0UxYoVw56QXfm6KA2i15CgkChehNyKC5qDJitewfl9/nX/pF2h+ZFbAYa0w9Z8JGpxzBWRW+QQkCM94QeTzksgGpgnljXODVO8y/0CPdfAzjX4dW1/5gn7yJrcJvjq5EdWBJoqHFEgX1IJmssJy13iXh1G+FFrUjXVMoOpd9nLOayiiVx8FW4MH5zoyXM+I7kqot3HXHSbOmR0E+oqaBqAUUu+9GgnOjwpw29YsVL6vOpRy5I/2gv3G4pQXZRWOiyCfywhkz/+TSeRNyNcYJIBLsMXg9uTSa+FGeXVF/CslvmthG2x9XpHZpUYZNUVaIMFGFEVpn2yGM4Ro3gQoHqgzTvGZSNkVJeJtd145B7tAUvyVmnEHnCt54GPXidm9ndL0Ea5r9sK6RTE5V5FmXoSfk9HfV41qIypy3YVU/Q4H677l3Cf+AeHjYr0Po8W7wxsPtJZUr7yT/DYX/RtGNhDUqIMYUvWvTyHavYIELyb5pB9AoRQDNAtfapZaB7SmSRD2MY2RoNxQQ6uCzodw3UPc4C3Owi8U8JI23L6wKe0vCOYc8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(956004)(2616005)(66946007)(66476007)(1076003)(66556008)(26005)(478600001)(16526019)(38100700002)(6916009)(38350700002)(6486002)(8936002)(8676002)(6666004)(186003)(6506007)(36756003)(52116002)(83380400001)(4326008)(6512007)(786003)(316002)(54906003)(2906002)(86362001)(5660300002)(75432002);
+ SFS:(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(956004)(2616005)(66946007)(66476007)(1076003)(66556008)(26005)(478600001)(16526019)(38100700002)(6916009)(38350700002)(6486002)(8936002)(8676002)(6666004)(186003)(6506007)(36756003)(52116002)(83380400001)(4326008)(6512007)(786003)(316002)(54906003)(2906002)(86362001)(5660300002)(75432002)(148743002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QUG2Xx4tjegwc849IPCbH9fD9PzeZYlShqWv9HZLxQDae7rj6Mr8kgKaFERH?=
- =?us-ascii?Q?B71z9H272YPrvkjmua0cbdK7eOVYUWdwTo40WT4Qw1oOKANw11TzNCRiNirx?=
- =?us-ascii?Q?uaObtKgjtJu/sGz4EUu00anp53WO8d/6oIpjVIAfFvxvPEVW95yrXszUwvzU?=
- =?us-ascii?Q?9v/di7DIakXxc3XexsE5Nbgoh5d8YhsEyts3bWhpMbg8sAg1lZwIEVYXQDfg?=
- =?us-ascii?Q?uPrKANES0k0/Dp9bFaF+R3j3eTY2A7+WZ6scWo847Z9qofXBbSfYr2qMHFGF?=
- =?us-ascii?Q?30AlB6y20sZ8vI/MqgNdxrZNDDKs85GfeoG5LRuKMz+G8iWiK1nNUT2A4jDw?=
- =?us-ascii?Q?2Vmmm2UyWCPnQdi+X/hPeB6p/DkgZ3+2eTSBmDU60JL4Wp5sXdzt4Cu8+fA5?=
- =?us-ascii?Q?TkagtJQfYfGotUhHhNCfN3PzuEI4U5CRvt+62sESspYI/JU2cabvkoJ55xK3?=
- =?us-ascii?Q?nc3zV7mJ2TRBBXYfMxohM7saC1WoA7wlFM9PkooNrwHF3GscVxX61NloCfw8?=
- =?us-ascii?Q?pahNuAkWl0Mn1SLPEj5P69l2r1y6vnSLz61nUPxi/JZtk1/8nIfer+jcEa41?=
- =?us-ascii?Q?xf0wxEImgiAxXMPWeoQFC1FbylhSTSmy0EzvFyi7pQgxfCq1frIYk99vtDoR?=
- =?us-ascii?Q?puXTwJM2nxAzsbencH+tGM/POjU5RAZG1f/YJov1WBpy4bzQrABvBv3XddJi?=
- =?us-ascii?Q?FG5h38ExR/obGkLdGKkGJVuF95ZA1ISwH6qk3riwCuyTIvfrzUCSUlfGbMP3?=
- =?us-ascii?Q?8lJbbKDhrJCNdVo5aOLBYKrFU7UtvMHFdL60F+uvGDWvICS+r4zDIOHcMblm?=
- =?us-ascii?Q?b7shleUyQTvl/4lQNJYKIrSDTT/6cWLne/5XVr0PeKHXZkVJTV5+QkA6m94v?=
- =?us-ascii?Q?AjjjrgU22SYsOtw9ypzvQGyXb7AEtVLC+GjBazgjaCiVugl6zZYaTC3+55rG?=
- =?us-ascii?Q?0IqZ7//bXRaKJfxkgafvxedEDmX5xiJYVUX3p8dKH76ujLY+9dQVNzDL2JrZ?=
- =?us-ascii?Q?7PL2Zil+BHxvRAT+a+nrzoHA6pPMzvFtCjtNAoQP6IF64ox2qtXTK/OwgZvg?=
- =?us-ascii?Q?OI238ywuwnmrFvjq5YzxO1HBIxvWb4NFxBU/pTd2YUGAtKCNgWnUMPfCptre?=
- =?us-ascii?Q?Duzo+Q9UGA8mKO/fyMnefJUwpLXBZuwC490/TEFZ3p9Fe0JPtoEHa4p3diPL?=
- =?us-ascii?Q?fdITJJLQYxV98uuWtquyP8c7rdCQlXp9plN709P1TTKlJw4px74E6rQrkVtZ?=
- =?us-ascii?Q?v6PCX5QVmBSI1PHRAih8dUgOygs/llimTd0Vvd8uCVKXeJzdeO10Gc/1F4gN?=
- =?us-ascii?Q?1nGO2OyG9jkT6tY2nhlRmh+G?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HMFBN12z+fHKIO0LEu9BZ0Il2J6McWlBFU+wgdugMQPTHBQAINoqhB/OfVzz?=
+ =?us-ascii?Q?1jTMFf69Ik5BAlwvNMy8wmOP1CW0nQEh58I79w/y4Vrw2cKR+JUTzVakobv4?=
+ =?us-ascii?Q?OdVxtlZ/Qy2YTuA2/l09A4xnf9mlBwyQuwIIZaf0koO4rsQO3txVNG80s5oi?=
+ =?us-ascii?Q?g1DnOIgfhjob8d1k2iaCEEAA238BNRFsiWepDnI9sjnOJCQvTYm5BU4UQdz4?=
+ =?us-ascii?Q?0PbwM2TODiISl/pVwPJr+zjTOH02+bI7Qh4o8ZKmSyFgCJkjLeWFMFR5LMiy?=
+ =?us-ascii?Q?l1kqPEzjlkKn0EFDf5hknioxPL+k7oVri5LvkZd2NegdlTVmaadu9icn7G6e?=
+ =?us-ascii?Q?FrtU/5gnGEWlu/FzA97PAXDSodOpdqEg056ep8WvTnb4qgI6JbKmdWRjcgIP?=
+ =?us-ascii?Q?V/bbkoWIhaZcZmkueBSKsVp39gtbWOx9wR7MxuRfMh6CVG31saUWTNV4YzP0?=
+ =?us-ascii?Q?rU5+cWIbOKwpgPXOI5urX9MVfkXldz4LlKaQiVeX1oaRCLR+0oZ7lo286fIl?=
+ =?us-ascii?Q?o1DgYVPYaqXqw6ADw7capGg658tTwojUbVWwZNrcIdxmbe6hgzmqHUqMrXYg?=
+ =?us-ascii?Q?limEbw841dVVu6veLV7CUUIqOuodIb4u3gDCbL0vqkRyk7pIdZulSNi6qn3D?=
+ =?us-ascii?Q?vPaMiBFtO9KYbuH7jTP8Cje6c7N0hWhosLuKZydUniS1+zWwNoW22XV18S13?=
+ =?us-ascii?Q?rK2PHlB1TQ4b6/vIx3eELAVD0vMBqcVvF86eYhKhYDOsk7CuqBr5BpFYuY8Z?=
+ =?us-ascii?Q?F6oQ4olqbKW3/ifIh9Klss14CLUa+nG29C7pFxbCZl87o5ryixThLa4/qVkz?=
+ =?us-ascii?Q?oATXqknTCvFgPGHjcQ1FyBuBF5yU4PpGSiLKpVlBoNs4KThfvpIC51AMxL/4?=
+ =?us-ascii?Q?psQUdAuciirNM6ZobY/LutKghSySLgtk65HrE2Zs8gPvMIJN9bCawF8OUHax?=
+ =?us-ascii?Q?AcOB36VIdN5utfC4V43HrZfcXzGUXjwKODkZ1Qn+v8fBB2gLMIfS1X2UFf6F?=
+ =?us-ascii?Q?C5qST7SMrvN/bCH4cPhpLN7Q5KJEDzyzFX8X/TeyeFc4cxr6jtVO+cdNj22w?=
+ =?us-ascii?Q?Ael2F8PXC2SNkOlHIg1As8jzMG7lndCnQiR+rKXgCfmk7V6rJuP0zmgGFmR2?=
+ =?us-ascii?Q?zt4RSzWlR/ck+IyKqSjX0TDyBz0DV/m9sgngtAj1h2luoQpr9XebkF7FP+KR?=
+ =?us-ascii?Q?jaB2QKZrEpahog+pNxZYN2Go5u9axuWEDwPfpude4InzjMmr1NK/1wFMF7r7?=
+ =?us-ascii?Q?7I0US0X9u7ZBtKOtwTL/h4Z2pSXHeRR0PsYi4qbjwU52WIgeMpPmpfpvlbkG?=
+ =?us-ascii?Q?ucfUkuOUHovTwTxXLkZeNlJc?=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0edd34e2-7ea1-4104-1c9a-08d93b78f59e
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae21d752-12f0-43cc-89f2-08d93b78f650
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2021 03:41:35.5478 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2021 03:41:36.6002 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rdHghmNzFvCyQqZZJeGHi6jfNBUqYJ5P59txU15KA4IHr/HDFrJB77HKToR+20C9
+X-MS-Exchange-CrossTenant-UserPrincipalName: vMMJIcuYOc1IwBEMMAtTAQtXvU3wjb3mqsRAxTFtSHGM/XCOTnKUi/QyBAIbGdHf
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5817
-Received-SPF: pass client-ip=2a01:111:f400:fe5a::714;
- envelope-from=alxndr@bu.edu;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+Received-SPF: pass client-ip=40.107.94.132; envelope-from=alxndr@bu.edu;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -8
 X-Spam_score: -0.9
 X-Spam_bar: /
 X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.998,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -134,44 +134,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
+ darren.kenny@oracle.com, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v5:
-    - Fix a name collision in 3/3, between "GString *pattern" and the
-      struct pattern type, which lead to some bad heap problems during
-      fuzzing
-v4:
-    - Instead of changing the patterns in the AC97 and ES1370 configs,
-      make the type/name pattern matching case-insensitive.
-    - Copy the instrumentation filter into the build-dir, so it can be
-      adapted on-the-fly.
-v3:
-    - Check in ./configure whether clang supports -fsanitize-coverage-allowlist
-v2:
-    - Add the instrumentation filter to the instrumentation filter patch
+Using a custom timeout is useful to continue fuzzing complex devices,
+even after we run into some slow code-path. However, simply adding a
+fixed timeout to each input effectively caps the maximum input
+length/number of operations at some artificial value. There are two
+major problems with this:
+1. Some code might only be reachable through long IO sequences.
+2. Longer inputs can actually be _better_ for performance. While the
+   raw number of fuzzer executions decreases with larger inputs, the
+   number of MMIO/PIO/DMA operation/second actually increases, since
+   were are speding proportionately less time fork()ing.
 
-These patches
-1.) Change generic-fuzzer timeouts so they are reconfigured prior to
-each individual IO command, to allow for longer-running inputs
-2.) Add an instrumentation filter to prevent libfuzzer from tracking
-noisy/irrelevant parts of the code.
-3.) Make pattern-matching against types/names case-insensitive.
+With this change, we keep the custom-timeout, but we renew it, prior to
+each MMIO/PIO/DMA operation. Thus, we time-out only when a specific
+operation takes a long time.
 
-Alexander Bulekov (3):
-  fuzz: adjust timeout to allow for longer inputs
-  fuzz: add an instrumentation filter
-  fuzz: make object-name matching case-insensitive
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ tests/qtest/fuzz/generic_fuzz.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
- configure                                     | 13 +++++++
- .../oss-fuzz/instrumentation-filter-template  | 14 +++++++
- tests/qtest/fuzz/generic_fuzz.c               | 37 +++++++++++++++----
- 3 files changed, 56 insertions(+), 8 deletions(-)
- create mode 100644 scripts/oss-fuzz/instrumentation-filter-template
-
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index 6c67522717..43f9011626 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -661,15 +661,16 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+     uint8_t op;
+ 
+     if (fork() == 0) {
++        struct sigaction sact;
++        struct itimerval timer;
+         /*
+          * Sometimes the fuzzer will find inputs that take quite a long time to
+          * process. Often times, these inputs do not result in new coverage.
+          * Even if these inputs might be interesting, they can slow down the
+-         * fuzzer, overall. Set a timeout to avoid hurting performance, too much
++         * fuzzer, overall. Set a timeout for each command to avoid hurting
++         * performance, too much
+          */
+         if (timeout) {
+-            struct sigaction sact;
+-            struct itimerval timer;
+ 
+             sigemptyset(&sact.sa_mask);
+             sact.sa_flags   = SA_NODEFER;
+@@ -679,13 +680,17 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+             memset(&timer, 0, sizeof(timer));
+             timer.it_value.tv_sec = timeout / USEC_IN_SEC;
+             timer.it_value.tv_usec = timeout % USEC_IN_SEC;
+-            setitimer(ITIMER_VIRTUAL, &timer, NULL);
+         }
+ 
+         op_clear_dma_patterns(s, NULL, 0);
+         pci_disabled = false;
+ 
+         while (cmd && Size) {
++            /* Reset the timeout, each time we run a new command */
++            if (timeout) {
++                setitimer(ITIMER_VIRTUAL, &timer, NULL);
++            }
++
+             /* Get the length until the next command or end of input */
+             nextcmd = memmem(cmd, Size, SEPARATOR, strlen(SEPARATOR));
+             cmd_len = nextcmd ? nextcmd - cmd : Size;
 -- 
 2.28.0
 
