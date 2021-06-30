@@ -2,103 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8497D3B847D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 15:55:16 +0200 (CEST)
-Received: from localhost ([::1]:52068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6223B8488
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 15:58:16 +0200 (CEST)
+Received: from localhost ([::1]:54830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyagN-000188-2Q
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 09:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41344)
+	id 1lyajH-000379-Ml
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 09:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lyafH-0000PG-3T; Wed, 30 Jun 2021 09:54:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lyafE-0008Lu-UI; Wed, 30 Jun 2021 09:54:06 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15UDX82u033688; Wed, 30 Jun 2021 09:53:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+NgzZ2fqw/10aVaSDBRwQpnARQzUIGHiZePj0My0fIs=;
- b=Dl+A/+3ixRa2xP371eoYPge3Edof4Kz4c7DxKYYzoB1V/D7Ks0DyhNqbBPe3Xln8kF7y
- lfW5UjRb95guhi8PRpua1oqwdrhz95XAvH/wh6l6ApgjoEweuB3Yb3vYsZ7mzCKCoTdl
- pzeJwA9Bk2dZesCKSb2oVEk0G5O6jRazrHxcRhtwEOCnBK8mGL+qCnXneFAXTMb5rU/a
- OLew8XtDUXoerExXY9BN2m4Cr6Z8cMZEzxlmO7zLX8BJd2FxJWE8AeYVttHab4Tf9MGr
- FoqT8ruvdKc9++pDpVWrI5Vh2+nRCcS9VToTNErYlXYGWD5h3lHG/2SodJ0Hk8EJN6ff AA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39gntrr02e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Jun 2021 09:53:58 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15UDXWXj035367;
- Wed, 30 Jun 2021 09:53:57 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39gntrr01c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Jun 2021 09:53:57 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15UDlWCY030913;
- Wed, 30 Jun 2021 13:53:55 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 39fv59rck3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Jun 2021 13:53:55 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15UDrp0i26214872
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Jun 2021 13:53:51 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 89A7542066;
- Wed, 30 Jun 2021 13:53:51 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2850242061;
- Wed, 30 Jun 2021 13:53:51 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.84.59])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 30 Jun 2021 13:53:51 +0000 (GMT)
-Subject: Re: [PATCH 1/1] s390x/cpumodel: add 3931 and 3932
-To: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20210622201923.150205-1-borntraeger@de.ibm.com>
- <20210622201923.150205-2-borntraeger@de.ibm.com>
- <b584eb80-ceac-9188-11a2-c4a86388ac1e@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <7cd6fb75-521b-e970-4f25-b23722765bf9@de.ibm.com>
-Date: Wed, 30 Jun 2021 15:53:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
+ id 1lyahj-00029Z-0F
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:56:39 -0400
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:45882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
+ id 1lyahd-0001aI-E2
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:56:38 -0400
+Received: by mail-lj1-x230.google.com with SMTP id u20so3368885ljo.12
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 06:56:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lC2p6uLB6XlAYguaGPZ5BbXFc+Cj0fkwDL2uJt3ClzI=;
+ b=RijnA9pgmMOPgPV+rHGfhs3vSFp/TMCctrxNO7qJc9d78D+5cxNR9pBSAfChJfdh7p
+ sc6Pj9CVkSWtgiFvoS7Wq2TK9wAc0zJXCbmHoFvpDb3M+iJ72Eh0JKBq+pEFceasWaEq
+ CzGWQaDaiFd6dLXty7g5CGGl7iqBlnCek6OEC3WwnHN8uOjEG3yXHjGg9rWMvoUG9cGt
+ jZ42t+LmOxVF5i58jYkX+/egBn+ORENknqeEdaTrKZBJ526lNHoY3/VCNIv4we1GsYyo
+ hI5f/0kJr2wnzPjH+6jSuJQKp9UzmcYJRH5Bc7B1x9C9t59X3ZdB32pjomsdA56oR6pM
+ fq3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lC2p6uLB6XlAYguaGPZ5BbXFc+Cj0fkwDL2uJt3ClzI=;
+ b=XTHHI8PqN/LdLPSlB6xbygNhYkM0R9CaZUwps7jdNB2Z7MSFDw2f6Ac+Sgkd55Kfhr
+ f0hEQBnZgjksjzoffJj6lcInz85GftnqzS+sZ6HRMlYaCrc3887UPI8EdT/cecjZPrpC
+ 42T0aLoJDO0jLv0zYgcx7QIqwTVJYx+bPrqX2TYCNz0X6Uv+a0YfuCGRrwU9zp/dujbc
+ 7aK3BQNtiNk1bWauOcQi/vCnPrysN5222T+ltTl85w1PaUi9mSwc/YbllpM+iqkyBRmM
+ +PsYEXLtc4lrV1KwFaM+Rc4iDO7SA48a9msgMtZxjuFg00GXLGbdGOAiennq2JuXijmF
+ QafQ==
+X-Gm-Message-State: AOAM531ilgF/iiCztbrB8TKLazu9UeXqEv5e4VHT54hgEHCxkjp9OvrQ
+ SnuOxDJ15xfAzqR+9Mh/UdJEsAC7SQ6oMLqFSVI=
+X-Google-Smtp-Source: ABdhPJwFZjqWQ4acYGaMkBwGD7uWAq2L5KnhmruVDalVL9rJ60KKCcD0VoTJLiUvfEHgk1+fxR3dc/qJr8DuXuWHaIc=
+X-Received: by 2002:a2e:a7c5:: with SMTP id x5mr8179645ljp.258.1625061391040; 
+ Wed, 30 Jun 2021 06:56:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b584eb80-ceac-9188-11a2-c4a86388ac1e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: srPDHmHRLSfZgH6kMDowkCM9KieSlv88
-X-Proofpoint-ORIG-GUID: 7tfwxmXH8694fd6AInszpFsNezb6J_fd
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-30_05:2021-06-29,
- 2021-06-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
- malwarescore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 spamscore=0
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106300080
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210630114634.2168872-1-marcel@redhat.com>
+In-Reply-To: <20210630114634.2168872-1-marcel@redhat.com>
+From: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Date: Wed, 30 Jun 2021 16:55:45 +0300
+Message-ID: <CAMPkWoNXaRN_PUr71DEVSEsSzz0xEKy5F5ueEipqDH_2aKYW9Q@mail.gmail.com>
+Subject: Re: [PATCH] pvrdma: Ensure correct input on ring init (CVE-2021-3607)
+To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000f384e005c5fc16c1"
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=yuval.shaia.ml@gmail.com; helo=mail-lj1-x230.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,60 +76,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>
+Cc: marcel@redhat.com, vv474172261@gmail.com, mcascell@redhat.com,
+ pj.pandit@yahoo.co.in, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000f384e005c5fc16c1
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, 30 Jun 2021 at 14:46, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+wrote:
+
+> Check the guest passed a non zero page count
+> for pvrdma device ring buffers.
+>
+> Fixes: CVE-2021-3607
+> Reported-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
+> Reviewed-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
+> Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
+> ---
+>  hw/rdma/vmw/pvrdma_main.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> index 84ae8024fc..7c0c3551a8 100644
+> --- a/hw/rdma/vmw/pvrdma_main.c
+> +++ b/hw/rdma/vmw/pvrdma_main.c
+> @@ -92,6 +92,11 @@ static int init_dev_ring(PvrdmaRing *ring,
+> PvrdmaRingState **ring_state,
+>      uint64_t *dir, *tbl;
+>      int rc = 0;
+>
+> +    if (!num_pages) {
+> +        rdma_error_report("Ring pages count must be strictly positive");
+> +        return -EINVAL;
+> +    }
+> +
+>
+
+Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
 
 
-On 30.06.21 15:32, David Hildenbrand wrote:
-> On 22.06.21 22:19, Christian Borntraeger wrote:
->> This defines 5 new facilities and the new 3931 and 3932 machines.
->> As before the name is not yet known and we do use gen16a and gen16b.
->> The new features are part of the full model.
->>
->> The default model is still empty (same as z15) and will be added
->> in a separate patch at a later point in time.
->>
->> Also add the dependencies of new facilities and as a fix for z15 add
->> a dependency from S390_FEAT_VECTOR_PACKED_DECIMAL_ENH to
->> S390_VECTOR_PACKED_DECIMAL.
->>
->> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
->> ---
->>   target/s390x/cpu_features_def.h.inc |  5 +++++
->>   target/s390x/cpu_models.c           |  6 ++++++
->>   target/s390x/gen-features.c         | 14 ++++++++++++++
->>   3 files changed, 25 insertions(+)
->>
->> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
->> index 7db3449e0434..c71caee74411 100644
->> --- a/target/s390x/cpu_features_def.h.inc
->> +++ b/target/s390x/cpu_features_def.h.inc
->> @@ -109,6 +109,11 @@ DEF_FEAT(VECTOR_PACKED_DECIMAL_ENH, "vxpdeh", STFL, 152, "Vector-Packed-Decimal-
->>   DEF_FEAT(MSA_EXT_9, "msa9-base", STFL, 155, "Message-security-assist-extension-9 facility (excluding subfunctions)")
->>   DEF_FEAT(ETOKEN, "etoken", STFL, 156, "Etoken facility")
->>   DEF_FEAT(UNPACK, "unpack", STFL, 161, "Unpack facility")
->> +DEF_FEAT(NNPA, "nnpa", STFL, 165, "NNPA facility")
->> +DEF_FEAT(VECTOR_PACKED_DECIMAL_ENH2, "vxpdeh2", STFL, 192, "Vector-Packed-Decimal-Enhancement facility 2")
->> +DEF_FEAT(BEAR, "bear", STFL, 193, "BEAR-enhancement facility")
-> 
-> Usually we use "eh" for enhancement. Which would result in "beareh" or alternatively "beh". But maybe the "enhancement" part is not actually an enhancement, but instead this facility is more like the etoken or unpack facility ...
+>      dir = rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE_SIZE);
+>      if (!dir) {
+>          rdma_error_report("Failed to map to page directory (ring %s)",
+> name);
+> --
+> 2.31.1
+>
+>
 
-There was no bear facility (I think it was part of PER3).
-beareh or beh would be fine with me.
+--000000000000f384e005c5fc16c1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +DEF_FEAT(RDP, "rdp", STFL, 194, "Reset-DAT-protection facility")
->> +DEF_FEAT(ACTIVITY, "activity", STFL, 196, "Processor-Activity-Instrumentation facility")
-> 
-> Would "pai" be a more appropriate feature name?
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 30 Jun 2021 at 14:46, Marcel =
+Apfelbaum &lt;<a href=3D"mailto:marcel.apfelbaum@gmail.com">marcel.apfelbau=
+m@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Check the guest passed a non zero page count<br>
+for pvrdma device ring buffers.<br>
+<br>
+Fixes: CVE-2021-3607<br>
+Reported-by: VictorV (Kunlun Lab) &lt;<a href=3D"mailto:vv474172261@gmail.c=
+om" target=3D"_blank">vv474172261@gmail.com</a>&gt;<br>
+Reviewed-by: VictorV (Kunlun Lab) &lt;<a href=3D"mailto:vv474172261@gmail.c=
+om" target=3D"_blank">vv474172261@gmail.com</a>&gt;<br>
+Signed-off-by: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel@redhat.com" ta=
+rget=3D"_blank">marcel@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/rdma/vmw/pvrdma_main.c | 5 +++++<br>
+=C2=A01 file changed, 5 insertions(+)<br>
+<br>
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c<br>
+index 84ae8024fc..7c0c3551a8 100644<br>
+--- a/hw/rdma/vmw/pvrdma_main.c<br>
++++ b/hw/rdma/vmw/pvrdma_main.c<br>
+@@ -92,6 +92,11 @@ static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingSta=
+te **ring_state,<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t *dir, *tbl;<br>
+=C2=A0 =C2=A0 =C2=A0int rc =3D 0;<br>
+<br>
++=C2=A0 =C2=A0 if (!num_pages) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rdma_error_report(&quot;Ring pages count must =
+be strictly positive&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
++=C2=A0 =C2=A0 }<br>
++<br></blockquote><div><br></div>Reviewed-by: Yuval Shaia &lt;<a href=3D"ma=
+ilto:yuval.shaia.ml@gmail.com" target=3D"_blank">yuval.shaia.ml@gmail.com</=
+a>&gt;<br><div>Tested-by: Yuval Shaia &lt;<a href=3D"mailto:yuval.shaia.ml@=
+gmail.com" target=3D"_blank">yuval.shaia.ml@gmail.com</a>&gt;</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0dir =3D rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE=
+_SIZE);<br>
+=C2=A0 =C2=A0 =C2=A0if (!dir) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rdma_error_report(&quot;Failed to map to =
+page directory (ring %s)&quot;, name);<br>
+-- <br>
+2.31.1<br>
+<br>
+</blockquote></div></div>
 
-pai would be ok for me as well.
-
-Conny, do you want to replace "activity" with "pai" and "bear" with "beareh" in your tree?
-
+--000000000000f384e005c5fc16c1--
 
