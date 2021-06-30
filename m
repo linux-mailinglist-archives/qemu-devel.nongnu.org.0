@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCAA3B8338
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 15:34:58 +0200 (CEST)
-Received: from localhost ([::1]:33252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81CC3B8345
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 15:36:51 +0200 (CEST)
+Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyaMj-0003mE-1H
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 09:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34812)
+	id 1lyaOY-0006Ak-B2
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 09:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lyaKa-0001XH-4b
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:32:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lyaKW-0002sr-1C
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:32:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625059958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NOw32z3Ko6fnf22fKwlLDB/jsg2t5fuwx+xPEvP+kN8=;
- b=aBKB/aAT1DNwIPiJ+ruyvIk6BFCw2qg6fq9kbxiE1iJ7vq/r8oe9q0OViF7izvCP8lFSCN
- sW1eBjKIrXp8VomJI6TSKWSy3ZKJQDqRK5QjwESnUn9aYsuM+ma5PA+Wr3svnNDnGxzGEq
- 0AhvD4jQOhJq11M1AUneClaRZfBxdFw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-Tnma4aipNU2CuKViFhUasA-1; Wed, 30 Jun 2021 09:32:36 -0400
-X-MC-Unique: Tnma4aipNU2CuKViFhUasA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- t12-20020a7bc3cc0000b02901f290c9c44eso757994wmj.7
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 06:32:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lyaKh-0001bM-K5
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:32:51 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:44800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lyaKc-0002vo-62
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 09:32:51 -0400
+Received: by mail-pg1-x534.google.com with SMTP id u14so2250227pga.11
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 06:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xJPDnNkR3y8P6sW0pj2XcjIP5SAYeQaHSbm9CTjvjvs=;
+ b=wZ//6X/a+9fNVj+SaO3yvSRYVF4PxZBTlUe/kP/+GDLYoccDUCOF7kYiYYvoEgLtut
+ GZnmSsf3iwX4w6GXc0821ttQiyPRU9Pr+rkf5CvQZr+YcxptoWedFWGRaUkPXh9sz0Pn
+ sdrddJoHvtUqlRjyCej/H0sZMeDg1XK+mA12Idi2/PU51aA2r69UiRlMkvADscswoMDD
+ nOAP1gP/DeOD4gvEelieTr+d5hyaQ3/Hliu2QZpcPpSO/M+IR/Ov71G7BhdnB2FPyTB1
+ IMlbv6vX2JFgDUxbvtiUYiXsbKPc+9FtHIwVW/k/VkO6boH2WFM02+AelLvrE0PZ5Qbl
+ CM1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=NOw32z3Ko6fnf22fKwlLDB/jsg2t5fuwx+xPEvP+kN8=;
- b=Kxwu1HOIPR8JMoYjCGF7CU134tUUvYK0ga3FUh+5+luchuUO8m5WXc79J7au483Vy9
- vovQwG1kj2K0uOB9Gn+mb9Fgb0TR8r5a77cNGWgJPs40BI5JtEOFyvodqsX+t8Gr97K7
- JCNPZwtIvM7mx7Kku4KXsG7iHDSsU4ZKgPycg9+ywsP7N2iGWExFQ/Vc92Wb2ci9zAD0
- 6R6hMc72cwXcPhT7Fwsil1mGhvYA1y/Jy87wRV8dH8/WQF/qYprlnOvZpQbMCu+0iewV
- gZOYAL+Vm8jRXq9iTVyZjtBj6UVwzMVCGpiwfbZpz8lEG1cahV8LOA0dwvpLQVZyEz5d
- RRWw==
-X-Gm-Message-State: AOAM531bmPu6zNkmovSEdMhNOWRYK98J+nfCci8vVS1ghsxzhZRksM4G
- MyhCS2TdXisIZCuO4JqcOjPZd3zHUFinD7W3tMyKJDl/2HuKg/78vwfunVbYsYkl94EbSC1c4uJ
- TPnFQl4tNtS12smY=
-X-Received: by 2002:adf:e906:: with SMTP id f6mr10275876wrm.30.1625059954902; 
- Wed, 30 Jun 2021 06:32:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxjwb40AaHsajZxGEkwsIyGVLUK/IZGoAQGPZ6yY4YkdyqAc2pBwYHNcmnAWbw0y/HD3X1u8w==
-X-Received: by 2002:adf:e906:: with SMTP id f6mr10275840wrm.30.1625059954630; 
- Wed, 30 Jun 2021 06:32:34 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff239b1.dip0.t-ipconnect.de. [79.242.57.177])
- by smtp.gmail.com with ESMTPSA id l9sm6218399wrp.14.2021.06.30.06.32.33
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xJPDnNkR3y8P6sW0pj2XcjIP5SAYeQaHSbm9CTjvjvs=;
+ b=gFWl0MLJjIdkoYt85AfxoLB33XqcBOtp4ZqJdtbWvueNLpePmH7QapGxisuZ15KFE/
+ PxDIlHrSPe621+YXK8rIyte4GyUO2m23XcAOAfJ0RwxtpxBRcMKv2q0SSp/LUqYtO6nx
+ kZ9GXWNPdPLLJ+3p8tlwkTekKGzOTJf5iW5KKZcRusbP9WQBrjuQGeNRG3jxVEE2Qe28
+ f9ymz4vHMogWfXlSWCcDVLVaO/8jEWv9xDlxxDmtcBKZpPdS/QCPL9A1kMNYIoW3Q91I
+ H53uof8S8ibV8B5N4e5XEkUWrDcN0DXdjeKwr3Zwor42yvzvMuk2ssWQ8J7e+zDnfquh
+ ghDw==
+X-Gm-Message-State: AOAM533pDdmMbVvmgCAJLVDVwBj/At0gmS1PlRjE6w89pHW6TpL90dv+
+ S/c4SV4FmUhXbXtCflZRE6hUXkLv7hGaUg==
+X-Google-Smtp-Source: ABdhPJyhiBWpa3f6Ka+vF1Ys5POYCM4Iw30jt8TzP0ZwQRiyeLDjT7BR72rNOOAPGBeo8t/3rALVrg==
+X-Received: by 2002:a62:8c8d:0:b029:301:7970:ab46 with SMTP id
+ m135-20020a628c8d0000b02903017970ab46mr36410793pfd.48.1625059964445; 
+ Wed, 30 Jun 2021 06:32:44 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id lm21sm7017233pjb.8.2021.06.30.06.32.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jun 2021 06:32:34 -0700 (PDT)
-Subject: Re: [PATCH 1/1] s390x/cpumodel: add 3931 and 3932
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20210622201923.150205-1-borntraeger@de.ibm.com>
- <20210622201923.150205-2-borntraeger@de.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <b584eb80-ceac-9188-11a2-c4a86388ac1e@redhat.com>
-Date: Wed, 30 Jun 2021 15:32:33 +0200
+ Wed, 30 Jun 2021 06:32:44 -0700 (PDT)
+Subject: Re: [PATCH v2] target/s390x: Fix CC set by CONVERT TO FIXED/LOGICAL
+To: Ulrich Weigand <uweigand@de.ibm.com>
+References: <20210628163520.GA15209@oc3748833570.ibm.com>
+ <0ec4b69c-02cb-0b1c-e980-9b462ab3a615@linaro.org>
+ <20210630104926.GB29019@oc3748833570.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bfd0db3d-284b-dcca-bc80-306fbdf9cc7a@linaro.org>
+Date: Wed, 30 Jun 2021 06:32:42 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210622201923.150205-2-borntraeger@de.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210630104926.GB29019@oc3748833570.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,58 +89,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, Ulrich Weigand <ulrich.weigand@de.ibm.com>,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.06.21 22:19, Christian Borntraeger wrote:
-> This defines 5 new facilities and the new 3931 and 3932 machines.
-> As before the name is not yet known and we do use gen16a and gen16b.
-> The new features are part of the full model.
+On 6/30/21 3:49 AM, Ulrich Weigand wrote:
+>> I'm thinking that should be able to remove TCGv_i32 cc_op in the
+>> translator and manually write back to the slot instead.  We already
+>> do a good job of caching the value within DisasContext -- I imagine
+>> that the final code wouldn't even change too much.
 > 
-> The default model is still empty (same as z15) and will be added
-> in a separate patch at a later point in time.
-> 
-> Also add the dependencies of new facilities and as a fix for z15 add
-> a dependency from S390_FEAT_VECTOR_PACKED_DECIMAL_ENH to
-> S390_VECTOR_PACKED_DECIMAL.
-> 
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->   target/s390x/cpu_features_def.h.inc |  5 +++++
->   target/s390x/cpu_models.c           |  6 ++++++
->   target/s390x/gen-features.c         | 14 ++++++++++++++
->   3 files changed, 25 insertions(+)
-> 
-> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
-> index 7db3449e0434..c71caee74411 100644
-> --- a/target/s390x/cpu_features_def.h.inc
-> +++ b/target/s390x/cpu_features_def.h.inc
-> @@ -109,6 +109,11 @@ DEF_FEAT(VECTOR_PACKED_DECIMAL_ENH, "vxpdeh", STFL, 152, "Vector-Packed-Decimal-
->   DEF_FEAT(MSA_EXT_9, "msa9-base", STFL, 155, "Message-security-assist-extension-9 facility (excluding subfunctions)")
->   DEF_FEAT(ETOKEN, "etoken", STFL, 156, "Etoken facility")
->   DEF_FEAT(UNPACK, "unpack", STFL, 161, "Unpack facility")
-> +DEF_FEAT(NNPA, "nnpa", STFL, 165, "NNPA facility")
-> +DEF_FEAT(VECTOR_PACKED_DECIMAL_ENH2, "vxpdeh2", STFL, 192, "Vector-Packed-Decimal-Enhancement facility 2")
-> +DEF_FEAT(BEAR, "bear", STFL, 193, "BEAR-enhancement facility")
+> I see.  If this works out, I'll update my patch accordingly
+> -- please let me know.
 
-Usually we use "eh" for enhancement. Which would result in "beareh" or 
-alternatively "beh". But maybe the "enhancement" part is not actually an 
-enhancement, but instead this facility is more like the etoken or unpack 
-facility ...
+I posted that on Monday:
 
-> +DEF_FEAT(RDP, "rdp", STFL, 194, "Reset-DAT-protection facility")
-> +DEF_FEAT(ACTIVITY, "activity", STFL, 196, "Processor-Activity-Instrumentation facility")
+https://patchew.org/QEMU/20210629002930.3013776-1-richard.henderson@linaro.org/
 
-Would "pai" be a more appropriate feature name?
+There are actually slightly fewer stores to the cc_op slot in the generated code, because 
+some of them migrate to the helpers.  But for normal integer code the generated *is* 
+identical.
 
 
--- 
-Thanks,
-
-David / dhildenb
-
+r~
 
