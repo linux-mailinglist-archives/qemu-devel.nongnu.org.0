@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D543B86FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:23:02 +0200 (CEST)
-Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5F83B86FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 18:22:17 +0200 (CEST)
+Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyczN-0005IT-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44330)
+	id 1lycye-0002o2-1K
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 12:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycg5-00033u-0u
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:03:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57099)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycfw-0002zP-Un
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:02:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycfi-00077G-71
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:03:04 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lycfc-00076y-Ce
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 12:02:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625068957;
+ s=mimecast20190719; t=1625068955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=606/egHMQGfZltz+YwAPSGw6QT56p57Q3k1YWew8UHM=;
- b=bPD6F84sDz6xEX6KeCI2/EPxe27/8DrRoD3IKjT1j4p6kGMt7HWx+Z0skyjLjoLX5e7Q1O
- 6VWm4SSgrnPBqJicXbwdsoTwCc7TKu4Fkr5LdhHqILD/wGH1K6+ilCVBUL5IdF/uvrOtCx
- 4Ycg9M1YvfuRQSD3VbR36i/0Utf/1eU=
+ bh=iNmFTPHPNIJ7H8cJwRoq/vyHCo4guwpPKbvKDoTQLTk=;
+ b=NfBc8q6ZVefIA7fCb1iWDc+gBanmD++1fnV5FbUBhIB24SXivPHrhUDQVn/OfYecAdR3y+
+ ipfbv3nj14VlIRobXV4vOEKLILTmwSA0G2g8uSGhMDxK7Y76NxEFenCOXuhOs6pIwVC3nz
+ GyZUe0Jhcbw5M0i5tKliwdL3dL9ao00=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-UUDeeU91MXqEodBgRcqu1w-1; Wed, 30 Jun 2021 12:02:33 -0400
-X-MC-Unique: UUDeeU91MXqEodBgRcqu1w-1
+ us-mta-165-9HKHpFT2OvSsZAkjIHSB8Q-1; Wed, 30 Jun 2021 12:02:33 -0400
+X-MC-Unique: 9HKHpFT2OvSsZAkjIHSB8Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5708A804140;
- Wed, 30 Jun 2021 16:02:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94BFAA40C0;
+ Wed, 30 Jun 2021 16:02:32 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-114.ams2.redhat.com [10.36.114.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63F8F179E6;
- Wed, 30 Jun 2021 16:02:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F372604CD;
+ Wed, 30 Jun 2021 16:02:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/24] block/commit: use QEMU_AUTO_VFREE
-Date: Wed, 30 Jun 2021 18:01:58 +0200
-Message-Id: <20210630160206.276439-17-kwolf@redhat.com>
+Subject: [PULL 17/24] block/ssh: add support for sha256 host key fingerprints
+Date: Wed, 30 Jun 2021 18:01:59 +0200
+Message-Id: <20210630160206.276439-18-kwolf@redhat.com>
 In-Reply-To: <20210630160206.276439-1-kwolf@redhat.com>
 References: <20210630160206.276439-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,91 +80,236 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210628121133.193984-3-vsementsov@virtuozzo.com>
+Currently the SSH block driver supports MD5 and SHA1 for host key
+fingerprints. This is a cryptographically sensitive operation and
+so these hash algorithms are inadequate by modern standards. This
+adds support for SHA256 which has been supported in libssh since
+the 0.8.1 release.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20210622115156.138458-1-berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Richard W.M. Jones <rjones@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/commit.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+ qapi/block-core.json       |  3 ++-
+ block/ssh.c                |  3 +++
+ tests/qemu-iotests/207     | 54 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/207.out | 25 ++++++++++++++++++
+ 4 files changed, 84 insertions(+), 1 deletion(-)
 
-diff --git a/block/commit.c b/block/commit.c
-index b7f0c7c061..42792b4556 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -119,24 +119,24 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
-     uint64_t delay_ns = 0;
-     int ret = 0;
-     int64_t n = 0; /* bytes */
--    void *buf = NULL;
-+    QEMU_AUTO_VFREE void *buf = NULL;
-     int64_t len, base_len;
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index a54f37dbef..3114ba69bb 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3190,11 +3190,12 @@
+ #
+ # @md5: The given hash is an md5 hash
+ # @sha1: The given hash is an sha1 hash
++# @sha256: The given hash is an sha256 hash
+ #
+ # Since: 2.12
+ ##
+ { 'enum': 'SshHostKeyCheckHashType',
+-  'data': [ 'md5', 'sha1' ] }
++  'data': [ 'md5', 'sha1', 'sha256' ] }
  
--    ret = len = blk_getlength(s->top);
-+    len = blk_getlength(s->top);
-     if (len < 0) {
--        goto out;
-+        return len;
-     }
-     job_progress_set_remaining(&s->common.job, len);
- 
--    ret = base_len = blk_getlength(s->base);
-+    base_len = blk_getlength(s->base);
-     if (base_len < 0) {
--        goto out;
-+        return base_len;
-     }
- 
-     if (base_len < len) {
-         ret = blk_truncate(s->base, len, false, PREALLOC_MODE_OFF, 0, NULL);
-         if (ret) {
--            goto out;
-+            return ret;
+ ##
+ # @SshHostKeyHash:
+diff --git a/block/ssh.c b/block/ssh.c
+index b51a031620..d008caf059 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -442,6 +442,9 @@ static int check_host_key(BDRVSSHState *s, SshHostKeyCheck *hkc, Error **errp)
+         } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA1) {
+             return check_host_key_hash(s, hkc->u.hash.hash,
+                                        SSH_PUBLICKEY_HASH_SHA1, errp);
++        } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA256) {
++            return check_host_key_hash(s, hkc->u.hash.hash,
++                                       SSH_PUBLICKEY_HASH_SHA256, errp);
          }
-     }
+         g_assert_not_reached();
+         break;
+diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
+index f9f3fd7131..0f5c4bc8a0 100755
+--- a/tests/qemu-iotests/207
++++ b/tests/qemu-iotests/207
+@@ -73,6 +73,9 @@ with iotests.FilePath('t.img') as disk_path, \
+     iotests.log("=== Test host-key-check options ===")
+     iotests.log("")
  
-@@ -174,7 +174,7 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
-                 block_job_error_action(&s->common, s->on_error,
-                                        error_in_source, -ret);
-             if (action == BLOCK_ERROR_ACTION_REPORT) {
--                goto out;
-+                return ret;
-             } else {
-                 n = 0;
-                 continue;
-@@ -190,12 +190,7 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
-         }
-     }
++    iotests.log("--- no host key checking --")
++    iotests.log("")
++
+     vm.launch()
+     blockdev_create(vm, { 'driver': 'ssh',
+                           'location': {
+@@ -90,6 +93,9 @@ with iotests.FilePath('t.img') as disk_path, \
  
--    ret = 0;
--
--out:
--    qemu_vfree(buf);
--
--    return ret;
-+    return 0;
- }
+     iotests.img_info_log(remote_path)
  
- static const BlockJobDriver commit_job_driver = {
-@@ -435,7 +430,7 @@ int bdrv_commit(BlockDriverState *bs)
-     int ro;
-     int64_t n;
-     int ret = 0;
--    uint8_t *buf = NULL;
-+    QEMU_AUTO_VFREE uint8_t *buf = NULL;
-     Error *local_err = NULL;
++    iotests.log("--- known_hosts key checking --")
++    iotests.log("")
++
+     vm.launch()
+     blockdev_create(vm, { 'driver': 'ssh',
+                           'location': {
+@@ -115,6 +121,7 @@ with iotests.FilePath('t.img') as disk_path, \
+     # Mappings of base64 representations to digests
+     md5_keys = {}
+     sha1_keys = {}
++    sha256_keys = {}
  
-     if (!drv)
-@@ -556,8 +551,6 @@ int bdrv_commit(BlockDriverState *bs)
+     for key in keys:
+         md5_keys[key] = subprocess.check_output(
+@@ -125,6 +132,10 @@ with iotests.FilePath('t.img') as disk_path, \
+             'echo %s | base64 -d | sha1sum -b | cut -d" " -f1' % key,
+             shell=True).rstrip().decode('ascii')
  
-     ret = 0;
- ro_cleanup:
--    qemu_vfree(buf);
--
-     blk_unref(backing);
-     if (bdrv_cow_bs(bs) != backing_file_bs) {
-         bdrv_set_backing_hd(bs, backing_file_bs, &error_abort);
++        sha256_keys[key] = subprocess.check_output(
++            'echo %s | base64 -d | sha256sum -b | cut -d" " -f1' % key,
++            shell=True).rstrip().decode('ascii')
++
+     vm.launch()
+ 
+     # Find correct key first
+@@ -150,6 +161,9 @@ with iotests.FilePath('t.img') as disk_path, \
+         vm.shutdown()
+         iotests.notrun('Did not find a key that fits 127.0.0.1')
+ 
++    iotests.log("--- explicit md5 key checking --")
++    iotests.log("")
++
+     blockdev_create(vm, { 'driver': 'ssh',
+                           'location': {
+                               'path': disk_path,
+@@ -164,6 +178,7 @@ with iotests.FilePath('t.img') as disk_path, \
+                               }
+                           },
+                           'size': 2097152 })
++
+     blockdev_create(vm, { 'driver': 'ssh',
+                           'location': {
+                               'path': disk_path,
+@@ -182,6 +197,9 @@ with iotests.FilePath('t.img') as disk_path, \
+ 
+     iotests.img_info_log(remote_path)
+ 
++    iotests.log("--- explicit sha1 key checking --")
++    iotests.log("")
++
+     vm.launch()
+     blockdev_create(vm, { 'driver': 'ssh',
+                           'location': {
+@@ -215,6 +233,42 @@ with iotests.FilePath('t.img') as disk_path, \
+ 
+     iotests.img_info_log(remote_path)
+ 
++    iotests.log("--- explicit sha256 key checking --")
++    iotests.log("")
++
++    vm.launch()
++    blockdev_create(vm, { 'driver': 'ssh',
++                          'location': {
++                              'path': disk_path,
++                              'server': {
++                                  'host': '127.0.0.1',
++                                  'port': '22'
++                              },
++                              'host-key-check': {
++                                  'mode': 'hash',
++                                  'type': 'sha256',
++                                  'hash': 'wrong',
++                              }
++                          },
++                          'size': 2097152 })
++    blockdev_create(vm, { 'driver': 'ssh',
++                          'location': {
++                              'path': disk_path,
++                              'server': {
++                                  'host': '127.0.0.1',
++                                  'port': '22'
++                              },
++                              'host-key-check': {
++                                  'mode': 'hash',
++                                  'type': 'sha256',
++                                  'hash': sha256_keys[matching_key],
++                              }
++                          },
++                          'size': 4194304 })
++    vm.shutdown()
++
++    iotests.img_info_log(remote_path)
++
+     #
+     # Invalid path and user
+     #
+diff --git a/tests/qemu-iotests/207.out b/tests/qemu-iotests/207.out
+index 1239d9d648..aeb8569d77 100644
+--- a/tests/qemu-iotests/207.out
++++ b/tests/qemu-iotests/207.out
+@@ -16,6 +16,8 @@ virtual size: 4 MiB (4194304 bytes)
+ 
+ === Test host-key-check options ===
+ 
++--- no host key checking --
++
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 8388608}}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+@@ -25,6 +27,8 @@ image: TEST_IMG
+ file format: IMGFMT
+ virtual size: 8 MiB (8388608 bytes)
+ 
++--- known_hosts key checking --
++
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "known_hosts"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+@@ -34,6 +38,8 @@ image: TEST_IMG
+ file format: IMGFMT
+ virtual size: 4 MiB (4194304 bytes)
+ 
++--- explicit md5 key checking --
++
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "md5"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+ {"return": {}}
+ Job failed: remote host key does not match host_key_check 'wrong'
+@@ -49,6 +55,8 @@ image: TEST_IMG
+ file format: IMGFMT
+ virtual size: 8 MiB (8388608 bytes)
+ 
++--- explicit sha1 key checking --
++
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha1"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
+ {"return": {}}
+ Job failed: remote host key does not match host_key_check 'wrong'
+@@ -64,6 +72,23 @@ image: TEST_IMG
+ file format: IMGFMT
+ virtual size: 4 MiB (4194304 bytes)
+ 
++--- explicit sha256 key checking --
++
++{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "wrong", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 2097152}}}
++{"return": {}}
++Job failed: remote host key does not match host_key_check 'wrong'
++{"execute": "job-dismiss", "arguments": {"id": "job0"}}
++{"return": {}}
++
++{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"hash": "HASH", "mode": "hash", "type": "sha256"}, "path": "TEST_DIR/PID-t.img", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
++{"return": {}}
++{"execute": "job-dismiss", "arguments": {"id": "job0"}}
++{"return": {}}
++
++image: TEST_IMG
++file format: IMGFMT
++virtual size: 4 MiB (4194304 bytes)
++
+ === Invalid path and user ===
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "ssh", "location": {"host-key-check": {"mode": "none"}, "path": "/this/is/not/an/existing/path", "server": {"host": "127.0.0.1", "port": "22"}}, "size": 4194304}}}
 -- 
 2.31.1
 
