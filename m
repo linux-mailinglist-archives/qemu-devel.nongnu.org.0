@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB1B3B8AF8
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 01:33:03 +0200 (CEST)
-Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF4B3B8AFB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 01:34:18 +0200 (CEST)
+Received: from localhost ([::1]:57092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyjhT-000120-Qb
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 19:33:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45268)
+	id 1lyjij-0002Tj-F0
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 19:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjcf-0003Pe-Q0
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:01 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:35440)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjch-0003Rc-3U
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:03 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:45208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjce-0001FE-3R
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:01 -0400
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1lyjcf-0001HB-C5
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 19:28:02 -0400
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 113151FF32;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D126822772;
+ Wed, 30 Jun 2021 23:27:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625095679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9A+AtnUL9DzZOYMf3oNED1kNPLHxWYTOKQR7UgxLlSk=;
+ b=YS1q5v65HJ6uXtV1iBv75UIrcjO66YPjxty45S5wuwZYae/qIuX6G/CBofIdu+67EgTcpZ
+ ej2dwrcPBdryF6PpT/Kr5S7D+fez8VPpZz4xokcqnAxxJNher7q1/bhQdWTfuTXIxtDAbR
+ wNTGIGCFot2N3uwzwM4geYtsae+2XfU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625095679;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9A+AtnUL9DzZOYMf3oNED1kNPLHxWYTOKQR7UgxLlSk=;
+ b=mAwzjpICG64BNbXWgRECz9XiZ9pPNVRq86sOjuzlmzCFuPfwp/OzQLk4u2/LRfJunWnyyb
+ p0xSCociMWU8bXBA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 86737118DD;
  Wed, 30 Jun 2021 23:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625095677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
- b=uf/CWxrgtFWiYg3LM/5MPLGcu58//9n3tdx0LpTskjeVzpjuBaCdMDkisUl3LDVhJzfxcn
- TX+YsOqcyiixkvWjq//uX37fr5CbtGeDKvFRMJp2JscmpSd5OQ4EbC3ZMIqWki/00Kxzik
- buH3jTyd5SzCSqQFRI3OaTTreMc8oPg=
+ t=1625095679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9A+AtnUL9DzZOYMf3oNED1kNPLHxWYTOKQR7UgxLlSk=;
+ b=YS1q5v65HJ6uXtV1iBv75UIrcjO66YPjxty45S5wuwZYae/qIuX6G/CBofIdu+67EgTcpZ
+ ej2dwrcPBdryF6PpT/Kr5S7D+fez8VPpZz4xokcqnAxxJNher7q1/bhQdWTfuTXIxtDAbR
+ wNTGIGCFot2N3uwzwM4geYtsae+2XfU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625095677;
+ s=susede2_ed25519; t=1625095679;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
- b=nY6SO2d7FdJsPOhNIbYxycdHbCmzRAQeC1g/w+kxYnzZwRyg4EZpY75BXhXYBwucbza3di
- 0mYLK05uQfh9VeDQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id BE222118DD;
- Wed, 30 Jun 2021 23:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625095677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
- b=uf/CWxrgtFWiYg3LM/5MPLGcu58//9n3tdx0LpTskjeVzpjuBaCdMDkisUl3LDVhJzfxcn
- TX+YsOqcyiixkvWjq//uX37fr5CbtGeDKvFRMJp2JscmpSd5OQ4EbC3ZMIqWki/00Kxzik
- buH3jTyd5SzCSqQFRI3OaTTreMc8oPg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625095677;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=rqAUtZeeyu1Z0VrDDE748lLJyqVb7R94bPJXzaVn0aU=;
- b=nY6SO2d7FdJsPOhNIbYxycdHbCmzRAQeC1g/w+kxYnzZwRyg4EZpY75BXhXYBwucbza3di
- 0mYLK05uQfh9VeDQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9A+AtnUL9DzZOYMf3oNED1kNPLHxWYTOKQR7UgxLlSk=;
+ b=mAwzjpICG64BNbXWgRECz9XiZ9pPNVRq86sOjuzlmzCFuPfwp/OzQLk4u2/LRfJunWnyyb
+ p0xSCociMWU8bXBA==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id PcQVH/r93GA/IQAALh3uQQ
- (envelope-from <jziviani@suse.de>); Wed, 30 Jun 2021 23:27:54 +0000
+ id wIcKEv393GA/IQAALh3uQQ
+ (envelope-from <jziviani@suse.de>); Wed, 30 Jun 2021 23:27:57 +0000
 From: "Jose R. Ziviani" <jziviani@suse.de>
 To: qemu-devel@nongnu.org
-Subject: [RFC 0/3] Improve module accelerator error message
-Date: Wed, 30 Jun 2021 20:27:46 -0300
-Message-Id: <20210630232749.21873-1-jziviani@suse.de>
+Subject: [RFC 1/3] modules: Add CONFIG_TCG_MODULAR in config_host
+Date: Wed, 30 Jun 2021 20:27:47 -0300
+Message-Id: <20210630232749.21873-2-jziviani@suse.de>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210630232749.21873-1-jziviani@suse.de>
+References: <20210630232749.21873-1-jziviani@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=jziviani@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=jziviani@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,28 +101,29 @@ Cc: berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello!
+CONFIG_TCG_MODULAR is a complement to CONFIG_MODULES, in order to
+know if TCG will be a module, even if --enable-modules option was
+set.
 
-I'm sending this as RFC because it's based on a patch still on
-review[1], so I'd like to see if it makes sense.
+Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
+---
+ meson.build | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Tt will improve the error message when an accelerator module could
-not be loaded. Instead of the current assert error, a formated
-message will be displayed.
-
-[1] https://patchwork.kernel.org/project/qemu-devel/list/?series=506379
-
-Jose R. Ziviani (3):
-  modules: Add CONFIG_TCG_MODULAR in config_host
-  modules: Implement module_is_loaded function
-  qom: Improve error message in module_object_class_by_name()
-
- include/qemu/module.h |  3 +++
- meson.build           |  3 +++
- qom/object.c          | 30 ++++++++++++++++++++++++++++++
- util/module.c         | 28 +++++++++++++++++++++-------
- 4 files changed, 57 insertions(+), 7 deletions(-)
-
+diff --git a/meson.build b/meson.build
+index 2d72b8cc06..c37a2358d4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -277,6 +277,9 @@ if not get_option('tcg').disabled()
+ 
+   accelerators += 'CONFIG_TCG'
+   config_host += { 'CONFIG_TCG': 'y' }
++  if is_tcg_modular
++    config_host += { 'CONFIG_TCG_MODULAR': 'y' }
++  endif
+ endif
+ 
+ if 'CONFIG_KVM' not in accelerators and get_option('kvm').enabled()
 -- 
 2.32.0
 
