@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117603B8084
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 12:02:43 +0200 (CEST)
-Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B235D3B809E
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 12:08:31 +0200 (CEST)
+Received: from localhost ([::1]:33242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyX3J-0003RN-KU
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 06:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42992)
+	id 1lyX8w-00066M-Pa
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 06:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyX21-0002b9-83
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 06:01:21 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:41883)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lyX1z-0005xv-9b
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 06:01:20 -0400
-Received: by mail-ej1-x635.google.com with SMTP id b2so3256777ejg.8
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 03:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wxo6R9KeS95tSq6+IAUQbuq6fwHBqe+aP89uiKsQ0Bs=;
- b=A/6Qv5AS1nyu0rOnSv306xjkz3o8Z5YWmFwOSFMc86AZPDxSh+X61pS1gcLzKMG/jn
- WJDocvn13beGa5cVwmd1ZgCgtA2VGxv849cvDnD/lptgurG5mXm91tHs0bFl5c4j03bW
- WTlxXI/Y+J43Owy2Q4XSoHSkXaQBKbbBTC1NTxPuLNWjJO5YGl0idZWjLmdFFQ2X/GlC
- pZR604MWVuqgzkwO3V+6GzGdd1bbebGf2vI7oG4MoO3qU41EeyPP/eJDuYamGR13L1uT
- 3/Ifvf6GgtLeD2WO939BTJ/yYmStPl7g3/jLIz4EP2L0nfebO2eJ1pOJgLRXW0Q305H5
- 9reg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Wxo6R9KeS95tSq6+IAUQbuq6fwHBqe+aP89uiKsQ0Bs=;
- b=et1JY8fjcQkPr+YsggEEdars7ijczJFlSp7teaqJJChUd7GpVi25unDAirzpeM+U41
- c94EFAtnJfOOnaqdWPcYvgphnhEb6Nk/+9M7XhTUyICLPYB7TCDAo2ytuwLN9DLp0zrb
- OuU58mM5I7rpQRvBwGQOPvW1gLEomPs4uopRaSFLeV132ek6gUKOt39bhXY7r23HHESH
- 1P+VkYW0YbFCWDMhMNx5VsH695rrv6NPytannqX4BfdY1YUpYi2I83RSw0QGoziR+QpC
- OTpt4KwRKWPEDGKtAF3UV9gj7NhJ7fy8tRHoTmlAgprplUkDiHSEOOFPrpjw2Zka/Uyl
- EuXQ==
-X-Gm-Message-State: AOAM531z5UDpgCmyDaBclOvZTo4/cAToE+oX5jcEpYwoFU0VoMmJf+Q9
- A6HLnkH81bEX537QUrn5dmP3Bc1boS08GgmCH8z+Mg==
-X-Google-Smtp-Source: ABdhPJyhKuE+OCUms1qQNvdmG+Nu2cdtfpv0yUaR61AhGNfDJUZiyELHmyJBHz6EL+764/hJDLVT3fqzZvH4MhgGZho=
-X-Received: by 2002:a17:906:4759:: with SMTP id
- j25mr34030661ejs.4.1625047277262; 
- Wed, 30 Jun 2021 03:01:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210630092127.374720-1-thuth@redhat.com>
-In-Reply-To: <20210630092127.374720-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 30 Jun 2021 11:01:06 +0100
-Message-ID: <CAFEAcA_XDvTxRHWE3TwP-hZk_DeS-AUCyv9-WZCYKE3zQtSU6Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lyX82-0005Ps-Ge
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 06:07:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lyX7x-0001dv-UJ
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 06:07:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625047648;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LNXIE9a9QEI5ew0jQk+yzvwl1KCd8V7H9GVUJiBV7u4=;
+ b=etfSwfJuyqN91fOvOEW7fCjKbxr+SLEstxHtOky3NQh1pzubfQROpYrLlf22IRz7OMHRN5
+ hZp5S46rJrKJZb1zYmQRCW2dRLP1Cy54/LYO03x0HSu+SM13kT81+EBaToChmDskmZoU38
+ cvRVnMdui+kuD5EGt1cxR90YnRF+WbI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-9zmEFkGdNfWam_hcs4PIpw-1; Wed, 30 Jun 2021 06:07:27 -0400
+X-MC-Unique: 9zmEFkGdNfWam_hcs4PIpw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2AFF1019982;
+ Wed, 30 Jun 2021 10:07:25 +0000 (UTC)
+Received: from redhat.com (ovpn-114-116.ams2.redhat.com [10.36.114.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6F831A26A;
+ Wed, 30 Jun 2021 10:07:17 +0000 (UTC)
+Date: Wed, 30 Jun 2021 11:07:15 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 Subject: Re: [PATCH] ui: Mark the '-no-quit' option as deprecated
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <YNxCUw/hqJAEoP1G@redhat.com>
+References: <20210630092127.374720-1-thuth@redhat.com>
+ <CAFEAcA_XDvTxRHWE3TwP-hZk_DeS-AUCyv9-WZCYKE3zQtSU6Q@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_XDvTxRHWE3TwP-hZk_DeS-AUCyv9-WZCYKE3zQtSU6Q@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.435,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,19 +79,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Libvirt <libvir-list@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+ Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Jun 2021 at 10:22, Thomas Huth <thuth@redhat.com> wrote:
->
-> It's just a cumbersome wrapper around the -display ...,window_close=off
-> parameter, so we should rather tell our users to use that instead.
+On Wed, Jun 30, 2021 at 11:01:06AM +0100, Peter Maydell wrote:
+> On Wed, 30 Jun 2021 at 10:22, Thomas Huth <thuth@redhat.com> wrote:
+> >
+> > It's just a cumbersome wrapper around the -display ...,window_close=off
+> > parameter, so we should rather tell our users to use that instead.
+> 
+> This is an interesting definition of "cumbersome" -- personally
+> I would say the long -display option is the cumbersome one :-)
 
-This is an interesting definition of "cumbersome" -- personally
-I would say the long -display option is the cumbersome one :-)
+I'd say the primary benefit of the new syntax is that it is obvious
+that it only applies when using the SDL option. The '-no-quit' option
+sonds like it ought to be applicable to any use of qemu, but isn't
+actually once you read its description.
 
--- PMM
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
