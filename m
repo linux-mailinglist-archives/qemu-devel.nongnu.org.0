@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06AC83B8816
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 19:58:58 +0200 (CEST)
-Received: from localhost ([::1]:53016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511FF3B881F
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 20:01:53 +0200 (CEST)
+Received: from localhost ([::1]:55582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyeUD-0003G1-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 13:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38650)
+	id 1lyeX2-00057n-9S
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 14:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lyeSC-000234-Dm
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 13:56:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57427)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lyeVI-00049d-DR
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:00:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lyeSA-0004QL-SG
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 13:56:52 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lyeVG-0005pv-8X
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 14:00:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625075810;
+ s=mimecast20190719; t=1625076001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lOCQTM9LkVowZqEUWYBYS+qvnywoB1OopWupTDg6eAY=;
- b=dvHhniC5xaMw471rOV85oETyHIZoyRsrJlnp82yR3SyeTnCOE25nDZGQEOge+eZqlWrcuM
- 0m+2Uex7NyXG8g/swX+7xgvm9vQNvcPnB1lydS+DIFb1ovwmR1zXi0vAhB5iiWXEL+VtIg
- PkpAw4dZ63tUWCVmWwZG5TuCx1KDMUQ=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-SCW3O0QtPfGJP-Rp9KhFAQ-1; Wed, 30 Jun 2021 13:56:48 -0400
-X-MC-Unique: SCW3O0QtPfGJP-Rp9KhFAQ-1
-Received: by mail-vk1-f198.google.com with SMTP id
- j5-20020a1fa0050000b0290256e0128074so42783vke.8
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 10:56:48 -0700 (PDT)
+ bh=HEZQlS1IHAIzBisPTZxboxOrbHNSR3sz8YQ3UADXcfs=;
+ b=EU+Lo7u1bY/7D0r12RZD7sdMNH8NfgoPzvqwkYX/iXGalwayqnoNrMoxEq8Wfyl1AIkSvJ
+ /kiXOGtcXD4u2v/kJd7roUWM2B46zOF+4mg/JxlBuaVKD//y76fcCK5r/JK4tM318ppGFG
+ lwVaVlJuDw/vNdX524dgp05KjdLJipc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-EWjOsG_5NX-wqMjeb_0cuA-1; Wed, 30 Jun 2021 13:59:59 -0400
+X-MC-Unique: EWjOsG_5NX-wqMjeb_0cuA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z127-20020a1c7e850000b02901e46e4d52c0so3164535wmc.6
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 10:59:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lOCQTM9LkVowZqEUWYBYS+qvnywoB1OopWupTDg6eAY=;
- b=Dd42im7O2s/ZXhG7JlTOfjLAiv2QxyskcvRMJR6Z2ZLOfwIO4MKD9q/TPL6WkWlp87
- KQggm6CAB1XAOHWIysqpkeC/zFneLB2PCeQBbW19hiBXnHobNGR8lqbx5D9ugZeLk85V
- bBqFCE7OSd5jLTM+WivQorgWowSANVHGUzkNM+jcTI7OTOJ/OZhCqMR4LSVe5pNn87SX
- B8c4rc0AHE3FmoUEREvOtS4dnPg+++T5jfuymdezN4kgQQwl3UWoAiewAlg6Gj0cQwUc
- eaJWsviq3rKsuHT7mYtXKRcboCtRL/PyqITsIL26kM7IfjV9nc/bnhKToOnJtjzwvDhs
- mYMw==
-X-Gm-Message-State: AOAM531Dz35/99EvHhXPnzjSQjTui298f2YyJNB50pUia3Mztr6p7DKl
- Hd3514dIViN6lJEUTjCPFoPW226ubLznfZROU8pL2UGDylHB2Q95Co/yi/PgCasEFh6jzabAJgT
- YOmzAksT+huK5B6jixmLMiUDlBjcPPXA=
-X-Received: by 2002:a9f:204e:: with SMTP id 72mr36112880uam.110.1625075808154; 
- Wed, 30 Jun 2021 10:56:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8/xx1MJVwaC0QTtkUo+vCrG7nIn2kxnUP4hdnv0wcSN4CV4+vC3CAGryuy1O4o08JsGzwZI+vWe7gF8aIav4=
-X-Received: by 2002:a9f:204e:: with SMTP id 72mr36112843uam.110.1625075807846; 
- Wed, 30 Jun 2021 10:56:47 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=HEZQlS1IHAIzBisPTZxboxOrbHNSR3sz8YQ3UADXcfs=;
+ b=cG9xgwQgnuvUKj8P2LyBdpV1cWsnnAkGS2N82kIQUDL4vrjr3CDWB+pVKVDnIKjUgO
+ Xnuejy5iahKYkohkNtqa+yhwhh5/u4yn1lhzoXK0VQnkumtsnZYPNr0qfLY9iV5nkWXr
+ grLrYHNFrpCPs7vLg9mySG9bj4Aimyu9G69O1yqiZuyiNfLu07BxGg4rd6sJoKNFmRaB
+ h1PkMaLRQNwdR23iJeDtjTV/klTnByTITxOiMJKK706HYWRe6gqXMt3qJhl+VNHm6mxN
+ 30xK1Us9AnuwLeVlRsGhn1PakKG7Hf/jZbcYvzKCkcUEZ25j4hyGmEXALhfzNKWYrlo8
+ 21OA==
+X-Gm-Message-State: AOAM530hqLOfYG9wIj0V9Hktn4Bi5a02hP+ZiPhC9VDVRm8nI6GI7BcG
+ ltQ770i7RKYy81ysNp2kPFibEAW3rCAMGCOFc4gOvIps05E4oCML6vAffB+WgnaZpIQBaaQnvcA
+ iXMT4f6tPR6h5csU=
+X-Received: by 2002:a05:600c:354f:: with SMTP id
+ i15mr6136538wmq.24.1625075998648; 
+ Wed, 30 Jun 2021 10:59:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDhTsnvCWAB32h0pi+WJnCduBVDy+SX0N1fk+zm5ghf2a5G6+273Pc/Pv3BNX03ti3MWdt6w==
+X-Received: by 2002:a05:600c:354f:: with SMTP id
+ i15mr6136521wmq.24.1625075998415; 
+ Wed, 30 Jun 2021 10:59:58 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id t9sm15645257wrq.92.2021.06.30.10.59.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jun 2021 10:59:57 -0700 (PDT)
+Date: Wed, 30 Jun 2021 18:59:56 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2] virtiofsd: use GDateTime for formatting timestamp for
+ debug messages
+Message-ID: <YNyxHD2mzvs/D1nS@work-vm>
+References: <20210611164319.67762-1-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20210630012619.115262-1-crosa@redhat.com>
- <20210630012619.115262-3-crosa@redhat.com>
-In-Reply-To: <20210630012619.115262-3-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 30 Jun 2021 14:56:21 -0300
-Message-ID: <CAKJDGDZGyE_QQ0OUXnrLQiWjpr7V2perB4xC76JKWrWOe3ge-A@mail.gmail.com>
-Subject: Re: [PATCH v7 2/4] Jobs based on custom runners: build environment
- docs and playbook
-To: Cleber Rosa <crosa@redhat.com>
+In-Reply-To: <20210611164319.67762-1-berrange@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -90,44 +101,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 29, 2021 at 10:26 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> To run basic jobs on custom runners, the environment needs to be
-> properly set up.  The most common requirement is having the right
-> packages installed.
->
-> The playbook introduced here covers the QEMU's project s390x and
-> aarch64 machines.  At the time this is being proposed, those machines
-> have already had this playbook applied to them.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> The GDateTime APIs provided by GLib avoid portability pitfalls, such
+> as some platforms where 'struct timeval.tv_sec' field is still 'long'
+> instead of 'time_t'. When combined with automatic cleanup, GDateTime
+> often results in simpler code too.
+> 
+> Localtime is changed to UTC to avoid the need to grant extra seccomp
+> permissions for GLib's access of the timezone database.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+
+Queued
 > ---
->  docs/devel/ci.rst                      |  40 +++++++++
->  scripts/ci/setup/.gitignore            |   2 +
->  scripts/ci/setup/build-environment.yml | 116 +++++++++++++++++++++++++
->  scripts/ci/setup/inventory.template    |   1 +
->  4 files changed, 159 insertions(+)
->  create mode 100644 scripts/ci/setup/.gitignore
->  create mode 100644 scripts/ci/setup/build-environment.yml
->  create mode 100644 scripts/ci/setup/inventory.template
->
-
-Ran the playbook and built QEMU for testing without problems.
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Tested-by: Willian Rampazzo <willianr@redhat.com>
+>  tools/virtiofsd/passthrough_ll.c | 25 ++++---------------------
+>  1 file changed, 4 insertions(+), 21 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 49c21fd855..9858e961d9 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -3559,10 +3559,6 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
+>  static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
+>  {
+>      g_autofree char *localfmt = NULL;
+> -    struct timespec ts;
+> -    struct tm tm;
+> -    char sec_fmt[sizeof "2020-12-07 18:17:54"];
+> -    char zone_fmt[sizeof "+0100"];
+>  
+>      if (current_log_level < level) {
+>          return;
+> @@ -3574,23 +3570,10 @@ static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
+>              localfmt = g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid),
+>                                         fmt);
+>          } else {
+> -            /* try formatting a broken-down timestamp */
+> -            if (clock_gettime(CLOCK_REALTIME, &ts) != -1 &&
+> -                localtime_r(&ts.tv_sec, &tm) != NULL &&
+> -                strftime(sec_fmt, sizeof sec_fmt, "%Y-%m-%d %H:%M:%S",
+> -                         &tm) != 0 &&
+> -                strftime(zone_fmt, sizeof zone_fmt, "%z", &tm) != 0) {
+> -                localfmt = g_strdup_printf("[%s.%02ld%s] [ID: %08ld] %s",
+> -                                           sec_fmt,
+> -                                           ts.tv_nsec / (10L * 1000 * 1000),
+> -                                           zone_fmt, syscall(__NR_gettid),
+> -                                           fmt);
+> -            } else {
+> -                /* fall back to a flat timestamp */
+> -                localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
+> -                                           get_clock(), syscall(__NR_gettid),
+> -                                           fmt);
+> -            }
+> +            g_autoptr(GDateTime) now = g_date_time_new_now_utc();
+> +            g_autofree char *nowstr = g_date_time_format(now, "%Y-%m-%d %H:%M:%S.%f%z");
+> +            localfmt = g_strdup_printf("[%s] [ID: %08ld] %s",
+> +                                       nowstr, syscall(__NR_gettid), fmt);
+>          }
+>          fmt = localfmt;
+>      }
+> -- 
+> 2.31.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
