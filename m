@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299513B8188
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 13:58:52 +0200 (CEST)
-Received: from localhost ([::1]:39440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12853B818B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 13:59:04 +0200 (CEST)
+Received: from localhost ([::1]:40536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyYrj-0000CQ-2G
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 07:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38046)
+	id 1lyYrv-0000wf-Ux
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 07:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lyYpU-0005ws-9k
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 07:56:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27132)
+ id 1lyYpZ-000655-OW
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 07:56:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lyYpS-0000fm-OO
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 07:56:32 -0400
+ id 1lyYpW-0000ix-Gc
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 07:56:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625054190;
+ s=mimecast20190719; t=1625054194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M6Y1ydFjNek8sSs+yumq0UnZLReBA1004h4j+QFgAOE=;
- b=KBw10wgb2FKHZRvrRGSp9TsajuKXFYBXxEBXDEZhz8DsE/lexazb3SkqP+9QUMrvscwK0P
- 3QHO02cqeoXC/f36fpxc4x8RJlekiZJoulpyIFtf1+khLnfBvMLvt0vHYZvC7RQ8lC+cF2
- 1SaOwU0Iq1W9GlEQXAqiih0khXmWbnE=
+ bh=sdJwe5+fGafSehEwgR2Etxg6ealeHuB1UzaPvOApRIk=;
+ b=IVA3cbpxpWFnAodRJ/G9+tOn91NsIx5V8p7C3uNANr38CMTxp2xWpQd8+IhTWAr5+4f2HC
+ Wum7g6o6dXeWEBTv8X040zCtvhEY78pxzUmmRINz8owVKSZsEuO1uGauNMDVqIFJx9duHq
+ vz/owItsmaZYbdaa7TB50gz9RVdpPq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-EbR6RvosPJGn5GnLPA6VPQ-1; Wed, 30 Jun 2021 07:56:28 -0400
-X-MC-Unique: EbR6RvosPJGn5GnLPA6VPQ-1
+ us-mta-514-ZZ1UVp1fOHai5AD9KU1HLw-1; Wed, 30 Jun 2021 07:56:32 -0400
+X-MC-Unique: ZZ1UVp1fOHai5AD9KU1HLw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AEBA100CF72;
- Wed, 30 Jun 2021 11:56:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FB72800D62;
+ Wed, 30 Jun 2021 11:56:31 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-116.ams2.redhat.com
  [10.36.114.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8874F5D6AD;
- Wed, 30 Jun 2021 11:56:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AEB6C5D6AD;
+ Wed, 30 Jun 2021 11:56:27 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/7] crypto/tlscreds: Introduce
- qcrypto_tls_creds_check_endpoint() helper
-Date: Wed, 30 Jun 2021 12:56:06 +0100
-Message-Id: <20210630115612.827664-2-berrange@redhat.com>
+Subject: [PULL 2/7] block/nbd: Use qcrypto_tls_creds_check_endpoint()
+Date: Wed, 30 Jun 2021 12:56:07 +0100
+Message-Id: <20210630115612.827664-3-berrange@redhat.com>
 In-Reply-To: <20210630115612.827664-1-berrange@redhat.com>
 References: <20210630115612.827664-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -95,71 +94,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Introduce the qcrypto_tls_creds_check_endpoint() helper
-to access QCryptoTLSCreds internal 'endpoint' field.
+Avoid accessing QCryptoTLSCreds internals by using
+the qcrypto_tls_creds_check_endpoint() helper.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- crypto/tlscreds.c         | 12 ++++++++++++
- include/crypto/tlscreds.h | 14 ++++++++++++++
- 2 files changed, 26 insertions(+)
+ block/nbd.c    | 6 +++---
+ blockdev-nbd.c | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/crypto/tlscreds.c b/crypto/tlscreds.c
-index b68735f06f..084ce0d51a 100644
---- a/crypto/tlscreds.c
-+++ b/crypto/tlscreds.c
-@@ -20,6 +20,7 @@
+diff --git a/block/nbd.c b/block/nbd.c
+index 3cbee762de..601fccc5ba 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -1839,9 +1839,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
+         return NULL;
+     }
  
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi-types-crypto.h"
- #include "qemu/module.h"
- #include "tlscredspriv.h"
- #include "trace.h"
-@@ -259,6 +260,17 @@ qcrypto_tls_creds_finalize(Object *obj)
-     g_free(creds->priority);
- }
+-    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
+-        error_setg(errp,
+-                   "Expecting TLS credentials with a client endpoint");
++    if (!qcrypto_tls_creds_check_endpoint(creds,
++                                          QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT,
++                                          errp)) {
+         return NULL;
+     }
+     object_ref(obj);
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index b264620b98..bdfa7ed3a5 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -108,9 +108,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
+         return NULL;
+     }
  
-+bool qcrypto_tls_creds_check_endpoint(QCryptoTLSCreds *creds,
-+                                      QCryptoTLSCredsEndpoint endpoint,
-+                                      Error **errp)
-+{
-+    if (creds->endpoint != endpoint) {
-+        error_setg(errp, "Expected TLS credentials for a %s endpoint",
-+                   QCryptoTLSCredsEndpoint_str(endpoint));
-+        return false;
-+    }
-+    return true;
-+}
- 
- static const TypeInfo qcrypto_tls_creds_info = {
-     .parent = TYPE_OBJECT,
-diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
-index d0808e391e..a14e44fac1 100644
---- a/include/crypto/tlscreds.h
-+++ b/include/crypto/tlscreds.h
-@@ -65,5 +65,19 @@ struct QCryptoTLSCredsClass {
-     CryptoTLSCredsReload reload;
- };
- 
-+/**
-+ * qcrypto_tls_creds_check_endpoint:
-+ * @creds: pointer to a TLS credentials object
-+ * @endpoint: type of network endpoint that will be using the credentials
-+ * @errp: pointer to a NULL-initialized error object
-+ *
-+ * Check whether the credentials is setup according to
-+ * the type of @endpoint argument.
-+ *
-+ * Returns true if the credentials is setup for the endpoint, false otherwise
-+ */
-+bool qcrypto_tls_creds_check_endpoint(QCryptoTLSCreds *creds,
-+                                      QCryptoTLSCredsEndpoint endpoint,
-+                                      Error **errp);
- 
- #endif /* QCRYPTO_TLSCREDS_H */
+-    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_SERVER) {
+-        error_setg(errp,
+-                   "Expecting TLS credentials with a server endpoint");
++    if (!qcrypto_tls_creds_check_endpoint(creds,
++                                          QCRYPTO_TLS_CREDS_ENDPOINT_SERVER,
++                                          errp)) {
+         return NULL;
+     }
+     object_ref(obj);
 -- 
 2.31.1
 
