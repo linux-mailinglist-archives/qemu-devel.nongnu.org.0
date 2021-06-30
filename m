@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B604B3B7CC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 06:29:41 +0200 (CEST)
-Received: from localhost ([::1]:51796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461853B7CBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 06:26:51 +0200 (CEST)
+Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyRr2-0003wT-R9
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 00:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
+	id 1lyRoH-0007yi-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 00:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lyRnO-0007J3-Cn
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 00:25:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36408)
+ id 1lyRnK-0007Fd-HT
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 00:25:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lyRnL-0002M1-61
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 00:25:54 -0400
+ id 1lyRnI-0002Hs-2S
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 00:25:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lyRnG-000380-GL
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 04:25:46 +0000
+ id 1lyRnC-00034F-Bt
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 04:25:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 81B5C2E81DE
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 04:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3EDD12E8187
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 04:25:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Wed, 30 Jun 2021 04:17:17 -0000
-From: Launchpad Bug Tracker <1826401@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1923693@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: adlu44412 janitor th-huth
-X-Launchpad-Bug-Reporter: Adrian Luca (adlu44412)
+X-Launchpad-Bug-Commenters: alistair2323 janitor kallisti5 th-huth
+X-Launchpad-Bug-Reporter: kallisti5 (kallisti5)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <155619625636.14250.4864237510034054943.malonedeb@gac.canonical.com>
-Message-Id: <162502663796.20936.15779201302462759293.malone@loganberry.canonical.com>
-Subject: [Bug 1826401] Re: qemu-system-aarch64 has a high cpu usage on windows
+References: <161836759211.17765.12297179006766447607.malonedeb@wampee.canonical.com>
+Message-Id: <162502663730.20936.11230103607414743988.malone@loganberry.canonical.com>
+Subject: [Bug 1923693] Re: Lack of architecture in gdbstub makes debugging
+ confusing
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c11083652ba158ce73cebdfd79e69cf6f7d05a73"; Instance="production"
-X-Launchpad-Hash: 7e1b3ac6f4a6fef2678476842156ccdf9c316c98
+X-Launchpad-Hash: d1451e4c91f0a0ec67ee57df680c2dfc18049142
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826401 <1826401@bugs.launchpad.net>
+Reply-To: Bug 1923693 <1923693@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,56 +84,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826401
+https://bugs.launchpad.net/bugs/1923693
 
 Title:
-  qemu-system-aarch64 has a high cpu usage on windows
+  Lack of architecture in gdbstub makes debugging confusing
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Running qemu-system-aarch64 leads to a high CPU consumption on windows
-  10.
+  I spent some quality time debugging GEF and came to a conclusion here:
+  https://github.com/hugsy/gef/issues/598#issuecomment-819174169
 
-  Tested with qemu: 4.0.0-rc4 & 3.1.0 & 2.11.0
+  tldr;
 
-  Command: qemu_start_command =3D [
-          qemu-system-aarch64,
-          "-pidfile",
-          target_path + "/qemu" + str(instance) + ".pid",
-          "-machine",
-          "virt",
-          "-cpu",
-          "cortex-a57",
-          "-nographic",
-          "-smp",
-          "2",
-          "-m",
-          "2048",
-          "-kernel",
-          kernel_path,
-          "--append",
-          "console=3DttyAMA0 root=3D/dev/vda2 rw ipx=3D" + qemu_instance_ip=
- + "/64 net.ifnames=3D0 biosdevname=3D0",
-          "-drive",
-          "file=3D" + qemu_instance_img_path + ",if=3Dnone,id=3Dblk",
-          "-device",
-          "virtio-blk-device,drive=3Dblk",
-          "-netdev",
-          "socket,id=3Dmynet0,udp=3D127.0.0.1:2000,localaddr=3D127.0.0.1:" =
-+ qemu_instance_port,
-          "-device",
-          "virtio-net-device,netdev=3Dmynet0",
-          "-serial",
-          "file:" + target_path + "/qemu" + str(instance) + ".log"
-      ]
+  * gdb_arch_name was undefined on riscv
+  * this bug was fixed recently via https://github.com/qemu/qemu/commit/edf=
+647864bdab84ed4b1a4f47ea05be6bb075c69
 
-  *The cpu consumption is ~70%.
-  *No acceleration used.
-  *This CPU consumption is obtained only by running the above command. No w=
-orkload on the guest OS.
+  =
+
+  * An undefined gdb_arch_name results in qemu's gdbstub omitting the <arch=
+itecture> xml.
+  * gdb translates a missing <architecture> as "auto" which breaks a lot of=
+ stuff.
+  * tracking down where "auto" comes from is a bit confusing and time consu=
+ming.
+
+  =
+
+  It might be better to report a missing / blank gdb_arch_name as "<archite=
+cture>unknown</architecture>" instead of omitting the block completely.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826401/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1923693/+subscriptions
 
