@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAD03B8525
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:38:42 +0200 (CEST)
-Received: from localhost ([::1]:59142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44663B8529
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Jun 2021 16:42:37 +0200 (CEST)
+Received: from localhost ([::1]:34518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lybMP-00028J-KG
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:38:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52976)
+	id 1lybQC-0004kx-VB
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 10:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybLB-0000lA-Lf
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:37:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36082)
+ id 1lybOr-0003uc-6e
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:41:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lybL9-0002sD-18
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:37:25 -0400
+ id 1lybOo-0005JE-RK
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 10:41:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625063842;
+ s=mimecast20190719; t=1625064070;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tmaP/dG6MJVwJwAXmuGGQoRh6+McmrzYtRGLb2oHfrU=;
- b=U4rQT9pXSJSqxLHoDNBYJkcXquCUgbrR1XJcFye1Ml5tAlKpwQk5SGUNNG0njHBfZuJaG+
- AHMI9AvkWFmvlLYHg4Ysbi9DQozJlYr8nMq+GmjNsoj0XyXJldr0NicuiRN4YJWZ2zLKsQ
- qBNBZ3nXZ2XODyOIRQ1iyiOTq4HXQMI=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-byLJfizoN0GOwl37OEaiiA-1; Wed, 30 Jun 2021 10:37:21 -0400
-X-MC-Unique: byLJfizoN0GOwl37OEaiiA-1
-Received: by mail-vk1-f200.google.com with SMTP id
- z16-20020a0561221490b029024cf7dcad61so569062vkp.14
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:37:21 -0700 (PDT)
+ bh=71O0t+uLgb2RnNCLd/HaCsPnqIz1Hs7imORam0tjljY=;
+ b=D9RrgRl9LJX65pd5N39uf3PWXgkF5CPVoiYmUuMAn5GRr3gOv9MRTJyvFjcwakRZzTsmAz
+ MO5XyKXnoJGFotAYPW1M2qGG+fcetYulD2EoknZCeCBVFs5k3g2MCA5hbuXrmwd8SczaDd
+ YmkAD0d0GDVK6flnXm2Y4tT+/v8GAUQ=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-454-_EHGUW3CO06RfYztq2RRig-1; Wed, 30 Jun 2021 10:41:06 -0400
+X-MC-Unique: _EHGUW3CO06RfYztq2RRig-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ y22-20020ab063960000b02902782db6cf24so463016uao.20
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 07:41:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tmaP/dG6MJVwJwAXmuGGQoRh6+McmrzYtRGLb2oHfrU=;
- b=B0z6+hn8bIFOp4zbHRjKD8RO2upfvP29/029Ou1vDkKXaD3Jl4FVZ9tAsCpdCL1p19
- iZHh81W0lGiaO9ObJBnh+TbCWq8mCLVYlo1RUFLUYpVncLXMAZIab/+fFlnUTh78MZNW
- k2NtphAhWogkwXaGYa06+lAD9anyay9AlXJ6+hAKRQEtTuGokikeMLudn5NguRh30Vfh
- LUbzR7g+iuMVfBGe4AkCz+hhmKhd2sabuBNWH+a0FtyrzsxHUOxiyI0bNkqWyz+9kpS7
- s7mK9AGq4STAaoErEuC4wplDGFma6PeK2qUDX78ayMKusd9Gplaji8TlJwE4UUa1Rry/
- bu7Q==
-X-Gm-Message-State: AOAM531kkZqUrmMdQGOKpueg5ZSzK2wDzQDyvWtTlsV39Uyj1VqiqNLm
- dZ2UaTMIPWxbPbdFOWe7coNvpYioN+HgFbA3wOpjdXSpECRkHJZAgaDiYxkssfJ8YYGAxQ6mbMO
- rSG0TWfZUyGxraCCaWiqaShfxjk0F87k=
-X-Received: by 2002:ab0:7642:: with SMTP id s2mr33318983uaq.133.1625063840675; 
- Wed, 30 Jun 2021 07:37:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwomHFtfNid4PAuCf4/xFNE+LlApk/Wi3hfLZa47q/A9+3qz6Nb8oBbceqNyVQbXkgoTAcBI1r7K/51TA2giuo=
-X-Received: by 2002:ab0:7642:: with SMTP id s2mr33318952uaq.133.1625063840473; 
- Wed, 30 Jun 2021 07:37:20 -0700 (PDT)
+ bh=71O0t+uLgb2RnNCLd/HaCsPnqIz1Hs7imORam0tjljY=;
+ b=XDoxsVrX+/qrgu+7xF8tw9U8Mp4tkaKKeO6ls0nxb89Wwk3KmsOf0JYNvwh/T/tLwZ
+ bItzwBRNNfP43wUNN+CDVD7w54JfsncNGmIoI/gtmzoiu3Ou4Ho2zzjfZNegW0AGGmvp
+ OFISEhGwAMAu0a60mJkmRaySSec9XyzeLKFSys/BN5s5g454u3G2D4Hje+jQaBhdPFLK
+ AotDJB+eEzLuGG3iEjtuQXO1t6ea8ZRQJdAMRIgpHnDRxmskxFrfkRh3jvjPICGcGnMv
+ zptIilZG1wZU0wisHUO6DIJIzau4nY4hW7VJWSlrr63KBJARAW8QXcvGb7x+ZJS4l4YY
+ NdTw==
+X-Gm-Message-State: AOAM531YFHg2uBgYEa866xzWj16coSoR7yQ8O+JjTfqVelka1ibOzGKL
+ i9RtZt80B5yimfuWfn0eQ1z2E3gRDSeey+IMfJajzfx3tfDm3TS0xRs7xh0QkPJJsyS4CB2MB4u
+ x0cA8efqPYw7cYbcj4qB5Ex5nBUiuMBQ=
+X-Received: by 2002:a67:c09b:: with SMTP id x27mr15876004vsi.50.1625064066490; 
+ Wed, 30 Jun 2021 07:41:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyg+ZL3EW2uTjTeuca7Dgxd27WPK8/9l5xb01qbIYV7E5TorxoZz6lbUVqQRQ7AFOeeoDqhNOxUVHuVNm5GQsw=
+X-Received: by 2002:a67:c09b:: with SMTP id x27mr15875977vsi.50.1625064066326; 
+ Wed, 30 Jun 2021 07:41:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210629214323.1329806-1-jsnow@redhat.com>
- <20210629214323.1329806-11-jsnow@redhat.com>
-In-Reply-To: <20210629214323.1329806-11-jsnow@redhat.com>
+ <20210629214323.1329806-12-jsnow@redhat.com>
+In-Reply-To: <20210629214323.1329806-12-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 30 Jun 2021 11:36:54 -0300
-Message-ID: <CAKJDGDYMWFLAR237LeUMoC4y5TvJhQNyXe5siE3emXuvWZ-tQg@mail.gmail.com>
-Subject: Re: [PATCH v3 10/15] python: only check qemu/ subdir with flake8
+Date: Wed, 30 Jun 2021 11:40:40 -0300
+Message-ID: <CAKJDGDYrqaQpj+NH7p7WvnW1zzo3R3DQHhev33=ddcPAkga0NA@mail.gmail.com>
+Subject: Re: [PATCH v3 11/15] python: add 'make check-dev' invocation
 To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -100,15 +100,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Jun 29, 2021 at 6:43 PM John Snow <jsnow@redhat.com> wrote:
 >
-> flake8 is a little eager to check everything it can. Limit it to
-> checking inside the qemu namespace directory only. Update setup.cfg now
-> that the exclude patterns are no longer necessary.
+> This is a *third* way to run the Python tests. Unlike the first two
+> (check-pipenv, check-tox), this version does not require any specific
+> interpreter version -- making it a lot easier to tell people to run it
+> as a quick smoketest prior to submission to GitLab CI.
+>
+> Summary:
+>
+>   Checked via GitLab CI:
+>     - check-pipenv: tests our oldest python & dependencies
+>     - check-tox: tests newest dependencies on all non-EOL python versions
+>   Executed only incidentally:
+>     - check-dev: tests newest dependencies on whichever python version
+>
+> ('make check' does not set up any environment at all, it just runs the
+> tests in your current environment. All four invocations perform the
+> exact same tests, just in different execution environments.)
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/setup.cfg       | 2 --
->  python/tests/flake8.sh | 2 +-
->  2 files changed, 1 insertion(+), 3 deletions(-)
+>  python/Makefile | 35 +++++++++++++++++++++++++++++++++--
+>  1 file changed, 33 insertions(+), 2 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
