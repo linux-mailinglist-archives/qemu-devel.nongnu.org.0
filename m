@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629DE3B9641
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 20:52:29 +0200 (CEST)
-Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E283B9653
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 21:01:58 +0200 (CEST)
+Received: from localhost ([::1]:47994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz1nX-0002I2-1X
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 14:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
+	id 1lz1wj-0007xj-It
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 15:01:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lz1lk-0001Jq-B3
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:50:36 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lz1lh-0006cU-UD
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:50:35 -0400
-Received: by mail-wr1-x430.google.com with SMTP id a13so9457898wrf.10
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 11:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=b16vVgsieVbHtBfNj9Z2iW/CJWdoztgtKhpCMm08ZvQ=;
- b=XqB4BwwbOGcJMpzZzjwme5QoDkY3Fm+/CWO7hlTVG12C1GgXf33ntKzAjhU3dXBnGp
- qIJipLR/Gt2z+/nhb66CIgutCWHE1sc7TtEdEldm30nlhF/06WyWHUE/VRdUAAFH6an1
- m2DDzeqDz8kecapUuFt0ajiOe8bEUYqRwrRMSwFUorx6Q9h4Tv4WTv2I3SGr1fgahNxe
- B07KHftaDWVnTJMUD3djeL10uMvYAfgqqPbciMGuBjsujlgmt8ylQL+YKe34Zbr+fBXx
- 7vx435DkuwsvKKq22YLTtNtBSkJTb0i6SA13Na4eZYZXyhHTc3n+gzmL0Tqgeq2ae2Xg
- 1F0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=b16vVgsieVbHtBfNj9Z2iW/CJWdoztgtKhpCMm08ZvQ=;
- b=iOgxdKmKScCuKQrRr/8lQJNe5mA2z9f7HkEGhrFF6vZTKjhXTNTk6lVgybcNkaukAi
- lB2kx7GfTncaqiSu0JC8mnx6V/LcS/1BMR3/V3pqz3xOVvIyc4reFbYSr04Z7DnoHvCX
- k6xLWecF4yl+R7nZe7bx2UVsoLXPinUJnxajdqRD6xueyOj/9xd128KcA9gaZURrNXxU
- j1lMcyrSCUOnUQ73PQ9P+JWKR1k13zhzO4hmh29KV2AORbBALNDPmixeXtNTLaY/UmDH
- 7xGHNrVTfuiS7ZgZLQzNWfmjS9Pu2vJbfN9DVjiYxG//WBwVMdmc5Mj7wlMH+na3/Ds2
- huMQ==
-X-Gm-Message-State: AOAM530WBa+yWZYhxRtyy7nOvAt9Ddl6xhCNjXa+604i1KuUSGQjYezI
- ejg++RuqcEYsL9RASDd/92CO3Q==
-X-Google-Smtp-Source: ABdhPJzbRlaPKOmYCC+aG4tI63SGl0BfRW5T2j8WEMv67A907xdrQWkKoK5I/t5558HHLTv5MwIQQA==
-X-Received: by 2002:a5d:51ce:: with SMTP id n14mr1305258wrv.209.1625165432172; 
- Thu, 01 Jul 2021 11:50:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p9sm789112wmm.17.2021.07.01.11.50.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Jul 2021 11:50:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 98B661FF7E;
- Thu,  1 Jul 2021 19:50:30 +0100 (BST)
-References: <20210618091101.2802534-1-erdnaxe@crans.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Alexandre Iooss <erdnaxe@crans.org>
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1lz1uX-00071R-4F
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:59:41 -0400
+Received: from redisdead.crans.org ([185.230.79.39]:58692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1lz1uU-0004Z2-J6
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:59:40 -0400
+Received: from [IPv6:2a02:8428:4db:b001:7ce6:7b5e:a5dd:8c2c]
+ (2a02-8428-04db-b001-7ce6-7b5e-a5dd-8c2c.rev.sfr.net
+ [IPv6:2a02:8428:4db:b001:7ce6:7b5e:a5dd:8c2c])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id 4BAEB467;
+ Thu,  1 Jul 2021 20:59:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1625165968; bh=AcwqyQYhq1gEZDrKblsHwABgIFZHlpcZwo5j4GWLk5o=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=bc+Uk55asQ9zZGVBK0uzKH8I2PbqvYvCEzG4am/troLCSVgzgbqNUzd5g2s2VkYbj
+ VeddSsciM2Cp43DkjK2rQtfZQEmSEgA842oT+fu1ZRWB7nh2wE2CNG0umNn2ga62i4
+ S/d/odMMY9ayZauHalIw0V30fW5qsBuOdFLNMlVfmDVHJENRVa1qKuixGkMU0Gv37U
+ +1YiijbAtj1E3jgyP4BpjzT05ARYpdv7cVpa1ShXWq/A3N6ptAyK2lVsh+IqZxLfeN
+ kqw+cvd1K7EgBuG/htPC1IoOFPofCeQUcuooJEMGGQ+MZRo4JQEZB8SHoyLEWNvbwv
+ QDon7zGucX4HZm+ez1DFWLz3XTh/gXW0BAETJFzvgY2SenU0hJ33IP4QBXYzQiNxiG
+ PlhdIev+bUda+kkNtZ+64PtQxCSrUb0N2lpqjAeYLHo4SWl5w5KslRqZrdjXVD1VA3
+ Pbya8F+DjfEZPVPU3rba1TN6irBHdv5cEhEOIsIYcYCvu+6E9UfLdv+0+M5ZuLBDmm
+ VGa8PObnk1o4z6ovcilA/b9p3cROCaWesAAOlzzQ3VOaHpxv/e30bUllRq2j4jsg/5
+ ujNdJqtwpQiu/mjzddyP4Cos2cUCxa/Z91JU76ky6NXONvkOP/B3VrR2LUru5kaYHg
+ gCpoBn0OTuUPv7P1QDuFXI68=
 Subject: Re: [PATCH v2 0/2] execlog TCG plugin to log instructions
-Date: Thu, 01 Jul 2021 19:49:58 +0100
-In-reply-to: <20210618091101.2802534-1-erdnaxe@crans.org>
-Message-ID: <87bl7lq361.fsf@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210618091101.2802534-1-erdnaxe@crans.org>
+ <87bl7lq361.fsf@linaro.org>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Message-ID: <fb9922d6-5003-7a16-286b-022e78d72672@crans.org>
+Date: Thu, 1 Jul 2021 20:59:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+In-Reply-To: <87bl7lq361.fsf@linaro.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="DUPh1UsQMEMG9KzLGwwaXUU1XWakqvBQI"
+Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
+ helo=redisdead.crans.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +79,85 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--DUPh1UsQMEMG9KzLGwwaXUU1XWakqvBQI
+Content-Type: multipart/mixed; boundary="368HUYXndQNEq2JqUTwJNPducMkOpgnkx";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "open list : All patches CC here" <qemu-devel@nongnu.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Message-ID: <fb9922d6-5003-7a16-286b-022e78d72672@crans.org>
+Subject: Re: [PATCH v2 0/2] execlog TCG plugin to log instructions
+References: <20210618091101.2802534-1-erdnaxe@crans.org>
+ <87bl7lq361.fsf@linaro.org>
+In-Reply-To: <87bl7lq361.fsf@linaro.org>
 
-Alexandre Iooss <erdnaxe@crans.org> writes:
+--368HUYXndQNEq2JqUTwJNPducMkOpgnkx
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> execlog is a plugin that logs executed instructions with some useful
-> metadata including memory access.
->
-> The output of the plugin is designed to be usable with other tools. For
-> example it could be used with a side-channel leakage model to create
-> side-channel traces from QEMU for security evaluation.
->
-> Changes since v1:
->  - The output is now easier to parse.
->  - Use QEMU logging API rather than FILE* to write output.
->  - Don't reject memory information in user mode.
->  - Merge memory information with instruction execution. Now one line
->    means one instruction.
->  - Add documentation.
 
-Where you planning on posting v3? I'm just seeing if we can get this
-merged before code freeze in a weeks time.
 
---=20
-Alex Benn=C3=A9e
+On 7/1/21 8:49 PM, Alex Benn=C3=A9e wrote:
+>=20
+> Alexandre Iooss <erdnaxe@crans.org> writes:
+>=20
+>> execlog is a plugin that logs executed instructions with some useful
+>> metadata including memory access.
+>>
+>> The output of the plugin is designed to be usable with other tools. Fo=
+r
+>> example it could be used with a side-channel leakage model to create
+>> side-channel traces from QEMU for security evaluation.
+>>
+>> Changes since v1:
+>>   - The output is now easier to parse.
+>>   - Use QEMU logging API rather than FILE* to write output.
+>>   - Don't reject memory information in user mode.
+>>   - Merge memory information with instruction execution. Now one line
+>>     means one instruction.
+>>   - Add documentation.
+>=20
+> Where you planning on posting v3? I'm just seeing if we can get this
+> merged before code freeze in a weeks time.
+>=20
+
+I had a deadline next week but I managed to move it later, so I can try=20
+to make the important changes tomorrow and send v3.
+
+I think I will contribute the support for triggering the beginning and=20
+end of tracing in another patch as I believe that's something we don't=20
+want to rush.
+
+Thanks,
+
+-- Alexandre
+
+
+--368HUYXndQNEq2JqUTwJNPducMkOpgnkx--
+
+--DUPh1UsQMEMG9KzLGwwaXUU1XWakqvBQI
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmDeEI8FAwAAAAAACgkQbHknjz/NzAJq
+Cw/+N9ikb6CiP1X+25/CKYNg7h2xmldqrY9pWOPBfOzo5bbIC0SuRL0oF+/IlCCVyBkWn8+DONLh
+s1uu5OqOTYFVYQp41aeKsFn9zyk59lEVsCnsDgS+tBYWDnOJC4XC1zUAwBcaS4g6fxc8OvJhYfIX
+lCAOz7TS8VU3D0JQEFkcI8CDTaOSMdUDyq43/XlhT+wskBmWW+n0pQkyWuNigA6pjS8pdMKyHMmQ
+EFKFjto0f5A1mc8On+hV5BLZl2iO+uc3YaBsqDjqsN7JgS+IJ2K2OeAIw1wMHsDKWm27MsFqIXcE
+ROlUCB0rmzf+qA9YQQnLm73id63rIYOHN25Oo+wCUgRMpRYZPOOn6RI/uw5QH4WmwTid7IrtvD1k
+6M5HZYBjeXXu8JkmrBlZWwpNobTzmw5lZnjo2LIZ6Uh/ABV1GQRjUkauYlhZpJdNzSNRJncSyVQ9
+WnWtOZ6dZbC2CKwsi5d/5Uub2Gi135Dq/ttkv0s1waGRHaIZl2Qxgd/eA+Npv075cYI13OAFboab
+ExCHXwhbW1ZSPdjpFb5pnBTDgrrslpGYjOkdUWa+bKev7A7bSDfGlfkEhIkbdUqyfmrWSPVDltHn
+PyEGmLPLwRLSyeDMvbAGXVqS4G/dRjjcRjujZDashRvfTUceZc9+L0znboH/wkv7PFmQm1fEnSu6
+xmk=
+=huAC
+-----END PGP SIGNATURE-----
+
+--DUPh1UsQMEMG9KzLGwwaXUU1XWakqvBQI--
 
