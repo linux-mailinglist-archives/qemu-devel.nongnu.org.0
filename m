@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761EA3B968F
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 21:28:43 +0200 (CEST)
-Received: from localhost ([::1]:39196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A263B9693
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 21:30:59 +0200 (CEST)
+Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz2Mc-00064V-1b
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 15:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55720)
+	id 1lz2Oo-0007jW-3s
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 15:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lz2LS-0005CW-2E
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:27:30 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:35460)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lz2NS-0006yh-EG
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:29:34 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lz2LO-0006EE-7X
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:27:29 -0400
-Received: by mail-pg1-x534.google.com with SMTP id v7so7095138pgl.2
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 12:27:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lz2NQ-0007Vz-1G
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:29:34 -0400
+Received: by mail-ed1-x533.google.com with SMTP id s15so9913861edt.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 12:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1o1PTLpg3F44NwwaXVoTaZGkpdjcyW7RO02fMHok40g=;
- b=wOgPmqul5wZHctdzmq8e5i1KdZS+uXuZunHddtXv9ituH5LfOQvB1Wpm3XctTPjtPy
- WEs6nowdvSwqehqGBdIKxKHwpplWIXm6FUDU5ERuETu6rZQZ8eUSaGPrNnmWYblzbQ1v
- 7QSbIkszWi0q3ZtpdPCsarHOYLG6cUeCY3mJcV60XjebOSGAA+jK7U7dV836Ax6rornh
- ook79U7okR/SMqf3z3qwZRedwzpy6ElDBtLKl52A9ATq9V7hMNZlcpLIGUj2DSCqRAH1
- OoHiI+u/TLTlqClzeiuS1Mdt7Tgp8XHjnAPxeCl/a2p4kbmaOk5yb69LjMAfkRo0DHHX
- XWBw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rLB1ZSnq3GHECediQzHytN28QHSFkkCupSitIkeJ59Q=;
+ b=fQfRfgU5SKJmnblEPrWvfQTCQTc7ifvuyCKRml/bjBFwCguWIXeo8wIBC1DTFMX2ot
+ VwfcxXypLXdZOhwMq4BtggUV0zw62B9opO1XdK+N9JkE8/oRaPybGI+JSGHAZHGoHvn8
+ O903ud2UoahS4VJgR5XmpvIDUNLQ2Se1GeUB4kSXUI8enxG/iJ3DCR9rS3zQPGmCF08t
+ GV52VxghBLhfYofA4q45Ws3l5VwLIIWZwbH8AgzaUTX0RqBdOxwrb2KAdLoF1pyeqbmf
+ c3uPlWM3uwV9eZOOWmDAYauq4YYogV+L4rcemcPZtdkhhYISNF3+22JpLi4Q7N9gvDNt
+ mDbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1o1PTLpg3F44NwwaXVoTaZGkpdjcyW7RO02fMHok40g=;
- b=WAfGk/kPejymnkO94Ca7yYTRJOuX/Xus50FZ0MQoNVnQ2LMF1DfWVF1O9wc01B6AuS
- EKScBfKcE4j+XU21EhxgBOMXbiLj4wAy/lCKYCoXIm3vsdvXxEhZGnIAsloa8oPX+P5Q
- D4+24/bRsfdAsILhjLuU2TscygFKPf64B9Q28Fh5C37mwXmghpK08rPdxIvULaSjzo3W
- e6YztVf6NCLwvpfIHcgDhkNPhO/iEVctjjoCDYlQZxl4MNTFGx8mi205PTQCh014TcSH
- Y/B/ubs32tPjyy8iuSd0w7j0fKDe/tXJBSLwWtbVACyUPoSfEnp7lgX0Q47609iRnKXF
- pcWA==
-X-Gm-Message-State: AOAM533616/6iFdS302OL2myrYlgWEZ8vBog6yZrmSDbfjDt0Uo+v0zs
- vjmfNouOLQyQTvy/liZgtEPvDw==
-X-Google-Smtp-Source: ABdhPJyAgpVI+T068w566uyYzG+UB7u3k3wPqdGprzBB61i69F0cBCoVmgnketee3RUxKJcAMQH50g==
-X-Received: by 2002:a63:d74c:: with SMTP id w12mr1108776pgi.91.1625167643830; 
- Thu, 01 Jul 2021 12:27:23 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id x17sm819286pfa.26.2021.07.01.12.27.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 12:27:23 -0700 (PDT)
-Subject: Re: [PATCH v2 02/23] linux-user/aarch64: Implement setup_sigtramp
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210618192951.125651-1-richard.henderson@linaro.org>
- <20210618192951.125651-3-richard.henderson@linaro.org>
- <CAFEAcA8pbG0kp_un++SzGfyVZw0FOMVU7zdyBCa7YKsCMeAZuQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <27acb275-4819-1160-ac2e-9fb3b9a9abe1@linaro.org>
-Date: Thu, 1 Jul 2021 12:27:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rLB1ZSnq3GHECediQzHytN28QHSFkkCupSitIkeJ59Q=;
+ b=NyDFJOhRTNTH5Tf2WwO13Em1ZFRRIaBG1uBd0DT204l/TATtvLxuC3FNMAaPrpHxQs
+ rN6p/D6XWSMUoOxUd/WmpgW2lhI5hjaJCS6FuUWIwdzBGmHbWuZkZLrQtEZI+N17AdBA
+ FAkdX+ONggFNV2mVzNd6hffvi5jJEkJ+D2GP5KX4YFo4CimB4Kv8jbxUUmVg5EeJMYw+
+ R5zdIRwjB/F/PV5wV8ZK6w+LkLQoccXmyfTqH47NBPFZVrSatiPOwDEmUqmjAYfvjyYE
+ S1UhZzwMFQDKns9FBdXVE43+b9pJp7Lbj7EXmktSrOezI4R4ENJ3aCW8LK3BkADeiQC7
+ ZnkQ==
+X-Gm-Message-State: AOAM530PcJs7zalpayhRn6JaEfQ9vFC4Lj1xaYghn5ADX3UaQX1TxqM3
+ jsV0FhgQ9grFlJgGgNyIDr0gXe6xRaUqJ0k3S3oEXA==
+X-Google-Smtp-Source: ABdhPJyqcAfEMZWrnTjTzFIFlOeCk7B5V/xMaBYm952AxlEPaV+HbCdd4ZfZqjoNNsG9wApbXTwGqkGP40SHzG2wmbQ=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr1899479edt.100.1625167770256; 
+ Thu, 01 Jul 2021 12:29:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8pbG0kp_un++SzGfyVZw0FOMVU7zdyBCa7YKsCMeAZuQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+References: <20210701020921.1679468-1-jsnow@redhat.com>
+In-Reply-To: <20210701020921.1679468-1-jsnow@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 1 Jul 2021 20:28:52 +0100
+Message-ID: <CAFEAcA-OcZQGdqP=SP4AxWtk2aYoCO255kn-hR1wLHXSadtFBw@mail.gmail.com>
+Subject: Re: [PULL 00/15] Python patches
+To: John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,38 +76,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/21 6:36 AM, Peter Maydell wrote:
-> A little way up from here there's a comment:
-> 
->      /* Reserve space for the return code.  On a real system this would
->       * be within the VDSO.  So, despite the name this is not a "real"
->       * record within the frame.
->       */
->      fr_ofs = layout.total_size;
->      layout.total_size += sizeof(struct target_rt_frame_record);
-> 
-> That now needs updating, because we're no longer putting the return
-> code in that target_rt_frame_record.
+On Thu, 1 Jul 2021 at 03:09, John Snow <jsnow@redhat.com> wrote:
+>
+> The following changes since commit d940d468e29bff5eb5669c0dd8f3de0c3de17bfb:
+>
+>   Merge remote-tracking branch 'remotes/quic/tags/pull-hex-20210629' into staging (2021-06-30 19:09:45 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/jsnow/qemu.git tags/python-pull-request
+>
+> for you to fetch changes up to 5c02c865866fdd2d17e8f5507deb4aa1f74bf59f:
+>
+>   python: Fix broken ReST docstrings (2021-06-30 21:57:08 -0400)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> Patch 01/15 fixes the check-python-tox test.
+>
+> ----------------------------------------------------------------
+>
+> John Snow (15):
+>   python/qom: Do not use 'err' name at module scope
+>   python: expose typing information via PEP 561
+>   python: Remove global pylint suppressions
+>   python: Re-lock pipenv at *oldest* supported versions
+>   python: README.rst touchups
+>   python: Add no-install usage instructions
+>   python: rename 'venv-check' target to 'check-pipenv'
+>   python: update help text for check-tox
+>   python: Fix .PHONY Make specifiers
+>   python: only check qemu/ subdir with flake8
+>   python: add 'make check-dev' invocation
+>   python: Update help text on 'make check', 'make develop'
+>   python: Update help text on 'make clean', 'make distclean'
+>   python: remove auto-generated pyproject.toml file
+>   python: Fix broken ReST docstrings
+>
 
-Updated to
 
-    /*
-     * Reserve space for the standard frame unwind pair: fp, lr.
-     * Despite the name this is not a "real" record within the frame.
-     */
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-> I think the 'struct target_rt_frame_record' now does correspond
-> to the kernel's 'struct frame_record', right?
-
-Yes.
-
-
-r~
+-- PMM
 
