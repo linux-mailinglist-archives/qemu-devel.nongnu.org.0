@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC323B8D23
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:26:42 +0200 (CEST)
-Received: from localhost ([::1]:52078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2753C3B8CED
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:23:43 +0200 (CEST)
+Received: from localhost ([::1]:43664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyoHh-0003xB-Db
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
+	id 1lyoEo-0006g3-7m
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5P-0001So-Oa
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38395)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5N-0001JC-7g
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5K-0000yA-Qf
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:59 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5K-0000y8-NA
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1625112834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yvCKp+a4gWOikI8Cdi3Sz7v0HoKXlDnKgk4n24Yb9mQ=;
- b=cQ7nho0u8lQHE50JwXsjMMgBN02evXMXpyYBgtuRLjNhoVvjTL+aXtoaN0idHKunYe6tkv
- moBL5xF1yGr9P8sQJAiIRiCNBzLzp8oeVv3nbRePU1WToHReq/YslkQl/l+XdDefL0kZ66
- GuhqoQc8v8bf1e8RXEk6yn9oMuubXzA=
+ bh=K+o8mbvF9/lrr7ucl36zrO2mILjZDE5Y2AiqC/Y6US0=;
+ b=Zg3Td8mb9DbU+1zRr3MKauTxlQ6KVOoureuoBw0ay27DAzVWVpwvrBSU0tlS2hBJf2PHma
+ Ey/rruG1TGr9PRmQfosLod9vVUdIVH2zpYt3Zb1m/Dlk2pU4GiF5A4g7dpVL+yz2ahxcee
+ 4tRvENANw4aVSAfPDSopkkpyh9Sbi7U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-rt--H_1CN-643SnioJoD-g-1; Thu, 01 Jul 2021 00:13:51 -0400
-X-MC-Unique: rt--H_1CN-643SnioJoD-g-1
+ us-mta-397-cwWj02WlOxeSG4WSZdIsRQ-1; Thu, 01 Jul 2021 00:13:53 -0400
+X-MC-Unique: cwWj02WlOxeSG4WSZdIsRQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCDCE362FB;
- Thu,  1 Jul 2021 04:13:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01C65804143;
+ Thu,  1 Jul 2021 04:13:52 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E68BD69CB4;
- Thu,  1 Jul 2021 04:13:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0933669CB4;
+ Thu,  1 Jul 2021 04:13:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/20] python/aqmp: add QMP protocol support
-Date: Thu,  1 Jul 2021 00:13:08 -0400
-Message-Id: <20210701041313.1696009-16-jsnow@redhat.com>
+Subject: [PATCH 16/20] python/aqmp: Add message routing to QMP protocol
+Date: Thu,  1 Jul 2021 00:13:09 -0400
+Message-Id: <20210701041313.1696009-17-jsnow@redhat.com>
 In-Reply-To: <20210701041313.1696009-1-jsnow@redhat.com>
 References: <20210701041313.1696009-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,299 +85,178 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The star of our show!
-
-Add most of the QMP protocol, sans support for actually executing
-commands. No problem, that happens in the next two commits.
+Add the ability to handle and route messages in qmp_protocol.py. The
+interface for actually sending anything still isn't added until next
+commit.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/__init__.py     |   2 +
- python/qemu/aqmp/qmp_protocol.py | 257 +++++++++++++++++++++++++++++++
- 2 files changed, 259 insertions(+)
- create mode 100644 python/qemu/aqmp/qmp_protocol.py
+ python/qemu/aqmp/qmp_protocol.py | 98 +++++++++++++++++++++++++++++++-
+ 1 file changed, 96 insertions(+), 2 deletions(-)
 
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index ae87436470..68d98cca75 100644
---- a/python/qemu/aqmp/__init__.py
-+++ b/python/qemu/aqmp/__init__.py
-@@ -25,11 +25,13 @@
- from .events import EventListener
- from .message import Message
- from .protocol import ConnectError, Runstate
-+from .qmp_protocol import QMP
- 
- 
- # The order of these fields impact the Sphinx documentation order.
- __all__ = (
-     # Classes, most to least important
-+    'QMP',
-     'Message',
-     'EventListener',
-     'Runstate',
 diff --git a/python/qemu/aqmp/qmp_protocol.py b/python/qemu/aqmp/qmp_protocol.py
-new file mode 100644
-index 0000000000..5872bfc017
---- /dev/null
+index 5872bfc017..04c8a8cb54 100644
+--- a/python/qemu/aqmp/qmp_protocol.py
 +++ b/python/qemu/aqmp/qmp_protocol.py
-@@ -0,0 +1,257 @@
-+"""
-+QMP Protocol Implementation
-+
-+This module provides the `QMP` class, which can be used to connect and
-+send commands to a QMP server such as QEMU. The QMP class can be used to
-+either connect to a listening server, or used to listen and accept an
-+incoming connection from that server.
-+"""
-+
-+import logging
-+from typing import (
-+    Dict,
-+    List,
-+    Mapping,
-+    Optional,
-+)
-+
-+from .error import ProtocolError
-+from .events import Events
-+from .message import Message
-+from .models import Greeting
-+from .protocol import AsyncProtocol
-+from .util import bottom_half, pretty_traceback, upper_half
-+
-+
-+class _WrappedProtocolError(ProtocolError):
+@@ -7,15 +7,18 @@
+ incoming connection from that server.
+ """
+ 
++# The import workarounds here are fixed in the next commit.
++import asyncio  # pylint: disable=unused-import # noqa
+ import logging
+ from typing import (
+     Dict,
+     List,
+     Mapping,
+     Optional,
++    Union,
+ )
+ 
+-from .error import ProtocolError
++from .error import AQMPError, ProtocolError
+ from .events import Events
+ from .message import Message
+ from .models import Greeting
+@@ -56,6 +59,53 @@ class NegotiationError(_WrappedProtocolError):
+     """
+ 
+ 
++class ExecInterruptedError(AQMPError):
 +    """
-+    Abstract exception class for Protocol errors that wrap an Exception.
++    Exception raised when an RPC is interrupted.
++
++    This error is raised when an execute() statement could not be
++    completed.  This can occur because the connection itself was
++    terminated before a reply was received.
++
++    The true cause of the interruption will be available via `disconnect()`.
++    """
++
++
++class _MsgProtocolError(ProtocolError):
++    """
++    Abstract error class for protocol errors that have a `Message` object.
++
++    This Exception class is used for protocol errors where the `Message`
++    was mechanically understood, but was found to be inappropriate or
++    malformed.
 +
 +    :param error_message: Human-readable string describing the error.
-+    :param exc: The root-cause exception.
++    :param msg: The QMP `Message` that caused the error.
 +    """
-+    def __init__(self, error_message: str, exc: Exception):
++    def __init__(self, error_message: str, msg: Message):
 +        super().__init__(error_message)
-+        self.exc = exc
++        #: The received `Message` that caused the error.
++        self.msg: Message = msg
 +
 +    def __str__(self) -> str:
-+        return f"{self.error_message}: {self.exc!s}"
++        return "\n".join([
++            super().__str__(),
++            f"  Message was: {str(self.msg)}\n",
++        ])
 +
 +
-+class GreetingError(_WrappedProtocolError):
++class ServerParseError(_MsgProtocolError):
 +    """
-+    An exception occurred during the Greeting phase.
++    The Server sent a `Message` indicating parsing failure.
++
++    i.e. A reply has arrived from the server, but it is missing the "ID"
++    field, indicating a parsing error.
 +
 +    :param error_message: Human-readable string describing the error.
-+    :param exc: The root-cause exception.
++    :param msg: The QMP `Message` that caused the error.
 +    """
 +
 +
-+class NegotiationError(_WrappedProtocolError):
-+    """
-+    An exception occurred during the Negotiation phase.
+ class QMP(AsyncProtocol[Message], Events):
+     """
+     Implements a QMP client connection.
+@@ -98,6 +148,9 @@ async def run(self, address='/tmp/qemu.socket'):
+     #: Logger object used for debugging messages.
+     logger = logging.getLogger(__name__)
+ 
++    # Type alias for pending execute() result items
++    _PendingT = Union[Message, ExecInterruptedError]
 +
-+    :param error_message: Human-readable string describing the error.
-+    :param exc: The root-cause exception.
-+    """
+     def __init__(self, name: Optional[str] = None) -> None:
+         super().__init__(name)
+         Events.__init__(self)
+@@ -112,6 +165,9 @@ def __init__(self, name: Optional[str] = None) -> None:
+         # Cached Greeting, if one was awaited.
+         self._greeting: Optional[Greeting] = None
+ 
++        # Incoming RPC reply messages
++        self._pending: Dict[str, 'asyncio.Queue[QMP._PendingT]'] = {}
 +
-+
-+class QMP(AsyncProtocol[Message], Events):
-+    """
-+    Implements a QMP client connection.
-+
-+    QMP can be used to establish a connection as either the transport
-+    client or server, though this class always acts as the QMP client.
-+
-+    :param name: Optional nickname for the connection, used for logging.
-+
-+    Basic script-style usage looks like this::
-+
-+      qmp = QMP('my_virtual_machine_name')
-+      await qmp.connect(('127.0.0.1', 1234))
-+      ...
-+      res = await qmp.execute('block-query')
-+      ...
-+      await qmp.disconnect()
-+
-+    Basic async client-style usage looks like this::
-+
-+      class Client:
-+          def __init__(self, name: str):
-+              self.qmp = QMP(name)
-+
-+          async def watch_events(self):
-+              try:
-+                  async for event in self.events:
-+                      print(f"Event: {event['event']}")
-+              except asyncio.CancelledError:
-+                  return
-+
-+          async def run(self, address='/tmp/qemu.socket'):
-+              await self.qmp.connect(address)
-+              asyncio.create_task(self.watch_events())
-+              await self.qmp.runstate_changed.wait()
-+              await self.disconnect()
-+
-+    See `aqmp.events` for more detail on event handling patterns.
-+    """
-+    #: Logger object used for debugging messages.
-+    logger = logging.getLogger(__name__)
-+
-+    def __init__(self, name: Optional[str] = None) -> None:
-+        super().__init__(name)
-+        Events.__init__(self)
-+
-+        #: Whether or not to await a greeting after establishing a connection.
-+        self.await_greeting: bool = True
-+
-+        #: Whether or not to perform capabilities negotiation upon connection.
-+        #: Implies `await_greeting`.
-+        self.negotiate: bool = True
-+
-+        # Cached Greeting, if one was awaited.
-+        self._greeting: Optional[Greeting] = None
-+
-+    @upper_half
-+    async def _begin_new_session(self) -> None:
-+        """
-+        Initiate the QMP session.
-+
-+        Wait for the QMP greeting and perform capabilities negotiation.
-+
-+        :raise GreetingError: When the greeting is not understood.
-+        :raise NegotiationError: If the negotiation fails.
-+        :raise EOFError: When the server unexpectedly hangs up.
-+        :raise OSError: For underlying stream errors.
-+        """
-+        if self.await_greeting or self.negotiate:
-+            self._greeting = await self._get_greeting()
-+
-+        if self.negotiate:
-+            await self._negotiate()
-+
-+        # This will start the reader/writers:
-+        await super()._begin_new_session()
-+
-+    @upper_half
-+    async def _get_greeting(self) -> Greeting:
-+        """
-+        :raise GreetingError: When the greeting is not understood.
-+        :raise EOFError: When the server unexpectedly hangs up.
-+        :raise OSError: For underlying stream errors.
-+
-+        :return: the Greeting object given by the server.
-+        """
-+        self.logger.debug("Awaiting greeting ...")
-+
-+        try:
-+            msg = await self._recv()
-+            return Greeting(msg)
-+        except (ProtocolError, KeyError, TypeError) as err:
-+            emsg = "Did not understand Greeting"
-+            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
-+            raise GreetingError(emsg, err) from err
-+        except BaseException:
-+            # EOFError, OSError, or something unexpected.
-+            emsg = "Failed to receive Greeting"
-+            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
-+            raise
-+
-+    @upper_half
-+    async def _negotiate(self) -> None:
-+        """
-+        Perform QMP capabilities negotiation.
-+
-+        :raise NegotiationError: When negotiation fails.
-+        :raise EOFError: When the server unexpectedly hangs up.
-+        :raise OSError: For underlying stream errors.
-+        """
-+        self.logger.debug("Negotiating capabilities ...")
-+
-+        arguments: Dict[str, List[str]] = {'enable': []}
-+        if self._greeting and 'oob' in self._greeting.QMP.capabilities:
-+            arguments['enable'].append('oob')
-+        msg = self.make_execute_msg('qmp_capabilities', arguments=arguments)
-+
-+        # It's not safe to use execute() here, because the reader/writers
-+        # aren't running. AsyncProtocol *requires* that a new session
-+        # does not fail after the reader/writers are running!
-+        try:
-+            await self._send(msg)
-+            reply = await self._recv()
-+            assert 'return' in reply
-+            assert 'error' not in reply
-+        except (ProtocolError, AssertionError) as err:
-+            emsg = "Negotiation failed"
-+            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
-+            raise NegotiationError(emsg, err) from err
-+        except BaseException:
-+            # EOFError, OSError, or something unexpected.
-+            emsg = "Negotiation failed"
-+            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
-+            raise
-+
+     @upper_half
+     async def _begin_new_session(self) -> None:
+         """
+@@ -191,10 +247,27 @@ async def _negotiate(self) -> None:
+             self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
+             raise
+ 
 +    @bottom_half
-+    async def _on_message(self, msg: Message) -> None:
-+        """
-+        Add an incoming message to the appropriate queue/handler.
-+        """
-+        # Incoming messages are not fully parsed/validated here;
-+        # do only light peeking to know how to route the messages.
++    async def _bh_disconnect(self, force: bool = False) -> None:
++        await super()._bh_disconnect(force)
 +
-+        if 'event' in msg:
-+            await self._event_dispatch(msg)
++        if self._pending:
++            self.logger.debug("Cancelling pending executions")
++        keys = self._pending.keys()
++        for key in keys:
++            self.logger.debug("Cancelling execution '%s'", key)
++            self._pending[key].put_nowait(
++                ExecInterruptedError("Disconnected")
++            )
++
++        self.logger.debug("QMP Disconnected.")
++
+     @bottom_half
+     async def _on_message(self, msg: Message) -> None:
+         """
+         Add an incoming message to the appropriate queue/handler.
++
++        :raise ServerParseError: When Message has no 'event' nor 'id' member
+         """
+         # Incoming messages are not fully parsed/validated here;
+         # do only light peeking to know how to route the messages.
+@@ -204,7 +277,27 @@ async def _on_message(self, msg: Message) -> None:
+             return
+ 
+         # Below, we assume everything left is an execute/exec-oob response.
+-        # ... Which we'll implement in the next commit!
++
++        if 'id' not in msg:
++            # This is (very likely) a server parsing error.
++            # It doesn't inherently belong to any pending execution.
++            # Instead of performing clever recovery, just terminate.
++            # See "NOTE" in qmp-spec.txt, section 2.4.2
++            raise ServerParseError("Server sent a message without an ID,"
++                                   " indicating parse failure.", msg)
++
++        assert 'id' in msg
++        exec_id = str(msg['id'])
++
++        if exec_id not in self._pending:
++            # qmp-spec.txt, section 2.4:
++            # 'Clients should drop all the responses
++            # that have an unknown "id" field.'
++            self.logger.warning("Unknown ID '%s', message dropped.", exec_id)
++            self.logger.debug("Unroutable message: %s", str(msg))
 +            return
 +
-+        # Below, we assume everything left is an execute/exec-oob response.
-+        # ... Which we'll implement in the next commit!
-+
-+    @upper_half
-+    @bottom_half
-+    async def _do_recv(self) -> Message:
-+        """
-+        :raise OSError: When a stream error is encountered.
-+        :raise EOFError: When the stream is at EOF.
-+        :raise ProtocolError:
-+            When the Message is not understood.
-+            See also `Message._deserialize`.
-+
-+        :return: A single QMP `Message`.
-+        """
-+        msg_bytes = await self._readline()
-+        msg = Message(msg_bytes, eager=True)
-+        return msg
-+
-+    @upper_half
-+    @bottom_half
-+    def _do_send(self, msg: Message) -> None:
-+        """
-+        :raise ValueError: JSON serialization failure
-+        :raise TypeError: JSON serialization failure
-+        :raise OSError: When a stream error is encountered.
-+        """
-+        assert self._writer is not None
-+        self._writer.write(bytes(msg))
-+
-+    @upper_half
-+    def _cleanup(self) -> None:
-+        super()._cleanup()
-+        self._greeting = None
-+
-+    @classmethod
-+    def make_execute_msg(cls, cmd: str,
-+                         arguments: Optional[Mapping[str, object]] = None,
-+                         oob: bool = False) -> Message:
-+        """
-+        Create an executable message to be sent later.
-+
-+        :param cmd: QMP command name.
-+        :param arguments: Arguments (if any). Must be JSON-serializable.
-+        :param oob: If `True`, execute "out of band".
-+
-+        :return: An executable QMP `Message`.
-+        """
-+        msg = Message({'exec-oob' if oob else 'execute': cmd})
-+        if arguments is not None:
-+            msg['arguments'] = arguments
-+        return msg
++        await self._pending[exec_id].put(msg)
+ 
+     @upper_half
+     @bottom_half
+@@ -237,6 +330,7 @@ def _do_send(self, msg: Message) -> None:
+     def _cleanup(self) -> None:
+         super()._cleanup()
+         self._greeting = None
++        assert not self._pending
+ 
+     @classmethod
+     def make_execute_msg(cls, cmd: str,
 -- 
 2.31.1
 
