@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BBA3B9361
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:32:13 +0200 (CEST)
-Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09FA3B936C
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:34:44 +0200 (CEST)
+Received: from localhost ([::1]:36318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyxjg-0006OV-UQ
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:32:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34358)
+	id 1lyxm7-00013H-Sa
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyxUw-0005nP-L1
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56960)
+ id 1lyxVa-0007G8-V1
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:17:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyxUu-0006GQ-M0
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:58 -0400
+ id 1lyxVZ-0006et-2V
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:17:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625149016;
+ s=mimecast20190719; t=1625149056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/XhfYA2g9RCN4drP8vUJy7C+n2pp9jT/Q4HuQU/E7dQ=;
- b=DgqC1s3JkiIBVIEjFcpas9whjwbun8y9iIMSn6BHTyayGT6gw/pCePCgjGwf7mhMdcQe6I
- TbpSDalZWzVGTnc/a2dae5pRv114NeXDIrsByxRMFFMrx4RNk71JoL9SDsNPWFhw41U4P7
- gVcflQsrp7LaSdS9+ylqnLC+WPsxaic=
+ bh=wEs+EGaCVwVgsdq9B8HBs51p7HnNdyJCliUHEwdX5Gg=;
+ b=JJzcvVIZ97qDkATuy1UGX9rHJF5ML9k6wiISgzb+SkvJg81HrQovIv2t5znrPokyOrsWlv
+ X07LbfuDrNxzIOOgfRHbXwY6LEo0Hk1TneWSxh5J8GoQKKTm20EYv6QnALbgrrIGgQXeoc
+ fwzcKaORD3B3dZ3rG/GqkzAKL8/jq2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-nmsuHekZNNis0ttMyasQhA-1; Thu, 01 Jul 2021 10:16:51 -0400
-X-MC-Unique: nmsuHekZNNis0ttMyasQhA-1
+ us-mta-570-6jPqg1PbPQqPF0VNhaHqvg-1; Thu, 01 Jul 2021 10:17:35 -0400
+X-MC-Unique: 6jPqg1PbPQqPF0VNhaHqvg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8B00800C60;
- Thu,  1 Jul 2021 14:16:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2745810C1ADC;
+ Thu,  1 Jul 2021 14:17:34 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-230.ams2.redhat.com
  [10.36.114.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B09D60843;
- Thu,  1 Jul 2021 14:16:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 214E460862;
+ Thu,  1 Jul 2021 14:17:14 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, linfeng23@huawei.com,
  groug@kaod.org, huangy81@chinatelecom.cn, lvivier@redhat.com,
  lizhijian@cn.fujitsu.com, peterx@redhat.com, vgoyal@redhat.com
-Subject: [PULL 09/20] docs: describe the security considerations with
- virtiofsd xattr mapping
-Date: Thu,  1 Jul 2021 15:15:34 +0100
-Message-Id: <20210701141545.193571-10-dgilbert@redhat.com>
+Subject: [PULL 15/20] virtiofsd: Add capability to change/restore umask
+Date: Thu,  1 Jul 2021 15:15:40 +0100
+Message-Id: <20210701141545.193571-16-dgilbert@redhat.com>
 In-Reply-To: <20210701141545.193571-1-dgilbert@redhat.com>
 References: <20210701141545.193571-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +58,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -86,119 +85,139 @@ Cc: leobras@redhat.com, stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-Different guest xattr prefixes have distinct access control rules applied
-by the guest. When remapping a guest xattr care must be taken that the
-remapping does not allow the a guest user to bypass guest kernel access
-control rules.
+When parent directory has default acl and a file is created in that
+directory, then umask is ignored and final file permissions are
+determined using default acl instead. (man 2 umask).
 
-For example if 'trusted.*' which requires CAP_SYS_ADMIN is remapped
-to 'user.virtiofs.trusted.*', an unprivileged guest user which can
-write to 'user.*' can bypass the CAP_SYS_ADMIN control. Thus the
-target of any remapping must be explicitly blocked from read/writes
-by the guest, to prevent access control bypass.
+Currently, fuse applies the umask and sends modified mode in create
+request accordingly. fuse server can set FUSE_DONT_MASK and tell
+fuse client to not apply umask and fuse server will take care of
+it as needed.
 
-The examples shown in the virtiofsd man page already do the right
-thing and ensure safety, but the security implications of getting
-this wrong were not made explicit. This could lead to host admins
-and apps unwittingly creating insecure configurations.
+With posix acls enabled, requirement will be that we want umask
+to determine final file mode if parent directory does not have
+default acl.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210611120427.49736-1-berrange@redhat.com>
+So if posix acls are enabled, opt in for FUSE_DONT_MASK. virtiofsd
+will set umask of the thread doing file creation. And host kernel
+should use that umask if parent directory does not have default
+acls, otherwise umask does not take affect.
+
+Miklos mentioned that we already call unshare(CLONE_FS) for
+every thread. That means umask has now become property of per
+thread and it should be ok to manipulate it in file creation path.
+
+This patch only adds capability to change umask and restore it. It
+does not enable it yet. Next few patches will add capability to enable it
+based on if user enabled posix_acl or not.
+
+This should fix fstest generic/099.
+
+Reported-by: Luis Henriques <lhenriques@suse.de>
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20210622150852.1507204-6-vgoyal@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- docs/tools/virtiofsd.rst | 55 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 50 insertions(+), 5 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 4911e797cb..a6c3502710 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -127,8 +127,8 @@ Options
-   timeout.  ``always`` sets a long cache lifetime at the expense of coherency.
-   The default is ``auto``.
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 4dec087bd4..65b2c6fd74 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -122,6 +122,7 @@ struct lo_inode {
+ struct lo_cred {
+     uid_t euid;
+     gid_t egid;
++    mode_t umask;
+ };
  
--xattr-mapping
---------------
-+Extended attribute (xattr) mapping
-+----------------------------------
+ enum {
+@@ -172,6 +173,8 @@ struct lo_data {
+     /* An O_PATH file descriptor to /proc/self/fd/ */
+     int proc_self_fd;
+     int user_killpriv_v2, killpriv_v2;
++    /* If set, virtiofsd is responsible for setting umask during creation */
++    bool change_umask;
+ };
  
- By default the name of xattr's used by the client are passed through to the server
- file system.  This can be a problem where either those xattr names are used
-@@ -136,6 +136,9 @@ by something on the server (e.g. selinux client/server confusion) or if the
- virtiofsd is running in a container with restricted privileges where it cannot
- access some attributes.
+ static const struct fuse_opt lo_opts[] = {
+@@ -1134,7 +1137,8 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
+  * ownership of caller.
+  * TODO: What about selinux context?
+  */
+-static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
++static int lo_change_cred(fuse_req_t req, struct lo_cred *old,
++                          bool change_umask)
+ {
+     int res;
  
-+Mapping syntax
-+~~~~~~~~~~~~~~
-+
- A mapping of xattr names can be made using -o xattrmap=mapping where the ``mapping``
- string consists of a series of rules.
+@@ -1154,11 +1158,14 @@ static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
+         return errno_save;
+     }
  
-@@ -232,8 +235,48 @@ Note: When the 'security.capability' xattr is remapped, the daemon has to do
- extra work to remove it during many operations, which the host kernel normally
- does itself.
++    if (change_umask) {
++        old->umask = umask(req->ctx.umask);
++    }
+     return 0;
+ }
  
--xattr-mapping Examples
------------------------
-+Security considerations
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Operating systems typically partition the xattr namespace using
-+well defined name prefixes. Each partition may have different
-+access controls applied. For example, on Linux there are multiple
-+partitions
-+
-+ * ``system.*`` - access varies depending on attribute & filesystem
-+ * ``security.*`` - only processes with CAP_SYS_ADMIN
-+ * ``trusted.*`` - only processes with CAP_SYS_ADMIN
-+ * ``user.*`` - any process granted by file permissions / ownership
-+
-+While other OS such as FreeBSD have different name prefixes
-+and access control rules.
-+
-+When remapping attributes on the host, it is important to
-+ensure that the remapping does not allow a guest user to
-+evade the guest access control rules.
-+
-+Consider if ``trusted.*`` from the guest was remapped to
-+``user.virtiofs.trusted*`` in the host. An unprivileged
-+user in a Linux guest has the ability to write to xattrs
-+under ``user.*``. Thus the user can evade the access
-+control restriction on ``trusted.*`` by instead writing
-+to ``user.virtiofs.trusted.*``.
-+
-+As noted above, the partitions used and access controls
-+applied, will vary across guest OS, so it is not wise to
-+try to predict what the guest OS will use.
-+
-+The simplest way to avoid an insecure configuration is
-+to remap all xattrs at once, to a given fixed prefix.
-+This is shown in example (1) below.
-+
-+If selectively mapping only a subset of xattr prefixes,
-+then rules must be added to explicitly block direct
-+access to the target of the remapping. This is shown
-+in example (2) below.
-+
-+Mapping examples
-+~~~~~~~~~~~~~~~~
+ /* Regain Privileges */
+-static void lo_restore_cred(struct lo_cred *old)
++static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
+ {
+     int res;
  
- 1) Prefix all attributes with 'user.virtiofs.'
+@@ -1173,6 +1180,9 @@ static void lo_restore_cred(struct lo_cred *old)
+         fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
+         exit(1);
+     }
++
++    if (restore_umask)
++        umask(old->umask);
+ }
  
-@@ -271,7 +314,9 @@ stripping of 'user.virtiofs.'.
- The second rule hides unprefixed 'trusted.' attributes
- on the host.
- The third rule stops a guest from explicitly setting
--the 'user.virtiofs.' path directly.
-+the 'user.virtiofs.' path directly to prevent access
-+control bypass on the target of the earlier prefix
-+remapping.
- Finally, the fourth rule lets all remaining attributes
- through.
+ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+@@ -1202,7 +1212,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+         return;
+     }
  
+-    saverr = lo_change_cred(req, &old);
++    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
+     if (saverr) {
+         goto out;
+     }
+@@ -1211,7 +1221,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+ 
+     saverr = errno;
+ 
+-    lo_restore_cred(&old);
++    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
+ 
+     if (res == -1) {
+         goto out;
+@@ -1917,7 +1927,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+         return;
+     }
+ 
+-    err = lo_change_cred(req, &old);
++    err = lo_change_cred(req, &old, lo->change_umask);
+     if (err) {
+         goto out;
+     }
+@@ -1928,7 +1938,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+     fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
+     err = fd == -1 ? errno : 0;
+ 
+-    lo_restore_cred(&old);
++    lo_restore_cred(&old, lo->change_umask);
+ 
+     /* Ignore the error if file exists and O_EXCL was not given */
+     if (err && (err != EEXIST || (fi->flags & O_EXCL))) {
 -- 
 2.31.1
 
