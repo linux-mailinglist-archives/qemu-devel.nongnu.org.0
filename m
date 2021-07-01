@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335463B9406
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 17:35:02 +0200 (CEST)
-Received: from localhost ([::1]:32936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B72B3B9407
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 17:35:04 +0200 (CEST)
+Received: from localhost ([::1]:33132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyyiT-00060K-6g
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 11:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
+	id 1lyyiV-00067g-GR
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 11:35:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyyZk-0004eH-6w
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:26:00 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46022)
+ id 1lyyZj-0004dC-PA
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:59 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyyZW-0008Ez-Gx
+ id 1lyyZX-0008FY-Od
  for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:59 -0400
-Received: by mail-pl1-x634.google.com with SMTP id s13so739598plg.12
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 08:25:45 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id o18so5784662pgu.10
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 08:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QXN13A+EVZfIbPM/1TIJvsr4KsfxBAPJnkVnda2aJXw=;
- b=HLk2AkTtwOsBTpKS3AyU1e0Nt6/vo5MQWvVc+6vyABvk0vMZX6Gi6zJ74qZrL09CYT
- 6QRUIDFnIu7rCdRYGwn8/Enrj4qXPlrZqQoeuE8bZCge6UH47F9HhBma9KOgHKbx6Zo/
- 5+0Naw/GPvX3Pp0GG2xx6S+zeDnZjmbxHHHOiXvq/ESKzpJGjGOQumU18TZiAg40P4zp
- MkMEhoG3V6DeoY2IzqVaE+Zy8ar1FAns0UZyu+O89l82Y/JDWfRbmkiZPeq7vqcc3yTI
- 4w5uGIEmLQZtHGLvyZWo4UAI/7OyOK3ZC88T9KkD2TgpxigWma0d0FBH8ao8LmDJH0mF
- i5qw==
+ bh=Ml7uB0OtQwcxX5TZhhBtWO2veCNQTvvwJhhIq0gQl44=;
+ b=i1cgegt7gkgPQ7KB4t5PbQCp2cztGtdmmUfl1Bn5m9ArVgu87g2+IfHsF3J+e3LHAH
+ MHtaJGUaL4COmZXZAsrHCIoYHXHQidSboKxMUR/nPzBBECqJKQBPdV8FxEOEzIMyzOPf
+ nDbD06XHUmp9xNTgwuqwtkJdNKSKn91QHbO8AO4QU95XuUgK5EaikaXMw5q6+nTkHixk
+ Y8zIKVlqsngyBcGLClI1bgeDaw/5O5lyq6dVvh41vxW8Ryj+0cOYWxpUcXRhW5tfFjLn
+ 3BEb11lHbsqGlIrje3l6IRP2laSqWE+l7+0qRX/65ZgKOsNe1I0O0EsDJFdieYNaLItM
+ Hf5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QXN13A+EVZfIbPM/1TIJvsr4KsfxBAPJnkVnda2aJXw=;
- b=o378D1Ag5Cb7RUuMQ0qmsVsE9kPnG5TqW6sbxHlTw4M815adyh1hCGnnagL123ZJ7R
- mc8I/jffLhQhxK0AsZlHEvTY8PL+6FDJtXx3Zif7lmbpE+HhGNCpK9+pfKX1S4HFb7N7
- T4Ct7xIKKWYbLdXaGX6pcH1/kg0DeFwlsIA6TezcIs67G4qUzyE/+DWyWDZtePiXpRhT
- H3Gf2JaksnGLp7Br1CG9PG+mHBLXvclmafwblVWPozgDoo4mLAvrNE5MpNaSL5dHLWrv
- z44l7I5idMUTDmmSJvCip7vZuzt5zC5y0q9tc5zMCRq7/guhOO5rg6whJhBatLP+5GPe
- cNCA==
-X-Gm-Message-State: AOAM531O+U4OmHE/ltoexUanIECl6Pi4GnrV5llb0HjC/cp5/+zVWHA0
- 2yETbSIxqETJnFv96CuN1BjtcfpdlqZp9Q==
-X-Google-Smtp-Source: ABdhPJx4vhbB/4OIypggMWdRdOdsQAp64viw4Zk/ht1wdrjSEuPu83mIkgFfr94TdtxUKAOqFhj3tw==
-X-Received: by 2002:a17:90a:9205:: with SMTP id
- m5mr10628081pjo.172.1625153144640; 
- Thu, 01 Jul 2021 08:25:44 -0700 (PDT)
+ bh=Ml7uB0OtQwcxX5TZhhBtWO2veCNQTvvwJhhIq0gQl44=;
+ b=HjUFe4xyH/oEzr8Jh4AHvf+VMplIs8HAAQ5JEjfmqQLITVhK5zqKyh3Gx2m+skWaiT
+ bSHaJmtobnpk6bPQO9iN8TsFY0M85Vs+tTfo+r1TBqQBUfdrHtNE9QRyLqniGUODzurg
+ SLNVa4ckD4UFs3gRou4+70eTtlGOwMwl0lthm0HHUNz1VhIASwen5ASqpcjqzibgiZM6
+ jDlWetdiJrNyImNtivYdqTRl/v4Rn1vNbSk8Hsao3fRLMMsLWgOmG9AGlhwkWD/J4USw
+ PpTSCmhRe04Z1aRMxKKrfj6+ZRiAdKy5pJcXm5i6IdgbFHib+XJNjWqPfrbHzDGJK+94
+ UxQA==
+X-Gm-Message-State: AOAM533fuYINmd14EGmoJhnuSOnvAFF8l8rA1kVX3UBG1kzmBZMIE9ut
+ NNKQDrSSUsMciAkAkG60Fk2E4RLGYDO0BQ==
+X-Google-Smtp-Source: ABdhPJy61jeH9FsRfWZ053FACCgtYlsj5JxmL4EsFQOu8RuZd3+48yvS4wg5Z9rTBXBwPi10zZMROw==
+X-Received: by 2002:a05:6a00:c84:b029:311:dced:c744 with SMTP id
+ a4-20020a056a000c84b0290311dcedc744mr557641pfv.52.1625153145201; 
+ Thu, 01 Jul 2021 08:25:45 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id j4sm10213197pjv.7.2021.07.01.08.25.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 01 Jul 2021 08:25:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/17] accel/tcg: Drop CF_NO_GOTO_PTR from -d nochain
-Date: Thu,  1 Jul 2021 08:25:30 -0700
-Message-Id: <20210701152537.3330420-11-richard.henderson@linaro.org>
+Subject: [PATCH 11/17] accel/tcg: Handle -singlestep in curr_cflags
+Date: Thu,  1 Jul 2021 08:25:31 -0700
+Message-Id: <20210701152537.3330420-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210701152537.3330420-1-richard.henderson@linaro.org>
 References: <20210701152537.3330420-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,29 +88,61 @@ Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The purpose of suppressing goto_ptr from -d nochain had been
-to return to the main loop so that -d cpu would be recognized.
-But we now include -d cpu logging in helper_lookup_tb_ptr so
-there is no need to exclude goto_ptr.
+Exchange the test in translator_use_goto_tb for CF_NO_GOTO_TB,
+and the test in tb_gen_code for setting CF_COUNT_MASK to 1.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/cpu-exec.c      | 8 +++++++-
+ accel/tcg/translate-all.c | 2 +-
+ accel/tcg/translator.c    | 2 +-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d3232d5764..70ea3c7d68 100644
+index 70ea3c7d68..2206c463f5 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -150,7 +150,7 @@ uint32_t curr_cflags(CPUState *cpu)
+@@ -149,7 +149,13 @@ uint32_t curr_cflags(CPUState *cpu)
+ {
      uint32_t cflags = cpu->tcg_cflags;
  
-     if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
--        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR;
-+        cflags |= CF_NO_GOTO_TB;
+-    if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
++    /*
++     * For singlestep and -d nochain, suppress goto_tb so that
++     * we can log -d cpu,exec after every TB.
++     */
++    if (singlestep) {
++        cflags |= CF_NO_GOTO_TB | 1;
++    } else if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
+         cflags |= CF_NO_GOTO_TB;
      }
  
-     return cflags;
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index d0177d772d..586f8ca4ef 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1437,7 +1437,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     }
+     QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 != TCG_MAX_INSNS);
+ 
+-    if (cpu->singlestep_enabled || singlestep) {
++    if (cpu->singlestep_enabled) {
+         max_insns = 1;
+     }
+ 
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 2ea5a74f30..a59eb7c11b 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -39,7 +39,7 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
+     }
+ 
+     /* Suppress goto_tb in the case of single-steping.  */
+-    if (db->singlestep_enabled || singlestep) {
++    if (db->singlestep_enabled) {
+         return false;
+     }
+ 
 -- 
 2.25.1
 
