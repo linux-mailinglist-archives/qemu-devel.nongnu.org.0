@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4A73B8CD0
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:15:04 +0200 (CEST)
-Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFF93B8CD1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:15:05 +0200 (CEST)
+Received: from localhost ([::1]:40844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyo6R-0002bl-4C
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:15:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42280)
+	id 1lyo6S-0002gO-Ra
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4z-0008Gz-61
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20206)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo50-0008If-55
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4u-0000co-Ry
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4w-0000di-De
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625112808;
+ s=mimecast20190719; t=1625112809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u37O0ssgS4A0aLWMkEpMNTyBmETh8DDdyDuOTHgvjtg=;
- b=ds+KH2PasmcHi4gT/7/PGGo8E6cYR48V4qToUhfveNrm+OfQZCNiDB9Y1cTKrDvdqKQVJh
- y4cmTJbDDL+tzSnQd18rK1YQCgyDQkvDw5ks4cWi0dchbdRURN3z2A4sDx4jjz9JGQKSUi
- 28NxP+BD7rSazio6HXL62Hlbf2U4hBU=
+ bh=seoFGKa3kTLAoNY38uU4GpNn7IHY7I0UEY0RjfUZw7w=;
+ b=C7xqFEth81CaCYOJ0M/Fj9Ez6QaRMDKLAnZwR9TjVlx0JW2HE06oHI0jfI92wnae/Achw2
+ QxadSYXy8zzxU1MqWTsfBAsDUEGZKNtB58nfGUAocZw4O7LIsCZwfLQ4hqUQoE4qcageXO
+ +5/sXiRCxvXQgu6EYrFoseyZxiV+qlw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-xtBaVglIOHGtS0_UN-ZfMQ-1; Thu, 01 Jul 2021 00:13:27 -0400
-X-MC-Unique: xtBaVglIOHGtS0_UN-ZfMQ-1
+ us-mta-535-lXzhjoWcOg-VieWWaFshGA-1; Thu, 01 Jul 2021 00:13:28 -0400
+X-MC-Unique: lXzhjoWcOg-VieWWaFshGA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39EE2801F97;
- Thu,  1 Jul 2021 04:13:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83A5718414A0;
+ Thu,  1 Jul 2021 04:13:27 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E88069CB4;
- Thu,  1 Jul 2021 04:13:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7774469CB4;
+ Thu,  1 Jul 2021 04:13:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/20] python/aqmp: add error classes
-Date: Thu,  1 Jul 2021 00:12:57 -0400
-Message-Id: <20210701041313.1696009-5-jsnow@redhat.com>
+Subject: [PATCH 05/20] python/aqmp: add asyncio compatibility wrappers
+Date: Thu,  1 Jul 2021 00:12:58 -0400
+Message-Id: <20210701041313.1696009-6-jsnow@redhat.com>
 In-Reply-To: <20210701041313.1696009-1-jsnow@redhat.com>
 References: <20210701041313.1696009-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,135 +85,101 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Python 3.6 does not have all of the goodies that Python 3.7 does, and I
+need to support both. Add some compatibility wrappers needed for this
+purpose.
+
+(Note: Python 3.6 is EOL December 2021.)
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/__init__.py |  7 +++
- python/qemu/aqmp/error.py    | 97 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 104 insertions(+)
- create mode 100644 python/qemu/aqmp/error.py
+ python/qemu/aqmp/util.py | 77 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
+ create mode 100644 python/qemu/aqmp/util.py
 
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index 4c713b3ccf..8e955d784d 100644
---- a/python/qemu/aqmp/__init__.py
-+++ b/python/qemu/aqmp/__init__.py
-@@ -21,7 +21,14 @@
- # This work is licensed under the terms of the GNU GPL, version 2.  See
- # the COPYING file in the top-level directory.
- 
-+from .error import AQMPError, MultiException
-+
- 
- # The order of these fields impact the Sphinx documentation order.
- __all__ = (
-+    # Exceptions
-+    'AQMPError',
-+
-+    # Niche topics
-+    'MultiException',
- )
-diff --git a/python/qemu/aqmp/error.py b/python/qemu/aqmp/error.py
+diff --git a/python/qemu/aqmp/util.py b/python/qemu/aqmp/util.py
 new file mode 100644
-index 0000000000..126f77bb5c
+index 0000000000..c88a2201bc
 --- /dev/null
-+++ b/python/qemu/aqmp/error.py
-@@ -0,0 +1,97 @@
++++ b/python/qemu/aqmp/util.py
+@@ -0,0 +1,77 @@
 +"""
-+AQMP Error Classes
++Miscellaneous Utilities
 +
-+This package seeks to provide semantic error classes that are intended
-+to be used directly by clients when they would like to handle particular
-+semantic failures (e.g. "failed to connect") without needing to know the
-+enumeration of possible reasons for that failure.
-+
-+AQMPError serves as the ancestor for *almost* all exceptions raised by
-+this package, and is suitable for use in handling semantic errors from
-+this library. In most cases, individual public methods will attempt to
-+catch and re-encapsulate various exceptions to provide a semantic
-+error-handling interface.
-+
-+.. caution::
-+
-+    The only exception that is not an `AQMPError` is
-+    `MultiException`. It is special, and used to encapsulate one-or-more
-+    exceptions of an arbitrary kind; this exception MAY be raised on
-+    `disconnect()` when there are two or more exceptions from the AQMP
-+    event loop to report back to the caller.
-+
-+    Every pain has been taken to prevent this circumstance but in
-+    certain cases these exceptions may occasionally be (unfortunately)
-+    visible. See `MultiException` and `AsyncProtocol.disconnect()` for
-+    more details.
-+
-+
-+.. admonition:: AQMP Exception Hierarchy Reference
-+
-+ |   `Exception`
-+ |    +-- `MultiException`
-+ |    +-- `AQMPError`
-+ |         +-- `ConnectError`
-+ |         +-- `StateError`
-+ |         +-- `ExecInterruptedError`
-+ |         +-- `ExecuteError`
-+ |         +-- `ListenerError`
-+ |         +-- `ProtocolError`
-+ |              +-- `DeserializationError`
-+ |              +-- `UnexpectedTypeError`
-+ |              +-- `ServerParseError`
-+ |              +-- `BadReplyError`
-+ |              +-- `GreetingError`
-+ |              +-- `NegotiationError`
++This module primarily provides compatibility wrappers for Python 3.6 to
++provide some features that otherwise become available in Python 3.7+.
 +"""
 +
-+from typing import Iterable, Iterator, List
++import asyncio
++import sys
++from typing import (
++    Any,
++    Coroutine,
++    Optional,
++    TypeVar,
++)
 +
 +
-+class AQMPError(Exception):
-+    """Abstract error class for all errors originating from this package."""
++T = TypeVar('T')
 +
 +
-+class ProtocolError(AQMPError):
++def create_task(coro: Coroutine[Any, Any, T],
++                loop: Optional[asyncio.AbstractEventLoop] = None
++                ) -> 'asyncio.Future[T]':
 +    """
-+    Abstract error class for protocol failures.
++    Python 3.6-compatible `asyncio.create_task` wrapper.
 +
-+    Semantically, these errors are generally the fault of either the
-+    protocol server or as a result of a bug in this this library.
++    :param coro: The coroutine to execute in a task.
++    :param loop: Optionally, the loop to create the task in.
 +
-+    :param error_message: Human-readable string describing the error.
++    :return: An `asyncio.Future` object.
 +    """
-+    def __init__(self, error_message: str):
-+        super().__init__(error_message)
-+        #: Human-readable error message, without any prefix.
-+        self.error_message: str = error_message
++    # Python 3.7+:
++    if sys.version_info >= (3, 7):
++        # pylint: disable=no-member
++        if loop is not None:
++            return loop.create_task(coro)
++        return asyncio.create_task(coro)
++
++    # Python 3.6:
++    return asyncio.ensure_future(coro, loop=loop)
 +
 +
-+class MultiException(Exception):
++def is_closing(writer: asyncio.StreamWriter) -> bool:
 +    """
-+    Used for multiplexing exceptions.
++    Python 3.6-compatible `asyncio.StreamWriter.is_closing` wrapper.
 +
-+    This exception is used in the case that errors were encountered in both the
-+    Reader and Writer tasks, and we must raise more than one.
-+
-+    PEP 0654 seeks to remedy this clunky infrastructure, but it will not be
-+    available for quite some time -- possibly Python 3.11 or even later.
-+
-+    :param exceptions: An iterable of `BaseException` objects.
++    :param writer: The `asyncio.StreamWriter` object.
++    :return: `True` if the writer is closing, or closed.
 +    """
-+    def __init__(self, exceptions: Iterable[BaseException]):
-+        super().__init__(exceptions)
-+        self._exceptions: List[BaseException] = list(exceptions)
++    if hasattr(writer, 'is_closing'):
++        # Python 3.7+
++        return writer.is_closing()  # type: ignore
 +
-+    def __str__(self) -> str:
-+        ret = "------------------------------\n"
-+        ret += "Multiple Exceptions occurred:\n"
-+        ret += "\n"
-+        for i, exc in enumerate(self._exceptions):
-+            ret += f"{i}) {str(exc)}\n"
-+            ret += "\n"
-+        ret += "-----------------------------\n"
-+        return ret
++    # Python 3.6:
++    transport = writer.transport
++    assert isinstance(transport, asyncio.WriteTransport)
++    return transport.is_closing()
 +
-+    def __iter__(self) -> Iterator[BaseException]:
-+        return iter(self._exceptions)
++
++async def wait_closed(writer: asyncio.StreamWriter) -> None:
++    """
++    Python 3.6-compatible `asyncio.StreamWriter.wait_closed` wrapper.
++
++    :param writer: The `asyncio.StreamWriter` to wait on.
++    """
++    if hasattr(writer, 'wait_closed'):
++        # Python 3.7+
++        await writer.wait_closed()  # type: ignore
++    else:
++        # Python 3.6
++        transport = writer.transport
++        assert isinstance(transport, asyncio.WriteTransport)
++
++        while not transport.is_closing():
++            await asyncio.sleep(0.0)
++        while transport.get_write_buffer_size() > 0:
++            await asyncio.sleep(0.0)
 -- 
 2.31.1
 
