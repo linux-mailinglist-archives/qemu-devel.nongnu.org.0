@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8764B3B930A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:18:49 +0200 (CEST)
-Received: from localhost ([::1]:52888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5443B9333
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:23:48 +0200 (CEST)
+Received: from localhost ([::1]:39648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyxWi-0007eU-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34118)
+	id 1lyxbX-0000xp-6F
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyxUI-0004uS-Uo
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42010)
+ id 1lyxUe-0005Ar-KL
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyxUH-0005xW-8X
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:18 -0400
+ id 1lyxUZ-000655-NI
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625148976;
+ s=mimecast20190719; t=1625148992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wvQHA93JiGIpz1G0Cyy5ab5xSbhqVWLuEjlIwl7FZ/w=;
- b=Wpjl6qrr7QHFiWkt3K9YeVMBBZ9Lk8e+zQosGxnhkDi/rL8fppCuo/Sqb2IJmQv16O7iNi
- VkC3F6vwd4Zv+F3tccXM0RxEisnGRymMLhO/IPWAmAEoX+C7NF/92Q+2s/JxaRLyNSbPyy
- GZmXQhFNSEQkYWjFoC6oB18T9FXNZdk=
+ bh=bWSVkaQLg9fnLysApXUXsqjRYe9B5EjHAPM+SLaUhmg=;
+ b=M84VclF6tIZQX9GeLOk7POhNlot3DVjQN1FQ04PcvpqROAU5ZzD7qRF51KZdW12eRU5Hc0
+ Q/P9gnq+05wDJvBo1VLrO8vou1pY7muEmeRHKzzHK5CPWujpXa917iWWOMtIe7rkePMUZm
+ gn7zUzjnlQ7uDpmCgoJi/fock+Mmp5U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-touYdJuAPRSWfDD1sSz5wQ-1; Thu, 01 Jul 2021 10:16:15 -0400
-X-MC-Unique: touYdJuAPRSWfDD1sSz5wQ-1
+ us-mta-588-qvIKV_mhOOylLA-u6NMJuw-1; Thu, 01 Jul 2021 10:16:28 -0400
+X-MC-Unique: qvIKV_mhOOylLA-u6NMJuw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DCB0804141;
- Thu,  1 Jul 2021 14:16:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D3AA1023F49;
+ Thu,  1 Jul 2021 14:16:27 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-230.ams2.redhat.com
  [10.36.114.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3FD360843;
- Thu,  1 Jul 2021 14:16:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 861CC60843;
+ Thu,  1 Jul 2021 14:16:14 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, linfeng23@huawei.com,
  groug@kaod.org, huangy81@chinatelecom.cn, lvivier@redhat.com,
  lizhijian@cn.fujitsu.com, peterx@redhat.com, vgoyal@redhat.com
-Subject: [PULL 03/20] migration: fix the memory overwriting risk in
- add_to_iovec
-Date: Thu,  1 Jul 2021 15:15:28 +0100
-Message-Id: <20210701141545.193571-4-dgilbert@redhat.com>
+Subject: [PULL 04/20] migration: Move yank outside
+ qemu_start_incoming_migration()
+Date: Thu,  1 Jul 2021 15:15:29 +0100
+Message-Id: <20210701141545.193571-5-dgilbert@redhat.com>
 In-Reply-To: <20210701141545.193571-1-dgilbert@redhat.com>
 References: <20210701141545.193571-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -86,72 +86,79 @@ Cc: leobras@redhat.com, stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Feng Lin <linfeng23@huawei.com>
+From: Peter Xu <peterx@redhat.com>
 
-When testing migration, a Segmentation fault qemu core is generated.
-0  error_free (err=0x1)
-1  0x00007f8b862df647 in qemu_fclose (f=f@entry=0x55e06c247640)
-2  0x00007f8b8516d59a in migrate_fd_cleanup (s=s@entry=0x55e06c0e1ef0)
-3  0x00007f8b8516d66c in migrate_fd_cleanup_bh (opaque=0x55e06c0e1ef0)
-4  0x00007f8b8626a47f in aio_bh_poll (ctx=ctx@entry=0x55e06b5a16d0)
-5  0x00007f8b8626e71f in aio_dispatch (ctx=0x55e06b5a16d0)
-6  0x00007f8b8626a33d in aio_ctx_dispatch (source=<optimized out>, callback=<optimized out>, user_data=<optimized out>)
-7  0x00007f8b866bdba4 in g_main_context_dispatch ()
-8  0x00007f8b8626cde9 in glib_pollfds_poll ()
-9  0x00007f8b8626ce62 in os_host_main_loop_wait (timeout=<optimized out>)
-10 0x00007f8b8626cffd in main_loop_wait (nonblocking=nonblocking@entry=0)
-11 0x00007f8b862ef01f in main_loop ()
-Using gdb print the struct QEMUFile f = {
-  ...,
-  iovcnt = 65, last_error = 21984,
-  last_error_obj = 0x1, shutdown = true
-}
-Well iovcnt is overflow, because the max size of MAX_IOV_SIZE is 64.
-struct QEMUFile {
-    ...;
-    struct iovec iov[MAX_IOV_SIZE];
-    unsigned int iovcnt;
-    int last_error;
-    Error *last_error_obj;
-    bool shutdown;
-};
-iovcnt and last_error is overwrited by add_to_iovec().
-Right now, add_to_iovec() increase iovcnt before check the limit.
-And it seems that add_to_iovec() assumes that iovcnt will set to zero
-in qemu_fflush(). But qemu_fflush() will directly return when f->shutdown
-is true.
+Starting from commit b5eea99ec2f5c, qmp_migrate_recover() calls unregister
+before calling qemu_start_incoming_migration(). I believe it wanted to mitigate
+the next call to yank_register_instance(), but I think that's wrong.
 
-The situation may occur when libvirtd restart during migration, after
-f->shutdown is set, before calling qemu_file_set_error() in
-qemu_file_shutdown().
+Firstly, if during recover, we should keep the yank instance there, not
+"quickly removing and adding it back".
 
-So the safiest way is checking the iovcnt before increasing it.
+Meanwhile, calling qmp_migrate_recover() twice with b5eea99ec2f5c will directly
+crash the dest qemu (right now it can't; but it'll start to work right after
+the next patch) because the 1st call of qmp_migrate_recover() will unregister
+permanently when the channel failed to establish, then the 2nd call of
+qmp_migrate_recover() crashes at yank_unregister_instance().
 
-Signed-off-by: Feng Lin <linfeng23@huawei.com>
-Message-Id: <20210625062138.1899-1-linfeng23@huawei.com>
+This patch fixes it by moving yank ops out of qemu_start_incoming_migration()
+into qmp_migrate_incoming.  For qmp_migrate_recover(), drop the unregister of
+yank instance too since we keep it there during the recovery phase.
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20210629181356.217312-2-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  Fix typo in 'writeable' which is actually misnamed 'writable'
 ---
- migration/qemu-file.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ migration/migration.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index d6e03dbc0e..1eacf9e831 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -416,6 +416,11 @@ static int add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
-     {
-         f->iov[f->iovcnt - 1].iov_len += size;
+diff --git a/migration/migration.c b/migration/migration.c
+index 4228635d18..1bb03d1eca 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -456,10 +456,6 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
+     const char *p = NULL;
+ 
+-    if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
+-        return;
+-    }
+-
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+@@ -474,7 +470,6 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+     } else if (strstart(uri, "fd:", &p)) {
+         fd_start_incoming_migration(p, errp);
      } else {
-+        if (f->iovcnt >= MAX_IOV_SIZE) {
-+            /* Should only happen if a previous fflush failed */
-+            assert(f->shutdown || !qemu_file_is_writable(f));
-+            return 1;
-+        }
-         if (may_free) {
-             set_bit(f->iovcnt, f->may_free);
-         }
+-        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+         error_setg(errp, "unknown migration protocol: %s", uri);
+     }
+ }
+@@ -2083,9 +2078,14 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+         return;
+     }
+ 
++    if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
++        return;
++    }
++
+     qemu_start_incoming_migration(uri, &local_err);
+ 
+     if (local_err) {
++        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+         error_propagate(errp, local_err);
+         return;
+     }
+@@ -2114,7 +2114,6 @@ void qmp_migrate_recover(const char *uri, Error **errp)
+      * only re-setup the migration stream and poke existing migration
+      * to continue using that newly established channel.
+      */
+-    yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+     qemu_start_incoming_migration(uri, errp);
+ }
+ 
 -- 
 2.31.1
 
