@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2243B8C0B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 04:18:20 +0200 (CEST)
-Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D5A3B8BF8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 04:12:12 +0200 (CEST)
+Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lymHT-0001uu-Sh
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 22:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52454)
+	id 1lymBX-0002rZ-Dc
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 22:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9M-0008KN-03
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:09:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25897)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9N-0008Om-UU
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:09:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym99-00068L-RY
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:09:55 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9G-00069F-Hw
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:09:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625105383;
+ s=mimecast20190719; t=1625105388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zwspzJIfZEJC6JdklCYV4JdKAqGdyvuu55+TbwVDQ8g=;
- b=A1NzgRLhiLaygIQe/eW6YuE3zRgx8515Yw8790o1EHyWcS0BpUMjdfTnI6UYA2t+rR6iyF
- oeFwhPz4z5LWAN65NxazhkNF6dDzrm4D5rJ9hp5j9QKfjfC7rlTlfT79hDCJF7ZdYrVTMn
- x25TpM0Vi005ACRQPAKvOps9hsZLBJ0=
+ bh=k2Jlt7ayTQw9UrkN/YwdPFXVgbNVLCa4/dQWmbF7oGk=;
+ b=TiSW6wr+Q+bGr8ZqfjsFNvP78s7cjZVv5q/IVTm2H61fgYmKFhJlFNq290a1dpWCknHsDg
+ fZDpE0p+Y5TmggbdGKFIa4fFDkLAkNFwUniTT0FCItJpNwoGoNCKXBpv5nZE/RizTb7hy7
+ 5ppPi1jpwj0t8Ulg7DPfHGAVn42jwfQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-mwekNntxP_KTP-ElZqVYgg-1; Wed, 30 Jun 2021 22:09:40 -0400
-X-MC-Unique: mwekNntxP_KTP-ElZqVYgg-1
+ us-mta-252-Ft1FG4WgOaSElP3Kt2s5Vg-1; Wed, 30 Jun 2021 22:09:41 -0400
+X-MC-Unique: Ft1FG4WgOaSElP3Kt2s5Vg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 742A2100B3B5;
- Thu,  1 Jul 2021 02:09:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96376100B3B2;
+ Thu,  1 Jul 2021 02:09:40 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 546F35C225;
- Thu,  1 Jul 2021 02:09:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 891F25C261;
+ Thu,  1 Jul 2021 02:09:39 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] python: Add no-install usage instructions
-Date: Wed, 30 Jun 2021 22:09:12 -0400
-Message-Id: <20210701020921.1679468-7-jsnow@redhat.com>
+Subject: [PULL 07/15] python: rename 'venv-check' target to 'check-pipenv'
+Date: Wed, 30 Jun 2021 22:09:13 -0400
+Message-Id: <20210701020921.1679468-8-jsnow@redhat.com>
 In-Reply-To: <20210701020921.1679468-1-jsnow@redhat.com>
 References: <20210701020921.1679468-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,56 +87,108 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's not encouraged, but it's legitimate to want to know how to do.
+Well, Cleber was right, this is a better name.
+
+In preparation for adding a different kind of virtual environment check
+(One that simply uses whichever version of Python you happen to have),
+rename this test 'check-pipenv' so that it matches the CI job
+'check-python-pipenv'.
+
+Remove the "If you don't know which test to run" hint, because it's not
+actually likely you have Python 3.6 installed to be able to run the
+test. It's still the test I'd most prefer you to run, but it's not the
+test you are most likely to be able to run.
+
+Rename the 'venv' target to 'pipenv' as well, and move the more
+pertinent help text under the 'check-pipenv' target.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-id: 20210629214323.1329806-7-jsnow@redhat.com
+Message-id: 20210629214323.1329806-8-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/README.rst | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ python/README.rst              |  2 +-
+ .gitlab-ci.d/static_checks.yml |  2 +-
+ python/Makefile                | 21 +++++++++++----------
+ 3 files changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/python/README.rst b/python/README.rst
-index 107786ffdc..d4502fdb60 100644
+index d4502fdb60..9c1fceaee7 100644
 --- a/python/README.rst
 +++ b/python/README.rst
-@@ -37,6 +37,34 @@ See `Installing packages using pip and virtual environments
- for more information.
+@@ -79,7 +79,7 @@ Files in this directory
+ - ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
+ - ``Pipfile`` is used by Pipenv to generate ``Pipfile.lock``.
+ - ``Pipfile.lock`` is a set of pinned package dependencies that this package
+-  is tested under in our CI suite. It is used by ``make venv-check``.
++  is tested under in our CI suite. It is used by ``make check-pipenv``.
+ - ``README.rst`` you are here!
+ - ``VERSION`` contains the PEP-440 compliant version used to describe
+   this package; it is referenced by ``setup.cfg``.
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index c5fa4fce26..b01f6ec231 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -30,7 +30,7 @@ check-python-pipenv:
+   stage: test
+   image: $CI_REGISTRY_IMAGE/qemu/python:latest
+   script:
+-    - make -C python venv-check
++    - make -C python check-pipenv
+   variables:
+     GIT_DEPTH: 1
+   needs:
+diff --git a/python/Makefile b/python/Makefile
+index b5621b0d54..07ad73ccd0 100644
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -1,15 +1,13 @@
+-.PHONY: help venv venv-check check clean distclean develop
++.PHONY: help pipenv check-pipenv check clean distclean develop
  
+ help:
+ 	@echo "python packaging help:"
+ 	@echo ""
+-	@echo "make venv:       Create pipenv's virtual environment."
+-	@echo "    NOTE: Requires Python 3.6 and pipenv."
+-	@echo "          Will download packages from PyPI."
+-	@echo "    Hint: (On Fedora): 'sudo dnf install python36 pipenv'"
+-	@echo ""
+-	@echo "make venv-check: run linters using pipenv's virtual environment."
+-	@echo "    Hint: If you don't know which test to run, run this one!"
++	@echo "make check-pipenv:"
++	@echo "    Run tests in pipenv's virtual environment."
++	@echo "    These tests use the oldest dependencies."
++	@echo "    Requires: Python 3.6 and pipenv."
++	@echo "    Hint (Fedora): 'sudo dnf install python3.6 pipenv'"
+ 	@echo ""
+ 	@echo "make develop:    Install deps for 'make check', and"
+ 	@echo "                 the qemu libs in editable/development mode."
+@@ -18,18 +16,21 @@ help:
+ 	@echo ""
+ 	@echo "make check-tox:  run linters using multiple python versions."
+ 	@echo ""
++	@echo "make pipenv"
++	@echo "    Creates pipenv's virtual environment (.venv)"
++	@echo ""
+ 	@echo "make clean:      remove package build output."
+ 	@echo ""
+ 	@echo "make distclean:  remove venv files, qemu package forwarder,"
+ 	@echo "                 built distribution files, and everything"
+ 	@echo "                 from 'make clean'."
  
-+Using these packages without installing them
-+--------------------------------------------
-+
-+These packages may be used without installing them first, by using one
-+of two tricks:
-+
-+1. Set your PYTHONPATH environment variable to include this source
-+   directory, e.g. ``~/src/qemu/python``. See
-+   https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH
-+
-+2. Inside a Python script, use ``sys.path`` to forcibly include a search
-+   path prior to importing the ``qemu`` namespace. See
-+   https://docs.python.org/3/library/sys.html#sys.path
-+
-+A strong downside to both approaches is that they generally interfere
-+with static analysis tools being able to locate and analyze the code
-+being imported.
-+
-+Package installation also normally provides executable console scripts,
-+so that tools like ``qmp-shell`` are always available via $PATH. To
-+invoke them without installation, you can invoke e.g.:
-+
-+``> PYTHONPATH=~/src/qemu/python python3 -m qemu.qmp.qmp_shell``
-+
-+The mappings between console script name and python module path can be
-+found in ``setup.cfg``.
-+
-+
- Files in this directory
- -----------------------
+-venv: .venv
++pipenv: .venv
+ .venv: Pipfile.lock
+ 	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
+ 	@touch .venv
  
+-venv-check: venv
++check-pipenv: pipenv
+ 	@pipenv run make check
+ 
+ develop:
 -- 
 2.31.1
 
