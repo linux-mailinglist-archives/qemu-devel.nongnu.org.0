@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1591D3B8D24
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:28:19 +0200 (CEST)
-Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC323B8D23
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:26:42 +0200 (CEST)
+Received: from localhost ([::1]:52078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyoJF-0005Uw-0h
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
+	id 1lyoHh-0003xB-Db
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:26:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5R-0001XQ-7R
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:14:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38595)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5P-0001So-Oa
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5L-0000yj-Rb
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:14:00 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5K-0000yA-Qf
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625112835;
+ s=mimecast20190719; t=1625112834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0ojWLHfYCLSQAlkV7+YzXB1eKkc2lfnwZ4hcXW/UbNg=;
- b=NnAhfXwVZEUr7ultoRDXwgIjeC8g4Fb2V0w/6OkDiONCGaxUcgJtOcSWoEZTiywBl9JuCH
- BhckR64qNSSYJpk31/HMYtwXDItzcpHJL9Pkizu3fQdzNQdHmUw9zJiMwq2d1yLJfFg/ZY
- oW0xDcLKGIXqLzW1wyVIT8aUJZIkDFY=
+ bh=yvCKp+a4gWOikI8Cdi3Sz7v0HoKXlDnKgk4n24Yb9mQ=;
+ b=cQ7nho0u8lQHE50JwXsjMMgBN02evXMXpyYBgtuRLjNhoVvjTL+aXtoaN0idHKunYe6tkv
+ moBL5xF1yGr9P8sQJAiIRiCNBzLzp8oeVv3nbRePU1WToHReq/YslkQl/l+XdDefL0kZ66
+ GuhqoQc8v8bf1e8RXEk6yn9oMuubXzA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-xwk57eyiOiasdP6QdbEcag-1; Thu, 01 Jul 2021 00:13:50 -0400
-X-MC-Unique: xwk57eyiOiasdP6QdbEcag-1
+ us-mta-270-rt--H_1CN-643SnioJoD-g-1; Thu, 01 Jul 2021 00:13:51 -0400
+X-MC-Unique: rt--H_1CN-643SnioJoD-g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C45F61084F55;
- Thu,  1 Jul 2021 04:13:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCDCE362FB;
+ Thu,  1 Jul 2021 04:13:50 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7319604CD;
- Thu,  1 Jul 2021 04:13:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E68BD69CB4;
+ Thu,  1 Jul 2021 04:13:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/20] python/aqmp: add QMP event support
-Date: Thu,  1 Jul 2021 00:13:07 -0400
-Message-Id: <20210701041313.1696009-15-jsnow@redhat.com>
+Subject: [PATCH 15/20] python/aqmp: add QMP protocol support
+Date: Thu,  1 Jul 2021 00:13:08 -0400
+Message-Id: <20210701041313.1696009-16-jsnow@redhat.com>
 In-Reply-To: <20210701041313.1696009-1-jsnow@redhat.com>
 References: <20210701041313.1696009-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,9 +53,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,930 +85,299 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This class was designed as a "mix-in" primarily so that the feature
-could be given its own treatment in its own python file.
+The star of our show!
 
-It gets quite a bit too long otherwise.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-
----
-
-Yes, the docstring is long. I recommend looking at the generated Sphinx
-output for that part instead. You can review the markup itself if you
-are a masochist.
+Add most of the QMP protocol, sans support for actually executing
+commands. No problem, that happens in the next two commits.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/__init__.py |   2 +
- python/qemu/aqmp/events.py   | 878 +++++++++++++++++++++++++++++++++++
- 2 files changed, 880 insertions(+)
- create mode 100644 python/qemu/aqmp/events.py
+ python/qemu/aqmp/__init__.py     |   2 +
+ python/qemu/aqmp/qmp_protocol.py | 257 +++++++++++++++++++++++++++++++
+ 2 files changed, 259 insertions(+)
+ create mode 100644 python/qemu/aqmp/qmp_protocol.py
 
 diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index c1ec68a023..ae87436470 100644
+index ae87436470..68d98cca75 100644
 --- a/python/qemu/aqmp/__init__.py
 +++ b/python/qemu/aqmp/__init__.py
-@@ -22,6 +22,7 @@
- # the COPYING file in the top-level directory.
- 
- from .error import AQMPError, MultiException
-+from .events import EventListener
+@@ -25,11 +25,13 @@
+ from .events import EventListener
  from .message import Message
  from .protocol import ConnectError, Runstate
++from .qmp_protocol import QMP
  
-@@ -30,6 +31,7 @@
+ 
+ # The order of these fields impact the Sphinx documentation order.
  __all__ = (
      # Classes, most to least important
++    'QMP',
      'Message',
-+    'EventListener',
+     'EventListener',
      'Runstate',
- 
-     # Exceptions, most generic to most explicit
-diff --git a/python/qemu/aqmp/events.py b/python/qemu/aqmp/events.py
+diff --git a/python/qemu/aqmp/qmp_protocol.py b/python/qemu/aqmp/qmp_protocol.py
 new file mode 100644
-index 0000000000..140465255e
+index 0000000000..5872bfc017
 --- /dev/null
-+++ b/python/qemu/aqmp/events.py
-@@ -0,0 +1,878 @@
++++ b/python/qemu/aqmp/qmp_protocol.py
+@@ -0,0 +1,257 @@
 +"""
-+AQMP Events and EventListeners
-+
-+Asynchronous QMP uses `EventListener` objects to listen for events. An
-+`EventListener` is a FIFO event queue that can be pre-filtered to listen
-+for only specific events. Each `EventListener` instance receives its own
-+copy of events that it hears, so events may be consumed without fear or
-+worry for depriving other listeners of events they need to hear.
-+
-+
-+EventListener Tutorial
-+----------------------
-+
-+In all of the following examples, we assume that we have a
-+:py:class:`~qmp_protocol.QMP` object instantiated named ``qmp`` that is
-+already connected.
-+
-+
-+`listener()` context blocks with one name
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The most basic usage is by using the `listener()` context manager to
-+construct them:
-+
-+.. code:: python
-+
-+   with qmp.listener('STOP') as listener:
-+       await qmp.execute('stop')
-+       await listener.get()
-+
-+The listener is active only for the duration of the ‘with’ block. This
-+instance listens only for ‘STOP’ events.
-+
-+
-+`listener()` context blocks with two or more names
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Multiple events can be selected for by providing any ``Iterable[str]``:
-+
-+.. code:: python
-+
-+   with qmp.listener(('STOP', 'RESUME')) as listener:
-+       await qmp.execute('stop')
-+       event = await listener.get()
-+       assert event['event'] == 'STOP'
-+
-+       await qmp.execute('cont')
-+       event = await listener.get()
-+       assert event['event'] == 'RESUME'
-+
-+
-+`listener()` context blocks with no names
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+By omitting names entirely, you can listen to ALL events.
-+
-+.. code:: python
-+
-+   with qmp.listener() as listener:
-+       await qmp.execute('stop')
-+       event = await listener.get()
-+       assert event['event'] == 'STOP'
-+
-+This isn’t a very good use case for this feature: In a non-trivial
-+running system, we may not know what event will arrive next. Grabbing
-+the top of a FIFO queue returning multiple kinds of events may be prone
-+to error.
-+
-+
-+Using async iterators to retrieve events
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+If you’d like to simply watch what events happen to arrive, you can use
-+the listener as an async iterator:
-+
-+.. code:: python
-+
-+   with qmp.listener() as listener:
-+       async for event in listener:
-+           print(f"Event arrived: {event['event']}")
-+
-+This is analogous to the following code:
-+
-+.. code:: python
-+
-+   with qmp.listener() as listener:
-+       while True:
-+           event = listener.get()
-+           print(f"Event arrived: {event['event']}")
-+
-+This event stream will never end, so these blocks will never terminate.
-+
-+
-+Using asyncio.Task to concurrently retrieve events
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Since a listener’s event stream will never terminate, it is not likely
-+useful to use that form in a script. For longer-running clients, we can
-+create event handlers by using `asyncio.Task` to create concurrent
-+coroutines:
-+
-+.. code:: python
-+
-+   async def print_events(listener):
-+       try:
-+           async for event in listener:
-+               print(f"Event arrived: {event['event']}")
-+       except asyncio.CancelledError:
-+           return
-+
-+   with qmp.listener() as listener:
-+       task = asyncio.Task(print_events(listener))
-+       await qmp.execute('stop')
-+       await qmp.execute('cont')
-+       task.cancel()
-+       await task
-+
-+However, there is no guarantee that these events will be received by the
-+time we leave this context block. Once the context block is exited, the
-+listener will cease to hear any new events, and becomes inert.
-+
-+Be mindful of the timing: the above example will *probably*– but does
-+not *guarantee*– that both STOP/RESUMED events will be printed. The
-+example below outlines how to use listeners outside of a context block.
-+
-+
-+Using `register_listener()` and `remove_listener()`
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+To create a listener with a longer lifetime, beyond the scope of a
-+single block, create a listener and then call `register_listener()`:
-+
-+.. code:: python
-+
-+   class MyClient:
-+       def __init__(self, qmp):
-+           self.qmp = qmp
-+           self.listener = EventListener()
-+
-+       async def print_events(self):
-+           try:
-+               async for event in self.listener:
-+                   print(f"Event arrived: {event['event']}")
-+           except asyncio.CancelledError:
-+               return
-+
-+       async def run(self):
-+           self.task = asyncio.Task(self.print_events)
-+           self.qmp.register_listener(self.listener)
-+           await qmp.execute('stop')
-+           await qmp.execute('cont')
-+
-+       async def stop(self):
-+           self.task.cancel()
-+           await self.task
-+           self.qmp.remove_listener(self.listener)
-+
-+The listener can be deactivated by using `remove_listener()`. When it is
-+removed, any possible pending events are cleared and it can be
-+re-registered at a later time.
-+
-+
-+Using the built-in all events listener
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The :py:class:`~qmp_protocol.QMP` object creates its own default
-+listener named :py:obj:`~Events.events` that can be used for the same
-+purpose without having to create your own:
-+
-+.. code:: python
-+
-+   async def print_events(listener):
-+       try:
-+           async for event in listener:
-+               print(f"Event arrived: {event['event']}")
-+       except asyncio.CancelledError:
-+           return
-+
-+   task = asyncio.Task(print_events(qmp.events))
-+
-+   await qmp.execute('stop')
-+   await qmp.execute('cont')
-+
-+   task.cancel()
-+   await task
-+
-+
-+Using both .get() and async iterators
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The async iterator and `get()` methods pull events from the same FIFO
-+queue. If you mix the usage of both, be aware: Events are emitted
-+precisely once per listener.
-+
-+If multiple contexts try to pull events from the same listener instance,
-+events are still emitted only precisely once.
-+
-+This restriction can be lifted by creating additional listeners.
-+
-+
-+Creating multiple listeners
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Additional `EventListener` objects can be created at-will. Each one
-+receives its own copy of events, with separate FIFO event queues.
-+
-+.. code:: python
-+
-+   my_listener = EventListener()
-+   qmp.register_listener(my_listener)
-+
-+   await qmp.execute('stop')
-+   copy1 = await my_listener.get()
-+   copy2 = await qmp.events.get()
-+
-+   assert copy1 == copy2
-+
-+In this example, we await an event from both a user-created
-+`EventListener` and the built-in events listener. Both receive the same
-+event.
-+
-+
-+Clearing listeners
-+~~~~~~~~~~~~~~~~~~
-+
-+`EventListener` objects can be cleared, clearing all events seen thus far:
-+
-+.. code:: python
-+
-+   await qmp.execute('stop')
-+   qmp.events.clear()
-+   await qmp.execute('cont')
-+   event = await qmp.events.get()
-+   assert event['event'] == 'RESUME'
-+
-+`EventListener` objects are FIFO queues. If events are not consumed,
-+they will remain in the queue until they are witnessed or discarded via
-+`clear()`. FIFO queues will be drained automatically upon leaving a
-+context block, or when calling `remove_listener()`.
-+
-+
-+Accessing listener history
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+`EventListener` objects record their history. Even after being cleared,
-+you can obtain a record of all events seen so far:
-+
-+.. code:: python
-+
-+   await qmp.execute('stop')
-+   await qmp.execute('cont')
-+   qmp.events.clear()
-+
-+   assert len(qmp.events.history) == 2
-+   assert qmp.events.history[0]['event'] == 'STOP'
-+   assert qmp.events.history[1]['event'] == 'RESUME'
-+
-+The history is updated immediately and does not require the event to be
-+witnessed first.
-+
-+
-+Using event filters
-+~~~~~~~~~~~~~~~~~~~
-+
-+`EventListener` objects can be given complex filtering criteria if names
-+are not sufficient:
-+
-+.. code:: python
-+
-+   def job1_filter(event) -> bool:
-+       event_data = event.get('data', {})
-+       event_job_id = event_data.get('id')
-+       return event_job_id == "job1"
-+
-+   with qmp.listener('JOB_STATUS_CHANGE', job1_filter) as listener:
-+       await qmp.execute('blockdev-backup', arguments={'job-id': 'job1', ...})
-+       async for event in listener:
-+           if event['data']['status'] == 'concluded':
-+               break
-+
-+These filters might be most useful when parameterized. `EventListener`
-+objects expect a function that takes only a single argument (the raw
-+event, as a `Message`) and returns a bool; True if the event should be
-+accepted into the stream. You can create a function that adapts this
-+signature to accept configuration parameters:
-+
-+.. code:: python
-+
-+   def job_filter(job_id: str) -> EventFilter:
-+       def filter(event: Message) -> bool:
-+           return event['data']['id'] == job_id
-+       return filter
-+
-+   with qmp.listener('JOB_STATUS_CHANGE', job_filter('job2')) as listener:
-+       await qmp.execute('blockdev-backup', arguments={'job-id': 'job2', ...})
-+       async for event in listener:
-+           if event['data']['status'] == 'concluded':
-+               break
-+
-+
-+Activating an existing listener with `listen()`
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Listeners with complex, long configurations can also be created manually
-+and activated temporarily by using `listen()` instead of `listener()`:
-+
-+.. code:: python
-+
-+   listener = EventListener(('BLOCK_JOB_COMPLETED', 'BLOCK_JOB_CANCELLED',
-+                             'BLOCK_JOB_ERROR', 'BLOCK_JOB_READY',
-+                             'BLOCK_JOB_PENDING', 'JOB_STATUS_CHANGE'))
-+
-+   with qmp.listen(listener):
-+       await qmp.execute('blockdev-backup', arguments={'job-id': 'job3', ...})
-+       async for event in listener:
-+           print(event)
-+           if event['event'] == 'BLOCK_JOB_COMPLETED':
-+               break
-+
-+Any events that are not witnessed by the time the block is left will be
-+cleared from the queue; entering the block is an implicit
-+`register_listener()` and leaving the block is an implicit
-+`remove_listener()`.
-+
-+
-+Activating multiple existing listeners with `listen()`
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+While `listener()` is only capable of creating a single listener,
-+`listen()` is capable of activating multiple listeners simultaneously:
-+
-+.. code:: python
-+
-+   def job_filter(job_id: str) -> EventFilter:
-+       def filter(event: Message) -> bool:
-+           return event['data']['id'] == job_id
-+       return filter
-+
-+   jobA = EventListener('JOB_STATUS_CHANGE', job_filter('jobA'))
-+   jobB = EventListener('JOB_STATUS_CHANGE', job_filter('jobB'))
-+
-+   with qmp.listen(jobA, jobB):
-+       qmp.execute('blockdev-create', arguments={'job-id': 'jobA', ...})
-+       qmp.execute('blockdev-create', arguments={'job-id': 'jobB', ...})
-+
-+       async for event in jobA.get():
-+           if event['data']['status'] == 'concluded':
-+               break
-+       async for event in jobB.get():
-+           if event['data']['status'] == 'concluded':
-+               break
-+
-+
-+Extending the `EventListener` class
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+In the case that a more specialized `EventListener` is desired to
-+provide either more functionality or more compact syntax for specialized
-+cases, it can be extended.
-+
-+One of the key methods to extend or override is
-+:py:meth:`~EventListener.accept()`. The default implementation checks an
-+incoming message for:
-+
-+1. A qualifying name, if any :py:obj:`~EventListener.names` were
-+   specified at initialization time
-+2. That :py:obj:`~EventListener.event_filter()` returns True.
-+
-+This can be modified however you see fit to change the criteria for
-+inclusion in the stream.
-+
-+For convenience, a ``JobListener`` class could be created that simply
-+bakes in configuration so it does not need to be repeated:
-+
-+.. code:: python
-+
-+   class JobListener(EventListener):
-+       def __init__(self, job_id: str):
-+           super().__init__(('BLOCK_JOB_COMPLETED', 'BLOCK_JOB_CANCELLED',
-+                             'BLOCK_JOB_ERROR', 'BLOCK_JOB_READY',
-+                             'BLOCK_JOB_PENDING', 'JOB_STATUS_CHANGE'))
-+           self.job_id = job_id
-+
-+       def accept(self, event) -> bool:
-+           if not super().accept(event):
-+               return False
-+           if event['event'] in ('BLOCK_JOB_PENDING', 'JOB_STATUS_CHANGE'):
-+               return event['data']['id'] == job_id
-+           return event['data']['device'] == job_id
-+
-+From here on out, you can conjure up a custom-purpose listener that
-+listens only for job-related events for a specific job-id easily:
-+
-+.. code:: python
-+
-+   listener = JobListener('job4')
-+   with qmp.listener(listener):
-+       await qmp.execute('blockdev-backup', arguments={'job-id': 'job4', ...})
-+       async for event in listener:
-+           print(event)
-+           if event['event'] == 'BLOCK_JOB_COMPLETED':
-+               break
-+
-+
-+Experimental Interfaces & Design Issues
-+---------------------------------------
-+
-+These interfaces are not ones I am sure I will keep or otherwise modify
-+heavily.
-+
-+Tertiary, or post-accept filtering
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Primarily filtering is based on the names of events, and secondary
-+filtering is achieved through the use of event_filter callbacks.
-+
-+Tertiary filtering occurs after a listener has already accepted the
-+event, and takes place during the `get()` call.
-+
-+`get()` accepts optional ``**kwargs`` arguments that get matched
-+against the ``data`` field of an event to allow for trivial event
-+conditions:
-+
-+.. code:: python
-+
-+   with qmp.listen('JOB_STATUS_CHANGE') as listener:
-+       await qmp.execute('blockdev-backup', arguments={'job-id': 'job5', ...})
-+       await listener.get(status='pending')
-+       await qmp.execute('job-finalize', arguments={'job-id': 'job5', ...})
-+       await listener.get(status='null')
-+
-+The problem with this is that the tertiary filtering will drop events
-+that were not selected for on the floor, which reintroduces some of the
-+same problems that inspired the creation of `EventListener` to begin
-+with.
-+
-+Another problem is that this tertiary filtering is extremely
-+rudimentary: it is quite convenient for a listener configured to listen
-+only to ``JOB_STATUS_CHANGE``, but it does not allow for post-selection
-+of events with different names in the event that a listener was created
-+with a fairly wide selection criteria.
-+
-+A final problem is that the filtering is not very powerful: it matches
-+only fields in ``data`` for strict equality; it cannot perform subset
-+matching like the legacy `QEMUMachine` methods `event_wait()`,
-+`events_wait()`, or `event_match()`.
-+
-+However, those interfaces are … ugly, and a little complicated. They got
-+the job done years ago when I wrote them, but I think they’re overly
-+complex and too hard to use now.
-+
-+Still, I am left wondering if this isn’t flexible enough.
-+
-+-  Dropping post-filtered events on the floor seems prone to error.
-+-  Post-filtering on event name(s) might be nice, but further increases
-+   risk related with accidentally discarding events.
-+-  Post-filters could (perhaps) return a sequence of events they’ve
-+   discarded, but that complicates the signature of `get()` a lot:
-+
-+   .. code:: python
-+
-+      event, discarded = await listener.get(status='null')
-+      event, _ = await listener.get(status='null')
-+
-+-  Maybe listeners could simply cache a “discarded” list into its object
-+   state, and (possibly) emit a warning if these discarded events are
-+   not cleared before the listener is unregistered. Still, the goals of compact
-+   syntax and safety are at odds here. Instructing `get()` that we're OK
-+   with tossing events on the floor every time we use it will quickly clutter
-+   up most unit tests.
-+
-+-  ``kwargs`` syntax is convenient for the job filtering case in particular,
-+   but is not really broadly flexible.
-+
-+-  Maybe post-filtering can also be done with event filter functions,
-+   the same kind as used for secondary pre-filtering. It’d at least
-+   allow for maximum flexibility – but the syntax would be less
-+   convenient and compact than the kwargs post-filters:
-+
-+   .. code:: python
-+
-+      def event_filter(event) -> bool:
-+          return event['data']['status'] == 'null'
-+
-+      event = await listener.get(event_filter)
-+
-+-  The above suggestion also introduces a complexity if we want to
-+   support both the ``**kwargs`` form and the ``event_filter`` form:
-+   Whatever name is chosen for the ``event_filter`` argument implicitly
-+   prohibits us from filtering against any possible data fields of the
-+   same name.
-+
-+   Items beginning with "__" are prohibited in the QMP spec, though, so
-+   it may be safe to name the event filter argument something like
-+   "__filter".
-+
-+   Python 3.8’s PEP570 “Positional Only Parameters”
-+   https://www.python.org/dev/peps/pep-0570/ would be a good fit for
-+   this feature, but we will not be able to use it for quite some time
-+   in QEMU. (We will not be able to use 3.7 until some time in 2022.)
-+
-+
-+qmp.listener()’s type signature
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+`listener()` does not return anything, because it was assumed the caller
-+already had a handle to the listener. However, for
-+``qmp.listener(EventListener())`` forms, the caller will not have saved
-+a handle to the listener.
-+
-+Because this function can accept *many* listeners, I found it hard to
-+accurately type in a way where it could be used in both “one” or “many”
-+forms conveniently and in a statically type-safe manner.
-+
-+Ultimately, I removed the return altogether, but perhaps with more time
-+I can work out a way to re-add it.
-+
-+
-+listener-dispatched callbacks
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+An earlier design allowed for users to directly set a callback on a
-+listener.
-+
-+It also allowed for a decorator to be used to easily morph a given
-+function into an event callback for an event of the same name:
-+
-+.. code:: python
-+
-+   @qmp.event
-+   async def stop(event):
-+       print("QEMU has stopped!")
-+
-+Or to manually specify a list of events the handler was written for:
-+
-+.. code:: python
-+
-+   @qmp.event(('STOP', 'RESUME'))
-+   async def handler(event):
-+       print(f"Got event '{event['event']}'!")
-+
-+This was very convenient for setting up dedicated functions that handle
-+specific events, setting up all-events loggers, etc. I didn't like this
-+in the end, for a few reasons:
-+
-+-  When setting a callback on a listener, it meant that `get()` and the
-+   async iterator became dead interfaces that would never return
-+   anything. It felt like an abuse of the interface, ultimately. Forcing
-+   the user to retrieve the event themselves felt like the “cleaner”
-+   architecture – though severely less convenient.
-+
-+-  If the EventListener itself was responsible for executing an event
-+   callback, it meant that the QMP bottom half itself was ultimately
-+   responsible for calling user callbacks which may fault and cause the
-+   bottom half to terminate.
-+
-+   I didn't like the idea of a QMP client loop dying because of user
-+   code; Normally, the design of the bottom half is such that “internal”
-+   errors are hidden from the caller. In this case, the caller is likely
-+   the only one who actually understands the error, which felt like an
-+   inversion of concerns.
-+
-+
-+API Reference
-+-------------
-+
++QMP Protocol Implementation
++
++This module provides the `QMP` class, which can be used to connect and
++send commands to a QMP server such as QEMU. The QMP class can be used to
++either connect to a listening server, or used to listen and accept an
++incoming connection from that server.
 +"""
 +
-+import asyncio
-+from contextlib import contextmanager
 +import logging
 +from typing import (
-+    AsyncIterator,
-+    Callable,
-+    Iterable,
-+    Iterator,
++    Dict,
 +    List,
 +    Mapping,
 +    Optional,
-+    Set,
-+    Tuple,
-+    Union,
-+    cast,
 +)
 +
-+from .error import AQMPError
++from .error import ProtocolError
++from .events import Events
 +from .message import Message
++from .models import Greeting
++from .protocol import AsyncProtocol
++from .util import bottom_half, pretty_traceback, upper_half
 +
 +
-+EventNames = Union[str, Iterable[str], None]
-+EventFilter = Callable[[Message], bool]
-+
-+
-+class ListenerError(AQMPError):
++class _WrappedProtocolError(ProtocolError):
 +    """
-+    Generic error class for `EventListener`-related problems.
++    Abstract exception class for Protocol errors that wrap an Exception.
++
++    :param error_message: Human-readable string describing the error.
++    :param exc: The root-cause exception.
++    """
++    def __init__(self, error_message: str, exc: Exception):
++        super().__init__(error_message)
++        self.exc = exc
++
++    def __str__(self) -> str:
++        return f"{self.error_message}: {self.exc!s}"
++
++
++class GreetingError(_WrappedProtocolError):
++    """
++    An exception occurred during the Greeting phase.
++
++    :param error_message: Human-readable string describing the error.
++    :param exc: The root-cause exception.
 +    """
 +
 +
-+class EventListener:
++class NegotiationError(_WrappedProtocolError):
 +    """
-+    Selectively listens for events with runtime configurable filtering.
++    An exception occurred during the Negotiation phase.
 +
-+    This class is designed to be directly usable for the most common cases,
-+    but it can be extended to provide more rigorous control.
-+
-+    :param names:
-+        One or more names of events to listen for.
-+        When not provided, listen for ALL events.
-+    :param event_filter:
-+        An optional event filtering function.
-+        When names are also provided, this acts as a secondary filter.
-+
-+    When ``names`` and ``event_filter`` are both provided, the names
-+    will be filtered first, and then the filter function will be called
-+    second. The event filter function can assume that the format of the
-+    event is a known format.
++    :param error_message: Human-readable string describing the error.
++    :param exc: The root-cause exception.
 +    """
-+    def __init__(
-+        self,
-+        names: EventNames = None,
-+        event_filter: Optional[EventFilter] = None,
-+    ):
-+        # Queue of 'heard' events yet to be witnessed by a caller.
-+        self._queue: 'asyncio.Queue[Message]' = asyncio.Queue()
-+
-+        # Intended as a historical record, NOT a processing queue or backlog.
-+        self._history: List[Message] = []
-+
-+        #: Primary event filter, based on one or more event names.
-+        self.names: Set[str] = set()
-+        if isinstance(names, str):
-+            self.names.add(names)
-+        elif names is not None:
-+            self.names.update(names)
-+
-+        #: Optional, secondary event filter.
-+        self.event_filter: Optional[EventFilter] = event_filter
-+
-+    @property
-+    def history(self) -> Tuple[Message, ...]:
-+        """
-+        A read-only history of all events seen so far.
-+
-+        This represents *every* event, including those not yet witnessed
-+        via `get()` or ``async for``. It persists between `clear()`
-+        calls and is immutable.
-+        """
-+        return tuple(self._history)
-+
-+    async def _get(self) -> Message:
-+        """
-+        Wait for the very next event in this stream.
-+
-+        If one is already available, return that one.
-+        """
-+        return await self._queue.get()
-+
-+    def accept(self, event: Message) -> bool:
-+        """
-+        Determine if this listener accepts this event.
-+
-+        This method determines which events will appear in the stream.
-+        The default implementation simply checks the event against the
-+        list of names and the event_filter to decide if this
-+        `EventListener` accepts a given event. It can be
-+        overridden/extended to provide custom listener behavior.
-+
-+        User code is not expected to need to invoke this method.
-+
-+        :param event: The event under consideration.
-+        :return: `True`, if this listener accepts this event.
-+        """
-+        name_ok = (not self.names) or (event['event'] in self.names)
-+        return name_ok and (
-+            (not self.event_filter) or self.event_filter(event)
-+        )
-+
-+    async def put(self, event: Message) -> None:
-+        """
-+        Conditionally put a new event into the FIFO queue.
-+
-+        This method is not designed to be invoked from user code, and it
-+        should not need to be overridden. It is a public interface so
-+        that :py:class:`~qmp_protocol.QMP` has an interface by which it
-+        can inform registered listeners of new events.
-+
-+        The event will be put into the queue if
-+        :py:meth:`~EventListener.accept()` returns `True`.
-+
-+        :param event: The new event to put into the FIFO queue.
-+        """
-+        if not self.accept(event):
-+            return
-+
-+        self._history.append(event)
-+        await self._queue.put(event)
-+
-+    async def get(self, **kwargs: object) -> Message:
-+        r"""
-+        Wait for an event with optional tertiary filtering.
-+
-+        :param \*\*kwargs: Optional tertiary filtering criteria. Each
-+            keyword provided is treated as a key belonging to the
-+            event's 'data' field. The value provided is matched against
-+            the candidate event's data members.
-+
-+        .. warning:: When tertiary filtering criteria are provided,
-+            events that do not match tertiary criteria will be silently
-+            dropped by this listener. All events that were accepted by
-+            the listener will be visible in `history()`.
-+        """
-+        if not kwargs:
-+            return await self._get()
-+
-+        def _tertiary_filter(event: Message) -> bool:
-+            data = cast(Mapping[str, object], event.get('data', {}))
-+            for key, value in kwargs.items():
-+                if key not in data:
-+                    return False
-+                if data[key] != value:
-+                    return False
-+            return True
-+
-+        async for event in self:
-+            if _tertiary_filter(event):
-+                return event
-+        else:
-+            assert False  # Should be impossible to reach.
-+
-+    def clear(self) -> None:
-+        """
-+        Clear this listener of all pending events.
-+
-+        Called when an `EventListener` is being unregistered, this clears the
-+        pending FIFO queue synchronously. It can be also be used to
-+        manually clear any pending events, if desired.
-+
-+        .. warning::
-+            Take care when discarding events. Cleared events will be
-+            silently tossed on the floor. All events that were ever
-+            accepted by this listener are visible in `history()`.
-+        """
-+        while True:
-+            try:
-+                self._queue.get_nowait()
-+            except asyncio.QueueEmpty:
-+                break
-+
-+    def __aiter__(self) -> AsyncIterator[Message]:
-+        return self
-+
-+    async def __anext__(self) -> Message:
-+        """
-+        Enables the `EventListener` to function as an async iterator.
-+
-+        It may be used like this:
-+
-+        .. code:: python
-+
-+            async for event in listener:
-+                print(event)
-+
-+        These iterators will never terminate of their own accord; you
-+        must provide break conditions or otherwise prepare to run them
-+        in an `asyncio.Task` that can be cancelled.
-+        """
-+        return await self._get()
 +
 +
-+class Events:
++class QMP(AsyncProtocol[Message], Events):
 +    """
-+    Events is a mix-in class that adds event functionality to the QMP class.
++    Implements a QMP client connection.
 +
-+    It's designed specifically as a mix-in for
-+    :py:class:`~qmp_protocol.QMP`, and it relies upon the class it is
-+    being mixed into having a 'logger' property.
++    QMP can be used to establish a connection as either the transport
++    client or server, though this class always acts as the QMP client.
++
++    :param name: Optional nickname for the connection, used for logging.
++
++    Basic script-style usage looks like this::
++
++      qmp = QMP('my_virtual_machine_name')
++      await qmp.connect(('127.0.0.1', 1234))
++      ...
++      res = await qmp.execute('block-query')
++      ...
++      await qmp.disconnect()
++
++    Basic async client-style usage looks like this::
++
++      class Client:
++          def __init__(self, name: str):
++              self.qmp = QMP(name)
++
++          async def watch_events(self):
++              try:
++                  async for event in self.events:
++                      print(f"Event: {event['event']}")
++              except asyncio.CancelledError:
++                  return
++
++          async def run(self, address='/tmp/qemu.socket'):
++              await self.qmp.connect(address)
++              asyncio.create_task(self.watch_events())
++              await self.qmp.runstate_changed.wait()
++              await self.disconnect()
++
++    See `aqmp.events` for more detail on event handling patterns.
 +    """
-+    def __init__(self) -> None:
-+        self._listeners: List[EventListener] = []
++    #: Logger object used for debugging messages.
++    logger = logging.getLogger(__name__)
 +
-+        #: Default, all-events `EventListener`.
-+        self.events: EventListener = EventListener()
-+        self.register_listener(self.events)
++    def __init__(self, name: Optional[str] = None) -> None:
++        super().__init__(name)
++        Events.__init__(self)
 +
-+        # Parent class needs to have a logger
-+        self.logger: logging.Logger
++        #: Whether or not to await a greeting after establishing a connection.
++        self.await_greeting: bool = True
 +
-+    async def _event_dispatch(self, msg: Message) -> None:
++        #: Whether or not to perform capabilities negotiation upon connection.
++        #: Implies `await_greeting`.
++        self.negotiate: bool = True
++
++        # Cached Greeting, if one was awaited.
++        self._greeting: Optional[Greeting] = None
++
++    @upper_half
++    async def _begin_new_session(self) -> None:
 +        """
-+        Given a new event, propagate it to all of the active listeners.
++        Initiate the QMP session.
 +
-+        :param msg: The event to propagate.
++        Wait for the QMP greeting and perform capabilities negotiation.
++
++        :raise GreetingError: When the greeting is not understood.
++        :raise NegotiationError: If the negotiation fails.
++        :raise EOFError: When the server unexpectedly hangs up.
++        :raise OSError: For underlying stream errors.
 +        """
-+        for listener in self._listeners:
-+            await listener.put(msg)
++        if self.await_greeting or self.negotiate:
++            self._greeting = await self._get_greeting()
 +
-+    def register_listener(self, listener: EventListener) -> None:
++        if self.negotiate:
++            await self._negotiate()
++
++        # This will start the reader/writers:
++        await super()._begin_new_session()
++
++    @upper_half
++    async def _get_greeting(self) -> Greeting:
 +        """
-+        Register and activate an `EventListener`.
++        :raise GreetingError: When the greeting is not understood.
++        :raise EOFError: When the server unexpectedly hangs up.
++        :raise OSError: For underlying stream errors.
 +
-+        :param listener: The listener to activate.
-+        :raise ListenerError: If the given listener is already registered.
++        :return: the Greeting object given by the server.
 +        """
-+        if listener in self._listeners:
-+            raise ListenerError("Attempted to re-register existing listener")
-+        self.logger.debug("Registering %s.", str(listener))
-+        self._listeners.append(listener)
-+
-+    def remove_listener(self, listener: EventListener) -> None:
-+        """
-+        Unregister and deactivate an `EventListener`.
-+
-+        The removed listener will have its pending events cleared via
-+        `clear()`. The listener can be re-registered later when
-+        desired.
-+
-+        :param listener: The listener to deactivate.
-+        :raise ListenerError: If the given listener is not registered.
-+        """
-+        if listener == self.events:
-+            raise ListenerError("Cannot remove the default listener.")
-+        self.logger.debug("Removing %s.", str(listener))
-+        listener.clear()
-+        self._listeners.remove(listener)
-+
-+    @contextmanager
-+    def listen(self, *listeners: EventListener) -> Iterator[None]:
-+        r"""
-+        Context manager: Temporarily listen with an `EventListener`.
-+
-+        Accepts one or more `EventListener` objects and registers them,
-+        activating them for the duration of the context block.
-+
-+        `EventListener` objects will have any pending events in their
-+        FIFO queue cleared upon exiting the context block, when they are
-+        deactivated.
-+
-+        :param \*listeners: One or more EventListeners to activate.
-+        :raise ListenerError: If the given listener(s) are already active.
-+        """
-+        _added = []
++        self.logger.debug("Awaiting greeting ...")
 +
 +        try:
-+            for listener in listeners:
-+                self.register_listener(listener)
-+                _added.append(listener)
++            msg = await self._recv()
++            return Greeting(msg)
++        except (ProtocolError, KeyError, TypeError) as err:
++            emsg = "Did not understand Greeting"
++            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
++            raise GreetingError(emsg, err) from err
++        except BaseException:
++            # EOFError, OSError, or something unexpected.
++            emsg = "Failed to receive Greeting"
++            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
++            raise
 +
-+            yield
-+
-+        finally:
-+            for listener in _added:
-+                self.remove_listener(listener)
-+
-+    @contextmanager
-+    def listener(
-+        self,
-+        names: EventNames = (),
-+        event_filter: Optional[EventFilter] = None
-+    ) -> Iterator[EventListener]:
++    @upper_half
++    async def _negotiate(self) -> None:
 +        """
-+        Context manager: Temporarily listen with a new `EventListener`.
++        Perform QMP capabilities negotiation.
 +
-+        Creates an `EventListener` object and registers it, activating
-+        it for the duration of the context block.
-+
-+        :param names:
-+            One or more names of events to listen for.
-+            When not provided, listen for ALL events.
-+        :param event_filter:
-+            An optional event filtering function.
-+            When names are also provided, this acts as a secondary filter.
-+
-+        :return: The newly created and active `EventListener`.
++        :raise NegotiationError: When negotiation fails.
++        :raise EOFError: When the server unexpectedly hangs up.
++        :raise OSError: For underlying stream errors.
 +        """
-+        listener = EventListener(names, event_filter)
-+        with self.listen(listener):
-+            yield listener
++        self.logger.debug("Negotiating capabilities ...")
++
++        arguments: Dict[str, List[str]] = {'enable': []}
++        if self._greeting and 'oob' in self._greeting.QMP.capabilities:
++            arguments['enable'].append('oob')
++        msg = self.make_execute_msg('qmp_capabilities', arguments=arguments)
++
++        # It's not safe to use execute() here, because the reader/writers
++        # aren't running. AsyncProtocol *requires* that a new session
++        # does not fail after the reader/writers are running!
++        try:
++            await self._send(msg)
++            reply = await self._recv()
++            assert 'return' in reply
++            assert 'error' not in reply
++        except (ProtocolError, AssertionError) as err:
++            emsg = "Negotiation failed"
++            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
++            raise NegotiationError(emsg, err) from err
++        except BaseException:
++            # EOFError, OSError, or something unexpected.
++            emsg = "Negotiation failed"
++            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
++            raise
++
++    @bottom_half
++    async def _on_message(self, msg: Message) -> None:
++        """
++        Add an incoming message to the appropriate queue/handler.
++        """
++        # Incoming messages are not fully parsed/validated here;
++        # do only light peeking to know how to route the messages.
++
++        if 'event' in msg:
++            await self._event_dispatch(msg)
++            return
++
++        # Below, we assume everything left is an execute/exec-oob response.
++        # ... Which we'll implement in the next commit!
++
++    @upper_half
++    @bottom_half
++    async def _do_recv(self) -> Message:
++        """
++        :raise OSError: When a stream error is encountered.
++        :raise EOFError: When the stream is at EOF.
++        :raise ProtocolError:
++            When the Message is not understood.
++            See also `Message._deserialize`.
++
++        :return: A single QMP `Message`.
++        """
++        msg_bytes = await self._readline()
++        msg = Message(msg_bytes, eager=True)
++        return msg
++
++    @upper_half
++    @bottom_half
++    def _do_send(self, msg: Message) -> None:
++        """
++        :raise ValueError: JSON serialization failure
++        :raise TypeError: JSON serialization failure
++        :raise OSError: When a stream error is encountered.
++        """
++        assert self._writer is not None
++        self._writer.write(bytes(msg))
++
++    @upper_half
++    def _cleanup(self) -> None:
++        super()._cleanup()
++        self._greeting = None
++
++    @classmethod
++    def make_execute_msg(cls, cmd: str,
++                         arguments: Optional[Mapping[str, object]] = None,
++                         oob: bool = False) -> Message:
++        """
++        Create an executable message to be sent later.
++
++        :param cmd: QMP command name.
++        :param arguments: Arguments (if any). Must be JSON-serializable.
++        :param oob: If `True`, execute "out of band".
++
++        :return: An executable QMP `Message`.
++        """
++        msg = Message({'exec-oob' if oob else 'execute': cmd})
++        if arguments is not None:
++            msg['arguments'] = arguments
++        return msg
 -- 
 2.31.1
 
