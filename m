@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D463B9837
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 23:34:21 +0200 (CEST)
-Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADBB3B983D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 23:36:08 +0200 (CEST)
+Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz4KC-0005uf-C1
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 17:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
+	id 1lz4Lv-0000ET-4U
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 17:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lz4Ih-0004oo-Cm
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 17:32:47 -0400
-Received: from forward3-smtp.messagingengine.com ([66.111.4.237]:58135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lz4If-0008Gt-Bx
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 17:32:46 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailforward.nyi.internal (Postfix) with ESMTP id 603AD1940612;
- Thu,  1 Jul 2021 17:32:43 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 01 Jul 2021 17:32:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=mWlQta
- zONJf20m+7LmPaIQjTDpN9ZKSOivB8Gnz9aQU=; b=CBxRH3+MKhjaLiPYU1WCya
- 0jrXt76EjE4MIUWl0n7iSc+OO3Z+86CVPw/wTM5Iqt/9yHQrrlfHgszJ1F2ctZsq
- gHmSxRL1t+Yl4Oq8e+/qciVZ1PJbK8XmIpEbXCCy/my97hZwphdnsJ43hl+En7SJ
- 8o5XvFuw0CINgeK658OPwx2uJ1t7nnqLB+LgvX3PzoYpW4aBWiS7RNtbDL2RBrSW
- zYYAKL+05LPLKcGVXh4fd7UFiOn0mixlRJKoWhSMkeoUjRthVR1dsKPbW/3i2LfA
- IrYD+EFbVkwnDWqhnn6Q7U4gHZq8b/UWzjM/YNZgi2PiZK+YZXcO6LQEe1l49kaw
- ==
-X-ME-Sender: <xms:ejTeYEgGtnNHSjOBIdWKQSCaKLeXkGGUPwxpjifq9VoSmVqWxymMXQ>
- <xme:ejTeYNB4e1ChLGMwCFGKrtVruxrUn5NvnsxkK1cP0pquFr2nJN9lDHURNI3aS8gpl
- -BIQ5-y-5YXG2P7MxA>
-X-ME-Received: <xmr:ejTeYMGoPeodIcqXaJxOXjpTVCuVoS9OHtPb5QeS1Ndp_oO4DAebxR_qbOUr4w-uOHJOBvGGEosn7Vnkku2yYvvWCbB9fa5hM9pbBIHQguU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeiiedgudehlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefvufgjfhfhfffkgggtsehttdertddttddtnecuhfhrohhmpeffrghvihgu
- ucfgughmohhnughsohhnuceoughmvgesughmvgdrohhrgheqnecuggftrfgrthhtvghrnh
- ephfekgeeutddvgeffffetheejvdejieetgfefgfffudegffffgeduheegteegleeknecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepughmvgesug
- hmvgdrohhrgh
-X-ME-Proxy: <xmx:ejTeYFSsrVbsg0Ln4Y978qru-_iHo3w_FEIzOlc8utG1f53_f22acw>
- <xmx:ejTeYByceeLV6hByTMRG0jcUNdqjnaJ7pDk2CEwjpewDbPxYU3dAWA>
- <xmx:ejTeYD48v2L9UHuaMh_xF7jsjNG8HMxx8sK0OA4abgWD9jFFiXl3UQ>
- <xmx:ezTeYAzX9BY4XP1hocz9onM89uJImCBEqYspbw8M_FMEBIVHgGVfIw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Jul 2021 17:32:42 -0400 (EDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id c0eccd27;
- Thu, 1 Jul 2021 21:32:39 +0000 (UTC)
-To: Babu Moger <babu.moger@amd.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [RFC PATCH 0/7] Support protection keys in an AMD EPYC-Milan VM
-In-Reply-To: <31dce00c-71bf-6d30-a1d2-f0b6ce743db2@amd.com>
-References: <20210520145647.3483809-1-david.edmondson@oracle.com>
- <cunpmww227f.fsf@dme.org> <31dce00c-71bf-6d30-a1d2-f0b6ce743db2@amd.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <dme@dme.org>
-Date: Thu, 01 Jul 2021 22:32:39 +0100
-Message-ID: <m21r8h3eko.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lz4K0-0006v8-PN
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 17:34:08 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lz4Jz-0000lU-5l
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 17:34:08 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id p8so9989258wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 14:34:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kPHkAy9s+8IpwFuCYZoROmhOlZQDAF32qgjXoE6YQis=;
+ b=qyAi2qUaHP2k9DVLgL28lz58Loo4c1vs1rzoHu3RBH01Vqi5MGdeotAVg4KQ001nLj
+ Khl0MtXR/wsgTtLW4+8ps4Uoa2whTrhEjIsJEq2zJYsUB62J+VC+lPTWhj2Kbb8qgiEn
+ lfa8OuL64b0/LKPu1mOQ/xboIjWcxz3pagJISoTt1EVKq29gJiBBxZawwc7ABjjVZbDw
+ ZtzRXFI0sq7RJ5sjZKHdV677qFKeCuxEDn2XZMCIdVk6UyRsTtXG6Xrc0kEIMUksjxXK
+ LKyCl8DzRWXhHHwgyHGY2K1TXvbHKvDulTvmTTa9qCI/TX6WVHhDkEZctd7p5++QyrH0
+ +lbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kPHkAy9s+8IpwFuCYZoROmhOlZQDAF32qgjXoE6YQis=;
+ b=J4hxV7OLlzxy/fSnfk2ae4AIqkirqC25Mg/97AFY/eOGY+L2u9aRV8LAvoIMQYR2XK
+ OfAFyPqzIo1FQ1s0kaQqprouhrtvWZyEq+7gWWIPirnTuLQ5++RH5I/OWb2Rin84kZDD
+ 85NHGsU5Hw4zRnLZhKRhw6erVR43to3qRpQiQDQFfnqNdAi5dFa664yqvCwN/NEjgc+B
+ EI5UkzX0DFYOVhrJKYvLrNVMBfjZxeAZLrO3uWtOnvqRH/73ddDxEBKtUCUGaPmR1ccL
+ ekivF+UOan9pbceZBveW1DZi3N5zMNCLRbwUpa825k7+agMhJjkirn4SfFSkbUxSTFPj
+ 6ITg==
+X-Gm-Message-State: AOAM532FmBtbrvc/5ZMyILC6eX1r3yWl0Rj+lGHmEo1UAeUodMG76gxI
+ dd4KkcTfffsHbxhlfqrX1kY=
+X-Google-Smtp-Source: ABdhPJze05ii9Dca1MfKa9WmmncrJkqBcx1ZZ8j/vEsEhzvOvLyJgUkdtvEKujrlB2wak+r0yI44eQ==
+X-Received: by 2002:adf:f882:: with SMTP id u2mr1850481wrp.319.1625175245505; 
+ Thu, 01 Jul 2021 14:34:05 -0700 (PDT)
+Received: from [192.168.11.95] (pop.92-184-108-151.mobile.abo.orange.fr.
+ [92.184.108.151])
+ by smtp.gmail.com with ESMTPSA id l1sm5765491wme.11.2021.07.01.14.34.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Jul 2021 14:34:04 -0700 (PDT)
+Subject: Re: [PATCH v2 08/10] dp8393x: don't force 32-bit register access
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, aurelien@aurel32.net,
+ jiaxun.yang@flygoat.com, jasowang@redhat.com, fthain@telegraphics.com.au,
+ laurent@vivier.eu
+References: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
+ <20210625065401.30170-9-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a6fae6a6-4fbd-a75c-96b5-403ba3658217@amsat.org>
+Date: Thu, 1 Jul 2021 23:34:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=66.111.4.237; envelope-from=dme@dme.org;
- helo=forward3-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <20210625065401.30170-9-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,76 +92,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thursday, 2021-07-01 at 16:24:51 -05, Babu Moger wrote:
+On 6/25/21 8:53 AM, Mark Cave-Ayland wrote:
+> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" assumed that all accesses
+> to the registers were 32-bit but this is actually not the case. The access size is
+> determined by the CPU instruction used and not the number of physical address lines.
+> 
+> The big_endian workaround applied to the register read/writes was actually caused
+> by forcing the access size to 32-bit when the guest OS was using a 16-bit access.
+> Since the registers are 16-bit then we can simply set .impl.min_access to 2 and
+> then the memory API will automatically do the right thing for both 16-bit accesses
+> used by Linux and 32-bit accesses used by the MacOS toolbox ROM.
 
-> David, Are you still working on v2 of these series? I was going to test
-> and review. Thanks
+Hmm I'm not sure. This sounds to me like the "QEMU doesn't model
+busses so we end using kludge to hide bugs" pattern. Can you
+provide a QTest (ideally) or a "-trace memory_region_ops_\*" log
+of your firmware accessing the dp8393x please?
 
-Yes. I have something that works, but it's messy in places. I hope to
-get it out in a couple of days.
-
->> -----Original Message-----
->> From: David Edmondson <dme@dme.org>
->> Sent: Tuesday, June 8, 2021 3:25 AM
->> To: qemu-devel@nongnu.org
->> Cc: kvm@vger.kernel.org; Eduardo Habkost <ehabkost@redhat.com>; Paolo
->> Bonzini <pbonzini@redhat.com>; Marcelo Tosatti <mtosatti@redhat.com>;
->> Richard Henderson <richard.henderson@linaro.org>; Moger, Babu
->> <Babu.Moger@amd.com>
->> Subject: Re: [RFC PATCH 0/7] Support protection keys in an AMD EPYC-Milan
->> VM
->> 
->> On Thursday, 2021-05-20 at 15:56:40 +01, David Edmondson wrote:
->> 
->> > AMD EPYC-Milan CPUs introduced support for protection keys, previously
->> > available only with Intel CPUs.
->> >
->> > AMD chose to place the XSAVE state component for the protection keys
->> > at a different offset in the XSAVE state area than that chosen by
->> > Intel.
->> >
->> > To accommodate this, modify QEMU to behave appropriately on AMD
->> > systems, allowing a VM to properly take advantage of the new feature.
->> >
->> > Further, avoid manipulating XSAVE state components that are not
->> > present on AMD systems.
->> >
->> > The code in patch 6 that changes the CPUID 0x0d leaf is mostly dumped
->> > somewhere that seemed to work - I'm not sure where it really belongs.
->> 
->> Ping - any thoughts about this approach?
->> 
->> > David Edmondson (7):
->> >   target/i386: Declare constants for XSAVE offsets
->> >   target/i386: Use constants for XSAVE offsets
->> >   target/i386: Clarify the padding requirements of X86XSaveArea
->> >   target/i386: Prepare for per-vendor X86XSaveArea layout
->> >   target/i386: Introduce AMD X86XSaveArea sub-union
->> >   target/i386: Adjust AMD XSAVE PKRU area offset in CPUID leaf 0xd
->> >   target/i386: Manipulate only AMD XSAVE state on AMD
->> >
->> >  target/i386/cpu.c            | 19 +++++----
->> >  target/i386/cpu.h            | 80 ++++++++++++++++++++++++++++--------
->> >  target/i386/kvm/kvm.c        | 57 +++++++++----------------
->> >  target/i386/tcg/fpu_helper.c | 20 ++++++---
->> >  target/i386/xsave_helper.c   | 70 +++++++++++++++++++------------
->> >  5 files changed, 152 insertions(+), 94 deletions(-)
->> >
->> > --
->> > 2.30.2
->> 
->> dme.
->> --
->> You know your green from your red.
-
-dme.
--- 
-When you were the brightest star, who were the shadows?
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Fixes: 3fe9a838ec ("dp8393x: Always use 32-bit accesses")
+> ---
+>  hw/net/dp8393x.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index 252c0a2664..6789bcd3af 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -602,15 +602,14 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+>  
+>      trace_dp8393x_read(reg, reg_names[reg], val, size);
+>  
+> -    return s->big_endian ? val << 16 : val;
+> +    return val;
+>  }
+>  
+> -static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+> +static void dp8393x_write(void *opaque, hwaddr addr, uint64_t val,
+>                            unsigned int size)
+>  {
+>      dp8393xState *s = opaque;
+>      int reg = addr >> s->it_shift;
+> -    uint32_t val = s->big_endian ? data >> 16 : data;
+>  
+>      trace_dp8393x_write(reg, reg_names[reg], val, size);
+>  
+> @@ -694,7 +693,7 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+>  static const MemoryRegionOps dp8393x_ops = {
+>      .read = dp8393x_read,
+>      .write = dp8393x_write,
+> -    .impl.min_access_size = 4,
+> +    .impl.min_access_size = 2,
+>      .impl.max_access_size = 4,
+>      .endianness = DEVICE_NATIVE_ENDIAN,
+>  };
+> 
 
