@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435533B930D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:20:24 +0200 (CEST)
-Received: from localhost ([::1]:56016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18593B9351
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:26:23 +0200 (CEST)
+Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyxYD-0001MU-Md
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34508)
+	id 1lyxe3-0006DC-04
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyxVH-0006g3-PV
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:17:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38429)
+ id 1lyxVe-0007LO-3W
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:17:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lyxVG-0006Uk-6J
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:17:19 -0400
+ id 1lyxVc-0006gc-2s
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:17:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625149037;
+ s=mimecast20190719; t=1625149059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cZMaP/Fr2UvYH3YfzZWfICfblNzKICo5fmD+7se/M64=;
- b=H90bMA/emCD1Bo1Fbf/Dczub9KtNeVzDiRhTn686qHeCmB5fH39em+hqxyuiV796mLlbf2
- ++zOsInt/GYV1nzZd463kzSMp+HosbABxZ/H/O+FrLSbob4X5GI9WXzsdxwSzrKMbNuWVw
- dj+z+wjAZgr/Zp62U3P4o68ydQHJp/I=
+ bh=6+T6x3SfzYsOAuAetn4fRdhMXzkQThUs182/Ka6sGcY=;
+ b=Z1AWGD14rb94j94E9kLDuW5p3pszFJRanlwsYSuo6ztEIhR9S3GKPQDEQXFPadHXsi2DHC
+ CibZLFXxJ7Jx59Yi8/T9LtpwFnGM5eoPv+BeOimAHpZfe3vBc2luXLQQXZ2L5xb9ZwSDkL
+ 27C1Tdn3A6C0BqhsnkJYvgs2Z+P1A1U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-7R-uRFM_PU2kRUDabhCD8A-1; Thu, 01 Jul 2021 10:17:15 -0400
-X-MC-Unique: 7R-uRFM_PU2kRUDabhCD8A-1
+ us-mta-276-8wStWL0-NAu0GotZh25QIQ-1; Thu, 01 Jul 2021 10:17:38 -0400
+X-MC-Unique: 8wStWL0-NAu0GotZh25QIQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7FEA804141;
- Thu,  1 Jul 2021 14:17:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D263A1023F44;
+ Thu,  1 Jul 2021 14:17:36 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-230.ams2.redhat.com
  [10.36.114.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4AEA860843;
- Thu,  1 Jul 2021 14:17:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 722B760862;
+ Thu,  1 Jul 2021 14:17:34 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, linfeng23@huawei.com,
  groug@kaod.org, huangy81@chinatelecom.cn, lvivier@redhat.com,
  lizhijian@cn.fujitsu.com, peterx@redhat.com, vgoyal@redhat.com
-Subject: [PULL 14/20] virtiofsd: Add umask to seccom allow list
-Date: Thu,  1 Jul 2021 15:15:39 +0100
-Message-Id: <20210701141545.193571-15-dgilbert@redhat.com>
+Subject: [PULL 16/20] virtiofsd: Switch creds,
+ drop FSETID for system.posix_acl_access xattr
+Date: Thu,  1 Jul 2021 15:15:41 +0100
+Message-Id: <20210701141545.193571-17-dgilbert@redhat.com>
 In-Reply-To: <20210701141545.193571-1-dgilbert@redhat.com>
 References: <20210701141545.193571-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -87,29 +88,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vivek Goyal <vgoyal@redhat.com>
 
-Patches in this series  are going to make use of "umask" syscall.
-So allow it.
+When posix access acls are set on a file, it can lead to adjusting file
+permissions (mode) as well. If caller does not have CAP_FSETID and it
+also does not have membership of owner group, this will lead to clearing
+SGID bit in mode.
 
+Current fuse code is written in such a way that it expects file server
+to take care of chaning file mode (permission), if there is a need.
+Right now, host kernel does not clear SGID bit because virtiofsd is
+running as root and has CAP_FSETID. For host kernel to clear SGID,
+virtiofsd need to switch to gid of caller in guest and also drop
+CAP_FSETID (if caller did not have it to begin with).
+
+If SGID needs to be cleared, client will set the flag
+FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
+should kill sgid.
+
+Currently just switch to uid/gid of the caller and drop CAP_FSETID
+and that should do it.
+
+This should fix the xfstest generic/375 test case.
+
+We don't have to switch uid for this to work. That could be one optimization
+that pass a parameter to lo_change_cred() to only switch gid and not uid.
+
+Also this will not work whenever (if ever) we support idmapped mounts. In
+that case it is possible that uid/gid in request are 0/0 but still we
+need to clear SGID. So we will have to pick a non-root sgid and switch
+to that instead. That's an TODO item for future when idmapped mount
+support is introduced.
+
+This patch only adds the capability to switch creds and drop FSETID
+when acl xattr is set. This does not take affect yet. It can take
+affect when next patch adds the capability to enable posix_acl.
+
+Reported-by: Luis Henriques <lhenriques@suse.de>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210622150852.1507204-5-vgoyal@redhat.com>
+Message-Id: <20210622150852.1507204-7-vgoyal@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_seccomp.c | 1 +
- 1 file changed, 1 insertion(+)
+ tools/virtiofsd/passthrough_ll.c | 75 ++++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
 
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-index 62441cfcdb..f49ed94b5e 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -114,6 +114,7 @@ static const int syscall_allowlist[] = {
-     SCMP_SYS(utimensat),
-     SCMP_SYS(write),
-     SCMP_SYS(writev),
-+    SCMP_SYS(umask),
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 65b2c6fd74..6e30fd9113 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -175,6 +175,7 @@ struct lo_data {
+     int user_killpriv_v2, killpriv_v2;
+     /* If set, virtiofsd is responsible for setting umask during creation */
+     bool change_umask;
++    int posix_acl;
  };
  
- /* Syscalls used when --syslog is enabled */
+ static const struct fuse_opt lo_opts[] = {
+@@ -1185,6 +1186,51 @@ static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
+         umask(old->umask);
+ }
+ 
++/*
++ * A helper to change cred and drop capability. Returns 0 on success and
++ * errno on error
++ */
++static int lo_drop_cap_change_cred(fuse_req_t req, struct lo_cred *old,
++                                   bool change_umask, const char *cap_name,
++                                   bool *cap_dropped)
++{
++    int ret;
++    bool __cap_dropped;
++
++    assert(cap_name);
++
++    ret = drop_effective_cap(cap_name, &__cap_dropped);
++    if (ret) {
++        return ret;
++    }
++
++    ret = lo_change_cred(req, old, change_umask);
++    if (ret) {
++        if (__cap_dropped) {
++            if (gain_effective_cap(cap_name)) {
++                fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_%s\n", cap_name);
++            }
++        }
++    }
++
++    if (cap_dropped) {
++        *cap_dropped = __cap_dropped;
++    }
++    return ret;
++}
++
++static void lo_restore_cred_gain_cap(struct lo_cred *old, bool restore_umask,
++                                     const char *cap_name)
++{
++    assert(cap_name);
++
++    lo_restore_cred(old, restore_umask);
++
++    if (gain_effective_cap(cap_name)) {
++        fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_%s\n", cap_name);
++    }
++}
++
+ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+                              const char *name, mode_t mode, dev_t rdev,
+                              const char *link)
+@@ -2976,6 +3022,9 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+     ssize_t ret;
+     int saverr;
+     int fd = -1;
++    bool switched_creds = false;
++    bool cap_fsetid_dropped = false;
++    struct lo_cred old = {};
+ 
+     mapped_name = NULL;
+     name = in_name;
+@@ -3006,6 +3055,26 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+              ", name=%s value=%s size=%zd)\n", ino, name, value, size);
+ 
+     sprintf(procname, "%i", inode->fd);
++    /*
++     * If we are setting posix access acl and if SGID needs to be
++     * cleared, then switch to caller's gid and drop CAP_FSETID
++     * and that should make sure host kernel clears SGID.
++     *
++     * This probably will not work when we support idmapped mounts.
++     * In that case we will need to find a non-root gid and switch
++     * to it. (Instead of gid in request). Fix it when we support
++     * idmapped mounts.
++     */
++    if (lo->posix_acl && !strcmp(name, "system.posix_acl_access")
++        && (extra_flags & FUSE_SETXATTR_ACL_KILL_SGID)) {
++        ret = lo_drop_cap_change_cred(req, &old, false, "FSETID",
++                                      &cap_fsetid_dropped);
++        if (ret) {
++            saverr = ret;
++            goto out;
++        }
++        switched_creds = true;
++    }
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+         fd = openat(lo->proc_self_fd, procname, O_RDONLY);
+         if (fd < 0) {
+@@ -3021,6 +3090,12 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+         saverr = ret == -1 ? errno : 0;
+         FCHDIR_NOFAIL(lo->root.fd);
+     }
++    if (switched_creds) {
++        if (cap_fsetid_dropped)
++            lo_restore_cred_gain_cap(&old, false, "FSETID");
++        else
++            lo_restore_cred(&old, false);
++    }
+ 
+ out:
+     if (fd >= 0) {
 -- 
 2.31.1
 
