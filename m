@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF58B3B8CE0
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:19:01 +0200 (CEST)
-Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5157D3B8CE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:20:33 +0200 (CEST)
+Received: from localhost ([::1]:33352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyoAG-0003t3-W6
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:19:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42552)
+	id 1lyoBk-000894-Cr
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5S-0001bm-CO
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:14:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20834)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5W-0001ro-KQ
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:14:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5P-00011v-Cv
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:14:02 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5U-00016c-Qy
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:14:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625112838;
+ s=mimecast20190719; t=1625112844;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6UUZKsnxjk479MmTFaykmhlePb3zu5VVZKiuPKcifhU=;
- b=OyBGHbxZVdPI7dJYXENlfyB4fN8e5dhMGCOzjCdajI/mGtAfm6uPgAN2+B3uMHpkFWsVf/
- VOPfP+d0fXRjG6RCkFsdI1Rvyzj/hqAzY79Gum5pSrBo25DMVbPhg6jMebmxmdabBajYBU
- p5SzHrsgKq03ZR5uN8xcoorCvwpSGFU=
+ bh=HjWAmsfOhxEV/4afQkaj7ZO9XgmR6HHngbUPDQA8fNU=;
+ b=UoFmp5HbZOm2pmTh5uRcANB6EtqW83FvH0lxGidP0MkONGsjdmkZTHSe/GHts3hqbjZlJb
+ 80tzGe3aRhHZeeBt2hKCd1cxU6i8SW714LJSHqBpULaCfEdcF1/LXTke81Mf2cp5VBP/Fr
+ lUTwININMPFiC+vZ09xxEgWeGO2dn5E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-jCtHCQk-PX6y8e78xXfpsg-1; Thu, 01 Jul 2021 00:13:56 -0400
-X-MC-Unique: jCtHCQk-PX6y8e78xXfpsg-1
+ us-mta-477-4Eg0MGV1OMu7H0euwxkktA-1; Thu, 01 Jul 2021 00:14:00 -0400
+X-MC-Unique: 4Eg0MGV1OMu7H0euwxkktA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 468D6100C611;
- Thu,  1 Jul 2021 04:13:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FBE0100C611;
+ Thu,  1 Jul 2021 04:13:59 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5124269CB4;
- Thu,  1 Jul 2021 04:13:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6849869CB4;
+ Thu,  1 Jul 2021 04:13:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/20] python/aqmp: add asyncio_run compatibility wrapper
-Date: Thu,  1 Jul 2021 00:13:12 -0400
-Message-Id: <20210701041313.1696009-20-jsnow@redhat.com>
+Subject: [PATCH 20/20] python/aqmp: add scary message
+Date: Thu,  1 Jul 2021 00:13:13 -0400
+Message-Id: <20210701041313.1696009-21-jsnow@redhat.com>
 In-Reply-To: <20210701041313.1696009-1-jsnow@redhat.com>
 References: <20210701041313.1696009-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,45 +85,46 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merely as a convenience for users stuck on Python 3.6. It isn't used by
-the library itself.
+Add a warning whenever AQMP is used to steer people gently away from
+using it for the time-being.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/util.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ python/qemu/aqmp/__init__.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/python/qemu/aqmp/util.py b/python/qemu/aqmp/util.py
-index 2311be5893..356323ac70 100644
---- a/python/qemu/aqmp/util.py
-+++ b/python/qemu/aqmp/util.py
-@@ -109,6 +109,26 @@ async def wait_task_done(task: Optional['asyncio.Future[Any]']) -> None:
-             break
+diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
+index 5cd7df87c6..f85500e0a2 100644
+--- a/python/qemu/aqmp/__init__.py
++++ b/python/qemu/aqmp/__init__.py
+@@ -21,6 +21,8 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.  See
+ # the COPYING file in the top-level directory.
+ 
++import warnings
++
+ from .error import AQMPError, MultiException
+ from .events import EventListener
+ from .message import Message
+@@ -28,6 +30,18 @@
+ from .qmp_protocol import QMP, ExecInterruptedError, ExecuteError
  
  
-+def asyncio_run(coro: Coroutine[Any, Any, T]) -> T:
-+    """
-+    Python 3.6-compatible `asyncio.run` wrapper.
++_WMSG = """
 +
-+    :param coro: A coroutine to execute now.
-+    :return: The return value from the coroutine.
-+    """
-+    # Python 3.7+
-+    if hasattr(asyncio, 'run'):
-+        # pylint: disable=no-member
-+        return asyncio.run(coro)  # type: ignore
++The Asynchronous QMP library is currently in development and its API
++should be considered highly fluid and subject to change. It should
++not be used by any other scripts checked into the QEMU tree.
 +
-+    # Python 3.6
-+    loop = asyncio.get_event_loop()
-+    ret = loop.run_until_complete(coro)
-+    loop.close()
++Proceed with caution!
++"""
 +
-+    return ret
++warnings.warn(_WMSG, FutureWarning)
 +
 +
- def pretty_traceback(prefix: str = "  | ") -> str:
-     """
-     Formats the current traceback, indented to provide visual distinction.
+ # The order of these fields impact the Sphinx documentation order.
+ __all__ = (
+     # Classes, most to least important
 -- 
 2.31.1
 
