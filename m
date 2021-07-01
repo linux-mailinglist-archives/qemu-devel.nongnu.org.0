@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F243B929C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:02:28 +0200 (CEST)
-Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9083B9309
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 16:18:44 +0200 (CEST)
+Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyxGs-0001x6-R2
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:02:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57738)
+	id 1lyxWd-0007Wp-2D
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 10:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lyxDU-0008AV-77
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 09:58:56 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:39628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lyxDS-0002df-2P
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 09:58:55 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id p15so10977295ybe.6
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 06:58:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3JamkE52gL5mAEaxfV4hIAfOQE5lDF/7/u9gFcuW6R8=;
- b=Yhyb6emK3mL/0YOKwjchgxp82a49W8OeM3z5N8WWBAJQN4ZgDbeKYnD22vpOine7wG
- yYVWIl7Iu3i8ja1+YEwP5QCCRTa7fT+b5wd99stH5BlJ9FvcGbGcZV1ozzXF5Z2qlJju
- o9W4+IV5k2RzGfjswZOf8TgkFZOduaLNglfkkIOLi65z5oJuMPQccT8jyM2/mBZyAUhe
- f+FUX8K37RTl562nnJCRN6VvJ7Wj7VNs33aVq0Q24pq9KV4l6M9I7uXyTEboeYBybdqK
- gxL0QjnHCOy5tnK/ZZa3gUF5KcjC/lV5aKa0+JH/FPOvE3ETTM0+LbhQ1m+DpkO6JsHq
- cBtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3JamkE52gL5mAEaxfV4hIAfOQE5lDF/7/u9gFcuW6R8=;
- b=qSIufRcGbPys+RvIONtw9gzfl2GVn7/Pg1zaR57ZHDikv1YsENLBWXP6S0IXKHHTnx
- eyFcfFiDwFqyDqVhOWk9AJLKW+JSpSjZZTkXUobQxwCJnUqAO7NqvJrwmghUAmcoqiWN
- XXqGYii1rU03J4cx4dvgWUPm8b1uunNrfhF525v3s1xKmR5O2CmcfdTL2NK3eixIW2pd
- I+XdAuKCN6j8FyWaMYvLrMzghXbZ4lli4wYhzImYZIHBQDBxHOX4oVyHarAjrm8qJhBh
- IaVA1ox2UFVVAW1Vxty7jkfyV2gtRrbXLhUZvd3bO84ERI139Mtu2qeOevtGMQdayiL1
- 4MSg==
-X-Gm-Message-State: AOAM530ClcLMsYyFZlb2t6IvU2Q0uaNJ245OfFfWbiCOAEBYZNcR7e/K
- EZygE4UjufflXmTwgvVdD5wkEhkk5lab0NCiv4bnWZi8
-X-Google-Smtp-Source: ABdhPJwZJ+6C9Y4jfikPf7olPAMsR4yHoiVGiE/cLWOy4SEctr7rA31ruMIEx9BnCpvsKFgIqJ4Hnq+kS8v1Faa7Q9k=
-X-Received: by 2002:a25:dc50:: with SMTP id y77mr38265548ybe.405.1625147932710; 
- Thu, 01 Jul 2021 06:58:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lyxUD-0004hB-IM
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lyxUA-0005sU-G3
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 10:16:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625148968;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RVL2wu0HI8X1Wryy8cAhcyKAD+Kiq1sxp6Rh/Rf3GW8=;
+ b=aDYPd/uhae3mLz7gMhI6tLjJNP9l/MotsKYNmxnpTI5ykhkw/RhV964wQOZqNvs8vHvIto
+ 91TCy7Amn5kPHCopi/hdYV4nMGbgT4djMorUHWoTQtvn1p9bl0S2wA8yV48VwBlNJwztdR
+ q6Or6P/sezsg8M0ofFjfBz8RKLpPv5g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-kyNBz5xpMaSznMRVJeBLWQ-1; Thu, 01 Jul 2021 10:16:06 -0400
+X-MC-Unique: kyNBz5xpMaSznMRVJeBLWQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 347F4802B7E;
+ Thu,  1 Jul 2021 14:16:05 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-114-230.ams2.redhat.com
+ [10.36.114.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B4B460843;
+ Thu,  1 Jul 2021 14:15:52 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, berrange@redhat.com, linfeng23@huawei.com,
+ groug@kaod.org, huangy81@chinatelecom.cn, lvivier@redhat.com,
+ lizhijian@cn.fujitsu.com, peterx@redhat.com, vgoyal@redhat.com
+Subject: [PULL 00/20] migration queue
+Date: Thu,  1 Jul 2021 15:15:25 +0100
+Message-Id: <20210701141545.193571-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20210530150112.74411-1-ziqiaokong@gmail.com>
- <20210530150112.74411-2-ziqiaokong@gmail.com>
- <CAM0BWNAu5YCXnp+fxcQcWeQnosjJq_VegiibW77bh6mdZpQ3Ow@mail.gmail.com>
- <CAM0BWNBdENZwQ-p3M3owrjCfw3u_=vZvnCceP82gAbQ123TqSw@mail.gmail.com>
- <CAM0BWNCZLmAP-XV7TA_DTes+9X3-bARo4jhbP2nxxCUGCcoydQ@mail.gmail.com>
-In-Reply-To: <CAM0BWNCZLmAP-XV7TA_DTes+9X3-bARo4jhbP2nxxCUGCcoydQ@mail.gmail.com>
-From: Ziqiao Kong <ziqiaokong@gmail.com>
-Date: Thu, 1 Jul 2021 21:58:41 +0800
-Message-ID: <CAM0BWNA7YsJf=fF0=TnX5rOyCbuNVzWTZRPBiKxF-HwT1jB3iA@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] target/i386: Correct implementation for FCS, FIP, 
- FDS and FDP
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.402,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,251 +78,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: leobras@redhat.com, stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Ziqiao
+The following changes since commit 1ec2cd0ce2ca94292ce237becc2c21b4eb9edca0:
 
-On Fri, Jun 25, 2021 at 1:06 AM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
->
-> Ping.
->
-> On Fri, Jun 11, 2021 at 10:32 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
-> >
-> > Ping.
-> >
-> > On Fri, Jun 4, 2021 at 11:04 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
-> > >
-> > > Ping.
-> > >
-> > > Sorry again for the previous duplicate emails.
-> > >
-> > > On Sun, May 30, 2021 at 11:05 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
-> > > >
-> > > > Update FCS:FIP and FDS:FDP according to the Intel Manual Vol.1 8.1.8. Note that
-> > > > CPUID.(EAX=07H,ECX=0H):EBX[bit 13] is not implemented by design in this patch
-> > > > and will be added along with TCG features flag in a separate patch later.
-> > > >
-> > > > Signed-off-by: Ziqiao Kong <ziqiaokong@gmail.com>
-> > > > ---
-> > > > Sorry for the duplicate emails due to my bad network. The v7 has no
-> > > > difference from v6 and is sent just for clarification.
-> > > > Changes since v5:
-> > > > - Improve code indention in translate.c.
-> > > > Changes since v4:
-> > > > - Remove the dead code about CPUID_7_0_EBX_FCS_FDS.
-> > > > - Rewrite the commit message.
-> > > > ---
-> > > >  target/i386/cpu.h            |  2 ++
-> > > >  target/i386/tcg/fpu_helper.c | 32 +++++++++++--------------
-> > > >  target/i386/tcg/translate.c  | 45 +++++++++++++++++++++++++++++++++++-
-> > > >  3 files changed, 59 insertions(+), 20 deletions(-)
-> > > >
-> > > > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> > > > index da72aa5228..147dadcce0 100644
-> > > > --- a/target/i386/cpu.h
-> > > > +++ b/target/i386/cpu.h
-> > > > @@ -1455,6 +1455,8 @@ typedef struct CPUX86State {
-> > > >      FPReg fpregs[8];
-> > > >      /* KVM-only so far */
-> > > >      uint16_t fpop;
-> > > > +    uint16_t fpcs;
-> > > > +    uint16_t fpds;
-> > > >      uint64_t fpip;
-> > > >      uint64_t fpdp;
-> > > >
-> > > > diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-> > > > index 1b30f1bb73..d953f04bb5 100644
-> > > > --- a/target/i386/tcg/fpu_helper.c
-> > > > +++ b/target/i386/tcg/fpu_helper.c
-> > > > @@ -728,6 +728,10 @@ void helper_fninit(CPUX86State *env)
-> > > >  {
-> > > >      env->fpus = 0;
-> > > >      env->fpstt = 0;
-> > > > +    env->fpcs = 0;
-> > > > +    env->fpds = 0;
-> > > > +    env->fpip = 0;
-> > > > +    env->fpdp = 0;
-> > > >      cpu_set_fpuc(env, 0x37f);
-> > > >      env->fptags[0] = 1;
-> > > >      env->fptags[1] = 1;
-> > > > @@ -2357,19 +2361,19 @@ static void do_fstenv(CPUX86State *env, target_ulong ptr, int data32,
-> > > >          cpu_stl_data_ra(env, ptr, env->fpuc, retaddr);
-> > > >          cpu_stl_data_ra(env, ptr + 4, fpus, retaddr);
-> > > >          cpu_stl_data_ra(env, ptr + 8, fptag, retaddr);
-> > > > -        cpu_stl_data_ra(env, ptr + 12, 0, retaddr); /* fpip */
-> > > > -        cpu_stl_data_ra(env, ptr + 16, 0, retaddr); /* fpcs */
-> > > > -        cpu_stl_data_ra(env, ptr + 20, 0, retaddr); /* fpoo */
-> > > > -        cpu_stl_data_ra(env, ptr + 24, 0, retaddr); /* fpos */
-> > > > +        cpu_stl_data_ra(env, ptr + 12, env->fpip, retaddr); /* fpip */
-> > > > +        cpu_stl_data_ra(env, ptr + 16, env->fpcs, retaddr); /* fpcs */
-> > > > +        cpu_stl_data_ra(env, ptr + 20, env->fpdp, retaddr); /* fpoo */
-> > > > +        cpu_stl_data_ra(env, ptr + 24, env->fpds, retaddr); /* fpos */
-> > > >      } else {
-> > > >          /* 16 bit */
-> > > >          cpu_stw_data_ra(env, ptr, env->fpuc, retaddr);
-> > > >          cpu_stw_data_ra(env, ptr + 2, fpus, retaddr);
-> > > >          cpu_stw_data_ra(env, ptr + 4, fptag, retaddr);
-> > > > -        cpu_stw_data_ra(env, ptr + 6, 0, retaddr);
-> > > > -        cpu_stw_data_ra(env, ptr + 8, 0, retaddr);
-> > > > -        cpu_stw_data_ra(env, ptr + 10, 0, retaddr);
-> > > > -        cpu_stw_data_ra(env, ptr + 12, 0, retaddr);
-> > > > +        cpu_stw_data_ra(env, ptr + 6, env->fpip, retaddr);
-> > > > +        cpu_stw_data_ra(env, ptr + 8, env->fpcs, retaddr);
-> > > > +        cpu_stw_data_ra(env, ptr + 10, env->fpdp, retaddr);
-> > > > +        cpu_stw_data_ra(env, ptr + 12, env->fpds, retaddr);
-> > > >      }
-> > > >  }
-> > > >
-> > > > @@ -2436,17 +2440,7 @@ static void do_fsave(CPUX86State *env, target_ulong ptr, int data32,
-> > > >      }
-> > > >
-> > > >      /* fninit */
-> > > > -    env->fpus = 0;
-> > > > -    env->fpstt = 0;
-> > > > -    cpu_set_fpuc(env, 0x37f);
-> > > > -    env->fptags[0] = 1;
-> > > > -    env->fptags[1] = 1;
-> > > > -    env->fptags[2] = 1;
-> > > > -    env->fptags[3] = 1;
-> > > > -    env->fptags[4] = 1;
-> > > > -    env->fptags[5] = 1;
-> > > > -    env->fptags[6] = 1;
-> > > > -    env->fptags[7] = 1;
-> > > > +    helper_fninit(env);
-> > > >  }
-> > > >
-> > > >  void helper_fsave(CPUX86State *env, target_ulong ptr, int data32)
-> > > > diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> > > > index 5c1b7b87c5..4c57ee5c26 100644
-> > > > --- a/target/i386/tcg/translate.c
-> > > > +++ b/target/i386/tcg/translate.c
-> > > > @@ -5930,6 +5930,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > >          /* floats */
-> > > >      case 0xd8 ... 0xdf:
-> > > >          {
-> > > > +            TCGv last_addr = tcg_temp_new();
-> > > > +            int last_seg;
-> > > > +            bool update_fdp = false;
-> > > > +            bool update_fip = true;
-> > > > +
-> > > >              if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
-> > > >                  /* if CR0.EM or CR0.TS are set, generate an FPU exception */
-> > > >                  /* XXX: what to do if illegal op ? */
-> > > > @@ -5942,7 +5947,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > >              op = ((b & 7) << 3) | ((modrm >> 3) & 7);
-> > > >              if (mod != 3) {
-> > > >                  /* memory op */
-> > > > -                gen_lea_modrm(env, s, modrm);
-> > > > +                AddressParts a = gen_lea_modrm_0(env, s, modrm);
-> > > > +                TCGv ea = gen_lea_modrm_1(s, a);
-> > > > +
-> > > > +                update_fdp = true;
-> > > > +                last_seg = a.def_seg;
-> > > > +                tcg_gen_mov_tl(last_addr, ea);
-> > > > +                gen_lea_v_seg(s, s->aflag, ea, a.def_seg, s->override);
-> > > > +
-> > > >                  switch (op) {
-> > > >                  case 0x00 ... 0x07: /* fxxxs */
-> > > >                  case 0x10 ... 0x17: /* fixxxl */
-> > > > @@ -6070,20 +6082,24 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > >                  case 0x0c: /* fldenv mem */
-> > > >                      gen_helper_fldenv(cpu_env, s->A0,
-> > > >                                        tcg_const_i32(dflag - 1));
-> > > > +                    update_fip = update_fdp = false;
-> > > >                      break;
-> > > >                  case 0x0d: /* fldcw mem */
-> > > >                      tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > >                                          s->mem_index, MO_LEUW);
-> > > >                      gen_helper_fldcw(cpu_env, s->tmp2_i32);
-> > > > +                    update_fip = update_fdp = false;
-> > > >                      break;
-> > > >                  case 0x0e: /* fnstenv mem */
-> > > >                      gen_helper_fstenv(cpu_env, s->A0,
-> > > >                                        tcg_const_i32(dflag - 1));
-> > > > +                    update_fip = update_fdp = false;
-> > > >                      break;
-> > > >                  case 0x0f: /* fnstcw mem */
-> > > >                      gen_helper_fnstcw(s->tmp2_i32, cpu_env);
-> > > >                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > >                                          s->mem_index, MO_LEUW);
-> > > > +                    update_fip = update_fdp = false;
-> > > >                      break;
-> > > >                  case 0x1d: /* fldt mem */
-> > > >                      gen_helper_fldt_ST0(cpu_env, s->A0);
-> > > > @@ -6095,15 +6111,18 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > >                  case 0x2c: /* frstor mem */
-> > > >                      gen_helper_frstor(cpu_env, s->A0,
-> > > >                                        tcg_const_i32(dflag - 1));
-> > > > +                    update_fip = update_fdp = false;
-> > > >                      break;
-> > > >                  case 0x2e: /* fnsave mem */
-> > > >                      gen_helper_fsave(cpu_env, s->A0,
-> > > >                                       tcg_const_i32(dflag - 1));
-> > > > +                    update_fip = update_fdp = false;
-> > > >                      break;
-> > > >                  case 0x2f: /* fnstsw mem */
-> > > >                      gen_helper_fnstsw(s->tmp2_i32, cpu_env);
-> > > >                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > >                                          s->mem_index, MO_LEUW);
-> > > > +                    update_fip = update_fdp = false;
-> > > >                      break;
-> > > >                  case 0x3c: /* fbld */
-> > > >                      gen_helper_fbld_ST0(cpu_env, s->A0);
-> > > > @@ -6146,6 +6165,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > >                      case 0: /* fnop */
-> > > >                          /* check exceptions (FreeBSD FPU probe) */
-> > > >                          gen_helper_fwait(cpu_env);
-> > > > +                        update_fip = update_fdp = false;
-> > > >                          break;
-> > > >                      default:
-> > > >                          goto unknown_op;
-> > > > @@ -6315,9 +6335,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > >                          break;
-> > > >                      case 2: /* fclex */
-> > > >                          gen_helper_fclex(cpu_env);
-> > > > +                        update_fip = update_fdp = false;
-> > > >                          break;
-> > > >                      case 3: /* fninit */
-> > > >                          gen_helper_fninit(cpu_env);
-> > > > +                        update_fip = update_fdp = false;
-> > > >                          break;
-> > > >                      case 4: /* fsetpm (287 only, just do nop here) */
-> > > >                          break;
-> > > > @@ -6438,6 +6460,27 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > >                      goto unknown_op;
-> > > >                  }
-> > > >              }
-> > > > +
-> > > > +            if (update_fip) {
-> > > > +                tcg_gen_ld32u_tl(s->T0, cpu_env,
-> > > > +                                 offsetof(CPUX86State, segs[R_CS].selector));
-> > > > +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpcs));
-> > > > +
-> > > > +                tcg_gen_movi_tl(s->T0, pc_start - s->cs_base);
-> > > > +                tcg_gen_st_tl(s->T0, cpu_env, offsetof(CPUX86State, fpip));
-> > > > +            }
-> > > > +
-> > > > +            if (update_fdp) {
-> > > > +                if (s->override >= 0) {
-> > > > +                    last_seg = s->override;
-> > > > +                }
-> > > > +                tcg_gen_ld32u_tl(s->T0, cpu_env,
-> > > > +                                 offsetof(CPUX86State,
-> > > > +                                 segs[last_seg].selector));
-> > > > +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpds));
-> > > > +
-> > > > +                tcg_gen_st_tl(last_addr, cpu_env, offsetof(CPUX86State, fpdp));
-> > > > +            }
-> > > >          }
-> > > >          break;
-> > > >          /************************/
-> > > > --
-> > > > 2.25.1
-> > > >
+  Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-06-30 21:09:27 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20210701a
+
+for you to fetch changes up to 9c21e61435e09a7a67f951a096b93183a7a5ad89:
+
+  migration/rdma: Use error_report to suppress errno message (2021-07-01 12:21:32 +0100)
+
+----------------------------------------------------------------
+Migration and virtiofs pull 2021-07-01
+
+A bunch of small fixes and improvements; two particular to note:
+  a) Peter's fix to migration-test for uffd, means that a lot of
+migration tests will start running in a lot of places again when they'd
+previously been skipped.
+  b) Vivek's 'Fix fuse_setxattr...' fixes our build against an API
+breakage in the kernel headers.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Daniel P. Berrangé (2):
+      virtiofsd: use GDateTime for formatting timestamp for debug messages
+      docs: describe the security considerations with virtiofsd xattr mapping
+
+Feng Lin (1):
+      migration: fix the memory overwriting risk in add_to_iovec
+
+Greg Kurz (1):
+      virtiofsd: Don't allow file creation with FUSE_OPEN
+
+Hyman Huang(黄勇) (2):
+      tests/migration: parse the thread-id key of CpuInfoFast
+      tests/migration: fix "downtime_limit" type when "migrate-set-parameters"
+
+Laurent Vivier (2):
+      migration: move wait-unplug loop to its own function
+      migration: failover: continue to wait card unplug on error
+
+Li Zhijian (1):
+      migration/rdma: Use error_report to suppress errno message
+
+Peter Xu (4):
+      tests: migration-test: Still run the rest even if uffd missing
+      tests: migration-test: Add dirty ring test
+      migration: Move yank outside qemu_start_incoming_migration()
+      migration: Allow reset of postcopy_recover_triggered when failed
+
+Vivek Goyal (7):
+      virtiofsd: Fix fuse setxattr() API change issue
+      virtiofsd: Fix xattr operations overwriting errno
+      virtiofsd: Add support for extended setxattr
+      virtiofsd: Add umask to seccom allow list
+      virtiofsd: Add capability to change/restore umask
+      virtiofsd: Switch creds, drop FSETID for system.posix_acl_access xattr
+      virtiofsd: Add an option to enable/disable posix acls
+
+ docs/tools/virtiofsd.rst              |  58 +++++++-
+ migration/migration.c                 |  89 +++++++-----
+ migration/qemu-file.c                 |   5 +
+ migration/rdma.c                      |   4 +-
+ tests/migration/guestperf/engine.py   |   4 +-
+ tests/qtest/migration-test.c          |  69 +++++++--
+ tools/virtiofsd/fuse_common.h         |   5 +
+ tools/virtiofsd/fuse_lowlevel.c       |  24 +++-
+ tools/virtiofsd/fuse_lowlevel.h       |   3 +-
+ tools/virtiofsd/helper.c              |   1 +
+ tools/virtiofsd/passthrough_ll.c      | 254 +++++++++++++++++++++++++++++-----
+ tools/virtiofsd/passthrough_seccomp.c |   1 +
+ 12 files changed, 428 insertions(+), 89 deletions(-)
+
 
