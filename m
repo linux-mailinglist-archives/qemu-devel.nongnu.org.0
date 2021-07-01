@@ -2,93 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9FC3B8FA2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 11:17:04 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B4E3B8FC9
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 11:29:37 +0200 (CEST)
+Received: from localhost ([::1]:42940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lysoh-0006Jh-1V
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 05:17:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41828)
+	id 1lyt0q-0005LP-08
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 05:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lysnp-0005Zr-3R
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 05:16:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47861)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lyt01-0004gF-L9
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 05:28:45 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lysnj-0006LF-2M
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 05:16:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625130961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DEmgz0w1eZDZDEMANJkVk58+w0M2EL9JUH+4jNVTbwY=;
- b=bYVvaAH3uAA4bcggAiHE21nm1mi8YhwAX+EGPSqlSk7s3sgBCXGw8xai8Kj+2VE63rcH62
- 3Q+xsX4dZa4y+Odafe4v6Zm1lO7x3jXF9gEdFH41Lu8Gy8WurO6GQY+p3rW1nFDV1IEhs8
- U7IdC4wjDFfQbbsdfyOlWiv9mhwQz3w=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-uDybqcB5OSeg2Etnp__uwA-1; Thu, 01 Jul 2021 05:16:00 -0400
-X-MC-Unique: uDybqcB5OSeg2Etnp__uwA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y129-20020a1c32870000b029016920cc7087so1051331wmy.4
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 02:16:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=DEmgz0w1eZDZDEMANJkVk58+w0M2EL9JUH+4jNVTbwY=;
- b=F8uhwMiDf4PdaqCN24Ek91jR+dvTM8Ii6jrLGKh+ZN5uDX/MjPBdcntl9ztopXf78i
- M7riukmAlDO+JatWx9Oaj9Sw12Ns9SsvqDgx41k4VeZ35hMxwZMft90sF7hvwpN/wRwy
- 9vdyZaOkXsZBohojuCvXojeKR8LZmpfGIHFYKqfygntBOj6Q1zj2p//wAd/Y3MxbRTOo
- fpz/7CMLdjLSlhaOzFICRkGZGRXbgg/hAqGZHQimVYe7fozVBoezNAMBnW/2kGU7SkLF
- 28LWMeVWGk6onkHBTv8+Dy52sKRetTuZEunQ5wLoSWmAtWJyUnNT38/k8AGarZK5R/dK
- tTRw==
-X-Gm-Message-State: AOAM530slNHGaZrVb9K5IBKQ8FAT9UwmPCfdh2Vartf2H/wlxltNLr1e
- ef/bm+N9ylRcoH932lWaHh4Porl1SPETScv+3IpLJSYfZjxgraqY1mcSxG3mhLk2aY5FMRzuSAN
- yXkPS4boG2tjUn9M=
-X-Received: by 2002:a05:600c:1c8b:: with SMTP id
- k11mr9475915wms.41.1625130959330; 
- Thu, 01 Jul 2021 02:15:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzsS7P7vayth/qI16cFCi5w6vpXX1g1vgfCL0WkA8iKUoNRadKx3eGDhG2FIOAs92KT59y/xA==
-X-Received: by 2002:a05:600c:1c8b:: with SMTP id
- k11mr9475900wms.41.1625130959124; 
- Thu, 01 Jul 2021 02:15:59 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id e15sm25761461wrm.60.2021.07.01.02.15.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Jul 2021 02:15:58 -0700 (PDT)
-Date: Thu, 1 Jul 2021 10:15:56 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH 1/2] tests/migration: parse the thread-id key of
- CpuInfoFast
-Message-ID: <YN2HzJfGIr+NGsaL@work-vm>
-References: <584578c0a0dd781cee45f72ddf517f6e6a41c504.1622729934.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lyszz-0008W1-RG
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 05:28:45 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16193fqK056360; Thu, 1 Jul 2021 05:28:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=p6FvAV7MMlvnStmB0XPN9uHPZSTM48UCX67hDe7BvjA=;
+ b=NI2+L/n+PjtKjYEJKtMU/lWMcrdcoWxEQYwxhL0jce68xpG5IS2NSoFtu0GB5ymBY98y
+ T1mAe8b17cmAiGyJxCliW39TOoQ9/34JBn79y2ERzQh1QmRiRS/rdMvrYNOT2YVNGMUw
+ dSL2YP5bYRw7g5mNNTM8LkyLVfiihqIcDStKyTNVxyxaNkYpVgdxKxeHIQdF1ELOx2De
+ OEQluoF9+4kHkQ8S1hozwCF6rVHR0HT7euVcMhII6z86RBrazEDP7BxEwfCDmbtmCtPq
+ U5wW9hRc3imPsrVxLJp/rf0AhKugqzhZBIbNAS1s744gnMJdg+xf8F5y6Vvydvd50zLs gA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39gv01fw2b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Jul 2021 05:28:39 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16193o3c057128;
+ Thu, 1 Jul 2021 05:28:39 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39gv01fw1q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Jul 2021 05:28:39 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1619BL0r018080;
+ Thu, 1 Jul 2021 09:28:36 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 39h19bga1u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 Jul 2021 09:28:36 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1619SYql20709884
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 1 Jul 2021 09:28:34 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E166A405B;
+ Thu,  1 Jul 2021 09:28:34 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C2F02A4081;
+ Thu,  1 Jul 2021 09:28:31 +0000 (GMT)
+Received: from [9.65.220.2] (unknown [9.65.220.2])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  1 Jul 2021 09:28:31 +0000 (GMT)
+Subject: Re: [PATCH v3 1/2] hw/i386/pc: pc_system_ovmf_table_find: Assert that
+ flash was parsed
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210701052749.934744-1-dovmurik@linux.ibm.com>
+ <20210701052749.934744-2-dovmurik@linux.ibm.com>
+ <cf931732-2bae-4ed1-6c62-784f36647fa1@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <fdee08fe-c0bf-eb4b-a914-cd26daa476df@linux.ibm.com>
+Date: Thu, 1 Jul 2021 12:28:29 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <584578c0a0dd781cee45f72ddf517f6e6a41c504.1622729934.git.huangy81@chinatelecom.cn>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <cf931732-2bae-4ed1-6c62-784f36647fa1@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: E3GRYKeG0T_6FfBoMPV4qFosJRwh8tSr
+X-Proofpoint-ORIG-GUID: m3qi61HyjElNFy3KLqwUMm48pKH2E7qw
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-01_06:2021-06-30,
+ 2021-07-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 suspectscore=0
+ mlxlogscore=999 impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107010062
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,42 +117,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* huangy81@chinatelecom.cn (huangy81@chinatelecom.cn) wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> thread_id in CpuInfoFast is deprecated, parse thread-id instead
-> after execute qmp query-cpus-fast. fix this so that test can
-> go smoothly.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Queued (both 1 and 2)
-> ---
->  tests/migration/guestperf/engine.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+
+On 01/07/2021 11:54, Philippe Mathieu-Daudé wrote:
+> On 7/1/21 7:27 AM, Dov Murik wrote:
+>> Add assertion in pc_system_ovmf_table_find that verifies that the flash
+>> was indeed previously parsed (looking for the OVMF table) by
+>> pc_system_parse_ovmf_flash.
+>>
+>> Now pc_system_ovmf_table_find distinguishes between "no one called
+>> pc_system_parse_ovmf_flash" (which will abort due to assertion failure)
+>> and "the flash was parsed but no OVMF table was found, or it is invalid"
+>> (which will return false).
+>>
+>> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>> Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
 > 
-> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-> index 208e095794..9e16fa92d2 100644
-> --- a/tests/migration/guestperf/engine.py
-> +++ b/tests/migration/guestperf/engine.py
-> @@ -113,7 +113,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
->          vcpus = src.command("query-cpus-fast")
->          src_threads = []
->          for vcpu in vcpus:
-> -            src_threads.append(vcpu["thread_id"])
-> +            src_threads.append(vcpu["thread-id"])
->  
->          # XXX how to get dst timings on remote host ?
->  
-> -- 
-> 2.24.3
+> For obvious / checkpatch fixes you can keep the tags ;)
 > 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+Thanks Phil.
+
+-Dov
 
 
