@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003803B8CE6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:22:47 +0200 (CEST)
-Received: from localhost ([::1]:41030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5973B8CE3
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:20:28 +0200 (CEST)
+Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyoDu-0004uB-Vu
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
+	id 1lyoBf-0007rp-Kd
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo56-0000Gw-NA
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20072)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5I-00010W-1D
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo54-0000lL-Py
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:40 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo5E-0000sr-PP
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625112818;
+ s=mimecast20190719; t=1625112828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IigzW1skemNVRbczM0Veq/ZUl4qm+ThwuBp/NS4dbPA=;
- b=Utxsb7wG0NeugfnbUB8SLnTDyebvP+AnegOEL86ueeVhYnKImQxnv8BF0gwNYw9+VPaAs6
- ASbemx4Qy9t5AIKj4Vg5fY4YNpGM/TbgE+kkycaei0QQcwmRGcOpNdeIzSRhF6sRrK+0TB
- 0ZPmVJc7NYaWo+acuQWZ2qrXgDUDLHQ=
+ bh=eA51LRU27vMnzIkuOy/mZC5yOuGX5EVflxYDIfbxMqE=;
+ b=TMflzlJqMIB/8CVpB0+R73fQsygYOp4b8H3t4R6Mueu/65m8jXTY+lLpJUMJmSfJMUTIJ0
+ lfFWh5J/UL65SKRrvl2shX068Vz4sH67hsxwcmC7TIMOmiqSAWZeio5iW8duesnsBQtOj7
+ MHuOcTgcKMiroHnFowooZ5GHHniBQWM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-rPLDLt0ZPBqcpJExoEksBg-1; Thu, 01 Jul 2021 00:13:37 -0400
-X-MC-Unique: rPLDLt0ZPBqcpJExoEksBg-1
+ us-mta-280-F1Senn2MMdONVIBjeF6NVQ-1; Thu, 01 Jul 2021 00:13:44 -0400
+X-MC-Unique: F1Senn2MMdONVIBjeF6NVQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37323362F9;
- Thu,  1 Jul 2021 04:13:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A90018414A0;
+ Thu,  1 Jul 2021 04:13:44 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4EE8604CC;
- Thu,  1 Jul 2021 04:13:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B0BA604CC;
+ Thu,  1 Jul 2021 04:13:36 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/20] python/aqmp: add AsyncProtocol.accept() method
-Date: Thu,  1 Jul 2021 00:13:02 -0400
-Message-Id: <20210701041313.1696009-10-jsnow@redhat.com>
+Subject: [PATCH 10/20] python/aqmp: add _cb_inbound and _cb_inbound logging
+ hooks
+Date: Thu,  1 Jul 2021 00:13:03 -0400
+Message-Id: <20210701041313.1696009-11-jsnow@redhat.com>
 In-Reply-To: <20210701041313.1696009-1-jsnow@redhat.com>
 References: <20210701041313.1696009-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,140 +86,107 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a little messier than connect, because it wasn't designed to accept
-*precisely one* connection. Such is life.
+Add hooks designed to log/filter incoming/outgoing messages. The primary
+intent for these is to be able to support iotests which may want to log
+messages with specific filters for reproducible output.
+
+Another use is for plugging into Urwid frameworks; all messages in/out
+can be automatically added to a rendering list for the purposes of a
+qmp-shell like tool.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/protocol.py | 85 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 3 deletions(-)
+ python/qemu/aqmp/protocol.py | 50 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 46 insertions(+), 4 deletions(-)
 
 diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
-index dd8564ee02..a32a8cbbf6 100644
+index a32a8cbbf6..72c9e95198 100644
 --- a/python/qemu/aqmp/protocol.py
 +++ b/python/qemu/aqmp/protocol.py
-@@ -242,6 +242,24 @@ def runstate(self) -> Runstate:
-         """The current `Runstate` of the connection."""
-         return self._runstate
+@@ -176,6 +176,11 @@ class AsyncProtocol(Generic[T]):
+          can be written after the super() call.
+      - `_on_message`:
+          Actions to be performed when a message is received.
++     - `_cb_outbound`:
++         Logging/Filtering hook for all outbound messages.
++     - `_cb_inbound`:
++         Logging/Filtering hook for all inbound messages.
++         This hook runs *before* `_on_message()`.
+ 
+     :param name:
+         Name used for logging messages, if any. By default, messages
+@@ -700,6 +705,43 @@ async def _bh_recv_message(self) -> None:
+     # Section: Message I/O
+     # --------------------
  
 +    @upper_half
-+    @require(Runstate.IDLE)
-+    async def accept(self, address: Union[str, Tuple[str, int]],
-+                     ssl: Optional[SSLContext] = None) -> None:
++    @bottom_half
++    def _cb_outbound(self, msg: T) -> T:
 +        """
-+        Accept a connection and begin processing message queues.
++        Callback: outbound message hook.
 +
-+        If this call fails, `runstate` is guaranteed to be set back to `IDLE`.
++        This is intended for subclasses to be able to add arbitrary
++        hooks to filter or manipulate outgoing messages. The base
++        implementation does nothing but log the message without any
++        manipulation of the message.
 +
-+        :param address:
-+            Address to listen to; UNIX socket path or TCP address/port.
-+        :param ssl: SSL context to use, if any.
-+
-+        :raise StateError: When the `Runstate` is not `IDLE`.
-+        :raise ConnectError: If a connection could not be accepted.
++        :param msg: raw outbound message
++        :return: final outbound message
 +        """
-+        await self._new_session(address, ssl, accept=True)
++        self.logger.debug("--> %s", str(msg))
++        return msg
++
++    @upper_half
++    @bottom_half
++    def _cb_inbound(self, msg: T) -> T:
++        """
++        Callback: inbound message hook.
++
++        This is intended for subclasses to be able to add arbitrary
++        hooks to filter or manipulate incoming messages. The base
++        implementation does nothing but log the message without any
++        manipulation of the message.
++
++        This method does not "handle" incoming messages; it is a filter.
++        The actual "endpoint" for incoming messages is `_on_message()`.
++
++        :param msg: raw inbound message
++        :return: processed inbound message
++        """
++        self.logger.debug("<-- %s", str(msg))
++        return msg
 +
      @upper_half
-     @require(Runstate.IDLE)
-     async def connect(self, address: Union[str, Tuple[str, int]],
-@@ -302,7 +320,8 @@ def _set_state(self, state: Runstate) -> None:
-     @upper_half
-     async def _new_session(self,
-                            address: Union[str, Tuple[str, int]],
--                           ssl: Optional[SSLContext] = None) -> None:
-+                           ssl: Optional[SSLContext] = None,
-+                           accept: bool = False) -> None:
+     @bottom_half
+     async def _do_recv(self) -> T:
+@@ -728,8 +770,8 @@ async def _recv(self) -> T:
+ 
+         :return: A single (filtered, processed) protocol message.
          """
-         Establish a new connection and initialize the session.
+-        # A forthcoming commit makes this method less trivial.
+-        return await self._do_recv()
++        message = await self._do_recv()
++        return self._cb_inbound(message)
  
-@@ -311,9 +330,10 @@ async def _new_session(self,
-         to be set back to `IDLE`.
- 
-         :param address:
--            Address to connect to;
-+            Address to connect to/listen on;
-             UNIX socket path or TCP address/port.
-         :param ssl: SSL context to use, if any.
-+        :param accept: Accept a connection instead of connecting when `True`.
- 
-         :raise ConnectError:
-             When a connection or session cannot be established.
-@@ -332,7 +352,10 @@ async def _new_session(self,
- 
-         phase = "connection"
-         try:
--            await self._do_connect(address, ssl)
-+            if accept:
-+                await self._do_accept(address, ssl)
-+            else:
-+                await self._do_connect(address, ssl)
- 
-             phase = "session"
-             await self._begin_new_session()
-@@ -351,6 +374,62 @@ async def _new_session(self,
- 
-         assert self.runstate == Runstate.RUNNING
- 
-+    @upper_half
-+    async def _do_accept(self, address: Union[str, Tuple[str, int]],
-+                         ssl: Optional[SSLContext] = None) -> None:
-+        """
-+        Acting as the transport server, accept a single connection.
-+
-+        :param address:
-+            Address to listen on; UNIX socket path or TCP address/port.
-+        :param ssl: SSL context to use, if any.
-+
-+        :raise OSError: For stream-related errors.
-+        """
-+        self.logger.debug("Awaiting connection ...")
-+        connected = asyncio.Event()
-+        server: Optional[asyncio.AbstractServer] = None
-+
-+        async def _client_connected_cb(reader: asyncio.StreamReader,
-+                                       writer: asyncio.StreamWriter) -> None:
-+            """Used to accept a single incoming connection, see below."""
-+            nonlocal server
-+            nonlocal connected
-+
-+            # A connection has been accepted; stop listening for new ones.
-+            assert server is not None
-+            server.close()
-+            await server.wait_closed()
-+            server = None
-+
-+            # Register this client as being connected
-+            self._reader, self._writer = (reader, writer)
-+
-+            # Signal back: We've accepted a client!
-+            connected.set()
-+
-+        if isinstance(address, tuple):
-+            coro = asyncio.start_server(
-+                _client_connected_cb,
-+                host=address[0],
-+                port=address[1],
-+                ssl=ssl,
-+                backlog=1,
-+            )
-+        else:
-+            coro = asyncio.start_unix_server(
-+                _client_connected_cb,
-+                path=address,
-+                ssl=ssl,
-+                backlog=1,
-+            )
-+
-+        server = await coro     # Starts listening
-+        await connected.wait()  # Waits for the callback to fire (and finish)
-+        assert server is None
-+
-+        self.logger.debug("Connection accepted")
-+
      @upper_half
-     async def _do_connect(self, address: Union[str, Tuple[str, int]],
-                           ssl: Optional[SSLContext] = None) -> None:
+     @bottom_half
+@@ -759,7 +801,7 @@ async def _send(self, msg: T) -> None:
+ 
+         :raise OSError: For problems with the underlying stream.
+         """
+-        # A forthcoming commit makes this method less trivial.
++        msg = self._cb_outbound(msg)
+         self._do_send(msg)
+ 
+     @bottom_half
+@@ -774,6 +816,6 @@ async def _on_message(self, msg: T) -> None:
+             directly cause the loop to halt, so logic may be best-kept
+             to a minimum if at all possible.
+ 
+-        :param msg: The incoming message
++        :param msg: The incoming message, already logged/filtered.
+         """
+         # Nothing to do in the abstract case.
 -- 
 2.31.1
 
