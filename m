@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07053B8C0E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 04:19:52 +0200 (CEST)
-Received: from localhost ([::1]:34110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F173B8BFF
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 04:14:38 +0200 (CEST)
+Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lymIx-0004mI-MM
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 22:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52522)
+	id 1lymDt-0000JR-7s
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 22:14:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9T-0008VZ-FZ
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46915)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9X-00005S-T4
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9J-0006AQ-PM
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9L-0006Aq-MR
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625105393;
+ s=mimecast20190719; t=1625105394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RtOJzKE6qHTFVmUxUszmFbx1IvtXvU9oRR9BmecF9Lk=;
- b=Xu7YtvuAuVmUi83Cny3YU0bhZzM4fgpyC5rVAXo43QmI2pJZ3+jLuUczBPnLIf0WuQtOXh
- O6nXUFKo6yklKfqgCO0tinVzTxR8c9CZUCTm1I0ZP6/EWSURQY3UkwA7AVA9oBEyGl4Mp9
- e8DT3MqehDK8LjY/2losOGa34l8ZnKs=
+ bh=SrVvtiamtoKBBAdc8CRuXaN5L70firT/IGp7P3q6JW0=;
+ b=PJkXQ/2UPQ0tFqlTEK07uy4vxshPZeMG7OsvLC2JU7tDZJ8Z8yHvHBI5zxWZtp2Y6g/bcY
+ Z3uhFS5jSQz+QvZXaca2jxSoTiKlQ+G+wPxcXbs4d2NtvEI+/ijdwOBf7DnCywi3Ubh76D
+ Hz2F8b8Amq1T8ofIRRyv8YMyF1hvr/c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-H993Bqn_OOC022KDVq_6NA-1; Wed, 30 Jun 2021 22:09:51 -0400
-X-MC-Unique: H993Bqn_OOC022KDVq_6NA-1
+ us-mta-518-sgRtS3mON_2DesFw2zXdTw-1; Wed, 30 Jun 2021 22:09:52 -0400
+X-MC-Unique: sgRtS3mON_2DesFw2zXdTw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75E63802928;
- Thu,  1 Jul 2021 02:09:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3563362FC;
+ Thu,  1 Jul 2021 02:09:51 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0BE15FC03;
- Thu,  1 Jul 2021 02:09:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98C195C225;
+ Thu,  1 Jul 2021 02:09:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/15] python: Fix .PHONY Make specifiers
-Date: Wed, 30 Jun 2021 22:09:15 -0400
-Message-Id: <20210701020921.1679468-10-jsnow@redhat.com>
+Subject: [PULL 10/15] python: only check qemu/ subdir with flake8
+Date: Wed, 30 Jun 2021 22:09:16 -0400
+Message-Id: <20210701020921.1679468-11-jsnow@redhat.com>
 In-Reply-To: <20210701020921.1679468-1-jsnow@redhat.com>
 References: <20210701020921.1679468-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,63 +87,42 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I missed the 'check-tox' target. Add that, but split the large .PHONY
-specifier at the top into its component pieces and move them near the
-targets they describe so that they're much harder to forget to update.
+flake8 is a little eager to check everything it can. Limit it to
+checking inside the qemu namespace directory only. Update setup.cfg now
+that the exclude patterns are no longer necessary.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-id: 20210629214323.1329806-10-jsnow@redhat.com
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-id: 20210629214323.1329806-11-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/Makefile | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ python/setup.cfg       | 2 --
+ python/tests/flake8.sh | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/python/Makefile b/python/Makefile
-index d2cfa6ad8f..d34c4e35d9 100644
---- a/python/Makefile
-+++ b/python/Makefile
-@@ -1,5 +1,4 @@
--.PHONY: help pipenv check-pipenv check clean distclean develop
--
-+.PHONY: help
- help:
- 	@echo "python packaging help:"
- 	@echo ""
-@@ -29,25 +28,32 @@ help:
- 	@echo "                 built distribution files, and everything"
- 	@echo "                 from 'make clean'."
+diff --git a/python/setup.cfg b/python/setup.cfg
+index e730f208d3..11f71d5312 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -62,8 +62,6 @@ console_scripts =
+ [flake8]
+ extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
+ exclude = __pycache__,
+-          .venv,
+-          .tox,
  
-+.PHONY: pipenv
- pipenv: .venv
- .venv: Pipfile.lock
- 	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
- 	@touch .venv
- 
-+.PHONY: check-pipenv
- check-pipenv: pipenv
- 	@pipenv run make check
- 
-+.PHONY: develop
- develop:
- 	pip3 install -e .[devel]
- 
-+.PHONY: check
- check:
- 	@avocado --config avocado.cfg run tests/
- 
-+.PHONY: check-tox
- check-tox:
- 	@tox
- 
-+.PHONY: clean
- clean:
- 	python3 setup.py clean --all
- 
-+.PHONY: distclean
- distclean: clean
- 	rm -rf qemu.egg-info/ .venv/ .tox/ dist/
+ [mypy]
+ strict = True
+diff --git a/python/tests/flake8.sh b/python/tests/flake8.sh
+index 51e0788462..1cd7d40fad 100755
+--- a/python/tests/flake8.sh
++++ b/python/tests/flake8.sh
+@@ -1,2 +1,2 @@
+ #!/bin/sh -e
+-python3 -m flake8
++python3 -m flake8 qemu/
 -- 
 2.31.1
 
