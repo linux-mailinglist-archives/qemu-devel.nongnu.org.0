@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDE23B8DEB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 08:53:45 +0200 (CEST)
-Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3A73B8DF1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 08:57:25 +0200 (CEST)
+Received: from localhost ([::1]:52500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyqa0-0000r7-E4
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 02:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38944)
+	id 1lyqdY-00038c-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 02:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lyqYg-00007z-D1
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 02:52:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47943)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lyqcF-0002QW-E4
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 02:56:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lyqYc-0002Tj-MA
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 02:52:22 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lyqcB-0005E0-Bn
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 02:56:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625122337;
+ s=mimecast20190719; t=1625122557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fiO0bDMd8Q69PJSAAl0vrUuEeeCOXweBbh/LNRwL+lE=;
- b=YAnzHy6M1bNgWIEB+ZePcilY4QOrAMjgpVouLZ8vL6iEmdpoo3AjLtPiecmjb95hUdBfou
- 4mz6+H3iwXGCdXKQ2KROeB8fr4CuMrEQGfaMYa8qUYYElB6G/gW9iD6NWkjj5AtkX5Ntat
- D7louhhzqidCujVegSLR3+4L+9f8Fvc=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-kR0iuKRTOA-FJN0qmAbkjQ-1; Thu, 01 Jul 2021 02:52:15 -0400
-X-MC-Unique: kR0iuKRTOA-FJN0qmAbkjQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- t144-20020a3746960000b02903ad9c5e94baso3520660qka.16
- for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 23:52:15 -0700 (PDT)
+ bh=1tQSHlP9VsPWMbVWNxMvY/iYGSonQxrrCXGKgC1LIcA=;
+ b=bqxDIdRDFRuy+KtY3Ca5nkGIzUaU8IpjcPq0DxZ05e4z13n6d2EIWajMgVUraS6NdzyTFB
+ YZid5S3mHvmVUd3DZkozfbp4kj6kkjknrpKmLABKhhBHzFZ+dw73Hga6RS5Mho7K1+ztV5
+ iUuODsMqe1Tv5uL/jQDK1wwVseR6NSQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-ZR4Q7JEBPUyPw4ptFp9sFA-1; Thu, 01 Jul 2021 02:55:56 -0400
+X-MC-Unique: ZR4Q7JEBPUyPw4ptFp9sFA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ p3-20020a05600c3583b02901f55d71e34aso787241wmq.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Jun 2021 23:55:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fiO0bDMd8Q69PJSAAl0vrUuEeeCOXweBbh/LNRwL+lE=;
- b=WrklcbVg46gBn54Cr63tlJLgsnCcYO4YB2qAW5l1vwlm20Pj1/KGUUQ1vG72IsU7Z9
- MBxyAp973VfVNnKM2m0Icscf+QSAtOESNSFO6RGnOYoZget3XjK9mPuSoN78Bd8kY+Yb
- 913f422Xfsxq84wyJI6wdsdRV7jMozugc7KSzmZwJFFc55WU48BDPvjDWBOQ6lg7VkX/
- 2/ja4h1BsoTsYbX1hdBrh8c9Sm3ACW48FMy3DTRUuk5C0FFPGb/7yFdvvFc82cLB6uJ0
- RzO1/i864PnFcJvISWKzytz/MBFsu8oc5EKsAIFwowk1REygLXoC0dAIUbIW/hqHgOxc
- /C1A==
-X-Gm-Message-State: AOAM532QjCal9nnXFPIAJNq4CwCvgzkQyZH5ApTrPiRr9uKW5go2KPqD
- SZV1VssL3KKhPSargyvwZp7gMiT8EGb9kRqvI7NP44mCh+1AroX/viWx5ceRegNmqlU2WxnQNZu
- tWHY0q91jUfLpBDCcOc9DKhmokf2XXqE=
-X-Received: by 2002:ad4:4245:: with SMTP id l5mr38123695qvq.45.1625122335429; 
- Wed, 30 Jun 2021 23:52:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnuePT6+2kdTeoz0E3KdpuH6cOb3ViPsM6b0Vvl9d4G4hxXLg/PK/vEHeuQib3LlHxyOb27LiBUp2uIh855t0=
-X-Received: by 2002:ad4:4245:: with SMTP id l5mr38123684qvq.45.1625122335225; 
- Wed, 30 Jun 2021 23:52:15 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1tQSHlP9VsPWMbVWNxMvY/iYGSonQxrrCXGKgC1LIcA=;
+ b=Cx7TwvkUzzTGseMlJvYoJSsogWpSqWQ+KVeuFfh180T1SMADkzdnna+kXI8McJIY1O
+ tdffAbutE6Iz3u1CDFPEU63qrFGfgHqtX3XYGpTk1myhZpXeYeXpETqEuvwW1JYy3b10
+ XGQgUIYpOTJcA+bUSmh9Np/UN8Ym+mkFla7OVGeV+oBVJQiKuvAgkjFLaMvTM3dyUNzu
+ yteqfapwn1JV8jc7h3sXpE0vQlioZ8dSK9Mc1gJeuIo9nzhRlNMtBHh1Q0FWmzW2STEF
+ anFdbbLCrOwTRx/HT/5i9FkUVjMjpojLjCgr1jWDSgqgx2/LubD2VBW38oD+1taREy2p
+ 5dlA==
+X-Gm-Message-State: AOAM532ZDxvoqgEtZD7pw6Q4P6g/veic8j4HT00Msn2NWm1XvM1tWNQ4
+ kgOTKwL603JstpRhvgbn/xtn8RBbkUqx9K2Fl4KSNNNaU+ntTVquDXp09MHnU1PCFWcZczyioOj
+ 1f68Zkuul1Jp1wGs=
+X-Received: by 2002:a7b:c7d1:: with SMTP id z17mr9021989wmk.135.1625122555629; 
+ Wed, 30 Jun 2021 23:55:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUWMN77x1cpUo7Bqm9wGeAq+XEhaJlBq51OhgXmgzgWOaLi3IPAk9fAJYv4dSf7hk+ZVgHig==
+X-Received: by 2002:a7b:c7d1:: with SMTP id z17mr9021968wmk.135.1625122555455; 
+ Wed, 30 Jun 2021 23:55:55 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id x21sm4516756wmj.6.2021.06.30.23.55.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jun 2021 23:55:55 -0700 (PDT)
+Date: Thu, 1 Jul 2021 08:55:52 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Jiang Wang ." <jiang.wang@bytedance.com>
+Subject: Re: [External] Re: [RFC v1] virtio/vsock: add two more queues for
+ datagram types
+Message-ID: <20210701065552.hrodbwbenflhiru7@steredhat>
+References: <20210610001424.209158-1-jiang.wang@bytedance.com>
+ <20210610094039.2ek3som6fxcgjtyw@steredhat>
+ <CAP_N_Z9B9SfyoSmW18RDxRWh6yv9WWWL1LpsZhhSkshQpi5s6A@mail.gmail.com>
+ <CAP_N_Z9kFc3pnK0Uwqc-fvfaakAh5VMYBR+9SZkz3w658XRK1g@mail.gmail.com>
+ <20210624143127.fqubmuvw634j44mi@steredhat>
+ <CAP_N_Z87rs9vUhZr0r2UkYPwT6DC7w4SzagX3B2Gz8O5dz3GTQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-19-jasowang@redhat.com>
-In-Reply-To: <20210621041650.5826-19-jasowang@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 1 Jul 2021 08:51:39 +0200
-Message-ID: <CAJaqyWeT+VhXSzu9VA7UrJMFeOCUwNXUoN9-yWZzp9Rg4pBZWQ@mail.gmail.com>
-Subject: Re: [PATCH 18/18] vhost-vdpa: multiqueue support
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAP_N_Z87rs9vUhZr0r2UkYPwT6DC7w4SzagX3B2Gz8O5dz3GTQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -89,229 +100,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eli Cohen <elic@nvidia.com>, Cindy Lu <lulu@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, lingshan.zhu@intel.com,
- Michael Tsirkin <mst@redhat.com>
+Cc: cong.wang@bytedance.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Yongji Xie <xieyongji@bytedance.com>,
+ =?utf-8?B?5p+056iz?= <chaiwen.cc@bytedance.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, fam.zheng@bytedance.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 21, 2021 at 6:18 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> This patch implements the multiqueue support for vhost-vdpa. This is
-> done simply by reading the number of queue pairs from the config space
-> and initialize the datapath and control path net client.
->
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->  hw/net/virtio-net.c |  3 +-
->  net/vhost-vdpa.c    | 98 ++++++++++++++++++++++++++++++++++++++++-----
->  2 files changed, 91 insertions(+), 10 deletions(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 5074b521cf..2c2ed98c0b 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -3370,7 +3370,8 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
->
->      n->max_ncs = MAX(n->nic_conf.peers.queues, 1);
->
-> -    /* Figure out the datapath queue pairs since the bakcend could
-> +    /*
-> +     * Figure out the datapath queue pairs since the bakcend could
+On Wed, Jun 30, 2021 at 03:44:17PM -0700, Jiang Wang . wrote:
+>On Thu, Jun 24, 2021 at 7:31 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>>
+>> On Wed, Jun 23, 2021 at 11:50:33PM -0700, Jiang Wang . wrote:
+>> >Hi Stefano,
+>> >
+>> >I checked virtio_net_set_multiqueue(), which will help with following
+>> >changes in my patch:
+>> >
+>> >#ifdef CONFIG_VHOST_VSOCK_DGRAM
+>> >vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>> >vhost_vsock_common_handle_output);
+>> >vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>> >vhost_vsock_common_handle_output);
+>> >#endif
+>> >
+>> >But I think there is still an issue with the following lines, right?
+>>
+>> Yep, I think so.
+>>
+>> >
+>> >#ifdef CONFIG_VHOST_VSOCK_DGRAM
+>> >struct vhost_virtqueue vhost_vqs[4];
+>> >#else
+>> >struct vhost_virtqueue vhost_vqs[2];
+>> >#endif
+>> >
+>> >I think the problem with feature bits is that they are set and get after
+>> >vhost_vsock_common_realize() and after vhost_dev_init() in drivers/vhost/vsock.c
+>> >But those virtqueues need to be set up correctly beforehand.
+>>
+>> I think we can follow net and scsi vhost devices, so we can set a
+>> VHOST_VSOCK_VQ_MAX(5), allocates all the queues in any case and then use
+>> only the queues acked by the guest.
+>>
+>Thanks for the advice. I checked both net and scsi and scsi is more helpful.
 
-If we are going to modify the comment we could s/bakcend/backend/.
+Yeah :-)
 
->       * provide control queue via peers as well.
->       */
->      if (n->nic_conf.peers.queues) {
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index cc11b2ec40..048344b4bc 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -18,6 +18,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/option.h"
->  #include "qapi/error.h"
-> +#include <linux/vhost.h>
->  #include <sys/ioctl.h>
->  #include <err.h>
->  #include "standard-headers/linux/virtio_net.h"
-> @@ -52,6 +53,8 @@ const int vdpa_feature_bits[] = {
->      VIRTIO_NET_F_HOST_UFO,
->      VIRTIO_NET_F_MRG_RXBUF,
->      VIRTIO_NET_F_MTU,
-> +    VIRTIO_NET_F_MQ,
-> +    VIRTIO_NET_F_CTRL_VQ,
+>
+>> >
+>> >I tried to test with the host kernel allocating 4 vqs, but qemu only
+>> >allocated 2 vqs, and
+>> >guest kernel will not be able to send even the vsock stream packets. I
+>> >think the host
+>> >kernel and the qemu have to agree on the number of vhost_vqs. Do you agree?
+>> >Did I miss something?
+>>
+>> Mmm, I need to check, but for example vhost-net calls vhost_dev_init()
+>> with VHOST_NET_VQ_MAX, but then the guest can decide to use only one
+>> couple of TX and RX queues.
+>>
+>> I'm not sure about qemu point of view, but I expected that QEMU can set
+>> less queues then queues allocated by the kernel. `vhost_dev.nvqs` should
+>> be set with the amount of queue that QEMU can handle.
+>>
+>I checked that vhost_dev.nvqs is still the maximum number of queues (4 queues).
+>But I found a way to workaround it. More details in the following text.
+>
+>> >
+>> >Another idea to make the setting in runtime instead of compiling time
+>> >is to use
+>> >qemu cmd-line options, then qemu can allocate 2 or 4 queues depending
+>> >on
+>> >the cmd line. This will solve the issue when the host kernel is an old
+>> >one( no dgram
+>> >support) and the qemu is a new one.
+>>
+>> I don't think this is a good idea, at most we can add an ioctl that qemu
+>> can use to query the kernel about allocated queues, but I still need to
+>> understand better if we really we need this.
+>>
+>
+>Hmm. Both net and scsi use the qemu cmd line option to configure
+>number of queues. Qemu cmdline is a runtime setting and flexible.
+>I think qemu cmdline is better than ioctl. I also make the qemu cmd
+>line option default to only allocate two queues to be compatible with
+>old versions.
 
+Can we avoid both and allocate the maximum number of queue that QEMU can 
+handle?
 
-Hi!
+I'm not sure that adding a parameter to QEMU is a good idea. If possible 
+it should be automatic.
 
-I'm not sure if it's qemu the one that must control it, but I cannot
-use vdpa_sim of linux 5.13 (i.e., with no control vq patches) with
-this series applied:
+>
+>> >
+>> >But there is still an issue when the host kernel is a new one, while
+>> >the qemu
+>> >is an old one.  I am not sure how to make the virtqueues numbers to
+>> >change in run-time
+>> >for the host kernel. In another email thread, you mentioned removing 
+>> >kconfig
+>> >in the linux kernel, I believe that is related to this qemu patch,
+>> >right?
+>>
+>> It was related to both, I don't think we should build QEMU and Linux
+>> with or without dgram support.
+>>
+>> > If so,
+>> >any ideas that I can make the host kernel change the number of vqs 
+>> >in
+>> >the run-time
+>> >or when starting up vsock? The only way I can think of is to use a
+>> >kernel module parameter
+>> >for the vsock_vhost module. Any other ideas? Thanks.
+>>
+>> I need to check better, but we should be able to do all at run time
+>> looking at the features field. As I said, both QEMU and kernel can
+>> allocate the maximum number of queues that they can handle, then 
+>> enable
+>> only the queues allocated by the guest (e.g. during
+>> vhost_vsock_common_start()).
+>>
+>
+>Yes. I checked the code and found there is an implementation bug ( or
+>limitation) in drivers/vhost/vsock.c. In vhost_vsock_start(), if a 
+>queue
+>failed to init, the code will clean up all previous successfully
+>allocated queues. That is why V1 code does not work when
+>host kernel is new,  but qemu and guest kernel is old. I made a change
+>there and it works now. I will clean up the patch a little bit and
+>send V2 soon.
 
-[    3.967421] virtio_net virtio0: device advertises feature
-VIRTIO_NET_F_CTRL_RX but not VIRTIO_NET_F_CTRL_VQ
-[    3.968613] virtio_net: probe of virtio0 failed with error -22
+Great! I'll review the new version!
 
-Did you mention it somewhere else and I've missed it? or is it
-actually a bug in the device? In this second case, I think we should
-still workaround it in qemu, because old vdpasim_net with no
-VIRTIO_NET_F_CTRL_VQ still works ok without this patch.
-
-Thanks!
-
->      VIRTIO_F_IOMMU_PLATFORM,
->      VIRTIO_F_RING_PACKED,
->      VIRTIO_NET_F_RSS,
-> @@ -82,7 +85,8 @@ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
->      return ret;
->  }
->
-> -static int vhost_vdpa_add(NetClientState *ncs, void *be)
-> +static int vhost_vdpa_add(NetClientState *ncs, void *be, int qp_index,
-> +                          int nvqs)
->  {
->      VhostNetOptions options;
->      struct vhost_net *net = NULL;
-> @@ -95,7 +99,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
->      options.net_backend = ncs;
->      options.opaque      = be;
->      options.busyloop_timeout = 0;
-> -    options.nvqs = 2;
-> +    options.nvqs = nvqs;
->
->      net = vhost_net_init(&options);
->      if (!net) {
-> @@ -159,18 +163,28 @@ static NetClientInfo net_vhost_vdpa_info = {
->  static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
->                                             const char *device,
->                                             const char *name,
-> -                                           int vdpa_device_fd)
-> +                                           int vdpa_device_fd,
-> +                                           int qp_index,
-> +                                           int nvqs,
-> +                                           bool is_datapath)
->  {
->      NetClientState *nc = NULL;
->      VhostVDPAState *s;
->      int ret = 0;
->      assert(name);
-> -    nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
-> +    if (is_datapath) {
-> +        nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device,
-> +                                 name);
-> +    } else {
-> +        nc = qemu_new_net_control_client(&net_vhost_vdpa_info, peer,
-> +                                         device, name);
-> +    }
->      snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
->      s = DO_UPCAST(VhostVDPAState, nc, nc);
->
->      s->vhost_vdpa.device_fd = vdpa_device_fd;
-> -    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
-> +    s->vhost_vdpa.index = qp_index;
-> +    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, qp_index, nvqs);
->      if (ret) {
->          qemu_del_net_client(nc);
->          return NULL;
-> @@ -196,12 +210,52 @@ static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
->      return 0;
->  }
->
-> +static int vhost_vdpa_get_max_qps(int fd, int *has_cvq, Error **errp)
-> +{
-> +    unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
-> +    struct vhost_vdpa_config *config;
-> +    __virtio16 *max_qps;
-> +    uint64_t features;
-> +    int ret;
-> +
-> +    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
-> +    if (ret) {
-> +        error_setg(errp, "Fail to query features from vhost-vDPA device");
-> +        return ret;
-> +    }
-> +
-> +    if (features & (1 << VIRTIO_NET_F_CTRL_VQ)) {
-> +        *has_cvq = 1;
-> +    } else {
-> +        *has_cvq = 0;
-> +    }
-> +
-> +    if (features & (1 << VIRTIO_NET_F_MQ)) {
-> +        config = g_malloc0(config_size + sizeof(*max_qps));
-> +        config->off = offsetof(struct virtio_net_config, max_virtqueue_pairs);
-> +        config->len = sizeof(*max_qps);
-> +
-> +        ret = ioctl(fd, VHOST_VDPA_GET_CONFIG, config);
-> +        if (ret) {
-> +            error_setg(errp, "Fail to get config from vhost-vDPA device");
-> +            return -ret;
-> +        }
-> +
-> +        max_qps = (__virtio16 *)&config->buf;
-> +
-> +        return lduw_le_p(max_qps);
-> +    }
-> +
-> +    return 1;
-> +}
-> +
->  int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->                          NetClientState *peer, Error **errp)
->  {
->      const NetdevVhostVDPAOptions *opts;
->      int vdpa_device_fd;
-> -    NetClientState *nc;
-> +    NetClientState **ncs, *nc;
-> +    int qps, i, has_cvq = 0;
->
->      assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->      opts = &netdev->u.vhost_vdpa;
-> @@ -216,11 +270,37 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->          return -errno;
->      }
->
-> -    nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
-> -    if (!nc) {
-> +    qps = vhost_vdpa_get_max_qps(vdpa_device_fd, &has_cvq, errp);
-> +    if (qps < 0) {
->          qemu_close(vdpa_device_fd);
-> -        return -1;
-> +        return qps;
-> +    }
-> +
-> +    ncs = g_malloc0(sizeof(*ncs) * qps);
-> +
-> +    for (i = 0; i < qps; i++) {
-> +        ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> +                                     vdpa_device_fd, i, 2, true);
-> +        if (!ncs[i])
-> +            goto err;
->      }
->
-> +    if (has_cvq) {
-> +        nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> +                                 vdpa_device_fd, i, 1, false);
-> +        if (!nc)
-> +            goto err;
-> +    }
-> +
-> +    g_free(ncs);
->      return 0;
-> +
-> +err:
-> +    if (i) {
-> +        qemu_del_net_client(ncs[0]);
-> +    }
-> +    qemu_close(vdpa_device_fd);
-> +    g_free(ncs);
-> +
-> +    return -1;
->  }
-> --
-> 2.25.1
->
+Thanks,
+Stefano
 
 
