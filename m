@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744B03B8CD6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:16:59 +0200 (CEST)
-Received: from localhost ([::1]:48208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4A73B8CD0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:15:04 +0200 (CEST)
+Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyo8I-0007gi-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42262)
+	id 1lyo6R-0002bl-4C
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:15:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4w-0008Cu-No
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22463)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4z-0008Gz-61
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4u-0000c7-3g
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4u-0000co-Ry
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625112807;
+ s=mimecast20190719; t=1625112808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3L1xpL9KIP3gebZ0aGqkBptjXDd0bvSXacnWJ+RLWiQ=;
- b=InZIAR4umZU/9bbbiioIHl9Rvafmk0vaVPc9QuAKilE4b6qCYya7SDxL9HSe3yjF6aFeuc
- axgmAOKgPwxKIucWYFkXggjX3rpW9eXkCYnz/7M1iD/Ny5NkljXG2Myabd6dtDYi2wqcJC
- jjTaRsmmUN7c/keW+gjea14mGlXDeWM=
+ bh=u37O0ssgS4A0aLWMkEpMNTyBmETh8DDdyDuOTHgvjtg=;
+ b=ds+KH2PasmcHi4gT/7/PGGo8E6cYR48V4qToUhfveNrm+OfQZCNiDB9Y1cTKrDvdqKQVJh
+ y4cmTJbDDL+tzSnQd18rK1YQCgyDQkvDw5ks4cWi0dchbdRURN3z2A4sDx4jjz9JGQKSUi
+ 28NxP+BD7rSazio6HXL62Hlbf2U4hBU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-aeXe_Z6cO4GxfDDWLh136w-1; Thu, 01 Jul 2021 00:13:26 -0400
-X-MC-Unique: aeXe_Z6cO4GxfDDWLh136w-1
+ us-mta-506-xtBaVglIOHGtS0_UN-ZfMQ-1; Thu, 01 Jul 2021 00:13:27 -0400
+X-MC-Unique: xtBaVglIOHGtS0_UN-ZfMQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 364EB80006E;
- Thu,  1 Jul 2021 04:13:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39EE2801F97;
+ Thu,  1 Jul 2021 04:13:26 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 262B469CB4;
- Thu,  1 Jul 2021 04:13:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E88069CB4;
+ Thu,  1 Jul 2021 04:13:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/20] python/aqmp: add asynchronous QMP (AQMP) subpackage
-Date: Thu,  1 Jul 2021 00:12:56 -0400
-Message-Id: <20210701041313.1696009-4-jsnow@redhat.com>
+Subject: [PATCH 04/20] python/aqmp: add error classes
+Date: Thu,  1 Jul 2021 00:12:57 -0400
+Message-Id: <20210701041313.1696009-5-jsnow@redhat.com>
 In-Reply-To: <20210701041313.1696009-1-jsnow@redhat.com>
 References: <20210701041313.1696009-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,65 +85,135 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now, it's empty! Soon, it won't be.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/__init__.py | 27 +++++++++++++++++++++++++++
- python/qemu/aqmp/py.typed    |  0
- python/setup.cfg             |  1 +
- 3 files changed, 28 insertions(+)
- create mode 100644 python/qemu/aqmp/__init__.py
- create mode 100644 python/qemu/aqmp/py.typed
+ python/qemu/aqmp/__init__.py |  7 +++
+ python/qemu/aqmp/error.py    | 97 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 104 insertions(+)
+ create mode 100644 python/qemu/aqmp/error.py
 
 diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-new file mode 100644
-index 0000000000..4c713b3ccf
---- /dev/null
+index 4c713b3ccf..8e955d784d 100644
+--- a/python/qemu/aqmp/__init__.py
 +++ b/python/qemu/aqmp/__init__.py
-@@ -0,0 +1,27 @@
-+"""
-+QEMU Monitor Protocol (QMP) development library & tooling.
-+
-+This package provides a fairly low-level class for communicating
-+asynchronously with QMP protocol servers, as implemented by QEMU, the
-+QEMU Guest Agent, and the QEMU Storage Daemon.
-+
-+:py:class:`~qmp_protocol.QMP` provides the main functionality of this
-+package. All errors raised by this library dervive from `AQMPError`, see
-+`aqmp.error` for additional detail. See `aqmp.events` for an in-depth
-+tutorial on managing QMP events.
-+"""
-+
-+# Copyright (C) 2020, 2021 John Snow for Red Hat, Inc.
-+#
-+# Authors:
-+#  John Snow <jsnow@redhat.com>
-+#
-+# Based on earlier work by Luiz Capitulino <lcapitulino@redhat.com>.
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2.  See
-+# the COPYING file in the top-level directory.
-+
-+
-+# The order of these fields impact the Sphinx documentation order.
-+__all__ = (
-+)
-diff --git a/python/qemu/aqmp/py.typed b/python/qemu/aqmp/py.typed
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/python/setup.cfg b/python/setup.cfg
-index e1c48eb706..bce8807702 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -27,6 +27,7 @@ packages =
-     qemu.qmp
-     qemu.machine
-     qemu.utils
-+    qemu.aqmp
+@@ -21,7 +21,14 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.  See
+ # the COPYING file in the top-level directory.
  
- [options.package_data]
- * = py.typed
++from .error import AQMPError, MultiException
++
+ 
+ # The order of these fields impact the Sphinx documentation order.
+ __all__ = (
++    # Exceptions
++    'AQMPError',
++
++    # Niche topics
++    'MultiException',
+ )
+diff --git a/python/qemu/aqmp/error.py b/python/qemu/aqmp/error.py
+new file mode 100644
+index 0000000000..126f77bb5c
+--- /dev/null
++++ b/python/qemu/aqmp/error.py
+@@ -0,0 +1,97 @@
++"""
++AQMP Error Classes
++
++This package seeks to provide semantic error classes that are intended
++to be used directly by clients when they would like to handle particular
++semantic failures (e.g. "failed to connect") without needing to know the
++enumeration of possible reasons for that failure.
++
++AQMPError serves as the ancestor for *almost* all exceptions raised by
++this package, and is suitable for use in handling semantic errors from
++this library. In most cases, individual public methods will attempt to
++catch and re-encapsulate various exceptions to provide a semantic
++error-handling interface.
++
++.. caution::
++
++    The only exception that is not an `AQMPError` is
++    `MultiException`. It is special, and used to encapsulate one-or-more
++    exceptions of an arbitrary kind; this exception MAY be raised on
++    `disconnect()` when there are two or more exceptions from the AQMP
++    event loop to report back to the caller.
++
++    Every pain has been taken to prevent this circumstance but in
++    certain cases these exceptions may occasionally be (unfortunately)
++    visible. See `MultiException` and `AsyncProtocol.disconnect()` for
++    more details.
++
++
++.. admonition:: AQMP Exception Hierarchy Reference
++
++ |   `Exception`
++ |    +-- `MultiException`
++ |    +-- `AQMPError`
++ |         +-- `ConnectError`
++ |         +-- `StateError`
++ |         +-- `ExecInterruptedError`
++ |         +-- `ExecuteError`
++ |         +-- `ListenerError`
++ |         +-- `ProtocolError`
++ |              +-- `DeserializationError`
++ |              +-- `UnexpectedTypeError`
++ |              +-- `ServerParseError`
++ |              +-- `BadReplyError`
++ |              +-- `GreetingError`
++ |              +-- `NegotiationError`
++"""
++
++from typing import Iterable, Iterator, List
++
++
++class AQMPError(Exception):
++    """Abstract error class for all errors originating from this package."""
++
++
++class ProtocolError(AQMPError):
++    """
++    Abstract error class for protocol failures.
++
++    Semantically, these errors are generally the fault of either the
++    protocol server or as a result of a bug in this this library.
++
++    :param error_message: Human-readable string describing the error.
++    """
++    def __init__(self, error_message: str):
++        super().__init__(error_message)
++        #: Human-readable error message, without any prefix.
++        self.error_message: str = error_message
++
++
++class MultiException(Exception):
++    """
++    Used for multiplexing exceptions.
++
++    This exception is used in the case that errors were encountered in both the
++    Reader and Writer tasks, and we must raise more than one.
++
++    PEP 0654 seeks to remedy this clunky infrastructure, but it will not be
++    available for quite some time -- possibly Python 3.11 or even later.
++
++    :param exceptions: An iterable of `BaseException` objects.
++    """
++    def __init__(self, exceptions: Iterable[BaseException]):
++        super().__init__(exceptions)
++        self._exceptions: List[BaseException] = list(exceptions)
++
++    def __str__(self) -> str:
++        ret = "------------------------------\n"
++        ret += "Multiple Exceptions occurred:\n"
++        ret += "\n"
++        for i, exc in enumerate(self._exceptions):
++            ret += f"{i}) {str(exc)}\n"
++            ret += "\n"
++        ret += "-----------------------------\n"
++        return ret
++
++    def __iter__(self) -> Iterator[BaseException]:
++        return iter(self._exceptions)
 -- 
 2.31.1
 
