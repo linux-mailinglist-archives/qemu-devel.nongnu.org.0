@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE2C3B8BBD
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 03:22:57 +0200 (CEST)
-Received: from localhost ([::1]:46654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF0D3B8BC1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 03:29:11 +0200 (CEST)
+Received: from localhost ([::1]:49378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lylPr-00052F-Tx
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 21:22:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44218)
+	id 1lylVj-0007Uo-Dy
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 21:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangjie88@huawei.com>)
- id 1lylOs-0004M0-Eu
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 21:21:54 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangjie88@huawei.com>)
- id 1lylOp-0001cI-Tq
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 21:21:54 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GFgMD4Vwwz76Px;
- Thu,  1 Jul 2021 09:18:16 +0800 (CST)
-Received: from dggpeml500007.china.huawei.com (7.185.36.75) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 1 Jul 2021 09:21:38 +0800
-Received: from [10.174.149.244] (10.174.149.244) by
- dggpeml500007.china.huawei.com (7.185.36.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 1 Jul 2021 09:21:38 +0800
-Subject: ping Re: [PATCH] scsi: fix bug scsi resp sense is 0 when expand disk
-To: <qemu-devel@nongnu.org>, <pbonzini@redhat.com>, <fam@euphon.net>
-References: <20210629071226.3890105-1-wangjie88@huawei.com>
-From: "wangjie (P)" <wangjie88@huawei.com>
-Message-ID: <827518a0-8b41-f58b-4804-4b79c0ec912c@huawei.com>
-Date: Thu, 1 Jul 2021 09:21:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lylUe-0006nw-UM; Wed, 30 Jun 2021 21:27:52 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:37628)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lylUb-0005sP-R4; Wed, 30 Jun 2021 21:27:52 -0400
+Received: by mail-il1-x12a.google.com with SMTP id i13so4862850ilu.4;
+ Wed, 30 Jun 2021 18:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MGugVe3FmRzC0IMdUAvn2yBv3VmysespYls7FeKoAIY=;
+ b=CMb4333OD7HsBVy9ZPsRRqGF9POUelEtRC0Y7f67vY0FdBkGc/CtZN9FB6FTnIOdJf
+ nvYKPFkVDtvJUhl+b+oJkIMs3jxsGanRX1swozn7S9oVj5kJiznl7qVG9uxOwQa4c+3w
+ MdNMbaVi43GWubDxHpxDUoMmIMxAZ7lfREfzL+itCSeHbrXqJ0tJQIRB6qk3A2mpuwJW
+ uRuslM58C18vQEmDdaKPeRGIfI82k3jRFVBRnaN1syINuOWxrT7x/lka0HWbtdRQjcqm
+ RwvptRLB5Ur1xQRuXwGNXC00k+BS4H8D3d9HhyrOa41rxGTvO+aNiSCyDb+xOkOnmGe+
+ Z2Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MGugVe3FmRzC0IMdUAvn2yBv3VmysespYls7FeKoAIY=;
+ b=UbC+DK3UGDY/Qeavw11Tu11Gbj7+/StgobGWSYx61Gw0sYQEKDVPiF7icMttxzLboa
+ 4msLbGoLbAgwudilI88SEon1KvKnSbfkzPxQzCoUP27+0HwOctIizcwhB188NQCBCZfT
+ yt252wZ+AGpxBMc0lnQe4meM1ewBgBnIz63m4VJuTzCHCAXxqZqbbvkCPrcfxNKF0Ge4
+ uXvh8mD45byd58lt6OKCZF73wQER8DYXi7rdzzXeEHruOjWLbSgC6vbpbOnHkOV6Ld2/
+ qTC8lKjb5DUsqiyplYt7seeQp3NY02a1zI1QcbF4ux6EJHbJWYrYaEaoQQf9jZP2MwHe
+ kLmQ==
+X-Gm-Message-State: AOAM530HPjC+2R5UB6Oc4OrXZCDXcDRIMYwjc9TmEDl7keqn2rIHIbmT
+ ACSUC1l2miQgu9Z7oIQuz9YV5fn4NZuGrHZVs5w=
+X-Google-Smtp-Source: ABdhPJwfV8tuT8hpl703rxdnQZPjKOYmUFG3o4gRp03lBxQ1qjUI/+XOXx15CWoXSDuhR1out1NxeaBxE82XzhTlzk4=
+X-Received: by 2002:a05:6e02:184a:: with SMTP id
+ b10mr3171052ilv.40.1625102867737; 
+ Wed, 30 Jun 2021 18:27:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210629071226.3890105-1-wangjie88@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.149.244]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500007.china.huawei.com (7.185.36.75)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=wangjie88@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210627115716.3552-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210627115716.3552-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 1 Jul 2021 11:27:21 +1000
+Message-ID: <CAKmqyKP6ZW=LYY7wHxk2Gxa_0s8z5xFhG=JdoX2SqJGLW6pAKA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: pmp: Fix some typos
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,67 +76,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: weidong.huang@huawei.com, wangjie88@huawei.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping.
+On Sun, Jun 27, 2021 at 9:57 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> %s/CSP/CSR
+> %s/thie/the
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-On 2021/6/29 15:12, Jie Wang wrote:
-> A large number of I/Os are delivered during disk capacity expansion.
-> Many I/Os are extracted from the Vring ring, and each one registers
-> reqops_unit_attention when new scsi req.
-> If the first registered req takes the ua, the ua is cleared
-> and other registered req is return 0 sense.
-> 
-> Let's add req_has_ua to avoid this kind of thing.
-> 
-> Signed-off-by: suruifeng <suruifeng@huawei.com>
-> Signed-off-by: Jie Wang <wangjie88@huawei.com>
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
 > ---
->  hw/scsi/scsi-bus.c     | 10 ++++++++--
->  include/hw/scsi/scsi.h |  1 +
->  2 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-> index 2a0a98cac9..20ec4a5f74 100644
-> --- a/hw/scsi/scsi-bus.c
-> +++ b/hw/scsi/scsi-bus.c
-> @@ -722,7 +722,13 @@ SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
->            * If we already have a pending unit attention condition,
->            * report this one before triggering another one.
->            */
-> -         !(buf[0] == REQUEST_SENSE && d->sense_is_ua))) {
-> +         !(buf[0] == REQUEST_SENSE && d->sense_is_ua)) &&
-> +         /*
-> +          * If we already have a req register ua ops,
-> +          * other req can not register.
-> +          */
-> +         !d->req_has_ua) {
-> +        d->req_has_ua = true;
->          ops = &reqops_unit_attention;
->      } else if (lun != d->lun ||
->                 buf[0] == REPORT_LUNS ||
-> @@ -822,7 +828,7 @@ static void scsi_clear_unit_attention(SCSIRequest *req)
->            ua->ascq == SENSE_CODE(REPORTED_LUNS_CHANGED).ascq)) {
->          return;
->      }
-> -
-> +    req->dev->req_has_ua = false;
->      *ua = SENSE_CODE(NO_SENSE);
+>
+>  target/riscv/pmp.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 82ed020b10..54abf42583 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -456,7 +456,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
 >  }
->  
-> diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-> index 0b726bc78c..3d0cda68f6 100644
-> --- a/include/hw/scsi/scsi.h
-> +++ b/include/hw/scsi/scsi.h
-> @@ -74,6 +74,7 @@ struct SCSIDevice
->      BlockConf conf;
->      SCSISense unit_attention;
->      bool sense_is_ua;
-> +    bool req_has_ua;
->      uint8_t sense[SCSI_SENSE_BUF_SIZE];
->      uint32_t sense_len;
->      QTAILQ_HEAD(, SCSIRequest) requests;
-> 
+>
+>  /*
+> - * Handle a write to a pmpcfg CSP
+> + * Handle a write to a pmpcfg CSR
+>   */
+>  void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+>      target_ulong val)
+> @@ -483,7 +483,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+>
+>
+>  /*
+> - * Handle a read from a pmpcfg CSP
+> + * Handle a read from a pmpcfg CSR
+>   */
+>  target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
+>  {
+> @@ -502,7 +502,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
+>
+>
+>  /*
+> - * Handle a write to a pmpaddr CSP
+> + * Handle a write to a pmpaddr CSR
+>   */
+>  void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+>      target_ulong val)
+> @@ -540,7 +540,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+>
+>
+>  /*
+> - * Handle a read from a pmpaddr CSP
+> + * Handle a read from a pmpaddr CSR
+>   */
+>  target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
+>  {
+> @@ -593,7 +593,7 @@ target_ulong mseccfg_csr_read(CPURISCVState *env)
+>
+>  /*
+>   * Calculate the TLB size if the start address or the end address of
+> - * PMP entry is presented in thie TLB page.
+> + * PMP entry is presented in the TLB page.
+>   */
+>  static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+>                                       target_ulong tlb_sa, target_ulong tlb_ea)
+> --
+> 2.25.1
+>
+>
 
