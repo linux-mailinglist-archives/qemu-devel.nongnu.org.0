@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFA53B8C0C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 04:18:20 +0200 (CEST)
-Received: from localhost ([::1]:58050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A983B8C13
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 04:21:59 +0200 (CEST)
+Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lymHU-0001uW-1H
-	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 22:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
+	id 1lymL0-0000Ze-SK
+	for lists+qemu-devel@lfdr.de; Wed, 30 Jun 2021 22:21:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9R-0008VN-MV
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59676)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9b-000083-Kz
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9N-0006Bt-D4
- for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:01 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lym9P-0006C3-Hu
+ for qemu-devel@nongnu.org; Wed, 30 Jun 2021 22:10:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625105396;
+ s=mimecast20190719; t=1625105398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Smo8ALxPouKm2i+JZ+4P2mN13++gc5UXsKWjDIv7YmU=;
- b=IEDhj76fev4Qc2kyBvhpr/DEYOHR2cQ48ahm2wSe1ntSePzPyjuWLGh2hLb8tt6njk9D44
- +0Od+DKwhR2elq/Xo6zgCk9s4gPCgZX0Zu3q7CTxkjY3OOG0C3yT62S6buk6ymNv7cs6SJ
- REMFkrpydXislUq5+Cb/UOBvr/lyJjE=
+ bh=kSBfX9ImNcjlDzRtoSXvsJwSfa0HeBWyECyGvWscx6w=;
+ b=RLvfOBNgJu6Wqk6aR6krB8XFeaIwsdGmA+Qq/Wx6+9PgxYzs2EU97/7GUEnQTRsYUrAHaF
+ i+L9VPdTTn0q+gxxxoQM21WqSkA/MulK8Ggwq+DtGFRYN3yJ11J33kZO4kHb1a2jj0qSCC
+ y8/VozMYsSuoPILEW19CVAosNMTTSm8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-6AFp5bIRPMmP6-07PbS3AA-1; Wed, 30 Jun 2021 22:09:55 -0400
-X-MC-Unique: 6AFp5bIRPMmP6-07PbS3AA-1
+ us-mta-350-BIQChupQMBuaPu3vkJlzXw-1; Wed, 30 Jun 2021 22:09:56 -0400
+X-MC-Unique: BIQChupQMBuaPu3vkJlzXw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 018A1362FC;
- Thu,  1 Jul 2021 02:09:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 369CB1835AD2;
+ Thu,  1 Jul 2021 02:09:55 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB9005FC03;
- Thu,  1 Jul 2021 02:09:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22D915FC03;
+ Thu,  1 Jul 2021 02:09:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/15] python: Update help text on 'make check', 'make develop'
-Date: Wed, 30 Jun 2021 22:09:18 -0400
-Message-Id: <20210701020921.1679468-13-jsnow@redhat.com>
+Subject: [PULL 13/15] python: Update help text on 'make clean',
+ 'make distclean'
+Date: Wed, 30 Jun 2021 22:09:19 -0400
+Message-Id: <20210701020921.1679468-14-jsnow@redhat.com>
 In-Reply-To: <20210701020921.1679468-1-jsnow@redhat.com>
 References: <20210701020921.1679468-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,39 +88,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update for visual parity with the other targets.
+Update for visual parity with all the remaining targets.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-id: 20210629214323.1329806-13-jsnow@redhat.com
+Message-id: 20210629214323.1329806-14-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/Makefile | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ python/Makefile | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/python/Makefile b/python/Makefile
-index 8f8e1999c0..a14705d12e 100644
+index a14705d12e..0432ee0022 100644
 --- a/python/Makefile
 +++ b/python/Makefile
-@@ -21,10 +21,14 @@ help:
- 	@echo "    These tests use the newest dependencies."
- 	@echo "    Requires: Python 3.x"
+@@ -36,11 +36,14 @@ help:
+ 	@echo "make dev-venv"
+ 	@echo "    Creates a simple venv for check-dev. ($(QEMU_VENV_DIR))"
  	@echo ""
--	@echo "make develop:    Install deps for 'make check', and"
--	@echo "                 the qemu libs in editable/development mode."
-+	@echo "make check:"
-+	@echo "    Run tests in your *current environment*."
-+	@echo "    Performs no environment setup of any kind."
+-	@echo "make clean:      remove package build output."
++	@echo "make clean:"
++	@echo "    Remove package build output."
  	@echo ""
--	@echo "make check:      run linters using the current environment."
-+	@echo "make develop:"
-+	@echo "    Install deps needed for for 'make check',"
-+	@echo "    and install the qemu package in editable mode."
-+	@echo "    (Can be used in or outside of a venv.)"
- 	@echo ""
- 	@echo "make pipenv"
- 	@echo "    Creates pipenv's virtual environment (.venv)"
+-	@echo "make distclean:  remove venv files, qemu package forwarder,"
+-	@echo "                 built distribution files, and everything"
+-	@echo "                 from 'make clean'."
++	@echo "make distclean:"
++	@echo "    remove pipenv/venv files, qemu package forwarder,"
++	@echo "    built distribution files, and everything from 'make clean'."
++	@echo ""
++	@echo -e "Have a nice day ^_^\n"
+ 
+ .PHONY: pipenv
+ pipenv: .venv
 -- 
 2.31.1
 
