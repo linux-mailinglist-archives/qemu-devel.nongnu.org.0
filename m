@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FDD3B93FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 17:32:41 +0200 (CEST)
-Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701193B93FB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 17:32:38 +0200 (CEST)
+Received: from localhost ([::1]:54704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyygC-0001jB-GF
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 11:32:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52968)
+	id 1lyyg9-0001bi-GP
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 11:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyyZi-0004Yw-E0
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:58 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42742)
+ id 1lyyZd-0004QJ-St
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:54 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:51896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyyZS-00089P-BO
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:58 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- p17-20020a17090b0111b02901723ab8d11fso4171216pjz.1
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 08:25:41 -0700 (PDT)
+ id 1lyyZU-0008Cp-2E
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:53 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id n11so4484626pjo.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 08:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TJZF8LWW+S/evT7bkuT0HfWov+1lUwCTXAU5MMH8g9E=;
- b=pqpfExdd9ILT2SiRxYpTlokLdbQMiKqjgAySps1UuI3DN0chCCiv5UAyQ7hAwc1FP+
- mg7z3/JBGh7vgcPgEIHIVUFdmw/maGZxMUsKCun/4BuqnY6k/wNEnvFaCp1AsPJ21gYC
- vhuGSo6aTTPbpOzsIIOvhsJLNBqlverPt1t6YrJunA/4wo4w0khVrGFUxPpCIw/ocdX2
- BCOmxadi78rd4jjiJdk/ZzoEyGfRSErB236oJoagWPkXybt7553JQ0lk+YzXS0ZDl+Ug
- Tkox6wtQfns8e55fxoAnyhKe139i57gt5PqIdNl7aegaC/ApziOlo0pNDdJs7/7X3FSH
- jM3w==
+ bh=dzNhtHE9m5XdMcEWBRnySR9gbMAPjCgqzhKLirKjfi4=;
+ b=uWVlZtQK5bcbJRvJkDvc1IE7dZh1VDMbsl+qLfXeunWzjksfmghbsiQbXqJzFC7t4A
+ ZJGwPIURZKOSIc3YhGhhJ+Ew8+/g/pOkKKppLCsP0K7LMCvybPcSmBJDc1jSfkzX9Sy9
+ YuKNb0cKquxY1CTTQFbmZrTW1mXUgr8TZtwtDjsYYuU7uKWrAItm+tlPTckAL8X89mLt
+ du+cbI5dEq7EpNBQavzl1An2UXCzcTbSvMlrGcGNUyKu0fFE3qaZEVE+0Go59Oi8Knou
+ jUqBU/QJnA2gQ4sQCBuj69d7JTytjHQ/0cVhb31NUMldjdSWnxrr7yGyTl3697xszZW/
+ a6sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TJZF8LWW+S/evT7bkuT0HfWov+1lUwCTXAU5MMH8g9E=;
- b=e4vcouGJGZbkky92beMp3PXaAABXGCfy/DFh0DtdgdVjKPmuA2p+2+r8NyB58PGGvZ
- PDEP1KkJeHdE0GJVrCJUq03GB+qVhTOZ5C0bjLzFjGbnUlhR0llqL/ImLweAp7LVSpgB
- WZdgrcHLWMrJmFKZmct59waKkoirppjFXUCzk/3Dczg5PS9gsn3GWDqBbzEM/Slx2JQf
- Pkfv9uqWlVosmKhqiPgfTkcNMoJ1q3ZyV4O02/EUA1eiQF57OfNX7AOyyzX3XpbAzjTk
- YfS4ZcOcXAXW92g+YQjQue4fHnBKVxnk5ohek4TP3Dd+BZ2UtF39XgjoHV9tUBp5tK42
- 78qg==
-X-Gm-Message-State: AOAM53095rK4nPenQyHkxCFYkT8gbsQAZIGPMABoKezsAC66zGO2b4oH
- yRcuiHOrJo8CvX4sciqnUCZX3wYbJncM/w==
-X-Google-Smtp-Source: ABdhPJzCFkxWmPi4NHLKJqemSMUQK6hDWGg7w/sZTQvLDfUUlu5AQPX+epeVqbl6ondEOLkw9bi0vg==
-X-Received: by 2002:a17:90a:a087:: with SMTP id
- r7mr10756966pjp.84.1625153140620; 
- Thu, 01 Jul 2021 08:25:40 -0700 (PDT)
+ bh=dzNhtHE9m5XdMcEWBRnySR9gbMAPjCgqzhKLirKjfi4=;
+ b=EddaFW5JUT/kQlmRybSa3a1bnZBkCRmGStjDiAc+5dJcSmThIgNC8GhYqkb/6ymIlb
+ +ZVLvKnxRD/kVkXw21tScUyUOK49XZoOXgCE59XM6aIniaDzTI09bWsqBpx1LnJQi7uG
+ k6c3l9POJoNfOuCyaporSKcyR5zOG7ZwWcESslm6eAZVPD998X0MJeQLer7/c/JNnKoe
+ wSaEZ7REDTjDCeW/MJ9VlZpyKxZveFDTZgMX8zCZvy6Tz2FdQfKqksIsEB/nBnXJIs01
+ kiTCAaB9BjDzPCDamWbHGx3xGv+44RBL24XBVhfIK++tVZljovWrh55Wgha1kW9wBuqQ
+ pezg==
+X-Gm-Message-State: AOAM533Eogr7LpQ/G/whY/UoyhUrrBWjqEP7m5eF77h6F/aDikKV+92l
+ 1OyOMYyC6k+jOpPoeNHV9pjSKwq2KflSvg==
+X-Google-Smtp-Source: ABdhPJx7VKzo1x46lH4wFXaJ1lviGpim6jKgK7WWHwSz9KWWbcT3OszvxFVJraaEGXB5rBYA5aSv3A==
+X-Received: by 2002:a17:90b:4a90:: with SMTP id
+ lp16mr238826pjb.137.1625153142842; 
+ Thu, 01 Jul 2021 08:25:42 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id j4sm10213197pjv.7.2021.07.01.08.25.40
+ by smtp.gmail.com with ESMTPSA id j4sm10213197pjv.7.2021.07.01.08.25.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Jul 2021 08:25:40 -0700 (PDT)
+ Thu, 01 Jul 2021 08:25:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/17] accel/tcg: Move tb_lookup to cpu-exec.c
-Date: Thu,  1 Jul 2021 08:25:23 -0700
-Message-Id: <20210701152537.3330420-4-richard.henderson@linaro.org>
+Subject: [PATCH 07/17] accel/tcg: Reduce CF_COUNT_MASK to match TCG_MAX_INSNS
+Date: Thu,  1 Jul 2021 08:25:27 -0700
+Message-Id: <20210701152537.3330420-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210701152537.3330420-1-richard.henderson@linaro.org>
 References: <20210701152537.3330420-1-richard.henderson@linaro.org>
@@ -89,120 +88,46 @@ Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we've moved helper_lookup_tb_ptr, the only user
-of tb-lookup.h is cpu-exec.c; merge the contents in.
+The space reserved for CF_COUNT_MASK was overly large.
+Reduce to free up cflags bits and eliminate an extra test.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tb-lookup.h | 49 -------------------------------------------
- accel/tcg/cpu-exec.c  | 31 ++++++++++++++++++++++++++-
- 2 files changed, 30 insertions(+), 50 deletions(-)
- delete mode 100644 accel/tcg/tb-lookup.h
+ include/exec/exec-all.h   | 4 +++-
+ accel/tcg/translate-all.c | 5 ++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/accel/tcg/tb-lookup.h b/accel/tcg/tb-lookup.h
-deleted file mode 100644
-index 9c9e0079da..0000000000
---- a/accel/tcg/tb-lookup.h
-+++ /dev/null
-@@ -1,49 +0,0 @@
--/*
-- * Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
-- *
-- * License: GNU GPL, version 2 or later.
-- *   See the COPYING file in the top-level directory.
-- */
--#ifndef EXEC_TB_LOOKUP_H
--#define EXEC_TB_LOOKUP_H
--
--#ifdef NEED_CPU_H
--#include "cpu.h"
--#else
--#include "exec/poison.h"
--#endif
--
--#include "exec/exec-all.h"
--#include "tb-hash.h"
--
--/* Might cause an exception, so have a longjmp destination ready */
--static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
--                                          target_ulong cs_base,
--                                          uint32_t flags, uint32_t cflags)
--{
--    TranslationBlock *tb;
--    uint32_t hash;
--
--    /* we should never be trying to look up an INVALID tb */
--    tcg_debug_assert(!(cflags & CF_INVALID));
--
--    hash = tb_jmp_cache_hash_func(pc);
--    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
--
--    if (likely(tb &&
--               tb->pc == pc &&
--               tb->cs_base == cs_base &&
--               tb->flags == flags &&
--               tb->trace_vcpu_dstate == *cpu->trace_dstate &&
--               tb_cflags(tb) == cflags)) {
--        return tb;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 754f4130c9..dfe82ed19c 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -492,7 +492,9 @@ struct TranslationBlock {
+     target_ulong cs_base; /* CS base for this block */
+     uint32_t flags; /* flags defining in which context the code was generated */
+     uint32_t cflags;    /* compile flags */
+-#define CF_COUNT_MASK  0x00007fff
++
++/* Note that TCG_MAX_INSNS is 512; we validate this match elsewhere. */
++#define CF_COUNT_MASK  0x000001ff
+ #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
+ #define CF_MEMI_ONLY   0x00010000 /* Only instrument memory ops */
+ #define CF_USE_ICOUNT  0x00020000
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 7929a7e320..d0177d772d 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1435,9 +1435,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     if (max_insns == 0) {
+         max_insns = CF_COUNT_MASK;
+     }
+-    if (max_insns > TCG_MAX_INSNS) {
+-        max_insns = TCG_MAX_INSNS;
 -    }
--    tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
--    if (tb == NULL) {
--        return NULL;
--    }
--    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
--    return tb;
--}
--
--#endif /* EXEC_TB_LOOKUP_H */
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index fb6668606f..0d92698030 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -40,7 +40,6 @@
- #include "sysemu/replay.h"
- #include "exec/helper-proto.h"
- #include "tb-hash.h"
--#include "tb-lookup.h"
- #include "tb-context.h"
- #include "internal.h"
- 
-@@ -146,6 +145,36 @@ static void init_delay_params(SyncClocks *sc, const CPUState *cpu)
- }
- #endif /* CONFIG USER ONLY */
- 
-+/* Might cause an exception, so have a longjmp destination ready */
-+static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-+                                          target_ulong cs_base,
-+                                          uint32_t flags, uint32_t cflags)
-+{
-+    TranslationBlock *tb;
-+    uint32_t hash;
++    QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 != TCG_MAX_INSNS);
 +
-+    /* we should never be trying to look up an INVALID tb */
-+    tcg_debug_assert(!(cflags & CF_INVALID));
-+
-+    hash = tb_jmp_cache_hash_func(pc);
-+    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
-+
-+    if (likely(tb &&
-+               tb->pc == pc &&
-+               tb->cs_base == cs_base &&
-+               tb->flags == flags &&
-+               tb->trace_vcpu_dstate == *cpu->trace_dstate &&
-+               tb_cflags(tb) == cflags)) {
-+        return tb;
-+    }
-+    tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
-+    if (tb == NULL) {
-+        return NULL;
-+    }
-+    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
-+    return tb;
-+}
-+
- /**
-  * helper_lookup_tb_ptr: quick check for next tb
-  * @env: current cpu state
+     if (cpu->singlestep_enabled || singlestep) {
+         max_insns = 1;
+     }
 -- 
 2.25.1
 
