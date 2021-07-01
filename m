@@ -2,46 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFAB3B913E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 13:37:15 +0200 (CEST)
-Received: from localhost ([::1]:55014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79443B9147
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 13:43:46 +0200 (CEST)
+Received: from localhost ([::1]:60932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyv0L-0001Rs-MT
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 07:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45986)
+	id 1lyv6f-000662-BR
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 07:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lyuzJ-00082P-SP; Thu, 01 Jul 2021 07:36:09 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:36857)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyv4b-0004mo-92
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 07:41:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lyuzE-00051x-Rc; Thu, 01 Jul 2021 07:36:08 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 92B4974570B;
- Thu,  1 Jul 2021 13:35:58 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 52347745709; Thu,  1 Jul 2021 13:35:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 505157456B4;
- Thu,  1 Jul 2021 13:35:58 +0200 (CEST)
-Date: Thu, 1 Jul 2021 13:35:58 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH 0/4] ppc/Pegasos2: Firmware replacement using VOF
-In-Reply-To: <cover.1624811233.git.balaton@eik.bme.hu>
-Message-ID: <a72a7538-e571-efae-27b-3cec1493441@eik.bme.hu>
-References: <cover.1624811233.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyv4Y-0007wF-71
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 07:41:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625139692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VUU+c0TCnJnsW34TgTj7fbiGOex80VjK7cP4hhMVwqY=;
+ b=Yb2W4zaFATU39evbVIUJ/jr+kmlW2YDjSc0iIjTUdAAv+WaeDHPNaeKJXMHonrzPgWfuAq
+ b7DIvRf4ijPR9O1use8VysjfeKD013tRJZXrGFgj75PUV5HUMX45St4khSgkQ36D5EWJsS
+ 0M+1yCgomRd0GFo2pZGNcqThObc6UEo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-XSSpFA9iP46A6GzTitxpXQ-1; Thu, 01 Jul 2021 07:41:32 -0400
+X-MC-Unique: XSSpFA9iP46A6GzTitxpXQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u7-20020a5d46870000b029012786ba1bc9so2429566wrq.21
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 04:41:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VUU+c0TCnJnsW34TgTj7fbiGOex80VjK7cP4hhMVwqY=;
+ b=eAgpCIoSRZ5v02Zz1DDwnC+gdK1FExMhwBdd8pnY5Wf50UfqU7DHD9XKTrZ4zXNtOp
+ x+LB7qq/CVRnWB/J6dkp0AJk1OpYUGDieuGfNenS1GDugF35kP3IwuUY0OeU57mFWb0e
+ CqmaRUxUf4ZI1SFNYPuEs2LVowJrj/B7SApeZ54AV/Hb3dQTUzwOPICZUmZqkZKgsK4E
+ t4lvWAJLa+jjUCbk3i1dLxs53Pq9Tafk2hJqgSTJfGYL2lT3b0n4xKS1hB3PWR3qisj9
+ ADIjPUbZfUlITWnszSvnP2P8oSzMihmqFrpV0S0l3sx9M7tZVP2tgup8S9io0Y2Q/BmE
+ ++Ag==
+X-Gm-Message-State: AOAM532bEc4PJdVATtIE9bvYS//OflWacbdiCMEjtcI7pJ0Z8m8TQ8FD
+ BHM2/hnR+Q1U3hhOuubWV8hhsA5OeNxo8mOiEJ2bmac9EsK01NLzlZiNEV+kpqE5mUidoXgCKJu
+ nLNIpvdSWgtCHlOs=
+X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr20146235wmg.117.1625139690813; 
+ Thu, 01 Jul 2021 04:41:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznYIo1PUfnbmLQ6tuqjFG7sdwlyR34XfIgxwYZHw/IjvzWZAjwzcohp64LMVsuZk8FndTmqA==
+X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr20146197wmg.117.1625139690335; 
+ Thu, 01 Jul 2021 04:41:30 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575bc6.dip0.t-ipconnect.de.
+ [217.87.91.198])
+ by smtp.gmail.com with ESMTPSA id v1sm1776359wre.20.2021.07.01.04.41.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Jul 2021 04:41:29 -0700 (PDT)
+Subject: Re: [RFC v6 07/13] target/s390x: move sysemu-only code out to
+ cpu-sysemu.c
+To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20210629141931.4489-1-acho@suse.com>
+ <20210629141931.4489-8-acho@suse.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <450295fc-cfd4-45d5-f8d1-0753c20769eb@redhat.com>
+Date: Thu, 1 Jul 2021 13:41:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 10%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210629141931.4489-8-acho@suse.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.402,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,44 +101,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: cfontana@suse.com, Claudio Fontana <cfontana@suse.de>,
+ jose.ziviani@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 27 Jun 2021, BALATON Zoltan wrote:
-> Based-on: <20210625055155.2252896-1-aik@ozlabs.ru>
-> ^ That is v22 of Alexey's VOF patch
->
-> With this series on top of VOF v22 I can now boot Linux and MorphOS on
-> pegasos2 without a firmware blob so I hope this is enough to get this
-> board in 6.1 and also have it enabled so people can start using it
-> eventually (a lot of people don't compile their QEMU but rely on
-> binaries from distros and other sources). Provided that VOF will also
-> be merged by then. This gives VOF another use case that may help it
-> getting merged at last.
->
-> Further info and example command lines can be found at
-> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+On 29/06/2021 16.19, Cho, Yu-Chen wrote:
+> move sysemu-only code out to cpu-sysemu.c
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
+> ---
+>   target/s390x/cpu-sysemu.c | 309 ++++++++++++++++++++++++++++++++++++++
+>   target/s390x/cpu.c        | 285 ++---------------------------------
+>   target/s390x/meson.build  |   1 +
+>   target/s390x/trace-events |   2 +-
+>   4 files changed, 320 insertions(+), 277 deletions(-)
+>   create mode 100644 target/s390x/cpu-sysemu.c
 
-Ping? Freeze is coming and this would be the second release pegasos2 
-misses (after it missed 6.0) if this is not in the next pull request so 
-that's why I'm pushing.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Regards,
-BALATON Zoltan
-
-
-> BALATON Zoltan (4):
->  ppc/pegasos2: Introduce Pegasos2MachineState structure
->  target/ppc: Allow virtual hypervisor on CPU without HV
->  ppc/pegasos2: Use Virtual Open Firmware as firmware replacement
->  ppc/pegasos2: Implement some RTAS functions with VOF
->
-> default-configs/devices/ppc-softmmu.mak |   2 +-
-> hw/ppc/Kconfig                          |   1 +
-> hw/ppc/pegasos2.c                       | 783 +++++++++++++++++++++++-
-> target/ppc/cpu.c                        |   2 +-
-> 4 files changed, 771 insertions(+), 17 deletions(-)
->
->
 
