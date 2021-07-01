@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380963B9606
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 20:14:40 +0200 (CEST)
-Received: from localhost ([::1]:49514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215513B960B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 20:18:10 +0200 (CEST)
+Received: from localhost ([::1]:51868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz1Cw-0001sL-Qh
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 14:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36382)
+	id 1lz1GL-0003qU-6J
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 14:18:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lz1Bj-0001B6-KU
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:13:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27300)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lz1Bf-0000Au-Cw
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:13:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625163197;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7er/8hW/Zj7AjuYSFTY2KEc0kOkas45MN22ObJBB2aE=;
- b=O0WA2sSJA0zobUyf36O5SgRXQVymVWh7IB1AR5yps7RXk3cJQiWygTwqFQpnNTWXrmQ3NG
- oUzcJ/vpiKGljvJ1mbAupnbgk3pNqb6gpP8wKkNSmtSPjCTyAesDx9uqIOG5mJFdrn7Nv/
- trj0ks+YQxH3uaen4PD8FCei3ohyMP8=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-RXmaG_TdNySxUqnwaqbwjw-1; Thu, 01 Jul 2021 14:13:16 -0400
-X-MC-Unique: RXmaG_TdNySxUqnwaqbwjw-1
-Received: by mail-pg1-f199.google.com with SMTP id
- 137-20020a63058f0000b02902285c45652dso3322pgf.4
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 11:13:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qkrwngud825@gmail.com>)
+ id 1lz1EX-00031k-CE
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:16:17 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:37866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <qkrwngud825@gmail.com>)
+ id 1lz1EV-0002D5-7V
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 14:16:16 -0400
+Received: by mail-ed1-x531.google.com with SMTP id i24so9710450edx.4
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 11:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8lu+cEfvMzXlQ1wgcZvxaMZWS1W+IfZvHbCoMgrm2n8=;
+ b=jAwUgGTGR5FGOviuOIlA6AUkWChquEg4EOgiUYb9eubBVc/5vITRWo7LTFMxo23IUX
+ TXwHBmvvneCRFGTEY4gpJrVlpJYT8dJcizYabFA6pnCrw/q36mk4e3q8m125F7rmZHwO
+ iC5PjEJHxqCdB4SuAfaO3lPRRV4mV5UKtN/HzjExDXLrAC3a5DDG1lfDB0VG9bUHUoAf
+ xm2049o8VR/YIOXLYSVE21dKg7Ht47TOFwKouALXeyrJL2lctAI8/cZ2k2BAtVTqQyfB
+ 6hTe0WrbB1K3n2AqViGSt2GvQUiytjN5axEUgjoAJITQTVNFldlJki0wyiCXAfhEUffn
+ jBcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=7er/8hW/Zj7AjuYSFTY2KEc0kOkas45MN22ObJBB2aE=;
- b=Ri3XY7rvhf1hwpLgBb5HZB200phrM8srRmijy2DxHtSolXoqrNPcpFcemSts6EKO8N
- OA+DAND8AhGdRPyYPH/P3rkk9ZfYJLBg+fWbzD0Kq3M9i3zFoB7kPZdoxX6KTbS5jWt3
- /dq9VW1LvUwgS/cfS/HKkc63UuilZYVx4ukvYFmB/OHrrXD37PnqMgJA79vZh809w5zf
- sgks+edpw4AKoCs4ppkjmrO0waZMjPO9QUAsiQi2oZZ4CPQteg6dOVGao0oR3st9kWdm
- BPBK+McUyWMLIUSk2Vv0TWbF30jsdpZ0QTh8h775fjktr2xIzDJ7YczCopTHmWhBKwSt
- l0yw==
-X-Gm-Message-State: AOAM532wTdzyOl1yNlur5TS72CbMZR31J3pm1/DrgYVYQJjwou70w/7W
- lfcDu/PAvvBfpQ01cT2pXSJyR7sU4WsDB5pGsGVzVGlpf/Cw5bl+wNltPazRl2jlsDe3wOxPrNt
- JUYQjlWdPTXlxF3Y=
-X-Received: by 2002:a62:4ec5:0:b029:309:7068:6dcb with SMTP id
- c188-20020a624ec50000b029030970686dcbmr1272776pfb.64.1625163195092; 
- Thu, 01 Jul 2021 11:13:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywiWaiBq/xbf9PCpyUtr2ZAdnibjD4oulZpaJtPo/MFjWLVrFS0IPZmKIPTo63ej6LdQXQ+Q==
-X-Received: by 2002:a62:4ec5:0:b029:309:7068:6dcb with SMTP id
- c188-20020a624ec50000b029030970686dcbmr1272751pfb.64.1625163194777; 
- Thu, 01 Jul 2021 11:13:14 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.105.223.44])
- by smtp.gmail.com with ESMTPSA id w14sm543609pgo.75.2021.07.01.11.13.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 11:13:14 -0700 (PDT)
-Subject: Re: [PATCH v4 2/4] avocado_qemu: Add SMMUv3 tests
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, philmd@redhat.com, crosa@redhat.com
-References: <20210629143621.907831-1-eric.auger@redhat.com>
- <20210629143621.907831-3-eric.auger@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <a7b8faad-4535-f5f3-4f99-b13cf3dcfd7f@redhat.com>
-Date: Thu, 1 Jul 2021 15:13:08 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8lu+cEfvMzXlQ1wgcZvxaMZWS1W+IfZvHbCoMgrm2n8=;
+ b=CVQ6UaOFNZ0q6cDvNaztlPkA8XZPrB00NJVyOEgxk3ss0Jmw99aDmcng/wLEJZdmUT
+ rqKogydD1wwZygRQyErvyroU3Q1FsOmR2aFgQdT3atDsj0Dzjfay3jcGmRfE0OP2uT42
+ QXHu85sYdcX1qmSEd9LRdS856ikvvWTq1nHFohUBnyIOCey0vhKqSF1JXSTmSC4rU51a
+ ohxRnh33tj+cvm6mPFKemUc3kDYdaJYJb1g6b4YwV3hC83w4V/Hvww+JyxosRi42Ay+5
+ 7d/gEbamLvnVONCG/eBzWbDutTYI82L44EOg1iKBWYVkMqDkc7UlVdh9aYG7F6lWdS8S
+ 8rAw==
+X-Gm-Message-State: AOAM532dpHrXiGzlR6of1Sd0K4MVU88t293ewwkSI1BrlgZyVK/Hd5re
+ 54mtfwWYJoRfopJecnHWfbYrNDyRZ1RNw0SvrbI=
+X-Google-Smtp-Source: ABdhPJyjceZ1SeqxCRGlQmML4g7wgYKb/ZLkgOIEjjiwtzt2kIv6ah9K/lJJodk5OVYATN6kMSshEVDch6Km//5iM3Y=
+X-Received: by 2002:a05:6402:5248:: with SMTP id
+ t8mr1608945edd.110.1625163372308; 
+ Thu, 01 Jul 2021 11:16:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210629143621.907831-3-eric.auger@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.402,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAD14+f2Nmu_XNjE8SM+jzfaNZfzyFowN3Cf8Lgw36FT+gqqPAg@mail.gmail.com>
+ <CAEO-eVO_hEvGzoUdoExs67ybfQC0WgpwOLbg3n9fc+R4JfikZQ@mail.gmail.com>
+In-Reply-To: <CAEO-eVO_hEvGzoUdoExs67ybfQC0WgpwOLbg3n9fc+R4JfikZQ@mail.gmail.com>
+From: Juhyung Park <qkrwngud825@gmail.com>
+Date: Fri, 2 Jul 2021 03:16:01 +0900
+Message-ID: <CAD14+f077PmD7ymmnoi6kCqeEviUO2xPecCxVxT+-4PukFARpg@mail.gmail.com>
+Subject: Re: Possible io_uring regression with QEMU on Ubuntu's kernel
+To: Kamal Mostafa <kamal@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=qkrwngud825@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,238 +81,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: wrampazz@redhat.com, peterx@redhat.com
+Cc: Jens Axboe <axboe@kernel.dk>, qemu-devel@nongnu.org,
+ Stefan Bader <stefan.bader@canonical.com>,
+ Ubuntu Kernel Team <kernel-team@lists.ubuntu.com>,
+ io-uring <io-uring@vger.kernel.org>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Hi Kamal.
 
-On 6/29/21 11:36 AM, Eric Auger wrote:
-> Add new tests checking the good behavior of the SMMUv3 protecting
-> 2 virtio pci devices (block and net). We check the guest boots and
-> we are able to install a package. Different guest configs are tested:
-> standard, passthrough an strict=0. This is tested with both fedora 31 and
-> 33. The former uses a 5.3 kernel without range invalidation whereas the
-> latter uses a 5.8 kernel that features range invalidation.
+Thanks for the timely response.
+We currently worked around the issue by installing linux-generic-hwe-20.04-=
+edge.
+
+I've just installed the new build that you provided but I'm afraid the
+same issue persists.
+
+I've double-checked that the kernel is installed properly:
+root@datai-ampere:~# uname -a
+Linux datai-ampere 5.8.0-59-generic #66~20.04.1+uringrevert0 SMP Thu
+Jul 1 16:50:12 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+root@datai-ampere:~# cat /proc/version
+Linux version 5.8.0-59-generic (ubuntu@ip-10-0-33-11) (gcc (Ubuntu
+9.3.0-17ubuntu1~20.04) 9.3.0, GNU ld (GNU Binutils for Ubuntu) 2.34)
+#66~20.04.1+uringrevert0 SMP Thu Jul 1 16:50:12 UTC 2021
+
+The guest VM is still unable to read /dev/vda's partition table with
+READ errors.
+
+Is the commit reverted properly?
+If it is, I'm afraid that it might be something else, hmm..
+
+I'm still certain that it's a regression from 5.8.0-55 to 5.8.0-59.
+
+Thanks.
+
+On Fri, Jul 2, 2021 at 2:50 AM Kamal Mostafa <kamal@canonical.com> wrote:
 >
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Hi-
 >
-> ---
+> Thanks very much for reporting this.  We picked up that patch ("io_uring:=
+ don't mark S_ISBLK async work as unbounded") for our Ubuntu v5.8 kernel fr=
+om linux-stable/v5.10.31.  Since it's not clear that it's appropriate for v=
+5.8 (or even v5.10-stable?) we'll revert it from Ubuntu v5.8 if you can con=
+firm that actually fixes the problem.
 >
-> v3 -> v4:
-> - add tags for machine, distro in the class
-> - removed smp and memory overrides
-> - set default param value of common_vm_setup to False
+> Here's a test build of that (5.8.0-59 with that commit reverted).  The fu=
+ll set of packages is provided, but you probably only actually need to inst=
+all the linux-image and linux-modules[-extra] deb's. We'll stand by for you=
+r results:
+> https://kernel.ubuntu.com/~kamal/uringrevert0/
 >
-> v1 -> v2:
-> - removed ssh import
-> - combined add_command_args() and common_vm_setup()
-> - moved tags in class' docstring and added tags=arch:aarch64
-> - use self.get_default_kernel_params()
-> - added RIL tests with fed33 + introduce new tags
-> ---
->   tests/acceptance/smmu.py | 132 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 132 insertions(+)
->   create mode 100644 tests/acceptance/smmu.py
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-I tested it in a Fedora 32 aarch64 host. The execution output:
-
-# ./tests/venv/bin/avocado run tests/acceptance/smmu.py
-JOB ID     : 1625038f5a2ae17c8ba6c503d3df8661ff528942
-JOB LOG    : /root/avocado/job-results/job-2021-07-01T13.38-1625038/job.log
-  (1/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril: PASS (175.54 s)
-  (2/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_passthrough: WARN: 
-Test passed but there were warnings during execution. Check the log for 
-details. (168.39 s)
-  (3/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_nostrict: WARN: 
-Test passed but there were warnings during execution. Check the log for 
-details. (161.58 s)
-  (4/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril: PASS (150.85 s)
-  (5/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_passthrough: WARN: 
-Test passed but there were warnings during execution. Check the log for 
-details. (177.56 s)
-  (6/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_nostrict: WARN: Test 
-passed but there were warnings during execution. Check the log for 
-details. (190.86 s)
-RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 4 | INTERRUPT 0 | 
-CANCEL 0
-JOB TIME   : 1026.50 s
-
-One thing that caught my attention was the amount of time spent on each 
-test. It spend more than 2 minutes on the package installation 
-(`self.ssh_command('dnf -y install numactl-devel')`) in the guest.
-
-Without that operation, it runs way faster:
-
-# ./tests/venv/bin/avocado run tests/acceptance/smmu.py
-JOB ID     : 24f22f99169ece37df64d72d2eb373921f378aac
-JOB LOG    : /root/avocado/job-results/job-2021-07-01T13.28-24f22f9/job.log
-  (1/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril: PASS (39.61 s)
-  (2/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_passthrough: WARN: 
-Test passed but there were warnings during execution. Check the log for 
-details. (48.32 s)
-  (3/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_nostrict: WARN: 
-Test passed but there were warnings during execution. Check the log for 
-details. (48.10 s)
-  (4/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril: PASS (39.22 s)
-  (5/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_passthrough: WARN: 
-Test passed but there were warnings during execution. Check the log for 
-details. (52.92 s)
-  (6/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_nostrict: WARN: Test 
-passed but there were warnings during execution. Check the log for 
-details. (50.96 s)
-RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 4 | INTERRUPT 0 | 
-CANCEL 0
-JOB TIME   : 280.62 s
-
-Install a package seems a good exerciser for disk I/O and networking, 
-but maybe you can use another method for the sake of speed up the tests?
-
-- Wainer
-
+> Thanks again,
 >
-> diff --git a/tests/acceptance/smmu.py b/tests/acceptance/smmu.py
-> new file mode 100644
-> index 0000000000..c1d4b88e5f
-> --- /dev/null
-> +++ b/tests/acceptance/smmu.py
-> @@ -0,0 +1,132 @@
-> +# SMMUv3 Functional tests
-> +#
-> +# Copyright (c) 2021 Red Hat, Inc.
-> +#
-> +# Author:
-> +#  Eric Auger <eric.auger@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +import os
-> +
-> +from avocado_qemu import LinuxTest, BUILD_DIR
-> +
-> +class SMMU(LinuxTest):
-> +    """
-> +    :avocado: tags=accel:kvm
-> +    :avocado: tags=cpu:host
-> +    :avocado: tags=arch:aarch64
-> +    :avocado: tags=machine:virt
-> +    :avocado: tags=distro:fedora
-> +    :avocado: tags=smmu
-> +    """
-> +
-> +    IOMMU_ADDON = ',iommu_platform=on,disable-modern=off,disable-legacy=on'
-> +    kernel_path = None
-> +    initrd_path = None
-> +    kernel_params = None
-> +
-> +    def set_up_boot(self):
-> +        path = self.download_boot()
-> +        self.vm.add_args('-device', 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
-> +                         'drive=drv0,id=virtio-disk0,bootindex=1,'
-> +                         'werror=stop,rerror=stop' + self.IOMMU_ADDON)
-> +        self.vm.add_args('-drive',
-> +                         'file=%s,if=none,cache=writethrough,id=drv0' % path)
-> +
-> +    def setUp(self):
-> +        super(SMMU, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDON)
-> +
-> +    def common_vm_setup(self, custom_kernel=False):
-> +        self.require_accelerator("kvm")
-> +        self.vm.add_args("-accel", "kvm")
-> +        self.vm.add_args("-cpu", "host")
-> +        self.vm.add_args("-machine", "iommu=smmuv3")
-> +        self.vm.add_args("-d", "guest_errors")
-> +        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
-> +                         'edk2-aarch64-code.fd'))
-> +        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
-> +        self.vm.add_args('-object',
-> +                         'rng-random,id=rng0,filename=/dev/urandom')
-> +
-> +        if custom_kernel is False:
-> +            return
-> +
-> +        kernel_url = self.get_pxeboot_url() + 'vmlinuz'
-> +        initrd_url = self.get_pxeboot_url() + 'initrd.img'
-> +        self.kernel_path = self.fetch_asset(kernel_url)
-> +        self.initrd_path = self.fetch_asset(initrd_url)
-> +
-> +    def run_and_check(self):
-> +        if self.kernel_path:
-> +            self.vm.add_args('-kernel', self.kernel_path,
-> +                             '-append', self.kernel_params,
-> +                             '-initrd', self.initrd_path)
-> +        self.launch_and_wait()
-> +        self.ssh_command('cat /proc/cmdline')
-> +        self.ssh_command('dnf -y install numactl-devel')
-> +
-> +
-> +    # 5.3 kernel without RIL #
-> +
-> +    def test_smmu_noril(self):
-> +        """
-> +        :avocado: tags=smmu_noril
-> +        :avocado: tags=smmu_noril_tests
-> +        :avocado: tags=distro_version:31
-> +        """
-> +        self.common_vm_setup()
-> +        self.run_and_check()
-> +
-> +    def test_smmu_noril_passthrough(self):
-> +        """
-> +        :avocado: tags=smmu_noril_passthrough
-> +        :avocado: tags=smmu_noril_tests
-> +        :avocado: tags=distro_version:31
-> +        """
-> +        self.common_vm_setup(True)
-> +        self.kernel_params = self.get_default_kernel_params() + ' iommu.passthrough=on'
-> +        self.run_and_check()
-> +
-> +    def test_smmu_noril_nostrict(self):
-> +        """
-> +        :avocado: tags=smmu_noril_nostrict
-> +        :avocado: tags=smmu_noril_tests
-> +        :avocado: tags=distro_version:31
-> +        """
-> +        self.common_vm_setup(True)
-> +        self.kernel_params = self.get_default_kernel_params() + ' iommu.strict=0'
-> +        self.run_and_check()
-> +
-> +    # 5.8 kernel featuring range invalidation
-> +    # >= v5.7 kernel
-> +
-> +    def test_smmu_ril(self):
-> +        """
-> +        :avocado: tags=smmu_ril
-> +        :avocado: tags=smmu_ril_tests
-> +        :avocado: tags=distro_version:33
-> +        """
-> +        self.common_vm_setup()
-> +        self.run_and_check()
-> +
-> +    def test_smmu_ril_passthrough(self):
-> +        """
-> +        :avocado: tags=smmu_ril_passthrough
-> +        :avocado: tags=smmu_ril_tests
-> +        :avocado: tags=distro_version:33
-> +        """
-> +        self.common_vm_setup(True)
-> +        self.kernel_params = self.get_default_kernel_params() + ' iommu.passthrough=on'
-> +        self.run_and_check()
-> +
-> +    def test_smmu_ril_nostrict(self):
-> +        """
-> +        :avocado: tags=smmu_ril_nostrict
-> +        :avocado: tags=smmu_ril_tests
-> +        :avocado: tags=distro_version:33
-> +        """
-> +        self.common_vm_setup(True)
-> +        self.kernel_params = self.get_default_kernel_params() + ' iommu.strict=0'
-> +        self.run_and_check()
-
+>  -Kamal Mostafa (Canonical Kernel Team)
+>
+> On Wed, Jun 30, 2021 at 1:47 AM Juhyung Park <qkrwngud825@gmail.com> wrot=
+e:
+>>
+>> Hi everyone.
+>>
+>> With the latest Ubuntu 20.04's HWE kernel 5.8.0-59, I'm noticing some
+>> weirdness when using QEMU/libvirt with the following storage
+>> configuration:
+>>
+>> <disk type=3D"block" device=3D"disk">
+>>   <driver name=3D"qemu" type=3D"raw" cache=3D"none" io=3D"io_uring"
+>> discard=3D"unmap" detect_zeroes=3D"unmap"/>
+>>   <source dev=3D"/dev/disk/by-id/md-uuid-df271a1e:9dfb7edb:8dc4fbb8:c43e=
+652f-part1"
+>> index=3D"1"/>
+>>   <backingStore/>
+>>   <target dev=3D"vda" bus=3D"virtio"/>
+>>   <alias name=3D"virtio-disk0"/>
+>>   <address type=3D"pci" domain=3D"0x0000" bus=3D"0x07" slot=3D"0x00" fun=
+ction=3D"0x0"/>
+>> </disk>
+>>
+>> QEMU version is 5.2+dfsg-9ubuntu3 and libvirt version is 7.0.0-2ubuntu2.
+>>
+>> The guest VM is unable to handle I/O properly with io_uring, and
+>> nuking io=3D"io_uring" fixes the issue.
+>> On one machine (EPYC 7742), the partition table cannot be read and on
+>> another (Ryzen 9 3950X), ext4 detects weirdness with journaling and
+>> ultimately remounts the guest disk to R/O:
+>>
+>> [    2.712321] virtio_blk virtio5: [vda] 3906519775 512-byte logical
+>> blocks (2.00 TB/1.82 TiB)
+>> [    2.714054] vda: detected capacity change from 0 to 2000138124800
+>> [    2.963671] blk_update_request: I/O error, dev vda, sector 0 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.964909] Buffer I/O error on dev vda, logical block 0, async page =
+read
+>> [    2.966021] blk_update_request: I/O error, dev vda, sector 1 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.967177] Buffer I/O error on dev vda, logical block 1, async page =
+read
+>> [    2.968330] blk_update_request: I/O error, dev vda, sector 2 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.969504] Buffer I/O error on dev vda, logical block 2, async page =
+read
+>> [    2.970767] blk_update_request: I/O error, dev vda, sector 3 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.971624] Buffer I/O error on dev vda, logical block 3, async page =
+read
+>> [    2.972170] blk_update_request: I/O error, dev vda, sector 4 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.972728] Buffer I/O error on dev vda, logical block 4, async page =
+read
+>> [    2.973308] blk_update_request: I/O error, dev vda, sector 5 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.973920] Buffer I/O error on dev vda, logical block 5, async page =
+read
+>> [    2.974496] blk_update_request: I/O error, dev vda, sector 6 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.975093] Buffer I/O error on dev vda, logical block 6, async page =
+read
+>> [    2.975685] blk_update_request: I/O error, dev vda, sector 7 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.976295] Buffer I/O error on dev vda, logical block 7, async page =
+read
+>> [    2.980074] blk_update_request: I/O error, dev vda, sector 0 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.981104] Buffer I/O error on dev vda, logical block 0, async page =
+read
+>> [    2.981786] blk_update_request: I/O error, dev vda, sector 1 op
+>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+>> [    2.982083] ixgbe 0000:06:00.0: Multiqueue Enabled: Rx Queue count
+>> =3D 63, Tx Queue count =3D 63 XDP Queue count =3D 0
+>> [    2.982442] Buffer I/O error on dev vda, logical block 1, async page =
+read
+>> [    2.983642] ldm_validate_partition_table(): Disk read failed.
+>>
+>> Kernel 5.8.0-55 is fine, and the only io_uring-related change between
+>> 5.8.0-55 and 5.8.0-59 is the commit 4b982bd0f383 ("io_uring: don't
+>> mark S_ISBLK async work as unbounded").
+>>
+>> The weird thing is that this commit was first introduced with v5.12,
+>> but neither the mainline v5.12.0 or v5.13.0 is affected by this issue.
+>>
+>> I guess one of these commits following the backported commit from
+>> v5.12 fixes the issue, but that's just a guess. It might be another
+>> earlier commit:
+>> c7d95613c7d6 io_uring: fix early sqd_list removal sqpoll hangs
+>> 9728463737db io_uring: fix rw req completion
+>> 6ad7f2332e84 io_uring: clear F_REISSUE right after getting it
+>> e82ad4853948 io_uring: fix !CONFIG_BLOCK compilation failure
+>> 230d50d448ac io_uring: move reissue into regular IO path
+>> 07204f21577a io_uring: fix EIOCBQUEUED iter revert
+>> 696ee88a7c50 io_uring/io-wq: protect against sprintf overflow
+>>
+>> It would be much appreciated if Jens could give pointers to Canonical
+>> developers on how to fix the issue, and hopefully a suggestion to
+>> prevent this from happening again.
+>>
+>> Thanks,
+>> Regards
 
