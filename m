@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2B43B94BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 18:38:37 +0200 (CEST)
-Received: from localhost ([::1]:36900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1863B94D6
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 18:45:24 +0200 (CEST)
+Received: from localhost ([::1]:42090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyzi0-0001Mo-IG
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 12:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40586)
+	id 1lyzoa-0005jL-2C
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 12:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lyzgd-0008No-Ps
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 12:37:11 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38436)
+ id 1lyzmm-0004kk-63
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 12:43:32 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lyzgc-0004I9-Ay
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 12:37:11 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id u6so9031762wrs.5
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 09:37:09 -0700 (PDT)
+ id 1lyzmk-0000Ht-Q6
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 12:43:31 -0400
+Received: by mail-wr1-x429.google.com with SMTP id l8so9019793wry.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 09:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HwRBFPOzSwaqxGWuXpEnSjWphOYTYHUc10Um5Q8a5sI=;
- b=UIQ1iCsA1XuAuGFru60O9ZlBICjYvW/rVMCRUErz5XymrfQfXcLxWomvvw8V+GikcE
- q4tdJU31BZtWzJJRCQIdcllFudQWeYGOAwT0+aZOed7R2ZGrBPsUsOQkmZjL7LJ+QR1I
- ewxSTnIX0Y0Dq9KO4OfcHquRzxP3oG5Hx1brZI2Bv0aUcN+ROFqv/yZZdYgyJnGQMfHs
- yxv8jk33sEOAlOuQoXly1gCVSIQVoL6fZiBz0oEu+BBucwbzSTgtOej92mwv0YZISUNZ
- z7Z3BH7hCE8Dyf209tzw1bbklnT31VPWmGt2pKqJWLzMPPiqoOk5WGGqJeXqjRRLbPfr
- 2NqA==
+ bh=MuayQy6Xy+zHK96FgE2KP1CxqCrMJGtlHphEPcGlW78=;
+ b=ZxxytJQ6kmIV2wszbBhhgGb/xLWlhVDBq4P0BaaSYjc/40aka+d7O5szZqTnrFiuax
+ HHiQWNVWnAFhuCuXZtcDDf/H9fJhKXQLiQXyNL2U4bMOM+ItjWijRYNHW/G54kUZKFWK
+ jGxA+1P69jWElTAP9iCT8KQFSCgovajFEuwH1h8XQIr0FdeSLxHCYem0YtjISF2ZgZiJ
+ DNy76NpnQBJdC+QP1WH88cbPQChdyYQAX09ZvY2aQkoVlKXrB773/nS3JP/Fp7Os/iIA
+ Hjf0UvVPQGqzcUddtk0gVp7zPh9PQHh2aPJaUpQm6FNYT26IZMo+5iab9cqvilfYRt/n
+ VF0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HwRBFPOzSwaqxGWuXpEnSjWphOYTYHUc10Um5Q8a5sI=;
- b=eXMiKmwV4wUOp3UKTmVUYkjPEbdoGp4HDnhO8dUa7LDsj62ShWjAFfd4ENU36MLHdh
- Q1zoZnl3In+0Sfw+/6k52BXa+MxXx70+raU8+M1EzHkCRZuc/PmjXHtqmnk6XL61+2vG
- Z0ri/J7hGks941NvQKX9Z19wwMojzLorZVGYQzCJ3rlnUqi7126qU6M4rgW/Wpb5wAlf
- ltzJnlf+RhtgIG4yiVzhZni4Y/uiXtESueIRYN+Xw7acI9warZy52ZsDVDjwbx12J6/p
- orAZdDmFAzNUBr6jn9TsfDmYQr0JLCgkIOJLQNGtXnvOOeNCsLKmfP90BTV+jrqeUheS
- PRfQ==
-X-Gm-Message-State: AOAM530WwwDG1468k3iOCEKT3nNlXZm3A4Cy7ef9UtXDKHQIXAb9dyFU
- JlsEwj1idEt5Cf8h7As6E2Y=
-X-Google-Smtp-Source: ABdhPJwTJkMzGo4VESHqNOpH3DAXzGQpuIHFaXxj/2GCZG5ZwjW6OWqeNrKrxo8dx9k3MMneZttkTg==
-X-Received: by 2002:adf:e107:: with SMTP id t7mr658527wrz.165.1625157429050;
- Thu, 01 Jul 2021 09:37:09 -0700 (PDT)
+ bh=MuayQy6Xy+zHK96FgE2KP1CxqCrMJGtlHphEPcGlW78=;
+ b=l0wg+pAlMuWBlQVupdgkrQ/Fd8HsJlpHpMXSB/BeLtCOXdlbB1li2kxTC0u4uBSlEP
+ FN0kAFDQrzGg+ctYhz/+WHKvQo3qjWVvmL9quxJNqLUaDf/Iqt0yelQOMcH2jbMusyhV
+ UR/bN6UhuR66OTJPp5SwvbH4JL35P9P8jMPioMpGP80anzRYucSB3M8nIbsjBY+rcs76
+ D8F9pU1c/WVAioYZs2j0mQ7SzZ3sukFo9M/agkGqwKkVgbQ8s3Qsl3xfGyhjrzfwKkVh
+ DcQL/AiZK2Y7NpHhD22Y2wXOQ232qgm2whTlirsLWNpzpFEHnewnjRPfdjAo7DFWYl1o
+ Yfow==
+X-Gm-Message-State: AOAM533hPL+Sl8AKWQNC9zNdZ7uZi7xznIlPa/xgRLSrSgxFjpke7Ahb
+ fZwF2xOP0Ouky3gt1H4MYMU=
+X-Google-Smtp-Source: ABdhPJyulm7DEan80Yh5FesAHL2VhF+y21NbxvpChSTsupTeSrgH+TGQQ8pOwQzmelFSdvq0kb2JpA==
+X-Received: by 2002:a05:6000:12d0:: with SMTP id
+ l16mr697369wrx.189.1625157809321; 
+ Thu, 01 Jul 2021 09:43:29 -0700 (PDT)
 Received: from [192.168.11.95] (pop.92-184-108-151.mobile.abo.orange.fr.
  [92.184.108.151])
- by smtp.gmail.com with ESMTPSA id v15sm10245515wmj.39.2021.07.01.09.37.07
+ by smtp.gmail.com with ESMTPSA id f9sm502404wrm.48.2021.07.01.09.43.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 09:37:08 -0700 (PDT)
-Subject: Re: [PATCH 06/17] tcg: Remove TCG_TARGET_HAS_goto_ptr
+ Thu, 01 Jul 2021 09:43:28 -0700 (PDT)
+Subject: Re: [PATCH 17/17] cpu: Add breakpoint tracepoints
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210701152537.3330420-1-richard.henderson@linaro.org>
- <20210701152537.3330420-7-richard.henderson@linaro.org>
+ <20210701152537.3330420-18-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4adbc454-ae34-2aa8-795d-884361b1bbf5@amsat.org>
-Date: Thu, 1 Jul 2021 18:37:07 +0200
+Message-ID: <02e3cc09-fe5c-361b-34df-85ef48479a34@amsat.org>
+Date: Thu, 1 Jul 2021 18:43:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210701152537.3330420-7-richard.henderson@linaro.org>
+In-Reply-To: <20210701152537.3330420-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,24 +96,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/1/21 5:25 PM, Richard Henderson wrote:
-> Since 6eea04347eb6, all tcg backends support goto_ptr.
-> Remove the conditional, making support mandatory.
-> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/tcg/tcg-opc.h    | 3 +--
->  tcg/aarch64/tcg-target.h | 1 -
->  tcg/arm/tcg-target.h     | 1 -
->  tcg/i386/tcg-target.h    | 1 -
->  tcg/mips/tcg-target.h    | 1 -
->  tcg/ppc/tcg-target.h     | 1 -
->  tcg/riscv/tcg-target.h   | 1 -
->  tcg/s390/tcg-target.h    | 1 -
->  tcg/sparc/tcg-target.h   | 1 -
->  tcg/tci/tcg-target.h     | 1 -
->  tcg/tcg-op.c             | 2 +-
->  tcg/tcg.c                | 8 ++------
->  12 files changed, 4 insertions(+), 18 deletions(-)
+>  cpu.c        | 11 ++++++++---
+>  trace-events |  5 +++++
+>  2 files changed, 13 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
