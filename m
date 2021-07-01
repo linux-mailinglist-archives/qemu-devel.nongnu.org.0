@@ -2,82 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575E73B97A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 22:32:53 +0200 (CEST)
-Received: from localhost ([::1]:59002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FEF3B97BA
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 22:42:36 +0200 (CEST)
+Received: from localhost ([::1]:33806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz3Mh-0007Jy-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 16:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38844)
+	id 1lz3W7-0001ct-5q
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 16:42:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lz3L1-00068R-RG
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 16:31:08 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lz3Kz-00032A-Px
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 16:31:07 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id v5so9799022wrt.3
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 13:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hhttAdehvVXapsHTceO47QbpCon/MlGGSJxTJglX/2U=;
- b=uGz230J34egFbOAw7tBp0zPKR27mCK76hpfsq/SRJgzeIOQ9j2USR1KftWHiFRxnSH
- jL/gv/ii8JwHyRqBOJUJcsAQy+FuRjRJZQKNx0RViTZYpbYTFJnVWb6HgdCEHTBYaR2R
- BINmLRdNIR1TJfByHJ2zH/GancFyoABNX80zeYJ71kXGy/UQoxUcHBxk3DcDT6sfKCAH
- 5mtqdpgtkVpflpOUG9eBlzBsTm19OW7BKXQxZIJGMsF7L6+iHn5rgInvzK1URr5ap/0n
- NCj/czNWJlzApg9Ox+qOxLmG6wFvfK5NNFTriu+CFDwW2W+JELhI0FSKQhL+PSGyYIWw
- cDRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hhttAdehvVXapsHTceO47QbpCon/MlGGSJxTJglX/2U=;
- b=eJXtmxVQV8F6uMk3DeR2lZ0k1l7Fogk3qRcUo3mh/CaIEXrf3x2NYbFs10DwWNjETL
- 4gkU7CoZbXNXoo0qEXLSX4uSzo+8+ytrRwpEkHDBUJ9xXqTTQ+fLHN/3Vw9qKZkRcAjE
- gojVP6/tMEqOfBbdMmk23+0pqi5KOuNiMLsE1n1FNr1bxE3f5KgBFjcTBX6G8ppzJdgj
- 1F5qamTBGzkN2nJflWQMAtryrqyxBCEljCc9fdhRTi2ahj910lcp4Ou/XSi0dYGCUm9z
- eGyk0PgBUJDc03BFXSNqrk3g1QP73NILr9Eif1SthWfoSKDIT7+ZvJt2lQvZ1GTGi0y3
- oiGQ==
-X-Gm-Message-State: AOAM533/TwYsYYwGV12UoJOBsG7nkhx4it2yPd7ht/E6QzuJC3fr/36t
- /6qtxIXpQ0tIUuC0XCDHdpY=
-X-Google-Smtp-Source: ABdhPJyH88x6372zfqwioBTtNVGKl9FVA59Ywdq7M0wVz4TO6uU5Rh9sTIFgOV2Zr+okU2RGbkql/Q==
-X-Received: by 2002:a5d:4c50:: with SMTP id n16mr1691416wrt.249.1625171464201; 
- Thu, 01 Jul 2021 13:31:04 -0700 (PDT)
-Received: from [192.168.11.95] (pop.92-184-108-151.mobile.abo.orange.fr.
- [92.184.108.151])
- by smtp.gmail.com with ESMTPSA id y3sm1022867wru.78.2021.07.01.13.31.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 13:31:03 -0700 (PDT)
-Subject: Re: [PATCH 07/20] target/loongarch: Add fixed point arithmetic
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
- <1624881885-31692-8-git-send-email-gaosong@loongson.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <248d54fc-ebdd-09e9-22c2-e66307b22705@amsat.org>
-Date: Thu, 1 Jul 2021 22:31:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1lz3Ul-0000rF-7E
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 16:41:11 -0400
+Received: from mail-dm6nam12on20611.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::611]:15584
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1lz3Ud-0000l6-S7
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 16:41:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WdlpEUZYfdavlYr0Ni2zCTsrKHiGtbIelhTEjyVZlR7XzDgKn8e3Ro8QGMkV1cJx2/CQxC6g+Yu5p75vcUmsy2DEbuBLqC1QT9saQADcYg3Y0K+PikIcEw2pvhlZS7Mjx9vAqXYhAFzDIiHeT7USY/JKc8LyFruZw5AYM7RVXvJRttTc2cEnldKP3TT8vkTduqX2YBoRi8rb5DPSRxQwkG33y9xWhhHuFN7yn6bfeMiFFh3c42HaGrOvTn3QMh/bZoPVqVamiEct0yIc43CnAvOcWFHfhgHYm0CgvLiPzzCkZWAyxKbAAaFa3Ea3wth1RXjaB8ogwCtYr6q/Vyz1iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gpw0n84MwHzClFsZdhU+WHZhlAc2PbbfpgYqmZUlKuk=;
+ b=EVGCwrBR2SBX2CeCn9FDk9HJ7ijJJ/1N/XDVVERv950ZWOgo65iUhSJESA+N7+KrZowdvuCXrDKSBCk0/T/LTj/ZL8/syT1C/qwzaEhVhLNEdMWbPYZFQJFGtvZh276wuW/wNj9ERZ6kYIF5EHT6OggNmRmXewPv/ecmrbwOHpVa0XZqGSFDZF1g5ViSaL5pETVV553q8ZHywC8ZEdkwVZcngYmp8M/z4aiU6RjgCOQ9sFW9lzkiaum4FTC2IflTYoVEs0EmkbZWsODDH+OoTyG7cyEz6Jeuh/DaqvrL1rKtTDchjSM+4KobNZDmBFOv2vZlg4YJXak9t8+he20ELg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gpw0n84MwHzClFsZdhU+WHZhlAc2PbbfpgYqmZUlKuk=;
+ b=xxXDoyAGEOPdaPb+g79Z0f/yuXGAh5PVPCBYucxMoWdpczDBuTU2Ksy5aVDfz5K4oN1FuVlvPfeRMRNkK20IqG68tX+d/QgfThvfmXy8jFe7TnQLg+3DFrkiI4C1uzUjsM/i0z6unhcaU3RAqwGRLRUv75ViwCrYjO1hiyGT/ZU=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
+ by CH2PR12MB4216.namprd12.prod.outlook.com (2603:10b6:610:a8::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Thu, 1 Jul
+ 2021 20:35:59 +0000
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0%7]) with mapi id 15.20.4287.023; Thu, 1 Jul 2021
+ 20:35:59 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210701104313.5b64a9b4@redhat.com>
+References: <20210628132018.394994-1-pizhenwei@bytedance.com>
+ <YNsoyqFvzXL0FXC8@work-vm> <162508068941.526217.2563710865841096339@amd.com>
+ <20210701104313.5b64a9b4@redhat.com>
+Subject: Re: [PATCH] target/i386: Fix cpuid level for AMD
+From: Michael Roth <michael.roth@amd.com>
+Cc: ehabkost@redhat.com, like.xu@linux.intel.com, armbru@redhat.com,
+ wei.huang2@amd.com, richard.henderson@linaro.org,
+ Dr. David Alan Gilbert <dgilbert@redhat.com>,
+ zhenwei pi <pizhenwei@bytedance.com>, qemu-devel@nongnu.org,
+ babu.moger@amd.com, pbonzini@redhat.com, philmd@redhat.com
+To: Igor Mammedov <imammedo@redhat.com>
+Date: Thu, 01 Jul 2021 15:35:49 -0500
+Message-ID: <162517174973.564224.1039189315728194554@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [165.204.78.25]
+X-ClientProxiedBy: SA0PR11CA0190.namprd11.prod.outlook.com
+ (2603:10b6:806:1bc::15) To CH2PR12MB4133.namprd12.prod.outlook.com
+ (2603:10b6:610:7a::13)
 MIME-Version: 1.0
-In-Reply-To: <1624881885-31692-8-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (165.204.78.25) by
+ SA0PR11CA0190.namprd11.prod.outlook.com (2603:10b6:806:1bc::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23 via Frontend
+ Transport; Thu, 1 Jul 2021 20:35:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e198c0e1-1ac2-4168-7364-08d93ccfd545
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4216:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4216A7B7BD9D531F8FBAFD6895009@CH2PR12MB4216.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1sfJXFlHcz552D4lpfGiN2FoxAJE6RDxBelE049t7XQchM/HSv08BnJwGUMdP1GqG3/DArRogNXUOfHr73HDiVPucF3ccZPQwMg8euS0Udw0zBFkJYF2laPrP+EhunPT5jiOq9KCJByMbn52jyBQyz91BZe7pHGHYRilVTr2FlZannKRe7aJyxWEdPijVkCcUrGidIUe6DpsixohY8MwkPTuvsRWBdpXeZK2vEVVhgCSCbypVlw/iy8LJesMZ9XqDK087U1dd1sQBnhEcLrN2nyMU2Ve4k0JPB+Lwl1RD35UzmdK79gglkIKBTn0ScaydNzWtYZAj7uvw2oH/IMBW6l8xxunbhSNMeMZBA2Sz17FNoo1ytzT6AjDLqUfJaTQben+s6bpKvFRpPxF+98KTdXtGlz/Xc7vWjBcjIN5alwfN/lnamNiBy1fi1oER/miOpT5xEgATElEwYsNzlyGXw0L5pZ+Ap3PGFEq3yEy/9/IUtqT79piHFprJdgpM0OWTEYZWTONaN0s1g8RfQEDfDQGatSQ4pWMTRCuhDEffEy6Mnb1fXzT5nwTCcWVamoKmjwDEZBjkzJjNjYCOFaunmkzLBCQcKgrOUlHZ3GIPPWaCvkXa1T3meCxNHmxLuIOV0MAynZziLcSkwEmvOFoJZuOFxIMMsIjBi86JY1Wp1eH6+LCs/bfaiF9NYAdak3fRs1UkUOPUAZZOBTSq/FBWwUKpYBz1B61iNbgrS4vHlKe2fa8USEqNfesbbm4qIwc6Y5kV0T4GOwLi8OAwORI/qWrPk27r3u7RMkP2xzcYEmq6V5MmJWmthmzfhVJT2b8rCYOO0HFjjj30/G78iWHHCoaLGnUAjN5yzkh6mABaqM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(396003)(346002)(39840400004)(376002)(36756003)(8676002)(956004)(38100700002)(44832011)(16526019)(83380400001)(6666004)(186003)(38350700002)(966005)(2616005)(26005)(6486002)(52116002)(2906002)(54906003)(6916009)(66476007)(6496006)(66556008)(8936002)(66946007)(478600001)(7416002)(86362001)(5660300002)(4326008)(316002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bVo5d3JRM0J3dTBxMzF4a2xlRUdHVy9PUlRRdjNiNkk5Y21OMjBRRDNOMnpv?=
+ =?utf-8?B?cWtVREY5ZE9EaENTVEVJSlFUVEZTWFNLYktIby8waEluUXA3RXd4bTdoaWlS?=
+ =?utf-8?B?NTlGVUFrK3IyaDIwSjE4UVBaWUxBTXR2L3BJd29lU0h1Zm5Hd2FKZFpVRnIz?=
+ =?utf-8?B?NWhiUHFmOEdRbHFZRmh1TzMwSkdweGJQY2JEWlFLZE8yR0JrcHl1M2ZyTU9i?=
+ =?utf-8?B?bzlIUFFGdUpFU3FCVmlkQytMQk41c3JhMzRvaS9MN29PdWVTWnlrdXcrTzhl?=
+ =?utf-8?B?NEhhVFJvdTVmcFlhdEFNaXRPZ2tnaC95Wm1VYXd2b2w0dXI3K3FFSndkcW1v?=
+ =?utf-8?B?ZGhlZVRTcmtCdnU5bEpnQy9lZnZPVEdPNkd3dG5ZaDZDY0xZTE40b0p0a0JQ?=
+ =?utf-8?B?S1JoV0YzcHRaYzVsclh4aHhyTk1Xa2lVSFpiY1dJUG5TY0hpdE9UeHBITTdy?=
+ =?utf-8?B?Tk1GT0owR2Izd0hmWnhVcDVndkUwV0ZKMVNRRnpwZjBsckVWc284Tk5FYTds?=
+ =?utf-8?B?OWhMcGJwYWp6TG9CYWhBcit6bk1tK0ZhMURjVllFb3N0c1dEaUZaUnh1MXNR?=
+ =?utf-8?B?WkNrRzlWY3c5YWF5bDRBb0I5U3RBT1dUOVUrVXpzRFlvdUpDSXZLcm9CcTZi?=
+ =?utf-8?B?ZnM4ZVJIYmkyeGZKZE03MU8yTXJSd2srODRDWTlhWWhoSTBTL1pHQ2h1NmNt?=
+ =?utf-8?B?YWw0R3J1SkNxUWZHR09uWHJWR0pxVXl4MDB6Z2xyUFVLNjA2REJiU3VIUXlI?=
+ =?utf-8?B?OEMyb1R0QXVoUzgwdWF5a051MVNscXJrUk44NWk5TWRLcy9HRnlUTGtUVno1?=
+ =?utf-8?B?VDhLN0hva3RkVmdUY1RNRlpydmgwdGhvaWRuekozaC9oWFpOOHhENW9aYjVJ?=
+ =?utf-8?B?TklCZlpqVU9ieXgxenZSNGV3c2dBbVRxWmpBOHZxbitQcWJkMjRaRmkvRW1I?=
+ =?utf-8?B?QThGUXU1YkVPbWdDdEtKL1pJTG5nRXZNOFZSWDJEMkJ6NWpCczhqdDBKQkFu?=
+ =?utf-8?B?SW5WakxTdHUyeTN4a3JlWXE2WGFGbmxoUEFBRGpNdzV1bmJaOWV4YnpBVXdQ?=
+ =?utf-8?B?SFlnYmpiVmFIT0w4RzR2UFp4eG9CTm5NcmFhSm96TzRJSHRyN1RaVmVOWHpQ?=
+ =?utf-8?B?T3BlNExBVkVIdzFHcmZ0TE0rODJINzJqOEZnZk5yRldXMmtkYkJjbnVnQ3R2?=
+ =?utf-8?B?THdJWFB6UEFiUTUwSVVjNGxLaSs5RU10WnV1aDVWV3hDdFgvS2FPWmltUmc0?=
+ =?utf-8?B?UXA5ZXQyRUFZN21HMlRZY0w3M1drSlJDV0w5Mkp2TFN6MVNnTlcweWtaVjRh?=
+ =?utf-8?B?NVkzeGdIbkhlaGRsVlR3N2tGUExwcGFua2lTWW1GaVppZDdJMVNQKytrNmVT?=
+ =?utf-8?B?Q29DTVp3VHQvQ0UveFF4QnBUK210cFFkSUVTZlZjWXBwZDlLRDdSUm5aOEY4?=
+ =?utf-8?B?bEFkRkxJWTNIVjUzR3JaZ09QczZ6eDNqb25SRWh4bVZvb1pxZjQxN0F1Sncv?=
+ =?utf-8?B?RGlPdldiSkZZRUF5Tmg1SmhYYmppaDFQYXp0NFJIR09zR3NjcDVhZXo5eEt5?=
+ =?utf-8?B?M3gyS1hmUXRZNHdWYWFDQmY1akJSd01reWJMdHhDNmQ1WXJERlFka1lHaFln?=
+ =?utf-8?B?dFhacGVDVUJGYmVJM05udkhUSjk3UFYvTG5ocXljSTJ0Y3BMZW42My9vOXFB?=
+ =?utf-8?B?Y3dpaTdTZTZSMjJIcUtwaER6NlY4OXNzb3E4VHZlRWkwdVU3VzhuQ1R6b3dr?=
+ =?utf-8?Q?PbzxqkUIl4ICJC5rgK+Fbf3lE+5ZGZmW/u8Ke/P?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e198c0e1-1ac2-4168-7364-08d93ccfd545
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2021 20:35:58.9146 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LVh/9ysJPojmcRQ8ctinv1RoPpRZhHUJVlNbRVYL6fn7EJ/gcO9NC2k3LlBWOpGlEXiYfuKRHsKHr97zj/Xg7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4216
+Received-SPF: softfail client-ip=2a01:111:f400:fe59::611;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,392 +150,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, richard.henderson@linaro.org,
- laurent@vivier.eu, maobibo@loongson.cn, alistair.francis@wdc.com,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/28/21 2:04 PM, Song Gao wrote:
-> This patch implement fixed point arithemtic instruction translation.
-> 
-> This includes:
-> - ADD.{W/D}, SUB.{W/D}
-> - ADDI.{W/D}, ADDU16ID
-> - ALSL.{W[U]/D}
-> - LU12I.W, LU32I.D LU52I.D
-> - SLT[U], SLT[U]I
-> - PCADDI, PCADDU12I, PCADDU18I, PCALAU12I
-> - AND, OR, NOR, XOR, ANDN, ORN
-> - MUL.{W/D}, MULH.{W[U]/D[U]}
-> - MULW.D.W[U]
-> - DIV.{W[U]/D[U]}, MOD.{W[U]/D[U]}
-> - ANDI, ORI, XORI
-> 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->  target/loongarch/insns.decode |  89 ++++++++
->  target/loongarch/instmap.h    |  53 +++++
->  target/loongarch/trans.inc.c  | 367 +++++++++++++++++++++++++++++++++
->  target/loongarch/translate.c  | 458 ++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 967 insertions(+)
->  create mode 100644 target/loongarch/insns.decode
->  create mode 100644 target/loongarch/instmap.h
->  create mode 100644 target/loongarch/trans.inc.c
+Quoting Igor Mammedov (2021-07-01 03:43:13)
+> On Wed, 30 Jun 2021 14:18:09 -0500
+> Michael Roth <michael.roth@amd.com> wrote:
+>=20
+> > Quoting Dr. David Alan Gilbert (2021-06-29 09:06:02)
+> > > * zhenwei pi (pizhenwei@bytedance.com) wrote: =20
+> > > > A AMD server typically has cpuid level 0x10(test on Rome/Milan), it
+> > > > should not be changed to 0x1f in multi-dies case.
+> > > >=20
+> > > > Fixes: a94e1428991 (target/i386: Add CPUID.1F generation support
+> > > > for multi-dies PCMachine)
+> > > > Signed-off-by: zhenwei pi <pizhenwei@bytedance.com> =20
+> > >=20
+> > > (Copying in Babu)
+> > >=20
+> > > Hmm I think you're right.  I've cc'd in Babu and Wei.
+> > >=20
+> > > Eduardo: What do we need to do about compatibility, do we need to wir=
+e
+> > > this to machine type or CPU version? =20
+> >=20
+> > FWIW, there are some other CPUID entries like leaves 2 and 4 that are
+> > also Intel-specific. With SEV-SNP CPUID enforcement, advertising them t=
+o
+> > guests will result in failures when host SNP firmware checks the
+> > hypervisor-provided CPUID values against the host-supported ones.
+> >=20
+> > To address this we've been planning to add an 'amd-cpuid-only' property
+> > to suppress them:
+> >=20
+> >   https://github.com/mdroth/qemu/commit/28d0553fe748d30a8af09e5e58a7da3=
+eff03e21b
+> >=20
+> > My thinking is this property should be off by default, and only defined
+> > either via explicit command-line option, or via new CPU types. We're al=
+so
+> > planning to add new CPU versions for EPYC* CPU types that set this
+> > 'amd-cpuid-only' property by default:
+> >=20
+> >   https://github.com/mdroth/qemu/commits/new-cpu-types-upstream
+> It look like having new cpu versions is enough to change behavior,
+> maybe keep 'amd-cpuid-only' as internal field and not expose it to users
+> as a property.
 
-> diff --git a/target/loongarch/instmap.h b/target/loongarch/instmap.h
-> new file mode 100644
-> index 0000000..8844333
-> --- /dev/null
-> +++ b/target/loongarch/instmap.h
-> @@ -0,0 +1,53 @@
-> +/*
-> + * LoongArch emulation for qemu: instruction opcode
-> + *
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited
-> + *
-> + * SPDX-License-Identifier: LGPL-2.1+
-> + */
-> +
-> +#ifndef TARGET_LOONGARCH_INSTMAP_H
-> +#define TARGET_LOONGARCH_INSTMAP_H
-> +
-> +/* fixed point opcodes */
-> +enum {
-> +    LA_OPC_ADD_W     = (0x00020 << 15),
-> +    LA_OPC_ADD_D     = (0x00021 << 15),
-> +    LA_OPC_SUB_W     = (0x00022 << 15),
-> +    LA_OPC_SUB_D     = (0x00023 << 15),
-> +    LA_OPC_SLT       = (0x00024 << 15),
-> +    LA_OPC_SLTU      = (0x00025 << 15),
-> +    LA_OPC_NOR       = (0x00028 << 15),
-> +    LA_OPC_AND       = (0x00029 << 15),
-> +    LA_OPC_OR        = (0x0002A << 15),
-> +    LA_OPC_XOR       = (0x0002B << 15),
-> +    LA_OPC_MUL_W     = (0x00038 << 15),
-> +    LA_OPC_MULH_W    = (0x00039 << 15),
-> +    LA_OPC_MULH_WU   = (0x0003A << 15),
-> +    LA_OPC_MUL_D     = (0x0003B << 15),
-> +    LA_OPC_MULH_D    = (0x0003C << 15),
-> +    LA_OPC_MULH_DU   = (0x0003D << 15),
-> +    LA_OPC_DIV_W     = (0x00040 << 15),
-> +    LA_OPC_MOD_W     = (0x00041 << 15),
-> +    LA_OPC_DIV_WU    = (0x00042 << 15),
-> +    LA_OPC_MOD_WU    = (0x00043 << 15),
-> +    LA_OPC_DIV_D     = (0x00044 << 15),
-> +    LA_OPC_MOD_D     = (0x00045 << 15),
-> +    LA_OPC_DIV_DU    = (0x00046 << 15),
-> +    LA_OPC_MOD_DU    = (0x00047 << 15),
-> +
-> +    LA_OPC_ALSL_W    = (0x0002 << 17),
-> +    LA_OPC_ALSL_D    = (0x0016 << 17)
-> +
-> +};
-> +
-> +/* 12 bit immediate opcodes */
-> +enum {
-> +    LA_OPC_SLTI      = (0x008 << 22),
-> +    LA_OPC_SLTIU     = (0x009 << 22),
-> +    LA_OPC_ADDI_W    = (0x00A << 22),
-> +    LA_OPC_ADDI_D    = (0x00B << 22),
-> +    LA_OPC_ANDI      = (0x00D << 22),
-> +    LA_OPC_ORI       = (0x00E << 22),
-> +    LA_OPC_XORI      = (0x00F << 22)
-> +};
+Hmm, I defined it as a property mainly to make use of
+X86CPUVersionDefinition.props to create new versions of the CPU types
+with those properties set.
 
-Opcode definitions shouldn't be needed when using decodetree.
+There's a patch there that adds X86CPUVersionDefinition.cache_info so
+that new cache definitions can be provided for new CPU versions. So
+would you suggest a similar approach here, e.g. adding an
+X86CPUVersionDefinition.amd_cpuid_only field that could be used directly
+rather than going through X86CPUVersionDefinition.props?
 
-> +/* loongarch mul and div */
-> +static void gen_loongarch_muldiv(DisasContext *ctx, int opc, int rd,
-> +                                 int rj, int rk)
-> +{
-> +    TCGv t0, t1;
-> +
-> +    if (rd == 0) {
-> +        /* Treat as NOP. */
-> +        return;
-> +    }
-> +
-> +    t0 = tcg_temp_new();
-> +    t1 = tcg_temp_new();
-> +
-> +    gen_load_gpr(t0, rj);
-> +    gen_load_gpr(t1, rk);
-> +
-> +    switch (opc) {
-> +    case LA_OPC_DIV_W:
-> +        {
-> +            TCGv t2 = tcg_temp_new();
-> +            TCGv t3 = tcg_temp_new();
-> +            tcg_gen_ext32s_tl(t0, t0);
-> +            tcg_gen_ext32s_tl(t1, t1);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, INT_MIN);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1);
-> +            tcg_gen_and_tl(t2, t2, t3);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
-> +            tcg_gen_or_tl(t2, t2, t3);
-> +            tcg_gen_movi_tl(t3, 0);
-> +            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
-> +            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
-> +            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_MOD_W:
-> +        {
-> +            TCGv t2 = tcg_temp_new();
-> +            TCGv t3 = tcg_temp_new();
-> +            tcg_gen_ext32s_tl(t0, t0);
-> +            tcg_gen_ext32s_tl(t1, t1);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, INT_MIN);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1);
-> +            tcg_gen_and_tl(t2, t2, t3);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
-> +            tcg_gen_or_tl(t2, t2, t3);
-> +            tcg_gen_movi_tl(t3, 0);
-> +            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
-> +            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
-> +            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_DIV_WU:
-> +        {
-> +            TCGv t2 = tcg_const_tl(0);
-> +            TCGv t3 = tcg_const_tl(1);
-> +            tcg_gen_ext32u_tl(t0, t0);
-> +            tcg_gen_ext32u_tl(t1, t1);
-> +            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-> +            tcg_gen_divu_tl(cpu_gpr[rd], t0, t1);
-> +            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_MOD_WU:
-> +        {
-> +            TCGv t2 = tcg_const_tl(0);
-> +            TCGv t3 = tcg_const_tl(1);
-> +            tcg_gen_ext32u_tl(t0, t0);
-> +            tcg_gen_ext32u_tl(t1, t1);
-> +            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-> +            tcg_gen_remu_tl(cpu_gpr[rd], t0, t1);
-> +            tcg_gen_ext32s_tl(cpu_gpr[rd], cpu_gpr[rd]);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_MUL_W:
-> +        {
-> +            TCGv_i32 t2 = tcg_temp_new_i32();
-> +            TCGv_i32 t3 = tcg_temp_new_i32();
-> +            tcg_gen_trunc_tl_i32(t2, t0);
-> +            tcg_gen_trunc_tl_i32(t3, t1);
-> +            tcg_gen_mul_i32(t2, t2, t3);
-> +            tcg_gen_ext_i32_tl(cpu_gpr[rd], t2);
-> +            tcg_temp_free_i32(t2);
-> +            tcg_temp_free_i32(t3);
-> +        }
-> +        break;
-> +    case LA_OPC_MULH_W:
-> +        {
-> +            TCGv_i32 t2 = tcg_temp_new_i32();
-> +            TCGv_i32 t3 = tcg_temp_new_i32();
-> +            tcg_gen_trunc_tl_i32(t2, t0);
-> +            tcg_gen_trunc_tl_i32(t3, t1);
-> +            tcg_gen_muls2_i32(t2, t3, t2, t3);
-> +            tcg_gen_ext_i32_tl(cpu_gpr[rd], t3);
-> +            tcg_temp_free_i32(t2);
-> +            tcg_temp_free_i32(t3);
-> +        }
-> +        break;
-> +    case LA_OPC_MULH_WU:
-> +        {
-> +            TCGv_i32 t2 = tcg_temp_new_i32();
-> +            TCGv_i32 t3 = tcg_temp_new_i32();
-> +            tcg_gen_trunc_tl_i32(t2, t0);
-> +            tcg_gen_trunc_tl_i32(t3, t1);
-> +            tcg_gen_mulu2_i32(t2, t3, t2, t3);
-> +            tcg_gen_ext_i32_tl(cpu_gpr[rd], t3);
-> +            tcg_temp_free_i32(t2);
-> +            tcg_temp_free_i32(t3);
-> +        }
-> +        break;
-> +    case LA_OPC_DIV_D:
-> +        {
-> +            TCGv t2 = tcg_temp_new();
-> +            TCGv t3 = tcg_temp_new();
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, -1LL << 63);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1LL);
-> +            tcg_gen_and_tl(t2, t2, t3);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
-> +            tcg_gen_or_tl(t2, t2, t3);
-> +            tcg_gen_movi_tl(t3, 0);
-> +            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
-> +            tcg_gen_div_tl(cpu_gpr[rd], t0, t1);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_MOD_D:
-> +        {
-> +            TCGv t2 = tcg_temp_new();
-> +            TCGv t3 = tcg_temp_new();
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, -1LL << 63);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1LL);
-> +            tcg_gen_and_tl(t2, t2, t3);
-> +            tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
-> +            tcg_gen_or_tl(t2, t2, t3);
-> +            tcg_gen_movi_tl(t3, 0);
-> +            tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
-> +            tcg_gen_rem_tl(cpu_gpr[rd], t0, t1);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_DIV_DU:
-> +        {
-> +            TCGv t2 = tcg_const_tl(0);
-> +            TCGv t3 = tcg_const_tl(1);
-> +            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-> +            tcg_gen_divu_i64(cpu_gpr[rd], t0, t1);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_MOD_DU:
-> +        {
-> +            TCGv t2 = tcg_const_tl(0);
-> +            TCGv t3 = tcg_const_tl(1);
-> +            tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
-> +            tcg_gen_remu_i64(cpu_gpr[rd], t0, t1);
-> +            tcg_temp_free(t3);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_MUL_D:
-> +        tcg_gen_mul_i64(cpu_gpr[rd], t0, t1);
-> +        break;
-> +    case LA_OPC_MULH_D:
-> +        {
-> +            TCGv t2 = tcg_temp_new();
-> +            tcg_gen_muls2_i64(t2, cpu_gpr[rd], t0, t1);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    case LA_OPC_MULH_DU:
-> +        {
-> +            TCGv t2 = tcg_temp_new();
-> +            tcg_gen_mulu2_i64(t2, cpu_gpr[rd], t0, t1);
-> +            tcg_temp_free(t2);
-> +        }
-> +        break;
-> +    default:
-> +        generate_exception_end(ctx, EXCP_INE);
-> +        goto out;
-> +    }
-> + out:
-> +    tcg_temp_free(t0);
-> +    tcg_temp_free(t1);
-> +
-> +    return;
-> +}
+There's also another new "amd-xsave" prop in that series that does somethin=
+g
+similar to "amd-cpuid-only", so a little worried about tacking to much extr=
+a
+into X86CPUVersionDefinition. But maybe that one could just be rolled into
+"amd-cpuid-only" since it is basically fixing up xsave-related cpuid
+entries for AMD...
 
-> +static bool trans_mul_w(DisasContext *ctx, arg_mul_w *a)
-> +{
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MUL_W, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mulh_w(DisasContext *ctx, arg_mulh_w *a)
-> +{
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MULH_W, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mulh_wu(DisasContext *ctx, arg_mulh_wu *a)
-> +{
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MULH_WU, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mul_d(DisasContext *ctx, arg_mul_d *a)
-> +{
-> +    check_loongarch_64(ctx);
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MUL_D, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mulh_d(DisasContext *ctx, arg_mulh_d *a)
-> +{
-> +    check_loongarch_64(ctx);
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MULH_D, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mulh_du(DisasContext *ctx, arg_mulh_du *a)
-> +{
-> +    check_loongarch_64(ctx);
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MULH_DU, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-
-> +static bool trans_div_w(DisasContext *ctx, arg_div_w *a)
-> +{
-> +    gen_loongarch_muldiv(ctx, LA_OPC_DIV_W, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mod_w(DisasContext *ctx, arg_mod_w *a)
-> +{
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MOD_W, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_div_wu(DisasContext *ctx, arg_div_wu *a)
-> +{
-> +    gen_loongarch_muldiv(ctx, LA_OPC_DIV_WU, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mod_wu(DisasContext *ctx, arg_mod_wu *a)
-> +{
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MOD_WU, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_div_d(DisasContext *ctx, arg_div_d *a)
-> +{
-> +    check_loongarch_64(ctx);
-> +    gen_loongarch_muldiv(ctx, LA_OPC_DIV_D, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mod_d(DisasContext *ctx, arg_mod_d *a)
-> +{
-> +    check_loongarch_64(ctx);
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MOD_D, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_div_du(DisasContext *ctx, arg_div_du *a)
-> +{
-> +    check_loongarch_64(ctx);
-> +    gen_loongarch_muldiv(ctx, LA_OPC_DIV_DU, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-> +
-> +static bool trans_mod_du(DisasContext *ctx, arg_mod_du *a)
-> +{
-> +    check_loongarch_64(ctx);
-> +    gen_loongarch_muldiv(ctx, LA_OPC_MOD_DU, a->rd, a->rj, a->rk);
-> +    return true;
-> +}
-
-It seems you are missing what decodetree is for... You should inline
-each opcode code from gen_loongarch_muldiv in the opcode handler.
-
-Don't take MIPS as an example =)
+>=20
+> > So in general I think maybe this change should be similarly controlled =
+by
+> > this proposed 'amd-cpuid-only' property. Maybe for this particular case=
+ it's
+> > okay to do it unconditionally, but it sounds bad to switch up the valid=
+ CPUID
+> > range after a guest has already booted (which might happen with old->ne=
+w
+> > migration for instance), since it might continue treating values in the=
+ range
+> > as valid afterward (but again, not sure that's the case here or not).
+> >=20
+> > There's some other changes with the new CPU types that we're still
+> > considering/testing internally, but should be able to post them in some=
+ form
+> > next week.
+> >=20
+> > -Mike
+> >=20
+> > >=20
+> > > Dave
+> > >  =20
+> > > > ---
+> > > >  target/i386/cpu.c | 8 ++++++--
+> > > >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > > >=20
+> > > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > > > index a9fe1662d3..3934c559e4 100644
+> > > > --- a/target/i386/cpu.c
+> > > > +++ b/target/i386/cpu.c
+> > > > @@ -5961,8 +5961,12 @@ void x86_cpu_expand_features(X86CPU *cpu, Er=
+ror **errp)
+> > > >              }
+> > > >          }
+> > > > =20
+> > > > -        /* CPU topology with multi-dies support requires CPUID[0x1=
+F] */
+> > > > -        if (env->nr_dies > 1) {
+> > > > +        /*
+> > > > +         * Intel CPU topology with multi-dies support requires CPU=
+ID[0x1F].
+> > > > +         * For AMD Rome/Milan, cpuid level is 0x10, and guest OS s=
+hould detect
+> > > > +         * extended toplogy by leaf 0xB. Only adjust it for Intel =
+CPU.
+> > > > +         */
+> > > > +        if ((env->nr_dies > 1) && IS_INTEL_CPU(env)) {
+> > > >              x86_cpu_adjust_level(cpu, &env->cpuid_min_level, 0x1F)=
+;
+> > > >          }
+> > > > =20
+> > > > --=20
+> > > > 2.25.1
+> > > >=20
+> > > >  =20
+> > > --=20
+> > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > >=20
+> > > =20
+> >=20
+>=20
+>
 
