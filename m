@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0C43B8CE2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:20:27 +0200 (CEST)
-Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3513B8CD2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 06:15:08 +0200 (CEST)
+Received: from localhost ([::1]:41116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyoBe-0007oe-Vi
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42304)
+	id 1lyo6V-0002s6-Eg
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 00:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo51-0008L8-44
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38849)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo53-0008Sm-65
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo4y-0000gO-Tp
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:34 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lyo50-0000iN-TF
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 00:13:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625112812;
+ s=mimecast20190719; t=1625112814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XKh+OOhOkA7eclMe7X5kXZhj9ThrlHpOSJDa0G90vWQ=;
- b=XRnpvhc9BCCf5xAymV4+I39udHg2nnKZHHs/sp4A8+k+xm++vqQUq6IeurvrYbkwHWcQPw
- Mn/iKRE9iRS8RqdSWQQdW83JHuMMVY0u9Hq8UL/wxaB48Je7SLZa/5IW4WQTd/VPOHYWcH
- 3mFraey9CRB6E+DjNSkgfMjInlh9Q+w=
+ bh=Bxg1hx/6n92aih6fXSibqMb6ZUcqzAfwooFlRpGuGVs=;
+ b=hjb1bJuxPTtA0X9K5/H5qwlCmmHiXtOj+KKUaEZDnAOtVM86X14g5/+89g+e0WTlT5WZ+c
+ MgRBqDuAMLhHb9UXHfwWitZtFViYAYAgrSquXSpQriMvmrp0nkZcLIJJQCcAyiUF4hb7oN
+ l3i4HStnNa+fRGqCDQ41M9BPmI/DmX0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-HsMc9ZOBP3C4u0uODSJWNQ-1; Thu, 01 Jul 2021 00:13:31 -0400
-X-MC-Unique: HsMc9ZOBP3C4u0uODSJWNQ-1
+ us-mta-58-QswAubjBNKe0JHlnUgDMvQ-1; Thu, 01 Jul 2021 00:13:32 -0400
+X-MC-Unique: QswAubjBNKe0JHlnUgDMvQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30D4C800D62;
- Thu,  1 Jul 2021 04:13:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 916A91084F5A;
+ Thu,  1 Jul 2021 04:13:31 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-71.rdu2.redhat.com [10.10.118.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2E52604CC;
- Thu,  1 Jul 2021 04:13:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63A7169CB4;
+ Thu,  1 Jul 2021 04:13:30 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/20] python/aqmp: add runstate state machine to AsyncProtocol
-Date: Thu,  1 Jul 2021 00:13:00 -0400
-Message-Id: <20210701041313.1696009-8-jsnow@redhat.com>
+Subject: [PATCH 08/20] python/aqmp: add logging to AsyncProtocol
+Date: Thu,  1 Jul 2021 00:13:01 -0400
+Message-Id: <20210701041313.1696009-9-jsnow@redhat.com>
 In-Reply-To: <20210701041313.1696009-1-jsnow@redhat.com>
 References: <20210701041313.1696009-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,276 +85,257 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This serves a few purposes:
-
-1. Protect interfaces when it's not safe to call them (via @require)
-
-2. Add an interface by which an async client can determine if the state
-has changed, for the purposes of connection management.
+Give the connection and the reader/writer tasks nicknames, and add
+logging statements throughout.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/__init__.py |   5 +-
- python/qemu/aqmp/protocol.py | 133 +++++++++++++++++++++++++++++++++--
- 2 files changed, 133 insertions(+), 5 deletions(-)
+ python/qemu/aqmp/protocol.py | 64 ++++++++++++++++++++++++++++++++----
+ python/qemu/aqmp/util.py     | 32 ++++++++++++++++++
+ 2 files changed, 90 insertions(+), 6 deletions(-)
 
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index e003c898bd..5c44fabeea 100644
---- a/python/qemu/aqmp/__init__.py
-+++ b/python/qemu/aqmp/__init__.py
-@@ -22,11 +22,14 @@
- # the COPYING file in the top-level directory.
- 
- from .error import AQMPError, MultiException
--from .protocol import ConnectError
-+from .protocol import ConnectError, Runstate
- 
- 
- # The order of these fields impact the Sphinx documentation order.
- __all__ = (
-+    # Classes
-+    'Runstate',
-+
-     # Exceptions, most generic to most explicit
-     'AQMPError',
-     'ConnectError',
 diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
-index beb7e12d9c..a99a191982 100644
+index a99a191982..dd8564ee02 100644
 --- a/python/qemu/aqmp/protocol.py
 +++ b/python/qemu/aqmp/protocol.py
-@@ -12,11 +12,10 @@
- 
- import asyncio
+@@ -14,6 +14,7 @@
  from asyncio import StreamReader, StreamWriter
-+from enum import Enum
-+from functools import wraps
+ from enum import Enum
+ from functools import wraps
++import logging
  from ssl import SSLContext
--# import exceptions will be removed in a forthcoming commit.
--# The problem stems from pylint/flake8 believing that 'Any'
--# is unused because of its only use in a string-quoted type.
--from typing import (  # pylint: disable=unused-import # noqa
-+from typing import (
+ from typing import (
      Any,
-     Awaitable,
-     Callable,
-@@ -26,6 +25,7 @@
-     Tuple,
-     TypeVar,
-     Union,
-+    cast,
- )
- 
- from .error import AQMPError, MultiException
-@@ -45,6 +45,20 @@
- _FutureT = TypeVar('_FutureT', bound=Optional['asyncio.Future[Any]'])
- 
- 
-+class Runstate(Enum):
-+    """Protocol session runstate."""
+@@ -34,6 +35,7 @@
+     create_task,
+     flush,
+     is_closing,
++    pretty_traceback,
+     upper_half,
+     wait_closed,
+     wait_task_done,
+@@ -174,14 +176,28 @@ class AsyncProtocol(Generic[T]):
+          can be written after the super() call.
+      - `_on_message`:
+          Actions to be performed when a message is received.
 +
-+    #: Fully quiesced and disconnected.
-+    IDLE = 0
-+    #: In the process of connecting or establishing a session.
-+    CONNECTING = 1
-+    #: Fully connected and active session.
-+    RUNNING = 2
-+    #: In the process of disconnecting.
-+    #: Runstate may be returned to `IDLE` by calling `disconnect()`.
-+    DISCONNECTING = 3
-+
-+
- class ConnectError(AQMPError):
++    :param name:
++        Name used for logging messages, if any. By default, messages
++        will log to 'qemu.aqmp.protocol', but each individual connection
++        can be given its own logger by giving it a name; messages will
++        then log to 'qemu.aqmp.protocol.${name}'.
      """
-     Raised when the initial connection process has failed.
-@@ -66,6 +80,75 @@ def __str__(self) -> str:
-         return f"{self.error_message}: {self.exc!s}"
+     # pylint: disable=too-many-instance-attributes
  
++    #: Logger object for debugging messages from this connection.
++    logger = logging.getLogger(__name__)
++
+     # -------------------------
+     # Section: Public interface
+     # -------------------------
  
-+class StateError(AQMPError):
-+    """
-+    An API command (connect, execute, etc) was issued at an inappropriate time.
+-    def __init__(self) -> None:
++    def __init__(self, name: Optional[str] = None) -> None:
++        #: The nickname for this connection, if any.
++        self.name: Optional[str] = name
++        if self.name is not None:
++            self.logger = self.logger.getChild(self.name)
 +
-+    This error is raised when a command like
-+    :py:meth:`~AsyncProtocol.connect()` is issued at an inappropriate
-+    time.
-+
-+    :param error_message: Human-readable string describing the state violation.
-+    :param state: The actual `Runstate` seen at the time of the violation.
-+    :param required: The `Runstate` required to process this command.
-+
-+    """
-+    def __init__(self, error_message: str,
-+                 state: Runstate, required: Runstate):
-+        super().__init__(error_message)
-+        self.error_message = error_message
-+        self.state = state
-+        self.required = required
-+
-+
-+F = TypeVar('F', bound=Callable[..., Any])  # pylint: disable=invalid-name
-+
-+
-+# Don't Panic.
-+def require(required_state: Runstate) -> Callable[[F], F]:
-+    """
-+    Decorator: protect a method so it can only be run in a certain `Runstate`.
-+
-+    :param required_state: The `Runstate` required to invoke this method.
-+    :raise StateError: When the required `Runstate` is not met.
-+    """
-+    def _decorator(func: F) -> F:
-+        # _decorator is the decorator that is built by calling the
-+        # require() decorator factory; e.g.:
-+        #
-+        # @require(Runstate.IDLE) def # foo(): ...
-+        # will replace 'foo' with the result of '_decorator(foo)'.
-+
-+        @wraps(func)
-+        def _wrapper(proto: 'AsyncProtocol[Any]',
-+                     *args: Any, **kwargs: Any) -> Any:
-+            # _wrapper is the function that gets executed prior to the
-+            # decorated method.
-+
-+            if proto.runstate != required_state:
-+                if proto.runstate == Runstate.CONNECTING:
-+                    emsg = "Client is currently connecting."
-+                elif proto.runstate == Runstate.DISCONNECTING:
-+                    emsg = ("Client is disconnecting."
-+                            " Call disconnect() to return to IDLE state.")
-+                elif proto.runstate == Runstate.RUNNING:
-+                    emsg = "Client is already connected and running."
-+                elif proto.runstate == Runstate.IDLE:
-+                    emsg = "Client is disconnected and idle."
-+                else:
-+                    assert False
-+                raise StateError(emsg, proto.runstate, required_state)
-+            # No StateError, so call the wrapped method.
-+            return func(proto, *args, **kwargs)
-+
-+        # Return the decorated method;
-+        # Transforming Func to Decorated[Func].
-+        return cast(F, _wrapper)
-+
-+    # Return the decorator instance from the decorator factory. Phew!
-+    return _decorator
-+
-+
- class AsyncProtocol(Generic[T]):
-     """
-     AsyncProtocol implements a generic async message-based protocol.
-@@ -124,7 +207,18 @@ def __init__(self) -> None:
-         #: exit.
-         self._dc_task: Optional[asyncio.Future[None]] = None
+         # stream I/O
+         self._reader: Optional[StreamReader] = None
+         self._writer: Optional[StreamWriter] = None
+@@ -212,6 +228,15 @@ def __init__(self) -> None:
+         #: An `asyncio.Event` that signals when `runstate` is changed.
+         self.runstate_changed: asyncio.Event = asyncio.Event()
  
-+        self._runstate = Runstate.IDLE
++    def __repr__(self) -> str:
++        argstr = ''
++        if self.name is not None:
++            argstr += f"name={self.name}"
++        return "{:s}({:s})".format(
++            type(self).__name__,
++            argstr,
++        )
 +
-+        #: An `asyncio.Event` that signals when `runstate` is changed.
-+        self.runstate_changed: asyncio.Event = asyncio.Event()
-+
-+    @property
-+    def runstate(self) -> Runstate:
-+        """The current `Runstate` of the connection."""
-+        return self._runstate
-+
-     @upper_half
-+    @require(Runstate.IDLE)
-     async def connect(self, address: Union[str, Tuple[str, int]],
-                       ssl: Optional[SSLContext] = None) -> None:
-         """
-@@ -165,6 +259,21 @@ async def disconnect(self, force: bool = False) -> None:
-     # Section: Session machinery
-     # --------------------------
+     @property
+     def runstate(self) -> Runstate:
+         """The current `Runstate` of the connection."""
+@@ -301,6 +326,8 @@ async def _new_session(self,
+         assert self.runstate == Runstate.IDLE
+         self._set_state(Runstate.CONNECTING)
  
-+    @upper_half
-+    @bottom_half
-+    def _set_state(self, state: Runstate) -> None:
-+        """
-+        Change the `Runstate` of the protocol connection.
-+
-+        Signals the `runstate_changed` event.
-+        """
-+        if state == self._runstate:
-+            return
-+
-+        self._runstate = state
-+        self.runstate_changed.set()
-+        self.runstate_changed.clear()
-+
-     @upper_half
-     async def _new_session(self,
-                            address: Union[str, Tuple[str, int]],
-@@ -189,6 +298,9 @@ async def _new_session(self,
-             protocol-level failure occurs while establishing a new
-             session, the wrapped error may also be an `AQMPError`.
-         """
-+        assert self.runstate == Runstate.IDLE
-+        self._set_state(Runstate.CONNECTING)
-+
++        if not self._outgoing.empty():
++            self.logger.warning("Outgoing message queue was not empty!")
          self._outgoing = asyncio.Queue()
  
          phase = "connection"
-@@ -204,6 +316,8 @@ async def _new_session(self,
+@@ -311,9 +338,15 @@ async def _new_session(self,
+             await self._begin_new_session()
+ 
+         except Exception as err:
+-            # Reset from CONNECTING back to IDLE.
+-            await self.disconnect()
              emsg = f"Failed to establish {phase}"
++            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
++            try:
++                # Reset from CONNECTING back to IDLE.
++                await self.disconnect()
++            except:
++                emsg = "Unexpected bottom half exceptions"
++                self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
++                raise
              raise ConnectError(emsg, err) from err
  
-+        assert self.runstate == Runstate.RUNNING
+         assert self.runstate == Runstate.RUNNING
+@@ -330,12 +363,16 @@ async def _do_connect(self, address: Union[str, Tuple[str, int]],
+ 
+         :raise OSError: For stream-related errors.
+         """
++        self.logger.debug("Connecting ...")
++
+         if isinstance(address, tuple):
+             connect = asyncio.open_connection(address[0], address[1], ssl=ssl)
+         else:
+             connect = asyncio.open_unix_connection(path=address, ssl=ssl)
+         self._reader, self._writer = await connect
+ 
++        self.logger.debug("Connected.")
 +
      @upper_half
-     async def _do_connect(self, address: Union[str, Tuple[str, int]],
-                           ssl: Optional[SSLContext] = None) -> None:
-@@ -227,6 +341,8 @@ async def _begin_new_session(self) -> None:
+     async def _begin_new_session(self) -> None:
          """
-         After a connection is established, start the bottom half machinery.
+@@ -343,8 +380,8 @@ async def _begin_new_session(self) -> None:
          """
-+        assert self.runstate == Runstate.CONNECTING
-+
-         reader_coro = self._bh_loop_forever(self._bh_recv_message)
-         writer_coro = self._bh_loop_forever(self._bh_send_message)
+         assert self.runstate == Runstate.CONNECTING
  
-@@ -239,6 +355,8 @@ async def _begin_new_session(self) -> None:
-             return_exceptions=True,
-         )
+-        reader_coro = self._bh_loop_forever(self._bh_recv_message)
+-        writer_coro = self._bh_loop_forever(self._bh_send_message)
++        reader_coro = self._bh_loop_forever(self._bh_recv_message, 'Reader')
++        writer_coro = self._bh_loop_forever(self._bh_send_message, 'Writer')
  
-+        self._set_state(Runstate.RUNNING)
-+
-     @upper_half
-     @bottom_half
-     def _schedule_disconnect(self, force: bool = False) -> None:
-@@ -276,6 +394,7 @@ def _results(self) -> None:
-             Iterable Exception used to multiplex multiple exceptions in the
-             event that multiple Tasks failed with non-cancellation reasons.
-         """
-+        assert self.runstate == Runstate.DISCONNECTING
-         exceptions: List[BaseException] = []
- 
-         assert self._bh_tasks is None or self._bh_tasks.done()
-@@ -340,6 +459,7 @@ def _paranoid_task_erase(task: _FutureT) -> Optional[_FutureT]:
-             assert (task is None) or task.done()
-             return None if (task and task.done()) else task
- 
-+        assert self.runstate == Runstate.DISCONNECTING
-         self._dc_task = _paranoid_task_erase(self._dc_task)
-         self._reader_task = _paranoid_task_erase(self._reader_task)
-         self._writer_task = _paranoid_task_erase(self._writer_task)
-@@ -348,6 +468,8 @@ def _paranoid_task_erase(task: _FutureT) -> Optional[_FutureT]:
-         self._reader = None
-         self._writer = None
- 
-+        self._set_state(Runstate.IDLE)
-+
-     # ----------------------------
-     # Section: Bottom Half methods
-     # ----------------------------
-@@ -367,6 +489,9 @@ async def _bh_disconnect(self, force: bool = False) -> None:
+         self._reader_task = create_task(reader_coro)
+         self._writer_task = create_task(writer_coro)
+@@ -374,6 +411,7 @@ def _schedule_disconnect(self, force: bool = False) -> None:
              terminating execution. When `True`, terminate immediately.
- 
          """
-+        # Prohibit new calls to execute() et al.
-+        self._set_state(Runstate.DISCONNECTING)
-+
-         await self._bh_stop_writer(force)
-         await self._bh_stop_reader()
+         if not self._dc_task:
++            self.logger.debug("scheduling disconnect.")
+             self._dc_task = create_task(self._bh_disconnect(force))
  
+     @upper_half
+@@ -499,8 +537,13 @@ async def _bh_disconnect(self, force: bool = False) -> None:
+         # This implicitly closes the reader, too.
+         if self._writer:
+             if not is_closing(self._writer):
++                self.logger.debug("Closing StreamWriter.")
+                 self._writer.close()
++            self.logger.debug("Waiting for writer to close.")
+             await wait_closed(self._writer)
++            self.logger.debug("Writer closed.")
++
++        self.logger.debug("Disconnected.")
+ 
+     @bottom_half
+     async def _bh_stop_writer(self, force: bool = False) -> None:
+@@ -513,17 +556,19 @@ async def _bh_stop_writer(self, force: bool = False) -> None:
+ 
+         # Cancel the writer task.
+         if self._writer_task and not self._writer_task.done():
++            self.logger.debug("Cancelling writer task.")
+             self._writer_task.cancel()
+         await wait_task_done(self._writer_task)
+ 
+     @bottom_half
+     async def _bh_stop_reader(self) -> None:
+         if self._reader_task and not self._reader_task.done():
++            self.logger.debug("Cancelling reader task.")
+             self._reader_task.cancel()
+         await wait_task_done(self._reader_task)
+ 
+     @bottom_half
+-    async def _bh_loop_forever(self, async_fn: _TaskFN) -> None:
++    async def _bh_loop_forever(self, async_fn: _TaskFN, name: str) -> None:
+         """
+         Run one of the bottom-half methods in a loop forever.
+ 
+@@ -531,16 +576,23 @@ async def _bh_loop_forever(self, async_fn: _TaskFN) -> None:
+         disconnect that will terminate the entire loop.
+ 
+         :param async_fn: The bottom-half method to run in a loop.
++        :param name: The name of this task, used for logging.
+         """
+         try:
+             while True:
+                 await async_fn()
+         except asyncio.CancelledError:
+             # We have been cancelled by _bh_disconnect, exit gracefully.
++            self.logger.debug("Task.%s: cancelled.", name)
+             return
+         except BaseException:
++            self.logger.error(
++                "Task.%s: failure:\n%s\n", name, pretty_traceback()
++            )
+             self._schedule_disconnect(force=True)
+             raise
++        finally:
++            self.logger.debug("Task.%s: exiting.", name)
+ 
+     @bottom_half
+     async def _bh_send_message(self) -> None:
+diff --git a/python/qemu/aqmp/util.py b/python/qemu/aqmp/util.py
+index 9ea91f2862..2311be5893 100644
+--- a/python/qemu/aqmp/util.py
++++ b/python/qemu/aqmp/util.py
+@@ -3,10 +3,14 @@
+ 
+ This module primarily provides compatibility wrappers for Python 3.6 to
+ provide some features that otherwise become available in Python 3.7+.
++
++It additionally provides `pretty_traceback()`, used for formatting
++tracebacks for inclusion in the logging stream.
+ """
+ 
+ import asyncio
+ import sys
++import traceback
+ from typing import (
+     Any,
+     Coroutine,
+@@ -105,6 +109,34 @@ async def wait_task_done(task: Optional['asyncio.Future[Any]']) -> None:
+             break
+ 
+ 
++def pretty_traceback(prefix: str = "  | ") -> str:
++    """
++    Formats the current traceback, indented to provide visual distinction.
++
++    This is useful for printing a traceback within a traceback for
++    debugging purposes when encapsulating errors to deliver them up the
++    stack; when those errors are printed, this helps provide a nice
++    visual grouping to quickly identify the parts of the error that
++    belong to the inner exception.
++
++    :param prefix: The prefix to append to each line of the traceback.
++    :return: A string, formatted something like the following::
++
++      | Traceback (most recent call last):
++      |   File "foobar.py", line 42, in arbitrary_example
++      |     foo.baz()
++      | ArbitraryError: [Errno 42] Something bad happened!
++    """
++    output = "".join(traceback.format_exception(*sys.exc_info()))
++
++    exc_lines = []
++    for line in output.split('\n'):
++        exc_lines.append(prefix + line)
++
++    # The last line is always empty, omit it
++    return "\n".join(exc_lines[:-1])
++
++
+ def upper_half(func: T) -> T:
+     """
+     Do-nothing decorator that annotates a method as an "upper-half" method.
 -- 
 2.31.1
 
