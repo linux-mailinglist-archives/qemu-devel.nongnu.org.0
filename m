@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D4E3B969D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 21:33:27 +0200 (CEST)
-Received: from localhost ([::1]:43792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B6B3B96C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 21:49:25 +0200 (CEST)
+Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz2RC-00010a-Av
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 15:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56382)
+	id 1lz2ge-00066E-29
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 15:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lz2Ox-0008PI-Af
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:31:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23175)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lz2fX-0005Kg-Sg
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:48:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lz2Ov-00008c-Dw
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:31:07 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lz2fR-00023l-MO
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 15:48:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625167864;
+ s=mimecast20190719; t=1625168887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/0irRdtDe9xLuTFXKNxkMAVpiIAHUeVl9ff1i/E4Yn4=;
- b=J//Yj5tCIyvwrXgtvp4JqzuLSLkWOLCUQum7sPE/87V76P1w9mwZVhrSEhhvaDf4FO44QP
- aq9Q5D6xG6fw/0kHTZJzO/fib4O0UFehBOmoFEou2c/1w04xGwOqGktRRebWKZO4/yvppZ
- DmjC+C4205/13Umdb6LUKmCcuSmxoO4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-00hYgLfKO4qKPE_xZn0HFQ-1; Thu, 01 Jul 2021 15:30:27 -0400
-X-MC-Unique: 00hYgLfKO4qKPE_xZn0HFQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j38-20020a05600c1c26b02901dbf7d18ff8so4973283wms.8
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 12:30:27 -0700 (PDT)
+ bh=mHncT7m9Wq/D3Ci1osJ3XJCW44hmjskAh+Vbhfceq8Q=;
+ b=HX2i6L2CUXXS/czmWGMEroipHWcAhDpAHEAB1GaWIdIURbLP8OpsbQdOHU1pFir44bXCpP
+ w7LGBleEAYXIVhl9RVHFT3wVtBBKc6r4QTHpcxUsPhYUUFYE7lsKAPdTC6a/yRHxKg7d+d
+ C6ZAAqbZojkJHZN1l8AhM0HG5FGepu8=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-idvCpEaHPHetnXej53UI4Q-1; Thu, 01 Jul 2021 15:48:06 -0400
+X-MC-Unique: idvCpEaHPHetnXej53UI4Q-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ s15-20020a056a0008cfb0290306b50a28ecso4710976pfu.10
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 12:48:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/0irRdtDe9xLuTFXKNxkMAVpiIAHUeVl9ff1i/E4Yn4=;
- b=QMPlgyc19NIHyU8k8ZxKOzfQjtv2m9ZjXBDrRAuVQAOqPRRKChVe+My5oalk2Cpz1P
- D+9prUoEbG4YuABgtcGgUR/yRa0nWxtmirz6IcGU+CF6OvUft0FI18MAMHaITRcFxbdK
- 3kyZBArnEfXKrZvfyPWzpfgMD883WZmJc1sw6/jUzbCenyajry7LinAi8kN5G7GXkPhy
- SMBDYXSuK191Pzje30pZAAvn2tO8fViF0NNJqYyq34ItCKGbO/qdW8BylbggbHILWkra
- zjFDkyHEN7sy3CWGbLwOznSJdVCcvlD9QQq8fy6ytdRvYdjry+FBfma15SoK9SWoIng6
- knpw==
-X-Gm-Message-State: AOAM531XEGHgfjn1uiZRX3YWhhlmQR2fukeuNvQ7G4+QMn0veeQ/mEck
- an/wkPyJqeTVCsH0hdJoQ9yrhZxxo48N2n8itlQMH0KS3WSDFPd1iQct/ycl5pKxZmYxN6xruL7
- dkkcvNLjzgDu8Gdo=
-X-Received: by 2002:adf:b613:: with SMTP id f19mr1457490wre.73.1625167826711; 
- Thu, 01 Jul 2021 12:30:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwUNFYj62faOfN+/0z9VbeS3pNWAKcmo3YH/yuDQSKxd51Iye73deONpEgYAkmPK6Me2KrrKw==
-X-Received: by 2002:adf:b613:: with SMTP id f19mr1457466wre.73.1625167826488; 
- Thu, 01 Jul 2021 12:30:26 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575bc6.dip0.t-ipconnect.de.
- [217.87.91.198])
- by smtp.gmail.com with ESMTPSA id h21sm802268wmq.38.2021.07.01.12.30.25
+ bh=mHncT7m9Wq/D3Ci1osJ3XJCW44hmjskAh+Vbhfceq8Q=;
+ b=fENsSH9abTN+RQ3ZTqD8HWpBgN2fd+vHbLeehwOYg38yNJN1puXZPZaI7vlnCP+wT4
+ CZmjDyGFLqP+4sQiA2T25/byZ6F/gPcgtfYH/U6azZSoMRrnPx3Ht4mJX+Y4f7Zxhey0
+ ZoSb85b/K3O40k/DD6oPx+ufRJ8S4oc3e1A+XPJmmVZ6vpkS9RE0PiVwzuhra/zK+ZMq
+ MtFHMV+jpeVxb7zoXL2hY+ITNjbY9heV1OK0rWJK88KU9p3xvhzsVV1IoVCzW0R6SXzj
+ tSR1sZxm7wU28d46ZVVPVodlKMmS97W43OjLOCt75aB0QXVUiNWPos0CLBuxX4aQHPIj
+ TZ6w==
+X-Gm-Message-State: AOAM533xb83Ydci7gXDYuEBTJsM6mJhMyERjA07vrC3tgCNhXuiLJ7oG
+ 5OqQ0B41lVK98AlLdMImlI1AjUQLPefjP3eBryDE6kwbyvxN0odhqFbWipq1BPafFkMhTG2OEiZ
+ ZSdqyx7woZpL0s41z7+sIeqc7Jg8bKNbfMShxjFHcS4fp3SmMt9o1l+U5sZ7Jks6B
+X-Received: by 2002:a17:90a:b94c:: with SMTP id
+ f12mr11220513pjw.58.1625168885160; 
+ Thu, 01 Jul 2021 12:48:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOjOwIXYnMbuZE18lfY6IA4PHe9KuuWOYAnS4K7dxZv8nYAV4pZau/EYRUwZfd0qsMwB5bHg==
+X-Received: by 2002:a17:90a:b94c:: with SMTP id
+ f12mr11220487pjw.58.1625168884738; 
+ Thu, 01 Jul 2021 12:48:04 -0700 (PDT)
+Received: from ?IPv6:2601:1c0:4600:3f84:cb33:5075:e7f0:7862?
+ ([2601:1c0:4600:3f84:cb33:5075:e7f0:7862])
+ by smtp.gmail.com with ESMTPSA id b3sm825046pfi.179.2021.07.01.12.48.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 12:30:25 -0700 (PDT)
-Subject: Re: [RFC v6 12/13] target/s390x: move kvm files into kvm/
-To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20210629141931.4489-1-acho@suse.com>
- <20210629141931.4489-13-acho@suse.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fc895bf1-409c-cb89-e4c3-0c9324c0ebf5@redhat.com>
-Date: Thu, 1 Jul 2021 21:30:24 +0200
+ Thu, 01 Jul 2021 12:48:04 -0700 (PDT)
+Subject: Re: Contributions: Adding New Devices
+To: Federico Vaga <federico.vaga@cern.ch>, qemu-devel@nongnu.org
+References: <20210630140102.ecuyxyeqnthvausb@cwe-513-vol689.cern.ch>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <a394439c-0e82-b915-2e49-70ceda3d7b02@redhat.com>
+Date: Thu, 1 Jul 2021 12:48:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210629141931.4489-13-acho@suse.com>
+In-Reply-To: <20210630140102.ecuyxyeqnthvausb@cwe-513-vol689.cern.ch>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -100,58 +100,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cfontana@suse.com, Claudio Fontana <cfontana@suse.de>,
- jose.ziviani@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/2021 16.19, Cho, Yu-Chen wrote:
-> move kvm files into kvm/
-> After the reshuffling, update MAINTAINERS accordingly.
-> Make use of the new directory:
+On 6/30/21 7:01 AM, Federico Vaga wrote:
+> Hello,
 > 
-> target/s390x/kvm/
+> I can't find this information on the website, so here I am.
 > 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
-> ---
-[...]
-> diff --git a/meson.build b/meson.build
-> index a91b39465c..293d509c7e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1886,6 +1886,7 @@ if have_system or have_user
->       'target/ppc',
->       'target/riscv',
->       'target/s390x',
-> +    'target/s390x/kvm',
+> I developed a QEMU device that virtualises a PCI card that we widely use at CERN.
+> But this card is only used at CERN.
+> 
+> Clearly, having CERN specific devices in QEMU does not help much the qemu
+> community, hence I maintain an internal QEMU fork.
+> 
+> But, I was wondering what is the QEMU policy about contributions that are known to be
+> used only by a handful of people (one organization in this case)? Are they accepted?
 
-You've added this to the "have_system or have_user" section ... however, I 
-think the KVM code should not be required at all if compiling with 
---disable-system, since the linux-user builds require TCG only.
+Your first instinct is correct that it's unlikely that the community
+will be able to maintain a device if it's really so niche as to only
+be used at your organization.
 
-So it might be cleaner to add this in the "if have_system" section instead?
+However, if you do decide to try to upstream it, it could only help
+your chances if you or some of your colleagues agreed to maintain it
+for the QEMU community. This mainly involves adding an entry to the
+MAINTAINERS file where, if accepted, the expectation is that you'll
+be reachable within reason to review patches, make pull requests,
+help discuss bugs in the subsystem, etc.
 
->       'target/sparc',
->     ]
->   endif
-[...]
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm/kvm.c
-> similarity index 99%
-> rename from target/s390x/kvm.c
-> rename to target/s390x/kvm/kvm.c
-> index 5b1fdb55c4..07dae06de8 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm/kvm.c
-> @@ -27,7 +27,7 @@
->   #include "qemu-common.h"
->   #include "cpu.h"
->   #include "s390x-internal.h"
-> -#include "kvm_s390x.h"
-> +#include "kvm/kvm_s390x.h"
+Sorry I don't have a concrete "yes" or "no" for you; but I'd recommend
+giving it a shot if you have the time.
 
-No need to add the kvm/ prefix here since the file is in the same folder.
-
-  Thomas
+Connor
 
 
