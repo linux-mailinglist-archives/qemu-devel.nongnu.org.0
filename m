@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79443B9147
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 13:43:46 +0200 (CEST)
-Received: from localhost ([::1]:60932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162D23B9150
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 13:49:15 +0200 (CEST)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyv6f-000662-BR
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 07:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47242)
+	id 1lyvBx-0005nn-W0
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 07:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyv4b-0004mo-92
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 07:41:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52509)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lyvAi-0004lE-76
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 07:47:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lyv4Y-0007wF-71
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 07:41:35 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lyvAg-0003Hh-2U
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 07:47:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625139692;
+ s=mimecast20190719; t=1625140072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VUU+c0TCnJnsW34TgTj7fbiGOex80VjK7cP4hhMVwqY=;
- b=Yb2W4zaFATU39evbVIUJ/jr+kmlW2YDjSc0iIjTUdAAv+WaeDHPNaeKJXMHonrzPgWfuAq
- b7DIvRf4ijPR9O1use8VysjfeKD013tRJZXrGFgj75PUV5HUMX45St4khSgkQ36D5EWJsS
- 0M+1yCgomRd0GFo2pZGNcqThObc6UEo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-XSSpFA9iP46A6GzTitxpXQ-1; Thu, 01 Jul 2021 07:41:32 -0400
-X-MC-Unique: XSSpFA9iP46A6GzTitxpXQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u7-20020a5d46870000b029012786ba1bc9so2429566wrq.21
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 04:41:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VUU+c0TCnJnsW34TgTj7fbiGOex80VjK7cP4hhMVwqY=;
- b=eAgpCIoSRZ5v02Zz1DDwnC+gdK1FExMhwBdd8pnY5Wf50UfqU7DHD9XKTrZ4zXNtOp
- x+LB7qq/CVRnWB/J6dkp0AJk1OpYUGDieuGfNenS1GDugF35kP3IwuUY0OeU57mFWb0e
- CqmaRUxUf4ZI1SFNYPuEs2LVowJrj/B7SApeZ54AV/Hb3dQTUzwOPICZUmZqkZKgsK4E
- t4lvWAJLa+jjUCbk3i1dLxs53Pq9Tafk2hJqgSTJfGYL2lT3b0n4xKS1hB3PWR3qisj9
- ADIjPUbZfUlITWnszSvnP2P8oSzMihmqFrpV0S0l3sx9M7tZVP2tgup8S9io0Y2Q/BmE
- ++Ag==
-X-Gm-Message-State: AOAM532bEc4PJdVATtIE9bvYS//OflWacbdiCMEjtcI7pJ0Z8m8TQ8FD
- BHM2/hnR+Q1U3hhOuubWV8hhsA5OeNxo8mOiEJ2bmac9EsK01NLzlZiNEV+kpqE5mUidoXgCKJu
- nLNIpvdSWgtCHlOs=
-X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr20146235wmg.117.1625139690813; 
- Thu, 01 Jul 2021 04:41:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznYIo1PUfnbmLQ6tuqjFG7sdwlyR34XfIgxwYZHw/IjvzWZAjwzcohp64LMVsuZk8FndTmqA==
-X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr20146197wmg.117.1625139690335; 
- Thu, 01 Jul 2021 04:41:30 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575bc6.dip0.t-ipconnect.de.
- [217.87.91.198])
- by smtp.gmail.com with ESMTPSA id v1sm1776359wre.20.2021.07.01.04.41.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 04:41:29 -0700 (PDT)
-Subject: Re: [RFC v6 07/13] target/s390x: move sysemu-only code out to
- cpu-sysemu.c
-To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20210629141931.4489-1-acho@suse.com>
- <20210629141931.4489-8-acho@suse.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <450295fc-cfd4-45d5-f8d1-0753c20769eb@redhat.com>
-Date: Thu, 1 Jul 2021 13:41:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=X9XA8kQP6S6KkV8OprHhdi96k08rvYGfmcT6ex3ET3c=;
+ b=Rx/b5dXpH6vQB9bZbuQ16g30IJwcIXyVP6j4/Mp2CMBhRo9CKYkxUE2f9d05SFxMy+1bJ1
+ voWCVgxp6f9aCnAdYlSYQVgb4MDQCi8B5jUhavxsJFGC2jdtHRHMJH3QwaZ89YcM/niKW4
+ XClcB94/yNFFbxZeHXx9FK8eAd++xPI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-9cVoI58AOoyMfbtvTBW-Bg-1; Thu, 01 Jul 2021 07:47:49 -0400
+X-MC-Unique: 9cVoI58AOoyMfbtvTBW-Bg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 853A65721D;
+ Thu,  1 Jul 2021 11:47:48 +0000 (UTC)
+Received: from localhost (ovpn-113-17.ams2.redhat.com [10.36.113.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1AFE19C44;
+ Thu,  1 Jul 2021 11:47:44 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH fixup] s390x: fixup for "s390x/cpumodel: add 3931 and 3932"
+In-Reply-To: <20210701084348.26556-1-borntraeger@de.ibm.com>
+Organization: Red Hat GmbH
+References: <20210622201923.150205-1-borntraeger@de.ibm.com>
+ <20210701084348.26556-1-borntraeger@de.ibm.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Thu, 01 Jul 2021 13:47:42 +0200
+Message-ID: <87fswyjlwh.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210629141931.4489-8-acho@suse.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.402,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,24 +77,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cfontana@suse.com, Claudio Fontana <cfontana@suse.de>,
- jose.ziviani@suse.com
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/2021 16.19, Cho, Yu-Chen wrote:
-> move sysemu-only code out to cpu-sysemu.c
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
-> ---
->   target/s390x/cpu-sysemu.c | 309 ++++++++++++++++++++++++++++++++++++++
->   target/s390x/cpu.c        | 285 ++---------------------------------
->   target/s390x/meson.build  |   1 +
->   target/s390x/trace-events |   2 +-
->   4 files changed, 320 insertions(+), 277 deletions(-)
->   create mode 100644 target/s390x/cpu-sysemu.c
+On Thu, Jul 01 2021, Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> as discussed we want to change some facility names. Please merge
+>
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  target/s390x/cpu_features_def.h.inc | 4 ++--
+>  target/s390x/gen-features.c         | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+
+Thanks, folded into the existing patch and pushed out.
 
 
