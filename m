@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0FB3B93EB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 17:27:52 +0200 (CEST)
-Received: from localhost ([::1]:38488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21503B93E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 17:27:31 +0200 (CEST)
+Received: from localhost ([::1]:38176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyybV-0007ON-P1
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 11:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52882)
+	id 1lyybC-0007AU-5v
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 11:27:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyyZZ-0004Od-V6
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:50 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39522)
+ id 1lyyZY-0004OO-4S
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:48 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:35693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lyyZS-00088e-7B
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:48 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- in17-20020a17090b4391b0290170ba0ec7fcso6856963pjb.4
+ id 1lyyZS-00088m-70
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 11:25:47 -0400
+Received: by mail-pg1-x529.google.com with SMTP id v7so6432556pgl.2
  for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 08:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BiRmqcZNF2hJVvi+mtvT/dUtK5fKY7sdVO7TwBKWEiU=;
- b=aN1KSX6A5zT5OsJG+87PrIONda1RxJ77H2jH+QMO0/+DnA+Uk2XfeGyh+zyhtjOzvL
- trSDUiigqx1V+b13P6TCTd/ma8/IgcQgh7JqO3+nW+IaOK+EcEW+Q3A12aWoD6LXBckN
- npC5rCCFn0Ycq6ZCh9Q7yp5pbNCYuV9zwOZ4j9b6rJosgf8/JaG7NPZYjT6nKaRffIy5
- 9HTA/5A1DkkxvmcppVutwmOsaA7PBtbvXHhUb2GN8iVQAMhwGIGdglk13Ay+1SV3H3VK
- u5QieRd3zNRjtcrO4XE4bvbPN6Ra3oYXn3m0Mto+9wWSIfY7fj9LRS8UCYJvmOuUlEPq
- Gipw==
+ bh=0vRIHqeRyM8fI+g5SmswZ/3igwA5aeF29s3zHSl2bx4=;
+ b=lHjUzNrqdJ4ZuELys5pKoTIHkUjdfwcnsW8eZ9zvW1MR3ms9JG1Hz6CTgfDiy3rJXB
+ mU9Jsi8eBVgObjHQLOOMCcKc1ORrsljCtZqlJpVd2mtpoir0w5j9yxfz5hDkwg80ilWj
+ SmPJvNYgaG9HN3CpQskfvb6A0LRn2v53+hKYzu74c+LX7Qi6h9GwqPELuMkBbETzIrKt
+ TX5F30VkFjSuqKBJ3sayzGHNCKnQtxR3BX2OoOhm1zlm43e2nPuLmHg5JT+IBXZJpX7J
+ guETt57AdEb/eeUczjRiXyPGLYN53TsGhNxaqg3vWIEz3QF2KVe32W5M6eqVl3YhE4on
+ tVSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BiRmqcZNF2hJVvi+mtvT/dUtK5fKY7sdVO7TwBKWEiU=;
- b=qtEiJ28pratzLD/Z0N9IVupoYGz76bBZ+sY8qkUgJl9m4rzjGaGKvKOOgemV2GhKHJ
- fcL1nEDfGe5m/gHBa8BJqEMd9ByK3pN8OGLu3BDPHC/v4ScMhozOKO2L7Sf8nOc43+rt
- VxFcqKKj+G5pmuoAi7O3Uib0imIA4RislDmcmpxzXCROCgU3+s5PK4b+baj+anmyDx/8
- RYVr2YuewJPIoVfwgtXzGsfUksjRHDCuTOShU9kUsx8lsyiXDLibTQP1PsslYNqcsPuT
- xsXnu58f/j7VUnIObxRUm3ldz4FunmuZOEglHMf0q8s09muDmZzLNcFGkyNdF0rL7xGt
- p+yg==
-X-Gm-Message-State: AOAM531OFi7FANwSuEE7PvieYH/3XCOnbcug2DkzO/oGKddLme3mCbgP
- OeNOrYjPcnkWfovsusii5CdMwwLcCUWXGQ==
-X-Google-Smtp-Source: ABdhPJwDmI1l2a+4yphkwbvDYcXVf8PD2bJCef9uB64Rm9psb5W1X/MkNdcqG+PoNj/yekq0uxRuKQ==
-X-Received: by 2002:a17:90a:f485:: with SMTP id
- bx5mr268051pjb.194.1625153139431; 
+ bh=0vRIHqeRyM8fI+g5SmswZ/3igwA5aeF29s3zHSl2bx4=;
+ b=RjG5dEqSEcP6Q7b0nCRo7uwgPd/D3EKBHHTALGfMQJaOQds9iqF/wprYpbxzTGJDFa
+ 7jnz2RNCAyKX2Yf1lQQGkm/vZqzbfBuAF4Nd2ZXE4iPLd92UMUux0c6wHRVktwvTP3zO
+ fvIraZg2M+d5/ua0kaX7lb3lyCwyolSQA4KcZZcG06Wcy+cZLBxvPge7HFV86j61kBMh
+ xiXe6A43DHCee8uNvPkzt+w41N3DoqeIQV9SqKFjgLNqePwETVFdidHql8w70lxcdBc8
+ zOAf4YhI33rsSztxXR4NH/xWrXLm5t2NwnSs/vzBcOBapc+NjNlyEylBpmtxWss2Wvvn
+ ogvg==
+X-Gm-Message-State: AOAM532ryfYnxB2IUhnSm+N3oADHzBTnBKmlRIkKH5rhNQhN7Vm2+972
+ EhHmaR/1S7pkRS3UrofeRNl/SZWK0scy3w==
+X-Google-Smtp-Source: ABdhPJwCZ5dxXNM549sXHFlCXh0TeYWDsYLfKmStdpjFvhdChxnmETp3S5jYwl5wHecAM2rdk82dbA==
+X-Received: by 2002:a63:5d5c:: with SMTP id o28mr194707pgm.22.1625153139956;
  Thu, 01 Jul 2021 08:25:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id j4sm10213197pjv.7.2021.07.01.08.25.39
@@ -55,17 +53,16 @@ Received: from localhost.localdomain ([71.212.149.176])
  Thu, 01 Jul 2021 08:25:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/17] target/i386: Use cpu_breakpoint_test in
- breakpoint_handler
-Date: Thu,  1 Jul 2021 08:25:21 -0700
-Message-Id: <20210701152537.3330420-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/17] accel/tcg: Move helper_lookup_tb_ptr to cpu-exec.c
+Date: Thu,  1 Jul 2021 08:25:22 -0700
+Message-Id: <20210701152537.3330420-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210701152537.3330420-1-richard.henderson@linaro.org>
 References: <20210701152537.3330420-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,47 +87,103 @@ Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The loop is performing a simple boolean test for the existence
-of a BP_CPU breakpoint at EIP.  Plus it gets the iteration wrong,
-if we happen to have a BP_GDB breakpoint at the same address.
-
-We have a function for this: cpu_breakpoint_test.
+This will allow additional code sharing.
+No functional change.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/sysemu/bpt_helper.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ accel/tcg/cpu-exec.c    | 30 ++++++++++++++++++++++++++++++
+ accel/tcg/tcg-runtime.c | 22 ----------------------
+ 2 files changed, 30 insertions(+), 22 deletions(-)
 
-diff --git a/target/i386/tcg/sysemu/bpt_helper.c b/target/i386/tcg/sysemu/bpt_helper.c
-index 9bdf7e170b..f1fb479ad9 100644
---- a/target/i386/tcg/sysemu/bpt_helper.c
-+++ b/target/i386/tcg/sysemu/bpt_helper.c
-@@ -210,7 +210,6 @@ void breakpoint_handler(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
--    CPUBreakpoint *bp;
- 
-     if (cs->watchpoint_hit) {
-         if (cs->watchpoint_hit->flags & BP_CPU) {
-@@ -222,14 +221,9 @@ void breakpoint_handler(CPUState *cs)
-             }
-         }
-     } else {
--        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
--            if (bp->pc == env->eip) {
--                if (bp->flags & BP_CPU) {
--                    check_hw_breakpoints(env, true);
--                    raise_exception(env, EXCP01_DB);
--                }
--                break;
--            }
-+        if (cpu_breakpoint_test(cs, env->eip, BP_CPU)) {
-+            check_hw_breakpoints(env, true);
-+            raise_exception(env, EXCP01_DB);
-         }
-     }
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index ad1279d2ed..fb6668606f 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -38,6 +38,7 @@
+ #include "exec/cpu-all.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/replay.h"
++#include "exec/helper-proto.h"
+ #include "tb-hash.h"
+ #include "tb-lookup.h"
+ #include "tb-context.h"
+@@ -145,6 +146,35 @@ static void init_delay_params(SyncClocks *sc, const CPUState *cpu)
  }
+ #endif /* CONFIG USER ONLY */
+ 
++/**
++ * helper_lookup_tb_ptr: quick check for next tb
++ * @env: current cpu state
++ *
++ * Look for an existing TB matching the current cpu state.
++ * If found, return the code pointer.  If not found, return
++ * the tcg epilogue so that we return into cpu_tb_exec.
++ */
++const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
++{
++    CPUState *cpu = env_cpu(env);
++    TranslationBlock *tb;
++    target_ulong cs_base, pc;
++    uint32_t flags;
++
++    cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
++
++    tb = tb_lookup(cpu, pc, cs_base, flags, curr_cflags(cpu));
++    if (tb == NULL) {
++        return tcg_code_gen_epilogue;
++    }
++    qemu_log_mask_and_addr(CPU_LOG_EXEC, pc,
++                           "Chain %d: %p ["
++                           TARGET_FMT_lx "/" TARGET_FMT_lx "/%#x] %s\n",
++                           cpu->cpu_index, tb->tc.ptr, cs_base, pc, flags,
++                           lookup_symbol(pc));
++    return tb->tc.ptr;
++}
++
+ /* Execute a TB, and fix up the CPU state afterwards if necessary */
+ /*
+  * Disable CFI checks.
+diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
+index 66ac830e2f..e4e030043f 100644
+--- a/accel/tcg/tcg-runtime.c
++++ b/accel/tcg/tcg-runtime.c
+@@ -30,7 +30,6 @@
+ #include "disas/disas.h"
+ #include "exec/log.h"
+ #include "tcg/tcg.h"
+-#include "tb-lookup.h"
+ 
+ /* 32-bit helpers */
+ 
+@@ -145,27 +144,6 @@ uint64_t HELPER(ctpop_i64)(uint64_t arg)
+     return ctpop64(arg);
+ }
+ 
+-const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
+-{
+-    CPUState *cpu = env_cpu(env);
+-    TranslationBlock *tb;
+-    target_ulong cs_base, pc;
+-    uint32_t flags;
+-
+-    cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
+-
+-    tb = tb_lookup(cpu, pc, cs_base, flags, curr_cflags(cpu));
+-    if (tb == NULL) {
+-        return tcg_code_gen_epilogue;
+-    }
+-    qemu_log_mask_and_addr(CPU_LOG_EXEC, pc,
+-                           "Chain %d: %p ["
+-                           TARGET_FMT_lx "/" TARGET_FMT_lx "/%#x] %s\n",
+-                           cpu->cpu_index, tb->tc.ptr, cs_base, pc, flags,
+-                           lookup_symbol(pc));
+-    return tb->tc.ptr;
+-}
+-
+ void HELPER(exit_atomic)(CPUArchState *env)
+ {
+     cpu_loop_exit_atomic(env_cpu(env), GETPC());
 -- 
 2.25.1
 
