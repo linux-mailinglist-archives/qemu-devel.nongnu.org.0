@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A793B8E1D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 09:20:23 +0200 (CEST)
-Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A1A3B8E1E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Jul 2021 09:20:29 +0200 (CEST)
+Received: from localhost ([::1]:34184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lyqzm-000326-Cb
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 03:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
+	id 1lyqzr-0003F4-Us
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 03:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lyqyN-0001WZ-KF
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 03:18:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30545)
+ id 1lyqyX-0001bH-BI
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 03:19:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lyqyK-0005z4-PA
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 03:18:55 -0400
+ id 1lyqyV-00066w-AY
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 03:19:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625123930;
+ s=mimecast20190719; t=1625123942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qXIFIINbNbQOBSYeGe9c4eKms71YO5mQrNsuNZFqDTc=;
- b=UZqwDwJKcVmmJlmLHdQ5Ct/VIQC/zxggR5HNDchCOaa1dry6pQ1YIFFaoAsUgF6OAo1cQ5
- wDMORnHUFS0vqHf4bhFohcYiPXNpBx28eEd2GnfGTscs3/iT6rG7jKGs2MGP0KoWBxPCsI
- zA3fa3voApQq3Z/7SmtqBkQTHHfCjWI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=325cEBWoiJvAmk7nwEdNdOrs7M1MxzJNEs4UJax4yGs=;
+ b=QNR1w08qqnZJ8njYZWCeGA1hvEQPGegbDK16/zCZrELvy52KW+ACUJpcGd7aBgDlzqtw1t
+ GSLMZSBheyQWTHSHcNrIWQN0ca5Z07ZR3l8kJnmhjaxMN8TG0OCV2LzNnzPJgRsc0SUIgY
+ VwoySP2shwZ+dFbSfJw6XirAmfUBKsQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-62QF9QzRNBa8SeDGQBP1Mw-1; Thu, 01 Jul 2021 03:18:49 -0400
-X-MC-Unique: 62QF9QzRNBa8SeDGQBP1Mw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-592-c_t24KfiPdSsDfQaiVtk5Q-1; Thu, 01 Jul 2021 03:19:00 -0400
+X-MC-Unique: c_t24KfiPdSsDfQaiVtk5Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB7F4102CB73
- for <qemu-devel@nongnu.org>; Thu,  1 Jul 2021 07:18:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 310F483DD15
+ for <qemu-devel@nongnu.org>; Thu,  1 Jul 2021 07:19:00 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E44D1A26A;
- Thu,  1 Jul 2021 07:18:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B02C0189C4;
+ Thu,  1 Jul 2021 07:18:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/display: report an error if virgl initialization failed
-Date: Thu,  1 Jul 2021 11:18:36 +0400
-Message-Id: <20210701071837.738897-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 2/2] hw/display: fail early when multiple virgl devices are
+ requested
+Date: Thu,  1 Jul 2021 11:18:37 +0400
+Message-Id: <20210701071837.738897-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20210701071837.738897-1-marcandre.lureau@redhat.com>
+References: <20210701071837.738897-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -83,28 +87,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Currently, virgl initialization error are silently ignored.
-
-This is likely going to crash later on, as the device isn't fully
-initialized then.
+This avoids failing to initialize virgl and crashing later on, and clear
+the user expectations.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/display/virtio-gpu-virgl.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/display/virtio-gpu-gl.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 092c6dc380..46b56f94d9 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -605,6 +605,7 @@ int virtio_gpu_virgl_init(VirtIOGPU *g)
+diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
+index d971b48080..c973d4824b 100644
+--- a/hw/display/virtio-gpu-gl.c
++++ b/hw/display/virtio-gpu-gl.c
+@@ -25,6 +25,8 @@
  
-     ret = virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
-     if (ret != 0) {
-+        error_report("virgl could not be initialized: %d", ret);
-         return ret;
-     }
+ #include <virglrenderer.h>
  
++static int virgl_count = 0;
++
+ static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
+                                              struct virtio_gpu_scanout *s,
+                                              uint32_t resource_id)
+@@ -113,6 +115,11 @@ static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
+     return;
+ #endif
+ 
++    if (virgl_count++ > 0) {
++        error_setg(errp, "multiple virgl devices aren't supported yet");
++        return;
++    }
++
+     if (!display_opengl) {
+         error_setg(errp, "opengl is not available");
+         return;
+@@ -124,6 +131,10 @@ static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
+ 
+     virtio_gpu_device_realize(qdev, errp);
+ }
++static void virtio_gpu_gl_device_unrealize(DeviceState *dev)
++{
++    virgl_count--;
++}
+ 
+ static Property virtio_gpu_gl_properties[] = {
+     DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj.conf.flags,
+@@ -144,6 +155,7 @@ static void virtio_gpu_gl_class_init(ObjectClass *klass, void *data)
+     vgc->update_cursor_data = virtio_gpu_gl_update_cursor_data;
+ 
+     vdc->realize = virtio_gpu_gl_device_realize;
++    vdc->unrealize = virtio_gpu_gl_device_unrealize;
+     vdc->reset = virtio_gpu_gl_reset;
+     device_class_set_props(dc, virtio_gpu_gl_properties);
+ }
 -- 
 2.29.0
 
