@@ -2,82 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6815C3BA261
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 16:56:59 +0200 (CEST)
-Received: from localhost ([::1]:43278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455FD3BA278
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 17:03:32 +0200 (CEST)
+Received: from localhost ([::1]:47144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzKbC-0003P7-FG
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 10:56:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33624)
+	id 1lzKhW-0006IO-4a
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 11:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1lzKaO-0002ey-ET
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 10:56:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20773)
+ (Exim 4.90_1) (envelope-from <hnick@vmware.com>)
+ id 1lzKfU-0004Wo-GL; Fri, 02 Jul 2021 11:01:24 -0400
+Received: from mail-mw2nam12on2063.outbound.protection.outlook.com
+ ([40.107.244.63]:33484 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1lzKaL-0000b2-Q9
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 10:56:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625237764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qSBr8jKKzM4BmrzC/+0IMOiwZuBYjHe/Zv8g8XLj6+w=;
- b=CYRwLlTr+prqIPHNkeDa/4XTCOTcT7afukCXNz4PkfR6ZRovo4NMmCRxYpT4ZUl4d6obdH
- 0g53EaBLQ7nX5UJ4iSd6ILvBUoqreUqo8JwS/7LaFT1/yiNCEu+uhOCyD9F78Tl2J2AS90
- vQNyJZnzFZghx3IFPRV71lIupxOHWSA=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-XIZnRC5sNI-QJvr6f4ufFw-1; Fri, 02 Jul 2021 10:56:00 -0400
-X-MC-Unique: XIZnRC5sNI-QJvr6f4ufFw-1
-Received: by mail-oi1-f198.google.com with SMTP id
- l189-20020acabbc60000b02901f566a77bb8so5657298oif.7
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 07:56:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qSBr8jKKzM4BmrzC/+0IMOiwZuBYjHe/Zv8g8XLj6+w=;
- b=qr6C8uKoIOmwxW9t1YRYJFr1Bn4ZoTJx5VSo+/nR2Rn0QfInogoFMcJLAXethCbYd4
- Z8ejpJF46LtnVLpU4Y8r8FhIVdXkMiqsnn91TMvpSarqEXLd/eIwTU8DGVNPZuPJCZ47
- 1RCTeQQ3aWMVzGzFYYFrt7JqUbVjwFAS2skg2h/vMP+FPl2psg9OhbYq3s8hvvTOAIOT
- X2U8n1Jhvq3AJQWFWzw9o9kJZ0fwGdqCWrOYpesRyjTzhulVkVgn2nXYqVRzeqnySS4p
- KBBn1Ju0eUrEDpPbS+nDDYX2oCj1wdu98AjTnUT/wMUBR6LuZetLEMv3e8WR6EwKIM/2
- Rz6g==
-X-Gm-Message-State: AOAM533GediamlD+GtSEPqIMRASzag9Hb8aARXPnQomXngYOOM8HRvBx
- rPjzQkK88FQxzvQ8vtc8FyxthKA2tuB827H2LmL4X1w4LheI7aoNF0ok9eVxkxJDuxY+4zakO/f
- i5OIqR1iBq6iOEDsSRtNYT8D6WzhK1uA=
-X-Received: by 2002:a9d:222e:: with SMTP id o43mr4592027ota.316.1625237759498; 
- Fri, 02 Jul 2021 07:55:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxA4MkLcRoMwYThOpcztqiDsx11L85sTSPI/yeHE5iJADu9zdBkdbcohTwmnY570TykPPZ7TamUs3VM6ugogME=
-X-Received: by 2002:a9d:222e:: with SMTP id o43mr4592009ota.316.1625237759194; 
- Fri, 02 Jul 2021 07:55:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hnick@vmware.com>)
+ id 1lzKfR-00047u-D7; Fri, 02 Jul 2021 11:01:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ly6n3jmqY78HQ1PCxJ2oB3FAGGDBXVBATuk3ZqvMU1mGjNhYqjrRANXyelAVd7ei/xQ/oHxU4Fh6S1UUdIUpyOPRffD+LI2chwVH2kBbtqL/HyjFPnOTMQUCj7CyQpAl0VZHaBgX/mI8u0oDkw4tlQwq9ZZpunewYqFqvP/MCIyaUJmpduwouI8TRl64cm6PDHTih44N2Ew1V3MbBxbUN+fwLL1laMTYgB98DHG7s1y6RJwJ9kVMtHJsm7NMFGJU33S9XN1iJ7ddMQXrgyPaTrQXODmYz8UlpqywuzImB9dcaKVYYgt7g3FvXmfJ+rnltVBmbQ0Vwp1Se1spN9eOKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bcMUk5QXD6wKNeAXOHJ2uhBOAxMl45ofHm/aEAi2vaE=;
+ b=bQItHppj0BK+Iad6SiWMIIq1jxroBCA3z/LgS2pSceargx//NhLiUDmZYxixpUAfDTVMV2PiPC6QRetDpV/UL1IVYNkdTV5ZFnRiwDI84WjHFnHUbyZV5/AaI/JSxIa5iz/IjHCupd7+tsfCuWeaifXc1mbjIAfauoGahcQ22LD8KevDqWIl0jxDr7wCHBqGYqUz8+FBGqtMZ6vqbQuCibEfL13BbewCc+LOWmXlzWoU9u8d3wSXYsct+7rcYJMc7B5L++5gLnjlUu97+UTNjgciWW/YUMyEHtEEsnujqEVIRJrPh+2gmIiB2RXFDejjryOX8fnaO/u63P4VikdHRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bcMUk5QXD6wKNeAXOHJ2uhBOAxMl45ofHm/aEAi2vaE=;
+ b=sW26kbXa+WwTBlLkbqiNs/U2SMT8QZ72xFFHGv3C+HGeQ41tTNDmPKl4gef27Fu6rXFJTdr5ICZh22AjPWFZuPE/gG+HvFdfMsWcI+7jokSLAxcEMUC4259zfVGYqRzbnDsvaW57pprctjQzDBQyrksZph5vjnYAiOqvojUkuOY=
+Received: from BYAPR05MB5623.namprd05.prod.outlook.com (2603:10b6:a03:79::10)
+ by SJ0PR05MB7438.namprd05.prod.outlook.com (2603:10b6:a03:28b::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.12; Fri, 2 Jul
+ 2021 15:01:13 +0000
+Received: from BYAPR05MB5623.namprd05.prod.outlook.com
+ ([fe80::71e2:b6b6:2ac7:3bbd]) by BYAPR05MB5623.namprd05.prod.outlook.com
+ ([fe80::71e2:b6b6:2ac7:3bbd%7]) with mapi id 15.20.4287.017; Fri, 2 Jul 2021
+ 15:01:13 +0000
+From: Nick Hudson <hnick@vmware.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] target/arm: Correct the encoding of MDCCSR_EL0
+Thread-Topic: [PATCH] target/arm: Correct the encoding of MDCCSR_EL0
+Thread-Index: AQHXbMCSdfZjmXjSHUOdWVc01tqN36sqvr6AgAAOaQCAABNegIAEkVyA
+Date: Fri, 2 Jul 2021 15:01:13 +0000
+Message-ID: <79AC0C26-90CF-4F13-9480-ADD9D55E7408@vmware.com>
+References: <20210629082713.31396-1-hnick@vmware.com>
+ <CAFEAcA-vSoriA2iCwyvBWofj1UvtMuRbEnqNuCsoG_hz1Yth_g@mail.gmail.com>
+ <35FFA736-504A-482B-B78C-17F7381C7D70@vmware.com>
+ <CAFEAcA-AvYq5ujspY1bxqjzX=1EYP4zY0ortFdNhJwPU+pDJGA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-AvYq5ujspY1bxqjzX=1EYP4zY0ortFdNhJwPU+pDJGA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 08738f7b-1581-4188-1b9d-08d93d6a3c13
+x-ms-traffictypediagnostic: SJ0PR05MB7438:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SJ0PR05MB7438361F2762BC029B67A065C81F9@SJ0PR05MB7438.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wU6muobzDg06vROEu7ptqa7gdNAPCxjSWA4fbPcmvZjG4Egy60Ds3bPOvQ4sO83Y+DwG855cw5r3Q8rR0MPMl2ihUWEoFGYJrlVn0Ll1ajvVGkbgSpXlaBLFjl0t5LvgjlDM7mN6BOXBuCOEJW+otxRTgo9mU/VgDUkUbmv/LeYpYelVgGQL8AdT58I6g37exjQAM/pEN0KO1d8jR+msZcM67K+g4jeT4uad7wXKT+WR20VRUs5Z2siOuTJEjpDFGaFraZLwF1TkqqUyDFDz/becyJkeeME5pUiBBQyWvfe2n+O25rLfqzIqlT0ySMAnoq7hKLNY86WbB8OmYmFVzowqWbQZMtRJwtF8E6FFm1ZwVEUkQGcoOVu3QtR+A/1OwryBW+wcp6hmepXiYKNY31DL5dBTCiKhmmzp1ykVJ//7HBotXif8OtDbJUqalUrPzb7r980uXxkfcmpI3RC1CY28pUhDGZ0Xj37uFF8n4d8a2Ul5cQebIKmGpPsH3dxTRDUqcwQTY6uaA2z9yZodzvKUhv0AaALVP1JvN6DGk2rDiNW/Ur/jTAGAs7Vz9DG02oZaDbIdhMMJdcvhO61Vedno0YRYfoSbZIBqnOPWzjwFKL4J4DW8d+Um3iVNOlHJnJEJlmj7SyAuCRKbjKl1we+zPd4zE4TTS3qiyuQ2cYWhyxFg88+XE5cWm5xHUrrPS8iOxlwW3QD1wTe+Ia225g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR05MB5623.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(136003)(376002)(39860400002)(6486002)(36756003)(8936002)(83380400001)(91956017)(6506007)(53546011)(6916009)(2616005)(33656002)(66476007)(54906003)(5660300002)(66556008)(64756008)(66446008)(71200400001)(86362001)(66946007)(2906002)(478600001)(122000001)(4326008)(38100700002)(186003)(8676002)(316002)(76116006)(6512007)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MVdvbC9VUDlPcHBxcHEySTNXalNHa3gzY3hsdXA3bnBQUmUyY2d4RmR6bnN5?=
+ =?utf-8?B?TVM0V3hDSml2YTYzYTJjZTRZTXRmVGhib1VuY3hOTlNpbHNmYUg0YU0zNTdE?=
+ =?utf-8?B?VTdYUXZTYVBLUm82UHhQWldpbmxWUnZTWlc1eHdTcXBRdGU3dUNpU1Ziajhj?=
+ =?utf-8?B?TEdFSlB3QWMzNjEvT0wvOGJPbjZxTTYvdmZjNy8zV2kyYVF2eldJaFp6UUVa?=
+ =?utf-8?B?bHh6OFhSK2g1SWI4QmlDNVYxTUZMMnFqUzJJMCtDR0Q5MDBSeFF6bko4Y3Zr?=
+ =?utf-8?B?TVRQaVF5d1RoblV6d2lXZGRFdUt1Z0dMRy85ci8yUm9XaG9MZ29DUWxsQm1Y?=
+ =?utf-8?B?eEM0cGVyTE1rZzZMUG1ObStmRTY2c0RnV3FvRU00bURQNmVWMkRqYUMvOU9j?=
+ =?utf-8?B?VmhRS1B0a20vUjA4MHg0WU5ua25ZUWhTVHEyVWpTTFNHdHZJdFNZRG43R0pB?=
+ =?utf-8?B?V2g3ams5Wjl6UWorSTJFVkRjTnJqZTEwTFJBQ3FmZkRCYStzWk84bHExQzd2?=
+ =?utf-8?B?eTNCWUxjSzFBMWNhdTZVTGh6QTUzaXZGakE0azdwWWNLMVY1bEV0OUJsV1pX?=
+ =?utf-8?B?YldrazBmYnZIaTU2eHQ3MksvYzRtL0RuQmUzTWFBQU1hUVh0Qld1enk2R1dm?=
+ =?utf-8?B?cVBoTGdveDZrdWswNTNLM3ZXem9jektXMlhESVd4U0VEeWFNOUc1bnRrc1pB?=
+ =?utf-8?B?amh2Vng3THgwbUhBT0RRKy8zdVlFdXBscmFMaVQrVjRyeWNhZzhCbFlEaFNN?=
+ =?utf-8?B?NnhTWkt5ZWF5bzZ3dGJtZ0ZMUEkxWFZFR0VHdVBTbnJFQnBZUkhnYzdQRzUz?=
+ =?utf-8?B?QVlqRnBCTmZ2dHAzcXppTWRMRmluSjFKSEpXZ2NKNlQ3MlBlZjJqNHB2Sm44?=
+ =?utf-8?B?cjdXUDlZVEt0anZMSlBVckNpTHJlS3ZJcWtzOWtCdmVkamluN1V1ZElCWW8y?=
+ =?utf-8?B?NGdWY1BJdWJRdW5aOG9MTGcxOWpJaERNdm56eHREL0NzVmhOdkUwZm1MSWsx?=
+ =?utf-8?B?aVBmQVVXeThvbmdpRGJJMzY0N3NxaHlnYjF6amNoK1FIbCtJejFNSlFnMU1h?=
+ =?utf-8?B?aC9LMHZ1cHU0MVhBRWR1a3p5WXNQK0tLQkVQRmZmNnBTdmFUODFMcjViZlJJ?=
+ =?utf-8?B?MDlIaFJ0dzRwZHhCOS9VNExqT3ZNeUV3bmV6R3N1K3BFNEFHYkZiRHkrVTJL?=
+ =?utf-8?B?bURUZDcxR2xZNkQ2OURKQ0x1N0dxa2NEelBWWVB5S3hGc2tkVjV5OGJxY0Ju?=
+ =?utf-8?B?cGVaeDEvUTBpckRER2dqZ1dmdjlyUFQrUFNJcWprTHF0VFVLZ1BWS1g0M1Vh?=
+ =?utf-8?B?RUhHbTRvck41N3hqck9YM0pNaXhQYUprRVIrSWVPNlgwYVRTQkduV2dDT1pH?=
+ =?utf-8?B?UktneHFCMWhZSDBYOVJMZTJDQmhaclowNU9XN3pQcVFVVnVWZnZ6NHdjbGw4?=
+ =?utf-8?B?WldXRTROVUN1c3JJaEI2SW9qamJzQit3SkdkanpsdGpra1dDeEEvMVhyUmpx?=
+ =?utf-8?B?TnpVRjRCOGc2QlMvL3dXck9hSXNSZnBDRSt3K0FBZXVqd1NZWFBVU0JXVU1a?=
+ =?utf-8?B?ODltN2NnUGRyT2VJcDRZWHFnSmdlRGMwd0g1QmJyMjJVSjZUMWlodm5jZVd5?=
+ =?utf-8?B?MVhlL2k4cDNvMGh6QmFUS25NdnczK3JGazlZeUFyZHRab1J3bzdKS3RYUGZF?=
+ =?utf-8?B?UzdxN0hvdG5sMjQrOGlBeDBwS29vbHZZOUx5TkxTZktXVnlTYzFmMXo5WVQr?=
+ =?utf-8?B?YnoyTXFMOGw4MXMrN1Uwc0Vyemp0S1lwSE9CZlN1azFVRUdkWGljT013b0tX?=
+ =?utf-8?B?dnE1cms3ZHFSQ0NGeWd4NUgyU1orR3FYWTgyTU1FYnprYWI0US9CZVFkckFi?=
+ =?utf-8?Q?cqVvqgb0ZKCMp?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6EE191C7AA0F50419C7C7B905E9C63F1@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210617190739.3673064-1-jusual@redhat.com>
- <20210617190739.3673064-4-jusual@redhat.com>
- <YN1Iq6WDTqCzgmNA@yekko>
-In-Reply-To: <YN1Iq6WDTqCzgmNA@yekko>
-From: Julia Suvorova <jusual@redhat.com>
-Date: Fri, 2 Jul 2021 16:55:47 +0200
-Message-ID: <CAMDeoFXZyOt+O90xrRpTD8k7f0M60GVpg3XWfG2+yOAukOFgeA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/7] hw/acpi/ich9: Enable ACPI PCI hot-plug
-To: David Gibson <david@gibson.dropbear.id.au>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsuvorov@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsuvorov@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR05MB5623.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08738f7b-1581-4188-1b9d-08d93d6a3c13
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2021 15:01:13.1649 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iF/+GVaHM8aXvZkZuAx7475jNVaHyYWqKR3OpNojNUOtUA0xyEZXPUjBEje2QtrGoxWhTfYOpVzSqx8fllCpBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR05MB7438
+Received-SPF: pass client-ip=40.107.244.63; envelope-from=hnick@vmware.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,274 +141,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Mohannad Ismail <imohannad@vmware.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 1, 2021 at 6:59 AM David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> On Thu, Jun 17, 2021 at 09:07:35PM +0200, Julia Suvorova wrote:
-> > Add acpi_pcihp to ich9_pm as part of
-> > 'acpi-pci-hotplug-with-bridge-support' option. Set default to false.
-> >
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > ---
-> >  hw/i386/acpi-build.h   |  1 +
-> >  include/hw/acpi/ich9.h |  3 ++
-> >  hw/acpi/ich9.c         | 67 ++++++++++++++++++++++++++++++++++++++++++
-> >  hw/acpi/pcihp.c        |  5 +++-
-> >  hw/i386/acpi-build.c   |  2 +-
-> >  5 files changed, 76 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
-> > index 487ec7710f..0dce155c8c 100644
-> > --- a/hw/i386/acpi-build.h
-> > +++ b/hw/i386/acpi-build.h
-> > @@ -10,5 +10,6 @@ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
-> >  #define ACPI_PCIHP_BNMR_BASE 0x10
-> >
-> >  void acpi_setup(void);
-> > +Object *acpi_get_i386_pci_host(void);
-> >
-> >  #endif
-> > diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-> > index 596120d97f..a329ce43ab 100644
-> > --- a/include/hw/acpi/ich9.h
-> > +++ b/include/hw/acpi/ich9.h
-> > @@ -24,6 +24,7 @@
-> >  #include "hw/acpi/acpi.h"
-> >  #include "hw/acpi/cpu_hotplug.h"
-> >  #include "hw/acpi/cpu.h"
-> > +#include "hw/acpi/pcihp.h"
-> >  #include "hw/acpi/memory_hotplug.h"
-> >  #include "hw/acpi/acpi_dev_interface.h"
-> >  #include "hw/acpi/tco.h"
-> > @@ -55,6 +56,8 @@ typedef struct ICH9LPCPMRegs {
-> >      AcpiCpuHotplug gpe_cpu;
-> >      CPUHotplugState cpuhp_state;
-> >
-> > +    bool use_acpi_hotplug_bridge;
-> > +    AcpiPciHpState acpi_pci_hotplug;
-> >      MemHotplugState acpi_memory_hotplug;
-> >
-> >      uint8_t disable_s3;
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 4daa79ec8d..bcbd567cb0 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -217,6 +217,26 @@ static const VMStateDescription vmstate_cpuhp_state = {
-> >      }
-> >  };
-> >
-> > +static bool vmstate_test_use_pcihp(void *opaque)
-> > +{
-> > +    ICH9LPCPMRegs *s = opaque;
-> > +
-> > +    return s->use_acpi_hotplug_bridge;
-> > +}
-> > +
-> > +static const VMStateDescription vmstate_pcihp_state = {
-> > +    .name = "ich9_pm/pcihp",
-> > +    .version_id = 1,
-> > +    .minimum_version_id = 1,
-> > +    .needed = vmstate_test_use_pcihp,
-> > +    .fields      = (VMStateField[]) {
-> > +        VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug,
-> > +                            ICH9LPCPMRegs,
-> > +                            NULL, NULL),
-> > +        VMSTATE_END_OF_LIST()
-> > +    }
-> > +};
-> > +
-> >  const VMStateDescription vmstate_ich9_pm = {
-> >      .name = "ich9_pm",
-> >      .version_id = 1,
-> > @@ -238,6 +258,7 @@ const VMStateDescription vmstate_ich9_pm = {
-> >          &vmstate_memhp_state,
-> >          &vmstate_tco_io_state,
-> >          &vmstate_cpuhp_state,
-> > +        &vmstate_pcihp_state,
-> >          NULL
-> >      }
-> >  };
-> > @@ -259,6 +280,7 @@ static void pm_reset(void *opaque)
-> >      }
-> >      pm->smi_en_wmask = ~0;
-> >
-> > +    acpi_pcihp_reset(&pm->acpi_pci_hotplug, true);
->
-> Doesn't this need to be protected by if (pm->use_acpi_hotplug_bridge)
-> ? Otherwise pm->acpi_pci_hotplug won't be initialized.
-
-Yes, you're right. Although it doesn't affect anything now, it should
-be fixed. I'll send a patch on top.
-
-> >      acpi_update_sci(&pm->acpi_regs, pm->irq);
-> >  }
-> >
-> > @@ -297,6 +319,18 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
-> >      pm->enable_tco = true;
-> >      acpi_pm_tco_init(&pm->tco_regs, &pm->io);
-> >
-> > +    if (pm->use_acpi_hotplug_bridge) {
-> > +        acpi_pcihp_init(OBJECT(lpc_pci),
-> > +                        &pm->acpi_pci_hotplug,
-> > +                        pci_get_bus(lpc_pci),
-> > +                        pci_address_space_io(lpc_pci),
-> > +                        true,
-> > +                        ACPI_PCIHP_ADDR_ICH9);
-> > +
-> > +        qbus_set_hotplug_handler(BUS(pci_get_bus(lpc_pci)),
-> > +                                 OBJECT(lpc_pci));
-> > +    }
-> > +
-> >      pm->irq = sci_irq;
-> >      qemu_register_reset(pm_reset, pm);
-> >      pm->powerdown_notifier.notify = pm_powerdown_req;
-> > @@ -368,6 +402,20 @@ static void ich9_pm_set_enable_tco(Object *obj, bool value, Error **errp)
-> >      s->pm.enable_tco = value;
-> >  }
-> >
-> > +static bool ich9_pm_get_acpi_pci_hotplug(Object *obj, Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    return s->pm.use_acpi_hotplug_bridge;
-> > +}
-> > +
-> > +static void ich9_pm_set_acpi_pci_hotplug(Object *obj, bool value, Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    s->pm.use_acpi_hotplug_bridge = value;
-> > +}
-> > +
-> >  void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >  {
-> >      static const uint32_t gpe0_len = ICH9_PMIO_GPE0_LEN;
-> > @@ -376,6 +424,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      pm->disable_s3 = 0;
-> >      pm->disable_s4 = 0;
-> >      pm->s4_val = 2;
-> > +    pm->use_acpi_hotplug_bridge = false;
-> >
-> >      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
-> >                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-> > @@ -399,6 +448,9 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      object_property_add_bool(obj, ACPI_PM_PROP_TCO_ENABLED,
-> >                               ich9_pm_get_enable_tco,
-> >                               ich9_pm_set_enable_tco);
-> > +    object_property_add_bool(obj, "acpi-pci-hotplug-with-bridge-support",
-> > +                             ich9_pm_get_acpi_pci_hotplug,
-> > +                             ich9_pm_set_acpi_pci_hotplug);
-> >  }
-> >
-> >  void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > @@ -406,6 +458,11 @@ void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> >  {
-> >      ICH9LPCState *lpc = ICH9_LPC_DEVICE(hotplug_dev);
-> >
-> > +    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> > +        acpi_pcihp_device_pre_plug_cb(hotplug_dev, dev, errp);
-> > +        return;
-> > +    }
-> > +
-> >      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
-> >          !lpc->pm.acpi_memory_hotplug.is_enabled) {
-> >          error_setg(errp,
-> > @@ -441,6 +498,9 @@ void ich9_pm_device_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> >          } else {
-> >              acpi_cpu_plug_cb(hotplug_dev, &lpc->pm.cpuhp_state, dev, errp);
-> >          }
-> > +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> > +        acpi_pcihp_device_plug_cb(hotplug_dev, &lpc->pm.acpi_pci_hotplug,
-> > +                                  dev, errp);
-> >      } else {
-> >          error_setg(errp, "acpi: device plug request for not supported device"
-> >                     " type: %s", object_get_typename(OBJECT(dev)));
-> > @@ -473,6 +533,10 @@ void ich9_pm_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-> >
-> >          acpi_cpu_unplug_request_cb(hotplug_dev, &lpc->pm.cpuhp_state,
-> >                                     dev, errp);
-> > +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> > +        acpi_pcihp_device_unplug_request_cb(hotplug_dev,
-> > +                                            &lpc->pm.acpi_pci_hotplug,
-> > +                                            dev, errp);
-> >      } else {
-> >          error_setg(errp, "acpi: device unplug request for not supported device"
-> >                     " type: %s", object_get_typename(OBJECT(dev)));
-> > @@ -490,6 +554,9 @@ void ich9_pm_device_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU) &&
-> >                 !lpc->pm.cpu_hotplug_legacy) {
-> >          acpi_cpu_unplug_cb(&lpc->pm.cpuhp_state, dev, errp);
-> > +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> > +        acpi_pcihp_device_unplug_cb(hotplug_dev, &lpc->pm.acpi_pci_hotplug,
-> > +                                    dev, errp);
-> >      } else {
-> >          error_setg(errp, "acpi: device unplug for not supported device"
-> >                     " type: %s", object_get_typename(OBJECT(dev)));
-> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > index a55992ed9f..5355618608 100644
-> > --- a/hw/acpi/pcihp.c
-> > +++ b/hw/acpi/pcihp.c
-> > @@ -30,6 +30,8 @@
-> >  #include "hw/pci-host/i440fx.h"
-> >  #include "hw/pci/pci.h"
-> >  #include "hw/pci/pci_bridge.h"
-> > +#include "hw/pci/pci_host.h"
-> > +#include "hw/i386/acpi-build.h"
-> >  #include "hw/acpi/acpi.h"
-> >  #include "hw/pci/pci_bus.h"
-> >  #include "migration/vmstate.h"
-> > @@ -103,6 +105,7 @@ static void *acpi_set_bsel(PCIBus *bus, void *opaque)
-> >  static void acpi_set_pci_info(void)
-> >  {
-> >      static bool bsel_is_set;
-> > +    Object *host = acpi_get_i386_pci_host();
-> >      PCIBus *bus;
-> >      unsigned bsel_alloc = ACPI_PCIHP_BSEL_DEFAULT;
-> >
-> > @@ -111,7 +114,7 @@ static void acpi_set_pci_info(void)
-> >      }
-> >      bsel_is_set = true;
-> >
-> > -    bus = find_i440fx(); /* TODO: Q35 support */
-> > +    bus = PCI_HOST_BRIDGE(host)->bus;
->
-> Would it make more sense for this change to go in patch #1, along with
-> the similar change to acpi_pcihp_disable_root_bus().
-
-Not really. This is exactly what enables ACPI hotplug, and should be
-done with other changes here. The first patch could be merged in this
-one, though.
-
-Best regards, Julia Suvorova.
-
-> >      if (bus) {
-> >          /* Scan all PCI buses. Set property to enable acpi based hotplug. */
-> >          pci_for_each_bus_depth_first(bus, acpi_set_bsel, NULL, &bsel_alloc);
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 67753638e4..aa973aa746 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -299,7 +299,7 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
-> >   * Because of the PXB hosts we cannot simply query TYPE_PCI_HOST_BRIDGE.
-> >   * On i386 arch we only have two pci hosts, so we can look only for them.
-> >   */
-> > -static Object *acpi_get_i386_pci_host(void)
-> > +Object *acpi_get_i386_pci_host(void)
-> >  {
-> >      PCIHostState *host;
-> >
->
-> --
-> David Gibson                    | I'll have my music baroque, and my code
-> david AT gibson.dropbear.id.au  | minimalist, thank you.  NOT _the_ _other_
->                                 | _way_ _around_!
-> http://www.ozlabs.org/~dgibson
-
+DQoNCj4gT24gMjkgSnVuIDIwMjEsIGF0IDEyOjUwLCBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlk
+ZWxsQGxpbmFyby5vcmc+IHdyb3RlOg0KPiANCj4gT24gVHVlLCAyOSBKdW4gMjAyMSBhdCAxMTo0
+MSwgTmljayBIdWRzb24gPGhuaWNrQHZtd2FyZS5jb20+IHdyb3RlOg0KPj4gDQo+PiANCj4+IA0K
+Pj4+IE9uIDI5IEp1biAyMDIxLCBhdCAxMDo0OSwgUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVs
+bEBsaW5hcm8ub3JnPiB3cm90ZToNCj4+PiANCj4+PiBPbiBUdWUsIDI5IEp1biAyMDIxIGF0IDA5
+OjI3LCA8aG5pY2tAdm13YXJlLmNvbT4gd3JvdGU6DQo+Pj4+IA0KPj4+PiBTaWduZWQtb2ZmLWJ5
+OiBOaWNrIEh1ZHNvbiA8aG5pY2tAdm13YXJlLmNvbT4NCj4+Pj4gLS0tDQo+Pj4+IHRhcmdldC9h
+cm0vaGVscGVyLmMgfCAyICstDQo+Pj4+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
+MSBkZWxldGlvbigtKQ0KPj4+PiANCj4+Pj4gZGlmZiAtLWdpdCBhL3RhcmdldC9hcm0vaGVscGVy
+LmMgYi90YXJnZXQvYXJtL2hlbHBlci5jDQo+Pj4+IGluZGV4IGE2NmMxZjBiOWUuLjcyNjdhZjc5
+MjQgMTAwNjQ0DQo+Pj4+IC0tLSBhL3RhcmdldC9hcm0vaGVscGVyLmMNCj4+Pj4gKysrIGIvdGFy
+Z2V0L2FybS9oZWxwZXIuYw0KPj4+PiBAQCAtNjMzMCw3ICs2MzMwLDcgQEAgc3RhdGljIGNvbnN0
+IEFSTUNQUmVnSW5mbyBkZWJ1Z19jcF9yZWdpbmZvW10gPSB7DQo+Pj4+ICAgICAqIFdlIGRvbid0
+IGltcGxlbWVudCB0aGUgY29uZmlndXJhYmxlIEVMMCBhY2Nlc3MuDQo+Pj4+ICAgICAqLw0KPj4+
+PiAgICB7IC5uYW1lID0gIk1EQ0NTUl9FTDAiLCAuc3RhdGUgPSBBUk1fQ1BfU1RBVEVfQk9USCwN
+Cj4+Pj4gLSAgICAgIC5jcCA9IDE0LCAub3BjMCA9IDIsIC5vcGMxID0gMCwgLmNybiA9IDAsIC5j
+cm0gPSAxLCAub3BjMiA9IDAsDQo+Pj4+ICsgICAgICAuY3AgPSAxNCwgLm9wYzAgPSAyLCAub3Bj
+MSA9IDMsIC5jcm4gPSAwLCAuY3JtID0gMSwgLm9wYzIgPSAwLA0KPj4+PiAgICAgIC50eXBlID0g
+QVJNX0NQX0FMSUFTLA0KPj4+PiAgICAgIC5hY2Nlc3MgPSBQTDFfUiwgLmFjY2Vzc2ZuID0gYWNj
+ZXNzX3RkYSwNCj4+Pj4gICAgICAuZmllbGRvZmZzZXQgPSBvZmZzZXRvZihDUFVBUk1TdGF0ZSwg
+Y3AxNS5tZHNjcl9lbDEpLCB9LA0KPj4+IA0KPj4+IFRoaXMgZml4ZXMgdGhlIGVuY29kaW5nIGZv
+ciBBQXJjaDY0LCBidXQgYnJlYWtzIGl0IGZvciBBQXJjaDMyLA0KPj4+IHdoZXJlIGl0IGlzIGNw
+PTE0IG9wYzE9MCBjcm49MCBjcm09MSBvcGMyPTAuIEJlY2F1c2UgdGhpcyBpcyBvbmUgb2YNCj4+
+PiB0aG9zZSBzeXN0ZW0gcmVnaXN0ZXJzIHdoZXJlIHRoZSBBQXJjaDY0IGFuZCBBQXJjaDMyIGVu
+Y29kaW5ncw0KPj4+IGRvbid0IG1hdGNoIHVwLCB0byBmaXggdGhlIEFBcmNoNjQgZW5jb2Rpbmcg
+d2UgbmVlZCB0byByZXBsYWNlDQo+Pj4gdGhpcyBBUk1fQ1BfU1RBVEVfQk9USCByZWdpbmZvIHdp
+dGggc2VwYXJhdGUgcmVnaW5mbyBmb3INCj4+PiBBUk1fQ1BfU1RBVEVfQUEzMiBhbmQgQVJNX0NQ
+X1NUQVRFX0FBNjQsIHNvbWV0aGluZyBsaWtlIHRoaXM6DQo+Pj4gDQo+Pj4gICB7IC5uYW1lID0g
+Ik1EQ0NTUl9FTDAiLCAuc3RhdGUgPSBBUk1fQ1BfU1RBVEVfQUE2NCwNCj4+PiAgICAgLm9wYzAg
+PSAyLCAub3BjMSA9IDMsIC5jcm4gPSAwLCAuY3JtID0gMSwgLm9wYzIgPSAwLA0KPj4+ICAgICAu
+dHlwZSA9IEFSTV9DUF9BTElBUywNCj4+PiAgICAgLmFjY2VzcyA9IFBMMV9SLCAuYWNjZXNzZm4g
+PSBhY2Nlc3NfdGRhLA0KPj4+ICAgICAuZmllbGRvZmZzZXQgPSBvZmZzZXRvZihDUFVBUk1TdGF0
+ZSwgY3AxNS5tZHNjcl9lbDEpLCB9LA0KPj4+ICAgeyAubmFtZSA9ICJEQkdEU0NSaW50IiwgLnN0
+YXRlID0gQVJNX0NQX1NUQVRFX0FBMzIsDQo+Pj4gICAgIC5jcCA9IDE0LCAub3BjMCA9IDIsIC5v
+cGMxID0gMCwgLmNybiA9IDAsIC5jcm0gPSAxLCAub3BjMiA9IDAsDQo+Pj4gICAgIC50eXBlID0g
+QVJNX0NQX0FMSUFTLA0KPj4+ICAgICAuYWNjZXNzID0gUEwxX1IsIC5hY2Nlc3NmbiA9IGFjY2Vz
+c190ZGEsDQo+Pj4gICAgIC5maWVsZG9mZnNldCA9IG9mZnNldG9mbG93MzIoQ1BVQVJNU3RhdGUs
+IGNwMTUubWRzY3JfZWwxKSwgfSwNCj4+PiANCj4+IA0KPj4gQWgsIHllcy4NCj4+IA0KPj4gQXMg
+TURDQ1NSX0VMMFszMDoyOV0gb25seSBtYXBzIHRvIERCR0RTQ1JpbnRbMzA6MjldIG1heWJlIGl0
+IHNob3VsZCBiZSBhbGwgUkFaPw0KPiANCj4gV2VsbCwgeW91IGNhbid0IG1ha2UgaXQgYWxsIFJB
+WiwgYmVjYXVzZSB0aG9zZSAyIGJpdHMgZG8gc3RpbGwNCj4gbmVlZCB0byBiZSBtYXBwZWQsIGJ1
+dCBJIGd1ZXNzIGluIHRoZW9yeSB5ZXMgd2Ugc2hvdWxkIGRlZmluZQ0KPiByZWFkIGFuZCB3cml0
+ZSBhY2Nlc3NvciBmdW5jdGlvbnMgZm9yIEFBcmNoNjQgTURDQ1NSX0VMMCB0aGF0DQo+IG1hc2sg
+b3V0IGV2ZXJ5dGhpbmcgZXhjZXB0IFszMDoyOV0uDQoNCg0KSGkgUGV0ZXIsDQoNCk1heWJlIEni
+gJltIG1pc3JlYWRpbmcgdGhlIEFSTSBBUk0gYW5kIHRoZSBxZW11IHVzZSBvZiBtZHNjcl9lbDEs
+IGJ1dCBJIHRoaW5rDQp0aGlzIGlzIGdvb2QgZW5vdWdoIC8gbW9yZSBjb3JyZWN0LiAgSeKAmW0g
+c29tZXdoYXQgY29uZnVzZWQgYnkgQUE2NCBNRFNDUl9FTDENCnZzIERCR1NDUmludCB2cyBEQkdT
+Q1JleHQsIGhvd2V2ZXIuDQoNCiAgICAvKiBNRENDU1JfRUwwWzMwOjI5XSBtYXAgdG8gREJHRFND
+UmludFszMDoyOV0uIFNpbXBseSBSQVouDQogICAgICogV2UgZG9uJ3QgaW1wbGVtZW50IHRoZSBj
+b25maWd1cmFibGUgRUwwIGFjY2Vzcy4NCiAgICAgKi8NCiAgICB7IC5uYW1lID0gIk1EQ0NTUl9F
+TDAiLCAuc3RhdGUgPSBBUk1fQ1BfU1RBVEVfQUE2NCwNCiAgICAgIC5jcCA9IDE0LCAub3BjMCA9
+IDIsIC5vcGMxID0gMywgLmNybiA9IDAsIC5jcm0gPSAxLCAub3BjMiA9IDAsDQogICAgICAudHlw
+ZSA9IEFSTV9DUF9DT05TVCwgLnJlc2V0dmFsdWUgPSAwIH0sDQogICAgLyogREJHRFNDUmludFsx
+NSwxMiw1OjJdIG1hcCB0byBNRFNDUl9FTDFbMTUsMTIsNToyXSAqLw0KICAgIHsgLm5hbWUgPSAi
+REJHRFNDUmludCIsIC5zdGF0ZSA9IEFSTV9DUF9TVEFURV9BQTMyLA0KICAgICAgLmNwID0gMTQs
+IC5vcGMwID0gMiwgLm9wYzEgPSAwLCAuY3JuID0gMCwgLmNybSA9IDEsIC5vcGMyID0gMCwNCiAg
+ICAgIC50eXBlID0gQVJNX0NQX0FMSUFTLA0KICAgICAgLmFjY2VzcyA9IFBMMV9SLCAuYWNjZXNz
+Zm4gPSBhY2Nlc3NfdGRhLA0KICAgICAgLmZpZWxkb2Zmc2V0ID0gb2Zmc2V0b2YoQ1BVQVJNU3Rh
+dGUsIGNwMTUubWRzY3JfZWwxKSwgfSwNCg0KUGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSB3YW50
+IG1lIHRvIHN1Ym1pdCBhIG5ldyBwYXRjaC4NCg0KVGhhbmtzLA0KTmljaw==
 
