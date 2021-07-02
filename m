@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51373BA18A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:44:48 +0200 (CEST)
-Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025183BA18F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:47:03 +0200 (CEST)
+Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzJTL-00007t-Ky
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45656)
+	id 1lzJVW-0006Bb-1j
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJLO-0002EV-VI
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:34 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33642)
+ id 1lzJLV-0002Ps-0h
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:41 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJLN-0003zK-IB
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:34 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id i8so12583961wrc.0
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:36:33 -0700 (PDT)
+ id 1lzJLT-00040n-C0
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:40 -0400
+Received: by mail-wr1-x433.google.com with SMTP id a13so12480737wrf.10
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7A/j/FYlYSZh3luNW3Um8CEXczwC9yclCtiX6mQrEkk=;
- b=gJI0detEXXLTl/G77/lBfTmHYiZ/XWAZ42aKTylylRnSLpOQUxkbRB856WuF/GxkIs
- vmtb+sOg5N2RnfUIsOypf2qG1VFs/fN+xAjwnnclgNUmWCnKDdmMlW+mWPaqTfkAhwSx
- IVoXqwzC0io8DkwqGyM4J/nFPTMMt24f5yC/qsUizrhLBHTLMArdRQY2d2fe1N0KL7vr
- qa6BtZpGubKqS/KS4dknOZy6S5RumlfTLuPwOh7s/kHFKmxvbMOqcz0Hn0sBRgtIlKUS
- ciLCAkucBLXmdZoEb9Pn23Lt6c9t51qN098XqdGJjU/c0/q/8aZLDFE6XhHN+vGhqcr9
- O03Q==
+ bh=6SjNTNzzmhwEPVZj6BseAgSSsGle0gDtK79Bw/VO9BM=;
+ b=qLcaIT6ez1LLeRUhcFFHNmBAGy3IgyPTHV5AHk/0THkgLGh5tMP8+1ao0gLAX/eXFN
+ /J6WvTwnAuUILnQdS2OZXZQFsKKDaFPyuel7NGsJOosphFgD+r5pfhLeb6tPiV4Z3dnB
+ j/d8ljvI451K0BNeWMjO9xNilLVcUxmPdYAF7vvxxaWckwfSLZbqXpowiudJUUookw1J
+ gIjkuNvstpZrPa1GjlEr0zZMt45Jdr1TgL/G6MpveGNLbMggRE6CMFCm7fEWOTdl1Dst
+ 7I6d55UZBeAufXY1cnA5VgHgo6kIhoRlN/cDN9HitP7P3BQeR+7u2uO4YrF4g2OEnnN9
+ 2BxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7A/j/FYlYSZh3luNW3Um8CEXczwC9yclCtiX6mQrEkk=;
- b=YAqme29aGgRyG/AXKkxUC6N/Tg8kV68GJ6ARDRqRKnvCHFdJ/IuKDDxiA42eCvO8CI
- /qMvXvrEL95XanN6wGz5LcmfcL+/MuE9RuSWP5jyBDW6hLv07tLAOYzJ+VIbx/TVbsNB
- d+Ncu57u++t0xE5ikqdaqZ13fTnnzb+jYqiF6a1xhhKoL7wfpg82vPJDGxP96flq8VpI
- qW0riALH1OZQnHAsJN7Af7TkQA30QkSm2mD6j90IbXImhDxWusbGrkP0IV0Xfm2vNHvN
- YW5lXYRkon2kahCMMAz54tUV7eyTWhMj2CEl14MHOazoR09xSeyyDMhScob5xypBK3Ge
- Qo5Q==
-X-Gm-Message-State: AOAM532Sj5dZpi3cBUvqVeDFCngnvSBPuFhtY8a1mUWUeSmi7kOWE6yx
- zaPXQehpa9ne5iUALKH2LINePC1kaFsnx2XS
-X-Google-Smtp-Source: ABdhPJwS8nEeA1Ovh/xQ9nm1AetIMf/pLFXH7rZQfY6uwbpsF/gsoBepbpNuxQmiF1lh/APxyDOcFg==
-X-Received: by 2002:adf:fb51:: with SMTP id c17mr6191200wrs.106.1625232991992; 
- Fri, 02 Jul 2021 06:36:31 -0700 (PDT)
+ bh=6SjNTNzzmhwEPVZj6BseAgSSsGle0gDtK79Bw/VO9BM=;
+ b=bVrum/mmeVEHu/kwSmpzhQJtdSSoi5UBe4ZzQfKgFBBmIpnk0/rXk+9UPlzQuyz9I/
+ tByQP3FS0gys5I5PGLp7iy5V7/JzOu4M+ICi9+O2uMaPo3RWTGjEjjEhJmC9CtuZyq6f
+ 1oUVfYPyTZOOI64C7I26dtkIIxiByR0YTNPHM+ZI0vZeZMOMmH0fPBqIYCnrJsOkkkpP
+ uXwcw7DEmy0hC1Fn45n8XLD+80tT3+hjX5zeulimoYEcESOXrcxZM/fOWyLRn/LU0HHi
+ E5pXQ9BWfzxmcOj8EXi6yj1NIDxQeOwngKnxs5I0c14/K9gaJmq6a+kdNchXVcmwH+Zd
+ 0rcg==
+X-Gm-Message-State: AOAM530mVlZQF2hFk1fywIcrq82FW5zu0Ba9D97458rvukx0WzlHX+6d
+ NCB5YP1RuGUk5mcNHnNeC6IR/zrXfQGfp/ZT
+X-Google-Smtp-Source: ABdhPJw6d8jE9xJfuhvSOPUKaDYl1J0qM8JABqzy0N4k6eRpKKcvrK09h5dtF+tA60i5ORokrv+cDA==
+X-Received: by 2002:a5d:4f05:: with SMTP id c5mr5927418wru.362.1625232997916; 
+ Fri, 02 Jul 2021 06:36:37 -0700 (PDT)
 Received: from x1w.Ascou-CH1 (pop.92-184-108-23.mobile.abo.orange.fr.
  [92.184.108.23])
- by smtp.gmail.com with ESMTPSA id t11sm3398734wrz.7.2021.07.02.06.36.30
+ by smtp.gmail.com with ESMTPSA id 12sm13818781wme.28.2021.07.02.06.36.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 06:36:31 -0700 (PDT)
+ Fri, 02 Jul 2021 06:36:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] hw/pci-host/bonito: Trace PCI config accesses smaller
+Subject: [PULL 06/18] hw/pci-host/bonito: Allow PCI config accesses smaller
  than 32-bit
-Date: Fri,  2 Jul 2021 15:35:44 +0200
-Message-Id: <20210702133557.60317-6-f4bug@amsat.org>
+Date: Fri,  2 Jul 2021 15:35:45 +0200
+Message-Id: <20210702133557.60317-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210702133557.60317-1-f4bug@amsat.org>
 References: <20210702133557.60317-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,70 +91,70 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the datasheet section "5.7.5. Accessing PCI configuration space"
-the address must be 32-bit aligned. Trace eventual accesses not
-aligned to 32-bit.
+When running the official PMON firmware for the Fuloong 2E, we see
+8-bit and 16-bit accesses to PCI config space:
 
+  $ qemu-system-mips64el -M fuloong2e -bios pmon_2e.bin \
+    -trace -trace bonito\* -trace pci_cfg\*
+
+  pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
+  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x4d2, size: 2
+  pci_cfg_write vt82c686b-pm 05:4 @0xd2 <- 0x1
+  pci_cfg_write vt82c686b-pm 05:4 @0x4 <- 0x1
+  pci_cfg_write vt82c686b-isa 05:0 @0x4 <- 0x7
+  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x81, size: 1
+  pci_cfg_read vt82c686b-isa 05:0 @0x81 -> 0x0
+  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x81, size: 1
+  pci_cfg_write vt82c686b-isa 05:0 @0x81 <- 0x80
+  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x83, size: 1
+  pci_cfg_write vt82c686b-isa 05:0 @0x83 <- 0x89
+  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x85, size: 1
+  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x3
+  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x5a, size: 1
+  pci_cfg_write vt82c686b-isa 05:0 @0x5a <- 0x7
+  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x85, size: 1
+  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x1
+
+Also this is what the Linux kernel does since it supports the Bonito
+north bridge:
+https://elixir.bootlin.com/linux/v2.6.15/source/arch/mips/pci/ops-bonito64.c#L85
+
+So it seems safe to assume the datasheet is incomplete or outdated
+regarding the address constraints.
+
+This problem was exposed by commit 911629e6d3773a8adeab48b
+("vt82c686: Fix SMBus IO base and configuration registers").
+
+Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
+Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210624202747.1433023-3-f4bug@amsat.org>
+Message-Id: <20210624202747.1433023-4-f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c     | 8 ++++++++
- hw/pci-host/trace-events | 3 +++
- 2 files changed, 11 insertions(+)
+ hw/pci-host/bonito.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index afb3d1f81d5..751fdcec689 100644
+index 751fdcec689..a57e81e3a97 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -52,6 +52,7 @@
- #include "hw/misc/unimp.h"
- #include "hw/registerfields.h"
- #include "qom/object.h"
-+#include "trace.h"
- 
- /* #define DEBUG_BONITO */
- 
-@@ -185,6 +186,7 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
- #define BONITO_PCICONF_IDSEL_OFFSET    11
+@@ -187,7 +187,7 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
  #define BONITO_PCICONF_FUN_MASK        0x700    /* [10:8] */
  #define BONITO_PCICONF_FUN_OFFSET      8
-+#define BONITO_PCICONF_REG_MASK_DS     (~3)         /* Per datasheet */
- #define BONITO_PCICONF_REG_MASK        0xFC
+ #define BONITO_PCICONF_REG_MASK_DS     (~3)         /* Per datasheet */
+-#define BONITO_PCICONF_REG_MASK        0xFC
++#define BONITO_PCICONF_REG_MASK_HW     0xff         /* As seen running PMON */
  #define BONITO_PCICONF_REG_OFFSET      0
  
-@@ -495,6 +497,9 @@ static void bonito_spciconf_write(void *opaque, hwaddr addr, uint64_t val,
-     if (pciaddr == 0xffffffff) {
-         return;
-     }
-+    if (addr & ~BONITO_PCICONF_REG_MASK_DS) {
-+        trace_bonito_spciconf_small_access(addr, size);
-+    }
  
-     /* set the pci address in s->config_reg */
-     phb->config_reg = (pciaddr) | (1u << 31);
-@@ -521,6 +526,9 @@ static uint64_t bonito_spciconf_read(void *opaque, hwaddr addr, unsigned size)
-     if (pciaddr == 0xffffffff) {
-         return MAKE_64BIT_MASK(0, size * 8);
-     }
-+    if (addr & ~BONITO_PCICONF_REG_MASK_DS) {
-+        trace_bonito_spciconf_small_access(addr, size);
-+    }
+@@ -466,7 +466,7 @@ static uint32_t bonito_sbridge_pciaddr(void *opaque, hwaddr addr)
+              BONITO_PCICONF_IDSEL_OFFSET;
+     devno = ctz32(idsel);
+     funno = (cfgaddr & BONITO_PCICONF_FUN_MASK) >> BONITO_PCICONF_FUN_OFFSET;
+-    regno = (cfgaddr & BONITO_PCICONF_REG_MASK) >> BONITO_PCICONF_REG_OFFSET;
++    regno = (cfgaddr & BONITO_PCICONF_REG_MASK_HW) >> BONITO_PCICONF_REG_OFFSET;
  
-     /* set the pci address in s->config_reg */
-     phb->config_reg = (pciaddr) | (1u << 31);
-diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
-index f4b3a50cb0b..630e9fcc5e7 100644
---- a/hw/pci-host/trace-events
-+++ b/hw/pci-host/trace-events
-@@ -1,5 +1,8 @@
- # See docs/devel/tracing.rst for syntax documentation.
- 
-+# bonito.c
-+bonito_spciconf_small_access(uint64_t addr, unsigned size) "PCI config address is smaller then 32-bit, addr: 0x%"PRIx64", size: %u"
-+
- # grackle.c
- grackle_set_irq(int irq_num, int level) "set_irq num %d level %d"
- 
+     if (idsel == 0) {
+         error_report("error in bonito pci config address 0x" TARGET_FMT_plx
 -- 
 2.31.1
 
