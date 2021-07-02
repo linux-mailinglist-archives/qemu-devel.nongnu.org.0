@@ -2,87 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88CB3BA27A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 17:04:27 +0200 (CEST)
-Received: from localhost ([::1]:49684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A3A3BA281
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 17:06:50 +0200 (CEST)
+Received: from localhost ([::1]:53626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzKiR-00083W-11
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 11:04:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
+	id 1lzKkj-0002TK-MZ
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 11:06:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzKgV-0005wb-VL
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:02:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36223)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lzKjb-00016q-6v
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:05:39 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:35235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzKgR-0004hS-SU
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:02:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625238141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=345AatrHP2zrPaPic924NOOzQKnpLu+VWBMLyPmvbVk=;
- b=UeyBo1TEIUgbW1+DrbXHZqTnAayrzF+ZbQYlbROWBN+u6pQAb/cje48Tznw5d/WT0Kekm7
- 2upzAT4iZzBr/us8JaftzXFshHceHX0a0Tbp+XAJQsbNrsGwsVvK411PC7dW1M27Iixc3H
- JuzcleWIeSuS3cIxGuXVcFArDLPcJvU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-IpAtAt9xM7u9TeefHZLvJw-1; Fri, 02 Jul 2021 11:02:18 -0400
-X-MC-Unique: IpAtAt9xM7u9TeefHZLvJw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- de48-20020a1709069bf0b029048ae3ebecabso3606646ejc.16
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 08:02:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=345AatrHP2zrPaPic924NOOzQKnpLu+VWBMLyPmvbVk=;
- b=TAJBkuiMH6xopAfByx+cQ3Qu1qA54dUgj8R6vZg6/sZbpDK3lJex43vuXUMm16E0ps
- Dixhp+WwuLxzze9JpDhr+yDp7KQQreLCoFwIav3natFH17WxtjitGs/qfkmHQAwXk5l7
- iL1DT3YKLCekmcR/vad9E/bxG4CAe4UGun8zz1E8QO/Nu1n7KluVyMh1QOGGekAMIWj8
- 0UNoWXggL7jcXMWcr2+4GcbFYgcaYGbwlgHGAGVRFmKWRck7e7LApVMNW8u8pTJ5ZlrD
- I6udxDhHn1Kx1mXl+G0smpn9aAZfPUcOQdhN16dibcQPJmNrdY+Gj5EeTBtSJnsqkPoO
- QYRw==
-X-Gm-Message-State: AOAM530mELJA3IL/ujcX1/QOxj6V+iY1d9RBL1bgdiXQi0Sb4AADjVC5
- F7KS63D3rdI6hgMkfyVG7uHE9CESqDUQrAIHK78Get0i6tLfrdQ35zlVCJEafEKC7WLGRqlvbec
- dpVWYWaVYz/s/uIM=
-X-Received: by 2002:a17:906:d1d5:: with SMTP id
- bs21mr137339ejb.378.1625238137202; 
- Fri, 02 Jul 2021 08:02:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzY6qMx7UgFeeq7PgD5+lPeeOxsco/zvBPsXbcE8UzoOVJ326qokHWDe3O47sBB3AV8P9rG0w==
-X-Received: by 2002:a17:906:d1d5:: with SMTP id
- bs21mr137280ejb.378.1625238136431; 
- Fri, 02 Jul 2021 08:02:16 -0700 (PDT)
-Received: from redhat.com ([2.55.4.39])
- by smtp.gmail.com with ESMTPSA id b17sm1380279edd.58.2021.07.02.08.02.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 08:02:15 -0700 (PDT)
-Date: Fri, 2 Jul 2021 11:02:11 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Chris Browy <cbrowy@avery-design.com>
-Subject: Re: [PATCH v6 cxl2.0-v6-doe 3/6] hw/pci: PCIe Data Object Exchange
- implementation
-Message-ID: <20210702105626-mutt-send-email-mst@kernel.org>
-References: <1623329999-15662-1-git-send-email-cbrowy@avery-design.com>
- <1623330968-18414-1-git-send-email-cbrowy@avery-design.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lzKjY-0006Kw-Qc
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:05:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=4OgiP2Wh+1vt3WNZHD4g14Pd2NaVW/t8CznpXJjeleo=; b=Rx6dYS6POvf+X3BvXAg6r+sprd
+ Tzo5/LEF9i7CId1jWWNX72jKrQWKHHow0t80MKJ44lR4zXMCPeA1eheOl1Uyj2Kj/vL71m5l2qHSD
+ 01tWxQFKNVNM/nKPJ2GyS0P6XpxrLOecp6iNKoY3gJe3TY1SP8Z8nPB9udpVxL7lhJSRGFV6rznit
+ F2gAvtM2O5bjjRBvkgyjpEA48VpkZzsxZxe1/R6sGyZLyhm1EDFZDYkb8zv3dSpqmx/fpqH6Izf7J
+ 4DZd8uXbDMA5HzygfA3sEkRM1vu4MXh3AiWbiH1xTN3ddfDmgSumBqX5S3X3JkfFt/fSQdMzvttqD
+ 8MJCm4C7y328/Vn3r/FXprxHNPweM4/B+y9dCqAxq/snupwq6SuE6owlHREFYd+45xHs+lpm50CvN
+ 9+fgLa+HkxN3rUhxGVS8b6vhSqfWPYGWTWNVKVWcNV040ZURNJISrVO0j7o/VzjR6Z93WpqA5gISm
+ bRI/00QSqc+4bvtkJxbzra4ruf2gpS92va7EY9hY9QAL3hv+7lwMuIbbbYOVekc1dcFwWIJqrV/ed
+ VeyM/bs5amTGu5o80VInjQ/PIK2rhOptdz1jHg5qlpQ/e9Sfg3XSp+EBvfD2rr+NkEEuKrzWC9f7Z
+ GxCGIFK5LrjzKX0EFcLRT6yl/ugQWPgsypgcDWIwI=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 7/7] 9pfs: reduce latency of Twalk
+Date: Fri, 02 Jul 2021 17:05:32 +0200
+Message-ID: <16093217.on2isagWAK@silver>
+In-Reply-To: <20210702163656.2b6a8975@bahia.lan>
+References: <cover.1622821729.git.qemu_oss@crudebyte.com>
+ <1a6701674afc4f08d40396e3aa2631e18a4dbb33.1622821729.git.qemu_oss@crudebyte.com>
+ <20210702163656.2b6a8975@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <1623330968-18414-1-git-send-email-cbrowy@avery-design.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,606 +66,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
- vishal.l.verma@intel.com, jgroves@micron.com, armbru@redhat.com,
- f4bug@amsat.org, hchkuo@avery-design.com.tw, tyshao@avery-design.com.tw,
- jonathan.cameron@huawei.com, imammedo@redhat.com, dan.j.williams@intel.com,
- ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 09:16:08AM -0400, Chris Browy wrote:
-> From: hchkuo <hchkuo@avery-design.com.tw>
+On Freitag, 2. Juli 2021 16:36:56 CEST Greg Kurz wrote:
+> On Fri, 4 Jun 2021 17:38:31 +0200
 > 
-> PCIe Data Object Exchange (DOE) implementation for QEMU referring to
-> "PCIe Data Object Exchange ECN, March 12, 2020".
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > As with previous performance optimization on Treaddir handling;
+> > reduce the overall latency, i.e. overall time spent on processing
+> > a Twalk request by reducing the amount of thread hops between the
+> > 9p server's main thread and fs worker thread(s).
+> > 
+> > In fact this patch even reduces the thread hops for Twalk handling
+> > to its theoritical minimum of exactly 2 thread hops:
+> > 
+> > main thread -> fs worker thread -> main thread
+> > 
+> > This is achieved by doing all the required fs driver tasks altogether
+> > in a single v9fs_co_run_in_worker({ ... }); code block.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> >  hw/9pfs/9p.c | 89 +++++++++++++++++++++++++++++++++++++++++-----------
+> >  1 file changed, 70 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > index 7be07f2d68..2815257f42 100644
+> > --- a/hw/9pfs/9p.c
+> > +++ b/hw/9pfs/9p.c
+> > @@ -1705,9 +1705,9 @@ static void coroutine_fn v9fs_walk(void *opaque)
+> > 
+> >      int name_idx;
+> >      V9fsQID *qids = NULL;
+> >      int i, err = 0;
+> > 
+> > -    V9fsPath dpath, path;
+> > +    V9fsPath dpath, path, *pathes = NULL;
+> > 
+> >      uint16_t nwnames;
+> > 
+> > -    struct stat stbuf;
+> > +    struct stat stbuf, fidst, *stbufs = NULL;
+> > 
+> >      size_t offset = 7;
+> >      int32_t fid, newfid;
+> >      V9fsString *wnames = NULL;
+> > 
+> > @@ -1733,6 +1733,8 @@ static void coroutine_fn v9fs_walk(void *opaque)
+> > 
+> >      if (nwnames) {
+> >      
+> >          wnames = g_new0(V9fsString, nwnames);
+> >          qids   = g_new0(V9fsQID, nwnames);
+> > 
+> > +        stbufs = g_new0(struct stat, nwnames);
+> > +        pathes = g_new0(V9fsPath, nwnames);
+> > 
+> >          for (i = 0; i < nwnames; i++) {
+> >          
+> >              err = pdu_unmarshal(pdu, offset, "s", &wnames[i]);
+> >              if (err < 0) {
+> > 
+> > @@ -1753,39 +1755,85 @@ static void coroutine_fn v9fs_walk(void *opaque)
+> > 
+> >      v9fs_path_init(&dpath);
+> >      v9fs_path_init(&path);
+> > 
+> > +    /*
+> > +     * Both dpath and path initially point to fidp.
+> > +     * Needed to handle request with nwnames == 0
+> > +     */
+> > +    v9fs_path_copy(&dpath, &fidp->path);
+> > +    v9fs_path_copy(&path, &fidp->path);
+> > 
+> > -    err = v9fs_co_lstat(pdu, &fidp->path, &stbuf);
+> > +    /*
+> > +     * To keep latency (i.e. overall execution time for processing this
+> > +     * Twalk client request) as small as possible, run all the required
+> > fs
+> > +     * driver code altogether inside the following block.
+> > +     */
+> > +    v9fs_co_run_in_worker({
+> > +        if (v9fs_request_cancelled(pdu)) {
+> > +            err = -EINTR;
+> > +            break;
+> > +        }
+> > +        err = s->ops->lstat(&s->ctx, &dpath, &fidst);
+> > +        if (err < 0) {
+> > +            err = -errno;
+> > +            break;
+> > +        }
+> > +        stbuf = fidst;
+> > +        for (name_idx = 0; name_idx < nwnames; name_idx++) {
+> > +            if (v9fs_request_cancelled(pdu)) {
+> > +                err = -EINTR;
+> > +                break;
+> > +            }
+> > +            if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
+> > +                strcmp("..", wnames[name_idx].data))
+> > +            {
+> > +                err = s->ops->name_to_path(&s->ctx, &dpath,
+> > +                                        wnames[name_idx].data, &path);
 > 
-> The patch supports multiple DOE capabilities for a single PCIe device in
-> QEMU. For each capability, a static array of DOEProtocol should be
-> passed to pcie_doe_init(). The protocols in that array will be
-> registered under the DOE capability structure. For each protocol, vendor
-> ID, type, and corresponding callback function (handle_request()) should
-> be implemented. This callback function represents how the DOE request
-> for corresponding protocol will be handled.
+> It seems you could pass &pathes[name_idx] instead of &path and...
 > 
-> pcie_doe_{read/write}_config() must be appended to corresponding PCI
-> device's config_read/write() handler to enable DOE access. In
-> pcie_doe_read_config(), false will be returned if pci_config_read()
-> offset is not within DOE capability range. In pcie_doe_write_config(),
-> the function will be early returned if not within the related DOE range.
+> > +                if (err < 0) {
+> > +                    err = -errno;
+> > +                    break;
+> > +                }
+> > +                if (v9fs_request_cancelled(pdu)) {
+> > +                    err = -EINTR;
+> > +                    break;
+> > +                }
+> > +                err = s->ops->lstat(&s->ctx, &path, &stbuf);
+> > +                if (err < 0) {
+> > +                    err = -errno;
+> > +                    break;
+> > +                }
+> > +                stbufs[name_idx] = stbuf;
+> > +                v9fs_path_copy(&dpath, &path);
+> > +                v9fs_path_copy(&pathes[name_idx], &path);
 > 
-> Signed-off-by: hchkuo <hchkuo@avery-design.com.tw>
-> Signed-off-by: Chris Browy <cbrowy@avery-design.com>
-> ---
->  MAINTAINERS               |   7 +
->  hw/pci/meson.build        |   1 +
->  hw/pci/pcie_doe.c         | 374 ++++++++++++++++++++++++++++++++++++++
->  include/hw/pci/pcie.h     |   1 +
->  include/hw/pci/pcie_doe.h | 123 +++++++++++++
->  5 files changed, 506 insertions(+)
->  create mode 100644 hw/pci/pcie_doe.c
->  create mode 100644 include/hw/pci/pcie_doe.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f9097ed9e7..e77e9892e3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1681,6 +1681,13 @@ F: docs/pci*
->  F: docs/specs/*pci*
->  F: default-configs/pci.mak
->  
-> +PCIE DOE
-> +M: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
-> +M: Chris Browy <cbrowy@avery-design.com>
-> +S: Supported
-> +F: include/hw/pci/pcie_doe.h
-> +F: hw/pci/pcie_doe.c
-> +
->  ACPI/SMBIOS
->  M: Michael S. Tsirkin <mst@redhat.com>
->  M: Igor Mammedov <imammedo@redhat.com>
-> diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-> index 5c4bbac817..115e50222f 100644
-> --- a/hw/pci/meson.build
-> +++ b/hw/pci/meson.build
-> @@ -12,6 +12,7 @@ pci_ss.add(files(
->  # allow plugging PCIe devices into PCI buses, include them even if
->  # CONFIG_PCI_EXPRESS=n.
->  pci_ss.add(files('pcie.c', 'pcie_aer.c'))
-> +pci_ss.add(files('pcie_doe.c'))
->  softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
->  softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
->  
-> diff --git a/hw/pci/pcie_doe.c b/hw/pci/pcie_doe.c
-> new file mode 100644
-> index 0000000000..ec36bda259
-> --- /dev/null
-> +++ b/hw/pci/pcie_doe.c
-> @@ -0,0 +1,374 @@
-> +/*
-> + * PCIe Data Object Exchange
-> + *
-> + * Copyright (C) 2021 Avery Design Systems, Inc.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "qemu/error-report.h"
-> +#include "qapi/error.h"
-> +#include "qemu/range.h"
-> +#include "hw/pci/pci.h"
-> +#include "hw/pci/pcie.h"
-> +#include "hw/pci/pcie_doe.h"
-> +#include "hw/pci/msi.h"
-> +#include "hw/pci/msix.h"
-> +
-> +#define DWORD_BYTE 4
-> +#define BYTE_LSHIFT(b, pos) (b << ((pos) * 8))
-> +#define BYTE_RSHIFT(b, pos) (b >> ((pos) * 8))
->
+> ... avoid a copy.
 
-Do you really need these macros? They are single use ...
-If you really need them they seem to belong in qemu/bitops.h -
-but I suspect you can find what you need there ...
+It's been a while since I did this, but looks like you are right.
 
-> +struct doe_discovery_req {
-> +    DOEHeader header;
-> +    uint8_t index;
-> +    uint8_t reserved[3];
-> +} QEMU_PACKED;
-> +
-> +struct doe_discovery_rsp {
-> +    DOEHeader header;
-> +    uint16_t vendor_id;
-> +    uint8_t data_obj_type;
-> +    uint8_t next_index;
-> +} QEMU_PACKED;
+> Also, I believe the path -> dpath could be avoided as well in
+> the existing code, but this is a separate cleanup.
+> 
+> > +            }
+> > +        }
+> > +    });
+> > +    /*
+> > +     * Handle all the rest of this Twalk request on main thread ...
+> > +     */
+> > 
+> >      if (err < 0) {
+> >      
+> >          goto out;
+> >      
+> >      }
+> > 
+> > -    err = stat_to_qid(pdu, &stbuf, &qid);
+> > +
+> > +    err = stat_to_qid(pdu, &fidst, &qid);
+> > 
+> >      if (err < 0) {
+> >      
+> >          goto out;
+> >      
+> >      }
+> > 
+> > +    stbuf = fidst;
+> > 
+> > -    /*
+> > -     * Both dpath and path initially poin to fidp.
+> > -     * Needed to handle request with nwnames == 0
+> > -     */
+> > +    /* reset dpath and path */
+> > 
+> >      v9fs_path_copy(&dpath, &fidp->path);
+> >      v9fs_path_copy(&path, &fidp->path);
+> > 
+> > +
+> > 
+> >      for (name_idx = 0; name_idx < nwnames; name_idx++) {
+> >      
+> >          if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
+> > 
+> > -            strcmp("..", wnames[name_idx].data)) {
+> > -            err = v9fs_co_name_to_path(pdu, &dpath,
+> > wnames[name_idx].data,
+> > -                                       &path);
+> > -            if (err < 0) {
+> > -                goto out;
+> > -            }
+> > -
+> > -            err = v9fs_co_lstat(pdu, &path, &stbuf);
+> > -            if (err < 0) {
+> > -                goto out;
+> > -            }
+> > +            strcmp("..", wnames[name_idx].data))
+> > +        {
+> > +            stbuf = stbufs[name_idx];
+> > 
+> >              err = stat_to_qid(pdu, &stbuf, &qid);
+> >              if (err < 0) {
+> >              
+> >                  goto out;
+> >              
+> >              }
+> > 
+> > +            v9fs_path_copy(&path, &pathes[name_idx]);
+> > 
+> >              v9fs_path_copy(&dpath, &path);
+> >          
+> >          }
+> >          memcpy(&qids[name_idx], &qid, sizeof(qid));
+> > 
+> > @@ -1821,9 +1869,12 @@ out_nofid:
+> >      if (nwnames && nwnames <= P9_MAXWELEM) {
+> >      
+> >          for (name_idx = 0; name_idx < nwnames; name_idx++) {
+> >          
+> >              v9fs_string_free(&wnames[name_idx]);
+> > 
+> > +            v9fs_path_free(&pathes[name_idx]);
+> > 
+> >          }
+> >          g_free(wnames);
+> >          g_free(qids);
+> > 
+> > +        g_free(stbufs);
+> > +        g_free(pathes);
+> 
+> All of these guys should be converted to g_autofree. Separate cleanup
+> again.
 
-I think names should match QEMU style ... 
+Definitely agreed on that.
 
-> +
-> +static bool pcie_doe_discovery(DOECap *doe_cap)
-> +{
-> +    struct doe_discovery_req *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-> +    struct doe_discovery_rsp rsp;
-> +    uint8_t index = req->index;
-> +    DOEProtocol *prot;
-> +
-> +    /* Discard request if length does not match doe_discovery */
-> +    if (pcie_doe_get_obj_len(req) <
-> +        DIV_ROUND_UP(sizeof(struct doe_discovery_req), DWORD_BYTE)) {
-> +        return false;
-> +    }
-> +
-> +    rsp.header = (DOEHeader) {
-> +        .vendor_id = PCI_VENDOR_ID_PCI_SIG,
-> +        .data_obj_type = PCI_SIG_DOE_DISCOVERY,
-> +        .length = DIV_ROUND_UP(sizeof(struct doe_discovery_rsp), DWORD_BYTE),
-> +    };
-> +
-> +    /* Point to the requested protocol, index 0 must be Discovery */
-> +    if (index == 0) {
-> +        rsp.vendor_id = PCI_VENDOR_ID_PCI_SIG;
-> +        rsp.data_obj_type = PCI_SIG_DOE_DISCOVERY;
-> +    } else {
-> +        if (index < doe_cap->protocol_num) {
-> +            prot = &doe_cap->protocols[index - 1];
-> +            rsp.vendor_id = prot->vendor_id;
-> +            rsp.data_obj_type = prot->data_obj_type;
-> +        } else {
-> +            rsp.vendor_id = 0xFFFF;
-> +            rsp.data_obj_type = 0xFF;
-> +        }
-> +    }
-> +
-> +    if (index + 1 == doe_cap->protocol_num) {
-> +        rsp.next_index = 0;
-> +    } else {
-> +        rsp.next_index = index + 1;
-> +    }
-> +
-> +    pcie_doe_set_rsp(doe_cap, &rsp);
-> +
-> +    return true;
-> +}
-> +
-> +static void pcie_doe_reset_mbox(DOECap *st)
-> +{
-> +    st->read_mbox_idx = 0;
-> +    st->read_mbox_len = 0;
-> +    st->write_mbox_len = 0;
-> +
-> +    memset(st->read_mbox, 0, PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-> +    memset(st->write_mbox, 0, PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-> +}
-> +
-> +void pcie_doe_init(PCIDevice *dev, DOECap *doe_cap, uint16_t offset,
-> +                   DOEProtocol *protocols, bool intr, uint16_t vec)
-> +{
-> +    pcie_add_capability(dev, PCI_EXT_CAP_ID_DOE, 0x1, offset,
-> +                        PCI_DOE_SIZEOF);
-> +
-> +    doe_cap->pdev = dev;
-> +    doe_cap->offset = offset;
-> +
-> +    /* Configure MSI/MSI-X */
-> +    if (intr && (msi_present(dev) || msix_present(dev))) {
-> +        doe_cap->cap.intr = intr;
-> +        doe_cap->cap.vec = vec;
-> +    }
-> +
-> +    doe_cap->write_mbox = g_malloc0(PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-> +    doe_cap->read_mbox = g_malloc0(PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-> +
-> +    pcie_doe_reset_mbox(doe_cap);
-> +
-> +    /* Register self-defined protocols */
-> +    doe_cap->protocols = protocols;
-> +    for (; protocols->vendor_id; protocols++) {
-> +        doe_cap->protocol_num++;
-> +    }
-> +    assert(doe_cap->protocol_num < PCI_DOE_PROTOCOL_NUM_MAX);
-> +
-> +    /* Increment discovery protocol */
-> +    doe_cap->protocol_num++;
-> +}
-> +
-> +void pcie_doe_fini(DOECap *doe_cap)
-> +{
-> +    g_free(doe_cap->read_mbox);
-> +    g_free(doe_cap->write_mbox);
-> +    g_free(doe_cap);
-> +}
-> +
-> +uint32_t pcie_doe_build_protocol(DOEProtocol *p)
-> +{
-> +    return DATA_OBJ_BUILD_HEADER1(p->vendor_id, p->data_obj_type);
-> +}
-> +
-> +void *pcie_doe_get_write_mbox_ptr(DOECap *doe_cap)
-> +{
-> +    return doe_cap->write_mbox;
-> +}
-> +
-> +/*
-> + * Copy the response to read mailbox buffer
-> + * This might be called in self-defined handle_request() if a DOE response is
-> + * required in the corresponding protocol
-> + */
-> +void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp)
-> +{
-> +    uint32_t len = pcie_doe_get_obj_len(rsp);
-> +
-> +    memcpy(doe_cap->read_mbox + doe_cap->read_mbox_len, rsp, len * DWORD_BYTE);
-> +    doe_cap->read_mbox_len += len;
-> +}
-> +
-> +uint32_t pcie_doe_get_obj_len(void *obj)
-> +{
-> +    uint32_t len;
-> +
-> +    if (!obj) {
-> +        return 0;
-> +    }
-> +
-> +    /* Only lower 18 bits are valid */
-> +    len = DATA_OBJ_LEN_MASK(((DOEHeader *)obj)->length);
-> +
-> +    /* DOE ECN Table 7-x1b: a value of 00000h indicates 2^18 DW */
-> +    return (len) ? len : PCI_DOE_DW_SIZE_MAX;
-> +}
-> +
-> +static void pcie_doe_irq_assert(DOECap *doe_cap)
-> +{
-> +    PCIDevice *dev = doe_cap->pdev;
-> +
-> +    if (doe_cap->cap.intr && doe_cap->ctrl.intr) {
-> +        if (doe_cap->status.intr) {
-> +            return;
-> +        }
-> +        doe_cap->status.intr = 1;
-> +
-> +        /* Notifies interrupt, legacy IRQ is not supported */
-> +        if (msix_enabled(dev)) {
-> +            msix_notify(dev, doe_cap->cap.vec);
-> +        } else if (msi_enabled(dev)) {
-> +            msi_notify(dev, doe_cap->cap.vec);
-> +        }
-> +    }
-> +}
-> +
-> +static void pcie_doe_set_ready(DOECap *doe_cap, bool rdy)
-> +{
-> +    doe_cap->status.ready = rdy;
-> +
-> +    if (rdy) {
-> +        pcie_doe_irq_assert(doe_cap);
-> +    }
-> +}
-> +
-> +static void pcie_doe_set_error(DOECap *doe_cap, bool err)
-> +{
-> +    doe_cap->status.error = err;
-> +
-> +    if (err) {
-> +        pcie_doe_irq_assert(doe_cap);
-> +    }
-> +}
-> +
-> +/*
-> + * Check incoming request in write_mbox for protocol format
-> + */
-> +static void pcie_doe_prepare_rsp(DOECap *doe_cap)
-> +{
-> +    bool success = false;
-> +    int p;
-> +    bool (*handle_request)(DOECap *) = NULL;
-> +
-> +    if (doe_cap->status.error) {
-> +        return;
-> +    }
-> +
-> +    if (doe_cap->write_mbox[0] ==
-> +        DATA_OBJ_BUILD_HEADER1(PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_DISCOVERY)) {
-> +        handle_request = pcie_doe_discovery;
-> +    } else {
-> +        for (p = 0; p < doe_cap->protocol_num - 1; p++) {
-> +            if (doe_cap->write_mbox[0] ==
-> +                pcie_doe_build_protocol(&doe_cap->protocols[p])) {
-> +                handle_request = doe_cap->protocols[p].handle_request;
-> +                break;
-> +            }
-> +        }
-> +    }
-> +
-> +    /*
-> +     * DOE ECN 6.xx.1:
-> +     * If the number of DW transferred does not match the
-> +     * indicated Length for a data object, then the
-> +     * data object must be silently discarded.
-> +     */
-> +    if (handle_request && (doe_cap->write_mbox_len ==
-> +        pcie_doe_get_obj_len(pcie_doe_get_write_mbox_ptr(doe_cap)))) {
-> +        success = handle_request(doe_cap);
-> +    }
-> +
-> +    if (success) {
-> +        pcie_doe_set_ready(doe_cap, 1);
-> +    } else {
-> +        pcie_doe_reset_mbox(doe_cap);
-> +    }
-> +}
-> +
-> +/*
-> + * Read from DOE config space.
-> + * Return false if the address not within DOE_CAP range.
-> + */
-> +bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
-> +                          uint32_t *buf)
-> +{
-> +    uint32_t shift, mask = 0xFFFFFFFF;
-> +    uint16_t doe_offset = doe_cap->offset;
-> +
-> +    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
-> +                           PCI_DOE_SIZEOF - 4, addr)) {
-> +        return false;
-> +    }
-> +
-> +    addr -= doe_offset;
-> +    *buf = 0;
-> +
-> +    if (range_covers_byte(PCI_EXP_DOE_CAP, DWORD_BYTE, addr)) {
-> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, INTR_SUPP,
-> +                          doe_cap->cap.intr);
-> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM,
-> +                          doe_cap->cap.vec);
-> +    } else if (range_covers_byte(PCI_EXP_DOE_CTRL, DWORD_BYTE, addr)) {
-> +        /* Must return ABORT=0 and GO=0 */
-> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_CONTROL, DOE_INTR_EN,
-> +                          doe_cap->ctrl.intr);
-> +    } else if (range_covers_byte(PCI_EXP_DOE_STATUS, DWORD_BYTE, addr)) {
-> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_BUSY,
-> +                          doe_cap->status.busy);
-> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS,
-> +                          doe_cap->status.intr);
-> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_ERROR,
-> +                          doe_cap->status.error);
-> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DATA_OBJ_RDY,
-> +                          doe_cap->status.ready);
-> +    /* Mailbox should be DW accessed */
-> +    } else if (addr == PCI_EXP_DOE_RD_DATA_MBOX && size == DWORD_BYTE) {
-> +        if (doe_cap->status.ready && !doe_cap->status.error) {
-> +            *buf = doe_cap->read_mbox[doe_cap->read_mbox_idx];
-> +        }
-> +    }
-> +
-> +    /* Process Alignment */
-> +    shift = addr % DWORD_BYTE;
-> +    *buf = BYTE_RSHIFT(*buf, shift);
-> +    mask = BYTE_RSHIFT(mask, DWORD_BYTE - size);
-> +    *buf &= mask;
-> +
-> +    return true;
-> +}
-> +
-> +/*
-> + * Write to DOE config space.
-> + * Return if the address not within DOE_CAP range or receives an abort
-> + */
-> +void pcie_doe_write_config(DOECap *doe_cap,
-> +                           uint32_t addr, uint32_t val, int size)
-> +{
-> +    uint16_t doe_offset = doe_cap->offset;
-> +    uint32_t shift;
-> +
-> +    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
-> +                           PCI_DOE_SIZEOF - 4, addr)) {
-> +        return;
-> +    }
-> +
-> +    /* Process Alignment */
-> +    shift = addr % DWORD_BYTE;
-> +    addr -= (doe_offset + shift);
-> +    val = BYTE_LSHIFT(val, shift);
-> +
-> +    switch (addr) {
-> +    case PCI_EXP_DOE_CTRL:
-> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_ABORT)) {
-> +            pcie_doe_set_ready(doe_cap, 0);
-> +            pcie_doe_set_error(doe_cap, 0);
-> +            pcie_doe_reset_mbox(doe_cap);
-> +            return;
-> +        }
-> +
-> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_GO)) {
-> +            pcie_doe_prepare_rsp(doe_cap);
-> +        }
-> +
-> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_INTR_EN)) {
-> +            doe_cap->ctrl.intr = 1;
-> +        /* Clear interrupt bit located within the first byte */
-> +        } else if (shift == 0) {
-> +            doe_cap->ctrl.intr = 0;
-> +        }
-> +        break;
-> +    case PCI_EXP_DOE_STATUS:
-> +        if (FIELD_EX32(val, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS)) {
-> +            doe_cap->status.intr = 0;
-> +        }
-> +        break;
-> +    case PCI_EXP_DOE_RD_DATA_MBOX:
-> +        /* Mailbox should be DW accessed */
-> +        if (size != DWORD_BYTE) {
-> +            return;
-> +        }
-> +        doe_cap->read_mbox_idx++;
-> +        if (doe_cap->read_mbox_idx == doe_cap->read_mbox_len) {
-> +            pcie_doe_reset_mbox(doe_cap);
-> +            pcie_doe_set_ready(doe_cap, 0);
-> +        } else if (doe_cap->read_mbox_idx > doe_cap->read_mbox_len) {
-> +            /* Underflow */
-> +            pcie_doe_set_error(doe_cap, 1);
-> +        }
-> +        break;
-> +    case PCI_EXP_DOE_WR_DATA_MBOX:
-> +        /* Mailbox should be DW accessed */
-> +        if (size != DWORD_BYTE) {
-> +            return;
-> +        }
-> +        doe_cap->write_mbox[doe_cap->write_mbox_len] = val;
-> +        doe_cap->write_mbox_len++;
-> +        break;
-> +    case PCI_EXP_DOE_CAP:
-> +        /* fallthrough */
-> +    default:
-> +        break;
-> +    }
-> +}
-> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-> index 14c58ebdb6..47d6f66e52 100644
-> --- a/include/hw/pci/pcie.h
-> +++ b/include/hw/pci/pcie.h
-> @@ -25,6 +25,7 @@
->  #include "hw/pci/pcie_regs.h"
->  #include "hw/pci/pcie_aer.h"
->  #include "hw/hotplug.h"
-> +#include "hw/pci/pcie_doe.h"
->  
->  typedef enum {
->      /* for attention and power indicator */
-> diff --git a/include/hw/pci/pcie_doe.h b/include/hw/pci/pcie_doe.h
-> new file mode 100644
-> index 0000000000..e551f49d25
-> --- /dev/null
-> +++ b/include/hw/pci/pcie_doe.h
-> @@ -0,0 +1,123 @@
-> +/*
-> + * PCIe Data Object Exchange
-> + *
-> + * Copyright (C) 2021 Avery Design Systems, Inc.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef PCIE_DOE_H
-> +#define PCIE_DOE_H
-> +
-> +#include "qemu/range.h"
-> +#include "qemu/typedefs.h"
-> +#include "hw/register.h"
-> +
-> +/*
-> + * Referene:
-> + * PCIe Data Object Exchange (DOE) ECN, March 12, 2020
-> + */
-> +/* Capabilities Register - 7.9.xx.2 */
-> +#define PCI_EXP_DOE_CAP             0x04
-> +REG32(PCI_DOE_CAP_REG, 0)
-> +    FIELD(PCI_DOE_CAP_REG, INTR_SUPP, 0, 1)
-> +    FIELD(PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM, 1, 11)
-> +
-> +/* Control Register - 7.9.xx.3 */
-> +#define PCI_EXP_DOE_CTRL            0x08
-> +REG32(PCI_DOE_CAP_CONTROL, 0)
-> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_ABORT, 0, 1)
-> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_INTR_EN, 1, 1)
-> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_GO, 31, 1)
-> +
-> +/* Status Register - 7.9.xx.4 */
-> +#define PCI_EXP_DOE_STATUS          0x0c
-> +REG32(PCI_DOE_CAP_STATUS, 0)
-> +    FIELD(PCI_DOE_CAP_STATUS, DOE_BUSY, 0, 1)
-> +    FIELD(PCI_DOE_CAP_STATUS, DOE_INTR_STATUS, 1, 1)
-> +    FIELD(PCI_DOE_CAP_STATUS, DOE_ERROR, 2, 1)
-> +    FIELD(PCI_DOE_CAP_STATUS, DATA_OBJ_RDY, 31, 1)
-> +
-> +/* Write Data Mailbox Register - 7.9.xx.5 */
-> +#define PCI_EXP_DOE_WR_DATA_MBOX    0x10
-> +
-> +/* Read Data Mailbox Register - 7.9.xx.6 */
-> +#define PCI_EXP_DOE_RD_DATA_MBOX    0x14
-> +
-> +/* PCI-SIG defined Data Object Types - Table 7-x2 */
-> +#define PCI_SIG_DOE_DISCOVERY       0x00
-> +
-> +#define PCI_DOE_DW_SIZE_MAX         (1 << 18)
-> +#define PCI_DOE_PROTOCOL_NUM_MAX    256
-> +
-> +#define DATA_OBJ_BUILD_HEADER1(v, p)    (((p) << 16) | (v))
-> +#define DATA_OBJ_LEN_MASK(len)          ((len) & (PCI_DOE_DW_SIZE_MAX - 1))
-> +
-> +typedef struct DOEHeader DOEHeader;
-> +typedef struct DOEProtocol DOEProtocol;
-> +typedef struct DOECap DOECap;
-> +
-> +struct DOEHeader {
-> +    uint16_t vendor_id;
-> +    uint8_t data_obj_type;
-> +    uint8_t reserved;
-> +    uint32_t length;
-> +} QEMU_PACKED;
-> +
-> +/* Protocol infos and rsp function callback */
-> +struct DOEProtocol {
-> +    uint16_t vendor_id;
-> +    uint8_t data_obj_type;
-> +    bool (*handle_request)(DOECap *);
-> +};
-> +
-> +struct DOECap {
-> +    /* Owner */
-> +    PCIDevice *pdev;
-> +
-> +    uint16_t offset;
-> +
-> +    struct {
-> +        bool intr;
-> +        uint16_t vec;
-> +    } cap;
-> +
-> +    struct {
-> +        bool abort;
-> +        bool intr;
-> +        bool go;
-> +    } ctrl;
-> +
-> +    struct {
-> +        bool busy;
-> +        bool intr;
-> +        bool error;
-> +        bool ready;
-> +    } status;
-> +
-> +    uint32_t *write_mbox;
-> +    uint32_t *read_mbox;
-> +
-> +    /* Mailbox position indicator */
-> +    uint32_t read_mbox_idx;
-> +    uint32_t read_mbox_len;
-> +    uint32_t write_mbox_len;
-> +
-> +    /* Protocols and its callback response */
-> +    DOEProtocol *protocols;
-> +    uint16_t protocol_num;
-> +};
-> +
-> +void pcie_doe_init(PCIDevice *pdev, DOECap *doe_cap, uint16_t offset,
-> +                   DOEProtocol *protocols, bool intr, uint16_t vec);
-> +void pcie_doe_fini(DOECap *doe_cap);
-> +bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
-> +                          uint32_t *buf);
-> +void pcie_doe_write_config(DOECap *doe_cap, uint32_t addr,
-> +                           uint32_t val, int size);
-> +uint32_t pcie_doe_build_protocol(DOEProtocol *p);
-> +void *pcie_doe_get_write_mbox_ptr(DOECap *doe_cap);
-> +void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp);
-> +uint32_t pcie_doe_get_obj_len(void *obj);
-> +#endif /* PCIE_DOE_H */
-> -- 
-> 2.17.1
+> v9fs_walk() was already a bit hairy and the diffstat definitely
+> doesn't improve things... this being said, the change makes sense
+> and I haven't spotted anything wrong, so:
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> 
+> Improvements could be to :
+> - track the previous path with a V9fsPath * instead of copying
+> - have a separate path for the nwnames == 0 case
+> 
+> >      }
+> >  
+> >  }
+
+Yeah, there is a lot more to do on v9fs_walk(), both cleanup, as well as the 
+previously (couple weeks ago) mentioned protocol fix (i.e. Twalk should only 
+reply Rerror if there is an error on the very first path element).
+
+If you don't mind, I queue this patch as is for now and prepare a PR for the 
+current 9p patches in my queue in order to bring them into the soft freeze 
+deadline.
+
+Thanks for looking at this Greg, I appreciate it!
+
+Best regards,
+Christian Schoenebeck
+
 
 
