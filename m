@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3713BA3A2
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:28:41 +0200 (CEST)
-Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01E83BA3A0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:27:03 +0200 (CEST)
+Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzMy0-00070W-Lq
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33788)
+	id 1lzMwQ-0003gu-Lh
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuI-0000Tt-1k; Fri, 02 Jul 2021 13:24:50 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:47091)
+ id 1lzMuF-0000P3-2M; Fri, 02 Jul 2021 13:24:47 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:34446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuA-0005mv-Rc; Fri, 02 Jul 2021 13:24:49 -0400
-Received: by mail-ej1-x629.google.com with SMTP id c17so17230178ejk.13;
+ id 1lzMuB-0005nj-Fh; Fri, 02 Jul 2021 13:24:46 -0400
+Received: by mail-ej1-x635.google.com with SMTP id hr1so13881238ejc.1;
  Fri, 02 Jul 2021 10:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5MeShz+o63946KpuF48TG7tsdR5i2Qdc++ZjC3XzmRM=;
- b=FfHlquTZeg9Q93kQ2kdDDehVuAjM0/Y1JRmkRHU6yCXDSiPpQtY/44h6ebuNNg91im
- 2XdFEokCHl3a3o6xxQVXkcnvVzaQexRLZogtRb2oKD1IHr5YYmFWrrIeTHJ/WRxmwmxb
- PCQVyWMcvI/5jhqQnxaaYjCg0sRNL6kJfha89P5EYajLSVLKRDm3EYivVc/cqtil2+gB
- VkMoJhH7QutT97LviY26NXiFdXPXpOYGiR5wQ/zXTXuS4RIsZzMmiRnETcL+/fJ/lEMi
- e0z07caS0j/xeJTJ/CnIUMWyzLyGLGq4pWnhTFVU+d+P+p8G0mXX4f8WnXMW0zRmQzJa
- fIGg==
+ bh=UkB5Cg3l7iFacBNKZzOJcUMJJe/Nc5QbHYWn+q/EE68=;
+ b=iKHX282rp5KLgbD5ry8S2DyQaAJZfythNrgS2/+g8JU06LGI9bfB5eXlNPpkwN66AP
+ /GSaVhxAXr2RiWjdxyuW8cE6ezzUfWSduw6V33ZPMfjqOZBOHPRQIqRp5Ofcq5TBftyl
+ Dbxn9C9rDtJ2VET9+w6WcF0K7uib4TKKXBxpEjnYn5GhHRJc4aMRSOyfBGZa9y+9DHUj
+ H/j1++/dWugG35lOpYqBMaI/uEOzrOuVxf/yRtNyHcCGbIoSN2fEodfF+fzl/G4Skd49
+ gBgCGKDqEdCHE1tdOg7YO1pn0kVJRH8qEA3t8IJQW37+GRxmu3w7Gg1z/MZG6keVC9Y+
+ IS7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5MeShz+o63946KpuF48TG7tsdR5i2Qdc++ZjC3XzmRM=;
- b=di87k8kai0liU6X94ea/6HPB5qUcpJbbuHyIJ7Xyqm7sceUnLQECq5FzZvHe0IBTv5
- 5S8O6DhegwZNn5ntvCpnbw/251duo+ecXn4H315o0E4JtWT5uRYmG0s9L3ju+f7GNFFO
- V5cp5rXAiTRFJ7wE4bZgdpohwTuxeUtTY9pgfqo8z8NKGzf/gAtLBR/gt45X4r1MwDTj
- Qgm6p5d0baLQdiU9q5Ks4VVITFKdn05giz/EcBxydj64LzI2qfKBUKKKZkTxOh95pazq
- UauVmbqSCUZ7i2Bx0BwMQdkJmHbLLfXDtcvRCJnyFrKJI/5zjqNW7Aflde73oN9X5D8T
- oyrg==
-X-Gm-Message-State: AOAM530R9vVe0NPm5aqPy9iyzUqTGm2443VsWX7vVX847wH0dIEFUS5J
- 7UtoK3KmiBjD3qLG7gMt7zwxdx5889xgvA==
-X-Google-Smtp-Source: ABdhPJy/DZ6GxcXEwtyneUwmTSCxAT64LgMSq847p1i/HyEFAWObVbwEupq/tA9OR0IWzrlJ9HoXAw==
-X-Received: by 2002:a17:906:7393:: with SMTP id
- f19mr784332ejl.533.1625246680859; 
- Fri, 02 Jul 2021 10:24:40 -0700 (PDT)
+ bh=UkB5Cg3l7iFacBNKZzOJcUMJJe/Nc5QbHYWn+q/EE68=;
+ b=qZq1swhPDv0Rll5Sz4sDhp3IxBbEeRSD0D1Oh8MKjrtw/0aLRql2dWSme/cnXL4gTH
+ M+qG6VzExAgkZKdaHxg9xt7/s9KIlQDuc4BpcqcQpixcXchVX4ow7WAGUP9BG2NKojqG
+ y/r+zalG1qkpxfsWUQnerYUVpWytTjwQltqHaJ/b+VJ8hKwcNqgVIqQn+xkYma/QSuJq
+ VR6Ja0ePoVuiPlMOA80CWZ48bfpo7o+8Gu54YGpYalQaAHMgLmNhAPhw94u7kkTTEnIP
+ br5d+9uY7FjV2umG1ECjlOPEc8GX+c4JE6HyoOD2gcoe05u31OULq30ruuwe6inXm1jt
+ cmEQ==
+X-Gm-Message-State: AOAM531mwL2pu8UaYqimfEAhxlN0rPU+r+cATcCF4fZx4tGFl1dFNrCx
+ qnAOL20HcHSA5IIOVsvgiLFJ5SjE/sD32A==
+X-Google-Smtp-Source: ABdhPJw84bu82coLuzFw6JwDPUNDjg5pwxYoWXMr68YxBEwVxfqwdbu1KbqSXks5wIAUeZFlp+C8eQ==
+X-Received: by 2002:a17:906:70cf:: with SMTP id
+ g15mr825231ejk.366.1625246681881; 
+ Fri, 02 Jul 2021 10:24:41 -0700 (PDT)
 Received: from kwango.redhat.com (ip-94-112-132-16.net.upcbroadband.cz.
  [94.112.132.16])
  by smtp.gmail.com with ESMTPSA id ar27sm1242229ejc.100.2021.07.02.10.24.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 10:24:40 -0700 (PDT)
+ Fri, 02 Jul 2021 10:24:41 -0700 (PDT)
 From: Ilya Dryomov <idryomov@gmail.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 1/6] block/rbd: bump librbd requirement to luminous release
-Date: Fri,  2 Jul 2021 19:23:51 +0200
-Message-Id: <20210702172356.11574-2-idryomov@gmail.com>
+Subject: [PATCH v5 2/6] block/rbd: store object_size in BDRVRBDState
+Date: Fri,  2 Jul 2021 19:23:52 +0200
+Message-Id: <20210702172356.11574-3-idryomov@gmail.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20210702172356.11574-1-idryomov@gmail.com>
 References: <20210702172356.11574-1-idryomov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=idryomov@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,296 +90,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Lieven <pl@kamp.de>
 
-Ceph Luminous (version 12.2.z) is almost 4 years old at this point.
-Bump the requirement to get rid of the ifdef'ry in the code.
-Qemu 6.1 dropped the support for RHEL-7 which was the last supported
-OS that required an older librbd.
-
 Signed-off-by: Peter Lieven <pl@kamp.de>
 Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 ---
- block/rbd.c | 120 ++++------------------------------------------------
- meson.build |   7 ++-
- 2 files changed, 13 insertions(+), 114 deletions(-)
+ block/rbd.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
 diff --git a/block/rbd.c b/block/rbd.c
-index f51adb364670..b4b928bbb99f 100644
+index b4b928bbb99f..1ebf8f7e4875 100644
 --- a/block/rbd.c
 +++ b/block/rbd.c
-@@ -55,24 +55,10 @@
-  * leading "\".
-  */
+@@ -102,6 +102,7 @@ typedef struct BDRVRBDState {
+     char *snap;
+     char *namespace;
+     uint64_t image_size;
++    uint64_t object_size;
+ } BDRVRBDState;
  
--/* rbd_aio_discard added in 0.1.2 */
--#if LIBRBD_VERSION_CODE >= LIBRBD_VERSION(0, 1, 2)
--#define LIBRBD_SUPPORTS_DISCARD
--#else
--#undef LIBRBD_SUPPORTS_DISCARD
--#endif
--
- #define OBJ_MAX_SIZE (1UL << OBJ_DEFAULT_OBJ_ORDER)
+ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+@@ -958,6 +959,7 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+     const QDictEntry *e;
+     Error *local_err = NULL;
+     char *keypairs, *secretid;
++    rbd_image_info_t info;
+     int r;
  
- #define RBD_MAX_SNAPS 100
- 
--/* The LIBRBD_SUPPORTS_IOVEC is defined in librbd.h */
--#ifdef LIBRBD_SUPPORTS_IOVEC
--#define LIBRBD_USE_IOVEC 1
--#else
--#define LIBRBD_USE_IOVEC 0
--#endif
--
- #define RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN 8
- 
- static const char rbd_luks_header_verification[
-@@ -96,7 +82,6 @@ typedef struct RBDAIOCB {
-     BlockAIOCB common;
-     int64_t ret;
-     QEMUIOVector *qiov;
--    char *bounce;
-     RBDAIOCmd cmd;
-     int error;
-     struct BDRVRBDState *s;
-@@ -106,7 +91,6 @@ typedef struct RADOSCB {
-     RBDAIOCB *acb;
-     struct BDRVRBDState *s;
-     int64_t size;
--    char *buf;
-     int64_t ret;
- } RADOSCB;
- 
-@@ -354,13 +338,9 @@ static int qemu_rbd_set_keypairs(rados_t cluster, const char *keypairs_json,
- 
- static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
- {
--    if (LIBRBD_USE_IOVEC) {
--        RBDAIOCB *acb = rcb->acb;
--        iov_memset(acb->qiov->iov, acb->qiov->niov, offs, 0,
--                   acb->qiov->size - offs);
--    } else {
--        memset(rcb->buf + offs, 0, rcb->size - offs);
--    }
-+    RBDAIOCB *acb = rcb->acb;
-+    iov_memset(acb->qiov->iov, acb->qiov->niov, offs, 0,
-+               acb->qiov->size - offs);
- }
- 
- #ifdef LIBRBD_SUPPORTS_ENCRYPTION
-@@ -787,13 +767,6 @@ static void qemu_rbd_complete_aio(RADOSCB *rcb)
- 
-     g_free(rcb);
- 
--    if (!LIBRBD_USE_IOVEC) {
--        if (acb->cmd == RBD_AIO_READ) {
--            qemu_iovec_from_buf(acb->qiov, 0, acb->bounce, acb->qiov->size);
--        }
--        qemu_vfree(acb->bounce);
--    }
--
-     acb->common.cb(acb->common.opaque, (acb->ret > 0 ? 0 : acb->ret));
- 
-     qemu_aio_unref(acb);
-@@ -1174,28 +1147,6 @@ static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
-                                      rbd_finish_bh, rcb);
- }
- 
--static int rbd_aio_discard_wrapper(rbd_image_t image,
--                                   uint64_t off,
--                                   uint64_t len,
--                                   rbd_completion_t comp)
--{
--#ifdef LIBRBD_SUPPORTS_DISCARD
--    return rbd_aio_discard(image, off, len, comp);
--#else
--    return -ENOTSUP;
--#endif
--}
--
--static int rbd_aio_flush_wrapper(rbd_image_t image,
--                                 rbd_completion_t comp)
--{
--#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
--    return rbd_aio_flush(image, comp);
--#else
--    return -ENOTSUP;
--#endif
--}
--
- static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
-                                  int64_t off,
-                                  QEMUIOVector *qiov,
-@@ -1218,21 +1169,6 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
- 
-     rcb = g_new(RADOSCB, 1);
- 
--    if (!LIBRBD_USE_IOVEC) {
--        if (cmd == RBD_AIO_DISCARD || cmd == RBD_AIO_FLUSH) {
--            acb->bounce = NULL;
--        } else {
--            acb->bounce = qemu_try_blockalign(bs, qiov->size);
--            if (acb->bounce == NULL) {
--                goto failed;
--            }
--        }
--        if (cmd == RBD_AIO_WRITE) {
--            qemu_iovec_to_buf(acb->qiov, 0, acb->bounce, qiov->size);
--        }
--        rcb->buf = acb->bounce;
--    }
--
-     acb->ret = 0;
-     acb->error = 0;
-     acb->s = s;
-@@ -1246,7 +1182,7 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+     keypairs = g_strdup(qdict_get_try_str(options, "=keyvalue-pairs"));
+@@ -1035,12 +1037,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+ #endif
      }
  
-     switch (cmd) {
--    case RBD_AIO_WRITE: {
-+    case RBD_AIO_WRITE:
-         /*
-          * RBD APIs don't allow us to write more than actual size, so in order
-          * to support growing images, we resize the image before write
-@@ -1258,25 +1194,16 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
-                 goto failed_completion;
-             }
-         }
--#ifdef LIBRBD_SUPPORTS_IOVEC
--            r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
--#else
--            r = rbd_aio_write(s->image, off, size, rcb->buf, c);
--#endif
-+        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
-         break;
--    }
-     case RBD_AIO_READ:
--#ifdef LIBRBD_SUPPORTS_IOVEC
--            r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
--#else
--            r = rbd_aio_read(s->image, off, size, rcb->buf, c);
--#endif
-+        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
-         break;
-     case RBD_AIO_DISCARD:
--        r = rbd_aio_discard_wrapper(s->image, off, size, c);
-+        r = rbd_aio_discard(s->image, off, size, c);
-         break;
-     case RBD_AIO_FLUSH:
--        r = rbd_aio_flush_wrapper(s->image, c);
-+        r = rbd_aio_flush(s->image, c);
-         break;
-     default:
-         r = -EINVAL;
-@@ -1291,9 +1218,6 @@ failed_completion:
-     rbd_aio_release(c);
- failed:
-     g_free(rcb);
--    if (!LIBRBD_USE_IOVEC) {
--        qemu_vfree(acb->bounce);
--    }
+-    r = rbd_get_size(s->image, &s->image_size);
++    r = rbd_stat(s->image, &info, sizeof(info));
+     if (r < 0) {
+-        error_setg_errno(errp, -r, "error getting image size from %s",
++        error_setg_errno(errp, -r, "error getting image info from %s",
+                          s->image_name);
+         goto failed_post_open;
+     }
++    s->image_size = info.size;
++    s->object_size = info.obj_size;
  
-     qemu_aio_unref(acb);
-     return NULL;
-@@ -1319,7 +1243,6 @@ static BlockAIOCB *qemu_rbd_aio_pwritev(BlockDriverState *bs,
-                          RBD_AIO_WRITE);
- }
- 
--#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
- static BlockAIOCB *qemu_rbd_aio_flush(BlockDriverState *bs,
-                                       BlockCompletionFunc *cb,
-                                       void *opaque)
-@@ -1327,20 +1250,6 @@ static BlockAIOCB *qemu_rbd_aio_flush(BlockDriverState *bs,
-     return rbd_start_aio(bs, 0, NULL, 0, cb, opaque, RBD_AIO_FLUSH);
- }
- 
--#else
--
--static int qemu_rbd_co_flush(BlockDriverState *bs)
--{
--#if LIBRBD_VERSION_CODE >= LIBRBD_VERSION(0, 1, 1)
--    /* rbd_flush added in 0.1.1 */
--    BDRVRBDState *s = bs->opaque;
--    return rbd_flush(s->image);
--#else
--    return 0;
--#endif
--}
--#endif
--
+     /* If we are using an rbd snapshot, we must be r/o, otherwise
+      * leave as-is */
+@@ -1253,15 +1257,7 @@ static BlockAIOCB *qemu_rbd_aio_flush(BlockDriverState *bs,
  static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
  {
      BDRVRBDState *s = bs->opaque;
-@@ -1546,7 +1455,6 @@ static int qemu_rbd_snap_list(BlockDriverState *bs,
-     return snap_count;
- }
- 
--#ifdef LIBRBD_SUPPORTS_DISCARD
- static BlockAIOCB *qemu_rbd_aio_pdiscard(BlockDriverState *bs,
-                                          int64_t offset,
-                                          int bytes,
-@@ -1556,9 +1464,7 @@ static BlockAIOCB *qemu_rbd_aio_pdiscard(BlockDriverState *bs,
-     return rbd_start_aio(bs, offset, NULL, bytes, cb, opaque,
-                          RBD_AIO_DISCARD);
- }
--#endif
- 
--#ifdef LIBRBD_SUPPORTS_INVALIDATE
- static void coroutine_fn qemu_rbd_co_invalidate_cache(BlockDriverState *bs,
-                                                       Error **errp)
- {
-@@ -1568,7 +1474,6 @@ static void coroutine_fn qemu_rbd_co_invalidate_cache(BlockDriverState *bs,
-         error_setg_errno(errp, -r, "Failed to invalidate the cache");
-     }
- }
--#endif
- 
- static QemuOptsList qemu_rbd_create_opts = {
-     .name = "rbd-create-opts",
-@@ -1643,23 +1548,14 @@ static BlockDriver bdrv_rbd = {
-     .bdrv_aio_preadv        = qemu_rbd_aio_preadv,
-     .bdrv_aio_pwritev       = qemu_rbd_aio_pwritev,
- 
--#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
-     .bdrv_aio_flush         = qemu_rbd_aio_flush,
--#else
--    .bdrv_co_flush_to_disk  = qemu_rbd_co_flush,
--#endif
+-    rbd_image_info_t info;
+-    int r;
 -
--#ifdef LIBRBD_SUPPORTS_DISCARD
-     .bdrv_aio_pdiscard      = qemu_rbd_aio_pdiscard,
--#endif
+-    r = rbd_stat(s->image, &info, sizeof(info));
+-    if (r < 0) {
+-        return r;
+-    }
+-
+-    bdi->cluster_size = info.obj_size;
++    bdi->cluster_size = s->object_size;
+     return 0;
+ }
  
-     .bdrv_snapshot_create   = qemu_rbd_snap_create,
-     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
-     .bdrv_snapshot_list     = qemu_rbd_snap_list,
-     .bdrv_snapshot_goto     = qemu_rbd_snap_rollback,
--#ifdef LIBRBD_SUPPORTS_INVALIDATE
-     .bdrv_co_invalidate_cache = qemu_rbd_co_invalidate_cache,
--#endif
- 
-     .strong_runtime_opts    = qemu_rbd_strong_runtime_opts,
- };
-diff --git a/meson.build b/meson.build
-index db6789af9c90..5974a9d4b235 100644
---- a/meson.build
-+++ b/meson.build
-@@ -706,13 +706,16 @@ if not get_option('rbd').auto() or have_block
-       int main(void) {
-         rados_t cluster;
-         rados_create(&cluster, NULL);
-+        #if LIBRBD_VERSION_CODE < LIBRBD_VERSION(1, 12, 0)
-+        #error
-+        #endif
-         return 0;
-       }''', dependencies: [librbd, librados])
-       rbd = declare_dependency(dependencies: [librbd, librados])
-     elif get_option('rbd').enabled()
--      error('could not link librados')
-+      error('librbd >= 1.12.0 required')
-     else
--      warning('could not link librados, disabling')
-+      warning('librbd >= 1.12.0 not found, disabling')
-     endif
-   endif
- endif
 -- 
 2.19.2
 
