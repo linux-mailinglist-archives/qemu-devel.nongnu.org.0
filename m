@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997533BA0EB
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:07:37 +0200 (CEST)
-Received: from localhost ([::1]:34512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06B13BA0F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:12:05 +0200 (CEST)
+Received: from localhost ([::1]:51486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzItM-0005CU-Kp
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33198)
+	id 1lzIxg-0008HM-Mj
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lzIm8-0007dr-Ur
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:00:09 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35419)
+ id 1lzImN-0007i6-1y
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:00:25 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:46909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lzIm5-0007hz-NZ
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:00:08 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- j39-20020a05600c1c27b029020028e48b8fso665800wms.0
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:00:04 -0700 (PDT)
+ id 1lzIm6-0007iB-3h
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:00:22 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ k16-20020a05600c1c90b02901f4ed0fcfe7so5208289wms.5
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Im0olX0/F3GtI0a6wJ4ieferDp0z5buiZuvFyYo4YP8=;
- b=m+JEvtuohgiKdGCrweDjTuAqBb9P91M6OI2NGdbgsKtSt/4VHo8lRDrxjDCxcy6Xtv
- tGFtoHnTEtymEMmdeJF29w197HQDUd4MsAoaR7+q0cEJkLiNtMeDyMwDHnH4hXfdQn0A
- /PWf+M0/Dxrb+nKjhuYkGShK0Loi0oFJwWBXuQAIKl8Eumh0sYFdqph6ptkz4bDQdQJ4
- 5rfmjaXTTMZQt7ENvw6NYteqdIgx9mbf6C4IWgdopquwvXid6LTjd5LHIMX0iTuhwHBL
- E33lbO3vgzbKcO/n8ksaN0LIXENYsIdFERcSnqiFqrHwQMZcfaIocCp2St+vBQNZNBxv
- JqWQ==
+ bh=Tk91SJTcZ26NMllf1OLH+3sRFJrDhJFrevhypILIfJE=;
+ b=dpD0LV2l8EoUl0iBOvfE0hrAdnARXqp7jjQN5wNvIPHzBIJFb5NoQ8k+ug+HD4z5WK
+ CRW4cXXTKtqPopYfhT14/xRUV/TcE4ON5k96H5hj93YFVx+hjyzmDicFMGGuYRMDxnFq
+ VvABqhOPT4frWNiwlA/WcEDDrgoR/XPfwTTWeQ6s/1TjDIDHxYVbIG3Rp+kU63YmrjLM
+ a32cwxj6JeY2HFekr/8PfJSG3R7QqK6Ty7xV4ldd6p4b8MnQwyjP4iv4OQ6OmdCDFxli
+ 8C/NoEjNLrqCtEjpaLfueMOcIz1OJay7s7g98gSP0uxcZ8jC/z+6B0shrCyRSo4GQiG4
+ 2wPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Im0olX0/F3GtI0a6wJ4ieferDp0z5buiZuvFyYo4YP8=;
- b=XSQiKa1vOex3vXaBamnQj68WZnLzszmecbgbOrtQSpipnyUb5J4T3kmv2RmffeVG5Z
- QUuC2VT3M+0fbo2JVjbNiTS8LnYZcQa13wH4syGgvqeJbqO1buN0Gg2XajcbZ9m+rDDc
- gy0lx8rCZJxG8rJCEc/nNHJQDRCf6lQvHemsn9yflsxbCzn4/ZPtZN7LdmLYPl75xjmK
- 0Q45eviPCL4WPHW1URkYPKGB+sOwFmpmBaKLcUSvZswv4QyQfKO2ASGBJN0YS9x9bUA1
- 7KUpuGD1ERoeCUVHyesBptSu+GqCiii6UGXMGXGUxIzpBVgVb6v8pYYy8QFkV3y/VNKU
- DcLg==
-X-Gm-Message-State: AOAM533NemcC7lsFaDC/mNQo3gzOGz8oc4PsubTE9j3FPKHqXsGc7zO7
- +51pPf6Fb0wqO8ieVgajkiU8vuBK/w/JR/0h
-X-Google-Smtp-Source: ABdhPJwvD609FK0KiZuIVBjpHJ6j1rOCEpIj6X+7MzuBbA6Ehro2XSrYT9FAM5KxvbmCs9nYlBLtrQ==
-X-Received: by 2002:a1c:4c06:: with SMTP id z6mr8743360wmf.157.1625230804145; 
+ bh=Tk91SJTcZ26NMllf1OLH+3sRFJrDhJFrevhypILIfJE=;
+ b=VH/T37wRtXpTC5hjnEcIOqtCQHFg2LbhOoSra+Wg2Y+3EkDBPKahdHaCWUu64t2RaJ
+ a+0u0vUjKZJ6cuz7Ca+AWd3F4/Oa8N6lm/MgcC4pIzEPHQCufRLr8R6Ft1CWlBuYq0P9
+ nZ/DDFXgT3dDElp6wgpWUhH4fr/G8B3e+21h1Q7JjNyRkS4+uMJgbmvcWzBhlEGZmNBU
+ IyW3FUiys+fMazU5jvAxVezK8gYkpnTPYeMW0sfuixp86VAAQywliQVlFpb0RB/RH5Ob
+ nnkecGZzyKiRji/mhUL0xOPFoI1WW7hUDziSYUL+8VK/ic6OLH0yIwJVwdsfPoOYbDcH
+ WH9g==
+X-Gm-Message-State: AOAM531hB7ewEsUeQPKKFvyjSvuu5WbFLPjSbZ0v4HpaRsMXPHHvLEig
+ bwLCq74y74xVjqGjSX09Mts7fCpTEcPDSDnP
+X-Google-Smtp-Source: ABdhPJwKSZ8nQnvoQlgUM5fw3NhdxfSSWlde5/KceX++ikwGfL0ZS3i4+1L/jQBpW9fPk5IkqbdPpA==
+X-Received: by 2002:a1c:7e01:: with SMTP id z1mr5370150wmc.168.1625230804782; 
  Fri, 02 Jul 2021 06:00:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s3sm3333351wro.30.2021.07.02.06.00.03
+ by smtp.gmail.com with ESMTPSA id s3sm3333351wro.30.2021.07.02.06.00.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 06:00:03 -0700 (PDT)
+ Fri, 02 Jul 2021 06:00:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/24] target/arm: Use dup_const() instead of
- bitfield_replicate()
-Date: Fri,  2 Jul 2021 13:59:41 +0100
-Message-Id: <20210702125954.13247-12-peter.maydell@linaro.org>
+Subject: [PULL 12/24] target/arm: Implement MVE logical immediate insns
+Date: Fri,  2 Jul 2021 13:59:42 +0100
+Message-Id: <20210702125954.13247-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210702125954.13247-1-peter.maydell@linaro.org>
 References: <20210702125954.13247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,33 +87,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use dup_const() instead of bitfield_replicate() in
-disas_simd_mod_imm().
-
-(We can't replace the other use of bitfield_replicate() in this file,
-in logic_imm_decode_wmask(), because that location needs to handle 2
-and 4 bit elements, which dup_const() cannot.)
+Implement the MVE logical-immediate insns (VMOV, VMVN,
+VORR and VBIC). These have essentially the same encoding
+as their Neon equivalents, and we implement the decode
+in the same way.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210628135835.6690-6-peter.maydell@linaro.org
+Message-id: 20210628135835.6690-7-peter.maydell@linaro.org
 ---
- target/arm/translate-a64.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/helper-mve.h    |  4 +++
+ target/arm/mve.decode      | 17 +++++++++++++
+ target/arm/mve_helper.c    | 24 ++++++++++++++++++
+ target/arm/translate-mve.c | 50 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 95 insertions(+)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 66781f71cb2..e81cc20d04a 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -8212,7 +8212,7 @@ static void disas_simd_mod_imm(DisasContext *s, uint32_t insn)
-         /* FMOV (vector, immediate) - half-precision */
-         imm = vfp_expand_imm(MO_16, abcdefgh);
-         /* now duplicate across the lanes */
--        imm = bitfield_replicate(imm, 16);
-+        imm = dup_const(MO_16, imm);
-     } else {
-         imm = asimd_imm_const(abcdefgh, cmode, is_neg);
-     }
+diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
+index 4bbb9b3ae2c..5248dbe825a 100644
+--- a/target/arm/helper-mve.h
++++ b/target/arm/helper-mve.h
+@@ -355,3 +355,7 @@ DEF_HELPER_FLAGS_3(mve_vaddvsh, TCG_CALL_NO_WG, i32, env, ptr, i32)
+ DEF_HELPER_FLAGS_3(mve_vaddvuh, TCG_CALL_NO_WG, i32, env, ptr, i32)
+ DEF_HELPER_FLAGS_3(mve_vaddvsw, TCG_CALL_NO_WG, i32, env, ptr, i32)
+ DEF_HELPER_FLAGS_3(mve_vaddvuw, TCG_CALL_NO_WG, i32, env, ptr, i32)
++
++DEF_HELPER_FLAGS_3(mve_vmovi, TCG_CALL_NO_WG, void, env, ptr, i64)
++DEF_HELPER_FLAGS_3(mve_vandi, TCG_CALL_NO_WG, void, env, ptr, i64)
++DEF_HELPER_FLAGS_3(mve_vorri, TCG_CALL_NO_WG, void, env, ptr, i64)
+diff --git a/target/arm/mve.decode b/target/arm/mve.decode
+index d9ece7be5da..caeb016c12f 100644
+--- a/target/arm/mve.decode
++++ b/target/arm/mve.decode
+@@ -26,10 +26,14 @@
+ # VQDMULL has size in bit 28: 0 for 16 bit, 1 for 32 bit
+ %size_28 28:1 !function=plus_1
+ 
++# 1imm format immediate
++%imm_28_16_0 28:1 16:3 0:4
++
+ &vldr_vstr rn qd imm p a w size l u
+ &1op qd qm size
+ &2op qd qm qn size
+ &2scalar qd qn rm size
++&1imm qd imm cmode op
+ 
+ @vldr_vstr ....... . . . . l:1 rn:4 ... ...... imm:7 &vldr_vstr qd=%qd u=0
+ # Note that both Rn and Qd are 3 bits only (no D bit)
+@@ -41,6 +45,7 @@
+ @2op_nosz .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn size=0
+ @2op_sz28 .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn \
+      size=%size_28
++@1imm .... .... .... .... .... cmode:4 .. op:1 . .... &1imm qd=%qd imm=%imm_28_16_0
+ 
+ # The _rev suffix indicates that Vn and Vm are reversed. This is
+ # the case for shifts. In the Arm ARM these insns are documented
+@@ -258,3 +263,15 @@ VADDV            111 u:1 1110 1111 size:2 01 ... 0 1111 0 0 a:1 0 qm:3 0 rda=%rd
+ # Predicate operations
+ %mask_22_13      22:1 13:3
+ VPST             1111 1110 0 . 11 000 1 ... 0 1111 0100 1101 mask=%mask_22_13
++
++# Logical immediate operations (1 reg and modified-immediate)
++
++# The cmode/op bits here decode VORR/VBIC/VMOV/VMVN, but
++# not in a way we can conveniently represent in decodetree without
++# a lot of repetition:
++# VORR: op=0, (cmode & 1) && cmode < 12
++# VBIC: op=1, (cmode & 1) && cmode < 12
++# VMOV: everything else
++# So we have a single decode line and check the cmode/op in the
++# trans function.
++Vimm_1r 111 . 1111 1 . 00 0 ... ... 0 .... 0 1 . 1 .... @1imm
+diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
+index 85a552fe070..e6ced144673 100644
+--- a/target/arm/mve_helper.c
++++ b/target/arm/mve_helper.c
+@@ -323,6 +323,30 @@ DO_1OP(vnegw, 4, int32_t, DO_NEG)
+ DO_1OP(vfnegh, 8, uint64_t, DO_FNEGH)
+ DO_1OP(vfnegs, 8, uint64_t, DO_FNEGS)
+ 
++/*
++ * 1 operand immediates: Vda is destination and possibly also one source.
++ * All these insns work at 64-bit widths.
++ */
++#define DO_1OP_IMM(OP, FN)                                              \
++    void HELPER(mve_##OP)(CPUARMState *env, void *vda, uint64_t imm)    \
++    {                                                                   \
++        uint64_t *da = vda;                                             \
++        uint16_t mask = mve_element_mask(env);                          \
++        unsigned e;                                                     \
++        for (e = 0; e < 16 / 8; e++, mask >>= 8) {                      \
++            mergemask(&da[H8(e)], FN(da[H8(e)], imm), mask);            \
++        }                                                               \
++        mve_advance_vpt(env);                                           \
++    }
++
++#define DO_MOVI(N, I) (I)
++#define DO_ANDI(N, I) ((N) & (I))
++#define DO_ORRI(N, I) ((N) | (I))
++
++DO_1OP_IMM(vmovi, DO_MOVI)
++DO_1OP_IMM(vandi, DO_ANDI)
++DO_1OP_IMM(vorri, DO_ORRI)
++
+ #define DO_2OP(OP, ESIZE, TYPE, FN)                                     \
+     void HELPER(glue(mve_, OP))(CPUARMState *env,                       \
+                                 void *vd, void *vn, void *vm)           \
+diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
+index e9a5442a724..f435a1cfd97 100644
+--- a/target/arm/translate-mve.c
++++ b/target/arm/translate-mve.c
+@@ -34,6 +34,7 @@ typedef void MVEGenTwoOpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr);
+ typedef void MVEGenTwoOpScalarFn(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
+ typedef void MVEGenDualAccOpFn(TCGv_i64, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i64);
+ typedef void MVEGenVADDVFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32);
++typedef void MVEGenOneOpImmFn(TCGv_ptr, TCGv_ptr, TCGv_i64);
+ 
+ /* Return the offset of a Qn register (same semantics as aa32_vfp_qreg()) */
+ static inline long mve_qreg_offset(unsigned reg)
+@@ -787,3 +788,52 @@ static bool trans_VADDV(DisasContext *s, arg_VADDV *a)
+     mve_update_eci(s);
+     return true;
+ }
++
++static bool do_1imm(DisasContext *s, arg_1imm *a, MVEGenOneOpImmFn *fn)
++{
++    TCGv_ptr qd;
++    uint64_t imm;
++
++    if (!dc_isar_feature(aa32_mve, s) ||
++        !mve_check_qreg_bank(s, a->qd) ||
++        !fn) {
++        return false;
++    }
++    if (!mve_eci_check(s) || !vfp_access_check(s)) {
++        return true;
++    }
++
++    imm = asimd_imm_const(a->imm, a->cmode, a->op);
++
++    qd = mve_qreg_ptr(a->qd);
++    fn(cpu_env, qd, tcg_constant_i64(imm));
++    tcg_temp_free_ptr(qd);
++    mve_update_eci(s);
++    return true;
++}
++
++static bool trans_Vimm_1r(DisasContext *s, arg_1imm *a)
++{
++    /* Handle decode of cmode/op here between VORR/VBIC/VMOV */
++    MVEGenOneOpImmFn *fn;
++
++    if ((a->cmode & 1) && a->cmode < 12) {
++        if (a->op) {
++            /*
++             * For op=1, the immediate will be inverted by asimd_imm_const(),
++             * so the VBIC becomes a logical AND operation.
++             */
++            fn = gen_helper_mve_vandi;
++        } else {
++            fn = gen_helper_mve_vorri;
++        }
++    } else {
++        /* There is one unallocated cmode/op combination in this space */
++        if (a->cmode == 15 && a->op == 1) {
++            return false;
++        }
++        /* asimd_imm_const() sorts out VMVNI vs VMOVI for us */
++        fn = gen_helper_mve_vmovi;
++    }
++    return do_1imm(s, a, fn);
++}
 -- 
 2.20.1
 
