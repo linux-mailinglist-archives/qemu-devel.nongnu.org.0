@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0803BA39F
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:27:01 +0200 (CEST)
-Received: from localhost ([::1]:42648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363EE3BA3A5
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:29:51 +0200 (CEST)
+Received: from localhost ([::1]:50570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzMwO-0003ZC-LF
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33738)
+	id 1lzMz8-0000dV-8u
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuF-0000QX-MZ; Fri, 02 Jul 2021 13:24:47 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43550)
+ id 1lzMuJ-0000Wu-9s; Fri, 02 Jul 2021 13:24:51 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:36417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuC-0005nu-G0; Fri, 02 Jul 2021 13:24:47 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id v20so17252515eji.10;
- Fri, 02 Jul 2021 10:24:43 -0700 (PDT)
+ id 1lzMuG-0005qk-3W; Fri, 02 Jul 2021 13:24:50 -0400
+Received: by mail-ed1-x535.google.com with SMTP id h2so14243743edt.3;
+ Fri, 02 Jul 2021 10:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BIPpPoxVPgOmowyauI8+ZWPp0Ec6GWlOzGVsaFHknbg=;
- b=ixgVhP84/HVP7pqXFlDUesKcSyJGNJHtnCqmQHrDmyT4OUV9JOxiw1s29hDoJdzw3g
- 8z0ADXKYwLDLgoICuKF/Huw1SNydksbcG7FOBfqSrnKUubRTgW5mwDPbui7ZyEUvAP8o
- O6JIhO2Ge4lCH9Yq5cQK4qt83Bp4vPlX/Xwo3WyHmYElDlT65LIPZZm2XCjd6z7g6St1
- HaHj79ONzYnKP3AcSDcvH1aOmN+ef2mzg7sulUBSb9s8RKhOd6ppmcsVdkJoHYyr/xdi
- O14xrpjkWEFwPIjVYLgj9AcQrR64Wr9WwyJS91XELdmRJunUJauIXiytC5PksDmci383
- Fwcg==
+ bh=QW7HGtKv0C0bEpd/9qc96su0QZ9Z5ghcYE9uCBmlmvs=;
+ b=mijmvg3qsaaEuA1AMDZJx7ACShmdrhTQh9BqP45cl8HMvP+rVFAHAtfC03LgPnilp2
+ 3QHjT1isaUIePLJV0MQJL88fV4SwyRSTLrSQJXd0yM4tgDTc/9Pvv9iOEVaYgYBteedV
+ 2GnmKnB4Vk13DyQSNm+fZ1LQCpFSXzCUGcoqzByLh6aplHO8mQDldpJvJh8qF3zsAVGo
+ 0JvU0Bt5QQyo6TNXTpUgz3XJPwlWqUPMxUGzbO0/hYDcVdKIeqzdV/9jCodb8jsnS1sb
+ 0qOQFeqjA5dJinWCuUJ/8Lh4c/X+hKzhpul3AzPC++ndboekfCgZI2Bd6yFt5YXjO2B6
+ ASmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BIPpPoxVPgOmowyauI8+ZWPp0Ec6GWlOzGVsaFHknbg=;
- b=cyPlf7cEOy5IgDPQqDuGkb+ibnAxxD9l2wJEjtpX8IQ+PLMq7pyLfpo1cqei2GtMc2
- JIrvEzUH1rWrbl5AggaM+NeooI66g7KVAYOQegBeYyNRKbtd8LSx/EAUCLQI24ripVLH
- quLrSc9241qseQqydxTkStGrm8hvwr57n5ZKqTcArqsHx7NfHyfNquxm6a8k00X1Fba3
- crSsfkDgx/Pq+qpHcD7zd63snGXrNqhXx80/O44vDN5P0QUFMVq7r+ZDuEWE1Z0B/91u
- TsLwmv8cqB9KtgOvxPvX0fEnTwZaxhLMPREW5LU36iG4RD7ZqHhecC4wwRKC90wozUVx
- 2Mcw==
-X-Gm-Message-State: AOAM531Nr75vYCurjImUwBo4BjwbYK7EcsB/8yEoc2tzMqwjRCXDIKDN
- xa8GqBif3YI9tUmpCTWOn8vhj5+U9UGjgQ==
-X-Google-Smtp-Source: ABdhPJypXOdPMwKpkAVJ8g9ARsv3bvgDKj6efq95DVy09xNJ3VXfh/FY7M/lEm5gtZnvtIzCSycSPQ==
-X-Received: by 2002:a17:906:d92:: with SMTP id
- m18mr119424eji.309.1625246682946; 
- Fri, 02 Jul 2021 10:24:42 -0700 (PDT)
+ bh=QW7HGtKv0C0bEpd/9qc96su0QZ9Z5ghcYE9uCBmlmvs=;
+ b=X/0+IqmiWK+Fn6OipazvXsI0vcn1t+aI2yapinuxYCux3SlHmh/tYbxezjWcoIael1
+ d1XNfR3G+luILGQopwDPXztT3dQWfPhc/aGCbTyzOdqGK/Y/ALPEXosBw1AczHIZds+8
+ Yyy3tYcKiJ/YeO5DyLPWRx3q0nxIg66LjjnB9pLiL0iyTs0ecWexsAXzW49NAbFVNUyv
+ YgIhq9KK207DSSkiNbN1LqQCNW2qDQdcRy7+oHu5wMzQ7vs4UMcXMyPfNJizkT/oYASJ
+ Jcz9uIVLdPFpFmbDZkOzxC+23wOPtetC3LZfFOadfpxk20l0rbz/AMPlaanZ2+OqijTl
+ F6LQ==
+X-Gm-Message-State: AOAM532tyADJnP1neoNITB7JcWjnMGZcOumJMp5Bm1VIZM+P+/OIEX5m
+ Jkjf1DGPuGZzfcZeW5jN3w6DAfKT+FYYWw==
+X-Google-Smtp-Source: ABdhPJxdATciiHw4a7rIeb7z5PB6uoRgbxP/rN90gGGPFzg69Krbn/FliTqhAh24I68feIvG5kahcA==
+X-Received: by 2002:aa7:c758:: with SMTP id c24mr749524eds.178.1625246685842; 
+ Fri, 02 Jul 2021 10:24:45 -0700 (PDT)
 Received: from kwango.redhat.com (ip-94-112-132-16.net.upcbroadband.cz.
  [94.112.132.16])
- by smtp.gmail.com with ESMTPSA id ar27sm1242229ejc.100.2021.07.02.10.24.42
+ by smtp.gmail.com with ESMTPSA id ar27sm1242229ejc.100.2021.07.02.10.24.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 10:24:42 -0700 (PDT)
+ Fri, 02 Jul 2021 10:24:45 -0700 (PDT)
 From: Ilya Dryomov <idryomov@gmail.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 3/6] block/rbd: update s->image_size in qemu_rbd_getlength
-Date: Fri,  2 Jul 2021 19:23:53 +0200
-Message-Id: <20210702172356.11574-4-idryomov@gmail.com>
+Subject: [PATCH v5 6/6] block/rbd: drop qemu_rbd_refresh_limits
+Date: Fri,  2 Jul 2021 19:23:56 +0200
+Message-Id: <20210702172356.11574-7-idryomov@gmail.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20210702172356.11574-1-idryomov@gmail.com>
 References: <20210702172356.11574-1-idryomov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=idryomov@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=idryomov@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,36 +89,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Lieven <pl@kamp.de>
 
-While at it just call rbd_get_size and avoid rbd_image_info_t.
+librbd supports 1 byte alignment for all aio operations.
+
+Currently, there is no API call to query limits from the Ceph
+ObjectStore backend.  So drop the bdrv_refresh_limits completely
+until there is such an API call.
 
 Signed-off-by: Peter Lieven <pl@kamp.de>
 Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 ---
- block/rbd.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ block/rbd.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/block/rbd.c b/block/rbd.c
-index 1ebf8f7e4875..e2028d3db5ff 100644
+index 3152bc8ba00a..01a7b94d6257 100644
 --- a/block/rbd.c
 +++ b/block/rbd.c
-@@ -1304,15 +1304,14 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
- static int64_t qemu_rbd_getlength(BlockDriverState *bs)
- {
-     BDRVRBDState *s = bs->opaque;
--    rbd_image_info_t info;
-     int r;
- 
--    r = rbd_stat(s->image, &info, sizeof(info));
-+    r = rbd_get_size(s->image, &s->image_size);
-     if (r < 0) {
-         return r;
-     }
- 
--    return info.size;
-+    return s->image_size;
+@@ -240,14 +240,6 @@ done:
+     return;
  }
  
- static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
+-
+-static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
+-{
+-    /* XXX Does RBD support AIO on less than 512-byte alignment? */
+-    bs->bl.request_alignment = 512;
+-}
+-
+-
+ static int qemu_rbd_set_auth(rados_t cluster, BlockdevOptionsRbd *opts,
+                              Error **errp)
+ {
+@@ -1482,7 +1474,6 @@ static BlockDriver bdrv_rbd = {
+     .format_name            = "rbd",
+     .instance_size          = sizeof(BDRVRBDState),
+     .bdrv_parse_filename    = qemu_rbd_parse_filename,
+-    .bdrv_refresh_limits    = qemu_rbd_refresh_limits,
+     .bdrv_file_open         = qemu_rbd_open,
+     .bdrv_close             = qemu_rbd_close,
+     .bdrv_reopen_prepare    = qemu_rbd_reopen_prepare,
 -- 
 2.19.2
 
