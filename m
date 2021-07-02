@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D193BA145
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:32:03 +0200 (CEST)
-Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D5A3BA146
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:33:35 +0200 (CEST)
+Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzJGz-0004Wt-1j
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
+	id 1lzJIU-0006Df-NE
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJFP-0003fK-Sk
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:30:23 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51758)
+ (Exim 4.90_1) (envelope-from <lonnie@outstep.com>)
+ id 1lzJHP-0005TP-F3
+ for Qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:32:27 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:40532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJFN-0001ia-Nj
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:30:23 -0400
-Received: by mail-wm1-x329.google.com with SMTP id r3so6701020wmq.1
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pAhcCN8pVG6fkwq4O+PIKbDXNItL85P6eyltdSY7gdI=;
- b=VXKarL/7tx+ukq/CyfTusOyccp2fDxb2rxj1m2IVGgRFX5a6Wc+82BzYpA1i4xXGKF
- ira+8sy3XQNVWm6tWxtb/aohDOUPjkHV5Fd8Xiqqd1TYcBQjReToxNcnLuMeXqQIdyoJ
- o0EgwdoMZQhGpAltpWvNM+D7O3ycktAUUGO3zbPojrTbTsXwthJMl/sejZPWf/Ho1H7n
- WTgDkTw/Hdig9AaI/CaXwvUnhacfuuFEff59UIJ4hbKOaA2Sdjg+bZYrEF9C4sdbTOlt
- t56S0r7eIGqwKBwO8gfAgmFi1uB7nD+MFRQY2CrbXPOOXTnsoW4KyPJMiDYi4oFdaqDc
- ODKA==
+ (Exim 4.90_1) (envelope-from <lonnie@outstep.com>)
+ id 1lzJHM-0002a0-Rk
+ for Qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:32:27 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id l5so11632921iok.7
+ for <Qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:32:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=outstep-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=LethLMRuYLTZ8CHja1erQhPDmSvDqgg2cegA31DVK9M=;
+ b=YIcTDrgn6LHr+Ha9BjjCPVUSbWB9yIrARlzMYDBNDXvMT8FJIZTBUy+MHg4lsr4Lyx
+ hhqDCwygjvTZ99xZu7EN2i0T4eyU4+PET2GaCgdydAOM8rCExomrHyQRkaT5E6UH4r/y
+ hCVnbWqfsKJIHqbhThXX8WYpOA4EUssDZ9lceSOnRcyV7ekT9FhCbjfI5zItRRJ5AqaJ
+ qIi/EzXTDztYP0KAx9HPgnJfIZxUKmFTndKM2/lIdjAGIaWGS1ehpBv3J653kNdZKa+n
+ Hp5ME9UoSQeBPzGNlAUvJmS2/YyGJbaLBhh1UJe9em/dcqxyZeFjRtlFxj0pRl/8FS17
+ kVGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pAhcCN8pVG6fkwq4O+PIKbDXNItL85P6eyltdSY7gdI=;
- b=Nd8uOPq2imP+2GIEidtkebufkJIoJWTM96BvZUq9R9t8gKgjPP1HLABkp1Se5SUiLj
- CKIqiePkS7SlFh7o5++tC6DBX+bGzsklTCPnTvOvQS7hBw5jR1BYnro1uk4SPd6QPH2k
- P6M8MxYc1lnwsCYZXRzhRDKDsLUkGYdzQ1quVwUvQUFceA9rP55b3BWpnrh1CsUKcX0O
- xlrZFE3zxp9ILt6B1NZtkUt/TyyAi+mzfuzotNkGJ8tIUmTIrdtPsyDMi9B+4V9pmhDx
- lV2hlNP5m6EMTTIR+KHz0nLNCKB6jp/zSQPlNxMcqFkqBRGGMcLXRvyY38OKOzxfNSAF
- XruQ==
-X-Gm-Message-State: AOAM531ATdvn+6LgaMa627HHS7xP727Hf1DyZAo/AP6z3U8MLZsl68UE
- eO/2iDYWjwOFojTQwYoHMzc=
-X-Google-Smtp-Source: ABdhPJz2D/kEfl32Xdw5RtEyIshfR9U2pCd32Vvjyc5aY0HbLi/Fm+SSNATmtQNhNnDGxfYOYxrwxA==
-X-Received: by 2002:a7b:c092:: with SMTP id r18mr5607931wmh.181.1625232620111; 
- Fri, 02 Jul 2021 06:30:20 -0700 (PDT)
-Received: from [192.168.11.95] (pop.92-184-108-23.mobile.abo.orange.fr.
- [92.184.108.23])
- by smtp.gmail.com with ESMTPSA id n8sm3277056wrt.95.2021.07.02.06.30.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 06:30:19 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] g364fb: fix migration (or: fix migration for MIPS
- magnum machines)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- aurelien@aurel32.net, jiaxun.yang@flygoat.com, aleksandar.rikalo@syrmia.com,
- hpoussin@reactos.org, fthain@telegraphics.com.au
-References: <20210625163554.14879-1-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c985102d-434c-3c72-b2a6-5c29813e67fd@amsat.org>
-Date: Fri, 2 Jul 2021 15:30:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=LethLMRuYLTZ8CHja1erQhPDmSvDqgg2cegA31DVK9M=;
+ b=iY1YuaSp6abkivrnbtn3UkgK2tpODcYv6cu7LVpgltpYVXnDWBPWssE5LS1k+7mXRm
+ Q+xx1TUrYtEuhS33b8M42/fefyfGqTxB1hQ929BfXZg5Qetntfg47ibn+RroF0cw8+4M
+ CS68SYUYWpVogcc3UOTc0/JGuFVmLJHVD8tfYu/RoZX780y7N6mRjNTEFSe1U1+GMsmc
+ cAMN4vkDxc9MUl0SpCUWfw2jDcMe9eeV6a9lj3rAHxRO77W/uYxZnjLcJaoVhQSEzvUW
+ C8BZlKq8iVSgzAje5nkzoXBlZsZBK6eGf6pFru+wF2hjfnDcbmhl8HJ0rmGlzDFTD1CC
+ SDNw==
+X-Gm-Message-State: AOAM530mwkKyEmsxGTG30awG/EOYC4nSyT17sc+y8GUHisfqgS1eBkaN
+ NBepQMeVau1Mn9XjY1L2E5S9fUYVx/7Gqe/tU60utfPci1p3HA==
+X-Google-Smtp-Source: ABdhPJwd+pg76UF/4iPRZipIno3jIBHLiuAUR6rMDyld+zOhs7FC4ibMeMurWQVGAu8UDeEHjSMEn/5HnvWlgwAPeDs=
+X-Received: by 2002:a6b:cf12:: with SMTP id o18mr65220ioa.86.1625232742224;
+ Fri, 02 Jul 2021 06:32:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210625163554.14879-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+From: Lonnie Cumberland <lonnie@outstep.com>
+Date: Fri, 2 Jul 2021 09:32:12 -0400
+Message-ID: <CAPmsJLCSnfkoB9Hk_gT2qJspeadxN3AM=TDbxZ4vpHL_M9X9Cw@mail.gmail.com>
+Subject: Porting QEMU to new hardware challenge?
+To: Qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000004728d905c623fc04"
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=lonnie@outstep.com; helo=mail-io1-xd2b.google.com
+X-Spam_score_int: 7
+X-Spam_score: 0.7
+X-Spam_bar: /
+X-Spam_report: (0.7 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,28 +76,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/21 6:35 PM, Mark Cave-Ayland wrote:
-> I noticed whilst testing the previous dp8393x patchset that I would always
-> get a segfault whilst attempting to migrate the MIPS magnum machine.
-> 
-> A bit of detective work shows that the problem is an incorrect VMStateDescription
-> in the g364fb device which expects a G364State but instead receives a
-> G364SysBusState.
-> 
-> Looking back through the git history suggests that migration for this device
-> (and also the MIPS magnum machines) has been broken for several years, so patch
-> 1 takes the opportunity to improve the migration stream for the framebuffer
-> first whilst patch 2 contains the actual fix.
-> 
-> Note that I don't use the MIPS magnum machines on a regular basis but the
-> patchset fixes the migration error and survives some light testing here.
+--0000000000004728d905c623fc04
+Content-Type: text/plain; charset="UTF-8"
 
-> Mark Cave-Ayland (2):
->   g364fb: use RAM memory region for framebuffer
->   g364fb: add VMStateDescription for G364SysBusState
-> 
->  hw/display/g364fb.c | 32 ++++++++++++++++++++------------
->  1 file changed, 20 insertions(+), 12 deletions(-)
+Hello All,
 
-Thanks, queued to mips-next.
+I hope that everyone is doing well today.
+
+Currently, I am working on a project that needs a good and stable VMM to
+run a single VM at a time within a new hypervisor being designed  that
+will run on x86_64 hardware. (at least initially)
+
+For this effort, I have been looking at various possible VMMs like QEMU,
+TinyEMU, Bhyve, and even VirtualBox but think that either QEMU or TinyEMU
+might be the best solution and I am wondering how hard it might be to port
+QEMU over to the new system?
+
+I would like to get your opinion, and suggestions on the best way to
+proceed and also what difficulties you may have had in the past, if you
+ported QEMU.
+
+Any help or information would be truly appreciated.
+
+Best Regards and have a great weekend,
+Lonnie
+
+--0000000000004728d905c623fc04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello All,<div><br></div><div>I hope that everyone is doin=
+g well today.</div><div><br></div><div>Currently, I am working on a project=
+ that needs a good and stable VMM to run a single VM at a time within a new=
+ hypervisor being designed=C2=A0 that will=C2=A0run on x86_64 hardware. (at=
+ least initially)</div><div><br></div><div>For this effort, I have been loo=
+king=C2=A0at various possible VMMs like QEMU, TinyEMU, Bhyve, and even Virt=
+ualBox but think that either QEMU or TinyEMU might be the best solution and=
+ I am wondering how hard it might be to port QEMU over to the new system?</=
+div><div><br></div><div>I would like to get your opinion, and suggestions o=
+n the best way to proceed and also what difficulties you may have had in th=
+e past, if you ported QEMU.</div><div><br></div><div>Any help or informatio=
+n would be truly appreciated.</div><div><br></div><div>Best Regards and hav=
+e a great weekend,</div><div>Lonnie</div><div><br></div><div><br></div></di=
+v>
+
+--0000000000004728d905c623fc04--
 
