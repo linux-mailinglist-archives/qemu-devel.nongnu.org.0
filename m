@@ -2,106 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB613BA4EB
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 23:02:43 +0200 (CEST)
-Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B413BA4FC
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 23:19:08 +0200 (CEST)
+Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzQJ7-0004tb-Mv
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 17:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38576)
+	id 1lzQZ1-0003eU-38
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 17:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uweigand@de.ibm.com>)
- id 1lzQHN-0003iK-Ce; Fri, 02 Jul 2021 17:00:53 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2900)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lzQWy-0001Ep-Rx; Fri, 02 Jul 2021 17:17:01 -0400
+Received: from mail-eopbgr60106.outbound.protection.outlook.com
+ ([40.107.6.106]:49763 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uweigand@de.ibm.com>)
- id 1lzQHK-00021a-1Y; Fri, 02 Jul 2021 17:00:53 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 162KXfRl157949; Fri, 2 Jul 2021 17:00:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- content-transfer-encoding : mime-version; s=pp1;
- bh=XnOaqTdhfHG9ZfcazTc3zhACoez8Or0+6PRI5RDTdko=;
- b=PAy82ge2eFtClySYApq4mKx7yziYpH3ys9FOOhlT7T9RZe/OCJlJWZG8+qMWYHLY1NSK
- oqBtTmlCEyTBNsW/f6X0NuLjmwSbFMZQJhL2w2kYHKe7gr275T5uR9hDhJALFR9fc/4i
- VUX64KzGSOGrHin3ls7lygIZQihHa0byRfKSrX5WggtLuK4b3QTDAXpL/A3kQcF+1kZR
- uamKtHGvHV97U35jTZ4LtnbhYTA7p8w43BCsTavcvpb142rtwo0IgIJUX5aYfMu+HuuV
- x8F56TjVnfzQ9zdYJuTM0tZt7gXrDC5l0HJCEiGJr4YcCpnVQL0NgVF3tDVbDFavcq8s 5Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39j9ng0tbq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Jul 2021 17:00:46 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 162L0C5v075438;
- Fri, 2 Jul 2021 17:00:45 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39j9ng0tar-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Jul 2021 17:00:45 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 162Kwlt4006840;
- Fri, 2 Jul 2021 21:00:43 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06ams.nl.ibm.com with ESMTP id 39h19bh16a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Jul 2021 21:00:43 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 162L0dSI32768344
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 2 Jul 2021 21:00:39 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 833D64203F;
- Fri,  2 Jul 2021 21:00:39 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6F3B842045;
- Fri,  2 Jul 2021 21:00:39 +0000 (GMT)
-Received: from oc3748833570.ibm.com (unknown [9.145.159.224])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  2 Jul 2021 21:00:39 +0000 (GMT)
-Received: by oc3748833570.ibm.com (Postfix, from userid 1000)
- id EECD0D8030E; Fri,  2 Jul 2021 23:00:38 +0200 (CEST)
-Date: Fri, 2 Jul 2021 23:00:38 +0200
-From: Ulrich Weigand <uweigand@de.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v5 0/2] target/s390x: Fix SIGILL/SIGFPE/SIGTRAP psw.addr
- reporting
-Message-ID: <20210702210038.GA8031@oc3748833570.ibm.com>
-References: <20210623023250.3667563-1-iii@linux.ibm.com>
- <87a6n5j976.fsf@redhat.com>
- <3624d483-dd11-6464-bbfd-ed2921b2fcfe@vivier.eu>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <3624d483-dd11-6464-bbfd-ed2921b2fcfe@vivier.eu>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MR3Bs2iTSVsp4X2OBJ0vGfLfyJjJlqAv
-X-Proofpoint-ORIG-GUID: YTsUl8uJoV4gIpwmc4S7msFmmyWG5zXU
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lzQWu-0003iz-QB; Fri, 02 Jul 2021 17:17:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iN+aSysTKtAfURlAxuSORyRFBy3ewcbZWxLSFHf3jmFUdWdRBUXbMUAlWEH1BowHKKg8KuJVRu8KriPLtg1i1npWyaFNak6EJYkPMWIv8grZ/3Q7vcf712kWNb7h64OZdOAqZCAmPFuJpEbRdgR05yJCtcFFZADzK07oOApChwyWuBVgmG518dAFuV6YZ7qaNZwGWLSnqjm24xpRTsvCAy2I/qy1abueoUnTr5H1s3A/gI7TYn8yjVf0e/njp5HNHOYAdKpKXFzmUsfWuphKsvKXRLk4lgS0COtinCgrVykxL+0AIxRoNLRXZ0mC7/+K3W8TBG0Y3M/uZhGeYTRqbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bZZ20MjNKRimtkaelOnWgTmROc3p0drlPLCr5yUxTd8=;
+ b=R6X8DIoQnh+Ig2GgPh5ilvfY8maqiARlCnTFdU0w28Pl4S9yz1BYH9KeB7r/tzsgxcb3lUz2zaOHhC6f85hAd7WK3/z8usE4BkmF1oKP2Ip1ALLf3jAs32f/V5/evn0KVoIyqYHzoFgO3n+T9O3UlMzhuAjuDGYPPC61rAoj6NUW6i1Vq6PiYdwDkIpQmAs0vl+9CTBzNSgjqNgfR5G1LP3L0wINaIsoxL/nmn3vZdzIL+RQcN5wPKWJDlCV7sZpiU/hQW8SuYdcWp31xJLjhdZ+pf+aGrSrv29L+Y1JuSPqWS8c5lhh8Ja2VoGx/STBChhrnq2RWAUxe9jimfnzDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bZZ20MjNKRimtkaelOnWgTmROc3p0drlPLCr5yUxTd8=;
+ b=ToQf37zbxakyqh8fCFZuy4DijX1PyDwww9ColdtvKb9dxNaNHZ67PKbeQymjTBLZ5Ys5sMq6mcmZvfdr2/5MC8F84NiWonHPS07hGsauSDKBetv/WIVdNOrsZqXXUyoU6Lbk+Ux24xGmY08N/ZtwmCtxDL45W1EhJXR4peC4t+Q=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4691.eurprd08.prod.outlook.com (2603:10a6:20b:cc::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Fri, 2 Jul
+ 2021 21:16:51 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Fri, 2 Jul 2021
+ 21:16:51 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com, jsnow@redhat.com, dem@openvz.org
+Subject: [PATCH 0/3] Fix active mirror dead-lock
+Date: Sat,  3 Jul 2021 00:16:33 +0300
+Message-Id: <20210702211636.228981-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: HE1PR02CA0112.eurprd02.prod.outlook.com
+ (2603:10a6:7:29::41) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-02_10:2021-07-02,
- 2021-07-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1011
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107020104
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=uweigand@de.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.215) by
+ HE1PR02CA0112.eurprd02.prod.outlook.com (2603:10a6:7:29::41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.22 via Frontend Transport; Fri, 2 Jul 2021 21:16:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4daa0c24-cfe6-444a-3ffb-08d93d9eb59c
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4691:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB469117AE8A41A56C3CDEE66CC11F9@AM6PR08MB4691.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +vpNOIYVrfOE7fPw6YFeSKwVlGUsWamJXb8dwpNUyUNi635KDOCA0RNAfwfQwBX2Qh4/27aggYPyG37CCKxtwR+9ES9uQ0MbvK7inIDdzRj9cyeX8lOyOlrtlInoTmyr/d5NTvZcezgPoXW0EDj+UIVB0YxqWKtng8vhYV3L0sBXSvpW4exOOyco8LhOl1ZriUMzGXdrdkGRhPrJCEOodHe5OKEugn+k+9ORZinEhRrspKGCrhyBu6VTzl9bpVx/XBxY6tgzaMxZfpw8NOyxT43lD1NgU/GzubvWp3kTxAUyz7ZQIU+DrIPl18d56vYhx2eeZT1ChH8+dtjrcNb4NjJXJuP9C2l1ZhWVK9p+1N54NY57ybn7shyH93dll3L7JYi5KJe1O9kpS5/buBg61der8N97kXdY/nPycyrLKCVgoowdMKV+9xBSWRP7ZliDPnO9ixw+99rSn9DRovBm9kvckcwuXcfpvpJ4RtaxPDOQ2CF96viliPlymZ5GItw+WZs8Goc7mDjr51gn3oukWACzsZ3tT+nTzgMJYXk7NdImrrQKAmLlf+Zma7VTJI58eNQidMBkOIfZJkGx8Xd7vDwh5K/rOYrX1mZwS6NZB2edDrViCn3W4duwItgLTGmBgwwfnhvFBuDTCZllO0ea8crdKta/xBzRFdM4Q1d/fB7rfkMvPv6L24i1FITELVbepD5gen5wZ6nhI2wVKpB7OVNg7dcfWBul+QOr4CQHw50=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(396003)(39830400003)(376002)(346002)(1076003)(86362001)(316002)(2906002)(52116002)(4326008)(38350700002)(8676002)(66476007)(66556008)(5660300002)(38100700002)(66946007)(16526019)(956004)(6916009)(83380400001)(6666004)(107886003)(36756003)(6486002)(186003)(478600001)(26005)(4744005)(6512007)(6506007)(2616005)(8936002)(69590400013);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TZCCfEIdux84qQjBEWybsNKys1Um35V+VpWTq13xVJutnRvh8WRBFcQV/3iq?=
+ =?us-ascii?Q?NsviAHyns/7zQjYcCWI7An5L0gaCapP8W5/BM11Ielz9FH/XKS5164LI6PxY?=
+ =?us-ascii?Q?tucZc1rZok5j8K/ZGzHGvrGRby2fTHHvbIg+mWHyK1a0Ans+JWV2aPg9jixx?=
+ =?us-ascii?Q?tnSVCjXriYloI5Op6FxahMHX3qwoFI8R9Fnv5IH9tzNn4zjpP+SGLhpSD6ca?=
+ =?us-ascii?Q?vml1UKat2FNaWvQ7RNO3jPxjJwW+30DsDt8JDBD5Ycab84k4yEG7zr68AR+T?=
+ =?us-ascii?Q?a3Dt+CYg33On6k4hGXWGGfou9+b4WwnOBxsAIyQHKa646Mf3Uz3crtV2yc9N?=
+ =?us-ascii?Q?9IIOQ0fda+RYzh7eonVCJR9I4gcPwTtuZbmsnBM5fOGWq+gk38bMo0Gwbp5O?=
+ =?us-ascii?Q?yaVk7gDjx//KDhybp5hyYEwl2EV9b5VS6r02UTp1qFwm1SNgFr0CqzqPSVuR?=
+ =?us-ascii?Q?W3MxIu0VsqiIM/U0UCXZDYBwZbp+o6RkNysV5eNUU4K8lf8huR9CAAdXqx60?=
+ =?us-ascii?Q?MBuaCVr1dVFrkDSOm2N6lQxbjocIYnbs3iPFYk1ixXr7nuGJ24opaNLWnp3i?=
+ =?us-ascii?Q?rJMpJB1H4nsCB+RHwCFIz4AkT1ifbEjpYyFhemjUHDj9BjAuP71N1QFOZFYg?=
+ =?us-ascii?Q?w0F7L3jxrlPFQVmODYe3Ry76KzZZUIVdjofQBburiPMwDZae0yCQWxVKFwFI?=
+ =?us-ascii?Q?w5fKcUNlPqPtXUemlWJojHlbcNGgof2CdfF+KPR44nJjIu4fMOWXHUwWAz4M?=
+ =?us-ascii?Q?CvwGIEjlLAED3bQuLdUdGgNmcFoDl7Cdn9WaSumd2krP79deOiqi4On1Q0Cx?=
+ =?us-ascii?Q?FLEW/M31GaO7FHWtbovrc7VD7uLeIi0Bt3sEadYU5jnYteeckbTYbji1M//+?=
+ =?us-ascii?Q?XfCnbs8QBhIuYlDKnB9JRP4LiOuJ0Unrt5KI6lHweF430Ncf618hzdO165sn?=
+ =?us-ascii?Q?OqgIOOYT2jmYk7noL/hDaCtyoqpOKfaEwz0ZsEVi2Zfxmy2n4V1t7EJc64VS?=
+ =?us-ascii?Q?jzelQPA2hjLWVGcZgcGdu8PLtfgTpT3gXOdfI+t8j8tUaQvM2uvvuATNg9cL?=
+ =?us-ascii?Q?QAteaF14rfDtuC0sLEw3Z1MsoYJ9gI+kj9LiMlzeis7bYsFSWbuyuaOvJc5L?=
+ =?us-ascii?Q?ulqaZZy2C0Drd1VRiMWJSYRrwUUvL+g3cfPaWmINDI6z5r/MNxhK10KV6Rmy?=
+ =?us-ascii?Q?IaMsCzbGqZi9meoAhATo7YbydDGqD+F7gkOD+R8hAv5UvKwy7k5S4oXyTSQj?=
+ =?us-ascii?Q?ZtbSwFhCBHCjDZMLOg7NhD8vrwHAwBU5AfQUh9mJ67UYjtDa8jEuSeeJ/3Jz?=
+ =?us-ascii?Q?zK6cgSYGkf6NOtDK1EFQ0kSH?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4daa0c24-cfe6-444a-3ffb-08d93d9eb59c
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2021 21:16:51.3168 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8TN5BPaVAKhJuR89ZUI/bIoS+tkJm+NiQsjMoGBPVBuH0z9l2i+inbcCw6t1my5wSGgBWZQhq8ScHcQz6E8cVlUIyAHy1monzyspxLAc+qg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4691
+Received-SPF: pass client-ip=40.107.6.106;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,75 +133,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Ulrich Weigand <ulrich.weigand@de.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 02, 2021 at 02:01:47PM +0200, Laurent Vivier wrote:
-> Le 02/07/2021 à 12:34, Cornelia Huck a écrit :
-> > On Wed, Jun 23 2021, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
-> > 
-> >> qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
-> >> should be a pointer to the instruction following the illegal
-> >> instruction, but at the moment it is a pointer to the illegal
-> >> instruction itself. This breaks OpenJDK, which relies on this value.
-> >> A similar problem exists for SIGFPE and SIGTRAP.
-> >>
-> >> Patch 1 fixes the issue, patch 2 adds a test.
-> >>
-> >> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.html
-> >> v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
-> >>           magic in the test and add an explanation (David).
-> >>
-> >> v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06649.html
-> >> v2 -> v3: Fix SIGSEGV handling (found when trying to run valgrind under
-> >>           qemu-user).
-> >>
-> >> v3: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg00299.html
-> >> v3 -> v4: Fix compiling the test on Ubuntu 20.04 (Jonathan).
-> >>
-> >> v4: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05848.html
-> >> v4 -> v5: Greatly simplify the fix (Ulrich).
-> >>
-> >> Note: the compare-and-trap SIGFPE issue is being fixed separately.
-> >> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05690.html
-> >>
-> >> Ilya Leoshkevich (2):
-> >>   target/s390x: Fix SIGILL/SIGFPE/SIGTRAP psw.addr reporting
-> >>   tests/tcg/s390x: Test SIGILL and SIGSEGV handling
-> >>
-> >>  linux-user/s390x/cpu_loop.c     |   5 +
-> >>  tests/tcg/s390x/Makefile.target |   1 +
-> >>  tests/tcg/s390x/signal.c        | 165 ++++++++++++++++++++++++++++++++
-> >>  3 files changed, 171 insertions(+)
-> >>  create mode 100644 tests/tcg/s390x/signal.c
-> > 
-> > What's the status of this and
-> > <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>? linux-user
-> > is not really my turf, but it would be sad if this fell through the
-> > cracks.
-> > 
-> 
-> If from the S390x point of view they are correct, I can collect them via linux-user.
+Hi all!
 
-It's certainly correct that SIGILL, SIGFPE and SIGTRAP are delivered with psw.addr
-pointing *after* the faulting instruction, that forms in effect part of the kernel
-ABI on s390x.  We're planning to document this in the next revision of the ABI
-document, see here: https://github.com/IBM/s390x-abi/issues/2
+We've faced a dead-lock in active mirror in our Rhev-8.4 based Qemu
+build. And it's reproducible on master too.
 
-I can also confirm that this patch fixes the problems I was seeing when running
-the s390x wasmtime JIT under qemu.
+Vladimir Sementsov-Ogievskiy (3):
+  block/mirror: set .co for active-write MirrorOp objects
+  iotest 151: add test-case that shows active mirror dead-lock
+  block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts
 
-Bye,
-Ulrich
+ block/mirror.c             | 13 +++++++++
+ tests/qemu-iotests/151     | 54 ++++++++++++++++++++++++++++++++++++--
+ tests/qemu-iotests/151.out |  4 +--
+ 3 files changed, 67 insertions(+), 4 deletions(-)
 
 -- 
-  Dr. Ulrich Weigand
-  GNU/Linux compilers and toolchain
-  Ulrich.Weigand@de.ibm.com
+2.29.2
+
 
