@@ -2,113 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97973BA0BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 14:52:30 +0200 (CEST)
-Received: from localhost ([::1]:34294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7AF3BA0B6
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 14:48:29 +0200 (CEST)
+Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzIeh-00024C-O1
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 08:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59526)
+	id 1lzIaq-0005iU-HP
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 08:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <federico.vaga@cern.ch>)
- id 1lzIdl-0000oQ-Uj
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 08:51:30 -0400
-Received: from mail-am5eur03on0600.outbound.protection.outlook.com
- ([2a01:111:f400:fe08::600]:36125
- helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <federico.vaga@cern.ch>)
- id 1lzIdj-0004iV-Uz
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 08:51:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EhLzy1nt4l1GKL+oDl5OrYHfMg/ufqCXra51ieK922KiSUl2wCoa+tTdjmh1ITpCawvdjKl0m4ViCyxc9IvGNTpaTwMkH8/q+IAuZzXpy2s5o0QnpDrWukpACVIByajbcBZvP5NvfMAOBS4XTW4/+bpmo8zDx8+T1aovcnXcf4EGydvWoq2LsFyev3gtPhdgDK5RisNFcx+Ca4ghuwXVvOZ32V3M3zQY6f6zZWcP4z8v8G7QheWdZX9wo66/Lk8x5s/g6fTZ4c8Uq2+/Rodf663LzIsuMHu5U8lkSodn7uTIE9NDnTSFBguS2/ZOOIyEuJbhAHF/5RcXROVvKrpZTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1oUqO0BWkynAaxA0UpFE/a8twR5JoFfxd6wEwHb9ZTM=;
- b=OENIp/Wegvw2t+PJGjocf+drnzigxzmH7KoAGU06tQDN+u9u10dDD3gWyxYJT4bOBMj+OLyfJPvSrNvscrIJFcQqCoMOPZbQmxGoJB4j2RErMpcIuIAR2pliJ0Ven+oOHKmGBsdDfynL6j039f1z2bRvyByo6u3CSHGPL/LhlFbxQmEeJEvrZKUL5TKR3nTQEjcuXQrBds/h8U4F2a75qeV4W/llNZJxWqMrPTraqFV8wo8CtsvX6VHsF5n3dyVS79DIXndhs1pkjUQPrQp4acUpu8IsE32ygAJCA8W0yS3roZWhxirxUAuXlEINTVyh2mwwntaSsXZ7RWuXZJ3rQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 188.184.36.46) smtp.rcpttodomain=redhat.com smtp.mailfrom=cern.ch;
- dmarc=bestguesspass action=none header.from=cern.ch; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cern.onmicrosoft.com; 
- s=selector2-cern-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1oUqO0BWkynAaxA0UpFE/a8twR5JoFfxd6wEwHb9ZTM=;
- b=CYMi5UtZw5+N81X+D/i9CgDOHAY5m+IZZP/2xvp+5O9jCyf8t9pbkVnVuvfUMBf6aHjrQeDX2M1/s4Iiow0uQ/8KZuqXutyDXrXEGbj8RRQvtit7g7VwR3D3FBLikLsWQMMfAgzdvhZ4W98xk4rIPSOVBm3ECp4kKqZAnlkFHG0=
-Received: from PR0P264CA0259.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100::31) by
- VI1PR06MB4878.eurprd06.prod.outlook.com (2603:10a6:803:90::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.20; Fri, 2 Jul 2021 12:46:22 +0000
-Received: from HE1EUR02FT039.eop-EUR02.prod.protection.outlook.com
- (2603:10a6:100:0:cafe::a5) by PR0P264CA0259.outlook.office365.com
- (2603:10a6:100::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.25 via Frontend
- Transport; Fri, 2 Jul 2021 12:46:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 188.184.36.46)
- smtp.mailfrom=cern.ch; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=bestguesspass action=none
- header.from=cern.ch;
-Received-SPF: Pass (protection.outlook.com: domain of cern.ch designates
- 188.184.36.46 as permitted sender) receiver=protection.outlook.com;
- client-ip=188.184.36.46; helo=cernmxgwlb4.cern.ch;
-Received: from cernmxgwlb4.cern.ch (188.184.36.46) by
- HE1EUR02FT039.mail.protection.outlook.com (10.152.11.222) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4287.22 via Frontend Transport; Fri, 2 Jul 2021 12:46:21 +0000
-Received: from cernfe04.cern.ch (188.184.36.41) by cernmxgwlb4.cern.ch
- (188.184.36.46) with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 2 Jul
- 2021 14:46:19 +0200
-Received: from cwe-513-vol689.cern.ch (2001:1458:d00:7::100:1c8) by
- smtp.cern.ch (2001:1458:201:66::100:14) with Microsoft SMTP Server (TLS) id
- 14.3.498.0; Fri, 2 Jul 2021 14:46:19 +0200
-Date: Fri, 2 Jul 2021 14:46:17 +0200
-From: Federico Vaga <federico.vaga@cern.ch>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: Contributions: Adding New Devices
-Message-ID: <20210702124617.mn53t5qhz7qsjiiz@cwe-513-vol689.cern.ch>
-References: <20210630140102.ecuyxyeqnthvausb@cwe-513-vol689.cern.ch>
- <a394439c-0e82-b915-2e49-70ceda3d7b02@redhat.com>
- <3430433f-7ef6-9403-c160-6b135fb199a2@redhat.com>
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lzIZ9-0004sd-LI; Fri, 02 Jul 2021 08:46:44 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:42876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lzIZ5-000399-Lb; Fri, 02 Jul 2021 08:46:43 -0400
+Received: by mail-il1-x130.google.com with SMTP id h3so9585657ilc.9;
+ Fri, 02 Jul 2021 05:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=khXChB4JS2UUWSEr9d1pyr++RVk92rCjJJDAIGnRG4s=;
+ b=fE7bwoKEPYeDSOCBoXCmC5t8DKNOE58CDeAZB+V2/l8/KqWPlwZoMqcuUUafWl5evL
+ mPP/1/4HSiC8DEOSwH4Zqn1aHuk9a2Hb3oHSTwZt+KYF2DnJCU162kJ/PizG0nrHlmop
+ 6NmoLhXq6AX4OuKMgyNbaxsN6zqcF5YpyiKqYJOUX8ekvMS3CGGCxAS4EzoQuUEBZWUc
+ Ys56iy1vcClYhcg5p828YiCPIz8zkX6T4oxwtf2u5GWNYi0dwtgwcLOWWLHVtwLnY3lU
+ ueCw7rwFhSnu3bL3nlpZdXXilrYTBQhowd9XM6I+Ml/jw+RuYUZz7OscWpMLwcyV+Iwr
+ HXhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=khXChB4JS2UUWSEr9d1pyr++RVk92rCjJJDAIGnRG4s=;
+ b=bdofvlW3ZmyBI2KGuehkBADcf49p6xlQXgd5QlFz9mwfXH40YVsKDbEkcCooFNzMaE
+ tpnO7YHgWkv0RulHEnHeB+PM4E/Wdjpo0M0IXnM5Nj0oZV9okK7QmIWoXy3fkgpNvfKn
+ 121PTNl+a4k63mi1lWg1Lyjk7LI1uOStYaMGs0wqpFnM0yqlO4ft9Oe3zeTCO9FEp3Eq
+ uiK4A84JTLG+AYnMwEAYZ/GMaE3QhIdOORTIUP4M0a301JSCGCLeq8v+k7x55sbtFzm3
+ +MSxoKgE5gZ9UceloPMGU9G00uvqcygDtgWRoaq2txB/LkRmT/GRsoHhokVUDlQ1g0tb
+ ItOw==
+X-Gm-Message-State: AOAM530qi4I/bPUz7lwD15t+8umPvEEUxj5syPhqLZyYu3mOtzHQSA/i
+ 1G7DWAd6GrR4UDGVbba0lgIlT0WhDM3OQoyeOdc=
+X-Google-Smtp-Source: ABdhPJxr7URT66rQGiWu7+Xv62q/GaNsh2oZdvjEdKDOForBGdPnZV0IKMYGmNE+u76CoyVMr7cZURAS72+3MAVpOhM=
+X-Received: by 2002:a05:6e02:18c9:: with SMTP id
+ s9mr1237083ilu.220.1625229998389; 
+ Fri, 02 Jul 2021 05:46:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3430433f-7ef6-9403-c160-6b135fb199a2@redhat.com>
-X-Originating-IP: [2001:1458:d00:7::100:1c8]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ecb96bd3-e885-47aa-4377-08d93d5764ee
-X-MS-TrafficTypeDiagnostic: VI1PR06MB4878:
-X-Microsoft-Antispam-PRVS: <VI1PR06MB4878B25257BC854CFFF166AFEF1F9@VI1PR06MB4878.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Up3bNy4euDEOF4dgriKGNFujYPMgjqxf1WIuoM0d+BTFE3qGoYQMCMVC5iUl41dMMTVEIkfGd7y2WpH9MXJmrz5cWriCBSbMksx8orPGuowC/M1i6u+/FRAHd8l5cGFJCfRVOIZKO2XUXUDtvljGBoz+ZsBB2WDbj8DrY+pnGhRKiAHIOlE2LUjLQ79nP/BnukBniglfScijWl7aX6amrDGwOxrPw+/UNjvtCA9ffnBaY3Ov51NU0GkK7SXR/W5NZh51Usw5AG1brtiBZSp6z4xwIUkKBb0/ZFO9Is7Yqty70OVXrEQeYYd91EICbQ+B9/WQk4EcOto2TZXRVeI5PFAdrU1vQENzYuqP7aX2l8OwKMrmhoZM+nfmZy5WHAj6PQ/qjzOuKrxZZduMmnIYD5GGExbQ3Av275Pze4krS1RHuSRS52V1jVmq3Zdr/vYdlCasWIXpVEIIpjycQG/T6xnxKjPFvPCR1g3UUUYiinYQyoCL1Tg4mZS2dxcRLSAN8T6tPLYRG/bFGCxecHhvCZzzMHb8tuXvcUPEiFbnaKON8+rCoY+/4g9psRzspR1P/ffx9N2LOuvVBZVeRkwIcZDheTcHpiOJqdoZTQYKF58kIpD4+j3ehAC5O7vLNOmmusnJRPr41GpQHvil8R2BowalY+wPYSa7DLl4xGvnGQK5wcuCSr2rwy+IIkE77aspydTKMjktuJ4IRXpfFpQmNA==
-X-Forefront-Antispam-Report: CIP:188.184.36.46; CTRY:CH; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:cernmxgwlb4.cern.ch; PTR:cernmx13.cern.ch; CAT:NONE;
- SFS:(346002)(376002)(136003)(396003)(39860400002)(46966006)(36840700001)(316002)(478600001)(356005)(82310400003)(70586007)(70206006)(47076005)(8936002)(54906003)(7696005)(4326008)(2906002)(36860700001)(6916009)(5660300002)(83380400001)(44832011)(426003)(186003)(16526019)(86362001)(8676002)(82740400003)(7636003)(336012)(1076003)(55016002)(26005)(53546011);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: cern.ch
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2021 12:46:21.1671 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecb96bd3-e885-47aa-4377-08d93d5764ee
-X-MS-Exchange-CrossTenant-Id: c80d3499-4a40-4a8c-986e-abce017d6b19
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=c80d3499-4a40-4a8c-986e-abce017d6b19; Ip=[188.184.36.46];
- Helo=[cernmxgwlb4.cern.ch]
-X-MS-Exchange-CrossTenant-AuthSource: HE1EUR02FT039.eop-EUR02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR06MB4878
-Received-SPF: pass client-ip=2a01:111:f400:fe08::600;
- envelope-from=federico.vaga@cern.ch;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210702090935.15300-1-pl@kamp.de>
+In-Reply-To: <20210702090935.15300-1-pl@kamp.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Fri, 2 Jul 2021 14:46:17 +0200
+Message-ID: <CAOi1vP_vYeMf+J2SkBef5VFcHMq++sBmDN_ffPWh0Wz8vtBHhg@mail.gmail.com>
+Subject: Re: [PATCH V4 0/6] block/rbd: migrate to coroutines and add write
+ zeroes support
+To: Peter Lieven <pl@kamp.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=idryomov@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,59 +76,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Connor Kuehl <ckuehl@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, mreitz@redhat.com,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for your answers
-
-On Fri, Jul 02, 2021 at 12:07:49AM +0200, Philippe Mathieu-Daudé wrote:
->On 7/1/21 9:48 PM, Connor Kuehl wrote:
->> On 6/30/21 7:01 AM, Federico Vaga wrote:
->>> Hello,
->>>
->>> I can't find this information on the website, so here I am.
->>>
->>> I developed a QEMU device that virtualises a PCI card that we widely use at CERN.
+On Fri, Jul 2, 2021 at 11:09 AM Peter Lieven <pl@kamp.de> wrote:
 >
->What kind of device is it? You might be surprise to see later someone
->else interested in what your specific device does and reuse part of it.
-
-It's really specific to our particle accelerators facility. This card receives
-packets over a custom network, which payloads contain information about the
-accelerator "setup", or synchronization information.
-
->Is the datasheet/documentation public?
+> this series migrates the qemu rbd driver from the old aio emulation
+> to native coroutines and adds write zeroes support which is important
+> for block operations.
 >
->Can you provide test? (so it doesn't bitrot while we do code changes
->unrelated to your device code)
-
-Ideally, with some work, yes.
-
->>> But this card is only used at CERN.
->>>
->>> Clearly, having CERN specific devices in QEMU does not help much the qemu
->>> community, hence I maintain an internal QEMU fork.
->>>
->>> But, I was wondering what is the QEMU policy about contributions that are known to be
->>> used only by a handful of people (one organization in this case)? Are they accepted?
->>
->> Your first instinct is correct that it's unlikely that the community
->> will be able to maintain a device if it's really so niche as to only
->> be used at your organization.
->>
->> However, if you do decide to try to upstream it, it could only help
->> your chances if you or some of your colleagues agreed to maintain it
->> for the QEMU community. This mainly involves adding an entry to the
->> MAINTAINERS file where, if accepted, the expectation is that you'll
->> be reachable within reason to review patches, make pull requests,
->> help discuss bugs in the subsystem, etc.
+> To achive this we first bump the librbd requirement to the already
+> outdated luminous release of ceph to get rid of some wrappers and
+> ifdef'ry in the code.
 >
->As Connor said (although you probably won't have to worry about
->pull request burden, other will help you while you ramp up).
->Beside, code only usable by you shouldn't have a lot of traffic,
->so maintenance shouldn't take too much.
+> V4->V4:
+>  - this patch is now rebased on top of current master
+>  - Patch 1: just mention librbd, tweak version numbers [Ilya]
+>  - Patch 3: use rbd_get_size instead of rbd_stat [Ilya]
+>  - Patch 4: retain comment about using a BH in the callback [Ilya]
+>  - Patch 5: set BDRV_REQ_NO_FALLBACK and silently ignore BDRV_REQ_MAY_UNMAP [Ilya]
+>
+> V2->V3:
+>  - this patch is now rebased on top of current master
+>  - Patch 1: only use cc.links and not cc.run to not break
+>    cross-compiling. [Kevin]
+>    Since Qemu 6.1 its okay to rely on librbd >= 12.x since RHEL-7
+>    support was dropped [Daniel]
+>  - Patch 4: dropped
+>  - Patch 5: store BDS in RBDTask and use bdrv_get_aio_context() [Kevin]
+>
+> V1->V2:
+>  - this patch is now rebased on top of current master with Paolos
+>    upcoming fixes for the meson.build script included:
+>     - meson: accept either shared or static libraries if --disable-static
+>     - meson: honor --enable-rbd if cc.links test fails
+>  - Patch 1: adjusted to meson.build script
+>  - Patch 2: unchanged
+>  - Patch 3: new patch
+>  - Patch 4: do not implement empty detach_aio_context callback [Jason]
+>  - Patch 5: - fix aio completion cleanup in error case [Jason]
+>             - return error codes from librbd
+>  - Patch 6: - add support for thick provisioning [Jason]
+>             - do not set write zeroes alignment
+>  - Patch 7: new patch
+>
+> Peter Lieven (6):
+>   block/rbd: bump librbd requirement to luminous release
+>   block/rbd: store object_size in BDRVRBDState
+>   block/rbd: update s->image_size in qemu_rbd_getlength
+>   block/rbd: migrate from aio to coroutines
+>   block/rbd: add write zeroes support
+>   block/rbd: drop qemu_rbd_refresh_limits
+>
+>  block/rbd.c | 406 ++++++++++++++++------------------------------------
+>  meson.build |   7 +-
+>  2 files changed, 128 insertions(+), 285 deletions(-)
+>
+> --
+> 2.17.1
+>
+>
 
-I could try to submit it, at least to get a review. Then, for us it's not a
-problem to apply a patch on to of QEMU to have our virtual device.
+Looks good to me!
+
+Kevin picked up Or's encryption patch, so there are a few simple
+conflicts with https://repo.or.cz/qemu/kevin.git block now.  Do you
+want to rebase on top of Kevin's block branch and repost with
+"Based-on: <20210627114635.39326-1-oro@il.ibm.com>" or some such in
+the cover letter or should I?
+
+Thanks,
+
+                Ilya
 
