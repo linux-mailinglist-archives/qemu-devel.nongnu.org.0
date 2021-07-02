@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053633BA3AD
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:34:18 +0200 (CEST)
-Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7E13BA3AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:34:17 +0200 (CEST)
+Received: from localhost ([::1]:58840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzN3Q-0006Zw-Vs
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33812)
+	id 1lzN3Q-0006YZ-Az
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuN-0000fs-CJ; Fri, 02 Jul 2021 13:24:55 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuE-0005q3-Fg; Fri, 02 Jul 2021 13:24:55 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id o5so17285780ejy.7;
- Fri, 02 Jul 2021 10:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XCS1eBTmFVni55Vw7riktXNyIAlpsaxYTIa8S2YQ34E=;
- b=AnAEcSYUJGuGG7M0TNGvLHt/FQZLfp8seTq5leB5LrX9PwOrdrgetUd+c6/gJGF8k1
- cOsExRDvViLcefAsvMKRBtErYazpJNUNqoWdK8L7vH5QRTXdDs3ImFCCBCZhgA4wfE/W
- ZxcG5fRhZNYsovhpoV42SuoLt3zJX7lmzIyeyp41Qxmu0gPEuWVVQ5jGx1W+G7uja2xG
- y6iT+fdgix3yCJBlLlMC18/ElDDVoWyO1i0QJrCZpnMJBrti9IJ8SOIhB7kX6eaSGkOm
- 9bk2I8rhqp07XcPessreoNKa0/ET5OkjfhNiUiBjVgO6sMyZd48v9VLoKPUC9CpbmZnm
- 5oPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XCS1eBTmFVni55Vw7riktXNyIAlpsaxYTIa8S2YQ34E=;
- b=qVZZ2vAIqqsKkMLbEAnm8xM7sSCYl7vcOGLRG+OiD5vgQU4MAUbSBbK8mlQHZGi5nq
- HVnuw3wbJfJiJfhlIoLa1aZ3AXpBpVZFmxhvXf58GCI5Tdi5mpt2i+A/ICVy4Ne24Ilf
- FIuFVyj8W9WiflGl+1r2RACxrirWV67PozQM4f5wNOEKDCaB6DfK9T6WSQkh1AF8zdFq
- KN8qF/rEzg8JjSdeg6RTSnTHt2MWG0bHopF0Tj+KlJBpI0enzXUCk6mWkx0yzrlrqKR8
- 7mlmY/wtyo51bfg604Xvx2jaouZ+yRi5pMUNNNer8CV/Fr/8UqNT6+j5tv0FkL4+N4a0
- 2C7w==
-X-Gm-Message-State: AOAM5318l6qZPjcdWduLTq1X+V4Kown7pwXNtPOqF0UQ1sYTeEQBOMkv
- lHfKx3c7dcCLnDUubosJvGJ8sYR1bLCY2A==
-X-Google-Smtp-Source: ABdhPJyUigsaJh4pwoLz6etRpJUBGObKxVJF2459VSGaM+ok2xHPpL/zE+J6AgUKL8VtXK3ZQvXkZw==
-X-Received: by 2002:a17:906:9742:: with SMTP id
- o2mr829215ejy.532.1625246684810; 
- Fri, 02 Jul 2021 10:24:44 -0700 (PDT)
-Received: from kwango.redhat.com (ip-94-112-132-16.net.upcbroadband.cz.
- [94.112.132.16])
- by smtp.gmail.com with ESMTPSA id ar27sm1242229ejc.100.2021.07.02.10.24.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 10:24:44 -0700 (PDT)
-From: Ilya Dryomov <idryomov@gmail.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 5/6] block/rbd: add write zeroes support
-Date: Fri,  2 Jul 2021 19:23:55 +0200
-Message-Id: <20210702172356.11574-6-idryomov@gmail.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20210702172356.11574-1-idryomov@gmail.com>
-References: <20210702172356.11574-1-idryomov@gmail.com>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lzN1m-00051z-6u
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 13:32:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lzN1i-0002ve-Pp
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 13:32:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625247148;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hDEWrTP/+0cvsPxrN9xUDP75devV7BvqIH+Yc7KG/7E=;
+ b=c4PWrhK84OgkbOrKGGQ/bt2ZhXaDuCCNl/3Acz5UMkcGPDp2TiBVVmaklOjwwDi8y5EPoW
+ ZkQijc6w71ujD56xCUHKECzL6Jf3Jn9GRq1ysuOtTLHElMa0NFMig37t4wIHxxF3O5xkrl
+ F8ns0gwrEW/5Phfkx94toUbpMtPynw0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-SMJLnFawOjq3wUwFy5YSSQ-1; Fri, 02 Jul 2021 13:32:26 -0400
+X-MC-Unique: SMJLnFawOjq3wUwFy5YSSQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84C7C801B0A;
+ Fri,  2 Jul 2021 17:32:24 +0000 (UTC)
+Received: from localhost (unknown [10.22.8.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6AFD19D7C;
+ Fri,  2 Jul 2021 17:32:23 +0000 (UTC)
+Date: Fri, 2 Jul 2021 13:32:23 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH] target/i386: Fix cpuid level for AMD
+Message-ID: <20210702173223.vjb2gfwxfnphrv3y@habkost.net>
+References: <20210628132018.394994-1-pizhenwei@bytedance.com>
+ <YNsoyqFvzXL0FXC8@work-vm>
+ <162508068941.526217.2563710865841096339@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=idryomov@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <162508068941.526217.2563710865841096339@amd.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,154 +79,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- ct@flyingcircus.io, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: like.xu@linux.intel.com, armbru@redhat.com, wei.huang2@amd.com,
+ richard.henderson@linaro.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ zhenwei pi <pizhenwei@bytedance.com>, qemu-devel@nongnu.org,
+ babu.moger@amd.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Lieven <pl@kamp.de>
+On Wed, Jun 30, 2021 at 02:18:09PM -0500, Michael Roth wrote:
+> Quoting Dr. David Alan Gilbert (2021-06-29 09:06:02)
+> > * zhenwei pi (pizhenwei@bytedance.com) wrote:
+> > > A AMD server typically has cpuid level 0x10(test on Rome/Milan), it
+> > > should not be changed to 0x1f in multi-dies case.
+> > > 
+> > > Fixes: a94e1428991 (target/i386: Add CPUID.1F generation support
+> > > for multi-dies PCMachine)
+> > > Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> > 
+> > (Copying in Babu)
+> > 
+> > Hmm I think you're right.  I've cc'd in Babu and Wei.
+> > 
+> > Eduardo: What do we need to do about compatibility, do we need to wire
+> > this to machine type or CPU version?
 
-This patch wittingly sets BDRV_REQ_NO_FALLBACK and silently ignores
-BDRV_REQ_MAY_UNMAP for older librbd versions.
+If the change doesn't affect runnability of the CPU in a given
+host (i.e. it doesn't introduce or remove host software or
+hardware dependencies), it can be enabled for all CPU types in
+newer machine types.
 
-The rationale for this is as follows (citing Ilya Dryomov current RBD
-maintainer):
+> 
+> FWIW, there are some other CPUID entries like leaves 2 and 4 that are
+> also Intel-specific. With SEV-SNP CPUID enforcement, advertising them to
+> guests will result in failures when host SNP firmware checks the
+> hypervisor-provided CPUID values against the host-supported ones.
+> 
+> To address this we've been planning to add an 'amd-cpuid-only' property
+> to suppress them:
+> 
+>   https://github.com/mdroth/qemu/commit/28d0553fe748d30a8af09e5e58a7da3eff03e21b
+> 
+> My thinking is this property should be off by default, and only defined
+> either via explicit command-line option, or via new CPU types. We're also
+> planning to add new CPU versions for EPYC* CPU types that set this
+> 'amd-cpuid-only' property by default:
+> 
+>   https://github.com/mdroth/qemu/commits/new-cpu-types-upstream
 
----8<---
-a) remove the BDRV_REQ_MAY_UNMAP check in qemu_rbd_co_pwrite_zeroes()
-   and as a consequence always unmap if librbd is too old
+KVM has a hack that changes the CPUID vendor info depending on
+the host (ignoring X86CPUDefinition.vendor completely).  For that
+reason, I would make the new behavior tied to the actual CPU
+vendor seen by the guest, not to the CPU type.  It will be a bit
+more complicated, but less likely to cause problems when
+management software tries to auto-detect the CPU model and
+guesses a model from the wrong vendor.
 
-   It's not clear what qemu's expectation is but in general Write
-   Zeroes is allowed to unmap.  The only guarantee is that subsequent
-   reads return zeroes, everything else is a hint.  This is how it is
-   specified in the kernel and in the NVMe spec.
+We still need to keep compatibility somehow, though:
 
-   In particular, block/nvme.c implements it as follows:
+> 
+> So in general I think maybe this change should be similarly controlled by
+> this proposed 'amd-cpuid-only' property. Maybe for this particular case it's
+> okay to do it unconditionally, but it sounds bad to switch up the valid CPUID
+> range after a guest has already booted (which might happen with old->new
+> migration for instance), since it might continue treating values in the range
+> as valid afterward (but again, not sure that's the case here or not).
 
-   if (flags & BDRV_REQ_MAY_UNMAP) {
-       cdw12 |= (1 << 25);
-   }
+I agree, especially if the planned CPUID changes are more
+intrusive than just CPUID level adjustments.
 
-   This sets the Deallocate bit.  But if it's not set, the device may
-   still deallocate:
+I suggest adding a "vendor-cpuid-only" property, that would
+hide CPUID leaves depending on the actual CPUID vendor seen by
+the guest.  Older machine types can set vendor-cpuid-only=off,
+and newer machine-types would have vendor-cpuid-only=on by
+default.
 
-   """
-   If the Deallocate bit (CDW12.DEAC) is set to '1' in a Write Zeroes
-   command, and the namespace supports clearing all bytes to 0h in the
-   values read (e.g., bits 2:0 in the DLFEAT field are set to 001b)
-   from a deallocated logical block and its metadata (excluding
-   protection information), then for each specified logical block, the
-   controller:
-   - should deallocate that logical block;
 
-   ...
+> 
+> There's some other changes with the new CPU types that we're still
+> considering/testing internally, but should be able to post them in some form
+> next week.
+> 
+> -Mike
+> 
+> > 
+> > Dave
+> > 
+> > > ---
+> > >  target/i386/cpu.c | 8 ++++++--
+> > >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > > index a9fe1662d3..3934c559e4 100644
+> > > --- a/target/i386/cpu.c
+> > > +++ b/target/i386/cpu.c
+> > > @@ -5961,8 +5961,12 @@ void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+> > >              }
+> > >          }
+> > >  
+> > > -        /* CPU topology with multi-dies support requires CPUID[0x1F] */
+> > > -        if (env->nr_dies > 1) {
+> > > +        /*
+> > > +         * Intel CPU topology with multi-dies support requires CPUID[0x1F].
+> > > +         * For AMD Rome/Milan, cpuid level is 0x10, and guest OS should detect
+> > > +         * extended toplogy by leaf 0xB. Only adjust it for Intel CPU.
+> > > +         */
+> > > +        if ((env->nr_dies > 1) && IS_INTEL_CPU(env)) {
+> > >              x86_cpu_adjust_level(cpu, &env->cpuid_min_level, 0x1F);
+> > >          }
+> > >  
+> > > -- 
+> > > 2.25.1
+> > > 
+> > > 
+> > -- 
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > 
+> >
+> 
 
-   If the Deallocate bit is cleared to '0' in a Write Zeroes command,
-   and the namespace supports clearing all bytes to 0h in the values
-   read (e.g., bits 2:0 in the DLFEAT field are set to 001b) from
-   a deallocated logical block and its metadata (excluding protection
-   information), then, for each specified logical block, the
-   controller:
-   - may deallocate that logical block;
-   """
-
-   https://nvmexpress.org/wp-content/uploads/NVM-Express-NVM-Command-Set-Specification-2021.06.02-Ratified-1.pdf
-
-b) set BDRV_REQ_NO_FALLBACK in supported_zero_flags
-
-   Again, it's not clear what qemu expects here, but without it we end
-   up in a ridiculous situation where specifying the "don't allow slow
-   fallback" switch immediately fails all efficient zeroing requests on
-   a device where Write Zeroes is always efficient:
-
-   $ qemu-io -c 'help write' | grep -- '-[zun]'
-    -n, -- with -z, don't allow slow fallback
-    -u, -- with -z, allow unmapping
-    -z, -- write zeroes using blk_co_pwrite_zeroes
-
-   $ qemu-io -f rbd -c 'write -z -u -n 0 1M' rbd:foo/bar
-   write failed: Operation not supported
---->8---
-
-Signed-off-by: Peter Lieven <pl@kamp.de>
-Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
----
- block/rbd.c | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/block/rbd.c b/block/rbd.c
-index 380ad28861ad..3152bc8ba00a 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -75,7 +75,8 @@ typedef enum {
-     RBD_AIO_READ,
-     RBD_AIO_WRITE,
-     RBD_AIO_DISCARD,
--    RBD_AIO_FLUSH
-+    RBD_AIO_FLUSH,
-+    RBD_AIO_WRITE_ZEROES
- } RBDAIOCmd;
- 
- typedef struct BDRVRBDState {
-@@ -999,6 +1000,10 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
-         }
-     }
- 
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
-+#endif
-+
-     /* When extending regular files, we get zeros from the OS */
-     bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
- 
-@@ -1123,6 +1128,18 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
-     case RBD_AIO_FLUSH:
-         r = rbd_aio_flush(s->image, c);
-         break;
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    case RBD_AIO_WRITE_ZEROES: {
-+        int zero_flags = 0;
-+#ifdef RBD_WRITE_ZEROES_FLAG_THICK_PROVISION
-+        if (!(flags & BDRV_REQ_MAY_UNMAP)) {
-+            zero_flags = RBD_WRITE_ZEROES_FLAG_THICK_PROVISION;
-+        }
-+#endif
-+        r = rbd_aio_write_zeroes(s->image, offset, bytes, c, zero_flags, 0);
-+        break;
-+    }
-+#endif
-     default:
-         r = -EINVAL;
-     }
-@@ -1193,6 +1210,16 @@ static int coroutine_fn qemu_rbd_co_pdiscard(BlockDriverState *bs,
-     return qemu_rbd_start_co(bs, offset, count, NULL, 0, RBD_AIO_DISCARD);
- }
- 
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+static int
-+coroutine_fn qemu_rbd_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
-+                                      int count, BdrvRequestFlags flags)
-+{
-+    return qemu_rbd_start_co(bs, offset, count, NULL, flags,
-+                             RBD_AIO_WRITE_ZEROES);
-+}
-+#endif
-+
- static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
- {
-     BDRVRBDState *s = bs->opaque;
-@@ -1473,6 +1500,9 @@ static BlockDriver bdrv_rbd = {
-     .bdrv_co_pwritev        = qemu_rbd_co_pwritev,
-     .bdrv_co_flush_to_disk  = qemu_rbd_co_flush,
-     .bdrv_co_pdiscard       = qemu_rbd_co_pdiscard,
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    .bdrv_co_pwrite_zeroes  = qemu_rbd_co_pwrite_zeroes,
-+#endif
- 
-     .bdrv_snapshot_create   = qemu_rbd_snap_create,
-     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
 -- 
-2.19.2
+Eduardo
 
 
