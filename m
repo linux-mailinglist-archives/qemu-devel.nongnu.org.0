@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA263B9E3A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:28:39 +0200 (CEST)
-Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29343B9E2F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:26:17 +0200 (CEST)
+Received: from localhost ([::1]:47948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzFTS-0001pr-RO
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40404)
+	id 1lzFRA-0005P8-TL
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:26:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lzFP8-0003ik-6C
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:10 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:47000)
+ id 1lzFPE-0003oO-8e
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:16 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lzFP4-00017R-Ib
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:09 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id c17so15054054ejk.13
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:24:06 -0700 (PDT)
+ id 1lzFP8-0001A3-4e
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:16 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id t3so12293292edt.12
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lhvexZKKgTwhKHCe4TQ9fT8j+lx0QJ3P18QosG607Xc=;
- b=qDZHFXR6b2HS3GARlIaW/erSkhOz5DiRf18GCHymC/AC7lvgtXLkE249PXLGoXfgGC
- X8f1zONAkhjqwBNUpeESGTiLK9XT9TSzTVP6+knYAWeYgKO2RuMoyLilfNKVwrokpBge
- hbGLZlHwoXDjhN9ZbIWcFBlWKnXSncJ3fz9CxfNJS+rk3uBgFGUBWpU+1axhJMpYc8zL
- rGn1JamXRY4X28CxoXHyS1kbvjBS1oE86gAlMnjmWDgg+70m3JJnbM1+Pt0dGsQztsIT
- TBs0AisCslY8EhvEp5SZLfiq6z2JwgZDcWvfawo/2aEBWXOV+cKA3B6NX4QMY59BEK/Z
- iAkw==
+ bh=vs6xGmFtIxeiFa0NgcEkYzo+laYD6q/ErIurkynJ+bo=;
+ b=HFPeSlDxGn5HFkBZNgc7Iu10dlRjlYjMHa0sKyqzd+kjioYVIlENlRM6hTPkqSx6xH
+ /bCwK1UJpp3qSGg3SJddoFzG+CRN9CYUmbc7aHM6lmSymQy5b0B4kXJ9LodJXtZREy8E
+ 3jaxEOqqxmJWmNPPhY43w4S3Y8zIzZ7nP5Wtez6P1Gl+czv+B9qWSFW1o9HnSQWohQfi
+ RmipSDkWMZoLzpOezAoaf1gMwZKmRTlx+uce9MTXRb+k/FMCdZ/fvDiMSjgCTAjhQSWa
+ gTYnyDmaTtieF43MxZEw70ARurQgcjblqGgWtf1ZL3QerUpZEVBayPyBuDYVhujUH6b3
+ CeKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lhvexZKKgTwhKHCe4TQ9fT8j+lx0QJ3P18QosG607Xc=;
- b=arkGEJnz1s7E3YrYl+V00G+nCoqamRlXjnYc5ITTDcxMwhfiRHF2MRO6YckroarHuY
- G9n4CGfnQFCuvokrIfT+roYQhjIXWwe6lvwGtsntkW2lKEPTV3AmLKrGddj9G/7FjjF5
- L3Smbwoz4AaD7jMBbrtf01XPYzp8fQgbKS4wjj4NgXR8t4YiMkH7rErZUKltA1k7Wswp
- pbpTedUK6NL39NguNEeiiWU++5vK74zzNEUOl+rsorbxji4zUswtVk7DOSvV1ykpeSuj
- 4hfPWxK1dZ+jqlWeQVAAFMjmsuwh8qL+jAa+ma8LyiS1ZzRAHTL3rBrsmWxv7jM3381q
- eq0Q==
-X-Gm-Message-State: AOAM530XIAo2BmnYoaoxDo5U/qkFDooKDRWdHZ9jqZtlGLR9RDqHPFLm
- WGo/vGcMbVF7MESbfcuwCyo=
-X-Google-Smtp-Source: ABdhPJyEfy7yCFqvBiZNxieJ8/gz+uT/9HWy5BL0RXT2eI3pF/vwA0yLuo/j4HahVjXBEtS1fLJvdg==
-X-Received: by 2002:a17:906:d1d5:: with SMTP id
- bs21mr4379673ejb.378.1625217845086; 
- Fri, 02 Jul 2021 02:24:05 -0700 (PDT)
+ bh=vs6xGmFtIxeiFa0NgcEkYzo+laYD6q/ErIurkynJ+bo=;
+ b=malMGL3YTqDId1luYuSl3oblj5ZY9kKEI4EpvDOpBtI4FapQvS5/iwo/U7dD8qHNCm
+ dabJJhd9hahv8eAPygr5OwhSc5VeryMedkPt1r9g/LPNfEzqOURYfw9b9rNb2E237ahL
+ uOXeVEaVQGrxENAhHUXilX+nlju3TzNHafN3bz0ptucOgiQHEOP2jizEblaI+QijbPEW
+ tls6/84gstFd6G1aaEya4G/iwr15JrLSTJJjFu8kZT5FSavuLnPD80vg1R0LMGgSoY2g
+ CkLSOXmEINwnMmPctALPN01c9KYjkpkWywkRZzNgxRRNF8eP4P0WtNU/vqXSv7/uXJwH
+ nf0g==
+X-Gm-Message-State: AOAM532wvjQV4IK4KOjjksYobPkfrILQmq4NEzBEWTFJtLWreP4TQCpp
+ 9z66MgIEoSc78nd4PWdmBDo=
+X-Google-Smtp-Source: ABdhPJxOsGylIyB25MGHx6fqpbeD7RkwqcsvsfSgftDyMND6QJNYJREtvxs9n5QVvkZVYiClJbBodA==
+X-Received: by 2002:a05:6402:d2:: with SMTP id
+ i18mr5461719edu.276.1625217848766; 
+ Fri, 02 Jul 2021 02:24:08 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id c18sm1035623edt.18.2021.07.02.02.24.01
+ by smtp.gmail.com with ESMTPSA id c18sm1035623edt.18.2021.07.02.02.24.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 02:24:04 -0700 (PDT)
+ Fri, 02 Jul 2021 02:24:08 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] hw/net: e1000e: Correct the initial value of VET
- register
-Date: Fri,  2 Jul 2021 17:24:26 +0800
-Message-Id: <20210702092427.1323667-2-bmeng.cn@gmail.com>
+Subject: [PATCH v2 3/3] hw/net: e1000e: Don't zero out the VLAN tag in the
+ legacy RX descriptor
+Date: Fri,  2 Jul 2021 17:24:27 +0800
+Message-Id: <20210702092427.1323667-3-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210702092427.1323667-1-bmeng.cn@gmail.com>
 References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,87 +94,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Christina Wang <christina.wang@windriver.com>
 
-The initial value of VLAN Ether Type (VET) register is 0x8100, as per
-the manual and real hardware.
+In the legacy RX descriptor mode, VLAN tag was saved to d->special
+by e1000e_build_rx_metadata() in e1000e_write_lgcy_rx_descr(), but
+it was then zeroed out again at the end of the call, which is wrong.
 
-While Linux e1000e driver always writes VET register to 0x8100, it is
-not always the case for everyone. Drivers relying on the reset value
-of VET won't be able to transmit and receive VLAN frames in QEMU.
-
-Unlike e1000 in QEMU, e1000e uses a field 'vet' in "struct E1000Core"
-to cache the value of VET register, but the cache only gets updated
-when VET register is written. To always get a consistent VET value
-no matter VET is written or remains its reset value, drop the 'vet'
-field and use 'core->mac[VET]' directly.
-
+Fixes: c89d416a2b0f ("e1000e: Don't zero out buffer address in rx descriptor")
 Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
 Signed-off-by: Christina Wang <christina.wang@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
-Changes in v2:
-- keep the 'vet' field in "struct E1000Core" for migration compatibility
+(no changes since v1)
 
- hw/net/e1000e_core.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ hw/net/e1000e_core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index b75f2ab8fc..38b3e3b784 100644
+index 38b3e3b784..738c7169e4 100644
 --- a/hw/net/e1000e_core.c
 +++ b/hw/net/e1000e_core.c
-@@ -35,6 +35,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "net/eth.h"
- #include "net/net.h"
- #include "net/tap.h"
- #include "hw/pci/msi.h"
-@@ -731,7 +732,7 @@ e1000e_process_tx_desc(E1000ECore *core,
-             if (e1000x_vlan_enabled(core->mac) &&
-                 e1000x_is_vlan_txd(txd_lower)) {
-                 net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt,
--                    le16_to_cpu(dp->upper.fields.special), core->vet);
-+                    le16_to_cpu(dp->upper.fields.special), core->mac[VET]);
-             }
-             if (e1000e_tx_pkt_send(core, tx, queue_index)) {
-                 e1000e_on_tx_done_update_stats(core, tx->tx_pkt);
-@@ -1012,7 +1013,7 @@ e1000e_receive_filter(E1000ECore *core, const uint8_t *buf, int size)
- {
-     uint32_t rctl = core->mac[RCTL];
- 
--    if (e1000x_is_vlan_packet(buf, core->vet) &&
-+    if (e1000x_is_vlan_packet(buf, core->mac[VET]) &&
-         e1000x_vlan_rx_filter_enabled(core->mac)) {
-         uint16_t vid = lduw_be_p(buf + 14);
-         uint32_t vfta = ldl_le_p((uint32_t *)(core->mac + VFTA) +
-@@ -1686,7 +1687,7 @@ e1000e_receive_iov(E1000ECore *core, const struct iovec *iov, int iovcnt)
-     }
- 
-     net_rx_pkt_attach_iovec_ex(core->rx_pkt, iov, iovcnt, iov_ofs,
--                               e1000x_vlan_enabled(core->mac), core->vet);
-+                               e1000x_vlan_enabled(core->mac), core->mac[VET]);
- 
-     e1000e_rss_parse_packet(core, core->rx_pkt, &rss_info);
-     e1000e_rx_ring_init(core, &rxr, rss_info.queue);
-@@ -2397,8 +2398,7 @@ static void
- e1000e_set_vet(E1000ECore *core, int index, uint32_t val)
- {
-     core->mac[VET] = val & 0xffff;
--    core->vet = le16_to_cpu(core->mac[VET]);
--    trace_e1000e_vlan_vet(core->vet);
-+    trace_e1000e_vlan_vet(core->mac[VET]);
+@@ -1286,7 +1286,6 @@ e1000e_write_lgcy_rx_descr(E1000ECore *core, uint8_t *desc,
+                              &d->special);
+     d->errors = (uint8_t) (le32_to_cpu(status_flags) >> 24);
+     d->status = (uint8_t) le32_to_cpu(status_flags);
+-    d->special = 0;
  }
  
- static void
-@@ -3442,6 +3442,7 @@ static const uint32_t e1000e_mac_reg_init[] = {
-     [RXCSUM]        = E1000_RXCSUM_IPOFLD | E1000_RXCSUM_TUOFLD,
-     [ITR]           = E1000E_MIN_XITR,
-     [EITR...EITR + E1000E_MSIX_VEC_NUM - 1] = E1000E_MIN_XITR,
-+    [VET]           = ETH_P_VLAN,
- };
- 
- void
+ static inline void
 -- 
 2.25.1
 
