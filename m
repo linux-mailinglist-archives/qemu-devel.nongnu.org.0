@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82373BA05B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 14:24:27 +0200 (CEST)
-Received: from localhost ([::1]:34942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2A53BA05F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 14:27:41 +0200 (CEST)
+Received: from localhost ([::1]:39984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzIDa-0006gS-Dw
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 08:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53102)
+	id 1lzIGi-00021l-9O
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 08:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1lzIBH-0004x9-TH; Fri, 02 Jul 2021 08:22:04 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:46817)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lzIE7-0000GA-VX; Fri, 02 Jul 2021 08:24:59 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:35559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1lzIBD-0000xE-FL; Fri, 02 Jul 2021 08:22:03 -0400
-Received: by mail-qk1-x742.google.com with SMTP id 19so9096259qky.13;
- Fri, 02 Jul 2021 05:21:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lzIDy-0002rL-Pt; Fri, 02 Jul 2021 08:24:59 -0400
+Received: by mail-il1-x12c.google.com with SMTP id a11so9561769ilf.2;
+ Fri, 02 Jul 2021 05:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=M/hF982I4L16elpL2pkfgT3y3SGCMPCc5MUfrQ+h2js=;
- b=qpYEyMDycCPe82A6r5Oj8CzBkWRQp0XRPeZQOPPrGdTqjnZl2Gzhpo5qtxyJrPgODn
- rIOXMz7VG3cdJUTlI0p3L8iYpSqnXn7yV9xPxHdPOaBG6BcHOx8kg4l8/CHoalMrOB5G
- mt9OUvPMh2mW6lS3MRtI+2WET1/xw/L8SDsTifeF9RN/gjxhSgVrfvr3Z7fFEoHaO5NK
- BmxR9b/Bg2rbCsPdZAgM1rSTUeH8RSWnOjeqsfbShPX0nAwMk4Hql8/DRb9DzQaLCJ1R
- pXKf2cuJ7vgB1716tZ9Wz3KyBrODAeS9dBIkBxE46XATbHx62j08YUI5QnkyUxUXw9Z3
- SlVg==
+ :cc; bh=cGvZsueyG9ZmWfJvu7UeIVi/O2nPY5XV5L5Iqs85dIs=;
+ b=BmYD/dK4PYOwfEyCwHGsdgDcx2ZYp7rXMgAHFXAYUVY54SjNXASFIjryFA4Rnj8X4P
+ 6mzFOEcCIWfVrCHizU3WdnWEocZmOkgC7cSDwsmMH464QLTb0fa9Dv3Tf1/MK6VqIWk+
+ cf+FfHLICLwQUWr1r50QyxN28aC6fEDWaNIesl1Fp02AkLJ8zu4kWqp/HY+5gcExFl2l
+ YyaKhbnnP6EdrOqo9W8JXRugfcVoBck6aaUritu1yd5ZTLQL43Sqjl78fU+XZekkC02j
+ +osnS8fyeIfZsVCySY6pIGPRzQEhRetnm651kQXDGVTUZcSORi93qODZm275lF6ZWxaA
+ fIbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=M/hF982I4L16elpL2pkfgT3y3SGCMPCc5MUfrQ+h2js=;
- b=CDoVoNtrX6/RV7h3gCjUP11UHnTUamvcpfmmBM6nzepf6rnpnV19wEeV2xny1Hl7vy
- g6O8cVsXzPBsoXvmfLaNITGA9tclH8jxtb4WkS1iOzwlFsTdVAvZ49k8abVNEjwzdrTf
- n/9Cw3aejKDDuZW2XFUk92mwhmOe+xOqx+Tr7yBZN5l9/kEM7V3DOzCbcFrmRkgVsW+O
- Zy0yIf5MDIZiGq/wcWx7SOMrfSjRqaIF3mKckusE7+8cH8xfelFCQMBAVQM32FHjHKw8
- QSimYL67X19B+1OMXW6U3jksu1qbdbT6rRuZgaQ1MDH/D9vMh6m7SkOWs8QzxT974HyZ
- k3EA==
-X-Gm-Message-State: AOAM533utD7dA+4lJi4j+ioeCUHjRNE7hmSGghXysxhMuqfKBZB5CWb8
- LtDER2G5wW9TGv4HuhSVMKCDAjSLQXTqgUcJUyE=
-X-Google-Smtp-Source: ABdhPJzO+omrlC34mb3/ltrnCcqTBsiYP2RAceJo8hQzvTytD7SIvCqMgViJL43KtrEe5uwyV7l5uUJZWiKcBa1EyS4=
-X-Received: by 2002:a05:620a:12f3:: with SMTP id
- f19mr5215813qkl.306.1625228514425; 
- Fri, 02 Jul 2021 05:21:54 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=cGvZsueyG9ZmWfJvu7UeIVi/O2nPY5XV5L5Iqs85dIs=;
+ b=lw1TdQvqkGi2dc5/yWnoMFBKJiNXnvBgs8hJycCK7CTAVpNgnZEndUeu/hyibO/EXi
+ n9T1++B9KAJzo5MmUa3Czx3EjUTpQaIeymS3vZzJUEB3FtdMeRiXfzLZoWcsVnbtpmyg
+ yRph4QWakIAPnCLKAVJ9NEexWEw2tf4GOVOvj4enThifTVUfIDmbNyuI92yT5NP/yx7v
+ soToovHqI5FqGgIJuU1zc4SIwhf4mideYcDKdRGgffCS1MJR0cCzjOaQYzZmHcF/cd5a
+ XHO+O03XR6XtLjhfY2YA2GQNUSjCMeD0kGqFQ+sDB/Hg7RbIxjSNNHBy5CA62XntiBrC
+ fEIQ==
+X-Gm-Message-State: AOAM53237D9FUF9ZqLjjLevGTOopGEgYtF56NsqB2//5mcOFGxDzMT8n
+ ershb8knLm7fx3u7hGgeWGfTYcXeFahQb6d/5Yw=
+X-Google-Smtp-Source: ABdhPJxF0EHLcA/uRoTudeqcfEWAjVFM6QjXYUfCqBjbvM4X5UCzruySusZ0rsNFNykGIyDjj/M9f8HcA10shAAAgJ4=
+X-Received: by 2002:a92:7b01:: with SMTP id w1mr3283227ilc.100.1625228689211; 
+ Fri, 02 Jul 2021 05:24:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210625091818.1047980-1-imammedo@redhat.com>
- <20210625091818.1047980-27-imammedo@redhat.com>
-In-Reply-To: <20210625091818.1047980-27-imammedo@redhat.com>
-From: Dongjiu Geng <gengdongjiu1@gmail.com>
-Date: Fri, 2 Jul 2021 20:21:43 +0800
-Message-ID: <CABSBigTx-pyaiscw7AzUVOMWbbBv2Hq5EiiJYq9vkQuXvOriyA@mail.gmail.com>
-Subject: Re: [PATCH 25/53] acpi: acpi_build_hest: use
- acpi_init_table()/acpi_table_composed() instead of build_header()
-To: Igor Mammedov <imammedo@redhat.com>
+References: <20210702090935.15300-1-pl@kamp.de>
+ <20210702090935.15300-6-pl@kamp.de>
+In-Reply-To: <20210702090935.15300-6-pl@kamp.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Fri, 2 Jul 2021 14:24:27 +0200
+Message-ID: <CAOi1vP8pkgyquGggTMLKN3RirmFxQMxSe2PVa_JjJKMQddt-wA@mail.gmail.com>
+Subject: Re: [PATCH V4 5/6] block/rbd: add write zeroes support
+To: Peter Lieven <pl@kamp.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=gengdongjiu1@gmail.com; helo=mail-qk1-x742.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=idryomov@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,66 +75,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, qemu-arm@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, mreitz@redhat.com,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> =E4=BA=8E2021=E5=B9=B46=E6=9C=8825=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=885:19=E5=86=99=E9=81=93=EF=BC=9A
+On Fri, Jul 2, 2021 at 11:09 AM Peter Lieven <pl@kamp.de> wrote:
 >
-> it replaces error-prone pointer arithmetic for build_header() API,
-> with 2 calls to start and finish table creation,
-> which hides offsets magic from API user.
+> this patch wittingly sets BDRV_REQ_NO_FALLBACK and silently ignores BDRV_REQ_MAY_UNMAP
+> for older librbd versions.
 >
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> The rationale for this is as following (citing Ilya Dryomov current RBD maintainer):
+> ---8<---
+> a) remove the BDRV_REQ_MAY_UNMAP check in qemu_rbd_co_pwrite_zeroes()
+>    and as a consequence always unmap if librbd is too old
+>
+>    It's not clear what qemu's expectation is but in general Write
+>    Zeroes is allowed to unmap.  The only guarantee is that subsequent
+>    reads return zeroes, everything else is a hint.  This is how it is
+>    specified in the kernel and in the NVMe spec.
+>
+>    In particular, block/nvme.c implements it as follows:
+>
+>    if (flags & BDRV_REQ_MAY_UNMAP) {
+>        cdw12 |= (1 << 25);
+>    }
+>
+>    This sets the Deallocate bit.  But if it's not set, the device may
+>    still deallocate:
+>
+>    """
+>    If the Deallocate bit (CDW12.DEAC) is set to '1' in a Write Zeroes
+>    command, and the namespace supports clearing all bytes to 0h in the
+>    values read (e.g., bits 2:0 in the DLFEAT field are set to 001b)
+>    from a deallocated logical block and its metadata (excluding
+>    protection information), then for each specified logical block, the
+>    controller:
+>    - should deallocate that logical block;
+>
+>    ...
+>
+>    If the Deallocate bit is cleared to '0' in a Write Zeroes command,
+>    and the namespace supports clearing all bytes to 0h in the values
+>    read (e.g., bits 2:0 in the DLFEAT field are set to 001b) from
+>    a deallocated logical block and its metadata (excluding protection
+>    information), then, for each specified logical block, the
+>    controller:
+>    - may deallocate that logical block;
+>    """
+>
+>    https://nvmexpress.org/wp-content/uploads/NVM-Express-NVM-Command-Set-Specification-2021.06.02-Ratified-1.pdf
+>
+> b) set BDRV_REQ_NO_FALLBACK in supported_zero_flags
+>
+>    Again, it's not clear what qemu expects here, but without it we end
+>    up in a ridiculous situation where specifying the "don't allow slow
+>    fallback" switch immediately fails all efficient zeroing requests on
+>    a device where Write Zeroes is always efficient:
+>
+>    $ qemu-io -c 'help write' | grep -- '-[zun]'
+>     -n, -- with -z, don't allow slow fallback
+>     -u, -- with -z, allow unmapping
+>     -z, -- write zeroes using blk_co_pwrite_zeroes
+>
+>    $ qemu-io -f rbd -c 'write -z -u -n 0 1M' rbd:foo/bar
+>    write failed: Operation not supported
+> --->8---
+>
+> Signed-off-by: Peter Lieven <pl@kamp.de>
 > ---
-> CC: qemu-arm@nongnu.org
-> CC: drjones@redhat.com
-> CC: gengdongjiu1@gmail.com
-> ---
->  hw/acpi/ghes.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  block/rbd.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
-> index a4dac6bf15..ae577c08e4 100644
-> --- a/hw/acpi/ghes.c
-> +++ b/hw/acpi/ghes.c
-> @@ -362,18 +362,16 @@ static void build_ghes_v2(GArray *table_data, int s=
-ource_id, BIOSLinker *linker)
->  void acpi_build_hest(GArray *table_data, BIOSLinker *linker,
->                       const char *oem_id, const char *oem_table_id)
->  {
-> -    uint64_t hest_start =3D table_data->len;
-> +    AcpiTable table =3D { .sig =3D "HEST", .rev =3D 1,
-> +                        .oem_id =3D oem_id, .oem_table_id =3D oem_table_=
-id };
+> diff --git a/block/rbd.c b/block/rbd.c
+> index be0471944a..149317d33c 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -63,7 +63,8 @@ typedef enum {
+>      RBD_AIO_READ,
+>      RBD_AIO_WRITE,
+>      RBD_AIO_DISCARD,
+> -    RBD_AIO_FLUSH
+> +    RBD_AIO_FLUSH,
+> +    RBD_AIO_WRITE_ZEROES
+>  } RBDAIOCmd;
 >
-> -    /* Hardware Error Source Table header*/
-> -    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> +    acpi_init_table(&table, table_data);
+>  typedef struct BDRVRBDState {
+> @@ -705,6 +706,10 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+>          }
+>      }
 >
->      /* Error Source Count */
->      build_append_int_noprefix(table_data, ACPI_GHES_ERROR_SOURCE_COUNT, =
-4);
-> -
->      build_ghes_v2(table_data, ACPI_HEST_SRC_ID_SEA, linker);
+> +#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
+> +    bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
+> +#endif
+> +
+>      /* When extending regular files, we get zeros from the OS */
+>      bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
 >
-> -    build_header(linker, table_data, (void *)(table_data->data + hest_st=
-art),
-> -                 "HEST", table_data->len - hest_start, 1, oem_id, oem_ta=
-ble_id);
-> +    acpi_table_composed(linker, &table);
-
-     Thanks for the change, I think this change is reasonable to use
-common API acpi_init_table() to replace build_header()
-
-     Reviewed-by: Dongjiu Geng <gengdongjiu1@gmail.com>
-
+> @@ -827,6 +832,18 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+>      case RBD_AIO_FLUSH:
+>          r = rbd_aio_flush(s->image, c);
+>          break;
+> +#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
+> +    case RBD_AIO_WRITE_ZEROES: {
+> +        int zero_flags = 0;
+> +#ifdef RBD_WRITE_ZEROES_FLAG_THICK_PROVISION
+> +        if (!(flags & BDRV_REQ_MAY_UNMAP)) {
+> +            zero_flags = RBD_WRITE_ZEROES_FLAG_THICK_PROVISION;
+> +        }
+> +#endif
+> +        r = rbd_aio_write_zeroes(s->image, offset, bytes, c, zero_flags, 0);
+> +        break;
+> +    }
+> +#endif
+>      default:
+>          r = -EINVAL;
+>      }
+> @@ -897,6 +914,16 @@ static int coroutine_fn qemu_rbd_co_pdiscard(BlockDriverState *bs,
+>      return qemu_rbd_start_co(bs, offset, count, NULL, 0, RBD_AIO_DISCARD);
 >  }
 >
->  void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
-> --
-> 2.27.0
+> +#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
+> +static int
+> +coroutine_fn qemu_rbd_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+> +                                      int count, BdrvRequestFlags flags)
+> +{
+> +    return qemu_rbd_start_co(bs, offset, count, NULL, flags,
+> +                             RBD_AIO_WRITE_ZEROES);
+> +}
+> +#endif
+> +
+>  static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
+>  {
+>      BDRVRBDState *s = bs->opaque;
+> @@ -1120,6 +1147,9 @@ static BlockDriver bdrv_rbd = {
+>      .bdrv_co_pwritev        = qemu_rbd_co_pwritev,
+>      .bdrv_co_flush_to_disk  = qemu_rbd_co_flush,
+>      .bdrv_co_pdiscard       = qemu_rbd_co_pdiscard,
+> +#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
+> +    .bdrv_co_pwrite_zeroes  = qemu_rbd_co_pwrite_zeroes,
+> +#endif
 >
+>      .bdrv_snapshot_create   = qemu_rbd_snap_create,
+>      .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
+> --
+> 2.17.1
+>
+>
+
+Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
+
+Thanks,
+
+                Ilya
 
