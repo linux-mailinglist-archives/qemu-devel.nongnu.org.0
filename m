@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15833B9B82
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:31:33 +0200 (CEST)
-Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FBD3B9B8A
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:34:44 +0200 (CEST)
+Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzApw-00086v-Qz
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49454)
+	id 1lzAt1-0005Wx-FQ
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkV-00088c-Ms
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42576)
+ id 1lzAkW-0008AV-In
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkT-0002Oq-U2
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:55 -0400
+ id 1lzAkQ-0002Nb-Tt
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lzAkN-00053b-Qu
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:48 +0000
+ id 1lzAkM-00053n-ST
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 62AFF2E81AC
- for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CB63E2E81A0
+ for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Jul 2021 04:17:29 -0000
-From: Launchpad Bug Tracker <1859081@bugs.launchpad.net>
+Date: Fri, 02 Jul 2021 04:17:30 -0000
+From: Launchpad Bug Tracker <1859291@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: risc-v
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor programmingkidx roemeeeer th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Roman_B=C3=A4riswyl_=28roemeeeer=29?=
+X-Launchpad-Bug-Commenters: alistair2323 janitor teodori-serge th-huth
+X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157860451191.3344.46185682085252095.malonedeb@soybean.canonical.com>
-Message-Id: <162519944983.31921.2774938209645966004.malone@loganberry.canonical.com>
-Subject: [Bug 1859081] Re: Mouse way too fast when Qemu is on a Windows VM
- with a OS 9 Guest
+References: <157875755996.2711.225801499083245592.malonedeb@soybean.canonical.com>
+Message-Id: <162519945069.31921.17842251697572253220.malone@loganberry.canonical.com>
+Subject: [Bug 1859291] Re: RISC-V incorrect exception generated
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: 07adcf08a89480f399f936136e29f3ca9a86c215
+X-Launchpad-Hash: 05135b1906f8b7fdc0320ad7ef1568f91beadd94
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859081 <1859081@bugs.launchpad.net>
+Reply-To: Bug 1859291 <1859291@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,27 +84,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859081
+https://bugs.launchpad.net/bugs/1859291
 
 Title:
-  Mouse way too fast when Qemu is on a Windows VM with a OS 9 Guest
+  RISC-V incorrect exception generated
 
 Status in QEMU:
   Expired
 
 Bug description:
-  On a server, I have a Windows 10 VM with Qemu 4.1.0 (latest) from https:/=
-/qemu.weilnetz.de/w64/ installed.
-  There I have a Mac OS 9.2.2 machine.
-  Now if I connect to the Windows VM with VNC or RDP or even VMWare console=
-, the Mouse in the Mac OS Guest inside Qemu is waaaay to fast. Even when lo=
-wering the mouse speed in the Mac OS mouse setting, one pixel in the Host (=
-Windows 10 VM) still moves the mouse by 10 pixels inside the Qemu machine.
-  I tried different resolutions but that does not help.
-  Is there any way to fix this or any way how I can provide more informatio=
-n?
-  Thanks
+  When using 'ecall' from supervisor mode, user exception is raised
+  instead of supervisor exception. The problem is located under
+  'target/riscv/insn_trans/trans_priviledged.inc.c' in function 'static
+  bool trans_ecall(DisasContext *ctx, arg_ecall *a)'. Best regards,
+  Serge Teodori
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859081/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1859291/+subscriptions
 
