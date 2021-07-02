@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01E83BA3A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:27:03 +0200 (CEST)
-Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0803BA39F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:27:01 +0200 (CEST)
+Received: from localhost ([::1]:42648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzMwQ-0003gu-Lh
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:27:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33734)
+	id 1lzMwO-0003ZC-LF
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuF-0000P3-2M; Fri, 02 Jul 2021 13:24:47 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:34446)
+ id 1lzMuF-0000QX-MZ; Fri, 02 Jul 2021 13:24:47 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1lzMuB-0005nj-Fh; Fri, 02 Jul 2021 13:24:46 -0400
-Received: by mail-ej1-x635.google.com with SMTP id hr1so13881238ejc.1;
- Fri, 02 Jul 2021 10:24:42 -0700 (PDT)
+ id 1lzMuC-0005nu-G0; Fri, 02 Jul 2021 13:24:47 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id v20so17252515eji.10;
+ Fri, 02 Jul 2021 10:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UkB5Cg3l7iFacBNKZzOJcUMJJe/Nc5QbHYWn+q/EE68=;
- b=iKHX282rp5KLgbD5ry8S2DyQaAJZfythNrgS2/+g8JU06LGI9bfB5eXlNPpkwN66AP
- /GSaVhxAXr2RiWjdxyuW8cE6ezzUfWSduw6V33ZPMfjqOZBOHPRQIqRp5Ofcq5TBftyl
- Dbxn9C9rDtJ2VET9+w6WcF0K7uib4TKKXBxpEjnYn5GhHRJc4aMRSOyfBGZa9y+9DHUj
- H/j1++/dWugG35lOpYqBMaI/uEOzrOuVxf/yRtNyHcCGbIoSN2fEodfF+fzl/G4Skd49
- gBgCGKDqEdCHE1tdOg7YO1pn0kVJRH8qEA3t8IJQW37+GRxmu3w7Gg1z/MZG6keVC9Y+
- IS7A==
+ bh=BIPpPoxVPgOmowyauI8+ZWPp0Ec6GWlOzGVsaFHknbg=;
+ b=ixgVhP84/HVP7pqXFlDUesKcSyJGNJHtnCqmQHrDmyT4OUV9JOxiw1s29hDoJdzw3g
+ 8z0ADXKYwLDLgoICuKF/Huw1SNydksbcG7FOBfqSrnKUubRTgW5mwDPbui7ZyEUvAP8o
+ O6JIhO2Ge4lCH9Yq5cQK4qt83Bp4vPlX/Xwo3WyHmYElDlT65LIPZZm2XCjd6z7g6St1
+ HaHj79ONzYnKP3AcSDcvH1aOmN+ef2mzg7sulUBSb9s8RKhOd6ppmcsVdkJoHYyr/xdi
+ O14xrpjkWEFwPIjVYLgj9AcQrR64Wr9WwyJS91XELdmRJunUJauIXiytC5PksDmci383
+ Fwcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UkB5Cg3l7iFacBNKZzOJcUMJJe/Nc5QbHYWn+q/EE68=;
- b=qZq1swhPDv0Rll5Sz4sDhp3IxBbEeRSD0D1Oh8MKjrtw/0aLRql2dWSme/cnXL4gTH
- M+qG6VzExAgkZKdaHxg9xt7/s9KIlQDuc4BpcqcQpixcXchVX4ow7WAGUP9BG2NKojqG
- y/r+zalG1qkpxfsWUQnerYUVpWytTjwQltqHaJ/b+VJ8hKwcNqgVIqQn+xkYma/QSuJq
- VR6Ja0ePoVuiPlMOA80CWZ48bfpo7o+8Gu54YGpYalQaAHMgLmNhAPhw94u7kkTTEnIP
- br5d+9uY7FjV2umG1ECjlOPEc8GX+c4JE6HyoOD2gcoe05u31OULq30ruuwe6inXm1jt
- cmEQ==
-X-Gm-Message-State: AOAM531mwL2pu8UaYqimfEAhxlN0rPU+r+cATcCF4fZx4tGFl1dFNrCx
- qnAOL20HcHSA5IIOVsvgiLFJ5SjE/sD32A==
-X-Google-Smtp-Source: ABdhPJw84bu82coLuzFw6JwDPUNDjg5pwxYoWXMr68YxBEwVxfqwdbu1KbqSXks5wIAUeZFlp+C8eQ==
-X-Received: by 2002:a17:906:70cf:: with SMTP id
- g15mr825231ejk.366.1625246681881; 
- Fri, 02 Jul 2021 10:24:41 -0700 (PDT)
+ bh=BIPpPoxVPgOmowyauI8+ZWPp0Ec6GWlOzGVsaFHknbg=;
+ b=cyPlf7cEOy5IgDPQqDuGkb+ibnAxxD9l2wJEjtpX8IQ+PLMq7pyLfpo1cqei2GtMc2
+ JIrvEzUH1rWrbl5AggaM+NeooI66g7KVAYOQegBeYyNRKbtd8LSx/EAUCLQI24ripVLH
+ quLrSc9241qseQqydxTkStGrm8hvwr57n5ZKqTcArqsHx7NfHyfNquxm6a8k00X1Fba3
+ crSsfkDgx/Pq+qpHcD7zd63snGXrNqhXx80/O44vDN5P0QUFMVq7r+ZDuEWE1Z0B/91u
+ TsLwmv8cqB9KtgOvxPvX0fEnTwZaxhLMPREW5LU36iG4RD7ZqHhecC4wwRKC90wozUVx
+ 2Mcw==
+X-Gm-Message-State: AOAM531Nr75vYCurjImUwBo4BjwbYK7EcsB/8yEoc2tzMqwjRCXDIKDN
+ xa8GqBif3YI9tUmpCTWOn8vhj5+U9UGjgQ==
+X-Google-Smtp-Source: ABdhPJypXOdPMwKpkAVJ8g9ARsv3bvgDKj6efq95DVy09xNJ3VXfh/FY7M/lEm5gtZnvtIzCSycSPQ==
+X-Received: by 2002:a17:906:d92:: with SMTP id
+ m18mr119424eji.309.1625246682946; 
+ Fri, 02 Jul 2021 10:24:42 -0700 (PDT)
 Received: from kwango.redhat.com (ip-94-112-132-16.net.upcbroadband.cz.
  [94.112.132.16])
- by smtp.gmail.com with ESMTPSA id ar27sm1242229ejc.100.2021.07.02.10.24.40
+ by smtp.gmail.com with ESMTPSA id ar27sm1242229ejc.100.2021.07.02.10.24.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 10:24:41 -0700 (PDT)
+ Fri, 02 Jul 2021 10:24:42 -0700 (PDT)
 From: Ilya Dryomov <idryomov@gmail.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 2/6] block/rbd: store object_size in BDRVRBDState
-Date: Fri,  2 Jul 2021 19:23:52 +0200
-Message-Id: <20210702172356.11574-3-idryomov@gmail.com>
+Subject: [PATCH v5 3/6] block/rbd: update s->image_size in qemu_rbd_getlength
+Date: Fri,  2 Jul 2021 19:23:53 +0200
+Message-Id: <20210702172356.11574-4-idryomov@gmail.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20210702172356.11574-1-idryomov@gmail.com>
 References: <20210702172356.11574-1-idryomov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=idryomov@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,66 +90,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Lieven <pl@kamp.de>
 
+While at it just call rbd_get_size and avoid rbd_image_info_t.
+
 Signed-off-by: Peter Lieven <pl@kamp.de>
 Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 ---
- block/rbd.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ block/rbd.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/block/rbd.c b/block/rbd.c
-index b4b928bbb99f..1ebf8f7e4875 100644
+index 1ebf8f7e4875..e2028d3db5ff 100644
 --- a/block/rbd.c
 +++ b/block/rbd.c
-@@ -102,6 +102,7 @@ typedef struct BDRVRBDState {
-     char *snap;
-     char *namespace;
-     uint64_t image_size;
-+    uint64_t object_size;
- } BDRVRBDState;
- 
- static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-@@ -958,6 +959,7 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
-     const QDictEntry *e;
-     Error *local_err = NULL;
-     char *keypairs, *secretid;
-+    rbd_image_info_t info;
-     int r;
- 
-     keypairs = g_strdup(qdict_get_try_str(options, "=keyvalue-pairs"));
-@@ -1035,12 +1037,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
- #endif
-     }
- 
--    r = rbd_get_size(s->image, &s->image_size);
-+    r = rbd_stat(s->image, &info, sizeof(info));
-     if (r < 0) {
--        error_setg_errno(errp, -r, "error getting image size from %s",
-+        error_setg_errno(errp, -r, "error getting image info from %s",
-                          s->image_name);
-         goto failed_post_open;
-     }
-+    s->image_size = info.size;
-+    s->object_size = info.obj_size;
- 
-     /* If we are using an rbd snapshot, we must be r/o, otherwise
-      * leave as-is */
-@@ -1253,15 +1257,7 @@ static BlockAIOCB *qemu_rbd_aio_flush(BlockDriverState *bs,
- static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
+@@ -1304,15 +1304,14 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+ static int64_t qemu_rbd_getlength(BlockDriverState *bs)
  {
      BDRVRBDState *s = bs->opaque;
 -    rbd_image_info_t info;
--    int r;
--
+     int r;
+ 
 -    r = rbd_stat(s->image, &info, sizeof(info));
--    if (r < 0) {
--        return r;
--    }
--
--    bdi->cluster_size = info.obj_size;
-+    bdi->cluster_size = s->object_size;
-     return 0;
++    r = rbd_get_size(s->image, &s->image_size);
+     if (r < 0) {
+         return r;
+     }
+ 
+-    return info.size;
++    return s->image_size;
  }
  
+ static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
 -- 
 2.19.2
 
