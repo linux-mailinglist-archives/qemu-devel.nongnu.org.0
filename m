@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FBD3B9B8A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:34:44 +0200 (CEST)
-Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81BD3B9B9C
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:43:21 +0200 (CEST)
+Received: from localhost ([::1]:42212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzAt1-0005Wx-FQ
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49482)
+	id 1lzB1M-0004g6-L0
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkW-0008AV-In
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkQ-0002Nb-Tt
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lzAkM-00053n-ST
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CB63E2E81A0
- for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1lzAuW-00026o-39
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:36:16 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:47947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1lzAuT-0001j6-V0
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:36:15 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id E09F85C0165;
+ Fri,  2 Jul 2021 00:36:10 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 02 Jul 2021 00:36:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-id:content-type:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=u6AkPJ+MXnR3l1Jt5HqFkS22mnFK3mFgV4kbfgy5Ucw=; b=HAVl60t8
+ 7SC5pqNTbk9L4mQT1TmzTfNUSPMflJmoySLiT06gO19tFKJZJLsJedVbj7OkqqQB
+ n0C2d7jcgY9u8Si6A1YqQ0tAi1cyqOPMaAbxYY+nm+XUH/a0+ZERR0FGMOLq+pvi
+ wuiyK4Wp78k/SUztXyby0o7tQRWfRoWFAjSkclEiJkNFGuEeqCmTGtPk+Owyv0+U
+ 8pbZJeKJbu1QuTPuGWE1tv/JpvXT9E3iNbEww+FwOA5Puatch1D8RHEUuwPmCpu7
+ zOVFJNmEEA2cvOmwH3bwApyoDuI1NPQx3QPJ4TidwAvFBZxYy6cJGKoeX5bqc+Cm
+ ssp7KfBb879Cvg==
+X-ME-Sender: <xms:uZfeYG5NiGhKfsmjTeqFTmTDgDPD24M7Int8d40hsV1kzO2RLGgJNw>
+ <xme:uZfeYP7n9wQbW6dc6Sy4n9TtGqctqj5KwyiOorpRHhlCtiyaSKuYTveEtnYRKSow5
+ eDDTo8Pa7fxPqAwFl4>
+X-ME-Received: <xmr:uZfeYFdThPGd7VjO8kby5YeZdHh657orutazaEw12Fn4KxAJbJjHY_5XtZYXQeaHlZs4BsLmA1Sl1iSLLzqRbQLlMdLBJNzwb0M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeijedgkeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffujgfkfhggtgesmhdtreertddtjeenucfhrhhomhephfhinhhnucfv
+ hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
+ htvghrnhepfeffjeeigfehveehfeevhfetgefgieejieeviefhffffudfgfeekleffhffg
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfh
+ hthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgh
+X-ME-Proxy: <xmx:uZfeYDIST0NVsmI3rnzKjEfHZEDOZKGx1RWnO5YlymGEPEr5u3aL1w>
+ <xmx:uZfeYKJvXxGBKo7itvejPFTwHmXf6WeP-Gfj8Yg0rRjcLqHLHIV5FQ>
+ <xmx:uZfeYEywLAp1aJyWFJcFC9IaWdBQoSXD_JNEGSfKdyEUug22cO2mbA>
+ <xmx:upfeYC_qe5wMsp4MEC5Qkf5mUlf3lr0tmcfNhpfMvoFjUXd-c3cEIA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 2 Jul 2021 00:36:06 -0400 (EDT)
+Date: Fri, 2 Jul 2021 14:36:00 +1000 (AEST)
+From: Finn Thain <fthain@linux-m68k.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 08/10] dp8393x: don't force 32-bit register access
+In-Reply-To: <a6fae6a6-4fbd-a75c-96b5-403ba3658217@amsat.org>
+Message-ID: <82eeaede-12e7-29f3-9084-33105f5cb61e@linux-m68k.org>
+References: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
+ <20210625065401.30170-9-mark.cave-ayland@ilande.co.uk>
+ <a6fae6a6-4fbd-a75c-96b5-403ba3658217@amsat.org>
+X-Reply-UID: (2 > )(1 1611008712 1474)/home/fthain/mail/m68k
+X-Reply-Mbox: mail/m68k
+X-Cursor-Pos: : 218
+X-Our-Headers: From
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Jul 2021 04:17:30 -0000
-From: Launchpad Bug Tracker <1859291@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: risc-v
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 janitor teodori-serge th-huth
-X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157875755996.2711.225801499083245592.malonedeb@soybean.canonical.com>
-Message-Id: <162519945069.31921.17842251697572253220.malone@loganberry.canonical.com>
-Subject: [Bug 1859291] Re: RISC-V incorrect exception generated
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: 05135b1906f8b7fdc0320ad7ef1568f91beadd94
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed; BOUNDARY="-1463811774-979206523-1625197871=:6"
+Content-ID: <aee4e7fd-2f39-108d-2a71-fb575c1e45e4@nippy.intranet>
+Received-SPF: none client-ip=66.111.4.27; envelope-from=fthain@linux-m68k.org;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,34 +91,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859291 <1859291@bugs.launchpad.net>
+Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ laurent@vivier.eu, hpoussin@reactos.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+---1463811774-979206523-1625197871=:6
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <55e4a90-316e-1e80-28c5-6bcec62e4974@nippy.intranet>
 
--- =
+On Thu, 1 Jul 2021, Philippe Mathieu-Daud=C3=A9 wrote:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859291
+> On 6/25/21 8:53 AM, Mark Cave-Ayland wrote:
+> > Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" assumed that=20
+> > all accesses to the registers were 32-bit=20
 
-Title:
-  RISC-V incorrect exception generated
+No, that assumption was not made there. Just take a look at my commits in=
+=20
+Linux that make 16-bit accesses. If commit 3fe9a838ec worked by accident,=
+=20
+it probably just reflects my inadequate knowledge of QEMU internals.
 
-Status in QEMU:
-  Expired
+> > but this is actually not the case. The access size is determined by=20
+> > the CPU instruction used and not the number of physical address lines.
+> >=20
 
-Bug description:
-  When using 'ecall' from supervisor mode, user exception is raised
-  instead of supervisor exception. The problem is located under
-  'target/riscv/insn_trans/trans_priviledged.inc.c' in function 'static
-  bool trans_ecall(DisasContext *ctx, arg_ecall *a)'. Best regards,
-  Serge Teodori
+I think that's an over-simplification (in the context of commit=20
+3fe9a838ec).
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859291/+subscriptions
+> > The big_endian workaround applied to the register read/writes was=20
+> > actually caused by forcing the access size to 32-bit when the guest OS=
+=20
+> > was using a 16-bit access. Since the registers are 16-bit then we can=
+=20
+> > simply set .impl.min_access to 2 and then the memory API will=20
+> > automatically do the right thing for both 16-bit accesses used by=20
+> > Linux and 32-bit accesses used by the MacOS toolbox ROM.
+>=20
+> Hmm I'm not sure. This sounds to me like the "QEMU doesn't model busses=
+=20
+> so we end using kludge to hide bugs" pattern. Can you provide a QTest=20
+> (ideally) or a "-trace memory_region_ops_\*" log of your firmware=20
+> accessing the dp8393x please?
+>=20
+
+The DP83932 chip is highly configurable, so I'm not sure that the=20
+behaviour of any given firmware would resolve the question.
+
+Anyway, as far as the DP83932 hardware is concerned, the behaviour of the=
+=20
+upper 16-bits of the data bus depends on the configuration programmed into=
+=20
+the DP83932 registers, and whether the chip is accessed as a slave or=20
+performing DMA as a master.
+---1463811774-979206523-1625197871=:6--
 
