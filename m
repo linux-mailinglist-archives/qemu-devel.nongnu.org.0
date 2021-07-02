@@ -2,99 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874483B9B14
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 05:31:38 +0200 (CEST)
-Received: from localhost ([::1]:49914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2063B9B7E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:28:41 +0200 (CEST)
+Received: from localhost ([::1]:58936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz9tx-0007jP-0Y
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 23:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40664)
+	id 1lzAnA-0002ju-KF
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lz9s6-0006xa-Hr
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 23:29:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lz9s2-0002ie-LI
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 23:29:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625196574;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KEBH50BKUJXIhiFj28RR2Lp9AACCkuRc/rXahjMhs9A=;
- b=SWLUKJruu5/lAUsuAS13qwBDGWLxhPo5KmMAl7jmkEYCJ05EJVgLLwPYVpSg9TLvE7BAcL
- ohi5Npi972kHI3+Yc8ttFBoXGZjjm6srlz9NXOJORv6req6DOXcUIUPOPjEQU3UY3O7mjS
- UUp8GxDUwuFKtHgtXB8WTAaq+5Th47o=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-lkthUKADNgiNF8L2akPgWQ-1; Thu, 01 Jul 2021 23:29:31 -0400
-X-MC-Unique: lkthUKADNgiNF8L2akPgWQ-1
-Received: by mail-pf1-f197.google.com with SMTP id
- c129-20020a6235870000b0290316088e2a39so158996pfa.22
- for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 20:29:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=KEBH50BKUJXIhiFj28RR2Lp9AACCkuRc/rXahjMhs9A=;
- b=rnKw3hIciHU/tpX/I5X/zHvQhDFd+1Gzrqo0o0Idg9/0p3GyWZuxfIVDUAaePhZUVN
- 7y/nlPxCP0TbBIY//8xRQ7qvPdHQwYE7y63AzZPrwzs6MWRJkyWzI2oHOzjC61aOwCyJ
- XP01HqL5AM9dTa2hGYo0yqOH6kRN/QB1Pg4VtbIHPL4o3T5lJhbNEloI/q41pVdDoIKb
- UZj/r22x07DiUiubtleW2kx0pNteg2C3DUnkX2zlACtfxoGDpi/jnGAKv6+3PkCpcg6Y
- 0LR8ueP6s5GZGxw88vKGMOnn4j0OS4sRvc4UFnHNAwP6D2bg2KfShWsxfOBuFqubXvMH
- Dt7Q==
-X-Gm-Message-State: AOAM533W3an+cl2ZYMY54KXv2gH3pbZ2UzM/Aa5TfkI9THioIB3Zr/c+
- KDsNcbwDVbPPuK2HYfYhcWrKV/pUUeX26iYmmTGMMR3VXZPdCVkG0xMt7qniJWAGe5e7n8d3AlJ
- 6uDsFMthk1sBTDSU=
-X-Received: by 2002:a17:90a:e284:: with SMTP id
- d4mr2812864pjz.200.1625196570185; 
- Thu, 01 Jul 2021 20:29:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybK/m+PTHdeEEsPmri94XA4VaEyOJvegACXhvYBFvzWXiAEed86Y+4vJaOfT9GYxMvM12R1w==
-X-Received: by 2002:a17:90a:e284:: with SMTP id
- d4mr2812850pjz.200.1625196569923; 
- Thu, 01 Jul 2021 20:29:29 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id z9sm1505004pfc.101.2021.07.01.20.29.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 20:29:29 -0700 (PDT)
-Subject: Re: [PATCH 2/3] hw/net: e1000e: Correct the initial value of VET
- register
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-References: <20210701094651.1258613-1-bmeng.cn@gmail.com>
- <20210701094651.1258613-2-bmeng.cn@gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <005fb7e4-c73b-41f2-a42c-3f416d3508cf@redhat.com>
-Date: Fri, 2 Jul 2021 11:29:22 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lzAka-0008H3-3d
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:26:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lzAkY-0002TT-BY
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lzAkT-00053U-Hx
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BFFD52E81C0
+ for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210701094651.1258613-2-bmeng.cn@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.402,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 02 Jul 2021 04:17:25 -0000
+From: Launchpad Bug Tracker <1856834@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andree182 ecsdn janitor laurent-vivier th-huth
+X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
+Message-Id: <162519944606.31921.12603009403185377707.malone@loganberry.canonical.com>
+Subject: [Bug 1856834] Re: PCI broken in qemu ppc e500 in v2.12.0 and other
+ versions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
+X-Launchpad-Hash: 8d5ccca9cc2f600b22e6abc511bee7bbca8524be
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,142 +72,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Christina Wang <christina.wang@windriver.com>,
- Markus Carlstedt <markus.carlstedt@windriver.com>
+Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[Expired for QEMU because there has been no activity for 60 days.]
 
-ÔÚ 2021/7/1 ÏÂÎç5:46, Bin Meng Ð´µÀ:
-> From: Christina Wang <christina.wang@windriver.com>
->
-> The initial value of VLAN Ether Type (VET) register is 0x8100, as per
-> the manual and real hardware.
->
-> While Linux e1000e driver always writes VET register to 0x8100, it is
-> not always the case for everyone. Drivers relying on the reset value
-> of VET won't be able to transmit and receive VLAN frames in QEMU.
->
-> Unlike e1000 in QEMU, e1000e uses a field 'vet' in "struct E1000Core"
-> to cache the value of VET register, but the cache only gets updated
-> when VET register is written. To always get a consistent VET value
-> no matter VET is written or remains its reset value, drop the 'vet'
-> field and use 'core->mac[VET]' directly.
->
-> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
-> Signed-off-by: Christina Wang <christina.wang@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
->
->   hw/net/e1000e_core.h |  2 --
->   hw/net/e1000e.c      |  6 ++----
->   hw/net/e1000e_core.c | 11 ++++++-----
->   3 files changed, 8 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
-> index 4ddb4d2c39..07d722bc68 100644
-> --- a/hw/net/e1000e_core.h
-> +++ b/hw/net/e1000e_core.h
-> @@ -105,8 +105,6 @@ struct E1000Core {
->       uint32_t itr_guest_value;
->       uint32_t eitr_guest_value[E1000E_MSIX_VEC_NUM];
->   
-> -    uint16_t vet;
-> -
->       uint8_t permanent_mac[ETH_ALEN];
->   
->       NICState *owner_nic;
-> diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-> index a8a77eca95..1797e4a7cb 100644
-> --- a/hw/net/e1000e.c
-> +++ b/hw/net/e1000e.c
-> @@ -602,8 +602,8 @@ static const VMStateDescription e1000e_vmstate_intr_timer = {
->   
->   static const VMStateDescription e1000e_vmstate = {
->       .name = "e1000e",
-> -    .version_id = 1,
-> -    .minimum_version_id = 1,
-> +    .version_id = 2,
-> +    .minimum_version_id = 2,
->       .pre_save = e1000e_pre_save,
->       .post_load = e1000e_post_load,
->       .fields = (VMStateField[]) {
-> @@ -645,8 +645,6 @@ static const VMStateDescription e1000e_vmstate = {
->           VMSTATE_UINT32_ARRAY(core.eitr_guest_value, E1000EState,
->                                E1000E_MSIX_VEC_NUM),
->   
-> -        VMSTATE_UINT16(core.vet, E1000EState),
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
+-- =
 
-This is not the suggested way. We'd better not bump version in this case.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856834
 
-How about update vet during post_load?
+Title:
+  PCI broken in qemu ppc e500 in v2.12.0 and other versions
 
-Thanks
+Status in QEMU:
+  Expired
 
+Bug description:
+  The same qemu -M mpc... command that works on qemu-system-ppc version
+  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
+  version 4.2.0release and 4.19dirtygit:
 
-> -
->           VMSTATE_STRUCT_ARRAY(core.tx, E1000EState, E1000E_NUM_QUEUES, 0,
->                                e1000e_vmstate_tx, struct e1000e_tx),
->           VMSTATE_END_OF_LIST()
-> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-> index b75f2ab8fc..38b3e3b784 100644
-> --- a/hw/net/e1000e_core.c
-> +++ b/hw/net/e1000e_core.c
-> @@ -35,6 +35,7 @@
->   
->   #include "qemu/osdep.h"
->   #include "qemu/log.h"
-> +#include "net/eth.h"
->   #include "net/net.h"
->   #include "net/tap.h"
->   #include "hw/pci/msi.h"
-> @@ -731,7 +732,7 @@ e1000e_process_tx_desc(E1000ECore *core,
->               if (e1000x_vlan_enabled(core->mac) &&
->                   e1000x_is_vlan_txd(txd_lower)) {
->                   net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt,
-> -                    le16_to_cpu(dp->upper.fields.special), core->vet);
-> +                    le16_to_cpu(dp->upper.fields.special), core->mac[VET]);
->               }
->               if (e1000e_tx_pkt_send(core, tx, queue_index)) {
->                   e1000e_on_tx_done_update_stats(core, tx->tx_pkt);
-> @@ -1012,7 +1013,7 @@ e1000e_receive_filter(E1000ECore *core, const uint8_t *buf, int size)
->   {
->       uint32_t rctl = core->mac[RCTL];
->   
-> -    if (e1000x_is_vlan_packet(buf, core->vet) &&
-> +    if (e1000x_is_vlan_packet(buf, core->mac[VET]) &&
->           e1000x_vlan_rx_filter_enabled(core->mac)) {
->           uint16_t vid = lduw_be_p(buf + 14);
->           uint32_t vfta = ldl_le_p((uint32_t *)(core->mac + VFTA) +
-> @@ -1686,7 +1687,7 @@ e1000e_receive_iov(E1000ECore *core, const struct iovec *iov, int iovcnt)
->       }
->   
->       net_rx_pkt_attach_iovec_ex(core->rx_pkt, iov, iovcnt, iov_ofs,
-> -                               e1000x_vlan_enabled(core->mac), core->vet);
-> +                               e1000x_vlan_enabled(core->mac), core->mac[VET]);
->   
->       e1000e_rss_parse_packet(core, core->rx_pkt, &rss_info);
->       e1000e_rx_ring_init(core, &rxr, rss_info.queue);
-> @@ -2397,8 +2398,7 @@ static void
->   e1000e_set_vet(E1000ECore *core, int index, uint32_t val)
->   {
->       core->mac[VET] = val & 0xffff;
-> -    core->vet = le16_to_cpu(core->mac[VET]);
-> -    trace_e1000e_vlan_vet(core->vet);
-> +    trace_e1000e_vlan_vet(core->mac[VET]);
->   }
->   
->   static void
-> @@ -3442,6 +3442,7 @@ static const uint32_t e1000e_mac_reg_init[] = {
->       [RXCSUM]        = E1000_RXCSUM_IPOFLD | E1000_RXCSUM_TUOFLD,
->       [ITR]           = E1000E_MIN_XITR,
->       [EITR...EITR + E1000E_MSIX_VEC_NUM - 1] = E1000E_MIN_XITR,
-> +    [VET]           = ETH_P_VLAN,
->   };
->   
->   void
+  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
+ccel kvm is set.
+  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
+e (slower).
 
+  ends/freezes at:
+  nbd: registered device at major 43
+  =C2=A0vda:
+
+  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
+  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
+  with 2.8.0 official release from git/github that I compiled/built
+  myself. But both of the newer releases fail on the same exact machine
+  same config.
+
+  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
+ed weren't, ie gave
+  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
+bus=3D0,unit=3D0
+  (but I removed -drive if=3Dmtd since wasn't using it anyway)
+
+  I also tried on windows but I think virtio doesn't work on windows
+  hosts at all? On windows host it fails the same way, even version 2.12
+  as well as 4.1.10...
+
+  used:
+  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
+
+  (basically all steps the same on same exact system same config, yet
+  2.8.0 works fine whether apt-get installed or built from source while
+  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
+
+  In case newer qemu versions act weird on various kernels, I did try with =
+both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
+ compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
+_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
+ich is why I can't use -M ppce500 instead..)
+  tx
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
