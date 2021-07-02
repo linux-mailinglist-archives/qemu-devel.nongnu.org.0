@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C283B9E45
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:32:53 +0200 (CEST)
-Received: from localhost ([::1]:39162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F9A3B9E44
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:32:07 +0200 (CEST)
+Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzFXY-0001nB-1s
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40604)
+	id 1lzFWm-0008OK-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:32:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFPq-0004us-7S
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38118)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFQ4-0005ON-6X
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:25:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFPn-0001bi-AX
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:53 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFQ2-0001l2-2t
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:25:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625217888;
+ s=mimecast20190719; t=1625217905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=reU/EERyCRIMmUMeN/sG3kQwb7Xc7HiGTNBUAqpoIMw=;
- b=fYaVbKLTOBfA7PaOQ2dSOi865x4FNNQFaO6dz7Jtuiv7G1FI4BELCtzyncwjA0WzgegK7s
- 4bEz6JWVjrVLK6gqHTUM6F6scjJp0tSJdWENuwnNm9VC4R184iEgTCZpO3WZpwhmC1d0y7
- 2ZRo+xhigUFfy3uVAkwMyJTgR8A9bz0=
+ bh=2DiP3BDoXXRMG7E5lnGiuw8kLZOvB50ScwR/oV8195s=;
+ b=iSGTY6n5J09MNpbWq4kEXmJRzRTdFo5m13YFVLkZJaqjh/LPjU5BeP0lDxRV8wn19MZabg
+ z/i2IQ+tbgfNBuo/MML13AvqVxEg8scZv4IdseTQF5QBPoSgx8Zh69hA92rhEL+Fg5e/KZ
+ 200WIPqu5FdDKZeY+nWjs0QLoPa3kLY=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-UF-m0kTINqyJqBBxHCXm4g-1; Fri, 02 Jul 2021 05:24:47 -0400
-X-MC-Unique: UF-m0kTINqyJqBBxHCXm4g-1
+ us-mta-596-Hex8HfBvMW-V0wjeEsJghg-1; Fri, 02 Jul 2021 05:25:02 -0400
+X-MC-Unique: Hex8HfBvMW-V0wjeEsJghg-1
 Received: by mail-wr1-f70.google.com with SMTP id
- x8-20020a5d54c80000b029012583535285so3679668wrv.8
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:24:47 -0700 (PDT)
+ i17-20020a5d43910000b02901258b767ad5so3687897wrq.2
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:25:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=reU/EERyCRIMmUMeN/sG3kQwb7Xc7HiGTNBUAqpoIMw=;
- b=Kjq3U0EIzBYtNwxldoXQKc6L9XG1RWrEmOpMpCKNMlh4fRT7TNXR3mxH/zSVbwnTd1
- Kq80EhHsHoYQb1kv3iowpOfzGcewHGhWRfVzyrJjrTl/MRfZImW2FOHUD348eLew4Ur2
- j5E82K2xrGilH8EEAuArK+Wml4ADvZMrmbymi3qbE3wvQAp0c0quVpbUF7Ow9qyHJQKK
- OyK/AdN9JEFJLv1vqwIDLqW2Cq7/12md1h5SxLm0ZAUWaMc6tGK0MS1vTFYieQHtKeL/
- LvknYiWc0eLUjEnZeQVNkBTh3Hf+AYm5cIUW8nHNvHb/l5h04jSFQviQe2RC8KN993c1
- 5LgQ==
-X-Gm-Message-State: AOAM5339gdoVrxR2+hgcaFrXK7b96Gz2OVv+kx8sqweQxcB6eadwL3fr
- GduxOkmsKaQz54h1dVKWAQrrm+GDDFrDkcMIaikg1oHpVE+e+Yn6bfM5RgLBdI+O64Xd4icEsSt
- 6sWJGqD28GTOl6Kzc3QGjrkYf69peqX3mG4MTLZkYbFVMeS8gUs07Gv9tnR7V95UG
-X-Received: by 2002:a5d:69c9:: with SMTP id s9mr4656647wrw.155.1625217885959; 
- Fri, 02 Jul 2021 02:24:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkRXpd/GmlSQr2jKtQ3FFI68N74LgRgjTIGiy8yU/dKA9gljxIfL90OWvrEh4QoePpu3yRxA==
-X-Received: by 2002:a5d:69c9:: with SMTP id s9mr4656616wrw.155.1625217885754; 
- Fri, 02 Jul 2021 02:24:45 -0700 (PDT)
+ bh=2DiP3BDoXXRMG7E5lnGiuw8kLZOvB50ScwR/oV8195s=;
+ b=ivxH5IjwBHipI9H53VpRLpoSdnZbsCttPZmrg97eWZiE9QgxWhiDERNoRyBit/dENv
+ GI+qaKEDDp/fidF7UH+ZtdBoOA/+5zjgkz7Vac5dBECJISs8gfNbLfKwDyyfM/0xDjQM
+ jGT9u5/i7q1OQTyz31E/v22PKmGBPdVhzShPETy9XULi7nc8f0VLga9EuwZdoxmvQYjM
+ 4xkFWVNlMrgytB9PjgqEKTdHv2D7aQbqN4pT68v2/ugStdXKgni6QAQXsVjC7CuWZ3H9
+ szMtZMQGi/J3rZ31odkrhtLGSPNIXzlM/8+uVC4WDYYkPVBZ6R3AZfqzcQHVl/juPpaI
+ 6qwg==
+X-Gm-Message-State: AOAM530wU6Rjxc9iXUWLw1jS8pcngKQhLyAt1O+gfUj/VXmqG/pQyvZT
+ KLyxt1v0YnWSSuto8GG1EFGuYBms/gscvBmgp1q+e7npxFuK3mGated7wKefO0nWsU6bfhkjT9V
+ ORc/JVb4w7j+upYgzdBvimYLpyUPxqmsxRORdFnTU+oYF+JGVENO2GyvnnNi4xQgb
+X-Received: by 2002:a05:600c:1c8b:: with SMTP id
+ k11mr15337762wms.41.1625217900752; 
+ Fri, 02 Jul 2021 02:25:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxd/h1IWfeKbPXwgQI9YWIVcyNxm+9KYo0T4u5NzIc2NbzpQ+KesS2RpoU641dzQaXk99hpcQ==
+X-Received: by 2002:a05:600c:1c8b:: with SMTP id
+ k11mr15337740wms.41.1625217900574; 
+ Fri, 02 Jul 2021 02:25:00 -0700 (PDT)
 Received: from x1w.Ascou-CH1 (pop.92-184-108-94.mobile.abo.orange.fr.
  [92.184.108.94])
- by smtp.gmail.com with ESMTPSA id g7sm2311001wmq.27.2021.07.02.02.24.44
+ by smtp.gmail.com with ESMTPSA id e15sm2537357wrm.60.2021.07.02.02.24.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 02:24:45 -0700 (PDT)
+ Fri, 02 Jul 2021 02:25:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] dma: Let dma_memory_valid() take MemTxAttrs argument
-Date: Fri,  2 Jul 2021 11:24:34 +0200
-Message-Id: <20210702092439.989969-2-philmd@redhat.com>
+Subject: [PATCH v3 4/6] dma: Let dma_memory_rw() take MemTxAttrs argument
+Date: Fri,  2 Jul 2021 11:24:37 +0200
+Message-Id: <20210702092439.989969-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210702092439.989969-1-philmd@redhat.com>
 References: <20210702092439.989969-1-philmd@redhat.com>
@@ -104,48 +106,146 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Let devices specify transaction attributes when calling
-dma_memory_valid().
+dma_memory_rw().
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/ppc/spapr_vio.h | 2 +-
- include/sysemu/dma.h       | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ include/hw/pci/pci.h  |  3 ++-
+ include/sysemu/dma.h  | 11 ++++++-----
+ hw/intc/spapr_xive.c  |  3 ++-
+ hw/usb/hcd-ohci.c     | 10 ++++++----
+ softmmu/dma-helpers.c |  3 ++-
+ 5 files changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-index 4bea87f39cc..4c45f1579fa 100644
---- a/include/hw/ppc/spapr_vio.h
-+++ b/include/hw/ppc/spapr_vio.h
-@@ -91,7 +91,7 @@ static inline void spapr_vio_irq_pulse(SpaprVioDevice *dev)
- static inline bool spapr_vio_dma_valid(SpaprVioDevice *dev, uint64_t taddr,
-                                        uint32_t size, DMADirection dir)
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 6be4e0c460c..252c91686de 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -801,7 +801,8 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                                      void *buf, dma_addr_t len,
+                                      DMADirection dir)
  {
--    return dma_memory_valid(&dev->as, taddr, size, dir);
-+    return dma_memory_valid(&dev->as, taddr, size, dir, MEMTXATTRS_UNSPECIFIED);
+-    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
++                         dir, MEMTXATTRS_UNSPECIFIED);
  }
  
- static inline int spapr_vio_dma_read(SpaprVioDevice *dev, uint64_t taddr,
+ /**
 diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index 3201e7901db..296f3b57c9c 100644
+index 3be803cf3ff..e8ad42226f6 100644
 --- a/include/sysemu/dma.h
 +++ b/include/sysemu/dma.h
-@@ -73,11 +73,11 @@ static inline void dma_barrier(AddressSpace *as, DMADirection dir)
-  * dma_memory_{read,write}() and check for errors */
- static inline bool dma_memory_valid(AddressSpace *as,
-                                     dma_addr_t addr, dma_addr_t len,
--                                    DMADirection dir)
-+                                    DMADirection dir, MemTxAttrs attrs)
+@@ -121,15 +121,15 @@ static inline MemTxResult dma_memory_write_relaxed(AddressSpace *as,
+  * @buf: buffer with the data transferred
+  * @len: the number of bytes to read or write
+  * @dir: indicates the transfer direction
++ * @attrs: memory transaction attributes
+  */
+ static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
+                                         void *buf, dma_addr_t len,
+-                                        DMADirection dir)
++                                        DMADirection dir, MemTxAttrs attrs)
  {
-     return address_space_access_valid(as, addr, len,
-                                       dir == DMA_DIRECTION_FROM_DEVICE,
--                                      MEMTXATTRS_UNSPECIFIED);
-+                                      attrs);
+     dma_barrier(as, dir);
+ 
+-    return dma_memory_rw_relaxed(as, addr, buf, len, dir,
+-                                 MEMTXATTRS_UNSPECIFIED);
++    return dma_memory_rw_relaxed(as, addr, buf, len, dir, attrs);
  }
  
- static inline MemTxResult dma_memory_rw_relaxed(AddressSpace *as,
+ /**
+@@ -147,7 +147,8 @@ static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
+ static inline MemTxResult dma_memory_read(AddressSpace *as, dma_addr_t addr,
+                                           void *buf, dma_addr_t len)
+ {
+-    return dma_memory_rw(as, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
++    return dma_memory_rw(as, addr, buf, len,
++                         DMA_DIRECTION_TO_DEVICE, MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+ /**
+@@ -166,7 +167,7 @@ static inline MemTxResult dma_memory_write(AddressSpace *as, dma_addr_t addr,
+                                            const void *buf, dma_addr_t len)
+ {
+     return dma_memory_rw(as, addr, (void *)buf, len,
+-                         DMA_DIRECTION_FROM_DEVICE);
++                         DMA_DIRECTION_FROM_DEVICE, MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+ /**
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 89cfa018f59..91e733e74cd 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -1684,7 +1684,8 @@ static target_ulong h_int_esb(PowerPCCPU *cpu,
+         mmio_addr = xive->vc_base + xive_source_esb_mgmt(xsrc, lisn) + offset;
+ 
+         if (dma_memory_rw(&address_space_memory, mmio_addr, &data, 8,
+-                          (flags & SPAPR_XIVE_ESB_STORE))) {
++                          (flags & SPAPR_XIVE_ESB_STORE),
++                          MEMTXATTRS_UNSPECIFIED)) {
+             qemu_log_mask(LOG_GUEST_ERROR, "XIVE: failed to access ESB @0x%"
+                           HWADDR_PRIx "\n", mmio_addr);
+             return H_HARDWARE;
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index 1cf2816772c..56e2315c734 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -586,7 +586,8 @@ static int ohci_copy_td(OHCIState *ohci, struct ohci_td *td,
+     if (n > len)
+         n = len;
+ 
+-    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf, n, dir)) {
++    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
++                      n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     if (n == len) {
+@@ -595,7 +596,7 @@ static int ohci_copy_td(OHCIState *ohci, struct ohci_td *td,
+     ptr = td->be & ~0xfffu;
+     buf += n;
+     if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
+-                      len - n, dir)) {
++                      len - n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     return 0;
+@@ -613,7 +614,8 @@ static int ohci_copy_iso_td(OHCIState *ohci,
+     if (n > len)
+         n = len;
+ 
+-    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf, n, dir)) {
++    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
++                      n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     if (n == len) {
+@@ -622,7 +624,7 @@ static int ohci_copy_iso_td(OHCIState *ohci,
+     ptr = end_addr & ~0xfffu;
+     buf += n;
+     if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
+-                      len - n, dir)) {
++                      len - n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     return 0;
+diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
+index 1f07217ad4a..5bf76fff6bd 100644
+--- a/softmmu/dma-helpers.c
++++ b/softmmu/dma-helpers.c
+@@ -305,7 +305,8 @@ static uint64_t dma_buf_rw(uint8_t *ptr, int32_t len, QEMUSGList *sg,
+     while (len > 0) {
+         ScatterGatherEntry entry = sg->sg[sg_cur_index++];
+         int32_t xfer = MIN(len, entry.len);
+-        dma_memory_rw(sg->as, entry.base, ptr, xfer, dir);
++        dma_memory_rw(sg->as, entry.base, ptr, xfer, dir,
++                      MEMTXATTRS_UNSPECIFIED);
+         ptr += xfer;
+         len -= xfer;
+         resid -= xfer;
 -- 
 2.31.1
 
