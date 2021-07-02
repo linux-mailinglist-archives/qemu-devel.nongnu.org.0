@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BE13B9A7B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 03:18:39 +0200 (CEST)
-Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EE03B9AB4
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 04:31:11 +0200 (CEST)
+Received: from localhost ([::1]:39738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz7pG-0000w8-8y
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 21:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35360)
+	id 1lz8xS-0005mk-7A
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 22:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lz7oI-00005j-IR
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 21:17:38 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2155)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1lz8wE-00052u-Ny
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 22:29:54 -0400
+Received: from mga11.intel.com ([192.55.52.93]:26723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linfeng23@huawei.com>)
- id 1lz7oC-0007ix-Ni
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 21:17:38 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GGHCh5RnRz76HF;
- Fri,  2 Jul 2021 09:13:52 +0800 (CST)
-Received: from dggema774-chm.china.huawei.com (10.1.198.216) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 2 Jul 2021 09:17:15 +0800
-Received: from dggema768-chm.china.huawei.com (10.1.198.210) by
- dggema774-chm.china.huawei.com (10.1.198.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 2 Jul 2021 09:17:15 +0800
-Received: from dggema768-chm.china.huawei.com ([10.9.48.81]) by
- dggema768-chm.china.huawei.com ([10.9.48.81]) with mapi id 15.01.2176.012;
- Fri, 2 Jul 2021 09:17:15 +0800
-From: "linfeng (M)" <linfeng23@huawei.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: RE: [v4] migration: fix the memory overwriting risk in add_to_iovec
-Thread-Topic: [v4] migration: fix the memory overwriting risk in add_to_iovec
-Thread-Index: AQHXaYpyOXJYCy95pE6k5GCCe/R5FKssSkkAgAEzawCAAJKwQA==
-Date: Fri, 2 Jul 2021 01:17:15 +0000
-Message-ID: <5f1fb1932dd84d42afba844346b6594a@huawei.com>
-References: <20210623015104.218-1-linfeng23@huawei.com>
- <20210625062138.1899-1-linfeng23@huawei.com> <YNyjsmZU2gRGe0K3@work-vm>
- <YN2llAABbktuLCUu@work-vm>
-In-Reply-To: <YN2llAABbktuLCUu@work-vm>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1lz8wB-0002UB-Rg
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 22:29:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="205654312"
+X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; d="scan'208";a="205654312"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 19:29:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; d="scan'208";a="409149319"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga006.jf.intel.com with ESMTP; 01 Jul 2021 19:29:44 -0700
+Received: from shsmsx602.ccr.corp.intel.com (10.109.6.142) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Thu, 1 Jul 2021 19:29:43 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX602.ccr.corp.intel.com (10.109.6.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Fri, 2 Jul 2021 10:29:41 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.008;
+ Fri, 2 Jul 2021 10:29:41 +0800
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: RE: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Thread-Topic: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Thread-Index: AQHXbeunvJLboMuimkuCIYxaPrgzEKsth5XAgAAGCwCAAWbAwA==
+Date: Fri, 2 Jul 2021 02:29:41 +0000
+Message-ID: <27cb8a0141fa493a8d4bb6bb918e8a82@intel.com>
+References: <20210630200805.280905-1-peterx@redhat.com>
+ <33f137dae5c346078a3a7a658bb5f1ab@intel.com> <YN26SDxZS1aShbHi@t490s>
+In-Reply-To: <YN26SDxZS1aShbHi@t490s>
+Accept-Language: en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.151.75]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=linfeng23@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=wei.w.wang@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,109 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wangxin \(Alexander\)" <wangxinxin.wang@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Hailiang
+ Zhang <zhang.zhanghailiang@huawei.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Leonardo Bras Soares
+ Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> Subject: Re: [v4] migration: fix the memory overwriting risk in add_to_io=
-vec
->=20
-> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> > * Lin Feng (linfeng23@huawei.com) wrote:
-> > > From: Feng Lin <linfeng23@huawei.com>
-> > >
-> > > When testing migration, a Segmentation fault qemu core is generated.
-> > > 0  error_free (err=3D0x1)
-> > > 1  0x00007f8b862df647 in qemu_fclose (f=3Df@entry=3D0x55e06c247640)
-> > > 2  0x00007f8b8516d59a in migrate_fd_cleanup
-> > > (s=3Ds@entry=3D0x55e06c0e1ef0)
-> > > 3  0x00007f8b8516d66c in migrate_fd_cleanup_bh
-> > > (opaque=3D0x55e06c0e1ef0)
-> > > 4  0x00007f8b8626a47f in aio_bh_poll (ctx=3Dctx@entry=3D0x55e06b5a16d=
-0)
-> > > 5  0x00007f8b8626e71f in aio_dispatch (ctx=3D0x55e06b5a16d0)
-> > > 6  0x00007f8b8626a33d in aio_ctx_dispatch (source=3D<optimized out>,
-> > > callback=3D<optimized out>, user_data=3D<optimized out>)
-> > > 7  0x00007f8b866bdba4 in g_main_context_dispatch ()
-> > > 8  0x00007f8b8626cde9 in glib_pollfds_poll ()
-> > > 9  0x00007f8b8626ce62 in os_host_main_loop_wait (timeout=3D<optimized
-> > > out>)
-> > > 10 0x00007f8b8626cffd in main_loop_wait
-> > > (nonblocking=3Dnonblocking@entry=3D0)
-> > > 11 0x00007f8b862ef01f in main_loop () Using gdb print the struct
-> > > QEMUFile f =3D {
-> > >   ...,
-> > >   iovcnt =3D 65, last_error =3D 21984,
-> > >   last_error_obj =3D 0x1, shutdown =3D true } Well iovcnt is overflow=
-,
-> > > because the max size of MAX_IOV_SIZE is 64.
-> > > struct QEMUFile {
-> > >     ...;
-> > >     struct iovec iov[MAX_IOV_SIZE];
-> > >     unsigned int iovcnt;
-> > >     int last_error;
-> > >     Error *last_error_obj;
-> > >     bool shutdown;
-> > > };
-> > > iovcnt and last_error is overwrited by add_to_iovec().
-> > > Right now, add_to_iovec() increase iovcnt before check the limit.
-> > > And it seems that add_to_iovec() assumes that iovcnt will set to
-> > > zero in qemu_fflush(). But qemu_fflush() will directly return when
-> > > f->shutdown is true.
-> > >
-> > > The situation may occur when libvirtd restart during migration,
-> > > after
-> > > f->shutdown is set, before calling qemu_file_set_error() in
-> > > qemu_file_shutdown().
-> > >
-> > > So the safiest way is checking the iovcnt before increasing it.
-> > >
-> > > Signed-off-by: Feng Lin <linfeng23@huawei.com>
-> >
-> > Queued
->=20
-> Hmm this didn't actually build because that function is actually misnamed=
- 'qemu_file_is_writable' (no e!);
-> I've fixed that, but can you just reconfirm that you've tested this fixes=
- your original problem?
-Sorry for that rookie mistake. I have tested it again with gdb-fault inject=
-ion. It can fix my original problem.
-Thanks for helping me complete my first qemu patch submission. Really helpe=
-d a lot.
->=20
-> Dave
->=20
-> > > ---
-> > >  migration/qemu-file.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/migration/qemu-file.c b/migration/qemu-file.c index
-> > > d6e03dbc0e..6879615197 100644
-> > > --- a/migration/qemu-file.c
-> > > +++ b/migration/qemu-file.c
-> > > @@ -416,6 +416,11 @@ static int add_to_iovec(QEMUFile *f, const uint8=
-_t *buf, size_t size,
-> > >      {
-> > >          f->iov[f->iovcnt - 1].iov_len +=3D size;
-> > >      } else {
-> > > +        if (f->iovcnt >=3D MAX_IOV_SIZE) {
-> > > +            /* Should only happen if a previous fflush failed */
-> > > +            assert(f->shutdown || !qemu_file_is_writeable(f));
-> > > +            return 1;
-> > > +        }
-> > >          if (may_free) {
-> > >              set_bit(f->iovcnt, f->may_free);
-> > >          }
-> > > --
-> > > 2.23.0
-> > >
-> > >
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+T24gVGh1cnNkYXksIEp1bHkgMSwgMjAyMSA4OjUxIFBNLCBQZXRlciBYdSB3cm90ZToNCj4gT24g
+VGh1LCBKdWwgMDEsIDIwMjEgYXQgMDQ6NDI6MzhBTSArMDAwMCwgV2FuZywgV2VpIFcgd3JvdGU6
+DQo+ID4gT24gVGh1cnNkYXksIEp1bHkgMSwgMjAyMSA0OjA4IEFNLCBQZXRlciBYdSB3cm90ZToN
+Cj4gPiA+IFRha2luZyB0aGUgbXV0ZXggZXZlcnkgdGltZSBmb3IgZWFjaCBkaXJ0eSBiaXQgdG8g
+Y2xlYXIgaXMgdG9vIHNsb3csDQo+ID4gPiBlc3BlY2lhbGx5IHdlJ2xsIHRha2UvcmVsZWFzZSBl
+dmVuIGlmIHRoZSBkaXJ0eSBiaXQgaXMgY2xlYXJlZC4gIFNvDQo+ID4gPiBmYXIgaXQncyBvbmx5
+IHVzZWQgdG8gc3luYyB3aXRoIHNwZWNpYWwgY2FzZXMgd2l0aA0KPiA+ID4gcWVtdV9ndWVzdF9m
+cmVlX3BhZ2VfaGludCgpIGFnYWluc3QgbWlncmF0aW9uIHRocmVhZCwgbm90aGluZyByZWFsbHkg
+dGhhdA0KPiBzZXJpb3VzIHlldC4gIExldCdzIG1vdmUgdGhlIGxvY2sgdG8gYmUgdXBwZXIuDQo+
+ID4gPg0KPiA+ID4gVGhlcmUncmUgdHdvIGNhbGxlcnMgb2YgbWlncmF0aW9uX2JpdG1hcF9jbGVh
+cl9kaXJ0eSgpLg0KPiA+ID4NCj4gPiA+IEZvciBtaWdyYXRpb24sIG1vdmUgaXQgaW50byByYW1f
+c2F2ZV9pdGVyYXRlKCkuICBXaXRoIHRoZSBoZWxwIG9mDQo+ID4gPiBNQVhfV0FJVCBsb2dpYywg
+d2UnbGwgb25seSBydW4gcmFtX3NhdmVfaXRlcmF0ZSgpIGZvciBubyBtb3JlIHRoYW4NCj4gPiA+
+IDUwbXMtaXNoIHRpbWUsIHNvIHRha2luZyB0aGUgbG9jayBvbmNlIHRoZXJlIGF0IHRoZSBlbnRy
+eS4gIEl0IGFsc28NCj4gPiA+IG1lYW5zIGFueSBjYWxsIHNpdGVzIHRvDQo+ID4gPiBxZW11X2d1
+ZXN0X2ZyZWVfcGFnZV9oaW50KCkgY2FuIGJlIGRlbGF5ZWQ7IGJ1dCBpdCBzaG91bGQgYmUgdmVy
+eQ0KPiA+ID4gcmFyZSwgb25seSBkdXJpbmcgbWlncmF0aW9uLCBhbmQgSSBkb24ndCBzZWUgYSBw
+cm9ibGVtIHdpdGggaXQuDQo+ID4gPg0KPiA+ID4gRm9yIENPTE8sIG1vdmUgaXQgdXAgdG8gY29s
+b19mbHVzaF9yYW1fY2FjaGUoKS4gIEkgdGhpbmsgQ09MTyBmb3Jnb3QNCj4gPiA+IHRvIHRha2Ug
+dGhhdCBsb2NrIGV2ZW4gd2hlbiBjYWxsaW5nIHJhbWJsb2NrX3N5bmNfZGlydHlfYml0bWFwKCks
+DQo+ID4gPiB3aGVyZSBhbm90aGVyIGV4YW1wbGUgaXMgbWlncmF0aW9uX2JpdG1hcF9zeW5jKCkg
+d2hvIHRvb2sgaXQgcmlnaHQuDQo+ID4gPiBTbyBsZXQgdGhlIG11dGV4IGNvdmVyIGJvdGggdGhl
+DQo+ID4gPiByYW1ibG9ja19zeW5jX2RpcnR5X2JpdG1hcCgpIGFuZCBtaWdyYXRpb25fYml0bWFw
+X2NsZWFyX2RpcnR5KCkgY2FsbHMuDQo+ID4gPg0KPiA+ID4gSXQncyBldmVuIHBvc3NpYmxlIHRv
+IGRyb3AgdGhlIGxvY2sgc28gd2UgdXNlIGF0b21pYyBvcGVyYXRpb25zIHVwb24NCj4gPiA+IHJi
+LT5ibWFwIGFuZCB0aGUgdmFyaWFibGUgbWlncmF0aW9uX2RpcnR5X3BhZ2VzLiAgSSBkaWRuJ3Qg
+ZG8gaXQNCj4gPiA+IGp1c3QgdG8gc3RpbGwgYmUgc2FmZSwgYWxzbyBub3QgcHJlZGljdGFibGUg
+d2hldGhlciB0aGUgZnJlcXVlbnQgYXRvbWljIG9wcw0KPiBjb3VsZCBicmluZyBvdmVyaGVhZCB0
+b28gZS5nLg0KPiA+ID4gb24gaHVnZSB2bXMgd2hlbiBpdCBoYXBwZW5zIHZlcnkgb2Z0ZW4uICBX
+aGVuIHRoYXQgcmVhbGx5IGNvbWVzLCB3ZQ0KPiA+ID4gY2FuIGtlZXAgYSBsb2NhbCBjb3VudGVy
+IGFuZCBwZXJpb2RpY2FsbHkgY2FsbCBhdG9taWMgb3BzLiAgS2VlcCBpdCBzaW1wbGUgZm9yDQo+
+IG5vdy4NCj4gPiA+DQo+ID4NCj4gPiBJZiBmcmVlIHBhZ2Ugb3B0IGlzIGVuYWJsZWQsIDUwbXMg
+d2FpdGluZyB0aW1lIG1pZ2h0IGJlIHRvbyBsb25nIGZvciBoYW5kbGluZw0KPiBqdXN0IG9uZSBo
+aW50ICh2aWEgcWVtdV9ndWVzdF9mcmVlX3BhZ2VfaGludCk/DQo+ID4gSG93IGFib3V0IG1ha2lu
+ZyB0aGUgbG9jayBjb25kaXRpb25hbGx5Pw0KPiA+IGUuZy4NCj4gPiAjZGVmaW5lIFFFTVVfTE9D
+S19HVUFSRF9DT05EIChsb2NrLCBjb25kKSB7DQo+ID4gCWlmIChjb25kKQ0KPiA+IAkJUUVNVV9M
+T0NLX0dVQVJEKGxvY2spOw0KPiA+IH0NCj4gPiBUaGVuIGluIG1pZ3JhdGlvbl9iaXRtYXBfY2xl
+YXJfZGlydHk6DQo+ID4gUUVNVV9MT0NLX0dVQVJEX0NPTkQoJnJzLT5iaXRtYXBfbXV0ZXgsIHJz
+LT5mcG9fZW5hYmxlZCk7DQo+IA0KPiBZZWFoIHRoYXQncyBpbmRlZWQgc29tZSBraW5kIG9mIGNv
+bW1lbnQgSSdkIGxpa2UgdG8gZ2V0IGZyb20gZWl0aGVyIHlvdSBvciBEYXZpZA0KPiB3aGVuIEkg
+YWRkIHRoZSBjYyBsaXN0Li4gOikNCj4gDQo+IEkgd2FzIGN1cmlvdXMgaG93IHRoYXQgd291bGQg
+YWZmZWN0IHRoZSBndWVzdCB3aGVuIHRoZSBmcmVlIHBhZ2UgaGludCBoZWxwZXIgY2FuDQo+IHN0
+dWNrIGZvciBhIHdoaWxlLiAgUGVyIG15IHVuZGVyc3RhbmRpbmcgaXQncyBmdWxseSBhc3luYyBh
+cyB0aGUgYmxvY2tlZCB0aHJlYWQNCj4gaGVyZSBpcyBhc3luY2hyb25vdXNseSB3aXRoIHRoZSBn
+dWVzdCBzaW5jZSBib3RoIHZpcnRpby1iYWxsb29uIGFuZCB2aXJ0aW8tbWVtDQo+IGFyZSBmdWxs
+eSBhc3luYy4gSWYgc28sIHdvdWxkIGl0IHJlYWxseSBhZmZlY3QgdGhlIGd1ZXN0IGEgbG90PyAg
+SXMgaXQgc3RpbGwgdG9sZXJhYmxlIGlmIGl0DQo+IG9ubHkgaGFwcGVucyBkdXJpbmcgbWlncmF0
+aW9uPw0KDQpZZXMsIGl0IGlzIGFzeW5jIGFuZCB3b24ndCBibG9jayB0aGUgZ3Vlc3QuIEJ1dCBp
+dCB3aWxsIG1ha2UgdGhlIG9wdGltaXphdGlvbiBkb2VzbuKAmXQgcnVuIGFzIGV4cGVjdGVkLg0K
+VGhlIGludGVudGlvbiBpcyB0byBoYXZlIHRoZSBtaWdyYXRpb24gdGhyZWFkIHNraXAgdGhlIHRy
+YW5zZmVyIG9mIHRoZSBmcmVlIHBhZ2VzLCBidXQgbm93IHRoZSBtaWdyYXRpb24NCnRocmVhZCBp
+cyBraW5kIG9mIHVzaW5nIHRoZSA1MG1zIGxvY2sgdG8gcHJldmVudCB0aGUgY2xlYXJpbmcgb2Yg
+ZnJlZSBwYWdlcyB3aGlsZSBpdCBpcyBsaWtlbHkganVzdCBzZW5kaW5nIGZyZWUgcGFnZXMgaW5z
+aWRlIHRoZSBsb2NrLg0KKHRoZSByZXBvcnRlZCBmcmVlIHBhZ2VzIGFyZSBiZXR0ZXIgdG8gYmUg
+Y2xlYXJlZCBpbiB0aGUgYml0bWFwIGluIHRpbWUgaW4gY2FzZSB0aGV5IGhhdmUgYWxyZWFkeSBz
+ZW50KQ0KDQo+IA0KPiBUYWtpbmcgdGhhdCBtdXRleCBmb3IgZWFjaCBkaXJ0eSBiaXQgaXMgc3Rp
+bGwgYW4gb3ZlcmtpbGwgdG8gbWUsIGlycmVsZXZhbnQgb2Ygd2hldGhlcg0KPiBpdCdzICJjb25k
+aXRpb25hbCIgb3Igbm90LiAgDQoNCldpdGggdGhhdCwgaWYgZnJlZSBwYWdlIG9wdCBpcyBvZmYs
+IHRoZSBtdXRleCBpcyBza2lwcGVkLCBpc24ndCBpdD8NCg0KPiBJZiBJJ20gdGhlIGNsb3VkIGFk
+bWluLCBJIHdvdWxkIG1vcmUgcHJlZmVyIG1pZ3JhdGlvbg0KPiBmaW5pc2hlcyBlYXJsaWVyLCBp
+bWhvLCByYXRoZXIgdGhhbiBmcmVlaW5nIHNvbWUgbW9yZSBwYWdlcyBvbiB0aGUgaG9zdCAoYWZ0
+ZXINCj4gbWlncmF0aW9uIGFsbCBwYWdlcyB3aWxsIGJlIGdvbmUhKS4gIElmIGl0IHN0aWxsIGJs
+b2NrcyB0aGUgZ3Vlc3QgaW4gc29tZSB1bmhlYWx0aHkNCj4gd2F5IEkgc3RpbGwgcHJlZmVyIHRv
+IHRha2UgdGhlIGxvY2sgaGVyZSwgaG93ZXZlciBtYXliZSBtYWtlIGl0IHNob3J0ZXIgdGhhbg0K
+PiA1MG1zLg0KPiANCg0KWWVzLCB3aXRoIHRoZSBvcHRpbWl6YXRpb24sIG1pZ3JhdGlvbiB3aWxs
+IGJlIGZpbmlzaGVkIGVhcmxpZXIuDQpXaHkgaXQgbmVlZHMgdG8gZnJlZSBwYWdlcyBvbiB0aGUg
+aG9zdD8NCihqdXN0IHNraXAgc2VuZGluZyB0aGUgcGFnZSkNCg0KQmVzdCwNCldlaQ0KDQoNCg0K
 
