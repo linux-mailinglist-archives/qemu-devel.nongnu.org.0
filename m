@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1413BA29D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 17:13:06 +0200 (CEST)
-Received: from localhost ([::1]:34648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D563BA2B7
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 17:23:06 +0200 (CEST)
+Received: from localhost ([::1]:37724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzKqn-0000c9-0x
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 11:13:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36506)
+	id 1lzL0S-0003Hk-W0
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 11:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzKpr-0007O0-Tq
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:12:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52342)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzKzb-0002br-OY
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:22:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzKpo-0001so-Mo
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:12:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzKzX-000888-S6
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:22:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625238723;
+ s=mimecast20190719; t=1625239325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2ItVkG8dPy9/F0vNCKi7jvhH2WVxB80xoa5rCQhtC34=;
- b=N2WNNvS2uCIq9fa6Pp2jEArJkShzU0+yl+wgEFZ9L7WHLK5/cIiQgqeiMG8mpqLGzjX7/X
- /97ur7jmjFPYMlDFE4BvMLfFvR4eNT4uWBZmM/zfQc7lpg7rsHbIjAczUeeQk560hGnetk
- ZJkGemDwtMaH0yLXrHeBzEZZYB2WPIk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-4ZpqYdrHP_WCqp6DDiqu4g-1; Fri, 02 Jul 2021 11:12:01 -0400
-X-MC-Unique: 4ZpqYdrHP_WCqp6DDiqu4g-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z5-20020a05640235c5b0290393974bcf7eso5226738edc.2
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 08:12:01 -0700 (PDT)
+ bh=ZDWfm7uXMkz0OfuHWdy9N2BLYUw85MkYgjWgTVXVcLs=;
+ b=HwxPaZ/ALEZ98FIlQPGGbMZo144uguWgNxTsvTrxCBqbM/+RPugyGhEslBLCBIY6LrxP0L
+ w1W6X2i3aBJmbLXZFGNHmnHro3eXYAdPXFcFz2ZprjfAWTW+5KaXID8wTEh7p+hCCOcVkU
+ OakyFyvNJXxtK586WKFeSC+AFLcjmFs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-QHCZRl2xPyqQs4LEeMjmzw-1; Fri, 02 Jul 2021 11:22:04 -0400
+X-MC-Unique: QHCZRl2xPyqQs4LEeMjmzw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ t12-20020a7bc3cc0000b02901f290c9c44eso3615759wmj.7
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 08:22:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2ItVkG8dPy9/F0vNCKi7jvhH2WVxB80xoa5rCQhtC34=;
- b=e4kEYimuhCfu0cdXgYi9Rbec35G9jREPNxaeTffZkiW+bbI7qGwPVs5+shO557Qpkc
- oDvQ/FhDjnODcdPmrnzykpTQwGVQRsQwUncpNvfPV80MjNJ87G8GCVWSYWymGPW0nJM/
- Zfl6jHmJ+NwXUyJRr+FfQ1uncU9X0+mBfHkHuO0gi0uoc6YFcBO/hNXVuih1wO/EMdTu
- IeRLewH2cGVNHYbLMLGJ2jh4ufn/k+tsT9l0yBvshnCrW0Be1NhPNj4BxVexEFjCYDO4
- paKgmiPyUVwjWR8Vj3i7yiTJ/0bz0K8N6vRAxCPku9Akoh9Nd0jE3yU5Or/UnCrMzUbR
- 5lDQ==
-X-Gm-Message-State: AOAM5329LBhWAV9OvrxVGfIvv7ZLsj93NzjKg65YKa7ROKuJUKk1SS1r
- RDUBGfkVl3EpSPf7Yoeq/97ztsvUNiXmPaRoBKeFqtR1+67dIPhwstLmfcbwwfSKtPv8EiOCuoc
- bbXIrbh0iXt1yTn8=
-X-Received: by 2002:a17:906:a2da:: with SMTP id
- by26mr196567ejb.152.1625238720754; 
- Fri, 02 Jul 2021 08:12:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyJfJmUaNrmFkBM79FsJufflw7L0QrjiOX6Sx+DHIKNaL8ktLsDUcQP+07bLV70R67rL9NUA==
-X-Received: by 2002:a17:906:a2da:: with SMTP id
- by26mr196538ejb.152.1625238720447; 
- Fri, 02 Jul 2021 08:12:00 -0700 (PDT)
-Received: from redhat.com ([2.55.4.39])
- by smtp.gmail.com with ESMTPSA id yd25sm1116696ejb.114.2021.07.02.08.11.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 08:11:59 -0700 (PDT)
-Date: Fri, 2 Jul 2021 11:11:56 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZDWfm7uXMkz0OfuHWdy9N2BLYUw85MkYgjWgTVXVcLs=;
+ b=j1KE7k9nTkDCFjQg0E6ZRNYpYHSuWfiVIVJMtxOOkmZyNvyv+cRCti6Pns9GAvrxyQ
+ YZ2G8RunjWgePMtyW1bGy2TjM4ymxPuYVMju4WmQpmC8HqZseYVXnFYhSW//viONgYEl
+ b5TWU2WDXEN05Ebd9yujMbK+BXDMfAI8SOlTNHcIvMaUmyceN5hOGoBv1PwXNnwsrkda
+ of7u+H9YPOABbiIZq3lhja7FRWjgV7HuGwcq7ZLACtAQulXPZdCAUBZpJf0HTxGhTBlK
+ PgY77fIbjsch3crJxO/jX9usnWg6abgnveyceZeJztWTTe9iyf0xbNOrTRjgXtzwTS0l
+ 1kbQ==
+X-Gm-Message-State: AOAM533KAG0OP5q1hWYz7ORiVNzj45DGnydfexBZBDw9f90StjeNr1wt
+ 71H1HfXqpw0h+lv0D1OkhBitaMQ3ZGmesqIC1n3fEq8nPjT54gbYCM+W+cA3vEbu/oE9cRMzOpj
+ ufu5xHb1GsAt6sgU=
+X-Received: by 2002:a7b:c402:: with SMTP id k2mr26883wmi.5.1625239323571;
+ Fri, 02 Jul 2021 08:22:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrGeP8kHnbMfb9qkfW6bCCGHYh7JCVZNhrFX7NtPpetXJT59g7lo99xhs56fCRAF2Q3pNIgw==
+X-Received: by 2002:a7b:c402:: with SMTP id k2mr26865wmi.5.1625239323368;
+ Fri, 02 Jul 2021 08:22:03 -0700 (PDT)
+Received: from [192.168.11.95] (pop.92-184-108-23.mobile.abo.orange.fr.
+ [92.184.108.23])
+ by smtp.gmail.com with ESMTPSA id n20sm3208554wmk.12.2021.07.02.08.22.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Jul 2021 08:22:02 -0700 (PDT)
 Subject: Re: [PATCH] replay: improve determinism of virtio-net
-Message-ID: <20210702111128-mutt-send-email-mst@kernel.org>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
 References: <162125666020.1252655.9997723318921206001.stgit@pasha-ThinkPad-X280>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <939915ed-d545-7d91-3ac9-6249399d7115@redhat.com>
+Date: Fri, 2 Jul 2021 17:22:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <162125666020.1252655.9997723318921206001.stgit@pasha-ThinkPad-X280>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,86 +99,27 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: pbonzini@redhat.com, jasowang@redhat.com, alex.bennee@linaro.org,
- qemu-devel@nongnu.org
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 17, 2021 at 04:04:20PM +0300, Pavel Dovgalyuk wrote:
+On 5/17/21 3:04 PM, Pavel Dovgalyuk wrote:
 > virtio-net device uses bottom halves for callbacks.
 > These callbacks should be deterministic, because they affect VM state.
 > This patch replaces BH invocations with corresponding replay functions,
 > making them deterministic in record/replay mode.
+
+^ This is one change which I'm OK to give a R-b tag.
+
 > This patch also disables guest announce timers for record/replay,
 > because they break correct loadvm in deterministic mode.
-> 
+
+^ This is another change, can you keep it separately? This
+would help in case something need to be reverted.
+
 > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-
-Seems to make sense but clearly Jason's area.
-Jason?
-
-
 > ---
 >  hw/net/virtio-net.c |   13 +++++++++----
 >  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 6b7e8dd04e..e876363236 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -44,6 +44,7 @@
->  #include "hw/pci/pci.h"
->  #include "net_rx_pkt.h"
->  #include "hw/virtio/vhost.h"
-> +#include "sysemu/replay.h"
->  
->  #define VIRTIO_NET_VM_VERSION    11
->  
-> @@ -394,7 +395,7 @@ static void virtio_net_set_status(struct VirtIODevice *vdev, uint8_t status)
->                  timer_mod(q->tx_timer,
->                                 qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
->              } else {
-> -                qemu_bh_schedule(q->tx_bh);
-> +                replay_bh_schedule_event(q->tx_bh);
->              }
->          } else {
->              if (q->tx_timer) {
-> @@ -2546,7 +2547,7 @@ static void virtio_net_handle_tx_bh(VirtIODevice *vdev, VirtQueue *vq)
->          return;
->      }
->      virtio_queue_set_notification(vq, 0);
-> -    qemu_bh_schedule(q->tx_bh);
-> +    replay_bh_schedule_event(q->tx_bh);
->  }
->  
->  static void virtio_net_tx_timer(void *opaque)
-> @@ -2602,7 +2603,7 @@ static void virtio_net_tx_bh(void *opaque)
->      /* If we flush a full burst of packets, assume there are
->       * more coming and immediately reschedule */
->      if (ret >= n->tx_burst) {
-> -        qemu_bh_schedule(q->tx_bh);
-> +        replay_bh_schedule_event(q->tx_bh);
->          q->tx_waiting = 1;
->          return;
->      }
-> @@ -2616,7 +2617,7 @@ static void virtio_net_tx_bh(void *opaque)
->          return;
->      } else if (ret > 0) {
->          virtio_queue_set_notification(q->tx_vq, 0);
-> -        qemu_bh_schedule(q->tx_bh);
-> +        replay_bh_schedule_event(q->tx_bh);
->          q->tx_waiting = 1;
->      }
->  }
-> @@ -3206,6 +3207,10 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
->          n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
->      }
->  
-> +    if (replay_mode != REPLAY_MODE_NONE) {
-> +        n->host_features &= ~(1ULL << VIRTIO_NET_F_GUEST_ANNOUNCE);
-> +    }
-> +
->      if (n->net_conf.duplex_str) {
->          if (strncmp(n->net_conf.duplex_str, "half", 5) == 0) {
->              n->net_conf.duplex = DUPLEX_HALF;
 
 
