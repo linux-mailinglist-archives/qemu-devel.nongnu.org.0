@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E588D3B9B8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:37:38 +0200 (CEST)
-Received: from localhost ([::1]:55686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79CF3B9B83
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:31:37 +0200 (CEST)
+Received: from localhost ([::1]:39196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzAvp-0002s7-Vf
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:37:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49494)
+	id 1lzAq0-0008NL-FB
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkX-0008Bh-AT
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42720)
+ id 1lzAkZ-0008FH-2z
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkU-0002QT-Ow
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:56 -0400
+ id 1lzAkU-0002QB-0G
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lzAkQ-00050j-1R
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:50 +0000
+ id 1lzAkO-00050k-Sp
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B66B32E81C7
+ by loganberry.canonical.com (Postfix) with ESMTP id 088202E81BA
  for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Jul 2021 04:17:28 -0000
-From: Launchpad Bug Tracker <1858046@bugs.launchpad.net>
+Date: Fri, 02 Jul 2021 04:17:29 -0000
+From: Launchpad Bug Tracker <1858623@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor raito-bezarius th-huth
-X-Launchpad-Bug-Reporter: Ryan Lahfa (raito-bezarius)
+X-Launchpad-Bug-Commenters: janitor th-huth theartlav
+X-Launchpad-Bug-Reporter: Artyom (theartlav)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157791695959.3198.15546015289430538780.malonedeb@soybean.canonical.com>
-Message-Id: <162519944830.31921.1934643739499002532.malone@loganberry.canonical.com>
-Subject: [Bug 1858046] Re: qemu-aarch64 hangs on cptofs during a build of
- NixOS SD card image
+References: <157839132261.5317.2350112240462311551.malonedeb@gac.canonical.com>
+Message-Id: <162519944919.31921.14558565411608000521.malone@loganberry.canonical.com>
+Subject: [Bug 1858623] Re: VNC outputs garbage in zlib mode
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: e8c37890b59ad999fe02b8ee9f361a41057212d4
+X-Launchpad-Hash: 750a8fa5ee15c78d1c96c77d6d1c85486b7394e1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858046 <1858046@bugs.launchpad.net>
+Reply-To: Bug 1858623 <1858623@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,57 +83,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858046
+https://bugs.launchpad.net/bugs/1858623
 
 Title:
-  qemu-aarch64 hangs on cptofs during a build of NixOS SD card image
+  VNC outputs garbage in zlib mode
 
 Status in QEMU:
   Expired
 
 Bug description:
-  First, thank you for this incredible project.
+  TL;DR: When QEMU is launched with VNC as the output and viewed with a
+  client that defaults to zlib VNC encoding, the resulting output tends
+  to accumulate artifacts.
 
-  While following this guide to build my own image of NixOS:
-  https://nixos.wiki/wiki/NixOS_on_ARM#Compiling_through_QEMU on ARM
-  Aarch64.
+  Reproduction:
+  Launch QEMU (tried with versions 4.2.0 and 4.1.0 on Linux  64bit) with -v=
+nc 0.0.0.0:0
+  Connect to it with a VNC client that allows you to select encoding, i.e. =
+UltraVNC.
+  Set encoding to zlib (type 6), 32bit color.
+  As screen content changes it starts accumulating artifacts. Almost certai=
+n to appear if you open-close windows over a pattern.
+  Does not seem to depend on guest used, but easier to reproduce with a GUI.
 
-  I encountered a very strange behavior, qemu is correctly used and
-  build most of the binaries until it executes this exact line over
-  qemu: https://github.com/NixOS/nixpkgs/blob/master/nixos/lib/make-
-  ext4-fs.nix#L55
+  Looks like this: https://orbides.org/img/vnc.png
 
-  At this step, the qemu process goes to 100 % of CPU, hangs in a
-  certain syscall I don't know which one (according to strace & gdb
-  which has no symbols so breaking and looking the backtrace was
-  useless).
-
-  According to iotop, no I/O was done.
-
-  And it spent all its time in this syscall during more than 10 hours,
-  which looks anomalous to me.
-
-  I attach some of my CPU info:
-
-  model		: 142
-  model name	: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz
-  stepping	: 10
-  microcode	: 0x96
-  cpu MHz		: 3107.071
-  cache size	: 8192 KB
-
-  I'm using a ThinkPad T480 to perform those builds, I'm uncertain of
-  how to debug further this issue, I discussed this with some people
-  over #nixos-aarch64 and they told me they didn't know how to debug it
-  further too.
-
-  I tried all with this package: https://aur.archlinux.org/packages
-  /qemu-arm-static/ =E2=80=94=C2=A0I'm currently compiling qemu-git to see =
-if it
-  happens on upstream too. Will comment when it's done.
-
-  Thank you in advance!
+  It appears to be a deflate glitch of some sort - all of the bad pixels
+  are generated by length/distance codes. Can't narrow it down any more.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858046/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1858623/+subscriptions
 
