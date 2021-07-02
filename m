@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E5D3B9C08
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 07:42:40 +0200 (CEST)
-Received: from localhost ([::1]:47158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB453B9C09
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 07:42:45 +0200 (CEST)
+Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzBwl-0005zO-Fv
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 01:42:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36756)
+	id 1lzBwq-00062E-Bu
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 01:42:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lzBu2-0004OS-5p; Fri, 02 Jul 2021 01:39:50 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:40771)
+ id 1lzBu5-0004QD-IR; Fri, 02 Jul 2021 01:39:53 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lzBso-0004jX-OO; Fri, 02 Jul 2021 01:39:49 -0400
-Received: by mail-il1-x132.google.com with SMTP id g3so8690029ilj.7;
- Thu, 01 Jul 2021 22:38:33 -0700 (PDT)
+ id 1lzBtF-0004sS-1x; Fri, 02 Jul 2021 01:39:53 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id u14so8500214pga.11;
+ Thu, 01 Jul 2021 22:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
@@ -34,14 +34,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
  bh=zOHpxqlNU6qbG9w5aQoNAnWltWKZQBDdpjTdSikuWQg=;
- b=ProISBVK3g+JUkYe92Hq+K1ISLNdJGlZiPiQtCEVg88TrWqQ3iuxUtwijgzGJJ1YVV
- fpsAgchpqrMrUl9eZyci0Y+7ZgFd6p9b2gBJ8qvXOogITD479QHp2CUYbrlQHww8xjEP
- niN7SK3WBhDDbS67XSZCVLFYoPQoFQROwD76A1PyNIdPAD58uZ0JLftPtb2KGkd9FAxU
- U+kFm9IGNFiWz32FwdYJ2cAP3G7EyDXlqk7lBZ5JsqxA2wRNpeZaozBXhPAQzfrCLaVs
- NvhYL4ctXUSIZBbj98DVzOTC1dheu5Pw8pYCKKCSyuIRF0HzBADqBDyNn9ypBemHWGbt
- 0apg==
-X-Gm-Message-State: AOAM532jZ7ZMxUMKwziSbcNWMfQoSlgNi/hQnvlKpK8reuBAaMLY/GAM
- WMtq87J7XtvgVYISvTCfjKxq9Q4S2VdjgFlf8Ck=
+ b=W/KYm7nkseSICK3SDWktf+EmOB0GOpkRti0JAynEPbkHRMIYxQp9kwrmOr0/rzu5M7
+ VmviKzhMNUjnyfxIxekj1FaxjB2bPtSluDqhPXquyWDHcC4ahWohVMOC8pK2D47i4aKk
+ +6/nlJrgI5Z2IB/uFB3+ThqpEPOGLBnMLa+qObZnRQZn6wKJYa8PcktMyBJuG/XtMm8X
+ XjSdoTN09lxcrZ3mHkvIU+yYssL+ln/7XVpzoyTcL0tUu1u19+QuRg6L5kkIcH+GsRhm
+ yYFVpzkqSRKBcpF1tuq9uBeccqqeEeaE6UQG/7QemkFSZVr61ETtNalDEAZCh3jszbDc
+ Jg5w==
+X-Gm-Message-State: AOAM533W4NTCnk7hIWP3aoeTg5MX0cwnCYJpwXi5C2XmSPn2vGLq0iJc
+ nOI7r1MVzX2RyMFUFM9yo643KhAA7zfcAJ1++VF/ZMhK+fE=
 X-Google-Smtp-Source: ABdhPJxUdafZVkfzouUoixbMKOXgZ1ctzAeradKJ1xT1Evc0eoGC9COhaeW0evqSVuxjtlvrddjPZJXCcX1zRuPR3yg=
 X-Received: by 2002:a05:6e02:20c3:: with SMTP id
  3mr2093900ilq.131.1625204312614; 
@@ -60,8 +60,8 @@ Subject: Re: [RFC PATCH 01/11] target/riscv: Add CLIC CSR mintstatus
 To: Frank Chang <frank.chang@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -69,7 +69,7 @@ X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
