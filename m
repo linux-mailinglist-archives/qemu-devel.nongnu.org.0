@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95073B9CB1
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 09:02:45 +0200 (CEST)
-Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F9B3B9CBB
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 09:08:07 +0200 (CEST)
+Received: from localhost ([::1]:60418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzDCG-0004QZ-H1
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 03:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
+	id 1lzDHS-0006LM-Dm
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 03:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lzDAu-0003i5-02
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 03:01:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56269)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lzDGM-0005eK-2D
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 03:06:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lzDAp-0004FF-8T
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 03:01:18 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lzDGK-0000Gu-2K
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 03:06:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625209272;
+ s=mimecast20190719; t=1625209615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r17yWP4t2AuK+lFFLzu032Te6SzAp9xnkHqPcL8vqiU=;
- b=XenU6canDdi/L0vCA4GhAzPIJ4bP4/GHHaPjJjNQjfYGo6mmmlBVNYzuY7kxpCi+zfASBp
- SSX5cWHv5cZiG1q8e6iFC5NYltGn6qj2bJaC4mjk9S/5EczpDPVL8GgUCP6l6hEXFPjUY+
- UM+eeyXLDxi5EP2+uNRWUXo+fy5B+2A=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-T9f3gOxWPWy2As-04uc2Zw-1; Fri, 02 Jul 2021 03:01:10 -0400
-X-MC-Unique: T9f3gOxWPWy2As-04uc2Zw-1
-Received: by mail-pg1-f197.google.com with SMTP id
- m13-20020a633f0d0000b0290222ece48979so6000199pga.1
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 00:01:10 -0700 (PDT)
+ bh=TzIlk66yEx93g1wZGKIlqOLGCHpKNJUpHs98PZcHugE=;
+ b=Cv38RATcheeDoPzpj9jy6LSuwMAGKQ1cHjjBtEKFvTMxW1CDOSUN0pr2iQL7EzrG+gAGQw
+ DPHcmN6CmkiXADa8HFf2oiWS/6cUSB6J9O3hbObcrpn5bVp3MS9qhinz57WPsFh38rLFdF
+ PNDFH/qvQ5TXV4JygQpmdAxZZGaqO1k=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-WaqNapl8MEWJMJ2Sa70FFg-1; Fri, 02 Jul 2021 03:06:47 -0400
+X-MC-Unique: WaqNapl8MEWJMJ2Sa70FFg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 13-20020a1c010d0000b02901eca51685daso5866753wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 00:06:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=r17yWP4t2AuK+lFFLzu032Te6SzAp9xnkHqPcL8vqiU=;
- b=Tf8dP8rnfBRKxIvR+cc90IdW7BDHNz0MP/6eKZa+vH3Wb6MieyyW6JSKCM5zo0+Ntg
- 36I9/X4TReABjvaDBvX7ksfym0MFB/92gzilKlhy5H519e2qU8RpMesDVBDVhw373iZt
- KDvhor3JSWIpZyGEQJ6ZmDVSxZuvL/Nbs2Q96I7oCoga8H7Af6yZDSH0YJ/UKmKqrJhm
- Ei5aWAbMWMKa0XSExzjmUoBZFK+5FKkSHaHZuVRGGmMbWubRIPzXBzk4KREILNxQELwe
- mWiwaVbiglSmJM2JeK9RJdShxOeQSuIXAbqvJAslE02ELPgJJbk/riEhsQohR3aUEIRS
- kSxQ==
-X-Gm-Message-State: AOAM531/krUn6s8ST6dGvTmtx/sscwX14+KIijUe+IuoyBoSEqngA4zP
- WJqI+YWdAMZeRe4DdJ//IRgwh9CLRiBWceQAhikQmgkkPmIbRmh3lqM4t50vIGEMGBpFdrHY5+z
- QjbBdNy9/dPUcSCE=
-X-Received: by 2002:a17:90b:3cc:: with SMTP id
- go12mr3578949pjb.232.1625209269355; 
- Fri, 02 Jul 2021 00:01:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/bu/HKIwo2YfPQnQQNZviqYEyLB/T6bIhYIbuDaDCog92IvCXFstGyrx5TY2ZwGPCPXnk1A==
-X-Received: by 2002:a17:90b:3cc:: with SMTP id
- go12mr3578930pjb.232.1625209269064; 
- Fri, 02 Jul 2021 00:01:09 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id i1sm9716851pjs.31.2021.07.02.00.01.06
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=TzIlk66yEx93g1wZGKIlqOLGCHpKNJUpHs98PZcHugE=;
+ b=IUbr14EZVtg7yboydraffrWnilE+YnxcGNy/obUN5d6r80KnopFRhAmeupBgqtQ5Zb
+ zAnnMx8rvc4o/LE6nIpOd5iUFooAYD9Qd0Ex9vkfwNztT7A66OHB8IiHfKVOTrglK3Fu
+ XgkEU+7nOo4mzwVEKcDdHFw4cR4FGM/TyVpYtgPV/AZWQntlqZGfYnmmaldv4La7ttfR
+ ibGw4NXc+dGiWmFCk+Xga0u+WRGfbls9/eJW3oHcAYjTY/I2hgLlEe4MmOR0Co6tOVL1
+ m1YeUxMSNIv7hHdlDVy418HG6hffIIbOy0RXnWqfGqVFPh5ysxcJES4A0ihqCczc3J2q
+ D6ug==
+X-Gm-Message-State: AOAM530YI8fyBWdTyM6115lBIYmWwZCsRxRYAma309vtczglz5Ke6kba
+ dSsJnuaiNbdIQu3Zgnp3O1AVy02s/HUD/wq62Y+4CWS0b8G+LbRrhzc+mOivEYU/+xKL+pQtmyW
+ 5UcvJgquvXg/Uq3s=
+X-Received: by 2002:a05:600c:3589:: with SMTP id
+ p9mr15062584wmq.182.1625209606335; 
+ Fri, 02 Jul 2021 00:06:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlfF7cm4bxWkVf+2/D4xg2DDdpzU7jInllEpzdLrG8zACl4Vn0yZ9Krqu/9hY0+7FBpFdd2w==
+X-Received: by 2002:a05:600c:3589:: with SMTP id
+ p9mr15062561wmq.182.1625209606111; 
+ Fri, 02 Jul 2021 00:06:46 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23afb.dip0.t-ipconnect.de. [79.242.58.251])
+ by smtp.gmail.com with ESMTPSA id 31sm2409475wrs.79.2021.07.02.00.06.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 00:01:08 -0700 (PDT)
-Subject: Re: [PATCH 2/3] hw/net: e1000e: Correct the initial value of VET
- register
-To: Bin Meng <bmeng.cn@gmail.com>
-References: <20210701094651.1258613-1-bmeng.cn@gmail.com>
- <20210701094651.1258613-2-bmeng.cn@gmail.com>
- <005fb7e4-c73b-41f2-a42c-3f416d3508cf@redhat.com>
- <CAEUhbmWcQRP4mH6DQcjx_Wv=d=EcdJzdhWYgQJYXY9MV6YGUJQ@mail.gmail.com>
- <7c799472-9e18-9f82-87db-ea43dae58f86@redhat.com>
- <CAEUhbmUPR1bwECosEJVqM+-xA8nceMW4rfKhHAe2NKOf4cAb6A@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <4b5b55bc-c9a1-de7b-ff4e-2bbfb543c3d3@redhat.com>
-Date: Fri, 2 Jul 2021 15:01:04 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ Fri, 02 Jul 2021 00:06:45 -0700 (PDT)
+To: "Wang, Wei W" <wei.w.wang@intel.com>, Peter Xu <peterx@redhat.com>
+References: <20210630200805.280905-1-peterx@redhat.com>
+ <33f137dae5c346078a3a7a658bb5f1ab@intel.com> <YN26SDxZS1aShbHi@t490s>
+ <304fc749-03a0-b58d-05cc-f0d78350e015@redhat.com>
+ <604935aa45114d889800f6ccc23c6b13@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Message-ID: <824a1d77-eab0-239f-5104-49c49d6ad285@redhat.com>
+Date: Fri, 2 Jul 2021 09:06:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmUPR1bwECosEJVqM+-xA8nceMW4rfKhHAe2NKOf4cAb6A@mail.gmail.com>
+In-Reply-To: <604935aa45114d889800f6ccc23c6b13@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -107,102 +104,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Christina Wang <christina.wang@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Carlstedt <markus.carlstedt@windriver.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 02.07.21 04:48, Wang, Wei W wrote:
+> On Thursday, July 1, 2021 10:22 PM, David Hildenbrand wrote:
+>> On 01.07.21 14:51, Peter Xu wrote:
+>> Spoiler alert: the introduction of clean bitmaps partially broke free page hinting
+>> already (as clearing happens deferred -- and might never happen if we don't
+>> migrate *any* page within a clean bitmap chunk, so pages actually remain
+>> dirty ...). "broke" here means that pages still get migrated even though they
+>> were reported by the guest. We'd actually not want to use clean bmaps with free
+>> page hinting ... long story short, free page hinting is a very fragile beast already
+>> and some of the hints are basically ignored and pure overhead ...
+> 
+> Not really. Both clear_bmap and free page hint are to "clear" the bitmap.
+> No matter who comes first to clear it, it won’t cause more (unexpected) pages to be sent.
 
-在 2021/7/2 下午2:12, Bin Meng 写道:
-> On Fri, Jul 2, 2021 at 1:47 PM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2021/7/2 下午12:43, Bin Meng 写道:
->>> On Fri, Jul 2, 2021 at 11:29 AM Jason Wang <jasowang@redhat.com> wrote:
->>>> 在 2021/7/1 下午5:46, Bin Meng 写道:
->>>>> From: Christina Wang <christina.wang@windriver.com>
->>>>>
->>>>> The initial value of VLAN Ether Type (VET) register is 0x8100, as per
->>>>> the manual and real hardware.
->>>>>
->>>>> While Linux e1000e driver always writes VET register to 0x8100, it is
->>>>> not always the case for everyone. Drivers relying on the reset value
->>>>> of VET won't be able to transmit and receive VLAN frames in QEMU.
->>>>>
->>>>> Unlike e1000 in QEMU, e1000e uses a field 'vet' in "struct E1000Core"
->>>>> to cache the value of VET register, but the cache only gets updated
->>>>> when VET register is written. To always get a consistent VET value
->>>>> no matter VET is written or remains its reset value, drop the 'vet'
->>>>> field and use 'core->mac[VET]' directly.
->>>>>
->>>>> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
->>>>> Signed-off-by: Christina Wang <christina.wang@windriver.com>
->>>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->>>>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->>>>> ---
->>>>>
->>>>>     hw/net/e1000e_core.h |  2 --
->>>>>     hw/net/e1000e.c      |  6 ++----
->>>>>     hw/net/e1000e_core.c | 11 ++++++-----
->>>>>     3 files changed, 8 insertions(+), 11 deletions(-)
->>>>>
->>>>> diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
->>>>> index 4ddb4d2c39..07d722bc68 100644
->>>>> --- a/hw/net/e1000e_core.h
->>>>> +++ b/hw/net/e1000e_core.h
->>>>> @@ -105,8 +105,6 @@ struct E1000Core {
->>>>>         uint32_t itr_guest_value;
->>>>>         uint32_t eitr_guest_value[E1000E_MSIX_VEC_NUM];
->>>>>
->>>>> -    uint16_t vet;
->>>>> -
->>>>>         uint8_t permanent_mac[ETH_ALEN];
->>>>>
->>>>>         NICState *owner_nic;
->>>>> diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
->>>>> index a8a77eca95..1797e4a7cb 100644
->>>>> --- a/hw/net/e1000e.c
->>>>> +++ b/hw/net/e1000e.c
->>>>> @@ -602,8 +602,8 @@ static const VMStateDescription e1000e_vmstate_intr_timer = {
->>>>>
->>>>>     static const VMStateDescription e1000e_vmstate = {
->>>>>         .name = "e1000e",
->>>>> -    .version_id = 1,
->>>>> -    .minimum_version_id = 1,
->>>>> +    .version_id = 2,
->>>>> +    .minimum_version_id = 2,
->>>>>         .pre_save = e1000e_pre_save,
->>>>>         .post_load = e1000e_post_load,
->>>>>         .fields = (VMStateField[]) {
->>>>> @@ -645,8 +645,6 @@ static const VMStateDescription e1000e_vmstate = {
->>>>>             VMSTATE_UINT32_ARRAY(core.eitr_guest_value, E1000EState,
->>>>>                                  E1000E_MSIX_VEC_NUM),
->>>>>
->>>>> -        VMSTATE_UINT16(core.vet, E1000EState),
->>>> This is not the suggested way. We'd better not bump version in this case.
->>>>
->>>> How about update vet during post_load?
->>> But core.vet is removed in this patch. Not sure how to handle this?
->>
->> Keep using core.vet, sync core.vet with mac[VET] during post_load.
->>
-> But keeping using core.vet in the e1000e_core.c will cause mismatch
-> with mac[VET] as the commit message says.
->
-> We can still keep the 'vet' field in the "struct E1000Core", and keep
-> the "VMSTATE_UINT16(core.vet, E1000EState)" here, but it is useless in
-> the new code.
+I was able to reproduce something like that before my vacation by 
+starting a 8GB VM, wait until Linux is up, migrate it.
+
+With clear_bmap:
+
+QEMU 6.0.50 monitor - type 'help' for more information
+(qemu) info migrate
+globals:
+store-global-state: on
+only-migratable: off
+send-configuration: on
+send-section-footer: on
+decompress-error-check: on
+clear-bitmap-shift: 18
+Migration status: completed
+total time: 4532 ms
+downtime: 4 ms
+setup: 3 ms
+transferred ram: 578480 kbytes
+throughput: 1047.05 mbps
+remaining ram: 0 kbytes
+total ram: 8389384 kbytes
+duplicate: 1080349 pages
+skipped: 0 pages
+normal: 141969 pages
+normal bytes: 567876 kbytes
+dirty sync count: 4
+page size: 4 kbytes
+multifd bytes: 0 kbytes
+pages-per-second: 4102921
+(qemu)
+
+Without clear_bmap:
+
+(qemu) info migrate
+globals:
+store-global-state: on
+only-migratable: off
+send-configuration: on
+send-section-footer: on
+decompress-error-check: on
+clear-bitmap-shift: 18
+Migration status: completed
+total time: 4891 ms
+downtime: 61 ms
+setup: 29 ms
+transferred ram: 666400 kbytes
+throughput: 1123.47 mbps
+remaining ram: 0 kbytes
+total ram: 8389384 kbytes
+duplicate: 33427 pages
+skipped: 0 pages
+normal: 166202 pages
+normal bytes: 664808 kbytes
+dirty sync count: 4
+page size: 4 kbytes
+multifd bytes: 0 kbytes
+pages-per-second: 32386
+(qemu)
+
+Without free page hinting:
+
+QEMU 6.0.50 monitor - type 'help' for more information
+(qemu) info migrate
+globals:
+store-global-state: on
+only-migratable: off
+send-configuration: on
+send-section-footer: on
+decompress-error-check: on
+clear-bitmap-shift: 18
+Migration status: completed
+total time: 4975 ms
+downtime: 48 ms
+setup: 3 ms
+transferred ram: 639982 kbytes
+throughput: 1055.09 mbps
+remaining ram: 0 kbytes
+total ram: 8389384 kbytes
+duplicate: 1942431 pages
+skipped: 0 pages
+normal: 155424 pages
+normal bytes: 621696 kbytes
+dirty sync count: 3
+page size: 4 kbytes
+multifd bytes: 0 kbytes
+pages-per-second: 32386
+(qemu)
 
 
-The point is to unbreak migration to old version.
+Take a look at "duplicate". We seem to end up reading+migrating a lot 
+more pages (all filled with zero, as the guest never touched them) with 
+clear_bmap, but not as much as with free page hinting disabled.
 
-Thanks
+
+Repeating the same experiment (not performing the "no free page hinting" 
+step) by running "memhog 7g" in the guest before migrating, such that we 
+don't have all-zero pages:
+
+With clear_bmap:
+
+QEMU 6.0.50 monitor - type 'help' for more information
+(qemu) info migrate
+globals:
+store-global-state: on
+only-migratable: off
+send-configuration: on
+send-section-footer: on
+decompress-error-check: on
+clear-bitmap-shift: 18
+Migration status: completed
+total time: 28574 ms
+downtime: 73 ms
+setup: 4 ms
+transferred ram: 3715000 kbytes
+throughput: 1065.33 mbps
+remaining ram: 0 kbytes
+total ram: 8389384 kbytes
+duplicate: 21472 pages
+skipped: 0 pages
+normal: 926892 pages
+normal bytes: 3707568 kbytes
+dirty sync count: 4
+page size: 4 kbytes
+multifd bytes: 0 kbytes
+pages-per-second: 32710
+(qemu)
+
+Without clear_bmap:
+
+QEMU 6.0.50 monitor - type 'help' for more information
+(qemu) info migrate
+globals:
+store-global-state: on
+only-migratable: off
+send-configuration: on
+send-section-footer: on
+decompress-error-check: on
+clear-bitmap-shift: 18
+Migration status: completed
+total time: 5818 ms
+downtime: 24 ms
+setup: 29 ms
+transferred ram: 672486 kbytes
+throughput: 952.18 mbps
+remaining ram: 0 kbytes
+total ram: 8389384 kbytes
+duplicate: 19449 pages
+skipped: 0 pages
+normal: 167751 pages
+normal bytes: 671004 kbytes
+dirty sync count: 4
+page size: 4 kbytes
+multifd bytes: 0 kbytes
+pages-per-second: 32710
+(qemu)
 
 
->
-> Regards,
-> Bin
->
+
+I think that clearly shows the issue.
+
+My theory I did not verify yet: Assume we have 1GB chunks in the clear 
+bmap. Assume the VM reports all pages within a 1GB chunk as free (easy 
+with a fresh VM). While processing hints, we will clear the bits from 
+the dirty bmap in the RAMBlock. As we will never migrate any page of 
+that 1GB chunk, we will not actually clear the dirty bitmap of the 
+memory region. When re-syncing, we will set all bits bits in the dirty 
+bmap again from the dirty bitmap in the memory region. Thus, many of our 
+hints end up being mostly ignored. The smaller the clear bmap chunk, the 
+more extreme the issue.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
