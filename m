@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F9A3B9E44
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:32:07 +0200 (CEST)
-Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775FF3B9E47
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:33:36 +0200 (CEST)
+Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzFWm-0008OK-Tp
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:32:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40656)
+	id 1lzFYF-0003FJ-I2
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFQ4-0005ON-6X
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:25:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21348)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFQI-0005lN-Dy
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:25:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFQ2-0001l2-2t
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:25:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFQA-0001rP-Fj
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:25:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625217905;
+ s=mimecast20190719; t=1625217913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2DiP3BDoXXRMG7E5lnGiuw8kLZOvB50ScwR/oV8195s=;
- b=iSGTY6n5J09MNpbWq4kEXmJRzRTdFo5m13YFVLkZJaqjh/LPjU5BeP0lDxRV8wn19MZabg
- z/i2IQ+tbgfNBuo/MML13AvqVxEg8scZv4IdseTQF5QBPoSgx8Zh69hA92rhEL+Fg5e/KZ
- 200WIPqu5FdDKZeY+nWjs0QLoPa3kLY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-Hex8HfBvMW-V0wjeEsJghg-1; Fri, 02 Jul 2021 05:25:02 -0400
-X-MC-Unique: Hex8HfBvMW-V0wjeEsJghg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- i17-20020a5d43910000b02901258b767ad5so3687897wrq.2
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:25:01 -0700 (PDT)
+ bh=wovYqlv5diazsDyxYSvnGuwQcZm93XmdRsbIEZ0iPcQ=;
+ b=Qb8B71LWF2No+MdL5Behyo6L+fV8oI9/6C0wYeEkM0kWelyeY6JUMqT2TueiXpcvE5xErE
+ jtuDYWL00gzPJLRWISkf7f2Oe5yXEREgdiv5/qU8WTf7XK1p2nBIbiv9o4nFsCf853MsdN
+ Ggm/AVh+dxQxclOB5r2Kje3Mcq8dVkg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-0qQKuYRqMPOx1ep3xe15Yg-1; Fri, 02 Jul 2021 05:25:13 -0400
+X-MC-Unique: 0qQKuYRqMPOx1ep3xe15Yg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h104-20020adf90710000b029010de8455a3aso3670195wrh.12
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:25:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2DiP3BDoXXRMG7E5lnGiuw8kLZOvB50ScwR/oV8195s=;
- b=ivxH5IjwBHipI9H53VpRLpoSdnZbsCttPZmrg97eWZiE9QgxWhiDERNoRyBit/dENv
- GI+qaKEDDp/fidF7UH+ZtdBoOA/+5zjgkz7Vac5dBECJISs8gfNbLfKwDyyfM/0xDjQM
- jGT9u5/i7q1OQTyz31E/v22PKmGBPdVhzShPETy9XULi7nc8f0VLga9EuwZdoxmvQYjM
- 4xkFWVNlMrgytB9PjgqEKTdHv2D7aQbqN4pT68v2/ugStdXKgni6QAQXsVjC7CuWZ3H9
- szMtZMQGi/J3rZ31odkrhtLGSPNIXzlM/8+uVC4WDYYkPVBZ6R3AZfqzcQHVl/juPpaI
- 6qwg==
-X-Gm-Message-State: AOAM530wU6Rjxc9iXUWLw1jS8pcngKQhLyAt1O+gfUj/VXmqG/pQyvZT
- KLyxt1v0YnWSSuto8GG1EFGuYBms/gscvBmgp1q+e7npxFuK3mGated7wKefO0nWsU6bfhkjT9V
- ORc/JVb4w7j+upYgzdBvimYLpyUPxqmsxRORdFnTU+oYF+JGVENO2GyvnnNi4xQgb
-X-Received: by 2002:a05:600c:1c8b:: with SMTP id
- k11mr15337762wms.41.1625217900752; 
- Fri, 02 Jul 2021 02:25:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxd/h1IWfeKbPXwgQI9YWIVcyNxm+9KYo0T4u5NzIc2NbzpQ+KesS2RpoU641dzQaXk99hpcQ==
-X-Received: by 2002:a05:600c:1c8b:: with SMTP id
- k11mr15337740wms.41.1625217900574; 
- Fri, 02 Jul 2021 02:25:00 -0700 (PDT)
+ bh=wovYqlv5diazsDyxYSvnGuwQcZm93XmdRsbIEZ0iPcQ=;
+ b=HZOgFXzDo0/+hGRpkRmpzJnT68I97HdrWIymqXDJ4rRSC6CcSO/CuNl570tCDLg8Nh
+ qs+PakE4mowm+81ML1Aog39hnBfpyspr+Y87CXq1+XxbCX4gnU/Oq3yuRfLmiRsuCNCv
+ QgCGYDdi6bzi8DPggvtLzPcuDhFHqVOCVca8KYBVKW2axYC1x9u144TwCOEd8jC3WQ3J
+ N4nisTcYJuYYukl9jbPE4p59nVZzVbixgOUxnUHl4WfdIFxMkCJ9XaLnLnZi3pWYoW28
+ n1eLfSIueG/D3QcD9BITddQic4Kkl41gPFWRx3mquzZh7MVYT5j0IlGP8xWfV7Mxtmhn
+ TJEg==
+X-Gm-Message-State: AOAM532jf9Hec+eC0dDPd6CTeTpgHIZyTWHNRmTg/9l0MoOYeN7RRjpC
+ L6XMbgQYOmCaYA8IJW9BS4fiwYPgy7HjLP5ntwsH/Rl9ATJKl9wR5AN9DVRi9tj3xvkFX37+xgI
+ XLPAEka4ANKf5fxdFX7RRF3LXLfrCpLi+fj/VPTfmi3MVbm1uyoJHg2DeStEqZ+yy
+X-Received: by 2002:a7b:c318:: with SMTP id k24mr4420510wmj.144.1625217911297; 
+ Fri, 02 Jul 2021 02:25:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAXKC/Bkt38oMUGRow7dHAsRohBP8m94azHWvVRpkJGngSSh70QnzumEUDclnnL5+n8+HfAQ==
+X-Received: by 2002:a7b:c318:: with SMTP id k24mr4420463wmj.144.1625217910827; 
+ Fri, 02 Jul 2021 02:25:10 -0700 (PDT)
 Received: from x1w.Ascou-CH1 (pop.92-184-108-94.mobile.abo.orange.fr.
  [92.184.108.94])
- by smtp.gmail.com with ESMTPSA id e15sm2537357wrm.60.2021.07.02.02.24.59
+ by smtp.gmail.com with ESMTPSA id w8sm2573709wre.70.2021.07.02.02.25.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 02:25:00 -0700 (PDT)
+ Fri, 02 Jul 2021 02:25:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] dma: Let dma_memory_rw() take MemTxAttrs argument
-Date: Fri,  2 Jul 2021 11:24:37 +0200
-Message-Id: <20210702092439.989969-5-philmd@redhat.com>
+Subject: [PATCH v3 6/6] dma: Let dma_memory_map() take MemTxAttrs argument
+Date: Fri,  2 Jul 2021 11:24:39 +0200
+Message-Id: <20210702092439.989969-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210702092439.989969-1-philmd@redhat.com>
 References: <20210702092439.989969-1-philmd@redhat.com>
@@ -106,146 +104,215 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Let devices specify transaction attributes when calling
-dma_memory_rw().
+dma_memory_map().
+
+Patch created mechanically using spatch with this script:
+
+  @@
+  expression E1, E2, E3, E4;
+  @@
+  - dma_memory_map(E1, E2, E3, E4)
+  + dma_memory_map(E1, E2, E3, E4, MEMTXATTRS_UNSPECIFIED)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/pci/pci.h  |  3 ++-
- include/sysemu/dma.h  | 11 ++++++-----
- hw/intc/spapr_xive.c  |  3 ++-
- hw/usb/hcd-ohci.c     | 10 ++++++----
- softmmu/dma-helpers.c |  3 ++-
- 5 files changed, 18 insertions(+), 12 deletions(-)
+ include/hw/pci/pci.h    |  3 ++-
+ include/sysemu/dma.h    |  5 +++--
+ hw/display/virtio-gpu.c | 10 ++++++----
+ hw/hyperv/vmbus.c       |  8 +++++---
+ hw/ide/ahci.c           |  8 +++++---
+ hw/usb/libhw.c          |  3 ++-
+ hw/virtio/virtio.c      |  6 ++++--
+ softmmu/dma-helpers.c   |  3 ++-
+ 8 files changed, 29 insertions(+), 17 deletions(-)
 
 diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 6be4e0c460c..252c91686de 100644
+index 252c91686de..49d86d4e5dd 100644
 --- a/include/hw/pci/pci.h
 +++ b/include/hw/pci/pci.h
-@@ -801,7 +801,8 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                                      void *buf, dma_addr_t len,
-                                      DMADirection dir)
+@@ -868,7 +868,8 @@ static inline void *pci_dma_map(PCIDevice *dev, dma_addr_t addr,
  {
--    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
-+    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-+                         dir, MEMTXATTRS_UNSPECIFIED);
+     void *buf;
+ 
+-    buf = dma_memory_map(pci_get_address_space(dev), addr, plen, dir);
++    buf = dma_memory_map(pci_get_address_space(dev), addr, plen, dir,
++                         MEMTXATTRS_UNSPECIFIED);
+     return buf;
  }
  
- /**
 diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index 3be803cf3ff..e8ad42226f6 100644
+index 522682bf386..97ff6f29f8c 100644
 --- a/include/sysemu/dma.h
 +++ b/include/sysemu/dma.h
-@@ -121,15 +121,15 @@ static inline MemTxResult dma_memory_write_relaxed(AddressSpace *as,
-  * @buf: buffer with the data transferred
-  * @len: the number of bytes to read or write
+@@ -202,16 +202,17 @@ MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
+  * @addr: address within that address space
+  * @len: pointer to length of buffer; updated on return
   * @dir: indicates the transfer direction
-+ * @attrs: memory transaction attributes
++ * @attrs: memory attributes
   */
- static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
-                                         void *buf, dma_addr_t len,
--                                        DMADirection dir)
-+                                        DMADirection dir, MemTxAttrs attrs)
+ static inline void *dma_memory_map(AddressSpace *as,
+                                    dma_addr_t addr, dma_addr_t *len,
+-                                   DMADirection dir)
++                                   DMADirection dir, MemTxAttrs attrs)
  {
-     dma_barrier(as, dir);
+     hwaddr xlen = *len;
+     void *p;
  
--    return dma_memory_rw_relaxed(as, addr, buf, len, dir,
--                                 MEMTXATTRS_UNSPECIFIED);
-+    return dma_memory_rw_relaxed(as, addr, buf, len, dir, attrs);
+     p = address_space_map(as, addr, &xlen, dir == DMA_DIRECTION_FROM_DEVICE,
+-                          MEMTXATTRS_UNSPECIFIED);
++                          attrs);
+     *len = xlen;
+     return p;
  }
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index e183f4ecdaa..ea64470cc53 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -820,8 +820,9 @@ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
  
- /**
-@@ -147,7 +147,8 @@ static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
- static inline MemTxResult dma_memory_read(AddressSpace *as, dma_addr_t addr,
-                                           void *buf, dma_addr_t len)
- {
--    return dma_memory_rw(as, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
-+    return dma_memory_rw(as, addr, buf, len,
-+                         DMA_DIRECTION_TO_DEVICE, MEMTXATTRS_UNSPECIFIED);
- }
+         do {
+             len = l;
+-            map = dma_memory_map(VIRTIO_DEVICE(g)->dma_as,
+-                                 a, &len, DMA_DIRECTION_TO_DEVICE);
++            map = dma_memory_map(VIRTIO_DEVICE(g)->dma_as, a, &len,
++                                 DMA_DIRECTION_TO_DEVICE,
++                                 MEMTXATTRS_UNSPECIFIED);
+             if (!map) {
+                 qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to map MMIO memory for"
+                               " element %d\n", __func__, e);
+@@ -1232,8 +1233,9 @@ static int virtio_gpu_load(QEMUFile *f, void *opaque, size_t size,
+         for (i = 0; i < res->iov_cnt; i++) {
+             hwaddr len = res->iov[i].iov_len;
+             res->iov[i].iov_base =
+-                dma_memory_map(VIRTIO_DEVICE(g)->dma_as,
+-                               res->addrs[i], &len, DMA_DIRECTION_TO_DEVICE);
++                dma_memory_map(VIRTIO_DEVICE(g)->dma_as, res->addrs[i], &len,
++                               DMA_DIRECTION_TO_DEVICE,
++                               MEMTXATTRS_UNSPECIFIED);
  
- /**
-@@ -166,7 +167,7 @@ static inline MemTxResult dma_memory_write(AddressSpace *as, dma_addr_t addr,
-                                            const void *buf, dma_addr_t len)
- {
-     return dma_memory_rw(as, addr, (void *)buf, len,
--                         DMA_DIRECTION_FROM_DEVICE);
-+                         DMA_DIRECTION_FROM_DEVICE, MEMTXATTRS_UNSPECIFIED);
- }
+             if (!res->iov[i].iov_base || len != res->iov[i].iov_len) {
+                 /* Clean up the half-a-mapping we just created... */
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index 984caf898dc..25420eaea38 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -373,7 +373,8 @@ static ssize_t gpadl_iter_io(GpadlIter *iter, void *buf, uint32_t len)
  
- /**
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 89cfa018f59..91e733e74cd 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -1684,7 +1684,8 @@ static target_ulong h_int_esb(PowerPCCPU *cpu,
-         mmio_addr = xive->vc_base + xive_source_esb_mgmt(xsrc, lisn) + offset;
+             maddr = (iter->gpadl->gfns[idx] << TARGET_PAGE_BITS) | off_in_page;
  
-         if (dma_memory_rw(&address_space_memory, mmio_addr, &data, 8,
--                          (flags & SPAPR_XIVE_ESB_STORE))) {
-+                          (flags & SPAPR_XIVE_ESB_STORE),
-+                          MEMTXATTRS_UNSPECIFIED)) {
-             qemu_log_mask(LOG_GUEST_ERROR, "XIVE: failed to access ESB @0x%"
-                           HWADDR_PRIx "\n", mmio_addr);
-             return H_HARDWARE;
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 1cf2816772c..56e2315c734 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -586,7 +586,8 @@ static int ohci_copy_td(OHCIState *ohci, struct ohci_td *td,
-     if (n > len)
-         n = len;
+-            iter->map = dma_memory_map(iter->as, maddr, &mlen, iter->dir);
++            iter->map = dma_memory_map(iter->as, maddr, &mlen, iter->dir,
++                                       MEMTXATTRS_UNSPECIFIED);
+             if (mlen != pgleft) {
+                 dma_memory_unmap(iter->as, iter->map, mlen, iter->dir, 0);
+                 iter->map = NULL;
+@@ -490,7 +491,8 @@ int vmbus_map_sgl(VMBusChanReq *req, DMADirection dir, struct iovec *iov,
+                 goto err;
+             }
  
--    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf, n, dir)) {
-+    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
-+                      n, dir, MEMTXATTRS_UNSPECIFIED)) {
+-            iov[ret_cnt].iov_base = dma_memory_map(sgl->as, a, &l, dir);
++            iov[ret_cnt].iov_base = dma_memory_map(sgl->as, a, &l, dir,
++                                                   MEMTXATTRS_UNSPECIFIED);
+             if (!l) {
+                 ret = -EFAULT;
+                 goto err;
+@@ -566,7 +568,7 @@ static vmbus_ring_buffer *ringbuf_map_hdr(VMBusRingBufCommon *ringbuf)
+     dma_addr_t mlen = sizeof(*rb);
+ 
+     rb = dma_memory_map(ringbuf->as, ringbuf->rb_addr, &mlen,
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, MEMTXATTRS_UNSPECIFIED);
+     if (mlen != sizeof(*rb)) {
+         dma_memory_unmap(ringbuf->as, rb, mlen,
+                          DMA_DIRECTION_FROM_DEVICE, 0);
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index f2c51574839..0b4acb4a783 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -249,7 +249,8 @@ static void map_page(AddressSpace *as, uint8_t **ptr, uint64_t addr,
+         dma_memory_unmap(as, *ptr, len, DMA_DIRECTION_FROM_DEVICE, len);
+     }
+ 
+-    *ptr = dma_memory_map(as, addr, &len, DMA_DIRECTION_FROM_DEVICE);
++    *ptr = dma_memory_map(as, addr, &len, DMA_DIRECTION_FROM_DEVICE,
++                          MEMTXATTRS_UNSPECIFIED);
+     if (len < wanted && *ptr) {
+         dma_memory_unmap(as, *ptr, len, DMA_DIRECTION_FROM_DEVICE, len);
+         *ptr = NULL;
+@@ -939,7 +940,8 @@ static int ahci_populate_sglist(AHCIDevice *ad, QEMUSGList *sglist,
+ 
+     /* map PRDT */
+     if (!(prdt = dma_memory_map(ad->hba->as, prdt_addr, &prdt_len,
+-                                DMA_DIRECTION_TO_DEVICE))){
++                                DMA_DIRECTION_TO_DEVICE,
++                                MEMTXATTRS_UNSPECIFIED))){
+         trace_ahci_populate_sglist_no_map(ad->hba, ad->port_no);
          return -1;
      }
-     if (n == len) {
-@@ -595,7 +596,7 @@ static int ohci_copy_td(OHCIState *ohci, struct ohci_td *td,
-     ptr = td->be & ~0xfffu;
-     buf += n;
-     if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
--                      len - n, dir)) {
-+                      len - n, dir, MEMTXATTRS_UNSPECIFIED)) {
+@@ -1301,7 +1303,7 @@ static int handle_cmd(AHCIState *s, int port, uint8_t slot)
+     tbl_addr = le64_to_cpu(cmd->tbl_addr);
+     cmd_len = 0x80;
+     cmd_fis = dma_memory_map(s->as, tbl_addr, &cmd_len,
+-                             DMA_DIRECTION_TO_DEVICE);
++                             DMA_DIRECTION_TO_DEVICE, MEMTXATTRS_UNSPECIFIED);
+     if (!cmd_fis) {
+         trace_handle_cmd_badfis(s, port);
          return -1;
-     }
-     return 0;
-@@ -613,7 +614,8 @@ static int ohci_copy_iso_td(OHCIState *ohci,
-     if (n > len)
-         n = len;
+diff --git a/hw/usb/libhw.c b/hw/usb/libhw.c
+index 9c33a1640f7..f350eae443d 100644
+--- a/hw/usb/libhw.c
++++ b/hw/usb/libhw.c
+@@ -36,7 +36,8 @@ int usb_packet_map(USBPacket *p, QEMUSGList *sgl)
  
--    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf, n, dir)) {
-+    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
-+                      n, dir, MEMTXATTRS_UNSPECIFIED)) {
-         return -1;
-     }
-     if (n == len) {
-@@ -622,7 +624,7 @@ static int ohci_copy_iso_td(OHCIState *ohci,
-     ptr = end_addr & ~0xfffu;
-     buf += n;
-     if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
--                      len - n, dir)) {
-+                      len - n, dir, MEMTXATTRS_UNSPECIFIED)) {
-         return -1;
-     }
-     return 0;
+         while (len) {
+             dma_addr_t xlen = len;
+-            mem = dma_memory_map(sgl->as, base, &xlen, dir);
++            mem = dma_memory_map(sgl->as, base, &xlen, dir,
++                                 MEMTXATTRS_UNSPECIFIED);
+             if (!mem) {
+                 goto err;
+             }
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index ab516ac6144..b812aeb6057 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -1320,7 +1320,8 @@ static bool virtqueue_map_desc(VirtIODevice *vdev, unsigned int *p_num_sg,
+         iov[num_sg].iov_base = dma_memory_map(vdev->dma_as, pa, &len,
+                                               is_write ?
+                                               DMA_DIRECTION_FROM_DEVICE :
+-                                              DMA_DIRECTION_TO_DEVICE);
++                                              DMA_DIRECTION_TO_DEVICE,
++                                              MEMTXATTRS_UNSPECIFIED);
+         if (!iov[num_sg].iov_base) {
+             virtio_error(vdev, "virtio: bogus descriptor or out of resources");
+             goto out;
+@@ -1369,7 +1370,8 @@ static void virtqueue_map_iovec(VirtIODevice *vdev, struct iovec *sg,
+         sg[i].iov_base = dma_memory_map(vdev->dma_as,
+                                         addr[i], &len, is_write ?
+                                         DMA_DIRECTION_FROM_DEVICE :
+-                                        DMA_DIRECTION_TO_DEVICE);
++                                        DMA_DIRECTION_TO_DEVICE,
++                                        MEMTXATTRS_UNSPECIFIED);
+         if (!sg[i].iov_base) {
+             error_report("virtio: error trying to map MMIO memory");
+             exit(1);
 diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-index 1f07217ad4a..5bf76fff6bd 100644
+index 5bf76fff6bd..3c06a2feddd 100644
 --- a/softmmu/dma-helpers.c
 +++ b/softmmu/dma-helpers.c
-@@ -305,7 +305,8 @@ static uint64_t dma_buf_rw(uint8_t *ptr, int32_t len, QEMUSGList *sg,
-     while (len > 0) {
-         ScatterGatherEntry entry = sg->sg[sg_cur_index++];
-         int32_t xfer = MIN(len, entry.len);
--        dma_memory_rw(sg->as, entry.base, ptr, xfer, dir);
-+        dma_memory_rw(sg->as, entry.base, ptr, xfer, dir,
-+                      MEMTXATTRS_UNSPECIFIED);
-         ptr += xfer;
-         len -= xfer;
-         resid -= xfer;
+@@ -143,7 +143,8 @@ static void dma_blk_cb(void *opaque, int ret)
+     while (dbs->sg_cur_index < dbs->sg->nsg) {
+         cur_addr = dbs->sg->sg[dbs->sg_cur_index].base + dbs->sg_cur_byte;
+         cur_len = dbs->sg->sg[dbs->sg_cur_index].len - dbs->sg_cur_byte;
+-        mem = dma_memory_map(dbs->sg->as, cur_addr, &cur_len, dbs->dir);
++        mem = dma_memory_map(dbs->sg->as, cur_addr, &cur_len, dbs->dir,
++                             MEMTXATTRS_UNSPECIFIED);
+         /*
+          * Make reads deterministic in icount mode. Windows sometimes issues
+          * disk read requests with overlapping SGs. It leads
 -- 
 2.31.1
 
