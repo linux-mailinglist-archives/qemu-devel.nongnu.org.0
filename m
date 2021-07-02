@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D763F3B9DC4
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 10:52:46 +0200 (CEST)
-Received: from localhost ([::1]:39364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D516A3B9DE3
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:08:02 +0200 (CEST)
+Received: from localhost ([::1]:46752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzEuj-00042x-Ep
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 04:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1lzF9V-0001RT-Cz
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzEth-00035b-He
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 04:51:41 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:41828)
+ id 1lzF7z-0000GE-6W
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:06:28 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzEtg-0008Qm-1N
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 04:51:41 -0400
+ id 1lzF7S-0003Kh-5l
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:06:24 -0400
 Received: by mail-wm1-x332.google.com with SMTP id
- a5-20020a7bc1c50000b02901e3bbe0939bso5861000wmj.0
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 01:51:39 -0700 (PDT)
+ r9-20020a7bc0890000b02901f347b31d55so5689436wmh.2
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ix7qV0vGpO93MNHRTfv4LURmm0q0bLRkAZfn0AqTYmo=;
- b=amKHH6Dplq3jCbIl8qSmjssDgYa7EoG/gNRnrTtsfdCy1cd40eEZXCrGG7BELC0539
- +lLxel0oOV/oGU5Uy2ePAmWnjZ+ggYUGTmPh8RUVrQq1G+RUYFyeUGMrEDRxoxgZ7mPu
- LykyqdbLsbDRDFc3xQYr/50UN7hgksWEuuR1Umj6dc/va6aMQgLY2RiKHtuHdLJcOQn1
- HIRElv4Ov5+a69bZmseK/AGYxwxakAIRYIUB59kZQaI1tFHYpf2zvuaYZtWqT1o0Z83r
- +ZlJQ2CUAmSAOaoEkzCVxHe1KULpKplSRoBog40mrMxOOCzptKJw4ISep2gUeRqhjB9p
- Yulw==
+ bh=GEkoo5kj4Corn1Ry9oJcsQrNc/Kk3pe3EPTYDp2yBT8=;
+ b=d/xxhNriYkTSn4rwP/wWKdf5Fwh6mxOv6XP2TNrgrMOmtJC7OUQDmdiIWaeEDvg2ZS
+ 3bqOO3xrVOBLekHloS7U1t2NbpQAH6N77HVUwYt2OE3oEp1aOY1wGFD6Gwwx9+8og09e
+ MyeYys1EzhtWCjwg7INbo7EURlCoajogR5eRGpEPuNsl1o9xeMe5Gg0bgF8a6inzL0wc
+ u4Zz2jLaVhLxAsN3hWOXKlbcERY9TZm+icFSNUc9iWCPnm6JZc95jKQrJ397el2hhPOK
+ jaFCymrIQpow1Mwngjv8cc/jwewMaVc8Y23K8O2jYSa09g3W1d9NHf3sYBYR7r687b/u
+ 62Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ix7qV0vGpO93MNHRTfv4LURmm0q0bLRkAZfn0AqTYmo=;
- b=pCRUO+kCfRIpDph6bedAIHw0mJ7J1k4MTEm+Zs5vhIZVDzYNIEMh1Iv9xdCrBW9ZmW
- L82NFNsfZd3MqPnjBLmV8KsTVbcAxedoZg6htpL/WMbIfwvLa9+FMASvjEAZLdq71GBW
- 3BRyij3Qc3RNmAfVn+QlBzEAAsJf1k3kTcc2k50HnU/v9oiMFCy4GA8AK7R1ucbshBjG
- zxB+tluOmBLIze5BO2vYm4kbzIHM0ZJMJpECaFc7KApaMLwJw1R16BZQDdi142/Dtrx2
- /yDQXqVV2ySedRdAPY2J+2L/9nY3KnUw6WbtOnxOkd31C75nD/yjmgjS/EZQQTC676Il
- cG5g==
-X-Gm-Message-State: AOAM532HED+xqwACbNYEv8PHWvrklx3nvhOusoeNBhdRiJ7vk0CIf2Be
- LAFf/iWBZlo1WfxSZxcAC6M=
-X-Google-Smtp-Source: ABdhPJzrBK8lVfh3wi49WxseTlAaYQegNVWQ9+uc3zVhkMAmdpXeUbHmQqHXt+uqoCZ/wDsgHS0PLg==
-X-Received: by 2002:a7b:cb55:: with SMTP id v21mr4042399wmj.19.1625215898019; 
- Fri, 02 Jul 2021 01:51:38 -0700 (PDT)
+ bh=GEkoo5kj4Corn1Ry9oJcsQrNc/Kk3pe3EPTYDp2yBT8=;
+ b=JxsnJf/oOrZcKQFdF91dAehZozVjcHg/ktnmuEcL2NsuiOb/kSri6fimUDipBbKwHa
+ 6fUemKu7zL7akVMNZf0bRiAo3fdgU5gYgGfZ6XKX0autWD/jUA8i3pTo87FhHFk7qV8r
+ 7ccfAoeI+XHReAFuzFOU3VdSAuVdRdwkZvAyaKQH/Qghhs/GxusL3Tr6vdcTFQfLg33K
+ drmOGpfdPLhB7UwPEGDy4ff+9Tc5MUubFTUX69Ax1wz0F22r1jweL5ktoNe1vswSlwI/
+ BBH7m9zk8G+g4d9W19zxBZcQ7p44p/ArdvOEl9fPzMGyY1nFrGKK31u4eWRFAJZA1VXS
+ nQxA==
+X-Gm-Message-State: AOAM532JCn3235Kitz64C780hVMFTdNVYjy5BjX3kzoczsYWYriYduIc
+ fFkf873/DDah+9nVXJhlRVk=
+X-Google-Smtp-Source: ABdhPJw67bi5hlOtHLUSmFMaNmGS1Muyqf61QDklHF5oP1sNg8yJZ06tW4qzoGdUBigLcioJ6XqLzA==
+X-Received: by 2002:a05:600c:4f15:: with SMTP id
+ l21mr4276395wmq.72.1625216752368; 
+ Fri, 02 Jul 2021 02:05:52 -0700 (PDT)
 Received: from [192.168.11.95] (pop.92-184-108-94.mobile.abo.orange.fr.
  [92.184.108.94])
- by smtp.gmail.com with ESMTPSA id r6sm2251902wmq.37.2021.07.02.01.51.36
+ by smtp.gmail.com with ESMTPSA id n20sm2301150wmk.12.2021.07.02.02.05.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 01:51:37 -0700 (PDT)
-Subject: Re: [PATCH 07/20] target/loongarch: Add fixed point arithmetic
- instruction translation
-To: Song Gao <gaosong@loongson.cn>
-References: <1624881885-31692-1-git-send-email-gaosong@loongson.cn>
- <1624881885-31692-8-git-send-email-gaosong@loongson.cn>
- <248d54fc-ebdd-09e9-22c2-e66307b22705@amsat.org>
- <fcc6a9cd-2fa9-d976-3326-bda0efedea5f@loongson.cn>
+ Fri, 02 Jul 2021 02:05:51 -0700 (PDT)
+Subject: Re: [PATCH v2 21/23] linux-user/sparc: Implement setup_sigtramp
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210618192951.125651-1-richard.henderson@linaro.org>
+ <20210618192951.125651-22-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2912e517-dba0-04f8-80e2-edc0a9b1a27d@amsat.org>
-Date: Fri, 2 Jul 2021 10:51:35 +0200
+Message-ID: <5df2cc9a-b5cf-491a-4be1-28eb8e9a56a9@amsat.org>
+Date: Fri, 2 Jul 2021 11:05:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <fcc6a9cd-2fa9-d976-3326-bda0efedea5f@loongson.cn>
+In-Reply-To: <20210618192951.125651-22-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -93,108 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, maobibo@loongson.cn, laurent@vivier.eu,
- alistair.francis@wdc.com, pbonzini@redhat.com
+Cc: alex.bennee@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/2/21 10:15 AM, Song Gao wrote:
-> On 07/02/2021 04:31 AM, Philippe Mathieu-Daudé wrote:
->> On 6/28/21 2:04 PM, Song Gao wrote:
->>> This patch implement fixed point arithemtic instruction translation.
->>>
->>> This includes:
->>> - ADD.{W/D}, SUB.{W/D}
->>> - ADDI.{W/D}, ADDU16ID
->>> - ALSL.{W[U]/D}
->>> - LU12I.W, LU32I.D LU52I.D
->>> - SLT[U], SLT[U]I
->>> - PCADDI, PCADDU12I, PCADDU18I, PCALAU12I
->>> - AND, OR, NOR, XOR, ANDN, ORN
->>> - MUL.{W/D}, MULH.{W[U]/D[U]}
->>> - MULW.D.W[U]
->>> - DIV.{W[U]/D[U]}, MOD.{W[U]/D[U]}
->>> - ANDI, ORI, XORI
->>>
->>> Signed-off-by: Song Gao <gaosong@loongson.cn>
->>> ---
->>>  target/loongarch/insns.decode |  89 ++++++++
->>>  target/loongarch/instmap.h    |  53 +++++
->>>  target/loongarch/trans.inc.c  | 367 +++++++++++++++++++++++++++++++++
->>>  target/loongarch/translate.c  | 458 ++++++++++++++++++++++++++++++++++++++++++
->>>  4 files changed, 967 insertions(+)
->>>  create mode 100644 target/loongarch/insns.decode
->>>  create mode 100644 target/loongarch/instmap.h
->>>  create mode 100644 target/loongarch/trans.inc.c
-
->> It seems you are missing what decodetree is for... You should inline
->> each opcode code from gen_loongarch_muldiv in the opcode handler.
->>
->> Don't take MIPS as an example =)
->>
-> Hi, Philippe,
+On 6/18/21 9:29 PM, Richard Henderson wrote:
+> Create and record the two signal trampolines.
+> Use them when the guest does not use SA_RESTORER.
 > 
-> I‘m not sure I understand right.  Here is an example of my modification
-> 
->     static bool trans_xxx(DisasContext *ctx, arg_mul_w *a)
->     {
->         gen_loongarch_muldiv(ctx, a->rd, a->rj, a->rk);
->         return true;
->     }
->     ...
-> 
->     static void gen_loongarch_muldiv(DisasContext *ctx, int rd,
->                                      int rj, int rk)
->     {
->         TCGv t0, t1;
-> 
->         if (rd == 0) {
->             /* Treat as NOP. */
->             return;
->         }
-> 
->         t0 = tcg_temp_new();
->         t1 = tcg_temp_new();
-> 
->         gen_load_gpr(t0, rj);
->         gen_load_gpr(t1, rk);
-> 
->         switch (ctx->opcode) {
->         case  xxx_opcode:
->              /* translate  xxx  */
->         ...
-> 
->     }
-> 
-> Is that right？
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/sparc/target_signal.h |  4 ++++
+>  linux-user/sparc/signal.c        | 32 ++++++++++++++++++--------------
+>  2 files changed, 22 insertions(+), 14 deletions(-)
 
-No. With decode"tree" you only have to implement the
-decode"leaves". No need to pass 'uin32_t opcode' and
-use 'switch (ctx->opcode) ...'. Example for LA_OPC_MUL_D:
-
-static bool trans_mul_d(DisasContext *ctx, int rd, int rj, int rk)
-{
-    TCGv t0, t1;
-
-    check_loongarch_64(ctx);
-
-    if (a->rd == 0) {
-        /* Treat as NOP. */
-        return true;
-    }
-
-    t0 = tcg_temp_new();
-    t1 = tcg_temp_new();
-
-    gen_load_gpr(t0, a->rj);
-    gen_load_gpr(t1, a->rk);
-
-    tcg_gen_mul_i64(cpu_gpr[a->rd], t0, t1);
-
-    tcg_temp_free(t0);
-    tcg_temp_free(t1);
-
-    return true;
-}
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
