@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C1C3BA50A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 23:29:47 +0200 (CEST)
-Received: from localhost ([::1]:56712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98C53BA509
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 23:28:06 +0200 (CEST)
+Received: from localhost ([::1]:51394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzQjK-00081o-WE
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 17:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
+	id 1lzQhh-0004TP-Hy
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 17:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1lzQfy-0002Kd-4G
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 17:26:19 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:41839)
+ id 1lzQg2-0002Me-S2
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 17:26:23 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1lzQfw-0001Ov-Dm
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 17:26:17 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id c5so10214649pfv.8
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 14:26:16 -0700 (PDT)
+ id 1lzQg1-0001R2-8o
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 17:26:22 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id u14so10949169pga.11
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 14:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=t+Pe/eROmqykKa9dIoKt2kOQl5E0f+1/SQgnS/Y/Hus=;
- b=ULKOmpJSUxzzq90maatpQU7wqD0syneuKsD0gtljOMCEqKz8wd8KOWKT8AS6kk3Eff
- BZF7MConSj5Jh8h2Ln6uvrtxtRCqDTvFZgGBrNrg2jTdBdqYT8tDlGgp0d2gehQgMzoq
- EZziRhXj4YEJtcsm4Z2X4nmWViDLcgFeqmdBfVN2S33LcGoa8XFoHMUp2iVMsvhFyyQ6
- r1Pd7FvpCyQNpvwMFDisjv1puamJyUA1NBhSocZcxEvY56vJ5WBupEp/i2FDyAMi/z8l
- +OIHe2c9obS0o4hq75qeLpwMruiBWkTfwrROEsz4iGISrHZdCnMsK+uC2+B6gFGA9VdF
- sSXw==
+ bh=1ueaTPN7xEXakJK1s7LlaAPIYUOdKDqyBSz3qHkWlog=;
+ b=h5x+uA/hIDs11fwBh3VHZT+udSHemkEYTKbbSO5cLGKlnzIR5tXqgx/qm1hZgabX4b
+ /KiGrbK4bhk+/YVuA6XKtkbZPGrFNV8zs9KIPrxC2q6K1ikvK8iAQKPHd4BCyahfEgau
+ UohpzzeZqOpMqzAeugwHmsFxz7bve/4AXdVm0h1UMuAkjmuTZjpGK09eb8XwLG/KQoUr
+ aTROLNMSxzOiaY576s7EpUSkrLukjLe3btR6JfONiyvcXIe/y6etVmOCLXa1crQCQ3yL
+ oaYcXVuVm86hueg0qOEPXCtmn+EusFpPsbtbRMDty94rtEhmZ4nvcOb6+GfaGPsHskTr
+ gMWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=t+Pe/eROmqykKa9dIoKt2kOQl5E0f+1/SQgnS/Y/Hus=;
- b=YMTmMnNmOpGrj+VjVzlHJnbbtlH7dC6+oA218G5TwaWRHu42M1sksWXYf7xpV+fyEV
- ay2Pa0pt6tkDRW+GMx7K3kG7YpuACbK5nAusOoCNn2NpFkrU5KbTMeahiIVb/m8JbdVI
- Jt6hAJn/le+Bf3hoxmR35nSwBMVi5PyVt+ONTenWLG2cDNJ2+Ty6ZNJsCm6b1wshLhuJ
- zfVmoT7G5HZFOdYIlnwWK9LVJXZHfkUsrn+hc8QN4A6kXcL6l+OkYIV9DuFV35BFzvaU
- TLWPpllmJVSQUZn8bMR9RfcFMSCRM/66CLI/GQP+KxUgPdniOOOlCDNTeSkL40+UMc/O
- JNzg==
-X-Gm-Message-State: AOAM530FF/dXHrin4V+/cebnFQPfxc1cVmOZwkjSAz/iw9rZpde2Fr+7
- 1fnhhCt5G5OF6jmixdl0Lvc=
-X-Google-Smtp-Source: ABdhPJyuPwelXI3CMKPzGy4hSeEKdgKEWl5831Cy56szIwNvShefO5NzjS0R4uX6Bq7YAOTZowTf3A==
-X-Received: by 2002:a05:6a00:17a5:b029:305:d4e8:7391 with SMTP id
- s37-20020a056a0017a5b0290305d4e87391mr1644790pfg.0.1625261175321; 
- Fri, 02 Jul 2021 14:26:15 -0700 (PDT)
+ bh=1ueaTPN7xEXakJK1s7LlaAPIYUOdKDqyBSz3qHkWlog=;
+ b=P9qS5zh7YpBPx2oxXce7JJSqZ/4gLBgh/IwM/SXlA1h2iYfTstyIGT+1zl4hx1QYg2
+ e6gwlDfzhd0LlaMU99igJ4RYhYWHYc7X0kqnCTvlK+Q4YfWc01frjCDnywx1Ba6Ex1d8
+ i7iT29POcLoFr+nzhBS9R8OfL1g1wgGDKwsLVjb7XSUqIVR3Vy39TmllWmyHd1kTOJBE
+ dsJDAn4L0yDREhpVwIz/fVWjevHxfO4WV2kjYB+GuqWv1JGB6sgaEuZyDjxTfhe1duOQ
+ gfHqsgS5SwzK5v2l9ma64UR8Prn+KHJDDRNaNLbv+8O/Pb6EXZe+YETcQe4LdLw7+OcB
+ h8Aw==
+X-Gm-Message-State: AOAM5310Hnx9FsgiEfwE6xkRyBrjZ2mit0xYYUIhoBylO628RP7M3qLx
+ 8inl22DHC41vml6Fc/8Z0SM=
+X-Google-Smtp-Source: ABdhPJxtqKCTgGIuCHrh8GS0S3Gu7y8DN1WWXgPEtDwllfK7W2ZvTR0gxluE7dClZgZt3mlc6rshOA==
+X-Received: by 2002:a05:6a00:1348:b029:30f:201d:6b76 with SMTP id
+ k8-20020a056a001348b029030f201d6b76mr1638213pfu.55.1625261179539; 
+ Fri, 02 Jul 2021 14:26:19 -0700 (PDT)
 Received: from localhost.localdomain ([120.138.12.1])
- by smtp.gmail.com with ESMTPSA id o16sm71563pjw.51.2021.07.02.14.26.12
+ by smtp.gmail.com with ESMTPSA id o16sm71563pjw.51.2021.07.02.14.26.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 14:26:15 -0700 (PDT)
+ Fri, 02 Jul 2021 14:26:19 -0700 (PDT)
 From: G S Niteesh Babu <niteesh.gs@gmail.com>
 To: jsnow@redhat.com
-Subject: [PATCH 2/6] python: Add dependencies for AQMP TUI
-Date: Sat,  3 Jul 2021 02:55:59 +0530
-Message-Id: <20210702212603.26465-3-niteesh.gs@gmail.com>
+Subject: [PATCH 4/6] python: add optional pygments dependency
+Date: Sat,  3 Jul 2021 02:56:01 +0530
+Message-Id: <20210702212603.26465-5-niteesh.gs@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210702212603.26465-1-niteesh.gs@gmail.com>
 References: <20210702212603.26465-1-niteesh.gs@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=niteesh.gs@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,65 +85,69 @@ Cc: G S Niteesh Babu <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added dependencies for the upcoming AQMP TUI under the optional
-'tui' group.
+Added pygments as optional dependency for AQMP TUI.
+This is required for the upcoming syntax highlighting feature
+in AQMP TUI.
+The dependency has also been added in the devel optional group.
 
-The same dependencies have also been added under the devel group
-since no work around has been found for optional groups to imply
-other optional groups.
+Added mypy 'ignore_missing_imports' for pygments since it does
+not have any type stubs.
 
 Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
 ---
- python/Pipfile.lock | 12 ++++++++++++
- python/setup.cfg    |  7 +++++++
- 2 files changed, 19 insertions(+)
+ python/Pipfile.lock | 8 ++++++++
+ python/setup.cfg    | 5 +++++
+ 2 files changed, 13 insertions(+)
 
 diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-index 8ab41a3f60..76cf1e4930 100644
+index 76cf1e4930..2c6d779348 100644
 --- a/python/Pipfile.lock
 +++ b/python/Pipfile.lock
-@@ -289,6 +289,18 @@
-             "markers": "python_version < '3.8'",
-             "version": "==3.10.0.0"
+@@ -200,6 +200,14 @@
+             ],
+             "version": "==2.0.0"
          },
-+        "urwid": {
++        "pygments": {
 +            "hashes": [
-+                "sha256:588bee9c1cb208d0906a9f73c613d2bd32c3ed3702012f51efe318a3f2127eae"
++                "sha256:a18f47b506a429f6f4b9df81bb02beab9ca21d0a5fee38ed15aef65f0545519f",
++                "sha256:d66e804411278594d764fc69ec36ec13d9ae9147193a1740cd34d272ca383b8e"
 +            ],
-+            "version": "==2.1.2"
++            "markers": "python_version >= '3.5'",
++            "version": "==2.9.0"
 +        },
-+        "urwid-readline": {
-+            "hashes": [
-+                "sha256:018020cbc864bb5ed87be17dc26b069eae2755cb29f3a9c569aac3bded1efaf4"
-+            ],
-+            "version": "==0.13"
-+        },
-         "virtualenv": {
+         "pylint": {
              "hashes": [
-                 "sha256:14fdf849f80dbb29a4eb6caa9875d476ee2a5cf76a5f5415fa2f1606010ab467",
+                 "sha256:082a6d461b54f90eea49ca90fff4ee8b6e45e8029e5dbd72f6107ef84f3779c0",
 diff --git a/python/setup.cfg b/python/setup.cfg
-index 1a552d672a..c62803bffc 100644
+index c6d38451eb..4782fe5241 100644
 --- a/python/setup.cfg
 +++ b/python/setup.cfg
-@@ -44,11 +44,18 @@ devel =
-     mypy >= 0.770
-     pylint >= 2.8.0
+@@ -46,6 +46,7 @@ devel =
      tox >= 3.18.0
-+    urwid >= 2.1.2
-+    urwid-readline >= 0.13
+     urwid >= 2.1.2
+     urwid-readline >= 0.13
++    Pygments >= 2.9.0
  
  # Provides qom-fuse functionality
  fuse =
-     fusepy >= 2.0.4
+@@ -55,6 +56,7 @@ fuse =
+ tui =
+     urwid >= 2.1.2
+     urwid-readline >= 0.13
++    Pygments >= 2.9.0
  
-+# AQMP TUI dependencies
-+tui =
-+    urwid >= 2.1.2
-+    urwid-readline >= 0.13
-+
  [options.entry_points]
  console_scripts =
-     qom = qemu.qmp.qom:main
+@@ -99,6 +101,9 @@ ignore_missing_imports = True
+ [mypy-urwid_readline]
+ ignore_missing_imports = True
+ 
++[mypy-pygments]
++ignore_missing_imports = True
++
+ [pylint.messages control]
+ # Disable the message, report, category or checker with the given id(s). You
+ # can either give multiple identifiers separated by comma (,) or put this
 -- 
 2.17.1
 
