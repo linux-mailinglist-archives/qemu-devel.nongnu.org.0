@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBE43B9B7D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:28:39 +0200 (CEST)
-Received: from localhost ([::1]:58878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3384D3B9B7C
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:28:35 +0200 (CEST)
+Received: from localhost ([::1]:58428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzAn8-0002he-Jv
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
+	id 1lzAn4-0002Pp-7J
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkX-0008Bq-Cd
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42752)
+ id 1lzAkU-00087y-6G
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkV-0002RL-Ip
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:57 -0400
+ id 1lzAkQ-0002Mw-Dv
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lzAkR-00050t-53
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:51 +0000
+ id 1lzAkL-000531-QE
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 667572E81A8
- for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 48D232E817A
+ for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Jul 2021 04:17:27 -0000
-From: Launchpad Bug Tracker <1857449@bugs.launchpad.net>
+Date: Fri, 02 Jul 2021 04:17:31 -0000
+From: Launchpad Bug Tracker <1859723@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,21 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cirosantilli janitor philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?Q2lybyBTYW50aWxsaSDlha3lm5vkuovku7Yg?=
- =?utf-8?b?5rOV6L2u5YqfIChjaXJvc2FudGlsbGkp?=
+X-Launchpad-Bug-Commenters: janitor nilsa th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Nils_ANDR=C3=89-CHANG_=28nilsa=29?=
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157719032956.5393.6667899255989227451.malonedeb@gac.canonical.com>
-Message-Id: <162519944766.31921.7028423839868626371.malone@loganberry.canonical.com>
-Subject: [Bug 1857449] Re: QEMU x86_64 -nographic full system breaks host Bash
- terminal line wrapping state after simulation ends,
- requires reset or "tput smam" to fix it
+References: <157903878062.27252.729025731260908080.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162519945154.31921.5145096178224282944.malone@loganberry.canonical.com>
+Subject: [Bug 1859723] Re: Qemu ungrabs before cursor reaches border
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: b0e6a89179647da23c86aaa0ac01b348b8faab02
+X-Launchpad-Hash: 2e4e4c82e6db46be7ec620c90ce413bf2669605e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1857449 <1857449@bugs.launchpad.net>
+Reply-To: Bug 1859723 <1859723@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,51 +83,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1857449
+https://bugs.launchpad.net/bugs/1859723
 
 Title:
-  QEMU x86_64 -nographic full system breaks host Bash terminal line
-  wrapping state after simulation ends, requires reset or "tput smam" to
-  fix it
+  Qemu ungrabs before cursor reaches border
 
 Status in QEMU:
   Expired
 
 Bug description:
-  QEMU 4.2.0 compiled from source, Ubuntu 19.10, open a fresh new gnome
-  terminal.
+  This was first reported
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1285378
 
-  If you print 1000 =3D chars on the host terminal, then they do wrap
-  around the end of the terminal:
+  video: https://peertube.co.uk/videos/watch/fedaa432-79ef-4d30-bd0e-
+  26c806e48db0
 
-  printf "=3D%.0s" {0..1000}
-
-  However, if you first run QEMU:
-
-  x86_64-softmmu/qemu-system-x86_64 -nographic
-
-  and then quit it in any way, e.g. with Ctrl + A, and then re-run on
-  the host terminal:
-
-  printf "=3D%.0s" {0..1000}
-
-  then the signs don't wrap around anymore, they just go "off the
-  terminal to the right".
-
-  This can be fixed with either:
-
-  reset
-  tpam smam
-
-  but unfortunately those don't work in tmux for some reason:
-  https://github.com/tmux/tmux/issues/969
-
-  I consider this buggy behavior, QEMU should restore the original
-  terminal state if possible.
-
-  Related: https://github.com/cirosantilli/linux-kernel-module-
-  cheat/issues/110
+  version: QEMU emulator version 4.2.0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1857449/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1859723/+subscriptions
 
