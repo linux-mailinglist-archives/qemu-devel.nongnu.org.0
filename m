@@ -2,93 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557BD3BA552
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 23:56:52 +0200 (CEST)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D953BA5DC
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 00:09:40 +0200 (CEST)
+Received: from localhost ([::1]:55466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzR9X-00073m-E1
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 17:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
+	id 1lzRLv-0002cH-D4
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 18:09:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lzR5q-0001VK-8r; Fri, 02 Jul 2021 17:53:02 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lzR5o-0001we-DW; Fri, 02 Jul 2021 17:53:02 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 162LWlma181255; Fri, 2 Jul 2021 17:52:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=qtv1UvF2608Ns8ugZeBz2a5gONMp1T0DynFGfhgmCwo=;
- b=QwWzPxft4KKPK52EKCR1QORmYLM/lwBhkCzb4kf32Z7I2pm3qedDfEtTdBwEOrNEfLsy
- syoAPxVH9/PepMkn4CGgT9ZINP7oqxNcp48KG0Qe+LRqgwEMoMvRlgWPcdbtFYgPWcbR
- VU0tWi5nDMo14irjtwPD75JDUNzngvvjUtHBj89VcrcEIxtZ5Cpf8hFuMsjy27Omg2iE
- Ecwow+v5Z5nOfDsWOBYsIUuUPgYaEmiXydf6u7SGlnlUO7HU1oWFWobRCP6/WYnKnLMb
- MaMqufu826CvyoQHxxwj8yom3FpD8KTtY01eDpTrVXCS4kHzupOEe7Z88ztR8pJFIzZo qw== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39j7r7v988-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Jul 2021 17:52:49 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 162LfnK5002938;
- Fri, 2 Jul 2021 21:52:48 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma01dal.us.ibm.com with ESMTP id 39hchk43ev-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Jul 2021 21:52:47 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 162LqkUZ8454692
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 2 Jul 2021 21:52:46 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AAD06BE053;
- Fri,  2 Jul 2021 21:52:46 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6FA78BE054;
- Fri,  2 Jul 2021 21:52:45 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.44.184])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  2 Jul 2021 21:52:45 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/ppc: Fix compilation with DEBUG_BATS debug option
-Date: Fri,  2 Jul 2021 18:52:35 -0300
-Message-Id: <20210702215235.1941771-4-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210702215235.1941771-1-farosas@linux.ibm.com>
-References: <20210702215235.1941771-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lzRKd-0001oP-1g; Fri, 02 Jul 2021 18:08:19 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lzRKa-0003Ev-7n; Fri, 02 Jul 2021 18:08:18 -0400
+Received: by mail-wr1-x429.google.com with SMTP id u8so14100628wrq.8;
+ Fri, 02 Jul 2021 15:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0wD0iwGL1fHQ/2Qw8uprjxj0OgD6BFP8yWrSGG5/038=;
+ b=gezTck0Y9XIljVqwjqMKsmX6UsEWzDAZ7grDLaDHkTBMdXnL3Qsa0dLQiTBAxv7wKK
+ IH8wqxgXyrU7AdSHVEWZQv6KG7PJPgUc1PKVhA6GlTGNBR14I68TVRKm9O1Yu9q7YRGk
+ Xy4KMiT/5k7v9jM1ccYSc9MEmKDrrMd3NL0hWljiOAeJ7QagQ4cl4t3c6dCakfwNc6tD
+ 1JXlhCM2YF5sBDLHTRajJxjob9rXvLZSptrVeb5/gwG3Nzh/NH/5hdroW75F2blAgBEZ
+ gWyah7cdlg+JM61QM0QYqrFxHEnFKOb/nmTnHkHr+DWXQoCnVMJicgAnhNOY2wIRJeCp
+ /6qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0wD0iwGL1fHQ/2Qw8uprjxj0OgD6BFP8yWrSGG5/038=;
+ b=OSy5h2npkL6meqPNu3RjQD/OIBl32lN4YcRVclYq+vEVCrmbz60sz0eNXBGlauZxEz
+ 71NXkqUI1dyArsiy7qIL1KT2n6pmAwqGVcZEil5oM/NozhPl1pjHHOY+8WoQhlPSIBu9
+ lwHXTcZFiPQhP6cdpvxvuZDCuifF4fjIbLekc+kqOQIRSQQ8ojEeQUC2nqSCQC8Y5rLw
+ 8ij/nIvaUXUZoD3JlrdBr5MqK81dOHSI0Qh5cwUBNuCk/r0IfZDXnqycH83vpX/cuHUR
+ vuwknC8qWu7Ve1WF0IDTqzMq3MH8/MU0wJsR6eye0TA1WuYX1O0FluspqjK/dbiMEx44
+ KaAA==
+X-Gm-Message-State: AOAM532Z1z3EVScOtOl37ta/zq4k91O/KPST5rFmgk8hMerk7+Ny0Wwe
+ 7NCrZhepg02OswG8CviDSHQ=
+X-Google-Smtp-Source: ABdhPJxuuk9HSKU8ktXUZoOX9qrH6c0jwxhrfYwtw9nD3xELVBEWzTcxoddF8LSGF3uW03GPkpyC3w==
+X-Received: by 2002:adf:e607:: with SMTP id p7mr1948306wrm.80.1625263693280;
+ Fri, 02 Jul 2021 15:08:13 -0700 (PDT)
+Received: from [192.168.11.95] (pop.92-184-108-23.mobile.abo.orange.fr.
+ [92.184.108.23])
+ by smtp.gmail.com with ESMTPSA id x17sm5739783wrn.62.2021.07.02.15.08.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Jul 2021 15:08:12 -0700 (PDT)
+Subject: Re: [PATCH] hw/sd: sdhci: Enable 64-bit system bus capability in the
+ default SD/MMC host controller
+To: Joanne Koong <joannekoong@gmail.com>, qemu-devel@nongnu.org
+References: <20210623185921.24113-1-joannekoong@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1858015e-b7ff-ac91-1d15-db2e079cc570@amsat.org>
+Date: Sat, 3 Jul 2021 00:08:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210623185921.24113-1-joannekoong@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xK8C8DoZla3TkbohQeue0QhFEx75ZKrf
-X-Proofpoint-ORIG-GUID: xK8C8DoZla3TkbohQeue0QhFEx75ZKrf
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-02_10:2021-07-02,
- 2021-07-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- mlxscore=0 suspectscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- phishscore=0 spamscore=0 priorityscore=1501 adultscore=0 mlxlogscore=946
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107020110
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,81 +87,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-../target/ppc/mmu-hash32.c: In function 'ppc_hash32_bat_lookup':
-../target/ppc/mmu-hash32.c:204:13: error: 'BATu' undeclared (first use in this function);
-  204 |             BATu = &BATut[i];
-      |             ^~~~
-      |             BATut
-../target/ppc/mmu-hash32.c:205:13: error: 'BATl' undeclared (first use in this function);
-  205 |             BATl = &BATlt[i];
-      |             ^~~~
-      |             BATlt
-../target/ppc/mmu-hash32.c:206:13: error: 'BEPIu' undeclared (first use in this function)
-  206 |             BEPIu = *BATu & BATU32_BEPIU;
-      |             ^~~~~
-../target/ppc/mmu-hash32.c:206:29: error: 'BATU32_BEPIU' undeclared (first use in this function);
-  206 |             BEPIu = *BATu & BATU32_BEPIU;
-      |                             ^~~~~~~~~~~~
-      |                             BATU32_BEPI
-../target/ppc/mmu-hash32.c:207:13: error: 'BEPIl' undeclared (first use in this function)
-  207 |             BEPIl = *BATu & BATU32_BEPIL;
-      |             ^~~~~
-../target/ppc/mmu-hash32.c:207:29: error: 'BATU32_BEPIL' undeclared (first use in this function);
-  207 |             BEPIl = *BATu & BATU32_BEPIL;
-      |                             ^~~~~~~~~~~~
-      |                             BATU32_BEPI
-../target/ppc/mmu-hash32.c:208:13: error: 'bl' undeclared (first use in this function)
-  208 |             bl = (*BATu & 0x00001FFC) << 15;
-      |             ^~
+Hi Joanne,
 
-Fixes: 9813279664 ("target-ppc: Disentangle BAT code for 32-bit hash MMUs")
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/mmu-hash32.c | 5 ++++-
- target/ppc/mmu-hash32.h | 2 ++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+Next time I recommend you to Cc the maintainers, otherwise they
+might miss your patch. See:
+https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintainer
 
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index 9f0a497657..330bb0432e 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -27,7 +27,7 @@
- #include "mmu-hash32.h"
- #include "exec/log.h"
- 
--/* #define DEBUG_BAT */
-+/* #define DEBUG_BATS */
- 
- #ifdef DEBUG_BATS
- #  define LOG_BATS(...) qemu_log_mask(CPU_LOG_MMU, __VA_ARGS__)
-@@ -199,6 +199,9 @@ static hwaddr ppc_hash32_bat_lookup(PowerPCCPU *cpu, target_ulong ea,
-     /* No hit */
- #if defined(DEBUG_BATS)
-     if (qemu_log_enabled()) {
-+        target_ulong *BATu, *BATl;
-+        target_ulong BEPIl, BEPIu, bl;
-+
-         LOG_BATS("no BAT match for " TARGET_FMT_lx ":\n", ea);
-         for (i = 0; i < 4; i++) {
-             BATu = &BATut[i];
-diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
-index 898021f0d8..4fdeaf1937 100644
---- a/target/ppc/mmu-hash32.h
-+++ b/target/ppc/mmu-hash32.h
-@@ -22,6 +22,8 @@ int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
-  * Block Address Translation (BAT) definitions
-  */
- 
-+#define BATU32_BEPIU            0xf0000000
-+#define BATU32_BEPIL            0x0ffe0000
- #define BATU32_BEPI             0xfffe0000
- #define BATU32_BL               0x00001ffc
- #define BATU32_VS               0x00000002
--- 
-2.29.2
+$ ./scripts/get_maintainer.pl -f hw/sd/sdhci-internal.h
+"Philippe Mathieu-Daudé" <f4bug@amsat.org> (odd fixer:SD (Secure Card))
+Bin Meng <bin.meng@windriver.com> (odd fixer:SD (Secure Card))
+qemu-block@nongnu.org (open list:SD (Secure Card))
+qemu-devel@nongnu.org (open list:All patches CC here)
 
+On 6/23/21 8:59 PM, Joanne Koong wrote:
+> The default SD/MMC host controller uses SD spec v2.00. 64-bit system bus capability
+> was added in v2.
+> 
+> In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1ul << 28))
+> where 28 represents the BUS64BIT SDHC_CAPAB field.
+> 
+> Signed-off-by: Joanne Koong <joannekoong@gmail.com>
+> ---
+>  hw/sd/sdhci-internal.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
+> index e8c753d6d1..a76fc704e5 100644
+> --- a/hw/sd/sdhci-internal.h
+> +++ b/hw/sd/sdhci-internal.h
+> @@ -316,16 +316,16 @@ extern const VMStateDescription sdhci_vmstate;
+>   * - 3.3v and 1.8v voltages
+>   * - SDMA/ADMA1/ADMA2
+>   * - high-speed
+> + * - 64-bit system bus
+>   * max host controller R/W buffers size: 512B
+>   * max clock frequency for SDclock: 52 MHz
+>   * timeout clock frequency: 52 MHz
+>   *
+>   * does not support:
+>   * - 3.0v voltage
+> - * - 64-bit system bus
+>   * - suspend/resume
+>   */
+> -#define SDHC_CAPAB_REG_DEFAULT 0x057834b4
+> +#define SDHC_CAPAB_REG_DEFAULT 0x157834b4
+>  
+>  #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
+>      DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
+> 
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
