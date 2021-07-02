@@ -2,83 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D516A3B9DE3
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:08:02 +0200 (CEST)
-Received: from localhost ([::1]:46752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86553B9DEB
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:12:00 +0200 (CEST)
+Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzF9V-0001RT-Cz
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:08:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
+	id 1lzFDL-00067l-OR
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzF7z-0000GE-6W
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:06:28 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzF7S-0003Kh-5l
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:06:24 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- r9-20020a7bc0890000b02901f347b31d55so5689436wmh.2
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GEkoo5kj4Corn1Ry9oJcsQrNc/Kk3pe3EPTYDp2yBT8=;
- b=d/xxhNriYkTSn4rwP/wWKdf5Fwh6mxOv6XP2TNrgrMOmtJC7OUQDmdiIWaeEDvg2ZS
- 3bqOO3xrVOBLekHloS7U1t2NbpQAH6N77HVUwYt2OE3oEp1aOY1wGFD6Gwwx9+8og09e
- MyeYys1EzhtWCjwg7INbo7EURlCoajogR5eRGpEPuNsl1o9xeMe5Gg0bgF8a6inzL0wc
- u4Zz2jLaVhLxAsN3hWOXKlbcERY9TZm+icFSNUc9iWCPnm6JZc95jKQrJ397el2hhPOK
- jaFCymrIQpow1Mwngjv8cc/jwewMaVc8Y23K8O2jYSa09g3W1d9NHf3sYBYR7r687b/u
- 62Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GEkoo5kj4Corn1Ry9oJcsQrNc/Kk3pe3EPTYDp2yBT8=;
- b=JxsnJf/oOrZcKQFdF91dAehZozVjcHg/ktnmuEcL2NsuiOb/kSri6fimUDipBbKwHa
- 6fUemKu7zL7akVMNZf0bRiAo3fdgU5gYgGfZ6XKX0autWD/jUA8i3pTo87FhHFk7qV8r
- 7ccfAoeI+XHReAFuzFOU3VdSAuVdRdwkZvAyaKQH/Qghhs/GxusL3Tr6vdcTFQfLg33K
- drmOGpfdPLhB7UwPEGDy4ff+9Tc5MUubFTUX69Ax1wz0F22r1jweL5ktoNe1vswSlwI/
- BBH7m9zk8G+g4d9W19zxBZcQ7p44p/ArdvOEl9fPzMGyY1nFrGKK31u4eWRFAJZA1VXS
- nQxA==
-X-Gm-Message-State: AOAM532JCn3235Kitz64C780hVMFTdNVYjy5BjX3kzoczsYWYriYduIc
- fFkf873/DDah+9nVXJhlRVk=
-X-Google-Smtp-Source: ABdhPJw67bi5hlOtHLUSmFMaNmGS1Muyqf61QDklHF5oP1sNg8yJZ06tW4qzoGdUBigLcioJ6XqLzA==
-X-Received: by 2002:a05:600c:4f15:: with SMTP id
- l21mr4276395wmq.72.1625216752368; 
- Fri, 02 Jul 2021 02:05:52 -0700 (PDT)
-Received: from [192.168.11.95] (pop.92-184-108-94.mobile.abo.orange.fr.
- [92.184.108.94])
- by smtp.gmail.com with ESMTPSA id n20sm2301150wmk.12.2021.07.02.02.05.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 02:05:51 -0700 (PDT)
-Subject: Re: [PATCH v2 21/23] linux-user/sparc: Implement setup_sigtramp
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210618192951.125651-1-richard.henderson@linaro.org>
- <20210618192951.125651-22-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5df2cc9a-b5cf-491a-4be1-28eb8e9a56a9@amsat.org>
-Date: Fri, 2 Jul 2021 11:05:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210618192951.125651-22-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lzFBX-0003KB-O0
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:10:07 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:54504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lzFBU-0006ea-R4
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:10:06 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Fri, 2 Jul 2021 11:09:41 +0200
+Received: (qmail 37492 invoked from network); 2 Jul 2021 09:09:43 -0000
+Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
+ (relay@kamp.de@::ffff:172.21.12.60)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
+ 2 Jul 2021 09:09:43 -0000
+Received: by lieven-pc (Postfix, from userid 1060)
+ id B4CA613DD24; Fri,  2 Jul 2021 11:09:43 +0200 (CEST)
+From: Peter Lieven <pl@kamp.de>
+To: qemu-block@nongnu.org
+Subject: [PATCH V4 0/6] block/rbd: migrate to coroutines and add write zeroes
+ support
+Date: Fri,  2 Jul 2021 11:09:29 +0200
+Message-Id: <20210702090935.15300-1-pl@kamp.de>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,21 +54,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- laurent@vivier.eu
+Cc: kwolf@redhat.com, idryomov@redhat.com, berrange@redhat.com,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org, ct@flyingcircus.io,
+ pbonzini@redhat.com, idryomov@gmail.com, mreitz@redhat.com,
+ dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/21 9:29 PM, Richard Henderson wrote:
-> Create and record the two signal trampolines.
-> Use them when the guest does not use SA_RESTORER.
-> 
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/sparc/target_signal.h |  4 ++++
->  linux-user/sparc/signal.c        | 32 ++++++++++++++++++--------------
->  2 files changed, 22 insertions(+), 14 deletions(-)
+this series migrates the qemu rbd driver from the old aio emulation
+to native coroutines and adds write zeroes support which is important
+for block operations.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+To achive this we first bump the librbd requirement to the already
+outdated luminous release of ceph to get rid of some wrappers and
+ifdef'ry in the code.
+
+V4->V4:
+ - this patch is now rebased on top of current master
+ - Patch 1: just mention librbd, tweak version numbers [Ilya]
+ - Patch 3: use rbd_get_size instead of rbd_stat [Ilya]
+ - Patch 4: retain comment about using a BH in the callback [Ilya]
+ - Patch 5: set BDRV_REQ_NO_FALLBACK and silently ignore BDRV_REQ_MAY_UNMAP [Ilya]
+
+V2->V3:
+ - this patch is now rebased on top of current master
+ - Patch 1: only use cc.links and not cc.run to not break
+   cross-compiling. [Kevin]
+   Since Qemu 6.1 its okay to rely on librbd >= 12.x since RHEL-7
+   support was dropped [Daniel]
+ - Patch 4: dropped
+ - Patch 5: store BDS in RBDTask and use bdrv_get_aio_context() [Kevin]
+
+V1->V2:
+ - this patch is now rebased on top of current master with Paolos
+   upcoming fixes for the meson.build script included:
+    - meson: accept either shared or static libraries if --disable-static
+    - meson: honor --enable-rbd if cc.links test fails
+ - Patch 1: adjusted to meson.build script
+ - Patch 2: unchanged
+ - Patch 3: new patch
+ - Patch 4: do not implement empty detach_aio_context callback [Jason]
+ - Patch 5: - fix aio completion cleanup in error case [Jason]
+            - return error codes from librbd
+ - Patch 6: - add support for thick provisioning [Jason]
+            - do not set write zeroes alignment
+ - Patch 7: new patch
+
+Peter Lieven (6):
+  block/rbd: bump librbd requirement to luminous release
+  block/rbd: store object_size in BDRVRBDState
+  block/rbd: update s->image_size in qemu_rbd_getlength
+  block/rbd: migrate from aio to coroutines
+  block/rbd: add write zeroes support
+  block/rbd: drop qemu_rbd_refresh_limits
+
+ block/rbd.c | 406 ++++++++++++++++------------------------------------
+ meson.build |   7 +-
+ 2 files changed, 128 insertions(+), 285 deletions(-)
+
+-- 
+2.17.1
+
+
 
