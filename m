@@ -2,51 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7494B3BA2C5
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 17:30:39 +0200 (CEST)
-Received: from localhost ([::1]:43288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3D73BA2D4
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 17:36:51 +0200 (CEST)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzL7m-0007M9-HP
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 11:30:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39828)
+	id 1lzLDl-00036d-V6
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 11:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lzL6Y-0006Zl-Bt
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:29:22 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:11950)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzLC8-0001bi-Bx
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:35:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lzL6T-00045p-Ny
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:29:21 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8369574570B;
- Fri,  2 Jul 2021 17:29:11 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0E73C745709; Fri,  2 Jul 2021 17:29:11 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0CD087456B4;
- Fri,  2 Jul 2021 17:29:11 +0200 (CEST)
-Date: Fri, 2 Jul 2021 17:29:11 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PULL 06/18] hw/pci-host/bonito: Allow PCI config accesses
- smaller than 32-bit
-In-Reply-To: <20210702133557.60317-7-f4bug@amsat.org>
-Message-ID: <e23a266-ff58-41c1-a2b6-2b19388d22c6@eik.bme.hu>
-References: <20210702133557.60317-1-f4bug@amsat.org>
- <20210702133557.60317-7-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzLC6-0007Lr-Mx
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 11:35:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625240103;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=97Bwo/sGr1Jy8W8Qy8GawlvgvAgb8lAVmr8zfLEocuI=;
+ b=fi8iJWry7nkd5jWnCAzrGMPc8Q6TVwQVMzD0XdMYi/FHjCCozqEhIYhQKOluGNQh14Gzkk
+ KLqpCgr3ahVkKBMdj6aMT1BAWwNW81y4Hqz/o5L1xfZ5hqZmDOgy9hVoNMSNg17KPPn9Vp
+ NtlzI4HhUiXYMwgKo7uIPjbu3lX8jqM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-JlFS-Ui3O_usbr3q3m9O-Q-1; Fri, 02 Jul 2021 11:35:02 -0400
+X-MC-Unique: JlFS-Ui3O_usbr3q3m9O-Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ z4-20020a1ce2040000b02901ee8d8e151eso6403926wmg.1
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 08:35:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=97Bwo/sGr1Jy8W8Qy8GawlvgvAgb8lAVmr8zfLEocuI=;
+ b=m26P3RNeNWpmX2+49lRDwjXPVcfns7TuKocYA4dsPZTCYVLamT/irIHl6A+2napQZs
+ DXyYeceGb30OFZ//aQf6ptkXRK3UFNtd4+N7O9bOF7IobsOgyKN99Nx8C9kkFRWlSo9I
+ cP2hBd6KNsqYLBPlSHYeAYzZuHtjuRzFyxcqT7jYzygHgzafbRzr5k+OnJkxEU8XHrl0
+ v+jS3veIHOsHXNCizk/4CcPIH1xnoNek+BKOwX9b3C5sJf7sgQSpIU9lS2HSfLdaRAgY
+ Di6syZ3BEopDkbix/hDFoVfQ4rXoz4CpfchW4o7SXm9GoWfmic2yMzjuHpMR9fb0GxNV
+ jWyg==
+X-Gm-Message-State: AOAM5330gjj/6ZhIqDDvkufdfRD3Oxp/ufPhn4uAXGHUa0hQWVLvmlxo
+ 70cfkDOfTgkWEZqD171Ul1m9hgAct4OKcYSPMvVWuDn9a3eX2aQA56JgWBTV1QcHZqaIQIiiCl7
+ r3Z7qDXUJ0/pcjp0=
+X-Received: by 2002:a05:6000:2c6:: with SMTP id
+ o6mr229097wry.299.1625240100977; 
+ Fri, 02 Jul 2021 08:35:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0wL8sBbqhs0gV6AqGgCA2PCyLu2I4l+UUhDKHEjvnt74jWSkOf2mk5d9PrUkKAd2UqSWrVQ==
+X-Received: by 2002:a05:6000:2c6:: with SMTP id
+ o6mr229075wry.299.1625240100809; 
+ Fri, 02 Jul 2021 08:35:00 -0700 (PDT)
+Received: from redhat.com ([2.55.4.39])
+ by smtp.gmail.com with ESMTPSA id z12sm944093wrs.39.2021.07.02.08.34.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Jul 2021 08:34:59 -0700 (PDT)
+Date: Fri, 2 Jul 2021 11:34:56 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH v5 3/7] hw/acpi/ich9: Enable ACPI PCI hot-plug
+Message-ID: <20210702113323-mutt-send-email-mst@kernel.org>
+References: <20210617190739.3673064-1-jusual@redhat.com>
+ <20210617190739.3673064-4-jusual@redhat.com>
+ <YN1Iq6WDTqCzgmNA@yekko>
+ <CAMDeoFXZyOt+O90xrRpTD8k7f0M60GVpg3XWfG2+yOAukOFgeA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1506315025-1625239751=:62543"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAMDeoFXZyOt+O90xrRpTD8k7f0M60GVpg3XWfG2+yOAukOFgeA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,85 +96,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, Jul 02, 2021 at 04:55:47PM +0200, Julia Suvorova wrote:
+> > Doesn't this need to be protected by if (pm->use_acpi_hotplug_bridge)
+> > ? Otherwise pm->acpi_pci_hotplug won't be initialized.
+> 
+> Yes, you're right. Although it doesn't affect anything now, it should
+> be fixed. I'll send a patch on top.
 
---3866299591-1506315025-1625239751=:62543
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This is all in my tree pci branch. Pls base your patchset on that.
+Thanks!
 
-On Fri, 2 Jul 2021, Philippe Mathieu-Daudé wrote:
-> When running the official PMON firmware for the Fuloong 2E, we see
-> 8-bit and 16-bit accesses to PCI config space:
->
->  $ qemu-system-mips64el -M fuloong2e -bios pmon_2e.bin \
->    -trace -trace bonito\* -trace pci_cfg\*
->
->  pci_cfg_write vt82c686b-pm 05:4 @0x90 <- 0xeee1
->  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x4d2, size: 2
->  pci_cfg_write vt82c686b-pm 05:4 @0xd2 <- 0x1
->  pci_cfg_write vt82c686b-pm 05:4 @0x4 <- 0x1
->  pci_cfg_write vt82c686b-isa 05:0 @0x4 <- 0x7
->  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x81, size: 1
->  pci_cfg_read vt82c686b-isa 05:0 @0x81 -> 0x0
->  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x81, size: 1
->  pci_cfg_write vt82c686b-isa 05:0 @0x81 <- 0x80
->  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x83, size: 1
->  pci_cfg_write vt82c686b-isa 05:0 @0x83 <- 0x89
->  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x85, size: 1
->  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x3
->  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x5a, size: 1
->  pci_cfg_write vt82c686b-isa 05:0 @0x5a <- 0x7
->  bonito_spciconf_small_access PCI config address is smaller then 32-bit, addr: 0x85, size: 1
->  pci_cfg_write vt82c686b-isa 05:0 @0x85 <- 0x1
->
-> Also this is what the Linux kernel does since it supports the Bonito
-> north bridge:
-> https://elixir.bootlin.com/linux/v2.6.15/source/arch/mips/pci/ops-bonito64.c#L85
->
-> So it seems safe to assume the datasheet is incomplete or outdated
-> regarding the address constraints.
->
-> This problem was exposed by commit 911629e6d3773a8adeab48b
-> ("vt82c686: Fix SMBus IO base and configuration registers").
->
-> Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-Id: <20210624202747.1433023-4-f4bug@amsat.org>
+-- 
+MST
 
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-
-> ---
-> hw/pci-host/bonito.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-> index 751fdcec689..a57e81e3a97 100644
-> --- a/hw/pci-host/bonito.c
-> +++ b/hw/pci-host/bonito.c
-> @@ -187,7 +187,7 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
-> #define BONITO_PCICONF_FUN_MASK        0x700    /* [10:8] */
-> #define BONITO_PCICONF_FUN_OFFSET      8
-> #define BONITO_PCICONF_REG_MASK_DS     (~3)         /* Per datasheet */
-> -#define BONITO_PCICONF_REG_MASK        0xFC
-> +#define BONITO_PCICONF_REG_MASK_HW     0xff         /* As seen running PMON */
-> #define BONITO_PCICONF_REG_OFFSET      0
->
->
-> @@ -466,7 +466,7 @@ static uint32_t bonito_sbridge_pciaddr(void *opaque, hwaddr addr)
->              BONITO_PCICONF_IDSEL_OFFSET;
->     devno = ctz32(idsel);
->     funno = (cfgaddr & BONITO_PCICONF_FUN_MASK) >> BONITO_PCICONF_FUN_OFFSET;
-> -    regno = (cfgaddr & BONITO_PCICONF_REG_MASK) >> BONITO_PCICONF_REG_OFFSET;
-> +    regno = (cfgaddr & BONITO_PCICONF_REG_MASK_HW) >> BONITO_PCICONF_REG_OFFSET;
->
->     if (idsel == 0) {
->         error_report("error in bonito pci config address 0x" TARGET_FMT_plx
->
---3866299591-1506315025-1625239751=:62543--
 
