@@ -2,55 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E353BA249
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 16:38:44 +0200 (CEST)
-Received: from localhost ([::1]:53784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79DD3BA251
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 16:47:15 +0200 (CEST)
+Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzKJX-0007Ha-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 10:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
+	id 1lzKRm-0002xT-61
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 10:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lzKI8-0005YH-A0
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 10:37:17 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:49084)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzKQR-00024e-Mr
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 10:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lzKI4-0006Y7-CG
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 10:37:14 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-cSTZ1bPlOoS_nP-w4tkupQ-1; Fri, 02 Jul 2021 10:36:59 -0400
-X-MC-Unique: cSTZ1bPlOoS_nP-w4tkupQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EB71100CF6E;
- Fri,  2 Jul 2021 14:36:58 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B01062BFFD;
- Fri,  2 Jul 2021 14:36:57 +0000 (UTC)
-Date: Fri, 2 Jul 2021 16:36:56 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 7/7] 9pfs: reduce latency of Twalk
-Message-ID: <20210702163656.2b6a8975@bahia.lan>
-In-Reply-To: <1a6701674afc4f08d40396e3aa2631e18a4dbb33.1622821729.git.qemu_oss@crudebyte.com>
-References: <cover.1622821729.git.qemu_oss@crudebyte.com>
- <1a6701674afc4f08d40396e3aa2631e18a4dbb33.1622821729.git.qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzKQL-0002zC-7N
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 10:45:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625237144;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xQ9mgpqPPTmN1+zuFiZPGMycxLomIBmpexLmypyZ0O0=;
+ b=V4eMkJOzzU9o3hWrHvHKrYTJrfGFub8L0u2qHvIIZ5vFYffvmJsIZpOHhxZkeXNMdUq/rf
+ ERY1dVwZqAlVaHk0Yg6LgU3xvlgSbY92PbONmOJLBkuLhdLAwowpQ93EGR0zlv1Oko4L+q
+ gh+/sW8o5xJ0fFRwrpnMZoNglFwHo9o=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-t4KLImTvOHKVWMmUurFY4w-1; Fri, 02 Jul 2021 10:45:43 -0400
+X-MC-Unique: t4KLImTvOHKVWMmUurFY4w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u13-20020a5d6dad0000b029012e76845945so1919712wrs.11
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 07:45:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xQ9mgpqPPTmN1+zuFiZPGMycxLomIBmpexLmypyZ0O0=;
+ b=UJjRqPXLr+RBg/0at4Lk2gRN/ZPzpCIJdJz16P4EvwouufELE2BuYoe0orZrDjmNLO
+ gHSnbzVuNMYkWg3pY/80aw/LH7HCs4g/ofTFiyUO5lrj2mFUhQs6UudoWGWrdqkLwDM3
+ +ooYDl7dMA+dC24HKDsVeRzKwfUusUUAWNU0+swoOpht1PsML62JXlSdgHDCXcyc40i+
+ gl9yu8MUIkhiIJpp3EEsDfXgF08A3oYjxM4wIIU9Lru6GbYXz092uapTROLvhF2IYhtu
+ 0JdutKJ0UtWZBlovdx23COU7L5ZgLhoMvSlVHe/Vq1usMV3pZO3SRbeBem5rSrmG452V
+ 02IQ==
+X-Gm-Message-State: AOAM530ZM9IAQgT/DgQ9XuJcYXNqp+n8Oy218P0OhSOjav5uXLEOEi9G
+ yi7JY/ZHJGRLmLYcY4PQhp2dPbeiAsn+zUfU7Lj7X0p9WkiUx96zKGczlJINbEA2ffROkwN+OD7
+ A7Lvfw0uG4xgqtVw=
+X-Received: by 2002:a1c:e1c6:: with SMTP id y189mr5870459wmg.43.1625237141959; 
+ Fri, 02 Jul 2021 07:45:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+GlHGnOR0t5bPHTRy7rnHlM0duQoyHj+LLQ4pS+f3b0Od26+GAazWUQfdL5tdKUEIx+FnVw==
+X-Received: by 2002:a1c:e1c6:: with SMTP id y189mr5870441wmg.43.1625237141740; 
+ Fri, 02 Jul 2021 07:45:41 -0700 (PDT)
+Received: from redhat.com ([2.55.4.39])
+ by smtp.gmail.com with ESMTPSA id b15sm4248231wrr.27.2021.07.02.07.45.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Jul 2021 07:45:40 -0700 (PDT)
+Date: Fri, 2 Jul 2021 10:45:37 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 04/53] tests: acpi: q35: test for x2APIC entries in SRAT
+Message-ID: <20210702104441-mutt-send-email-mst@kernel.org>
+References: <20210625091818.1047980-1-imammedo@redhat.com>
+ <20210625091818.1047980-5-imammedo@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210625091818.1047980-5-imammedo@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,196 +92,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Jun 2021 17:38:31 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On Fri, Jun 25, 2021 at 05:17:28AM -0400, Igor Mammedov wrote:
+> Set -smp 1,maxcpus=288 to test for ACPI code that
+> deal with CPUs with large APIC ID (>255).
+> 
+> PS:
+> Test requires KVM and in-kernel irqchip support,
+> so skip test if KVM is not available.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
-> As with previous performance optimization on Treaddir handling;
-> reduce the overall latency, i.e. overall time spent on processing
-> a Twalk request by reducing the amount of thread hops between the
-> 9p server's main thread and fs worker thread(s).
->=20
-> In fact this patch even reduces the thread hops for Twalk handling
-> to its theoritical minimum of exactly 2 thread hops:
->=20
-> main thread -> fs worker thread -> main thread
->=20
-> This is achieved by doing all the required fs driver tasks altogether
-> in a single v9fs_co_run_in_worker({ ... }); code block.
->=20
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Why don't we add a new test? Why change an existing one?
+And I'd prefer kvm in the name since it's kvm specific.
+E.g. kvmnumamem.
+
+
 > ---
->  hw/9pfs/9p.c | 89 +++++++++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 70 insertions(+), 19 deletions(-)
->=20
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 7be07f2d68..2815257f42 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -1705,9 +1705,9 @@ static void coroutine_fn v9fs_walk(void *opaque)
->      int name_idx;
->      V9fsQID *qids =3D NULL;
->      int i, err =3D 0;
-> -    V9fsPath dpath, path;
-> +    V9fsPath dpath, path, *pathes =3D NULL;
->      uint16_t nwnames;
-> -    struct stat stbuf;
-> +    struct stat stbuf, fidst, *stbufs =3D NULL;
->      size_t offset =3D 7;
->      int32_t fid, newfid;
->      V9fsString *wnames =3D NULL;
-> @@ -1733,6 +1733,8 @@ static void coroutine_fn v9fs_walk(void *opaque)
->      if (nwnames) {
->          wnames =3D g_new0(V9fsString, nwnames);
->          qids   =3D g_new0(V9fsQID, nwnames);
-> +        stbufs =3D g_new0(struct stat, nwnames);
-> +        pathes =3D g_new0(V9fsPath, nwnames);
->          for (i =3D 0; i < nwnames; i++) {
->              err =3D pdu_unmarshal(pdu, offset, "s", &wnames[i]);
->              if (err < 0) {
-> @@ -1753,39 +1755,85 @@ static void coroutine_fn v9fs_walk(void *opaque)
-> =20
->      v9fs_path_init(&dpath);
->      v9fs_path_init(&path);
-> +    /*
-> +     * Both dpath and path initially point to fidp.
-> +     * Needed to handle request with nwnames =3D=3D 0
-> +     */
-> +    v9fs_path_copy(&dpath, &fidp->path);
-> +    v9fs_path_copy(&path, &fidp->path);
-> =20
-> -    err =3D v9fs_co_lstat(pdu, &fidp->path, &stbuf);
-> +    /*
-> +     * To keep latency (i.e. overall execution time for processing this
-> +     * Twalk client request) as small as possible, run all the required =
-fs
-> +     * driver code altogether inside the following block.
-> +     */
-> +    v9fs_co_run_in_worker({
-> +        if (v9fs_request_cancelled(pdu)) {
-> +            err =3D -EINTR;
-> +            break;
-> +        }
-> +        err =3D s->ops->lstat(&s->ctx, &dpath, &fidst);
-> +        if (err < 0) {
-> +            err =3D -errno;
-> +            break;
-> +        }
-> +        stbuf =3D fidst;
-> +        for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
-> +            if (v9fs_request_cancelled(pdu)) {
-> +                err =3D -EINTR;
-> +                break;
-> +            }
-> +            if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
-> +                strcmp("..", wnames[name_idx].data))
-> +            {
-> +                err =3D s->ops->name_to_path(&s->ctx, &dpath,
-> +                                        wnames[name_idx].data, &path);
-
-It seems you could pass &pathes[name_idx] instead of &path and...
-
-> +                if (err < 0) {
-> +                    err =3D -errno;
-> +                    break;
-> +                }
-> +                if (v9fs_request_cancelled(pdu)) {
-> +                    err =3D -EINTR;
-> +                    break;
-> +                }
-> +                err =3D s->ops->lstat(&s->ctx, &path, &stbuf);
-> +                if (err < 0) {
-> +                    err =3D -errno;
-> +                    break;
-> +                }
-> +                stbufs[name_idx] =3D stbuf;
-> +                v9fs_path_copy(&dpath, &path);
-> +                v9fs_path_copy(&pathes[name_idx], &path);
-
-... avoid a copy.
-
-Also, I believe the path -> dpath could be avoided as well in
-the existing code, but this is a separate cleanup.
-
-> +            }
-> +        }
-> +    });
-> +    /*
-> +     * Handle all the rest of this Twalk request on main thread ...
-> +     */
->      if (err < 0) {
->          goto out;
->      }
-> -    err =3D stat_to_qid(pdu, &stbuf, &qid);
-> +
-> +    err =3D stat_to_qid(pdu, &fidst, &qid);
->      if (err < 0) {
->          goto out;
->      }
-> +    stbuf =3D fidst;
-> =20
-> -    /*
-> -     * Both dpath and path initially poin to fidp.
-> -     * Needed to handle request with nwnames =3D=3D 0
-> -     */
-> +    /* reset dpath and path */
->      v9fs_path_copy(&dpath, &fidp->path);
->      v9fs_path_copy(&path, &fidp->path);
-> +
->      for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
->          if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
-> -            strcmp("..", wnames[name_idx].data)) {
-> -            err =3D v9fs_co_name_to_path(pdu, &dpath, wnames[name_idx].d=
-ata,
-> -                                       &path);
-> -            if (err < 0) {
-> -                goto out;
-> -            }
-> -
-> -            err =3D v9fs_co_lstat(pdu, &path, &stbuf);
-> -            if (err < 0) {
-> -                goto out;
-> -            }
-> +            strcmp("..", wnames[name_idx].data))
-> +        {
-> +            stbuf =3D stbufs[name_idx];
->              err =3D stat_to_qid(pdu, &stbuf, &qid);
->              if (err < 0) {
->                  goto out;
->              }
-> +            v9fs_path_copy(&path, &pathes[name_idx]);
->              v9fs_path_copy(&dpath, &path);
->          }
->          memcpy(&qids[name_idx], &qid, sizeof(qid));
-> @@ -1821,9 +1869,12 @@ out_nofid:
->      if (nwnames && nwnames <=3D P9_MAXWELEM) {
->          for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
->              v9fs_string_free(&wnames[name_idx]);
-> +            v9fs_path_free(&pathes[name_idx]);
->          }
->          g_free(wnames);
->          g_free(qids);
-> +        g_free(stbufs);
-> +        g_free(pathes);
-
-All of these guys should be converted to g_autofree. Separate cleanup
-again.
-
-v9fs_walk() was already a bit hairy and the diffstat definitely
-doesn't improve things... this being said, the change makes sense
-and I haven't spotted anything wrong, so:
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-Improvements could be to :
-- track the previous path with a V9fsPath * instead of copying
-- have a separate path for the nwnames =3D=3D 0 case
-
->      }
+> v2:
+>   - switch to qtest_has_accel() API
+> 
+> CC: thuth@redhat.com
+> CC: lvivier@redhat.com
+> ---
+>  tests/qtest/bios-tables-test.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 51d3a4e239..ca496819fa 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1021,7 +1021,7 @@ static void test_acpi_piix4_tcg_nohpet(void)
+>      free_test_data(&data);
 >  }
-> =20
+>  
+> -static void test_acpi_q35_tcg_numamem(void)
+> +static void test_acpi_q35_kvm_numamem(void)
+>  {
+>      test_data data;
+>  
+> @@ -1029,7 +1029,9 @@ static void test_acpi_q35_tcg_numamem(void)
+>      data.machine = MACHINE_Q35;
+>      data.variant = ".numamem";
+>      test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
+> -                  " -numa node -numa node,memdev=ram0", &data);
+> +                  " -numa node -numa node,memdev=ram0"
+> +                  " -machine kernel-irqchip=on -smp 1,maxcpus=288"
+> +                   , &data);
+>      free_test_data(&data);
+>  }
+>  
+> @@ -1506,6 +1508,7 @@ static void test_acpi_oem_fields_virt(void)
+>  int main(int argc, char *argv[])
+>  {
+>      const char *arch = qtest_get_arch();
+> +    const bool has_kvm = qtest_has_accel("kvm");
+>      int ret;
+>  
+>      g_test_init(&argc, &argv, NULL);
+> @@ -1536,7 +1539,6 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/piix4/memhp", test_acpi_piix4_tcg_memhp);
+>          qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
+>          qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
+> -        qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
+>          qtest_add_func("acpi/piix4/nosmm", test_acpi_piix4_tcg_nosmm);
+>          qtest_add_func("acpi/piix4/smm-compat",
+>                         test_acpi_piix4_tcg_smm_compat);
+> @@ -1561,6 +1563,9 @@ int main(int argc, char *argv[])
+>          if (strcmp(arch, "x86_64") == 0) {
+>              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
+>          }
+> +        if (has_kvm) {
+> +            qtest_add_func("acpi/q35/numamem", test_acpi_q35_kvm_numamem);
+> +        }
+>      } else if (strcmp(arch, "aarch64") == 0) {
+>          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+>          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+> -- 
+> 2.27.0
 
 
