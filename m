@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BCB3BA391
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:18:27 +0200 (CEST)
-Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DE93BA39E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 19:26:55 +0200 (CEST)
+Received: from localhost ([::1]:42126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzMo6-0005vK-3H
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
+	id 1lzMwI-0003BY-0n
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 13:26:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lzMl9-0004Rq-Vb
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 13:15:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lzMkz-00082j-5F
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 13:15:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625246110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=n1TSEnD0NGYavLASkyG3YWNvyjaz1T47D74aqmH/hyw=;
- b=cd35BMFKaPfG9KBo3ZfL542zBFxB2m5I11ktKtnLyUL+p8Xh9C5tmmZBNHOivorwcEEuHf
- F0kYpG61hYhxrwYmfMDvtjH4KRZfz2Z/1+j6LBTzcQpzj2jhT8V/yrZa0M0F8FyaZcf/8F
- IYZjdPsuhpzYwAZMoakDvgJfgIOTw20=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-E8baiZYpPamyyH0lBE84dQ-1; Fri, 02 Jul 2021 13:15:08 -0400
-X-MC-Unique: E8baiZYpPamyyH0lBE84dQ-1
-Received: by mail-oi1-f197.google.com with SMTP id
- d196-20020aca4fcd0000b029023e5c96e030so5959849oib.5
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 10:15:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lzMuD-0000No-IW; Fri, 02 Jul 2021 13:24:45 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1lzMu9-0005lq-MN; Fri, 02 Jul 2021 13:24:45 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id gb6so646573ejc.5;
+ Fri, 02 Jul 2021 10:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nAKjjyoCU8zkDj/ZRcym+tYs/ZsnewTALevBfBNaMQY=;
+ b=ebFomY7mDamNK3lDusEA8hhPGN4jBQ3c2Ce5kRcNtplVOORTipmAmm1XtBVJNWkrCY
+ MJl8aQDczmUInUoOGJkdzxaQ2Ef/R4EcbxPgxVV4ulBFrEUiQ0R3qlqz4YdnjleQY38t
+ O7SykiluEgkWv5ZtocI0y94l9uA7j7XNfHDlmtneya0YrUtWRyusVkekg4QA0S+sOVq+
+ PpTBKBnN3L1aHesxTzHBiMyjGu0LmQJq5er0+KAtGhxpFbH30t2P+dojhAMMNpn/2VwC
+ 68ZgUSJfuJk90oKNo9RIL+lt5A2eHXNsfj3UyOJyDbEmlUWxhKC8TlYH48tKbR3YVBxo
+ BqGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=n1TSEnD0NGYavLASkyG3YWNvyjaz1T47D74aqmH/hyw=;
- b=CDs1SPDomyYQrwb63hfcKvpXIna7LhW2t0s8TPSEzo+H4w5LgybOsLTBpUX3MhgIdE
- d7Iy58ck3D/HMQ9BO8CL4pFBcj6LJ3raAbqkX/2mirCZV/4HNI3l7Jdw811NzP2qruOy
- RtIBxt89mAoNriC/hxlhbC7Q+fxjDCPOKBpkTIyZ3yfSRB/joQq+etXEturl6ctk9OHT
- QnRdjVt6sdept85BDtiLvU+PpgHNwo4FXYs9uMyyL122BiB8kRHxHIhoP21EQ8k6G1JX
- Squ+uYpPmdWHShEcuVyBaGoetc1CqHCwTpm/mOffaiTLilAek2Ttczc6DsPjYgcIWANF
- ZSKg==
-X-Gm-Message-State: AOAM532CN6TE7SNTrxY9PS5fw0vuR8zPYGQUoQCzskhWubgyJbrWymO1
- q9wr1vqHuAReFN1Vf5fPxI/ZRGubasldXrwOrBkNV4I796QuyuqYQSfkbKk34mRKVBQ9Q3aDDJ8
- E0oO1ksKBrtWtReeFKiT45IawQ3v5AOE=
-X-Received: by 2002:a05:6830:1c2d:: with SMTP id
- f13mr287329ote.323.1625246107694; 
- Fri, 02 Jul 2021 10:15:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywHGCvx4+3qMWs+bV8wJrH0DYU7PCsbOLNarK6sEMCT1K2oc2Wbw4ZkZosVCZKgkeDgZ70hbobONc1PXtGCyY=
-X-Received: by 2002:a05:6830:1c2d:: with SMTP id
- f13mr287318ote.323.1625246107487; 
- Fri, 02 Jul 2021 10:15:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nAKjjyoCU8zkDj/ZRcym+tYs/ZsnewTALevBfBNaMQY=;
+ b=Gc9mW1y76vWUssaXbOemt0U/ogQcij7zMnbFGP/tnec79Du+pPPligJJO6cIfOeZrp
+ hwIRPQp7jYnmi2hM9EGScvCeNUPkYh2J8SaWbCBGJuizkbsLl0zMJg9Rk7R9pk+/5og1
+ oJ+Bvd+49+EBqAlYyUseGYRxSJwyw2y3xUPThsa/5aGpt9Lpq2Rte4Ky3WX7K3Zr3xnp
+ xwXmuh3rEgyINgTrg9ILzMsT90NtENxPTKQJxA9PLB+6QVWnzc/Zi/W5jshbuR3RHWWb
+ lVpAK1UR5qvCANaKMNiiGaPH9eKg/wb7B6baoNFYgCcFHdemx6rE9Zh7N61nYA9JfZe2
+ paSQ==
+X-Gm-Message-State: AOAM532UBqrl33mlwJNEEebZoWYQmkzqDteuIFB3rYvCQXqr0Fey8x8R
+ RHJlnyw42ZvBxwvbvuXFmNf8sbOjcNQIRA==
+X-Google-Smtp-Source: ABdhPJyuzZz7QcYcELk419UX7g3uA7BxOAK5nWXZ8ZLjZ/hAUrSIbdlzQ7qFOM5+QlllSiA4WcPdRQ==
+X-Received: by 2002:a17:906:4c91:: with SMTP id
+ q17mr375059eju.122.1625246679652; 
+ Fri, 02 Jul 2021 10:24:39 -0700 (PDT)
+Received: from kwango.redhat.com (ip-94-112-132-16.net.upcbroadband.cz.
+ [94.112.132.16])
+ by smtp.gmail.com with ESMTPSA id ar27sm1242229ejc.100.2021.07.02.10.24.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Jul 2021 10:24:39 -0700 (PDT)
+From: Ilya Dryomov <idryomov@gmail.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v5 0/6] block/rbd: migrate to coroutines and add write zeroes
+ support
+Date: Fri,  2 Jul 2021 19:23:50 +0200
+Message-Id: <20210702172356.11574-1-idryomov@gmail.com>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 2 Jul 2021 13:14:56 -0400
-Message-ID: <CAFn=p-YDG2BUpt7nm1K78tFMF8dajpYoLvGbK0poHA72rgAPHg@mail.gmail.com>
-Subject: Esoteric QMP specification questions of dubious importance
-To: qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e8e27e05c62718c6"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,108 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ ct@flyingcircus.io, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e8e27e05c62718c6
-Content-Type: text/plain; charset="UTF-8"
+This series migrates the qemu rbd driver from the old aio emulation
+to native coroutines and adds write zeroes support which is important
+for block operations.
 
-I'm writing a "fake" QMP server for the purposes of creating unit tests for
-the python QMP library. In doing so, I am left with some esoteric questions:
+To achieve this we first bump the librbd requirement to the already
+outdated luminous release of ceph to get rid of some wrappers and
+ifdef'ry in the code.
 
+V4->V5:
+ - rebase on Kevin's block branch (https://repo.or.cz/qemu/kevin.git block)
+   to resolve conflicts with "block/rbd: Add support for rbd image encryption"
+   patch
 
-(1) qemu-spec.txt, section 2.4.2, "error":
+V3->V4:
+ - this patch is now rebased on top of current master
+ - Patch 1: just mention librbd, tweak version numbers [Ilya]
+ - Patch 3: use rbd_get_size instead of rbd_stat [Ilya]
+ - Patch 4: retain comment about using a BH in the callback [Ilya]
+ - Patch 5: set BDRV_REQ_NO_FALLBACK and silently ignore BDRV_REQ_MAY_UNMAP [Ilya]
 
-The format of an "error response" is:
+V2->V3:
+ - this patch is now rebased on top of current master
+ - Patch 1: only use cc.links and not cc.run to not break
+   cross-compiling. [Kevin]
+   Since Qemu 6.1 its okay to rely on librbd >= 12.x since RHEL-7
+   support was dropped [Daniel]
+ - Patch 4: dropped
+ - Patch 5: store BDS in RBDTask and use bdrv_get_aio_context() [Kevin]
 
-> { "error": { "class": json-string, "desc": json-string }, "id":
-json-value }
+V1->V2:
+ - this patch is now rebased on top of current master with Paolos
+   upcoming fixes for the meson.build script included:
+    - meson: accept either shared or static libraries if --disable-static
+    - meson: honor --enable-rbd if cc.links test fails
+ - Patch 1: adjusted to meson.build script
+ - Patch 2: unchanged
+ - Patch 3: new patch
+ - Patch 4: do not implement empty detach_aio_context callback [Jason]
+ - Patch 5: - fix aio completion cleanup in error case [Jason]
+            - return error codes from librbd
+ - Patch 6: - add support for thick provisioning [Jason]
+            - do not set write zeroes alignment
+ - Patch 7: new patch
 
-For the purposes of naming internal types in the QMP library, does the
-"error" object value have a canonical type name? It's not defined in QAPI
-that I can see.
+Peter Lieven (6):
+  block/rbd: bump librbd requirement to luminous release
+  block/rbd: store object_size in BDRVRBDState
+  block/rbd: update s->image_size in qemu_rbd_getlength
+  block/rbd: migrate from aio to coroutines
+  block/rbd: add write zeroes support
+  block/rbd: drop qemu_rbd_refresh_limits
 
+ block/rbd.c | 406 ++++++++++++++++------------------------------------
+ meson.build |   7 +-
+ 2 files changed, 128 insertions(+), 285 deletions(-)
 
-(2) qemu-spec.txt, section 2.2 "Server Greeting":
-
-The greeting message format is:
-
-> { "QMP": { "version": json-object, "capabilities": json-array } }
->
-> Where,
->
-> - The "version" member contains the Server's version information (the
-format
->  is the same of the query-version command)
-
-The layout of the "version" object is not specified in the spec itself,
-though it does ask you to refer to the query-version command.
-Hypothetically, is an alternate implementation of QMP in a binary that is
-*not* QEMU allowed to change the layout of the "version" object (so long as
-it matched whatever format it had for a "query-version" command, also not
-mandated by the spec), or must it *always* conform to this precise layout?
-
-(qapi/control.json):
-
-> { 'struct': 'VersionInfo',
->    'data': {'qemu': 'VersionTriple', 'package': 'str'} }
-
-If so, what should such a hypothetical client that is *not* QEMU do here?
-What version does it report for the "qemu" VersionTriple member? Can I
-report 0.0.0?
-
-
-(3) Does the qmp-spec technically mandate any commands being available?
-
-I believe that qmp_capabilities is definitively a requirement of the spec,
-but what about query-commands, query-version, or quit? Are they technically
-requirements of the QMP spec, or just requirements of QEMU?
-
-
-Weird questions, I know.
---js
-
---000000000000e8e27e05c62718c6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I&#39;m writing a &quot;fake&quot; QMP server for the=
- purposes of creating unit tests for the python QMP library. In doing so, I=
- am left with some esoteric questions:<br></div><div><br></div><div><br></d=
-iv><div>(1) qemu-spec.txt, section 2.4.2, &quot;error&quot;:</div><div><br>=
-</div><div> The format of an &quot;error response&quot; is:</div><div><br><=
-/div><div>&gt; { &quot;error&quot;: { &quot;class&quot;: json-string, &quot=
-;desc&quot;: json-string }, &quot;id&quot;: json-value }</div><div><br></di=
-v><div>For the purposes of naming internal types in the QMP library, does t=
-he &quot;error&quot; object value have a canonical type name? It&#39;s not =
-defined in QAPI that I can see.</div><div><br></div><div><br></div><div>(2)=
- qemu-spec.txt, section 2.2 &quot;Server Greeting&quot;:</div><div><br></di=
-v><div>The greeting message format is:</div><div><br></div><div>&gt; { &quo=
-t;QMP&quot;: { &quot;version&quot;: json-object, &quot;capabilities&quot;: =
-json-array } }</div><div>&gt;</div><div>&gt; Where,</div><div>&gt;<br></div=
-><div>&gt; - The &quot;version&quot; member contains the Server&#39;s versi=
-on information (the format<br>&gt;=C2=A0 is the same of the query-version c=
-ommand)</div><div><br></div><div>The layout of the &quot;version&quot; obje=
-ct is not specified in the spec itself, though it does ask you to refer to =
-the query-version command. Hypothetically, is an alternate implementation o=
-f QMP in a binary that is *not* QEMU allowed to change the layout of the &q=
-uot;version&quot; object (so long as it matched whatever format it had for =
-a &quot;query-version&quot; command, also not mandated by the spec), or mus=
-t it *always* conform to this precise layout?<br></div><div><br></div><div>=
-(qapi/control.json):</div><div><br>&gt; { &#39;struct&#39;: &#39;VersionInf=
-o&#39;,<br>&gt; =C2=A0=C2=A0 &#39;data&#39;: {&#39;qemu&#39;: &#39;VersionT=
-riple&#39;, &#39;package&#39;: &#39;str&#39;} }</div><div><br></div><div>If=
- so, what should such a hypothetical client that is *not* QEMU do here? Wha=
-t version does it report for the &quot;qemu&quot; VersionTriple member? Can=
- I report 0.0.0?<br></div><div><br></div><div><br></div><div>(3) Does the q=
-mp-spec technically mandate any commands being available?</div><div><br></d=
-iv><div>I believe that qmp_capabilities is definitively a requirement of th=
-e spec, but what about query-commands, query-version, or quit? Are they tec=
-hnically requirements of the QMP spec, or just requirements of QEMU?</div><=
-div><br></div><div><br></div><div>Weird questions, I know.</div><div>--js<b=
-r></div></div>
-
---000000000000e8e27e05c62718c6--
+-- 
+2.19.2
 
 
