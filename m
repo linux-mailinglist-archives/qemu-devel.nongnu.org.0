@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184333BA194
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:48:20 +0200 (CEST)
-Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2623BA1C2
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:54:25 +0200 (CEST)
+Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzJWl-0001MX-4F
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46168)
+	id 1lzJce-0002Rm-EZ
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJMZ-00054o-JN
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:47 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53906)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lzJbN-0000mc-HI
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:53:05 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:39621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJMX-0004Nb-IT
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:47 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id w13so6691180wmc.3
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=klbhgHqkEpwdq3x6lzv467uqizGi7EOdKnPiTzMYnoA=;
- b=fKW8Btz5Jm2yAjNqi2d5bA9i0htbw1BJU17Q9h9u4cIP9/xxUJ532mxPFA8XwV/mcF
- o7uneAmOs5EMt/S55N+Lt78ICod/wggEmXnY32fMsw/2yW+hNbbBpY8+WDunazRXw258
- 7Ux3Z8h2YJkO9YOvQDXvmCdaeoPcsKEPCOEwga96jiWMOYSqn5czjx2c0oNzt+QZtAUt
- 9SCUmR+OWUyy1R4iDTBhxZcixaqP5MSrs/Tohh/L8K4OVgGeSuYAbdAfty+MRO9ORo3C
- xy1eIKPdss7Tm6nKY8Y5pVk/ODWqe+nfBL6dKjJFNsIUL6DfZo9Dl5ChPEfs71trEepf
- 89qg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lzJbL-0000Wo-Od
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:53:05 -0400
+Received: by mail-ej1-x632.google.com with SMTP id hp26so3527337ejc.6
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o/dlfIX+wXLltxHKivMKtoVpUduM4H5ZpnE8BHmhj6Y=;
+ b=hc0oKlPjQIcaJsrF5mKxGhG0nxVQw1IlV4WCZcMBBG70ZJg0ebXuPYrRuFsPNpKMi+
+ ztteXWXZKXH4kO89bm07TyQFVgLYfbKeWBzG9yAygT9+dXjoBov2u0uVuhFOjXu6gMCk
+ TZeqjb+RmV+N9pmM/Qyy7+GUDWM7Hp4hQpeP001SOEoSW35QofMt0NRK4Eb34oHpFvM5
+ gWNkp5ySAAvL5RwgtsYgv3P8jVmQrcNveR/bUrOyjbBlZ0IpJs+SN4TLcafYtX06LBmb
+ iM9MVBvbsjFQo2ZAsSBOr5pBbDS6MxvQQZgu/gU78uuf6HjZbLnHnkZGwEpKkUD5IDMT
+ keoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=klbhgHqkEpwdq3x6lzv467uqizGi7EOdKnPiTzMYnoA=;
- b=U0aqq8Lbqz6HHntsLfbCUhMtk9r8ccL4Z2OgygcvXbitIckKyDkjcww446ERddVzn9
- ZxjRuvCP9/uEKVIdD0VEqdXFxs1E7tNUad6ppnSJVMgxwJisNJD3OaXkO/VdIAMYZ0Sf
- 1iHa6aL5jyMus4w544pcupGnHlMnesjA49WIiw8Oa4EvTnFSDgCTVmOzZ5nO3uEbQJ3r
- VruUCfqfIJD6kUwRsXBOn3DrC6Pr2/t3dSz1jrTtQW1gm2AcjxHfxZ8edLQ88zTqqEQ7
- oEaslIJfPR/t/Bojw5JMFA83Px9P6mwqP9kHZwTvFJo9diB7i7tzeBBkYxgokfX9FQIW
- jnxQ==
-X-Gm-Message-State: AOAM530SAJLUqurko7/SnEefUHZmxVYZOOl0YdZiObcPTClW+tkYnWRW
- /EATmBd/dHkVIffiOzxKiuuhQK0s00f5AhuS
-X-Google-Smtp-Source: ABdhPJwZjJ++YQ1VTLOz+3qdKA9Qa2FADOBmGKy7C2PXwTwLuV5Nf4L92b7p2/mfTj1aogQshl7F/g==
-X-Received: by 2002:a7b:c248:: with SMTP id b8mr17310372wmj.115.1625233063983; 
- Fri, 02 Jul 2021 06:37:43 -0700 (PDT)
-Received: from x1w.Ascou-CH1 (pop.92-184-108-23.mobile.abo.orange.fr.
- [92.184.108.23])
- by smtp.gmail.com with ESMTPSA id l20sm3256961wmq.3.2021.07.02.06.37.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 06:37:43 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 18/18] hw/mips/jazz: Map the UART devices unconditionally
-Date: Fri,  2 Jul 2021 15:35:57 +0200
-Message-Id: <20210702133557.60317-19-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210702133557.60317-1-f4bug@amsat.org>
-References: <20210702133557.60317-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o/dlfIX+wXLltxHKivMKtoVpUduM4H5ZpnE8BHmhj6Y=;
+ b=i2AxeTPCZ77TK+cw4UndemTgHXRZgoKsaLYwh812kx9ZG/iKIgaPbtlhd3xhwq25O1
+ 9goSDTJq+Tkc0kkPwBXBzFWcZWNE+4+Kh8z8ElsStKSAEeq+LU8/0rD2j7RSvvsBcwLl
+ F2uFnII+B6+g8C+Vch9j5b7a6eCxf3UpkQervKY7nrMDkJS5x8H2/bl2g/kK36IdZa3O
+ nyx2UXX0OdvwPnLi5zehl+Oi/QI3fnrNRjyqQigIeDDgOnqOnyClzj868q+eHQeNx6LX
+ Y7DsUdVErcJfUdBbpe/pa2I2/m+8lezyzi9ZkuxFJAFw/xsqs+7cFSLFLe4WMcvk5htm
+ EEsQ==
+X-Gm-Message-State: AOAM5313JzJGCpNKbhb/F7hIuMPnDm6y3cSdq5q3xHjcGWkaOzWinywm
+ 3JKRdLEywfYSs1x8CZrljkKFdEe3qymVNpOSQ/qnRw==
+X-Google-Smtp-Source: ABdhPJz54ZiIcyHJF/1isA3TpXVXc8gM3f68lr55TGtxrkcY8p6CTASwTJjrqFqQ4f6sooWcVlSl/LcvltfAp2V7l+E=
+X-Received: by 2002:a17:907:98eb:: with SMTP id
+ ke11mr5498131ejc.85.1625233981998; 
+ Fri, 02 Jul 2021 06:53:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+References: <20210630160206.276439-1-kwolf@redhat.com>
+In-Reply-To: <20210630160206.276439-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 2 Jul 2021 14:52:24 +0100
+Message-ID: <CAFEAcA8DS-iJf2RUrTzpcrsW5bQT++q26dtG3APbVm4mvsZ7tA@mail.gmail.com>
+Subject: Re: [PULL 00/24] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,64 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using the Magnum ARC firmware we can see accesses to the
-UART1 being rejected, because the device is not mapped:
+On Wed, 30 Jun 2021 at 17:02, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 13d5f87cc3b94bfccc501142df4a7b12fee3a6e7:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-axp-20210628' into staging (2021-06-29 10:02:42 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to a527e312b59ac382cb84af4b91f517a846f50705:
+>
+>   vhost-user-blk: Implement reconnection during realize (2021-06-30 13:21:22 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches
+>
+> - Supporting changing 'file' in x-blockdev-reopen
+> - ssh: add support for sha256 host key fingerprints
+> - vhost-user-blk: Implement reconnection during realize
+> - introduce QEMU_AUTO_VFREE
+> - Don't require password of encrypted backing file for image creation
+> - Code cleanups
 
-  $ qemu-system-mips64el -M magnum -d guest_errors,unimp -bios NTPROM.RAW
-  Invalid access at addr 0x80007004, size 1, region '(null)', reason: rejected
-  Invalid access at addr 0x80007001, size 1, region '(null)', reason: rejected
-  Invalid access at addr 0x80007002, size 1, region '(null)', reason: rejected
-  Invalid access at addr 0x80007003, size 1, region '(null)', reason: rejected
-  Invalid access at addr 0x80007004, size 1, region '(null)', reason: rejected
 
-Since both UARTs are present (soldered on the board) regardless
-of whether there are character devices connected, map them
-unconditionally.
+Applied, thanks.
 
-(This code pre-dated commit 12051d82f004 which made it safe to pass
-NULL in as a chardev to serial devices.)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210629053704.2584504-1-f4bug@amsat.org>
----
- hw/mips/jazz.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index ee1789183eb..d6183e18821 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -361,16 +361,12 @@ static void mips_jazz_init(MachineState *machine,
-     memory_region_add_subregion(address_space, 0x80005000, i8042);
- 
-     /* Serial ports */
--    if (serial_hd(0)) {
--        serial_mm_init(address_space, 0x80006000, 0,
--                       qdev_get_gpio_in(rc4030, 8), 8000000 / 16,
--                       serial_hd(0), DEVICE_NATIVE_ENDIAN);
--    }
--    if (serial_hd(1)) {
--        serial_mm_init(address_space, 0x80007000, 0,
--                       qdev_get_gpio_in(rc4030, 9), 8000000 / 16,
--                       serial_hd(1), DEVICE_NATIVE_ENDIAN);
--    }
-+    serial_mm_init(address_space, 0x80006000, 0,
-+                   qdev_get_gpio_in(rc4030, 8), 8000000 / 16,
-+                   serial_hd(0), DEVICE_NATIVE_ENDIAN);
-+    serial_mm_init(address_space, 0x80007000, 0,
-+                   qdev_get_gpio_in(rc4030, 9), 8000000 / 16,
-+                   serial_hd(1), DEVICE_NATIVE_ENDIAN);
- 
-     /* Parallel port */
-     if (parallel_hds[0])
--- 
-2.31.1
-
+-- PMM
 
