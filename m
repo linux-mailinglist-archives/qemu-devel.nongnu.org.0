@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2063B9B7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:28:41 +0200 (CEST)
-Received: from localhost ([::1]:58936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBE43B9B7D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 06:28:39 +0200 (CEST)
+Received: from localhost ([::1]:58878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzAnA-0002ju-KF
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49518)
+	id 1lzAn8-0002he-Jv
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 00:28:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAka-0008H3-3d
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:26:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42920)
+ id 1lzAkX-0008Bq-Cd
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzAkY-0002TT-BY
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:59 -0400
+ id 1lzAkV-0002RL-Ip
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 00:25:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lzAkT-00053U-Hx
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:53 +0000
+ id 1lzAkR-00050t-53
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 04:25:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BFFD52E81C0
- for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 667572E81A8
+ for <qemu-devel@nongnu.org>; Fri,  2 Jul 2021 04:25:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Jul 2021 04:17:25 -0000
-From: Launchpad Bug Tracker <1856834@bugs.launchpad.net>
+Date: Fri, 02 Jul 2021 04:17:27 -0000
+From: Launchpad Bug Tracker <1857449@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andree182 ecsdn janitor laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
+X-Launchpad-Bug-Commenters: cirosantilli janitor philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?b?Q2lybyBTYW50aWxsaSDlha3lm5vkuovku7Yg?=
+ =?utf-8?b?5rOV6L2u5YqfIChjaXJvc2FudGlsbGkp?=
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
-Message-Id: <162519944606.31921.12603009403185377707.malone@loganberry.canonical.com>
-Subject: [Bug 1856834] Re: PCI broken in qemu ppc e500 in v2.12.0 and other
- versions
+References: <157719032956.5393.6667899255989227451.malonedeb@gac.canonical.com>
+Message-Id: <162519944766.31921.7028423839868626371.malone@loganberry.canonical.com>
+Subject: [Bug 1857449] Re: QEMU x86_64 -nographic full system breaks host Bash
+ terminal line wrapping state after simulation ends,
+ requires reset or "tput smam" to fix it
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: 8d5ccca9cc2f600b22e6abc511bee7bbca8524be
+X-Launchpad-Hash: b0e6a89179647da23c86aaa0ac01b348b8faab02
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
+Reply-To: Bug 1857449 <1857449@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,59 +86,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856834
+https://bugs.launchpad.net/bugs/1857449
 
 Title:
-  PCI broken in qemu ppc e500 in v2.12.0 and other versions
+  QEMU x86_64 -nographic full system breaks host Bash terminal line
+  wrapping state after simulation ends, requires reset or "tput smam" to
+  fix it
 
 Status in QEMU:
   Expired
 
 Bug description:
-  The same qemu -M mpc... command that works on qemu-system-ppc version
-  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
-  version 4.2.0release and 4.19dirtygit:
+  QEMU 4.2.0 compiled from source, Ubuntu 19.10, open a fresh new gnome
+  terminal.
 
-  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
-ccel kvm is set.
-  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
-e (slower).
+  If you print 1000 =3D chars on the host terminal, then they do wrap
+  around the end of the terminal:
 
-  ends/freezes at:
-  nbd: registered device at major 43
-  =C2=A0vda:
+  printf "=3D%.0s" {0..1000}
 
-  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
-  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
-  with 2.8.0 official release from git/github that I compiled/built
-  myself. But both of the newer releases fail on the same exact machine
-  same config.
+  However, if you first run QEMU:
 
-  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
-ed weren't, ie gave
-  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
-bus=3D0,unit=3D0
-  (but I removed -drive if=3Dmtd since wasn't using it anyway)
+  x86_64-softmmu/qemu-system-x86_64 -nographic
 
-  I also tried on windows but I think virtio doesn't work on windows
-  hosts at all? On windows host it fails the same way, even version 2.12
-  as well as 4.1.10...
+  and then quit it in any way, e.g. with Ctrl + A, and then re-run on
+  the host terminal:
 
-  used:
-  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
+  printf "=3D%.0s" {0..1000}
 
-  (basically all steps the same on same exact system same config, yet
-  2.8.0 works fine whether apt-get installed or built from source while
-  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
+  then the signs don't wrap around anymore, they just go "off the
+  terminal to the right".
 
-  In case newer qemu versions act weird on various kernels, I did try with =
-both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
- compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
-_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
-ich is why I can't use -M ppce500 instead..)
-  tx
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
+  This can be fixed with either:
+
+  reset
+  tpam smam
+
+  but unfortunately those don't work in tmux for some reason:
+  https://github.com/tmux/tmux/issues/969
+
+  I consider this buggy behavior, QEMU should restore the original
+  terminal state if possible.
+
+  Related: https://github.com/cirosantilli/linux-kernel-module-
+  cheat/issues/110
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1857449/+subscriptions
 
