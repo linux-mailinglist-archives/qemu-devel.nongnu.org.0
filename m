@@ -2,74 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A0E3B9AC1
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 04:49:44 +0200 (CEST)
-Received: from localhost ([::1]:42426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 874483B9B14
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 05:31:38 +0200 (CEST)
+Received: from localhost ([::1]:49914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lz9FO-00008v-Sa
-	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 22:49:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60366)
+	id 1lz9tx-0007jP-0Y
+	for lists+qemu-devel@lfdr.de; Thu, 01 Jul 2021 23:31:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1lz9EC-0007vT-VL
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 22:48:29 -0400
-Received: from mga02.intel.com ([134.134.136.20]:32463)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lz9s6-0006xa-Hr
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 23:29:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1lz9E9-0005xL-RV
- for qemu-devel@nongnu.org; Thu, 01 Jul 2021 22:48:28 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="195826466"
-X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; d="scan'208";a="195826466"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 19:48:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; d="scan'208";a="457935577"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga008.fm.intel.com with ESMTP; 01 Jul 2021 19:48:15 -0700
-Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 1 Jul 2021 19:48:15 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
- SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Fri, 2 Jul 2021 10:48:13 +0800
-Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
- SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.008;
- Fri, 2 Jul 2021 10:48:13 +0800
-From: "Wang, Wei W" <wei.w.wang@intel.com>
-To: David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: RE: [PATCH] migration: Move bitmap_mutex out of
- migration_bitmap_clear_dirty()
-Thread-Topic: [PATCH] migration: Move bitmap_mutex out of
- migration_bitmap_clear_dirty()
-Thread-Index: AQHXbeunvJLboMuimkuCIYxaPrgzEKsth5XAgAAGCwCAABk7AIABVF1Q
-Date: Fri, 2 Jul 2021 02:48:13 +0000
-Message-ID: <604935aa45114d889800f6ccc23c6b13@intel.com>
-References: <20210630200805.280905-1-peterx@redhat.com>
- <33f137dae5c346078a3a7a658bb5f1ab@intel.com> <YN26SDxZS1aShbHi@t490s>
- <304fc749-03a0-b58d-05cc-f0d78350e015@redhat.com>
-In-Reply-To: <304fc749-03a0-b58d-05cc-f0d78350e015@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lz9s2-0002ie-LI
+ for qemu-devel@nongnu.org; Thu, 01 Jul 2021 23:29:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625196574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KEBH50BKUJXIhiFj28RR2Lp9AACCkuRc/rXahjMhs9A=;
+ b=SWLUKJruu5/lAUsuAS13qwBDGWLxhPo5KmMAl7jmkEYCJ05EJVgLLwPYVpSg9TLvE7BAcL
+ ohi5Npi972kHI3+Yc8ttFBoXGZjjm6srlz9NXOJORv6req6DOXcUIUPOPjEQU3UY3O7mjS
+ UUp8GxDUwuFKtHgtXB8WTAaq+5Th47o=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-lkthUKADNgiNF8L2akPgWQ-1; Thu, 01 Jul 2021 23:29:31 -0400
+X-MC-Unique: lkthUKADNgiNF8L2akPgWQ-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ c129-20020a6235870000b0290316088e2a39so158996pfa.22
+ for <qemu-devel@nongnu.org>; Thu, 01 Jul 2021 20:29:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=KEBH50BKUJXIhiFj28RR2Lp9AACCkuRc/rXahjMhs9A=;
+ b=rnKw3hIciHU/tpX/I5X/zHvQhDFd+1Gzrqo0o0Idg9/0p3GyWZuxfIVDUAaePhZUVN
+ 7y/nlPxCP0TbBIY//8xRQ7qvPdHQwYE7y63AzZPrwzs6MWRJkyWzI2oHOzjC61aOwCyJ
+ XP01HqL5AM9dTa2hGYo0yqOH6kRN/QB1Pg4VtbIHPL4o3T5lJhbNEloI/q41pVdDoIKb
+ UZj/r22x07DiUiubtleW2kx0pNteg2C3DUnkX2zlACtfxoGDpi/jnGAKv6+3PkCpcg6Y
+ 0LR8ueP6s5GZGxw88vKGMOnn4j0OS4sRvc4UFnHNAwP6D2bg2KfShWsxfOBuFqubXvMH
+ Dt7Q==
+X-Gm-Message-State: AOAM533W3an+cl2ZYMY54KXv2gH3pbZ2UzM/Aa5TfkI9THioIB3Zr/c+
+ KDsNcbwDVbPPuK2HYfYhcWrKV/pUUeX26iYmmTGMMR3VXZPdCVkG0xMt7qniJWAGe5e7n8d3AlJ
+ 6uDsFMthk1sBTDSU=
+X-Received: by 2002:a17:90a:e284:: with SMTP id
+ d4mr2812864pjz.200.1625196570185; 
+ Thu, 01 Jul 2021 20:29:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybK/m+PTHdeEEsPmri94XA4VaEyOJvegACXhvYBFvzWXiAEed86Y+4vJaOfT9GYxMvM12R1w==
+X-Received: by 2002:a17:90a:e284:: with SMTP id
+ d4mr2812850pjz.200.1625196569923; 
+ Thu, 01 Jul 2021 20:29:29 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id z9sm1505004pfc.101.2021.07.01.20.29.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Jul 2021 20:29:29 -0700 (PDT)
+Subject: Re: [PATCH 2/3] hw/net: e1000e: Correct the initial value of VET
+ register
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+References: <20210701094651.1258613-1-bmeng.cn@gmail.com>
+ <20210701094651.1258613-2-bmeng.cn@gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <005fb7e4-c73b-41f2-a42c-3f416d3508cf@redhat.com>
+Date: Fri, 2 Jul 2021 11:29:22 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=wei.w.wang@intel.com;
- helo=mga02.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210701094651.1258613-2-bmeng.cn@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.402,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,27 +103,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang
- Zhang <zhang.zhanghailiang@huawei.com>, Juan Quintela <quintela@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Leonardo Bras Soares
- Passos <lsoaresp@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Christina Wang <christina.wang@windriver.com>,
+ Markus Carlstedt <markus.carlstedt@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVGh1cnNkYXksIEp1bHkgMSwgMjAyMSAxMDoyMiBQTSwgRGF2aWQgSGlsZGVuYnJhbmQgd3Jv
-dGU6DQo+IE9uIDAxLjA3LjIxIDE0OjUxLCBQZXRlciBYdSB3cm90ZToNCj4gU3BvaWxlciBhbGVy
-dDogdGhlIGludHJvZHVjdGlvbiBvZiBjbGVhbiBiaXRtYXBzIHBhcnRpYWxseSBicm9rZSBmcmVl
-IHBhZ2UgaGludGluZw0KPiBhbHJlYWR5IChhcyBjbGVhcmluZyBoYXBwZW5zIGRlZmVycmVkIC0t
-IGFuZCBtaWdodCBuZXZlciBoYXBwZW4gaWYgd2UgZG9uJ3QNCj4gbWlncmF0ZSAqYW55KiBwYWdl
-IHdpdGhpbiBhIGNsZWFuIGJpdG1hcCBjaHVuaywgc28gcGFnZXMgYWN0dWFsbHkgcmVtYWluDQo+
-IGRpcnR5IC4uLikuICJicm9rZSIgaGVyZSBtZWFucyB0aGF0IHBhZ2VzIHN0aWxsIGdldCBtaWdy
-YXRlZCBldmVuIHRob3VnaCB0aGV5DQo+IHdlcmUgcmVwb3J0ZWQgYnkgdGhlIGd1ZXN0LiBXZSdk
-IGFjdHVhbGx5IG5vdCB3YW50IHRvIHVzZSBjbGVhbiBibWFwcyB3aXRoIGZyZWUNCj4gcGFnZSBo
-aW50aW5nIC4uLiBsb25nIHN0b3J5IHNob3J0LCBmcmVlIHBhZ2UgaGludGluZyBpcyBhIHZlcnkg
-ZnJhZ2lsZSBiZWFzdCBhbHJlYWR5DQo+IGFuZCBzb21lIG9mIHRoZSBoaW50cyBhcmUgYmFzaWNh
-bGx5IGlnbm9yZWQgYW5kIHB1cmUgb3ZlcmhlYWQgLi4uDQoNCk5vdCByZWFsbHkuIEJvdGggY2xl
-YXJfYm1hcCBhbmQgZnJlZSBwYWdlIGhpbnQgYXJlIHRvICJjbGVhciIgdGhlIGJpdG1hcC4NCk5v
-IG1hdHRlciB3aG8gY29tZXMgZmlyc3QgdG8gY2xlYXIgaXQsIGl0IHdvbuKAmXQgY2F1c2UgbW9y
-ZSAodW5leHBlY3RlZCkgcGFnZXMgdG8gYmUgc2VudC4NCg0KQmVzdCwNCldlaQ0K
+
+ÔÚ 2021/7/1 ÏÂÎç5:46, Bin Meng Ð´µÀ:
+> From: Christina Wang <christina.wang@windriver.com>
+>
+> The initial value of VLAN Ether Type (VET) register is 0x8100, as per
+> the manual and real hardware.
+>
+> While Linux e1000e driver always writes VET register to 0x8100, it is
+> not always the case for everyone. Drivers relying on the reset value
+> of VET won't be able to transmit and receive VLAN frames in QEMU.
+>
+> Unlike e1000 in QEMU, e1000e uses a field 'vet' in "struct E1000Core"
+> to cache the value of VET register, but the cache only gets updated
+> when VET register is written. To always get a consistent VET value
+> no matter VET is written or remains its reset value, drop the 'vet'
+> field and use 'core->mac[VET]' directly.
+>
+> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
+> Signed-off-by: Christina Wang <christina.wang@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> ---
+>
+>   hw/net/e1000e_core.h |  2 --
+>   hw/net/e1000e.c      |  6 ++----
+>   hw/net/e1000e_core.c | 11 ++++++-----
+>   3 files changed, 8 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+> index 4ddb4d2c39..07d722bc68 100644
+> --- a/hw/net/e1000e_core.h
+> +++ b/hw/net/e1000e_core.h
+> @@ -105,8 +105,6 @@ struct E1000Core {
+>       uint32_t itr_guest_value;
+>       uint32_t eitr_guest_value[E1000E_MSIX_VEC_NUM];
+>   
+> -    uint16_t vet;
+> -
+>       uint8_t permanent_mac[ETH_ALEN];
+>   
+>       NICState *owner_nic;
+> diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+> index a8a77eca95..1797e4a7cb 100644
+> --- a/hw/net/e1000e.c
+> +++ b/hw/net/e1000e.c
+> @@ -602,8 +602,8 @@ static const VMStateDescription e1000e_vmstate_intr_timer = {
+>   
+>   static const VMStateDescription e1000e_vmstate = {
+>       .name = "e1000e",
+> -    .version_id = 1,
+> -    .minimum_version_id = 1,
+> +    .version_id = 2,
+> +    .minimum_version_id = 2,
+>       .pre_save = e1000e_pre_save,
+>       .post_load = e1000e_post_load,
+>       .fields = (VMStateField[]) {
+> @@ -645,8 +645,6 @@ static const VMStateDescription e1000e_vmstate = {
+>           VMSTATE_UINT32_ARRAY(core.eitr_guest_value, E1000EState,
+>                                E1000E_MSIX_VEC_NUM),
+>   
+> -        VMSTATE_UINT16(core.vet, E1000EState),
+
+
+This is not the suggested way. We'd better not bump version in this case.
+
+How about update vet during post_load?
+
+Thanks
+
+
+> -
+>           VMSTATE_STRUCT_ARRAY(core.tx, E1000EState, E1000E_NUM_QUEUES, 0,
+>                                e1000e_vmstate_tx, struct e1000e_tx),
+>           VMSTATE_END_OF_LIST()
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index b75f2ab8fc..38b3e3b784 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -35,6 +35,7 @@
+>   
+>   #include "qemu/osdep.h"
+>   #include "qemu/log.h"
+> +#include "net/eth.h"
+>   #include "net/net.h"
+>   #include "net/tap.h"
+>   #include "hw/pci/msi.h"
+> @@ -731,7 +732,7 @@ e1000e_process_tx_desc(E1000ECore *core,
+>               if (e1000x_vlan_enabled(core->mac) &&
+>                   e1000x_is_vlan_txd(txd_lower)) {
+>                   net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt,
+> -                    le16_to_cpu(dp->upper.fields.special), core->vet);
+> +                    le16_to_cpu(dp->upper.fields.special), core->mac[VET]);
+>               }
+>               if (e1000e_tx_pkt_send(core, tx, queue_index)) {
+>                   e1000e_on_tx_done_update_stats(core, tx->tx_pkt);
+> @@ -1012,7 +1013,7 @@ e1000e_receive_filter(E1000ECore *core, const uint8_t *buf, int size)
+>   {
+>       uint32_t rctl = core->mac[RCTL];
+>   
+> -    if (e1000x_is_vlan_packet(buf, core->vet) &&
+> +    if (e1000x_is_vlan_packet(buf, core->mac[VET]) &&
+>           e1000x_vlan_rx_filter_enabled(core->mac)) {
+>           uint16_t vid = lduw_be_p(buf + 14);
+>           uint32_t vfta = ldl_le_p((uint32_t *)(core->mac + VFTA) +
+> @@ -1686,7 +1687,7 @@ e1000e_receive_iov(E1000ECore *core, const struct iovec *iov, int iovcnt)
+>       }
+>   
+>       net_rx_pkt_attach_iovec_ex(core->rx_pkt, iov, iovcnt, iov_ofs,
+> -                               e1000x_vlan_enabled(core->mac), core->vet);
+> +                               e1000x_vlan_enabled(core->mac), core->mac[VET]);
+>   
+>       e1000e_rss_parse_packet(core, core->rx_pkt, &rss_info);
+>       e1000e_rx_ring_init(core, &rxr, rss_info.queue);
+> @@ -2397,8 +2398,7 @@ static void
+>   e1000e_set_vet(E1000ECore *core, int index, uint32_t val)
+>   {
+>       core->mac[VET] = val & 0xffff;
+> -    core->vet = le16_to_cpu(core->mac[VET]);
+> -    trace_e1000e_vlan_vet(core->vet);
+> +    trace_e1000e_vlan_vet(core->mac[VET]);
+>   }
+>   
+>   static void
+> @@ -3442,6 +3442,7 @@ static const uint32_t e1000e_mac_reg_init[] = {
+>       [RXCSUM]        = E1000_RXCSUM_IPOFLD | E1000_RXCSUM_TUOFLD,
+>       [ITR]           = E1000E_MIN_XITR,
+>       [EITR...EITR + E1000E_MSIX_VEC_NUM - 1] = E1000E_MIN_XITR,
+> +    [VET]           = ETH_P_VLAN,
+>   };
+>   
+>   void
+
 
