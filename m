@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A943B9E78
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:43:17 +0200 (CEST)
-Received: from localhost ([::1]:45778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D107D3B9EE1
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 12:10:14 +0200 (CEST)
+Received: from localhost ([::1]:56702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzFhb-0006np-Sv
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45050)
+	id 1lzG7h-0007JF-S8
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 06:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lzFgL-0005bS-7X
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:41:57 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:42616)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lzG5U-00055P-P1
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 06:07:56 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lzFgE-0006oQ-I2
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:41:55 -0400
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 20E562E1A96;
- Fri,  2 Jul 2021 12:41:44 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- gggm5PB1ty-fhxKuipC; Fri, 02 Jul 2021 12:41:44 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1625218904; bh=QLK1H+sZ+NlrnPqWe8EMsSR1ijJpWXS+Umzhiv7agzg=;
- h=In-Reply-To:References:Date:Message-ID:To:From:Subject:Cc;
- b=IE0EWfABthO3q55a3QB8W9+l8nsMbcCnSpN8BGF6aXqNnx2OBAra4FONATHsHi694
- Uqn6Q6FDfYT6XVNLSjxg0iBe5JfpRQXdT56LpiW7S1h+V4nqq+1b1hKw9E7ouFmf38
- ME6cg3H5i3qOxERf5UmtMmuZ46P1Xi+rW5FRnp2U=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:1::1:16])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- t7Phi1MdNo-fh2qpQeX; Fri, 02 Jul 2021 12:41:43 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Subject: Re: [PATCH v0] vhost: make SET_VRING_ADDR, SET_[PROTOCOL_]FEATEURES
- send replies
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-References: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
-Message-ID: <d9fb62ba-3738-0181-dd32-745ec87f5c10@yandex-team.ru>
-Date: Fri, 2 Jul 2021 12:41:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lzG5Q-0003Kx-SW
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 06:07:56 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GGW025rGLzZmKH;
+ Fri,  2 Jul 2021 18:04:34 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 2 Jul 2021 18:07:42 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 2 Jul 2021 18:07:42 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [RFC PATCH 0/6] machine: smp parsing fixes and improvement
+Date: Fri, 2 Jul 2021 18:07:33 +0800
+Message-ID: <20210702100739.13672-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
-Content-Type: multipart/alternative;
- boundary="------------D564D3F457AAC36E811EBD63"
-Content-Language: en-US
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,167 +62,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yc-core@yandex-team.ru, mst@redhat.com
+Cc: Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, Yanan Wang <wangyanan55@huawei.com>, Igor
+ Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------D564D3F457AAC36E811EBD63
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hello,
 
-ping ping!
+Here are some smp parsing fix and improvement, most of which is about
+the smp parsing helpers. This series was arranged based on the latest
+QEMU code since commit d940d468e29b.
 
-On 25.06.2021 11:52, Denis Plotnikov wrote:
-> On vhost-user-blk migration, qemu normally sends a number of commands
-> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
-> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
-> VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
-> data logging.
-> The issue is that qemu doesn't wait for reply from the vhost daemon
-> for these commands which may result in races between qemu expectation
-> of logging starting and actual login starting in vhost daemon.
-> To resolve this issue, this patch makes qemu wait for the commands result
-> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
-> Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
-> command to make the features setting functions work similary.
->
-> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-> ---
->   hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
->   1 file changed, 20 insertions(+)
->
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index ee57abe04526..e47b82adab00 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
->           .hdr.size = sizeof(msg.payload.addr),
->       };
->   
-> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
-> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-> +    if (reply_supported) {
-> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-> +    }
-> +
->       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->           return -1;
->       }
->   
-> +    if (reply_supported) {
-> +        return process_message_reply(dev, &msg);
-> +    }
-> +
->       return 0;
->   }
->   
-> @@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
->           .hdr.size = sizeof(msg.payload.u64),
->       };
->   
-> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
-> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-> +    if (reply_supported) {
-> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-> +    }
-> +
->       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->           return -1;
->       }
->   
-> +    if (reply_supported) {
-> +        return process_message_reply(dev, &msg);
-> +    }
-> +
->       return 0;
->   }
->   
+Description:
+Patch #1 improves the calculation of maxcpus.
+Patch #2 and #3 adds the missing zero-check for values of sockets and dies.
+Patch #4 allows us to uniformly use maxcpus for all calculations.
+Patch #5 reject the configuration of dies more strictly for non-PC machines.
+Patch #6 makes no functional change but tweaks the order of topology parameters.
 
---------------D564D3F457AAC36E811EBD63
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Regards,
+Yanan
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><font size="+1"><font face="monospace">ping ping!</font></font><br>
-    </p>
-    <div class="moz-cite-prefix">On 25.06.2021 11:52, Denis Plotnikov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210625085210.236299-1-den-plotnikov@yandex-team.ru">
-      <pre class="moz-quote-pre" wrap="">On vhost-user-blk migration, qemu normally sends a number of commands
-to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
-Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
-VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
-data logging.
-The issue is that qemu doesn't wait for reply from the vhost daemon
-for these commands which may result in races between qemu expectation
-of logging starting and actual login starting in vhost daemon.
-To resolve this issue, this patch makes qemu wait for the commands result
-explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
-Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
-command to make the features setting functions work similary.
+Yanan Wang (6):
+  machine: Set the value of maxcpus to match cpus if specified as zero
+  machine: Perform zero-check for the computed value of sockets
+  pc/machine: Perform zero-check for the value of -smp dies
+  machine: Uniformly use maxcpus to calculate the missing values
+  pc/machine: Disallow any configuration of dies for non-PC machines
+  machine: Tweak the order of topology members in struct CpuTopology
 
-Signed-off-by: Denis Plotnikov <a class="moz-txt-link-rfc2396E" href="mailto:den-plotnikov@yandex-team.ru">&lt;den-plotnikov@yandex-team.ru&gt;</a>
----
- hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ hw/core/machine.c   | 49 +++++++++++++++++++++++++--------------------
+ hw/i386/pc.c        | 48 +++++++++++++++++++++++++-------------------
+ include/hw/boards.h |  7 ++++---
+ qapi/machine.json   |  2 +-
+ 4 files changed, 59 insertions(+), 47 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index ee57abe04526..e47b82adab00 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
-         .hdr.size = sizeof(msg.payload.addr),
-     };
- 
-+    bool reply_supported = virtio_has_feature(dev-&gt;protocol_features,
-+                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+    if (reply_supported) {
-+        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-+    }
-+
-     if (vhost_user_write(dev, &amp;msg, NULL, 0) &lt; 0) {
-         return -1;
-     }
- 
-+    if (reply_supported) {
-+        return process_message_reply(dev, &amp;msg);
-+    }
-+
-     return 0;
- }
- 
-@@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
-         .hdr.size = sizeof(msg.payload.u64),
-     };
- 
-+    bool reply_supported = virtio_has_feature(dev-&gt;protocol_features,
-+                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+    if (reply_supported) {
-+        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-+    }
-+
-     if (vhost_user_write(dev, &amp;msg, NULL, 0) &lt; 0) {
-         return -1;
-     }
- 
-+    if (reply_supported) {
-+        return process_message_reply(dev, &amp;msg);
-+    }
-+
-     return 0;
- }
- 
-</pre>
-    </blockquote>
-  </body>
-</html>
+-- 
+2.19.1
 
---------------D564D3F457AAC36E811EBD63--
 
