@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456133BA188
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:44:24 +0200 (CEST)
-Received: from localhost ([::1]:52412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E957E3BA155
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:41:25 +0200 (CEST)
+Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzJSx-0007Km-1k
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
+	id 1lzJQ4-00005J-V0
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJLe-0002gu-NI
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:50 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:41636)
+ id 1lzJLj-0002yT-Gp
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:55 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJLd-00042p-84
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:50 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- a5-20020a7bc1c50000b02901e3bbe0939bso6434545wmj.0
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:36:48 -0700 (PDT)
+ id 1lzJLi-00045f-2Y
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:36:55 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id o22so6720717wms.0
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UOJ2AWq2wxlaeERjjMTMns7W7OqhadIfD9DbevBL6vY=;
- b=ZwNVl21NM8+vaDgEv9+dcEyK16tS/Xa80+qWTAVIDYTzaEQDGoQLLRYHUvMlTAo4PR
- X0coVEGw5niRrBhhf/VY+qfTODurMqUyMi2vd6il7NjlMA+DPJuhbbCYakPX2ZcvPaU0
- JcOdoI7jK+42ilZ20gr17hHe2zfvpp7a5jx5vryAolNvy23awje5IPRJOo6vP1q9K4an
- BxX+Mu6iKk0uC42Q7tz9+GRiE5pGt3TPf8S3EN53eHdzwmoKbXs2VZnmcSo5zqfUuBGh
- lud1x7VRExQm7tCGrxvd6n3JIRK3Wvx+1A8XDnVSDN5vys/ddBBGkSB1TynI8dNKnuAo
- OPPQ==
+ bh=XwdyHylrd/DY/3JN/AT1x4i76a7V8lVv7L0SE4yhb+8=;
+ b=jl0o0fTbk8q3CAt3kGKAB9Lj9peuWAf3NZwq1Me7vOqkOqCOiStrBKAf2O9c4J3TMT
+ NNfpHuFlzE7SPxFdLRxl+3wwnELXmabRM5k4tFmmSyS+i+mdrWuaoaI3e+/6mFyziqHL
+ N6eX3VAKaFId3QNBjMEShvPART/ckOO9W1n4hpGGqeUN23wqAYtj61ppiR6cbhVqUcFh
+ K8NZcBCLmXMsYaBTV5MTcnpkF3XEgW6alWfgeztUEGTcdKdu+gUPIhMnL8yTLdyievNG
+ 8feJsb+it9KO0aZnOBCEnFSYfqBJ4lVUFNOFcuaZeBdXxYxCDhgKHBkAyK9gaUIz/mVr
+ 0v2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UOJ2AWq2wxlaeERjjMTMns7W7OqhadIfD9DbevBL6vY=;
- b=Ehc55sgb8YKtF0OlL4x1SAk1MUUsWXis+NZ7SC/3pv8LB/NZ2ouSiZZehG88VKFSBt
- EtzLs8GdtRMGANmuYO+54GxssaHdSJ+iwlrepBZyjIiloYouRKTA5kyhSGCHX3k+sZUP
- uutzS/2JUzB4N+l9s1kJ2LG8++XVma914TaVf6t7ZJKr63yXf8w8pqkQgOCNSP44fZQf
- 2Vvoo0O6iY0C2qodBUQGq6MG0KArN9UaDTLGD0If7/faEV5jSY48h+UdwGOQ+dHfeYhI
- p+Q4hPmt+2Jpzp3o0B8JWL9gGTkXu3hqTHPO6LOEMgrKiW5OlmCwafD+t+zrOXouoeFM
- fIig==
-X-Gm-Message-State: AOAM533OIww1VBhu/UWk7VyzrizUzBkLJ16Ahx3i0oYp9vNdys5URyDH
- HOIFqMcjBRQPt55P4PT8C4cA8B+kibdYj43n
-X-Google-Smtp-Source: ABdhPJyrkJpQrH5Ie0670mbo2ZKPOlJkrIOcEGS8vU0jF1v86O0336FBlmEmR4ov98MWw7xtib5Zzg==
-X-Received: by 2002:a1c:7515:: with SMTP id o21mr16840389wmc.65.1625233007796; 
- Fri, 02 Jul 2021 06:36:47 -0700 (PDT)
+ bh=XwdyHylrd/DY/3JN/AT1x4i76a7V8lVv7L0SE4yhb+8=;
+ b=V9VF9goSvXAw+hr+HPmtD+B1gbU1HhDBTtJePLmfDrv482+2dIGE/r+wjbbwBVEk6C
+ Xzrjla641rgPT9P3FFU1Zlshf6SNDEAIwpaxlPyZbkV/oWH0T5lew6PC4wlJW40u46EC
+ gn2axbtp/YzGaKC/tRQZOpGXkru1F1pubb3shKAZXrP3npAdPZ4EjinuXRDHriyOVkh9
+ hVfsHLkmB0t+JOSQVTve8IK3yFKFDIJqbk0fjkJoxrk/qe65GJzaL7jyQJbSAlNKwmkc
+ x8z7aPR0pJr0ooEXsllCcFKRsy0FcWniHShjNeHwJ7RVrDh/eG/lF7224b3x2fRh/KNZ
+ gKBg==
+X-Gm-Message-State: AOAM531yy1sBWajdRVDFv8FQjn0ErMDqP91Yh5T3dOXOqjCYXnrtBFw+
+ ReZGX3r0dh2xsWp3xY6VSrYGNs3tXq5XkXTf
+X-Google-Smtp-Source: ABdhPJysDHPTWOwBXvPfMpqRnbPOiI97Z8Vbsvf3BMYDzA402TkjIFW8qN12ZPf5RgjZOshZhSISmQ==
+X-Received: by 2002:a05:600c:c4:: with SMTP id u4mr5641411wmm.10.1625233012619; 
+ Fri, 02 Jul 2021 06:36:52 -0700 (PDT)
 Received: from x1w.Ascou-CH1 (pop.92-184-108-23.mobile.abo.orange.fr.
  [92.184.108.23])
- by smtp.gmail.com with ESMTPSA id z6sm3203990wrh.67.2021.07.02.06.36.46
+ by smtp.gmail.com with ESMTPSA id r16sm3912571wrx.63.2021.07.02.06.36.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 06:36:47 -0700 (PDT)
+ Fri, 02 Jul 2021 06:36:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] g364fb: use RAM memory region for framebuffer
-Date: Fri,  2 Jul 2021 15:35:47 +0200
-Message-Id: <20210702133557.60317-9-f4bug@amsat.org>
+Subject: [PULL 09/18] g364fb: add VMStateDescription for G364SysBusState
+Date: Fri,  2 Jul 2021 15:35:48 +0200
+Message-Id: <20210702133557.60317-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210702133557.60317-1-f4bug@amsat.org>
 References: <20210702133557.60317-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,98 +92,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Since the migration stream is already broken, we can use this opportunity to
-change the framebuffer so that it is migrated as a RAM memory region rather
-than as an array of bytes.
+Currently when QEMU attempts to migrate the MIPS magnum machine it crashes due
+to a mistake in the g364fb VMStateDescription configuration which expects a
+G364SysBusState and not a G364State.
 
-In particular this helps the output of the analyze-migration.py tool which
-no longer contains a huge array representing the framebuffer contents.
+Resolve the issue by adding a new VMStateDescription for G364SysBusState and
+embedding the existing vmstate_g364fb VMStateDescription inside it using
+VMSTATE_STRUCT.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Fixes: 97a3f6ffbba ("g364fb: convert to qdev")
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210625163554.14879-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210625163554.14879-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/display/g364fb.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ hw/display/g364fb.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
-index 8f1725432cd..87effbf2b0f 100644
+index 87effbf2b0f..caca86d7738 100644
 --- a/hw/display/g364fb.c
 +++ b/hw/display/g364fb.c
-@@ -22,6 +22,7 @@
- #include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "ui/console.h"
-@@ -33,7 +34,6 @@
+@@ -517,6 +517,16 @@ static Property g364fb_sysbus_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- typedef struct G364State {
-     /* hardware */
--    uint8_t *vram;
-     uint32_t vram_size;
-     qemu_irq irq;
-     MemoryRegion mem_vram;
-@@ -125,7 +125,7 @@ static void g364fb_draw_graphic8(G364State *s)
-         xcursor = ycursor = -65;
-     }
- 
--    vram = s->vram + s->top_of_screen;
-+    vram = memory_region_get_ram_ptr(&s->mem_vram) + s->top_of_screen;
-     /* XXX: out of range in vram? */
-     data_display = dd = surface_data(surface);
-     snap = memory_region_snapshot_and_clear_dirty(&s->mem_vram, 0, s->vram_size,
-@@ -274,6 +274,8 @@ static inline void g364fb_invalidate_display(void *opaque)
- 
- static void g364fb_reset(G364State *s)
- {
-+    uint8_t *vram = memory_region_get_ram_ptr(&s->mem_vram);
-+
-     qemu_irq_lower(s->irq);
- 
-     memset(s->color_palette, 0, sizeof(s->color_palette));
-@@ -283,7 +285,7 @@ static void g364fb_reset(G364State *s)
-     s->ctla = 0;
-     s->top_of_screen = 0;
-     s->width = s->height = 0;
--    memset(s->vram, 0, s->vram_size);
-+    memset(vram, 0, s->vram_size);
-     g364fb_invalidate_display(s);
- }
- 
-@@ -450,11 +452,10 @@ static int g364fb_post_load(void *opaque, int version_id)
- 
- static const VMStateDescription vmstate_g364fb = {
-     .name = "g364fb",
--    .version_id = 1,
--    .minimum_version_id = 1,
++static const VMStateDescription vmstate_g364fb_sysbus = {
++    .name = "g364fb-sysbus",
 +    .version_id = 2,
 +    .minimum_version_id = 2,
-     .post_load = g364fb_post_load,
-     .fields = (VMStateField[]) {
--        VMSTATE_VBUFFER_UINT32(vram, G364State, 1, NULL, vram_size),
-         VMSTATE_BUFFER_UNSAFE(color_palette, G364State, 0, 256 * 3),
-         VMSTATE_BUFFER_UNSAFE(cursor_palette, G364State, 0, 9),
-         VMSTATE_UINT16_ARRAY(cursor, G364State, 512),
-@@ -474,15 +475,12 @@ static const GraphicHwOps g364fb_ops = {
- 
- static void g364fb_init(DeviceState *dev, G364State *s)
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(g364, G364SysBusState, 2, vmstate_g364fb, G364State),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static void g364fb_sysbus_class_init(ObjectClass *klass, void *data)
  {
--    s->vram = g_malloc0(s->vram_size);
--
-     s->con = graphic_console_init(dev, 0, &g364fb_ops, s);
- 
-     memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &g364fb_ctrl_ops, s,
-                           "ctrl", 0x180000);
--    memory_region_init_ram_ptr(&s->mem_vram, NULL, "vram",
--                               s->vram_size, s->vram);
--    vmstate_register_ram(&s->mem_vram, dev);
-+    memory_region_init_ram(&s->mem_vram, NULL, "g364fb.vram", s->vram_size,
-+                           &error_fatal);
-     memory_region_set_log(&s->mem_vram, true, DIRTY_MEMORY_VGA);
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -525,7 +535,7 @@ static void g364fb_sysbus_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+     dc->desc = "G364 framebuffer";
+     dc->reset = g364fb_sysbus_reset;
+-    dc->vmsd = &vmstate_g364fb;
++    dc->vmsd = &vmstate_g364fb_sysbus;
+     device_class_set_props(dc, g364fb_sysbus_properties);
  }
  
 -- 
