@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DA73BA306
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 18:02:25 +0200 (CEST)
-Received: from localhost ([::1]:48064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550473BA307
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 18:02:28 +0200 (CEST)
+Received: from localhost ([::1]:48284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzLcW-00060A-8l
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 12:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45892)
+	id 1lzLcZ-00068q-90
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 12:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzLZU-0003A3-O2; Fri, 02 Jul 2021 11:59:17 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35773)
+ id 1lzLZa-0003Ds-PY; Fri, 02 Jul 2021 11:59:27 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzLZT-0004FS-9Q; Fri, 02 Jul 2021 11:59:16 -0400
-Received: by mail-wr1-x430.google.com with SMTP id m18so13065589wrv.2;
- Fri, 02 Jul 2021 08:59:14 -0700 (PDT)
+ id 1lzLZZ-0004J8-10; Fri, 02 Jul 2021 11:59:22 -0400
+Received: by mail-wm1-x329.google.com with SMTP id l1so6951069wme.4;
+ Fri, 02 Jul 2021 08:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XI/+RLNcOZRL3x9ImO4jyG/hJF8EqE05K9qsRROWbv8=;
- b=A8Ro89JPYfcDN835ciSNyfD5YervCwIvX2gZUkgvX3W7GrfUAJbZb87jafGQjlffBo
- 08LQOGdxSg8Sbz0JmwatBoD3qMYo+i0WTDzyIZwg+Jioi52DJAngNt4xO7mOM5ehlrLT
- MYZikWnTve+JI5pnPZQAW6GM+10cdiOcc4o4iF+tsr1zw47qIHuYYo7TA5AVnTH3V4Qh
- W8OickJHhaG4RSAXpb3ODJ7HMrv12eZzbXxPeGn0jXLrltrW6zCVsVsKRzxw+Ko26FIl
- 9vr8fkml8wWUB2SgMQFj4SsajDNi4gULUszrD21DiUBeRy8XlO/U/i3vbu2pMdRRodmV
- W1iQ==
+ bh=eEFMkPrEpfTYMfcx+GauUTLFahHxPHQ6xFUWavBNufI=;
+ b=c8eKygzMbnVXK4KgfTLLkqXgztOogIDHqCfCPFkG3pDX1rOD5WPWRh7VipIBv/G6EY
+ /1Cjk0XzxhkhO5X/oLmX1EnujkUNj/xMhgMO3ckpiYqZ+ph+pBHJ1GcuAd6A5mfA/PdG
+ f1ei1ULqPlQivqKF6PP8bsXXIXFc/H05KM+kXyQr3JR3TjKxALwTqWZI52NxKBt9c573
+ Xo//qwlfU+a8sFzQfCtq1534wMkSryIAJ/5Lg2BL4o3ZFdOLFOAubYWXuqYvN9sv6DHV
+ F7adR9y1PtHe2ENF5lVJgoNPFcRvWfwSV+JBXBjmZbT/Hs1ZaDnlNhtwoCTJg4O50yA7
+ qNaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XI/+RLNcOZRL3x9ImO4jyG/hJF8EqE05K9qsRROWbv8=;
- b=BhEJ731u7VnBVk36lF0xFB8D1KIfxQibsVt4kjayyy192ty6TuuOY6W6bT+/KzIzGN
- JB4+qh3hl49C1g09D/iJYTEY5hg1FQkvT2miVnu6k+BpSZeJYetVrvxNvfYFubsQL1Pk
- f/IQObhiP3jLqrxQgYfzXAs57Ob8IoT5k2s88NOo2vge1UUxllsDJ50kDUY9JezwlVNN
- OH7sJNvJRRKQZGnK267AFI/ZHY6QrIaraz2WAE/oDc5SL3WV3I43GGjiOTlM9AGigrQ8
- k7Cx4hFHKai0DZ56RLF1Xpu2q93uHVYOqeqqioYf6nNhVKms3OoAjVnT+eNOhonWOCQW
- j4rQ==
-X-Gm-Message-State: AOAM5339vpTv5/vk68QJ7KxAxqJ8tJcTH9mZeet9fo9tg/Dq3vyYa7aA
- HfaUJKYLWlDSTMxtKryCxb1vVFCPaBDJyQ==
-X-Google-Smtp-Source: ABdhPJwtTbVVjQ1W2ll43RNguZT5N1bkrhT88ZwnatNXr0G+jwvPyvBlR30OzrV8+zWqYuw0uw7BCA==
-X-Received: by 2002:adf:d1cd:: with SMTP id b13mr387631wrd.228.1625241553661; 
- Fri, 02 Jul 2021 08:59:13 -0700 (PDT)
+ bh=eEFMkPrEpfTYMfcx+GauUTLFahHxPHQ6xFUWavBNufI=;
+ b=miNVwR2aBzO6aoDMgfMb0gHvzplym3GcbLkOfV0L691V/zDHbp8zeA50hNyrcq/S3B
+ CChYmjoWVUX6Y+g85xKmhtLPtIbamqIomvO2nw/RzaHuOtJUfq4PSko9BRa76bERBF1z
+ xr2TdSxYUFGOJkYpzFrVzkXPKItg3VC92j+tRDynDClBSUUzFM+ml9aRuNn9WILA1D/u
+ zkw9F3L5eovgMz+wtkhggTIpbW+qNrXKGOH0CIXgZmgDkcZfW+/qmA6MMJ18/ntPw+Nn
+ 9WX+edCGf6zNIJbfP2kIE2oNQYVHtNXclgvdI/x52KUnP1xiMGa81w0bHU/qbmuXjAfs
+ 8Xfw==
+X-Gm-Message-State: AOAM533UmWqQATPZHz+S9DkOdKuzTcVzTI4O6K4gV04kfBulU3aB9zpK
+ HRikqZkiR07/cofgIEEHsoV5eI/knUI9iw==
+X-Google-Smtp-Source: ABdhPJzeNHwAr4shu1i8Ebqt7VAIg+pp3ZAdcAR/oO1aLXUBQrk7YLSItOLrYAJWwO5bHPztqkLkqg==
+X-Received: by 2002:a05:600c:4111:: with SMTP id
+ j17mr456000wmi.187.1625241558746; 
+ Fri, 02 Jul 2021 08:59:18 -0700 (PDT)
 Received: from x1w.Ascou-CH1 (pop.92-184-108-23.mobile.abo.orange.fr.
  [92.184.108.23])
- by smtp.gmail.com with ESMTPSA id p16sm3559040wrs.52.2021.07.02.08.59.12
+ by smtp.gmail.com with ESMTPSA id f2sm3703287wrq.69.2021.07.02.08.59.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 08:59:13 -0700 (PDT)
+ Fri, 02 Jul 2021 08:59:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/sd: Extract address_in_range() helper,
- log invalid accesses
-Date: Fri,  2 Jul 2021 17:58:59 +0200
-Message-Id: <20210702155900.148665-3-f4bug@amsat.org>
+Subject: [PATCH 3/3] hw/sd: Check for valid address range in SEND_WRITE_PROT
+ (CMD30)
+Date: Fri,  2 Jul 2021 17:59:00 +0200
+Message-Id: <20210702155900.148665-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210702155900.148665-1-f4bug@amsat.org>
 References: <20210702155900.148665-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,107 +88,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
  Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alexander Bulekov <alxndr@bu.edu>, Michael Olbrich <m.olbrich@pengutronix.de>,
- Bin Meng <bmeng.cn@gmail.com>
+ Alexander Bulekov <alxndr@bu.edu>, Michael Olbrich <m.olbrich@pengutronix.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Multiple commands have to check the address requested is valid.
-Extract this code pattern as a new address_in_range() helper, and
-log invalid accesses as guest errors.
+OSS-Fuzz found sending illegal addresses when querying the write
+protection bits triggers an assertion:
 
+  qemu-fuzz-i386: hw/sd/sd.c:824: uint32_t sd_wpbits(SDState *, uint64_t): Assertion `wpnum < sd->wpgrps_size' failed.
+  ==11578== ERROR: libFuzzer: deadly signal
+  #8 0x7ffff628e091 in __assert_fail
+  #9 0x5555588f1a3c in sd_wpbits hw/sd/sd.c:824:9
+  #10 0x5555588dd271 in sd_normal_command hw/sd/sd.c:1383:38
+  #11 0x5555588d777c in sd_do_command hw/sd/sd.c
+  #12 0x555558cb25a0 in sdbus_do_command hw/sd/core.c:100:16
+  #13 0x555558e02a9a in sdhci_send_command hw/sd/sdhci.c:337:12
+  #14 0x555558dffa46 in sdhci_write hw/sd/sdhci.c:1187:9
+  #15 0x5555598b9d76 in memory_region_write_accessor softmmu/memory.c:489:5
+
+Similarly to commit 8573378e62d ("hw/sd: fix out-of-bounds check
+for multi block reads"), check the address range before sending
+the status of the write protection bits.
+
+Include the qtest reproducer provided by Alexander Bulekov:
+
+  $ make check-qtest-i386
+  ...
+  Running test qtest-i386/fuzz-sdcard-test
+  qemu-system-i386: ../hw/sd/sd.c:824: sd_wpbits: Assertion `wpnum < sd->wpgrps_size' failed.
+
+Reported-by: OSS-Fuzz (Issue 29225)
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/450
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20210624142209.1193073-3-f4bug@amsat.org>
 ---
- hw/sd/sd.c | 32 ++++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+ hw/sd/sd.c                     |  5 +++
+ tests/qtest/fuzz-sdcard-test.c | 66 ++++++++++++++++++++++++++++++++++
+ MAINTAINERS                    |  3 +-
+ tests/qtest/meson.build        |  1 +
+ 4 files changed, 74 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qtest/fuzz-sdcard-test.c
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index d8fdf84f4db..9c8dd11bad1 100644
+index 9c8dd11bad1..c753ae24ba9 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -937,6 +937,18 @@ static void sd_lock_command(SDState *sd)
-         sd->card_status &= ~CARD_IS_LOCKED;
- }
+@@ -1379,6 +1379,11 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
  
-+static bool address_in_range(SDState *sd, const char *desc,
-+                             uint64_t addr, uint32_t length)
+         switch (sd->state) {
+         case sd_transfer_state:
++            if (!address_in_range(sd, "SEND_WRITE_PROT",
++                                  req.arg, sd->blk_len)) {
++                return sd_r1;
++            }
++
+             sd->state = sd_sendingdata_state;
+             *(uint32_t *) sd->data = sd_wpbits(sd, req.arg);
+             sd->data_start = addr;
+diff --git a/tests/qtest/fuzz-sdcard-test.c b/tests/qtest/fuzz-sdcard-test.c
+new file mode 100644
+index 00000000000..96602eac7e5
+--- /dev/null
++++ b/tests/qtest/fuzz-sdcard-test.c
+@@ -0,0 +1,66 @@
++/*
++ * QTest fuzzer-generated testcase for sdcard device
++ *
++ * Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "libqos/libqtest.h"
++
++/*
++ * https://gitlab.com/qemu-project/qemu/-/issues/450
++ * Used to trigger:
++ *  Assertion `wpnum < sd->wpgrps_size' failed.
++ */
++static void oss_fuzz_29225(void)
 +{
-+    if (addr + length > sd->size) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s offset %lu > card %lu [%%%u]\n",
-+                      desc, addr, sd->size, length);
-+        sd->card_status |= ADDRESS_ERROR;
-+        return false;
-+    }
-+    return true;
++    QTestState *s;
++
++    s = qtest_init(" -display none -m 512m -nodefaults -nographic"
++                   " -device sdhci-pci,sd-spec-version=3"
++                   " -device sd-card,drive=d0"
++                   " -drive if=none,index=0,file=null-co://,format=raw,id=d0");
++
++    qtest_outl(s, 0xcf8, 0x80001010);
++    qtest_outl(s, 0xcfc, 0xd0690);
++    qtest_outl(s, 0xcf8, 0x80001003);
++    qtest_outl(s, 0xcf8, 0x80001013);
++    qtest_outl(s, 0xcfc, 0xffffffff);
++    qtest_outl(s, 0xcf8, 0x80001003);
++    qtest_outl(s, 0xcfc, 0x3effe00);
++
++    qtest_bufwrite(s, 0xff0d062c, "\xff", 0x1);
++    qtest_bufwrite(s, 0xff0d060f, "\xb7", 0x1);
++    qtest_bufwrite(s, 0xff0d060a, "\xc9", 0x1);
++    qtest_bufwrite(s, 0xff0d060f, "\x29", 0x1);
++    qtest_bufwrite(s, 0xff0d060f, "\xc2", 0x1);
++    qtest_bufwrite(s, 0xff0d0628, "\xf7", 0x1);
++    qtest_bufwrite(s, 0x0, "\xe3", 0x1);
++    qtest_bufwrite(s, 0x7, "\x13", 0x1);
++    qtest_bufwrite(s, 0x8, "\xe3", 0x1);
++    qtest_bufwrite(s, 0xf, "\xe3", 0x1);
++    qtest_bufwrite(s, 0xff0d060f, "\x03", 0x1);
++    qtest_bufwrite(s, 0xff0d0605, "\x01", 0x1);
++    qtest_bufwrite(s, 0xff0d060b, "\xff", 0x1);
++    qtest_bufwrite(s, 0xff0d060c, "\xff", 0x1);
++    qtest_bufwrite(s, 0xff0d060e, "\xff", 0x1);
++    qtest_bufwrite(s, 0xff0d060f, "\x06", 0x1);
++    qtest_bufwrite(s, 0xff0d060f, "\x9e", 0x1);
++
++    qtest_quit(s);
 +}
 +
- static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
- {
-     uint32_t rca = 0x0000;
-@@ -1218,8 +1230,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         switch (sd->state) {
-         case sd_transfer_state:
++int main(int argc, char **argv)
++{
++    const char *arch = qtest_get_arch();
++
++    g_test_init(&argc, &argv, NULL);
++
++   if (strcmp(arch, "i386") == 0) {
++        qtest_add_func("fuzz/sdcard/oss_fuzz_29225", oss_fuzz_29225);
++   }
++
++   return g_test_run();
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cfbf7ef79bc..fb33fe12200 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1794,7 +1794,8 @@ F: include/hw/sd/sd*
+ F: hw/sd/core.c
+ F: hw/sd/sd*
+ F: hw/sd/ssi-sd.c
+-F: tests/qtest/sd*
++F: tests/qtest/fuzz-sdcard-test.c
++F: tests/qtest/sdhci-test.c
  
--            if (addr + sd->blk_len > sd->size) {
--                sd->card_status |= ADDRESS_ERROR;
-+            if (!address_in_range(sd, "READ_BLOCK", addr, sd->blk_len)) {
-                 return sd_r1;
-             }
- 
-@@ -1264,8 +1275,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         switch (sd->state) {
-         case sd_transfer_state:
- 
--            if (addr + sd->blk_len > sd->size) {
--                sd->card_status |= ADDRESS_ERROR;
-+            if (!address_in_range(sd, "WRITE_BLOCK", addr, sd->blk_len)) {
-                 return sd_r1;
-             }
- 
-@@ -1325,8 +1335,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
- 
-         switch (sd->state) {
-         case sd_transfer_state:
--            if (addr >= sd->size) {
--                sd->card_status |= ADDRESS_ERROR;
-+            if (!address_in_range(sd, "SET_WRITE_PROT", addr, 1)) {
-                 return sd_r1b;
-             }
- 
-@@ -1348,8 +1357,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
- 
-         switch (sd->state) {
-         case sd_transfer_state:
--            if (addr >= sd->size) {
--                sd->card_status |= ADDRESS_ERROR;
-+            if (!address_in_range(sd, "CLR_WRITE_PROT", addr, 1)) {
-                 return sd_r1b;
-             }
- 
-@@ -1826,8 +1834,8 @@ void sd_write_byte(SDState *sd, uint8_t value)
-     case 25:	/* CMD25:  WRITE_MULTIPLE_BLOCK */
-         if (sd->data_offset == 0) {
-             /* Start of the block - let's check the address is valid */
--            if (sd->data_start + sd->blk_len > sd->size) {
--                sd->card_status |= ADDRESS_ERROR;
-+            if (!address_in_range(sd, "WRITE_MULTIPLE_BLOCK",
-+                                  sd->data_start, sd->blk_len)) {
-                 break;
-             }
-             if (sd->size <= SDSC_MAX_CAPACITY) {
-@@ -1999,8 +2007,8 @@ uint8_t sd_read_byte(SDState *sd)
- 
-     case 18:	/* CMD18:  READ_MULTIPLE_BLOCK */
-         if (sd->data_offset == 0) {
--            if (sd->data_start + io_len > sd->size) {
--                sd->card_status |= ADDRESS_ERROR;
-+            if (!address_in_range(sd, "READ_MULTIPLE_BLOCK",
-+                                  sd->data_start, io_len)) {
-                 return 0x00;
-             }
-             BLK_READ_BLOCK(sd->data_start, io_len);
+ USB
+ M: Gerd Hoffmann <kraxel@redhat.com>
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index b03e8541700..1bb75ee7324 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -21,6 +21,7 @@
+   (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) + \
++  (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) + \
+   [
+   'cdrom-test',
+   'device-introspect-test',
 -- 
 2.31.1
 
