@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29343B9E2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:26:17 +0200 (CEST)
-Received: from localhost ([::1]:47948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163373B9E36
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:27:21 +0200 (CEST)
+Received: from localhost ([::1]:50678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzFRA-0005P8-TL
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40428)
+	id 1lzFSC-0007LQ-1F
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lzFPE-0003oO-8e
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:16 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lzFP8-0001A3-4e
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:16 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id t3so12293292edt.12
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vs6xGmFtIxeiFa0NgcEkYzo+laYD6q/ErIurkynJ+bo=;
- b=HFPeSlDxGn5HFkBZNgc7Iu10dlRjlYjMHa0sKyqzd+kjioYVIlENlRM6hTPkqSx6xH
- /bCwK1UJpp3qSGg3SJddoFzG+CRN9CYUmbc7aHM6lmSymQy5b0B4kXJ9LodJXtZREy8E
- 3jaxEOqqxmJWmNPPhY43w4S3Y8zIzZ7nP5Wtez6P1Gl+czv+B9qWSFW1o9HnSQWohQfi
- RmipSDkWMZoLzpOezAoaf1gMwZKmRTlx+uce9MTXRb+k/FMCdZ/fvDiMSjgCTAjhQSWa
- gTYnyDmaTtieF43MxZEw70ARurQgcjblqGgWtf1ZL3QerUpZEVBayPyBuDYVhujUH6b3
- CeKg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFPl-0004l7-4t
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lzFPh-0001Yn-Fw
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:24:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625217883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=n/hqzYAC//daplOCzVObo5prYyh3dJkonmQtf/N/Iug=;
+ b=K9iusvtNfH0Gain8KzivaaV3jluZ92inqzrnucTFoKY4j70p/sLO0lUoEUhKkIvzM1xDsK
+ 66IveoiYDZGcj4JPxCop0ECl1vVr6y7ipCwUZOMrD04+BwhSFX5/qNLBtoQ71ptuoAuo0o
+ UVahQzAEZ3dBsD9Lo0Am8gta8k/Oy2A=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-RikuAFZ3MXqTP35kh4QfHQ-1; Fri, 02 Jul 2021 05:24:42 -0400
+X-MC-Unique: RikuAFZ3MXqTP35kh4QfHQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ f11-20020a05600c154bb02901e0210617aaso2748076wmg.1
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 02:24:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vs6xGmFtIxeiFa0NgcEkYzo+laYD6q/ErIurkynJ+bo=;
- b=malMGL3YTqDId1luYuSl3oblj5ZY9kKEI4EpvDOpBtI4FapQvS5/iwo/U7dD8qHNCm
- dabJJhd9hahv8eAPygr5OwhSc5VeryMedkPt1r9g/LPNfEzqOURYfw9b9rNb2E237ahL
- uOXeVEaVQGrxENAhHUXilX+nlju3TzNHafN3bz0ptucOgiQHEOP2jizEblaI+QijbPEW
- tls6/84gstFd6G1aaEya4G/iwr15JrLSTJJjFu8kZT5FSavuLnPD80vg1R0LMGgSoY2g
- CkLSOXmEINwnMmPctALPN01c9KYjkpkWywkRZzNgxRRNF8eP4P0WtNU/vqXSv7/uXJwH
- nf0g==
-X-Gm-Message-State: AOAM532wvjQV4IK4KOjjksYobPkfrILQmq4NEzBEWTFJtLWreP4TQCpp
- 9z66MgIEoSc78nd4PWdmBDo=
-X-Google-Smtp-Source: ABdhPJxOsGylIyB25MGHx6fqpbeD7RkwqcsvsfSgftDyMND6QJNYJREtvxs9n5QVvkZVYiClJbBodA==
-X-Received: by 2002:a05:6402:d2:: with SMTP id
- i18mr5461719edu.276.1625217848766; 
- Fri, 02 Jul 2021 02:24:08 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id c18sm1035623edt.18.2021.07.02.02.24.05
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Et95+y7ioKqD5BlXWiEb9PuIZGdlZ1Z1s+eWJIvKvWc=;
+ b=RXNRu6Mk0B8yuDG/ZO+EUu6GAmZLpKdAR+BPG1jvFvjWJbP0BX43PDWdR6l6w2QkJx
+ 9UoDXI4dJrP6yQ5rq49yGtQjlVV3vnVsQ2GyhWRWsjnShVit+4956R42Jw4G1WDUcmQc
+ 2TIxRyphbTFfowCK48bnF7fli5IGhJAmfoLhMpB/xYyy4X6wDrvTrDd+G1bFHQZmqPXT
+ vHtQ5eAOykKS0sCIuVZN8nIIbakje01YB+iPzSdlJP78zSYaKGzryM0X9yGHSnrxDaT+
+ fjm2teBb4KeCVNNfnUkHtDrya3G7zqdGlVwdR33W3OSEGz+QCUcUhlRq7eN/PwNOQmNv
+ SyfA==
+X-Gm-Message-State: AOAM532wfi+V0e5ERnR01buELm6BdFIkEs3OC8YW0rohrNVzYm6X9n45
+ RJ7CiLAI7GGbDJ2Rzb/zXMDSWN1rGIx2M6a1kPtAGdwDCS+jpnTY/+/2HFJf7g6p6ZbOG6VRHtc
+ N1hJudfP1ZHcU9I0L+nsAojnDdrMsuJMrWRkFexidA0YgqiboN918nH39463Qbmk3
+X-Received: by 2002:adf:c511:: with SMTP id q17mr4686887wrf.60.1625217881106; 
+ Fri, 02 Jul 2021 02:24:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMDu1Hj9zaJ7E5pxb5pCqiju6n0Fg3wgdl41RJuwvqUDxqnTeyEx8+vd3FF4KZzde5VqI88Q==
+X-Received: by 2002:adf:c511:: with SMTP id q17mr4686869wrf.60.1625217880928; 
+ Fri, 02 Jul 2021 02:24:40 -0700 (PDT)
+Received: from x1w.Ascou-CH1 (pop.92-184-108-94.mobile.abo.orange.fr.
+ [92.184.108.94])
+ by smtp.gmail.com with ESMTPSA id 2sm2379510wmn.44.2021.07.02.02.24.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 02:24:08 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Jason Wang <jasowang@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] hw/net: e1000e: Don't zero out the VLAN tag in the
- legacy RX descriptor
-Date: Fri,  2 Jul 2021 17:24:27 +0800
-Message-Id: <20210702092427.1323667-3-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210702092427.1323667-1-bmeng.cn@gmail.com>
-References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
+ Fri, 02 Jul 2021 02:24:40 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/6] hw: Let the DMA API take a MemTxAttrs argument
+Date: Fri,  2 Jul 2021 11:24:33 +0200
+Message-Id: <20210702092439.989969-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.402,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,42 +91,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Christina Wang <christina.wang@windriver.com>,
- Markus Carlstedt <markus.carlstedt@windriver.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christina Wang <christina.wang@windriver.com>
-
-In the legacy RX descriptor mode, VLAN tag was saved to d->special
-by e1000e_build_rx_metadata() in e1000e_write_lgcy_rx_descr(), but
-it was then zeroed out again at the end of the call, which is wrong.
-
-Fixes: c89d416a2b0f ("e1000e: Don't zero out buffer address in rx descriptor")
-Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
-Signed-off-by: Christina Wang <christina.wang@windriver.com>
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
-
-(no changes since v1)
-
- hw/net/e1000e_core.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 38b3e3b784..738c7169e4 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -1286,7 +1286,6 @@ e1000e_write_lgcy_rx_descr(E1000ECore *core, uint8_t *desc,
-                              &d->special);
-     d->errors = (uint8_t) (le32_to_cpu(status_flags) >> 24);
-     d->status = (uint8_t) le32_to_cpu(status_flags);
--    d->special = 0;
- }
- 
- static inline void
--- 
-2.25.1
+I'm going to send yet another series aiming to fix the DMA=0D
+reentrancy problem, which is based on these patches. Since=0D
+they are already reviewed, send them apart as a preparatory=0D
+series.=0D
+=0D
+Since v2:=0D
+- Rebased, fixing conflicts in:=0D
+  . hw/display/virtio-gpu.c=0D
+  . hw/ide/ahci.c=0D
+  . hw/net/allwinner-sun8i-emac.c=0D
+  . hw/pci-host/pnv_phb4.c=0D
+  . hw/sd/sdhci.c=0D
+=0D
+Supersedes: <20201001172519.1620782-1-philmd@redhat.com>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  dma: Let dma_memory_valid() take MemTxAttrs argument=0D
+  dma: Let dma_memory_set() take MemTxAttrs argument=0D
+  dma: Let dma_memory_rw_relaxed() take MemTxAttrs argument=0D
+  dma: Let dma_memory_rw() take MemTxAttrs argument=0D
+  dma: Let dma_memory_read/write() take MemTxAttrs argument=0D
+  dma: Let dma_memory_map() take MemTxAttrs argument=0D
+=0D
+ include/hw/pci/pci.h          |  6 +++--=0D
+ include/hw/ppc/spapr_vio.h    | 11 +++++---=0D
+ include/sysemu/dma.h          | 50 ++++++++++++++++++++++-------------=0D
+ hw/arm/musicpal.c             | 13 ++++-----=0D
+ hw/arm/smmu-common.c          |  3 ++-=0D
+ hw/arm/smmuv3.c               | 14 ++++++----=0D
+ hw/core/generic-loader.c      |  3 ++-=0D
+ hw/display/virtio-gpu.c       | 10 ++++---=0D
+ hw/dma/pl330.c                | 12 ++++++---=0D
+ hw/dma/sparc32_dma.c          | 16 ++++++-----=0D
+ hw/dma/xlnx-zynq-devcfg.c     |  6 +++--=0D
+ hw/dma/xlnx_dpdma.c           | 10 ++++---=0D
+ hw/hyperv/vmbus.c             |  8 +++---=0D
+ hw/i386/amd_iommu.c           | 16 ++++++-----=0D
+ hw/i386/intel_iommu.c         | 28 ++++++++++++--------=0D
+ hw/ide/ahci.c                 |  8 +++---=0D
+ hw/ide/macio.c                |  2 +-=0D
+ hw/intc/spapr_xive.c          |  3 ++-=0D
+ hw/intc/xive.c                |  7 ++---=0D
+ hw/misc/bcm2835_property.c    |  3 ++-=0D
+ hw/misc/macio/mac_dbdma.c     | 10 ++++---=0D
+ hw/net/allwinner-sun8i-emac.c | 18 ++++++++-----=0D
+ hw/net/ftgmac100.c            | 25 +++++++++++-------=0D
+ hw/net/imx_fec.c              | 32 +++++++++++++---------=0D
+ hw/net/npcm7xx_emc.c          | 20 ++++++++------=0D
+ hw/nvram/fw_cfg.c             | 12 ++++++---=0D
+ hw/pci-host/pnv_phb3.c        |  5 ++--=0D
+ hw/pci-host/pnv_phb3_msi.c    |  9 ++++---=0D
+ hw/pci-host/pnv_phb4.c        |  5 ++--=0D
+ hw/sd/allwinner-sdhost.c      | 14 +++++-----=0D
+ hw/sd/sdhci.c                 | 35 +++++++++++++++---------=0D
+ hw/usb/hcd-dwc2.c             |  8 +++---=0D
+ hw/usb/hcd-ehci.c             |  6 +++--=0D
+ hw/usb/hcd-ohci.c             | 28 ++++++++++++--------=0D
+ hw/usb/hcd-xhci.c             | 18 ++++++++-----=0D
+ hw/usb/libhw.c                |  3 ++-=0D
+ hw/virtio/virtio.c            |  6 +++--=0D
+ softmmu/dma-helpers.c         | 11 ++++----=0D
+ 38 files changed, 305 insertions(+), 189 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
