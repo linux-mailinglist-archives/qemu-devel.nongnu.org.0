@@ -2,71 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16B53B9CE8
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 09:27:19 +0200 (CEST)
-Received: from localhost ([::1]:50576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE32A3B9CE7
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 09:27:01 +0200 (CEST)
+Received: from localhost ([::1]:49472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzDa3-0002jq-1z
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 03:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42804)
+	id 1lzDZk-0001zN-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 03:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lzDXQ-0007hF-ID; Fri, 02 Jul 2021 03:24:36 -0400
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:37511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lzDXO-0005m9-Fd; Fri, 02 Jul 2021 03:24:36 -0400
-Received: by mail-io1-xd2c.google.com with SMTP id b15so10564641iow.4;
- Fri, 02 Jul 2021 00:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CvzKiJqJkOI+3jxyCyF5Kqto0O57+ditcI2v7uWilek=;
- b=MD7hcQw10KC0Yqa8xh8miXW4Jureb1oL00Cye8QeDnJ4uWVQTmFBpK5+F5PdgGy3YX
- MBdiMGEsNEvnRcXX1Defh+vfX7dmUTyLV6ISewMWpCIjN9ZaIYd9csnOc4U7WiVVlu8b
- nCa3N/5e5hui3NlgmKv0XlYvtnGPqbd41N4CHSSvVGH3ejOJ3tsp81o5+RntoYLP89rl
- CozuOR6Y9bA8k3k+Aowuhsgt/vL8Ga70axF0Cs7abAnoMJSd9TNlt2U1yN0JCTUChTu0
- f8yiV94Zkj//4x1bV5y8pb93GDvikmDg5dW3p5k3v0okXdUVnp2UII+LteQrflTrkhwG
- zdOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CvzKiJqJkOI+3jxyCyF5Kqto0O57+ditcI2v7uWilek=;
- b=HML3+G4xKOWvSWOzeUtOvXKWG+43d0nnXu4SzIZ9ubYugNdvgvQogaQo4yGvQ3pI23
- v2Nvria+KALKig/b1IADCM7+4z6uYCDypCYIMgu6o+ZMh6S4j/WzpaRj/VyXpaqj+NES
- dwfG2gexZ0z+4dVLJdIQjUH6ALVYTLQvR+bCM27dqh0RUJ6H1806MMgM8HdyHz1fOAwA
- tXdbZiyPHG3w3kXGtAo2F+nWsaUkV3xlBhvaI45csISS+mse5PIWiy748LlIUTTSHSeo
- MqbCHFkbkNhz/eKUEsyF+oNoFRVsRmy5TpJUSimsFPYWzLSdvDZ/KNIJmxL5vm7gjTMn
- Jx9w==
-X-Gm-Message-State: AOAM533ifRG5Z+s/wSQUfD3I1Earp/lqi5Kl00VrCf8BqHQfPNI2hkwq
- o3pl3j4EH8d7cg5iKAmCQCm/F1glqpj/lrFlZPY=
-X-Google-Smtp-Source: ABdhPJzSj0Y61olnHUGQLr2bcx0BntP+5k4MQPS/MEXUGjkZ6NyRjR9WId2H8fI4RSacXxxAAfvi16DundtGbqLqV7U=
-X-Received: by 2002:a05:6638:614:: with SMTP id
- g20mr3133768jar.135.1625210673091; 
- Fri, 02 Jul 2021 00:24:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lzDXs-0008GR-JZ
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 03:25:04 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:55409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1lzDXn-000631-AU
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 03:25:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1625210695;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=crWpo3K0BM5BJS6gD5R2JNwl8JjilmYHokCeGUOOObg=;
+ b=Qabh5pOU7CVqIY7972le5INfg8HAnZO3ymqKmb6JrGuwA6sQmVnymOLSLIaf23FX0r/wqP
+ T+wyL5pcvCNVQrd9/ewwvx6wyzwSLxisE9zfdBgs0Az877z1WdM5Mb/O6LitVBYPCsPYT/
+ D5QniwN3jqbr9mFWfZO9vZwCwsl/XV4=
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur01lp2050.outbound.protection.outlook.com [104.47.2.50]) (Using
+ TLS) by relay.mimecast.com with ESMTP id de-mta-6-b9L2bCAhP36Y3EvD_yPuog-1;
+ Fri, 02 Jul 2021 09:24:54 +0200
+X-MC-Unique: b9L2bCAhP36Y3EvD_yPuog-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JYXMrv9NuM2u6FOw36i20Nr9co0ly/TMpGBmW/4gHHzS9J0bVdCN2Ji2Vp553osv8eWUH3yt8+fZdiBA7nGkMz7oS8+Dbm89aR/mD9JUMi29yEGFEcBwI1Jv8D+qMI//etMEMtR5Z2PB6fpgUxn/50+hBPn/Gy37inQ2xLfJQn93U2XCeHX/4DZRdBvaM0ZTsFQAc1q0qmjOIGIf4sauwLDZbCjcM74v3Cew3GdCFVpaPf1riTjXnZuZl3MSH0+Tl9EHANXgl9SLVEMPyCgEKp7hUuuhRy0JgOE7V8Ex/qX/5insR6ICj/WIxiWusO+4DJwrexo2cYs80IhJdgE/7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=crWpo3K0BM5BJS6gD5R2JNwl8JjilmYHokCeGUOOObg=;
+ b=CFM5inS2oy9EQgcpRDKBNWnhV55wkbWFkXK82xR/K6eJEFMankWFbQQDzGaRbEq3lKKS0qNIK7GPIBPPZrq2WjD0iv2xcrqxJ/vzMCx5Z810yHpsXigR2mEmhV4LTezZq40Hu9/eqmPmSzfiOLxRqIxpTf5ArnSE8ZdT1VvlMEEFrbeb1rJwD13NMyJnLT5dTQkurfqpyHYD4/yuYRIhsJiKlym6pdgfv5iwTNDjbJYJTiyjJ43diMjtFxFJd8/ycH2vwR3Qm4nuFDPhoYjs5WXUhJhSu4NXmT4TzkL4Jkd1GnusxHEGvoxPbKP0UQWNxkY+ohbdAlQSICnpAo7BYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
+ (2603:10a6:803:16::25) by VI1PR04MB7007.eurprd04.prod.outlook.com
+ (2603:10a6:803:13e::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22; Fri, 2 Jul
+ 2021 07:24:52 +0000
+Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
+ ([fe80::4c1c:b538:59b8:30f]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
+ ([fe80::4c1c:b538:59b8:30f%5]) with mapi id 15.20.4287.022; Fri, 2 Jul 2021
+ 07:24:52 +0000
+From: Al Cho <ACho@suse.com>
+To: "thuth@redhat.com" <thuth@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>
+CC: "david@redhat.com" <david@redhat.com>, Claudio Fontana
+ <Claudio.Fontana@suse.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ =?utf-8?B?Sm9zw6kgUmljYXJkbyBaaXZpYW5p?= <jose.ziviani@suse.com>,
+ "cfontana@suse.de" <cfontana@suse.de>
+Subject: Re: [RFC v6 06/13] target/s390x: start moving TCG-only code to tcg/
+Thread-Topic: [RFC v6 06/13] target/s390x: start moving TCG-only code to tcg/
+Thread-Index: AQHXbPHgrgWeRi5xh0GKP577V6OUVKst9BKAgAFYuQA=
+Date: Fri, 2 Jul 2021 07:24:52 +0000
+Message-ID: <6ed3cdb12231f1683d908160b2b7dd2f847e891b.camel@suse.com>
+References: <20210629141931.4489-1-acho@suse.com>
+ <20210629141931.4489-7-acho@suse.com>
+ <9595a82d-b4a2-8aa7-a733-939bba4e5f34@redhat.com>
+In-Reply-To: <9595a82d-b4a2-8aa7-a733-939bba4e5f34@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.2 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=suse.com;
+x-originating-ip: [1.169.23.205]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fb9aa00c-5904-47f8-c8ec-08d93d2a7bbe
+x-ms-traffictypediagnostic: VI1PR04MB7007:
+x-ld-processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR04MB70074A5B1C5057E1F0BA6F78A01F9@VI1PR04MB7007.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: abci3Geh7c62OiS7oM62dOi1NhLnGGp15ucV8JkkM/FKHBCbTZiWJbWt6MYtPutLuHGaStlcIThcdFgvCW1djR2nfHMLMVYZhlX5gXNGem/BEUH4+r7BcWrLfeRAVBzksmgiBjhWAf1jP6zrAFkdrTdB7391zuCMbmlr9RidldC0Z+XT42b4rJEo18fhR9b9tbEk+aM3U5Wmlx5vZRWtOhJQm3/uFvKtYH40KZU48p5KGcRyw7E9A+eRv0uhA50pAOCYJRHVwL5hlsMX+mQlBnhs87MPfD2ABERHdUPzToqnwoLOb0SOzYT1kbGwZvzHhXvpcP+CbAR/eocrL1XJGmInUqrhKinvaQkPJK4C8Et4nPlsq4iBBMCFF3gtnbYrpX8p/2GzCNNftOsx1o/BCMsbEwxe+6+W97WdziyroWlzM+kNUL1Asme8nNa+3HnqPP9B0AZ0NFV4rk5XjdY6CAEYfCFfm3LBoNGdhCydcPdTiz2pFbyqVGgKUIFRj2D8rVPDtjE1IFhLINLncRb5inwvoAIKccecM4afQVgWThNhQJrzQ7LaGfLcaWVScrDPPcIESMpoqoO0tOkKXCSo3LJG2QFb1Quen6XytmhySUb3vILo41nNoKEO5EJgsUvQMZJxnJKX9/1etQj25i64yw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39850400004)(376002)(396003)(366004)(346002)(136003)(2616005)(110136005)(64756008)(66446008)(36756003)(26005)(478600001)(5660300002)(54906003)(186003)(66556008)(6512007)(66476007)(6486002)(8936002)(71200400001)(316002)(66946007)(2906002)(76116006)(83380400001)(6506007)(122000001)(4326008)(86362001)(91956017)(8676002)(38100700002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a28rc1daSFNPUTlYckJWaDVob3Z3bDBSbEZUNHhJS1Y0dXd6Q1QvRDZMTWhX?=
+ =?utf-8?B?NUxFTHlnQUVxQXFEdjRodGMxbXI1bEpwNE1OQ2YzWnVEYm03Y3RHVlVlbURC?=
+ =?utf-8?B?Vkt6ZmovdXdJWjBSKy9PU0hyc1JodTErRlMrQzEwc3A0eTFFTm1UTmhqMU1P?=
+ =?utf-8?B?WmZLZitLcURmTS82VHVTejNTRnpUK1Q0UDlLV29iYWczNWFIVWJzek55dXdE?=
+ =?utf-8?B?cVFodXdXeGkyeWRxemNrdnl5WDhwRnMzeDgxVFZNNlZ4eFo1UFQ2UVRLakNh?=
+ =?utf-8?B?ZlVYR2Y0a290QnBQT3p1bS9wZGJMMGUrazJnN2h5L29HYTNSQmx0M29ldjVT?=
+ =?utf-8?B?azRqZXRHV3Bhb0EraXhyWWNyd3FRVHhkM0piREdEblluOExiQlk2RkFIelJV?=
+ =?utf-8?B?UVVZK3d0aGdCclp3MDE5TnhPWk42M1l1RWpZL0FPWkw4eWkzSklYSWJmSHJP?=
+ =?utf-8?B?aWw2S0dXZHFDSWJlREh1NVNNQ3dhODRmRmNKMXVXbmF2WFF1My9RbHFkVzhh?=
+ =?utf-8?B?TU01RVNwWmVhTG9neitvVEU0WDdwMDViOGdHdlNvQzUxa3F3Lysyc2RoUjk4?=
+ =?utf-8?B?d0tzZk9LQXBoU2d6ekhMZ1FiYURJQW9mM2Yxamc5SDh2UGc0NjBnYWc1SlRG?=
+ =?utf-8?B?dmUxRUJwSFNiVThNNDV5VDFNbnVSS1Z5TzRaOGovZmRtdG1wMjFhUTRnWGJr?=
+ =?utf-8?B?SFE0N2ZnQUl5WHlvY0lDZ3RVMXFkUGdZZ1ZReTBoM29QUmplQXhpakNkMUVt?=
+ =?utf-8?B?RzUzN25iYXZrN3dSYmZwdzYvK1IvUEpGR01VclQ3RFJoQTNrenE3bUtxeTF4?=
+ =?utf-8?B?NFM0bWZOK2EzKytpZ2tyeEJFa2pVWE85dWFlVU1DekowZG9Ed3ZhWUQxSXFM?=
+ =?utf-8?B?bHQ5dzNuWWlBSGRnUGxQNWlZcTJpWVpaMjlXMG5uY3RVUGx4Zys0V2lhS21s?=
+ =?utf-8?B?Sll5dzNteWR6blRxWkFQVEt0SkJYTW1EazY0VGtKUFI0cnY3d3hkdUFpRjJa?=
+ =?utf-8?B?RWlxaG9DMEh3cnZBa3R1Y3ZNejRCV2FTd2NqU1RwcW9qaHRPYTVNK2xUL05C?=
+ =?utf-8?B?RUZGVFROS1p6NDVXcVVYMFY4NGd5Tmo3VWwwNkdDeDVBaDM4THFOVU1XMmVH?=
+ =?utf-8?B?UHZJSXk1b1V3RXhjMzZ5cW52NzhoRWw1TmhQSFRicnZnWVZ1anZBdkVLWEpu?=
+ =?utf-8?B?c0JYNU03RXpxTU9IRFdYR1RwMGMzYWkzdHl2RFdSTGtOeDFYL0prWnRJSWN5?=
+ =?utf-8?B?MkpuRGhKWk1QN1FURE9KZkVDRnV5MHA0NUhucXBabGtVelQveE5Da0lSOTFs?=
+ =?utf-8?B?TXUxZ2R1MDZZTStFVTZEK1F3TWVuRkFKdHZPZU4zR3R0MVhmdUZQZG85NHlJ?=
+ =?utf-8?B?bWFBekQ3ZkpIOHYyMkp2UkxrcDBRRFFOOFZ3eUNCNE1SRXp6VWREUmpvWnFS?=
+ =?utf-8?B?NEZQLyt3QXVkYnpJS1pWT0pUYjFneDJvQ1MrYkt4YVROeXdJNGk5RlBtTDZk?=
+ =?utf-8?B?VGtaR252eXlwQTJvemhTdWtuZXJBRHpjNVhTM1RBdTBuazF5TkpLMWFhenNE?=
+ =?utf-8?B?cFJxNHdOL3YwZHEyMDRuRUVDZXBtSG45K2p2aDZyZVl6MDArM3lsekRjSWdG?=
+ =?utf-8?B?MGN5MmV0dGNKSm1XVTVSSDZnS04xRnJjeEpiaTVKcElOWjhkR1VyK3N5ckVU?=
+ =?utf-8?B?VFA4VHE2NjJjalZETWNieFlpOUdndVFDaW9raU0xbkVwbEVnTTZ4MjNjQnRv?=
+ =?utf-8?Q?y3DVyO+8mLCrTwZUg39d528JRlw0alXRe2TcgKK?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <852061FF49DABC48B168B265752E6291@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210627142816.19789-1-bmeng.cn@gmail.com>
- <20210627142816.19789-2-bmeng.cn@gmail.com>
-In-Reply-To: <20210627142816.19789-2-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 2 Jul 2021 17:24:06 +1000
-Message-ID: <CAKmqyKMBpSOxxstFU7TUtigcj2PwvTecBcgaKe=v2q8-=1ug2g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs/system: riscv: Add documentation for virt machine
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb9aa00c-5904-47f8-c8ec-08d93d2a7bbe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2021 07:24:52.2248 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 56kEwvx6QSURKwDcEtnAZoO4/usdiey2CwwbRiUD2x0IrM5E/7wIGK26HKdKPOUy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7007
+Received-SPF: pass client-ip=194.104.111.102; envelope-from=acho@suse.com;
+ helo=de-smtp-delivery-102.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,221 +155,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 28, 2021 at 12:29 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> This adds detailed documentation for RISC-V `virt` machine,
-> including the following information:
->
->   - Supported devices
->   - Hardware configuration information
->   - Boot options
->   - Running Linux kernel
->   - Running U-Boot
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+T24gVGh1LCAyMDIxLTA3LTAxIGF0IDEyOjUxICswMjAwLCBUaG9tYXMgSHV0aCB3cm90ZToNCj4g
+T24gMjkvMDYvMjAyMSAxNi4xOSwgQ2hvLCBZdS1DaGVuIHdyb3RlOg0KPiA+IG1vdmUgZXZlcnl0
+aGluZyByZWxhdGVkIHRvIHRyYW5zbGF0ZSwgYXMgd2VsbCBhcyBIRUxQRVIgY29kZSBpbiB0Y2cv
+DQo+ID4gDQo+ID4gbW11X2hlbHBlci5jIHN0YXlzIHB1dCBmb3Igbm93LCBhcyBpdCBjb250YWlu
+cyBib3RoIFRDRyBhbmQgS1ZNIGNvZGUuDQo+ID4gDQo+ID4gVGhlIGludGVybmFsLmggZmlsZSBp
+cyByZW5hbWVkIHRvIHMzOTB4LWludGVybmFsLmgsIGJlY2F1c2Ugb2YgdGhlDQo+ID4gcmlzayBv
+ZiBjb2xsaXNpb24gd2l0aCBvdGhlciBmaWxlcyB3aXRoIHRoZSBzYW1lIG5hbWUuDQo+IA0KPiBJ
+TUhPIHRoZSByZW5hbWluZyBmcm9tIGludGVybmFsLmggdG8gczM5MHgtaW50ZXJuYWwuaCBzaG91
+bGQgYmUgZG9uZSBpbg0KPiBhIA0KPiBzZXBhcmF0ZSBwYXRjaCwgc2luY2UgaXQncyBub3QgZGly
+ZWN0bHkgcmVsYXRlZCB0byB0aGUgbW92ZW1lbnQgb2YgdGhlDQo+IG90aGVyIA0KPiBmaWxlcy4N
+Cj4gDQoNCkluZGVlZCwgdGhpcyBwYXRjaCBzaG91bGQgbm90IGluY2x1ZGUgdGhpcy4gVGhlIHJl
+bmFtaW5nIGZyb20NCmludGVybmFsLmggdG8gczM5MHgtaW50ZXJuYWwuaCB3b3VsZCBiZSBkb25l
+IGluIGEgc2VwYXJhdGUgcGF0Y2guDQoNCg0KPiBbLi4uXQ0KPiA+IGRpZmYgLS1naXQgYS90YXJn
+ZXQvczM5MHgvaW50ZXJuYWwuaCBiL3RhcmdldC9zMzkweC9zMzkweC0NCj4gPiBpbnRlcm5hbC5o
+DQo+ID4gc2ltaWxhcml0eSBpbmRleCA5OCUNCj4gPiByZW5hbWUgZnJvbSB0YXJnZXQvczM5MHgv
+aW50ZXJuYWwuaA0KPiA+IHJlbmFtZSB0byB0YXJnZXQvczM5MHgvczM5MHgtaW50ZXJuYWwuaA0K
+PiA+IGluZGV4IDkyNTYyNzUzNzYuLjE3ZWRkNGQxM2IgMTAwNjQ0DQo+ID4gLS0tIGEvdGFyZ2V0
+L3MzOTB4L2ludGVybmFsLmgNCj4gPiArKysgYi90YXJnZXQvczM5MHgvczM5MHgtaW50ZXJuYWwu
+aA0KPiA+IEBAIC0yNDAsNiArMjQwLDEyIEBAIHVpbnQzMl90IGNhbGNfY2MoQ1BVUzM5MFhTdGF0
+ZSAqZW52LCB1aW50MzJfdA0KPiA+IGNjX29wLCB1aW50NjRfdCBzcmMsIHVpbnQ2NF90IGRzdCwN
+Cj4gPiDCoCAjaWZuZGVmIENPTkZJR19VU0VSX09OTFkNCj4gPiDCoCB1bnNpZ25lZCBpbnQgczM5
+MF9jcHVfaGFsdChTMzkwQ1BVICpjcHUpOw0KPiA+IMKgIHZvaWQgczM5MF9jcHVfdW5oYWx0KFMz
+OTBDUFUgKmNwdSk7DQo+ID4gK3ZvaWQgczM5MF9jcHVfaW5pdF9zeXNlbXUoT2JqZWN0ICpvYmop
+Ow0KPiA+ICtib29sIHMzOTBfY3B1X3JlYWxpemVfc3lzZW11KERldmljZVN0YXRlICpkZXYsIEVy
+cm9yICoqZXJycCk7DQo+ID4gK3ZvaWQgczM5MF9jcHVfZmluYWxpemUoT2JqZWN0ICpvYmopOw0K
+PiA+ICt2b2lkIHMzOTBfY3B1X2NsYXNzX2luaXRfc3lzZW11KENQVUNsYXNzICpjYyk7DQo+ID4g
+K3ZvaWQgczM5MF9jcHVfbWFjaGluZV9yZXNldF9jYih2b2lkICpvcGFxdWUpOw0KPiANCj4gVGhp
+cyBodW5rIHJhdGhlciBiZWxvbmdzIGludG8gdGhlIG5leHQgcGF0Y2ggaW5zdGVhZC4NCj4gDQoN
+ClRydWUsIHRoaXMgcGFydCBpbiAwNyB3b3VsZCBiZSBiZXR0ZXIsIEkgd2lsbCBtb3ZlIHRoaXMg
+dG8gMDcuDQoNClRoYW5rcywgQUwNCg==
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->
->  docs/system/riscv/virt.rst   | 138 +++++++++++++++++++++++++++++++++++
->  docs/system/target-riscv.rst |   1 +
->  2 files changed, 139 insertions(+)
->  create mode 100644 docs/system/riscv/virt.rst
->
-> diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-> new file mode 100644
-> index 0000000000..3709f05797
-> --- /dev/null
-> +++ b/docs/system/riscv/virt.rst
-> @@ -0,0 +1,138 @@
-> +'virt' Generic Virtual Platform (``virt``)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The `virt` board is a platform which does not correspond to any real har=
-dware;
-> +it is designed for use in virtual machines. It is the recommended board =
-type
-> +if you simply want to run a guest such as Linux and do not care about
-> +reproducing the idiosyncrasies and limitations of a particular bit of
-> +real-world hardware.
-> +
-> +Supported devices
-> +-----------------
-> +
-> +The ``virt`` machine supports the following devices:
-> +
-> +* Up to 8 generic RV32GC/RV64GC cores, with optional extensions
-> +* Core Local Interruptor (CLINT)
-> +* Platform-Level Interrupt Controller (PLIC)
-> +* CFI parallel NOR flash memory
-> +* 1 NS16550 compatible UART
-> +* 1 Google Goldfish RTC
-> +* 1 SiFive Test device
-> +* 8 virtio-mmio transport devices
-> +* 1 generic PCIe host bridge
-> +* The fw_cfg device that allows a guest to obtain data from QEMU
-> +
-> +Note that the default CPU is a generic RV32GC/RV64GC. Optional extension=
-s
-> +can be enabled via command line parameters, e.g.: ``-cpu rv64,x-h=3Dtrue=
-``
-> +enables the hypervisor extension for RV64.
-> +
-> +Hardware configuration information
-> +----------------------------------
-> +
-> +The ``virt`` machine automatically generates a device tree blob ("dtb")
-> +which it passes to the guest, if there is no ``-dtb`` option. This provi=
-des
-> +information about the addresses, interrupt lines and other configuration=
- of
-> +the various devices in the system. Guest software should discover the de=
-vices
-> +that are present in the generated DTB.
-> +
-> +If users want to provide their own DTB, they can use the ``-dtb`` option=
-.
-> +These DTBs should have the following requirements:
-> +
-> +* The number of subnodes of the /cpus node should match QEMU's ``-smp`` =
-option
-> +* The /memory reg size should match QEMU=E2=80=99s selected ram_size via=
- ``-m``
-> +* Should contain a node for the CLINT device with a compatible string
-> +  "riscv,clint0" if using with OpenSBI BIOS images
-> +
-> +Boot options
-> +------------
-> +
-> +The ``virt`` machine can start using the standard -kernel functionality
-> +for loading a Linux kernel, a VxWorks kernel, an S-mode U-Boot bootloade=
-r
-> +with the default OpenSBI firmware image as the -bios. It also supports
-> +the recommended RISC-V bootflow: U-Boot SPL (M-mode) loads OpenSBI fw_dy=
-namic
-> +firmware and U-Boot proper (S-mode), using the standard -bios functional=
-ity.
-> +
-> +Running Linux kernel
-> +--------------------
-> +
-> +Linux mainline v5.12 release is tested at the time of writing. To build =
-a
-> +Linux mainline kernel that can be booted by the ``virt`` machine in
-> +64-bit mode, simply configure the kernel using the defconfig configurati=
-on:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export ARCH=3Driscv
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ make defconfig
-> +  $ make
-> +
-> +To boot the newly built Linux kernel in QEMU with the ``virt`` machine:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-> +      -display none -serial stdio \
-> +      -kernel arch/riscv/boot/Image \
-> +      -initrd /path/to/rootfs.cpio \
-> +      -append "root=3D/dev/ram"
-> +
-> +To build a Linux mainline kernel that can be booted by the ``virt`` mach=
-ine
-> +in 32-bit mode, use the rv32_defconfig configuration. A patch is require=
-d to
-> +fix the 32-bit boot issue for Linux kernel v5.12.
-> +
-> +.. code-block:: bash
-> +
-> +  $ export ARCH=3Driscv
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ curl https://patchwork.kernel.org/project/linux-riscv/patch/20210627=
-135117.28641-1-bmeng.cn@gmail.com/mbox/ > riscv.patch
-> +  $ git am riscv.patch
-> +  $ make rv32_defconfig
-> +  $ make
-> +
-> +Replace ``qemu-system-riscv64`` with ``qemu-system-riscv32`` in the comm=
-and
-> +line above to boot the 32-bit Linux kernel. A rootfs image containing 32=
--bit
-> +applications shall be used in order for kernel to boot to user space.
-> +
-> +Running U-Boot
-> +--------------
-> +
-> +U-Boot mainline v2021.04 release is tested at the time of writing. To bu=
-ild an
-> +S-mode U-Boot bootloader that can be booted by the ``virt`` machine, use
-> +the qemu-riscv64_smode_defconfig with similar commands as described abov=
-e for Linux:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ make qemu-riscv64_smode_defconfig
-> +
-> +Boot the 64-bit U-Boot S-mode image directly:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-> +      -display none -serial stdio \
-> +      -kernel /path/to/u-boot.bin
-> +
-> +To test booting U-Boot SPL which in M-mode, which in turn loads a FIT im=
-age
-> +that bundles OpenSBI fw_dynamic firmware and U-Boot proper (S-mode) toge=
-ther,
-> +build the U-Boot images using riscv64_spl_defconfig:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ export OPENSBI=3D/path/to/opensbi-riscv64-generic-fw_dynamic.bin
-> +  $ make qemu-riscv64_spl_defconfig
-> +
-> +The minimal QEMU commands to run U-Boot SPL are:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-> +      -display none -serial stdio \
-> +      -bios /path/to/u-boot-spl \
-> +      -device loader,file=3D/path/to/u-boot.itb,addr=3D0x80200000
-> +
-> +To test 32-bit U-Boot images, switch to use qemu-riscv32_smode_defconfig=
- and
-> +riscv32_spl_defconfig builds, and replace ``qemu-system-riscv64`` with
-> +``qemu-system-riscv32`` in the command lines above to boot the 32-bit U-=
-Boot.
-> diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-> index a5cc06b726..89a866e4f4 100644
-> --- a/docs/system/target-riscv.rst
-> +++ b/docs/system/target-riscv.rst
-> @@ -69,6 +69,7 @@ undocumented; you can get a complete list by running
->     riscv/microchip-icicle-kit
->     riscv/shakti-c
->     riscv/sifive_u
-> +   riscv/virt
->
->  RISC-V CPU firmware
->  -------------------
-> --
-> 2.25.1
->
->
 
