@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E143B9EE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 12:10:11 +0200 (CEST)
-Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5323B9EE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 12:14:11 +0200 (CEST)
+Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzG7e-0007IY-Oc
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 06:10:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50452)
+	id 1lzGBW-0000Gz-0X
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 06:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lzG5W-00056Q-Co
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 06:07:58 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2245)
+ id 1lzG5a-0005Cp-PE
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 06:08:02 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lzG5S-0003OO-Eg
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 06:07:58 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GGVxZ4czhz1BPYC;
- Fri,  2 Jul 2021 18:02:26 +0800 (CST)
+ id 1lzG5Q-0003P2-Ss
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 06:08:02 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GGVxb4sRCzXnVj;
+ Fri,  2 Jul 2021 18:02:27 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 2 Jul 2021 18:07:48 +0800
+ 15.1.2176.2; Fri, 2 Jul 2021 18:07:49 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 2 Jul 2021 18:07:48 +0800
+ 15.1.2176.2; Fri, 2 Jul 2021 18:07:49 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 5/6] pc/machine: Disallow any configuration of dies for
- non-PC machines
-Date: Fri, 2 Jul 2021 18:07:38 +0800
-Message-ID: <20210702100739.13672-6-wangyanan55@huawei.com>
+Subject: [RFC PATCH 6/6] machine: Tweak the order of topology members in
+ struct CpuTopology
+Date: Fri, 2 Jul 2021 18:07:39 +0800
+Message-ID: <20210702100739.13672-7-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210702100739.13672-1-wangyanan55@huawei.com>
 References: <20210702100739.13672-1-wangyanan55@huawei.com>
@@ -45,8 +45,8 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -74,45 +74,60 @@ Cc: Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since a machine type does not support topology parameter of dies,
-it's probably more reasonable to reject any explicit specification
-to avoid possible confuse, including "dies=0" and "dies=1" although
-they won't affect the calculation of non-PC machines.
-
-Also a comment of struct SMPConfiguration is fixed.
+Now that all the possible topology parameters are integrated in struct
+CpuTopology, tweak the order of topology members to be "cpus/sockets/
+dies/cores/threads/maxcpus" for readability and consistency. We also
+tweak the comment by adding explanation of dies parameter.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/core/machine.c | 2 +-
- qapi/machine.json | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/core/machine.c   | 4 ++--
+ include/hw/boards.h | 7 ++++---
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 58882835be..55785feee2 100644
+index 55785feee2..8c538d2ba5 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -747,7 +747,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     unsigned threads = config->has_threads ? config->threads : 0;
-     unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+@@ -968,10 +968,10 @@ static void machine_initfn(Object *obj)
+     /* default to mc->default_cpus */
+     ms->smp.cpus = mc->default_cpus;
+     ms->smp.max_cpus = mc->default_cpus;
+-    ms->smp.cores = 1;
++    ms->smp.sockets = 1;
+     ms->smp.dies = 1;
++    ms->smp.cores = 1;
+     ms->smp.threads = 1;
+-    ms->smp.sockets = 1;
+ }
  
--    if (config->has_dies && config->dies != 0 && config->dies != 1) {
-+    if (config->has_dies) {
-         error_setg(errp, "dies not supported by this machine's CPU topology");
-     }
+ static void machine_finalize(Object *obj)
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 1eae4427e8..3b64757981 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -275,17 +275,18 @@ typedef struct DeviceMemoryState {
+ /**
+  * CpuTopology:
+  * @cpus: the number of present logical processors on the machine
+- * @cores: the number of cores in one package
+- * @threads: the number of threads in one core
+  * @sockets: the number of sockets on the machine
++ * @dies: the number of dies in one socket
++ * @cores: the number of cores in one die
++ * @threads: the number of threads in one core
+  * @max_cpus: the maximum number of logical processors on the machine
+  */
+ typedef struct CpuTopology {
+     unsigned int cpus;
++    unsigned int sockets;
+     unsigned int dies;
+     unsigned int cores;
+     unsigned int threads;
+-    unsigned int sockets;
+     unsigned int max_cpus;
+ } CpuTopology;
  
-diff --git a/qapi/machine.json b/qapi/machine.json
-index c3210ee1fb..253f84abf6 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1297,7 +1297,7 @@
- #
- # @dies: number of dies per socket in the CPU topology
- #
--# @cores: number of cores per thread in the CPU topology
-+# @cores: number of cores per die in the CPU topology
- #
- # @threads: number of threads per core in the CPU topology
- #
 -- 
 2.19.1
 
