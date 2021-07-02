@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3602F3BA1C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:53:39 +0200 (CEST)
-Received: from localhost ([::1]:50396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540473BA18E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:46:45 +0200 (CEST)
+Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzJbu-0000RX-9L
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
+	id 1lzJVE-0004xY-Bj
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJMO-0004o7-Gw
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:36 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:34529)
+ id 1lzJMW-00051f-IV
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:45 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJMN-0004LC-2d
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:36 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso6654722wmc.1
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:37:34 -0700 (PDT)
+ id 1lzJMR-0004MX-U1
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:41 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a8so837033wrp.5
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Tzi8eTHim8Z+u+XnqhLJG2X/L8m9qzdiOwJHksilmKc=;
- b=WxEQ9XyBEZInFqZQQ1lfiKdjeGdMQGb5CUOJPQm2L45JtkP5PwxzbeAkNzt76fvY3c
- Mgth7lollzCrjl648Va+SkJYErKtF2AWDs8FVKvCO+nOuLkGHy+eo3XHvKY/513HFVT+
- znOHrnexxpZgunTvsMy2pynt15MNTAYIBQ6pQKoG3pdql0wZ81yFxFxV8IdQ4QDR6KcN
- h+2ovJFbbJ3g7Y+GmUgUGsQhJm5rWfk0Vg1QcXmAi54frgLwx7rUL3YpMRoT7rJqNrzy
- bVoXW44MXa4V7pukptukNjt+hFN3flp7ak1GaSwsXBY3frKLX+wujeQCiMLfd6Uv/tl2
- dzWQ==
+ bh=RXzcBY1Xz+NzYhjk5HmcS/3KibwDarkLazlUMdNcDYk=;
+ b=VQxDiu3oXmp8q+ULhpUe/Law/dvmY9ty3gGvPQWK7tJddH7G5XXwOGKhGpwRSZlaEr
+ O9w/zdVsHVsPRMOMvWGKixCeZ6lm9+vaq1Xn8FW1ThWanjeT+0Y13B67j8stVY5vOJlH
+ +XmkKiV6DhIsLtwT5hey0YpRp0evIuuXa1mUpefvk0J3xExKHs1ovovvz5J7tB/0gJuo
+ L7yICrchrS2uscyqwPJbilf2HRoz7P6oA/np9TbHZ26g33ZVzPGErz0R7+s+XNGQqhbN
+ oRn2mQ+v1CT1PTg025R2fcqcJf96uyapi+FJpV2IpTsPt3ivSe0j3GdIPKhsK2FQ5Wh3
+ NnTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Tzi8eTHim8Z+u+XnqhLJG2X/L8m9qzdiOwJHksilmKc=;
- b=lVLtfRN/T9IIxa77vXP9HT+s9b02Q+SP3Qv30A5bhGZqT9esmcWS4jwnN11/P/5jQU
- Cp6fSoXxTD2kL/vr2dRyiG45du9MMn0zm4KOoEiTF5KD7x39ijgaB2ELq/aaGAVHpre3
- p3IY5eQ5DTgWzazuycWqe12hbDXNd3sbjGntBOCdLq71/cvY4hf7QKkPUeLZJiWqbrjb
- p5ZmcZORbvChMBeLKmsYRiqtB+oecyOdyHhFWjLtPDNndl7Nw+aHanp1dDIDY/AOy35G
- X4gfcfzQQ0nWpBUvnUWXKwelA2IjsdbG4YR3YTpornf/iGREnv71mFwz2gnR6oXpp2Jy
- sDLA==
-X-Gm-Message-State: AOAM531rdiWpFM9y3kmpfAwggqbVt2sjl52J2p9N0UpNOmYHRvE6vgNZ
- 07MnSuQE+F4tZjN63eQzI6yGZpw097uZs7dL
-X-Google-Smtp-Source: ABdhPJwzV9+YncrImddv7b0oK2Itiouto2WSxbbuZIViPeRHt8OBAGrXh3erixtrrknRjyXDER3sPQ==
-X-Received: by 2002:a1c:7915:: with SMTP id l21mr13936387wme.62.1625233053645; 
- Fri, 02 Jul 2021 06:37:33 -0700 (PDT)
+ bh=RXzcBY1Xz+NzYhjk5HmcS/3KibwDarkLazlUMdNcDYk=;
+ b=tl2VAtw7YknpMZfzZ9Pel/jNSLLBNxNA2hfTA/NB6RT5P7L7blHqClHk72pq9pZTP2
+ ogLQBmKu3Cz8arffmLZYRCzftoBE0j4axaqUKrlc1cfvIsV7tjuKgMX+MtIITcStn0jz
+ kWN3HeplyosqVtk3mnEsoD2r/3R0aCO0imdPFKDskcWTqNlV29Sy3HCLwv2WXnc2Bj9M
+ oAxlTtra7juKKMy3xiZPCGTuQ5DQa83xf4F7tsdjwsSHpuGGsFQJC14X9zFi/0AoMIBP
+ Kc39n6j4ETb6kfZWleFJNn4pZ2812r/di3W3VJdAxlkYtd0WfzkYfh/73yOtWP9O2K0e
+ nxkg==
+X-Gm-Message-State: AOAM533u/il0CtitIG0Jg/H+ctrtrYNnGiyWP+BXpgy20rwvUdJz66x9
+ PmYWpCANWE0MeX6aWweWHK2Sh/XNDnXMChaO
+X-Google-Smtp-Source: ABdhPJxctLpMrvv3XuqntkdS50fc3IMCTk6IkkoYGuhQgzLVmLNst08JkrW8OHBsPrXCoyEibZ4t2Q==
+X-Received: by 2002:a05:6000:1c9:: with SMTP id
+ t9mr5998774wrx.330.1625233058535; 
+ Fri, 02 Jul 2021 06:37:38 -0700 (PDT)
 Received: from x1w.Ascou-CH1 (pop.92-184-108-23.mobile.abo.orange.fr.
  [92.184.108.23])
- by smtp.gmail.com with ESMTPSA id u18sm3103763wmj.15.2021.07.02.06.37.32
+ by smtp.gmail.com with ESMTPSA id h10sm13644502wmq.0.2021.07.02.06.37.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 06:37:33 -0700 (PDT)
+ Fri, 02 Jul 2021 06:37:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/18] hw/m68k/q800: fix PROM checksum and MAC address storage
-Date: Fri,  2 Jul 2021 15:35:55 +0200
-Message-Id: <20210702133557.60317-17-f4bug@amsat.org>
+Subject: [PULL 17/18] hw/mips/jazz: specify correct endian for dp8393x device
+Date: Fri,  2 Jul 2021 15:35:56 +0200
+Message-Id: <20210702133557.60317-18-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210702133557.60317-1-f4bug@amsat.org>
 References: <20210702133557.60317-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,40 +94,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The checksum used by MacOS to validate the PROM content is an exclusive-OR
-rather than a sum over the corresponding bytes. In addition the MAC address
-must be stored in bit-reversed format as indicated in comments in Linux's
-macsonic.c.
-
-With the PROM contents fixed MacOS starts to probe the device registers
-when AppleTalk is enabled in the Control Panel.
+The MIPS magnum machines are available in both big endian (mips64) and little
+endian (mips64el) configurations. Ensure that the dp893x big_endian property
+is set accordingly using logic similar to that used for the MIPS malta
+machines.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@linux-m68k.org>
-Message-Id: <20210625065401.30170-8-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210625065401.30170-11-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/m68k/q800.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/mips/jazz.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 491f283a17a..6817c8b5d1a 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -334,11 +334,8 @@ static void q800_init(MachineState *machine)
-     prom = memory_region_get_ram_ptr(dp8393x_prom);
-     checksum = 0;
-     for (i = 0; i < 6; i++) {
--        prom[i] = nd_table[0].macaddr.a[i];
--        checksum += prom[i];
--        if (checksum > 0xff) {
--            checksum = (checksum + 1) & 0xff;
--        }
-+        prom[i] = bitrev8(nd_table[0].macaddr.a[i]);
-+        checksum ^= prom[i];
-     }
-     prom[7] = 0xff - checksum;
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 89ca8bb9107..ee1789183eb 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -126,7 +126,7 @@ static void mips_jazz_init(MachineState *machine,
+ {
+     MemoryRegion *address_space = get_system_memory();
+     char *filename;
+-    int bios_size, n;
++    int bios_size, n, big_endian;
+     Clock *cpuclk;
+     MIPSCPU *cpu;
+     MIPSCPUClass *mcc;
+@@ -158,6 +158,12 @@ static void mips_jazz_init(MachineState *machine,
+         [JAZZ_PICA61] = {33333333, 4},
+     };
  
++#ifdef TARGET_WORDS_BIGENDIAN
++    big_endian = 1;
++#else
++    big_endian = 0;
++#endif
++
+     if (machine->ram_size > 256 * MiB) {
+         error_report("RAM size more than 256Mb is not supported");
+         exit(EXIT_FAILURE);
+@@ -290,6 +296,7 @@ static void mips_jazz_init(MachineState *machine,
+             dev = qdev_new("dp8393x");
+             qdev_set_nic_properties(dev, nd);
+             qdev_prop_set_uint8(dev, "it_shift", 2);
++            qdev_prop_set_bit(dev, "big_endian", big_endian > 0);
+             object_property_set_link(OBJECT(dev), "dma_mr",
+                                      OBJECT(rc4030_dma_mr), &error_abort);
+             sysbus = SYS_BUS_DEVICE(dev);
 -- 
 2.31.1
 
