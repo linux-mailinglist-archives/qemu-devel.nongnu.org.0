@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAFD3BA1BB
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:51:47 +0200 (CEST)
-Received: from localhost ([::1]:47056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3602F3BA1C0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 15:53:39 +0200 (CEST)
+Received: from localhost ([::1]:50396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzJa6-0006ar-9h
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45998)
+	id 1lzJbu-0000RX-9L
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 09:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJML-0004fI-V6
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:33 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54941)
+ id 1lzJMO-0004o7-Gw
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:36 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:34529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzJMK-0004Jq-FJ
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:33 -0400
-Received: by mail-wm1-x332.google.com with SMTP id l1so6674074wme.4
- for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:37:29 -0700 (PDT)
+ id 1lzJMN-0004LC-2d
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 09:37:36 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso6654722wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 02 Jul 2021 06:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=erflfoQZg1zmJhaY5+bBLo3ktzzY4R/YAAD7gOAMH4Y=;
- b=ehIuFKNCoZxrPpqeDb3mouNygSzBqn0qXPpThpiERIHsd3HKnhfo2znWjZGM6E3luU
- WFoDUmy5nrIPhGVxouOvx56q19qO863LtpqilrqTLMKHol0aADd2fpb00jGW7VD8TEll
- xzsXzQVwgFleibqtQSSHQBj9Ysivc4esZ30BNB4XaZG6vK6fvsTlOQ/t6fsfnY1MZWCr
- 47U6V9Ve5RJvoUJQg5b73iUB7yud3RYeNr/95XIw969SYA0c5flwbOaIq5aYQukAXRMR
- puFLj7pEuFd3wesqnQfDssfctbe9DhYbIA8f9SgzJQvGjFtSViD8urJ0/9qpkVg+zW6Y
- RSWA==
+ bh=Tzi8eTHim8Z+u+XnqhLJG2X/L8m9qzdiOwJHksilmKc=;
+ b=WxEQ9XyBEZInFqZQQ1lfiKdjeGdMQGb5CUOJPQm2L45JtkP5PwxzbeAkNzt76fvY3c
+ Mgth7lollzCrjl648Va+SkJYErKtF2AWDs8FVKvCO+nOuLkGHy+eo3XHvKY/513HFVT+
+ znOHrnexxpZgunTvsMy2pynt15MNTAYIBQ6pQKoG3pdql0wZ81yFxFxV8IdQ4QDR6KcN
+ h+2ovJFbbJ3g7Y+GmUgUGsQhJm5rWfk0Vg1QcXmAi54frgLwx7rUL3YpMRoT7rJqNrzy
+ bVoXW44MXa4V7pukptukNjt+hFN3flp7ak1GaSwsXBY3frKLX+wujeQCiMLfd6Uv/tl2
+ dzWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=erflfoQZg1zmJhaY5+bBLo3ktzzY4R/YAAD7gOAMH4Y=;
- b=gk7SGyb0weBxPl5OZo5BdjaVhCwYiHzGEFbsI89a5nprHlq+eqw9lmJ6SBfXmL/+rI
- 3f+XL4kjz3c9NGSyCUau6m9lhaJh2WKoXGKrYjpYRmByeFiKbmsHHV65dOre7E2/rQw8
- F40SPOLqpro7YaurEbzGWHl0Bb0+RdqYkdgaxvu8UxButWmFjIm5aL9oj/kyM/g7J/VB
- Hqpp0S1RLNhpYOsT+UKR25lUM5R8ZhMfV0EsqzDj+/Bs7U40IQWeohOf+bs7q+Vyt9/P
- VJTZzcAYcjHfaNNo/hcZvWWYtvlcze7VbjDSmbuMq46bP4sIQP5VOz39QXrDACrZTFMT
- sxTw==
-X-Gm-Message-State: AOAM530kLOyC6rGygFbCuf5MEQC687ACknvED5ZDPHySIYNbt25M4i3F
- fVtM7l3KQm+Xm7hsz13d2J+FyL1KBD8bPgt+
-X-Google-Smtp-Source: ABdhPJywG/3yi7DbCLL+EsFEAtNWK1rU6OXUhDsCWML3RrkCqKBosySxzOxGB6MTJObLMk8DABRdIA==
-X-Received: by 2002:a1c:f206:: with SMTP id s6mr5471046wmc.102.1625233048549; 
- Fri, 02 Jul 2021 06:37:28 -0700 (PDT)
+ bh=Tzi8eTHim8Z+u+XnqhLJG2X/L8m9qzdiOwJHksilmKc=;
+ b=lVLtfRN/T9IIxa77vXP9HT+s9b02Q+SP3Qv30A5bhGZqT9esmcWS4jwnN11/P/5jQU
+ Cp6fSoXxTD2kL/vr2dRyiG45du9MMn0zm4KOoEiTF5KD7x39ijgaB2ELq/aaGAVHpre3
+ p3IY5eQ5DTgWzazuycWqe12hbDXNd3sbjGntBOCdLq71/cvY4hf7QKkPUeLZJiWqbrjb
+ p5ZmcZORbvChMBeLKmsYRiqtB+oecyOdyHhFWjLtPDNndl7Nw+aHanp1dDIDY/AOy35G
+ X4gfcfzQQ0nWpBUvnUWXKwelA2IjsdbG4YR3YTpornf/iGREnv71mFwz2gnR6oXpp2Jy
+ sDLA==
+X-Gm-Message-State: AOAM531rdiWpFM9y3kmpfAwggqbVt2sjl52J2p9N0UpNOmYHRvE6vgNZ
+ 07MnSuQE+F4tZjN63eQzI6yGZpw097uZs7dL
+X-Google-Smtp-Source: ABdhPJwzV9+YncrImddv7b0oK2Itiouto2WSxbbuZIViPeRHt8OBAGrXh3erixtrrknRjyXDER3sPQ==
+X-Received: by 2002:a1c:7915:: with SMTP id l21mr13936387wme.62.1625233053645; 
+ Fri, 02 Jul 2021 06:37:33 -0700 (PDT)
 Received: from x1w.Ascou-CH1 (pop.92-184-108-23.mobile.abo.orange.fr.
  [92.184.108.23])
- by smtp.gmail.com with ESMTPSA id y8sm3035642wrr.76.2021.07.02.06.37.27
+ by smtp.gmail.com with ESMTPSA id u18sm3103763wmj.15.2021.07.02.06.37.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 06:37:28 -0700 (PDT)
+ Fri, 02 Jul 2021 06:37:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/18] qemu/bitops.h: add bitrev8 implementation
-Date: Fri,  2 Jul 2021 15:35:54 +0200
-Message-Id: <20210702133557.60317-16-f4bug@amsat.org>
+Subject: [PULL 16/18] hw/m68k/q800: fix PROM checksum and MAC address storage
+Date: Fri,  2 Jul 2021 15:35:55 +0200
+Message-Id: <20210702133557.60317-17-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210702133557.60317-1-f4bug@amsat.org>
 References: <20210702133557.60317-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,48 +94,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This will be required for an upcoming checksum calculation.
+The checksum used by MacOS to validate the PROM content is an exclusive-OR
+rather than a sum over the corresponding bytes. In addition the MAC address
+must be stored in bit-reversed format as indicated in comments in Linux's
+macsonic.c.
+
+With the PROM contents fixed MacOS starts to probe the device registers
+when AppleTalk is enabled in the Control Panel.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@linux-m68k.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210625065401.30170-7-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210625065401.30170-8-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/qemu/bitops.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ hw/m68k/q800.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
-index 03213ce952c..110c56e0993 100644
---- a/include/qemu/bitops.h
-+++ b/include/qemu/bitops.h
-@@ -618,4 +618,26 @@ static inline uint64_t half_unshuffle64(uint64_t x)
-     return x;
- }
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 491f283a17a..6817c8b5d1a 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -334,11 +334,8 @@ static void q800_init(MachineState *machine)
+     prom = memory_region_get_ram_ptr(dp8393x_prom);
+     checksum = 0;
+     for (i = 0; i < 6; i++) {
+-        prom[i] = nd_table[0].macaddr.a[i];
+-        checksum += prom[i];
+-        if (checksum > 0xff) {
+-            checksum = (checksum + 1) & 0xff;
+-        }
++        prom[i] = bitrev8(nd_table[0].macaddr.a[i]);
++        checksum ^= prom[i];
+     }
+     prom[7] = 0xff - checksum;
  
-+/**
-+ * bitrev8:
-+ * @x: 8-bit value to be reversed
-+ *
-+ * Given an input value with bits::
-+ *
-+ *   ABCDEFGH
-+ *
-+ * return the value with its bits reversed from left to right::
-+ *
-+ *   HGFEDCBA
-+ *
-+ * Returns: the bit-reversed value.
-+ */
-+static inline uint8_t bitrev8(uint8_t x)
-+{
-+    x = ((x >> 1) & 0x55) | ((x << 1) & 0xaa);
-+    x = ((x >> 2) & 0x33) | ((x << 2) & 0xcc);
-+    x = (x >> 4) | (x << 4) ;
-+    return x;
-+}
-+
- #endif
 -- 
 2.31.1
 
