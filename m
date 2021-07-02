@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0EC3B9E13
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:22:46 +0200 (CEST)
-Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5331F3B9DEE
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 11:14:11 +0200 (CEST)
+Received: from localhost ([::1]:60348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzFNl-0002Zh-Ac
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39590)
+	id 1lzFFS-0002cz-DX
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 05:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lzFM4-0001QS-Dk
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:21:00 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:54614)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lzFBT-00039a-Vt
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:10:04 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:54485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lzFM0-0007FF-Jr
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:21:00 -0400
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1lzFBR-0006bT-6c
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 05:10:03 -0400
 X-Footer: a2FtcC5kZQ==
 Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
  for qemu-devel@nongnu.org; Fri, 2 Jul 2021 11:09:42 +0200
-Received: (qmail 37506 invoked from network); 2 Jul 2021 09:09:43 -0000
+Received: (qmail 37505 invoked from network); 2 Jul 2021 09:09:43 -0000
 Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
  (relay@kamp.de@::ffff:172.21.12.60)
  by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
  2 Jul 2021 09:09:43 -0000
 Received: by lieven-pc (Postfix, from userid 1060)
- id C405713DD29; Fri,  2 Jul 2021 11:09:43 +0200 (CEST)
+ id C711513DD2A; Fri,  2 Jul 2021 11:09:43 +0200 (CEST)
 From: Peter Lieven <pl@kamp.de>
 To: qemu-block@nongnu.org
-Subject: [PATCH V4 5/6] block/rbd: add write zeroes support
-Date: Fri,  2 Jul 2021 11:09:34 +0200
-Message-Id: <20210702090935.15300-6-pl@kamp.de>
+Subject: [PATCH V4 6/6] block/rbd: drop qemu_rbd_refresh_limits
+Date: Fri,  2 Jul 2021 11:09:35 +0200
+Message-Id: <20210702090935.15300-7-pl@kamp.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210702090935.15300-1-pl@kamp.de>
 References: <20210702090935.15300-1-pl@kamp.de>
@@ -62,142 +62,44 @@ Cc: kwolf@redhat.com, idryomov@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this patch wittingly sets BDRV_REQ_NO_FALLBACK and silently ignores BDRV_REQ_MAY_UNMAP
-for older librbd versions.
+librbd supports 1 byte alignment for all aio operations.
 
-The rationale for this is as following (citing Ilya Dryomov current RBD maintainer):
----8<---
-a) remove the BDRV_REQ_MAY_UNMAP check in qemu_rbd_co_pwrite_zeroes()
-   and as a consequence always unmap if librbd is too old
-
-   It's not clear what qemu's expectation is but in general Write
-   Zeroes is allowed to unmap.  The only guarantee is that subsequent
-   reads return zeroes, everything else is a hint.  This is how it is
-   specified in the kernel and in the NVMe spec.
-
-   In particular, block/nvme.c implements it as follows:
-
-   if (flags & BDRV_REQ_MAY_UNMAP) {
-       cdw12 |= (1 << 25);
-   }
-
-   This sets the Deallocate bit.  But if it's not set, the device may
-   still deallocate:
-
-   """
-   If the Deallocate bit (CDW12.DEAC) is set to '1' in a Write Zeroes
-   command, and the namespace supports clearing all bytes to 0h in the
-   values read (e.g., bits 2:0 in the DLFEAT field are set to 001b)
-   from a deallocated logical block and its metadata (excluding
-   protection information), then for each specified logical block, the
-   controller:
-   - should deallocate that logical block;
-
-   ...
-
-   If the Deallocate bit is cleared to '0' in a Write Zeroes command,
-   and the namespace supports clearing all bytes to 0h in the values
-   read (e.g., bits 2:0 in the DLFEAT field are set to 001b) from
-   a deallocated logical block and its metadata (excluding protection
-   information), then, for each specified logical block, the
-   controller:
-   - may deallocate that logical block;
-   """
-
-   https://nvmexpress.org/wp-content/uploads/NVM-Express-NVM-Command-Set-Specification-2021.06.02-Ratified-1.pdf
-
-b) set BDRV_REQ_NO_FALLBACK in supported_zero_flags
-
-   Again, it's not clear what qemu expects here, but without it we end
-   up in a ridiculous situation where specifying the "don't allow slow
-   fallback" switch immediately fails all efficient zeroing requests on
-   a device where Write Zeroes is always efficient:
-
-   $ qemu-io -c 'help write' | grep -- '-[zun]'
-    -n, -- with -z, don't allow slow fallback
-    -u, -- with -z, allow unmapping
-    -z, -- write zeroes using blk_co_pwrite_zeroes
-
-   $ qemu-io -f rbd -c 'write -z -u -n 0 1M' rbd:foo/bar
-   write failed: Operation not supported
---->8---
+Currently, there is no API call to query limits from the ceph backend.
+So drop the bdrv_refresh_limits completely until there is such an API call.
 
 Signed-off-by: Peter Lieven <pl@kamp.de>
+Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 ---
- block/rbd.c | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+ block/rbd.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/block/rbd.c b/block/rbd.c
-index be0471944a..149317d33c 100644
+index 149317d33c..93f4bc8b93 100644
 --- a/block/rbd.c
 +++ b/block/rbd.c
-@@ -63,7 +63,8 @@ typedef enum {
-     RBD_AIO_READ,
-     RBD_AIO_WRITE,
-     RBD_AIO_DISCARD,
--    RBD_AIO_FLUSH
-+    RBD_AIO_FLUSH,
-+    RBD_AIO_WRITE_ZEROES
- } RBDAIOCmd;
- 
- typedef struct BDRVRBDState {
-@@ -705,6 +706,10 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
-         }
-     }
- 
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
-+#endif
-+
-     /* When extending regular files, we get zeros from the OS */
-     bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
- 
-@@ -827,6 +832,18 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
-     case RBD_AIO_FLUSH:
-         r = rbd_aio_flush(s->image, c);
-         break;
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    case RBD_AIO_WRITE_ZEROES: {
-+        int zero_flags = 0;
-+#ifdef RBD_WRITE_ZEROES_FLAG_THICK_PROVISION
-+        if (!(flags & BDRV_REQ_MAY_UNMAP)) {
-+            zero_flags = RBD_WRITE_ZEROES_FLAG_THICK_PROVISION;
-+        }
-+#endif
-+        r = rbd_aio_write_zeroes(s->image, offset, bytes, c, zero_flags, 0);
-+        break;
-+    }
-+#endif
-     default:
-         r = -EINVAL;
-     }
-@@ -897,6 +914,16 @@ static int coroutine_fn qemu_rbd_co_pdiscard(BlockDriverState *bs,
-     return qemu_rbd_start_co(bs, offset, count, NULL, 0, RBD_AIO_DISCARD);
+@@ -228,14 +228,6 @@ done:
+     return;
  }
  
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+static int
-+coroutine_fn qemu_rbd_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
-+                                      int count, BdrvRequestFlags flags)
-+{
-+    return qemu_rbd_start_co(bs, offset, count, NULL, flags,
-+                             RBD_AIO_WRITE_ZEROES);
-+}
-+#endif
-+
- static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
+-
+-static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
+-{
+-    /* XXX Does RBD support AIO on less than 512-byte alignment? */
+-    bs->bl.request_alignment = 512;
+-}
+-
+-
+ static int qemu_rbd_set_auth(rados_t cluster, BlockdevOptionsRbd *opts,
+                              Error **errp)
  {
-     BDRVRBDState *s = bs->opaque;
-@@ -1120,6 +1147,9 @@ static BlockDriver bdrv_rbd = {
-     .bdrv_co_pwritev        = qemu_rbd_co_pwritev,
-     .bdrv_co_flush_to_disk  = qemu_rbd_co_flush,
-     .bdrv_co_pdiscard       = qemu_rbd_co_pdiscard,
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    .bdrv_co_pwrite_zeroes  = qemu_rbd_co_pwrite_zeroes,
-+#endif
- 
-     .bdrv_snapshot_create   = qemu_rbd_snap_create,
-     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
+@@ -1130,7 +1122,6 @@ static BlockDriver bdrv_rbd = {
+     .format_name            = "rbd",
+     .instance_size          = sizeof(BDRVRBDState),
+     .bdrv_parse_filename    = qemu_rbd_parse_filename,
+-    .bdrv_refresh_limits    = qemu_rbd_refresh_limits,
+     .bdrv_file_open         = qemu_rbd_open,
+     .bdrv_close             = qemu_rbd_close,
+     .bdrv_reopen_prepare    = qemu_rbd_reopen_prepare,
 -- 
 2.17.1
 
