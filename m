@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918453B9F60
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 12:55:44 +0200 (CEST)
-Received: from localhost ([::1]:37716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D403B9F62
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Jul 2021 12:56:58 +0200 (CEST)
+Received: from localhost ([::1]:40968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzGpj-00053U-Jm
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 06:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34092)
+	id 1lzGqv-0007Rd-Bv
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 06:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzGo0-0003Hx-BP; Fri, 02 Jul 2021 06:53:57 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33493)
+ id 1lzGpC-0005QU-KC; Fri, 02 Jul 2021 06:55:10 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzGnz-0008Hy-1w; Fri, 02 Jul 2021 06:53:56 -0400
-Received: by mail-wr1-x429.google.com with SMTP id i8so12009660wrc.0;
- Fri, 02 Jul 2021 03:53:54 -0700 (PDT)
+ id 1lzGpB-0000pN-2U; Fri, 02 Jul 2021 06:55:10 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id l8so11894134wry.13;
+ Fri, 02 Jul 2021 03:55:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=76AMih/0CdvT88bh+p2rDyuQw/2AO+hwfxP8GDEeKNs=;
- b=LlIZLTUL4F/FaTUooBGWKRYw/O+4KhwCgCvNVtYPkREHnQpCEnHRDmZvS75PyuMuEZ
- s9pyvZeLDe5bcC3s74YZy3eTSX9FigwE5xDqHuTZyd2+3SNGdESuB8Db3TPf4Xkwd7o7
- wC0krl7hrMfsaCtKYKiHEWWOPRVtgXCXX1X0nr32f4UuuBakTeaBv/rDA4LcH9lJZk5o
- kL2DBPELV6PRBft73hEA+HqWhgG2IXuhElP4k2JwgVxe9ovVoY3ZFOM9mMJ0ivRHIh57
- NLXVRadBXBvyBaQWDMoAsY/5m3ZRZu3193V3qCthoA9FPJ8YHYy9EwIy43QVLkAtVSt6
- D9Fg==
+ bh=/c+jRma3FgFmmJgityu7teZCDoVgJXDdPugvthcVjyY=;
+ b=fCOqJN+SodxMQdfIQZD4QFnbssgkCHCaZFypa0M37ccK3zQV3DoChZWaQYyEah/o2F
+ oZOuVF+fPjT33hIKfXSTGd88YE/aPNuK1waAC97t+ux0B1WUP2TvuSvp6CNrsneEgtZ5
+ kn+C4bDTASOqpf5A16TbL3Hp34a7HSBbNGcMndJ70YYsOKlxiF17wQWIsdX3gW6b9JUt
+ jem+qs23JEiP9GGKxifv4/2P+dGyBcXEm5iMYArhkCt5F363Q0Tm1KBCUBz3jhjA+e64
+ 5u/VoYmD8QFA1wRIj7yn/Cb9bGQGhxagtBTNJX0hOYMqQ9m967/y3UkoGEwTuptrK1T2
+ qPog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=76AMih/0CdvT88bh+p2rDyuQw/2AO+hwfxP8GDEeKNs=;
- b=pS0zaPsoJFZe3btFXzFEF+cXjaRnD+hVr6Z7dCFKigADMbsZ7+Q2WBah4RSHcCd0oI
- 43AzAuRsLnJqU2r5swcBXJE2srQYOOljGZzORlgNK0AMP4CjnNP4pvkxqNCZr8GYFvQY
- 8ayqY0yGXzgEWedJ2ojEXS9io2E2SBpm9rwYH2W4uYI22WgFKyy/k4BMXdO5iWHP01SB
- C9vmwhNUl7u7Xd+zeIC9cl76f1iuq1vEtQY4JS9Mzx/qUO9vCcXy88dzZpWZSqy6pRZb
- SE7WTejzkhGIJ1TwKZ/T7i00Uupqjzk6eHRxMDAzQ4hCvJrHBLqrnRpGgeBR7Awb7v3o
- ytPA==
-X-Gm-Message-State: AOAM531Azmj24kp0aJVzzGrMekQGOWEgyPwrUdb/cpyKy4PFaEaNj7xK
- YqX6c/LcY6Z73m2I6dIMb0c=
-X-Google-Smtp-Source: ABdhPJzwAJxglpCdgwG6q0MpHAlpSvPtcm+hZOISKjzKvcHVqupvKl8/XeA5QGRx8FelUvZLESzaFg==
-X-Received: by 2002:a5d:534d:: with SMTP id t13mr5104915wrv.171.1625223233309; 
- Fri, 02 Jul 2021 03:53:53 -0700 (PDT)
+ bh=/c+jRma3FgFmmJgityu7teZCDoVgJXDdPugvthcVjyY=;
+ b=XFZ2mY1IZiXagqZKQC1miArWe2nvi2dJ7j/s5+nVLXUbMzuyNBSiRu+Vc+aNiX1fp/
+ gLvy7vpFSPCJ2TjDmM4Jth6T5mF8NsiBmFWlNYpuwSOPrG6wqsZkVdbRq/GhxwIWQbfi
+ i0k+B17Kke55DuU6eHYVKblrR/uZ2ncuUlrdLa04RW/FgBT2yhJhz+hxsvC0WBBCCJjN
+ 0bfy63ISBfwutsvCfDQvBgMa0fAsh21tn7Bh3KAPMRcObqpuFa3wu8Mbv9aNQvKQlE7h
+ TjKivh/YuAWgqvem/EnCqqODFUgENq1OgXW7v1RfBcW8TaWAU7GFde1JuVZccWxiLV14
+ xlyg==
+X-Gm-Message-State: AOAM533c/z4dN0u3r6CHLiQuA00uTEHXaDgMaBZ2LJVh7XevhTSyIss/
+ eGiClvtaEReMoc258R7avwM=
+X-Google-Smtp-Source: ABdhPJy9uZ8HLLwnSzDDDWMYL5HCEuhASUEJyp5kBAP6C0aKn90kg1xshnqGpacQyEzJ7C5teNo/nA==
+X-Received: by 2002:a05:6000:1251:: with SMTP id
+ j17mr5164072wrx.122.1625223307192; 
+ Fri, 02 Jul 2021 03:55:07 -0700 (PDT)
 Received: from [192.168.11.95] (pop.92-184-108-94.mobile.abo.orange.fr.
  [92.184.108.94])
- by smtp.gmail.com with ESMTPSA id g1sm1088539wmh.30.2021.07.02.03.53.52
+ by smtp.gmail.com with ESMTPSA id n7sm11436599wmq.37.2021.07.02.03.55.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 03:53:52 -0700 (PDT)
-Subject: Re: [PATCH 02/11] hw/gpio/pl061: Convert DPRINTF to tracepoints
+ Fri, 02 Jul 2021 03:55:06 -0700 (PDT)
+Subject: Re: [PATCH 04/11] hw/gpio/pl061: Add tracepoints for register read
+ and write
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210702104018.19881-1-peter.maydell@linaro.org>
- <20210702104018.19881-3-peter.maydell@linaro.org>
+ <20210702104018.19881-5-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <26e398f8-0e41-8791-f09f-14dcca6195d4@amsat.org>
-Date: Fri, 2 Jul 2021 12:53:51 +0200
+Message-ID: <29ab6a12-df76-f76e-a7d2-e0abdaa6186b@amsat.org>
+Date: Fri, 2 Jul 2021 12:55:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210702104018.19881-3-peter.maydell@linaro.org>
+In-Reply-To: <20210702104018.19881-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,14 +95,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/2/21 12:40 PM, Peter Maydell wrote:
-> Convert the use of the DPRINTF debug macro in the PL061 model to
-> use tracepoints.
+> Add tracepoints for reads and writes to the PL061 registers. This requires
+> restructuring pl061_read() to only return after the tracepoint, rather
+> than having lots of early-returns.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/gpio/pl061.c      | 27 +++++++++------------------
->  hw/gpio/trace-events |  6 ++++++
->  2 files changed, 15 insertions(+), 18 deletions(-)
+>  hw/gpio/pl061.c      | 70 ++++++++++++++++++++++++++++++--------------
+>  hw/gpio/trace-events |  2 ++
+>  2 files changed, 50 insertions(+), 22 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
