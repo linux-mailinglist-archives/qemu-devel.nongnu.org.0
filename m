@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E433BA786
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 08:22:50 +0200 (CEST)
-Received: from localhost ([::1]:51114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CF33BA78B
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 08:33:52 +0200 (CEST)
+Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzZ3A-0003t5-Up
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 02:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47022)
+	id 1lzZDr-00078b-K8
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 02:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lzZ2L-0003CO-I7
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 02:21:57 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40690
+ id 1lzZCd-0006Qk-Cw
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 02:32:35 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40720
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lzZ2J-0001qo-Jk
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 02:21:57 -0400
+ id 1lzZCW-0002Qz-9C
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 02:32:35 -0400
 Received: from host86-179-59-238.range86-179.btcentralplus.com
  ([86.179.59.238] helo=[192.168.1.65])
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lzZ1t-0005JW-MB; Sat, 03 Jul 2021 07:21:30 +0100
-To: Finn Thain <fthain@linux-m68k.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ id 1lzZC0-0005Lu-BT; Sat, 03 Jul 2021 07:32:00 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
+ aurelien@aurel32.net, jiaxun.yang@flygoat.com, jasowang@redhat.com,
+ fthain@telegraphics.com.au, laurent@vivier.eu
 References: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
- <20210625065401.30170-9-mark.cave-ayland@ilande.co.uk>
- <a6fae6a6-4fbd-a75c-96b5-403ba3658217@amsat.org>
- <82eeaede-12e7-29f3-9084-33105f5cb61e@linux-m68k.org>
+ <b4487676-d04e-14a4-2cdf-5c3aaa78212d@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <5d13cc8c-237c-83c8-bc0c-aecc1d531df5@ilande.co.uk>
-Date: Sat, 3 Jul 2021 07:21:44 +0100
+Message-ID: <70ea194a-af86-454e-d9cc-494805d953eb@ilande.co.uk>
+Date: Sat, 3 Jul 2021 07:32:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <82eeaede-12e7-29f3-9084-33105f5cb61e@linux-m68k.org>
+In-Reply-To: <b4487676-d04e-14a4-2cdf-5c3aaa78212d@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.179.59.238
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 08/10] dp8393x: don't force 32-bit register access
+Subject: Re: [PATCH v2 00/10] dp8393x: fixes for MacOS toolbox ROM
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -67,125 +67,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com, laurent@vivier.eu,
- qemu-devel@nongnu.org, hpoussin@reactos.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/07/2021 05:36, Finn Thain wrote:
+On 02/07/2021 14:03, Philippe Mathieu-Daudé wrote:
 
->> On 6/25/21 8:53 AM, Mark Cave-Ayland wrote:
->>> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" assumed that
->>> all accesses to the registers were 32-bit
+> Hi Mark,
 > 
-> No, that assumption was not made there. Just take a look at my commits in
-> Linux that make 16-bit accesses. If commit 3fe9a838ec worked by accident,
-> it probably just reflects my inadequate knowledge of QEMU internals.
-> 
->>> but this is actually not the case. The access size is determined by
->>> the CPU instruction used and not the number of physical address lines.
->>>
-> 
-> I think that's an over-simplification (in the context of commit
-> 3fe9a838ec).
-
-Let me try and clarify this a bit more: there are 2 different changes incorporated 
-into 3fe9a838ec. The first (as you mention below and also detailed in the commit 
-messge), is related to handling writes to the upper 16-bits of a word from the device 
-and ensuring that 32-bit accesses are handled correctly. This part seems correct to 
-me based upon reading the datasheet and the commit message:
-
-@@ -246,9 +246,19 @@ static void dp8393x_put(dp8393xState *s, int width, int offset,
-                          uint16_t val)
-  {
-      if (s->big_endian) {
--        s->data[offset * width + width - 1] = cpu_to_be16(val);
-+        if (width == 2) {
-+            s->data[offset * 2] = 0;
-+            s->data[offset * 2 + 1] = cpu_to_be16(val);
-+        } else {
-+            s->data[offset] = cpu_to_be16(val);
-+        }
-      } else {
--        s->data[offset * width] = cpu_to_le16(val);
-+        if (width == 2) {
-+            s->data[offset * 2] = cpu_to_le16(val);
-+            s->data[offset * 2 + 1] = 0;
-+        } else {
-+            s->data[offset] = cpu_to_le16(val);
-+        }
-      }
-  }
-
-The second change incorporated into 3fe9a838ec (and the one this patch fixes) is a 
-similar change made to the MMIO *register* accesses:
-
-@@ -590,7 +600,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned 
-int size)
-
-      DPRINTF("read 0x%04x from reg %s\n", val, reg_names[reg]);
-
--    return val;
-+    return s->big_endian ? val << 16 : val;
-  }
-
-and:
-
-@@ -598,13 +608,14 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-  {
-      dp8393xState *s = opaque;
-      int reg = addr >> s->it_shift;
-+    uint32_t val = s->big_endian ? data >> 16 : data;
-
-This is not correct since the QEMU memory API handles any access size and endian 
-conversion before the MMIO access reaches the device. It is this change which breaks 
-the 32-bit accesses used by MacOS to read/write the dp8393x registers because it 
-applies an additional endian swap on top of that already done by the memory API.
-
->>> The big_endian workaround applied to the register read/writes was
->>> actually caused by forcing the access size to 32-bit when the guest OS
->>> was using a 16-bit access. Since the registers are 16-bit then we can
->>> simply set .impl.min_access to 2 and then the memory API will
->>> automatically do the right thing for both 16-bit accesses used by
->>> Linux and 32-bit accesses used by the MacOS toolbox ROM.
+> On 6/25/21 8:53 AM, Mark Cave-Ayland wrote:
+>> Here is the next set of patches from my attempts to boot MacOS under QEMU's
+>> Q800 machine related to the Sonic network adapter.
 >>
->> Hmm I'm not sure. This sounds to me like the "QEMU doesn't model busses
->> so we end using kludge to hide bugs" pattern. Can you provide a QTest
->> (ideally) or a "-trace memory_region_ops_\*" log of your firmware
->> accessing the dp8393x please?
+>> Patches 1 and 2 sort out checkpatch and convert from DPRINTF macros to
+>> trace-events.
 >>
-> The DP83932 chip is highly configurable, so I'm not sure that the
-> behaviour of any given firmware would resolve the question.
+>> The discussion for the v1 patchset concluded that the dp8393x device does
+>> NOT have its own NVRAM (there is no mention of it on the datasheet) and so
+>> patches 3 to 5 move the generation of the PROM to the q800 and jazz boards
+>> separately to allow the formats to diverge.
+>>
+>> Patch 6 adds an implementation of bitrev8 to bitops.h in preparation for
+>> changing the q800 PROM storage format, whilst patch 7 updates the MAC address
+>> storage and checksum for the q800 machine to match the format expected by the
+>> MacOS toolbox ROM.
+>>
+>> Patch 8 ensures that the CPU loads/stores are correctly converted to 16-bit
+>> accesses for the network card and patch 9 fixes a bug when selecting the
+>> index specified for CAM entries.
+>>
+>> Finally since the MIPS magnum machine exists for both big-endian (mips64) and
+>> little-endian (mips64el) configurations, patch 10 sets the dp8393x big_endian
+>> property accordingly using a similar technique already used for the MIPS malta
+>> machines.
+>>
+>> Migration notes: the changes to the dp8393x PROM are a migration break, but we
+>> don't care about this for now since a) the q800 machine will have more
+>> breaking migration changes as further MacOS toolbox ROM support is upstreamed
+>> and b) the magnum machine migration is currently broken (and has been for
+>> quite some time).
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>
+>>
+>> v2:
+>> - Move PROM generation from dp8393x to q800 and magnum machines and remove
+>>    the existing code from the device itself
+>> - Add bitrev8 implementation to bitops.h so it can be used elsewhere in
+>>    future. Use a shift/merge technique rather than a massive table lookup
+>>    as we don't care about speed
+>> - Add patch to set the big_endian property correctly depending upon whether
+>>    a big-endian or little-endian configuration is being used
+>>
+>>
+>> Mark Cave-Ayland (10):
+>>    dp8393x: checkpatch fixes
+>>    dp8393x: convert to trace-events
+>>    hw/mips/jazz: move PROM and checksum calculation from dp8393x device
+>>      to board
+>>    hw/m68k/q800: move PROM and checksum calculation from dp8393x device
+>>      to board
+>>    dp8393x: remove onboard PROM containing MAC address and checksum
+>>    qemu/bitops.h: add bitrev8 implementation
+>>    hw/m68k/q800: fix PROM checksum and MAC address storage
+>>    dp8393x: don't force 32-bit register access
+>>    dp8393x: fix CAM descriptor entry index
+>>    hw/mips/jazz: specify correct endian for dp8393x device
+> 
+> Since a MIPS machine is involved, I'm queuing patches 1-7,10
+> (PROM cksum) to mips-next. I'm leaving 8-9 for further discussion
+> after seeing the guest memory traces.
 
-Indeed, I don't think that will help much here. Phil, if you would still like me to 
-send you some traces after reading the explanation above then do let me know.
+Thanks for picking these up - I've been AFK for the past week :)
 
-> Anyway, as far as the DP83932 hardware is concerned, the behaviour of the
-> upper 16-bits of the data bus depends on the configuration programmed into
-> the DP83932 registers, and whether the chip is accessed as a slave or
-> performing DMA as a master.
-
-The important part of the commit and its associated message is that it only changes 
-the *register* accesses which were introduced as part of 3fe9a838ec.
-
-In the end all the patch does is remove the manual endian swap from the MMIO 
-registers since QEMU's memory API does the right thing all by itself, and adds the 
-tweak below:
-
-@@ -694,7 +693,7 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-  static const MemoryRegionOps dp8393x_ops = {
-      .read = dp8393x_read,
-      .write = dp8393x_write,
--    .impl.min_access_size = 4,
-+    .impl.min_access_size = 2,
-      .impl.max_access_size = 4,
-      .endianness = DEVICE_NATIVE_ENDIAN,
-  };
-
-As Finn points out the dp8393x registers are 16-bit so we declare the implementation 
-size as 2 bytes and the maximum size as 4 bytes. This allows Linux to function 
-correctly with 16-bit accesses, whilst 32-bit accesses done by MacOS are split into 2 
-separate 16-bit accesses and combined automatically by the memory API.
+What was the issue with patch 9 "dp8393x: fix CAM descriptor entry index"? That patch 
+ensures that the CAM index is read from the descriptor, and not taken from the for() 
+loop i.e. it is unrelated to register access size. See section 4.1.1 "The Load CAM 
+Command" in the DP83932C datasheet for more information.
 
 
 ATB,
