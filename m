@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928B73BA733
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 06:31:16 +0200 (CEST)
-Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DAA3BA755
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 07:15:47 +0200 (CEST)
+Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzXJD-0003Hw-Kh
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 00:31:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
+	id 1lzY0H-0002Ll-Rl
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 01:15:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzXHR-0001I4-3U
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 00:29:25 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lzXHM-0008S0-RU
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 00:29:24 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lzXHL-0006PX-4X
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 04:29:19 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 205692E8136
- for <qemu-devel@nongnu.org>; Sat,  3 Jul 2021 04:29:19 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzXzA-0001gt-Nk
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 01:14:36 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40626
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzXz9-0003hz-2h
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 01:14:36 -0400
+Received: from host86-179-59-238.range86-179.btcentralplus.com
+ ([86.179.59.238] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzXyq-0004ub-4n; Sat, 03 Jul 2021 06:14:16 +0100
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210701071837.738897-1-marcandre.lureau@redhat.com>
+ <20210701071837.738897-2-marcandre.lureau@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <5e843cd1-baf8-f457-f9cf-a314bc8dbfff@ilande.co.uk>
+Date: Sat, 3 Jul 2021 06:14:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 03 Jul 2021 04:17:23 -0000
-From: Launchpad Bug Tracker <1396052@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor kwolf-redhat th-huth zhang-ji-xiang
-X-Launchpad-Bug-Reporter: z08687 (zhang-ji-xiang)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20141125093258.29019.8645.malonedeb@wampee.canonical.com>
-Message-Id: <162528584352.29798.17434904150541634799.malone@loganberry.canonical.com>
-Subject: [Bug 1396052] Re: migration failed when running BurnInTest in guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: b9ce905c091a7b9b4a85e5f5bfb671ae903793a8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210701071837.738897-2-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.179.59.238
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 2/2] hw/display: fail early when multiple virgl devices
+ are requested
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,172 +65,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1396052 <1396052@bugs.launchpad.net>
+Cc: kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+On 01/07/2021 08:18, marcandre.lureau@redhat.com wrote:
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> This avoids failing to initialize virgl and crashing later on, and clear
+> the user expectations.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   hw/display/virtio-gpu-gl.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
+> diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
+> index d971b48080..c973d4824b 100644
+> --- a/hw/display/virtio-gpu-gl.c
+> +++ b/hw/display/virtio-gpu-gl.c
+> @@ -25,6 +25,8 @@
+>   
+>   #include <virglrenderer.h>
+>   
+> +static int virgl_count = 0;
+> +
+>   static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
+>                                                struct virtio_gpu_scanout *s,
+>                                                uint32_t resource_id)
+> @@ -113,6 +115,11 @@ static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
+>       return;
+>   #endif
+>   
+> +    if (virgl_count++ > 0) {
+> +        error_setg(errp, "multiple virgl devices aren't supported yet");
+> +        return;
+> +    }
+> +
+>       if (!display_opengl) {
+>           error_setg(errp, "opengl is not available");
+>           return;
+> @@ -124,6 +131,10 @@ static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
+>   
+>       virtio_gpu_device_realize(qdev, errp);
+>   }
+> +static void virtio_gpu_gl_device_unrealize(DeviceState *dev)
+> +{
+> +    virgl_count--;
+> +}
+>   
+>   static Property virtio_gpu_gl_properties[] = {
+>       DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj.conf.flags,
+> @@ -144,6 +155,7 @@ static void virtio_gpu_gl_class_init(ObjectClass *klass, void *data)
+>       vgc->update_cursor_data = virtio_gpu_gl_update_cursor_data;
+>   
+>       vdc->realize = virtio_gpu_gl_device_realize;
+> +    vdc->unrealize = virtio_gpu_gl_device_unrealize;
+>       vdc->reset = virtio_gpu_gl_reset;
+>       device_class_set_props(dc, virtio_gpu_gl_properties);
+>   }
 
--- =
+FWIW I think the best way to prevent instantiation of multiple devices is to use the 
+QOM API to detect if more than one instance of a class exists within the QOM tree.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1396052
+Have a look at fw_cfg_find() and its usage from fw_cfg_common_realize() in 
+hw/nvram/fw_cfg.c for an example of this.
 
-Title:
-  migration failed when running BurnInTest in guest
 
-Status in QEMU:
-  Expired
+ATB,
 
-Bug description:
-  Hi,  =
-
-  I found a live migration problem and have found out the reason, but I can=
-'t fix it up myself. I really need help.
-  When live migration vm and it's block device in save time, it will occur =
-probabilistic .
-
-  Step:
-  1.  start a windows vm,and run burnInTest(it will write dirty data to blo=
-ck device in migration)
-  2.  migrate vm with it's block device.
-  3.  a few minutes later,  dest vm was killed and migration will be failed=
- (probabilistic )
-
-  Reason:
-      when migraion start, in source host libvirt will send command to qemu=
-,and qemu will call mirror_run coroutine to copy blcok device data to dest =
-vm block device.    mirror_run running in qemu main thread.   When this fin=
-ished(actually it still running because in following steps,there may genera=
-te dirty data by vm), qemu will  start migration_thread to migration ram an=
-d other device.
-      In dest vm, qemu will call "bdrv_invalidate_cache --> qcow2_invalidat=
-e_cache" function after vm read "QEMU_VM_EOF" byte. qcow2_invalidate_cache =
-fuction call qcow2_close ,  in qcow2_close fuction set "s->l1_table =3D NUL=
-L" and then call qcow2_cache_flush fuction.   In qcow2_cache_flush fuction =
-will call "bdrv_flush-->bdrv_flush_co_entry-->bdrv_co_flush-->qemu_coroutin=
-e_yield".   This will let itself back to mian loop.   If source vm send blo=
-ck device dirty data to dest vm at this time, in dest vm will occur the fol=
-lowing segmentation fault.
-      The primary reason is mirror_run and migration run in two thread.  al=
-though qemu stopping vm before write "QEMU_VM_EOF" byte, it still can't ens=
-ure mirror_run coroutine do not write dirty data  after migration thread  s=
-ending "QEMU_VM_EOF" byte.
-
-  =
-
-  Program received signal SIGSEGV, Segmentation fault.
-  0x00007f90d250db24 in get_cluster_table (bs=3D0x7f90d493f500, offset=3D18=
-32189952, new_l2_table=3D0x7f8fbd6faa88, =
-
-      new_l2_index=3D0x7f8fbd6faaa0) at block/qcow2-cluster.c:573
-  573         l2_offset =3D s->l1_table[l1_index] & L1E_OFFSET_MASK;
-  (gdb) bt
-  #0  0x00007f90d250db24 in get_cluster_table (bs=3D0x7f90d493f500, offset=
-=3D1832189952, new_l2_table=3D0x7f8fbd6faa88, =
-
-      new_l2_index=3D0x7f8fbd6faaa0) at block/qcow2-cluster.c:573
-  #1  0x00007f90d250e577 in handle_copied (bs=3D0x7f90d493f500, guest_offse=
-t=3D1832189952, host_offset=3D0x7f8fbd6fab18, =
-
-      bytes=3D0x7f8fbd6fab20, m=3D0x7f8fbd6fabc8) at block/qcow2-cluster.c:=
-927
-  #2  0x00007f90d250ef45 in qcow2_alloc_cluster_offset (bs=3D0x7f90d493f500=
-, offset=3D1832189952, num=3D0x7f8fbd6fabfc, =
-
-      host_offset=3D0x7f8fbd6fabc0, m=3D0x7f8fbd6fabc8) at block/qcow2-clus=
-ter.c:1269
-  #3  0x00007f90d250445f in qcow2_co_writev (bs=3D0x7f90d493f500, sector_nu=
-m=3D3578496, remaining_sectors=3D2040, =
-
-      qiov=3D0x7f8fbd6fae90) at block/qcow2.c:1171
-  #4  0x00007f90d24d4764 in bdrv_aligned_pwritev (bs=3D0x7f90d493f500, req=
-=3D0x7f8fbd6facd0, offset=3D1832189952, bytes=3D1044480, =
-
-      qiov=3D0x7f8fbd6fae90, flags=3D0) at block.c:3321
-  #5  0x00007f90d24d4d21 in bdrv_co_do_pwritev (bs=3D0x7f90d493f500, offset=
-=3D1832189952, bytes=3D1044480, qiov=3D0x7f8fbd6fae90, =
-
-      flags=3D0) at block.c:3447
-  #6  0x00007f90d24d3115 in bdrv_rw_co_entry (opaque=3D0x7f8fbd6fae10) at b=
-lock.c:2710
-  #7  0x00007f90d24d31e7 in bdrv_prwv_co (bs=3D0x7f90d493f500, offset=3D183=
-2189952, qiov=3D0x7f8fbd6fae90, is_write=3Dtrue, flags=3D0)
-      at block.c:2746
-  #8  0x00007f90d24d32eb in bdrv_rw_co (bs=3D0x7f90d493f500, sector_num=3D3=
-578496, =
-
-      buf=3D0x7f90d4e3d400 "\004\005\006\a\b\t\n\v\f\r\016\017\020\021\022\=
-023\024\025\026\027\030\031\032\033\034\035\036\037 !\"#$%&'()*+,-./0123456=
-789:;<=3D>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~=
-\177\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217\220\22=
-1\222\223\224\225\226\227\230\231\232\233\234\235\236\237\240\241\242\243\2=
-44\245\246\247\250\251\252\253\254\255\256\257\260\261\262\263\264\265\266\=
-267\270\271\272\273\274\275\276\277\300\301\302\303\304\305\306\307\310\311=
-\312", <incomplete sequence \313>..., nb_sectors=3D2040, is_write=3Dtrue, f=
-lags=3D0) at block.c:2776
-  #9  0x00007f90d24d3429 in bdrv_write (bs=3D0x7f90d493f500, sector_num=3D3=
-578496, =
-
-      buf=3D0x7f90d4e3d400 "\004\005\006\a\b\t\n\v\f\r\016\017\020\021\022\=
-023\024\025\026\027\030\031\032\033\034\035\036\037 !\"#$%&'()*+,-./0123456=
-789:;<=3D>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~=
-\177\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217\220\22=
-1\222\223\224\225\226\227\230\231\232\233\234\235\236\237\240\241\242\243\2=
-44\245\246\247\250\251\252\253\254\255\256\257\260\261\262\263\264\265\266\=
-267\270\271\272\273\274\275\276\277\300\301\302\303\304\305\306\307\310\311=
-\312", <incomplete sequence \313>..., nb_sectors=3D2040) at block.c:2810
-  #10 0x00007f90d24cc2b5 in nbd_trip (opaque=3D0x7f90d4ba9aa0) at nbd.c:1191
-  #11 0x00007f90d24e86fb in coroutine_trampoline (i0=3D-725586416, i1=3D326=
-56) at coroutine-ucontext.c:118
-  #12 0x00007f90d0449310 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
-  #13 0x00007fff3fcfda10 in ?? ()
-  #14 0x0000000000000000 in ?? ()
-  (gdb) p bs
-  $1 =3D (BlockDriverState *) 0x7f90d493f500
-  (gdb) p *s
-  $3 =3D {cluster_bits =3D 16, cluster_size =3D 65536, cluster_sectors =3D =
-128, l2_bits =3D 13, l2_size =3D 8192, l1_size =3D 40, =
-
-    l1_vm_state_index =3D 40, csize_shift =3D 54, csize_mask =3D 255, clust=
-er_offset_mask =3D 18014398509481983, =
-
-    l1_table_offset =3D 196608, l1_table =3D 0x0, l2_table_cache =3D 0x7f90=
-d493eee0, refcount_block_cache =3D 0x7f90d493ef30, =
-
-    cluster_cache =3D 0x7f90d4a84350 "", cluster_data =3D 0x7f90ce4de010 ""=
-, cluster_cache_offset =3D 18446744073709551615, =
-
-    cluster_allocs =3D {lh_first =3D 0x0}, refcount_table =3D 0x7f90d4a9436=
-0, refcount_table_offset =3D 65536, =
-
-    refcount_table_size =3D 8192, free_cluster_index =3D 209420, free_byte_=
-offset =3D 0, lock =3D {locked =3D true, queue =3D {entries =3D {
-          tqh_first =3D 0x0, tqh_last =3D 0x7f90d4942c60}}}, crypt_method =
-=3D 0, crypt_method_header =3D 0, aes_encrypt_key =3D {
-      rd_key =3D {0 <repeats 60 times>}, rounds =3D 0}, aes_decrypt_key =3D=
- {rd_key =3D {0 <repeats 60 times>}, rounds =3D 0}, =
-
-    snapshots_offset =3D 0, snapshots_size =3D 0, nb_snapshots =3D 0, snaps=
-hots =3D 0x0, flags =3D 10338, qcow_version =3D 3, =
-
-    use_lazy_refcounts =3D false, refcount_order =3D 4, discard_passthrough=
- =3D {false, true, false, true, false}, =
-
-    overlap_check =3D 127, incompatible_features =3D 0, compatible_features=
- =3D 0, autoclear_features =3D 0, =
-
-    unknown_header_fields_size =3D 0, unknown_header_fields =3D 0x0, unknow=
-n_header_ext =3D {lh_first =3D 0x0}, discards =3D {
-      tqh_first =3D 0x0, tqh_last =3D 0x7f90d4942ec8}, cache_discards =3D f=
-alse}
-  (gdb) p s->l1_table
-  $4 =3D (uint64_t *) 0x0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1396052/+subscriptions
+Mark.
 
