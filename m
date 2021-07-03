@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B028F3BA8E9
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 16:24:18 +0200 (CEST)
-Received: from localhost ([::1]:50630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512D23BA8EA
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 16:25:40 +0200 (CEST)
+Received: from localhost ([::1]:52794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzgZ7-0007w0-Pn
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 10:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39270)
+	id 1lzgaR-0000yk-Ds
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 10:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzgVG-0007WH-MK
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:20:18 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54836)
+ id 1lzgVM-0007kg-Fo
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:20:24 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzgVF-0000PQ-2p
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:20:18 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id l1so8364305wme.4
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 07:20:16 -0700 (PDT)
+ id 1lzgVL-0000TD-2j
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:20:24 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso10918488wmh.4
+ for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 07:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BBcm2+wolkRxeEQOcXfgwJq5vFDQEScUBa14FBrpn3k=;
- b=Ae+hrxsI1VSH7L+2I1trurB0AO6G23kUV4BogxdwP5XYzy0o8itrEvdLaKz5T01xh9
- TW/KLds9aAx1QmAMnhp8BXm96RvuiMnARs1t1LTS5GDD6BqR5wNfYlkYSBr8MsX8Yu9H
- 2mLNheO7LIfYmlQ2cO+byEE0Ncrlgp6FCpghQYPbDn2lfkBA6WOldrfD7s/cSg8U+f18
- eYg9HgHU2RTVm8f0V+Fjm6rWE8OsGXIgxaZv4UpipDb4X/Y2J1kFazK/9p/j149eSo9t
- 7jtXsLmAN4mdrnqZzBroK/4ljoew2/UUZmoFf0Gt3WK1BbJo9hK5pebL/cDq9mJ2Aof1
- GSzg==
+ bh=gGNpFpQ65DTmvgJho/8X8gH0JzWqfLCEmto+spU07GY=;
+ b=fT7aQ1X2kIFi/OXIQ/P74DKNbB9xVXJtWKIFyIGkB2RSPWAOxEY99xJ1AUx6SDm1fa
+ zt7RSr2IJ4yV29+el/4oqZmFWVmCEOzFuDvWUcf24VBbiFSBrXWLM/9CRwiEUgD2R5cy
+ /2dx4RxCbFDawZTIh+grLaTsgr1T4OpfC9OXNBWpMYzsqNqH8gnzc71rdeq252zifhbM
+ UriSSr/yIrIFeHU5cJv6T9wA78bxAcLQ/AwEQILcn0qzzikfPSVMC5G8Xxoo6I40Ka/h
+ VeAIKFyk/hdJH+1mbRiIGrznTmc9EHoJ2AfCl1uGUGhT91fkzQ/37kqpLdepWMwnaYXu
+ z0fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BBcm2+wolkRxeEQOcXfgwJq5vFDQEScUBa14FBrpn3k=;
- b=P01EOHrHhGAJt0jA982dBa3DisU0gEvH/wtCqaqQDLEv8mOYtUkxz22/TVLQgPZ5gq
- 8XCbR8H9Kge98DyDdsqEeFgwFmV1Cy9cjSJdMFItW6up7HD6M5ehAJZ/ordBIdk3kIpx
- jtMN9YoYxdg9bMUdAwsoIMDgGeBn4xJHr5ywNoKzjGu9EUY8ecXPXk7TMPHS3QOLMpTV
- GHb2a/BplULraPJYkLfkF/NayAeQQT4ZZWjFTzT55rJH9Bil+HAGZI6Y83g+6gmvZCU4
- M0Sj6vxezng9q+dMxmiMEDHqadCWeRPHdt+dOqmlVXO0/Ple/jvvRCZ5SItCoM5dhdfL
- Wa1g==
-X-Gm-Message-State: AOAM531SEfa9GILOsLCSpnC8p8Ty7pe8WMPIlMboBkM4LSIFt6nb3QBM
- xAiN1/V1JGbveC/Yi8hSefpSdMHlSOTkCw==
-X-Google-Smtp-Source: ABdhPJxUB+YnD2kavDllvKLJe5nPqx0ujN+2pJ5uQm3RYTh4qI+RY7juayefUvc5a+v9HvES1B3FAw==
-X-Received: by 2002:a05:600c:21da:: with SMTP id
- x26mr5221843wmj.141.1625322015568; 
- Sat, 03 Jul 2021 07:20:15 -0700 (PDT)
+ bh=gGNpFpQ65DTmvgJho/8X8gH0JzWqfLCEmto+spU07GY=;
+ b=mlDSyMnPZxzQrnXkkvGLhA6K+OtiFh1GDUhfNwoS5HqrTbVCuwVL5Hi/imNkn3m96S
+ SDQU7UiWwQWig+8UhukbCpxCC0fm50nEmJVhNNEROIMfB0w6lTjV5rjbDu+xj93eWoha
+ SsmOsQqr7WoJaXQnZNxAib9AZ3yudlutHF1maN8e3I8sf7+GIJ+RnyEPT7vO871HR+1b
+ kMIYYsQ7qjOZbNr6OGA00U7COK0ztHG/7sQ7kfQrsPxbPTUi0jhzyNVMabmGgWPw3hVA
+ 2AbdUH1C6lxQbWTOUGQsMNxrfZl0RpXZInZ4kNyFxNzZAtTBpTPnJ6t3vvsJ4hHiCX7d
+ fD6Q==
+X-Gm-Message-State: AOAM530Vh1jAS7ICTyk8n7h7QKHPBAK0b7xgwmMpBiaXwHADeZEJ1XZH
+ /MIWOfwqh4ardbnBy+cAJqEBuR1NC/Wi2g==
+X-Google-Smtp-Source: ABdhPJzEoIqFs2tcbEZQgbzyyt22QqHrY/fr3RZqKAOn3GtlgoAWJbELkWdTU8gZyt8QTTUQKVOJZA==
+X-Received: by 2002:a1c:1d07:: with SMTP id d7mr5427366wmd.180.1625322021553; 
+ Sat, 03 Jul 2021 07:20:21 -0700 (PDT)
 Received: from x1w.. (184.red-95-127-187.staticip.rima-tde.net.
  [95.127.187.184])
- by smtp.gmail.com with ESMTPSA id q5sm6445998wrx.57.2021.07.03.07.20.14
+ by smtp.gmail.com with ESMTPSA id q6sm15930403wma.16.2021.07.03.07.20.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jul 2021 07:20:15 -0700 (PDT)
+ Sat, 03 Jul 2021 07:20:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 4/6] dp8393x: Store CAM registers as 16-bit
-Date: Sat,  3 Jul 2021 16:19:45 +0200
-Message-Id: <20210703141947.352295-5-f4bug@amsat.org>
+Subject: [PATCH 5/6] dp8393x: Replace address_space_rw(is_write=1) by
+ address_space_write()
+Date: Sat,  3 Jul 2021 16:19:46 +0200
+Message-Id: <20210703141947.352295-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210703141947.352295-1-f4bug@amsat.org>
 References: <20210703141947.352295-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,85 +94,37 @@ Cc: Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the DP83932C datasheet from July 1995:
-
-  4.0 SONIC Registers
-  4.1 THE CAM UNIT
-
-    The Content Addressable Memory (CAM) consists of sixteen
-    48-bit entries for complete address filtering of network
-    packets. Each entry corresponds to a 48-bit destination
-    address that is user programmable and can contain any
-    combination of Multicast or Physical addresses. Each entry
-    is partitioned into three 16-bit CAM cells accessible
-    through CAM Address Ports (CAP 2, CAP 1 and CAP 0) with
-    CAP0 corresponding to the least significant 16 bits of
-    the Destination Address and CAP2 corresponding to the
-    most significant bits.
-
-Store the CAM registers as 16-bit as it simplifies the code.
-There is no change in the migration stream.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/net/dp8393x.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+ hw/net/dp8393x.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index c9b478c127c..e0055b178b1 100644
+index e0055b178b1..bbe241ef9db 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -157,7 +157,7 @@ struct dp8393xState {
-     MemoryRegion mmio;
+@@ -814,8 +814,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         size = sizeof(uint16_t) * width;
+         address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
+         dp8393x_put(s, width, 0, 0);
+-        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+-                         (uint8_t *)s->data, size, 1);
++        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
++                            (uint8_t *)s->data, size);
  
-     /* Registers */
--    uint8_t cam[16][6];
-+    uint16_t cam[16][3];
-     uint16_t regs[0x40];
- 
-     /* Temporaries */
-@@ -280,15 +280,13 @@ static void dp8393x_do_load_cam(dp8393xState *s)
-         address_space_read(&s->as, dp8393x_cdp(s),
-                            MEMTXATTRS_UNSPECIFIED, s->data, size);
-         index = dp8393x_get(s, width, 0) & 0xf;
--        s->cam[index][0] = dp8393x_get(s, width, 1) & 0xff;
--        s->cam[index][1] = dp8393x_get(s, width, 1) >> 8;
--        s->cam[index][2] = dp8393x_get(s, width, 2) & 0xff;
--        s->cam[index][3] = dp8393x_get(s, width, 2) >> 8;
--        s->cam[index][4] = dp8393x_get(s, width, 3) & 0xff;
--        s->cam[index][5] = dp8393x_get(s, width, 3) >> 8;
--        trace_dp8393x_load_cam(index, s->cam[index][0], s->cam[index][1],
--                               s->cam[index][2], s->cam[index][3],
--                               s->cam[index][4], s->cam[index][5]);
-+        s->cam[index][0] = dp8393x_get(s, width, 1);
-+        s->cam[index][1] = dp8393x_get(s, width, 2);
-+        s->cam[index][2] = dp8393x_get(s, width, 3);
-+        trace_dp8393x_load_cam(index,
-+                               s->cam[index][0] >> 8, s->cam[index][0] & 0xff,
-+                               s->cam[index][1] >> 8, s->cam[index][1] & 0xff,
-+                               s->cam[index][2] >> 8, s->cam[index][2] & 0xff);
-         /* Move to next entry */
-         s->regs[SONIC_CDC]--;
-         s->regs[SONIC_CDP] += size;
-@@ -591,8 +589,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
-     case SONIC_CAP1:
-     case SONIC_CAP0:
-         if (s->regs[SONIC_CR] & SONIC_CR_RST) {
--            val = s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg) + 1] << 8;
--            val |= s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg)];
-+            val = s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg)];
-         }
-         break;
-     /* All other registers have no special contraints */
-@@ -987,7 +984,7 @@ static const VMStateDescription vmstate_dp8393x = {
-     .version_id = 0,
-     .minimum_version_id = 0,
-     .fields = (VMStateField []) {
--        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
-+        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 3 * 2),
-         VMSTATE_UINT16_ARRAY(regs, dp8393xState, 0x40),
-         VMSTATE_END_OF_LIST()
+         /* Move to next descriptor */
+         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+@@ -844,8 +844,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     /* Pad short packets to keep pointers aligned */
+     if (rx_len < padded_len) {
+         size = padded_len - rx_len;
+-        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+-            (uint8_t *)"\xFF\xFF\xFF", size, 1);
++        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
++                            (uint8_t *)"\xFF\xFF\xFF", size);
+         address += size;
      }
+ 
 -- 
 2.31.1
 
