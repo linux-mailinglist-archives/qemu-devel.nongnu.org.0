@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95C73BA982
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 18:33:48 +0200 (CEST)
-Received: from localhost ([::1]:43484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCB53BA981
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 18:33:37 +0200 (CEST)
+Received: from localhost ([::1]:43012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lziaR-0006W1-Re
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 12:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55426)
+	id 1lziaG-0006Ch-PG
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 12:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lziYc-0004sc-Ex
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:31:54 -0400
-Received: from mout.web.de ([212.227.17.11]:60047)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lziYS-0004bG-3i
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:31:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lziYa-0002RW-Cc
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:31:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1625329892;
- bh=ia6mEFxqJpPpUgP8OkBgmdgb8wK2HOKM/jnSNHJ48sg=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=Grh3OcuxtAVnzY9cFlJNgcj5Q0Ie+6L70hqpKiIRuQG3lTI2B5cIRMGr1yUqZbPYO
- lHdnrcRUobYZCdmO2UpzBfwxM8ouFRg9SIjBT8745+joeJwcXOVOcQd1SyhaULRS7J
- 0Q63OMpSA7qs1vSJlsMFCamb9RaGg6AdlglsHzsg=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.254]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LcxtU-1lHcI81DhA-00iCys; Sat, 03
- Jul 2021 18:31:32 +0200
-Date: Sat, 3 Jul 2021 18:31:15 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH] migration: Move bitmap_mutex out of
- migration_bitmap_clear_dirty()
-Message-ID: <20210703183115.17f385f6@gecko.fritz.box>
-In-Reply-To: <20210630200805.280905-1-peterx@redhat.com>
-References: <20210630200805.280905-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lziYO-0002KI-Gx
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:31:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625329898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aslCUlFMZs5lt4Gh9ItxHs0sfysX0g8iXM6xPa9MnrA=;
+ b=ikeCbaZOYhy5ZoUkGzGQZLC8fpErAu7X/1+ajKxDQpfPkV4MuNDN0+PZT6rTLlyJDdvGXd
+ xwayq+suDEjCcUp1VCjC5jB4mSP0MHFEAPNP5GjtWJAtG7hPDyRDbpZcJSJ1IVGS9aS6hA
+ 7hwv9R4L/SL0moqwr/T7oxiOqg7gQAA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-7XTre7vyPXqaalWY_hXmLg-1; Sat, 03 Jul 2021 12:31:37 -0400
+X-MC-Unique: 7XTre7vyPXqaalWY_hXmLg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y17-20020a0564023591b02903951740fab5so6776100edc.23
+ for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 09:31:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aslCUlFMZs5lt4Gh9ItxHs0sfysX0g8iXM6xPa9MnrA=;
+ b=hp4LCUFVqI0Sp0E2ZO/+HM4oh/O0Lx3TsQ1toRdKrwmedqQDGNk5i4NaSp2xnI7Ft5
+ pSr4LEk3YHQgr7l1oa/bA53fIP0Rpl4fguzBFAkrPGuExHFUBbxqKrscxOIifyaBgBZu
+ Z1XrUXDEQq4SFVdspmriw9zfXGFWUMeZyJi6kx8U9uWU8bJsR1PpmaLYJqUJdusAk66d
+ Mz3RL5p6aQAajv66w4SRAeCPzI94DvWRyqgYDFDuM5adbYbQD/huRhAi1M6irdALLYRl
+ 45O/ZAdWGPHexhZ6gKsrHvoFaD3RU5OWYEia6zQ2NEvHsFM7SxI1gHd0YrfofWTA0Dbb
+ LOSA==
+X-Gm-Message-State: AOAM532Id0vBdnnmmRfuDxge16L4d+GEWRBq6SYEU2IBxcPBV87es78l
+ RZ46hMhZFbtJuem/Yqa5evuDxxP6SkPFJBgWwk0xkovHW2JgIjoH0NcQ0GoLDzeN+EmJ8TvDvX6
+ x69tPhxsrNQbqH9I=
+X-Received: by 2002:a50:f0ce:: with SMTP id a14mr5389709edm.176.1625329895951; 
+ Sat, 03 Jul 2021 09:31:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqJuR3kynSnMSSm/IWQnm187dATYLvp89SmLte6kMngW9M4cu+aAlxK16KAkFlkoN/x3pIog==
+X-Received: by 2002:a50:f0ce:: with SMTP id a14mr5389686edm.176.1625329895571; 
+ Sat, 03 Jul 2021 09:31:35 -0700 (PDT)
+Received: from redhat.com ([77.126.110.253])
+ by smtp.gmail.com with ESMTPSA id b15sm2275530eja.82.2021.07.03.09.31.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Jul 2021 09:31:34 -0700 (PDT)
+Date: Sat, 3 Jul 2021 12:31:31 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v7 2/5] virtio-iommu: Implement RESV_MEM probe request
+Message-ID: <20210703123113-mutt-send-email-mst@kernel.org>
+References: <20200629070404.10969-1-eric.auger@redhat.com>
+ <20200629070404.10969-3-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/XV=JqG8PO+lVKwX6g9QBeAj";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:ZI+9ZP47e1FgOQypysgCsGMP9Q4onVqMqOd5tF9idFx6xs766YZ
- dhT09+qHTXGC57pHvWRBuno819CkjQx/cd55Cu/m8+t+FLTmRb+hHxzD+RPaSrcpBPx2V/I
- sbhKklk47+L00Y5eehY0qOwctw6cgyoRU3xeSjWMyVfN+d/5mPZVmDJDSrjvRe22q6tlNZh
- N+I1JUhRE++cq0jv8dOWA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1uKRPzUJcyg=:Qxtfo9wAMlNcRD1RKWW3DX
- xoXpUQHRkgHf6x7PUQSWT0NFGyRIPfvnaXVuiatxbUVrX+Csz9LNaPwo16mpBypA0xzRhuxYs
- IUeu5SALM7P/9MIPjX+wYR3Z/lDJYTO3QhCT6VsacC4HlprrlI5jT6BVXz1YZ36WQ+mteu1+4
- YOs/3ehk3oX93NUvgWIzcnM77/khmBfjuRGtQ26slGZGrgU0rOwAEb1NThuDMH/N9S4/zw3Xm
- hpws3gRzKqp2HZtUSFooZpUYoRXXLWpJKjSOUBuV+pV6+siPLK67n99n5GHu+dsbhCwjxZVfN
- Pr89QONwVrVLbXfotUsp09hS2drTpLcRDBjtbDRQ8eWn9Q3Y/6+jyioTXaGuSe8GcOP/CuEa0
- VYUVN4eMXBBOXeYAxKug+KIKxs/1i+BLrVvWgNLH9X4p/8oDkbDYj5N0lut4F45Ms7YGnfrAx
- pnAsxCctScqAu9rLnBHsNnKH1VTc1tpIv6XK1Zkv5vQUFzWWnOjL7PciW9nPyY9fFCErdlO+6
- 4OG0n/8slGzH3CoOmeEPFX2CsDt7r9GPVS/EAshJ/1v2iDBowA+X4h+43yglvGAhxuCGJlmF9
- kOZaTFZK8z9rbnAGNtaOXVjDSYGVNFQ9qYji3KqGG27M0Bxz9N8fA/JUazD6fRp4WD85dKA0v
- hNAvuCwf33n65ILva3XkOfcuaKzMmSzlDUFDUgOrXlofrHWb2/ftAW2Vi6ardZRZqVfsdimEd
- 1q2XtDFzUdcNiRZWy9+hmMKJ4b9AFx8ZDS859mLqtmeym9g06bzHlg5lIxLecTtazF0WTkFQz
- Cx6tBMqFEQv5YrOQEpj1/RqmSrsjgzkuCkPwHKtEGhVXjyNnsDOeQ1hg+5y8AFxivyKOzc0I3
- dg6A4c05GHbQ0fk9oRBBYGRacZGXpiM1x/AsKUY6axUx1qpempMBj7jhzFd0pDjjOuz7kXfEc
- d5JK0i5NIo+C6jebSv7QxK25ZgebGBALfhrcY1uOT98a+GNp4Vlmw5l78/gP5UbcAtq6mv7Bh
- 61huIzMFyEGQ/j4OZX2NXAqgQX1lX7zQcJ0TiWu6jGShHjC4w78xTepw8cgzT4L8P+olOmecs
- MrI+EHFSy/YCKAj3PZLl9nPBLYqWYfWFPQk
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200629070404.10969-3-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,162 +92,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Wei Wang <wei.w.wang@intel.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, armbru@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ bbhushan2@marvell.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/XV=JqG8PO+lVKwX6g9QBeAj
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 30 Jun 2021 16:08:05 -0400
-Peter Xu <peterx@redhat.com> wrote:
-
-> Taking the mutex every time for each dirty bit to clear is too slow, espe=
-cially
-> we'll take/release even if the dirty bit is cleared.  So far it's only us=
-ed to
-> sync with special cases with qemu_guest_free_page_hint() against migration
-> thread, nothing really that serious yet.  Let's move the lock to be upper.
->=20
-> There're two callers of migration_bitmap_clear_dirty().
->=20
-> For migration, move it into ram_save_iterate().  With the help of MAX_WAIT
-> logic, we'll only run ram_save_iterate() for no more than 50ms-ish time, =
-so
-> taking the lock once there at the entry.  It also means any call sites to
-> qemu_guest_free_page_hint() can be delayed; but it should be very rare, o=
-nly
-> during migration, and I don't see a problem with it.
->=20
-> For COLO, move it up to colo_flush_ram_cache().  I think COLO forgot to t=
-ake
-> that lock even when calling ramblock_sync_dirty_bitmap(), where another e=
-xample
-> is migration_bitmap_sync() who took it right.  So let the mutex cover bot=
-h the
-> ramblock_sync_dirty_bitmap() and migration_bitmap_clear_dirty() calls.
-
-Hi,
-I don't think COLO needs it, colo_flush_ram_cache() only runs on
-the secondary (incoming) side and AFAIK the bitmap is only set in
-ram_load_precopy() and they don't run in parallel.
-
-Although I'm not sure what ramblock_sync_dirty_bitmap() does. I guess
-it's only there to make the rest of the migration code happy?
-
-Regards,
-Lukas Straub
-
-> It's even possible to drop the lock so we use atomic operations upon rb->=
-bmap
-> and the variable migration_dirty_pages.  I didn't do it just to still be =
-safe,
-> also not predictable whether the frequent atomic ops could bring overhead=
- too
-> e.g. on huge vms when it happens very often.  When that really comes, we =
-can
-> keep a local counter and periodically call atomic ops.  Keep it simple fo=
-r now.
->=20
-> Cc: Wei Wang <wei.w.wang@intel.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On Mon, Jun 29, 2020 at 09:04:01AM +0200, Eric Auger wrote:
+> This patch implements the PROBE request. At the moment,
+> only THE RESV_MEM property is handled. The first goal is
+> to report iommu wide reserved regions such as the MSI regions
+> set by the machine code. On x86 this will be the IOAPIC MSI
+> region, [0xFEE00000 - 0xFEEFFFFF], on ARM this may be the ITS
+> doorbell.
+> 
+> In the future we may introduce per device reserved regions.
+> This will be useful when protecting host assigned devices
+> which may expose their own reserved regions
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> 
 > ---
->  migration/ram.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
->=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 723af67c2e..9f2965675d 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -795,8 +795,6 @@ static inline bool migration_bitmap_clear_dirty(RAMSt=
-ate *rs,
->  {
->      bool ret;
-> =20
-> -    QEMU_LOCK_GUARD(&rs->bitmap_mutex);
-> -
->      /*
->       * Clear dirty bitmap if needed.  This _must_ be called before we
->       * send any of the page in the chunk because we need to make sure
-> @@ -2834,6 +2832,14 @@ static int ram_save_iterate(QEMUFile *f, void *opa=
-que)
->          goto out;
->      }
-> =20
-> +    /*
-> +     * We'll take this lock a little bit long, but it's okay for two rea=
-sons.
-> +     * Firstly, the only possible other thread to take it is who calls
-> +     * qemu_guest_free_page_hint(), which should be rare; secondly, see
-> +     * MAX_WAIT (if curious, further see commit 4508bd9ed8053ce) below, =
-which
-> +     * guarantees that we'll at least released it in a regular basis.
-> +     */
-> +    qemu_mutex_lock(&rs->bitmap_mutex);
->      WITH_RCU_READ_LOCK_GUARD() {
->          if (ram_list.version !=3D rs->last_version) {
->              ram_state_reset(rs);
-> @@ -2893,6 +2899,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaq=
-ue)
->              i++;
->          }
->      }
-> +    qemu_mutex_unlock(&rs->bitmap_mutex);
-> =20
->      /*
->       * Must occur before EOS (or any QEMUFile operation)
-> @@ -3682,6 +3689,7 @@ void colo_flush_ram_cache(void)
->      unsigned long offset =3D 0;
-> =20
->      memory_global_dirty_log_sync();
-> +    qemu_mutex_lock(&ram_state->bitmap_mutex);
->      WITH_RCU_READ_LOCK_GUARD() {
->          RAMBLOCK_FOREACH_NOT_IGNORED(block) {
->              ramblock_sync_dirty_bitmap(ram_state, block);
-> @@ -3710,6 +3718,7 @@ void colo_flush_ram_cache(void)
->          }
->      }
->      trace_colo_flush_ram_cache_end();
-> +    qemu_mutex_unlock(&ram_state->bitmap_mutex);
+> 
+> v6 -> v7:
+> - put the assert again to make it clear there is no risk
+>   of truncation
+> 
+> v5 -> v6:
+> - removed validation of s->reserved_regions[i].type in the
+>   probe request as it should rather happen in the realize()
+> 
+> v4 -> v5:
+> - assert if reserved region type is different from RESERVED or
+>   MSI
+> 
+> v3 -> v4:
+> - removed any reference to the NONE property that does not
+>   exist anymore.
+> 
+> v2 -> v3:
+> - on probe, do not fill the reminder of the buffer with zeroes
+>   as the buffer was already zero initialized (Bharat)
+> 
+> v1 -> v2:
+> - move the unlock back to the same place
+> - remove the push label and factorize the code after the out label
+> - fix a bunch of cpu_to_leX according to the latest spec revision
+> - do not remove sizeof(last) from free space
+> - check the ep exists
+> ---
+>  include/hw/virtio/virtio-iommu.h |  2 +
+>  hw/virtio/virtio-iommu.c         | 94 ++++++++++++++++++++++++++++++--
+>  hw/virtio/trace-events           |  1 +
+>  3 files changed, 93 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
+> index e653004d7c..49eb105cd8 100644
+> --- a/include/hw/virtio/virtio-iommu.h
+> +++ b/include/hw/virtio/virtio-iommu.h
+> @@ -53,6 +53,8 @@ typedef struct VirtIOIOMMU {
+>      GHashTable *as_by_busptr;
+>      IOMMUPciBus *iommu_pcibus_by_bus_num[PCI_BUS_MAX];
+>      PCIBus *primary_bus;
+> +    ReservedRegion *reserved_regions;
+> +    uint32_t nb_reserved_regions;
+>      GTree *domains;
+>      QemuMutex mutex;
+>      GTree *endpoints;
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> index 483883ec1d..2cdaa1969b 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -38,6 +38,7 @@
+>  
+>  /* Max size */
+>  #define VIOMMU_DEFAULT_QUEUE_SIZE 256
+> +#define VIOMMU_PROBE_SIZE 512
+>  
+>  typedef struct VirtIOIOMMUDomain {
+>      uint32_t id;
+> @@ -378,6 +379,65 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+>      return ret;
 >  }
-> =20
->  /**
+>  
+> +static ssize_t virtio_iommu_fill_resv_mem_prop(VirtIOIOMMU *s, uint32_t ep,
+> +                                               uint8_t *buf, size_t free)
+> +{
+> +    struct virtio_iommu_probe_resv_mem prop = {};
+> +    size_t size = sizeof(prop), length = size - sizeof(prop.head), total;
+> +    int i;
+> +
+> +    total = size * s->nb_reserved_regions;
+> +
+> +    if (total > free) {
+> +        return -ENOSPC;
+> +    }
+> +
+> +    for (i = 0; i < s->nb_reserved_regions; i++) {
+> +        unsigned subtype = s->reserved_regions[i].type;
+> +
+> +        assert(subtype == VIRTIO_IOMMU_RESV_MEM_T_RESERVED ||
+> +               subtype == VIRTIO_IOMMU_RESV_MEM_T_MSI);
+> +        prop.head.type = cpu_to_le16(VIRTIO_IOMMU_PROBE_T_RESV_MEM);
+> +        prop.head.length = cpu_to_le16(length);
+> +        prop.subtype = subtype;
+> +        prop.start = cpu_to_le64(s->reserved_regions[i].low);
+> +        prop.end = cpu_to_le64(s->reserved_regions[i].high);
+> +
+> +        memcpy(buf, &prop, size);
+> +
+> +        trace_virtio_iommu_fill_resv_property(ep, prop.subtype,
+> +                                              prop.start, prop.end);
+> +        buf += size;
+> +    }
+> +    return total;
+> +}
+> +
+> +/**
+> + * virtio_iommu_probe - Fill the probe request buffer with
+> + * the properties the device is able to return
+> + */
+> +static int virtio_iommu_probe(VirtIOIOMMU *s,
+> +                              struct virtio_iommu_req_probe *req,
+> +                              uint8_t *buf)
+> +{
+> +    uint32_t ep_id = le32_to_cpu(req->endpoint);
+> +    size_t free = VIOMMU_PROBE_SIZE;
+> +    ssize_t count;
+> +
+> +    if (!virtio_iommu_mr(s, ep_id)) {
+> +        return VIRTIO_IOMMU_S_NOENT;
+> +    }
+> +
+> +    count = virtio_iommu_fill_resv_mem_prop(s, ep_id, buf, free);
+> +    if (count < 0) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +    buf += count;
+> +    free -= count;
+> +
+> +    return VIRTIO_IOMMU_S_OK;
+> +}
+> +
+>  static int virtio_iommu_iov_to_req(struct iovec *iov,
+>                                     unsigned int iov_cnt,
+>                                     void *req, size_t req_sz)
+> @@ -407,15 +467,27 @@ virtio_iommu_handle_req(detach)
+>  virtio_iommu_handle_req(map)
+>  virtio_iommu_handle_req(unmap)
+>  
+> +static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
+> +                                     struct iovec *iov,
+> +                                     unsigned int iov_cnt,
+> +                                     uint8_t *buf)
+> +{
+> +    struct virtio_iommu_req_probe req;
+> +    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req));
+> +
+> +    return ret ? ret : virtio_iommu_probe(s, &req, buf);
+> +}
+> +
+>  static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+>  {
+>      VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
+>      struct virtio_iommu_req_head head;
+>      struct virtio_iommu_req_tail tail = {};
+> +    size_t output_size = sizeof(tail), sz;
+>      VirtQueueElement *elem;
+>      unsigned int iov_cnt;
+>      struct iovec *iov;
+> -    size_t sz;
+> +    void *buf = NULL;
+>  
+>      for (;;) {
+>          elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
+> @@ -452,6 +524,17 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+>          case VIRTIO_IOMMU_T_UNMAP:
+>              tail.status = virtio_iommu_handle_unmap(s, iov, iov_cnt);
+>              break;
+> +        case VIRTIO_IOMMU_T_PROBE:
+> +        {
+> +            struct virtio_iommu_req_tail *ptail;
+> +
+> +            output_size = s->config.probe_size + sizeof(tail);
+> +            buf = g_malloc0(output_size);
+> +
+> +            ptail = (struct virtio_iommu_req_tail *)
+> +                        (buf + s->config.probe_size);
+> +            ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
+> +        }
+>          default:
+>              tail.status = VIRTIO_IOMMU_S_UNSUPP;
+>          }
+> @@ -459,12 +542,13 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+>  
+>  out:
+>          sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
+> -                          &tail, sizeof(tail));
+> -        assert(sz == sizeof(tail));
+> +                          buf ? buf : &tail, output_size);
+> +        assert(sz == output_size);
+>  
+> -        virtqueue_push(vq, elem, sizeof(tail));
+> +        virtqueue_push(vq, elem, sz);
+>          virtio_notify(vdev, vq);
+>          g_free(elem);
+> +        g_free(buf);
+>      }
+>  }
+>  
+> @@ -667,6 +751,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+>      s->config.page_size_mask = TARGET_PAGE_MASK;
+>      s->config.input_range.end = -1UL;
+>      s->config.domain_range.end = 32;
+> +    s->config.probe_size = VIOMMU_PROBE_SIZE;
+>  
+>      virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
+>      virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC);
+> @@ -676,6 +761,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
+>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
+>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
+> +    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
+>
 
+Don't we need to disable this for existing machine types?
 
+  
+>      qemu_mutex_init(&s->mutex);
+>  
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index 6427a0047d..23109f69bb 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -74,3 +74,4 @@ virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=%d"
+>  virtio_iommu_put_domain(uint32_t domain_id) "Free domain=%d"
+>  virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=%d"
+>  virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uint64_t addr) "FAULT reason=%d flags=%d endpoint=%d address =0x%"PRIx64
+> +virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_t start, uint64_t end) "dev= %d, type=%d start=0x%"PRIx64" end=0x%"PRIx64
+> -- 
+> 2.20.1
 
---=20
-
-
---Sig_/XV=JqG8PO+lVKwX6g9QBeAj
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDgkNMACgkQNasLKJxd
-sljb4xAAu2GrPmGwCucmwmry3DdMYwxnOArom82jCNMsw3LpkcrO8sQR3zCGjdiG
-gvagvlE6AzPUfA/KFZlRiCTPTW2FymFUyiOJPrp4BcljFpmPAC7krsRYxFDfkMY+
-wuREthLp+2y5lrHsmBxljbMRJt1VA1VYwt8U4cEomEKw/hMZky0qa1WBIf/tNYiZ
-0D/ObPMoyLiDzGr8OL9wnxkAaDeYJuK/Zts/Cw6ES5v2ol1ibsaKVTbFiEnEwHbi
-npcDzJYT562mg5osXaL4YWv84RUKnv9D++qc/EoNUKgDIBGrBsFoGLq0qPog1XZX
-iRu4FG7TUIt31Y7cQDSquyA4PvQXPHD/kJxaSnIGxtglF6prYqCsD4JF8SiWSr0v
-AbtQTuiyBVjnB9iIyQRej5uP5WpG1/hkKH2Pv0Lxxn3D3z0w2vD6S/l1Fl/jRfir
-zpFjyWFRR+y8tWZeT41hSJDMfPHxXsYlSF+n9Do9tp8WPpCVsxNyDSRxfpgdMbl9
-qF8Yg46crC8wKLaVzn76kJOApu6udUz0utUpyczYdkj7tEt0C2ywW9sKU0ZL/NGH
-oSMgWHF7tJzbYcu0OlO/cKnhGDnPFtAo71AazxYLeyxRkWAH74Gzezrgs8tyH2ud
-oxc6ljzafvGDGgqhyUC5o1xkncMnxmLrd3n5b3VS5/ULppjJFMU=
-=axAt
------END PGP SIGNATURE-----
-
---Sig_/XV=JqG8PO+lVKwX6g9QBeAj--
 
