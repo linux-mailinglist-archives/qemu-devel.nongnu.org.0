@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06D03BA671
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 02:32:34 +0200 (CEST)
-Received: from localhost ([::1]:33338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15BC23BA670
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 02:31:32 +0200 (CEST)
+Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzTaD-0000Vl-Pv
-	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 20:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
+	id 1lzTZC-0006nt-U0
+	for lists+qemu-devel@lfdr.de; Fri, 02 Jul 2021 20:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1lzTXV-0004h3-UH
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 20:29:45 -0400
-Received: from mga05.intel.com ([192.55.52.43]:55265)
+ id 1lzTXX-0004hD-S2
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 20:29:47 -0400
+Received: from mga05.intel.com ([192.55.52.43]:55262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1lzTXQ-000591-MK
- for qemu-devel@nongnu.org; Fri, 02 Jul 2021 20:29:45 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10033"; a="294440825"
-X-IronPort-AV: E=Sophos;i="5.83,320,1616482800"; d="scan'208";a="294440825"
+ id 1lzTXV-00057o-9Y
+ for qemu-devel@nongnu.org; Fri, 02 Jul 2021 20:29:47 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10033"; a="294440828"
+X-IronPort-AV: E=Sophos;i="5.83,320,1616482800"; d="scan'208";a="294440828"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jul 2021 17:29:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,320,1616482800"; d="scan'208";a="482953732"
+X-IronPort-AV: E=Sophos;i="5.83,320,1616482800"; d="scan'208";a="482953740"
 Received: from dw-tiger-lake-client-platform.fm.intel.com ([10.105.205.215])
  by FMSMGA003.fm.intel.com with ESMTP; 02 Jul 2021 17:29:37 -0700
 From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] ui/gtk-egl: make sure the right context is set as the
- current
-Date: Fri,  2 Jul 2021 17:28:08 -0700
-Message-Id: <20210703002809.26753-2-dongwon.kim@intel.com>
+Subject: [PATCH 3/3] ui/gtk: gd_draw_event returns FALSE when no cairo surface
+ is bound
+Date: Fri,  2 Jul 2021 17:28:09 -0700
+Message-Id: <20210703002809.26753-3-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210703002809.26753-1-dongwon.kim@intel.com>
 References: <20210703002809.26753-1-dongwon.kim@intel.com>
@@ -60,47 +60,28 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Making the vc->gfx.ectx current before handling textures
-associated with it
+gd_draw_event shouldn't try to repaint if surface does not exist
+for the VC.
 
 Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
 ---
- ui/gtk-egl.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ ui/gtk.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index 2a2e6d3a17..32516b806c 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -126,6 +126,7 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
-         }
-         vc->gfx.gls = qemu_gl_init_shader();
-         if (vc->gfx.ds) {
-+            surface_gl_destroy_texture(vc->gfx.gls, vc->gfx.ds);
-             surface_gl_create_texture(vc->gfx.gls, vc->gfx.ds);
-         }
+diff --git a/ui/gtk.c b/ui/gtk.c
+index bfb95f3b4b..0a38deedc7 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -756,6 +756,9 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
+     if (!vc->gfx.ds) {
+         return FALSE;
      }
-@@ -152,6 +153,8 @@ void gd_egl_switch(DisplayChangeListener *dcl,
-         surface_height(vc->gfx.ds) == surface_height(surface)) {
-         resized = false;
-     }
-+    eglMakeCurrent(qemu_egl_display, vc->gfx.esurface,
-+                   vc->gfx.esurface, vc->gfx.ectx);
++    if (!vc->gfx.surface) {
++        return FALSE;
++    }
  
-     surface_gl_destroy_texture(vc->gfx.gls, vc->gfx.ds);
-     vc->gfx.ds = surface;
-@@ -209,6 +212,11 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
-                            QemuDmaBuf *dmabuf)
- {
- #ifdef CONFIG_GBM
-+    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
-+
-+    eglMakeCurrent(qemu_egl_display, vc->gfx.esurface,
-+                   vc->gfx.esurface, vc->gfx.ectx);
-+
-     egl_dmabuf_import_texture(dmabuf);
-     if (!dmabuf->texture) {
-         return;
+     vc->gfx.dcl.update_interval =
+         gd_monitor_update_interval(vc->window ? vc->window : s->window);
 -- 
 2.17.1
 
