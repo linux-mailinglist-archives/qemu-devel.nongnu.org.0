@@ -2,125 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE9D3BA8D8
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 15:52:33 +0200 (CEST)
-Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374BD3BA8DF
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 16:18:09 +0200 (CEST)
+Received: from localhost ([::1]:35600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzg4N-0001Rb-TD
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 09:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35804)
+	id 1lzgT9-00065O-Po
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 10:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lzg2s-000095-Pg; Sat, 03 Jul 2021 09:50:59 -0400
-Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
- ([40.107.21.137]:45665 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzgS2-0005OT-K4
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:16:58 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40938
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lzg2p-00074s-8Z; Sat, 03 Jul 2021 09:50:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ROggFTUT4IJdtyLs48XuynP3celoWDCAjFrf+Egpgug9aIAyz2oCBExrdjlwCl5WEWz3s5DzPT/IqmWs4enXSN1PWfwE2f4izO9gcUja325VNvN2XpbgdtC7o3FfYKdfLW+Z/InRuUVW3pPV7eRoGx2r94fioo6CiA2YLQo+gP7eB9YJ7qaCm8e6X3Zxr/37kX8OeYaHRgyQb8lp8HhDXewHIGx1kmJueHSZstKDQl1ZjiyL8quS37aS0nu6DtjJmXPixn9M7ERuwmxlQpi8/hPzWSNW8iihsBrTelBmQL8vkUJDjkkO+3e6PA+kZ1tlclkPm/KU4AzLXJIzg5jxkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3RUPzAK5C1tL6Hr5jbmwX6KbAdKPr4ogW3LuAkdg5YA=;
- b=NWVsbga4geuc8Du37AqUtImJBeSsRbeQbwrRbmKs/f5M1wfb/9mSHGqMUQsbGxhplyugGkwzMdT1zXRCl68NYQAJJgahd4DhtsRwOO0NqD6lPelkJjMZQv/MO6K8NY5TvkbxVbqOcS0GSQk8JYq+ybCGz1YLqdArZa72SA9FCU7oZn//l/dREKAoJ8Cx/pmIzMzVeBxESmuqKFraJt/DV+38xiq67ND88firrufGZMmlPsJ19lWM/MAxHmEHr+BmmzwnoJX7lduFX8Kk25SbWLVY0iujuSiI6H9asl+a1WB7QHgfo4GcdzmAxVusKq2K8oPTWFmzo+ehCF1Z+k6zRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3RUPzAK5C1tL6Hr5jbmwX6KbAdKPr4ogW3LuAkdg5YA=;
- b=tLQcrgWOuL8M4dAHD7MtA3AcmiQrW74Igp3vGaxaw4afa84jPtosLR68Vg+XK56/C/bdEYqTL/aE+O4IjC0TIMqWo3id3HfosO5Vj4GdXtR/vSxniZuvkz+w8+1ic4DCSCj8nRDn9YCI/qN96gxeTrVyU25Bo91upK2GU+wpHOM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
- AS8PR08MB6280.eurprd08.prod.outlook.com (20.182.242.204) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4242.21; Sat, 3 Jul 2021 13:50:49 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Sat, 3 Jul 2021
- 13:50:49 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
- eblake@redhat.com, vsementsov@virtuozzo.com, den@openvz.org,
- berrange@redhat.com, armbru@redhat.com
-Subject: [PATCH v2] docs: document file-posix locking protocol
-Date: Sat,  3 Jul 2021 16:50:33 +0300
-Message-Id: <20210703135033.835344-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.215]
-X-ClientProxiedBy: HE1PR0301CA0018.eurprd03.prod.outlook.com
- (2603:10a6:3:76::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzgRy-0006p8-8O
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:16:58 -0400
+Received: from host86-179-59-238.range86-179.btcentralplus.com
+ ([86.179.59.238] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzgRU-0007Uu-Tu; Sat, 03 Jul 2021 15:16:25 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Finn Thain <fthain@linux-m68k.org>
+References: <20210625065401.30170-1-mark.cave-ayland@ilande.co.uk>
+ <20210625065401.30170-9-mark.cave-ayland@ilande.co.uk>
+ <a6fae6a6-4fbd-a75c-96b5-403ba3658217@amsat.org>
+ <82eeaede-12e7-29f3-9084-33105f5cb61e@linux-m68k.org>
+ <5d13cc8c-237c-83c8-bc0c-aecc1d531df5@ilande.co.uk>
+ <d389779d-a63b-8ecb-b3a4-aed2f32d97d4@amsat.org>
+ <1eb37600-7aa4-1803-562a-5a60500ed1dd@ilande.co.uk>
+ <7a5c9aa3-6665-3b2e-9dc2-017647316e6e@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <d173b067-00b7-c734-832f-cdf3c72728c1@ilande.co.uk>
+Date: Sat, 3 Jul 2021 15:16:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.215) by
- HE1PR0301CA0018.eurprd03.prod.outlook.com (2603:10a6:3:76::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.23 via Frontend Transport; Sat, 3 Jul 2021 13:50:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8280df42-9ff2-41fa-110d-08d93e2990d2
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6280:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB62803419148B516B69BD6E44C11E9@AS8PR08MB6280.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gq50C4YLCjq3fGWfEWY0BJb87ZMtt7V7YkWvEPLG5VM8eHjpPbuTGChv+gqHWfuPK6hUrjPByL5Hm1nF/Jyjk2gk25VylziQZIfdI2Xura4wCD2lUbrL6gR2xKKsIiT8HedeiP5/v+d0msQzQ8AMJvQlTjQ/Wf49ncIHMD+Mz2L0VB8de/XqzC7lipYPwEd4Zr1AaHx+aKDU5aHidh4Uw9rSwcITR9b+chReUavcwwwJXsPwSK2awMbXr2q1Dw5zRcmR0ByEjUkjq6gQQGPqqc3tLbkjUvj3gILoZT/MDLA4DGOI8fq1onPrUUSGq/9DXl0H2tc8aKRLkKUVwij2fb1jN7H9yKWiYF31HIhM0aPfncpW57VYT6ctjbuEvjZXRvSI6kdSvVbySs9eR4XazxiMsjJ67hOd4F56BEjkew32+Z7WNxC2qPuk7L3JOIiVZF1LimSjUzBc7LjsirvNTLIYzWDQCrDqLNtX4n5yamAR0EbNYYMi0gwmVD+M94kM3vTT0mpVH0gqIjHK2fb0OmQfZplVKI4uMHRFzKcbjhMrAQ5ODX35l32aYfg8zuKK+pXCbUu29o3To6UBKR2eculjAkVX4/d+7pQsGHTW/7h3+Zf0WXIGrRDLXTB/hFFoQsl+dw51wUvTpa0VShXMtRRp2GFeoH1XaGfB/K44TLnIUWA34BoxsmvXjevGSYA+GtnpH8pjb16hdrHhQQtlN47gJ/u/jZ4ZoKB+wBoWzKk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39840400004)(346002)(376002)(366004)(136003)(8936002)(956004)(1076003)(6916009)(6506007)(36756003)(8676002)(5660300002)(52116002)(6486002)(316002)(2616005)(16526019)(86362001)(66476007)(2906002)(26005)(478600001)(4326008)(186003)(6666004)(38100700002)(6512007)(66556008)(66946007)(38350700002)(83380400001)(69590400013);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Vvxen3cBY40DBUJ3XrJEkowj6YLYX/J6wPmGlHnfAPOu9ZvBhLZvbwGDqfO6?=
- =?us-ascii?Q?FN9ujZKyt8fAHzOOf6ZlEhIHc3Y4eFZb2ACh9OYdgTj0x72I+LDV8pgfA8lr?=
- =?us-ascii?Q?/C+Ds51GyzU6cBiyBmuEzwAeZrIdc8nPz9oe8DeTTGRQFEvi0IJ/THO4e56w?=
- =?us-ascii?Q?iIGZ/hOeoUR/yp0qo4IxVUQqEy0HhmKV2YD4UzfPMmGuga4ZGDC3B9WlIK5J?=
- =?us-ascii?Q?g+Nn101ZryfW8n1qsg0y9zyVkXEVEWIris1Mth7rwoXISZjJPlMWptTGyPJn?=
- =?us-ascii?Q?MlDcICjDtsyNCN8atWgCvlA0PkFGUYKaTVVfF7LZmu30eSewvNoGmHsVSIOh?=
- =?us-ascii?Q?uxDuOmc6AW5i7V5IWq/SjGCxnkxsXfrvefVXKL5y61zH9QFkeQlnqsY/zzi/?=
- =?us-ascii?Q?x9SjqSCDhoPAL5v3pz42ywoMBLxdrwmt1881GK6XjDFECVfpukOp63l+tDNr?=
- =?us-ascii?Q?04QrRjR5pP8Wi2/+3NENusiH5SlcalElBkswnfZ33xx1dk6v1f42VK6PT9aY?=
- =?us-ascii?Q?k1ntjetSJ+T+Z/I21oExZdk+XgmWFL+Au5awEAXoExwDsZ3PSTQCdgohhpYA?=
- =?us-ascii?Q?m3OzSrkxQh3jE+9jOPXhxvz3YfeM5u3+L4H+t+zB5m1XVXbBX5nxliHjWswT?=
- =?us-ascii?Q?tCZSC0d7syh79xhFe6KWCiUJm8s0bCbxDjua0/f3ObSgo4xsopUN21M8lkZ6?=
- =?us-ascii?Q?BpGCUmWvcTPsqGsnEQrA7aMxZiDMrMmEmETOJzCjlrqecMx0Y3oMmASTofoq?=
- =?us-ascii?Q?YWpGBAPEeqmYR6jPfDlZfTt/wQK+7jD/rG/T5/Znwk3xyHFHovdqAmCN6Aau?=
- =?us-ascii?Q?2plSnqOOUIq1O134jSwdOUlk75CmjW8P0nl3Jq2SC4LuroNOdM9tsibKCR1X?=
- =?us-ascii?Q?zrPv8KQgrCuPxcI2ts64vZrxA+zwfubfFSt30fwsDKCN7jimMN+TpEuzG1I2?=
- =?us-ascii?Q?LC5xUrd5Xris80O+HQ4vIX6fdy1wENCHg+9Qm4gIFUa3rGomcmgTkn14RZYN?=
- =?us-ascii?Q?RRGRNnoD65ViMluI9jeRl2VotOxQXR8SVmXBlSkr+MNGomVBObd5f3dCEY2V?=
- =?us-ascii?Q?ABfQSQ/XnurVcAPKPP0rOyWTPbXBM47+Nf16FTbmex+NX5hMlYdQMRuho0lu?=
- =?us-ascii?Q?yj1jJZ5pBNfaHj3P+eTSOc0nH+PtynKYQwPSxyPhzOBd3TMPmkgUkaOhGJkO?=
- =?us-ascii?Q?Pg0U9wV/mGJ8hW0SDlGme5YvjqPfEemuP6F0OBAaKyrdfzMeIPW+KdtC8v9t?=
- =?us-ascii?Q?+Opy5KHKJerZKYkxxdlfKlKaY7d0pPoGxZ4W1KKZctaBzN4zv6LixdauIAIm?=
- =?us-ascii?Q?Gn4RdXrG8PPFyRnusFOBrVmE?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8280df42-9ff2-41fa-110d-08d93e2990d2
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2021 13:50:49.6222 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tXD2nKYB+RXAMnONkuwbjqw9ItUFyU8C6u41GsIHrYS1X7RFh2oq+lpnzCfyqT5gTcxWln00qO/npUVrI+xj6PKb+AAFO8WaFUVMSpW2AJY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6280
-Received-SPF: pass client-ip=40.107.21.137;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7a5c9aa3-6665-3b2e-9dc2-017647316e6e@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.179.59.238
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 08/10] dp8393x: don't force 32-bit register access
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,217 +71,480 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ laurent@vivier.eu, hpoussin@reactos.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's document how we use file locks in file-posix driver, to allow
-external programs to "communicate" in this way with Qemu.
+On 03/07/2021 14:10, Philippe Mathieu-Daudé wrote:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
+> On 7/3/21 2:04 PM, Mark Cave-Ayland wrote:
+>> On 03/07/2021 09:52, Philippe Mathieu-Daudé wrote:
+>>> On 7/3/21 8:21 AM, Mark Cave-Ayland wrote:
+>>>> On 02/07/2021 05:36, Finn Thain wrote:
+>>>>
+>>>>>> On 6/25/21 8:53 AM, Mark Cave-Ayland wrote:
+>>>>>>> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" assumed that
+>>>>>>> all accesses to the registers were 32-bit
+>>>>>
+>>>>> No, that assumption was not made there. Just take a look at my
+>>>>> commits in
+>>>>> Linux that make 16-bit accesses. If commit 3fe9a838ec worked by
+>>>>> accident,
+>>>>> it probably just reflects my inadequate knowledge of QEMU internals.
+>>>>>
+>>>>>>> but this is actually not the case. The access size is determined by
+>>>>>>> the CPU instruction used and not the number of physical address
+>>>>>>> lines.
+>>>>>>>
+>>>>>
+>>>>> I think that's an over-simplification (in the context of commit
+>>>>> 3fe9a838ec).
+>>>>
+>>>> Let me try and clarify this a bit more: there are 2 different changes
+>>>> incorporated into 3fe9a838ec. The first (as you mention below and also
+>>>> detailed in the commit messge), is related to handling writes to the
+>>>> upper 16-bits of a word from the device and ensuring that 32-bit
+>>>> accesses are handled correctly. This part seems correct to me based upon
+>>>> reading the datasheet and the commit message:
+>>>>
+>>>> @@ -246,9 +246,19 @@ static void dp8393x_put(dp8393xState *s, int width,
+>>>> int offset,
+>>>>                            uint16_t val)
+>>>>    {
+>>>>        if (s->big_endian) {
+>>>> -        s->data[offset * width + width - 1] = cpu_to_be16(val);
+>>>> +        if (width == 2) {
+>>>> +            s->data[offset * 2] = 0;
+>>>> +            s->data[offset * 2 + 1] = cpu_to_be16(val);
+>>>> +        } else {
+>>>> +            s->data[offset] = cpu_to_be16(val);
+>>>> +        }
+>>>>        } else {
+>>>> -        s->data[offset * width] = cpu_to_le16(val);
+>>>> +        if (width == 2) {
+>>>> +            s->data[offset * 2] = cpu_to_le16(val);
+>>>> +            s->data[offset * 2 + 1] = 0;
+>>>> +        } else {
+>>>> +            s->data[offset] = cpu_to_le16(val);
+>>>> +        }
+>>>>        }
+>>>>    }
+>>>>
+>>>> The second change incorporated into 3fe9a838ec (and the one this patch
+>>>> fixes) is a similar change made to the MMIO *register* accesses:
+>>>>
+>>>> @@ -590,7 +600,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr
+>>>> addr, unsigned int size)
+>>>>
+>>>>        DPRINTF("read 0x%04x from reg %s\n", val, reg_names[reg]);
+>>>>
+>>>> -    return val;
+>>>> +    return s->big_endian ? val << 16 : val;
+>>>>    }
+>>>>
+>>>> and:
+>>>>
+>>>> @@ -598,13 +608,14 @@ static void dp8393x_write(void *opaque, hwaddr
+>>>> addr, uint64_t data,
+>>>>    {
+>>>>        dp8393xState *s = opaque;
+>>>>        int reg = addr >> s->it_shift;
+>>>> +    uint32_t val = s->big_endian ? data >> 16 : data;
+>>>>
+>>>> This is not correct since the QEMU memory API handles any access size
+>>>> and endian conversion before the MMIO access reaches the device. It is
+>>>> this change which breaks the 32-bit accesses used by MacOS to read/write
+>>>> the dp8393x registers because it applies an additional endian swap on
+>>>> top of that already done by the memory API.
+>>>>
+>>>>>>> The big_endian workaround applied to the register read/writes was
+>>>>>>> actually caused by forcing the access size to 32-bit when the
+>>>>>>> guest OS
+>>>>>>> was using a 16-bit access. Since the registers are 16-bit then we can
+>>>>>>> simply set .impl.min_access to 2 and then the memory API will
+>>>>>>> automatically do the right thing for both 16-bit accesses used by
+>>>>>>> Linux and 32-bit accesses used by the MacOS toolbox ROM.
+>>>>>>
+>>>>>> Hmm I'm not sure. This sounds to me like the "QEMU doesn't model
+>>>>>> busses
+>>>>>> so we end using kludge to hide bugs" pattern. Can you provide a QTest
+>>>>>> (ideally) or a "-trace memory_region_ops_\*" log of your firmware
+>>>>>> accessing the dp8393x please?
+>>>>>>
+>>>>> The DP83932 chip is highly configurable, so I'm not sure that the
+>>>>> behaviour of any given firmware would resolve the question.
+>>>>
+>>>> Indeed, I don't think that will help much here. Phil, if you would still
+>>>> like me to send you some traces after reading the explanation above then
+>>>> do let me know.
+>>>
+>>> I read it and still would have few traces. We can hand-write them too.
+>>>
+>>> I'd like to add qtests for some read/write,16/32(A)==B.
+>>
+>> Sigh. I was just about to attempt some traces when I realised looking at
+>> the patch that I made a mistake, and that in order for the memory API to
+>> automatically handle the 4 byte accesses as 2 x 2 byte accesses then
+>> both .impl.min_access_size and .impl.max_access_size need to be set to 2
+>> :(  The remainder of the patch is the same but dp8393x_ops now looks
+>> like this:
+>>
+>> static const MemoryRegionOps dp8393x_ops = {
+>>      .read = dp8393x_read,
+>>      .write = dp8393x_write,
+>>      .impl.min_access_size = 2,
+>>      .impl.max_access_size = 2,
+>>      .endianness = DEVICE_NATIVE_ENDIAN,
+>> };
+> 
+> Yes :) This is closer to what I wrote during my review:
+> 
+> -- >8 --
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index bff359ed13f..6061268dc49 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -697,7 +697,9 @@ static const MemoryRegionOps dp8393x_ops = {
+>       .read = dp8393x_read,
+>       .write = dp8393x_write,
+>       .impl.min_access_size = 2,
+> -    .impl.max_access_size = 4,
+> +    .impl.max_access_size = 2,
+> +    .valid.min_access_size = 2,
+> +    .valid.max_access_size = 4,
+>       .endianness = DEVICE_NATIVE_ENDIAN,
+>   };
+> ---
 
-v2: improve some descriptions
-    add examples
-    add notice about old bad POSIX file locks
+Yes, that should work. Sorry I got confused during the initial review.
 
- docs/system/qemu-block-drivers.rst.inc | 186 +++++++++++++++++++++++++
- 1 file changed, 186 insertions(+)
+>> I've tested this under Linux/m68k, NetBSD/arc and MacOS and networking
+>> seems fine after a quick test in each OS. The slight curiosity is that
+>> the 4 byte accesses used by MacOS are split into 2 x 2 byte accesses,
+>> but since MacOS only uses the bottom 16-bit of the result and ignores
+>> the top 16-bits then despite there being 2 accesses, everything still
+>> works as expected (see below).
+>>
+>>
+>> READ:
+>>
+>> dp8393x_read reg=0x28 [SR] val=0x0004 size=2
+>> memory_region_ops_read cpu 0 mr 0x55f210f44830 addr 0x5000a0a0 value 0x4
+>> size 2
+>> dp8393x_read reg=0x28 [SR] val=0x0004 size=2
+>> memory_region_ops_read cpu 0 mr 0x55f210f44830 addr 0x5000a0a2 value 0x4
+>> size 2
+>> memory_region_ops_read cpu 0 mr 0x55f210c9c330 addr 0x50f0a0a0 value
+>> 0x40004 size 4
+>>
+>> WRITE:
+>>
+>> memory_region_ops_write cpu 0 mr 0x55f210c9c330 addr 0x50f0a01c value
+>> 0x248fe8 size 4
+>> memory_region_ops_write cpu 0 mr 0x55f210f44830 addr 0x5000a01c value
+>> 0x24 size 2
+>> dp8393x_write reg=0x7 [CTDA] val=0x0024 size=2
+>> memory_region_ops_write cpu 0 mr 0x55f210f44830 addr 0x5000a01e value
+>> 0x8fe8 size 2
+>> dp8393x_write reg=0x7 [CTDA] val=0x8fe8 size=2
+>>
+>>
+>> If you're happy with this, I'll resubmit a revised version of the patch
+>> but with an updated commit message: the Fixes: tag is still the same,
+>> but the updated fix is to ensure that .impl.min_access_size and
+>> .impl.max_access_size match the real-life 16-bit register size.
+> 
+> Hold on a bit more, I'm still reviewing the datasheet ;)
+> 
+> My code note so far (untested) are:
+> 
+> -- >8 --
+> @@ -219,34 +225,48 @@ static uint32_t dp8393x_wt(dp8393xState *s)
+>       return s->regs[SONIC_WT1] << 16 | s->regs[SONIC_WT0];
+>   }
+> 
+> -static uint16_t dp8393x_get(dp8393xState *s, int width, int offset)
+> +static uint16_t dp8393x_get(dp8393xState *s, hwaddr addr, unsigned ofs16)
+>   {
+> +    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+>       uint16_t val;
+> 
+> -    if (s->big_endian) {
+> -        val = be16_to_cpu(s->data[offset * width + width - 1]);
+> +    if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
+> +        addr += 2 * ofs16;
+> +        if (s->big_endian) {
+> +            val = address_space_ldl_be(&s->as, addr, attrs, NULL);
+> +        } else {
+> +            val = address_space_ldl_le(&s->as, addr, attrs, NULL);
+> +        }
+>       } else {
+> -        val = le16_to_cpu(s->data[offset * width]);
+> +        addr += 1 * ofs16;
+> +        if (s->big_endian) {
+> +            val = address_space_lduw_be(&s->as, addr, attrs, NULL);
+> +        } else {
+> +            val = address_space_lduw_le(&s->as, addr, attrs, NULL);
+> +        }
+>       }
+> +
+>       return val;
+>   }
+> 
+> -static void dp8393x_put(dp8393xState *s, int width, int offset,
+> -                        uint16_t val)
+> +static void dp8393x_put(dp8393xState *s,
+> +                        hwaddr addr, unsigned ofs16, uint16_t val)
+>   {
+> -    if (s->big_endian) {
+> -        if (width == 2) {
+> -            s->data[offset * 2] = 0;
+> -            s->data[offset * 2 + 1] = cpu_to_be16(val);
+> +    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+> +
+> +    if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
+> +        addr += 2 * ofs16;
+> +        if (s->big_endian) {
+> +            address_space_stl_be(&s->as, addr, val, attrs, NULL);
+>           } else {
+> -            s->data[offset] = cpu_to_be16(val);
+> +            address_space_stl_le(&s->as, addr, val, attrs, NULL);
+>           }
+>       } else {
+> -        if (width == 2) {
+> -            s->data[offset * 2] = cpu_to_le16(val);
+> -            s->data[offset * 2 + 1] = 0;
+> +        addr += 1 * ofs16;
+> +        if (s->big_endian) {
+> +            address_space_stw_be(&s->as, addr, val, attrs, NULL);
+>           } else {
+> -            s->data[offset] = cpu_to_le16(val);
+> +            address_space_stw_le(&s->as, addr, val, attrs, NULL);
+>           }
+>       }
+>   }
+> @@ -313,14 +331,12 @@ static void dp8393x_do_read_rra(dp8393xState *s)
+>       /* Read memory */
+>       width = (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
+>       size = sizeof(uint16_t) * 4 * width;
+> -    address_space_read(&s->as, dp8393x_rrp(s),
+> -                       MEMTXATTRS_UNSPECIFIED, s->data, size);
+> 
+>       /* Update SONIC registers */
+> -    s->regs[SONIC_CRBA0] = dp8393x_get(s, width, 0);
+> -    s->regs[SONIC_CRBA1] = dp8393x_get(s, width, 1);
+> -    s->regs[SONIC_RBWC0] = dp8393x_get(s, width, 2);
+> -    s->regs[SONIC_RBWC1] = dp8393x_get(s, width, 3);
+> +    s->regs[SONIC_CRBA0] = dp8393x_get(s, dp8393x_rrp(s), 0);
+> +    s->regs[SONIC_CRBA1] = dp8393x_get(s, dp8393x_rrp(s), 1);
+> +    s->regs[SONIC_RBWC0] = dp8393x_get(s, dp8393x_rrp(s), 2);
+> +    s->regs[SONIC_RBWC1] = dp8393x_get(s, dp8393x_rrp(s), 3);
+>       trace_dp8393x_read_rra_regs(s->regs[SONIC_CRBA0], s->regs[SONIC_CRBA1],
+>                                   s->regs[SONIC_RBWC0],
+> s->regs[SONIC_RBWC1]);
+> 
+> @@ -416,28 +432,22 @@ static void
+> dp8393x_do_receiver_disable(dp8393xState *s)
+>   static void dp8393x_do_transmit_packets(dp8393xState *s)
+>   {
+>       NetClientState *nc = qemu_get_queue(s->nic);
+> -    int width, size;
+>       int tx_len, len;
+>       uint16_t i;
+> 
+> -    width = (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
+> -
+>       while (1) {
+>           /* Read memory */
+> -        size = sizeof(uint16_t) * 6 * width;
+>           s->regs[SONIC_TTDA] = s->regs[SONIC_CTDA];
+>           trace_dp8393x_transmit_packet(dp8393x_ttda(s));
+> -        address_space_read(&s->as, dp8393x_ttda(s) + sizeof(uint16_t) *
+> width,
+> -                           MEMTXATTRS_UNSPECIFIED, s->data, size);
+>           tx_len = 0;
+> 
+>           /* Update registers */
+> -        s->regs[SONIC_TCR] = dp8393x_get(s, width, 0) & 0xf000;
+> -        s->regs[SONIC_TPS] = dp8393x_get(s, width, 1);
+> -        s->regs[SONIC_TFC] = dp8393x_get(s, width, 2);
+> -        s->regs[SONIC_TSA0] = dp8393x_get(s, width, 3);
+> -        s->regs[SONIC_TSA1] = dp8393x_get(s, width, 4);
+> -        s->regs[SONIC_TFS] = dp8393x_get(s, width, 5);
+> +        s->regs[SONIC_TCR] = dp8393x_get(s, dp8393x_ttda(s), 0) & 0xf000;
+> +        s->regs[SONIC_TPS] = dp8393x_get(s, dp8393x_ttda(s), 1);
+> +        s->regs[SONIC_TFC] = dp8393x_get(s, dp8393x_ttda(s), 2);
+> +        s->regs[SONIC_TSA0] = dp8393x_get(s, dp8393x_ttda(s), 3);
+> +        s->regs[SONIC_TSA1] = dp8393x_get(s, dp8393x_ttda(s), 4);
+> +        s->regs[SONIC_TFS] = dp8393x_get(s, dp8393x_ttda(s), 5);
+> 
+>           /* Handle programmable interrupt */
+>           if (s->regs[SONIC_TCR] & SONIC_TCR_PINT) {
+> @@ -459,15 +469,9 @@ static void
+> dp8393x_do_transmit_packets(dp8393xState *s)
+>               i++;
+>               if (i != s->regs[SONIC_TFC]) {
+>                   /* Read next fragment details */
+> -                size = sizeof(uint16_t) * 3 * width;
+> -                address_space_read(&s->as,
+> -                                   dp8393x_ttda(s)
+> -                                   + sizeof(uint16_t) * width * (4 + 3
+> * i),
+> -                                   MEMTXATTRS_UNSPECIFIED, s->data,
+> -                                   size);
+> -                s->regs[SONIC_TSA0] = dp8393x_get(s, width, 0);
+> -                s->regs[SONIC_TSA1] = dp8393x_get(s, width, 1);
+> -                s->regs[SONIC_TFS] = dp8393x_get(s, width, 2);
+> +                s->regs[SONIC_TSA0] = dp8393x_get(s, dp8393x_ttda(s), 0);
+> +                s->regs[SONIC_TSA1] = dp8393x_get(s, dp8393x_ttda(s), 1);
+> +                s->regs[SONIC_TFS] = dp8393x_get(s, dp8393x_ttda(s), 2);
+>               }
+>           }
+> 
+> @@ -500,22 +504,12 @@ static void
+> dp8393x_do_transmit_packets(dp8393xState *s)
+>           s->regs[SONIC_TCR] |= SONIC_TCR_PTX;
+> 
+>           /* Write status */
+> -        dp8393x_put(s, width, 0,
+> -                    s->regs[SONIC_TCR] & 0x0fff); /* status */
+> -        size = sizeof(uint16_t) * width;
+> -        address_space_write(&s->as, dp8393x_ttda(s),
+> -                            MEMTXATTRS_UNSPECIFIED, s->data, size);
+> +        dp8393x_put(s, dp8393x_ttda(s), 0, s->regs[SONIC_TCR] & 0x0fff);
+> 
+>           if (!(s->regs[SONIC_CR] & SONIC_CR_HTX)) {
+>               /* Read footer of packet */
+> -            size = sizeof(uint16_t) * width;
+> -            address_space_read(&s->as,
+> -                               dp8393x_ttda(s)
+> -                               + sizeof(uint16_t) * width
+> -                                 * (4 + 3 * s->regs[SONIC_TFC]),
+> -                               MEMTXATTRS_UNSPECIFIED, s->data,
+> -                               size);
+> -            s->regs[SONIC_CTDA] = dp8393x_get(s, width, 0);
+> +            s->regs[SONIC_CTDA] = dp8393x_get(s, dp8393x_ttda(s),
+> +                                               s->regs[SONIC_TFC]);
+>               if (s->regs[SONIC_CTDA] & SONIC_DESC_EOL) {
+>                   /* EOL detected */
+>                   break;
+> @@ -764,7 +759,7 @@ static ssize_t dp8393x_receive(NetClientState *nc,
+> const uint8_t * buf,
+>       dp8393xState *s = qemu_get_nic_opaque(nc);
+>       int packet_type;
+>       uint32_t available, address;
+> -    int width, rx_len, padded_len;
+> +    int rx_len, padded_len;
+>       uint32_t checksum;
+>       int size;
+> 
+> @@ -777,10 +772,8 @@ static ssize_t dp8393x_receive(NetClientState *nc,
+> const uint8_t * buf,
+> 
+>       rx_len = pkt_size + sizeof(checksum);
+>       if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
+> -        width = 2;
+>           padded_len = ((rx_len - 1) | 3) + 1;
+>       } else {
+> -        width = 1;
+>           padded_len = ((rx_len - 1) | 1) + 1;
+>       }
+> 
+> @@ -801,11 +794,7 @@ static ssize_t dp8393x_receive(NetClientState *nc,
+> const uint8_t * buf,
+>       /* Check for EOL */
+>       if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
+>           /* Are we still in resource exhaustion? */
+> -        size = sizeof(uint16_t) * 1 * width;
+> -        address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
+> -        address_space_read(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+> -                           s->data, size);
+> -        s->regs[SONIC_LLFA] = dp8393x_get(s, width, 0);
+> +        s->regs[SONIC_LLFA] = dp8393x_get(s, dp8393x_crda(s), 5);
+>           if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
+>               /* Still EOL ; stop reception */
+>               return -1;
+> @@ -813,11 +802,7 @@ static ssize_t dp8393x_receive(NetClientState *nc,
+> const uint8_t * buf,
+>           /* Link has been updated by host */
+> 
+>           /* Clear in_use */
+> -        size = sizeof(uint16_t) * width;
+> -        address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
+> -        dp8393x_put(s, width, 0, 0);
+> -        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+> -                         (uint8_t *)s->data, size, 1);
+> +        dp8393x_put(s, dp8393x_crda(s), 6, 0x0000);
+> 
+>           /* Move to next descriptor */
+>           s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+> @@ -846,8 +831,8 @@ static ssize_t dp8393x_receive(NetClientState *nc,
+> const uint8_t * buf,
+>       /* Pad short packets to keep pointers aligned */
+>       if (rx_len < padded_len) {
+>           size = padded_len - rx_len;
+> -        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+> -            (uint8_t *)"\xFF\xFF\xFF", size, 1);
+> +        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+> +                            (uint8_t *)"\xFF\xFF\xFF", size);
+>           address += size;
+>       }
+> 
+> @@ -871,32 +856,20 @@ static ssize_t dp8393x_receive(NetClientState *nc,
+> const uint8_t * buf,
+> 
+>       /* Write status to memory */
+>       trace_dp8393x_receive_write_status(dp8393x_crda(s));
+> -    dp8393x_put(s, width, 0, s->regs[SONIC_RCR]); /* status */
+> -    dp8393x_put(s, width, 1, rx_len); /* byte count */
+> -    dp8393x_put(s, width, 2, s->regs[SONIC_TRBA0]); /* pkt_ptr0 */
+> -    dp8393x_put(s, width, 3, s->regs[SONIC_TRBA1]); /* pkt_ptr1 */
+> -    dp8393x_put(s, width, 4, s->regs[SONIC_RSC]); /* seq_no */
+> -    size = sizeof(uint16_t) * 5 * width;
+> -    address_space_write(&s->as, dp8393x_crda(s),
+> -                        MEMTXATTRS_UNSPECIFIED,
+> -                        s->data, size);
+> +    dp8393x_put(s, dp8393x_crda(s), 0, s->regs[SONIC_RCR]); /* status */
+> +    dp8393x_put(s, dp8393x_crda(s), 1, rx_len); /* byte count */
+> +    dp8393x_put(s, dp8393x_crda(s), 2, s->regs[SONIC_TRBA0]); /*
+> pkt_ptr0 */
+> +    dp8393x_put(s, dp8393x_crda(s), 3, s->regs[SONIC_TRBA1]); /*
+> pkt_ptr1 */
+> +    dp8393x_put(s, dp8393x_crda(s), 4, s->regs[SONIC_RSC]); /* seq_no */
+> 
+>       /* Check link field */
+> -    size = sizeof(uint16_t) * width;
+> -    address_space_read(&s->as,
+> -                       dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
+> -                       MEMTXATTRS_UNSPECIFIED, s->data, size);
+> -    s->regs[SONIC_LLFA] = dp8393x_get(s, width, 0);
+> +    s->regs[SONIC_LLFA] = dp8393x_get(s, dp8393x_crda(s), 5);
+>       if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
+>           /* EOL detected */
+>           s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
+>       } else {
+>           /* Clear in_use */
+> -        size = sizeof(uint16_t) * width;
+> -        address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
+> -        dp8393x_put(s, width, 0, 0);
+> -        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+> -                            s->data, size);
+> +        dp8393x_put(s, dp8393x_crda(s), 6, 0x0000);
+> 
+>           /* Move to next descriptor */
+>           s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+> ---
+> 
+> Now I'll look at the CAM then the cksum.
 
-diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-index 16225710eb..74fb71600d 100644
---- a/docs/system/qemu-block-drivers.rst.inc
-+++ b/docs/system/qemu-block-drivers.rst.inc
-@@ -909,3 +909,189 @@ some additional tasks, hooking io requests.
-   .. option:: prealloc-size
- 
-     How much to preallocate (in bytes), default 128M.
-+
-+Image locking protocol
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+QEMU holds rd locks and never rw locks. Instead, GETLK fcntl is used with F_WRLCK
-+to handle permissions as described below.
-+QEMU process may rd-lock the following bytes of the image with corresponding
-+meaning:
-+
-+Permission bytes. If permission byte is rd-locked, it means that some process
-+uses corresponding permission on that file.
-+
-+Byte    Operation
-+100     read
-+          Lock holder can read
-+101     write
-+          Lock holder can write
-+102     write-unchanged
-+          Lock holder can write same data if it sure, that this write doesn't
-+          break concurrent readers. This is mostly used internally in Qemu
-+          and it wouldn't be good idea to exploit it somehow.
-+103     resize
-+          Lock holder can resize the file. "write" permission is also required
-+          for resizing, so lock byte 103 only if you also lock byte 101.
-+104     graph-mod
-+          Undefined. QEMU may sometimes locks this byte, but external programs
-+          should not. QEMU will stop locking this byte in future
-+
-+Unshare bytes. If permission byte is rd-locked, it means that some process
-+does not allow the others use corresponding options on that file.
-+
-+Byte    Operation
-+200     read
-+          Lock holder don't allow read operation to other processes.
-+201     write
-+          Lock holder don't allow write operation to other processes. This
-+          still allows others to do write-uncahnged operations. Better not
-+          exploit outside of Qemu.
-+202     write-unchanged
-+          Lock holder don't allow write-unchanged operation to other processes.
-+203     resize
-+          Lock holder don't allow resizing the file by other processes.
-+204     graph-mod
-+          Undefined. QEMU may sometimes locks this byte, but external programs
-+          should not. QEMU will stop locking this byte in future
-+
-+Handling the permissions works as follows: assume we want to open the file to do
-+some operations and in the same time want to disallow some operation to other
-+processes. So, we want to lock some of the bytes described above. We operate as
-+follows:
-+
-+1. rd-lock all needed bytes, both "permission" bytes and "unshare" bytes.
-+
-+2. For each "unshare" byte we rd-locked, do GETLK that "tries" to wr-lock
-+corresponding "permission" byte. So, we check is there any other process that
-+uses the permission we want to unshare. If it exists we fail.
-+
-+3. For each "permission" byte we rd-locked, do GETLK that "tries" to wr-lock
-+corresponding "unshare" byte. So, we check is there any other process that
-+unshares the permission we want to have. If it exists we fail.
-+
-+Important notice: Qemu may fallback to POSIX file locks only if OFD locks
-+unavailable. Other programs should behave similarly: use POSIX file locks
-+only if OFD locks unavailable and if you are OK with drawbacks of POSIX
-+file locks (for example, they are lost on close() of any file descriptor
-+for that file).
-+
-+Image locking examples
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+Read-only, allow others to write
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+So, we want to read and don't care what other users do with the image. We only
-+need to lock byte 100. Operation is as follows:
-+
-+1. rd-lock byte 100
-+
-+.. highlight:: c
-+
-+    struct flock fl = {
-+        .l_whence = SEEK_SET,
-+        .l_start  = 100,
-+        .l_len    = 1,
-+        .l_type   = F_RDLCK,
-+    };
-+    ret = fcntl(fd, F_OFD_SETLK, &fl);
-+    if (ret == -1) {
-+        /* Error */
-+    }
-+
-+2. try wr-lock byte 200, to check that no one is against our read access
-+
-+.. highlight:: c
-+
-+    struct flock fl = {
-+        .l_whence = SEEK_SET,
-+        .l_start  = 200,
-+        .l_len    = 1,
-+        .l_type   = F_WRLCK,
-+    };
-+    ret = fcntl(fd, F_OFD_GETLK, &fl);
-+    if (ret != -1 && fl.l_type == F_UNLCK) {
-+        /*
-+         * We are lucky, nobody against. So, now we have RO access
-+         * that we want.
-+         */
-+    } else {
-+        /* Error, or RO access is blocked by someone. We don't have access */
-+    }
-+
-+3. Now we can operate read the data.
-+
-+4. When finished, release the lock:
-+
-+.. highlight:: c
-+
-+    struct flock fl = {
-+        .l_whence = SEEK_SET,
-+        .l_start  = 100,
-+        .l_len    = 1,
-+        .l_type   = F_UNLCK,
-+    };
-+    ret = fcntl(fd, F_OFD_SETLK, &fl);
-+
-+RW, allow others to read only
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+We want to read and write, and don't want others to modify the image.
-+So, let's lock bytes 100, 101, 201. Operation is as follows:
-+
-+1. rd-lock bytes 100 (read), 101 (write), 201 (don't allow others to write)
-+
-+.. highlight:: c
-+
-+    for byte in (100, 101, 201) {
-+        struct flock fl = {
-+            .l_whence = SEEK_SET,
-+            .l_start  = byte,
-+            .l_len    = 1,
-+            .l_type   = F_RDLCK,
-+        };
-+        ret = fcntl(fd, F_OFD_SETLK, &fl);
-+        if (ret == -1) {
-+            /* Error */
-+        }
-+    }
-+
-+2. try wr-lock bytes 200 (to check that no one is against our read access),
-+   201 (no one against our write access), 101 (there are no writers currently)
-+
-+.. highlight:: c
-+
-+    for byte in (200, 201, 101) {
-+        struct flock fl = {
-+            .l_whence = SEEK_SET,
-+            .l_start  = byte,
-+            .l_len    = 1,
-+            .l_type   = F_WRLCK,
-+        };
-+        ret = fcntl(fd, F_OFD_GETLK, &fl);
-+        if (ret != -1 && fl.l_type == F_UNLCK) {
-+            /* We are lucky, nobody against. */
-+        } else {
-+            /*
-+             * Error, or feature we want is blocked by someone.
-+             * We don't have access.
-+             */
-+        }
-+    }
-+
-+3. Now we can read and write.
-+
-+4. When finished, release locks:
-+
-+.. highlight:: c
-+
-+    for byte in (100, 101, 201) {
-+        struct flock fl = {
-+            .l_whence = SEEK_SET,
-+            .l_start  = byte,
-+            .l_len    = 1,
-+            .l_type   = F_UNLCK,
-+        };
-+        fcntl(fd, F_OFD_SETLK, &fl);
-+    }
--- 
-2.29.2
+I see, so you're also looking to consolidate all the address space accesses via the 
+dp8393x_get() and dp8393x_put() functions instead of using s->data as an 
+intermediatery - that makes sense to me. Once you have a patch that works for MIPS 
+let me know and I can give a test on Linux/m68k and MacOS :)
 
+
+ATB,
+
+Mark.
 
