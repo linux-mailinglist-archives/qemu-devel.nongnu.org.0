@@ -2,87 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7138C3BA983
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 18:35:34 +0200 (CEST)
-Received: from localhost ([::1]:47384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A595D3BA984
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 18:35:37 +0200 (CEST)
+Received: from localhost ([::1]:47718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzic9-0000ga-I8
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 12:35:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55550)
+	id 1lzicC-0000u5-DU
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 12:35:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lziZM-0005hC-21
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:32:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48168)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lziZU-0005wB-TC
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:32:48 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:47295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lziZK-0002pQ-No
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:32:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625329958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=REGg3QMBdAmIXQp30o/vSn3UkaOQ5OIQAj9pUEbHsp0=;
- b=gMtCXflNZBLlvvJ0FUTYxcYEcAMeyKPqrRBzWpVVdub4CVOOFYSnSemhczCi6BQV55gSNM
- DgvozegfU4kiSW7ggOBMM2Abd49kP6vgvdx24Vtcj8/yc7nJ4TGkja888uQ5ZmHyNV9yjL
- 8h0wekaSNdvZJ7SaYGEGgKSJ64K7hiY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-MwdDnIaZN0-1s-mYRh7BMQ-1; Sat, 03 Jul 2021 12:32:35 -0400
-X-MC-Unique: MwdDnIaZN0-1s-mYRh7BMQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- da21-20020a0564021775b02903997f7760a6so444014edb.10
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 09:32:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=REGg3QMBdAmIXQp30o/vSn3UkaOQ5OIQAj9pUEbHsp0=;
- b=JEYrTuv4TMVT3hLvYTyb/3HGdd8cUPv/M4Cm66Kc6qfoK63VLqkxbzO1i4ECeicSF0
- Q6Z9i+B8Axz7RSa1ZsWVTMDz/Q2f0Yworoj+ZTnt9ZmKSsEwAKQnK+hLYbtYW18iVFml
- hdg8lCTbDugThu8ROwJqjOjCeFnZKNTzPrr6SkU7A0onOmN5NgkvhdNhvqS5N10sus7z
- Ls5bmDRLLRRlklnbCbKL8tiz+rqyVFu+4iqr9bWj5pe7FQM7qdFUy4Wgl9K9Oc1/8Sam
- EXt7P4JxwAn0LTlUznnbn6h0ZVB0rxUv9+M9mzN4Qz6e6IRqKT5AjuT8Jp530JKALjye
- mvYA==
-X-Gm-Message-State: AOAM530j3BgRli9jenkEKNwZc75prRJk+3bDxCRz1au+Bmc/6NyIjKyT
- PX3tSPKmL+DHFbowprbMqD+rIyIDZ3Ejf60qbN4p3ZD7XQxzmylRDO0fkzC89XKc9hl0Rh+Hp+y
- DWC+zvWJkrR1caRc=
-X-Received: by 2002:a17:906:5d05:: with SMTP id
- g5mr5074026ejt.201.1625329954054; 
- Sat, 03 Jul 2021 09:32:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBAl68k+9ANOIhNDVoEJ4f/AMtEPqvw++/mUI68w47uzbYXtOENKvCHmGN3FwO3y9PLmcoYA==
-X-Received: by 2002:a17:906:5d05:: with SMTP id
- g5mr5073993ejt.201.1625329953704; 
- Sat, 03 Jul 2021 09:32:33 -0700 (PDT)
-Received: from redhat.com ([77.126.110.253])
- by smtp.gmail.com with ESMTPSA id p26sm2274255ejn.106.2021.07.03.09.32.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jul 2021 09:32:33 -0700 (PDT)
-Date: Sat, 3 Jul 2021 12:32:29 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v7 2/5] virtio-iommu: Implement RESV_MEM probe request
-Message-ID: <20210703123153-mutt-send-email-mst@kernel.org>
-References: <20200629070404.10969-1-eric.auger@redhat.com>
- <20200629070404.10969-3-eric.auger@redhat.com>
- <20210703123113-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lziZS-0002q7-10
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:32:48 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9062274570B;
+ Sat,  3 Jul 2021 18:32:38 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 663A2745709; Sat,  3 Jul 2021 18:32:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 63C507456E3;
+ Sat,  3 Jul 2021 18:32:38 +0200 (CEST)
+Date: Sat, 3 Jul 2021 18:32:38 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 2/3] dp8393x: Do not amend CRC if it is inhibited
+ (CRCI bit set)
+In-Reply-To: <20210703150219.364582-3-f4bug@amsat.org>
+Message-ID: <45c57cbe-d0a1-b3d4-66c5-71cc882b2335@eik.bme.hu>
+References: <20210703150219.364582-1-f4bug@amsat.org>
+ <20210703150219.364582-3-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210703123113-mutt-send-email-mst@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1913505189-1625329958=:39827"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,16 +59,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, armbru@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- bbhushan2@marvell.com, eric.auger.pro@gmail.com
+Cc: Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Finn Thain <fthain@linux-m68k.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pls ignore, my mail is acting up serving me old patches.
-Sorry about the noise!
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
--- 
-MST
+--3866299591-1913505189-1625329958=:39827
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Sat, 3 Jul 2021, Philippe Mathieu-Daudé wrote:
+> When the CRCI (CRC INHIBIT) bit is set, the 4-byte FCS field
+> is not transmitted.
+
+You say when CRCI is 1 then no checksum...
+
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> hw/net/dp8393x.c | 22 ++++++++++++++--------
+> 1 file changed, 14 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index 99e179a5e86..dee8236400c 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -472,6 +472,7 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+>              */
+>         } else {
+>             /* Remove existing FCS */
+> +            /* TODO check crc */
+>             tx_len -= 4;
+>             if (tx_len < 0) {
+>                 trace_dp8393x_transmit_txlen_error(tx_len);
+> @@ -758,7 +759,10 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+>         return pkt_size;
+>     }
+>
+> -    rx_len = pkt_size + sizeof(checksum);
+> +    rx_len = pkt_size;
+> +    if (s->regs[SONIC_TCR] & SONIC_TCR_CRCI) {
+
+... but you seem to add checksum if bit is set.
+
+> +        rx_len += sizeof(checksum);
+> +    }
+>     if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
+>         padded_len = ((rx_len - 1) | 3) + 1;
+>     } else {
+> @@ -801,9 +805,6 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+>     s->regs[SONIC_TRBA1] = s->regs[SONIC_CRBA1];
+>     s->regs[SONIC_TRBA0] = s->regs[SONIC_CRBA0];
+>
+> -    /* Calculate the ethernet checksum */
+> -    checksum = crc32(0, buf, pkt_size);
+> -
+>     /* Put packet into RBA */
+>     trace_dp8393x_receive_packet(dp8393x_crba(s));
+>     address = dp8393x_crba(s);
+> @@ -811,10 +812,15 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+>                         buf, pkt_size);
+>     address += pkt_size;
+>
+> -    /* Put frame checksum into RBA */
+> -    address_space_stl_le(&s->as, address, checksum, MEMTXATTRS_UNSPECIFIED,
+> -                         NULL);
+> -    address += sizeof(checksum);
+> +    if (s->regs[SONIC_TCR] & SONIC_TCR_CRCI) {
+
+Here too. Either these should be inverted or the commit message is wrong 
+if the bit is active 0 (or I'm not getting this alltogether which is also 
+possible as I've just had a quick look without really understanding it).
+
+Regards,
+BALATON Zoltan
+
+> +        /* Calculate the ethernet checksum */
+> +        checksum = crc32(0, buf, pkt_size);
+> +
+> +        /* Put frame checksum into RBA */
+> +        address_space_stl_le(&s->as, address, checksum, MEMTXATTRS_UNSPECIFIED,
+> +                             NULL);
+> +        address += sizeof(checksum);
+> +    }
+>
+>     /* Pad short packets to keep pointers aligned */
+>     if (rx_len < padded_len) {
+>
+--3866299591-1913505189-1625329958=:39827--
 
