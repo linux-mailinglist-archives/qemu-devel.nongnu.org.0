@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EE03BA991
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 18:47:13 +0200 (CEST)
-Received: from localhost ([::1]:59550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22AD3BA9E3
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 19:46:55 +0200 (CEST)
+Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzinQ-0000z8-IN
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 12:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56690)
+	id 1lzjjC-0004jU-8D
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 13:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzimE-0000HW-Cu
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:45:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48217)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzimA-0002by-3i
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 12:45:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625330753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wb8CKudEnAzbYcq2rEY1bFW45gkO0i6EJKrrdNs0rT8=;
- b=NCGZdQfV5VO97Bhy+Iuh7+1W2G/iOUcKkBTlSlfsU7sN92zHVZGiGSnHDH+7Atdlpt9Bni
- txChtWV9y++f4bhZyVxoaJCgySS06vR6Z879dZJ2BJszgIKrReNZUVMa7T2cyHdbtc1jZf
- 8TUGnRkJfp3GhM3mMNiB3XX8FiKwSQk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-22Z_cgbFPnOE3VuuQGNb3w-1; Sat, 03 Jul 2021 12:45:51 -0400
-X-MC-Unique: 22Z_cgbFPnOE3VuuQGNb3w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v18-20020adfa1d20000b029012c379fbc45so4148226wrv.22
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 09:45:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lzji7-00042r-VX
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 13:45:48 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lzji4-00079S-5k
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 13:45:47 -0400
+Received: by mail-ej1-x633.google.com with SMTP id gn32so21913615ejc.2
+ for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 10:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=222Tafy6baRTNx86pMHJkTuPazSpRwNpCuqWe5vt5bg=;
+ b=sRUIZlpDocrETyUG6QGXExlYv7gnceA+oEkw8CdlNQPMCZz1iC1W4EtF/+0WF74m1D
+ 1ccYadK2/3CSKZhBEBBnt/rFc5CkXeTkdcic5maC1W25xnBwIgSGAngT+at00HAnsnPf
+ lT1xhJ1KC0Q3YYD0c5IlJ9DwHlXhLTqBLotEF8oS5n60Jk6PrI5UsQr77R9I7eAZSlk7
+ HchUm0mI38yCPJwznpqCP+DAk0ALSLVhTk/m5Gi+eknlUDY9XocHbgWNusTzGwA1pFQN
+ 5P5DByo5QwjpJCxgnJGy8sMzWK7Q306vKhQzqPmxpY7Bh9vF7tDlYhYANA/s+27TJC8z
+ uF6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wb8CKudEnAzbYcq2rEY1bFW45gkO0i6EJKrrdNs0rT8=;
- b=SbadkYAaEDle0NxyF6nLFPFkkMKCx5Zz8K51o4s5Q/dYdET2CBiQteKttPb5EFv7YC
- NhpVGFmBMfd9R0uUZNWkSR8JePmmX0dtKNyajw0ZShdnbBkkGObHDFL/rpvVGQkzaQ3L
- S5Lr9dREB+94oHZEWbpGglXBdOfBwezMRHAQO/wPPfjTnaR9DFt9MXZ/JtmdpfuC49uV
- kY6+8r7P9H63ax/DcudPrROj+Lga+ybyKSRj+BbFrQh82b9D565hlQpqrEuJtA6P7IA4
- r8k8sejNwmRSUIpQd3eM7x9s2mtlJ3i2bVSKCwDRJleQp9XM0nx3J3PNVwNYvGJmFP8s
- n3Pg==
-X-Gm-Message-State: AOAM5307lR96R2/f7J71g9lNUi//ZW8gx2i90Fz3pO5eCxXR0aq48Wuh
- rq7mLQcyVMSXFV3UsqfsgbMTkmFB27qeUJyc2/c8N6kJg5vcL4LLQZziX2yITS2ib0+N+rzonir
- dQCPViuswyij2jGE=
-X-Received: by 2002:adf:f507:: with SMTP id q7mr6027505wro.243.1625330750698; 
- Sat, 03 Jul 2021 09:45:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyz+QlAPGf/1C9ydcL9y1tGPWwBBNhfhXolTjVJng6Mwlq3MepMeAI03IKRNjLOl6Ly1tnwFg==
-X-Received: by 2002:adf:f507:: with SMTP id q7mr6027491wro.243.1625330750516; 
- Sat, 03 Jul 2021 09:45:50 -0700 (PDT)
-Received: from redhat.com ([77.126.110.253])
- by smtp.gmail.com with ESMTPSA id 31sm7722974wrs.79.2021.07.03.09.45.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jul 2021 09:45:49 -0700 (PDT)
-Date: Sat, 3 Jul 2021 12:45:47 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH v5 0/7] Use ACPI PCI hot-plug for Q35
-Message-ID: <20210703124342-mutt-send-email-mst@kernel.org>
-References: <20210617190739.3673064-1-jusual@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=222Tafy6baRTNx86pMHJkTuPazSpRwNpCuqWe5vt5bg=;
+ b=QmDgX2WjTZBTnvXknOtcgmrS6QabpurObZN5pFvMxDeDvztQCa6m0nqh9Owq6k+buA
+ uJLRjh8jq7034xQ2SNf6k72bGWX1PF2zil7khZEtQmccOxpDaJeQSCFl1rqSGsgNUsj0
+ PcgYCCzRrpEArpCcbtxYPB8jhFwsyFGsoGQV/R34D780duedZJjHb9M9jvCjfa5AaDyR
+ GdGAODpwLiY7NGgwRDhueD6BXRCwVSgCHBXKrNSHOI8L1l/gE4pLEWY4NZ1i/p3VbUrT
+ xVc3MvRgbou08HY9u/tpLeeWsgzBOL1ajVuzpSgGNG/ixFhXTliybEGwT6bgV799/1qg
+ 4CaA==
+X-Gm-Message-State: AOAM530gnQst4HTlvYCf6zYx8zewTpalZPmXDtX/AdA4rEMOH5G6BXvs
+ tJlzsQSPSKBWK66O38GO64aoOa10Oa3aaA3cBkaEGw==
+X-Google-Smtp-Source: ABdhPJzIe9JULa0GB7GzljL42sIhZM2McsHTbIxS1ILqxBXj5r3aHKhpoWp9q7NSPBuGKDmdMZ0r7fZdzWyzfyQFwWw=
+X-Received: by 2002:a17:907:1691:: with SMTP id
+ hc17mr5430702ejc.382.1625334341072; 
+ Sat, 03 Jul 2021 10:45:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <abc8f7fe-2afe-0f5d-d391-6277db6e6f42@redhat.com>
+In-Reply-To: <abc8f7fe-2afe-0f5d-d391-6277db6e6f42@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 3 Jul 2021 18:45:03 +0100
+Message-ID: <CAFEAcA_jRNB=b2FS+9yrYX6r5YcnT0n9ooDH5Bnskzn9PwSKhw@mail.gmail.com>
+Subject: Re: clang build error on i686
+To: Cole Robinson <crobinso@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,109 +77,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 09:07:32PM +0200, Julia Suvorova wrote:
-> The patch set consists of two parts:
-> patches 1-4: introduce new feature
->              'acpi-pci-hotplug-with-bridge-support' on Q35
-> patches 5-7: make the feature default along with changes in ACPI tables
-> 
-> With the feature disabled Q35 falls back to the native hot-plug.
+On Sat, 3 Jul 2021 at 15:37, Cole Robinson <crobinso@redhat.com> wrote:
+>
+> Hi, I'm hitting build errors with clang on i686 userspace on x86_64
+> kernel. Affects both qemu 6.0.0 and qemu.git, tested with fedora
+> clang-12.0.1~rc3-1.fc35.i686.
+>
+> Full build log from the 6.0.0 build:
+> https://gist.githubusercontent.com/crobinso/7b1206044eac7326490b2adce829e861/raw/9dddef968051fd6383ba7adb9e595081ad4f8fa4/gistfile1.txt
+>
+> Lots of errors like:
+>
+> /usr/bin/ld: libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: in
+> function `helper_atomic_cmpxchgq_le_mmu':
+> /builddir/build/BUILD/qemu-6.0.0/accel/tcg/atomic_template.h:86:
+> undefined reference to `__atomic_compare_exchange_8'
+> /usr/bin/ld: libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: in
+> function `helper_atomic_xchgq_le_mmu':
+> /builddir/build/BUILD/qemu-6.0.0/accel/tcg/atomic_template.h:134:
+> undefined reference to `__atomic_exchange_8'
+>
+> Also warnings like:
+>
+> /builddir/build/BUILD/qemu-6.0.0/include/qemu/stats64.h:58:21: warning:
+> misaligned atomic operation may incur significant performance penalty;
+> the expected alignment (8 bytes) exceeds the actual alignment (4 bytes)
+> [-Watomic-alignment]
+>     uint64_t orig = qatomic_read__nocheck(&s->value);
+>                     ^
+> /builddir/build/BUILD/qemu-6.0.0/include/qemu/atomic.h:129:5: note:
+> expanded from macro 'qatomic_read__nocheck'
+>     __atomic_load_n(ptr, __ATOMIC_RELAXED)
 
-OK I had to drop this because of issues on mips and friends.
-Note it's not just a build failure: the API acpi_get_i386_pci_host
-can not be stubbed out cleanly - we need to return a pci bus.
+I think at least part of what is happening here is that this compiler/host
+doesn't support native 64-bit atomics, but configure has selected
+CONFIG_ATOMIC64 anyway. I've cc'd Paolo and Richard who 'git blame'
+suggests have touched the configure test and the stats64.h code in the past.
 
-> Pros
->     * no racy behavior during boot (see 110c477c2ed)
->     * eject is possible - according to PCIe spec, attention button
->       press should lead to power off, and then the adapter should be
->       removed manually. As there is no power down state exists in QEMU,
->       we cannot distinguish between an eject and a power down
->       request.
->     * no delay during deleting - after the actual power off software
->       must wait at least 1 second before indicating about it. This case
->       is quite important for users, it even has its own bug:
->           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
->     * no timer-based behavior - in addition to the previous example,
->       the attention button has a 5-second waiting period, during which
->       the operation can be canceled with a second press. While this
->       looks fine for manual button control, automation will result in
->       the need to queue or drop events, and the software receiving
->       events in all sort of unspecified combinations of attention/power
->       indicator states, which is racy and uppredictable.
->     * fixes or reduces the likelihood of the bugs:
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
-> 
-> Cons:
->     * no access to possible features presented in slot capabilities
->       (this is only surprise removal AFAIK)
-> 
-> v5:
->     * make sugar property on TYPE_PCIE_SLOT
->       instead of old TYPE_MACHINE property [Igor]
->     * minor style changes
-> v4:
->     * regain per-port control over hot-plug
->     * rebased over acpi-index changes
->     * set property on machine type to
->       make pci code more generic [Igor, Michael]
-> 
-> v3:
->     * drop change of _OSC to allow SHPC on hotplugged bridges
->     * use 'acpi-root-pci-hotplug'
->     * add migration states [Igor]
->     * minor style changes
-> 
-> v2:
->     * new ioport range for acpiphp [Gerd]
->     * drop find_pci_host() [Igor]
->     * explain magic numbers in _OSC [Igor]
->     * drop build_q35_pci_hotplug() wrapper [Igor]
-> 
-> Julia Suvorova (7):
->   hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
->   hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
->   hw/acpi/ich9: Enable ACPI PCI hot-plug
->   hw/pci/pcie: Do not set HPC flag if acpihp is used
->   bios-tables-test: Allow changes in DSDT ACPI tables
->   hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
->   bios-tables-test: Update golden binaries
-> 
->  hw/i386/acpi-build.h              |   5 +++
->  include/hw/acpi/ich9.h            |   5 +++
->  include/hw/acpi/pcihp.h           |   3 +-
->  include/hw/pci/pcie_port.h        |   5 ++-
->  hw/acpi/ich9.c                    |  67 ++++++++++++++++++++++++++++++
->  hw/acpi/pcihp.c                   |  22 +++++++---
->  hw/acpi/piix4.c                   |   4 +-
->  hw/core/machine.c                 |   1 -
->  hw/i386/acpi-build.c              |  32 ++++++++------
->  hw/i386/pc.c                      |   1 +
->  hw/i386/pc_q35.c                  |  11 +++++
->  hw/pci/pcie.c                     |   8 +++-
->  hw/pci/pcie_port.c                |   1 +
->  tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
->  tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
->  tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
->  tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
->  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
->  tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
->  tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
->  tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
->  tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
->  tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
->  24 files changed, 143 insertions(+), 22 deletions(-)
-> 
-> -- 
-> 2.30.2
+(The compiler provides fallbacks in libatomic for the 64-bit atomics,
+but we deliberately do not link against libatomic because we do not
+want to use them.)
 
+thanks
+-- PMM
 
