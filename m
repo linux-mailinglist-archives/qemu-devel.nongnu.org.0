@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C3D3BA920
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 17:04:45 +0200 (CEST)
-Received: from localhost ([::1]:50518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477A73BA921
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 17:04:49 +0200 (CEST)
+Received: from localhost ([::1]:51022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzhCG-0003Ag-JQ
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 11:04:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44912)
+	id 1lzhCK-0003Ux-B1
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 11:04:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzhAD-0000Wr-D1
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 11:02:37 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40902)
+ id 1lzhAJ-0000lF-0Y
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 11:02:43 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzhAB-0002hb-Tk
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 11:02:37 -0400
-Received: by mail-wr1-x429.google.com with SMTP id g7so16188125wri.7
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 08:02:35 -0700 (PDT)
+ id 1lzhAH-0002km-J5
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 11:02:42 -0400
+Received: by mail-wr1-x434.google.com with SMTP id t6so6307633wrm.9
+ for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 08:02:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CD4705Cw8bDOEOSQX+bvLucda0Kfkxx7BdKEQvUolXw=;
- b=LvbGdsmzO58Gz/ms66ZnCG7bDEtBfqwyBZjWLM7au+7id4C0AEfeF2CmG3C5YafbsF
- 4TMwIsEctSr3/78C59luy/do38chw+pIwFS0HWFK8/0annYlzLv1h8FJz0DknvMagA/1
- 33E9KkIl5l0wFNVHu5arGiV/4JfiLgy9vx1KUh16Jusf/A3AWv/PCqnWD+SIAbrTpxKd
- CK0RgV+/iPZ+116bL38+sl9QqCoJmGriXiPl+lWYYVTNrQX9E0Uw00gM4a66P+VDY5Ki
- ZAsPfp82B/VGtzPblunaxnFdrA5AksvYDrmG9OdyTvGQRXONGw7H7Amne3/ze5Dt/xS0
- I4jA==
+ bh=Y6Aw6PBMKZRq1SU/fOrs7JqdxeS7L8PFTUoQh1plry8=;
+ b=NrWII9E97pM4B44oJeeyyQgpfnpvK/30cdOHWiUFz7QYhq5NRvReCUxi09t+uD3VJX
+ Zh9S/iqFSU9j/yVWUbiFgRB4F/hrTg4qCJdbZ5WUarxUos09d8a+5esCgUOy4Pzx9jXc
+ 8iapNP9m0HmS8fHQpXsLVNOOAq2Tv1ex5Fyo0on3ZblVpfpG7wE4LYogMhb7SG38Z3ce
+ l1/12/xnynNpr1mkevJJlCIFXfH/aH91aKlRpDhDfjejw7+9NcN3YVDDFxxqcMZRU0S7
+ 0JhcVBKMhw2eS90GOC+safYmKaTk4TTEJwDx7BfuEm7pMpvZvvvK+jL08o7x9YyIt65D
+ ASTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CD4705Cw8bDOEOSQX+bvLucda0Kfkxx7BdKEQvUolXw=;
- b=Nm52tH+nwT15RPL4av8EL024jYlfR9QdrnqwXoDboItoDtiol6CU6xurwbYcrAU8FN
- QAwM0PvY+aHzXYLmOI5QQ9ImI5QWiJ+8TAWsYqIa+KFttPYZFaKWcBYvobw6M0pgn9TZ
- /u9b1Z0bISjgligGyb71QI0w2V1F0PQrCdK7ZYCWir9vNB+x1KvK6rgzWJKwQNZTtNQa
- i49/xzswkMxWEfXEbyshDiRSanwRfVuLZkaVPppS4ks+mqcrfPs+TORyxSxL0SHgYhCv
- 0QhP1TavdS7nM022sWZKEBwBzdZS8huhwU92v1kZD1Jp46/Gr1nNjtzGE9rXTC+FFcn7
- /rgQ==
-X-Gm-Message-State: AOAM531qWe20rF2wTSbkF86GRsA0QyJZHrsjGPw51ClaxQQWEItcBrOm
- 0GC8DW8HUwNxWJNiiggt5qxljPSutBDO3g==
-X-Google-Smtp-Source: ABdhPJyJA2clixyrBVs4M+brbdTzevWdRVzqOT7toWu0e9tDOzyBbQTzirUDhmEidPF13Y+hwt1Vjg==
-X-Received: by 2002:a05:6000:2c7:: with SMTP id o7mr1510481wry.0.1625324554454; 
- Sat, 03 Jul 2021 08:02:34 -0700 (PDT)
+ bh=Y6Aw6PBMKZRq1SU/fOrs7JqdxeS7L8PFTUoQh1plry8=;
+ b=aGoNlj9dv+lcbpJ6gilpV41A5SmmSCAMev41J3FOtXiDY+jHUtS0s7LW0CrPVuztVE
+ btpMWSLFVGocpayLuUVXJQonD3MDLxp3e0nRGVEFs//7I3tEG2mwGw2YgDWVZQFA/hkU
+ 0tBcQdkg9Yn0JGrxqK+ysA3aSsgbxP8Gzqlrd5Q1l2hsQ3DDWP2uKoWofXWJvM6DzJQr
+ Ygt/MyydAVs11WrlkRdgA7P2TqOTeLR+wxyDf9ugWhNys98tvUDxHk3IgnUykZbLK0f1
+ 2FAIJmM/5gFoI1DiD0xRkwXFRL2Nxp0uRoWiVOQCHm4Jl7OCTV+cQteIbuXoRKikCMMQ
+ SI+w==
+X-Gm-Message-State: AOAM533yR0T2GvAE2E8RzfVbXRq7n/LxScHK2v08SEdJRSMj1+w+GtlL
+ m9JYrjfk9GMJ8qf8c52zxJkomkyyIbNDFQ==
+X-Google-Smtp-Source: ABdhPJwZWG8YOjZo0Cg5vSdiUqohqb1MM11nS6fIdhXrgInRbco9prro8pBtx2jQupDXxvzjwkejvw==
+X-Received: by 2002:a5d:488a:: with SMTP id g10mr5626309wrq.402.1625324560007; 
+ Sat, 03 Jul 2021 08:02:40 -0700 (PDT)
 Received: from x1w.. (184.red-95-127-187.staticip.rima-tde.net.
  [95.127.187.184])
- by smtp.gmail.com with ESMTPSA id l20sm6614866wmq.3.2021.07.03.08.02.33
+ by smtp.gmail.com with ESMTPSA id h14sm7580629wro.32.2021.07.03.08.02.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jul 2021 08:02:34 -0700 (PDT)
+ Sat, 03 Jul 2021 08:02:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/3] dp8393x: Do not amend CRC if it is inhibited (CRCI
- bit set)
-Date: Sat,  3 Jul 2021 17:02:18 +0200
-Message-Id: <20210703150219.364582-3-f4bug@amsat.org>
+Subject: [RFC PATCH 3/3] dp8393x: Store CRC using device configured endianess
+Date: Sat,  3 Jul 2021 17:02:19 +0200
+Message-Id: <20210703150219.364582-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210703150219.364582-1-f4bug@amsat.org>
 References: <20210703150219.364582-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,68 +92,34 @@ Cc: Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the CRCI (CRC INHIBIT) bit is set, the 4-byte FCS field
-is not transmitted.
+Little-Endian CRC is dubious, and the datasheet does not specify
+it being little-endian. Proceed similarly with the other memory
+accesses, use the device endianess.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/net/dp8393x.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ hw/net/dp8393x.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 99e179a5e86..dee8236400c 100644
+index dee8236400c..3a07f5c8ac9 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -472,6 +472,7 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
-              */
-         } else {
-             /* Remove existing FCS */
-+            /* TODO check crc */
-             tx_len -= 4;
-             if (tx_len < 0) {
-                 trace_dp8393x_transmit_txlen_error(tx_len);
-@@ -758,7 +759,10 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         return pkt_size;
+@@ -817,8 +817,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         checksum = crc32(0, buf, pkt_size);
+ 
+         /* Put frame checksum into RBA */
+-        address_space_stl_le(&s->as, address, checksum, MEMTXATTRS_UNSPECIFIED,
+-                             NULL);
++        if (s->big_endian) {
++            address_space_stl_be(&s->as, address, checksum,
++                                 MEMTXATTRS_UNSPECIFIED, NULL);
++        } else {
++            address_space_stl_le(&s->as, address, checksum,
++                                 MEMTXATTRS_UNSPECIFIED, NULL);
+         address += sizeof(checksum);
      }
  
--    rx_len = pkt_size + sizeof(checksum);
-+    rx_len = pkt_size;
-+    if (s->regs[SONIC_TCR] & SONIC_TCR_CRCI) {
-+        rx_len += sizeof(checksum);
-+    }
-     if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
-         padded_len = ((rx_len - 1) | 3) + 1;
-     } else {
-@@ -801,9 +805,6 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     s->regs[SONIC_TRBA1] = s->regs[SONIC_CRBA1];
-     s->regs[SONIC_TRBA0] = s->regs[SONIC_CRBA0];
- 
--    /* Calculate the ethernet checksum */
--    checksum = crc32(0, buf, pkt_size);
--
-     /* Put packet into RBA */
-     trace_dp8393x_receive_packet(dp8393x_crba(s));
-     address = dp8393x_crba(s);
-@@ -811,10 +812,15 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-                         buf, pkt_size);
-     address += pkt_size;
- 
--    /* Put frame checksum into RBA */
--    address_space_stl_le(&s->as, address, checksum, MEMTXATTRS_UNSPECIFIED,
--                         NULL);
--    address += sizeof(checksum);
-+    if (s->regs[SONIC_TCR] & SONIC_TCR_CRCI) {
-+        /* Calculate the ethernet checksum */
-+        checksum = crc32(0, buf, pkt_size);
-+
-+        /* Put frame checksum into RBA */
-+        address_space_stl_le(&s->as, address, checksum, MEMTXATTRS_UNSPECIFIED,
-+                             NULL);
-+        address += sizeof(checksum);
-+    }
- 
-     /* Pad short packets to keep pointers aligned */
-     if (rx_len < padded_len) {
 -- 
 2.31.1
 
