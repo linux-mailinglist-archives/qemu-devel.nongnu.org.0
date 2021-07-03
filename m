@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159743BA908
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 16:37:17 +0200 (CEST)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D38E3BA90B
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 16:40:45 +0200 (CEST)
+Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzglf-0003G7-Sv
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 10:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41020)
+	id 1lzgp2-0004pP-Bi
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 10:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1lzgkd-0002bW-G7
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:36:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46571)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzgnm-0004Aj-4z
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:39:26 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41000
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1lzgkZ-0002Kb-OW
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:36:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625322966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=x6WBYmsB4ww+crJEk5DacNmMl6S1l8nFqyvaAboQSNQ=;
- b=cVDQ+dQDVuhsxGF3XZ4pXYKMrcc2veDmDSDmbKMbMT25zg21+PJcDOyzxz1x1n9RfLjMqt
- 3eIVDSCvQu0xYfNRUUZYpGnmJnTMkRkUfqjLDYPiJlyQMhH+vO/Sy75AFe6ipcBCU4j8zv
- 5mYvSWQe1SqR1McL1H48ibdVb4lrgEQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-h8M6-FM3MJadZqpCqyHRlQ-1; Sat, 03 Jul 2021 10:34:58 -0400
-X-MC-Unique: h8M6-FM3MJadZqpCqyHRlQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C0C7800C60
- for <qemu-devel@nongnu.org>; Sat,  3 Jul 2021 14:34:57 +0000 (UTC)
-Received: from [10.10.112.221] (ovpn-112-221.rdu2.redhat.com [10.10.112.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3BE310074FC
- for <qemu-devel@nongnu.org>; Sat,  3 Jul 2021 14:34:56 +0000 (UTC)
-From: Cole Robinson <crobinso@redhat.com>
-Subject: clang build error on i686
-To: qemu-devel <qemu-devel@nongnu.org>
-Message-ID: <abc8f7fe-2afe-0f5d-d391-6277db6e6f42@redhat.com>
-Date: Sat, 3 Jul 2021 10:34:56 -0400
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzgnk-0004LI-93
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:39:25 -0400
+Received: from host86-179-59-238.range86-179.btcentralplus.com
+ ([86.179.59.238] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lzgnN-0007gY-8x; Sat, 03 Jul 2021 15:39:05 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210703141947.352295-1-f4bug@amsat.org>
+ <20210703141947.352295-3-f4bug@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <88ef2d9c-7dcb-2e2e-037c-6af306ad2a12@ilande.co.uk>
+Date: Sat, 3 Jul 2021 15:39:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crobinso@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20210703141947.352295-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crobinso@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.179.59.238
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 2/6] dp8393x: don't force 32-bit register access
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,42 +65,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Finn Thain <fthain@linux-m68k.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, I'm hitting build errors with clang on i686 userspace on x86_64
-kernel. Affects both qemu 6.0.0 and qemu.git, tested with fedora
-clang-12.0.1~rc3-1.fc35.i686.
+On 03/07/2021 15:19, Philippe Mathieu-Daudé wrote:
 
-Full build log from the 6.0.0 build:
-https://gist.githubusercontent.com/crobinso/7b1206044eac7326490b2adce829e861/raw/9dddef968051fd6383ba7adb9e595081ad4f8fa4/gistfile1.txt
+> From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> 
+> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" assumed that all accesses
+> to the registers were 32-bit but this is actually not the case. The access size is
+> determined by the CPU instruction used and not the number of physical address lines.
+> 
+> The big_endian workaround applied to the register read/writes was actually caused
+> by forcing the access size to 32-bit when the guest OS was using a 16-bit access.
+> Since the registers are 16-bit then we can simply set .impl.min_access to 2 and
+> then the memory API will automatically do the right thing for both 16-bit accesses
+> used by Linux and 32-bit accesses used by the MacOS toolbox ROM.
 
-Lots of errors like:
+The change should work, but the commit message above needs a slight tweak - maybe 
+something like this?
 
-/usr/bin/ld: libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: in
-function `helper_atomic_cmpxchgq_le_mmu':
-/builddir/build/BUILD/qemu-6.0.0/accel/tcg/atomic_template.h:86:
-undefined reference to `__atomic_compare_exchange_8'
-/usr/bin/ld: libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: in
-function `helper_atomic_xchgq_le_mmu':
-/builddir/build/BUILD/qemu-6.0.0/accel/tcg/atomic_template.h:134:
-undefined reference to `__atomic_exchange_8'
+Since the registers are 16-bit then we can simply set both .impl.min_access and 
+.impl.max_access to 2 and then the memory API will automatically do the right thing 
+for both 16-bit accesses used by Linux and 32-bit accesses used by the MacOS toolbox ROM.
 
-Also warnings like:
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Fixes: 3fe9a838ec ("dp8393x: Always use 32-bit accesses")
+> Tested-by: Finn Thain <fthain@linux-m68k.org>
+> Message-Id: <20210625065401.30170-9-mark.cave-ayland@ilande.co.uk>
+> [PMD: dp8393x_ops.impl.max_access_size 4 -> 2]
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   hw/net/dp8393x.c | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index 11810c9b600..d16ade2b198 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -602,15 +602,14 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+>   
+>       trace_dp8393x_read(reg, reg_names[reg], val, size);
+>   
+> -    return s->big_endian ? val << 16 : val;
+> +    return val;
+>   }
+>   
+> -static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+> +static void dp8393x_write(void *opaque, hwaddr addr, uint64_t val,
+>                             unsigned int size)
+>   {
+>       dp8393xState *s = opaque;
+>       int reg = addr >> s->it_shift;
+> -    uint32_t val = s->big_endian ? data >> 16 : data;
+>   
+>       trace_dp8393x_write(reg, reg_names[reg], val, size);
+>   
+> @@ -694,8 +693,8 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+>   static const MemoryRegionOps dp8393x_ops = {
+>       .read = dp8393x_read,
+>       .write = dp8393x_write,
+> -    .impl.min_access_size = 4,
+> -    .impl.max_access_size = 4,
+> +    .impl.min_access_size = 2,
+> +    .impl.max_access_size = 2,
+>       .endianness = DEVICE_NATIVE_ENDIAN,
+>   };
 
-/builddir/build/BUILD/qemu-6.0.0/include/qemu/stats64.h:58:21: warning:
-misaligned atomic operation may incur significant performance penalty;
-the expected alignment (8 bytes) exceeds the actual alignment (4 bytes)
-[-Watomic-alignment]
-    uint64_t orig = qatomic_read__nocheck(&s->value);
-                    ^
-/builddir/build/BUILD/qemu-6.0.0/include/qemu/atomic.h:129:5: note:
-expanded from macro 'qatomic_read__nocheck'
-    __atomic_load_n(ptr, __ATOMIC_RELAXED)
 
-Search the log for __atomic for other hits.
+ATB,
 
-Thanks,
-Cole
-
+Mark.
 
