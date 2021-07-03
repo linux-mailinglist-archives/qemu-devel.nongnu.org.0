@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A343BA8E3
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 16:21:20 +0200 (CEST)
-Received: from localhost ([::1]:38416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28EF3BA8E6
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Jul 2021 16:22:52 +0200 (CEST)
+Received: from localhost ([::1]:44850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzgWF-00087S-VD
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 10:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39166)
+	id 1lzgXj-0003xw-QW
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 10:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzgUs-0006tE-4P
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:19:54 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39553)
+ id 1lzgUx-00071Y-VY
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:19:59 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzgUq-00008u-QA
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:19:53 -0400
-Received: by mail-wr1-x436.google.com with SMTP id f14so15764947wrs.6
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 07:19:52 -0700 (PDT)
+ id 1lzgUw-0000DM-JM
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 10:19:59 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ j39-20020a05600c1c27b029020028e48b8fso2569215wms.0
+ for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 07:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m66YsPnAjbUFRPjZjWssOAfXhqgM8r1DxGapJ+NRUNg=;
- b=vGBoQA+KpFwhRdrsOWhuE/Yesh1a+P9pV2n+36pswl0z9SszYR5B7OozdHDwfES7BK
- VO0oIkympLSDLsA0zP+SsDLHUlo/14F6X5fqnl3UqRAU8aI5CxtEHKu2edj4d7qGgsy5
- DDiQ5LLRe8TD6EPFA8Dlh84/zX1aHE8YZ/LwGtYxzBCGIx4wqwlOzQeweRfJPOf5sxye
- tUpoNKO75hlzgRSrh7JV22KnGtU+TsFM814naI3DeIW9k2R6mNB81qqSDIEAYrgh7Q6n
- JHrqLKFP+9fmNSEWcdD5e6nk/TgWqHpfIKos861oEO9YjIPq/MOHHw4BscmOLbPQdzf0
- tM/g==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xzjbO+5jo6pD19SRnGaYYtwqZATAxg4quF6D0X5U33M=;
+ b=ZywkxyBShV2Xh2f2XAB0qHxYfsyCR+4cYbbO4KPLOBhZNUi5N8IUvHmXXpLLLpGYDG
+ x7mFmR8mBLBYpFBr6Tx+K7xb5lqcjpAkn89I3ge2zcY877LN4gBJpmJO73xycGDmlgKn
+ ONVLlbpuRcFmYqLXgl8ZwU78sBufGkCKENjZipjabfMyb2m7U90PNLJM71/tIrMlwiFN
+ 2Fu8VS0H0Haq1cyl109SCnImPB184vyNQhiB+HV9XNF440E8yAGc4IAEtsXcCVovfOb3
+ 6f/XaidcTGIZCG1HwXvHVgcLYXvFCYt8MWPl+HQbu4TbU/IyShljbiyX6D8rX2NLMOms
+ mAig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=m66YsPnAjbUFRPjZjWssOAfXhqgM8r1DxGapJ+NRUNg=;
- b=nMQ6L7AZmCmbFjnpSErDa+Yf3cK6OZC9kSWMETTpA4gZIx3vAbAZQ7WciajO2bOspv
- HdjW+Sl2flbItXs6fjUjAb2Q8Gf4327A2PvvZOnnrC+VmvLgPScyS2MbgAElD6IcYzSu
- qtLtvd2f/lQWvxJ8ypoVuLURwNDWB9/ie7WqK13gNDRbhIl7jL4KOnQiU2rVuhoctSBU
- Ap+nrgHfDxCTCKUd6E+Nu6TmWcO79+rFD9p71gJDIxAEXe+X5UXLptK1fZKaNkZT5vDy
- P4D0zRiELAyBfUI/zaQSNByb/eXFRliX5VkCTuhHzaF+EaSFSRa/1peFAmB5GJj0Yivj
- qveg==
-X-Gm-Message-State: AOAM532uyzEP7KdRZRPczbqMq9YDNZdhKdVkB/2M2QASJzjg6hbCEllI
- CQ9VkcdKFrP/ktRr5eO5vK1U4Yf+0/qIxA==
-X-Google-Smtp-Source: ABdhPJy4ulPROJQThJSO5mPeb1MeRiZeg3SsVisL0Ng5no94Kurz6jMykFttMgQ+aq9eOWTwy9yvfg==
-X-Received: by 2002:a5d:6b06:: with SMTP id v6mr5701650wrw.146.1625321990704; 
- Sat, 03 Jul 2021 07:19:50 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=xzjbO+5jo6pD19SRnGaYYtwqZATAxg4quF6D0X5U33M=;
+ b=UOzOXBso79W3LptW/bs8sw96SzmsGlF2QJq5pKe9C/682zKS/8Iutp4px3fTqAO3JZ
+ ljYnPASz0QLrrY/v9cJTFujFIgsR0yc1MjiZKkqxSWkFCJ3NFWPHccPJsYfMfqHemLIB
+ NrNYTnpqGYl0hcCZ3mK65c8iAgg8GRfykPRfWJvO+158gYK6Ox9XW2q1QUbnmbxytZG8
+ /vfNih2KwhiCFXeLbtgyiwT695kaSgsqmKR+Gf9RVqTLYfha1Biv8jFn2cIjyz5TILeQ
+ w1GXqIM9uq+KwoWCxcc3W+6rfqBObpNmTKRsWQEoRdI288HkZt9lpjs5fLLzXJf/PqS0
+ 03oQ==
+X-Gm-Message-State: AOAM531BuKtrIyE7zFLNYj5CeRERW5etD4FdXolUCZLj5taKdc6zz0A1
+ JiFOOIsnxGNcNRGXIBQbmQ15+ydI3gjiOQ==
+X-Google-Smtp-Source: ABdhPJy7PtXVjwTaet10N95+lFYVk4voZCHYcvSrbN/m08WflyH56XrQYXbTJJerB73XMdv+YWRDqQ==
+X-Received: by 2002:a1c:b403:: with SMTP id d3mr5012554wmf.79.1625321996887;
+ Sat, 03 Jul 2021 07:19:56 -0700 (PDT)
 Received: from x1w.. (184.red-95-127-187.staticip.rima-tde.net.
  [95.127.187.184])
- by smtp.gmail.com with ESMTPSA id z24sm6139105wml.10.2021.07.03.07.19.49
+ by smtp.gmail.com with ESMTPSA id b11sm6834846wrf.43.2021.07.03.07.19.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jul 2021 07:19:50 -0700 (PDT)
+ Sat, 03 Jul 2021 07:19:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/6] dp8393x: Housekeeping
-Date: Sat,  3 Jul 2021 16:19:41 +0200
-Message-Id: <20210703141947.352295-1-f4bug@amsat.org>
+Subject: [PATCH 1/6] dp8393x: fix CAM descriptor entry index
+Date: Sat,  3 Jul 2021 16:19:42 +0200
+Message-Id: <20210703141947.352295-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210703141947.352295-1-f4bug@amsat.org>
+References: <20210703141947.352295-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,25 +93,57 @@ Cc: Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Housekeeping while reviewing Mark's "fixes for MacOS toolbox ROM"=0D
-series v2.=0D
-RFC because totally untested =3D) Just compiled.=0D
-=0D
-Mark Cave-Ayland (2):=0D
-  dp8393x: fix CAM descriptor entry index=0D
-  dp8393x: don't force 32-bit register access=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  dp8393x: Restrict bus access to 16/32-bit operations=0D
-  dp8393x: Store CAM registers as 16-bit=0D
-  dp8393x: Replace address_space_rw(is_write=3D1) by address_space_write()=
-=0D
-  dp8393x: Rewrite dp8393x_get() / dp8393x_put()=0D
-=0D
- hw/net/dp8393x.c | 191 +++++++++++++++++++----------------------------=0D
- 1 file changed, 76 insertions(+), 115 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+Currently when a LOAD CAM command is executed the entries are loaded into the
+CAM from memory in order which is incorrect. According to the datasheet the
+first entry in the CAM descriptor is the entry index which means that each
+descriptor may update any single entry in the CAM rather than the Nth entry.
+
+Decode the CAM entry index and use it store the descriptor in the appropriate
+slot in the CAM. This fixes the issue where the MacOS toolbox loads a single
+CAM descriptor into the final slot in order to perform a loopback test which
+must succeed before the Ethernet port is enabled.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Tested-by: Finn Thain <fthain@linux-m68k.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210625065401.30170-10-mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/net/dp8393x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index 252c0a26641..11810c9b600 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -270,7 +270,7 @@ static void dp8393x_update_irq(dp8393xState *s)
+ static void dp8393x_do_load_cam(dp8393xState *s)
+ {
+     int width, size;
+-    uint16_t index = 0;
++    uint16_t index;
+ 
+     width = (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
+     size = sizeof(uint16_t) * 4 * width;
+@@ -279,6 +279,7 @@ static void dp8393x_do_load_cam(dp8393xState *s)
+         /* Fill current entry */
+         address_space_read(&s->as, dp8393x_cdp(s),
+                            MEMTXATTRS_UNSPECIFIED, s->data, size);
++        index = dp8393x_get(s, width, 0) & 0xf;
+         s->cam[index][0] = dp8393x_get(s, width, 1) & 0xff;
+         s->cam[index][1] = dp8393x_get(s, width, 1) >> 8;
+         s->cam[index][2] = dp8393x_get(s, width, 2) & 0xff;
+@@ -291,7 +292,6 @@ static void dp8393x_do_load_cam(dp8393xState *s)
+         /* Move to next entry */
+         s->regs[SONIC_CDC]--;
+         s->regs[SONIC_CDP] += size;
+-        index++;
+     }
+ 
+     /* Read CAM enable */
+-- 
+2.31.1
+
 
