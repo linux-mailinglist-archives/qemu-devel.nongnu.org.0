@@ -2,68 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6423BAE50
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:30:39 +0200 (CEST)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFB73BAE54
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:35:55 +0200 (CEST)
+Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m06t4-0006xk-On
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:30:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
+	id 1m06yA-0000Mp-U9
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
- id 1m06s0-0006Gm-GX
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:29:32 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:43594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
- id 1m06ry-00010T-Ml
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:29:32 -0400
-Received: by mail-ua1-x929.google.com with SMTP id y20so2547237uap.10
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1Vd8yDVm4n6jm2F1gH7pN6MB7HEhF3DXorR93Hgx0s4=;
- b=GAv8wSfbgtJpgGCKdhgrc/u/0YlI/z26hcEHFrmV/dGC6V2Lp4XVUimtJmSYTpLD9r
- o8H2lHuJkpFpYhZKKaPNJDTTdWW6CAl/MLkEVv3hQlzlku1wGRNej5NuIKNW0Zv9deVc
- Is6ZPU8l4/JqU4bpd+WcinpmSBXepI6yzIqlJUYymYOsu0JISGpeGJgAjCTJf7yN11rR
- VgsTOvhneLNQvGwjy1Rqa5/YHhKhTVNGGOOJUiJ7Tet/eILv56SGhdbnTrB/OCv/b+iU
- 3r4QdteiYoSMI7Iub5rWHRr3KFT9H4YfTgyW8/bTf3XqhV4k71o67To8PZK0+K0DxEmZ
- SdaQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m06x8-00088R-9Z
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:34:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m06x2-0004DH-MJ
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:34:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625423683;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mQOh2EsVAHje0UjYx5sIP/NsRhVEAJJsHh46R0SffC4=;
+ b=HVIfHU6NIew5fZiYUnWZNFv3ptdsuqALZHOZ0qHR171JFdFnShgWdw4HAbKY3ry+NBE1Ak
+ 0Wbx+dHoD4kgmrLd+clcVRJTuTr+Qcqr5IKCnb2cMtSm7cvuxfQj3o9YC9G3BG1gqV5PeL
+ lQAV7APpKQuXZPTV0oq+uElxY0oT/lg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-KBGu6G-rPj2aRySUPf2hpQ-1; Sun, 04 Jul 2021 14:34:41 -0400
+X-MC-Unique: KBGu6G-rPj2aRySUPf2hpQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ m15-20020a056402430fb0290399da445c17so56114edc.8
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:34:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1Vd8yDVm4n6jm2F1gH7pN6MB7HEhF3DXorR93Hgx0s4=;
- b=FQ/9eyJFJQSW6jVoZatflyGEN/UxO4lfubqf+8qUppT2rEOnVUmYz1zIxqjHMqXPl5
- h9Qw5p93WfSVtHO7TWqy4Vk0rqf4eAPyJmgmPmzN+WWcEHDC6NFEE4p1tG8s0kj6efzS
- YUSj1qlsxNJc56okO8nZqFsiN9U650UTd2ZjMLDWWBo15AmMbQrAbZeyxQzUs9Tqosx9
- sTxifoxsNNJm3tLUgatnZFR+QZSEBXLCAUYyzmpgKI54LFPqO+SqULM+kxqQ41LmSfU2
- RZU0b7HOhiA3i2oOQzuLihNyD/qZ6c7N8wRH6E4NoymJBMP0Gs2nH5pjrUvnkRdjxQAd
- YfGg==
-X-Gm-Message-State: AOAM5302oJxs75ZnWPDjbD4Ko3I6VD4bA+pyBLsfTSymFwoYKVg0sH5T
- zY0VpT1fxR3iMS4cAIMOC+vqhaKyWNYogaUf4Ro=
-X-Google-Smtp-Source: ABdhPJxfkzyNWlR7lK+SoZzpWon3qnkCHIgK29XcONDyr5vMxkImhUX9QyamjTji5P5MgZBu0/MWAWKJrodjGjOT6HA=
-X-Received: by 2002:ab0:2a42:: with SMTP id p2mr8032917uar.39.1625423369663;
- Sun, 04 Jul 2021 11:29:29 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mQOh2EsVAHje0UjYx5sIP/NsRhVEAJJsHh46R0SffC4=;
+ b=tqxS58A8DhbddmNEAvq6b62nZEicSzVRpLF5jhgiozhVFQiYSpEkUGsVGN1UKomd4g
+ kmSdDG+o8XM11P/lQh7zoi43iLfamjVZzPjer512CRfalnjdJfxK9kKIF0Kajr6IDvtS
+ Lclk1H+gm8kOP0yN2LHEy6DgWnSj4bAQczw37lqXEDGiVBssGrrOP421NvuQrggzgy3E
+ 0agQMcwDFymq72IdeMS1104tvtQoMHCTYZF6nCpzCN6v7Z3o7rhO4arhP9xZYCmDAcS2
+ g6/oG3o6zNbFbU2M13KrPObzLzf222uYehxaTie0/8jVFSBhejL0vwMCUJdE9XptKyt3
+ Jjzg==
+X-Gm-Message-State: AOAM531Me9wE19iHq6jvNQQDf+V20PSuTENLnW4zIhA0DuhjiMCcuS9g
+ cyvGzaaXKh80tEAAfDmFA3G7EobElb3nURGav46dXybRqL+xMViU2t+fYISdgA+5aiwJOhpqnWB
+ jiWj4+ox20FD0TNo=
+X-Received: by 2002:a17:906:58c7:: with SMTP id
+ e7mr6811548ejs.197.1625423679900; 
+ Sun, 04 Jul 2021 11:34:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFQiDAyAupyGBCzvgBgm37B55IZ4rabgcW3q8PTxXF18hT+1xGnlwPXqQOh0NK4/rCArrZyA==
+X-Received: by 2002:a17:906:58c7:: with SMTP id
+ e7mr6811539ejs.197.1625423679696; 
+ Sun, 04 Jul 2021 11:34:39 -0700 (PDT)
+Received: from thuth.remote.csb (p5791d89b.dip0.t-ipconnect.de.
+ [87.145.216.155])
+ by smtp.gmail.com with ESMTPSA id c15sm4181658eds.16.2021.07.04.11.34.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Jul 2021 11:34:39 -0700 (PDT)
+Subject: Re: [PATCH 1/2] Fix for Haiku
+To: Richard Zak <richard.j.zak@gmail.com>
+References: <CAOakUfOhn43BUUGoJPahxmxxTk8vcPeyrgsX0GDmzt46ZriNeA@mail.gmail.com>
+ <CAFEAcA-rhL_BEJMi7a2tCoVE61OV2o5QeDdDfz1JXL9fLvM_cQ@mail.gmail.com>
+ <CAOakUfNpv_7TE+86R0+Ng=10mXtx2=pyZUZG8jPDgOdLbqrqKQ@mail.gmail.com>
+ <5c47cf07-f02e-f7d8-2725-5ae0a240e37b@amsat.org>
+ <975f0d41-be4e-7e8c-2fc6-64eafc7c11a8@amsat.org>
+ <951cdc26-1f4f-68d0-0187-e31513fa00c9@amsat.org>
+ <CAOakUfMmxSrBcQTQaRBB1g3qFCrpm-BLDVvfgoRm2Ww_-Pe3mQ@mail.gmail.com>
+ <0a17d006-b1ef-ab1e-8616-50e29681f998@redhat.com>
+ <CAOakUfNZ5K-tVNQZZZWQ2U7-fbw_4TnFSfKXXV2nRpTGVC-LLA@mail.gmail.com>
+ <ec113b7f-781d-43f1-ace3-78ae6c114207@redhat.com>
+ <CAOakUfPchj=rAbtnh+ZUj0CERwgFLKKtzB5ozu4j-b0U6y9V=Q@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <020c0056-deb1-9f2b-29a4-a3c8a7ac266f@redhat.com>
+Date: Sun, 4 Jul 2021 20:34:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <CAOakUfO=C+pgcwopdTCrsH3vtFuFWo8QQBU8kEjnE=_3q-mMYg@mail.gmail.com>
- <CAFEAcA9rAAuzCh3MVSnfrBWZSvHVrmMqgqJ8OX0=nQKDXoVPpg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9rAAuzCh3MVSnfrBWZSvHVrmMqgqJ8OX0=nQKDXoVPpg@mail.gmail.com>
-From: Richard Zak <richard.j.zak@gmail.com>
-Date: Sun, 4 Jul 2021 14:29:18 -0400
-Message-ID: <CAOakUfMYsaPCWdTWodJX2c1oSV-z3+A7cQ_TAJ1a0OLSXt5nAg@mail.gmail.com>
-Subject: Re: [PATCH 1/2 v3] Configure script for Haiku
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000008ef87405c6505ef4"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=richard.j.zak@gmail.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAOakUfPchj=rAbtnh+ZUj0CERwgFLKKtzB5ozu4j-b0U6y9V=Q@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,127 +110,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008ef87405c6505ef4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 04/07/2021 18.58, Richard Zak wrote:
+> 
+> În dum., 4 iul. 2021 la 12:51, Thomas Huth <thuth@redhat.com 
+> <mailto:thuth@redhat.com>> a scris:
+> 
+>     On 04/07/2021 18.39, Richard Zak wrote:
+>      > Regarding upside down text, where did that occur? I certainly didn't
+>     do that
+>      > intentionally. Maybe an encoding error somewhere?
+> 
+>     That was meant as a humorous way to say that you should avoid top posting,
+>     but apparently it was just confusing instead. Sorry for that. Anyway, we
+>     use
+>     interleaved posting on qemu-devel. See e.g.:
+> 
+>     https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+>     <https://en.wikipedia.org/wiki/Posting_style#Interleaved_style>
+> 
+>        Thomas
+> 
+> Ahh got it. I hadn't done that since Gmail wants to hide the test I'm 
+> responding to. I'm assuming that revisions to a patch should still be a new 
+> post, not in a reply?
 
-=C3=8En dum., 4 iul. 2021 la 13:11, Peter Maydell <peter.maydell@linaro.org=
-> a
-scris:
+Right, different revisions should go into a new post, with a version 
+indication in the subject, e.g:
 
-> On Sun, 4 Jul 2021 at 17:44, Richard Zak <richard.j.zak@gmail.com> wrote:
-> >
-> > Use system capstone, for which a port is maintained by Haiku. Disable
-> TPM which isn't supported.
-> >
-> > Signed-off-by: Richard Zak <richard.j.zak@gmail.com>
-> > ---
-> >  configure | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/configure b/configure
-> > index e799d908a3..c928071f69 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -358,6 +358,7 @@ oss_lib=3D""
-> >  bsd=3D"no"
-> >  linux=3D"no"
-> >  solaris=3D"no"
-> > +haiku=3D"no"
-> >  profiler=3D"no"
-> >  cocoa=3D"auto"
-> >  softmmu=3D"yes"
-> > @@ -769,6 +770,8 @@ SunOS)
-> >  ;;
-> >  Haiku)
-> >    haiku=3D"yes"
-> > +  tpm=3D"no"
->
-> If the autodetect for tpm doesn't get this right, we should fix
-> the autodetect.
->
-> As a general principle we prefer to avoid "do this specific thing
-> for this specific host OS" whenever we can, in favour of "test
-> whether we have whatever feature/function/library is required".
->
-> thanks
-> -- PMM
->
+  [PATCH v3] Fix for Haiku
 
-Totally makes sense, and I'll be mindful of that. In this case, the
-configure script is enabling TPM support on Haiku, but I don't think it
-breaks anything, but I haven't tested it yet.
+  Thomas
 
---=20
-Regards,
-
-Richard J. Zak
-Professional Genius
-PGP Key: https://keybase.io/rjzak/key.asc
-
---0000000000008ef87405c6505ef4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">=C3=8En dum., 4 iul. 2021 la 13:11, Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; a scris:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Sun, 4 Jul 2021 at 17:44, Richard Zak &lt;<a href=3D"mailto:rich=
-ard.j.zak@gmail.com" target=3D"_blank">richard.j.zak@gmail.com</a>&gt; wrot=
-e:<br>
-&gt;<br>
-&gt; Use system capstone, for which a port is maintained by Haiku. Disable =
-TPM which isn&#39;t supported.<br>
-&gt;<br>
-&gt; Signed-off-by: Richard Zak &lt;<a href=3D"mailto:richard.j.zak@gmail.c=
-om" target=3D"_blank">richard.j.zak@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 configure | 3 +++<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/configure b/configure<br>
-&gt; index e799d908a3..c928071f69 100755<br>
-&gt; --- a/configure<br>
-&gt; +++ b/configure<br>
-&gt; @@ -358,6 +358,7 @@ oss_lib=3D&quot;&quot;<br>
-&gt;=C2=A0 bsd=3D&quot;no&quot;<br>
-&gt;=C2=A0 linux=3D&quot;no&quot;<br>
-&gt;=C2=A0 solaris=3D&quot;no&quot;<br>
-&gt; +haiku=3D&quot;no&quot;<br>
-&gt;=C2=A0 profiler=3D&quot;no&quot;<br>
-&gt;=C2=A0 cocoa=3D&quot;auto&quot;<br>
-&gt;=C2=A0 softmmu=3D&quot;yes&quot;<br>
-&gt; @@ -769,6 +770,8 @@ SunOS)<br>
-&gt;=C2=A0 ;;<br>
-&gt;=C2=A0 Haiku)<br>
-&gt;=C2=A0 =C2=A0 haiku=3D&quot;yes&quot;<br>
-&gt; +=C2=A0 tpm=3D&quot;no&quot;<br>
-<br>
-If the autodetect for tpm doesn&#39;t get this right, we should fix<br>
-the autodetect.<br>
-<br>
-As a general principle we prefer to avoid &quot;do this specific thing<br>
-for this specific host OS&quot; whenever we can, in favour of &quot;test<br=
->
-whether we have whatever feature/function/library is required&quot;.<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div><br clear=3D"all"><div>Totally makes sense, and I&#39;ll=
- be mindful of that. In this case, the configure script is enabling TPM sup=
-port on Haiku, but I don&#39;t think it breaks anything, but I haven&#39;t =
-tested it yet.<br></div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gma=
-il_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">=
-<div>Regards,<br><br>Richard J. Zak<br>Professional Genius</div><div>PGP Ke=
-y:=C2=A0<a href=3D"https://keybase.io/rjzak/key.asc" target=3D"_blank">http=
-s://keybase.io/rjzak/key.asc</a></div></div></div></div></div></div></div><=
-/div>
-
---0000000000008ef87405c6505ef4--
 
