@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896513BACC7
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 13:01:08 +0200 (CEST)
-Received: from localhost ([::1]:47778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46363BAD04
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 14:36:39 +0200 (CEST)
+Received: from localhost ([::1]:37470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzzs3-00089U-Hf
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 07:01:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43272)
+	id 1m01MU-0003BO-DG
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 08:36:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lzzo6-0001GK-BJ; Sun, 04 Jul 2021 06:57:02 -0400
-Received: from mout.web.de ([212.227.17.11]:44205)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lzzo4-0000cl-GZ; Sun, 04 Jul 2021 06:57:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1625396213;
- bh=LWZpvcyNiB/NCEQ8HKotDfB9ZuFpZ+fgsxafrubFGVk=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=TOBaLaCsndKKtNC+d72wjqFG1mRfGHaHqc12G98wiDwdNxD5i+jCVGmi7/7cTEbOQ
- J1yQF5kJK1+CNFwZFgO8u9IpRjlKCxSbjmkBShFixsUyiIXtgRNIMz/SDAmHbCWrG1
- AB6hjAirbLAZhiY0Nn2/XUZhi1A0Z9ndV+kxF3sk=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.115]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MbTGt-1lSanU2gKP-00bqpp; Sun, 04
- Jul 2021 12:56:53 +0200
-Date: Sun, 4 Jul 2021 12:56:43 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH resend] nbd: register yank function earlier
-Message-ID: <20210704125643.69f303ca@gecko.fritz.box>
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1m01Lh-0002Jn-4C; Sun, 04 Jul 2021 08:35:49 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:55911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1m01Lf-0004Z0-1m; Sun, 04 Jul 2021 08:35:48 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id l11so9707525pji.5;
+ Sun, 04 Jul 2021 05:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+OvJAy3QF6Pk9DDGyaVWG/1k8/hU+uw5bRDZvO8z2dA=;
+ b=OGWXBhDEK9bZiV7mTmzqpZv0pjEq0axOJOIwGA4MRFDP+qaRjm2ZU05zypbQRHMz/w
+ Uwq+qsEYLcASpp3JWXGVkTsMxNKblONcG2p9LBg+6yxs21KxJvfqa+LNT7BcSCqDHXEB
+ Wo9jJNSwteHSxWkjnD9yG02biRSl8kykJGwdIq4cy8INPC5jRGOd9ol70g496SNNdsUh
+ qJwZl/8ESbTisYxop0NIyFfBy0LWK7jrgamuWPPA1xHgYb4SLoalhao8QTnhCF5CNtWU
+ od4xsQpYZjqVXapGV9B+BLSvnxl5t/QNNluAClPxJxwN8UmQx4L3dDMCaACyOKBlvqs4
+ frgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+OvJAy3QF6Pk9DDGyaVWG/1k8/hU+uw5bRDZvO8z2dA=;
+ b=YLzIYHvsVnoFMWEuMKdYrfgxrQkPgV9P8o5JZLIYeoXw45Smptl3rnyFSh51CJB5ef
+ 51bDouqG6L6zP26kMoY9tRMSE1gZl8W5x7ErGGcotv04CS4+55J1u7H0wAQTVALXOOS8
+ JSfVeXyquHl6OQ4FDYmACZhI5SX9kORtPMw1KUIAfi/YwC62VEKUa1gb7kdklMPMmcMG
+ eYc45IYc7Pw1HZIrH4KF2Od7VycbZyUQUQ1i1dp59t5HyFsrsdPQhzpGIt/G6fWqN1CI
+ noFcqdKyPd7H4DRFXMxoIOYyMSuXLUCWoDwg5wQj5L5d/nJLd8ptegQ2yQJd5JCsjbXe
+ Fohg==
+X-Gm-Message-State: AOAM53207+Sdkgjl0WfiAhWdykAprjSMYJEz9qln75PK4ZNXgZzCpGU9
+ ZO5c8hpebxCiCsov3X0H0qiiS/mCBeOvCH+CMrQ=
+X-Google-Smtp-Source: ABdhPJzUBWk/LtMqL9IyrLA0miKtk8SPptn5rSgfsn2WrPrfS8fitjjz+KzoRPvQVsVoKb4ksef/AGvzDKaOx/QBo8s=
+X-Received: by 2002:a17:902:b604:b029:128:bfa5:3c4c with SMTP id
+ b4-20020a170902b604b0290128bfa53c4cmr7935854pls.29.1625402144481; Sun, 04 Jul
+ 2021 05:35:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BiWKE9.wHOytr_fK6sa7Y2x";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:TPYqI6FmA6TggCp6TzvctWZyfs346Mr90vpj/rbjaC7i9TAmDym
- pKKtMvUmwae2IXHi7B8QqSBGXhK8EkC1VbgtjCDGuaEzn28KI15mAHONl7V5Qzo/FhWb/Qn
- nJ7DJPu8uBMcXXWXkduziuiVbCJABtzEYzZqM2Fq+Sm9L4BxXsFOOCCnLpnc2q9k8kGAOfO
- Hn1zDNAiwN+vi3YF9RjIQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WL417Bk2ff4=:8u31tosR86/azTr39N2gpG
- /o4dVssjawDCoIyYDw84GmFgun0bA2n12dOdL6uY1JBc7HSw1KNjfrpy/d0c9tC1C1BiGsgdc
- tCoJTki3wFYtQsMhTR3uKgdGxWVTNz84Qhor/pbHvtPlsTeG2cPE8pohy78SkzF12Wk9JOLRP
- 3Xkec0Jqb3/fNwyrEvjSshWZc8CJe3ko16Sxg3BltzG00ZNnUg+/U4KVB3/fP1uoofPUqYXAo
- IAOn1xQpOm+M9kV2DhXLOTGpg652TxJQTQgzkStg/5TaXQpJViY/3doArKM9iFpiNr4OdcUua
- qteMUN2uxnLMEwyoLw810cMxYCdCeOisRR9G/4P37mJStpLftz2E3T+2kKhFb+lmVuY1EUre6
- Eju29y3gIrIXEHyLUpuENKXaU6ikO6mqqCgpUf7AmQEsIogEl+Yv+erj4rUd2MmU97CBsmr93
- +fKuWyLWYLpsxMSdtt3yAmUKQBl7kAA199VSo2OGF8dGOmI9xawZ1EMmAmUHshzIYIlDHCXtT
- EdCXCxhZis+kjQXd5puDqWFwLnzb3mz1VXZD3vm6j+0qgt/gNaqbGKyVVdV9wdwU+sIz9QGzf
- FT2ekaxtZKK/ROOleiVdqm9w4bDngxKWoH8v/93jvoV7Z/8CpdT0rjonJI1Q/Vtm74u8Jn0Fu
- PnfQym3E6TColT3RSYMGveUrPW2yw8I2SM1t1cAoc9c51UjjsWZLmsUem/Tx9ciAMr+eSyLR3
- QmGtMwSIzJu6xce18rntDsx3IgVmcCnGqjgujWUypCVkpalSqFRjycLv5ddTIvDx1k5kSG5Bm
- RCATJ5OeOlfwhpnbGdBBCTCcP1BgnDpbR466wSa88sYNOEEZsY6Z3Rci2hIMBsCxMhoujG25R
- 4aWnnCmjnExLYMqo5fn/a53IF2xjfAKyZVbimVCo8jrV1Hlf/2g/vK9kz/Edy8G8LauCLZNIi
- Rm9qUN4M5/vSSCcm4lkYOSVGj3cwi3EO3Dcv5aNE4JXUTuFdNVC2amjUQReR3tQY8QnMPgy4T
- LTnE5kN94WJV0SXePEy/iMERGG7WrKWJJFRpJWywvuTLDjYi06jVltHKHboDU/a4wxt3K6P6K
- z/RBjJMuU6pLPKe7E1ZUK3f/nEJRzdpc9OQkJxoWe6fHAgs0aC5YOxZ1Q==
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210623180021.898286-1-f4bug@amsat.org>
+ <20210623180021.898286-4-f4bug@amsat.org>
+ <6dc3fe10-924f-9f3d-baea-90e2539f58ee@amsat.org>
+ <CAAdtpL6+M2e=SvGFMgJBxanQJgTz0kg1th-9BxHy1TaWEfafog@mail.gmail.com>
+In-Reply-To: <CAAdtpL6+M2e=SvGFMgJBxanQJgTz0kg1th-9BxHy1TaWEfafog@mail.gmail.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Sun, 4 Jul 2021 14:35:32 +0200
+Message-ID: <CAPan3WqaXEGchtJNN0UfcXxu+wJQttCjyFW5CrtS=+5eqa7wow@mail.gmail.com>
+Subject: Re: [PATCH 3/9] tests/acceptance: Tag NetBSD tests as 'os:netbsd'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000007062a705c64b6d2e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,98 +78,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Tom Yan <tom.ty89@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/BiWKE9.wHOytr_fK6sa7Y2x
-Content-Type: text/plain; charset=US-ASCII
+--0000000000007062a705c64b6d2e
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Although unlikely, qemu might hang in nbd_send_request().
+for test_arm_orangepi_uboot_netbsd9:
 
-Allow recovery in this case by registering the yank function before
-calling it.
+Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
+Op za 3 jul. 2021 10:44 schreef Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g>:
 
-Fix CC: email address so the mailing list doesn't reject it.
+> On Sat, Jul 3, 2021 at 10:41 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org>
+> wrote:
+> >
+> > CC'ing NetBSD maintainers.
+> >
+> > On 6/23/21 8:00 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > > Avocado allows us to select set of tests using tags.
+> > > When wanting to run all tests using a NetBSD guest OS,
+> > > it is convenient to have them tagged, add the 'os:netbsd'
+> > > tag.
+>
+> I'll amend an command line example to run the NetBSD tests:
+>
+>    $ avocado --show=3Dapp,console run -t os:netbsd tests/acceptance/
+>
+> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > > ---
+> > >  tests/acceptance/boot_linux_console.py | 1 +
+> > >  tests/acceptance/ppc_prep_40p.py       | 2 ++
+> > >  2 files changed, 3 insertions(+)
+> > >
+> > > diff --git a/tests/acceptance/boot_linux_console.py
+> b/tests/acceptance/boot_linux_console.py
+> > > index cded547d1d4..20d57c1a8c6 100644
+> > > --- a/tests/acceptance/boot_linux_console.py
+> > > +++ b/tests/acceptance/boot_linux_console.py
+> > > @@ -862,6 +862,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
+> > >          :avocado: tags=3Darch:arm
+> > >          :avocado: tags=3Dmachine:orangepi-pc
+> > >          :avocado: tags=3Ddevice:sd
+> > > +        :avocado: tags=3Dos:netbsd
+> > >          """
+> > >          # This test download a 304MB compressed image and expand it
+> to 2GB
+> > >          deb_url =3D ('http://snapshot.debian.org/archive/debian/'
+> > > diff --git a/tests/acceptance/ppc_prep_40p.py
+> b/tests/acceptance/ppc_prep_40p.py
+> > > index 96ba13b8943..2993ee3b078 100644
+> > > --- a/tests/acceptance/ppc_prep_40p.py
+> > > +++ b/tests/acceptance/ppc_prep_40p.py
+> > > @@ -27,6 +27,7 @@ def test_factory_firmware_and_netbsd(self):
+> > >          """
+> > >          :avocado: tags=3Darch:ppc
+> > >          :avocado: tags=3Dmachine:40p
+> > > +        :avocado: tags=3Dos:netbsd
+> > >          :avocado: tags=3Dslowness:high
+> > >          """
+> > >          bios_url =3D ('http://ftpmirror.your.org/pub/misc/'
+> > > @@ -64,6 +65,7 @@ def test_openbios_and_netbsd(self):
+> > >          """
+> > >          :avocado: tags=3Darch:ppc
+> > >          :avocado: tags=3Dmachine:40p
+> > > +        :avocado: tags=3Dos:netbsd
+> > >          """
+> > >          drive_url =3D ('https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/=
+'
+> > >                       'NetBSD-7.1.2-prep.iso')
+> > >
+> >
+>
 
- block/nbd.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+--0000000000007062a705c64b6d2e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 601fccc5ba..f6ff1c4fb4 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -369,32 +369,34 @@ int coroutine_fn nbd_co_do_establish_connection(Block=
-DriverState *bs,
-     s->ioc =3D nbd_co_establish_connection(s->conn, &s->info, true, errp);
-     if (!s->ioc) {
-         return -ECONNREFUSED;
-     }
-=20
-+    yank_register_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name), nbd_y=
-ank,
-+                           bs);
-+
-     ret =3D nbd_handle_updated_info(s->bs, NULL);
-     if (ret < 0) {
-         /*
-          * We have connected, but must fail for other reasons.
-          * Send NBD_CMD_DISC as a courtesy to the server.
-          */
-         NBDRequest request =3D { .type =3D NBD_CMD_DISC };
-=20
-         nbd_send_request(s->ioc, &request);
-=20
-+        yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
-+                                 nbd_yank, bs);
-         object_unref(OBJECT(s->ioc));
-         s->ioc =3D NULL;
-=20
-         return ret;
-     }
-=20
-     qio_channel_set_blocking(s->ioc, false, NULL);
-     qio_channel_attach_aio_context(s->ioc, bdrv_get_aio_context(bs));
-=20
--    yank_register_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name), nbd_y=
-ank,
--                           bs);
--
-     /* successfully connected */
-     s->state =3D NBD_CLIENT_CONNECTED;
-     qemu_co_queue_restart_all(&s->free_sema);
-=20
-     return 0;
---=20
-2.32.0
+<div dir=3D"auto"><div>for=C2=A0<span style=3D"font-family:sans-serif">test=
+_arm_orangepi_uboot_netbsd</span><span style=3D"font-family:sans-serif">9:<=
+/span></div><div dir=3D"auto"><font face=3D"sans-serif"><br></font></div><d=
+iv dir=3D"auto"><font face=3D"sans-serif">Reviewed-by: Niek Linnenbank &lt;=
+<a href=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@gmail.com</a>&gt=
+;<br></font><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">Op za 3 jul. 2021 10:44 schreef Philippe Mathieu-Daud=C3=
+=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">On Sat, Jul 3, 2021 at 10:41 AM Philippe M=
+athieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank" =
+rel=3D"noreferrer">f4bug@amsat.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; CC&#39;ing NetBSD maintainers.<br>
+&gt;<br>
+&gt; On 6/23/21 8:00 PM, Philippe Mathieu-Daud=C3=A9 wrote:<br>
+&gt; &gt; Avocado allows us to select set of tests using tags.<br>
+&gt; &gt; When wanting to run all tests using a NetBSD guest OS,<br>
+&gt; &gt; it is convenient to have them tagged, add the &#39;os:netbsd&#39;=
+<br>
+&gt; &gt; tag.<br>
+<br>
+I&#39;ll amend an command line example to run the NetBSD tests:<br>
+<br>
+=C2=A0 =C2=A0$ avocado --show=3Dapp,console run -t os:netbsd tests/acceptan=
+ce/<br>
+<br>
+&gt; &gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:=
+f4bug@amsat.org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsat.org</a>&g=
+t;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 tests/acceptance/boot_linux_console.py | 1 +<br>
+&gt; &gt;=C2=A0 tests/acceptance/ppc_prep_40p.py=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+| 2 ++<br>
+&gt; &gt;=C2=A0 2 files changed, 3 insertions(+)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/tests/acceptance/boot_linux_console.py b/tests/accep=
+tance/boot_linux_console.py<br>
+&gt; &gt; index cded547d1d4..20d57c1a8c6 100644<br>
+&gt; &gt; --- a/tests/acceptance/boot_linux_console.py<br>
+&gt; &gt; +++ b/tests/acceptance/boot_linux_console.py<br>
+&gt; &gt; @@ -862,6 +862,7 @@ def test_arm_orangepi_uboot_netbsd9(self):<br=
+>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:orange=
+pi-pc<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:sd<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dos:netbsd<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test download a 304MB co=
+mpressed image and expand it to 2GB<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_url =3D (&#39;<a href=3D"ht=
+tp://snapshot.debian.org/archive/debian/" rel=3D"noreferrer noreferrer" tar=
+get=3D"_blank">http://snapshot.debian.org/archive/debian/</a>&#39;<br>
+&gt; &gt; diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/=
+ppc_prep_40p.py<br>
+&gt; &gt; index 96ba13b8943..2993ee3b078 100644<br>
+&gt; &gt; --- a/tests/acceptance/ppc_prep_40p.py<br>
+&gt; &gt; +++ b/tests/acceptance/ppc_prep_40p.py<br>
+&gt; &gt; @@ -27,6 +27,7 @@ def test_factory_firmware_and_netbsd(self):<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:ppc<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:40p<br=
+>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dos:netbsd<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dslowness:high<=
+br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bios_url =3D (&#39;<a href=3D"h=
+ttp://ftpmirror.your.org/pub/misc/" rel=3D"noreferrer noreferrer" target=3D=
+"_blank">http://ftpmirror.your.org/pub/misc/</a>&#39;<br>
+&gt; &gt; @@ -64,6 +65,7 @@ def test_openbios_and_netbsd(self):<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:ppc<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:40p<br=
+>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dos:netbsd<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 drive_url =3D (&#39;<a href=3D"=
+https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/" rel=3D"noreferrer noreferrer"=
+ target=3D"_blank">https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/</a>&#39;<br=
+>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;NetBSD-7.1.2-prep.iso&#39;)<br>
+&gt; &gt;<br>
+&gt;<br>
+</blockquote></div></div></div>
 
---Sig_/BiWKE9.wHOytr_fK6sa7Y2x
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDhk+sACgkQNasLKJxd
-slhOQg/+Igx9MKmfmXniWh0eCmnn0Jxwbut9HS+jRy/cCxnTSRttEclqykL/EsXE
-DDPYRlQsHPp+2+QBGTBRIeh3omWIe/e12lkiMcbbbpKTZVKnJ8u91fUTsANlxSIU
-kRCqT7MR7Z/QwwnvD6+3bPIfut7WPMZgnnOdGt1pZQQGrvDtX7eTsNPo62KBWp3j
-NHTGm+zx65pAjMMme7bFqrEV35xUnbcUzwpJug2quOPvMKrO4hr41rk20p2OWlFH
-9FskGbENocKimyep0wxoG3V/8ZJh9Vf7DtSIgJwPnxEdqoLCnMXjLWsZWkHW4zUv
-iUQXqa+rskdMUpi2QTfymYrcW0vZEEi1SP17kpzdeMDPLGcWigxTkdakT4gdqpMJ
-I+kyH8E6jzN8HTod6jd2boRi9A02XD0pl+TFetfIE9pd8fGWBqZSqnbv/31NQ4x0
-B3zUqG/ZnsQ2UYWfUYUy9sVDrgzm1uC6ZbU0GplAoBHaxzuUKfGZGpVIm5tdfiE0
-prpRtE9r+BF8VZHe+IHK541rWCeAF5g2lx2iz6F6uXBbAD6B08izRyzKP61bRmGj
-nLm4E9F7419NUXBfuEs21vxjRHuIBT42ot77VvzdDHDm8hoS0JWYCV2BRhJnMhj0
-cqcNjy4iEuAY6TZ3JS5vhOGjiaB8hMRNwTf+0EH3tO5nL7I3QkE=
-=CVH4
------END PGP SIGNATURE-----
-
---Sig_/BiWKE9.wHOytr_fK6sa7Y2x--
+--0000000000007062a705c64b6d2e--
 
