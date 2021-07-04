@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE7C3BAD83
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 16:50:40 +0200 (CEST)
-Received: from localhost ([::1]:50742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521AD3BAD95
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 17:04:21 +0200 (CEST)
+Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m03SC-0006Ij-1g
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 10:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40558)
+	id 1m03fP-0001Bb-Dd
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 11:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m03Qv-0004jJ-9H
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:49:21 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41658
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m03Qr-0002Ue-Jo
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:49:21 -0400
-Received: from host86-179-59-238.range86-179.btcentralplus.com
- ([86.179.59.238] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m03QV-0004Jz-Ba; Sun, 04 Jul 2021 15:48:59 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210703141947.352295-1-f4bug@amsat.org>
- <20210703141947.352295-6-f4bug@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <d3765a03-3edf-9570-7b70-c42d99b20c28@ilande.co.uk>
-Date: Sun, 4 Jul 2021 15:49:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m03e0-0000VK-M4
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 11:02:52 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:39638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m03dy-00038Y-BV
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 11:02:52 -0400
+Received: by mail-ed1-x536.google.com with SMTP id j11so20251010edq.6
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 08:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mhwnxbABkYmuicnkqBwjItQg0TfSCc+AThxfH5nR9AM=;
+ b=tYIlVursRXzuNe1tfqaQB4z5YZnivxjlq0xjdXvuIpm+VOXVB3vSNd1VRG6nHVQSq/
+ sAmqFBTRkQxZp7SXSjfEwLR+jSTaUx7x9PLjWQoR16Vio+h39t8xYjC9AXUx0Mi9aeIB
+ Qh8xc4CyxXDGUe7ETnvM8aCsP/CJV1WaeqLaPFFfB/O8NsGboB2M16T6lm43UC7ES367
+ OtjkCc8k9/s3OJX9ssM0UEtG24iRquHrZeowf+RkPXO8bFxtANFX4Ppkz7uoAaOYtl8h
+ F3H9KVR23XM73xbhVENmerXLKMYgClBtDgryZveRLQr7QUwctJ4Jvlnc/udOTCJzXymb
+ Ocbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mhwnxbABkYmuicnkqBwjItQg0TfSCc+AThxfH5nR9AM=;
+ b=sSG7WvfHZ5JJWjrfaWSn9XZv+Ne5zEarA2fDeW4CH5N1bwS6OEcR8Ew3xwJDIozwKh
+ LxQIA+QxeyHG0zyAuJPZEDCziHyZz4Nj3LxA+FZunTuM0ifVOMhe+X/R0+4usAbjLNE/
+ aOYmorXOJM/ocBLpQJFlS5mbF/eemArwCrAqb6N97uCWCXxy+yvtKPDPxTf+dbjMhX2d
+ GEWNLP+yrES/1RK1jwTPr4z2p7doJv5e3LAI7laK53+NlZsKemjtHpP5aG2sxjoY6Lpc
+ NJfVoWj1Y/jHg3eB43/ZTnazTODI818OtLCWzShQr4QXcZ4lduhZbKegf82jy09wTcR8
+ pr7g==
+X-Gm-Message-State: AOAM533Rh69cCsEUkx//Ae8FyXL271QG+8yr/4rqzIho5WSTrfGe8y8j
+ 5wjsRS5xDPBhk6wyFc2Svp0tSDXjOcG7KlsR9pbqTg==
+X-Google-Smtp-Source: ABdhPJw8ZNHDUjYQsW7rzUHb9IqObA1uBjbfYxqo/wVp/nryAAdEMuezVYWfL9EMQuwWnMjmlwF+Xao46dheNzaCBxs=
+X-Received: by 2002:a05:6402:848:: with SMTP id
+ b8mr10932247edz.44.1625410968471; 
+ Sun, 04 Jul 2021 08:02:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210703141947.352295-6-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.179.59.238
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 5/6] dp8393x: Replace address_space_rw(is_write=1) by
- address_space_write()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210702133557.60317-1-f4bug@amsat.org>
+In-Reply-To: <20210702133557.60317-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 4 Jul 2021 16:02:09 +0100
+Message-ID: <CAFEAcA-dw5VHb+6t+VCg7bF8-AgUtNv9cO3upHqmk-nfMHDYsg@mail.gmail.com>
+Subject: Re: [PULL 00/18] MIPS patches for 2021-07-02
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,50 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Finn Thain <fthain@linux-m68k.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/07/2021 15:19, Philippe Mathieu-Daudé wrote:
-
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/net/dp8393x.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-> index e0055b178b1..bbe241ef9db 100644
-> --- a/hw/net/dp8393x.c
-> +++ b/hw/net/dp8393x.c
-> @@ -814,8 +814,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
->           size = sizeof(uint16_t) * width;
->           address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
->           dp8393x_put(s, width, 0, 0);
-> -        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-> -                         (uint8_t *)s->data, size, 1);
-> +        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-> +                            (uint8_t *)s->data, size);
->   
->           /* Move to next descriptor */
->           s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-> @@ -844,8 +844,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
->       /* Pad short packets to keep pointers aligned */
->       if (rx_len < padded_len) {
->           size = padded_len - rx_len;
-> -        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-> -            (uint8_t *)"\xFF\xFF\xFF", size, 1);
-> +        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-> +                            (uint8_t *)"\xFF\xFF\xFF", size);
->           address += size;
->       }
-
-I've also verified that this works so it can also have:
-
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On Fri, 2 Jul 2021 at 14:38, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> The following changes since commit 67e25eed977cb60e723b918207f0a3469bacee=
+f4:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210629=
+' into staging (2021-07-01 20:29:33 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/mips-20210702
+>
+> for you to fetch changes up to db0725d54983be3b8d5729dd5692db71da4cc05b:
+>
+>   hw/mips/jazz: Map the UART devices unconditionally (2021-07-02 10:41:16=
+ +0200)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Extract nanoMIPS, microMIPS, Code Compaction from translate.c
+> - Allow PCI config accesses smaller than 32-bit on Bonito64 device
+> - Fix migration of g364fb device on Jazz Magnum
+> - Fix dp8393x PROM checksum on Jazz Magnum and Quadra 800
+> - Map the UART devices unconditionally on Jazz Magnum
+> - Add functional test booting Linux on the Fuloong 2E
+>
 
 
-ATB,
+Applied, thanks.
 
-Mark.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
