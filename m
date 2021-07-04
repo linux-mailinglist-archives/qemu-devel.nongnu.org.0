@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE02D3BAF1A
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 22:54:05 +0200 (CEST)
-Received: from localhost ([::1]:59446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8034F3BAF1C
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 22:55:46 +0200 (CEST)
+Received: from localhost ([::1]:35528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m097s-0006Us-V5
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 16:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
+	id 1m099V-0000wm-Jp
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 16:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1m096v-00057D-LW
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 16:53:05 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52171)
+ id 1m096x-0005AN-IZ
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 16:53:07 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1m096t-0008Jx-BO
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 16:53:05 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id n33so2524895wms.1
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 13:53:03 -0700 (PDT)
+ id 1m096v-0008LK-3Y
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 16:53:07 -0400
+Received: by mail-wm1-x330.google.com with SMTP id o22so10040350wms.0
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 13:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=zZbd2/5JTaA7VwZ3/LPsZBUu4gZupP7sm+gNHOgeMf0=;
- b=i/u1ZwtViYgQqDS/w6QIMS2Soj/fO0uSSBlyZNk5cepYYMA0gIhqiqOO6RraAZP6mm
- p4c/vJ1Bb4bvuaERM585CadFsxOUboeAbGZCIQ1GFwFnNIGKHGwHuE0wCqPUnxiyXU+f
- 3ZyGoKdByeEAH7Y+lr4VZe/IawKbI8Vaw+4RNvxqaQuTtJaMu8Xcgd2Z7KJgyrYoQVpd
- MUjAhEJV1Fgh/TzixBJKQ6BG4l/7ceQLdI1TPbvmn5KbV6Zb2FhHTIKG8byQ9ZjNkJsU
- jEfj8NW3ruua/gDz2GGgP69gNqK5uufvKCvnLx66ZC9scSUwCFQM2HRTJPtdWvD17wzc
- zuHw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=x418SNrj2nMR0PLcR8ORPMYCWf0JT6CneiERD1LoT4s=;
+ b=OUtC+WzVUiH5YooStfNBYiK6gM3uFMVsL3dh4qSJcJx5mHKZe6IKLRFkSg8Vw1IymC
+ NDv5i9Rdx2fkoex68039IPG+cPezXwJk5aJjLie3BBE12TBllZvQElhqFHfU3R7nsNM/
+ N7mOgoyS50WTqlZ7SDnB9gsJlVSyeIBHZOleYWSA/O0TBj0++UFy+I3TsOvwVADAipcQ
+ OITesLWBvZLvAvqdKQhAUA83zTFfRR+4omorGeJJ122z0M5WQ+9pI/kbUp4tnPDK7drf
+ RKsoyYvO0Ut2WlB2qKBMXhKznb8SauHn+YV6CHfxYDG0+Y7soWIVUfZ5DfCLXPxIZ1q5
+ lCdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=zZbd2/5JTaA7VwZ3/LPsZBUu4gZupP7sm+gNHOgeMf0=;
- b=ruOQG2wDBDVBsrTtDwDS3fHb6IYBTZSiI3sfv96GHVwFR5uchi1cpk8O27HeJ37tpu
- KpnIN1hY+J8aAk2iGWDoWd9BDepKLPppWxgB9tCudwq0+AxXUNPGN99X0RgPSgPVDKko
- iUS61npTpTl2DHDdVWIrCJ+ami8oRVta0aiRXqcQIau0mxANVzb4AzgGdng0BaPt6rxZ
- Ev3Ak3uilvpeqOC0y9I3RBcb75quB9AQYFHt2qrxvkcPM6ADU0kIg+guKBjTj3tBf8jb
- Y1k/fQvEBMwcwHfInWiAF9LJPPGTRL1NQk6YkI4QVGL7GNEAtrxXfA2w3MwHmhfRme6S
- QZqg==
-X-Gm-Message-State: AOAM532eC/sujUonWXmX2qmXv3ZJJVzanXGwQAYLitQM6PEDmdvtk5No
- XaInOI4XLPG1pS3d0o1gTS93B+NVkhk=
-X-Google-Smtp-Source: ABdhPJzaDNptniK4gNUcvGrMfMs2+fspfuED7QIO394gch2Cc2nnfAQ0oSiR2dfVM+ibG+3dGBWpfA==
-X-Received: by 2002:a1c:770a:: with SMTP id t10mr11140531wmi.29.1625431981959; 
- Sun, 04 Jul 2021 13:53:01 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=x418SNrj2nMR0PLcR8ORPMYCWf0JT6CneiERD1LoT4s=;
+ b=SjNlQ5OSsNXx+9CFz4WHfRqUfeKRHcJfOuP6U7ps87PnTpdTxTEnwmRmJEJ1+xgHwm
+ +49E5P564z+k7Q1fx5GkTfxGTMHkF5kGMqFyz7oiTEZ3AGnP8dMm3KOHaweOiWYyj7sS
+ VKRwcICIlZUMIjHCsgQOQXSqxbE4ZvkiqG0e4zkbBx/DtKAs47UnxN3Pg5FoISzAPau4
+ 3OCNRppSvkSvACpzHFaWSJeLjTeCwUg7FhPRt0NuNJIs5WlO038CXtPt2ns+kmjUiQ7R
+ li0jdVu/sw4IBICDMNtaVu434yy51pNgzPGt2l1DzUJqKNcyAEz3u64DgDfGPbQNXGm+
+ ARdg==
+X-Gm-Message-State: AOAM531GN+lBHQLi/WeZmm/fstM9sUUqRwfKGyBYFbc7y8u3JJIxwwy8
+ DP50C/YjSya+N4f1DYG9qRLFGlU9MeY=
+X-Google-Smtp-Source: ABdhPJzBotuqeUlFAPoRy9QyRFU6vl9WXgMlSzy3Du7q9uwGV57jVK6w/WTrmfK5E/HtQSQD0GJoqw==
+X-Received: by 2002:a1c:4602:: with SMTP id t2mr10882883wma.94.1625431983567; 
+ Sun, 04 Jul 2021 13:53:03 -0700 (PDT)
 Received: from localhost.localdomain ([5.29.30.165])
- by smtp.gmail.com with ESMTPSA id y19sm17199997wmj.33.2021.07.04.13.53.00
+ by smtp.gmail.com with ESMTPSA id y19sm17199997wmj.33.2021.07.04.13.53.02
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 04 Jul 2021 13:53:01 -0700 (PDT)
+ Sun, 04 Jul 2021 13:53:03 -0700 (PDT)
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL V2 2/3] pvrdma: Ensure correct input on ring init
- (CVE-2021-3607)
-Date: Sun,  4 Jul 2021 23:52:54 +0300
-Message-Id: <20210704205255.27124-3-marcel.apfelbaum@gmail.com>
+Subject: [PULL V2 3/3] pvrdma: Fix the ring init error flow (CVE-2021-3608)
+Date: Sun,  4 Jul 2021 23:52:55 +0300
+Message-Id: <20210704205255.27124-4-marcel.apfelbaum@gmail.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20210704205255.27124-1-marcel.apfelbaum@gmail.com>
 References: <20210704205255.27124-1-marcel.apfelbaum@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-wm1-x32a.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=marcel.apfelbaum@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,37 +89,34 @@ Cc: mcascell@redhat.com, pjp@fedoraproject.org, yuval.shaia.ml@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check the guest passed a non zero page count
-for pvrdma device ring buffers.
+Do not unmap uninitialized dma addresses.
 
-Fixes: CVE-2021-3607
-Reported-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
+Fixes: CVE-2021-3608
 Reviewed-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
+Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
 Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-Message-Id: <20210630114634.2168872-1-marcel@redhat.com>
-Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Message-Id: <20210630115246.2178219-1-marcel@redhat.com>
 Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 ---
- hw/rdma/vmw/pvrdma_main.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/rdma/vmw/pvrdma_dev_ring.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 84ae8024fc..7c0c3551a8 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -92,6 +92,11 @@ static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
-     uint64_t *dir, *tbl;
-     int rc = 0;
- 
-+    if (!num_pages) {
-+        rdma_error_report("Ring pages count must be strictly positive");
-+        return -EINVAL;
-+    }
-+
-     dir = rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE_SIZE);
-     if (!dir) {
-         rdma_error_report("Failed to map to page directory (ring %s)", name);
+diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
+index 074ac59b84..42130667a7 100644
+--- a/hw/rdma/vmw/pvrdma_dev_ring.c
++++ b/hw/rdma/vmw/pvrdma_dev_ring.c
+@@ -41,7 +41,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
+     qatomic_set(&ring->ring_state->cons_head, 0);
+     */
+     ring->npages = npages;
+-    ring->pages = g_malloc(npages * sizeof(void *));
++    ring->pages = g_malloc0(npages * sizeof(void *));
+
+     for (i = 0; i < npages; i++) {
+         if (!tbl[i]) {
 -- 
 2.17.2
 
