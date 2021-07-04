@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298753BACC6
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 13:00:42 +0200 (CEST)
-Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB7C3BACC3
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 12:59:06 +0200 (CEST)
+Received: from localhost ([::1]:42492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzzrc-0007rF-Te
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 07:00:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
+	id 1lzzq5-0004g0-Fx
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 06:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1lzznz-00013N-Jt
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 06:56:55 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:37625)
+ id 1lzzo0-000142-SN
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 06:56:56 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1lzznx-0000XQ-J5
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 06:56:55 -0400
-Received: by mail-ej1-x634.google.com with SMTP id i20so24040209ejw.4
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 03:56:53 -0700 (PDT)
+ id 1lzznz-0000Z5-FE
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 06:56:56 -0400
+Received: by mail-ej1-x633.google.com with SMTP id nd37so24363789ejc.3
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 03:56:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=F5WE2Vl4Q4RX4zD90DF2ndK28kwIMaQZFqlKKBZcuLg=;
- b=ioVHmdPGPL/3G4coLWmp91OJWn6Dhv+T9o0r+nC8Rc9MKwk+wCK0pFkq+GPkqmF3ae
- u2LGMACJnvvw1b9tc5fZ5AEWwLpeb9ulW7KHS/oSWRemXlf+yYMRScfrYag/7xvrar97
- jQwt/S4WpO3vH2+Qq7v0rxZqamfltxQTRX6aIkWutz+6YfbEdPSXnMRRNIWQ/vQPqCEF
- DfJlWo7DKDw0hEF4D3RmUyrrVVS5wsATEq4muEodjkfnN3Eu9n/uaoMx+o6xk8Jw7e3N
- cg8zATOicXAmfwcILoVxFOx+OfGz+/cAm38Z5KJ1OV6RtwxrVmnnn157VRwmP+0LHWuO
- O51Q==
+ bh=zZbd2/5JTaA7VwZ3/LPsZBUu4gZupP7sm+gNHOgeMf0=;
+ b=GpIAj2NSWJGLwzPiRzCKH3U8UMkvUpc5D7Xou4UHTQYWMPnynhiBlWVtBWtej9H5mW
+ lAfflrVDMjDKTOqhlyydDqhTAOWrUD4JTAE2QxrqRMCfONCjRalugQRKLE9kVOH/Pgea
+ 2h/S5EQx2gD5awOURAKb/xMpXnKIXXYu8Xem2wj7+J0hVJMNLhZPf9IhzERPJ6WwAyTU
+ mokZTsNj5gKxfDA6fLyHaJTw7X+7K2J3CtEsCawPUfhXUoIWX64JUotDbhTkBy1wm1jK
+ Fj/xULE7srGkFL3aZ2LjmT2seseLcOfoY/aBYEF6cD4HQE/hIXx2aMm/5a67VhtMyQvQ
+ udBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=F5WE2Vl4Q4RX4zD90DF2ndK28kwIMaQZFqlKKBZcuLg=;
- b=ZilhrQlUeIwFA3PO+TRwHR3WdbwGJvhzKC5S6UM5hvgJLSC4/LK6N+FjxmfQkr74AZ
- 81VZAlPLEqS9qB2LnYd08N9znKmj+iIE+l67NX1mJ10E1itCCS7rgaKucN0/Q5iZOTI6
- ZvthMJoKS1jxj0PoW1BeqOXwXha5056/7aIwEc8PBpfEoVaATtmUQHwf9+KwtWJN25ac
- IGtpewo7x33kEtNQk12lVmysGKcgZOqQ/M6cICQdGWEwlNDqKe2JH19Q2ulFaVvEHlbE
- 7w6gPE0g6nuYPZsQm+zktBZb6MmHbxZbShvtoML3YpxopbILgjTPrtoAK+xo0C7ewehm
- vJhg==
-X-Gm-Message-State: AOAM531EnHuoBtLm0aNNxLc4EfFE0cvHBlt7XNkYleWacPHstGSvU7Db
- PKjqIlv0l/ZrATupb6e9b2T4BvoFHgA=
-X-Google-Smtp-Source: ABdhPJxaa1qwOLmMjdy64XxXAtPwncVJREjRtOnqS5ogBmccXfbmgdrdTchgP7rSuSa5WlPdX9Estg==
-X-Received: by 2002:a17:907:2d29:: with SMTP id
- gs41mr8389369ejc.404.1625396212090; 
- Sun, 04 Jul 2021 03:56:52 -0700 (PDT)
+ bh=zZbd2/5JTaA7VwZ3/LPsZBUu4gZupP7sm+gNHOgeMf0=;
+ b=sm0Q2YaqaSsaVTBSNJ/PXTk5bdH7nugub4JZp3OVizcdQDSOtMufhhTVo7rcRnmkwX
+ J06SiTwQjjEU3oRrHISr1wBbhexXa44uv1qI13Kiqsmwhh3RJCLMG+gnlBtQmKtK8PhW
+ VSfE58WjKohRknf3QjR++IkVy76w3u0l5v2lE6gyxPbTVC5TYsF88h3zA7mXoJLdY5qt
+ fvi5Ki1IptC2xqthRDfLIZQckZEDcNyVANUf2KX905N+Frmg7em2EwKOjNhjugoWn588
+ 14wRrKJsU6hirp4TtrQwZyo/fH/bRcg4Z6mFcFEO2MxOBH1i1juxk6LrJFsfCLDI5maq
+ kVCQ==
+X-Gm-Message-State: AOAM533jnNunjq6EwM+hiwTIc3+bCEO0yn6Hlvrx9QD7IRsvFIq7xKXp
+ Kryi+mSeKDyFdE8Z+fyfO/9BunQhpvg=
+X-Google-Smtp-Source: ABdhPJwmb2aW3C/F9N345gxeU1CyhM4OCPifMK/Iy5HagCHp3ULzDPSn4WSo1ghTL44BdAIivUX4eA==
+X-Received: by 2002:a17:906:f6c8:: with SMTP id
+ jo8mr8399173ejb.177.1625396213883; 
+ Sun, 04 Jul 2021 03:56:53 -0700 (PDT)
 Received: from localhost.localdomain ([5.29.30.165])
- by smtp.gmail.com with ESMTPSA id o21sm3795839eds.10.2021.07.04.03.56.50
+ by smtp.gmail.com with ESMTPSA id o21sm3795839eds.10.2021.07.04.03.56.52
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 04 Jul 2021 03:56:51 -0700 (PDT)
+ Sun, 04 Jul 2021 03:56:53 -0700 (PDT)
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 1/3] hw/rdma: Fix possible mremap overflow in the pvrdma device
- (CVE-2021-3582)
-Date: Sun,  4 Jul 2021 13:56:44 +0300
-Message-Id: <20210704105646.13524-2-marcel.apfelbaum@gmail.com>
+Subject: [PULL 2/3] pvrdma: Ensure correct input on ring init (CVE-2021-3607)
+Date: Sun,  4 Jul 2021 13:56:45 +0300
+Message-Id: <20210704105646.13524-3-marcel.apfelbaum@gmail.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20210704105646.13524-1-marcel.apfelbaum@gmail.com>
 References: <20210704105646.13524-1-marcel.apfelbaum@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=marcel.apfelbaum@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,41 +86,37 @@ Cc: mcascell@redhat.com, pjp@fedoraproject.org, yuval.shaia.ml@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marcel Apfelbaum <marcel@redhat.com>
+Check the guest passed a non zero page count
+for pvrdma device ring buffers.
 
-Ensure mremap boundaries not trusting the guest kernel to
-pass the correct buffer length.
-
-Fixes: CVE-2021-3582
+Fixes: CVE-2021-3607
 Reported-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
+Reviewed-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
 Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-Message-Id: <20210616110600.20889-1-marcel.apfelbaum@gmail.com>
+Message-Id: <20210630114634.2168872-1-marcel@redhat.com>
 Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
 Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
 Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 ---
- hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/rdma/vmw/pvrdma_main.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-index f59879e257..dadab4966b 100644
---- a/hw/rdma/vmw/pvrdma_cmd.c
-+++ b/hw/rdma/vmw/pvrdma_cmd.c
-@@ -38,6 +38,12 @@ static void *pvrdma_map_to_pdir(PCIDevice *pdev, uint64_t pdir_dma,
-         return NULL;
-     }
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+index 84ae8024fc..7c0c3551a8 100644
+--- a/hw/rdma/vmw/pvrdma_main.c
++++ b/hw/rdma/vmw/pvrdma_main.c
+@@ -92,6 +92,11 @@ static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
+     uint64_t *dir, *tbl;
+     int rc = 0;
  
-+    length = ROUND_UP(length, TARGET_PAGE_SIZE);
-+    if (nchunks * TARGET_PAGE_SIZE != length) {
-+        rdma_error_report("Invalid nchunks/length (%u, %lu)", nchunks, length);
-+        return NULL;
++    if (!num_pages) {
++        rdma_error_report("Ring pages count must be strictly positive");
++        return -EINVAL;
 +    }
 +
-     dir = rdma_pci_dma_map(pdev, pdir_dma, TARGET_PAGE_SIZE);
+     dir = rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE_SIZE);
      if (!dir) {
-         rdma_error_report("Failed to map to page directory");
+         rdma_error_report("Failed to map to page directory (ring %s)", name);
 -- 
 2.17.2
 
