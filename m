@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8034F3BAF1C
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 22:55:46 +0200 (CEST)
-Received: from localhost ([::1]:35528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F4E3BAF5E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 00:28:55 +0200 (CEST)
+Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m099V-0000wm-Jp
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 16:55:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1m0Abd-0001ZN-M6
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 18:28:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1m096x-0005AN-IZ
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 16:53:07 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50998)
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1m0Aal-0000ty-IO
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 18:27:59 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:34571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1m096v-0008LK-3Y
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 16:53:07 -0400
-Received: by mail-wm1-x330.google.com with SMTP id o22so10040350wms.0
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 13:53:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1m0Aaj-0001JV-Jz
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 18:27:59 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id g22so18885013iom.1
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 15:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=x418SNrj2nMR0PLcR8ORPMYCWf0JT6CneiERD1LoT4s=;
- b=OUtC+WzVUiH5YooStfNBYiK6gM3uFMVsL3dh4qSJcJx5mHKZe6IKLRFkSg8Vw1IymC
- NDv5i9Rdx2fkoex68039IPG+cPezXwJk5aJjLie3BBE12TBllZvQElhqFHfU3R7nsNM/
- N7mOgoyS50WTqlZ7SDnB9gsJlVSyeIBHZOleYWSA/O0TBj0++UFy+I3TsOvwVADAipcQ
- OITesLWBvZLvAvqdKQhAUA83zTFfRR+4omorGeJJ122z0M5WQ+9pI/kbUp4tnPDK7drf
- RKsoyYvO0Ut2WlB2qKBMXhKznb8SauHn+YV6CHfxYDG0+Y7soWIVUfZ5DfCLXPxIZ1q5
- lCdQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dd2i9gXCnoo70dcuu2kqRaabVMri4gOFXwfhD900xAw=;
+ b=cjIJvu11T1ekQV+FHcuMhj55MYlpFvpI8FgebgDAcMKMcCa0LcabVfCp801wjZwOiR
+ o9HQLtU0HspyFKBpuWn1u79PpOd1CqMZDugCN4tolTdeWzjPuBIJg60MaAqVuF+ALKDG
+ MYJeyUeNLsNPrLoadEfyzKyr9rxOgycEayaIMcr5BabAKmswJal/rOCgFgNw1En1/ocB
+ Fg5j7N6pgpVaBoDxAbyC0PcHqhsW44t8ly1dTVzIs66iHX95FjeP3+XfX2mWX54cgnLW
+ rrFFXBFTljnQQ2A49abCZuoiyrls6GXf9HJrrWc+DF57ivO12ABhYJphSz0X6m2g+wap
+ 5PEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=x418SNrj2nMR0PLcR8ORPMYCWf0JT6CneiERD1LoT4s=;
- b=SjNlQ5OSsNXx+9CFz4WHfRqUfeKRHcJfOuP6U7ps87PnTpdTxTEnwmRmJEJ1+xgHwm
- +49E5P564z+k7Q1fx5GkTfxGTMHkF5kGMqFyz7oiTEZ3AGnP8dMm3KOHaweOiWYyj7sS
- VKRwcICIlZUMIjHCsgQOQXSqxbE4ZvkiqG0e4zkbBx/DtKAs47UnxN3Pg5FoISzAPau4
- 3OCNRppSvkSvACpzHFaWSJeLjTeCwUg7FhPRt0NuNJIs5WlO038CXtPt2ns+kmjUiQ7R
- li0jdVu/sw4IBICDMNtaVu434yy51pNgzPGt2l1DzUJqKNcyAEz3u64DgDfGPbQNXGm+
- ARdg==
-X-Gm-Message-State: AOAM531GN+lBHQLi/WeZmm/fstM9sUUqRwfKGyBYFbc7y8u3JJIxwwy8
- DP50C/YjSya+N4f1DYG9qRLFGlU9MeY=
-X-Google-Smtp-Source: ABdhPJzBotuqeUlFAPoRy9QyRFU6vl9WXgMlSzy3Du7q9uwGV57jVK6w/WTrmfK5E/HtQSQD0GJoqw==
-X-Received: by 2002:a1c:4602:: with SMTP id t2mr10882883wma.94.1625431983567; 
- Sun, 04 Jul 2021 13:53:03 -0700 (PDT)
-Received: from localhost.localdomain ([5.29.30.165])
- by smtp.gmail.com with ESMTPSA id y19sm17199997wmj.33.2021.07.04.13.53.02
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 04 Jul 2021 13:53:03 -0700 (PDT)
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL V2 3/3] pvrdma: Fix the ring init error flow (CVE-2021-3608)
-Date: Sun,  4 Jul 2021 23:52:55 +0300
-Message-Id: <20210704205255.27124-4-marcel.apfelbaum@gmail.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20210704205255.27124-1-marcel.apfelbaum@gmail.com>
-References: <20210704205255.27124-1-marcel.apfelbaum@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dd2i9gXCnoo70dcuu2kqRaabVMri4gOFXwfhD900xAw=;
+ b=NBjzirAD+waSWd4wFrhpFuZ6EbA2svxHHql7EOxcibvxP1LT+Dc45jkUSah18fG9aO
+ 5QU8BAqNDYhfXwlujS7XaekRwpm62zPleW4U1juZZs+6waEZksMCnS8SJh4rzkqjVYTs
+ vEU3SHKdHM37dHvnmi2adAPK87NhePq8bYBS9KH5DGOn5DHNJJ9UnO2ip+GYInlzCHRk
+ UZcFpph6Q8g8iFGx4EKKO1aI3LWR3PpeYiRbnMlewRtFxWOy8J6Um3Xec9md8fd9Dxki
+ ryBj45NSiumo2ARBuxxrXOA7+uSvpJBwGJFe8h9slOSUTil4eGBsTaYHqKOpZb+d7Fu8
+ +YvQ==
+X-Gm-Message-State: AOAM531rEHkfjj01j/JUDcze44s/koUnzRlurO1Zv26lo+QOdIuykT43
+ 83DSRiWYNgC2v0cA+ZkU7b7e7kHW2PwEGxwfXz8=
+X-Google-Smtp-Source: ABdhPJxAS7UBcSNNDpUI9xOeZgHae6aGQsQHLP2rDfAnCnWJlpic5K/7uaRGMTCZLJ6cUuseiu4voqsXrBqfS8JDEKo=
+X-Received: by 2002:a5d:88c4:: with SMTP id i4mr9468699iol.210.1625437675722; 
+ Sun, 04 Jul 2021 15:27:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-wm1-x330.google.com
+References: <1624764506-19841-1-git-send-email-cyruscyliu@gmail.com>
+ <CAAKa2jmWU=M8V9Lsjrjs-AV=RP6wVNb7mWBAM+MkT9HTdrwtzA@mail.gmail.com>
+In-Reply-To: <CAAKa2jmWU=M8V9Lsjrjs-AV=RP6wVNb7mWBAM+MkT9HTdrwtzA@mail.gmail.com>
+From: Paul Zimmerman <pauldzim@gmail.com>
+Date: Sun, 4 Jul 2021 15:27:29 -0700
+Message-ID: <CADBGO78TVLf4qaJDhTvkJ61vPdzmAT1BFrCpDurgPOdmFyP1Og@mail.gmail.com>
+Subject: Re: [PATCH] hw/usb/hcd-dwc2: Enforce epnum to 0 for the control
+ endpoint to avoid the assertion failure in usb_ep_get()
+To: Qiang Liu <cyruscyliu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=pauldzim@gmail.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,40 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcascell@redhat.com, pjp@fedoraproject.org, yuval.shaia.ml@gmail.com,
- vv474172261@gmail.com, philmd@redhat.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not unmap uninitialized dma addresses.
+On Sat, Jun 26, 2021 at 10:21 PM Qiang Liu <cyruscyliu@gmail.com> wrote:
+>
+> Hi folks,
+>
+> I found this bug by my dwc2 fuzzer.
+> It seems that
+> * https://bugs.launchpad.net/qemu/+bug/1907042
+> * https://bugs.launchpad.net/qemu/+bug/1525123
+> or
+> * https://gitlab.com/qemu-project/qemu/-/issues/119
+> * https://gitlab.com/qemu-project/qemu/-/issues/303
+> have reported similar issues.
+>
+> Would it be better to consider and fix them together?
+>
+> Best,
+> Qiang
+>
+> On Sun, Jun 27, 2021 at 11:28 AM Qiang Liu <cyruscyliu@gmail.com> wrote:
+> >
+> > When eptype is USB_ENDPOINT_XFER_CONTROL and pid is
+> > TSIZ_SC_MC_PID_SETUP, usb_ep_get() should return the control endpoint.
+> > In hw/usb/core.c, the assumed epnum of the control endpoint is 0. When
+> > epnum is not 0, usb_ep_get() will crash due to the check assert(pid ==
+> > USB_TOKEN_IN || pid == USB_TOKEN_OUT).
+> >
+> > The description
+> > http://www.capital-micro.com/PDF/CME-M7_Family_User_Guide_EN.pdf
+> > (18.5.3.4 (14), 18.5.3.4 (10)) a) mentions that the pid is maintained by
+> > the host, b) but doesn't mention that whether the epnum should be 0 for
+> > the control endpoint. However, usb_ep_get() assumes it is 0. To avoid
+> > potential assertion failure in usb_ep_get(), we could enforce epnum to 0
+> > and warn users.
+> >
+> > Fixes: 153ef1662c3 ("dwc-hsotg (dwc2) USB host controller emulation")
+> > Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+> > ---
+> >  hw/usb/hcd-dwc2.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+> > index e1d96ac..65d9d46 100644
+> > --- a/hw/usb/hcd-dwc2.c
+> > +++ b/hw/usb/hcd-dwc2.c
+> > @@ -636,6 +636,11 @@ static void dwc2_enable_chan(DWC2State *s,  uint32_t index)
+> >      }
+> >
+> >      if (eptype == USB_ENDPOINT_XFER_CONTROL && pid == TSIZ_SC_MC_PID_SETUP) {
+> > +        if (epnum != 0) {
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "epnum should be 0 for the control endpoint\n");
+> > +            epnum = 0;
+> > +        }
+> >          pid = USB_TOKEN_SETUP;
+> >      } else {
+> >          pid = epdir ? USB_TOKEN_IN : USB_TOKEN_OUT;
+> > --
+> > 2.7.4
+> >
 
-Fixes: CVE-2021-3608
-Reviewed-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-Message-Id: <20210630115246.2178219-1-marcel@redhat.com>
-Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
----
- hw/rdma/vmw/pvrdma_dev_ring.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Qiang,
 
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
-index 074ac59b84..42130667a7 100644
---- a/hw/rdma/vmw/pvrdma_dev_ring.c
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-@@ -41,7 +41,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
-     qatomic_set(&ring->ring_state->cons_head, 0);
-     */
-     ring->npages = npages;
--    ring->pages = g_malloc(npages * sizeof(void *));
-+    ring->pages = g_malloc0(npages * sizeof(void *));
+Sorry for the late reply, I've had a busy week.
+Yes, I think it would be best to fix this in the core since it affects more
+than one host. I'm not sure that forcing the Control endpoint to 0 is
+the best solution though, perhaps it would be better to print an error
+message and fail the operation? AFAIK there are no real-world devices
+that have Control endpoints other than 0, although I believe it is allowed
+by the USB spec.
 
-     for (i = 0; i < npages; i++) {
-         if (!tbl[i]) {
--- 
-2.17.2
+Let's wait and see what Gerd thinks.
 
+- Paul
 
