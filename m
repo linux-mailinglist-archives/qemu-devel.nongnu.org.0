@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EBC3BAE4B
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:27:31 +0200 (CEST)
-Received: from localhost ([::1]:48314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6423BAE50
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:30:39 +0200 (CEST)
+Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m06q3-0005Tj-1i
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
+	id 1m06t4-0006xk-On
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:30:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m06oP-0003rN-Se
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:25:49 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34343)
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1m06s0-0006Gm-GX
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:29:32 -0400
+Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:43594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m06oO-0006tU-6a
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:25:49 -0400
-Received: by mail-wr1-x435.google.com with SMTP id p8so19243262wrr.1
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:25:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1m06ry-00010T-Ml
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:29:32 -0400
+Received: by mail-ua1-x929.google.com with SMTP id y20so2547237uap.10
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x6SnwcvRt72H9mLpMFCfi9upErvkS58Rckvfzg1TPZA=;
- b=l7adcBhLCK6R9sg0yUaVbPzHY3DqZ/W+Kup/jhtS6Rk9mgySA5EYl80ci1hLxj3Wq5
- TqtFoLJ7k5dhSFpTCZ4ZuseaXNOAfcnnHQSXLJFGLtEjn/iJg3rRshldgJqkjAVziqqq
- Ue50YMEXv5izHkUU/4rnZdVuTX3oUC7TERvkbTFNQuvAyWjkRbTPV64EemgI68ADa/jx
- qXoTEMoXgeZvggSYzGOkweapH7DKhqLIjWVEicHK9vkpH5qXtHAztVM4uBygrH8YZsLs
- LWxU9HyH263q16hcyTeqbuoTZk6mC5CSWmZoeICfBK73PhxPs7bhQQBy+vpGE/lfe7WN
- dDgQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1Vd8yDVm4n6jm2F1gH7pN6MB7HEhF3DXorR93Hgx0s4=;
+ b=GAv8wSfbgtJpgGCKdhgrc/u/0YlI/z26hcEHFrmV/dGC6V2Lp4XVUimtJmSYTpLD9r
+ o8H2lHuJkpFpYhZKKaPNJDTTdWW6CAl/MLkEVv3hQlzlku1wGRNej5NuIKNW0Zv9deVc
+ Is6ZPU8l4/JqU4bpd+WcinpmSBXepI6yzIqlJUYymYOsu0JISGpeGJgAjCTJf7yN11rR
+ VgsTOvhneLNQvGwjy1Rqa5/YHhKhTVNGGOOJUiJ7Tet/eILv56SGhdbnTrB/OCv/b+iU
+ 3r4QdteiYoSMI7Iub5rWHRr3KFT9H4YfTgyW8/bTf3XqhV4k71o67To8PZK0+K0DxEmZ
+ SdaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x6SnwcvRt72H9mLpMFCfi9upErvkS58Rckvfzg1TPZA=;
- b=VYau3iV5fXuDYPEyEXCEYHU0DVAWOH3D1Jcgvk+/w/LaBentgXE0bnGSvc9KYVwDOW
- eQSeZAxbtQL2c/bA9hS22wny9zKm9qPEyUT9hI0MhozrNOMxXsWq6Pzu152gGsBUJnhQ
- fBrzhM0IqAak2a4Dp+npDA2D+z9BKI74SsoH4cBWKkYJFIl+0z1RtJPACGHChqr7aVFZ
- 6iFqTcH7wYTfKc/lZtC91YRFepR/RY3K9q/GkOa8/W0MD8kASdZVXKcrau8MYRKnIOHL
- QXSYJyQBOpbLeknONjXxH2YkRxzLcMYhcNX+0/p5Fn0u31/5WxMi2DpX3vs1YkzhhkzL
- iHEA==
-X-Gm-Message-State: AOAM532jvUjJzvoqiX9SgBy9OL5h9+cU29f+uAbNWjPqO/2S2+RyZZKs
- bpcQv5nyrkoUh/5sKnmUkdM=
-X-Google-Smtp-Source: ABdhPJxZx2Y7hGO/F+oI8yRUArncfroNyjOIEgn69TChR0UZ20os6RH96WK9N7Fkw4+fawcR80UBWA==
-X-Received: by 2002:a05:6000:551:: with SMTP id
- b17mr11198482wrf.32.1625423146902; 
- Sun, 04 Jul 2021 11:25:46 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id 16sm9650945wmk.18.2021.07.04.11.25.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Jul 2021 11:25:46 -0700 (PDT)
-Subject: Re: [PATCH 3/4] target/mips: Rewrite UHI errno_mips() using GHashTable
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210704170736.617895-1-f4bug@amsat.org>
- <20210704170736.617895-4-f4bug@amsat.org>
- <CAFEAcA8nqWfOchWL-t5cdf_gshbBqryMvZCtg=6XF0Z4po+O_g@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3d0de39e-3591-3f3a-5d1d-0e224a246632@amsat.org>
-Date: Sun, 4 Jul 2021 20:25:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1Vd8yDVm4n6jm2F1gH7pN6MB7HEhF3DXorR93Hgx0s4=;
+ b=FQ/9eyJFJQSW6jVoZatflyGEN/UxO4lfubqf+8qUppT2rEOnVUmYz1zIxqjHMqXPl5
+ h9Qw5p93WfSVtHO7TWqy4Vk0rqf4eAPyJmgmPmzN+WWcEHDC6NFEE4p1tG8s0kj6efzS
+ YUSj1qlsxNJc56okO8nZqFsiN9U650UTd2ZjMLDWWBo15AmMbQrAbZeyxQzUs9Tqosx9
+ sTxifoxsNNJm3tLUgatnZFR+QZSEBXLCAUYyzmpgKI54LFPqO+SqULM+kxqQ41LmSfU2
+ RZU0b7HOhiA3i2oOQzuLihNyD/qZ6c7N8wRH6E4NoymJBMP0Gs2nH5pjrUvnkRdjxQAd
+ YfGg==
+X-Gm-Message-State: AOAM5302oJxs75ZnWPDjbD4Ko3I6VD4bA+pyBLsfTSymFwoYKVg0sH5T
+ zY0VpT1fxR3iMS4cAIMOC+vqhaKyWNYogaUf4Ro=
+X-Google-Smtp-Source: ABdhPJxfkzyNWlR7lK+SoZzpWon3qnkCHIgK29XcONDyr5vMxkImhUX9QyamjTji5P5MgZBu0/MWAWKJrodjGjOT6HA=
+X-Received: by 2002:ab0:2a42:: with SMTP id p2mr8032917uar.39.1625423369663;
+ Sun, 04 Jul 2021 11:29:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8nqWfOchWL-t5cdf_gshbBqryMvZCtg=6XF0Z4po+O_g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <CAOakUfO=C+pgcwopdTCrsH3vtFuFWo8QQBU8kEjnE=_3q-mMYg@mail.gmail.com>
+ <CAFEAcA9rAAuzCh3MVSnfrBWZSvHVrmMqgqJ8OX0=nQKDXoVPpg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9rAAuzCh3MVSnfrBWZSvHVrmMqgqJ8OX0=nQKDXoVPpg@mail.gmail.com>
+From: Richard Zak <richard.j.zak@gmail.com>
+Date: Sun, 4 Jul 2021 14:29:18 -0400
+Message-ID: <CAOakUfMYsaPCWdTWodJX2c1oSV-z3+A7cQ_TAJ1a0OLSXt5nAg@mail.gmail.com>
+Subject: Re: [PATCH 1/2 v3] Configure script for Haiku
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000008ef87405c6505ef4"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=richard.j.zak@gmail.com; helo=mail-ua1-x929.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,89 +77,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Alexander von Gluck IV <kallisti5@unixzen.com>,
- Leon Alrae <leon.alrae@imgtec.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Zak <richard.j.zak@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/21 7:25 PM, Peter Maydell wrote:
-> On Sun, 4 Jul 2021 at 18:07, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Linking on Haiku OS fails:
->>
->>   /boot/system/develop/tools/bin/../lib/gcc/x86_64-unknown-haiku/8.3.0/../../../../x86_64-unknown-haiku/bin/ld:
->>   error: libqemu-mips-softmmu.fa.p/target_mips_tcg_sysemu_mips-semi.c.o(.rodata) is too large (0xffff405a bytes)
->>   /boot/system/develop/tools/bin/../lib/gcc/x86_64-unknown-haiku/8.3.0/../../../../x86_64-unknown-haiku/bin/ld:
->>   final link failed: memory exhausted
->>   collect2: error: ld returned 1 exit status
->>
->> This is because the host_to_mips_errno[] uses errno as index,
->> for example:
->>
->>   static const uint16_t host_to_mips_errno[] = {
->>       [ENAMETOOLONG] = 91,
->>       ...
->>
->> and Haiku defines [*] ENAMETOOLONG as:
->>
->>    12 /* Error baselines */
->>    13 #define B_GENERAL_ERROR_BASE              INT_MIN
->>    ..
->>    22 #define B_STORAGE_ERROR_BASE              (B_GENERAL_ERROR_BASE + 0x6000)
->>   ...
->>   106 #define B_NAME_TOO_LONG                   (B_STORAGE_ERROR_BASE + 4)
->>   ...
->>   211 #define ENAMETOOLONG                      B_TO_POSIX_ERROR(B_NAME_TOO_LONG)
->>
->> so the array ends up beeing indeed too big.
->>
->> Since POSIX errno can't be use as indexes on Haiku,
->> rewrite errno_mips() using a GHashTable.
->>
->> [*] https://github.com/haiku/haiku/blob/r1beta3/headers/os/support/Errors.h#L130
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  target/mips/tcg/sysemu/mips-semi.c | 62 ++++++++++++++++++++++--------
->>  1 file changed, 45 insertions(+), 17 deletions(-)
-> 
->>  static int errno_mips(int host_errno)
->>  {
->> -    if (host_errno < 0 || host_errno >= ARRAY_SIZE(host_to_mips_errno)) {
->> -        return EINVAL;
->> -    } else if (host_to_mips_errno[host_errno]) {
->> -        return host_to_mips_errno[host_errno];
->> -    } else {
->> -        return host_errno;
->> +    gpointer uhi_errno;
->> +
->> +    if (uhi_errno_hash_table == NULL) {
->> +        uhi_errno_init();
->>      }
->> +
->> +    if (host_errno == 0) {
->> +        return 0;
->> +    }
->> +    if (g_hash_table_lookup_extended(uhi_errno_hash_table,
->> +                                     GINT_TO_POINTER(host_errno),
->> +                                     NULL, &uhi_errno)) {
->> +        return GPOINTER_TO_INT(uhi_errno);
->> +    }
->> +    return EINVAL; /* Not reachable per the specification */
-> 
-> Per whose specification? This function is passed the errno as set
-> by various host OS functions like open(), lseek(), read(). POSIX allows
-> those functions to set errno to any value, so this "we don't know
-> a guest errno value for that" code is definitely reachable.
+--0000000000008ef87405c6505ef4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You are right, it is reachable. What I meant is other errnos are
-not expected, and returning EINVAL for them doesn't seem ideal,
-but the spec doesn't define a particular errno for unsupported
-errnos. I'll reword as "Unsupported errno is not specified, use EINVAL".
+=C3=8En dum., 4 iul. 2021 la 13:11, Peter Maydell <peter.maydell@linaro.org=
+> a
+scris:
+
+> On Sun, 4 Jul 2021 at 17:44, Richard Zak <richard.j.zak@gmail.com> wrote:
+> >
+> > Use system capstone, for which a port is maintained by Haiku. Disable
+> TPM which isn't supported.
+> >
+> > Signed-off-by: Richard Zak <richard.j.zak@gmail.com>
+> > ---
+> >  configure | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/configure b/configure
+> > index e799d908a3..c928071f69 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -358,6 +358,7 @@ oss_lib=3D""
+> >  bsd=3D"no"
+> >  linux=3D"no"
+> >  solaris=3D"no"
+> > +haiku=3D"no"
+> >  profiler=3D"no"
+> >  cocoa=3D"auto"
+> >  softmmu=3D"yes"
+> > @@ -769,6 +770,8 @@ SunOS)
+> >  ;;
+> >  Haiku)
+> >    haiku=3D"yes"
+> > +  tpm=3D"no"
+>
+> If the autodetect for tpm doesn't get this right, we should fix
+> the autodetect.
+>
+> As a general principle we prefer to avoid "do this specific thing
+> for this specific host OS" whenever we can, in favour of "test
+> whether we have whatever feature/function/library is required".
+>
+> thanks
+> -- PMM
+>
+
+Totally makes sense, and I'll be mindful of that. In this case, the
+configure script is enabling TPM support on Haiku, but I don't think it
+breaks anything, but I haven't tested it yet.
+
+--=20
+Regards,
+
+Richard J. Zak
+Professional Genius
+PGP Key: https://keybase.io/rjzak/key.asc
+
+--0000000000008ef87405c6505ef4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">=C3=8En dum., 4 iul. 2021 la 13:11, Peter=
+ Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
+ro.org</a>&gt; a scris:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Sun, 4 Jul 2021 at 17:44, Richard Zak &lt;<a href=3D"mailto:rich=
+ard.j.zak@gmail.com" target=3D"_blank">richard.j.zak@gmail.com</a>&gt; wrot=
+e:<br>
+&gt;<br>
+&gt; Use system capstone, for which a port is maintained by Haiku. Disable =
+TPM which isn&#39;t supported.<br>
+&gt;<br>
+&gt; Signed-off-by: Richard Zak &lt;<a href=3D"mailto:richard.j.zak@gmail.c=
+om" target=3D"_blank">richard.j.zak@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 configure | 3 +++<br>
+&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/configure b/configure<br>
+&gt; index e799d908a3..c928071f69 100755<br>
+&gt; --- a/configure<br>
+&gt; +++ b/configure<br>
+&gt; @@ -358,6 +358,7 @@ oss_lib=3D&quot;&quot;<br>
+&gt;=C2=A0 bsd=3D&quot;no&quot;<br>
+&gt;=C2=A0 linux=3D&quot;no&quot;<br>
+&gt;=C2=A0 solaris=3D&quot;no&quot;<br>
+&gt; +haiku=3D&quot;no&quot;<br>
+&gt;=C2=A0 profiler=3D&quot;no&quot;<br>
+&gt;=C2=A0 cocoa=3D&quot;auto&quot;<br>
+&gt;=C2=A0 softmmu=3D&quot;yes&quot;<br>
+&gt; @@ -769,6 +770,8 @@ SunOS)<br>
+&gt;=C2=A0 ;;<br>
+&gt;=C2=A0 Haiku)<br>
+&gt;=C2=A0 =C2=A0 haiku=3D&quot;yes&quot;<br>
+&gt; +=C2=A0 tpm=3D&quot;no&quot;<br>
+<br>
+If the autodetect for tpm doesn&#39;t get this right, we should fix<br>
+the autodetect.<br>
+<br>
+As a general principle we prefer to avoid &quot;do this specific thing<br>
+for this specific host OS&quot; whenever we can, in favour of &quot;test<br=
+>
+whether we have whatever feature/function/library is required&quot;.<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div><br clear=3D"all"><div>Totally makes sense, and I&#39;ll=
+ be mindful of that. In this case, the configure script is enabling TPM sup=
+port on Haiku, but I don&#39;t think it breaks anything, but I haven&#39;t =
+tested it yet.<br></div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gma=
+il_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">=
+<div>Regards,<br><br>Richard J. Zak<br>Professional Genius</div><div>PGP Ke=
+y:=C2=A0<a href=3D"https://keybase.io/rjzak/key.asc" target=3D"_blank">http=
+s://keybase.io/rjzak/key.asc</a></div></div></div></div></div></div></div><=
+/div>
+
+--0000000000008ef87405c6505ef4--
 
