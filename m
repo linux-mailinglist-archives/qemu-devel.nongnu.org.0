@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86F13BAD6C
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 16:33:06 +0200 (CEST)
-Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD3A3BAD6F
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 16:34:05 +0200 (CEST)
+Received: from localhost ([::1]:42226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m03BB-00064Q-OQ
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 10:33:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
+	id 1m03C8-0008Gm-9P
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 10:34:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1m039y-0004jA-2t
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:31:50 -0400
-Received: from smtpbgau1.qq.com ([54.206.16.166]:41356)
+ (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1m03Ao-0006Bk-VT
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:32:43 -0400
+Received: from smtpbgjp3.qq.com ([54.92.39.34]:59027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1m039u-0007tk-Ap
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:31:49 -0400
-X-QQ-mid: bizesmtp54t1625409089tiuj8mdg
+ (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1m03Al-0008UR-CG
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:32:42 -0400
+X-QQ-mid: bizesmtp54t1625409091tknzzoxm
 Received: from Wei.localdomain (unknown [223.72.88.167])
  by esmtp6.qq.com (ESMTP) with 
- id ; Sun, 04 Jul 2021 22:31:27 +0800 (CST)
+ id ; Sun, 04 Jul 2021 22:31:30 +0800 (CST)
 X-QQ-SSF: 0140000000200080X000000B0000000
-X-QQ-FEAT: 5OzP2bT7a4pWVqNlNiPbibtTmS3oVxxkO3EduzJlfaWOXtVx/RYTq6Z8wvFYs
- dm2OW7Csc9hMJXkpxD+dlnIbuJ3WHSpRpXNaX6fdQAFy6ID0P097+GavchCveED5lvgV86f
- /HtRCX9EgRpLlE9Jxnr7zZxjvJ9CJcsji4FiWIRUdJUtMQeV5uguHQ+Wsz28QPWOmhmSyN2
- /Fx1bamS+b6XUyHZb5DHKPO7olDRanym8wlNXw5EsSb98uw0qQQ7SFnL6evDcivJ8+wjnbe
- OX1mw3//Nz48vdHDGSxqjT/kKsG03pDZwFLn56SWOQnspVlYR2es/jpm3Lkp4syG5PEaJdj
- lVzIDk2k7r9pGEop4h1oXDSZdpWspGDzDgcFBKh
+X-QQ-FEAT: g9nl15ZGxljvewZdWj6FQFzWCm4Pl6WDlpwqL4gpWE2YfJor5fUESGng+FQ97
+ wU0hxUsDCYD2xTdap4PZpBivqkC97+uwf8Dc/n/hOe/FIo2qx9d5W8E3vyhquQKbWRPGs3z
+ GGryo6qJbaGwC9RKEMxvZpAYe7JPKCQI9v2SJ+jREZwyL2Q0nly5v3BLG9BH/oUfTNgxrQU
+ d/suYdsb8scd6IMhaGCKITuLRsGCa+tVuip+qw3oIDI4w3ieNXgHxI4K39CVOTkaC2TEyjk
+ LyvivdH7qAjaaMbS8Oablu4aItFlpmCgAfvHG20aZSFze9yNFabYI9fEE/FCRONWdcEMwKZ
+ u+5BLEKe9uhv4QX4r1iT3RI7Vk7t78OAG1YqdtKUWCYrAzN5Iw=
 X-QQ-GoodBg: 2
 From: Liren Wei <lrwei@bupt.edu.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Fix defect in TranslationBlock insertion procedure
-Date: Sun,  4 Jul 2021 22:31:25 +0800
-Message-Id: <cover.1625404483.git.lrwei@bupt.edu.cn>
+Subject: [PATCH 1/2] accel/tcg: Hoist tcg_tb_insert() up above tb_link_page()
+Date: Sun,  4 Jul 2021 22:31:26 +0800
+Message-Id: <f9fc263f71e11b6308d8c1fbc0dd366bf4aeb532.1625404483.git.lrwei@bupt.edu.cn>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <cover.1625404483.git.lrwei@bupt.edu.cn>
+References: <cover.1625404483.git.lrwei@bupt.edu.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:bupt.edu.cn:qybgforeign:qybgforeign7
 X-QQ-Bgrelay: 1
-Received-SPF: pass client-ip=54.206.16.166; envelope-from=lrwei@bupt.edu.cn;
- helo=smtpbgau1.qq.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) BAYES_20=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=54.92.39.34; envelope-from=lrwei@bupt.edu.cn;
+ helo=smtpbgjp3.qq.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,21 +65,44 @@ Cc: pbonzini@redhat.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TranslationBlocks are now inserted first into QHT and then into its
-corresponding tcg_region_tree. This is problematic under MTTCG, as
-other vCPU threads may immediately execute it, and even bailout before
-the TB itself is inserted into its tcg_region_tree, resulting in an
-incorrect CPUState after rewinding.
+TranslationBlocks not inserted into the corresponding region
+tree shall be regarded as partially initialized objects, and
+needs to be finalized first before inserting into QHT.
 
-Liren Wei (2):
-  accel/tcg: Hoist tcg_tb_insert() up above tb_link_page()
-  tcg: Bake tb_destroy() into tcg_region_tree
+Signed-off-by: Liren Wei <lrwei@bupt.edu.cn>
+---
+ accel/tcg/translate-all.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- accel/tcg/translate-all.c | 15 ++++++++-------
- include/tcg/tcg.h         |  1 -
- tcg/region.c              | 18 +++++++-----------
- 3 files changed, 15 insertions(+), 19 deletions(-)
-
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 7929a7e320..75e4d06557 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1657,6 +1657,13 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+         return tb;
+     }
+ 
++    /*
++     * Insert TB into the corresponding region tree before publishing it
++     * through QHT. Otherwise rewinding happened in the TB might fail to
++     * lookup itself using host PC.
++     */
++    tcg_tb_insert(tb);
++
+     /* check next page if needed */
+     virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
+     phys_page2 = -1;
+@@ -1675,9 +1682,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+         orig_aligned -= ROUND_UP(sizeof(*tb), qemu_icache_linesize);
+         qatomic_set(&tcg_ctx->code_gen_ptr, (void *)orig_aligned);
+         tb_destroy(tb);
++        tcg_tb_remove(tb);
+         return existing_tb;
+     }
+-    tcg_tb_insert(tb);
+     return tb;
+ }
+ 
 -- 
 2.32.0
 
