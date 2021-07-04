@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED93D3BAD6D
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 16:33:07 +0200 (CEST)
-Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532093BAD80
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 16:46:16 +0200 (CEST)
+Received: from localhost ([::1]:45164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m03BD-00066j-13
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 10:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39008)
+	id 1m03Nv-0002Sy-5U
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 10:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1m039z-0004jK-I3
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:31:51 -0400
-Received: from smtpbg501.qq.com ([203.205.250.101]:51185)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m03N5-0001kw-I3
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:45:23 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41630
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1m039u-0007wN-OB
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:31:51 -0400
-X-QQ-mid: bizesmtp54t1625409093t92jabvk
-Received: from Wei.localdomain (unknown [223.72.88.167])
- by esmtp6.qq.com (ESMTP) with 
- id ; Sun, 04 Jul 2021 22:31:32 +0800 (CST)
-X-QQ-SSF: 0140000000200080X000000B0000000
-X-QQ-FEAT: XIEqvPtYnoGcaq8NZPcWIxqtaNsepyhiy3cxxd0rKvKSPUWdTTOWK4IWpZaWN
- E1+1URnBPZHB3dXaVH7jgtafKPqnopOb+SZIVRiXJwk6yd1FdQs0T0jZCvEbCEgxJL2kvxi
- Pob11GWSOlDBGFN/OfxPq44kqEhIZHaZkXKSjnZXO3juR+NR6rK5tYQcu1kmKTN+X7+AlYf
- Lj/S66w1fRRxFIstTUWK1LseNwYEk0NN7Yy3kjYhwPW5lR83km6VpzJ/n0M4XdjlWXTEs2a
- gODVBjhWlG/q53ydp3XXJoHU7rxaKhw9JwAQlS0b6xpyjkCjZq8SrypaOEQpe9MR5z2LL4C
- 0PXiK5KhznNCw77MHjnGGGPVN54fRowtkU4UHcs1SDnqwH09x4=
-X-QQ-GoodBg: 2
-From: Liren Wei <lrwei@bupt.edu.cn>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tcg: Bake tb_destroy() into tcg_region_tree
-Date: Sun,  4 Jul 2021 22:31:27 +0800
-Message-Id: <8dc352f08d038c4e7a1f5f56962398cdc700c3aa.1625404483.git.lrwei@bupt.edu.cn>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1625404483.git.lrwei@bupt.edu.cn>
-References: <cover.1625404483.git.lrwei@bupt.edu.cn>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m03N3-0008NK-Hq
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 10:45:23 -0400
+Received: from host86-179-59-238.range86-179.btcentralplus.com
+ ([86.179.59.238] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m03Ma-0004IB-VB; Sun, 04 Jul 2021 15:44:56 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210703141947.352295-1-f4bug@amsat.org>
+ <20210703141947.352295-4-f4bug@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <1c3be3a9-35a5-1cde-a20d-6a642247d6c9@ilande.co.uk>
+Date: Sun, 4 Jul 2021 15:45:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210703141947.352295-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:bupt.edu.cn:qybgforeign:qybgforeign6
-X-QQ-Bgrelay: 1
-Received-SPF: pass client-ip=203.205.250.101; envelope-from=lrwei@bupt.edu.cn;
- helo=smtpbg501.qq.com
+X-SA-Exim-Connect-IP: 86.179.59.238
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH 3/6] dp8393x: Restrict bus access to 16/32-bit
+ operations
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,119 +66,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org
+Cc: Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Finn Thain <fthain@linux-m68k.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function is called only at tcg_gen_code() when duplicated TBs
-are translated by different threads, and when the tcg_region_tree
-is reset. Bake it into the underlying GTree as its value destroy
-function to unite these situations.
-Also remove tcg_region_tree_traverse() which now becomes useless.
+On 03/07/2021 15:19, Philippe Mathieu-Daudé wrote:
 
-Signed-off-by: Liren Wei <lrwei@bupt.edu.cn>
----
- accel/tcg/translate-all.c |  6 ------
- include/tcg/tcg.h         |  1 -
- tcg/region.c              | 18 +++++++-----------
- 3 files changed, 7 insertions(+), 18 deletions(-)
+> Per the DP83932C datasheet from July 1995:
+> 
+>    1. Functional Description
+>    1.3 DATA WIDTH AND BYTE ORDERING
+> 
+>      The SONIC can be programmed to operate with
+>      either 32-bit or 16-bit wide memory.
+> 
+> Restrict the memory bus to reject 8/64-bit accesses.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   hw/net/dp8393x.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index d16ade2b198..c9b478c127c 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -695,6 +695,8 @@ static const MemoryRegionOps dp8393x_ops = {
+>       .write = dp8393x_write,
+>       .impl.min_access_size = 2,
+>       .impl.max_access_size = 2,
+> +    .valid.min_access_size = 2,
+> +    .valid.max_access_size = 4,
+>       .endianness = DEVICE_NATIVE_ENDIAN,
+>   };
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 75e4d06557..57455d8639 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -378,11 +378,6 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
-     return 0;
- }
- 
--void tb_destroy(TranslationBlock *tb)
--{
--    qemu_spin_destroy(&tb->jmp_lock);
--}
--
- bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
- {
-     /*
-@@ -1681,7 +1676,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
- 
-         orig_aligned -= ROUND_UP(sizeof(*tb), qemu_icache_linesize);
-         qatomic_set(&tcg_ctx->code_gen_ptr, (void *)orig_aligned);
--        tb_destroy(tb);
-         tcg_tb_remove(tb);
-         return existing_tb;
-     }
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 899493701c..dedb86939a 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -808,7 +808,6 @@ void *tcg_malloc_internal(TCGContext *s, int size);
- void tcg_pool_reset(TCGContext *s);
- TranslationBlock *tcg_tb_alloc(TCGContext *s);
- 
--void tb_destroy(TranslationBlock *tb);
- void tcg_region_reset_all(void);
- 
- size_t tcg_code_size(void);
-diff --git a/tcg/region.c b/tcg/region.c
-index 00b0c3b091..956a5ae483 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -112,7 +112,7 @@ static int ptr_cmp_tb_tc(const void *ptr, const struct tb_tc *s)
-     return 0;
- }
- 
--static gint tb_tc_cmp(gconstpointer ap, gconstpointer bp)
-+static gint tb_tc_cmp(gconstpointer ap, gconstpointer bp, gpointer _)
- {
-     const struct tb_tc *a = ap;
-     const struct tb_tc *b = bp;
-@@ -143,6 +143,11 @@ static gint tb_tc_cmp(gconstpointer ap, gconstpointer bp)
-     return ptr_cmp_tb_tc(b->ptr, a);
- }
- 
-+static void tb_destroy(gpointer tb)
-+{
-+    qemu_spin_destroy(&((TranslationBlock *) tb)->jmp_lock);
-+}
-+
- static void tcg_region_trees_init(void)
- {
-     size_t i;
-@@ -153,7 +158,7 @@ static void tcg_region_trees_init(void)
-         struct tcg_region_tree *rt = region_trees + i * tree_size;
- 
-         qemu_mutex_init(&rt->lock);
--        rt->tree = g_tree_new(tb_tc_cmp);
-+        rt->tree = g_tree_new_full(tb_tc_cmp, NULL, NULL, tb_destroy);
-     }
- }
- 
-@@ -277,14 +282,6 @@ size_t tcg_nb_tbs(void)
-     return nb_tbs;
- }
- 
--static gboolean tcg_region_tree_traverse(gpointer k, gpointer v, gpointer data)
--{
--    TranslationBlock *tb = v;
--
--    tb_destroy(tb);
--    return FALSE;
--}
--
- static void tcg_region_tree_reset_all(void)
- {
-     size_t i;
-@@ -293,7 +290,6 @@ static void tcg_region_tree_reset_all(void)
-     for (i = 0; i < region.n; i++) {
-         struct tcg_region_tree *rt = region_trees + i * tree_size;
- 
--        g_tree_foreach(rt->tree, tcg_region_tree_traverse, NULL);
-         /* Increment the refcount first so that destroy acts as a reset */
-         g_tree_ref(rt->tree);
-         g_tree_destroy(rt->tree);
--- 
-2.32.0
+Unfortunately this patch breaks MacOS - it seems very early in startup the MacOS 
+toolbox probes for the presence of the network adapter using single byte accesses 
+which are rejected by this change :(
+
+I'd suggest that we simply drop this patch.
 
 
+ATB,
 
+Mark.
 
