@@ -2,69 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A323BABA4
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 07:53:49 +0200 (CEST)
-Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E55A3BABAA
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 08:18:15 +0200 (CEST)
+Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzv4d-00070t-VG
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 01:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45650)
+	id 1lzvSH-0002De-Lf
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 02:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lzv3a-0005ue-By
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 01:52:42 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:33720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lzv3Y-0005C8-NN
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 01:52:42 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id r135so23739172ybc.0
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 22:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Et98sgK7DpOPtOfmqoN5aer9iZ+HcL3F+ea/iGu78R0=;
- b=zsX8Iay8NvS0lcYrl/lk4JZvSBNPJNv5rWPUL3QYLW4UK4iucLyavCt72+w8tmU5U6
- 7FB+MoKvlPaHZexS3x8YYyhGPkpu/Zm2Qy4X1CQoLyB7vpWNrFKAxOPd8pvFXlpvPmF0
- djRYO06LO5hlY1++/L7kddPhNyWp8Er6ziOc7RrUIS9x81u2Z+14189o1SNfVxN08A6k
- jMd4APfYCUHokrP1Qh5IBVnflTh1++2sIsV/6N0w8IYSS7BehTXbo263iG4Hd9fhvT3J
- ruaaN3P65Zki2otp1aRDVjkybi2soSApIup8j8cthU6yy73F3h7pBQyoRRwsqYsfD6Nt
- qsXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Et98sgK7DpOPtOfmqoN5aer9iZ+HcL3F+ea/iGu78R0=;
- b=gqdx8ss7XvTupW97MU7R0bz/d3zPXZ8kQdDrDhCgsJtWxXeb6qxL04d6R84jc1w0r7
- K6zqxc4uNcsX0jeVaeUfY1o0vXYckeKOcnVxE8fK7AmFPbDbLsR1WL+4fuPQ3efgJAQK
- D60twiHGbT0VXUKybcI0Iwb+/3lElomgDcvWJhjKwxTkBxYJ4O8SLINKX9ZbCbbyJ21H
- +M8VBqrlAuvTfqac7RCwsGcsIDm76nbXfcqVQbztbuRd6T4l3h/PVTqChAUXk8uzTCN4
- BWy36EJpuHIPDsUfDzEvfsqfo5XIqmSwV2XmjDPhkpvn4okSgRiy5RRpUGvbTl+3fdMW
- hrZw==
-X-Gm-Message-State: AOAM530UTY2zDckVVWdZYFriVTJ26oi2zx6fbVJyE1FwFi4rM6Q0ZWFJ
- p5GMb10/D29x2IfbQJjWU0NAB9GpiapPOR+Qjm9NocgJwMx+Xw==
-X-Google-Smtp-Source: ABdhPJy7xNYAO5+BCm8KBoQGYCMeKK5zKHz8xUQhWquzl9ji3OdWJZjYoGoiYdSvnzEJBHvn3HBNjtfUD3amBXiIwUM=
-X-Received: by 2002:a25:587:: with SMTP id 129mr9531657ybf.379.1625377959405; 
- Sat, 03 Jul 2021 22:52:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lzvRS-0001Xq-6x
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 02:17:22 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1lzvRN-0007Hj-Rt
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 02:17:21 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16463784063634; Sun, 4 Jul 2021 02:17:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=KijzfLfn+Zj+wGj09ulpmr3BAhpV2Jj6yZInR+S68h8=;
+ b=dfHbZmlkcWnILy3GBxQHf9F3HAY5wweJBelsxpRqB/zpXE1OktNkc/Ma+seN2y91cL1X
+ q1k6w/NUp1he/yb6Uw4IIG24PnhPZyuNN2xx9hSPn3XFSY/So/cKuvT19o2bKq/w9Dwi
+ gLUbXS3GNf5K0WjEaNT/EhRKmuD4QnPs6MwPGnimkXZ8A5ba0Dw/tYdmWXzPMQzQF9VK
+ 7lq99E8X9pQ9qX+yPYt3cMfo30a/qa3UKTT+VqQecJYKADCC1yrsAMaxC5p9YE2AIiZy
+ 789UFRdYSHCaffKnLXVvQzha8A4Kga8OSPO5zzS8H8Z6gqcC/6euwTWvuQll6/AE7ZH3 gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39k4yatdkw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 04 Jul 2021 02:17:11 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16464gAB067306;
+ Sun, 4 Jul 2021 02:17:11 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39k4yatdkk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 04 Jul 2021 02:17:11 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1646H95D021634;
+ Sun, 4 Jul 2021 06:17:09 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 39jfh8r9ur-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 04 Jul 2021 06:17:08 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1646H5JY27001144
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 4 Jul 2021 06:17:05 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A1095A4055;
+ Sun,  4 Jul 2021 06:17:05 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BE8B8A404D;
+ Sun,  4 Jul 2021 06:17:00 +0000 (GMT)
+Received: from [9.65.220.2] (unknown [9.65.220.2])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Sun,  4 Jul 2021 06:17:00 +0000 (GMT)
+Subject: Re: [PATCH] x86: add SEV hashing to fw_cfg for kernel/initrd/cmdline
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
+ <20210703123406-mutt-send-email-mst@kernel.org>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <0f36d5a0-c063-4ba7-ceca-f09d8f37fb3e@linux.ibm.com>
+Date: Sun, 4 Jul 2021 09:16:59 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210703123406-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kLHFeZPAkDu0QnpYkNwa8CAvXpyO-xfI
+X-Proofpoint-ORIG-GUID: wo1p3lczb0D6Q7pXthJb4xKCBMlcn_KT
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20210405131420.598273-1-basil@daynix.com>
-In-Reply-To: <20210405131420.598273-1-basil@daynix.com>
-From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Sun, 4 Jul 2021 08:52:28 +0300
-Message-ID: <CAJ28CFS4W7b7cZn_jsNPqHLS1ohKfnhHZNx8d-=QQY9wk+Ed0Q@mail.gmail.com>
-Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
- instead of 10
-To: Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000e57ad805c645cb56"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-04_05:2021-07-02,
+ 2021-07-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 mlxlogscore=999
+ priorityscore=1501 phishscore=0 suspectscore=0 malwarescore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104190000 definitions=main-2107040036
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,97 +115,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Michael Roth <michael.roth@amd.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hubertus Franke <frankeh@us.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e57ad805c645cb56
-Content-Type: text/plain; charset="UTF-8"
+Hi Michael,
 
-ping
+[+cc Connor, Dave]
 
-On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
+On 03/07/2021 19:42, Michael S. Tsirkin wrote:
+> On Tue, May 25, 2021 at 06:59:31AM +0000, Dov Murik wrote:
+>> From: James Bottomley <jejb@linux.ibm.com>
+>>
+>> If the VM is using memory encryption and also specifies a kernel/initrd
+>> or appended command line, calculate the hashes and add them to the
+>> encrypted data.  For this to work, OVMF must support an encrypted area
+>> to place the data which is advertised via a special GUID in the OVMF
+>> reset table (if the GUID doesn't exist, the user isn't allowed to pass
+>> in the kernel/initrd/cmdline via the fw_cfg interface).
+> 
+> Sorry about asking basic questions so late in the game.
 
-> Currently Requester freeze times out after 10 seconds, while
-> the default timeout for Writer Freeze is 60 seconds. according to
-> VSS Documentation [1].
-> [1]:
-> https://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-backup-under-vss
->
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
->
-> Signed-off-by: Basil Salman <bsalman@daynix.com>
-> Signed-off-by: Basil Salman <basil@daynix.com>
-> ---
->  qga/vss-win32/requester.cpp | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
-> index 5378c55d23..940a2c8f55 100644
-> --- a/qga/vss-win32/requester.cpp
-> +++ b/qga/vss-win32/requester.cpp
-> @@ -18,7 +18,7 @@
->  #include <inc/win2003/vsbackup.h>
->
->  /* Max wait time for frozen event (VSS can only hold writes for 10
-> seconds) */
-> -#define VSS_TIMEOUT_FREEZE_MSEC 10000
-> +#define VSS_TIMEOUT_FREEZE_MSEC 60000
->
->  /* Call QueryStatus every 10 ms while waiting for frozen event */
->  #define VSS_TIMEOUT_EVENT_MSEC 10
-> --
-> 2.17.2
->
->
+No worries. Please noice there's a newer version:
 
---000000000000e57ad805c645cb56
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+https://lore.kernel.org/qemu-devel/20210624102040.2015280-1-dovmurik@linux.ibm.com/
 
-<div dir=3D"ltr"><div>ping<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon, Apr 5, 2021 at 4:14 PM Basil Salman &=
-lt;<a href=3D"mailto:basil@daynix.com">basil@daynix.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">Currently Requester =
-freeze times out after 10 seconds, while<br>
-the default timeout for Writer Freeze is 60 seconds. according to<br>
-VSS Documentation [1].<br>
-[1]: <a href=3D"https://docs.microsoft.com/en-us/windows/win32/vss/overview=
--of-processing-a-backup-under-vss" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-ba=
-ckup-under-vss</a><br>
-<br>
-Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1909073" =
-rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.c=
-gi?id=3D1909073</a><br>
-<br>
-Signed-off-by: Basil Salman &lt;<a href=3D"mailto:bsalman@daynix.com" targe=
-t=3D"_blank">bsalman@daynix.com</a>&gt;<br>
-Signed-off-by: Basil Salman &lt;<a href=3D"mailto:basil@daynix.com" target=
-=3D"_blank">basil@daynix.com</a>&gt;<br>
----<br>
-=C2=A0qga/vss-win32/requester.cpp | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp<br>
-index 5378c55d23..940a2c8f55 100644<br>
---- a/qga/vss-win32/requester.cpp<br>
-+++ b/qga/vss-win32/requester.cpp<br>
-@@ -18,7 +18,7 @@<br>
-=C2=A0#include &lt;inc/win2003/vsbackup.h&gt;<br>
-<br>
-=C2=A0/* Max wait time for frozen event (VSS can only hold writes for 10 se=
-conds) */<br>
--#define VSS_TIMEOUT_FREEZE_MSEC 10000<br>
-+#define VSS_TIMEOUT_FREEZE_MSEC 60000<br>
-<br>
-=C2=A0/* Call QueryStatus every 10 ms while waiting for frozen event */<br>
-=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
--- <br>
-2.17.2<br>
-<br>
-</blockquote></div></div>
 
---000000000000e57ad805c645cb56--
+> I'm a bit curious why this feature makes sense. If someone can play
+> with a Linux kernel command line isn't it pretty much game over security
+> wise? What protections does Linux have against malicious actors
+> manipulating the command line?
+> 
+
+You're right -- if the host can modify the kernel command-line it's a game over.
+
+This is why this patch (together with the corresponding OVMF patches; still
+under review) measures and verifies the content of the kernel blob and
+the initrd blob *and* the command-line blob.
+
+Any modification/omission of any of them by the host will make the expected
+SEV PSP measurement invalid, which should then indicate to the Guest Owner that
+something is wrong with this guest.  At that point the Guest Owner should
+refuse to inject secrets into the guest (and also complain to the Cloud
+Service Provider).
+
+-Dov
+
 
