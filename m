@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEC63BAA89
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 00:34:54 +0200 (CEST)
-Received: from localhost ([::1]:55062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE0E3BAABF
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 02:50:05 +0200 (CEST)
+Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzoDs-0005pB-Pm
-	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 18:34:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33858)
+	id 1lzqKh-0000Ns-Kx
+	for lists+qemu-devel@lfdr.de; Sat, 03 Jul 2021 20:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lzoD7-00059W-SI
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 18:34:05 -0400
-Received: from mout.web.de ([212.227.17.12]:36371)
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1lzqJx-000891-M5
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 20:49:17 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:46349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lzoD5-0000YC-WB
- for qemu-devel@nongnu.org; Sat, 03 Jul 2021 18:34:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1625351642;
- bh=7uJgzDnDjED1ENJhjwEa6hfn0ISsQ/T2VU7zVJmY4pI=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=Pr3LKhzosOtDPuFmiVO8IJxLc/nkk+AIverAV8Rq8CIc5x6XxBE9VCRXZMZXGh1HZ
- LajTGnqkXklEfTrX4VtQ2Q2JJK9Z6CbnNsWm7+04hiegwoUZsRHfC2jVUkVKuhC11q
- 7VSatKJrFZn4K+NKP94wZ8Ja6qjfm4yiAMPYnYT8=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.254]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MaJng-1lkLis0Rmy-00Jqbo for
- <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 00:34:02 +0200
-Date: Sun, 4 Jul 2021 00:33:51 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel@nongnu.org
-Subject: Test
-Message-ID: <20210704003351.0ce8d746@gecko.fritz.box>
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1lzqJv-0003ht-Nl
+ for qemu-devel@nongnu.org; Sat, 03 Jul 2021 20:49:17 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 417E332007CF;
+ Sat,  3 Jul 2021 20:49:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Sat, 03 Jul 2021 20:49:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=96fxp/
+ zJLRFxvoOFnrwtEHzNek0kNwdk7k/jr4ENAUg=; b=uuDXsD8a6JiIzWvaw2ZOAj
+ /tEMfI5y3g3jw0sMEht7NqUVrmy2Or2Mlb75qTNZEAOX5QKsPsc0Wx2EKiujYns3
+ j1tqbkgR3K8tREZroHfff3dgTIWFjAUFEkvy1BJ+V9vEZJwS8lgNpnQjSr0YYSOA
+ u5AwMTjq7BXTJmlTgMHDnsEhLRS50Cj7dfS/tPp2YzXP+Qc3rQofOqoBWwb7Yxjs
+ 9rmA1bYb4CsDPIWc2+LvjGlALuEOEH2Ecu2bTcwSf+XNSWnwWrDeSlIhnqER8i60
+ krV5h9ATlk5cDZH0MXMYG0kJffMd9JHx0hxDe6OYFFJCwr7+vgMCl+OTb8USMr8g
+ ==
+X-ME-Sender: <xms:hgXhYAgKtOyzmchhrQR5xdbzedf1N0h3Zc26Pq-tWAFMH22xFYqAlw>
+ <xme:hgXhYJCRAQGRG28_6h3NT2E5YDBbrpoI7xasAY1fBIFQTednqZVmylI5FsmAeZk-S
+ v2s8DaMHXP-u8KG4mU>
+X-ME-Received: <xmr:hgXhYIGykt492TEL5OtvU8pADh9Z6y59PFAXavEGM1ZRVnLDLFV241DTYfPHgOZ8otS7YA3kXM4G5ZfyVvdVCpBzvRbhkWbns8E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejuddgfeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffujgfkfhggtgesmhdtreertddtjeenucfhrhhomhephfhinhhnucfv
+ hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
+ htvghrnhepfeffjeeigfehveehfeevhfetgefgieejieeviefhffffudfgfeekleffhffg
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfh
+ hthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgh
+X-ME-Proxy: <xmx:hgXhYBRTpUJW7N3Crdd0SzeY1w1EnSK0UviNhyvQbK59VYvAHHfaHA>
+ <xmx:hgXhYNwbvBMnrC_5vd-cnETxLF0U_u_7LCzPQY5-XcMIr5lKojenYA>
+ <xmx:hgXhYP4g1l-X0JSBt69iCzor98n6aAHBxr_Z4kiZqYe62ZtWhtA-IA>
+ <xmx:hwXhYI9IJMiUWsUVedW9YKThXp7qkQdkOsSUHz9OM9U09AwLjDy4Rg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 3 Jul 2021 20:49:08 -0400 (EDT)
+Date: Sun, 4 Jul 2021 10:49:01 +1000 (AEST)
+From: Finn Thain <fthain@linux-m68k.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 2/3] dp8393x: Do not amend CRC if it is inhibited
+ (CRCI bit set)
+In-Reply-To: <20210703150219.364582-3-f4bug@amsat.org>
+Message-ID: <3b56c4fc-293c-494c-9380-8faf20115396@linux-m68k.org>
+References: <20210703150219.364582-1-f4bug@amsat.org>
+ <20210703150219.364582-3-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6tExjObw+UOC_Zm76CfueYe";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:h+U3uyl0LDCLhr9Y7TG8d4IvrR7f5VmKGeYf7XkhpS4vV5pZNog
- By/syp5YbsWI7CCcNnXWqM7/BnB/+hJ4yNVCb9T0eTdbKKe9T5jNvNmdX3fikoplFJecdhs
- Lb2fXtuKqEi+VVMpZscfXSRqh23Bz4a2QJrUpYvQe3ORKJBu8r8NhlhGvWpYhqZPPX0Tjsd
- D9wQEsk8dUOrhGBPXaAuQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EN1TWJpJfH4=:03yFql1f/H81sDZjnINBqZ
- 7fQ6BGQzCEeR9LL94IJXsfIYHQHmtcLmXAgvqECs7EIRbb7M7NlHx9x/LpIs7PKYPpqW48C9f
- MZmL2qfJq9oVvlwNQGKsKVIbluM45OP/00zNQaAwALNxBc0ThUIq8qcAFvVSqnp8+7WURJmWN
- 53mgGm06LXzKxP25mhbGVbAwO7htCtUoo/Eg9V1YOSeoLI/FWT9F3uV7GCFpHfN0d5P2AKl00
- k54SaZVpU0s63hp7TOX1DagPBvuD4xv08ATm35sI21VrysPcqNiRm/BiFvILgehIwuWA+XcYK
- YsjdsB81vgXqvjxUuE7tdweQvDxHeFN77kcQbN+4MrZsyOGYFAzfSNo/fz7aXbvevhnD9Jpy2
- k79na6+jpsfAGHWWEBGuL8YhFwdjqhNQCbYzrx8MEpS7g/+jtlMN8SyyFgLN8c0gOl3VzHOkA
- cMmg2PYUHvZvA2pPUI6XC65+5/egFR1C+I7XwwqKwd9raQ73+W5c/lwN1COSDMTaNy8uVK7Ve
- n+889eNlgVUPhd4sN1qGJeuPtGRHnlLxednPqJA9u1x2jSFNXRp2g57ugZu1eSiFI8lMbgSJZ
- gbqyZrnFP4rsRAEJzwxBswau2SwpvDLl2sT7o1IuNurSqWUAaWX0Ig1kPPsui+d5S0POyeTHl
- Q1p0ny7DWcymRAsxw+9GTLtJvjomJXwUUuqB+vAKJqgXTqiYXD8LDRGtvNvdJ3K84n+S9tf7v
- wHud4tyXOE9Y3heF4VUfn132qDFeYPY9T5uoGOsmVNxlixbrK1Q+0onK1Nl87y6KJ2VIqf8zq
- 8siA78Gkkd/iNOtWkFezdge/0TXMQiGrIBDGdmS5Mwm5c4Akyc3u4VraqqSo9I7BaFAIyCKfB
- II7mdIOyGnQOSu+zxA6RI5qWaTVVS9NI8tBFFXnzHZ/0uJv72mBsBkH+sACjEIqvHQwZOgImX
- 0q5F9yE43wF9UUvnxMsyafNzVA/IgyrFC5lZ1maYhdSrIv5SUlEZmMk+KtqpWAyHMTEtkak+1
- 4iFHoZ1ClxJcE/FZyci4O+g2BxMoU4KCTY4ZYlMNASlcZdoc5ohDdcrWHSFSroyVwfsfhMWuF
- hvjhuj8PirNVRQuZOeC698Mc3rxmaWDLdN2
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed; boundary="-1463811774-1498345879-1625359741=:7"
+Received-SPF: none client-ip=64.147.123.21; envelope-from=fthain@linux-m68k.org;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,38 +85,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/6tExjObw+UOC_Zm76CfueYe
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-This is a test. The mailing list seems to reject my patches....
+---1463811774-1498345879-1625359741=:7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
---=20
+On Sat, 3 Jul 2021, Philippe Mathieu-Daud=C3=A9 wrote:
 
+> When the CRCI (CRC INHIBIT) bit is set, the 4-byte FCS field
+> is not transmitted.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/net/dp8393x.c | 22 ++++++++++++++--------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index 99e179a5e86..dee8236400c 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -472,6 +472,7 @@ static void dp8393x_do_transmit_packets(dp8393xState =
+*s)
+>               */
+>          } else {
+>              /* Remove existing FCS */
+> +            /* TODO check crc */
 
---Sig_/6tExjObw+UOC_Zm76CfueYe
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+I don't understand this comment. Why would you check the CRC when it's=20
+meant to be discarded here? (This is the CRCI enabled case.)
 
------BEGIN PGP SIGNATURE-----
+>              tx_len -=3D 4;
+>              if (tx_len < 0) {
+>                  trace_dp8393x_transmit_txlen_error(tx_len);
+> @@ -758,7 +759,10 @@ static ssize_t dp8393x_receive(NetClientState *nc, c=
+onst uint8_t * buf,
+>          return pkt_size;
+>      }
+> =20
+> -    rx_len =3D pkt_size + sizeof(checksum);
+> +    rx_len =3D pkt_size;
+> +    if (s->regs[SONIC_TCR] & SONIC_TCR_CRCI) {
+> +        rx_len +=3D sizeof(checksum);
+> +    }
+>      if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
+>          padded_len =3D ((rx_len - 1) | 3) + 1;
+>      } else {
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDg5c8ACgkQNasLKJxd
-sliO3g/9EAyVuad5chq/djv5hMWOzlQJkSS6SprYegqgLVEI0ylCSrs3VSfXAgBI
-z3B+Ktujaj00ednbeb+L+eZEbasJhzAQOtX7um9LJdAx2nL1h6N69u7B+Mhs+WXh
-EXiFuHfoUiUfg5nWQmTHM4tNDj2mX0yD8rdaMA+tdWy32+RnsWXkHVK9WRnLFa86
-wa94X1i/vThJ1HWpw2BAiBnbJC+iSmwvgFyTu61qYrAKMUEJpWJaS99H4OJY5oyT
-MkL9mWtaqGhthsxyYWfwRybM4sFX2pb+BUK03WuIp7hO+5CuYS03qzIVWZ9O4cF/
-5B8cDaEUOo6Uju660VJfOIIL6NwM/PVmT8VX0UMPIKFJF2/Nw2ACzMBd+7r1k0rc
-6TPxXJCTEWgYjdWJuCk+vGP5AKoJ96Apkb9VxJCEmXoC4oW0OyrL2H065u4/o8Xx
-ZmsiwH4FNM7LVcUsX+nbiKc+NPNKs87Dqelg18TyBSuFfxG8WZCwF1Mae9jMyQDt
-R1n5DqgqCAxDte2fsJQ0YKEkeaCPt5JI5cPPsdb99LMbZICbe5PkDsUzoyqarF5z
-0vRuOq+Sc5jzRRm6PoswDAo0g/pb1+iadjucc6xDfLF/jNoGzawO0DqMXSB94I/4
-oSWRZu0mwrlf1QezBa46zcotaqjIxJ2MoUUfddIJnwPI+6ESA60=
-=d08v
------END PGP SIGNATURE-----
+This is in dp8393x_receive(), but CRCI does not apply to the recieve side=
+=20
+of the chip.
 
---Sig_/6tExjObw+UOC_Zm76CfueYe--
+> @@ -801,9 +805,6 @@ static ssize_t dp8393x_receive(NetClientState *nc, co=
+nst uint8_t * buf,
+>      s->regs[SONIC_TRBA1] =3D s->regs[SONIC_CRBA1];
+>      s->regs[SONIC_TRBA0] =3D s->regs[SONIC_CRBA0];
+> =20
+> -    /* Calculate the ethernet checksum */
+> -    checksum =3D crc32(0, buf, pkt_size);
+> -
+>      /* Put packet into RBA */
+>      trace_dp8393x_receive_packet(dp8393x_crba(s));
+>      address =3D dp8393x_crba(s);
+> @@ -811,10 +812,15 @@ static ssize_t dp8393x_receive(NetClientState *nc, =
+const uint8_t * buf,
+>                          buf, pkt_size);
+>      address +=3D pkt_size;
+> =20
+> -    /* Put frame checksum into RBA */
+> -    address_space_stl_le(&s->as, address, checksum, MEMTXATTRS_UNSPECIFI=
+ED,
+> -                         NULL);
+> -    address +=3D sizeof(checksum);
+> +    if (s->regs[SONIC_TCR] & SONIC_TCR_CRCI) {
+
+Same mistake here.
+
+> +        /* Calculate the ethernet checksum */
+> +        checksum =3D crc32(0, buf, pkt_size);
+> +
+> +        /* Put frame checksum into RBA */
+> +        address_space_stl_le(&s->as, address, checksum, MEMTXATTRS_UNSPE=
+CIFIED,
+> +                             NULL);
+> +        address +=3D sizeof(checksum);
+> +    }
+> =20
+>      /* Pad short packets to keep pointers aligned */
+>      if (rx_len < padded_len) {
+>=20
+
+Anyway, I think you are right about the FCS endianness error (which you=20
+address in the next patch).
+---1463811774-1498345879-1625359741=:7--
 
