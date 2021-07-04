@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35A63BAC7C
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 11:32:11 +0200 (CEST)
-Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8DF3BACAB
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 12:02:00 +0200 (CEST)
+Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzyTy-00077r-Qv
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 05:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35976)
+	id 1lzywp-0002m7-BJ
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 06:01:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzySn-0006TO-G7
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 05:30:57 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39536)
+ id 1lzyvF-00023i-QN
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 06:00:21 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:47073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lzySl-0000Kw-VY
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 05:30:57 -0400
-Received: by mail-wr1-x430.google.com with SMTP id f14so17877718wrs.6
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 02:30:55 -0700 (PDT)
+ id 1lzyvE-0007SC-9a
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 06:00:21 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ k16-20020a05600c1c90b02901f4ed0fcfe7so8162012wms.5
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 03:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VW9Kz9vdVtXU+ta66zfbpXI2OI+hxqV4fBzfRKNeuSA=;
- b=qWk74YTfAz9p7IvkUe9qebrvC3unT5zEkEc7rUq9AAwq+PH8+TUyicEerom7sS8Hlc
- lZVrrOGZlK4J21q1RfwKFzAR7jJt3C3wb2dPydr66/quWLHoCjmgqN/owPw684CiQ3WS
- geFuAzFp6eUcT3XjsT7j8vSb8tD0J4vYhL7ibOFt/NDGBotCGTAC2Cr4+OA+Yl3IF+bD
- VCkcRRkfCyfABYuw3N7IgL76FM4YhOqBeOyKv7oDDHU1tys3dfFpaS/gPRpKQkBTW8TO
- ZYhrQnXqCOITYUk4gEArIW0bj5kBlg9QHfB9IzuKwyCoSIFWCSzXHFnGYRB+Mf/gopHJ
- iphg==
+ bh=X43G2vqHaiStyCF5QNVnvA+3bCmk1QKUPRJquYz8x98=;
+ b=Jx5lZ7Qrnh1etzdClTy9h4tig5Z3nHnsYWhqh1z8o4mDYo+//WEM6dGIDZGc8fIl+1
+ p1UdcQBs7+TrJ2o8CQTt83l9c7fU2SsxUouz7tDr4WlgBPPKYSJgGnzvs4Dh71SJ2Yk2
+ xeJ4dpWUIeQnSKZqwnEBF/r7tkQk5ZH0UVeNzaLprGVnynt93o5dvnzm8Vcy86DbhlLT
+ Sc2/ZcEOIHMopTeqlWRnmY4/u0pJsDi2vlRsB/TTyM9HJ7d+QRXOBOTFwCfTWTUMD6ne
+ RAW8tJ1jID1vLf5h5Gx6oqEXSjMVyQDBt3NKOXOKWDAJQdZYYv9Wq1XdYsNkeHGC0RYH
+ xFHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VW9Kz9vdVtXU+ta66zfbpXI2OI+hxqV4fBzfRKNeuSA=;
- b=dFMuPo8+1mR6PE8lkBfe4BObiMEGd3LcT3xXMBhStzfBszwFE6H1Wu2SPSmusfjxSN
- S9CFwQ0iOLsVbjEJea5uaEPzwIWTjkAgwvsbdsyuKsMujJeWQQoXFjhYyHxAJMSWNYTL
- 6zlCgm/sNfzMPTmY7TGyKGWpw8mxsnPvCdQXiF8KLRVekndVWIt2qvhX1kZQsrxGJyh1
- 0jxvoC09sQKnVWm2lxxpp4l3thxHoZhfb2qIxN8jRlMD5MjqXmjj903qOTZqW1LHd3IS
- 0VwWHySu/2r0ZCmEcA171H7KggnCq64JPi4tx59P76E2//3+lTWJUzKnCzRfRFX81/tc
- 9t7Q==
-X-Gm-Message-State: AOAM533I5IBuwPv/qRiC+RdVq49ccNTnlbB/WAX3F8GZBeTGK/EQi015
- nKpYw7LUU9SB0YgkkEbEEeU=
-X-Google-Smtp-Source: ABdhPJxyinC3yG5sJZI9NZXbqUWLsvlpmBbvfN54DDN8+7ulqH/8WAHjt1UdytA7+39XB4p5i50RgQ==
-X-Received: by 2002:a5d:554e:: with SMTP id g14mr9411831wrw.48.1625391054418; 
- Sun, 04 Jul 2021 02:30:54 -0700 (PDT)
+ bh=X43G2vqHaiStyCF5QNVnvA+3bCmk1QKUPRJquYz8x98=;
+ b=icKzh8Tejap7NEkuuP+Iq8Y5/Ri9lvKTGC+lW7DuqZZu6gHaqh5o5JMv814c0QRBZv
+ pLP61Fhj/p938FHJl3DpaJoaFngHRbpPeFmnai/ASKZ9V5YkP43wWMao7N+67oTypytM
+ iC/JYQZZ4jecceSc8fncIf2WfuKfR/ImSRPMDXjI3k7tQkPh7Vdn9JRYM+2345/xbmek
+ DjLd4vNSIgofqb3q/pHHzXq/azkiQsMX1Os1oQSgZ06Du8xCAhvimTErH8tHBw6llwqB
+ H3M2P2UjTYTaQWDkajvbFR4Yf1nO6P5YG/chfnWjBSiuGSoVtmWuAD9JYU+lDxeBjwBY
+ ax5Q==
+X-Gm-Message-State: AOAM5327ldEKIqRbh2W/ON1+vgDEYR8osgTJz7QyzyXx/CdcG0X5wXDW
+ At9ZatX98WVOyH2IM3UxRYBmvvhX7qs=
+X-Google-Smtp-Source: ABdhPJxJi8jNWKkaqz2H3Wkb3dmORVbwd44A3JwOWxDSuD3Yhw+fzV1vjnpameUt93rh571FezhHqA==
+X-Received: by 2002:a1c:c90f:: with SMTP id f15mr9188930wmb.142.1625392818399; 
+ Sun, 04 Jul 2021 03:00:18 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id m17sm9526077wrr.6.2021.07.04.02.30.53
+ by smtp.gmail.com with ESMTPSA id p18sm5678844wrt.18.2021.07.04.03.00.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Jul 2021 02:30:53 -0700 (PDT)
-Subject: Re: [PATCH 1/2] Fix for Haiku
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ Sun, 04 Jul 2021 03:00:17 -0700 (PDT)
+Subject: Re: [PATCH 2/2] Fix for Haiku
 To: Richard Zak <richard.j.zak@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <CAOakUfOhn43BUUGoJPahxmxxTk8vcPeyrgsX0GDmzt46ZriNeA@mail.gmail.com>
- <CAFEAcA-rhL_BEJMi7a2tCoVE61OV2o5QeDdDfz1JXL9fLvM_cQ@mail.gmail.com>
- <CAOakUfNpv_7TE+86R0+Ng=10mXtx2=pyZUZG8jPDgOdLbqrqKQ@mail.gmail.com>
- <5c47cf07-f02e-f7d8-2725-5ae0a240e37b@amsat.org>
- <975f0d41-be4e-7e8c-2fc6-64eafc7c11a8@amsat.org>
-Message-ID: <951cdc26-1f4f-68d0-0187-e31513fa00c9@amsat.org>
-Date: Sun, 4 Jul 2021 11:30:53 +0200
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAOakUfOz=89WuCyAQhrebNj_K_3_2ZYAJ_=aRR2bAuKT5=9uow@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <5d7c7f63-381a-836e-be8f-68e3fb938d4b@amsat.org>
+Date: Sun, 4 Jul 2021 12:00:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <975f0d41-be4e-7e8c-2fc6-64eafc7c11a8@amsat.org>
+In-Reply-To: <CAOakUfOz=89WuCyAQhrebNj_K_3_2ZYAJ_=aRR2bAuKT5=9uow@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,67 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/21 11:27 AM, Philippe Mathieu-Daudé wrote:
-> On 7/4/21 11:03 AM, Philippe Mathieu-Daudé wrote:
->> On 7/4/21 12:06 AM, Richard Zak wrote:
->>> For MIPS (all sub-targets, 64-bit and EL) & xtensa(eb), the compiler
->>> complains about running out of memory. Best I can see, that's not what
->>> actually happens, but that's the error message. I was going to
->>> investigate this later, but this was the error which was causing the
->>> test with the Haiku VM with that corresponding make target. My desktop &
->>> laptop have 64 GB, and I'm pretty sure it didn't get to that point.
->>>
->>>
-> /boot/system/develop/tools/bin/../lib/gcc/x86_64-unknown-haiku/8.3.0/../../../../x86_64-unknown-haiku/bin/ld:
->>> final link failed: memory exhausted
+On 7/3/21 11:12 PM, Richard Zak wrote:
+> Fix for path to env
 > 
->> See how Haiku handles POSIX errno:
->>
->> https://github.com/haiku/haiku/blob/master/headers/os/support/Errors.h
->>
->> #define B_GENERAL_ERROR_BASE   INT_MIN
->>
->> #define B_POSIX_ERROR_BASE     (B_GENERAL_ERROR_BASE + 0x7000)
->>
->> #define B_POSIX_ENOMEM  B_TO_POSIX_ERROR(B_POSIX_ERROR_BASE + 0)
->> #define E2BIG           B_TO_POSIX_ERROR(B_POSIX_ERROR_BASE + 1)
->> #define ECHILD          B_TO_POSIX_ERROR(B_POSIX_ERROR_BASE + 2)
->> ...
->>
+> Signed-off-by: Richard Zak <richard.j.zak@gmail.com
+> <mailto:richard.j.zak@gmail.com>>
+> ---
+>  Makefile | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Same problem with Xtensa:
-> 
-> static uint32_t errno_h2g(int host_errno)
-> {
->     static const uint32_t guest_errno[] = {
->         [EPERM]         = TARGET_EPERM,
->         [ENOENT]        = TARGET_ENOENT,
->         [ESRCH]         = TARGET_ESRCH,
->         [EINTR]         = TARGET_EINTR,
->         [EIO]           = TARGET_EIO,
->         [ENXIO]         = TARGET_ENXIO,
->         [E2BIG]         = TARGET_E2BIG,
->         [ENOEXEC]       = TARGET_ENOEXEC,
-> ...
+> diff --git a/Makefile b/Makefile
+> index 30f19d33bb..ced9b97372 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -14,7 +14,11 @@ SRC_PATH=.
+>  # we have explicit rules for everything
+>  MAKEFLAGS += -rR
+>  
+> +ifneq ($(BE_HOST_CPU),)
 
-Annoyingly enough this is also how linux-user/syscall.c does
-(thinking about code re-use):
-
-/*
- * This list is the union of errno values overridden in asm-<arch>/errno.h
- * minus the errnos that are not actually generic to all archs.
- */
-static uint16_t host_to_target_errno_table[ERRNO_TABLE_SIZE] = {
-    [EAGAIN]		= TARGET_EAGAIN,
-    [EIDRM]		= TARGET_EIDRM,
-    [ECHRNG]		= TARGET_ECHRNG,
-    [EL2NSYNC]		= TARGET_EL2NSYNC,
-    [EL3HLT]		= TARGET_EL3HLT,
-    [EL3RST]		= TARGET_EL3RST,
-...
+Where is this variable defined and what is it for?
 
