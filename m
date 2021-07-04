@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791093BADE1
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 18:52:28 +0200 (CEST)
-Received: from localhost ([::1]:33564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436A13BADE3
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 18:59:19 +0200 (CEST)
+Received: from localhost ([::1]:36100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m05M3-0005nl-HS
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 12:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54844)
+	id 1m05Sg-0007wE-CA
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 12:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m05L2-00055m-1Y
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 12:51:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59138)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m05Ky-0004sH-PG
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 12:51:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625417478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i8BzZZDFV1gkbG0r0zSRWJQsnG6ApkZB3EcEyUS2jrY=;
- b=OqkKQMdMz8ZgMa/Ed8QXreez/EHtKBGrq6TAITCxyMe89ytkEVo/GvFf6enzTeKFHcK6Pz
- G+HOnOb7YywbdOxH84JktOwVqyBmHHN0GZ6kPGTdW9OvPoMBdvXrobW74HjFZ2QWNz8/vD
- OyPfMnMwGot6HL7v64X0EV0ypbN/+iM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-z0PRMkvcPTuh30VyF6PqwQ-1; Sun, 04 Jul 2021 12:51:16 -0400
-X-MC-Unique: z0PRMkvcPTuh30VyF6PqwQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- p19-20020aa7c4d30000b0290394bdda6d9cso7826549edr.21
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 09:51:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1m05Rw-0007E4-ER
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 12:58:32 -0400
+Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:46647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
+ id 1m05Ru-0001EY-Pj
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 12:58:32 -0400
+Received: by mail-ua1-x92b.google.com with SMTP id v22so190977uaj.13
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 09:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9KTAvXBOQj9+yBJCyqjnLWiKcfwNDQw8EZG5kAOWkRA=;
+ b=nhItK84PSqeG6HFvud1Lp5wL8pcPBeLupZpxHTEBIud4DqH+F4vsQ1xXEXi3anZAOT
+ Tcd4IG1ZuSQbzh4fY3D5qGsJfilLKJKaU9eamkskQejqwQZ0ziT18vRUsT/DoeAm32kq
+ 3xZ48sPkEyPcFNm3/ti2GZzZFCVvSzWt7pw5Kwa4eu/znDmzTL8xzcy2fa2BhyrMAdc+
+ mw5dkZQpejLJzDCHJvWzen15xyDBTZhBWU2/rlYSKf5f3U66Q1wU7HZJ8wyi1HiV+8oM
+ 4HygMUmOTbLe/g3jcW5sVX4grPrIn8CGcbnXhtmGtJBQ5M8Xv4Nbnvw5Uc29if6cGXKp
+ 5nGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i8BzZZDFV1gkbG0r0zSRWJQsnG6ApkZB3EcEyUS2jrY=;
- b=ao/RdSb/NKdt2YDyqLUoiqHfIES2k2lA9NZBPJLJir6jWhJtYLRTGe3hDRj3J9/2RM
- FKbZ5v2pGrsifKnkH7CeKA/gZR+SlTboKFEHhuSgnqJyInSedc4ma9yc8XHWwYlzs1pL
- 2ESMNm7C9CH/7LJ3UcDHSXFr7mqt+pPg07wx6VZoC0diS4xyfEt59K+f/5BI4MEg7ZKN
- UQ2PyQ0p/wVNOMtOQFvG3VjOqHZSCBgTxSh1D6B9luE9tv4igRrPVAvLGNhpzLq+LeUk
- EFoxH5IY8T353wYxYRB4Di5TY1H/N2uuU+e7hgEFaVEwYpSBp0V9RTvMbuoASwqs6ER0
- J9jA==
-X-Gm-Message-State: AOAM5325QAso73iza7UXVt72e3f0dBTkZahHvVgrvgYixqGViLILgppi
- 9ADEORB+TIgjCfz9roiMbPBE4KPjX9CFgk+NjPoh7kal9Q7OcSNkr5yW1md0V5oR62Tveo1Xreu
- +sczcdgPOx6m22cM=
-X-Received: by 2002:a05:6402:c91:: with SMTP id
- cm17mr11374111edb.123.1625417474863; 
- Sun, 04 Jul 2021 09:51:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoAaVmjBk7n3JllUwCw+WSAXhZJzgO9PydyJutSMO+fcQCCMifinl1RFqbM6/AeYIgvl3XKQ==
-X-Received: by 2002:a05:6402:c91:: with SMTP id
- cm17mr11374100edb.123.1625417474677; 
- Sun, 04 Jul 2021 09:51:14 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d89b.dip0.t-ipconnect.de.
- [87.145.216.155])
- by smtp.gmail.com with ESMTPSA id j19sm4183508edw.43.2021.07.04.09.51.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Jul 2021 09:51:14 -0700 (PDT)
-Subject: Re: [PATCH 1/2] Fix for Haiku
-To: Richard Zak <richard.j.zak@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9KTAvXBOQj9+yBJCyqjnLWiKcfwNDQw8EZG5kAOWkRA=;
+ b=oVvCWS1fNhQmqwE7kMEpT9gcDIud/9JU5dTF5/+qmQy+JeOFE2LEj88rTEeE0eTXGg
+ F0IHvERSF6wqRHdALVEYFXibfAB83P5r/IqnJ/Lq1M+ckmRIp+ZMqNEaqTbFObUyl297
+ b0O+ALr4HvSWYoNzKCIh5GzeYaDPC16912X/kh0KcDs0WB9AoX9WZOSemCHMCqbby18o
+ 85SVRhsbdQsT5SLE4Q10JeIUt2lYSkldsWaGKNtfInIxC6LkG3gim+dq5kZTtHha8dsu
+ hWExvEel6O/FCEsGiP8YHJaN9bi04tA/iCB4CaZrcrr0f8Se9PlQtGpA5/UfJAsvsgkM
+ IGUA==
+X-Gm-Message-State: AOAM533WB71jmQjDkaJ/PVpxumrgqWOda/vQgB1Oc74cwFTaPbXderyX
+ vwDpn5YAN50AHvVYGvHBRPuhPG7ioGGDdvZv9oo=
+X-Google-Smtp-Source: ABdhPJwrjyMebYg+dStVf1Go/70va/MPP63jYv1sWPKn2YTglO3/Yrs4Fa85q4IOd3yd/I+pm3uBv4Zy5EVe6pVZF9M=
+X-Received: by 2002:ab0:3253:: with SMTP id r19mr7649166uan.5.1625417909733;
+ Sun, 04 Jul 2021 09:58:29 -0700 (PDT)
+MIME-Version: 1.0
 References: <CAOakUfOhn43BUUGoJPahxmxxTk8vcPeyrgsX0GDmzt46ZriNeA@mail.gmail.com>
  <CAFEAcA-rhL_BEJMi7a2tCoVE61OV2o5QeDdDfz1JXL9fLvM_cQ@mail.gmail.com>
  <CAOakUfNpv_7TE+86R0+Ng=10mXtx2=pyZUZG8jPDgOdLbqrqKQ@mail.gmail.com>
@@ -72,29 +56,22 @@ References: <CAOakUfOhn43BUUGoJPahxmxxTk8vcPeyrgsX0GDmzt46ZriNeA@mail.gmail.com>
  <CAOakUfMmxSrBcQTQaRBB1g3qFCrpm-BLDVvfgoRm2Ww_-Pe3mQ@mail.gmail.com>
  <0a17d006-b1ef-ab1e-8616-50e29681f998@redhat.com>
  <CAOakUfNZ5K-tVNQZZZWQ2U7-fbw_4TnFSfKXXV2nRpTGVC-LLA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <ec113b7f-781d-43f1-ace3-78ae6c114207@redhat.com>
-Date: Sun, 4 Jul 2021 18:51:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <CAOakUfNZ5K-tVNQZZZWQ2U7-fbw_4TnFSfKXXV2nRpTGVC-LLA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ <ec113b7f-781d-43f1-ace3-78ae6c114207@redhat.com>
+In-Reply-To: <ec113b7f-781d-43f1-ace3-78ae6c114207@redhat.com>
+From: Richard Zak <richard.j.zak@gmail.com>
+Date: Sun, 4 Jul 2021 12:58:18 -0400
+Message-ID: <CAOakUfPchj=rAbtnh+ZUj0CERwgFLKKtzB5ozu4j-b0U6y9V=Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Fix for Haiku
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001f0d4705c64f1997"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
+ envelope-from=richard.j.zak@gmail.com; helo=mail-ua1-x92b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,21 +87,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/07/2021 18.39, Richard Zak wrote:
-> Regarding upside down text, where did that occur? I certainly didn't do that 
-> intentionally. Maybe an encoding error somewhere?
+--0000000000001f0d4705c64f1997
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-That was meant as a humorous way to say that you should avoid top posting, 
-but apparently it was just confusing instead. Sorry for that. Anyway, we use 
-interleaved posting on qemu-devel. See e.g.:
+=C3=8En dum., 4 iul. 2021 la 12:51, Thomas Huth <thuth@redhat.com> a scris:
 
-https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+> On 04/07/2021 18.39, Richard Zak wrote:
+> > Regarding upside down text, where did that occur? I certainly didn't do
+> that
+> > intentionally. Maybe an encoding error somewhere?
+>
+> That was meant as a humorous way to say that you should avoid top posting=
+,
+> but apparently it was just confusing instead. Sorry for that. Anyway, we
+> use
+> interleaved posting on qemu-devel. See e.g.:
+>
+> https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+>
+>   Thomas
+>
 
-  Thomas
+Ahh got it. I hadn't done that since Gmail wants to hide the test I'm
+responding to. I'm assuming that revisions to a patch should still be a new
+post, not in a reply?
 
+--=20
+Regards,
+
+Richard J. Zak
+Professional Genius
+PGP Key: https://keybase.io/rjzak/key.asc
+
+--0000000000001f0d4705c64f1997
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">=C3=8En dum., 4 iul. 2021 la 12:51, Thoma=
+s Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; a s=
+cris:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 04/07/2=
+021 18.39, Richard Zak wrote:<br>
+&gt; Regarding upside down text, where did that occur? I certainly didn&#39=
+;t do that <br>
+&gt; intentionally. Maybe an encoding error somewhere?<br>
+<br>
+That was meant as a humorous way to say that you should avoid top posting, =
+<br>
+but apparently it was just confusing instead. Sorry for that. Anyway, we us=
+e <br>
+interleaved posting on qemu-devel. See e.g.:<br>
+<br>
+<a href=3D"https://en.wikipedia.org/wiki/Posting_style#Interleaved_style" r=
+el=3D"noreferrer" target=3D"_blank">https://en.wikipedia.org/wiki/Posting_s=
+tyle#Interleaved_style</a><br>
+<br>
+=C2=A0 Thomas<br></blockquote><div>=C2=A0</div></div>Ahh got it. I hadn&#39=
+;t done that since Gmail wants to hide the test I&#39;m responding to. I&#3=
+9;m assuming that revisions to a patch should still be a new post, not in a=
+ reply?<br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signatu=
+re"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>Regar=
+ds,<br><br>Richard J. Zak<br>Professional Genius</div><div>PGP Key:=C2=A0<a=
+ href=3D"https://keybase.io/rjzak/key.asc" target=3D"_blank">https://keybas=
+e.io/rjzak/key.asc</a></div></div></div></div></div></div></div></div>
+
+--0000000000001f0d4705c64f1997--
 
