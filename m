@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACA73BADB2
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 17:36:05 +0200 (CEST)
-Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD4E3BADC9
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 18:16:58 +0200 (CEST)
+Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m04A8-0001YA-Su
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 11:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45864)
+	id 1m04ng-0007hg-MA
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 12:16:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m048z-0000qg-4w
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 11:34:53 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41718
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m04mB-0006ur-6G
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 12:15:25 -0400
+Received: from mout.web.de ([212.227.17.12]:38069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m048x-0006bL-Kr
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 11:34:52 -0400
-Received: from host86-179-59-238.range86-179.btcentralplus.com
- ([86.179.59.238] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m048b-0004dh-Ay; Sun, 04 Jul 2021 16:34:33 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210703141947.352295-1-f4bug@amsat.org>
- <20210703141947.352295-3-f4bug@amsat.org>
- <88ef2d9c-7dcb-2e2e-037c-6af306ad2a12@ilande.co.uk>
- <6fb1c380-1a0c-9d0e-be20-b2a7baec3f51@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <ebcc242d-cc66-0363-e135-81ca268d04e2@ilande.co.uk>
-Date: Sun, 4 Jul 2021 16:34:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m04m9-0006fY-5P
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 12:15:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1625415300;
+ bh=7/kGr7x/9hiNsY5VJlN5iXLm94LfcA3hZTbn3j0hXiY=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=MoLiZrSkaToKNaeErxTYWXJo1YudJ3BpIWJ42qO+cTb6ff3bjZpd7/B7Ddy3RiRkQ
+ 0TH71xFRUInAIThgJmj9qOD68Eldj0MmfT+Hw1yXuv6X2zXMmWD+dHQ86GkA1s4sJ0
+ Kz31mflBNgQ8rnwaYWZ+xC3bZITfyBVr7i9eOQPo=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([88.130.61.115]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lr2dj-1lVOel1ueB-00egfo; Sun, 04
+ Jul 2021 18:15:00 +0200
+Date: Sun, 4 Jul 2021 18:14:44 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] colo: Don't dump colo cache if dump-guest-core=off
+Message-ID: <20210704181444.59396f6b@gecko.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <6fb1c380-1a0c-9d0e-be20-b2a7baec3f51@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.179.59.238
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 2/6] dp8393x: don't force 32-bit register access
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
+Content-Type: multipart/signed; boundary="Sig_/.q2XOS2ozWCXlodzB7dR0N.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:VZD8s76S1iss0BoyXl3sKF1P2WR5ahVEzmLKBBBvaHr/qpnjolr
+ rfRm4269wcDQQpjaxQ9hMJ3ZWc936HrsDvbRc3ETEBSmCke2gPgfoprs/dGnWH/MdbBmRWz
+ iIScrUMD+xtwvdJFSTN/gyz14wNV40mVPFP6pYXuW462dpLegmY7T2ONWFvaQAMax+qZV3J
+ f/GuSMyYWD25ZwdV5BuiA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Qao1scRyGkk=:GpwAbccr2g75oPIqIvuIDC
+ 74iT4Xu2AVFv+y1zB3Ie/wng3/WRhP34yWxRRFBjiIhA52Jf6XmW5iY96ha9Yp1nOhXJmEsFD
+ ibAlmhbGC3MiP60hCXfDTgpW0oavsSn1Zxxkc07hzWa/1WhxlD+7M8lIfBIBJ3TaZboexzQy+
+ QM+us+YjzqJxvZx5kIYapc6YAei+4BXc3INbeCm71xEaVLa+miY0GG4F2SLHmnDoFqPn6vrZS
+ EttwJKqQsPpWoM0KweMhe4Vn5DGbcrN1N0bymULPKj60RQ4vwjAZxat2wziY81yb5z8US1D8I
+ IBDsWSVjDOic01pbWNpt8U+CSk4FagsMwGfL+vhtkBKYEshuBzxWWnQRlElrfuL8aS/ptRp5k
+ qQeTSuUdNsVGZwS6qIXVQ7de/lnBIXbKpTDBYrMIttrNQSOkRM2JF9QsuuaFVr0jP4spkyjSY
+ Ei66OXx7DpOZ7jhHRcUNOR7OzVOxfwk6W3Apbuo3ujxOoYnP+Z70/8UM2BJS2zaJddm3yeZkV
+ NpRQsZbjjL/ftK/Dm1Ff3erNDMjZHLcttr8JQmrI5zDNUvi6IIYUBPQHsxa/EP6/ShFMt2jF7
+ V0jhluxkihGHcViiD2vXNQO+PxXkD/RdRqANxa57bZHP9+E1lC5RQ0+d1NMQoB6ZBJLwco3vC
+ 7oCLyqhTwrNqp1XEqnkoUbYK7CNWKeIDxHm0Po811/ph3T27Rwhd/4XVS9Ba6hmCijVB3seBm
+ TAUAcCdOK0jTd5fT5L4eGl+g3jA4FuzMGcoqETsLT2A9RGR0VhmHWLL+OtzR93FL2TpHwszXe
+ 7gKQPDqy8ydTbZ/A1EiVfJMpihXFVaYabHUtqSvpg+KWm3LgQMRvdjbJw5QhrAQ457vfqvtaq
+ CdB6WxiBiZgRKieFIp319Z6mjyYdq2UR47DFp34y2pYwV0jmTfa0ZK0xZEKunBvJkjZgI83Wv
+ ttmBqCtGYDyODx6bCyTmsqjlMQPYsD0FLasg0AgABuh0V3J0OuKzalfeyXRR5tel1QptpBsTw
+ CRMxBbFdyNfsi9CVxAeNSUAGgscC9IUYV6qVNnt+v3A6YVDNehqexLJ334kwzyBdVbktSP1W4
+ XDynm5CvKqJ5kaxIAYwuy7zrDwkrj/0xo+wUo9MptqAdepM9CIJSNUxyQ==
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,58 +81,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Finn Thain <fthain@linux-m68k.org>
+Cc: zhang.zhanghailiang@huawei.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Rao, Lei" <lei.rao@intel.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/07/2021 17:29, Philippe Mathieu-Daudé wrote:
+--Sig_/.q2XOS2ozWCXlodzB7dR0N.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> On 7/3/21 4:39 PM, Mark Cave-Ayland wrote:
->> On 03/07/2021 15:19, Philippe Mathieu-Daudé wrote:
->>
->>> From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>
->>> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" assumed that
->>> all accesses
->>> to the registers were 32-bit but this is actually not the case. The
->>> access size is
->>> determined by the CPU instruction used and not the number of physical
->>> address lines.
->>>
->>> The big_endian workaround applied to the register read/writes was
->>> actually caused
->>> by forcing the access size to 32-bit when the guest OS was using a
->>> 16-bit access.
->>> Since the registers are 16-bit then we can simply set .impl.min_access
->>> to 2 and
->>> then the memory API will automatically do the right thing for both
->>> 16-bit accesses
->>> used by Linux and 32-bit accesses used by the MacOS toolbox ROM.
->>
->> The change should work, but the commit message above needs a slight
->> tweak - maybe something like this?
->>
->> Since the registers are 16-bit then we can simply set both
->> .impl.min_access and .impl.max_access to 2 and then the memory API will
->> automatically do the right thing for both 16-bit accesses used by Linux
->> and 32-bit accesses used by the MacOS toolbox ROM.
-> 
-> Do you mind sending v3 of this patch reworded (and including the .valid
-> fields)?
+One might set dump-guest-core=3Doff to make coredumps smaller and
+still allow to debug many qemu bugs. Extend this option to the colo
+cache.
 
-I've sent a v3 with the rewording but dropping the .valid fields since that breaks 
-MacOS and removed Finn's T-b tag as it may be there is an issue here with mips64el - 
-whilst it works for me on all of my test images, I'm struggling to keep up with all 
-the patches flying around everywhere :/
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+---
+ migration/ram.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Now that your MIPS PR has been applied, perhaps it is worth sending a rebased v2 of 
-your RFC "dp8393x: Housekeeping" patchset to ensure that everyone is up to date with 
-the latest fixes? I won't be able to have a look at the CRC patchset for a few days 
-though.
+diff --git a/migration/ram.c b/migration/ram.c
+index 723af67c2e..0797d0d222 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -56,6 +56,8 @@
+ #include "multifd.h"
+ #include "sysemu/runstate.h"
+=20
++#include "hw/boards.h" /* for machine_dump_guest_core() */
++
+ #if defined(__linux__)
+ #include "qemu/userfaultfd.h"
+ #endif /* defined(__linux__) */
+@@ -3356,6 +3358,10 @@ int colo_init_ram_cache(void)
+                 }
+                 return -errno;
+             }
++            if (!machine_dump_guest_core(current_machine)) {
++                qemu_madvise(block->colo_cache, block->used_length,
++                             QEMU_MADV_DONTDUMP);
++            }
+         }
+     }
+=20
+--=20
+2.20.1
 
+--Sig_/.q2XOS2ozWCXlodzB7dR0N.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-ATB,
+-----BEGIN PGP SIGNATURE-----
 
-Mark.
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDh3nQACgkQNasLKJxd
+slh36A/9HIb0eix7+oZklBUyU1qExVGzkn6Miyak72sN8lrYrmUFxSCAKmie6UUV
+YcnJ/E7f07mlNTXAiLF2FCaI1hh0AEqqNQ+RE8jHMbNcdfxyb8fFH0xsuiJyhugo
+KSi0Aq65krt7w8jwJALcrNDPk2nya1uNPaH6PKlIkmWfm9OjKsvFIKEta08A1rdQ
++wMfQhuoEtXmlUZoF/rOhcYH4fIA/ngO+PC1Y1BswGb3mUtFTd0WkuAAkv1SbB9C
+7q9R18z/MUGh5tVLPRoMYv6BhrBsSSkeYjCUAB+Eg1rp25tKSC/nTiLWy+lnXIRF
+Fjwg7qr6GbreyS1VjE2QCwJefGo+p1lprbCctWLVS+oMVGKtJJW8Au9eV4nVmZ1J
+niw7891IqUGbLZLJgrMSbcIdw2BJ7Wv0cAmDN4ozpW0GdefCU7nqrEc5frCkT2bo
+J+ohAkHuVB4ewmZGBXbh1LoZz7v/IIYHMNDq859OcUmvlNxImePystYTCBGyG8I8
+21TyqB6MuKKXXRTFye5Mt7wEUtONX6kmPYOkEo+E2Vcywhvi+4AhgeRsb8FV4NZa
+oZD2m2tY4NDZYnKw3GOiumWShK+4RKFUlLJgpHFjIOffgCBebAgE1dhW7Ecyz0Yg
+yPn6VRnCj+AUDEpfm1LHz+Wt7rYwJ03ZBGxJJwHEId8z9it7Bt4=
+=f0Sh
+-----END PGP SIGNATURE-----
+
+--Sig_/.q2XOS2ozWCXlodzB7dR0N.--
 
