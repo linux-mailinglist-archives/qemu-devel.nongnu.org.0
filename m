@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBED3BAE5C
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:41:34 +0200 (CEST)
-Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AF33BAE58
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:39:38 +0200 (CEST)
+Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m073d-0001OJ-Kg
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:41:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36250)
+	id 1m071l-0004tc-OJ
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m070Q-00022o-Ml
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:15 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42561)
+ id 1m070V-00026i-Hn
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:19 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m070P-0006Rk-AD
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:14 -0400
-Received: by mail-wr1-x435.google.com with SMTP id t6so9320692wrm.9
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:38:12 -0700 (PDT)
+ id 1m070U-0006Tk-10
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:19 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso12506644wmh.4
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:38:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=u7pq/plXZYF6CkchyohXlECRjOPB05y9Xo+CLcNMUW8=;
- b=sSZC9TLGxan2y/QPX2bBbBbZSO4oc5xvKtrMEiWZqfwSNP9sKgr+LNZj4L+oyPUYbn
- BVzO3iq8+tEZTLoKRuNDsziDtZTFc5+XfsyJh1kzvgHsKlhb3ikRG4kYu5ds4sVEhzGB
- BiFKZK8c4ooo1bNMgcCCqNL6Wi7NfOzsWWQ0euHBpTfLAxSbFkfNNDqdqoSRBsUK1Kna
- 8qY+BEtieTBaArd6yZAtkSc5x9Wv8mDjMmmmgzF86mWuy15IN+zpzT9HK+ALY/bh8/OP
- MynxcW0I1p5Ozgl1pXOPSi7AVyMLctRPlWBcIojYcvnVzK4S8fc9xjAkJf+7ZIi/Bqk0
- YR+g==
+ bh=l83MMXMFR2vl9ctHFO603Ad6lSWk25Ov1gyYgtgA0Ts=;
+ b=vR0W9RvAYBZAV3iEKsgpj1VV66b/JdEJ3mHgR0KjmcKVxAQ1Vsb41cB92g6tdA9mBl
+ IWeJ5Dc73q5EJS+c/GMSIGP0rpmXqbx8FBWp5F8YM9s3/5Y+421TRw/OWH4JTNlM44Ux
+ OYzR1ldjTaWjJ6CTTxM/3hooIYCupiLP7xGiISLc2Zeq11m2IF2l8pzhR2YxYn7B36st
+ O0I4XunF4puSdk5K8BVK4Efx018Q8S5P6L2x5UrP9hD2j/F1YCBHkicA364cTK8UEolD
+ /u6YOg9tu/pF2FgsNz9uxkEKsBW6h+k90oiQH/SZv0X9NJWXjx3y3xw443v8dFWHM9oE
+ LrAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=u7pq/plXZYF6CkchyohXlECRjOPB05y9Xo+CLcNMUW8=;
- b=d80ts7GeUzG6vDyqWWvRzsGhVWIzkx0YEVQbw8FflIJgDqgC1dWzbsK2W5WEQzPDbj
- XHqMYEmMWGFwO3K1dgiy4h3SLP9gXLbMxwDdaU3aBIkheJ/86yPcOSnI4VN9vkM034Ht
- HrxKPGC6zdnvouFBrhXiyo0A8BxJzchfJ0t8civ1S9j/L9lSOxM26H5KjkHReM7npIYu
- R8tnI8Uwtasel+y9bgMiWIbqexKDJoZh1tn0NKOHd5UMdcybWP6z4iF0Z6lUPnceW4Bv
- 3fBUvQA4BE1e3VzpAAgPUun4/6XbZ+tWv0eDG3jBgGCvEev6gB0U/lV/PZMck+L0SQV4
- jrxg==
-X-Gm-Message-State: AOAM5328Ls6iEABormEA3rE+dKUNG/W9rHW7yHjBzWKDxOif0BseO94O
- 2GspnpNw9IgYIAVRSXELMIYlrYj35Zs=
-X-Google-Smtp-Source: ABdhPJzOQpL77PHdJ8VxjBmJjmAt5JMaEoMBT+hqlLRCBK+3o53JeakwzeFrMLfi3K6yxcKDrTmYhg==
-X-Received: by 2002:a5d:52c1:: with SMTP id r1mr11546808wrv.294.1625423891850; 
- Sun, 04 Jul 2021 11:38:11 -0700 (PDT)
+ bh=l83MMXMFR2vl9ctHFO603Ad6lSWk25Ov1gyYgtgA0Ts=;
+ b=czibqQaz7PCSGY0DY7bpcsnjjRV85DEbvgFlwThM13h3AgyMxNJ3BHcP/QjVjQqdMS
+ 90Z19HEwXdfd8Yf876ad4KSWWXPq7E5j/gnjSwABRNU+c50VOl7NKj/+5devW52R0sZL
+ uZR/ukiGmjsR5mJN0q9lzOAwhJnEOTV9dRnlW6YzUCbkI2NM/HM1bE2V29UJgXuqyEXe
+ FZZTd84C1/xCdx2oEs/l7XdWzAWwNuYQySI6WknQ8SB6nY81iV6OTgG/WL/Pd0NmBihl
+ MXPB0dnktdJnSYh6idaYYgGvWEbTc6xj0Yl1oj7Djy+PHF7KfViNTW66W4R0/B9Bvi/v
+ cdzw==
+X-Gm-Message-State: AOAM5302wqo9GihsVYTg3qXLVKaGOS2o2rYAFw5QAiR0sNg9J330NQKD
+ b7TTK6rciQZg/hen3nsHWPZvr/EKdJU=
+X-Google-Smtp-Source: ABdhPJwBWFkNpM96bk9uhn/Iwy1T1bs8cC2g0ACiIgts2cKck5sJV3Om4tkZm612DF3YyyC8zGQoLQ==
+X-Received: by 2002:a05:600c:1c27:: with SMTP id
+ j39mr8698742wms.130.1625423896595; 
+ Sun, 04 Jul 2021 11:38:16 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id u15sm19186421wmq.48.2021.07.04.11.38.10
+ by smtp.gmail.com with ESMTPSA id q19sm19209992wmc.44.2021.07.04.11.38.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 11:38:11 -0700 (PDT)
+ Sun, 04 Jul 2021 11:38:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/12] linux-user/mips: Handle TARGET_EWOULDBLOCK as
- TARGET_EAGAIN
-Date: Sun,  4 Jul 2021 20:37:46 +0200
-Message-Id: <20210704183755.655002-4-f4bug@amsat.org>
+Subject: [PATCH 04/12] linux-user/sparc: Rename target_errno.h ->
+ target_errno_defs.h
+Date: Sun,  4 Jul 2021 20:37:47 +0200
+Message-Id: <20210704183755.655002-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210704183755.655002-1-f4bug@amsat.org>
 References: <20210704183755.655002-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,40 +95,35 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux kernel defines EWOULDBLOCK as EAGAIN (since before v2.6.12-rc2).
+We want to have one generic target_errno.h (API to access target
+errno), and will add target errno definitions in target_errno_defs.h.
+The sparc target already have its errnos in an header, simply rename
+it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/mips/target_syscall.h   | 2 ++
- linux-user/mips64/target_syscall.h | 2 ++
- 2 files changed, 4 insertions(+)
+ linux-user/sparc/{target_errno.h => target_errno_defs.h} | 0
+ linux-user/sparc/target_syscall.h                        | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename linux-user/sparc/{target_errno.h => target_errno_defs.h} (100%)
 
-diff --git a/linux-user/mips/target_syscall.h b/linux-user/mips/target_syscall.h
-index dd6fd7af8ea..3e558fdb4b4 100644
---- a/linux-user/mips/target_syscall.h
-+++ b/linux-user/mips/target_syscall.h
-@@ -21,6 +21,8 @@ struct target_pt_regs {
- };
+diff --git a/linux-user/sparc/target_errno.h b/linux-user/sparc/target_errno_defs.h
+similarity index 100%
+rename from linux-user/sparc/target_errno.h
+rename to linux-user/sparc/target_errno_defs.h
+diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+index 15d531f3897..dad501d008c 100644
+--- a/linux-user/sparc/target_syscall.h
++++ b/linux-user/sparc/target_syscall.h
+@@ -1,7 +1,7 @@
+ #ifndef SPARC_TARGET_SYSCALL_H
+ #define SPARC_TARGET_SYSCALL_H
  
- /* Target errno definitions taken from asm-mips/errno.h */
-+#undef TARGET_EWOULDBLOCK
-+#define TARGET_EWOULDBLOCK     TARGET_EAGAIN /* Operation would block */
- #undef TARGET_ENOMSG
- #define TARGET_ENOMSG          35      /* Identifier removed */
- #undef TARGET_EIDRM
-diff --git a/linux-user/mips64/target_syscall.h b/linux-user/mips64/target_syscall.h
-index 8594955eec2..c54374c5a29 100644
---- a/linux-user/mips64/target_syscall.h
-+++ b/linux-user/mips64/target_syscall.h
-@@ -18,6 +18,8 @@ struct target_pt_regs {
- };
+-#include "target_errno.h"
++#include "target_errno_defs.h"
  
- /* Target errno definitions taken from asm-mips/errno.h */
-+#undef TARGET_EWOULDBLOCK
-+#define TARGET_EWOULDBLOCK     TARGET_EAGAIN /* Operation would block */
- #undef TARGET_ENOMSG
- #define TARGET_ENOMSG          35      /* Identifier removed */
- #undef TARGET_EIDRM
+ #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+ struct target_pt_regs {
 -- 
 2.31.1
 
