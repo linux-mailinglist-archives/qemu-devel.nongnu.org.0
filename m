@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D233BAE6A
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:51:33 +0200 (CEST)
-Received: from localhost ([::1]:59112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF7B3BAE5D
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:41:44 +0200 (CEST)
+Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m07DI-0006m1-Tf
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36446)
+	id 1m073n-00027a-IC
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m0719-0004G0-9D
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:59 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m0717-0006t2-2a
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:59 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id f14so18873302wrs.6
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Oz3/9LjOF/DujRVAV4aK72odTL+SNItH8ndIDVrL7Cc=;
- b=vQPIFpT0avrRTFZcX1IapggI2sqF9HHkNWC88ySXNsUG0BGV6biJKrz+jmgIvXcZfI
- KIDsAsD1kFcOMPo2emJowwLFF58tcIzKNpDjF4r+rV/tpKtLd2dtBQdOihTEJhzZZXB3
- /l49CauVvnpISpD7uOaHV/3Rc53yhm6dASnK70smHZX0mRam6xyYslljA4o8sHTOoof7
- OxtOxv5tn2RM++zx4ohNanopfu3+15myCa1UNRmb1OrjOhwOKiKbxJakn8szXQECfS24
- gXqrtui4RlBaYgzv4GgK91Kscr/fFKXqVcohGJGxZ36KqvuxLnzqOjbQ0bG5UQwFYRaf
- zwww==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0713-0003sb-RD
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0711-0006po-GP
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625423930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PjGZnW6zSulH1KT8VEYq1W324wcEJGvr2NUdPmJ3U84=;
+ b=eHavgdFkzgwNPzGFP8amXbH0XzHCG/x2QVbmgprGgXfDhPVhi3tWH3DbUDrhXRXmmCMHq4
+ XOtO26X00hbt8zS20ByAl/TI+yRgbpTPd8W5LLPe/9rbE3jGp+pr6mbT5/IY6Z6dW3VjEE
+ yXqSzvYD78PH58rU6Z38uVxjh8CLmq8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-NwZRZRQ2Pn2XjpE_h5IvRw-1; Sun, 04 Jul 2021 14:38:47 -0400
+X-MC-Unique: NwZRZRQ2Pn2XjpE_h5IvRw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ d5-20020a0564020785b02903958939248aso7931549edy.15
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:38:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Oz3/9LjOF/DujRVAV4aK72odTL+SNItH8ndIDVrL7Cc=;
- b=XIwnCfePRXj/k2VgtsOqYOr3g/rS+jIbw1qOWZSMjHaNaB3bJqxqshpr/HxX2elA24
- HhqPLLRVrhSmohFNmm6UlxZeD1+iIq+RmiYhAC509rdm0f39T1ch7NOMze9ikWwxZhZU
- 9dvde76Eipo5dMWNWvotByAiFwgX3wbFCcXcmSqulkecrBl6mCMsTinhyr/JRHbO4A1m
- wcjulosiMZv60CQzI7vSKK7/HLoswTsBZ5GpAPPKB82y9jM9YKWZksevyn0QQErL99p8
- xaYu4Xdyg2//cUU8+zBX6ABLlRt6IzeQ81Gtr21fjFlUKKlo7RjcQVs8s65ukKuvHIGZ
- Oiwg==
-X-Gm-Message-State: AOAM531c3eXb2nvKeIlRw7X64gJfW96Ai/oi0no1tgfXwf6Rkdq24RMJ
- iYfqiBiODUtIqJSwJsEIROc0EeW9CzE=
-X-Google-Smtp-Source: ABdhPJwu0aMwGWM8VnVjhDt2sPa0r1PD7zNBSELGyOjoA4PtJ8asQNeIoBx2ntJhyCjCWhvsM6Zhfw==
-X-Received: by 2002:a05:6000:18ca:: with SMTP id
- w10mr11188229wrq.55.1625423935535; 
- Sun, 04 Jul 2021 11:38:55 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id f14sm3451041wmq.10.2021.07.04.11.38.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 11:38:55 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 12/12] linux-user: Extract target errno related functions to
- 'target_errno.h'
-Date: Sun,  4 Jul 2021 20:37:55 +0200
-Message-Id: <20210704183755.655002-13-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210704183755.655002-1-f4bug@amsat.org>
-References: <20210704183755.655002-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PjGZnW6zSulH1KT8VEYq1W324wcEJGvr2NUdPmJ3U84=;
+ b=lO5x28D7uoNgpJtv2PBpBI8emgQXeHwHVn6eBV5TVFvP9xb/KqSs+lSLTkVGeH9bhe
+ VBZIjNhZtR0g87OPWYOVMb8j2SZlix3SD5cZXL+QFbddRqAnTgr3pjGoehCsQ8GKfNBi
+ k8kLaV/5EauD5ynUqCWdi3A6Uc8Ddgk6Hg83YJwJg8SpqnGbPCF2s7+SIaXvIg/oY6az
+ wRlgqMOEKcRuxPZnkvFyZBNfZVvNfxIFBUNFSo8eshzHIFvqrLVy1GiiVP7vSQ0sqZDF
+ WxvaGCf3xe0xwqXvroxhdustCDRQXK6Qw4wGeqphIVxIizbbuRX8Sv4A1Rq1rXvrNHnp
+ TBiw==
+X-Gm-Message-State: AOAM530n4VATBJpSkNqbfkSxQ6BPCI2XtcqyqnQ51reiSMS0EKmMMSHh
+ x1jXYX0Y23OY/qTsHoxUPSvYlMMCQOiI3Mn9WsmgngdChgptis4ong4dJ8pgBVmaNqpKbmE1CMs
+ gszTVBTHRFx4cMZM=
+X-Received: by 2002:a17:907:ea5:: with SMTP id
+ ho37mr9732086ejc.109.1625423925802; 
+ Sun, 04 Jul 2021 11:38:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3O5yD0E2JoJaQ+Sg4+xODTtuWtXxOykStk0TDWKM3qODTTWzYlg+CuornLo88E2o0ky3t3w==
+X-Received: by 2002:a17:907:ea5:: with SMTP id
+ ho37mr9732074ejc.109.1625423925618; 
+ Sun, 04 Jul 2021 11:38:45 -0700 (PDT)
+Received: from thuth.remote.csb (p5791d89b.dip0.t-ipconnect.de.
+ [87.145.216.155])
+ by smtp.gmail.com with ESMTPSA id f6sm3289191ejx.124.2021.07.04.11.38.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Jul 2021 11:38:45 -0700 (PDT)
+Subject: Re: [PATCH 3/4] target/mips: Rewrite UHI errno_mips() using GHashTable
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210704170736.617895-1-f4bug@amsat.org>
+ <20210704170736.617895-4-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <1c9979ed-35f0-54bf-071e-9141ae708144@redhat.com>
+Date: Sun, 4 Jul 2021 20:38:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210704170736.617895-4-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,448 +102,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Helge Deller <deller@gmx.de>, Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Taylor Simpson <tsimpson@quicinc.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Alexander von Gluck IV <kallisti5@unixzen.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Richard Zak <richard.j.zak@gmail.com>, Leon Alrae <leon.alrae@imgtec.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract target errno related functions to a new 'target_errno.h'
-header, so we can do the host <-> target errno conversion out of
-the big syscall.c (which is already 13k LoC).
+On 04/07/2021 19.07, Philippe Mathieu-Daudé wrote:
+> Linking on Haiku OS fails:
+> 
+>    /boot/system/develop/tools/bin/../lib/gcc/x86_64-unknown-haiku/8.3.0/../../../../x86_64-unknown-haiku/bin/ld:
+>    error: libqemu-mips-softmmu.fa.p/target_mips_tcg_sysemu_mips-semi.c.o(.rodata) is too large (0xffff405a bytes)
+>    /boot/system/develop/tools/bin/../lib/gcc/x86_64-unknown-haiku/8.3.0/../../../../x86_64-unknown-haiku/bin/ld:
+>    final link failed: memory exhausted
+>    collect2: error: ld returned 1 exit status
+> 
+> This is because the host_to_mips_errno[] uses errno as index,
+> for example:
+> 
+>    static const uint16_t host_to_mips_errno[] = {
+>        [ENAMETOOLONG] = 91,
+>        ...
+> 
+> and Haiku defines [*] ENAMETOOLONG as:
+> 
+>     12 /* Error baselines */
+>     13 #define B_GENERAL_ERROR_BASE              INT_MIN
+>     ..
+>     22 #define B_STORAGE_ERROR_BASE              (B_GENERAL_ERROR_BASE + 0x6000)
+>    ...
+>    106 #define B_NAME_TOO_LONG                   (B_STORAGE_ERROR_BASE + 4)
+>    ...
+>    211 #define ENAMETOOLONG                      B_TO_POSIX_ERROR(B_NAME_TOO_LONG)
+> 
+> so the array ends up beeing indeed too big.
+> 
+> Since POSIX errno can't be use as indexes on Haiku,
+> rewrite errno_mips() using a GHashTable.
+> 
+> [*] https://github.com/haiku/haiku/blob/r1beta3/headers/os/support/Errors.h#L130
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   target/mips/tcg/sysemu/mips-semi.c | 62 ++++++++++++++++++++++--------
+>   1 file changed, 45 insertions(+), 17 deletions(-)
+> 
+> diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+> index 4c924273c1b..3e91c9eb76c 100644
+> --- a/target/mips/tcg/sysemu/mips-semi.c
+> +++ b/target/mips/tcg/sysemu/mips-semi.c
+> @@ -4,6 +4,7 @@
+>    * Specifications: MD01069 Reference Manual (rev 1.1.6, 06 Jul 2015)
+>    *
+>    * Copyright (c) 2015 Imagination Technologies
+> + * Copyright (c) 2021 Philippe Mathieu-Daudé
+>    *
+>    * This library is free software; you can redistribute it and/or
+>    * modify it under the terms of the GNU Lesser General Public
+> @@ -76,29 +77,56 @@ enum UHIOpenFlags {
+>       UHIOpen_EXCL   = 0x800
+>   };
+>   
+> -/*
+> - * Unified Hosting Interface (rev 1.1.6)
+> - * Appendix A. "Error values"
+> - */
+> -static const uint16_t host_to_mips_errno[] = {
+> -    [ENAMETOOLONG] = 91,
+> -#ifdef EOVERFLOW
+> -    [EOVERFLOW]    = 139,
+> -#endif
+> +static GHashTable *uhi_errno_hash_table;
+> +
+> +static void uhi_errno_insert(int host_errno, int uhi_errno)
+> +{
+> +    gboolean ret = TRUE;
+> +
+> +    assert(uhi_errno_hash_table != NULL);
+> +    ret = g_hash_table_insert(uhi_errno_hash_table,
+> +                              GINT_TO_POINTER(host_errno),
+> +                              GINT_TO_POINTER(uhi_errno));
+> +    assert(ret == TRUE);
+> +}
+> +
+> +static void uhi_errno_init(void)
+> +{
+> +    gboolean ret = TRUE;
+> +
+> +    uhi_errno_hash_table = g_hash_table_new(NULL, NULL);
+> +
+> +    /*
+> +     * Unified Hosting Interface (rev 1.1.6)
+> +     * Appendix A. "Error values"
+> +     */
+> +    uhi_errno_insert(ENAMETOOLONG,  91);
+>   #ifdef ELOOP
+> -    [ELOOP]        = 92,
+> +    uhi_errno_insert(ELOOP,         92);
+>   #endif
+> -};
+> +#ifdef EOVERFLOW
+> +    uhi_errno_insert(EOVERFLOW,     139);
+> +#endif
+> +    assert(ret == TRUE);
+> +}
+>   
+>   static int errno_mips(int host_errno)
+>   {
+> -    if (host_errno < 0 || host_errno >= ARRAY_SIZE(host_to_mips_errno)) {
+> -        return EINVAL;
+> -    } else if (host_to_mips_errno[host_errno]) {
+> -        return host_to_mips_errno[host_errno];
+> -    } else {
+> -        return host_errno;
+> +    gpointer uhi_errno;
+> +
+> +    if (uhi_errno_hash_table == NULL) {
+> +        uhi_errno_init();
+>       }
+> +
+> +    if (host_errno == 0) {
+> +        return 0;
+> +    }
+> +    if (g_hash_table_lookup_extended(uhi_errno_hash_table,
+> +                                     GINT_TO_POINTER(host_errno),
+> +                                     NULL, &uhi_errno)) {
+> +        return GPOINTER_TO_INT(uhi_errno);
+> +    }
+> +    return EINVAL; /* Not reachable per the specification */
+>   }
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- linux-user/target_errno.h |  32 +++++++
- linux-user/syscall.c      | 162 +--------------------------------
- linux-user/target_errno.c | 183 ++++++++++++++++++++++++++++++++++++++
- linux-user/meson.build    |   1 +
- 4 files changed, 217 insertions(+), 161 deletions(-)
- create mode 100644 linux-user/target_errno.h
- create mode 100644 linux-user/target_errno.c
+Why not simply use a switch-case statement instead? ... that's simpler and 
+still allows to compiler to optimize if the errno values are in a compact range.
 
-diff --git a/linux-user/target_errno.h b/linux-user/target_errno.h
-new file mode 100644
-index 00000000000..4e5e9d384c9
---- /dev/null
-+++ b/linux-user/target_errno.h
-@@ -0,0 +1,32 @@
-+/*
-+ *  Linux syscalls
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifndef LINUX_USER_TARGET_ERRNO_H
-+#define LINUX_USER_TARGET_ERRNO_H
-+
-+#define ERRNO_TABLE_SIZE 1200
-+
-+int target_to_host_errno(int err);
-+
-+void target_to_host_errno_table_init(void);
-+
-+int host_to_target_errno(int err);
-+
-+#endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 3761d3b2d64..06c4358b813 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -131,6 +131,7 @@
- #include "qemu/selfmap.h"
- #include "user/syscall-trace.h"
- #include "qapi/error.h"
-+#include "target_errno.h"
- #include "fd-trans.h"
- #include "tcg/tcg.h"
- 
-@@ -507,167 +508,6 @@ static inline int next_free_host_timer(void)
- }
- #endif
- 
--#define ERRNO_TABLE_SIZE 1200
--
--/*
-- * target_to_host_errno_table[] is initialized from
-- * host_to_target_errno_table[] in target_to_host_errno_table_init().
-- */
--static uint16_t target_to_host_errno_table[ERRNO_TABLE_SIZE] = {
--};
--
--/*
-- * This list is the union of errno values overridden in asm-<arch>/errno.h
-- * minus the errnos that are not actually generic to all archs.
-- */
--static uint16_t host_to_target_errno_table[ERRNO_TABLE_SIZE] = {
--    [EAGAIN]            = TARGET_EAGAIN,
--    [EIDRM]             = TARGET_EIDRM,
--    [ECHRNG]            = TARGET_ECHRNG,
--    [EL2NSYNC]          = TARGET_EL2NSYNC,
--    [EL3HLT]            = TARGET_EL3HLT,
--    [EL3RST]            = TARGET_EL3RST,
--    [ELNRNG]            = TARGET_ELNRNG,
--    [EUNATCH]           = TARGET_EUNATCH,
--    [ENOCSI]            = TARGET_ENOCSI,
--    [EL2HLT]            = TARGET_EL2HLT,
--    [EDEADLK]           = TARGET_EDEADLK,
--    [ENOLCK]            = TARGET_ENOLCK,
--    [EBADE]             = TARGET_EBADE,
--    [EBADR]             = TARGET_EBADR,
--    [EXFULL]            = TARGET_EXFULL,
--    [ENOANO]            = TARGET_ENOANO,
--    [EBADRQC]           = TARGET_EBADRQC,
--    [EBADSLT]           = TARGET_EBADSLT,
--    [EBFONT]            = TARGET_EBFONT,
--    [ENOSTR]            = TARGET_ENOSTR,
--    [ENODATA]           = TARGET_ENODATA,
--    [ETIME]             = TARGET_ETIME,
--    [ENOSR]             = TARGET_ENOSR,
--    [ENONET]            = TARGET_ENONET,
--    [ENOPKG]            = TARGET_ENOPKG,
--    [EREMOTE]           = TARGET_EREMOTE,
--    [ENOLINK]           = TARGET_ENOLINK,
--    [EADV]              = TARGET_EADV,
--    [ESRMNT]            = TARGET_ESRMNT,
--    [ECOMM]             = TARGET_ECOMM,
--    [EPROTO]            = TARGET_EPROTO,
--    [EDOTDOT]           = TARGET_EDOTDOT,
--    [EMULTIHOP]         = TARGET_EMULTIHOP,
--    [EBADMSG]           = TARGET_EBADMSG,
--    [ENAMETOOLONG]      = TARGET_ENAMETOOLONG,
--    [EOVERFLOW]         = TARGET_EOVERFLOW,
--    [ENOTUNIQ]          = TARGET_ENOTUNIQ,
--    [EBADFD]            = TARGET_EBADFD,
--    [EREMCHG]           = TARGET_EREMCHG,
--    [ELIBACC]           = TARGET_ELIBACC,
--    [ELIBBAD]           = TARGET_ELIBBAD,
--    [ELIBSCN]           = TARGET_ELIBSCN,
--    [ELIBMAX]           = TARGET_ELIBMAX,
--    [ELIBEXEC]          = TARGET_ELIBEXEC,
--    [EILSEQ]            = TARGET_EILSEQ,
--    [ENOSYS]            = TARGET_ENOSYS,
--    [ELOOP]             = TARGET_ELOOP,
--    [ERESTART]          = TARGET_ERESTART,
--    [ESTRPIPE]          = TARGET_ESTRPIPE,
--    [ENOTEMPTY]         = TARGET_ENOTEMPTY,
--    [EUSERS]            = TARGET_EUSERS,
--    [ENOTSOCK]          = TARGET_ENOTSOCK,
--    [EDESTADDRREQ]      = TARGET_EDESTADDRREQ,
--    [EMSGSIZE]          = TARGET_EMSGSIZE,
--    [EPROTOTYPE]        = TARGET_EPROTOTYPE,
--    [ENOPROTOOPT]       = TARGET_ENOPROTOOPT,
--    [EPROTONOSUPPORT]   = TARGET_EPROTONOSUPPORT,
--    [ESOCKTNOSUPPORT]   = TARGET_ESOCKTNOSUPPORT,
--    [EOPNOTSUPP]        = TARGET_EOPNOTSUPP,
--    [EPFNOSUPPORT]      = TARGET_EPFNOSUPPORT,
--    [EAFNOSUPPORT]      = TARGET_EAFNOSUPPORT,
--    [EADDRINUSE]        = TARGET_EADDRINUSE,
--    [EADDRNOTAVAIL]     = TARGET_EADDRNOTAVAIL,
--    [ENETDOWN]          = TARGET_ENETDOWN,
--    [ENETUNREACH]       = TARGET_ENETUNREACH,
--    [ENETRESET]         = TARGET_ENETRESET,
--    [ECONNABORTED]      = TARGET_ECONNABORTED,
--    [ECONNRESET]        = TARGET_ECONNRESET,
--    [ENOBUFS]           = TARGET_ENOBUFS,
--    [EISCONN]           = TARGET_EISCONN,
--    [ENOTCONN]          = TARGET_ENOTCONN,
--    [EUCLEAN]           = TARGET_EUCLEAN,
--    [ENOTNAM]           = TARGET_ENOTNAM,
--    [ENAVAIL]           = TARGET_ENAVAIL,
--    [EISNAM]            = TARGET_EISNAM,
--    [EREMOTEIO]         = TARGET_EREMOTEIO,
--    [EDQUOT]            = TARGET_EDQUOT,
--    [ESHUTDOWN]         = TARGET_ESHUTDOWN,
--    [ETOOMANYREFS]      = TARGET_ETOOMANYREFS,
--    [ETIMEDOUT]         = TARGET_ETIMEDOUT,
--    [ECONNREFUSED]      = TARGET_ECONNREFUSED,
--    [EHOSTDOWN]         = TARGET_EHOSTDOWN,
--    [EHOSTUNREACH]      = TARGET_EHOSTUNREACH,
--    [EALREADY]          = TARGET_EALREADY,
--    [EINPROGRESS]       = TARGET_EINPROGRESS,
--    [ESTALE]            = TARGET_ESTALE,
--    [ECANCELED]         = TARGET_ECANCELED,
--    [ENOMEDIUM]         = TARGET_ENOMEDIUM,
--    [EMEDIUMTYPE]       = TARGET_EMEDIUMTYPE,
--#ifdef ENOKEY
--    [ENOKEY]            = TARGET_ENOKEY,
--#endif
--#ifdef EKEYEXPIRED
--    [EKEYEXPIRED]       = TARGET_EKEYEXPIRED,
--#endif
--#ifdef EKEYREVOKED
--    [EKEYREVOKED]       = TARGET_EKEYREVOKED,
--#endif
--#ifdef EKEYREJECTED
--    [EKEYREJECTED]      = TARGET_EKEYREJECTED,
--#endif
--#ifdef EOWNERDEAD
--    [EOWNERDEAD]        = TARGET_EOWNERDEAD,
--#endif
--#ifdef ENOTRECOVERABLE
--    [ENOTRECOVERABLE]   = TARGET_ENOTRECOVERABLE,
--#endif
--#ifdef ENOMSG
--    [ENOMSG]            = TARGET_ENOMSG,
--#endif
--#ifdef ERKFILL
--    [ERFKILL]           = TARGET_ERFKILL,
--#endif
--#ifdef EHWPOISON
--    [EHWPOISON]         = TARGET_EHWPOISON,
--#endif
--};
--
--static void target_to_host_errno_table_init(void)
--{
--    /*
--     * Build target_to_host_errno_table[] table
--     * from host_to_target_errno_table[].
--     */
--    for (int i = 0; i < ERRNO_TABLE_SIZE; i++) {
--        target_to_host_errno_table[host_to_target_errno_table[i]] = i;
--    }
--}
--
--static inline int host_to_target_errno(int err)
--{
--    if (err >= 0 && err < ERRNO_TABLE_SIZE &&
--        host_to_target_errno_table[err]) {
--        return host_to_target_errno_table[err];
--    }
--    return err;
--}
--
--static inline int target_to_host_errno(int err)
--{
--    if (err >= 0 && err < ERRNO_TABLE_SIZE &&
--        target_to_host_errno_table[err]) {
--        return target_to_host_errno_table[err];
--    }
--    return err;
--}
--
- static inline abi_long get_errno(abi_long ret)
- {
-     if (ret == -1)
-diff --git a/linux-user/target_errno.c b/linux-user/target_errno.c
-new file mode 100644
-index 00000000000..2a7320d240f
---- /dev/null
-+++ b/linux-user/target_errno.c
-@@ -0,0 +1,183 @@
-+/*
-+ *  Linux syscalls
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "target_errno.h"
-+#include "errno_defs.h"
-+
-+/*
-+ * target_to_host_errno_table[] is initialized from
-+ * host_to_target_errno_table[] in target_to_host_errno_table_init().
-+ */
-+static uint16_t target_to_host_errno_table[ERRNO_TABLE_SIZE] = {
-+};
-+
-+/*
-+ * This list is the union of errno values overridden in asm-<arch>/errno.h
-+ * minus the errnos that are not actually generic to all archs.
-+ */
-+static uint16_t host_to_target_errno_table[ERRNO_TABLE_SIZE] = {
-+    [EAGAIN]            = TARGET_EAGAIN,
-+    [EIDRM]             = TARGET_EIDRM,
-+    [ECHRNG]            = TARGET_ECHRNG,
-+    [EL2NSYNC]          = TARGET_EL2NSYNC,
-+    [EL3HLT]            = TARGET_EL3HLT,
-+    [EL3RST]            = TARGET_EL3RST,
-+    [ELNRNG]            = TARGET_ELNRNG,
-+    [EUNATCH]           = TARGET_EUNATCH,
-+    [ENOCSI]            = TARGET_ENOCSI,
-+    [EL2HLT]            = TARGET_EL2HLT,
-+    [EDEADLK]           = TARGET_EDEADLK,
-+    [ENOLCK]            = TARGET_ENOLCK,
-+    [EBADE]             = TARGET_EBADE,
-+    [EBADR]             = TARGET_EBADR,
-+    [EXFULL]            = TARGET_EXFULL,
-+    [ENOANO]            = TARGET_ENOANO,
-+    [EBADRQC]           = TARGET_EBADRQC,
-+    [EBADSLT]           = TARGET_EBADSLT,
-+    [EBFONT]            = TARGET_EBFONT,
-+    [ENOSTR]            = TARGET_ENOSTR,
-+    [ENODATA]           = TARGET_ENODATA,
-+    [ETIME]             = TARGET_ETIME,
-+    [ENOSR]             = TARGET_ENOSR,
-+    [ENONET]            = TARGET_ENONET,
-+    [ENOPKG]            = TARGET_ENOPKG,
-+    [EREMOTE]           = TARGET_EREMOTE,
-+    [ENOLINK]           = TARGET_ENOLINK,
-+    [EADV]              = TARGET_EADV,
-+    [ESRMNT]            = TARGET_ESRMNT,
-+    [ECOMM]             = TARGET_ECOMM,
-+    [EPROTO]            = TARGET_EPROTO,
-+    [EDOTDOT]           = TARGET_EDOTDOT,
-+    [EMULTIHOP]         = TARGET_EMULTIHOP,
-+    [EBADMSG]           = TARGET_EBADMSG,
-+    [ENAMETOOLONG]      = TARGET_ENAMETOOLONG,
-+    [EOVERFLOW]         = TARGET_EOVERFLOW,
-+    [ENOTUNIQ]          = TARGET_ENOTUNIQ,
-+    [EBADFD]            = TARGET_EBADFD,
-+    [EREMCHG]           = TARGET_EREMCHG,
-+    [ELIBACC]           = TARGET_ELIBACC,
-+    [ELIBBAD]           = TARGET_ELIBBAD,
-+    [ELIBSCN]           = TARGET_ELIBSCN,
-+    [ELIBMAX]           = TARGET_ELIBMAX,
-+    [ELIBEXEC]          = TARGET_ELIBEXEC,
-+    [EILSEQ]            = TARGET_EILSEQ,
-+    [ENOSYS]            = TARGET_ENOSYS,
-+    [ELOOP]             = TARGET_ELOOP,
-+    [ERESTART]          = TARGET_ERESTART,
-+    [ESTRPIPE]          = TARGET_ESTRPIPE,
-+    [ENOTEMPTY]         = TARGET_ENOTEMPTY,
-+    [EUSERS]            = TARGET_EUSERS,
-+    [ENOTSOCK]          = TARGET_ENOTSOCK,
-+    [EDESTADDRREQ]      = TARGET_EDESTADDRREQ,
-+    [EMSGSIZE]          = TARGET_EMSGSIZE,
-+    [EPROTOTYPE]        = TARGET_EPROTOTYPE,
-+    [ENOPROTOOPT]       = TARGET_ENOPROTOOPT,
-+    [EPROTONOSUPPORT]   = TARGET_EPROTONOSUPPORT,
-+    [ESOCKTNOSUPPORT]   = TARGET_ESOCKTNOSUPPORT,
-+    [EOPNOTSUPP]        = TARGET_EOPNOTSUPP,
-+    [EPFNOSUPPORT]      = TARGET_EPFNOSUPPORT,
-+    [EAFNOSUPPORT]      = TARGET_EAFNOSUPPORT,
-+    [EADDRINUSE]        = TARGET_EADDRINUSE,
-+    [EADDRNOTAVAIL]     = TARGET_EADDRNOTAVAIL,
-+    [ENETDOWN]          = TARGET_ENETDOWN,
-+    [ENETUNREACH]       = TARGET_ENETUNREACH,
-+    [ENETRESET]         = TARGET_ENETRESET,
-+    [ECONNABORTED]      = TARGET_ECONNABORTED,
-+    [ECONNRESET]        = TARGET_ECONNRESET,
-+    [ENOBUFS]           = TARGET_ENOBUFS,
-+    [EISCONN]           = TARGET_EISCONN,
-+    [ENOTCONN]          = TARGET_ENOTCONN,
-+    [EUCLEAN]           = TARGET_EUCLEAN,
-+    [ENOTNAM]           = TARGET_ENOTNAM,
-+    [ENAVAIL]           = TARGET_ENAVAIL,
-+    [EISNAM]            = TARGET_EISNAM,
-+    [EREMOTEIO]         = TARGET_EREMOTEIO,
-+    [EDQUOT]            = TARGET_EDQUOT,
-+    [ESHUTDOWN]         = TARGET_ESHUTDOWN,
-+    [ETOOMANYREFS]      = TARGET_ETOOMANYREFS,
-+    [ETIMEDOUT]         = TARGET_ETIMEDOUT,
-+    [ECONNREFUSED]      = TARGET_ECONNREFUSED,
-+    [EHOSTDOWN]         = TARGET_EHOSTDOWN,
-+    [EHOSTUNREACH]      = TARGET_EHOSTUNREACH,
-+    [EALREADY]          = TARGET_EALREADY,
-+    [EINPROGRESS]       = TARGET_EINPROGRESS,
-+    [ESTALE]            = TARGET_ESTALE,
-+    [ECANCELED]         = TARGET_ECANCELED,
-+    [ENOMEDIUM]         = TARGET_ENOMEDIUM,
-+    [EMEDIUMTYPE]       = TARGET_EMEDIUMTYPE,
-+#ifdef ENOKEY
-+    [ENOKEY]            = TARGET_ENOKEY,
-+#endif
-+#ifdef EKEYEXPIRED
-+    [EKEYEXPIRED]       = TARGET_EKEYEXPIRED,
-+#endif
-+#ifdef EKEYREVOKED
-+    [EKEYREVOKED]       = TARGET_EKEYREVOKED,
-+#endif
-+#ifdef EKEYREJECTED
-+    [EKEYREJECTED]      = TARGET_EKEYREJECTED,
-+#endif
-+#ifdef EOWNERDEAD
-+    [EOWNERDEAD]        = TARGET_EOWNERDEAD,
-+#endif
-+#ifdef ENOTRECOVERABLE
-+    [ENOTRECOVERABLE]   = TARGET_ENOTRECOVERABLE,
-+#endif
-+#ifdef ENOMSG
-+    [ENOMSG]            = TARGET_ENOMSG,
-+#endif
-+#ifdef ERKFILL
-+    [ERFKILL]           = TARGET_ERFKILL,
-+#endif
-+#ifdef EHWPOISON
-+    [EHWPOISON]         = TARGET_EHWPOISON,
-+#endif
-+};
-+
-+void target_to_host_errno_table_init(void)
-+{
-+    /*
-+     * Build target_to_host_errno_table[] table
-+     * from host_to_target_errno_table[].
-+     */
-+    for (int i = 0; i < ERRNO_TABLE_SIZE; i++) {
-+        target_to_host_errno_table[host_to_target_errno_table[i]] = i;
-+    }
-+}
-+
-+int host_to_target_errno(int err)
-+{
-+    if (err >= 0 && err < ERRNO_TABLE_SIZE &&
-+        host_to_target_errno_table[err]) {
-+        return host_to_target_errno_table[err];
-+    }
-+    return err;
-+}
-+
-+int target_to_host_errno(int err)
-+{
-+    if (err >= 0 && err < ERRNO_TABLE_SIZE &&
-+        target_to_host_errno_table[err]) {
-+        return target_to_host_errno_table[err];
-+    }
-+    return err;
-+}
-diff --git a/linux-user/meson.build b/linux-user/meson.build
-index 9549f81682d..f757b63310b 100644
---- a/linux-user/meson.build
-+++ b/linux-user/meson.build
-@@ -9,6 +9,7 @@
-   'signal.c',
-   'strace.c',
-   'syscall.c',
-+  'target_errno.c',
-   'uaccess.c',
-   'uname.c',
- ))
--- 
-2.31.1
+  Thomas
 
 
