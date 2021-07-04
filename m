@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57ECE3BABAE
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 08:30:59 +0200 (CEST)
-Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB643BABC9
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 09:18:03 +0200 (CEST)
+Received: from localhost ([::1]:39356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lzvec-0004V4-9V
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 02:30:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47942)
+	id 1lzwOA-0004m4-F5
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 03:18:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzvdH-0003be-UB
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 02:29:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33786)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lzwNB-00047R-3E
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 03:17:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lzvdE-0000Mt-5F
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 02:29:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lzwN7-0003Eu-Vj
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 03:17:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625380170;
+ s=mimecast20190719; t=1625383016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7oCcjemD2Y1q41LsNnHS9lSWDim7ojG5makW3W+u+Dg=;
- b=M0sNzpiXfLHbm15nJImin1qlRx7ehBbj21IZfkiGIQCuSF8UR2khithTOAScFKQ/h1GnE7
- 1Y2nhR2Z8+hbYsiSGtXnpybSWQb6axm98P8zTTihVn1K5jYPgVMSBalresay99fgcy2QzW
- HD+x0deXFFPhApcFq/NG90da3lLuINQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-23H_we75O-KCHT9bDHonoQ-1; Sun, 04 Jul 2021 02:29:28 -0400
-X-MC-Unique: 23H_we75O-KCHT9bDHonoQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- t82-20020a1cc3550000b02901ee1ed24f94so8095819wmf.9
- for <qemu-devel@nongnu.org>; Sat, 03 Jul 2021 23:29:28 -0700 (PDT)
+ bh=rMFa2rSScLhh8msN873BP9qIishRw227ruLyp9d1sg4=;
+ b=H5MVCpG/Df4tt/tMbCrQ9rWotopbWMWu8kjf6ycAv49S7U47+eM4wENo5oSz4wTlhnYHgL
+ zjFLjKs8cudOwv6qH2DI5vEhw/oUGRU0eCaUDzSxv+dX1D2sE5NV+GirfU1133abEwNksO
+ 6Bja+FCl7pO8WG5ixtoLoYKTSyJVKBM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-kTG1c6fpM3SyaX8IJGrGaw-1; Sun, 04 Jul 2021 03:16:55 -0400
+X-MC-Unique: kTG1c6fpM3SyaX8IJGrGaw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ u64-20020a1cdd430000b02901ed0109da5fso8157374wmg.4
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 00:16:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7oCcjemD2Y1q41LsNnHS9lSWDim7ojG5makW3W+u+Dg=;
- b=k7XzjUhHknWzOHnqMmx+ArdDm1UgOzNiEoeQhbHDbt/nbYycQ/3D2YBtCw2r3cfn+r
- OEATY56WPBF1d9uiddY75ZrH67eRZ2fWG5crO1WXzsUDaSvb/VpbxFUJ+MoA8j6jlQtN
- jlGJRvImyRzNMQUhC9EXzqsa49GFqlY1FybLAz5MFLFMhorROHkCd/+G/5kjZItkVIfU
- mFRs/F6Cned9z4McrE+ySmC1h66KYgJPiv0bcTG91PSYc72sgTu+OTx7bd6qes6/GflZ
- JWx5hVBSH7mS6DNYlwEuoELeR63LH9ZmvwnlkvT8WLfsAn3WLgQbRvevoT3Vc0HD7+x0
- 4jmg==
-X-Gm-Message-State: AOAM530lOcn4oVjN91wI4KbaUOGptNu/LxYC4YRqZ+JhZMLp9Gf/02Yn
- fb+edcGoKutAuWuIhUVU67pv8nJ9p3hjzND3JzISpme6ANbKmBhVC2i/GCyj0OGzZq0k351objp
- 9wWoTVVYzqhkpXEs=
-X-Received: by 2002:a05:6000:1a87:: with SMTP id
- f7mr8527004wry.172.1625380167144; 
- Sat, 03 Jul 2021 23:29:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxa/2cfUd+6w3N1JRPhoqNNRHfPli4BpuBQO2e3fHZ8uPJ2Jwus9qEH7vCAPjCbvm5rbcUXeA==
-X-Received: by 2002:a05:6000:1a87:: with SMTP id
- f7mr8526975wry.172.1625380166955; 
- Sat, 03 Jul 2021 23:29:26 -0700 (PDT)
-Received: from redhat.com ([2.55.4.39])
- by smtp.gmail.com with ESMTPSA id x17sm10723829wrn.62.2021.07.03.23.29.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jul 2021 23:29:26 -0700 (PDT)
-Date: Sun, 4 Jul 2021 02:29:22 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH] x86: add SEV hashing to fw_cfg for kernel/initrd/cmdline
-Message-ID: <20210704022842-mutt-send-email-mst@kernel.org>
-References: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
- <20210703123406-mutt-send-email-mst@kernel.org>
- <0f36d5a0-c063-4ba7-ceca-f09d8f37fb3e@linux.ibm.com>
+ h=x-gm-message-state:to:references:cc:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rMFa2rSScLhh8msN873BP9qIishRw227ruLyp9d1sg4=;
+ b=QPNCVDTMd+fnLu9KQCM+LtzibR9X+ZGnbPu6hbRJhX7SwvduaKB4tYu3mYpkGo4jjy
+ ZJI9WMA2z4fv9VKrQttwwmmA+gXkgc7rf5YhhAoj5ngHPNLO7aXIMMfCPn3fLJOnJspF
+ 4Pa30eUunCRsP8NnZKztU7O4O+g4iQiCNHtGy/sZnWo0Yz2VbVB2J6YEH52KqN2oD3eV
+ hp5NAU/0ZNyaAt2joshwN64yIb7AkGztaI/1Z0oKYXahKcVdqlaxvgJFiMRaKVDhBxY2
+ ip9AvKfzA8hWrKu4ePHUDGoxPuz0ZthhB2hA7MNQgy49LecTZ85Eqd4dmAJrFUjGOrxA
+ mcFw==
+X-Gm-Message-State: AOAM531tDZ/AeF7Dph2VUz4MOoogWNd6a0JGujno9RmmYDa/ErwmnC4s
+ rgk58BD33LXo9Ztrju2JYF7L/u/bl3nI5QknHrGrPbroTwegvZWdQBJ0i+SJZ9ez3LiXRylY4/T
+ t8zXUConO4ByDAG0=
+X-Received: by 2002:a7b:cc87:: with SMTP id p7mr8449502wma.2.1625383014209;
+ Sun, 04 Jul 2021 00:16:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuXLyj/GT6BL3N8X8HSTFV8VJS2WYUwgUrZIcUfiugbA0gMRMeJK6nsX9tkvVE+oNmST3XQg==
+X-Received: by 2002:a7b:cc87:: with SMTP id p7mr8449484wma.2.1625383013997;
+ Sun, 04 Jul 2021 00:16:53 -0700 (PDT)
+Received: from thuth.remote.csb (p5791d89b.dip0.t-ipconnect.de.
+ [87.145.216.155])
+ by smtp.gmail.com with ESMTPSA id c16sm8146180wmr.2.2021.07.04.00.16.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Jul 2021 00:16:53 -0700 (PDT)
+To: Richard Zak <richard.j.zak@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <CAOakUfOz=89WuCyAQhrebNj_K_3_2ZYAJ_=aRR2bAuKT5=9uow@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 2/2] Fix for Haiku
+Message-ID: <557b3546-d263-cfd0-3e49-a1a00eb61b93@redhat.com>
+Date: Sun, 4 Jul 2021 09:16:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <0f36d5a0-c063-4ba7-ceca-f09d8f37fb3e@linux.ibm.com>
+In-Reply-To: <CAOakUfOz=89WuCyAQhrebNj_K_3_2ZYAJ_=aRR2bAuKT5=9uow@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.377,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,64 +99,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hubertus Franke <frankeh@us.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 04, 2021 at 09:16:59AM +0300, Dov Murik wrote:
-> Hi Michael,
-> 
-> [+cc Connor, Dave]
-> 
-> On 03/07/2021 19:42, Michael S. Tsirkin wrote:
-> > On Tue, May 25, 2021 at 06:59:31AM +0000, Dov Murik wrote:
-> >> From: James Bottomley <jejb@linux.ibm.com>
-> >>
-> >> If the VM is using memory encryption and also specifies a kernel/initrd
-> >> or appended command line, calculate the hashes and add them to the
-> >> encrypted data.  For this to work, OVMF must support an encrypted area
-> >> to place the data which is advertised via a special GUID in the OVMF
-> >> reset table (if the GUID doesn't exist, the user isn't allowed to pass
-> >> in the kernel/initrd/cmdline via the fw_cfg interface).
-> > 
-> > Sorry about asking basic questions so late in the game.
-> 
-> No worries. Please noice there's a newer version:
-> 
-> https://lore.kernel.org/qemu-devel/20210624102040.2015280-1-dovmurik@linux.ibm.com/
-> 
-> 
-> > I'm a bit curious why this feature makes sense. If someone can play
-> > with a Linux kernel command line isn't it pretty much game over security
-> > wise? What protections does Linux have against malicious actors
-> > manipulating the command line?
-> > 
-> 
-> You're right -- if the host can modify the kernel command-line it's a game over.
-> 
-> This is why this patch (together with the corresponding OVMF patches; still
-> under review) measures and verifies the content of the kernel blob and
-> the initrd blob *and* the command-line blob.
-> 
-> Any modification/omission of any of them by the host will make the expected
-> SEV PSP measurement invalid, which should then indicate to the Guest Owner that
-> something is wrong with this guest.  At that point the Guest Owner should
-> refuse to inject secrets into the guest (and also complain to the Cloud
-> Service Provider).
-> 
-> -Dov
+On 03/07/2021 23.12, Richard Zak wrote:
+> Fix for path to env
 
-Got it, thanks!
+Please change the subject to something more meaning full, e.g. "Fix setting 
+of the SHELL variable for Haiku".
 
--- 
-MST
+In the patch description, you should mention that there is no /usr/bin/env 
+on Haiku.
+
+> Signed-off-by: Richard Zak <richard.j.zak@gmail.com 
+> <mailto:richard.j.zak@gmail.com>>
+> ---
+>   Makefile | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index 30f19d33bb..ced9b97372 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -14,7 +14,11 @@ SRC_PATH=.
+>   # we have explicit rules for everything
+>   MAKEFLAGS += -rR
+> 
+> +ifneq ($(BE_HOST_CPU),)
+> +SHELL = /bin/env bash -o pipefail
+> +else
+>   SHELL = /usr/bin/env bash -o pipefail
+> +endif
+
+Actually, I wonder why we had to take the detour via /usr/bin/env here at 
+all? Couldn't we simply set
+
+SHELL = bash -o pipefail
+
+by default, or does this cause some trouble on other systems?
+
+If nobody objects, I'd suggest that you change your patch to always set 
+"SHELL = bash -o pipefail" unconditionally.
+
+  Thomas
 
 
