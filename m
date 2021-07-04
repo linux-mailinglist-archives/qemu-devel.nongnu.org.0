@@ -2,102 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFB73BAE54
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:35:55 +0200 (CEST)
-Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC483BAE55
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Jul 2021 20:39:23 +0200 (CEST)
+Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m06yA-0000Mp-U9
-	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35856)
+	id 1m071W-0003oH-E1
+	for lists+qemu-devel@lfdr.de; Sun, 04 Jul 2021 14:39:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m06x8-00088R-9Z
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:34:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m06x2-0004DH-MJ
- for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:34:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625423683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mQOh2EsVAHje0UjYx5sIP/NsRhVEAJJsHh46R0SffC4=;
- b=HVIfHU6NIew5fZiYUnWZNFv3ptdsuqALZHOZ0qHR171JFdFnShgWdw4HAbKY3ry+NBE1Ak
- 0Wbx+dHoD4kgmrLd+clcVRJTuTr+Qcqr5IKCnb2cMtSm7cvuxfQj3o9YC9G3BG1gqV5PeL
- lQAV7APpKQuXZPTV0oq+uElxY0oT/lg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-KBGu6G-rPj2aRySUPf2hpQ-1; Sun, 04 Jul 2021 14:34:41 -0400
-X-MC-Unique: KBGu6G-rPj2aRySUPf2hpQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m15-20020a056402430fb0290399da445c17so56114edc.8
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:34:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m070D-0001ex-4r
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:01 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:46761)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m070B-0006J5-ET
+ for qemu-devel@nongnu.org; Sun, 04 Jul 2021 14:38:00 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ k16-20020a05600c1c90b02901f4ed0fcfe7so8683639wms.5
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 11:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GIX+3/+aE+JTh0TYOsPgCq97o4/wm2whr25SRFJscVo=;
+ b=pbU/ybrl+fykPYX0xPH0yTrqBTobOq9nqWH8wh4PLR6yExA5fv0PUIqD/KBN8KZUx2
+ bve/oRkiGvGLXyRxLdWCupeHzjCt8AakMDnLSj2nYcczu15RtDzuVucKxa7N090lZsv8
+ QSuEax3Zc5wBnDQr+3zEi9hSjkzBui23BiIKeMDlQzYhzzEulqd4veyRnmknSrBtJd+7
+ fqNI1J9vbeidDrb+FyapMW92DbPPJFLu+cOwM09jqYpC5lQEyAdxpTP39Rnc75PRX1lD
+ zfB9+tM0hvFahwz8jF1hGfAQahPP4ukly1ZY8ohlUFozbojAkWe10X6Rlht/RNctduXz
+ +qcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mQOh2EsVAHje0UjYx5sIP/NsRhVEAJJsHh46R0SffC4=;
- b=tqxS58A8DhbddmNEAvq6b62nZEicSzVRpLF5jhgiozhVFQiYSpEkUGsVGN1UKomd4g
- kmSdDG+o8XM11P/lQh7zoi43iLfamjVZzPjer512CRfalnjdJfxK9kKIF0Kajr6IDvtS
- Lclk1H+gm8kOP0yN2LHEy6DgWnSj4bAQczw37lqXEDGiVBssGrrOP421NvuQrggzgy3E
- 0agQMcwDFymq72IdeMS1104tvtQoMHCTYZF6nCpzCN6v7Z3o7rhO4arhP9xZYCmDAcS2
- g6/oG3o6zNbFbU2M13KrPObzLzf222uYehxaTie0/8jVFSBhejL0vwMCUJdE9XptKyt3
- Jjzg==
-X-Gm-Message-State: AOAM531Me9wE19iHq6jvNQQDf+V20PSuTENLnW4zIhA0DuhjiMCcuS9g
- cyvGzaaXKh80tEAAfDmFA3G7EobElb3nURGav46dXybRqL+xMViU2t+fYISdgA+5aiwJOhpqnWB
- jiWj4+ox20FD0TNo=
-X-Received: by 2002:a17:906:58c7:: with SMTP id
- e7mr6811548ejs.197.1625423679900; 
- Sun, 04 Jul 2021 11:34:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFQiDAyAupyGBCzvgBgm37B55IZ4rabgcW3q8PTxXF18hT+1xGnlwPXqQOh0NK4/rCArrZyA==
-X-Received: by 2002:a17:906:58c7:: with SMTP id
- e7mr6811539ejs.197.1625423679696; 
- Sun, 04 Jul 2021 11:34:39 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d89b.dip0.t-ipconnect.de.
- [87.145.216.155])
- by smtp.gmail.com with ESMTPSA id c15sm4181658eds.16.2021.07.04.11.34.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Jul 2021 11:34:39 -0700 (PDT)
-Subject: Re: [PATCH 1/2] Fix for Haiku
-To: Richard Zak <richard.j.zak@gmail.com>
-References: <CAOakUfOhn43BUUGoJPahxmxxTk8vcPeyrgsX0GDmzt46ZriNeA@mail.gmail.com>
- <CAFEAcA-rhL_BEJMi7a2tCoVE61OV2o5QeDdDfz1JXL9fLvM_cQ@mail.gmail.com>
- <CAOakUfNpv_7TE+86R0+Ng=10mXtx2=pyZUZG8jPDgOdLbqrqKQ@mail.gmail.com>
- <5c47cf07-f02e-f7d8-2725-5ae0a240e37b@amsat.org>
- <975f0d41-be4e-7e8c-2fc6-64eafc7c11a8@amsat.org>
- <951cdc26-1f4f-68d0-0187-e31513fa00c9@amsat.org>
- <CAOakUfMmxSrBcQTQaRBB1g3qFCrpm-BLDVvfgoRm2Ww_-Pe3mQ@mail.gmail.com>
- <0a17d006-b1ef-ab1e-8616-50e29681f998@redhat.com>
- <CAOakUfNZ5K-tVNQZZZWQ2U7-fbw_4TnFSfKXXV2nRpTGVC-LLA@mail.gmail.com>
- <ec113b7f-781d-43f1-ace3-78ae6c114207@redhat.com>
- <CAOakUfPchj=rAbtnh+ZUj0CERwgFLKKtzB5ozu4j-b0U6y9V=Q@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <020c0056-deb1-9f2b-29a4-a3c8a7ac266f@redhat.com>
-Date: Sun, 4 Jul 2021 20:34:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=GIX+3/+aE+JTh0TYOsPgCq97o4/wm2whr25SRFJscVo=;
+ b=fDQp7tnhUDR480VFGMh6f9U14Floz7K2peDbqzcl/xbr8Ufb25KN2E0PQk/hM+U2XM
+ VruNZ39sSJ5LRR+V9GmeCtH22WMSvkR76jNHLOmUA/rUQIhgL7SoZqaNjeIOGtm58nsm
+ AFqbJrsgEWOQCgjdJ/YNbKeY1X9P1iZ3hhgHzwSO1I0GG4Lob1qWbVupryJi+HzRz3r9
+ vEwG3nubGjI7tazQuzX9Ipk8M2W+t5nkPVyXpjfOt4VU/ZqGJfQFJWkQ9dJtiJXw1vP1
+ 57HpPfCwlc00cXchEQGyqLnDufgb80XL/kd6pDeDoQRsvM0anRB4Cp9mIwYOQO53oQp/
+ cboQ==
+X-Gm-Message-State: AOAM532hMmY/FFaJDkyajUclba4rB2ubEqjuSLsidij541tw3p8yv3Um
+ eAVbxICWLihLuw4bWBW3gNSvNVzD+Ck=
+X-Google-Smtp-Source: ABdhPJx52nuqDRgBMgJOUERZLOWKfSq25TvQgOA8Fya2xDwGzckwBKI4mFV27wggAMmAQ5oLsEIegg==
+X-Received: by 2002:a7b:c2a2:: with SMTP id c2mr10788466wmk.89.1625423877525; 
+ Sun, 04 Jul 2021 11:37:57 -0700 (PDT)
+Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id h9sm9688260wmb.35.2021.07.04.11.37.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Jul 2021 11:37:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/12] linux-user: Extract target errno related functions to
+ 'target_errno.h'
+Date: Sun,  4 Jul 2021 20:37:43 +0200
+Message-Id: <20210704183755.655002-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAOakUfPchj=rAbtnh+ZUj0CERwgFLKKtzB5ozu4j-b0U6y9V=Q@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,42 +84,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Helge Deller <deller@gmx.de>, Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Taylor Simpson <tsimpson@quicinc.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/07/2021 18.58, Richard Zak wrote:
-> 
-> În dum., 4 iul. 2021 la 12:51, Thomas Huth <thuth@redhat.com 
-> <mailto:thuth@redhat.com>> a scris:
-> 
->     On 04/07/2021 18.39, Richard Zak wrote:
->      > Regarding upside down text, where did that occur? I certainly didn't
->     do that
->      > intentionally. Maybe an encoding error somewhere?
-> 
->     That was meant as a humorous way to say that you should avoid top posting,
->     but apparently it was just confusing instead. Sorry for that. Anyway, we
->     use
->     interleaved posting on qemu-devel. See e.g.:
-> 
->     https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
->     <https://en.wikipedia.org/wiki/Posting_style#Interleaved_style>
-> 
->        Thomas
-> 
-> Ahh got it. I hadn't done that since Gmail wants to hide the test I'm 
-> responding to. I'm assuming that revisions to a patch should still be a new 
-> post, not in a reply?
-
-Right, different revisions should go into a new post, with a version 
-indication in the subject, e.g:
-
-  [PATCH v3] Fix for Haiku
-
-  Thomas
-
+Hi,=0D
+=0D
+This series extract code related to target errno conversion=0D
+(to/from host) into a separate header.=0D
+=0D
+While reviewing I noticed EWOULDBLOCK is defined as EAGAIN=0D
+on alpha/hppa/mips targets, these are the first 3 patches.=0D
+=0D
+Then each target errno definitions are extracted to a new=0D
+header: 'target_errno_defs.h' (patches 4-9).=0D
+=0D
+Finally we extract the generic target errno functions to the=0D
+new 'target_errno.c' file in patches 10-12=0D
+=0D
+Up to here it seems a good refactor.=0D
+=0D
+From here I'm wondering if we could generate some target specific=0D
+library (linux-user-target.fa?) that could be reused by semihosting=0D
+code (at least for the Xtensa target). Just an idea...=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (12):=0D
+  linux-user/alpha: Handle TARGET_EWOULDBLOCK as TARGET_EAGAIN=0D
+  linux-user/hppa: Handle TARGET_EWOULDBLOCK as TARGET_EAGAIN=0D
+  linux-user/mips: Handle TARGET_EWOULDBLOCK as TARGET_EAGAIN=0D
+  linux-user/sparc: Rename target_errno.h -> target_errno_defs.h=0D
+  linux-user: Extract target errno to 'target_errno_defs.h'=0D
+  linux-user/alpha: Remove hardcoded tabs (code style)=0D
+  linux-user/alpha: Move errno definitions to 'target_errno_defs.h'=0D
+  linux-user/hppa: Move errno definitions to 'target_errno_defs.h'=0D
+  linux-user/mips: Move errno definitions to 'target_errno_defs.h'=0D
+  linux-user/syscall: Refactor target_to_host_errno_table_init()=0D
+  linux-user/syscall: Remove hardcoded tabs (code style)=0D
+  linux-user: Extract target errno related functions to 'target_errno.h'=0D
+=0D
+ linux-user/aarch64/target_errno_defs.h        |   6 +=0D
+ linux-user/alpha/target_errno_defs.h          | 198 ++++++++++++++++=0D
+ linux-user/alpha/target_syscall.h             | 194 ----------------=0D
+ linux-user/arm/target_errno_defs.h            |   6 +=0D
+ linux-user/cris/target_errno_defs.h           |   6 +=0D
+ linux-user/errno_defs.h                       |   3 +=0D
+ linux-user/hexagon/target_errno_defs.h        |   6 +=0D
+ linux-user/hppa/target_errno_defs.h           | 214 +++++++++++++++++=0D
+ linux-user/hppa/target_syscall.h              | 208 -----------------=0D
+ linux-user/i386/target_errno_defs.h           |   6 +=0D
+ linux-user/m68k/target_errno_defs.h           |   6 +=0D
+ linux-user/microblaze/target_errno_defs.h     |   6 +=0D
+ linux-user/mips/target_errno_defs.h           | 215 ++++++++++++++++++=0D
+ linux-user/mips/target_syscall.h              | 209 -----------------=0D
+ linux-user/mips64/target_errno_defs.h         | 215 ++++++++++++++++++=0D
+ linux-user/mips64/target_syscall.h            | 209 -----------------=0D
+ linux-user/nios2/target_errno_defs.h          |   6 +=0D
+ linux-user/openrisc/target_errno_defs.h       |   6 +=0D
+ linux-user/ppc/target_errno_defs.h            |   6 +=0D
+ linux-user/riscv/target_errno_defs.h          |   6 +=0D
+ linux-user/s390x/target_errno_defs.h          |   6 +=0D
+ linux-user/sh4/target_errno_defs.h            |   6 +=0D
+ .../{target_errno.h =3D> target_errno_defs.h}   |   0=0D
+ linux-user/sparc/target_syscall.h             |   2 -=0D
+ linux-user/target_errno.h                     |  32 +++=0D
+ linux-user/x86_64/target_errno_defs.h         |   6 +=0D
+ linux-user/xtensa/target_errno_defs.h         |   6 +=0D
+ linux-user/syscall.c                          | 156 +------------=0D
+ linux-user/target_errno.c                     | 183 +++++++++++++++=0D
+ linux-user/meson.build                        |   1 +=0D
+ 30 files changed, 1153 insertions(+), 976 deletions(-)=0D
+ create mode 100644 linux-user/aarch64/target_errno_defs.h=0D
+ create mode 100644 linux-user/alpha/target_errno_defs.h=0D
+ create mode 100644 linux-user/arm/target_errno_defs.h=0D
+ create mode 100644 linux-user/cris/target_errno_defs.h=0D
+ create mode 100644 linux-user/hexagon/target_errno_defs.h=0D
+ create mode 100644 linux-user/hppa/target_errno_defs.h=0D
+ create mode 100644 linux-user/i386/target_errno_defs.h=0D
+ create mode 100644 linux-user/m68k/target_errno_defs.h=0D
+ create mode 100644 linux-user/microblaze/target_errno_defs.h=0D
+ create mode 100644 linux-user/mips/target_errno_defs.h=0D
+ create mode 100644 linux-user/mips64/target_errno_defs.h=0D
+ create mode 100644 linux-user/nios2/target_errno_defs.h=0D
+ create mode 100644 linux-user/openrisc/target_errno_defs.h=0D
+ create mode 100644 linux-user/ppc/target_errno_defs.h=0D
+ create mode 100644 linux-user/riscv/target_errno_defs.h=0D
+ create mode 100644 linux-user/s390x/target_errno_defs.h=0D
+ create mode 100644 linux-user/sh4/target_errno_defs.h=0D
+ rename linux-user/sparc/{target_errno.h =3D> target_errno_defs.h} (100%)=0D
+ create mode 100644 linux-user/target_errno.h=0D
+ create mode 100644 linux-user/x86_64/target_errno_defs.h=0D
+ create mode 100644 linux-user/xtensa/target_errno_defs.h=0D
+ create mode 100644 linux-user/target_errno.c=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
