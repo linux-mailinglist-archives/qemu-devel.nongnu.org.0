@@ -2,43 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C5C3BC1D5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:53:54 +0200 (CEST)
-Received: from localhost ([::1]:33934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39F13BC1CC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:52:23 +0200 (CEST)
+Received: from localhost ([::1]:57540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Rqz-0000H2-FT
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
+	id 1m0RpW-0005aF-NA
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1m0Ro7-0004gu-N8
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:50:55 -0400
-Received: from rev.ng ([5.9.113.41]:41109)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1m0Ro1-0004ZT-Vy
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:50:50 -0400
+Received: from rev.ng ([5.9.113.41]:45461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1m0Ro3-0001Kp-36
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:50:55 -0400
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1m0Rnz-0001Hm-PO
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:50:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=j7kyhlUtH5DIvIVCASaVPREs1QRF9GGV3y3S3uhZJxI=; b=kkPamk44zdfG4A3wxMwNjjhf9R
- Oq8hzJZmhihUx6LEAFCyTBm8J1dvI3ssg42RPoQarAW1ERyx0cYW8TYLwhIdDXFWqkIqiArtEsBVA
- ONl0b0kI+lqe5BCiQUEjnbh8sNGW+fHfjqTt24Vvv7Y2Ir9ybL9VJeD8qtMr0WGq0A+M=;
-Date: Mon, 5 Jul 2021 18:47:41 +0200
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: Alessandro Di Federico <ale.qemu@rev.ng>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, Brian Cain <bcain@quicinc.com>, "babush@rev.ng"
- <babush@rev.ng>, "nizzo@rev.ng" <nizzo@rev.ng>, "philmd@redhat.com"
- <philmd@redhat.com>, "richard.henderson@linaro.org"
- <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 10/14] target/hexagon: import parser for idef-parser
-Message-ID: <20210705184741.5b2aae78@orange>
-In-Reply-To: <BYAPR02MB488679E9F94D484852DD2398DE079@BYAPR02MB4886.namprd02.prod.outlook.com>
+ bh=0UiU2wkAztsZw4EQV4lRAOHZk6OxpSEDogjtsCWp+l4=; b=S0Rshek3g6tguBM/BAI1kxpqg/
+ kPpJlINU3ApYhiVG6zws0KCHsgoknx9fXTGSBdKVxbzLEnYJsuN8996Q2HW/tJE9mM7UDkpKEIG3i
+ C1cN7Dxh2o3UIxRtJ4JQC5yT4BzKOGPq6C6U9ZZZgpiZ+AO64zY8/dxN8cUq3BQMkOQw=;
+Date: Mon, 5 Jul 2021 18:50:25 +0200
+To: Taylor Simpson <taylor.qemu@gmail.com>
+Cc: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org,
+ tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
+ philmd@redhat.com, richard.henderson@linaro.org
+Subject: Re: [PATCH v5 13/14] target/hexagon: import additional tests
+Message-ID: <20210705185025.3c430550@orange>
+In-Reply-To: <CANji28b-AWkJ0C-Co5dYop2ykKgjjR96bw6e+MoaYtukUXKWEg@mail.gmail.com>
 References: <20210619093713.1845446-1-ale.qemu@rev.ng>
- <20210619093713.1845446-11-ale.qemu@rev.ng>
- <BYAPR02MB488679E9F94D484852DD2398DE079@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <20210619093713.1845446-14-ale.qemu@rev.ng>
+ <CANji28b-AWkJ0C-Co5dYop2ykKgjjR96bw6e+MoaYtukUXKWEg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -66,38 +64,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alessandro Di Federico <ale@rev.ng>
 From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Thu, 24 Jun 2021 03:55:35 +0000
-Taylor Simpson <tsimpson@quicinc.com> wrote:
+On Fri, 25 Jun 2021 18:56:57 -0500
+Taylor Simpson <taylor.qemu@gmail.com> wrote:
 
-> > +void gen_deposit_op(Context *c,
-> > +                    YYLTYPE *locp,
-> > +                    HexValue *dest,
-> > +                    HexValue *value,
-> > +                    HexValue *index,
-> > +                    HexCast *cast)  
-> 
-> What's the difference between this and the gen_rdeposit_op above?
+> Each of these are very small, so I recommend putting them into misc.c
+> or combine all the assembly into a small number of executables.
 
-`gen_deposit_op` expects index and width (cast) to be immediates, while
-`gen_rdeposit_op` does not.
-We could merge them together, but it would just be a big "if" over the
-whole function.
+These tests are designed to run without libc and test in isolation very
+specific functionality making as little assumptions as possible about
+what instructions are working correctly.
 
-> > +HexValue gen_rextract_op(Context *c,
-> > +                         YYLTYPE *locp,
-> > +                         HexValue *source,
-> > +                         int begin,
-> > +                         int width) {
-> > +
-> > +HexValue gen_extract_op(Context *c,
-> > +                        YYLTYPE *locp,
-> > +                        HexValue *source,
-> > +                        HexValue *index,
-> > +                        HexExtract *extract) {  
-> 
-> What's the difference between this ant the gen_rextract_op above?
+Now that we are mature enough it might not make much sense this
+approach, but starting from scratch (and also considering phase 2) they
+might be helpful.
 
-As before.
+With some refactoring and ".include" directives I can probably make a
+single executable out of them, but it's not superelegant.
+
+For the rest, I've dropped several outdated comments and superflous
+tests.
+
+Thanks for looking into this.
 
 -- 
 Alessandro Di Federico
