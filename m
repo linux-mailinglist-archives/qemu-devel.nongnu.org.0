@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4073F3BBDF0
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:59:30 +0200 (CEST)
-Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0213BBE03
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 16:10:44 +0200 (CEST)
+Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0P8D-0005tP-AO
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
+	id 1m0PJ3-0001sJ-1V
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 10:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0P78-0005BM-Kf
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:58:22 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36449)
+ id 1m0PGW-0000yf-S0
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:08:04 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0P77-0004Wp-1j
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:58:22 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id nd37so29170481ejc.3
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 06:58:20 -0700 (PDT)
+ id 1m0PGS-0001VO-3Z
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:08:04 -0400
+Received: by mail-ej1-x635.google.com with SMTP id gn32so29265572ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kk++fT/5Qkg48lw4OUkWNppDkQwXzgRX9G01C1LAeoA=;
- b=ryVSNqdFSuNHD1kaLB8kjFml1qfcKYSGzOsj1a11n9bEPtKBc8legyzBwcYRodakGB
- 045lakw7QwOpL0WgJaQpsVfI59yCVoVT2PbZZYhGxF3Fh7MfWvYZx4cUf3oJ1At8P98G
- K5E4bjN57KlIm/B2x1dCGLV3MU+cev8YY8IjbH8ShkXTo6TXZsVDTqNbecIFgGpTYdb0
- FxahnfecrCZfDJpn21Y2a5bCh5LQ3tXRxtTpRujQvQbgLj2JpAzeV0Ga//+k7CQmXe8d
- +g7jTQlATl5YYkwOHnLPo5WrgjpmQD0Zf96Kpq9MhJXyk6LEMdjdAJaxIFNec2VqyrWh
- Y+uw==
+ :cc; bh=y61USB1/SUcg3py8FtuucxuF8UNof2a3ssdHL3nsCLY=;
+ b=fuVl80GNalIudAvJj3krN8L1XaZDtWJXxr2Si8Rq4VZb8HBCjgllGmNu+oUQFdY08w
+ PPmQkPVaCcZRvPVwOi06qWWxhhwLxIa7xT1CUoFHN3NoFq8KIfcyRbfHcBcT4JfjZ3Uo
+ nAbLIotkFkH8suKp6oTUQw4Y9OIhAV/GTyomAMoGVi+07KQByGA070tRymmTEOLzqyHB
+ jCAJxKLzoozFF371VAxOdxvBjlOuIsOp+RkInWSX1/1YG2AKWm+pjH2lF7zDbgI/vrPh
+ qBrWKjH1sTP3094lqzeHUtVMnGIagFNKmunkJU0qL6iJHaYmMe3Qz6haA9InsQ6mJzQ0
+ NwWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Kk++fT/5Qkg48lw4OUkWNppDkQwXzgRX9G01C1LAeoA=;
- b=NMiwetzSuX6U70VxdsMbM5JNzZoJHloSYtf66UL1WoZdQP4duzBBkFFr7LBlbXicHT
- iw20o+AmhjsmFVaNQ3qdb0/39Bw+xD23wOqV285QB+jxXwFFb4fpqVFnrJLHS2DB9SUC
- 1kUJr/I83WEB5tdtDu3WYZbWbglxw+sXnvboFHW1Xh79wE7fKdcn0U+M9TT25Qi+iFlK
- AkLUMWY2x0+8j1bB5EKR+RidBzJvDCf4PLXFDwRgs048ooBt47RpaYu+7VILFUGRQQeF
- iu80KM7QSui/tEZODZvNhO2nl0zr1kq91WV0PcaT6+6s0Y5LUqcRVZsy5kVhjeC+34Tg
- pgRA==
-X-Gm-Message-State: AOAM532rQn54k8nCjUggsqEn0xmlIold4i/k8vjVOoa9yiqhqkwjGLE+
- VAJvj7/LDFnhbIt6IQBbbaQpyRraATs/jwLrEGWCrOv0S9WEAQ==
-X-Google-Smtp-Source: ABdhPJzMZSSJQ47wMArISrnxA5uWX20g8LQW734dPOzTBTncZ5yOS19oJIuJsILNbukJMJImIYk8ZNf/GDROzCaQq9s=
-X-Received: by 2002:a17:906:491a:: with SMTP id
- b26mr6954870ejq.85.1625493499491; 
- Mon, 05 Jul 2021 06:58:19 -0700 (PDT)
+ bh=y61USB1/SUcg3py8FtuucxuF8UNof2a3ssdHL3nsCLY=;
+ b=D3qk7F6nnYYI4TlCZWsolmcMK433mtEeGoVZYnQc3LlEsvVTHrnwu8OIiV0RdC5W6I
+ knQqvWleb8zdNb0WjtQGAISCSfePy0tgIXPN/tV8hD27iBPlswgFsEIAMpQ9BoihE1gM
+ +yah203zO+h0KPvJIAzSy4e5d/pS8ePj4VCnpVeZ8FbH5w7MicH4RFPj2pcEytq0a6hL
+ XDoz8aNHct5i1aWbTMpyRzM6w8VC4/xspNttyT+TxDwx3k/GbwGYgvFQOGXiKHtWpPw8
+ R4H7d9OKaj6swGP8fcdnSmT76GGva+VYFkkVqEJ07rAcHlHvRQ/dXWOV4TbmuNiw7SpY
+ JnpQ==
+X-Gm-Message-State: AOAM533fU7kJJJPyEIR+FaLhz3dnDrucBvk5ilMiTKzT5HzD6dqausPJ
+ 3AdpvgrZ40qa6CauINvFZ5NKlUH/ivf6SBfRCuXz5Q==
+X-Google-Smtp-Source: ABdhPJy9CdknEYRhk/xpZ5GMyKecj45NbcO1t7AqpPzHYGc4K0yqZM+BWzWZU8CczcNth+F0BHvElYQMob14dPdr5v8=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr13438772ejy.407.1625494078628; 
+ Mon, 05 Jul 2021 07:07:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1625483630.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1625483630.git.qemu_oss@crudebyte.com>
+References: <20210630153156.9421-1-shashi.mallela@linaro.org>
+ <20210630153156.9421-5-shashi.mallela@linaro.org>
+In-Reply-To: <20210630153156.9421-5-shashi.mallela@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 14:57:41 +0100
-Message-ID: <CAFEAcA-uHfJrJc9JcVRZ7x9WG1sY0C+zbC=m5gzyRdVG+TL49Q@mail.gmail.com>
-Subject: Re: [PULL 0/8] 9p queue 2021-07-05
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Mon, 5 Jul 2021 15:07:20 +0100
+Message-ID: <CAFEAcA-e9-oBgK9wi6DOp5SGGd4vm-3sQY-fFn7HdTM842D1mg@mail.gmail.com>
+Subject: Re: [PATCH v5 04/10] hw/intc: GICv3 ITS Command processing
+To: Shashi Mallela <shashi.mallela@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,40 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 5 Jul 2021 at 12:24, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
+On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <shashi.mallela@linaro.org> wrote:
 >
-> The following changes since commit 711c0418c8c1ce3a24346f058b001c4c5a2f0f81:
+> Added ITS command queue handling for MAPTI,MAPI commands,handled ITS
+> translation which triggers an LPI via INT command as well as write
+> to GITS_TRANSLATER register,defined enum to differentiate between ITS
+> command interrupt trigger and GITS_TRANSLATER based interrupt trigger.
+> Each of these commands make use of other functionalities implemented to
+> get device table entry,collection table entry or interrupt translation
+> table entry required for their processing.
 >
->   Merge remote-tracking branch 'remotes/philmd/tags/mips-20210702' into staging (2021-07-04 14:04:12 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210705
->
-> for you to fetch changes up to 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
->
->   9pfs: reduce latency of Twalk (2021-07-05 13:03:16 +0200)
->
-> ----------------------------------------------------------------
-> 9pfs: misc patches
->
-> * Add link to 9p developer docs.
->
-> * Fix runtime check whether client supplied relative path is the export
->   root.
->
-> * Performance optimization of Twalk requests.
->
-> * Code cleanup.
+> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> ---
+>  hw/intc/arm_gicv3_its.c            | 361 ++++++++++++++++++++++++++++-
+>  hw/intc/gicv3_internal.h           |  26 +++
+>  include/hw/intc/arm_gicv3_common.h |   2 +
+>  3 files changed, 388 insertions(+), 1 deletion(-)
 
-GPG tells me the key you signed this with has expired. Can you point
-me at a keyserver I can download an updated version of the key from,
-please?
+> +/*
+> + * This function handles the processing of following commands based on
+> + * the ItsCmdType parameter passed:-
+> + * 1. trigerring of lpi interrupt translation via ITS INT command
+> + * 2. trigerring of lpi interrupt translation via gits_translater register
+> + * 3. handling of ITS CLEAR command
+> + * 4. handling of ITS DISCARD command
+> + */
+
+"triggering"
+
+>  #define DEVID_SHIFT                  32
+>  #define DEVID_MASK                MAKE_64BIT_MASK(32, 32)
+
+> @@ -347,6 +368,11 @@ FIELD(MAPC, RDBASE, 16, 32)
+>   * vPEID = 16 bits
+>   */
+>  #define ITS_ITT_ENTRY_SIZE            0xC
+> +#define ITE_ENTRY_INTTYPE_SHIFT        1
+> +#define ITE_ENTRY_INTID_SHIFT          2
+> +#define ITE_ENTRY_INTID_MASK         ((1ULL << 24) - 1)
+> +#define ITE_ENTRY_INTSP_SHIFT          26
+> +#define ITE_ENTRY_ICID_MASK          ((1ULL << 16) - 1)
+
+This is still using a MASK value that's at the bottom of the
+integer, not in its shifted location.
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
