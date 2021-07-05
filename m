@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1893BC1A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:27:25 +0200 (CEST)
-Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B463BC1B0
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:30:18 +0200 (CEST)
+Received: from localhost ([::1]:35832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0RRM-00046q-4w
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43228)
+	id 1m0RU9-00073U-0s
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0RNj-0007hC-Hg
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:23:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23083)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0RNh-00007r-DX
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:23:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625502216;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lZsP1jtS5FsyydUdENhjKO2PNHYeIgG0wMAuSOdmw0A=;
- b=J+fpS/4WpTVqSvkKuze68euMFifs8BcPava8hP+Pd1Dn8rgUQInYEPfXnPUYnMHxfWecmb
- /l4kyVrS67SkgMipHcwPPLI56eHcIUgpmtyEZRBuGbIK2pGPK+Hp7rS+PJ156BcXTkxmJ9
- SQLzQnfJyncOwfB6m+uzVh2zl2TN5qw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-OoeD1qQqN1GC5gAFDzunKA-1; Mon, 05 Jul 2021 12:23:35 -0400
-X-MC-Unique: OoeD1qQqN1GC5gAFDzunKA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22F731882FA1
- for <qemu-devel@nongnu.org>; Mon,  5 Jul 2021 16:23:34 +0000 (UTC)
-Received: from redhat.com (ovpn-114-184.ams2.redhat.com [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F25A18F0A;
- Mon,  5 Jul 2021 16:23:33 +0000 (UTC)
-Date: Mon, 5 Jul 2021 17:23:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 12/17] configure: convert compiler tests to meson, part 1
-Message-ID: <YOMyAs7MGliPy4pJ@redhat.com>
-References: <20210705160018.241397-1-pbonzini@redhat.com>
- <20210705160018.241397-13-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0RQD-0003JF-Gb
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:26:13 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:45932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0RQB-0001nr-FH
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:26:13 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id hc16so29703324ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 09:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xKqu47CKqwIqE8rX8QIYIgYDfyVbGFuzR4kKF3m9FwI=;
+ b=zJEn7itCGpChb72P8X6JkXIVP4EsYGH/ZouM1MxioeyuHAnpS4HpEGBqULM+BJ4SL4
+ fVqaIhZOQgeve/5/j22KKrIBhaRRBaLK92MGe/8KQTWE5dVGI+KkuzwgkiS9ID0/jr5z
+ eKnDslf7FjmXzEHhgSKkZvEJxt4mbgOWDtJl7SrxXkSsuEdmsFhtIGjPp8XLr8fotk+4
+ ZvWpebbyPmwbQoH5zlNq9ah3JoD3GKMnWl12s0Py9nFMnqb0tfWGjIwy9KPymKpAR4Md
+ SbtENMjPgBi/0rcZIgnMVh1s0C5n+WjfD2BmlwC5QMEYZ2xQIFvmXCfmMvEHRq00GEAz
+ NV0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xKqu47CKqwIqE8rX8QIYIgYDfyVbGFuzR4kKF3m9FwI=;
+ b=hRuEdHnPwy07yCr1hKwh57joHW/JxPZJCqkuvzkTZjghLbwlYlbjahijEI4b8j2mEq
+ spnD/bHMf9z6nbJZDlAppHI3rZSfqKTrJ6NRgpsMyY4Gr+P9ifdfAf6w56Omk/oBnznf
+ E7C0i0hwm9Xd6dqGH3OJdXV7JAJtwn1e/mbV0FhrO/FdDSR99edxNt+rEPp8JWW9RJee
+ 0vAqnTO+bbadANdH/8x7Yo69WgKKJ1+DQfH14W0xeWTRh+7tqiNXKiLEdchDppSH3JnW
+ dsuV2QMsCbxWiLHIevgcQAQiG/+aAhE9+bFt8YR0OCddWv2amsFirN+IpsBSqFi94Kv2
+ HwMg==
+X-Gm-Message-State: AOAM5336gf0qDhlBANA0VE8DGPVOOk3X6GKkITMBeWUMkyCYbXy4Y4zU
+ 5ToITe9WWH1hPJthc4b+4yTp7jyJ4jKFV4pA1XPclQ==
+X-Google-Smtp-Source: ABdhPJw/xzZHGxiro51BdFCU3SJoz08pXPcAnwArsYqtB1UEEjYppR3R1/KSJRDRXJRJYIZzIFqjPlrxiUVyERwkAVM=
+X-Received: by 2002:a17:907:7d91:: with SMTP id
+ oz17mr14452591ejc.250.1625502369699; 
+ Mon, 05 Jul 2021 09:26:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210705160018.241397-13-pbonzini@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210630153156.9421-1-shashi.mallela@linaro.org>
+ <20210630153156.9421-2-shashi.mallela@linaro.org>
+ <CAFEAcA_u=3f6sborqD9opCQv1kJHQm0+Gm1ytWx2zSzjXJTd1A@mail.gmail.com>
+ <a0dca113df5b0470668095ed1f759fd7a6f102f7.camel@linaro.org>
+In-Reply-To: <a0dca113df5b0470668095ed1f759fd7a6f102f7.camel@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Jul 2021 17:25:31 +0100
+Message-ID: <CAFEAcA_vuHRWRjg-aQ4yk4UT6h_9bPdTT4wJS5SMLyPdADZVaw@mail.gmail.com>
+Subject: Re: [PATCH v5 01/10] hw/intc: GICv3 ITS initial framework
+To: Shashi Mallela <shashi.mallela@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,27 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 05, 2021 at 06:00:13PM +0200, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure        | 364 -----------------------------------------------
->  meson.build      |  41 +++++-
->  util/meson.build |   4 +-
->  3 files changed, 43 insertions(+), 366 deletions(-)
+On Mon, 5 Jul 2021 at 16:55, <shashi.mallela@linaro.org> wrote:
+>
+> On Mon, 2021-07-05 at 15:58 +0100, Peter Maydell wrote:
+> > On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <
+> > shashi.mallela@linaro.org> wrote:
+> > > Added register definitions relevant to ITS,implemented overall
+> > > ITS device framework with stubs for ITS control and translater
+> > > regions read/write,extended ITS common to handle mmio init between
+> > > existing kvm device and newer qemu device.
+> > >
+> > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> > > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> > > +static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
+> > > +{
+> > > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
+> > > +
+> > > +    gicv3_its_init_mmio(s, &gicv3_its_control_ops,
+> > > &gicv3_its_translation_ops);
+> > > +
+> > > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
+> >
+> > Can you remind me why we make this check, please? When would we
+> > have created an ITS device but not have a GICv3 with LPI support?
+> This check applies to GIC's physical LPI support only as against GIC's
+> virtual LPI support.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Right, but when would we have a GIC with no physical LPI support
+but an ITS is present ?
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
