@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B21F3BBCA7
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:07:59 +0200 (CEST)
-Received: from localhost ([::1]:53162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D6F3BBCB5
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:10:36 +0200 (CEST)
+Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0NOI-0006TF-Cm
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36186)
+	id 1m0NQp-00087J-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0NMr-00058y-4v
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:06:30 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46795)
+ id 1m0NO1-0006xb-L1
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:07:42 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0NMo-0003nc-Ej
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:06:28 -0400
-Received: by mail-wr1-x436.google.com with SMTP id n9so4470732wrs.13
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:06:25 -0700 (PDT)
+ id 1m0NNz-0004Pv-5V
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:07:41 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ g8-20020a1c9d080000b02901f13dd1672aso8958917wme.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:07:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=S5vSVKorm4Nl8X32GeCJ7ZW79azUuFhc9rrjOrszC+g=;
- b=JemSFLJmIVe1pxNzaQ6f0tDSlQePEzow7lzNtKImr/9qduHkT1IDdcRW93lgrlHimE
- RcV+fgabCOf86XOjS2kvwqPA2MgAG8joedaoT6d8j0BURFcuGp1Xd9MF3A/ufJooRlSE
- 3dmVyCGleyu4dcig9XVNIfV40eVVYQ9jGi4xC6c84WPG3UkCP+7mEnzTpW+pVxcfssik
- 1dNpqEp+mD3TruG/8onEEGnkJgHy5MOdPItllFzcuzORNRWnM8s+gjJr/mjKVj2LIzJx
- CUenyHYRuvpi7R985ekhGpCAiIlaXpSWpmixhe+7M9F51vVevX8sKcTLqAMZFOU+n2yO
- J/tA==
+ bh=v76+C4pJ8r5/rwrf4KqqsST204RexWLX9OvflMPrlQw=;
+ b=UfzyMU9BSW3Jve03XYYwHSoag3cG5QXaRPql21nZMxttjgW7Ow57yn4iFtu+Ai+9iW
+ Kz9bFvG1LkEQoJ3XblFagRRnDjcKDBtMmJYgjL2g7QrqwyJOBtf6GFRrisK7HvtYhAtX
+ 7Wi0SeX0A/J/mkx9KPwovAVkryUVWP9qO6k3ubD/VXDNomF2nM/n9xYc46NeMJr5youw
+ lZoPJ+k6PXz63YwCPeCxeyGr4OjslQyEVcZwqZqMxy+jM5mV4bF6CTNgL4X3eAuJyohp
+ sV3gM3E4hmFaHO549VW1zBs0nobjbuhbpyHtoccW+MEpFtSu4bMYcDXx2xDZRC6ydshH
+ uHPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=S5vSVKorm4Nl8X32GeCJ7ZW79azUuFhc9rrjOrszC+g=;
- b=j+BE1cwHJBEaWMVAJJlrORlyBvR7j5F/bcf4HFltiytQkQ7BA1s9+F/taJVZsntYf+
- a6SYPro2iVUwso7SeOF7rm3R4A7M5dTeVinQy4BxqkayEqxVx44QuVBQn2eeFuSj3Zua
- kRYsQ+yJKd+4znRDUlYEIdj9E4jmWLJerfWkzBVhSmM89YkNRb7BvXyqCio6wZ1mS50+
- i+j8dRY6GZLgimOPxGsjLO/8z1/xrB5NzXfX2KaJdPMB0XGbwXOP209fpn+PzWD2JM0Q
- eSsGwZKDMESauH2bnGXpU9N5fTdqzRxDgSRwuIZcYOnr/tL1Dp5xa6KqDO3tZuxS3yBS
- k+kA==
-X-Gm-Message-State: AOAM533Q0i5OX5r5bb6YPDtK0sQdwDQvpq0tbZj24mOElKQCFkzCgIu9
- +Neym8ZQX3ZdEsvvtLpCM46Evg==
-X-Google-Smtp-Source: ABdhPJyQBaxP38vmGwLz2Lg26JfdwdxZE+1K4IYE/nk0Aewz/JSYZNPtu5kb7x5j8sGxekBE+papMg==
-X-Received: by 2002:a5d:64c2:: with SMTP id f2mr3589563wri.158.1625486784336; 
- Mon, 05 Jul 2021 05:06:24 -0700 (PDT)
+ bh=v76+C4pJ8r5/rwrf4KqqsST204RexWLX9OvflMPrlQw=;
+ b=m9WMhV21xjPxVp7t8CVKtZJzn6y0pmK+jk7Th52KiuAdA53vMJgpih6HVSOo+nxp90
+ UbMc7a2rL5OPeN6M82iU54jVOYguFzTa94+VjR+JGHGQUFi9gN8QjYY4hig3yBP1gSHE
+ lMWogS8+4woNfrRdVWetFP3E8sE2PYHpLC/2G9DE6OdvGkwi2UXQTfTbGjYLoJMBdj0Q
+ Q+4zMk/Ae+9FvVr206sTP06LB7naQo3CUnt2yu09Ry7NuR6i1grNsPTAsWsXmqLtOz73
+ v9QDMqiVNL4gBoj/XE8PoTkwdBl2ZVn5npR72wWf8Ep4keq0II9rVHB7wht1aezOQXM2
+ PlOw==
+X-Gm-Message-State: AOAM53052nmBx6SnPj4RBnmN5/6WgcTjuEt3qEOdfwORGIzB/bTqPvAz
+ DtRyhJP063DQxRDF5flD3Hbhow==
+X-Google-Smtp-Source: ABdhPJzBxY9HyIBabs8BVVliC7LJnK/vNDXaCrIqJsuxCP1nlOeMoWV+ibqfROCWz7gMa7ZzS6wQOA==
+X-Received: by 2002:a1c:1dc6:: with SMTP id
+ d189mr14703920wmd.154.1625486857709; 
+ Mon, 05 Jul 2021 05:07:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q1sm9022153wma.27.2021.07.05.05.06.23
+ by smtp.gmail.com with ESMTPSA id q19sm21572249wmc.44.2021.07.05.05.07.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 05:06:23 -0700 (PDT)
+ Mon, 05 Jul 2021 05:07:35 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8BEC81FF7E;
- Mon,  5 Jul 2021 13:06:22 +0100 (BST)
-References: <20210625172211.451010-1-berrange@redhat.com>
- <20210625172211.451010-2-berrange@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id B5F521FF7E;
+ Mon,  5 Jul 2021 13:07:34 +0100 (BST)
+References: <20210623142245.307776-1-berrange@redhat.com>
+ <20210623142245.307776-4-berrange@redhat.com>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 1/3] build: validate that system capstone works before
- using it
-Date: Mon, 05 Jul 2021 13:06:17 +0100
-In-reply-to: <20210625172211.451010-2-berrange@redhat.com>
-Message-ID: <874kd955j5.fsf@linaro.org>
+Subject: Re: [PATCH v4 03/22] tests/docker: use project specific container
+ registries
+Date: Mon, 05 Jul 2021 13:07:29 +0100
+In-reply-to: <20210623142245.307776-4-berrange@redhat.com>
+Message-ID: <871r8d55h5.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,22 +90,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+ Willian Rampazzo <willianr@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> Some versions of capstone have shipped a broken pkg-config file which
-> puts the -I path without the trailing '/capstone' suffix. This breaks
-> the ability to "#include <capstone.h>". Upstream and most distros have
-> fixed this, but a few stragglers remain, notably FreeBSD.
+> Since Docker Hub has started to enforce pull rate limits on clients, it
+> is preferrable to use project specific container registries where they
+> are available. Fedora and OpenSUSE projects provide registries.
 >
+> The images in these registries are also refreshed on a more regular
+> basis than the ones in docker hub, so the package update should
+> generally be faster.
+>
+> While CentOS also has a registry it is considerably outdated compared
+> to docker.io, and also only provides x86 images, while docker.io images
+> are multi-arch.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
