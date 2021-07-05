@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BB23BC2ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 21:00:49 +0200 (CEST)
-Received: from localhost ([::1]:55106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3343BC2F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 21:05:53 +0200 (CEST)
+Received: from localhost ([::1]:57450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Tpn-00085y-Ju
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 15:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
+	id 1m0Tui-0001Uu-TV
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 15:05:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0ToN-0007Eh-Mm
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 14:59:19 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37566)
+ id 1m0TtJ-0000lQ-Vo
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 15:04:26 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0ToL-0007IA-Qd
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 14:59:19 -0400
-Received: by mail-ej1-x635.google.com with SMTP id i20so29948531ejw.4
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 11:59:17 -0700 (PDT)
+ id 1m0TtI-000242-6X
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 15:04:25 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id bg14so30268267ejb.9
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 12:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cacRlNpMicAiVr7jihNhSfqcJbPgUQl99Kfl1OiWAsI=;
- b=Rducqz2jFKrr2l5HI8PxE5urFDYodn5R0Kpk33Eh/vlw/Egs6ecpqKMaSNrDDXeejM
- olEQMUh+dkkGsQemqVKJ38PrA5VqDpvMEXSFUjcD+3OXoUDwM1eA6jgkeerjJ9+1uMvV
- XCI3wK+pCJLs3j37pFA5hGZLoivqoIW9ZeN/KfFo0zfKGxX/VrkYXOwsBtsuMoyMPbrO
- +Mvw2WUQKulNfREFsT3dNZ1gE7bNn9oytu5JJTOk/aT7qnrwWF09FiEqCIBKg7wa4Qm2
- /b7k+0k5fZ2JO9G2O1Tutm2AtOMszAOFIgpR7641bgnODlkRbm1zxfRaQPIwH1dU9OoZ
- vfMg==
+ :cc; bh=9IiUTJNSxRpIChlq5NGFOVEudSTrMcKYZZm67790j4g=;
+ b=FkpfQGCcAvLLT5/IaN4G3OPP4ur/nqENKGzHjCHuADuURLqMzX6p/9LFxf+ZuWF/4V
+ pndho/R9MkZdjnQe1/m3I/asFgTqfNcNTzcqHU2yuzoOg1Wk2k8fLBSguPAnfhDX6TfC
+ DfKccioOzcFnwDEwGUKQQaWSpqLTzpzWPBZQt/C3gVIueQHvj8q/qmB8Nxq5iCQODMov
+ 9JhFCJ6hzSuKspoPq0JdOVbSW/z0TNFfJ5o8HmElOriieL30ETH8gvvq7hEpk2EcneyV
+ 4a+IP8R+/wwV9gCz0C7P038gwmEE06+sD1iV78zSv8j/pOUJn/POqRfYdX6sbr7pX/g+
+ 7FxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cacRlNpMicAiVr7jihNhSfqcJbPgUQl99Kfl1OiWAsI=;
- b=RvoSIUXFrWX6ja+aEsbWsxPYNH5+BzkSQ7IH5rrWxKiurYkHRSWJeY/Tdu2Noqiny5
- nO/bYHclv1c3J6iLMy4xUUqVIOms21SFvb5Ea/CSt96b394R8awUNl7vPqTPeZTyufI1
- 0xQWp2WP+HLjyloEGVzabqW2c0ky8JOiQQ33U8NHINTgQ1R1YDZsA+bvpb7swlulMaxs
- pPY7UvFcgx3rg1W2Be8HswIvfkljRJv8KX36TgSk33s+lEhVD+imnbvbi2NbrS5lQCp+
- ZgNc87D1WB/Z97eaV+DcVXSB/ixS+1C/dIk1/r3hp5HAUSBtCLOc4vUsT6NXPYn8PpfX
- WS5Q==
-X-Gm-Message-State: AOAM5319blpU4NBerilbLXDAzbhKqKYr5ej2GEfcmqQ4Jt1DQU8iVCE1
- IINBlWybBC6r2367qX/wMp3Lg60MA+lqpFhJX4ebew==
-X-Google-Smtp-Source: ABdhPJxpmRV5jh+SCvxwb2rJKY8JJe1jf41MypXv6GRQwWKDEFLsM9/lLFmhlfE0AK3JltaY/z+Xw1tHdVpTJd390iI=
-X-Received: by 2002:a17:907:9701:: with SMTP id
- jg1mr3306376ejc.56.1625511555904; 
- Mon, 05 Jul 2021 11:59:15 -0700 (PDT)
+ bh=9IiUTJNSxRpIChlq5NGFOVEudSTrMcKYZZm67790j4g=;
+ b=EJhss1xGoZboRXkTC/It5SK4+1Hglz3YT6HCvZUwJTRRMgVVvTHiFn1pq8aUK895MJ
+ ATaDUMUA5a99et4kHRJn49c0QvyobgoTbOLGs4KO3BkabWJQvM+86Tq1VdiO9SPpAdRx
+ +9IhV8VylTUMTp0IDHR45V0bOyF0Cc518MImk7/Wu/LYTMJM5Tn40miTkpyZE2zAtAy9
+ 5K12b50QuKNPYFsBjNsKUSAfDDqHMKEMpFT3xGrPVeWqfOtnXBQDgC/HnSM+ygR2N3fV
+ l9e9/v8dWygKDLju6th+Hd+izLj79UdG3zJI1L8yK8H+M7qjW3CSo4LobaOIpgVz0I8q
+ eBHg==
+X-Gm-Message-State: AOAM533Ki7S749Km7/g+JXJTmnWUWGjoa88gvpVLOMe7qk6KOFLpwEsd
+ WqeyUpa7dgLmXRjyM15A01eXX3pjPBtEZYkm2F8Djg==
+X-Google-Smtp-Source: ABdhPJyBAOLATp6cvPiZg0rjEnhDfkDTXZOD6QaWioyPC95ZelOQPbaS2ka23otoGJWmCUPwfANlTOfDR6gSD5AsKmQ=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr14488009ejy.407.1625511862425; 
+ Mon, 05 Jul 2021 12:04:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-2-shashi.mallela@linaro.org>
- <CAFEAcA_u=3f6sborqD9opCQv1kJHQm0+Gm1ytWx2zSzjXJTd1A@mail.gmail.com>
- <a0dca113df5b0470668095ed1f759fd7a6f102f7.camel@linaro.org>
- <CAFEAcA_vuHRWRjg-aQ4yk4UT6h_9bPdTT4wJS5SMLyPdADZVaw@mail.gmail.com>
- <916a2c2eb368835dbd17fe0b90be541abbebde93.camel@linaro.org>
-In-Reply-To: <916a2c2eb368835dbd17fe0b90be541abbebde93.camel@linaro.org>
+References: <cover.1625483630.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1625483630.git.qemu_oss@crudebyte.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 19:58:37 +0100
-Message-ID: <CAFEAcA_s+8DGZ0pJ2pj4-BT2W07UXGUEGcWjTSYk9DRdgX6rEg@mail.gmail.com>
-Subject: Re: [PATCH v5 01/10] hw/intc: GICv3 ITS initial framework
-To: Shashi Mallela <shashi.mallela@linaro.org>
+Date: Mon, 5 Jul 2021 20:03:43 +0100
+Message-ID: <CAFEAcA-yqRVCg4aNHsf3_2eXex9_35He=_5xsO1Cvkgh6iuCEw@mail.gmail.com>
+Subject: Re: [PULL 0/8] 9p queue 2021-07-05
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,63 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Leif Lindholm <leif@nuviainc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 5 Jul 2021 at 18:04, <shashi.mallela@linaro.org> wrote:
+On Mon, 5 Jul 2021 at 12:24, Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
 >
-> On Mon, 2021-07-05 at 17:25 +0100, Peter Maydell wrote:
-> > On Mon, 5 Jul 2021 at 16:55, <shashi.mallela@linaro.org> wrote:
-> > > On Mon, 2021-07-05 at 15:58 +0100, Peter Maydell wrote:
-> > > > On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <
-> > > > shashi.mallela@linaro.org> wrote:
-> > > > > Added register definitions relevant to ITS,implemented overall
-> > > > > ITS device framework with stubs for ITS control and translater
-> > > > > regions read/write,extended ITS common to handle mmio init
-> > > > > between
-> > > > > existing kvm device and newer qemu device.
-> > > > >
-> > > > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > > > > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > > > > +static void gicv3_arm_its_realize(DeviceState *dev, Error
-> > > > > **errp)
-> > > > > +{
-> > > > > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> > > > > +
-> > > > > +    gicv3_its_init_mmio(s, &gicv3_its_control_ops,
-> > > > > &gicv3_its_translation_ops);
-> > > > > +
-> > > > > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
-> > > >
-> > > > Can you remind me why we make this check, please? When would we
-> > > > have created an ITS device but not have a GICv3 with LPI support?
-> > > This check applies to GIC's physical LPI support only as against
-> > > GIC's
-> > > virtual LPI support.
-> >
-> > Right, but when would we have a GIC with no physical LPI support
-> > but an ITS is present ?
-> If we only support Direct injection of virtual interrupts (which can
-> have their own vPEID and the vPE table),then the ITS present could havejust virtual LPI support
+> The following changes since commit 711c0418c8c1ce3a24346f058b001c4c5a2f0f81:
+>
+>   Merge remote-tracking branch 'remotes/philmd/tags/mips-20210702' into staging (2021-07-04 14:04:12 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210705
+>
+> for you to fetch changes up to 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
+>
+>   9pfs: reduce latency of Twalk (2021-07-05 13:03:16 +0200)
+>
+> ----------------------------------------------------------------
+> 9pfs: misc patches
+>
+> * Add link to 9p developer docs.
+>
+> * Fix runtime check whether client supplied relative path is the export
+>   root.
+>
+> * Performance optimization of Twalk requests.
+>
+> * Code cleanup.
 
-This patchset does not support a virtual-LPI-only ITS, though:
-it doesn't support virtual LPIs at all.
-If you use it with CPUs without physical LPI support , this code will skip
-entirely setting GITS_TYPER and will make reset do nothing, and then the
-rest of the ITS implementation will misbehave.
 
-I think what we should do is:
- * in realize, check every CPU to make sure its redistributor
-   supports physical LPIs, and return an error from realize if not
- * in reset, don't check anything
+Applied, thanks.
 
-If we add virtual-LPI-only ITS support later, we can always update
-this code appropriately.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-thanks
 -- PMM
 
