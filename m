@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0213BBE03
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 16:10:44 +0200 (CEST)
-Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FEF3BBE29
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 16:22:38 +0200 (CEST)
+Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0PJ3-0001sJ-1V
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 10:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
+	id 1m0PUa-0007PE-9D
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 10:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0PGW-0000yf-S0
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:08:04 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35787)
+ id 1m0PTB-0006Vm-TN
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:21:09 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:47052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0PGS-0001VO-3Z
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:08:04 -0400
-Received: by mail-ej1-x635.google.com with SMTP id gn32so29265572ejc.2
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:07:59 -0700 (PDT)
+ id 1m0PT9-0008Bk-4s
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:21:09 -0400
+Received: by mail-ej1-x630.google.com with SMTP id c17so29216748ejk.13
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y61USB1/SUcg3py8FtuucxuF8UNof2a3ssdHL3nsCLY=;
- b=fuVl80GNalIudAvJj3krN8L1XaZDtWJXxr2Si8Rq4VZb8HBCjgllGmNu+oUQFdY08w
- PPmQkPVaCcZRvPVwOi06qWWxhhwLxIa7xT1CUoFHN3NoFq8KIfcyRbfHcBcT4JfjZ3Uo
- nAbLIotkFkH8suKp6oTUQw4Y9OIhAV/GTyomAMoGVi+07KQByGA070tRymmTEOLzqyHB
- jCAJxKLzoozFF371VAxOdxvBjlOuIsOp+RkInWSX1/1YG2AKWm+pjH2lF7zDbgI/vrPh
- qBrWKjH1sTP3094lqzeHUtVMnGIagFNKmunkJU0qL6iJHaYmMe3Qz6haA9InsQ6mJzQ0
- NwWA==
+ :cc; bh=bqPPPRrNU+LZFx5KUP6Cp8OQnYnfHIbr6N5ctiMheR4=;
+ b=gS6o6OLIE94tps/3aCFv0ZycdjytWkkaaTKxO2rcMmphyv1T/UR+Zn5K+x5Sp0pVS5
+ MlS3QGI3CJYgAo+FQKphw8PbwKxlZvYgvSn0uFwtJnbfDFgeh6KWkH8sMWjUhobj5MJO
+ XvxEN9FyIBe0XZJp62eShUTSGSiLE4vRmuEYu9LX+5wpQ0nPLjuiSY882OhftcKjGohZ
+ iFQPYazgvS6eNhVDg4fTiXn08bR5BGVpU9XxuJ/POnm8jOq94mYvqMTBNlfaRMoR7/8E
+ vzW21QaGpWZqpzL/oRCVMo/rSLRCmaSR8Z6+MSgrFkNWdBozBbX/pkJ00m0sJZt14boo
+ EWSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y61USB1/SUcg3py8FtuucxuF8UNof2a3ssdHL3nsCLY=;
- b=D3qk7F6nnYYI4TlCZWsolmcMK433mtEeGoVZYnQc3LlEsvVTHrnwu8OIiV0RdC5W6I
- knQqvWleb8zdNb0WjtQGAISCSfePy0tgIXPN/tV8hD27iBPlswgFsEIAMpQ9BoihE1gM
- +yah203zO+h0KPvJIAzSy4e5d/pS8ePj4VCnpVeZ8FbH5w7MicH4RFPj2pcEytq0a6hL
- XDoz8aNHct5i1aWbTMpyRzM6w8VC4/xspNttyT+TxDwx3k/GbwGYgvFQOGXiKHtWpPw8
- R4H7d9OKaj6swGP8fcdnSmT76GGva+VYFkkVqEJ07rAcHlHvRQ/dXWOV4TbmuNiw7SpY
- JnpQ==
-X-Gm-Message-State: AOAM533fU7kJJJPyEIR+FaLhz3dnDrucBvk5ilMiTKzT5HzD6dqausPJ
- 3AdpvgrZ40qa6CauINvFZ5NKlUH/ivf6SBfRCuXz5Q==
-X-Google-Smtp-Source: ABdhPJy9CdknEYRhk/xpZ5GMyKecj45NbcO1t7AqpPzHYGc4K0yqZM+BWzWZU8CczcNth+F0BHvElYQMob14dPdr5v8=
+ bh=bqPPPRrNU+LZFx5KUP6Cp8OQnYnfHIbr6N5ctiMheR4=;
+ b=RxIMo6GUDOHoXeR6MXyF3AgItRqcdFp6EK//NeIHYjF30CvFG+kLBNmwKQjvhZUaNc
+ /TKOVwbCYg+rvPA/nTNnjLh+Q5sG1cgWNr1pd4hWR/METVEDJsmhFmpyxSzN+UYruIjj
+ JC4gQ4Te/cbkGuSKrCY5GvAmYe4mQhZ5WZgQGLfi5dTi/yMvcTVOW9TpObyx7evXLF38
+ ExaoWwzpb6yP9Fg7yNE94/93II7mqKK9H/b+ME4i1rJ3c5cGNEXEVlXPDwQvzLQFIVCo
+ WtcaXUdr04D7ml00B5WLMaBbLBjI++KGESUT8Hc33qH8wCzFZ3AOjV3lboJeEfcCl2+N
+ omYw==
+X-Gm-Message-State: AOAM533LAKZtQeH/xhBm2woJEKsBKJFjNNgFY6SmHWhtCBOQ4kmfPXee
+ BVFp/4E44qD8aVeX996tRn3x0OIAzsqtJKPsPSGQKQ==
+X-Google-Smtp-Source: ABdhPJx+5HAj+nHaAmm73gxane5CP1659wG7zWkOZqgKLPoo1qWQRZBGkk6SLHSja72a7VUjLYCtGz9mN+Y2tIISjlA=
 X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr13438772ejy.407.1625494078628; 
- Mon, 05 Jul 2021 07:07:58 -0700 (PDT)
+ t8mr13506362ejy.407.1625494865407; 
+ Mon, 05 Jul 2021 07:21:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-5-shashi.mallela@linaro.org>
-In-Reply-To: <20210630153156.9421-5-shashi.mallela@linaro.org>
+ <20210630153156.9421-6-shashi.mallela@linaro.org>
+In-Reply-To: <20210630153156.9421-6-shashi.mallela@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 15:07:20 +0100
-Message-ID: <CAFEAcA-e9-oBgK9wi6DOp5SGGd4vm-3sQY-fFn7HdTM842D1mg@mail.gmail.com>
-Subject: Re: [PATCH v5 04/10] hw/intc: GICv3 ITS Command processing
+Date: Mon, 5 Jul 2021 15:20:27 +0100
+Message-ID: <CAFEAcA_Rn25iBodv+XOgSa-BUjxRHK8uCx82pkS4ZPNcO5NaQA@mail.gmail.com>
+Subject: Re: [PATCH v5 05/10] hw/intc: GICv3 ITS Feature enablement
 To: Shashi Mallela <shashi.mallela@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,47 +87,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <shashi.mallela@linaro.org> wrote:
 >
-> Added ITS command queue handling for MAPTI,MAPI commands,handled ITS
-> translation which triggers an LPI via INT command as well as write
-> to GITS_TRANSLATER register,defined enum to differentiate between ITS
-> command interrupt trigger and GITS_TRANSLATER based interrupt trigger.
-> Each of these commands make use of other functionalities implemented to
-> get device table entry,collection table entry or interrupt translation
-> table entry required for their processing.
+> Added properties to enable ITS feature and define qemu system
+> address space memory in gicv3 common,setup distributor and
+> redistributor registers to indicate LPI support.
 >
 > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> ---
->  hw/intc/arm_gicv3_its.c            | 361 ++++++++++++++++++++++++++++-
->  hw/intc/gicv3_internal.h           |  26 +++
->  include/hw/intc/arm_gicv3_common.h |   2 +
->  3 files changed, 388 insertions(+), 1 deletion(-)
+>
 
-> +/*
-> + * This function handles the processing of following commands based on
-> + * the ItsCmdType parameter passed:-
-> + * 1. trigerring of lpi interrupt translation via ITS INT command
-> + * 2. trigerring of lpi interrupt translation via gits_translater register
-> + * 3. handling of ITS CLEAR command
-> + * 4. handling of ITS DISCARD command
-> + */
+> diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+> index f7675a5adc..43ce4a8a95 100644
+> --- a/hw/intc/gicv3_internal.h
+> +++ b/hw/intc/gicv3_internal.h
+> @@ -68,6 +68,9 @@
+>  #define GICD_CTLR_E1NWF             (1U << 7)
+>  #define GICD_CTLR_RWP               (1U << 31)
+>
+> +#define GICD_TYPER_LPIS_OFFSET         17
 
-"triggering"
+This should be named GICD_TYPER_LPIS_SHIFT, in the usual naming convention.
 
->  #define DEVID_SHIFT                  32
->  #define DEVID_MASK                MAKE_64BIT_MASK(32, 32)
+> +#define GICD_TYPER_IDBITS_OFFSET       19
+> +#define GICD_TYPER_IDBITS_MASK       0x1f
 
-> @@ -347,6 +368,11 @@ FIELD(MAPC, RDBASE, 16, 32)
->   * vPEID = 16 bits
->   */
->  #define ITS_ITT_ENTRY_SIZE            0xC
-> +#define ITE_ENTRY_INTTYPE_SHIFT        1
-> +#define ITE_ENTRY_INTID_SHIFT          2
-> +#define ITE_ENTRY_INTID_MASK         ((1ULL << 24) - 1)
-> +#define ITE_ENTRY_INTSP_SHIFT          26
-> +#define ITE_ENTRY_ICID_MASK          ((1ULL << 16) - 1)
+You never use these, so don't define them.
 
-This is still using a MASK value that's at the bottom of the
-integer, not in its shifted location.
+>  /* 16 bits EventId */
+>  #define GICD_TYPER_IDBITS            0xf
+>
+> @@ -123,6 +126,9 @@
+>  #define GICR_TYPER_COMMONLPIAFF      (0x3 << 24)
+>  #define GICR_TYPER_AFFINITYVALUE     (0xFFFFFFFFULL << 32)
+>
+> +#define GICR_WAKER_ProcessorSleep    (1U << 1)
+> +#define GICR_WAKER_ChildrenAsleep    (1U << 2)
+> +
+>  FIELD(GICR_PROPBASER, IDBITS, 0, 5)
+>  FIELD(GICR_PROPBASER, INNERCACHE, 7, 3)
+>  FIELD(GICR_PROPBASER, SHAREABILITY, 10, 2)
+> @@ -137,9 +143,6 @@ FIELD(GICR_PENDBASER, PHYADDR, 16, 36)
+>  FIELD(GICR_PENDBASER, OUTERCACHE, 56, 3)
+>  FIELD(GICR_PENDBASER, PTZ, 62, 1)
+>
+> -#define GICR_WAKER_ProcessorSleep    (1U << 1)
+> -#define GICR_WAKER_ChildrenAsleep    (1U << 2)
+> -
+
+Why move these defines?
 
 Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
