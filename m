@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F783BB747
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 08:44:50 +0200 (CEST)
-Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD6C3BB762
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 08:59:30 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0ILZ-0008VC-NM
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 02:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56268)
+	id 1m0IZl-0004n8-1g
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 02:59:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kito.cheng@sifive.com>)
- id 1m0IKZ-0007jj-UL
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:43:49 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:45783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kito.cheng@sifive.com>)
- id 1m0IKW-0001ev-00
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:43:47 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- b8-20020a17090a4888b02901725eedd346so8255481pjh.4
- for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 23:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TQWo2oZwttV6vBuy8C2L+FSGnVkhpVhO+aqWLQLsITk=;
- b=RaH8YSQMXG6dK6ektMT1zk89ssmvTEMM7GpgJGSLhghXfeNG0Y/MSb8i+0MUXew6OB
- XkTPyGnujH3vF3k7lt+7Oi6e+Ct826HK3jHLcV3EZBrsxcpDWMSsmp6Z/62iB1sPV/lr
- Kdfi/RwoBZ9INQ8KrN0tPZGCB+gxUIgjjKcxKdHN0VfCUauK8N+cqXAVYjd8bQK3bmf/
- 2irQPv6x9wt5Am5yWY811fIa3OAz7KMCp7nHuA77nsSxPLd1c82r10C/haPVjZ0KkBml
- L6Y5m+OvzH7/kT16PyAm6f7Ap7cPFGuh+KQgMebZ3QT0XpxVQcts104O3vDW+WPLUvCc
- pWbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TQWo2oZwttV6vBuy8C2L+FSGnVkhpVhO+aqWLQLsITk=;
- b=NjW90Fe+I05qXoTDamZCTsQJDnHFJMJwfqNZbocY3O82m6M2mKTfCY0JDtQXEIu8Iq
- ZK6Bks518YyHdLYufWEH7qraNsDgl1Ot1zLFGwz7i5pw4GPoUlRPu5F51RCNY5W6U/ED
- eo5PbtlZtEbOqkslmVwMPvLyIzsdgS8jXejeQAx1tBLFoAqV5BsbpNDTeRQYbV9jmFso
- /kSuAec4TXyXtY2A7hq8PXWHxBdOFjICqBfnQMOMMA28XujE927MviU8BLeDYgkDM+yL
- k99CfN1Mt8+QWcKSBI91PiD7bJ0o8ZgjhTNt9G6NSVLEiuZx2ZlBc3H7CQ1pg3cKQCdQ
- gnXw==
-X-Gm-Message-State: AOAM532blxPs6ADRrK48EBhWYUg6FHdUZEREHXfFRx5QOqss46tW1uBj
- ZLBEkXZn9NSrOEgUyU/7RJjMOg==
-X-Google-Smtp-Source: ABdhPJwC02yREwXm366IdDGVvvsB53VqIsjXbb5mSRqoGbyurvzqfIjRoSqCB6leSNwblj6u9m1opQ==
-X-Received: by 2002:a17:902:7c91:b029:129:8c0f:853 with SMTP id
- y17-20020a1709027c91b02901298c0f0853mr3574355pll.62.1625467421352; 
- Sun, 04 Jul 2021 23:43:41 -0700 (PDT)
-Received: from hsinchu02.internal.sifive.com
- (59-124-168-89.HINET-IP.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id x13sm10310233pjh.30.2021.07.04.23.43.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 23:43:40 -0700 (PDT)
-From: Kito Cheng <kito.cheng@sifive.com>
-To: alistair.francis@wdc.com, palmer@dabbelt.com, frank.chang@sifive.com,
- qemu-devel@nongnu.org, qemu-riscv@nongnu.org, richard.henderson@linaro.org
-Subject: [PATCH v2] linux-user/elfload: Implement ELF_HWCAP for RISC-V
-Date: Mon,  5 Jul 2021 14:43:26 +0800
-Message-Id: <20210705064326.81958-1-kito.cheng@sifive.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1m0IXp-0002Av-D2
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:57:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1m0IXl-00045d-T3
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:57:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625468243;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qHlw+ZZJu8m8m8HZCkjuds7wyNBCzEX57uD8t7k3OTo=;
+ b=gj0kYat9BD/GSFwrYI9qjIXJYJTrerBTaPF9WY+2SL0l+ubuHEMq3cdeqsPdKYHbCvB1ob
+ OxhYFxJdstFNID//O02OcNfQTkUwu178Odl0O+bZZMrfBolZQbfiw9iy3wWy0juCgYRCDU
+ kTVH/9hNC/kIxtLiMIdWHJ3ooOJTQdE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-ytsqnRAaMWWZpnaoxk56DQ-1; Mon, 05 Jul 2021 02:57:22 -0400
+X-MC-Unique: ytsqnRAaMWWZpnaoxk56DQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A00301084F4C;
+ Mon,  5 Jul 2021 06:57:21 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-244.ams2.redhat.com
+ [10.36.112.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DE841002D71;
+ Mon,  5 Jul 2021 06:57:13 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v8 00/16] qemu_iotests: improve debugging options
+Date: Mon,  5 Jul 2021 08:56:55 +0200
+Message-Id: <20210705065711.127119-1-eesposit@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=kito.cheng@sifive.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,68 +76,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kito Cheng <kito.cheng@sifive.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set I, M, A, F, D and C bit for hwcap if misa is set.
+This series adds the option to attach gdbserver and valgrind
+to the QEMU binary running in qemu_iotests.
+It also allows to redirect QEMU binaries output of the python tests
+to the stdout, instead of a log file.
 
-V2 Changes:
-- Only set imafdc bits, sync with upstream linux kernel.
+Patches 1-9 introduce the -gdb option to both python and bash tests, 
+10-14 extend the already existing -valgrind flag to work also on 
+python tests, and patch 15-16 introduces -p to enable logging to stdout.
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+In particular, patches 1,6,8,11 focus on extending the QMP socket timers
+when using gdb/valgrind, otherwise the python tests will fail due to
+delays in the QMP responses.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- linux-user/elfload.c | 30 +++++++++++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
+v7:
+* Adjust documentation and error message when -gdb and -valgrind are set
+  at the same time [Eric]
+* Add missing Acked-by [John]
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 598ab8aa13..3cdc7d06e1 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1426,7 +1426,7 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
- #ifdef TARGET_RISCV
- 
- #define ELF_START_MMAP 0x80000000
--#define ELF_ARCH  EM_RISCV
-+#define ELF_ARCH EM_RISCV
- 
- #ifdef TARGET_RISCV32
- #define ELF_CLASS ELFCLASS32
-@@ -1434,6 +1434,34 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
- #define ELF_CLASS ELFCLASS64
- #endif
- 
-+#define ELF_HWCAP get_elf_hwcap()
-+
-+static uint32_t get_elf_hwcap(void)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(thread_cpu);
-+    uint32_t hwcap = 0;
-+
-+#define MISA_BIT(EXT) (1 << (EXT - 'A'))
-+#define GET_EXT(EXT)				\
-+    do {					\
-+        if (cpu->env.misa & MISA_BIT(EXT)) {	\
-+            hwcap |= MISA_BIT(EXT);		\
-+        }					\
-+    } while (0)
-+
-+    GET_EXT('I');
-+    GET_EXT('M');
-+    GET_EXT('A');
-+    GET_EXT('F');
-+    GET_EXT('D');
-+    GET_EXT('C');
-+
-+#undef MISA_BIT
-+#undef GET_EXT
-+
-+    return hwcap;
-+}
-+
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
- {
+Emanuele Giuseppe Esposito (15):
+  python: qemu: add timer parameter for qmp.accept socket
+  python: qemu: pass the wrapper field from QEMUQtestmachine to
+    QEMUMachine
+  docs/devel/testing: add debug section to the QEMU iotests chapter
+  qemu-iotests: add option to attach gdbserver
+  qemu-iotests: delay QMP socket timers
+  qemu_iotests: insert gdbserver command line as wrapper for qemu binary
+  qemu-iotests: add gdbserver option to script tests too
+  docs/devel/testing: add -gdb option to the debugging section of QEMU
+    iotests
+  qemu-iotests: extend the check script to prepare supporting valgrind
+    for python tests
+  qemu-iotests: extend QMP socket timeout when using valgrind
+  qemu-iotests: allow valgrind to read/delete the generated log file
+  qemu-iotests: insert valgrind command line as wrapper for qemu binary
+  docs/devel/testing: add -valgrind option to the debug section of QEMU
+    iotests
+  qemu-iotests: add option to show qemu binary logs on stdout
+  docs/devel/testing: add -p option to the debug section of QEMU iotests
+
+John Snow (1):
+  python: Reduce strictness of pylint's duplicate-code check
+
+ docs/devel/testing.rst         | 29 ++++++++++++++++++++
+ python/qemu/machine/machine.py | 16 +++++++----
+ python/qemu/machine/qtest.py   |  9 ++++---
+ python/setup.cfg               |  5 ++++
+ tests/qemu-iotests/check       | 15 ++++++++---
+ tests/qemu-iotests/common.qemu |  7 ++++-
+ tests/qemu-iotests/common.rc   |  8 +++++-
+ tests/qemu-iotests/iotests.py  | 49 ++++++++++++++++++++++++++++++++--
+ tests/qemu-iotests/testenv.py  | 23 ++++++++++++++--
+ 9 files changed, 143 insertions(+), 18 deletions(-)
+
 -- 
 2.31.1
 
