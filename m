@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B413D3BBD51
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:07:08 +0200 (CEST)
-Received: from localhost ([::1]:50838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA9D3BBD53
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:07:28 +0200 (CEST)
+Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0OJX-0004f3-GB
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
+	id 1m0OJr-0004nT-L8
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m0OHu-0002Kn-IA; Mon, 05 Jul 2021 09:05:28 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:34688)
+ id 1m0OHw-0002L4-QV; Mon, 05 Jul 2021 09:05:29 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m0OHp-0008Br-3h; Mon, 05 Jul 2021 09:05:26 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso11425104pjx.1; 
- Mon, 05 Jul 2021 06:05:19 -0700 (PDT)
+ id 1m0OHr-0008EH-TD; Mon, 05 Jul 2021 09:05:28 -0400
+Received: by mail-pf1-x433.google.com with SMTP id 145so2654039pfv.0;
+ Mon, 05 Jul 2021 06:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SWN+FaNfl1eCTe4tnHoO+KqxIX/vH2hey0Q0qZdbmf0=;
- b=AtNgA0fHV59klnA0qehOmNqVk6LA1obzOdwfmR4J1F7GUkAiCfRp6ThEDB3zX6lnB2
- 2F1HzCdHWdMi74wf4hWt5yVeUQx/mRZnxGmlh5Z/i/MRc23FLUsfyhUmK60j2NRB4sbL
- fuHHcMXm7MFNFW5xnLSS3MfYhX18rJ7Z6t2R3Lc+g3Lyxk0y1Ha2kWG327m2ssNeD1h5
- sDnP0dGYWkMlLBIVEAv1bgaiaKkEFD8+0ZHFFOZREbwpTfJl7VcGM6PVHq0gzUmkkGsH
- 2eCcedKkzFZWflcAoZ0MU5wHvHiRoVgawWZqsN3VBAqXes4Drorb4em8F83eyrmcvWOC
- qtKQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tUUKcDTbbOA4H3zLodQae4frXnLiFjRHJT6h1EAJPOA=;
+ b=ofvNc66iU6Lwbtp1FMNdrIzLinqxWVpjvYjShNNouojn7pvayfisO9HUTOKNnOUTRL
+ FB6QmirDquxTzxfPGP/WF5f+dtm5azAbOfeYOTdOzfbWQ4ShcHU/SQYZRwdUnvPfP3wn
+ tsT0x8UUTdlKW0M6L6eBzczWgIqr6+dWL0OEaL1pb6+55h7xvcit60Zp1qzGRisfthc1
+ Z/dZ/Pv9IYITeSJXsDt6wxTF9jwIqHtI0L4a9NyVNpKWauc96peRsQFVrvcFjrA1nIlD
+ Dz6ZbUmnPNzXXQyGPyyjAd96hWuj8NFT7gR+zqh6S6p4wbueOLzu5KPFfkw+XjJU0K5M
+ 9Etg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SWN+FaNfl1eCTe4tnHoO+KqxIX/vH2hey0Q0qZdbmf0=;
- b=WE255M350x0KIDGa6NujACqLqQCDJ+rkYn06jV9HbDSAT02FOQCo6taNmBt1BZny46
- ZM5vv3fRmN6IRbgjCLRzXRJIrCbqA3IE5nB3R+gaaMYLnGyv1LFImUDji9cN5+fmM8YN
- kUc/udCCcebvrz1BMDCgj7pstg9i9bOEhw+98J9BPVcsqdQ0RnNuBeZJfO2M6lV2n6x3
- YrZ46RCmwLlZuxfFco4hV3vZnnGBe1re4374xaGs5+tAcqq+E5qPbjZY2gMXSp/nXT3b
- CgpOftWCVb9AWv6TsP4fbz7qfTb+M1AXkKC7quarCpFw63/w5X9eBs3TUJ7+1ErNFv7t
- 71lw==
-X-Gm-Message-State: AOAM5313FMHcbIM1LC9c/6yP55+scbT3Z012BjlOha6LcRnPKBELLHhi
- +eLh7a+2NF9CvD0MXr9QPsQ=
-X-Google-Smtp-Source: ABdhPJwVqDWISgPoZUaVDK5L62mfbXmf0pqvpERtHJn8ul/HUSnHlriXK53lSVw9crWiaWD9/Mn3Zg==
-X-Received: by 2002:a17:90a:6942:: with SMTP id j2mr9386659pjm.9.1625490318474; 
- Mon, 05 Jul 2021 06:05:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tUUKcDTbbOA4H3zLodQae4frXnLiFjRHJT6h1EAJPOA=;
+ b=DOuoUh/kziDmfYvOI1SY0w6Yz9jg+XO4YmPysHEcrk+m07aqIyyJaO9qjLwN1+Yd17
+ 8Z2Hcbv7aRC5pFSkAXXo+8TFS6s45B8uXyNaMZX4ECevKkNUTdDsqRPKTzve/hJO/0Fl
+ YaKhZp2Ewn8lR1eFWtzmaE0SNCMLeGFniSZiSnDlN52pFxapDG6oVnrtCSnsdfvpbv0q
+ FiaT9jsjudz5RJGGZyrskp6oayGB3f124/d2fhRNye/X0bHidy3UzOeHqV+JWQQzF4mC
+ dRmkUqBTejIz+ATyybjaMKwaEowWLR/oidPADwPEnJ99jIDZaWWTUSAMAoCPxq8w8Tgf
+ Ymfw==
+X-Gm-Message-State: AOAM530CM/GB4A9ZQQoZcjIV+op3DLMTegPBhuzQYpsSRUkuv5dMtPEn
+ AI23ZjaQioYJqKbbc8h25Qs=
+X-Google-Smtp-Source: ABdhPJyXtTSxjYUAsbFU2m2sWzJUPYYTEOg5FyhZE065Lsj2yA5RkPQ+Bmk11IZn6lRsPoG+A1rfOA==
+X-Received: by 2002:a05:6a00:1951:b029:319:db4d:5d9a with SMTP id
+ s17-20020a056a001951b0290319db4d5d9amr12577190pfk.12.1625490322162; 
+ Mon, 05 Jul 2021 06:05:22 -0700 (PDT)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:ad14:b651:2921:88e5])
- by smtp.gmail.com with ESMTPSA id s27sm12727263pfg.169.2021.07.05.06.05.15
+ by smtp.gmail.com with ESMTPSA id s27sm12727263pfg.169.2021.07.05.06.05.18
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 05 Jul 2021 06:05:18 -0700 (PDT)
+ Mon, 05 Jul 2021 06:05:21 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v5 1/3] block/file-posix: Optimize for macOS
-Date: Mon,  5 Jul 2021 22:04:56 +0900
-Message-Id: <20210705130458.97642-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v5 2/3] block: Add backend_defaults property
+Date: Mon,  5 Jul 2021 22:04:57 +0900
+Message-Id: <20210705130458.97642-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20210705130458.97642-1-akihiko.odaki@gmail.com>
+References: <20210705130458.97642-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,92 +92,422 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit introduces "punch hole" operation and optimizes transfer
-block size for macOS.
+backend_defaults property allow users to control if default block
+properties should be decided with backend information.
 
-Thanks to Konstantin Nazarov for detailed analysis of a flaw in an
-old version of this change:
-https://gist.github.com/akihikodaki/87df4149e7ca87f18dc56807ec5a1bc5#gistcomment-3654667
+If it is off, any backend information will be discarded, which is
+suitable if you plan to perform live migration to a different disk backend.
+
+If it is on, a block device may utilize backend information more
+aggressively.
+
+By default, it is auto, which uses backend information for block
+sizes and ignores the others, which is consistent with the older
+versions.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- block/file-posix.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ hw/block/block.c           | 42 ++++++++++++++++++++++++++++++++++----
+ include/hw/block/block.h   |  3 +++
+ tests/qemu-iotests/172.out | 38 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 79 insertions(+), 4 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b3fbb9bd63a..80da1f59a60 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -44,6 +44,7 @@
- #if defined(__APPLE__) && (__MACH__)
- #include <paths.h>
- #include <sys/param.h>
-+#include <sys/mount.h>
- #include <IOKit/IOKitLib.h>
- #include <IOKit/IOBSD.h>
- #include <IOKit/storage/IOMediaBSDClient.h>
-@@ -1217,6 +1218,15 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+diff --git a/hw/block/block.c b/hw/block/block.c
+index 1e34573da71..d47ebf005ad 100644
+--- a/hw/block/block.c
++++ b/hw/block/block.c
+@@ -65,24 +65,58 @@ bool blkconf_blocksizes(BlockConf *conf, Error **errp)
  {
-     BDRVRawState *s = bs->opaque;
- 
-+#if defined(__APPLE__) && (__MACH__)
-+    struct statfs buf;
+     BlockBackend *blk = conf->blk;
+     BlockSizes blocksizes;
+-    int backend_ret;
++    BlockDriverState *bs;
++    bool use_blocksizes;
++    bool use_bs;
 +
-+    if (!fstatfs(s->fd, &buf)) {
-+        bs->bl.opt_transfer = buf.f_iosize;
-+        bs->bl.pdiscard_alignment = buf.f_bsize;
++    switch (conf->backend_defaults) {
++    case ON_OFF_AUTO_AUTO:
++        use_blocksizes = !blk_probe_blocksizes(blk, &blocksizes);
++        use_bs = false;
++        break;
++
++    case ON_OFF_AUTO_ON:
++        use_blocksizes = !blk_probe_blocksizes(blk, &blocksizes);
++        bs = blk_bs(blk);
++        use_bs = bs;
++        break;
++
++    case ON_OFF_AUTO_OFF:
++        use_blocksizes = false;
++        use_bs = false;
++        break;
++
++    default:
++        abort();
 +    }
-+#endif
-+
-     if (bs->sg) {
-         int ret = sg_get_max_transfer_length(s->fd);
  
-@@ -1557,6 +1567,7 @@ out:
+-    backend_ret = blk_probe_blocksizes(blk, &blocksizes);
+     /* fill in detected values if they are not defined via qemu command line */
+     if (!conf->physical_block_size) {
+-        if (!backend_ret) {
++        if (use_blocksizes) {
+            conf->physical_block_size = blocksizes.phys;
+         } else {
+             conf->physical_block_size = BDRV_SECTOR_SIZE;
+         }
      }
- }
- 
-+#if defined(CONFIG_FALLOCATE) || defined(BLKZEROOUT) || defined(BLKDISCARD)
- static int translate_err(int err)
- {
-     if (err == -ENODEV || err == -ENOSYS || err == -EOPNOTSUPP ||
-@@ -1565,6 +1576,7 @@ static int translate_err(int err)
+     if (!conf->logical_block_size) {
+-        if (!backend_ret) {
++        if (use_blocksizes) {
+             conf->logical_block_size = blocksizes.log;
+         } else {
+             conf->logical_block_size = BDRV_SECTOR_SIZE;
+         }
      }
-     return err;
- }
-+#endif
- 
- #ifdef CONFIG_FALLOCATE
- static int do_fallocate(int fd, int mode, off_t offset, off_t len)
-@@ -1777,16 +1789,27 @@ static int handle_aiocb_discard(void *opaque)
-             }
-         } while (errno == EINTR);
- 
--        ret = -errno;
-+        ret = translate_err(-errno);
- #endif
-     } else {
- #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
-         ret = do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-                            aiocb->aio_offset, aiocb->aio_nbytes);
-+        ret = translate_err(-errno);
-+#elif defined(__APPLE__) && (__MACH__)
-+        fpunchhole_t fpunchhole;
-+        fpunchhole.fp_flags = 0;
-+        fpunchhole.reserved = 0;
-+        fpunchhole.fp_offset = aiocb->aio_offset;
-+        fpunchhole.fp_length = aiocb->aio_nbytes;
-+        if (fcntl(s->fd, F_PUNCHHOLE, &fpunchhole) == -1) {
-+            ret = errno == ENODEV ? -ENOTSUP : -errno;
-+        } else {
-+            ret = 0;
++    if (use_bs) {
++        if (!conf->opt_io_size) {
++            conf->opt_io_size = bs->bl.opt_transfer;
 +        }
- #endif
-     }
++        if (conf->discard_granularity == -1) {
++            if (bs->bl.pdiscard_alignment) {
++                conf->discard_granularity = bs->bl.pdiscard_alignment;
++            } else if (bs->bl.request_alignment != 1) {
++                conf->discard_granularity = bs->bl.request_alignment;
++            }
++        }
++    }
  
--    ret = translate_err(ret);
-     if (ret == -ENOTSUP) {
-         s->has_discard = false;
-     }
+     if (conf->logical_block_size > conf->physical_block_size) {
+         error_setg(errp,
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index c172cbe65f1..5902c0440a5 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -19,6 +19,7 @@
+ 
+ typedef struct BlockConf {
+     BlockBackend *blk;
++    OnOffAuto backend_defaults;
+     uint32_t physical_block_size;
+     uint32_t logical_block_size;
+     uint32_t min_io_size;
+@@ -48,6 +49,8 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
+ }
+ 
+ #define DEFINE_BLOCK_PROPERTIES_BASE(_state, _conf)                     \
++    DEFINE_PROP_ON_OFF_AUTO("backend_defaults", _state,                 \
++                            _conf.backend_defaults, ON_OFF_AUTO_AUTO),  \
+     DEFINE_PROP_BLOCKSIZE("logical_block_size", _state,                 \
+                           _conf.logical_block_size),                    \
+     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
+diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
+index d53f61d0dee..4cf4d536b46 100644
+--- a/tests/qemu-iotests/172.out
++++ b/tests/qemu-iotests/172.out
+@@ -21,6 +21,7 @@ Testing:
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -48,6 +49,7 @@ Testing: -fda TEST_DIR/t.qcow2
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -85,6 +87,7 @@ Testing: -fdb TEST_DIR/t.qcow2
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "floppy1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -96,6 +99,7 @@ Testing: -fdb TEST_DIR/t.qcow2
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -137,6 +141,7 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "floppy1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -148,6 +153,7 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -190,6 +196,7 @@ Testing: -fdb
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "floppy1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -201,6 +208,7 @@ Testing: -fdb
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -228,6 +236,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -265,6 +274,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "floppy1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -276,6 +286,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -317,6 +328,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "floppy1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -328,6 +340,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -373,6 +386,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -410,6 +424,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,unit=1
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -447,6 +462,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "none1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -458,6 +474,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -509,6 +526,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -520,6 +538,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -562,6 +581,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -573,6 +593,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -615,6 +636,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -626,6 +648,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "floppy1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -668,6 +691,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -679,6 +703,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "floppy1"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -730,6 +755,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -741,6 +767,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -783,6 +810,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+               dev: floppy, id ""
+                 unit = 1 (0x1)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -794,6 +822,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "floppy0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -842,6 +871,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global floppy.drive=none0 -device
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -909,6 +939,7 @@ Testing: -device floppy
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = ""
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -933,6 +964,7 @@ Testing: -device floppy,drive-type=120
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = ""
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -957,6 +989,7 @@ Testing: -device floppy,drive-type=144
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = ""
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -981,6 +1014,7 @@ Testing: -device floppy,drive-type=288
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = ""
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -1008,6 +1042,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -1045,6 +1080,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -1085,6 +1121,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
+@@ -1122,6 +1159,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
+               dev: floppy, id ""
+                 unit = 0 (0x0)
+                 drive = "none0"
++                backend_defaults = "auto"
+                 logical_block_size = 512 (512 B)
+                 physical_block_size = 512 (512 B)
+                 min_io_size = 0 (0 B)
 -- 
 2.30.1 (Apple Git-130)
 
