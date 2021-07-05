@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FEF3BBE29
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 16:22:38 +0200 (CEST)
-Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C177F3BBE3D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 16:33:21 +0200 (CEST)
+Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0PUa-0007PE-9D
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 10:22:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39660)
+	id 1m0Pex-0003PT-S3
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 10:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0PTB-0006Vm-TN
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:21:09 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:47052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0PT9-0008Bk-4s
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:21:09 -0400
-Received: by mail-ej1-x630.google.com with SMTP id c17so29216748ejk.13
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bqPPPRrNU+LZFx5KUP6Cp8OQnYnfHIbr6N5ctiMheR4=;
- b=gS6o6OLIE94tps/3aCFv0ZycdjytWkkaaTKxO2rcMmphyv1T/UR+Zn5K+x5Sp0pVS5
- MlS3QGI3CJYgAo+FQKphw8PbwKxlZvYgvSn0uFwtJnbfDFgeh6KWkH8sMWjUhobj5MJO
- XvxEN9FyIBe0XZJp62eShUTSGSiLE4vRmuEYu9LX+5wpQ0nPLjuiSY882OhftcKjGohZ
- iFQPYazgvS6eNhVDg4fTiXn08bR5BGVpU9XxuJ/POnm8jOq94mYvqMTBNlfaRMoR7/8E
- vzW21QaGpWZqpzL/oRCVMo/rSLRCmaSR8Z6+MSgrFkNWdBozBbX/pkJ00m0sJZt14boo
- EWSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bqPPPRrNU+LZFx5KUP6Cp8OQnYnfHIbr6N5ctiMheR4=;
- b=RxIMo6GUDOHoXeR6MXyF3AgItRqcdFp6EK//NeIHYjF30CvFG+kLBNmwKQjvhZUaNc
- /TKOVwbCYg+rvPA/nTNnjLh+Q5sG1cgWNr1pd4hWR/METVEDJsmhFmpyxSzN+UYruIjj
- JC4gQ4Te/cbkGuSKrCY5GvAmYe4mQhZ5WZgQGLfi5dTi/yMvcTVOW9TpObyx7evXLF38
- ExaoWwzpb6yP9Fg7yNE94/93II7mqKK9H/b+ME4i1rJ3c5cGNEXEVlXPDwQvzLQFIVCo
- WtcaXUdr04D7ml00B5WLMaBbLBjI++KGESUT8Hc33qH8wCzFZ3AOjV3lboJeEfcCl2+N
- omYw==
-X-Gm-Message-State: AOAM533LAKZtQeH/xhBm2woJEKsBKJFjNNgFY6SmHWhtCBOQ4kmfPXee
- BVFp/4E44qD8aVeX996tRn3x0OIAzsqtJKPsPSGQKQ==
-X-Google-Smtp-Source: ABdhPJx+5HAj+nHaAmm73gxane5CP1659wG7zWkOZqgKLPoo1qWQRZBGkk6SLHSja72a7VUjLYCtGz9mN+Y2tIISjlA=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr13506362ejy.407.1625494865407; 
- Mon, 05 Jul 2021 07:21:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1m0Pd3-0002IX-TS; Mon, 05 Jul 2021 10:31:21 -0400
+Received: from [201.28.113.2] (port=35511 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1m0Pd1-0005iu-JA; Mon, 05 Jul 2021 10:31:21 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 5 Jul 2021 11:31:13 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id A79AD801354;
+ Mon,  5 Jul 2021 11:31:13 -0300 (-03)
+Subject: Re: [PATCH v4 2/3] target/ppc: change ppc_hash32_xlate to use mmu_idx
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210628133610.1143-1-bruno.larsen@eldorado.org.br>
+ <20210628133610.1143-3-bruno.larsen@eldorado.org.br> <YOKJco6ebWubvDwx@yekko>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <893bd8b3-d2be-309a-dd35-59aba1712be6@eldorado.org.br>
+Date: Mon, 5 Jul 2021 11:31:13 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-6-shashi.mallela@linaro.org>
-In-Reply-To: <20210630153156.9421-6-shashi.mallela@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 15:20:27 +0100
-Message-ID: <CAFEAcA_Rn25iBodv+XOgSa-BUjxRHK8uCx82pkS4ZPNcO5NaQA@mail.gmail.com>
-Subject: Re: [PATCH v5 05/10] hw/intc: GICv3 ITS Feature enablement
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YOKJco6ebWubvDwx@yekko>
+Content-Type: multipart/alternative;
+ boundary="------------879232F0284BAEAC76685C55"
+Content-Language: en-US
+X-OriginalArrivalTime: 05 Jul 2021 14:31:14.0038 (UTC)
+ FILETIME=[68627160:01D771AA]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: 16
+X-Spam_score: 1.6
+X-Spam_bar: +
+X-Spam_report: (1.6 / 5.0 requ) BAYES_50=0.8, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,65 +59,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Leif Lindholm <leif@nuviainc.com>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <shashi.mallela@linaro.org> wrote:
->
-> Added properties to enable ITS feature and define qemu system
-> address space memory in gicv3 common,setup distributor and
-> redistributor registers to indicate LPI support.
->
-> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
->
+This is a multi-part message in MIME format.
+--------------879232F0284BAEAC76685C55
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-> index f7675a5adc..43ce4a8a95 100644
-> --- a/hw/intc/gicv3_internal.h
-> +++ b/hw/intc/gicv3_internal.h
-> @@ -68,6 +68,9 @@
->  #define GICD_CTLR_E1NWF             (1U << 7)
->  #define GICD_CTLR_RWP               (1U << 31)
->
-> +#define GICD_TYPER_LPIS_OFFSET         17
 
-This should be named GICD_TYPER_LPIS_SHIFT, in the usual naming convention.
+On 05/07/2021 01:24, David Gibson wrote:
 
-> +#define GICD_TYPER_IDBITS_OFFSET       19
-> +#define GICD_TYPER_IDBITS_MASK       0x1f
+> > Changed hash32 address translation to use the supplied mmu_idx, instead
+> > of using what was stored in the msr, for parity purposes (radix64
+> > already uses that).
 
-You never use these, so don't define them.
+> Well.. parity and conceptual correctness.  The translation is supposed
+> to use mmu_idx, not look at the CPU again to get the right context.
+> AFAIK there isn't a situation in hash32 where they'll get out of sync,
+> but nothing guarantees that.
 
->  /* 16 bits EventId */
->  #define GICD_TYPER_IDBITS            0xf
->
-> @@ -123,6 +126,9 @@
->  #define GICR_TYPER_COMMONLPIAFF      (0x3 << 24)
->  #define GICR_TYPER_AFFINITYVALUE     (0xFFFFFFFFULL << 32)
->
-> +#define GICR_WAKER_ProcessorSleep    (1U << 1)
-> +#define GICR_WAKER_ChildrenAsleep    (1U << 2)
-> +
->  FIELD(GICR_PROPBASER, IDBITS, 0, 5)
->  FIELD(GICR_PROPBASER, INNERCACHE, 7, 3)
->  FIELD(GICR_PROPBASER, SHAREABILITY, 10, 2)
-> @@ -137,9 +143,6 @@ FIELD(GICR_PENDBASER, PHYADDR, 16, 36)
->  FIELD(GICR_PENDBASER, OUTERCACHE, 56, 3)
->  FIELD(GICR_PENDBASER, PTZ, 62, 1)
->
-> -#define GICR_WAKER_ProcessorSleep    (1U << 1)
-> -#define GICR_WAKER_ChildrenAsleep    (1U << 2)
-> -
 
-Why move these defines?
+Fair point, I can change the description  if I do end up with a new version, but
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> I think the right approach is to duplicate the helper macros in
+> mmu-hash32.h for now.  We can unify them later with a more thorough
+> review (which would probably involve creating a new header for things
+> common to all BookS family MMUs).
 
-thanks
--- PMM
+This doesn't work directly. I'd need to put in an ifndef PPC_MMU_BOOK3S_V3_H, which also feels a bit dubious to me. I can go with whichever one you prefer
+
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+--------------879232F0284BAEAC76685C55
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 05/07/2021 01:24, David Gibson
+      wrote:<br>
+    </div>
+    <pre class="moz-quote-pre" wrap="">&gt; &gt; Changed hash32 address translation to use the supplied mmu_idx, instead
+&gt; &gt; of using what was stored in the msr, for parity purposes (radix64
+&gt; &gt; already uses that).
+</pre>
+    <pre class="moz-quote-pre" wrap="">&gt; Well.. parity and conceptual correctness.  The translation is supposed
+&gt; to use mmu_idx, not look at the CPU again to get the right context.
+&gt; AFAIK there isn't a situation in hash32 where they'll get out of sync,
+&gt; but nothing guarantees that.
+
+
+Fair point, I can change the description  if I do end up with a new version, but
+
+&gt; I think the right approach is to duplicate the helper macros in
+&gt; mmu-hash32.h for now.  We can unify them later with a more thorough
+&gt; review (which would probably involve creating a new header for things
+&gt; common to all BookS family MMUs).
+
+This doesn't work directly. I'd need to put in an ifndef PPC_MMU_BOOK3S_V3_H, which also feels a bit dubious to me. I can go with whichever one you prefer
+</pre>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------879232F0284BAEAC76685C55--
 
