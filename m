@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670C33BC0DD
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:35:33 +0200 (CEST)
-Received: from localhost ([::1]:60386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77F13BC0DF
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:37:04 +0200 (CEST)
+Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0QdA-0004bQ-G7
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
+	id 1m0Qed-0006ow-P8
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0QaH-00018L-Js
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:32:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53324)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1m0QcX-0004yN-Ei
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:34:53 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:47531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0QaF-0002S5-QY
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:32:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625499150;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RMArE7Jm2mnxX0455gAQnJ09GGafgUvhLsRJG+2lxoo=;
- b=B7AZS4q2I9KhRTW0JjZy6SGMDGPhKEzW0Bn9u5zLLlNSUD8eG9FjhyeGZDYICvSgGVYe/W
- BSiaQxgQTfXgJ3gPQB5jNzEHj02zlVxmJYX8ux3yFy2Sn8W78oXfPOd2GGlu2Vk6YQcD14
- wvPbmNj/rLGjFwbtt6jIwEyQ5A8fHR8=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-ySH--9EZNUqvyK650bWYPg-1; Mon, 05 Jul 2021 11:32:27 -0400
-X-MC-Unique: ySH--9EZNUqvyK650bWYPg-1
-Received: by mail-vk1-f198.google.com with SMTP id
- g64-20020a1f52430000b0290230feb5a2b9so4904245vkb.21
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:32:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RMArE7Jm2mnxX0455gAQnJ09GGafgUvhLsRJG+2lxoo=;
- b=tFc5ju3Y/TLJyvMY5RlB3dI/smXptbe7YAejCnhx60Ys/DbkIWfGr6bks0Cf74AEbX
- 4qfbxc1qgntTwZdN/Vie2pqCMQKhT1unr9MISO5Y1zNQEz6LoTOQGxShpbMa7QLDGEkd
- xpZl/LI+HmaLPgOtbvhpb/yA1J5fpYnD+ywUzeCLFN/dbdvGSkZ7upTPZXbffBHpkFvt
- ie9nWPN/5Wj1Dg0bpyqyt+ULw231o4XZEWupiUiQKbnIyvWjS7AQEtuJe1S2CYnZUHUJ
- tn2zXfWg2WoFK+aOTkX8NRXBcLuDuuvpLQnMRhIcBkbErbE5ESuk2U/n7vNBegLo8gJV
- tQyQ==
-X-Gm-Message-State: AOAM5308R2ova3ooZpvVBhVlaAbLr/RT2gz34cq9xJCN5Web1tvXQZWY
- MqbYnKcPciSAkW3uJBz9OuT6wfqbuLCV8S7L9yqbXAmHGT5pBp4vrJDzJ/5m2TCDuafjvWV1Owo
- 5KuIf1gIIwXJrIdJI+sm7c4uJnghUuhw=
-X-Received: by 2002:ab0:3253:: with SMTP id r19mr10371799uan.5.1625499147366; 
- Mon, 05 Jul 2021 08:32:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeWsj5WFuv2FLOPp7gPH8NntDd2YTDpa2+WNM/k4VtYtig2g3qF6Upcn6yiO9rLYyCZieA1IP4WKbHOgW6PrU=
-X-Received: by 2002:ab0:3253:: with SMTP id r19mr10371776uan.5.1625499147187; 
- Mon, 05 Jul 2021 08:32:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1m0QcT-0003mu-JA
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:34:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=l1+TwGAsvbDwEsOFrBik37j/0Vnt8JfV+VCa9f9fPB0=; b=YsuGb8sA0tCqHhVs5NwKi5e/pe
+ zWd8KJ2CHfcEKJ1YTW29oMJMPubhWoTcDM1Ny2FnfVRjvPZppsn8Kqlhwl9b0ph3/IxE7NJSespKU
+ vQqZuUPMZlmFZ4WC/PNEMi5nESYAKxMidzzPtS7G0NPC1iQaw370b/Pn544tfDrVcxWRo+LJK4SB9
+ 4dsXKtjYHmld9VrixGwZ9rWnb09XS5Lp+j+30QojNI5WkGtviuzjscD4SzxENdNeVWGz0lZgcj1iH
+ TA5++w/Xfg+u3hBf9gZ6dF6Rh6owLyzLR/Oez5LlHq6hFtTTN66l6Ifd6dwB5paolLCdQjkcEPBOJ
+ V0wDQuLnSrnDT9qSGdNU7pshDqc4/Fggglf+EXAtW0EstmLDGGVuLTc4qpabXFPeAsXo+oFzHW+fh
+ CzsQzCITe/qemCgforLGX3SidfPMf58A9F4Ux/MOnF2/+Ojsoa0nfXdYP+jwuBJjx5dxsLE3XnB14
+ PSQwWvBzqMnIOO4O1MWxr+nm/WS8QtEcnhVCiVNUKfgRciKe73NLYN0neVszqtxK8ma1yJhHy1y9Y
+ KGfw+A0kpZwYFrqzY7YaX9dCBBFGFyh/z6ys+qEMv6z7BGQa5BjaWIEnkqJympsjINhATE5ToHDSs
+ zM8UWtZo17hPmTO81uM6K4H8S9VBRklbCl+0B+bOg=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PULL 0/8] 9p queue 2021-07-05
+Date: Mon, 05 Jul 2021 17:34:45 +0200
+Message-ID: <2066764.2AXzDdBHVr@silver>
+In-Reply-To: <CAFEAcA-uHfJrJc9JcVRZ7x9WG1sY0C+zbC=m5gzyRdVG+TL49Q@mail.gmail.com>
+References: <cover.1625483630.git.qemu_oss@crudebyte.com>
+ <CAFEAcA-uHfJrJc9JcVRZ7x9WG1sY0C+zbC=m5gzyRdVG+TL49Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210623180021.898286-1-f4bug@amsat.org>
- <20210623180021.898286-9-f4bug@amsat.org>
-In-Reply-To: <20210623180021.898286-9-f4bug@amsat.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 5 Jul 2021 12:32:01 -0300
-Message-ID: <CAKJDGDYbYzM-=8unSiWbfgi+Q-CQgaUu3VaPe5zwY1yeT2X9Fw@mail.gmail.com>
-Subject: Re: [PATCH 8/9] tests/acceptance: Remove now unused pow2ceil()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,27 +65,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- qemu-devel <qemu-devel@nongnu.org>, Tom Yan <tom.ty89@gmail.com>,
- Alexander Bulekov <alxndr@bu.edu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 23, 2021 at 3:10 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> We don't use pow2ceil() anymore, remove it.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  tests/acceptance/boot_linux_console.py | 12 ------------
->  1 file changed, 12 deletions(-)
->
+On Montag, 5. Juli 2021 15:57:41 CEST Peter Maydell wrote:
+> On Mon, 5 Jul 2021 at 12:24, Christian Schoenebeck
+> 
+> <qemu_oss@crudebyte.com> wrote:
+> > The following changes since commit 711c0418c8c1ce3a24346f058b001c4c5a2f0f81:
+> >   Merge remote-tracking branch 'remotes/philmd/tags/mips-20210702' into
+> >   staging (2021-07-04 14:04:12 +0100)> 
+> > are available in the Git repository at:
+> >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210705
+> > 
+> > for you to fetch changes up to 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
+> >   9pfs: reduce latency of Twalk (2021-07-05 13:03:16 +0200)
+> > 
+> > ----------------------------------------------------------------
+> > 9pfs: misc patches
+> > 
+> > * Add link to 9p developer docs.
+> > 
+> > * Fix runtime check whether client supplied relative path is the export
+> > 
+> >   root.
+> > 
+> > * Performance optimization of Twalk requests.
+> > 
+> > * Code cleanup.
+> 
+> GPG tells me the key you signed this with has expired. Can you point
+> me at a keyserver I can download an updated version of the key from,
+> please?
+> 
+> thanks
+> -- PMM
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Hi Peter,
+
+I must have done something wrong when I sent out the updated, prolonged key 
+info couple weeks ago.
+
+I just sent it out again to couple key servers now. They are all still the
+same key IDs BTW, I just prolonged their expiration dates. Looks fine now:
+
+https://keyserver.ubuntu.com/pks/lookup?search=qemu_oss%40crudebyte.com&op=vindex&fingerprint=on
+http://pgp.mit.edu/pks/lookup?op=vindex&search=0x30DB47C3A012D5F4
+https://github.com/cschoenebeck/qemu/releases/tag/pull-9p-20210705
+
+sec#  rsa4096/30DB47C3A012D5F4 2020-05-28 [SC] [expires: 2024-05-16]
+      ECAB1A4540141413BA38492630DB47C3A012D5F4
+uid                 [ultimate] Christian Schoenebeck <qemu_oss@crudebyte.com>
+ssb   rsa4096/C64F2382FC0F4C5E 2020-05-28 [E] [expires: 2022-11-08]
+ssb   rsa4096/34C2B58765A47395 2020-05-28 [S] [expires: 2022-11-08]
+
+Best regards,
+Christian Schoenebeck
+
 
 
