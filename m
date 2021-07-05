@@ -2,95 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EA73BC21C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 19:11:32 +0200 (CEST)
-Received: from localhost ([::1]:32898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1383BC22B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 19:17:12 +0200 (CEST)
+Received: from localhost ([::1]:39544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0S83-0002OM-Sc
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 13:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
+	id 1m0SDW-0006yu-WC
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 13:17:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m0S5o-0007VN-Gc
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 13:09:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53560)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0SBQ-0005kY-2o
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 13:15:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m0S5j-00053N-Ha
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 13:09:11 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0SBM-0000g9-Px
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 13:14:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625504945;
+ s=mimecast20190719; t=1625505295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CjpqM5oUkePOpH2pkRQRc+ER5RDbQa2eErQGMrZQHak=;
- b=U1vjgAk4AOoJUhuNPKUsJwwZbVnE2YODfom+yjpDUcieX4oQjlN28UJYAHXVhnAOs3CFHA
- QB44iNcJHzftDHuAq4mgWHXA8KMHUwCsktltPK709nKtG2n99fQHtFsBQkqBSu3FSHErkH
- HpkZnY67VgMByVnkaH0+ig6iiqHLf2w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-2ApppAXDNiuZwSi9Q2n-EQ-1; Mon, 05 Jul 2021 13:09:04 -0400
-X-MC-Unique: 2ApppAXDNiuZwSi9Q2n-EQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u7-20020a5d46870000b029012786ba1bc9so6401216wrq.21
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 10:09:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CjpqM5oUkePOpH2pkRQRc+ER5RDbQa2eErQGMrZQHak=;
- b=LDGAUrRo7Jq0Jf1NIZfS2/Wni56gy7BbqZmQXabQNzhXKwVQuppCnuEgXUUtwDTVlP
- o9VoRQh8wkwIYzu8kKbONzgqgE/shkeSK14qf8Enb709+MAaazqq7/g52zx5ADnC0p8/
- XelyOYnHI97fK1+UXfLgPxNYP7YMSrHhwbn1rhGggeo9+jMGvOzM1lDcJ1j9Cf+p02IS
- tQN87QrMh65sIyVS13SsxKrcthjDJ8rf2ho8I5AEp5js5AuB6ZBShmfgsoZ7T2T863fH
- zDQv+jDoNzKKbt0ypVPS+tjclbhGTaRo8Ow+yxPet3EcT0JSmkHdWgjYMEiWImnIM4KU
- XKdA==
-X-Gm-Message-State: AOAM532oBFSlAmGv31juTLCu87IevvxruU2GGoNR7FeimoXQbvRNVzxj
- BLHnDxuNkXFXLPWFxVKHydDQGvUmE47DoeAlgzIx83e4aFi9eIILy7LFo7q+aEejB150SQ+qqjw
- ZJdfMHwQDqmynIAUfhX6esaNDf+tskLgKpgXRUQYdPJ8Qh0cUBwV/OKQ68y82BrsKkAo=
-X-Received: by 2002:a5d:66c9:: with SMTP id k9mr16730401wrw.399.1625504942643; 
- Mon, 05 Jul 2021 10:09:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwFvhYv9FGpwnr+Oj4dRHOo286WBcIS0/qYpDgb5UgLdevSThiPuVz7DPlPw+mYHaaMG4/AzA==
-X-Received: by 2002:a5d:66c9:: with SMTP id k9mr16730365wrw.399.1625504942329; 
- Mon, 05 Jul 2021 10:09:02 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r9sm8944392wmq.25.2021.07.05.10.09.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Jul 2021 10:09:01 -0700 (PDT)
-Subject: Re: [PATCH 1/2] coverity-scan: Remove lm32 / unicore32 targets
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210619091342.3660495-1-f4bug@amsat.org>
- <20210619091342.3660495-2-f4bug@amsat.org>
- <CAFEAcA-hnZjzZp+k7-9CT5gaqTvri049fOuk0HCHk7tvD8eJ9Q@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ee03593e-b2ce-1585-1f3c-77fa6397ca8c@redhat.com>
-Date: Mon, 5 Jul 2021 19:09:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XC52HEz7eSHR68EcN173gKQcfxMJVw6NwXfejWE9kwY=;
+ b=IY2Zdk13y/hgDDu1kOxGlOc7s2eru/RBNBDcECmFtAGcxzUy2s3KcrRiQ2Hn13I3V+W2QV
+ Mm/I4q2eAEPWsA6mzMMAWuatpn4lyFyirKM0eocrnk/If0x/6qHTNhOonK6MxEXbu6UZr6
+ nh13uCtf/UJ4D7TQ79/IlBnvZA6U9hw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-Ij2Jhng5NWmt84jx8MilVQ-1; Mon, 05 Jul 2021 13:14:54 -0400
+X-MC-Unique: Ij2Jhng5NWmt84jx8MilVQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5152E100C609;
+ Mon,  5 Jul 2021 17:14:53 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-44.ams2.redhat.com [10.36.114.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF61E2EB07;
+ Mon,  5 Jul 2021 17:14:48 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] vhost-user: Fix backends without multiqueue support
+Date: Mon,  5 Jul 2021 19:14:29 +0200
+Message-Id: <20210705171429.29286-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-hnZjzZp+k7-9CT5gaqTvri049fOuk0HCHk7tvD8eJ9Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,57 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/21 17:16, Peter Maydell wrote:
-> On Sat, 19 Jun 2021 at 10:13, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> lm32 has been removed in commit 9d49bcf6992 ("Drop the deprecated
->> lm32 target"), and unicore32 in 4369223902a ("Drop the deprecated
->> unicore32 target").
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   scripts/coverity-scan/COMPONENTS.md | 6 ------
->>   1 file changed, 6 deletions(-)
->>
->> diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
->> index 02a3447dab0..183f26a32c9 100644
->> --- a/scripts/coverity-scan/COMPONENTS.md
->> +++ b/scripts/coverity-scan/COMPONENTS.md
->> @@ -21,9 +21,6 @@ hppa
->>   i386
->>     ~ (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^/]*\.c)
->>
->> -lm32
->> -  ~ (/qemu)?((/include)?/hw/lm32/.*|/target/lm32/.*|/hw/.*/(milkymist|lm32).*)
->> -
->>   m68k
->>     ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*)
->>
->> @@ -60,9 +57,6 @@ tilegx
->>   tricore
->>     ~ (/qemu)?((/include)?/hw/tricore/.*|/target/tricore/.*)
->>
->> -unicore32
->> -  ~ (/qemu)?((/include)?/hw/unicore32/.*|/target/unicore32/.*)
->> -
->>   9pfs
->>     ~ (/qemu)?(/hw/9pfs/.*|/fsdev/.*)
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> NB that somebody will have to manually make the changes to the Coverity config
-> on the website as well.
-> 
-> thanks
-> -- PMM
-> 
+dev->max_queues was never initialised for backends that don't support
+VHOST_USER_PROTOCOL_F_MQ, so it would use 0 as the maximum number of
+queues to check against and consequently fail for any such backend.
 
-Queued this one (and made the manual changes).
+Set it to 1 if the backend doesn't have multiqueue support.
 
-Paolo
+Fixes: c90bd505a3e8210c23d69fecab9ee6f56ec4a161
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ hw/virtio/vhost-user.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 1ac4a2ebec..29ea2b4fce 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1913,7 +1913,10 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+             if (err < 0) {
+                 return -EPROTO;
+             }
++        } else {
++            dev->max_queues = 1;
+         }
++
+         if (dev->num_queues && dev->max_queues < dev->num_queues) {
+             error_setg(errp, "The maximum number of queues supported by the "
+                        "backend is %" PRIu64, dev->max_queues);
+-- 
+2.31.1
 
 
