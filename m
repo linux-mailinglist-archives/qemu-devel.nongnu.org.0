@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538DC3BBF60
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:29:42 +0200 (CEST)
-Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE583BBF6A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:31:10 +0200 (CEST)
+Received: from localhost ([::1]:50858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0QXV-000559-Ap
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
+	id 1m0QYv-0006Y6-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:31:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0QVM-0003Nb-8F
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:27:29 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40903)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0QVJ-0007xw-LV
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:27:27 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id l5so5791268wrv.7
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=rFIGOj4rMZWj/zNZ60ZFtdFaKXpKJJFPQ70S8SXQJKg=;
- b=xlX150h0Z1TGnctxKFYlUzaufNMHTwieW4pcvh4MQ2L677TUIZegeG+rmBcYlWMfdr
- aCsEfANVBMDit0BV0AK3b9b3jrQXQhitGPBnneBSBEH9SorxjwQsq9jmINvlFPYLGh9w
- CNEzhqqYE+iYvWs8mztjM0yWXLuZvRguHcfi1+IlvtBXzW+O7pGuZyW2Nn08IvS8opWV
- +P9wiqiq6DfmkhJm0ncwSHqS27Md3fm8A904egThicDzLKy1pcUSj4IprjGCCZl1+yvT
- 6ZbLxq0KpYfTNF9UpEBsWkeMwraupUlBS8gI2hc6PvKzvfrqeGDuuRGBomO94LyzJOan
- 2+ew==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1m0QW5-0004MH-LE
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:28:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1m0QW4-0008Tu-41
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:28:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625498891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FQ3LjR4pmXWBlcJZO2dRD0RCOurJjxMBvFr2sZMV5QM=;
+ b=DAJR6EpzF0LFEIGbMPzXC8Am0UctWYhwPKZ7WZcZ7+9YPL9fTE6JVtibs2heI/vy9iGQZ2
+ PhAzxzhpBknVI6tK5ptSArg5bqdrtyfwQHI3UyIZZt9EO2MLXNYlX0JhSskmyKc/1GcgFF
+ Ws+BhD3j5sEMQVaUZhh5hY6QofzGTO4=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-tB_yRJARMx-9AXqeo2mekQ-1; Mon, 05 Jul 2021 11:28:09 -0400
+X-MC-Unique: tB_yRJARMx-9AXqeo2mekQ-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ x9-20020a67eb490000b02902819ed23415so4224036vso.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:28:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=rFIGOj4rMZWj/zNZ60ZFtdFaKXpKJJFPQ70S8SXQJKg=;
- b=EDel5Kd+3a0j88S40KkXQEqlE2d1kNdPTlah5IFk+LCRhUA4wrSfkpa9B3sIfriRds
- mXxsX2a4WFR3iqbJwsCGrJi2vLCddb/BmtUNkGzgSXrDigyAkGcOQYexjZ0JklC/Jz4c
- BSqT5flWwESBfg75wBDqSJsWMyah7U1k3C16o2X2T3YhdZc56YvMw2GSYoy3zGOdNEzU
- 7y9c98u8Q+hMLJvfsEajBsUKKujo1ZQHTX6VfJih5IeyvSePJ7ZO4urWGX5S4/Yn4rlH
- meOuYYhHy7oSmBMeTmIhO9Vkt7uZwGHc49r+h5q/ha13tSy4Km3AbxvTQqbKuS66w7zR
- YDzw==
-X-Gm-Message-State: AOAM530JYmBluum+SF+SWW6IGeN4LrvNHaz75dM5Kg/E5SjQ23cqKjWL
- O06jkmaAQi/zuT9D2t1jEzMolw==
-X-Google-Smtp-Source: ABdhPJyOmAIeWjrk251Z8eWocHFsH37P5imKoQp0WJmLGaJt9zkCuCQnmnsX6CY/xSQ3zS+L2QPPgA==
-X-Received: by 2002:a5d:4911:: with SMTP id x17mr16384364wrq.328.1625498844064; 
- Mon, 05 Jul 2021 08:27:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y23sm5381493wmi.28.2021.07.05.08.27.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 08:27:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A88A1FF7E;
- Mon,  5 Jul 2021 16:27:22 +0100 (BST)
-References: <20210623142245.307776-1-berrange@redhat.com>
- <20210623142245.307776-17-berrange@redhat.com> <87wnq43m89.fsf@linaro.org>
- <YOMdgZzikE82O290@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 16/22] tests/docker: add script for automating
- container refresh
-Date: Mon, 05 Jul 2021 16:26:38 +0100
-In-reply-to: <YOMdgZzikE82O290@redhat.com>
-Message-ID: <87lf6k3hnp.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FQ3LjR4pmXWBlcJZO2dRD0RCOurJjxMBvFr2sZMV5QM=;
+ b=eSwxW+iDaKAebQf+JS3J5xkZOXOjukyXN0vCjqUodbQPQ7Z+68pPN/xwhmjpTl0w6P
+ 8k6AEyVSHqHSI6/CW4ng8NkTGLbDuaT/f7mQ0fkmyyHRxglEJWYz+z5pxKjXPeD4IKzf
+ 393BrTsG7rDKc5xpz6soLS5+1/U5Jc0fjbAvaM/HnNtZVWmEN3QijhfevdcwovWuo667
+ LwnRD4rh7VVR1XtyqqG2uhyUVTug/loGakEYeWhVvvY+divECwZ2gjyZdnRDrX+eoYvV
+ bVhn5CU1HmP1+zsfzmFu/0nBkIOczcPp+tttc2xwF7w8Pn/WYfmbFIbjxLnIfBuDR4sI
+ mOsQ==
+X-Gm-Message-State: AOAM533wLKmdMA4OaD/zdf2KMsHFXLgzzwhNvFgn1txix/ovBlD2Rba+
+ uMfDCLFYUhK+9sZ/VO6cLUvn3UoFVKSrxcL44MkRLkeynqRYewEjF+nBQQLS75lNW0XbF169Jfy
+ E6YGKitEjZNr/iPyKqJXYQ/C8TGqEKic=
+X-Received: by 2002:a67:fa0a:: with SMTP id i10mr10008773vsq.45.1625498889470; 
+ Mon, 05 Jul 2021 08:28:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz59BRfFDhRwBSfKcek2aJPeDd5xJ7I51wXqTjcEWMNY6ivChhPFiC4xrscFLHvqv2jjoRX4YkFVIbsPCXlpNc=
+X-Received: by 2002:a67:fa0a:: with SMTP id i10mr10008758vsq.45.1625498889286; 
+ Mon, 05 Jul 2021 08:28:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210623180021.898286-1-f4bug@amsat.org>
+ <20210623180021.898286-5-f4bug@amsat.org>
+In-Reply-To: <20210623180021.898286-5-f4bug@amsat.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 5 Jul 2021 12:27:43 -0300
+Message-ID: <CAKJDGDZOFXjZ2uF28xwxPUWe+zSHNpOpv3eB_rvUT_jt2MaKNw@mail.gmail.com>
+Subject: Re: [PATCH 4/9] tests/acceptance: Extract image_expand() helper
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,174 +91,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Tom Yan <tom.ty89@gmail.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 23, 2021 at 3:06 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> To be able to expand an image to a non-power-of-2 value,
+> extract image_expand() from image_pow2ceil_expand().
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  tests/acceptance/boot_linux_console.py | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-> On Mon, Jul 05, 2021 at 02:44:34PM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > This introduces
->> >
->> >   https://gitlab.com/libvirt/libvirt-ci
->> >
->> > as a git submodule at tests/docker/libvirt-ci
->> >
->> > This submodule only needs to be checked out when needing to re-generate
->> > the files in tests/docker/dockerfiles.
->> >
->> > When a new build pre-requisite is needed for QEMU, it should be added =
-to
->> > the libvirt-ci project 'qemu.yml' file, and the submodule updated to t=
-he
->> > new commit.
->>=20
->> It seems a bit weird to have the canonical description of QEMU
->> dependencies live in another project does it not?
->
-> Yes, this is something I've been struggling with, since there
-> are varying use cases here.
->
-> The "lcitool" command was originally written to automate the
-> provisioning of virtual machines, suitable to act as runners
-> for a CI tool.
->
-> The VMs would be suitable for building a variety of projects,
-> so would need to be installed with the dependancies of all
-> projects. It makes sense to have the list of dependancies
-> in one central place. If you have them kept in each respective
-> project's git repo, then you have to checkout 20 git repos to
-> get their dependancies, before you can provision the VM.
->
-> It still supports VM provisioning, but now also supports
-> the Dockerfile generation too in parallel. With the
-> dockerfiles, you still have a need to access the dependancy
-> information from outside the main project. For example,
-> when building libvirt-perl.git, it wants to know the
-> dependancies needed by libvirt.git, so that it can do
-> a chained build of the two.
->
-> Potentially libvirt would also want to build qemu.git
-> first, so it can then test libvirt with latest QEMU.
->
-> So these things all end up driving towards the idea of
-> storing the build dependancies separate from the project.
->
-> It is definitely sub-optimal though, in that it introduces
-> a synchronization problem between the 2 respective git
-> repos for changes.
->
-> For libvirt we've mostly just accepted that pain of needing
-> to merge stuff in lock-step, but I think it is worse when
-> dealing with QEMU becasue the subsystem maintainer model
-> means stuff merges in 2 phases, so there's not a ideal
-> synchronization point.
->
->> > The 'make docker-refresh' target will then re-create all the
->> > dockerfiles with updated package lists. This ensures that all the
->> > containers get exactly the same build pre-requisite packages installed.
->> >
->> > It also facilitates the addition of containers targetting new distros
->> > or updating existing containers to new versions of the same distro,
->> > where packages might have been renamed.
->> >
->> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> > ---
->> >  docs/devel/testing.rst              | 34 ++++++++++++++++--
->> >  tests/docker/Makefile.include       | 12 +++++++
->> >  tests/docker/dockerfiles-refresh.py | 56 +++++++++++++++++++++++++++++
->> >  3 files changed, 100 insertions(+), 2 deletions(-)
->> >  create mode 100755 tests/docker/dockerfiles-refresh.py
->> >
->> > diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
->> > index 4e42392810..7882db85d4 100644
->> > --- a/docs/devel/testing.rst
->> > +++ b/docs/devel/testing.rst
->> > @@ -372,8 +372,38 @@ Along with many other images, the ``centos8`` ima=
-ge is defined in a Dockerfile
->> >  in ``tests/docker/dockerfiles/``, called ``centos8.docker``. ``make d=
-ocker-help``
->> >  command will list all the available images.
->> >=20=20
->> > -To add a new image, simply create a new ``.docker`` file under the
->> > -``tests/docker/dockerfiles/`` directory.
->> > +Most of the existing Dockerfiles were written by hand, simply by crea=
-ting a
->> > +a new ``.docker`` file under the ``tests/docker/dockerfiles/`` direct=
-ory.
->> > +This has led to an inconsistent set of packages being present across =
-the
->> > +different containers.
->> > +
->> > +Thus going forward, QEMU is aiming to automatically generate the Dock=
-erfiles
->> > +using the ``lcitool`` program provided by the ``libvirt-ci`` project:
->> > +
->> > +  https://gitlab.com/libvirt/libvirt-ci
->> > +
->> > +In that project, there is a ``qemu.yml`` file defining the list of bu=
-ild
->> > +pre-requisites needed by QEMU. This is processed together with the
->> > +``mappings.yml`` file to compute the distro specific list of package =
-names.
->> > +The package names are then fed into a generator which emits a well st=
-ructured
->> > +dockerfile. The set of dockerfiles which are auto-generated is define=
-d in
->> > +the ``tests/docker/dockerfiles-refresh.py`` script.
->> > +
->> > +When preparing a patch series that changes dockerfiles managed by ``l=
-ibvirt-ci``
->> > +tools, the following steps should be takenL
->> > +
->> > + * Fork the ``libvirt-ci`` project on gitlab
->> > +
->> > + * Prepare changes to its ``qemu.yml`` file and optionally ``mappings=
-.yml``
->> > +   to define the packages to be added to QEMU's dockerfiles.
->> > +
->> > + * In QEMU run ``make docker-refresh LCITOOL=3D/path/to/libvirt-ci/lc=
-itool``
->> > +   to re-create the dockerfiles in ``tests/docker/dockerfiles``
->>=20
->> If lcitool could be a pre-requisite (even as a developer only one)
->> should we consider having a submodule and QEMU mirror of it?
->
-> I did have a submodule in the previous posting, but that creates its
-> own pain, because there's a chicken and egg problem to updates. Stuff
-> won't want to be merged into libvirt-ci.git until it is accepted by
-> a QEMU maintainer, but we need the submodule update ready before
-> it can be accepted by the QEMU maintainer. There's no nice way to
-> break that cycle without introducing a bit of manual work and
-> synchoronization at time of merge to master, which is not desirable
-> for QEMU IMHO
-
-Can't lcitool be improved to accept out-of-its-tree metadata?=20
-
->> > + * Submit your changes to QEMU in the normal manner
->> > +
->> > + * Submit ``libvirt-ci`` changes as a merge request, linking to the
->> > +   QEMU patch series that uses them.
->>=20
->> This just seems clunky and likely to therefor not get used. I would
->> prefer keeping the meta-data within the project, maybe with a check that
->> ensures the dockerfiles have not gone out of sync with their "idealised"
->> form.
->
->
-> Regards,
-> Daniel
-
-
---=20
-Alex Benn=C3=A9e
 
