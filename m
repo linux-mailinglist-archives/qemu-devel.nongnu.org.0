@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBEE3BBB6E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 12:45:07 +0200 (CEST)
-Received: from localhost ([::1]:35722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078CA3BBB85
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 12:48:41 +0200 (CEST)
+Received: from localhost ([::1]:40996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0M66-0002Wx-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 06:45:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47000)
+	id 1m0M9Y-00067v-0f
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 06:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m0M4J-00013l-FT
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:43:15 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m0M4G-0005oZ-SJ
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:43:15 -0400
-Received: by mail-ed1-x536.google.com with SMTP id x12so23128484eds.5
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 03:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GjHJWJIRnxeXCQMpUGjxW3syGJ5yUtrMy5Qk8BrPAmI=;
- b=mK/+9vsxDgVzj+DfJdgaBFZuQTUxdgXXTGE2urv8zbJ1dgA86ameFxJDVCXWuQpA84
- C17fwj9iptjq6xTZ/atL9j/vjfhs2jdXQ9Elpf5ubk0HMjIty+jYPHdT/mYy+fvZz2Mr
- uxsFp5T0BhPVicRf4TbZlL8mH90DxE3F6czYzHjDOTbAtI5ltPyIZyCAHnPrxLOHd2+h
- OuHYX//ZclDLQ6H9/t8QmQA3oQ6anTPtSkpFmfVpkpj0W5JUf1j7UOwIEhgyF9QGvv0y
- FxjdoRTbMUZ5EgAzeKjhj//zo5TcB6cbWIVNduCiMQ6s/Yc61z2EmiohWYqZVFswPIDZ
- zYeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GjHJWJIRnxeXCQMpUGjxW3syGJ5yUtrMy5Qk8BrPAmI=;
- b=C69pSsKv+HXTGgKCYzARo9Rum22Sv0vT+J4oSQt9v0QomHrwv1HdiESpO8YDZqWBhu
- fE8b96YgepbLfh3ZjdGVsdOOZ3C1VBtQ2BSq+cZF4ePLUbqfOMogHIpaj/6xSR4BErjy
- 98zo/yPsrIs/z4bFfj2R4nIHkAurCkITiq+Bdxmoc22NMzxeGjKl1JNPVhj4fpaSTK36
- Fmsvs+EN9gZRzIO6Ggpqt3atIJY41RFvmBTUUf1fUqRjrRdnfkoSPVYm9e8nN47xF6yf
- sCxKu7TIfyfZgRC6jByoDaAumD6ICGOmfmuglaCU1fXr629ZQ/KPMrLF+CZXhzW6kXfw
- A4lg==
-X-Gm-Message-State: AOAM530Z3/JiwC4uYhyPgckeiVbv5vjTRQqCvQ+dYW+Q7SNjQPxDTKiw
- RqFk2nh8gerlEDgoRUW2EyYmFuegAhoOD42KNrc=
-X-Google-Smtp-Source: ABdhPJzpSVubXd+pjg8ZX4ht7cu2aaL3dHOHSVdKAJPUCDgqpZji4hzHB5UL8m/TYUceCiIPgpnpRCdlrCUc+Qv16Rw=
-X-Received: by 2002:a50:fe95:: with SMTP id d21mr15581713edt.257.1625481790925; 
- Mon, 05 Jul 2021 03:43:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1m0M7j-0003Rk-EP
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:46:47 -0400
+Received: from forward1-smtp.messagingengine.com ([66.111.4.223]:48125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1m0M7g-0000Bx-HD
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:46:47 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailforward.nyi.internal (Postfix) with ESMTP id E978E19407AA;
+ Mon,  5 Jul 2021 06:46:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 05 Jul 2021 06:46:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=r7DAGOVAb7zSSo0L+
+ d/P8FgYd74M6jRPN2RgWh8KYPk=; b=KgMWzWdIBJOIpGP7IwiHnvjU6pdtsRVum
+ Ly8bCEJsiwcLglbNmAD2sIppgnF4PxPjfEJhnHiz3GxPVmD0mdY5KsTK6nsUJVwG
+ T6idON9LZESnIlJXosdI8LYJEyfzzpudtgCKWlSBoXOhQKIk8g8Rp3DwnxfpF9v4
+ r6h/5Ea3JN6rIsjq8jmlll2EeMUFwudqFOW3im42t+a7XCcwsTYf1nVKi24ymakd
+ 2eNsRQX0Rjn8K8YSC22rbVqxwcBwQgVzNNlOhw4xzYkKnh5/tfKBn+ipkZTrOvp5
+ BQGL96Z5X3cd5w/YGV0u7eHDzuNcN0yqVfrNPrel/1H+6oHlhPoVA==
+X-ME-Sender: <xms:CuPiYDheKHIZ89jPR6qnOYsCYdp_Co_0fm_5MaCZ4vm0VEH_3pHbug>
+ <xme:CuPiYACKbJPTRkZCZu3hRGRhewQScc9L0oWNe7PwDi2xQ5BXOfbZavXXZhcPJiSCp
+ XRvODeR8PFhCoLWN48>
+X-ME-Received: <xmr:CuPiYDEak3gfst-eM-B7cUQHu7BmXNm-VHkQItOaz9JQ4OcYb19F1QxdnERqVxDv45zlgAEPuaHshDqLN1SZOYbjpnf2TRZgw4FYW1uIFLo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejgedgfedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghvihguucfg
+ ughmohhnughsohhnuceouggrvhhiugdrvggumhhonhgushhonhesohhrrggtlhgvrdgtoh
+ hmqeenucggtffrrghtthgvrhhnpefhfedtieevleetueeukeffvdfffeeigfdtvdffgeei
+ tdegfeffleeihfevtdekfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluh
+ hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepuggrvhhiugdrvggu
+ mhhonhgushhonhesohhrrggtlhgvrdgtohhm
+X-ME-Proxy: <xmx:CuPiYASZOWii4reygXleK7I0TXbwFeXiuJoAhamyGe8qHX1DWhwxig>
+ <xmx:CuPiYAyD8-O30GsEdtcrLzvSfskPRabWN3chDmp6cT0k_p1Owdxp8Q>
+ <xmx:CuPiYG4wYo4g_UlODH29UAgNsrOnjHso3Bcl3B19EESAFGLQgqznmw>
+ <xmx:EOPiYElQJjrte1hgL4o1s6vP4nG5Q3zUeGLxMvfZI7ZDcpU5sD7cmg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Jul 2021 06:46:33 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 18d5600b;
+ Mon, 5 Jul 2021 10:46:32 +0000 (UTC)
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/8] Derive XSAVE state component offsets from CPUID leaf
+ 0xd where possible
+Date: Mon,  5 Jul 2021 11:46:24 +0100
+Message-Id: <20210705104632.2902400-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210701071837.738897-1-marcandre.lureau@redhat.com>
- <20210701071837.738897-2-marcandre.lureau@redhat.com>
- <5e843cd1-baf8-f457-f9cf-a314bc8dbfff@ilande.co.uk>
-In-Reply-To: <5e843cd1-baf8-f457-f9cf-a314bc8dbfff@ilande.co.uk>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 5 Jul 2021 14:42:58 +0400
-Message-ID: <CAJ+F1CJxqFQn71wX7FYQAx0f6DVjhrT69PkFA-F0gtG_fN5naA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/display: fail early when multiple virgl devices
- are requested
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: multipart/alternative; boundary="000000000000bcb1ba05c65df87f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=66.111.4.223;
+ envelope-from=david.edmondson@oracle.com;
+ helo=forward1-smtp.messagingengine.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,202 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Michael Roth <michael.roth@amd.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>,
+ David Edmondson <david.edmondson@oracle.com>, babu.moger@amd.com,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bcb1ba05c65df87f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The offset of XSAVE state components within the XSAVE state area is
+currently hard-coded via reference to the X86XSaveArea structure. This
+structure is accurate for Intel systems at the time of writing, but
+incorrect for newer AMD systems, as the state component for protection
+keys is located differently (offset 0x980 rather than offset 0xa80).
 
-Hi Mark
+For KVM and HVF, replace the hard-coding of the state component
+offsets with data derived from CPUID leaf 0xd information.
 
-On Sat, Jul 3, 2021 at 9:15 AM Mark Cave-Ayland <
-mark.cave-ayland@ilande.co.uk> wrote:
+TCG still uses the X86XSaveArea structure, as there is no underlying
+CPU to use in determining appropriate values.
 
-> On 01/07/2021 08:18, marcandre.lureau@redhat.com wrote:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > This avoids failing to initialize virgl and crashing later on, and clea=
-r
-> > the user expectations.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   hw/display/virtio-gpu-gl.c | 12 ++++++++++++
-> >   1 file changed, 12 insertions(+)
-> >
-> > diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
-> > index d971b48080..c973d4824b 100644
-> > --- a/hw/display/virtio-gpu-gl.c
-> > +++ b/hw/display/virtio-gpu-gl.c
-> > @@ -25,6 +25,8 @@
-> >
-> >   #include <virglrenderer.h>
-> >
-> > +static int virgl_count =3D 0;
-> > +
-> >   static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,
-> >                                                struct virtio_gpu_scanou=
-t
-> *s,
-> >                                                uint32_t resource_id)
-> > @@ -113,6 +115,11 @@ static void
-> virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
-> >       return;
-> >   #endif
-> >
-> > +    if (virgl_count++ > 0) {
-> > +        error_setg(errp, "multiple virgl devices aren't supported yet"=
-);
-> > +        return;
-> > +    }
-> > +
-> >       if (!display_opengl) {
-> >           error_setg(errp, "opengl is not available");
-> >           return;
-> > @@ -124,6 +131,10 @@ static void
-> virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
-> >
-> >       virtio_gpu_device_realize(qdev, errp);
-> >   }
-> > +static void virtio_gpu_gl_device_unrealize(DeviceState *dev)
-> > +{
-> > +    virgl_count--;
-> > +}
-> >
-> >   static Property virtio_gpu_gl_properties[] =3D {
-> >       DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj.conf.flags,
-> > @@ -144,6 +155,7 @@ static void virtio_gpu_gl_class_init(ObjectClass
-> *klass, void *data)
-> >       vgc->update_cursor_data =3D virtio_gpu_gl_update_cursor_data;
-> >
-> >       vdc->realize =3D virtio_gpu_gl_device_realize;
-> > +    vdc->unrealize =3D virtio_gpu_gl_device_unrealize;
-> >       vdc->reset =3D virtio_gpu_gl_reset;
-> >       device_class_set_props(dc, virtio_gpu_gl_properties);
-> >   }
->
-> FWIW I think the best way to prevent instantiation of multiple devices is
-> to use the
-> QOM API to detect if more than one instance of a class exists within the
-> QOM tree.
->
-> Have a look at fw_cfg_find() and its usage from fw_cfg_common_realize() i=
-n
-> hw/nvram/fw_cfg.c for an example of this.
->
+This is a replacement for the changes in
+https://lore.kernel.org/r/20210520145647.3483809-1-david.edmondson@oracle.com,
+which simply modifed the hard-coded offsets for AMD systems.
 
-Good idea, I forgot about that trick. Sent "[PATCH v2] hw/display: fail
-early when multiple virgl devices are requested".
+Testing on HVF is minimal (it builds and, by observation, the XSAVE
+state component offsets reported to a running VM are accurate on an
+older Intel system).
 
-thanks
+David Edmondson (8):
+  target/i386: Declare constants for XSAVE offsets
+  target/i386: Consolidate the X86XSaveArea offset checks
+  target/i386: Clarify the padding requirements of X86XSaveArea
+  target/i386: Pass buffer and length to XSAVE helper
+  target/i386: Make x86_ext_save_areas visible outside cpu.c
+  target/i386: Observe XSAVE state area offsets
+  target/i386: Populate x86_ext_save_areas offsets using cpuid where
+    possible
+  target/i386: Move X86XSaveArea into TCG
 
---=20
-Marc-Andr=C3=A9 Lureau
+ target/i386/cpu.c            |  18 +--
+ target/i386/cpu.h            |  41 ++----
+ target/i386/hvf/hvf-cpu.c    |  34 +++++
+ target/i386/hvf/hvf.c        |   3 +-
+ target/i386/hvf/x86hvf.c     |  19 ++-
+ target/i386/kvm/kvm-cpu.c    |  36 +++++
+ target/i386/kvm/kvm.c        |  52 +------
+ target/i386/tcg/fpu_helper.c |   1 +
+ target/i386/tcg/tcg-cpu.c    |  20 +++
+ target/i386/tcg/tcg-cpu.h    |  57 ++++++++
+ target/i386/xsave_helper.c   | 267 ++++++++++++++++++++++++++---------
+ 11 files changed, 381 insertions(+), 167 deletions(-)
 
---000000000000bcb1ba05c65df87f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.30.2
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Mark<br></div><br><div class=3D"gmail_=
-quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jul 3, 2021 at 9:15 AM=
- Mark Cave-Ayland &lt;<a href=3D"mailto:mark.cave-ayland@ilande.co.uk">mark=
-.cave-ayland@ilande.co.uk</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On 01/07/2021 08:18, <a href=3D"mailto:marcandre.l=
-ureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<=
-br>
-<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; This avoids failing to initialize virgl and crashing later on, and cle=
-ar<br>
-&gt; the user expectations.<br>
-&gt; <br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/display/virtio-gpu-gl.c | 12 ++++++++++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 12 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c<b=
-r>
-&gt; index d971b48080..c973d4824b 100644<br>
-&gt; --- a/hw/display/virtio-gpu-gl.c<br>
-&gt; +++ b/hw/display/virtio-gpu-gl.c<br>
-&gt; @@ -25,6 +25,8 @@<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0#include &lt;virglrenderer.h&gt;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +static int virgl_count =3D 0;<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0static void virtio_gpu_gl_update_cursor_data(VirtIOGPU *g,=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 struct virtio_gpu_scanout *s,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t resource_id)<br>
-&gt; @@ -113,6 +115,11 @@ static void virtio_gpu_gl_device_realize(DeviceSt=
-ate *qdev, Error **errp)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt;=C2=A0 =C2=A0#endif<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 if (virgl_count++ &gt; 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;multiple virgl dev=
-ices aren&#39;t supported yet&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!display_opengl) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;opengl =
-is not available&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; @@ -124,6 +131,10 @@ static void virtio_gpu_gl_device_realize(DeviceSt=
-ate *qdev, Error **errp)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0virtio_gpu_device_realize(qdev, errp);<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; +static void virtio_gpu_gl_device_unrealize(DeviceState *dev)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 virgl_count--;<br>
-&gt; +}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static Property virtio_gpu_gl_properties[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BIT(&quot;stats&quot;, VirtIOGPU=
-, parent_obj.conf.flags,<br>
-&gt; @@ -144,6 +155,7 @@ static void virtio_gpu_gl_class_init(ObjectClass *=
-klass, void *data)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0vgc-&gt;update_cursor_data =3D virtio_gpu_gl=
-_update_cursor_data;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0vdc-&gt;realize =3D virtio_gpu_gl_device_rea=
-lize;<br>
-&gt; +=C2=A0 =C2=A0 vdc-&gt;unrealize =3D virtio_gpu_gl_device_unrealize;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0vdc-&gt;reset =3D virtio_gpu_gl_reset;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0device_class_set_props(dc, virtio_gpu_gl_pro=
-perties);<br>
-&gt;=C2=A0 =C2=A0}<br>
-<br>
-FWIW I think the best way to prevent instantiation of multiple devices is t=
-o use the <br>
-QOM API to detect if more than one instance of a class exists within the QO=
-M tree.<br>
-<br>
-Have a look at fw_cfg_find() and its usage from fw_cfg_common_realize() in =
-<br>
-hw/nvram/fw_cfg.c for an example of this.<br></blockquote><div><br></div><d=
-iv>Good idea, I forgot about that trick. Sent &quot;[PATCH v2] hw/display: =
-fail early when multiple virgl devices are requested&quot;.</div></div><div=
- class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">thanks<br></div=
-><div><br></div><div>-- </div><div dir=3D"ltr" class=3D"gmail_signature">Ma=
-rc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000bcb1ba05c65df87f--
 
