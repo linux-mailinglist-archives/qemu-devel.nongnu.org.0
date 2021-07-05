@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859523BC38F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 23:11:53 +0200 (CEST)
-Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D75373BC392
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 23:16:58 +0200 (CEST)
+Received: from localhost ([::1]:56448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Vse-0002GH-K1
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 17:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
+	id 1m0VxZ-00045B-VN
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 17:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0Vrs-0001bL-Iq
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 17:11:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49949)
+ id 1m0VwX-0003K8-JY
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 17:15:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0Vrq-0006vq-Jc
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 17:11:04 -0400
+ id 1m0VwV-0001kL-Mu
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 17:15:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625519461;
+ s=mimecast20190719; t=1625519750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0zW1ysoJ23EjRil5sNr4Uiyh5+rQlVSR6pLE88Wt2uc=;
- b=Qz7fEw5DF5VKKwdu1QSZP92IEhiNSAnnevXJ6sXNktAPr4Lkgn9vu32TQ7naxNv9Nn0IxH
- fUS0tqTcnJQLdorSBOboxPWcyFPEEVlrJEBjwpqPzMvE3G1uZloluuJd8cSepcvMAkgdcP
- v1in2jEOaHVdMIfkfXb+2eusuIGgX7Y=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-G1f_yXwBMYGgepPcVZoJmA-1; Mon, 05 Jul 2021 17:10:59 -0400
-X-MC-Unique: G1f_yXwBMYGgepPcVZoJmA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- v20-20020ab076940000b029020b0b4ada34so6759711uaq.4
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 14:10:59 -0700 (PDT)
+ bh=FiXS7YXthd7vWa4gfL0SK/xy+Vtb2/GD0iiK7O2xmYA=;
+ b=I8/9qILKp0cgqcOU6HZzsnuG+HGBbPCww6K+aFGQ3rrHCewbYd+upg785y6UlbT9LMAPOo
+ 0mvnsmLfCVFzi4SB1M+CJbgfhgqW2nRhXcsWlVZMal0Q8dsd0iaMpkKfi2AmCMfxzyQN25
+ jjvytid2mcK7bRvzzZjPxGpKZrrmsXc=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-kNQwUpzJOKOlacc6FaS0zQ-1; Mon, 05 Jul 2021 17:15:44 -0400
+X-MC-Unique: kNQwUpzJOKOlacc6FaS0zQ-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ b4-20020ab008440000b029028070c7b794so6759717uaf.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 14:15:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0zW1ysoJ23EjRil5sNr4Uiyh5+rQlVSR6pLE88Wt2uc=;
- b=s3cGIJWajzQ0wLcr8ld+UPhcPyjp3pXOTAsDgROPLjBG4hn6UF6sG9O5SHAeu/Tc2R
- Z+pH5r3DPsVU9UJIwzrqJZ5Dj1VCcMcWK7pNzzBXEzbtGYIvlVE2Vd5arIv2ErYzZPsQ
- awu0lp2Hr1B5kitJ7VG0qk20UoeS32Y4bfaoGPGcq1NuL7+qcYu60cvclFGUPMJgacyS
- 90qiVa2LiIKrHbLPGi6bu+yDBL02gpkgNLb9AdfG3WdZYHCaRdNn3C3Rm7fkuz/D/gp6
- ITaKn3ORqtP4vZmRJxHyUnFrsChnKxxn89r/Q/32+oUrLix6M/AeV8FTb9xXryFRKsmq
- jl4w==
-X-Gm-Message-State: AOAM533beMUrGLc/xbU0k8cf2k15pSZ8/jI8Ss1Bayu7X5s9tWLOs+SH
- pGzppOjR59R0DVhu6UEEHMSAfOweCLeNTxLkpsu6QIrVQb5MmZkDRXCESxlRa7sUS+QVsoopM4S
- fRAH/KpNc/rUWzzYh1DBZHmRIm01+wM4=
-X-Received: by 2002:a1f:e3c2:: with SMTP id a185mr10120189vkh.7.1625519458521; 
- Mon, 05 Jul 2021 14:10:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuqidEoiax2ziSAKeIX/GhlstpjkZHF/je219Zo9cU+waznTt6wZi1qP9K15EHWYDDqdoP5x7Jc//c0ZG9EDk=
-X-Received: by 2002:a1f:e3c2:: with SMTP id a185mr10120162vkh.7.1625519458329; 
- Mon, 05 Jul 2021 14:10:58 -0700 (PDT)
+ bh=FiXS7YXthd7vWa4gfL0SK/xy+Vtb2/GD0iiK7O2xmYA=;
+ b=PM22FDWq5PInbLUHcro4PTaC9e6SlgjG0ZclTpcBL49TL7T2WGZR4Q196II3yDFBvt
+ DdqPQS9hsjswdQHAY2SMNUKD07EI2PjzP6rXOaAjvEsAcWFXuOWFqjCmiZ7E9ojDK6wD
+ bMaUl4bH3ydRgJFzSEYWXUXYHNsm1IAPpVCvJeNPSDJtINUozW2gjTSnfwoypAkllgrD
+ yrdRV0h15hetKhGu95tG+0/ceAsKXRMViQ7Yc2lJpIuaTLOSJ2rF8cnUsQuICKlbEaOK
+ HMsQn1vAGDq+P1ysreN2kLavpmaViUtPrf4i/sGD0ew3gnCr45ixTm3p4wsmTxLiEh9s
+ IjXw==
+X-Gm-Message-State: AOAM532zDHKx/23tNajwKR7dRiqr/Ntr91jDcGyrYdgP5j7leSkK0uC7
+ Gqc2+pkIvB2OkKSsNnue1zP6Dzl59BVqCQdjBgiyV0BEhunkcQybdAYBK7jE8I5iJGH8XGpOpDm
+ QgBHEn5v+d5D/SmZZyK0BWxCkzHBLypM=
+X-Received: by 2002:ab0:20a6:: with SMTP id y6mr12133839ual.133.1625519744077; 
+ Mon, 05 Jul 2021 14:15:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygUzWE/bcADvM+EEoWjGiTAB9ghEx5ztRcK8GHX3FF4/UtgvtDcx2IjDQwlxa2dGy7y6z8AfLWtD/S+wra95M=
+X-Received: by 2002:ab0:20a6:: with SMTP id y6mr12133818ual.133.1625519743894; 
+ Mon, 05 Jul 2021 14:15:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210629143621.907831-1-eric.auger@redhat.com>
- <e59e1cf9-d22e-e5f2-dfce-9997d2f61e03@redhat.com>
- <a63cae4d-365f-2f48-2de1-be50197f6f4d@redhat.com>
- <656d8d2a-9317-9a97-15c6-d385027e6eab@redhat.com>
-In-Reply-To: <656d8d2a-9317-9a97-15c6-d385027e6eab@redhat.com>
+ <20210629143621.907831-4-eric.auger@redhat.com>
+In-Reply-To: <20210629143621.907831-4-eric.auger@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 5 Jul 2021 18:10:32 -0300
-Message-ID: <CAKJDGDY3YGRM8fMF_5woePOXc9L889q7ezzs_4mVYWcHEHyt2w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] avocado-qemu: New SMMUv3 and intel IOMMU tests
-To: Auger Eric <eric.auger@redhat.com>
+Date: Mon, 5 Jul 2021 18:15:17 -0300
+Message-ID: <CAKJDGDbLRJxKbp6u79YvRA+14Kn4C=LneiSzNt3s6t_9NvKrLg@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] avocado_qemu: Add Intel iommu tests
+To: Eric Auger <eric.auger@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,165 +95,161 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
-
-On Mon, Jul 5, 2021 at 4:55 AM Eric Auger <eric.auger@redhat.com> wrote:
+On Tue, Jun 29, 2021 at 11:36 AM Eric Auger <eric.auger@redhat.com> wrote:
 >
-> Hi Wainer,
+> Add Intel IOMMU functional tests based on fedora 31.
+> Different configs are checked:
+> - strict
+> - caching mode, strict
+> - passthrough.
 >
-> On 7/1/21 1:22 AM, Wainer dos Santos Moschetta wrote:
-> > Hi,
-> >
-> > On 6/29/21 5:17 PM, Eric Auger wrote:
-> >> Hi Cleber, all,
-> >>
-> >> On 6/29/21 4:36 PM, Eric Auger wrote:
-> >>> This series adds ARM SMMU and Intel IOMMU functional
-> >>> tests using Fedora cloud-init images.
-> >>>
-> >>> ARM SMMU tests feature guests with and without RIL
-> >>> (range invalidation support) using respectively fedora 33
-> >>> and 31.  For each, we test the protection of virtio-net-pci
-> >>> and virtio-block-pci devices. Also strict=no and passthrough
-> >>> modes are tested. So there is a total of 6 tests.
-> >>>
-> >>> The series applies on top of Cleber's series:
-> >>> - [PATCH 0/3] Acceptance Tests: support choosing specific
-> >>>
-> >>> Note:
-> >>> - SMMU tests 2, 3, 5, 6 (resp. test_smmu_noril_passthrough and
-> >>> test_smmu_noril_nostrict) pass but the log reports:
-> >>> "WARN: Test passed but there were warnings during execution."
-> >>> This seems due to the lack of hash when fetching the kernel and
-> >>> initrd through fetch_asset():
-> >>> WARNI| No hash provided. Cannot check the asset file integrity.
-> >> I wanted to emphasize that point and wondered how we could fix that
-> >> issue. Looks a pity the tests get tagged as WARN due to a lack of sha1.
-> >> Any advice?
-> >
-> > As Willian mentioned somewhere, to supress the WARN you can pass the
-> > kernel and initrd checksums (sha1) to the fetch_asset() method.
-> >
-> > Below is an draft implementation. It would need to fill out the
-> > remaining checksums and adjust the `smmu.py` tests.
-> >
-> > - Wainer
-> >
-> > ----
-> >
-> > diff --git a/tests/acceptance/avocado_qemu/__init__.py
-> > b/tests/acceptance/avocado_qemu/__init__.py
-> > index 00eb0bfcc8..83637e2654 100644
-> > --- a/tests/acceptance/avocado_qemu/__init__.py
-> > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> > @@ -312,6 +312,8 @@ class LinuxDistro:
-> >                  {'checksum':
-> > 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0',
-> >                  'pxeboot_url':
-> > "https://archives.fedoraproject.org/pub/archive/fedora/"
-> > "linux/releases/31/Everything/x86_64/os/images/pxeboot/",
-> > +                'pxeboot_initrd_chksum':
-> > 'dd0340a1b39bd28f88532babd4581c67649ec5b1',
-> > +                'pxeboot_vmlinuz_chksum':
-> > '5b6f6876e1b5bda314f93893271da0d5777b1f3c',
-> where did you get the checksum? I don't see any at the URL? Did you
-> generate it yourself?
-
-It is possible to use the hash you generate from the downloaded file.
-
-While I was reviewing this series, I thought it makes more sense to
-have Wainer's path applied first and then have your changes. I did
-this here, with the addition of myu suggestions in the series:
-https://gitlab.com/willianrampazzo/qemu/-/commits/test_eric_auger_v5.
-
-Feel free to pick it and resend a new version.
-
-Wainer, check if you agree with the changes to your patch and ack it.
-
-Regards,
-
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Acked-by: Peter Xu <peterx@redhat.com>
+> ---
+>  tests/acceptance/intel_iommu.py | 115 ++++++++++++++++++++++++++++++++
+>  1 file changed, 115 insertions(+)
+>  create mode 100644 tests/acceptance/intel_iommu.py
 >
-> Thanks
->
-> Eric
-> >                  'kernel_params':
-> > "root=UUID=b1438b9b-2cab-4065-a99a-08a96687f73c ro "
-> >                                "no_timer_check net.ifnames=0 "
-> >                                "console=tty1 console=ttyS0,115200n8"},
-> > @@ -371,6 +373,16 @@ def pxeboot_url(self):
-> >          """Gets the repository url where pxeboot files can be found"""
-> >          return self._info.get('pxeboot_url', None)
-> >
-> > +    @property
-> > +    def pxeboot_initrd_chksum(self):
-> > +        """Gets the pxeboot initrd file checksum"""
-> > +        return self._info.get('pxeboot_initrd_chksum', None)
-> > +
-> > +    @property
-> > +    def pxeboot_vmlinuz_chksum(self):
-> > +        """Gets the pxeboot vmlinuz file checksum"""
-> > +        return self._info.get('pxeboot_vmlinuz_chksum', None)
-> > +
-> >      @property
-> >      def checksum(self):
-> >          """Gets the cloud-image file checksum"""
-> > diff --git a/tests/acceptance/intel_iommu.py
-> > b/tests/acceptance/intel_iommu.py
-> > index bf8dea6e4f..a2f38ee2e9 100644
-> > --- a/tests/acceptance/intel_iommu.py
-> > +++ b/tests/acceptance/intel_iommu.py
-> > @@ -55,8 +55,10 @@ def common_vm_setup(self, custom_kernel=None):
-> >
-> >          kernel_url = self.distro.pxeboot_url + 'vmlinuz'
-> >          initrd_url = self.distro.pxeboot_url + 'initrd.img'
-> > -        self.kernel_path = self.fetch_asset(kernel_url)
-> > -        self.initrd_path = self.fetch_asset(initrd_url)
-> > +        self.kernel_path = self.fetch_asset(kernel_url,
-> > + asset_hash=self.distro.pxeboot_vmlinuz_chksum)
-> > +        self.initrd_path = self.fetch_asset(initrd_url,
-> > + asset_hash=self.distro.pxeboot_initrd_chksum)
-> >
-> >      def run_and_check(self):
-> >          if self.kernel_path:
-> >
-> >>
-> >> Best Regards
-> >>
-> >> Eric
-> >>> History:
-> >>> v3 -> v4:
-> >>> - I added Wainer's refactoring of KNOWN_DISTROS
-> >>> into a class (last patch) and took into account his comments.
-> >>>
-> >>> v2 -> v3:
-> >>> - Added Intel IOMMU tests were added. Different
-> >>> operating modes are tested such as strict, caching mode, pt.
-> >>>
-> >>> Best Regards
-> >>>
-> >>> Eric
-> >>>
-> >>> The series and its dependencies can be found at:
-> >>> https://github.com/eauger/qemu/tree/avocado-qemu-v4
-> >>>
-> >>> Eric Auger (3):
-> >>>    Acceptance Tests: Add default kernel params and pxeboot url to the
-> >>>      KNOWN_DISTROS collection
-> >>>    avocado_qemu: Add SMMUv3 tests
-> >>>    avocado_qemu: Add Intel iommu tests
-> >>>
-> >>> Wainer dos Santos Moschetta (1):
-> >>>    avocado_qemu: Fix KNOWN_DISTROS map into the LinuxDistro class
-> >>>
-> >>>   tests/acceptance/avocado_qemu/__init__.py | 118 +++++++++++++------
-> >>>   tests/acceptance/intel_iommu.py           | 115 +++++++++++++++++++
-> >>>   tests/acceptance/smmu.py                  | 132
-> >>> ++++++++++++++++++++++
-> >>>   3 files changed, 332 insertions(+), 33 deletions(-)
-> >>>   create mode 100644 tests/acceptance/intel_iommu.py
-> >>>   create mode 100644 tests/acceptance/smmu.py
-> >>>
-> >
+> diff --git a/tests/acceptance/intel_iommu.py b/tests/acceptance/intel_iommu.py
+> new file mode 100644
+> index 0000000000..0b68d3c572
+> --- /dev/null
+> +++ b/tests/acceptance/intel_iommu.py
+> @@ -0,0 +1,115 @@
+> +# INTEL_IOMMU Functional tests
+> +#
+> +# Copyright (c) 2021 Red Hat, Inc.
+> +#
+> +# Author:
+> +#  Eric Auger <eric.auger@redhat.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +import os
+
+"os" package is not used, you can remove it, unless you add the skipIf
+decorator, then you will need it.
+
+> +
+> +from avocado_qemu import LinuxTest, BUILD_DIR
+
+BUILD_DIR is not used in this file.
+
+> +from avocado.utils import ssh
+
+The ssh package is not used in this file.
+
+> +
+> +class INTEL_IOMMU(LinuxTest):
+
+I suggest you use IntelIOMMU as the class name, so it conforms to
+Python class naming.
+
+> +    """
+> +    :avocado: tags=arch:x86_64
+> +    :avocado: tags=distro:fedora
+> +    :avocado: tags=distro_version:31
+> +    :avocado: tags=machine:q35
+> +    :avocado: tags=accel:kvm
+> +    :avocado: tags=intel_iommu
+> +    """
+> +
+> +    IOMMU_ADDON = ',iommu_platform=on,disable-modern=off,disable-legacy=on'
+> +    kernel_path = None
+> +    initrd_path = None
+> +    kernel_params = None
+> +
+> +    def set_up_boot(self):
+> +        path = self.download_boot()
+> +        self.vm.add_args('-device', 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
+> +                         'drive=drv0,id=virtio-disk0,bootindex=1,'
+> +                         'werror=stop,rerror=stop' + self.IOMMU_ADDON)
+> +        self.vm.add_args('-device', 'virtio-gpu-pci' + self.IOMMU_ADDON)
+> +        self.vm.add_args('-drive',
+> +                         'file=%s,if=none,cache=writethrough,id=drv0' % path)
+> +
+> +    def setUp(self):
+> +        super(INTEL_IOMMU, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDON)
+
+If you change the class name, you need to change it here too.
+
+> +
+> +    def add_common_args(self):
+> +        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
+> +        self.vm.add_args('-object',
+> +                         'rng-random,id=rng0,filename=/dev/urandom')
+> +
+> +    def common_vm_setup(self, custom_kernel=None):
+> +        self.require_accelerator("kvm")
+> +        self.add_common_args()
+> +        self.vm.add_args("-accel", "kvm")
+> +
+> +        if custom_kernel is None:
+> +            return
+> +
+> +        kernel_url = self.get_pxeboot_url() + 'vmlinuz'
+> +        initrd_url = self.get_pxeboot_url() + 'initrd.img'
+> +        self.kernel_path = self.fetch_asset(kernel_url)
+> +        self.initrd_path = self.fetch_asset(initrd_url)
+> +
+> +    def run_and_check(self):
+> +        if self.kernel_path:
+> +            self.vm.add_args('-kernel', self.kernel_path,
+> +                             '-append', self.kernel_params,
+> +                             '-initrd', self.initrd_path)
+> +        self.launch_and_wait()
+> +        self.ssh_command('cat /proc/cmdline')
+> +        self.ssh_command('dmesg | grep -e DMAR -e IOMMU')
+> +        self.ssh_command('find /sys/kernel/iommu_groups/ -type l')
+> +        self.ssh_command('dnf -y install numactl-devel')
+> +
+> +    def test_intel_iommu(self):
+> +        """
+> +        :avocado: tags=intel_iommu_intremap
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.vm.add_args('-device', 'intel-iommu,intremap=on')
+> +        self.vm.add_args('-machine', 'kernel_irqchip=split')
+> +
+> +        self.kernel_params = self.get_default_kernel_params() + ' quiet intel_iommu=on'
+> +        self.run_and_check()
+> +
+> +    def test_intel_iommu_strict(self):
+> +        """
+> +        :avocado: tags=intel_iommu_strict
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.vm.add_args('-device', 'intel-iommu,intremap=on')
+> +        self.vm.add_args('-machine', 'kernel_irqchip=split')
+> +        self.kernel_params = self.get_default_kernel_params() + ' quiet intel_iommu=on,strict'
+> +        self.run_and_check()
+> +
+> +    def test_intel_iommu_strict_cm(self):
+> +        """
+> +        :avocado: tags=intel_iommu_strict_cm
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.vm.add_args('-device', 'intel-iommu,intremap=on,caching-mode=on')
+> +        self.vm.add_args('-machine', 'kernel_irqchip=split')
+> +        self.kernel_params = self.get_default_kernel_params() + ' quiet intel_iommu=on,strict'
+> +        self.run_and_check()
+> +
+> +    def test_intel_iommu_pt(self):
+> +        """
+> +        :avocado: tags=intel_iommu_pt
+> +        """
+> +
+> +        self.common_vm_setup(True)
+> +        self.vm.add_args('-device', 'intel-iommu,intremap=on')
+> +        self.vm.add_args('-machine', 'kernel_irqchip=split')
+> +        self.kernel_params = self.get_default_kernel_params() + ' quiet intel_iommu=on iommu=pt'
+> +        self.run_and_check()
+> --
+> 2.26.3
 >
 
 
