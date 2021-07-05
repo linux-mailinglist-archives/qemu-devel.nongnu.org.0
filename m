@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BBB3BBA41
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 11:35:59 +0200 (CEST)
-Received: from localhost ([::1]:47690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224C73BBA4E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 11:38:42 +0200 (CEST)
+Received: from localhost ([::1]:54686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0L1C-0006rP-6G
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 05:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60894)
+	id 1m0L3p-0003Cn-56
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 05:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0Kz4-0005Hr-Ur
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 05:33:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40425)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m0L07-0006Wx-2l
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 05:34:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0Kz3-00045d-G0
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 05:33:46 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m0L05-0004fL-4i
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 05:34:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625477624;
+ s=mimecast20190719; t=1625477686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F13z4RKpfmbFGA0W6p8rYIem5hbXHw/Nn8rHddkdZI0=;
- b=C8Y39BTN4kd4urx9XgK6AhLTkcu4VQzYbyI8KgcR0MtixJrjmMwY7F6/OPAg0iNZ6JYisD
- DyR+KFrcvarhQOxGf/RI9DvtW3lbWG4yttFTJ3yrLkRFAgNvkv+oamxYuyedlIZ2LJh1UY
- xI0/Eq9WHyBVLu3n3DdelPh8DFPcctY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-GUuEXFWaMtGiy-K7jqPw-A-1; Mon, 05 Jul 2021 05:33:43 -0400
-X-MC-Unique: GUuEXFWaMtGiy-K7jqPw-A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- a4-20020adffb840000b02901304c660e75so2839161wrr.19
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 02:33:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=F13z4RKpfmbFGA0W6p8rYIem5hbXHw/Nn8rHddkdZI0=;
- b=KwwdBOUezPpvz2Q1D31BZSSGhPlPvNeOQSC/jaoeOQzPUkB5VwTWO+MohPwsflZQAj
- UWBj3txpKoe6+GTv+SXTFDB7bCe2AlMOrMdAu7VKY12Y/VrdD0QeRw7ckNGZ3gp9S5uF
- AdZG/zmiWKpbMVTb19eGgKy585Xv3Ch5MwDJjO+IwEB/0Y/ZRaiZp1caX1zA6sLcCyyN
- MHST+RX6hq5U8zOSgtLjJhkAcpHXLksnylOmVymz80AhwJbRb3RrS43iYL7TVK2zOXkP
- 2nwLZIHPLQJIg2xtfo6mo0nb2yeUQ55SNDJXq9Vc44lMH4dugCHgTBJy6wSyhIzGIZCr
- eFKw==
-X-Gm-Message-State: AOAM533dybsfM4KS/b1FF4M4NyJQIU6WhQ/jNjR/um30CTuohrK7/g/Z
- jUtp3n/t1wSdj1CzVVMnYCdGfyOvE6qANcFQmV46wt2JGhvokaa3vf8FYRne5CweG2mxXB5Lmyr
- +11JTSrSfHcHJIyA=
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr13253236wmh.183.1625477622373; 
- Mon, 05 Jul 2021 02:33:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwaV18QdHRfZdbFYfNXvyLZwmlQ6jk9S9N+39XnGhS16OuZBuKoJlMSvjj2m0qcd19D7bDBAw==
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr13253212wmh.183.1625477622105; 
- Mon, 05 Jul 2021 02:33:42 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575e1e.dip0.t-ipconnect.de. [217.87.94.30])
- by smtp.gmail.com with ESMTPSA id m12sm11356421wms.24.2021.07.05.02.33.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Jul 2021 02:33:41 -0700 (PDT)
-Subject: Re: [PATCH v1] s390x/tcg: Fix m5 vs. m4 field for VECTOR MULTIPLY SUM
- LOGICAL
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210705090341.58289-1-david@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <32680adc-edb8-a24c-a4eb-ae9bb4de1451@redhat.com>
-Date: Mon, 5 Jul 2021 11:33:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=XAG3jW7nk5UADa6irkN97gptITIvM/ENe5x0iI3pi5o=;
+ b=EyhqUFcemrsz0Qghg/lNn8SQvyy5ZJcpxIrKw1RiEPDFdzZ/u1h+9cSXw6MyKgLJGZcrcR
+ sp4BdqFY/NJhGz1oFHdnn4MGnEyS9PzGRNk+tdy++Df+jK6+PJKz6BeFooJ/R/U0v59T8q
+ QDdhmpx5OYUiDKKYDWEY0TUv6JK5MtQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-aQLDXaezNNya81lIDem37w-1; Mon, 05 Jul 2021 05:34:45 -0400
+X-MC-Unique: aQLDXaezNNya81lIDem37w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 822A3800C78;
+ Mon,  5 Jul 2021 09:34:44 +0000 (UTC)
+Received: from localhost (ovpn-112-39.ams2.redhat.com [10.36.112.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A82760864;
+ Mon,  5 Jul 2021 09:34:43 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [RFC v6 00/13] s390x cleanup
+In-Reply-To: <875yxvl6eq.fsf@redhat.com>
+Organization: Red Hat GmbH
+References: <20210629141931.4489-1-acho@suse.com> <875yxvl6eq.fsf@redhat.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Mon, 05 Jul 2021 11:34:42 +0200
+Message-ID: <87r1gdhznx.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210705090341.58289-1-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,43 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
+Cc: cfontana@suse.com, acho@suse.com, jose.ziviani@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/2021 11.03, David Hildenbrand wrote:
-> The element size is located in m5, not in m4. As there is no m4, qemu
-> currently crashes with an assertion, trying to lookup that field.
-> 
-> Reproduced and tested via GO, which ends up using VMSL once the
-> Vector enhancements facility is around for verifying certificates with
-> elliptic curves.
-> 
-> Reported-by: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/449
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   target/s390x/translate_vx.c.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
-> index a9d51b1f4c..0afa46e463 100644
-> --- a/target/s390x/translate_vx.c.inc
-> +++ b/target/s390x/translate_vx.c.inc
-> @@ -1783,7 +1783,7 @@ static DisasJumpType op_vmsl(DisasContext *s, DisasOps *o)
->   {
->       TCGv_i64 l1, h1, l2, h2;
->   
-> -    if (get_field(s, m4) != ES_64) {
-> +    if (get_field(s, m5) != ES_64) {
->           gen_program_exception(s, PGM_SPECIFICATION);
->           return DISAS_NORETURN;
->       }
+On Wed, Jun 30 2021, Cornelia Huck <cohuck@redhat.com> wrote:
 
-Looks right.
+> On Tue, Jun 29 2021, "Cho, Yu-Chen" <acho@suse.com> wrote:
+>
+>> this is the next version of a cleanup series for s390x.
+>>
+>
+> (...)
+>
+>> Cho, Yu-Chen (13):
+>>   target/s390x: meson: add target_user_arch
+>>   hw/s390x: rename tod-qemu.c to tod-tcg.c
+>>   hw/s390x: only build tod-tcg from the CONFIG_TCG build
+>>   hw/s390x: tod: make explicit checks for accelerators when initializing
+>>   target/s390x: remove tcg-stub.c
+>>   target/s390x: start moving TCG-only code to tcg/
+>>   target/s390x: move sysemu-only code out to cpu-sysemu.c
+>>   target/s390x: split cpu-dump from helper.c
+>>   target/s390x: make helper.c sysemu-only
+>>   target/s390x: use kvm_enabled() to wrap call to kvm_s390_get_hpage_1m
+>>   target/s390x: remove kvm-stub.c
+>>   target/s390x: move kvm files into kvm/
+>>   target/s390x: split sysemu part of cpu models
+>
+> I think this generally looks fine.
+>
+> However, I'd like to have a second pair of eyes look at this, especially
+> at the cpu models.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Just a short note from my side: I'm planning to send a pull request
+(late) this week, so having a version that is ready to merge before that
+would be nice :)
 
 
