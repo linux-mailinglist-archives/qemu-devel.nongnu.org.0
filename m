@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B2B3BBD8C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:36:20 +0200 (CEST)
-Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CAB3BBD8D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:36:30 +0200 (CEST)
+Received: from localhost ([::1]:52666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Oln-0000jp-Em
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57138)
+	id 1m0Olx-0001Or-23
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0OjG-0006Qb-GQ
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:42 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36589)
+ id 1m0Ojj-0006yO-AA
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:34:11 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0OjC-0005Md-Oc
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:42 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- t14-20020a05600c198eb029020c8aac53d4so3479059wmq.1
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 06:33:38 -0700 (PDT)
+ id 1m0Ojh-0005fx-Nv
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:34:11 -0400
+Received: by mail-wr1-x429.google.com with SMTP id p8so22154754wrr.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 06:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=s3GGNerN3BQLFmI/JEAfTO9BH/N1N7gjtV8b/R1WstI=;
- b=O4wQy7p20WK+Vw/ymnSRR3+z/PNr0W0bsrbiTvefscSD/VKznhBFUswpcID5cZSwM0
- ATNvmHGaFB5Nh5VkcRc+UawLabZbtgfS2zmOS0gvOvs31Ana5ygnmbg7sEYq5mTI4hRu
- dlB1NNGhQiRAPpU0KbXNJN0d0LKv7Xu2WGFytA4J338M0xyMVxD1cBeUEl72A3fIZXpA
- s4OCm7a/Jw83z3t8Im/CmLb7h07ooDjHyh4cgVbNpa/utQAro7vjawawUexGX0SVhHIG
- Y1fJy7YdfTJtOS/Iajw071dvAxaOQBf4by14RRNwnpPe3ipDu46s9VCtD9/yD6XxsdE4
- bF9g==
+ bh=/mpELbygm7uSePAX8EY0ljWqjFzucnBqnkk2i6IcNkA=;
+ b=yLAi+mAhFIA6Qkv8OhS4WF7z/51RMdIdi/zSfLfIOneP/qF/fTIqejl+3k1Omh1gUi
+ UjjLYNCAWou8bnAp6yEQZ+BU+e4lIlaG0HxaewozCcPNDM1ShGgYzJy9zOh25+NUaBzv
+ gUyWByfTECTcCxPMYSMXN9twx/vgf7f9FJwNJc6d/w+OAXi7ksZoC/PKbNGR9rJOyyw5
+ l8gRsjSJUJG/DG+h57fAeZd93HDcSCP49tl+KCR95s0la+vytzlcfdY4ZxI1lvheHmbc
+ Ys5O394IJmDlz+ThZDHAXd7DH5oc8DwQWJT5xvD8otE8PFcx/6cbfVFvewzrsfpb3XvM
+ KFNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=s3GGNerN3BQLFmI/JEAfTO9BH/N1N7gjtV8b/R1WstI=;
- b=TsJWn5DNXHUkI9axZ/v94UhnKn9tZlnE2XFGjM+VEjGMGlt47527BQWQEdewCdHlVh
- W/ks/YL1YU5qZ6bW5xhLwv8yL70SaQpBdiMNMyPbBOf8oL0D1LUpwoTTH7RQ+ZDtVsCC
- J/BgX8S4+4UkJY5eWuzJSjIa6EeUAvKrYNtoSOzgc4WZ51ht4P2wRXYHBOXvrDZie1XJ
- NMHwGKlrYhSdUIhzmijf2ZOaZ3euRvn8ehEjPInRmVTSkWM+Isphe8pRsUhd1Bf8I7z+
- y/PLMCqxUkwEfM9IJmRaasQa/C3q6tn9mTDwbeemm22oEF6M5t9/4965PE7VCqCRLUuP
- Igqg==
-X-Gm-Message-State: AOAM532diEbkhYSrRYH27jJOUtYlb/hQ8h8To8u8tsqxFtms5LxUlM+s
- VkTbquaiJVHu4yQmcvf1xnpNRA==
-X-Google-Smtp-Source: ABdhPJywf4jQjrSgnP9lE2P9tZbdkwRCTTWlOER0qWyEYt+290Pu5pOM9ndzkImpzc+jnKY/GXcLSg==
-X-Received: by 2002:a05:600c:214b:: with SMTP id
- v11mr15405171wml.95.1625492017454; 
- Mon, 05 Jul 2021 06:33:37 -0700 (PDT)
+ bh=/mpELbygm7uSePAX8EY0ljWqjFzucnBqnkk2i6IcNkA=;
+ b=MY9noR+OcZltqKYKYkwkwSyC4eNGJxuOnJO3rWvI4shrkhMW1q1T2k6UWuFNu8JIF4
+ 2hR/adber1HqRBkrZpcVACExPspAy7v7J1IkPAvMrIQyreXVtwODJM4JE/6rENOuuHp5
+ /E6UyfBYaY0Zex1IfGlMoik1izeKeUpF3qyKWWhR7EdSNnlVdZEdgniJrdWc0phV08cT
+ GFPZNj4Hwv3hMeQL4uK4HpLRB04MZfnrKryzckUwjvuzIQihayy6OLC+MbmmMV+R9tkd
+ SdrusNloTctBv/IaKlPwG8gsu+mPZarvGBOPNq2ftfm12+mJCBHjVn5m+0gYZvk1Q9aQ
+ 6+pw==
+X-Gm-Message-State: AOAM531Z9cM97y3EbGBiDhaH6vslUILIA++j6R0bEEBzZ7QYl/VlZ5+E
+ 0jiP1Zvt0BcepTsHscq2PFzXDA==
+X-Google-Smtp-Source: ABdhPJyHuGwhtrcKr8sJ6Rj26/jeRB3GFv94M0c8dh6NDhMAFpl5HuwAu7V9P7ZXi+LKcpHQRRvTjg==
+X-Received: by 2002:a05:6000:18b:: with SMTP id
+ p11mr15257742wrx.129.1625492048263; 
+ Mon, 05 Jul 2021 06:34:08 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g125sm15448888wmg.27.2021.07.05.06.33.36
+ by smtp.gmail.com with ESMTPSA id m18sm1481768wmi.32.2021.07.05.06.34.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 06:33:36 -0700 (PDT)
+ Mon, 05 Jul 2021 06:34:06 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 156581FF7E;
- Mon,  5 Jul 2021 14:33:36 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 770BE1FF7E;
+ Mon,  5 Jul 2021 14:34:06 +0100 (BST)
 References: <20210623142245.307776-1-berrange@redhat.com>
- <20210623142245.307776-7-berrange@redhat.com>
+ <20210623142245.307776-8-berrange@redhat.com>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 06/22] tests/docker: fix sorting in package lists
-Date: Mon, 05 Jul 2021 14:33:31 +0100
-In-reply-to: <20210623142245.307776-7-berrange@redhat.com>
-Message-ID: <87pmvw51hr.fsf@linaro.org>
+Subject: Re: [PATCH v4 07/22] tests/docker: fix mistakes in centos package
+ lists
+Date: Mon, 05 Jul 2021 14:33:58 +0100
+In-reply-to: <20210623142245.307776-8-berrange@redhat.com>
+Message-ID: <87mtr051gx.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,10 +101,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> This will make diffs in later patches clearer.
+> mesa-libEGL-devel is not used in QEMU at all, but mesa-libgbm-devel is.
+>
+> spice-glib-devel is not use in QEMU at all, but spice-protocol is.
+> We also need the -devel package for spice-server, not the runtime.
+>
+> There is no need to specifically refer to python36, we can just
+> use python3 as in other distros.
 >
 > Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
