@@ -2,68 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3343BC2F9
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 21:05:53 +0200 (CEST)
-Received: from localhost ([::1]:57450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B513BC308
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 21:14:01 +0200 (CEST)
+Received: from localhost ([::1]:32820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Tui-0001Uu-TV
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 15:05:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54572)
+	id 1m0U2Z-0004Hg-R9
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 15:13:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0TtJ-0000lQ-Vo
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 15:04:26 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0TtI-000242-6X
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 15:04:25 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id bg14so30268267ejb.9
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 12:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9IiUTJNSxRpIChlq5NGFOVEudSTrMcKYZZm67790j4g=;
- b=FkpfQGCcAvLLT5/IaN4G3OPP4ur/nqENKGzHjCHuADuURLqMzX6p/9LFxf+ZuWF/4V
- pndho/R9MkZdjnQe1/m3I/asFgTqfNcNTzcqHU2yuzoOg1Wk2k8fLBSguPAnfhDX6TfC
- DfKccioOzcFnwDEwGUKQQaWSpqLTzpzWPBZQt/C3gVIueQHvj8q/qmB8Nxq5iCQODMov
- 9JhFCJ6hzSuKspoPq0JdOVbSW/z0TNFfJ5o8HmElOriieL30ETH8gvvq7hEpk2EcneyV
- 4a+IP8R+/wwV9gCz0C7P038gwmEE06+sD1iV78zSv8j/pOUJn/POqRfYdX6sbr7pX/g+
- 7FxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9IiUTJNSxRpIChlq5NGFOVEudSTrMcKYZZm67790j4g=;
- b=EJhss1xGoZboRXkTC/It5SK4+1Hglz3YT6HCvZUwJTRRMgVVvTHiFn1pq8aUK895MJ
- ATaDUMUA5a99et4kHRJn49c0QvyobgoTbOLGs4KO3BkabWJQvM+86Tq1VdiO9SPpAdRx
- +9IhV8VylTUMTp0IDHR45V0bOyF0Cc518MImk7/Wu/LYTMJM5Tn40miTkpyZE2zAtAy9
- 5K12b50QuKNPYFsBjNsKUSAfDDqHMKEMpFT3xGrPVeWqfOtnXBQDgC/HnSM+ygR2N3fV
- l9e9/v8dWygKDLju6th+Hd+izLj79UdG3zJI1L8yK8H+M7qjW3CSo4LobaOIpgVz0I8q
- eBHg==
-X-Gm-Message-State: AOAM533Ki7S749Km7/g+JXJTmnWUWGjoa88gvpVLOMe7qk6KOFLpwEsd
- WqeyUpa7dgLmXRjyM15A01eXX3pjPBtEZYkm2F8Djg==
-X-Google-Smtp-Source: ABdhPJyBAOLATp6cvPiZg0rjEnhDfkDTXZOD6QaWioyPC95ZelOQPbaS2ka23otoGJWmCUPwfANlTOfDR6gSD5AsKmQ=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr14488009ejy.407.1625511862425; 
- Mon, 05 Jul 2021 12:04:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m0U1W-0003Bf-2u; Mon, 05 Jul 2021 15:12:54 -0400
+Received: from mail-eopbgr30135.outbound.protection.outlook.com
+ ([40.107.3.135]:53058 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m0U1T-0007ZY-9f; Mon, 05 Jul 2021 15:12:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jalsjmSVRLqbUXUk2FguLsclkipz9SGh2Oa3o7sMMP/p21eM5ADCOdczwbEY1sJIBD9/1DaqZQfhGSEGnGzSUX5kL1TRx+NKntjcgC9ofuTP5s2Ztf8qC91cq14phqT0PbQBsygr4egv2yF3VsW50TsZCyjX1PxM9GFzJHjJdHfpRVS6ALZqIBnnnnu9B155rAsiaKpP56zF6XBJNQckeW8QOY2oYpugiBwQlDF/eJT5fGhW1jrLSIQqEpaXlHOKgKS5kyEWoogpjluJgySrpEqj98E4EylQJ8iTfsYKkLAP/bQklBiam7mwmiIo0TmY/DgzAowu426JOa+0YmVEPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aF0Ubln6imnQl7ITnP1BPHgSMnH+kJcr3bftz7xxa3g=;
+ b=BpCP/Z/qYYBzX0aLE1n+uzGAJiYAXTEuLvuoXBB1GqvXAX3JH3745bChajAeDsDDAF5Syg6h6czTL9bfVQ+lU/R3DoXkcVGd+tfqBOrLy0HpXGEruECBjNToUT/UW/bNr1aWvxVNWDwY+F0K/8ZMwPlNsVXcTKBmDH81abcebbbjVATB9tcI8rHjnU3uQSF+uTe2qThSxLSNx4zh9NKm6ub/ZMrgD9OvtdQRTjIJfxnIPTVRHkNbU+r7qVMvfMVeOEzoC6m2XUG5aRFdirtpUvHh8fV+KgBKq737wQcQVjaCitnA2jk1JzuSvN713DyLltPmUr9vJlbgEDM2LfecSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aF0Ubln6imnQl7ITnP1BPHgSMnH+kJcr3bftz7xxa3g=;
+ b=sv5GyQmk6JGUZcAGL5F0Pkq5hs6T6qJ1OHfUep4C5ZANaDVFth7mN8xYzIYA06lqk3o13VhLU+Cy4ZTSzbMsIuTyzdrBAhET6pExVdCWToZ11nyKIqC3LAAZAd7QGuP9ncJFtZHPTSeTlafxmdAOvD67FB6m8gUIkTYtJMfoTq4=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6805.eurprd08.prod.outlook.com (2603:10a6:20b:396::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22; Mon, 5 Jul
+ 2021 19:12:47 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Mon, 5 Jul 2021
+ 19:12:47 +0000
+Subject: Re: [PATCH v2 3/3] qapi: deprecate drive-backup
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, libvir-list@redhat.com,
+ jsnow@redhat.com, eblake@redhat.com, xiechanglong.d@gmail.com,
+ wencongyang2@huawei.com, nshirokovskiy@virtuozzo.com, pkrempa@redhat.com,
+ den@openvz.org, yur@virtuozzo.com, dim@virtuozzo.com, berrange@redhat.com,
+ kchamart@redhat.com
+References: <20210505135803.67896-1-vsementsov@virtuozzo.com>
+ <20210505135803.67896-4-vsementsov@virtuozzo.com>
+ <87eedc1ugb.fsf@dusky.pond.sub.org>
+ <3c1c05c3-87ec-c665-00ae-0c0ca312e5bc@virtuozzo.com>
+ <874ke7s46i.fsf@dusky.pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <734bccbc-3cff-5e22-e487-451e73db1d65@virtuozzo.com>
+Date: Mon, 5 Jul 2021 22:12:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <874ke7s46i.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: PR3P189CA0025.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:52::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <cover.1625483630.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1625483630.git.qemu_oss@crudebyte.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 20:03:43 +0100
-Message-ID: <CAFEAcA-yqRVCg4aNHsf3_2eXex9_35He=_5xsO1Cvkgh6iuCEw@mail.gmail.com>
-Subject: Re: [PULL 0/8] 9p queue 2021-07-05
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ PR3P189CA0025.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:52::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.22 via Frontend Transport; Mon, 5 Jul 2021 19:12:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2149049c-d2f2-4890-d283-08d93fe8df44
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6805:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6805920F84C6AF841F56F532C11C9@AS8PR08MB6805.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zj6Ez/LbIIzpgsESj/6pyPeFqvTS//tPFI1yZNdE2IGq1y6n/51mG/gqFlOyQSFMiT4L5+Ebk4nf3zNo7V3QD2MIYhaVWPct/Y3UCVBoo/4F5tUW/Wf/Mlf8FhneXfoC7+tB6RQWtzdoSbOA62eefp9+Mw2XXoxk78GfZbDad8QKwWSgXfzY4EgDHgTXwkR9Nai5CQVfKkfKxKL57J3Q1RmHPJF+iNdz8a0HIoTolCeMqBzv9oHv26rnHiE6Y6kiUWFk7AJ2TFfVQPiXR0k2LWUmYjY8VSVT0MwYCaEFNmbv5HPAbZrEbSmLMXrAiMhf7fWnAb6s383awrQ0KDqLu4P7g8UtVgzSPuXAdxBZrEMpsQ9Zd+be1nQIVjUI7kggKwCsFRjuHXyM1yjbxgwf5mnFi40HAbgeybqD3HkrNyDuGj42IRO1Wy2v+SfqsjlAn3TWNqsNKLlds57LZoBbQvzgJIZX26mA5k5e7fuaYjlrUREVEnaUzwESYUdHI/eZmmRsstggMyo5VYNQsYbzN8/zlUz2FBH/AiS+bvsMjLymFpWi38AxGqe8ZV1ou9Yhhs7EuwsWqm0vW2MXOHZxIpMTQhvazrqrwJXwkdSltUHdpHSz7iTnMub1XGskkEJno4l6wZZKjPi75Cv4gx/Ao4N1K51U5EpmxLkR1GWc8koKqGk7HSMaMUQWe2mXgWnubSocgdCShNuUJc5lbljFtd48/6VHc3oTrKeZJABrguqkt61EbQmYHNanTlwp35dUDHcMYWV+IJ92E9V9p9Qr9+pspLLxB4ZpHALhvxdz9zNriZwhWGN7ncVwn2CmfPN0LgQr/YS0lZb+Lqc8WLq4Br1ocb4C6RhyFmFwxp+FspY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(136003)(39830400003)(376002)(346002)(16576012)(316002)(6486002)(966005)(478600001)(8936002)(66946007)(6916009)(7416002)(36756003)(8676002)(5660300002)(52116002)(2616005)(83380400001)(956004)(4326008)(86362001)(31696002)(26005)(31686004)(66476007)(16526019)(38350700002)(38100700002)(186003)(2906002)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHBRS2c5SXdSMEg4VnpmSUxCSUtwV0d2SFNEekVYVnZqM1JzbnpIZC9sR2Zx?=
+ =?utf-8?B?cFJqUk1ERGZoV0dHb1p6aTVDSFZtcHZWQWdjdUlDUkFqSEtYb0t4MFViS3Jq?=
+ =?utf-8?B?cFFxcHltZGhlbnZjV0hGMWp5cHErMTU2dnJZeG1IZDNGMy95WGx3dWxQSDhD?=
+ =?utf-8?B?cEdmN3BCVW00MTFqV1ptUWdxSGgrUi9uQ1Vzc3JlTDcwTGJGOE1PcTcvaUxC?=
+ =?utf-8?B?dngrNy9rQXl0SGNHVzhwOGw5cWgxbWRrRkZzZFVQMy9Od2lxeWtYM3ZmM3o2?=
+ =?utf-8?B?cWNacEphaUhsY2pkUmJLVW1RQ21tb0FmUFBrVzYycndRVzJqTFRtZWZqMDVM?=
+ =?utf-8?B?TlZXaDBna3hEbmdVMGdEVmlvWERMVTdKVWxqS3FxM0NQdTZVZlJSWnQ3c0lX?=
+ =?utf-8?B?M0QvWEZEdUlGWVhCSTBndS9CNWFzMXlPSks4TE5oY3dhRVAzVktiZ20vSkUw?=
+ =?utf-8?B?ZUNEb1RmVHJoMEc2V0tYbFAzTU92dHdFVUVmczlNVUs3Z0pkRkdEZjg2Slkz?=
+ =?utf-8?B?d1duU29RT0ZwaVU2MDUrQUtoZW95cFhWWi82dDdla3BZeFN1L1d5cGJOT1Bo?=
+ =?utf-8?B?TjljWWN2aWxFRTl4OXcxei9kSmFFdjJ5SjdqeXdXZXhNNWdxaWx1SURwU0Vt?=
+ =?utf-8?B?b0RuYlU1V1NKeEM4Nmd4alpVaFlnaE9kdTAzS2pBd25TQURNYVJTakVXSm1w?=
+ =?utf-8?B?SEgxQVdQeTVXNG9vL1JUeUlERTZOQW1Jam50VW5UcGswelhMYSs5aG1EVVhM?=
+ =?utf-8?B?dWRuSXIraUViSSsxTUhoYTlUZDZMM2dRTzYrMWVKeGcveXhvNHhBdElyZGYz?=
+ =?utf-8?B?UHpDeSthWlR1SlRNc2MydEtCZ0tuR2NOUXZVK1BCYmlMWi81dFJ5ZlhoUnU3?=
+ =?utf-8?B?NkVtSEQ5Q2RmZytoVng1aGdIdmtsdWtYLzJYcFJid2FOU0l5L0trK0tJOGU1?=
+ =?utf-8?B?TjdrR21KME5yY3N3Vk9YZ2twc0tTQk44Z1M5aFBReXErdVlpQ2t2MW9iYmVx?=
+ =?utf-8?B?V2psUGY2eFpKUlBESThqYnNNNG1vUkRseXVsS0ErUUxFWWcrc0VkQk50MWQ5?=
+ =?utf-8?B?STB4eW40QjRLOGFOcWpBT1B5ZjRsQ3JFSFBhSUNVVDA4U0hOU2dRWWZybWdl?=
+ =?utf-8?B?azBqZTZ0dEFYNmJxWVExeGtkeDI4MXFKcVhWRXdsV1RSKzUzK0ZvN0dJNnlo?=
+ =?utf-8?B?MVlPeXFRN2N2Skp6RWUrc0xEcjdZTXNpVnUvWEd6Yjk5My9DV0E0VzQzbDBS?=
+ =?utf-8?B?UGJCYllHc2tFTU9Ca2QzYVp4QU9VclpoSi96VGc5NWptc2owWklqbzhoR0Q0?=
+ =?utf-8?B?eXBSb1ZxRUhidXNQMThma1NTT3N5ajRLZXRWQnA1bk1uTkdOMGlraFJLcDRv?=
+ =?utf-8?B?K1cxUlB1Vk9CZFZoRjRWcldZbmdHaTZmcTBsZURvejg0N1dxYlNYT2pkZnU4?=
+ =?utf-8?B?bFppK05TKzNPbGJRa0FaWFhEOXZ6MmUrTS9BMERYN0E5SWNkNlY2RXkzTW5B?=
+ =?utf-8?B?UWg2WjR6MzBWaFpHOVdGWXdpRzR2SDdGNzcyWGlOU3NDN1BJSmxPb3B5MFp1?=
+ =?utf-8?B?clF0Uk5oNlE2RWJibWxiQ3NsbTZjam1QZnJDRHlBMEJPb3VVZGJhbXk3N3U2?=
+ =?utf-8?B?RjZYazRnTks4aVJFbzdWZFpTNVFZeGtBQURndDRDNGlxL1RrUkdkZUZwTC9C?=
+ =?utf-8?B?UDdoMXBhVzBpYXRVTGZJc20zRE9XYWIyQ0dEbXNFRzRGZisyUG9ML2dKYTFW?=
+ =?utf-8?Q?JgYkfHA/u7wakNtZ6DzbJBBRkfOfgJuokNRLAUv?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2149049c-d2f2-4890-d283-08d93fe8df44
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2021 19:12:46.8333 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cX++BVcFYl37HBtAO0SkCiW0YTOxW1mqh3XCf/z2NhDLJNQqypAbR2RFsABgCLN6XCNNYmukKQctPBn33PG5/DKmzh0hjvXANCS+OZvWTYM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6805
+Received-SPF: pass client-ip=40.107.3.135;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,42 +152,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 5 Jul 2021 at 12:24, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> The following changes since commit 711c0418c8c1ce3a24346f058b001c4c5a2f0f81:
->
->   Merge remote-tracking branch 'remotes/philmd/tags/mips-20210702' into staging (2021-07-04 14:04:12 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210705
->
-> for you to fetch changes up to 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
->
->   9pfs: reduce latency of Twalk (2021-07-05 13:03:16 +0200)
->
-> ----------------------------------------------------------------
-> 9pfs: misc patches
->
-> * Add link to 9p developer docs.
->
-> * Fix runtime check whether client supplied relative path is the export
->   root.
->
-> * Performance optimization of Twalk requests.
->
-> * Code cleanup.
+09.06.2021 13:49, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+> 
+>> 08.06.2021 14:12, Markus Armbruster wrote:
+>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>>
+>>> [...]
+>>>
+>>>> TODO: We also need to deprecate drive-backup transaction action..
+>>>> But union members in QAPI doesn't support 'deprecated' feature. I tried
+>>>> to dig a bit, but failed :/ Markus, could you please help with it? At
+>>>> least by advice?
+>>>
+>>> There are two closely related things in play here: the union branch and
+>>> the corresponding enum value.
+>>>
+>>> So far, the QAPI schema language doesn't support tacking feature flags
+>>> to either.
+>>>
+>>> If an enum value is deprecated, any union branches corresponding to it
+>>> must also be deprecated (because their use requires using the deprecated
+>>> enum value).
+>>>
+>>> The converse is not true, but I can't see a use for deprecating a union
+>>> branch without also deprecating the enum member.
+>>>
+>>> I think we can implement feature flags just for enum members, then
+>>> document that 'deprecated' enum value implies corresponding union
+>>> branches are also deprecated.
+>>>
+>>> I have unfinished patches implementing feature flags for enum members.
+>>>
+>>> Since TransactionAction is a simple union, the corresponding enum is
+>>> implicit.  We can make it explicit by converting to a flat union.
+>>> Simple unions need to die anyway.
+>>
+>>
+>> Does BlockStatsSpecific from qapi/block-core.json a correct example of flat union you mean? I can make patch to convert TransactionAction to be similar if that helps (discriminator field should be called "type", yes?).
+> 
+>  From docs/devel/qapi-code-gen.txt:
+> 
+>      A simple union can always be re-written as a flat union where the base
+>      class has a single member named 'type', and where each branch of the
+>      union has a struct with a single member named 'data'.  That is,
+> 
+>       { 'union': 'Simple', 'data': { 'one': 'str', 'two': 'int' } }
+> 
+>      is identical on the wire to:
+> 
+>       { 'enum': 'Enum', 'data': ['one', 'two'] }
+>       { 'struct': 'Branch1', 'data': { 'data': 'str' } }
+>       { 'struct': 'Branch2', 'data': { 'data': 'int' } }
+>       { 'union': 'Flat', 'base': { 'type': 'Enum' }, 'discriminator': 'type',
+>         'data': { 'one': 'Branch1', 'two': 'Branch2' } }
+> 
+> The generated C isn't identical, but adjusting the code using it should
+> be straightforward.
+> 
+>>> Does this make sense?
+>>>
+>>
+>> Yes if it helps)
+>>
+>> Did you also look at John's https://gitlab.com/jsnow/qemu/-/commits/hack-deprecate-union-branches/ ?
+> 
+> Not yet.
+> 
+>> I hope you and John will send patches that you have, I'll help with reviewing (keep me in CC), and finally we'll get the feature.
+> 
+> Sounds like a plan.  I need to get my post-vacation e-mail pileup under
+> control first.
+> 
 
+Hi!
 
-Applied, thanks.
+Kindly remind in the case you forget :) Or may be I miss some patches?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
--- PMM
+-- 
+Best regards,
+Vladimir
 
