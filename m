@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032543BB6EC
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 07:37:25 +0200 (CEST)
-Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D80C3BB707
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 07:58:41 +0200 (CEST)
+Received: from localhost ([::1]:38674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0HIK-0007PK-JH
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 01:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47336)
+	id 1m0Hcu-0002uD-0t
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 01:58:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m0HHR-0006do-VM; Mon, 05 Jul 2021 01:36:31 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:47035)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m0Hbg-0002EV-Qq
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 01:57:24 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:40480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m0HHP-0000Fx-Iq; Mon, 05 Jul 2021 01:36:29 -0400
-Received: by mail-il1-x12c.google.com with SMTP id t12so16195150ile.13;
- Sun, 04 Jul 2021 22:36:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m0Hbf-0007oG-45
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 01:57:24 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id p22so27274671yba.7
+ for <qemu-devel@nongnu.org>; Sun, 04 Jul 2021 22:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=0WRLPW9OlnKk48Mg/eRlCKvx2VfARMTH+fUc6vhDzLc=;
- b=VeaO3GuESLf0gxZ6V1hTZK8fJS2QtCGlgPU4SbcGBMDuhJtRl9th89nAIEqVvcChBf
- LFimRscdIZPyCyJn1/bWT2k/LkClB0c6wB8Kjncpu9PTEI6N60WhE6peIDDVhRkmsZ7P
- pl1yQhWcg6cZb2EyIUj+TTua/XtcjuP+qDk2NJpo9mFBgsUuoYGjCf3VgemKPnCt/ZVA
- x9C3B1ozNQltUea/MzBk8m6ybtRotvWFYxYcDXIPh/IYPFmeK7zH1HtaKPmQbmkzCshB
- Pb0QWQ4ol2LaTPL6WPhRnhZ6wkWGEcoL8NboVwMyn6bVDHNHUipUF7aqUQFf0UVCAaxX
- semQ==
+ bh=4YnGtMwcoVo3p0TVmAL1TcpABVLBSX/YCrapATDzmAQ=;
+ b=bfWua1fTrcrNuUf6VUInIKfjoMG1ZPtTE+z19lqgWT653qrxs5AKT/gotLK1JiI1lH
+ wCJMW88UN90FouqfG379W50F1ILJ11dHn1AaXEcOpi1CF3vwUEhJ0ymWn9bjrSgNSFe/
+ 2SCo9Hb3komR8FY8J0PmkJ9ki2N/Gtyfu5iJfnUXCqc8COuSU1dlbbmH+FMrZh4Lwnz7
+ rNInSzOsJFtcvakAefuzOUTDAu9nOkJbAN+kltL0wKniXkmP7bdPSpakMYS4uAcF84LU
+ ZboPVg4CHPVnlwp0uNeqUc02hTYbPOKfB4Y1QXeuOHLTejr5Mcg86JVqEjRpsn6iBDs0
+ 75lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=0WRLPW9OlnKk48Mg/eRlCKvx2VfARMTH+fUc6vhDzLc=;
- b=SuqxtPzpNdE29ICiE1Iq+5tY+D7d35/b+ytLWUusCTro1gRcSQo2DiKguCTIDvZw/Y
- O/qVwoCdG152LYK+M2WoEJ/+Q0XzwYnp12p9QG6B/eyLyb4WFh9h6sFe/07Ul0YOfA8n
- PMGV9pSuWj5WFUu9RnLowM6dIkExWpB4cJviVl+qRNlMKWa02u49+XyqX/JZj5g2c7U0
- aAdY+NzsnXFqh5V6M0/s6PsRil2zj2yWIl8xHkY+CNhNLHT1l/G69JOKn8Aqi1GGe4Ju
- kUgnRUhyc39aND1Fx7Xds2B0ru55GIeXqJ5Cuv3hqyY2dVcKVt9ZFONewJRqDI83eSzi
- Te6g==
-X-Gm-Message-State: AOAM531Hg5dkvgoH/TMVmCd/jDsrWxbX7uAAmKKTFubJ9ulOeBb3E7WR
- jqu/OltFJuR1aWe4TyUToinYqOnreDpXV5zplps=
-X-Google-Smtp-Source: ABdhPJxy0YWaby9OrH6c9kJV4/iK7WKKzF41k5IloSa2dq2xFgvXFhtxYiWBv/EuuxllYCdBgfY6h/9wK8OjmMw1h2w=
-X-Received: by 2002:a92:c886:: with SMTP id w6mr9428473ilo.227.1625463385078; 
- Sun, 04 Jul 2021 22:36:25 -0700 (PDT)
+ bh=4YnGtMwcoVo3p0TVmAL1TcpABVLBSX/YCrapATDzmAQ=;
+ b=pEcsXL+nt2V/NZwTH8s/ZEXk27xYTh6Ei7O/0R9oCsN06+gGLIPxBiL+wp3zShf06O
+ 9J30U/rpDGyMEwOrKPuzPcPVLqKmLeopSE9w1jUMVMxBrhtPYz92T6RGUhT3gpTVgFGc
+ T/YKLNa+Jtps5BXmzyhOEsu0sB8TaP9Up/M4KgzmJwVC5aPLFFpg4rd7BzNKwkZc9GPQ
+ FzaTUXEttnfc550ZmIGKlNywoxd8zILNCAch58+Al6Kv9EI/pnVioU3gnFxDFFEXsleP
+ f4S9SejNElR+3KBtjuYgz+oh6sKZPYm4w8WivVbgeshf6e+a21DI74d1hYPzc8KILvXg
+ vQ2A==
+X-Gm-Message-State: AOAM533OoJtCeRRmb9yM1NpwvScr6eiQIEPdQq7CVDQOKTxl1qilOgwd
+ yCrzDShv9GlDn7Nim4AdrhnRqmPYh32vZ39DDsA=
+X-Google-Smtp-Source: ABdhPJwDpJIzC/bwNW8io9aD0cZPEfHvenn+OxwkS4oHp1hbv8CspuiSN4BDFbiVFBcrqXzQQscinJ3gQ0M8p9ZnLfU=
+X-Received: by 2002:a25:df11:: with SMTP id w17mr15299986ybg.314.1625464640498; 
+ Sun, 04 Jul 2021 22:57:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210627142816.19789-1-bmeng.cn@gmail.com>
- <20210627142816.19789-2-bmeng.cn@gmail.com>
-In-Reply-To: <20210627142816.19789-2-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 5 Jul 2021 15:35:58 +1000
-Message-ID: <CAKmqyKMN3Uf0A-6K8DaSSbVZZL46dYyWy_d-MNEBJyo5eza=7w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs/system: riscv: Add documentation for virt machine
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
+ <434daef6-4afb-c796-9b63-f72cca403314@redhat.com>
+In-Reply-To: <434daef6-4afb-c796-9b63-f72cca403314@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 5 Jul 2021 13:57:08 +0800
+Message-ID: <CAEUhbmWqU=sM6s1ogQB6vQmBSf6KrobW9xUcWCbt2aaO3OtuOg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] hw/net: e1000: Correct the initial value of VET
+ register
+To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,223 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Christina Wang <christina.wang@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Carlstedt <markus.carlstedt@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 28, 2021 at 12:29 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, Jul 5, 2021 at 12:21 PM Jason Wang <jasowang@redhat.com> wrote:
 >
-> This adds detailed documentation for RISC-V `virt` machine,
-> including the following information:
 >
->   - Supported devices
->   - Hardware configuration information
->   - Boot options
->   - Running Linux kernel
->   - Running U-Boot
+> =E5=9C=A8 2021/7/2 =E4=B8=8B=E5=8D=885:24, Bin Meng =E5=86=99=E9=81=93:
+> > From: Christina Wang <christina.wang@windriver.com>
+> >
+> > The initial value of VLAN Ether Type (VET) register is 0x8100, as per
+> > the manual and real hardware.
+> >
+> > While Linux e1000 driver always writes VET register to 0x8100, it is
+> > not always the case for everyone. Drivers relying on the reset value
+> > of VET won't be able to transmit and receive VLAN frames in QEMU.
+> >
+> > Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
+> > Signed-off-by: Christina Wang <christina.wang@windriver.com>
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >   hw/net/e1000.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+> > index 4f75b44cfc..20cbba6411 100644
+> > --- a/hw/net/e1000.c
+> > +++ b/hw/net/e1000.c
+> > @@ -29,6 +29,7 @@
+> >   #include "hw/pci/pci.h"
+> >   #include "hw/qdev-properties.h"
+> >   #include "migration/vmstate.h"
+> > +#include "net/eth.h"
+> >   #include "net/net.h"
+> >   #include "net/checksum.h"
+> >   #include "sysemu/sysemu.h"
+> > @@ -254,6 +255,7 @@ static const uint32_t mac_reg_init[] =3D {
+> >       [MANC]    =3D E1000_MANC_EN_MNG2HOST | E1000_MANC_RCV_TCO_EN |
+> >                   E1000_MANC_ARP_EN | E1000_MANC_0298_EN |
+> >                   E1000_MANC_RMCP_EN,
+> > +    [VET]     =3D ETH_P_VLAN,
 >
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>
+> I wonder if we need a compat flag for this, since we change the behavior.
+>
+> (See e1000_properties[])
+>
 
-Thanks!
+No we don't need to since it does not break migration.
 
-Applied to riscv-to-apply.next
-
-Alistair
-
-> ---
->
->  docs/system/riscv/virt.rst   | 138 +++++++++++++++++++++++++++++++++++
->  docs/system/target-riscv.rst |   1 +
->  2 files changed, 139 insertions(+)
->  create mode 100644 docs/system/riscv/virt.rst
->
-> diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-> new file mode 100644
-> index 0000000000..3709f05797
-> --- /dev/null
-> +++ b/docs/system/riscv/virt.rst
-> @@ -0,0 +1,138 @@
-> +'virt' Generic Virtual Platform (``virt``)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The `virt` board is a platform which does not correspond to any real har=
-dware;
-> +it is designed for use in virtual machines. It is the recommended board =
-type
-> +if you simply want to run a guest such as Linux and do not care about
-> +reproducing the idiosyncrasies and limitations of a particular bit of
-> +real-world hardware.
-> +
-> +Supported devices
-> +-----------------
-> +
-> +The ``virt`` machine supports the following devices:
-> +
-> +* Up to 8 generic RV32GC/RV64GC cores, with optional extensions
-> +* Core Local Interruptor (CLINT)
-> +* Platform-Level Interrupt Controller (PLIC)
-> +* CFI parallel NOR flash memory
-> +* 1 NS16550 compatible UART
-> +* 1 Google Goldfish RTC
-> +* 1 SiFive Test device
-> +* 8 virtio-mmio transport devices
-> +* 1 generic PCIe host bridge
-> +* The fw_cfg device that allows a guest to obtain data from QEMU
-> +
-> +Note that the default CPU is a generic RV32GC/RV64GC. Optional extension=
-s
-> +can be enabled via command line parameters, e.g.: ``-cpu rv64,x-h=3Dtrue=
-``
-> +enables the hypervisor extension for RV64.
-> +
-> +Hardware configuration information
-> +----------------------------------
-> +
-> +The ``virt`` machine automatically generates a device tree blob ("dtb")
-> +which it passes to the guest, if there is no ``-dtb`` option. This provi=
-des
-> +information about the addresses, interrupt lines and other configuration=
- of
-> +the various devices in the system. Guest software should discover the de=
-vices
-> +that are present in the generated DTB.
-> +
-> +If users want to provide their own DTB, they can use the ``-dtb`` option=
-.
-> +These DTBs should have the following requirements:
-> +
-> +* The number of subnodes of the /cpus node should match QEMU's ``-smp`` =
-option
-> +* The /memory reg size should match QEMU=E2=80=99s selected ram_size via=
- ``-m``
-> +* Should contain a node for the CLINT device with a compatible string
-> +  "riscv,clint0" if using with OpenSBI BIOS images
-> +
-> +Boot options
-> +------------
-> +
-> +The ``virt`` machine can start using the standard -kernel functionality
-> +for loading a Linux kernel, a VxWorks kernel, an S-mode U-Boot bootloade=
-r
-> +with the default OpenSBI firmware image as the -bios. It also supports
-> +the recommended RISC-V bootflow: U-Boot SPL (M-mode) loads OpenSBI fw_dy=
-namic
-> +firmware and U-Boot proper (S-mode), using the standard -bios functional=
-ity.
-> +
-> +Running Linux kernel
-> +--------------------
-> +
-> +Linux mainline v5.12 release is tested at the time of writing. To build =
-a
-> +Linux mainline kernel that can be booted by the ``virt`` machine in
-> +64-bit mode, simply configure the kernel using the defconfig configurati=
-on:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export ARCH=3Driscv
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ make defconfig
-> +  $ make
-> +
-> +To boot the newly built Linux kernel in QEMU with the ``virt`` machine:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-> +      -display none -serial stdio \
-> +      -kernel arch/riscv/boot/Image \
-> +      -initrd /path/to/rootfs.cpio \
-> +      -append "root=3D/dev/ram"
-> +
-> +To build a Linux mainline kernel that can be booted by the ``virt`` mach=
-ine
-> +in 32-bit mode, use the rv32_defconfig configuration. A patch is require=
-d to
-> +fix the 32-bit boot issue for Linux kernel v5.12.
-> +
-> +.. code-block:: bash
-> +
-> +  $ export ARCH=3Driscv
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ curl https://patchwork.kernel.org/project/linux-riscv/patch/20210627=
-135117.28641-1-bmeng.cn@gmail.com/mbox/ > riscv.patch
-> +  $ git am riscv.patch
-> +  $ make rv32_defconfig
-> +  $ make
-> +
-> +Replace ``qemu-system-riscv64`` with ``qemu-system-riscv32`` in the comm=
-and
-> +line above to boot the 32-bit Linux kernel. A rootfs image containing 32=
--bit
-> +applications shall be used in order for kernel to boot to user space.
-> +
-> +Running U-Boot
-> +--------------
-> +
-> +U-Boot mainline v2021.04 release is tested at the time of writing. To bu=
-ild an
-> +S-mode U-Boot bootloader that can be booted by the ``virt`` machine, use
-> +the qemu-riscv64_smode_defconfig with similar commands as described abov=
-e for Linux:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ make qemu-riscv64_smode_defconfig
-> +
-> +Boot the 64-bit U-Boot S-mode image directly:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-> +      -display none -serial stdio \
-> +      -kernel /path/to/u-boot.bin
-> +
-> +To test booting U-Boot SPL which in M-mode, which in turn loads a FIT im=
-age
-> +that bundles OpenSBI fw_dynamic firmware and U-Boot proper (S-mode) toge=
-ther,
-> +build the U-Boot images using riscv64_spl_defconfig:
-> +
-> +.. code-block:: bash
-> +
-> +  $ export CROSS_COMPILE=3Driscv64-linux-
-> +  $ export OPENSBI=3D/path/to/opensbi-riscv64-generic-fw_dynamic.bin
-> +  $ make qemu-riscv64_spl_defconfig
-> +
-> +The minimal QEMU commands to run U-Boot SPL are:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-> +      -display none -serial stdio \
-> +      -bios /path/to/u-boot-spl \
-> +      -device loader,file=3D/path/to/u-boot.itb,addr=3D0x80200000
-> +
-> +To test 32-bit U-Boot images, switch to use qemu-riscv32_smode_defconfig=
- and
-> +riscv32_spl_defconfig builds, and replace ``qemu-system-riscv64`` with
-> +``qemu-system-riscv32`` in the command lines above to boot the 32-bit U-=
-Boot.
-> diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-> index a5cc06b726..89a866e4f4 100644
-> --- a/docs/system/target-riscv.rst
-> +++ b/docs/system/target-riscv.rst
-> @@ -69,6 +69,7 @@ undocumented; you can get a complete list by running
->     riscv/microchip-icicle-kit
->     riscv/shakti-c
->     riscv/sifive_u
-> +   riscv/virt
->
->  RISC-V CPU firmware
->  -------------------
-> --
-> 2.25.1
->
->
+Regards,
+Bin
 
