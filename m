@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D6F3BBCB5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:10:36 +0200 (CEST)
-Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC04D3BBCD1
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:23:57 +0200 (CEST)
+Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0NQp-00087J-Jg
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:10:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36462)
+	id 1m0Ndg-0006TI-2C
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0NO1-0006xb-L1
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:07:42 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33592)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0NaO-0003gU-07
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:20:28 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0NNz-0004Pv-5V
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:07:41 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- g8-20020a1c9d080000b02901f13dd1672aso8958917wme.0
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:07:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0NaF-0001xv-HS
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:20:23 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id i8so21921385wrc.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=v76+C4pJ8r5/rwrf4KqqsST204RexWLX9OvflMPrlQw=;
- b=UfzyMU9BSW3Jve03XYYwHSoag3cG5QXaRPql21nZMxttjgW7Ow57yn4iFtu+Ai+9iW
- Kz9bFvG1LkEQoJ3XblFagRRnDjcKDBtMmJYgjL2g7QrqwyJOBtf6GFRrisK7HvtYhAtX
- 7Wi0SeX0A/J/mkx9KPwovAVkryUVWP9qO6k3ubD/VXDNomF2nM/n9xYc46NeMJr5youw
- lZoPJ+k6PXz63YwCPeCxeyGr4OjslQyEVcZwqZqMxy+jM5mV4bF6CTNgL4X3eAuJyohp
- sV3gM3E4hmFaHO549VW1zBs0nobjbuhbpyHtoccW+MEpFtSu4bMYcDXx2xDZRC6ydshH
- uHPA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uSNidHAti57utUPVSZIYunUsW4u6StH+6j2Du3NNo1g=;
+ b=jd01OLZjKFSTLINdj404I4Que8p2jaJVEJNTmSd+YepPcBboXteIvNv0us6Db8IPqB
+ frZU+n11wcllQPAgu4IT2ccjptti5jH2tOxMDCX9owOEj3kt90KBVb/SpKhYQAFAeKra
+ 31XY35ITE+jF4RTJeLJqJ3Ldup2mKE0gfkuKMLgFBUTd6kY0xRjqtHLP0Wl4Sp0r0aqT
+ vxKB8xwEoiNmvjwGK8q6b+/1S5QhaayIJ2Vz/MJLlTTiiKEmrQgtjB73Y28IuU0IwnHu
+ n7d1dqUiDBBWUOPehAdxXOR/tqt9Sj8edEO+YshySvsNLax1NlFeoiKkq2EfnL1G4jno
+ M9FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=v76+C4pJ8r5/rwrf4KqqsST204RexWLX9OvflMPrlQw=;
- b=m9WMhV21xjPxVp7t8CVKtZJzn6y0pmK+jk7Th52KiuAdA53vMJgpih6HVSOo+nxp90
- UbMc7a2rL5OPeN6M82iU54jVOYguFzTa94+VjR+JGHGQUFi9gN8QjYY4hig3yBP1gSHE
- lMWogS8+4woNfrRdVWetFP3E8sE2PYHpLC/2G9DE6OdvGkwi2UXQTfTbGjYLoJMBdj0Q
- Q+4zMk/Ae+9FvVr206sTP06LB7naQo3CUnt2yu09Ry7NuR6i1grNsPTAsWsXmqLtOz73
- v9QDMqiVNL4gBoj/XE8PoTkwdBl2ZVn5npR72wWf8Ep4keq0II9rVHB7wht1aezOQXM2
- PlOw==
-X-Gm-Message-State: AOAM53052nmBx6SnPj4RBnmN5/6WgcTjuEt3qEOdfwORGIzB/bTqPvAz
- DtRyhJP063DQxRDF5flD3Hbhow==
-X-Google-Smtp-Source: ABdhPJzBxY9HyIBabs8BVVliC7LJnK/vNDXaCrIqJsuxCP1nlOeMoWV+ibqfROCWz7gMa7ZzS6wQOA==
-X-Received: by 2002:a1c:1dc6:: with SMTP id
- d189mr14703920wmd.154.1625486857709; 
- Mon, 05 Jul 2021 05:07:37 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q19sm21572249wmc.44.2021.07.05.05.07.35
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uSNidHAti57utUPVSZIYunUsW4u6StH+6j2Du3NNo1g=;
+ b=Zs5hiEIOy4G1/haHyly5UWIfvFZVJImwhWiLF4FNAvQ815lIZHnNmFFiKPYD4EFQG4
+ Zdf71u2R9y+alfarFK7NhNO5GZyECf9KVt1rIBX5/OxHjJQ0FW0g4PH/JEey/HIwYsls
+ THDjVDzWL66ndZR4GmU2h1s3E2k0VaXMbImIF2rK0g9MN7zsvShtG+rv5NbZWB+r3dUZ
+ LkJozUn5BRnjxBzaaassyQ32WEkhDUcikhEl1wyFdTVzwHCfT1jPu5SUymtcmc3nTxVA
+ SF13ImkB/N+e1lR6z/rmZVabqE3gX0b9ry1oiC9C/BJ3QX4fWS9KKyVZwzznh03u2Xpl
+ 3sZw==
+X-Gm-Message-State: AOAM5335yZrQznCqbPsveojkAp1bI9at+LFtjwWarXBfR/+6sb7cbf4B
+ /SPvUSjOwcrwqImzD3Pr6RhMzw==
+X-Google-Smtp-Source: ABdhPJyjxxvLTeXCUXFhdpInVxO80wyRSkvyZyAUH9p6J9qQrHR6Z/bQPHRw5knww/NVCDgH1DlRBw==
+X-Received: by 2002:a5d:538b:: with SMTP id d11mr15285123wrv.39.1625487617948; 
+ Mon, 05 Jul 2021 05:20:17 -0700 (PDT)
+Received: from orth.archaic.org.uk ([81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id f18sm13450406wru.53.2021.07.05.05.20.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 05:07:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B5F521FF7E;
- Mon,  5 Jul 2021 13:07:34 +0100 (BST)
-References: <20210623142245.307776-1-berrange@redhat.com>
- <20210623142245.307776-4-berrange@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 03/22] tests/docker: use project specific container
- registries
-Date: Mon, 05 Jul 2021 13:07:29 +0100
-In-reply-to: <20210623142245.307776-4-berrange@redhat.com>
-Message-ID: <871r8d55h5.fsf@linaro.org>
+ Mon, 05 Jul 2021 05:20:17 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/3] docs: document cubieboard, emcraft-sf2, highbank, midway
+Date: Mon,  5 Jul 2021 13:20:08 +0100
+Message-Id: <20210705122011.753-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,36 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Beniamino Galvani <b.galvani@gmail.com>, Rob Herring <robh@kernel.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patchset adds documentation of the four board
+models cubieboard, emcraft-sf2, highbank and midway.
+The documentation here is rather skeletal, being based
+on a quick read of sources, cover letter from original
+patch submission, etc.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+People interested in these machines are encouraged to
+improve on these docs, but I would like us to at least
+have a stub for all the Arm boards we emulate.
 
-> Since Docker Hub has started to enforce pull rate limits on clients, it
-> is preferrable to use project specific container registries where they
-> are available. Fedora and OpenSUSE projects provide registries.
->
-> The images in these registries are also refreshed on a more regular
-> basis than the ones in docker hub, so the package update should
-> generally be faster.
->
-> While CentOS also has a registry it is considerably outdated compared
-> to docker.io, and also only provides x86 images, while docker.io images
-> are multi-arch.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+For the record, as well as these we have another ten
+undocumented boards:
+  imx25-pdk, kzm, mainstone, mcimx6ul-evk, mcimx7d-sabre,
+  nuri, smdkc210, xilinx-zynq-a9, xlnx-zcu102, z2
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+thanks
+-- PMM
 
---=20
-Alex Benn=C3=A9e
+Peter Maydell (3):
+  docs: Add skeletal documentation of cubieboard
+  docs: Add skeletal documentation of the emcraft-sf2
+  docs: Add skeletal documentation of highbank and midway
+
+ docs/system/arm/cubieboard.rst  |  6 ++++++
+ docs/system/arm/emcraft-sf2.rst | 10 ++++++++++
+ docs/system/arm/highbank.rst    | 19 +++++++++++++++++++
+ docs/system/target-arm.rst      |  3 +++
+ MAINTAINERS                     |  3 +++
+ 5 files changed, 41 insertions(+)
+ create mode 100644 docs/system/arm/cubieboard.rst
+ create mode 100644 docs/system/arm/emcraft-sf2.rst
+ create mode 100644 docs/system/arm/highbank.rst
+
+-- 
+2.20.1
+
 
