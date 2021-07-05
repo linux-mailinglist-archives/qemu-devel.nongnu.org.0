@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834933BB67F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 06:51:15 +0200 (CEST)
-Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025563BB663
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 06:32:38 +0200 (CEST)
+Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0GZe-0006eC-0V
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 00:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41376)
+	id 1m0GHd-0004Dx-2v
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 00:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0GSG-0001fD-UF; Mon, 05 Jul 2021 00:43:36 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:43653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0GSC-0008MC-Et; Mon, 05 Jul 2021 00:43:36 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GJCk01Xcvz9sX1; Mon,  5 Jul 2021 14:43:20 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1625460200;
- bh=p5DJpc5soipPQ6SAaP3S1zcP1Hkc4eNw5o8Ohnlidng=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HVMK0XN6CrSpPNwCmEdeXUbO18apXtnrpbIGCXNGcRUe2OVotVPr3LieQX7xwERUi
- 2CPSr+0jfH0EHSllyVBT4z5dtzjJ/yj9PtU+++dXHfKCyjRKf08IYKVFw95qUXQ6GT
- 1dG8qudhSSRmIQJldAXHy3hiZ27BxKqHCfw6zLxk=
-Date: Mon, 5 Jul 2021 14:17:28 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v4 1/3] target/ppc: fix address translation bug for radix
- mmus
-Message-ID: <YOKH2EaeLElkBXiJ@yekko>
-References: <20210628133610.1143-1-bruno.larsen@eldorado.org.br>
- <20210628133610.1143-2-bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m0GBi-0004RJ-Br
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:30 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49394)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m0GBg-0002wV-9k
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m0GBR-0004RP-FI
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 04:26:13 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5BCE72E81D5
+ for <qemu-devel@nongnu.org>; Mon,  5 Jul 2021 04:26:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ioPTGSJ1QmVhT4Dk"
-Content-Disposition: inline
-In-Reply-To: <20210628133610.1143-2-bruno.larsen@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 05 Jul 2021 04:17:32 -0000
+From: Launchpad Bug Tracker <1821771@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: kvm numa powerpc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor sathnaga th-huth
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <155361583469.17984.11681376513113338670.malonedeb@gac.canonical.com>
+Message-Id: <162545865224.12677.8484381871430887108.malone@loganberry.canonical.com>
+Subject: [Bug 1821771] Re: KVM guest does not reflect numa distances
+ configured through qemu 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
+X-Launchpad-Hash: 8b6c6e358176e3d13b1584cfa40df5ef25cd7838
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,335 +72,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Reply-To: Bug 1821771 <1821771@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[Expired for QEMU because there has been no activity for 60 days.]
 
---ioPTGSJ1QmVhT4Dk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-On Mon, Jun 28, 2021 at 10:36:08AM -0300, Bruno Larsen (billionai) wrote:
-> This commit attempts to fix a technical hiccup first mentioned by Richard
-> Henderson in
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06247.html
->=20
-> To sumarize the hiccup here, when radix-style mmus are translating an
-> address, they might need to call a second level of translation, with
-> hypervisor privileges. However, the way it was being done up until
-> this point meant that the second level translation had the same
-> privileges as the first level. It could lead to a bug in address
-> translation when running KVM inside a TCG guest, but this bug was never
-> experienced by users, so this isn't as much a bug fix as it is a
-> correctness cleanup.
->=20
-> This patch attempts that cleanup by making radix64_*_xlate functions
-> receive the mmu_idx, and passing one with the correct permission for the
-> second level translation.
->=20
-> The mmuidx macros added by this patch are only correct for non-bookE
-> mmus, because BookE style set the IS and DS bits inverted and there
-> might be other subtle differences. However, there doesn't seem to be
-> BookE cpus that have radix-style mmus, so we left a comment there to
-> document the issue, in case a machine does have that and was missed.
->=20
-> As part of this cleanup, we now need to send the correct mmmu_idx
-> when calling get_phys_page_debug, otherwise we might not be able to see t=
-he
-> memory that the CPU could
->=20
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
-> Tested-by: C=E9dric Le Goater <clg@kaod.org>
+-- =
 
-Applied to ppc-for-6.1, thanks.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821771
 
-> ---
->  target/ppc/mmu-book3s-v3.h | 13 +++++++++++++
->  target/ppc/mmu-radix64.c   | 37 +++++++++++++++++++++----------------
->  target/ppc/mmu-radix64.h   |  2 +-
->  target/ppc/mmu_helper.c    |  8 +++++---
->  4 files changed, 40 insertions(+), 20 deletions(-)
->=20
-> diff --git a/target/ppc/mmu-book3s-v3.h b/target/ppc/mmu-book3s-v3.h
-> index a1326df969..c89d0bccfd 100644
-> --- a/target/ppc/mmu-book3s-v3.h
-> +++ b/target/ppc/mmu-book3s-v3.h
-> @@ -47,6 +47,19 @@ struct prtb_entry {
->      uint64_t prtbe0, prtbe1;
->  };
-> =20
-> +/*
-> + * These correspond to the mmu_idx values computed in
-> + * hreg_compute_hflags_value. See the tables therein
-> + *
-> + * They are here because some bits are inverted for BookE MMUs
-> + * not necessarily because they only work for BookS. However,
-> + * we only needed to change BookS MMUs, we left the functions
-> + * here to avoid other possible bugs for untested MMUs
-> + */
-> +static inline bool mmuidx_pr(int idx) { return !(idx & 1); }
-> +static inline bool mmuidx_real(int idx) { return idx & 2; }
-> +static inline bool mmuidx_hv(int idx) { return idx & 4; }
-> +
->  #ifdef TARGET_PPC64
-> =20
->  static inline bool ppc64_use_proc_tbl(PowerPCCPU *cpu)
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index cbd404bfa4..5b0e62e676 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -155,7 +155,7 @@ static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, MM=
-UAccessType access_type,
-> =20
->  static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access=
-_type,
->                                     uint64_t pte, int *fault_cause, int *=
-prot,
-> -                                   bool partition_scoped)
-> +                                   int mmu_idx, bool partition_scoped)
->  {
->      CPUPPCState *env =3D &cpu->env;
->      int need_prot;
-> @@ -173,7 +173,8 @@ static bool ppc_radix64_check_prot(PowerPCCPU *cpu, M=
-MUAccessType access_type,
->      /* Determine permissions allowed by Encoded Access Authority */
->      if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
->          *prot =3D 0;
-> -    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) {
-> +    } else if (mmuidx_pr(mmu_idx) || (pte & R_PTE_EAA_PRIV) ||
-> +               partition_scoped) {
->          *prot =3D ppc_radix64_get_prot_eaa(pte);
->      } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scoped =
-*/
->          *prot =3D ppc_radix64_get_prot_eaa(pte);
-> @@ -299,7 +300,7 @@ static int ppc_radix64_partition_scoped_xlate(PowerPC=
-CPU *cpu,
->                                                ppc_v3_pate_t pate,
->                                                hwaddr *h_raddr, int *h_pr=
-ot,
->                                                int *h_page_size, bool pde=
-_addr,
-> -                                              bool guest_visible)
-> +                                              int mmu_idx, bool guest_vi=
-sible)
->  {
->      int fault_cause =3D 0;
->      hwaddr pte_addr;
-> @@ -310,7 +311,8 @@ static int ppc_radix64_partition_scoped_xlate(PowerPC=
-CPU *cpu,
->      if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_=
-RPDB,
->                                pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_s=
-ize,
->                                &pte, &fault_cause, &pte_addr) ||
-> -        ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, h_pr=
-ot, true)) {
-> +        ppc_radix64_check_prot(cpu, access_type, pte,
-> +                               &fault_cause, h_prot, mmu_idx, true)) {
->          if (pde_addr) { /* address being translated was that of a guest =
-pde */
->              fault_cause |=3D DSISR_PRTABLE_FAULT;
->          }
-> @@ -332,7 +334,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->                                              vaddr eaddr, uint64_t pid,
->                                              ppc_v3_pate_t pate, hwaddr *=
-g_raddr,
->                                              int *g_prot, int *g_page_siz=
-e,
-> -                                            bool guest_visible)
-> +                                            int mmu_idx, bool guest_visi=
-ble)
->  {
->      CPUState *cs =3D CPU(cpu);
->      CPUPPCState *env =3D &cpu->env;
-> @@ -367,7 +369,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->          ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_=
-addr,
->                                                   pate, &h_raddr, &h_prot,
->                                                   &h_page_size, true,
-> -                                                 guest_visible);
-> +            /* mmu_idx is 5 because we're translating from hypervisor sc=
-ope */
-> +                                                 5, guest_visible);
->          if (ret) {
->              return ret;
->          }
-> @@ -407,7 +410,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->              ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pt=
-e_addr,
->                                                       pate, &h_raddr, &h_=
-prot,
->                                                       &h_page_size, true,
-> -                                                     guest_visible);
-> +            /* mmu_idx is 5 because we're translating from hypervisor sc=
-ope */
-> +                                                     5, guest_visible);
->              if (ret) {
->                  return ret;
->              }
-> @@ -431,7 +435,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->          *g_raddr =3D (rpn & ~mask) | (eaddr & mask);
->      }
-> =20
-> -    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, g_pr=
-ot, false)) {
-> +    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause,
-> +                               g_prot, mmu_idx, false)) {
->          /* Access denied due to protection */
->          if (guest_visible) {
->              ppc_radix64_raise_si(cpu, access_type, eaddr, fault_cause);
-> @@ -464,7 +469,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu,
->   *              +-------------+----------------+---------------+
->   */
->  bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType acces=
-s_type,
-> -                       hwaddr *raddr, int *psizep, int *protp,
-> +                       hwaddr *raddr, int *psizep, int *protp, int mmu_i=
-dx,
->                         bool guest_visible)
->  {
->      CPUPPCState *env =3D &cpu->env;
-> @@ -474,17 +479,17 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr=
-, MMUAccessType access_type,
->      hwaddr g_raddr;
->      bool relocation;
-> =20
-> -    assert(!(msr_hv && cpu->vhyp));
-> +    assert(!(mmuidx_hv(mmu_idx) && cpu->vhyp));
-> =20
-> -    relocation =3D (access_type =3D=3D MMU_INST_FETCH ? msr_ir : msr_dr);
-> +    relocation =3D !mmuidx_real(mmu_idx);
-> =20
->      /* HV or virtual hypervisor Real Mode Access */
-> -    if (!relocation && (msr_hv || cpu->vhyp)) {
-> +    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
->          /* In real mode top 4 effective addr bits (mostly) ignored */
->          *raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
-> =20
->          /* In HV mode, add HRMOR if top EA bit is clear */
-> -        if (msr_hv || !env->has_hv_mode) {
-> +        if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
->              if (!(eaddr >> 63)) {
->                  *raddr |=3D env->spr[SPR_HRMOR];
->             }
-> @@ -546,7 +551,7 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, =
-MMUAccessType access_type,
->      if (relocation) {
->          int ret =3D ppc_radix64_process_scoped_xlate(cpu, access_type, e=
-addr, pid,
->                                                     pate, &g_raddr, &prot,
-> -                                                   &psize, guest_visible=
-);
-> +                                                   &psize, mmu_idx, gues=
-t_visible);
->          if (ret) {
->              return false;
->          }
-> @@ -564,13 +569,13 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr=
-, MMUAccessType access_type,
->           * quadrants 1 or 2. Translates a guest real address to a host
->           * real address.
->           */
-> -        if (lpid || !msr_hv) {
-> +        if (lpid || !mmuidx_hv(mmu_idx)) {
->              int ret;
-> =20
->              ret =3D ppc_radix64_partition_scoped_xlate(cpu, access_type,=
- eaddr,
->                                                       g_raddr, pate, radd=
-r,
->                                                       &prot, &psize, fals=
-e,
-> -                                                     guest_visible);
-> +                                                     mmu_idx, guest_visi=
-ble);
->              if (ret) {
->                  return false;
->              }
-> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-> index 6b13b89b64..b70357cf34 100644
-> --- a/target/ppc/mmu-radix64.h
-> +++ b/target/ppc/mmu-radix64.h
-> @@ -45,7 +45,7 @@
->  #ifdef TARGET_PPC64
-> =20
->  bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType acces=
-s_type,
-> -                       hwaddr *raddr, int *psizep, int *protp,
-> +                       hwaddr *raddr, int *psizep, int *protp, int mmu_i=
-dx,
->                         bool guest_visible);
-> =20
->  static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index ba1952c77d..9dcdf88597 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -2908,7 +2908,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr,=
- MMUAccessType access_type,
->      case POWERPC_MMU_3_00:
->          if (ppc64_v3_radix(cpu)) {
->              return ppc_radix64_xlate(cpu, eaddr, access_type,
-> -                                     raddrp, psizep, protp, guest_visibl=
-e);
-> +                                     raddrp, psizep, protp, mmu_idx, gue=
-st_visible);
->          }
->          /* fall through */
->      case POWERPC_MMU_64B:
-> @@ -2941,8 +2941,10 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, v=
-addr addr)
->       * try an MMU_DATA_LOAD, we may not be able to read instructions
->       * mapped by code TLBs, so we also try a MMU_INST_FETCH.
->       */
-> -    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
-> -        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
-> +    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p,
-> +                  cpu_mmu_index(&cpu->env, false), false) ||
-> +        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p,
-> +                  cpu_mmu_index(&cpu->env, true), false)) {
->          return raddr & TARGET_PAGE_MASK;
->      }
->      return -1;
+Title:
+  KVM guest does not reflect numa distances configured through qemu
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Status in QEMU:
+  Expired
 
---ioPTGSJ1QmVhT4Dk
-Content-Type: application/pgp-signature; name="signature.asc"
+Bug description:
+  KVM guest does not reflect numa distances configured through qemu
 
------BEGIN PGP SIGNATURE-----
+  Env:
+  Host/Guest Kernel: 5.1.0-rc1-g72999bbdc
+  qemu : 3.1.90 (v2.8.0-rc0-18614-g278aebafa0-dirty) [repo: https://github.=
+com/dgibson/qemu; branch:ppc-for-4.1 ]
+  # git log -1
+  commit 278aebafa02f699857ca082d966bcbc05dc9bffb (HEAD -> ppc-for-4.1)
+  Author: Jafar Abdi <cafer.abdi@gmail.com>
+  Date:   Sat Mar 23 17:26:36 2019 +0300
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDih9YACgkQbDjKyiDZ
-s5IHnxAAx/gtdSqrEh48pgnv9Y6XWErEspbrno+6EFKVRtIUl6GlXVobDAWWFGoQ
-W2JMzY8mxP7eV0c1i5YiMkUfrQFHOfW1ooNzYjWKjNMCHTsepdwBtfiUKy8Cl0dF
-q4suiGwBcljxcAyx3NIWclrVY9HgBc5WCWczlww+X/myZqKAh0cWJ5oMf/6EtXO8
-/mDbQEft3luDmE8s81NRe6OqPCB20SCoMa/m+s2DBeFU3tWiSDcifB/fT4nBg6Gk
-kRRpV5xr66V+U7jwkqw/IA5ZPswNc9KkaO82Kyk7xz/m0wQsPsQPWpC7AIw2FzBm
-lzkrfPeWNZtsBUjIYl+ARNHPVzbjGEtjNZ0GZAbMsITdua9m0N/BGpIfJl7WjeK/
-jaJjZfC67VSnpWaEzFm1BY8jwoUehwKCodzKzQlxDpd9Ix05Cob6pPaoN1KkzADt
-+u4q07o901NodSlHAQ02KSzJXPle8VZ/hHSfdmimz4pVUhujlrjOee4d6vNArRFc
-HzoDT6F4WB9E/OJoMVDFf5Hj6Q7Dr6vzY7wzE6KHYS90/JvVF8nfS3jGznZI1lxp
-vqhH5D6gLD1UE/3bfpk9VoxRpf5LjevHKB4LrUCNnQogy1F9F76MKQYIAg47Cl1P
-Ctnl/hBDBy2ioD9zZN1VuvF07+rcSeo2j57AHGTZqhqCEPc1RZo=
-=WXRW
------END PGP SIGNATURE-----
+      tests/libqos: fix usage of bool in pci-spapr.c
+      =
 
---ioPTGSJ1QmVhT4Dk--
+      Clean up wrong usage of FALSE and TRUE in places that use "bool" from=
+ stdbool.h.
+      =
+
+      FALSE and TRUE (with capital letters) are the constants defined by gl=
+ib for
+      being used with the "gboolean" type of glib. But some parts of the co=
+de also use
+      TRUE and FALSE for variables that are declared as "bool" (the type fr=
+om <stdbool.h>).
+      =
+
+      Signed-off-by: Jafar Abdi <cafer.abdi@gmail.com>
+      Reviewed-by: Eric Blake <eblake@redhat.com>
+      Message-Id: <1553351197-14581-4-git-send-email-cafer.abdi@gmail.com>
+      Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+  # libvirtd -V
+  libvirtd (libvirt) 5.1.0
+
+
+  Steps to reproduce:
+  1. Boot attached guest xml with predefined numa distance.
+
+  qemu-commandline:
+  /usr/share/avocado-plugins-vt/bin/install_root/bin/qemu-system-ppc64 -nam=
+e guest=3Dvm2,debug-threads=3Don -S -object secret,id=3DmasterKey0,format=
+=3Draw,file=3D/var/lib/libvirt/qemu/domain-15-vm2/master-key.aes -machine p=
+series-4.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff -m 4096 -realtime ml=
+ock=3Doff -smp 4,sockets=3D1,cores=3D4,threads=3D1 -numa node,nodeid=3D0,cp=
+us=3D0-1,mem=3D2048 -numa node,nodeid=3D1,cpus=3D2-3,mem=3D2048 -uuid 1a870=
+f1d-269a-4a8c-84bc-2b5bda72823a -display none -no-user-config -nodefaults -=
+chardev socket,id=3Dcharmonitor,fd=3D28,server,nowait -mon chardev=3Dcharmo=
+nitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot strict=
+=3Don -kernel /home/kvmci/linux/vmlinux -append root=3D/dev/sda2 rw console=
+=3Dtty0 console=3DttyS0,115200 init=3D/sbin/init  initcall_debug selinux=3D=
+0 -device qemu-xhci,id=3Dusb,bus=3Dpci.0,addr=3D0x3 -device virtio-scsi-pci=
+,id=3Dscsi0,bus=3Dpci.0,addr=3D0x2 -drive file=3D/var/lib/avocado/data/avoc=
+ado-vt/images/jeos-27-ppc64le.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scs=
+i0-0-0-0 -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,devi=
+ce_id=3Ddrive-scsi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootin=
+dex=3D1 -netdev tap,fd=3D30,id=3Dhostnet0,vhost=3Don,vhostfd=3D31 -device v=
+irtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:f4:f5:f6,bus=3Dpci=
+.0,addr=3D0x1 -chardev pty,id=3Dcharserial0 -device spapr-vty,chardev=3Dcha=
+rserial0,id=3Dserial0,reg=3D0x30000000 -device virtio-balloon-pci,id=3Dball=
+oon0,bus=3Dpci.0,addr=3D0x4 -msg timestamp=3Don
+
+  =
+
+  2. Check numa distance and other details inside guest
+  # numactl -H
+  available: 2 nodes (0-1)
+  node 0 cpus: 0 1
+  node 0 size: 2025 MB
+  node 0 free: 1837 MB
+  node 1 cpus: 2 3
+  node 1 size: 2045 MB
+  node 1 free: 1646 MB
+  node distances:
+  node   0   1 =
+
+    0:  10  40 -----------------------------------NOK
+    1:  40  10 =
+
+
+  # lsprop /proc/device-tree/cpus/PowerPC\,POWER9\@*/ibm\,associativity =
+
+  /proc/device-tree/cpus/PowerPC,POWER8@0/ibm,associativity
+  		 00000005 00000000 00000000 00000000 00000000 00000000
+  /proc/device-tree/cpus/PowerPC,POWER8@10/ibm,associativity
+  		 00000005 00000000 00000000 00000000 00000001 00000010
+  /proc/device-tree/cpus/PowerPC,POWER8@18/ibm,associativity
+  		 00000005 00000000 00000000 00000000 00000001 00000018
+  /proc/device-tree/cpus/PowerPC,POWER8@8/ibm,associativity
+  		 00000005 00000000 00000000 00000000 00000000 00000008
+
+  # lsprop /proc/device-tree/rtas/ibm,associativity-reference-points
+  /proc/device-tree/rtas/ibm,associativity-reference-points
+  		 00000004 00000004
+
+  Expected numa distances:
+  node distances:
+  node   0   1 =
+
+    0:  10  20
+    1:  20  10
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821771/+subscriptions
 
