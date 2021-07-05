@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722113BBEA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:08:15 +0200 (CEST)
-Received: from localhost ([::1]:60688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075653BBE9E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:06:57 +0200 (CEST)
+Received: from localhost ([::1]:57498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0QCk-0001c0-FL
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49682)
+	id 1m0QBU-0007sp-3P
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:06:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0QBU-0008RW-OX
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:06:56 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55020)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0QAY-0006vJ-Ux
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:05:59 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:41497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0QBS-0003dW-MT
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:06:56 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id l1so11601045wme.4
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:06:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0QAX-000338-1J
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:05:58 -0400
+Received: by mail-ed1-x530.google.com with SMTP id m1so24013424edq.8
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=oE4pHzr0LNW8FwvocOBjxPKaAlFLrq+7NDnrT7ZtQ/s=;
- b=Dp7NSAAiN8ev6uNHx/93Zp+Ts7v43MwZYzofRQ5BjbJGaNeA/8QcS+n6x1Ah16qm+7
- xi2W1Z4L5Vo40b+T0VS+Mb4LRKwPmrFkTYpAsC+hd0xmL7hIOUWX4g3idMHmaNQt8fH1
- 5gNTNABx+RjXeQf4mcVur+nUX+KfTMWUN4o/HecYt0FRpC0T/4eTsqPW7AH2TQygyFHx
- 5TSqaXL++s5tD4bAA2etd2UbZufm4eppDtK0mCmysoNTFgDD1+xivb2KbOactPjEmoJQ
- 59s+HFr9mpIku/J5+0Ia4pSH/fV/h6pOBG2G1+Hh1y0PmmCyCz6WAPRr9OTb3DT3zvfD
- 5Ujg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XFzxCojGEQxwidc9+pUIQcvzhiDcjWa9gDKDrpBWONw=;
+ b=l6bjsqCK2NWFcv/qk2TMMSIxGSwsNFkKdzpNhPNHQEcejkwdZK/pT3xcoqPJo2T+Lj
+ 6Lm3JSY31uq55obPIn6iD4DzOMoKMPrR1wWqVTQZPaRBALr77ak2z/k5XCpatpEvrWYx
+ IJKWCXgLdT3rfZqo1NVJKjGbccYHq9Wr7wGP7xMaZ1ETbAtjLojS25ejxzghBEKI7GbX
+ ijxeXqH5PU+dvam5HCn5MQDw5xck4hyYk0KbP9MAYfhDoIH/n6xul5f9oReeae2uD1NX
+ JSlGb7omQR/CexUPtVsQoJq3y1suVu2pCAEqdGvSPwSUCxyLNV36cxtLxrGaxcOKpDEw
+ OLzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=oE4pHzr0LNW8FwvocOBjxPKaAlFLrq+7NDnrT7ZtQ/s=;
- b=Aj2oFTY2bAOqSZJ5aKpOTIRK6QzgnG7kaaZuPp+FJmzbtAQLgUzVmopd4vMZGPZ/7m
- Ij3vQtifDKmDQyMqOjhcnzE4dwUc+9UBnWSByykWiITYH+nPRbm2Yltyn7AiBr509wX0
- 55koRXX0kd68jxsfJyLHt8TMg1OLe0o97uy6GIMXhCYTq7MhgtUniDDGIo3b1NKvq5Yk
- lsKldM70RGWnsuaPAjsVjfBxC0dS+KQmepRlDvGkOKE+JoWL+t/nhuTROehb0xJLtXOH
- IvGIXUWbDQCc7KxKgxlfkm3a7XenD4XEmsWpU4NdGNZ5MiUCW77HSWuQS310WiKSU18z
- Pnqw==
-X-Gm-Message-State: AOAM533hqYRm6zPlxvdCfrA7gWS7vDcyliJTyIPlKjoxd3YHHryi6+wr
- u/YnTRX/EAsz+VbDmxKHk48LSw==
-X-Google-Smtp-Source: ABdhPJyJx1FDhmOHBrIQXhnn0Ll0GBoTTMy0WwCHccolAOZO3VgSSHQKQhhjD6YE1JD+1FAoImgLtw==
-X-Received: by 2002:a1c:26c2:: with SMTP id
- m185mr15781163wmm.146.1625497613344; 
- Mon, 05 Jul 2021 08:06:53 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l7sm12184625wry.0.2021.07.05.08.06.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 08:06:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DEB141FF7E;
- Mon,  5 Jul 2021 16:06:51 +0100 (BST)
-References: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Brad Smith <brad@comstyle.com>
-Subject: Re: [PATCH] tests/vm: update NetBSD to 9.2
-Date: Mon, 05 Jul 2021 16:05:10 +0100
-In-reply-to: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
-Message-ID: <87r1gc3ilw.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XFzxCojGEQxwidc9+pUIQcvzhiDcjWa9gDKDrpBWONw=;
+ b=X0ywctgNgeGkJrANYWEFRwDIkdZWrecuuWQuvc9SNw+qJA8B5PWTs0e6tMQn//dNJu
+ 0h8XQxYMi3I5ePNhMpyPIgNKx1fs++3+GNVJeIZZIT3vUVUTweJR5d4jeZCE487RLQL2
+ wvtM76WVmqyzgh5XlVv3Vm3FLigit3i/+FWL0cLs2Cvhv3wMvjgbhkNlF2GQkZawkU7k
+ 3P72hc09H42WeBXsHyFFgsUmUDx2E101rehIbWMAqKrKLDti2pbhusKknmkZXFiDqfdR
+ I46zBlvR8k8gJSmnB52KKgC246yBkYtpx5BHp/yVeApafWB1iZA8tZRu65WQAhNTekRX
+ 5pFQ==
+X-Gm-Message-State: AOAM530GUp4yUK5bst8seywpAhwoqpxPutgZKKawpIk9NdIAAQGYaTiw
+ YJ8sJfl+qM9tCdNiTPiaEavQ35L7jb2g9swdL9FTbw==
+X-Google-Smtp-Source: ABdhPJw3lECPpqXeuTluekevLu4uJ5t9myUzmzlkf7GyRUeW0A0qpO021Uxup2DR5psQPDkOASRLVlgqZ23OQL6DTMY=
+X-Received: by 2002:a05:6402:3452:: with SMTP id
+ l18mr12891544edc.251.1625497555135; 
+ Mon, 05 Jul 2021 08:05:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+References: <20210630153156.9421-1-shashi.mallela@linaro.org>
+In-Reply-To: <20210630153156.9421-1-shashi.mallela@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Jul 2021 16:05:17 +0100
+Message-ID: <CAFEAcA8jp25Z6cJ47ZKiTSTJNGr5xCjgPffPuZmO2Jm5iOuxiQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/10] GICv3 LPI and ITS feature implementation
+To: Shashi Mallela <shashi.mallela@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,130 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe
- =?us-ascii?Q?=3D=3Funknown-8bit=3FQ=3FMathieu-Daud=3DC3=3DA9=3F=3D?=
- <philmd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Brad Smith <brad@comstyle.com> writes:
-
-> tests/vm: update NetBSD to 9.2
+On Wed, 30 Jun 2021 at 16:31, Shashi Mallela <shashi.mallela@linaro.org> wrote:
 >
-> Signed-off-by: Brad Smith <brad@comstyle.com>
-
-Queued to testing/next, thanks.
-
-Note: something about your message-id or formatting really confuses b4:
-
-  b4 am -S -t "YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com" -o -
-  Looking up https://lore.kernel.org/r/YLe%2BLZ%2Fj0pxVGeBi%40humpty.home.c=
-omstyle.com
-  Grabbing thread from lore.kernel.org/qemu-devel
-  Analyzing 6 messages in the thread
-  ---
-  Writing /tmp/tmpuc25zyupb4-am-stdout
-    [PATCH] tests/vm: update NetBSD to 9.2
-      + Tested-by: Gerd Hoffmann <kraxel@redhat.com>
-      + Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-      + Acked-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-  Traceback (most recent call last):
-    File "/home/alex/.local/bin/b4", line 10, in <module>
-      sys.exit(cmd())
-    File "/home/alex/.local/lib/python3.7/site-packages/b4/command.py", lin=
-e 222, in cmd
-      cmdargs.func(cmdargs)
-    File "/home/alex/.local/lib/python3.7/site-packages/b4/command.py", lin=
-e 40, in cmd_am
-      b4.mbox.main(cmdargs)
-    File "/home/alex/.local/lib/python3.7/site-packages/b4/mbox.py", line 5=
-05, in main
-      mbox_to_am(threadmbox, cmdargs)
-    File "/home/alex/.local/lib/python3.7/site-packages/b4/mbox.py", line 1=
-16, in mbox_to_am
-      linkmask=3Dconfig['linkmask'], cherrypick=3Dcherrypick)
-    File "/home/alex/.local/lib/python3.7/site-packages/b4/__init__.py", li=
-ne 567, in save_am_mbox
-      mbx.add(msg.as_bytes(policy=3Demlpolicy))
-    File "/usr/lib/python3.7/email/message.py", line 178, in as_bytes
-      g.flatten(self, unixfrom=3Dunixfrom)
-    File "/usr/lib/python3.7/email/generator.py", line 116, in flatten
-      self._write(msg)
-    File "/usr/lib/python3.7/email/generator.py", line 195, in _write
-      self._write_headers(msg)
-    File "/usr/lib/python3.7/email/generator.py", line 418, in _write_heade=
-rs
-      self._fp.write(self.policy.fold_binary(h, v))
-    File "/usr/lib/python3.7/email/policy.py", line 199, in fold_binary
-      folded =3D self._fold(name, value, refold_binary=3Dself.cte_type=3D=
-=3D'7bit')
-    File "/usr/lib/python3.7/email/policy.py", line 205, in _fold
-      return value.fold(policy=3Dself)
-    File "/usr/lib/python3.7/email/headerregistry.py", line 258, in fold
-      return header.fold(policy=3Dpolicy)
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 144, in f=
-old
-      return _refold_parse_tree(self, policy=3Dpolicy)
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 2631, in =
-_refold_parse_tree
-      encoded_part =3D part.fold(policy=3Dpolicy)[:-1] # strip nl
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 144, in f=
-old
-      return _refold_parse_tree(self, policy=3Dpolicy)
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 2631, in =
-_refold_parse_tree
-      encoded_part =3D part.fold(policy=3Dpolicy)[:-1] # strip nl
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 144, in f=
-old
-      return _refold_parse_tree(self, policy=3Dpolicy)
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 2631, in =
-_refold_parse_tree
-      encoded_part =3D part.fold(policy=3Dpolicy)[:-1] # strip nl
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 144, in f=
-old
-      return _refold_parse_tree(self, policy=3Dpolicy)
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 2631, in =
-_refold_parse_tree
-      encoded_part =3D part.fold(policy=3Dpolicy)[:-1] # strip nl
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 144, in f=
-old
-      return _refold_parse_tree(self, policy=3Dpolicy)
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 2652, in =
-_refold_parse_tree
-      part.ew_combine_allowed, charset)
-    File "/usr/lib/python3.7/email/_header_value_parser.py", line 2729, in =
-_fold_as_ew
-      first_part =3D to_encode[:text_space]
-  TypeError: slice indices must be integers or None or have an __index__ me=
-thod
-
-
-> ---
->  tests/vm/netbsd | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> This patchset implements qemu device model for enabling physical
+> LPI support and ITS functionality in GIC as per GICv3 specification.
+> Both flat table and 2 level tables are implemented.The ITS commands
+> for adding/deleting ITS table entries,trigerring LPI interrupts are
+> implemented.Translated LPI interrupt ids are processed by redistributor
+> to determine priority and set pending state appropriately before
+> forwarding the same to cpu interface.
+> The ITS feature support has been added to sbsa-ref platform as well as
+> virt platform,wherein the emulated functionality co-exists with kvm
+> kernel functionality.
 >
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index b9efc269d2..4cc58df130 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
->      name =3D "netbsd"
->      arch =3D "x86_64"
->=20=20
-> -    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD=
--9.1-amd64.iso"
-> -    csum =3D "65bddc95945991c3b2021f9c8ded7f34c25f0a7611b7aa15a15fe23399=
-e902307e926ae97fcd01dc1662ac67b5f6e4be643c6a2b581692ddcb616d30125066f9"
-> +    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.2/images/NetBSD=
--9.2-amd64.iso"
-> +    csum =3D "5ee0ea101f73386b9b424f5d1041e371db3c42fdd6f4e4518dc79c4a08=
-f31d43091ebe93425c9f0dcaaed2b51131836fe6774f33f89030b58d64709b35fda72f"
->      size =3D "20G"
->      pkgs =3D [
->          # tools
+> Changes in v5:
+>  - v4 review comments addressed
+>  - All kvm_unit_tests PASS
 
+You forgot to CC Eric.
 
---=20
-Alex Benn=C3=A9e
+Anyway, I've now reviewed v5.
+
+This is now getting pretty tight to get into 6.1 -- a v6 would have
+to be on list and reviewed by the end of the week at the latest.
+I think we might have to slip this to 6.2, I'm afraid.
+
+thanks
+-- PMM
 
