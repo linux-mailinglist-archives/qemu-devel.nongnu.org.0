@@ -2,80 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45623BBCD3
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:24:03 +0200 (CEST)
-Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CDC3BBCEC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:39:58 +0200 (CEST)
+Received: from localhost ([::1]:54772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Ndq-0006Yd-W2
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
+	id 1m0NtF-0003ge-SY
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0NaT-0003h1-O9
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:20:34 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0NaN-0001zA-MG
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:20:33 -0400
-Received: by mail-wr1-x430.google.com with SMTP id t6so11931940wrm.9
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=vhTYcA0DHzhRubP3wwWTxRAwzfuVCKyUoUseEbpOmyM=;
- b=MCWLaVMRW9iOOH0b0nZvXkOug6IWNwFO+h0NrmzvZzKaGH8yxCRKuUzhSnHl6QRvoq
- VE9IR/i3fsWtD9Vv6S40KIyEpsjlXoJQyr8Gw6cpwSkbnUg5c9nwW0LhoU/fwsJDZHMb
- fE5jA18u9wf3A+HAlT1pFPRjFwe3OAU9hbyuFFTq00r+zCyiFfw/ODD26lxODRc8Sqh9
- lJBQ/w7BBMSNZTmf/1rb9jaRfv184xpjoEbwCss3rOYHvrcQwCaBDZp1TTxFbv5ZO7xd
- szF096R38NUhTlc/8iEqlrKKQUy2hwmkKsPw6wRVtc28Xt71VX+9t12b0+bORvLRvrA5
- GvdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=vhTYcA0DHzhRubP3wwWTxRAwzfuVCKyUoUseEbpOmyM=;
- b=cOjtI4HsRvoRR7RnEwU9miCXRG4hnnc60bs0gc6mVjTtNKcVx11spgWfMWz52bWdHZ
- 6inoQF35ICecV2OJJQBRn/5CmV+u9UNYBKMh1hBtawpNgaD6JehmRM8TlBnxOTDDmNjE
- 3Ajm6VTloI+lYZMgWKdj96RgaCTbpjv80Xw/uXSPR7RWzGH0s6YSo+Z6dOOtdyyg4aq3
- GKwpzzcCAUE3yu72b1I1wN8pLuVP2tDidCpd7ru4Zik1bJooN55V9UtBxzhIwh6Hkm2j
- vbjXewLB/DnE+VEwWdAU+Wkgp4Q1QedQKe6tMdRRW67vEPaErV60GHGZ+pFmtiZlu0fN
- IfEg==
-X-Gm-Message-State: AOAM532sikVu9hR5CDYXbufE10Va26Hm5MwMv+EZ3GnCUqiUHrpDkqGG
- nU+ZH+N50cBP770P+/Ou1j7DHwxIB3VPJQ==
-X-Google-Smtp-Source: ABdhPJw5grStvaTYjyM9o7tth2dTaGwywLxqKQyuBvQCedmuCbdRyhh/yxVhJ+b27D7zJUlJ8kmyuA==
-X-Received: by 2002:a5d:62c2:: with SMTP id o2mr15573605wrv.234.1625487621676; 
- Mon, 05 Jul 2021 05:20:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i5sm12998119wrr.4.2021.07.05.05.20.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 05:20:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16D751FF7E;
- Mon,  5 Jul 2021 13:20:20 +0100 (BST)
-References: <20210623142245.307776-1-berrange@redhat.com>
- <20210623142245.307776-6-berrange@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 05/22] tests/docker: remove FEATURES env var from
- templates
-Date: Mon, 05 Jul 2021 13:20:15 +0100
-In-reply-to: <20210623142245.307776-6-berrange@redhat.com>
-Message-ID: <87y2al3qbf.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m0Nqp-0001Nc-FT
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:37:30 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:22540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m0Nql-0007Px-VL
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:37:26 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8A911745709;
+ Mon,  5 Jul 2021 14:37:21 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 65BDC745708; Mon,  5 Jul 2021 14:37:21 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Mon, 5 Jul 2021 13:54:51 +0200
+Subject: [PATCH] input/adb: Only include where needed
+To: qemu-devel@nongnu.org
+Message-Id: <20210705123721.65BDC745708@zero.eik.bme.hu>
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,30 +49,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The header hw/input/adb.h is included by some files that don't need
+it. Clean it up and include only where necessary.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/misc/macio/cuda.c         | 2 --
+ hw/misc/macio/pmu.c          | 3 ---
+ hw/misc/mos6522.c            | 1 -
+ hw/ppc/mac.h                 | 2 --
+ include/hw/misc/mac_via.h    | 1 +
+ include/hw/misc/macio/cuda.h | 1 +
+ include/hw/misc/macio/pmu.h  | 1 +
+ include/hw/misc/mos6522.h    | 3 +--
+ 8 files changed, 4 insertions(+), 10 deletions(-)
 
-> In preparation for switching to auto-generated dockerfiles, remove the
-> FEATURES env variable. The equivalent functionality can be achieved in
-> most cases by just looking for existance of a binary.
->
-> The cases which don't correspond to binaries are simply dropped because
-> configure/meson will probe for any requested feature anyway.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index edbd4186b2..584d81dc22 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -28,8 +28,6 @@
+ #include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+-#include "hw/input/adb.h"
+-#include "hw/misc/mos6522.h"
+ #include "hw/misc/macio/cuda.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
+diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+index 71924d4768..eb746aee34 100644
+--- a/hw/misc/macio/pmu.c
++++ b/hw/misc/macio/pmu.c
+@@ -33,10 +33,7 @@
+ #include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+-#include "hw/input/adb.h"
+ #include "hw/irq.h"
+-#include "hw/misc/mos6522.h"
+-#include "hw/misc/macio/gpio.h"
+ #include "hw/misc/macio/pmu.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index 1c57332b40..359bd64dea 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -25,7 +25,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/input/adb.h"
+ #include "hw/irq.h"
+ #include "hw/misc/mos6522.h"
+ #include "hw/qdev-properties.h"
+diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+index 22c8408078..3fad371701 100644
+--- a/hw/ppc/mac.h
++++ b/hw/ppc/mac.h
+@@ -30,8 +30,6 @@
+ #include "exec/memory.h"
+ #include "hw/boards.h"
+ #include "hw/sysbus.h"
+-#include "hw/input/adb.h"
+-#include "hw/misc/mos6522.h"
+ #include "hw/pci/pci_host.h"
+ #include "hw/pci-host/uninorth.h"
+ #include "qom/object.h"
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+index 3058b30685..ada338eff1 100644
+--- a/include/hw/misc/mac_via.h
++++ b/include/hw/misc/mac_via.h
+@@ -12,6 +12,7 @@
+ #include "exec/memory.h"
+ #include "hw/sysbus.h"
+ #include "hw/misc/mos6522.h"
++#include "hw/input/adb.h"
+ #include "qom/object.h"
+ 
+ 
+diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
+index a71deec968..8a6678c749 100644
+--- a/include/hw/misc/macio/cuda.h
++++ b/include/hw/misc/macio/cuda.h
+@@ -26,6 +26,7 @@
+ #ifndef CUDA_H
+ #define CUDA_H
+ 
++#include "hw/input/adb.h"
+ #include "hw/misc/mos6522.h"
+ #include "qom/object.h"
+ 
+diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
+index 78237d99a2..306e59ba6e 100644
+--- a/include/hw/misc/macio/pmu.h
++++ b/include/hw/misc/macio/pmu.h
+@@ -10,6 +10,7 @@
+ #ifndef PMU_H
+ #define PMU_H
+ 
++#include "hw/input/adb.h"
+ #include "hw/misc/mos6522.h"
+ #include "hw/misc/macio/gpio.h"
+ #include "qom/object.h"
+diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+index fc95d22b0f..862b3f5642 100644
+--- a/include/hw/misc/mos6522.h
++++ b/include/hw/misc/mos6522.h
+@@ -27,9 +27,8 @@
+ #ifndef MOS6522_H
+ #define MOS6522_H
+ 
+-#include "exec/memory.h"
++#include "exec/hwaddr.h"
+ #include "hw/sysbus.h"
+-#include "hw/input/adb.h"
+ #include "qom/object.h"
+ 
+ /* Bits in ACR */
+-- 
+2.21.4
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
