@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECC23BBB27
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 12:22:21 +0200 (CEST)
-Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33433BBB1A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 12:17:52 +0200 (CEST)
+Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Lk4-00038c-Eh
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 06:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39124)
+	id 1m0Lfj-0001zR-VT
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 06:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m0LTF-0004nq-T6
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:04:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56239)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m0Ldl-0008Fx-3k
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:15:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m0LTE-00022O-5G
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:04:57 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m0Ldg-0001P7-Gy
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:15:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625479495;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1625480143;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Z2948xhR33lh2dPamiqHvKd80y+jfnjQLdjcksrLuU=;
- b=Kg7D9F5n6Oczg526IaO/Y48iTzg19jhdxhLoVGSnQDO35lqhQTyooSz/E8Uyx7DaEpwfLP
- FezefqdvDcBY0TruI3teBKowStO5EGQ6twTtMjZloh0EhVejONdDuNyCCPQ/23oQx/yUvE
- n2VmZH+Y6ZAOboiIygd44wn8d3yn1ro=
+ bh=4vCC9r8Jgi/c6hRhg+4qY4ZxPJUbPA9/w2SLiwGXfnU=;
+ b=U8vqvq0qmnPJvRpuKJCSelui4Mbh+POUcmH7Y+UR5l7IeHqod7XCD+jQhPTnJvdrsVRXB1
+ raMShsh/I7+SbjuQBl/8xZTjQYePgw0kfFQ2YsnYn/NkvQDJB/N+6y5kZgD94gWlVK3oXI
+ L588NB4Ep6VJssIjw2KQPFJq4IVEJsE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-P5tIli_aP4-o2PAen0IZNQ-1; Mon, 05 Jul 2021 06:04:53 -0400
-X-MC-Unique: P5tIli_aP4-o2PAen0IZNQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-475-Z1XPTRcGNl22w2mkvV42jA-1; Mon, 05 Jul 2021 06:15:42 -0400
+X-MC-Unique: Z1XPTRcGNl22w2mkvV42jA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C2401835AC5;
- Mon,  5 Jul 2021 10:04:52 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-11.ams2.redhat.com
- [10.36.114.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D078E60C0F;
- Mon,  5 Jul 2021 10:04:46 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, berrange@redhat.com, linfeng23@huawei.com,
- groug@kaod.org, huangy81@chinatelecom.cn, lvivier@redhat.com,
- lizhijian@cn.fujitsu.com, peterx@redhat.com, vgoyal@redhat.com
-Subject: [PULL 19/19] migration/rdma: Use error_report to suppress errno
- message
-Date: Mon,  5 Jul 2021 11:02:35 +0100
-Message-Id: <20210705100235.157093-20-dgilbert@redhat.com>
-In-Reply-To: <20210705100235.157093-1-dgilbert@redhat.com>
-References: <20210705100235.157093-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F6296A7;
+ Mon,  5 Jul 2021 10:15:41 +0000 (UTC)
+Received: from redhat.com (ovpn-114-184.ams2.redhat.com [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C52960864;
+ Mon,  5 Jul 2021 10:15:40 +0000 (UTC)
+Date: Mon, 5 Jul 2021 11:15:37 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 2/7] docs: Stop calling the top level subsections of our
+ manual 'manuals'
+Message-ID: <YOLbySzbyAhmZWHw@redhat.com>
+References: <20210705095547.15790-1-peter.maydell@linaro.org>
+ <20210705095547.15790-3-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210705095547.15790-3-peter.maydell@linaro.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -82,51 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: leobras@redhat.com, stefanha@redhat.com, quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
+On Mon, Jul 05, 2021 at 10:55:42AM +0100, Peter Maydell wrote:
+> We merged our previous multiple-manual setup into a single Sphinx
+> manual, but we left some text in the various index.rst lines that
+> still calls the top level subsections separate 'manuals'.  Update
+> them to talk about "this section of the manual" instead, and remove
+> now-obsolete comments about how the index.rst files are the "top
+> level page for the 'foo' manual".
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  docs/devel/index.rst   | 5 +----
+>  docs/interop/index.rst | 7 ++-----
+>  docs/specs/index.rst   | 5 ++---
+>  docs/system/index.rst  | 5 +----
+>  docs/tools/index.rst   | 5 ++---
+>  docs/user/index.rst    | 5 +----
+>  6 files changed, 9 insertions(+), 23 deletions(-)
 
-Since the prior calls are successful, in this case a errno doesn't
-indicate a real error which would just make us confused.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-before:
-(qemu) migrate -d rdma:192.168.22.23:8888
-source_resolve_host RDMA Device opened: kernel name rxe_eth0 uverbs device name uverbs2, infiniband_verbs class device path /sys/class/infiniband_verbs/uverbs2, infiniband class device path /sys/class/infiniband/rxe_eth0, transport: (2) Ethernet
-rdma_get_cm_event != EVENT_ESTABLISHED after rdma_connect: No space left on device
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-Message-Id: <20210628071959.23455-1-lizhijian@cn.fujitsu.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/rdma.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/migration/rdma.c b/migration/rdma.c
-index d90b29a4b5..b6cc4bef4a 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -1006,7 +1006,7 @@ route:
-     if (cm_event->event != RDMA_CM_EVENT_ADDR_RESOLVED) {
-         ERROR(errp, "result not equal to event_addr_resolved %s",
-                 rdma_event_str(cm_event->event));
--        perror("rdma_resolve_addr");
-+        error_report("rdma_resolve_addr");
-         rdma_ack_cm_event(cm_event);
-         ret = -EINVAL;
-         goto err_resolve_get_addr;
-@@ -2544,7 +2544,7 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
-     }
- 
-     if (cm_event->event != RDMA_CM_EVENT_ESTABLISHED) {
--        perror("rdma_get_cm_event != EVENT_ESTABLISHED after rdma_connect");
-+        error_report("rdma_get_cm_event != EVENT_ESTABLISHED after rdma_connect");
-         ERROR(errp, "connecting to destination!");
-         rdma_ack_cm_event(cm_event);
-         goto err_rdma_source_connect;
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
