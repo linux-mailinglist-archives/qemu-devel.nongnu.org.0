@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EEA03BB76A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 09:03:06 +0200 (CEST)
-Received: from localhost ([::1]:55792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE673BB77A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 09:05:55 +0200 (CEST)
+Received: from localhost ([::1]:36050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0IdF-0002G0-7F
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 03:03:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57824)
+	id 1m0Ify-0007s3-Dt
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 03:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1m0IXt-0002Ia-SR
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:57:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54392)
+ id 1m0IXx-0002RI-15
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:57:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1m0IXs-0004BX-4T
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:57:33 -0400
+ id 1m0IXv-0004Dq-GI
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 02:57:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625468251;
+ s=mimecast20190719; t=1625468254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q68O80Ux4aQ5af2FGh1OP29gVptmkMB1He+LWmTZMbw=;
- b=ecbh3ASWEhcMA2FESTIWtNDHO8xsJgIGaPHNLUn7S8XMLxrR8L/uzCzVJaloWRgnFOm9BH
- C69tzNxbgdBhOffS0yY753QnRB/pXXebmopQSvuiQk/LqY6NLz2I8RqygLkQQFX01lzdlp
- KuYYd3wDvnduO33DU/Yxx/fu3BGsAGs=
+ bh=5Rbcrcv/g85RMKZq8FFrPPz28WGUqAMs3KM/ItTzdsw=;
+ b=WPAEiM4bMLhqXNqAqDynYLBLhO06wK3f49NRQcW5sCSlxzDHoSsBYVaZ6NRbrLMoIE4h72
+ NSz0NAMqq84vtyvHGiS7ksnBreOj2hmBPfgR7M7p+9abMpYpBYtU0rKer9u8qjcKAi2QCZ
+ XUr5cqB7eMPjZlGc+65PRrfAIbCcqX8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-L4lU1yZmOTuxNr6RZoEUdA-1; Mon, 05 Jul 2021 02:57:28 -0400
-X-MC-Unique: L4lU1yZmOTuxNr6RZoEUdA-1
+ us-mta-508-TnoB5hbQMA6s6Gp54euNBg-1; Mon, 05 Jul 2021 02:57:33 -0400
+X-MC-Unique: TnoB5hbQMA6s6Gp54euNBg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 238111084F56;
- Mon,  5 Jul 2021 06:57:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE35D362F8;
+ Mon,  5 Jul 2021 06:57:32 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-244.ams2.redhat.com
  [10.36.112.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE99F1002D71;
- Mon,  5 Jul 2021 06:57:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A2ED1002D71;
+ Mon,  5 Jul 2021 06:57:30 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 02/16] python: Reduce strictness of pylint's duplicate-code
- check
-Date: Mon,  5 Jul 2021 08:56:57 +0200
-Message-Id: <20210705065711.127119-3-eesposit@redhat.com>
+Subject: [PATCH v8 04/16] docs/devel/testing: add debug section to the QEMU
+ iotests chapter
+Date: Mon,  5 Jul 2021 08:56:59 +0200
+Message-Id: <20210705065711.127119-5-eesposit@redhat.com>
 In-Reply-To: <20210705065711.127119-1-eesposit@redhat.com>
 References: <20210705065711.127119-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -81,6 +81,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
  Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -88,44 +89,34 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+Introduce the "Debugging a test case" section, in preparation
+to the additional flags that will be added in the next patches.
 
-Pylint prior to 2.8.3 (We pin at >= 2.8.0) includes function and method
-signatures as part of its duplicate checking algorithm. This check does
-not listen to pragmas, so the only way to disable it is to turn it off
-completely or increase the minimum duplicate lines so that it doesn't
-trigger for functions with long, multi-line signatures.
-
-When we decide to upgrade to pylint 2.8.3 or greater, we will be able to
-use 'ignore-signatures = true' to the config instead.
-
-I'd prefer not to keep us on the very bleeding edge of pylint if I can
-help it -- 2.8.3 came out only three days ago at time of writing.
-
-See: https://github.com/PyCQA/pylint/pull/4474
-Signed-off-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: John Snow <jsnow@redhat.com>
 ---
- python/setup.cfg | 5 +++++
- 1 file changed, 5 insertions(+)
+ docs/devel/testing.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 85cecbb41b..0a57aca191 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -103,6 +103,11 @@ good-names=i,
- # Ignore imports when computing similarities.
- ignore-imports=yes
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4e42392810..9d6a8f8636 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -224,6 +224,14 @@ another application on the host may have locked the file, possibly leading to a
+ test failure.  If using such devices are explicitly desired, consider adding
+ ``locking=off`` option to disable image locking.
  
-+# Minimum lines number of a similarity.
-+# TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.
-+min-similarity-lines=6
++Debugging a test case
++-----------------------
++The following options to the ``check`` script can be useful when debugging
++a failing test:
 +
++* ``-d`` (debug) just increases the logging verbosity, showing
++  for example the QMP commands and answers.
 +
- [isort]
- force_grid_wrap=4
- force_sort_within_sections=True
+ Test case groups
+ ----------------
+ 
 -- 
 2.31.1
 
