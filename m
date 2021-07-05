@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079973BBC61
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 13:47:35 +0200 (CEST)
-Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8879A3BBC9B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:04:26 +0200 (CEST)
+Received: from localhost ([::1]:44232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0N4X-0000mr-PZ
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 07:47:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59650)
+	id 1m0NKr-0008WL-JX
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0N2U-0008Oi-KK
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:45:26 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:37777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0N2Q-0001jo-GM
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:45:26 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id y40so8188014ede.4
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 04:45:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zHwIszA0ugIbK3qsgCzmENvkgivHdwwz6vVgmtfRIag=;
- b=JmsiL0gJbLeNpirAzIXlh2+aycs/u033jwStJomHj8P4CcDFTUVgyZXxKQa0VzkSGR
- ZaLvQrEAqa01T+N1Qxh9RSCAkBYow48J8EGSGWmpE2TNOz7WjGTVY8wuChcPUx2Y6TCN
- VGOvq9LKU2iGQ+IIb5eRK/gS8+9y+hO3gSZHQ95s3fGLXlRWhmF6qneO+HZPt0Z1Ps00
- rx6dtjmNtl92nGJmobzyIegAVVWq8Ggr5g6ApPxXN/YZriQd5MRpFMgLqZAGE+Z5t463
- SudvSOPDALATQU6ZeBQtJWTOMACf6TeUoJTGIGBNGNAyLhRxYoVJrIPwSUrh6JUOHzuS
- 4oxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zHwIszA0ugIbK3qsgCzmENvkgivHdwwz6vVgmtfRIag=;
- b=lm8DguF02qC/70ozGUUbHmmQTd8t0lkLrHhD+xWsyF4ZwRiZQMANUEAGRA69L38w6m
- UfdRfyLaZkUMQ9lzxo1eNqI0TrE3rSh0K/7CKxAq4OLFFIfsyPmilVwc7fB/tf4R9TLi
- ISN/a3fZ5lL2Pm3/gsbpyDPy+YW/XLi+p/AfPrtVEisf71dmzWFSsk+L5Eul43DwVZCx
- XgOSLb2k3aIYtjit5M/B7FAmECbD8Z6qdU9YBJK5HpPh0kbMZmtbDELgvSQe+L0ewKbY
- +EM3f5ySg/GPH/56NmAmLdObPXWDorso7cOicvdGa0JwdjSyz+A1/RkZg6vv1SYpvmZ6
- rx7g==
-X-Gm-Message-State: AOAM531NvtGFLDrdqW/h0Kk87xAZW6GTNeNbC3aLafw6sPhsgBQ6Y+qR
- g/1ddMSwh9CE/fmTH2BvzfcJCQrADoee8fTzDQ022Q==
-X-Google-Smtp-Source: ABdhPJzOCwSDMxAl/xKQINqJTVUVsLIVBgNw/HNAGBMob4XZ8Vcm5TO6RT8RZ6PYMHrPK8QoC5VvMn2ykpYyW/X/lBs=
-X-Received: by 2002:a50:99cf:: with SMTP id n15mr16053633edb.146.1625485520617; 
- Mon, 05 Jul 2021 04:45:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210704205255.27124-1-marcel.apfelbaum@gmail.com>
-In-Reply-To: <20210704205255.27124-1-marcel.apfelbaum@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 12:44:42 +0100
-Message-ID: <CAFEAcA8ZPPpSNvb8W+HGXj4N4qQ-ApoePKhjMnBHkrKdrmRpwg@mail.gmail.com>
-Subject: Re: [PULL V2 0/3] PVRDMA queue
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+ (Exim 4.90_1)
+ (envelope-from <8d6cb100731c4d28535adbf2a3c2d1f29be3fef4@lizzy.crudebyte.com>)
+ id 1m0NGR-0004sb-JI
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:59:52 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <8d6cb100731c4d28535adbf2a3c2d1f29be3fef4@lizzy.crudebyte.com>)
+ id 1m0NGQ-0008KO-1P
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:59:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=84i14xJ2o2xziWoVMc2gOmTGKrmKv22i1pwABDGVdHA=; b=mNSCL
+ i5MsS01Imk5/O+D03zImfdrLgnWvLXoowg4kBrpaL4Im+ZXERAEN40hL6dtTYWZqrQENa2f6FEbW9
+ LHggFhPJV0W24dP3qXGBOdpDARjzetzhpgdYgKBCkUE+BufjkX+24lQJH6Prb56OB3/4RYL16LQ6Q
+ EUGz1V3DjmBmBw6Nm3eJmdmsNUlZeyoXzFKZkQ367h5KjH4AavVyOuPNsXPB+lZVKpUwcgOyo+Dg7
+ SN7M95YvQXGo6L4kDtso83RFOJyk1H8Kkf0ZVn/hDNWlijp+j9KnSoZiAoFcSZ4Oh5TXKmWSCKk3T
+ s+ryhRhD2NgYNtVUHEROhTmnCcGoQ==;
+Message-Id: <cover.1625483630.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Mon, 05 Jul 2021 13:13:51 +0200
+Subject: [PULL 0/8] 9p queue 2021-07-05
+To: qemu-devel@nongnu.org,
+    Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=8d6cb100731c4d28535adbf2a3c2d1f29be3fef4@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,41 +58,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, vv474172261@gmail.com,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 4 Jul 2021 at 21:52, Marcel Apfelbaum
-<marcel.apfelbaum@gmail.com> wrote:
->
-> The following changes since commit 9c2647f75004c4f7d64c9c0ec55f8c6f0739a8b1:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-07-02 11:46:32 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/marcel-apf/qemu tags/pvrdma-04-07-2021-v2
->
-> for you to fetch changes up to 66ae37d8cc313f89272e711174a846a229bcdbd3:
->
->   pvrdma: Fix the ring init error flow (CVE-2021-3608) (2021-07-04 22:47:51 +0300)
->
-> ----------------------------------------------------------------
-> PVRDMA queue
->
-> Several CVE fixes for the PVRDMA device.
->
+The following changes since commit 711c0418c8c1ce3a24346f058b001c4c5a2f0f81:
 
+  Merge remote-tracking branch 'remotes/philmd/tags/mips-20210702' into staging (2021-07-04 14:04:12 +0100)
 
+are available in the Git repository at:
 
-Applied, thanks.
+  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210705
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+for you to fetch changes up to 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
 
--- PMM
+  9pfs: reduce latency of Twalk (2021-07-05 13:03:16 +0200)
+
+----------------------------------------------------------------
+9pfs: misc patches
+
+* Add link to 9p developer docs.
+
+* Fix runtime check whether client supplied relative path is the export
+  root.
+
+* Performance optimization of Twalk requests.
+
+* Code cleanup.
+
+----------------------------------------------------------------
+Christian Schoenebeck (8):
+      9pfs: add link to 9p developer docs
+      9pfs: simplify v9fs_walk()
+      9pfs: fix not_same_qid()
+      9pfs: capture root stat
+      9pfs: drop fid_to_qid()
+      9pfs: replace not_same_qid() by same_stat_id()
+      9pfs: drop root_qid
+      9pfs: reduce latency of Twalk
+
+ MAINTAINERS                    |   1 +
+ hw/9pfs/9p-local.c             |   5 ++
+ hw/9pfs/9p-posix-acl.c         |   5 ++
+ hw/9pfs/9p-proxy.c             |   5 ++
+ hw/9pfs/9p-synth.c             |   5 ++
+ hw/9pfs/9p-util.c              |   5 ++
+ hw/9pfs/9p-xattr-user.c        |   5 ++
+ hw/9pfs/9p-xattr.c             |   5 ++
+ hw/9pfs/9p.c                   | 142 +++++++++++++++++++++++++++--------------
+ hw/9pfs/9p.h                   |   2 +-
+ hw/9pfs/codir.c                |   5 ++
+ hw/9pfs/cofile.c               |   5 ++
+ hw/9pfs/cofs.c                 |   5 ++
+ hw/9pfs/coth.c                 |   5 ++
+ hw/9pfs/coxattr.c              |   5 ++
+ hw/9pfs/virtio-9p-device.c     |   5 ++
+ hw/9pfs/xen-9p-backend.c       |   5 ++
+ tests/qtest/libqos/virtio-9p.c |   5 ++
+ tests/qtest/virtio-9p-test.c   |   5 ++
+ 19 files changed, 177 insertions(+), 48 deletions(-)
 
