@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36C23BBC16
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 13:21:31 +0200 (CEST)
-Received: from localhost ([::1]:42822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64723BBC81
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 13:58:13 +0200 (CEST)
+Received: from localhost ([::1]:33952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0MfK-0003L3-PE
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 07:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53864)
+	id 1m0NEq-0001Q4-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 07:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m0MeE-0002Vi-PO
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:20:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37671)
+ (Exim 4.90_1)
+ (envelope-from <8d6cb100731c4d28535adbf2a3c2d1f29be3fef4@lizzy.crudebyte.com>)
+ id 1m0NDO-0007nt-N4
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:56:42 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:45851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m0MeB-0006W3-Sk
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:20:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625484017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ezI86F2SjobDZyAeCnqA1jIC0qdYohKgoyBbjfGrNXc=;
- b=a1YKCJnrTz4dSdkXQmMsLo2lLTXzGDkyVe/+N0pk2V/LrbVgaFAH+SWjGa7uOJKEBGBzih
- J+UP75RaHeJrdM8eX82kl6LmQKpiDXQgJjp9cmLQ2kvF553zO9WEEP5F+vA9FOInin0iro
- Zy6N5ZrnOZzVgyo5U8+X3wdw2+gDRIY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-gXe5WVFwNQWybR6KO35vvQ-1; Mon, 05 Jul 2021 07:20:16 -0400
-X-MC-Unique: gXe5WVFwNQWybR6KO35vvQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 438125074C;
- Mon,  5 Jul 2021 11:20:15 +0000 (UTC)
-Received: from localhost (ovpn-112-39.ams2.redhat.com [10.36.112.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B23075D6A1;
- Mon,  5 Jul 2021 11:20:11 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v1] s390x/tcg: Fix m5 vs. m4 field for VECTOR MULTIPLY
- SUM LOGICAL
-In-Reply-To: <20210705090341.58289-1-david@redhat.com>
-Organization: Red Hat GmbH
-References: <20210705090341.58289-1-david@redhat.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Mon, 05 Jul 2021 13:20:09 +0200
-Message-ID: <87lf6lhus6.fsf@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <8d6cb100731c4d28535adbf2a3c2d1f29be3fef4@lizzy.crudebyte.com>)
+ id 1m0NDM-0006mm-SM
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 07:56:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=oqfP9fRU/7pe1i5RUiFmMbCPfg8ll6ihKFEWlWmJnn8=; b=JZymd
+ KikFN4mLW296tg8XSm9wrfAPnn3Ql3YeM9IMvXeBlchyil1louf17YPYeMHHvCkN6dI1B+Nz75hZJ
+ TKEEhxMW/FqwGQ+bof97hLkQ38hrd1EfrGHI7oHkBru+HTBo+GwVmUgE2pcm/V1yR4vRD5b8naso9
+ lc+iPlirxWSzsw370X8YVDkHDIsLvpBaEkVwJ/+xgD+I3auhL5zHXgCXmbdSLCB6Vy2hgH6pqoQv3
+ ejpN0IKx1Th2jKNMidusdTSIfteJUNkRewBQH1D0RCdgysMfStf/n+ydyWr/OtuDyG6v7SaEmxGPe
+ BWlrKzttmL+bUe9dStVAe4lHFHgNA==;
+Message-Id: <8d6cb100731c4d28535adbf2a3c2d1f29be3fef4.1625483630.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1625483630.git.qemu_oss@crudebyte.com>
+References: <cover.1625483630.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Mon, 05 Jul 2021 13:13:51 +0200
+Subject: [PULL 8/8] 9pfs: reduce latency of Twalk
+To: qemu-devel@nongnu.org,
+    Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=8d6cb100731c4d28535adbf2a3c2d1f29be3fef4@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,29 +60,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org,
- Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 05 2021, David Hildenbrand <david@redhat.com> wrote:
+As with previous performance optimization on Treaddir handling;
+reduce the overall latency, i.e. overall time spent on processing
+a Twalk request by reducing the amount of thread hops between the
+9p server's main thread and fs worker thread(s).
 
-> The element size is located in m5, not in m4. As there is no m4, qemu
-> currently crashes with an assertion, trying to lookup that field.
->
-> Reproduced and tested via GO, which ends up using VMSL once the
-> Vector enhancements facility is around for verifying certificates with
-> elliptic curves.
->
-> Reported-by: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/449
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/translate_vx.c.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+In fact this patch even reduces the thread hops for Twalk handling
+to its theoritical minimum of exactly 2 thread hops:
 
-Thanks, applied.
+main thread -> fs worker thread -> main thread
+
+This is achieved by doing all the required fs driver tasks altogether
+in a single v9fs_co_run_in_worker({ ... }); code block.
+
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <1a6701674afc4f08d40396e3aa2631e18a4dbb33.1622821729.git.qemu_oss@crudebyte.com>
+---
+ hw/9pfs/9p.c | 89 +++++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 70 insertions(+), 19 deletions(-)
+
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 7be07f2d68..2815257f42 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1705,9 +1705,9 @@ static void coroutine_fn v9fs_walk(void *opaque)
+     int name_idx;
+     V9fsQID *qids = NULL;
+     int i, err = 0;
+-    V9fsPath dpath, path;
++    V9fsPath dpath, path, *pathes = NULL;
+     uint16_t nwnames;
+-    struct stat stbuf;
++    struct stat stbuf, fidst, *stbufs = NULL;
+     size_t offset = 7;
+     int32_t fid, newfid;
+     V9fsString *wnames = NULL;
+@@ -1733,6 +1733,8 @@ static void coroutine_fn v9fs_walk(void *opaque)
+     if (nwnames) {
+         wnames = g_new0(V9fsString, nwnames);
+         qids   = g_new0(V9fsQID, nwnames);
++        stbufs = g_new0(struct stat, nwnames);
++        pathes = g_new0(V9fsPath, nwnames);
+         for (i = 0; i < nwnames; i++) {
+             err = pdu_unmarshal(pdu, offset, "s", &wnames[i]);
+             if (err < 0) {
+@@ -1753,39 +1755,85 @@ static void coroutine_fn v9fs_walk(void *opaque)
+ 
+     v9fs_path_init(&dpath);
+     v9fs_path_init(&path);
++    /*
++     * Both dpath and path initially point to fidp.
++     * Needed to handle request with nwnames == 0
++     */
++    v9fs_path_copy(&dpath, &fidp->path);
++    v9fs_path_copy(&path, &fidp->path);
+ 
+-    err = v9fs_co_lstat(pdu, &fidp->path, &stbuf);
++    /*
++     * To keep latency (i.e. overall execution time for processing this
++     * Twalk client request) as small as possible, run all the required fs
++     * driver code altogether inside the following block.
++     */
++    v9fs_co_run_in_worker({
++        if (v9fs_request_cancelled(pdu)) {
++            err = -EINTR;
++            break;
++        }
++        err = s->ops->lstat(&s->ctx, &dpath, &fidst);
++        if (err < 0) {
++            err = -errno;
++            break;
++        }
++        stbuf = fidst;
++        for (name_idx = 0; name_idx < nwnames; name_idx++) {
++            if (v9fs_request_cancelled(pdu)) {
++                err = -EINTR;
++                break;
++            }
++            if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
++                strcmp("..", wnames[name_idx].data))
++            {
++                err = s->ops->name_to_path(&s->ctx, &dpath,
++                                        wnames[name_idx].data, &path);
++                if (err < 0) {
++                    err = -errno;
++                    break;
++                }
++                if (v9fs_request_cancelled(pdu)) {
++                    err = -EINTR;
++                    break;
++                }
++                err = s->ops->lstat(&s->ctx, &path, &stbuf);
++                if (err < 0) {
++                    err = -errno;
++                    break;
++                }
++                stbufs[name_idx] = stbuf;
++                v9fs_path_copy(&dpath, &path);
++                v9fs_path_copy(&pathes[name_idx], &path);
++            }
++        }
++    });
++    /*
++     * Handle all the rest of this Twalk request on main thread ...
++     */
+     if (err < 0) {
+         goto out;
+     }
+-    err = stat_to_qid(pdu, &stbuf, &qid);
++
++    err = stat_to_qid(pdu, &fidst, &qid);
+     if (err < 0) {
+         goto out;
+     }
++    stbuf = fidst;
+ 
+-    /*
+-     * Both dpath and path initially poin to fidp.
+-     * Needed to handle request with nwnames == 0
+-     */
++    /* reset dpath and path */
+     v9fs_path_copy(&dpath, &fidp->path);
+     v9fs_path_copy(&path, &fidp->path);
++
+     for (name_idx = 0; name_idx < nwnames; name_idx++) {
+         if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
+-            strcmp("..", wnames[name_idx].data)) {
+-            err = v9fs_co_name_to_path(pdu, &dpath, wnames[name_idx].data,
+-                                       &path);
+-            if (err < 0) {
+-                goto out;
+-            }
+-
+-            err = v9fs_co_lstat(pdu, &path, &stbuf);
+-            if (err < 0) {
+-                goto out;
+-            }
++            strcmp("..", wnames[name_idx].data))
++        {
++            stbuf = stbufs[name_idx];
+             err = stat_to_qid(pdu, &stbuf, &qid);
+             if (err < 0) {
+                 goto out;
+             }
++            v9fs_path_copy(&path, &pathes[name_idx]);
+             v9fs_path_copy(&dpath, &path);
+         }
+         memcpy(&qids[name_idx], &qid, sizeof(qid));
+@@ -1821,9 +1869,12 @@ out_nofid:
+     if (nwnames && nwnames <= P9_MAXWELEM) {
+         for (name_idx = 0; name_idx < nwnames; name_idx++) {
+             v9fs_string_free(&wnames[name_idx]);
++            v9fs_path_free(&pathes[name_idx]);
+         }
+         g_free(wnames);
+         g_free(qids);
++        g_free(stbufs);
++        g_free(pathes);
+     }
+ }
+ 
+-- 
+2.20.1
 
 
