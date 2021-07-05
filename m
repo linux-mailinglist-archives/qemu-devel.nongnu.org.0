@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D028E3BBCD7
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:27:57 +0200 (CEST)
-Received: from localhost ([::1]:41510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45623BBCD3
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:24:03 +0200 (CEST)
+Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Nhc-0002mx-RD
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39172)
+	id 1m0Ndq-0006Yd-W2
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0NaV-0003hM-0e
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:20:37 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52096)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0NaL-0001yy-Mm
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m0NaT-0003h1-O9
  for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:20:34 -0400
-Received: by mail-wm1-x335.google.com with SMTP id n33so3793458wms.1
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:20:21 -0700 (PDT)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m0NaN-0001zA-MG
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:20:33 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t6so11931940wrm.9
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6gPMmqfd0GxTBLGXdGq3kwjL5iZPO7fHBJ4CRJajYow=;
- b=hxxMbcEocx4Rr2mLT21LKQY+ocdf4CIDdG1rWXDtixvYvvbE8ec79t1bmVOHV+vThI
- gMkqeIrHdRHLImlwVsPagr4XVSkmkvjhMTXt/OBa2bkjSLp6+4djidG0vmG+J95j6g4/
- yTSkT1oKTgXu9BwMjwrkXOc7Z1NKs/isOR1SryNj+bHxeMd8sxtKn8Z1Yj26waxCTT6a
- QU/NtHyULQkT8uHKa46ClRM+i8oNBb8bSekmfWcul2G9Hm/6/20w/mM8y4M2OFCrBSXZ
- lKeh1YTfRu3zMWAsKik+BnzpztpJnKm/8XOFzpdN8+Q/rdSUVsEhWcVVd5efYYyoxqkg
- PABw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vhTYcA0DHzhRubP3wwWTxRAwzfuVCKyUoUseEbpOmyM=;
+ b=MCWLaVMRW9iOOH0b0nZvXkOug6IWNwFO+h0NrmzvZzKaGH8yxCRKuUzhSnHl6QRvoq
+ VE9IR/i3fsWtD9Vv6S40KIyEpsjlXoJQyr8Gw6cpwSkbnUg5c9nwW0LhoU/fwsJDZHMb
+ fE5jA18u9wf3A+HAlT1pFPRjFwe3OAU9hbyuFFTq00r+zCyiFfw/ODD26lxODRc8Sqh9
+ lJBQ/w7BBMSNZTmf/1rb9jaRfv184xpjoEbwCss3rOYHvrcQwCaBDZp1TTxFbv5ZO7xd
+ szF096R38NUhTlc/8iEqlrKKQUy2hwmkKsPw6wRVtc28Xt71VX+9t12b0+bORvLRvrA5
+ GvdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6gPMmqfd0GxTBLGXdGq3kwjL5iZPO7fHBJ4CRJajYow=;
- b=PKjSBz9GPVaVniJ/de9sFPyUfxtos/185AkkSIZ5XIHSi21gHDx8iUV42QuujdkKS9
- 9k0UYza6dUdxmkbIrDTbUFRJ/QnaY9QTVljYDksFj9p/H8oIRmJWJ8hJ6fpDvVa5Gk9z
- nMTj8hjzpUDflycKAI9R1PYrDPAgHrdVHbdWPDyLBWRsY+QWb/S1DQxXsIWXRbrSxs5I
- /krnFI73Sm7JTPzYAHbj1tkps+RIscTh2WgfUldtSCNmlKWVapg0Pz6Abl+uc/UwlmkK
- Ss/KJaif+3B5uci6tIiankJFL/c2fKLFE9cj6UR5AW3phzwLOmlUZsNQMXeJ0uhx90A2
- r9SQ==
-X-Gm-Message-State: AOAM532fbkl05BudnxdUg8/fymtm4lKsYR1MYJ2Q1ZBAOVQ+c6H92Qoq
- tKvaqDa60MRlahMtU1p43DGGEg==
-X-Google-Smtp-Source: ABdhPJzYXpoKXtX/q5V5WGQh/d8Ex4d24PKg4sopLGJuQlZJQrFYeN+J7vqx49teShMFdiQiWMfwHQ==
-X-Received: by 2002:a05:600c:21c8:: with SMTP id
- x8mr14672248wmj.167.1625487620077; 
- Mon, 05 Jul 2021 05:20:20 -0700 (PDT)
-Received: from orth.archaic.org.uk ([81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f18sm13450406wru.53.2021.07.05.05.20.19
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=vhTYcA0DHzhRubP3wwWTxRAwzfuVCKyUoUseEbpOmyM=;
+ b=cOjtI4HsRvoRR7RnEwU9miCXRG4hnnc60bs0gc6mVjTtNKcVx11spgWfMWz52bWdHZ
+ 6inoQF35ICecV2OJJQBRn/5CmV+u9UNYBKMh1hBtawpNgaD6JehmRM8TlBnxOTDDmNjE
+ 3Ajm6VTloI+lYZMgWKdj96RgaCTbpjv80Xw/uXSPR7RWzGH0s6YSo+Z6dOOtdyyg4aq3
+ GKwpzzcCAUE3yu72b1I1wN8pLuVP2tDidCpd7ru4Zik1bJooN55V9UtBxzhIwh6Hkm2j
+ vbjXewLB/DnE+VEwWdAU+Wkgp4Q1QedQKe6tMdRRW67vEPaErV60GHGZ+pFmtiZlu0fN
+ IfEg==
+X-Gm-Message-State: AOAM532sikVu9hR5CDYXbufE10Va26Hm5MwMv+EZ3GnCUqiUHrpDkqGG
+ nU+ZH+N50cBP770P+/Ou1j7DHwxIB3VPJQ==
+X-Google-Smtp-Source: ABdhPJw5grStvaTYjyM9o7tth2dTaGwywLxqKQyuBvQCedmuCbdRyhh/yxVhJ+b27D7zJUlJ8kmyuA==
+X-Received: by 2002:a5d:62c2:: with SMTP id o2mr15573605wrv.234.1625487621676; 
+ Mon, 05 Jul 2021 05:20:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i5sm12998119wrr.4.2021.07.05.05.20.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 05:20:19 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 3/3] docs: Add skeletal documentation of highbank and midway
-Date: Mon,  5 Jul 2021 13:20:11 +0100
-Message-Id: <20210705122011.753-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210705122011.753-1-peter.maydell@linaro.org>
-References: <20210705122011.753-1-peter.maydell@linaro.org>
+ Mon, 05 Jul 2021 05:20:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 16D751FF7E;
+ Mon,  5 Jul 2021 13:20:20 +0100 (BST)
+References: <20210623142245.307776-1-berrange@redhat.com>
+ <20210623142245.307776-6-berrange@redhat.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v4 05/22] tests/docker: remove FEATURES env var from
+ templates
+Date: Mon, 05 Jul 2021 13:20:15 +0100
+In-reply-to: <20210623142245.307776-6-berrange@redhat.com>
+Message-ID: <87y2al3qbf.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,71 +88,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beniamino Galvani <b.galvani@gmail.com>, Rob Herring <robh@kernel.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add skeletal documentation for the highbank and midway machines.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/arm/highbank.rst | 19 +++++++++++++++++++
- docs/system/target-arm.rst   |  1 +
- MAINTAINERS                  |  1 +
- 3 files changed, 21 insertions(+)
- create mode 100644 docs/system/arm/highbank.rst
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-diff --git a/docs/system/arm/highbank.rst b/docs/system/arm/highbank.rst
-new file mode 100644
-index 00000000000..bb4965b367f
---- /dev/null
-+++ b/docs/system/arm/highbank.rst
-@@ -0,0 +1,19 @@
-+Calxeda Highbank and Midway (``highbank``, ``midway``)
-+======================================================
-+
-+``highbank`` is a model of the Calxeda Highbank (ECX-1000) system,
-+which has four Cortex-A9 cores.
-+
-+``midway`` is a model of the Calxeda Midway (ECX-2000) system,
-+which has four Cortex-A15 cores.
-+
-+Emulated devices:
-+
-+- L2x0 cache controller
-+- SP804 dual timer
-+- PL011 UART
-+- PL061 GPIOs
-+- PL031 RTC
-+- PL022 synchronous serial port controller
-+- AHCI
-+- XGMAC ethernet controllers
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index d316e684106..569983997cf 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -87,6 +87,7 @@ undocumented; you can get a complete list by running
-    arm/digic
-    arm/cubieboard
-    arm/emcraft-sf2
-+   arm/highbank
-    arm/musicpal
-    arm/gumstix
-    arm/nrf
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dbbd71958ac..91546c0e943 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -642,6 +642,7 @@ L: qemu-arm@nongnu.org
- S: Odd Fixes
- F: hw/arm/highbank.c
- F: hw/net/xgmac.c
-+F: docs/system/arm/highbank.rst
- 
- Canon DIGIC
- M: Antony Pavlov <antonynpavlov@gmail.com>
--- 
-2.20.1
+> In preparation for switching to auto-generated dockerfiles, remove the
+> FEATURES env variable. The equivalent functionality can be achieved in
+> most cases by just looking for existance of a binary.
+>
+> The cases which don't correspond to binaries are simply dropped because
+> configure/meson will probe for any requested feature anyway.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
