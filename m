@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5AF3BB65E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 06:30:52 +0200 (CEST)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AA93BB653
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 06:27:38 +0200 (CEST)
+Received: from localhost ([::1]:57852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0GFv-0008VR-Tm
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 00:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38908)
+	id 1m0GCm-0006Rz-2E
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 00:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0GBS-0003ek-D2
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:14 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48852)
+ id 1m0GBT-0003hs-PG
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0GBO-0002pd-5N
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:14 -0400
+ id 1m0GBP-0002qi-CU
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0GBJ-0004RY-3k
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 04:26:05 +0000
+ id 1m0GBL-0004Rz-9R
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 04:26:07 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6123D2E821B
- for <qemu-devel@nongnu.org>; Mon,  5 Jul 2021 04:25:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E2D152E82A4
+ for <qemu-devel@nongnu.org>; Mon,  5 Jul 2021 04:25:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 05 Jul 2021 04:17:23 -0000
-From: Launchpad Bug Tracker <1862887@bugs.launchpad.net>
+Date: Mon, 05 Jul 2021 04:17:24 -0000
+From: Launchpad Bug Tracker <1861884@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: audio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrs-hoy janitor th-huth
-X-Launchpad-Bug-Reporter: Chris Hoy (chrs-hoy)
+X-Launchpad-Bug-Commenters: janitor mvgijssel th-huth
+X-Launchpad-Bug-Reporter: Maarten (mvgijssel)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158149024287.24857.8410135131433041908.malonedeb@gac.canonical.com>
-Message-Id: <162545864331.12677.2460385377385781242.malone@loganberry.canonical.com>
-Subject: [Bug 1862887] Re: qemu does not load pulseaudio modules properly
+References: <158083099190.20144.2427615447806299744.malonedeb@wampee.canonical.com>
+Message-Id: <162545864465.12677.1368813344442742932.malone@loganberry.canonical.com>
+Subject: [Bug 1861884] Re: qemu socket multicast not working
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: 4a004bd75be8af7ee4c9714b66ea7d71f7b5e548
+X-Launchpad-Hash: 944b38eb8510e34467cd0b5707ffc9538015527f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862887 <1862887@bugs.launchpad.net>
+Reply-To: Bug 1861884 <1861884@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,97 +83,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862887
+https://bugs.launchpad.net/bugs/1861884
 
 Title:
-  qemu does not load pulseaudio modules properly
+  qemu socket multicast not working
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello,
+  Running two qemu vms on the same socket multicast address:
 
-  This is on Arch-linux(latest) and the qemu 4.2.0 version made from git cl=
-one https://github.com/spheenik/qemu.git
-  with:
-   ./configure --prefix=3D/opt/qemu-test --python=3D/usr/bin/python2 --targ=
-et-list=3Dx86_64-softmmu =
+  =C2=A0=C2=A0qemu-system-x86_64 -m 2048 -smp 2 -serial mon:stdio
+  =C2=A0=C2=A0=C2=A0=C2=A0-display none -vga none
+  =C2=A0=C2=A0=C2=A0=C2=A0-nodefaults -accel hax
+  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet0
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dmynet0
+  =C2=A0=C2=A0=C2=A0=C2=A0-netdev socket,id=3Dvlan,mcast=3D239.192.0.1:1235
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dvlan
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-pci
+  =C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dworker.qcow2,if=3Dvirtio
+  =C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dcloud-init.iso,format=3Draw,if=3Dvi=
+rtio
 
-  --audio-drv-list=3Dpa --disable-werror
-  added to the build.
+  The two machines have a static ip on the socket network interface,
+  192.168.100.11 and 192.168.100.12, but are unable to reach each other.
 
-  I've been workin on a passthrough Windows 10 vm this month and have been =
-steadily seeing some promising progress. My block/issue at the moment is in=
-tegrating the audio now that the GPU has been succesfully passed through. =
+  Result when using ping command
 
-  I've been going back and forth between the audio options for Pulseaudio a=
-nd cannot change the following issue:
-  pulseaudio: pa_context_connect() failed
-  pulseaudio: Reason: Connection refused
-  pulseaudio: Failed to initialize PA contextlibusb: error [udev_hotplug_ev=
-ent] ignoring udev action bind
-  I leave my current operable build followed by some of the options that I =
-have tried using to correct this despite the following errors not changing
+    PING 192.168.100.11 (192.168.100.11) 56(84) bytes of data.
+    From 192.168.100.12 icmp_seq=3D1 Destination Host Unreachable
+    From 192.168.100.12 icmp_seq=3D2 Destination Host Unreachable
+    From 192.168.100.12 icmp_seq=3D3 Destination Host Unreachable
 
-  This is my current operable build:
+  Is there additional configuration necessary on macos? Does this only
+  work on Linux? Is there additional configuration required inside of
+  the guest OS?
 
-  #!/bin/bash
-
-  vmname=3D"windows10vm"
-
-  if ps -ef | grep /opt/qemu-test/bin/qemu-system-x86_64 | grep -q multifun=
-ction=3Don; then
-  echo "A passthrough VM is already running." &
-  exit 1
-
-  else
-
-  /opt/qemu-test/bin/qemu-system-x86_64 \
-  -m 12G \
-  -drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../win2.i=
-mg \
-  -drive file=3D.../Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom \
-  -drive file=3D.../virtio-win-0.1.171.iso,index=3D2,media=3Dcdrom \
-  -boot order=3Ddc \
-  -bios /usr/share/ovmf/x64/OVMF_CODE.fd \
-  -name $vmname,process=3D$vmname \
-  -machine type=3Dq35,accel=3Dkvm,vmport=3Doff \
-  -cpu host,kvm=3Doff \
-  -smp 3,sockets=3D1,cores=3D3,threads=3D1 \
-  -device virtio-balloon \
-  -rtc clock=3Dhost,base=3Dlocaltime \
-  -vga none \
-  -nographic \
-  -serial none \
-  -parallel none \
-  -soundhw hda \
-  -usb \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device vfio-pci,host=3D...,multifunction=3Don \
-  -device vfio-pci,host=3D... \
-  -device e1000,netdev=3Dnet0 \
-  -netdev user,id=3Dnet0,hostfwd=3Dtcp::...-:22 \
-
-  Here's a list of setting combinations I had tried to resolve this:
-
-  #export QEMU_AUDIO_DRV=3Dpa
-  #QEMU_ALSA_DAC_BUFFER_SIZE=3D512 QEMU_ALSA_DAC_PERIOD_SIZE=3D170
-  #export QEMU_PA_SAMPLES=3D8192 =
-
-  #export QEMU_AUDIO_TIMER_PERIOD=3D99
-  #export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
-  #export QEMU_PA_SINK=3Dalsa_output.usb-C-Media_Electronics_Inc._USB_Audio=
-_Device-00.analog-stereo
-  #export QEMU_PA_SOURCE=3Dinput
-
-  -audiodev pa,id=3Dpa1,server=3Dserver=3D/run/user/1000/pulse/native
-
-  At best I have removed an XDG_RUNTIME_DIR error but other than that
-  this build has no audio compatability.
+  guest OS: Debian 10 (Buster)
+  host OS: macOS 10.15.2
+  qemu: 4.2.0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862887/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861884/+subscriptions
 
