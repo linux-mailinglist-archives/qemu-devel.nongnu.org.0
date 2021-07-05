@@ -2,96 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929753BB878
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 09:56:55 +0200 (CEST)
-Received: from localhost ([::1]:44070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 610153BB87A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 09:57:28 +0200 (CEST)
+Received: from localhost ([::1]:45544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0JTK-0000zS-Mb
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 03:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38306)
+	id 1m0JTr-0001z7-Fe
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 03:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1m0JSA-0008JM-J2
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 03:55:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25572)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m0JSX-0000RS-Ph; Mon, 05 Jul 2021 03:56:05 -0400
+Received: from mail-he1eur04on0710.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0d::710]:40161
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1m0JS6-0006E9-NU
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 03:55:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625471737;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hc+EvfpkN76H3flAsMkt8cO7yrQecgWP5WKvntu4kVo=;
- b=DfUFrCyLG+I3NFXqueLWiZ//I0arA2eHvj5YeMgczIob6j0yL30rxGr8NzcHp7X/fRbjDT
- AU7EozWnD4pbqAtVwjBagqin6UHVe/UEL95DmVZ2qEGXMTeGjgCKnKQevE5TK4cZCXtmqC
- MrJ+DzQaNqUnvFP0uno6nvwguVkcdgI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-IhvrJL-TPI6Pc-HHJC5e_A-1; Mon, 05 Jul 2021 03:55:34 -0400
-X-MC-Unique: IhvrJL-TPI6Pc-HHJC5e_A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p6-20020a5d45860000b02901258b6ae8a5so5931584wrq.15
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 00:55:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=hc+EvfpkN76H3flAsMkt8cO7yrQecgWP5WKvntu4kVo=;
- b=So79gA/Gufq/x1m4/KflJt8KtKFg+SKQqI9Zy0dhcH8+2o96V8zQauL6x5clpYmWR5
- fZoN/CbEl4JX2gMogmGC49iC20B29JDCMXhJak7MA3cWkKUwhSVim/zx8FWRq7cLJWMZ
- wRUAlZmMq20rvux0lE9631rZpX1BQqgVkIeEHc+iWdFApCdschNycgjKv+M64YTt4q7W
- WeqItshfbOvCys5ejt4aVLpfxwxhkGyTH+NahFCAErDzWnlD0jbvbZK4ULspj2qc0RD5
- pioxHcVKU65n0QVl9l0LPjQp9DzOpO/oSuDWOXz6AKHLS6TKruTmoFibxI3vF4+7i/FD
- xS/A==
-X-Gm-Message-State: AOAM532VfL3aVi+7IVrZ2LjTALotjI65SBb3Ok9rJw1GedWqLBn6HllB
- 5c7m+QLRrHi9uQDWaTMCbOOcfdtW5gEsQ9as4hSXklxffSV4VFpngDcOLPzrSIrwYM9ZryxPIq+
- 8tjKCWqskWIVq+q0=
-X-Received: by 2002:a1c:e207:: with SMTP id z7mr13645204wmg.92.1625471731754; 
- Mon, 05 Jul 2021 00:55:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLN1LAgB55rz3/QqqAQlocKmPk2CqO5dhU5GyD94K0+mWqSqOTa8ypXBN4Nd+belReHrPWjA==
-X-Received: by 2002:a1c:e207:: with SMTP id z7mr13645183wmg.92.1625471731491; 
- Mon, 05 Jul 2021 00:55:31 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id j17sm15166295wmi.41.2021.07.05.00.55.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Jul 2021 00:55:30 -0700 (PDT)
-Subject: Re: [PATCH v4 0/4] avocado-qemu: New SMMUv3 and intel IOMMU tests
-To: wainersm@redhat.com, eric.auger.pro@gmail.com, qemu-devel@nongnu.org,
- philmd@redhat.com, crosa@redhat.com
-References: <20210629143621.907831-1-eric.auger@redhat.com>
- <e59e1cf9-d22e-e5f2-dfce-9997d2f61e03@redhat.com>
- <a63cae4d-365f-2f48-2de1-be50197f6f4d@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <656d8d2a-9317-9a97-15c6-d385027e6eab@redhat.com>
-Date: Mon, 5 Jul 2021 09:55:29 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m0JSR-0006Uv-UR; Mon, 05 Jul 2021 03:56:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i+g+J1QOTMpbVJFQ/izG3XmL3/yqHZ5V5faXSyOgOqRwseAOSbPLO+sfCNgtXn8Bajsv1LZu7ApZEv9Fe7/sIeB+4Vf5jnNc+omr0a0L3HRM0dFNfpYqOeLd38fX5Wx5R9oA3FBjzPcmiZRQPXNmzMAEu4fgKNMmJrbm4WNkEyXL0s1lagXfliYqmQmkYnsoqwS50+5jUCyYyHC1EYezmr7sTJ3bHR6FBS7agC71gkVwE4ur6XIpbUw5J+iBl+QBq1qXeGtNN8lGsP19StmuyFU5CITQtuH56ggaPry9RLXHVYgyalRHgwvatiy9iq0dQ9vKxmIdki9YbhDNdTNuHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=twaREgH8uWlnM+PeWl0WtmxtsL4HEYnuQdmywYfoKWc=;
+ b=kPsTltXWybg90heqF4djFGrcFc/HJtGzq+UqPATDNZ8D6Ssd+0em1ZXyypYwj669Rqy4mxQbGA4k42TlcXnj2LdCtOM9mq3vIIXfFloTvn4qYkuWQRSrLIbBDTUMroZOVsF640FBlOn53RBnOdzksh2w1TQyAEFntNlKVl5Eav+2BNuf75vX8oAlX+sK/N1ABr15ugerq1f1PYOI8HWcsSFwJAdQyxfTVcZPfxru2+Ctogy/rk/uGOy0tBdhs2fRFkR3hh4hPXa455FH62HTToNZxKef3V+cr//OGiSLzJEWanYMUPAjvhu2WC4smFh24dj4Xfk9D8b67zbPUwzmpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=twaREgH8uWlnM+PeWl0WtmxtsL4HEYnuQdmywYfoKWc=;
+ b=LbNZ2bibP4IqYIqGV4U8rAy4DIw/5EtDpitA948f6Vlbk9IR9seO9xWiGQAWCCTcrOQPgtSN6zC//P9amePwXlajP+0X89EobKA2P1CHW3d6+CMfUG8XWYyGHBtmBuYfDTebzp0ut6NYlfzZ9o2hMXwU4wCOKjoq1FRUbNFGTwg=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6584.eurprd08.prod.outlook.com (2603:10a6:20b:33c::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.31; Mon, 5 Jul
+ 2021 07:55:55 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Mon, 5 Jul 2021
+ 07:55:55 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2] docs: document file-posix locking protocol
+To: Nir Soffer <nsoffer@redhat.com>
+Cc: qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Eric Blake <eblake@redhat.com>,
+ den@openvz.org, Daniel Berrange <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20210703135033.835344-1-vsementsov@virtuozzo.com>
+ <CAMRbyysqP+by8PrF7WQD4D2R7GXLwya4L1GMm8V8oHPS3AyJjw@mail.gmail.com>
+Message-ID: <712bc1ec-8048-8d65-6328-7270ad121c66@virtuozzo.com>
+Date: Mon, 5 Jul 2021 10:55:52 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <a63cae4d-365f-2f48-2de1-be50197f6f4d@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+ Thunderbird/78.11.0
+In-Reply-To: <CAMRbyysqP+by8PrF7WQD4D2R7GXLwya4L1GMm8V8oHPS3AyJjw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: PR0P264CA0072.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1d::36) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ PR0P264CA0072.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1d::36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.22 via Frontend Transport; Mon, 5 Jul 2021 07:55:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 988d841a-d058-45aa-3438-08d93f8a511b
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6584:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6584C021F736E30A5C990784C11C9@AS8PR08MB6584.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1hFkdyvDcUF2XIUxD6sNDYI9LytjysgUzJ0nAt2LM5aysO5uEefi0K9bWKxWfKmgeDsQrrDzb+/EnkmlFP1jDsBZITuoAvnJbXzHLm66BOvL17IR0HMW9aOMz6PTXGILKtPVoEVpFkxSvrdI9RlwocU8jLOLqNUbAMV8AtL/sfIMYDt8R8jy+PBnMboKEknz/TvX6OQ1ndlWNygS0ipzO7lUehd4sU3MsL4k00pe6IGXsVc9ZU2iDtq+00yKZ0o7YoDNwOGmK7aoKCPgKmh3o69nL/W3KOwdd7sEAKHDPkY50hgmSp3jfs6XLeAs9sa05ti5K8He6KitDZYqu0RMzJvCSsAEgwQ/tshP57GRTfsLTjsVzwXkE5tG41shMgrpImNYfClxYTKXOLaJzoG9RkyL033ItGJHjreAsTfUgfuUx9ipOh8yxkkO75D5GlS8tFLZd0J7mTrEHX7PxsrolmVPNobaZOE4O77QLV4PVW4jQeMu4BL5UhzTpVeGE5t+OV4+cBmsA8ULQP/YCmMWy2SP+4FxnOleDRzZbp0t9IPfv5GpImtgWGLfUT5/I3HGB03YyfNQHKOSpcJ2rWu7QOyQv4lmxhYyT3m0YFA33NE24STuaD/qBYvRv5gK7bx1Ae6LW62Z/wy4xzq308MLEbdLOveC0j2FbReOQglyiFI+Es7RicGAICi1cMGwNwT8rSaEpapIxkGVJ0eOtXPUNjT23lIoLQGdXkXbScfXKzhy8ISnLyKzTc3ualG/E06/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(346002)(396003)(366004)(39830400003)(36756003)(2906002)(54906003)(16576012)(316002)(38100700002)(83380400001)(4326008)(31686004)(38350700002)(86362001)(52116002)(5660300002)(31696002)(66556008)(956004)(8936002)(6486002)(6916009)(53546011)(8676002)(66476007)(478600001)(66946007)(186003)(16526019)(26005)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFJjQ29TUFFWR0pueDVxQkxvajMzbG5vK3ZXa2NsMjdJNVRnbWdYWWVRQnZB?=
+ =?utf-8?B?REJkdkMrczEzdkxNSVR4VHVYdDJ4Ulh0eW5BYWY5aml6NHhBZHgxWENpbHBz?=
+ =?utf-8?B?RDhXYWlobk9YdElUWHp4WitBdXlJT3ZOZ1Mwd2hKcXJaeTF0c0hXbzh2UmhY?=
+ =?utf-8?B?MWFtSmJWay9YSXNqdm1ZbTdHSFBhWDhYdy9TREZVNUpDblMvdEtzK3JMNFhH?=
+ =?utf-8?B?eTdSeDBmd21vK29VcDRYaDNQZE40a1h1Z3dPaC84YURIRTJ6R2dSTDE1a1l3?=
+ =?utf-8?B?RzFKRlVMdEVYWDNGYXhFckswRkh0cmZWQnFuQTVydlVSYi9mKzZWSXgzSHI3?=
+ =?utf-8?B?cHFOTTFpS281YUp6Y2ZuQUFYWkg3VU5Cc0NNc2J6VkxucC9pL2FlRFRGR29u?=
+ =?utf-8?B?WUoxT04xSHF2K3AzQllVck0rbnNkM013cm9FMWlTNXVoRGt5SFY3WE5GUWNH?=
+ =?utf-8?B?clZrZTFVcnBaa0hOZ3hpMVZpUjJjQ0N5eUROMmRSVlBuejRocWdyYnIwNWlJ?=
+ =?utf-8?B?b2p1dWFObXRZR21yUnA2Znl3MlFoMEl4RHA4YmoxWDk5bkxrVGRHeVBoelo4?=
+ =?utf-8?B?MlFDWWJ3T1dSTE9YVGh5Q1pGaUFxVnhiZVdDVWlBdmlLYmxEKytwOThyZWJr?=
+ =?utf-8?B?V2xnKzNCSVZGMHpGWGpndTJLNmoyaFdRcGVEVDVGQkl6ekJsTHdmNUdLNTFW?=
+ =?utf-8?B?a2ZLME9vVllsSlo5dThpMjZSK2RmT21zOVVGZHVWTWp5ajEyVHFqZU81WFM5?=
+ =?utf-8?B?bVZGUndoSXV1UmhWbklIdGpJbzk2b3VjVzlCTjZ3aU5YOCthQkd1Qm9FL1p2?=
+ =?utf-8?B?RlA5c05ldkVtTjIyUGdTQVBULzVpazUyR2pPcVZDOEovK1J0WnRkM1dzVmMy?=
+ =?utf-8?B?WGxOU2tuZ3BXZDVrQlBYZFdTQ2l3NVRHOThUeU5BcFQ1TkVmRDVuWTFaUmYy?=
+ =?utf-8?B?eGlvWFBpZzRFejJrMnBBbk1vWXlFdnErb0Q0MUl2WmlPdk1qOEVTNUk3SER5?=
+ =?utf-8?B?WEFPeERhNjMxTkNNOXhPYlFiQU4yWGl0dVlFQzFCM1p3d1Fua3dnRmoyN3Av?=
+ =?utf-8?B?MnZZbGJXRVZCVTZDVGdoaEU4WDM1SjBKNlN0SWR5QlZiM0t0MmtHZkZlQnVh?=
+ =?utf-8?B?SGRvaHFKV1VXOFhxMlBjYm9oWmFiQ3Fqc2FxekVlQ3dqT3JOR0NJd2JmazdC?=
+ =?utf-8?B?VjRsQzFCanprRHB4dVRBOTkrSytjS2gvKytVd2ZldXg0RHRQbHJCQXhneW9t?=
+ =?utf-8?B?U1pnbndXajhUUTkvaW5tOG5KNFBzaHN0NFoxckM4S2NwUEhoT0wwVHpOTWhZ?=
+ =?utf-8?B?aG5pNEwrb3luZzFzNlRnTVZQRU9HcTNiV0NsK1dYeGlZaUl1UVV0Z3A3S3lY?=
+ =?utf-8?B?VE9sMnRHb09aMDQ5bG5YaExVTlBqaFRybDlnM0JsMmVrRnBNeXVKdDU0OFVp?=
+ =?utf-8?B?WVR2aUN4SXBXcXUzNmEyb1JKMkFrOWRJUGt4d05XYXVLUDd3R25xdE9tejZE?=
+ =?utf-8?B?Mnl4c1B2UWxNeTYzcGFRU3gxVW4yYmJ1SU1RbENUZVJLSWZDMXNDa3NJK0ts?=
+ =?utf-8?B?MWlRdXR6OUkrTS9QRUtFMFBVNmcrSnZsa0w5WktLbzdKSU1aYjZmcVV0Ry94?=
+ =?utf-8?B?RUI2aVJnN0pxRVUweXF0dTFGbUJ4eVFxTnhZeXdkdGtLaHZkOFpRMUFEN2lz?=
+ =?utf-8?B?UXlyUXBhalhpZlJYMUxKcHVoMG9ieFNlcU1CRHZLUTVYU05Wc1RmRnlXWTZp?=
+ =?utf-8?Q?vU4M8UezLbmgvZlxw7c9g2l0kla3Ss7R7ASS7B2?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 988d841a-d058-45aa-3438-08d93f8a511b
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2021 07:55:54.9893 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LFCPegT+PJ9Ll4Ku9FbjIScGyfayXFMXQjuzn0hm3rz4O7CtzTKM0UR90PCc0EeQmkGxA+vRsMyudZpJ/80m5NmpQdIfS1rkhqavxh5mWj4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6584
+Received-SPF: pass client-ip=2a01:111:f400:fe0d::710;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,151 +149,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: wrampazz@redhat.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Wainer,
-
-On 7/1/21 1:22 AM, Wainer dos Santos Moschetta wrote:
-> Hi,
->
-> On 6/29/21 5:17 PM, Eric Auger wrote:
->> Hi Cleber, all,
+03.07.2021 17:50, Nir Soffer wrote:
+> On Sat, Jul 3, 2021 at 4:51 PM Vladimir Sementsov-Ogievskiy
+> <vsementsov@virtuozzo.com> wrote:
 >>
->> On 6/29/21 4:36 PM, Eric Auger wrote:
->>> This series adds ARM SMMU and Intel IOMMU functional
->>> tests using Fedora cloud-init images.
->>>
->>> ARM SMMU tests feature guests with and without RIL
->>> (range invalidation support) using respectively fedora 33
->>> and 31.  For each, we test the protection of virtio-net-pci
->>> and virtio-block-pci devices. Also strict=no and passthrough
->>> modes are tested. So there is a total of 6 tests.
->>>
->>> The series applies on top of Cleber's series:
->>> - [PATCH 0/3] Acceptance Tests: support choosing specific
->>>
->>> Note:
->>> - SMMU tests 2, 3, 5, 6 (resp. test_smmu_noril_passthrough and
->>> test_smmu_noril_nostrict) pass but the log reports:
->>> "WARN: Test passed but there were warnings during execution."
->>> This seems due to the lack of hash when fetching the kernel and
->>> initrd through fetch_asset():
->>> WARNI| No hash provided. Cannot check the asset file integrity.
->> I wanted to emphasize that point and wondered how we could fix that
->> issue. Looks a pity the tests get tagged as WARN due to a lack of sha1.
->> Any advice?
->
-> As Willian mentioned somewhere, to supress the WARN you can pass the
-> kernel and initrd checksums (sha1) to the fetch_asset() method.
->
-> Below is an draft implementation. It would need to fill out the
-> remaining checksums and adjust the `smmu.py` tests.
->
-> - Wainer
->
-> ----
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py
-> b/tests/acceptance/avocado_qemu/__init__.py
-> index 00eb0bfcc8..83637e2654 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -312,6 +312,8 @@ class LinuxDistro:
->                  {'checksum':
-> 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0',
->                  'pxeboot_url':
-> "https://archives.fedoraproject.org/pub/archive/fedora/"
-> "linux/releases/31/Everything/x86_64/os/images/pxeboot/",
-> +                'pxeboot_initrd_chksum':
-> 'dd0340a1b39bd28f88532babd4581c67649ec5b1',
-> +                'pxeboot_vmlinuz_chksum':
-> '5b6f6876e1b5bda314f93893271da0d5777b1f3c',
-where did you get the checksum? I don't see any at the URL? Did you
-generate it yourself?
+>> Let's document how we use file locks in file-posix driver, to allow
+>> external programs to "communicate" in this way with Qemu.
+> 
+> This makes the locking implementation public, so qemu can never change
+> it without breaking external programs. I'm not sure this is an issue since
+> even now qemu cannot change without breaking compatibility with older
+> qemu versions.
 
-Thanks
+Yes, that's my thought too. I think, that's enough to say that we actually have "public" protocol, just undocumented.
 
-Eric
->                  'kernel_params':
-> "root=UUID=b1438b9b-2cab-4065-a99a-08a96687f73c ro "
->                                "no_timer_check net.ifnames=0 "
->                                "console=tty1 console=ttyS0,115200n8"},
-> @@ -371,6 +373,16 @@ def pxeboot_url(self):
->          """Gets the repository url where pxeboot files can be found"""
->          return self._info.get('pxeboot_url', None)
->
-> +    @property
-> +    def pxeboot_initrd_chksum(self):
-> +        """Gets the pxeboot initrd file checksum"""
-> +        return self._info.get('pxeboot_initrd_chksum', None)
-> +
-> +    @property
-> +    def pxeboot_vmlinuz_chksum(self):
-> +        """Gets the pxeboot vmlinuz file checksum"""
-> +        return self._info.get('pxeboot_vmlinuz_chksum', None)
-> +
->      @property
->      def checksum(self):
->          """Gets the cloud-image file checksum"""
-> diff --git a/tests/acceptance/intel_iommu.py
-> b/tests/acceptance/intel_iommu.py
-> index bf8dea6e4f..a2f38ee2e9 100644
-> --- a/tests/acceptance/intel_iommu.py
-> +++ b/tests/acceptance/intel_iommu.py
-> @@ -55,8 +55,10 @@ def common_vm_setup(self, custom_kernel=None):
->
->          kernel_url = self.distro.pxeboot_url + 'vmlinuz'
->          initrd_url = self.distro.pxeboot_url + 'initrd.img'
-> -        self.kernel_path = self.fetch_asset(kernel_url)
-> -        self.initrd_path = self.fetch_asset(initrd_url)
-> +        self.kernel_path = self.fetch_asset(kernel_url,
-> + asset_hash=self.distro.pxeboot_vmlinuz_chksum)
-> +        self.initrd_path = self.fetch_asset(initrd_url,
-> + asset_hash=self.distro.pxeboot_initrd_chksum)
->
->      def run_and_check(self):
->          if self.kernel_path:
->
+Note, that breaking that compatibility may break shared migration, and migration without one host (which may be used for live upgrade of qemu).
+
+> 
+> Maybe a better way to integrate with external programs is to provide
+> a library/tool to perform locking?
+> 
+> For example we can have tool like:
+> 
+>     qemu-img lock [how] image command
+> 
+> This example will take the lock specified by "how" on image while "command"
+> is running.
+
+Having a parallel process, that takes locks "for us" is a pain. At least we should handle unexpected death of that process. Some filesystems may not allow opening file in two processes in some circumstances. And it just breaks normal operation with file locks: lock should be taken by the process that use it.
+
+Library has GPL limitation of use.
+
+> 
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
 >>
->> Best Regards
+>> v2: improve some descriptions
+>>      add examples
+>>      add notice about old bad POSIX file locks
 >>
->> Eric
->>> History:
->>> v3 -> v4:
->>> - I added Wainer's refactoring of KNOWN_DISTROS
->>> into a class (last patch) and took into account his comments.
->>>
->>> v2 -> v3:
->>> - Added Intel IOMMU tests were added. Different
->>> operating modes are tested such as strict, caching mode, pt.
->>>
->>> Best Regards
->>>
->>> Eric
->>>
->>> The series and its dependencies can be found at:
->>> https://github.com/eauger/qemu/tree/avocado-qemu-v4
->>>
->>> Eric Auger (3):
->>>    Acceptance Tests: Add default kernel params and pxeboot url to the
->>>      KNOWN_DISTROS collection
->>>    avocado_qemu: Add SMMUv3 tests
->>>    avocado_qemu: Add Intel iommu tests
->>>
->>> Wainer dos Santos Moschetta (1):
->>>    avocado_qemu: Fix KNOWN_DISTROS map into the LinuxDistro class
->>>
->>>   tests/acceptance/avocado_qemu/__init__.py | 118 +++++++++++++------
->>>   tests/acceptance/intel_iommu.py           | 115 +++++++++++++++++++
->>>   tests/acceptance/smmu.py                  | 132
->>> ++++++++++++++++++++++
->>>   3 files changed, 332 insertions(+), 33 deletions(-)
->>>   create mode 100644 tests/acceptance/intel_iommu.py
->>>   create mode 100644 tests/acceptance/smmu.py
->>>
->
+>>   docs/system/qemu-block-drivers.rst.inc | 186 +++++++++++++++++++++++++
+>>   1 file changed, 186 insertions(+)
+>>
+>> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
+>> index 16225710eb..74fb71600d 100644
+>> --- a/docs/system/qemu-block-drivers.rst.inc
+>> +++ b/docs/system/qemu-block-drivers.rst.inc
+>> @@ -909,3 +909,189 @@ some additional tasks, hooking io requests.
+>>     .. option:: prealloc-size
+>>
+>>       How much to preallocate (in bytes), default 128M.
+>> +
+>> +Image locking protocol
+>> +~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +QEMU holds rd locks and never rw locks. Instead, GETLK fcntl is used with F_WRLCK
+>> +to handle permissions as described below.
+>> +QEMU process may rd-lock the following bytes of the image with corresponding
+>> +meaning:
+>> +
+>> +Permission bytes. If permission byte is rd-locked, it means that some process
+>> +uses corresponding permission on that file.
+>> +
+>> +Byte    Operation
+>> +100     read
+>> +          Lock holder can read
+>> +101     write
+>> +          Lock holder can write
+>> +102     write-unchanged
+>> +          Lock holder can write same data if it sure, that this write doesn't
+>> +          break concurrent readers. This is mostly used internally in Qemu
+>> +          and it wouldn't be good idea to exploit it somehow.
+>> +103     resize
+>> +          Lock holder can resize the file. "write" permission is also required
+>> +          for resizing, so lock byte 103 only if you also lock byte 101.
+>> +104     graph-mod
+>> +          Undefined. QEMU may sometimes locks this byte, but external programs
+>> +          should not. QEMU will stop locking this byte in future
+>> +
+>> +Unshare bytes. If permission byte is rd-locked, it means that some process
+>> +does not allow the others use corresponding options on that file.
+>> +
+>> +Byte    Operation
+>> +200     read
+>> +          Lock holder don't allow read operation to other processes.
+>> +201     write
+>> +          Lock holder don't allow write operation to other processes. This
+>> +          still allows others to do write-uncahnged operations. Better not
+>> +          exploit outside of Qemu.
+>> +202     write-unchanged
+>> +          Lock holder don't allow write-unchanged operation to other processes.
+>> +203     resize
+>> +          Lock holder don't allow resizing the file by other processes.
+>> +204     graph-mod
+>> +          Undefined. QEMU may sometimes locks this byte, but external programs
+>> +          should not. QEMU will stop locking this byte in future
+>> +
+>> +Handling the permissions works as follows: assume we want to open the file to do
+>> +some operations and in the same time want to disallow some operation to other
+>> +processes. So, we want to lock some of the bytes described above. We operate as
+>> +follows:
+>> +
+>> +1. rd-lock all needed bytes, both "permission" bytes and "unshare" bytes.
+>> +
+>> +2. For each "unshare" byte we rd-locked, do GETLK that "tries" to wr-lock
+>> +corresponding "permission" byte. So, we check is there any other process that
+>> +uses the permission we want to unshare. If it exists we fail.
+>> +
+>> +3. For each "permission" byte we rd-locked, do GETLK that "tries" to wr-lock
+>> +corresponding "unshare" byte. So, we check is there any other process that
+>> +unshares the permission we want to have. If it exists we fail.
+>> +
+>> +Important notice: Qemu may fallback to POSIX file locks only if OFD locks
+>> +unavailable. Other programs should behave similarly: use POSIX file locks
+>> +only if OFD locks unavailable and if you are OK with drawbacks of POSIX
+>> +file locks (for example, they are lost on close() of any file descriptor
+>> +for that file).
+> 
+> Worth an example.
+> 
+>> +
+>> +Image locking examples
+>> +~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +Read-only, allow others to write
+>> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>> +
+>> +So, we want to read and don't care what other users do with the image. We only
+>> +need to lock byte 100. Operation is as follows:
+>> +
+>> +1. rd-lock byte 100
+>> +
+>> +.. highlight:: c
+>> +
+>> +    struct flock fl = {
+>> +        .l_whence = SEEK_SET,
+>> +        .l_start  = 100,
+>> +        .l_len    = 1,
+>> +        .l_type   = F_RDLCK,
+>> +    };
+>> +    ret = fcntl(fd, F_OFD_SETLK, &fl);
+>> +    if (ret == -1) {
+>> +        /* Error */
+>> +    }
+>> +
+>> +2. try wr-lock byte 200, to check that no one is against our read access
+>> +
+>> +.. highlight:: c
+>> +
+>> +    struct flock fl = {
+>> +        .l_whence = SEEK_SET,
+>> +        .l_start  = 200,
+>> +        .l_len    = 1,
+>> +        .l_type   = F_WRLCK,
+>> +    };
+>> +    ret = fcntl(fd, F_OFD_GETLK, &fl);
+>> +    if (ret != -1 && fl.l_type == F_UNLCK) {
+>> +        /*
+>> +         * We are lucky, nobody against. So, now we have RO access
+>> +         * that we want.
+>> +         */
+>> +    } else {
+>> +        /* Error, or RO access is blocked by someone. We don't have access */
+>> +    }
+>> +
+>> +3. Now we can operate read the data.
+>> +
+>> +4. When finished, release the lock:
+>> +
+>> +.. highlight:: c
+>> +
+>> +    struct flock fl = {
+>> +        .l_whence = SEEK_SET,
+>> +        .l_start  = 100,
+>> +        .l_len    = 1,
+>> +        .l_type   = F_UNLCK,
+>> +    };
+>> +    ret = fcntl(fd, F_OFD_SETLK, &fl);
+>> +
+>> +RW, allow others to read only
+>> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>> +
+>> +We want to read and write, and don't want others to modify the image.
+>> +So, let's lock bytes 100, 101, 201. Operation is as follows:
+>> +
+>> +1. rd-lock bytes 100 (read), 101 (write), 201 (don't allow others to write)
+>> +
+>> +.. highlight:: c
+>> +
+>> +    for byte in (100, 101, 201) {
+> 
+> Using python syntax here is a little bit confusing.
+> 
+>> +        struct flock fl = {
+>> +            .l_whence = SEEK_SET,
+>> +            .l_start  = byte,
+>> +            .l_len    = 1,
+>> +            .l_type   = F_RDLCK,
+>> +        };
+>> +        ret = fcntl(fd, F_OFD_SETLK, &fl);
+>> +        if (ret == -1) {
+>> +            /* Error */
+>> +        }
+>> +    }
+>> +
+>> +2. try wr-lock bytes 200 (to check that no one is against our read access),
+>> +   201 (no one against our write access), 101 (there are no writers currently)
+>> +
+>> +.. highlight:: c
+>> +
+>> +    for byte in (200, 201, 101) {
+>> +        struct flock fl = {
+>> +            .l_whence = SEEK_SET,
+>> +            .l_start  = byte,
+>> +            .l_len    = 1,
+>> +            .l_type   = F_WRLCK,
+>> +        };
+>> +        ret = fcntl(fd, F_OFD_GETLK, &fl);
+>> +        if (ret != -1 && fl.l_type == F_UNLCK) {
+>> +            /* We are lucky, nobody against. */
+>> +        } else {
+>> +            /*
+>> +             * Error, or feature we want is blocked by someone.
+>> +             * We don't have access.
+>> +             */
+>> +        }
+>> +    }
+>> +
+>> +3. Now we can read and write.
+>> +
+>> +4. When finished, release locks:
+>> +
+>> +.. highlight:: c
+>> +
+>> +    for byte in (100, 101, 201) {
+>> +        struct flock fl = {
+>> +            .l_whence = SEEK_SET,
+>> +            .l_start  = byte,
+>> +            .l_len    = 1,
+>> +            .l_type   = F_UNLCK,
+>> +        };
+>> +        fcntl(fd, F_OFD_SETLK, &fl);
+>> +    }
+>> --
+>> 2.29.2
+> 
+> Having this is great even if the locking protocol is not made public.
+> 
+> Nir
+> 
 
+
+-- 
+Best regards,
+Vladimir
 
