@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075653BBE9E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:06:57 +0200 (CEST)
-Received: from localhost ([::1]:57498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02FA3BBEA3
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:08:32 +0200 (CEST)
+Received: from localhost ([::1]:33420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0QBU-0007sp-3P
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49540)
+	id 1m0QD1-0002H7-Q8
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0QAY-0006vJ-Ux
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:05:59 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:41497)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m0QBx-0000cr-QD
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:07:25 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0QAX-000338-1J
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:05:58 -0400
-Received: by mail-ed1-x530.google.com with SMTP id m1so24013424edq.8
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:05:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m0QBw-0003vy-5u
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:07:25 -0400
+Received: by mail-wr1-x431.google.com with SMTP id p8so22495509wrr.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XFzxCojGEQxwidc9+pUIQcvzhiDcjWa9gDKDrpBWONw=;
- b=l6bjsqCK2NWFcv/qk2TMMSIxGSwsNFkKdzpNhPNHQEcejkwdZK/pT3xcoqPJo2T+Lj
- 6Lm3JSY31uq55obPIn6iD4DzOMoKMPrR1wWqVTQZPaRBALr77ak2z/k5XCpatpEvrWYx
- IJKWCXgLdT3rfZqo1NVJKjGbccYHq9Wr7wGP7xMaZ1ETbAtjLojS25ejxzghBEKI7GbX
- ijxeXqH5PU+dvam5HCn5MQDw5xck4hyYk0KbP9MAYfhDoIH/n6xul5f9oReeae2uD1NX
- JSlGb7omQR/CexUPtVsQoJq3y1suVu2pCAEqdGvSPwSUCxyLNV36cxtLxrGaxcOKpDEw
- OLzA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Z9/iKF4yfNtHizDszdfMdImhrh/AzD+0PI/yD/hmcuE=;
+ b=LDoQLVuEDuecDil0oMgFcYRri5JE7zoPQG8aPHAyDRzHY4FaYZu1OYCnOLJJCH42sk
+ Cd6RskBYDtrntndHAqD8LppU0Mmtclp2ifGX2tPyckQoRMeNrgoQtfqLN1Xrg7DPQ3tq
+ kUkizU6sl+/u2kPPfNbi1gh+lC+YAOp0QMKNQgxBODnsrXXvNcgJZhYU6AMQQlCOhla2
+ SXOMr979x30R2Jidklkk2QjxMTT5n7anWJIeRm0sV4dhPxpAmQz9vVaAmxfGUkP8y34g
+ 4vDB+vQKbb2oyUgNmZGUHdjqrvPQ5QCZ0C0SEJ//CQl974eGeLkeY5DVLiQGSW+ow7un
+ eK9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XFzxCojGEQxwidc9+pUIQcvzhiDcjWa9gDKDrpBWONw=;
- b=X0ywctgNgeGkJrANYWEFRwDIkdZWrecuuWQuvc9SNw+qJA8B5PWTs0e6tMQn//dNJu
- 0h8XQxYMi3I5ePNhMpyPIgNKx1fs++3+GNVJeIZZIT3vUVUTweJR5d4jeZCE487RLQL2
- wvtM76WVmqyzgh5XlVv3Vm3FLigit3i/+FWL0cLs2Cvhv3wMvjgbhkNlF2GQkZawkU7k
- 3P72hc09H42WeBXsHyFFgsUmUDx2E101rehIbWMAqKrKLDti2pbhusKknmkZXFiDqfdR
- I46zBlvR8k8gJSmnB52KKgC246yBkYtpx5BHp/yVeApafWB1iZA8tZRu65WQAhNTekRX
- 5pFQ==
-X-Gm-Message-State: AOAM530GUp4yUK5bst8seywpAhwoqpxPutgZKKawpIk9NdIAAQGYaTiw
- YJ8sJfl+qM9tCdNiTPiaEavQ35L7jb2g9swdL9FTbw==
-X-Google-Smtp-Source: ABdhPJw3lECPpqXeuTluekevLu4uJ5t9myUzmzlkf7GyRUeW0A0qpO021Uxup2DR5psQPDkOASRLVlgqZ23OQL6DTMY=
-X-Received: by 2002:a05:6402:3452:: with SMTP id
- l18mr12891544edc.251.1625497555135; 
- Mon, 05 Jul 2021 08:05:55 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Z9/iKF4yfNtHizDszdfMdImhrh/AzD+0PI/yD/hmcuE=;
+ b=DFMEHfee5MfuL2egP8+0SEfLbYl911kFZbsdPNrNk17GqfF9rFyxiZK4UYE223L4WR
+ +krcGK9i9joyAZSlTpn+cuFhnYYR5hAIS+I7UBs6dIOE2LV1A9LL98b394yGohSVx1Mj
+ MJTytaBJ5WjF3683ddgBY4CdOR//o4eterYKgSpavdiAPVKTShktYErk5zDZVZGjDrrk
+ NYnV1pORgyOmy0H4KuIf/N40ADzV0uDKYbZKCUpq2KAFaCedM/lOAjPS4LqyVSMLwWFW
+ NCkBLZ6FRBbO8UqLVskF1jpa4oHQ+ooNdFoe4MRsyjn3y5O9SgO2s0VJbGNJKN3e6Cmz
+ v/gQ==
+X-Gm-Message-State: AOAM5339/5cnQIyuMRh+3CZD0stGfYWeaIUgsMwTuY5SWecnx/vcSMBZ
+ cz0qQ72CLAJ80/BKLWzmu5ezZQ==
+X-Google-Smtp-Source: ABdhPJyOOsA+neX8aTqS1115y5+iSQkXgVohiqH9Ui7w1JXS6L9UOvjePHUjLRRqKrWKJQBeQfC/BA==
+X-Received: by 2002:adf:cd0e:: with SMTP id w14mr16442777wrm.237.1625497642830; 
+ Mon, 05 Jul 2021 08:07:22 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w3sm22402827wmi.24.2021.07.05.08.07.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 08:07:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E05611FF7E;
+ Mon,  5 Jul 2021 16:07:20 +0100 (BST)
+References: <YLRDeJV8qBrt9++c@humpty.home.comstyle.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Brad Smith <brad@comstyle.com>
+Subject: Re: [PATCH] tests/vm: update openbsd to release 6.9
+Date: Mon, 05 Jul 2021 16:07:14 +0100
+In-reply-to: <YLRDeJV8qBrt9++c@humpty.home.comstyle.com>
+Message-ID: <87o8bg3il3.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210630153156.9421-1-shashi.mallela@linaro.org>
-In-Reply-To: <20210630153156.9421-1-shashi.mallela@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 16:05:17 +0100
-Message-ID: <CAFEAcA8jp25Z6cJ47ZKiTSTJNGr5xCjgPffPuZmO2Jm5iOuxiQ@mail.gmail.com>
-Subject: Re: [PATCH v5 00/10] GICv3 LPI and ITS feature implementation
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,38 +86,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, Leif Lindholm <leif@nuviainc.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Jun 2021 at 16:31, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+
+Brad Smith <brad@comstyle.com> writes:
+
+> tests/vm: update openbsd to release 6.9
 >
-> This patchset implements qemu device model for enabling physical
-> LPI support and ITS functionality in GIC as per GICv3 specification.
-> Both flat table and 2 level tables are implemented.The ITS commands
-> for adding/deleting ITS table entries,trigerring LPI interrupts are
-> implemented.Translated LPI interrupt ids are processed by redistributor
-> to determine priority and set pending state appropriately before
-> forwarding the same to cpu interface.
-> The ITS feature support has been added to sbsa-ref platform as well as
-> virt platform,wherein the emulated functionality co-exists with kvm
-> kernel functionality.
->
-> Changes in v5:
->  - v4 review comments addressed
->  - All kvm_unit_tests PASS
+> Signed-off-by: Brad Smith <brad@comstyle.com>
 
-You forgot to CC Eric.
+Queued to testing/next, thanks.
 
-Anyway, I've now reviewed v5.
-
-This is now getting pretty tight to get into 6.1 -- a v6 would have
-to be on list and reviewed by the end of the week at the latest.
-I think we might have to slip this to 6.2, I'm afraid.
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
