@@ -2,69 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6053BC312
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 21:23:15 +0200 (CEST)
-Received: from localhost ([::1]:44464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B990B3BC31E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 21:24:22 +0200 (CEST)
+Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0UBX-00045X-13
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 15:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57404)
+	id 1m0UCb-0005i9-RV
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 15:24:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
- id 1m0U9v-0003Gz-6t
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 15:21:35 -0400
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935]:38547)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.j.zak@gmail.com>)
- id 1m0U9s-0004v6-SM
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 15:21:34 -0400
-Received: by mail-ua1-x935.google.com with SMTP id p13so7355219uao.5
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 12:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3DijmehmYlIc2K5vekFSuiDAisFlt1w8DJEtHhxX2h8=;
- b=jRSnLbmqwtg2vtnjfMrC+qJF73xwCjzlOnqV2wHelXVovsQl3BQc1IxOp23ryt+fxQ
- NFAnyoQDRz+iKgZgVWh29B8UynjwZoe9kiIntsRlmo/Jf2c1NWI8kXW7W9juY8YMSBn+
- 1GHqeTtSM4GeLUZ5r8nG0No2OmGNgTBdiBcn3x0sy021eYZtHGoJNBZtci1/6JnMDE+0
- EWqmRQpJrbXUlbzS+OgqlOQCBOwRmNamfmB6Ok4wF2hzjm2/gAcMR2dST7Af3fQlO5s9
- GXd9Ri9Ojj+NndiL9IpTqDVLYMLWrl0CAEMTkHNP5143RXODA40fJ52roOHhJeS5lH8V
- UnJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3DijmehmYlIc2K5vekFSuiDAisFlt1w8DJEtHhxX2h8=;
- b=sh1Y12m60vJ2T0sTUJSq1oZM23wF6XjcSbQpLev26Q8OBRgS1PCZ680v0B0FjMc5k5
- 9sEz33B66Rw00NXWAYPuZsEGOLBJpaxwxGN4mVAFDQx7AJTElf7fK9tLodb/5nSwj/gn
- pCxFqha6Q4k10oxphYI/TnbtE/SCAEjLavR6isd0i3laantl91oqgaJNEHJo409cLAqC
- 62Pi/jqggkBCy9geIxO6DxlHmzwsglA20HEbDPNBa5T7IpXNH3IoMvmzHFG7ImjxhaSU
- HNu3fklVWiZNO59IAv0c4QlK/EwqzLm1vwupjWB0PYZ4kVARbZOX6R7ZsfYa8x3zkUFJ
- EWIg==
-X-Gm-Message-State: AOAM533hnyQWWjYdni4ep/sW4RY4JJN9oQfmoc2DqjtJNHwqyBB+DhQZ
- EjvUvZEU4ULvkImc2pjpi3OejnDOaslqcZV+VSE=
-X-Google-Smtp-Source: ABdhPJwMKMuRa+q5suJxycRAaKdnY7J5hiykNAPyjpV6lx7rF9kBgBYk1GxC8MxdGl4xf0BH37+vKZfvFlOaf9dC2rw=
-X-Received: by 2002:ab0:48d1:: with SMTP id y17mr12031020uac.96.1625512891363; 
- Mon, 05 Jul 2021 12:21:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m0UA7-0003TV-J5; Mon, 05 Jul 2021 15:21:49 -0400
+Received: from mail-am6eur05on2115.outbound.protection.outlook.com
+ ([40.107.22.115]:41152 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m0UA4-00051M-J4; Mon, 05 Jul 2021 15:21:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dcGEEyiigPX21ko595JKjqWFa4wVNJVcd9sumsJvZIH8TOABj+KVXKfCGDXQ0c825BA0ObezBE1YTija84rYoyWnFHBdlSTdv4TrctdP/Z8Kt429B6BRvTAjZA0LtKq3CDaTKWCv+sKB7XM8ifJlJd5v/L/0ooxzqk6tOeqVZk98/nVvVh6+pMxkb4OxtAtb6YAjZKEVAnqVfLuux26GKok0EBIQ2BoqC2t6vLno50dKCDtAzhMJ0J3yevcrw9pqmIoL+yI7D6cWEn2j8yRlXc46uoBJSO04829nNC/VT7j93hLw5xxt1GS41NqRbZ4OcqHo/LGJPsoR6JVGJ+Y2TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aZ90Zw97CgJy5LWBAziXOMSVgZCv1/A2OMHdU3AmZaw=;
+ b=FyEwrCa6j9qh49IU8ZJLnoX07HYHufyaSiC42E2e7Q3iAIi2iKyfriOnA4gpr2gbC2JjM6wMyPnlSbyuQ6SW49j9Z449MLTnl9s8GrD0w9GJY6E8SFp2pS2pkAtkFGa3BZR/y7DK2rSYtF8cNqT2qJIXKvlBySSROcTv4iP2NBMYG0uz8TvHUfG98CWDQWQTUTYb9VWlhqsyIKmE+CYEKJLeW/a8LfpJK84qNW/fP4yTSdEID0TDcnVZCieL7qJxv4UQehIJvExJCTI0LgqRoGSAzrO+D8VFPDHd4s9lQK0nqHDgx1hxL+lcpsOLOxl9S9Pc4bBINtQ6Mp/MrTir3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aZ90Zw97CgJy5LWBAziXOMSVgZCv1/A2OMHdU3AmZaw=;
+ b=E2s4kZ5au5xpdkKXSGW2Xb7YYBl72fS1ggQ/lC/x1QdfDlexcaGdOzcH119Z3sozYxz/ITRQgfoAWGND2z/gPpFqz2f9HVZoI+WZEKcgd17S63/zzS+y6ZnNK0hr0Iaz01eiQ8uVwKlhyS6zdOFsxbcZHBwyYCctsJay39jbPfk=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5208.eurprd08.prod.outlook.com (2603:10a6:20b:eb::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.31; Mon, 5 Jul
+ 2021 19:21:41 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Mon, 5 Jul 2021
+ 19:21:41 +0000
+Subject: Re: [PATCH resend] block/replication.c: Properly attach children
+To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-block
+ <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+References: <20210704125814.369c9805@gecko.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <3b0ee882-e9ae-1e76-076a-f1a9ddd52f51@virtuozzo.com>
+Date: Mon, 5 Jul 2021 22:21:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210704125814.369c9805@gecko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: PR3P193CA0034.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:102:51::9) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <CAOakUfO=C+pgcwopdTCrsH3vtFuFWo8QQBU8kEjnE=_3q-mMYg@mail.gmail.com>
- <CAFEAcA9rAAuzCh3MVSnfrBWZSvHVrmMqgqJ8OX0=nQKDXoVPpg@mail.gmail.com>
- <CAOakUfMYsaPCWdTWodJX2c1oSV-z3+A7cQ_TAJ1a0OLSXt5nAg@mail.gmail.com>
-In-Reply-To: <CAOakUfMYsaPCWdTWodJX2c1oSV-z3+A7cQ_TAJ1a0OLSXt5nAg@mail.gmail.com>
-From: Richard Zak <richard.j.zak@gmail.com>
-Date: Mon, 5 Jul 2021 15:21:20 -0400
-Message-ID: <CAOakUfP01E38VfL-ZHtxn+iAurRnBda+_v8r=X6aQt_4uGEq=A@mail.gmail.com>
-Subject: Re: [PATCH 1/2 v3] Configure script for Haiku
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000077b38d05c6653698"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=richard.j.zak@gmail.com; helo=mail-ua1-x935.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ PR3P193CA0034.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:51::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.23 via Frontend Transport; Mon, 5 Jul 2021 19:21:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 364aefad-e395-45ae-6443-08d93fea1dff
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5208:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB520841BF0C94C1F10F39E70FC11C9@AM6PR08MB5208.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VQyFK0rD+XR7MgmVQj0BvEQdvW9yhfjcCVyjcZfEOuqirAFGLfGZQVKPd4uEnVV67UZ8y148vTJa+qqpHMgg5ghUGnTHQJDeAozF7z4KfpbhzxSMI+Gdlp9nJvAxFCHI4DWpAG4YmAMtDExRHSypipCPajdfGZwV4juet4GEPWSSU94j88WafTNl+UBCoHMyBFD488UlnB5sE+YntaurLCKn7rFfqfFbCw9okayR9zTtI7jm2keKCYkhIp+ifxhaYX86R4Izaii+GKNXd9rdtG5eCeClhxMaEwZvmwZwlqu0M1av7S8looGPrKE/yNWkMa+Ja/tdX4Aee68Gd3srnHgKjzKAVf627WFys6rS5YhyQTW77cqzUlsArfvh5igQs5m+2DYmipR6XwUvUU4Zv5xFrM9ElWyobtl4dBLFGfkjSe1r+ZEhCp8G3bg2LMC7/ID56mPW35EnbFOHcf/AXSCxrELETphJUcJgizMfLPj8TFAmVNrNqB4ajcePNSGzb1MYXD6B+xnBSxDZi1Xwu4Bk2hcG8wjyMsXcNMtoaD+GW9vd0QkWiuNjQ2dtA+fUtZPOJ+Df4TVsglYWF/a84WkDOEi88yJyv/nA9OXC8y7yBF63MaRFIPucrQyGNW+mdZRozc1vH2m1SO4hkZNYwGGTZ0OkPfr9YjiVNaAmMFxgvjZT8wwI1f9/sOpe+0O25oNCqTAWuwJxrkTPVhELJFSnQHCyvVq4Oh45MfGgspkXvoAp7S12re0QZqQZFw3pVUK0u1Z6EmjjanCHjHkR4A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(376002)(346002)(136003)(39830400003)(16526019)(66556008)(66476007)(4326008)(316002)(54906003)(110136005)(66946007)(186003)(86362001)(2616005)(52116002)(36756003)(38350700002)(16576012)(478600001)(31686004)(956004)(6486002)(38100700002)(2906002)(83380400001)(26005)(8676002)(8936002)(31696002)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?Windows-1252?Q?AgO358Og3od2el4fB5e6opyoZHtnxFOVP15EjCxSRHEhPf2YGfx3sR4b?=
+ =?Windows-1252?Q?joSU01XxAlx92wXUJ7oKyJ+dP4E45Bo/6I8SltzWbucJLOQ0xBzJ5FJ0?=
+ =?Windows-1252?Q?KZz9MO4YEusTcw4YXRpuIyK75BmnGZ9ghmFAM58JAqQLO+Z34ujHl9L+?=
+ =?Windows-1252?Q?QvWoZlImigIUweHXnhusT4SoS1QSPx6MFysqbznnJ8LZ2WDNiEitMFQD?=
+ =?Windows-1252?Q?FYOMQVzuPi0NOl8i/j4EOHbcno8JW7TRodWdc09WNb4zr7xq65JtOIUM?=
+ =?Windows-1252?Q?BtL3AVRruzBCID8fNpy2cIbGaTZcwp7iMhuY+ym8TkR//KjSdH2QdO37?=
+ =?Windows-1252?Q?PYl0eLfxYGRRtOjEVXGZ4F5fCF40+/9n0eT0NIuONuJ0tEnuoKqmksmO?=
+ =?Windows-1252?Q?59U8IiuYtn7vnNxJzjaGgqSmgfyLP5KGY9Buz/GTEvMy19HJGpkgYRO5?=
+ =?Windows-1252?Q?I04NWvE+77kv7robFlwaAnbtm2N/geSUDKFkJcIDIXntON9HR0I62x2a?=
+ =?Windows-1252?Q?5s1qjQTC/Auy0IYaO0TK11zG/vqoWQ6d5He+2/EDlwCn6Eh0FkJD5+Mm?=
+ =?Windows-1252?Q?RQVP8TOWvRr94ErPeGa/4dzHhgS/krTljsP/syuCeehPdtbc6XSm9oqP?=
+ =?Windows-1252?Q?90j0WR3dU/jOe8nhN60Gz4ey/blIxUKxMygm2uAsT2gbFAI1MkmiGIBn?=
+ =?Windows-1252?Q?4awN7M6Z6v0ZXfcZvtyFMFEEycSHfhgHaeQVuf2WY8UQ5QxJnYANlk6Q?=
+ =?Windows-1252?Q?dP9Qvh6c9cnZscMxbnYyznA8Uk5SvZp+GWiDKOVo4C9os2hkFX/wTruw?=
+ =?Windows-1252?Q?aJAQjAeSO91xcdHYkitpgSm8fYviOb6oJ9Z8oMipNRAB7U1XrZKienh6?=
+ =?Windows-1252?Q?LY37F1qzXcyQcqy4Fj/2Ky12K1hKEY3MSQt8gQD7t2bv9IGOzZd3VPAH?=
+ =?Windows-1252?Q?jTMZxdm8xljazpljjMkia25GERoYOuUjnMinNOXIwLRMM+bNDdU3YmZO?=
+ =?Windows-1252?Q?xetUqhhgRGeaqbYjkWFRvu81MH1oUW7lcbgLOnOjUSK+1pN77oHEV6aL?=
+ =?Windows-1252?Q?IcW9UvDxH5n0W+lves7944LpdN7d6ZCb3k15rpKWjwPSU9a2r6J02ZyP?=
+ =?Windows-1252?Q?kFRx2ZLPnuZv5KYaILLdX4Ii7Z1Zj8y8zcSKozbSGKQ1KAoDrD0vX5kg?=
+ =?Windows-1252?Q?LXeL0FGIFv587tN+L6y/spDBYAuVgDt75933u1HfFaP/JYC/46F+fB1y?=
+ =?Windows-1252?Q?/I+l2ZWKxKbtok3CK1APnYxnH6FsADHtuU8+t4mmL0e+Yw1+tWlGae3y?=
+ =?Windows-1252?Q?PjcYAoL2Lo94E5Mqf5Gi6UVAt/6ufeiXY4QwgUe3OfSnO9gshFAqpP8I?=
+ =?Windows-1252?Q?3zrgjTOdA9UsVj+Z8xK7jz7/lH7wCvn3QsI15ltF1Xsb9hWbV+hULQaU?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 364aefad-e395-45ae-6443-08d93fea1dff
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2021 19:21:40.9253 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U2C8UGMQlwvCTaAvCPIFl075z/7541tzwE9sga+DiB8/kovoINqSL7WP2blHiVlVUjTbGWdFlSWxMLYfNx/E2ZFnJx58sdIuHZy66CNYEro=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5208
+Received-SPF: pass client-ip=40.107.22.115;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,165 +139,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000077b38d05c6653698
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+04.07.2021 13:58, Lukas Straub wrote:
+> The replication driver needs access to the children block-nodes of
+> it's child so it can issue bdrv_make_empty to manage the replication.
+> However, it does this by directly copying the BdrvChilds, which is
+> wrong.
+> 
+> Fix this by properly attaching the block-nodes with
+> bdrv_attach_child().
+> 
+> Also, remove a workaround introduced in commit
+> 6ecbc6c52672db5c13805735ca02784879ce8285
+> "replication: Avoid blk_make_empty() on read-only child".
+> 
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> ---
+> 
+> Fix CC: email address so the mailing list doesn't reject it.
+> 
+>   block/replication.c | 94 +++++++++++++++++++++++++++++----------------
+>   1 file changed, 61 insertions(+), 33 deletions(-)
+> 
+> diff --git a/block/replication.c b/block/replication.c
+> index 52163f2d1f..426d2b741a 100644
+> --- a/block/replication.c
+> +++ b/block/replication.c
+> @@ -166,7 +166,12 @@ static void replication_child_perm(BlockDriverState *bs, BdrvChild *c,
+>                                      uint64_t perm, uint64_t shared,
+>                                      uint64_t *nperm, uint64_t *nshared)
+>   {
+> -    *nperm = BLK_PERM_CONSISTENT_READ;
+> +    if (c == bs->file) {
 
-The configure script doesn't test for presence of TPM device or support. It
-activates TPM support if not explicitly disabled, and disables TPM support
-if explicitly enabled on Windows. With TPM support compiled in, it causes
-an assertion failure on launch of qemu at util/async.c:669
-qemu_set_current_aio_context() !my_aiocontext. I haven't yet figured out
-why though, but disabling TPM might be best, and there's precedent for it
-as it's disabled if compiling for Windows.
+You can't rely on bs->file being set at this point. Look at replication_open() bs->file is set after bdrv_open_child() call finished. bdrv_open_child() among other things will call bdrv_refresh_perms() on parent bs.
 
-=C3=8En dum., 4 iul. 2021 la 14:29, Richard Zak <richard.j.zak@gmail.com> a
-scris:
+> +        *nperm = BLK_PERM_CONSISTENT_READ;
+> +    } else {
+> +        *nperm = 0;
+> +    }
+> +
+>       if ((bs->open_flags & (BDRV_O_INACTIVE | BDRV_O_RDWR)) == BDRV_O_RDWR) {
+>           *nperm |= BLK_PERM_WRITE;
+>       }
+> @@ -340,17 +345,7 @@ static void secondary_do_checkpoint(BDRVReplicationState *s, Error **errp)
+>           return;
+>       }
+>   
+> -    BlockBackend *blk = blk_new(qemu_get_current_aio_context(),
+> -                                BLK_PERM_WRITE, BLK_PERM_ALL);
+> -    blk_insert_bs(blk, s->hidden_disk->bs, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        blk_unref(blk);
+> -        return;
+> -    }
+> -
+> -    ret = blk_make_empty(blk, errp);
+> -    blk_unref(blk);
+> +    ret = bdrv_make_empty(s->hidden_disk, errp);
+>       if (ret < 0) {
+>           return;
+>       }
+> @@ -365,27 +360,35 @@ static void reopen_backing_file(BlockDriverState *bs, bool writable,
+>                                   Error **errp)
+>   {
+>       BDRVReplicationState *s = bs->opaque;
+> +    BdrvChild *hidden_disk, *secondary_disk;
+>       BlockReopenQueue *reopen_queue = NULL;
+>   
+> +    /*
+> +     * s->hidden_disk and s->secondary_disk may not be set yet, as they will
+> +     * only be set after the children are writable.
+> +     */
+> +    hidden_disk = bs->file->bs->backing;
+> +    secondary_disk = hidden_disk->bs->backing;
+> +
+>       if (writable) {
+> -        s->orig_hidden_read_only = bdrv_is_read_only(s->hidden_disk->bs);
+> -        s->orig_secondary_read_only = bdrv_is_read_only(s->secondary_disk->bs);
+> +        s->orig_hidden_read_only = bdrv_is_read_only(hidden_disk->bs);
+> +        s->orig_secondary_read_only = bdrv_is_read_only(secondary_disk->bs);
+>       }
+>   
+> -    bdrv_subtree_drained_begin(s->hidden_disk->bs);
+> -    bdrv_subtree_drained_begin(s->secondary_disk->bs);
+> +    bdrv_subtree_drained_begin(hidden_disk->bs);
+> +    bdrv_subtree_drained_begin(secondary_disk->bs);
+>   
+>       if (s->orig_hidden_read_only) {
+>           QDict *opts = qdict_new();
+>           qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
+> -        reopen_queue = bdrv_reopen_queue(reopen_queue, s->hidden_disk->bs,
+> +        reopen_queue = bdrv_reopen_queue(reopen_queue, hidden_disk->bs,
+>                                            opts, true);
+>       }
+>   
+>       if (s->orig_secondary_read_only) {
+>           QDict *opts = qdict_new();
+>           qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
+> -        reopen_queue = bdrv_reopen_queue(reopen_queue, s->secondary_disk->bs,
+> +        reopen_queue = bdrv_reopen_queue(reopen_queue, secondary_disk->bs,
+>                                            opts, true);
+>       }
+>   
+> @@ -393,8 +396,8 @@ static void reopen_backing_file(BlockDriverState *bs, bool writable,
+>           bdrv_reopen_multiple(reopen_queue, errp);
+>       }
+>   
+> -    bdrv_subtree_drained_end(s->hidden_disk->bs);
+> -    bdrv_subtree_drained_end(s->secondary_disk->bs);
+> +    bdrv_subtree_drained_end(hidden_disk->bs);
+> +    bdrv_subtree_drained_end(secondary_disk->bs);
+>   }
+>   
+>   static void backup_job_cleanup(BlockDriverState *bs)
+> @@ -451,6 +454,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+>       BlockDriverState *bs = rs->opaque;
+>       BDRVReplicationState *s;
+>       BlockDriverState *top_bs;
+> +    BdrvChild *active_disk, *hidden_disk, *secondary_disk;
+>       int64_t active_length, hidden_length, disk_length;
+>       AioContext *aio_context;
+>       Error *local_err = NULL;
+> @@ -488,32 +492,32 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+>       case REPLICATION_MODE_PRIMARY:
+>           break;
+>       case REPLICATION_MODE_SECONDARY:
+> -        s->active_disk = bs->file;
+> -        if (!s->active_disk || !s->active_disk->bs ||
+> -                                    !s->active_disk->bs->backing) {
+> +        active_disk = bs->file;
+> +        if (!active_disk || !active_disk->bs ||
+> +                                    !active_disk->bs->backing) {
+>               error_setg(errp, "Active disk doesn't have backing file");
+>               aio_context_release(aio_context);
+>               return;
+>           }
+>   
+> -        s->hidden_disk = s->active_disk->bs->backing;
+> -        if (!s->hidden_disk->bs || !s->hidden_disk->bs->backing) {
+> +        hidden_disk = active_disk->bs->backing;
+> +        if (!hidden_disk->bs || !hidden_disk->bs->backing) {
+>               error_setg(errp, "Hidden disk doesn't have backing file");
+>               aio_context_release(aio_context);
+>               return;
+>           }
+>   
+> -        s->secondary_disk = s->hidden_disk->bs->backing;
+> -        if (!s->secondary_disk->bs || !bdrv_has_blk(s->secondary_disk->bs)) {
+> +        secondary_disk = hidden_disk->bs->backing;
+> +        if (!secondary_disk->bs || !bdrv_has_blk(secondary_disk->bs)) {
+>               error_setg(errp, "The secondary disk doesn't have block backend");
+>               aio_context_release(aio_context);
+>               return;
+>           }
+>   
+>           /* verify the length */
+> -        active_length = bdrv_getlength(s->active_disk->bs);
+> -        hidden_length = bdrv_getlength(s->hidden_disk->bs);
+> -        disk_length = bdrv_getlength(s->secondary_disk->bs);
+> +        active_length = bdrv_getlength(active_disk->bs);
+> +        hidden_length = bdrv_getlength(hidden_disk->bs);
+> +        disk_length = bdrv_getlength(secondary_disk->bs);
+>           if (active_length < 0 || hidden_length < 0 || disk_length < 0 ||
+>               active_length != hidden_length || hidden_length != disk_length) {
+>               error_setg(errp, "Active disk, hidden disk, secondary disk's length"
+> @@ -523,10 +527,10 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+>           }
+>   
+>           /* Must be true, or the bdrv_getlength() calls would have failed */
+> -        assert(s->active_disk->bs->drv && s->hidden_disk->bs->drv);
+> +        assert(active_disk->bs->drv && hidden_disk->bs->drv);
+>   
+> -        if (!s->active_disk->bs->drv->bdrv_make_empty ||
+> -            !s->hidden_disk->bs->drv->bdrv_make_empty) {
+> +        if (!active_disk->bs->drv->bdrv_make_empty ||
+> +            !hidden_disk->bs->drv->bdrv_make_empty) {
+>               error_setg(errp,
+>                          "Active disk or hidden disk doesn't support make_empty");
+>               aio_context_release(aio_context);
+> @@ -541,6 +545,28 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+>               return;
+>           }
+>   
+> +        s->active_disk = active_disk;
+> +
+> +        bdrv_ref(hidden_disk->bs);
+> +        s->hidden_disk = bdrv_attach_child(bs, hidden_disk->bs, "hidden disk",
+> +                                           &child_of_bds, BDRV_CHILD_DATA,
+> +                                           &local_err);
+> +        if (local_err) {
+> +            error_propagate(errp, local_err);
+> +            aio_context_release(aio_context);
+> +            return;
+> +        }
+> +
+> +        bdrv_ref(secondary_disk->bs);
+> +        s->secondary_disk = bdrv_attach_child(bs, secondary_disk->bs,
+> +                                              "secondary disk", &child_of_bds,
+> +                                              BDRV_CHILD_DATA, &local_err);
+> +        if (local_err) {
+> +            error_propagate(errp, local_err);
+> +            aio_context_release(aio_context);
+> +            return;
+> +        }
+> +
+>           /* start backup job now */
+>           error_setg(&s->blocker,
+>                      "Block device is in use by internal backup job");
+> @@ -646,7 +672,9 @@ static void replication_done(void *opaque, int ret)
+>           s->stage = BLOCK_REPLICATION_DONE;
+>   
+>           s->active_disk = NULL;
+> +        bdrv_unref_child(bs, s->secondary_disk);
+>           s->secondary_disk = NULL;
+> +        bdrv_unref_child(bs, s->hidden_disk);
+>           s->hidden_disk = NULL;
+>           s->error = 0;
+>       } else {
+> 
 
->
-> =C3=8En dum., 4 iul. 2021 la 13:11, Peter Maydell <peter.maydell@linaro.o=
-rg> a
-> scris:
->
->> On Sun, 4 Jul 2021 at 17:44, Richard Zak <richard.j.zak@gmail.com> wrote=
-:
->> >
->> > Use system capstone, for which a port is maintained by Haiku. Disable
->> TPM which isn't supported.
->> >
->> > Signed-off-by: Richard Zak <richard.j.zak@gmail.com>
->> > ---
->> >  configure | 3 +++
->> >  1 file changed, 3 insertions(+)
->> >
->> > diff --git a/configure b/configure
->> > index e799d908a3..c928071f69 100755
->> > --- a/configure
->> > +++ b/configure
->> > @@ -358,6 +358,7 @@ oss_lib=3D""
->> >  bsd=3D"no"
->> >  linux=3D"no"
->> >  solaris=3D"no"
->> > +haiku=3D"no"
->> >  profiler=3D"no"
->> >  cocoa=3D"auto"
->> >  softmmu=3D"yes"
->> > @@ -769,6 +770,8 @@ SunOS)
->> >  ;;
->> >  Haiku)
->> >    haiku=3D"yes"
->> > +  tpm=3D"no"
->>
->> If the autodetect for tpm doesn't get this right, we should fix
->> the autodetect.
->>
->> As a general principle we prefer to avoid "do this specific thing
->> for this specific host OS" whenever we can, in favour of "test
->> whether we have whatever feature/function/library is required".
->>
->> thanks
->> -- PMM
->>
->
-> Totally makes sense, and I'll be mindful of that. In this case, the
-> configure script is enabling TPM support on Haiku, but I don't think it
-> breaks anything, but I haven't tested it yet.
->
-> --
-> Regards,
->
-> Richard J. Zak
-> Professional Genius
-> PGP Key: https://keybase.io/rjzak/key.asc
->
 
-
---=20
-Regards,
-
-Richard J. Zak
-Professional Genius
-PGP Key: https://keybase.io/rjzak/key.asc
-
---00000000000077b38d05c6653698
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">The configure script doesn&#39;t test for presence of TPM =
-device or support. It activates TPM support if not explicitly disabled, and=
- disables TPM support if explicitly enabled on Windows. With TPM support co=
-mpiled in, it causes an assertion failure on launch of qemu at util/async.c=
-:669 qemu_set_current_aio_context() !my_aiocontext. I haven&#39;t yet figur=
-ed out why though, but disabling TPM might be best, and there&#39;s precede=
-nt for it as it&#39;s disabled if compiling for Windows.<br></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=C3=8En dum., 4=
- iul. 2021 la 14:29, Richard Zak &lt;<a href=3D"mailto:richard.j.zak@gmail.=
-com">richard.j.zak@gmail.com</a>&gt; a scris:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=C3=8En dum=
-., 4 iul. 2021 la 13:11, Peter Maydell &lt;<a href=3D"mailto:peter.maydell@=
-linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; a scris:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 4 Jul 2021 =
-at 17:44, Richard Zak &lt;<a href=3D"mailto:richard.j.zak@gmail.com" target=
-=3D"_blank">richard.j.zak@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Use system capstone, for which a port is maintained by Haiku. Disable =
-TPM which isn&#39;t supported.<br>
-&gt;<br>
-&gt; Signed-off-by: Richard Zak &lt;<a href=3D"mailto:richard.j.zak@gmail.c=
-om" target=3D"_blank">richard.j.zak@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 configure | 3 +++<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/configure b/configure<br>
-&gt; index e799d908a3..c928071f69 100755<br>
-&gt; --- a/configure<br>
-&gt; +++ b/configure<br>
-&gt; @@ -358,6 +358,7 @@ oss_lib=3D&quot;&quot;<br>
-&gt;=C2=A0 bsd=3D&quot;no&quot;<br>
-&gt;=C2=A0 linux=3D&quot;no&quot;<br>
-&gt;=C2=A0 solaris=3D&quot;no&quot;<br>
-&gt; +haiku=3D&quot;no&quot;<br>
-&gt;=C2=A0 profiler=3D&quot;no&quot;<br>
-&gt;=C2=A0 cocoa=3D&quot;auto&quot;<br>
-&gt;=C2=A0 softmmu=3D&quot;yes&quot;<br>
-&gt; @@ -769,6 +770,8 @@ SunOS)<br>
-&gt;=C2=A0 ;;<br>
-&gt;=C2=A0 Haiku)<br>
-&gt;=C2=A0 =C2=A0 haiku=3D&quot;yes&quot;<br>
-&gt; +=C2=A0 tpm=3D&quot;no&quot;<br>
-<br>
-If the autodetect for tpm doesn&#39;t get this right, we should fix<br>
-the autodetect.<br>
-<br>
-As a general principle we prefer to avoid &quot;do this specific thing<br>
-for this specific host OS&quot; whenever we can, in favour of &quot;test<br=
->
-whether we have whatever feature/function/library is required&quot;.<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div><br clear=3D"all"><div>Totally makes sense, and I&#39;ll=
- be mindful of that. In this case, the configure script is enabling TPM sup=
-port on Haiku, but I don&#39;t think it breaks anything, but I haven&#39;t =
-tested it yet.<br></div><div><br></div>-- <br><div dir=3D"ltr"><div dir=3D"=
-ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>Regards,<br><br>Richa=
-rd J. Zak<br>Professional Genius</div><div>PGP Key:=C2=A0<a href=3D"https:/=
-/keybase.io/rjzak/key.asc" target=3D"_blank">https://keybase.io/rjzak/key.a=
-sc</a></div></div></div></div></div></div></div></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr=
-"><div>Regards,<br><br>Richard J. Zak<br>Professional Genius</div><div>PGP =
-Key:=C2=A0<a href=3D"https://keybase.io/rjzak/key.asc" target=3D"_blank">ht=
-tps://keybase.io/rjzak/key.asc</a></div></div></div></div></div></div></div=
->
-
---00000000000077b38d05c6653698--
+-- 
+Best regards,
+Vladimir
 
