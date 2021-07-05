@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF9F3BBE65
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 16:49:17 +0200 (CEST)
-Received: from localhost ([::1]:46780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C483BBE7A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 16:52:50 +0200 (CEST)
+Received: from localhost ([::1]:52054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0PuO-0006Pn-Ih
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 10:49:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
+	id 1m0Pxp-0001lQ-G3
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 10:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0PtC-0005Ab-9d
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:48:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53665)
+ id 1m0Pvf-0007z3-AA
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:50:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0Pt9-0008GO-Ix
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:48:01 -0400
+ id 1m0Pvd-0001Ty-Oh
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:50:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625496477;
+ s=mimecast20190719; t=1625496633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pAXECgbumfPeFXaTMksfsfnAP3Fbg9BJdBQOlFRgOQI=;
- b=epdTlYnSgMKWLFKx9qCQw3hV9DdTfVJgflbF4yJLXCkNSTeNqIOYSZHX6QjbuYcg1KvvVz
- hCox6YkOWSU0RTGMCTNnpG7fGnq8GaXjkwirRrh8w/WEcVBlZambUPhwLSpp0stgTQbJDx
- 4jv9y1V0LJ64k/Ryg3YNhM6iczeLtN8=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-IAc9TxPYOfutAIYwZvuoXg-1; Mon, 05 Jul 2021 10:47:56 -0400
-X-MC-Unique: IAc9TxPYOfutAIYwZvuoXg-1
-Received: by mail-vk1-f200.google.com with SMTP id
- s201-20020a1f5ed20000b0290257535f6335so2025833vkb.9
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:47:56 -0700 (PDT)
+ bh=M/9aJSQhjxb2aMzOXLWMskVFLQ8BF5yN6qQHTpd0WTw=;
+ b=K3mjPSREkBSr5ybnD6BBUhdpAIce3K6aU+heplKQi/WfQSfP4YilKNz93db/3sCSB/edED
+ hjp++ooQZ/sK/lTlVQQVcj6POpp4rUZkaV7gLV6VlHzOZS4zRbH5NmM8SbVp1zqpBTnq+W
+ Y4loDFq3ljH4q/urpDmvl6F0VoiLTJE=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-QmAlLjtvOsaar8F88tk-RA-1; Mon, 05 Jul 2021 10:50:32 -0400
+X-MC-Unique: QmAlLjtvOsaar8F88tk-RA-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ z4-20020a0561020204b0290288b88a5749so1464966vsp.11
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:50:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pAXECgbumfPeFXaTMksfsfnAP3Fbg9BJdBQOlFRgOQI=;
- b=EuhZona/HwQgqZsa1aKN9ETyzMazxF2cjsACkDnixLSNvvI4Aly7uDXQhunXnSOQAg
- ZBocrONGycxHYMg7F80l/xRGnK2LIL8gTpgJEfEID0WS3uXJE4/ylZy2QpoPS3jeyrlD
- GTQlcyKB3fMA7z61sqyz6RKXqPDdlIj4lzkOy606dXgebVM1Cmfnxrq15zD9SjXRCv1c
- C45kqIRoUTCdNkMpHQRsld0cpx7w16BWskCdCwM87f4GlfEwvN6q7JfoxoRsxg+emkj1
- 5YDKr67pTFGf3FYFtgKaW+tjMTCFyXsyhOzvjygtSDHQbddm4vErmQZBRTQEN35qKsek
- mliQ==
-X-Gm-Message-State: AOAM5320yg8hA38Xf/vfeG/sl0s3k7ap7uurA7RpufVVDXRq21DtJjPk
- /GuqgtKkQYZV4pKbZWuqa+MeRJPGQd0AZ9U5jndPdxI0vz+hXarUzpS2E00kADj/MOjB7n6ouB3
- 1Z1jH9oXuPMR1iamXr+9xouLE/Fn4vkg=
-X-Received: by 2002:a05:6102:3008:: with SMTP id
- s8mr1979361vsa.50.1625496475782; 
- Mon, 05 Jul 2021 07:47:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzytk0FTS6iUm1FoU1XQEB9ipZ+Nncm3U2Y/fyAnL9gZYN0M5Hettl5lCYrl8FWgtFkJ/OWLMVlHy3KqS5bNdo=
-X-Received: by 2002:a05:6102:3008:: with SMTP id
- s8mr1979354vsa.50.1625496475692; 
- Mon, 05 Jul 2021 07:47:55 -0700 (PDT)
+ bh=M/9aJSQhjxb2aMzOXLWMskVFLQ8BF5yN6qQHTpd0WTw=;
+ b=DAUT3xOSJacIzpYFat++tnlfgY9YuslRewzC39AodGzUYfP9UnyKb2dPrvcDzrdXC1
+ tBOiQx5C/vYgo1cLu7lRoBm62VuR1pJTlZsFyHJ2hMuIpfVcmrVn78RkNojV/9ntm0cK
+ UlB+z5hkpZEBWWFgS7k3SbVDDKQHwOK38QgPO/vXbHELhRImuPiJF1dGLdEWp6dZX5IU
+ FuFJTJuZYt2yCAD03iKPQ2iWWEeM9Ii4Bv+gU2VeojhL856HAM3bpfXZapJCt3L0XVe8
+ u4IuoDwt/ZWKBWL4NxtPUujp9CgGq9Vz3Xixv/mY1TwpRNyJD0Vlwd1Bcx8RjAjvFsS7
+ 4O7g==
+X-Gm-Message-State: AOAM531HFSNQGp0lcaAqcuPn1Eua36FxhKHJBAQYLI+rJdC6vz1pNtEN
+ +pRf0DsOelhuj8n4WfbN0KJz1diWTiaBDajM8jEVH1kykIJ6nR5gf+5262T3SxzszcLF4peqV8G
+ 03qzGfXT9xfDvIxHVrODo6tgxQFuQgwo=
+X-Received: by 2002:ab0:744c:: with SMTP id p12mr10507865uaq.113.1625496631861; 
+ Mon, 05 Jul 2021 07:50:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCPp5RgEJ7ROF/0TT/Djm3jwYwUr55236zRy+lhs9xS1LiRYclIqu6XpCElmNxxJ0ZHUO2YGvCCgtWhO3GLIg=
+X-Received: by 2002:ab0:744c:: with SMTP id p12mr10507852uaq.113.1625496631711; 
+ Mon, 05 Jul 2021 07:50:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210623091137.1156959-1-kraxel@redhat.com>
- <20210623091137.1156959-4-kraxel@redhat.com>
-In-Reply-To: <20210623091137.1156959-4-kraxel@redhat.com>
+References: <20210623085249.1151901-1-kraxel@redhat.com>
+ <20210623085249.1151901-3-kraxel@redhat.com>
+In-Reply-To: <20210623085249.1151901-3-kraxel@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 5 Jul 2021 11:47:29 -0300
-Message-ID: <CAKJDGDYJxGJzrERft9_s2MG+45mpHfG9L8TVudHFt7akr4agoA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ci: build & store guest agent msi
+Date: Mon, 5 Jul 2021 11:50:06 -0300
+Message-ID: <CAKJDGDZCDt1i2DENdYi54gd1e6OEwwE=8SsCadG+xCG0E6j_9g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ci: add libusb for windows builds
 To: Gerd Hoffmann <kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -99,18 +97,15 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 23, 2021 at 6:12 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Wed, Jun 23, 2021 at 5:53 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> Build guest agent windows msi install package in gitlab CI,
-> store the result as artifact.
+> Add CI coverage for usb passthrough on windows.
 >
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  .gitlab-ci.d/crossbuild-template.yml               | 3 ++-
->  .gitlab-ci.d/crossbuilds.yml                       | 2 ++
 >  tests/docker/dockerfiles/fedora-win32-cross.docker | 1 +
 >  tests/docker/dockerfiles/fedora-win64-cross.docker | 1 +
->  4 files changed, 6 insertions(+), 1 deletion(-)
+>  2 files changed, 2 insertions(+)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
