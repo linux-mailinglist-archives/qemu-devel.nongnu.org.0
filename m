@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F663BBB25
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 12:20:55 +0200 (CEST)
-Received: from localhost ([::1]:52550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9591C3BBB2D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 12:24:14 +0200 (CEST)
+Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Lif-0000WU-NL
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 06:20:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41926)
+	id 1m0Llt-0004uc-LE
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 06:24:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0LhE-0006rQ-Cf
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:19:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40004)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m0Lku-0004Ds-1Y
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:23:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0LhC-00040X-NI
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:19:24 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m0Lkq-00075q-PH
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 06:23:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625480361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1625480587;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oLaugi/JCkFkj/SEvb6LVJPAnlTRKuVk/jb9oBFS444=;
- b=RBo9mAy/vVnOLkNbmveTAq8QiqPdD08+1jqvGEf5y+bbtF1rOQRdPG75mkdm7FWTf2jNIr
- QD1w9xUe4iF1CTqxznulY2vZGzNRH83sV4ZcqXeLD3xdE1xVhBCkaDYFhfgPylzkui4G8X
- 25+TClewZb/VpDJNeMEMjMaambCGQo0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-wZtZRlccPraWPuxvFrwRGA-1; Mon, 05 Jul 2021 06:19:20 -0400
-X-MC-Unique: wZtZRlccPraWPuxvFrwRGA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n37-20020a05600c3ba5b02901fe49ba3bd0so3101152wms.1
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 03:19:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oLaugi/JCkFkj/SEvb6LVJPAnlTRKuVk/jb9oBFS444=;
- b=EjoKtK9tvL0dI43r+R1O60lq4AQVpJK1vPbrqwZL/0HU19n8pINSudDGzT9AQgDZnI
- qDAhOchiFPv4joH1YWmXEX4onoaxK+d9HrIl1rQhSBlq39X1ObHjqB1UXs8Sb6IBaPP5
- 5rDLt2oTJ8rw58ZeHPL38D9ndq/b8oxVR5boVpruHW1c/8L2XwVykEqtRHH40zio+ksM
- Ox3w0CMY/g4pXFVdRyC+Xoxur7hvZA9CRts1ptSFuBmQEXyrr0WTT54mZHgg5+UqQjMt
- PKoD0zGJzLl+58S/ZX/ks+7r1OOsjoRqku63i6fo79rtFthwDwyDtbvEYWpm15yq6Q35
- Nk3Q==
-X-Gm-Message-State: AOAM531CVoY32LDehQFITe99wfi4Mj3VN2sE7WMwO8TjozoYzaAXtocu
- fuQaA17WObGWohIkAiCw35yhn1JVFuf9JhaKZzMSOTL4tFkFsSARkee8lDDltPtqBm1IElig8ky
- UDr6V9ChPstfdSSM=
-X-Received: by 2002:adf:8061:: with SMTP id 88mr14660754wrk.233.1625480359445; 
- Mon, 05 Jul 2021 03:19:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6MVxwz7Rs8wDCBmQHO90MNrXm4Q9LuBdt+UST6Kqzd73xjL0FHIHoklQsktZ8ZxBrIpGG+A==
-X-Received: by 2002:adf:8061:: with SMTP id 88mr14660740wrk.233.1625480359295; 
- Mon, 05 Jul 2021 03:19:19 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id l16sm22436255wmj.47.2021.07.05.03.19.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Jul 2021 03:19:18 -0700 (PDT)
-Subject: Re: [PATCH 7/7] docs: Add QEMU version information to HTML footer
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+ bh=EhwVemUMzVmeTT3N7S0LDn819WKpLJXDZ/VkJk09S3A=;
+ b=PuMvl8h4+7hTsvFyXw2fhL0rFQ5ACUiDK6SS+t+FHXEHH0szF4lo3XcabYDi/vgi8THBTc
+ BNFVO6++IusCqfsL8Vwi3wSFDw2qq6RsLH+mQX95VO3WcYURYVerY+sucC30ct96jHWmlp
+ EjmqQTDp9xo5y/91mpsd04QIYe+6ENo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-JGDCT59-PXiu5rizXYhEYA-1; Mon, 05 Jul 2021 06:23:06 -0400
+X-MC-Unique: JGDCT59-PXiu5rizXYhEYA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91AAA802C87;
+ Mon,  5 Jul 2021 10:23:05 +0000 (UTC)
+Received: from redhat.com (ovpn-114-184.ams2.redhat.com [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 85CFD5D6CF;
+ Mon,  5 Jul 2021 10:23:04 +0000 (UTC)
+Date: Mon, 5 Jul 2021 11:23:01 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/7] docs: Remove "Contents:" lines from top-level
+ subsections
+Message-ID: <YOLdhcAhaEjdrj0t@redhat.com>
 References: <20210705095547.15790-1-peter.maydell@linaro.org>
- <20210705095547.15790-8-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <73ffe4b5-0f8f-cd23-e5be-b629a964128e@redhat.com>
-Date: Mon, 5 Jul 2021 12:19:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210705095547.15790-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210705095547.15790-8-peter.maydell@linaro.org>
+In-Reply-To: <20210705095547.15790-4-peter.maydell@linaro.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,21 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/21 11:55 AM, Peter Maydell wrote:
-> Add a line to the HTML document footer mentioning the QEMU version.
-> The version information is already provided in very faint text below
-> the QEMU logo in the sidebar, but that is rather inconspicious, so
-> repeating it in the footer seems useful.
+On Mon, Jul 05, 2021 at 10:55:43AM +0100, Peter Maydell wrote:
+> Since the top-level subsections aren't self-contained manuals
+> any more, the "Contents:" lines at the top of each of their
+> index pages look a bit odd; remove them.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  docs/_templates/footer.html | 2 ++
->  1 file changed, 2 insertions(+)
+>  docs/devel/index.rst   | 2 --
+>  docs/interop/index.rst | 2 --
+>  docs/specs/index.rst   | 2 --
+>  docs/system/index.rst  | 2 --
+>  docs/tools/index.rst   | 2 --
+>  docs/user/index.rst    | 2 --
+>  6 files changed, 12 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
