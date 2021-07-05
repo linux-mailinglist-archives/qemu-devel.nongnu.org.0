@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8473BB68A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 07:02:11 +0200 (CEST)
-Received: from localhost ([::1]:44730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD803BB688
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 07:01:48 +0200 (CEST)
+Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0GkE-0002Yu-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 01:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42660)
+	id 1m0Gjr-00028m-H6
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 01:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0Ger-0008Sr-8X; Mon, 05 Jul 2021 00:56:37 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50569 helo=ozlabs.org)
+ id 1m0Ges-0008TG-Gu; Mon, 05 Jul 2021 00:56:38 -0400
+Received: from ozlabs.org ([203.11.71.1]:58529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0Gep-0002Fb-A6; Mon, 05 Jul 2021 00:56:37 -0400
+ id 1m0Gep-0002Fc-Uv; Mon, 05 Jul 2021 00:56:38 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GJD191THgz9sW8; Mon,  5 Jul 2021 14:56:29 +1000 (AEST)
+ id 4GJD191kdLz9sXM; Mon,  5 Jul 2021 14:56:29 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625460989;
- bh=SgPSittSDbrqBzpyDAdMg5+oWTkJjDIRJ6nDdh189UQ=;
+ bh=znCPvsaG30plkYy6w8LmyzKWXlS23ny9jtpzagtTiXI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YXZjeXFVzml9UjD/3TjFxoRfvJPNSQk9tMWIZuzajmJls4/1dTmu7YeKQwA6mHlQe
- Krbn2UVBnBf727Ro0R6JlgxOqtU392yNlLF5AaWu93LZFA5EVbtQQ8jQ4ue6j4AOJQ
- LDvk9Upgopocwlrb1+7H+ClBz1T1yIg9R0u7Drgc=
-Date: Mon, 5 Jul 2021 14:55:46 +1000
+ b=Wh4lJkPF1D1k8MPpi/dhAhJaf1rEMSYEcb/rjCsABCswKu2vBMPQHkSdqLfiamUQD
+ TSVaCXRUUU3oNYdf+YreZfHT4hNUyXFvJjpJKRT6wt8/dxCthvU9wirtZcfRbWmZ3R
+ xw3IyMl6bugWfaoCbGTNjGqk/rYWMB1vJ69QTf58=
+Date: Mon, 5 Jul 2021 14:56:22 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 2/3] spapr: use DEVICE_UNPLUG_ERROR to report unplug
- errors
-Message-ID: <YOKQ0riCEt/4x23j@yekko>
+Subject: Re: [PATCH v3 3/3] memory_hotplug.c: send DEVICE_UNPLUG_ERROR in
+ acpi_memory_hotplug_write()
+Message-ID: <YOKQ9vN/DOIMBcbD@yekko>
 References: <20210621205907.244841-1-danielhb413@gmail.com>
- <20210621205907.244841-3-danielhb413@gmail.com>
+ <20210621205907.244841-4-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BV0e3ZZtPCexiDLc"
+ protocol="application/pgp-signature"; boundary="DcjfbPMhDcEXqRhi"
 Content-Disposition: inline
-In-Reply-To: <20210621205907.244841-3-danielhb413@gmail.com>
+In-Reply-To: <20210621205907.244841-4-danielhb413@gmail.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -60,32 +60,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- eblake@redhat.com, groug@kaod.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, armbru@redhat.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---BV0e3ZZtPCexiDLc
+--DcjfbPMhDcEXqRhi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 21, 2021 at 05:59:06PM -0300, Daniel Henrique Barboza wrote:
-> Linux Kernel 5.12 is now unisolating CPU DRCs in the device_removal
-> error path, signalling that the hotunplug process wasn't successful.
-> This allow us to send a DEVICE_UNPLUG_ERROR in drc_unisolate_logical()
-> to signal this error to the management layer.
+On Mon, Jun 21, 2021 at 05:59:07PM -0300, Daniel Henrique Barboza wrote:
+> MEM_UNPLUG_ERROR is deprecated since the introduction of
+> DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
+> MEM_UNPLUG_ERROR is pending.
 >=20
-> We also have another error path in spapr_memory_unplug_rollback() for
-> configured LMB DRCs. Kernels older than 5.13 will not unisolate the LMBs
-> in the hotunplug error path, but it will reconfigure them. Let's send
-> the DEVICE_UNPLUG_ERROR event in that code path as well to cover the
-> case of older kernels.
->=20
+> CC: Michael S. Tsirkin <mst@redhat.com>
+> CC: Igor Mammedov <imammedo@redhat.com>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/acpi/memory_hotplug.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+> index af37889423..fb9f4d2de7 100644
+> --- a/hw/acpi/memory_hotplug.c
+> +++ b/hw/acpi/memory_hotplug.c
+> @@ -8,6 +8,7 @@
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-events-acpi.h"
+>  #include "qapi/qapi-events-machine.h"
+> +#include "qapi/qapi-events-qdev.h"
+> =20
+>  #define MEMORY_SLOTS_NUMBER          "MDNR"
+>  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
+> @@ -177,9 +178,17 @@ static void acpi_memory_hotplug_write(void *opaque, =
+hwaddr addr, uint64_t data,
+>              /* call pc-dimm unplug cb */
+>              hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
+>              if (local_err) {
+> +                const char *error_pretty =3D error_get_pretty(local_err);
+> +
+>                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+> -                qapi_event_send_mem_unplug_error(dev->id,
+> -                                                 error_get_pretty(local_=
+err));
+> +
+> +                /*
+> +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
+> +                 * while the deprecation of MEM_UNPLUG_ERROR is
+> +                 * pending.
+> +                 */
+> +                qapi_event_send_mem_unplug_error(dev->id, error_pretty);
+> +                qapi_event_send_device_unplug_error(dev->id, error_prett=
+y);
+>                  error_free(local_err);
+>                  break;
+>              }
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -93,25 +129,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---BV0e3ZZtPCexiDLc
+--DcjfbPMhDcEXqRhi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDikNIACgkQbDjKyiDZ
-s5J24BAAhP4Cb+Z9hRygeAE9qHmmk4l+pRb0EO8M46gWP3deFR131iadExXDM+RC
-mr2czNFekDiyTW241KjQAb1AwxWVCkI6zRs7EwtSeEibiosYAwvtHC89Ml14qMZX
-eqBrpJ/OJGqji+wyUKC2JR3WM4bOiIHdTkSIxMp7IHGHs1sC5HYPLwJY8+gVo6/S
-IxJkzTOtfZdW5w1nIzZmYLmA9RX265jMn05wIl/AzidNfhDVKEJz/u7emSvzk4N1
-DeIlla7zx9zXmMUN933D0CbV8cX6TKXfk2CQrwVylwJvghqyowJHnumNqaLb15VW
-WE7hK6O96SrbNF5qzH4b8PirJpPhhjN2e2nksTFi8XUhf/T/CI6mJHC4KIx7Od9R
-PgR1rBlokVVeCTLyMS6Jbq/H4w6QTOLwhK3Ogy0JjMM5bCJObhqS87n9lyPkzk2T
-XZEFfj01lm8iErlpITy7TX9NzVp6Zt+c0pD9V8Fy7N+YmXJsx+yDu0TaJS2a4G/4
-sSQrUZ84SmQ7GFmpLsGfr1IogLof1e2gqvY4XAD1Ym6/FxsoG2IQCn7n99kYr/uQ
-W+2iJ1A/HeeB0pJMhrqA31yXTCjNFEEitRrELz7tezn0b+5TYfXFXrTBw7pciTUo
-QUJqCPO1h1cDOj6gMZLAJf+Of8AmUGrR1goGTYG05Gc07NsvhOk=
-=WcdA
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDikPYACgkQbDjKyiDZ
+s5IEOA//c8mcx8Y0dKsxpD1zJhHfh540qqDurRH2VFh4Wh+Zrh/YG+e9nkMNtazE
+wYbQPfS0bZzu4mqWqjBksiXJSQFwiDZkmAgEo7Z6mq+vaMCX5Tl7ugDSBoJqBQdI
+bV1mW1GbylLDKXFsQibPylx8tQWto9JkRZtblIwyvAUdlSVfQRzRRQtdyd2HoxDN
+uYcf8rpU2Hibup7vzScK4bPuInanDeixJZUs9Mglkxtkwe3YfZDjcLCa5W01IwIc
+WOnQMaGgAnax1pLXrc+Wwktanpf3CV8gsbRttpmfvbqS9SfMwVow1cyIoIRLfCIs
+87azTUnnn7gblRWcs2Vvrbxj7ciNja0P2cKuaTQ4gm8mqtQYfOIH7DXmzSG3Lzu3
+0TCAQ/rA9WFPO+fr1mn3Swr8GQEK8DfQdBfOrIHF9r1Im9HD5SrKrnd09DqAy0Tw
+bbrKHGpW2vH96r5/SSCQJgtjvfEaEMzvrT+Qavs3IHhpfRIqvKuRwViOWMTtAC9c
+LERrFZ+0WrFqaKkgt7q5yxbkG+BYlZstvOPMuFIcp+dZ4vAaMmyYp64LNZw7VGaK
+1RUwupXYAp+wX6jesQBl4pFy75gAomcaC895LKDrzjpmOYZ4TMZ8U3zaWWnhGtMG
+NKy83ODb+2j/7pux0Zm+ZiwIcuK0CMk+IWlPCehPLH3i9h9R2ug=
+=zlb+
 -----END PGP SIGNATURE-----
 
---BV0e3ZZtPCexiDLc--
+--DcjfbPMhDcEXqRhi--
 
