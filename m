@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB243BC260
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 19:49:05 +0200 (CEST)
-Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3258E3BC274
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 20:03:13 +0200 (CEST)
+Received: from localhost ([::1]:60932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0SiN-00012a-VV
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 13:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38314)
+	id 1m0Sw3-00073S-MB
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 14:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0Sgq-0000JH-H1
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 13:47:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39447)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m0Sty-0005f0-TF
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 14:01:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m0Sgl-00047z-2h
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 13:47:25 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m0Stw-00041b-5r
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 14:01:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625507242;
+ s=mimecast20190719; t=1625508058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qkepVVUDMf9gLU9as+UaTdYHuZRBWoOskzWolIX0pD0=;
- b=f5Bt+EFPOcI5bQdesvQx54VlY37/CiiJr1bnCqdVmP9eN94tOU71rmKhaiQsx6iutEqZZa
- UDWm9SGUf/xGWbc5VWFLFam+tuYq4o4V55TuH4L3u8pLbGiugcaXG5J7kWD53IPsSTbp+r
- mJcKH199HtNLCAKyCBl9k2iNlEX+aFg=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-t39D902wPQ-A3IonQnQGPA-1; Mon, 05 Jul 2021 13:47:19 -0400
-X-MC-Unique: t39D902wPQ-A3IonQnQGPA-1
-Received: by mail-vs1-f70.google.com with SMTP id
- v15-20020a67c00f0000b029023607a23f3dso4381716vsi.10
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 10:47:19 -0700 (PDT)
+ bh=fH/V7Xp9gG9u5LTBay9cH0zTja9T525YKP5vdFXjB0Y=;
+ b=a2lalxrS9FAzey3c3+3dYEeW0phKLGCpddXTY7TR8PTQiNEYs+y+ab0RL/NYFoHjQyvgQs
+ L3LcbuN0qfNcPctQSTej8TvpTpmGEMcTXjxkZ6YfSKxGyBObz1StcV9ZjOmwfRN6rBGfU9
+ mQvxP7VegYfvsx3s4Ucl3zz/OrhJDvY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-c1Fd3K5KNW2MSzDu46bZ_A-1; Mon, 05 Jul 2021 14:00:56 -0400
+X-MC-Unique: c1Fd3K5KNW2MSzDu46bZ_A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j2-20020a0560001242b029012c82df4dbbso5576097wrx.23
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 11:00:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qkepVVUDMf9gLU9as+UaTdYHuZRBWoOskzWolIX0pD0=;
- b=tX695jb3hxkXrn8pbhonkjRuyaJJ7x9mrSmXpytWr9lvs8QP0XXgd7ooviJUOzcSlt
- 9q54nqpeC3/ESZoTgpYv8NiZh1DEhvDHg5tTnj0ymDIHYYOrd4iZfypyy1pUkNU0XetD
- d5sQOb+1qBCCPGFr6x9XkHCWqHGFKqus9mw8DT4Od45RZvUpwF6H0jRrljwiDu12A7t5
- 4LVldzqGP9WTPFwOkMPA/1WbA9x5eRcv1K9SDYH2ntusDddXMdIlZskjuCZmRRgxs9Il
- 3Vf+2pzMqYxeZYBm+OAn+YxsIY7uy/kKwu6diRsN+/b8B/SGcXabM4LahvPcsTK11cE2
- PmVg==
-X-Gm-Message-State: AOAM5318BstYn5eKeN6BoLQTKsu25D11jB9ZKCZayyXXF52uMm4hrYWW
- itugIw6rQRfsowrSeeqDgvpaVUrdHmf3Hp3HvExusaiE70Opp1D/dq7wlImMg31ikwlkqibZ5Ug
- llAKH9R2WFenUOr8tyKlGxN+8/qC8Dw0=
-X-Received: by 2002:a05:6102:214e:: with SMTP id
- h14mr10390412vsg.1.1625507238912; 
- Mon, 05 Jul 2021 10:47:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7+GIEaCAxPV3aFlTK7kvBh+w1QhUGGe7kxhwXuHw6WzlW2CPZL/7olkNBgJztrqVkzPrKXnctADZxfPrGaoY=
-X-Received: by 2002:a05:6102:214e:: with SMTP id
- h14mr10390392vsg.1.1625507238696; 
- Mon, 05 Jul 2021 10:47:18 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fH/V7Xp9gG9u5LTBay9cH0zTja9T525YKP5vdFXjB0Y=;
+ b=Rwqtda/Q1v+OIPgU/VNp4l9wtHSUKyemY9We6KdAdB6f0bSmUOU2py5vsTp//ux49q
+ 8o1fdrbhKuB0iwe/RRw+IBMj+s9nEt3kPJvIkLLmEFMVdRAzmgKebPjlH0OsllI06Lgh
+ 6zhv093Efnzskssxni6duEOLy4NbdiYb6hcBk4cSsYjJW0fQHwt4fQdnkGQNgfBMbcsD
+ UmUeyNGZ9ln0Lcz1AAY6ckc8mO0iQn92Ror29OriuJGfiviD5qqnsLCzZolsLKVLBysI
+ 2XdTdWLQ2x8m8qYtqGNbzxSY+P6Vo+Dl3G1RqvzVH8kK3w828HX/uttj2Ir6gbhpA1T/
+ umAw==
+X-Gm-Message-State: AOAM530WNpzw3lumw0eiUjkwfXVU9kg7ULVY47vyK2v8TcvQ/NYOZvIy
+ Ts6+feg5lsucbPNDu+/JaUfiHxD5781McP1bbvqQiljaIKGz6YVI1AkhwJKTD177SexJQHfwU0e
+ IrB0lZf1wwYGQmqw=
+X-Received: by 2002:a5d:4590:: with SMTP id p16mr17549483wrq.253.1625508055872; 
+ Mon, 05 Jul 2021 11:00:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvDCcVMezKJgwHZzjxFBqVkQkJN2W2Aca/j2UGICLAIjaxoT1w0CXStN+YvCoOJvRKDNHFhw==
+X-Received: by 2002:a5d:4590:: with SMTP id p16mr17549471wrq.253.1625508055699; 
+ Mon, 05 Jul 2021 11:00:55 -0700 (PDT)
+Received: from redhat.com ([2.55.8.91])
+ by smtp.gmail.com with ESMTPSA id v2sm13510288wru.16.2021.07.05.11.00.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 11:00:54 -0700 (PDT)
+Date: Mon, 5 Jul 2021 14:00:51 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 00/53] acpi: refactor error prone build_header() and
+ packed structures usage in ACPI tables
+Message-ID: <20210705140002-mutt-send-email-mst@kernel.org>
+References: <20210625091818.1047980-1-imammedo@redhat.com>
+ <20210702104548-mutt-send-email-mst@kernel.org>
+ <20210705095618.69fed068@redhat.com>
 MIME-Version: 1.0
-References: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
- <162459954921.387455.17000468377504697052.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <162459954921.387455.17000468377504697052.stgit@pasha-ThinkPad-X280>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 5 Jul 2021 14:46:52 -0300
-Message-ID: <CAKJDGDb+fDxJw2ZnLPGSZ0_VLPrJdfq2wbVw=zbsvb8_tU1kOA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] tests/acceptance: add replay kernel test for ppc64
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <20210705095618.69fed068@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -91,50 +94,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Philippe Mathieu Daude <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Already upstream :)
+On Mon, Jul 05, 2021 at 09:56:18AM +0200, Igor Mammedov wrote:
+> On Fri, 2 Jul 2021 10:47:20 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > On Fri, Jun 25, 2021 at 05:17:24AM -0400, Igor Mammedov wrote:
+> > > Highlights:
+> > >   * drop pointer arithmetic in ACPI tables code
+> > >   * use endian agnostic API
+> > >   * simplifies review of tables. /in most cases just line by line comparision with spec/  
+> > 
+> > 
+> > A hue amount of work, thank you!
+> > To make it easier to merge, how about splitting it up a bit?
+> > E.g. I think first 10-11 patches make sense on their own, right?
+> 
+> I think you've meant 01-11 patches, and answer is yes, it's in-depended
+> of actual ACPI refactoring as was mentioned is cover letter, see below.
+> 
+> [...]
+> > > 
+> > > Series also includes optional qtest patches that add missing acpi
+> > > tests for tables that I'm touching to verify conversion changes.
+> > > That includes an alternative build time based impl. of
+> > > qtest_has_accel() API. So if we start bike-shedding this qtest_has_accel()
+> > > we can safely drop all tests included, till the time discussion settles
+> > > and some form of a qtest_has_accel() is merged, at which point I'd respin
+> > > depended tests.
+> [...]
+> 
+> it's ok to split tests into a separate series if that's what you prefer.
 
-On Fri, Jun 25, 2021 at 2:39 AM Pavel Dovgalyuk
-<pavel.dovgalyuk@ispras.ru> wrote:
->
-> This patch adds record/replay test which boots Linux
-> kernel on ppc64 platform. The test uses kernel binaries
-> taken from boot_linux_console test.
->
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> ---
->  tests/acceptance/replay_kernel.py |   13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-> index cdc22cb6d3..7e7f4c8ccc 100644
-> --- a/tests/acceptance/replay_kernel.py
-> +++ b/tests/acceptance/replay_kernel.py
-> @@ -367,6 +367,19 @@ def test_xtensa_lx60(self):
->          self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf',
->                                   args=('-cpu', 'dc233c'))
->
-> +    def test_ppc64_e500(self):
-> +        """
-> +        :avocado: tags=arch:ppc64
-> +        :avocado: tags=machine:ppce500
-> +        :avocado: tags=cpu:e5500
-> +        """
-> +        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
-> +        tar_url = ('https://www.qemu-advent-calendar.org'
-> +                   '/2018/download/day19.tar.xz')
-> +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-> +        self.do_test_advcal_2018(file_path, 'uImage', ('-cpu', 'e5500'))
-> +
-> +
->  @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
->  class ReplayKernelSlow(ReplayKernelBase):
->      # Override the timeout, because this kernel includes an inner
->
+Let's start with a smaller series that still makes sense.
+I'll merge that we'll look at the next chunk.
+
+-- 
+MST
 
 
