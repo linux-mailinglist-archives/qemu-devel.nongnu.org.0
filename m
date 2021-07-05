@@ -2,128 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106C53BBA30
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 11:31:33 +0200 (CEST)
-Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D233BBA35
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 11:32:51 +0200 (CEST)
+Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Kwu-0001uA-Un
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 05:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54622)
+	id 1m0KyA-0003Ze-VG
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 05:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m0KiG-0002a9-PU; Mon, 05 Jul 2021 05:16:24 -0400
-Received: from mail-db8eur05on2138.outbound.protection.outlook.com
- ([40.107.20.138]:40000 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m0KtJ-0006ek-21
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 05:27:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m0KiF-000816-3w; Mon, 05 Jul 2021 05:16:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cFq4YZDsVRKTVTfAw/0VVD8NwD4E/OlzUBo4jMQPhAQmjcVgT1Te8UWyLcWqKP6QQSpmKnIB9ztW1wHj5p5RHsW9XqcZF/EGyoDu6VSFSKQ9zN2So3flhResLLVrRXavU8RtVsHzDtPZlpVS2/4TPW6mno8y1S2WhURSHkKZK7AzbTYWrrnebV7UrhOiIMCEOQY4sektygyT/MeNmJMcnQFQ4PfgD7rFXc76qiKerYo8CwwnizXiI4eV4X+JCYcQt22J9ZmWf5Bp+S6Q966goOL0svnMSbvohSBm33TwieHDOOWINaT6I/sAEMQkWmN3V/2umlksLB3zFMTHdhMi2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dIYqD3Xie1Q5yPkhlVdAH+j4XsXSYKjQOjn8kSLMHXA=;
- b=AJLQdEc8aZyp50Z+0GaoJvZpYyVvVRwTxYgpQWfcJZk0zQQ0Id5Lv/q7L40Uh1FE6gOS0YeiuvKburFSfXAuCEYnTuq9B/A4/Wswf1DLM7FFZfvakjHpYN1BB4rajWNpZktGBStAgAwa1B36ZKrBd9xiRxRW4zYR4ma4cevWxvDJPNqfssGhjVPXmxJQWzSVo+6XaBbeRLZi1KUFpxE0/O1IOaK7EJMoZ4q9/J3h2P6KRErMEvnQ0jCAQxh0hUJCYOvH+U7Tsm2clYFKCzOIyz/pP/fWpqj8aNu5wy5xR/oS8hPHh8cGJbxtztwwSI2DYiIAIlldS3Z43Y8VW/QOFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dIYqD3Xie1Q5yPkhlVdAH+j4XsXSYKjQOjn8kSLMHXA=;
- b=LwI9AUEpomb7RLjDuus/7XZEbfX5bRE44Xq4DYq/wKRuCM6IEcAkQka7TkO2oeW6XRMi/+THCNHBFKyMkABLmGhDg0PSa489ukMbpM27ZV1mzE0SzFFOiR/sE81PoVPDK+EHRjJSfMEwykDfByjHO56pU6ZalDLykEbkX0YRq0M=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4470.eurprd08.prod.outlook.com (2603:10a6:20b:b5::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22; Mon, 5 Jul
- 2021 09:16:14 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Mon, 5 Jul 2021
- 09:16:14 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
- vsementsov@virtuozzo.com, den@openvz.org, jsnow@redhat.com
-Subject: [PATCH 09/14] iotests/common.rc: introduce _qcow2_dump_header helper
-Date: Mon,  5 Jul 2021 12:15:44 +0300
-Message-Id: <20210705091549.178335-10-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210705091549.178335-1-vsementsov@virtuozzo.com>
-References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.215]
-X-ClientProxiedBy: HE1PR05CA0235.eurprd05.prod.outlook.com
- (2603:10a6:3:fb::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m0KtB-0007gf-Nb
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 05:27:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625477248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SqP7xEhsb7L24aNd0+eWdkHP85KEjTiFjtls5B1CstU=;
+ b=S5wyk8FsG5GwLp+4G3O8lSqnPTKbgcGTgXsIAOQapsK/WZxKPB6A6x9N27brvRr5D/0pqH
+ XlnKj+HKzL9djNx8dVThUAq7oITOWDlotS/AtYuvsK3+Ad5EBYWq9iBnYrSz1Wo5rBRQDq
+ mdyK8AsCSZOVP59hNIS6Bt4qjmSwOZo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-454-ZSPM0Z1hNlGvGsdDF6rm_Q-1; Mon, 05 Jul 2021 05:27:25 -0400
+X-MC-Unique: ZSPM0Z1hNlGvGsdDF6rm_Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65200804140;
+ Mon,  5 Jul 2021 09:27:23 +0000 (UTC)
+Received: from localhost (ovpn-112-39.ams2.redhat.com [10.36.112.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B6125C1A1;
+ Mon,  5 Jul 2021 09:27:19 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>, Ilya Leoshkevich
+ <iii@linux.ibm.com>, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v5 0/2] target/s390x: Fix SIGILL/SIGFPE/SIGTRAP psw.addr
+ reporting
+In-Reply-To: <3624d483-dd11-6464-bbfd-ed2921b2fcfe@vivier.eu>
+Organization: Red Hat GmbH
+References: <20210623023250.3667563-1-iii@linux.ibm.com>
+ <87a6n5j976.fsf@redhat.com>
+ <3624d483-dd11-6464-bbfd-ed2921b2fcfe@vivier.eu>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Mon, 05 Jul 2021 11:27:17 +0200
+Message-ID: <87wnq5i00a.fsf@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.215) by
- HE1PR05CA0235.eurprd05.prod.outlook.com (2603:10a6:3:fb::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.22 via Frontend Transport; Mon, 5 Jul 2021 09:16:13 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2014934c-15ee-42ba-b602-08d93f958975
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4470:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4470F2EC9170C97A2BA0869EC11C9@AM6PR08MB4470.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jxtotNWIspEJ6oy3gW3dJo9Q/qIeQo3AnAgauR1XEt+Q3MywCUOnzvEQm8j+wKLD1cUiPdzYzNQEvFDzhkylaZrtV/EGniZZt2yT3JM282HQ77xWvtziCG4cvRKInOftt37TpQfcnQQLcr9xla0Nmyq8IWtzkoZEKKd4dpy/XZQqnB/nrU8zb+KemVaXq3+bCopLchV3Sro4/ACGCj+EmgRSaDITN5HsrvS5UTebRySeDMQUwsixbJ7zlvYUtzYOlE6SIDNO3t4gPY0y0aj8LJAbmyKq5rX+jFvN5vcA1XFa/Po/FjqGYuNIxLWOMl4dt5KYqwdFXMvP9wFgVmVCPHBbk0wxEKQ4I6i4KTBBRLIoznzIcvDUcozZVt+vIz0P52KMY4ryO6nEC2W5hXv7PRsnJ7Z47g4T0Tv+8qdWSBNtzhbfyhkkAqvvsP9lBH1dyE2rYr2ktdZS5l5aTPZTXJNn7OXHQnTGx7GYaA3dX4GylRqw0QvoIpivovURaDqSMditkhirf5yP6T7G3mskonF+dQmYa9ShGk72wa04413OBRriWrLelf0CUh0jMf0ymtECasJrREHpMfOzOf0J+3VaSpfVTx6mynYQfRXJ118paTir4+SNI2SHwjhg2fa4ylP4gGLKzgR/S5tNKKRkdxN/1xqERNMV9GmsOxHoW3xc9IdMbJdxvtr5yZmqf6KS0thvLY2y9Z/T5Cnrzh5rG6IdXYCfsYsPazSZ3NS+s5M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39840400004)(366004)(376002)(346002)(396003)(478600001)(66946007)(66476007)(66556008)(4326008)(956004)(2616005)(6512007)(2906002)(38350700002)(316002)(38100700002)(6916009)(6506007)(4744005)(6486002)(1076003)(26005)(186003)(16526019)(5660300002)(36756003)(52116002)(8936002)(6666004)(86362001)(8676002)(69590400013);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2AbxwYig2mqs1GmxGDWD3AtmvLElDeEvH/dw89Tp2qK5NGmNzFWawBU54lSD?=
- =?us-ascii?Q?jHv9k6Np6sVGkBl0rD+OJrie8nWW9uVsccA4HV9sz4bj7TL/scsHfQVM8Ssd?=
- =?us-ascii?Q?xlyGuNhcZisFEyrLoumh/R2MTlLgycnl4unaGuaacnI2p98rnbzNIRhWkgXm?=
- =?us-ascii?Q?bRXfaJATcUVWfceazvwMGMXbiefoFiKln5YHb15/ZcBgj4QMbO/uI+y9bFEY?=
- =?us-ascii?Q?RD/LZP4nYWQcvnxO2hb57VWLQLwNMc0V8HqJ/NYvV7z/afY/ei8glPy2Qyhr?=
- =?us-ascii?Q?Elh//M5hilOphMl/GMdZXnDHWXnHIa9juInkGTAwXIapfqy9Bd77D6YaLJkU?=
- =?us-ascii?Q?nk2yBE5MkK2EDlBTqcIeNyFn61IxvCHbaNOSY5khMjwqKqyKKmw6WfN+azxf?=
- =?us-ascii?Q?FRLuDQ2zCkDiG6wSk7msyubftXNG/DiIn9AEY9IGLNUZvxsc2cGja7Wd8gia?=
- =?us-ascii?Q?b8DDdcmz39eHaA4hLoEv8WFU+A3iKr4wBxlObxjGPoyi+6g9DDjHq8T4wKnK?=
- =?us-ascii?Q?1EchoWZC0cCNdpUshfjL2M3Mbf2MVNY0KaIwKdmJy3lo5X34Vsl3GufBOLgG?=
- =?us-ascii?Q?oirlPesiIXyzK0g5KH3GieAfrF2pw/W2cXRpWySBMCe3XZtlQCAWVOGMRb7C?=
- =?us-ascii?Q?A+3P7pXJmdCT5ufXW3adEjAxxvzZmIC5PQh1mgXACOMfrxgJEQCHbLyCdXBn?=
- =?us-ascii?Q?1Wa+lYExvR/SencoJw8vOxrovsfhS4qhDvrBEgGkVpJqNTPrJHvYAnumisu4?=
- =?us-ascii?Q?DaGpLKZotkCdL6jxvd7ug/BP2YVjoiwXqGvgZni2D74dQzLv/BofsFZlHgv5?=
- =?us-ascii?Q?QXm3njC5DFTym1GfWOMcbuei7y3jSHo3lL1oQd9c+0qpGJBQCZbmDKEAYXLu?=
- =?us-ascii?Q?t0d3xajmmelA3IujfIQLzGGBaQ0xC145HNf31fRXe6ffKG6eol0Mlv9fqbDd?=
- =?us-ascii?Q?NKK18r4g47s+RQNWdM7kCMiGLy0dRvHt9aUKNrRJg29hX2YjP9ykjJTduxJq?=
- =?us-ascii?Q?Rds26Hc67qF3YQEJwxcf2/cxWsmHpt6n9xB+m9R91Bxl3k8L94k6LcbnH59B?=
- =?us-ascii?Q?FTg9oc6HBLdDYUA8UcDQbhkk17uIUcb7Nz5LJDQ0F0dnCtr37HUuFmzf8poD?=
- =?us-ascii?Q?g9tsqn3ejDNAKngVzPQGlrzwfqzAAE3b595nqAXF1pvgWBgGKQByYIJ1Lo6V?=
- =?us-ascii?Q?1N3SIzky4VnTMHa99rPZezH9o0xM6IxoeGznreGtSWpWAd7tJQGNH/l+5FG6?=
- =?us-ascii?Q?ZI/Zy6OOwwC49BbGJ+z6IGfc8FKdkKE/6VQWbM2BXImalYLHVjsyKPTrn2ol?=
- =?us-ascii?Q?KPZVXHuT34nn3MV5v3mB9NsS?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2014934c-15ee-42ba-b602-08d93f958975
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2021 09:16:13.9810 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4CA1J1L+ANp5gYklOFrESbwyb9kfIuo0iApVM7cm60rJ5BrqTDE4GLd2H3xIj2GFbGH2Fo6FkcR81K8C7a8UKNkypYhCBZxMFXgkVzXuHoY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4470
-Received-SPF: pass client-ip=40.107.20.138;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -136,38 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
+ Ulrich Weigand <ulrich.weigand@de.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll use it in tests instead of explicit qcow2.py. Then we are going
-to add some filtering in _qcow2_dump_header.
+On Fri, Jul 02 2021, Laurent Vivier <laurent@vivier.eu> wrote:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/common.rc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> Le 02/07/2021 =C3=A0 12:34, Cornelia Huck a =C3=A9crit=C2=A0:
+>> On Wed, Jun 23 2021, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+>>=20
+>>> qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
+>>> should be a pointer to the instruction following the illegal
+>>> instruction, but at the moment it is a pointer to the illegal
+>>> instruction itself. This breaks OpenJDK, which relies on this value.
+>>> A similar problem exists for SIGFPE and SIGTRAP.
+>>>
+>>> Patch 1 fixes the issue, patch 2 adds a test.
+>>>
+>>> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.h=
+tml
+>>> v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
+>>>           magic in the test and add an explanation (David).
+>>>
+>>> v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06649.h=
+tml
+>>> v2 -> v3: Fix SIGSEGV handling (found when trying to run valgrind under
+>>>           qemu-user).
+>>>
+>>> v3: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg00299.h=
+tml
+>>> v3 -> v4: Fix compiling the test on Ubuntu 20.04 (Jonathan).
+>>>
+>>> v4: https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05848.h=
+tml
+>>> v4 -> v5: Greatly simplify the fix (Ulrich).
+>>>
+>>> Note: the compare-and-trap SIGFPE issue is being fixed separately.
+>>> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg05690.html
+>>>
+>>> Ilya Leoshkevich (2):
+>>>   target/s390x: Fix SIGILL/SIGFPE/SIGTRAP psw.addr reporting
+>>>   tests/tcg/s390x: Test SIGILL and SIGSEGV handling
+>>>
+>>>  linux-user/s390x/cpu_loop.c     |   5 +
+>>>  tests/tcg/s390x/Makefile.target |   1 +
+>>>  tests/tcg/s390x/signal.c        | 165 ++++++++++++++++++++++++++++++++
+>>>  3 files changed, 171 insertions(+)
+>>>  create mode 100644 tests/tcg/s390x/signal.c
+>>=20
+>> What's the status of this and
+>> <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>? linux-user
+>> is not really my turf, but it would be sad if this fell through the
+>> cracks.
+>>=20
+>
+> If from the S390x point of view they are correct, I can collect them via =
+linux-user.
 
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 4cae5b2d70..ee4b9d795e 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -994,5 +994,15 @@ _require_one_device_of()
-     _notrun "$* not available"
- }
- 
-+_qcow2_dump_header()
-+{
-+    img="$1"
-+    if [ -z "$img" ]; then
-+        img="$TEST_IMG"
-+    fi
-+
-+    $PYTHON qcow2.py "$img" dump-header
-+}
-+
- # make sure this script returns success
- true
--- 
-2.29.2
+Thanks!
+
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 
 
