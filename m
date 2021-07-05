@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D7D3BBA0B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 11:18:40 +0200 (CEST)
-Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DC23BBA1F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 11:23:13 +0200 (CEST)
+Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0KkR-00052R-Su
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 05:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54502)
+	id 1m0Kor-0008F1-0G
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 05:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m0Ki8-00029l-BZ; Mon, 05 Jul 2021 05:16:16 -0400
+ id 1m0KiB-0002GG-4G; Mon, 05 Jul 2021 05:16:19 -0400
 Received: from mail-db8eur05on2138.outbound.protection.outlook.com
  ([40.107.20.138]:40000 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m0Ki5-000816-P7; Mon, 05 Jul 2021 05:16:16 -0400
+ id 1m0Ki9-000816-2y; Mon, 05 Jul 2021 05:16:18 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a1cHVOZJMMnnm2d3uYqmnqSWaJQ8p8L3KUI6JhvvunbEUU6/TACCF/hCB4avVk8aZpfIUcFZM/+Wj/yHGmw/4pGT8rqchADuWx76lRiz5PFNdKkMulXFfwnt9gU+0Njjkj0neYfKuPxLAwwvtEjB2TklXe58mRzW7BoDfVjSE50zXfBFRveC+r12tSKyn/7VHTljHtzkCdoVJrG08+2gDOjzZGPxnE1v+0w0cqVJsxe+TS2Je43fN81uuRqlwNgkPqVFYqjZcXKyYYKzL0uJzyHE1qkTTsn0xNMTl830RQJ3cOWCcyjIHWwBneXkFGmN5QfVOMW2siY3d2vV68WIlw==
+ b=cvuoB5gtoKlhJqD+m8j8BRw7qIKHsK0wcduJl3yHYUyFextWrXapEYL38xJzOVDy8EURUC3Uii9EyK8APoy9gCg/yeZ7IAmxASfwzqVSy1EUgdn3AckFaZeBgdKv2Eoy1XJ45VIbFfbM1JX4hdydhOz2shFQDrt7c1hVRBIo9U81480W4Jxh0V6SlidLRACPIbahLSau0o6uN5nCx3Wn/zMrg98z6xg/3YoN88lhjdtsqnfQ9YZThTOBkocfUACOawbeU0EnzQXO8OeCSP4BiLTMUGdCpIBMuY6KUgqkwJAcLF9krb2pkP4rmDR8zWzuEmHjpbJe4r8im9JLExMn7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+1bJp1VbryRD3lAoFrjwUz+8MpJ6aYdOyYUt7Tj8b8A=;
- b=DCdTlYHcH/eLBd7NL5shXxrPK4F+unIQEvZoFU1Houwvh1oLZpFVKiiYnykgGJ6rAtBs5lW8PCWDBAJPaNzoeFP2oti3xczkYBr4cTSeVnoEHVgZCaHct5L7wDr9e6ZMnjHuVCPCL6AF5TnN4S6cehtwwC8xYqNcYXzlPqXJXl0mDfzHChDDbPUoGk9GE7KBQgznHNtDq5+AOmhAiXnVBSyNp99y/L0kiSugNA1WoM83e0sWTMex1EkGer9yIxWHqo9tm+hU4XdoBZIyGulCJPKQEnif/5A6oLoZYUAeSh7CmhaE198LhYuXtKTlHq71m1JMedEQP0/2edzXF0+2wQ==
+ bh=NH3bshTPyuYTxGnubDCiHXiX37McMNu8ImyQFiJbpVE=;
+ b=Rl3ZPvdZC70scAvIbZFWVM0hivgZ4VJdZzcs+WBZLzj4BjjGy76/R7hQthJj0Ow35zwiDU4JfoBU0VdagFIAlbgqv/Pir0lJjVsBTaEIdYdFk+Hi8tvvhRgtBlS1FJfK7dg4gV5pxmzuCEGf9AYS9Jdr9gG5OJn04zP+TCg+aY220vDTeWXB2dCgj6Cfytg7WvM9wXPHPRBbgBm8j7oEL6KFrQWsJdnoSWWUqPhHvvMgChG83F+hjuoCHAH49alsS40r1V6K3P3Jbdg+QEq5fuu68RtGysTt6/jHVqBVw2/nrHASYk7aI7K37S9r4LVPwl88OvUke4693UVRWW4hjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+1bJp1VbryRD3lAoFrjwUz+8MpJ6aYdOyYUt7Tj8b8A=;
- b=b3/oRD5pBVyxnbzT4T4vUJ5TEqRbqxupWgtMjFOdqvf3gfB72d3Guh5YK5wy32VT2FrPuh7P8wfyepQ+boQ6plZB86nNVmOb908tNxE+shI225PyHU9JQXIdMKBvoz/JbVm7faEMxedHBkB6HWBCKVa+TOaYWetFrG0AAaNQUws=
+ bh=NH3bshTPyuYTxGnubDCiHXiX37McMNu8ImyQFiJbpVE=;
+ b=tw1mnsEuWLB1NeVaam6mnzjKaGOg6gJRgz6ZUT1JaXGAbc1pDUiWHENFfGR1um3JExtf/VtqOhEs9GcdlOp8pH0a3msazK0tFwk6pKvBa8iI3kuoq04j6iHZVXQ0ecLUJQn4vFxY0z7rHOWaMGrtd2Y2U4nZRTn+/EyFIy8IAgg=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4470.eurprd08.prod.outlook.com (2603:10a6:20b:b5::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22; Mon, 5 Jul
- 2021 09:16:11 +0000
+ 2021 09:16:12 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Mon, 5 Jul 2021
- 09:16:10 +0000
+ 09:16:12 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org, jsnow@redhat.com
-Subject: [PATCH 06/14] iotest 302: use img_info_log() helper
-Date: Mon,  5 Jul 2021 12:15:41 +0300
-Message-Id: <20210705091549.178335-7-vsementsov@virtuozzo.com>
+Subject: [PATCH 07/14] qcow2: simple case support for downgrading of qcow2
+ images with zstd
+Date: Mon,  5 Jul 2021 12:15:42 +0300
+Message-Id: <20210705091549.178335-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210705091549.178335-1-vsementsov@virtuozzo.com>
 References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
@@ -65,53 +66,53 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.215) by
  HE1PR05CA0235.eurprd05.prod.outlook.com (2603:10a6:3:fb::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.22 via Frontend Transport; Mon, 5 Jul 2021 09:16:10 +0000
+ 15.20.4287.22 via Frontend Transport; Mon, 5 Jul 2021 09:16:11 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 931406d3-7e09-47de-0875-08d93f958795
+X-MS-Office365-Filtering-Correlation-Id: a5cd1816-656d-4f1a-65e3-08d93f958834
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4470:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4470CE71D11DFBD8EAFB4928C11C9@AM6PR08MB4470.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB44705E95AAA779D092215C29C11C9@AM6PR08MB4470.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1247;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xvv/TrkbrxSytgB34evcpgfYMLxKSAUI3bAzvHjKo/77K1Obw7E2xDLy1Od2yy/mOk31Ee84KVvHD4GxCPHYRUP9X7N2n+VH/thi9AiFZBLXPLP9VR6L6k9EKcTyf+UY4mJfJ+V7bqkpxUxFKBOWvN0uPlD5NcR8JVQs54OY+FRlkb6yfs1jbNXkQdGZyz5F+SMxCvL/fCiDoiY3SUqzOkGfBkG8Uv633JqC2ZPbIxGu0n9Bxw084EECI0NT0d47t00LQEQHZGcb7S+bt/CtEmBjvq0jcmBNtjEpsviUQVfY29Y3GtrBvKD0nuxp6L56hGQIqhbLBKqExwpKZ0Zkd9fo2tvWm8K/3VC1UNNvsl11BjriwSivwvoisQ56TdrpUJlh+BNs5aG3bHaVzpp29obwWCb24s3coNJ1pH053LJbjMlAq7+pKIyG0tZSQY/qSTDKxQZOBOUDU94CQdSYtKrwdjZ2Blnxuesu2aGjO9IBn9VU1jCA5GFdDxmAKXbQVRR2Fzjzcu0mAxW/G7m4UMHB9pAzVKRquWGSy7f0NSHg9nXgFUIo3NcbRl8D/7XB8YavvDpVTatiGnGLRhzfBlorWKSxSeyhUDmMD2a7pw1xyW8yTg7y3ZqaDMUxNU1C1rDrIfBpVQGUnW11ebdRYB4pCbUVrOZqVVholRedJlR4Y+rL6NTHqhKuNVSjqQUpbrbSd7Iyl8/2bdS+vhIYJAqILUXVwd4O0hC5mOnGVcDmvWspiamyNgWVa9uW/IMZ
+X-Microsoft-Antispam-Message-Info: KXt+GaC7+XE03+HM4ySinhuZyoAX8HsmV9YqxL11flDYRXj5AIbt1Fnhnff37Ui9G7en1BkkGC4/lZcp4Grr7lynZg/wJhMTJhmlHf/gZRq8/Kjt2jKS0eYNADkf6+4TJia40ihJPF4tEUZDtAbInlISLmSjksqcFs1ZoTH4/y3anLu7WBAS5sk8+W8KDNLmNAvKACRvlrotS0nXZeTg+aWy0ejA6qr5AQ7k/xrjOAZHb1P87l44qIlEOyfSNU7IczsspqPM3GRj90LN3U7/z3yAqosJthiENPq4Jr8l/Bge9T8B5xECyrLXo0H/wiFMF4DNRMPVHISmU+5PvC2s6isi49YtMB1fNkXlUQL7fXi1USIZgNnMjgpgiIkwn6cPvVHzE8rBpWLKQ8+WuJ3UPNWELuy365qctZbbXbG4EWQ89KSgvgIh0C6XF1Kjp2KZdYAxyG7DfYJBewG1xvCWfskF+KIit+d1U3b3wGlS7j6e71kEjMCT06r+Zaz3esR+G82ZIFwO+Hh2uURoMLrpj9AZ2Hc1VjsvnXomQPTvjUgiFnFx1pSHGBED1lBPkmZs/Rv7BZKpsSxFXrxHGV4OhA6zo/qu3mHlRVuDEKg20rXwRpw/OUbxCIpvH7EkaCb35+fHy+Fkf4olMXMqo9bSPsnB05LlRjpwCyTc8jzQRXX1Qosr4e1J8dnEHioFmY6TWdBiRj6/52IjcRZXBw4tKAaRWFNOr4WiBO14P2mYMx/Rjci3vz6qeaZrmYoAeGMd
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39840400004)(366004)(376002)(346002)(396003)(478600001)(66946007)(66476007)(66556008)(4326008)(956004)(2616005)(83380400001)(6512007)(2906002)(38350700002)(316002)(38100700002)(6916009)(6506007)(6486002)(1076003)(26005)(186003)(16526019)(5660300002)(36756003)(52116002)(8936002)(6666004)(86362001)(8676002)(69590400013);
+ SFS:(4636009)(136003)(39840400004)(366004)(376002)(346002)(396003)(478600001)(66946007)(66476007)(66556008)(4326008)(956004)(2616005)(83380400001)(19627235002)(6512007)(2906002)(38350700002)(316002)(38100700002)(6916009)(6506007)(6486002)(1076003)(26005)(186003)(16526019)(5660300002)(36756003)(52116002)(8936002)(6666004)(86362001)(8676002)(69590400013);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IB8EONy/wz1PZokq5KUDSvUHfcS+ye0jlHeLYSo0a528+ljU6afOGN9cNnhS?=
- =?us-ascii?Q?J8LxcVAPk2NacPcvPTO9ay/9ayCypwqpBsYZVOVlqezTXEwiyChnDe9ZCRJ/?=
- =?us-ascii?Q?zEY9n5spK5pQK0COt9r9x4L6/WGOBK+cANbE32qcA+kNxL9u3shLgi7Vvq/A?=
- =?us-ascii?Q?vMw+DPUC2W9vjmqMcRBtRdYygOxlovsx44zHMIju+LKqAPguta363P3zg50v?=
- =?us-ascii?Q?IykraN5YJwKaf1jp14uxKW61qpZhferpf4ECGZ1KKYlt+zFyOd78ag1akJg/?=
- =?us-ascii?Q?6PgY7kT9tnYXSg4LNEEp68HQzEeFSRj3TbEj7EhPiuLhZWKxguyTTAuXkgjm?=
- =?us-ascii?Q?5YWEgZk9giIxBt52S5S5idbHurISfVigaGT+xH8cPngiPtMbt1sulcoQsojX?=
- =?us-ascii?Q?bezrZldj4U827nNAT/uffeIC7iornDLTFfEyxZYT1c/3zkX/C1MjxrVO8obB?=
- =?us-ascii?Q?u64u6849QcVNtITjJL9ZoKTNJrOqTI/+7B+Uetbl1rmbpFStwJoYfMIwcqP9?=
- =?us-ascii?Q?APmCUW1zP86NJixpavQBIAZtFTY6+laLih4rypnMqw65PCZHYAYhi3u875yh?=
- =?us-ascii?Q?WyVaBpwAu8WHRNZy1khpNQi+SiXaFXeZzSZRt3E9NMJ+uQHg3Q6ssuJcPj4X?=
- =?us-ascii?Q?XX/MlufuY1xqTvkTr9W9I03/RjoIcwSBp07TWT39zQi3xcDpyVcnPn7Dsp22?=
- =?us-ascii?Q?Q1MzYm/B5qA4f2UDP1909YK1vwrbsqy7N4yPIMBQtQ64BbB+iUUq1684zxZ/?=
- =?us-ascii?Q?0ESjvSgdDHD0lhlANZ5Usufb+W5LEthb6t6fnFn5/sp2cO7pXHpPZjfi7QG7?=
- =?us-ascii?Q?Mc/Zi57yJ3SAw1Vtn6wsDkjhXeakbjqEx+kUccz5CoVJnVomJHTnsv8KleOD?=
- =?us-ascii?Q?xbFFgwaHJKBVeYu+Szd/D7M057V6MYUCEGbFyMlkNAi+M45SVdOoYHejzumT?=
- =?us-ascii?Q?P9m7pwseKPhTbbtjuyEqrrZ74T9IMEAV1Lx70/cDcBlGPo1HXELpInszh8nU?=
- =?us-ascii?Q?HxNmYT8hNEzw4W1PWUf3/QyvV3OvQ6Fl+VEPEBvGI5916uBcMBWYyyHxtfrD?=
- =?us-ascii?Q?qgJIu9v7dnoeAg/tMmhTUBHoHBZwE8aQ49fOSotE1kOlaFOv/nRpbm4C0jyF?=
- =?us-ascii?Q?IEIJrW38hpljb0WnTgR13e/7f1Il3t15RvIFOLGnAnKQY87BfZI9lCqJ2rc3?=
- =?us-ascii?Q?F+IsHDGOO7PcBuYNCfWYjegZPNWgMF7p5OV6HR1EoVdvhEvcCjUDSJDlCGlD?=
- =?us-ascii?Q?qUX28BHqmtNOq9GKAtoQlNZ9+BmYfh4x5kjWy1GWOy3ABtTmc8iWKcTfLSRm?=
- =?us-ascii?Q?fIV7WyQKWMHp//HEJR4A1Q3I?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NLrPf8nB8fEn/7rafBmvU1ZtNyzoMV2Yd2y4pLCyunSKbVeotsx9O3kUtaHH?=
+ =?us-ascii?Q?PEyiJDtwWms46htrMU9BrBZzAXa3PR+kCO6W8epWni45NlOG+hBIpHZJCX7T?=
+ =?us-ascii?Q?qPoFuGIf65RmSL8qqPwHYYY6VODMnWnc4oJ7TgXEDeMMO0RiTT9GxzdLWnK1?=
+ =?us-ascii?Q?zW7HmhS2ZZalObPBkxFpXdx/hrQXXTSCXYq0nQ4U2PEouxe3E0DdRrTeyjQO?=
+ =?us-ascii?Q?Gt0Ws0+7r+mu4+Vv+6sulzjKe1+xtmegyMb8ptUcxJ+8CW4NCL4fuCiSaWpz?=
+ =?us-ascii?Q?WFHWDV831U7Ah5CN9FPUJfgSHjVjozgOBDZYbfQxnNTytiODrSRcuuo6YyX5?=
+ =?us-ascii?Q?pe1XJuRz2SNMNUXsppOld+HQPtsoGiWpAIxaT0D5lPdeewBlJ8pfX46fXnJq?=
+ =?us-ascii?Q?fPAD4bMUyUAS56suud06pyQPlIxujdZDQj0TnEDC48QpiDa3La2mPVDM18ku?=
+ =?us-ascii?Q?L2JXehdi4PGOfcb0hbf12PQtse3JA7b75DXYKh5JLakYROBN41jeZ4+/75yb?=
+ =?us-ascii?Q?oBjEgAkx7wljl87lmC0GxlFxeSh9QzGJKlp29MBq6qtutKYmybqgQnbVdmir?=
+ =?us-ascii?Q?MVQmjUT4ND4EpAgvYpp/X89keZcTllV8+XJfJ0fJb9nye3wAdvvXCBFxIuk4?=
+ =?us-ascii?Q?2N4ccVCoNsRhBtd74jr3xCshxHv7gB3UvIEMJUpPjxKvvx9I6bYMSwQx3ZlR?=
+ =?us-ascii?Q?WuRjhOi0MsgBWcmDUQm1h6CUgkHPNjCaYrGO1XuBDcllpyIKRbaaDehhEXV1?=
+ =?us-ascii?Q?DEQ3mCwKCAig1uoAOtbWUWmiFVKEHmk4rHhpD2qikKWmlXcvJ9HxqjBt5U43?=
+ =?us-ascii?Q?Ax9UbQtqRg8WHDCoiJ3i7UxKokZT7JIi7kOWj6o+Jw1JZ6Nvbb88SNZSbEwP?=
+ =?us-ascii?Q?D2ATUkmwa3X6jk7psc+vobDddvMGQFeal3exctiBcmJGYQz73ktXHoIZUsSp?=
+ =?us-ascii?Q?uS/7Ov/O6gf/QJrODuRdbpg2RrJaoehMgW92VRzVMlG/Ep4U/UsJUsII9DD8?=
+ =?us-ascii?Q?FXr6MxTHwfxsXThAhjJB5SI7a1KzTbWkafjjvY5I6m7ZS9oalh7JCD8baYSA?=
+ =?us-ascii?Q?JqVvtxRYF/K8GgutqPivhJkn/lp51jznVHPRVwN3CKhBlKIHQ27g5g2KmE8N?=
+ =?us-ascii?Q?YR3q3UdQNl3StimAsBaMt2xC/YBVrreJRxW7gEVio8Fy6bsMAvW4pFZcEpO5?=
+ =?us-ascii?Q?PiyJCqDgQIyFxbkmDpvExx+bbDCxAea73aQ6T5KAGrMbe4qmmsxGYKynZITk?=
+ =?us-ascii?Q?jm9PbqaqnS/lmGoYBTYwhqUCxiC3vFOvrK9bt2ESHaT3zFOUSVklYxHoC4L8?=
+ =?us-ascii?Q?bEUzpRU24HmFbqiBVMaqUQQN?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 931406d3-7e09-47de-0875-08d93f958795
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5cd1816-656d-4f1a-65e3-08d93f958834
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2021 09:16:10.8606 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2021 09:16:11.8931 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Cp7QydC3UeZ4c5GNVrJfgR0FekelW9uNL8IoTQq56BJPaDJq/19uvIkWVQArnJJH6DlCBGZlgmygSkV/a6oaA4uSLdvAD+qCq9U+HJ3pUuw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: NHEkq8qPWcJulqmpK2x5dPcQSUJaV59rPmYFDuTemf5mZz857BjdjXK5QLiZLxERgH4zElP47r+85p6O7D+wDmPVfHN90OJDvSDPuHIU/W4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4470
 Received-SPF: pass client-ip=40.107.20.138;
  envelope-from=vsementsov@virtuozzo.com;
@@ -139,78 +140,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of qemu_img_log("info", ..) use generic helper img_info_log().
+If image doesn't have any compressed cluster we can easily switch to
+zlib compression, which may allow to downgrade the image.
 
-img_info_log() has smarter logic. For example it use filter_img_info()
-to filter output, which in turns filter a compression type. So it will
-help us in future when we implement a possibility to use zstd
-compression by default (with help of some runtime config file or maybe
-build option). For now to test you should recompile qemu with a small
-patch:
+That's mostly needed to support IMGOPTS='compression_type=zstd' in some
+iotests which do qcow2 downgrade.
 
-    --- a/block/qcow2.c
-    +++ b/block/qcow2.c
-    @@ -3540,6 +3540,11 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-             }
-         }
-
-    +    if (!qcow2_opts->has_compression_type && version >= 3) {
-    +        qcow2_opts->has_compression_type = true;
-    +        qcow2_opts->compression_type = QCOW2_COMPRESSION_TYPE_ZSTD;
-    +    }
-    +
-         if (qcow2_opts->has_compression_type &&
-             qcow2_opts->compression_type != QCOW2_COMPRESSION_TYPE_ZLIB) {
+While being here also fix checkpatch complain against '#' in printf
+formatting.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/302     | 3 ++-
- tests/qemu-iotests/302.out | 7 +++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ block/qcow2.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/302 b/tests/qemu-iotests/302
-index 5695af4914..2180dbc896 100755
---- a/tests/qemu-iotests/302
-+++ b/tests/qemu-iotests/302
-@@ -34,6 +34,7 @@ from iotests import (
-     qemu_img_measure,
-     qemu_io,
-     qemu_nbd_popen,
-+    img_info_log,
- )
+diff --git a/block/qcow2.c b/block/qcow2.c
+index ee4530cdbd..bed3354474 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5221,6 +5221,38 @@ static int qcow2_load_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
+                                         qiov->size, qiov, 0, 0);
+ }
  
- iotests.script_initialize(supported_fmts=["qcow2"])
-@@ -99,7 +100,7 @@ with tarfile.open(tar_file, "w") as tar:
-             nbd_uri)
++static int qcow2_has_compressed_clusters(BlockDriverState *bs)
++{
++    int64_t offset = 0;
++    int64_t bytes = bdrv_getlength(bs);
++
++    if (bytes < 0) {
++        return bytes;
++    }
++
++    while (bytes != 0) {
++        int ret;
++        QCow2SubclusterType type;
++        unsigned int cur_bytes = MIN(INT_MAX, bytes);
++        uint64_t host_offset;
++
++        ret = qcow2_get_host_offset(bs, offset, &cur_bytes, &host_offset,
++                                    &type);
++        if (ret < 0) {
++            return ret;
++        }
++
++        if (type == QCOW2_SUBCLUSTER_COMPRESSED) {
++            return 1;
++        }
++
++        offset += cur_bytes;
++        bytes -= cur_bytes;
++    }
++
++    return 0;
++}
++
+ /*
+  * Downgrades an image's version. To achieve this, any incompatible features
+  * have to be removed.
+@@ -5278,9 +5310,10 @@ static int qcow2_downgrade(BlockDriverState *bs, int target_version,
+      * the first place; if that happens nonetheless, returning -ENOTSUP is the
+      * best thing to do anyway */
  
-         iotests.log("=== Converted image info ===")
--        qemu_img_log("info", nbd_uri)
-+        img_info_log(nbd_uri)
+-    if (s->incompatible_features) {
++    if (s->incompatible_features & ~QCOW2_INCOMPAT_COMPRESSION) {
+         error_setg(errp, "Cannot downgrade an image with incompatible features "
+-                   "%#" PRIx64 " set", s->incompatible_features);
++                   "0x%" PRIx64 " set",
++                   s->incompatible_features & ~QCOW2_INCOMPAT_COMPRESSION);
+         return -ENOTSUP;
+     }
  
-         iotests.log("=== Converted image check ===")
-         qemu_img_log("check", nbd_uri)
-diff --git a/tests/qemu-iotests/302.out b/tests/qemu-iotests/302.out
-index e2f6077e83..3e7c281b91 100644
---- a/tests/qemu-iotests/302.out
-+++ b/tests/qemu-iotests/302.out
-@@ -6,14 +6,13 @@ virtual size: 448 KiB (458752 bytes)
- disk size: unavailable
+@@ -5298,6 +5331,27 @@ static int qcow2_downgrade(BlockDriverState *bs, int target_version,
+         return ret;
+     }
  
- === Converted image info ===
--image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
--file format: qcow2
-+image: TEST_IMG
-+file format: IMGFMT
- virtual size: 1 GiB (1073741824 bytes)
--disk size: unavailable
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
++    if (s->incompatible_features & QCOW2_INCOMPAT_COMPRESSION) {
++        ret = qcow2_has_compressed_clusters(bs);
++        if (ret < 0) {
++            error_setg(errp, "Failed to check block status");
++            return -EINVAL;
++        }
++        if (ret) {
++            error_setg(errp, "Cannot downgrade an image with zstd compression "
++                       "type and existing compressed clusters");
++            return -ENOTSUP;
++        }
++        /*
++         * No compressed clusters for now, so just chose default zlib
++         * compression.
++         */
++        s->incompatible_features = 0;
++        s->compression_type = QCOW2_COMPRESSION_TYPE_ZLIB;
++    }
++
++    assert(s->incompatible_features == 0);
++
+     s->qcow_version = target_version;
+     ret = qcow2_update_header(bs);
+     if (ret < 0) {
 -- 
 2.29.2
 
