@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF023BBE98
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:01:23 +0200 (CEST)
-Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E233BBE99
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:02:45 +0200 (CEST)
+Received: from localhost ([::1]:49482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Q66-00088w-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
+	id 1m0Q7Q-0002Qc-JB
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0Q3j-00065s-Pr
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:58:56 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33467)
+ id 1m0Q4i-0007wO-8E
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:59:56 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:42963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0Q3g-00071J-2Q
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:58:55 -0400
-Received: by mail-ed1-x531.google.com with SMTP id eb14so2122078edb.0
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:58:50 -0700 (PDT)
+ id 1m0Q4g-0007jD-Oz
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:59:55 -0400
+Received: by mail-ej1-x635.google.com with SMTP id bg14so29383392ejb.9
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XxhRfvC8udZl3hYhocN/Z3xZfWCm0uwef16yI1Hdp6o=;
- b=V090k/XCHw/I0du2PjG10gXhbokgJwCXW9q+jP5PRumIVRieCQ9DyEfmMRDdTz8NW7
- Pcj0OXR2xZWK7FEFezkvS5FHXJIG080Tk3vqcECQZkH+mpAJKaM77YtobklZjozorbWx
- 1M2xCiThwVXGPQAmJ3e6EyqPpIZZiIfud9zVaigtlPf6ATt43YSRf+cOxyNYr/vu2Jkz
- 6Yk4YFelS8ew9KxkvFa46R4WsKpcdKeBnp/RjiYyb9pDPOa2OMvSuugnDzq78aqqPSKT
- hl/ngEUh+Q8y10yNxYRJmBNTPF/r2QPQrZlP7AKsTKEPwoA12Iz2Cjc/WG/g4NjbeLQf
- 4fUA==
+ :cc; bh=LdT0oso83mP4bLU/+U4zfY/foF3+UTnoughjGLCno0k=;
+ b=ti4RkzvzlpWiQ6EAIpFyKjduXEno/cNOh4TFzW6i8XpSX9e9gIN5XR1GQk4sA0TRQ3
+ CHRwqzt8agdwHX7Px3XTJ3kW1WJJ23W2AZXllPagEqzV6AKoVM+aRrtrtpLmUv2pcBFH
+ LzfSkBDag/ykqLrilm4QYGB5vNnxUU3Nh8duWsz9KQ7C3n6d2hOgbOdqwm8uxTsuz2bX
+ tRx9azYamzJKbPwgpoNcq+QMzY1upOFH7AOItJMUHrYXSyGOZ2g6/IJcO5buzRdE6Jlc
+ M67zM1N0CjxzzbgXO8ma1+tlkj1jnbcUeIxCfDBcM0qVC+MHqiqX65lpsvEYxwOOH5yG
+ v/mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XxhRfvC8udZl3hYhocN/Z3xZfWCm0uwef16yI1Hdp6o=;
- b=fEf8oZ31jCVpw42nZCNeTmALWMKzhk2LptLcrbrfLKs8TB+3Uic3rFPtml0aamS+8y
- J4ToKpznuKpzeo4ei5ZZn97+STsOp2mVqEZwN+Qfs38W7QyU9zp2q/dBgTPE80sdc58w
- MpneUikJAc/C7s07mX86cYPemoatOtAamygYmerIx2wKnXRm1kzlTctB592JTVBLrc9i
- zBuwogseZTUO+0TJBrkvD8Wc/Fp/9FoP2wuPJiltbwg7Mqc98l4kjk+IlfrzKNA1TNmD
- BeEklcCllOmgjM/U4GcoutDPZQVyCsz8/f4Lss5zcX2JLvZKGQL3WuyTEyb5iUCM3wcV
- vBMw==
-X-Gm-Message-State: AOAM532S65ID3mA5pDOQVC/AFlkC3d+oK9ereyRg5rVzscPtWIJYVUfm
- 8O3gTm862NGUsC9bXK2QXpGqrzdw8AfiGX8tmC0OCA==
-X-Google-Smtp-Source: ABdhPJxuhq5wXf6FhhKSc0PIlPrOxzSFH/NlONmSlA/2aB9j4Ey6js2ufq8KrVVcWGcOOmblxKusm8OUDGJ9IqaBHko=
-X-Received: by 2002:a05:6402:848:: with SMTP id
- b8mr16711063edz.44.1625497129610; 
- Mon, 05 Jul 2021 07:58:49 -0700 (PDT)
+ bh=LdT0oso83mP4bLU/+U4zfY/foF3+UTnoughjGLCno0k=;
+ b=CP2Tiiz1IZtmySCtQHqfWEvqap6pCEfKZbLgG/CExyT0dWkvnLnm1NSI6uFIZwcya6
+ qZQpOR2bz7lcN+O9PbxS0VnKhp4Klfe4kqkVY3ztLyXXZLEdCOWZnNN8mXfWYmNtFfpF
+ YC9DPACh2nD1s4VgrRb0e7ZxZru/+LxNye8kpKN+L5vgv7HtIaG0EQydZU9y4c92v4uQ
+ ZsgoU00seii33Hyzgt7CzxKSI84lgm+nqPubiOWUsb3xiHa/lWBgFQCRmW489auCUlDY
+ f3sGxy0VKnYrLHvUxH9r+j1WIIEf1NkKxRFrDj048TQeCO0Y2KY8R9UXxM6xJstY+y4+
+ 00Ew==
+X-Gm-Message-State: AOAM533ScpBOzbRNhmbAvDn93x+5OaCbhiUOyz0bt1iCLU6Xz+lVKg09
+ hU4aiVcfbqEAP7AttaZCMw9pLV8Xyg3E30bH0A26Ig==
+X-Google-Smtp-Source: ABdhPJzc4Ov+XARy52KYJriER8pVWc8XYrrq03L9iwwiC+BuEri7iq73rkQ8MqQT/fH5lOhwbv0BogeFNGE7SjNBLIU=
+X-Received: by 2002:a17:907:1691:: with SMTP id
+ hc17mr13484070ejc.382.1625497193347; 
+ Mon, 05 Jul 2021 07:59:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-2-shashi.mallela@linaro.org>
-In-Reply-To: <20210630153156.9421-2-shashi.mallela@linaro.org>
+ <20210630153156.9421-8-shashi.mallela@linaro.org>
+In-Reply-To: <20210630153156.9421-8-shashi.mallela@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 15:58:11 +0100
-Message-ID: <CAFEAcA_u=3f6sborqD9opCQv1kJHQm0+Gm1ytWx2zSzjXJTd1A@mail.gmail.com>
-Subject: Re: [PATCH v5 01/10] hw/intc: GICv3 ITS initial framework
+Date: Mon, 5 Jul 2021 15:59:15 +0100
+Message-ID: <CAFEAcA8UWgJwLjCZU3XjbiwecJ5sYVEgXc_e+2YbkrPfveBYfg@mail.gmail.com>
+Subject: Re: [PATCH v5 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
 To: Shashi Mallela <shashi.mallela@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,82 +87,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <shashi.mallela@linaro.org> wrote:
 >
-> Added register definitions relevant to ITS,implemented overall
-> ITS device framework with stubs for ITS control and translater
-> regions read/write,extended ITS common to handle mmio init between
-> existing kvm device and newer qemu device.
+> Included creation of ITS as part of SBSA platform GIC
+> initialization.
 >
 > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> +static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
-> +{
-> +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> +
-> +    gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
-> +
-> +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
 
-Can you remind me why we make this check, please? When would we
-have created an ITS device but not have a GICv3 with LPI support?
-
-Maybe it would be better to either
-(a) simply create the ITS and assume that the board connected it up
-to a GICv3 that supports it
-(b) check every CPU for whether PLPIS is set, and if one of them does
-not have it set then return an error from the ITS realize
-
-?
-
-(Found this by looking for code where we do s->gicv3->cpu->something...)
-
-> +        /* set the ITS default features supported */
-> +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
-> +                              GITS_TYPE_PHYSICAL);
-> +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, ITT_ENTRY_SIZE,
-> +                              ITS_ITT_ENTRY_SIZE - 1);
-> +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, IDBITS, ITS_IDBITS);
-> +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, DEVBITS, ITS_DEVBITS);
-> +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIL, 1);
-> +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIDBITS, ITS_CIDBITS);
-> +    }
-> +}
-> +
-> +static void gicv3_its_reset(DeviceState *dev)
-> +{
-> +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> +    GICv3ITSClass *c = ARM_GICV3_ITS_GET_CLASS(s);
-> +
-> +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
-
-Similarly here.
-
-> +        c->parent_reset(dev);
-> +
-> +        /* Quiescent bit reset to 1 */
-> +        s->ctlr = FIELD_DP32(s->ctlr, GITS_CTLR, QUIESCENT, 1);
-> +
-> +        /*
-> +         * setting GITS_BASER0.Type = 0b001 (Device)
-> +         *         GITS_BASER1.Type = 0b100 (Collection Table)
-> +         *         GITS_BASER<n>.Type,where n = 3 to 7 are 0b00 (Unimplemented)
-> +         *         GITS_BASER<0,1>.Page_Size = 64KB
-> +         * and default translation table entry size to 16 bytes
-> +         */
-> +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, TYPE,
-> +                                 GITS_ITT_TYPE_DEVICE);
-> +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, PAGESIZE,
-> +                                 GITS_BASER_PAGESIZE_64K);
-> +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, ENTRYSIZE,
-> +                                 GITS_DTE_SIZE - 1);
-> +
-> +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, TYPE,
-> +                                 GITS_ITT_TYPE_COLLECTION);
-> +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, PAGESIZE,
-> +                                 GITS_BASER_PAGESIZE_64K);
-> +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, ENTRYSIZE,
-> +                                 GITS_CTE_SIZE - 1);
-> +    }
-> +}
+This looks OK to me. Leif, are you happy with this patch now ?
 
 thanks
 -- PMM
