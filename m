@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B82E3BBD1A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:50:37 +0200 (CEST)
-Received: from localhost ([::1]:36916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA733BBD27
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:54:19 +0200 (CEST)
+Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0O3Y-0002pS-CK
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45372)
+	id 1m0O78-00058L-IS
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0O1c-00022F-17
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:48:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0O1Y-0002Oj-K0
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:48:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625489310;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=HsN12ZxqMw4p5TpfOGPnJ50NVxXHMdCl3bF3XsWZlQ0=;
- b=e2LKbTjRmpMzYZjNUQYIce6za1bfecx1SSggjWjdgPoqeuvBrMP0Ji2fE+lujopdtfGcUa
- vDnjaTnOTciABYcwu0pkPlUo8WACtHnftOM/XM0nq4Epx5zz3s5TUygyPGcNbS1OXwp+iC
- LPoL2uRiy9PRKMk1CzQftnwbN5/zTek=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-JW_f2TmBMJi5Oc-KjDH3rw-1; Mon, 05 Jul 2021 08:48:26 -0400
-X-MC-Unique: JW_f2TmBMJi5Oc-KjDH3rw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 034CD800C78;
- Mon,  5 Jul 2021 12:48:25 +0000 (UTC)
-Received: from redhat.com (ovpn-114-184.ams2.redhat.com [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 012801036D03;
- Mon,  5 Jul 2021 12:48:22 +0000 (UTC)
-Date: Mon, 5 Jul 2021 13:48:19 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kunkun Jiang <jiangkunkun@huawei.com>
-Subject: Re: [PATCH 1/2] qapi/run-state: Add a new shutdown cause
- 'migration-completed'
-Message-ID: <YOL/kw0lxn2ggGx4@redhat.com>
-References: <20210705123653.1315-1-jiangkunkun@huawei.com>
- <20210705123653.1315-2-jiangkunkun@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0O5W-0004FD-Nr
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:52:38 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0O5T-0003nP-K0
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:52:38 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id hr1so25526087ejc.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 05:52:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=c3tuPW0iroCcvdEpnLxUhIK4ZjdpYeLoUydL17RsFRU=;
+ b=ZDzak6+o5WsMknIe2MIRBoSFiI60qKObIlqdfvY+vD/PtNWywcpd+I43YqJifbHMvi
+ zmagslU+inw2jreVjZmQ2ViaiQcpagJInwM8BP+HLcU7ryUhjm/erFAgXlAceYtoRgpA
+ 6Qa3tpSuajOL6Ylk5W0B8DHJ8nyoAk6VlAhirkOlVSkXt89Y6t8PvNaa+VJPeleewitA
+ twXlhYapn6lbIK30NwqZDZ9FMqNClt7BOcdJcnivNcKABIvdrGgsgdbYMkLW0B2ozPHX
+ repZ+scCu+nzqRNsjOYrIuh4qRN/lGB5BjJpD54zZURJosmplNwE5QHxQmCdtWuaTbkX
+ Accg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=c3tuPW0iroCcvdEpnLxUhIK4ZjdpYeLoUydL17RsFRU=;
+ b=PHnkYoYQDZSEDz36ldT4RLgzXb17P2LobrcEB1I87IFzWPNssX2QIXF0gIRZEz92r7
+ DUmAd0Dnb4WHKZsPziCyw0KCDigK2EuOlZrFo21eAi0VZagswzzmoNAdCB4nqZgAfNTS
+ lArydioDiqdxz3QcmVuAe1w1MpOKQRTKuzaLZXk57fH9Pn1k4xHkZ2jxEPJn+o+Zw69Q
+ tv9LHJddnsmeOTQI58FGdUE6WFbBE99jVd3P950yRNfW+axaEisvQ+NH6/goCpZN18yV
+ fInipGpJcC8QhedCw05XdBpC1UKbpFhpe/B/8Mp1+TMdDhNEY2MHMNgJ1AtnT2CkgRVo
+ XxxQ==
+X-Gm-Message-State: AOAM532ccpYhNSLd2DfChHGERYySzQSeSAzFlhRPzSrnE0ogzZTGcLy+
+ qXjKi1QsogE4TMKn/pIb95hT3Q9zx7mCZdzkkzfKBQ==
+X-Google-Smtp-Source: ABdhPJygNZxdlTGjc9wqhiEWA1A4yM4dsBwEj5vC1zFnlNTqidijOtlPjj/vXiIBc/elLZm+3+VpvmETFI2v30YmZGw=
+X-Received: by 2002:a17:907:3e02:: with SMTP id
+ hp2mr13116169ejc.4.1625489553650; 
+ Mon, 05 Jul 2021 05:52:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210705123653.1315-2-jiangkunkun@huawei.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210629082713.31396-1-hnick@vmware.com>
+ <CAFEAcA-vSoriA2iCwyvBWofj1UvtMuRbEnqNuCsoG_hz1Yth_g@mail.gmail.com>
+ <35FFA736-504A-482B-B78C-17F7381C7D70@vmware.com>
+ <CAFEAcA-AvYq5ujspY1bxqjzX=1EYP4zY0ortFdNhJwPU+pDJGA@mail.gmail.com>
+ <79AC0C26-90CF-4F13-9480-ADD9D55E7408@vmware.com>
+In-Reply-To: <79AC0C26-90CF-4F13-9480-ADD9D55E7408@vmware.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Jul 2021 13:51:55 +0100
+Message-ID: <CAFEAcA-TA_5aLe009SXiqoqGUYthrF1UC1nj05jz63HkJ3Cufg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Correct the encoding of MDCCSR_EL0
+To: Nick Hudson <hnick@vmware.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,86 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, wanghaibin.wang@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Mohannad Ismail <imohannad@vmware.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 05, 2021 at 08:36:52PM +0800, Kunkun Jiang wrote:
-> In the current version, the source QEMU process does not automatic
-> exit after a successful migration. Additional action is required,
-> such as sending { "execute": "quit" } or ctrl+c. For simplify, add
-> a new shutdown cause 'migration-completed' to exit the source QEMU
-> process after a successful migration.
+On Fri, 2 Jul 2021 at 16:01, Nick Hudson <hnick@vmware.com> wrote:
+> Maybe I=E2=80=99m misreading the ARM ARM and the qemu use of mdscr_el1, b=
+ut I think
+> this is good enough / more correct.  I=E2=80=99m somewhat confused by AA6=
+4 MDSCR_EL1
+> vs DBGSCRint vs DBGSCRext, however.
 
-IIUC, 'STATUS_COMPLETED' state is entered on the source host
-once it has finished sending all VM state, and thus does not
-guarantee that the target host has successfully received and
-loaded all VM state.
+Yeah, it is confusing and we generally haven't modeled this very
+well, because we've kind of only cared when guests don't work and
+some of the purpose of these registers is for external debug
+which we don't model at all.
 
-Typically a mgmt app will need to directly confirm that the
-target host QEMU has succesfully started running, before it
-will tell the source QEMU to quit.
+Looking more closely at the Arm ARM:
+ * MDSCR_EL1 is the AArch64 register
+ * DBGDSCRext is the AArch32 version of that
+We model these basically correctly, I think
+ * MDCCSR_EL0 is supposed to be an AArch64 read-only register which
+has bits [30:29] of EDSCR (ie the JTAG-debugger-view of the TX/RX
+connection)
+ * DBGDSCRint is similar for AArch32, but it also has various
+bits that are read-only views of bits in DBGDSCRext/MDSCR_EL1
 
-So, AFAICT, this automatic exit after STATUS_COMPLETED is 
-not safe and could lead to total loss of the running VM in
-error scenarios.
+Bits [30:29] of MDSCR_EL1 are sort-of-but-not-quite the same
+bits as EDSCR [30:29], but they're close enough for our purposes.
 
+>     /* MDCCSR_EL0[30:29] map to DBGDSCRint[30:29]. Simply RAZ.
 
+(QEMU coding style requires "/*" on a line of its own.)
 
-> 
-> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
-> ---
->  migration/migration.c | 1 +
->  qapi/run-state.json   | 4 +++-
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 4228635d18..16782c93c2 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3539,6 +3539,7 @@ static void migration_iteration_finish(MigrationState *s)
->      case MIGRATION_STATUS_COMPLETED:
->          migration_calculate_complete(s);
->          runstate_set(RUN_STATE_POSTMIGRATE);
-> +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_MIGRATION_COMPLETED);
->          break;
->  
->      case MIGRATION_STATUS_ACTIVE:
-> diff --git a/qapi/run-state.json b/qapi/run-state.json
-> index 43d66d700f..66aaef4e2b 100644
-> --- a/qapi/run-state.json
-> +++ b/qapi/run-state.json
-> @@ -86,12 +86,14 @@
->  #                   ignores --no-reboot. This is useful for sanitizing
->  #                   hypercalls on s390 that are used during kexec/kdump/boot
->  #
-> +# @migration-completed: Reaction to the successful migration
-> +#
->  ##
->  { 'enum': 'ShutdownCause',
->    # Beware, shutdown_caused_by_guest() depends on enumeration order
->    'data': [ 'none', 'host-error', 'host-qmp-quit', 'host-qmp-system-reset',
->              'host-signal', 'host-ui', 'guest-shutdown', 'guest-reset',
-> -            'guest-panic', 'subsystem-reset'] }
-> +            'guest-panic', 'subsystem-reset', 'migration-completed'] }
->  
->  ##
->  # @StatusInfo:
-> -- 
-> 2.23.0
-> 
-> 
+>      * We don't implement the configurable EL0 access.
+>      */
+>     { .name =3D "MDCCSR_EL0", .state =3D ARM_CP_STATE_AA64,
+>       .cp =3D 14, .opc0 =3D 2, .opc1 =3D 3, .crn =3D 0, .crm =3D 1, .opc2=
+ =3D 0,
+>       .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+This seems reasonable; we don't implement the external debug
+Debug Communication Channel so we might as well model
+RXfull/TXfull as 0. It might be nice to mention in the comment
+that the reason we RAZ is because we don't implement the DCC.
 
+>     /* DBGDSCRint[15,12,5:2] map to MDSCR_EL1[15,12,5:2] */
+>     { .name =3D "DBGDSCRint", .state =3D ARM_CP_STATE_AA32,
+>       .cp =3D 14, .opc0 =3D 2, .opc1 =3D 0, .crn =3D 0, .crm =3D 1, .opc2=
+ =3D 0,
+>       .type =3D ARM_CP_ALIAS,
+>       .access =3D PL1_R, .accessfn =3D access_tda,
+>       .fieldoffset =3D offsetof(CPUARMState, cp15.mdscr_el1), },
+
+Here we're taking advantage of the fact tha MDSCR_EL1[30:29] are
+close enough that we can get away with using those. It's not
+consistent with how we modelled MDCCSR_EL0's version of those
+flags but it's unlikely any guest code will care.
+
+> Please let me know if you want me to submit a new patch.
+
+Yes, please do.
+
+thanks
+-- PMM
 
