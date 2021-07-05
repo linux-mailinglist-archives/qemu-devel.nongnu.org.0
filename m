@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2503BB6B3
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 07:16:23 +0200 (CEST)
-Received: from localhost ([::1]:55058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032543BB6EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 07:37:25 +0200 (CEST)
+Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Gxy-0001e8-7g
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 01:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44970)
+	id 1m0HIK-0007PK-JH
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 01:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0Gut-0000kP-4h; Mon, 05 Jul 2021 01:13:11 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:47669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0Guq-0006kh-V0; Mon, 05 Jul 2021 01:13:10 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GJDNF19v8z9sX1; Mon,  5 Jul 2021 15:13:01 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1625461981;
- bh=HfqhgnoniodDVHzB84ZWq6m0GnPOxGx0XaIwZRahSqA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NkQ90/XLD8r4sTI+bLFhxmNiArlFD+3SKyMopJJ+2Gj/gONrU7VxkfVLbykitEn9T
- 3cDRMlm5whyMxJw4ur4XDCF7LD5Wvk3j6Wp3nML5AOJZg2xx2Lvv3iRTxRz/qErZ4F
- bicOpQfhSP0XsNPJ4E8o52o7der+KEVU/w67iIdM=
-Date: Mon, 5 Jul 2021 15:12:56 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH] target/ppc/spapr: Update H_GET_CPU_CHARACTERISTICS L1D
- cache flush bits
-Message-ID: <YOKU2PrA/ic1/7JX@yekko>
-References: <20210615044107.1481608-1-npiggin@gmail.com>
- <YM24TwDm3SlCDiVu@yekko> <1624155035.72mw8haex4.astroid@bobo.none>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m0HHR-0006do-VM; Mon, 05 Jul 2021 01:36:31 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:47035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m0HHP-0000Fx-Iq; Mon, 05 Jul 2021 01:36:29 -0400
+Received: by mail-il1-x12c.google.com with SMTP id t12so16195150ile.13;
+ Sun, 04 Jul 2021 22:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0WRLPW9OlnKk48Mg/eRlCKvx2VfARMTH+fUc6vhDzLc=;
+ b=VeaO3GuESLf0gxZ6V1hTZK8fJS2QtCGlgPU4SbcGBMDuhJtRl9th89nAIEqVvcChBf
+ LFimRscdIZPyCyJn1/bWT2k/LkClB0c6wB8Kjncpu9PTEI6N60WhE6peIDDVhRkmsZ7P
+ pl1yQhWcg6cZb2EyIUj+TTua/XtcjuP+qDk2NJpo9mFBgsUuoYGjCf3VgemKPnCt/ZVA
+ x9C3B1ozNQltUea/MzBk8m6ybtRotvWFYxYcDXIPh/IYPFmeK7zH1HtaKPmQbmkzCshB
+ Pb0QWQ4ol2LaTPL6WPhRnhZ6wkWGEcoL8NboVwMyn6bVDHNHUipUF7aqUQFf0UVCAaxX
+ semQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0WRLPW9OlnKk48Mg/eRlCKvx2VfARMTH+fUc6vhDzLc=;
+ b=SuqxtPzpNdE29ICiE1Iq+5tY+D7d35/b+ytLWUusCTro1gRcSQo2DiKguCTIDvZw/Y
+ O/qVwoCdG152LYK+M2WoEJ/+Q0XzwYnp12p9QG6B/eyLyb4WFh9h6sFe/07Ul0YOfA8n
+ PMGV9pSuWj5WFUu9RnLowM6dIkExWpB4cJviVl+qRNlMKWa02u49+XyqX/JZj5g2c7U0
+ aAdY+NzsnXFqh5V6M0/s6PsRil2zj2yWIl8xHkY+CNhNLHT1l/G69JOKn8Aqi1GGe4Ju
+ kUgnRUhyc39aND1Fx7Xds2B0ru55GIeXqJ5Cuv3hqyY2dVcKVt9ZFONewJRqDI83eSzi
+ Te6g==
+X-Gm-Message-State: AOAM531Hg5dkvgoH/TMVmCd/jDsrWxbX7uAAmKKTFubJ9ulOeBb3E7WR
+ jqu/OltFJuR1aWe4TyUToinYqOnreDpXV5zplps=
+X-Google-Smtp-Source: ABdhPJxy0YWaby9OrH6c9kJV4/iK7WKKzF41k5IloSa2dq2xFgvXFhtxYiWBv/EuuxllYCdBgfY6h/9wK8OjmMw1h2w=
+X-Received: by 2002:a92:c886:: with SMTP id w6mr9428473ilo.227.1625463385078; 
+ Sun, 04 Jul 2021 22:36:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8uAsljXXs+rFwubQ"
-Content-Disposition: inline
-In-Reply-To: <1624155035.72mw8haex4.astroid@bobo.none>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210627142816.19789-1-bmeng.cn@gmail.com>
+ <20210627142816.19789-2-bmeng.cn@gmail.com>
+In-Reply-To: <20210627142816.19789-2-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 5 Jul 2021 15:35:58 +1000
+Message-ID: <CAKmqyKMN3Uf0A-6K8DaSSbVZZL46dYyWy_d-MNEBJyo5eza=7w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] docs/system: riscv: Add documentation for virt machine
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,107 +78,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jun 28, 2021 at 12:29 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> This adds detailed documentation for RISC-V `virt` machine,
+> including the following information:
+>
+>   - Supported devices
+>   - Hardware configuration information
+>   - Boot options
+>   - Running Linux kernel
+>   - Running U-Boot
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
---8uAsljXXs+rFwubQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks!
 
-On Sun, Jun 20, 2021 at 12:22:53PM +1000, Nicholas Piggin wrote:
-> Excerpts from David Gibson's message of June 19, 2021 7:26 pm:
-> > On Tue, Jun 15, 2021 at 02:41:07PM +1000, Nicholas Piggin wrote:
-> >> There are several new L1D cache flush bits added to the hcall which re=
-flect
-> >> hardware security features for speculative cache access issues.
-> >>=20
-> >> These behaviours are now being specified as negative in order to simpl=
-ify
-> >> patched kernel compatibility with older firmware (a new problem found =
-in
-> >> existing systems would automatically be vulnerable).
-> >=20
-> > I don't really understand all the consequences of that.  What I need
-> > to know here, is if it's safe to unconditionally enable these bits,
-> > even for older machine types.
->=20
-> Unconditionally on the condition that the cap is set to fixed?
+Applied to riscv-to-apply.next
 
-Sorry, poor phrashing.  I meant it's not conditional on the machine
-version, which means we are technically changing behaviour for
-existing machine versions.  That's a big red flag, though there can be
-circumstances in which it's justified.
+Alistair
 
-> It
-> should be fine AFAIKS. If the older machine types are running on
-> older hardware that acutally does require the flush, then the fixed
-> cap would cause the existing flush bit to be clear and the kernel to=20
-> skip the exit flush, so that would be broken already. Does that sound
-> right?
-
-Urgh.  The fact that some bits have different sense to others is doing
-my head in.
-
-> One thing I'm not entirely clear on is:
->=20
-> All these (entry/exit/uaccess) flush requirements stem from basically=20
-> the same underlying mechanism, so that gets resolved in hardware and
-> software can stop doing all of them. That's fine, but it was decided to
-> add different bits to the hcall basically to have flexibility let's say
-> in case a new issue is discovered one day that requires just the uaccess=
-=20
-> flush, for example.
->=20
-> In that case we can just set the right combination of bits in firmware,
-> and kernels in the field will just do the right thing, and we don't
-> need to do all the other flushes that would be worse for performance.
-
-Right, but that doesn't work for qemu guests.  Qemu needs to advertise
-things so that guests will do all the things that are necessary not
-just on this host, but on any host we might be migrated to.
-
-> How would that work with qemu? I assume we don't have a cap per bit in=20
-> the hcall, but rather a cap per vulnerability class, so you would set=20
-> that new class as vulnerable, and this code will have to translate those
-> and work out the correct combination of bits to set in these fields.
-
-Something like that, yes.  Actually doing so can be pretty complicated
-because of the need to have a consistent migration domain.
-
-> If I'm way off base or there's a better way to do it, that could mean
-> this patch needs to be done a different way.
-
-I think we need to find a time to discuss this (Slack or call or
-whatever), so you can step me through this bit by bit.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---8uAsljXXs+rFwubQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDilNYACgkQbDjKyiDZ
-s5JIGhAA2z9EC3ve6zSFVhvGM2yX2Z01gJCBgaSTL380TyONaEsI46hnsaz0XwCK
-zrN6kP8bk5+u0HYvzIKDtHplh8CnvS8GA+ko5CnXEwAY17OJ2tklNP6tZ3wA1GeQ
-NLs8fYgYXdbKSuzZYFgn+y+vHcoM5fXbaRjnxzdvxGP7up2dxWEAyoFHW6EPqSbh
-hCxSMoSfldxwKpEE3H21bxkO58xBujB63Q/181up4yymrWWZF/t+yFTWifvGBvNd
-1twgO/2qOpXgGad55+HSVcLgN6WfFsHX6I3uy9Yb9kvQwgUUQBzVy/NWFZUjTCK9
-CJukK3gezQyyGQJy3eN6xkZxdb6z7pp+gtj4A+s235WLIsL+x0G/6aFK9XTfupGv
-3BMw/UXbW+AvsMZ3F0WQWBlld+6SKVUZgmIM3pVi9kGNuuC5SoMK1QyJT7i/No2a
-4apedCloNQ49h+ilXMMZH0UJoUaB0ROOHJ1uhQZreKW8lJEZ00JmmwT2PJ9SmX0V
-2tzBh39sRGlGcoBufJ6BoTWuW0+KKFRPhM9YubRq+okakr8a0TueGrvuktFuBSRP
-TUHEYG4ngeFRGpxjKqZpgJdkMTE1eTbRWVWTT9EYxLNLubrhb7VlFdD2/Tp7ytgV
-T5kQUJu+vJ3U+BdAbYgo1ZEG0KbHUD4mIQmAYU+4vYzAEpjGsKM=
-=LELH
------END PGP SIGNATURE-----
-
---8uAsljXXs+rFwubQ--
+> ---
+>
+>  docs/system/riscv/virt.rst   | 138 +++++++++++++++++++++++++++++++++++
+>  docs/system/target-riscv.rst |   1 +
+>  2 files changed, 139 insertions(+)
+>  create mode 100644 docs/system/riscv/virt.rst
+>
+> diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
+> new file mode 100644
+> index 0000000000..3709f05797
+> --- /dev/null
+> +++ b/docs/system/riscv/virt.rst
+> @@ -0,0 +1,138 @@
+> +'virt' Generic Virtual Platform (``virt``)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The `virt` board is a platform which does not correspond to any real har=
+dware;
+> +it is designed for use in virtual machines. It is the recommended board =
+type
+> +if you simply want to run a guest such as Linux and do not care about
+> +reproducing the idiosyncrasies and limitations of a particular bit of
+> +real-world hardware.
+> +
+> +Supported devices
+> +-----------------
+> +
+> +The ``virt`` machine supports the following devices:
+> +
+> +* Up to 8 generic RV32GC/RV64GC cores, with optional extensions
+> +* Core Local Interruptor (CLINT)
+> +* Platform-Level Interrupt Controller (PLIC)
+> +* CFI parallel NOR flash memory
+> +* 1 NS16550 compatible UART
+> +* 1 Google Goldfish RTC
+> +* 1 SiFive Test device
+> +* 8 virtio-mmio transport devices
+> +* 1 generic PCIe host bridge
+> +* The fw_cfg device that allows a guest to obtain data from QEMU
+> +
+> +Note that the default CPU is a generic RV32GC/RV64GC. Optional extension=
+s
+> +can be enabled via command line parameters, e.g.: ``-cpu rv64,x-h=3Dtrue=
+``
+> +enables the hypervisor extension for RV64.
+> +
+> +Hardware configuration information
+> +----------------------------------
+> +
+> +The ``virt`` machine automatically generates a device tree blob ("dtb")
+> +which it passes to the guest, if there is no ``-dtb`` option. This provi=
+des
+> +information about the addresses, interrupt lines and other configuration=
+ of
+> +the various devices in the system. Guest software should discover the de=
+vices
+> +that are present in the generated DTB.
+> +
+> +If users want to provide their own DTB, they can use the ``-dtb`` option=
+.
+> +These DTBs should have the following requirements:
+> +
+> +* The number of subnodes of the /cpus node should match QEMU's ``-smp`` =
+option
+> +* The /memory reg size should match QEMU=E2=80=99s selected ram_size via=
+ ``-m``
+> +* Should contain a node for the CLINT device with a compatible string
+> +  "riscv,clint0" if using with OpenSBI BIOS images
+> +
+> +Boot options
+> +------------
+> +
+> +The ``virt`` machine can start using the standard -kernel functionality
+> +for loading a Linux kernel, a VxWorks kernel, an S-mode U-Boot bootloade=
+r
+> +with the default OpenSBI firmware image as the -bios. It also supports
+> +the recommended RISC-V bootflow: U-Boot SPL (M-mode) loads OpenSBI fw_dy=
+namic
+> +firmware and U-Boot proper (S-mode), using the standard -bios functional=
+ity.
+> +
+> +Running Linux kernel
+> +--------------------
+> +
+> +Linux mainline v5.12 release is tested at the time of writing. To build =
+a
+> +Linux mainline kernel that can be booted by the ``virt`` machine in
+> +64-bit mode, simply configure the kernel using the defconfig configurati=
+on:
+> +
+> +.. code-block:: bash
+> +
+> +  $ export ARCH=3Driscv
+> +  $ export CROSS_COMPILE=3Driscv64-linux-
+> +  $ make defconfig
+> +  $ make
+> +
+> +To boot the newly built Linux kernel in QEMU with the ``virt`` machine:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
+> +      -display none -serial stdio \
+> +      -kernel arch/riscv/boot/Image \
+> +      -initrd /path/to/rootfs.cpio \
+> +      -append "root=3D/dev/ram"
+> +
+> +To build a Linux mainline kernel that can be booted by the ``virt`` mach=
+ine
+> +in 32-bit mode, use the rv32_defconfig configuration. A patch is require=
+d to
+> +fix the 32-bit boot issue for Linux kernel v5.12.
+> +
+> +.. code-block:: bash
+> +
+> +  $ export ARCH=3Driscv
+> +  $ export CROSS_COMPILE=3Driscv64-linux-
+> +  $ curl https://patchwork.kernel.org/project/linux-riscv/patch/20210627=
+135117.28641-1-bmeng.cn@gmail.com/mbox/ > riscv.patch
+> +  $ git am riscv.patch
+> +  $ make rv32_defconfig
+> +  $ make
+> +
+> +Replace ``qemu-system-riscv64`` with ``qemu-system-riscv32`` in the comm=
+and
+> +line above to boot the 32-bit Linux kernel. A rootfs image containing 32=
+-bit
+> +applications shall be used in order for kernel to boot to user space.
+> +
+> +Running U-Boot
+> +--------------
+> +
+> +U-Boot mainline v2021.04 release is tested at the time of writing. To bu=
+ild an
+> +S-mode U-Boot bootloader that can be booted by the ``virt`` machine, use
+> +the qemu-riscv64_smode_defconfig with similar commands as described abov=
+e for Linux:
+> +
+> +.. code-block:: bash
+> +
+> +  $ export CROSS_COMPILE=3Driscv64-linux-
+> +  $ make qemu-riscv64_smode_defconfig
+> +
+> +Boot the 64-bit U-Boot S-mode image directly:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
+> +      -display none -serial stdio \
+> +      -kernel /path/to/u-boot.bin
+> +
+> +To test booting U-Boot SPL which in M-mode, which in turn loads a FIT im=
+age
+> +that bundles OpenSBI fw_dynamic firmware and U-Boot proper (S-mode) toge=
+ther,
+> +build the U-Boot images using riscv64_spl_defconfig:
+> +
+> +.. code-block:: bash
+> +
+> +  $ export CROSS_COMPILE=3Driscv64-linux-
+> +  $ export OPENSBI=3D/path/to/opensbi-riscv64-generic-fw_dynamic.bin
+> +  $ make qemu-riscv64_spl_defconfig
+> +
+> +The minimal QEMU commands to run U-Boot SPL are:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
+> +      -display none -serial stdio \
+> +      -bios /path/to/u-boot-spl \
+> +      -device loader,file=3D/path/to/u-boot.itb,addr=3D0x80200000
+> +
+> +To test 32-bit U-Boot images, switch to use qemu-riscv32_smode_defconfig=
+ and
+> +riscv32_spl_defconfig builds, and replace ``qemu-system-riscv64`` with
+> +``qemu-system-riscv32`` in the command lines above to boot the 32-bit U-=
+Boot.
+> diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
+> index a5cc06b726..89a866e4f4 100644
+> --- a/docs/system/target-riscv.rst
+> +++ b/docs/system/target-riscv.rst
+> @@ -69,6 +69,7 @@ undocumented; you can get a complete list by running
+>     riscv/microchip-icicle-kit
+>     riscv/shakti-c
+>     riscv/sifive_u
+> +   riscv/virt
+>
+>  RISC-V CPU firmware
+>  -------------------
+> --
+> 2.25.1
+>
+>
 
