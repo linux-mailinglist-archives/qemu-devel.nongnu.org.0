@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E233BBE99
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:02:45 +0200 (CEST)
-Received: from localhost ([::1]:49482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805273BBE9D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:05:59 +0200 (CEST)
+Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Q7Q-0002Qc-JB
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
+	id 1m0QAY-00061b-Ii
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:05:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0Q4i-0007wO-8E
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:59:56 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:42963)
+ id 1m0Q8B-0004W8-JF
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:03:31 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:38710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0Q4g-0007jD-Oz
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 10:59:55 -0400
-Received: by mail-ej1-x635.google.com with SMTP id bg14so29383392ejb.9
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 07:59:54 -0700 (PDT)
+ id 1m0Q8A-0001TX-0J
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:03:31 -0400
+Received: by mail-ej1-x633.google.com with SMTP id gb6so12792516ejc.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LdT0oso83mP4bLU/+U4zfY/foF3+UTnoughjGLCno0k=;
- b=ti4RkzvzlpWiQ6EAIpFyKjduXEno/cNOh4TFzW6i8XpSX9e9gIN5XR1GQk4sA0TRQ3
- CHRwqzt8agdwHX7Px3XTJ3kW1WJJ23W2AZXllPagEqzV6AKoVM+aRrtrtpLmUv2pcBFH
- LzfSkBDag/ykqLrilm4QYGB5vNnxUU3Nh8duWsz9KQ7C3n6d2hOgbOdqwm8uxTsuz2bX
- tRx9azYamzJKbPwgpoNcq+QMzY1upOFH7AOItJMUHrYXSyGOZ2g6/IJcO5buzRdE6Jlc
- M67zM1N0CjxzzbgXO8ma1+tlkj1jnbcUeIxCfDBcM0qVC+MHqiqX65lpsvEYxwOOH5yG
- v/mA==
+ :cc; bh=viGaPrwPRmGQ4jEkrgd71Q2v9IVY4KVegInd7a9aLVo=;
+ b=j5OYRfQQ1X0iMIlvdiAnL8Jj+nXCUk0EZH4MHV4fD+0zK+cNaKd4QWwqgYvqktMSTv
+ mO4zOF3vQPZOh7lqmXQYCaKBEQ3rlFYpMSuG0KFuc+AyZDVP/xO8HqkCacCIvXm+sgoa
+ 46KZzEH30OacffoavFrXPNx9OZzt2zNjyQSDBvIbrWjWr/5Qr04x2pp5xZqTgCzazmPe
+ 5CX9PNjZrNPjAJWXsYrvdmX1355aifYYoVCnD3g5DSU7C2N2Ju0o/kHh4PhaG+iseQjA
+ 5Az83EMM3QyM7R2QbATCCVx+gPCr0uQ4m3FNYxYA8Dr5jIfevPh1i3zsE5X+X6bHtmlL
+ zROQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LdT0oso83mP4bLU/+U4zfY/foF3+UTnoughjGLCno0k=;
- b=CP2Tiiz1IZtmySCtQHqfWEvqap6pCEfKZbLgG/CExyT0dWkvnLnm1NSI6uFIZwcya6
- qZQpOR2bz7lcN+O9PbxS0VnKhp4Klfe4kqkVY3ztLyXXZLEdCOWZnNN8mXfWYmNtFfpF
- YC9DPACh2nD1s4VgrRb0e7ZxZru/+LxNye8kpKN+L5vgv7HtIaG0EQydZU9y4c92v4uQ
- ZsgoU00seii33Hyzgt7CzxKSI84lgm+nqPubiOWUsb3xiHa/lWBgFQCRmW489auCUlDY
- f3sGxy0VKnYrLHvUxH9r+j1WIIEf1NkKxRFrDj048TQeCO0Y2KY8R9UXxM6xJstY+y4+
- 00Ew==
-X-Gm-Message-State: AOAM533ScpBOzbRNhmbAvDn93x+5OaCbhiUOyz0bt1iCLU6Xz+lVKg09
- hU4aiVcfbqEAP7AttaZCMw9pLV8Xyg3E30bH0A26Ig==
-X-Google-Smtp-Source: ABdhPJzc4Ov+XARy52KYJriER8pVWc8XYrrq03L9iwwiC+BuEri7iq73rkQ8MqQT/fH5lOhwbv0BogeFNGE7SjNBLIU=
+ bh=viGaPrwPRmGQ4jEkrgd71Q2v9IVY4KVegInd7a9aLVo=;
+ b=laeTd+ngmN/5SJCu96Ij+6OAlcaJFkNJmdsVCwsXGP/GGtZgfeCar1D33PC24yo/wy
+ FknBxueKz6tkgpqhYfKmf+hAQ7BdsQNIZWcGWdbKlaGqIaoaAL+r9t0PaZb4RXaewEqf
+ FuRtAHpLBgM5o1WEZlsgcOpnxKygj49R9D5nSrkbA+JIJ7vlmFkKlL7MIN866XHgMN8e
+ 9ZXMnrEMBEvNFMh+dEqG8hFQ6MhAavUKb8kWIDZ2juABNL3tehB+dv8Z4iQY4t+kj2br
+ ANA54Rq/rp11tWrCWS441e8Rhr009MHxlslWAl/IdroIqQ4L1Kq+AnPDh4i/MaF38FNm
+ CxZw==
+X-Gm-Message-State: AOAM533Ygm3tmRhmwpa+qh1k7bhQ5YN/Q2rWB43sbmaZ90um0Gq+mmAq
+ nwvNY+yyNRdcIDj4nnzfsr51rq3yQbJTJNeW6kBW9Q==
+X-Google-Smtp-Source: ABdhPJytJBhDDV2SkbdfTjYl5VagO5PMjhNHuhcKmNatxdjVVgO89M1vGN9ukae7prFzpqRHQEEPAbs/FxsqdfggZDk=
 X-Received: by 2002:a17:907:1691:: with SMTP id
- hc17mr13484070ejc.382.1625497193347; 
- Mon, 05 Jul 2021 07:59:53 -0700 (PDT)
+ hc17mr13500745ejc.382.1625497408724; 
+ Mon, 05 Jul 2021 08:03:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-8-shashi.mallela@linaro.org>
-In-Reply-To: <20210630153156.9421-8-shashi.mallela@linaro.org>
+ <20210630153156.9421-11-shashi.mallela@linaro.org>
+In-Reply-To: <20210630153156.9421-11-shashi.mallela@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 15:59:15 +0100
-Message-ID: <CAFEAcA8UWgJwLjCZU3XjbiwecJ5sYVEgXc_e+2YbkrPfveBYfg@mail.gmail.com>
-Subject: Re: [PATCH v5 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
+Date: Mon, 5 Jul 2021 16:02:50 +0100
+Message-ID: <CAFEAcA9uN4gVrPPcvu7uUePrwyxbMvekwZREXhyoNU68iBDdnA@mail.gmail.com>
+Subject: Re: [PATCH v5 10/10] tests/data/acpi/virt: Update IORT files for ITS
 To: Shashi Mallela <shashi.mallela@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,12 +87,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <shashi.mallela@linaro.org> wrote:
 >
-> Included creation of ITS as part of SBSA platform GIC
-> initialization.
+> Updated expected IORT files applicable with latest GICv3
+> ITS changes.
 >
 > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
 
-This looks OK to me. Leif, are you happy with this patch now ?
+The comment in tests/qtest/bios-tables-test.c requests that
+patches with updates to the expected binaries should include
+the IASL diffs in the commit message (so that reviewers can
+confirm that the changes happening are sensible).
 
 thanks
 -- PMM
