@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9363BBD8E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:37:50 +0200 (CEST)
-Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B2B3BBD8C
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:36:20 +0200 (CEST)
+Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0OnF-0004bU-Su
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57010)
+	id 1m0Oln-0000jp-Em
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0Oix-0006AS-0W
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:23 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44578)
+ id 1m0OjG-0006Qb-GQ
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:42 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0Oit-0005Bg-Dh
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:22 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t15so18766072wry.11
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 06:33:19 -0700 (PDT)
+ id 1m0OjC-0005Md-Oc
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:42 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ t14-20020a05600c198eb029020c8aac53d4so3479059wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 06:33:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=OwdU4UKLvygXLRGa9Mdh0LTHVfICES0tT6jNw5W5O0E=;
- b=QI3qKKEDjLci5bPiAzSLDRgaAEMyfynYqQbg8OlfiBVmlaXDSz4FtWOME8jkYy3wKU
- m3psi8BvtK5n1fsusLrz9VZegFMJIoddjj3uz97ps06rfSsRuhMurB1Dg/V1ITQEwZKY
- T1bqWpjp/zA0pq8/7A9FrfYnAuvLgIFbHDqBBvCoaL4Py7CIc9PhDFmm8xKc2H5sqWgZ
- hcBtkEgxgf0DbaWOFhQtrdR60pX+ZMdYe/Ojo1e+mJWrhsBfEmR3VGzLViM89Wm3Wj1Q
- shS/5kLPurBMg2ob7IRe3MRWzGvZsWsjQraERshvx4RXBQdY+LthqNclkCZfuiEBTny+
- C2rg==
+ bh=s3GGNerN3BQLFmI/JEAfTO9BH/N1N7gjtV8b/R1WstI=;
+ b=O4wQy7p20WK+Vw/ymnSRR3+z/PNr0W0bsrbiTvefscSD/VKznhBFUswpcID5cZSwM0
+ ATNvmHGaFB5Nh5VkcRc+UawLabZbtgfS2zmOS0gvOvs31Ana5ygnmbg7sEYq5mTI4hRu
+ dlB1NNGhQiRAPpU0KbXNJN0d0LKv7Xu2WGFytA4J338M0xyMVxD1cBeUEl72A3fIZXpA
+ s4OCm7a/Jw83z3t8Im/CmLb7h07ooDjHyh4cgVbNpa/utQAro7vjawawUexGX0SVhHIG
+ Y1fJy7YdfTJtOS/Iajw071dvAxaOQBf4by14RRNwnpPe3ipDu46s9VCtD9/yD6XxsdE4
+ bF9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=OwdU4UKLvygXLRGa9Mdh0LTHVfICES0tT6jNw5W5O0E=;
- b=IUx/4Fn547TuwEMpT45oRz4FAIKfo0a1ce+E8SnlusIriS6s1Yoccpv15lIu5SyJSO
- 4Ia7+pJtNPObaCKSRC3eyPnh4TM48B050RkPMWOR6zyYPVXnmVdY6wtPOca7P3EGmNCr
- fSCSitX3nuhV9WP7bkluw6zsuZR7N7Vn6/P14WQbnkQRq8e92vTCk58iRPqII03+wUCq
- ww3TqFTFd0ph3SK+gwlbrauo+Pq/Cj7V02sCbYsH6aZ3zp2KxLsGZAgw55JkpytFEY4J
- FvXbSfudomOUUCNUzD+QjajVMZnkhcwVmYCcc0bHvGzTuF33KrOXn2eaB7Vm/fXdtzuK
- ZTQg==
-X-Gm-Message-State: AOAM531xpVGUxcb8BxZa5heSmZ9+ZvjLOnQp0Ty3QrEKmkkQrnowh9Ac
- 1lFyD+DVIhBRiy/fuQ+SC6hPfQ==
-X-Google-Smtp-Source: ABdhPJxoVEx8/w1VHHqhDfOUuF0wDtm+hXai1uDbgPeOjGLCoWjKRzsVYTRtjJzqOYZk6Hz9jlk7jg==
-X-Received: by 2002:a05:6000:12c7:: with SMTP id
- l7mr15154224wrx.177.1625491998193; 
- Mon, 05 Jul 2021 06:33:18 -0700 (PDT)
+ bh=s3GGNerN3BQLFmI/JEAfTO9BH/N1N7gjtV8b/R1WstI=;
+ b=TsJWn5DNXHUkI9axZ/v94UhnKn9tZlnE2XFGjM+VEjGMGlt47527BQWQEdewCdHlVh
+ W/ks/YL1YU5qZ6bW5xhLwv8yL70SaQpBdiMNMyPbBOf8oL0D1LUpwoTTH7RQ+ZDtVsCC
+ J/BgX8S4+4UkJY5eWuzJSjIa6EeUAvKrYNtoSOzgc4WZ51ht4P2wRXYHBOXvrDZie1XJ
+ NMHwGKlrYhSdUIhzmijf2ZOaZ3euRvn8ehEjPInRmVTSkWM+Isphe8pRsUhd1Bf8I7z+
+ y/PLMCqxUkwEfM9IJmRaasQa/C3q6tn9mTDwbeemm22oEF6M5t9/4965PE7VCqCRLUuP
+ Igqg==
+X-Gm-Message-State: AOAM532diEbkhYSrRYH27jJOUtYlb/hQ8h8To8u8tsqxFtms5LxUlM+s
+ VkTbquaiJVHu4yQmcvf1xnpNRA==
+X-Google-Smtp-Source: ABdhPJywf4jQjrSgnP9lE2P9tZbdkwRCTTWlOER0qWyEYt+290Pu5pOM9ndzkImpzc+jnKY/GXcLSg==
+X-Received: by 2002:a05:600c:214b:: with SMTP id
+ v11mr15405171wml.95.1625492017454; 
+ Mon, 05 Jul 2021 06:33:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b9sm15802193wrh.81.2021.07.05.06.33.16
+ by smtp.gmail.com with ESMTPSA id g125sm15448888wmg.27.2021.07.05.06.33.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 06:33:17 -0700 (PDT)
+ Mon, 05 Jul 2021 06:33:36 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2B1EC1FF7E;
- Mon,  5 Jul 2021 14:33:16 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 156581FF7E;
+ Mon,  5 Jul 2021 14:33:36 +0100 (BST)
 References: <20210623142245.307776-1-berrange@redhat.com>
- <20210623142245.307776-5-berrange@redhat.com>
+ <20210623142245.307776-7-berrange@redhat.com>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 04/22] tests/docker: use explicit docker.io registry
-Date: Mon, 05 Jul 2021 14:33:11 +0100
-In-reply-to: <20210623142245.307776-5-berrange@redhat.com>
-Message-ID: <87sg0s51ib.fsf@linaro.org>
+Subject: Re: [PATCH v4 06/22] tests/docker: fix sorting in package lists
+Date: Mon, 05 Jul 2021 14:33:31 +0100
+In-reply-to: <20210623142245.307776-7-berrange@redhat.com>
+Message-ID: <87pmvw51hr.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,11 +101,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> It is good practice to use an explicit registry for referencing the base
-> image. This is because some distros will inject their own registries
-> into the search path. For example registry.fedoraproject.org comes ahead
-> of docker.io. Using an explicit registry avoids wasting time querying
-> multiple registries for images that they won't have.
+> This will make diffs in later patches clearer.
 >
 > Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
