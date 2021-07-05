@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6B63BC195
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:22:07 +0200 (CEST)
-Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E11A3BC19E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:24:16 +0200 (CEST)
+Received: from localhost ([::1]:51122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0RME-0003pX-7Z
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39666)
+	id 1m0ROI-0006jb-RV
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:24:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0RC4-0002Nm-R5
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:11:36 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0RC2-0001Kw-FY
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:11:36 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- g8-20020a1c9d080000b02901f13dd1672aso201525wme.0
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 09:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Sxlr9UcDJytSer5DOPVhFy05eYoa7/rWCRBIA9ftumg=;
- b=FisqiRB2Zxg9WZSha52LdxGigo+W3rnFear+gymznWoBvsTWeOKDQHLkgCY23k7/ZT
- xVxAHzD1xo4Bcm5DCjwJQnFofAS3VL/qVfsh3bTVg8DufiGw74FU4dn1KFnnUVhgj0jT
- GiMxBnYvKXVQSSFL0IxIw4TXj0gm6O9M/p+07KlxQFQeun69wJn6u1uK+HEX0F1fTU+F
- za6tHzB5i/IkyqFjww9hNMjwchhPLFkICdxpKEjGybJez472elWQhfFoa09HdCaD/Wkk
- cXMLfBIcX6dND1nMQeC3gGqYWmWiIzQarRuXXcYSxuz+qALl/n4LnJZPLcadC+qpKILu
- 5gCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Sxlr9UcDJytSer5DOPVhFy05eYoa7/rWCRBIA9ftumg=;
- b=ZMchdCuWRNWkHeJIXq01U4n+KvbLidEPuM0SVQDP3Jb1MhWugZDE0SVCueVLkt884f
- TMrU5Uk9Ssan4coj1m4HcsDEmXbFUeUAgJqYfWwDDX0kHy87nsHDFBTPK3ddZXFPm0Az
- iX2WJSi/O25iR6jn1kbsERq9tWu6ScP0q7Ia9rzIbGG3mtIRVjl8R7+Vggztf6zjsMk6
- S035u2Jl4pUXiLaUtDUbAaIhCLM1LxNzKb/MENz3cmzYWAwlwBG93/xP6dmsO3O6hvwI
- 9yACAERSTe9Jb4+pnGlzdKCPB5miZkJ3zVFRjJ9apRbt5aVXjuMZxhOG2AFmFm6ZchRf
- WTGA==
-X-Gm-Message-State: AOAM530qAZOuUdw/lSQrNEFSmpGFQJ+aZ4KXA0yVFzFRqFHbUBrL++Th
- SfjPtx348+QPYsI1pIaRJTNfOQ==
-X-Google-Smtp-Source: ABdhPJyiAo/aBcfJKIs3He4sSIdRF3vXgkxM4O2INX3i5jZMn83U13kBvWj1c/YMWyAOkOSM4vvuyg==
-X-Received: by 2002:a05:600c:2dcf:: with SMTP id
- e15mr16241476wmh.185.1625501489009; 
- Mon, 05 Jul 2021 09:11:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l2sm12492824wms.20.2021.07.05.09.11.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 09:11:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 78D9C1FF7E;
- Mon,  5 Jul 2021 17:11:27 +0100 (BST)
-References: <20210623125458.450462-1-ma.mandourr@gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v4 0/5] plugins: New TCG plugin for cache modelling
-Date: Mon, 05 Jul 2021 17:11:19 +0100
-In-reply-to: <20210623125458.450462-1-ma.mandourr@gmail.com>
-Message-ID: <87fsws3fm8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m0RLT-0004WQ-SA
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:21:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m0RLQ-0007Pc-Rt
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:21:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625502074;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k5zbkbRost6XKSn4SJME/otKr7wd502r2ByHOtxiwNQ=;
+ b=Xo6qAIf5zx4gb90UmAqBoIwYxxyFzdASV9tzuYDjsG5KF8/mbUAxEGOHHW4RmnVR3RFYNA
+ 45QbJPXZxpvea4JWLL13Gj/hgHipT3VLPJf/SaLXAU7RQjZVAE7oO/SkCcjZEZlLCuBUd7
+ rY4kKZ1XcLNKorzHl1rP3qMDd9Ejcjs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-kWLjfXePNi-xvO9PIoEsyQ-1; Mon, 05 Jul 2021 12:21:09 -0400
+X-MC-Unique: kWLjfXePNi-xvO9PIoEsyQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE663100C660
+ for <qemu-devel@nongnu.org>; Mon,  5 Jul 2021 16:21:08 +0000 (UTC)
+Received: from redhat.com (ovpn-114-184.ams2.redhat.com [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0172B10074FC;
+ Mon,  5 Jul 2021 16:21:07 +0000 (UTC)
+Date: Mon, 5 Jul 2021 17:21:04 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 02/17] configure, meson: convert vte detection to meson
+Message-ID: <YOMxcF/GOpSnkOCx@redhat.com>
+References: <20210705160018.241397-1-pbonzini@redhat.com>
+ <20210705160018.241397-3-pbonzini@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210705160018.241397-3-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,20 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jul 05, 2021 at 06:00:03PM +0200, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure         | 29 ++++-------------------------
+>  meson.build       | 16 ++++++++++------
+>  meson_options.txt |  2 ++
+>  3 files changed, 16 insertions(+), 31 deletions(-)
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-> This series introduces a new cache TCG plugin that models separate
-> L1 data cache and L1 instruction cache and uses one shared cache for
-> all the cores. This is a part of my work for GSoC 2021 under the
-> mentorship of Alex Benn=C3=A9e.
 
-Queued to plugins/next, thanks.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-Alex Benn=C3=A9e
 
