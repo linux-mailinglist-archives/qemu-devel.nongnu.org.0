@@ -2,90 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CF13BB7E6
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 09:32:31 +0200 (CEST)
-Received: from localhost ([::1]:33690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5D53BB842
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 09:53:31 +0200 (CEST)
+Received: from localhost ([::1]:38064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0J5i-0001K3-J5
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 03:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
+	id 1m0JQ2-0005GQ-Cx
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 03:53:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0J4a-0000dX-Sv
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 03:31:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47682)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m0JOs-0004a6-NE
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 03:52:18 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42306
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0J4Y-0004cp-PE
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 03:31:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625470277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vRUXkfqtOkgAUvH5L2Or6JFZttWy/B8XnoKE9fntgvs=;
- b=BWvlPbH9grnwruMyiDmYCjOgbx6dEiXQm3l2dstX17PQs5R+Fyq5asgCY9T63DT+gm3pw0
- FY9SD41pVrFBqYcgkUfqK7JUgBNpBkw3rfIbJQ9rTWIRIqHbyZZBIWD6u0HSnTyakwba74
- xvR3fW+TlYLTXZYb5AnTPrAoy+9gXa8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-QjdnLormMNilgRDuYLE-Qw-1; Mon, 05 Jul 2021 03:31:16 -0400
-X-MC-Unique: QjdnLormMNilgRDuYLE-Qw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- l12-20020a5d410c0000b029012b4f055c9bso5670130wrp.4
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 00:31:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vRUXkfqtOkgAUvH5L2Or6JFZttWy/B8XnoKE9fntgvs=;
- b=D9VVLUokTUn9dxnB2fF7aybBY71AOwsXq8VbEEnq6mQh0NoHBhrQS3buxFOojXEQrP
- j419LyXM9vldTLiI5yZoFLt9r9r9fqHqd3g9kngt1uM7RHpbkB5aroVN4xOtDbuH4o1u
- wl1+ZMdGISfp/eaiub/a+0hvAsSBxRXY508ZBGp69G6fbLhHSTxjrar6n0uER0uln7I4
- 0lhS2TpjAv7in8We/vv7hfQ6bQJQ+ivs1v7xNcx/9qZ3zKDJgPRZs7ERM01SHh+IM5eb
- nxwj6Lq9HHA+yynRi/4tlUdmS5ijTclWyeKWAfG/sKD8eoiopoVNWN7xdRm4o1P66T/W
- oR0g==
-X-Gm-Message-State: AOAM5319d9rigOkJY8nf/ueZrt0CUZxWvaLq0CqLyzYkyyG5ADalth3o
- UnjvonM3FLWCj84YKGIWMS2/XIoxVjO+ezxMFzoxK6lfY0MBE/aK06hRb9vC9ZacbNHM0i5NQoP
- 1DfcBqeE7d8V4EXg=
-X-Received: by 2002:a5d:4d04:: with SMTP id z4mr13956756wrt.133.1625470275678; 
- Mon, 05 Jul 2021 00:31:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy6T5VuHuWmoNfCQt1hHkq476JEL5YTq54GTfPZss9Oi8DQGS0oqpXSqkg5BpJzLtT7pxau4w==
-X-Received: by 2002:a5d:4d04:: with SMTP id z4mr13956735wrt.133.1625470275458; 
- Mon, 05 Jul 2021 00:31:15 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575e1e.dip0.t-ipconnect.de. [217.87.94.30])
- by smtp.gmail.com with ESMTPSA id c7sm12248105wrs.23.2021.07.05.00.31.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Jul 2021 00:31:15 -0700 (PDT)
-Subject: Re: [PATCH 3/3] ci: build & store guest agent msi
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20210623091137.1156959-1-kraxel@redhat.com>
- <20210623091137.1156959-4-kraxel@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fc59bbd5-2f5b-8d47-4960-a2b129f28a55@redhat.com>
-Date: Mon, 5 Jul 2021 09:31:13 +0200
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m0JOp-0003ap-Eb
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 03:52:18 -0400
+Received: from host86-179-59-238.range86-179.btcentralplus.com
+ ([86.179.59.238] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m0JOT-0009Im-5T; Mon, 05 Jul 2021 08:51:57 +0100
+To: Finn Thain <fthain@linux-m68k.org>
+References: <20210704152739.18213-1-mark.cave-ayland@ilande.co.uk>
+ <4f4d1643-85f7-fbbc-3a22-fff086362c32@linux-m68k.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <cf9f6c26-473a-20ed-bf0d-bac63114c60f@ilande.co.uk>
+Date: Mon, 5 Jul 2021 08:52:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210623091137.1156959-4-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <4f4d1643-85f7-fbbc-3a22-fff086362c32@linux-m68k.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.441,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.179.59.238
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v3] dp8393x: don't force 32-bit register access
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,87 +64,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: laurent@vivier.eu, jasowang@redhat.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/06/2021 11.11, Gerd Hoffmann wrote:
-> Build guest agent windows msi install package in gitlab CI,
-> store the result as artifact.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->   .gitlab-ci.d/crossbuild-template.yml               | 3 ++-
->   .gitlab-ci.d/crossbuilds.yml                       | 2 ++
->   tests/docker/dockerfiles/fedora-win32-cross.docker | 1 +
->   tests/docker/dockerfiles/fedora-win64-cross.docker | 1 +
->   4 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-> index 5411177935fc..507440af0f4e 100644
-> --- a/.gitlab-ci.d/crossbuild-template.yml
-> +++ b/.gitlab-ci.d/crossbuild-template.yml
-> @@ -13,9 +13,10 @@
->       - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->       - if grep -q "EXESUF=.exe" config-host.mak;
->         then scripts/copy-dlls;
-> -      make installer;
-> +      make installer msi;
->         version="$(git describe --match v[0-9]*)";
->         mv -v qemu-setup*.exe qemu-setup-${version}.exe;
-> +      mv -v qga/*.msi $(basename qga/*.msi .msi)-${version}.msi;
->         fi
->   
->   # Job to cross-build specific accelerators.
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index 4ff3aa3cfcdd..fc14a1cf5c10 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -163,6 +163,7 @@ cross-win32-system:
->     artifacts:
->       paths:
->         - build/qemu-setup*.exe
-> +      - build/qemu-ga*.msi
->   
->   cross-win64-system:
->     extends: .cross_system_build_job
-> @@ -173,6 +174,7 @@ cross-win64-system:
->     artifacts:
->       paths:
->         - build/qemu-setup*.exe
-> +      - build/qemu-ga*.msi
->   
->   cross-amd64-xen-only:
->     extends: .cross_accel_build_job
-> diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-> index a638afb525ce..9fffc8e73881 100644
-> --- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-> +++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-> @@ -28,6 +28,7 @@ ENV PACKAGES \
->       mingw32-pixman \
->       mingw32-pkg-config \
->       mingw32-SDL2 \
-> +    msitools \
->       perl \
->       perl-Test-Harness \
->       python3 \
-> diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-> index 5fbfe8892896..d748c37c4aa4 100644
-> --- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-> +++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-> @@ -25,6 +25,7 @@ ENV PACKAGES \
->       mingw64-libtasn1 \
->       mingw64-pixman \
->       mingw64-pkg-config \
-> +    msitools \
->       perl \
->       perl-Test-Harness \
->       python3 \
-> 
+On 05/07/2021 02:44, Finn Thain wrote:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> On Sun, 4 Jul 2021, Mark Cave-Ayland wrote:
+> 
+>> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" assumed that all accesses
+>> to the registers were 32-bit
+> 
+> As I said, that assumption was not made there.
+> 
+> If commit 3fe9a838ec is deficient it is probably because I am unaware of
+> the ability of the QEMU memory API to accomplish the desired result.
+> 
+> That's not to say that the API can't do it, just that I don't know enough
+> about the API.
+> 
+>> but this is actually not the case. The access size is determined by the
+>> CPU instruction used and not the number of physical address lines.
+>>
+> 
+> Again, that is an over-simplification. To explain: in Apple hardware at
+> least, the access size that the SONIC chip sees is a consequence of bus
+> sizing logic that is not part of the CPU and is not part of the SONIC chip
+> either.
+> 
+> AIUI, this logic is what Philippe alluded to when he said about this
+> patch, "This sounds to me like the 'QEMU doesn't model busses so we end
+> using kludge to hide bugs' pattern".
 
+Sure I understand this, and some of the interesting logic Apple has for decoding 
+memory accesses. However the MacOS toolbox ROM works fine with this change combining 
+the 2 separate accesses, and it is the jazzsonic driver accesses which are failing 
+and need to be understood.
+
+>> The big_endian workaround applied to the register read/writes was actually caused
+>> by forcing the access size to 32-bit when the guest OS was using a 16-bit access.
+>> Since the registers are 16-bit then we can simply set .impl.min_access and
+>> .impl.max_accessto 2 and then the memory API will automatically do the right thing
+>> for both 16-bit accesses used by Linux and 32-bit accesses used by the MacOS toolbox
+>> ROM.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Fixes: 3fe9a838ec ("dp8393x: Always use 32-bit accesses")
+> 
+> There is a 'fixes' tag here but it's unclear what bug is being fixed. I
+> think this commit log entry would be more helpful if it mentioned the bug
+> that was observed.
+> 
+>> ---
+>>   hw/net/dp8393x.c | 9 ++++-----
+>>   1 file changed, 4 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+>> index 11810c9b60..d16ade2b19 100644
+>> --- a/hw/net/dp8393x.c
+>> +++ b/hw/net/dp8393x.c
+>> @@ -602,15 +602,14 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+>>   
+>>       trace_dp8393x_read(reg, reg_names[reg], val, size);
+>>   
+>> -    return s->big_endian ? val << 16 : val;
+>> +    return val;
+>>   }
+>>   
+>> -static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+>> +static void dp8393x_write(void *opaque, hwaddr addr, uint64_t val,
+>>                             unsigned int size)
+>>   {
+>>       dp8393xState *s = opaque;
+>>       int reg = addr >> s->it_shift;
+>> -    uint32_t val = s->big_endian ? data >> 16 : data;
+>>   
+>>       trace_dp8393x_write(reg, reg_names[reg], val, size);
+>>   
+>> @@ -694,8 +693,8 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+>>   static const MemoryRegionOps dp8393x_ops = {
+>>       .read = dp8393x_read,
+>>       .write = dp8393x_write,
+>> -    .impl.min_access_size = 4,
+>> -    .impl.max_access_size = 4,
+>> +    .impl.min_access_size = 2,
+>> +    .impl.max_access_size = 2,
+>>       .endianness = DEVICE_NATIVE_ENDIAN,
+>>   };
+>>   
+>>
+> 
+> Again, this patch breaks my Linux/mipsel guest. Perhaps you did not
+> receive my message about that regression? It did make it into the list
+> archives...
+> https://lore.kernel.org/qemu-devel/20210703141947.352295-1-f4bug@amsat.org/T/#m8ef6d91fd8e38b01e375083058902342970b8833
+
+I did see this, but as per my follow up message I wanted to make sure that everyone 
+was using the same patches first as you needed a combination of an in-flight PR plus 
+the correct versions of all the patches from over the weekend.
+
+Looking at the jazzsonic code I see the SONIC_READ() macro at 
+https://elixir.bootlin.com/linux/latest/source/drivers/net/ethernet/natsemi/jazzsonic.c#L56 
+is using a pointer to an unsigned int. Is an unsigned int 4 bytes on mips64el? If so 
+the proposed change would return 2 registers in the same 4-byte result which is what 
+is likely to be confusing the driver.
+
+I think the problem is because of the interaction of .impl.max_access_size = 2 and 
+the it_shift property specifying a stride of 4 bytes: when the 4 byte access is split 
+into 2 x 2 byte accesses then for a read reg = addr >> s->it_shift causes the second 
+access to be a duplicate of the first rather than containing zeros.
+
+Again if you can provide a link to your existing vmlinux and busybox rootfs then I 
+should be able to get to the bottom of this fairly quickly.
+
+
+ATB,
+
+Mark.
 
