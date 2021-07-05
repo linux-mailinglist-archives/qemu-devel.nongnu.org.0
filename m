@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5D03BBCF4
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:41:46 +0200 (CEST)
-Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1012A3BBCF0
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 14:40:51 +0200 (CEST)
+Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Nuz-00086d-Ow
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43350)
+	id 1m0Nu6-0004Qg-1R
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 08:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1m0Nr1-0001ma-O3
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:37:42 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2185)
+ id 1m0Nr2-0001mc-RD
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:37:43 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1m0Nqy-0007Sc-Vi
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:37:39 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GJQ845X68z75Sb;
- Mon,  5 Jul 2021 20:33:08 +0800 (CST)
+ id 1m0Nr1-0007Th-3w
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 08:37:40 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GJQ872qWlz76CR;
+ Mon,  5 Jul 2021 20:33:11 +0800 (CST)
 Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 5 Jul 2021 20:37:28 +0800
+ 15.1.2176.2; Mon, 5 Jul 2021 20:37:30 +0800
 Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
  dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 5 Jul 2021 20:37:27 +0800
+ 15.1.2176.2; Mon, 5 Jul 2021 20:37:30 +0800
 From: Kunkun Jiang <jiangkunkun@huawei.com>
 To: Juan Quintela <quintela@redhat.com>, "Dr . David Alan Gilbert"
  <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>, Markus Armbruster
  <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "open list:All
  patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH 0/2] Auto exit source QEMU process after a successful migration
-Date: Mon, 5 Jul 2021 20:36:51 +0800
-Message-ID: <20210705123653.1315-1-jiangkunkun@huawei.com>
+Subject: [PATCH 1/2] qapi/run-state: Add a new shutdown cause
+ 'migration-completed'
+Date: Mon, 5 Jul 2021 20:36:52 +0800
+Message-ID: <20210705123653.1315-2-jiangkunkun@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
+In-Reply-To: <20210705123653.1315-1-jiangkunkun@huawei.com>
+References: <20210705123653.1315-1-jiangkunkun@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -70,27 +73,50 @@ Cc: wanghaibin.wang@huawei.com, jiangkunkun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+In the current version, the source QEMU process does not automatic
+exit after a successful migration. Additional action is required,
+such as sending { "execute": "quit" } or ctrl+c. For simplify, add
+a new shutdown cause 'migration-completed' to exit the source QEMU
+process after a successful migration.
 
-This serial include patches as below:
-Patch 1:
-- add a new shutdown cause 'migration-completed', which used for automatically
-  exit of source QEMU process after a successful migration
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+---
+ migration/migration.c | 1 +
+ qapi/run-state.json   | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-Patch 2:
-- add a new migration capability 'auto-quit' to control whether to automatically
-  exit source QEMU process after a successful migration
-
-Kunkun Jiang (2):
-  qapi/run-state: Add a new shutdown cause 'migration-completed'
-  qapi/migration: Add a new migration capability 'auto-quit'
-
- migration/migration.c | 13 +++++++++++++
- migration/migration.h |  1 +
- qapi/migration.json   |  6 +++++-
- qapi/run-state.json   |  4 +++-
- 4 files changed, 22 insertions(+), 2 deletions(-)
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 4228635d18..16782c93c2 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3539,6 +3539,7 @@ static void migration_iteration_finish(MigrationState *s)
+     case MIGRATION_STATUS_COMPLETED:
+         migration_calculate_complete(s);
+         runstate_set(RUN_STATE_POSTMIGRATE);
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_MIGRATION_COMPLETED);
+         break;
+ 
+     case MIGRATION_STATUS_ACTIVE:
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 43d66d700f..66aaef4e2b 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -86,12 +86,14 @@
+ #                   ignores --no-reboot. This is useful for sanitizing
+ #                   hypercalls on s390 that are used during kexec/kdump/boot
+ #
++# @migration-completed: Reaction to the successful migration
++#
+ ##
+ { 'enum': 'ShutdownCause',
+   # Beware, shutdown_caused_by_guest() depends on enumeration order
+   'data': [ 'none', 'host-error', 'host-qmp-quit', 'host-qmp-system-reset',
+             'host-signal', 'host-ui', 'guest-shutdown', 'guest-reset',
+-            'guest-panic', 'subsystem-reset'] }
++            'guest-panic', 'subsystem-reset', 'migration-completed'] }
+ 
+ ##
+ # @StatusInfo:
 -- 
 2.23.0
 
