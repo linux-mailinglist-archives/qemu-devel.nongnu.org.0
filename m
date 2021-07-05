@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9C93BB65D
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 06:30:47 +0200 (CEST)
-Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0C93BB65A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 06:29:29 +0200 (CEST)
+Received: from localhost ([::1]:38202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0GFq-0008JR-BV
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 00:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38964)
+	id 1m0GEZ-0003gb-90
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 00:29:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0GBX-0003oV-3r
+ id 1m0GBX-0003oS-51
  for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:19 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49182)
+Received: from indium.canonical.com ([91.189.90.7]:49246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0GBS-0002ta-Sg
+ id 1m0GBU-0002uE-HU
  for qemu-devel@nongnu.org; Mon, 05 Jul 2021 00:26:18 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0GBO-0004RW-Az
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 04:26:10 +0000
+ id 1m0GBP-0004RW-7o
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 04:26:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DAAC42E826F
- for <qemu-devel@nongnu.org>; Mon,  5 Jul 2021 04:25:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E3FF2E827C
+ for <qemu-devel@nongnu.org>; Mon,  5 Jul 2021 04:26:00 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 05 Jul 2021 04:17:26 -0000
-From: Launchpad Bug Tracker <1861458@bugs.launchpad.net>
+Date: Mon, 05 Jul 2021 04:17:27 -0000
+From: Launchpad Bug Tracker <1860553@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: audio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor noah-bergbauer th-huth
-X-Launchpad-Bug-Reporter: Noah Bergbauer (noah-bergbauer)
+X-Launchpad-Bug-Commenters: cyborgyn glaubitz janitor laurent-vivier rth
+ th-huth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158042156192.19296.13362308580628501069.malonedeb@gac.canonical.com>
-Message-Id: <162545864659.12677.1193185253925647114.malone@loganberry.canonical.com>
-Subject: [Bug 1861458] Re: Clock drift issue with -soundhw hda
+References: <157970117843.5560.13252417721225198010.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162545864726.12677.17063533431184538795.malone@loganberry.canonical.com>
+Subject: [Bug 1860553] Re: cmake crashes on qemu-alpha-user with Illegal
+ Instruction
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c7d3f30bfe7d7b488c7f9d3c8d7880184b1d065e"; Instance="production"
-X-Launchpad-Hash: 9ab7143929e6d646d1aa373f7622817381857654
+X-Launchpad-Hash: cba549c3ca8e4101c917f50f8b8e9965664cf8a0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861458 <1861458@bugs.launchpad.net>
+Reply-To: Bug 1860553 <1860553@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,49 +85,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861458
+https://bugs.launchpad.net/bugs/1860553
 
 Title:
-  Clock drift issue with -soundhw hda
+  cmake crashes on qemu-alpha-user with Illegal Instruction
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Here's the scenario: I'm working on code for loopback audio recording
-  (i.e. recording what you're hearing) using WASAPI on Windows. As I
-  usually develop on Linux, I'm using qemu to test this on a Windows 10
-  VM. The heart of WASAPI audio recording is the
-  IAudioCaptureClient::GetBuffer function (https://docs.microsoft.com
-  /en-us/windows/win32/api/audioclient/nf-audioclient-
-  iaudiocaptureclient-getbuffer). Among other things, this function
-  produces a timestamp for when the audio buffer it returned is supposed
-  to be played.
+  I tried building cmake on Debian unstable for Alpha today using qemu-
+  user and the compiled cmake binary crashed with "Illegal Instruction":
 
-  When the audio device in question is the qemu hda device, this
-  timestamp is wrong.
+  g++ -Wl,-z,relro -Wl,--as-needed -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDD=
+IR>>=3D. -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIFY_SOURCE=
+=3D2             -I/<<PKGBUILDDIR>>/Build/Bootstrap.cmk   -I/<<PKGBUILDDIR>=
+>/Source   -I/<<PKGBUILDDIR>>/Source/LexerParser   -I/<<PKGBUILDDIR>>/Utili=
+ties  cmAddCustomCommandCommand.o cmAddCustomTargetCommand.o cmAddDefinitio=
+nsCommand.o cmAddDependenciesCommand.o cmAddExecutableCommand.o cmAddLibrar=
+yCommand.o cmAddSubDirectoryCommand.o cmAddTestCommand.o cmArgumentParser.o=
+ cmBreakCommand.o cmBuildCommand.o cmCMakeMinimumRequired.o cmCMakePolicyCo=
+mmand.o cmCPackPropertiesGenerator.o cmCacheManager.o cmCommand.o cmCommand=
+ArgumentParserHelper.o cmCommands.o cmCommonTargetGenerator.o cmComputeComp=
+onentGraph.o cmComputeLinkDepends.o cmComputeLinkInformation.o cmComputeTar=
+getDepends.o cmConditionEvaluator.o cmConfigureFileCommand.o cmContinueComm=
+and.o cmCoreTryCompile.o cmCreateTestSourceList.o cmCustomCommand.o cmCusto=
+mCommandGenerator.o cmDefinePropertyCommand.o cmDefinitions.o cmDepends.o c=
+mDependsC.o cmDisallowedCommand.o cmDocumentationFormatter.o cmEnableLangua=
+geCommand.o cmEnableTestingCommand.o cmExecProgramCommand.o cmExecuteProces=
+sCommand.o cmExpandedCommandArgument.o cmExportBuildFileGenerator.o cmExpor=
+tFileGenerator.o cmExportInstallFileGenerator.o cmExportSet.o cmExportSetMa=
+p.o cmExportTryCompileFileGenerator.o cmExprParserHelper.o cmExternalMakefi=
+leProjectGenerator.o cmFileCommand.o cmFileCopier.o cmFileInstaller.o cmFil=
+eTime.o cmFileTimeCache.o cmFileTimes.o cmFindBase.o cmFindCommon.o cmFindF=
+ileCommand.o cmFindLibraryCommand.o cmFindPackageCommand.o cmFindPathComman=
+d.o cmFindProgramCommand.o cmForEachCommand.o cmFunctionCommand.o cmFSPermi=
+ssions.o cmGeneratedFileStream.o cmGeneratorExpression.o cmGeneratorExpress=
+ionContext.o cmGeneratorExpressionDAGChecker.o cmGeneratorExpressionEvaluat=
+ionFile.o cmGeneratorExpressionEvaluator.o cmGeneratorExpressionLexer.o cmG=
+eneratorExpressionNode.o cmGeneratorExpressionParser.o cmGeneratorTarget.o =
+cmGetCMakePropertyCommand.o cmGetDirectoryPropertyCommand.o cmGetFilenameCo=
+mponentCommand.o cmGetPipes.o cmGetPropertyCommand.o cmGetSourceFilePropert=
+yCommand.o cmGetTargetPropertyCommand.o cmGetTestPropertyCommand.o cmGlobal=
+CommonGenerator.o cmGlobalGenerator.o cmGlobalUnixMakefileGenerator3.o cmGl=
+obVerificationManager.o cmHexFileConverter.o cmIfCommand.o cmIncludeCommand=
+.o cmIncludeGuardCommand.o cmIncludeDirectoryCommand.o cmIncludeRegularExpr=
+essionCommand.o cmInstallCommand.o cmInstallCommandArguments.o cmInstallDir=
+ectoryGenerator.o cmInstallExportGenerator.o cmInstallFilesCommand.o cmInst=
+allFilesGenerator.o cmInstallGenerator.o cmInstallScriptGenerator.o cmInsta=
+llSubdirectoryGenerator.o cmInstallTargetGenerator.o cmInstallTargetsComman=
+d.o cmInstalledFile.o cmLinkDirectoriesCommand.o cmLinkItem.o cmLinkLineCom=
+puter.o cmLinkLineDeviceComputer.o cmListCommand.o cmListFileCache.o cmLoca=
+lCommonGenerator.o cmLocalGenerator.o cmLocalUnixMakefileGenerator3.o cmMSV=
+C60LinkLineComputer.o cmMacroCommand.o cmMakeDirectoryCommand.o cmMakefile.=
+o cmMakefileExecutableTargetGenerator.o cmMakefileLibraryTargetGenerator.o =
+cmMakefileTargetGenerator.o cmMakefileUtilityTargetGenerator.o cmMarkAsAdva=
+ncedCommand.o cmMathCommand.o cmMessageCommand.o cmMessenger.o cmNewLineSty=
+le.o cmOSXBundleGenerator.o cmOptionCommand.o cmOrderDirectories.o cmOutput=
+Converter.o cmParseArgumentsCommand.o cmPathLabel.o cmPolicies.o cmProcessO=
+utput.o cmProjectCommand.o cmProperty.o cmPropertyDefinition.o cmPropertyDe=
+finitionMap.o cmPropertyMap.o cmReturnCommand.o cmRulePlaceholderExpander.o=
+ cmScriptGenerator.o cmSearchPath.o cmSeparateArgumentsCommand.o cmSetComma=
+nd.o cmSetDirectoryPropertiesCommand.o cmSetPropertyCommand.o cmSetSourceFi=
+lesPropertiesCommand.o cmSetTargetPropertiesCommand.o cmSetTestsPropertiesC=
+ommand.o cmSiteNameCommand.o cmSourceFile.o cmSourceFileLocation.o cmState.=
+o cmStateDirectory.o cmStateSnapshot.o cmStringReplaceHelper.o cmStringComm=
+and.o cmSubdirCommand.o cmSystemTools.o cmTarget.o cmTargetCompileDefinitio=
+nsCommand.o cmTargetCompileFeaturesCommand.o cmTargetCompileOptionsCommand.=
+o cmTargetIncludeDirectoriesCommand.o cmTargetLinkLibrariesCommand.o cmTarg=
+etPropCommandBase.o cmTargetPropertyComputer.o cmTargetSourcesCommand.o cmT=
+est.o cmTestGenerator.o cmTimestamp.o cmTryCompileCommand.o cmTryRunCommand=
+.o cmUnexpectedCommand.o cmUnsetCommand.o cmUVHandlePtr.o cmUVProcessChain.=
+o cmVersion.o cmWhileCommand.o cmWorkingDirectory.o cmake.o cmakemain.o cmc=
+md.o cm_string_view.o cmCommandArgumentLexer.o cmCommandArgumentParser.o cm=
+ExprLexer.o cmExprParser.o cmListFileLexer.o Directory.o EncodingCXX.o FStr=
+eam.o Glob.o RegularExpression.o SystemTools.o EncodingC.o ProcessUNIX.o St=
+ring.o System.o Terminal.o uv-src-strscpy.c.o uv-src-timer.c.o uv-src-uv-co=
+mmon.c.o uv-src-unix-cmake-bootstrap.c.o uv-src-unix-core.c.o uv-src-unix-f=
+s.c.o uv-src-unix-loop.c.o uv-src-unix-loop-watcher.c.o uv-src-unix-no-fsev=
+ents.c.o uv-src-unix-pipe.c.o uv-src-unix-poll.c.o uv-src-unix-posix-hrtime=
+.c.o uv-src-unix-posix-poll.c.o uv-src-unix-process.c.o uv-src-unix-signal.=
+c.o uv-src-unix-stream.c.o  -ldl -lrt -o cmake
+  make[2]: Leaving directory '/<<PKGBUILDDIR>>/Build/Bootstrap.cmk'
+  loading initial cache file /<<PKGBUILDDIR>>/Build/Bootstrap.cmk/InitialCa=
+cheFlags.cmake
+  Illegal instruction
+  ---------------------------------------------
+  Error when bootstrapping CMake:
+  Problem while running initial CMake
+  ---------------------------------------------
 
-  There is a clock drift error (I measured it to be about 0.1%, i.e. 1ms
-  drift every second =3D a full second after 16 minutes) that causes the
-  audio clock to advance faster than the system clock. Paradoxically,
-  this does not affect audio playback through qemu at all, no delay
-  there. Only the timestamps returned to recording applications are
-  completely bogus.
-
-  Unfortunately I'm not intimately familiar with the inner workings of
-  Intel HD Audio. All I can tell you is that this timestamp is
-  supposedly obtained directly from the hardware (which would be qemu in
-  this case), which is also why e.g. chromium implements a workaround
-  for buggy hardware that returns incorrect timestamps.
-
-  Here are the relevant parts of my command line (version 4.2.0):
-  -enable-kvm -machine pc-q35-3.1,kernel-irqchip=3Don -cpu host,kvm=3Doff,h=
-v_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_vendor_id=3DNvidiaFuckU=
- -rtc base=3Dlocaltime -nodefaults -soundhw hda
-
-  Just wanted to let you know about this because it took me three days
-  of utter confusion and frustration to figure this out.
+  I'm working on creating a chroot for download to reproduce the issue.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861458/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1860553/+subscriptions
 
