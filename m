@@ -2,57 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77F13BC0DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:37:04 +0200 (CEST)
-Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5403D3BC147
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 17:57:02 +0200 (CEST)
+Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0Qed-0006ow-P8
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
+	id 1m0Qxw-0007Oh-Uj
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 11:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1m0QcX-0004yN-Ei
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:34:53 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:47531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1m0QcT-0003mu-JA
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:34:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=l1+TwGAsvbDwEsOFrBik37j/0Vnt8JfV+VCa9f9fPB0=; b=YsuGb8sA0tCqHhVs5NwKi5e/pe
- zWd8KJ2CHfcEKJ1YTW29oMJMPubhWoTcDM1Ny2FnfVRjvPZppsn8Kqlhwl9b0ph3/IxE7NJSespKU
- vQqZuUPMZlmFZ4WC/PNEMi5nESYAKxMidzzPtS7G0NPC1iQaw370b/Pn544tfDrVcxWRo+LJK4SB9
- 4dsXKtjYHmld9VrixGwZ9rWnb09XS5Lp+j+30QojNI5WkGtviuzjscD4SzxENdNeVWGz0lZgcj1iH
- TA5++w/Xfg+u3hBf9gZ6dF6Rh6owLyzLR/Oez5LlHq6hFtTTN66l6Ifd6dwB5paolLCdQjkcEPBOJ
- V0wDQuLnSrnDT9qSGdNU7pshDqc4/Fggglf+EXAtW0EstmLDGGVuLTc4qpabXFPeAsXo+oFzHW+fh
- CzsQzCITe/qemCgforLGX3SidfPMf58A9F4Ux/MOnF2/+Ojsoa0nfXdYP+jwuBJjx5dxsLE3XnB14
- PSQwWvBzqMnIOO4O1MWxr+nm/WS8QtEcnhVCiVNUKfgRciKe73NLYN0neVszqtxK8ma1yJhHy1y9Y
- KGfw+A0kpZwYFrqzY7YaX9dCBBFGFyh/z6ys+qEMv6z7BGQa5BjaWIEnkqJympsjINhATE5ToHDSs
- zM8UWtZo17hPmTO81uM6K4H8S9VBRklbCl+0B+bOg=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PULL 0/8] 9p queue 2021-07-05
-Date: Mon, 05 Jul 2021 17:34:45 +0200
-Message-ID: <2066764.2AXzDdBHVr@silver>
-In-Reply-To: <CAFEAcA-uHfJrJc9JcVRZ7x9WG1sY0C+zbC=m5gzyRdVG+TL49Q@mail.gmail.com>
-References: <cover.1625483630.git.qemu_oss@crudebyte.com>
- <CAFEAcA-uHfJrJc9JcVRZ7x9WG1sY0C+zbC=m5gzyRdVG+TL49Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1m0QwH-00065T-Cp
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:55:17 -0400
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:46678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1m0QwE-0000V1-86
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 11:55:17 -0400
+Received: by mail-qt1-x831.google.com with SMTP id h2so4337406qtq.13
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 08:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BF6O0kjEEM8xyPli4XAlXsuAiHYVgtSuVEGuosDgT44=;
+ b=z0HKBwMUfaXFcCQ26Yc69+0urV/vHylp+r2EphuRHuX0pd0GSyh3uCquslHPf3bpZg
+ tKKba2lSnYV9oDOepA5zY6EypGp7lAOsb8lstAAfERs1BJ0+Aja70KdbwCP1d3iN997W
+ m7CzW/xM5ABqIqZxdLM4An9FUZM3/zBI5/9bYxw0jyMkZJs6E34G9Nup12/0gZXMIQf1
+ IZgiBQj2INnHytD8g2TSC9dBzo/t7DWznx1+j0kyaBosQmtTE9AigpeBeON0s1yMTn+U
+ quRdCYzAUFmXB/7133dBuIi1l7sn4IDJB10Kc8gR0mduoI4LcTmhuE6TIFp8AWCUObmQ
+ y1lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BF6O0kjEEM8xyPli4XAlXsuAiHYVgtSuVEGuosDgT44=;
+ b=Pk56MsN9qs9VuLV9HLb2V21y2mJ5kLas6rCmbgqYpE7PFdaihg8Mp2mk8e9nY68LBS
+ dCKCnuUuKKyIlGiuRfkla2H9E2gPlm1x8L1Zj0Ony2k8Afqr1ogFcBkP8lRy49OlkhQ+
+ /4PePTlMeDobwIXu+zwOeCi7DVTxN1dRSnqY2Bh2qTDMHhZHs9T8AR6NAzc1tlNg7kSv
+ hTMgVv4CQaTp54LrN0ZFuHsNEpPRqIKEUl9w+KS3eDmIwxOi9L4GA1x9K14cHeahPSNT
+ nlFQNnjQkls7yg1n07wlOsmcNy69eTrfwTl5lo8NOyS6Jt7VioJly3QKeKx4pzyDk2j/
+ y7Bw==
+X-Gm-Message-State: AOAM532D5Wki2netNXOLGxXYs0JXX7yOJNt12O2Z3+VmW52kOpwJDPhy
+ o95O6VJa2eDL5oRpT5FeF2Ty9g==
+X-Google-Smtp-Source: ABdhPJyWiG1WRx8S7JX6fsnJivhsOmt7w3i0ddmnJK5dX4UBHYqi7zyeZvq6wnZgd0Wb55WGTB2RSw==
+X-Received: by 2002:ac8:1196:: with SMTP id d22mr13645515qtj.325.1625500511335; 
+ Mon, 05 Jul 2021 08:55:11 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
+ by smtp.gmail.com with ESMTPSA id b25sm5577895qkk.111.2021.07.05.08.55.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 08:55:10 -0700 (PDT)
+Message-ID: <a0dca113df5b0470668095ed1f759fd7a6f102f7.camel@linaro.org>
+Subject: Re: [PATCH v5 01/10] hw/intc: GICv3 ITS initial framework
+From: shashi.mallela@linaro.org
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 05 Jul 2021 11:55:10 -0400
+In-Reply-To: <CAFEAcA_u=3f6sborqD9opCQv1kJHQm0+Gm1ytWx2zSzjXJTd1A@mail.gmail.com>
+References: <20210630153156.9421-1-shashi.mallela@linaro.org>
+ <20210630153156.9421-2-shashi.mallela@linaro.org>
+ <CAFEAcA_u=3f6sborqD9opCQv1kJHQm0+Gm1ytWx2zSzjXJTd1A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x831.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,62 +86,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 5. Juli 2021 15:57:41 CEST Peter Maydell wrote:
-> On Mon, 5 Jul 2021 at 12:24, Christian Schoenebeck
+On Mon, 2021-07-05 at 15:58 +0100, Peter Maydell wrote:
+> On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <
+> shashi.mallela@linaro.org> wrote:
+> > Added register definitions relevant to ITS,implemented overall
+> > ITS device framework with stubs for ITS control and translater
+> > regions read/write,extended ITS common to handle mmio init between
+> > existing kvm device and newer qemu device.
+> > 
+> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> > +static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
+> > +
+> > +    gicv3_its_init_mmio(s, &gicv3_its_control_ops,
+> > &gicv3_its_translation_ops);
+> > +
+> > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
 > 
-> <qemu_oss@crudebyte.com> wrote:
-> > The following changes since commit 711c0418c8c1ce3a24346f058b001c4c5a2f0f81:
-> >   Merge remote-tracking branch 'remotes/philmd/tags/mips-20210702' into
-> >   staging (2021-07-04 14:04:12 +0100)> 
-> > are available in the Git repository at:
-> >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210705
-> > 
-> > for you to fetch changes up to 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
-> >   9pfs: reduce latency of Twalk (2021-07-05 13:03:16 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > 9pfs: misc patches
-> > 
-> > * Add link to 9p developer docs.
-> > 
-> > * Fix runtime check whether client supplied relative path is the export
-> > 
-> >   root.
-> > 
-> > * Performance optimization of Twalk requests.
-> > 
-> > * Code cleanup.
+> Can you remind me why we make this check, please? When would we
+> have created an ITS device but not have a GICv3 with LPI support?
+This check applies to GIC's physical LPI support only as against GIC's
+virtual LPI support. 
 > 
-> GPG tells me the key you signed this with has expired. Can you point
-> me at a keyserver I can download an updated version of the key from,
-> please?
+> Maybe it would be better to either
+> (a) simply create the ITS and assume that the board connected it up
+> to a GICv3 that supports it
+> (b) check every CPU for whether PLPIS is set, and if one of them does
+> not have it set then return an error from the ITS realize
+> 
+> ?
+> 
+> (Found this by looking for code where we do s->gicv3->cpu-
+> >something...)
+> 
+> > +        /* set the ITS default features supported */
+> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
+> > +                              GITS_TYPE_PHYSICAL);
+> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER,
+> > ITT_ENTRY_SIZE,
+> > +                              ITS_ITT_ENTRY_SIZE - 1);
+> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, IDBITS,
+> > ITS_IDBITS);
+> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, DEVBITS,
+> > ITS_DEVBITS);
+> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIL, 1);
+> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIDBITS,
+> > ITS_CIDBITS);
+> > +    }
+> > +}
+> > +
+> > +static void gicv3_its_reset(DeviceState *dev)
+> > +{
+> > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
+> > +    GICv3ITSClass *c = ARM_GICV3_ITS_GET_CLASS(s);
+> > +
+> > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
+> 
+> Similarly here.
+> 
+> > +        c->parent_reset(dev);
+> > +
+> > +        /* Quiescent bit reset to 1 */
+> > +        s->ctlr = FIELD_DP32(s->ctlr, GITS_CTLR, QUIESCENT, 1);
+> > +
+> > +        /*
+> > +         * setting GITS_BASER0.Type = 0b001 (Device)
+> > +         *         GITS_BASER1.Type = 0b100 (Collection Table)
+> > +         *         GITS_BASER<n>.Type,where n = 3 to 7 are 0b00
+> > (Unimplemented)
+> > +         *         GITS_BASER<0,1>.Page_Size = 64KB
+> > +         * and default translation table entry size to 16 bytes
+> > +         */
+> > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, TYPE,
+> > +                                 GITS_ITT_TYPE_DEVICE);
+> > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER,
+> > PAGESIZE,
+> > +                                 GITS_BASER_PAGESIZE_64K);
+> > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER,
+> > ENTRYSIZE,
+> > +                                 GITS_DTE_SIZE - 1);
+> > +
+> > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, TYPE,
+> > +                                 GITS_ITT_TYPE_COLLECTION);
+> > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER,
+> > PAGESIZE,
+> > +                                 GITS_BASER_PAGESIZE_64K);
+> > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER,
+> > ENTRYSIZE,
+> > +                                 GITS_CTE_SIZE - 1);
+> > +    }
+> > +}
 > 
 > thanks
 > -- PMM
-
-Hi Peter,
-
-I must have done something wrong when I sent out the updated, prolonged key 
-info couple weeks ago.
-
-I just sent it out again to couple key servers now. They are all still the
-same key IDs BTW, I just prolonged their expiration dates. Looks fine now:
-
-https://keyserver.ubuntu.com/pks/lookup?search=qemu_oss%40crudebyte.com&op=vindex&fingerprint=on
-http://pgp.mit.edu/pks/lookup?op=vindex&search=0x30DB47C3A012D5F4
-https://github.com/cschoenebeck/qemu/releases/tag/pull-9p-20210705
-
-sec#  rsa4096/30DB47C3A012D5F4 2020-05-28 [SC] [expires: 2024-05-16]
-      ECAB1A4540141413BA38492630DB47C3A012D5F4
-uid                 [ultimate] Christian Schoenebeck <qemu_oss@crudebyte.com>
-ssb   rsa4096/C64F2382FC0F4C5E 2020-05-28 [E] [expires: 2022-11-08]
-ssb   rsa4096/34C2B58765A47395 2020-05-28 [S] [expires: 2022-11-08]
-
-Best regards,
-Christian Schoenebeck
-
 
 
