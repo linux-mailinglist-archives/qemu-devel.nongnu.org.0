@@ -2,95 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721AB3BC1C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:44:59 +0200 (CEST)
-Received: from localhost ([::1]:51114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C38CA3BC1C6
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:48:47 +0200 (CEST)
+Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0RiM-0000xE-Hp
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49554)
+	id 1m0Rm2-0003IL-RE
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m0RhY-0000H9-4J
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:44:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20424)
+ id 1m0Rki-0002TX-8l
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:47:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m0RhR-0005MY-SN
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:44:07 -0400
+ id 1m0Rkf-0007Zs-SO
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:47:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625503440;
+ s=mimecast20190719; t=1625503640;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kW/BJwZVnf5xtsN+vOu17s0ehe8TNNzqM+CHP2AG6JA=;
- b=KChZtQPB46XLFTUSLET3ULzOyn7nZ2xIMTQk74tNd3bG4d0xabJFqaGzZGs1F4E9EOSMsU
- 7YvOY0BidvVfCYgvkf8UL44bTBOb+o27rnfou+XjlhXRmH82mbsy83S3Vcql+p8aiTkNWh
- cIovWuRg6GM6cfFOLYFXYaJkRdlZjYY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-89B7yBUdO1eOEtI12a_Odg-1; Mon, 05 Jul 2021 12:43:59 -0400
-X-MC-Unique: 89B7yBUdO1eOEtI12a_Odg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t12-20020adff04c0000b029013253c3389dso1961170wro.7
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 09:43:58 -0700 (PDT)
+ bh=jbTw7zC2IlRIj+0IMpuRXYOZlgD70zeOMavBw00Nn1s=;
+ b=eb/+AH8NOGciO6uuhytywojvNkXT0rk8uDEA9qpSzcH8zrhZxY0WV2boDxsNbKDyMyBMSu
+ shH6KnDxcTDzSkysnWwjz2mPoc9GgFMr3cFdjOg7S6thbDd4sFoP1DOy2zKvR+wiCSeMhZ
+ 4promJkITEIjdPdLB5j0DbbDNNyXHws=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-o02LN_WLMSmgeDnc_e4AFQ-1; Mon, 05 Jul 2021 12:47:17 -0400
+X-MC-Unique: o02LN_WLMSmgeDnc_e4AFQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m31-20020a05600c3b1fb02902082e9b2132so2018085wms.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 09:47:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kW/BJwZVnf5xtsN+vOu17s0ehe8TNNzqM+CHP2AG6JA=;
- b=iXFPRsedFTrZh7J1fRkKUz4xTZgcSVyRSpw0jzgpNywt1EetnZUfgFzIHCPaebf7wH
- aQkLml0eN8EurqhAE6tAAj+CxqSeUSlyalkhHDdFp+/Rqt68Daj3vXzQxU6QbgnpzHm+
- EKUyXo9H3qkErj9O1ihv4w0eruAMack936cdtcevH4g4idAOa3yVFyllD8p/nXszipsb
- iteIjeQpr50YCNgta1m4rMFdTA+oq4jlcnabbxchmx5vtJF+ZnZhtJnCaNatNxZ4oBEt
- dKCggpRpL99/5SN6Mb1SqkviscY8YB/ITLtpzJQhLbDd6RtKX2ihDCj4rvl1ZODubiW9
- 7J6A==
-X-Gm-Message-State: AOAM532P9A0hHaL1UxnYpuqDThcrfpnkS5V7e8rRGhbG9KE8R5jnNVoB
- RkVLMvbQyOx2LjBrA6ukfl00kzTHJNRnzB00y5L5vowJBaDCw6xj0NoUDd62wiw5cmqrVtMVqkG
- slPf+z1ErERJf/g0=
-X-Received: by 2002:a05:600c:49a4:: with SMTP id
- h36mr15561693wmp.122.1625503438056; 
- Mon, 05 Jul 2021 09:43:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/GJtBEjb0WEUZ1Gm8Yhp+iY09uHLoHN1vIOgboTaemNp9bMjUnM7EX+GGuHZCMLGfAr3qnA==
-X-Received: by 2002:a05:600c:49a4:: with SMTP id
- h36mr15561673wmp.122.1625503437841; 
- Mon, 05 Jul 2021 09:43:57 -0700 (PDT)
+ bh=jbTw7zC2IlRIj+0IMpuRXYOZlgD70zeOMavBw00Nn1s=;
+ b=KDawI945GEJdVRzCMdo0EfP8JW5mkGQO7waX6qESLHOR+116U4BfHfflRpuEVQrhK+
+ wFxCRMiXWkbiGKud8sGWhFNTt5NjwI0WuL5Cbj1rYA2T74imaX57V3oME0A5N/6KvZbu
+ WfpHV9ic+7S4mZ4Fsf2BZb/6kzkZzh22ajpMIkGQqUtiMl7WbaJjZCo+y1rmGaV1HMJM
+ y4MiJT8MIpZIcBzDdZue1TSmESuaX19dRN6pVLxS59xWAsNa8iM+pKn5M3s+bcwtnL1i
+ f3C1kuWhRAw0PITjvX1fJbP/NyeyaR6JrykIeRtidjxKELyI9vfuan2/Ytpry1L0qH0v
+ H1GQ==
+X-Gm-Message-State: AOAM532O7ukGUL/ysvaIQwgLeWKN1XlqIGrkNMh2VqAD4rXQ65mKALEZ
+ 0MGs6VMmHsx7Q5/n++Ke6WZktOMFfSRB+bldvdTQKuh6sbxcLvOasKG/GOCFGt9FeKnZamILxkR
+ IKrWtq/zN0A4RwMlrSEu4tequGYF7pMeA9RU++PwhggviIuIUTKjOzDuDaOfbnKBJoG0=
+X-Received: by 2002:a05:600c:4f11:: with SMTP id
+ l17mr17359wmq.121.1625503636512; 
+ Mon, 05 Jul 2021 09:47:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMky98N/ji2NrgNOIZr+gxJP6yYIJWFyoI8mV8XRzZxd7s5scgsBwxoWVY8IKnC1+Z2L6uTw==
+X-Received: by 2002:a05:600c:4f11:: with SMTP id
+ l17mr17342wmq.121.1625503636336; 
+ Mon, 05 Jul 2021 09:47:16 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s1sm40072wmj.8.2021.07.05.09.43.56
+ by smtp.gmail.com with ESMTPSA id o18sm16274707wrv.36.2021.07.05.09.47.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Jul 2021 09:43:57 -0700 (PDT)
+ Mon, 05 Jul 2021 09:47:15 -0700 (PDT)
 Subject: Re: [PULL 0/2] Libslirp patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <20210529185522.78816-1-marcandre.lureau@redhat.com>
  <CAFEAcA-8DyG7iywZVi0LAiS7RZ_d3Omd2QAn1-32iTHdKR5QZQ@mail.gmail.com>
  <CAJ+F1CK-S+diFf8fGXe-Drfz6JoNSXzxzmYQ6muRuQw76TRHkA@mail.gmail.com>
  <CAFEAcA9x3w3jvbGoZ66Xs2dhgJDnkyDVnqy45tpCjYv1uq0vYQ@mail.gmail.com>
  <CAJ+F1CLxaLHgLCM=7V=uaGyBSpCMqrD-Ktn2UsiNQHf8=CWNfg@mail.gmail.com>
- <CAFEAcA_kTthg=Y3152r4+eN=iunZy3vGq9J9vFKTog1rmsHsfA@mail.gmail.com>
- <CAJ+F1C+H7aw+_2+FspPv0nLtfbM=anBrhCaBWVYVhP6o8nqSDg@mail.gmail.com>
- <4b3021c2-ac50-d763-4113-10a200bdc9ac@redhat.com>
- <YOMyh9fu5ZEAlGHN@stefanha-x1.localdomain>
- <CAFEAcA9JnYri2TiB-zE1J0w26TQnUzzMe_z2XUD9YxBugJm6tg@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3b61a958-021d-bf2d-9fbb-09451f5fe22c@redhat.com>
-Date: Mon, 5 Jul 2021 18:43:56 +0200
+Message-ID: <b6c0a7a7-64a8-e159-f59b-787272c28973@redhat.com>
+Date: Mon, 5 Jul 2021 18:47:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9JnYri2TiB-zE1J0w26TQnUzzMe_z2XUD9YxBugJm6tg@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLxaLHgLCM=7V=uaGyBSpCMqrD-Ktn2UsiNQHf8=CWNfg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -112,33 +107,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/21 18:31, Peter Maydell wrote:
-> 8 here means "8 bytes", not "8 bits". And indeed on i386 you can't
-> do 8-byte atomics with simple insns.
+On 08/06/21 17:55, Marc-André Lureau wrote:
+>      > I wonder if we miss a dependency like "git-submodule-update:
+>     config-host.mak" ?
 
-You can, there's a cmpxchg8b instruction.  The problem is that somehow 
-configure's view of this disagrees with what happens during compilation.
-
-If anybody can send a config.log and make V=1 log, I can look at it.
+Adding the dependency should work (it doesn't seem to me that it would 
+add any dependency loop).
 
 Paolo
-
-> The compiler's answer to this
-> is "emit a call to a helper in libatomic, which will emulate an
-> atomic access by taking some kind of lock". We don't ever want to
-> fall back to "take a lock" because sometimes our accesses to the
-> atomic variables are from TCG generated code -- this is why we
-> don't link against libatomic. The problem is that we have not
-> correctly detected that this compiler can't do inline atomics
-> for 64-bit values and avoided using them. But at least we have
-> made this a compile failure rather than a silently-wrong-code bug:-)
 
 
