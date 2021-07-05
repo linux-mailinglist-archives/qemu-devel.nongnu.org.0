@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BDF3BC156
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:05:52 +0200 (CEST)
-Received: from localhost ([::1]:59396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356453BC15E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 18:08:03 +0200 (CEST)
+Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0R6V-0007Tc-Ik
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36458)
+	id 1m0R8c-0004bM-7D
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 12:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0R1J-0001Hx-FT
+ id 1m0R1J-0001Gr-8I
  for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:00:29 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37836)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0R1H-0003c5-G4
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:00:29 -0400
-Received: by mail-wr1-x431.google.com with SMTP id i94so22671871wri.4
+ id 1m0R1H-0003cX-GK
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 12:00:28 -0400
+Received: by mail-wr1-x430.google.com with SMTP id q17so2255980wrv.2
  for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 09:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hEd6aN+rbZ1x2CIJyx9n+fGMegRkSbQEApN0YpiBx2I=;
- b=nkaIohX3R1SFnoPIP871KRlvw9fs50BM+//wVTSPwRN3jJwvI2zWMF3ygj0lvUlP5z
- xfteNb1zfxJM6vu0CIyh76iwE94t/1deD9Yg0NJyWlB0/Rm6NcaTqVPoJRPTE47ALBrz
- s2n6lw0+vLz3Bz7jX1Iu/F78kG1NEEJSzXzsxphNxSxpzWls8CCbtV+nxi+Ev1YTewO5
- kOgCoCLy6+30s23PhYjU9PnH6cAxduaT/uQ3i+zwmV69780DbBcBRYh/sVIcZ+xfOWhR
- QCNAXBjLmcbWYePoAa6ipad4kazKNFQ9ZboP2Cth4Sg7/hZNuixDsZPiiVuQgXYN/ukQ
- alCg==
+ bh=Mzo6AeYrmpZuyjeUL5LIfWrr9x9Cyyuphnxq1KvcFvQ=;
+ b=uqq3oSmZxHvZeez8MjE30f1tyDa3eA1vwlMo2KCkuz+QOct0PMhf/YU0fKO8oCMgHb
+ sp4PP6O5iBoH+ppxOqShsDvu3u4yWvFbDaTzKnzUb32LM6dwM/uBhQH+GUODQfTblm2o
+ etnAqOozBZLvhnk6UxuiWVoeQbDv4eGnQpt1jtnPODwzdvrL8O7s/o3fz9tJ3Qs7EsA2
+ xmQuA8IhzwyCAiJk3tR5CUn02sJxNkGKfKzAP63pG9mDBjVlqpAhZZBhplOoRJsxyeEh
+ CATBhlT2j//kx4MihO2Vzb9jEIruhqQipOLebwDYHKE9mrxXx8FEH67eV37/uImrKIHw
+ L/QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hEd6aN+rbZ1x2CIJyx9n+fGMegRkSbQEApN0YpiBx2I=;
- b=bJEwRnxlk6yPEIFSM5BL1jSt7/Z0czbRhBXkrsWnh9RiQgDjRTknUmZeFU2OoEwsnU
- byCPt64/Kg6XZvowr5E7K/nYpJ2EMcewq93KimN6UPDQU9JQhBl5WDWu/SaBXZWm72qY
- 9NfzhRD7S/uai8WgXMG35wEPZHry4d+/kzRanVQzmT6zI9F05F5NL37yUAvW+Qi4SLAt
- GMJ++3/Ng5j/RbHNMnPCX0n+ZeafAorU5EJ+sd7M5IqLBXrd0MgeWQR5H0jOqkdvQLDQ
- NICF3cYqjVwsB0q12pD1qwAtE2hIrQfEekArkvITJ/+GLXePoh5zOkKHtDcc2yO4VCUi
- ZFtg==
-X-Gm-Message-State: AOAM533Q9oc8JH1Y8cr9CzdZRtw+ELAbJ7W9217+Lf/grb4XOLxcVdZ7
- eTuICgA1LHs4uQ/3Jvl6Mw8qbsdTjgA=
-X-Google-Smtp-Source: ABdhPJzo5VD5LRpmVoM8wKXXlAqbg5zenROEgaA3MlGuXyaMdFLDq8U1IhuPKq0Ry9hbzjrJDfg0Mw==
-X-Received: by 2002:adf:fa92:: with SMTP id h18mr16852970wrr.57.1625500825292; 
+ bh=Mzo6AeYrmpZuyjeUL5LIfWrr9x9Cyyuphnxq1KvcFvQ=;
+ b=jhsINd79wf99BJVD4HBB/Smn2pSSP19+CHsEM4qNLpE7OGA1kLUrvPezxbi29BDCPj
+ fLguZ6g2QOnhCjeDnG/ywJIpJBA+nHQMpOnDBs9La1zP9n1ANAF/Lnm6eMS4k4aHt1f2
+ QJA0/uqsPBauddYUlu+i7kdh54/mEHpADBRBk13WTur2J4Q8f2M0ZmSSSUN0V4JnmUTE
+ flvG5Qg81ci9M9K9GWIBSBzBwUuewErejT4SZfGwGJ428WjdmILInRQjVuZnSlq1W/cc
+ VLI6FwBdMqpib61Y6s8wrvclTnDbr4aUlSa7myiZRF1jcR74MtJGWYDxyzdE+86OHLeD
+ 8c0A==
+X-Gm-Message-State: AOAM533fMkbKNl/4ZtaW0BJr2nPZqi8RhaYVTYIQC5NGtK+UX25gJ1ts
+ 0VoEmawzZSws9DxYrZjldQCMOoSfJGY=
+X-Google-Smtp-Source: ABdhPJw+SGvd2C33CFlKAntsv2Mk21QyxRbi+0VWGttUSOkMXGpDRh8wmKLvnDjZusBYx/DQ/MG1QQ==
+X-Received: by 2002:a05:6000:184b:: with SMTP id
+ c11mr16663772wri.122.1625500825926; 
  Mon, 05 Jul 2021 09:00:25 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- b12sm1217063wrt.78.2021.07.05.09.00.24
+ b12sm1217063wrt.78.2021.07.05.09.00.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 09:00:24 -0700 (PDT)
+ Mon, 05 Jul 2021 09:00:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/17] configure, meson: convert libxml2 detection to meson
-Date: Mon,  5 Jul 2021 18:00:08 +0200
-Message-Id: <20210705160018.241397-8-pbonzini@redhat.com>
+Subject: [PATCH 08/17] meson: sort existing compiler tests
+Date: Mon,  5 Jul 2021 18:00:09 +0200
+Message-Id: <20210705160018.241397-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210705160018.241397-1-pbonzini@redhat.com>
 References: <20210705160018.241397-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,126 +86,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+The next patches will add more compiler tests.  Sort and group the
+existing tests, keeping similar cc.has_* tests together and sorting them
+alphabetically by macro name.  This should make it easier to look for
+examples when adding new tests to meson.build.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 29 ++++-------------------------
- meson.build       |  8 ++++----
- meson_options.txt |  2 ++
- 3 files changed, 10 insertions(+), 29 deletions(-)
+ meson.build | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/configure b/configure
-index 4e016f671c..341b74dd5e 100755
---- a/configure
-+++ b/configure
-@@ -425,7 +425,7 @@ vdi=${default_feature:-yes}
- vvfat=${default_feature:-yes}
- qed=${default_feature:-yes}
- parallels=${default_feature:-yes}
--libxml2="$default_feature"
-+libxml2="auto"
- debug_mutex="no"
- libpmem="auto"
- default_devices="true"
-@@ -1419,9 +1419,9 @@ for opt do
-   ;;
-   --enable-numa) numa="yes"
-   ;;
--  --disable-libxml2) libxml2="no"
-+  --disable-libxml2) libxml2="disabled"
-   ;;
--  --enable-libxml2) libxml2="yes"
-+  --enable-libxml2) libxml2="enabled"
-   ;;
-   --disable-tcmalloc) tcmalloc="no"
-   ;;
-@@ -3409,21 +3409,6 @@ EOF
-   fi
- fi
- 
--##########################################
--# libxml2 probe
--if test "$libxml2" != "no" ; then
--    if $pkg_config --exists libxml-2.0; then
--        libxml2="yes"
--        libxml2_cflags=$($pkg_config --cflags libxml-2.0)
--        libxml2_libs=$($pkg_config --libs libxml-2.0)
--    else
--        if test "$libxml2" = "yes"; then
--            feature_not_found "libxml2" "Install libxml2 devel"
--        fi
--        libxml2="no"
--    fi
--fi
--
- # Check for inotify functions when we are building linux-user
- # emulator.  This is done because older glibc versions don't
- # have syscall stubs for these implemented.  In that case we
-@@ -5636,12 +5621,6 @@ if test "$have_rtnetlink" = "yes" ; then
-   echo "CONFIG_RTNETLINK=y" >> $config_host_mak
- fi
- 
--if test "$libxml2" = "yes" ; then
--  echo "CONFIG_LIBXML2=y" >> $config_host_mak
--  echo "LIBXML2_CFLAGS=$libxml2_cflags" >> $config_host_mak
--  echo "LIBXML2_LIBS=$libxml2_libs" >> $config_host_mak
--fi
--
- if test "$replication" = "yes" ; then
-   echo "CONFIG_REPLICATION=y" >> $config_host_mak
- fi
-@@ -6050,7 +6029,7 @@ if test "$skip_meson" = no; then
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
-         -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
-         -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
--        -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
-+        -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse -Dlibxml2=$libxml2 \
-         -Dlibdaxctl=$libdaxctl -Dlibpmem=$libpmem -Dlinux_io_uring=$linux_io_uring \
-         -Dgnutls=$gnutls -Dnettle=$nettle -Dgcrypt=$gcrypt -Dauth_pam=$auth_pam \
-         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
 diff --git a/meson.build b/meson.build
-index 5304744f2e..1216ac8f72 100644
+index 1216ac8f72..53dfc2b4c6 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -334,9 +334,9 @@ if not get_option('linux_io_uring').auto() or have_block
-                               method: 'pkg-config', kwargs: static_kwargs)
- endif
- libxml2 = not_found
--if 'CONFIG_LIBXML2' in config_host
--  libxml2 = declare_dependency(compile_args: config_host['LIBXML2_CFLAGS'].split(),
--                               link_args: config_host['LIBXML2_LIBS'].split())
-+if not get_option('libxml2').auto() or have_block
-+  libxml2 = dependency('libxml-2.0', required: get_option('libxml2'),
-+                       method: 'pkg-config', kwargs: static_kwargs)
- endif
- libnfs = not_found
- if not get_option('libnfs').auto() or have_block
-@@ -2821,7 +2821,7 @@ summary_info += {'bzip2 support':     libbzip2.found()}
- summary_info += {'lzfse support':     liblzfse.found()}
- summary_info += {'zstd support':      zstd.found()}
- summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
--summary_info += {'libxml2':           config_host.has_key('CONFIG_LIBXML2')}
-+summary_info += {'libxml2':           libxml2.found()}
- summary_info += {'capstone':          capstone_opt == 'disabled' ? false : capstone_opt}
- summary_info += {'libpmem support':   libpmem.found()}
- summary_info += {'libdaxctl support': libdaxctl.found()}
-diff --git a/meson_options.txt b/meson_options.txt
-index 6610c4dc64..a9a9b8f4c6 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -92,6 +92,8 @@ option('libudev', type : 'feature', value : 'auto',
-        description: 'Use libudev to enumerate host devices')
- option('libusb', type : 'feature', value : 'auto',
-        description: 'libusb support for USB passthrough')
-+option('libxml2', type : 'feature', value : 'auto',
-+       description: 'libxml2 support for Parallels image format')
- option('linux_io_uring', type : 'feature', value : 'auto',
-        description: 'Linux io_uring support')
- option('lzfse', type : 'feature', value : 'auto',
+@@ -1253,16 +1253,19 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
+ config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
+ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
+ 
++config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
++
++# has_header
+ config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
+ config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
++config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
+ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+-config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
+-config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
+-config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
+ 
++# has_function
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
++config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
+ 
+ ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
 -- 
 2.31.1
 
