@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7053BBD8A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:35:54 +0200 (CEST)
-Received: from localhost ([::1]:49524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9363BBD8E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 15:37:50 +0200 (CEST)
+Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0OlN-0007ec-J1
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56750)
+	id 1m0OnF-0004bU-Su
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 09:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0OiL-0005a7-8R
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:32:46 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35395)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m0Oix-0006AS-0W
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:23 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0OiJ-0004p4-K2
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:32:44 -0400
-Received: by mail-ed1-x530.google.com with SMTP id k17so5936764edq.2
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 06:32:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m0Oit-0005Bg-Dh
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 09:33:22 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id t15so18766072wry.11
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 06:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jCCZapk8HcyKdE6udf+TE8WAzb3DjFDijdv6CbUn8F0=;
- b=Tu4EzYVZ0S/JIB6hxhvhIBEhDgNEGKeTABzXyjOfZ/7JHmQmxy2wAh06bbiWhdDmBI
- 2ciwKafyPjySha0IDQO5e1lBNGlGDLKkyX6k6nk4ONmkMJH3Ars8Ygm6oBL/c6VLZoOA
- MZbYri8MzU+hPd5E+7Gw+uOMVopuqSvu19BFC9jLkzXNAveY1jiQEgFv9T62wQ5OrF0S
- k+n0nwEO9heTykpolGZuSwgl/pdLqx7Bm9wdcDeDP7NP6CrzslI8Xq3PA3s0LT4owBl/
- rKGl4CCGexqE0uUxdL+d4zndubW//J7A12OPnkn+N/G1LDg2MuZoxF1ASkkAOYprZr8A
- rLbw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=OwdU4UKLvygXLRGa9Mdh0LTHVfICES0tT6jNw5W5O0E=;
+ b=QI3qKKEDjLci5bPiAzSLDRgaAEMyfynYqQbg8OlfiBVmlaXDSz4FtWOME8jkYy3wKU
+ m3psi8BvtK5n1fsusLrz9VZegFMJIoddjj3uz97ps06rfSsRuhMurB1Dg/V1ITQEwZKY
+ T1bqWpjp/zA0pq8/7A9FrfYnAuvLgIFbHDqBBvCoaL4Py7CIc9PhDFmm8xKc2H5sqWgZ
+ hcBtkEgxgf0DbaWOFhQtrdR60pX+ZMdYe/Ojo1e+mJWrhsBfEmR3VGzLViM89Wm3Wj1Q
+ shS/5kLPurBMg2ob7IRe3MRWzGvZsWsjQraERshvx4RXBQdY+LthqNclkCZfuiEBTny+
+ C2rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jCCZapk8HcyKdE6udf+TE8WAzb3DjFDijdv6CbUn8F0=;
- b=Cykam7PSSxbd1V/vVetVEjUd9/upW9SavK/QGD3XOJJp+jri2DRsvaZgOHKCIXHnrW
- sz6zjeB/ffCeWBQoI0i9d5TxOF3vZxj43qRAyGQID6jM9Mvx+U7i9HJLVhjIz/fZVb60
- uMtYyYAGgl3UbvfCJOHFEydrplzV64ODW5s1LZwuVTXRtkSrHeUyHeBeYkKCCtJajp9+
- /T5KbIl6BEuXXWppX5RkLN12ziRbdNTJI6YTUiRrvJAVTRrVzHkkKkz6DSV9x+D+XzDE
- 57qS8eFDzIz/IyRX3IxQjb3ZuWxjfK3SBTKV0zp7oV0W6cBadjSotmMC5yTYK+vcZ75G
- Gniw==
-X-Gm-Message-State: AOAM532bEE3dVHoNlBkBcYfVSPOoT7dt+khfyFLvJ59rqYR9YStRH46S
- hK9i/Ql//F4LVYIvkZjorIim512LWjJvkyjmEHK4/A==
-X-Google-Smtp-Source: ABdhPJz1VqSmB0a+tvOCyMEwr/UOxgXfPzkn9NjP2DB+0jOYWIRmp1YrJ9I4ZNqMvV9XNJHTUC9dinHgCC8/oYXZ/G8=
-X-Received: by 2002:a05:6402:1e8e:: with SMTP id
- f14mr3593095edf.52.1625491962096; 
- Mon, 05 Jul 2021 06:32:42 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=OwdU4UKLvygXLRGa9Mdh0LTHVfICES0tT6jNw5W5O0E=;
+ b=IUx/4Fn547TuwEMpT45oRz4FAIKfo0a1ce+E8SnlusIriS6s1Yoccpv15lIu5SyJSO
+ 4Ia7+pJtNPObaCKSRC3eyPnh4TM48B050RkPMWOR6zyYPVXnmVdY6wtPOca7P3EGmNCr
+ fSCSitX3nuhV9WP7bkluw6zsuZR7N7Vn6/P14WQbnkQRq8e92vTCk58iRPqII03+wUCq
+ ww3TqFTFd0ph3SK+gwlbrauo+Pq/Cj7V02sCbYsH6aZ3zp2KxLsGZAgw55JkpytFEY4J
+ FvXbSfudomOUUCNUzD+QjajVMZnkhcwVmYCcc0bHvGzTuF33KrOXn2eaB7Vm/fXdtzuK
+ ZTQg==
+X-Gm-Message-State: AOAM531xpVGUxcb8BxZa5heSmZ9+ZvjLOnQp0Ty3QrEKmkkQrnowh9Ac
+ 1lFyD+DVIhBRiy/fuQ+SC6hPfQ==
+X-Google-Smtp-Source: ABdhPJxoVEx8/w1VHHqhDfOUuF0wDtm+hXai1uDbgPeOjGLCoWjKRzsVYTRtjJzqOYZk6Hz9jlk7jg==
+X-Received: by 2002:a05:6000:12c7:: with SMTP id
+ l7mr15154224wrx.177.1625491998193; 
+ Mon, 05 Jul 2021 06:33:18 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b9sm15802193wrh.81.2021.07.05.06.33.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 06:33:17 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2B1EC1FF7E;
+ Mon,  5 Jul 2021 14:33:16 +0100 (BST)
+References: <20210623142245.307776-1-berrange@redhat.com>
+ <20210623142245.307776-5-berrange@redhat.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v4 04/22] tests/docker: use explicit docker.io registry
+Date: Mon, 05 Jul 2021 14:33:11 +0100
+In-reply-to: <20210623142245.307776-5-berrange@redhat.com>
+Message-ID: <87sg0s51ib.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210702233701.3369-1-ricarkol@google.com>
-In-Reply-To: <20210702233701.3369-1-ricarkol@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Jul 2021 14:32:04 +0100
-Message-ID: <CAFEAcA89ek38DKx00W=pq6H1a-2Tw2V00GoDDcMW1QotMt5DwQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/arm_gicv3_cpuif: Fix virtual irq number check in
- icv_[dir|eoir]_write
-To: Ricardo Koller <ricarkol@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,32 +88,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 3 Jul 2021 at 00:37, Ricardo Koller <ricarkol@google.com> wrote:
+
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> It is good practice to use an explicit registry for referencing the base
+> image. This is because some distros will inject their own registries
+> into the search path. For example registry.fedoraproject.org comes ahead
+> of docker.io. Using an explicit registry avoids wasting time querying
+> multiple registries for images that they won't have.
 >
-> icv_eoir_write() and icv_dir_write() ignore invalid virtual IRQ numbers
-> (like LPIs).  The issue is that these functions check against the number
-> of implemented IRQs (QEMU's default is num_irq=288) which can be lower
-> than the maximum virtual IRQ number (1020 - 1).  The consequence is that
-> if a hypervisor creates an LR for an IRQ between 288 and 1020, then the
-> guest is unable to deactivate the resulting IRQ. Note that other
-> functions that deal with large IRQ numbers, like icv_iar_read, check
-> against 1020 and not against num_irq.
->
-> Fix the checks by using GICV3_MAXIRQ (1020) instead of the number of
-> implemented IRQs.
->
-> Signed-off-by: Ricardo Koller <ricarkol@google.com>
-> ---
->  hw/intc/arm_gicv3_cpuif.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
-Applied to target-arm.next, thanks.
-
--- PMM
+--=20
+Alex Benn=C3=A9e
 
