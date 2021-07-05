@@ -2,102 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195643BC388
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 23:06:21 +0200 (CEST)
-Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0AB3BC38C
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Jul 2021 23:08:33 +0200 (CEST)
+Received: from localhost ([::1]:49800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0VnH-0003Bm-Dl
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 17:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45538)
+	id 1m0VpQ-0007fl-F9
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 17:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1m0Vlr-0000lf-7w; Mon, 05 Jul 2021 17:04:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4406)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1m0VmS-00021E-TC
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 17:05:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1m0Vln-0002rn-QY; Mon, 05 Jul 2021 17:04:50 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 165L3kPR180909; Mon, 5 Jul 2021 17:04:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=scX83hC1V3CNOPRzKMzcUszz1vcxuEd7ywMJBVu5m/Y=;
- b=D3+llbN26d9rD1boTIvNFf5KNLVFpo6QBRFFoRHtFvfh5mI76Ug/C3vXsauInEUOI6YM
- ZOFv1atK5XRvDeQ0L4v76KIQA86OvGQ1XWija05amhwhXo3eXoenzdmM2fEGyyxl5Hod
- dH7wabK7u/jbnE70LYypeUDKOqO3sjtbGGfMcaGFOuiW53LfeBL8VG4F1gZg2sw7A4VR
- /XDbp6WPaNrjfWP3LSuW8R5RahxpX8Q74e6n26nh8taRRZRHh7uRgaF7CfWprL7v68cx
- olbcq1VAIG9xlb+WoKH8pyFa2wcFTzd7RyVGHDYzSIGooII1ZxcTP1FcFUnUaqXZ8AeY yA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39m58y60j8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Jul 2021 17:04:45 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 165L3vcV181431;
- Mon, 5 Jul 2021 17:04:45 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39m58y60he-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Jul 2021 17:04:45 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 165L37Q5021372;
- Mon, 5 Jul 2021 21:04:43 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 39jfh8rxw5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Jul 2021 21:04:43 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 165L4dCL31719810
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Jul 2021 21:04:39 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0911C11C05B;
- Mon,  5 Jul 2021 21:04:39 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7E0B711C04A;
- Mon,  5 Jul 2021 21:04:38 +0000 (GMT)
-Received: from vm.lan (unknown [9.145.62.121])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  5 Jul 2021 21:04:38 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v6 2/2] tests/tcg/s390x: Test SIGILL and SIGSEGV handling
-Date: Mon,  5 Jul 2021 23:04:34 +0200
-Message-Id: <20210705210434.45824-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210705210434.45824-1-iii@linux.ibm.com>
-References: <20210705210434.45824-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1m0VmO-0003KE-GB
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 17:05:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625519122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2bSc4ufX9TTeE2beeJIgLbLUEiQoV9IhxfRx4fHXRqc=;
+ b=bwJkM/n3pCWFhGFDCgdAA1iNGXxEa4jL9O0XDNUc76JZIFHXjhZLKixzF2SDniVCac6Eje
+ bFOfuOVyKVFB30pyZWyVFQ+04IGMq6lwiTVpBlpcKoQ+MEZFTiEnd9GqXmExt//gfjwpvn
+ iYpnZqFTgx+z8ghcbqi12ChIATNB5qo=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-HNlKZ8svMGyRRvo2uA6wIw-1; Mon, 05 Jul 2021 17:05:21 -0400
+X-MC-Unique: HNlKZ8svMGyRRvo2uA6wIw-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ d7-20020ab066c70000b0290291b95bf303so6740326uaq.16
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 14:05:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2bSc4ufX9TTeE2beeJIgLbLUEiQoV9IhxfRx4fHXRqc=;
+ b=tdQ2ZAzk3cF6KJ6iNm98VzDp+d2HKmRbFpgLLuOzMxrLzAAkj6M92fhtIVLZVNE3yR
+ WAWIhyD4hGZc/p4hNLUHcuw6COzORiyWZy7RV4RWfvJFcyj1xnSuC2LFioALRMe6Xzu6
+ IODxU/1Lz4XiACxklkFIG1oZIAdFh5Zoxf/UgUI7vCqEqnKWtKogJPhf4vW7YQPvN1rR
+ MSs76jbA0OZvzkEyLupmmmaXsynk6GDoir4WBVgYsKMS70GP80UEQirTBczdM6K70Eu0
+ n1uUu7M5OPDgnZCZK0eq4Ie5sTms6XzMA2v9btUpvOWTDUXS6l2oY4nniBI+9RvPOklH
+ A6Dw==
+X-Gm-Message-State: AOAM533AjuVQrIK+LTs/VEuKhFK4d8vu/p+ZK1XpQ21Gri2hfvpukca5
+ 2DZYm95lnbhtY7LHaLS8fOqvlC2NWN83SNIOLCM8zVt/9u/S0FU8lWkQPsVtDmYK71P6Ii5H5ih
+ +E3YQV8EFF+LQIF0+gwMjIf60IXoRouU=
+X-Received: by 2002:a9f:204e:: with SMTP id 72mr12552183uam.110.1625519121017; 
+ Mon, 05 Jul 2021 14:05:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyeBYbUw7KA9xzbonmBaiPvGDNjCtJxTAfnlXGv4FaUkyzN6d1TJQAlWGf12O6fYoHgV2EjaWlPc0bNR2LVtsE=
+X-Received: by 2002:a9f:204e:: with SMTP id 72mr12552053uam.110.1625519119848; 
+ Mon, 05 Jul 2021 14:05:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: PO8o2w8tSYonwrYPeN3oA41Ksio8kO10
-X-Proofpoint-ORIG-GUID: 4-NfqsYDucrEgWe-T2BhnDsrOkN_xyft
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-05_11:2021-07-02,
- 2021-07-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 clxscore=1015
- phishscore=0 suspectscore=0 malwarescore=0 adultscore=0 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107050113
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210629143621.907831-1-eric.auger@redhat.com>
+ <20210629143621.907831-3-eric.auger@redhat.com>
+ <a7b8faad-4535-f5f3-4f99-b13cf3dcfd7f@redhat.com>
+ <d46e9c37-7989-451f-cb3d-edf0958911fd@redhat.com>
+In-Reply-To: <d46e9c37-7989-451f-cb3d-edf0958911fd@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 5 Jul 2021 18:04:53 -0300
+Message-ID: <CAKJDGDaGTJX-tQWsBAN9_j9US9GScHeCqwVeDza=eL6v3r=F6A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] avocado_qemu: Add SMMUv3 tests
+To: Auger Eric <eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,310 +91,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jonathan . albrecht" <jonathan.albrecht@linux.vnet.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Ulrich Weigand <ulrich.weigand@de.ibm.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Andreas Krebbel <krebbel@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Wainer Moschetta <wainersm@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that s390x-specific uc_mcontext.psw.addr is reported correctly
-and that signal handling interacts properly with debugging.
+Hi Eric,
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.target               |  18 +-
- tests/tcg/s390x/gdbstub/test-signals-s390x.py |  76 ++++++++
- tests/tcg/s390x/signals-s390x.c               | 165 ++++++++++++++++++
- 3 files changed, 258 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/s390x/gdbstub/test-signals-s390x.py
- create mode 100644 tests/tcg/s390x/signals-s390x.c
+On Mon, Jul 5, 2021 at 5:00 AM Eric Auger <eric.auger@redhat.com> wrote:
+>
+> Hi Wainer,
+>
+> On 7/1/21 8:13 PM, Wainer dos Santos Moschetta wrote:
+> > Hi,
+> >
+> > On 6/29/21 11:36 AM, Eric Auger wrote:
+> >> Add new tests checking the good behavior of the SMMUv3 protecting
+> >> 2 virtio pci devices (block and net). We check the guest boots and
+> >> we are able to install a package. Different guest configs are tested:
+> >> standard, passthrough an strict=0. This is tested with both fedora 31
+> >> and
+> >> 33. The former uses a 5.3 kernel without range invalidation whereas the
+> >> latter uses a 5.8 kernel that features range invalidation.
+> >>
+> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >>
+> >> ---
+> >>
+> >> v3 -> v4:
+> >> - add tags for machine, distro in the class
+> >> - removed smp and memory overrides
+> >> - set default param value of common_vm_setup to False
+> >>
+> >> v1 -> v2:
+> >> - removed ssh import
+> >> - combined add_command_args() and common_vm_setup()
+> >> - moved tags in class' docstring and added tags=arch:aarch64
+> >> - use self.get_default_kernel_params()
+> >> - added RIL tests with fed33 + introduce new tags
+> >> ---
+> >>   tests/acceptance/smmu.py | 132 +++++++++++++++++++++++++++++++++++++++
+> >>   1 file changed, 132 insertions(+)
+> >>   create mode 100644 tests/acceptance/smmu.py
+> >
+> > Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> >
+> > Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> >
+> > I tested it in a Fedora 32 aarch64 host. The execution output:
+> >
+> > # ./tests/venv/bin/avocado run tests/acceptance/smmu.py
+> > JOB ID     : 1625038f5a2ae17c8ba6c503d3df8661ff528942
+> > JOB LOG    :
+> > /root/avocado/job-results/job-2021-07-01T13.38-1625038/job.log
+> >  (1/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril: PASS (175.54 s)
+> >  (2/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_passthrough:
+> > WARN: Test passed but there were warnings during execution. Check the
+> > log for details. (168.39 s)
+> >  (3/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_nostrict: WARN:
+> > Test passed but there were warnings during execution. Check the log
+> > for details. (161.58 s)
+> >  (4/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril: PASS (150.85 s)
+> >  (5/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_passthrough: WARN:
+> > Test passed but there were warnings during execution. Check the log
+> > for details. (177.56 s)
+> >  (6/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_nostrict: WARN:
+> > Test passed but there were warnings during execution. Check the log
+> > for details. (190.86 s)
+> > RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 4 | INTERRUPT 0
+> > | CANCEL 0
+> > JOB TIME   : 1026.50 s
+> >
+> > One thing that caught my attention was the amount of time spent on
+> > each test. It spend more than 2 minutes on the package installation
+> > (`self.ssh_command('dnf -y install numactl-devel')`) in the guest.
+> >
+> > Without that operation, it runs way faster:
+> >
+> > # ./tests/venv/bin/avocado run tests/acceptance/smmu.py
+> > JOB ID     : 24f22f99169ece37df64d72d2eb373921f378aac
+> > JOB LOG    :
+> > /root/avocado/job-results/job-2021-07-01T13.28-24f22f9/job.log
+> >  (1/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril: PASS (39.61 s)
+> >  (2/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_passthrough:
+> > WARN: Test passed but there were warnings during execution. Check the
+> > log for details. (48.32 s)
+> >  (3/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_nostrict: WARN:
+> > Test passed but there were warnings during execution. Check the log
+> > for details. (48.10 s)
+> >  (4/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril: PASS (39.22 s)
+> >  (5/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_passthrough: WARN:
+> > Test passed but there were warnings during execution. Check the log
+> > for details. (52.92 s)
+> >  (6/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_nostrict: WARN:
+> > Test passed but there were warnings during execution. Check the log
+> > for details. (50.96 s)
+> > RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 4 | INTERRUPT 0
+> > | CANCEL 0
+> > JOB TIME   : 280.62 s
+> >
+> > Install a package seems a good exerciser for disk I/O and networking,
+> > but maybe you can use another method for the sake of speed up the tests?
+>
+> As discussed earlier with Cleber, I am aware the test duration is long
+> but it was useful finding bugs for SMMU with range invalidation. such a
+> bug could not be hit with a single boot + ping for instance.
+>
+> Maybe we should have a mechanism that allows to put some tests out of
+> the automatic CI?
+>
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 0036b8a505..0a5b25c156 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -1,4 +1,5 @@
--VPATH+=$(SRC_PATH)/tests/tcg/s390x
-+S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
-+VPATH+=$(S390X_SRC)
- CFLAGS+=-march=zEC12 -m64
- TESTS+=hello-s390x
- TESTS+=csst
-@@ -12,3 +13,18 @@ TESTS+=mvc
- # This triggers failures on s390x hosts about 4% of the time
- run-signals: signals
- 	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups")
-+
-+TESTS+=signals-s390x
-+
-+ifneq ($(HAVE_GDB_BIN),)
-+GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
-+
-+run-gdbstub-signals-s390x: signals-s390x
-+	$(call run-test, $@, $(GDB_SCRIPT) \
-+		--gdb $(HAVE_GDB_BIN) \
-+		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
-+		--bin $< --test $(S390X_SRC)/gdbstub/test-signals-s390x.py, \
-+	"mixing signals and debugging on s390x")
-+
-+EXTRA_RUNS += run-gdbstub-signals-s390x
-+endif
-diff --git a/tests/tcg/s390x/gdbstub/test-signals-s390x.py b/tests/tcg/s390x/gdbstub/test-signals-s390x.py
-new file mode 100644
-index 0000000000..80a284b475
---- /dev/null
-+++ b/tests/tcg/s390x/gdbstub/test-signals-s390x.py
-@@ -0,0 +1,76 @@
-+from __future__ import print_function
-+
-+#
-+# Test that signals and debugging mix well together on s390x.
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
-+
-+import gdb
-+import sys
-+
-+failcount = 0
-+
-+
-+def report(cond, msg):
-+    """Report success/fail of test"""
-+    if cond:
-+        print("PASS: %s" % (msg))
-+    else:
-+        print("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+
-+def run_test():
-+    """Run through the tests one by one"""
-+    illegal_op = gdb.Breakpoint("illegal_op")
-+    stg = gdb.Breakpoint("stg")
-+    mvc_8 = gdb.Breakpoint("mvc_8")
-+
-+    # Expect the following events:
-+    # 1x illegal_op breakpoint
-+    # 2x stg breakpoint, segv, breakpoint
-+    # 2x mvc_8 breakpoint, segv, breakpoint
-+    for _ in range(14):
-+        gdb.execute("c")
-+    report(illegal_op.hit_count == 1, "illegal_op.hit_count == 1")
-+    report(stg.hit_count == 4, "stg.hit_count == 4")
-+    report(mvc_8.hit_count == 4, "mvc_8.hit_count == 4")
-+
-+    # The test must succeed.
-+    gdb.Breakpoint("_exit")
-+    gdb.execute("c")
-+    status = int(gdb.parse_and_eval("$r2"))
-+    report(status == 0, "status == 0");
-+
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+try:
-+    inferior = gdb.selected_inferior()
-+    arch = inferior.architecture()
-+    print("ATTACHED: %s" % arch.name())
-+except (gdb.error, AttributeError):
-+    print("SKIPPING (not connected)", file=sys.stderr)
-+    exit(0)
-+
-+if gdb.parse_and_eval("$pc") == 0:
-+    print("SKIP: PC not set")
-+    exit(0)
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except (gdb.error):
-+    print("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+    pass
-+
-+print("All tests complete: %d failures" % failcount)
-+exit(failcount)
-diff --git a/tests/tcg/s390x/signals-s390x.c b/tests/tcg/s390x/signals-s390x.c
-new file mode 100644
-index 0000000000..dc2f8ee59a
---- /dev/null
-+++ b/tests/tcg/s390x/signals-s390x.c
-@@ -0,0 +1,165 @@
-+#include <assert.h>
-+#include <signal.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <ucontext.h>
-+#include <unistd.h>
-+
-+/*
-+ * Various instructions that generate SIGILL and SIGSEGV. They could have been
-+ * defined in a separate .s file, but this would complicate the build, so the
-+ * inline asm is used instead.
-+ */
-+
-+void illegal_op(void);
-+void after_illegal_op(void);
-+asm(".globl\tillegal_op\n"
-+    "illegal_op:\t.byte\t0x00,0x00\n"
-+    "\t.globl\tafter_illegal_op\n"
-+    "after_illegal_op:\tbr\t%r14");
-+
-+void stg(void *dst, unsigned long src);
-+asm(".globl\tstg\n"
-+    "stg:\tstg\t%r3,0(%r2)\n"
-+    "\tbr\t%r14");
-+
-+void mvc_8(void *dst, void *src);
-+asm(".globl\tmvc_8\n"
-+    "mvc_8:\tmvc\t0(8,%r2),0(%r3)\n"
-+    "\tbr\t%r14");
-+
-+static void safe_puts(const char *s)
-+{
-+    write(0, s, strlen(s));
-+    write(0, "\n", 1);
-+}
-+
-+enum exception {
-+    exception_operation,
-+    exception_translation,
-+    exception_protection,
-+};
-+
-+static struct {
-+    int sig;
-+    void *addr;
-+    unsigned long psw_addr;
-+    enum exception exception;
-+} expected;
-+
-+static void handle_signal(int sig, siginfo_t *info, void *ucontext)
-+{
-+    void *page;
-+    int err;
-+
-+    if (sig != expected.sig) {
-+        safe_puts("[  FAILED  ] wrong signal");
-+        _exit(1);
-+    }
-+
-+    if (info->si_addr != expected.addr) {
-+        safe_puts("[  FAILED  ] wrong si_addr");
-+        _exit(1);
-+    }
-+
-+    if (((ucontext_t *)ucontext)->uc_mcontext.psw.addr != expected.psw_addr) {
-+        safe_puts("[  FAILED  ] wrong psw.addr");
-+        _exit(1);
-+    }
-+
-+    switch (expected.exception) {
-+    case exception_translation:
-+        page = mmap(expected.addr, 4096, PROT_READ | PROT_WRITE,
-+                    MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
-+        if (page != expected.addr) {
-+            safe_puts("[  FAILED  ] mmap() failed");
-+            _exit(1);
-+        }
-+        break;
-+    case exception_protection:
-+        err = mprotect(expected.addr, 4096, PROT_READ | PROT_WRITE);
-+        if (err != 0) {
-+            safe_puts("[  FAILED  ] mprotect() failed");
-+            _exit(1);
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static void check_sigsegv(void *func, enum exception exception,
-+                          unsigned long val)
-+{
-+    int prot;
-+    unsigned long *page;
-+    unsigned long *addr;
-+    int err;
-+
-+    prot = exception == exception_translation ? PROT_NONE : PROT_READ;
-+    page = mmap(NULL, 4096, prot, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+    assert(page != MAP_FAILED);
-+    if (exception == exception_translation) {
-+        /* Hopefully nothing will be mapped at this address. */
-+        err = munmap(page, 4096);
-+        assert(err == 0);
-+    }
-+    addr = page + (val & 0x1ff);
-+
-+    expected.sig = SIGSEGV;
-+    expected.addr = page;
-+    expected.psw_addr = (unsigned long)func;
-+    expected.exception = exception;
-+    if (func == stg) {
-+        stg(addr, val);
-+    } else {
-+        assert(func == mvc_8);
-+        mvc_8(addr, &val);
-+    }
-+    assert(*addr == val);
-+
-+    err = munmap(page, 4096);
-+    assert(err == 0);
-+}
-+
-+int main(void)
-+{
-+    struct sigaction act;
-+    int err;
-+
-+    memset(&act, 0, sizeof(act));
-+    act.sa_sigaction = handle_signal;
-+    act.sa_flags = SA_SIGINFO;
-+    err = sigaction(SIGILL, &act, NULL);
-+    assert(err == 0);
-+    err = sigaction(SIGSEGV, &act, NULL);
-+    assert(err == 0);
-+
-+    safe_puts("[ RUN      ] Operation exception");
-+    expected.sig = SIGILL;
-+    expected.addr = illegal_op;
-+    expected.psw_addr = (unsigned long)after_illegal_op;
-+    expected.exception = exception_operation;
-+    illegal_op();
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Translation exception from stg");
-+    check_sigsegv(stg, exception_translation, 42);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Translation exception from mvc");
-+    check_sigsegv(mvc_8, exception_translation, 4242);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Protection exception from stg");
-+    check_sigsegv(stg, exception_protection, 424242);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[ RUN      ] Protection exception from mvc");
-+    check_sigsegv(mvc_8, exception_protection, 42424242);
-+    safe_puts("[       OK ]");
-+
-+    safe_puts("[  PASSED  ]");
-+
-+    _exit(0);
-+}
--- 
-2.31.1
+You can use the skipIf decorator in the class. See here:
+https://gitlab.com/willianrampazzo/qemu/-/commit/6f249845827ed041b55d275a8cb803666ac3c7af
+
+Regards,
+
+> Thanks
+>
+> Eric
+> >
+> > - Wainer
+> >
+> >>
+> >> diff --git a/tests/acceptance/smmu.py b/tests/acceptance/smmu.py
+> >> new file mode 100644
+> >> index 0000000000..c1d4b88e5f
+> >> --- /dev/null
+> >> +++ b/tests/acceptance/smmu.py
+> >> @@ -0,0 +1,132 @@
+> >> +# SMMUv3 Functional tests
+> >> +#
+> >> +# Copyright (c) 2021 Red Hat, Inc.
+> >> +#
+> >> +# Author:
+> >> +#  Eric Auger <eric.auger@redhat.com>
+> >> +#
+> >> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> >> +# later.  See the COPYING file in the top-level directory.
+> >> +
+> >> +import os
+> >> +
+> >> +from avocado_qemu import LinuxTest, BUILD_DIR
+> >> +
+> >> +class SMMU(LinuxTest):
+> >> +    """
+> >> +    :avocado: tags=accel:kvm
+> >> +    :avocado: tags=cpu:host
+> >> +    :avocado: tags=arch:aarch64
+> >> +    :avocado: tags=machine:virt
+> >> +    :avocado: tags=distro:fedora
+> >> +    :avocado: tags=smmu
+> >> +    """
+> >> +
+> >> +    IOMMU_ADDON =
+> >> ',iommu_platform=on,disable-modern=off,disable-legacy=on'
+> >> +    kernel_path = None
+> >> +    initrd_path = None
+> >> +    kernel_params = None
+> >> +
+> >> +    def set_up_boot(self):
+> >> +        path = self.download_boot()
+> >> +        self.vm.add_args('-device',
+> >> 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
+> >> +                         'drive=drv0,id=virtio-disk0,bootindex=1,'
+> >> +                         'werror=stop,rerror=stop' + self.IOMMU_ADDON)
+> >> +        self.vm.add_args('-drive',
+> >> +
+> >> 'file=%s,if=none,cache=writethrough,id=drv0' % path)
+> >> +
+> >> +    def setUp(self):
+> >> +        super(SMMU, self).setUp(None, 'virtio-net-pci' +
+> >> self.IOMMU_ADDON)
+> >> +
+> >> +    def common_vm_setup(self, custom_kernel=False):
+> >> +        self.require_accelerator("kvm")
+> >> +        self.vm.add_args("-accel", "kvm")
+> >> +        self.vm.add_args("-cpu", "host")
+> >> +        self.vm.add_args("-machine", "iommu=smmuv3")
+> >> +        self.vm.add_args("-d", "guest_errors")
+> >> +        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
+> >> +                         'edk2-aarch64-code.fd'))
+> >> +        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
+> >> +        self.vm.add_args('-object',
+> >> +                         'rng-random,id=rng0,filename=/dev/urandom')
+> >> +
+> >> +        if custom_kernel is False:
+> >> +            return
+> >> +
+> >> +        kernel_url = self.get_pxeboot_url() + 'vmlinuz'
+> >> +        initrd_url = self.get_pxeboot_url() + 'initrd.img'
+> >> +        self.kernel_path = self.fetch_asset(kernel_url)
+> >> +        self.initrd_path = self.fetch_asset(initrd_url)
+> >> +
+> >> +    def run_and_check(self):
+> >> +        if self.kernel_path:
+> >> +            self.vm.add_args('-kernel', self.kernel_path,
+> >> +                             '-append', self.kernel_params,
+> >> +                             '-initrd', self.initrd_path)
+> >> +        self.launch_and_wait()
+> >> +        self.ssh_command('cat /proc/cmdline')
+> >> +        self.ssh_command('dnf -y install numactl-devel')
+> >> +
+> >> +
+> >> +    # 5.3 kernel without RIL #
+> >> +
+> >> +    def test_smmu_noril(self):
+> >> +        """
+> >> +        :avocado: tags=smmu_noril
+> >> +        :avocado: tags=smmu_noril_tests
+> >> +        :avocado: tags=distro_version:31
+> >> +        """
+> >> +        self.common_vm_setup()
+> >> +        self.run_and_check()
+> >> +
+> >> +    def test_smmu_noril_passthrough(self):
+> >> +        """
+> >> +        :avocado: tags=smmu_noril_passthrough
+> >> +        :avocado: tags=smmu_noril_tests
+> >> +        :avocado: tags=distro_version:31
+> >> +        """
+> >> +        self.common_vm_setup(True)
+> >> +        self.kernel_params = self.get_default_kernel_params() + '
+> >> iommu.passthrough=on'
+> >> +        self.run_and_check()
+> >> +
+> >> +    def test_smmu_noril_nostrict(self):
+> >> +        """
+> >> +        :avocado: tags=smmu_noril_nostrict
+> >> +        :avocado: tags=smmu_noril_tests
+> >> +        :avocado: tags=distro_version:31
+> >> +        """
+> >> +        self.common_vm_setup(True)
+> >> +        self.kernel_params = self.get_default_kernel_params() + '
+> >> iommu.strict=0'
+> >> +        self.run_and_check()
+> >> +
+> >> +    # 5.8 kernel featuring range invalidation
+> >> +    # >= v5.7 kernel
+> >> +
+> >> +    def test_smmu_ril(self):
+> >> +        """
+> >> +        :avocado: tags=smmu_ril
+> >> +        :avocado: tags=smmu_ril_tests
+> >> +        :avocado: tags=distro_version:33
+> >> +        """
+> >> +        self.common_vm_setup()
+> >> +        self.run_and_check()
+> >> +
+> >> +    def test_smmu_ril_passthrough(self):
+> >> +        """
+> >> +        :avocado: tags=smmu_ril_passthrough
+> >> +        :avocado: tags=smmu_ril_tests
+> >> +        :avocado: tags=distro_version:33
+> >> +        """
+> >> +        self.common_vm_setup(True)
+> >> +        self.kernel_params = self.get_default_kernel_params() + '
+> >> iommu.passthrough=on'
+> >> +        self.run_and_check()
+> >> +
+> >> +    def test_smmu_ril_nostrict(self):
+> >> +        """
+> >> +        :avocado: tags=smmu_ril_nostrict
+> >> +        :avocado: tags=smmu_ril_tests
+> >> +        :avocado: tags=distro_version:33
+> >> +        """
+> >> +        self.common_vm_setup(True)
+> >> +        self.kernel_params = self.get_default_kernel_params() + '
+> >> iommu.strict=0'
+> >> +        self.run_and_check()
+> >
+>
 
 
