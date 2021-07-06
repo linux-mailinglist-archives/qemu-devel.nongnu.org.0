@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2DDE3BDFE5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:54:09 +0200 (CEST)
-Received: from localhost ([::1]:48270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BDA3BDFE1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:51:56 +0200 (CEST)
+Received: from localhost ([::1]:40622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0utE-0000Xp-PO
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52952)
+	id 1m0ur5-00040H-5F
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uow-0000rj-R8
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:42 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:36486)
+ id 1m0uoz-0000zR-OF
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:45 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:46690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uov-0006cK-1U
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:42 -0400
-Received: by mail-pl1-x629.google.com with SMTP id u19so62086plc.3
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:40 -0700 (PDT)
+ id 1m0uow-0006cv-I3
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:45 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ b5-20020a17090a9905b029016fc06f6c5bso466429pjp.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VyCrJ1NajI+6XPdRKaz4cUDALrALvSj8LgDRn36KsCA=;
- b=e75WIOqizxDggPB8V7ozizTlxn9hyjg0LF+clVFcY+Cax7cC6TK/DlECCqNv5iRF+q
- dxzi70UPNGr/RilaixTzHExfnn9oEa7T7/ucK8wFE3qn+yl5+J4xFF00oJo36h62AVkM
- OWABSjzQzv85YNvklICjbW9MAzq8QFB2nij8kPGeZw4l4CS5H5ztgCJ/yL5PRLkrccO9
- cK8nC5kuh5/xRuaycyTk8GiMOBaEwSO3idbkuS15Zg0mGPIygXXGZdqGR5oOxI2vPBIt
- JH7AwXcLZXyOhXXUcb/HBybqCsAwu9KnpUS4lDrCnXezekFcXgm+uiAF8YICYxGZdGFE
- pX/Q==
+ bh=eJcHVEtHAhsxfnKBSR30fwhWS+sM2DalBDLd0EcPGWk=;
+ b=DPZUCmmt5QLmZG/PL+jS3HSa6BuW4Z5jAwCdJITzTlt8TLX3n0rQwLw7nIdkgC347J
+ yZ0ViSQd+7ucb4tBlUlQbXiAHVzXJUBFS7qt7rEB17X0FfoE74a5wfhYGlC60NU11QUp
+ DWCYjcZrxSlA7EOAiGMEz7xolywKd1CVHyxd6LOzo4o15lHcw1EP2pedobGEmzIjFMDJ
+ Jl3PyPb3Y94CUe2w6mNFttx6J3ChZgBsl57OZgs26IqEonH3zogCw711CATXaUrGgc47
+ nLL/X6Zl34vd58BE4iSicp9yEk0Xmob17pZ/Vs/K63gOK0376aq3TiEuVSvbgi26R5Ok
+ jyQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VyCrJ1NajI+6XPdRKaz4cUDALrALvSj8LgDRn36KsCA=;
- b=ZQivgJWrrBDeI5tgY3WPEjmB6L0sazZCJupcD4h74lFbYd5zxGMUenY/VjkXblsKyC
- fj3xOijWUMPfXxHTrXRLgddvBFmMv3FHoFOAgB8IKR+LXveKI1hMCjigKiVUPP+g9A5b
- 3LOvcYq99we2plD0B2UboF42bJ5raMFr6Job93G40H3RfKPnuNLrxZMOK/B73E99BW0J
- Qy1nnPOL8UZkYrZRWe43a8Vyl8CDeZAE8GWyr/cOcG4tEmG9NKEOufI99A9F97ZX0RVO
- o1xDdNYV0J7CX6Xm8tK3HChuhsTzAlJuvsnUblz+IFpU5w9Rtgq7jenCdmbuCBiWYtHh
- TbfQ==
-X-Gm-Message-State: AOAM533frfxE9cOujZyO81AFM/jp1HEyLoyFXFTpTgdZVgNhnj6YtS7g
- urd+0MbE1pQFMS3PsO+urxl2RnrdMYcarw==
-X-Google-Smtp-Source: ABdhPJyAaW4EWClHSFQ/VMJIoNHQgUBm+hMSuOljWHNGUC8yKUe72Yn4jCBz4G+hlX64BG7HSK9ecw==
-X-Received: by 2002:a17:90b:e05:: with SMTP id
- ge5mr2865876pjb.93.1625615379797; 
- Tue, 06 Jul 2021 16:49:39 -0700 (PDT)
+ bh=eJcHVEtHAhsxfnKBSR30fwhWS+sM2DalBDLd0EcPGWk=;
+ b=DXl2Ad71aZn8GGV4gsxxgOfh/cGS2MIRGOf1F4d/m5BOtWMgCPUYLRRr4IhvH/VtjI
+ gGn5vq9yQIU2SdvyiIJm7ov2bwYo07/+LoSvlqW54URIDvpKXF+19PKF3oHcAGiJYT4y
+ l5B2vsLGewZTM8ASrQKI4etwmJw1FU4YepP6h5XNuNuF4RxnbEMtNlayZy10nLLRpTvq
+ w60qBgBt/NO6FomIzfzo848veJ0trYJAr6VkBEuwpC6CBJxGeHmv0rFYHt9gpHYuW/tb
+ itTk83NBLtPAyWXC1tq76DMYH3mGBT0b97iw+32vuxw+HaAxV93JhuZO54q43S+fswka
+ kNFA==
+X-Gm-Message-State: AOAM531MrDqRAdPKpcOadYVO/+oa+F/gzIqK5VJ5WL/egewGUbYasCEL
+ 3iUJTpCaqzaPqU6QLwgjDxGpy357YMJWaQ==
+X-Google-Smtp-Source: ABdhPJxOZ776MZtDxtGRn50od8F43L74gxAj32fFpJtmOtIa2L5gr2IuSpFLUUAQMunwMERbv/jN0A==
+X-Received: by 2002:a17:90a:928c:: with SMTP id
+ n12mr22612678pjo.30.1625615381089; 
+ Tue, 06 Jul 2021 16:49:41 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.39
+ by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 16:49:39 -0700 (PDT)
+ Tue, 06 Jul 2021 16:49:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/36] linux-user: Introduce imgsrc_mmap
-Date: Tue,  6 Jul 2021 16:49:05 -0700
-Message-Id: <20210706234932.356913-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 11/36] linux-user: Add gen-vdso tool
+Date: Tue,  6 Jul 2021 16:49:07 -0700
+Message-Id: <20210706234932.356913-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210706234932.356913-1-richard.henderson@linaro.org>
 References: <20210706234932.356913-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,103 +88,578 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This tool will be used for post-processing the linked vdso image,
+turning it into something that is easy to include into elfload.c.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/qemu.h      | 11 +++++++++++
- linux-user/elfload.c   |  4 ++--
- linux-user/linuxload.c | 44 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 57 insertions(+), 2 deletions(-)
+ linux-user/gen-vdso.c          | 223 ++++++++++++++++++++++++
+ linux-user/gen-vdso-elfn.c.inc | 306 +++++++++++++++++++++++++++++++++
+ linux-user/meson.build         |   6 +-
+ 3 files changed, 534 insertions(+), 1 deletion(-)
+ create mode 100644 linux-user/gen-vdso.c
+ create mode 100644 linux-user/gen-vdso-elfn.c.inc
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index dafaae6293..255182e133 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -199,6 +199,17 @@ bool imgsrc_read(void *dst, off_t offset, size_t len,
- void *imgsrc_read_alloc(off_t offset, size_t len,
-                         const ImageSource *img, Error **errp);
- 
-+/**
-+ * imgsrc_mmap: Map from ImageSource
+diff --git a/linux-user/gen-vdso.c b/linux-user/gen-vdso.c
+new file mode 100644
+index 0000000000..494b9a7e7a
+--- /dev/null
++++ b/linux-user/gen-vdso.c
+@@ -0,0 +1,223 @@
++/*
++ * Post-process a vdso elf image for inclusion into qemu.
 + *
-+ * If @src has a file descriptor, pass on to target_mmap.  Otherwise,
-+ * this is "mapping" from a host buffer, which resolves to memcpy.
-+ * Therefore, flags must be MAP_PRIVATE | MAP_FIXED; the argument is
-+ * retained for clarity.
++ * Copyright 2021 Linaro, Ltd.
++ * 
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
-+abi_long imgsrc_mmap(abi_ulong start, abi_ulong len, int prot,
-+                     int flags, const ImageSource *src, abi_ulong offset);
 +
- /* Read a good amount of data initially, to hopefully get all the
-    program headers loaded.  */
- #define BPRM_BUF_SIZE  1024
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 490b374d13..ec4b5f9d54 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2837,9 +2837,9 @@ static void load_elf_image(const char *image_name, const ImageSource *src,
-              */
-             if (eppnt->p_filesz != 0) {
-                 vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
--                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
-+                error = imgsrc_mmap(vaddr_ps, vaddr_len, elf_prot,
-                                     MAP_PRIVATE | MAP_FIXED,
--                                    src->fd, eppnt->p_offset - vaddr_po);
-+                                    src, eppnt->p_offset - vaddr_po);
- 
-                 if (error == -1) {
-                     goto exit_mmap;
-diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
-index d0d3f2ed0e..a437a22b49 100644
---- a/linux-user/linuxload.c
-+++ b/linux-user/linuxload.c
-@@ -208,3 +208,47 @@ void *imgsrc_read_alloc(off_t offset, size_t len,
-     }
-     return alloc;
- }
++#include <stdlib.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <string.h>
++#include <errno.h>
++#include <endian.h>
++#include <unistd.h>
++#include "elf.h"
 +
-+abi_long imgsrc_mmap(abi_ulong start, abi_ulong len, int prot,
-+                     int flags, const ImageSource *src, abi_ulong offset)
++
++#define bswap_(p)  _Generic(*(p), \
++                            uint16_t: __builtin_bswap16,       \
++                            uint32_t: __builtin_bswap32,       \
++                            uint64_t: __builtin_bswap64,       \
++                            int16_t: __builtin_bswap16,        \
++                            int32_t: __builtin_bswap32,        \
++                            int64_t: __builtin_bswap64)
++#define bswaps(p) (*(p) = bswap_(p)(*(p)))
++
++static void output_reloc(FILE *outf, void *buf, void *loc)
 +{
-+    abi_long ret;
-+    int prot_write;
-+    void *haddr;
++    fprintf(outf, "    0x%08lx,\n", loc - buf);
++}
 +
-+    assert(flags == (MAP_PRIVATE | MAP_FIXED));
++static const char *sigreturn_sym;
++static const char *rt_sigreturn_sym;
 +
-+    if (src->fd >= 0) {
-+        return target_mmap(start, len, prot, flags, src->fd, offset);
++static unsigned sigreturn_addr;
++static unsigned rt_sigreturn_addr;
++
++#define N 32
++#define elfN(x)  elf32_##x
++#define ElfN(x)  Elf32_##x
++#include "gen-vdso-elfn.c.inc"
++#undef N
++#undef elfN
++#undef ElfN
++
++#define N 64
++#define elfN(x)  elf64_##x
++#define ElfN(x)  Elf64_##x
++#include "gen-vdso-elfn.c.inc"
++#undef N
++#undef elfN
++#undef ElfN
++
++
++int main(int argc, char **argv)
++{
++    FILE *inf, *outf;
++    long total_len;
++    const char *prefix = "vdso";
++    const char *inf_name;
++    const char *outf_name = NULL;
++    unsigned char *buf;
++    bool need_bswap;
++
++    while (1) {
++        int opt = getopt(argc, argv, "o:p:r:s:");
++        if (opt < 0) {
++            break;
++        }
++        switch (opt) {
++        case 'o':
++            outf_name = optarg;
++            break;
++        case 'p':
++            prefix = optarg;
++            break;
++        case 'r':
++            rt_sigreturn_sym = optarg;
++            break;
++        case 's':
++            sigreturn_sym = optarg;
++            break;
++        default:
++        usage:
++            fprintf(stderr, "usage: [-p prefix] [-r rt-sigreturn-name] "
++                    "[-s sigreturn-name] -o output-file input-file\n");
++            return EXIT_FAILURE;
++        }
++    }
++
++    if (optind >= argc || outf_name == NULL) {
++        goto usage;
++    }
++    inf_name = argv[optind];
++
++    /*
++     * Open the input and output files.
++     */
++    inf = fopen(inf_name, "rb");
++    if (inf == NULL) {
++        goto perror_inf;
++    }
++    outf = fopen(outf_name, "w");
++    if (outf == NULL) {
++        goto perror_outf;
 +    }
 +
 +    /*
-+     * This case is for the vdso; we don't expect bad images.
-+     * The mmap may extend beyond the end of the image, especially
-+     * to the end of the page.  Zero fill.
++     * Read the input file into a buffer.
++     * We expect the vdso to be small, on the order of one page,
++     * therefore we do not expect a partial read.
 +     */
-+    assert(offset < src->cache_size);
++    fseek(inf, 0, SEEK_END);
++    total_len = ftell(inf);
++    fseek(inf, 0, SEEK_SET);
 +
-+    prot_write = prot | PROT_WRITE;
-+    ret = target_mmap(start, len, prot_write, flags | MAP_ANON, -1, 0);
-+    if (ret == -1) {
-+        return ret;
++    buf = malloc(total_len);
++    if (buf == NULL) {
++        goto perror_inf;
 +    }
 +
-+    haddr = lock_user(VERIFY_WRITE, start, len, 0);
-+    assert(haddr != NULL);
-+    if (offset + len < src->cache_size) {
-+        memcpy(haddr, src->cache + offset, len);
-+    } else {
-+        size_t rest = src->cache_size - offset;
-+        memcpy(haddr, src->cache + offset, rest);
-+        memset(haddr + rest, 0, len - rest);
++    errno = 0;
++    if (fread(buf, 1, total_len, inf) != total_len) {
++        if (errno) {
++            goto perror_inf;
++        }
++        fprintf(stderr, "%s: incomplete read\n", inf_name);
++        return EXIT_FAILURE;
 +    }
-+    unlock_user(haddr, start, len);
++    fclose(inf);
 +
-+    if (prot != prot_write) {
-+        target_mprotect(start, len, prot);
++    /*
++     * Write out the vdso image now, before we make local changes.
++     */
++
++    fprintf(outf,
++            "/* Automatically generated from linux-user/gen-vdso.c. */\n"
++            "\n"
++            "static const uint8_t %s_image[] = {",
++            prefix);
++    for (long i = 0; i < total_len; ++i) {
++        if (i % 12 == 0) {
++            fputs("\n   ", outf);
++        }
++        fprintf(outf, " 0x%02x,", buf[i]);
++    }
++    fprintf(outf, "\n};\n\n");
++
++    /*
++     * Identify which elf flavor we're processing.
++     * The first 16 bytes of the file are e_ident.
++     */
++
++    if (buf[EI_MAG0] != ELFMAG0 || buf[EI_MAG1] != ELFMAG1 ||
++        buf[EI_MAG2] != ELFMAG2 || buf[EI_MAG3] != ELFMAG3) {
++        fprintf(stderr, "%s: not an elf file\n", inf_name);
++        return EXIT_FAILURE;
++    }
++    switch (buf[EI_DATA]) {
++    case ELFDATA2LSB:
++        need_bswap = BYTE_ORDER != LITTLE_ENDIAN;
++        break;
++    case ELFDATA2MSB:
++        need_bswap = BYTE_ORDER != BIG_ENDIAN;
++        break;
++    default:
++        fprintf(stderr, "%s: invalid elf EI_DATA (%u)\n",
++                inf_name, buf[EI_DATA]);
++        return EXIT_FAILURE;
 +    }
 +
-+    return ret;
++    /*
++     * We need to relocate the VDSO image.  The one built into the kernel
++     * is built for a fixed address.  The one we built for QEMU is not,
++     * since that requires close control of the guest address space.
++     *
++     * Output relocation addresses as we go.
++     */
++
++    fprintf(outf, "static const unsigned %s_relocs[] = {\n", prefix);
++
++    switch (buf[EI_CLASS]) {
++    case ELFCLASS32:
++        elf32_process(outf, buf, need_bswap);
++        break;
++    case ELFCLASS64:
++        elf64_process(outf, buf, need_bswap);
++        break;
++    default:
++        fprintf(stderr, "%s: invalid elf EI_CLASS (%u)\n",
++                inf_name, buf[EI_CLASS]);
++        return EXIT_FAILURE;
++    }
++
++    fprintf(outf, "};\n\n");   /* end vdso_relocs. */
++
++    fprintf(outf, "static const VdsoImageInfo %s_image_info = {\n", prefix);
++    fprintf(outf, "    .image = %s_image,\n", prefix);
++    fprintf(outf, "    .relocs = %s_relocs,\n", prefix);
++    fprintf(outf, "    .image_size = sizeof(%s_image),\n", prefix);
++    fprintf(outf, "    .reloc_count = ARRAY_SIZE(%s_relocs),\n", prefix);
++    fprintf(outf, "    .sigreturn_ofs = 0x%x,\n", sigreturn_addr);
++    fprintf(outf, "    .rt_sigreturn_ofs = 0x%x,\n", rt_sigreturn_addr);
++    fprintf(outf, "};\n");
++
++    /*
++     * Everything should have gone well.
++     */
++    if (fclose(outf)) {
++        goto perror_outf;
++    }
++    return EXIT_SUCCESS;
++
++ perror_inf:
++    perror(inf_name);
++    return EXIT_FAILURE;
++
++ perror_outf:
++    perror(outf_name);
++    return EXIT_FAILURE;
 +}
+diff --git a/linux-user/gen-vdso-elfn.c.inc b/linux-user/gen-vdso-elfn.c.inc
+new file mode 100644
+index 0000000000..d1db9cbf49
+--- /dev/null
++++ b/linux-user/gen-vdso-elfn.c.inc
+@@ -0,0 +1,306 @@
++/*
++ * Post-process a vdso elf image for inclusion into qemu.
++ * Elf size specialization.
++ *
++ * Copyright 2021 Linaro, Ltd.
++ * 
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++static void elfN(bswap_ehdr)(ElfN(Ehdr) *ehdr)
++{
++    bswaps(&ehdr->e_type);            /* Object file type */
++    bswaps(&ehdr->e_machine);         /* Architecture */
++    bswaps(&ehdr->e_version);         /* Object file version */
++    bswaps(&ehdr->e_entry);           /* Entry point virtual address */
++    bswaps(&ehdr->e_phoff);           /* Program header table file offset */
++    bswaps(&ehdr->e_shoff);           /* Section header table file offset */
++    bswaps(&ehdr->e_flags);           /* Processor-specific flags */
++    bswaps(&ehdr->e_ehsize);          /* ELF header size in bytes */
++    bswaps(&ehdr->e_phentsize);       /* Program header table entry size */
++    bswaps(&ehdr->e_phnum);           /* Program header table entry count */
++    bswaps(&ehdr->e_shentsize);       /* Section header table entry size */
++    bswaps(&ehdr->e_shnum);           /* Section header table entry count */
++    bswaps(&ehdr->e_shstrndx);        /* Section header string table index */
++}
++
++static void elfN(bswap_phdr)(ElfN(Phdr) *phdr)
++{
++    bswaps(&phdr->p_type);            /* Segment type */
++    bswaps(&phdr->p_flags);           /* Segment flags */
++    bswaps(&phdr->p_offset);          /* Segment file offset */
++    bswaps(&phdr->p_vaddr);           /* Segment virtual address */
++    bswaps(&phdr->p_paddr);           /* Segment physical address */
++    bswaps(&phdr->p_filesz);          /* Segment size in file */
++    bswaps(&phdr->p_memsz);           /* Segment size in memory */
++    bswaps(&phdr->p_align);           /* Segment alignment */
++}
++
++static void elfN(bswap_shdr)(ElfN(Shdr) *shdr)
++{
++    bswaps(&shdr->sh_name);
++    bswaps(&shdr->sh_type);
++    bswaps(&shdr->sh_flags);
++    bswaps(&shdr->sh_addr);
++    bswaps(&shdr->sh_offset);
++    bswaps(&shdr->sh_size);
++    bswaps(&shdr->sh_link);
++    bswaps(&shdr->sh_info);
++    bswaps(&shdr->sh_addralign);
++    bswaps(&shdr->sh_entsize);
++}
++
++static void elfN(bswap_sym)(ElfN(Sym) *sym)
++{
++    bswaps(&sym->st_name);
++    bswaps(&sym->st_value);
++    bswaps(&sym->st_size);
++    bswaps(&sym->st_shndx);
++}
++
++static void elfN(bswap_dyn)(ElfN(Dyn) *dyn)
++{
++    bswaps(&dyn->d_tag);              /* Dynamic type tag */
++    bswaps(&dyn->d_un.d_ptr);         /* Dynamic ptr or val, in union */
++}
++
++static void elfN(search_symtab)(ElfN(Shdr) *shdr, unsigned sym_idx,
++                                void *buf, bool need_bswap)
++{
++    unsigned str_idx = shdr[sym_idx].sh_link;
++    ElfN(Sym) *sym = buf + shdr[sym_idx].sh_offset;
++    unsigned sym_n = shdr[sym_idx].sh_size / sizeof(*sym);
++    const char *str = buf + shdr[str_idx].sh_offset;
++
++    for (unsigned i = 0; i < sym_n; ++i) {
++        const char *name;
++
++        if (need_bswap) {
++            elfN(bswap_sym)(sym + i);
++        }
++        name = str + sym[i].st_name;
++
++        if (sigreturn_sym && strcmp(sigreturn_sym, name) == 0) {
++            sigreturn_addr = sym[i].st_value;
++        }
++        if (rt_sigreturn_sym && strcmp(rt_sigreturn_sym, name) == 0) {
++            rt_sigreturn_addr = sym[i].st_value;
++        }
++    }
++}
++
++static void elfN(process)(FILE *outf, void *buf, bool need_bswap)
++{
++    ElfN(Ehdr) *ehdr = buf;
++    ElfN(Phdr) *phdr;
++    ElfN(Shdr) *shdr;
++    unsigned phnum, shnum;
++    unsigned dynamic_ofs = 0;
++    unsigned dynamic_addr = 0;
++    unsigned symtab_idx = 0;
++    unsigned dynsym_idx = 0;
++    unsigned first_segsz = 0;
++    int errors = 0;
++
++    if (need_bswap) {
++        elfN(bswap_ehdr)(ehdr);
++    }
++
++    phnum = ehdr->e_phnum;
++    phdr = buf + ehdr->e_phoff;
++    if (need_bswap) {
++        for (unsigned i = 0; i < phnum; ++i) {
++            elfN(bswap_phdr)(phdr + i);
++        }
++    }
++
++    shnum = ehdr->e_shnum;
++    shdr = buf + ehdr->e_shoff;
++    if (need_bswap) {
++        for (unsigned i = 0; i < shnum; ++i) {
++            elfN(bswap_shdr)(shdr + i);
++        }
++    }
++    for (unsigned i = 0; i < shnum; ++i) {
++        switch (shdr[i].sh_type) {
++        case SHT_SYMTAB:
++            symtab_idx = i;
++            break;
++        case SHT_DYNSYM:
++            dynsym_idx = i;
++            break;
++        }
++    }
++
++    /*
++     * Validate the VDSO is created as we expect: that PT_PHDR,
++     * PT_DYNAMIC, and PT_NOTE located in a writable data segment.
++     * PHDR and DYNAMIC require relocation, and NOTE will get the
++     * linux version number.
++     */
++    for (unsigned i = 0; i < phnum; ++i) {
++        if (phdr[i].p_type == PT_LOAD && phdr[i].p_vaddr == 0) {
++            if (first_segsz != 0) {
++                fprintf(stderr, "Multiple load segments covering EHDR\n");
++                errors++;
++            }
++            if (phdr[i].p_offset != 0) {
++                fprintf(stderr, "First vdso segment does not cover EHDR\n");
++                errors++;
++            }
++            if (phdr[i].p_vaddr != 0) {
++                fprintf(stderr, "First vdso segment not loaded at address 0\n");
++                errors++;
++            }
++            if ((phdr[i].p_flags & (PF_R | PF_W)) != (PF_R | PF_W)) {
++                fprintf(stderr, "First vdso segment is not read-write\n");
++                errors++;
++            }
++            first_segsz = phdr[i].p_filesz;
++            if (first_segsz < ehdr->e_phoff + phnum * sizeof(*phdr)) {
++                fprintf(stderr, "First vdso segment does not cover PHDRs\n");
++                errors++;
++            }
++        }
++    }
++    for (unsigned i = 0; i < phnum; ++i) {
++        const char *which;
++
++        switch (phdr[i].p_type) {
++        case PT_PHDR:
++            which = "PT_PHDR";
++            break;
++        case PT_NOTE:
++            which = "PT_NOTE";
++            break;
++        case PT_DYNAMIC:
++            dynamic_ofs = phdr[i].p_offset;
++            dynamic_addr = phdr[i].p_vaddr;
++            which = "PT_DYNAMIC";
++            break;
++        default:
++            continue;
++        }
++        if (first_segsz < phdr[i].p_vaddr + phdr[i].p_filesz) {
++            fprintf(stderr, "First vdso segment does not cover %s\n", which);
++            errors++;
++        }
++    }
++    if (errors) {
++        exit(EXIT_FAILURE);
++    }
++        
++    /* Relocate the program headers. */
++    for (unsigned i = 0; i < phnum; ++i) {
++        output_reloc(outf, buf, &phdr[i].p_vaddr);
++        output_reloc(outf, buf, &phdr[i].p_paddr);
++    }
++
++    /* Relocate the DYNAMIC entries. */
++    if (dynamic_addr) {
++        ElfN(Dyn) *dyn = buf + dynamic_ofs;
++        __typeof(dyn->d_tag) tag;
++
++        do {
++
++            if (need_bswap) {
++                elfN(bswap_dyn)(dyn);
++            }
++            tag = dyn->d_tag;
++
++            switch (tag) {
++            case DT_HASH:
++            case DT_SYMTAB:
++            case DT_STRTAB:
++            case DT_VERDEF:
++            case DT_VERSYM:
++            case DT_PLTGOT:
++            case DT_ADDRRNGLO ... DT_ADDRRNGHI:
++                /* These entries store an address in the entry. */
++                output_reloc(outf, buf, &dyn->d_un.d_val);
++                break;
++
++            case DT_NULL:
++            case DT_STRSZ:
++            case DT_SONAME:
++            case DT_DEBUG:
++            case DT_FLAGS:
++            case DT_FLAGS_1:
++            case DT_SYMBOLIC:
++            case DT_BIND_NOW:
++            case DT_VERDEFNUM:
++            case DT_VALRNGLO ... DT_VALRNGHI:
++                /* These entries store an integer in the entry. */
++                break;
++
++            case DT_SYMENT:
++                if (dyn->d_un.d_val != sizeof(ElfN(Sym))) {
++                    fprintf(stderr, "VDSO has incorrect dynamic symbol size\n");
++                    errors++;
++                }
++                break;
++
++            case DT_REL:
++            case DT_RELSZ:
++            case DT_RELA:
++            case DT_RELASZ:
++                /*
++                 * These entries indicate that the VDSO was built incorrectly.
++                 * It should not have any real relocations.
++                 * ??? The RISC-V toolchain will emit these even when there
++                 * are no relocations.  Validate zeros.
++                 */
++                if (dyn->d_un.d_val != 0) {
++                    fprintf(stderr, "VDSO has dynamic relocations\n");
++                    errors++;
++                }
++                break;
++            case DT_RELENT:
++            case DT_RELAENT:
++            case DT_TEXTREL:
++                /* These entries store an integer in the entry. */
++                /* Should not be required; see above. */
++                break;
++
++            case DT_NEEDED:
++            case DT_VERNEED:
++            case DT_PLTREL:
++            case DT_JMPREL:
++            case DT_RPATH:
++            case DT_RUNPATH:
++                fprintf(stderr, "VDSO has external dependencies\n");
++                errors++;
++                break;
++
++            default:
++                /* This is probably something target specific. */
++                fprintf(stderr, "VDSO has unknown DYNAMIC entry (%lx)\n",
++                        (unsigned long)tag);
++                errors++;
++                break;
++            }
++            dyn++;
++        } while (tag != DT_NULL);
++        if (errors) {
++            exit(EXIT_FAILURE);
++        }
++    }
++
++    /* Relocate the dynamic symbol table. */
++    if (dynsym_idx) {
++        ElfN(Sym) *sym = buf + shdr[dynsym_idx].sh_offset;
++        unsigned sym_n = shdr[dynsym_idx].sh_size / sizeof(*sym);
++
++        for (unsigned i = 0; i < sym_n; ++i) {
++            output_reloc(outf, buf, &sym[i].st_value);
++        }
++    }
++
++    /* Search both dynsym and symtab for the signal return symbols. */
++    if (dynsym_idx) {
++        elfN(search_symtab)(shdr, dynsym_idx, buf, need_bswap);
++    }
++    if (symtab_idx) {
++        elfN(search_symtab)(shdr, symtab_idx, buf, need_bswap);
++    }
++}
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index 9549f81682..94556f9198 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -18,9 +18,13 @@ linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
+ linux_user_ss.add(when: 'TARGET_I386', if_true: files('vm86.c'))
+ linux_user_ss.add(when: 'CONFIG_ARM_COMPATIBLE_SEMIHOSTING', if_true: files('semihost.c'))
+ 
+-
+ syscall_nr_generators = {}
+ 
++gen_vdso_exe = executable('gen-vdso', 'gen-vdso.c',
++                          native: true, build_by_default: false)
++gen_vdso = generator(gen_vdso_exe, output: '@BASENAME@.c.inc',
++                     arguments: ['-o', '@OUTPUT@', '@EXTRA_ARGS@', '@INPUT@'])
++
+ subdir('alpha')
+ subdir('arm')
+ subdir('hppa')
 -- 
 2.25.1
 
