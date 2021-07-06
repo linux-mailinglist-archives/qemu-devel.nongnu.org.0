@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9833BDA02
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:20:16 +0200 (CEST)
-Received: from localhost ([::1]:55614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E253C3BDA31
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:28:53 +0200 (CEST)
+Received: from localhost ([::1]:60468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0mrv-0005MZ-CR
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
+	id 1m0n0G-0001vw-Se
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mfI-0005P7-MR
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:12 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38767)
+ id 1m0moz-0002Q2-NM
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:21 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mfH-0007AS-0P
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:12 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a8so14776817wrp.5
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:07:10 -0700 (PDT)
+ id 1m0mor-0004t6-HG
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:11 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id w13so13831220wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8aMzBTIJfLBRFTgmCGKFYY8ArIkOG6uB9avvuOEJOSo=;
- b=rQ/YoxriyBreQNX3veqZwrn2xRkhc/VGvj9D60JLPeuVWhv209UF1zV1gm8LaTYq1V
- mz8D6kBGlscnIZ6bSMTOq7RoZsgn+Q/XVMx6jaRvCVuYrKESCd8jhLlqgaagNURZF55z
- 5ocA8X5obtNZTFcXfMK/5mKCo3+VbeHgNCOOoIN7/e9pKuG1ormKoGNcCuNhfH5vv7yo
- JKg0pvfdbPQbTKYc/cKlDwBSTjbKFK1Fe3JA4wTnepsfFOGQbdIni84sItx4BduhRb+g
- BgRZ7s9V939bjdj/DbKR3lRt/PsmkpT5sAMcCFZ18rP60U6qFFsRimdJknY+tLGaWmrA
- nDoA==
+ bh=sGLYNasVaMqPdnpUXMw96sJwNeDV9lGD9J/c+8i/lvM=;
+ b=aYCs0D+oBBMj0j8/7G0G5qv68fZTdXSU6eS/pNh02BhGHQ/7ggCJzZUa6wX6uvim9S
+ Rs65S2QVVheE34DlzFStrmVMC14D93asM/lurYris1tSjbDsY4BowzJAF++VVrzjd3ix
+ AEU3+s6P3hxvXh2ojEhc6sfTevFHl0aRQvx0u5hdTW4a33RS0no8CCVlGbZylsW4F4ym
+ 1CEaEI3fZ4z6uzuRsJDQd8wsE3JLCkFYSPV6KXhBHhRd+bEpitG2+1SXoJugUM5Q7hKD
+ vZo+MA9z6AJNkX5ybCmqJu7Y5aItOnsDbcSN4bK2aPXknM39dlprhaf/ZJYSSr/H8Uc3
+ 4e+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8aMzBTIJfLBRFTgmCGKFYY8ArIkOG6uB9avvuOEJOSo=;
- b=B+MsWc8qrRuTBDvYiaUs2pGKjTkM36Xnobex6GIWgpu6A66DaAx9aDdHNuUJZIzqsK
- lloyS9DZ4o+GRsHscFxfbWU4LlvvR21ariTpXHY2zMtTnecDhI6Mwa/jbYBuFYiaAZDO
- 9KoAJesqpNp4tYz6zslbj8fOVD76j/LfF6jgKR7ZxDnyNVE1O5S7X4iGze/O/sWlS+4/
- RRENaHowf/t/exIi1aHhBw/2nx6zu4roAwzasFGMBJKRXbvjUw3PLkrJdiOAFEXjCj32
- NnaIjMLPV4t8sMIlqHhjVzFPTqHka6aJXV2q4KRii649v8tNrrikhCAPiF3IbtRsaLKb
- yu5A==
-X-Gm-Message-State: AOAM533EwebVe2Mhiq379dm7luzVZFpprIPMl3ykEBJpne4GQXooMtP8
- Tzolv9+FWCF8O/wDhve1wroCaQ==
-X-Google-Smtp-Source: ABdhPJxXOWZBRsEmLcNoEPsc//ioODYgE2VgoFWPUWxO4JxUpGAFoP8xiqnmf9TZmYoeUnhh3MtKmw==
-X-Received: by 2002:adf:f04a:: with SMTP id t10mr22059527wro.318.1625584029671; 
- Tue, 06 Jul 2021 08:07:09 -0700 (PDT)
+ bh=sGLYNasVaMqPdnpUXMw96sJwNeDV9lGD9J/c+8i/lvM=;
+ b=BEUxGjM08OqHfLmuDKFqnUZTumpk0vgIb8RnaipYGt91xl/XDNBJJoRJwZiGeKEg3+
+ //4S2cs6GOwcIm2DoiSh9IaiWDCQ5pYAyw3mHc24r4XVSYJ8LVI83CUFSRQleOPv5Mxe
+ 0wtjuvI0KJJMU6USe7gqSjnH/AGk5cqZ3qIz+k5GXFhu7OJHTxv5EOd+86lfFb+8WOw4
+ CF8YsAKiM1biQzPCIi0ixIhx42+gH1NgpSX/zOr3jq8K5sqH32wvbagNiwt0g1q2OkC1
+ ez+7yst4X1LE+bBcy0Ac1EGFcwpr7M3NLN5zXHk/3cW0O6Oi4vpuxryHUNnjPoracuF1
+ rueg==
+X-Gm-Message-State: AOAM533HyX2s5+JqHaTce12ynFUAWu9CRkmqE9FfDeCm60UuoqNotY4D
+ yXchhoByx+vC09UamR44eyV3xg==
+X-Google-Smtp-Source: ABdhPJw7xrf4bcKbQ8i68o0qwW1PGNaEUFuc2KehVF8eS1PSP2hUABZBZ0RPLN1mzU30VOxglOmD4w==
+X-Received: by 2002:a7b:c206:: with SMTP id x6mr1456430wmi.114.1625584623319; 
+ Tue, 06 Jul 2021 08:17:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b11sm17255710wrf.43.2021.07.06.08.06.58
+ by smtp.gmail.com with ESMTPSA id z4sm15802616wmf.9.2021.07.06.08.16.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 08:07:02 -0700 (PDT)
+ Tue, 06 Jul 2021 08:17:01 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0A10E1FFB5;
+ by zen.linaroharston (Postfix) with ESMTP id 248791FFB7;
  Tue,  6 Jul 2021 15:58:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 30/39] configure: stop user enabling plugins on Windows for
- now
-Date: Tue,  6 Jul 2021 15:58:08 +0100
-Message-Id: <20210706145817.24109-31-alex.bennee@linaro.org>
+Subject: [PATCH  v1 31/39] tcg/plugins: enable by default for TCG builds
+Date: Tue,  6 Jul 2021 15:58:09 +0100
+Message-Id: <20210706145817.24109-32-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,44 +86,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- Yonggang Luo <luoyonggang@gmail.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are some patches on the list that enable plugins on Windows but
-they still need some changes to be ready:
+Aside from a minor bloat to file size the ability to have TCG plugins
+has no real impact on performance unless a plugin is actively loaded.
+Even then the libempty.so plugin shows only a minor degradation in
+performance caused by the extra book keeping the TCG has to do to keep
+track of instructions. As it's a useful feature lets just enable it by
+default and reduce our testing matrix a little.
 
-  https://patchew.org/QEMU/20201013002806.1447-1-luoyonggang@gmail.com/
-
-In the meantime lets stop the user from being able to configure the
-support so they don't get confused by the weird linker error messages
-later.
-
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Yonggang Luo <luoyonggang@gmail.com>
----
- configure | 5 +++++
- 1 file changed, 5 insertions(+)
 
+---
+v2
+  - properly handle plugins being ""
+  - make the test for linker support handle default case
+  - move linker tests to before the glib-modules test
+---
+ docs/devel/tcg-plugins.rst |   3 +-
+ configure                  | 125 ++++++++++++++++++++-----------------
+ .gitlab-ci.d/buildtest.yml |  23 -------
+ 3 files changed, 71 insertions(+), 80 deletions(-)
+
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 18c6581d85..0cd77c77d2 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -71,7 +71,8 @@ API
+ Usage
+ =====
+ 
+-The QEMU binary needs to be compiled for plugin support::
++Any QEMU binary with TCG support has plugins enabled by default.
++Earlier releases needed to be explicitly enabled with::
+ 
+   configure --enable-plugins
+ 
 diff --git a/configure b/configure
-index 44a487e090..9d72b31a9f 100755
+index 9d72b31a9f..0ce6c1ff65 100755
 --- a/configure
 +++ b/configure
-@@ -707,6 +707,11 @@ MINGW32*)
-   else
-     audio_drv_list=""
-   fi
-+  if "$plugins" = "yes"; then
-+      error_exit "TCG plugins not currently supported on Windows platforms"
-+  else
-+      plugins="no"
-+  fi
-   supported_os="yes"
-   pie="no"
- ;;
+@@ -429,7 +429,7 @@ libxml2="auto"
+ debug_mutex="no"
+ libpmem="auto"
+ default_devices="true"
+-plugins="no"
++plugins="$default_feature"
+ fuzzing="no"
+ rng_none="no"
+ secret_keyring="$default_feature"
+@@ -3085,6 +3085,73 @@ for drv in $audio_drv_list; do
+     esac
+ done
+ 
++##########################################
++# plugin linker support probe
++
++if test "$plugins" != "no"; then
++
++    #########################################
++    # See if --dynamic-list is supported by the linker
++
++    ld_dynamic_list="no"
++    if test "$static" = "no" ; then
++        cat > $TMPTXT <<EOF
++{
++  foo;
++};
++EOF
++
++        cat > $TMPC <<EOF
++#include <stdio.h>
++void foo(void);
++
++void foo(void)
++{
++  printf("foo\n");
++}
++
++int main(void)
++{
++  foo();
++  return 0;
++}
++EOF
++
++        if compile_prog "" "-Wl,--dynamic-list=$TMPTXT" ; then
++            ld_dynamic_list="yes"
++        fi
++    fi
++
++    #########################################
++    # See if -exported_symbols_list is supported by the linker
++
++    ld_exported_symbols_list="no"
++    if test "$static" = "no" ; then
++        cat > $TMPTXT <<EOF
++  _foo
++EOF
++
++        if compile_prog "" "-Wl,-exported_symbols_list,$TMPTXT" ; then
++            ld_exported_symbols_list="yes"
++        fi
++    fi
++
++    if test "$ld_dynamic_list" = "no" &&
++       test "$ld_exported_symbols_list" = "no" ; then
++        if test "$plugins" = "yes"; then
++            error_exit \
++                "Plugin ($plugins) support requires dynamic linking and specifying a set of symbols " \
++                "that are exported to plugins. Unfortunately your linker doesn't " \
++                "support the flag (--dynamic-list or -exported_symbols_list) used " \
++                "for this purpose. You can't build with --static."
++        else
++            plugins="no"
++        fi
++    else
++        plugins="yes"
++    fi
++fi
++
+ ##########################################
+ # glib support probe
+ 
+@@ -3093,7 +3160,7 @@ glib_modules=gthread-2.0
+ if test "$modules" = yes; then
+     glib_modules="$glib_modules gmodule-export-2.0"
+ fi
+-if test "$plugins" = yes; then
++if test "$plugins" = "yes"; then
+     glib_modules="$glib_modules gmodule-2.0"
+ fi
+ 
+@@ -3931,60 +3998,6 @@ if compile_prog "" "" ; then
+   atomic64=yes
+ fi
+ 
+-#########################################
+-# See if --dynamic-list is supported by the linker
+-ld_dynamic_list="no"
+-if test "$static" = "no" ; then
+-    cat > $TMPTXT <<EOF
+-{
+-  foo;
+-};
+-EOF
+-
+-    cat > $TMPC <<EOF
+-#include <stdio.h>
+-void foo(void);
+-
+-void foo(void)
+-{
+-  printf("foo\n");
+-}
+-
+-int main(void)
+-{
+-  foo();
+-  return 0;
+-}
+-EOF
+-
+-    if compile_prog "" "-Wl,--dynamic-list=$TMPTXT" ; then
+-        ld_dynamic_list="yes"
+-    fi
+-fi
+-
+-#########################################
+-# See if -exported_symbols_list is supported by the linker
+-
+-ld_exported_symbols_list="no"
+-if test "$static" = "no" ; then
+-    cat > $TMPTXT <<EOF
+-  _foo
+-EOF
+-
+-    if compile_prog "" "-Wl,-exported_symbols_list,$TMPTXT" ; then
+-        ld_exported_symbols_list="yes"
+-    fi
+-fi
+-
+-if  test "$plugins" = "yes" &&
+-    test "$ld_dynamic_list" = "no" &&
+-    test "$ld_exported_symbols_list" = "no" ; then
+-  error_exit \
+-      "Plugin support requires dynamic linking and specifying a set of symbols " \
+-      "that are exported to plugins. Unfortunately your linker doesn't " \
+-      "support the flag (--dynamic-list or -exported_symbols_list) used " \
+-      "for this purpose. You can't build with --static."
+-fi
+ 
+ ########################################
+ # check if getauxval is available.
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index d9b834c848..89df51517c 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -354,29 +354,6 @@ build-some-softmmu:
+     TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
+     MAKE_CHECK_ARGS: check-tcg
+ 
+-# Run check-tcg against linux-user (with plugins)
+-# we skip sparc64-linux-user until it has been fixed somewhat
+-# we skip cris-linux-user as it doesn't use the common run loop
+-build-user-plugins:
+-  extends: .native_build_job_template
+-  needs:
+-    job: amd64-debian-user-cross-container
+-  variables:
+-    IMAGE: debian-all-test-cross
+-    CONFIGURE_ARGS: --disable-tools --disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user
+-    MAKE_CHECK_ARGS: check-tcg
+-  timeout: 1h 30m
+-
+-build-some-softmmu-plugins:
+-  extends: .native_build_job_template
+-  needs:
+-    job: amd64-debian-user-cross-container
+-  variables:
+-    IMAGE: debian-all-test-cross
+-    CONFIGURE_ARGS: --disable-tools --disable-user --enable-plugins --enable-debug-tcg
+-    TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
+-    MAKE_CHECK_ARGS: check-tcg
+-
+ clang-system:
+   extends: .native_build_job_template
+   needs:
 -- 
 2.20.1
 
