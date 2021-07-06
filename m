@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AA93BDFF8
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:59:27 +0200 (CEST)
-Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107BE3BDFFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:02:17 +0200 (CEST)
+Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0uyM-0004wq-4e
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53266)
+	id 1m0v16-0000eX-3I
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0up8-0001Rz-JY
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:54 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46026)
+ id 1m0uox-0000sg-9E
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:43 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:43653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0up1-0006ee-II
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:54 -0400
-Received: by mail-pl1-x634.google.com with SMTP id s13so41736plg.12
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:46 -0700 (PDT)
+ id 1m0uou-0006bx-HP
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:43 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id i13so46243plb.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9iNrkNfNiht6gNc7s+Sfth7iEg29J37zPd797X3OxQE=;
- b=i5JUERA2/P2iYZkHrcjPM2IRemKJ5K1KdtgYYi03sONM+hSiyLpaqK0LzBP7ORIEZ3
- GbVgwwdj7KgFH5N+rxO71klw3sXEkYMCYv+boyhfUOCO4t5LoHo/DEjVCvzho7xUZaNc
- gjJZETrLTeYORoivRka+TyZpArsaOHxdzQeCkjya9Z4Ygb3GgPnvPaVIGFyUe9vS/+PU
- h1jmZDceyz+K9LyB6NXhfo57/AgM1brySZjRiGmR7r8Vvtz3SykqYXklOKQIz6LDQ55D
- ZmrOWUbZth/KAi1MDOTKUuHuEK1nw0dsfYU0X+Z8B3tCUYh0RYjrmrWOoBSSwtVHFiYZ
- H01w==
+ bh=jaeBKd2588gwtTJA1dNcYNPRKjLEqNsjOOLvdzic+bk=;
+ b=ZjuhVCKkQfznQsgOgmFV77pmONWIQPaYd813tDpYCQaQg1LgaK3tcI8svsP+SocvEA
+ PQaifbNeDES7uvA4/2lNed65J7kFLqAivYt+39P6N+dpxH35wcJmjEEuZKkZje90CqTS
+ 9uxE5XrrG+wYLl9xxl2Z9H2GMypkNtGGy9tfGXrwmWo2dI/A/HtJLbmNqoY0luqlJtVp
+ G6tav5BjqlI/Vg9CRFaGmoTT9/5H4E71TIsGiVApwigtkpyIsyeitm7hC1Y1XRGyZ0GY
+ 3n5ZGCVi6XNJ2eaI+S5H/1ZwXg2A5HJ5zC7t2ZIt1djPMtIlYAUHQfZuTntqAK2e/SyG
+ y4yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9iNrkNfNiht6gNc7s+Sfth7iEg29J37zPd797X3OxQE=;
- b=HgZ2kAlphNYMLJewMMgr+wSnkvK7gSlywHz1M1DNuiHvpaHrtpNlku1XfzF6IIOTCE
- 91maqZ6V0SewrR90PIFgzlUSDQaFopHExD1oNmuDotPn7TnIjrpvv/lr+tnoCh+WRsby
- Zlaby93nDoiEQMMKJSNhU5o8w2qt1/dk8+x51q4oVkSLGj9br27YZVvJKPiBAzC8g2eR
- TETxwzkmQouWpuPPyei+JWBuez5P8eOBMVC/HcM0FfGr+9CeQOaVW1AHnEo96dHK+oxG
- 1WeWGWquLG/b7p0Xmsu5O98TPrvHAX0IGKCF7H+pPtOobz6XIJstNtsASGxTYz+RVpPa
- +B+A==
-X-Gm-Message-State: AOAM531EaQengkm05BfE/TIqaqms1MiShRsb1BnDF6h3yAiEMZ8O/gVT
- 7ZEMIbAQIO71nL7Xf3UBjAm6KcqJlJgVTA==
-X-Google-Smtp-Source: ABdhPJzPCbd2qn6lVM4LLR1iQuL5nNvaQUkY/Azg5AIPT4uPcLSvOk01HDpFhx6YqkKrXG8JoxkQAQ==
-X-Received: by 2002:a17:902:8d82:b029:120:4377:8e0e with SMTP id
- v2-20020a1709028d82b029012043778e0emr18967194plo.32.1625615385958; 
- Tue, 06 Jul 2021 16:49:45 -0700 (PDT)
+ bh=jaeBKd2588gwtTJA1dNcYNPRKjLEqNsjOOLvdzic+bk=;
+ b=AFk7qO/STZET+maYl/aKD4SiwUqZkfBDzq7QUwaGWeamcrvo8w5/qNec5mCNFJh8+9
+ HvPBpCurgFt7yUVy/N5C0AlHsE+FB+AZrsLNvHcIIW6b2/JJ/aJkauSS/lS2e0MQ8o3/
+ UnzFXNHJXl5wSynWOxYoJaRS9YIQxwwgOh9JXukdsv6Y6dcp2hyCfwTuRj4Dwpu6jIm6
+ 2faSnQG6Ym77HHoeDKOCFk+a2AkaIlsbVZoDu48TkiMT0k+PEs+m9ezSLO8mkFCbBJiE
+ bf4bbkxXYw06lvjhPnQF83YhOzHMq3kX0ViSXuvORjmjqfZsOT0vGDvQmwBOEhUo3IFT
+ QphA==
+X-Gm-Message-State: AOAM530WC48HDER5ahVA1kQTnMheBqeifM2FD1eQ93ktrZaxd8sJkaSS
+ QIePD6xG6oTLRmEY9HaBhXlu6jGL6MpJ0w==
+X-Google-Smtp-Source: ABdhPJxb+1DrHblksGsYtrKN5kf45/lddOJ8SDufhxZVqAQ/sw5DHLraAUsj1EgRWKr6YbklidnOIA==
+X-Received: by 2002:a17:90a:8417:: with SMTP id
+ j23mr18325344pjn.168.1625615379216; 
+ Tue, 06 Jul 2021 16:49:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.45
+ by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 16:49:45 -0700 (PDT)
+ Tue, 06 Jul 2021 16:49:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/36] linux-user/hexagon: Implement setup_sigtramp
-Date: Tue,  6 Jul 2021 16:49:15 -0700
-Message-Id: <20210706234932.356913-20-richard.henderson@linaro.org>
+Subject: [PATCH v2 08/36] linux-user: Replace bprm->fd with bprm->src.fd
+Date: Tue,  6 Jul 2021 16:49:04 -0700
+Message-Id: <20210706234932.356913-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210706234932.356913-1-richard.henderson@linaro.org>
 References: <20210706234932.356913-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,74 +84,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>, alex.bennee@linaro.org,
- laurent@vivier.eu, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Continue to initialize the words on the stack, as documented.
-However, use the off-stack trampoline.
+There are only a couple of uses of bprm->fd remaining.
+Migrate to the other field.
 
-Cc: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/hexagon/target_signal.h |  2 ++
- linux-user/hexagon/signal.c        | 19 +++++++++++++++++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ linux-user/qemu.h      | 1 -
+ linux-user/flatload.c  | 8 ++++----
+ linux-user/linuxload.c | 5 ++---
+ 3 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/hexagon/target_signal.h b/linux-user/hexagon/target_signal.h
-index 345cf1cbb8..9e0223d322 100644
---- a/linux-user/hexagon/target_signal.h
-+++ b/linux-user/hexagon/target_signal.h
-@@ -31,4 +31,6 @@ typedef struct target_sigaltstack {
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index f4cdfb16b3..dafaae6293 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -211,7 +211,6 @@ struct linux_binprm {
+     char buf[BPRM_BUF_SIZE] __attribute__((aligned));
+     ImageSource src;
+     abi_ulong p;
+-    int fd;
+     int e_uid, e_gid;
+     int argc, envc;
+     char **argv;
+diff --git a/linux-user/flatload.c b/linux-user/flatload.c
+index 3e5594cf89..58d0d9352c 100644
+--- a/linux-user/flatload.c
++++ b/linux-user/flatload.c
+@@ -460,7 +460,7 @@ static int load_flat_file(struct linux_binprm * bprm,
+         DBG_FLT("BINFMT_FLAT: ROM mapping of file (we hope)\n");
  
- #include "../generic/signal.h"
+         textpos = target_mmap(0, text_len, PROT_READ|PROT_EXEC,
+-                              MAP_PRIVATE, bprm->fd, 0);
++                              MAP_PRIVATE, bprm->src.fd, 0);
+         if (textpos == -1) {
+             fprintf(stderr, "Unable to mmap process text\n");
+             return -1;
+@@ -487,7 +487,7 @@ static int load_flat_file(struct linux_binprm * bprm,
+         } else
+ #endif
+         {
+-            result = target_pread(bprm->fd, datapos,
++            result = target_pread(bprm->src.fd, datapos,
+                                   data_len + (relocs * sizeof(abi_ulong)),
+                                   fpos);
+         }
+@@ -537,10 +537,10 @@ static int load_flat_file(struct linux_binprm * bprm,
+         else
+ #endif
+         {
+-            result = target_pread(bprm->fd, textpos,
++            result = target_pread(bprm->src.fd, textpos,
+                                   text_len, 0);
+             if (result >= 0) {
+-                result = target_pread(bprm->fd, datapos,
++                result = target_pread(bprm->src.fd, datapos,
+                     data_len + (relocs * sizeof(abi_ulong)),
+                     ntohl(hdr->data_start));
+             }
+diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
+index 8b93b9704c..d0d3f2ed0e 100644
+--- a/linux-user/linuxload.c
++++ b/linux-user/linuxload.c
+@@ -36,7 +36,7 @@ static int prepare_binprm(struct linux_binprm *bprm)
+     int mode;
+     int retval;
  
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
-+
- #endif /* TARGET_SIGNAL_H */
-diff --git a/linux-user/hexagon/signal.c b/linux-user/hexagon/signal.c
-index 85eab5e943..bd0f9b1c85 100644
---- a/linux-user/hexagon/signal.c
-+++ b/linux-user/hexagon/signal.c
-@@ -161,6 +161,11 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+-    if (fstat(bprm->fd, &st) < 0) {
++    if (fstat(bprm->src.fd, &st) < 0) {
+         return -errno;
+     }
  
-     setup_ucontext(&frame->uc, env, set);
-     tswap_siginfo(&frame->info, info);
-+    /*
-+     * The on-stack signal trampoline is no longer executed;
-+     * however, the libgcc signal frame unwinding code checks
-+     * for the presence of these two numeric magic values.
-+     */
-     install_sigtramp(frame->tramp);
+@@ -66,7 +66,7 @@ static int prepare_binprm(struct linux_binprm *bprm)
+         bprm->e_gid = st.st_gid;
+     }
  
-     env->gpr[HEX_REG_PC] = ka->_sa_handler;
-@@ -170,8 +175,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         frame_addr + offsetof(struct target_rt_sigframe, info);
-     env->gpr[HEX_REG_R02] =
-         frame_addr + offsetof(struct target_rt_sigframe, uc);
--    env->gpr[HEX_REG_LR] =
--        frame_addr + offsetof(struct target_rt_sigframe, tramp);
-+    env->gpr[HEX_REG_LR] = default_rt_sigreturn;
+-    retval = read(bprm->fd, bprm->buf, BPRM_BUF_SIZE);
++    retval = read(bprm->src.fd, bprm->buf, BPRM_BUF_SIZE);
+     if (retval < 0) {
+         perror("prepare_binprm");
+         exit(-1);
+@@ -133,7 +133,6 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
+ {
+     int retval;
  
-     return;
- 
-@@ -270,3 +274,14 @@ badframe:
-     force_sig(TARGET_SIGSEGV);
-     return 0;
- }
-+
-+void setup_sigtramp(abi_ulong sigtramp_page)
-+{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 4 * 2, 0);
-+    assert(tramp != NULL);
-+
-+    default_rt_sigreturn = sigtramp_page;
-+    install_sigtramp(tramp);
-+
-+    unlock_user(tramp, sigtramp_page, 4 * 2);
-+}
+-    bprm->fd = fdexec;
+     bprm->src.fd = fdexec;
+     bprm->filename = (char *)filename;
+     bprm->argc = count(argv);
 -- 
 2.25.1
 
