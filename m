@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0028A3BD988
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:08:49 +0200 (CEST)
-Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89923BDA1A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:24:17 +0200 (CEST)
+Received: from localhost ([::1]:43928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0mgq-0008OH-WA
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:08:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33346)
+	id 1m0mvo-0007tP-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:24:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mXB-0004z5-US
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:49 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51923)
+ id 1m0mor-0002N7-RO
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:06 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mX5-00026C-53
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:49 -0400
-Received: by mail-wm1-x333.google.com with SMTP id n33so6294864wms.1
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:58:38 -0700 (PDT)
+ id 1m0mom-0004qS-Iw
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:05 -0400
+Received: by mail-wr1-x432.google.com with SMTP id p8so26529507wrr.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8GBODLRjljT2CqIfm6ictSx8Ob2rK1eePeAxvgZ3b20=;
- b=OVJ7M9exKqvDYUNcA4vrWpaO99Xl+zQQxin5pBBf1TbzEIdZ9icYqn3+kVlEu/IXiW
- dC333Y2+nSH+v+zVyCY653wi4VIyKwm54ReQEXyEU1EP8FnDtEUIG+k2oQ8nJA2fGS2e
- 1TbnhDNc849PdDK7Z9LtNC78eT3pGtzuQSrUBqi8b/JgGsOqWKlkttsaD3UO/wTl6mUh
- yuhBZb5VLA3TTMPW+gCVBpKfCzStctlKw+tkKxAqnGC1koy5As34Rh6pb8z+wtxl8iqv
- sWJjxeqhv8LzyOa/X/+akNxI3nck4xZxOhVmF/3M6oyoh+jZxeeeAxhg8B+NZylLAk+M
- Ke9A==
+ bh=cMVwh6QFPhcW20oytqkL/ZaRLLYb/mCB+qE4FLLNhgM=;
+ b=wPrzNDWcK/rPQraUuYadVoljxxWxyY0PWxcJzumMP1ks9c3wSw39GE+s+S1Ye0RwYl
+ KKoPDhwPZS2yLaJCHVSKekd6jVWGjUmFecymjWFWEOt+AJx8PNnvq1WkG9w6Vc/p3Hxn
+ aDect8po3EST6NrnvQPNT96Qj53MqZxNmzzvW6EYlJDmPz17ozXOHCHvbI0Yyg2bll1K
+ +Vex/F2HdT+wzrz67bjE6Byc74Safb48iRYDY+dcv3q5eGvIMvE3e2M79UJZ2rzOnFub
+ zY8lV+JeACqYH4lG5WUe9YeqmI57Ddbb3jVFQo4wlKOjRVLv3aErKapVdTkVUQQfEuCZ
+ WMXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8GBODLRjljT2CqIfm6ictSx8Ob2rK1eePeAxvgZ3b20=;
- b=Y3eBCA6VQbLDGfFTNzQmaojDenNFeSjtFGZ+pnHk2v0hB7X04a0pAR/uNaHngX7tFx
- ejFEpgDbvaFYvH81IslKamb7lWLxaG7xHuhyrMbB1mrtEB363u/tkmDGy0bQEnhlnCx3
- /W33Uo8CrH11wX7M6KIrg0dUWnxyuupRrZXWzK+DjavIO3fMyc+edWbAJjBw+hejJgzv
- WYXDbCCaWclGSfD1a41e/QVQsbL5mb2lWnSwJ1H3XGA11fM0uFDqeXguW7TKoXpvfcTo
- 6Cgqr8OJOcyoGumJLpg0w8dmmveNGC6UqbfRRULsgu5aNKRTp6Bc+a0UWk/8fgyPy2j1
- k6+Q==
-X-Gm-Message-State: AOAM533Z6az4HU+5Ho4GAiL8d+CvThj7EzBPgOub/5J+SR6r90sHvpIk
- 7MuQSDTQeTzhHwGGRxT9p4UjvQ==
-X-Google-Smtp-Source: ABdhPJysrlygsNy+44e2NtrhYT3eJoccXtqoh2eKbbRaD7xXUVJn086q96tMgoaJAzZfDMb2xTd6rg==
-X-Received: by 2002:a05:600c:1c19:: with SMTP id
- j25mr1295989wms.166.1625583517660; 
- Tue, 06 Jul 2021 07:58:37 -0700 (PDT)
+ bh=cMVwh6QFPhcW20oytqkL/ZaRLLYb/mCB+qE4FLLNhgM=;
+ b=GKM40KounDji4/hvaZ+TL/xNifrlXUgn2GdT48uypdMaa3ZcrH4SPbn2tWanVfRGtm
+ BDwsfDZ8reVkXEgxIq2Jzq98A2ieqGSFtN2zzVltO4G/phvagLvbacJx2UTCYiTv3G3s
+ 0EXaplZU8YXDadnWUxqDNpoqeTpDqGxWjW0tRyUHjCOyvepbI5N9n4t61vmAb1Mdl7MT
+ KKRSuhWqM2Xwuwarr5pmZl+eveJSHKs93KrKUJfdtW4Ma1bWnfnbSsTuF1Rk+qGcCsUm
+ hkyhCDA8dE8X99fWTeqXOjCS5MddRTPM7TtqtRRskobKl9AyoICTFU05IxTvJHjOzQws
+ AEXw==
+X-Gm-Message-State: AOAM531uV4M5x+9wu1V09tHop5NWoUfvVjshNOWvHuDyXhl9IEIzMNwu
+ +BVzyh06eqk/V8FGnBhG8I/ffw==
+X-Google-Smtp-Source: ABdhPJxdedEebOs0zROJOdktWAtU3rJ8E/9N3ZA/3VC0SNvBTDLd7j3T5/vP0nW0ltnEB36QTz8/dA==
+X-Received: by 2002:a05:6000:1379:: with SMTP id
+ q25mr21970030wrz.188.1625584619231; 
+ Tue, 06 Jul 2021 08:16:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o11sm15336535wmq.1.2021.07.06.07.58.27
+ by smtp.gmail.com with ESMTPSA id j12sm16956881wro.82.2021.07.06.08.16.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 07:58:36 -0700 (PDT)
+ Tue, 06 Jul 2021 08:16:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B63611FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id CBF401FFBE;
  Tue,  6 Jul 2021 15:58:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 37/39] plugins/cache: Added FIFO and LRU eviction policies
-Date: Tue,  6 Jul 2021 15:58:15 +0100
-Message-Id: <20210706145817.24109-38-alex.bennee@linaro.org>
+Subject: [PATCH  v1 38/39] docs/devel: Added cache plugin to the plugins docs
+Date: Tue,  6 Jul 2021 15:58:16 +0100
+Message-Id: <20210706145817.24109-39-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,342 +96,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-Implemented FIFO and LRU eviction policies. Now one of the three
-eviction policies can be chosen as an argument. On not specifying an
-argument, LRU is used by default.
-
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+Message-Id: <20210628053808.17422-1-ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623125458.450462-4-ma.mandourr@gmail.com>
 ---
- contrib/plugins/cache.c | 203 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 190 insertions(+), 13 deletions(-)
+ docs/devel/tcg-plugins.rst | 59 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index b550ef31b0..bf0d2f6097 100644
---- a/contrib/plugins/cache.c
-+++ b/contrib/plugins/cache.c
-@@ -29,6 +29,14 @@ static uint64_t dmisses;
- static uint64_t imem_accesses;
- static uint64_t imisses;
- 
-+enum EvictionPolicy {
-+    LRU,
-+    FIFO,
-+    RAND,
-+};
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 179867e9c1..7e54f12837 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -344,3 +344,62 @@ which will output an execution trace following this structure::
+   0, 0xd32, 0xf9893014, "adds r0, #0x14"
+   0, 0xd34, 0xf9c8f000, "bl #0x10c8"
+   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
 +
-+enum EvictionPolicy policy;
++- contrib/plugins/cache
 +
- /*
-  * A CacheSet is a set of cache blocks. A memory block that maps to a set can be
-  * put in any of the blocks inside the set. The number of block per set is
-@@ -48,6 +56,8 @@ static uint64_t imisses;
-  * The set number is used to identify the set in which the block may exist.
-  * The tag is compared against all the tags of a set to search for a match. If a
-  * match is found, then the access is a hit.
-+ *
-+ * The CacheSet also contains bookkeaping information about eviction details.
-  */
- 
- typedef struct {
-@@ -57,6 +67,9 @@ typedef struct {
- 
- typedef struct {
-     CacheBlock *blocks;
-+    uint64_t *lru_priorities;
-+    uint64_t lru_gen_counter;
-+    GQueue *fifo_queue;
- } CacheSet;
- 
- typedef struct {
-@@ -77,6 +90,12 @@ typedef struct {
-     uint64_t imisses;
- } InsnData;
- 
-+void (*update_hit)(Cache *cache, int set, int blk);
-+void (*update_miss)(Cache *cache, int set, int blk);
++Cache modelling plugin that measures the performance of a given cache
++configuration when a given working set is run::
 +
-+void (*metadata_init)(Cache *cache);
-+void (*metadata_destroy)(Cache *cache);
++    qemu-x86_64 -plugin ./contrib/plugins/libcache.so \
++      -d plugin -D cache.log ./tests/tcg/x86_64-linux-user/float_convs
 +
- Cache *dcache, *icache;
- 
- static int pow_of_two(int num)
-@@ -89,6 +108,103 @@ static int pow_of_two(int num)
-     return ret;
- }
- 
-+/*
-+ * LRU evection policy: For each set, a generation counter is maintained
-+ * alongside a priority array.
-+ *
-+ * On each set access, the generation counter is incremented.
-+ *
-+ * On a cache hit: The hit-block is assigned the current generation counter,
-+ * indicating that it is the most recently used block.
-+ *
-+ * On a cache miss: The block with the least priority is searched and replaced
-+ * with the newly-cached block, of which the priority is set to the current
-+ * generation number.
-+ */
++will report the following::
 +
-+static void lru_priorities_init(Cache *cache)
-+{
-+    int i;
++    Data accesses: 996479, Misses: 507
++    Miss rate: 0.050879%
 +
-+    for (i = 0; i < cache->num_sets; i++) {
-+        cache->sets[i].lru_priorities = g_new0(uint64_t, cache->assoc);
-+        cache->sets[i].lru_gen_counter = 0;
-+    }
-+}
++    Instruction accesses: 2641737, Misses: 18617
++    Miss rate: 0.704726%
 +
-+static void lru_update_blk(Cache *cache, int set_idx, int blk_idx)
-+{
-+    CacheSet *set = &cache->sets[set_idx];
-+    set->lru_priorities[blk_idx] = cache->sets[set_idx].lru_gen_counter;
-+    set->lru_gen_counter++;
-+}
++    address, data misses, instruction
++    0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)
++    0x41f395 (_IO_default_xsputn), 49, movb %dl, (%rdi, %rax)
++    0x42584d (ptmalloc_init.part.0), 33, movaps %xmm0, (%rax)
++    0x454d48 (__tunables_init), 20, cmpb $0, (%r8)
++    ...
 +
-+static int lru_get_lru_block(Cache *cache, int set_idx)
-+{
-+    int i, min_idx, min_priority;
++    address, fetch misses, instruction
++    0x4160a0 (__vfprintf_internal), 744, movl $1, %ebx
++    0x41f0a0 (_IO_setb), 744, endbr64
++    0x415882 (__vfprintf_internal), 744, movq %r12, %rdi
++    0x4268a0 (__malloc), 696, andq $0xfffffffffffffff0, %rax
++    ...
 +
-+    min_priority = cache->sets[set_idx].lru_priorities[0];
-+    min_idx = 0;
++The plugin has a number of arguments, all of them are optional:
 +
-+    for (i = 1; i < cache->assoc; i++) {
-+        if (cache->sets[set_idx].lru_priorities[i] < min_priority) {
-+            min_priority = cache->sets[set_idx].lru_priorities[i];
-+            min_idx = i;
-+        }
-+    }
-+    return min_idx;
-+}
++  * arg="limit=N"
 +
-+static void lru_priorities_destroy(Cache *cache)
-+{
-+    int i;
++  Print top N icache and dcache thrashing instructions along with their
++  address, number of misses, and its disassembly. (default: 32)
 +
-+    for (i = 0; i < cache->num_sets; i++) {
-+        g_free(cache->sets[i].lru_priorities);
-+    }
-+}
++  * arg="icachesize=N"
++  * arg="iblksize=B"
++  * arg="iassoc=A"
 +
-+/*
-+ * FIFO eviction policy: a FIFO queue is maintained for each CacheSet that
-+ * stores accesses to the cache.
-+ *
-+ * On a compulsory miss: The block index is enqueued to the fifo_queue to
-+ * indicate that it's the latest cached block.
-+ *
-+ * On a conflict miss: The first-in block is removed from the cache and the new
-+ * block is put in its place and enqueued to the FIFO queue.
-+ */
++  Instruction cache configuration arguments. They specify the cache size, block
++  size, and associativity of the instruction cache, respectively.
++  (default: N = 16384, B = 64, A = 8)
 +
-+static void fifo_init(Cache *cache)
-+{
-+    int i;
++  * arg="dcachesize=N"
++  * arg="dblksize=B"
++  * arg="dassoc=A"
 +
-+    for (i = 0; i < cache->num_sets; i++) {
-+        cache->sets[i].fifo_queue = g_queue_new();
-+    }
-+}
++  Data cache configuration arguments. They specify the cache size, block size,
++  and associativity of the data cache, respectively.
++  (default: N = 16384, B = 64, A = 8)
 +
-+static int fifo_get_first_block(Cache *cache, int set)
-+{
-+    GQueue *q = cache->sets[set].fifo_queue;
-+    return GPOINTER_TO_INT(g_queue_pop_tail(q));
-+}
++  * arg="evict=POLICY"
 +
-+static void fifo_update_on_miss(Cache *cache, int set, int blk_idx)
-+{
-+    GQueue *q = cache->sets[set].fifo_queue;
-+    g_queue_push_head(q, GINT_TO_POINTER(blk_idx));
-+}
-+
-+static void fifo_destroy(Cache *cache)
-+{
-+    int i;
-+
-+    for (i = 0; i < cache->assoc; i++) {
-+        g_queue_free(cache->sets[i].fifo_queue);
-+    }
-+}
-+
- static inline uint64_t extract_tag(Cache *cache, uint64_t addr)
- {
-     return addr & cache->tag_mask;
-@@ -139,6 +255,11 @@ static Cache *cache_init(int blksize, int assoc, int cachesize)
-     blk_mask = blksize - 1;
-     cache->set_mask = ((cache->num_sets - 1) << cache->blksize_shift);
-     cache->tag_mask = ~(cache->set_mask | blk_mask);
-+
-+    if (metadata_init) {
-+        metadata_init(cache);
-+    }
-+
-     return cache;
- }
- 
-@@ -155,12 +276,21 @@ static int get_invalid_block(Cache *cache, uint64_t set)
-     return -1;
- }
- 
--static int get_replaced_block(Cache *cache)
-+static int get_replaced_block(Cache *cache, int set)
- {
--    return g_rand_int_range(rng, 0, cache->assoc);
-+    switch (policy) {
-+    case RAND:
-+        return g_rand_int_range(rng, 0, cache->assoc);
-+    case LRU:
-+        return lru_get_lru_block(cache, set);
-+    case FIFO:
-+        return fifo_get_first_block(cache, set);
-+    default:
-+        g_assert_not_reached();
-+    }
- }
- 
--static bool in_cache(Cache *cache, uint64_t addr)
-+static int in_cache(Cache *cache, uint64_t addr)
- {
-     int i;
-     uint64_t tag, set;
-@@ -171,11 +301,11 @@ static bool in_cache(Cache *cache, uint64_t addr)
-     for (i = 0; i < cache->assoc; i++) {
-         if (cache->sets[set].blocks[i].tag == tag &&
-                 cache->sets[set].blocks[i].valid) {
--            return true;
-+            return i;
-         }
-     }
- 
--    return false;
-+    return -1;
- }
- 
- /**
-@@ -188,20 +318,28 @@ static bool in_cache(Cache *cache, uint64_t addr)
-  */
- static bool access_cache(Cache *cache, uint64_t addr)
- {
-+    int hit_blk, replaced_blk;
-     uint64_t tag, set;
--    int replaced_blk;
--
--    if (in_cache(cache, addr)) {
--        return true;
--    }
- 
-     tag = extract_tag(cache, addr);
-     set = extract_set(cache, addr);
- 
-+    hit_blk = in_cache(cache, addr);
-+    if (hit_blk != -1) {
-+        if (update_hit) {
-+            update_hit(cache, set, hit_blk);
-+        }
-+        return true;
-+    }
-+
-     replaced_blk = get_invalid_block(cache, set);
- 
-     if (replaced_blk == -1) {
--        replaced_blk = get_replaced_block(cache);
-+        replaced_blk = get_replaced_block(cache, set);
-+    }
-+
-+    if (update_miss) {
-+        update_miss(cache, set, replaced_blk);
-     }
- 
-     cache->sets[set].blocks[replaced_blk].tag = tag;
-@@ -308,6 +446,10 @@ static void cache_free(Cache *cache)
-         g_free(cache->sets[i].blocks);
-     }
- 
-+    if (metadata_destroy) {
-+        metadata_destroy(cache);
-+    }
-+
-     g_free(cache->sets);
-     g_free(cache);
- }
-@@ -395,6 +537,28 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-     g_hash_table_destroy(miss_ht);
- }
- 
-+static void policy_init()
-+{
-+    switch (policy) {
-+    case LRU:
-+        update_hit = lru_update_blk;
-+        update_miss = lru_update_blk;
-+        metadata_init = lru_priorities_init;
-+        metadata_destroy = lru_priorities_destroy;
-+        break;
-+    case FIFO:
-+        update_miss = fifo_update_on_miss;
-+        metadata_init = fifo_init;
-+        metadata_destroy = fifo_destroy;
-+        break;
-+    case RAND:
-+        rng = g_rand_new();
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- QEMU_PLUGIN_EXPORT
- int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-                         int argc, char **argv)
-@@ -414,6 +578,7 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-     iblksize = 64;
-     icachesize = iblksize * iassoc * 32;
- 
-+    policy = LRU;
- 
-     for (i = 0; i < argc; i++) {
-         char *opt = argv[i];
-@@ -431,12 +596,26 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-             dcachesize = g_ascii_strtoll(opt + 11, NULL, 10);
-         } else if (g_str_has_prefix(opt, "limit=")) {
-             limit = g_ascii_strtoll(opt + 6, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "evict=")) {
-+            gchar *p = opt + 6;
-+            if (g_strcmp0(p, "rand") == 0) {
-+                policy = RAND;
-+            } else if (g_strcmp0(p, "lru") == 0) {
-+                policy = LRU;
-+            } else if (g_strcmp0(p, "fifo") == 0) {
-+                policy = FIFO;
-+            } else {
-+                fprintf(stderr, "invalid eviction policy: %s\n", opt);
-+                return -1;
-+            }
-         } else {
-             fprintf(stderr, "option parsing failed: %s\n", opt);
-             return -1;
-         }
-     }
- 
-+    policy_init();
-+
-     dcache = cache_init(dblksize, dassoc, dcachesize);
-     if (!dcache) {
-         const char *err = cache_config_error(dblksize, dassoc, dcachesize);
-@@ -453,8 +632,6 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-         return -1;
-     }
- 
--    rng = g_rand_new();
--
-     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
- 
++  Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
++  :code:`fifo`, and :code:`rand`. The plugin will use the specified policy for
++  both instruction and data caches. (default: POLICY = :code:`lru`)
 -- 
 2.20.1
 
