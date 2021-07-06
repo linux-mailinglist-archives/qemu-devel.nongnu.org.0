@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D2463BDF10
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 23:38:01 +0200 (CEST)
-Received: from localhost ([::1]:54810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 822093BDF1E
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 23:47:13 +0200 (CEST)
+Received: from localhost ([::1]:34504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0slT-0005ay-Ph
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 17:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
+	id 1m0suO-0002Qm-2r
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 17:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m0skK-0004XZ-0v; Tue, 06 Jul 2021 17:36:48 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44981)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1m0ssu-0001kk-T3
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 17:45:40 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:34463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m0skI-000630-Fg; Tue, 06 Jul 2021 17:36:47 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id t15so586426wry.11;
- Tue, 06 Jul 2021 14:36:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1m0sst-0006wO-95
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 17:45:40 -0400
+Received: by mail-ot1-x333.google.com with SMTP id
+ t24-20020a9d7f980000b029046f4a1a5ec4so270578otp.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 14:45:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/xyQ+8xWq9WNDxU0P4YSxCX5JZV2CK7DEzY6bJuna8s=;
- b=igFpbRdXB4/EwVwKqsGN1dG/3i72dH9w2y/JYYv8SSo8DYBt9aZG5meU5sJAfJj2iG
- ZmX4G+yp/87YySNubjG2/WjjJPpAYzE78zMpdTeQzVmZjGgK3mbx4mIpaKGbekywxoht
- AzVm3/gW79fLIGZ5LHEwb78BngEUsXoR4oAJSt4lTniMD/ZVBlcHf7poK2j1URRxFDjg
- wUFCV1vtRkBJZvRT08vzNbkQ6eFHCsrUpp1OsbfVrGRzXXIhotrPjNOj2EH8EHAh9dlQ
- VbznE2KkGcX3edXTNg2IqSHE+qx+CmRLEuJQ3CLwx78f0h+CMk+LmvFc8x/+sNM919Nv
- CnQA==
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=K+KA1gqKG8uwMAZB4RM3f6iYW8Y8proFptVOd3rWI08=;
+ b=YswBTNP3JtgBl51ve+uNPrl5OFa57lBq1ukxR9v7w3LfybpAyWspDjUCpAfI1a88wn
+ U2LO4rHXLAHX6DUWF9tUO9Xn9Vdmliqq1v06ZHTN5lnC/aymsEPtbT0S7zhZh4Zm2vle
+ RJoxF5GudchGOR+5eQEhgjXnBhoJ1sC/VPhM9FoWBem4GN8NGnC+/ZF2CddV/Liy/b+P
+ wEuAMb4CbjsoIANTiPAaCZDG7srJ7ybAAcTwbumQc0uMQvO33rshIeW2gn0s9QC95jkY
+ ydmzorvf4XdpUmxlSoqUEYa8K9avJJvlPM94K6Sjf4ePW0pbicThofvgdRFl/b3E9SOE
+ PLIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/xyQ+8xWq9WNDxU0P4YSxCX5JZV2CK7DEzY6bJuna8s=;
- b=dSAo9/9WxQckA2tkEg1qgBf+3tlGy5n2gpgoHgm7wfEjxf4ubpCJzar5rk7+ICOO7H
- osYsl/GXHucB3JYA1DENCL68tTPJRKa0yLe+7nS4r4aqB/ydvYNzeOkW7rmJ3gGHxC2N
- KyOEAH7t/w6M7sKrMKpK6Lcmt12HRg/T8KELpMj9i1J/aKQfx6E7lqWOTgnV8vxR47qp
- ltRUR8r+TpUoD2kwpPc0VeiaGJKBvKs1vZqoefsDblVSZdzJEunPT7CRIPYOMDXS409P
- GN5w0Fh63qQ/c5OaNlmCwDuItbTSDzf3B7cx0aksfZTo6Xlm7FEq5hCKREoBf4ZNlBCX
- BO6g==
-X-Gm-Message-State: AOAM533BNhkJBM8/Wqh0MBeg+o4Kx+BmuOXOIXRm2fbIKoi1jtara3uq
- TjoQmnR7AmD3mbgPQ2G/KjShmaSi0ck=
-X-Google-Smtp-Source: ABdhPJwDCeDzZvA+ekifp0ojInNGpnzEB7eGu19zbOq53BVfr40fOrTbWri8Pri6aTH6atIwmkMC4g==
-X-Received: by 2002:a05:6000:12cf:: with SMTP id
- l15mr23911183wrx.24.1625607404129; 
- Tue, 06 Jul 2021 14:36:44 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id r13sm7602921wrt.38.2021.07.06.14.36.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 14:36:43 -0700 (PDT)
-Subject: Re: [trivial PATCH 1/1] hw/intc: Improve formatting of MEMTX_ERROR
- guest error message
-To: Rebecca Cran <rebecca@nuviainc.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, qemu-trivial@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20210706211432.31902-1-rebecca@nuviainc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8663abbf-8cee-e144-de6e-b5e80634935e@amsat.org>
-Date: Tue, 6 Jul 2021 23:36:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=K+KA1gqKG8uwMAZB4RM3f6iYW8Y8proFptVOd3rWI08=;
+ b=M1isuBdLsoCnoOH9D4t8coWZudO2bqX/8NAW4Afqe3gZ1OVRqeZAx4LCnOX1QkpKYk
+ 0+oQg6G/jAMv5kseWbLR3q0HCBMdOXmUxkHXoMDw8eEetwY4PAIUsucPIsohcgYf6SNs
+ uK6Szt1ZE8Dl7bwHMYJzCFVdMNwMsybzHiOyshjX+T1PNcyHBgsacNZ08bIBaVFwv+2q
+ X7sr8P/7K36JTKcX0qjMTfE4v9MhaouHsLQs+ucK9fdbxGexO2UGkoy+xGuWI1fIq9ey
+ PHifwaph8l6tERXbcwEipSsspzwuK1vhUSgrVrtekYMLf02RyXao+xbUvhuxeqIL4VW0
+ NqeQ==
+X-Gm-Message-State: AOAM530PtyxElldGJrkBVZaq6LPDE8Jr4e0rUDFWj9lJYwqv+eDogyt2
+ qVdIFQaCBRcVfOPUaaNwMA==
+X-Google-Smtp-Source: ABdhPJwGA8fMNseSkbvZcJFzhqCwN/dU5tK0NhbezfDid4zzzlsBYqTb9QGFUYiW97K8cYKpzvJ2sg==
+X-Received: by 2002:a05:6830:18da:: with SMTP id
+ v26mr16104133ote.144.1625607938163; 
+ Tue, 06 Jul 2021 14:45:38 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.156.158])
+ by smtp.gmail.com with ESMTPSA id i133sm3742746oia.2.2021.07.06.14.45.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 14:45:37 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:ec58:59b9:1dc0:5361])
+ by serve.minyard.net (Postfix) with ESMTPSA id 7E246180110;
+ Tue,  6 Jul 2021 21:45:36 +0000 (UTC)
+Date: Tue, 6 Jul 2021 16:45:35 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [GIT PULL] I2C/IPMI bug fixes for QEMU 6.1
+Message-ID: <20210706214535.GU2921206@minyard.net>
+References: <20210706200558.GT2921206@minyard.net>
+ <CAFEAcA-dvSPpKoJ-+ATYcBs6UuLJY1ZKwx-9WYvPyJ+0MYU4ew@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210706211432.31902-1-rebecca@nuviainc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-dvSPpKoJ-+ATYcBs6UuLJY1ZKwx-9WYvPyJ+0MYU4ew@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=tcminyard@gmail.com; helo=mail-ot1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -90,18 +90,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: minyard@acm.org
+Cc: Titus Rwantare <titusr@google.com>, Hao Wu <wuhaotsh@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/21 11:14 PM, Rebecca Cran wrote:
-> Add a space in the message printed when gicr_read*/gicr_write* returns
-> MEMTX_ERROR in arm_gicv3_redist.c.
-> 
-> Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
-> ---
->  hw/intc/arm_gicv3_redist.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Hmm, it compiled for me, I wonder if there are some compiler
+differences, but I don't see how.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Anyway, copying the original patch source so they know.
+
+Thanks for checking.
+
+-corey
+
+On Tue, Jul 06, 2021 at 10:16:36PM +0100, Peter Maydell wrote:
+> On Tue, 6 Jul 2021 at 21:06, Corey Minyard <minyard@acm.org> wrote:
+> >
+> > The following changes since commit 38848ce565849e5b867a5e08022b3c755039c11a:
+> >
+> >   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210616' into staging (2021-06-16 17:02:30 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://github.com/cminyard/qemu.git tags/for-qemu-6.1-1
+> >
+> > for you to fetch changes up to 7051d605e6b03259e0185dd574f760b93d15fa10:
+> >
+> >   ipmi/sim: fix watchdog_expired data type error in IPMIBmcSim struct (2021-06-25 08:54:57 -0500)
+> >
+> > ----------------------------------------------------------------
+> > Some qemu updates for IPMI and I2C
+> >
+> > Move some ADC file to where they belong and move some sensors to a
+> > sensor directory, since with new BMCs coming in lots of different
+> > sensors should be coming in.  Keep from cluttering things up.
+> >
+> > Add support for I2C PMBus devices.
+> >
+> > Replace the confusing and error-prone i2c_send_recv and i2c_transfer with
+> > specific send and receive functions.  Several errors have already been
+> > made with these, avoid any new errors.
+> >
+> > Fix the watchdog_expired field in the IPMI watchdog, it's not a bool,
+> > it's a u8.  After a vmstate transfer, the new value could be wrong.
+> >
+> 
+> Hi; this fails to compile on 32-bit hosts:
+> 
+> ../../hw/sensor/max34451.c: In function 'max34451_init':
+> /home/peter.maydell/qemu/include/qemu/bitops.h:22:38: error: left
+> shift count >= width of type [-Werror=shift-count-overflow]
+>  #define BIT(nr)                 (1UL << (nr))
+>                                       ^
+> /home/peter.maydell/qemu/include/hw/i2c/pmbus_device.h:253:36: note:
+> in expansion of macro 'BIT'
+>  #define PB_HAS_TEMPERATURE         BIT(40)
+>                                     ^~~
+> ../../hw/sensor/max34451.c:725:37: note: in expansion of macro
+> 'PB_HAS_TEMPERATURE'
+>          pmbus_page_config(pmdev, i, PB_HAS_TEMPERATURE | PB_HAS_VOUT_MODE);
+>                                      ^~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
+> 
+> You probably wanted to define PB_HAS_TEMPERATURE using BIT_ULL().
+> 
+> Sample gitlab CI job failure with this error:
+> https://gitlab.com/qemu-project/qemu/-/jobs/1403927147
+> 
+> thanks
+> -- PMM
+> 
 
