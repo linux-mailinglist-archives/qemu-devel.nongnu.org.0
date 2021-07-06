@@ -2,108 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F353BDD86
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 20:48:42 +0200 (CEST)
-Received: from localhost ([::1]:44562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FD53BDDB3
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 21:01:39 +0200 (CEST)
+Received: from localhost ([::1]:48262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0q7d-0004rx-SX
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 14:48:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57968)
+	id 1m0qK9-0007Ye-UC
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 15:01:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1m0q6C-0004A4-E8; Tue, 06 Jul 2021 14:47:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1m0q6A-0001m9-6y; Tue, 06 Jul 2021 14:47:12 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 166IjXcw175797; Tue, 6 Jul 2021 14:47:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=content-type : date :
- from : to : cc : subject : in-reply-to : references : message-id :
- content-transfer-encoding : mime-version; s=pp1;
- bh=+fP2SGgdL+F4wU861tfgAHPTL0jfF6b0nMiut+nEpzk=;
- b=WGSZ3GcF4BMT6CwPi6UUFgtBMf9vEb9gwV504fQ1Z09l8xFKLBXUpeBURRrp45XRaC+C
- G/ZV7WW+vOSyLw9pjQoNllSBoA469ktZOhPtm2oaN1vVg00DaKBSkyQelNO3waI3oAcr
- pB7mhEDzexWwW5FYHGBbTdOhn0cc4SL9RtVR7sMdfXzvQZUdFDx3KeZKhImAaX9pA8JA
- VLvj4YH14L0WYIzP+F/4uh1q5E4sKg75lJX3r/O/Z7JWMzJ3kMvVyp85hw2FkZ7UcrcR
- bThuZeZuYXBRugk8WdgyvaVv/VNqZLqWyp+0BnfIR9iJ+FVB790vcmuV1CMP9GjoqE4t +Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39mtr3b5w9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jul 2021 14:47:04 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 166IjXZM175814;
- Tue, 6 Jul 2021 14:47:03 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39mtr3b5w1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jul 2021 14:47:03 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 166IQpXZ024909;
- Tue, 6 Jul 2021 18:47:02 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma05wdc.us.ibm.com with ESMTP id 39jfhbe98d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jul 2021 18:47:02 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 166Il1tn47841588
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Jul 2021 18:47:01 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27BEB6E053;
- Tue,  6 Jul 2021 18:47:01 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 98D336E04E;
- Tue,  6 Jul 2021 18:47:00 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.10.229.42])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  6 Jul 2021 18:47:00 +0000 (GMT)
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Date: Tue, 06 Jul 2021 14:47:00 -0400
-From: "jonathan.albrecht" <jonathan.albrecht@linux.vnet.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH 0/2] linux-user/s390x: signal with SIGFPE on
- compare-and-trap
-Organization: IBM
-In-Reply-To: <87tul9hzxf.fsf@redhat.com>
-References: <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>
- <87tul9hzxf.fsf@redhat.com>
-Message-ID: <c1e807849f96306dcc5faffae056f937@imap.linux.ibm.com>
-X-Sender: jonathan.albrecht@linux.vnet.ibm.com
-User-Agent: Roundcube Webmail/1.1.12
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dRki9vbOrfX5GTWlGY4im0N94U7Pv5DM
-X-Proofpoint-ORIG-GUID: kVcSs0t8Njtlccw4Fvay68uyfR9_wE_p
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <joannekoong@gmail.com>)
+ id 1m0qJ1-0006pN-8O; Tue, 06 Jul 2021 15:00:27 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joannekoong@gmail.com>)
+ id 1m0qIz-0003Eg-D7; Tue, 06 Jul 2021 15:00:26 -0400
+Received: by mail-ed1-x532.google.com with SMTP id m1so19979edq.8;
+ Tue, 06 Jul 2021 12:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DJEISK8+jDVaCvGe0tp/3/x8RBFkwmgNzYWnIKfFPik=;
+ b=XhpsJtyZk+7Uh5AI0hERS5a4pKgPjYbvwKlR/f9EeHYtMZnOEUaUlnZ4knJRv2TzVN
+ EBYMfb8Hro0OGbcxZYxJlYMsZ+azM3s4gcJzrJhoYzgF6NOWXwG7AwKL0BHNaMOr8jna
+ CatnJDSSWmhLEG5cEYiADgm/j5UXx+CzUzv033lb41F5Ixvqj8zGpGuKLxZBc4nUkz8B
+ Xt1SYPI5hsBn3G/i6tHHIcEammiHvVOu37Qxl+oO1SQW1ef1e0TSf1CKrq63m4SZ/kK2
+ h244n/OpRo1It4Ub1QLfsmLhJvkFkn3ZQFlqN9zwvGvTu1WdGH9D6Kbg5Xix3+pzIiEq
+ sTTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DJEISK8+jDVaCvGe0tp/3/x8RBFkwmgNzYWnIKfFPik=;
+ b=CHAjfHILB3GFSg8P/OkI7o85cejDsjWVbm8FJP8RAEsDU+novHnfhScYwl1+vgEZNH
+ Jo6ZpeHjjzN1tIRENSwlXQY8Bd/LSV8mkz7fF+MH3JVbkD987XwuRE2vjC51Tip+AaCp
+ ldxF2sU1vxVm64dczHj2IIYm0OVULcJLbtietFa/ReuxkHSuCR5KD1ESoPOwROfwxOAS
+ 5F7EOfAICxLmfDqMUAeumj1+EaEJMVmC7YwlH+I2h1q3vuOp9QWI+JSkTA258KjEDyQW
+ 7h5lc/e+2eIxq6pHmwVxAQN57TVuPY2HvEd16MwdHOX50IUNnMQqMkZvH/ssDuHzUrl+
+ uaUA==
+X-Gm-Message-State: AOAM530EzWiuYRo9IauKhtjPkIvBvLT55koKykD/qKcXc8JLc92sNNhT
+ upLEVMcKMSctGPWuebbbu5+uNU521ZqoFdQFfNc=
+X-Google-Smtp-Source: ABdhPJyNfIVXIwjcOyTLOG3nOm9CmmNsDyo1A3xQvN3PJhbGiopWsNgoaecBxu2znfecgs8N0lUFdf2Ilo96OKbvcGA=
+X-Received: by 2002:a50:ff0a:: with SMTP id a10mr25333732edu.273.1625598022356; 
+ Tue, 06 Jul 2021 12:00:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-06_10:2021-07-06,
- 2021-07-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1011
- malwarescore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501
- mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107060087
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=jonathan.albrecht@linux.vnet.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210623185921.24113-1-joannekoong@gmail.com>
+ <063df3cc-cb5b-1181-6cfa-a6f02959e70d@amsat.org>
+In-Reply-To: <063df3cc-cb5b-1181-6cfa-a6f02959e70d@amsat.org>
+From: Joanne Koong <joannekoong@gmail.com>
+Date: Tue, 6 Jul 2021 12:00:11 -0700
+Message-ID: <CAFAxGOdqMY4+7SOZWfWzC0RXDvRUcq=4oVVx+of1x1s=kA0AhQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd: sdhci: Enable 64-bit system bus capability in the
+ default SD/MMC host controller
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000ab931705c67908e8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=joannekoong@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,50 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x
- <qemu-s390x-bounces+jonathan.albrecht=linux.vnet.ibm.com@nongnu.org>,
- iii@linux.ibm.com, david@redhat.com, richard.henderson@linaro.org,
- laurent@vivier.eu, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, krebbel@linux.ibm.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021-07-05 5:29 am, Cornelia Huck wrote:
-> On Mon, Jun 21 2021, Jonathan Albrecht
-> <jonathan.albrecht@linux.vnet.ibm.com> wrote:
-> 
->> qemu-s390x signals with SIGILL on compare-and-trap instructions. This
->> breaks OpenJDK which expects SIGFPE in its implementation of implicit
->> exceptions.
->> 
->> This patch depends on [PATCH v3 0/2] target/s390x: Fix SIGILL psw.addr
->> reporting.
->> https://lore.kernel.org/qemu-devel/20210602002210.3144559-1-iii@linux.ibm.com/
->> 
->> Based-on: 20210602002210.3144559-1-iii@linux.ibm.com
->> 
->> Jonathan Albrecht (2):
->>   linux-user/s390x: signal with SIGFPE on compare-and-trap
->>   tests/tcg: Test that compare-and-trap raises SIGFPE
->> 
->>  linux-user/s390x/cpu_loop.c     |  19 +++---
->>  tests/tcg/s390x/Makefile.target |   1 +
->>  tests/tcg/s390x/trap.c          | 100 
->> ++++++++++++++++++++++++++++++++
->>  3 files changed, 111 insertions(+), 9 deletions(-)
->>  create mode 100644 tests/tcg/s390x/trap.c
-> 
-> Assuming that this will also go through the linux-user tree:
-> 
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
+--000000000000ab931705c67908e8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks and yes, IIUC, 
-https://lore.kernel.org/qemu-devel/20210705210434.45824-1-iii@linux.ibm.com/
-is going through the linux-user tree so this should as well.
+Awesome! Thank you, Philippe and Bin!
 
-I'm going to send a v2 of this patch shortly to fix conflicts with the 
-latest
-tests/tcg/s390x/Makefile.target changes.
+On Mon, Jul 5, 2021 at 2:54 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+>
+wrote:
 
-Jon
+> On 6/23/21 8:59 PM, Joanne Koong wrote:
+> > The default SD/MMC host controller uses SD spec v2.00. 64-bit system bu=
+s
+> capability
+> > was added in v2.
+> >
+> > In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1ul
+> << 28))
+> > where 28 represents the BUS64BIT SDHC_CAPAB field.
+> >
+> > Signed-off-by: Joanne Koong <joannekoong@gmail.com>
+> > ---
+> >  hw/sd/sdhci-internal.h | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> Thanks, series applied to sdmmc-next tree.
+>
+
+--000000000000ab931705c67908e8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Awesome! Thank you, Philippe and Bin!</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 5, 2021 =
+at 2:54 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.or=
+g">f4bug@amsat.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 6/23/21 8:59 PM, Joanne Koong wrote:<br>
+&gt; The default SD/MMC host controller uses SD spec v2.00. 64-bit system b=
+us capability<br>
+&gt; was added in v2.<br>
+&gt; <br>
+&gt; In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1u=
+l &lt;&lt; 28))<br>
+&gt; where 28 represents the BUS64BIT SDHC_CAPAB field.<br>
+&gt; <br>
+&gt; Signed-off-by: Joanne Koong &lt;<a href=3D"mailto:joannekoong@gmail.co=
+m" target=3D"_blank">joannekoong@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/sd/sdhci-internal.h | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+Thanks, series applied to sdmmc-next tree.<br>
+</blockquote></div>
+
+--000000000000ab931705c67908e8--
 
