@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686E13BC7FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:38:13 +0200 (CEST)
-Received: from localhost ([::1]:47802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606EF3BC7F8
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:37:50 +0200 (CEST)
+Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0gaq-0003qK-BM
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:38:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
+	id 1m0gaT-0002db-7B
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gRe-00020n-Qf
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:28:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50327)
+ id 1m0gRd-0001yO-0L
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:28:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gRX-0002rk-RM
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:28:42 -0400
+ id 1m0gRZ-0002sS-1g
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:28:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625560115;
+ s=mimecast20190719; t=1625560116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pXP1/MRyj5zK9Lbvt0np3BrCA2yl/wy9Hdc/ALz4QWg=;
- b=Xfacgm2MYdScJltRsQ5oqw6SfR+4awMnKnC5E51DuUYhbz+7HrinjwyRQ19WB9Y5aIVFOk
- jhHvdPnoeQDic5PEMcy4vnI/rI6sjx0LRpLbr9++11kL7AnZMSGed+7GyHE01Pwqp0fM1C
- heTofQhCyA/Afu3ug9P0WSqQM8ddIlg=
+ bh=2v/6cYoMfoCiTZYXMcg5SJpP6eFFfJCxNj89FOlxEFM=;
+ b=H60vcRAxDxsWCwK15G9ECQvWzAQtpHWhX+wz8Q0+oCRjVvh3acC749UvrjmP+CTa54uf53
+ VYPaxqixoE4hKEvxgIKgGP57Y9V8ZlDkyxiZLthUDs9LBWa458vMqPVP2WqPMPpa69tnB5
+ 1YbS85LbEe+EULNdpln23WXcGjQUi20=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-5F31vBA4Ony4FotUZ3j0hQ-1; Tue, 06 Jul 2021 04:28:32 -0400
-X-MC-Unique: 5F31vBA4Ony4FotUZ3j0hQ-1
+ us-mta-227-Emt7f2bcMiipq2PAC8RAZA-1; Tue, 06 Jul 2021 04:28:35 -0400
+X-MC-Unique: Emt7f2bcMiipq2PAC8RAZA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11582100C662;
- Tue,  6 Jul 2021 08:28:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BACF10C1ADC;
+ Tue,  6 Jul 2021 08:28:34 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-227.pek2.redhat.com
  [10.72.13.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 566C22EB19;
- Tue,  6 Jul 2021 08:28:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 921E62EB02;
+ Tue,  6 Jul 2021 08:28:31 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH V2 12/18] vhost-vdpa: prepare for the multiqueue support
-Date: Tue,  6 Jul 2021 16:27:11 +0800
-Message-Id: <20210706082717.37730-13-jasowang@redhat.com>
+Subject: [PATCH V2 13/18] vhost-vdpa: let net_vhost_vdpa_init() returns
+ NetClientState *
+Date: Tue,  6 Jul 2021 16:27:12 +0800
+Message-Id: <20210706082717.37730-14-jasowang@redhat.com>
 In-Reply-To: <20210706082717.37730-1-jasowang@redhat.com>
 References: <20210706082717.37730-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -86,30 +87,68 @@ Cc: eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike vhost-kernel, vhost-vdpa adapts a single device multiqueue
-model. So we need to simply use virtqueue index as the vhost virtqueue
-index. This is a must for multiqueue to work for vhost-vdpa.
+This patch switches to let net_vhost_vdpa_init() to return
+NetClientState *. This is used for the callers to allocate multiqueue
+NetClientState for multiqueue support.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/vhost-vdpa.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 397f47bc11..e7e6b23108 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -495,8 +495,8 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
- {
-     assert(idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs);
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index e63a54a938..cc11b2ec40 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -156,8 +156,10 @@ static NetClientInfo net_vhost_vdpa_info = {
+         .has_ufo = vhost_vdpa_has_ufo,
+ };
  
--    trace_vhost_vdpa_get_vq_index(dev, idx, idx - dev->vq_index);
--    return idx - dev->vq_index;
-+    trace_vhost_vdpa_get_vq_index(dev, idx, idx);
-+    return idx;
+-static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+-                               const char *name, int vdpa_device_fd)
++static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
++                                           const char *device,
++                                           const char *name,
++                                           int vdpa_device_fd)
+ {
+     NetClientState *nc = NULL;
+     VhostVDPAState *s;
+@@ -171,8 +173,9 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
+     if (ret) {
+         qemu_del_net_client(nc);
++        return NULL;
+     }
+-    return ret;
++    return nc;
  }
  
- static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+ static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
+@@ -197,7 +200,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp)
+ {
+     const NetdevVhostVDPAOptions *opts;
+-    int vdpa_device_fd, ret;
++    int vdpa_device_fd;
++    NetClientState *nc;
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+@@ -212,10 +216,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+         return -errno;
+     }
+ 
+-    ret = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
+-    if (ret) {
++    nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
++    if (!nc) {
+         qemu_close(vdpa_device_fd);
++        return -1;
+     }
+ 
+-    return ret;
++    return 0;
+ }
 -- 
 2.25.1
 
