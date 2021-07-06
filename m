@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034FB3BC583
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:32:32 +0200 (CEST)
-Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28623BC5C6
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:50:47 +0200 (CEST)
+Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cl4-0004VT-Nf
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46364)
+	id 1m0d2k-0006yU-CN
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:50:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfA-0007nH-VF
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:24 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cf6-00038y-9o
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:24 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cf1-0004xO-BC
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:15 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EE4252E824A
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1m0cgm-0004hr-Tb
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:28:04 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:49290)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1m0cgk-0004UQ-BY
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:28:04 -0400
+Received: from [192.168.0.92] (unknown [62.118.138.151])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 6644A40A2BB4;
+ Tue,  6 Jul 2021 04:27:55 +0000 (UTC)
+Subject: Re: [PATCH v2 2/6] tests/acceptance: add replay kernel test for ppc64
+To: Willian Rampazzo <wrampazz@redhat.com>
+References: <162459953801.387455.14911900669864582030.stgit@pasha-ThinkPad-X280>
+ <162459954921.387455.17000468377504697052.stgit@pasha-ThinkPad-X280>
+ <CAKJDGDb+fDxJw2ZnLPGSZ0_VLPrJdfq2wbVw=zbsvb8_tU1kOA@mail.gmail.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <00acec89-4516-60c0-b9bb-86202c6f0389@ispras.ru>
+Date: Tue, 6 Jul 2021 07:27:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:56 -0000
-From: Launchpad Bug Tracker <1885553@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor ovoshchana th-huth
-X-Launchpad-Bug-Reporter: Oksana Voshchana (ovoshchana)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159343063899.16720.10693725380601772129.malonedeb@soybean.canonical.com>
-Message-Id: <162554507668.7821.13377564195947610058.malone@loganberry.canonical.com>
-Subject: [Bug 1885553] Re: make-check test failed with "Segmentation fault"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 3420748873fda511064bfe1faf107fe1153bd479
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAKJDGDb+fDxJw2ZnLPGSZ0_VLPrJdfq2wbVw=zbsvb8_tU1kOA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,39 +56,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885553 <1885553@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+On 05.07.2021 20:46, Willian Rampazzo wrote:
+> Already upstream :)
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+Ok, thanks.
 
--- =
+> 
+> On Fri, Jun 25, 2021 at 2:39 AM Pavel Dovgalyuk
+> <pavel.dovgalyuk@ispras.ru> wrote:
+>>
+>> This patch adds record/replay test which boots Linux
+>> kernel on ppc64 platform. The test uses kernel binaries
+>> taken from boot_linux_console test.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> ---
+>>   tests/acceptance/replay_kernel.py |   13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+>> index cdc22cb6d3..7e7f4c8ccc 100644
+>> --- a/tests/acceptance/replay_kernel.py
+>> +++ b/tests/acceptance/replay_kernel.py
+>> @@ -367,6 +367,19 @@ def test_xtensa_lx60(self):
+>>           self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf',
+>>                                    args=('-cpu', 'dc233c'))
+>>
+>> +    def test_ppc64_e500(self):
+>> +        """
+>> +        :avocado: tags=arch:ppc64
+>> +        :avocado: tags=machine:ppce500
+>> +        :avocado: tags=cpu:e5500
+>> +        """
+>> +        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+>> +        tar_url = ('https://www.qemu-advent-calendar.org'
+>> +                   '/2018/download/day19.tar.xz')
+>> +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+>> +        self.do_test_advcal_2018(file_path, 'uImage', ('-cpu', 'e5500'))
+>> +
+>> +
+>>   @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+>>   class ReplayKernelSlow(ReplayKernelBase):
+>>       # Override the timeout, because this kernel includes an inner
+>>
+> 
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885553
-
-Title:
-  make-check test failed with "Segmentation fault"
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  While running the make-check testing on arm architecture the test failed =
-with error:
-  "kill_qemu() detected QEMU death from signal 11 (Segmentation fault) (cor=
-e dumped)". Apart from that make-install test always passes.
-  The problem doesn't reproduce in 100%
-  qemu - from the master branch
-  RHEL-8 kernel 4.18.0-221.el8.aarch64
-  Logfile with an error you can to find in attachment
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885553/+subscriptions
 
