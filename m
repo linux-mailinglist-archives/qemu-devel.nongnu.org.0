@@ -2,100 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9583BD85A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 16:35:23 +0200 (CEST)
-Received: from localhost ([::1]:55266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AD93BD88B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 16:40:38 +0200 (CEST)
+Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0mAU-00065M-Li
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 10:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55618)
+	id 1m0mFZ-0000HE-Im
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 10:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1m0m9B-0004ig-4n
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:34:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21976)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1m0mEd-00080f-9n
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:39:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1m0m98-0003MP-CI
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:34:00 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1m0mEb-0006zD-6l
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:39:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625582036;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1625582376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ok2tJhHXiPdDNDtPLnwZKCvjj5i96mJG3WPltkZ4cdg=;
- b=TFYOsc0GJgLddr1Ro6QGF+vaXHzrsjac4WM9S0qpOrcM2osQwfP2CItMLBIWSGqshnASrz
- KVJg7UVdPVIeXhdHAUsP9IX3a71EkkXQlKX9RCnGoIDwsL5HjK47fGs7osy1nTX/AhKQjg
- CNwez94aHPUj4CmfzHFvJyCGczFQdmM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-dfph8f7cMFSVUMJJG97Zfg-1; Tue, 06 Jul 2021 10:33:55 -0400
-X-MC-Unique: dfph8f7cMFSVUMJJG97Zfg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n11-20020a05600c3b8bb02901ec5ef98aa0so3794660wms.0
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:33:55 -0700 (PDT)
+ bh=c7iazc0nYG3S281RSNveXov2bzygF00L3OxNyrlpP+4=;
+ b=d6EI5Y75PgeMgdyki+SOG+xPdL/m+kVwUWUXzTGk2v/AchGMR6iMEhEyywMNm6HrxMQhhj
+ cpitF5PPy1JAnV+PasWBNenXIm/SOjoh7JO4qXju01vavf43qRqDUEBsW2XoFXstMcm7Wb
+ kXRS2Px0bxxSPcLZF8pPBZ1r9wwT1Lg=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-gVuG-e_jNbOhouMIagtsMg-1; Tue, 06 Jul 2021 10:39:34 -0400
+X-MC-Unique: gVuG-e_jNbOhouMIagtsMg-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ i7-20020a0561222087b0290257228a888aso3250891vkd.18
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:39:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=ok2tJhHXiPdDNDtPLnwZKCvjj5i96mJG3WPltkZ4cdg=;
- b=YIzNCdh2hi6NKT7QzdRrm8R+d5q1nVRYc3bbHZksdDgbYQS7QaNMZHiGUd3lDnd7Zb
- YCte7hGYZxU0wgMuuedKMDIHwQwV0kWHu1PcIWZwkoCCQCiVOcmYekg3h7+nsBfUQT/K
- mHhDjNcQo8XqIYZg863zLtnVzipMDjJ9MKYSzRtEoTWyuOAst+EX3MH/k4CRfCXiPPND
- B7fMGjFVR5z8sI7ierdjNNPu4Amc0Zy0Zze7E9jARcibZkOuLWJxr8qyvilSqKTeSCNf
- JzlbEqB9h8QLjhHDNBp8XdfTpgysZN8v4Isr/ixrLMkxD3MmeY4enPx7O1W746DfS6q/
- H+vg==
-X-Gm-Message-State: AOAM533ZlSVIKTbwnw+Wq2TrYTnWqhJOYJHWnnbxeJMfq3Tg0NLatBqb
- mSevGwhgCZYZn9eG6r2GoXl3DUWfzFXTbjuxqYMzkjSv2TZR5zaw0MWnFEItqJIKzxiC3kQPcBh
- 2R6VdOgk6J+URLdE=
-X-Received: by 2002:a05:6000:88:: with SMTP id
- m8mr22467677wrx.222.1625582034371; 
- Tue, 06 Jul 2021 07:33:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJype9epbI7Q92pTXcD+RK9v9LxxiEI/qkm1h54mi1T3zSsIYPXrGImpETTkLlE3Gn4GXYY0jw==
-X-Received: by 2002:a05:6000:88:: with SMTP id
- m8mr22467642wrx.222.1625582034120; 
- Tue, 06 Jul 2021 07:33:54 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id x17sm1440037wru.6.2021.07.06.07.33.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 07:33:53 -0700 (PDT)
-Subject: Re: [PATCH v4 2/4] avocado_qemu: Add SMMUv3 tests
-To: wainersm@redhat.com, eric.auger.pro@gmail.com, qemu-devel@nongnu.org,
- philmd@redhat.com, crosa@redhat.com
-References: <20210629143621.907831-1-eric.auger@redhat.com>
- <20210629143621.907831-3-eric.auger@redhat.com>
- <a7b8faad-4535-f5f3-4f99-b13cf3dcfd7f@redhat.com>
- <d46e9c37-7989-451f-cb3d-edf0958911fd@redhat.com>
- <adcdf31f-6c0e-979e-608c-b7a8c0b43ac1@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <376b0215-54c1-e114-1bb5-3cb7d6dd0a04@redhat.com>
-Date: Tue, 6 Jul 2021 16:33:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=c7iazc0nYG3S281RSNveXov2bzygF00L3OxNyrlpP+4=;
+ b=NyFKi553vr21rRPkYtNjtGD7oztVBPLIz4VG7xZjoztH5DXqh1bKpzRcFtOMPqBhm5
+ KiXZplN4dWV4LjLOrv6rHxsEfNsYzjOyZkonfRWRDXVIIxDKdXmyz6xyXPqcQqyEo0LV
+ mPueP+h+zBy54xGZ3aH1tKcIr8m0rFQokqmSR1inBAbMbNXniewMcz/bayWh2UE75w/l
+ g2GU5eabyS9SageHJOy1fp26XB+6Ju75RIUWQdKhAB89xzMLrTEFNve3XmX/UJmD3jBG
+ 0w/zGWXOPhVkJpY/3jzOtUb1TeV2vBnWnc/6XYLgK7yr0+g3c5Co6HhZsnBhSK9pAQTO
+ wDWQ==
+X-Gm-Message-State: AOAM530prT2JsrCeoPlTGf/V/oDoxPBYugwIy9HZGgsWgB9c8RDCuxpV
+ KhJzsqDu2w+pOV5w4SQrH1j8V9OBK3jaHBMDHaSyREZJGlDypT9gVkDzcOSTvjC47EYQesTaXwe
+ ZtBx/lcIKntYut4JDi/pvtlTAVbck5Rk=
+X-Received: by 2002:a1f:e3c2:: with SMTP id a185mr13613582vkh.7.1625582374432; 
+ Tue, 06 Jul 2021 07:39:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwi88/YP00vXsy3tPtXK6BTReGFkgIjYRJMbAU7+ijcbr69L3ZW1rtH4SXbm7f7ykJRzvWjsLBbcv0yZZqiDPA=
+X-Received: by 2002:a1f:e3c2:: with SMTP id a185mr13613544vkh.7.1625582374092; 
+ Tue, 06 Jul 2021 07:39:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <adcdf31f-6c0e-979e-608c-b7a8c0b43ac1@redhat.com>
+References: <20210706131729.30749-1-eric.auger@redhat.com>
+ <20210706131729.30749-4-eric.auger@redhat.com>
+ <cc5d8c32-4014-96aa-73cd-da0c4d41a59a@redhat.com>
+ <43273a56-8deb-3db5-2a90-96f508b3a2d4@redhat.com>
+ <c15f5c68-0580-84c4-3ed6-eaa29aa6d036@redhat.com>
+In-Reply-To: <c15f5c68-0580-84c4-3ed6-eaa29aa6d036@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 6 Jul 2021 11:39:08 -0300
+Message-ID: <CAKJDGDYQMXU6xOD6OOoHCyV1z_hUoWQZzsVQ5XefkcwUsG2eZw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/4] avocado_qemu: Add SMMUv3 tests
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,291 +94,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: wrampazz@redhat.com, peterx@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, Wainer Moschetta <wainersm@redhat.com>,
+ Cleber Rosa Junior <crosa@redhat.com>, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Wainer,
-
-On 7/6/21 4:26 PM, Wainer dos Santos Moschetta wrote:
+On Tue, Jul 6, 2021 at 11:25 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> On 7/5/21 5:00 AM, Eric Auger wrote:
->> Hi Wainer,
->>
->> On 7/1/21 8:13 PM, Wainer dos Santos Moschetta wrote:
->>> Hi,
->>>
->>> On 6/29/21 11:36 AM, Eric Auger wrote:
->>>> Add new tests checking the good behavior of the SMMUv3 protecting
->>>> 2 virtio pci devices (block and net). We check the guest boots and
->>>> we are able to install a package. Different guest configs are tested:
->>>> standard, passthrough an strict=0. This is tested with both fedora 31
->>>> and
->>>> 33. The former uses a 5.3 kernel without range invalidation whereas
->>>> the
->>>> latter uses a 5.8 kernel that features range invalidation.
->>>>
->>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>>>
->>>> ---
->>>>
->>>> v3 -> v4:
->>>> - add tags for machine, distro in the class
->>>> - removed smp and memory overrides
->>>> - set default param value of common_vm_setup to False
->>>>
->>>> v1 -> v2:
->>>> - removed ssh import
->>>> - combined add_command_args() and common_vm_setup()
->>>> - moved tags in class' docstring and added tags=arch:aarch64
->>>> - use self.get_default_kernel_params()
->>>> - added RIL tests with fed33 + introduce new tags
->>>> ---
->>>>    tests/acceptance/smmu.py | 132
->>>> +++++++++++++++++++++++++++++++++++++++
->>>>    1 file changed, 132 insertions(+)
->>>>    create mode 100644 tests/acceptance/smmu.py
->>> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->>>
->>> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->>>
->>> I tested it in a Fedora 32 aarch64 host. The execution output:
->>>
->>> # ./tests/venv/bin/avocado run tests/acceptance/smmu.py
->>> JOB ID     : 1625038f5a2ae17c8ba6c503d3df8661ff528942
->>> JOB LOG    :
->>> /root/avocado/job-results/job-2021-07-01T13.38-1625038/job.log
->>>   (1/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril: PASS (175.54 s)
->>>   (2/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_passthrough:
->>> WARN: Test passed but there were warnings during execution. Check the
->>> log for details. (168.39 s)
->>>   (3/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_nostrict: WARN:
->>> Test passed but there were warnings during execution. Check the log
->>> for details. (161.58 s)
->>>   (4/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril: PASS (150.85 s)
->>>   (5/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_passthrough: WARN:
->>> Test passed but there were warnings during execution. Check the log
->>> for details. (177.56 s)
->>>   (6/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_nostrict: WARN:
->>> Test passed but there were warnings during execution. Check the log
->>> for details. (190.86 s)
->>> RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 4 | INTERRUPT 0
->>> | CANCEL 0
->>> JOB TIME   : 1026.50 s
->>>
->>> One thing that caught my attention was the amount of time spent on
->>> each test. It spend more than 2 minutes on the package installation
->>> (`self.ssh_command('dnf -y install numactl-devel')`) in the guest.
->>>
->>> Without that operation, it runs way faster:
->>>
->>> # ./tests/venv/bin/avocado run tests/acceptance/smmu.py
->>> JOB ID     : 24f22f99169ece37df64d72d2eb373921f378aac
->>> JOB LOG    :
->>> /root/avocado/job-results/job-2021-07-01T13.28-24f22f9/job.log
->>>   (1/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril: PASS (39.61 s)
->>>   (2/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_passthrough:
->>> WARN: Test passed but there were warnings during execution. Check the
->>> log for details. (48.32 s)
->>>   (3/6) tests/acceptance/smmu.py:SMMU.test_smmu_noril_nostrict: WARN:
->>> Test passed but there were warnings during execution. Check the log
->>> for details. (48.10 s)
->>>   (4/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril: PASS (39.22 s)
->>>   (5/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_passthrough: WARN:
->>> Test passed but there were warnings during execution. Check the log
->>> for details. (52.92 s)
->>>   (6/6) tests/acceptance/smmu.py:SMMU.test_smmu_ril_nostrict: WARN:
->>> Test passed but there were warnings during execution. Check the log
->>> for details. (50.96 s)
->>> RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 4 | INTERRUPT 0
->>> | CANCEL 0
->>> JOB TIME   : 280.62 s
->>>
->>> Install a package seems a good exerciser for disk I/O and networking,
->>> but maybe you can use another method for the sake of speed up the
->>> tests?
->> As discussed earlier with Cleber, I am aware the test duration is long
->> but it was useful finding bugs for SMMU with range invalidation. such a
->> bug could not be hit with a single boot + ping for instance.
->>
->> Maybe we should have a mechanism that allows to put some tests out of
->> the automatic CI?
+> On 7/6/21 3:57 PM, Eric Auger wrote:
+> > Hi Philippe,
+> >
+> > On 7/6/21 3:34 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> On 7/6/21 3:17 PM, Eric Auger wrote:
+> >>> Add new tests checking the good behavior of the SMMUv3 protecting
+> >>> 2 virtio pci devices (block and net). We check the guest boots and
+> >>> we are able to install a package. Different guest configs are tested:
+> >>> standard, passthrough an strict=3D0. This is tested with both fedora =
+31 and
+> >>> 33. The former uses a 5.3 kernel without range invalidation whereas t=
+he
+> >>> latter uses a 5.8 kernel that features range invalidation.
+> >>>
+> >>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >>> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> >>> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> >>> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> >>>
+> >>> ---
+> >>>
+> >>> v4 -> v5:
+> >>> - Added the skipIf statement (William) and William's R-b
+> >>> - added Wainer's R-b and T-b
+> >>> ---
+> >>>  tests/acceptance/smmu.py | 133 +++++++++++++++++++++++++++++++++++++=
+++
+> >>>  1 file changed, 133 insertions(+)
+> >>>  create mode 100644 tests/acceptance/smmu.py
+> >>> +    def run_and_check(self):
+> >>> +        if self.kernel_path:
+> >>> +            self.vm.add_args('-kernel', self.kernel_path,
+> >>> +                             '-append', self.kernel_params,
+> >>> +                             '-initrd', self.initrd_path)
+> >>> +        self.launch_and_wait()
+> >> IIUC above is the 'run' part and below is the 'check' part?
+> >>
+> >> So the check succeed if the VM booted, right?
+> >>
+> >>> +        self.ssh_command('cat /proc/cmdline')
+> >>> +        self.ssh_command('dnf -y install numactl-devel')
+> >
+> > For the test to succeed, the guests needs to boot, the ssh connection
+> > needs to be established and  the dnf command needs to complete.
+> > See launch_and_wait() in __init__.py
 >
-> Sorry Eric, I missed that discussion. I will review your v5 series
-> very soon.
-
-no problem. William helped on this with the
-
-@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-
-Besides, we still have a dependency on Cleber's
-[PATCH 0/3] Acceptance Tests: support choosing specific
-
-Is there anyting controversial with that series?
-
-Thanks
-
-Eric
-
+> OK. I see the Test class provide a .fail() method:
 >
-> Thanks!
+>   fail(msg=3DNone)
 >
-> - Wainer
+>     Signals a test failure unconditionally, with msg or None
+>     for the error message.
 >
->>
->> Thanks
->>
->> Eric
->>> - Wainer
->>>
->>>> diff --git a/tests/acceptance/smmu.py b/tests/acceptance/smmu.py
->>>> new file mode 100644
->>>> index 0000000000..c1d4b88e5f
->>>> --- /dev/null
->>>> +++ b/tests/acceptance/smmu.py
->>>> @@ -0,0 +1,132 @@
->>>> +# SMMUv3 Functional tests
->>>> +#
->>>> +# Copyright (c) 2021 Red Hat, Inc.
->>>> +#
->>>> +# Author:
->>>> +#  Eric Auger <eric.auger@redhat.com>
->>>> +#
->>>> +# This work is licensed under the terms of the GNU GPL, version 2 or
->>>> +# later.  See the COPYING file in the top-level directory.
->>>> +
->>>> +import os
->>>> +
->>>> +from avocado_qemu import LinuxTest, BUILD_DIR
->>>> +
->>>> +class SMMU(LinuxTest):
->>>> +    """
->>>> +    :avocado: tags=accel:kvm
->>>> +    :avocado: tags=cpu:host
->>>> +    :avocado: tags=arch:aarch64
->>>> +    :avocado: tags=machine:virt
->>>> +    :avocado: tags=distro:fedora
->>>> +    :avocado: tags=smmu
->>>> +    """
->>>> +
->>>> +    IOMMU_ADDON =
->>>> ',iommu_platform=on,disable-modern=off,disable-legacy=on'
->>>> +    kernel_path = None
->>>> +    initrd_path = None
->>>> +    kernel_params = None
->>>> +
->>>> +    def set_up_boot(self):
->>>> +        path = self.download_boot()
->>>> +        self.vm.add_args('-device',
->>>> 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
->>>> +                         'drive=drv0,id=virtio-disk0,bootindex=1,'
->>>> +                         'werror=stop,rerror=stop' +
->>>> self.IOMMU_ADDON)
->>>> +        self.vm.add_args('-drive',
->>>> +
->>>> 'file=%s,if=none,cache=writethrough,id=drv0' % path)
->>>> +
->>>> +    def setUp(self):
->>>> +        super(SMMU, self).setUp(None, 'virtio-net-pci' +
->>>> self.IOMMU_ADDON)
->>>> +
->>>> +    def common_vm_setup(self, custom_kernel=False):
->>>> +        self.require_accelerator("kvm")
->>>> +        self.vm.add_args("-accel", "kvm")
->>>> +        self.vm.add_args("-cpu", "host")
->>>> +        self.vm.add_args("-machine", "iommu=smmuv3")
->>>> +        self.vm.add_args("-d", "guest_errors")
->>>> +        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
->>>> +                         'edk2-aarch64-code.fd'))
->>>> +        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
->>>> +        self.vm.add_args('-object',
->>>> +                         'rng-random,id=rng0,filename=/dev/urandom')
->>>> +
->>>> +        if custom_kernel is False:
->>>> +            return
->>>> +
->>>> +        kernel_url = self.get_pxeboot_url() + 'vmlinuz'
->>>> +        initrd_url = self.get_pxeboot_url() + 'initrd.img'
->>>> +        self.kernel_path = self.fetch_asset(kernel_url)
->>>> +        self.initrd_path = self.fetch_asset(initrd_url)
->>>> +
->>>> +    def run_and_check(self):
->>>> +        if self.kernel_path:
->>>> +            self.vm.add_args('-kernel', self.kernel_path,
->>>> +                             '-append', self.kernel_params,
->>>> +                             '-initrd', self.initrd_path)
->>>> +        self.launch_and_wait()
->>>> +        self.ssh_command('cat /proc/cmdline')
->>>> +        self.ssh_command('dnf -y install numactl-devel')
->>>> +
->>>> +
->>>> +    # 5.3 kernel without RIL #
->>>> +
->>>> +    def test_smmu_noril(self):
->>>> +        """
->>>> +        :avocado: tags=smmu_noril
->>>> +        :avocado: tags=smmu_noril_tests
->>>> +        :avocado: tags=distro_version:31
->>>> +        """
->>>> +        self.common_vm_setup()
->>>> +        self.run_and_check()
->>>> +
->>>> +    def test_smmu_noril_passthrough(self):
->>>> +        """
->>>> +        :avocado: tags=smmu_noril_passthrough
->>>> +        :avocado: tags=smmu_noril_tests
->>>> +        :avocado: tags=distro_version:31
->>>> +        """
->>>> +        self.common_vm_setup(True)
->>>> +        self.kernel_params = self.get_default_kernel_params() + '
->>>> iommu.passthrough=on'
->>>> +        self.run_and_check()
->>>> +
->>>> +    def test_smmu_noril_nostrict(self):
->>>> +        """
->>>> +        :avocado: tags=smmu_noril_nostrict
->>>> +        :avocado: tags=smmu_noril_tests
->>>> +        :avocado: tags=distro_version:31
->>>> +        """
->>>> +        self.common_vm_setup(True)
->>>> +        self.kernel_params = self.get_default_kernel_params() + '
->>>> iommu.strict=0'
->>>> +        self.run_and_check()
->>>> +
->>>> +    # 5.8 kernel featuring range invalidation
->>>> +    # >= v5.7 kernel
->>>> +
->>>> +    def test_smmu_ril(self):
->>>> +        """
->>>> +        :avocado: tags=smmu_ril
->>>> +        :avocado: tags=smmu_ril_tests
->>>> +        :avocado: tags=distro_version:33
->>>> +        """
->>>> +        self.common_vm_setup()
->>>> +        self.run_and_check()
->>>> +
->>>> +    def test_smmu_ril_passthrough(self):
->>>> +        """
->>>> +        :avocado: tags=smmu_ril_passthrough
->>>> +        :avocado: tags=smmu_ril_tests
->>>> +        :avocado: tags=distro_version:33
->>>> +        """
->>>> +        self.common_vm_setup(True)
->>>> +        self.kernel_params = self.get_default_kernel_params() + '
->>>> iommu.passthrough=on'
->>>> +        self.run_and_check()
->>>> +
->>>> +    def test_smmu_ril_nostrict(self):
->>>> +        """
->>>> +        :avocado: tags=smmu_ril_nostrict
->>>> +        :avocado: tags=smmu_ril_tests
->>>> +        :avocado: tags=distro_version:33
->>>> +        """
->>>> +        self.common_vm_setup(True)
->>>> +        self.kernel_params = self.get_default_kernel_params() + '
->>>> iommu.strict=0'
->>>> +        self.run_and_check()
+> but no .succeed() one...
 >
+> Willian: Should we add a comment here mentioning the test
+> succeeded by that point? Would it be more explicit to add
+> .succeed() in avocado.Test or avocado_qemu.Test?
+>
+
+If the test does not fail, it will succeed anyway.
+
+I miss some assert statements in this test, telling what is really
+tested, but as it won't run on CI, I don't see a problem adding it now
+and extending it later.
 
 
