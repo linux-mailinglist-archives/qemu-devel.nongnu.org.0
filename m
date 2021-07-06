@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147243BC7E0
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:31:42 +0200 (CEST)
-Received: from localhost ([::1]:54004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4FF3BC7E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:34:24 +0200 (CEST)
+Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0gUX-0005zs-2t
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51808)
+	id 1m0gX9-0003KC-5n
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:34:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gQU-0008Gt-5X
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:27:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52510)
+ id 1m0gQg-0000HW-5J
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:27:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gQS-00027D-FI
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:27:29 -0400
+ id 1m0gQe-0002Gj-Ag
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:27:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625560047;
+ s=mimecast20190719; t=1625560059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2N3urlVARNjVGdH4zRJ2xwasyPzKgbD2pVXZFCQv+Eg=;
- b=JP8zPgNjPgvtUouB/7rlRkpH3Tjd1v/wBjPEcD16TkWYcvk71BNPBikie53oUdFPG/pWy+
- 5rbxD/rsJGqVbqf9zE7E/inJJOesq+dMCrmfL+sWS6ppJWMblAC4dhFrA+nvO+fpwWj1Oj
- 6X5wVKOSbUQAoTxRvTfs5L/mztAK8BQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RYA+bLP1tB1tTVpsuCIJkBogfKNlEByEsYMNQdKmpdo=;
+ b=SBTiw8TXwPV7neeKYAgPkGjIx9MStoDJX0DnEzhzIhv50yYf6qwoiyawVrqi4bofoDndpe
+ zSV4r+OUHto/lLuKT4gmvfUghTB/FxQqdOixMF2HtxlObaxQQFyJUak0tVVsQ+f+TNwQUm
+ Jje+dPSZby6dGsl7ycHowNpzfYGFNiQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-8qHauRVjOdKDINarOFBXZg-1; Tue, 06 Jul 2021 04:27:26 -0400
-X-MC-Unique: 8qHauRVjOdKDINarOFBXZg-1
+ us-mta-363-rIV5--T8MZyxhrDNRrWz8A-1; Tue, 06 Jul 2021 04:27:36 -0400
+X-MC-Unique: rIV5--T8MZyxhrDNRrWz8A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD4D4C7400;
- Tue,  6 Jul 2021 08:27:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EEAE800C78;
+ Tue,  6 Jul 2021 08:27:35 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-227.pek2.redhat.com
  [10.72.13.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B80B2EB19;
- Tue,  6 Jul 2021 08:27:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4816517A70;
+ Tue,  6 Jul 2021 08:27:25 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH V2 00/18] vhost-vDPA multiqueue
-Date: Tue,  6 Jul 2021 16:26:59 +0800
-Message-Id: <20210706082717.37730-1-jasowang@redhat.com>
+Subject: [PATCH V2 01/18] vhost_net: remove the meaningless assignment in
+ vhost_net_start_one()
+Date: Tue,  6 Jul 2021 16:27:00 +0800
+Message-Id: <20210706082717.37730-2-jasowang@redhat.com>
+In-Reply-To: <20210706082717.37730-1-jasowang@redhat.com>
+References: <20210706082717.37730-1-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -57,7 +61,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -83,64 +87,30 @@ Cc: eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All:
+The nvqs and vqs have been initialized during vhost_net_init() and are
+not expected to change during the life cycle of vhost_net
+structure. So this patch removes the meaningless assignment.
 
-This patch implements the multiqueue support for vhost-vDPA. The most
-important requirement the control virtqueue support. The virtio-net
-and vhost-net core are tweak to support control virtqueue as if what
-data queue pairs are done: a dedicated vhost_net device which is
-coupled with the NetClientState is intrdouced so most of the existing
-vhost codes could be reused with minor changes. With the control
-virtqueue, vhost-vDPA are extend to support creating and destroying
-multiqueue queue pairs plus the control virtqueue.
+Reviewed-by: Eli Cohen <elic@nvidia.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/net/vhost_net.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Tests are done via the vp_vdpa driver in L1 guest plus vdpa simulator
-on L0.
-
-Please reivew.
-
-Changes since V1:
-
-- validating all features that depends on ctrl vq
-- typo fixes and commit log tweaks
-- fix build errors because max_qps is used before it is introduced
-
-Thanks
-
-Jason Wang (18):
-  vhost_net: remove the meaningless assignment in vhost_net_start_one()
-  vhost: use unsigned int for nvqs
-  vhost_net: do not assume nvqs is always 2
-  vhost-vdpa: remove the unnecessary check in vhost_vdpa_add()
-  vhost-vdpa: don't cleanup twice in vhost_vdpa_add()
-  vhost-vdpa: fix leaking of vhost_net in vhost_vdpa_add()
-  vhost-vdpa: tweak the error label in vhost_vdpa_add()
-  vhost-vdpa: fix the wrong assertion in vhost_vdpa_init()
-  vhost-vdpa: remove the unncessary queue_index assignment
-  vhost-vdpa: open device fd in net_init_vhost_vdpa()
-  vhost-vdpa: classify one time request
-  vhost-vdpa: prepare for the multiqueue support
-  vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
-  net: introduce control client
-  vhost-net: control virtqueue support
-  virito-net: use "qps" instead of "queues" when possible
-  virtio-net: vhost control virtqueue support
-  vhost-vdpa: multiqueue support
-
- hw/net/vhost_net.c             |  48 +++++++---
- hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
- hw/virtio/vhost-vdpa.c         |  55 ++++++++++-
- include/hw/virtio/vhost-vdpa.h |   1 +
- include/hw/virtio/vhost.h      |   2 +-
- include/hw/virtio/virtio-net.h |   5 +-
- include/net/net.h              |   5 +
- include/net/vhost_net.h        |   7 +-
- net/net.c                      |  24 ++++-
- net/tap.c                      |   1 +
- net/vhost-user.c               |   1 +
- net/vhost-vdpa.c               | 156 ++++++++++++++++++++++++-------
- 12 files changed, 332 insertions(+), 138 deletions(-)
-
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 44c1ed92dc..6bd4184f96 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -238,9 +238,6 @@ static int vhost_net_start_one(struct vhost_net *net,
+     struct vhost_vring_file file = { };
+     int r;
+ 
+-    net->dev.nvqs = 2;
+-    net->dev.vqs = net->vqs;
+-
+     r = vhost_dev_enable_notifiers(&net->dev, dev);
+     if (r < 0) {
+         goto fail_notifiers;
 -- 
 2.25.1
 
