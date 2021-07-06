@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B3D3BC46B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 02:48:21 +0200 (CEST)
-Received: from localhost ([::1]:41092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167283BC473
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 02:52:37 +0200 (CEST)
+Received: from localhost ([::1]:44532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0ZG8-0003y3-HW
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 20:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
+	id 1m0ZKG-0006PC-4n
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 20:52:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0ZFA-0002ua-UU
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 20:47:20 -0400
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:41712)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1m0ZJS-0005Tl-PH
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 20:51:46 -0400
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:44683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0ZF7-0000Ix-Km
- for qemu-devel@nongnu.org; Mon, 05 Jul 2021 20:47:20 -0400
-Received: by mail-qk1-x732.google.com with SMTP id j13so18580940qka.8
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 17:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zSVHVE0iNygwA13AU9IWrU6Dol37u1/agFPxn4eqpbo=;
- b=zvbXOmYSH77buake+2hJZcr8c6mP1lFUzWAr7Hz4yByFuvYZ5bELOwqqLH37f5mLxF
- OFlZjIIWtC6QRH6COBI85zZnY3NnF0W+p5L9nmbxjM1D1LHfYeI3kU1322AYvJsYkBe1
- RnPAuonQgioioyMtLYpokSe0i12O6gFrdM8ofZxd/SM/A5Eb4ZMqLVdh14dsXSk3wiyk
- lq5zcpJikzgwksYcJfD3IKDaFIt/+cRcXL/4evyLs7mP5Qe5FNPqFkxp8WFUER37rLxi
- Iy0KmvtYonb7tRZFQtNLjwpQJQAWJDpFBVdyspjht9ASaSB2LnQFwI250QBZ1Mlv3xgY
- mvcw==
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1m0ZJR-0002xK-78
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 20:51:46 -0400
+Received: by mail-qv1-xf2c.google.com with SMTP id c5so209245qvu.11
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 17:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=uqN+xjDgwlyEfF2U6KsFk9FKkWJ99BLhz2dKjIWUx3Q=;
+ b=f3p9zObxGSG0pCnTYv+FZxjceWfDgGKFk57e3x82kiJayTGbl94icQ558juUGFwmkQ
+ OTe8UJM3uc7geO+BEZNdKnfME7Tofgn5TMkiCfiylyIMjZ4iUyxvOT9NchkSU2muBqwq
+ TrPeckGJsFjj+nWzDbIc9U5pQCm5fr6teL9tMqs/IA3w/BfpF1d5D8TWObrXhGqt/io1
+ Oelwze2AxRPHx7k/FyIw1g+SIygQ8Lj72K+az4/0rERICK0AbdomhrOyIz44ESDAQ/Tq
+ +ZpfKioa8GnBC8l/WaXSIwnFeiz9ODO0UgfUSKeLzorY9J/+GXvqPae6h8gQitPoNnpp
+ /E8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zSVHVE0iNygwA13AU9IWrU6Dol37u1/agFPxn4eqpbo=;
- b=E8FblrE34Vb/qgsZFGwVwCHE8eeNiwm57meAoQh+dCnEdY90Ux5s+clEoxZJ7dS3fH
- poB67qODX0JbgAmps7spuoWTyB2sGkqQoXrSdC2Xp98aRtcC+carr5R05xNWpRaKaxjs
- FkDOH7du0kc6Y+B7pd82CWg3Pk7M9ME0HxQ3UryLuF5XcfDU9aNLLAu91DLBYwPV5W5r
- UbHDvi5KYmFHpnF3/lZmbXQO5XlrVph/qnJx3ARisBL9gVHyNMEfxnevDSpUsg+9C44K
- HU0IffiCvsfVfHRD8l/3fetZe6FTRgHeUMMT4kvpsrRYDI9x7VL8yLsVqij73wtFHEYa
- X7Jw==
-X-Gm-Message-State: AOAM533nXsl+yp2w6uBqylq0styc+u9lYriUWy52LJKbAHNL+K5gi7u8
- pA+g3ADNf6C9ZBsSU9alC96R+A==
-X-Google-Smtp-Source: ABdhPJyQ0O1cpNW2oNVT8EBL0KUVJHUIfDTap+B5lMdN5tT8/6YDOD3BbtKI1aP5D8bDVrZnbrYJvQ==
-X-Received: by 2002:a37:351:: with SMTP id 78mr880855qkd.172.1625532436497;
- Mon, 05 Jul 2021 17:47:16 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.gmail.com with ESMTPSA id w2sm6049097qkf.88.2021.07.05.17.47.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 17:47:16 -0700 (PDT)
-Message-ID: <bbb32d79ed60fb90128b3662ec925f60ca258e8a.camel@linaro.org>
-Subject: Re: [PATCH v5 04/10] hw/intc: GICv3 ITS Command processing
-From: shashi.mallela@linaro.org
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 05 Jul 2021 20:47:14 -0400
-In-Reply-To: <CAFEAcA-ZeKEMTp5X0VWXu+hip9ryzQLTLNwd_bsKQybyT_k7CQ@mail.gmail.com>
-References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-5-shashi.mallela@linaro.org>
- <CAFEAcA-ZeKEMTp5X0VWXu+hip9ryzQLTLNwd_bsKQybyT_k7CQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x732.google.com
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=uqN+xjDgwlyEfF2U6KsFk9FKkWJ99BLhz2dKjIWUx3Q=;
+ b=MlHqFU/SNsHkrx5UDpgimX8dZPIErpM2YXBZ/ZEBtXySl7xpjZ4bliJzUQVBHuexhp
+ Dp9AY2Ek2axVl01E2fIeJYBLv8P2lF8jQWAcMZENOkh8q0gX+5+Wj+PWGE8uqWtDnDjc
+ ygkncpJ2ypSxlYzh7NqSWDHAOkQwIPuIl7g/21Hj1viwXZTZw0OOSwEQ+Tv1IXr4WbAH
+ jS1BUoz8ldvzN5mvLX2xeCIzr7KKS8wqkG3Dc82BYLYrU/H6pz6TcysAG7JkG2eXKPSO
+ m5Y3FVKq3yk0Hu2+hM2/yE5pViwZCT4e86BKbwgTNuXu+DUaWlMaevKJlVbQVOB9p34B
+ mgVw==
+X-Gm-Message-State: AOAM533VF2oV2A+WuHrNqWpB74caPvv0YVNpGmYn2dwiwYbW6b8OMxi+
+ Z8p7fFFXFRG8AA/sk6imGdE=
+X-Google-Smtp-Source: ABdhPJz4Z+bRffNMPCc4UfLdtIQpm/aF3i0K3EPmknsU63lAMEmmu1ev7Al4mLWftkqplqH5cq4VFA==
+X-Received: by 2002:a0c:eb12:: with SMTP id j18mr15225515qvp.1.1625532703945; 
+ Mon, 05 Jul 2021 17:51:43 -0700 (PDT)
+Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
+ [67.149.105.175])
+ by smtp.gmail.com with ESMTPSA id y3sm6030783qkf.2.2021.07.05.17.51.43
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 05 Jul 2021 17:51:43 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: [PATCH v2] Set icon for QEMU binary on Mac OS
+From: Programmingkid <programmingkidx@gmail.com>
+In-Reply-To: <CABgObfagru8NH36anTRU-DkOoRDrsQ1MOHMtxbHcZu5pU1ZYmg@mail.gmail.com>
+Date: Mon, 5 Jul 2021 20:51:42 -0400
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <34D6C0E3-AD64-47C7-83F9-5D37921450CA@gmail.com>
+References: <20210705195328.36442-1-programmingkidx@gmail.com>
+ <CABgObfagru8NH36anTRU-DkOoRDrsQ1MOHMtxbHcZu5pU1ZYmg@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,109 +86,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Leif Lindholm <leif@nuviainc.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-07-05 at 15:54 +0100, Peter Maydell wrote:
-> On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <
-> shashi.mallela@linaro.org> wrote:
-> > Added ITS command queue handling for MAPTI,MAPI commands,handled
-> > ITS
-> > translation which triggers an LPI via INT command as well as write
-> > to GITS_TRANSLATER register,defined enum to differentiate between
-> > ITS
-> > command interrupt trigger and GITS_TRANSLATER based interrupt
-> > trigger.
-> > Each of these commands make use of other functionalities
-> > implemented to
-> > get device table entry,collection table entry or interrupt
-> > translation
-> > table entry required for their processing.
-> > 
-> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > ---
-> > +static MemTxResult process_mapti(GICv3ITSState *s, uint64_t value,
-> > +                                 uint32_t offset, bool
-> > ignore_pInt)
-> > +{
-> > +    AddressSpace *as = &s->gicv3->dma_as;
-> > +    uint32_t devid, eventid;
-> > +    uint32_t pIntid = 0;
-> > +    uint32_t max_eventid, max_Intid;
-> > +    bool dte_valid;
-> > +    MemTxResult res = MEMTX_OK;
-> > +    uint16_t icid = 0;
-> > +    uint64_t dte = 0;
-> > +    IteEntry ite;
-> > +    uint32_t int_spurious = INTID_SPURIOUS;
-> > +    uint64_t idbits;
-> > +
-> > +    devid = ((value & DEVID_MASK) >> DEVID_SHIFT);
-> > +    offset += NUM_BYTES_IN_DW;
-> > +    value = address_space_ldq_le(as, s->cq.base_addr + offset,
-> > +                                 MEMTXATTRS_UNSPECIFIED, &res);
-> > +
-> > +    if (res != MEMTX_OK) {
-> > +        return res;
-> > +    }
-> > +
-> > +    eventid = (value & EVENTID_MASK);
-> > +
-> > +    if (!ignore_pInt) {
-> > +        pIntid = ((value & pINTID_MASK) >> pINTID_SHIFT);
-> > +    }
-> > +
-> > +    offset += NUM_BYTES_IN_DW;
-> > +    value = address_space_ldq_le(as, s->cq.base_addr + offset,
-> > +                                 MEMTXATTRS_UNSPECIFIED, &res);
-> > +
-> > +    if (res != MEMTX_OK) {
-> > +        return res;
-> > +    }
-> > +
-> > +    icid = value & ICID_MASK;
-> > +
-> > +    dte = get_dte(s, devid, &res);
-> > +
-> > +    if (res != MEMTX_OK) {
-> > +        return res;
-> > +    }
-> > +    dte_valid = dte & TABLE_ENTRY_VALID_MASK;
-> > +
-> > +    max_eventid = (1UL << (((dte >> 1U) & SIZE_MASK) + 1));
-> > +
-> > +    if (!ignore_pInt) {
-> > +        idbits = MIN(FIELD_EX64(s->gicv3->cpu->gicr_propbaser,
-> > GICR_PROPBASER,
-> > +                                IDBITS), GICD_TYPER_IDBITS);
-> 
-> I missed this the first time around, but I don't think this is right.
-> Different CPUs could have different GICR_PROPBASER values, so
-> checking
-> against just one of them is wrong. The pseudocode only tests
-> LPIOutOfRange()
-> which is documented as testing "larger than GICD_TYPER.IDbits or not
-> in
-> the LPI range and not 1023". So I don't think we should be looking
-> at the GICR_PROPBASER field here.
-> 
-> More generally, "s->gicv3->cpu->something" is usually going to be
-> wrong, because it is implicitly looking at CPU 0; often either there
-> should be something else telling is which CPU to use (as in
-> &s->gicv3->cpu[rdbase] where the CTE told us which redistributor),
-> or we might need to operate on all CPUs/redistributors. The only
-> exception is where we can guarantee that all the CPUs are the same
-> (eg when looking at GICR_TYPER.PLPIS.)
-In that case,the validation of IDBITS(in case of ITS enabled) could be
-done during the write of gicr_propbaser register value itself(in
-arm_gicv3_redist.c) and the its command processing code here can just
-extract the idbits for its use.
-> 
-> thanks
-> -- PMM
+
+
+> On Jul 5, 2021, at 4:07 PM, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> Well, you're not using $ICON at all but I can clean that up myself. =
+Thanks for testing.
+>=20
+> Paolo
+>=20
+
+Please send me the cleaned up patch for testing once you complete it. =
+Thank you.
+
+
+> Il lun 5 lug 2021, 21:53 John Arbuckle <programmingkidx@gmail.com> ha =
+scritto:
+> Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
+> ---
+> v1 changes:
+> Rewrote the patch as the maintainer had wanted.
+>=20
+>  meson.build            | 15 ++++++++++-----
+>  scripts/entitlement.sh | 10 +++++++++-
+>  2 files changed, 19 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/meson.build b/meson.build
+> index db6789af9c..499ab49981 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2360,8 +2360,7 @@ foreach target : target_dirs
+>    endif
+>    foreach exe: execs
+>      exe_name =3D exe['name']
+> -    exe_sign =3D 'CONFIG_HVF' in config_target
+> -    if exe_sign
+> +    if targetos =3D=3D 'darwin'
+>        exe_name +=3D '-unsigned'
+>      endif
+>=20
+> @@ -2375,7 +2374,13 @@ foreach target : target_dirs
+>                 link_args: link_args,
+>                 gui_app: exe['gui'])
+>=20
+> -    if exe_sign
+> +    if 'CONFIG_HVF' in config_target
+> +      entitlements =3D meson.current_source_dir() / =
+'accel/hvf/entitlements.plist'
+> +    else
+> +      entitlements =3D '/dev/null'
+> +    endif
+> +    if targetos =3D=3D 'darwin'
+> +      icon =3D '...'
+>        emulators +=3D {exe['name'] : custom_target(exe['name'],
+>                     depends: emulator,
+>                     output: exe['name'],
+> @@ -2383,14 +2388,14 @@ foreach target : target_dirs
+>                       meson.current_source_dir() / =
+'scripts/entitlement.sh',
+>                       meson.current_build_dir() / exe_name,
+>                       meson.current_build_dir() / exe['name'],
+> -                     meson.current_source_dir() / =
+'accel/hvf/entitlements.plist'
+> +                     entitlements, icon
+>                     ])
+>        }
+>=20
+>        meson.add_install_script('scripts/entitlement.sh', '--install',
+>                                 get_option('bindir') / exe_name,
+>                                 get_option('bindir') / exe['name'],
+> -                               meson.current_source_dir() / =
+'accel/hvf/entitlements.plist')
+> +                               entitlements, icon)
+>      else
+>        emulators +=3D {exe['name']: emulator}
+>      endif
+> diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
+> index f7aaaf2766..46e378426b 100755
+> --- a/scripts/entitlement.sh
+> +++ b/scripts/entitlement.sh
+> @@ -11,6 +11,7 @@ fi
+>  SRC=3D"$1"
+>  DST=3D"$2"
+>  ENTITLEMENT=3D"$3"
+> +ICON=3D"$4"
+>=20
+>  if $in_place; then
+>    trap 'rm "$DST.tmp"' exit
+> @@ -20,6 +21,13 @@ else
+>    cd "$MESON_INSTALL_DESTDIR_PREFIX"
+>  fi
+>=20
+> -codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
+> +if test "$ENTITLEMENT" !=3D '/dev/null'; then
+> +  codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
+> +fi
+> +
+> +# Add the QEMU icon to the binary on Mac OS
+> +Rez -append '../pc-bios/qemu.rsrc' -o "$SRC"
+> +SetFile -a C "$SRC"
+> +
+>  mv -f "$SRC" "$DST"
+>  trap '' exit
+> --=20
+> 2.24.3 (Apple Git-128)
+>=20
 
 
