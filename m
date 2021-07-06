@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311923BC59B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:37:54 +0200 (CEST)
-Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140923BC59C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:37:55 +0200 (CEST)
+Received: from localhost ([::1]:51576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cqH-0004ZZ-3Y
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46504)
+	id 1m0cqI-0004aj-1P
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfR-0008V8-7K
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51738)
+ id 1m0cfS-00005z-4e
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfP-0003GI-Jk
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:40 -0400
+ id 1m0cfO-0003Em-FI
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfB-0004wu-7N
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:25 +0000
+ id 1m0cfA-0004xQ-GH
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:24 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E95B82E82B3
+ by loganberry.canonical.com (Postfix) with ESMTP id 26DC52E837E
  for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:08 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:48 -0000
-From: Launchpad Bug Tracker <1880722@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:49 -0000
+From: Launchpad Bug Tracker <1881506@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahmedkrmn janitor th-huth
-X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Commenters: harlydavidsen janitor th-huth
+X-Launchpad-Bug-Reporter: Ethin Probst (harlydavidsen)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159050902512.8264.16089666576245848412.malonedeb@gac.canonical.com>
-Message-Id: <162554506844.7821.13304774358708026287.malone@loganberry.canonical.com>
-Subject: [Bug 1880722] Re: Problems related to checking page crossing in
- use_goto_tb()
+References: <159095209581.29684.17955799234221982572.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162554506914.7821.56683318579857401.malone@loganberry.canonical.com>
+Subject: [Bug 1881506] Re: TCG doesn't support a lot of features that should
+ be supported
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 99f5aed11e438a194346f07f08346a5b926e68db
+X-Launchpad-Hash: 01dfdc30ce14ec06a31a275492d7d0915cf041f8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880722 <1880722@bugs.launchpad.net>
+Reply-To: Bug 1881506 <1881506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,29 +84,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880722
+https://bugs.launchpad.net/bugs/1881506
 
 Title:
-  Problems related to checking page crossing in use_goto_tb()
+  TCG doesn't support a lot of features that should be supported
 
 Status in QEMU:
   Expired
 
 Bug description:
-  The discussion that led to this bug discovery can be found in this
-  mailing list thread:
-  https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg05426.html
-
-  A workaround for this problem would be to check for page crossings for
-  both the user and system modes in the use_goto_tb() function across
-  targets. Some targets like "hppa" already implement this fix but others
-  don't.
-
-  To solve the root cause of this problem, the linux-user/mmap.c should
-  be fixed to do all the invalidations required. By doing so, better
-  performance results could be achieved, compared to the case of the
-  workaround described above.
+  This is quite odd, and I'm not sure about how to get around it. I'm writi=
+ng an OS in Rust and require APIC support. When I boot my kernel with qemu-=
+system-x86_64, however, it dumps out a [lot] of warnings; it claims that TC=
+G doesn't support FMA, X2APIC, AVX, F16C, AVX2, RDSEED, SHA-NI, FXSR-OPT, m=
+isalignsse, 3dnowprefetch, osvw, topoext, perfctr-core, clzero, xsaveerptr,=
+ ibpb, nrip-save, xsavec, and xsaves, but prints these warnings over 80 tim=
+es before finally doing what I told it to do. Running QEMU 5.0.0 (unknown c=
+ommit hash), as follows:
+  qemu-system-x86_64 -drive format=3Draw,file=3Dtarget\x86_64-kernel-none\d=
+ebug\bootimage-kernel.bin -serial stdio -no-reboot -hdb disk.img -s -m 4G -=
+usb -rtc base=3Dutc,clock=3Dhost -cpu EPYC-v3,+acpi,+apic,+rdrand,+rdseed,+=
+sse,+sse2,+sse4.1,+sse4.2,+sse4a,+ssse3,+syscall,+x2apic -smp cpus=3D8 -sou=
+ndhw all
+  I would run using HAXM, but my kernel requires RDRAND, and QEMU does not,=
+ to my knowledge, automatically support RDRAND (and I don't know how to ena=
+ble it).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880722/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1881506/+subscriptions
 
