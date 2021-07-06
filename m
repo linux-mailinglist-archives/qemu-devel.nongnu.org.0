@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BF03BDFDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:51:41 +0200 (CEST)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C4F3BDFF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:58:45 +0200 (CEST)
+Received: from localhost ([::1]:37190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0uqq-0003ZI-TM
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52882)
+	id 1m0uxg-0003IP-Ki
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uot-0000jB-VW
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:39 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44932)
+ id 1m0uou-0000lW-Pc
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:40 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:37715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uop-0006ay-Sn
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:39 -0400
-Received: by mail-pg1-x536.google.com with SMTP id u14so381956pga.11
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:35 -0700 (PDT)
+ id 1m0uoq-0006b5-IG
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:40 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id t9so411063pgn.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X7mIiYUnLQpG7lF7E8+dxMfsx1Pwi8mqFmSQ1+Sw9cU=;
- b=NSFKxcm16tB+WPC6uFupR7M8gdsPqL7G1ukdfyxZC+lXRCDVCWSvfpvwWVT81xMGQa
- 7q78Fl/zm9yp7gfAckG+j8M1HxVgWVh7wOVOlrOzfxYXjOvxK5BCz4JNF6PhA/0pV1nV
- VK1ncyYilD8Y2uUq9uRDOKriihna2VqWcz3m7dGII8vddOvq8Jz8bd2jQHxf5PieXl7B
- 8gNBnorX+OVHXqpyWbZ5oFmhGV2ESFMlqDhpldQJYx+tfhKW8/2mexe+le/H8s9qFaxH
- WHYlM1mJIWYjhc+/hujbYvKlm0WBYN1TWeHQqUF/vU64F5b8Wt9oDWrAh9cZSzJ3o5Pu
- E0YQ==
+ bh=+OXX5KjIYz/ZS9gLgWEfQeUt72TgJXhxPXE04khIgeU=;
+ b=YEhACm19xCJeHS8mYi60ZnutuviMKuddF9tGq7NpARJetL0j+iIbFDKxcxRL49NfnW
+ YGEVe0ObyBlvpeAKRjNGQ19wm02CFo8sfFJ0BDCi2KvXZZ0u8qp5g81xA18V8F3WKvOO
+ I7Z+j6y3rxdiBihUu4q84Oye3wYm4UEgwRpRdnnwfmqIt+8q+Tfub+xRAIQDnTSV8HW1
+ 1fF45x0Km+bEeFG3nULFe8nR15PgWqiX81IXGVliq4Wf82fZ93KK/bpIaKqgyG+ogb3X
+ I5vD0EI6J90BvY7ZxB76WjNWvTAtr10kgQDn8HsD7qmsetMGXGalHckAYybQZMc7gckc
+ KU1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X7mIiYUnLQpG7lF7E8+dxMfsx1Pwi8mqFmSQ1+Sw9cU=;
- b=j02MbAdinsbeQiFsZ7R81mVZUhuWpJ8qeO2prxwbkK7yEICig6eWSyMJr/N3yZGcnA
- Tue8x7gsur8vdjs+We3fBrQP2oFNtMLsgsgmCuNpWRKpQ4ip0yGB/0F53DhgU0Y7A9T6
- o0cGAkXTqah1srXSPb6BX5EBA3IF+fOxf/1PDkGPoIWaKZAE3wgXctCD9JvdqBX1H0lP
- 6g96vDaMlWY+Ab8p3Gdcafg+f9l4gFDIT/0XH4STpxuvMqSR8HhZ3do0tJiciSMaeEvi
- JRZuaJYzfFfWvnndTETpSK/EpRkMQjvLrGEfXNpRznvOrwhdNCiVjOR2GYhJ9dCdIsgv
- Hhqw==
-X-Gm-Message-State: AOAM531UceZPNczmaNNcJ922O1OeTRSUy+GUkxSrjM3Si2O1HuMhgkUD
- SFHYSRUUZe8XyBfa1gvANLAAPdLnMQ7KuQ==
-X-Google-Smtp-Source: ABdhPJz5JI3LixvoNhAXNBLym8RIvEBUOcBnruSrC9LflnCpmDI1ig3CdPP39DQu8MUYxC0QFcA83Q==
-X-Received: by 2002:a63:d90b:: with SMTP id r11mr23272359pgg.81.1625615374633; 
- Tue, 06 Jul 2021 16:49:34 -0700 (PDT)
+ bh=+OXX5KjIYz/ZS9gLgWEfQeUt72TgJXhxPXE04khIgeU=;
+ b=XmXISCASqOCxLR4A8C2X2hNnoNM0hL1YoBSkKJyEyITIJZYtzewGPYP4XtPCL0/NDc
+ kCPClFpNUTVzKBnzyIEHEbc+8eB+m3wqZVh1mriLWQp7Ffu4G1cdLNuPulbu8MnLk6F9
+ Wi9kCi4sGeZw8bSx4i1huRoNqNCfO0OKFBfMZu5tIstpNDp75/IfxB2oiffbZEWABcBE
+ M+oPJF9plyMtwTWtKO59pBKj+RHeBSgF3ekqw7IGAJVehF/9GOFmeaoDV0kiMpSTz+WE
+ xSifhs5a1SY04TMEQl4y1AjFqmSEatYEaRgYUgGwz1BO4ENARhbSl9LXGINOfS3klYGX
+ rRkw==
+X-Gm-Message-State: AOAM532nlHHf5YITF6Z7UrAYmTaZUOeBRj8t5DX5mnoKcQ6Uoeqj/OAc
+ 2tIX3h2TjLFMKa+fS+BJoIoS+Rp5BugPZw==
+X-Google-Smtp-Source: ABdhPJzhWffucUyoTjagCKePqVAro61sDZx9NDEONje+4p5H8om/X+bOyQdxyz6E4TWqdoeLrorfrg==
+X-Received: by 2002:a63:1c20:: with SMTP id c32mr23124348pgc.41.1625615375305; 
+ Tue, 06 Jul 2021 16:49:35 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 16:49:34 -0700 (PDT)
+ Tue, 06 Jul 2021 16:49:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/36] linux-user: Fix style problems in linuxload.c
-Date: Tue,  6 Jul 2021 16:48:58 -0700
-Message-Id: <20210706234932.356913-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 03/36] linux-user: Introduce imgsrc_read, imgsrc_read_alloc
+Date: Tue,  6 Jul 2021 16:48:59 -0700
+Message-Id: <20210706234932.356913-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210706234932.356913-1-richard.henderson@linaro.org>
 References: <20210706234932.356913-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,130 +82,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Introduced and initialized, but not yet really used.
+These will tidy the current tests vs BPRM_BUF_SIZE.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/linuxload.c | 42 ++++++++++++++++++++----------------------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ linux-user/qemu.h      | 50 ++++++++++++++++++++++++++++++++++--------
+ linux-user/linuxload.c | 46 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 87 insertions(+), 9 deletions(-)
 
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 9e5e2aa499..f4cdfb16b3 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -168,6 +168,37 @@ extern unsigned long mmap_min_addr;
+ 
+ /* ??? See if we can avoid exposing so much of the loader internals.  */
+ 
++typedef struct {
++    const void *cache;
++    unsigned int cache_size;
++    int fd;
++} ImageSource;
++
++/**
++ * imgsrc_read: Read from ImageSource
++ * @dst: destination for read
++ * @offset: offset within file for read
++ * @len: size of the read
++ * @img: ImageSource to read from
++ * @errp: Error details.
++ *
++ * Read into @dst, using the cache when possible.
++ */
++bool imgsrc_read(void *dst, off_t offset, size_t len,
++                 const ImageSource *img, Error **errp);
++
++/**
++ * imgsrc_read_alloc: Read from ImageSource
++ * @offset: offset within file for read
++ * @size: size of the read
++ * @img: ImageSource to read from
++ * @errp: Error details.
++ *
++ * Read into newly allocated memory, using the cache when possible.
++ */
++void *imgsrc_read_alloc(off_t offset, size_t len,
++                        const ImageSource *img, Error **errp);
++
+ /* Read a good amount of data initially, to hopefully get all the
+    program headers loaded.  */
+ #define BPRM_BUF_SIZE  1024
+@@ -177,15 +208,16 @@ extern unsigned long mmap_min_addr;
+  * used when loading binaries.
+  */
+ struct linux_binprm {
+-        char buf[BPRM_BUF_SIZE] __attribute__((aligned));
+-        abi_ulong p;
+-        int fd;
+-        int e_uid, e_gid;
+-        int argc, envc;
+-        char **argv;
+-        char **envp;
+-        char * filename;        /* Name of binary */
+-        int (*core_dump)(int, const CPUArchState *); /* coredump routine */
++    char buf[BPRM_BUF_SIZE] __attribute__((aligned));
++    ImageSource src;
++    abi_ulong p;
++    int fd;
++    int e_uid, e_gid;
++    int argc, envc;
++    char **argv;
++    char **envp;
++    char *filename;  /* Name of binary */
++    int (*core_dump)(int, const CPUArchState *); /* coredump routine */
+ };
+ 
+ typedef struct IOCTLEntry IOCTLEntry;
 diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
-index a27e1d0d8b..9d4eb5e94b 100644
+index 9d4eb5e94b..3b0bafc490 100644
 --- a/linux-user/linuxload.c
 +++ b/linux-user/linuxload.c
-@@ -1,59 +1,57 @@
- /* Code for loading Linux executables.  Mostly linux kernel code.  */
+@@ -2,6 +2,7 @@
  
  #include "qemu/osdep.h"
--
  #include "qemu.h"
++#include "qapi/error.h"
  
  #define NGROUPS 32
  
- /* ??? This should really be somewhere else.  */
--abi_long memcpy_to_target(abi_ulong dest, const void *src,
--                          unsigned long len)
-+abi_long memcpy_to_target(abi_ulong dest, const void *src, unsigned long len)
- {
-     void *host_ptr;
+@@ -74,6 +75,10 @@ static int prepare_binprm(struct linux_binprm *bprm)
+         /* Make sure the rest of the loader won't read garbage.  */
+         memset(bprm->buf + retval, 0, BPRM_BUF_SIZE - retval);
+     }
++
++    bprm->src.cache = bprm->buf;
++    bprm->src.cache_size = retval;
++
+     return retval;
+ }
  
-     host_ptr = lock_user(VERIFY_WRITE, dest, len, 0);
--    if (!host_ptr)
-+    if (!host_ptr) {
-         return -TARGET_EFAULT;
+@@ -129,6 +134,7 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
+     int retval;
+ 
+     bprm->fd = fdexec;
++    bprm->src.fd = fdexec;
+     bprm->filename = (char *)filename;
+     bprm->argc = count(argv);
+     bprm->argv = argv;
+@@ -163,3 +169,43 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
+ 
+     return retval;
+ }
++
++bool imgsrc_read(void *dst, off_t offset, size_t len,
++                 const ImageSource *img, Error **errp)
++{
++    ssize_t ret;
++
++    if (offset + len <= img->cache_size) {
++        memcpy(dst, img->cache + offset, len);
++        return true;
 +    }
-     memcpy(host_ptr, src, len);
-     unlock_user(host_ptr, dest, 1);
-     return 0;
- }
- 
--static int count(char ** vec)
-+static int count(char **vec)
- {
--    int		i;
-+    int i;
- 
--    for(i = 0; *vec; i++) {
-+    for (i = 0; *vec; i++) {
-         vec++;
-     }
--
--    return(i);
-+    return i;
- }
- 
- static int prepare_binprm(struct linux_binprm *bprm)
- {
--    struct stat		st;
-+    struct stat st;
-     int mode;
-     int retval;
- 
--    if(fstat(bprm->fd, &st) < 0) {
--        return(-errno);
-+    if (fstat(bprm->fd, &st) < 0) {
-+        return -errno;
-     }
- 
-     mode = st.st_mode;
--    if(!S_ISREG(mode)) {	/* Must be regular file */
--        return(-EACCES);
-+    if (!S_ISREG(mode)) {   /* Must be regular file */
-+        return -EACCES;
-     }
--    if(!(mode & 0111)) {	/* Must have at least one execute bit set */
--        return(-EACCES);
-+    if (!(mode & 0111)) {   /* Must have at least one execute bit set */
-+        return -EACCES;
-     }
- 
-     bprm->e_uid = geteuid();
-     bprm->e_gid = getegid();
- 
-     /* Set-uid? */
--    if(mode & S_ISUID) {
-+    if (mode & S_ISUID) {
-         bprm->e_uid = st.st_uid;
-     }
- 
-@@ -125,8 +123,8 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
- }
- 
- int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
--             struct target_pt_regs * regs, struct image_info *infop,
--             struct linux_binprm *bprm)
-+                struct target_pt_regs *regs, struct image_info *infop,
-+                struct linux_binprm *bprm)
- {
-     int retval;
- 
-@@ -139,7 +137,7 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
- 
-     retval = prepare_binprm(bprm);
- 
--    if(retval>=0) {
-+    if (retval >= 0) {
-         if (bprm->buf[0] == 0x7f
-                 && bprm->buf[1] == 'E'
-                 && bprm->buf[2] == 'L'
-@@ -157,11 +155,11 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
-         }
-     }
- 
--    if(retval>=0) {
-+    if (retval >= 0) {
-         /* success.  Initialize important registers */
-         do_init_thread(regs, infop);
-         return retval;
-     }
- 
--    return(retval);
-+    return retval;
- }
++
++    if (img->fd < 0) {
++        error_setg(errp, "read past end of buffer");
++        return false;
++    }
++
++    ret = pread(img->fd, dst, len, offset);
++    if (ret == len) {
++        return true;
++    }
++    if (ret < 0) {
++        error_setg_errno(errp, errno, "Error reading file header");
++    } else {
++        error_setg(errp, "Incomplete read of file header");
++    }
++    return false;
++}
++
++void *imgsrc_read_alloc(off_t offset, size_t len,
++                        const ImageSource *img, Error **errp)
++{
++    void *alloc = g_malloc(len);
++    bool ok = imgsrc_read(alloc, offset, len, img, errp);
++
++    if (!ok) {
++        g_free(alloc);
++        alloc = NULL;
++    }
++    return alloc;
++}
 -- 
 2.25.1
 
