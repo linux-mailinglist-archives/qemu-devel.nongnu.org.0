@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A4E3BD7D2
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:29:03 +0200 (CEST)
-Received: from localhost ([::1]:34254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F113BD7D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:32:27 +0200 (CEST)
+Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0l8H-0001cz-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
+	id 1m0lBb-0004uq-1N
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0l4R-000595-Dr
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:25:03 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:37693)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0l7X-0001LN-HR
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:28:15 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:37886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0l4N-0002lu-Ej
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:25:02 -0400
-Received: by mail-qt1-x829.google.com with SMTP id d1so4662288qto.4
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:24:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0l7V-0004UU-BX
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:28:15 -0400
+Received: by mail-ed1-x534.google.com with SMTP id y40so12854820ede.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=57kWdQ6ASaupGDECwpHTmz4eXTfXOhU1M4/x+MTtHIY=;
- b=EqlOgNrO3qC+ngeirlvC3NAlosaTE4Dp9VaWITSQT3mXswJMPSqm3Df5cIcS0r8y1a
- Q8OhHEihH/21YssWUPXmGVwjrPCgw3Yo0O7SUn8xpMnEVdc41c6f8KuG00f2DeRUVhRr
- YU3fFYxsyA56v6NjrYzCQxlFDls35w1DZ+N5IXScjDZPgBEuZbqt7+pJgxqePUJuhjXO
- 3B8sm9YXoH7Dg1/Vsa4y5l1/fsfG1/aF/+pbrPAyOW5ua1p74R+jFOmwAJfV9Nc8LCCS
- oRp4Cbl/QhHjIYr1jXg4sdMnCI1ff/Cak7CMVliISmwC18Hu9DcK7Qo2RB4GPznEK8ej
- TPdg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vQCG2ZwuHYOWFzJCHW9Je7k2DFJ9whQ7aysA7MIu8ik=;
+ b=apFT4xoG+BK0dsLHCeVxJVxPED0PNhsuvd+Gjlk1dH5J58T74wgoAwElkvDrTZoi7F
+ 4uhb1kdlWuDf33fXBGqOzrLzqQ7fOQCGoT5rQxTbj6mNbRuwhmjuCBiAthLkJ0VvFRWM
+ r+vTTOlzfsW5jr2EoTEwnVuV/iPqYh/hEqmwNmI4l3S0bsvS9XnEcc4qT7ay9XhuAUHb
+ jQw2e8cs3UpeWDvX4CW9vr7+ltyjSqUydVUBSBd8ioOXOfj+lYzIj3wyfKVji66eS3YS
+ /CcpNGmRcNAX9Acos+gMKEY2p5A5XucquVQXfB+M7DbUq5RsFkWF+j6SV2b6VIMU/fLc
+ Wk0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=57kWdQ6ASaupGDECwpHTmz4eXTfXOhU1M4/x+MTtHIY=;
- b=eakXBfWnmSgGW15wTT4H7C8whTdZyn6Y8JQtGdbtMHyMuxxuSSlbA8TAEhGV6IjWvW
- Z/J4RwBEQE023eaHWwrvwLLGJAdFoZvHcS578Vo3VYwjrR/3jHxkfg1sv7LD1OnLj5EA
- +klToPuiaX/ygn9zoitkt+56yCRcZ2AR6pR0n9QJHMBbIhq6nNuv2T+J2vtXy9F491FH
- C3XcAt8MgGkVRF6Ac/uLhDo9zGaO0RDexttNP77NOxZhP+l5pz3SFvosPNNbzaXGABRi
- gtb095Dp5do4Qvbx5MibMw/pvaq5l7myatrnaEFWsPfnfRXrCeatrG5OQxZULoiPHhdm
- Powg==
-X-Gm-Message-State: AOAM531ryIgN2PcQC3tpgC8KnGxoV/yQZINEoWkPQQsBLqRDcPaZ3YXP
- ENBOAyK2pKK+9g0Sy6g6C5DWN8ChJYXxhA==
-X-Google-Smtp-Source: ABdhPJwFc5EztZRy/YW/d1mmqHCCqPjfjDZXW07Rl1/kioMzyehXYqkNa7k2eEX+NPfSL5OfImILuA==
-X-Received: by 2002:ac8:5e82:: with SMTP id r2mr5844769qtx.252.1625577898193; 
- Tue, 06 Jul 2021 06:24:58 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.gmail.com with ESMTPSA id h7sm5448991qtq.79.2021.07.06.06.24.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 06:24:57 -0700 (PDT)
-Message-ID: <88f0e6395fb671184dfd8aacbf1a859a9de84abc.camel@linaro.org>
-Subject: Re: [PATCH v4 1/8] hw/intc: GICv3 ITS initial framework
-From: shashi.mallela@linaro.org
-To: Eric Auger <eauger@redhat.com>, peter.maydell@linaro.org,
- leif@nuviainc.com,  rad@semihalf.com
-Date: Tue, 06 Jul 2021 09:24:56 -0400
-In-Reply-To: <e25fc87c-a6be-510d-500f-1a675ec02852@redhat.com>
-References: <20210602180042.111347-1-shashi.mallela@linaro.org>
- <20210602180042.111347-2-shashi.mallela@linaro.org>
- <91f0cc7a-69e5-7234-3f9d-4bc0df98990d@redhat.com>
- <e25fc87c-a6be-510d-500f-1a675ec02852@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vQCG2ZwuHYOWFzJCHW9Je7k2DFJ9whQ7aysA7MIu8ik=;
+ b=TMO5Fc9EmCm8H6VHPuiroNxtBFitrpYcg1PJ89WjorKaPnEP/E2NM5/xD9yuWTiibe
+ wXSL8TkZrD4XgNkL6L60U9+nLlgx0gPG9VmuTT4XDprCChzI2ASJYC4CrqVOPhiHHlFl
+ zoEeNKNBSyNNbPQumuAg+E0+diXCDQCoo+j7FQDYO2HaEK2AozTWKbCJpkdPoF1dwKWY
+ 5bRZwr8EclTc81e57YTmi/7aiHYkuo5HbMh+NRgJTi9fuwiO1TUzKLv6qtoxCbjSVgwe
+ ScHkweYnEoHQ0tjnCe1tXPHX1yKBEYqvArBDmwchfStnQ0z1BrBUGXaeCnWDRdXIIHBk
+ 84Dw==
+X-Gm-Message-State: AOAM533ksLYzAYDFXDQ7H9yUE+17a93nVi+LivSqXRXRCN5DdLGC7p9m
+ ROC2A3BqUcV3prmG939YUfqafFBzU15FCc86fKqPlw==
+X-Google-Smtp-Source: ABdhPJzrG5GxIeC8P/FMcjt1TVDPn9yLdvz9wc5LqpF3lJTR+pA/1A6QgFDj0I+h3wAaQ0o7rwiGApgM4vlw18Gjqhg=
+X-Received: by 2002:a05:6402:1911:: with SMTP id
+ e17mr22883440edz.36.1625578091760; 
+ Tue, 06 Jul 2021 06:28:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210630153156.9421-1-shashi.mallela@linaro.org>
+ <20210630153156.9421-5-shashi.mallela@linaro.org>
+ <CAFEAcA-ZeKEMTp5X0VWXu+hip9ryzQLTLNwd_bsKQybyT_k7CQ@mail.gmail.com>
+ <bbb32d79ed60fb90128b3662ec925f60ca258e8a.camel@linaro.org>
+ <287eb50c0b99a3daec986ec29ede33cb2bdfd025.camel@linaro.org>
+ <CAFEAcA-xC_v2z=QaD=_dkFWx2Hr+UFd0h_YTtSi6MNPhk6-Sbg@mail.gmail.com>
+ <781518f186454dc31c97b34c088f89577fbb66ab.camel@linaro.org>
+In-Reply-To: <781518f186454dc31c97b34c088f89577fbb66ab.camel@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 6 Jul 2021 14:27:33 +0100
+Message-ID: <CAFEAcA-+JxmqNrOSaMsZCkwOsPQn6SUOO9a_bGhzGqCr9GUvJA@mail.gmail.com>
+Subject: Re: [PATCH v5 04/10] hw/intc: GICv3 ITS Command processing
+To: Shashi Mallela <shashi.mallela@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,603 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+On Tue, 6 Jul 2021 at 13:46, <shashi.mallela@linaro.org> wrote:
+>
+> On Tue, 2021-07-06 at 10:19 +0100, Peter Maydell wrote:
+> > On Tue, 6 Jul 2021 at 04:25, <shashi.mallela@linaro.org> wrote:
+> >
+> > But the pseudocode for MAPTI does not say anywhere that we should
+> > be checking the pIntID against any CPU's GICR_PROPBASER field.
+> > It is checked only by the checks in LPIOutOfRange(), which tests:
+> >  * is it larger than permitted by GICD_TYPER.IDbits
+> >  * is it not in the LPI range and not 1023
+> >
+> > Checking whether the intID is too big and would cause us to index
+> > off the end of the redistributor's configuration table should be done
+> > later, only when the ITS actually sends the interrupt to a particular
+> > redistributor, I think.
+> >
+> > (You can't rely on the guest having done the MAPC before the MAPTI;
+> > and in any case the guest could choose to do a MAPC to a different
+> > redistributor after it's done the MAPTI.)
 
-Please find my response inline(below):-
+> We already have the "intID too big check" in place within the
+> redistributor processing when ITS sends the interrupt trigger.
+> "the LPI range and not 1023" is also handled in this function,but for
+> validating "is it larger than permitted by GICD_TYPER.IDbits",the
+> source of GICD_TYPER.IDbits is GICR_PROPBASER because we pick up min of
+> GICR_PROPBASER.IDbits and GICD_TYPER.IDBits.
+>
+> If we are to not use gicr_propbaser,then are we good to just accept the
+> intID value here since we are validating the same during interrupt
+> processing?
 
-On Tue, 2021-07-06 at 09:38 +0200, Eric Auger wrote:
-> Hi,
-> 
-> On 6/11/21 6:21 PM, Eric Auger wrote:
-> > Hi,
-> > 
-> > On 6/2/21 8:00 PM, Shashi Mallela wrote:
-> > > Added register definitions relevant to ITS,implemented overall
-> > > ITS device framework with stubs for ITS control and translater
-> > > regions read/write,extended ITS common to handle mmio init
-> > > between
-> > > existing kvm device and newer qemu device.
-> > > 
-> > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > > ---
-> > >  hw/intc/arm_gicv3_its.c                | 240
-> > > +++++++++++++++++++++++++
-> > >  hw/intc/arm_gicv3_its_common.c         |   8 +-
-> > >  hw/intc/arm_gicv3_its_kvm.c            |   2 +-
-> > >  hw/intc/gicv3_internal.h               |  88 +++++++--
-> > >  hw/intc/meson.build                    |   1 +
-> > >  include/hw/intc/arm_gicv3_its_common.h |   9 +-
-> > >  6 files changed, 331 insertions(+), 17 deletions(-)
-> > >  create mode 100644 hw/intc/arm_gicv3_its.c
-> > > 
-> > > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-> > > new file mode 100644
-> > > index 0000000000..545cda3665
-> > > --- /dev/null
-> > > +++ b/hw/intc/arm_gicv3_its.c
-> > > @@ -0,0 +1,240 @@
-> > > +/*
-> > > + * ITS emulation for a GICv3-based system
-> > > + *
-> > > + * Copyright Linaro.org 2021
-> > > + *
-> > > + * Authors:
-> > > + *  Shashi Mallela <shashi.mallela@linaro.org>
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version
-> > > 2 or (at your
-> > > + * option) any later version.  See the COPYING file in the top-
-> > > level directory.
-> > > + *
-> > > + */
-> > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include "qemu/log.h"
-> > > +#include "hw/qdev-properties.h"
-> > > +#include "hw/intc/arm_gicv3_its_common.h"
-> > > +#include "gicv3_internal.h"
-> > > +#include "qom/object.h"
-> > > +
-> > > +typedef struct GICv3ITSClass GICv3ITSClass;
-> > > +/* This is reusing the GICv3ITSState typedef from
-> > > ARM_GICV3_ITS_COMMON */
-> > > +DECLARE_OBJ_CHECKERS(GICv3ITSState, GICv3ITSClass,
-> > > +                     ARM_GICV3_ITS, TYPE_ARM_GICV3_ITS)
-> > > +
-> > > +struct GICv3ITSClass {
-> > > +    GICv3ITSCommonClass parent_class;
-> > > +    void (*parent_reset)(DeviceState *dev);
-> > > +};
-> > > +
-> > > +static MemTxResult gicv3_its_translation_write(void *opaque,
-> > > hwaddr offset,
-> > > +                                               uint64_t data,
-> > > unsigned size,
-> > > +                                               MemTxAttrs attrs)
-> > > +{
-> > > +    MemTxResult result = MEMTX_OK;
-> > > +
-> > > +    return result;
-> > > +}
-> > > +
-> > > +static MemTxResult its_writel(GICv3ITSState *s, hwaddr offset,
-> > > +                              uint64_t value, MemTxAttrs attrs)
-> > > +{
-> > > +    MemTxResult result = MEMTX_OK;
-> > > +
-> > > +    return result;
-> > > +}
-> > > +
-> > > +static MemTxResult its_readl(GICv3ITSState *s, hwaddr offset,
-> > > +                             uint64_t *data, MemTxAttrs attrs)
-> > > +{
-> > > +    MemTxResult result = MEMTX_OK;
-> > > +
-> > > +    return result;
-> > > +}
-> > > +
-> > > +static MemTxResult its_writell(GICv3ITSState *s, hwaddr offset,
-> > > +                               uint64_t value, MemTxAttrs attrs)
-> > > +{
-> > > +    MemTxResult result = MEMTX_OK;
-> > > +
-> > > +    return result;
-> > > +}
-> > > +
-> > > +static MemTxResult its_readll(GICv3ITSState *s, hwaddr offset,
-> > > +                              uint64_t *data, MemTxAttrs attrs)
-> > > +{
-> > > +    MemTxResult result = MEMTX_OK;
-> > > +
-> > > +    return result;
-> > > +}
-> > > +
-> > > +static MemTxResult gicv3_its_read(void *opaque, hwaddr offset,
-> > > uint64_t *data,
-> > > +                                  unsigned size, MemTxAttrs
-> > > attrs)
-> > > +{
-> > > +    GICv3ITSState *s = (GICv3ITSState *)opaque;
-> > > +    MemTxResult result;
-> > > +
-> > > +    switch (size) {
-> > > +    case 4:
-> > > +        result = its_readl(s, offset, data, attrs);
-> > > +        break;
-> > > +    case 8:
-> > > +        result = its_readll(s, offset, data, attrs);
-> > > +        break;
-> > > +    default:
-> > > +        result = MEMTX_ERROR;
-> > > +        break;
-> > > +    }
-> > > +
-> > > +    if (result == MEMTX_ERROR) {
-> > > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > > +                      "%s: invalid guest read at offset "
-> > > TARGET_FMT_plx
-> > > +                      "size %u\n", __func__, offset, size);
-> > > +        /*
-> > > +         * The spec requires that reserved registers are RAZ/WI;
-> > > +         * so use MEMTX_ERROR returns from leaf functions as a
-> > > way to
-> > > +         * trigger the guest-error logging but don't return it
-> > > to
-> > > +         * the caller, or we'll cause a spurious guest data
-> > > abort.
-> > > +         */
-> > > +        result = MEMTX_OK;
-> > > +        *data = 0;
-> > > +    }
-> > > +    return result;
-> > > +}
-> > > +
-> > > +static MemTxResult gicv3_its_write(void *opaque, hwaddr offset,
-> > > uint64_t data,
-> > > +                                   unsigned size, MemTxAttrs
-> > > attrs)
-> > > +{
-> > > +    GICv3ITSState *s = (GICv3ITSState *)opaque;
-> > > +    MemTxResult result;
-> > > +
-> > > +    switch (size) {
-> > > +    case 4:
-> > > +        result = its_writel(s, offset, data, attrs);
-> > > +        break;
-> > > +    case 8:
-> > > +        result = its_writell(s, offset, data, attrs);
-> > > +        break;
-> > > +    default:
-> > > +        result = MEMTX_ERROR;
-> > > +        break;
-> > > +    }
-> > > +
-> > > +    if (result == MEMTX_ERROR) {
-> > > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > > +                      "%s: invalid guest write at offset "
-> > > TARGET_FMT_plx
-> > > +                      "size %u\n", __func__, offset, size);
-> > > +        /*
-> > > +         * The spec requires that reserved registers are RAZ/WI;
-> > > +         * so use MEMTX_ERROR returns from leaf functions as a
-> > > way to
-> > > +         * trigger the guest-error logging but don't return it
-> > > to
-> > > +         * the caller, or we'll cause a spurious guest data
-> > > abort.
-> > > +         */
-> > > +        result = MEMTX_OK;
-> > > +    }
-> > > +    return result;
-> > > +}
-> > > +
-> > > +static const MemoryRegionOps gicv3_its_control_ops = {
-> > > +    .read_with_attrs = gicv3_its_read,
-> > > +    .write_with_attrs = gicv3_its_write,
-> > > +    .valid.min_access_size = 4,
-> > > +    .valid.max_access_size = 8,
-> > > +    .impl.min_access_size = 4,
-> > > +    .impl.max_access_size = 8,
-> > > +    .endianness = DEVICE_NATIVE_ENDIAN,
-> > > +};
-> > > +
-> > > +static const MemoryRegionOps gicv3_its_translation_ops = {
-> > > +    .write_with_attrs = gicv3_its_translation_write,
-> > > +    .valid.min_access_size = 2,
-> > > +    .valid.max_access_size = 4,
-> > > +    .impl.min_access_size = 2,
-> > > +    .impl.max_access_size = 4,
-> > > +    .endianness = DEVICE_NATIVE_ENDIAN,
-> > > +};
-> > > +
-> > > +static void gicv3_arm_its_realize(DeviceState *dev, Error
-> > > **errp)
-> > > +{
-> > > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> > > +
-> > > +    gicv3_its_init_mmio(s, &gicv3_its_control_ops,
-> > > &gicv3_its_translation_ops);
-> > > +
-> > > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
-> > > +        /* set the ITS default features supported */
-> > > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
-> > > +                              GITS_TYPE_PHYSICAL);
-> > > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER,
-> > > ITT_ENTRY_SIZE,
-> > > +                              ITS_ITT_ENTRY_SIZE - 1);
-> > > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, IDBITS,
-> > > ITS_IDBITS);
-> > > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, DEVBITS,
-> > > ITS_DEVBITS);
-> > > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIL, 1);
-> > > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIDBITS,
-> > > ITS_CIDBITS);
-> > > +    }
-> > > +}
-> > > +
-> > > +static void gicv3_its_reset(DeviceState *dev)
-> > > +{
-> > > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> > > +    GICv3ITSClass *c = ARM_GICV3_ITS_GET_CLASS(s);
-> > > +
-> > > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
-> > > +        c->parent_reset(dev);
-> > > +
-> > > +        /* Quiescent bit reset to 1 */
-> > > +        s->ctlr = FIELD_DP32(s->ctlr, GITS_CTLR, QUIESCENT, 1);
-> > > +
-> > > +        /*
-> > > +         * setting GITS_BASER0.Type = 0b001 (Device)
-> > > +         *         GITS_BASER1.Type = 0b100 (Collection Table)
-> > > +         *         GITS_BASER<n>.Type,where n = 3 to 7 are 0b00
-> > > (Unimplemented)
-> > > +         *         GITS_BASER<0,1>.Page_Size = 64KB
-> > > +         * and default translation table entry size to 16 bytes
-> > > +         */
-> > > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, TYPE,
-> > > +                                 GITS_ITT_TYPE_DEVICE);
-> > > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER,
-> > > PAGESIZE,
-> > > +                                 GITS_BASER_PAGESIZE_64K);
-> > > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER,
-> > > ENTRYSIZE,
-> > > +                                 GITS_DTE_SIZE - 1);
-> > > +
-> > > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, TYPE,
-> > > +                                 GITS_ITT_TYPE_COLLECTION);
-> > > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER,
-> > > PAGESIZE,
-> > > +                                 GITS_BASER_PAGESIZE_64K);
-> > > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER,
-> > > ENTRYSIZE,
-> > > +                                 GITS_CTE_SIZE - 1);
-> > > +    }
-> > > +}
-> > > +
-> > > +static Property gicv3_its_props[] = {
-> > > +    DEFINE_PROP_LINK("parent-gicv3", GICv3ITSState, gicv3, "arm-
-> > > gicv3",
-> > > +                     GICv3State *),
-> > > +    DEFINE_PROP_END_OF_LIST(),
-> > > +};
-> > > +
-> > > +static void gicv3_its_class_init(ObjectClass *klass, void *data)
-> > > +{
-> > > +    DeviceClass *dc = DEVICE_CLASS(klass);
-> > > +    GICv3ITSClass *ic = ARM_GICV3_ITS_CLASS(klass);
-> > > +
-> > > +    dc->realize = gicv3_arm_its_realize;
-> > > +    device_class_set_props(dc, gicv3_its_props);
-> > > +    device_class_set_parent_reset(dc, gicv3_its_reset, &ic-
-> > > >parent_reset);
-> > > +}
-> > > +
-> > > +static const TypeInfo gicv3_its_info = {
-> > > +    .name = TYPE_ARM_GICV3_ITS,
-> > > +    .parent = TYPE_ARM_GICV3_ITS_COMMON,
-> > > +    .instance_size = sizeof(GICv3ITSState),
-> > > +    .class_init = gicv3_its_class_init,
-> > > +    .class_size = sizeof(GICv3ITSClass),
-> > > +};
-> > > +
-> > > +static void gicv3_its_register_types(void)
-> > > +{
-> > > +    type_register_static(&gicv3_its_info);
-> > > +}
-> > > +
-> > > +type_init(gicv3_its_register_types)
-> > > diff --git a/hw/intc/arm_gicv3_its_common.c
-> > > b/hw/intc/arm_gicv3_its_common.c
-> > > index 66c4c6a188..f1657c84e0 100644
-> > > --- a/hw/intc/arm_gicv3_its_common.c
-> > > +++ b/hw/intc/arm_gicv3_its_common.c
-> > > @@ -50,6 +50,8 @@ static int gicv3_its_post_load(void *opaque,
-> > > int version_id)
-> > >  
-> > >  static const VMStateDescription vmstate_its = {
-> > >      .name = "arm_gicv3_its",
-> > > +    .version_id = 1,
-> > > +    .minimum_version_id = 1,
-> > >      .pre_save = gicv3_its_pre_save,
-> > >      .post_load = gicv3_its_post_load,
-> > >      .priority = MIG_PRI_GICV3_ITS,
-> > > @@ -99,14 +101,15 @@ static const MemoryRegionOps
-> > > gicv3_its_trans_ops = {
-> > >      .endianness = DEVICE_NATIVE_ENDIAN,
-> > >  };
-> > >  
-> > > -void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps
-> > > *ops)
-> > > +void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps
-> > > *ops,
-> > > +                         const MemoryRegionOps *tops)
-> > >  {
-> > >      SysBusDevice *sbd = SYS_BUS_DEVICE(s);
-> > >  
-> > >      memory_region_init_io(&s->iomem_its_cntrl, OBJECT(s), ops,
-> > > s,
-> > >                            "control", ITS_CONTROL_SIZE);
-> > >      memory_region_init_io(&s->iomem_its_translation, OBJECT(s),
-> > > -                          &gicv3_its_trans_ops, s,
-> > > +                          tops ? tops : &gicv3_its_trans_ops, s,
-> > >                            "translation", ITS_TRANS_SIZE);
-> > >  
-> > >      /* Our two regions are always adjacent, therefore we now
-> > > combine them
-> > > @@ -129,7 +132,6 @@ static void
-> > > gicv3_its_common_reset(DeviceState *dev)
-> > >      s->cbaser = 0;
-> > >      s->cwriter = 0;
-> > >      s->creadr = 0;
-> > > -    s->iidr = 0;
-> > >      memset(&s->baser, 0, sizeof(s->baser));
-> > >  }
-> > >  
-> > > diff --git a/hw/intc/arm_gicv3_its_kvm.c
-> > > b/hw/intc/arm_gicv3_its_kvm.c
-> > > index b554d2ede0..0b4cbed28b 100644
-> > > --- a/hw/intc/arm_gicv3_its_kvm.c
-> > > +++ b/hw/intc/arm_gicv3_its_kvm.c
-> > > @@ -106,7 +106,7 @@ static void kvm_arm_its_realize(DeviceState
-> > > *dev, Error **errp)
-> > >      kvm_arm_register_device(&s->iomem_its_cntrl, -1,
-> > > KVM_DEV_ARM_VGIC_GRP_ADDR,
-> > >                              KVM_VGIC_ITS_ADDR_TYPE, s->dev_fd,
-> > > 0);
-> > >  
-> > > -    gicv3_its_init_mmio(s, NULL);
-> > > +    gicv3_its_init_mmio(s, NULL, NULL);
-> > >  
-> > >      if (!kvm_device_check_attr(s->dev_fd,
-> > > KVM_DEV_ARM_VGIC_GRP_ITS_REGS,
-> > >          GITS_CTLR)) {
-> > > diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-> > > index 05303a55c8..e0b06930a7 100644
-> > > --- a/hw/intc/gicv3_internal.h
-> > > +++ b/hw/intc/gicv3_internal.h
-> > > @@ -24,6 +24,7 @@
-> > >  #ifndef QEMU_ARM_GICV3_INTERNAL_H
-> > >  #define QEMU_ARM_GICV3_INTERNAL_H
-> > >  
-> > > +#include "hw/registerfields.h"
-> > >  #include "hw/intc/arm_gicv3_common.h"
-> > >  
-> > >  /* Distributor registers, as offsets from the distributor base
-> > > address */
-> > > @@ -67,6 +68,9 @@
-> > >  #define GICD_CTLR_E1NWF             (1U << 7)
-> > >  #define GICD_CTLR_RWP               (1U << 31)
-> > >  
-> > > +/* 16 bits EventId */
-> > > +#define GICD_TYPER_IDBITS            0xf
-> > > +
-> > >  /*
-> > >   * Redistributor frame offsets from RD_base
-> > >   */
-> > > @@ -122,18 +126,6 @@
-> > >  #define GICR_WAKER_ProcessorSleep    (1U << 1)
-> > >  #define GICR_WAKER_ChildrenAsleep    (1U << 2)
-> > >  
-> > > -#define GICR_PROPBASER_OUTER_CACHEABILITY_MASK (7ULL << 56)
-> > > -#define GICR_PROPBASER_ADDR_MASK               (0xfffffffffULL
-> > > << 12)
-> > > -#define GICR_PROPBASER_SHAREABILITY_MASK       (3U << 10)
-> > > -#define GICR_PROPBASER_CACHEABILITY_MASK       (7U << 7)
-> > > -#define GICR_PROPBASER_IDBITS_MASK             (0x1f)
-> > > -
-> > > -#define GICR_PENDBASER_PTZ                     (1ULL << 62)
-> > > -#define GICR_PENDBASER_OUTER_CACHEABILITY_MASK (7ULL << 56)
-> > > -#define GICR_PENDBASER_ADDR_MASK               (0xffffffffULL <<
-> > > 16)
-> > > -#define GICR_PENDBASER_SHAREABILITY_MASK       (3U << 10)
-> > > -#define GICR_PENDBASER_CACHEABILITY_MASK       (7U << 7)
-> > > -
-> > >  #define ICC_CTLR_EL1_CBPR           (1U << 0)
-> > >  #define ICC_CTLR_EL1_EOIMODE        (1U << 1)
-> > >  #define ICC_CTLR_EL1_PMHE            (1U << 6)
-> > > @@ -239,6 +231,78 @@
-> > >  #define ICH_VTR_EL2_PREBITS_SHIFT 26
-> > >  #define ICH_VTR_EL2_PRIBITS_SHIFT 29
-> > >  
-> > > +/* ITS Registers */
-> > > +
-> > > +FIELD(GITS_BASER, SIZE, 0, 8)
-> > > +FIELD(GITS_BASER, PAGESIZE, 8, 2)
-> > > +FIELD(GITS_BASER, SHAREABILITY, 10, 2)
-> > > +FIELD(GITS_BASER, PHYADDR, 12, 36)
-> > > +FIELD(GITS_BASER, PHYADDRL_64K, 16, 32)
-> > > +FIELD(GITS_BASER, PHYADDRH_64K, 48, 4)
-> > Isn't it FIELD(GITS_BASER, PHYADDRH_64K, 12, 4)
-> > hum actually it is fixed in next patch ;-) The right value can be
-> > put
-> > here directly
-> not addressed in v5
-will do
-> > > +FIELD(GITS_BASER, ENTRYSIZE, 48, 5)
-> > > +FIELD(GITS_BASER, OUTERCACHE, 53, 3)
-> > > +FIELD(GITS_BASER, TYPE, 56, 3)
-> > > +FIELD(GITS_BASER, INNERCACHE, 59, 3)
-> > > +FIELD(GITS_BASER, INDIRECT, 62, 1)
-> > > +FIELD(GITS_BASER, VALID, 63, 1)
-> > > +
-> > > +FIELD(GITS_CTLR, QUIESCENT, 31, 1)
-> > > +
-> > > +FIELD(GITS_TYPER, PHYSICAL, 0, 1)
-> > > +FIELD(GITS_TYPER, ITT_ENTRY_SIZE, 4, 4)
-> > > +FIELD(GITS_TYPER, IDBITS, 8, 5)
-> > > +FIELD(GITS_TYPER, DEVBITS, 13, 5)
-> > > +FIELD(GITS_TYPER, SEIS, 18, 1)
-> > > +FIELD(GITS_TYPER, PTA, 19, 1)
-> > > +FIELD(GITS_TYPER, CIDBITS, 32, 4)
-> > > +FIELD(GITS_TYPER, CIL, 36, 1)
-> > > +
-> > > +#define GITS_BASER_PAGESIZE_4K                0
-> > > +#define GITS_BASER_PAGESIZE_16K               1
-> > > +#define GITS_BASER_PAGESIZE_64K               2
-> > > +
-> > > +#define GITS_ITT_TYPE_DEVICE                  1ULL
-> > > +#define GITS_ITT_TYPE_COLLECTION              4ULL
-> > you may rename into GITS_BASER_TYPE_DEVICE and COLLECTION?
-> not addressed in v5
-will do
-> > > +
-> > > +/**
-> > > + * Default features advertised by this version of ITS
-> > > + */
-> > > +/* Physical LPIs supported */
-> > > +#define GITS_TYPE_PHYSICAL           (1U << 0)
-> > > +
-> > > +/*
-> > > + * 12 bytes Interrupt translation Table Entry size
-> > > + * ITE Lower 8 Bytes
-> > > + * Valid = 1 bit,InterruptType = 1 bit,
-> > > + * Size of LPI number space[considering max 24 bits],
-> > > + * Size of LPI number space[considering max 24 bits],
-> > repeated
-> not adressed in v5
-I had replied to this comment earlier,
-The ITE size of 12 bytes format defined here is based on "Table 5-3 ITE
-entries" in GIC specification and is generic between both GICv3 & GICv4
-versions for both physical and virtual LPIs,unlike the linux kernel ABI
-which has current definition only for GICv3 physical LPIs.The idea here
-was to define the format once(considering future virtual LPIs too).
-Do you still want me to reduce the ITE size to 8 bytes as in linux
-kernel ABI (thereby leave the GICV4 fields out)? 
+You should check the things the pseudocode says you should check.
+When processing MAPTI, that's GICD_TYPER.IDbits. GICR_PROPBASER.IDbits
+is not the same thing because the guest can set it to a smaller value.
 
-> > > + * ITE Higher 4 Bytes
-> > > + * ICID = 16 bits,
-> > > + * vPEID = 16 bits
-> > 
-> > for info the ABI used by the kernel can be found in linux
-> > Documentation/virt/kvm/devices/arm-vgic-its.rst
-> > 
-> > The ITE there is 8 bytes.
-> > 
-> > Have you considered the same?
-> > 
-> > > + */
-> > > +#define ITS_ITT_ENTRY_SIZE            0xC
-> > > +
-> > > +/* 16 bits EventId */
-> > > +#define ITS_IDBITS                   GICD_TYPER_IDBITS
-> > > +
-> > > +/* 16 bits DeviceId */
-> > > +#define ITS_DEVBITS                   0xF
-> > > +
-> > > +/* 16 bits CollectionId */
-> > > +#define ITS_CIDBITS                  0xF
-> > > +
-> > > +/*
-> > > + * 8 bytes Device Table Entry size
-> > > + * Valid = 1 bit,ITTAddr = 44 bits,Size = 5 bits
-> > > + */
-> > > +#define GITS_DTE_SIZE                 (0x8ULL)
-> > > +
-> > > +/*
-> > > + * 8 bytes Collection Table Entry size
-> > > + * Valid = 1 bit,RDBase = 36 bits(considering max RDBASE)
-> > > + */
-> > > +#define GITS_CTE_SIZE                 (0x8ULL)
-> > > +
-> > >  /* Special interrupt IDs */
-> > >  #define INTID_SECURE 1020
-> > >  #define INTID_NONSECURE 1021
-> > > diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> > > index 6e52a166e3..4dcfea6aa8 100644
-> > > --- a/hw/intc/meson.build
-> > > +++ b/hw/intc/meson.build
-> > > @@ -8,6 +8,7 @@ softmmu_ss.add(when: 'CONFIG_ARM_GIC', if_true:
-> > > files(
-> > >    'arm_gicv3_dist.c',
-> > >    'arm_gicv3_its_common.c',
-> > >    'arm_gicv3_redist.c',
-> > > +  'arm_gicv3_its.c',
-> > >  ))
-> > >  softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true:
-> > > files('etraxfs_pic.c'))
-> > >  softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true:
-> > > files('heathrow_pic.c'))
-> > > diff --git a/include/hw/intc/arm_gicv3_its_common.h
-> > > b/include/hw/intc/arm_gicv3_its_common.h
-> > > index 5a0952b404..65d1191db1 100644
-> > > --- a/include/hw/intc/arm_gicv3_its_common.h
-> > > +++ b/include/hw/intc/arm_gicv3_its_common.h
-> > > @@ -25,17 +25,22 @@
-> > >  #include "hw/intc/arm_gicv3_common.h"
-> > >  #include "qom/object.h"
-> > >  
-> > > +#define TYPE_ARM_GICV3_ITS "arm-gicv3-its"
-> > > +
-> > >  #define ITS_CONTROL_SIZE 0x10000
-> > >  #define ITS_TRANS_SIZE   0x10000
-> > >  #define ITS_SIZE         (ITS_CONTROL_SIZE + ITS_TRANS_SIZE)
-> > >  
-> > >  #define GITS_CTLR        0x0
-> > >  #define GITS_IIDR        0x4
-> > > +#define GITS_TYPER       0x8
-> > >  #define GITS_CBASER      0x80
-> > >  #define GITS_CWRITER     0x88
-> > >  #define GITS_CREADR      0x90
-> > >  #define GITS_BASER       0x100
-> > >  
-> > > +#define GITS_TRANSLATER  0x0040
-> > > +
-> > >  struct GICv3ITSState {
-> > >      SysBusDevice parent_obj;
-> > >  
-> > > @@ -52,6 +57,7 @@ struct GICv3ITSState {
-> > >      /* Registers */
-> > >      uint32_t ctlr;
-> > >      uint32_t iidr;
-> > > +    uint64_t typer;
-> > >      uint64_t cbaser;
-> > >      uint64_t cwriter;
-> > >      uint64_t creadr;
-> > > @@ -62,7 +68,8 @@ struct GICv3ITSState {
-> > >  
-> > >  typedef struct GICv3ITSState GICv3ITSState;
-> > >  
-> > > -void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps
-> > > *ops);
-> > > +void gicv3_its_init_mmio(GICv3ITSState *s, const MemoryRegionOps
-> > > *ops,
-> > > +                   const MemoryRegionOps *tops);
-> > >  
-> > >  #define TYPE_ARM_GICV3_ITS_COMMON "arm-gicv3-its-common"
-> > >  typedef struct GICv3ITSCommonClass GICv3ITSCommonClass;
-> > > 
-> > Thanks
-> > 
-> > Eric
-> > 
-> 
-> Thanks
-> 
-> Eric
-> 
-
+thanks
+-- PMM
 
