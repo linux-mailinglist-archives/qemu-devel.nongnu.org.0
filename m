@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06FE3BC800
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:40:33 +0200 (CEST)
-Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3C23BC80D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:43:30 +0200 (CEST)
+Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0gd5-0000jN-Us
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:40:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
+	id 1m0gfw-0005hJ-D8
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gRz-00035d-I5
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:29:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59429)
+ id 1m0gS3-0003LZ-JM
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:29:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gRx-00039z-9D
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:29:03 -0400
+ id 1m0gS0-0003C9-Hu
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:29:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625560140;
+ s=mimecast20190719; t=1625560143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ysYdL7xkz/8dJdysAt7gkNLr9hPSEVhMUOR1B+TLlE=;
- b=R7qSMnSXXrrz7siZm4e28p85yxTb11vGC2o5ZG2FLoGl2sWFDngphDZdGZ4ikeCR/lXvIU
- 6vhgxWAZSg8bzZNSp2Ci4NX9pVU/OnppGKjrg9qtStHfvzZYWm7C5BManlbZim2WGT006J
- 8b9AzE2COj3gYyM2HjWN1tDpYicB6x4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-AI4m0MGlNhOEyYAujsjpgw-1; Tue, 06 Jul 2021 04:28:54 -0400
-X-MC-Unique: AI4m0MGlNhOEyYAujsjpgw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 678D0804140;
- Tue,  6 Jul 2021 08:28:53 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-227.pek2.redhat.com
- [10.72.13.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B97472EB19;
- Tue,  6 Jul 2021 08:28:50 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com,
-	jasowang@redhat.com
-Subject: [PATCH V2 18/18] vhost-vdpa: multiqueue support
-Date: Tue,  6 Jul 2021 16:27:17 +0800
-Message-Id: <20210706082717.37730-19-jasowang@redhat.com>
-In-Reply-To: <20210706082717.37730-1-jasowang@redhat.com>
-References: <20210706082717.37730-1-jasowang@redhat.com>
+ bh=P+0GjnQW0atJpiccjtty/mD1ayY63S41qsJkiRQTbx8=;
+ b=YJt5lrKUaz4+R1Cr0IYqYbOkUmfiOA72S4yBqIS5CiS89Oy78WdZWy/SkoTyqH/S4eJ2Dl
+ GyXIHC+J7PG31dgSDCMZjcmanVwcB+92PfGIUCXBYjiUye2jf+/9Tk3luY0EzU2sAdU/KM
+ xWIJo3NZUEHxXf1NZaD4lARyKRhmwE4=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-iC6zzgRIPQCefqdam-gHmg-1; Tue, 06 Jul 2021 04:29:02 -0400
+X-MC-Unique: iC6zzgRIPQCefqdam-gHmg-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ q13-20020a2e914d0000b02901752c889bcdso8421477ljg.20
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 01:29:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=P+0GjnQW0atJpiccjtty/mD1ayY63S41qsJkiRQTbx8=;
+ b=IsmYUJIK5FLvvbJS22pHAmsIPbT3V13OJEAyLxwCcD7QEHMLWzT3HKje9869yg/cM0
+ 0bFWa8RfxgdCtzvUSJKbTV3R+PAnToUnstP7vN9e1V16zMU45HOG0rg8hfN3mbmcj4LT
+ EAX2QEWFeu5N1+6i763LnCy+CnVnUdiWBYY+45ddHB9b5wt5uuKWizPiaHpge6wPyR40
+ pGjsCvPZKVFcMEAXjMzjOfuR1e38QZ+2tTrQH/9+z3cjpMxVnhcqgaSvvDgZ0pcy7Av2
+ ze5ZOM7NdCN/HYVpHrMPYJIB9WAr+x6SHcLae1J3IX8+epWaSmD6IWGo5Qy/RmQYKDbh
+ kSgw==
+X-Gm-Message-State: AOAM531e8g/rWMxwqX93ba1+Bsj3cqaYJOjgbDfDm/7ohgpbhffFCS/r
+ jbEXPnwDxAcdPVxj7xGc9WfD8BGt3j+LiFiCqsvXZ8z2FjpcaVx5wxbIQcGY4iDAabs35f7jGwX
+ yy08a/sypi7hRmYYRnWan6RvtwijvnKM=
+X-Received: by 2002:a2e:a233:: with SMTP id i19mr14479588ljm.261.1625560141301; 
+ Tue, 06 Jul 2021 01:29:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybTsvQGKkWfdrzpCDnyGqqLHr1EQNxZy58Jm9DB8ULGi+4OAUFcT1BYnjWzvMExE3xVg/y+/yPH1kIP8aBL6w=
+X-Received: by 2002:a2e:a233:: with SMTP id i19mr14479572ljm.261.1625560141053; 
+ Tue, 06 Jul 2021 01:29:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210621041650.5826-1-jasowang@redhat.com>
+ <20210621041650.5826-8-jasowang@redhat.com>
+ <20210623150312.7g43l5qjwacxhw43@steredhat>
+ <208edb63-a0d1-6d6b-e451-b17cb24708ed@redhat.com>
+ <12f1b265-3dd0-9c9e-cfbe-e004e08ec7f1@redhat.com>
+ <20210706082703.julcfywtatytczbo@steredhat>
+In-Reply-To: <20210706082703.julcfywtatytczbo@steredhat>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 6 Jul 2021 16:28:50 +0800
+Message-ID: <CACGkMEuTEatgLSKXVysghtcJq3NHiZnP=GmU=sAwNoY99hYUpw@mail.gmail.com>
+Subject: Re: [PATCH 07/18] vhost-vdpa: tweak the error label in
+ vhost_vdpa_add()
+To: Stefano Garzarella <sgarzare@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -81,194 +96,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com,
- lulu@redhat.com
+Cc: Cindy Lu <lulu@redhat.com>, mst <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, eperezma <eperezma@redhat.com>,
+ Eli Cohen <elic@nvidia.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements the multiqueue support for vhost-vdpa. This is
-done simply by reading the number of queue pairs from the config space
-and initialize the datapath and control path net client.
+On Tue, Jul 6, 2021 at 4:27 PM Stefano Garzarella <sgarzare@redhat.com> wro=
+te:
+>
+> On Tue, Jul 06, 2021 at 04:10:22PM +0800, Jason Wang wrote:
+> >
+> >=E5=9C=A8 2021/7/6 =E4=B8=8B=E5=8D=884:03, Jason Wang =E5=86=99=E9=81=93=
+:
+> >>
+> >>=E5=9C=A8 2021/6/23 =E4=B8=8B=E5=8D=8811:03, Stefano Garzarella =E5=86=
+=99=E9=81=93:
+> >>>On Mon, Jun 21, 2021 at 12:16:39PM +0800, Jason Wang wrote:
+> >>>>Introduce new error label to avoid the unnecessary checking of net
+> >>>>pointer.
+> >>>>
+> >>>>Fixes: 1e0a84ea49b68 ("vhost-vdpa: introduce vhost-vdpa net client")
+> >>>>Signed-off-by: Jason Wang <jasowang@redhat.com>
+> >>>>---
+> >>>>net/vhost-vdpa.c | 13 ++++++-------
+> >>>>1 file changed, 6 insertions(+), 7 deletions(-)
+> >>>>
+> >>>>diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> >>>>index 21f09c546f..0da7bc347a 100644
+> >>>>--- a/net/vhost-vdpa.c
+> >>>>+++ b/net/vhost-vdpa.c
+> >>>>@@ -100,19 +100,18 @@ static int vhost_vdpa_add(NetClientState
+> >>>>*ncs, void *be)
+> >>>>    net =3D vhost_net_init(&options);
+> >>>>    if (!net) {
+> >>>>        error_report("failed to init vhost_net for queue");
+> >>>>-        goto err;
+> >>>>+        goto err_init;
+> >>>>    }
+> >>>>    s->vhost_net =3D net;
+> >>>>    ret =3D vhost_vdpa_net_check_device_id(net);
+> >>>>    if (ret) {
+> >>>>-        goto err;
+> >>>>+        goto err_check;
+> >>>>    }
+> >>>>    return 0;
+> >>>>-err:
+> >>>>-    if (net) {
+> >>>>-        vhost_net_cleanup(net);
+> >>>>-        g_free(net);
+> >>>>-    }
+> >>>>+err_check:
+> >>>>+    vhost_net_cleanup(net);
+> >>>>+    g_free(net);
+> >>>
+> >>>Should we set s->vhost_net to NULL to avoid use after free?
+> >>>
+> >>>Then we should also remove the `assert(s->vhost_net)` in
+> >>>net_vhost_vdpa_init() since we can fail.
+> >>
+> >>
+> >>Right, will do this in a separate patch.
+> >
+> >
+> >I just forget the job has been done in the next patch :)
+>
+> I saw it later too ;-)
+>
+> >
+> >So we are fine here.
+>
+> Yep for the assert(), but what about setting s->vhost_net to NULL?
+> Or just move the s->vhost_net assignment just before the `return 0`.
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/vhost-vdpa.c | 104 +++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 95 insertions(+), 9 deletions(-)
+We can do, I've posted V2. If it has comment, I will do that in V3.
+Otherwise I will send a separate patch for this.
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index cc11b2ec40..01a667deb9 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -18,6 +18,7 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include "qapi/error.h"
-+#include <linux/vhost.h>
- #include <sys/ioctl.h>
- #include <err.h>
- #include "standard-headers/linux/virtio_net.h"
-@@ -52,6 +53,14 @@ const int vdpa_feature_bits[] = {
-     VIRTIO_NET_F_HOST_UFO,
-     VIRTIO_NET_F_MRG_RXBUF,
-     VIRTIO_NET_F_MTU,
-+    VIRTIO_NET_F_CTRL_RX,
-+    VIRTIO_NET_F_CTRL_RX_EXTRA,
-+    VIRTIO_NET_F_CTRL_VLAN,
-+    VIRTIO_NET_F_GUEST_ANNOUNCE,
-+    VIRTIO_NET_F_CTRL_MAC_ADDR,
-+    VIRTIO_NET_F_RSS,
-+    VIRTIO_NET_F_MQ,
-+    VIRTIO_NET_F_CTRL_VQ,
-     VIRTIO_F_IOMMU_PLATFORM,
-     VIRTIO_F_RING_PACKED,
-     VIRTIO_NET_F_RSS,
-@@ -82,7 +91,8 @@ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
-     return ret;
- }
- 
--static int vhost_vdpa_add(NetClientState *ncs, void *be)
-+static int vhost_vdpa_add(NetClientState *ncs, void *be, int qp_index,
-+                          int nvqs)
- {
-     VhostNetOptions options;
-     struct vhost_net *net = NULL;
-@@ -95,7 +105,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
-     options.net_backend = ncs;
-     options.opaque      = be;
-     options.busyloop_timeout = 0;
--    options.nvqs = 2;
-+    options.nvqs = nvqs;
- 
-     net = vhost_net_init(&options);
-     if (!net) {
-@@ -159,18 +169,28 @@ static NetClientInfo net_vhost_vdpa_info = {
- static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                            const char *device,
-                                            const char *name,
--                                           int vdpa_device_fd)
-+                                           int vdpa_device_fd,
-+                                           int qp_index,
-+                                           int nvqs,
-+                                           bool is_datapath)
- {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
-     int ret = 0;
-     assert(name);
--    nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
-+    if (is_datapath) {
-+        nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device,
-+                                 name);
-+    } else {
-+        nc = qemu_new_net_control_client(&net_vhost_vdpa_info, peer,
-+                                         device, name);
-+    }
-     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
- 
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
--    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
-+    s->vhost_vdpa.index = qp_index;
-+    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, qp_index, nvqs);
-     if (ret) {
-         qemu_del_net_client(nc);
-         return NULL;
-@@ -196,12 +216,52 @@ static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
-     return 0;
- }
- 
-+static int vhost_vdpa_get_max_qps(int fd, int *has_cvq, Error **errp)
-+{
-+    unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
-+    struct vhost_vdpa_config *config;
-+    __virtio16 *max_qps;
-+    uint64_t features;
-+    int ret;
-+
-+    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
-+    if (ret) {
-+        error_setg(errp, "Fail to query features from vhost-vDPA device");
-+        return ret;
-+    }
-+
-+    if (features & (1 << VIRTIO_NET_F_CTRL_VQ)) {
-+        *has_cvq = 1;
-+    } else {
-+        *has_cvq = 0;
-+    }
-+
-+    if (features & (1 << VIRTIO_NET_F_MQ)) {
-+        config = g_malloc0(config_size + sizeof(*max_qps));
-+        config->off = offsetof(struct virtio_net_config, max_virtqueue_pairs);
-+        config->len = sizeof(*max_qps);
-+
-+        ret = ioctl(fd, VHOST_VDPA_GET_CONFIG, config);
-+        if (ret) {
-+            error_setg(errp, "Fail to get config from vhost-vDPA device");
-+            return -ret;
-+        }
-+
-+        max_qps = (__virtio16 *)&config->buf;
-+
-+        return lduw_le_p(max_qps);
-+    }
-+
-+    return 1;
-+}
-+
- int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp)
- {
-     const NetdevVhostVDPAOptions *opts;
-     int vdpa_device_fd;
--    NetClientState *nc;
-+    NetClientState **ncs, *nc;
-+    int qps, i, has_cvq = 0;
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -216,11 +276,37 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         return -errno;
-     }
- 
--    nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
--    if (!nc) {
-+    qps = vhost_vdpa_get_max_qps(vdpa_device_fd, &has_cvq, errp);
-+    if (qps < 0) {
-         qemu_close(vdpa_device_fd);
--        return -1;
-+        return qps;
-+    }
-+
-+    ncs = g_malloc0(sizeof(*ncs) * qps);
-+
-+    for (i = 0; i < qps; i++) {
-+        ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-+                                     vdpa_device_fd, i, 2, true);
-+        if (!ncs[i])
-+            goto err;
-+    }
-+
-+    if (has_cvq) {
-+        nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-+                                 vdpa_device_fd, i, 1, false);
-+        if (!nc)
-+            goto err;
-     }
- 
-+    g_free(ncs);
-     return 0;
-+
-+err:
-+    if (i) {
-+        qemu_del_net_client(ncs[0]);
-+    }
-+    qemu_close(vdpa_device_fd);
-+    g_free(ncs);
-+
-+    return -1;
- }
--- 
-2.25.1
+Thanks
+
+>
+> Thanks,
+> Stefano
+>
 
 
