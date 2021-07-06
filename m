@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C529F3BCA3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:38:40 +0200 (CEST)
-Received: from localhost ([::1]:54514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89EC3BCA2C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:36:19 +0200 (CEST)
+Received: from localhost ([::1]:48924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0iTP-0003UC-Hy
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42570)
+	id 1m0iR8-00088Y-SH
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0hu8-0001ap-9q
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:12 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36729)
+ id 1m0huA-0001ht-BF
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:14 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0hu5-0002W9-SI
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:11 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- t14-20020a05600c198eb029020c8aac53d4so3284861wmq.1
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:02:09 -0700 (PDT)
+ id 1m0hu7-0002X6-R3
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:13 -0400
+Received: by mail-wm1-x331.google.com with SMTP id l1so13138306wme.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w9hauRMulhEqoYfvW+lN0XMvwP2olsiQiM62j8QW464=;
- b=CRGZx5RbanpntDViFwcy+cFQXjzDJV9RlMC67bcoLAz7JJYqkdCML6TpYdRZVUm/gh
- s0c0QAgvV0SDNRYHCztBCMvI1X3RikNcgqDvpDVKCJgP+j2/8/7fI0jWySEPuJj2NsYN
- Q/xorBnM4T6XRWsbcHbwG4llbyHGtlKvye5oeG2sW9fFtSmV2aNnKdPU5elPNoa36l0/
- vu45KeWcKaMWAiF7PlKYVn5/ewePaoxP6REDz2PuzzVRPS904dve6/hYqPidHE5FRi0t
- 20XhFsegGitnFhZ0++w+KUD/m4/70Leii5AYqNWNRR7/L28zMBn7DweNoxRxSgNTOyuN
- ADAw==
+ bh=IDPNHb+HPzR8VO7xPUhdfTuo9DK5TmK3Ukrht2Or98o=;
+ b=mZw45Skp6QQwkYAH5uCQhE+UT+wVna9uVKxZj1yDGOgxOQgnnoVcS6QhfMdxVFq/3r
+ XRDmImEySQTn6MqeU3+mzhhhY0i3EWdXNq74v3TiV4FhFCTTG2PicjZHa4CgSUBEdoZ1
+ nBY6l6f6px3K5NW9QBtZdyosev4wGRlwm6JfVbTgtYEPVCU6+Q0NPntS2kzManDcAz9w
+ aYldlDT39F8maKKCXOhtS9lENEt1O4RgNreqymbm1jc7fhlEpBjK4dsv/df78V7L9UUS
+ tMF97B0BucTZ6Bz8GGlhTrRUNQ2Z8pMjvDlQSKa+dbiXvKIBTigMoNvFyLzw/1Ojs0NR
+ h7bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w9hauRMulhEqoYfvW+lN0XMvwP2olsiQiM62j8QW464=;
- b=YOR3TFY+YLQjJv/SgsGGb03xRWdVEiaMPtMLrkRfixVtxgA8nuBmBQ0Po4pqxYRdYZ
- rRkb3IaQJnSlRyN9pOj2af0mWsL0FVkupYHJyO+i55hJFlrWQevBHo62np8+3sR9DP/D
- hVmyDk3yqu1Mv6mtmOj1dlQGzkvUfNzedwagfdSRe+JkILEWwhC/sDb/OR2W4l9tRwOL
- n0DoEUaQwvAUQw9C5OL6miDjFwx5vq+X6MH+geheB5M2NZxgG/RGn65bMKQy4gD05PlT
- PJCQJVXDD8H7Wuzndl77aMwznugxy2qtwzQy4RHKHWTPe2GyDCc1brD3kp2zIVhtYiYQ
- G8bA==
-X-Gm-Message-State: AOAM531vdPMAMEna+1bgOq4EZE7zdI/UNJsOl6GQGDMd3rIR+c4Xg5+e
- p29ULADlsMzuEZPjlGbflfOSla4OeE0=
-X-Google-Smtp-Source: ABdhPJyKxCrDnbGUwR8+yzJlIFoABZwoQIAjiNuH8FC0tv37L2ket5AuLkGxe68j25vc3px1FoNTNg==
-X-Received: by 2002:a05:600c:4b92:: with SMTP id
- e18mr19666669wmp.161.1625565728435; 
- Tue, 06 Jul 2021 03:02:08 -0700 (PDT)
+ bh=IDPNHb+HPzR8VO7xPUhdfTuo9DK5TmK3Ukrht2Or98o=;
+ b=jzt56VnHcHJkvaObh9CHvOxoFoEqEDxBoKU/aTudXpTJD6ocsEja08I13k/3vSBm+A
+ nwFrnUU1+GRRAwe8GAGgh2ZlLs37zpETxL5boOzgkRaOTpgo3S/FJo1ZSIPwISRrXoqR
+ z8jwWGKXbyNPREp7NDrQHIwARKfg+ylQZbwYzLyM8Xv2ne3fp1OjO/zLt1UBaRHGtVHk
+ kb4KVIjcyuRIYgZyI1vEkSQAGJ7zzUL29toKGqhZL27FaISDZf6M4/4ELKdoGNdHpgfS
+ udVAvCP+YQEoAzSB70ecFjcQIG8sFJDdNxYdC3fH5k63AzC6sESVubt4x7TsjEEYeF4t
+ 9+IA==
+X-Gm-Message-State: AOAM530LXnnNklOXYZy46SsVvxJmefUizc82pQAc9YfbL4p7MeCGPR93
+ voJP7dxUgxHBqbPB/opEfDQEIaJXD1k=
+X-Google-Smtp-Source: ABdhPJxNTPg3vdgyx+3+fvE0NY+731a/1R2wZemBHHLpRkq44w98iJFvuaT1k3F+EWg3+h0koG6fQg==
+X-Received: by 2002:a7b:c1c1:: with SMTP id a1mr19870966wmj.187.1625565729061; 
+ Tue, 06 Jul 2021 03:02:09 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v15sm2331268wmj.39.2021.07.06.03.02.07 for <qemu-devel@nongnu.org>
+ v15sm2331268wmj.39.2021.07.06.03.02.08 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 06 Jul 2021 03:02:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/40] machine: add smp compound property
-Date: Tue,  6 Jul 2021 12:01:38 +0200
-Message-Id: <20210706100141.303960-38-pbonzini@redhat.com>
+Subject: [PULL 38/40] qemu-option: remove now-dead code
+Date: Tue,  6 Jul 2021 12:01:39 +0200
+Message-Id: <20210706100141.303960-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210706100141.303960-1-pbonzini@redhat.com>
 References: <20210706100141.303960-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,341 +87,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make -smp syntactic sugar for a compound property "-machine
-smp.{cores,threads,cpu,...}".  machine_smp_parse is replaced by the
-setter for the property.
-
-numa-test will now cover the new syntax, while other tests
-still use -smp.
+-M was the sole user of qemu_opts_set and qemu_opts_set_defaults,
+remove them and the arguments that they used.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c       | 108 +++++++++++++++++++++-------------------
- include/hw/boards.h     |   1 -
- softmmu/vl.c            |  33 +++++++++---
- tests/qtest/numa-test.c |  22 ++++----
- 4 files changed, 95 insertions(+), 69 deletions(-)
+ include/qemu/option.h       |  3 ---
+ tests/unit/test-qemu-opts.c | 35 -------------------------
+ util/qemu-option.c          | 51 ++++++++-----------------------------
+ 3 files changed, 10 insertions(+), 79 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index ca69f0343a..57c18f909a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -19,6 +19,7 @@
- #include "hw/loader.h"
- #include "qapi/error.h"
- #include "qapi/qapi-visit-common.h"
-+#include "qapi/qapi-visit-machine.h"
- #include "qapi/visitor.h"
- #include "hw/sysbus.h"
- #include "sysemu/cpus.h"
-@@ -799,6 +800,57 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     ms->smp.sockets = sockets;
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index fffb03d848..306bf07575 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -119,7 +119,6 @@ QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
+                            int fail_if_exists, Error **errp);
+ void qemu_opts_reset(QemuOptsList *list);
+ void qemu_opts_loc_restore(QemuOpts *opts);
+-bool qemu_opts_set(QemuOptsList *list, const char *name, const char *value, Error **errp);
+ const char *qemu_opts_id(QemuOpts *opts);
+ void qemu_opts_set_id(QemuOpts *opts, char *id);
+ void qemu_opts_del(QemuOpts *opts);
+@@ -130,8 +129,6 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
+                                   bool permit_abbrev);
+ QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
+                           bool permit_abbrev, Error **errp);
+-void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
+-                            int permit_abbrev);
+ QemuOpts *qemu_opts_from_qdict(QemuOptsList *list, const QDict *qdict,
+                                Error **errp);
+ QDict *qemu_opts_to_qdict_filtered(QemuOpts *opts, QDict *qdict,
+diff --git a/tests/unit/test-qemu-opts.c b/tests/unit/test-qemu-opts.c
+index 6568e31a72..828d40e928 100644
+--- a/tests/unit/test-qemu-opts.c
++++ b/tests/unit/test-qemu-opts.c
+@@ -410,40 +410,6 @@ static void test_qemu_opts_reset(void)
+     g_assert(opts == NULL);
  }
  
-+static void machine_get_smp(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+    SMPConfiguration *config = &(SMPConfiguration){
-+        .has_cores = true, .cores = ms->smp.cores,
-+        .has_sockets = true, .sockets = ms->smp.sockets,
-+        .has_dies = true, .dies = ms->smp.dies,
-+        .has_threads = true, .threads = ms->smp.threads,
-+        .has_cpus = true, .cpus = ms->smp.cpus,
-+        .has_maxcpus = true, .maxcpus = ms->smp.max_cpus,
-+    };
-+    if (!visit_type_SMPConfiguration(v, name, &config, &error_abort)) {
-+        return;
-+    }
-+}
-+
-+static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    MachineState *ms = MACHINE(obj);
-+    SMPConfiguration *config;
-+    ERRP_GUARD();
-+
-+    if (!visit_type_SMPConfiguration(v, name, &config, errp)) {
-+        return;
-+    }
-+
-+    mc->smp_parse(ms, config, errp);
-+    if (errp) {
-+        goto out_free;
-+    }
-+
-+    /* sanity-check smp_cpus and max_cpus against mc */
-+    if (ms->smp.cpus < mc->min_cpus) {
-+        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
-+                   "supported by machine '%s' is %d",
-+                   ms->smp.cpus,
-+                   mc->name, mc->min_cpus);
-+    } else if (ms->smp.max_cpus > mc->max_cpus) {
-+        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
-+                   "supported by machine '%s' is %d",
-+                   current_machine->smp.max_cpus,
-+                   mc->name, mc->max_cpus);
-+    }
-+
-+out_free:
-+    qapi_free_SMPConfiguration(config);
-+}
-+
- static void machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -838,6 +890,12 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "dumpdtb",
-         "Dump current dtb to a file and quit");
- 
-+    object_class_property_add(oc, "smp", "SMPConfiguration",
-+        machine_get_smp, machine_set_smp,
-+        NULL, NULL);
-+    object_class_property_set_description(oc, "smp",
-+        "CPU topology");
-+
-     object_class_property_add(oc, "phandle-start", "int",
-         machine_get_phandle_start, machine_set_phandle_start,
-         NULL, NULL);
-@@ -1126,56 +1184,6 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
-     return ret;
- }
- 
--bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+-static void test_qemu_opts_set(void)
 -{
--    MachineClass *mc = MACHINE_GET_CLASS(ms);
--    ERRP_GUARD();
+-    QemuOptsList *list;
+-    QemuOpts *opts;
+-    const char *opt;
 -
--    if (opts) {
--        SMPConfiguration config = {
--            .has_cpus = !!qemu_opt_get(opts, "cpus"),
--            .cpus = qemu_opt_get_number(opts, "cpus", 0),
--            .has_sockets = !!qemu_opt_get(opts, "sockets"),
--            .sockets = qemu_opt_get_number(opts, "sockets", 0),
--            .has_dies = !!qemu_opt_get(opts, "dies"),
--            .dies = qemu_opt_get_number(opts, "dies", 0),
--            .has_cores = !!qemu_opt_get(opts, "cores"),
--            .cores = qemu_opt_get_number(opts, "cores", 0),
--            .has_threads = !!qemu_opt_get(opts, "threads"),
--            .threads = qemu_opt_get_number(opts, "threads", 0),
--            .has_maxcpus = !!qemu_opt_get(opts, "maxcpus"),
--            .maxcpus = qemu_opt_get_number(opts, "maxcpus", 0),
--        };
+-    list = qemu_find_opts("opts_list_04");
+-    g_assert(list != NULL);
+-    g_assert(QTAILQ_EMPTY(&list->head));
+-    g_assert_cmpstr(list->name, ==, "opts_list_04");
 -
--        mc->smp_parse(ms, &config, errp);
--        if (*errp) {
--            return false;
--        }
--    }
+-    /* should not find anything at this point */
+-    opts = qemu_opts_find(list, NULL);
+-    g_assert(opts == NULL);
 -
--    /* sanity-check smp_cpus and max_cpus against mc */
--    if (ms->smp.cpus < mc->min_cpus) {
--        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
--                   "supported by machine '%s' is %d",
--                   ms->smp.cpus,
--                   mc->name, mc->min_cpus);
--        return false;
--    } else if (ms->smp.max_cpus > mc->max_cpus) {
--        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
--                   "supported by machine '%s' is %d",
--                   current_machine->smp.max_cpus,
--                   mc->name, mc->max_cpus);
--        return false;
--    }
+-    /* implicitly create opts and set str3 value */
+-    qemu_opts_set(list, "str3", "value", &error_abort);
+-    g_assert(!QTAILQ_EMPTY(&list->head));
 -
--    if (ms->smp.cpus > 1) {
--        Error *blocker = NULL;
--        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
--        replay_add_blocker(blocker);
--    }
--    return true;
+-    /* get the just created opts */
+-    opts = qemu_opts_find(list, NULL);
+-    g_assert(opts != NULL);
+-
+-    /* check the str3 value */
+-    opt = qemu_opt_get(opts, "str3");
+-    g_assert_cmpstr(opt, ==, "value");
+-
+-    qemu_opts_del(opts);
+-
+-    /* should not find anything at this point */
+-    opts = qemu_opts_find(list, NULL);
+-    g_assert(opts == NULL);
 -}
 -
- void machine_run_board_init(MachineState *machine)
+ static int opts_count_iter(void *opaque, const char *name, const char *value,
+                            Error **errp)
  {
-     MachineClass *machine_class = MACHINE_GET_CLASS(machine);
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 1eae4427e8..accd6eff35 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -26,7 +26,6 @@ OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
- extern MachineState *current_machine;
- 
- void machine_run_board_init(MachineState *machine);
--bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp);
- bool machine_usb(MachineState *machine);
- int machine_phandle_start(MachineState *machine);
- bool machine_dump_guest_core(MachineState *machine);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index f848abd31a..a50c8575a1 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1531,6 +1531,25 @@ static void machine_help_func(const QDict *qdict)
+@@ -1041,7 +1007,6 @@ int main(int argc, char *argv[])
+     g_test_add_func("/qemu-opts/opt_get_size", test_qemu_opt_get_size);
+     g_test_add_func("/qemu-opts/opt_unset", test_qemu_opt_unset);
+     g_test_add_func("/qemu-opts/opts_reset", test_qemu_opts_reset);
+-    g_test_add_func("/qemu-opts/opts_set", test_qemu_opts_set);
+     g_test_add_func("/qemu-opts/opts_parse/general", test_opts_parse);
+     g_test_add_func("/qemu-opts/opts_parse/bool", test_opts_parse_bool);
+     g_test_add_func("/qemu-opts/opts_parse/number", test_opts_parse_number);
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 4944015a25..ee78e42216 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -479,19 +479,14 @@ int qemu_opt_unset(QemuOpts *opts, const char *name)
      }
  }
  
-+static void
-+machine_parse_property_opt(QemuOptsList *opts_list, const char *propname,
-+                           const char *arg, Error **errp)
-+{
-+    QDict *opts, *prop;
-+    bool help = false;
-+    ERRP_GUARD();
-+
-+    prop = keyval_parse(arg, opts_list->implied_opt_name, &help, errp);
-+    if (help) {
-+        qemu_opts_print_help(opts_list, true);
-+        return;
-+    }
-+    opts = qdict_new();
-+    qdict_put(opts, propname, prop);
-+    keyval_merge(machine_opts_dict, opts, errp);
-+    qobject_unref(opts);
-+}
-+
- static const char *pid_file;
- static Notifier qemu_unlink_pidfile_notifier;
+-static QemuOpt *opt_create(QemuOpts *opts, const char *name, char *value,
+-                           bool prepend)
++static QemuOpt *opt_create(QemuOpts *opts, const char *name, char *value)
+ {
+     QemuOpt *opt = g_malloc0(sizeof(*opt));
  
-@@ -1841,6 +1860,12 @@ static void qemu_apply_machine_options(QDict *qdict)
-         /* fall back to the -kernel/-append */
-         semihosting_arg_fallback(current_machine->kernel_filename, current_machine->kernel_cmdline);
-     }
-+
-+    if (current_machine->smp.cpus > 1) {
-+        Error *blocker = NULL;
-+        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
-+        replay_add_blocker(blocker);
-+    }
+     opt->name = g_strdup(name);
+     opt->str = value;
+     opt->opts = opts;
+-    if (prepend) {
+-        QTAILQ_INSERT_HEAD(&opts->head, opt, next);
+-    } else {
+-        QTAILQ_INSERT_TAIL(&opts->head, opt, next);
+-    }
++    QTAILQ_INSERT_TAIL(&opts->head, opt, next);
+ 
+     return opt;
+ }
+@@ -518,7 +513,7 @@ static bool opt_validate(QemuOpt *opt, Error **errp)
+ bool qemu_opt_set(QemuOpts *opts, const char *name, const char *value,
+                   Error **errp)
+ {
+-    QemuOpt *opt = opt_create(opts, name, g_strdup(value), false);
++    QemuOpt *opt = opt_create(opts, name, g_strdup(value));
+ 
+     if (!opt_validate(opt, errp)) {
+         qemu_opt_del(opt);
+@@ -662,15 +657,6 @@ void qemu_opts_loc_restore(QemuOpts *opts)
+     loc_restore(&opts->loc);
  }
  
- static void qemu_create_early_backends(void)
-@@ -2091,9 +2116,6 @@ static void qemu_create_machine(QDict *qdict)
-         qemu_set_hw_version(machine_class->hw_version);
-     }
- 
--    machine_smp_parse(current_machine,
--        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
+-bool qemu_opts_set(QemuOptsList *list, const char *name, const char *value, Error **errp)
+-{
+-    QemuOpts *opts;
 -
-     /*
-      * Get the default machine options from the machine if it is not already
-      * specified either by the configuration file or by the command line.
-@@ -3310,10 +3332,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 }
-                 break;
-             case QEMU_OPTION_smp:
--                if (!qemu_opts_parse_noisily(qemu_find_opts("smp-opts"),
--                                             optarg, true)) {
--                    exit(1);
--                }
-+                machine_parse_property_opt(qemu_find_opts("smp-opts"), "smp", optarg, &error_fatal);
-                 break;
-             case QEMU_OPTION_vnc:
-                 vnc_parse(optarg);
-diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index dc0ec571ca..c677cd63c4 100644
---- a/tests/qtest/numa-test.c
-+++ b/tests/qtest/numa-test.c
-@@ -25,7 +25,7 @@ static void test_mon_explicit(const void *data)
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
+-    assert(list->merge_lists);
+-    opts = qemu_opts_create(list, NULL, 0, &error_abort);
+-    return qemu_opt_set(opts, name, value, errp);
+-}
+-
+ const char *qemu_opts_id(QemuOpts *opts)
+ {
+     return opts->id;
+@@ -811,7 +797,7 @@ static const char *get_opt_name_value(const char *params,
+ }
  
--    cli = make_cli(data, "-smp 8 -numa node,nodeid=0,memdev=ram,cpus=0-3 "
-+    cli = make_cli(data, "-machine smp.cpus=8 -numa node,nodeid=0,memdev=ram,cpus=0-3 "
-                          "-numa node,nodeid=1,cpus=4-7");
-     qts = qtest_init(cli);
+ static bool opts_do_parse(QemuOpts *opts, const char *params,
+-                          const char *firstname, bool prepend,
++                          const char *firstname,
+                           bool warn_on_flag, bool *help_wanted, Error **errp)
+ {
+     char *option, *value;
+@@ -833,7 +819,7 @@ static bool opts_do_parse(QemuOpts *opts, const char *params,
+             continue;
+         }
  
-@@ -42,7 +42,7 @@ static void test_def_cpu_split(const void *data)
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
+-        opt = opt_create(opts, option, value, prepend);
++        opt = opt_create(opts, option, value);
+         g_free(option);
+         if (!opt_validate(opt, errp)) {
+             qemu_opt_del(opt);
+@@ -889,11 +875,11 @@ bool has_help_option(const char *params)
+ bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
+                        const char *firstname, Error **errp)
+ {
+-    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
++    return opts_do_parse(opts, params, firstname, false, NULL, errp);
+ }
  
--    cli = make_cli(data, "-smp 8 -numa node,memdev=ram -numa node");
-+    cli = make_cli(data, "-machine smp.cpus=8 -numa node,memdev=ram -numa node");
-     qts = qtest_init(cli);
+ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+-                            bool permit_abbrev, bool defaults,
++                            bool permit_abbrev,
+                             bool warn_on_flag, bool *help_wanted, Error **errp)
+ {
+     const char *firstname;
+@@ -903,21 +889,13 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+     assert(!permit_abbrev || list->implied_opt_name);
+     firstname = permit_abbrev ? list->implied_opt_name : NULL;
  
-     s = qtest_hmp(qts, "info numa");
-@@ -58,7 +58,7 @@ static void test_mon_partial(const void *data)
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
+-    /*
+-     * This code doesn't work for defaults && !list->merge_lists: when
+-     * params has no id=, and list has an element with !opts->id, it
+-     * appends a new element instead of returning the existing opts.
+-     * However, we got no use for this case.  Guard against possible
+-     * (if unlikely) future misuse:
+-     */
+-    assert(!defaults || list->merge_lists);
+     opts = qemu_opts_create(list, id, !list->merge_lists, errp);
+     g_free(id);
+     if (opts == NULL) {
+         return NULL;
+     }
  
--    cli = make_cli(data, "-smp 8 "
-+    cli = make_cli(data, "-machine smp.cpus=8 "
-                    "-numa node,nodeid=0,memdev=ram,cpus=0-1 "
-                    "-numa node,nodeid=1,cpus=4-5 ");
-     qts = qtest_init(cli);
-@@ -86,7 +86,7 @@ static void test_query_cpus(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
+-    if (!opts_do_parse(opts, params, firstname, defaults,
++    if (!opts_do_parse(opts, params, firstname,
+                        warn_on_flag, help_wanted, errp)) {
+         qemu_opts_del(opts);
+         return NULL;
+@@ -936,7 +914,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+ QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
+                           bool permit_abbrev, Error **errp)
+ {
+-    return opts_parse(list, params, permit_abbrev, false, false, NULL, errp);
++    return opts_parse(list, params, permit_abbrev, false, NULL, errp);
+ }
  
--    cli = make_cli(data, "-smp 8 -numa node,memdev=ram,cpus=0-3 "
-+    cli = make_cli(data, "-machine smp.cpus=8 -numa node,memdev=ram,cpus=0-3 "
-                          "-numa node,cpus=4-7");
-     qts = qtest_init(cli);
-     cpus = get_cpus(qts, &resp);
-@@ -124,7 +124,7 @@ static void pc_numa_cpu(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
+ /**
+@@ -954,7 +932,7 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
+     QemuOpts *opts;
+     bool help_wanted = false;
  
--    cli = make_cli(data, "-cpu pentium -smp 8,sockets=2,cores=2,threads=2 "
-+    cli = make_cli(data, "-cpu pentium -machine smp.cpus=8,smp.sockets=2,smp.cores=2,smp.threads=2 "
-         "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=1,socket-id=0 "
-         "-numa cpu,node-id=0,socket-id=1,core-id=0 "
-@@ -177,7 +177,7 @@ static void spapr_numa_cpu(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
+-    opts = opts_parse(list, params, permit_abbrev, false, true,
++    opts = opts_parse(list, params, permit_abbrev, true,
+                       opts_accepts_any(list) ? NULL : &help_wanted,
+                       &err);
+     if (!opts) {
+@@ -968,15 +946,6 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
+     return opts;
+ }
  
--    cli = make_cli(data, "-smp 4,cores=4 "
-+    cli = make_cli(data, "-machine smp.cpus=4,smp.cores=4 "
-         "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=0,core-id=0 "
-         "-numa cpu,node-id=0,core-id=1 "
-@@ -222,7 +222,7 @@ static void aarch64_numa_cpu(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 2 "
-+    cli = make_cli(data, "-machine smp.cpus=2 "
-         "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=1,thread-id=0 "
-         "-numa cpu,node-id=0,thread-id=1");
-@@ -265,7 +265,7 @@ static void pc_dynamic_cpu_cfg(const void *data)
-     QTestState *qs;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-nodefaults --preconfig -smp 2");
-+    cli = make_cli(data, "-nodefaults --preconfig -machine smp.cpus=2");
-     qs = qtest_init(cli);
- 
-     /* create 2 numa nodes */
-@@ -324,7 +324,7 @@ static void pc_hmat_build_cfg(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-nodefaults --preconfig -machine hmat=on "
--                         "-smp 2,sockets=2 "
-+                         "-machine smp.cpus=2,smp.sockets=2 "
-                          "-m 128M,slots=2,maxmem=1G "
-                          "-object memory-backend-ram,size=64M,id=m0 "
-                          "-object memory-backend-ram,size=64M,id=m1 "
-@@ -453,7 +453,7 @@ static void pc_hmat_off_cfg(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-nodefaults --preconfig "
--                         "-smp 2,sockets=2 "
-+                         "-machine smp.cpus=2,smp.sockets=2 "
-                          "-m 128M,slots=2,maxmem=1G "
-                          "-object memory-backend-ram,size=64M,id=m0,prealloc=y "
-                          "-object memory-backend-ram,size=64M,id=m1 "
-@@ -492,7 +492,7 @@ static void pc_hmat_erange_cfg(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-nodefaults --preconfig -machine hmat=on "
--                         "-smp 2,sockets=2 "
-+                         "-machine smp.cpus=2,smp.sockets=2 "
-                          "-m 128M,slots=2,maxmem=1G "
-                          "-object memory-backend-ram,size=64M,id=m0 "
-                          "-object memory-backend-ram,size=64M,id=m1 "
+-void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
+-                            int permit_abbrev)
+-{
+-    QemuOpts *opts;
+-
+-    opts = opts_parse(list, params, permit_abbrev, true, false, NULL, NULL);
+-    assert(opts);
+-}
+-
+ static bool qemu_opts_from_qdict_entry(QemuOpts *opts,
+                                        const QDictEntry *entry,
+                                        Error **errp)
 -- 
 2.31.1
 
