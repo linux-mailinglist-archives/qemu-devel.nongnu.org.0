@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7DF3BDDED
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 21:17:20 +0200 (CEST)
-Received: from localhost ([::1]:54442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACE93BDDEE
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 21:18:16 +0200 (CEST)
+Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0qZL-0003gh-RG
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 15:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35018)
+	id 1m0qaF-000560-TL
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 15:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1m0qXP-00031V-I9
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 15:15:19 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35607)
+ id 1m0qXQ-00031d-6B
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 15:15:20 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1m0qXN-0003vr-DY
+ id 1m0qXO-0003vu-6R
  for qemu-devel@nongnu.org; Tue, 06 Jul 2021 15:15:19 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id q17so245604wrv.2
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 12:15:15 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id p8so251025wrr.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 12:15:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SPMyOq5Wvvo3dgH6djgGwx1IYio9YYNItPb4BKshS6Q=;
- b=pSez69BkoHBvOFGXH8HueSlwD/cdS/uS6uSasqsUIg5bi7rvlvQhth19H3sJSr34zs
- F5gll8/S5pQcc4mPjZXz6W+K+0HntGWWSQgOwDDVvP1kOwz1X8iWKYqGTjZjm0dBy0p4
- n1LMToZOY8+E43VHsHtNweAoBN1DFXrMCCGGfwJ4l8xwm6XmFXNIzRpZvqixlrm+oYqD
- oPpoU3wxZ4Y+VSW7I3I2d0Suj+4b4NASbcOtktqufEazneVIEC0YIxInJ8zSpMpSQVKS
- tlVQK2FfWvcOoJYFaRIewaDCAW2rTK9uEA6WtGDDyi7ctg7lKNeoUmTsEEG+13YLGBCm
- 5asg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xhEYnp3bVi89arzNzlyGinB4KyibAFhtXkK1ythb5+I=;
+ b=ZwBylfXQLnIfYzKV24KEqNqtYl4Rj1eVfGMxqlK9sckRnkfvEHXXinvl+4TSnxsUdb
+ Pm/ezoHThjiR9Q1QeA6wsmvKzZEo50qNajCtQXUrh1QcCXaMJVpRBtZkqFlImK2Sq1bC
+ DjdgRCXOLsoryR+p/HT70TAf9JcZcU0AnDvl9L6qADG8OjQNWwz8fNOrbdpqhMP6H4YD
+ o0VGwY4fhFH9pUhK0rNSdnvj9KMcT4hWCRH2cJAVe2fQdT+kZjCOmvrLxXc6nIKhgVz4
+ TaImA5cWrp7jLDTmYCfVLQcc49shCjoKIvSvodecLeXWXXx/1lN/wdy6zpAhgSylWtDt
+ iSrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SPMyOq5Wvvo3dgH6djgGwx1IYio9YYNItPb4BKshS6Q=;
- b=JyxhfYbbWCVQS/oWrgBX4IdnZ+y2m5crHfvPqQyiZvNheVed39rpSCdnMi6zn7tWf1
- MeaGEyIpeRauVK3KE7Y+lQfcnSsJV4ANuN4DnmLjihtGpHlhBm6DL236CdEmQfn2leOr
- /vQUf1KOrZYtoWqmouZT7IXt/hjqZBaMvLkifJlyUtCbXVoCF6aWEdQUBufUdSiWi4bq
- L/VW1OSEDX9iOj7NRJldoOgW69zAKbErxFVBcWvjdVLjmssYMsBOOMzYpILFm5duKXNW
- eV2BAiRtFSkU9DDGDaSHn0PD/m7Bf8VVLdjZQY4OLkzqtHGWX3GqF3PEUpzmkdt73ua5
- gkaA==
-X-Gm-Message-State: AOAM532dEvu4cOMBxfROSxsVEfYFvqdPOKU/77C/6WvSlQy6mk4Vj0Xf
- n6rrTizqISi8qpbewV7cPzA=
-X-Google-Smtp-Source: ABdhPJwbMpohsJ+1nrLqGDaL17HEB+Mbc2I5IuuSXn+rCO/gR0XyWWEqwzLX6nm77mRawwiWV3CQhQ==
-X-Received: by 2002:a5d:644c:: with SMTP id d12mr5997538wrw.129.1625598914444; 
- Tue, 06 Jul 2021 12:15:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xhEYnp3bVi89arzNzlyGinB4KyibAFhtXkK1ythb5+I=;
+ b=S8+MKRDe9uboBEeBKvYtmzLycO+VLdezR6/CVisf1JF+SinN4VqntT/RyHcJUPwbTo
+ Wu0dT3pmTjSg6dvmWNvlZcDQ3LR+o6laFu9rvcw3/wz4AD+If9clynmtgXDZlymHkGkl
+ 2tjtRO55gbiUsWtNc2xYB7arI55MIlA5AlDjhZrwslMH2CRgKnc9xlq0kVIgb2KV0wS0
+ kuVj4NdrabLkGKThLge00yvD8M7gmIHN0qgsAQlx5qWHj2Tu6b3/gtKOOoa57OX/QoIx
+ d0owHc/LHlNsqzG4ApE9W8mZ1vE2T4LWj7Vxbln4lAo357BAFKDG/bou+De4OdUqaf6c
+ X91Q==
+X-Gm-Message-State: AOAM531BstGf9UBG8HgjUudqwzL1WjYH2wE03CL6oLxcpO3XevCx0CZC
+ +u36oA0+QBPmR5Qi+/6eZcY=
+X-Google-Smtp-Source: ABdhPJytF6jc9ZQuZfNB5M32Dy+17fQkXxBNNYqz/Hch7DSw/ZvVO2btEy86xEOC7R0Zby4sovYAUQ==
+X-Received: by 2002:a5d:548a:: with SMTP id h10mr23208721wrv.273.1625598915255; 
+ Tue, 06 Jul 2021 12:15:15 -0700 (PDT)
 Received: from lb01556.speedport.ip
  (p200300f11706da9e87913749ebbd0132.dip0.t-ipconnect.de.
  [2003:f1:1706:da9e:8791:3749:ebbd:132])
- by smtp.gmail.com with ESMTPSA id p3sm3791522wmq.17.2021.07.06.12.15.13
+ by smtp.gmail.com with ESMTPSA id p3sm3791522wmq.17.2021.07.06.12.15.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 06 Jul 2021 12:15:14 -0700 (PDT)
 From: Li Zhang <zhlcindy@gmail.com>
 X-Google-Original-From: Li Zhang <li.zhang@ionos.com>
 To: armbru@redhat.com, marcandre.lureau@gmail.com,
  pankaj.gupta.linux@gmail.com, qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] qmp: Support chardev-change for QMP device
-Date: Tue,  6 Jul 2021 21:14:51 +0200
-Message-Id: <20210706191452.127893-1-li.zhang@ionos.com>
+Subject: [PATCH v3 2/2] chardev: refactor qmp_chardev_add and
+ qmp_chardev_change
+Date: Tue,  6 Jul 2021 21:14:52 +0200
+Message-Id: <20210706191452.127893-2-li.zhang@ionos.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210706191452.127893-1-li.zhang@ionos.com>
+References: <20210706191452.127893-1-li.zhang@ionos.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
@@ -88,175 +91,144 @@ Cc: Li Zhang <li.zhang@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some scenarios, we'd like to hot-add a monitor device.  But QEMU
-doesn't support that, yet.  It does support hot-swapping character
-backends with QMP command chardev-change.  This lets us pre-add a
-monitor with a null character backend, then chardev-change to a
-socket backend.  Except the chardev-change fails with "Chardev user
-does not support chardev hotswap" because monitors don't provide the
-required callback.  Implement it for QMP monitors.
+To improve the problematic source code as Markus mentioned
+before and some redundant source code, it is refactored
+in the functions qmp_chardev_add and qmp_chardev_change.
+https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg03167.html
 
 Signed-off-by: Li Zhang <li.zhang@ionos.com>
 ---
-v3 -> v2: 
-  * rework the patch according.
-  * refactor the source code of chardev.
+ chardev/char.c | 72 ++++++++++++++++++++++++++------------------------
+ 1 file changed, 37 insertions(+), 35 deletions(-)
 
- monitor/monitor-internal.h |  1 +
- monitor/monitor.c          |  4 +-
- monitor/qmp.c              | 83 +++++++++++++++++++++++++++-----------
- 3 files changed, 62 insertions(+), 26 deletions(-)
-
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index 9c3a09cb01..162f73119b 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -182,5 +182,6 @@ int get_monitor_def(Monitor *mon, int64_t *pval, const char *name);
- void help_cmd(Monitor *mon, const char *name);
- void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
- int hmp_compare_cmd(const char *name, const char *list);
-+void monitor_flush_locked(Monitor *mon);
- 
- #endif
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index b90c0f4051..1b05ef3bdb 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -154,8 +154,6 @@ static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
-     return !monitor_uses_readline(container_of(mon, MonitorHMP, common));
+diff --git a/chardev/char.c b/chardev/char.c
+index d959eec522..da23e1bd71 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -1028,23 +1028,10 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
+     return chr;
  }
  
--static void monitor_flush_locked(Monitor *mon);
+-ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+-                               Error **errp)
++static ChardevReturn *chardev_add(const char *id, Chardev *chr,
++                                  Error **errp)
+ {
+-    const ChardevClass *cc;
+     ChardevReturn *ret;
+-    Chardev *chr;
 -
- static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
-                                   void *opaque)
- {
-@@ -169,7 +167,7 @@ static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
- }
- 
- /* Caller must hold mon->mon_lock */
--static void monitor_flush_locked(Monitor *mon)
-+void monitor_flush_locked(Monitor *mon)
- {
-     int rc;
-     size_t len;
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 092c527b6f..92c704373f 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -46,6 +46,8 @@ struct QMPRequest {
- typedef struct QMPRequest QMPRequest;
- 
- QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
-+static void monitor_qmp_setup_handlers_bh(void *opaque);
-+static void monitor_backend_init(MonitorQMP *mon, Chardev *chr);
- 
- static bool qmp_oob_enabled(MonitorQMP *mon)
- {
-@@ -481,6 +483,35 @@ void monitor_data_destroy_qmp(MonitorQMP *mon)
-     g_queue_free(mon->qmp_requests);
- }
- 
-+static bool mointor_in_list(Monitor *mon)
-+{
-+    Monitor *mon_tmp;
-+    QTAILQ_FOREACH(mon_tmp, &mon_list, entry) {
-+        if (mon_tmp == mon) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static int monitor_qmp_change(void *opaque)
-+{
-+    MonitorQMP *mon = opaque;
-+
-+    monitor_data_init(&mon->common, true, false,
-+            qemu_chr_has_feature(mon->common.chr.chr,
-+                                 QEMU_CHAR_FEATURE_GCONTEXT));
-+    monitor_backend_init(mon, mon->common.chr.chr);
-+    qemu_mutex_lock(&mon->common.mon_lock);
-+    if (mon->common.out_watch) {
-+        mon->common.out_watch = 0;
-+        monitor_flush_locked(&mon->common);
-+    }
-+    qemu_mutex_unlock(&mon->common.mon_lock);
-+
-+    return 0;
-+}
-+
- static void monitor_qmp_setup_handlers_bh(void *opaque)
- {
-     MonitorQMP *mon = opaque;
-@@ -491,30 +522,14 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
-     assert(context);
-     qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-                              monitor_qmp_read, monitor_qmp_event,
--                             NULL, &mon->common, context, true);
--    monitor_list_append(&mon->common);
-+                             monitor_qmp_change, &mon->common, context, true);
-+
-+    if (!mointor_in_list(&mon->common))
-+        monitor_list_append(&mon->common);
- }
- 
--void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
-+static void monitor_backend_init(MonitorQMP *mon, Chardev *chr)
- {
--    MonitorQMP *mon = g_new0(MonitorQMP, 1);
--
--    if (!qemu_chr_fe_init(&mon->common.chr, chr, errp)) {
--        g_free(mon);
--        return;
+-    cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
+-    if (!cc) {
+-        return NULL;
 -    }
--    qemu_chr_fe_set_echo(&mon->common.chr, true);
 -
--    /* Note: we run QMP monitor in I/O thread when @chr supports that */
--    monitor_data_init(&mon->common, true, false,
--                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
--
--    mon->pretty = pretty;
--
--    qemu_mutex_init(&mon->qmp_queue_lock);
--    mon->qmp_requests = g_queue_new();
--
--    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
-     if (mon->common.use_io_thread) {
-         /*
-          * Make sure the old iowatch is gone.  It's possible when
-@@ -532,7 +547,29 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
-     } else {
-         qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-                                  monitor_qmp_read, monitor_qmp_event,
--                                 NULL, &mon->common, NULL, true);
--        monitor_list_append(&mon->common);
-+                                 monitor_qmp_change, &mon->common, NULL, true);
-+        if (!mointor_in_list(&mon->common)) {
-+            monitor_list_append(&mon->common);
-+        }
+-    chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+-                      backend, NULL, false, errp);
+-    if (!chr) {
+-        return NULL;
+-    }
+ 
+     if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
+                                        errp)) {
+@@ -1062,6 +1049,26 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+     return ret;
+ }
+ 
++ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
++                               Error **errp)
++{
++    const ChardevClass *cc;
++    Chardev *chr;
++
++    cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
++    if (!cc) {
++        return NULL;
 +    }
++
++    chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
++                      backend, NULL, false, errp);
++    if (!chr) {
++        return NULL;
++    }
++
++    return chardev_add(id, chr, errp);
 +}
 +
-+void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
-+{
-+    MonitorQMP *mon = g_new0(MonitorQMP, 1);
-+
-+    if (!qemu_chr_fe_init(&mon->common.chr, chr, errp)) {
-+        g_free(mon);
-+        return;
+ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+                                   Error **errp)
+ {
+@@ -1070,7 +1077,6 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+     Chardev *chr, *chr_new;
+     bool closed_sent = false;
+     bool handover_yank_instance;
+-    ChardevReturn *ret;
+ 
+     chr = qemu_chr_find(id);
+     if (!chr) {
+@@ -1078,6 +1084,12 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+         return NULL;
      }
-+    qemu_chr_fe_set_echo(&mon->common.chr, true);
-+     /* Note: we run QMP monitor in I/O thread when @chr supports that */
-+    monitor_data_init(&mon->common, true, false,
-+                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
+ 
++    cc = CHARDEV_GET_CLASS(chr);
++    cc_new = char_get_class(ChardevBackendKind_str(backend->type), errp);
++    if (!cc_new) {
++        return NULL;
++    }
 +
-+    mon->pretty = pretty;
-+    qemu_mutex_init(&mon->qmp_queue_lock);
-+    mon->qmp_requests = g_queue_new();
-+    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
-+    monitor_backend_init(mon, chr);
+     if (CHARDEV_IS_MUX(chr)) {
+         error_setg(errp, "Mux device hotswap not supported yet");
+         return NULL;
+@@ -1092,8 +1104,13 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+     be = chr->be;
+     if (!be) {
+         /* easy case */
+-        object_unparent(OBJECT(chr));
+-        return qmp_chardev_add(id, backend, errp);
++        chr_new = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc_new)),
++                              backend, NULL, false, errp);
++        if (!chr_new) {
++            return NULL;
++        }
++
++        goto out;
+     }
+ 
+     if (!be->chr_be_change) {
+@@ -1101,12 +1118,6 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+         return NULL;
+     }
+ 
+-    cc = CHARDEV_GET_CLASS(chr);
+-    cc_new = char_get_class(ChardevBackendKind_str(backend->type), errp);
+-    if (!cc_new) {
+-        return NULL;
+-    }
+-
+     /*
+      * The new chardev should not register a yank instance if the current
+      * chardev has registered one already.
+@@ -1147,18 +1158,9 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+      */
+     chr->handover_yank_instance = handover_yank_instance;
+ 
++out:
+     object_unparent(OBJECT(chr));
+-    object_property_add_child(get_chardevs_root(), chr_new->label,
+-                              OBJECT(chr_new));
+-    object_unref(OBJECT(chr_new));
+-
+-    ret = g_new0(ChardevReturn, 1);
+-    if (CHARDEV_IS_PTY(chr_new)) {
+-        ret->pty = g_strdup(chr_new->filename + 4);
+-        ret->has_pty = true;
+-    }
+-
+-    return ret;
++    return chardev_add(id, chr_new, errp);
  }
+ 
+ void qmp_chardev_remove(const char *id, Error **errp)
 -- 
 2.25.1
 
