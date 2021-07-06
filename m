@@ -2,71 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836FA3BDB35
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 18:13:24 +0200 (CEST)
-Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6213BDB4D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 18:23:58 +0200 (CEST)
+Received: from localhost ([::1]:38074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0nhL-0007ua-46
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 12:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
+	id 1m0nrZ-0003ou-7H
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 12:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1m0ng7-00076c-4j; Tue, 06 Jul 2021 12:12:07 -0400
-Received: from mout.web.de ([212.227.15.4]:47567)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1m0nqd-0002ST-7B
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 12:22:59 -0400
+Received: from mail-dm6nam10on20714.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::714]:12864
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1m0ng4-0004aF-VG; Tue, 06 Jul 2021 12:12:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1625587908;
- bh=NjS96URExEYRc7T9oGctwODQjkHncOvUUUuuLOwPPXE=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=kYi1N+QCA9rmapWCYbwgBxCx3Lkv6eBm+MeEI7gSYdbq9uxn0PgiUPstmRZmHz4/r
- RKNxsGEELskpaKaSQhsb8rQJYeh9ro5PySMQ9vk7OFbfnut7/vNnIoRFKecTv/Ev57
- xWTDdLdpUD7EhQwMaobdD23NZ9ZeqQST6XQtLqyE=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.7]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0M844f-1lEcwH27Np-00vdyt; Tue, 06
- Jul 2021 18:11:48 +0200
-Date: Tue, 6 Jul 2021 18:11:38 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH] block/replication.c: Properly attach children
-Message-ID: <20210706181138.1c0bacd8@gecko.fritz.box>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1m0nqa-0005OG-SC
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 12:22:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=igdllAWK7vmHkrnvj2B/FcPE/gIU9UIq8NuxEfTbJN1DbEAYd5do6Nfh19yuhFiwKPuYMNcPRxh0uvpJpvIOSPjjo+man0z1jjtGPKgriPEnunmecsmA06jol4MWW8YQo+jQ+S6lWQ3fo05NllmXost+D3Cx4o4HTfmTEVeMUjMhrBRGtaEMtCldEE2rOAYE7sbTGncSWCRnYm6hp2s4NnmRgNesj3s+FpMnc6tTVKKuaoOJnLImnY/F6qHUurN3sUlWBVDKhkZ4tE8rLqJ40s8+AjU+EJvOF2ek44zj5yfHNkPJWxpyULipb0hLiqXGYtHV52wuVcGyGLdTXT2Ttw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L78RjAnePCId+wVsum0/upwiqPF+LSP30twIFH/pa+Y=;
+ b=FIpygA+wdzPUbDza2ux6Epv/PhYrD5nHmz7jYKftWu0LQ+0k92b1JdfRJVbuS85ThtUdL856NEcRzFevy6kpRckhwfh/XcxuEQBWojP0eCsyXw6qYn3D7umFQWm+vutOeVW/ibmCkMLeO7BFkMYtk71+LbxddniNg+9fiEO+aRdVe2G2JuI54eEdnINx/pxlga744F0zaIozVTgXEWm55ryBwZjnVFF89D4lBd3uVihs7Irn4kiuhqOzJa3bhpP38PHbZyER8qiKXHLF0j2eEvzv/xorxShOcma8qYvPCFBi8RxeZQmAtBmYZM5qrepTCgpIUN3fzsWyHkRzJ71VXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L78RjAnePCId+wVsum0/upwiqPF+LSP30twIFH/pa+Y=;
+ b=sL2N+8Xt8A6FdaV2uaY2xZ3rQ9PNZyZ5edpVDcFXF5IcpuPVOKMPBvbmK3+zp8Mt4AgXeByIN3gutjYcBts7dLCJyBV+qhNVMn7pTPMNBJuWYc+O0LdK6OdlUZgfXXwcHn37VEElJTqK8ZaJhfyphBw2+2ZxelcpqHg/fjEv2uQ=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SA2PR03MB5723.namprd03.prod.outlook.com (2603:10b6:806:118::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.31; Tue, 6 Jul
+ 2021 16:17:51 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::24fc:a5d:be8d:eb3f]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::24fc:a5d:be8d:eb3f%3]) with mapi id 15.20.4287.033; Tue, 6 Jul 2021
+ 16:17:50 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] fuzz: fix sparse memory access in the DMA callback
+Date: Tue,  6 Jul 2021 12:17:35 -0400
+Message-Id: <20210706161735.57967-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0258.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::23) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/R7zg0V0TWTv/8Ok+7T+e9qF";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:Y4bQeB3Gsp2rvI4Zj78kE8qiUbrVZaIMsUgFPHJKrge+m1YW8vI
- I03ZaQ9OvJkq0zjEU/xqeRqyT9P24NltGF2nM0c5oIKUZbFHeGecBcHuC2DjyiFqwawvVB/
- AzdvjNDR9BCEy4qQEgZgtbKHH8tcu9PFuVNhI4fT3PHfoZq4KKmDrSZjIItPH0C3nNnfsNd
- PqXZBrPdNwRoYqcOKqsHg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gkHNhVabihM=:sUkE1R9ByepSbVxDuducAZ
- LoUmK/yC36OBnzNuDJf7IOTEVZPwKQKOM0RTempsjF6JHNeWiSLZH53L1eAsmguhjzG+rvrFr
- WVypn0/D9sLHOQ4zRdw6QxodNQqmUfcBKa9EzoLig0kAOlB0AEPqiiZytySCSnXGP2f9HKYZa
- a+rl1k90Yrj4EZi5a3LTQEz2GsjIOTHPAbUJdnUucwjVELYLOnz3MJgAYvmw10UH9Cb5pdYB7
- AvkKm0dvJJ61nmmpWyy5pW/FdGNSn1MsBFodrevu3JaGD67AwjMtTh6eaxhmoBhm0i0gihmkw
- kmZhhAq2L0cJt8913thnI06Vu+HjtXAw/hGGxzjn9zjEs3u5NAOqfgnRn5+2QdWjItqDQ3jN2
- +q2ekKrPESLA6c7JnktmqcyOzCg+Il/wl4Tk6oVQUbHljdut0Mr+om1Fgx4KQy5U9xcuPJx9R
- LIWVPZ3LMxhMn2TCrfc+3nNJ+RUGSe7ykmcZFISZ0ViotzyzX37bD+v/7O0F1oennMuKVJkQ/
- Kw6oktUiiQZ8rJ1yDo+UbUiBy71jkcw/Z5z5WCSfSauVQYkKtwQhaTcY7ttuVo6EmmOyV2JXh
- LEe/cZKHA6eGNnKZXZ98Cd4YCNtHZXoxFQbdczz6b5jNbZhBlz8aQWlJl26YCfhj5XX5rG2fw
- 9mjO+6TrslaJC2J/S9rvnZ5OTZ3VrRgmcq4vYbEIgHMANbBEjjkKziG0+S+l1q5wCkvB23NmK
- GKqlDurDI1omswI+rGmzikZXmNtKjmzYbkklXToGCUD9x/d9qHw38xUTHVz4HNH8OL8IOFkDc
- DkXffUIpX9xl+c/uMESP2BTXeUi6H3lqGMuNIjk0H786mIlq70DHJ2Wd5lJgQvfidr4y4mnGt
- HItLqMc30+VrsSKz2Oo8UFGT/9wwC5ZqQFssJkzZo/Y226tQGkE486NEvtQi7EUlepl/yhJFK
- cwzjtxX6hiN/hUXO1B8v8v/bv7SQT3vIsx//MGt2hj3vFYwen8i7ifMfSDdHsxodBBbx+JfK2
- dG6FL9Pr7epceF3a5SB4UOs3Ajn/0fehpo1TD+n1BfKmGz6niLW+4/1r+Af9GLq59CmTkNKT1
- 1RssFciu28Ppq89I/rDzenWOtV0mKuv/lCV
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.74.210.193) by
+ BL1PR13CA0258.namprd13.prod.outlook.com (2603:10b6:208:2ba::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.8 via Frontend
+ Transport; Tue, 6 Jul 2021 16:17:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8e5390ae-89ed-404c-501e-08d9409999bb
+X-MS-TrafficTypeDiagnostic: SA2PR03MB5723:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA2PR03MB5723BC4F0D05D6494C9E8045BA1B9@SA2PR03MB5723.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: N64XsQgT1+OPICPjKTxNDYk4PZyHxHagsK3jcoyaScNkS+UAW6CIR04rBe67NI4MLT67HjdFh5FzYvAxUjGZrltwfkF5PPVLoiRyc2S+ZzMTU0rT+NQP/kx83fIkAvHn4y+mon7VKY/pfhqyajRWU8q5DSrm9dyEp+KhFLv9OA0WSY6vJYcZyhavgm5De9YSZbrEek2ep411uXuvAy+hg1DpJ4JwOYu26+MGpVj98HhstDR1MA8vcr9rq3hOZjO6lHqP521RqRNe2Z0TS1oYJLftO9ioC0djRP8klylXyiGBkwgGewMA2oyKkGolaVpRA2cmyQhceccJccEkml8ihWB+Hgn8M41SOaqMVHg1PSGN4x1HPkFjtqrkSJt+41MVkqd5ayqDgd2tmGrPNhFwtPQyXm+2JPiPaCR958FNF/PQdg9juNTx4g7yM6SN/+UGAJMOS0t0T6ZHb7CzGIlIjUdP4+5f4SEfUa3aGFn7O4i5rjJL7Vz/8f4C152UjopFTH55TBq1/NBwQzqxFnIafzvF6I95cj7jYrVp3uih1FOI44Py2jINthw++q/0HPUcj1w5n3qw9pLUeSC+JxkFQ5Qx1NvFQ3PMBAcr61CszNPBPZmbjeqM2YIiO4xuJTtyMb83WJbKCCghDOV2KqKE8rBQeT74AErtM8OdvLIiKCkNRWg0JDmMCCk68+agO/pzK+nZfGhDnJcc9j8+zrZ82w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39860400002)(346002)(136003)(376002)(478600001)(6512007)(6486002)(6506007)(956004)(8936002)(316002)(6666004)(2616005)(5660300002)(786003)(66476007)(1076003)(75432002)(8676002)(186003)(26005)(66556008)(66946007)(6916009)(54906003)(52116002)(4326008)(86362001)(38100700002)(2906002)(38350700002)(83380400001)(36756003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v6p39oNNLCe5JhXGLmG2a4InWvIVI4IvmAFBq8gx9oolv2pIAYG7Q3lVw7Dx?=
+ =?us-ascii?Q?5QdzKZ4gsn9swCJgNuSvSB46Wn9dkthsNQ7NzQuc6eqCYlUPqE1jn9bcrXLr?=
+ =?us-ascii?Q?3Efs4HLcQkCehG8FebjdJtW4E8IvNaYjGj8CyXejPo6VIn299ErPHiCCe9Ws?=
+ =?us-ascii?Q?8MzT0HqcvNkyp75nFWK3WImVbqWnhdGE0CK6G12D2T8NbY1PAxTSUMhY6ANL?=
+ =?us-ascii?Q?8Vf+uCQbBdDc6wRSSwwNUCvt+1S9UNVITv93VR72vH4iCubjqInCq4MIwGrz?=
+ =?us-ascii?Q?zFaYxYhmvIP1rTGfGDAmTRJkMmP7M21raax1P1kY6m8Ijrgpbuyg2FrkpY52?=
+ =?us-ascii?Q?F4N/1foe3Ma+X2Ujmjgkg1gSNcy4hptGSW1Panam6Sr5Wwj2mMW5XK8B95eF?=
+ =?us-ascii?Q?VgAHySxGc0oyVb/0G88tAmvNOB4y5k2savg9V9BenNgklqQGDCI8dCK0j5Eh?=
+ =?us-ascii?Q?nhlwRYUsSt1R6Q9Ak9At+grd15ef9Eh0hV+4oZnms3uHcJJe2mDMCdS+wMTm?=
+ =?us-ascii?Q?yrzGc1Lg3k30m9vYjGkP7IXdqhBWkOEJe8kUkHxw1zthkaOVRfSat6079eHi?=
+ =?us-ascii?Q?mlMv0DxgGHCSeMOGwMtdUuIhjGEyjKkBp17tqMdFseM5z92aVZfFz5ZxGTP4?=
+ =?us-ascii?Q?llIdZdOpfX3qly/9hjXeT7HWdqLIwTZjXhAwUCk6s91uYvi59U6Bbe2SLM/A?=
+ =?us-ascii?Q?a61EJffxswBNSAt3QSHzxSuuLTLGb742ABMa5ISZAbPUf732CK1CfkivT5av?=
+ =?us-ascii?Q?jmo+XvQf72Nwpz3PsAQ/Sa1mxi4sklDV/mKbEssps1qOVdeLsJvTxg1XLXjq?=
+ =?us-ascii?Q?j0SRAVCGDQLcUwwRErLAqR8CvKMqxVC1jagLS6cBgOLvdayqnhTeFo3B6t5A?=
+ =?us-ascii?Q?uOqIthh72nDgAG00plUc6rAcXdJi4Rv8at9QtSq0fJv0X9u6kK1ToAsBf0S5?=
+ =?us-ascii?Q?1RHOqsTA6eYN1JhiV/lCRxOBDo4IoHYVJwp/mfvC/aiRFZB0ijJzdUFjN6RA?=
+ =?us-ascii?Q?cW8QEUhLGfo+Ia948lif+Y0NPIFWPfuES77EWpVh3zPk23mRF4YGpzoieDwA?=
+ =?us-ascii?Q?cYICBoqXqC0yaPYco9Ub0fuszGDE3mquAMAtQP5JBas0Nw65Unswc9mIDOuJ?=
+ =?us-ascii?Q?BvUd5uNnfQ0Zn2lynt9b4KSqG2zwxWPcRRE95HwRRfd6FHJbBdqKX5A0MnUg?=
+ =?us-ascii?Q?5mh05B8CyaJMoFfugeWp9rPtYyt0VB3eAiZ9aW49HI74ytyj+kNvxDKExSX+?=
+ =?us-ascii?Q?GzyZ5WEG69R+ztbbHkp9cFUXavluEoA41QxIxuLjX8b7DXrZbKaV3768dhuH?=
+ =?us-ascii?Q?sTZg5R5R/Oh3ER9MaYAEpCUg?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e5390ae-89ed-404c-501e-08d9409999bb
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 16:17:50.6387 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OLDG8HstuXMiCDpksY65KBubnTHP0vx6X9S15yb1CSVmJP/uUlwt7pw0aep5BwiR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5723
+Received-SPF: pass client-ip=2a01:111:f400:7e88::714;
+ envelope-from=alxndr@bu.edu;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,277 +132,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block <qemu-block@nongnu.org>, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/R7zg0V0TWTv/8Ok+7T+e9qF
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The code mistakenly relied on address_space_translate to store the
+length remaining until the next memory-region. We care about this
+because when there is RAM or sparse-memory neighboring on an MMIO
+region, we should only write up to the border, to prevent inadvertently
+invoking MMIO handlers within the DMA callback.
 
-The replication driver needs access to the children block-nodes of
-it's child so it can issue bdrv_make_empty to manage the replication.
-However, it does this by directly copying the BdrvChilds, which is
-wrong.
+However address_space_translate_internal only stores the length until
+the end of the MemoryRegion if memory_region_is_ram(mr). Otherwise
+the *len is left unmodified. This caused some false-positive issues,
+where the fuzzer found a way to perform a nested MMIO write through a
+DMA callback on an [address, length] that started within sparse memory
+and spanned some device MMIO regions.
 
-Fix this by properly attaching the block-nodes with
-bdrv_attach_child().
+To fix this, write to sparse memory in small chunks of
+memory_access_size (similar to the underlying address_space_write code),
+which will prevent accidentally hitting MMIO handlers through large
+writes.
 
-Also, remove a workaround introduced in commit
-6ecbc6c52672db5c13805735ca02784879ce8285
-"replication: Avoid blk_make_empty() on read-only child".
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
+ tests/qtest/fuzz/generic_fuzz.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
--v2: Test for BDRV_CHILD_PRIMARY in replication_child_perm, since
-     bs->file might not be set yet. (Vladimir)
-
- block/replication.c | 94 +++++++++++++++++++++++++++++----------------
- 1 file changed, 61 insertions(+), 33 deletions(-)
-
-diff --git a/block/replication.c b/block/replication.c
-index 52163f2d1f..fd8cb728a3 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -166,7 +166,12 @@ static void replication_child_perm(BlockDriverState *b=
-s, BdrvChild *c,
-                                    uint64_t perm, uint64_t shared,
-                                    uint64_t *nperm, uint64_t *nshared)
- {
--    *nperm =3D BLK_PERM_CONSISTENT_READ;
-+    if (role & BDRV_CHILD_PRIMARY) {
-+        *nperm =3D BLK_PERM_CONSISTENT_READ;
-+    } else {
-+        *nperm =3D 0;
-+    }
-+
-     if ((bs->open_flags & (BDRV_O_INACTIVE | BDRV_O_RDWR)) =3D=3D BDRV_O_R=
-DWR) {
-         *nperm |=3D BLK_PERM_WRITE;
-     }
-@@ -340,17 +345,7 @@ static void secondary_do_checkpoint(BDRVReplicationSta=
-te *s, Error **errp)
-         return;
-     }
-=20
--    BlockBackend *blk =3D blk_new(qemu_get_current_aio_context(),
--                                BLK_PERM_WRITE, BLK_PERM_ALL);
--    blk_insert_bs(blk, s->hidden_disk->bs, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        blk_unref(blk);
--        return;
--    }
--
--    ret =3D blk_make_empty(blk, errp);
--    blk_unref(blk);
-+    ret =3D bdrv_make_empty(s->hidden_disk, errp);
-     if (ret < 0) {
-         return;
-     }
-@@ -365,27 +360,35 @@ static void reopen_backing_file(BlockDriverState *bs,=
- bool writable,
-                                 Error **errp)
- {
-     BDRVReplicationState *s =3D bs->opaque;
-+    BdrvChild *hidden_disk, *secondary_disk;
-     BlockReopenQueue *reopen_queue =3D NULL;
-=20
-+    /*
-+     * s->hidden_disk and s->secondary_disk may not be set yet, as they wi=
-ll
-+     * only be set after the children are writable.
-+     */
-+    hidden_disk =3D bs->file->bs->backing;
-+    secondary_disk =3D hidden_disk->bs->backing;
-+
-     if (writable) {
--        s->orig_hidden_read_only =3D bdrv_is_read_only(s->hidden_disk->bs);
--        s->orig_secondary_read_only =3D bdrv_is_read_only(s->secondary_dis=
-k->bs);
-+        s->orig_hidden_read_only =3D bdrv_is_read_only(hidden_disk->bs);
-+        s->orig_secondary_read_only =3D bdrv_is_read_only(secondary_disk->=
-bs);
-     }
-=20
--    bdrv_subtree_drained_begin(s->hidden_disk->bs);
--    bdrv_subtree_drained_begin(s->secondary_disk->bs);
-+    bdrv_subtree_drained_begin(hidden_disk->bs);
-+    bdrv_subtree_drained_begin(secondary_disk->bs);
-=20
-     if (s->orig_hidden_read_only) {
-         QDict *opts =3D qdict_new();
-         qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
--        reopen_queue =3D bdrv_reopen_queue(reopen_queue, s->hidden_disk->b=
-s,
-+        reopen_queue =3D bdrv_reopen_queue(reopen_queue, hidden_disk->bs,
-                                          opts, true);
-     }
-=20
-     if (s->orig_secondary_read_only) {
-         QDict *opts =3D qdict_new();
-         qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
--        reopen_queue =3D bdrv_reopen_queue(reopen_queue, s->secondary_disk=
-->bs,
-+        reopen_queue =3D bdrv_reopen_queue(reopen_queue, secondary_disk->b=
-s,
-                                          opts, true);
-     }
-=20
-@@ -393,8 +396,8 @@ static void reopen_backing_file(BlockDriverState *bs, b=
-ool writable,
-         bdrv_reopen_multiple(reopen_queue, errp);
-     }
-=20
--    bdrv_subtree_drained_end(s->hidden_disk->bs);
--    bdrv_subtree_drained_end(s->secondary_disk->bs);
-+    bdrv_subtree_drained_end(hidden_disk->bs);
-+    bdrv_subtree_drained_end(secondary_disk->bs);
- }
-=20
- static void backup_job_cleanup(BlockDriverState *bs)
-@@ -451,6 +454,7 @@ static void replication_start(ReplicationState *rs, Rep=
-licationMode mode,
-     BlockDriverState *bs =3D rs->opaque;
-     BDRVReplicationState *s;
-     BlockDriverState *top_bs;
-+    BdrvChild *active_disk, *hidden_disk, *secondary_disk;
-     int64_t active_length, hidden_length, disk_length;
-     AioContext *aio_context;
-     Error *local_err =3D NULL;
-@@ -488,32 +492,32 @@ static void replication_start(ReplicationState *rs, R=
-eplicationMode mode,
-     case REPLICATION_MODE_PRIMARY:
-         break;
-     case REPLICATION_MODE_SECONDARY:
--        s->active_disk =3D bs->file;
--        if (!s->active_disk || !s->active_disk->bs ||
--                                    !s->active_disk->bs->backing) {
-+        active_disk =3D bs->file;
-+        if (!active_disk || !active_disk->bs ||
-+                                    !active_disk->bs->backing) {
-             error_setg(errp, "Active disk doesn't have backing file");
-             aio_context_release(aio_context);
-             return;
-         }
-=20
--        s->hidden_disk =3D s->active_disk->bs->backing;
--        if (!s->hidden_disk->bs || !s->hidden_disk->bs->backing) {
-+        hidden_disk =3D active_disk->bs->backing;
-+        if (!hidden_disk->bs || !hidden_disk->bs->backing) {
-             error_setg(errp, "Hidden disk doesn't have backing file");
-             aio_context_release(aio_context);
-             return;
-         }
-=20
--        s->secondary_disk =3D s->hidden_disk->bs->backing;
--        if (!s->secondary_disk->bs || !bdrv_has_blk(s->secondary_disk->bs)=
-) {
-+        secondary_disk =3D hidden_disk->bs->backing;
-+        if (!secondary_disk->bs || !bdrv_has_blk(secondary_disk->bs)) {
-             error_setg(errp, "The secondary disk doesn't have block backen=
-d");
-             aio_context_release(aio_context);
-             return;
-         }
-=20
-         /* verify the length */
--        active_length =3D bdrv_getlength(s->active_disk->bs);
--        hidden_length =3D bdrv_getlength(s->hidden_disk->bs);
--        disk_length =3D bdrv_getlength(s->secondary_disk->bs);
-+        active_length =3D bdrv_getlength(active_disk->bs);
-+        hidden_length =3D bdrv_getlength(hidden_disk->bs);
-+        disk_length =3D bdrv_getlength(secondary_disk->bs);
-         if (active_length < 0 || hidden_length < 0 || disk_length < 0 ||
-             active_length !=3D hidden_length || hidden_length !=3D disk_le=
-ngth) {
-             error_setg(errp, "Active disk, hidden disk, secondary disk's l=
-ength"
-@@ -523,10 +527,10 @@ static void replication_start(ReplicationState *rs, R=
-eplicationMode mode,
-         }
-=20
-         /* Must be true, or the bdrv_getlength() calls would have failed */
--        assert(s->active_disk->bs->drv && s->hidden_disk->bs->drv);
-+        assert(active_disk->bs->drv && hidden_disk->bs->drv);
-=20
--        if (!s->active_disk->bs->drv->bdrv_make_empty ||
--            !s->hidden_disk->bs->drv->bdrv_make_empty) {
-+        if (!active_disk->bs->drv->bdrv_make_empty ||
-+            !hidden_disk->bs->drv->bdrv_make_empty) {
-             error_setg(errp,
-                        "Active disk or hidden disk doesn't support make_em=
-pty");
-             aio_context_release(aio_context);
-@@ -541,6 +545,28 @@ static void replication_start(ReplicationState *rs, Re=
-plicationMode mode,
-             return;
-         }
-=20
-+        s->active_disk =3D active_disk;
-+
-+        bdrv_ref(hidden_disk->bs);
-+        s->hidden_disk =3D bdrv_attach_child(bs, hidden_disk->bs, "hidden =
-disk",
-+                                           &child_of_bds, BDRV_CHILD_DATA,
-+                                           &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            aio_context_release(aio_context);
-+            return;
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index 59be7219de..3e8ce29227 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -240,10 +240,17 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
+                                       addr, &addr1, &l, true,
+                                       MEMTXATTRS_UNSPECIFIED);
+ 
+-        if (!(memory_region_is_ram(mr1) ||
+-              memory_region_is_romd(mr1)) && mr1 != sparse_mem_mr) {
++        /*
++         *  If mr1 isn't RAM, address_space_translate doesn't update l. Use
++         *  memory_access_size to identify the number of bytes that it is safe
++         *  to write without accidentally writing to another MemoryRegion.
++         */
++        if (!memory_region_is_ram(mr1)) {
+             l = memory_access_size(mr1, l, addr1);
+-        } else {
 +        }
-+
-+        bdrv_ref(secondary_disk->bs);
-+        s->secondary_disk =3D bdrv_attach_child(bs, secondary_disk->bs,
-+                                              "secondary disk", &child_of_=
-bds,
-+                                              BDRV_CHILD_DATA, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            aio_context_release(aio_context);
-+            return;
-+        }
-+
-         /* start backup job now */
-         error_setg(&s->blocker,
-                    "Block device is in use by internal backup job");
-@@ -646,7 +672,9 @@ static void replication_done(void *opaque, int ret)
-         s->stage =3D BLOCK_REPLICATION_DONE;
-=20
-         s->active_disk =3D NULL;
-+        bdrv_unref_child(bs, s->secondary_disk);
-         s->secondary_disk =3D NULL;
-+        bdrv_unref_child(bs, s->hidden_disk);
-         s->hidden_disk =3D NULL;
-         s->error =3D 0;
-     } else {
---=20
-2.20.1
++        if (memory_region_is_ram(mr1) ||
++            memory_region_is_romd(mr1) ||
++            mr1 == sparse_mem_mr) {
+             /* ROM/RAM case */
+             if (qtest_log_enabled) {
+                 /*
+-- 
+2.28.0
 
---Sig_/R7zg0V0TWTv/8Ok+7T+e9qF
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDkgLoACgkQNasLKJxd
-slisfA//WN2fVyNTtQu4sY7nWz7eX6+jnkKH9ryxHbs+qbyoarIs5JW+RYwNBGg7
-sY3P+Tp/XFuSpIsNW65dqmJYL/G+tQKhGGdHazVR3kK2MA4bwlh7/iiJniJW5HIv
-RZKA1PV2ujV19POKUBvWj/YVgEa2JpcCAikJfatPOZMESFxdBWI1eJMQpHYz/dJT
-sX+lRf9YCmgW0D+gOjdp5p9g35w1G9TFD99bgChBtzBFawarUXqRLTlNRD5doIV0
-IeNpV/KgyB+msW7TCfWblry1BgBtAVWAuBxPhJp2CZdswbk7YlSu+OLUcIld88g+
-TMGHdryfRbMtH/Bi7Bkb05PhD0Bru2J2NSjzjCOTQaJkJ5Ndhdmgble/NTqigB57
-6+0loAasZJxGYizjbhIof/yruSqETfKOo/lXirraFPprAIc73TIEYQWY/9lC/CD9
-lfYkubebR2oGqH0/44QrmheaLr6ScsAgLyKoicFY+StowmMNJrjINCTM1I53ZE/D
-EOj0gQ4cei+OkRbeL/4wXbStp5cM3HeFirzj74UV4iF27pMawTxunb997D8DJ+j9
-2MnlVQ/u3ld1LttGjAklZMxCv/cRH9nrZ8UUeTBeDqWxvSvjQA60/X5TxbJgrQGV
-vudiT5GjKmQZnxtD+ZrbJbLedxQ0AGQAkBGaDXyJ6Dq/Qnm6BQU=
-=arGF
------END PGP SIGNATURE-----
-
---Sig_/R7zg0V0TWTv/8Ok+7T+e9qF--
 
