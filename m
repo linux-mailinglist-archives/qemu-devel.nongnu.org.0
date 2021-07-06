@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE64E3BDA23
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:26:16 +0200 (CEST)
-Received: from localhost ([::1]:51816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1886B3BDA33
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:29:28 +0200 (CEST)
+Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0mxj-0004e7-S6
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38750)
+	id 1m0n0p-0003GT-1u
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0moz-0002Q4-OK
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:21 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:45662)
+ id 1m0mfU-0005kJ-Kg
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:24 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mor-0004u0-I2
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:13 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- u8-20020a7bcb080000b02901e44e9caa2aso2505814wmj.4
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:17:05 -0700 (PDT)
+ id 1m0mfO-0007GU-HS
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:24 -0400
+Received: by mail-wm1-x329.google.com with SMTP id w13so13807617wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DPKLxk04De7Sb5Hr8SfgY3P9LZx+smJYFH9/zYZ+ZF0=;
- b=Lqbh9cyB4tKdGWFGvfgio/p++gXxhtFWWILhc8OpdFWEOS+sPDJCFJVRIgcVUsJYLq
- hftQgdGAIx4knV4rfYVhzyPcbWxJotxS7BqNpYAUB+acLMIQePh1uxhyHByrk3MiVN2D
- 1UJN+780whMtwbtMXZ+FJmicmc3jIrQBvTH3E1bu3cZBVjnw6OuPo0cnR6EBmhdI+1b1
- CUrAsK/7bVRz0j1+3YsLRGgPJmCuoA9xmuiUg3NbCQw0T+VtbJmDfBDnsLKSk3n6QsIY
- ruJgntVJ48lvFp436SjkqN+4whB08w5/sNFjgJE9jt4LYBhvUUq/qF5qEICik1wJOGOO
- uOdA==
+ bh=2VymeSF+HdKxVWyy9+ZA+5+qTRIVWKC1/sXMZ3ShAgc=;
+ b=inVrLCvZ3um+Z2JhemhX7Y8shk+Q07CoD/IXnPguGjLTHHS1+UktHhmrfEZv0Ai1f/
+ 6twbYCFI3tes/EdKfUTfl1TKHfv+8i51tcZA/eUh7NG0jrg6EC5dpGILTdpNtapG2nRV
+ p5/lvk8FghHdeP2HSAQ7EI9WhHAqsbkhqO5ItQp9dv4rSYtalxA+nB9SA18UzWQJHSKu
+ PDizFgag5szAbPrdpooEpY9FfE5Hj1XSxVYn7gvZ8WN+coVdsWgPd+Qxj5vJzJb1hEVP
+ RM+bJrcFkkpdIcmWE2SO/j87ZxenEyURwVCp/EblbtWA2koDJSoCPKltoZiG2qE5hmQ8
+ czyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DPKLxk04De7Sb5Hr8SfgY3P9LZx+smJYFH9/zYZ+ZF0=;
- b=LqNn1A+u6kMLyXoG2223EIsItGh0s4IOVkxsnsE0WX3swrpWmBn4OByjFvFWxzTzqG
- tkE8zjkYVYLNFllmbhuevtzGGqivfOQuNYBzLJzbeUxyQrcOSgHu7Jqqj8wuGkmfXC3i
- hDTXqa7RY0vLl8k6yvemKdCP90iw3lp2xCEmLNwyMIrrt6TTQXOuK1V5LpCpwKk0ShKz
- HG4e5VYYPXpWzBXUPHu1mjo7iLSI8HOX+cScP3hDPUKCVcAYtlwjNgOJ+jlhiaZE4FA7
- 5kWjbTfg8EQrnlLnrLcoGosZjTi2Ye58+ORAteoZtQ9TDl2aesf/b9wSAWXs1Sa5btHe
- Mnuw==
-X-Gm-Message-State: AOAM532PJ60jxRkn5I8pUdHZ5ivRXWSU8k+v7uV5VwuNdx+5WxYmfEs/
- T0JuCKrYHz/OBpgyOcBdxxYtmg==
-X-Google-Smtp-Source: ABdhPJzH5tBUgjVHuiofaTwjHGJB4vX8VMOuQlXn0g8QoMeiLgXdPCqdjhaKZw/NiWxETimItgW1Hg==
-X-Received: by 2002:a1c:1bc3:: with SMTP id b186mr1397435wmb.27.1625584624221; 
- Tue, 06 Jul 2021 08:17:04 -0700 (PDT)
+ bh=2VymeSF+HdKxVWyy9+ZA+5+qTRIVWKC1/sXMZ3ShAgc=;
+ b=gO9ltncqLK6+nWueUDpuq9W9nGrxRiEjI5Kd1GCKaDCzuFowqLdY14Pp4e6UdP7U8U
+ 5EVFZG3f3qG9kZumYUuALRTSGgKo1Ei/CzL/EUjY3SSY3cb2wT9EIIZ+GqHOAD0mWV8o
+ aD2qaQS+Zis1u6BwWWOb7OUzjdZtCVD54n5GWGw9alODoR0ISgWJ9CGPg66aBJ8O37Bj
+ 6eVTJr85kNGBwGm/+HqI5nHQXVG320il60bYUcie3uvaWjCU8FSPQy51i76S5kQOZLef
+ nYsTLkhGaolPmFn73/fkWqXI3hFZE1h36UZQRj8RIULk7I+juxuNIQW7oAl1kCGsm3DK
+ Kc6Q==
+X-Gm-Message-State: AOAM532HHzp3oRR+fgHlLzmV2qHPC/tCwa6AGroJNiKWmK2+V+57X5Ug
+ g4yeD0aj4ysiCwiDGgwGXMLDFQ==
+X-Google-Smtp-Source: ABdhPJySLtRg7qlQbYIk2Wpq9BQ0b8QDS+KSKXS9nsvyUVx/Hjzn2PxA5b+ZoPE7zdP0YYy1BWEvEg==
+X-Received: by 2002:a05:600c:35c1:: with SMTP id
+ r1mr1276378wmq.181.1625584036751; 
+ Tue, 06 Jul 2021 08:07:16 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l7sm16412461wry.0.2021.07.06.08.16.57
+ by smtp.gmail.com with ESMTPSA id l20sm16160991wmq.3.2021.07.06.08.07.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 08:17:01 -0700 (PDT)
+ Tue, 06 Jul 2021 08:07:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D9521FFAE;
+ by zen.linaroharston (Postfix) with ESMTP id BD5A01FFB1;
  Tue,  6 Jul 2021 15:58:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 25/39] tests/vm: update openbsd to release 6.9
-Date: Tue,  6 Jul 2021 15:58:03 +0100
-Message-Id: <20210706145817.24109-26-alex.bennee@linaro.org>
+Subject: [PATCH v1 27/39] plugins: fix-up handling of internal hostaddr for 32
+ bit
+Date: Tue,  6 Jul 2021 15:58:05 +0100
+Message-Id: <20210706145817.24109-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,43 +88,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+Cc: fam@euphon.net, berrange@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
  stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net,
- Brad Smith <brad@comstyle.com>
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Alexandre Iooss <erdnaxe@crans.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Brad Smith <brad@comstyle.com>
+The compiler rightly complains when we build on 32 bit that casting
+uint64_t into a void is a bad idea. We are really dealing with a host
+pointer at this point so treat it as such. This does involve
+a uintptr_t cast of the result of the TLB addend as we know that has
+to point to the host memory.
 
-tests/vm: update openbsd to release 6.9
-
-Signed-off-by: Brad Smith <brad@comstyle.com>
-Tested-by: Gerd Hoffmann <kraxel@redhat.com>
-Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <YLRDeJV8qBrt9++c@humpty.home.comstyle.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/openbsd | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/qemu/plugin-memory.h | 2 +-
+ accel/tcg/cputlb.c           | 2 +-
+ plugins/api.c                | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 4d1399378e..c4c78a80f1 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -22,8 +22,8 @@ class OpenBSDVM(basevm.BaseVM):
-     name = "openbsd"
-     arch = "x86_64"
+diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
+index b36def27d7..0f59226727 100644
+--- a/include/qemu/plugin-memory.h
++++ b/include/qemu/plugin-memory.h
+@@ -18,7 +18,7 @@ struct qemu_plugin_hwaddr {
+             hwaddr    offset;
+         } io;
+         struct {
+-            uint64_t hostaddr;
++            void *hostaddr;
+         } ram;
+     } v;
+ };
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b6d5fc6326..b4e15b6aad 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1728,7 +1728,7 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
+             data->v.io.offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+         } else {
+             data->is_io = false;
+-            data->v.ram.hostaddr = addr + tlbe->addend;
++            data->v.ram.hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
+         }
+         return true;
+     } else {
+diff --git a/plugins/api.c b/plugins/api.c
+index 332e2c60e2..78b563c5c5 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -308,11 +308,11 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
+         if (!haddr->is_io) {
+             RAMBlock *block;
+             ram_addr_t offset;
+-            void *hostaddr = (void *) haddr->v.ram.hostaddr;
++            void *hostaddr = haddr->v.ram.hostaddr;
  
--    link = "https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/install68.iso"
--    csum = "47e291fcc2d0c1a8ae0b66329f040b33af755b6adbd21739e20bb5ad56f62b6c"
-+    link = "https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/install69.iso"
-+    csum = "140d26548aec680e34bb5f82295414228e7f61e4f5e7951af066014fda2d6e43"
-     size = "20G"
-     pkgs = [
-         # tools
+             block = qemu_ram_block_from_host(hostaddr, false, &offset);
+             if (!block) {
+-                error_report("Bad ram pointer %"PRIx64"", haddr->v.ram.hostaddr);
++                error_report("Bad host ram pointer %p", haddr->v.ram.hostaddr);
+                 abort();
+             }
+ 
 -- 
 2.20.1
 
