@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C103D3BC7B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:17:55 +0200 (CEST)
-Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974113BC7BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:19:49 +0200 (CEST)
+Received: from localhost ([::1]:57054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0gHC-00041X-SE
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:17:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49834)
+	id 1m0gJ2-0005px-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0gG3-0002q1-Hv
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:16:43 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0gG1-00027B-Oo
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:16:43 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- h18-20020a05600c3512b029020e4ceb9588so1050033wmq.5
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 01:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=S4a4DETRAyhHFXba3Piw4UbV8J7nicTVM9Gs0MaTHSM=;
- b=Gxwt3WqJ4BByL6Kl8bAt7nSWIb50wqC3YiWZV3/3ixjgsqwshr+Pkg/NkXU76z/lrK
- rtBOa24K9/aWKlZAAKKNoHJ1QduNvc3ISr8tcJMAsrO9GA3QU8ie0xEo0vFJt2Qt4sxv
- 4QXOr1a8Vy5bft4cQt2wnFv8spFSDvLSeEwmlAjbo2lAckPOCcJHn6rCI7dKcSG4lC2A
- +utqBDwtk+t0LHtZyVYSGN0KF6maQbLmUAdW/eQG96/WAPjtNVZBu4+NlhWJJVEcp1Gc
- cfg7/qV23XrBcgu5WYYT9VwX4zWCDVNyToW4GgCXvrTQcQ7rOeZj//D0GXONJuboffNr
- U4Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=S4a4DETRAyhHFXba3Piw4UbV8J7nicTVM9Gs0MaTHSM=;
- b=dwULVAljkqFnbgvdajnLt2acnRKRbTAiSjzFk+aJ4yUrp3VlDZhvqKEMp7EYYsnp+0
- fF3roAkPI1634/tFT6hsaaBrVqCMazA/HsWDbFzfwrFyEIxVb8HYYI6Ci9oCS0TTLE56
- yjBmL0Tduzlo5ikGTtIA9+qJfVlq2vTx7iP5jVAO1oJO3mjlCxtXyA4borcDQfVBXby0
- 0jfy82jW40p8fbq0rxSwGIHKB/eJjT0b8tQGalPm472S7QwofYWeQ/Y2iWc3wXcJxFCZ
- aoehXrBL0sz4VQ+d2oKZgIpBcptmefYHhubcf5ul86YLpy/E9caKDA2JGijQQQ2ovvaG
- DKxg==
-X-Gm-Message-State: AOAM530iJAkWQgsy533mrI1mqLsTEH3+ykUMYwPu+7MA5fP+JBH6PpJz
- XCWyqJRsM78Kojv1PZEHtxjCXfGwwJQ=
-X-Google-Smtp-Source: ABdhPJwm0WvFtCck2Uiwr+s7k4xE/O4O6xXxIGS9E8AQlFaXdsGwcgWtt6OuPxN19YpDuh/HtKzavw==
-X-Received: by 2002:a05:600c:1d06:: with SMTP id
- l6mr16034168wms.111.1625559399593; 
- Tue, 06 Jul 2021 01:16:39 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- i11sm2169819wmg.18.2021.07.06.01.16.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 01:16:39 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] Set icon for QEMU binary on Mac OS
-Date: Tue,  6 Jul 2021 10:15:40 +0200
-Message-Id: <20210706081540.298232-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0gHp-0004yv-KO
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:18:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0gHn-0003aV-Mu
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:18:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625559509;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/EJ4H8S9Tpye9ssLtSZJ9BxcV+Yo1xIbTT2RiIVlJxs=;
+ b=DOmvJw8TRRZK4k3LBTC4r1MLySJ2dEEUXjtV3AzatVIBL7NIAPj1Mxjjdn9mtmSKZ99SGu
+ Iv9rhbYtT6FJMbOKNT/dlb9ItXY9b7kn4HUgZpa1ZMCBI/RmNogib4oExuDnVp4N2ODwHG
+ Pg4P/uoz8pQw3iJzwuytWyM9CsPS64E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-ylo18xB4O7aTwJiA8Pkkmw-1; Tue, 06 Jul 2021 04:18:28 -0400
+X-MC-Unique: ylo18xB4O7aTwJiA8Pkkmw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34246C740B;
+ Tue,  6 Jul 2021 08:18:27 +0000 (UTC)
+Received: from thuth.com (ovpn-113-37.ams2.redhat.com [10.36.113.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E41C60864;
+ Tue,  6 Jul 2021 08:18:24 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PATCH] target/xtensa/xtensa-semi: Fix compilation problem on Haiku
+Date: Tue,  6 Jul 2021 10:18:22 +0200
+Message-Id: <20210706081822.1316551-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,99 +75,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Arbuckle <programmingkidx@gmail.com>
+Cc: qemu-trivial@nongnu.org, Richard Zak <richard.j.zak@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Arbuckle <programmingkidx@gmail.com>
+The errno numbers are very large on Haiku, so the linking currently
+fails there with a "final link failed: memory exhausted" error
+message. We should not use the errno number as array indexes here,
+thus convert the code to a switch-case statement instead. A clever
+compiler should be able to optimize this code in a similar way
+anway.
 
-Before switching the build system over to Meson, an icon was
-added to the QEMU binary on Mac OS. This patch adds back that
-feature; it piggybacks on the existing scripts/entitlement.sh,
-which already does in-place changes to the executable on Darwin.
-
-Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
-Message-Id: <20210705195328.36442-1-programmingkidx@gmail.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reported-by: Richard Zak <richard.j.zak@gmail.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- meson.build            | 15 ++++++++++-----
- scripts/entitlement.sh | 10 +++++++++-
- 2 files changed, 19 insertions(+), 6 deletions(-)
+ target/xtensa/xtensa-semi.c | 84 +++++++++++++++++--------------------
+ 1 file changed, 39 insertions(+), 45 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 1651496800..8b61fdb4be 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2507,8 +2507,7 @@ foreach target : target_dirs
-   endif
-   foreach exe: execs
-     exe_name = exe['name']
--    exe_sign = 'CONFIG_HVF' in config_target
--    if exe_sign
-+    if targetos == 'darwin'
-       exe_name += '-unsigned'
-     endif
+diff --git a/target/xtensa/xtensa-semi.c b/target/xtensa/xtensa-semi.c
+index 79f2b043f2..fa21b7e11f 100644
+--- a/target/xtensa/xtensa-semi.c
++++ b/target/xtensa/xtensa-semi.c
+@@ -95,59 +95,53 @@ enum {
  
-@@ -2522,7 +2521,13 @@ foreach target : target_dirs
-                link_args: link_args,
-                gui_app: exe['gui'])
+ static uint32_t errno_h2g(int host_errno)
+ {
+-    static const uint32_t guest_errno[] = {
+-        [EPERM]         = TARGET_EPERM,
+-        [ENOENT]        = TARGET_ENOENT,
+-        [ESRCH]         = TARGET_ESRCH,
+-        [EINTR]         = TARGET_EINTR,
+-        [EIO]           = TARGET_EIO,
+-        [ENXIO]         = TARGET_ENXIO,
+-        [E2BIG]         = TARGET_E2BIG,
+-        [ENOEXEC]       = TARGET_ENOEXEC,
+-        [EBADF]         = TARGET_EBADF,
+-        [ECHILD]        = TARGET_ECHILD,
+-        [EAGAIN]        = TARGET_EAGAIN,
+-        [ENOMEM]        = TARGET_ENOMEM,
+-        [EACCES]        = TARGET_EACCES,
+-        [EFAULT]        = TARGET_EFAULT,
++    switch (host_errno) {
++    case 0:         return 0;
++    case EPERM:     return TARGET_EPERM;
++    case ENOENT:    return TARGET_ENOENT;
++    case ESRCH:     return TARGET_ESRCH;
++    case EINTR:     return TARGET_EINTR;
++    case EIO:       return TARGET_EIO;
++    case ENXIO:     return TARGET_ENXIO;
++    case E2BIG:     return TARGET_E2BIG;
++    case ENOEXEC:   return TARGET_ENOEXEC;
++    case EBADF:     return TARGET_EBADF;
++    case ECHILD:    return TARGET_ECHILD;
++    case EAGAIN:    return TARGET_EAGAIN;
++    case ENOMEM:    return TARGET_ENOMEM;
++    case EACCES:    return TARGET_EACCES;
++    case EFAULT:    return TARGET_EFAULT;
+ #ifdef ENOTBLK
+-        [ENOTBLK]       = TARGET_ENOTBLK,
++    case ENOTBLK:   return TARGET_ENOTBLK;
+ #endif
+-        [EBUSY]         = TARGET_EBUSY,
+-        [EEXIST]        = TARGET_EEXIST,
+-        [EXDEV]         = TARGET_EXDEV,
+-        [ENODEV]        = TARGET_ENODEV,
+-        [ENOTDIR]       = TARGET_ENOTDIR,
+-        [EISDIR]        = TARGET_EISDIR,
+-        [EINVAL]        = TARGET_EINVAL,
+-        [ENFILE]        = TARGET_ENFILE,
+-        [EMFILE]        = TARGET_EMFILE,
+-        [ENOTTY]        = TARGET_ENOTTY,
++    case EBUSY:     return TARGET_EBUSY;
++    case EEXIST:    return TARGET_EEXIST;
++    case EXDEV:     return TARGET_EXDEV;
++    case ENODEV:    return TARGET_ENODEV;
++    case ENOTDIR:   return TARGET_ENOTDIR;
++    case EISDIR:    return TARGET_EISDIR;
++    case EINVAL:    return TARGET_EINVAL;
++    case ENFILE:    return TARGET_ENFILE;
++    case EMFILE:    return TARGET_EMFILE;
++    case ENOTTY:    return TARGET_ENOTTY;
+ #ifdef ETXTBSY
+-        [ETXTBSY]       = TARGET_ETXTBSY,
++    case ETXTBSY:   return TARGET_ETXTBSY;
+ #endif
+-        [EFBIG]         = TARGET_EFBIG,
+-        [ENOSPC]        = TARGET_ENOSPC,
+-        [ESPIPE]        = TARGET_ESPIPE,
+-        [EROFS]         = TARGET_EROFS,
+-        [EMLINK]        = TARGET_EMLINK,
+-        [EPIPE]         = TARGET_EPIPE,
+-        [EDOM]          = TARGET_EDOM,
+-        [ERANGE]        = TARGET_ERANGE,
+-        [ENOSYS]        = TARGET_ENOSYS,
++    case EFBIG:     return TARGET_EFBIG;
++    case ENOSPC:    return TARGET_ENOSPC;
++    case ESPIPE:    return TARGET_ESPIPE;
++    case EROFS:     return TARGET_EROFS;
++    case EMLINK:    return TARGET_EMLINK;
++    case EPIPE:     return TARGET_EPIPE;
++    case EDOM:      return TARGET_EDOM;
++    case ERANGE:    return TARGET_ERANGE;
++    case ENOSYS:    return TARGET_ENOSYS;
+ #ifdef ELOOP
+-        [ELOOP]         = TARGET_ELOOP,
++    case ELOOP:     return TARGET_ELOOP;
+ #endif
+     };
  
--    if exe_sign
-+    if 'CONFIG_HVF' in config_target
-+      entitlements = meson.current_source_dir() / 'accel/hvf/entitlements.plist'
-+    else
-+      entitlements = '/dev/null'
-+    endif
-+    if targetos == 'darwin'
-+      icon = meson.current_source_dir() / 'pc-bios/qemu.rsrc'
-       emulators += {exe['name'] : custom_target(exe['name'],
-                    depends: emulator,
-                    output: exe['name'],
-@@ -2530,14 +2535,14 @@ foreach target : target_dirs
-                      meson.current_source_dir() / 'scripts/entitlement.sh',
-                      meson.current_build_dir() / exe_name,
-                      meson.current_build_dir() / exe['name'],
--                     meson.current_source_dir() / 'accel/hvf/entitlements.plist'
-+                     entitlements, icon
-                    ])
-       }
+-    if (host_errno == 0) {
+-        return 0;
+-    } else if (host_errno > 0 && host_errno < ARRAY_SIZE(guest_errno) &&
+-            guest_errno[host_errno]) {
+-        return guest_errno[host_errno];
+-    } else {
+-        return TARGET_EINVAL;
+-    }
++    return TARGET_EINVAL;
+ }
  
-       meson.add_install_script('scripts/entitlement.sh', '--install',
-                                get_option('bindir') / exe_name,
-                                get_option('bindir') / exe['name'],
--                               meson.current_source_dir() / 'accel/hvf/entitlements.plist')
-+                               entitlements, icon)
-     else
-       emulators += {exe['name']: emulator}
-     endif
-diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
-index f7aaaf2766..d2a7079ce3 100755
---- a/scripts/entitlement.sh
-+++ b/scripts/entitlement.sh
-@@ -11,6 +11,7 @@ fi
- SRC="$1"
- DST="$2"
- ENTITLEMENT="$3"
-+ICON="$4"
- 
- if $in_place; then
-   trap 'rm "$DST.tmp"' exit
-@@ -20,6 +21,13 @@ else
-   cd "$MESON_INSTALL_DESTDIR_PREFIX"
- fi
- 
--codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
-+if test "$ENTITLEMENT" != '/dev/null'; then
-+  codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
-+fi
-+
-+# Add the QEMU icon to the binary on Mac OS
-+Rez -append "$ICON" -o "$SRC"
-+SetFile -a C "$SRC"
-+
- mv -f "$SRC" "$DST"
- trap '' exit
+ typedef struct XtensaSimConsole {
 -- 
-2.31.1
+2.27.0
 
 
