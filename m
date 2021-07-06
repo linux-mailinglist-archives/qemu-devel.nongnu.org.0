@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059EF3BC57B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:29:38 +0200 (CEST)
-Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D400C3BC574
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:27:49 +0200 (CEST)
+Received: from localhost ([::1]:36844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0ciG-000777-OH
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
+	id 1m0cgW-0001Xo-0P
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:27:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cf4-0007Sb-Gd
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50860)
+ id 1m0cf3-0007S9-I2
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cf1-00035w-RW
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:18 -0400
+ id 1m0cf1-00035t-QT
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:17 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cew-0004xO-S4
+ id 1m0cex-0004wt-NF
  for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3C8112E8248
+ by loganberry.canonical.com (Postfix) with ESMTP id C87852E82FD
  for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:25:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:41 -0000
-From: Launchpad Bug Tracker <1888492@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:54 -0000
+From: Launchpad Bug Tracker <1886285@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: haxm windows
+X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor th-huth zhaosq
-X-Launchpad-Bug-Reporter: ZhaoSQ-CH (zhaosq)
+X-Launchpad-Bug-Commenters: dustin-virtualroadside janitor th-huth
+X-Launchpad-Bug-Reporter: Dustin Spicuzza (dustin-virtualroadside)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159541364991.32738.5508954702379988107.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162554506177.7821.15492359133841061932.malone@loganberry.canonical.com>
-Subject: [Bug 1888492] Re: After installing Ubuntu,
- restart and pop up the CMD command prompt
+References: <159389152128.1124.17936242072997160308.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162554507433.7821.11292198729991995417.malone@loganberry.canonical.com>
+Subject: [Bug 1886285] Re: Provide SMB option to support Windows 2000
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 95b2236ee70604d92b9782c761bbcd397bc88683
+X-Launchpad-Hash: 43707457cfbdb6eec4fc607cfcd804d5c3be4c19
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888492 <1888492@bugs.launchpad.net>
+Reply-To: Bug 1886285 <1886285@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,79 +84,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888492
+https://bugs.launchpad.net/bugs/1886285
 
 Title:
-  After installing Ubuntu, restart and pop up the CMD command prompt
+  Provide SMB option to support Windows 2000
 
 Status in QEMU:
   Expired
 
 Bug description:
-  QEMU release version=EF=BC=9A V5.1.0
-  time=EF=BC=9A2020=E5=B9=B47=E6=9C=8822=E6=97=A510:34:40
-  Operation: =E5=AE=89=E8=A3=85=E5=AE=8CUbuntu=E5=90=8E=E9=87=8D=E6=96=B0=
-=E5=90=AF=E5=8A=A8=EF=BC=8C=E5=B9=B6=E5=BC=B9=E5=87=BACMD=E5=91=BD=E4=BB=A4=
-=E6=8F=90=E7=A4=BA=E7=AC=A6
-  use Ubuntu release version =EF=BC=9AV20.04-desktop.
-  use windows release version: windows 10.
-  Question:
-  Command used=EF=BC=9Aqemu-system-x86_64.exe -name test -m 4096 -machine a=
-ccel=3Dhax -cdrom .\workspace\ubuntu\ubuntu-20.04-desktop-amd64.iso .\works=
-pace\img\ubuntu.img
-  HAX is working and emulator runs in fast virt mode.
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
+  As of SAMBA 4.11
+  (https://www.samba.org/samba/history/samba-4.11.0.html), SMB1 is
+  disabled by default (and may be removed in the future). This breaks
+  SMB shares with Windows 2000 guests.
 
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
+  Adding the following line to smb.conf fixes this:
 
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
+  min protocol =3D NT1
 
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  (qemu:660): Gtk-WARNING **: Negative content width -7 (allocation 1,
-  extents 4x4) while allocating gadget (node headerbar, owner
-  GtkHeaderBar)
-
-  (qemu:660): Gtk-WARNING **: gtk_widget_size_allocate(): attempt to
-  allocate widget with width -102 and height 16
-
-  (qemu:660): Gtk-WARNING **: Negative content width -23 (allocation 1, ext=
-ents 12x12) while allocating gadget (node label, owner GtkLabel)
-  qemu-system-x86_64.exe: Gtk: gtk_distribute_natural_allocation: assertion=
- 'extra_space >=3D 0' failed
+  I would propose that an option be added to add this line to smb.conf
+  to support these legacy operating systems.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888492/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1886285/+subscriptions
 
