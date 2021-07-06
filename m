@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAB93BD961
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:06:50 +0200 (CEST)
-Received: from localhost ([::1]:41894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806B83BD9AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:11:52 +0200 (CEST)
+Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0mev-0002Si-Ah
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33316)
+	id 1m0mjn-0005rF-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mX9-0004sV-Vq
+ id 1m0mXA-0004vq-Qz
  for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:48 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39465)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mWz-00025P-CI
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:47 -0400
-Received: by mail-wr1-x434.google.com with SMTP id f17so1840668wrt.6
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:58:35 -0700 (PDT)
+ id 1m0mWv-00024V-Pg
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:48 -0400
+Received: by mail-wr1-x430.google.com with SMTP id i94so26452895wri.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:58:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MIjB8baV6ul8gNmy4v7s1kUfD6hLb3gxxyQmdjTCbfU=;
- b=q7ndubA4R6lUyedVGgXg6NdEBbsItZchYncSIqWcBN6/g7yDLTJwQyExgTuoqMSpzh
- i2gB3DdGptai5/STOHFAbiHo7DlOgV/pU35xyx5vjEI4aOIbT9mVPOpHWZGANTUpDpO1
- 3P4QY0r7vcwfTmgeFSWGi4VxPJunarxcIkSxATE1UwPa+lALY+WwAKMGrxkVHDEYFcqf
- s9eB0iS/4c+kqa8gqtVEfwLZ2YHAvFZ+WaZTO6LvxMqiLYuMo+yLHTYFBsHSqTa/qI5k
- s3pNBBfgFfOx6T1u5/VMC7o74/ZVMpyxsVpAn6CvP8D7JwE/VZC9HBoosD8M7n6ZBHfm
- QULg==
+ bh=E7/mVr7Wht5ohFpSzGRlkrOJNv9dh0GtVvv3G35jqG0=;
+ b=KqI9jAVlm6IxDc0+v4NdLJCDL2SWt4Y34TjwQApiiNvWwwH4rvHLtGnD5Sx1i8ywiu
+ MS81BMddekGr/P/vpIaW1OIqCtbieGNmvIISjm7XIPpaXHHnO/qMqXSGfCietHxWoRMx
+ DSnZI81CThd08nOD50A9RTVBULqlV0SMb+3++gF8jQZog6356VHOp6EQT27Wjssy3cbt
+ iflvrf1YSFAjBceS1THIr4FL0SHSBz6UGQTASuUUNzkK7dWlJdTMjaZ5P3fbz6PcXEmT
+ pKgBO71KNYkqHgch7AxaWp453fq+KbMhWRrVEnJW1rGcZX1S0z3PB/5SbcXyNY3Eiak3
+ a2oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MIjB8baV6ul8gNmy4v7s1kUfD6hLb3gxxyQmdjTCbfU=;
- b=V1Om+U7U+JgOX0jJwUrn+4nQyKBOo7G6/Eac3YEHBnATexkCBSKVWT7Flu0PKtftWD
- ZZzqPTRGvSj9HIHt8MlfvLmTaSuKLiQ4FlYvyubeqauEmmh3Qi9mm1mYdBp030eJ7r+B
- AJUN0XV7UcfwUKTUb1GUXQhlltN/yGKCFbC78z0g3IibdRwlBqfJoTaYMR6muwdOHzSO
- J0utTaAL5aeJMBltT/SuzemrpgEhd0qZWMkPh9NsnMjnFB2an9bgrshlcjQcDjWcDcAF
- sHcme7iej76sISLlUdux036pc2NXCrsmJwGaVa1c8Kg6WQ1ZYRTFtEE6LxoBz3Z+8ASA
- RoFA==
-X-Gm-Message-State: AOAM530r7trV5CouOZ5HwVC1+JRpd6QGgINJcBPuMZwv5cRZATYVJ/G+
- w7sA3Wtl3tFN5U85DhNuSt6Prw==
-X-Google-Smtp-Source: ABdhPJzPTsGBSnI0YSSE3JevZRCtcn+v6FK69k57jNgzTHVeaaJNkjbxAF+56YD527Rsc/a5tJb2JQ==
-X-Received: by 2002:adf:b605:: with SMTP id f5mr22424323wre.419.1625583514364; 
- Tue, 06 Jul 2021 07:58:34 -0700 (PDT)
+ bh=E7/mVr7Wht5ohFpSzGRlkrOJNv9dh0GtVvv3G35jqG0=;
+ b=fDphdkOWskBa5MZ6LxNy8MmV1st8DMLJR1J9IvFgMfzfCVjNaZk/A9aL2dMAAKPlKv
+ CGrERE+tib1a7nHjpQ++ezkA2mDaQLGEVFIldx87lvIdnqRHVMsz4Tz6ugyuxQIFT82K
+ I7wK9UWzwxLEdrDk9xmdhJGPFzHLY6Gmc1k28GwzCvh4l3G/LVgolnKLGk8xgXd1BeqE
+ H20HH/uMbbvJNvhm3TXNuQpvmVYFoTsqtjKnHjYRjDso5+iw3sw8Nszqju7sovWEUOpV
+ XpXfeVs6pUHTPHX48VBqkfXMDgD3So4gFv6s0GOJHtPO8AizVomTJztrOGlqJ+mJDTMI
+ d9MA==
+X-Gm-Message-State: AOAM531liohkbfqKiXAeOfZYtdwbt6sbuzr6Ie8cjG2tc0snjHiPZCVe
+ 1TqHwVI9B3pS7InpAW2M5+4iww==
+X-Google-Smtp-Source: ABdhPJxabqJH331JlIXQY1/wxuF6ojmB077bRaIVFDAtKkqzlBLWGaWDFvKK2AQ4TxugVaG9ucZSVQ==
+X-Received: by 2002:a05:6000:12d1:: with SMTP id
+ l17mr22256519wrx.225.1625583511829; 
+ Tue, 06 Jul 2021 07:58:31 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y19sm3287863wmj.33.2021.07.06.07.58.22
+ by smtp.gmail.com with ESMTPSA id h8sm17027619wrt.85.2021.07.06.07.58.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 06 Jul 2021 07:58:29 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DD6791FF99;
- Tue,  6 Jul 2021 15:58:18 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0B91E1FF9A;
+ Tue,  6 Jul 2021 15:58:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 10/39] tests/docker: don't use BUILDKIT in GitLab either
-Date: Tue,  6 Jul 2021 15:57:48 +0100
-Message-Id: <20210706145817.24109-11-alex.bennee@linaro.org>
+Subject: [PATCH v1 11/39] tests/docker: use project specific container
+ registries
+Date: Tue,  6 Jul 2021 15:57:49 +0100
+Message-Id: <20210706145817.24109-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,47 +89,108 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ pbonzini@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Using BUILDKIT breaks with certain container registries such as CentOS,
-with docker build reporting an error such as
+Since Docker Hub has started to enforce pull rate limits on clients, it
+is preferrable to use project specific container registries where they
+are available. Fedora and OpenSUSE projects provide registries.
 
-  failed to solve with frontend dockerfile.v0:
-  failed to build LLB: failed to load cache key:
-  unexpected status code
-  https://registry.centos.org/v2/centos/manifests/7:
-  403 Forbidden
+The images in these registries are also refreshed on a more regular
+basis than the ones in docker hub, so the package update should
+generally be faster.
+
+While CentOS also has a registry it is considerably outdated compared
+to docker.io, and also only provides x86 images, while docker.io images
+are multi-arch.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210623142245.307776-3-berrange@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210623142245.307776-4-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/docker.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker  | 2 +-
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
+ tests/docker/dockerfiles/fedora.docker             | 2 +-
+ tests/docker/dockerfiles/opensuse-leap.docker      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 4d9bb7c7ed..78dd13171e 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -228,7 +228,9 @@ class Docker(object):
-     def __init__(self):
-         self._command = _guess_engine_command()
+diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
+index 1dfff6e0b9..91c373fdd3 100644
+--- a/tests/docker/dockerfiles/fedora-cris-cross.docker
++++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
+@@ -2,7 +2,7 @@
+ # Cross compiler for cris system tests
+ #
  
--        if "docker" in self._command and "TRAVIS" not in os.environ:
-+        if ("docker" in self._command and
-+            "TRAVIS" not in os.environ and
-+            "GITLAB_CI" not in os.environ):
-             os.environ["DOCKER_BUILDKIT"] = "1"
-             self._buildkit = True
-         else:
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ ENV PACKAGES gcc-cris-linux-gnu
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index 8004fd8ee5..dbb8195eb1 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ ENV PACKAGES \
+     bzip2 \
+     ccache \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index a638afb525..9fed35f4e1 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index f53007ac86..fb641f6104 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 9dde3f6a78..a506e68d33 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index f7e1cbfbe6..7ebff1b3a8 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -1,4 +1,4 @@
+-FROM opensuse/leap:15.2
++FROM registry.opensuse.org/opensuse/leap:15.2
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
 -- 
 2.20.1
 
