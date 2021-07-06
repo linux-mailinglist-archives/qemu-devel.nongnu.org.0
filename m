@@ -2,138 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FA13BC844
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 11:06:45 +0200 (CEST)
-Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532B93BC84E
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 11:07:58 +0200 (CEST)
+Received: from localhost ([::1]:58114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0h2S-00048l-Vs
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 05:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58358)
+	id 1m0h3d-0005mO-DJ
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 05:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m0h1K-0002qG-An; Tue, 06 Jul 2021 05:05:34 -0400
-Received: from mail-eopbgr70108.outbound.protection.outlook.com
- ([40.107.7.108]:51806 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0h2A-0004QA-Ri
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:06:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m0h1I-0004Vj-9R; Tue, 06 Jul 2021 05:05:33 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d+8APlpH4F9d5hEZ8fOG/RzUGPeS1+2I9zoN2Vsriqy/ZqfegeE9qBhWV11NFkjz9hW4JA4r9oOrz09vkqKNkpNPFkKuSdMrpa1ZN/rW955kuDO8TyATAAZlMaiXxU1Ze64q5W10QBPmIgG5ITZLda/kbjJN3YKgzp13w3sbN10A+dzBqKKKH4H2x458xrRidAv97coSocEAyKA7a2h/p68l6sTHnvEvQG9VnSSz+7bdHG+CSH20cK7HYGa3FVBrOlMph8Ox2DhTsgBb84DF/PEGc4CsUOndTyl2sGe0XNATQdQxJnLE6mdYd1DJKlwABBdp949LtsdWQkhBMQMRkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0wIGJF+25h06u9Ie+sdU1644dcAG48B1uH04x/PSX98=;
- b=CQ8P2ngdjQmK5UDAOcmbFPC3ECSWuxpa3swm2VPL4/HWNtXovYvkGYn8VpoV++mEKsLqwkcp3zqRm4leld4RveCOzwW6jcf7EGDY/u3VEV2b9YMiFpZksMFOfsKHrWQV9fNF9rBNpbh0/EKeiIV5cvghzUuVV2mqj705Q1AFCNz4fjmTns7yeKwSeFqb5D7FBHafVU+RvMUi9zbkQLcqT8SxN/3M7Rch2dioWChbobeySRPIey2+QThX+xqSMvlkrh0zK/KA4NJ5+B2CfcuJnFJ23IKqVh0z5MJrTMakH9JXTqIkzsi7oBnQ3H0tH1tl6lPkmVsQDWYkxzVNK9bKZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0wIGJF+25h06u9Ie+sdU1644dcAG48B1uH04x/PSX98=;
- b=YminAVhtOpNfmaagGaGqAAevaacnxPW4/h2h0wXrSQHmXrJb/tlIpqhKV0hXy4h8XMtybWIW0puBg8ayqBJ3EijPmm8vACYtWRz3b0CxGSqEYh4cgDE0LQZAc6obXa2KfaslwHGeW1V5zlQqi1YlGUI3TzLE1dPh441J5S+o72g=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5334.eurprd08.prod.outlook.com (2603:10a6:20b:10b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22; Tue, 6 Jul
- 2021 09:05:25 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Tue, 6 Jul 2021
- 09:05:25 +0000
-Subject: Re: [PATCH 03/10] iotests/297: Don't rely on distro-specific linter
- binaries
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
-References: <20210625182021.803227-1-jsnow@redhat.com>
- <20210625182021.803227-4-jsnow@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <fa465f99-c4f6-f0f6-814c-be727d6d56a3@virtuozzo.com>
-Date: Tue, 6 Jul 2021 12:04:52 +0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0h27-0005GA-1b
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:06:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625562382;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yiZN0wc6RQtVTKrqMnJF0XFNYQyZwC5Eh6wExEjr2JE=;
+ b=MKxoSbwhHZUGRaUDgFYBC9Ot8BJ4x4KipK8/aocead8xWUeGfRw3H46yosmMBQOuIxc8bT
+ Q7jV2iTdV40d6vhGKo7SMNwedmgYAKX4dvNa+KOyqgGxVTGeHusxPxYkm6W2Qx0J7T2HIH
+ ukzeTrrrqak6YpV9jQ/rinIUP+yviYQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-OmDJ67azPFGnyTIh8bgVQw-1; Tue, 06 Jul 2021 05:06:21 -0400
+X-MC-Unique: OmDJ67azPFGnyTIh8bgVQw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r11-20020a5d52cb0000b02901309f5e7298so3598566wrv.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 02:06:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yiZN0wc6RQtVTKrqMnJF0XFNYQyZwC5Eh6wExEjr2JE=;
+ b=XENKh96OIKfcAoatP+8LpPOERFDTkx33jzoOmv4RnYZGnseJauAS43tgqO7FDXSejO
+ pIQtuKpP8plPxJWGJIUBN88hSkNJTugXU1FTbXBYc8BBbyvMI0CPrsnzr+vHijufs/Ay
+ UWYn97y8c1vWAbFMcCv0kGySW7FkwLTercdYVZhNih15cwel5zkgcKTKElXAnPY1vAbJ
+ oO0PFF7Etf/FJKt7KCMvRoI4HBbiPdNdqm5wXSiTmCTWa+5vrXX4n9YUoEdJ1txzX+Eb
+ jHdURtcA3YmXOtcxqZo+zaL6Jry28GLRE1KnmdMPoL/w1AM9QXzfUYCj7d7FvuWLhIN7
+ 857w==
+X-Gm-Message-State: AOAM533gBrwItFrsIHsAWpleMVWHvh/JREkQqgz91YtJGRLoErYAp7oP
+ 6E9toYeb3nTuZJZRrYzgINc5FdaXW95Nl8e1aFbeRdqQbt5+HCX8DCaoj3A+/7cGHJpYlFb7B0H
+ YnmmC4GhrXANGCLI=
+X-Received: by 2002:a7b:cc8d:: with SMTP id p13mr19082448wma.33.1625562380144; 
+ Tue, 06 Jul 2021 02:06:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzV9+4zQaUoGlETtIL9sprKdg+XJodaYzLv1C3emD37VylpsWxWLvvbX+r+jo+6GK7NHB1d5Q==
+X-Received: by 2002:a7b:cc8d:: with SMTP id p13mr19082422wma.33.1625562379860; 
+ Tue, 06 Jul 2021 02:06:19 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575e24.dip0.t-ipconnect.de. [217.87.94.36])
+ by smtp.gmail.com with ESMTPSA id s24sm1019626wra.33.2021.07.06.02.06.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jul 2021 02:06:19 -0700 (PDT)
+Subject: Re: [RFC v6 08/13] target/s390x: split cpu-dump from helper.c
+To: Al Cho <ACho@suse.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cfontana@suse.de" <cfontana@suse.de>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>
+References: <20210629141931.4489-1-acho@suse.com>
+ <20210629141931.4489-9-acho@suse.com>
+ <f4848e38-ecce-c6b1-254b-e93fe45711ca@redhat.com>
+ <1fc14922aa88d7cd6cbfe3e5e76e10aa8150fe4a.camel@suse.com>
+ <101135a9-2b08-ab8b-dd48-8fc1d8f00358@suse.de>
+ <27d64c9b946b8d7183b6f7d5154aa36fad9dec23.camel@suse.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <7083a732-53ff-39a7-bffc-f47946949fec@redhat.com>
+Date: Tue, 6 Jul 2021 11:06:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210625182021.803227-4-jsnow@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <27d64c9b946b8d7183b6f7d5154aa36fad9dec23.camel@suse.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.215]
-X-ClientProxiedBy: PR3PR09CA0010.eurprd09.prod.outlook.com
- (2603:10a6:102:b7::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.215) by
- PR3PR09CA0010.eurprd09.prod.outlook.com (2603:10a6:102:b7::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.23 via Frontend Transport; Tue, 6 Jul 2021 09:05:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb2fb369-8f98-477b-b1f6-08d9405d316b
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5334:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53341C8D3EC5F278B17ABCE4C11B9@AM7PR08MB5334.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: reNjNsuh6ofdYrWStLOfjTkiE2jB5+eP/B/Ph/v0qEWDN9PfmLgo7iDDRDIGY89ew8hojmmB8bnCOpDptAQqRszCsuDLawEn7y2cxhgjLKiiEMCJdpsNn39MQZRnH5n/26hCBuFbMyz6Jb+rC/mwzl11T5BazqGLb3QosrgsRxxWjtb9RRd9HGQdbc8Br571sUaSqzQJHSjvBa3HCiRkONrEcZwBOmwVjXMMklqjwgloeUvVFaNzx87TUTzJvTaH18GmkXOaEycrs9nNmVxknUNvozvH+1PCuCc43ckkOe6WmM+RZrSKUL20BeSM1xxxf6lhJ0zYAgtb0Y185TYTzLsiEnMe1YJMrCj+zk9qjTry2md/OX1cBjhTXZ+n/reyWpv9SMFoubcHSBfdz5lRFb2+Cb9lcQ9v8Si/sj+RKk+pHXIB4DdN5pvCPFQ159qY2G7R4Pah8lJZG8M+KvHb2DLJ2PBTwH1m+Ojh9Uan8hO91+v60dW5UchtuDUmnIxhptdPoGyXGWBaH93vGk5Y7Bui3MTKwb4GgK6qPFc1IZGnjtnJv++H20yPNa0qlEIXQCOxq7DBTQybZO5TkkBKfjpU8pb+W7ybb7ruy15AkDJi++dz/iSUx4woHmkv70ubsxVIL5lNWdXHJBxNajRnnDnd8m5yHsRpWOHURJjyefKOa7oH4FleG7XAh2Yq5CWPjO8YS27gHK0fXp+ySBk0vLI/TxvIIeDSjiBJ3IIeeUEvBGPC8kS4Gwzq+yxfp5bf1qk+RBqIATXH9LzAQiPJ8g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39830400003)(396003)(136003)(346002)(376002)(366004)(31686004)(4744005)(26005)(4326008)(478600001)(54906003)(83380400001)(6486002)(316002)(8676002)(36756003)(8936002)(2616005)(186003)(66556008)(16576012)(38100700002)(6666004)(2906002)(66476007)(38350700002)(52116002)(31696002)(16526019)(66946007)(86362001)(5660300002)(956004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MytqYkRkK043YjlxNUJTMmFsVWR3Vmh0bjF0bjNLWUNnYVRRb2xLbVY1c21C?=
- =?utf-8?B?ZDdmbithaFBLa2R4S1dpWUVVR1d2bUtqRGlRNG9vZElYaHhqZXFXQ1lKdCtH?=
- =?utf-8?B?eEhOT2NMWmp5ZVR0SmxZTG9FM1ZodHdhVFpvUmszY3lGczA5NEhmQjdzb1FO?=
- =?utf-8?B?WGFTQlo3T1NkYkozeGo2T2xidGcxK2xKa1M0SWdUaC8yOE96bERtK3duelNH?=
- =?utf-8?B?Vk1uV2tLemJUWnZTWTlUemdCd0c1MzJtdjR6WUF2QzdRbTE1N09WenZTTFRh?=
- =?utf-8?B?T3k2UXEyMytabDZ5VldiRENOOEVXdmF5V1BCMVhZTlRWbTdzaGlaT0xmdDZE?=
- =?utf-8?B?Z3pLb0VzRWtqblcrYzJFVGxLT1c4K2l0b1RuVkp6TnI0WjdkdWVvcmxISFhB?=
- =?utf-8?B?bzFYMDY1MVlSaHFzcDNqRGgwV0lJVHlBNlNvazZjN3FtR1lFanFsRmFKY016?=
- =?utf-8?B?SE1zQ0Z2VGJiSHRRdUF0SERvek1IUVdhdkxIWDRtSWV5ZWpJRjVPbFhtUUV5?=
- =?utf-8?B?UVlTZDNITmRaYldXSFZaQUpuWkpmMHZVd1kzVFIwSzhHTHZMRDN3VWJKZDhN?=
- =?utf-8?B?U2lCaWxnUk1IV0RqU2xWNkxOeGRHb2F5RUlqYWMwMGVoTU5YRkNWT2M2VENF?=
- =?utf-8?B?WHFaaVplQS9za1Z0bkgrNkZFSnZ2WXFMc05TSU5VUElYRko0ZFlnd0lPbUtQ?=
- =?utf-8?B?azFtcWw3aS92UjJhSlByNGpUZnVrQnN3TXlLQlpmWHBBdEVnK3M1Rmc4YUMz?=
- =?utf-8?B?UFVYcTBEajgvM0QyT2dGTTlEQ3pNUmZ5RTlZck9HZGphc1lyNS9EU1RVR0tk?=
- =?utf-8?B?VFRucVZ0RHVNNnNzN0RnZ3owVTV5SjFtS1dEQ1A3bzBDcExTblZtT2kvbGVE?=
- =?utf-8?B?VlY0bHIzdTc4Zy9uMC9admh3QzM5bkh2enRnNG5hb2VNMVdFNHhBV1VwQ1lV?=
- =?utf-8?B?NzI4eFg4ZTdRRW1NKzFzUXp4TFBOUEVraGtYL2I3S1lpaE9GL0Jla2Fya3p3?=
- =?utf-8?B?TkFyWDMyR1ppNXdNWFlVak1rVW95anR5KzRzeWlOb01XcldsSmxDcUxNUEdh?=
- =?utf-8?B?WjBEQlZmMXlxbTAyYVZYcjROTVoxa2RyZ0tSVlJDMXBsMjFLUkxvaE5UVFpE?=
- =?utf-8?B?OE44Q0tod2ZBanlFdGVyTTAzUGxpaWwwQU5HSng2bzEydmxIQVlscjMralBh?=
- =?utf-8?B?Ym9rb3AweXdWYm1ZNFBhbzlocXQyb3JTdGJyMkdyRkIzTWxHUXJFNVRrNy9L?=
- =?utf-8?B?Vi9KWUJNOUI3UVVwM0JUbSswelVHWmJXc0pjZjVQYmo3TDFWZ1ZDVFdKMjdo?=
- =?utf-8?B?MW1kQURHc1ltVHZBb25nL25tYXhsYkdSOFlrSGpKY3NpeERxbU5FeGg1SlY0?=
- =?utf-8?B?enVGU25iRnRBb0RIRVVMSmdwdVloTjRUMDVRSktDOGpGN2gwaytLVVAzd2JH?=
- =?utf-8?B?TTNyYklocjRsVTI2Ym1yc2wrNU50Mk9QZjVpUUpvSjUwWWRQaEpCdHZYTkxD?=
- =?utf-8?B?bmZzektXaks2elBZM3pCZmlSMUptK1hpQkNLMjV1bVdBSUhmT2RtWVUyUHFT?=
- =?utf-8?B?QUJGZDlwVUkyZUI4TTAwT082NVlKbTB0VGNpQ3pySUpqcUJsNVdIdWZ4RmJY?=
- =?utf-8?B?dkJpdU1iZHpYUXd6MmdNcVJLUm1zMHhVRTdqOGcwZUFvUU5XY0ViUi9yUENk?=
- =?utf-8?B?MC9FQlp3M3RSVlBPR0xvOTJ5c2pVTS9QQ2l2d2VjeFB0elFnVGM3Sis0Rk9K?=
- =?utf-8?Q?Yd5/VGCjCDbgeQKAcGXm9g1LSnEJpxrJe74pP8r?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb2fb369-8f98-477b-b1f6-08d9405d316b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 09:05:25.5919 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +b4YKbTSBejKnhSWKADMxx5jSi1k6Bg0VbR14Zx7JKZaSRwYjKZfXus1Ou4DY0nNaSKgIm3IAeGl8TLxiE8I4dpBgjCCOJ7NRvRRuJ4vGQk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5334
-Received-SPF: pass client-ip=40.107.7.108;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -147,23 +104,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Claudio Fontana <Claudio.Fontana@suse.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ =?UTF-8?Q?Jos=c3=a9_Ricardo_Ziviani?= <jose.ziviani@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-25.06.2021 21:20, John Snow wrote:
-> 'pylint-3' is another Fedora-ism. Use "python3 -m pylint" or "python3 -m
-> mypy" to access these scripts instead. This style of invocation will
-> prefer the "correct" tool when run in a virtual environment.
+On 06/07/2021 10.47, Al Cho wrote:
+> On Mon, 2021-07-05 at 08:25 +0200, Claudio Fontana wrote:
+>> On 7/2/21 9:25 AM, Al Cho wrote:
+>>> On Thu, 2021-07-01 at 14:35 +0200, Thomas Huth wrote:
+>>>> On 29/06/2021 16.19, Cho, Yu-Chen wrote:
+>>>>> Splitting this functionality also allows us to make helper.c
+>>>>> sysemu-
+>>>>> only.
+>>>>>
+>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
+>>>>> Acked-by: Cornelia Huck <cohuck@redhat.com>
+>>>>> ---
+>>>>>    target/s390x/cpu-dump.c  | 176
+>>>>> +++++++++++++++++++++++++++++++++++++++
+>>>>
+>>>> Apart from the dump() function, the other functions here are are
+>>>> used
+>>>> in
+>>>> other contexts, too, so maybe the name is not very appropriate
+>>>> here...
+>>>> What
+>>>> about naming it "cpu-state.c" instead? Or include the functions
+>>>> in
+>>>> cpu.c
+>>>> directly?
+>>>>
+>>>
+>>> ok, I think naming it "cpu-state.c" would make more sense.
+>>>
+>>> Thanks,
+>>>              AL
+>>>
+>>
+>> For context, cpu-dump.c mimics how this is done on x86,
+>>
+>> so rather than coming up with creative new names for each
+>> architecture,
 > 
-> Note that we still check for "pylint-3" before the test begins -- this
-> check is now "overly strict", but shouldn't cause anything that was
-> already running correctly to start failing.
+> I think Claudio is right, I didn't recognize it before. sorry.
 > 
-> Signed-off-by: John Snow<jsnow@redhat.com>
+>> I'd rather either put the code into cpu.c, or just keep the existing
+>> "cpu-dump.c" as in the initially proposed patch, which looks like the
+>> best option to me.
+>>
+> 
+> For me just keep the existing "cpu-dump.c" as in the initially proposed
+> patch would be the better one option.
+> But it's also good to me if we keep the dump() function in cpu-dump.c
+> and put other functions into cpu.c.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+FWIW, if you don't like cpu-state.c, I'd vote for putting the dump() 
+function into cpu-dump.c and put the other functions into cpu.c instead.
 
--- 
-Best regards,
-Vladimir
+  Thomas
+
 
