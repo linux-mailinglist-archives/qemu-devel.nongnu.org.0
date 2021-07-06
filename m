@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDE43BC5CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:54:13 +0200 (CEST)
-Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FA33BC5CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:52:34 +0200 (CEST)
+Received: from localhost ([::1]:57156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0d64-00066W-EW
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47302)
+	id 1m0d4U-0003ck-0x
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1m0cjh-0003uM-F7
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:31:05 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38479)
+ id 1m0cjg-0003qs-NF
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:31:04 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1m0cjZ-0006aA-QK
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:31:05 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id gb6so15381234ejc.5
- for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 21:30:57 -0700 (PDT)
+ id 1m0cje-0006cM-NX
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:31:04 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id bu12so32113135ejb.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 21:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xnkkDUpzTO0JIXtxBRx+M5l5ZPEf1x/7YAm1wa0JBe4=;
- b=gtqwGflgO1QqjNRPw6ZxyPzJsVSJ0xW7xeeX2W3NWubIGAEdGsgcDiOaF0un1GvKY2
- DO2PTqHpT7lvVYzclvewR90VrgT9d+B7fKxQ13ndtlkC4D09JSKB3Mm7pQ1VFYPFMv6q
- ezKq8TY6+613L3jlGC/ABddXwXfMLhCcC6oz0PegrMR/DXw8hWgiUqmGXbARKAj5D9i8
- Xpl1PEJfWtHEuOJv7TegYt59L3r352A5gfIcqlesDN2BDu0BXs2JhFnFFLNX+yBtiNfj
- pJwtRyv+qp1yUA3uDeMpU3Qw/vTNMxy0EmMMxe3zg2aJ5ut2CTGv49KuxbUrgSxMZkFj
- urmA==
+ bh=wsOTdAI4clhTzWNucY/6I964yIAIjK2OlnrgYo4uV8s=;
+ b=LBZ3Cfnm/+rIVelWsVaIAiiIIg7brcCRLOyOmLFXcZDJUji2+K7z0fyGgj5Mot4z1E
+ zJUz0NsPZm3HNNa34PuaVsTQKxLsvfDo5MvXRXJWwSyW4aH/Vrgsdntog9lEFof0AUCW
+ JVURpNUh89mdaHEWJAY/nnXEbzrd6+P2Wh3+yxiGIuk30WebG7fbWjKDyvxMfUd8Dv0T
+ HOjeVbVUshujZdTYLM6awCv51lEjbA0Q/RaYvKMnqLWz97k0OlWvkgk9Yj/BvoZvKtlB
+ AOxyU/saZ/ngakYic0l5ltVx+thLgyOrkY728iVnBrGZ9DwaRqPicQ0LcLjJgK0PPLfO
+ VT9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xnkkDUpzTO0JIXtxBRx+M5l5ZPEf1x/7YAm1wa0JBe4=;
- b=pwnSvEF4cAq00Jfo6KVsc9kscmMBe+muSStMa1gMh2h9Ojr4LvvtMre2tmw76QKuFO
- R2AYdV1LK2W221OFIhmVfWAR/KiK+sHtlUtXdshKK3ajp8DzjRQZk5psvZ0rH1dl+zNd
- 2lbKORX9uSDTTeZMcuD7UIfpq4LDnkhUrURTcFpOaBHex9XpgLAjR0fi5L64h8NlUU+y
- BbXLwOjngCwF09STj4E4/4FdQMnk1t30YZx2uaoDCMWsFCln0aBaPPzv38C9AfgsbI/f
- G+ydhNncElUO8h//JonX8h81LGdqA3ew69c1d5MtF5ctP7WU07Gi2qVwcVWOq7azG/XX
- INSg==
-X-Gm-Message-State: AOAM532y4TBhGgSQRPuFogJQlTumA+AW/60YflE4julB1y4oGfAFhpBq
- I7dwyJ6H82x0+oBupY2awGMGL2WtHmE=
-X-Google-Smtp-Source: ABdhPJwjVbWOsE2+TquEDdoyq1DIR4xRzITR5yV5g6rtRkfUU6YYZaatqZ8svJPFo3q5hWji3piCXw==
-X-Received: by 2002:a17:906:d8cf:: with SMTP id
- re15mr16568041ejb.410.1625545855226; 
- Mon, 05 Jul 2021 21:30:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wsOTdAI4clhTzWNucY/6I964yIAIjK2OlnrgYo4uV8s=;
+ b=ZjgMK7lNmA6VKK6t32AnFH78ZyGQDVWgYn+xij7Z5zc9WmdpTbFZNyGybKX6Gsgt+K
+ wEil1gbwrOzqdqJfCYr6yMUoNgX28wjJMvCaVvJqdt5FlNhGE90BdXmgO/HdlBUSc2Ok
+ u7sAf4V4tKVWVK+3rHc9HDkkhl2NZvIW/4MKlWmU1kzLjHYjOiTvxHFx2k71XqPNSa2S
+ /Q95dbHtV3y5qBiqmpbr7ajWRNfrjxben9WxKtyr1mJ9fv4zlD+NALkmdzXt9LSO4fiB
+ nIO1dOBPgrCQ5L7Vuzxwks7xZId7TwsHRDERnmLtFqIrKBlcJtoHEel3dhENLjmc0gUQ
+ R7yA==
+X-Gm-Message-State: AOAM533TinQqDVqpYSBNqq3709d4CtTRq/5og1U6aL4s5u5zHJK7aiIS
+ ci9egidHaE//2pckLAFR7AU=
+X-Google-Smtp-Source: ABdhPJzRlon2XjGtYmsoDJW28PGyR2CExNKVP+eY+LBvUc+IrQdPQGQ0JTF3YjuAenLffn8E9JdR+g==
+X-Received: by 2002:a17:906:1da1:: with SMTP id
+ u1mr16176634ejh.307.1625545857850; 
+ Mon, 05 Jul 2021 21:30:57 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id x16sm2529992ejj.74.2021.07.05.21.30.52
+ by smtp.gmail.com with ESMTPSA id x16sm2529992ejj.74.2021.07.05.21.30.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 21:30:54 -0700 (PDT)
+ Mon, 05 Jul 2021 21:30:57 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: David Gibson <david@gibson.dropbear.id.au>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/2] roms/u-boot: Bump ppce500 u-boot to v2021.07 to add eTSEC
+Subject: [PATCH 2/2] docs/system: ppc: Update ppce500 documentation with eTSEC
  support
-Date: Tue,  6 Jul 2021 12:31:23 +0800
-Message-Id: <20210706043124.1871866-1-bmeng.cn@gmail.com>
+Date: Tue,  6 Jul 2021 12:31:24 +0800
+Message-Id: <20210706043124.1871866-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210706043124.1871866-1-bmeng.cn@gmail.com>
+References: <20210706043124.1871866-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,35 +90,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the QEMU shipped u-boot.e500 image built from U-Boot mainline
-v2021.07 release, which added eTSEC support to the QEMU ppce500 target,
-via the following U-Boot series:
-
-  http://patchwork.ozlabs.org/project/uboot/list/?series=233875&state=*
-
-The cross-compilation toolchain used to build the U-Boot image is:
-https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/10.1.0/x86_64-gcc-10.1.0-nolibc-powerpc-linux.tar.xz
+This adds eTSEC support to the PowerPC `ppce500` machine documentation.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 ---
 
-Please pull the full contents (the u-boot.e500 binary) from
-https://github.com/lbmeng/qemu, branch qemu-ppc.
+ docs/system/ppc/ppce500.rst | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
- pc-bios/u-boot.e500 | Bin 406920 -> 421720 bytes
- roms/u-boot         |   2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/pc-bios/u-boot.e500 b/pc-bios/u-boot.e500
-index d2e29f81d6..8e635c8a5c 100644
-Binary files a/pc-bios/u-boot.e500 and b/pc-bios/u-boot.e500 differ
-diff --git a/roms/u-boot b/roms/u-boot
-index b46dd116ce..840658b093 160000
---- a/roms/u-boot
-+++ b/roms/u-boot
-@@ -1 +1 @@
--Subproject commit b46dd116ce03e235f2a7d4843c6278e1da44b5e1
-+Subproject commit 840658b093976390e9537724f802281c9c8439f5
+diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+index 7a815c1881..afc58f60f5 100644
+--- a/docs/system/ppc/ppce500.rst
++++ b/docs/system/ppc/ppce500.rst
+@@ -19,6 +19,7 @@ The ``ppce500`` machine supports the following devices:
+ * Power-off functionality via one GPIO pin
+ * 1 Freescale MPC8xxx PCI host controller
+ * VirtIO devices via PCI bus
++* 1 Freescale Enhanced Triple Speed Ethernet controller (eTSEC)
+ 
+ Hardware configuration information
+ ----------------------------------
+@@ -121,7 +122,7 @@ To boot the 32-bit Linux kernel:
+ Running U-Boot
+ --------------
+ 
+-U-Boot mainline v2021.04 release is tested at the time of writing. To build a
++U-Boot mainline v2021.07 release is tested at the time of writing. To build a
+ U-Boot mainline bootloader that can be booted by the ``ppce500`` machine, use
+ the qemu-ppce500_defconfig with similar commands as described above for Linux:
+ 
+@@ -154,3 +155,10 @@ interface at PCI address 0.1.0, but we can switch that to an e1000 NIC by:
+                     -display none -serial stdio \
+                     -bios u-boot \
+                     -nic tap,ifname=tap0,script=no,downscript=no,model=e1000
++
++The QEMU ``ppce500`` machine can also dynamically instantiate an eTSEC device
++if “-device eTSEC” is given to QEMU:
++
++.. code-block:: bash
++
++  -netdev tap,ifname=tap0,script=no,downscript=no,id=net0 -device eTSEC,netdev=net0
 -- 
 2.25.1
 
