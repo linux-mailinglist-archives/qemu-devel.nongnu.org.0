@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B4223BDD5B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 20:38:29 +0200 (CEST)
-Received: from localhost ([::1]:37990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEBA3BDD5E
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 20:39:42 +0200 (CEST)
+Received: from localhost ([::1]:40648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0pxk-0008EX-6j
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 14:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
+	id 1m0pyv-0001qK-Uf
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 14:39:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m0pwf-0007ZX-I8
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 14:37:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m0pwc-0000y3-Jm
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 14:37:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625596636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g2OeyAFVUOqVVcVU6ZXWl8jnATQmbcMXzB8KUkldUL8=;
- b=AikRbkItYCSmbDQjfWonAkI61uW5xMqVC32FmKRxZGZsCs2weY5MgJrJG9G2L+zC924BLA
- qxYVHzoGdVkg7bKdklejgxW7Z/82FzigMKH0wrDvYy45kjWxkBxxwMgHDmu1Y16uQNZtnI
- V/IVhAYGal7z7Z/jgBVaVnjvAnsog9U=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-KKMEduUwPPGlbSSUMAHQ7Q-1; Tue, 06 Jul 2021 14:37:13 -0400
-X-MC-Unique: KKMEduUwPPGlbSSUMAHQ7Q-1
-Received: by mail-qk1-f198.google.com with SMTP id
- a2-20020a05620a0662b02903ad3598ec02so17255155qkh.17
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 11:37:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m0pxL-0008MZ-Mj; Tue, 06 Jul 2021 14:38:05 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:44803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m0pxJ-0000zd-Ij; Tue, 06 Jul 2021 14:38:03 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ p4-20020a17090a9304b029016f3020d867so2464782pjo.3; 
+ Tue, 06 Jul 2021 11:37:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ffCk50hWUkyWvK8QDyVZzHqvyd325QoeTJHdY7DLtik=;
+ b=eadRdj41ZdNtWV/HfPhucDyHF/Ac+IHoDV895qOHxXnpBSltGgvEjoityJrstcr3iI
+ zs2/SebdIpuwNTeGRFllAaTooGDpPe/rJU4yyUQ5EW2e5h0ZrJj/NF86S0Sisvu293+2
+ m2vNGWt5fl4o5jZy96dOMBxFsQEKGZTIOTO9KVSU4Rphl6fwl+326Vh089Xe3PJh2056
+ ETXfYdEvbg5UghcbDypzHkoj14qoh46GlchlGKtNSvoe+iRf7G9sBKPQb1KTtB42L31t
+ Kw6UvydMgYYlTyNB8YHecsbYFXMnx1yc8FIP6ecaaXZhI1l7kdwH+yZzWEDXrvs4AWwy
+ 8iYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=g2OeyAFVUOqVVcVU6ZXWl8jnATQmbcMXzB8KUkldUL8=;
- b=EMihvgZZU/9f27uyR4xXs9cf3KPNJj+1kKsmyv7wnMNcjJ7+gu5LRXa6Uy3+gRWFi3
- 9obGWA/R23swdj5Ai8eN2XcFhtZRKkkNRth03nCX8+tBfrzbrGFZsDJSeR8yU/OoTQIW
- J7fbDZglIeVvmKIg2S0s5sfQ2KnCHkf1n3WshBsWSD8dsjQpwlVFQ5wPi0n9kh5M8fvV
- HIwxvSQGFplgpNQOeMxOdPmOEywgN+8XyY48L90Po9h3MJtKa+C8iVvd0a/5pqiY+652
- Vm7aUHtg/maXRMvh2n702nlWjrC/0NF+GqQnOwEvu2h0ZEzL0f7QHMuyk8/hZ6TDvPfd
- 71nQ==
-X-Gm-Message-State: AOAM532U3dEsrTym0bF+qcyxFtAhQDLelZYMxsY3WzXqGVRJX4i4DRNt
- INoGKhpnUNDPsJMH5C/vOdsECr8AGA68tteneyclGxXwrSXcDDAShZVz+UhfhJhXJ46BQPCslxn
- ++liBy2ZxnyKZ3oI=
-X-Received: by 2002:ac8:7b58:: with SMTP id m24mr18840171qtu.268.1625596633306; 
- Tue, 06 Jul 2021 11:37:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxgEesgYQ9lzul0DiLfAPEgjk9U6YVEDlpuIFeh2qILnaHDLpGrtQIM6tLYalpp/obQ7XYUA==
-X-Received: by 2002:ac8:7b58:: with SMTP id m24mr18840146qtu.268.1625596633056; 
- Tue, 06 Jul 2021 11:37:13 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id l206sm5272427qke.80.2021.07.06.11.37.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 11:37:12 -0700 (PDT)
-Date: Tue, 6 Jul 2021 14:37:11 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH] migration: Move bitmap_mutex out of
- migration_bitmap_clear_dirty()
-Message-ID: <YOSi13An2hTDNDhD@t490s>
-References: <20210630200805.280905-1-peterx@redhat.com>
- <20210703183115.17f385f6@gecko.fritz.box>
- <20210704161457.17505f40@gecko.fritz.box>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ffCk50hWUkyWvK8QDyVZzHqvyd325QoeTJHdY7DLtik=;
+ b=ncvOPoaGegnpoIsmwppnODl1KVLRoB2KfxdvAT8Qucymk48f5u+17d4HTnmpiht7bv
+ EU0XKJDfd1+gQw0xVNeWT9NP0TNQq8zTRgvjanoyBy67cfamC7c4oqa71PpSukiQ1/2F
+ JTpHO8yAfT0alFL9kV1SKO5ToQ4Iv+81Qllg910nx3F1oC80A2nvDojZAosIPG308Vde
+ W6t1AqFrOwHsHItQ2N27f+hfuYBYJqua/AXtqU5VemwGiUj01WRb4dwTNUb5seCfx0Bd
+ 7tuKhqcYy423HSrrxyozjnpsaIGjRBTPNY1nhUZ+IYqla4+JsKMfkHNdriRAmxkbNS2o
+ SjKA==
+X-Gm-Message-State: AOAM5338hQ46htM2qwGIOM3cE66gnGpwM4CzkYwe5ZzmWRvRFxpArneT
+ +OaibZDY9yiYSlJ439djkBNQj+4L8IxdOQ==
+X-Google-Smtp-Source: ABdhPJwcp35oPtRNBfExC3jujyqMwk1aeIcj+TNc4WiszMVuVgCFlcH6trbxsLBh7vSd7HGbPkK+7Q==
+X-Received: by 2002:a17:902:8681:b029:127:9520:e191 with SMTP id
+ g1-20020a1709028681b02901279520e191mr18018615plo.56.1625596678337; 
+ Tue, 06 Jul 2021 11:37:58 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:d4d3:49e8:7217:8fa3])
+ by smtp.gmail.com with ESMTPSA id 11sm18914813pge.7.2021.07.06.11.37.56
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 06 Jul 2021 11:37:58 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH] block/file-posix: Use O_RDWR for locking on macOS
+Date: Wed,  7 Jul 2021 03:37:46 +0900
+Message-Id: <20210706183746.7878-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-In-Reply-To: <20210704161457.17505f40@gecko.fritz.box>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,67 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Wei Wang <wei.w.wang@intel.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 04, 2021 at 04:14:57PM +0200, Lukas Straub wrote:
-> On Sat, 3 Jul 2021 18:31:15 +0200
-> Lukas Straub <lukasstraub2@web.de> wrote:
-> 
-> > On Wed, 30 Jun 2021 16:08:05 -0400
-> > Peter Xu <peterx@redhat.com> wrote:
-> > 
-> > > Taking the mutex every time for each dirty bit to clear is too slow, especially
-> > > we'll take/release even if the dirty bit is cleared.  So far it's only used to
-> > > sync with special cases with qemu_guest_free_page_hint() against migration
-> > > thread, nothing really that serious yet.  Let's move the lock to be upper.
-> > > 
-> > > There're two callers of migration_bitmap_clear_dirty().
-> > > 
-> > > For migration, move it into ram_save_iterate().  With the help of MAX_WAIT
-> > > logic, we'll only run ram_save_iterate() for no more than 50ms-ish time, so
-> > > taking the lock once there at the entry.  It also means any call sites to
-> > > qemu_guest_free_page_hint() can be delayed; but it should be very rare, only
-> > > during migration, and I don't see a problem with it.
-> > > 
-> > > For COLO, move it up to colo_flush_ram_cache().  I think COLO forgot to take
-> > > that lock even when calling ramblock_sync_dirty_bitmap(), where another example
-> > > is migration_bitmap_sync() who took it right.  So let the mutex cover both the
-> > > ramblock_sync_dirty_bitmap() and migration_bitmap_clear_dirty() calls.  
-> > 
-> > Hi,
-> > I don't think COLO needs it, colo_flush_ram_cache() only runs on
-> > the secondary (incoming) side and AFAIK the bitmap is only set in
-> > ram_load_precopy() and they don't run in parallel.
-> > 
-> > Although I'm not sure what ramblock_sync_dirty_bitmap() does. I guess
-> > it's only there to make the rest of the migration code happy?
-> 
-> To answer myself, it syncs the dirty bitmap of the guest itself with
-> the ramblock. Of course not only changed pages on the primary need to
-> be overwritten from the cache, but also changed pages on the secondary
-> so the ram content exactly matches the primary's.
-> 
-> Now, I still don't know what would run concurrently there since the
-> guest is stopped when colo_flush_ram_cache() runs.
+qemu_lock_fd_test always returns 0 when fd is not open for writing and
+exclusive is true on macOS 11.3.1.
 
-Indeed I know little on COLO so I don't know whether it's needed in practise.
-It's just easier to always take the mutex as long as those protected fields are
-modified; mutexes always work with single threaded apps anyways.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ block/file-posix.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Or do you prefer me to drop it?  I'll need to rely on your colo knowledge to
-know whether it's safe..  I don't think common migration code will be run
-during colo, then would qemu_guest_free_page_hint() be called for a colo SVM?
-If not, it looks safe to drop the mutex indeed.
-
-Thanks,
-
+diff --git a/block/file-posix.c b/block/file-posix.c
+index b3fbb9bd63a..017fbc6b055 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -130,6 +130,14 @@
+ #define RAW_LOCK_PERM_BASE             100
+ #define RAW_LOCK_SHARED_BASE           200
+ 
++/*
++ * qemu_lock_fd_test always returns 0 when fd is not open for writing and
++ * exclusive is true on macOS 11.3.1.
++ */
++#ifdef __APPLE__
++#define RAW_LOCK_WRITES
++#endif
++
+ typedef struct BDRVRawState {
+     int fd;
+     bool use_lock;
+@@ -638,7 +646,11 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+                                                false);
+ 
+     s->open_flags = open_flags;
++#ifdef RAW_LOCK_WRITES
++    raw_parse_flags(bdrv_flags, &s->open_flags, s->use_lock);
++#else
+     raw_parse_flags(bdrv_flags, &s->open_flags, false);
++#endif
+ 
+     s->fd = -1;
+     fd = qemu_open(filename, s->open_flags, errp);
+@@ -1004,6 +1016,11 @@ static int raw_reconfigure_getfd(BlockDriverState *bs, int flags,
+     bool has_writers = perm &
+         (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED | BLK_PERM_RESIZE);
+     int fcntl_flags = O_APPEND | O_NONBLOCK;
++#ifdef RAW_LOCK_WRITES
++    if (s->use_lock) {
++        has_writers = true;
++    }
++#endif
+ #ifdef O_NOATIME
+     fcntl_flags |= O_NOATIME;
+ #endif
 -- 
-Peter Xu
+2.30.1 (Apple Git-130)
 
 
