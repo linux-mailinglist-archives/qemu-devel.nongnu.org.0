@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB103BC9F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:30:15 +0200 (CEST)
-Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172833BC9F1
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:30:27 +0200 (CEST)
+Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0iLF-0004VY-Vk
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:30:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42390)
+	id 1m0iLS-0004h1-0I
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:30:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0htz-000174-8l
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:03 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43911)
+ id 1m0hu3-0001Kx-0z
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:07 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0htx-0002OO-8Q
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:02 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id a13so25330207wrf.10
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:02:00 -0700 (PDT)
+ id 1m0htz-0002Pt-Ry
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:06 -0400
+Received: by mail-wm1-x332.google.com with SMTP id n33so5669838wms.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7IOWB9L8C5ZVMJR0h6DK/2DFyq1pG83qdF6FgW1CUf0=;
- b=F1tO58RdujAJ/wZ0ui9BzZfhXGbx7eqak1I8n2Nj2ynYB8U9q/lFMfeQkO7+hZ7Npf
- Vmm/stR+nQMMkDz+5O3JM5Qtt4d5OzZjYOMUPaCTBLHqMMZmvYMKKemzqtPES0StjR66
- 97yM0KlGoeWMIqauFAb3NBeKtJuu0zWDh8ZmmwxOWJslKEqRLlwx4gh+Lru58xgLs24k
- PuxU3quKUXzDVysNTuYVVBN23RYgdwRPufUeSmqYeMWf9EEj9IqPR0EJ138VkmqT+AjE
- Nap0SLHW4rEptmKO4lNnZkz7BSx0W+N3Ag5e1To4l5HsH8xOX3SIN9+Guz8IW87YbmO9
- N3rw==
+ bh=dWfQhBashspj92n3O9gjSje6wEHhYNIVjiIMVmNraZU=;
+ b=F5Y+G9lPO3zabhOXsjY2BTJLZoWQpS5FfRjuU2zPsIOFRX0M4/FTTlrwc0J/2Nf67/
+ OjWhy9bi19rzYmk2xpS40e2J3cEaNzrPVZQVjxdvpI/vGk5KC6AOE+9PbHyifcScQqbS
+ ZSZr0f/7bNr/4cPw4ot0RdXSJCWXULNZ0NonPobd+QkYhaSWePtEuNJrPgymjxUwkd6/
+ SHffYqkDOqM2rAaXipdcpaY8aS6p/YkHQJnFriFMRlqSfdAQ6p3bOCp2DirO25I6az8j
+ HRqYTE92e/VRv5MBLs4INTIQG+6JpeS2ZfUU91Gl/Ggr57Z+NddPEGJzDcjBMGxB8QXn
+ JSSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7IOWB9L8C5ZVMJR0h6DK/2DFyq1pG83qdF6FgW1CUf0=;
- b=EeMVHZHDaurWYdtIl9nzGNJZa4bNhUM8LhPBGxSb3mYOyo3UEKl6ua5NlgQhUpoTeX
- wwcB9kQRXGYAPjDrko5IZSW720m1uvwnAnQEODn/15jD/qhHt9RTvmZFwZcp2QEfdorM
- K/9o0BmZ96ueYrYB/q3lNcDPYVTqW1Hfn3lApTj+lhjqn/cBt8Aeh9M5qJNCJ6J6yzIy
- fq6u4d45FWjUuqlh8cn8V5wk5JIVGpFWYKM2DyBXR04B0w70iIwSKOo/4ztowV/Gli9r
- IhR5NSpOcOJKkfNBJ2JObg86ASqGxWUWBdHG8Kc+2XihAwTMlX40sT+HuYgRoaVgrHet
- L2Ow==
-X-Gm-Message-State: AOAM531j7Xs1O48Frx9hWExRkWDM9ptx1eC8gjn8fmotwDRwsAihYzM9
- SPV3bW9WBPUgZ1iHFsi254lDaLXpf3Y=
-X-Google-Smtp-Source: ABdhPJxT/uP5/FzXjQuiFwzQe7mNZ9Zzo37Vx/IjDVBKpcrKMnD5eaoPGdh4yr16q6x6XNnnvMF2cg==
-X-Received: by 2002:a5d:5388:: with SMTP id d8mr20232278wrv.423.1625565719809; 
- Tue, 06 Jul 2021 03:01:59 -0700 (PDT)
+ bh=dWfQhBashspj92n3O9gjSje6wEHhYNIVjiIMVmNraZU=;
+ b=rO2jmyMT+blYhdeB7zJqht9VXLvDHdly0ENUcLeFrUKiMDh32fluJ04Qv5EI7zp/a9
+ cStyxSq6+QOrm8weVcEaP/kZe7QYmPOO1adQQcC/jTHj5/0F3HIkhn0FadmPKX8Q5dQD
+ RIqhx94koHXeZigCJy5nb+kQllhy9L1KT5wPwnSiscmcNZDfvcNX7sJyKLgrIa4j1Kla
+ m/holUg0UvGrog0+f0woD2+Q9tLYkWP0LDYsGUdZwDGF1wMzs2dcgVLTKqSoiFNZDWjs
+ ug9TcCSFY1/JCYlxGDBg63XFFTXMoLdTKhWBQfzLPDGU6wHZjtR0RpcE3ALaQ3R80fLn
+ EmTw==
+X-Gm-Message-State: AOAM533m548MDhFLXRdsp80xL9h85TSRyioZOsHUXAp6J/4H3uY+xEMF
+ MOj3FL3jwkKhHT0l+qDaMFIDI/eT1Mc=
+X-Google-Smtp-Source: ABdhPJzKx+6BHRGgNHY4IS1ZCzzAZ+v0gzjV5YsKMybxrwt4LcuwaODgdpFXIZfrY9RVuSXh8JwXwA==
+X-Received: by 2002:a7b:ca4e:: with SMTP id m14mr3813246wml.93.1625565722356; 
+ Tue, 06 Jul 2021 03:02:02 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v15sm2331268wmj.39.2021.07.06.03.01.59
+ v15sm2331268wmj.39.2021.07.06.03.02.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 03:01:59 -0700 (PDT)
+ Tue, 06 Jul 2021 03:02:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/40] configure: convert HAVE_BROKEN_SIZE_MAX to meson
-Date: Tue,  6 Jul 2021 12:01:27 +0200
-Message-Id: <20210706100141.303960-27-pbonzini@redhat.com>
+Subject: [PULL 30/40] configure: convert compiler tests to meson, part 4
+Date: Tue,  6 Jul 2021 12:01:31 +0200
+Message-Id: <20210706100141.303960-31-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210706100141.303960-1-pbonzini@redhat.com>
 References: <20210706100141.303960-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,68 +89,266 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+And remove them from the summary, since now their outcome is verbosely
+included in the meson output.
+
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 17 -----------------
- meson.build |  9 +++++++++
- 2 files changed, 9 insertions(+), 17 deletions(-)
+ configure   | 137 ----------------------------------------------------
+ meson.build |  39 +++++++++++++--
+ 2 files changed, 34 insertions(+), 142 deletions(-)
 
 diff --git a/configure b/configure
-index a524104120..98d6068941 100755
+index cf7f71fe40..83168ceb52 100755
 --- a/configure
 +++ b/configure
-@@ -2375,20 +2375,6 @@ if test "$softmmu" = "no"; then
-     audio_drv_list=""
+@@ -3511,59 +3511,6 @@ elif test "$jemalloc" = "yes" ; then
+     malloc=jemalloc
  fi
  
 -##########################################
--# Some versions of Mac OS X incorrectly define SIZE_MAX
+-# signalfd probe
+-signalfd="no"
 -cat > $TMPC << EOF
--#include <stdint.h>
--#include <stdio.h>
--int main(int argc, char *argv[]) {
--    return printf("%zu", SIZE_MAX);
+-#include <unistd.h>
+-#include <sys/syscall.h>
+-#include <signal.h>
+-int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }
+-EOF
+-
+-if compile_prog "" "" ; then
+-  signalfd=yes
+-fi
+-
+-# check if optreset global is declared by <getopt.h>
+-optreset="no"
+-cat > $TMPC << EOF
+-#include <getopt.h>
+-int main(void) { return optreset; }
+-EOF
+-
+-if compile_prog "" "" ; then
+-  optreset=yes
+-fi
+-
+-# check if eventfd is supported
+-eventfd=no
+-cat > $TMPC << EOF
+-#include <sys/eventfd.h>
+-
+-int main(void)
+-{
+-    return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
 -}
 -EOF
--have_broken_size_max=no
--if ! compile_object -Werror ; then
--    have_broken_size_max=yes
+-if compile_prog "" "" ; then
+-  eventfd=yes
+-fi
+-
+-# check if memfd is supported
+-memfd=no
+-cat > $TMPC << EOF
+-#include <sys/mman.h>
+-
+-int main(void)
+-{
+-    return memfd_create("foo", MFD_ALLOW_SEALING);
+-}
+-EOF
+-if compile_prog "" "" ; then
+-  memfd=yes
+-fi
+-
+ # check for usbfs
+ have_usbfs=no
+ if test "$linux_user" = "yes"; then
+@@ -3711,66 +3658,6 @@ case "$capstone" in
+     ;;
+ esac
+ 
+-##########################################
+-# check if we have fdatasync
+-
+-fdatasync=no
+-cat > $TMPC << EOF
+-#include <unistd.h>
+-int main(void) {
+-#if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
+-return fdatasync(0);
+-#else
+-#error Not supported
+-#endif
+-}
+-EOF
+-if compile_prog "" "" ; then
+-    fdatasync=yes
+-fi
+-
+-##########################################
+-# check if we have madvise
+-
+-madvise=no
+-cat > $TMPC << EOF
+-#include <sys/types.h>
+-#include <sys/mman.h>
+-#include <stddef.h>
+-int main(void) { return madvise(NULL, 0, MADV_DONTNEED); }
+-EOF
+-if compile_prog "" "" ; then
+-    madvise=yes
+-fi
+-
+-##########################################
+-# check if we have posix_madvise
+-
+-posix_madvise=no
+-cat > $TMPC << EOF
+-#include <sys/mman.h>
+-#include <stddef.h>
+-int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }
+-EOF
+-if compile_prog "" "" ; then
+-    posix_madvise=yes
+-fi
+-
+-##########################################
+-# check if we have posix_memalign()
+-
+-posix_memalign=no
+-cat > $TMPC << EOF
+-#include <stdlib.h>
+-int main(void) {
+-    void *p;
+-    return posix_memalign(&p, 8, 8);
+-}
+-EOF
+-if compile_prog "" "" ; then
+-    posix_memalign=yes
 -fi
 -
  ##########################################
- # L2TPV3 probe
+ # check if we have posix_syslog
  
-@@ -5360,9 +5346,6 @@ if test "$gdbus_codegen" != "" ; then
-     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
+@@ -4842,12 +4729,6 @@ fi
+ if test "$splice" = "yes" ; then
+   echo "CONFIG_SPLICE=y" >> $config_host_mak
  fi
- echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
--if test "$have_broken_size_max" = "yes" ; then
--    echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
+-if test "$eventfd" = "yes" ; then
+-  echo "CONFIG_EVENTFD=y" >> $config_host_mak
 -fi
- if test "$have_openpty" = "yes" ; then
-     echo "HAVE_OPENPTY=y" >> $config_host_mak
+-if test "$memfd" = "yes" ; then
+-  echo "CONFIG_MEMFD=y" >> $config_host_mak
+-fi
+ if test "$have_usbfs" = "yes" ; then
+   echo "CONFIG_USBFS=y" >> $config_host_mak
  fi
+@@ -4922,27 +4803,9 @@ fi
+ if test "$membarrier" = "yes" ; then
+   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
+ fi
+-if test "$signalfd" = "yes" ; then
+-  echo "CONFIG_SIGNALFD=y" >> $config_host_mak
+-fi
+-if test "$optreset" = "yes" ; then
+-  echo "HAVE_OPTRESET=y" >> $config_host_mak
+-fi
+ if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
+   echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
+ fi
+-if test "$fdatasync" = "yes" ; then
+-  echo "CONFIG_FDATASYNC=y" >> $config_host_mak
+-fi
+-if test "$madvise" = "yes" ; then
+-  echo "CONFIG_MADVISE=y" >> $config_host_mak
+-fi
+-if test "$posix_madvise" = "yes" ; then
+-  echo "CONFIG_POSIX_MADVISE=y" >> $config_host_mak
+-fi
+-if test "$posix_memalign" = "yes" ; then
+-  echo "CONFIG_POSIX_MEMALIGN=y" >> $config_host_mak
+-fi
+ 
+ if test "$spice_protocol" = "yes" ; then
+   echo "CONFIG_SPICE_PROTOCOL=y" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index b5dcc3d70e..79b5834266 100644
+index 5fec46bb65..cb50a2e473 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1268,6 +1268,15 @@ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+@@ -1272,6 +1272,7 @@ config_host_data.set('CONFIG_CLOCK_ADJTIME', cc.has_function('clock_adjtime'))
+ config_host_data.set('CONFIG_DUP3', cc.has_function('dup3'))
+ config_host_data.set('CONFIG_FALLOCATE', cc.has_function('fallocate'))
+ config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'))
++config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
+ config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
  config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
- config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
+ config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
+@@ -1311,6 +1312,8 @@ config_host_data.set('CONFIG_RTNETLINK',
+                      cc.has_header_symbol('linux/rtnetlink.h', 'IFLA_PROTO_DOWN'))
+ config_host_data.set('CONFIG_SYSMACROS',
+                      cc.has_header_symbol('sys/sysmacros.h', 'makedev'))
++config_host_data.set('HAVE_OPTRESET',
++                     cc.has_header_symbol('getopt.h', 'optreset'))
+ config_host_data.set('HAVE_UTMPX',
+                      cc.has_header_symbol('utmpx.h', 'struct utmpx'))
  
-+# Some versions of Mac OS X incorrectly define SIZE_MAX
-+config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-+    #include <stdint.h>
-+    #include <stdio.h>
-+    int main(int argc, char *argv[]) {
-+        return printf("%zu", SIZE_MAX);
-+    }''', args: ['-Werror']))
+@@ -1322,6 +1325,36 @@ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
+                      cc.has_member('struct stat', 'st_atim',
+                                    prefix: '#include <sys/stat.h>'))
+ 
++config_host_data.set('CONFIG_EVENTFD', cc.compiles('''
++  #include <sys/eventfd.h>
++  int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
++config_host_data.set('CONFIG_FDATASYNC', cc.compiles(gnu_source_prefix + '''
++  #include <unistd.h>
++  int main(void) {
++  #if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
++  return fdatasync(0);
++  #else
++  #error Not supported
++  #endif
++  }'''))
++config_host_data.set('CONFIG_MADVISE', cc.compiles(gnu_source_prefix + '''
++  #include <sys/types.h>
++  #include <sys/mman.h>
++  #include <stddef.h>
++  int main(void) { return madvise(NULL, 0, MADV_DONTNEED); }'''))
++config_host_data.set('CONFIG_MEMFD', cc.compiles(gnu_source_prefix + '''
++  #include <sys/mman.h>
++  int main(void) { return memfd_create("foo", MFD_ALLOW_SEALING); }'''))
++config_host_data.set('CONFIG_POSIX_MADVISE', cc.compiles(gnu_source_prefix + '''
++  #include <sys/mman.h>
++  #include <stddef.h>
++  int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
++config_host_data.set('CONFIG_SIGNALFD', cc.compiles(gnu_source_prefix + '''
++  #include <unistd.h>
++  #include <sys/syscall.h>
++  #include <signal.h>
++  int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }'''))
 +
-+
- ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
- arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
- strings = ['HOST_DSOSUF', 'CONFIG_IASL']
+ # Some versions of Mac OS X incorrectly define SIZE_MAX
+ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
+     #include <stdint.h>
+@@ -1398,7 +1431,7 @@ if link_language == 'cpp'
+   }
+ endif
+ 
+-have_ivshmem = config_host.has_key('CONFIG_EVENTFD')
++have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
+ host_kconfig = \
+   ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
+   ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
+@@ -2711,10 +2744,6 @@ summary_info += {'PIE':               get_option('b_pie')}
+ summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+ summary_info += {'malloc trim support': has_malloc_trim}
+ summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
+-summary_info += {'fdatasync':         config_host.has_key('CONFIG_FDATASYNC')}
+-summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
+-summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
+-summary_info += {'posix_memalign':    config_host.has_key('CONFIG_POSIX_MEMALIGN')}
+ summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
+ summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
+ summary_info += {'memory allocator':  get_option('malloc')}
 -- 
 2.31.1
 
